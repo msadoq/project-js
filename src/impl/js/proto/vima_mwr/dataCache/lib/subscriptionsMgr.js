@@ -1,14 +1,15 @@
 var loki = require('lokijs');
-var subscrDb = new loki('subscriptions.json');
+var subscrDb = new loki('cacheSubDB.json');
 
-var subscriptions = subscrDb.addCollection('subscriptions');
+var cacheSub = subscrDb.addCollection('cacheSub');
 
 exports.addSubscription = function (subscription) {
-    subscriptions.insert(subscription);
+        console.log(JSON.stringify(subscription));
+    cacheSub.insert(subscription);
 }
 
 exports.getSubscriptions = function (data) {
-    return subscriptions.find({
+    return cacheSub.find({
         '$and': [{ 
             'DataFullName' : data.dataId
             },{ 

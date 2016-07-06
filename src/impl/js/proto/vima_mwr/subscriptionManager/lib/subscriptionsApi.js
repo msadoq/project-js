@@ -9,11 +9,14 @@ socketOut.bindSync("tcp://*:4000");
 var subscriptions = subscriptiondb.addCollection('subscriptions');
 
 var addSubscription = function(subscriptionJson) {
+    var newSub = JSON.parse(subscriptionJson);
+    var newSub2 = JSON.parse(subscriptionJson);
+    newSub.subId = getSubscriptionId();
     //dataCache.sendConnectedData(subscriptionJson);
-    var subId = subscriptions.insert(JSON.parse(subscriptionJson));
-    dataCache.newSubscription(subscriptionJson);
-    socketOut.send(subscriptionJson);
-    return subId;
+    subscriptions.insert(newSub2);
+    dataCache.newSubscription(newSub);
+    socketOut.send(JSON.stringify(newSub));
+    return newSub.subId;
 }
 
 var updateSubscription = function(subscriptionLokiId, subscriptionUpdates) {
@@ -52,6 +55,13 @@ var deleteSubscriptionById = function(id) {
 
 var getAllsubscriptions = function() {
     return subscriptions.find();
+}
+var subId = 2;
+function getSubscriptionId(){
+    subId = (subId === 2)
+          ? 1
+          : 2;
+    return subId;
 }
 
 exports.addSubscription = addSubscription;

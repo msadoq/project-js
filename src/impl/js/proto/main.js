@@ -15,6 +15,7 @@ const routes = require('./routes/index');
 const dataCacheRoutes = require('./routes/dataCacheRoute');
 const zmqProviderRoutes = require('./routes/zmqProviderRoute');
 const timeLinesRoutes = require('./routes/timeLinesRoute');
+const subscriptionsRoutes = require('./routes/subscriptionsRoute');
 const dataTypesControlerRoutes = require('./routes/dataTypesControlerRoute');
 const expressApp = express();
 const debug = require('debug')('express-test:server');
@@ -156,6 +157,7 @@ app.on('ready', function() {
   expressApp.use('/', routes);
   expressApp.use('/api', dataCacheRoutes);
   expressApp.use('/api', timeLinesRoutes);
+  expressApp.use('/api', subscriptionsRoutes);
   expressApp.use('/test', zmqProviderRoutes);
   expressApp.use('/api', dataTypesControlerRoutes);
   expressApp.set('port', port);

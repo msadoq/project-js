@@ -1,3 +1,3 @@
 'use strict';
 
-module.exports = require('./lib/timeLineManager');
+module.exports = require('./lib/timeLineManagerApi');

@@ -314,7 +314,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 		var adress = typeof webUri != 'undefined' ? webUri : ''
 		var socket = io.connect('http://localhost:1337');
-    	var subscrId = 1;
+    	var subscrId = 2;
 		socket.on('message', function(message) {
 			$("#ui").append("<h1>"+message+"</h1>");
 		})

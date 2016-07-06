@@ -72,14 +72,16 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
   console.log('Listening on ' + addr.port)
-  HVWindow.loadURL('http://127.0.0.1:'+ addr.port+'/historyView');
+  //HVWindow.loadURL('http://127.0.0.1:'+ addr.port+'/historyView');
   chartWindow.loadURL('http://127.0.0.1:'+ addr.port +'/chart');
+  chartWindow2.loadURL('http://127.0.0.1:'+ addr.port +'/chart2');
   parameterWindow.loadURL('http://127.0.0.1:'+ addr.port +'/parameters');
   //chartWindow.toggleDevTools();
 }
 
 var HVWindow = null;
 var chartWindow = null;
+var chartWindow2 = null;
 var parameterWindow = null;
 
 app.on('window-all-closed', function() {
@@ -107,6 +109,15 @@ app.on('ready', function() {
   	height: 400
   });
 
+  chartWindow2 = new BrowserWindow({
+    autoHideMenuBar: false,
+    webPreferences: {
+      nodeIntegration: false
+    },
+  	width: 640,
+  	height: 400
+  });
+
   parameterWindow = new BrowserWindow({
     autoHideMenuBar: false,
     webPreferences: {
@@ -122,8 +133,8 @@ app.on('ready', function() {
   server.on('listening', onListening);
   
   var io = require('socket.io')(server);
-  dataCache(io);
-  timelineMgr(io);
+  dataCache.setWebSocket(io);
+  //timelineMgr(io);
   
   // view engine setup
   expressApp.set('views', path.join(__dirname, 'views'));

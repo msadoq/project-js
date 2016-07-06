@@ -9,8 +9,8 @@ var wsSocket;
 
 exports.newSubscription = function(subscription) {
     subscriptionMgr.addSubscription(JSON.parse(connectedDataJson));
-    binCache.findData(subscription).then(function (storedData) {
-    });
+    /*jsonCache.findData(subscription).then(function (storedData) {
+    });*/
     /*var cachedConnectedData = jsonCache.findConnectedData(JSON.parse(connectedDataJson));
     var counter = 0;
     var dataSize = cachedConnectedData.length;

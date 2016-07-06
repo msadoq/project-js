@@ -1,0 +1,15 @@
+{
+    "DataFullName": "",
+    "Field": "",
+    "DomainId": 0,
+    "TimeLineType": "session",
+    "SesionId": 0,
+    "SetFileName": "",
+    "SubscriptionState": "Play",
+    "VisuSpeed": 0,
+    "VisuWindow": {
+        "dInf": 21684616465,
+        "dSup": 16549846565
+        },
+    "Filter": ""
+}

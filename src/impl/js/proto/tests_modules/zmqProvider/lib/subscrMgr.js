@@ -1,4 +1,9 @@
-{
+var zmq = require("zmq"),
+    socketOut = zmq.socket("push");
+
+socketOut.bindSync("tcp://*:4000");
+
+var subscription = {
     "DataFullName": "TestDonnees",
     "Field": "",
     "DomainId": 0,
@@ -12,4 +17,6 @@
         "dSup": 1467928800
         },
     "Filter": ""
-}
+};
+
+socketOut.send(JSON.stringify(subscription));

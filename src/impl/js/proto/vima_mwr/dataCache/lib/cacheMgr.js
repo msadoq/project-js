@@ -1,15 +1,34 @@
 var zmq = require("zmq"),
-    socket = zmq.socket("pull"),
-    cacheApi = require('./dataCacheApi.js'),
+    socketIn = zmq.socket("pull"),
+    binCache = require('./binCache.js'),
+    jsonCache = require('./jsonCache.js'),
     dataTypesCtrl = require('../../dataTypesControler'),
+    subscriptionMgr = require('./subscriptionsMgr'),
     protoBuf = require("protobufjs");
 var wsSocket;
+
+exports.newSubscription = function(subscription) {
+    subscriptionMgr.addSubscription(JSON.parse(connectedDataJson));
+    binCache.findData(subscription).then(function (storedData) {
+    });
+    /*var cachedConnectedData = jsonCache.findConnectedData(JSON.parse(connectedDataJson));
+    var counter = 0;
+    var dataSize = cachedConnectedData.length;
+    cachedConnectedData.forEach(function(item){
+        console.log(item.jsonPayload);
+        wsSocket.emit('Parameters', JSON.parse(item.jsonPayload));
+    });*/
+}
+
+exports.unserializeBin = function(subscription) {
+    
+}
 
 function logToConsole (message) {
     console.log("[" + new Date().toLocaleTimeString() + "]" + message);
 }
 
-module.exports = function(io) {
+exports.setWebSocket = function(io) {
     wsSocket = io;
     wsSocket.sockets.on('connection', function (socket) {
         console.log('Un client est connecté !');
@@ -23,18 +42,24 @@ module.exports = function(io) {
 
 var plotJson;
 
-socket.on("message", function (header, payload) {
+socketIn.on("message", function (header, payload) {
     var batPoints = [];
     var headerJson = JSON.parse(header);
-    wsSocket.emit('Header', headerJson);
-    headerJson.binPayload = payload;
+    var headerBin =JSON.parse(header);
+    
+    binCache.addData(headerBin, payload).then(function (insertedBinData) {
+    });
     dataTypesCtrl.binToJson(payload).then(function (decodedJson) {
-        headerJson.jsonPayload = JSON.stringify(decodedJson);
-        cacheApi.addDataId(headerJson).then(function (insertedData) {
-
+        jsonCache.addData(headerJson, decodedJson).then(function (insertedJsonData) {
+        });
+        var subscriptions = subscriptionMgr.getSubscriptions(headerJson);
+        subscriptions.forEach(function(subscription){
             wsSocket.emit('Parameters', decodedJson);
+        });
+    });
+     //wsSocket.emit('Parameters', decodedJson);
 
-            decodedJson.parameters.forEach(function(item){
+            /*decodedJson.parameters.forEach(function(item){
                 var batPoint = [];
                 batPoint.push(decodedJson.onboardDate);
                 batPoint.push(item.rawValue);
@@ -46,10 +71,15 @@ socket.on("message", function (header, payload) {
                 'id' : 'batman',
                 'points' : batPoints
                 };
-            wsSocket.emit('plot',JSON.stringify(plotJson));
+            wsSocket.emit('plot',JSON.stringify(plotJson));*/
+    /*wsSocket.emit('Header', headerJson);
+    headerJson.binPayload = payload;
+    dataTypesCtrl.binToJson(payload).then(function (decodedJson) {
+        headerJson.jsonPayload = JSON.stringify(decodedJson);
+        cacheApi.addDataId(headerJson).then(function (insertedData) {
         });
-    });
+    });*/
 });
 
-socket.connect('tcp://127.0.0.1:3000');
+socketIn.connect('tcp://127.0.0.1:3000');
 

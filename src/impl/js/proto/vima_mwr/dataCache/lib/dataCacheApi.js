@@ -1,12 +1,16 @@
 var loki = require('lokijs');
-var dataIddb = new loki('dataId.json');
+var connectedDatadb = new loki('connectedData.json');
 
-var dataIds = dataIddb.addCollection('dataIds');
+var connectedData = connectedDatadb.addCollection('connectedData');
 
-exports.addDataId = function(dataIdJson) {
+exports.addDataId = function(connectedDataJson) {
     return new Promise(function(resolve, reject) {
-        resolve(dataIds.insert(dataIdJson))
+        resolve(connectedData.insert(connectedDataJson))
     });
+}
+
+exports.findConnectedData = function(jsonFilter) {
+    return connectedData.find({'session' : jsonFilter.SesionId});
 }
 
 /*var addDataId = function(dataIdJson) {

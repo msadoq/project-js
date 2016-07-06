@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  script(src="/socket.io/socket.io.js")
+  script(type='text/javascript').
+    var socket = io.connect('http://localhost:1337');
+    var firstLineId;
+    socket.on('message', function(message) {
+        $("#message").append(message);
+    })
+    socket.on('Parameters', function(message) {
+        $("#ui").empty();
+        message.parameters.forEach(function(item){
+            $("#ui").append("<tr> <td>"+item.name+"</td><td>"+item.extractedValue+"</td><td>"+item.rawValue+"</td><td>"+item.convertedValue+"</td></tr>");
+        })
+
+    })
+  div.top(id="message")
+  div.container
+    div.content
+      table.table.table-striped
+        thead
+          tr
+            th Parameter Name
+            th Extracted Value
+            th Raw Value
+            th Converted Value
+        tbody(id="ui")
+ 
+  div.footer

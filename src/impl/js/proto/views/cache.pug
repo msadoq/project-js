@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  block scripts
+    script(src="/javascripts/hello.js")
+  h1= title
+  p Welcome to #{title}
+  div.addToCacheBox
+    input(
+      type='input'
+      name='valueToCache'
+    )
+    input(
+      type='submit'
+      value='Add To Cache',
+      onClick="JavaScript:sayHello()"
+    )

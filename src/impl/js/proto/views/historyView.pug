@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  script(src="/socket.io/socket.io.js")
+  script(type='text/javascript').
+    var socket = io.connect('http://localhost:1337');
+    var firstLineId;
+    socket.on('message', function(message) {
+        $("#message").append(message);
+    })
+    socket.on('Header', function(message) {
+        $("#ui").empty();
+        $("#ui").append("<tr id='"+message.oid+"'> <td>"+message.oid+"</td><td>"+message.dataTime+"</td></tr>");
+    })
+  div.top(id="message")
+  div.container
+    div.content
+      table.table.table-striped
+        thead
+          tr
+            th OID
+            th Time
+        tbody(id="ui")
+ 
+  div.footer

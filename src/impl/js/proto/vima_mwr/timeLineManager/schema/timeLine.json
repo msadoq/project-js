@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "timeLine": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "timeBarId": {
+          "type": "integer"
+        },
+        "sessionId": {
+          "type": "integer"
+        },
+        "currentTime": {
+          "type": "string"
+        },
+        "minTime": {
+          "type": "string"
+        },
+        "maxTime": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "timeBarId",
+        "sessionId",
+        "currentTime",
+        "minTime",
+        "maxTime"
+      ]
+    }
+  },
+  "required": [
+    "timeLine"
+  ]
+}

@@ -1,0 +1,17 @@
+extends layout
+
+
+
+block content
+  script(src="/socket.io/socket.io.js")
+  script(src="/javascripts/d3/d3.min.js")
+  script(src="/javascripts/react/react.js")
+  script(src="/javascripts/react/react-dom.js")
+  script(src="/javascripts/reactStockcharts/GPCCCM_L_CML_react-stockcharts.js")
+  script(src="/javascripts/plotLibraryJs/GPCCCM_L_CML_plotLibrary.js")
+
+    
+  div(id="ui")
+    p Welcome to #{title}
+  div(id="chart")
+    

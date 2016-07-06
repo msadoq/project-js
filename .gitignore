@@ -1,0 +1,8 @@
+target
+__pycache__
+.settings
+.project
+.pydevproject
+.classpath
+*~
+node_modules

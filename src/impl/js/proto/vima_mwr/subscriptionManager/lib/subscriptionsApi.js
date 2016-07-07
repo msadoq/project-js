@@ -13,9 +13,14 @@ var addSubscription = function(subscriptionJson) {
     var newSub2 = JSON.parse(subscriptionJson);
     newSub.subId = getSubscriptionId();
     //dataCache.sendConnectedData(subscriptionJson);
+    
+    limits = searchLimits(newSub2);
+    
     subscriptions.insert(newSub2);
-    dataCache.newSubscription(newSub);
+    dataCache.newSubscription(newSub);    
+    
     socketOut.send(JSON.stringify(newSub));
+    
     return newSub.subId;
 }
 
@@ -74,63 +79,86 @@ exports.deleteSubscriptionById = deleteSubscriptionById;
 
 
 var searchLimits = function(subscription) {
-    s1 = { 'rawData' : 'a', 'sessionId' : 0, 'domainId' : 0, 'dInf' : 1, 'dSup' : 2}
-    s2 = { 'rawData' : 'a', 'sessionId' : 0, 'domainId' : 0, 'dInf' : 1, 'dSup' : 3}
-    s3 = { 'rawData' : 'a', 'sessionId' : 0, 'domainId' : 0, 'dInf' : 9, 'dSup' : 40}
-    s4 = { 'rawData' : 'a', 'sessionId' : 0, 'domainId' : 0, 'dInf' : 7, 'dSup' : 9}
-    s5 = { 'rawData' : 'a', 'sessionId' : 0, 'domainId' : 0, 'dInf' : 4, 'dSup' : 5}
+    /*s1 = { 'DataFullName' : 'a', 'SessionId' : 0, 'DomainId' : 0, 'VisuWindow' : {'dInf' : 1, 'dSup' : 2}}
+    s2 = { 'DataFullName' : 'a', 'SessionId' : 0, 'DomainId' : 0, 'VisuWindow' : {'dInf' : 1, 'dSup' : 3}}
+    s3 = { 'DataFullName' : 'a', 'SessionId' : 0, 'DomainId' : 0, 'VisuWindow' : {'dInf' : 9, 'dSup' : 40}}
+    s4 = { 'DataFullName' : 'a', 'SessionId' : 0, 'DomainId' : 0, 'VisuWindow' : {'dInf' : 4, 'dSup' : 8}}
+    s5 = { 'DataFullName' : 'a', 'SessionId' : 0, 'DomainId' : 0, 'VisuWindow' : {'dInf' : 2, 'dSup' : 5}}
     subColl.insert(s1);
     subColl.insert(s2);
     subColl.insert(s3);
     subColl.insert(s4);
-    subColl.insert(s5);
-    var dataSet = subColl.chain().find({'$and' : [{'rawData' : subscription.rawData}, {'sessionId' : subscription.sessionId}, {'domainId' : subscription.domainId}]});
-    var limits = recursiveSearch(dataSet,subscription.dInf,subscription.dSup);
-    for (limit of limits) {
+    subColl.insert(s5);*/
+    var dataSet = subscriptions.chain().find({'$and' : [{'DataFullName' : subscription.DataFullName}, {'SessionId' : subscription.SessionId}, {'DomainId' : subscription.DomainId}]});
+    var limits = recursiveSearch(dataSet,subscription.VisuWindow.dInf,subscription.VisuWindow.dSup);
+    /*for (limit of limits) {
         console.log(limit);
-    } 
+    } */
 }
+
+dInfSort = function(obj1, obj2) {
+    if (obj1.VisuWindow.dInf === obj2.VisuWindow.dInf) return 0;
+    if (obj1.VisuWindow.dInf > obj2.VisuWindow.dInf) return 1;
+    if (obj1.VisuWindow.dInf < obj2.VisuWindow.dInf) return -1;
+};
+
+dSupSort = function(obj1, obj2) {
+    if (obj1.VisuWindow.dSup === obj2.VisuWindow.dSup) return 0;
+    if (obj1.VisuWindow.dSup > obj2.VisuWindow.dSup) return 1;
+    if (obj1.VisuWindow.dSup < obj2.VisuWindow.dSup) return -1;
+};
 
 var recursiveSearch = function(set,dInf,max) {
     var limits = [];
+    // search lowest down limit outside range
     var branch = set.branch();
-    var lowestData = branch.find({'dInf' : { '$lte' : dInf}}).simplesort('dSup').data();
+    var lowestData = branch.find({'VisuWindow.dInf' : { '$lte' : dInf}}).sort(dSupSort).data();
     var ldl = lowestData.length;
     if (ldl === 0) {
+        // if none, search lowest down limit inside range
         var branch4 = set.branch();
-        var lowestInnerData = branch4.find({'dInf' : { '$lt' : max}}).simplesort('dInf').data();
+        var lowestInnerData = branch4.find({'VisuWindow.dInf' : { '$lt' : max}}).sort(dInfSort).data();
         var lidl = lowestInnerData.length;
         if (lidl === 0) {
+            // if none, no limits existing
             console.log('No data limits existing');
         } else {
-            var nextDinf = lowestInnerData[0].dInf;
+            // store from last down limit to this one 
+            var nextDinf = lowestInnerData[0].VisuWindow.dInf;
             console.log('LOW: '+nextDinf);
-            limits.push({'dInf' : dInf, 'dSup' : nextDinf});
+            limits.push({'VisuWindow' : {'dInf' : dInf, 'dSup' : nextDinf}});
             var nextLimits = recursiveSearch(set,nextDinf,max);
             limits.push(...nextLimits);
         }
     } else {
-        var dSup = lowestData[ldl-1].dSup;
+        // then check the greatest up limit associated to this down limit
+        var dSup = lowestData[ldl-1].VisuWindow.dSup;
+        // and search next greatest down limit inferior to this last greatest limit 
         var branch2 = set.branch();
-        var nextInnerData = branch2.find({'$and' : [{'dInf' : {'$lte' : dSup, '$gte' : dInf}},{'dSup' : {'$gt' : dSup}}]}).simplesort('dSup').data();
+        var nextInnerData = branch2.find({'$and' : [{'VisuWindow.dInf' : {'$lte' : dSup, '$gt' : dInf}},{'VisuWindow.dSup' : {'$gt' : dSup}}]}).sort(dSupSort).data();
         var nidl = nextInnerData.length;
         if ( nidl === 0) {
+            // if none, search next downest limit superior to this last greatest limit
             var branch3 = set.branch();
-            var nextOutterData = branch3.find({'$and' : [{'dInf' : {'$gte' : dSup}},{'dSup' : {'$gt' : dSup}}]}).simplesort('dInf').data();
+            var nextOutterData = branch3.find({'VisuWindow.dInf' : {'$gt' : dSup, '$lt' : max}}).sort(dInfSort).data();
             var nodl = nextOutterData.length;
             if (nodl === 0) {
-                console.log("FAIL");
-                limits.push({'dInf' : dSup, 'dSup' : max});
+                // if none
             } else {
-                var nextDinf = nextOutterData[0].dInf;
+                // then check the greatest up limit associated to this down limit
+                // and store from last up limit from this down limit
+                var nextDinf = nextOutterData[0].VisuWindow.dInf;
                 console.log('OUT: '+nextDinf);
-                limits.push({'dInf' : dSup, 'dSup' : nextDinf});
+                limits.push({'VisuWindow' : {'dInf' : dSup, 'dSup' : nextDinf}});
+                // and do it again
                 var nextLimits = recursiveSearch(set,nextDinf,max);
                 limits.push(...nextLimits);
-                //limits.concat(recursiveSearch(set,nextDinf,max));
             }
         } else {
-            console.log('IN: '+nextInnerData[nidl-1].dSup);
+            var nextDinf = nextInnerData[nidl-1].VisuWindow.dSup;
+            console.log('IN: '+nextDinf);
+            var nextLimits = recursiveSearch(set,nextDinf,max);
+            limits.push(...nextLimits);
         }
     }
     

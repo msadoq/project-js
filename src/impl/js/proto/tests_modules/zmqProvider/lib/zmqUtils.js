@@ -30,7 +30,7 @@ socketIn.on("message", function (subscriptions) {
         console.log(newSubscription);
         var dInf = newSubscription.VisuWindow.dInf;
         var dSup = newSubscription.VisuWindow.dSup;
-        var timeStep = 3600;
+        var timeStep = 600;
         var sendToCache = setInterval(function () {
             if(dInf < dSup) {
                 var isisAggregation = new IsisAggregation({

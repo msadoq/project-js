@@ -21,18 +21,19 @@ var addSubscription = function(subscriptionJson) {
     var subId = getSubscriptionId();
     newSub.subId = subId;
     newSub2.subId = subId;
-    //dataCache.sendConnectedData(subscriptionJson);
+    dataCache.newSubscription(newSub);
     var newSubSubs = [];
     limits = searchLimits(newSub2);
     for (limit of limits) {
         var newSubSub = newSub;
         newSubSub.VisuWindow = limit.VisuWindow;
         newSubSubs.push(newSubSub);
+        console.log('LIMIT : ' + JSON.stringify(limit));
     }
     //console.log('LIMITS: '+JSON.stringify(newSubSubs));
     socketOut.send(JSON.stringify(newSubSubs));
     subscriptions.insert(newSub2);
-    dataCache.newSubscription(newSub);    
+        
     
     //sendSubscription(newSub.subId);
     socketOut.close();    
@@ -167,6 +168,12 @@ var recursiveSearch = function(set,dInf,max) {
             var nodl = nextOutterData.length;
             if (nodl === 0) {
                 // if none
+                var downLimit = (dSup < dInf)
+                              ? dInf
+                              : dSup;
+                if (downLimit < max) {
+                    limits.push({'VisuWindow' : {'dInf' : downLimit, 'dSup' : max}});
+                }
             } else {
                 // then check the greatest up limit associated to this down limit
                 // and store from last up limit from this down limit

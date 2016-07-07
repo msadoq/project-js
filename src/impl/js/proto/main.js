@@ -92,14 +92,14 @@ app.on('window-all-closed', function() {
 });
 
 app.on('ready', function() {
-  HVWindow = new BrowserWindow({
+  /*HVWindow = new BrowserWindow({
     autoHideMenuBar: false,
     webPreferences: {
       nodeIntegration: false
     },
   	width: 640,
   	height: 400
-  });
+  });*/
 
   chartWindow = new BrowserWindow({
     autoHideMenuBar: false,
@@ -107,7 +107,9 @@ app.on('ready', function() {
       nodeIntegration: false
     },
   	width: 640,
-  	height: 400
+  	height: 400,
+    x:0,
+    y:0
   });
 
   chartWindow2 = new BrowserWindow({
@@ -116,7 +118,9 @@ app.on('ready', function() {
       nodeIntegration: false
     },
   	width: 640,
-  	height: 400
+  	height: 400,
+    x:0,
+    y:470
   });
 
   parameterWindow = new BrowserWindow({
@@ -125,7 +129,9 @@ app.on('ready', function() {
       nodeIntegration: false
     },
   	width: 640,
-  	height: 400
+  	height: 400,
+    x:650,
+    y:0
   });
   
   server = http.createServer(expressApp);
@@ -190,11 +196,11 @@ app.on('ready', function() {
     });
   });
 
-  HVWindow.on('closed', function() {
+  /*HVWindow.on('closed', function() {
     HVWindow = null;
     chartWindow = null;
     parametertWindow = null;
     server.close();
-  });
+  });*/
 });
 

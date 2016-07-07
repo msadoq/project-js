@@ -7,7 +7,7 @@ router.get('/historyView', function(req, res, next) {
 });
 
 router.get('/parameters', function(req, res, next) {
-  res.render('parametersView', { title: 'electron-with-express test' });
+  res.render('parametersView', { title: 'History View' });
   //res.sendfile('./views/pagesIndex.html');
 });
 

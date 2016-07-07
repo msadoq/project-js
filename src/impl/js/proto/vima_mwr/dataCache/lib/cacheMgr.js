@@ -14,7 +14,7 @@ exports.newSubscription = function(subscription) {
         var batPoints = [];
         
         storedData.forEach(function(data){
-            wsSocket.emit('Parameters', data);
+            wsSocket.emit('Parameters', data.jsonPayload);
             var jsonPayLoad = data.jsonPayload;
             jsonPayLoad.parameters.forEach(function(item){
                 var batPoint = [];
@@ -30,13 +30,6 @@ exports.newSubscription = function(subscription) {
             };
         wsSocket.emit('plot'+subscription.subId,JSON.stringify(plotJson));
     });
-    /*var cachedConnectedData = jsonCache.findConnectedData(JSON.parse(connectedDataJson));
-    var counter = 0;
-    var dataSize = cachedConnectedData.length;
-    cachedConnectedData.forEach(function(item){
-        console.log(item.jsonPayload);
-        wsSocket.emit('Parameters', JSON.parse(item.jsonPayload));
-    });*/
 }
 
 exports.unserializeBin = function(subscription) {
@@ -53,10 +46,10 @@ exports.setWebSocket = function(io) {
         console.log('Un client est connecté !');
     });
 
-    wsSocket.sockets.on('connection', function (viewSocket) {
+    /*wsSocket.sockets.on('connection', function (viewSocket) {
         viewSocket.emit('message', 'Vous êtes bien connecté à la websocket !');
         viewSocket.emit('open', 'Vous êtes bien Batman !');
-    });
+    });*/
 }
 
 var plotJson;
@@ -89,28 +82,6 @@ socketIn.on("message", function (header, payload) {
             wsSocket.emit('plot'+subscription.subId,JSON.stringify(plotJson));
         });
     });
-     //wsSocket.emit('Parameters', decodedJson);
-
-            /*decodedJson.parameters.forEach(function(item){
-                var batPoint = [];
-                batPoint.push(decodedJson.onboardDate);
-                batPoint.push(item.rawValue);
-                batPoints.push(batPoint);
-            })
-            
-            plotJson = {
-                'type' : 'addPoints',
-                'id' : 'batman',
-                'points' : batPoints
-                };
-            wsSocket.emit('plot',JSON.stringify(plotJson));*/
-    /*wsSocket.emit('Header', headerJson);
-    headerJson.binPayload = payload;
-    dataTypesCtrl.binToJson(payload).then(function (decodedJson) {
-        headerJson.jsonPayload = JSON.stringify(decodedJson);
-        cacheApi.addDataId(headerJson).then(function (insertedData) {
-        });
-    });*/
 });
 
 socketIn.connect('tcp://127.0.0.1:3000');

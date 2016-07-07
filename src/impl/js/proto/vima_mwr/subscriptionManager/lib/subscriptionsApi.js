@@ -94,6 +94,7 @@ var searchLimits = function(subscription) {
     /*for (limit of limits) {
         console.log(limit);
     } */
+    return limits;
 }
 
 dInfSort = function(obj1, obj2) {
@@ -121,11 +122,11 @@ var recursiveSearch = function(set,dInf,max) {
         var lidl = lowestInnerData.length;
         if (lidl === 0) {
             // if none, no limits existing
-            console.log('No data limits existing');
+            limits.push({'VisuWindow' : {'dInf' : dInf, 'dSup' : max}});
         } else {
             // store from last down limit to this one 
             var nextDinf = lowestInnerData[0].VisuWindow.dInf;
-            console.log('LOW: '+nextDinf);
+            //console.log('LOW: '+nextDinf);
             limits.push({'VisuWindow' : {'dInf' : dInf, 'dSup' : nextDinf}});
             var nextLimits = recursiveSearch(set,nextDinf,max);
             limits.push(...nextLimits);
@@ -148,7 +149,7 @@ var recursiveSearch = function(set,dInf,max) {
                 // then check the greatest up limit associated to this down limit
                 // and store from last up limit from this down limit
                 var nextDinf = nextOutterData[0].VisuWindow.dInf;
-                console.log('OUT: '+nextDinf);
+                //console.log('OUT: '+nextDinf);
                 limits.push({'VisuWindow' : {'dInf' : dSup, 'dSup' : nextDinf}});
                 // and do it again
                 var nextLimits = recursiveSearch(set,nextDinf,max);
@@ -156,7 +157,7 @@ var recursiveSearch = function(set,dInf,max) {
             }
         } else {
             var nextDinf = nextInnerData[nidl-1].VisuWindow.dSup;
-            console.log('IN: '+nextDinf);
+            //console.log('IN: '+nextDinf);
             var nextLimits = recursiveSearch(set,nextDinf,max);
             limits.push(...nextLimits);
         }

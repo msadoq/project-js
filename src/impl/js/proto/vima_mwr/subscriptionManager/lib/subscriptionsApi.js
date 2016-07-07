@@ -2,27 +2,49 @@ var loki = require('lokijs');
 var subscriptiondb = new loki('subscription.json');
 var dataCache = require('../../dataCache');
 var zmq = require("zmq"),
-    socketOut = zmq.socket("push");
+    socketIn = zmq.socket("pull");
     
-socketOut.bindSync("tcp://*:4000");
 
+socketIn.connect('tcp://127.0.0.1:5000');
+var socketOut;
 var subscriptions = subscriptiondb.addCollection('subscriptions');
 
+socketIn.on("message", function (subscriptions) {
+    addSubscription(subscriptions);
+});
+
 var addSubscription = function(subscriptionJson) {
+    socketOut = zmq.socket("push");
+    socketOut.connect("tcp://127.0.0.1:4000");
     var newSub = JSON.parse(subscriptionJson);
     var newSub2 = JSON.parse(subscriptionJson);
-    newSub.subId = getSubscriptionId();
+    var subId = getSubscriptionId();
+    newSub.subId = subId;
+    newSub2.subId = subId;
     //dataCache.sendConnectedData(subscriptionJson);
-    
+    var newSubSubs = [];
     limits = searchLimits(newSub2);
-    
+    for (limit of limits) {
+        var newSubSub = newSub;
+        newSubSub.VisuWindow = limit.VisuWindow;
+        newSubSubs.push(newSubSub);
+    }
+    //console.log('LIMITS: '+JSON.stringify(newSubSubs));
+    socketOut.send(JSON.stringify(newSubSubs));
     subscriptions.insert(newSub2);
     dataCache.newSubscription(newSub);    
     
-    socketOut.send(JSON.stringify(newSub));
-    
+    //sendSubscription(newSub.subId);
+    socketOut.close();    
     return newSub.subId;
 }
+
+function sendSubscription(subId){
+    console.log('send :' + JSON.stringify(findSubscriptionById(subId)));
+    socketOut.send(JSON.stringify(findSubscriptionById(subId)));
+    socketOut.close();   
+}
+
 
 var updateSubscription = function(subscriptionLokiId, subscriptionUpdates) {
     // On récupère la subscription avec son lokiId
@@ -47,11 +69,11 @@ var getSubscriptionById = function(id) {
 }
 
 var findSubscriptionById = function(id) {
-    return subscriptions.find({'subscription.id' : parseInt(id)});
+    return subscriptions.find({'subId' : parseInt(id)});
 }
 
 var deleteSubscriptionByFindId = function(id) {
-    return subscriptions.removeWhere({'subscription.id' : parseInt(id)});
+    return subscriptions.removeWhere({'subId' : parseInt(id)});
 }
 
 var deleteSubscriptionById = function(id) {
@@ -167,3 +189,4 @@ var recursiveSearch = function(set,dInf,max) {
 }
 
 exports.searchLimits = searchLimits;
+

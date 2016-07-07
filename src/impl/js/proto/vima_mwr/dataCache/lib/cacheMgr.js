@@ -8,9 +8,28 @@ var zmq = require("zmq"),
 var wsSocket;
 
 exports.newSubscription = function(subscription) {
+    
     subscriptionMgr.addSubscription(subscription);
-    /*jsonCache.findData(subscription).then(function (storedData) {
-    });*/
+    jsonCache.findData(subscription).then(function (storedData) {
+        var batPoints = [];
+        
+        storedData.forEach(function(data){
+            wsSocket.emit('Parameters', data);
+            var jsonPayLoad = data.jsonPayload;
+            jsonPayLoad.parameters.forEach(function(item){
+                var batPoint = [];
+                batPoint.push(data.dataTime);
+                batPoint.push(item.rawValue);
+                batPoints.push(batPoint);
+            }) 
+        });
+        plotJson = {
+            'type' : 'addPoints',
+            'id' : 'batman',
+            'points' : batPoints
+            };
+        wsSocket.emit('plot'+subscription.subId,JSON.stringify(plotJson));
+    });
     /*var cachedConnectedData = jsonCache.findConnectedData(JSON.parse(connectedDataJson));
     var counter = 0;
     var dataSize = cachedConnectedData.length;
@@ -57,7 +76,7 @@ socketIn.on("message", function (header, payload) {
             wsSocket.emit('Parameters', decodedJson);
             decodedJson.parameters.forEach(function(item){
                 var batPoint = [];
-                batPoint.push(decodedJson.onboardDate);
+                batPoint.push(headerJson.dataTime);
                 batPoint.push(item.rawValue);
                 batPoints.push(batPoint);
             })

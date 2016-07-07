@@ -22,54 +22,61 @@ var Parameter = JS.Parameter;
 var parameters = [];
 var parameter;
 
-socketOut.bindSync("tcp://*:3000");
+socketOut.bind("tcp://127.0.0.1:3000");
+socketIn.bind("tcp://127.0.0.1:4000");
 
-socketIn.on("message", function (subscription) {
-    var newSubscription = JSON.parse(subscription);
-    var nbValuesToSend = 50;
-    var sentValues = 0;
-    var sendToCache = setInterval(function () {
-        if(sentValues < nbValuesToSend) {
-            var isisAggregation = new IsisAggregation({
-                "onboardDate" : {"value" : Math.round(+new Date()/1000)},
-                "groundDate" : {"value" : Math.round(+new Date()/1000)},
-                "isNominal" : {"value" : true}
-            });
-
-            for (var i = 0; i < 130; i++) {
-                parameter = new Parameter({  
-                    "name": {"value" : 'Parameter Name' + Math.floor((Math.random() * 99999999) + 1)},
-                    "definition" : {"value" : '00030001010002010000000000000005'},
-                    "extractedValue" : {"_double" : {"value" : Math.floor((Math.random() * 100) + 1)}},
-                    "rawValue" : {"_double" : {"value" : Math.floor((Math.random() * 100) + 1)}},
-                    "convertedValue" : {"_double" : {"value" : Math.floor((Math.random() * 100) + 1)}},
-                    "triggerOnCounter" : {"value" : '6'},
-                    "triggerOffCounter" : {"value" : '8'},
-                    "validityState" : "INVALID",
-                    "isObsolete" : {"value" : false}
+socketIn.on("message", function (subscriptions) {
+    JSON.parse(subscriptions).forEach(function(newSubscription){
+        console.log(newSubscription);
+        var dInf = newSubscription.VisuWindow.dInf;
+        var dSup = newSubscription.VisuWindow.dSup;
+        var timeStep = 3600;
+        var sendToCache = setInterval(function () {
+            if(dInf < dSup) {
+                var isisAggregation = new IsisAggregation({
+                    "onboardDate" : {"value" : dInf},
+                    "groundDate" : {"value" : Math.round(+new Date()/1000)},
+                    "isNominal" : {"value" : true}
                 });
-                isisAggregation.add("parameters", parameter);
+
+                for (var i = 0; i < 1; i++) {
+                    parameter = new Parameter({  
+                        "name": {"value" : 'Parameter Name' + Math.floor((Math.random() * 99999999) + 1)},
+                        "definition" : {"value" : '00030001010002010000000000000005'},
+                        "extractedValue" : {"_double" : {"value" : Math.floor((Math.random() * 100) + 1)}},
+                        "rawValue" : {"_double" : {"value" : Math.floor((Math.random() * 100) + 1)}},
+                        "convertedValue" : {"_double" : {"value" : Math.floor((Math.random() * 100) + 1)}},
+                        "triggerOnCounter" : {"value" : '6'},
+                        "triggerOffCounter" : {"value" : '8'},
+                        "validityState" : "INVALID",
+                        "isObsolete" : {"value" : false}
+                    });
+                    isisAggregation.add("parameters", parameter);
+                }
+
+
+                var byteBuffer = isisAggregation.encode();
+                var buffer = byteBuffer.toBuffer();
+
+                var OID = "000100010100010001" + Math.floor((Math.random() * 99999999) + 1);
+                var obj = {
+                    'dataId' : newSubscription.DataFullName,
+                    'session'  : newSubscription.SessionId,
+                    'oid' : OID,
+                    'dataTime' : dInf
+                };
+                sendMessage(JSON.stringify(obj), buffer);   
+                dInf = dInf + timeStep;
+            } else {
+                console.log('terminé');
+                clearInterval(sendToCache);
+                /*socketIn.close();
+                process.exit(1);*/
             }
-
-
-            var byteBuffer = isisAggregation.encode();
-            var buffer = byteBuffer.toBuffer();
-
-            var OID = "000100010100010001" + Math.floor((Math.random() * 99999999) + 1);
-            var obj = {
-                'dataId' : newSubscription.DataFullName,
-                'session'  : newSubscription.SessionId,
-                'oid' : OID,
-                'dataTime' : Math.round(+new Date()/1000)
-            };
-            sendMessage(JSON.stringify(obj), buffer);   
-            sentValues++;
-        } else {
-            clearInterval(sendToCache);
-        }
-        
-    }, 50);
+            
+        }, 50);
+    });
 });
 
 
-socketIn.connect('tcp://127.0.0.1:4000');
+/*socketIn.connect('tcp://127.0.0.1:4000');*/

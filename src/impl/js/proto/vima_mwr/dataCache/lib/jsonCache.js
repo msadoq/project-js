@@ -17,14 +17,14 @@ exports.findData = function(query) {
                 'dataId' : query.DataFullName
                 },{ 
                 'dataTime' : {
-                    '$gte': data.VisuWindow.dInf
+                    '$gte': query.VisuWindow.dInf
                     }
                 },{ 
                 'dataTime' : {
-                    '$lte': data.VisuWindow.dSup
+                    '$lte': query.VisuWindow.dSup
                     }
                 },{ 
-                'session' : data.SessionId
+                'session' : query.SessionId
             }]
         })
         )

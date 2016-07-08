@@ -10,7 +10,9 @@ router.route('/subscriptions')
 
     // Add subscriptions (accessed at POST http://localhost:1337/api/subscriptions)
     .post(function(req, res, next) {
-        var subscriptionId  = subscriptionManager.addSubscription(req.body.jsonElem);
+        console.log('received : '+JSON.stringify(req.body.jsonElem, null, 4));
+        var subscriptionId  = subscriptionManager.addSubscription(JSON.stringify(req.body.jsonElem));
+        console.log('SubId: '+subscriptionId);
         res.json({ message: 'subscription added with id : ' + JSON.stringify(subscriptionId)});
     })
     // get all subscriptions (accessed at GET http://localhost:1337/api/subscriptions)

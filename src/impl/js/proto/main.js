@@ -141,7 +141,7 @@ app.on('ready', function() {
   
   var io = require('socket.io')(server);
   dataCache.setWebSocket(io);
-  //timelineMgr(io);
+  timelineMgr.setWebSocket(io);
   
   // view engine setup
   expressApp.set('views', path.join(__dirname, 'views'));

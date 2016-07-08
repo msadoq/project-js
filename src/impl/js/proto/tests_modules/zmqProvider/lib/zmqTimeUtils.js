@@ -1,5 +1,5 @@
 var zmq = require("zmq"),
-    socket = zmq.socket("push")
+    socketOut = zmq.socket("push")
 
 const fs = require('fs'),
     path = require('path');
@@ -10,36 +10,48 @@ function logToConsole (message) {
 
 function sendMessage (header) {
     logToConsole("Sending " + JSON.parse(header).Timelines[0].VisuWindow.dInf + " - " + JSON.parse(header).Timelines[0].VisuWindow.dSup);
-    socket.send(header);
+    socketOut.send(header);
 }
 
-var dateTime = new Date();
+var day = 'default';
 
-socket.bindSync("tcp://*:4000")
-setInterval(function () {
-    
-    //var OID = "000100010100010001" + Math.floor((Math.random() * 99999999) + 1);
+days = {
+    'default' : {'dInf': 0,'dSup': 0},
+    'lu' : {'dInf': 1467583200,'dSup': 1467669600},
+    'ma' : {'dInf': 1467669600,'dSup': 1467756000},
+    'me' : {'dInf': 1467756000,'dSup': 1467842340},
+    'luma' : {'dInf': 1467583200,'dSup': 1467756000},
+    'mame' : {'dInf': 1467669600,'dSup': 1467842340},
+    'lume' : {'dInf': 1467583200,'dSup': 1467842340}
+}
 
-    var timelines = {
-        "Timelines" : [
-            {
-                "TimelineId" : 7,
-                "TimelineName" : "Foo",
-                "DomainId" : 1,
-                "TimelineType" : "dataset",
-                "SessionId" : 42,
-                "SetFileName" : "Bar",
-                "SubscriptionState" : "Play",
-                "VisuSpeed" : 50,
-                "VisuWindow" : {
-                    "dInf" : dateTime,
-                    "dSup" : new Date()
-                },
-                "CurrentTime" : new Date()
-            }
-        ],
-        "MasterId" : 91
-    }
-    
-    sendMessage(JSON.stringify(timelines));
-}, 50);
+if (process.argv[2] in days) {
+    day=process.argv[2];
+}
+
+console.log('DAY: '+day+' -> '+days[day].dInf+' - '+days[day].dSup);
+
+socketOut.bindSync("tcp://*:4242");
+
+var timelines = {
+    "Timelines" : [
+        {
+            "TimelineId" : 7,
+            "TimelineName" : "Foo",
+            "DomainId" : 1,
+            "TimelineType" : "dataset",
+            "SessionId" : 42,
+            "SetFileName" : "Bar",
+            "SubscriptionState" : "Play",
+            "VisuSpeed" : 50,
+            "VisuWindow" : {
+                "dInf" : days[day].dInf,
+                "dSup" : days[day].dSup
+            },
+            "CurrentTime" : (days[day].dInf+days[day].dSup)/2
+        }
+    ],
+    "MasterId" : 91
+}
+
+sendMessage(JSON.stringify(timelines));

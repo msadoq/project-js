@@ -312,42 +312,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	function JsClient() {
 		var _this = this;
 	
-		var adress = typeof webUri != 'undefined' ? webUri : ''
-		var socket = io.connect('http://localhost:1337');
-    	var subscrId = 2;
-		socket.on('message', function(message) {
-			$("#ui").append("<h1>"+message+"</h1>");
-		})
-		socket.on('plot'+subscrId, function(message) {
-			if (_this.messageReceived) _this.messageReceived(message);
-		})
-		socket.on('open', function(message) {
-			if (_this.onOpen) _this.onOpen(message);
-		})
-		
-		/*if (webUri != '') {
-			alert("connect to adress "+webUri)
-			var socket = new WebSocket(webUri);
-			socket.onmessage = function (e) {
-				if (_this.messageReceived) _this.messageReceived(e);
-			};
-			socket.onopen = function (e) {
-				if (_this.onOpen) _this.onOpen(e);
-			};
-			socket.onclose = function (e) {
-				alert("onclose code " + e.code + " reason : " + e.reason);
-			};
-			socket.onerror = function (e) {
-				alert("on error " + e);
-			};
-		}
-		else {
-			alert("no port given for JsClient");
-		}
-	
-		this.sendMessage = function (s) {
-			return socket.send(JSON.stringify(s));
-		};*/
+
+        var adress = typeof webUri != 'undefined' ? webUri : ''
+        var socket = io.connect('http://localhost:1337');
+        var subscrId = 2;
+        socket.on('message', function(message) {
+             $("#ui").append("<h1>"+message+"</h1>");
+        })
+        socket.on('plot'+subscrId, function(message) {
+            if (_this.messageReceived) _this.messageReceived(message);
+        })
+        socket.on('open', function(message) {
+            if (_this.onOpen) _this.onOpen(message);
+        })
 	}
 	
 	// example : client = new JsClient; client.messageReceived = (m) => { doStuffWithMessage  };
@@ -391,11 +368,11 @@ return /******/ (function(modules) { // webpackBootstrap
 			// optional method to return the stroke color
 			return stroke;
 		};
-		/*indicator.domain = function() {
-			// optional method if you want to over ride the domain which
-			// react-stockcharts calculates, used in RSI
-			return [dataSeriesProps.minValue, dataSeriesProps.maxValue];
-		};*/
+		//	    indicator.domain = function() {
+		//	        // optional method if you want to over ride the domain which
+		//			// react-stockcharts calculates, used in RSI
+		////	        return [dataSeriesProps.minValue, dataSeriesProps.maxValue];
+		//	    };
 	
 		indicator.minDomain = function () {
 			// optional method if you want to over ride the domain which
@@ -433,18 +410,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var wrap = ReStock.series.wrap;
+	var rs = ReStock["default"];
+	var wrap = rs.series.wrap;
 	
-	var ScatterSeries = (function (_React$Component) {
-		_inherits(ScatterSeries, _React$Component);
+	var ScatterLineSeries = (function (_React$Component) {
+		_inherits(ScatterLineSeries, _React$Component);
 	
-		function ScatterSeries() {
-			_classCallCheck(this, ScatterSeries);
+		function ScatterLineSeries() {
+			_classCallCheck(this, ScatterLineSeries);
 	
-			_get(Object.getPrototypeOf(ScatterSeries.prototype), "constructor", this).apply(this, arguments);
+			_get(Object.getPrototypeOf(ScatterLineSeries.prototype), "constructor", this).apply(this, arguments);
 		}
 	
-		_createClass(ScatterSeries, [{
+		_createClass(ScatterLineSeries, [{
 			key: "render",
 			value: function render() {
 				var props = this.props;
@@ -495,7 +473,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		}]);
 	
-		return ScatterSeries;
+		return ScatterLineSeries;
 	})(React.Component);
 	
 	var getDrawDotFunction = function getDrawDotFunction(shape) {
@@ -529,7 +507,7 @@ return /******/ (function(modules) { // webpackBootstrap
 			}
 		return drawFunction;
 	};
-	ScatterSeries.drawOnCanvas = function (props, ctx, xScale, yScale, plotData) {
+	ScatterLineSeries.drawOnCanvas = function (props, ctx, xScale, yScale, plotData) {
 		// This is an optional method
 		// having this static method on your component will make
 		// this method to be called on pan action
@@ -575,14 +553,12 @@ return /******/ (function(modules) { // webpackBootstrap
 				//LOCAL COLOR STUFF
 				if (localColor != undefined && currentColor != localColor) {
 					ctx.stroke();
-					console.log("Stroke change from " + currentColor + " to" + localColor + " " + i);
 					ctx.strokeStyle = localColor;
 					currentColor = localColor;
 					ctx.beginPath();
 					begin = true;
 				} else if (localColor == undefined && currentColor != stroke) {
 					ctx.stroke();
-					console.log("Stroke change from " + currentColor + " to" + stroke + " " + i);
 					ctx.strokeStyle = stroke;
 					currentColor = stroke;
 					ctx.beginPath();
@@ -608,7 +584,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	
 	//clip: React.PropTypes.bool.isRequired,
-	ScatterSeries.defaultProps = {
+	ScatterLineSeries.defaultProps = {
 		lineStyle: "continuous",
 		pointsStyle: undefined,
 		lineWidth: 1,
@@ -621,7 +597,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	
 	// This is very important. You need to wrap your series, so ReStock knows to provide these props
-	window.ScatterSeries = wrap(ScatterSeries);
+	window.ScatterLineSeries = wrap(ScatterLineSeries);
 
 /***/ },
 /* 5 */
@@ -647,54 +623,51 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _ArrayUtils2 = _interopRequireDefault(_ArrayUtils);
 	
-	var _ReStock = ReStock;
-	var ChartCanvas = _ReStock.ChartCanvas;
-	var Chart = _ReStock.Chart;
-	var DataSeries = _ReStock.DataSeries;
-	var EventCapture = _ReStock.EventCapture;
-	var _ReStock$series = ReStock.series;
-	var LineSeries = _ReStock$series.LineSeries;
-	var PointAndFigureSeries = _ReStock$series.PointAndFigureSeries;
-	var RenkoSeries = _ReStock$series.RenkoSeries;
-	var Line = _ReStock$series.Line;
-	var _ReStock$axes = ReStock.axes;
-	var XAxis = _ReStock$axes.XAxis;
-	var YAxis = _ReStock$axes.YAxis;
-	var _ReStock$helper = ReStock.helper;
-	var ChartWidthMixin = _ReStock$helper.ChartWidthMixin;
-	var TypeChooser = _ReStock$helper.TypeChooser;
-	var _ReStock$coordinates = ReStock.coordinates;
-	var MouseCoordinates = _ReStock$coordinates.MouseCoordinates;
-	var CurrentCoordinate = _ReStock$coordinates.CurrentCoordinate;
-	var _ReStock$transforms = ReStock.transforms;
-	var StockscaleTransformer = _ReStock$transforms.StockscaleTransformer;
-	var PointAndFigureTransformer = _ReStock$transforms.PointAndFigureTransformer;
-	var RSIIndicator = ReStock.indicator.RSIIndicator;
-	var MouseCoordinates = ReStock.coordinates.MouseCoordinates;
-	var _ReStock$helper2 = ReStock.helper;
-	var fitWidth = _ReStock$helper2.fitWidth;
-	var TypeChooser = _ReStock$helper2.TypeChooser;
-	var _ReStock$tooltip = ReStock.tooltip;
-	var TooltipContainer = _ReStock$tooltip.TooltipContainer;
-	var OHLCTooltip = _ReStock$tooltip.OHLCTooltip;
-	var SingleValueTooltip = _ReStock$tooltip.SingleValueTooltip;
-	var RSITooltip = _ReStock$tooltip.RSITooltip;
-	var MovingAverageTooltip = _ReStock$tooltip.MovingAverageTooltip;
-	var _ReStock$interactive = ReStock.interactive;
-	var TrendLine = _ReStock$interactive.TrendLine;
-	var Brush = _ReStock$interactive.Brush;
-	var ScatterSeries = window.ScatterSeries;
+	var rs = ReStock["default"];
+	var ChartCanvas = rs.ChartCanvas;
+	var Chart = rs.Chart;
+	var DataSeries = rs.DataSeries;
+	var EventCapture = rs.EventCapture;
+	var _rs$axes = rs.axes;
+	var XAxis = _rs$axes.XAxis;
+	var YAxis = _rs$axes.YAxis;
+	var _rs$series = rs.series;
+	var LineSeries = _rs$series.LineSeries;
+	var PointAndFigureSeries = _rs$series.PointAndFigureSeries;
+	var RenkoSeries = _rs$series.RenkoSeries;
+	var Line = _rs$series.Line;
+	var _rs$helper = rs.helper;
+	var ChartWidthMixin = _rs$helper.ChartWidthMixin;
+	var TypeChooser = _rs$helper.TypeChooser;
+	var _rs$coordinates = rs.coordinates;
+	var MouseCoordinates = _rs$coordinates.MouseCoordinates;
+	var CurrentCoordinate = _rs$coordinates.CurrentCoordinate;
+	var MouseCoordinates = rs.coordinates.MouseCoordinates;
+	var _rs$helper2 = rs.helper;
+	var fitWidth = _rs$helper2.fitWidth;
+	var TypeChooser = _rs$helper2.TypeChooser;
+	var _rs$tooltip = rs.tooltip;
+	var TooltipContainer = _rs$tooltip.TooltipContainer;
+	var OHLCTooltip = _rs$tooltip.OHLCTooltip;
+	var SingleValueTooltip = _rs$tooltip.SingleValueTooltip;
+	var RSITooltip = _rs$tooltip.RSITooltip;
+	var MovingAverageTooltip = _rs$tooltip.MovingAverageTooltip;
+	var _rs$interactive = rs.interactive;
+	var TrendLine = _rs$interactive.TrendLine;
+	var Brush = _rs$interactive.Brush;
+	var financeEODDiscontinuousScale = rs.scale.financeEODDiscontinuousScale;
 	var JsClient = window.JsClient;
 	var MinMaxIndicator = window.MinMaxIndicator;
-	var _ReStock$indicator = ReStock.indicator;
-	var MACD = _ReStock$indicator.MACD;
-	var EMA = _ReStock$indicator.EMA;
-	var SMA = _ReStock$indicator.SMA;
+	var ScatterLineSeries = window.ScatterLineSeries;
+	var _rs$indicator = rs.indicator;
+	var MACD = _rs$indicator.MACD;
+	var EMA = _rs$indicator.EMA;
+	var SMA = _rs$indicator.SMA;
 	
 	var client = new JsClient();
 	//Method to re-implement : client.messageReceived, client.onOpen
 	var rawData = [];
-	
+	var xScale = d3.time.scale();
 	var log = function log(m) {
 		//	console.log(m, rest);
 		;
@@ -736,6 +709,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var TimeAxisConfiguration = 11;
 	var gridConfiguration = 12;
 	var setViewRange = 13;
+	var xExtents = 14;
+	
 	var length = 0;
 	
 	//CONFIG-WORTHY VARIABLES
@@ -747,7 +722,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//INTERNAL VARIABLES
 	var VMARKER_PREFIX = "vLineMarker";
 	var HMARKER_PREFIX = "hLineMarker";
-	var XVALUE_KEY = "valueX";
+	var XVALUE_KEY = "date";
 	var YVALUE_SUFFIX = "valueY";
 	
 	//
@@ -792,6 +767,11 @@ return /******/ (function(modules) { // webpackBootstrap
 		if (type == "setViewRange") {
 			return setViewRange;
 		}
+	
+		if (type == "xExtents") {
+			return xExtents;
+		}
+	
 		if (warnedConfs.indexOf(type) < 0) {
 			//Avoid putting pop up each time we receive a conf of an unknown type (only the first time).
 			warnedConfs.insertAt(type, 0);
@@ -850,7 +830,6 @@ return /******/ (function(modules) { // webpackBootstrap
 				console.log(data);
 				state.config.axisConfiguration[data.id] = data;
 				break;
-	
 			//deprecated
 			case removePointsFromTo:
 				if (state.data.length > data.indexTo) {
@@ -946,6 +925,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		//parse json data, setting the state with callback.
 		parseJson: function parseJson(data, callback) {
 			var _this = this;
+	
 			var self = this;
 			var newState = onMessage(this.state, data);
 			var typeId = parseType(data.type);
@@ -1059,46 +1039,42 @@ return /******/ (function(modules) { // webpackBootstrap
 					dataPoints = [].concat(_toConsumableArray(this.state.unzoomedPoints)).removeAll(removedPoints, comparison, shouldDeletePoint);
 				}
 			}
-	
-			if (typeId == setViewRange) {
-				//TODO chain callbacks.
-				callbacks = function () {
-					setViewRange(data.left, data.right);
-				};
+			//		
+			if (typeId == xExtents) {
+				newState.config.xExtents = [new Date(+data.begin), new Date(+data.end)];
 			}
+			//		var viewRangeCallback = () => {}
+			//		if (typeId == setViewRange){
+			//			//TODO chain callbacks.
+			//			viewRangeCallback = () => {setViewRange(data.left, data.right)}
+			//		}
 	
 			//TODO update only Y axis affected by Data, instead of every Y axis.
 			//		let updateAllTicks = () => {if (callback) callback(); Object.keys(this.chartPlots).map((chartId) => this.updateYTicks(chartId))};
 	
-			var updateAllTicks = function updateAllTicks() {
-				Object.keys(_this.chartPlots).map(function (chartId) {
-					return _this.updateYTicks(chartId);
-				});
-			};
-			callbacks = function () {
-				updateAllTicks();
-			};
-			
+			//		let updateAllTicks = () => {Object.keys(this.chartPlots).map((chartId) => this.updateYTicks(chartId))};
+			//		callbacks = () => { updateAllTicks()};
 	
 			if (dataPoints.length > 0) {
-				if (!this.state.isZoomed) {
-					this.setState({
-						config: newState.config,
-						data: dataPoints,
-						unzoomedPoints: dataPoints
-					}, callbacks);
-				} else {
-					this.setState({
-						config: newState.config,
-						unzoomedPoints: dataPoints
-					}, callbacks);
-				}
+				//			if (! this.state.isZoomed){
+				this.setState({
+					config: newState.config,
+					data: dataPoints,
+					unzoomedPoints: dataPoints
+				});
 			}
+			//			else {
+			//				this.setState({
+			//					config : newState.config,
+			//					unzoomedPoints : dataPoints
+			//				}, callbacks);
+			//			}
+			//		}
 			//Just the config was modified, keep the same data.
 			else {
 					this.setState({
 						config: newState.config
-					}, callbacks);
+					});
 				}
 		},
 		//Used to test points injection without reception from socket.
@@ -1193,10 +1169,9 @@ return /******/ (function(modules) { // webpackBootstrap
 				self.onZoomTampered();
 				//TODO OPTIM : avoid array cloning when not necessary
 				self.setState({
-					unzoomedPoints: (0, _ArrayUtils.cloneArray)(self.state.unzoomedPoints),
-					yAxisInfoMap: yAxisInfoMap
-				}, function () {
-					return self.setViewRange(left, right);
+					//			unzoomedPoints : cloneArray(self.state.unzoomedPoints),
+					//			yAxisInfoMap,
+					xExtents: [left, right]
 				});
 			};
 		},
@@ -1206,20 +1181,19 @@ return /******/ (function(modules) { // webpackBootstrap
 		},
 	
 		//get the chart including the marker
+		//			<DataSeries id={i}  yAccessor={(d) => d[VMARKER_PREFIX+marker.id]}  stroke={config.vLineMarkers[marker.id].color}   >
+		//<ScatterSeries shape="continuous" lineWidth={2}/>
+		//</DataSeries>
 		getMarker: function getMarker(marker, i) {
 			var config = this.state.config;
 			return React.createElement(
 				Chart,
-				{ id: i, xAccessor: function (d) {
-						return d[XVALUE_KEY];
+				{ id: i, yExtents: function (d) {
+						return [d[VMARKER_PREFIX + marker.id], d[VMARKER_PREFIX + marker.id]];
 					} },
-				React.createElement(
-					DataSeries,
-					{ id: i, yAccessor: function (d) {
-							return d[VMARKER_PREFIX + marker.id];
-						}, stroke: config.vLineMarkers[marker.id].color },
-					React.createElement(ScatterSeries, { shape: "continuous", lineWidth: 2 })
-				)
+				React.createElement(ScatterLineSeries, { stroke: config.vLineMarkers[marker.id].color, shape: "continuous", lineWidth: 2, yAccessor: function (d) {
+						return d[VMARKER_PREFIX + marker.id];
+					} })
 			);
 		},
 	
@@ -1368,14 +1342,12 @@ return /******/ (function(modules) { // webpackBootstrap
 				var lineStyle = chartConf.lineStyle;
 				var isHidden = chartConf.isHidden;
 	
-				var scatterSeries = isHidden ? [] : React.createElement(ScatterSeries, { pointsStyle: pointsStyle, lineStyle: lineStyle, lineWidth: lineWidth /*localColorAccessor={(x) => x%2==0?"red":undefined*/ });
-				return React.createElement(
-					DataSeries,
-					_extends({ id: i * plotIds.length + j, yAccessor: function (d) {
-							return d[plotId + YVALUE_SUFFIX];
-						}, stroke: getColorConf(config, plotId) }, Y.varIndicator),
-					scatterSeries
-				);
+				var scatterSeries = isHidden ? [] : React.createElement(ScatterLineSeries, { pointsStyle: pointsStyle, lineStyle: lineStyle, lineWidth: lineWidth /*localColorAccessor={(x) => x%2==0?"red":undefined*/ });
+				//			let scatterSeries = isHidden? [] : <LineSeries yAccessor={(d) => d[plotId+YVALUE_SUFFIX]} /*localColorAccessor={(x) => x%2==0?"red":undefined*//>;
+				return React.createElement(ScatterLineSeries, _extends({ stroke: getColorConf(config, plotId) }, Y.varIndicator, { yAccessor: function (d) {
+						return d[plotId + YVALUE_SUFFIX];
+					}, pointsStyle: pointsStyle, lineStyle: lineStyle, lineWidth: lineWidth /*localColorAccessor={(x) => x%2==0?"red":undefined*/ }));
+				//localColorAccessor={(x) => x%2==0?"red":undefined*//>
 			});
 	
 			var xAxisNameConf = { axisName: X.axisName, axisNameOffset: i % 2 * 10 + 10, axisNameMaxSize: SPACE_BETWEEN_AXES * 2 - 10 };
@@ -1405,11 +1377,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 			return React.createElement(
 				Chart,
-				_extends({ id: i, ref: i }, scaleAndDomain, { yMousePointerDisplayLocation: "left", yMousePointerDisplayFormat: function (y) {
+				{ id: i, yExtents: function (d) {
+						return [d[plotIds[0] + YVALUE_SUFFIX], d[plotIds[0] + YVALUE_SUFFIX]];
+					}, ref: i, yMousePointerDisplayLocation: "left", yMousePointerDisplayFormat: function (y) {
 						return y.toFixed(2);
 					}, xAccessor: function (d) {
 						return d ? d[XVALUE_KEY] : undefined;
-					} }),
+					} },
 				xAxis,
 				yAxis,
 				series,
@@ -1574,8 +1548,10 @@ return /******/ (function(modules) { // webpackBootstrap
 			//		indicator={EMA} : conflict: add attributes to data points, difficulty to remove them (and it doesn't work here).
 			var chartCanvas = React.createElement(
 				ChartCanvas,
-				{ ref: "chartCanvas", width: this.state.width, height: window.innerHeight, margin: margin,
-					data: this.state.data, type: type },
+				{ xScale: xScale, seriesName: "JPP", xAccessor: function (d) {
+						return d ? d[XVALUE_KEY] : undefined;
+					}, discontinuous: true, ref: "chartCanvas", width: this.state.width, height: window.innerHeight, margin: margin,
+					data: this.state.data, type: type, xExtents: config.xExtents },
 				React.createElement(
 					"text",
 					{ x: this.state.width / 2, y: "-10", fill: "black" },
@@ -1586,7 +1562,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					return _this4.getMarker(config.vLineMarkers[key], i + charts.length + 1);
 				}) : [],
 				React.createElement(MouseCoordinates, { xDisplayFormat: d3.time.format("%c") }),
-				React.createElement(EventCapture, { mouseMove: true, pan: true, mainChart: 0, defaultFocus: true, zoom: false, onZoom: this.onZoom })
+				React.createElement(EventCapture, { mouseMove: true, pan: true, mainChart: 0, defaultFocus: true, zoom: true })
 			);
 	
 			return React.createElement(
@@ -1594,19 +1570,14 @@ return /******/ (function(modules) { // webpackBootstrap
 				null,
 				chartCanvas,
 				React.createElement(_ZoomReset2["default"], { activated: self.state.isZoomed, handleEvent: function (e) {
-						var updateAllTicks = function updateAllTicks() {};
-						if (self.chartPlots) {
-							updateAllTicks = function () {
-								Object.keys(self.chartPlots).map(function (chartId) {
-									return self.updateYTicks(chartId);
-								});
-							};
-						}
+						//					let updateAllTicks = () => {};
+						//					if (self.chartPlots){
+						//						updateAllTicks = () => {Object.keys(self.chartPlots).map((chartId) => self.updateYTicks(chartId))};
+						//					}
 						self.setState({
 							isZoomed: false,
-							yAxisInfoMap: {},
-							data: [].concat(_toConsumableArray(self.state.unzoomedPoints))
-						}, updateAllTicks);
+							yAxisInfoMap: {}
+						});
 					} })
 			);
 		}

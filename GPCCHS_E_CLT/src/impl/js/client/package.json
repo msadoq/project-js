@@ -1,0 +1,19 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "GPCCHS_D_SVR",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "gitolite@isis.cnes-isis.toulouse.atos.net:gpcc/LPISIS/GPCCHS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "electron-prebuilt": "^1.2.6",
+    "electron-rebuild": "^1.1.5"
+  }
+}

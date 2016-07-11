@@ -1,0 +1,64 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "DataFullName": {
+            "type": "string"
+        },
+        "Field": {
+            "type":"string"
+        },
+        "DomainId": {
+            "type": "integer"
+        },
+        "TimeLineType": {
+            "type": "string",
+            "enum": [
+                "dataset",
+                "recordset",
+                "session"
+            ]
+        },
+        "SesionId": {
+            "type": "integer"
+        },
+        "SetFileName": {
+            "type": "string"
+        },
+        "SubscriptionState": {
+            "type": "string",
+            "enum": [
+                "Pause",
+                "Play"
+            ]
+        },
+        "VisuSpeed": {
+            "type": "integer"
+        },
+        "VisuWindow": {
+            "type": "object",
+            "properties": {
+                "dInf": {
+                    "type": "dateTime"
+                },
+                "dSup": {
+                    "type": "dateTime"
+                }
+            },
+            "required": [
+                "dInf",
+                "dSup"
+            ]
+        },
+        "Filter": {
+            "type": "string"
+        }
+  },
+  "required": [
+      "DataFullName",
+      "DomainId",
+      "TimeLineType",
+      "SubscriptionState",
+      "VisuWindow"
+  ]
+}

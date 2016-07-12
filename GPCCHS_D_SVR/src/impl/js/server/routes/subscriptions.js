@@ -1,7 +1,6 @@
-const express = require('express');
+const { Router } = require('express');
 const subscriptionManager = require('../lib/subscriptionManager');
-const router = express.Router();
-const fs = require('fs');
+const router = new Router();
 
 
 // on routes that end in /subscriptions
@@ -9,38 +8,39 @@ const fs = require('fs');
 router.route('/subscriptions')
 
     // Add subscriptions (accessed at POST http://localhost:1337/api/subscriptions)
-    .post(function(req, res, next) {
-        console.log('received : '+JSON.stringify(req.body.jsonElem, null, 4));
-        var subscriptionId  = subscriptionManager.addSubscription(JSON.stringify(req.body.jsonElem));
-        console.log('SubId: '+subscriptionId);
-        res.json({ message: 'subscription added with id : ' + JSON.stringify(subscriptionId)});
+    .post((req, res) => {
+      console.log(`received : ${JSON.stringify(req.body.jsonElem, null, 4)}`);
+      const subscriptionId = subscriptionManager.addSubscription(JSON.stringify(req.body.jsonElem));
+      console.log(`SubId: ${subscriptionId}`);
+      res.json({ message: `subscription added with id : ${JSON.stringify(subscriptionId)}` });
     })
     // get all subscriptions (accessed at GET http://localhost:1337/api/subscriptions)
-    .get(function(req, res, next) {
-        /*var subscriptions = subscriptionManager.getAllSubscriptions();
-        res.json(subscriptions);*/
-        res.json([]);
-    })
+    .get((req, res) => {
+      /* var subscriptions = subscriptionManager.getAllSubscriptions();
+      res.json(subscriptions);*/
+      res.json([]);
+    });
 
 router.route('/subscriptions/:subscriptionId')
 
     // Add subscriptions (accessed at POST http://localhost:1337/api/subscriptions)
-    .post(function(req, res, next) {
+    .post((req, res) => {
     })
     // get one subscriptions (accessed at GET http://localhost:1337/api/subscriptions)
-    .get(function(req, res, next) {
-        var subscription = subscriptionManager.getSubscriptionById(req.params.subscriptionId);
-        res.json(subscription);
+    .get((req, res) => {
+      const subscription = subscriptionManager.getSubscriptionById(req.params.subscriptionId);
+      res.json(subscription);
     })
     // delete one subscriptions (accessed at GET http://localhost:1337/api/subscriptions)
-    .delete(function(req, res, next) {
-        var subscription = subscriptionManager.deleteSubscriptionById(req.params.subscriptionId);
-        res.json(subscription);
+    .delete((req, res) => {
+      const subscription = subscriptionManager.deleteSubscriptionById(req.params.subscriptionId);
+      res.json(subscription);
     })
     // update subscriptions (accessed at PUT http://localhost:1337/api/subscriptions)
-    .put(function(req, res, next) {
-        var subscriptionId  = subscriptionManager.updateSubscription(req.params.subscriptionId, req.body.updateJson);
-        res.json({ message: 'subscriptions updated with id : ' + JSON.stringify(subscriptionId)});
+    .put((req, res) => {
+      const subscriptionId = subscriptionManager
+        .updateSubscription(req.params.subscriptionId, req.body.updateJson);
+      res.json({ message: `subscriptions updated with id : ${JSON.stringify(subscriptionId)}` });
     });
 
 module.exports = router;

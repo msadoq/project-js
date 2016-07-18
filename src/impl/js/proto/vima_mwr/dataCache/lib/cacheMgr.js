@@ -2,7 +2,7 @@ var zmq = require("zmq"),
     socketIn = zmq.socket("pull"),
     binCache = require('./binCache.js'),
     jsonCache = require('./jsonCache.js'),
-    dataTypesCtrl = require('../../dataTypesControler'),
+    dataTypesCtrl = require('../../dataTypeManager'),
     subscriptionMgr = require('./subscriptionsMgr'),
     protoBuf = require("protobufjs");
 var wsSocket;
@@ -61,7 +61,7 @@ socketIn.on("message", function (header, payload) {
     
     binCache.addData(headerBin, payload).then(function (insertedBinData) {
     });
-    dataTypesCtrl.binToJson(payload).then(function (decodedJson) {
+    dataTypesCtrl.binToJson(headerBin, payload).then(function (decodedJson) {
         jsonCache.addData(headerJson, decodedJson).then(function (insertedJsonData) {
         });
         var subscriptions = subscriptionMgr.getSubscriptions(headerJson);

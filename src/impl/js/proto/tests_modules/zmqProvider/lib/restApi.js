@@ -20,7 +20,7 @@ console.log('DAY: '+day+' -> '+days[day].dInf+' - '+days[day].dSup);
 
 jsonData = {
     'jsonElem' : {
-        'DataFullName': 'TestDonnees',
+        'DataFullName': 'TestDonnees<reportingParameter>',
         'Field': '',
         'DomainId': 0,
         'TimeLineType': 'session',

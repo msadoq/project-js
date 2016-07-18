@@ -486,4 +486,4 @@ module.exports = require("protobufjs").newBuilder({})['import']({
             ]
         }
     ]
-}).build();
+}).build(["decommutedParameter","protobuf"]);

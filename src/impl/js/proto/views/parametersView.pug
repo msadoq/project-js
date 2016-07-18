@@ -10,9 +10,9 @@ block content
     })
     socket.on('Parameters', function(message) {
         $("#ui").empty();
-        message.parameters.forEach(function(item){
-            $("#ui").append("<tr> <td>"+item.name+"</td><td>"+item.extractedValue+"</td><td>"+item.rawValue+"</td><td>"+item.convertedValue+"</td></tr>");
-        })
+        //message.parameters.forEach(function(item){
+            $("#ui").append("<tr> <td>"+message.onboardDate+"</td><td>"+message.extractedValue+"</td><td>"+message.rawValue+"</td><td>"+message.convertedValue+"</td></tr>");
+        //})
 
     })
   div.top(id="message")
@@ -21,7 +21,7 @@ block content
       table.table.table-striped
         thead
           tr
-            th Parameter Name
+            th onboard Date
             th Extracted Value
             th Raw Value
             th Converted Value

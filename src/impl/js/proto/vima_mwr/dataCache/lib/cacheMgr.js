@@ -55,7 +55,7 @@ exports.setWebSocket = function(io) {
 var plotJson;
 
 socketIn.on("message", function (header, payload) {
-    var batPoints = [];
+    //var batPoints = [];
     var headerJson = JSON.parse(header);
     var headerBin =JSON.parse(header);
     
@@ -67,12 +67,12 @@ socketIn.on("message", function (header, payload) {
         var subscriptions = subscriptionMgr.getSubscriptions(headerJson);
         subscriptions.forEach(function(subscription){
             wsSocket.emit('Parameters', decodedJson);
-            decodedJson.parameters.forEach(function(item){
-                var batPoint = [];
+            /*decodedJson.parameters.forEach(function(item){
+                var batPoint = [];*/
                 batPoint.push(headerJson.dataTime);
-                batPoint.push(item.rawValue);
+                batPoint.push(decodedJson.rawValue);
                 batPoints.push(batPoint);
-            })
+            /*})*/
             
             plotJson = {
                 'type' : 'addPoints',

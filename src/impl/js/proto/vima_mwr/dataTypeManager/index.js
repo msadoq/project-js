@@ -2,6 +2,7 @@ const ctrls = require('./lib/dataTypeCtrls.js');
 
 const binToJson = (header, payload) => {
   const dataFullName = header.dataId;
+  console.log(dataFullName);
   let processedBin;
   if (dataFullName.includes('<aggregation>')) {
     const { isisAggregationCtrl } = ctrls;

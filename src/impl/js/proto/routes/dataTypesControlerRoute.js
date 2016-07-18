@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const dataTypeCtlr = require('../vima_mwr/dataTypesControler');
+const dataTypeCtlr = require('../vima_mwr/dataTypeManager');
 const fs = require('fs');
 
 

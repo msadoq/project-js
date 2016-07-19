@@ -1,5 +1,5 @@
-const zmq = require('zmq');
-const socketIn = zmq.socket('pull');
+const { cachePullSocket } = require('../../io/zmq');
+
 const binCache = require('./binCache.js');
 const jsonCache = require('./jsonCache.js');
 const dataTypesCtrl = require('../../dataTypesController');
@@ -40,7 +40,7 @@ exports.setWebSocket = (io) => {
   });
 };
 
-socketIn.on('message', (header, payload) => {
+cachePullSocket.on('message', (header, payload) => {
   const batPoints = [];
   const headerJson = JSON.parse(header);
   const headerBin = JSON.parse(header);
@@ -70,6 +70,4 @@ socketIn.on('message', (header, payload) => {
     });
   });
 });
-
-socketIn.connect('tcp://127.0.0.1:3000');
 

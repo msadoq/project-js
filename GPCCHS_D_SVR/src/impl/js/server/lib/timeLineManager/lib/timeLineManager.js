@@ -1,5 +1,5 @@
-const zmq = require('zmq');
-const socketIn = zmq.socket('pull');
+
+const { timeLinePullSocket } = require('../../io/zmq');
 const tlMgrApi = require('./timeLineManagerApi.js');
 let wsSocket = null;
 
@@ -15,7 +15,7 @@ exports.setWebSocket = (io) => {
   });
 };
 
-socketIn.on('message', (timelines) => {
+timeLinePullSocket.on('message', (timelines) => {
   const timelinesJson = JSON.parse(timelines);
   // console.log(`Master Id: ${timelinesJson.MasterId};)
   for (const timeline of timelinesJson.Timelines) {
@@ -43,6 +43,4 @@ socketIn.on('message', (timelines) => {
     }
   }
 });
-
-socketIn.connect('tcp://127.0.0.1:4242');
 

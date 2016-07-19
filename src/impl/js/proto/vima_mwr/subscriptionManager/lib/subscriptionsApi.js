@@ -1,21 +1,16 @@
 var loki = require('lokijs');
 var subscriptiondb = new loki('subscription.json');
 var dataCache = require('../../dataCache');
-var zmq = require("zmq"),
-    socketIn = zmq.socket("pull");
-    
+const zmq = require('zmq');    
 
-socketIn.connect('tcp://127.0.0.1:5000');
-var socketOut;
+
 var subscriptions = subscriptiondb.addCollection('subscriptions');
 
-socketIn.on("message", function (subscriptions) {
-    addSubscription(subscriptions);
-});
+let socketOut = null;
 
 var addSubscription = function(subscriptionJson) {
-    socketOut = zmq.socket("push");
-    socketOut.connect("tcp://127.0.0.1:4000");
+    const socketOut = zmq.socket('push');
+    socketOut.connect('tcp://127.0.0.1:4000');
     var newSub = JSON.parse(subscriptionJson);
     var newSub2 = JSON.parse(subscriptionJson);
     var subId = getSubscriptionId();
@@ -32,19 +27,11 @@ var addSubscription = function(subscriptionJson) {
     }
     //console.log('LIMITS: '+JSON.stringify(newSubSubs));
     socketOut.send(JSON.stringify(newSubSubs));
-    subscriptions.insert(newSub2);
-        
-    
-    //sendSubscription(newSub.subId);
-    socketOut.close();    
+    subscriptions.insert(newSub2);     
+    socketOut.close();
     return newSub.subId;
 }
 
-function sendSubscription(subId){
-    console.log('send :' + JSON.stringify(findSubscriptionById(subId)));
-    socketOut.send(JSON.stringify(findSubscriptionById(subId)));
-    socketOut.close();   
-}
 
 
 var updateSubscription = function(subscriptionLokiId, subscriptionUpdates) {

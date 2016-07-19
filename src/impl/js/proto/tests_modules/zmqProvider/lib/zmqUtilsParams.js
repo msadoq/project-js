@@ -48,13 +48,21 @@ socketIn.on("message", function (subscriptions) {
                 var buffer = byteBuffer.toBuffer();
 
                 var OID = "000100010100010001" + Math.floor((Math.random() * 99999999) + 1);
+                const splittedId = newSubscription.DataFullName.split('.');
+                const splittedParameter = splittedId[1].split('<');
+                const splittedType = splittedParameter[1].split('>');
                 var obj = {
-                    'dataId' : newSubscription.DataFullName,
-                    'session'  : newSubscription.SessionId,
+                    'catalog' : splittedId[0],
+                    'fullDataId' : newSubscription.DataFullName,
                     'oid' : OID,
-                    'dataTime' : dInf
+                    'parameter' : splittedParameter[0],
+                    'binPayload' : buffer,
+                    'session'  : newSubscription.SessionId,
+                    'timestamp' : dInf,
+                    'type' : splittedType[0]
                 };
-                sendMessage(JSON.stringify(obj), buffer);   
+                //console.log(JSON.stringify(obj));
+                sendMessage(JSON.stringify(obj));/*, buffer);*/   
                 dInf = dInf + timeStep;
             } else {
                 console.log('terminé');

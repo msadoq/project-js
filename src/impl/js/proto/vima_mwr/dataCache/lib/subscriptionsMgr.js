@@ -10,14 +10,14 @@ exports.addSubscription = function (subscription) {
 exports.getSubscriptions = function (data) {
     return cacheSub.find({
         '$and': [{ 
-            'DataFullName' : data.dataId
+            'DataFullName' : data.catalog+'.'+data.parameter+'<'+data.type+'>'
             },{ 
             'VisuWindow.dInf' : {
-                '$lte': data.dataTime
+                '$lte': data.timestamp
                 }
             },{ 
             'VisuWindow.dSup' : {
-                '$gte': data.dataTime
+                '$gte': data.timestamp
                 }
             },{ 
             'SessionId' : data.session

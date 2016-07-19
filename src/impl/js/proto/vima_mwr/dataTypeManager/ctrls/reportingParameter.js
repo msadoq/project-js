@@ -4,21 +4,23 @@ const { getAttributeValue } = require('../utils.js');
 
 const ReportingParameter = JS.ReportingParameter;
 
-exports.binToJson = (payload) => new Promise(
-  (resolve) => {
+exports.binToJson = (payload) => /*new Promise(
+  (resolve) => */{
     const decoded = ReportingParameter.decode(payload);
     const parameter = {
-        onboardDate: item.name.value,
-        definition: item.definition.value,
-        extractedValue: getAttributeValue(item.extractedValue),
-        rawValue: getAttributeValue(item.rawValue),
-        convertedValue: getAttributeValue(item.convertedValue),
+        onboardDate: decoded.onboardDate.value,
+        groundDate: decoded.groundDate.value,
+        extractedValue: getAttributeValue(decoded.extractedValue),
+        rawValue: getAttributeValue(decoded.rawValue),
+        convertedValue: getAttributeValue(decoded.convertedValue),
         triggerOnCounter: '',
         triggerOffCounter: '',
-        validityState: item.validityState,
-        isObsolete: item.isObsolete.value,
+        monitoringState: decoded.monitoringState,
+        validityState: decoded.validityState,
+        isObsolete: decoded.isObsolete.value,
+        isNominal: decoded.isNominal.value,
     };
-
-    resolve(parameter);
+    return parameter;
+    /*resolve(parameter);*/
   }
-);
+/*);*/

@@ -3,10 +3,10 @@ var loki = require('lokijs'),
     jsonCache = require('./jsonCache.js'),
     binCache = binCacheDB.addCollection('binCache');
 
-exports.addData = function(metaData, binData) {
-    metaData.binPayload = binData;
+exports.addData = function(metadata, data) {
+    metadata.binPayload = data;
     return new Promise(function(resolve, reject) {
-        resolve(binCache.insert(metaData))
+        resolve(binCache.insert(metadata))
     });
 }
 

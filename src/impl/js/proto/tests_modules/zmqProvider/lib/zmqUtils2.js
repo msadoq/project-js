@@ -23,7 +23,7 @@ var parameters = [];
 var parameter;
 
 socketOut.bind("tcp://127.0.0.1:3000");
-socketIn.bind("tcp://127.0.0.1:4000");
+socketIn.connect("tcp://127.0.0.1:4000");
 
 socketIn.on("message", function (subscriptions) {
     JSON.parse(subscriptions).forEach(function(newSubscription){

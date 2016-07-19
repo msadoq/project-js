@@ -1,26 +1,49 @@
-var http = require('http');
+const http = require('http');
 
-var day = 'default';
+let type = null;
+let day = 'default';
+let length = 1;
 
-days = {
-    'default' : {'dInf': 0,'dSup': 0},
-    'lu' : {'dInf': 1467583200,'dSup': 1467669600},
-    'ma' : {'dInf': 1467669600,'dSup': 1467756000},
-    'me' : {'dInf': 1467756000,'dSup': 1467842340},
-    'luma' : {'dInf': 1467583200,'dSup': 1467756000},
-    'mame' : {'dInf': 1467669600,'dSup': 1467842340},
-    'lume' : {'dInf': 1467583200,'dSup': 1467842340}
+const lengthOfDay = 86400000;
+
+//const startValue = 1467496800;
+const startValue = 1420675200000;
+
+const visuWindow = {'dInf': 0,'dSup': 0};
+
+const types = {
+    'ag' : 'Aggregation',
+    'rp' : 'ReportingParameter',
+};
+
+const days = {
+    'default' : 0,
+    'lu' : 1,
+    'ma' : 2,
+    'me' : 3,
+    'je' : 4,
+    've' : 5,
+    'sa' : 6,
+    'di' : 7
 }
 
-if (process.argv[2] in days) {
-    day=process.argv[2];
+if (process.argv[2] in types) {
+    type = types[process.argv[2]];
+    if (process.argv[3] in days) {
+        day = process.argv[3];
+        visuWindow.dInf = startValue + days[day]*lengthOfDay;
+        if (!isNaN(parseInt(process.argv[4], 10))) {
+            length = parseInt(process.argv[4], 10);
+        }
+        visuWindow.dSup = visuWindow.dInf + length*lengthOfDay;
+    }
 }
 
-console.log('DAY: '+day+' -> '+days[day].dInf+' - '+days[day].dSup);
+console.log('DAY: '+length+' day(s) from '+day+' -> '+visuWindow.dInf+' - '+visuWindow.dSup);
 
 jsonData = {
     'jsonElem' : {
-        'DataFullName': 'TestDonnees<reportingParameter>',
+        'DataFullName': 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
         'Field': '',
         'DomainId': 0,
         'TimeLineType': 'session',
@@ -28,7 +51,7 @@ jsonData = {
         'SetFileName': '',
         'SubscriptionState': 'Play',
         'VisuSpeed': 0,
-        'VisuWindow': days[day], 
+        'VisuWindow': visuWindow, 
         'Filter': ''
     }
 }

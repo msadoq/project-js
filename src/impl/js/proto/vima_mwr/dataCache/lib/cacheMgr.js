@@ -1,10 +1,9 @@
-var zmq = require("zmq"),
-    socketIn = zmq.socket("pull"),
-    binCache = require('./binCache.js'),
-    jsonCache = require('./jsonCache.js'),
-    dataTypesCtrl = require('../../dataTypeManager'),
-    subscriptionMgr = require('./subscriptionsMgr'),
-    protoBuf = require("protobufjs");
+const binCache = require('./binCache.js');
+const jsonCache = require('./jsonCache.js');
+const dataTypesCtrl = require('../../dataTypeManager');
+const subscriptionMgr = require('./subscriptionsMgr');
+const protoBuf = require("protobufjs");   
+const zmq = require('zmq');
 var wsSocket;
 
 exports.newSubscription = function(subscription) {
@@ -52,37 +51,42 @@ exports.setWebSocket = function(io) {
     });*/
 }
 
-var plotJson;
 
-socketIn.on("message", function (header, payload) {
-    //var batPoints = [];
-    var headerJson = JSON.parse(header);
-    var headerBin =JSON.parse(header);
+
+const onMessage = (header, meta, payload) => {
+    const batPoints = [];
+    metaStr = new Buffer(meta).toString('utf8').split('\0')[0]; 
+    const metaJson = JSON.parse(metaStr);
+    const metaBin = JSON.parse(metaStr);
     
-    binCache.addData(headerBin, payload).then(function (insertedBinData) {
-    });
-    dataTypesCtrl.binToJson(headerBin, payload).then(function (decodedJson) {
-        jsonCache.addData(headerJson, decodedJson).then(function (insertedJsonData) {
-        });
-        var subscriptions = subscriptionMgr.getSubscriptions(headerJson);
-        subscriptions.forEach(function(subscription){
+    binCache.addData(metaBin,payload).then((insertedBinData) => {});
+    dataTypesCtrl.binToJson(metaJson, payload).then((decodedJson) => {
+        jsonCache.addData(metaJson, decodedJson).then((insertedJsonData) => {});
+        const subscriptions = subscriptionMgr.getSubscriptions(metaJson);
+        subscriptions.forEach((subscription) => {
             wsSocket.emit('Parameters', decodedJson);
-            /*decodedJson.parameters.forEach(function(item){
-                var batPoint = [];*/
-                batPoint.push(headerJson.dataTime);
+            /*decodedJson.parameters.forEach(function(item){*/
+                const batPoint = [];
+                batPoint.push(metaJson.timestamp);
                 batPoint.push(decodedJson.rawValue);
                 batPoints.push(batPoint);
             /*})*/
             
-            plotJson = {
+            const plotJson = {
                 'type' : 'addPoints',
                 'id' : 'batman',
                 'points' : batPoints
                 };
+            console.log(subscription.subId);
             wsSocket.emit('plot'+subscription.subId,JSON.stringify(plotJson));
         });
     });
-});
+};
 
-socketIn.connect('tcp://127.0.0.1:3000');
+let dcPullSockets = new Array(1,2,3,4,5);
+dcPullSockets = dcPullSockets.map(function (s) { return zmq.socket("pull")});
+dcPullSockets = dcPullSockets.map(function (s, i) {var port= 49159+i; var uri = 'tcp://127.0.0.1:'+port; console.log(uri); return s.connect(uri)});
+console.log(dcPullSockets);
+
+dcPullSockets.map((s) => s.on("message", onMessage));
 

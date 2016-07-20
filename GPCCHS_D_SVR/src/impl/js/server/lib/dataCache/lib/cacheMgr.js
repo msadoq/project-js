@@ -1,18 +1,17 @@
-const { cachePullSocket } = require('../../io/zmq');
+const { dcPullSockets } = require('../../io/zmq');
 
-const binCache = require('./binCache.js');
-const jsonCache = require('./jsonCache.js');
-const dataTypesCtrl = require('../../dataTypesController');
+const binCache = require('./binCacheApi.js');
+const jsonCache = require('./jsonCacheApi.js');
+const dataTypesCtrl = require('../../dataTypeManager');
 const subscriptionMgr = require('./subscriptionsMgr');
-const protoBuf = require('protobufjs');
-let wsSocket = null;
+const { cacheWebsocket } = require('../../io/socket.io');
 
 exports.newSubscription = (subscription) => {
   subscriptionMgr.addSubscription(subscription);
   jsonCache.findData(subscription).then((storedData) => {
     const batPoints = [];
     storedData.forEach((data) => {
-      wsSocket.emit('Parameters', data.jsonPayload);
+      cacheWebsocket().emit('Parameters', data.jsonPayload);
       const jsonPayLoad = data.jsonPayload;
       jsonPayLoad.parameters.forEach((item) => {
         const batPoint = [];
@@ -26,48 +25,40 @@ exports.newSubscription = (subscription) => {
       id: 'batman',
       points: batPoints,
     };
-    wsSocket.emit(`plot${subscription.subId}`, JSON.stringify(plotJson));
+    cacheWebsocket().emit(`plot${subscription.subId}`, JSON.stringify(plotJson));
   });
 };
 
-exports.unserializeBin = (subscription) => {
-};
+const onMessage = (header, meta, payload) => {
+  // console.log('ONMESSAGE');
+  const metaStr = new Buffer(meta).toString('utf8').split('\0')[0];
+  const metaJson = JSON.parse(metaStr);
+  const metaBin = JSON.parse(metaStr);
 
-exports.setWebSocket = (io) => {
-  wsSocket = io;
-  wsSocket.sockets.on('connection', () => {
-    console.log('Un client est connecté !');
-  });
-};
-
-cachePullSocket.on('message', (header, payload) => {
-  const batPoints = [];
-  const headerJson = JSON.parse(header);
-  const headerBin = JSON.parse(header);
-
-  binCache.addData(headerBin, payload).then((insertedBinData) => {
-  });
-
-  dataTypesCtrl.binToJson(payload).then((decodedJson) => {
-    jsonCache.addData(headerJson, decodedJson).then((insertedJsonData) => {
-    });
-    const subscriptions = subscriptionMgr.getSubscriptions(headerJson);
+  binCache.addData(metaBin, payload).then((insertedBinData) => {});
+  dataTypesCtrl.binToJson(metaJson, payload).then((decodedJson) => {
+    // console.log('Add Json Data');
+    jsonCache.addData(metaJson, decodedJson).then((insertedJsonData) => { /* console.log(insertedJsonData); */ });
+    // console.log(`REQUIRING SUBSCRIPTION ${metaJson.catalog}.${metaJson.parameter}<${metaJson.type}>`);
+    const subscriptions = subscriptionMgr.getSubscriptions(metaJson);
+    // console.log(`SUB SIZE: ${subscriptions.length}`);
     subscriptions.forEach((subscription) => {
-      wsSocket.emit('Parameters', decodedJson);
-      decodedJson.parameters.forEach((item) => {
-        const batPoint = [];
-        batPoint.push(headerJson.dataTime);
-        batPoint.push(item.rawValue);
-        batPoints.push(batPoint);
-      });
+      cacheWebsocket().emit('Parameters', decodedJson);
+   
+      const batPoint = [];
+      batPoint.push(metaJson.timestamp);
+      batPoint.push(decodedJson.rawValue);
 
-      const plotJson = {
-        type: 'addPoints',
-        id: 'batman',
-        points: batPoints,
-      };
-      wsSocket.emit(`plot${subscription.subId}`, JSON.stringify(plotJson));
+
+      // console.log(subscription.subId);
+      cacheWebsocket().emit(`plot${subscription.subId}`, batPoint);
+   
     });
   });
-});
+};
 
+
+
+const init = () => { console.log('INIT');dcPullSockets.map((s) => s.on('message', onMessage)); };
+
+module.exports = { init };

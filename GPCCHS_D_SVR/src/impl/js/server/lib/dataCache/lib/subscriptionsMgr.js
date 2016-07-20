@@ -1,19 +1,19 @@
-const { subCache } = require('../../io/loki');
+const { subscriptions } = require('../../io/loki');
 
-exports.addSubscription = (subscription) => subCache.insert(subscription);
+exports.addSubscription = (subscription) => subscriptions.insert(subscription);
 
-exports.getSubscriptions = (data) => subCache.find(
+exports.getSubscriptions = (data) => subscriptions.find(
   {
     $and: [
       {
-        DataFullName: data.dataId,
+        DataFullName: `${data.catalog}.${data.parameter}<${data.type}>`,
       }, {
         'VisuWindow.dInf': {
-          $lte: data.dataTime,
+          $lte: data.timestamp,
         },
       }, {
         'VisuWindow.dSup': {
-          $gte: data.dataTime,
+          $gte: data.timestamp,
         },
       }, {
         SessionId: data.session,

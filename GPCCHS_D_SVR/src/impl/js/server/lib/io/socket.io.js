@@ -1,10 +1,14 @@
-const timeLineWebsocket = require('socket.io')(server);
-const cacheWebsocket = require('socket.io')(server);
+const sio = require('socket.io');
+let io = null;
 
-timeLineWebsocket.sockets.on('connection', () => {
-  console.log('TimeLine WebSocket connected');
-});
+const bindWebSockets = (server, cb) => {
+  io = sio(server);
+  io.sockets.on('connection', (webSocket) => {
+    console.log('Cache WebSocket connected');
+    webSocket.emit('message', 'Cache WebSocket connected');
+  });
 
-cacheWebsocket.sockets.on('connection', () => {
-  console.log('TimeLine WebSocket connected');
-});
+  cb();
+};
+
+module.exports = { bindWebSockets, cacheWebsocket: () => io };

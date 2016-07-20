@@ -1,4 +1,3 @@
-const protoBuf = require("protobufjs");
 const Promise = require('promise');
 
 const JS = require("../files/isisAggregation.proto.js");
@@ -6,6 +5,7 @@ const IsisAggregation = JS.IsisAggregation;
 
 exports.binToJson = (payload) => new Promise(
   (resolve, reject) => {
+    console.log('DECODE');
     const decoded = IsisAggregation.decode(payload);
     const parameters = [];
     decoded.parameters.forEach((item) => {

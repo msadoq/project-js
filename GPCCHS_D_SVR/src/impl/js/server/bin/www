@@ -26,14 +26,16 @@ const server = http.createServer(app);
  */
 
 const { bindPushSockets } = require('../lib/io/zmq');
+const { bindWebSockets } = require('../lib/io/socket.io');
+const cacheMgr = require('../lib/dataCache');
 
-const listen = () => {
-  server.listen(port);
-};
+bindWebSockets(server, () => {
+  bindPushSockets(() => {
+    cacheMgr.init();
+    server.listen(port);
+  });
+});
 
-bindPushSockets(listen);
-
-// server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 

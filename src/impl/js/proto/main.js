@@ -1,206 +1,55 @@
-'use strict';
-
-const electron = require('electron');
-const app = electron.app;
+const electron = require('electron')
+// Module to control application life.
+const app = electron.app
 app.commandLine.appendSwitch('no-proxy-server');
-const BrowserWindow = electron.BrowserWindow;
+// Module to create native browser window.
+const BrowserWindow = electron.BrowserWindow
 
-const express = require('express');
-const path = require('path');
-const favicon = require('serve-favicon');
-const logger = require('morgan');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const routes = require('./routes/index');
-const dataCacheRoutes = require('./routes/dataCacheRoute');
-const zmqProviderRoutes = require('./routes/zmqProviderRoute');
-const timeLinesRoutes = require('./routes/timeLinesRoute');
-const subscriptionsRoutes = require('./routes/subscriptionsRoute');
-const dataTypesControlerRoutes = require('./routes/dataTypesControlerRoute');
-const expressApp = express();
-const debug = require('debug')('express-test:server');
-const http = require('http');
-const port = normalizePort(process.env.PORT || '1337');
-const fs = require('fs');
-var dataCache = require('./vima_mwr/dataCache')
-var timelineMgr = require('./vima_mwr/timeLineManager')
+// Keep a global reference of the window object, if you don't, the window will
+// be closed automatically when the JavaScript object is garbage collected.
+let mainWindow
 
-var server;
+function createWindow () {
+  // Create the browser window.
+  mainWindow = new BrowserWindow({width: 800, height: 600})
+
+  // Open the DevTools.
+  mainWindow.webContents.openDevTools()
+
+  // and load the index.html of the app.
+  mainWindow.loadURL(`file://${__dirname}/views/plotIndex.html`)
 
 
-function normalizePort(val) {
-  var port = parseInt(val, 10);
-
-  if (isNaN(port)) {
-    return val;
-  }
-
-  if (port >= 0) {
-    return port;
-  }
-
-  return false;
+  // Emitted when the window is closed.
+  mainWindow.on('closed', function () {
+    // Dereference the window object, usually you would store windows
+    // in an array if your app supports multi windows, this is the time
+    // when you should delete the corresponding element.
+    mainWindow = null
+  })
 }
 
-function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.on('ready', createWindow)
+
+// Quit when all windows are closed.
+app.on('window-all-closed', function () {
+  // On OS X it is common for applications and their menu bar
+  // to stay active until the user quits explicitly with Cmd + Q
+  if (process.platform !== 'darwin') {
+    app.quit()
   }
+})
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
-
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
+app.on('activate', function () {
+  // On OS X it's common to re-create a window in the app when the
+  // dock icon is clicked and there are no other windows open.
+  if (mainWindow === null) {
+    createWindow()
   }
-}
+})
 
-function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
-  console.log('Listening on ' + addr.port)
-  //HVWindow.loadURL('http://127.0.0.1:'+ addr.port+'/historyView');
-  chartWindow.loadURL('http://127.0.0.1:'+ addr.port +'/chart');
-  chartWindow2.loadURL('http://127.0.0.1:'+ addr.port +'/chart2');
-  parameterWindow.loadURL('http://127.0.0.1:'+ addr.port +'/parameters');
-  //chartWindow.toggleDevTools();
-}
-
-var HVWindow = null;
-var chartWindow = null;
-var chartWindow2 = null;
-var parameterWindow = null;
-
-app.on('window-all-closed', function() {
-  if (process.platform != 'darwin') {
-    app.quit();
-  }
-});
-
-app.on('ready', function() {
-  /*HVWindow = new BrowserWindow({
-    autoHideMenuBar: false,
-    webPreferences: {
-      nodeIntegration: false
-    },
-  	width: 640,
-  	height: 400
-  });*/
-
-  chartWindow = new BrowserWindow({
-    autoHideMenuBar: false,
-    webPreferences: {
-      nodeIntegration: false
-    },
-  	width: 640,
-  	height: 400,
-    x:0,
-    y:0
-  });
-
-  chartWindow2 = new BrowserWindow({
-    autoHideMenuBar: false,
-    webPreferences: {
-      nodeIntegration: false
-    },
-  	width: 640,
-  	height: 400,
-    x:0,
-    y:470
-  });
-
-  parameterWindow = new BrowserWindow({
-    autoHideMenuBar: false,
-    webPreferences: {
-      nodeIntegration: false
-    },
-  	width: 640,
-  	height: 400,
-    x:650,
-    y:0
-  });
-  
-  server = http.createServer(expressApp);
-  server.listen(port);
-  server.on('error', onError);
-  server.on('listening', onListening);
-  
-  var io = require('socket.io')(server);
-  dataCache.setWebSocket(io);
-  timelineMgr.setWebSocket(io);
-  
-  // view engine setup
-  expressApp.set('views', path.join(__dirname, 'views'));
-  expressApp.set('view engine', 'pug');
-
-  // uncomment after placing your favicon in /public
-  //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-  
-  expressApp.use(function(req, res, next){
-    res.io = io;
-    next();
-  });
-  
-  expressApp.use(logger('dev'));
-  expressApp.use(bodyParser.json());
-  expressApp.use(bodyParser.urlencoded({ extended: false }));
-  expressApp.use(cookieParser());
-  expressApp.use(express.static(path.join(__dirname, 'public')));
-  expressApp.use('/', routes);
-  expressApp.use('/api', dataCacheRoutes);
-  expressApp.use('/api', timeLinesRoutes);
-  expressApp.use('/api', subscriptionsRoutes);
-  expressApp.use('/test', zmqProviderRoutes);
-  expressApp.use('/api', dataTypesControlerRoutes);
-  expressApp.set('port', port);
-
-  expressApp.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-  });
-
-  // development error handler
-  // will print stacktrace
-  if (expressApp.get('env') === 'development') {
-    expressApp.use(function(err, req, res, next) {
-      res.status(err.status || 500);
-      res.render('error', {
-        message: err.message,
-        error: err
-      });
-    });
-  }
-
-  // production error handler
-  // no stacktraces leaked to user
-  expressApp.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: {}
-    });
-  });
-
-  /*HVWindow.on('closed', function() {
-    HVWindow = null;
-    chartWindow = null;
-    parametertWindow = null;
-    server.close();
-  });*/
-});
-
+// In this file you can include the rest of your app's specific main process
+// code. You can also put them in separate files and require them here.

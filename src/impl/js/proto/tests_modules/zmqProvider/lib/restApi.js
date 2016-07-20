@@ -43,7 +43,7 @@ console.log('DAY: '+length+' day(s) from '+day+' -> '+visuWindow.dInf+' - '+visu
 
 jsonData = {
     'jsonElem' : {
-        'DataFullName': 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+        'DataFullName': `Reporting.ATT_BC_STR1VOLTAGE<${type}>`,
         'Field': '',
         'DomainId': 0,
         'TimeLineType': 'session',

@@ -30,7 +30,7 @@ exports.newSubscription = (subscription) => {
 };
 
 const onMessage = (header, meta, payload) => {
-  // console.log('ONMESSAGE');
+  console.log('ONMESSAGE');
   const metaStr = new Buffer(meta).toString('utf8').split('\0')[0];
   const metaJson = JSON.parse(metaStr);
   const metaBin = JSON.parse(metaStr);
@@ -44,7 +44,6 @@ const onMessage = (header, meta, payload) => {
     // console.log(`SUB SIZE: ${subscriptions.length}`);
     subscriptions.forEach((subscription) => {
       cacheWebsocket().emit('Parameters', decodedJson);
-   
       const batPoint = [];
       batPoint.push(metaJson.timestamp);
       batPoint.push(decodedJson.rawValue);

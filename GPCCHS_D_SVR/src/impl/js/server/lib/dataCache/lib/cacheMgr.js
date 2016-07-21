@@ -4,7 +4,7 @@ const binCache = require('./binCacheApi.js');
 const jsonCache = require('./jsonCacheApi.js');
 const dataTypesCtrl = require('../../dataTypeManager');
 const subscriptionMgr = require('./subscriptionsMgr');
-const { cacheWebsocket } = require('../../io/socket.io');
+const { cacheWebSocket } = require('../../io/socket.io');
 
 const newSubscription = (subscription) => {
   jsonCache.findData(subscription).then((storedData) => {
@@ -23,7 +23,7 @@ const newSubscription = (subscription) => {
       points: batPoints.sort(),
     };
     console.log(subscription.DataFullName.split('.')[1].split('<')[0]);
-    cacheWebsocket().emit(`plotCache${subscription.DataFullName.split('.')[1].split('<')[0]}`, JSON.stringify(plotJson));
+    cacheWebSocket().emit(`plotCache${subscription.DataFullName.split('.')[1].split('<')[0]}`, JSON.stringify(plotJson));
   });
 };
 
@@ -42,7 +42,7 @@ const onMessage = (header, meta, payload) => {
     const subscriptions = subscriptionMgr.getSubscriptions(metaJson);
     // console.log(`SUB SIZE: ${subscriptions.length}`);
     subscriptions.forEach((subscription) => {
-      cacheWebsocket().emit('Parameters', decodedJson);
+      cacheWebSocket().emit('Parameters', decodedJson);
 
       const batPoint = [];
       batPoint.push(metaJson.timestamp);
@@ -50,7 +50,7 @@ const onMessage = (header, meta, payload) => {
 
 
       // console.log(subscription.subId);
-      cacheWebsocket().emit(`plot${metaJson.parameter}`, batPoint);
+      cacheWebSocket().emit(`plot${metaJson.parameter}`, batPoint);
     });
   });
 };

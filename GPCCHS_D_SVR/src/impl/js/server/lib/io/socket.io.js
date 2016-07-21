@@ -11,4 +11,4 @@ const bindWebSockets = (server, cb) => {
   cb();
 };
 
-module.exports = { bindWebSockets, cacheWebsocket: () => io };
+module.exports = { bindWebSockets, cacheWebSocket: () => io };

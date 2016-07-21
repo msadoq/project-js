@@ -20,9 +20,9 @@ modes = {
     'follow' : 'follow'
 }
 
-dInf = 1420761600000;
-dSup = 1420771600000;
-MAX = 1507161600000
+dInf = 1438412400000;
+dSup = 1438412460000;
+MAX = 1438413000000
 
 if (process.argv[2] in modes) {
     mode=process.argv[2];
@@ -30,7 +30,7 @@ if (process.argv[2] in modes) {
 
 console.log('MODE: '+mode);
 
-socketOut.bindSync("tcp://*:4242");
+socketOut.bind("tcp://*:4242");
 
 var timelines = {
     "Timelines" : [
@@ -55,7 +55,7 @@ var timelines = {
 
 var i=0;
 var tf = 0;
-var OFFSET=3600;
+var OFFSET=1000;
 
 if (mode != 'none') {
     var sendToSM = setInterval(function () {        

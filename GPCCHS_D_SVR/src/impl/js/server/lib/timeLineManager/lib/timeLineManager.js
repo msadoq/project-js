@@ -1,27 +1,16 @@
 
 const { timeLinePullSocket } = require('../../io/zmq');
 const tlMgrApi = require('./timeLineManagerApi.js');
-let wsSocket = null;
+const { cacheWebSocket } = require('../../io/socket.io');
 
-exports.setWebSocket = (io) => {
-  wsSocket = io;
-  wsSocket.sockets.on('connection', () => {
-    console.log('Un client est connecté !');
-  });
 
-  wsSocket.sockets.on('connection', (viewSocket) => {
-    viewSocket.emit('message', 'Vous êtes bien connecté à la websocket !');
-    viewSocket.emit('open', 'Vous êtes bien Batman !');
-  });
-};
-
-timeLinePullSocket.on('message', (timelines) => {
+const onMessage = (timelines) => {
   const timelinesJson = JSON.parse(timelines);
-  // console.log(`Master Id: ${timelinesJson.MasterId};)
+  // console.log(`Master Id: ${timelinesJson.MasterId}`)
   for (const timeline of timelinesJson.Timelines) {
-    /* console.log(`TimelineName: ${timeline.TimelineName}`);
-    console.log(`dInf: ${timeline.VisuWindow.dInf}`);
-    console.log(`dSup: ${timeline.VisuWindow.dSup}`); */
+    // console.log(`TimelineName: ${timeline.TimelineName}`);
+    // console.log(`dInf: ${timeline.VisuWindow.dInf}`);
+    // console.log(`dSup: ${timeline.VisuWindow.dSup}`); 
 
     const timeRangeConfiguration = {
       type: 'xExtents',
@@ -42,8 +31,11 @@ timeLinePullSocket.on('message', (timelines) => {
       wsSocket.emit(`plot${(i + 1)}`, JSON.stringify(currentTimeConfiguration));
       
     }*/
-    wsSocket.emit(`plotATT_BC_STR1VOLTAGE`, JSON.stringify(timeRangeConfiguration));
-    wsSocket.emit(`plotATT_BC_STR1VOLTAGE`, JSON.stringify(currentTimeConfiguration));
+    cacheWebSocket().emit('timeline', JSON.stringify(timeRangeConfiguration));
+    cacheWebSocket().emit('timeline', JSON.stringify(currentTimeConfiguration));
   }
-});
+};
 
+const init = () => { console.log('INIT TLMGR'); timeLinePullSocket.on('message', onMessage); };
+
+module.exports = { init };

@@ -16,7 +16,7 @@ function sendMessage (header) {
 var day = 'default';
 
 days = {
-    'default' : {'dInf': 0,'dSup': 0},
+    'default' : {'dInf': 1438412400000,'dSup': 1438413000000},
     'lu' : {'dInf': 1467583200,'dSup': 1467669600},
     'ma' : {'dInf': 1467669600,'dSup': 1467756000},
     'me' : {'dInf': 1467756000,'dSup': 1467842340},
@@ -31,7 +31,7 @@ if (process.argv[2] in days) {
 
 console.log('DAY: '+day+' -> '+days[day].dInf+' - '+days[day].dSup);
 
-socketOut.bindSync("tcp://*:4242");
+socketOut.bind("tcp://*:4242");
 
 var timelines = {
     "Timelines" : [

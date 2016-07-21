@@ -8,11 +8,17 @@ const WindowContainer = props => <Window {...props} />;
 
 function mapStateToProps(state, ownProps) {
   const element = state.windows[ownProps.windowId];
+
+  const pages = element.pages.map(pageId => ({
+    pageId,
+    title: state.pages[pageId].title,
+  }));
+
   return {
     windowId: ownProps.windowId,
     title: element.title,
     selectedTab: element.selectedTab,
-    pages: element.pages,
+    pages,
   };
 }
 

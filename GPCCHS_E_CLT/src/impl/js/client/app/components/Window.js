@@ -18,7 +18,7 @@ export default class Window extends Component {
 
     let selectedTab = this.props.selectedTab;
     if (!selectedTab && pages.length > 0) {
-      selectedTab = pages[0];
+      selectedTab = pages[0].pageId;
     }
     return (
       <Grid fluid>
@@ -42,11 +42,11 @@ export default class Window extends Component {
           selectedTab={selectedTab}
         >
           <ul className="nav nav-tabs" style={{ 'marginTop': '15px' }}>
-            {pages.map(p =>
-              <li className={(selectedTab === p) ? 'active' : ''} key={`tab${p}`}>
+            {pages.map(page =>
+              <li className={(selectedTab === page.pageId) ? 'active' : ''} key={`tab${page.pageId}`}>
                 <a>
-                  <TabLink to={`${p}`}>
-                    {p}
+                  <TabLink to={`${page.pageId}`}>
+                    {page.title}
                   </TabLink>
                 </a>
               </li>
@@ -55,9 +55,9 @@ export default class Window extends Component {
               <a>New page +</a>
             </li>
           </ul>
-          {pages.map(p =>
-            <TabContent for={p} key={`tabContent${p}`}>
-              <PageContainer pageId={p} />
+          {pages.map(page =>
+            <TabContent for={page.pageId} key={`tabContent${page.pageId}`}>
+              <PageContainer pageId={page.pageId} />
             </TabContent>
           )}
         </Tabs>

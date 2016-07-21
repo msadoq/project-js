@@ -4,6 +4,8 @@ const { subscriptionPushSocket } = require('../../io/zmq');
 
 const { subscriptions } = require('../../io/loki');
 
+const cacheMgr = require('../../dataCache');
+
 let globalSubscriptionId = 2;
 
 function getSubscriptionId() {
@@ -19,7 +21,7 @@ const addSubscription = (subscriptionJson) => {
   const subId = getSubscriptionId();
   newSub.subId = subId;
   newSub2.subId = subId;
-  // dataCache.newSubscription(newSub);
+  cacheMgr.newSubscription(newSub);
   const newSubSubs = [];
   const limits = searchLimits(newSub2);
   if (limits.length === 0) {

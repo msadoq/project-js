@@ -37,10 +37,13 @@ timeLinePullSocket.on('message', (timelines) => {
       unit: 'time',
     };
 
-    for (let i = 0; i < 2; i++) {
+    /*for (let i = 0; i < 2; i++) {
       wsSocket.emit(`plot${(i + 1)}`, JSON.stringify(timeRangeConfiguration));
       wsSocket.emit(`plot${(i + 1)}`, JSON.stringify(currentTimeConfiguration));
-    }
+      
+    }*/
+    wsSocket.emit(`plotATT_BC_STR1VOLTAGE`, JSON.stringify(timeRangeConfiguration));
+    wsSocket.emit(`plotATT_BC_STR1VOLTAGE`, JSON.stringify(currentTimeConfiguration));
   }
 });
 

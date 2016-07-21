@@ -1,6 +1,7 @@
 const http = require('http');
 
 let type = null;
+let paramType = null;
 let day = 'default';
 let length = 1;
 
@@ -16,6 +17,13 @@ const types = {
     'rp' : 'ReportingParameter',
 };
 
+const paramTypes = {
+    '1' : 'ATT_BC_STR1VOLTAGE',
+    '2' : 'ATT_BC_STR1STRSAQ0',
+    '3' : 'ATT_BC_STR1STRSAQ1',
+    '4' : 'ATT_BC_STR1STRSAQ2',
+};
+
 const days = {
     'default' : 0,
     'lu' : 1,
@@ -29,6 +37,7 @@ const days = {
 
 if (process.argv[2] in types) {
     type = types[process.argv[2]];
+    paramType = paramTypes[process.argv[5]];
     if (process.argv[3] in days) {
         day = process.argv[3];
         visuWindow.dInf = startValue + days[day]*lengthOfDay;
@@ -43,7 +52,7 @@ console.log('DAY: '+length+' day(s) from '+day+' -> '+visuWindow.dInf+' - '+visu
 
 jsonData = {
     'jsonElem' : {
-        'DataFullName': 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+        'DataFullName': 'Reporting.'+paramType+'<ReportingParameter>',
         'Field': '',
         'DomainId': 0,
         'TimeLineType': 'session',

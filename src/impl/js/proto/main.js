@@ -8,16 +8,25 @@ const BrowserWindow = electron.BrowserWindow
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
+let plotWindow
+let plotWindow2
+let plotWindow3
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({width: 600, height: 400})
+  plotWindow = new BrowserWindow({width: 600, height: 400})
+  plotWindow2 = new BrowserWindow({width: 600, height: 400})
+  plotWindow3 = new BrowserWindow({width: 600, height: 400})
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools()
 
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/views/plotIndex.html`)
+  plotWindow.loadURL(`file://${__dirname}/views/plotIndex2.html`)
+  plotWindow2.loadURL(`file://${__dirname}/views/plotIndex3.html`)
+  plotWindow3.loadURL(`file://${__dirname}/views/plotIndex4.html`)
 
 
   // Emitted when the window is closed.

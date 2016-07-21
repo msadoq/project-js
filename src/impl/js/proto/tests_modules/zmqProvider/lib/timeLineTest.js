@@ -20,9 +20,9 @@ modes = {
     'follow' : 'follow'
 }
 
-dInf = 1467583200;
-dSup = 1467669600;
-MAX = 1467842340
+dInf = 1420761600000;
+dSup = 1420771600000;
+MAX = 1507161600000
 
 if (process.argv[2] in modes) {
     mode=process.argv[2];

@@ -1,8 +1,7 @@
 const ctrls = require('./lib/dataTypeCtrls.js');
 
 const binToJson = (metadata, data) => new Promise((resolve) => {
-  const dataType = metadata.type;
-  console.log(dataType);
+  const dataType = 'ReportingParameter';
   let processedBin;
   if (dataType === 'Aggregation') {
     const { isisAggregationCtrl } = ctrls;
@@ -13,7 +12,6 @@ const binToJson = (metadata, data) => new Promise((resolve) => {
   } else {
     processedBin = { error: 'unknown COMObject' };
   }
-  console.log(processedBin);
   resolve(processedBin);
 });
 

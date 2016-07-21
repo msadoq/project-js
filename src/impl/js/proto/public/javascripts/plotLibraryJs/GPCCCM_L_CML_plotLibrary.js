@@ -312,10 +312,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	function JsClient() {
 		var _this = this;
 		console.log('call JsClient');
-
         var adress = typeof webUri != 'undefined' ? webUri : ''
         var socket = io.connect('http://localhost:1337');
-        var subscrId = 1;
 		
 		let batPoints = [];
 		const sendToView = setInterval( () => {
@@ -324,20 +322,27 @@ return /******/ (function(modules) { // webpackBootstrap
        		id: 'batman',
         	points: batPoints.sort(),
           };	      
-		  if (_this.messageReceived && batPoints.length > 0) _this.messageReceived(JSON.stringify(plotJson));	
+		  if (_this.messageReceived && batPoints.length > 0) {
+			  _this.messageReceived(JSON.stringify(plotJson));
+		  }	
 		  batPoints = [];
 		}, 40);
 		
         socket.on('message', function(message) {
-			console.log(`PLOT ${message}`);
+			//console.log(`PLOT ${message}`);
             document.getElementById("ui").innerHTML = "<h1>"+message+"</h1>";
         })
-        socket.on('plot'+subscrId, function(message) {
-			console.log(message);
+        socket.on('plot'+paramName, function(message) {
+			//console.log(message);
 			batPoints.push(message);	
         })
+		socket.on('plotCache'+paramName, function(message) {
+			if (_this.messageReceived) {
+			  _this.messageReceived(message);
+		  }	
+        })
         socket.on('open', function(message) {
-			console.log('hello');
+			//console.log('hello');
             if (_this.onOpen) _this.onOpen(message);
         })
 	}

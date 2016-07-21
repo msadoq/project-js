@@ -316,16 +316,22 @@ return /******/ (function(modules) { // webpackBootstrap
         var socket = io.connect('http://localhost:1337');
 		
 		let batPoints = [];
+		let localIndex = 0;
+		let index = 0;
+		
 		const sendToView = setInterval( () => {
-      	  const plotJson = {
-        	type: 'addPoints',
-       		id: 'batman',
-        	points: batPoints.sort(),
-          };	      
-		  if (_this.messageReceived && batPoints.length > 0) {
-			  _this.messageReceived(JSON.stringify(plotJson));
-		  }	
-		  batPoints = [];
+	      const end = index;
+		  if (end > localIndex) {
+			const localPoints = batPoints.slice(localIndex,end);
+			const plotJson = {
+				type: 'addPoints',
+				id: 'batman',
+				points: localPoints.sort(),
+			};	      
+			if (_this.messageReceived && localPoints.length > 0) _this.messageReceived(JSON.stringify(plotJson));
+			console.log(`start: ${localIndex} - end: ${end} - current: ${index}`);	
+			localIndex = end;
+		  }
 		}, 40);
 		
         socket.on('message', function(message) {
@@ -335,6 +341,7 @@ return /******/ (function(modules) { // webpackBootstrap
         socket.on('plot'+paramName, function(message) {
 			//console.log(message);
 			batPoints.push(message);	
+			index++;
         })
 		socket.on('plotCache'+paramName, function(message) {
 			if (_this.messageReceived) {

@@ -29,7 +29,7 @@ const newSubscription = (subscription) => {
 
 
 const onMessage = (header, meta, payload) => {
-  // console.log('ONMESSAGE');
+  console.log('ONMESSAGE');
   const metaStr = new Buffer(meta).toString('utf8').split('\0')[0];
   const metaJson = JSON.parse(metaStr);
   const metaBin = JSON.parse(metaStr);

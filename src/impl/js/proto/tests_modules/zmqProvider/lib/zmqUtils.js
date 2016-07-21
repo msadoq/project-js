@@ -22,7 +22,8 @@ var Parameter = JS.Parameter;
 var parameters = [];
 var parameter;
 
-socketOut.bind("tcp://127.0.0.1:3000");
+// socketOut.bind("tcp://127.0.0.1:3000");
+socketOut.bind("tcp://127.0.0.1:49159");
 socketIn.bind("tcp://127.0.0.1:4000");
 
 socketIn.on("message", function (subscriptions) {

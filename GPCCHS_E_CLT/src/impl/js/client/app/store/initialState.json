@@ -1,0 +1,72 @@
+{
+  "windows": {
+    "window1": {
+      "title": "Window 1",
+      "selectedTab": "page1",
+      "pages": [
+        "page1",
+        "page2"
+      ],
+      "geometry": {
+        "x": 100,
+        "y": 150,
+        "width": 1204,
+        "height": 600
+      }
+    },
+    "window2": {
+      "title": "Window 2",
+      "selectedTab": null,
+      "pages": [
+        "page3",
+        "page4"
+      ],
+      "geometry": {
+        "x": 150,
+        "y": 200,
+        "width": 1204,
+        "height": 600
+      }
+    }
+  },
+  "pages": {
+    "page1": {
+      "title": "Page1",
+      "views": [
+        "view1",
+        "view2",
+        "view3"
+      ]
+    },
+    "page2": {
+      "title": "Page2",
+      "views": [
+        "view3"
+      ]
+    },
+    "page3": {
+      "title": "Page3",
+      "views": []
+    },
+    "page4": {
+      "title": "Page4",
+      "views": [
+        "view3"
+      ]
+    }
+  },
+  "views": {
+    "view1": {
+      "title": "Title 1",
+      "content": "Hello world of all!"
+    },
+    "view2": {
+      "title": "Title 2",
+      "content": "Hello world of me!"
+    },
+    "view3": {
+      "title": "Title 3",
+      "content": "Hello world of us!"
+    }
+  }
+}

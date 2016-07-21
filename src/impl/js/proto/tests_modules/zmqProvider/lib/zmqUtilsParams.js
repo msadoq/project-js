@@ -12,15 +12,18 @@ function logToConsole (message) {
 
 function sendMessage (header, payload) {
     logToConsole("Sending " + header);
-    socketOut.send([header, payload]);
+    socketOut.send([null, header, payload]);
 }
 
 var JS = require("../files/reportingParameter.proto.js"); 
 var ReportingParameter = JS.ReportingParameter;
 
-
-socketOut.bind("tcp://127.0.0.1:3000");
-socketIn.bind("tcp://127.0.0.1:4000");
+// socketOut.bind("tcp://127.0.0.1:3000");
+socketOut.bind("tcp://127.0.0.1:49159", (err) => {
+    if (err) throw err;
+    console.log("Binding Done");
+});
+socketIn.connect("tcp://127.0.0.1:4000");
 
 socketIn.on("message", function (subscriptions) {
     JSON.parse(subscriptions).forEach(function(newSubscription){
@@ -62,7 +65,8 @@ socketIn.on("message", function (subscriptions) {
                     'type' : splittedType[0]
                 };
                 //console.log(JSON.stringify(obj));
-                sendMessage(JSON.stringify(obj));/*, buffer);*/   
+                const metaData = new Buffer(JSON.stringify(obj));
+                sendMessage(metaData, buffer);   
                 dInf = dInf + timeStep;
             } else {
                 console.log('terminé');

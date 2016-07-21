@@ -2,6 +2,7 @@ import { UPDATE_CONTENT } from '../actions/views';
 
 function view(state = {
   title: null,
+  type: 'standard',
   content: null,
 }, action) {
   switch (action.type) {

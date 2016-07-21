@@ -6,7 +6,7 @@ import { updateContent } from '../actions/views';
 
 const ViewContainer = props => {
   if (props.type === 'mimic') {
-    return <Mimic {...props} />
+    return <Mimic {...props} />;
   }
 
   // type==='standard'

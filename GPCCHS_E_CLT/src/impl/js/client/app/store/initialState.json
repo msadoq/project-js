@@ -80,7 +80,7 @@
     },
     "mimicView": {
       "title": "test mimic",
-      "type": "standard",
+      "type": "mimic",
       "content": null
     }
   }

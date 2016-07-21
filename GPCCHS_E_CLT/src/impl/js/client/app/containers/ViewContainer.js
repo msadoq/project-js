@@ -1,14 +1,27 @@
 import React from 'react';
 import View from '../components/View';
+import Mimic from '../components/Mimic';
 import { connect } from 'react-redux';
 import { updateContent } from '../actions/views';
 
-const ViewContainer = props => <View {...props} />;
+const ViewContainer = props => {
+  if (props.type === 'mimic') {
+    return <Mimic {...props} />
+  }
+
+  // type==='standard'
+  return <View {...props} />;
+};
+
+ViewContainer.propTypes = {
+  type: React.PropTypes.string,
+};
 
 function mapStateToProps(state, ownProps) {
   const element = state.views[ownProps.viewId];
   return {
     viewIdId: ownProps.viewId,
+    type: element.type,
     title: element.title,
     content: element.content,
   };

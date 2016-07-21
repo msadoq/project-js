@@ -348,6 +348,12 @@ return /******/ (function(modules) { // webpackBootstrap
 			  _this.messageReceived(message);
 		  }	
         })
+		socket.on('timeline', function(message) {
+			console.log('timeline');
+			if (_this.messageReceived) {
+			  _this.messageReceived(message);
+		  }	
+        })
         socket.on('open', function(message) {
 			//console.log('hello');
             if (_this.onOpen) _this.onOpen(message);

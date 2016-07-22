@@ -15,10 +15,11 @@ let plotWindow3
 function createWindows () {
   // Create the browser window.
 
-  mainWindow = new BrowserWindow({width: 600, height: 400})
-  plotWindow = new BrowserWindow({width: 600, height: 400})
-  plotWindow2 = new BrowserWindow({width: 600, height: 400})
-  plotWindow3 = new BrowserWindow({width: 600, height: 400})
+  mainWindow = new BrowserWindow({width: 600, height: 400, x: 0, y: 0})
+  plotWindow = new BrowserWindow({width: 600, height: 400, x: 610, y: 0})
+  plotWindow2 = new BrowserWindow({width: 600, height: 400, x: 1220, y: 0})
+  plotWindow3 = new BrowserWindow({width: 600, height: 400, x: 0, y: 410})
+  plotWindow4 = new BrowserWindow({width: 600, height: 400, x: 610, y: 410})
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools()
@@ -29,6 +30,7 @@ function createWindows () {
   plotWindow.loadURL(`file://${__dirname}/views/plotIndex2.html`)
   plotWindow2.loadURL(`file://${__dirname}/views/plotIndex3.html`)
   plotWindow3.loadURL(`file://${__dirname}/views/plotIndex4.html`)
+  plotWindow4.loadURL(`file://${__dirname}/views/plotIndex5.html`)
 
 
   // Emitted when the window is closed.
@@ -37,7 +39,6 @@ function createWindows () {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     mainWindow = null;
-    parameterWindow.close();
   })
 }
 

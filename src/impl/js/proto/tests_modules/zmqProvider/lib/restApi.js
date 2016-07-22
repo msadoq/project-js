@@ -15,9 +15,11 @@ const visuWindow = {'dInf': 0,'dSup': 0};
 const types = {
     'ag' : 'Aggregation',
     'rp' : 'ReportingParameter',
+    'fds': 'FdsData',
 };
 
 const paramTypes = {
+    'FDS' : 'FDS_DATA',
     '1' : 'ATT_BC_STR1VOLTAGE',
     '2' : 'ATT_BC_STR1STRSAQ0',
     '3' : 'ATT_BC_STR1STRSAQ1',
@@ -37,7 +39,8 @@ const days = {
 
 if (process.argv[2] in types) {
     type = types[process.argv[2]];
-    paramType = paramTypes[process.argv[5]];
+    if (type === 'FdsData') paramType = 'FDS_DATA'
+    else paramType = paramTypes[process.argv[5]];
     if (process.argv[3] in days) {
         day = process.argv[3];
         visuWindow.dInf = startValue + days[day]*lengthOfDay;
@@ -45,6 +48,7 @@ if (process.argv[2] in types) {
             length = parseInt(process.argv[4], 10);
         }
         visuWindow.dSup = visuWindow.dInf + length*lengthOfDay;
+        if (visuWindow.dSup < visuWindow.dInf) [visuWindow.dInf, visuWindow.dSup] = [visuWindow.dSup, visuWindow.dInf];
     }
 }
 
@@ -52,7 +56,7 @@ console.log('DAY: '+length+' day(s) from '+day+' -> '+visuWindow.dInf+' - '+visu
 
 jsonData = {
     'jsonElem' : {
-        'DataFullName': 'Reporting.'+paramType+'<ReportingParameter>',
+        'DataFullName': 'Reporting.'+paramType+'<'+type+'>',
         'Field': '',
         'DomainId': 0,
         'TimeLineType': 'session',

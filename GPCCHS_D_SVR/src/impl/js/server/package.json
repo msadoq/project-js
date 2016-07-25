@@ -3,7 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "LEVEL='INFO' node ./bin/www",
+    "start-info": "LEVEL='INFO' node ./bin/www",
+    "start-info-all": "DEBUG='gpcchs_d_svr:server:*' npm run start-info",
+    "start-debug": "LEVEL='DEBUG' node ./bin/www",
+    "start-debug-all": "DEBUG='gpcchs_d_svr:server:*' npm run start-debug",
+    "start-verbose": "LEVEL='VERBOSE' node ./bin/www",
+    "start-verbose-all": "DEBUG='gpcchs_d_svr:server:*' npm run start-verbose",
     "test": "node_modules/.bin/mocha test"
   },
   "dependencies": {

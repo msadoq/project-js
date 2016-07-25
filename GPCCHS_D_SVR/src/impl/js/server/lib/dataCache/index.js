@@ -1,3 +1,3 @@
 'use strict';
 
-module.exports = require('./lib/cacheMgr');
+module.exports = require('./lib/cacheManager');

@@ -1,6 +1,6 @@
 const Promise = require('promise');
-const JS = require('../protoFiles/isisAggregation.proto.js');
-const { getAttributeValue } = require('../utils.js');
+const JS = require('../protoFile/isisAggregation.proto.js');
+const { getAttributeValue } = require('../lib/utils.js');
 
 const IsisAggregation = JS.IsisAggregation;
 

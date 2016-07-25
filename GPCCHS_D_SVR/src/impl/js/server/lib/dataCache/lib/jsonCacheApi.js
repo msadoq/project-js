@@ -1,3 +1,4 @@
+const debug = require('../../io/debug')('dataCache:jsonCacheApi');
 const { jsonCache } = require('../../io/loki');
 
 exports.addData = (metaData, jsonData) => {
@@ -10,25 +11,26 @@ exports.addData = (metaData, jsonData) => {
 
 exports.findData = (query) => new Promise(
   (resolve) => {
-    console.log(query.DataFullName.split('.')[0]);
-    console.log(query.DataFullName.split('.')[1].split('<')[0]);
-    console.log(query.VisuWindow.dInf);
-    console.log(query.VisuWindow.dSup);
+    const catalog = query.DataFullName.split('.')[0];
+    const parameter = query.DataFullName.split('.')[1].split('<')[0];
+    const dInf = query.VisuWindow.dInf;
+    const dSup = query.VisuWindow.dSup;
+    debug.info(`Try to find parameter ${parameter} from catalog ${catalog} in interval [${dInf},${dSup}] in cache`);
     resolve(
       jsonCache.find(
         {
           $and: [
             {
-              catalog: query.DataFullName.split('.')[0],
+              catalog,
             }, {
-              parameter: query.DataFullName.split('.')[1].split('<')[0],
+              parameter,
             }, {
               timestamp: {
-                $gte: query.VisuWindow.dInf,
+                $gte: dInf,
               },
             }, {
               timestamp: {
-                $lte: query.VisuWindow.dSup,
+                $lte: dSup,
               },
             }, {
               session: query.SessionId,

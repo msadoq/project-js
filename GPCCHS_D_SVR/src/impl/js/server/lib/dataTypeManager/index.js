@@ -1,20 +1,4 @@
-const ctrls = require('./lib/dataTypeCtrls.js');
+const dataTypeController = require('./lib/dataTypeController.js');
 
-const binToJson = (metadata, data) => new Promise((resolve) => {
-  const dataType = metadata.type;
-  let processedBin;
-  if (dataType === 'Aggregation') {
-    const { isisAggregationCtrl } = ctrls;
-    processedBin = isisAggregationCtrl.binToJson(data);
-  } else if (dataType === 'ReportingParameter') {
-    const { reportingParameterCtrl } = ctrls;
-    processedBin = reportingParameterCtrl.binToJson(data);
-  } else if (dataType === 'FdsData') {
-    processedBin = JSON.parse(data);
-  } else {
-    processedBin = { error: 'unknown COMObject' };
-  }
-  resolve(processedBin);
-});
 
-module.exports = { binToJson };
+module.exports = { dataTypeController };

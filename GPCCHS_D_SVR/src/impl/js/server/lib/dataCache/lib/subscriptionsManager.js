@@ -7,7 +7,6 @@ exports.getSubscriptions = (data) => subscriptions.find(
     $and: [
       {
         DataFullName: `${data.catalog}.${data.parameter}<${data.type}>`,
-        //DataFullName: `${data.catalog}.${data.parameter}<ReportingParameter>`,
       }, {
         'VisuWindow.dInf': {
           $lte: data.timestamp,

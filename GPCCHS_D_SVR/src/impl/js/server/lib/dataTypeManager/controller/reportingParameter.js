@@ -1,5 +1,5 @@
-const JS = require('../protoFiles/reportingParameter.proto.js');
-const { getAttributeValue } = require('../utils.js');
+const JS = require('../protoFile/reportingParameter.proto.js');
+const { getAttributeValue } = require('../lib/utils.js');
 
 const ReportingParameter = JS.ReportingParameter;
 

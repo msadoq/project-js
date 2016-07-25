@@ -1,3 +1,4 @@
+const debug = require('../lib/io/debug')('routes:subscriptions');
 const { Router } = require('express');
 const subscriptionManager = require('../lib/subscriptionManager');
 const router = new Router();
@@ -9,9 +10,9 @@ router.route('/subscriptions')
 
     // Add subscriptions (accessed at POST http://localhost:1337/api/subscriptions)
     .post((req, res) => {
-      console.log(`received : ${JSON.stringify(req.body.jsonElem, null, 4)}`);
+      debug.info(`Received subscription: ${JSON.stringify(req.body.jsonElem, null, 4)}`);
       const subscriptionId = subscriptionManager.addSubscription(JSON.stringify(req.body.jsonElem));
-      console.log(`SubId: ${subscriptionId}`);
+      debug.info(`Subscription Id associed: ${subscriptionId}`);
       res.json({ message: `subscription added with id : ${JSON.stringify(subscriptionId)}` });
     })
     // get all subscriptions (accessed at GET http://localhost:1337/api/subscriptions)

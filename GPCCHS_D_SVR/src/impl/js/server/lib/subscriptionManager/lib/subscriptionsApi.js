@@ -1,4 +1,4 @@
-const debug = require('debug')('isis:subscriptionApi');
+const debug = require('../../io/debug')('subscriptionManager:subscriptionApi');
 
 const { subscriptionPushSocket } = require('../../io/zmq');
 
@@ -25,13 +25,13 @@ const addSubscription = (subscriptionJson) => {
   const newSubSubs = [];
   const limits = searchLimits(newSub2);
   if (limits.length === 0) {
-    console.log('ALL INTERVALS FOUND IN CACHE');
+    debug.info('ALL INTERVALS FOUND IN CACHE');
   }
   for (const limit of limits) {
     const newSubSub = newSub;
     newSubSub.VisuWindow = limit.VisuWindow;
     newSubSubs.push(newSubSub);
-    console.log(`NEED INTERVAL : ${JSON.stringify(limit)}`);
+    debug.info(`NEED INTERVAL : ${JSON.stringify(limit)}`);
   }
   subscriptionPushSocket.send(JSON.stringify(newSubSubs));
   subscriptions.insert(newSub2);
@@ -137,7 +137,7 @@ const recursiveSearch = (set, dInf, max) => {
     } else {
       // store from last down limit to this one 
       const nextDinf = lowestInnerData[0].VisuWindow.dInf;
-      debug(`LOW: ${nextDinf}`);
+      debug.debug(`LOW: ${nextDinf}`);
       limits.push({ VisuWindow: { dInf, dSup: nextDinf } });
       const nextLimits = recursiveSearch(set, nextDinf, max);
       limits.push(...nextLimits);
@@ -175,7 +175,7 @@ const recursiveSearch = (set, dInf, max) => {
         // then check the greatest up limit associated to this down limit
         // and store from last up limit from this down limit
         const nextDinf = nextOutterData[0].VisuWindow.dInf;
-        debug(`OUT: ${nextDinf}`);
+        debug.debug(`OUT: ${nextDinf}`);
         limits.push({ VisuWindow: { dInf: dSup, dSup: nextDinf } });
         // and do it again
         const nextLimits = recursiveSearch(set, nextDinf, max);
@@ -183,7 +183,7 @@ const recursiveSearch = (set, dInf, max) => {
       }
     } else {
       const nextDinf = nextInnerData[nidl - 1].VisuWindow.dSup;
-      debug(`IN: ${nextDinf}`);
+      debug.debug(`IN: ${nextDinf}`);
       if (nextDinf !== max) {
         const nextLimits = recursiveSearch(set, nextDinf, max);
         limits.push(...nextLimits);

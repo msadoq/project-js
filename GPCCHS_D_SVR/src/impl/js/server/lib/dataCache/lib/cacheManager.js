@@ -26,7 +26,11 @@ const newSubscription = (subscription) => {
       };
       const parameter = subscription.DataFullName.split('.')[1].split('<')[0];
       debug.info(`Sending found data in cache for parameter ${parameter} to views for subscription ${subscription.subId}`);
-      cacheWebSocket().emit(`plotCache${parameter}`, JSON.stringify(plotJson));
+      cacheWebSocket().emit('plotCache', {
+        parameter,
+        subscriptionId: `sub${subscription.subId}`,
+        data: plotJson,
+      });
     }
   });
 };
@@ -53,7 +57,11 @@ const onMessage = (header, meta, payload) => {
       batPoint.push(decodedJson.rawValue);
 
       debug.debug(`Sending parameter ${metaJson.parameter} to views for subscription ${subscription.subId}`);
-      cacheWebSocket().emit(`plot${metaJson.parameter}`, batPoint);
+      cacheWebSocket().emit('plot', {
+        parameter: metaJson.parameter,
+        subscriptionId: `sub${subscription.subId}`,
+        data: batPoint,
+      });
     });
   });
 };

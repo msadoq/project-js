@@ -10,7 +10,7 @@ export default class Editor extends Component {
   render() {
     return (
       <div className={styles.editor}>
-        my editor here, data received for this view:
+        my editor here ({this.props.configuration.title}), data received for this view:
         <pre>
           {JSON.stringify(this.props.configuration)}
         </pre>

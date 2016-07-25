@@ -7,9 +7,10 @@ export default class View extends Component {
     title: PropTypes.string.isRequired,
     content: PropTypes.string,
     updateContent: PropTypes.func,
+    openEditor: PropTypes.func,
   };
-  constructor({...args}) {
-    super({...args});
+  constructor(...args) {
+    super(...args);
     this.state = {
       newContent: 'new content to inject',
     };
@@ -32,6 +33,11 @@ export default class View extends Component {
           <Button onClick={() => this.props.updateContent(this.state.newContent)}>
             Inject!
           </Button>
+          <div>
+            <Button onClick={() => this.props.openEditor()}>
+              Edit this view
+            </Button>
+          </div>
         </div>
       </Col>
     );

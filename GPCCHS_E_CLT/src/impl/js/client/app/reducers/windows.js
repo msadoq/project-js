@@ -32,12 +32,10 @@ function window(state = {
 }, action) {
   switch (action.type) {
     case ADD_WINDOW:
-      return {
+      return Object.assign({}, state, {
         title: action.title,
-        selectedTab: null,
-        pages: [],
         geometry: geometry(state.geometry, action)
-      };
+      });
     case CHANGE_PAGE:
       return Object.assign({}, state, {
         selectedTab: action.pageId

@@ -3,6 +3,7 @@ import View from '../components/View';
 import Mimic from '../components/Mimic';
 import { connect } from 'react-redux';
 import { updateContent } from '../actions/views';
+import { openEditor } from '../actions/pages';
 
 const ViewContainer = props => {
   if (props.type === 'mimic') {
@@ -30,6 +31,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch, ownProps) {
   return {
     updateContent: content => dispatch(updateContent(ownProps.viewId, content)),
+    openEditor: () => dispatch(openEditor(ownProps.pageId, ownProps.viewId)),
   };
 }
 

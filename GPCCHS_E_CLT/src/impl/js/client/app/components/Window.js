@@ -57,7 +57,7 @@ export default class Window extends Component {
           </ul>
           {pages.map(page =>
             <TabContent for={page.pageId} key={`tabContent${page.pageId}`}>
-              <PageContainer pageId={page.pageId} />
+              <PageContainer windowId={windowId} pageId={page.pageId} />
             </TabContent>
           )}
         </Tabs>

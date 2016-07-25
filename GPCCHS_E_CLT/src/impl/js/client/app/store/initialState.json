@@ -5,6 +5,7 @@
       "selectedTab": "page1",
       "pages": [
         "page1",
+        "page4",
         "mimic"
       ],
       "geometry": {
@@ -13,50 +14,37 @@
         "width": 1204,
         "height": 600
       }
-    },
-    "window2": {
-      "title": "Window 2",
-      "selectedTab": null,
-      "pages": [
-        "page2",
-        "page3",
-        "page4"
-      ],
-      "geometry": {
-        "x": 150,
-        "y": 200,
-        "width": 1204,
-        "height": 600
-      }
     }
   },
   "pages": {
     "page1": {
       "title": "Page1",
+      "editor": {
+        "opened": false,
+        "viewId": null
+      },
       "views": [
         "view1",
         "view2",
         "view3"
       ]
     },
-    "page2": {
-      "title": "Page2",
-      "views": [
-        "view3"
-      ]
-    },
-    "page3": {
-      "title": "Page3",
-      "views": []
-    },
     "page4": {
       "title": "Page4",
+      "editor": {
+        "opened": false,
+        "viewId": null
+      },
       "views": [
         "view3"
       ]
     },
     "mimic": {
       "title": "Mimic",
+      "editor": {
+        "opened": false,
+        "viewId": null
+      },
       "views": [
         "mimicView"
       ]

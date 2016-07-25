@@ -9,6 +9,7 @@ function mapStateToProps(state, ownProps) {
   return {
     pageId: ownProps.pageId,
     title: element.title,
+    editor: element.editor,
     views: element.views,
   };
 }

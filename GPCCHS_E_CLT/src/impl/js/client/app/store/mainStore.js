@@ -1,16 +1,11 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { electronEnhancer } from 'redux-electron-store';
 import thunk from 'redux-thunk';
-import createLogger from 'redux-logger';
 import rootReducer from '../reducers';
 
-export default function configureMainStore(initialState, debug) {
-  const logger = debug
-    ? createLogger({ level: 'info', collapsed: true })
-    : () => {};
-
+export default function configureMainStore(initialState) {
   const enhancer = compose(
-    applyMiddleware(thunk, logger),
+    applyMiddleware(thunk),
     electronEnhancer()
   );
 

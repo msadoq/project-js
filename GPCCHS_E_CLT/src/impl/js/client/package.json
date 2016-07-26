@@ -83,6 +83,7 @@
   "dependencies": {
     "bootstrap": "^3.3.6",
     "css-modules-require-hook": "^4.0.0",
+    "debug": "^2.2.0",
     "electron-debug": "^1.0.1",
     "font-awesome": "^4.6.3",
     "lodash": "^4.13.1",
@@ -91,10 +92,12 @@
     "react-bootstrap": "^0.29.5",
     "react-dom": "^15.1.0",
     "react-redux": "^4.4.5",
+    "react-stockcharts": "^0.4.0",
     "react-tabs-redux": "^1.2.2",
     "redux": "^3.5.2",
     "redux-electron-store": "^0.3.11",
     "redux-thunk": "^2.1.0",
+    "socket.io-client": "^1.4.8",
     "source-map-support": "^0.4.0"
   },
   "devEngines": {

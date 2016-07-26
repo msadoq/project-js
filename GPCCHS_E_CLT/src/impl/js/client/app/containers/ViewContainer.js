@@ -1,22 +1,11 @@
 import React from 'react';
 import View from '../components/View';
-import Mimic from '../components/Mimic';
 import { connect } from 'react-redux';
 import { updateContent } from '../actions/views';
 import { openEditor } from '../actions/pages';
+import _ from 'lodash';
 
-const ViewContainer = props => {
-  if (props.type === 'mimic') {
-    return <Mimic {...props} />;
-  }
-
-  // type==='standard'
-  return <View {...props} />;
-};
-
-ViewContainer.propTypes = {
-  type: React.PropTypes.string,
-};
+const ViewContainer = props => <View {...props} />;
 
 function mapStateToProps(state, ownProps) {
   const element = state.views[ownProps.viewId];
@@ -25,6 +14,10 @@ function mapStateToProps(state, ownProps) {
     type: element.type,
     title: element.title,
     content: element.content,
+    subscriptions: _.pick(state.subscriptions, element.subscriptions),
+    points: (state.plots[ownProps.viewId] && state.plots[ownProps.viewId].points)
+      ? state.plots[ownProps.viewId].points
+      : [],
   };
 }
 

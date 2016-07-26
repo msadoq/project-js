@@ -10,6 +10,7 @@ export default function configureStore(initialState, debug) {
     windows: true,
     pages: true,
     views: true,
+    subscriptions: true,
   };
 
   const logger = createLogger({

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Grid, Row, Col, ButtonGroup, Button } from 'react-bootstrap';
 import { Tabs, TabLink, TabContent } from 'react-tabs-redux';
+import WebsocketContainer from '../containers/WebsocketContainer';
 import PageContainer from '../containers/PageContainer';
 
 export default class Window extends Component {
@@ -34,6 +35,7 @@ export default class Window extends Component {
                 Close this window
               </Button>
             </ButtonGroup>
+            <WebsocketContainer />
           </Col>
         </Row>
         <Tabs

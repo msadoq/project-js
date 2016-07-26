@@ -36,7 +36,7 @@
         "viewId": null
       },
       "views": [
-        "view3"
+        "view1"
       ]
     },
     "mimic": {
@@ -53,23 +53,63 @@
   "views": {
     "view1": {
       "title": "Title 1",
-      "type": "standard",
-      "content": "Hello world of all!"
+      "type": "plot",
+      "content": "Hello world of all!",
+      "subscriptions": ["sub1", "sub2", "sub3"]
     },
     "view2": {
       "title": "Title 2",
-      "type": "standard",
-      "content": "Hello world of me!"
+      "type": "text",
+      "content": "Hello world of me!",
+      "subscriptions": []
     },
     "view3": {
       "title": "Title 3",
-      "type": "standard",
-      "content": "Hello world of us!"
+      "type": "unknown",
+      "content": "Hello world of us!",
+      "subscriptions": []
     },
     "mimicView": {
       "title": "test mimic",
       "type": "mimic",
-      "content": null
+      "content": null,
+      "subscriptions": []
     }
+  },
+  "plots": {
+      "view1": {
+        "points": {
+          "1000": {
+            "sub1": 2,
+            "sub2": 1,
+            "sub3": 4
+          },
+          "1100": {
+            "sub1": 3,
+            "sub2": 3,
+            "sub3": 5
+          },
+          "1200": {
+            "sub1": 6,
+            "sub2": 6,
+            "sub3": 7
+          },
+          "1300": {
+            "sub1": 5,
+            "sub2": 6,
+            "sub3": 8
+          },
+          "1400": {
+            "sub1": 8,
+            "sub2": 7,
+            "sub3": 9
+          },
+          "1500": {
+            "sub1": 10,
+            "sub2": 11,
+            "sub3": 12
+          }
+        }
+      }
   }
 }

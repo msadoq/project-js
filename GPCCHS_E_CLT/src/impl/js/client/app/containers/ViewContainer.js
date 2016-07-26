@@ -4,6 +4,7 @@ import Mimic from '../components/Mimic';
 import { connect } from 'react-redux';
 import { updateContent } from '../actions/views';
 import { openEditor } from '../actions/pages';
+import _ from 'lodash';
 
 const ViewContainer = props => {
   if (props.type === 'mimic') {
@@ -25,6 +26,7 @@ function mapStateToProps(state, ownProps) {
     type: element.type,
     title: element.title,
     content: element.content,
+    subscriptions: _.pick(state.subscriptions, element.subscriptions),
   };
 }
 

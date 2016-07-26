@@ -4,6 +4,7 @@ function view(state = {
   title: null,
   type: 'standard',
   content: null,
+  subscriptions: [],
 }, action) {
   switch (action.type) {
     case UPDATE_CONTENT:

@@ -54,22 +54,42 @@
     "view1": {
       "title": "Title 1",
       "type": "standard",
-      "content": "Hello world of all!"
+      "content": "Hello world of all!",
+      "subscriptions": ["sub1", "sub2"]
     },
     "view2": {
       "title": "Title 2",
       "type": "standard",
-      "content": "Hello world of me!"
+      "content": "Hello world of me!",
+      "subscriptions": []
     },
     "view3": {
       "title": "Title 3",
       "type": "standard",
-      "content": "Hello world of us!"
+      "content": "Hello world of us!",
+      "subscriptions": []
     },
     "mimicView": {
       "title": "test mimic",
       "type": "mimic",
-      "content": null
+      "content": null,
+      "subscriptions": []
     }
+  },
+  "subscriptions": {
+      "sub1": {
+        "points": [
+          { "x": 1, "y": 1 },
+          { "x": 2, "y": 2 },
+          { "x": 3, "y": 3 }
+        ]
+      },
+      "sub2": {
+        "points": [
+          { "x": 1, "y": 1 },
+          { "x": 2, "y": 2 },
+          { "x": 3, "y": 3 }
+        ]
+      }
   }
 }

@@ -2,7 +2,7 @@ import { UPDATE_CONTENT } from '../actions/views';
 
 function view(state = {
   title: null,
-  type: 'standard',
+  type: 'plot', // plot, text, mimic
   content: null,
   subscriptions: [],
 }, action) {

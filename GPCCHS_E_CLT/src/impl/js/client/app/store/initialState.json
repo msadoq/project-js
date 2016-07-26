@@ -36,7 +36,7 @@
         "viewId": null
       },
       "views": [
-        "view3"
+        "view1"
       ]
     },
     "mimic": {
@@ -53,19 +53,19 @@
   "views": {
     "view1": {
       "title": "Title 1",
-      "type": "standard",
+      "type": "plot",
       "content": "Hello world of all!",
       "subscriptions": ["sub1", "sub2"]
     },
     "view2": {
       "title": "Title 2",
-      "type": "standard",
+      "type": "text",
       "content": "Hello world of me!",
       "subscriptions": []
     },
     "view3": {
       "title": "Title 3",
-      "type": "standard",
+      "type": "unknown",
       "content": "Hello world of us!",
       "subscriptions": []
     },

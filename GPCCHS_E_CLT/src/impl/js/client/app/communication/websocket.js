@@ -1,7 +1,8 @@
 import debug from 'debug';
+import _ from 'lodash';
 import sio from 'socket.io-client';
 import { websocketStatus } from '../actions/websocket';
-import { addPoints } from '../actions/subscriptions';
+import { addPoints } from '../actions/plots';
 
 const logger = debug('gpcchs_e_clt:client:communication:websocket');
 
@@ -36,20 +37,41 @@ export function connect(store) {
   socket.on('reconnect_error', err => handleStatusChange('reconnect_error', err));
   socket.on('reconnect_failed', () => handleStatusChange('reconnect_failed'));
 
-  socket.on('plot', payload => {
+  const findViewInStore = (subscriptionId) => {
+    const viewId = _.findKey(
+      store.getState().views,
+      v => v.subscriptions.indexOf(subscriptionId) !== -1
+    );
+    if (!viewId) {
+      return logger('plot error, unable to find view for subscription', subscriptionId);
+    }
+
+    return viewId;
+  };
+
+  // hacky stub
+  const receivePoints = payload => {
     logger('plot', payload);
-    store.dispatch(addPoints(payload.subscriptionId, [{
-      x: payload.data[0],
-      y: payload.data[1],
-    }]));
-  });
-  socket.on('plotCache', payload => {
-    logger('plotCache', payload);
-    store.dispatch(addPoints(payload.subscriptionId, payload.data.points.map(v => ({
-      x: v[0],
-      y: v[1],
-    }))));
-  });
+    const viewId = findViewInStore(payload.subscriptionId);
+    if (viewId) {
+      store.dispatch(addPoints(viewId, payload.points));
+    }
+  };
+  socket.on('plot', receivePoints);
+
+  let i = 10;
+  setInterval(() => {
+    receivePoints({
+      subscriptionId: 'sub1',
+      points: [
+        [i++, i * 100],
+        [i++, i * 100],
+        [i++, i * 100],
+      ],
+    });
+  }, 5000);
+  // hacky stub
+
   socket.on('timeline', payload => {
     logger('timeline', payload);
   });

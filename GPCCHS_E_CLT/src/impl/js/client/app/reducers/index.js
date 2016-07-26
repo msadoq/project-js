@@ -3,14 +3,14 @@ import websocket from './websocket';
 import windows from './windows';
 import pages from './pages';
 import views from './views';
-import subscriptions from './subscriptions';
+import plots from './plots';
 
 const rootReducer = combineReducers({
   websocket,
   windows,
   pages,
   views,
-  subscriptions,
+  plots,
 });
 
 export default rootReducer;

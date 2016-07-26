@@ -14,22 +14,36 @@ function sendMessage (header) {
 }
 
 var day = 'default';
+let length = 1;
+const lengthOfDay = 86400000;
 
-days = {
-    'default' : {'dInf': 1438412400000,'dSup': 1438413000000},
-    'lu' : {'dInf': 1467583200,'dSup': 1467669600},
-    'ma' : {'dInf': 1467669600,'dSup': 1467756000},
-    'me' : {'dInf': 1467756000,'dSup': 1467842340},
-    'luma' : {'dInf': 1467583200,'dSup': 1467756000},
-    'mame' : {'dInf': 1467669600,'dSup': 1467842340},
-    'lume' : {'dInf': 1467583200,'dSup': 1467842340}
+//const startValue = 1467496800;
+const startValue = 1420675200000;
+
+const visuWindow = {'dInf': 0,'dSup': 0};
+
+const days = {
+    'default' : 0,
+    'lu' : 1,
+    'ma' : 2,
+    'me' : 3,
+    'je' : 4,
+    've' : 5,
+    'sa' : 6,
+    'di' : 7
 }
 
 if (process.argv[2] in days) {
     day=process.argv[2];
+    visuWindow.dInf = startValue + days[day]*lengthOfDay;
+    if (!isNaN(parseInt(process.argv[3], 10))) {
+      length = parseInt(process.argv[3], 10);
+    }
+    visuWindow.dSup = visuWindow.dInf + length*lengthOfDay;
+    if (visuWindow.dSup < visuWindow.dInf) [visuWindow.dInf, visuWindow.dSup] = [visuWindow.dSup, visuWindow.dInf];
 }
 
-console.log('DAY: '+day+' -> '+days[day].dInf+' - '+days[day].dSup);
+console.log('DAY: '+length+' day(s) from '+day+' -> '+visuWindow.dInf+' - '+visuWindow.dSup);
 
 socketOut.bind("tcp://*:4242");
 
@@ -44,11 +58,8 @@ var timelines = {
             "SetFileName" : "Bar",
             "SubscriptionState" : "Play",
             "VisuSpeed" : 50,
-            "VisuWindow" : {
-                "dInf" : days[day].dInf,
-                "dSup" : days[day].dSup
-            },
-            "CurrentTime" : (days[day].dInf+days[day].dSup)/2
+            "VisuWindow" : visuWindow,
+            "CurrentTime" : (visuWindow.dInf+visuWindow.dSup)/2
         }
     ],
     "MasterId" : 91

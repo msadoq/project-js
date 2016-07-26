@@ -329,18 +329,18 @@ return /******/ (function(modules) { // webpackBootstrap
 					id: subId,
 					points: localPoints.sort(),
 				};	      
-				if (_this.messageReceived && localPoints.length > 0) _this.messageReceived(JSON.stringify(plotJson));
+				if (_this.messageReceived && localPoints.length > 0) _this.messageReceived(plotJson);
 				console.log(`id: ${subId} - start: ${batPoints[subId].localIndex} - end: ${end} - current: ${batPoints[subId].index}`);	
 				batPoints[subId].localIndex = end;
 			}
 		  }
 		}, 40);
 		
-        socket.on('message', function(message) {
+        socket.on('message', (message) => {
 			//console.log(`PLOT ${message}`);
             document.getElementById("ui").innerHTML = "<h1>"+message+"</h1>";
-        })
-        socket.on('plot', function(message) {
+        });
+        socket.on('plot', (message) => {
 			if (message.parameter === paramName) {
 		      if (!batPoints[message.subscriptionId]){
 				batPoints[message.subscriptionId] = {
@@ -352,22 +352,30 @@ return /******/ (function(modules) { // webpackBootstrap
 			  batPoints[message.subscriptionId].data.push(message.data);
 			  batPoints[message.subscriptionId].index++;
 			}
-        })
-		socket.on('plotCache', function(message) {
-			if (_this.messageReceived) {
-			  _this.messageReceived(message);
+        });
+		socket.on('plotCache', (message) => {
+			if (message.parameter === paramName) {
+			  if (_this.messageReceived) {
+			    _this.messageReceived(message.data);
+		      }
+			}	
+        });
+		socket.on('timeline', (message) => {
+		  console.log('timeline');
+		  if (_this.messageReceived) {
+			_this.messageReceived(message);
 		  }	
-        })
-		socket.on('timeline', function(message) {
-			console.log('timeline');
-			if (_this.messageReceived) {
-			  _this.messageReceived(message);
+        });
+		socket.on('style', (message) => {
+		  console.log('style');
+		  if (_this.messageReceived) {
+			_this.messageReceived(message);
 		  }	
-        })
-        socket.on('open', function(message) {
+		});
+        socket.on('open', (message) => {
 			//console.log('hello');
             if (_this.onOpen) _this.onOpen(message);
-        })
+        });
 	}
 	
 	// example : client = new JsClient; client.messageReceived = (m) => { doStuffWithMessage  };
@@ -1164,7 +1172,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 			//handle socket message when component is mounted.
 			client.messageReceived = function (e) {
-				var data = JSON.parse(e);
+				var data = e//JSON.parse(e);
 				self.parseJson(data);
 			};
 	

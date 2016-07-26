@@ -14,20 +14,18 @@ const onMessage = (timelines) => {
 
     const timeRangeConfiguration = {
       type: 'xExtents',
-      id: 'batman',
       begin: timeline.VisuWindow.dInf,
       end: timeline.VisuWindow.dSup,
     };
     const currentTimeConfiguration = {
       type: 'VLineMarkerConfiguration',
-      id: 'batman',
       color: 'green',
       coord: timeline.CurrentTime,
       unit: 'time',
     };
 
-    cacheWebSocket().emit('timeline', JSON.stringify(timeRangeConfiguration));
-    cacheWebSocket().emit('timeline', JSON.stringify(currentTimeConfiguration));
+    cacheWebSocket().emit('timeline', timeRangeConfiguration);
+    cacheWebSocket().emit('timeline', currentTimeConfiguration);
   }
 };
 

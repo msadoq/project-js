@@ -21,11 +21,11 @@ const newSubscription = (subscription) => {
     if (batPoints.length > 0) {
       const plotJson = {
         type: 'addPoints',
-        id: `${subscription.subscriptionId}`,
+        id: `sub${subscription.subId}`,
         points: batPoints.sort(),
       };
       const parameter = subscription.DataFullName.split('.')[1].split('<')[0];
-      debug.info(`Sending found data in cache for parameter ${parameter} to views for subscription ${subscription.subId}`);
+      debug.info(`Sending found data in cache for parameter ${parameter} to views for subscription ${subscription.subId} (data: ${plotJson})`);
       cacheWebSocket().emit('plotCache', {
         parameter,
         subscriptionId: `sub${subscription.subId}`,

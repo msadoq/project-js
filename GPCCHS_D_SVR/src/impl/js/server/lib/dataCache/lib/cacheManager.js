@@ -21,7 +21,7 @@ const newSubscription = (subscription) => {
     if (batPoints.length > 0) {
       const plotJson = {
         type: 'addPoints',
-        id: 'batman',
+        id: `${subscription.subscriptionId}`,
         points: batPoints.sort(),
       };
       const parameter = subscription.DataFullName.split('.')[1].split('<')[0];

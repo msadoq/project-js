@@ -10,9 +10,9 @@ const tlPullPort = 4242;
 const dcPullPort = 49159;
 const URI = 'tcp://127.0.0.1';
 
-const subscriptionPushSocket = zmq.socket(`push`);
-const cachePullSocket = zmq.socket(`pull`);
-const timeLinePullSocket = zmq.socket(`pull`);
+const subscriptionPushSocket = zmq.socket('push');
+const cachePullSocket = zmq.socket('pull');
+const timeLinePullSocket = zmq.socket('pull');
 const bindPushSockets = (callback) => subscriptionPushSocket.bind(`${URI}:${subPushPort}`, (err) => {
   if (err) throw err;
   debug.info(`Subscription Push Socket Bound on ${URI}:${subPushPort}`);

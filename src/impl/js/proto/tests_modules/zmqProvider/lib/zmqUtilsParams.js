@@ -15,6 +15,12 @@ function sendMessage (header, payload) {
     socketOut.send([null, header, payload]);
 }
 
+
+let factor = 1;
+if (!isNaN(parseInt(process.argv[2], 10))) {
+    factor = parseInt(process.argv[2], 10);
+}
+
 var JS = require("../files/reportingParameter.proto.js"); 
 var ReportingParameter = JS.ReportingParameter;
 
@@ -30,7 +36,7 @@ socketIn.on("message", function (subscriptions) {
         console.log(newSubscription);
         var dInf = newSubscription.VisuWindow.dInf;
         var dSup = newSubscription.VisuWindow.dSup;
-        var timeStep = 600;
+        var timeStep = 600*factor;
         var sendToCache = setInterval(function () {
             if(dInf < dSup) {
                 parameter = new ReportingParameter({

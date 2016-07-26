@@ -315,49 +315,67 @@ return /******/ (function(modules) { // webpackBootstrap
         var adress = typeof webUri != 'undefined' ? webUri : ''
         var socket = io.connect('http://localhost:1337');
 		
-		let batPoints = [];
+		let batPoints = {};
 		let localIndex = 0;
 		let index = 0;
 		
 		const sendToView = setInterval( () => {
-	      const end = index;
-		  if (end > localIndex) {
-			const localPoints = batPoints.slice(localIndex,end);
-			const plotJson = {
-				type: 'addPoints',
-				id: 'batman',
-				points: localPoints.sort(),
-			};	      
-			if (_this.messageReceived && localPoints.length > 0) _this.messageReceived(JSON.stringify(plotJson));
-			console.log(`start: ${localIndex} - end: ${end} - current: ${index}`);	
-			localIndex = end;
+		  for (const subId of Object.keys(batPoints)) {
+			const end = batPoints[subId].index;
+			if (end > localIndex) {
+				const localPoints = batPoints[subId].data.slice(batPoints[subId].localIndex,end);
+				const plotJson = {
+					type: 'addPoints',
+					id: subId,
+					points: localPoints.sort(),
+				};	      
+				if (_this.messageReceived && localPoints.length > 0) _this.messageReceived(plotJson);
+				console.log(`id: ${subId} - start: ${batPoints[subId].localIndex} - end: ${end} - current: ${batPoints[subId].index}`);	
+				batPoints[subId].localIndex = end;
+			}
 		  }
 		}, 40);
 		
-        socket.on('message', function(message) {
+        socket.on('message', (message) => {
 			//console.log(`PLOT ${message}`);
             document.getElementById("ui").innerHTML = "<h1>"+message+"</h1>";
-        })
-        socket.on('plot'+paramName, function(message) {
-			//console.log(message);
-			batPoints.push(message);	
-			index++;
-        })
-		socket.on('plotCache'+paramName, function(message) {
-			if (_this.messageReceived) {
-			  _this.messageReceived(message);
+        });
+        socket.on('plot', (message) => {
+			if (message.parameter === paramName) {
+		      if (!batPoints[message.subscriptionId]){
+				batPoints[message.subscriptionId] = {
+					data: [],
+					index: 0,
+				    localIndex: 0,
+				};
+			  }
+			  batPoints[message.subscriptionId].data.push(message.data);
+			  batPoints[message.subscriptionId].index++;
+			}
+        });
+		socket.on('plotCache', (message) => {
+			if (message.parameter === paramName) {
+			  if (_this.messageReceived) {
+			    _this.messageReceived(message.data);
+		      }
+			}	
+        });
+		socket.on('timeline', (message) => {
+		  console.log('timeline');
+		  if (_this.messageReceived) {
+			_this.messageReceived(message);
 		  }	
-        })
-		socket.on('timeline', function(message) {
-			console.log('timeline');
-			if (_this.messageReceived) {
-			  _this.messageReceived(message);
+        });
+		socket.on('style', (message) => {
+		  console.log('style');
+		  if (_this.messageReceived) {
+			_this.messageReceived(message);
 		  }	
-        })
-        socket.on('open', function(message) {
+		});
+        socket.on('open', (message) => {
 			//console.log('hello');
             if (_this.onOpen) _this.onOpen(message);
-        })
+        });
 	}
 	
 	// example : client = new JsClient; client.messageReceived = (m) => { doStuffWithMessage  };
@@ -1154,7 +1172,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 			//handle socket message when component is mounted.
 			client.messageReceived = function (e) {
-				var data = JSON.parse(e);
+				var data = e//JSON.parse(e);
 				self.parseJson(data);
 			};
 	

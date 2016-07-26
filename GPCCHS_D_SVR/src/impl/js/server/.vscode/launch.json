@@ -11,11 +11,34 @@
             "cwd": "${workspaceRoot}",
             "preLaunchTask": null,
             "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/mocha",
-            "runtimeArgs": [
+            "runtimeArgs": [             
                 "test",
                 "--nolazy"
             ],
             "env": {
+                "NODE_ENV": "development"
+            },
+            "externalConsole": false,
+            "sourceMaps": false,
+            "outDir": null
+        },
+        {
+            "name": "Test-Debug",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/bin/www",
+            "stopOnEntry": false,
+            "args": [],
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": null,
+            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/mocha",
+            "runtimeArgs": [             
+                "test",
+                "--nolazy"
+            ],
+            "env": {
+                "LEVEL": "DEBUG",
+                "DEBUG": "gpcchs_d_svr:server:*",
                 "NODE_ENV": "development"
             },
             "externalConsole": false,

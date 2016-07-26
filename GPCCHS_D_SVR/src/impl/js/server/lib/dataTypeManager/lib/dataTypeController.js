@@ -6,357 +6,270 @@ const binToJson = (metadata, data) => new Promise((resolve) => {
   debug.debug(`Type of bin data: ${dataType}`);
   let processedBin;
   if (dataType === 'FdsData') {
-    processBin = JSON.parse(data);
+    processedBin = JSON.parse(data);
   } else if (dataType === 'AlertToLaunch') {
     const alertToLaunchController = require('../controller/alertToLaunch.js');
-    processBin = alertToLaunchController.binToJson(data);
-  
+    processedBin = alertToLaunchController.binToJson(data);
   } else if (dataType === 'TCHistory') {
     const tCHistoryController = require('../controller/tCHistory.js');
-    processBin = tCHistoryController.binToJson(data);
-  
+    processedBin = tCHistoryController.binToJson(data);
   } else if (dataType === 'Termination') {
     const terminationController = require('../controller/termination.js');
-    processBin = terminationController.binToJson(data);
-  
+    processedBin = terminationController.binToJson(data);
   } else if (dataType === 'Provider') {
     const providerController = require('../controller/provider.js');
-    processBin = providerController.binToJson(data);
-  
+    processedBin = providerController.binToJson(data);
   } else if (dataType === 'ProviderDefinition') {
     const providerDefinitionController = require('../controller/providerDefinition.js');
-    processBin = providerDefinitionController.binToJson(data);
-  
+    processedBin = providerDefinitionController.binToJson(data);
   } else if (dataType === 'User') {
     const userController = require('../controller/user.js');
-    processBin = userController.binToJson(data);
-  
+    processedBin = userController.binToJson(data);
   } else if (dataType === 'UserContext') {
     const userContextController = require('../controller/userContext.js');
-    processBin = userContextController.binToJson(data);
-  
+    processedBin = userContextController.binToJson(data);
   } else if (dataType === 'GroupDefinition') {
     const groupDefinitionController = require('../controller/groupDefinition.js');
-    processBin = groupDefinitionController.binToJson(data);
-  
+    processedBin = groupDefinitionController.binToJson(data);
   } else if (dataType === 'StatisticFunctionDetails') {
     const statisticFunctionDetailsController = require('../controller/statisticFunctionDetails.js');
-    processBin = statisticFunctionDetailsController.binToJson(data);
-  
+    processedBin = statisticFunctionDetailsController.binToJson(data);
   } else if (dataType === 'StatisticLink') {
     const statisticLinkController = require('../controller/statisticLink.js');
-    processBin = statisticLinkController.binToJson(data);
-  
+    processedBin = statisticLinkController.binToJson(data);
   } else if (dataType === 'StatisticValue') {
     const statisticValueController = require('../controller/statisticValue.js');
-    processBin = statisticValueController.binToJson(data);
-  
+    processedBin = statisticValueController.binToJson(data);
   } else if (dataType === 'Execution') {
     const executionController = require('../controller/execution.js');
-    processBin = executionController.binToJson(data);
-  
+    processedBin = executionController.binToJson(data);
   } else if (dataType === 'ExecutionStatus') {
     const executionStatusController = require('../controller/executionStatus.js');
-    processBin = executionStatusController.binToJson(data);
-  
+    processedBin = executionStatusController.binToJson(data);
   } else if (dataType === 'LifeCycle') {
     const lifeCycleController = require('../controller/lifeCycle.js');
-    processBin = lifeCycleController.binToJson(data);
-  
+    processedBin = lifeCycleController.binToJson(data);
   } else if (dataType === 'LifeCycleStatus') {
     const lifeCycleStatusController = require('../controller/lifeCycleStatus.js');
-    processBin = lifeCycleStatusController.binToJson(data);
-  
+    processedBin = lifeCycleStatusController.binToJson(data);
   } else if (dataType === 'LogbookEvent') {
     const logbookEventController = require('../controller/logbookEvent.js');
-    processBin = logbookEventController.binToJson(data);
-  
+    processedBin = logbookEventController.binToJson(data);
   } else if (dataType === 'OperationParameter') {
     const operationParameterController = require('../controller/operationParameter.js');
-    processBin = operationParameterController.binToJson(data);
-  
+    processedBin = operationParameterController.binToJson(data);
   } else if (dataType === 'Collection') {
     const collectionController = require('../controller/collection.js');
-    processBin = collectionController.binToJson(data);
-  
+    processedBin = collectionController.binToJson(data);
   } else if (dataType === 'DocVersion') {
     const docVersionController = require('../controller/docVersion.js');
-    processBin = docVersionController.binToJson(data);
-  
+    processedBin = docVersionController.binToJson(data);
   } else if (dataType === 'Document') {
     const documentController = require('../controller/document.js');
-    processBin = documentController.binToJson(data);
-  
+    processedBin = documentController.binToJson(data);
   } else if (dataType === 'Folder') {
     const folderController = require('../controller/folder.js');
-    processBin = folderController.binToJson(data);
-  
+    processedBin = folderController.binToJson(data);
   } else if (dataType === 'TimeBasedDataBlob') {
     const timeBasedDataBlobController = require('../controller/timeBasedDataBlob.js');
-    processBin = timeBasedDataBlobController.binToJson(data);
-  
+    processedBin = timeBasedDataBlobController.binToJson(data);
   } else if (dataType === 'TimeBasedDataBoolean') {
     const timeBasedDataBooleanController = require('../controller/timeBasedDataBoolean.js');
-    processBin = timeBasedDataBooleanController.binToJson(data);
-  
+    processedBin = timeBasedDataBooleanController.binToJson(data);
   } else if (dataType === 'TimeBasedDataByte') {
     const timeBasedDataByteController = require('../controller/timeBasedDataByte.js');
-    processBin = timeBasedDataByteController.binToJson(data);
-  
+    processedBin = timeBasedDataByteController.binToJson(data);
   } else if (dataType === 'TimeBasedDataDouble') {
     const timeBasedDataDoubleController = require('../controller/timeBasedDataDouble.js');
-    processBin = timeBasedDataDoubleController.binToJson(data);
-  
+    processedBin = timeBasedDataDoubleController.binToJson(data);
   } else if (dataType === 'TimeBasedDataDuration') {
     const timeBasedDataDurationController = require('../controller/timeBasedDataDuration.js');
-    processBin = timeBasedDataDurationController.binToJson(data);
-  
+    processedBin = timeBasedDataDurationController.binToJson(data);
   } else if (dataType === 'TimeBasedDataFinetime') {
     const timeBasedDataFinetimeController = require('../controller/timeBasedDataFinetime.js');
-    processBin = timeBasedDataFinetimeController.binToJson(data);
-  
+    processedBin = timeBasedDataFinetimeController.binToJson(data);
   } else if (dataType === 'TimeBasedDataFloat') {
     const timeBasedDataFloatController = require('../controller/timeBasedDataFloat.js');
-    processBin = timeBasedDataFloatController.binToJson(data);
-  
+    processedBin = timeBasedDataFloatController.binToJson(data);
   } else if (dataType === 'TimeBasedDataIdentifier') {
     const timeBasedDataIdentifierController = require('../controller/timeBasedDataIdentifier.js');
-    processBin = timeBasedDataIdentifierController.binToJson(data);
-  
+    processedBin = timeBasedDataIdentifierController.binToJson(data);
   } else if (dataType === 'TimeBasedDataInteger') {
     const timeBasedDataIntegerController = require('../controller/timeBasedDataInteger.js');
-    processBin = timeBasedDataIntegerController.binToJson(data);
-  
+    processedBin = timeBasedDataIntegerController.binToJson(data);
   } else if (dataType === 'TimeBasedDataLong') {
     const timeBasedDataLongController = require('../controller/timeBasedDataLong.js');
-    processBin = timeBasedDataLongController.binToJson(data);
-  
+    processedBin = timeBasedDataLongController.binToJson(data);
   } else if (dataType === 'TimeBasedDataShort') {
     const timeBasedDataShortController = require('../controller/timeBasedDataShort.js');
-    processBin = timeBasedDataShortController.binToJson(data);
-  
+    processedBin = timeBasedDataShortController.binToJson(data);
   } else if (dataType === 'TimeBasedDataString') {
     const timeBasedDataStringController = require('../controller/timeBasedDataString.js');
-    processBin = timeBasedDataStringController.binToJson(data);
-  
+    processedBin = timeBasedDataStringController.binToJson(data);
   } else if (dataType === 'TimeBasedDataTime') {
     const timeBasedDataTimeController = require('../controller/timeBasedDataTime.js');
-    processBin = timeBasedDataTimeController.binToJson(data);
-  
+    processedBin = timeBasedDataTimeController.binToJson(data);
   } else if (dataType === 'TimeBasedDataUByte') {
     const timeBasedDataUByteController = require('../controller/timeBasedDataUByte.js');
-    processBin = timeBasedDataUByteController.binToJson(data);
-  
+    processedBin = timeBasedDataUByteController.binToJson(data);
   } else if (dataType === 'TimeBasedDataUInteger') {
     const timeBasedDataUIntegerController = require('../controller/timeBasedDataUInteger.js');
-    processBin = timeBasedDataUIntegerController.binToJson(data);
-  
+    processedBin = timeBasedDataUIntegerController.binToJson(data);
   } else if (dataType === 'TimeBasedDataULong') {
     const timeBasedDataULongController = require('../controller/timeBasedDataULong.js');
-    processBin = timeBasedDataULongController.binToJson(data);
-  
+    processedBin = timeBasedDataULongController.binToJson(data);
   } else if (dataType === 'TimeBasedDataURI') {
     const timeBasedDataURIController = require('../controller/timeBasedDataURI.js');
-    processBin = timeBasedDataURIController.binToJson(data);
-  
+    processedBin = timeBasedDataURIController.binToJson(data);
   } else if (dataType === 'TimeBasedDataUShort') {
     const timeBasedDataUShortController = require('../controller/timeBasedDataUShort.js');
-    processBin = timeBasedDataUShortController.binToJson(data);
-  
+    processedBin = timeBasedDataUShortController.binToJson(data);
   } else if (dataType === 'FDSTimeBasedDataBlob') {
     const fDSTimeBasedDataBlobController = require('../controller/fDSTimeBasedDataBlob.js');
-    processBin = fDSTimeBasedDataBlobController.binToJson(data);
-  
+    processedBin = fDSTimeBasedDataBlobController.binToJson(data);
   } else if (dataType === 'FDSTimeBasedDataBoolean') {
     const fDSTimeBasedDataBooleanController = require('../controller/fDSTimeBasedDataBoolean.js');
-    processBin = fDSTimeBasedDataBooleanController.binToJson(data);
-  
+    processedBin = fDSTimeBasedDataBooleanController.binToJson(data);
   } else if (dataType === 'FDSTimeBasedDataByte') {
     const fDSTimeBasedDataByteController = require('../controller/fDSTimeBasedDataByte.js');
-    processBin = fDSTimeBasedDataByteController.binToJson(data);
-  
+    processedBin = fDSTimeBasedDataByteController.binToJson(data);
   } else if (dataType === 'FDSTimeBasedDataDouble') {
     const fDSTimeBasedDataDoubleController = require('../controller/fDSTimeBasedDataDouble.js');
-    processBin = fDSTimeBasedDataDoubleController.binToJson(data);
-  
+    processedBin = fDSTimeBasedDataDoubleController.binToJson(data);
   } else if (dataType === 'FDSTimeBasedDataDuration') {
     const fDSTimeBasedDataDurationController = require('../controller/fDSTimeBasedDataDuration.js');
-    processBin = fDSTimeBasedDataDurationController.binToJson(data);
-  
+    processedBin = fDSTimeBasedDataDurationController.binToJson(data);
   } else if (dataType === 'FDSTimeBasedDataFinetime') {
     const fDSTimeBasedDataFinetimeController = require('../controller/fDSTimeBasedDataFinetime.js');
-    processBin = fDSTimeBasedDataFinetimeController.binToJson(data);
-  
+    processedBin = fDSTimeBasedDataFinetimeController.binToJson(data);
   } else if (dataType === 'FDSTimeBasedDataFloat') {
     const fDSTimeBasedDataFloatController = require('../controller/fDSTimeBasedDataFloat.js');
-    processBin = fDSTimeBasedDataFloatController.binToJson(data);
-  
+    processedBin = fDSTimeBasedDataFloatController.binToJson(data);
   } else if (dataType === 'FDSTimeBasedDataIdentifier') {
     const fDSTimeBasedDataIdentifierController = require('../controller/fDSTimeBasedDataIdentifier.js');
-    processBin = fDSTimeBasedDataIdentifierController.binToJson(data);
-  
+    processedBin = fDSTimeBasedDataIdentifierController.binToJson(data);
   } else if (dataType === 'FDSTimeBasedDataInteger') {
     const fDSTimeBasedDataIntegerController = require('../controller/fDSTimeBasedDataInteger.js');
-    processBin = fDSTimeBasedDataIntegerController.binToJson(data);
-  
+    processedBin = fDSTimeBasedDataIntegerController.binToJson(data);
   } else if (dataType === 'FDSTimeBasedDataLong') {
     const fDSTimeBasedDataLongController = require('../controller/fDSTimeBasedDataLong.js');
-    processBin = fDSTimeBasedDataLongController.binToJson(data);
-  
+    processedBin = fDSTimeBasedDataLongController.binToJson(data);
   } else if (dataType === 'FDSTimeBasedDataShort') {
     const fDSTimeBasedDataShortController = require('../controller/fDSTimeBasedDataShort.js');
-    processBin = fDSTimeBasedDataShortController.binToJson(data);
-  
+    processedBin = fDSTimeBasedDataShortController.binToJson(data);
   } else if (dataType === 'FDSTimeBasedDataString') {
     const fDSTimeBasedDataStringController = require('../controller/fDSTimeBasedDataString.js');
-    processBin = fDSTimeBasedDataStringController.binToJson(data);
-  
+    processedBin = fDSTimeBasedDataStringController.binToJson(data);
   } else if (dataType === 'FDSTimeBasedDataTime') {
     const fDSTimeBasedDataTimeController = require('../controller/fDSTimeBasedDataTime.js');
-    processBin = fDSTimeBasedDataTimeController.binToJson(data);
-  
+    processedBin = fDSTimeBasedDataTimeController.binToJson(data);
   } else if (dataType === 'FDSTimeBasedDataUByte') {
     const fDSTimeBasedDataUByteController = require('../controller/fDSTimeBasedDataUByte.js');
-    processBin = fDSTimeBasedDataUByteController.binToJson(data);
-  
+    processedBin = fDSTimeBasedDataUByteController.binToJson(data);
   } else if (dataType === 'FDSTimeBasedDataUInteger') {
     const fDSTimeBasedDataUIntegerController = require('../controller/fDSTimeBasedDataUInteger.js');
-    processBin = fDSTimeBasedDataUIntegerController.binToJson(data);
-  
+    processedBin = fDSTimeBasedDataUIntegerController.binToJson(data);
   } else if (dataType === 'FDSTimeBasedDataULong') {
     const fDSTimeBasedDataULongController = require('../controller/fDSTimeBasedDataULong.js');
-    processBin = fDSTimeBasedDataULongController.binToJson(data);
-  
+    processedBin = fDSTimeBasedDataULongController.binToJson(data);
   } else if (dataType === 'FDSTimeBasedDataURI') {
     const fDSTimeBasedDataURIController = require('../controller/fDSTimeBasedDataURI.js');
-    processBin = fDSTimeBasedDataURIController.binToJson(data);
-  
+    processedBin = fDSTimeBasedDataURIController.binToJson(data);
   } else if (dataType === 'FDSTimeBasedDataUShort') {
     const fDSTimeBasedDataUShortController = require('../controller/fDSTimeBasedDataUShort.js');
-    processBin = fDSTimeBasedDataUShortController.binToJson(data);
-  
+    processedBin = fDSTimeBasedDataUShortController.binToJson(data);
   } else if (dataType === 'Pus003Model') {
     const pus003ModelController = require('../controller/pus003Model.js');
-    processBin = pus003ModelController.binToJson(data);
-  
+    processedBin = pus003ModelController.binToJson(data);
   } else if (dataType === 'Pus005Model') {
     const pus005ModelController = require('../controller/pus005Model.js');
-    processBin = pus005ModelController.binToJson(data);
-  
+    processedBin = pus005ModelController.binToJson(data);
   } else if (dataType === 'Pus011Command') {
     const pus011CommandController = require('../controller/pus011Command.js');
-    processBin = pus011CommandController.binToJson(data);
-  
+    processedBin = pus011CommandController.binToJson(data);
   } else if (dataType === 'Pus011Model') {
     const pus011ModelController = require('../controller/pus011Model.js');
-    processBin = pus011ModelController.binToJson(data);
-  
+    processedBin = pus011ModelController.binToJson(data);
   } else if (dataType === 'Pus011SubSchedule') {
     const pus011SubScheduleController = require('../controller/pus011SubSchedule.js');
-    processBin = pus011SubScheduleController.binToJson(data);
-  
+    processedBin = pus011SubScheduleController.binToJson(data);
   } else if (dataType === 'Pus011SyncPoint') {
     const pus011SyncPointController = require('../controller/pus011SyncPoint.js');
-    processBin = pus011SyncPointController.binToJson(data);
-  
+    processedBin = pus011SyncPointController.binToJson(data);
   } else if (dataType === 'Pus012Model') {
     const pus012ModelController = require('../controller/pus012Model.js');
-    processBin = pus012ModelController.binToJson(data);
-  
+    processedBin = pus012ModelController.binToJson(data);
   } else if (dataType === 'Pus013Model') {
     const pus013ModelController = require('../controller/pus013Model.js');
-    processBin = pus013ModelController.binToJson(data);
-  
+    processedBin = pus013ModelController.binToJson(data);
   } else if (dataType === 'Pus014Model') {
     const pus014ModelController = require('../controller/pus014Model.js');
-    processBin = pus014ModelController.binToJson(data);
-  
+    processedBin = pus014ModelController.binToJson(data);
   } else if (dataType === 'Pus015Model') {
     const pus015ModelController = require('../controller/pus015Model.js');
-    processBin = pus015ModelController.binToJson(data);
-  
+    processedBin = pus015ModelController.binToJson(data);
   } else if (dataType === 'Pus018Model') {
     const pus018ModelController = require('../controller/pus018Model.js');
-    processBin = pus018ModelController.binToJson(data);
-  
+    processedBin = pus018ModelController.binToJson(data);
   } else if (dataType === 'Pus019Model') {
     const pus019ModelController = require('../controller/pus019Model.js');
-    processBin = pus019ModelController.binToJson(data);
-  
+    processedBin = pus019ModelController.binToJson(data);
   } else if (dataType === 'Pus140Model') {
     const pus140ModelController = require('../controller/pus140Model.js');
-    processBin = pus140ModelController.binToJson(data);
-  
+    processedBin = pus140ModelController.binToJson(data);
   } else if (dataType === 'Pus142Model') {
     const pus142ModelController = require('../controller/pus142Model.js');
-    processBin = pus142ModelController.binToJson(data);
-  
+    processedBin = pus142ModelController.binToJson(data);
   } else if (dataType === 'Pus144Model') {
     const pus144ModelController = require('../controller/pus144Model.js');
-    processBin = pus144ModelController.binToJson(data);
-  
+    processedBin = pus144ModelController.binToJson(data);
   } else if (dataType === 'UCPReport') {
     const uCPReportController = require('../controller/uCPReport.js');
-    processBin = uCPReportController.binToJson(data);
-  
+    processedBin = uCPReportController.binToJson(data);
   } else if (dataType === 'COP1Context') {
     const cOP1ContextController = require('../controller/cOP1Context.js');
-    processBin = cOP1ContextController.binToJson(data);
-  
+    processedBin = cOP1ContextController.binToJson(data);
   } else if (dataType === 'DecommutedPacket') {
     const decommutedPacketController = require('../controller/decommutedPacket.js');
-    processBin = decommutedPacketController.binToJson(data);
-  
+    processedBin = decommutedPacketController.binToJson(data);
   } else if (dataType === 'OperationParameter') {
     const operationParameterController = require('../controller/operationParameter.js');
-    processBin = operationParameterController.binToJson(data);
-  
+    processedBin = operationParameterController.binToJson(data);
   } else if (dataType === 'ReportingParameter') {
     const reportingParameterController = require('../controller/reportingParameter.js');
-    processBin = reportingParameterController.binToJson(data);
-  
+    processedBin = reportingParameterController.binToJson(data);
   } else if (dataType === 'GroundMonitoringAlarm') {
     const groundMonitoringAlarmController = require('../controller/groundMonitoringAlarm.js');
-    processBin = groundMonitoringAlarmController.binToJson(data);
-  
+    processedBin = groundMonitoringAlarmController.binToJson(data);
   } else if (dataType === 'ClcwPacket') {
     const clcwPacketController = require('../controller/clcwPacket.js');
-    processBin = clcwPacketController.binToJson(data);
-  
+    processedBin = clcwPacketController.binToJson(data);
   } else if (dataType === 'RmPacket') {
     const rmPacketController = require('../controller/rmPacket.js');
-    processBin = rmPacketController.binToJson(data);
-  
+    processedBin = rmPacketController.binToJson(data);
   } else if (dataType === 'TmPacket') {
     const tmPacketController = require('../controller/tmPacket.js');
-    processBin = tmPacketController.binToJson(data);
-  
+    processedBin = tmPacketController.binToJson(data);
   } else if (dataType === 'AckRequest') {
     const ackRequestController = require('../controller/ackRequest.js');
-    processBin = ackRequestController.binToJson(data);
-  
+    processedBin = ackRequestController.binToJson(data);
   } else if (dataType === 'AckSMS') {
     const ackSMSController = require('../controller/ackSMS.js');
-    processBin = ackSMSController.binToJson(data);
-  
+    processedBin = ackSMSController.binToJson(data);
   } else if (dataType === 'ComputedEvent') {
     const computedEventController = require('../controller/computedEvent.js');
-    processBin = computedEventController.binToJson(data);
-  
+    processedBin = computedEventController.binToJson(data);
   } else if (dataType === 'OpAlert') {
     const opAlertController = require('../controller/opAlert.js');
-    processBin = opAlertController.binToJson(data);
-  
+    processedBin = opAlertController.binToJson(data);
   } else if (dataType === 'ExternalEvent') {
     const externalEventController = require('../controller/externalEvent.js');
-    processBin = externalEventController.binToJson(data);
-  
+    processedBin = externalEventController.binToJson(data);
   } else if (dataType === 'UserEvent') {
     const userEventController = require('../controller/userEvent.js');
-    processBin = userEventController.binToJson(data);
-  
+    processedBin = userEventController.binToJson(data);
   } else {
-    processBin = { error: 'unknown COMObject' };
+    processedBin = { error: 'unknown COMObject' };
   }
   debug.verbose(`Decode binary data: ${util.inspect(processedBin)}`);
   resolve(processedBin);

@@ -15,6 +15,9 @@ function mapStateToProps(state, ownProps) {
     title: element.title,
     content: element.content,
     subscriptions: _.pick(state.subscriptions, element.subscriptions),
+    points: (state.plots[ownProps.viewId] && state.plots[ownProps.viewId].points)
+      ? state.plots[ownProps.viewId].points
+      : [],
   };
 }
 

@@ -55,7 +55,7 @@
       "title": "Title 1",
       "type": "plot",
       "content": "Hello world of all!",
-      "subscriptions": ["sub1", "sub2"]
+      "subscriptions": ["sub1", "sub2", "sub3"]
     },
     "view2": {
       "title": "Title 2",
@@ -76,20 +76,40 @@
       "subscriptions": []
     }
   },
-  "subscriptions": {
-      "sub1": {
-        "points": [
-          { "x": 1, "y": 1 },
-          { "x": 2, "y": 2 },
-          { "x": 3, "y": 3 }
-        ]
-      },
-      "sub2": {
-        "points": [
-          { "x": 1, "y": 1 },
-          { "x": 2, "y": 2 },
-          { "x": 3, "y": 3 }
-        ]
+  "plots": {
+      "view1": {
+        "points": {
+          "1000": {
+            "sub1": 2,
+            "sub2": 1,
+            "sub3": 4
+          },
+          "1100": {
+            "sub1": 3,
+            "sub2": 3,
+            "sub3": 5
+          },
+          "1200": {
+            "sub1": 6,
+            "sub2": 6,
+            "sub3": 7
+          },
+          "1300": {
+            "sub1": 5,
+            "sub2": 6,
+            "sub3": 8
+          },
+          "1400": {
+            "sub1": 8,
+            "sub2": 7,
+            "sub3": 9
+          },
+          "1500": {
+            "sub1": 10,
+            "sub2": 11,
+            "sub3": 12
+          }
+        }
       }
   }
 }

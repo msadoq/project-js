@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Col } from 'react-bootstrap';
+import { Col, Button } from 'react-bootstrap';
 import Plot from './View/Plot';
 import Text from './View/Text';
 import Mimic from './View/Mimic';
@@ -10,9 +10,6 @@ export default class View extends Component {
     type: React.PropTypes.oneOf(['plot', 'text', 'mimic']).isRequired,
     viewId: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    content: PropTypes.string,
-    subscriptions: PropTypes.object,
-    updateContent: PropTypes.func,
     openEditor: PropTypes.func,
   };
   render() {
@@ -32,6 +29,9 @@ export default class View extends Component {
     return (
       <Col xs={12} className="b m5 p10">
         <h2>View {this.props.title}</h2>
+        <Button onClick={() => this.props.openEditor()}>
+          Edit this view
+        </Button>
         <div>
           {component}
         </div>

@@ -1,4 +1,4 @@
-const debug = require('debug')('isis:subscriptionApi');
+const debug = require('../lib/io/debug')('test:subscriptionApi');
 const subApi = require('../lib/subscriptionManager');
 const chai = require('chai');
 const should = chai.should();
@@ -15,7 +15,7 @@ describe('subscriptionApi', () => {
     });
     it('noSub', () => {
       const limits = subApi.searchLimits(sub);
-      console.log(limits);
+      debug.info(limits);
       limits.should.be.an('array').that.has.lengthOf(1);
       limits[0].should.be.an('object').with.property('VisuWindow');
       limits[0].VisuWindow.should.be.an('object');
@@ -27,7 +27,7 @@ describe('subscriptionApi', () => {
       subscriptions.insert(sub1);
 
       const limits = subApi.searchLimits(sub);
-      console.log(limits);
+      debug.info(limits);
       limits.should.be.an('array').that.has.lengthOf(1);
       limits[0].should.be.an('object').with.property('VisuWindow');
       limits[0].VisuWindow.should.be.an('object');
@@ -39,7 +39,7 @@ describe('subscriptionApi', () => {
       subscriptions.insert(sub1);
 
       const limits = subApi.searchLimits(sub);
-      console.log(limits);
+      debug.info(limits);
       limits.should.be.an('array').that.has.lengthOf(1);
       limits[0].should.be.an('object').with.property('VisuWindow');
       limits[0].VisuWindow.should.be.an('object');
@@ -53,7 +53,7 @@ describe('subscriptionApi', () => {
       subscriptions.insert(sub2);
 
       const limits = subApi.searchLimits(sub);
-      console.log(limits);
+      debug.info(limits);
       limits.should.be.an('array').that.has.lengthOf(1);
       limits[0].should.be.an('object').with.property('VisuWindow');
       limits[0].VisuWindow.should.be.an('object');
@@ -65,7 +65,7 @@ describe('subscriptionApi', () => {
       subscriptions.insert(sub1);
 
       const limits = subApi.searchLimits(sub);
-      console.log(limits);
+      debug.info(limits);
       limits.should.be.an('array').that.has.lengthOf(2);
 
       limits[0].should.be.an('object').with.property('VisuWindow');
@@ -87,7 +87,7 @@ describe('subscriptionApi', () => {
       subscriptions.insert(sub3);
 
       const limits = subApi.searchLimits(sub);
-      console.log(limits);
+      debug.info(limits);
       limits.should.be.an('array').that.has.lengthOf(2);
 
       limits[0].should.be.an('object').with.property('VisuWindow');
@@ -107,7 +107,7 @@ describe('subscriptionApi', () => {
       subscriptions.insert(sub2);
 
       const limits = subApi.searchLimits(sub);
-      console.log(limits);
+      debug.info(limits);
       limits.should.be.an('array').that.has.lengthOf(1);
       limits[0].should.be.an('object').with.property('VisuWindow');
       limits[0].VisuWindow.should.be.an('object');
@@ -121,7 +121,7 @@ describe('subscriptionApi', () => {
       subscriptions.insert(sub2);
 
       const limits = subApi.searchLimits(sub);
-      console.log(limits);
+      debug.info(limits);
       limits.should.be.an('array').that.has.lengthOf(0);
     });
   });

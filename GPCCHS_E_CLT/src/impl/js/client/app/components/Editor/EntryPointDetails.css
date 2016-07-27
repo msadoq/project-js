@@ -1,0 +1,22 @@
+.collapseEvent{color:#333;font-size:0.9em;font-weight:bold;}
+.active{font-weight:bold;color:#23527C;}
+.entryPointName{font-weight:700;font-size:12px;}
+.glyphMenu{color:#23527C !important;}
+.glyphMenu:hover{color:#23527C !important;}
+.collapseEvent:hover{text-decoration:none;cursor:pointer;color:#23537C;}
+.EntryPointTreeFirstLvl{margin:20px 10px 10px 0px;}
+.formGroupXsmall{margin-bottom:10px !important;}
+.danger{color:#D97D7D;}
+.danger:hover{cursor:pointer;color:#C37070;}
+.shift{margin-left:14px;}
+.formEditor{border:1px solid #888; border-radius:4px;}
+.input_xsmall{padding:0px 0px 0px 6px !important;font-size:0.9em;height:auto;border:1px solid #BBB;transition-property:none;box-shadow:none;}
+.input_xsmall:focus{border:1px solid #BBB;}
+.form-horizontal .form-group select.xsmall{padding:2px 12px 2px 12px !important;font-size:12px;line-height:20px;height:28px;border:1px solid #DDD;transition-property:none;box-shadow:none;}
+.form-horizontal .form-group select.xsmall:focus{border:1px solid #BBB;}
+.formLabel{vertical-align:middle;margin-bottom:0px !important;text-align:left !important;padding-top:1px !important;font-weight:bold;font-size:0.9em;color:#333;}
+.form-horizontal .form-group{margin-bottom:6px;}
+.form-horizontal{background-color:red;}
+.mt5{margin-top:5px;}
+.buttonXsmall{width:6px;height:16px;margin-left:2px !important;border:1px solid #333;}
+.buttonXsmall:hover{border:1px solid #222;}

@@ -80,7 +80,7 @@ export function connect(store) {
     if (Math.floor(Math.random() * 3) + 1 === 3) {
       receivePoints({ subscriptionId: 'sub3', points });
     }
-  }, 2500);
+  }, 100);
   // hacky stub
 
   socket.on('timeline', payload => {

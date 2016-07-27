@@ -40,14 +40,8 @@ export default class Plot extends Component {
  
     
   render() {
-
     
-    let data = Object.keys(this.props.points).map(theX => Object.assign({ date: new Date(+theX) }, this.props.points[theX]));
-    
-    // console.log(this.props.points);
-    
-    data = this.props.points;
-    data.map( obj => obj.date = new Date(+obj.x));
+    let data = this.props.points;
     
     if (data.length < 3) return <div/>
  
@@ -65,7 +59,7 @@ export default class Plot extends Component {
     let plotConfiguration = { sub1 : { stroke : "purple"}, sub2 : { stroke : "orange"}, sub3 : { stroke : "black"}};
     
     let series = yIdList.map( (yId, index) => 
-        <ScatterLineSeries pointsStyle="circle" lineStyle="continuous" stroke={plotConfiguration[yId].stroke} yAccessor={(d) => d[yId]}/>)
+        <ScatterLineSeries key={yId} pointsStyle="circle" lineStyle="continuous" stroke={plotConfiguration[yId].stroke} yAccessor={(d) => d[yId]}/>)
     
 
     return (
@@ -75,11 +69,11 @@ export default class Plot extends Component {
         discontinuous
         xScale={xScale} 
         margin={{left : 50, right : 50, top:10, bottom:30}}
-        xAccessor={(d) => d.date} 
+        xAccessor={(d) => new Date(+d.x)} 
         data={data}
         width={1000}
         height={500} 
-        xExtents={[data[0].date, new Date(data[0].date.getTime()+100000)]} 
+        xExtents={[new Date(data[0].x), new Date(data[0].x +100000)]} 
       >
         <Chart id={1} ref={1}  yExtents={d => [0,100]}>
         <XAxis axisAt="bottom" orient="bottom"  />

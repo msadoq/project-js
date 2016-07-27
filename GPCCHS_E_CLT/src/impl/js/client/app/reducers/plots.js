@@ -1,21 +1,17 @@
 import { PLOT_ADD_POINTS } from '../actions/plots';
-import { OrderedMap } from 'immutable';
 
-function points(state = new OrderedMap({}), action) {
+function points(state = {}, action) {
   switch (action.type) {
     case PLOT_ADD_POINTS: {
       // TODO : handle sort order (x ASC)
       return action.points.reduce((currentState, p) => {
         const x = p[0];
         const y = p[1];
-        // return currentState
-        //   .setIn([x, 'x'], x)
-        //   .setIn([x, action.subscriptionId], y);
-        const machin = currentState
-          .setIn([x, 'x'], x)
-          .setIn([x, action.subscriptionId], y);
-        console.log(machin, machin.toArray, OrderedMap.isOrderedMap(machin));
-        return machin;
+        return Object.assign({}, currentState, {
+          [x]: (!currentState[x])
+            ? { x, [action.subscriptionId]: y }
+            : Object.assign({}, currentState[x], { [action.subscriptionId]: y }),
+        });
       }, state);
     }
     default:
@@ -24,7 +20,7 @@ function points(state = new OrderedMap({}), action) {
 }
 
 function plot(state = {
-  points: new OrderedMap(),
+  points: {},
 }, action) {
   switch (action.type) {
     case PLOT_ADD_POINTS:

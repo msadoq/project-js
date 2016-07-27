@@ -1,6 +1,9 @@
 import React from 'react';
 import Page from '../components/Page';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { addView, delView } from '../actions/views';
+import { mountView, unmountView } from '../actions/pages';
 
 const PageContainer = props => <Page {...props} />;
 
@@ -14,4 +17,13 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-export default connect(mapStateToProps)(PageContainer);
+function mapDispatchToProps(dispatch, ownProps) {
+  return bindActionCreators({
+    addView,
+    delView,
+    mountView: viewId => mountView(viewId, ownProps.pageId),
+    unmountView: viewId => unmountView(viewId, ownProps.pageId),
+  }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PageContainer);

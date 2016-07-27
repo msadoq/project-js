@@ -12,7 +12,7 @@ function mapStateToProps(state, ownProps) {
 
   const points = (state.plots[ownProps.viewId] && state.plots[ownProps.viewId].points)
     ? _.toArray(state.plots[ownProps.viewId].points)
-    : null;
+    : [];
 
   return {
     viewId: ownProps.viewId,

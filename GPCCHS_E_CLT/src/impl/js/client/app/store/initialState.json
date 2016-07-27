@@ -2,7 +2,7 @@
   "windows": {
     "window1": {
       "title": "Window 1",
-      "selectedTab": "page1",
+      "focusedTab": "page1",
       "pages": [
         "page1",
         "page4",
@@ -36,7 +36,7 @@
         "viewId": null
       },
       "views": [
-        "view1"
+        "view2"
       ]
     },
     "mimic": {

@@ -1,5 +1,5 @@
 import React from 'react';
-import Websocket from '../components/Websocket';
+import Websocket from '../components/Window/Websocket';
 import { connect } from 'react-redux';
 
 const WebsocketContainer = props => <Websocket {...props} />;

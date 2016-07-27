@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Label, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 export default class Websocket extends Component {
   static propTypes = {
@@ -11,13 +11,13 @@ export default class Websocket extends Component {
   render() {
     let status = '';
     let style = '';
-    let links = null;
+    let onClick = () => {};
     switch (this.props.status) {
       case 'connect':
       case 'reconnect':
         status = 'online';
         style = 'success';
-        links = (<Button onClick={this.props.disconnect}>disconnect</Button>);
+        onClick = this.props.disconnect;
         break;
       case 'connect_error':
       case 'reconnect_error':
@@ -41,14 +41,13 @@ export default class Websocket extends Component {
       default:
         status = 'offline';
         style = 'default';
-        links = (<Button onClick={this.props.connect}>connect</Button>);
+        onClick = this.props.connect;
     }
 
     return (
-      <h4>
-        <Label bsStyle={style}>{status}</Label>
-        {links}
-      </h4>
+      <Button bsStyle={style} onClick={onClick}>
+        status: {status}
+      </Button>
     );
   }
 }

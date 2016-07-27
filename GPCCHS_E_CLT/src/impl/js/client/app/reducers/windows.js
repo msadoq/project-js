@@ -1,7 +1,9 @@
 import {
-  CHANGE_PAGE,
+  FOCUS_PAGE,
   ADD_WINDOW,
   DEL_WINDOW,
+  MOUNT_PAGE,
+  UNMOUNT_PAGE,
 } from '../actions/windows';
 import _ from 'lodash';
 
@@ -24,9 +26,20 @@ function geometry(state = {
   }
 }
 
+function pages(state = [], action) {
+  switch (action.type) {
+    case MOUNT_PAGE:
+      return state.concat([action.pageId]);
+    case UNMOUNT_PAGE:
+      return state.filter(pageId => pageId !== action.pageId);
+    default:
+      return state;
+  }
+}
+
 function window(state = {
   title: null,
-  selectedTab: null,
+  focusedTab: null,
   pages: [],
   geometry: {},
 }, action) {
@@ -36,9 +49,15 @@ function window(state = {
         title: action.title,
         geometry: geometry(state.geometry, action)
       });
-    case CHANGE_PAGE:
+    case FOCUS_PAGE:
       return Object.assign({}, state, {
-        selectedTab: action.pageId
+        focusedTab: action.pageId,
+      });
+    case MOUNT_PAGE:
+    case UNMOUNT_PAGE:
+      return Object.assign({}, state, {
+        focusedTab: action.pageId,
+        pages: pages(state.pages, action),
       });
     default:
       return state;
@@ -47,7 +66,9 @@ function window(state = {
 
 export default function windows(state = {}, action) {
   switch (action.type) {
-    case CHANGE_PAGE:
+    case FOCUS_PAGE:
+    case MOUNT_PAGE:
+    case UNMOUNT_PAGE:
       return Object.assign({}, state, {
         [action.windowId]: window(state[action.windowId], action)
       });

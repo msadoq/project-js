@@ -1,9 +1,15 @@
-export const UPDATE_CONTENT = 'UPDATE_CONTENT';
+export const ADD_VIEW = 'ADD_VIEW';
+export const DEL_VIEW = 'DEL_VIEW';
 
-export function updateContent(viewId, content) {
+export function addView(viewId) {
   return {
-    type: UPDATE_CONTENT,
+    type: ADD_VIEW,
     viewId,
-    content,
+  };
+}
+export function delView(viewId) {
+  return {
+    type: DEL_VIEW,
+    viewId,
   };
 }

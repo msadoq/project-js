@@ -11,9 +11,10 @@ export default class View extends Component {
     viewId: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     openEditor: PropTypes.func,
+    unmountView: PropTypes.func,
   };
   render() {
-    const { type } = this.props;
+    const { type, viewId } = this.props;
     let component = null;
     if (type === 'plot') {
       component = <Plot {...this.props} />;
@@ -31,6 +32,9 @@ export default class View extends Component {
         <h2>View {this.props.title}</h2>
         <Button onClick={() => this.props.openEditor()}>
           Edit this view
+        </Button>
+        <Button onClick={() => this.props.unmountView(viewId)}>
+          Remove view
         </Button>
         <div>
           {component}

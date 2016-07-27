@@ -1,4 +1,8 @@
-import { UPDATE_CONTENT } from '../actions/views';
+import {
+  ADD_VIEW,
+  DEL_VIEW,
+} from '../actions/views';
+import _ from 'lodash';
 
 function view(state = {
   title: null,
@@ -7,9 +11,9 @@ function view(state = {
   subscriptions: [],
 }, action) {
   switch (action.type) {
-    case UPDATE_CONTENT:
+    case ADD_VIEW:
       return Object.assign({}, state, {
-        content: action.content,
+        title: action.title,
       });
     default:
       return state;
@@ -18,10 +22,13 @@ function view(state = {
 
 export default function views(state = {}, action) {
   switch (action.type) {
-    case UPDATE_CONTENT:
-      return Object.assign({}, state, {
-        [action.viewId]: view(state[action.viewId], action),
-      });
+    case ADD_VIEW:
+      return {
+        ...state,
+        [action.viewId]: view(undefined, action),
+      };
+    case DEL_VIEW:
+      return _.omit(state, [action.viewId]);
     default:
       return state;
   }

@@ -50,26 +50,37 @@ export function connect(store) {
   };
 
   // hacky stub
+  const getRandomValue = () => Math.round(Math.random() * 100);
   const receivePoints = payload => {
     logger('plot', payload);
     const viewId = findViewInStore(payload.subscriptionId);
     if (viewId) {
-      store.dispatch(addPoints(viewId, payload.points));
+      store.dispatch(addPoints(viewId, payload.subscriptionId, payload.points));
     }
   };
   socket.on('plot', receivePoints);
 
-  let i = 10;
   setInterval(() => {
-    receivePoints({
-      subscriptionId: 'sub1',
-      points: [
-        [i++, i * 100],
-        [i++, i * 100],
-        [i++, i * 100],
-      ],
-    });
-  }, 5000);
+    const timestamp = Date.now();
+    const points = [
+      [timestamp, getRandomValue()],
+      [timestamp, getRandomValue()],
+      [timestamp, getRandomValue()],
+    ];
+
+    // sub1
+    if (Math.floor(Math.random() * 3) + 1 === 1) {
+      receivePoints({ subscriptionId: 'sub1', points });
+    }
+    // sub2
+    if (Math.floor(Math.random() * 3) + 1 === 2) {
+      receivePoints({ subscriptionId: 'sub2', points });
+    }
+    // sub2
+    if (Math.floor(Math.random() * 3) + 1 === 3) {
+      receivePoints({ subscriptionId: 'sub3', points });
+    }
+  }, 2500);
   // hacky stub
 
   socket.on('timeline', payload => {

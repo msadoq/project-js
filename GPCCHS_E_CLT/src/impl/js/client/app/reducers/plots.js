@@ -8,8 +8,8 @@ function points(state = {}, action) {
         const x = p[0];
         const y = p[1];
         newPoints[x] = typeof state[x] !== 'undefined'
-          ? Object.assign({}, state[x], { [action.plotId]: y })
-          : { [action.plotId]: y };
+          ? Object.assign({}, state[x], { [action.subscriptionId]: y })
+          : { [action.subscriptionId]: y };
       });
       return Object.assign({}, state, newPoints);
     }

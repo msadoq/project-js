@@ -9,27 +9,27 @@ const { cacheWebSocket } = require('../../io/socket.io');
 
 const newSubscription = (subscription) => {
   jsonCache.findData(subscription).then((storedData) => {
-    const batPoints = [];
+    const points = [];
     storedData.forEach((data) => {
       // cacheWebsocket().emit('Parameters', data.jsonPayload);
       const jsonPayLoad = data.jsonPayload;
-      const batPoint = [];
-      batPoint.push(data.timestamp);
-      batPoint.push(jsonPayLoad.rawValue);
-      batPoints.push(batPoint);
+      const point = [];
+      point.push(data.timestamp);
+      point.push(jsonPayLoad.rawValue);
+      points.push(point);
     });
-    if (batPoints.length > 0) {
+    if (points.length > 0) {
       const plotJson = {
         type: 'addPoints',
         id: `sub${subscription.subId}`,
-        points: batPoints.sort(),
+        points: points.sort(),
       };
       const parameter = subscription.DataFullName.split('.')[1].split('<')[0];
       debug.info(`Sending found data in cache for parameter ${parameter} to views for subscription ${subscription.subId} (data: ${plotJson})`);
-      cacheWebSocket().emit('plotCache', {
+      cacheWebSocket().emit('plot', {
         parameter,
         subscriptionId: `sub${subscription.subId}`,
-        data: plotJson,
+        points,
       });
     }
   });
@@ -52,15 +52,15 @@ const onMessage = (header, meta, payload) => {
     subscriptions.forEach((subscription) => {
       cacheWebSocket().emit('Parameters', decodedJson);
 
-      const batPoint = [];
-      batPoint.push(metaJson.timestamp);
-      batPoint.push(decodedJson.rawValue);
+      const point = [];
+      point.push(metaJson.timestamp);
+      point.push(decodedJson.rawValue);
 
       debug.debug(`Sending parameter ${metaJson.parameter} to views for subscription ${subscription.subId}`);
       cacheWebSocket().emit('plot', {
         parameter: metaJson.parameter,
         subscriptionId: `sub${subscription.subId}`,
-        data: batPoint,
+        points: [point],
       });
     });
   });

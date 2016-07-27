@@ -322,13 +322,14 @@ return /******/ (function(modules) { // webpackBootstrap
 		const sendToView = setInterval( () => {
 		  for (const subId of Object.keys(batPoints)) {
 			const end = batPoints[subId].index;
-			if (end > localIndex) {
+			if (batPoints[subId].localIndex < end) {
 				const localPoints = batPoints[subId].data.slice(batPoints[subId].localIndex,end);
 				const plotJson = {
 					type: 'addPoints',
 					id: subId,
 					points: localPoints.sort(),
 				};	      
+				
 				if (_this.messageReceived && localPoints.length > 0) _this.messageReceived(plotJson);
 				console.log(`id: ${subId} - start: ${batPoints[subId].localIndex} - end: ${end} - current: ${batPoints[subId].index}`);	
 				batPoints[subId].localIndex = end;
@@ -349,16 +350,10 @@ return /******/ (function(modules) { // webpackBootstrap
 				    localIndex: 0,
 				};
 			  }
-			  batPoints[message.subscriptionId].data.push(message.data);
-			  batPoints[message.subscriptionId].index++;
+			  
+			  batPoints[message.subscriptionId].data = batPoints[message.subscriptionId].data.concat(message.points);
+			  batPoints[message.subscriptionId].index+=message.points.length;
 			}
-        });
-		socket.on('plotCache', (message) => {
-			if (message.parameter === paramName) {
-			  if (_this.messageReceived) {
-			    _this.messageReceived(message.data);
-		      }
-			}	
         });
 		socket.on('timeline', (message) => {
 		  console.log('timeline');

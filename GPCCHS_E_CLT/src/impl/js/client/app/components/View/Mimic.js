@@ -21,7 +21,7 @@ export default class Mimic extends Component {
     this.interval = null; // ugly! just for testing :)
   }
   componentDidMount() {
-    this.interval = setInterval(this.animate.bind(this), 100);
+    //this.interval = setInterval(this.animate.bind(this), 100);
   }
   componentWillUnmount() {
     if (this.interval) {

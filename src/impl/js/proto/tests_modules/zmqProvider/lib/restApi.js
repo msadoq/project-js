@@ -65,7 +65,19 @@ jsonData = {
         'SubscriptionState': 'Play',
         'VisuSpeed': 0,
         'VisuWindow': visuWindow, 
-        'Filter': ''
+        'Filter': [
+          /*{
+            'DataFullName': 'Reporting.'+paramType+'<'+type+'>',
+            'Field': 'rawValue',
+            'Operator': 'OP_GT',
+            'Value': 25,
+          },{
+            'DataFullName': 'Reporting.'+paramType+'<'+type+'>',
+            'Field': 'rawValue',
+            'Operator': 'OP_LT',
+            'Value': 75,
+          },*/
+        ]
     }
 }
 

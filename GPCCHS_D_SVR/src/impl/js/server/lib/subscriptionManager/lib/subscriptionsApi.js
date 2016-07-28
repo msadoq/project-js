@@ -17,13 +17,11 @@ function getSubscriptionId() {
 
 const addSubscription = (subscriptionJson) => {
   const newSub = JSON.parse(subscriptionJson);
-  const newSub2 = JSON.parse(subscriptionJson);
   const subId = getSubscriptionId();
   newSub.subId = subId;
-  newSub2.subId = subId;
   cacheMgr.newSubscription(newSub);
   const newSubSubs = [];
-  const limits = searchLimits(newSub2);
+  const limits = searchLimits(newSub);
   if (limits.length === 0) {
     debug.info('ALL INTERVALS FOUND IN CACHE');
   }
@@ -34,7 +32,7 @@ const addSubscription = (subscriptionJson) => {
     debug.info(`NEED INTERVAL : ${JSON.stringify(limit)}`);
   }
   subscriptionPushSocket.send(JSON.stringify(newSubSubs));
-  subscriptions.insert(newSub2);
+  subscriptions.insert(newSub);
 
   return newSub.subId;
 };

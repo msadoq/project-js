@@ -3,9 +3,12 @@ const debug = require('../../io/debug')('dataCache:cacheManager');
 const { dcPullSockets } = require('../../io/zmq');
 const binCache = require('./binCacheApi.js');
 const jsonCache = require('./jsonCacheApi.js');
+const { matchFilters } = require('./filterApi.js');
 const { dataTypeController } = require('../../dataTypeManager');
 const subscriptionMgr = require('./subscriptionsManager');
 const { cacheWebSocket } = require('../../io/socket.io');
+
+
 
 const newSubscription = (subscription) => {
   jsonCache.findData(subscription).then((storedData) => {
@@ -45,19 +48,19 @@ const onMessage = (header, meta, payload) => {
       const subscriptions = subscriptionMgr.getSubscriptions(metaStr);
       debug.debug(`Found ${subscriptions.length} Subscription(s)`);
       subscriptions.forEach((subscription) => {
-        cacheWebSocket().emit('Parameters', decodedJson);
+        if (matchFilters(decodedJson, subscription)) {
+          const point = [];
+          point.push(metaStr.timestamp.toNumber());
+          point.push((subscription.Field === '*') ? decodedJson : decodedJson[subscription.Field]);
 
-        const point = [];
-        point.push(metaStr.timestamp.toNumber());
-        point.push((subscription.Field === '*') ? decodedJson : decodedJson[subscription.Field]);
-        
-        debug.debug(`Sending parameter ${metaStr.parameter} to views for subscription ${subscription.subId}`);
-        debug.debug(`point: ${point}`);
-        cacheWebSocket().emit('plot', {
-          parameter: metaStr.parameter,
-          subscriptionId: `sub${subscription.subId}`,
-          points: [point],
-        });
+          debug.debug(`Sending parameter ${metaStr.parameter} to views for subscription ${subscription.subId}`);
+          debug.debug(`point: ${point}`);
+          cacheWebSocket().emit('plot', {
+            parameter: metaStr.parameter,
+            subscriptionId: `sub${subscription.subId}`,
+            points: [point],
+          });
+        }
       });
     });
   });

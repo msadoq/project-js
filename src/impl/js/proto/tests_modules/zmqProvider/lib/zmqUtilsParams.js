@@ -5,13 +5,15 @@ var zmq = require("zmq"),
 
 const fs = require('fs'),
     path = require('path');
+    
+const util = require('util');
 
 function logToConsole (message) {
-  console.log("[" + new Date().toLocaleTimeString() + "]" + message);
+  console.log("[" + new Date().toLocaleTimeString() + "]" + util.inspect(message));
 }
 
 function sendMessage (header, payload) {
-    logToConsole("Sending " + header);
+    // logToConsole(Header.decode(header));
     socketOut.send([null, header, payload]);
 }
 
@@ -23,6 +25,7 @@ if (!isNaN(parseInt(process.argv[2], 10))) {
 
 var JS = require("../files/reportingParameter.proto.js"); 
 var ReportingParameter = JS.ReportingParameter;
+var Header = require("../files/header.proto.js");
 
 // socketOut.bind("tcp://127.0.0.1:3000");
 socketOut.bind("tcp://127.0.0.1:49159", (err) => {
@@ -60,18 +63,17 @@ socketIn.on("message", function (subscriptions) {
                 const splittedId = newSubscription.DataFullName.split('.');
                 const splittedParameter = splittedId[1].split('<');
                 const splittedType = splittedParameter[1].split('>');
-                var obj = {
+                var obj = new Header({
                     'catalog' : splittedId[0],
                     'fullDataId' : newSubscription.DataFullName,
                     'oid' : OID,
                     'parameter' : splittedParameter[0],
-                    'binPayload' : buffer,
                     'session'  : newSubscription.SessionId,
                     'timestamp' : dInf,
                     'type' : splittedType[0]
-                };
+                });
                 //console.log(JSON.stringify(obj));
-                const metaData = new Buffer(JSON.stringify(obj));
+                const metaData = obj.encode().toBuffer();
                 sendMessage(metaData, buffer);   
                 dInf = dInf + timeStep;
             } else {

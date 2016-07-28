@@ -319,6 +319,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		let localIndex = 0;
 		let index = 0;
 		
+		const util = require('util');
+		
 		const sendToView = setInterval( () => {
 		  for (const subId of Object.keys(batPoints)) {
 			const end = batPoints[subId].index;
@@ -331,7 +333,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				};	      
 				
 				if (_this.messageReceived && localPoints.length > 0) _this.messageReceived(plotJson);
-				console.log(`id: ${subId} - start: ${batPoints[subId].localIndex} - end: ${end} - current: ${batPoints[subId].index}`);	
+				// console.log(`id: ${subId} - start: ${batPoints[subId].localIndex} - end: ${end} - current: ${batPoints[subId].index} - points: ${util.inspect(plotJson.points)}`);	
 				batPoints[subId].localIndex = end;
 			}
 		  }

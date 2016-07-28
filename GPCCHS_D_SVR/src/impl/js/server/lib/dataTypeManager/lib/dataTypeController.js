@@ -5,7 +5,10 @@ const binToJson = (metadata, data) => new Promise((resolve) => {
   const dataType = metadata.type;
   debug.debug(`Type of bin data: ${dataType}`);
   let processedBin;
-  if (dataType === 'FdsData') {
+  if (dataType === 'Header') {
+    const headerController = require('../controller/header.js');
+    processedBin = headerController.binToJson(data);
+  } else if (dataType === 'FdsData') {
     processedBin = JSON.parse(data);
   } else if (dataType === 'AlertToLaunch') {
     const alertToLaunchController = require('../controller/alertToLaunch.js');

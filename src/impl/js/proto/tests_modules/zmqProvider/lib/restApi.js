@@ -57,7 +57,7 @@ console.log('DAY: '+length+' day(s) from '+day+' -> '+visuWindow.dInf+' - '+visu
 jsonData = {
     'jsonElem' : {
         'DataFullName': 'Reporting.'+paramType+'<'+type+'>',
-        'Field': '',
+        'Field': 'rawValue',
         'DomainId': 0,
         'TimeLineType': 'session',
         'SessionId': 1,

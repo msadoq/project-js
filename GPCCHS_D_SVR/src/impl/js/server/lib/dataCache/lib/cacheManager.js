@@ -14,18 +14,15 @@ const newSubscription = (subscription) => {
       // cacheWebsocket().emit('Parameters', data.jsonPayload);
       const jsonPayLoad = data.jsonPayload;
       const point = [];
-      point.push(data.timestamp);
-      point.push(jsonPayLoad.rawValue);
+      point.push(data.timestamp.toNumber());
+      point.push((subscription.Field === '*') ? jsonPayLoad : jsonPayLoad[subscription.Field]);
       points.push(point);
     });
+    debug.info(`Size: ${points.length}`);
     if (points.length > 0) {
-      const plotJson = {
-        type: 'addPoints',
-        id: `sub${subscription.subId}`,
-        points: points.sort(),
-      };
       const parameter = subscription.DataFullName.split('.')[1].split('<')[0];
-      debug.info(`Sending found data in cache for parameter ${parameter} to views for subscription ${subscription.subId} (data: ${plotJson})`);
+      debug.info(`Sending found data in cache for parameter ${parameter} to views for subscription ${subscription.subId}`);
+      debug.debug(`points: ${points}`);
       cacheWebSocket().emit('plot', {
         parameter,
         subscriptionId: `sub${subscription.subId}`,
@@ -37,30 +34,30 @@ const newSubscription = (subscription) => {
 
 
 const onMessage = (header, meta, payload) => {
-  const metaStr = new Buffer(meta).toString('utf8').split('\0')[0];
-  const metaJson = JSON.parse(metaStr);
-  const metaBin = JSON.parse(metaStr);
-  debug.debug('Add Bin Data');
-  binCache.addData(metaBin, payload).then((insertedBinData) => { debug.verbose(insertedBinData); });
-  dataTypeController.binToJson(metaJson, payload).then((decodedJson) => {
-    debug.debug('Add Json Data');
-    jsonCache.addData(metaJson, decodedJson).then((insertedJsonData) => { debug.verbose(insertedJsonData); });
-    debug.debug(`REQUIRING SUBSCRIPTION ${metaJson.catalog}.${metaJson.parameter}<${metaJson.type}>`);
-    debug.debug(`TIME: ${metaJson.timestamp}`);
-    const subscriptions = subscriptionMgr.getSubscriptions(metaJson);
-    debug.debug(`Found ${subscriptions.length} Subscription(s)`);
-    subscriptions.forEach((subscription) => {
-      cacheWebSocket().emit('Parameters', decodedJson);
+  dataTypeController.binToJson({ type: 'Header' }, meta).then((metaStr) => {
+    debug.debug('Add Bin Data');
+    binCache.addData(metaStr, payload).then((insertedBinData) => { debug.verbose(insertedBinData); });
+    dataTypeController.binToJson(metaStr, payload).then((decodedJson) => {
+      debug.debug('Add Json Data');
+      jsonCache.addData(metaStr, decodedJson).then((insertedJsonData) => { debug.verbose(insertedJsonData); });
+      debug.debug(`REQUIRING SUBSCRIPTION ${metaStr.catalog}.${metaStr.parameter}<${metaStr.type}>`);
+      debug.debug(`TIME: ${metaStr.timestamp}`);
+      const subscriptions = subscriptionMgr.getSubscriptions(metaStr);
+      debug.debug(`Found ${subscriptions.length} Subscription(s)`);
+      subscriptions.forEach((subscription) => {
+        cacheWebSocket().emit('Parameters', decodedJson);
 
-      const point = [];
-      point.push(metaJson.timestamp);
-      point.push(decodedJson.rawValue);
-
-      debug.debug(`Sending parameter ${metaJson.parameter} to views for subscription ${subscription.subId}`);
-      cacheWebSocket().emit('plot', {
-        parameter: metaJson.parameter,
-        subscriptionId: `sub${subscription.subId}`,
-        points: [point],
+        const point = [];
+        point.push(metaStr.timestamp.toNumber());
+        point.push((subscription.Field === '*') ? decodedJson : decodedJson[subscription.Field]);
+        
+        debug.debug(`Sending parameter ${metaStr.parameter} to views for subscription ${subscription.subId}`);
+        debug.debug(`point: ${point}`);
+        cacheWebSocket().emit('plot', {
+          parameter: metaStr.parameter,
+          subscriptionId: `sub${subscription.subId}`,
+          points: [point],
+        });
       });
     });
   });

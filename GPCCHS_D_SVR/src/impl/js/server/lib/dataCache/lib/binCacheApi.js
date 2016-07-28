@@ -1,7 +1,7 @@
 const { binCache } = require('../../io/loki');
 
 exports.addData = (metaData, binData) => {
-  const data = Object.assign(metaData, { binPayload: binData });
+  const data = Object.assign({}, metaData, { binPayload: binData });
   return new Promise((resolve, reject) => {
     resolve(binCache.insert(data));
   });

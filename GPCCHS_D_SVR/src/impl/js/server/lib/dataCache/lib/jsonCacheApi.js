@@ -2,7 +2,7 @@ const debug = require('../../io/debug')('dataCache:jsonCacheApi');
 const { jsonCache } = require('../../io/loki');
 
 exports.addData = (metaData, jsonData) => {
-  const data = Object.assign(metaData, { jsonPayload: jsonData });
+  const data = Object.assign({}, metaData, { jsonPayload: jsonData });
   return new Promise((resolve) => {
     const inserted = jsonCache.insert(data);
     resolve(inserted);

@@ -24,17 +24,31 @@ export default class AddView extends Component {
     });
   }
   handleSubmit() {
-    this.props.mountView(this.state.viewId);
+    if (this.state.viewId) {
+      this.props.mountView(this.state.viewId);
+    }
   }
   render() {
     const { views } = this.context.store.getState();
     return (
       <Form inline className={styles['add-view']}>
         <FormGroup controlId="addAView">
-          <ControlLabel>add a view</ControlLabel>
+          <ControlLabel>
+            add a view
+          </ControlLabel>
           {' '}
-          <FormControl componentClass="select" placeholder="select" onChange={this.handleChange}>
-            {_.map(views, (v, k) => <option key={k} value={k}>{v.title}</option>)}
+          <FormControl
+            componentClass="select"
+            placeholder="select"
+            defaultValue=""
+            onChange={this.handleChange}
+          >
+            <option key="" value={null}>{' '}</option>
+            {_.map(views, (v, k) =>
+              <option key={k} value={k}>
+                {v.title}
+              </option>
+            )}
           </FormControl>
         </FormGroup>
         {' '}

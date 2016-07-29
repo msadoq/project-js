@@ -7,6 +7,8 @@ export default class Websocket extends Component {
     err: PropTypes.string,
     disconnect: PropTypes.func,
     connect: PropTypes.func,
+    stub: PropTypes.bool.isRequired,
+    toggleStub: PropTypes.func,
   };
   render() {
     let status = '';
@@ -45,9 +47,14 @@ export default class Websocket extends Component {
     }
 
     return (
-      <Button bsStyle={style} onClick={onClick}>
-        status: {status}
-      </Button>
+      <div className="dib">
+        <Button bsStyle={style} onClick={onClick}>
+          status: {status}
+        </Button>
+        <Button onClick={this.props.toggleStub}>
+          stub: {(this.props.stub) ? 'on' : 'off'}
+        </Button>
+      </div>
     );
   }
 }

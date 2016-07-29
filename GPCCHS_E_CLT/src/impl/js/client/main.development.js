@@ -5,6 +5,11 @@ import _ from 'lodash';
 import configureMainStore from './app/store/mainStore';
 import initialState from './app/store/initialState.json';
 import { delWindow } from './app/actions/windows';
+import {
+  on as stubOn,
+  off as stubOff,
+  status as stubStatus,
+} from './app/communication/websocket-stub';
 
 const logger = debug('gpcchs_e_clt:main');
 
@@ -108,6 +113,15 @@ app.on('ready', async () => {
     //   websocketConnect(store);
     // }
     // TODO : replace with IPC request
+
+    // Websocket stub management
+    if (store.getState().websocket.stub !== stubStatus()) {
+      if (store.getState().websocket.stub) {
+        stubOn();
+      } else {
+        stubOff();
+      }
+    }
   });
 
   // open websocket

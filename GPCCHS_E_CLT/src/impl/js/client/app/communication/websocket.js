@@ -3,6 +3,7 @@ import _ from 'lodash';
 import sio from 'socket.io-client';
 import { websocketStatus } from '../actions/websocket';
 import { addPoints } from '../actions/plots';
+import { init as stubInit } from './websocket-stub';
 
 const logger = debug('gpcchs_e_clt:client:communication:websocket');
 
@@ -49,8 +50,6 @@ export function connect(store) {
     return viewId;
   };
 
-  // hacky stub
-  const getRandomValue = () => Math.round(Math.random() * 100);
   const receivePoints = payload => {
     logger('plot', payload);
     const viewId = findViewInStore(payload.subscriptionId);
@@ -58,31 +57,8 @@ export function connect(store) {
       store.dispatch(addPoints(viewId, payload.subscriptionId, payload.points));
     }
   };
+  stubInit(receivePoints);
   socket.on('plot', receivePoints);
-
-  setInterval(() => {
-    const timestamp = Date.now();
-    const points = [
-      [timestamp, getRandomValue()],
-      [timestamp, getRandomValue()],
-      [timestamp, getRandomValue()],
-    ];
-
-    // sub1
-    if (Math.floor(Math.random() * 3) + 1 === 1) {
-      receivePoints({ subscriptionId: 'sub1', points });
-    }
-    // sub2
-    if (Math.floor(Math.random() * 3) + 1 === 2) {
-      receivePoints({ subscriptionId: 'sub2', points });
-    }
-    // sub2
-    if (Math.floor(Math.random() * 3) + 1 === 3) {
-      receivePoints({ subscriptionId: 'sub3', points });
-    }
-  }, 100);
-  // hacky stub
-
   socket.on('timeline', payload => {
     logger('timeline', payload);
   });

@@ -13,12 +13,12 @@ exports.addData = (metaData, jsonData) => {
 
 exports.findData = (query) => new Promise(
   (resolve) => {
-    const catalog = query.DataFullName.split('.')[0];
-    const parameter = query.DataFullName.split('.')[1].split('<')[0];
-    const dInf = query.VisuWindow.dInf;
-    const dSup = query.VisuWindow.dSup;
-    debug.info(query.Filter);
-    const filters = resolveCacheFilters(query.Filter);
+    const catalog = query.dataFullName.split('.')[0];
+    const parameter = query.dataFullName.split('.')[1].split('<')[0];
+    const dInf = query.visuWindow.dInf;
+    const dSup = query.visuWindow.dSup;
+    debug.info(query.filter);
+    const filters = resolveCacheFilters(query.filter);
     debug.info(`Try to find parameter ${parameter} from catalog ${catalog} in interval [${dInf},${dSup}] in cache`);
     (filters.length === 0) ? debug.info('with no filter') : debug.info(`with filter ${util.inspect(filters)}`);
     
@@ -37,7 +37,7 @@ exports.findData = (query) => new Promise(
             $lte: dSup,
           },
         }, {
-          session: query.SessionId,
+          session: query.sessionId,
         },
       ],
     };

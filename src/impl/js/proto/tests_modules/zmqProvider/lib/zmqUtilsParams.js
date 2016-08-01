@@ -37,8 +37,8 @@ socketIn.connect("tcp://127.0.0.1:4000");
 socketIn.on("message", function (subscriptions) {
     JSON.parse(subscriptions).forEach(function(newSubscription){
         console.log(newSubscription);
-        var dInf = newSubscription.VisuWindow.dInf;
-        var dSup = newSubscription.VisuWindow.dSup;
+        var dInf = newSubscription.visuWindow.dInf;
+        var dSup = newSubscription.visuWindow.dSup;
         var timeStep = 600*factor;
         var sendToCache = setInterval(function () {
             if(dInf < dSup) {
@@ -60,15 +60,15 @@ socketIn.on("message", function (subscriptions) {
                 var buffer = byteBuffer.toBuffer();
 
                 var OID = "000100010100010001" + Math.floor((Math.random() * 99999999) + 1);
-                const splittedId = newSubscription.DataFullName.split('.');
+                const splittedId = newSubscription.dataFullName.split('.');
                 const splittedParameter = splittedId[1].split('<');
                 const splittedType = splittedParameter[1].split('>');
                 var obj = new Header({
                     'catalog' : splittedId[0],
-                    'fullDataId' : newSubscription.DataFullName,
+                    'fullDataId' : newSubscription.dataFullName,
                     'oid' : OID,
                     'parameter' : splittedParameter[0],
-                    'session'  : newSubscription.SessionId,
+                    'session'  : newSubscription.sessionId,
                     'timestamp' : dInf,
                     'type' : splittedType[0]
                 });

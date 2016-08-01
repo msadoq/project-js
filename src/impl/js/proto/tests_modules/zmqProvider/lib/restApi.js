@@ -55,30 +55,28 @@ if (process.argv[2] in types) {
 console.log('DAY: '+length+' day(s) from '+day+' -> '+visuWindow.dInf+' - '+visuWindow.dSup);
 
 jsonData = {
-    'jsonElem' : {
-        'DataFullName': 'Reporting.'+paramType+'<'+type+'>',
-        'Field': 'rawValue',
-        'DomainId': 0,
-        'TimeLineType': 'session',
-        'SessionId': 1,
-        'SetFileName': '',
-        'SubscriptionState': 'Play',
-        'VisuSpeed': 0,
-        'VisuWindow': visuWindow, 
-        'Filter': [
-          /*{
-            'DataFullName': 'Reporting.'+paramType+'<'+type+'>',
-            'Field': 'rawValue',
-            'Operator': 'OP_GT',
-            'Value': 25,
-          },{
-            'DataFullName': 'Reporting.'+paramType+'<'+type+'>',
-            'Field': 'rawValue',
-            'Operator': 'OP_LT',
-            'Value': 75,
-          },*/
-        ]
-    }
+    dataFullName: 'Reporting.'+paramType+'<'+type+'>',
+    field: 'rawValue',
+    domainId: 0,
+    timeLineType: 'session',
+    sessionId: 1,
+    setFileName: '',
+    subscriptionState: 'play',
+    visuSpeed: 0,
+    visuWindow: visuWindow, 
+    filter: [
+        {
+        dataFullName: 'Reporting.'+paramType+'<'+type+'>',
+        field: 'rawValue',
+        operator: 'OP_GT',
+        value: 25,
+        },{
+        dataFullName: 'Reporting.'+paramType+'<'+type+'>',
+        field: 'rawValue',
+        operator: 'OP_LT',
+        value: 75,
+        },
+    ]
 }
 
 //performRequest('/api/subscriptions','POST',jsonData);
@@ -91,8 +89,7 @@ var options = {
   path: '/api/subscriptions',
   method: 'POST',
   headers: {
-    'Content-Type': 'application/json',
-    'Content-Length': Buffer.byteLength(postData, 'utf8')
+    'Content-Type': 'application/vnd.api+json',
   }
 };
 

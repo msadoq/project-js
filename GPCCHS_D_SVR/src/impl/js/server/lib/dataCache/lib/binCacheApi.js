@@ -12,17 +12,17 @@ exports.findData = (query) => new Promise(
     resolve(binCache.find({
       $and: [
         {
-          dataId: query.DataFullName,
+          dataId: query.dataFullName,
         }, {
           dataTime: {
-            $gte: query.VisuWindow.dInf,
+            $gte: query.visuWindow.dInf,
           },
         }, {
           dataTime: {
-            $lte: query.VisuWindow.dSup,
+            $lte: query.visuWindow.dSup,
           },
         }, {
-          session: query.SessionId,
+          session: query.sessionId,
         },
       ],
     }));

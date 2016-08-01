@@ -6,17 +6,17 @@ exports.getSubscriptions = (data) => subscriptions.find(
   {
     $and: [
       {
-        DataFullName: `${data.catalog}.${data.parameter}<${data.type}>`,
+        dataFullName: `${data.catalog}.${data.parameter}<${data.type}>`,
       }, {
-        'VisuWindow.dInf': {
+        'visuWindow.dInf': {
           $lte: data.timestamp,
         },
       }, {
-        'VisuWindow.dSup': {
+        'visuWindow.dSup': {
           $gte: data.timestamp,
         },
       }, {
-        SessionId: data.session,
+        sessionId: data.session,
       },
     ],
   }

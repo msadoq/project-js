@@ -17,11 +17,11 @@ const resolveOperator = (operator) => operator.replace(operatorRegExp,
   (matched) => operatorMappingObject[matched]);
 
 const resolveCacheFilter = (filter) => {
-  const field = `jsonPayload.${filter.Field}`;
-  const operator = resolveOperator(filter.Operator);
+  const field = `jsonPayload.${filter.field}`;
+  const operator = resolveOperator(filter.operator);
   const resolvedFilter = {};
   resolvedFilter[field] = {};
-  resolvedFilter[field][operator] = filter.Value;
+  resolvedFilter[field][operator] = filter.value;
   return resolvedFilter;
 };
 
@@ -32,31 +32,31 @@ const resolveCacheFilters = (filterArray) => (
 );
 
 const applyFilter = (data, filter) => {
-  switch (filter.Operator) {
+  switch (filter.operator) {
     case 'OP_EQ':
-      return (data[filter.Field] === filter.Value);
+      return (data[filter.field] === filter.value);
     case 'OP_NE':
-      return (data[filter.Field] !== filter.Value);
+      return (data[filter.field] !== filter.value);
     case 'OP_LT':
-      return (data[filter.Field] < filter.Value);
+      return (data[filter.field] < filter.value);
     case 'OP_LE':
-      return (data[filter.Field] <= filter.Value);
+      return (data[filter.field] <= filter.value);
     case 'OP_GT':
       debug.info('applyFilter OP_GT');
-      return (data[filter.Field] > filter.Value);
+      return (data[filter.field] > filter.value);
     case 'OP_GE':
-      return (data[filter.Field] >= filter.Value);
+      return (data[filter.field] >= filter.value);
     case 'OP_CONTAINS':
-      return data[filter.Field].includes(filter.Value);
+      return data[filter.field].includes(filter.value);
     case 'OP_ICONTAINS':
-      return !data[filter.Field].includes(filter.Value);
+      return !data[filter.field].includes(filter.value);
     default:
       return false;
   }
 };
 
 const matchFilters = (data, subscription) => {
-  const filters = subscription.Filter;
+  const filters = subscription.filter;
   for (const filter of filters) {
     if (applyFilter(data, filter) === false) return false;
   }

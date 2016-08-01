@@ -5,7 +5,7 @@ exports.addDataId = (connectedDataJson) => new Promise(
     resolve(jsonData.insert(connectedDataJson));
   });
 
-exports.findConnectedData = (jsonFilter) => jsonData.find({ session: jsonFilter.SesionId });
+exports.findConnectedData = (jsonFilter) => jsonData.find({ session: jsonFilter.sessionId });
 
 /*var addDataId = function(dataIdJson) {
     return dataIds.insert(JSON.parse(dataIdJson));

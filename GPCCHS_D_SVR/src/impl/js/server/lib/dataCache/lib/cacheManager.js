@@ -18,12 +18,12 @@ const newSubscription = (subscription) => {
       const jsonPayLoad = data.jsonPayload;
       const point = [];
       point.push(data.timestamp.toNumber());
-      point.push((subscription.Field === '*') ? jsonPayLoad : jsonPayLoad[subscription.Field]);
+      point.push((subscription.field === '*') ? jsonPayLoad : jsonPayLoad[subscription.field]);
       points.push(point);
     });
     debug.info(`Size: ${points.length}`);
     if (points.length > 0) {
-      const parameter = subscription.DataFullName.split('.')[1].split('<')[0];
+      const parameter = subscription.dataFullName.split('.')[1].split('<')[0];
       debug.info(`Sending found data in cache for parameter ${parameter} to views for subscription ${subscription.subId}`);
       debug.debug(`points: ${points}`);
       cacheWebSocket().emit('plot', {
@@ -51,7 +51,7 @@ const onMessage = (header, meta, payload) => {
         if (matchFilters(decodedJson, subscription)) {
           const point = [];
           point.push(metaStr.timestamp.toNumber());
-          point.push((subscription.Field === '*') ? decodedJson : decodedJson[subscription.Field]);
+          point.push((subscription.field === '*') ? decodedJson : decodedJson[subscription.field]);
 
           debug.debug(`Sending parameter ${metaStr.parameter} to views for subscription ${subscription.subId}`);
           debug.debug(`point: ${point}`);

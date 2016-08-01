@@ -10,7 +10,7 @@ const { cacheWebSocket } = require('../../io/socket.io');
 
 
 
-const newSubscription = (subscription) => {
+const createNewSubscription = (subscription) => {
   jsonCache.findData(subscription).then((storedData) => {
     const points = [];
     storedData.forEach((data) => {
@@ -67,6 +67,9 @@ const onMessage = (header, meta, payload) => {
 };
 
 
-const init = () => { debug.info('INIT Cache Manager Message Reception'); dcPullSockets.map((s) => s.on('message', onMessage)); };
+const init = () => {
+  debug.info('INIT Cache Manager Message Reception');
+  dcPullSockets.map((s) => s.on('message', onMessage));
+};
 
-module.exports = { init, newSubscription };
+module.exports = { init, createNewSubscription };

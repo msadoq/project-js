@@ -1,7 +1,7 @@
 const debug = require('../../../lib/io/debug')('test:dataCache:subscriptionApi');
 const { chai, should } = require('../../utils');
 
-const subApi = require('../../../lib/subscriptionManager');
+const { searchIntervals } = require('../../../lib/subscriptionManager/lib/intervalApi');
 const { subscriptions } = require('../../../lib/io/loki');
 
 const subHeader = { dataFullName: 'a', sessionId: 0, domainId: 0 };
@@ -14,7 +14,7 @@ describe('subscriptionApi', () => {
       subscriptions.clear();
     });
     it('noSub', () => {
-      const limits = subApi.searchLimits(sub);
+      const limits = searchIntervals(subscriptions, sub);
       debug.info(limits);
       limits.should.be.an('array').that.has.lengthOf(1);
       limits[0].should.be.an('object').with.property('visuWindow');
@@ -26,7 +26,7 @@ describe('subscriptionApi', () => {
       const sub1 = Object.assign({}, subHeader, { visuWindow: { dInf: -5, dSup: 5 } });
       subscriptions.insert(sub1);
 
-      const limits = subApi.searchLimits(sub);
+      const limits = searchIntervals(subscriptions, sub);
       debug.info(limits);
       limits.should.be.an('array').that.has.lengthOf(1);
       limits[0].should.be.an('object').with.property('visuWindow');
@@ -38,7 +38,7 @@ describe('subscriptionApi', () => {
       const sub1 = Object.assign({}, subHeader, { visuWindow: { dInf: 5, dSup: 15 } });
       subscriptions.insert(sub1);
 
-      const limits = subApi.searchLimits(sub);
+      const limits = searchIntervals(subscriptions, sub);
       debug.info(limits);
       limits.should.be.an('array').that.has.lengthOf(1);
       limits[0].should.be.an('object').with.property('visuWindow');
@@ -52,7 +52,7 @@ describe('subscriptionApi', () => {
       subscriptions.insert(sub1);
       subscriptions.insert(sub2);
 
-      const limits = subApi.searchLimits(sub);
+      const limits = searchIntervals(subscriptions, sub);
       debug.info(limits);
       limits.should.be.an('array').that.has.lengthOf(1);
       limits[0].should.be.an('object').with.property('visuWindow');
@@ -64,7 +64,7 @@ describe('subscriptionApi', () => {
       const sub1 = Object.assign({}, subHeader, { visuWindow: { dInf: 2.5, dSup: 7.5 } });
       subscriptions.insert(sub1);
 
-      const limits = subApi.searchLimits(sub);
+      const limits = searchIntervals(subscriptions, sub);
       debug.info(limits);
       limits.should.be.an('array').that.has.lengthOf(2);
 
@@ -86,7 +86,7 @@ describe('subscriptionApi', () => {
       subscriptions.insert(sub2);
       subscriptions.insert(sub3);
 
-      const limits = subApi.searchLimits(sub);
+      const limits = searchIntervals(subscriptions, sub);
       debug.info(limits);
       limits.should.be.an('array').that.has.lengthOf(2);
 
@@ -106,7 +106,7 @@ describe('subscriptionApi', () => {
       subscriptions.insert(sub1);
       subscriptions.insert(sub2);
 
-      const limits = subApi.searchLimits(sub);
+      const limits = searchIntervals(subscriptions, sub);
       debug.info(limits);
       limits.should.be.an('array').that.has.lengthOf(1);
       limits[0].should.be.an('object').with.property('visuWindow');
@@ -120,7 +120,7 @@ describe('subscriptionApi', () => {
       subscriptions.insert(sub1);
       subscriptions.insert(sub2);
 
-      const limits = subApi.searchLimits(sub);
+      const limits = searchIntervals(subscriptions, sub);
       debug.info(limits);
       limits.should.be.an('array').that.has.lengthOf(0);
     });

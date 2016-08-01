@@ -8,9 +8,9 @@ describe('jsonCacheApi', () => {
   describe('resolveFilters', () => {
     it('operators', () => {
       const filters = [{
-        DataFullName: 'data',
-        Operator: 'OP_CONTAINS',
-        Value: 42,
+        dataFullName: 'data',
+        operator: 'OP_CONTAINS',
+        value: 42,
       }];
       const resolvedFilter = filterApi.resolveCacheFilters(filters);
       debug.info(resolvedFilter);

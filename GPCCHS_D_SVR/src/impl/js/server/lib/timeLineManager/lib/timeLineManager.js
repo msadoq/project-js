@@ -29,6 +29,9 @@ const onMessage = (timelines) => {
   }
 };
 
-const init = () => { debug.info('INIT TimeLine Manager Message Reception'); timeLinePullSocket.on('message', onMessage); };
+const init = () => {
+  debug.info('INIT TimeLine Manager Message Reception');
+  timeLinePullSocket.on('message', onMessage);
+};
 
 module.exports = { init };

@@ -63,4 +63,4 @@ const matchFilters = (data, subscription) => {
   return true;
 };
 
-module.exports = { resolveCacheFilters, matchFilters };
+module.exports = { operatorMappingObject, resolveCacheFilters, matchFilters };

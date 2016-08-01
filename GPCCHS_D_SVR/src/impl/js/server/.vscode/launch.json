@@ -34,6 +34,7 @@
             "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/mocha",
             "runtimeArgs": [             
                 "test",
+                "--recursive",
                 "--nolazy"
             ],
             "env": {

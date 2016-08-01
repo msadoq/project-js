@@ -10,10 +10,11 @@
     "start-debug-all": "DEBUG='gpcchs_d_svr:server:*' npm run start-debug",
     "start-verbose": "LEVEL='VERBOSE' node ./bin/www",
     "start-verbose-all": "DEBUG='gpcchs_d_svr:server:*' npm run start-verbose",
-    "test": "node_modules/.bin/mocha test"
+    "test": "node_modules/.bin/mocha test --recursive"
   },
   "dependencies": {
     "body-parser": "~1.15.1",
+    "chai-properties": "^1.2.1",
     "cookie-parser": "~1.4.3",
     "debug": "^2.2.0",
     "express": "~4.13.4",
@@ -22,6 +23,7 @@
     "protobufjs": "^5.0.1",
     "serve-favicon": "~2.3.0",
     "socket.io": "^1.4.8",
+    "supertest": "^1.2.0",
     "zmq": "^2.15.3"
   },
   "devDependencies": {

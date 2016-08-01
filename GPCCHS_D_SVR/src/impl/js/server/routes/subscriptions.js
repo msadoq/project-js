@@ -1,47 +1,172 @@
 const debug = require('../lib/io/debug')('routes:subscriptions');
-const { Router } = require('express');
+
+const ApiError = require('./apiError');
+
 const subscriptionManager = require('../lib/subscriptionManager');
-const router = new Router();
 
+const { operatorMappingObject } = require('../lib/dataCache/lib/filterApi');
 
-// on routes that end in /subscriptions
-// ----------------------------------------------------
-router.route('/subscriptions')
+const parseDataFullName = (dataFullName, callback) => {
+  let err;
+  const data = { dataFullName };
+  const dataFullNameDotSplitted = dataFullName.split('.');
+  if (dataFullNameDotSplitted.length === 2) {
+    data.catalog = dataFullNameDotSplitted[0];
+    const dataFullNameTagSplitted = dataFullNameDotSplitted[1].split('<');
+    if (dataFullNameTagSplitted.length === 2) {
+      data.parameter = dataFullNameTagSplitted[0];
+      const parameter = dataFullNameTagSplitted[1].split('>');
+      if (parameter.length === 2) {
+        data.type = parameter[0];
+      } else {
+        err = 'dataFullName should have a parameter type between tag marks';
+      }
+    } else {
+      err = 'dataFullName should have a parameter type between tag marks';
+    }
+  } else {
+    err = 'dataFullName should be composed of a catalog and a parameter separated by a dot';
+  }
+  callback(err, data);
+};
 
-    // Add subscriptions (accessed at POST http://localhost:1337/api/subscriptions)
-    .post((req, res) => {
-      debug.info(`Received subscription: ${JSON.stringify(req.body.jsonElem, null, 4)}`);
-      const subscriptionId = subscriptionManager.addSubscription(JSON.stringify(req.body.jsonElem));
-      debug.info(`Subscription Id associed: ${subscriptionId}`);
-      res.json({ message: `subscription added with id : ${JSON.stringify(subscriptionId)}` });
-    })
-    // get all subscriptions (accessed at GET http://localhost:1337/api/subscriptions)
-    .get((req, res) => {
-      /* var subscriptions = subscriptionManager.getAllSubscriptions();
-      res.json(subscriptions);*/
-      res.json([]);
+const timeLineTypes = {
+  SESSION: 'session',
+  DATASET: 'dataSet',
+  RECORDSET: 'recordSet',
+};
+
+const subscriptionStates = {
+  PLAY: 'play',
+  PAUSE: 'pause',
+};
+
+module.exports = (req, res, next) => {
+  let subscription;
+
+  if (req.body.dataFullName !== undefined) {
+    parseDataFullName(req.body.dataFullName, (err, data) => {
+      if (err) {
+        return next(new ApiError(400, err, '/body/dataFullName'));
+      }
+      subscription = data;
     });
+  } else {
+    return next(new ApiError(400, 'dataFullName parameter required', '/body/dataFullName'));
+  }
 
-router.route('/subscriptions/:subscriptionId')
+  if (req.body.field !== undefined) {
+    subscription.field = req.body.field;
+  } else {
+    return next(new ApiError(400, 'field parameter required', '/body/field'));
+  }
 
-    // Add subscriptions (accessed at POST http://localhost:1337/api/subscriptions)
-    .post((req, res) => {
-    })
-    // get one subscriptions (accessed at GET http://localhost:1337/api/subscriptions)
-    .get((req, res) => {
-      const subscription = subscriptionManager.getSubscriptionById(req.params.subscriptionId);
-      res.json(subscription);
-    })
-    // delete one subscriptions (accessed at GET http://localhost:1337/api/subscriptions)
-    .delete((req, res) => {
-      const subscription = subscriptionManager.deleteSubscriptionById(req.params.subscriptionId);
-      res.json(subscription);
-    })
-    // update subscriptions (accessed at PUT http://localhost:1337/api/subscriptions)
-    .put((req, res) => {
-      const subscriptionId = subscriptionManager
-        .updateSubscription(req.params.subscriptionId, req.body.updateJson);
-      res.json({ message: `subscriptions updated with id : ${JSON.stringify(subscriptionId)}` });
-    });
+  if (req.body.domainId !== undefined) {
+    subscription.domainId = req.body.domainId;
+  } else {
+    return next(new ApiError(400, 'domainId parameter required', '/body/domainId'));
+  }
 
-module.exports = router;
+  if (req.body.timeLineType !== undefined) {
+    if (req.body.timeLineType === timeLineTypes.SESSION) {
+      subscription.timeLineType = req.body.timeLineType;
+      if (req.body.sessionId !== undefined) {
+        subscription.sessionId = req.body.sessionId;
+      } else {
+        return next(new ApiError(400, 'sessionId parameter required', '/body/sessionId'));
+      }
+    } else if (req.body.timeLineType === timeLineTypes.DATASET
+      || req.body.timeLineType === timeLineTypes.RECORDSET) {
+      subscription.timeLineType = req.body.timeLineType;
+      if (req.body.setFileName !== undefined) {
+        subscription.setFileName = req.body.setFileName;
+      } else {
+        return next(new ApiError(400, 'setFileName parameter required', '/body/setFileName'));
+      }
+    } else {
+      return next(new ApiError(400, 'timeLineType should not have this value', '/body/timeLineType'));
+    }
+  } else {
+    return next(new ApiError(400, 'timeLineType parameter required', '/body/timeLineType'));
+  }
+
+  if (req.body.subscriptionState !== undefined) {
+    if (req.body.subscriptionState === subscriptionStates.PLAY
+      || req.body.subscriptionState === subscriptionStates.PAUSE) {
+      subscription.subscriptionState = req.body.subscriptionState;
+    } else {
+      return next(new ApiError(400, 'subscriptionState should not have this value', '/body/subscriptionState'));
+    }
+  } else {
+    return next(new ApiError(400, 'subscriptionState parameter required', '/body/subscriptionState'));
+  }
+
+  if (req.body.visuSpeed !== undefined) {
+    subscription.visuSpeed = req.body.visuSpeed;
+  } else {
+    return next(new ApiError(400, 'visuSpeed parameter required', '/body/visuSpeed'));
+  }
+
+  if (req.body.visuWindow !== undefined) {
+    if (req.body.visuWindow.dInf === undefined) {
+      return next(new ApiError(400, 'dInf parameter required', '/body/visuWindow/dInf'));
+    }
+    if (req.body.visuWindow.dSup === undefined) {
+      return next(new ApiError(400, 'dSup parameter required', '/body/visuWindow/dSup'));
+    }
+    subscription.visuWindow = req.body.visuWindow;
+  } else {
+    return next(new ApiError(400, 'visuWindow parameter required', '/body/visuWindow'));
+  }
+
+  if (req.body.filter !== undefined) {
+    if (req.body.filter.constructor === Array) {
+      subscription.filter = [];
+      let cpt = 0;
+      req.body.filter.forEach((reqFilter) => {
+        let filter;
+        if (reqFilter.dataFullName !== undefined) {
+          parseDataFullName(reqFilter.dataFullName, (err, data) => {
+            if (err) {
+              return next(new ApiError(400, err, `/body/filter/${cpt}/dataFullName`));
+            }
+            filter = data;
+          });
+        } else {
+          return next(new ApiError(400, 'dataFullName parameter required', `/body/filter/${cpt}/dataFullName`));
+        }
+        if (reqFilter.field !== undefined) {
+          filter.field = reqFilter.field;
+        } else {
+          return next(new ApiError(400, 'field parameter should be an array', `/body/filter/${cpt}/field`));
+        }
+        if (reqFilter.operator !== undefined) {
+          if (reqFilter.operator in operatorMappingObject) {
+            filter.operator = reqFilter.operator;
+          } else {
+            return next(new ApiError(400, 'operator parameter should not have this value', `/body/filter/${cpt}/operator`));
+          }
+        } else {
+          return next(new ApiError(400, 'operator parameter should be an array', `/body/filter/${cpt}/operator`));
+        }
+        if (reqFilter.value !== undefined) {
+          filter.value = reqFilter.value;
+        } else {
+          return next(new ApiError(400, 'value parameter should be an array', `/body/filter/${cpt}/value`));
+        }
+        subscription.filter.push(filter);
+        cpt++;
+      });
+    } else {
+      return next(new ApiError(400, 'filter parameter should be an array', '/body/filter'));
+    }
+  } else {
+    return next(new ApiError(400, 'filter parameter required', '/body/filter'));
+  }
+  
+  debug.info(`Received subscription: ${JSON.stringify(req.body, null, 4)}`);
+  debug.info(`Transformed subscription: ${JSON.stringify(subscription, null, 4)}`);
+  const subscriptionId = subscriptionManager.addSubscription(JSON.stringify(req.body));
+  debug.info(`Subscription Id associed: ${subscriptionId} - ${typeof subscriptionId}`);
+  return res.type('application/vnd.api+json').json({ subscriptionId });
+};

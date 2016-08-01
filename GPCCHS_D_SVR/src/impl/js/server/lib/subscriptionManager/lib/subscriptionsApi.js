@@ -27,7 +27,7 @@ const addSubscription = (subscriptionJson) => {
   }
   for (const limit of limits) {
     const newSubSub = newSub;
-    newSubSub.VisuWindow = limit.VisuWindow;
+    newSubSub.visuWindow = limit.visuWindow;
     newSubSubs.push(newSubSub);
     debug.info(`NEED INTERVAL : ${JSON.stringify(limit)}`);
   }
@@ -78,31 +78,31 @@ const searchLimits = (subscription) => {
   const dataSet = subscriptions.chain().find(
     {
       $and: [{
-        DataFullName: subscription.DataFullName,
+        dataFullName: subscription.dataFullName,
       }, {
-        SessionId: subscription.SessionId,
+        sessionId: subscription.sessionId,
       }, {
-        DomainId: subscription.DomainId,
+        domainId: subscription.domainId,
       }],
     });
   const limits = recursiveSearch(dataSet,
-  subscription.VisuWindow.dInf, subscription.VisuWindow.dSup);
+  subscription.visuWindow.dInf, subscription.visuWindow.dSup);
   return limits;
 };
 
 const dInfSort = (obj1, obj2) => {
   let returnValue = null;
-  if (obj1.VisuWindow.dInf === obj2.VisuWindow.dInf) returnValue = 0;
-  if (obj1.VisuWindow.dInf > obj2.VisuWindow.dInf) returnValue = 1;
-  if (obj1.VisuWindow.dInf < obj2.VisuWindow.dInf) returnValue = -1;
+  if (obj1.visuWindow.dInf === obj2.visuWindow.dInf) returnValue = 0;
+  if (obj1.visuWindow.dInf > obj2.visuWindow.dInf) returnValue = 1;
+  if (obj1.visuWindow.dInf < obj2.visuWindow.dInf) returnValue = -1;
   return returnValue;
 };
 
 const dSupSort = (obj1, obj2) => {
   let returnValue = null;
-  if (obj1.VisuWindow.dSup === obj2.VisuWindow.dSup) returnValue = 0;
-  if (obj1.VisuWindow.dSup > obj2.VisuWindow.dSup) returnValue = 1;
-  if (obj1.VisuWindow.dSup < obj2.VisuWindow.dSup) returnValue = -1;
+  if (obj1.visuWindow.dSup === obj2.visuWindow.dSup) returnValue = 0;
+  if (obj1.visuWindow.dSup > obj2.visuWindow.dSup) returnValue = 1;
+  if (obj1.visuWindow.dSup < obj2.visuWindow.dSup) returnValue = -1;
   return returnValue;
 };
 
@@ -112,8 +112,8 @@ const recursiveSearch = (set, dInf, max) => {
   const branch = set.branch();
   const lowestData = branch
     .find({ $and: [
-      { 'VisuWindow.dInf': { $lte: dInf } },
-      { 'VisuWindow.dSup': { $gt: dInf } },
+      { 'visuWindow.dInf': { $lte: dInf } },
+      { 'visuWindow.dSup': { $gt: dInf } },
     ] })
     .sort(dSupSort)
     .data();
@@ -123,32 +123,32 @@ const recursiveSearch = (set, dInf, max) => {
     const branch4 = set.branch();
     const lowestInnerData = branch4
         .find({ $and: [
-          { 'VisuWindow.dInf': { $lt: max } },
-          { 'VisuWindow.dInf': { $gt: dInf } },
+          { 'visuWindow.dInf': { $lt: max } },
+          { 'visuWindow.dInf': { $gt: dInf } },
         ] })
         .sort(dInfSort)
         .data();
     const lidl = lowestInnerData.length;
     if (lidl === 0) {
       // if none, no limits existing
-      limits.push({ VisuWindow: { dInf, dSup: max } });
+      limits.push({ visuWindow: { dInf, dSup: max } });
     } else {
       // store from last down limit to this one 
-      const nextDinf = lowestInnerData[0].VisuWindow.dInf;
+      const nextDinf = lowestInnerData[0].visuWindow.dInf;
       debug.debug(`LOW: ${nextDinf}`);
-      limits.push({ VisuWindow: { dInf, dSup: nextDinf } });
+      limits.push({ visuWindow: { dInf, dSup: nextDinf } });
       const nextLimits = recursiveSearch(set, nextDinf, max);
       limits.push(...nextLimits);
     }
   } else {
     // then check the greatest up limit associated to this down limit
-    const dSup = lowestData[ldl - 1].VisuWindow.dSup;
+    const dSup = lowestData[ldl - 1].visuWindow.dSup;
     // and search next greatest down limit inferior to this last greatest limit
     const branch2 = set.branch();
     const nextInnerData = branch2
         .find({ $and: [
-            { 'VisuWindow.dInf': { $lte: dSup, $gt: dInf } },
-            { 'VisuWindow.dSup': { $gt: dSup } },
+            { 'visuWindow.dInf': { $lte: dSup, $gt: dInf } },
+            { 'visuWindow.dSup': { $gt: dSup } },
         ] })
         .sort(dSupSort)
         .data();
@@ -157,7 +157,7 @@ const recursiveSearch = (set, dInf, max) => {
       // if none, search next downest limit superior to this last greatest limit
       const branch3 = set.branch();
       const nextOutterData = branch3
-        .find({ 'VisuWindow.dInf': { $gt: dSup, $lt: max } })
+        .find({ 'visuWindow.dInf': { $gt: dSup, $lt: max } })
         .sort(dInfSort)
         .data();
       const nodl = nextOutterData.length;
@@ -167,20 +167,20 @@ const recursiveSearch = (set, dInf, max) => {
             ? dInf
             : dSup;
         if (downLimit < max) {
-          limits.push({ VisuWindow: { dInf: downLimit, dSup: max } });
+          limits.push({ visuWindow: { dInf: downLimit, dSup: max } });
         }
       } else {
         // then check the greatest up limit associated to this down limit
         // and store from last up limit from this down limit
-        const nextDinf = nextOutterData[0].VisuWindow.dInf;
+        const nextDinf = nextOutterData[0].visuWindow.dInf;
         debug.debug(`OUT: ${nextDinf}`);
-        limits.push({ VisuWindow: { dInf: dSup, dSup: nextDinf } });
+        limits.push({ visuWindow: { dInf: dSup, dSup: nextDinf } });
         // and do it again
         const nextLimits = recursiveSearch(set, nextDinf, max);
         limits.push(...nextLimits);
       }
     } else {
-      const nextDinf = nextInnerData[nidl - 1].VisuWindow.dSup;
+      const nextDinf = nextInnerData[nidl - 1].visuWindow.dSup;
       debug.debug(`IN: ${nextDinf}`);
       if (nextDinf !== max) {
         const nextLimits = recursiveSearch(set, nextDinf, max);

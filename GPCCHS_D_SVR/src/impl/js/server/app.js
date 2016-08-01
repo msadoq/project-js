@@ -6,7 +6,6 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
 const routes = require('./routes/index');
-const users = require('./routes/users');
 const subscriptions = require('./routes/subscriptions');
 
 const app = express();
@@ -18,13 +17,12 @@ app.set('view engine', 'jade');
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
 app.use('/api', subscriptions);
 
 // catch 404 and forward to error handler
@@ -51,10 +49,11 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use((err, req, res) => {
-  res.status(err.status || 500);
-  res.render('error', {
+  res.status(err.status || 500).render('error', {
     message: err.message,
-    error: {},
+    error: (app.get('env') === 'development')
+      ? err
+      : {}, // no stack-trace outside development
   });
 });
 

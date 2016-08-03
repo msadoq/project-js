@@ -26,14 +26,14 @@ socketIn.on("message", function (timelines) {
     /*console.log("Master Id: "+timelinesJson.MasterId)*/
     for (var timeline of timelinesJson.Timelines){
         /*console.log("TimelineName: "+timeline.TimelineName);
-        console.log("dInf: "+timeline.VisuWindow.dInf);
-        console.log("dSup: "+timeline.VisuWindow.dSup);*/
+        console.log("lower: "+timeline.visuWindow.lower);
+        console.log("upper: "+timeline.visuWindow.upper);*/
         
         timeRangeConfiguration = {
             'type' : 'xExtents',
             'id' : 'batman',
-            'begin' : timeline.VisuWindow.dInf,
-            'end' : timeline.VisuWindow.dSup  
+            'begin' : timeline.visuWindow.lower,
+            'end' : timeline.visuWindow.upper  
         };
         currentTimeConfiguration = {
             "type":"VLineMarkerConfiguration",

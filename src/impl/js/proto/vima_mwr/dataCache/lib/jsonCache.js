@@ -17,11 +17,11 @@ exports.findData = function(query) {
                 'dataId' : query.DataFullName
                 },{ 
                 'dataTime' : {
-                    '$gte': query.VisuWindow.dInf
+                    '$gte': query.visuWindow.lower
                     }
                 },{ 
                 'dataTime' : {
-                    '$lte': query.VisuWindow.dSup
+                    '$lte': query.visuWindow.upper
                     }
                 },{ 
                 'session' : query.SessionId

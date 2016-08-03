@@ -29,13 +29,13 @@ socketIn.bind("tcp://127.0.0.1:4000");
 socketIn.on("message", function (subscriptions) {
     JSON.parse(subscriptions).forEach(function(newSubscription){
         console.log(newSubscription);
-        var dInf = newSubscription.VisuWindow.dInf;
-        var dSup = newSubscription.VisuWindow.dSup;
+        var lower = newSubscription.visuWindow.lower;
+        var upper = newSubscription.visuWindow.upper;
         var timeStep = 60;
         var sendToCache = setInterval(function () {
-            if(dInf < dSup) {
+            if(lower < upper) {
                 var isisAggregation = new IsisAggregation({
-                    "onboardDate" : {"value" : dInf},
+                    "onboardDate" : {"value" : lower},
                     "groundDate" : {"value" : Math.round(+new Date()/1000)},
                     "isNominal" : {"value" : true}
                 });
@@ -64,10 +64,10 @@ socketIn.on("message", function (subscriptions) {
                     'dataId' : newSubscription.DataFullName,
                     'session'  : newSubscription.SessionId,
                     'oid' : OID,
-                    'dataTime' : dInf
+                    'dataTime' : lower
                 };
                 sendMessage(JSON.stringify(obj), buffer);   
-                dInf = dInf + timeStep;
+                lower = lower + timeStep;
             } else {
                 console.log('terminé');
                 clearInterval(sendToCache);

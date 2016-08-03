@@ -38,15 +38,15 @@ const URI = 'tcp://127.0.0.1';
 const onSubscription = (subscription, dataSent = 0) => {
   const newSubscription = Object.assign({}, subscription);
   let newDataSent = dataSent;
-  const timestamp = newSubscription.visuWindow.dInf;
-  const max = newSubscription.visuWindow.dSup;
+  const timestamp = newSubscription.visuWindow.lower;
+  const max = newSubscription.visuWindow.upper;
 
   if (timestamp < max) {
     const parameter = newReportingParameter(timestamp);
     const metaData = newMetaData(newSubscription, timestamp);
     debug.debug(`Sending data on timestamp ${timestamp}`);
     dcPushSocket.send([null, metaData, parameter]);
-    newSubscription.visuWindow.dInf = timestamp + argv.timestep;
+    newSubscription.visuWindow.lower = timestamp + argv.timestep;
     newDataSent++;
     setTimeout(() => onSubscription(newSubscription, newDataSent), argv.periodicity);
   } else {

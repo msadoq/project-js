@@ -8,11 +8,11 @@ exports.getSubscriptions = (data) => subscriptionColl.find(
       {
         dataFullName: `${data.catalog}.${data.parameter}<${data.type}>`,
       }, {
-        'visuWindow.dInf': {
+        'visuWindow.lower': {
           $lte: data.timestamp,
         },
       }, {
-        'visuWindow.dSup': {
+        'visuWindow.upper': {
           $gte: data.timestamp,
         },
       }, {

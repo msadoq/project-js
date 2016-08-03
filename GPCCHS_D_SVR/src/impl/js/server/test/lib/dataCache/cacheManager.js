@@ -30,8 +30,8 @@ describe('cacheManager', () => {
       subscriptionState: 'play',
       visuSpeed: 0,
       visuWindow: {
-        dInf: 1420675200000,
-        dSup: 1430675200000,
+        lower: 1420675200000,
+        upper: 1430675200000,
       },
       filter: [
         {
@@ -63,8 +63,8 @@ describe('cacheManager', () => {
       subscriptionState: 'play',
       visuSpeed: 0,
       visuWindow: {
-        dInf: 1420675200000,
-        dSup: 1420685200000,
+        lower: 1420675200000,
+        upper: 1420685200000,
       },
       filter: [
         {

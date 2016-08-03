@@ -82,8 +82,8 @@ let day = 'default';
 let length = 1;*/
 
 const visuWindow = {
-  dInf: argv.start,
-  dSup: argv.end,
+  lower: argv.start,
+  upper: argv.end,
 };
 
 /*if (process.argv[2] in types) {
@@ -92,12 +92,12 @@ const visuWindow = {
     else paramType = paramTypes[process.argv[5]];
     if (process.argv[3] in days) {
         day = process.argv[3];
-        visuWindow.dInf = startValue + days[day]*lengthOfDay;
+        visuWindow.lower = startValue + days[day]*lengthOfDay;
         if (!isNaN(parseInt(process.argv[4], 10))) {
             length = parseInt(process.argv[4], 10);
         }
-        visuWindow.dSup = visuWindow.dInf + length*lengthOfDay;
-        if (visuWindow.dSup < visuWindow.dInf) [visuWindow.dInf, visuWindow.dSup] = [visuWindow.dSup, visuWindow.dInf];
+        visuWindow.upper = visuWindow.lower + length*lengthOfDay;
+        if (visuWindow.upper < visuWindow.lower) [visuWindow.lower, visuWindow.upper] = [visuWindow.upper, visuWindow.lower];
     }
 }*/
 
@@ -128,10 +128,10 @@ const filter = [
 ];
 
 if (argv.filter) {
-  debug.info(`Field ${FIELDS[argv.field]} from parameter ${PARAMETERS[argv.parameter]} of type ${TYPES[argv.type]} from ${visuWindow.dInf} to ${visuWindow.dSup} with filters`);
+  debug.info(`Field ${FIELDS[argv.field]} from parameter ${PARAMETERS[argv.parameter]} of type ${TYPES[argv.type]} from ${visuWindow.lower} to ${visuWindow.upper} with filters`);
   jsonData.filter = filter;
 } else {
-  debug.info(`Field ${FIELDS[argv.field]} from parameter ${PARAMETERS[argv.parameter]} of type ${TYPES[argv.type]} from ${visuWindow.dInf} to ${visuWindow.dSup} with no filter`);
+  debug.info(`Field ${FIELDS[argv.field]} from parameter ${PARAMETERS[argv.parameter]} of type ${TYPES[argv.type]} from ${visuWindow.lower} to ${visuWindow.upper} with no filter`);
 }
 
 const postData = JSON.stringify(jsonData);

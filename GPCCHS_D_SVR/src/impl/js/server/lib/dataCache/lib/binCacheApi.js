@@ -15,11 +15,11 @@ exports.findData = (query) => new Promise(
           dataId: query.dataFullName,
         }, {
           dataTime: {
-            $gte: query.visuWindow.dInf,
+            $gte: query.visuWindow.lower,
           },
         }, {
           dataTime: {
-            $lte: query.visuWindow.dSup,
+            $lte: query.visuWindow.upper,
           },
         }, {
           session: query.sessionId,

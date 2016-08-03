@@ -110,11 +110,11 @@ module.exports = (req, res, next) => {
   }
 
   if (req.body.visuWindow !== undefined) {
-    if (req.body.visuWindow.dInf === undefined) {
-      return next(new ApiError(400, 'dInf parameter required', '/body/visuWindow/dInf'));
+    if (req.body.visuWindow.lower === undefined) {
+      return next(new ApiError(400, 'lower parameter required', '/body/visuWindow/lower'));
     }
-    if (req.body.visuWindow.dSup === undefined) {
-      return next(new ApiError(400, 'dSup parameter required', '/body/visuWindow/dSup'));
+    if (req.body.visuWindow.upper === undefined) {
+      return next(new ApiError(400, 'upper parameter required', '/body/visuWindow/upper'));
     }
     subscription.visuWindow = req.body.visuWindow;
   } else {

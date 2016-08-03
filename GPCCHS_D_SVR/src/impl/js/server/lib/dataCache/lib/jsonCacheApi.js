@@ -15,12 +15,12 @@ exports.findData = (query) => new Promise(
   (resolve) => {
     const catalog = query.catalog; // query.dataFullName.split('.')[0];
     const parameter = query.parameter; // query.dataFullName.split('.')[1].split('<')[0];
-    const dInf = query.visuWindow.dInf;
-    const dSup = query.visuWindow.dSup;
+    const lower = query.visuWindow.lower;
+    const upper = query.visuWindow.upper;
     const filters = resolveCacheFilters(query.filter);
-    debug.info(`Try to find parameter ${parameter} from catalog ${catalog} in interval [${dInf},${dSup}] in cache`);
+    debug.info(`Try to find parameter ${parameter} from catalog ${catalog} in interval [${lower},${upper}] in cache`);
     (filters.length === 0) ? debug.info('with no filter') : debug.info(`with filter ${util.inspect(filters)}`);
-    
+
     const findFilter = {
       $and: [
         {
@@ -29,25 +29,24 @@ exports.findData = (query) => new Promise(
           parameter,
         }, {
           timestamp: {
-            $gte: dInf,
+            $gte: lower,
           },
         }, {
           timestamp: {
-            $lte: dSup,
+            $lte: upper,
           },
         }, {
           session: query.sessionId,
         },
       ],
     };
-    
+
     findFilter.$and = findFilter.$and.concat(filters);
-    
+
     debug.info(findFilter);
-    
+
     resolve(
       jsonDataColl.find(findFilter)
     );
   }
 );
-

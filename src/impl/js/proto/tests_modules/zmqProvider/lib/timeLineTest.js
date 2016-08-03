@@ -9,7 +9,7 @@ function logToConsole (message) {
 }
 
 function sendMessage (header) {
-    logToConsole("Sending " + JSON.parse(header).Timelines[0].VisuWindow.dInf + " - " + JSON.parse(header).Timelines[0].VisuWindow.dSup);
+    logToConsole("Sending " + JSON.parse(header).Timelines[0].visuWindow.lower + " - " + JSON.parse(header).Timelines[0].visuWindow.upper);
     socketOut.send(header);
 }
 
@@ -20,8 +20,8 @@ modes = {
     'follow' : 'follow'
 }
 
-dInf = 1438412400000;
-dSup = 1438412460000;
+lower = 1438412400000;
+upper = 1438412460000;
 MAX = 1438413000000
 
 if (process.argv[2] in modes) {
@@ -43,11 +43,11 @@ var timelines = {
             "SetFileName" : "Bar",
             "SubscriptionState" : "Play",
             "VisuSpeed" : 50,
-            "VisuWindow" : {
-                "dInf" : dInf,
-                "dSup" : dSup
+            "visuWindow" : {
+                "lower" : lower,
+                "upper" : upper
             },
-            "CurrentTime" : (dInf+dSup)/2
+            "CurrentTime" : (lower+upper)/2
         }
     ],
     "MasterId" : 91
@@ -58,36 +58,34 @@ var tf = 0;
 var OFFSET=1000;
 
 if (mode != 'none') {
-    var sendToSM = setInterval(function () {        
-        
+    var sendToSM = setInterval(function () {
+
         switch(mode) {
             case "play":
-                timelines.Timelines[0].VisuWindow.dInf = dInf+i*OFFSET;
-                timelines.Timelines[0].VisuWindow.dSup = dSup+i*OFFSET;
-                timelines.Timelines[0].CurrentTime = i*OFFSET+(dInf+dSup)/2;
+                timelines.Timelines[0].visuWindow.lower = lower+i*OFFSET;
+                timelines.Timelines[0].visuWindow.upper = upper+i*OFFSET;
+                timelines.Timelines[0].CurrentTime = i*OFFSET+(lower+upper)/2;
                 break;
             case "follow":
-                if ((i*OFFSET+(dInf+dSup)/2) > dSup) {
+                if ((i*OFFSET+(lower+upper)/2) > upper) {
                     tf = tf + 1;
-                    timelines.Timelines[0].VisuWindow.dInf = dInf+tf*OFFSET;
-                    timelines.Timelines[0].VisuWindow.dSup = dSup+tf*OFFSET; 
+                    timelines.Timelines[0].visuWindow.lower = lower+tf*OFFSET;
+                    timelines.Timelines[0].visuWindow.upper = upper+tf*OFFSET;
                 }
-                timelines.Timelines[0].CurrentTime = i*OFFSET+(dInf+dSup)/2;
+                timelines.Timelines[0].CurrentTime = i*OFFSET+(lower+upper)/2;
                 break;
             default:
                 clearInterval(sendToSM);
                 break;
         }
-        
+
         sendMessage(JSON.stringify(timelines));
-        
+
         i = i + 1;
-        
-        if (i*OFFSET > (MAX-dSup)) {
+
+        if (i*OFFSET > (MAX-upper)) {
             clearInterval(sendToSM);
         }
-        
+
     }, 50);
 }
-
-

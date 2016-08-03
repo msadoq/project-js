@@ -64,8 +64,8 @@ describe('POST API subscriptions', () => {
         subscriptionState: 'play',
         visuSpeed: 0,
         visuWindow: {
-          dInf: 0,
-          dSup: 42,
+          lower: 0,
+          upper: 42,
         },
         filter: [
           {

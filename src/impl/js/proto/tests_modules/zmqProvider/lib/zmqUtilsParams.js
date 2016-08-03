@@ -37,13 +37,13 @@ socketIn.connect("tcp://127.0.0.1:4000");
 socketIn.on("message", function (subscriptions) {
     JSON.parse(subscriptions).forEach(function(newSubscription){
         console.log(newSubscription);
-        var dInf = newSubscription.visuWindow.dInf;
-        var dSup = newSubscription.visuWindow.dSup;
+        var lower = newSubscription.visuWindow.lower;
+        var upper = newSubscription.visuWindow.upper;
         var timeStep = 600*factor;
         var sendToCache = setInterval(function () {
-            if(dInf < dSup) {
+            if(lower < upper) {
                 parameter = new ReportingParameter({
-                    "onboardDate" : {"value" : dInf},
+                    "onboardDate" : {"value" : lower},
                     "groundDate" : {"value" : Math.round(+new Date()/1000)},
                     "convertedValue" : {"_double" : {"value" : Math.floor((Math.random() * 100) + 1)}},
                     "rawValue" : {"_double" : {"value" : Math.floor((Math.random() * 100) + 1)}},
@@ -69,13 +69,13 @@ socketIn.on("message", function (subscriptions) {
                     'oid' : OID,
                     'parameter' : splittedParameter[0],
                     'session'  : newSubscription.sessionId,
-                    'timestamp' : dInf,
+                    'timestamp' : lower,
                     'type' : splittedType[0]
                 });
                 //console.log(JSON.stringify(obj));
                 const metaData = obj.encode().toBuffer();
                 sendMessage(metaData, buffer);   
-                dInf = dInf + timeStep;
+                lower = lower + timeStep;
             } else {
                 console.log('terminé');
                 clearInterval(sendToCache);

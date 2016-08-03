@@ -10,7 +10,7 @@ const lengthOfDay = 86400000;
 //const startValue = 1467496800;
 const startValue = 1420675200000;
 
-const visuWindow = {'dInf': 0,'dSup': 0};
+const visuWindow = {'lower': 0,'upper': 0};
 
 const types = {
     'ag' : 'Aggregation',
@@ -43,16 +43,16 @@ if (process.argv[2] in types) {
     else paramType = paramTypes[process.argv[5]];
     if (process.argv[3] in days) {
         day = process.argv[3];
-        visuWindow.dInf = startValue + days[day]*lengthOfDay;
+        visuWindow.lower = startValue + days[day]*lengthOfDay;
         if (!isNaN(parseInt(process.argv[4], 10))) {
             length = parseInt(process.argv[4], 10);
         }
-        visuWindow.dSup = visuWindow.dInf + length*lengthOfDay;
-        if (visuWindow.dSup < visuWindow.dInf) [visuWindow.dInf, visuWindow.dSup] = [visuWindow.dSup, visuWindow.dInf];
+        visuWindow.upper = visuWindow.lower + length*lengthOfDay;
+        if (visuWindow.upper < visuWindow.lower) [visuWindow.lower, visuWindow.upper] = [visuWindow.upper, visuWindow.lower];
     }
 }
 
-console.log('DAY: '+length+' day(s) from '+day+' -> '+visuWindow.dInf+' - '+visuWindow.dSup);
+console.log('DAY: '+length+' day(s) from '+day+' -> '+visuWindow.lower+' - '+visuWindow.upper);
 
 jsonData = {
     dataFullName: 'Reporting.'+paramType+'<'+type+'>',

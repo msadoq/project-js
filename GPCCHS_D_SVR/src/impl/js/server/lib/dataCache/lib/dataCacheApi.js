@@ -1,11 +1,11 @@
-const { jsonData } = require('../../io/loki');
+const { jsonDataColl } = require('../../io/loki');
 
 exports.addDataId = (connectedDataJson) => new Promise(
   (resolve, reject) => {
-    resolve(jsonData.insert(connectedDataJson));
+    resolve(jsonDataColl.insert(connectedDataJson));
   });
 
-exports.findConnectedData = (jsonFilter) => jsonData.find({ session: jsonFilter.sessionId });
+exports.findConnectedData = (jsonFilter) => jsonDataColl.find({ session: jsonFilter.sessionId });
 
 /*var addDataId = function(dataIdJson) {
     return dataIds.insert(JSON.parse(dataIdJson));

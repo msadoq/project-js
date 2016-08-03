@@ -13,6 +13,7 @@ const URI = 'tcp://127.0.0.1';
 const subscriptionPushSocket = zmq.socket('push');
 const cachePullSocket = zmq.socket('pull');
 const timeLinePullSocket = zmq.socket('pull');
+
 const bindPushSockets = (callback) => subscriptionPushSocket.bind(`${URI}:${subPushPort}`, (err) => {
   if (err) throw err;
   debug.info(`Subscription Push Socket Bound on ${URI}:${subPushPort}`);
@@ -30,4 +31,17 @@ const bindPushSockets = (callback) => subscriptionPushSocket.bind(`${URI}:${subP
   setTimeout(callback, 0);
 });
 
-module.exports = { bindPushSockets, subscriptionPushSocket, cachePullSocket, timeLinePullSocket, dcPullSockets };
+const disconnectSockets = (callback) => {
+  subscriptionPushSocket.disconnect(`${URI}:${subPushPort}`);
+  cachePullSocket.disconnect(`${URI}:${cachePullPort}`);
+  timeLinePullSocket.disconnect(`${URI}:${tlPullPort}`);
+  dcPullSockets = dcPullSockets.map((s, i) => {
+    const dcPort = dcPullPort + i;
+    const dcURI = `${URI}:${dcPort}`;
+    return s.disconnect(dcURI);
+  });
+
+  setTimeout(callback, 0);
+};
+
+module.exports = { bindPushSockets, disconnectSockets, subscriptionPushSocket, cachePullSocket, timeLinePullSocket, dcPullSockets };

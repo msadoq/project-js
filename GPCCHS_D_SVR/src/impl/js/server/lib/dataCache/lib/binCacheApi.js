@@ -1,15 +1,15 @@
-const { binCache } = require('../../io/loki');
+const { binDataColl } = require('../../io/loki');
 
 exports.addData = (metaData, binData) => {
   const data = Object.assign({}, metaData, { binPayload: binData });
   return new Promise((resolve, reject) => {
-    resolve(binCache.insert(data));
+    resolve(binDataColl.insert(data));
   });
 };
 
 exports.findData = (query) => new Promise(
   (resolve, reject) => {
-    resolve(binCache.find({
+    resolve(binDataColl.find({
       $and: [
         {
           dataId: query.dataFullName,

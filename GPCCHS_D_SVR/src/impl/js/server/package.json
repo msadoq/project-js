@@ -3,14 +3,22 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "LEVEL='INFO' node ./bin/www",
-    "start-info": "LEVEL='INFO' node ./bin/www",
-    "start-info-all": "DEBUG='gpcchs_d_svr:server:*' npm run start-info",
-    "start-debug": "LEVEL='DEBUG' node ./bin/www",
-    "start-debug-all": "DEBUG='gpcchs_d_svr:server:*' npm run start-debug",
-    "start-verbose": "LEVEL='VERBOSE' node ./bin/www",
-    "start-verbose-all": "DEBUG='gpcchs_d_svr:server:*' npm run start-verbose",
-    "test": "node_modules/.bin/mocha test --recursive"
+    "info": "LEVEL='INFO'",
+    "debug": "LEVEL='DEBUG'",
+    "verbose": "LEVEL='VERBOSE'",
+    "info-all": "DEBUG='gpcchs_d_svr:server:*' npm run info",
+    "debug-all": "DEBUG='gpcchs_d_svr:server:*' npm run debug",
+    "verbose-all": "DEBUG='gpcchs_d_svr:server:*' npm run verbose",
+    "start": "node ./bin/www",
+    "start-info": "npm run info-all npm run start",
+    "start-debug": "npm run debug-all npm run start",
+    "start-verbose": "npm run verbose-all npm run start",
+    "test": "node_modules/.bin/mocha test --recursive",
+    "gpccdc-stub": "node stub/gpccdc.js -p 1",
+    "send-sub-stub": "node stub/sendSubscriptions.js",
+    "start-stub-only": "concurrently \"npm run info-all npm run gpccdc-stub\" \"npm run start-debug\"",
+    "start-stub": "concurrently \"npm run gpccdc-stub\" \"npm run start\" \"npm run send-sub-stub\"",
+    "start-stub-info": "concurrently \"npm run info-all npm run gpccdc-stub\" \"npm run start-info\" \"npm run info-all npm run send-sub-stub\""
   },
   "dependencies": {
     "body-parser": "~1.15.1",
@@ -29,12 +37,15 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "chi": "0.0.10",
+    "concurrently": "^2.2.0",
     "eslint": "^3.0.1",
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-import": "^1.10.2",
     "eslint-plugin-jsx-a11y": "^1.5.5",
     "eslint-plugin-react": "^5.2.2",
+    "exec": "^0.2.1",
     "lokijs": "^1.4.1",
+    "minimist": "^1.2.0",
     "mocha": "^2.5.3"
   }
 }

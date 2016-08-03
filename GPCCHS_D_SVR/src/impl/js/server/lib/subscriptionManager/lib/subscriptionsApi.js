@@ -2,26 +2,24 @@ const debug = require('../../io/debug')('subscriptionManager:subscriptionApi');
 
 const { subscriptionPushSocket } = require('../../io/zmq');
 
-const { subscriptions } = require('../../io/loki');
+const { subscriptionColl } = require('../../io/loki');
 
 const { searchIntervals } = require('./intervalApi');
 
 const { createNewSubscription } = require('../../dataCache');
 
-let globalSubscriptionId = 2;
+let globalSubscriptionId = 1;
 
-const getSubscriptionId = () => {
-  globalSubscriptionId = (globalSubscriptionId === 2)
-    ? 1
-    : 2;
-  return globalSubscriptionId;
+const getSubscriptionId = () => globalSubscriptionId++;
+const resetSubscriptionId = () => {
+  globalSubscriptionId = 1;
 };
 
 const addSubscription = (subscription) => {
   const subId = getSubscriptionId();
   const newSubscription = Object.assign({}, subscription, { subId });
   createNewSubscription(newSubscription);
-  const intervals = searchIntervals(subscriptions, newSubscription);
+  const intervals = searchIntervals(subscriptionColl, newSubscription);
   if (intervals.length === 0) {
     debug.info('ALL INTERVALS FOUND IN CACHE');
   } else {
@@ -35,14 +33,14 @@ const addSubscription = (subscription) => {
     subscriptionPushSocket.send(JSON.stringify(newIntervalSubs));
   }
 
-  subscriptions.insert(newSubscription);
+  subscriptionColl.insert(newSubscription);
 
   return newSubscription.subId;
 };
 
 const updateSubscription = (subscriptionLokiId, subscriptionUpdates) => {
   // On récupère la subscription avec son lokiId
-  const subscription = subscriptions.get(parseInt(subscriptionLokiId, 10));
+  const subscription = subscriptionColl.get(parseInt(subscriptionLokiId, 10));
   const jsonUpdates = JSON.parse(subscriptionUpdates);
 
   // On boucle sur les modifications à apporter
@@ -53,22 +51,23 @@ const updateSubscription = (subscriptionLokiId, subscriptionUpdates) => {
     subscription.subscription[attributeName] = attributeValue;
   }
   // on stocke la timeline
-  return subscriptions.update(subscription);
+  return subscriptionColl.update(subscription);
 };
 
-const getSubscriptionById = (id) => subscriptions.get(id);
+const getSubscriptionById = (id) => subscriptionColl.get(id);
 
-const findSubscriptionById = (id) => subscriptions.find({ subId: parseInt(id, 10) });
+const findSubscriptionById = (id) => subscriptionColl.find({ subId: parseInt(id, 10) });
 
 const deleteSubscriptionByFindId =
-    (id) => subscriptions.removeWhere({ subId: parseInt(id, 10) });
+    (id) => subscriptionColl.removeWhere({ subId: parseInt(id, 10) });
 
-const deleteSubscriptionById = (id) => subscriptions.remove(parseInt(id, 10));
+const deleteSubscriptionById = (id) => subscriptionColl.remove(parseInt(id, 10));
 
-const getAllsubscriptions = () => subscriptions.find();
+const getAllsubscriptions = () => subscriptionColl.find();
 
 
 module.exports = {
+  resetSubscriptionId,
   addSubscription,
   updateSubscription,
   getSubscriptionById,

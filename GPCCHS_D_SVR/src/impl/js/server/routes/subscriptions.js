@@ -41,6 +41,8 @@ const subscriptionStates = {
   PAUSE: 'pause',
 };
 
+const DEFAULT_VISU_SPEED = 0;
+
 module.exports = (req, res, next) => {
   let subscription;
 
@@ -58,7 +60,7 @@ module.exports = (req, res, next) => {
   if (req.body.field !== undefined) {
     subscription.field = req.body.field;
   } else {
-    return next(new ApiError(400, 'field parameter required', '/body/field'));
+    subscription.field = '*';
   }
 
   if (req.body.domainId !== undefined) {
@@ -104,7 +106,7 @@ module.exports = (req, res, next) => {
   if (req.body.visuSpeed !== undefined) {
     subscription.visuSpeed = req.body.visuSpeed;
   } else {
-    return next(new ApiError(400, 'visuSpeed parameter required', '/body/visuSpeed'));
+    subscription.visuSpeed = DEFAULT_VISU_SPEED;
   }
 
   if (req.body.visuWindow !== undefined) {
@@ -161,7 +163,7 @@ module.exports = (req, res, next) => {
       return next(new ApiError(400, 'filter parameter should be an array', '/body/filter'));
     }
   } else {
-    return next(new ApiError(400, 'filter parameter required', '/body/filter'));
+    subscription.filter = [];
   }
   
   debug.info(`Received subscription: ${JSON.stringify(req.body, null, 4)}`);

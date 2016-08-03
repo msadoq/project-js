@@ -344,7 +344,9 @@ return /******/ (function(modules) { // webpackBootstrap
             document.getElementById("ui").innerHTML = "<h1>"+message+"</h1>";
         });
         socket.on('plot', (message) => {
-			if (message.parameter === paramName) {
+			console.log(subIds);
+			console.log(message.subscriptionId);
+			if (subIds.includes(message.subscriptionId)) {
 		      if (!batPoints[message.subscriptionId]){
 				batPoints[message.subscriptionId] = {
 					data: [],

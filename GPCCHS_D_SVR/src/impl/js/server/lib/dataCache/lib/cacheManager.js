@@ -14,16 +14,18 @@ const createNewSubscription = (subscription) => {
   jsonCache.findData(subscription).then((storedData) => {
     const points = [];
     storedData.forEach((data) => {
-      // cacheWebsocket().emit('Parameters', data.jsonPayload);
       const jsonPayLoad = data.jsonPayload;
       const point = [];
       point.push(data.timestamp.toNumber());
-      point.push((subscription.field === '*') ? jsonPayLoad : jsonPayLoad[subscription.field]);
+      if (subscription.field === undefined || subscription.field === '*') {
+        point.push(jsonPayLoad);
+      } else {
+        point.push(jsonPayLoad[subscription.field]);
+      }
       points.push(point);
     });
-    debug.info(`Size: ${points.length}`);
     if (points.length > 0) {
-      const parameter = subscription.dataFullName.split('.')[1].split('<')[0];
+      const parameter = subscription.parameter; // subscription.dataFullName.split('.')[1].split('<')[0];
       debug.info(`Sending found data in cache for parameter ${parameter} to views for subscription ${subscription.subId}`);
       debug.debug(`points: ${points}`);
       cacheWebSocket().emit('plot', {
@@ -51,8 +53,11 @@ const onMessage = (header, meta, payload) => {
         if (matchFilters(decodedJson, subscription)) {
           const point = [];
           point.push(metaStr.timestamp.toNumber());
-          point.push((subscription.field === '*') ? decodedJson : decodedJson[subscription.field]);
-
+          if (subscription.field === undefined || subscription.field === '*') {
+            point.push(decodedJson);
+          } else {
+            point.push(decodedJson[subscription.field]);
+          }
           debug.debug(`Sending parameter ${metaStr.parameter} to views for subscription ${subscription.subId}`);
           debug.debug(`point: ${point}`);
           cacheWebSocket().emit('plot', {

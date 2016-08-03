@@ -2,19 +2,20 @@ const Loki = require('lokijs');
 
 const cache = new Loki('serverCache.json');
 
-// const subscriptiondb = new Loki('subscription.json');
-const subscriptions = cache.addCollection('subscriptions');
+const subscriptionColl = cache.addCollection('subscription');
 
-// const binCachedb = new Loki('binCache.json');
-const binCache = cache.addCollection('binCache');
+const binDataColl = cache.addCollection('binData');
 
-// const jsonCacheDB = new Loki('jsonCache.json');
-const jsonCache = cache.addCollection('jsonCache');
+const jsonDataColl = cache.addCollection('jsonData');
 
-// const subscrDb = new Loki('cacheSubDB.json');
-const subCache = cache.addCollection('cacheSub');
+const cacheSubscriptionColl = cache.addCollection('cacheSubscription');
 
-// const timeLinedb = new Loki('timeLine.json');
-const timeLineCache = cache.addCollection('timeLines');
+const timelineColl = cache.addCollection('timeline');
 
-module.exports = { subscriptions, binCache, jsonCache, subCache, timeLineCache };
+module.exports = {
+  subscriptionColl,
+  binDataColl,
+  jsonDataColl,
+  cacheSubscriptionColl,
+  timelineColl,
+};

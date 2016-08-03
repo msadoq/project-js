@@ -32,31 +32,44 @@ const resolveCacheFilters = (filterArray) => (
 );
 
 const applyFilter = (data, filter) => {
-  switch (filter.operator) {
-    case 'OP_EQ':
-      return (data[filter.field] === filter.value);
-    case 'OP_NE':
-      return (data[filter.field] !== filter.value);
-    case 'OP_LT':
-      return (data[filter.field] < filter.value);
-    case 'OP_LE':
-      return (data[filter.field] <= filter.value);
-    case 'OP_GT':
-      debug.info('applyFilter OP_GT');
-      return (data[filter.field] > filter.value);
-    case 'OP_GE':
-      return (data[filter.field] >= filter.value);
-    case 'OP_CONTAINS':
-      return data[filter.field].includes(filter.value);
-    case 'OP_ICONTAINS':
-      return !data[filter.field].includes(filter.value);
-    default:
-      return false;
+  if (data[filter.field] !== undefined) {
+    debug.debug(`applyFilter ${filter} to data ${data}`);
+    switch (filter.operator) {
+      case 'OP_EQ':
+        debug.debug('applyFilter OP_EQ');
+        return (data[filter.field] === filter.value);
+      case 'OP_NE':
+        debug.debug('applyFilter OP_NE');
+        return (data[filter.field] !== filter.value);
+      case 'OP_LT':
+        debug.debug('applyFilter OP_LT');
+        return (data[filter.field] < filter.value);
+      case 'OP_LE':
+        debug.debug('applyFilter OP_LE');
+        return (data[filter.field] <= filter.value);
+      case 'OP_GT':
+        debug.debug('applyFilter OP_GT');
+        return (data[filter.field] > filter.value);
+      case 'OP_GE':
+        debug.debug('applyFilter OP_GE');
+        return (data[filter.field] >= filter.value);
+      case 'OP_CONTAINS':
+        debug.debug('applyFilter OP_CONTAINS');
+        return data[filter.field].includes(filter.value);
+      case 'OP_ICONTAINS':
+        debug.debug('applyFilter OP_ICONTAINS');
+        return !(data[filter.field].includes(filter.value));
+      default:
+        return true;
+    }
+  } else {
+    return true;
   }
 };
 
 const matchFilters = (data, subscription) => {
   const filters = subscription.filter;
+  debug.debug(`apply ${filters.length} filter(s) to data`);
   for (const filter of filters) {
     if (applyFilter(data, filter) === false) return false;
   }

@@ -1,8 +1,8 @@
-const { subscriptions } = require('../../io/loki');
+const { subscriptionColl } = require('../../io/loki');
 
-exports.addSubscription = (subscription) => subscriptions.insert(subscription);
+exports.addSubscription = (subscription) => subscriptionColl.insert(subscription);
 
-exports.getSubscriptions = (data) => subscriptions.find(
+exports.getSubscriptions = (data) => subscriptionColl.find(
   {
     $and: [
       {

@@ -1,23 +1,22 @@
 const debug = require('../../io/debug')('dataCache:jsonCacheApi');
-const { jsonCache } = require('../../io/loki');
+const { jsonDataColl } = require('../../io/loki');
 const { resolveCacheFilters } = require('./filterApi');
 const util = require('util');
 
 exports.addData = (metaData, jsonData) => {
   const data = Object.assign({}, metaData, { jsonPayload: jsonData });
   return new Promise((resolve) => {
-    const inserted = jsonCache.insert(data);
+    const inserted = jsonDataColl.insert(data);
     resolve(inserted);
   });
 };
 
 exports.findData = (query) => new Promise(
   (resolve) => {
-    const catalog = query.dataFullName.split('.')[0];
-    const parameter = query.dataFullName.split('.')[1].split('<')[0];
+    const catalog = query.catalog; // query.dataFullName.split('.')[0];
+    const parameter = query.parameter; // query.dataFullName.split('.')[1].split('<')[0];
     const dInf = query.visuWindow.dInf;
     const dSup = query.visuWindow.dSup;
-    debug.info(query.filter);
     const filters = resolveCacheFilters(query.filter);
     debug.info(`Try to find parameter ${parameter} from catalog ${catalog} in interval [${dInf},${dSup}] in cache`);
     (filters.length === 0) ? debug.info('with no filter') : debug.info(`with filter ${util.inspect(filters)}`);
@@ -47,7 +46,7 @@ exports.findData = (query) => new Promise(
     debug.info(findFilter);
     
     resolve(
-      jsonCache.find(findFilter)
+      jsonDataColl.find(findFilter)
     );
   }
 );

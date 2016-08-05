@@ -23,7 +23,7 @@ function testJson(data) {
 }
 
 // TB associated with the process
-const associatedTimebar ;
+let associatedTimebar ;
 
 //*************** Time Bar initialization
 const onInit = (timebar) => {
@@ -65,7 +65,7 @@ const onUpdateTimebar = (timebar) => {
     "speed":associatedTimebar.speed
   };
 
-  const visuModeConfiguration ;
+  let visuModeConfiguration ;
   switch (associatedTimebar.mode) {
     case "Normal":
       visuModeConfiguration = null;
@@ -104,7 +104,7 @@ const onUpdateTimebar = (timebar) => {
 }
 
 //*************** Time line addition
-const onNewTimeLine = (timeline) {
+const onNewTimeLine = (timeline) => {
   const timelineJson = JSON.parse(timeline);
   // Check existence of ID
   let id = timelineJson.timeline.id;
@@ -125,7 +125,7 @@ const onNewTimeLine = (timeline) {
 }
 
 //*************** Time line deletion
-const onRemoveTimeline = (timelineId) {
+const onRemoveTimeline = (timelineId) => {
   // find timeline ID
   for (let i = 0; i < associatedTimebar.timelines.length; i++) {
     if (associatedTimebar.timelines[i].id == timelineId) {
@@ -140,7 +140,7 @@ const onRemoveTimeline = (timelineId) {
 
 
 //*************** Time line deletion
-const onUpdateTimeline = (timeline) {
+const onUpdateTimeline = (timeline) => {
   const timelineJson = JSON.parse(timeline);
   const timelineId = timelineJson.timeline.id;
   // find timeline ID
@@ -157,18 +157,18 @@ const onUpdateTimeline = (timeline) {
 }
 
 // Sending time bar infos when a new connection is established
-const onOpen = (webSocket) {
-  webSocket.emit("timebarInitialization",associatedTimebar);
+const onOpen = (webSocket) => {
+  webSocket().emit("timebarInitialization",associatedTimebar);
 }
 
 const init = () => {
   debug.info('INIT TimeLine Manager Message Reception');
-  timeLinePullSOcket.on('timebarInit',onInit);
-  timeLinePullSOcket.on('newTimeline',onNewTimeLine);
-  timeLinePullSOcket.on('removeTimeline',onRemoveTimeline);
-  timeLinePullSOcket.on('updateTimeline',onUpdateTimeline);
-  timeLinePullSOcket.on('updateTimebar',onUpdateTimebar);
-  webSocket.on('connection',onOpen);
+  timeLinePullSocket.on('timebarInit',onInit);
+  timeLinePullSocket.on('newTimeline',onNewTimeLine);
+  timeLinePullSocket.on('removeTimeline',onRemoveTimeline);
+  timeLinePullSocket.on('updateTimeline',onUpdateTimeline);
+  timeLinePullSocket.on('updateTimebar',onUpdateTimebar);
+  webSocket().on('connection',onOpen);
 };
 
 module.exports = { init };

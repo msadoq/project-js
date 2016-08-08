@@ -6,6 +6,7 @@ const subscriptionManager = require('../lib/subscriptionManager');
 
 const { operatorMappingObject } = require('../lib/dataCache/lib/filterApi');
 
+//1/ dataFullName
 const parseDataFullName = (dataFullName, callback) => {
   let err;
   const data = { dataFullName };
@@ -30,22 +31,36 @@ const parseDataFullName = (dataFullName, callback) => {
   callback(err, data);
 };
 
+//2/ field
+const field = 'rawValue';
+//3/ domainId
+const domainId = 0;
+
+//4/ timeLineTypes: session + (dataSet OR recordSet)
 const timeLineTypes = {
   SESSION: 'session',
   DATASET: 'dataSet',
   RECORDSET: 'recordSet',
 };
 
+//5/ subscriptionStates: play OR pause
 const subscriptionStates = {
   PLAY: 'play',
-  PAUSE: 'pause',
+  PAUSE: 'pause'
 };
 
+//6/ visuSpeed
 const DEFAULT_VISU_SPEED = 0;
+
+//7/ visuWindow
+const visuWindows = {
+  LOWER: 'lower',
+  UPPER: 'upper'
+};
 
 module.exports = (req, res, next) => {
   let subscription;
-
+//1/ dataFullName
   if (req.body.dataFullName !== undefined) {
     parseDataFullName(req.body.dataFullName, (err, data) => {
       if (err) {
@@ -56,19 +71,19 @@ module.exports = (req, res, next) => {
   } else {
     return next(new ApiError(400, 'dataFullName parameter required', '/body/dataFullName'));
   }
-
+//2/ field
   if (req.body.field !== undefined) {
     subscription.field = req.body.field;
   } else {
     subscription.field = '*';
   }
-
+//3/ domainId
   if (req.body.domainId !== undefined) {
     subscription.domainId = req.body.domainId;
   } else {
     return next(new ApiError(400, 'domainId parameter required', '/body/domainId'));
   }
-
+//4/ timeLineTypes: session + (dataSet OR recordSet)
   if (req.body.timeLineType !== undefined) {
     if (req.body.timeLineType === timeLineTypes.SESSION) {
       subscription.timeLineType = req.body.timeLineType;
@@ -91,7 +106,7 @@ module.exports = (req, res, next) => {
   } else {
     return next(new ApiError(400, 'timeLineType parameter required', '/body/timeLineType'));
   }
-
+//5/ subscriptionStates: play OR pause
   if (req.body.subscriptionState !== undefined) {
     if (req.body.subscriptionState === subscriptionStates.PLAY
       || req.body.subscriptionState === subscriptionStates.PAUSE) {
@@ -102,13 +117,13 @@ module.exports = (req, res, next) => {
   } else {
     return next(new ApiError(400, 'subscriptionState parameter required', '/body/subscriptionState'));
   }
-
+//6/ visuSpeed
   if (req.body.visuSpeed !== undefined) {
     subscription.visuSpeed = req.body.visuSpeed;
   } else {
     subscription.visuSpeed = DEFAULT_VISU_SPEED;
   }
-
+//7/ visuWindow
   if (req.body.visuWindow !== undefined) {
     if (req.body.visuWindow.lower === undefined) {
       return next(new ApiError(400, 'lower parameter required', '/body/visuWindow/lower'));
@@ -165,7 +180,7 @@ module.exports = (req, res, next) => {
   } else {
     subscription.filter = [];
   }
-  
+
   debug.info(`Received subscription: ${JSON.stringify(req.body, null, 4)}`);
   debug.info(`Transformed subscription: ${JSON.stringify(subscription, null, 4)}`);
   const subscriptionId = subscriptionManager.addSubscription(subscription);

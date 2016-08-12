@@ -4,10 +4,11 @@ const parseArgs = require('minimist');
 
 const { newReportingParameter, newMetaData } = require('./utils/types.js');
 
-const usage = () => console.log('node gpccds.js [ -h | --help ] [ -p PERIOD (in ms) | --periodicity PERIOD (in ms) ] [ -t TIMESTEP (in ms) | --timestep TIMESTEP (in ms) ]');
+const usage = () => console.log('USAGE: node gpccds.js [ -h | --help ] [ -p PERIOD (in ms) | --periodicity PERIOD (in ms) ] [ -t TIMESTEP (in ms) | --timestep TIMESTEP (in ms) ]');
 
 const TIMESTEP = 600000;
 const PERIODICITY = 50;
+const STEP = 1000;
 
 const options = {
   boolean: 'h',
@@ -47,6 +48,7 @@ const onSubscription = (subscription, dataSent = 0) => {
     debug.debug(`Sending data on timestamp ${timestamp}`);
     dcPushSocket.send([null, metaData, parameter]);
     newSubscription.visuWindow.lower = timestamp + argv.timestep;
+    if (newDataSent % STEP === 0) debug.info(`Already ${newDataSent} data sent for subscription ${newSubscription.subId}`);
     newDataSent++;
     setTimeout(() => onSubscription(newSubscription, newDataSent), argv.periodicity);
   } else {

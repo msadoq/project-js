@@ -2,6 +2,7 @@ const debug = require('../lib/io/debug')('stub:postSub');
 const parseArgs = require('minimist');
 
 const usage = () => console.log(
+  'USAGE: ',
   'node postSub.js [ -h | --help ] ',
   '[ -t | --type TYPE ("rep" by default | "agg" | "fds") ] ',
   '[ -p | --parameter PARAM ("1" by default | "2" | "3" | "FDS") ]',

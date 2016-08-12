@@ -33,7 +33,10 @@ const timelineMgr = require('../lib/timeLineManager');
 bindWebSockets(server, () => {
   bindPushSockets(() => {
     cacheMgr.init();
-    timelineMgr.init();
+  //  timelineMgr.init();
+    const {jsonDataColl} = require('../lib/io/loki');
+    const { injectParameters } = require('../stub/paramInjector');
+    injectParameters(jsonDataColl, process.env.PARAM_NB || 0, process.env.TIMESTAMP_START);
     server.listen(port);
   });
 });

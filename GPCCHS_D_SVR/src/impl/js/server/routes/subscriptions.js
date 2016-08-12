@@ -184,6 +184,6 @@ module.exports = (req, res, next) => {
   debug.info(`Received subscription: ${JSON.stringify(req.body, null, 4)}`);
   debug.info(`Transformed subscription: ${JSON.stringify(subscription, null, 4)}`);
   const subscriptionId = subscriptionManager.addSubscription(subscription);
-  debug.info(`Subscription Id associed: ${subscriptionId} - ${typeof subscriptionId}`);
+  debug.info(`Subscription Id associed: ${subscriptionId}`);
   return res.type('application/vnd.api+json').json({ subscriptionId });
 };

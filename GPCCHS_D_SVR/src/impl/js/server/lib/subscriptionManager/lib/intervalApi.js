@@ -102,8 +102,8 @@ const recursiveIntervalSearch = (set, lower, max) => {
   return intervals;
 };
 
-const searchIntervals = (subscriptions, subscription) => {
-  const dataSet = subscriptions.chain().find(
+const searchIntervals = (subscriptionsCollection, subscription, callback) => {
+  const dataSet = subscriptionsCollection.chain().find(
     {
       $and: [{
         dataFullName: subscription.dataFullName,
@@ -114,8 +114,9 @@ const searchIntervals = (subscriptions, subscription) => {
       }],
     });
   const limits = recursiveIntervalSearch(dataSet,
+
   subscription.visuWindow.lower, subscription.visuWindow.upper);
-  return limits;
+  callback(null, limits);
 };
 
 module.exports = { searchIntervals };

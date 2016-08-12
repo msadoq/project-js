@@ -9,16 +9,16 @@
     "info-all": "DEBUG='gpcchs_d_svr:server:*' npm run info",
     "debug-all": "DEBUG='gpcchs_d_svr:server:*' npm run debug",
     "verbose-all": "DEBUG='gpcchs_d_svr:server:*' npm run verbose",
-    "start": "node ./bin/www",
+    "start": "node --max_old_space_size=8000 ./bin/www",
     "start-info": "npm run info-all npm run start",
     "start-debug": "npm run debug-all npm run start",
     "start-verbose": "npm run verbose-all npm run start",
     "test": "node_modules/.bin/mocha test --recursive",
-    "gpccdc-stub": "node stub/gpccdc.js -p 1",
-    "send-sub-stub": "node stub/sendSubscriptions.js",
-    "start-stub-only": "concurrently \"npm run info-all npm run gpccdc-stub\" \"npm run start-debug\"",
-    "start-stub": "concurrently \"npm run gpccdc-stub\" \"npm run start\" \"npm run send-sub-stub\"",
-    "start-stub-info": "concurrently \"npm run info-all npm run gpccdc-stub\" \"npm run start-info\" \"npm run info-all npm run send-sub-stub\""
+    "test-perf": "node --max_old_space_size=5120 test-perf/loki.js",
+    "gpccdc-stub": "node stub/gpccdc.js --periodicity 10 --timestep 600000",
+    "send-sub-stub": "node stub/sendSubscriptions.js --delay 5000",
+    "start-stub": "concurrently \"npm run info-all npm run gpccdc-stub\" \"npm run start-info\"",
+    "start-stub-sub": "concurrently \"npm run info-all npm run gpccdc-stub\" \"npm run start-info\" \"npm run info-all npm run send-sub-stub\""
   },
   "dependencies": {
     "ajv": "^4.3.0",
@@ -36,6 +36,7 @@
     "zmq": "^2.15.3"
   },
   "devDependencies": {
+    "atom-linter": "^7.0.0",
     "chai": "^3.5.0",
     "chi": "0.0.10",
     "concurrently": "^2.2.0",

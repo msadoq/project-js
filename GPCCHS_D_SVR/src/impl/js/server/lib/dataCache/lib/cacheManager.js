@@ -7,11 +7,18 @@ const { matchFilters } = require('./filterApi.js');
 const { dataTypeController } = require('../../dataTypeManager');
 const subscriptionMgr = require('./subscriptionsManager');
 const { cacheWebSocket } = require('../../io/socket.io');
+const _ = require('lodash');
 
+const emitData = (subscriptionId, points) => {
+  cacheWebSocket().emit('plot', {
+    subscriptionId,
+    points,
+  });
+}
 
-
-const createNewSubscription = (subscription) => {
-  jsonCache.findData(subscription).then((storedData) => {
+const searchSubscriptionData = (subscription) => {
+  jsonCache.findData(subscription, (err, storedData) => {
+    debug.info('Found data');
     const points = [];
     storedData.forEach((data) => {
       const jsonPayLoad = data.jsonPayload;
@@ -25,18 +32,28 @@ const createNewSubscription = (subscription) => {
       points.push(point);
     });
     if (points.length > 0) {
-      const parameter = subscription.parameter; // subscription.dataFullName.split('.')[1].split('<')[0];
+      const parameter = subscription.parameter;
       debug.info(`Sending found data in cache for parameter ${parameter} to views for subscription ${subscription.subId}`);
       debug.debug(`points: ${points}`);
-      cacheWebSocket().emit('plot', {
-        parameter,
-        subscriptionId: `sub${subscription.subId}`,
-        points,
-      });
+      emitData(`sub${subscription.subId}`, points);
     }
-  });
+  })
 };
 
+
+const dataBuffer = {};
+
+const flushBuffer = () => {
+  _.map(dataBuffer,
+    (v, k) => {
+      const points = v.points.splice(0);
+      if (points.length > 0) {
+        debug.debug(`Sending subscription ${k} to views`);
+        emitData(k, points);
+      }
+    });
+  setTimeout(flushBuffer, 40);
+};
 
 const onMessage = (header, meta, payload) => {
   dataTypeController.binToJson({ type: 'Header' }, meta).then((metaStr) => {
@@ -58,13 +75,12 @@ const onMessage = (header, meta, payload) => {
           } else {
             point.push(decodedJson[subscription.field]);
           }
-          debug.debug(`Sending parameter ${metaStr.parameter} to views for subscription ${subscription.subId}`);
           debug.debug(`point: ${point}`);
-          cacheWebSocket().emit('plot', {
-            parameter: metaStr.parameter,
-            subscriptionId: `sub${subscription.subId}`,
-            points: [point],
-          });
+          if (dataBuffer[`sub${subscription.subId}`]) {
+            dataBuffer[`sub${subscription.subId}`].points.push(point);
+          } else {
+            dataBuffer[`sub${subscription.subId}`] = { points: [point] };
+          }
         }
       });
     });
@@ -75,6 +91,7 @@ const onMessage = (header, meta, payload) => {
 const init = () => {
   debug.info('INIT Cache Manager Message Reception');
   dcPullSockets.map((s) => s.on('message', onMessage));
+  setTimeout(flushBuffer, 40);
 };
 
-module.exports = { init, createNewSubscription };
+module.exports = { init, searchSubscriptionData };

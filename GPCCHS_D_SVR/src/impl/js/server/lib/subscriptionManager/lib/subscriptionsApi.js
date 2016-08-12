@@ -6,7 +6,7 @@ const { subscriptionColl } = require('../../io/loki');
 
 const { searchIntervals } = require('./intervalApi');
 
-const { createNewSubscription } = require('../../dataCache');
+const { searchSubscriptionData } = require('../../dataCache');
 
 let globalSubscriptionId = 1;
 
@@ -17,25 +17,27 @@ const resetSubscriptionId = () => {
 
 const addSubscription = (subscription) => {
   const subId = getSubscriptionId();
-  const newSubscription = Object.assign({}, subscription, { subId });
-  createNewSubscription(newSubscription);
-  const intervals = searchIntervals(subscriptionColl, newSubscription);
-  if (intervals.length === 0) {
-    debug.info('ALL INTERVALS FOUND IN CACHE');
-  } else {
-    const newIntervalSubs = [];
-    for (const interval of intervals) {
-      const newSub = newSubscription;
-      newSub.visuWindow = interval.visuWindow;
-      newIntervalSubs.push(newSub);
-      debug.info(`NEED INTERVAL : ${JSON.stringify(interval)}`);
-    }
-    subscriptionPushSocket.send(JSON.stringify(newIntervalSubs));
-  }
+  setTimeout(() => {
+    const newSubscription = Object.assign({}, subscription, { subId });
+    searchSubscriptionData(newSubscription);
+    searchIntervals(subscriptionColl, newSubscription, (err, intervals) => {
+      if (intervals.length === 0) {
+        debug.info('ALL INTERVALS FOUND IN CACHE');
+      } else {
+        const newIntervalSubs = [];
+        for (const interval of intervals) {
+          const newSub = newSubscription;
+          newSub.visuWindow = interval.visuWindow;
+          newIntervalSubs.push(newSub);
+          debug.info(`NEED INTERVAL : ${JSON.stringify(interval)}`);
+        }
+        subscriptionPushSocket.send(JSON.stringify(newIntervalSubs));
+      }
+      subscriptionColl.insert(newSubscription);
+    });
+  }, 0);
 
-  subscriptionColl.insert(newSubscription);
-
-  return newSubscription.subId;
+  return subId;
 };
 
 const updateSubscription = (subscriptionLokiId, subscriptionUpdates) => {

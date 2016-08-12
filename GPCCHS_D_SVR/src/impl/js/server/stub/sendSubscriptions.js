@@ -4,7 +4,35 @@ const exec = require('child_process').exec;
 
 const debugOptions = `DEBUG="${process.env.DEBUG}" LEVEL="${process.env.LEVEL}"`;
 
-const TIMEOUT = 5000;
+const parseArgs = require('minimist');
+
+const usage = () => console.log(
+  'USAGE: ',
+  'node sendSubscriptions.js [ -h | --help ] ',
+  '[ -d | --delay DELAY (in ms) ] '
+);
+
+const DELAY = 0;
+
+const options = {
+  boolean: ['h'],
+  default: {
+    h: false,
+    d: DELAY,
+  },
+  alias: {
+    h: 'help',
+    d: 'delay',
+  },
+};
+
+const argv = parseArgs(process.argv.slice(2), options);
+if (argv.help
+  || typeof argv.delay !== 'number'
+) {
+  usage();
+  process.exit(1);
+}
 
 let cpt = 1;
 
@@ -28,7 +56,8 @@ const sub5 = (callback) => execSub(callback, 'node ./stub/postSub.js -p 1 --filt
 const sub6 = (callback) => execSub(callback, 'node ./stub/postSub.js -p 2 --filter');
 
 const wait = (callback) => {
-  setTimeout(callback, TIMEOUT);
+  debug.info(`Sending subscriptions in ${argv.delay} ms`);
+  setTimeout(callback, argv.delay);
 };
 
 async.waterfall([

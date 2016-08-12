@@ -3,6 +3,7 @@ import Editor from '../components/Editor';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { closeEditor } from '../actions/pages';
+import { switchSubVisibility, requestSub } from '../actions/views';
 
 const EditorContainer = props => <Editor {...props} />;
 
@@ -10,12 +11,15 @@ function mapStateToProps(state, ownProps) {
   return {
     ...ownProps.editor,
     configuration: state.views[ownProps.viewId],
+    viewId: ownProps.viewId,
   };
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
   return bindActionCreators({
     closeEditor: () => closeEditor(ownProps.pageId),
+    switchSubVisibility: (subId) => switchSubVisibility(ownProps.viewId, subId),
+    requestSub: (subType) => requestSub(ownProps.viewId, subType),
   }, dispatch);
 }
 

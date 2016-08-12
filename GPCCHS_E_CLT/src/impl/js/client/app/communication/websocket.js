@@ -38,7 +38,7 @@ export function connect(store) {
   socket.on('reconnect_error', err => handleStatusChange('reconnect_error', err));
   socket.on('reconnect_failed', () => handleStatusChange('reconnect_failed'));
 
-  const findViewInStore = (subscriptionId) => {
+  const findViewInStore = (subscriptionId, callback) => {
     const viewId = _.findKey(
       store.getState().views,
       v => v.subscriptions.indexOf(subscriptionId) !== -1
@@ -46,17 +46,19 @@ export function connect(store) {
     if (!viewId) {
       return logger('plot error, unable to find view for subscription', subscriptionId);
     }
-
-    return viewId;
+    callback(null, viewId);
   };
 
   const receivePoints = payload => {
-    logger('plot', payload);
-    const viewId = findViewInStore(payload.subscriptionId);
-    if (viewId) {
-      store.dispatch(addPoints(viewId, payload.subscriptionId, payload.points));
+    if (store.getState().subscriptions.waiting > 0) {
+      setTimeout(() => receivePoints(payload), 0);
+    } else {
+      logger('plot', payload);
+      findViewInStore(payload.subscriptionId,
+        (err, viewId) => store.dispatch(addPoints(viewId, payload.subscriptionId, payload.points)));
     }
   };
+
   stubInit(receivePoints);
   socket.on('plot', receivePoints);
   socket.on('timeline', payload => {

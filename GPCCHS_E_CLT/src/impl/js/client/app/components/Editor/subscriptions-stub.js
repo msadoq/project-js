@@ -1,0 +1,112 @@
+export const subscriptionsStub = {
+  'SUB TYPE A': {
+    dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+    field: 'rawValue',
+    domainId: 0,
+    timeLineType: 'session',
+    sessionId: 1,
+    setFileName: '',
+    subscriptionState: 'play',
+    visuSpeed: 0,
+    visuWindow: {
+      lower: 1420675200000,
+      upper: 1420775200000,
+    },
+  },
+  'SUB TYPE B': {
+    dataFullName: 'Reporting.ATT_BC_STR1STRSAQ0<ReportingParameter>',
+    field: 'rawValue',
+    domainId: 0,
+    timeLineType: 'session',
+    sessionId: 1,
+    setFileName: '',
+    subscriptionState: 'play',
+    visuSpeed: 0,
+    visuWindow: {
+      lower: 1420675200000,
+      upper: 1420775200000,
+    },
+  },
+  'SUB TYPE C': {
+    dataFullName: 'Reporting.ATT_BC_STR1STRSAQ1<ReportingParameter>',
+    field: 'rawValue',
+    domainId: 0,
+    timeLineType: 'session',
+    sessionId: 1,
+    setFileName: '',
+    subscriptionState: 'play',
+    visuSpeed: 0,
+    visuWindow: {
+      lower: 1420675200000,
+      upper: 1420775200000,
+    },
+  },
+  'SUB TYPE D': {
+    dataFullName: 'Reporting.ATT_BC_STR1STRSAQ2<ReportingParameter>',
+    field: 'rawValue',
+    domainId: 0,
+    timeLineType: 'session',
+    sessionId: 1,
+    setFileName: '',
+    subscriptionState: 'play',
+    visuSpeed: 0,
+    visuWindow: {
+      lower: 1420675200000,
+      upper: 1420775200000,
+    },
+  },
+  'SUB TYPE E': {
+    dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+    field: 'rawValue',
+    domainId: 0,
+    timeLineType: 'session',
+    sessionId: 1,
+    setFileName: '',
+    subscriptionState: 'play',
+    visuSpeed: 0,
+    visuWindow: {
+      lower: 1420675200000,
+      upper: 1420775200000,
+    },
+    filter: [
+      {
+        dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+        field: 'rawValue',
+        operator: 'OP_GT',
+        value: 25,
+      }, {
+        dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+        field: 'rawValue',
+        operator: 'OP_LT',
+        value: 75,
+      },
+    ],
+  },
+  'SUB TYPE F': {
+    dataFullName: 'Reporting.ATT_BC_STR1STRSAQ0<ReportingParameter>',
+    field: 'rawValue',
+    domainId: 0,
+    timeLineType: 'session',
+    sessionId: 1,
+    setFileName: '',
+    subscriptionState: 'play',
+    visuSpeed: 0,
+    visuWindow: {
+      lower: 1420675200000,
+      upper: 1420775200000,
+    },
+    filter: [
+      {
+        dataFullName: 'Reporting.ATT_BC_STR1STRSAQ0<ReportingParameter>',
+        field: 'rawValue',
+        operator: 'OP_GT',
+        value: 25,
+      }, {
+        dataFullName: 'Reporting.ATT_BC_STR1STRSAQ0<ReportingParameter>',
+        field: 'rawValue',
+        operator: 'OP_LT',
+        value: 75,
+      },
+    ],
+  }
+};

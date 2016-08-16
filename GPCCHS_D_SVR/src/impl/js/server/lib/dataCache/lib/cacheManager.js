@@ -44,7 +44,7 @@ const searchSubscriptionData = (subscription) => {
 const dataBuffer = {};
 
 const flushBuffer = () => {
-  _.map(dataBuffer,
+  _.forEach(dataBuffer,
     (v, k) => {
       const points = v.points.splice(0);
       if (points.length > 0) {

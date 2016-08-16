@@ -35,53 +35,52 @@ var error = (m, ...rest) => {
 
 export default class Plot extends Component {
   static propTypes = {
+    subscriptions: PropTypes.array.isRequired,
+    visible: PropTypes.array.isRequired,
     points: PropTypes.any,
   };
  
     
   render() {
+    const points = this.props.points;
     
-    let data = this.props.points;
-    
-    if (data.length < 3) return <div/>
+    if (Object.keys(points).length < 3) return <div />;
  
-
-
-
     // console.log(data.length);
-
 
     let yIdList = [];
    
     //TODO remove stub 
-    yIdList = this.props.subscriptions
+    yIdList = this.props.subscriptions;
+    const visibleSubs = this.props.visible;
     
-    let plotConfiguration = { sub1 : { stroke : "purple"}, sub2 : { stroke : "orange"}, sub3 : { stroke : "black"}};
+    const plotConfiguration = { 0: { stroke: 'green' }, 1: { stroke: 'purple' }, 2: { stroke: 'orange' }, 3: { stroke: 'black' }, 4: { stroke: 'blue' }, 5: { stroke: 'red' } };
     
-    let series = yIdList.map( (yId, index) => 
-        <ScatterLineSeries key={yId} pointsStyle="circle" lineStyle="continuous" stroke={plotConfiguration[yId].stroke} yAccessor={(d) => d[yId]}/>)
+    let series = yIdList.map((yId, index) => {
+      if (visibleSubs.includes(yId)) return <ScatterLineSeries key={yId} pointsStyle="circle" lineStyle="continuous" stroke={plotConfiguration[yId.split('sub')[1] % 6].stroke} yAccessor={(d) => d[yId]} />;
+    });
     
 
     return (
       <div>
-        <ChartCanvas 
-        seriesName="JPP"
-        discontinuous
-        xScale={xScale} 
-        margin={{left : 50, right : 50, top:10, bottom:30}}
-        xAccessor={(d) => new Date(+d.x)} 
-        data={data}
-        width={1000}
-        height={500} 
-        xExtents={[new Date(data[0].x), new Date(data[0].x +100000)]} 
-      >
-        <Chart id={1} ref={1}  yExtents={d => [0,100]}>
-        <XAxis axisAt="bottom" orient="bottom"  />
-        <YAxis axisAt="left" orient="left" /> 
-        {series}
-      </Chart>
-      <EventCapture mouseMove={true} pan={true} mainChart={0} defaultFocus={true} zoom={true}/>
-      </ChartCanvas>
+        <ChartCanvas
+          seriesName="JPP"
+          discontinuous
+          xScale={xScale}
+          margin={{ left: 50, right: 50, top: 10, bottom: 30 }}
+          xAccessor={(d) => new Date(+d.x)}
+          data={points}
+          width={1000}
+          height={500}
+          xExtents={[new Date(points[0].x), new Date(points[0].x + 100000000)]}
+        >
+          <Chart id={1} ref={1} yExtents={d => [0, 100]}>
+            <XAxis axisAt="bottom" orient="bottom" />
+            <YAxis axisAt="left" orient="left" />
+            {series}
+          </Chart>
+          <EventCapture mouseMove={true} pan={true} mainChart={0} defaultFocus={true} zoom={true} />
+        </ChartCanvas>
       </div>
     );
   }

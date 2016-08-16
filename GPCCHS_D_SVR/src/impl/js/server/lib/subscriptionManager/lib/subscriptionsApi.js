@@ -17,25 +17,26 @@ const resetSubscriptionId = () => {
 
 const addSubscription = (subscription) => {
   const subId = getSubscriptionId();
-  setTimeout(() => {
+  process.nextTick(() => {
     const newSubscription = Object.assign({}, subscription, { subId });
     searchSubscriptionData(newSubscription);
     searchIntervals(subscriptionColl, newSubscription, (err, intervals) => {
-      if (intervals.length === 0) {
-        debug.info('ALL INTERVALS FOUND IN CACHE');
-      } else {
-        const newIntervalSubs = [];
-        for (const interval of intervals) {
-          const newSub = newSubscription;
-          newSub.visuWindow = interval.visuWindow;
-          newIntervalSubs.push(newSub);
-          debug.info(`NEED INTERVAL : ${JSON.stringify(interval)}`);
-        }
-        subscriptionPushSocket.send(JSON.stringify(newIntervalSubs));
-      }
       subscriptionColl.insert(newSubscription);
+
+      if (intervals.length === 0) {
+        return debug.info('ALL INTERVALS FOUND IN CACHE');
+      }
+      const newIntervalSubs = [];
+      for (const interval of intervals) {
+        const newSub = newSubscription;
+        newSub.visuWindow = interval.visuWindow;
+        newIntervalSubs.push(newSub);
+        debug.info(`NEED INTERVAL : ${JSON.stringify(interval)}`);
+      }
+      subscriptionPushSocket.send(JSON.stringify(newIntervalSubs));
+
     });
-  }, 0);
+  });
 
   return subId;
 };

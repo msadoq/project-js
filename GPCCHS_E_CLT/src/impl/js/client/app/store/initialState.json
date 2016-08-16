@@ -55,29 +55,36 @@
       "title": "Title 1",
       "type": "plot",
       "content": "Hello world of all!",
-      "subscriptions": ["sub1", "sub2", "sub3"]
+      "subscriptions": [],
+      "visible": []
     },
     "view2": {
       "title": "Title 2",
-      "type": "text",
+      "type": "plot",
       "content": "Hello world of me!",
-      "subscriptions": []
+      "subscriptions": [],
+      "visible" : []
     },
     "view3": {
       "title": "Title 3",
       "type": "text",
       "content": "Hello world of us!",
-      "subscriptions": []
+      "subscriptions": [],
+      "visible" : []
     },
     "mimicView": {
       "title": "test mimic",
       "type": "mimic",
       "content": null,
-      "subscriptions": []
+      "subscriptions": [],
+      "visible" : []
     }
   },
   "plots": {},
   "websocket": {
     "stub": false
+  },
+  "subscriptions": {
+    "waiting": 0
   }
 }

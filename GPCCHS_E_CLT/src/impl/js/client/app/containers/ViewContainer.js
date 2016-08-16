@@ -20,6 +20,8 @@ function mapStateToProps(state, ownProps) {
     title: element.title,
     content: element.content,
     subscriptions: element.subscriptions,
+    visible: element.visible,
+    waiting: element.waiting,
     points,
   };
 }

@@ -21,7 +21,6 @@ module.exports = (err, req, res, next) => {
 
   res
     .status(status)
-    .type('application/vnd.api+json')
     .json({
       errors: [{
         status,

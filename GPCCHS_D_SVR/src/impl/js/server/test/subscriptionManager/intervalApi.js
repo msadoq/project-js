@@ -1,8 +1,8 @@
-const debug = require('../../../lib/io/debug')('test:subscriptionManager:intervalApi');
-const { chai, should } = require('../../utils');
+const debug = require('../../lib/io/debug')('test:subscriptionManager:intervalApi');
+require('../../lib/utils/test');
 
-const { searchIntervals } = require('../../../lib/subscriptionManager/lib/intervalApi');
-const { subscriptionColl } = require('../../../lib/io/loki');
+const { searchIntervals } = require('../../lib/subscriptionManager/lib/intervalApi');
+const { subscriptionColl } = require('../../lib/io/loki');
 
 const subHeader = { dataFullName: 'a', sessionId: 0, domainId: 0 };
 const subInterval = { visuWindow: { lower: 0, upper: 10 } };

@@ -1,9 +1,8 @@
-const debug = require('../../lib/io/debug')('test:routes:subscriptions');
 const {
   chai,
   request,
   expressApp,
-} = require('../utils');
+} = require('../../lib/utils/test');
 
 describe('POST API subscriptions', () => {
   it('not found', (done) => {

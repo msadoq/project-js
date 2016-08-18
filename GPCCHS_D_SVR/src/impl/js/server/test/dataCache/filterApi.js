@@ -1,7 +1,6 @@
-const debug = require('../../../lib/io/debug')('test:dataCache:filterApi');
-const { chai, should } = require('../../utils');
-
-const { resolveCacheFilters, matchFilters } = require('../../../lib/dataCache/lib/filterApi');
+const debug = require('../../lib/io/debug')('test:dataCache:filterApi');
+require('../../lib/utils/test');
+const { resolveCacheFilters, matchFilters } = require('../../lib/dataCache/lib/filterApi');
 
 const intDataValue = 42;
 const stringDataValue = 'TestData';

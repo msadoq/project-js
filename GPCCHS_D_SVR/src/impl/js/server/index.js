@@ -4,14 +4,14 @@ require('dotenv-safe').load();
 
 const exit = require('exit');
 const async = require('async');
-const debug = require('../lib/io/debug')('launcher');
-const app = require('../app');
+const debug = require('./lib/io/debug')('launcher');
+const app = require('./lib/express');
 const http = require('http');
-const { bindPushSockets } = require('../lib/io/zmq');
-const { bindWebSockets } = require('../lib/io/socket.io');
-const cacheMgr = require('../lib/dataCache');
-const { jsonDataColl } = require('../lib/io/loki');
-const { injectParameters } = require('../stub/paramInjector');
+const { bindPushSockets } = require('./lib/io/zmq');
+const { bindWebSockets } = require('./lib/io/socket.io');
+const cacheMgr = require('./lib/dataCache');
+const { jsonDataColl } = require('./lib/io/loki');
+const { injectParameters } = require('./stub/paramInjector');
 
 // port
 function normalizePort(val) {

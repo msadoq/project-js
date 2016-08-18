@@ -1,10 +1,8 @@
-const debug = require('../../lib/io/debug')('test:routes:subscriptions');
 const {
   chai,
   request,
   expressApp,
-} = require('../utils');
-
+} = require('../../lib/utils/test');
 
 /*
 * Define API subscriptions tests - Status 400 ("bad request") for each param required aad optionals
@@ -36,7 +34,7 @@ const {
 describe('POST API subscriptions', () => {
 
   it('works', (done) => {
-    request(expressApp) 
+    request(expressApp)
       .post('/api/subscriptions')
       .set('Content-Type', 'application/vnd.api+json')
       .set('Accept', 'application/vnd.api+json')
@@ -165,9 +163,9 @@ it('without timeLineType', (done) => {
       })
       .expect(400, done);
      });
-     
+
  /*
-* test sessionId undefined 
+* test sessionId undefined
 */
 
 it('sessionId undefined', (done) => {
@@ -253,9 +251,9 @@ it('without setFileName', (done) => {
       .set('Accept', 'application/vnd.api+json')
       .send({dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
        field: 'rawValue',
-       domainId: 0 ,  
+       domainId: 0 ,
        timeLineType: 'recordSet',
-       sessionId: 1,     
+       sessionId: 1,
       })
       .expect('Content-Type', /json/)
       .expect(res => {
@@ -343,7 +341,7 @@ it('with another subscriptionState param', (done) => {
       .expect(400, done);
      });
 
- 
+
 /*
 * test without visuWindow param
 */
@@ -418,8 +416,8 @@ it('missing upper visuWindow', (done) => {
       })
       .expect(400, done);
      });
-     
-     
+
+
 /*
 * test missing lower visuWindow param
 */

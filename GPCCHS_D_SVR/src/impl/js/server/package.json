@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node --max_old_space_size=8000 ./bin/www",
+    "start": "node --max_old_space_size=8000 index",
     "test": "node_modules/.bin/mocha test --recursive",
     "test-perf": "node --max_old_space_size=5120 test-perf/loki.js",
     "gpccdc-stub": "node stub/gpccdc.js --periodicity 10 --timestep 600000",

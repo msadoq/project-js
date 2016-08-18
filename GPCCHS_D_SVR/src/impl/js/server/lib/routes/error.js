@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 module.exports = (err, req, res, next) => {
   const status = err.status || 500;
   const title = err.message;
@@ -19,14 +20,12 @@ module.exports = (err, req, res, next) => {
     };
   }
 
-  res
-    .status(status)
-    .json({
-      errors: [{
-        status,
-        source,
-        title,
-        detail,
-      }],
-    });
+  res.status(status).json({
+    errors: [{
+      status,
+      source,
+      title,
+      detail,
+    }],
+  });
 };

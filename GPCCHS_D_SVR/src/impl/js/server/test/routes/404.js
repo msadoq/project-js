@@ -1,10 +1,9 @@
 const {
-  chai,
   request,
   expressApp,
 } = require('../../lib/utils/test');
 
-describe('POST API subscriptions', () => {
+describe('API 404', () => {
   it('not found', (done) => {
     request(expressApp)
       .post('/subscriptions')

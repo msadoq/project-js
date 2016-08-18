@@ -1,53 +1,19 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
+require('dotenv-safe').load();
 
+const exit = require('exit');
+const async = require('async');
+const debug = require('../lib/io/debug')('launcher');
 const app = require('../app');
-const debug = require('debug')('bin:www');
 const http = require('http');
-
-/**
- * Get port from environment and store in Express.
- */
-
-const port = normalizePort(process.env.PORT || '1337');
-app.set('port', port);
-
-/**
- * Create HTTP server.
- */
-
-const server = http.createServer(app);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
-
 const { bindPushSockets } = require('../lib/io/zmq');
 const { bindWebSockets } = require('../lib/io/socket.io');
 const cacheMgr = require('../lib/dataCache');
-const timelineMgr = require('../lib/timeLineManager');
+const { jsonDataColl } = require('../lib/io/loki');
+const { injectParameters } = require('../stub/paramInjector');
 
-bindWebSockets(server, () => {
-  bindPushSockets(() => {
-    cacheMgr.init();
-  //  timelineMgr.init();
-    const {jsonDataColl} = require('../lib/io/loki');
-    const { injectParameters } = require('../stub/paramInjector');
-    injectParameters(jsonDataColl, process.env.PARAM_NB || 0, process.env.TIMESTAMP_START);
-    server.listen(port);
-  });
-});
-
-server.on('error', onError);
-server.on('listening', onListening);
-
-/**
- * Normalize a port into a number, string, or false.
- */
-
+// port
 function normalizePort(val) {
   const p = parseInt(val, 10);
 
@@ -63,43 +29,59 @@ function normalizePort(val) {
 
   return false;
 }
+const port = normalizePort(process.env.PORT);
+app.set('port', port);
 
-/**
- * Event listener for HTTP server "error" event.
- */
-
+// HTTP server
+const server = http.createServer(app);
 function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
   }
 
-  const bind = typeof port === 'string'
-    ? `Pipe ${port}`
-    : `Port ${port}`;
+  const bind = typeof port === 'string' ?
+    `Pipe ${port}` :
+    `Port ${port}`;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(`${bind} requires elevated privileges`);
-      process.exit(1);
+      debug.error(`${bind} requires elevated privileges`);
+      exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(`${bind} is already in use`);
-      process.exit(1);
+      debug.error(`${bind} is already in use`);
+      exit(1);
       break;
     default:
       throw error;
   }
 }
-
-/**
- * Event listener for HTTP server "listening" event.
- */
-
 function onListening() {
   const addr = server.address();
-  const bind = typeof addr === 'string'
-    ? `pipe ${addr}`
-    : `port ${addr.port}`;
-  debug(`Listening on ${bind}`);
+  const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
+  debug.info(`Server launched on port ${bind}`);
 }
+server.on('error', onError);
+server.on('listening', onListening);
+
+// open communication bus with external and run HTTP server
+debug.info(`Trying to launch server in '${process.env.NODE_ENV}' env`);
+async.waterfall([
+  callback => bindWebSockets(server, callback),
+  callback => bindPushSockets(callback),
+  callback => {
+    cacheMgr.init();
+    injectParameters(jsonDataColl, process.env.PARAM_NB || 0, process.env.TIMESTAMP_START);
+    callback();
+  },
+  callback => {
+    server.listen(port);
+    callback();
+  },
+], err => {
+  if (err) {
+    debug.error(err);
+    exit(1);
+  }
+});

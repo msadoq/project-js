@@ -22,11 +22,13 @@
   },
   "dependencies": {
     "ajv": "^4.3.0",
+    "async": "^2.0.1",
     "body-parser": "~1.15.1",
     "chai-properties": "^1.2.1",
     "cookie-parser": "~1.4.3",
     "debug": "^2.2.0",
     "dotenv-safe": "^2.3.1",
+    "exit": "^0.1.2",
     "express": "~4.13.4",
     "jade": "~1.11.0",
     "morgan": "~1.7.0",

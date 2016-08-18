@@ -1,3 +1,5 @@
+require('dotenv-safe').load();
+
 const debug = require('../lib/io/debug')('stub:postSub');
 const parseArgs = require('minimist');
 
@@ -139,7 +141,7 @@ const postData = JSON.stringify(jsonData);
 
 const { postRequest, writeData } = require('./utils/restApi');
 const route = '/api/subscriptions';
-const postReq = postRequest('127.0.0.1', 1337, route);
+const postReq = postRequest('127.0.0.1', process.env.PORT, route);
 
 
 setTimeout(() => {

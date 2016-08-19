@@ -20,6 +20,7 @@ app.use(linker);
 app.use(attachValidated);
 
 app.use('/api/', require('./routes/index'));
+app.use('/api/', require('./routes/subscriptions'));
 
 app.use((req, res, next) => next(new ApiError(404, 'Not Found')));
 app.use(errorHandler);

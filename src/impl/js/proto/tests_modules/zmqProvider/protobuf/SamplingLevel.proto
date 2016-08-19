@@ -1,0 +1,6 @@
+
+package dataControllerUtils.protobuf;
+
+message SamplingLevel {
+
+}

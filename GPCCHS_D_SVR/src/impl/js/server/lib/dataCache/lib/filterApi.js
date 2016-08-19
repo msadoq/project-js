@@ -1,24 +1,20 @@
 const debug = require('../../io/debug')('dataCache:filterApi');
+const constants = require('../../constants');
 
-const operatorMappingObject = {
-  OP_EQ: '$eq',
-  OP_NE: '$ne',
-  OP_LT: '$lt',
-  OP_LE: '$lte',
-  OP_GT: '$gt',
-  OP_GE: '$gte',
-  OP_CONTAINS: '$contains',
-  OP_ICONTAINS: '$containsNone',
+const dcLokiOperatorMapping = {
+  [constants.FILTEROPERATOR_EQ]: '$eq',
+  [constants.FILTEROPERATOR_NE]: '$ne',
+  [constants.FILTEROPERATOR_LT]: '$lt',
+  [constants.FILTEROPERATOR_LE]: '$lte',
+  [constants.FILTEROPERATOR_GT]: '$gt',
+  [constants.FILTEROPERATOR_GE]: '$gte',
+  [constants.FILTEROPERATOR_CONTAINS]: '$contains',
+  [constants.FILTEROPERATOR_ICONTAINS]: '$containsNone',
 };
-
-const operatorRegExp = new RegExp(Object.keys(operatorMappingObject).join('|'), 'gi');
-
-const resolveOperator = (operator) => operator.replace(operatorRegExp,
-  (matched) => operatorMappingObject[matched]);
 
 const resolveCacheFilter = (filter) => {
   const field = `jsonPayload.${filter.field}`;
-  const operator = resolveOperator(filter.operator);
+  const operator = dcLokiOperatorMapping[filter.operator];
   const resolvedFilter = {};
   resolvedFilter[field] = {};
   resolvedFilter[field][operator] = filter.value;
@@ -76,4 +72,4 @@ const matchFilters = (data, subscription) => {
   return true;
 };
 
-module.exports = { operatorMappingObject, resolveCacheFilters, matchFilters };
+module.exports = { resolveCacheFilters, matchFilters };

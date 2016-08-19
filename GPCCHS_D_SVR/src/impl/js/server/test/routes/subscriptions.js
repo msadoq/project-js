@@ -1,461 +1,380 @@
 const {
-  chai,
-  request,
-  expressApp,
+  postApiRequest,
+  shouldBeApiError,
 } = require('../../lib/utils/test');
+const constants = require('../../lib/constants');
 
-/*
-* Define API subscriptions tests - Status 400 ("bad request") for each param required aad optionals
-* Define API subscriptions test - Status 200 ("ok")for each param in Json
-* >>>> Status 404 ("not found") isn't a part of this file : see '404.js' because it's a generic test
-*
-*-----------------------------------
-* PARAMS REQUIRED for subscriptions:
-*
-* - dataFullName (str)
-* - domainId (int)
-* - timeLineType (str => enum {'session : sessionID', 'recorset || dataset : setFileName'})
-* - subscriptionState (str => enum {'Play : play', 'Pause: pause'})
-* - visuWindow (obj) => lower /upper
-*-----------------------------------
-*
-*-----------------------------------
-* PARAMS OPTIONAL for subscriptions:
-*
-* - field (str)
-* - visuSpeed (int)
-* *-----------------------------------
-*/
-
-
-/*
- * test WORKS + Json
-*/
 describe('POST API subscriptions', () => {
+  describe('success', () => {
+    const fixture = {
+      dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+      field: 'rawValue',
+      domainId: 0,
+      timeLineType: constants.TIMELINETYPE_SESSION,
+      sessionId: 1,
+      setFileName: '',
+      subscriptionState: constants.SUBSCRIPTIONSTATE_PLAY,
+      visuSpeed: 0,
+      visuWindow: {
+        lower: 0,
+        upper: 42,
+      },
+      filter: [
+        {
+          dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+          field: 'rawValue',
+          operator: constants.FILTEROPERATOR_GT,
+          value: 25,
+        }, {
+          dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+          field: 'rawValue',
+          operator: constants.FILTEROPERATOR_LT,
+          value: 75,
+        },
+      ],
+    };
+    it('nominal', done => {
+      postApiRequest('/api/subscriptions', fixture)
+        .expect(res => {
+          const body = res.body;
+          body.should.be.an('object').and.have.property('data').that.is.an('object');
+          body.data.should.have.property('subscriptionId', 1);
+        })
+        .expect(200, done);
+    });
+    it('consecutive call (increment)', done => {
+      postApiRequest('/api/subscriptions', fixture)
+        .expect(res => {
+          const body = res.body;
+          body.should.be.an('object').and.have.property('data').that.is.an('object');
+          body.data.should.have.property('subscriptionId', 2);
+        })
+        .expect(200, done);
+    });
+  });
+  describe('error', () => {
+    describe('dataFullName', () => {
+      it('missing', done => {
+        postApiRequest('/api/subscriptions', {})
+          .expect(shouldBeApiError(400, 'dataFullName required', '/body/dataFullName'))
+          .expect(400, done);
+      });
+      it('invalid', done => {
+        postApiRequest('/api/subscriptions', {
+          dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE',
+        })
+          .expect(shouldBeApiError(400, 'dataFullName is invalid', '/body/dataFullName'))
+          .expect(400, done);
+      });
+    });
 
-  it('works', (done) => {
-    request(expressApp)
-      .post('/api/subscriptions')
-      .set('Content-Type', 'application/vnd.api+json')
-      .set('Accept', 'application/vnd.api+json')
-      .send({
+    describe('domainId', () => {
+      it('missing', done => {
+        postApiRequest('/api/subscriptions', {
+          dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+        })
+          .expect(shouldBeApiError(400, 'domainId required', '/body/domainId'))
+          .expect(400, done);
+      });
+      it('invalid', done => {
+        postApiRequest('/api/subscriptions', {
+          dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+          domainId: 'text',
+        })
+          .expect(shouldBeApiError(400, 'domainId is invalid', '/body/domainId'))
+          .expect(400, done);
+      });
+    });
+
+    describe('timeLineType', () => {
+      it('missing', done => {
+        postApiRequest('/api/subscriptions', {
+          dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+          domainId: 0,
+        })
+          .expect(shouldBeApiError(400, 'timeLineType required', '/body/timeLineType'))
+          .expect(400, done);
+      });
+      it('invalid', done => {
+        postApiRequest('/api/subscriptions', {
+          dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+          domainId: 0,
+          timeLineType: 'other',
+        })
+          .expect(shouldBeApiError(400, 'timeLineType is invalid', '/body/timeLineType'))
+          .expect(400, done);
+      });
+      it('missing sessionId', done => {
+        postApiRequest('/api/subscriptions', {
+          dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+          domainId: 0,
+          timeLineType: constants.TIMELINETYPE_SESSION,
+        })
+          .expect(shouldBeApiError(400, 'sessionId required', '/body/sessionId'))
+          .expect(400, done);
+      });
+      it('missing setFileName', done => {
+        postApiRequest('/api/subscriptions', {
+          dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+          domainId: 0,
+          timeLineType: constants.TIMELINETYPE_DATASET,
+        })
+          .expect(shouldBeApiError(400, 'setFileName required', '/body/setFileName'))
+          .expect(400, done);
+      });
+    });
+
+    describe('subscriptionState', () => {
+      it('missing', done => {
+        postApiRequest('/api/subscriptions', {
+          dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+          domainId: 0,
+          timeLineType: constants.TIMELINETYPE_SESSION,
+          sessionId: 1,
+        })
+          .expect(shouldBeApiError(400, 'subscriptionState required', '/body/subscriptionState'))
+          .expect(400, done);
+      });
+      it('missing', done => {
+        postApiRequest('/api/subscriptions', {
+          dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+          domainId: 0,
+          timeLineType: constants.TIMELINETYPE_SESSION,
+          sessionId: 1,
+          subscriptionState: 'other',
+        })
+          .expect(shouldBeApiError(400, 'subscriptionState is invalid', '/body/subscriptionState'))
+          .expect(400, done);
+      });
+    });
+
+    describe('visuWindow', () => {
+      it('missing', done => {
+        postApiRequest('/api/subscriptions', {
+          dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+          domainId: 0,
+          timeLineType: constants.TIMELINETYPE_SESSION,
+          subscriptionState: constants.SUBSCRIPTIONSTATE_PAUSE,
+          sessionId: 1,
+        })
+          .expect(shouldBeApiError(400, 'visuWindow required', '/body/visuWindow'))
+          .expect(400, done);
+      });
+      it('missing .lower', done => {
+        postApiRequest('/api/subscriptions', {
+          dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+          domainId: 0,
+          timeLineType: constants.TIMELINETYPE_SESSION,
+          sessionId: 1,
+          subscriptionState: constants.SUBSCRIPTIONSTATE_PAUSE,
+          visuWindow: { upper: 10 },
+        })
+          .expect(shouldBeApiError(400, 'visuWindow.lower required', '/body/visuWindow/lower'))
+          .expect(400, done);
+      });
+      it('missing .upper', done => {
+        postApiRequest('/api/subscriptions', {
+          dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+          domainId: 0,
+          timeLineType: constants.TIMELINETYPE_SESSION,
+          sessionId: 1,
+          subscriptionState: constants.SUBSCRIPTIONSTATE_PAUSE,
+          visuWindow: { lower: 10 },
+        })
+          .expect(shouldBeApiError(400, 'visuWindow.upper required', '/body/visuWindow/upper'))
+          .expect(400, done);
+      });
+      it('invalid .lower', done => {
+        postApiRequest('/api/subscriptions', {
+          dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+          domainId: 0,
+          timeLineType: constants.TIMELINETYPE_SESSION,
+          sessionId: 1,
+          subscriptionState: constants.SUBSCRIPTIONSTATE_PAUSE,
+          visuWindow: { lower: 'text', upper: 10 },
+        })
+          .expect(shouldBeApiError(400, 'visuWindow.lower is invalid', '/body/visuWindow/lower'))
+          .expect(400, done);
+      });
+      it('invalid .upper', done => {
+        postApiRequest('/api/subscriptions', {
+          dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+          domainId: 0,
+          timeLineType: constants.TIMELINETYPE_SESSION,
+          sessionId: 1,
+          subscriptionState: constants.SUBSCRIPTIONSTATE_PAUSE,
+          visuWindow: { lower: 10, upper: 'text' },
+        })
+          .expect(shouldBeApiError(400, 'visuWindow.upper is invalid', '/body/visuWindow/upper'))
+          .expect(400, done);
+      });
+    });
+    describe('visuSpeed', () => {
+      it('invalid', done => {
+        postApiRequest('/api/subscriptions', {
+          dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+          domainId: 0,
+          timeLineType: constants.TIMELINETYPE_SESSION,
+          sessionId: 1,
+          subscriptionState: constants.SUBSCRIPTIONSTATE_PAUSE,
+          visuWindow: { lower: 10, upper: 10 },
+          visuSpeed: 'text',
+        })
+          .expect(shouldBeApiError(400, 'visuSpeed is invalid', '/body/visuSpeed'))
+          .expect(400, done);
+      });
+    });
+
+    describe('filter', () => {
+      const fixture = {
         dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
-        field: 'rawValue',
         domainId: 0,
-        timeLineType: 'session',
+        timeLineType: constants.TIMELINETYPE_SESSION,
         sessionId: 1,
-        setFileName: '',
-        subscriptionState: 'play',
-        visuSpeed: 0,
-        visuWindow: {
-         lower: 0,
-         upper: 42,
-        },
-        filter: [
-          {
-            dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
-            field: 'rawValue',
-            operator: 'OP_GT',
-            value: 25,
-          }, {
-            dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
-            field: 'rawValue',
-            operator: 'OP_LT',
-            value: 75,
-          },
-        ],
-      })
-      .expect('Content-Type', /json/)
-      .expect(res => {
-        const body = res.body;
-        body.should.be.an('object').and.have.property('subscriptionId', 1);
-      })
-      .expect(200, done);
+        subscriptionState: constants.SUBSCRIPTIONSTATE_PAUSE,
+        visuWindow: { lower: 10, upper: 10 },
+      };
+      it('invalid', done => {
+        postApiRequest('/api/subscriptions', Object.assign({}, fixture, { filter: 'text' }))
+          .expect(shouldBeApiError(400, 'filter is invalid', '/body/filter'))
+          .expect(400, done);
+      });
+      it('empty', done => {
+        postApiRequest('/api/subscriptions', Object.assign({}, fixture, { filter: [] }))
+          .expect(200, done);
+      });
+      it('rule invalid', done => {
+        postApiRequest('/api/subscriptions', Object.assign({}, fixture, {
+          filter: [
+            'text',
+          ],
+        }))
+        .expect(shouldBeApiError(400, 'filter rule is invalid', '/body/filter/0'))
+        .expect(400, done);
+      });
+      it('rule dataFullName required', done => {
+        postApiRequest('/api/subscriptions', Object.assign({}, fixture, { filter: [{}] }))
+        .expect(shouldBeApiError(
+          400,
+          'filter rule dataFullName required',
+          '/body/filter/0/dataFullName'
+        ))
+        .expect(400, done);
+      });
+      it('rule dataFullName invalid', done => {
+        postApiRequest('/api/subscriptions', Object.assign({}, fixture, {
+          filter: [
+            {
+              dataFullName: 'text',
+            },
+          ],
+        }))
+        .expect(shouldBeApiError(
+          400,
+          'filter rule dataFullName is invalid',
+          '/body/filter/0/dataFullName'
+        ))
+        .expect(400, done);
+      });
+      it('rule field required', done => {
+        postApiRequest('/api/subscriptions', Object.assign({}, fixture, {
+          filter: [
+            {
+              dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+            },
+          ],
+        }))
+        .expect(shouldBeApiError(
+          400,
+          'filter rule field required',
+          '/body/filter/0/field'
+        ))
+        .expect(400, done);
+      });
+      it('rule field invalid', done => {
+        postApiRequest('/api/subscriptions', Object.assign({}, fixture, {
+          filter: [
+            {
+              dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+              field: 10, // int
+            },
+          ],
+        }))
+        .expect(shouldBeApiError(
+          400,
+          'filter rule field is invalid',
+          '/body/filter/0/field'
+        ))
+        .expect(400, done);
+      });
+      it('rule operator required', done => {
+        postApiRequest('/api/subscriptions', Object.assign({}, fixture, {
+          filter: [
+            {
+              dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+              field: 'rawValue',
+            },
+          ],
+        }))
+        .expect(shouldBeApiError(
+          400,
+          'filter rule operator required',
+          '/body/filter/0/operator'
+        ))
+        .expect(400, done);
+      });
+      it('rule operator invalid', done => {
+        postApiRequest('/api/subscriptions', Object.assign({}, fixture, {
+          filter: [
+            {
+              dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+              field: 'rawValue',
+              operator: 'text',
+            },
+          ],
+        }))
+        .expect(shouldBeApiError(
+          400,
+          'filter rule operator is invalid',
+          '/body/filter/0/operator'
+        ))
+        .expect(400, done);
+      });
+      it('rule value required', done => {
+        postApiRequest('/api/subscriptions', Object.assign({}, fixture, {
+          filter: [
+            {
+              dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+              field: 'rawValue',
+              operator: constants.FILTEROPERATOR_GT,
+            },
+          ],
+        }))
+        .expect(shouldBeApiError(
+          400,
+          'filter rule value required',
+          '/body/filter/0/value'
+        ))
+        .expect(400, done);
+      });
+      it('rule value invalid', done => {
+        postApiRequest('/api/subscriptions', Object.assign({}, fixture, {
+          filter: [
+            {
+              dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+              field: 'rawValue',
+              operator: constants.FILTEROPERATOR_GT,
+              value: '', // empty string
+            },
+          ],
+        }))
+        .expect(shouldBeApiError(
+          400,
+          'filter rule value is invalid',
+          '/body/filter/0/value'
+        ))
+        .expect(400, done);
+      });
+    });
   });
-
-
-/*
-* test without dataFullName param
-*/
-  it('without dataFullName', (done) => {
-    request(expressApp)
-      .post('/api/subscriptions')
-      .set('Content-Type', 'application/vnd.api+json')
-      .set('Accept', 'application/vnd.api+json')
-      .send(JSON.stringify({}))
-      .expect('Content-Type', /json/)
-      .expect(res => {
-        const body = res.body;
-        body.should.be.an('object').that.not.have.property('data');
-        body.should.have.a.property('errors')
-          .that.is.an('array')
-          .and.have.lengthOf(1);
-        body.errors[0].should.be.an('object').that.has.properties({
-          status: 400,
-          title: 'dataFullName parameter required',
-          source: {
-            pointer: '/body/dataFullName',
-          },
-        });
-      })
-      .expect(400, done);
-  });
-
-
-/*
- * test without domainId param
-*/
-
-it('without domainId', (done) => {
-    request(expressApp)
-      .post('/api/subscriptions')
-      .set('Content-Type', 'application/vnd.api+json')
-      .set('Accept', 'application/vnd.api+json')
-      .send({dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>'
-       ,field: 'rawValue'
-      })
-      .expect('Content-Type', /json/)
-      .expect(res => {
-        const body = res.body;
-        body.should.be.an('object').that.not.have.property('data');
-        body.should.have.a.property('errors')
-          .that.is.an('array')
-          .and.have.lengthOf(1);
-        body.errors[0].should.be.an('object').that.has.properties({
-          status: 400,
-          title: 'domainId parameter required',
-          source: {
-            pointer: '/body/domainId',
-          },
-        });
-      })
-      .expect(400, done);
-  });
-
-
-
-/*
-* test without timeLineType param
-*/
-
-it('without timeLineType', (done) => {
-    request(expressApp)
-      .post('/api/subscriptions')
-      .set('Content-Type', 'application/vnd.api+json')
-      .set('Accept', 'application/vnd.api+json')
-      .send({dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
-       field: 'rawValue',
-       domainId: 0 })
-      .expect('Content-Type', /json/)
-      .expect(res => {
-        const body = res.body;
-        body.should.be.an('object').that.not.have.property('data');
-        body.should.have.a.property('errors')
-          .that.is.an('array')
-          .and.have.lengthOf(1);
-        body.errors[0].should.be.an('object').that.has.properties({
-          status: 400,
-          title: 'timeLineType parameter required',
-          source: {
-            pointer: '/body/timeLineType',
-          },
-        });
-      })
-      .expect(400, done);
-     });
-
- /*
-* test sessionId undefined
-*/
-
-it('sessionId undefined', (done) => {
-    request(expressApp)
-      .post('/api/subscriptions')
-      .set('Content-Type', 'application/vnd.api+json')
-      .set('Accept', 'application/vnd.api+json')
-      .send({dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
-       field: 'rawValue',
-       domainId: 0,
-       timeLineType: 'session',
-       setFileName: '',
-        subscriptionState: 'play',
-        visuSpeed: 0,
-        visuWindow: {
-         lower: 0,
-         upper: 42,
-        },
-       })
-      .expect('Content-Type', /json/)
-      .expect(res => {
-        const body = res.body;
-        body.should.be.an('object').that.not.have.property('data');
-        body.should.have.a.property('errors')
-          .that.is.an('array')
-          .and.have.lengthOf(1);
-        body.errors[0].should.be.an('object').that.has.properties({
-          status: 400,
-          title: 'sessionId parameter required',
-          source: {
-            pointer: '/body/sessionId',
-          },
-        });
-      })
-      .expect(400, done);
-     });
-
-/*
-* test invalid timeLineType
-*/
-
-it('invalid timeLineType', (done) => {
-    request(expressApp)
-      .post('/api/subscriptions')
-      .set('Content-Type', 'application/vnd.api+json')
-      .set('Accept', 'application/vnd.api+json')
-      .send({dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
-       field: 'rawValue',
-       domainId: 0,
-       timeLineType: 'tintin',
-       sessionId: 1,
-       setFileName: '',
-       subscriptionState: 'play',
-       })
-      .expect('Content-Type', /json/)
-      .expect(res => {
-        const body = res.body;
-        body.should.be.an('object').that.not.have.property('data');
-        body.should.have.a.property('errors')
-          .that.is.an('array')
-          .and.have.lengthOf(1);
-        body.errors[0].should.be.an('object').that.has.properties({
-          status: 400,
-          title: 'timeLineType should not have this value',
-          source: {
-            pointer: '/body/timeLineType',
-          },
-        });
-      })
-      .expect(400, done);
-     });
-
-
-
-/*
-* test without setFileName param for dataset or recordset
-*/
-
-it('without setFileName', (done) => {
-    request(expressApp)
-      .post('/api/subscriptions')
-      .set('Content-Type', 'application/vnd.api+json')
-      .set('Accept', 'application/vnd.api+json')
-      .send({dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
-       field: 'rawValue',
-       domainId: 0 ,
-       timeLineType: 'recordSet',
-       sessionId: 1,
-      })
-      .expect('Content-Type', /json/)
-      .expect(res => {
-        const body = res.body;
-        body.should.be.an('object').that.not.have.property('data');
-        body.should.have.a.property('errors')
-          .that.is.an('array')
-          .and.have.lengthOf(1);
-        body.errors[0].should.be.an('object').that.has.properties({
-          status: 400,
-          title: 'setFileName parameter required',
-          source: {
-            pointer: '/body/setFileName',
-          },
-        });
-      })
-      .expect(400, done);
-     });
-
-/*
-* test without subscriptionState param
-*/
-
-it('without subscriptionState', (done) => {
-    request(expressApp)
-      .post('/api/subscriptions')
-      .set('Content-Type', 'application/vnd.api+json')
-      .set('Accept', 'application/vnd.api+json')
-      .send({dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
-       field: 'rawValue',
-       domainId: 0,
-       timeLineType: 'session',
-       sessionId: 1,
-       setFileName: ''})
-      .expect('Content-Type', /json/)
-      .expect(res => {
-        const body = res.body;
-        body.should.be.an('object').that.not.have.property('data');
-        body.should.have.a.property('errors')
-          .that.is.an('array')
-          .and.have.lengthOf(1);
-        body.errors[0].should.be.an('object').that.has.properties({
-          status: 400,
-          title: 'subscriptionState parameter required',
-          source: {
-            pointer: '/body/subscriptionState',
-          },
-        });
-      })
-      .expect(400, done);
-     });
-
-/*
-* test with another subscriptionState param
-*/
-
-it('with another subscriptionState param', (done) => {
-    request(expressApp)
-      .post('/api/subscriptions')
-      .set('Content-Type', 'application/vnd.api+json')
-      .set('Accept', 'application/vnd.api+json')
-      .send({dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
-       field: 'rawValue',
-       domainId: 0,
-       timeLineType: 'session',
-       sessionId: 1,
-       setFileName: '',
-       subscriptionState: 'tintin'
-      })
-      .expect('Content-Type', /json/)
-      .expect(res => {
-        const body = res.body;
-        body.should.be.an('object').that.not.have.property('data');
-        body.should.have.a.property('errors')
-          .that.is.an('array')
-          .and.have.lengthOf(1);
-        body.errors[0].should.be.an('object').that.has.properties({
-          status: 400,
-          title: 'subscriptionState should not have this value',
-          source: {
-            pointer: '/body/subscriptionState',
-          },
-        });
-      })
-      .expect(400, done);
-     });
-
-
-/*
-* test without visuWindow param
-*/
-
-it('without visuWindow', (done) => {
-    request(expressApp)
-      .post('/api/subscriptions')
-      .set('Content-Type', 'application/vnd.api+json')
-      .set('Accept', 'application/vnd.api+json')
-      .send({dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
-       field: 'rawValue',
-       domainId: 0,
-       timeLineType: 'session',
-       sessionId: 1,
-       setFileName: '',
-       subscriptionState: 'play'
-       ,visuSpeed: 0
-      })
-      .expect('Content-Type', /json/)
-      .expect(res => {
-        const body = res.body;
-        body.should.be.an('object').that.not.have.property('data');
-        body.should.have.a.property('errors')
-          .that.is.an('array')
-          .and.have.lengthOf(1);
-        body.errors[0].should.be.an('object').that.has.properties({
-          status: 400,
-          title: 'visuWindow parameter required',
-          source: {
-            pointer: '/body/visuWindow',
-          },
-        });
-      })
-      .expect(400, done);
-     });
-
-/*
-* test missing upper visuWindow param
-*/
-
-it('missing upper visuWindow', (done) => {
-    request(expressApp)
-      .post('/api/subscriptions')
-      .set('Content-Type', 'application/vnd.api+json')
-      .set('Accept', 'application/vnd.api+json')
-      .send({dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
-       field: 'rawValue',
-       domainId: 0,
-       timeLineType: 'session',
-       sessionId: 1,
-       setFileName: '',
-       subscriptionState: 'play'
-       ,visuSpeed: 0,
-       visuWindow: {
-         lower: 0,
-        }
-      })
-      .expect('Content-Type', /json/)
-      .expect(res => {
-        const body = res.body;
-        body.should.be.an('object').that.not.have.property('data');
-        body.should.have.a.property('errors')
-          .that.is.an('array')
-          .and.have.lengthOf(1);
-        body.errors[0].should.be.an('object').that.has.properties({
-          status: 400,
-          title: 'upper parameter required',
-          source: {
-            pointer: '/body/visuWindow/upper',
-          },
-        });
-      })
-      .expect(400, done);
-     });
-
-
-/*
-* test missing lower visuWindow param
-*/
-
-it('missing lower visuWindow', (done) => {
-    request(expressApp)
-      .post('/api/subscriptions')
-      .set('Content-Type', 'application/vnd.api+json')
-      .set('Accept', 'application/vnd.api+json')
-      .send({dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
-       field: 'rawValue',
-       domainId: 0,
-       timeLineType: 'session',
-       sessionId: 1,
-       setFileName: '',
-       subscriptionState: 'play'
-       ,visuSpeed: 0,
-       visuWindow: {
-         upper: 42,
-        }
-      })
-      .expect('Content-Type', /json/)
-      .expect(res => {
-        const body = res.body;
-        body.should.be.an('object').that.not.have.property('data');
-        body.should.have.a.property('errors')
-          .that.is.an('array')
-          .and.have.lengthOf(1);
-        body.errors[0].should.be.an('object').that.has.properties({
-          status: 400,
-          title: 'lower parameter required',
-          source: {
-            pointer: '/body/visuWindow/lower',
-          },
-        });
-      })
-      .expect(400, done);
-     });
-
-
 });

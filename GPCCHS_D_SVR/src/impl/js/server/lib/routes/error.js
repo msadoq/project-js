@@ -16,7 +16,6 @@ module.exports = (err, req, res, next) => {
       fileName: err.fileName,
       lineNumber: err.lineNumber,
       columnNumber: err.columnNumber,
-      stack: err.stack,
     };
   }
 

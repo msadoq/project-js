@@ -1,0 +1,77 @@
+{
+    "data": {
+        "type": "TextView",
+        "attributes": {
+            "TextViewEntryPoints": [
+                {
+                    "name": "ATT_BC_STR1VOLTAGE_EV",
+                    "connectedData": {
+                    "formula": "Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue",
+                    "unit": "V",
+                    "digits": 5,
+                    "format": "decimal",
+                    "filter": {
+                      "field": "monitoringState",
+                      "operator": "!=",
+                      "operand": "nominal"
+                    },
+                    "domain": ".*",
+                    "timeLine": "Session 1"
+                    }
+                },
+                {
+                    "name": "ATT_BC_STR1VOLTAGE_MS",
+                    "connectedData": {
+                    "formula": "Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.monitoringState",
+                    "unit": "V",
+                    "digits": 5,
+                    "format": "decimal",
+                    "filter": {
+                      "field": "convertedValue",
+                      "operator": "!=",
+                      "operand": "0"
+                    },
+                    "domain": ".*",
+                    "timeLine": "Session 1"
+                    }
+                },
+                {
+                    "name": "ATT_BC_STR1VOLTAGE_CV",
+                    "connectedData": {
+                    "formula": "Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.convertedValue",
+                    "unit": "V",
+                    "digits": 5,
+                    "format": "decimal",
+                    "domain": ".*",
+                    "timeLine": "Session 1"
+                    }
+                }
+            ],
+            "links": [
+                {
+                    "name": "Page01",
+                    "path": "../Page01.vipg"
+                }
+            ],
+            "defaultRatio": {
+                "length": 5,
+                "width": 3
+            },
+            "content": [
+"<!DOCTYPE html>",
+"<html>",
+" <head>",
+"  <title>TV example</title>",
+" </head>",
+" <body>",
+"  <table border=\"2\">",
+"   <tr><td>ATT_BC_STR1VOLTAGE_MS</td><td><span class=\"EntryPoint\" id=\"ATT_BC_STR1VOLTAGE_MS\"/></td></tr>",
+"   <tr><td>ATT_BC_STR1VOLTAGE_EV</td><td><span class=\"EntryPoint\" id=\"ATT_BC_STR1VOLTAGE_EV\"/></td></tr>",
+"   <tr><td>ATT_BC_STR1VOLTAGE_CV</td><td><span class=\"EntryPoint\" id=\"ATT_BC_STR1VOLTAGE_CV\"/></td></tr>",
+"  </table>",
+" </body>",
+"</html>"
+            ]
+        }
+    }
+}

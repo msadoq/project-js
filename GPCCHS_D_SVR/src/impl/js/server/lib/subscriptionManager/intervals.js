@@ -1,4 +1,4 @@
-const debug = require('../../io/debug')('subscriptionManager:intervalApi');
+const debug = require('../io/debug')('subscriptionManager:intervals');
 
 const lowerSort = (obj1, obj2) => {
   let returnValue = null;
@@ -16,7 +16,7 @@ const upperSort = (obj1, obj2) => {
   return returnValue;
 };
 
-const recursiveIntervalSearch = (set, lower, max) => {
+function search(set, lower, max) {
   const intervals = [];
   // search lowest down limit outside range
   const branch = set.branch();
@@ -47,7 +47,7 @@ const recursiveIntervalSearch = (set, lower, max) => {
       const nextLower = lowestInnerData[0].visuWindow.lower;
       debug.debug(`LOW: ${nextLower}`);
       intervals.push({ visuWindow: { lower, upper: nextLower } });
-      const nextIntervals = recursiveIntervalSearch(set, nextLower, max);
+      const nextIntervals = search(set, nextLower, max);
       intervals.push(...nextIntervals);
     }
   } else {
@@ -86,37 +86,37 @@ const recursiveIntervalSearch = (set, lower, max) => {
         debug.debug(`OUT: ${nextLower}`);
         intervals.push({ visuWindow: { lower: upper, upper: nextLower } });
         // and do it again
-        const nextIntervals = recursiveIntervalSearch(set, nextLower, max);
+        const nextIntervals = search(set, nextLower, max);
         intervals.push(...nextIntervals);
       }
     } else {
       const nextLower = nextInnerData[nidl - 1].visuWindow.upper;
       debug.debug(`IN: ${nextLower}`);
       if (nextLower !== max) {
-        const nextIntervals = recursiveIntervalSearch(set, nextLower, max);
+        const nextIntervals = search(set, nextLower, max);
         intervals.push(...nextIntervals);
       }
     }
   }
 
   return intervals;
-};
+}
 
-const searchIntervals = (subscriptionsCollection, subscription, callback) => {
-  const dataSet = subscriptionsCollection.chain().find(
-    {
-      $and: [{
-        dataFullName: subscription.dataFullName,
-      }, {
-        sessionId: subscription.sessionId,
-      }, {
-        domainId: subscription.domainId,
-      }],
-    });
-  const limits = recursiveIntervalSearch(dataSet,
+module.exports = (subscriptionsCollection, subscription, callback) => {
+  const dataSet = subscriptionsCollection.chain().find({
+    $and: [{
+      dataFullName: subscription.dataFullName,
+    }, {
+      sessionId: subscription.sessionId,
+    }, {
+      domainId: subscription.domainId,
+    }],
+  });
 
-  subscription.visuWindow.lower, subscription.visuWindow.upper);
+  const limits = search(
+    dataSet,
+    subscription.visuWindow.lower,
+    subscription.visuWindow.upper
+  );
   callback(null, limits);
 };
-
-module.exports = { searchIntervals };

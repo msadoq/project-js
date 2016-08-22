@@ -8,7 +8,7 @@ const validateVisuWindow = require('../middlewares/validateVisuWindow');
 const validateField = require('../middlewares/validateField');
 const validateVisuSpeed = require('../middlewares/validateVisuSpeed');
 const validateFilters = require('../middlewares/validateFilters');
-const subscriptionManager = require('../subscriptionManager');
+const createSubscription = require('../subscriptionManager/createSubscription');
 
 const router = new Router();
 
@@ -41,7 +41,7 @@ router.post('/subscriptions', [
 ], (req, res) => {
   debug.debug('received', req.body, 'send', req.validated);
   // TODO : concurency problem, DC data is send before view is ready
-  const subscriptionId = subscriptionManager.addSubscription(req.validated);
+  const subscriptionId = createSubscription(req.validated);
   debug.debug('return subscriptionId', subscriptionId);
   return res.json({
     data: {

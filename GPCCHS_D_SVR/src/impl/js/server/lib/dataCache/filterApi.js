@@ -1,5 +1,5 @@
-const debug = require('../../io/debug')('dataCache:filterApi');
-const constants = require('../../constants');
+const debug = require('../io/debug')('cache:filter');
+const constants = require('../constants');
 
 const dcLokiOperatorMapping = {
   [constants.FILTEROPERATOR_EQ]: '$eq',
@@ -12,19 +12,16 @@ const dcLokiOperatorMapping = {
   [constants.FILTEROPERATOR_ICONTAINS]: '$containsNone',
 };
 
-const resolveCacheFilter = (filter) => {
-  const field = `jsonPayload.${filter.field}`;
-  const operator = dcLokiOperatorMapping[filter.operator];
-  const resolvedFilter = {};
-  resolvedFilter[field] = {};
-  resolvedFilter[field][operator] = filter.value;
-  return resolvedFilter;
-};
+const resolveCacheFilter = filter => ({
+  [`jsonPayload.${filter.field}`]: {
+    [dcLokiOperatorMapping[filter.operator]]: filter.value,
+  },
+});
 
-const resolveCacheFilters = (filterArray) => (
-  (filterArray.constructor === Array) ?
-  filterArray.map((filter) => resolveCacheFilter(filter)) :
-  []
+const resolveCacheFilters = filterArray => (
+  filterArray.constructor === Array
+    ? filterArray.map(filter => resolveCacheFilter(filter))
+    : []
 );
 
 const applyFilter = (data, filter) => {

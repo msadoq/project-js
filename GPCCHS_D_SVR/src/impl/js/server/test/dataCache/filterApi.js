@@ -1,13 +1,12 @@
-const debug = require('../../lib/io/debug')('test:dataCache:filterApi');
 require('../../lib/utils/test');
-const { resolveCacheFilters, matchFilters } = require('../../lib/dataCache/lib/filterApi');
+const { resolveCacheFilters, matchFilters } = require('../../lib/dataCache/filterApi');
 
 const intDataValue = 42;
 const stringDataValue = 'TestData';
 const newIntData = () => Object.assign({}, { intDataValue });
 const newStringData = () => Object.assign({}, { stringDataValue });
 
-describe('jsonCacheApi', () => {
+describe('filterApi', () => {
   describe('resolveCacheFilters', () => {
     it('OP_CONTAINS', () => {
       const filters = [{
@@ -17,7 +16,6 @@ describe('jsonCacheApi', () => {
         value: stringDataValue,
       }];
       const resolvedFilters = resolveCacheFilters(filters);
-      debug.info(resolvedFilters);
       resolvedFilters.should.be.an('array').and.have.lengthOf(1);
       resolvedFilters[0].should.be.an('object').that.have.properties({
         'jsonPayload.dataField': { $contains: stringDataValue },
@@ -31,7 +29,6 @@ describe('jsonCacheApi', () => {
         value: stringDataValue,
       }];
       const resolvedFilters = resolveCacheFilters(filters);
-      debug.info(resolvedFilters);
       resolvedFilters.should.be.an('array').and.have.lengthOf(1);
       resolvedFilters[0].should.be.an('object').that.have.properties({
         'jsonPayload.dataField': { $containsNone: stringDataValue },
@@ -160,14 +157,5 @@ describe('jsonCacheApi', () => {
       const isMatching = matchFilters(data, subscription);
       isMatching.should.be.an('boolean').that.equal(false);
     });
-
   });
 });
-
-/* describe('async', () => {
-  it('fake', done => {
-    setTimeout(() => {
-      done();
-    }, 1500);
-  });
-}); */

@@ -1,8 +1,8 @@
 const debug = require('../../lib/io/debug')('test:subscriptionManager:intervalApi');
 require('../../lib/utils/test');
 
-const { searchIntervals } = require('../../lib/subscriptionManager/lib/intervalApi');
-const { subscriptionColl } = require('../../lib/io/loki');
+const searchIntervals = require('../../lib/subscriptionManager/intervals');
+const model = require('../../lib/models/subscriptions');
 
 const subHeader = { dataFullName: 'a', sessionId: 0, domainId: 0 };
 const subInterval = { visuWindow: { lower: 0, upper: 10 } };
@@ -11,10 +11,10 @@ const sub = Object.assign({}, subHeader, subInterval);
 describe('intervalApi', () => {
   describe('searchIntervals', () => {
     beforeEach(() => {
-      subscriptionColl.clear();
+      model.clear();
     });
     it('noSub', () => {
-      searchIntervals(subscriptionColl, sub, (err, limits) => {
+      searchIntervals(model, sub, (err, limits) => {
         debug.info(limits);
         limits.should.be.an('array').that.has.lengthOf(1);
         limits[0].should.be.an('object').with.property('visuWindow');
@@ -25,9 +25,9 @@ describe('intervalApi', () => {
     });
     it('leftSub', () => {
       const sub1 = Object.assign({}, subHeader, { visuWindow: { lower: -5, upper: 5 } });
-      subscriptionColl.insert(sub1);
+      model.insert(sub1);
 
-      searchIntervals(subscriptionColl, sub, (err, limits) => {
+      searchIntervals(model, sub, (err, limits) => {
         debug.info(limits);
         limits.should.be.an('array').that.has.lengthOf(1);
         limits[0].should.be.an('object').with.property('visuWindow');
@@ -38,9 +38,9 @@ describe('intervalApi', () => {
     });
     it('rightSub', () => {
       const sub1 = Object.assign({}, subHeader, { visuWindow: { lower: 5, upper: 15 } });
-      subscriptionColl.insert(sub1);
+      model.insert(sub1);
 
-      searchIntervals(subscriptionColl, sub, (err, limits) => {
+      searchIntervals(model, sub, (err, limits) => {
         debug.info(limits);
         limits.should.be.an('array').that.has.lengthOf(1);
         limits[0].should.be.an('object').with.property('visuWindow');
@@ -52,10 +52,10 @@ describe('intervalApi', () => {
     it('leftAndRightSub', () => {
       const sub1 = Object.assign({}, subHeader, { visuWindow: { lower: -5, upper: 2.5 } });
       const sub2 = Object.assign({}, subHeader, { visuWindow: { lower: 7.5, upper: 15 } });
-      subscriptionColl.insert(sub1);
-      subscriptionColl.insert(sub2);
+      model.insert(sub1);
+      model.insert(sub2);
 
-      searchIntervals(subscriptionColl, sub, (err, limits) => {
+      searchIntervals(model, sub, (err, limits) => {
         debug.info(limits);
         limits.should.be.an('array').that.has.lengthOf(1);
         limits[0].should.be.an('object').with.property('visuWindow');
@@ -66,9 +66,9 @@ describe('intervalApi', () => {
     });
     it('middleSub', () => {
       const sub1 = Object.assign({}, subHeader, { visuWindow: { lower: 2.5, upper: 7.5 } });
-      subscriptionColl.insert(sub1);
+      model.insert(sub1);
 
-      searchIntervals(subscriptionColl, sub, (err, limits) => {
+      searchIntervals(model, sub, (err, limits) => {
         debug.info(limits);
         limits.should.be.an('array').that.has.lengthOf(2);
 
@@ -87,11 +87,11 @@ describe('intervalApi', () => {
       const sub1 = Object.assign({}, subHeader, { visuWindow: { lower: -5, upper: 2 } });
       const sub2 = Object.assign({}, subHeader, { visuWindow: { lower: 4, upper: 6 } });
       const sub3 = Object.assign({}, subHeader, { visuWindow: { lower: 8, upper: 15 } });
-      subscriptionColl.insert(sub1);
-      subscriptionColl.insert(sub2);
-      subscriptionColl.insert(sub3);
+      model.insert(sub1);
+      model.insert(sub2);
+      model.insert(sub3);
 
-      searchIntervals(subscriptionColl, sub, (err, limits) => {
+      searchIntervals(model, sub, (err, limits) => {
         debug.info(limits);
         limits.should.be.an('array').that.has.lengthOf(2);
 
@@ -109,10 +109,10 @@ describe('intervalApi', () => {
     it('outsideLeftAndRightSub', () => {
       const sub1 = Object.assign({}, subHeader, { visuWindow: { lower: -5, upper: -2.5 } });
       const sub2 = Object.assign({}, subHeader, { visuWindow: { lower: 12.5, upper: 15 } });
-      subscriptionColl.insert(sub1);
-      subscriptionColl.insert(sub2);
+      model.insert(sub1);
+      model.insert(sub2);
 
-      searchIntervals(subscriptionColl, sub, (err, limits) => {
+      searchIntervals(model, sub, (err, limits) => {
         debug.info(limits);
         limits.should.be.an('array').that.has.lengthOf(1);
         limits[0].should.be.an('object').with.property('visuWindow');
@@ -124,21 +124,13 @@ describe('intervalApi', () => {
     it('fullSub', () => {
       const sub1 = Object.assign({}, subHeader, { visuWindow: { lower: 0, upper: 5 } });
       const sub2 = Object.assign({}, subHeader, { visuWindow: { lower: 5, upper: 10 } });
-      subscriptionColl.insert(sub1);
-      subscriptionColl.insert(sub2);
+      model.insert(sub1);
+      model.insert(sub2);
 
-      searchIntervals(subscriptionColl, sub, (err, limits) => {
+      searchIntervals(model, sub, (err, limits) => {
         debug.info(limits);
         limits.should.be.an('array').that.has.lengthOf(0);
       });
     });
   });
 });
-
-/* describe('async', () => {
-  it('fake', done => {
-    setTimeout(() => {
-      done();
-    }, 1500);
-  });
-}); */

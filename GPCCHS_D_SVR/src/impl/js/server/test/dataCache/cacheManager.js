@@ -3,7 +3,7 @@
 const { open, close, send } = require('../../../lib/io/zmq');
 const { jsonCache } = require('../../../lib/io/loki');
 
-const { init, createNewSubscription } = require('../../../lib/dataCache/lib/cacheManager');
+const { init, createNewSubscription } = require('../../../lib/dataCache/cacheManager');
 
 describe('cacheManager', () => {
   beforeEach(() => {

@@ -33,21 +33,12 @@ describe('POST API subscriptions', () => {
         },
       ],
     };
-    it('nominal', done => {
+    it('call', done => {
       postApiRequest('/api/subscriptions', fixture)
         .expect(res => {
           const body = res.body;
           body.should.be.an('object').and.have.property('data').that.is.an('object');
-          body.data.should.have.property('subscriptionId', 1);
-        })
-        .expect(200, done);
-    });
-    it('consecutive call (increment)', done => {
-      postApiRequest('/api/subscriptions', fixture)
-        .expect(res => {
-          const body = res.body;
-          body.should.be.an('object').and.have.property('data').that.is.an('object');
-          body.data.should.have.property('subscriptionId', 2);
+          body.data.should.have.property('subscriptionId');
         })
         .expect(200, done);
     });

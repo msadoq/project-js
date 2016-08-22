@@ -9,8 +9,7 @@ const app = require('./lib/express');
 const http = require('http');
 const { openSockets, closeSockets } = require('./lib/io/zmq');
 const { openWebsockets } = require('./lib/io/socket.io');
-const cacheMgr = require('./lib/dataCache');
-const { onMessage } = require('./lib/dataCache/lib/cacheManager');
+const { init, onMessage } = require('./lib/dataCache/cacheManager');
 
 // port
 function normalizePort(val) {
@@ -93,7 +92,7 @@ async.waterfall([
   callback => openWebsockets(server, callback),
   callback => openSockets(zeroMQSockets, callback),
   callback => {
-    cacheMgr.init();
+    init();
     // TODO : remove, cacheMgr could be statically launched (handle buffer on websocket manager)
     // const { jsonDataColl } = require('./lib/io/loki');
     // const { injectParameters } = require('./stub/paramInjector');

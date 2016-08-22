@@ -1,6 +1,6 @@
 const debug = require('../../io/debug')('subscriptionManager:subscriptionApi');
 
-const { subscriptionPushSocket } = require('../../io/zmq');
+const { send } = require('../../io/zmq');
 
 const { subscriptionColl } = require('../../io/loki');
 
@@ -33,8 +33,7 @@ const addSubscription = (subscription) => {
         newIntervalSubs.push(newSub);
         debug.info(`NEED INTERVAL : ${JSON.stringify(interval)}`);
       }
-      subscriptionPushSocket.send(JSON.stringify(newIntervalSubs));
-
+      return send('gpccdcpush', JSON.stringify(newIntervalSubs));
     });
   });
 

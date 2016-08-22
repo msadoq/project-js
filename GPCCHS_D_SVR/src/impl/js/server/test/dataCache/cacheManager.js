@@ -1,20 +1,24 @@
 /*const { chai, should } = require('../lib/utils/test');
 
-const { bindPushSockets, disconnectSockets, subscriptionPushSocket } = require('../../../lib/io/zmq');
+const { open, close, send } = require('../../../lib/io/zmq');
 const { jsonCache } = require('../../../lib/io/loki');
 
 const { init, createNewSubscription } = require('../../../lib/dataCache/lib/cacheManager');
 
 describe('cacheManager', () => {
   beforeEach(() => {
-    bindPushSockets(() => {
+    open({
+      gpccdcpush: {
+        type: 'push',
+        url: process.env.ZMQ_GPCCDCPUSH,
+        handler: payload => console.log('received', payload), // TODO
+      },
+    }, () => {
       debug.info('Test binded.');
     });
   });
   afterEach(() => {
-    disconnectSockets(() => {
-      debug.info('Test disconnected');
-    });
+    close();
   });
 
   it('onMessage', (done) => {
@@ -46,7 +50,7 @@ describe('cacheManager', () => {
         },
       ],
     }];
-    subscriptionPushSocket.send(JSON.stringify(subs));
+    send('gpccdcpush', JSON.stringify(subs));
 
     setTimeout(done, 1500);
   });

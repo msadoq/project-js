@@ -1,8 +1,8 @@
 //
 // const { timeLinePullSocket } = require('../../io/zmq');
-// const { cacheWebSocket } = require('../../io/socket.io');
+// const { getSocketIo } = require('../../io/socket.io');
 // const debug = require('../../io/debug')('timeLineManager:timeLineManager');
-// const webSocket = cacheWebSocket;
+// const webSocket = getSocketIo;
 //
 // // Schema validator module
 // const Ajv = require('ajv');

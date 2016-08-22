@@ -1,19 +1,20 @@
-const debug = require('../io/debug')('io:socket.io');
+const debug = require('../io/debug')('socket.io');
 const sio = require('socket.io');
+
 let io = null;
 
-const bindWebSockets = (server, cb) => {
+const openWebsockets = (server, cb) => {
   io = sio(server);
   io.sockets.on('connection', (webSocket) => {
     webSocket.on('disconnect', () => {
-      debug.info('Cache WebSocket disconnected, bye');
+      debug.info('websocket closed');
     });
 
-    debug.info('Cache WebSocket connected');
+    debug.info('websocket open');
     webSocket.emit('message', 'Cache WebSocket connected');
   });
 
   cb();
 };
 
-module.exports = { bindWebSockets, cacheWebSocket: () => io };
+module.exports = { openWebsockets, getSocketIo: () => io };

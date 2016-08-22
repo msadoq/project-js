@@ -1,20 +1,19 @@
 const debug = require('../../io/debug')('dataCache:cacheManager');
-
-const { dcPullSockets } = require('../../io/zmq');
-const binCache = require('./binCacheApi.js');
-const jsonCache = require('./jsonCacheApi.js');
-const { matchFilters } = require('./filterApi.js');
+const _ = require('lodash');
+const binCache = require('./binCacheApi');
+const jsonCache = require('./jsonCacheApi');
+const { matchFilters } = require('./filterApi');
 const { dataTypeController } = require('../../dataTypeManager');
 const subscriptionMgr = require('./subscriptionsManager');
-const { cacheWebSocket } = require('../../io/socket.io');
-const _ = require('lodash');
+const { getSocketIo } = require('../../io/socket.io');
 
 const emitData = (subscriptionId, points) => {
-  cacheWebSocket().emit('plot', {
+  // TODO : dispatch to corresponding websocket (based on subscriptionId)
+  getSocketIo().emit('plot', {
     subscriptionId,
     points,
   });
-}
+};
 
 const searchSubscriptionData = (subscription) => {
   jsonCache.findData(subscription, (err, storedData) => {
@@ -33,11 +32,13 @@ const searchSubscriptionData = (subscription) => {
     });
     if (points.length > 0) {
       const parameter = subscription.parameter;
-      debug.info(`Sending found data in cache for parameter ${parameter} to views for subscription ${subscription.subId}`);
+      debug.info(
+        `Sending found data in cache for ${parameter} for subscription ${subscription.subId}`
+      );
       debug.debug(`points: ${points}`);
       emitData(`sub${subscription.subId}`, points);
     }
-  })
+  });
 };
 
 
@@ -58,11 +59,17 @@ const flushBuffer = () => {
 const onMessage = (header, meta, payload) => {
   dataTypeController.binToJson({ type: 'Header' }, meta).then((metaStr) => {
     debug.debug('Add Bin Data');
-    binCache.addData(metaStr, payload).then((insertedBinData) => { debug.verbose(insertedBinData); });
+    binCache.addData(metaStr, payload).then(
+      (insertedBinData) => { debug.verbose(insertedBinData); }
+    );
     dataTypeController.binToJson(metaStr, payload).then((decodedJson) => {
       debug.debug('Add Json Data');
-      jsonCache.addData(metaStr, decodedJson).then((insertedJsonData) => { debug.verbose(insertedJsonData); });
-      debug.debug(`REQUIRING SUBSCRIPTION ${metaStr.catalog}.${metaStr.parameter}<${metaStr.type}>`);
+      jsonCache.addData(metaStr, decodedJson).then(
+        (insertedJsonData) => { debug.verbose(insertedJsonData); }
+      );
+      debug.debug(
+        `REQUIRING SUBSCRIPTION ${metaStr.catalog}.${metaStr.parameter}<${metaStr.type}>`
+      );
       debug.debug(`TIME: ${metaStr.timestamp}`);
       const subscriptions = subscriptionMgr.getSubscriptions(metaStr);
       debug.debug(`Found ${subscriptions.length} Subscription(s)`);
@@ -89,9 +96,11 @@ const onMessage = (header, meta, payload) => {
 
 
 const init = () => {
-  debug.info('INIT Cache Manager Message Reception');
-  dcPullSockets.map((s) => s.on('message', onMessage));
-  setTimeout(flushBuffer, 40);
+  setTimeout(flushBuffer, 40); // TODO : oh my god! use _.throttle if you really need that
 };
 
-module.exports = { init, searchSubscriptionData };
+module.exports = {
+  init,
+  searchSubscriptionData,
+  onMessage,
+};

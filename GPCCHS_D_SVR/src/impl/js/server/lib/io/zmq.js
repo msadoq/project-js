@@ -1,47 +1,53 @@
-const debug = require('../io/debug')('io:zmq');
+const debug = require('../io/debug')('zmq');
 const zmq = require('zmq');
+const async = require('async');
+const _ = require('lodash');
 
-let dcPullSockets = [1, 2, 3, 4, 5];
-dcPullSockets = dcPullSockets.map(() => zmq.socket('pull'));
+let sockets = {};
 
-const subPushPort = 4000;
-const cachePullPort = 3000;
-const tlPullPort = 4242;
-const dcPullPort = 49159;
-const URI = 'tcp://127.0.0.1';
+function openSockets(configuration, callback) {
+  async.eachOf(configuration, (item, key, cb) => {
+    if (typeof sockets[key] !== 'undefined') {
+      return cb(new Error(`A ZeroMQ socket is already opened with this key: ${key}`));
+    }
 
-const subscriptionPushSocket = zmq.socket('push');
-const cachePullSocket = zmq.socket('pull');
-const timeLinePullSocket = zmq.socket('pull');
+    if (item.type === 'push') {
+      sockets[key] = zmq.socket('push');
+      sockets[key].bindSync(item.url);
+    } else if (item.type === 'pull') {
+      sockets[key] = zmq.socket('pull');
+      sockets[key].connect(item.url);
+      sockets[key].on('message', (...args) => item.handler(...args));
+    }
 
-const bindPushSockets = (callback) => subscriptionPushSocket.bind(`${URI}:${subPushPort}`, (err) => {
-  if (err) throw err;
-  debug.info(`Subscription Push Socket Bound on ${URI}:${subPushPort}`);
-  cachePullSocket.connect(`${URI}:${cachePullPort}`);
-  debug.info(`Cache Socket Ready to pull on ${URI}:${cachePullPort}`);
-  timeLinePullSocket.connect(`${URI}:${tlPullPort}`);
-  debug.info(`TimeLine Socket Ready to pull on ${URI}:${tlPullPort}`);
-  dcPullSockets = dcPullSockets.map((s, i) => {
-    const dcPort = dcPullPort + i;
-    const dcURI = `${URI}:${dcPort}`;
-    debug.info(`DC Pull Sockets Ready to pull on ${dcURI}`);
-    return s.connect(dcURI);
-  });
+    sockets[key].close = () => sockets[key].disconnect(item.url);
 
-  setTimeout(callback, 0);
-});
+    debug.info(`${item.type} socket open on ${item.url} for key ${key}`);
+    return cb(null);
+  }, callback);
+}
 
-const disconnectSockets = (callback) => {
-  subscriptionPushSocket.disconnect(`${URI}:${subPushPort}`);
-  cachePullSocket.disconnect(`${URI}:${cachePullPort}`);
-  timeLinePullSocket.disconnect(`${URI}:${tlPullPort}`);
-  dcPullSockets = dcPullSockets.map((s, i) => {
-    const dcPort = dcPullPort + i;
-    const dcURI = `${URI}:${dcPort}`;
-    return s.disconnect(dcURI);
-  });
+function get(key) {
+  return sockets[key];
+}
 
-  setTimeout(callback, 0);
+function send(key, payload) {
+  const socket = sockets[key];
+  if (socket) {
+    debug.debug('send', payload, 'on', key);
+    socket.send(payload);
+  }
+}
+
+function closeSockets() {
+  _.each(sockets, item => item.close());
+  sockets = {};
+  debug.info('all sockets closed');
+}
+
+module.exports = {
+  openSockets,
+  closeSockets,
+  get,
+  send,
 };
-
-module.exports = { bindPushSockets, disconnectSockets, subscriptionPushSocket, cachePullSocket, timeLinePullSocket, dcPullSockets };

@@ -30,11 +30,11 @@ if (argv.h) {
   process.exit(1);
 }
 
-const dcPushPort = 49159;
-const subPullPort = 4000;
+const dcPushPort = 49159; // TODO : ports from env
+const subPullPort = 4000; // TODO : ports from env
 const dcPushSocket = zmq.socket('push');
 const subPullSocket = zmq.socket('pull');
-const URI = 'tcp://127.0.0.1';
+const URI = 'tcp://127.0.0.1'; // TODO : url from env
 
 const onSubscription = (subscription, dataSent = 0) => {
   const newSubscription = Object.assign({}, subscription);

@@ -17,7 +17,7 @@ const router = new Router();
  *
  * Required parameters:
  * - dataFullName (str)
- * - domainId (int) // TODO : we can not know it on HS, we should probably remove it
+ * - domainId (int) // TODO : should be retrieved on DC on app launching
  * - timeLineType enum('session', 'recordSet', 'dataSet')
  * - sessionId (only if timeLineType is 'session')
  * - setFileName (only if timeLineType is 'recordSet' or 'dataSet')

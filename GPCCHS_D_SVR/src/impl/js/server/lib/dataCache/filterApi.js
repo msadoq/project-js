@@ -1,6 +1,8 @@
 const debug = require('../io/debug')('cache:filter');
 const constants = require('../constants');
 
+// TODO : refactor and test correctly
+
 const dcLokiOperatorMapping = {
   [constants.FILTEROPERATOR_EQ]: '$eq',
   [constants.FILTEROPERATOR_NE]: '$ne',

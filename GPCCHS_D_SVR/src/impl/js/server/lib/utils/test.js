@@ -4,9 +4,11 @@ require('dotenv-safe').load();
 process.env.HTTP_LOGS = 0;
 
 const chai = require('chai'); // eslint-disable-line import/no-extraneous-dependencies
-const properties = require('chai-properties'); // eslint-disable-line import/no-extraneous-dependencies
+// eslint-disable-next-line import/no-extraneous-dependencies
+const properties = require('chai-properties');
 const request = require('supertest'); // eslint-disable-line import/no-extraneous-dependencies
 const expressApp = require('../express');
+const database = require('../io/loki');
 
 chai.use(properties);
 
@@ -43,4 +45,5 @@ module.exports = {
   postApiRequest,
   getApiRequest,
   shouldBeApiError,
+  database,
 };

@@ -8,9 +8,6 @@ const { searchSubscriptionData } = require('../dataCache/cacheManager'); // TODO
 module.exports = subscription => {
   const subId = v4();
 
-  // TODO : should simplify at this point =>
-  // find missing interval
-
   process.nextTick(() => {
     const newSubscription = Object.assign({}, subscription, { subId });
     searchSubscriptionData(newSubscription);

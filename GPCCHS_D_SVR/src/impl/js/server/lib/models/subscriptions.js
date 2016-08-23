@@ -2,35 +2,23 @@ const database = require('../io/loki');
 
 const collection = database.addCollection('subscriptions');
 
-collection.findBySubId = subId => collection.find({
-  subId,
+collection.retrieveByMeta = ({
+  catalog,
+  parameter,
+  type,
+  timestamp,
+  session,
+}) => collection.find({
+  $and: [
+    { catalog },
+    { parameter },
+    { type },
+    // search for subscription concerned by this parameter timestamp
+    { 'visuWindow.lower': { $lte: timestamp } },
+    { 'visuWindow.upper': { $gte: timestamp } },
+    // TODO : rperrot is session field systematic? (in case of dataSet, recordSet)
+    { sessionId: session },
+  ],
 });
-collection.removeBySubId = subId => collection.removeWhere({
-  subId,
-});
-collection.retrieveBySubscription = subscription => collection.find(
-  {
-    $and: [
-      {
-        dataFullName: `${subscription.catalog}.${subscription.parameter}<${subscription.type}>`,
-      },
-      {
-        'visuWindow.lower': {
-          $lte: subscription.timestamp,
-        },
-      },
-      {
-        'visuWindow.upper': {
-          $gte: subscription.timestamp,
-        },
-      },
-      {
-        sessionId: subscription.session,
-      },
-    ],
-  }
-);
-
-// TODO : unit test
 
 module.exports = collection;

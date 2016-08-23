@@ -63,7 +63,7 @@ const onMessage = (header, meta, payload) => {
       cacheJsonModel.addRecord(metaStr, decodedJson);
       debug.debug(`Retrieving ${metaStr.catalog}.${metaStr.parameter}<${metaStr.type}>`);
       debug.debug(`TIME: ${metaStr.timestamp}`);
-      const subscriptions = subscriptionsModel.retrieveBySubscription(metaStr);
+      const subscriptions = subscriptionsModel.retrieveByMeta(metaStr);
       debug.debug(`Found ${subscriptions.length} Subscription(s)`);
       subscriptions.forEach((subscription) => {
         if (matchFilters(decodedJson, subscription)) {

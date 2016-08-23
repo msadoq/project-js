@@ -1,3 +1,4 @@
+// .generated
 const debug = require('../../io/debug')('dataTypeManager:dataTypeApi');
 const util = require('util');
 

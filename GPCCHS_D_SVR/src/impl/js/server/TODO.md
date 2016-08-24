@@ -9,7 +9,10 @@ List of tasks remaining in GPCCHS:
   - dc incoming (to view websocket)
   - (loki cache search and save)
 * Go on on dataCache refactoring
-* Cleanup GPCCDC stub
+* Stubs
+  - we should stub DC (push, realtime, archive)
+  - we should stub HSC (new connection (=receive data), remove connection, update view)
+  - we should stub TB (timebar change)
 * Add eslint pre-commit hook
 * Uniformize dataFullName and fulldataId and decide if transmitted to DC
 * Uniformize sessionId and session and analyse if systematic

@@ -1,6 +1,5 @@
 const debug = require('../io/debug')('models:cacheJson');
 const database = require('../io/loki');
-const { resolveCacheFilters } = require('../dataCache/filterApi');
 const { inspect } = require('util');
 
 const collection = database.addCollection('cacheJson');
@@ -12,7 +11,7 @@ collection.addRecord = (meta, data) => {
   debug.debug('inserted', meta, data);
 };
 
-collection.retrieveBySubscription = ({ catalog, parameter, visuWindow, sessionId, filter }) => {
+collection.retrieveBySubscription = ({ catalog, parameter, visuWindow, sessionId }) => {
   const query = {
     $and: [
       // TODO : and we do not search by type like in models/subscriptions???
@@ -33,13 +32,6 @@ collection.retrieveBySubscription = ({ catalog, parameter, visuWindow, sessionId
     }
     if (typeof upper !== 'undefined') {
       query.$and.push({ timestamp: { $lte: upper } });
-    }
-  }
-
-  if (filter && filter.length) {
-    const filters = resolveCacheFilters(filter);
-    if (filters.length) {
-      query.$and = query.$and.concat(filters); // TODO : move filters computing here (in model)??
     }
   }
 

@@ -1,6 +1,5 @@
 require('../../lib/utils/test');
 const model = require('../../lib/models/cacheJson');
-const constants = require('../../lib/constants');
 const { getDcReportingParameter } = require('../../lib/utils/stub');
 
 describe('models/cacheJson', () => {
@@ -152,47 +151,6 @@ describe('models/cacheJson', () => {
             upper: now - 2000,
           },
         })).should.be.an('array').that.has.lengthOf(0);
-      });
-    });
-    describe('filter', () => {
-      beforeEach(() => {
-        const r1 = getDcReportingParameter({ data: { rawValue: 40 } });
-        const r2 = getDcReportingParameter({ data: { rawValue: 55 } });
-        const r3 = getDcReportingParameter({ data: { rawValue: 75 } });
-        model.addRecord(r1.meta, r1.data);
-        model.addRecord(r2.meta, r2.data);
-        model.addRecord(r3.meta, r3.data);
-      });
-
-      it('one', () => {
-        model.retrieveBySubscription(Object.assign({}, query, {
-          filter: [
-            {
-              dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
-              field: 'rawValue',
-              operator: constants.FILTEROPERATOR_LT,
-              value: 75,
-            },
-          ],
-        })).should.be.an('array').that.has.lengthOf(2);
-      });
-      it('multi', () => {
-        model.retrieveBySubscription(Object.assign({}, query, {
-          filter: [
-            {
-              dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
-              field: 'rawValue',
-              operator: constants.FILTEROPERATOR_LT,
-              value: 76,
-            },
-            {
-              dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
-              field: 'rawValue',
-              operator: constants.FILTEROPERATOR_GT,
-              value: 46,
-            },
-          ],
-        })).should.be.an('array').that.has.lengthOf(2);
       });
     });
   });

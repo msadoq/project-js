@@ -14,7 +14,7 @@ let buildProtobuf = (builder, ...protofiles) => {
 
 buildProtobuf(builder,  "../protobuf/DataQuery.proto", 
                         "../protobuf/DataSubscribe.proto",
-                        "../protobuf/DataQueryResponse.proto",
+                        "../protobuf/DcResponse.proto",
                         "../protobuf/TimeFilterMessage.proto");
 
 var root = builder.build(["dataControllerUtils","protobuf"]);
@@ -22,7 +22,7 @@ var root = builder.build(["dataControllerUtils","protobuf"]);
 let {Action, 
     DataId, 
     DataQuery, 
-    DataQueryResponse, 
+    DcResponse, 
     DataSubscribe, 
     SamplingLevel, 
     TimeFilterMessage, 
@@ -38,7 +38,7 @@ console.log("bound tcp://127.0.0.1:5042");
 
 
 
-// Message received from DC : DcResponse
+// Message received from DC
 let onMessage = function (msg){
     var did = DcResponse.decode(new Buffer(msg));
     

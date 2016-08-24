@@ -23,8 +23,9 @@
     "lokijs": "^1.4.1",
     "morgan": "~1.7.0",
     "node-uuid": "^1.4.7",
+    "primus": "^6.0.2",
     "protobufjs": "^5.0.1",
-    "socket.io": "^1.4.8",
+    "uws": "^0.8.0",
     "zmq": "^2.15.3"
   },
   "devDependencies": {

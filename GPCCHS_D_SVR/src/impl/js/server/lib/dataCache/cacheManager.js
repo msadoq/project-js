@@ -5,15 +5,7 @@ const cacheJsonModel = require('../models/cacheJson');
 const { matchFilters } = require('./filterApi');
 const { dataTypeController } = require('../dataTypeManager');
 const subscriptionsModel = require('../models/subscriptions');
-const { getSocketIo } = require('../io/socket.io');
-
-const emitData = (subscriptionId, points) => {
-  // TODO : dispatch to corresponding websocket (based on subscriptionId)
-  getSocketIo().emit('plot', {
-    subscriptionId,
-    points,
-  });
-};
+const { send } = require('../io/primus');
 
 const searchSubscriptionData = subscription => {
   const storedData = cacheJsonModel.retrieveBySubscription(subscription);
@@ -35,7 +27,7 @@ const searchSubscriptionData = subscription => {
       `Sending found data in cache for ${parameter} for subscription ${subscription.subId}`
     );
     debug.debug(`points: ${points}`);
-    emitData(`sub${subscription.subId}`, points);
+    send(subscription.subId, 'plot', points);
   }
 };
 
@@ -47,7 +39,7 @@ const flushBuffer = () => {
       const points = v.points.splice(0);
       if (points.length > 0) {
         debug.debug(`Sending subscription ${k} to views`);
-        emitData(k, points);
+        send(k, 'plot', points);
       }
     });
   setTimeout(flushBuffer, 40);
@@ -56,7 +48,7 @@ const init = () => {
   setTimeout(flushBuffer, 40); // TODO : oh my god! use _.throttle if you really need that
 };
 
-const onMessage = (header, meta, payload) => {
+const onMessage = (header, meta, payload) => { // TODO : move this in controller
   dataTypeController.binToJson({ type: 'Header' }, meta).then((metaStr) => {
     cacheBinaryModel.addRecord(metaStr, payload);
     dataTypeController.binToJson(metaStr, payload).then((decodedJson) => {

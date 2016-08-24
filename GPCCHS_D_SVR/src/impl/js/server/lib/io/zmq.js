@@ -1,14 +1,14 @@
 const debug = require('../io/debug')('zmq');
-const zmq = require('zmq');
-const async = require('async');
 const _ = require('lodash');
+const zmq = require('zmq');
 
 let sockets = {};
 
-function openSockets(configuration, callback) {
-  async.eachOf(configuration, (item, key, cb) => {
+function init(configuration) {
+  Object.keys(configuration).forEach(key => {
+    const item = configuration[key];
     if (typeof sockets[key] !== 'undefined') {
-      return cb(new Error(`A ZeroMQ socket is already opened with this key: ${key}`));
+      throw new Error(`A ZeroMQ socket is already opened with this key: ${key}`);
     }
 
     if (item.type === 'push') {
@@ -23,8 +23,7 @@ function openSockets(configuration, callback) {
     sockets[key].close = () => sockets[key].disconnect(item.url);
 
     debug.info(`${item.type} socket open on ${item.url} for key ${key}`);
-    return cb(null);
-  }, callback);
+  });
 }
 
 function get(key) {
@@ -46,7 +45,7 @@ function closeSockets() {
 }
 
 module.exports = {
-  openSockets,
+  init,
   closeSockets,
   get,
   send,

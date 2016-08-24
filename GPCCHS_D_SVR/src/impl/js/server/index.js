@@ -2,14 +2,17 @@
 
 require('dotenv-safe').load();
 
+const debug = require('./lib/io/debug')('startup');
 const exit = require('exit');
-const async = require('async');
-const debug = require('./lib/io/debug')('launcher');
 const app = require('./lib/express');
 const http = require('http');
-const { openSockets, closeSockets } = require('./lib/io/zmq');
-const { openWebsockets } = require('./lib/io/socket.io');
-const { init, onMessage } = require('./lib/dataCache/cacheManager');
+const zmq = require('./lib/io/zmq');
+const primus = require('./lib/io/primus');
+const onDcArchiveData = require('./lib/controller/onDcArchiveData');
+const onDcRealtimeData = require('./lib/controller/onDcRealtimeData');
+const onTimeBarUpdate = require('./lib/controller/onTimeBarUpdate');
+const onViewUpdate = require('./lib/controller/onViewUpdate');
+const { init } = require('./lib/dataCache/cacheManager'); // TODO : remove!!! >:[
 
 // port
 function normalizePort(val) {
@@ -27,12 +30,13 @@ function normalizePort(val) {
 
   return false;
 }
+
 const port = normalizePort(process.env.PORT);
 app.set('port', port);
 
 // HTTP server
 const server = http.createServer(app);
-function onError(error) {
+server.on('error', (error) => {
   if (error.syscall !== 'listen') {
     throw error;
   }
@@ -54,59 +58,48 @@ function onError(error) {
     default:
       throw error;
   }
-}
-function onListening() {
+});
+server.on('listening', () => {
   const addr = server.address();
   const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
-  debug.info(`Server launched on port ${bind}`);
-}
-server.on('error', onError);
-server.on('listening', onListening);
-
-/**
- * Open ZeroMQ sockets:
- * - GPCCDC(push): subscription from HS to DC
- * - GPCCDC(pull): data from DC to HS
- * - Timebar(pull): data from Timebar to HS
- */
-const zeroMQSockets = {
-  gpccdcpush: {
-    type: 'push',
-    url: process.env.ZMQ_GPCCDCPUSH,
-  },
-  gpccdcpull: {
-    type: 'pull',
-    url: process.env.ZMQ_GPCCDCPULL,
-    handler: onMessage,
-  },
-  timeline: {
-    type: 'pull',
-    url: process.env.ZMQ_TIMELINE,
-    handler: payload => console.log('received timeline', payload), // TODO
-  },
-};
-
-// open communication bus with external and run HTTP server
-debug.info(`Trying to launch server in '${process.env.NODE_ENV}' env`);
-async.waterfall([
-  callback => openWebsockets(server, callback),
-  callback => openSockets(zeroMQSockets, callback),
-  callback => {
-    init();
-    // TODO : remove, cacheMgr could be statically launched (handle buffer on websocket manager)
-    // const { jsonDataColl } = require('./lib/io/loki');
-    // const { injectParameters } = require('./stub/paramInjector');
-    //injectParameters(jsonDataColl, process.env.PARAM_NB || 0, process.env.TIMESTAMP_START); TODO: wtf?
-    callback();
-  },
-  callback => {
-    server.listen(port);
-    callback();
-  },
-], err => {
-  if (err) {
-    debug.error(err);
-    closeSockets();
-    exit(1);
-  }
+  debug.info(`Server launched on ${bind}`);
 });
+
+// Primus
+primus.init(server, {
+  viewUpdate: onViewUpdate,
+});
+
+// ZeroMQ
+zmq.init({
+  dcpush: {
+    type: 'push',
+    url: process.env.ZMQ_GPCCDC_PUSH,
+  },
+  dcarchive: {
+    type: 'pull',
+    url: process.env.ZMQ_GPCCDC_ARCHIVE,
+    handler: onDcArchiveData,
+  },
+  dcrealtime: {
+    type: 'pull',
+    url: process.env.ZMQ_GPCCDC_REALTIME,
+    handler: onDcRealtimeData,
+  },
+  vimatimebar: {
+    type: 'pull',
+    url: process.env.ZMQ_VIMA_TIMEBAR,
+    handler: onTimeBarUpdate,
+  },
+});
+
+// TODO : remove, cacheMgr could be statically launched (handle buffer on websocket manager)
+init();
+
+// TODO: wtf?
+// const { jsonDataColl } = require('./lib/io/loki');
+// const { injectParameters } = require('./stub/paramInjector');
+// injectParameters(jsonDataColl, process.env.PARAM_NB || 0, process.env.TIMESTAMP_START);
+
+debug.info(`Trying to launch server in '${process.env.NODE_ENV}' env`);
+server.listen(port);

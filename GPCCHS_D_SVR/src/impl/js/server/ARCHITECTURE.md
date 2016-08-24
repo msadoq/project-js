@@ -43,6 +43,7 @@ HSS is responsible to determine:
 - which realtime data to filter on DC
 
 ## HSC
+```
 1 electron instance
  |_ 1 websocket
  |_ **n** windows
@@ -50,7 +51,8 @@ HSS is responsible to determine:
       |_ **n** views (containerized WebView: http://electron.atom.io/docs/api/web-view-tag/)
         |_ 1 websocket connection
         |_ **n** subscription ID
-        
+```
+
 Redux store:
 * 1 redux store inited by main process
 * 1 redux store by window (with filtering logic on document)

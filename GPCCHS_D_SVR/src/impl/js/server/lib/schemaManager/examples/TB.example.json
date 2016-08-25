@@ -1,45 +1,45 @@
 {
-"type" : "timeBarConfiguration" ,
-"id": "TB1",
-"action" : "currentTimeUpd",
-"mode": "Normal",
-"visuWindow": {
+  "type": "timeBarConfiguration",
+  "id": "TB1", // not used in HSS (1 instance === 1 timebar)
+  "action": "currentTimeUpd", // enum('currentTimeUpd', 'startTimeUpd', 'endTimeUpd', 'playingStateUpd', 'speedUpd', 'visuPosUpd', 'visuModeUpd', 'masterTlIdUpd', 'tlAdded', 'tlRemoved', 'tlNameUpd', 'tlOffsetUpd')
+  "mode": "Normal", // enum('Normal', 'Sliding', 'Extended')
+  "visuWindow": {
     "lower": 1420106400000,
     "upper": 1420113600000,
     "current": 1420110000000,
     "defaultWidth": 7200000
-},
-"slideWindow": {
+  },
+  "slideWindow": {
     "lower": 1420108200000,
     "upper": 1420111800000
-},
-"extUpperBound": 1420115400000,
-"rulerStart": 1420106400000,
-"rulerResolution": 11250,
-"speed": 1.0,
-"playingState": "pause", 
-"timeSpec": "LocalTime",
-"offsetFromUTC": 0,
-"timeLines": [
+  },
+  "extUpperBound": 1420115400000,
+  "rulerStart": 1420106400000,
+  "rulerResolution": 11250, // ms per pixel
+  "speed": 1.0,
+  "playingState": "pause", // enum('pause', 'replay', 'realtime')
+  "timeSpec": "LocalTime",
+  "offsetFromUTC": 0,
+  "timeLines": [
     {
-        "id": "Session 1",
-        "offset": 0,
-        "kind": "Session",
-        "sessionId": 1
+      "id": "Session 1",
+      "offset": 0,
+      "kind": "Session", // enum('Session', 'Dataset', 'Recordset')
+      "sessionId": 1 // only for Session
     },
     {
-        "id": "Dataset 1",
-        "offset": 0,
-        "kind": "Dataset",
-        "dsPath": "/dataset.xml"
+      "id": "Dataset 1",
+      "offset": 0,
+      "kind": "Dataset",
+      "dsPath": "/dataset.xml" // only for DataSet and RecordSet
     }
-],
-"masterId": "Session 1",
-"geometry": {
+  ],
+  "masterId": "Session 1",
+  "geometry": {
     "kind": "Absolute",
     "x": 10,
     "y": 810,
     "w": 1900,
     "h": 100
-}
+  }
 }

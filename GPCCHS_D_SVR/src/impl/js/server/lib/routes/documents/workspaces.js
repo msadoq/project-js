@@ -1,17 +1,33 @@
+const debug = require('../../io/debug')('documents:pages');
 const { Router } = require('express');
 const validatePathOrOId = require('../../middlewares/validatePathOrOId');
+const validFs = require('../../middlewares/validFs');
+const validJsonAjv = require('../../middlewares/validJsonAjv');
 
 const router = new Router();
 
-router.post('/workspaces', validatePathOrOId, (req, res) => {
-  const data = (req.validated.path)
-    ? { path: req.validated.path }
-    : { oId: req.validaed.oId };
+router.post('/workspaces', [
+    validatePathOrOId, 
+    validFs, 
+    validJsonAjv,
+  ],
+  (req, res) => {
+    debug.debug('received', req.body, 'send', req.validated);
+    const data = (req.validated.path)
+      ? { path: req.validated.path }
+      : { oId: req.validated.oId };
 
-  // TODO : test file existence, user right, read it, validate and send
-  data.content = 'my ws file content';
-
-  res.json({ data });
-});
+    data.content = 'my ws file content';
+    
+    // data.path_file = '../../lib/utils/test/fileTest.txt';
+    
+    // data.fileExist = true;
+    
+    // data.accessFile = R_OK;
+    
+    // data.readFile = 'ok';
+    
+    return res.json({ data });
+  });
 
 module.exports = router;

@@ -4,17 +4,18 @@
 
 package dataControllerUtils.protobuf;
 
+
+//The parameter full identity 
+
 message DataId {
 extensions 15 to 107;
 
-  optional uint64 queryId = 1;
   optional string parameterName = 2;
-  optional string oid = 3;
+  optional string oid = 3; // oid can't and isn't filled by GPCCHS. 
   optional string catalog = 4;
   optional string comObject = 5;
   optional uint32 sessionId = 6;
-  optional uint32 domainId = 7;
-  optional string domain = 8;
-  optional string url = 9;
-  optional string version = 10;
+  optional uint32 domainId = 7; 
+  optional string url = 8; //for fds parameters
+  optional string version = 9; //for fds parameters
 }

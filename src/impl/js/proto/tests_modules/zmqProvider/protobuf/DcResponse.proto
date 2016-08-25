@@ -4,10 +4,10 @@
 
 package dataControllerUtils.protobuf;
 
-message DataQueryResponse {
+message DcResponse {
 extensions 15 to 107;
 
-  optional uint64 queryId = 1;
+  optional uint64 id = 1;
   enum Status {
     OK = 0;
     ERROR = 1;

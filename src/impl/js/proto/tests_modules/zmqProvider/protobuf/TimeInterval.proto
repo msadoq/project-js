@@ -1,9 +1,13 @@
 package dataControllerUtils.protobuf;
 
+
+//picoseconds are here just in case it is required to filter on ps.
+
 message TimeInterval {
 extensions 5 to 107;
-  optional uint64 lowerMs = 1;
-  optional uint32 lowerPs = 2;
-  optional uint64 upperMs = 3;
-  optional uint32 upperPs = 4;
+
+  optional uint64 lower_ms = 1;
+  optional uint32 lower_ps = 2;
+  optional uint64 upper_ms = 3;
+  optional uint32 upper_ps = 4;
 }

@@ -18,7 +18,7 @@
           "name": "ATT_BC_STR1VOLTAGE",
           "connectedDataX": {
             "formula": "Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.groundDate",
-            "unit": "s",
+
             "digits": 5,
             "format": "decimal",
             "domain": "",
@@ -39,7 +39,7 @@
             "timeLine": "Session 1",
             "axisId": "VBat"
           },
-          "lineStyle": "Continuous",
+          "lineStyle": "Continuous1",
           "pointsStyle": "None",
           "curveColour": "#000000",
           "stateColours": [
@@ -104,7 +104,7 @@
       ],
       "grids": [
         {
-          
+
           "yAxisId": "VBat",
           "lineStyle": "Continuous",
           "width": 1,

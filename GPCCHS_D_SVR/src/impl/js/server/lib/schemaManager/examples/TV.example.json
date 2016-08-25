@@ -2,7 +2,7 @@
     "data": {
         "type": "TextView",
         "attributes": {
-            "TextViewEntryPoints": [{
+            "textViewEntryPoints": [{
                 "name": "ATT_BC_STR1VOLTAGE_EV",
                 "connectedData": {
                     "formula": "Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue",

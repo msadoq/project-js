@@ -16,7 +16,7 @@
                "type": "sideWindow",
                 "kind": "InspectorView",
                 "geometry": {
-                    "kind": "Absolute",
+                    "kind": "AbsoluteZ",
                     "x": 10,
                     "y": 510,
                     "w": 100,
@@ -63,7 +63,7 @@
                 "type": "timeBarWindowConfiguration",
                 "timeBar": {
                     "type": "timeBarConfiguration",
-                    "id": "TB1",
+
                     "mode": "Normal",
                     "visuWindow": {
                         "lower": 1420106400000,
@@ -93,7 +93,8 @@
                         "kind": "Dataset",
                         "dsPath": "/dataset.xml"
                     }],
-                    "masterId": "Session 1"
+                    "masterId": "Session 1",
+                    "wrong": true
                 },
                 "geometry": {
                     "kind": "Absolute",

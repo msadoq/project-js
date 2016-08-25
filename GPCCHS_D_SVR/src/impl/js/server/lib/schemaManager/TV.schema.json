@@ -20,7 +20,7 @@
         "domain": {"type": "string"},
         "timeLine": {"type": "string"}
       },
-      "required": ["fullName","unit", "digits", "format", "domain", "timeLine"]
+      "required": ["formula","unit", "digits", "format", "domain", "timeLine"]
     },
     "viewEntryPoint": {
       "type": "object",

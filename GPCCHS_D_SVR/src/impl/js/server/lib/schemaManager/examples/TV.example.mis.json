@@ -1,17 +1,17 @@
 {
     "data": {
-        "type": "TextView",
+        "type1": "TextView",
         "attributes": {
-            "TextViewEntryPoints": [{
+            "textViewEntryPoints": [{
                 "name": "ATT_BC_STR1VOLTAGE_EV",
                 "connectedData": {
                     "formula": "Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue",
-                    "unit": "V",
+"unit": "V",
                     "digits": 5,
                     "format": "decimal",
                     "filter": {
                         "field": "monitoringState",
-                        "operator": "!=",
+                        "operator": "!==",
                         "operand": "nominal"
                     },
                     "domain": ".*",
@@ -21,8 +21,8 @@
                 "name": "ATT_BC_STR1VOLTAGE_MS",
                 "connectedData": {
                     "formula": "Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.monitoringState",
-                    "unit": "V",
-                    "digits": 5,
+
+                    "digits": false,
                     "format": "decimal",
                     "filter": {
                         "field": "convertedValue",
@@ -39,8 +39,8 @@
                     "unit": "V",
                     "digits": 5,
                     "format": "decimal",
-                    "domain": ".*",
-                    "timeLine": "Session 1"
+                    "domain": ".*"
+
                 }
             }],
             "links": [{
@@ -48,7 +48,7 @@
                 "path": "../Page01.vipg"
             }],
             "defaultRatio": {
-                "length": 5,
+
                 "width": 3
             },
             "content": [

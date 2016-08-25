@@ -54,7 +54,9 @@
         ]
       }
     },
-    "timeBar": {
+    "type": "object",
+    "properties": {
+      "data": {
       "type": "object",
       "properties": {
 	      "type" : {"type": "string", "enum" : ["timeBarConfiguration"]},
@@ -96,4 +98,5 @@
       "required": ["id", "mode", "visuWindow", "slideWindow", "extUpperBound", "timeLines"],
       "additionalProperties": false
     }
+  }
 }

@@ -1,6 +1,5 @@
 
 
-import "ValueFilter.proto";
 import "TimeInterval.proto";
 import "SamplingLevel.proto";
 import "DataId.proto";
@@ -8,12 +7,12 @@ import "DataId.proto";
 package dataControllerUtils.protobuf;
 
 
-//Query to archive, with parameter, filters, interval and sampling level (for plot)
+//Query to archive, with parameter, filters, interval and sampling level (for plot) (eventually)
 message DataQuery {
 extensions 14 to 107;
-  optional uint32 queryId = 1;
-  optional DataId dataId = 2;
-  repeated ValueFilter filters = 3;
+  optional string id = 2;
+  optional DataId dataId = 3;
+//  repeated ValueFilter filters = 3;
   optional TimeInterval interval = 4;
   optional SamplingLevel sampling = 5;
 }

@@ -19,52 +19,37 @@ const validatePV = ajv.compile(schemaPV);
 const validatePG = ajv.compile(schemaPG);
 
 // Compliance between schema and data
-// Workspace
-function validateWsJson(data) {
+var validateJson = (data,validFct) => {
   let errors;
-  if (!validateWS(data)) {
-    // let str = ajv.errorsText(validate.errors, { separator: '\n' });
+  if (data.length == 0)  {
+    errors = "Empty file";
+  } else if (!validFct(data)) {
+//    console.log(ajv.errorsText(validFct.errors, { separator: '\n' }));
     // Save errors in returned value
-    errors = validateWS.errors;
+    errors = validFct.errors;
   }
   return errors;
+}
+// Workspace
+function validateWsJson(data) {
+  return validateJson(data,validateWS);
 }
 
 // TextView
 function validateTvJson(data) {
-  let errors;
-  if (!validateTV(data)) {
-    // Save errors in returned value
-    errors = validateTV.errors;
-  }
-  return errors;
+  return validateJson(data,validateTV);
 }
 // TimeBar
 function validateTbJson(data) {
-  let errors;
-  if (!validateTB(data)) {
-    // Save errors in returned value
-    errors = validateTB.errors;
-  }
-  return errors;
+  return validateJson(data,validateTB);
 }
 // PlotView
 function validatePvJson(data) {
-  let errors;
-  if (!validatePV(data)) {
-    // Save errors in returned value
-    errors = validatePV.errors;
-  }
-  return errors;
+  return validateJson(data,validatePV);
 }
 // Workspace
 function validatePgJson(data) {
-  let errors;
-  if (!validatePG(data)) {
-    // Save errors in returned value
-    errors = validatePG.errors;
-  }
-  return errors;
+  return validateJson(data, validatePG);
 }
 
 // Function export

@@ -8,11 +8,9 @@ const app = require('./lib/express');
 const http = require('http');
 const zmq = require('./lib/io/zmq');
 const primus = require('./lib/io/primus');
-const onDcArchiveData = require('./lib/controller/onDcArchiveData');
-const onDcRealtimeData = require('./lib/controller/onDcRealtimeData');
-const onTimeBarUpdate = require('./lib/controller/onTimeBarUpdate');
-const onViewUpdate = require('./lib/controller/onViewUpdate');
-const { init } = require('./lib/dataCache/cacheManager'); // TODO : remove!!! >:[
+const onDcData = require('./lib/controllers/onDcData');
+const onTimeBarUpdate = require('./lib/controllers/onTimeBarUpdate');
+const onViewUpdate = require('./lib/controllers/onViewUpdate');
 
 // port
 function normalizePort(val) {
@@ -73,18 +71,19 @@ primus.init(server, {
 // ZeroMQ
 zmq.init({
   dcpush: {
-    type: 'push',
+    type: 'req',
     url: process.env.ZMQ_GPCCDC_PUSH,
+    handler: () => {}, // TODO implement a onDcRequestResponse (with error)
   },
   dcarchive: {
     type: 'pull',
     url: process.env.ZMQ_GPCCDC_ARCHIVE,
-    handler: onDcArchiveData,
+    handler: onDcData,
   },
   dcrealtime: {
     type: 'pull',
     url: process.env.ZMQ_GPCCDC_REALTIME,
-    handler: onDcRealtimeData,
+    handler: onDcData,
   },
   vimatimebar: {
     type: 'pull',
@@ -92,9 +91,6 @@ zmq.init({
     handler: onTimeBarUpdate,
   },
 });
-
-// TODO : remove, cacheMgr could be statically launched (handle buffer on websocket manager)
-init();
 
 // TODO: wtf?
 // const { jsonDataColl } = require('./lib/io/loki');

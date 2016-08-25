@@ -14,6 +14,10 @@ function init(configuration) {
     if (item.type === 'push') {
       sockets[key] = zmq.socket('push');
       sockets[key].bindSync(item.url);
+    } else if (item.type === 'req') {
+      sockets[key] = zmq.socket('req');
+      sockets[key].connect(item.url);
+      sockets[key].on('message', (...args) => item.handler(...args));
     } else if (item.type === 'pull') {
       sockets[key] = zmq.socket('pull');
       sockets[key].connect(item.url);

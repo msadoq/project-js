@@ -24,10 +24,8 @@ let {Action,
     DataQuery, 
     DcResponse, 
     DataSubscribe, 
-    SamplingLevel, 
-    TimeFilterMessage, 
-    TimeInterval, 
-    ValueFilter} = root;
+    SamplingLevel,
+    TimeInterval} = root;
        
 
 console.log("binding tcp://127.0.0.1:5042");
@@ -60,17 +58,17 @@ socketOut.on("message",onMessage); // retrieve DataQueryResponse from DC
 
 
 
-let queryFilter1 = new ValueFilter({
-    "lhs" : "extractedValue",
-    "comp" : ValueFilter.LT,                       // TODO make an enum with comparison operators
-    "rhs" : "42"
-})
+// let queryFilter1 = new ValueFilter({
+//     "lhs" : "extractedValue",
+//     "comp" : ValueFilter.LT,                       // TODO make an enum with comparison operators
+//     "rhs" : "42"
+// })
 
-let queryFilter2 = new ValueFilter({
-    "lhs" : "extractedValue",
-    "comp" : ValueFilter.LT,                       // TODO make an enum with comparison operators
-    "rhs" : "420"
-})
+// let queryFilter2 = new ValueFilter({
+//     "lhs" : "extractedValue",
+//     "comp" : ValueFilter.LT,                       // TODO make an enum with comparison operators
+//     "rhs" : "420"
+// })
 
 let timeInterval = new TimeInterval({
     "lower_ms" : 1438413300000, // 8 aout 2015 9h15
@@ -111,42 +109,44 @@ let dataIdWithTypo = new DataId( {
 
 // A full request for data 
 let dataQuery = new DataQuery({
+    "id" : "42",
     "dataId" : dataId, 
-    "filters" : [queryFilter1,queryFilter2],
     "interval" :timeInterval,
     "sampling" : samplingLevel
 });
 
+
 // A full request for data, with a wrong parameter (doesn't exist)
 let wrongDataQuery = new DataQuery({
+    "id" : "43",
     "dataId" : dataIdWithTypo, 
-    "filters" : [queryFilter1,queryFilter2],
     "interval" :timeInterval,
     "sampling" : samplingLevel
 });
+
 
 // a filter to send to PubSub (Real time) with only DataId 
 let dataFilter = new DataSubscribe({
     "action" : Action.ADD, 
-    "id" : 1424,
+    "id" : "1424",
     "dataId" : dataId
 });
 
 // a filter to send to PubSub (Real time) with only DataId, which is wrong
 let wrongDataFilter = new DataSubscribe({
     "action" : Action.ADD,
-    "id" : 1425,
+    "id" : "1425",
     "dataId" : dataIdWithTypo
 });
 
 // a time filter with a sessionID and the same timeInterval as the query to Archive
 // there can be several time filter for the same sessionId (useful in edge cases)
-let timeFilterMsg = new TimeFilterMessage({
-    "action" : Action.ADD,
-    "id" : 5666,
-    "sessionId" : sessionIdTest, //same sessionIs as dataId of previoussly defined dataFilter
-    "interval" : timeInterval
-});
+// let timeFilterMsg = new TimeFilterMessage({
+//     "action" : Action.ADD,
+//     "id" : 5666,
+//     "sessionId" : sessionIdTest, //same sessionIs as dataId of previoussly defined dataFilter
+//     "interval" : timeInterval
+// });
 
 // Removal of an existing filter on data for PubSub
 let dataFilterRemoval = new DataSubscribe({
@@ -155,10 +155,10 @@ let dataFilterRemoval = new DataSubscribe({
 });
 
 // Removal of an existing time filter on session for PubSub
-let timeFilterRemoval = new DataSubscribe({
-    "action" : Action.DELETE, 
-    "id" : dataFilter.id // same ID as previously defined dataFilter
-});
+// let timeFilterRemoval = new DataSubscribe({
+//     "action" : Action.DELETE, 
+//     "id" : dataFilter.id // same ID as previously defined dataFilter
+// });
 
 
 let sendProtobuf = function (protoObj) {
@@ -168,10 +168,10 @@ let sendProtobuf = function (protoObj) {
 }
 
 //Expected DcResponse : OK
-sendProtobuf(dataQuery);
+// sendProtobuf(dataQuery);
 
 //Expected DcResponse : ERROR
-sendProtobuf(wrongDataQuery);
+// sendProtobuf(wrongDataQuery);
 
 //Expected DcResponse : OK
 sendProtobuf(dataFilter);
@@ -180,11 +180,11 @@ sendProtobuf(dataFilter);
 sendProtobuf(wrongDataFilter);
 
 //Expected DcResponse : OK
-sendProtobuf(timeFilterMsg);
+// sendProtobuf(timeFilterMsg);
 
 //Expected DcResponse : OK
-sendProtobuf(dataFilterRemoval);
+// sendProtobuf(dataFilterRemoval);
 
 //Expected DcResponse : OK
-sendProtobuf(timeFilterRemoval);
+// sendProtobuf(timeFilterRemoval);
 

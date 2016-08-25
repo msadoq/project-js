@@ -7,7 +7,7 @@ package dataControllerUtils.protobuf;
 message DcResponse {
 extensions 15 to 107;
 
-  optional uint64 id = 1;
+  optional string id = 1;
   enum Status {
     OK = 0;
     ERROR = 1;

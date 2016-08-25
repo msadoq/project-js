@@ -25,8 +25,11 @@ if (!isNaN(parseInt(process.argv[2], 10))) {
 
 var JS = require("../files/reportingParameter.proto.js"); 
 var ReportingParameter = JS.ReportingParameter;
+var Protobuf = JS.protobuf;
 var Header = require("../files/header.proto.js");
 
+console.log(JS);
+console.log(ReportingParameter);
 // socketOut.bind("tcp://127.0.0.1:3000");
 socketOut.bind("tcp://127.0.0.1:49159", (err) => {
     if (err) throw err;

@@ -1,8 +1,5 @@
 
 
-var socketsIn = new Array(1,2,3,4,5);
-
-
 
 var zmq = require("zmq"),
     socketOut = zmq.socket("push"),
@@ -31,6 +28,12 @@ var toDataIdPb = meta => {
     
 }
 
+var JS = require("../files/reportingParameter.proto.js"); 
+var ReportingParameter = JS.ReportingParameter;
+var Protobuf = JS.protobuf;
+var Header = require("../files/header.proto.js");
+
+console.log(ReportingParameter);
 let totalSize = 0;
 var onMessage = function (...msg) {
     //MSG[0] IS MESSAGE HEADER, IGNORE IT.
@@ -51,6 +54,8 @@ var onMessage = function (...msg) {
                 let payloadTimestamp = msg.splice(0,2);
                 let ts =  payloadTimestamp[0];
                 let payload = payloadTimestamp[1];
+                var param = ReportingParameter.decode(payload);
+                console.log(param);
                 treatMsg(msg);
         }
     }

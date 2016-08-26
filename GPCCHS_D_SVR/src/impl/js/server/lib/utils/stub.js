@@ -11,60 +11,60 @@ const constants = require('../constants');
 // Reporting.ATT_BC_STR1STRSAQ3<ReportingParameter>
 // Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>
 
-module.exports = {
-  getSubscription: override => {
-    const now = Date.now();
-    let subscription = {
-      dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
-      catalog: 'Reporting',
-      parameter: 'ATT_BC_STR1VOLTAGE',
-      type: 'ReportingParameter',
-      field: 'rawValue',
-      domainId: 0,
-      timeLineType: constants.TIMELINETYPE_SESSION,
-      sessionId: 100,
-      setFileName: '',
-      subscriptionState: constants.SUBSCRIPTIONSTATE_PLAY,
-      visuSpeed: 0,
-      visuWindow: {
-        lower: now - (3600 * 1000),
-        upper: now + (3600 * 1000),
-      },
-      filter: [],
-    };
+const stubs = module.exports = {};
 
-    if (override) {
-      _.forEach(override, (value, key) => {
-        // remove this key
-        if (typeof value === 'undefined') {
-          subscription = _.omit(subscription, [key]);
-          return;
-        }
+stubs.getSubscription = override => {
+  const now = Date.now();
+  let subscription = {
+    dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
+    catalog: 'Reporting',
+    parameter: 'ATT_BC_STR1VOLTAGE',
+    type: 'ReportingParameter',
+    field: 'rawValue',
+    domainId: 0,
+    timeLineType: constants.TIMELINETYPE_SESSION,
+    sessionId: 100,
+    setFileName: '',
+    subscriptionState: constants.SUBSCRIPTIONSTATE_PLAY,
+    visuSpeed: 0,
+    visuWindow: {
+      lower: now - (3600 * 1000),
+      upper: now + (3600 * 1000),
+    },
+    filter: [],
+  };
 
-        // dataFullName
-        if (key === 'dataFullName') {
-          const parsed = parseDataFullName(value);
-          Object.assign(subscription, {
-            dataFullName: parsed.dataFullName,
-            catalog: parsed.catalog,
-            parameter: parsed.parameter,
-            type: parsed.type,
-          });
-          return;
-        }
+  if (override) {
+    _.forEach(override, (value, key) => {
+      // remove this key
+      if (typeof value === 'undefined') {
+        subscription = _.omit(subscription, [key]);
+        return;
+      }
 
-        // override key value
-        subscription[key] = value;
-      });
-    }
+      // dataFullName
+      if (key === 'dataFullName') {
+        const parsed = parseDataFullName(value);
+        Object.assign(subscription, {
+          dataFullName: parsed.dataFullName,
+          catalog: parsed.catalog,
+          parameter: parsed.parameter,
+          type: parsed.type,
+        });
+        return;
+      }
 
-    return subscription;
-  },
-  getDcReportingParameter: override => {
-    const parameter = {};
+      // override key value
+      subscription[key] = value;
+    });
+  }
 
-    parameter.meta = {
-      // TODO : envisage removing fullDataId from communication
+  return subscription;
+};
+
+stubs.getDcData = override => {
+  const parameter = {
+    meta: {
       fullDataId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
       catalog: 'Reporting',
       parameter: 'ATT_BC_STR1VOLTAGE',
@@ -72,9 +72,8 @@ module.exports = {
       oid: `000100010100010001${_.random(1, 100000000)}`,
       session: 100,
       timestamp: Date.now(),
-    };
-
-    parameter.data = {
+    },
+    data: {
       onboardDate: Date.now(),
       groundDate: Date.now() + 20,
       convertedValue: _.random(1, 100, true),
@@ -86,44 +85,44 @@ module.exports = {
       validityState: 0,
       isObsolete: false,
       isNominal: false,
-    };
+    },
+  };
 
-    if (override) {
-      _.forEach(override.meta, (value, key) => {
-        // remove this key
-        if (typeof value === 'undefined') {
-          parameter.meta = _.omit(parameter.meta, [key]);
-          return;
-        }
+  if (override) {
+    _.forEach(override.meta, (value, key) => {
+      // remove this key
+      if (typeof value === 'undefined') {
+        parameter.meta = _.omit(parameter.meta, [key]);
+        return;
+      }
 
-        // dataFullName
-        if (key === 'fullDataId') {
-          const parsed = parseDataFullName(value);
-          Object.assign(parameter.meta, {
-            fullDataId: parsed.dataFullName,
-            catalog: parsed.catalog,
-            parameter: parsed.parameter,
-            type: parsed.type,
-          });
-          return;
-        }
+      // dataFullName
+      if (key === 'fullDataId') {
+        const parsed = parseDataFullName(value);
+        Object.assign(parameter.meta, {
+          fullDataId: parsed.dataFullName,
+          catalog: parsed.catalog,
+          parameter: parsed.parameter,
+          type: parsed.type,
+        });
+        return;
+      }
 
-        // override key value
-        parameter.meta[key] = value;
-      });
+      // override key value
+      parameter.meta[key] = value;
+    });
 
-      _.forEach(override.data, (value, key) => {
-        // remove this key
-        if (typeof value === 'undefined') {
-          parameter.data = _.omit(parameter.data, [key]);
-          return;
-        }
+    _.forEach(override.data, (value, key) => {
+      // remove this key
+      if (typeof value === 'undefined') {
+        parameter.data = _.omit(parameter.data, [key]);
+        return;
+      }
 
-        // override key value
-        parameter.data[key] = value;
-      });
-    }
+      // override key value
+      parameter.data[key] = value;
+    });
+  }
 
-    return parameter;
-  },
+  return parameter;
 };

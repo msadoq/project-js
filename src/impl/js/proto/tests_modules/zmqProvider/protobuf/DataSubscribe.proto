@@ -1,8 +1,8 @@
 
 
-import "TimeInterval.proto";
-import "DataId.proto";
-import "Action.proto";
+import "dataControllerUtils/TimeInterval.proto";
+import "dataControllerUtils/DataId.proto";
+import "dataControllerUtils/Action.proto";
 
 package dataControllerUtils.protobuf;
 
@@ -11,7 +11,7 @@ package dataControllerUtils.protobuf;
 
 message DataSubscribe {
 extensions 14 to 107;
-  optional Action action = 1;
+  required Action action = 1;
   optional string id = 2;
-  optional DataId dataId = 4;
+  required DataId dataId = 4;
 }

@@ -9,7 +9,7 @@ const fs = require('fs'),
 var builder = protoBuf.newBuilder();
 
 let buildProtobuf = (builder, ...protofiles) => {
-    protofiles.map( file => protoBuf.loadProtoFile(file, builder));
+    protofiles.map( file => protoBuf.loadProtoFile({root: "./dataControllerUtils", file : file}, builder));
 }
 
 buildProtobuf(builder,  "../protobuf/DataQuery.proto", 
@@ -25,7 +25,8 @@ let {Action,
     DcResponse, 
     DataSubscribe, 
     SamplingLevel,
-    TimeInterval} = root;
+    TimeInterval,
+    Timestamp} = root;
        
 
 console.log("binding tcp://127.0.0.1:5042");
@@ -70,16 +71,15 @@ socketOut.on("message",onMessage); // retrieve DataQueryResponse from DC
 //     "rhs" : "420"
 // })
 
+
+let ts1 = new Timestamp({"ms" : 1438413300000 });
+let ts2 = new Timestamp({"ms" : 1438413400000 });
 let timeInterval = new TimeInterval({
-    "lower_ms" : 1438413300000, // 8 aout 2015 9h15
-    "upper_ms" : 1438413400000, // 8 aout 2015 9h16:40
-    "lower_ps" : 424242,
-    "upper_ps" : 848484, 
+    "lowerTs" : ts1, // 8 aout 2015 9h15
+    "upperTs" : ts2 // 8 aout 2015 9h15:XX
 })
 
-let samplingLevel = new SamplingLevel({
-          //TODO set SamplingLevel attributes
-})
+
 
 let sessionIdTest = 1;
 
@@ -111,8 +111,7 @@ let dataIdWithTypo = new DataId( {
 let dataQuery = new DataQuery({
     "id" : "42",
     "dataId" : dataId, 
-    "interval" :timeInterval,
-    "sampling" : samplingLevel
+    "interval" :timeInterval
 });
 
 
@@ -120,8 +119,7 @@ let dataQuery = new DataQuery({
 let wrongDataQuery = new DataQuery({
     "id" : "43",
     "dataId" : dataIdWithTypo, 
-    "interval" :timeInterval,
-    "sampling" : samplingLevel
+    "interval" :timeInterval
 });
 
 
@@ -167,8 +165,9 @@ let sendProtobuf = function (protoObj) {
  socketOut.send(buffer);
 }
 
+console.log(dataQuery);
 //Expected DcResponse : OK
-// sendProtobuf(dataQuery);
+sendProtobuf(dataQuery);
 
 //Expected DcResponse : ERROR
 // sendProtobuf(wrongDataQuery);

@@ -1,8 +1,7 @@
 
 
-import "TimeInterval.proto";
-import "SamplingLevel.proto";
-import "DataId.proto";
+import "dataControllerUtils/TimeInterval.proto";
+import "dataControllerUtils/DataId.proto";
 
 package dataControllerUtils.protobuf;
 
@@ -11,8 +10,6 @@ package dataControllerUtils.protobuf;
 message DataQuery {
 extensions 14 to 107;
   optional string id = 2;
-  optional DataId dataId = 3;
-//  repeated ValueFilter filters = 3;
-  optional TimeInterval interval = 4;
-  optional SamplingLevel sampling = 5;
+  required DataId dataId = 3;
+  required TimeInterval interval = 4;
 }

@@ -1,0 +1,5 @@
+package dataControllerUtils.protobuf;
+
+message Timestamp {
+  required uint64 timestamp = 1;
+}

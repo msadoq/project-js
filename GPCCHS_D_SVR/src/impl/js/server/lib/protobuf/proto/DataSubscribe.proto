@@ -1,0 +1,12 @@
+import "TimeInterval.proto";
+import "DataId.proto";
+import "Action.proto";
+
+package dataControllerUtils.protobuf;
+
+message DataSubscribe {
+extensions 14 to 107;
+  optional Action action = 1;
+  optional string id = 2;
+  optional DataId dataId = 4;
+}

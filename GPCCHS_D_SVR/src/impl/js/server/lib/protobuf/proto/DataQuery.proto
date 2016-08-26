@@ -1,0 +1,11 @@
+import "TimeInterval.proto";
+import "DataId.proto";
+
+package dataControllerUtils.protobuf;
+
+message DataQuery {
+extensions 14 to 107;
+  optional string id = 2;
+  optional DataId dataId = 3;
+  optional TimeInterval interval = 4;
+}

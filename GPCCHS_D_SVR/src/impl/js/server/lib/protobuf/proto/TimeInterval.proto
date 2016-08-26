@@ -1,0 +1,5 @@
+package dataControllerUtils.protobuf;
+message TimeInterval {
+  optional uint64 lower_ms = 1;
+  optional uint64 upper_ms = 3;
+}

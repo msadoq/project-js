@@ -1,6 +1,6 @@
 require('../../lib/utils/test');
 const model = require('../../lib/models/cacheJson');
-const { getDcReportingParameter } = require('../../lib/utils/stub');
+const { getDcData } = require('../../lib/utils/stub');
 
 describe('models/cacheJson', () => {
   beforeEach(() => {
@@ -41,11 +41,11 @@ describe('models/cacheJson', () => {
       records.should.be.an('array').that.has.lengthOf(0);
     });
     it('filtered multiple and get correct results', () => {
-      const r1 = getDcReportingParameter();
+      const r1 = getDcData();
       model.addRecord(r1.meta, r1.data);
-      const r2 = getDcReportingParameter();
+      const r2 = getDcData();
       model.addRecord(r2.meta, r2.data);
-      const r3 = getDcReportingParameter({
+      const r3 = getDcData({
         meta: {
           fullDataId: 'Other.ATT_BC_STR1STRRFQ1<ReportingParameter>',
         },
@@ -55,9 +55,9 @@ describe('models/cacheJson', () => {
       records.should.be.an('array').that.has.lengthOf(2);
     });
     it('filter on catalog', () => {
-      const r1 = getDcReportingParameter();
+      const r1 = getDcData();
       model.addRecord(r1.meta, r1.data);
-      const r2 = getDcReportingParameter({
+      const r2 = getDcData({
         meta: {
           fullDataId: 'Other.ATT_BC_STR1STRRFQ1<ReportingParameter>',
         },
@@ -68,9 +68,9 @@ describe('models/cacheJson', () => {
       records[0].fullDataId.should.equal('Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>');
     });
     it('filter on parameter', () => {
-      const r1 = getDcReportingParameter();
+      const r1 = getDcData();
       model.addRecord(r1.meta, r1.data);
-      const r2 = getDcReportingParameter({
+      const r2 = getDcData({
         meta: {
           fullDataId: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>',
         },
@@ -81,9 +81,9 @@ describe('models/cacheJson', () => {
       records[0].fullDataId.should.equal('Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>');
     });
     it('filter on session', () => {
-      const r1 = getDcReportingParameter();
+      const r1 = getDcData();
       model.addRecord(r1.meta, r1.data);
-      const r2 = getDcReportingParameter({
+      const r2 = getDcData({
         meta: {
           session: 200,
         },
@@ -96,9 +96,9 @@ describe('models/cacheJson', () => {
     describe('filter on timestamp', () => {
       const now = Date.now();
       beforeEach(() => {
-        const r1 = getDcReportingParameter({ meta: { timestamp: now - 10000 } }); // 10s before
-        const r2 = getDcReportingParameter({ meta: { timestamp: now } });
-        const r3 = getDcReportingParameter({ meta: { timestamp: now + 10000 } }); // 10s after
+        const r1 = getDcData({ meta: { timestamp: now - 10000 } }); // 10s before
+        const r2 = getDcData({ meta: { timestamp: now } });
+        const r3 = getDcData({ meta: { timestamp: now + 10000 } }); // 10s after
         model.addRecord(r1.meta, r1.data);
         model.addRecord(r2.meta, r2.data);
         model.addRecord(r3.meta, r3.data);

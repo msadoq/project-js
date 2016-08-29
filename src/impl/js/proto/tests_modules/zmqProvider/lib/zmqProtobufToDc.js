@@ -8,16 +8,17 @@ const fs = require('fs'),
 
 var builder = protoBuf.newBuilder();
 
+const { join } = require('path');
 let buildProtobuf = (builder, ...protofiles) => {
-    protofiles.map( file => protoBuf.loadProtoFile({root: "./dataControllerUtils", file : file}, builder));
+    protofiles.map( file => protoBuf.loadProtoFile({root: join(__dirname, '../protobuf'), file : file}, builder));
 }
 
-buildProtobuf(builder,  "../protobuf/DataQuery.proto", 
-                        "../protobuf/DataSubscribe.proto",
-                        "../protobuf/DcResponse.proto",
-                        "../protobuf/TimeFilterMessage.proto");
+buildProtobuf(builder,  "dataControllerUtils/DataQuery.proto", 
+                        "dataControllerUtils/DataSubscribe.proto",
+                        "dataControllerUtils/DcResponse.proto",
+                        "dataControllerUtils/TimeFilterMessage.proto");
 
-var root = builder.build(["dataControllerUtils","protobuf"]);
+var root = builder.build("dataControllerUtils");
 
 let {Action, 
     DataId, 
@@ -26,7 +27,7 @@ let {Action,
     DataSubscribe, 
     SamplingLevel,
     TimeInterval,
-    Timestamp} = root;
+    Timestamp} = root.protobuf;
        
 
 console.log("binding tcp://127.0.0.1:5042");

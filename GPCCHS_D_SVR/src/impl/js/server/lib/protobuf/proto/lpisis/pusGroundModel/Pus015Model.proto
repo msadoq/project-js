@@ -1,0 +1,17 @@
+// Produced by Acceleo Cpp Generator 1.1.0-R7S1-20151214
+
+import "ccsds_mal/types.proto";
+import "pusGroundModel/PusElement.proto";
+import "pusGroundModel/Pus015PacketStore.proto";
+
+package pusGroundModel.protobuf;
+
+message Pus015Model {
+extensions 6 to 106;
+
+  repeated pusGroundModel.protobuf.Pus015PacketStore pus015PacketStore = 1;
+  optional ccsds_mal.protobuf.TIME groundDate = 2;
+  optional ccsds_mal.protobuf.UINTEGER apid = 3;
+  optional ccsds_mal.protobuf.UINTEGER noPacketStores = 4;
+  optional pusGroundModel.protobuf.PusElement pusElement = 5;
+}

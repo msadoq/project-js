@@ -1,0 +1,13 @@
+// Produced by Acceleo Cpp Generator 1.1.0-R7S1-20151214
+
+import "ccsds_mal/types.proto";
+
+package editor.protobuf;
+
+message DocumentValue {
+extensions 4 to 104;
+
+  optional ccsds_mal.protobuf.STRING docPath = 1;
+  optional ccsds_mal.protobuf.LONG docId = 2;
+  optional ccsds_mal.protobuf.LONG parentDocId = 3;
+}

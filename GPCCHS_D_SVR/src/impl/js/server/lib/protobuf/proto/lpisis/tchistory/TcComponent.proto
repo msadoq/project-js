@@ -1,0 +1,18 @@
+// Produced by Acceleo Cpp Generator 1.1.0-R7S1-20151214
+
+import "ccsds_mal/types.proto";
+import "tchistory/SubTcComponent.proto";
+
+package tchistory.protobuf;
+
+message TcComponent {
+extensions 8 to 108;
+
+  optional ccsds_mal.protobuf.BOOLEAN isTc = 1;
+  optional ccsds_mal.protobuf.FINETIME date = 2;
+  optional ccsds_mal.protobuf.LONG definitionId = 3;
+  optional ccsds_mal.protobuf.STRING definitionName = 4;
+  optional ccsds_mal.protobuf.ATTRIBUTE parameterPhysicalValue = 5;
+  optional ccsds_mal.protobuf.BLOB rawPacket = 6;
+  repeated tchistory.protobuf.SubTcComponent subTcComponent = 7;
+}

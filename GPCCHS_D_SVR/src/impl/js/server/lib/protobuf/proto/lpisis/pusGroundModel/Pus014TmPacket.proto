@@ -1,0 +1,14 @@
+// Produced by Acceleo Cpp Generator 1.1.0-R7S1-20151214
+
+import "ccsds_mal/types.proto";
+import "pusGroundModel/Pus014ForwardedPacket.proto";
+
+package pusGroundModel.protobuf;
+
+message Pus014TmPacket {
+extensions 4 to 104;
+
+  optional ccsds_mal.protobuf.UINTEGER serviceTpe = 1;
+  optional ccsds_mal.protobuf.UINTEGER serviceSubType = 2;
+  optional pusGroundModel.protobuf.Pus014ForwardedPacket pus014ForwardedPacket = 3;
+}

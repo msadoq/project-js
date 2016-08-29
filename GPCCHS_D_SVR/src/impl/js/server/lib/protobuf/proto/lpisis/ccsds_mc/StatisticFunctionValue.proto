@@ -1,0 +1,13 @@
+// Produced by Acceleo Cpp Generator 1.1.0-R7S1-20151214
+
+import "ccsds_mal/types.proto";
+import "ccsds_mc/StatisticValueStruct.proto";
+
+package ccsds_mc.protobuf;
+
+message StatisticFunctionValue {
+extensions 3 to 103;
+
+  optional ccsds_mal.protobuf.LONG function = 1;
+  repeated ccsds_mc.protobuf.StatisticValueStruct value = 2;
+}

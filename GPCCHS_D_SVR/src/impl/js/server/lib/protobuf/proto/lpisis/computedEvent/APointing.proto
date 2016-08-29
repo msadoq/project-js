@@ -1,0 +1,18 @@
+// Produced by Acceleo Cpp Generator 0.0.6-R4
+
+import "ccsds_mal/types.proto";
+import "computedEvent/Type.proto";
+
+
+package computedEvent.protobuf;
+
+message APointing {
+extensions 7 to 107;
+    optional ccsds_mal.protobuf.FLOAT azimut = 1;
+    repeated ccsds_mal.protobuf.UOCTET earthAntenna = 2;
+    optional ccsds_mal.protobuf.FLOAT elevation = 3;
+    optional ccsds_mal.protobuf.UOCTET satAntenna = 4;
+    optional ccsds_mal.protobuf.UOCTET station = 5;
+    optional computedEvent.protobuf.Type type = 6;
+
+}

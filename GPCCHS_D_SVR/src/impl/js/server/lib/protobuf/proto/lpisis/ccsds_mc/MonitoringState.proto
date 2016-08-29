@@ -1,0 +1,10 @@
+package ccsds_mc.protobuf;
+
+enum MonitoringState {
+  INFORMATIONAL = 0;
+  WARNING = 1;
+  ALARM = 2;
+  SEVERE = 3;
+  CRITICAL = 4;
+  OUT_OF_RANGE = 5;
+}

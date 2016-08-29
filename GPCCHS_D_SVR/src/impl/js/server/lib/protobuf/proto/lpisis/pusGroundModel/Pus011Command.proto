@@ -1,0 +1,32 @@
+// Produced by Acceleo Cpp Generator 1.1.0-R7S1-20151214
+
+import "ccsds_mal/types.proto";
+import "pusGroundModel/PusElement.proto";
+import "pusGroundModel/Pus011TimeShift.proto";
+import "pusGroundModel/Pus011EncapsulatingTc.proto";
+import "pusGroundModel/Pus011CommandParameter.proto";
+
+package pusGroundModel.protobuf;
+
+message Pus011Command {
+extensions 19 to 119;
+
+  optional ccsds_mal.protobuf.UINTEGER commandApid = 1;
+  optional ccsds_mal.protobuf.BLOB commandBinaryProfile = 2;
+  optional ccsds_mal.protobuf.UINTEGER commandGroundStatus = 3;
+  optional ccsds_mal.protobuf.STRING commandName = 4;
+  optional ccsds_mal.protobuf.UINTEGER commandSequenceCount = 5;
+  optional ccsds_mal.protobuf.UINTEGER commandStatus = 6;
+  optional ccsds_mal.protobuf.TIME currentExecutionTime = 7;
+  optional ccsds_mal.protobuf.TIME initialExecutionTime = 8;
+  optional ccsds_mal.protobuf.UINTEGER commandSourceId = 9;
+  optional ccsds_mal.protobuf.UINTEGER ssId = 10;
+  optional ccsds_mal.protobuf.INTEGER totalTimeShiftOffset = 11;
+  optional pusGroundModel.protobuf.Pus011EncapsulatingTc pus011EncapsulatingTc = 12;
+  repeated pusGroundModel.protobuf.Pus011CommandParameter pus011CommandParameters = 13;
+  repeated pusGroundModel.protobuf.Pus011TimeShift pUS011TimeShift = 14;
+  optional ccsds_mal.protobuf.BOOLEAN invalidBinaryTcDetected = 15;
+  optional ccsds_mal.protobuf.UINTEGER apid = 16;
+  optional pusGroundModel.protobuf.PusElement pusElement = 17;
+  optional ccsds_mal.protobuf.TIME groundDate = 18;
+}

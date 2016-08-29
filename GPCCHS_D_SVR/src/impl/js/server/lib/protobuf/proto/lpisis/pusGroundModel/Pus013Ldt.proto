@@ -1,0 +1,28 @@
+// Produced by Acceleo Cpp Generator 1.1.0-R7S1-20151214
+
+import "ccsds_mal/types.proto";
+import "pusGroundModel/PusElement.proto";
+import "pusGroundModel/Pus013LdtPart.proto";
+
+package pusGroundModel.protobuf;
+
+message Pus013Ldt {
+extensions 17 to 117;
+
+  optional ccsds_mal.protobuf.TIME startTime = 1;
+  optional ccsds_mal.protobuf.TIME endTime = 2;
+  optional ccsds_mal.protobuf.UINTEGER transferType = 3;
+  optional ccsds_mal.protobuf.UINTEGER lduId = 4;
+  optional ccsds_mal.protobuf.UINTEGER status = 5;
+  optional ccsds_mal.protobuf.UINTEGER size = 6;
+  optional ccsds_mal.protobuf.INTEGER remainingSize = 7;
+  optional ccsds_mal.protobuf.UINTEGER percent = 8;
+  optional ccsds_mal.protobuf.UINTEGER failureCode = 9;
+  optional ccsds_mal.protobuf.UINTEGER fileId = 10;
+  optional ccsds_mal.protobuf.UINTEGER partitionId = 11;
+  optional ccsds_mal.protobuf.STRING fileChecksum = 12;
+  optional ccsds_mal.protobuf.UINTEGER fileTypeCode = 13;
+  repeated pusGroundModel.protobuf.Pus013LdtPart pUS013LdtPart = 14;
+  optional ccsds_mal.protobuf.UINTEGER noLDTParts = 15;
+  optional pusGroundModel.protobuf.PusElement pusElement = 16;
+}

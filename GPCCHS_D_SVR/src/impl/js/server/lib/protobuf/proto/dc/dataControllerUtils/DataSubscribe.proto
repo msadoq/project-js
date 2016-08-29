@@ -1,6 +1,6 @@
-import "TimeInterval.proto";
-import "DataId.proto";
-import "Action.proto";
+import "dataControllerUtils/TimeInterval.proto";
+import "dataControllerUtils/DataId.proto";
+import "dataControllerUtils/Action.proto";
 
 package dataControllerUtils.protobuf;
 

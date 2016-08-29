@@ -1,17 +1,42 @@
 const ProtoBuf = require('protobufjs');
 const _ = require('lodash');
+const { join } = require('path');
 
 const builders = {};
 
-const registerBuilder = (key, proto, ns) =>
-  (builders[key] = ProtoBuf.loadProtoFile(`${__dirname}/proto/${proto}`).build(ns)[key]);
+const register = (tree) => {
+  _.each(tree, (namespaces, root) => {
+    if (!builders[root]) {
+      builders[root] = {};
+    }
+    const rootPath = join(__dirname, 'proto', root);
+    _.each(namespaces, (protos, namespace) => {
+      const namespaceBuilder = ProtoBuf.newBuilder();
+      _.each(protos, proto => {
+        // append definition to builder
+        const build = ProtoBuf.loadProtoFile({
+          root: rootPath,
+          file: `${namespace}/${proto}.proto`,
+        }, namespaceBuilder);
+
+        if (!build) {
+          throw new Error(`Unable to read path: ${namespace}/${proto}.proto`);
+        }
+      });
+
+      builders[root][namespace] = namespaceBuilder.build(namespace).protobuf;
+    });
+  });
+};
 
 const getBuilder = key => {
-  if (typeof builders[key] === 'undefined') {
+  const builder = _.get(builders, key);
+
+  if (typeof builder === 'undefined') {
     throw new Error('protobuf type no registered', key);
   }
 
-  return builders[key];
+  return builder;
 };
 
 /**
@@ -36,12 +61,21 @@ const normalize = collection => {
   return _.omitBy(withNull, value => typeof value === 'undefined' || value === null);
 };
 
-const ns = 'dataControllerUtils.protobuf';
-registerBuilder('DataId', 'DataId.proto', ns);
-registerBuilder('DataQuery', 'DataQuery.proto', ns);
-registerBuilder('DataSubscribe', 'DataSubscribe.proto', ns);
-registerBuilder('DcResponse', 'DcResponse.proto', ns);
-registerBuilder('Timestamp', 'Timestamp.proto', ns);
+register({
+  dc: {
+    dataControllerUtils: [
+      'DataId',
+      'DataQuery',
+      'DataSubscribe',
+      'DcResponse',
+      'Timestamp',
+    ],
+  },
+  lpisis: {
+    decommutedParameter: ['ReportingParameter'],
+    packet: ['TmPacket'],
+  },
+});
 
 module.exports = {
   encode: (type, payload) => {
@@ -50,7 +84,7 @@ module.exports = {
     return protobuf.toBuffer();
   },
   decode: (type, buffer) => {
-    const payload = getBuilder(type).decode(buffer).toRaw();
+    const payload = getBuilder(type).decode(buffer).toRaw(true);
     return normalize(payload);
   },
 };

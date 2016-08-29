@@ -79,11 +79,13 @@ register({
 module.exports = {
   encode: (type, payload) => {
     const constructor = getBuilder(type);
-    const protobuf = new constructor(payload);
-    return protobuf.toBuffer();
+    const p = new constructor(payload);
+    return p.toBuffer();
   },
   decode: (type, buffer) => {
-    const payload = getBuilder(type).decode(buffer).toRaw(true);
-    return normalize(payload);
+    const builder = getBuilder(type);
+    const payload = builder.decode(buffer).toRaw(true);
+    payload.toData = () => normalize(payload);
+    return payload;
   },
 };

@@ -27,7 +27,7 @@ describe('protobuf', () => {
         buffer.constructor.should.equal(Buffer);
       });
       it('decode', () => {
-        const json = protobuf.decode('dc.dataControllerUtils.DataQuery', buffer);
+        const json = protobuf.decode('dc.dataControllerUtils.DataQuery', buffer).toData();
         json.should.be.an('object').that.have.properties(fixture);
       });
     });
@@ -43,7 +43,7 @@ describe('protobuf', () => {
         buffer.constructor.should.equal(Buffer);
       });
       it('decode', () => {
-        const json = protobuf.decode('dc.dataControllerUtils.DcResponse', buffer);
+        const json = protobuf.decode('dc.dataControllerUtils.DcResponse', buffer).toData();
         json.should.be.an('object').that.have.properties(fixture);
       });
     });
@@ -62,39 +62,27 @@ describe('protobuf', () => {
         buffer.constructor.should.equal(Buffer);
       });
       it('decode', () => {
-        protobuf.decode('dc.dataControllerUtils.DataId', buffer)
+        protobuf.decode('dc.dataControllerUtils.DataId', buffer).toData()
           .should.be.an('object')
           .that.have.properties(fixture);
       });
     });
   });
-  describe('lpisis', () => {
-    describe('ReportingParameter', () => {
-      // const fixture = stub.getDcData().data;
-      const fixture = {
-        onboardDate: { value: now },
-        groundDate: { value: Math.round(new Date().getTime() / 1000) },
-        convertedValue: { _double: { value: Math.floor((Math.random() * 100) + 1) } },
-        rawValue: { _double: { value: Math.floor((Math.random() * 100) + 1) } },
-        extractedValue: { _double: { value: Math.floor((Math.random() * 100) + 1) } },
-        triggerOnCounter: { value: '9' },
-        triggerOffCounter: { value: '8' },
-        monitoringState: 'INFORMATIONAL',
-        validityState: 'INVALID',
-        isObsolete: { value: false },
-        isNominal: { value: false },
-      };
-      let buffer;
-      it('encode', () => {
-        buffer = protobuf.encode('lpisis.decommutedParameter.ReportingParameter', fixture);
-        buffer.constructor.should.equal(Buffer);
-      });
-
-      // TODO : not working due to certain protobuf types (SHORT=bytes)
-      // it('decode', () => {
-      //   const json = protobuf.decode('lpisis.decommutedParameter.ReportingParameter', buffer);
-      //   json.should.be.an('object').that.have.properties(fixture);
-      // });
-    });
-  });
+  // describe('lpisis', () => {
+  //   describe('ReportingParameter', () => {
+  //     const fixture = stub.getReportingParameter();
+  //     let buffer;
+  //     it('encode', () => {
+  //       buffer = protobuf.encode('lpisis.decommutedParameter.ReportingParameter', fixture);
+  //       buffer.constructor.should.equal(Buffer);
+  //     });
+  //
+  //     // TODO : not working due to certain protobuf types (SHORT=bytes)
+  //     it('decode', () => {
+  //       const json = protobuf.decode('lpisis.decommutedParameter.ReportingParameter', buffer)
+  //         .toData();
+  //       json.should.be.an('object').that.have.properties(fixture);
+  //     });
+  //   });
+  // });
 });

@@ -3,6 +3,26 @@ const _ = require('lodash');
 const async = require('async');
 const zmq = require('zmq');
 
+const lifeCycleEvents = [
+  'connect',
+  'connect_delay',
+  'connect_retry',
+  'listen',
+  'bind_error',
+  'accept',
+  'accept_error',
+  'close',
+  'close_error',
+  'disconnect',
+];
+
+const debugLifecycle = (event, url) => {
+  debug.debug(event, url);
+};
+
+const bindLifecycleEvents =
+  socket => _.each(lifeCycleEvents, event => socket.on(event, debugLifecycle));
+
 let sockets = {};
 
 function init(configuration, callback) {
@@ -16,6 +36,9 @@ function init(configuration, callback) {
       if (err) {
         return cb(err);
       }
+
+      // bind lifecycle event handlers
+      bindLifecycleEvents(sockets[key]);
 
       debug.info(`${item.type} socket open on ${item.url} for key ${key}`);
       return cb(null);

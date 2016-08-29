@@ -2,8 +2,7 @@
 
 
 var zmq = require("zmq"),
-    socketOut = zmq.socket("push"),
-    socketIn = zmq.socket("pull"),
+    socketPull = zmq.socket("pull"),
     protoBuf = require("protobufjs");
 
 const fs = require('fs'),
@@ -17,13 +16,11 @@ let buildProtobuf = (builder, ...protofiles) => {
     protofiles.map( file => protoBuf.loadProtoFile(file, builder));
 }
 
-buildProtobuf(builder,  "../protobuf/DataId.proto", 
-                        "../protobuf/Timestamp.proto")
+buildProtobuf(builder,  "../protobuf/NewDataMessage.proto");
 
 var root = builder.build(["dataControllerUtils","protobuf"]);
 
-let {DataId, 
-    Timestamp} = root;
+let {NewDataMessage} = root;
 
     
 /* TEST MAL STRING */
@@ -45,40 +42,24 @@ var ReportingParameter = JS.ReportingParameter;
 var Protobuf = JS.protobuf;
 var Header = require("../files/header.proto.js");
 
-console.log(ReportingParameter);
 let totalSize = 0;
-var onMessage = function (...msg) {
+var onMessage = function (header,msg) {
     //MSG[0] IS MESSAGE HEADER, IGNORE IT.
-    msg.splice(0,1);
+    console.log(msg);
     
     //MSG[0] is now the DataId header, decode it.
-    var did = DataId.decode(new Buffer(msg[0]));
-    console.log(did);
-    msg.splice(0,1); //remove DataId header from msg
+    var newData = NewDataMessage.decode(msg);
+    console.log(newData);
+    console.log(newData.payloads[0].timestamp);
+    console.log(newData.payloads[0].payload);
+    var param = ReportingParameter.decode(newData.payloads[0].payload);
+    console.log(param);
     
-    console.log("MESSAGE LENGTH " ,msg.length);
-    totalSize+= msg.length;
-    console.log("TOTAL LENGTH " ,totalSize);
-    //msg is now as follow : [payload1, ts1, payload2, ts2 ,  ...] 
-    let treatMsg = (msg) => {
-        if (msg.length > 1){
-                
-                let payloadTimestamp = msg.splice(0,2);
-                let ts = Timestamp.decode(new Buffer(payloadTimestamp[0]));
-                let payload = payloadTimestamp[1];
-                var param = ReportingParameter.decode(payload);
-                console.log(param);
-                console.log(ts);
-                treatMsg(msg);
-        }
-    }
     
-    //get all payload and associated timestamp.
-    treatMsg(msg);   
 }
 
 console.log("CONNECT socketIn");
-let socketPull = zmq.socket("pull");
+let 
 var port= 49165; 
 var uri = 'tcp://127.0.0.1:'+port; 
 console.log(uri); 

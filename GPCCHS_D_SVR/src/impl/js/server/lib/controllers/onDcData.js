@@ -3,7 +3,7 @@ const async = require('async');
 const cacheBinaryModel = require('../models/cacheBinary');
 const cacheJsonModel = require('../models/cacheJson');
 const subscriptionsModel = require('../models/subscriptions');
-const { dataTypeController } = require('../dataTypeManager');
+const { dataTypeController } = require('../dataTypeManager/lib/dataTypeController');
 const primus = require('../io/primus');
 
 // TODO : test

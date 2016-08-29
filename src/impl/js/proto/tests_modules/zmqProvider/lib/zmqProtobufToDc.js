@@ -10,7 +10,10 @@ var builder = protoBuf.newBuilder();
 
 const { join } = require('path');
 let buildProtobuf = (builder, ...protofiles) => {
-    protofiles.map( file => protoBuf.loadProtoFile({root: join(__dirname, '../protobuf'), file : file}, builder));
+    protofiles.map( file => protoBuf.loadProtoFile({
+      root: join(__dirname, '../../../../../../../GPCCHS_D_SVR/src/impl/js/server/lib/protobuf/proto/dc'),
+      file,
+    }, builder));
 }
 
 buildProtobuf(builder,  "dataControllerUtils/DataQuery.proto", 
@@ -126,14 +129,14 @@ let wrongDataQuery = new DataQuery({
 
 // a filter to send to PubSub (Real time) with only DataId 
 let dataFilter = new DataSubscribe({
-    "action" : Action.ADD, 
+    "action" : 0, 
     "id" : "1424",
     "dataId" : dataId
 });
 
 // a filter to send to PubSub (Real time) with only DataId, which is wrong
 let wrongDataFilter = new DataSubscribe({
-    "action" : Action.ADD,
+    "action" : 0,
     "id" : "1425",
     "dataId" : dataIdWithTypo
 });
@@ -141,7 +144,7 @@ let wrongDataFilter = new DataSubscribe({
 // a time filter with a sessionID and the same timeInterval as the query to Archive
 // there can be several time filter for the same sessionId (useful in edge cases)
 // let timeFilterMsg = new TimeFilterMessage({
-//     "action" : Action.ADD,
+//     "action" : 0,
 //     "id" : 5666,
 //     "sessionId" : sessionIdTest, //same sessionIs as dataId of previoussly defined dataFilter
 //     "interval" : timeInterval
@@ -149,13 +152,13 @@ let wrongDataFilter = new DataSubscribe({
 
 // Removal of an existing filter on data for PubSub
 let dataFilterRemoval = new DataSubscribe({
-    "action" : Action.DELETE, 
+    "action" : 2, 
     "id" : dataFilter.id // same ID as previously defined dataFilter
 });
 
 // Removal of an existing time filter on session for PubSub
 // let timeFilterRemoval = new DataSubscribe({
-//     "action" : Action.DELETE, 
+//     "action" : 2, 
 //     "id" : dataFilter.id // same ID as previously defined dataFilter
 // });
 

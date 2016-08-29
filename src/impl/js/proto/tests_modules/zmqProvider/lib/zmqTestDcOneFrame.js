@@ -15,7 +15,10 @@ var builder = protoBuf.newBuilder();
 
 const { join } = require('path');
 let buildProtobuf = (builder, ...protofiles) => {
-    protofiles.map( file => protoBuf.loadProtoFile({root: join(__dirname, '../protobuf'), file : file}, builder));
+    protofiles.map( file => protoBuf.loadProtoFile({
+      root: join(__dirname, '../../../../../../../GPCCHS_D_SVR/src/impl/js/server/lib/protobuf/proto/dc'),
+      file,
+    }, builder));
 }
 
 buildProtobuf(builder,  "dataControllerUtils/NewDataMessage.proto");

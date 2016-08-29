@@ -12,6 +12,40 @@ const onDcData = require('./lib/controllers/onDcData');
 const onTimeBarUpdate = require('./lib/controllers/onTimeBarUpdate');
 const onViewUpdate = require('./lib/controllers/onViewUpdate');
 
+// !!!! Delete TB file to allow timebar Stub to be ok-------------
+// !!!! To be deleted when timebar ok !!!!
+const path = require('path');
+const fs = require('fs');
+
+console.log("Going to delete an existing file");
+const tmpPath = path.join(__dirname, 'stub/tmp');
+const tbPath = path.join(tmpPath, 'tb.json');
+
+// if folder exists
+try {
+  fs.accessSync(tmpPath, fs.constants.F_OK);
+  // Delete tb.json of the latest session
+  fs.unlink(tbPath, function(err) {
+    if (err) {
+      return console.error(err);
+    }
+  });
+  console.log("File deleted successfully!");
+} catch (e) {
+  // folder doesn't exist
+  console.log("No tmp folder");
+  // Create th folder
+  fs.mkdirSync(tmpPath);
+}
+
+
+// Read TB file
+const tb = JSON.parse(
+  fs.readFileSync(path.join(__dirname, 'lib/schemaManager/examples/TB.example.json'), 'utf8'));
+// Create file with current timebar
+fs.writeFileSync(tbPath, JSON.stringify(tb), 'utf8');
+// !!!-------------------------------------------------
+
 // port
 function normalizePort(val) {
   const p = parseInt(val, 10);

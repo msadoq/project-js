@@ -61,7 +61,9 @@
       "properties": {
 	      "type" : {"type": "string", "enum" : ["timeBarConfiguration"]},
         "id": {"type": "string"},
-	      "action" : {"type": "string", "enum" : ["currentTimeUpd", "startTimeUpd", "endTimeUpd", "playingStateUpd", "speedUpd", "visuPosUpd", "visuModeUpd", "masterTlIdUpd", "tlAdded", "tlRemoved", "tlNameUpd", "tlOffsetUpd"]},
+	      "action" : {"type": "string", "enum" : ["initialUpd", "currentTimeUpd", "startTimeUpd",
+          "endTimeUpd", "slideLimUpd","extendedLimUpd", "playingStateUpd", "speedUpd", "visuPosUpd",
+          "visuModeUpd", "masterTlIdUpd", "tlAdded", "tlRemoved", "tlNameUpd", "tlOffsetUpd", "tbSaving"]},
         "mode": {"type": "string", "default": "Normal", "enum": ["Normal", "Extended", "Sliding"]},
         "visuWindow": {
           "allOf" : [
@@ -81,7 +83,7 @@
 	      "rulerResolution": {"type": "number"},
         "speed": {"type": "number", "default": 1.0},
 	      "playingState": {"type": "string", "default": "pause","enum" : ["pause","replay", "realtime"]},
-        "timeSpec": {"type": "string", "enum": ["LocalTime"]},
+        "timeSpec": {"type": "string", "enum": ["OffsetFromUTC", "UTC", "LocalTime"]},
         "offsetFromUTC": {"type": "number", "default": 0},
         "masterId": {"type": "string"},
         "timeLines": {
@@ -95,8 +97,8 @@
           }
         }
       },
-      "required": ["id", "mode", "visuWindow", "slideWindow", "extUpperBound", "timeLines"],
-      "additionalProperties": false
+      "required": ["id", "mode", "visuWindow", "slideWindow", "extUpperBound", "timeLines"]
+
     }
   }
 }

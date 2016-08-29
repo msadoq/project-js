@@ -17,33 +17,32 @@ const onViewUpdate = require('./lib/controllers/onViewUpdate');
 const path = require('path');
 const fs = require('fs');
 
-console.log("Going to delete an existing file");
+debug.debug('Going to delete an existing file');
 const tmpPath = path.join(__dirname, 'stub/tmp');
 const tbPath = path.join(tmpPath, 'tb.json');
-
-// if folder exists
 try {
   fs.accessSync(tmpPath, fs.constants.F_OK);
-  // Delete tb.json of the latest session
-  fs.unlink(tbPath, function(err) {
+  fs.unlink(tbPath, (err) => {
     if (err) {
-      return console.error(err);
+      throw err;
     }
+
+    return undefined;
   });
-  console.log("File deleted successfully!");
+  debug.debug('File deleted successfully!');
 } catch (e) {
-  // folder doesn't exist
-  console.log("No tmp folder");
-  // Create th folder
+  debug.debug('No tmp folder');
   fs.mkdirSync(tmpPath);
 }
 
-
 // Read TB file
 const tb = JSON.parse(
-  fs.readFileSync(path.join(__dirname, 'lib/schemaManager/examples/TB.example.json'), 'utf8'));
+  fs.readFileSync(path.join(__dirname, 'lib/schemaManager/examples/TB.example.json'), 'utf8')
+);
+
 // Create file with current timebar
 fs.writeFileSync(tbPath, JSON.stringify(tb), 'utf8');
+
 // !!!-------------------------------------------------
 
 // port
@@ -124,12 +123,17 @@ zmq.init({
     url: process.env.ZMQ_VIMA_TIMEBAR,
     handler: onTimeBarUpdate,
   },
+}, err => {
+  if (err) {
+    throw err;
+  }
+
+  // TODO: wtf?
+  // const { jsonDataColl } = require('./lib/io/loki');
+  // const { injectParameters } = require('./stub/paramInjector');
+  // injectParameters(jsonDataColl, process.env.PARAM_NB || 0, process.env.TIMESTAMP_START);
+
+  // once ZMQ sockets are open, launch express
+  debug.info(`Trying to launch server in '${process.env.NODE_ENV}' env`);
+  server.listen(port);
 });
-
-// TODO: wtf?
-// const { jsonDataColl } = require('./lib/io/loki');
-// const { injectParameters } = require('./stub/paramInjector');
-// injectParameters(jsonDataColl, process.env.PARAM_NB || 0, process.env.TIMESTAMP_START);
-
-debug.info(`Trying to launch server in '${process.env.NODE_ENV}' env`);
-server.listen(port);

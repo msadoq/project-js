@@ -1,32 +1,51 @@
 const debug = require('../io/debug')('zmq');
 const _ = require('lodash');
+const async = require('async');
 const zmq = require('zmq');
 
 let sockets = {};
 
-function init(configuration) {
-  Object.keys(configuration).forEach(key => {
+function init(configuration, callback) {
+  async.each(Object.keys(configuration), (key, cb) => {
     const item = configuration[key];
     if (typeof sockets[key] !== 'undefined') {
-      throw new Error(`A ZeroMQ socket is already opened with this key: ${key}`);
+      return cb(new Error(`A ZeroMQ socket is already opened with this key: ${key}`));
     }
+
+    const done = err => {
+      if (err) {
+        return cb(err);
+      }
+
+      debug.info(`${item.type} socket open on ${item.url} for key ${key}`);
+      return cb(null);
+    };
 
     if (item.type === 'push') {
       sockets[key] = zmq.socket('push');
-      sockets[key].bindSync(item.url);
+      sockets[key].bind(item.url, done);
+      sockets[key].close = () => sockets[key].unbindSync(item.url);
     } else if (item.type === 'req') {
       sockets[key] = zmq.socket('req');
       sockets[key].connect(item.url);
+      sockets[key].close = () => sockets[key].disconnect(item.url);
       sockets[key].on('message', (...args) => item.handler(...args));
+      return done(null);
     } else if (item.type === 'pull') {
       sockets[key] = zmq.socket('pull');
       sockets[key].connect(item.url);
+      sockets[key].close = () => sockets[key].disconnect(item.url);
       sockets[key].on('message', (...args) => item.handler(...args));
+      return done(null);
     }
 
-    sockets[key].close = () => sockets[key].disconnect(item.url);
+    return cb(new Error('Unknown ZeroMQ socket type: ${item.type}'));
+  }, err => {
+    if (err) {
+      return callback(err);
+    }
 
-    debug.info(`${item.type} socket open on ${item.url} for key ${key}`);
+    return callback(null);
   });
 }
 

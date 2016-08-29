@@ -17,8 +17,8 @@ describe('protobuf', () => {
           domainId: 200,
         },
         interval: {
-          lower_ms: now,
-          upper_ms: now,
+          lowerTs: { ms: now },
+          upperTs: { ms: now },
         },
       };
       let buffer;
@@ -65,21 +65,6 @@ describe('protobuf', () => {
         protobuf.decode('dc.dataControllerUtils.DataId', buffer)
           .should.be.an('object')
           .that.have.properties(fixture);
-      });
-    });
-    describe('Timestamp', () => {
-      const fixture = {
-        timestamp: now,
-      };
-      let buffer;
-      it('encode', () => {
-        buffer = protobuf.encode('dc.dataControllerUtils.Timestamp', fixture);
-        buffer.constructor.should.equal(Buffer);
-      });
-      it('decode', () => {
-        const json = protobuf.decode('dc.dataControllerUtils.Timestamp', buffer);
-        json.should.be.an('object').that.have.property('timestamp')
-          .that.equal(now); // should be strictly same type
       });
     });
   });

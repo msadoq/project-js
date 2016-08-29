@@ -64,11 +64,10 @@ const normalize = collection => {
 register({
   dc: {
     dataControllerUtils: [
-      'DataId',
       'DataQuery',
       'DataSubscribe',
       'DcResponse',
-      'Timestamp',
+      'NewDataMessage',
     ],
   },
   lpisis: {

@@ -1,7 +1,0 @@
-package dataControllerUtils.protobuf;
-
-enum Action {
-    ADD = 0;
-    UPDATE = 1;
-    DELETE = 2;
-}

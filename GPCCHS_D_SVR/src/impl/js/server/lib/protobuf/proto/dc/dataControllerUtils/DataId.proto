@@ -2,10 +2,12 @@ package dataControllerUtils.protobuf;
 
 message DataId {
 extensions 15 to 107;
-  optional string parameterName = 2;
+  required string parameterName = 2;
   optional string oid = 3; // oid can't and isn't filled by GPCCHS.
-  optional string catalog = 4;
+  required string catalog = 4;
   optional string comObject = 5;
-  optional uint32 sessionId = 6;
+  required uint32 sessionId = 6;
   optional uint32 domainId = 7;
+  optional string url = 8;
+  optional string version = 9;
 }

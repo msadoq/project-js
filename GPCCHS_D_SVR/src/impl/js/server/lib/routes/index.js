@@ -9,6 +9,11 @@ router.get('/', (req, res) => res.json({
         self: res.linker('subscriptions'),
       },
     },
+    workspaces: {
+      links: {
+        self: res.linker('workspaces'),
+      },
+    },
   },
   links: {
     self: res.linker(''),

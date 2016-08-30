@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const parseDataFullName = require('./parseDataFullName');
+const protobuf = require('../protobuf');
 const constants = require('../constants');
 
 const now = _.now();
@@ -20,6 +21,20 @@ function applyOverride(payload, override) {
 }
 
 const stubs = module.exports = {};
+
+stubs.getReportingParameter = override => applyOverride({
+  onboardDate: now,
+  groundDate: now + 20,
+  convertedValue: _.random(1, 100, true),
+  rawValue: _.random(1, 100, true),
+  extractedValue: _.random(1, 100, true),
+  triggerOnCounter: 6,
+  triggerOffCounter: 10,
+  monitoringState: 'INFORMATIONAL',
+  validityState: 'INVALID',
+  isObsolete: false,
+  isNominal: false,
+}, override);
 
 stubs.getDataQuery = override => applyOverride({
   id: 'my_unique_id',
@@ -65,7 +80,17 @@ stubs.getNewDataMessage = override => applyOverride({
   payloads: [
     {
       timestamp: { ms: now },
-      payload: new Buffer(10), // TODO implement nested reportingParameter
+      payload: protobuf.encode(
+        'lpisis.decommutedParameter.ReportingParameter',
+        stubs.getReportingParameter()
+      ),
+    },
+    {
+      timestamp: { ms: now },
+      payload: protobuf.encode(
+        'lpisis.decommutedParameter.ReportingParameter',
+        stubs.getReportingParameter()
+      ),
     },
   ],
 }, override);
@@ -117,20 +142,6 @@ stubs.getSubscription = override => {
 
   return subscription;
 };
-
-stubs.getReportingParameter = override => applyOverride({
-  onboardDate: now,
-  groundDate: now + 20,
-  convertedValue: _.random(1, 100, true),
-  rawValue: _.random(1, 100, true),
-  extractedValue: _.random(1, 100, true),
-  triggerOnCounter: 6,
-  triggerOffCounter: 10,
-  monitoringState: 'INFORMATIONAL',
-  validityState: 'INVALID',
-  isObsolete: false,
-  isNominal: false,
-}, override);
 
 stubs.getDcData = override => {
   const parameter = {

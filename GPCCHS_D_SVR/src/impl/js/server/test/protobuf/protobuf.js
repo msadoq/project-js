@@ -49,7 +49,24 @@ describe('protobuf', () => {
       });
     });
     describe('newDataMessage', () => {
-      const fixture = stub.getNewDataMessage();
+      const fixture = stub.getNewDataMessage({
+        payloads: [
+          {
+            timestamp: { ms: 100000000 },
+            payload: protobuf.encode(
+              'lpisis.decommutedParameter.ReportingParameter',
+              stub.getReportingParameter({ convertedValue: 35 })
+            ),
+          },
+          {
+            timestamp: { ms: 100000010 },
+            payload: protobuf.encode(
+              'lpisis.decommutedParameter.ReportingParameter',
+              stub.getReportingParameter({ convertedValue: 50 })
+            ),
+          },
+        ],
+      });
       let buffer;
       it('encode', () => {
         buffer = protobuf.encode('dc.dataControllerUtils.NewDataMessage', fixture);
@@ -58,6 +75,10 @@ describe('protobuf', () => {
       it('decode', () => {
         const json = protobuf.decode('dc.dataControllerUtils.NewDataMessage', buffer);
         json.should.be.an('object').that.have.properties(fixture);
+        protobuf.decode('lpisis.decommutedParameter.ReportingParameter', json.payloads[0].payload)
+          .should.be.an('object').with.property('convertedValue', 35);
+        protobuf.decode('lpisis.decommutedParameter.ReportingParameter', json.payloads[1].payload)
+          .should.be.an('object').with.property('convertedValue', 50);
       });
     });
   });

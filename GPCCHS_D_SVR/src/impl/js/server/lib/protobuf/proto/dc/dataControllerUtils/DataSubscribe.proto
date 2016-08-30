@@ -1,6 +1,5 @@
 package dataControllerUtils.protobuf;
 
-import "dataControllerUtils/TimeInterval.proto";
 import "dataControllerUtils/DataId.proto";
 
 message DataSubscribe {

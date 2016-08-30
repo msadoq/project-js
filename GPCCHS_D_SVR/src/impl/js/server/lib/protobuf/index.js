@@ -1,91 +1,108 @@
+/* eslint-disable global-require */
+
 const ProtoBuf = require('protobufjs');
 const _ = require('lodash');
 const { join } = require('path');
 
-const builders = {};
+const types = {};
 
 const register = (tree) => {
   _.each(tree, (namespaces, root) => {
-    if (!builders[root]) {
-      builders[root] = {};
+    if (!types[root]) {
+      types[root] = {};
     }
     const rootPath = join(__dirname, 'proto', root);
     _.each(namespaces, (protos, namespace) => {
       const namespaceBuilder = ProtoBuf.newBuilder();
-      _.each(protos, proto => {
+      const attach = {};
+      _.each(protos, (mapper, proto) => {
         // append definition to builder
-        const build = ProtoBuf.loadProtoFile({
+        const builder = ProtoBuf.loadProtoFile({
           root: rootPath,
           file: `${namespace}/${proto}.proto`,
         }, namespaceBuilder);
 
-        if (!build) {
+        if (!builder) {
           throw new Error(`Unable to read path: ${namespace}/${proto}.proto`);
         }
+
+        // store builder and mapper pour further linking
+        attach[proto] = {
+          builder,
+          mapper,
+        };
       });
 
-      builders[root][namespace] = namespaceBuilder.build(namespace).protobuf;
+      // store parser and attach
+      types[root][namespace] = namespaceBuilder.build(namespace).protobuf;
+      _.each(types[root][namespace], (type, typeKey) => {
+        Object.assign(type, attach[typeKey]);
+      });
     });
   });
 };
 
-const getBuilder = key => {
-  const builder = _.get(builders, key);
+const getType = key => {
+  const type = _.get(types, key);
 
-  if (typeof builder === 'undefined') {
+  if (typeof type === 'undefined') {
     throw new Error('protobuf type no registered', key);
   }
 
-  return builder;
+  return type;
 };
 
-/**
- * Walk collection (Array or Object) recursively:
- * - remove null or undefined keys
- * - convert Protobuf.Long to runtime integer
- *
- * @param collection
- * @returns {Object}
- */
-const normalize = collection => {
-  const withNull = _[(_.isArray(collection) ? 'map' : 'mapValues')](collection, (value) => {
-    if (value && value.constructor === ProtoBuf.Long) {
-      return value.toNumber();
+const removeEmpty = collection => {
+  _.forOwn(collection, (value, key) => {
+    if (_.isUndefined(value) || _.isNull(value) || _.isNaN(value) ||
+      (_.isString(value) && _.isEmpty(value)) ||
+      (_.isObject(value) && _.isEmpty(removeEmpty(value)))) {
+      // eslint-disable-next-line no-param-reassign
+      delete collection[key];
     }
-    if (_.isArray(value) || _.isObject(value)) {
-      return normalize(value);
-    }
-
-    return value;
   });
-  return _.omitBy(withNull, value => typeof value === 'undefined' || value === null);
+
+  if (_.isArray(collection)) {
+    _.pull(collection, undefined);
+  }
+
+  return collection;
 };
 
 register({
   dc: {
-    dataControllerUtils: [
-      'DataQuery',
-      'DataSubscribe',
-      'DcResponse',
-      'NewDataMessage',
-    ],
+    dataControllerUtils: {
+      DataQuery: require('./converters/dc/dataQuery'),
+      DataSubscribe: require('./converters/dc/dataSubscribe'),
+      DcResponse: require('./converters/dc/dcResponse'),
+      NewDataMessage: require('./converters/dc/newDataMessage'),
+    },
   },
   lpisis: {
-    decommutedParameter: ['ReportingParameter'],
-    packet: ['TmPacket'],
+    decommutedParameter: {
+      ReportingParameter: require('./converters/lpisis/reportingParameter'),
+    },
   },
 });
 
 module.exports = {
-  encode: (type, payload) => {
-    const constructor = getBuilder(type);
-    const p = new constructor(payload);
+  encode: (type, raw) => {
+    const Builder = getType(type);
+    let payload = Builder.mapper
+      ? Builder.mapper.encode(raw)
+      : raw;
+
+    payload = removeEmpty(payload);
+
+    const p = new Builder(payload);
     return p.toBuffer();
   },
   decode: (type, buffer) => {
-    const builder = getBuilder(type);
-    const payload = builder.decode(buffer).toRaw(true);
-    payload.toData = () => normalize(payload);
-    return payload;
+    const builder = getType(type);
+    const raw = builder.decode(buffer).toRaw();
+
+    return builder.mapper
+      ? removeEmpty(builder.mapper.decode(raw))
+      : removeEmpty(raw);
   },
 };

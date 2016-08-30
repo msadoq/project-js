@@ -2,8 +2,8 @@ const _ = require('lodash');
 const parseDataFullName = require('./parseDataFullName');
 const constants = require('../constants');
 
-// TODO : use in test, stubs and load tests
-// TODO : add support for tmPacket and timeBased*
+const now = _.now();
+
 // Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>
 // Reporting.ATT_BC_STR1STRSAQ0<ReportingParameter>
 // Reporting.ATT_BC_STR1STRSAQ1<ReportingParameter>
@@ -11,10 +11,66 @@ const constants = require('../constants');
 // Reporting.ATT_BC_STR1STRSAQ3<ReportingParameter>
 // Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>
 
+function applyOverride(payload, override) {
+  if (!override) {
+    return payload;
+  }
+
+  return _.defaults({}, override, payload);
+}
+
 const stubs = module.exports = {};
 
+stubs.getDataQuery = override => applyOverride({
+  id: 'my_unique_id',
+  dataId: {
+    parameterName: 'ATT_BC_STR1STRRFQ1',
+    catalog: 'Reporting',
+    comObject: 'ReportingParameter',
+    sessionId: 100,
+    domainId: 200,
+  },
+  interval: {
+    lowerTs: { ms: now },
+    upperTs: { ms: now },
+  },
+}, override);
+
+stubs.getDcResponse = override => applyOverride({
+  id: 'my_unique_id',
+  status: 'ERROR',
+  reason: 'My reason',
+}, override);
+
+stubs.getDataSubscribe = override => applyOverride({
+  action: 'ADD',
+  id: 'my_unique_id',
+  dataId: {
+    parameterName: 'ATT_BC_STR1STRRFQ1',
+    catalog: 'Reporting',
+    comObject: 'ReportingParameter',
+    sessionId: 100,
+    domainId: 200,
+  },
+}, override);
+
+stubs.getNewDataMessage = override => applyOverride({
+  dataId: {
+    parameterName: 'ATT_BC_STR1STRRFQ1',
+    catalog: 'Reporting',
+    comObject: 'ReportingParameter',
+    sessionId: 100,
+    domainId: 200,
+  },
+  payloads: [
+    {
+      timestamp: { ms: now },
+      payload: new Buffer(10), // TODO implement nested reportingParameter
+    },
+  ],
+}, override);
+
 stubs.getSubscription = override => {
-  const now = Date.now();
   let subscription = {
     dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
     catalog: 'Reporting',
@@ -62,6 +118,20 @@ stubs.getSubscription = override => {
   return subscription;
 };
 
+stubs.getReportingParameter = override => applyOverride({
+  onboardDate: now,
+  groundDate: now + 20,
+  convertedValue: _.random(1, 100, true),
+  rawValue: _.random(1, 100, true),
+  extractedValue: _.random(1, 100, true),
+  triggerOnCounter: 6,
+  triggerOffCounter: 10,
+  monitoringState: 'INFORMATIONAL',
+  validityState: 'INVALID',
+  isObsolete: false,
+  isNominal: false,
+}, override);
+
 stubs.getDcData = override => {
   const parameter = {
     meta: {
@@ -71,11 +141,11 @@ stubs.getDcData = override => {
       type: 'ReportingParameter',
       oid: `000100010100010001${_.random(1, 100000000)}`,
       session: 100,
-      timestamp: Date.now(),
+      timestamp: now,
     },
     data: {
-      onboardDate: Date.now(),
-      groundDate: Date.now() + 20,
+      onboardDate: now,
+      groundDate: now + 20,
       convertedValue: _.random(1, 100, true),
       rawValue: _.random(1, 100, true),
       extractedValue: _.random(1, 100, true),

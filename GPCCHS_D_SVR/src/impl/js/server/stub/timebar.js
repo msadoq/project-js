@@ -8,22 +8,31 @@ const parseArgs = require('minimist');
 const check = require('../lib/schemaManager/schemaManager');
 const fs = require('fs');
 const path = require('path');
+const exit = require('exit');
 
 const usage = () =>
-  console.log('USAGE: node timebar.js [ -h | --help ] [ -forward time (in ms) | -f time (in ms) ]');
+  console.log('USAGE: node timebar.js [ -h | --help ] [ -forward time (in ms) | -f time (in ms) ]\
+          [ -addtimeline | -a ] [ -removetimeline | -r ]');
 
 const FORWARD = 1000;
 
 // options definitions
 const options = {
   boolean: 'h',
+  boolean: 'a',
+  boolean: 'r',
+  number: 'f',
   default: {
     h: false,
     f: FORWARD,
+    a: false,
+    r: false,
   },
   alias: {
     h: 'help',
     f: 'forward',
+    a: 'addtimeline',
+    r: 'removetimeline',
   },
 };
 
@@ -43,33 +52,58 @@ if (!tb) {
 }
 
 // check validity of data
-const err = check.validateTbJson((tb));
+const errJson = check.validateTbJson((tb));
 
 // Case of errors
-if (err) {
-  debug.error('Error on tbFile :\n', err);
+if (errJson) {
+  debug.error('Error on tbFile :\n', errJson);
   process.exit(1);
 }
 
-// Update current TB
-tb.data.visuWindow.current += argv.f;
-tb.data.action = 'currentTimeUpd';
+if (argv.f) {
+  // Update current TB
+  tb.data.visuWindow.current += argv.f;
+  tb.data.action = 'currentTimeUpd';
+  tb.data.rulerStart += 5000;
+}
+if (argv.a) {
+  // Add a timeline
+  const tlName = 'Session ' + (tb.data.timeLines.length + 3);
+  const tl = {
+    id: tlName,
+    offset: 0,
+    kind: 'Session',
+    sessionId: 10 + (tb.data.timeLines.length + 3)
+  };
+  tb.data.timeLines.push(tl);
+  tb.data.action = 'tlAdded';
+}
 
+if (argv.r) {
+  tb.data.action = 'tlRemoved';
+  // remove the last timeline
+  if (tb.data.timeLines.length > 0) {
+    tb.data.timeLines.splice(tb.data.timeLines.length - 1, 1);
+  }
+}
 // ZMQ initialization
 zmq.init({
   timebarPush: {
     type: 'push',
     url: process.env.ZMQ_VIMA_TIMEBAR,
   },
+}, err => {
+  if (err) {
+    throw err;
+  }
+
+  zmq.send('timebarPush', JSON.stringify(tb), () => {
+    debug.info('Tb update sent');
+    // close socket
+    zmq.closeSockets();
+
+    // Save file for next time
+    fs.writeFileSync(pathTb, JSON.stringify(tb), 'utf8');
+    exit(0);
+  });
 });
-
-setTimeout(() => {
-  zmq.send('timebarPush', tb);
-  debug.info('Tb update sent');
-
-  // close socket
-  zmq.closeSockets();
-
-  // Save file for next time
-  fs.writeFileSync(pathTb, JSON.stringify(tb), 'utf8');
-}, 100);

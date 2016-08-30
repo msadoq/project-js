@@ -46,8 +46,8 @@ function init(configuration, callback) {
 
     if (item.type === 'push') {
       sockets[key] = zmq.socket('push');
-      sockets[key].bind(item.url, done);
       sockets[key].close = () => sockets[key].unbindSync(item.url);
+      return sockets[key].bind(item.url, done);
     } else if (item.type === 'req') {
       sockets[key] = zmq.socket('req');
       sockets[key].connect(item.url);
@@ -76,11 +76,11 @@ function get(key) {
   return sockets[key];
 }
 
-function send(key, payload) {
+function send(key, payload, callback) {
   const socket = sockets[key];
   if (socket) {
     debug.debug('send', payload, 'on', key);
-    socket.send(payload);
+    socket.send(payload, 0, callback);
   }
 }
 

@@ -3,11 +3,16 @@ const database = require('../io/loki');
 
 const collection = database.addCollection('cacheBinary');
 
-collection.addRecord = (meta, data) => {
-  collection.insert(Object.assign({}, meta, {
-    binPayload: data,
-  }));
-  debug.debug('inserted', meta, data);
+collection.getLocalId = require('./getLocalId');
+
+collection.addRecord = (dataId, timestamp, payload) => {
+  const localId = collection.getLocalId(dataId);
+  collection.insert({
+    localId,
+    timestamp,
+    payload,
+  });
+  debug.debug('inserted', localId);
 };
 
 module.exports = collection;

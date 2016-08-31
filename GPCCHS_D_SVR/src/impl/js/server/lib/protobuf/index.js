@@ -54,9 +54,13 @@ const getType = key => {
 
 const removeEmpty = collection => {
   _.forOwn(collection, (value, key) => {
-    if (_.isUndefined(value) || _.isNull(value) || _.isNaN(value) ||
-      (_.isString(value) && _.isEmpty(value)) ||
-      (_.isObject(value) && _.isEmpty(removeEmpty(value)))) {
+    if (
+      _.isUndefined(value)
+      || _.isNull(value)
+      || _.isNaN(value)
+      || (_.isString(value) && _.isEmpty(value))
+      || (_.isObject(value) && !_.isFunction(value) && _.isEmpty(removeEmpty(value)))
+    ) {
       // eslint-disable-next-line no-param-reassign
       delete collection[key];
     }

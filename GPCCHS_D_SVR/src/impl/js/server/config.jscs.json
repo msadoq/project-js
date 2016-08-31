@@ -67,9 +67,7 @@
         "catch",
         "typeof"
     ],
-    "requirePaddingNewLinesBeforeLineComments": {
-        "allExcept": "firstAfterCurly"
-    },
+    "requirePaddingNewLinesBeforeLineComments": false,
     "requirePaddingNewLinesAfterBlocks": false,
     "requireSemicolons": true,
     "requireShorthandArrowFunctions": true,

@@ -26,5 +26,6 @@ module.exports = {
     validityState: data.validityState,
     isObsolete: data.isObsolete.value,
     isNominal: data.isNominal.value,
+    getReferenceTimestamp: () => data.onboardDate.value.toNumber(),
   }),
 };

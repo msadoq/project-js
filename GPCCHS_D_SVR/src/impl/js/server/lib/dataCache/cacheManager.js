@@ -3,7 +3,8 @@ const cacheJsonModel = require('../models/cacheJson');
 const { sendParameterData } = require('../io/primus');
 
 const searchSubscriptionData = subscription => {
-  const storedData = cacheJsonModel.retrieveBySubscription(subscription);
+  // TODO add lower/upper
+  const storedData = cacheJsonModel.findByInterval(subscription, null, null);
   const points = [];
   storedData.forEach((data) => {
     const jsonPayLoad = data.jsonPayload;

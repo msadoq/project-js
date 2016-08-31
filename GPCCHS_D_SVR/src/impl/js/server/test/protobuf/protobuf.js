@@ -93,6 +93,7 @@ describe('protobuf', () => {
       it('decode', () => {
         const json = protobuf.decode('lpisis.decommutedParameter.ReportingParameter', buffer);
         json.should.be.an('object').that.have.properties(fixture);
+        json.getReferenceTimestamp().should.equal(json.onboardDate);
       });
     });
   });

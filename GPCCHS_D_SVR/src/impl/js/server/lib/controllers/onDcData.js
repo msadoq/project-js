@@ -39,9 +39,9 @@ module.exports = (header, meta, payload) => {
     callback => callback(debug.debug('received', jsonMeta.timestamp, jsonMeta.fullDataId)),
     // persist in cache
     callback => {
-      // TODO use new API: dataId, timestamp, payload
-      // cacheBinaryModel.addRecord(jsonMeta, payload);
-      // cacheJsonModel.addRecord(jsonMeta, jsonPayload);
+      // TODO use new API: dataId, timestamp (with payload.getReferenceTimestamp()), payload
+      // cacheBinaryModel.addRecord(message.dataId, jsonPayload.getReferenceTimestamp(), payload);
+      // cacheJsonModel.addRecord(message.dataId, jsonPayload.getReferenceTimestamp(), jsonPayload);
       callback(null);
     },
     // send to corresponding websockets

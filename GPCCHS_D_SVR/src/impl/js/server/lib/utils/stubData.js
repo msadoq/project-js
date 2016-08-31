@@ -22,6 +22,14 @@ function applyOverride(payload, override) {
 
 const stubs = module.exports = {};
 
+stubs.getDataId = override => applyOverride({
+  parameterName: 'ATT_BC_STR1STRRFQ1',
+  catalog: 'Reporting',
+  comObject: 'ReportingParameter',
+  sessionId: 100,
+  domainId: 200,
+}, override);
+
 stubs.getReportingParameter = override => applyOverride({
   onboardDate: now,
   groundDate: now + 20,
@@ -38,13 +46,7 @@ stubs.getReportingParameter = override => applyOverride({
 
 stubs.getDataQuery = override => applyOverride({
   id: 'my_unique_id',
-  dataId: {
-    parameterName: 'ATT_BC_STR1STRRFQ1',
-    catalog: 'Reporting',
-    comObject: 'ReportingParameter',
-    sessionId: 100,
-    domainId: 200,
-  },
+  dataId: stubs.getDataId(),
   interval: {
     lowerTs: { ms: now },
     upperTs: { ms: now },
@@ -60,23 +62,11 @@ stubs.getDcResponse = override => applyOverride({
 stubs.getDataSubscribe = override => applyOverride({
   action: 'ADD',
   id: 'my_unique_id',
-  dataId: {
-    parameterName: 'ATT_BC_STR1STRRFQ1',
-    catalog: 'Reporting',
-    comObject: 'ReportingParameter',
-    sessionId: 100,
-    domainId: 200,
-  },
+  dataId: stubs.getDataId(),
 }, override);
 
 stubs.getNewDataMessage = override => applyOverride({
-  dataId: {
-    parameterName: 'ATT_BC_STR1STRRFQ1',
-    catalog: 'Reporting',
-    comObject: 'ReportingParameter',
-    sessionId: 100,
-    domainId: 200,
-  },
+  dataId: stubs.getDataId(),
   payloads: [
     {
       timestamp: { ms: now },
@@ -141,69 +131,4 @@ stubs.getSubscription = override => {
   }
 
   return subscription;
-};
-
-stubs.getDcData = override => {
-  const parameter = {
-    meta: {
-      fullDataId: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
-      catalog: 'Reporting',
-      parameter: 'ATT_BC_STR1VOLTAGE',
-      type: 'ReportingParameter',
-      oid: `000100010100010001${_.random(1, 100000000)}`,
-      session: 100,
-      timestamp: now,
-    },
-    data: {
-      onboardDate: now,
-      groundDate: now + 20,
-      convertedValue: _.random(1, 100, true),
-      rawValue: _.random(1, 100, true),
-      extractedValue: _.random(1, 100, true),
-      triggerOnCounter: '6',
-      triggerOffCounter: '8',
-      monitoringState: 0,
-      validityState: 0,
-      isObsolete: false,
-      isNominal: false,
-    },
-  };
-
-  if (override) {
-    _.forEach(override.meta, (value, key) => {
-      // remove this key
-      if (typeof value === 'undefined') {
-        parameter.meta = _.omit(parameter.meta, [key]);
-        return;
-      }
-
-      // dataFullName
-      if (key === 'fullDataId') {
-        const parsed = parseDataFullName(value);
-        Object.assign(parameter.meta, {
-          fullDataId: parsed.dataFullName,
-          catalog: parsed.catalog,
-          parameter: parsed.parameter,
-          type: parsed.type,
-        });
-        return;
-      }
-
-      // override key value
-      parameter.meta[key] = value;
-    });
-
-    _.forEach(override.data, (value, key) => {
-      // remove this key
-      if (typeof value === 'undefined') {
-        parameter.data = _.omit(parameter.data, [key]);
-        return;
-      }
-
-      // override key value
-      parameter.data[key] = value;
-    });
-  }
-
-  return parameter;
 };

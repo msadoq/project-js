@@ -7,7 +7,7 @@ const {
   uintToBytes,
   bytesToUint,
 } = require('../../lib/protobuf/converters/lpisis/types');
-const stub = require('../../lib/utils/stub');
+const stub = require('../../lib/utils/stubData');
 const ByteBuffer = require('bytebuffer');
 
 describe('protobuf', () => {

@@ -1,7 +1,7 @@
 const debug = require('../io/debug')('controllers:onDcArchiveData');
 const async = require('async');
-const cacheBinaryModel = require('../models/cacheBinary');
-const cacheJsonModel = require('../models/cacheJson');
+// const cacheBinaryModel = require('../models/cacheBinary');
+// const cacheJsonModel = require('../models/cacheJson');
 const subscriptionsModel = require('../models/subscriptions');
 const { dataTypeController } = require('../dataTypeManager/lib/dataTypeController');
 const primus = require('../io/primus');
@@ -18,7 +18,6 @@ module.exports = (header, meta, payload) => {
   let jsonMeta;
   let jsonPayload;
   async.waterfall([
-    // decode meta
     callback => {
       dataTypeController.binToJson({ type: 'Header' }, meta) // TODO : promise?
         .then(json => {
@@ -40,8 +39,9 @@ module.exports = (header, meta, payload) => {
     callback => callback(debug.debug('received', jsonMeta.timestamp, jsonMeta.fullDataId)),
     // persist in cache
     callback => {
-      cacheBinaryModel.addRecord(jsonMeta, payload);
-      cacheJsonModel.addRecord(jsonMeta, jsonPayload);
+      // TODO use new API: dataId, timestamp, payload
+      // cacheBinaryModel.addRecord(jsonMeta, payload);
+      // cacheJsonModel.addRecord(jsonMeta, jsonPayload);
       callback(null);
     },
     // send to corresponding websockets

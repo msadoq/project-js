@@ -1,6 +1,6 @@
 require('../../lib/utils/test');
 const model = require('../../lib/models/subscriptions');
-const { getSubscription } = require('../../lib/utils/stub');
+const { getSubscription } = require('../../lib/utils/stubData');
 
 describe('models/subscriptions', () => {
   beforeEach(() => {

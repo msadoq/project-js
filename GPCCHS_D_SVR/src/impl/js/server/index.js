@@ -26,7 +26,6 @@ try {
     if (err) {
       throw err;
     }
-
     return undefined;
   });
   debug.debug('File deleted successfully!');
@@ -39,10 +38,8 @@ try {
 const tb = JSON.parse(
   fs.readFileSync(path.join(__dirname, 'lib/schemaManager/examples/TB.example.json'), 'utf8')
 );
-
 // Create file with current timebar
 fs.writeFileSync(tbPath, JSON.stringify(tb), 'utf8');
-
 // !!!-------------------------------------------------
 
 // port

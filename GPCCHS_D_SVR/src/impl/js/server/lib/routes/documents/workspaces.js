@@ -4,6 +4,7 @@ const validatePathOrOId = require('../../middlewares/validatePathOrOId');
 const validFs = require('../../middlewares/validFs');
 
 const { validateWsJson } = require('../../schemaManager/schemaManager');
+const validateWorkspaceToPage = require('../../middlewares/validateWorkspaceToPage');
 
 const router = new Router();
 
@@ -11,6 +12,7 @@ router.post('/workspaces', [
   validatePathOrOId,
   validFs,
   validateWsJson,
+  validateWorkspaceToPage,
 ],
 
   (req, res) => {

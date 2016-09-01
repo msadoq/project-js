@@ -1,14 +1,16 @@
 const debug = require('../../io/debug')('documents:pages');
 const { Router } = require('express');
 const validatePathOrOId = require('../../middlewares/validatePathOrOId');
-// const validateHideBordersPage = require('../../middlewares/validateHideBordersPage');
 const validatePageToView = require('../../middlewares/validatePageToView');
+const validFs = require('../../middlewares/validFs');
+const { validateWsJson } = require('../../schemaManager/schemaManager');
 
 const router = new Router();
 
 router.post('/pages', [
   validatePathOrOId,
-  // validateHideBordersPage,
+  validFs,
+  validateWsJson,
   validatePageToView,
 ],
 

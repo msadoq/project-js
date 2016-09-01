@@ -4,17 +4,19 @@ const {
 } = require('../../lib/utils/test');
 const pathApi = require('path');
 
-const reqPathOk = pathApi.join(__dirname, '../../lib/schemaManager/examples/WS.example.json');
+const reqPathWksp = pathApi.join(__dirname, '../../lib/schemaManager/examples/WS.example.json');
+const reqPathPage = pathApi.join(__dirname, '../../lib/schemaManager/examples/PG.example.json');
 const reqOIdOk = 'oId_to_test';
+const badPath = 'zzz';
 
 describe('POST API workspaces', () => {
   describe('success', done => {
     it('path valid', () => {
-      postApiRequest('/api/documents/workspaces', { path: reqPathOk })
+      postApiRequest('/api/documents/workspaces', { path: reqPathWksp })
         .expect(res => {
           const body = res.body;
           body.should.be.an('object').and.have.property('data').that.is.an('object');
-          body.data.should.have.property({ path: reqPathOk });
+          body.data.should.have.property({ path: reqPathWksp });
         });
     });
         // console.log('CA PASSE?');
@@ -62,6 +64,20 @@ describe('POST API workspaces', () => {
          content: 'tintin' })
         .expect(shouldBeApiError(400, 'content of file not correct', '/body/content'))
         .expect(400, done);
+    });
+  });
+  describe('checks if workspace contains Page', done => {
+    it('no page', () => {
+      postApiRequest('/api/documents/workspaces',
+          { path: reqPathWksp, view: { path: badPath } })
+          .expect(shouldBeApiError(400, 'page doesnt exist for this workspace', '/body'))
+          .expect(400, done);
+    });
+    it('page exist', () => {
+      postApiRequest('/api/documents/workspaces',
+          { path: reqPathWksp, view: { path: reqPathPage } })
+          .expect(shouldBeApiError(400, 'Plotview found for this workspace', '/body'))
+          .expect(400, done);
     });
   });
 });

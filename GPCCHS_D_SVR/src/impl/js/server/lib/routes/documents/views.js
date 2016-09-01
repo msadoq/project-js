@@ -1,17 +1,28 @@
+const debug = require('../../io/debug')('documents:views');
 const { Router } = require('express');
 const validatePathOrOId = require('../../middlewares/validatePathOrOId');
+const validatePageToView = require('../../middlewares/validatePageToView');
+const validFs = require('../../middlewares/validFs');
+const { validateWsJson } = require('../../schemaManager/schemaManager');
 
 const router = new Router();
 
-router.post('/views', validatePathOrOId, (req, res) => {
-  const data = (req.validated.path)
+router.post('/views', [
+  validatePathOrOId,
+  validFs,
+  validateWsJson,
+  validatePageToView,
+],
+
+  (req, res) => {
+    debug.debug('received', req.body, 'send', req.validated);
+    const data = (req.validated.path)
     ? { path: req.validated.path }
-    : { oId: req.validaed.oId };
+    : { oId: req.validated.oId };
 
   // TODO : test file existence, user right, read it, validate and send
-  data.content = 'my view file content';
+    const content = req.validated.reqValidatedPath;
 
-  res.json({ data });
-});
-
+    res.json({ data }, { content });
+  });
 module.exports = router;

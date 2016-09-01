@@ -5,7 +5,7 @@ const Loki = require('lokijs');
 const cache = new Loki('cache.json');
 const collection = cache.addCollection('collection');
 
-const { injectParameters, newData } = require('../stub/paramInjector');
+const { injectParameters, newData } = require('paramInjector');
 
 const MAX_ITER = 1;
 

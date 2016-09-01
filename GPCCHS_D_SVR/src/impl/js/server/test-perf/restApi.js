@@ -1,4 +1,4 @@
-const debug = require('../../lib/io/debug')('stub:utils:restApi');
+const debug = require('../lib/io/debug')('stub:utils:restApi');
 const http = require('http');
 
 const request = (options) => {

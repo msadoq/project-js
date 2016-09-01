@@ -139,7 +139,7 @@ if (argv.filter) {
 
 const postData = JSON.stringify(jsonData);
 
-const { postRequest, writeData } = require('./utils/restApi');
+const { postRequest, writeData } = require('./restApi');
 const route = '/api/subscriptions';
 const postReq = postRequest('127.0.0.1', process.env.PORT, route);
 

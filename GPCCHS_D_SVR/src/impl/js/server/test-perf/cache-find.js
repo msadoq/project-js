@@ -1,8 +1,8 @@
 const debug = require('../lib/io/debug')('test-perf:cache-find');
 const _ = require('lodash');
 
-const { Cache } = require('../stub/cache');
-const { injectParameters, newData } = require('../stub/paramInjector');
+const { Cache } = require('cache');
+const { injectParameters, newData } = require('paramInjector');
 
 const cache = new Cache();
 

@@ -1,5 +1,5 @@
 const debug = require('../io/debug')('subscriptionManager:subscriptionApi');
-const { send } = require('../io/zmq');
+const { request } = require('../io/zmq');
 const { v4 } = require('node-uuid');
 const model = require('../models/subscriptions');
 const searchIntervals = require('./intervals'); // TODO : should not be here ?
@@ -25,7 +25,7 @@ module.exports = subscription => {
         newIntervalSubs.push(newSub);
         debug.info(`NEED INTERVAL : ${JSON.stringify(interval)}`);
       }
-      return send('gpccdcpush', JSON.stringify(newIntervalSubs));
+      return request('dcreq', JSON.stringify(newIntervalSubs));
     });
   });
 

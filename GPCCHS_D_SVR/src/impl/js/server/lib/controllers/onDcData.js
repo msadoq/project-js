@@ -1,70 +1,46 @@
 const debug = require('../io/debug')('controllers:onDcArchiveData');
 const async = require('async');
-// const cacheBinaryModel = require('../models/cacheBinary');
-// const cacheJsonModel = require('../models/cacheJson');
-const subscriptionsModel = require('../models/subscriptions');
-const { dataTypeController } = require('../dataTypeManager/lib/dataTypeController');
-const primus = require('../io/primus');
+const _ = require('lodash');
+const { decode } = require('../protobuf');
+const cacheJsonModel = require('../models/cacheJson');
 
 // TODO : test
 
 /**
- * Controller that listen for DC archive data incoming
- * @param header
- * @param meta
- * @param payload
+ * Controller that listen for DC incoming NewDataMessage
+ * @param buffer
  */
-module.exports = (header, meta, payload) => {
-  let jsonMeta;
-  let jsonPayload;
-  async.waterfall([
+module.exports = buffer => {
+  let message;
+  let payloads;
+  async.series([
     callback => {
-      dataTypeController.binToJson({ type: 'Header' }, meta) // TODO : promise?
-        .then(json => {
-          jsonMeta = json;
-          callback(null);
-        })
-        .catch(callback);
+      message = decode('dc.dataControllerUtils.NewDataMessage', buffer);
+      return callback(null);
     },
-    // decode payload
     callback => {
-      dataTypeController.binToJson(jsonMeta, payload) // TODO : promise?
-        .then(json => {
-          jsonPayload = json;
-          callback(null);
-        })
-        .catch(callback);
+      // TODO add logic to find the correct path to correct proto
+      payloads = _.map(message.payloads,
+        ({ payload }) => decode('lpisis.decommutedParameter.ReportingParameter', payload)
+      );
+      return callback(null);
     },
-    // log
-    callback => callback(debug.debug('received', jsonMeta.timestamp, jsonMeta.fullDataId)),
-    // persist in cache
     callback => {
-      // TODO use new API: dataId, timestamp (with payload.getReferenceTimestamp()), payload
-      // cacheBinaryModel.addRecord(message.dataId, jsonPayload.getReferenceTimestamp(), payload);
-      // cacheJsonModel.addRecord(message.dataId, jsonPayload.getReferenceTimestamp(), jsonPayload);
-      callback(null);
-    },
-    // send to corresponding websockets
-    callback => {
-      const subscriptions = subscriptionsModel.retrieveByMeta(jsonMeta);
-      if (!subscriptions.length) {
-        return callback(null);
-      }
-
-      subscriptions.forEach(subscription => {
-        const point = [];
-        point.push(jsonMeta.timestamp.toNumber());
-        if (typeof subscription.field === 'undefined') {
-          point.push(jsonPayload);
-        } else {
-          point.push(jsonPayload[subscription.field]);
-        }
-
-        primus.sendParameterData(subscription, 'plot', jsonPayload);
+      _.each(payloads, payload => {
+        cacheJsonModel.addRecord(message.dataId, payload.getReferenceTimestamp(), payload);
+        debug.debug(
+          'received payload',
+          message.dataId.catalog,
+          message.dataId.parameterName,
+          message.dataId.comObject,
+          payload.getReferenceTimestamp()
+        );
       });
 
       return callback(null);
     },
+    // TODO loop over views and pass payload to them
+    callback => callback(null),
   ], err => {
     if (err) {
       debug.error(err);

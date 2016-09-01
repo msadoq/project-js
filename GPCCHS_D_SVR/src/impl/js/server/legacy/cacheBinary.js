@@ -1,9 +1,9 @@
-const debug = require('../io/debug')('models:cacheBinary');
-const database = require('../io/loki');
+const debug = require('../lib/io/debug')('models:cacheBinary');
+const database = require('../lib/io/loki');
 
 const collection = database.addCollection('cacheBinary');
 
-collection.getLocalId = require('./getLocalId');
+collection.getLocalId = require('./../lib/models/getLocalId');
 
 collection.addRecord = (dataId, timestamp, payload) => {
   const localId = collection.getLocalId(dataId);

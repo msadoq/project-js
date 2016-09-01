@@ -1,6 +1,6 @@
 require('../../lib/utils/test');
 const model = require('../../lib/models/cacheJson');
-const { getDataId, getReportingParameter } = require('../../lib/utils/stubData');
+const { getDataId, getReportingParameter } = require('../../lib/stubs/data');
 
 describe('models/cacheJson', () => {
   beforeEach(() => {

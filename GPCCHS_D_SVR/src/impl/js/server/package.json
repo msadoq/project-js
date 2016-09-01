@@ -6,10 +6,7 @@
     "start": "node --max_old_space_size=8000 index",
     "test": "node_modules/.bin/mocha",
     "test-perf": "node --max_old_space_size=5120 test-perf/loki.js",
-    "gpccdc-stub": "node stub/gpccdc.js --periodicity 10 --timestep 600000",
-    "send-sub-stub": "node stub/sendSubscriptions.js --delay 5000",
-    "start-stub": "concurrently --kill-others \"npm run gpccdc-stub\" \"npm run start\"",
-    "start-stub-sub": "concurrently --kill-others \"npm run gpccdc-stub\" \"npm run start\" \"npm run send-sub-stub\""
+    "send-sub-stub": "node stub/sendSubscriptions.js --delay 5000"
   },
   "dependencies": {
     "ajv": "^4.3.0",

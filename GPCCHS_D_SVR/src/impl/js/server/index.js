@@ -12,6 +12,8 @@ const onDcData = require('./lib/controllers/onDcData');
 const onTimeBarUpdate = require('./lib/controllers/onTimeBarUpdate');
 const onViewUpdate = require('./lib/controllers/onViewUpdate');
 
+const dcStub = require('./lib/stubs/dc');
+
 // !!!! Delete TB file to allow timebar Stub to be ok-------------
 // !!!! To be deleted when timebar ok !!!!
 const path = require('path');
@@ -99,11 +101,11 @@ primus.init(server, {
 });
 
 // ZeroMQ
-zmq.init({
-  dcpush: {
+zmq.open({
+  dcreq: {
     type: 'req',
-    url: process.env.ZMQ_GPCCDC_PUSH,
-    handler: () => {}, // TODO implement a onDcRequestResponse (with error)
+    url: process.env.ZMQ_GPCCDC_REQ,
+    handler: payload => payload, // TODO implement a onDcRequestResponse (with error)
   },
   dcarchive: {
     type: 'pull',
@@ -125,10 +127,13 @@ zmq.init({
     throw err;
   }
 
-  // TODO: wtf?
-  // const { jsonDataColl } = require('./lib/io/loki');
-  // const { injectParameters } = require('./stub/paramInjector');
-  // injectParameters(jsonDataColl, process.env.PARAM_NB || 0, process.env.TIMESTAMP_START);
+  if (process.env.STUB_DC_ON === 'on') {
+    dcStub(launchStubError => {
+      if (launchStubError) {
+        throw launchStubError;
+      }
+    });
+  }
 
   // once ZMQ sockets are open, launch express
   debug.info(`Trying to launch server in '${process.env.NODE_ENV}' env`);

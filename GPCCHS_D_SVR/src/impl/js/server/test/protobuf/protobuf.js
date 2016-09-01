@@ -7,13 +7,13 @@ const {
   uintToBytes,
   bytesToUint,
 } = require('../../lib/protobuf/converters/lpisis/types');
-const stub = require('../../lib/utils/stubData');
+const stubData = require('../../lib/stubs/data');
 const ByteBuffer = require('bytebuffer');
 
 describe('protobuf', () => {
   describe('dc', () => {
     describe('DataQuery', () => {
-      const fixture = stub.getDataQuery();
+      const fixture = stubData.getDataQuery();
       let buffer;
       it('encode', () => {
         buffer = protobuf.encode('dc.dataControllerUtils.DataQuery', fixture);
@@ -25,7 +25,7 @@ describe('protobuf', () => {
       });
     });
     describe('DcResponse', () => {
-      const fixture = stub.getDcResponse();
+      const fixture = stubData.getDcResponse();
       let buffer;
       it('encode', () => {
         buffer = protobuf.encode('dc.dataControllerUtils.DcResponse', fixture);
@@ -37,7 +37,7 @@ describe('protobuf', () => {
       });
     });
     describe('DataSubscribe', () => {
-      const fixture = stub.getDataSubscribe();
+      const fixture = stubData.getDataSubscribe();
       let buffer;
       it('encode', () => {
         buffer = protobuf.encode('dc.dataControllerUtils.DataSubscribe', fixture);
@@ -49,20 +49,20 @@ describe('protobuf', () => {
       });
     });
     describe('newDataMessage', () => {
-      const fixture = stub.getNewDataMessage({
+      const fixture = stubData.getNewDataMessage({
         payloads: [
           {
             timestamp: { ms: 100000000 },
             payload: protobuf.encode(
               'lpisis.decommutedParameter.ReportingParameter',
-              stub.getReportingParameter({ convertedValue: 35 })
+              stubData.getReportingParameter({ convertedValue: 35 })
             ),
           },
           {
             timestamp: { ms: 100000010 },
             payload: protobuf.encode(
               'lpisis.decommutedParameter.ReportingParameter',
-              stub.getReportingParameter({ convertedValue: 50 })
+              stubData.getReportingParameter({ convertedValue: 50 })
             ),
           },
         ],
@@ -84,7 +84,7 @@ describe('protobuf', () => {
   });
   describe('lpisis', () => {
     describe('ReportingParameter', () => {
-      const fixture = stub.getReportingParameter();
+      const fixture = stubData.getReportingParameter();
       let buffer;
       it('encode', () => {
         buffer = protobuf.encode('lpisis.decommutedParameter.ReportingParameter', fixture);

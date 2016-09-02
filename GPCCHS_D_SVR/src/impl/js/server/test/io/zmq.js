@@ -7,9 +7,6 @@ describe('io/zmq', () => {
     done();
   });
 
-  // TODO : configure .open() configuration error
-  // TODO : call push on req and inverse
-
   const url = 'inproc://foo';
 
   const openCallback = (done, onConnect = () => {}) => err => {
@@ -58,6 +55,14 @@ describe('io/zmq', () => {
     it('incorect type', done => {
       zmq.open({ myKey: { type: 'pull', url, handler: () => {} } }, () => {
         (() => zmq.get('myKey', 'push')).should.throw(Error);
+        done();
+      });
+    });
+  });
+  describe('disallow wrong type', () => {
+    it('call pull on push', done => {
+      zmq.open({ myKey: { type: 'pull', url, handler: () => {} } }, () => {
+        (() => zmq.push('myKey', new Buffer('string'))).should.throw(Error);
         done();
       });
     });

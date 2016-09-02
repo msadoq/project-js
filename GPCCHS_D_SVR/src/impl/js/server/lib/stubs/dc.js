@@ -71,7 +71,7 @@ const onHssMessage = buffer => {
   }));
 };
 
-const pushData = (socket, dataId, payloads) => {
+const pushData = (dataId, payloads) => {
   if (!payloads.length) {
     return undefined;
   }
@@ -89,7 +89,7 @@ const pushData = (socket, dataId, payloads) => {
     dataId,
     payloads: buffers,
   });
-  return zmq.push(socket, buffer);
+  return zmq.push('stubData', buffer);
 };
 
 const emulateDc = () => {
@@ -103,7 +103,7 @@ const emulateDc = () => {
       payloads.push({ timestamp: Date.now() - (i * 10) });
     }
 
-    return pushData('stubdcrealtime', dataId, payloads);
+    return pushData(dataId, payloads);
   });
 
   if (!queries.length) {
@@ -123,7 +123,7 @@ const emulateDc = () => {
       payloads.push({ timestamp: i });
     }
 
-    return pushData('stubdcarchive', query.dataId, payloads);
+    return pushData(query.dataId, payloads);
   });
 };
 
@@ -134,13 +134,9 @@ module.exports = callback => {
       url: process.env.ZMQ_GPCCDC_REQ,
       handler: onHssMessage,
     },
-    stubdcarchive: {
+    stubData: {
       type: 'push',
-      url: process.env.ZMQ_GPCCDC_ARCHIVE,
-    },
-    stubdcrealtime: {
-      type: 'push',
-      url: process.env.ZMQ_GPCCDC_REALTIME,
+      url: process.env.ZMQ_GPCCDC_DATA,
     },
   }, err => {
     if (err) {

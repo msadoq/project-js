@@ -102,19 +102,14 @@ primus.init(server, {
 
 // ZeroMQ
 zmq.open({
-  dcreq: {
+  dcReq: {
     type: 'req',
     url: process.env.ZMQ_GPCCDC_REQ,
     handler: payload => payload, // TODO implement a onDcRequestResponse (with error)
   },
-  dcarchive: {
+  dcData: {
     type: 'pull',
-    url: process.env.ZMQ_GPCCDC_ARCHIVE,
-    handler: onDcData,
-  },
-  dcrealtime: {
-    type: 'pull',
-    url: process.env.ZMQ_GPCCDC_REALTIME,
+    url: process.env.ZMQ_GPCCDC_DATA,
     handler: onDcData,
   },
   vimatimebar: {

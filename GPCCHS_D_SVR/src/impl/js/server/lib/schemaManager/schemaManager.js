@@ -32,20 +32,20 @@ var validateJson = (data,validFct) => {
 }
 // Workspace
 function validateWsJson(data) {
-  return validateJson(data,validateWS);
+  return validateJson(data, validateWS);
 }
 
 // TextView
 function validateTvJson(data) {
-  return validateJson(data,validateTV);
+  return validateJson(data, validateTV);
 }
 // TimeBar
 function validateTbJson(data) {
-  return validateJson(data,validateTB);
+  return validateJson(data, validateTB);
 }
 // PlotView
 function validatePvJson(data) {
-  return validateJson(data,validatePV);
+  return validateJson(data, validatePV);
 }
 // Workspace
 function validatePgJson(data) {

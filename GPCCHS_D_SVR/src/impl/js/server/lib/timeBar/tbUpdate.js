@@ -67,6 +67,8 @@ module.exports = (oldTimebar, newTimebar) => {
               // Update of a timeline parameter
               if (!Object.getOwnPropertyDescriptor(cmdList, 'timelineUpdate')) {
                 cmdList.timelineUpdate = {};
+              }
+              if (!Object.getOwnPropertyDescriptor(cmdList.timelineUpdate, 'timelines')) {
                 cmdList.timelineUpdate.timelines = [];
               }
               // Get ID from index
@@ -99,7 +101,7 @@ module.exports = (oldTimebar, newTimebar) => {
               cmdList.speedUpdate = current.rhs;
               break;
             case 'timeSpec':
-              cmdList.timeSpec = current.rhs;
+              cmdList.timeSpecUpdate = current.rhs;
               break;
             default:
               // case for action

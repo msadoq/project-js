@@ -13,36 +13,11 @@ const onTimeBarUpdate = require('./lib/controllers/onTimeBarUpdate');
 const onViewUpdate = require('./lib/controllers/onViewUpdate');
 
 const dcStub = require('./lib/stubs/dc');
-
-// !!!! Delete TB file to allow timebar Stub to be ok-------------
-// !!!! To be deleted when timebar ok !!!!
-const path = require('path');
+const tbStub = require('./lib/stubs/tb');
 const fs = require('fs');
-
-debug.debug('Going to delete an existing file');
-const tmpPath = path.join(__dirname, 'stub/tmp');
-const tbPath = path.join(tmpPath, 'tb.json');
-try {
-  fs.accessSync(tmpPath, fs.constants.F_OK);
-  fs.unlink(tbPath, (err) => {
-    if (err) {
-      throw err;
-    }
-    return undefined;
-  });
-  debug.debug('File deleted successfully!');
-} catch (e) {
-  debug.debug('No tmp folder');
-  fs.mkdirSync(tmpPath);
-}
-
-// Read TB file
-const tb = JSON.parse(
-  fs.readFileSync(path.join(__dirname, 'lib/schemaManager/examples/TB.example.json'), 'utf8')
-);
-// Create file with current timebar
-fs.writeFileSync(tbPath, JSON.stringify(tb), 'utf8');
-// !!!-------------------------------------------------
+const path = require('path');
+const check = require('./lib/schemaManager/schemaManager');
+const { set } = require('./lib/timeBar/index');
 
 // port
 function normalizePort(val) {
@@ -129,7 +104,23 @@ zmq.open({
       }
     });
   }
-
+  if (process.env.STUB_TB_ON === 'on') {
+    // Read TB file
+    const tb = JSON.parse(
+      fs.readFileSync(path.join(__dirname, 'lib/schemaManager/examples/TB.example.json'), 'utf8')
+    );
+    if (check.validateTbJson(tb)) {
+      debug.error('Invalid JSON file');
+      const error = 'Invalid JSON file';
+      throw error;
+    }
+    set(JSON.parse(JSON.stringify(tb)));
+    tbStub(tb, launchStubError => {
+      if (launchStubError) {
+        throw launchStubError;
+      }
+    });
+  }
   // once ZMQ sockets are open, launch express
   debug.info(`Trying to launch server in '${process.env.NODE_ENV}' env`);
   server.listen(port);

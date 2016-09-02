@@ -13,9 +13,10 @@
       "type": "object",
       "properties": {
         "id": {"type": "string"},
+        "name": {"type": "string"},
         "offset": {"type": "number", "default": 0}
         },
-        "required": ["id", "offset"]
+        "required": ["id", "offset", "name"]
     },
     "sessionLine": {
       "allOf": [

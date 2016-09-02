@@ -1,40 +1,25 @@
-const debug = require('../io/debug')('controllers:onTimeBarUpdate');
+// const debug = require('../io/debug')('controllers:onTimeBarUpdate');
 const { get, set } = require('../timeBar/index');
-const diff = require('deep-diff');
+const tbUpdate = require('../timeBar/tbUpdate');
 
 /**
  * Controller that save timebar update
  * @param newTimebar
  */
 module.exports = buffer => {
-  debug.info('!!!!onTimeBarUpdate');
-  // Convert buffer to string
-  const string = buffer.toString();
+  // Convert buffer to string : Needed when using zmq
   let newTimebar;
+  const string = buffer.toString();
   try {
     newTimebar = JSON.parse(string);
   } catch (err) {
-    // Error parsing JSON
-    throw (err);
+    throw err;
   }
-
-  // Comparison between timebars when this is not initialization or saving
-  debug.info('Action: ', newTimebar.data.action);
-  switch (newTimebar.data.action) {
-    case 'initialUpd':
-      break;
-    case 'tbSaving':
-      break;
-    default:
-      // Get current timebar to process differences
-      const old = get();
-      // Get differences between versions
-      const result = diff(old, newTimebar);
-      for (key in result) {
-        console.log(key,result[key]);
-      }
+  const cmdList = tbUpdate(get(),newTimebar);
+  if (cmdList) {
+    console.log('Envoi des modifs de TB aux vues');
+    console.log('cmdList:', cmdList);
   }
-
 
   // Save new timebar
   set(newTimebar);

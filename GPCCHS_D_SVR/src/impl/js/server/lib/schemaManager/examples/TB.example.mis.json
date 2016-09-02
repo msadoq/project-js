@@ -22,12 +22,14 @@
     "timeSpec": "LocalTime",
     "offsetFromUTC": 0,
     "timeLines": [{
-        "id": "Session 1",
+        "id": "1",
+        "name": "Session 1",
         "offset": 0,
-        
+
         "sessionId": 1
     }, {
-        "id": "Dataset 1",
+        "id": "2",
+        "name": "Dataset 1",
         "offset": 0,
         "kind": "Dataset",
         "dsPath": "/dataset.xml"

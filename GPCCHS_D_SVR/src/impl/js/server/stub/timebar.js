@@ -5,26 +5,26 @@ require('dotenv-safe').load();
 const debug = require('../lib/io/debug')('stub:timebar');
 const zmq = require('../lib/io/zmq');
 const parseArgs = require('minimist');
-const check = require('../lib/schemaManager/schemaManager');
-const fs = require('fs');
-const path = require('path');
+
+
 const exit = require('exit');
 
 const usage = () =>
   console.log('USAGE: node timebar.js [ -h | --help ] [ -forward time (in ms) | -f time (in ms) ]\
-          [ -addtimeline | -a ] [ -removetimeline | -r ]');
+          [ -addtimeline | -a ] [ -removetimeline | -r ][ -offset val (in ms)| -o val (in ms)]');
 
 const FORWARD = 1000;
+const OFFSET = 1000;
 
 // options definitions
 const options = {
   boolean: 'h',
   boolean: 'a',
   boolean: 'r',
+  number: 'o',
   number: 'f',
   default: {
     h: false,
-    f: FORWARD,
     a: false,
     r: false,
   },
@@ -33,6 +33,7 @@ const options = {
     f: 'forward',
     a: 'addtimeline',
     r: 'removetimeline',
+    o: 'offset'
   },
 };
 
@@ -42,68 +43,47 @@ if (argv.h) {
   usage();
   process.exit(1);
 }
-const pathTb = path.join(__dirname, 'tmp/tb.json') ;
-// Get latest version of timebar in tmp/tb.json
-const tb = JSON.parse(fs.readFileSync(pathTb, 'utf8'));
-
-if (!tb) {
-  debug.error("Error reading tb file");
-  process.exit(1);
-}
-
-// check validity of data
-const errJson = check.validateTbJson((tb));
-
-// Case of errors
-if (errJson) {
-  debug.error('Error on tbFile :\n', errJson);
-  process.exit(1);
-}
-
+let cmdList = {};
 if (argv.f) {
   // Update current TB
-  tb.data.visuWindow.current += argv.f;
-  tb.data.action = 'currentTimeUpd';
-  tb.data.rulerStart += 5000;
+  cmdList.currentTimeUpd = argv.f;
 }
 if (argv.a) {
   // Add a timeline
-  const tlName = 'Session ' + (tb.data.timeLines.length + 3);
-  const tl = {
-    id: tlName,
+  const nb = Math.floor(Math.random() * 100);
+  const tlName = 'Session ' + nb.toString();
+  cmdList.tlAdded = {
+    id: nb,
+    name: tlName,
     offset: 0,
     kind: 'Session',
-    sessionId: 10 + (tb.data.timeLines.length + 3)
+    sessionId: nb
   };
-  tb.data.timeLines.push(tl);
-  tb.data.action = 'tlAdded';
 }
 
 if (argv.r) {
-  tb.data.action = 'tlRemoved';
-  // remove the last timeline
-  if (tb.data.timeLines.length > 0) {
-    tb.data.timeLines.splice(tb.data.timeLines.length - 1, 1);
-  }
+  // If 0, delete first element, if 1 delete last element
+  cmdList.tlRemoved = Math.round(Math.random());
 }
+if (argv.o) {
+  cmdList.tlOffsetUpd = argv.o;
+}
+
 // ZMQ initialization
-zmq.init({
-  timebarPush: {
+zmq.open({
+  tbCliPush: {
     type: 'push',
-    url: process.env.ZMQ_VIMA_TIMEBAR,
+    url: process.env.ZMQ_VIMA_STUB_TIMEBAR,
   },
 }, err => {
   if (err) {
     throw err;
   }
 
-  zmq.send('timebarPush', JSON.stringify(tb), () => {
-    debug.info('Tb update sent');
+
+  zmq.push('tbCliPush', JSON.stringify(cmdList), () => {
     // close socket
     zmq.closeSockets();
-
-    // Save file for next time
-    fs.writeFileSync(pathTb, JSON.stringify(tb), 'utf8');
     exit(0);
   });
 });

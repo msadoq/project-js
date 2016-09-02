@@ -93,7 +93,7 @@ const pushData = (dataId, payloads) => {
 };
 
 const emulateDc = () => {
-  debug.debug('emulateDc call', Object.keys(subscriptions).length, queries.length);
+  debug.verbose('emulateDc call', Object.keys(subscriptions).length, queries.length);
   // push realtime on each parameter
   _.each(subscriptions, dataId => {
     const payloads = [];

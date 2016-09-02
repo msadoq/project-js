@@ -10,6 +10,8 @@ const zmq = require('./lib/io/zmq');
 const primus = require('./lib/io/primus');
 const onDcData = require('./lib/controllers/onDcData');
 const onTimeBarUpdate = require('./lib/controllers/onTimeBarUpdate');
+const onViewOpen = require('./lib/controllers/onViewOpen');
+const onViewClose = require('./lib/controllers/onViewClose');
 const onViewUpdate = require('./lib/controllers/onViewUpdate');
 
 const dcStub = require('./lib/stubs/dc');
@@ -96,7 +98,7 @@ server.on('listening', () => {
 });
 
 // Primus
-primus.init(server, {
+primus.init(server, onViewOpen, onViewClose, {
   viewUpdate: onViewUpdate,
 });
 

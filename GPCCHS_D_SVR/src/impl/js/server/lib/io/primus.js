@@ -5,7 +5,7 @@ const applyFilters = require('../utils/filters');
 let primus;
 
 module.exports = {
-  init: (server, handlers = {}) => {
+  init: (server, openHandler, closeHandler, handlers = {}) => {
     if (primus) {
       throw new Error('Primus adapter already inited');
     }
@@ -13,9 +13,11 @@ module.exports = {
     primus = new Primus(server, { transformer: 'uws' });
 
     primus.on('connection', spark => {
-      // TODO attach subId to each spark
-
       debug.info('new websocket connection', spark.address);
+
+      openHandler(spark);
+      spark.on('end', () => closeHandler(spark));
+
       Object.keys(handlers).forEach(event => spark.on(event, handlers[event]));
     });
   },

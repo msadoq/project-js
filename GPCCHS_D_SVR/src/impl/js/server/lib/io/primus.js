@@ -1,6 +1,7 @@
 const debug = require('../io/debug')('websocket');
 const Primus = require('primus');
 const applyFilters = require('../utils/filters');
+const { join } = require('path');
 
 let primus;
 
@@ -12,6 +13,9 @@ module.exports = {
 
     primus = new Primus(server, { transformer: 'uws' });
 
+    // save current primus/uws client as file
+    primus.save(join(__dirname, '../..', 'primus.client.js'));
+
     primus.on('connection', spark => {
       debug.info('new websocket connection', spark.address);
 
@@ -19,6 +23,8 @@ module.exports = {
       spark.on('end', () => closeHandler(spark));
 
       Object.keys(handlers).forEach(event => spark.on(event, handlers[event]));
+
+      spark.write('hello');
     });
   },
   get: () => primus,

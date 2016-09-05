@@ -1,35 +1,53 @@
 //const debug = require('../io/debug')('timeBar:tbUpdate');
 const diff = require('deep-diff').diff;
 
-// Check presence of id in table
-function isIdPresent(table, id) {
+
+// Get index of id in table
+function getIndex(table, id) {
   // Number of timelines already declared
   const length = table.length;
   // Check if new Id is already declared in timeline table
   for (let i = 0; i < length; i++) {
-    if (table[i].id === id) return true;
+    if (table[i].id === id) return i;
   }
-  return false;
+  return -1;
 }
 
 
-module.exports = (oldTimebar, newTimebar) => {
+function createObjectParam(object, param) {
+  if (!Object.getOwnPropertyDescriptor(object, param)) object[param] = {};
+}
+function createArrayParam(object, param) {
+  if (!Object.getOwnPropertyDescriptor(object, param)) object[param] = [];
+}
+
+function addTlUpdate(cmdList, tl, param) {
+  if (!cmdList) cmdList = {};
+  createObjectParam(cmdList, 'timelineUpdate');
+  createArrayParam(cmdList.timelineUpdate, 'timeLines');
+  const tlUpd = { id: tl.id };
+  tlUpd[param] = tl[param];
+  cmdList.timelineUpdate.timeLines.push(tlUpd);
+}
+
+module.exports = (oldTb, newTb) => {
   let cmdList;
   // Comparison between timebars when this is not initialization or saving
-  switch (newTimebar.data.action) {
+  switch (newTb.data.action) {
     case 'initialUpd':
       break;
     case 'tbSaving':
       break;
     default:
-      // Get current timebar to process differences
-      const isTlNumberDifferent =
-        (oldTimebar.data.timeLines.length !== newTimebar.data.timeLines.length);
+      // Take timeline tables to make specific Comparison
+      const newTimebar = JSON.parse(JSON.stringify(newTb));
+      const newTls = newTimebar.data.timeLines.splice(0, newTimebar.data.timeLines.length);
+      const oldTimebar = JSON.parse(JSON.stringify(oldTb)) ;
+      const oldTls = oldTimebar.data.timeLines.splice(0, oldTimebar.data.timeLines.length);
 
       // Get differences between versions
       const result = diff(oldTimebar, newTimebar);
-      if (!result) break;
-      cmdList = {};
+      if (result) cmdList = {};
       for (key in result) {
         const current = result[key];
 
@@ -38,56 +56,27 @@ module.exports = (oldTimebar, newTimebar) => {
             // ---------- Visualization window updates
             case 'visuWindow':
               // Update of parameter of visuWindow
-              if (!Object.getOwnPropertyDescriptor(cmdList, 'visuWindowUpdate')) {
-                cmdList.visuWindowUpdate = {};
-              }
+              createObjectParam(cmdList, 'visuWindowUpdate');
               cmdList.visuWindowUpdate[current.path[2]] = current.rhs;
               break;
             case 'slideWindow':
               // Add slideWindow under visuWindowUpdate
-              if (!Object.getOwnPropertyDescriptor(cmdList, 'visuWindowUpdate')) {
-                cmdList.visuWindowUpdate = {};
-              }
+              createObjectParam(cmdList, 'visuWindowUpdate');
               const visuW = cmdList.visuWindowUpdate;
-              if (!Object.getOwnPropertyDescriptor(visuW, 'slideWindow')) visuW.slideWindow = {};
+              createObjectParam(visuW, 'slideWindow');
               visuW.slideWindow[current.path[2]] = current.rhs;
               break;
             case 'extUpperBound':
               // Add extUpperBound under visuWindowUpdate
-              if (!Object.getOwnPropertyDescriptor(cmdList, 'visuWindowUpdate')) {
-                cmdList.visuWindowUpdate = {};
-              }
+              createObjectParam(cmdList, 'visuWindowUpdate');
               cmdList.visuWindowUpdate.extUpperBound = current.rhs;
               break;
-            // ---------- Timelines updates
-            case 'timeLines':
-              // -- Check for addition or deletion because treatment is different
-              if (isTlNumberDifferent) break;
-
-              // Update of a timeline parameter
-              if (!Object.getOwnPropertyDescriptor(cmdList, 'timelineUpdate')) {
-                cmdList.timelineUpdate = {};
-              }
-              if (!Object.getOwnPropertyDescriptor(cmdList.timelineUpdate, 'timelines')) {
-                cmdList.timelineUpdate.timelines = [];
-              }
-              // Get ID from index
-              const index = current.path[current.path.length - 2];
-              const tlId = newTimebar.data.timeLines[index].id;
-              const item = { id: tlId };
-              item[current.path[current.path.length - 1]] = current.rhs;
-              cmdList.timelineUpdate.timelines.push(item);
-              break;
             case 'masterId':
-              if (!Object.getOwnPropertyDescriptor(cmdList, 'timelineUpdate')) {
-                cmdList.timelineUpdate = {};
-              }
+              createObjectParam(cmdList, 'timelineUpdate');
               cmdList.timelineUpdate.masterId = current.rhs;
               break;
             case 'offsetFromUTC':
-              if (!Object.getOwnPropertyDescriptor(cmdList, 'timelineUpdate')) {
-                cmdList.timelineUpdate = {};
-              }
+              createObjectParam(cmdList, 'timelineUpdate');
               cmdList.timelineUpdate.offsetFromUTC = current.rhs;
               break;
             // ---------- Other updates
@@ -106,56 +95,40 @@ module.exports = (oldTimebar, newTimebar) => {
             default:
               // case for action
           }
-        } else if (current.kind === 'A') {
-          // Timeline added or removed
-          if (current.item) {
-            if (current.item.kind === 'N') {
-              // ---------- Timeline added
-              // Add action in cmdList
-              if (!Object.getOwnPropertyDescriptor(cmdList, 'timelineAdded')) {
-                cmdList.timelineAdded = [];
-              }
-              // Check if the timeline is the good one using its unique id
-              if (!isIdPresent(oldTimebar.data.timeLines, current.item.rhs.id)) {
-                cmdList.timelineAdded.push(current.item.rhs);
-              } else {
-                // Find the new one
-                // for example in case of adding at the beginning
-                const newLength = newTimebar.data.timeLines.length;
-                for (let inew = 0; inew < newLength; inew++) {
-                  if (!isIdPresent(oldTimebar.data.timeLines, newTimebar.data.timeLines[inew].id)) {
-                    // Add command in cmdList
-                    cmdList.timelineAdded.push(newTimebar.data.timeLines[inew]);
-                    break;
-                  }
-                }
-              }
-            } else if (current.item.kind === 'D') {
-              // ---------- Timeline removed
-              if (!Object.getOwnPropertyDescriptor(cmdList, 'timelineRemoved')) {
-                cmdList.timelineRemoved = [];
-              }
-              // Check if the timeline is the good one using its unique id
-              if (isIdPresent(newTimebar.data.timeLines, current.item.lhs.id)) {
-                // Find the timeline missing
-                const oldLength = oldTimebar.data.timeLines.length;
-                for (let iold = 0; iold < oldLength; iold++) {
-                  if (!isIdPresent(newTimebar.data.timeLines, oldTimebar.data.timeLines[iold].id)) {
-                    // Add command in cmdList
-                    cmdList.timelineRemoved.push(oldTimebar.data.timeLines[iold]);
-                    break;
-                  }
-                }
-              } else {
-                cmdList.timelineRemoved.push(current.item.lhs);
-              }
-            }
-          }
+        // } else {
+        //   // **** Case for action update : nothing to do ?
+        }
+      }
+      // --- timeline treatment
+      // addition
+      for (let i = 0; i < newTls.length; i++) {
+        const tl = newTls[i];
+        const index = getIndex(oldTls, tl.id);
+        if (index < 0) {
+          // Add action in cmdList
+          if (!cmdList) cmdList = {};
+          createArrayParam(cmdList, 'timelineAdded');
+          cmdList.timelineAdded.push(tl);
         } else {
-          // **** Case for timelines deletion and creation:
-          // Nothing to do because event appears also with kind 'A'
-          // These are due to the different types of timelines
-          // **** Case for action update : nothing to do ?
+          // Check for updates
+          if (oldTls[index].name !== tl.name) addTlUpdate(cmdList,tl,'name');
+          if (oldTls[index].offset !== tl.offset) addTlUpdate(cmdList,tl,'offset');
+          if (oldTls[index].kind !== tl.kind) {
+            addTlUpdate(cmdList,tl,'kind');
+            if (tl.kind === 'Session') addTlUpdate(cmdList,tl,'sessionId');
+            else if (tl.kind === 'Dataset') addTlUpdate(cmdList,tl,'dsPath');
+            else if (tl.kind === 'Recordset') addTlUpdate(cmdList,tl,'rsPath');
+          }
+        }
+      }
+      // deletion
+      for (let i = 0; i < oldTls.length; i++) {
+        const tl = oldTls[i];
+        if (getIndex(newTls, tl.id) < 0) {
+          // Remove action in cmdList
+          if (!cmdList) cmdList = {};
+          createArrayParam(cmdList, 'timelineRemoved');
+          cmdList.timelineRemoved.push(tl);
         }
       }
   }

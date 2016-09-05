@@ -50,14 +50,14 @@ describe('Timebar update', () => {
     cmdList = tbUpdate(tbRef, tb1);
     // check updates
     cmdList.should.be.an('object').with.property('timelineUpdate');
-    cmdList.timelineUpdate.should.have.all.keys(['timelines', 'masterId', 'offsetFromUTC']);
-    cmdList.timelineUpdate.timelines.should.be.an('array').with.lengthOf(2);
-    cmdList.timelineUpdate.timelines[0].should.have.all.keys(['id','name']);
-    cmdList.timelineUpdate.timelines[0].id.should.equal(tb1.data.timeLines[0].id);
-    cmdList.timelineUpdate.timelines[0].name.should.equal(tb1.data.timeLines[0].name);
-    cmdList.timelineUpdate.timelines[1].should.have.all.keys(['id','offset']);
-    cmdList.timelineUpdate.timelines[1].id.should.equal(tb1.data.timeLines[1].id);
-    cmdList.timelineUpdate.timelines[1].offset.should.equal(tb1.data.timeLines[1].offset);
+    cmdList.timelineUpdate.should.have.all.keys(['timeLines', 'masterId', 'offsetFromUTC']);
+    cmdList.timelineUpdate.timeLines.should.be.an('array').with.lengthOf(2);
+    cmdList.timelineUpdate.timeLines[0].should.have.all.keys(['id', 'name']);
+    cmdList.timelineUpdate.timeLines[0].id.should.equal(tb1.data.timeLines[0].id);
+    cmdList.timelineUpdate.timeLines[0].name.should.equal(tb1.data.timeLines[0].name);
+    cmdList.timelineUpdate.timeLines[1].should.have.all.keys(['id', 'offset']);
+    cmdList.timelineUpdate.timeLines[1].id.should.equal(tb1.data.timeLines[1].id);
+    cmdList.timelineUpdate.timeLines[1].offset.should.equal(tb1.data.timeLines[1].offset);
     cmdList.timelineUpdate.masterId.should.equal('5');
     cmdList.timelineUpdate.offsetFromUTC.should.equal(100);
     // tbRef update
@@ -83,8 +83,8 @@ describe('Timebar update', () => {
     // check updates
     cmdList.should.be.an('object').with.property('timelineAdded');
     cmdList.timelineAdded.should.be.an('array').with.lengthOf(2);
-    cmdList.timelineAdded[0].should.equal(newTl);
-    cmdList.timelineAdded[1].should.equal(newTl2);
+    cmdList.timelineAdded[0].should.deep.equal(newTl);
+    cmdList.timelineAdded[1].should.deep.equal(newTl2);
     // tbRef update
     tbRef = JSON.parse(JSON.stringify(tb1));
   });

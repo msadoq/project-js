@@ -4,24 +4,29 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
     <script>
-      (function() {
-        if (!process.env.HOT) {
-          const link = document.createElement('link');
-          link.rel = 'stylesheet';
-          link.href = '../dist/style.css';
-          document.write(link.outerHTML);
-        }
-      }());
+      // https://github.com/electron/electron/issues/5224
+      const env = require('electron').remote.getGlobal('process').env;
+
+      if (!env.HOT) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = '../dist/style.css';
+        document.write(link.outerHTML);
+      }
     </script>
   </head>
   <body>
     <div id="root"></div>
     <script>
-      (function() {
-        const script = document.createElement('script');
-        script.src = (process.env.HOT) ? 'http://localhost:3000/dist/bundle.js' : '../dist/bundle.js';
-        document.write(script.outerHTML);
-      }());
+      const port = env.PORT || 3000;
+
+      const bundle = document.createElement('script');
+      bundle.src = (env.HOT) ? `http://localhost:${port}/dist/bundle.js` : '../dist/bundle.js';
+      document.write(bundle.outerHTML);
+
+      const primus = document.createElement('script');
+      primus.src = env.HSS + '/primus/primus.js';
+      document.write(primus.outerHTML);
     </script>
   </body>
 </html>

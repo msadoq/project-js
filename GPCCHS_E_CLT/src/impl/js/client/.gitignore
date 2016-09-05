@@ -31,6 +31,12 @@ node_modules
 # OSX
 .DS_Store
 
+# dotenv
+.env
+
+# IDE
+.idea
+
 # App packaged
 dist
 release

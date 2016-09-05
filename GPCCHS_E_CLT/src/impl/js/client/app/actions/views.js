@@ -56,7 +56,7 @@ export function requestSub(viewId, subscription) {
       body: JSON.stringify(subscription),
     };
 
-    return fetch('http://127.0.0.1:1337/api/subscriptions', options)
+    return fetch(process.env.HSS + '/api/subscriptions', options)
       .then((res) => res.json())
       .then((body) => {
         const subId = `sub${body.subscriptionId}`;

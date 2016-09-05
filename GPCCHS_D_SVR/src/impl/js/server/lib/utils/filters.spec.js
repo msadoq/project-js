@@ -1,7 +1,7 @@
-require('../../lib/utils/test');
+require('./test');
 const _ = require('lodash');
-const applyFilters = require('../../lib/utils/filters');
-const constants = require('../../lib/constants');
+const applyFilters = require('./filters');
+const constants = require('../constants');
 
 describe('filters', () => {
   it('OP_EQ', () => {

@@ -1,5 +1,5 @@
-const { should } = require('../../lib/utils/test');
-const parseDataFullName = require('../../lib/utils/parseDataFullName');
+const { should } = require('./test');
+const parseDataFullName = require('./parseDataFullName');
 
 /* eslint-disable no-unused-expressions */
 

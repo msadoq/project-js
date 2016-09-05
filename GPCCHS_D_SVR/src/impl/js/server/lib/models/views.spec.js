@@ -1,7 +1,7 @@
-require('../../lib/utils/test');
-const model = require('../../lib/models/views');
+require('../utils/test');
+const model = require('./views');
 
-describe('models/cacheJson', () => {
+describe('models/views', () => {
   beforeEach(() => {
     model.clear();
   });

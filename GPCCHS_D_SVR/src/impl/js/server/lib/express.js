@@ -20,7 +20,6 @@ app.use(linker);
 app.use(attachValidated);
 
 app.use('/api/', require('./routes/index'));
-app.use('/api/', require('./routes/subscriptions'));
 app.use('/api/documents/', require('./routes/documents/pages'));
 app.use('/api/documents/', require('./routes/documents/views'));
 app.use('/api/documents/', require('./routes/documents/workspaces'));

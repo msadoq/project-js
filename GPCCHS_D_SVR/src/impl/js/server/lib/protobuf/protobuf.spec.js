@@ -1,13 +1,13 @@
-const { should } = require('../../lib/utils/test');
+const { should } = require('../utils/test');
 
-const protobuf = require('../../lib/protobuf');
+const protobuf = require('./index');
 const {
   encodeAttribute,
   decodeAttribute,
   uintToBytes,
   bytesToUint,
-} = require('../../lib/protobuf/converters/lpisis/types');
-const stubData = require('../../lib/stubs/data');
+} = require('./converters/lpisis/types');
+const stubData = require('../stubs/data');
 const ByteBuffer = require('bytebuffer');
 
 describe('protobuf', () => {

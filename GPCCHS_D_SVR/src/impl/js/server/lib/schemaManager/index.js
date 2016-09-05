@@ -1,15 +1,14 @@
 // Schema validator module
 const Ajv = require('ajv');
 
-const ajv = Ajv({allErrors: true});
+const ajv = new Ajv({ allErrors: true });
 
 // Get schema in other file.json
-const schemaWS = require('./WS.schema');
-const schemaTV = require('./TV.schema');
-const schemaTB = require('./timeBarSchema');
-const schemaPV = require('./PV.schema');
-const schemaPG = require('./PG.schema');
-
+const schemaWS = require('./schemas/WS.schema.json');
+const schemaTV = require('./schemas/TV.schema.json');
+const schemaTB = require('./schemas/timeBarSchema.json');
+const schemaPV = require('./schemas/PV.schema.json');
+const schemaPG = require('./schemas/PG.schema.json');
 
 // Apply Schema
 const validateWS = ajv.compile(schemaWS);
@@ -18,18 +17,17 @@ const validateTB = ajv.compile(schemaTB);
 const validatePV = ajv.compile(schemaPV);
 const validatePG = ajv.compile(schemaPG);
 
-// Compliance between schema and data
-var validateJson = (data,validFct) => {
+const validateJson = (data, validFct) => {
   let errors;
-  if (data.length == 0)  {
-    errors = "Empty file";
+  if (typeof data !== 'object' || !Object.keys(data).length) {
+    errors = 'Empty file';
   } else if (!validFct(data)) {
-//    console.log(ajv.errorsText(validFct.errors, { separator: '\n' }));
     // Save errors in returned value
     errors = validFct.errors;
   }
   return errors;
-}
+};
+
 // Workspace
 function validateWsJson(data) {
   return validateJson(data, validateWS);

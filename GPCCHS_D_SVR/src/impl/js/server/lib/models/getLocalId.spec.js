@@ -1,6 +1,6 @@
-require('../../lib/utils/test');
-const getLocalId = require('../../lib/models/getLocalId');
-const { getDataId } = require('../../lib/stubs/data');
+require('../utils/test');
+const getLocalId = require('./getLocalId');
+const { getDataId } = require('../stubs/data');
 
 describe('models/getLocalId', () => {
   it('works', () => {

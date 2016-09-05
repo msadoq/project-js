@@ -1,5 +1,5 @@
-require('../../lib/utils/test');
-const zmq = require('../../lib/io/zmq');
+require('../utils/test');
+const zmq = require('./zmq');
 
 describe('io/zmq', () => {
   afterEach(done => {

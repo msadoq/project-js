@@ -3,7 +3,7 @@ const { Router } = require('express');
 const validatePathOrOId = require('../../middlewares/validatePathOrOId');
 const validFs = require('../../middlewares/validFs');
 
-const { validateWsJson } = require('../../schemaManager/schemaManager');
+const { validateWsJson } = require('../../schemaManager');
 const validateWorkspaceToPage = require('../../middlewares/validateWorkspaceToPage');
 
 const router = new Router();

@@ -89,8 +89,11 @@
     "postcss": "^5.0.21",
     "react": "v0.14.8",
     "react-bootstrap": "^0.29.5",
+    "react-color": "^2.2.2",
+    "react-colorpicker": "^0.3.14",
     "react-dom": "^15.1.0",
     "react-redux": "^4.4.5",
+    "react-select": "^1.0.0-beta14",
     "react-tabs-redux": "^1.2.2",
     "redux": "^3.5.2",
     "redux-electron-store": "^0.3.11",
@@ -100,5 +103,6 @@
   "devEngines": {
     "node": "6.x",
     "npm": "3.x"
-  }
+  },
+  "style": "./app/app.global.css"
 }

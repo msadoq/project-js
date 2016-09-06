@@ -1,46 +1,177 @@
 # ARCHITECTURE
 
+## TODO
+* [ ] Add play / pause mode with upcoming buffer request
+* [ ] Add view update and take care of view (page) in each previous flows
+* [ ] Add close view flow
+* [ ] Handle virtual interval for realtime data (when i'm in realtime)
+* [ ] Data filtering and timeline and bufferisation offset is operate on HSS before sending to HSC
+* [ ] Implement a view adapter for each view type on server side to control data to retrieve and send to view
+* [ ] Could filter data sending from HSS to HSC based on view (page) visibility
+
 ## Sub-components
 * HS Server (node, HSS)
 * HS Client (electron, HSC)
 * TimeBar (QT, TB)
 * Data Communication (C++, DC)
 
-## Launching
-On application start the LPISIS launch an HSS instance with a set of free port and an optional
-workspace document path.
-HSS read workspace, pages and views document and launch instance of: TB, DC and HSC.
+## Launching and stopping
 
-## Stopping
-On application close (by user from HSC or on SIGTERM to HSS or HSC) stops DC, TB, HSC and from HSS.
-[question] should DC unsubscribe from datastore archive and from tbd consumer pub/sub on close?
+On application start CNT/IHM component launch:
+* an HSS instance with a set of port (for listening and TB, DC communication)
+* an HSC instance with HSS port and optionally a workspace file path
+
+On application close (by user from HSC or on SIGTERM to HSS or HSC)
+* HSC and HSS should be closed
+* DC should be informed of this shutdown to be able to unsubdcribe from realtime data
+
+/!\ Close process wasn't discussed until now.
 
 ## Inter-components communication
-* HSS->DC (ZeroMQ/Protobuf)
-  - timebar_update: inform DC with the new TB interval for realtime data filtering
-  - parameters_update: inform DC with the whole list of parameter for realtime data filtering
-  - query: ask to DC to request datastore archive for data (see subscription)
-* DC->HSS (ZeroMQ/Protobuf)
-  - realtime_data: data from TBD consumer pub/sub
-  - query_data: data from datastore archive
-* TB->HSS (ZeroMQ/Protobuf)
-  - timebar_update: inform HSS with the new TB interval
-* HSS->HSC (Websocket)
-  - timebar_update: inform HSC with the new TB interval
-  - parameter_data: give HSC a new set of data
-* HSC->HSS (Websocket)
-  - view_update: inform HSS with new view dimension and view visibility
-* HSC/HSS (REST)
-  - document creation, opening, saving
+
+Overview:
+* From HSS to DC:
+  - DataQuery 
+  - DataSubscribe 
+* From DC to HSS:
+  - data (from archive or realtime)
+* From TB to DC:
+  - timeBarConfiguration
+
+### HSS->DC (ZeroMQ/Protobuf)
+**DataQuery**
+
+Ask DC to request datastore for parameter data on a particular interval:
+* id
+* dataId (catalog, parameterName, comObject, sessionId, domainId)
+* timeInterval(lower, upper)
+
+**DataSubscribe**
+
+Inform DC to pass realtime data to HSS for a particular parameter:
+* id
+* dataId (catalog, parameterName, comObject, sessionId, domainId)
+* action (enum(add, remove))
+
+### DC->HSS (ZeroMQ/Protobuf)
+
+Two sockets (1 for realtime and 1 for query data) with the same behavior.
+
+We received data as ZeroMQ messages that can contains one or more value for a given parameter.
+Each message is compound of a first frame:
+* id
+And a length undefined peers of frames:
+* timestamp
+* payload
+
+/!\ This data format is not ideal cause it's very difficult to implement in each component that
+    consume data from DC
+
+### TB->HSS (ZeroMQ/Protobuf)
+**timeBarConfiguration**
+
+Inform HSS with the new TB interval: see [TB.example.json](./lib/schemaManager/examples/TB.example.json)
+
+### HSS->HSC (Websocket)
+
+**timeBarConfiguration**
+
+Inform HSC with the new TB interval:
+* TODO
+
+/!\ maybe not needed as HSS determine by itself which data to pass to each view
+
+**displayData**
+
+Give HSC a new set of data:
+* data (format and quantity depends on view type)
+
+### HSC->HSS (Websocket)
+
+**connect**
+
+Contains a payload with view description:
+* id
+* type
+
+**view_update**
+
+Inform HSS with new view dimension and view visibility:
+* TODO
+
+### HSC/HSS (REST)
+
+**document creation, opening, saving**
+
+## Flows
+
+### HSC launching
+
+* HSC received a computed version of workspace/pages/views to open
+* HSC launch electron
+** Initiate redux store with received data
+** Open a main websocket with HSS
+* HSC opens windows
+* Each windows renders pages
+* Each pages render views as containerized WebView (http://electron.atom.io/docs/api/web-view-tag/)
+** Inside view WebView see [View opening](View opening)
+
+### View opening
+
+* View opens a websocket with HSS (viewId)
+* HSS creates a record in **openedWebsockets**
+* View transmits to HSS a parameter subscription (parameterSubscriptionId, catalog, parameter, type, filter)
+* For each HSS:
+  - creates a record in **subscribedParameters** (adding viewId)
+  - looks for existing intervals (based on Timebar position) in cache for this parameter
+  - ask DC (**dataQuery**) for each missing interval and for each creates record in **requestedIntervals**
+  - apply filters on cached data
+  - send cached data to HSC view (**displayData**)
+
+/!\ Already in cache data search doesn't works for realtime data, we should trace that realtime data was received
+
+### New archive data from DC
+
+* On each incoming **dataQuery** HSS:
+  - set corresponding **requestedIntervals** as received
+  - insert records in **cacheJson**
+  - determine if data should be send to HSC view (based on TB position and view type)
+  - apply filters on data
+  - send data to HSC view (**displayData**)
+
+### New realtime data from DC
+
+* On each incoming **dataRealtime** HSS:
+  - same as [New archive data from DC](New archive data from DC) without **requestedIntervals** step
+ 
+### TB change
+
+// 1. [Inform each view of the new timebar position (if needed)]
+// 1. HSS loop on each opened view and determine if data is already present
+
+* On each incoming TB **timeBarConfiguration** message HSS loop on views and depending view type:
+  - PlotView:
+    - Compares with previous TB state, establish current displayed interval and missing interval(s) in view
+    - Request cache for existing interval
+    - Ask missing interval to DC
+    - Send cached interval to HSS
+  - TextView:
+    - Compares with previous TB state and established if view has al
+    - Request cache for existing value
+    - Ask missing value to DC
+    - Send cached value to HSS 
+    
+/!\ TAKE IN CONSIDERATION TIMELINE OFFSET
+
++ realtime unsubcribtion
 
 ## HSS
 HSS should have full knowledge of open view and visible data in HSC in realtime.
-HSS is responsible for listening TB (interval, play mode for buffering).
-HSS is responsible for listening HSC (views dimension and visibility).
-HSS is responsible to determine:
-- which data is in cache
-- which data to query to DC
-- which realtime data to filter on DC
+HSS maintains Loki collection for:
+- **openedWebsockets**: list of opened Websocket with for each the parameter and the state (visible or not)
+- **subscribedParameters**: whole list of parameter visible in views
+- **requestedIntervals**: whole list of interval requested for each parameter (<= cleaned on cache invalidation)
+- **cacheJson**: list of received data (archive and realtime) from DC for each parameter (<= cleaned on cache invalidation)
 
 ## HSC
 ```
@@ -48,14 +179,7 @@ HSS is responsible to determine:
  |_ 1 websocket
  |_ **n** windows
     |_ **n** pages
-      |_ **n** views (containerized WebView: http://electron.atom.io/docs/api/web-view-tag/)
+      |_ **n** views 
         |_ 1 websocket connection
         |_ **n** subscription ID
 ```
-
-Redux store:
-* 1 redux store inited by main process
-* 1 redux store by window (with filtering logic on document)
-* Each view is rendered as iFrame (fork for WebView support: 
-     https://github.com/ryanseddon/react-frame-component or 
-     https://www.npmjs.com/package/react-iframe) and receive propsUpdate.

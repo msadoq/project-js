@@ -15,8 +15,10 @@
   * [ ] Add focus saving for page
   * [ ] Pass component display size to plotview: https://www.npmjs.com/package/react-dimensions
 
+* [ ] Introduce updeep https://github.com/substantial/updeep
 * [ ] Use documents REST routes
 * [ ] Add REST abstract
 * [ ] Envisage removing express to use webpack server instead
 * [ ] Hot reload in main process? https://github.com/chentsulin/electron-react-boilerplate/issues/360
 * [ ] Envisage replacing stockchart with https://github.com/recharts/recharts
+* [ ] Handle SIGTERM from HSS and/or send SIGTERM to HSS

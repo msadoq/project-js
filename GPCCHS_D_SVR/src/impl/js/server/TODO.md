@@ -2,21 +2,11 @@
 
 List of tasks remaining in GPCCHS:
 
-* Envisage a controller to handle communication between
-  - websocket incoming view modification
-  - timebar incoming modification
-  - dc subscription outcoming (from view websocket)
-  - dc incoming (to view websocket)
-  - (loki cache search and save)
 * Go on on dataCache refactoring
-* Stubs
-  - we should stub DC (push, realtime, archive)
-  - we should stub HSC (new connection (=receive data), remove connection, update view)
-  - we should stub TB (timebar change)
+* Stub HSC HSC (new connection (=receive data), remove connection, update view)
 * Add eslint pre-commit hook
-* Uniformize dataFullName and fulldataId and decide if transmitted to DC
-* Uniformize sessionId and session and analyse if systematic
-* Apply data *buffering* (100ms) and *filtering* on HSS websocket abstract  
+* Apply data *buffering* (100ms) and *filtering* on HSS websocket abstract
+* Replace protobufjs module with module that use a C++ parser
 
 * Application launching procedure
   - On application launch ask DC for "domains"
@@ -25,3 +15,10 @@ List of tasks remaining in GPCCHS:
   - Add file picker step (if no workspace passed in param)
 * Application exit procedure
   - Close DC, TB, HSC and exit HSS
+* What about error/exception channel
+  - try catch around zmq and protobuf?
+* Enforce loki with index on localId and timestamp
+* lpisis deserialization code generation
+* introduce helper to handler refactor zmq rep/req to have a real RPC API
+* fork stub in child_process?
+* improve README by adding lint and coverage commands

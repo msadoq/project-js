@@ -42,6 +42,7 @@ describe('Timebar update', () => {
   it('timeline parameter update', () => {
     // tb1 update
     tb1.data.timeLines[0].name = 'newTb1';
+    tb1.data.timeLines[0].offset = 2000;
     tb1.data.timeLines[1].offset = 1000;
     tb1.data.masterId = '5';
     tb1.data.offsetFromUTC = 100;
@@ -49,15 +50,16 @@ describe('Timebar update', () => {
     // get updates
     cmdList = tbUpdate(tbRef, tb1);
     // check updates
+    const id0 = tb1.data.timeLines[0].id ;
+    const id1 = tb1.data.timeLines[1].id ;
     cmdList.should.be.an('object').with.property('timelineUpdate');
     cmdList.timelineUpdate.should.have.all.keys(['timeLines', 'masterId', 'offsetFromUTC']);
-    cmdList.timelineUpdate.timeLines.should.be.an('array').with.lengthOf(2);
-    cmdList.timelineUpdate.timeLines[0].should.have.all.keys(['id', 'name']);
-    cmdList.timelineUpdate.timeLines[0].id.should.equal(tb1.data.timeLines[0].id);
-    cmdList.timelineUpdate.timeLines[0].name.should.equal(tb1.data.timeLines[0].name);
-    cmdList.timelineUpdate.timeLines[1].should.have.all.keys(['id', 'offset']);
-    cmdList.timelineUpdate.timeLines[1].id.should.equal(tb1.data.timeLines[1].id);
-    cmdList.timelineUpdate.timeLines[1].offset.should.equal(tb1.data.timeLines[1].offset);
+    cmdList.timelineUpdate.timeLines.should.be.an('object').with.all.keys([id0, id1]);
+    cmdList.timelineUpdate.timeLines[id0].should.have.all.keys(['offset', 'name']);
+    cmdList.timelineUpdate.timeLines[id1].should.have.all.keys(['offset']);
+    cmdList.timelineUpdate.timeLines[id0].name.should.equal('newTb1');
+    cmdList.timelineUpdate.timeLines[id0].offset.should.equal(2000);
+    cmdList.timelineUpdate.timeLines[id1].offset.should.equal(1000);
     cmdList.timelineUpdate.masterId.should.equal('5');
     cmdList.timelineUpdate.offsetFromUTC.should.equal(100);
     // tbRef update

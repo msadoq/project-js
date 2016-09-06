@@ -24,10 +24,9 @@ function createArrayParam(object, param) {
 function addTlUpdate(cmdList, tl, param) {
   if (!cmdList) cmdList = {};
   createObjectParam(cmdList, 'timelineUpdate');
-  createArrayParam(cmdList.timelineUpdate, 'timeLines');
-  const tlUpd = { id: tl.id };
-  tlUpd[param] = tl[param];
-  cmdList.timelineUpdate.timeLines.push(tlUpd);
+  createObjectParam(cmdList.timelineUpdate, 'timeLines');
+  createObjectParam(cmdList.timelineUpdate.timeLines, tl.id);
+  cmdList.timelineUpdate.timeLines[tl.id][param] = tl[param];
 }
 
 module.exports = (oldTb, newTb) => {
@@ -101,36 +100,34 @@ module.exports = (oldTb, newTb) => {
       }
       // --- timeline treatment
       // addition
-      for (let i = 0; i < newTls.length; i++) {
-        const tl = newTls[i];
-        const index = getIndex(oldTls, tl.id);
-        if (index < 0) {
+      newTls.forEach((element, index, array) => {
+        const ind = getIndex(oldTls, element.id);
+        if (ind < 0) {
           // Add action in cmdList
           if (!cmdList) cmdList = {};
           createArrayParam(cmdList, 'timelineAdded');
-          cmdList.timelineAdded.push(tl);
+          cmdList.timelineAdded.push(element);
         } else {
           // Check for updates
-          if (oldTls[index].name !== tl.name) addTlUpdate(cmdList,tl,'name');
-          if (oldTls[index].offset !== tl.offset) addTlUpdate(cmdList,tl,'offset');
-          if (oldTls[index].kind !== tl.kind) {
-            addTlUpdate(cmdList,tl,'kind');
-            if (tl.kind === 'Session') addTlUpdate(cmdList,tl,'sessionId');
-            else if (tl.kind === 'Dataset') addTlUpdate(cmdList,tl,'dsPath');
-            else if (tl.kind === 'Recordset') addTlUpdate(cmdList,tl,'rsPath');
+          if (oldTls[ind].name !== element.name) addTlUpdate(cmdList, element, 'name');
+          if (oldTls[ind].offset !== element.offset) addTlUpdate(cmdList, element, 'offset');
+          if (oldTls[ind].kind !== element.kind) {
+            addTlUpdate(cmdList, element, 'kind');
+            if (element.kind === 'Session') addTlUpdate(cmdList, element, 'sessionId');
+            else if (element.kind === 'Dataset') addTlUpdate(cmdList, element, 'dsPath');
+            else if (element.kind === 'Recordset') addTlUpdate(cmdList, element, 'rsPath');
           }
         }
-      }
+      });
       // deletion
-      for (let i = 0; i < oldTls.length; i++) {
-        const tl = oldTls[i];
-        if (getIndex(newTls, tl.id) < 0) {
+      oldTls.forEach((element, index, array) => {
+        if (getIndex(newTls, element.id) < 0) {
           // Remove action in cmdList
           if (!cmdList) cmdList = {};
           createArrayParam(cmdList, 'timelineRemoved');
-          cmdList.timelineRemoved.push(tl);
+          cmdList.timelineRemoved.push(element);
         }
-      }
+      });
   }
   return cmdList;
 };

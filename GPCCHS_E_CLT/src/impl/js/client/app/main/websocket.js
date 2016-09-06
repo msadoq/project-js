@@ -1,25 +1,30 @@
 import debug from '../utils/debug';
 import Primus from '../../../../../../../GPCCHS_D_SVR/src/impl/js/server/primus.client';
+import { mainWebsocketStatus } from '../actions/mainWebsocket';
+import { getStore } from './store';
 
-const logger = debug('communication:websocket');
+const logger = debug('main:websocket');
 
 let instance;
 
 export function connect() {
   if (!instance) {
     logger.info('trying open connection to', process.env.HSS);
-    instance = new Primus(process.env.HSS); // TODO pass query string in URL to identify this as main socket, handle on client side
+    instance = new Primus(process.env.HSS);
     instance.on('open', () => {
       logger.info('connected!');
+      getStore().dispatch(mainWebsocketStatus('connected'));
     });
-    instance.on('end', () => {
+    instance.on('close', () => {
       logger.info('closed!');
-    });
-    instance.on('data', data => {
-      logger.info('incoming data', data);
+      getStore().dispatch(mainWebsocketStatus('disconnected'));
     });
     instance.on('error', err => {
       logger.error('error', err.stack);
+      getStore().dispatch(mainWebsocketStatus('error', err.message));
+    });
+    instance.on('data', data => {
+      logger.info('incoming data', data);
     });
   }
 

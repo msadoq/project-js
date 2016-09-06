@@ -2,22 +2,21 @@ import debug from '../utils/debug';
 import _ from 'lodash';
 import { BrowserWindow } from 'electron';
 import { delWindow } from '../actions/windows';
-const querystring = require('querystring');
+import { getStore } from './store';
 
 const logger = debug('main:windows');
 
 const windows = {};
 
-export function open(data, windowId, store) {
+export function open(data, windowId) {
   logger.info('opening window', windowId);
-  logger.error('opening window', process.env.PORT);
   const window = new BrowserWindow({
     show: false,
     x: data.geometry.x,
     y: data.geometry.y,
     width: data.geometry.width,
     height: data.geometry.height,
-    title: `${data.title} - VIMA`,
+    title: `${data.title} - VIMA`, // TODO
   });
 
   // prevent garbage collection
@@ -35,7 +34,7 @@ export function open(data, windowId, store) {
     window[windowId] = null;
 
     // update redux store
-    store.dispatch(delWindow(windowId));
+    getStore().dispatch(delWindow(windowId));
   });
 
   if (process.env.NODE_ENV === 'development') {
@@ -48,12 +47,12 @@ export function close(windowId) {
   windows[windowId].destroy();
 }
 
-export function sync(store) {
-  const list = store.getState().windows;
+export function sync() {
+  const list = getStore().getState().windows;
   const inStore = Object.keys(list);
   const opened = Object.keys(windows);
   const toOpen = _.difference(inStore, opened);
   const toClose = _.difference(opened, inStore);
-  toOpen.forEach(windowId => open(list[windowId], windowId, store));
+  toOpen.forEach(windowId => open(list[windowId], windowId));
   toClose.forEach(windowId => close(windowId));
 }

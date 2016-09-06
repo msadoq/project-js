@@ -13,6 +13,16 @@ export default class View extends Component {
     openEditor: PropTypes.func,
     unmountView: PropTypes.func,
   };
+  constructor(props) {
+    super(props);
+    console.log('CONSTRUCTOR', this.props.viewId);
+  }
+  componentDidMount() {
+    console.log('VIEW MOUNTED', this.props.viewId);
+  }
+  componentWillUnmount() {
+    console.log('VIEW UNMOUNTED', this.props.viewId);
+  }
   render() {
     const { type, viewId } = this.props;
     let component = null;
@@ -26,9 +36,8 @@ export default class View extends Component {
       component = <Unknown {...this.props} />;
     }
 
-    // TODO : inject geometry
     return (
-      <Col xs={12} className="b m5 p10">
+      <Col xs={12} className="p10">
         <h2>View {this.props.title}</h2>
         <Button onClick={() => this.props.openEditor()}>
           Edit this view

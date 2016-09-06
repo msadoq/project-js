@@ -1,7 +1,7 @@
 import React from 'react';
 import Window from '../components/Window';
-import { focusPage, addWindow, delWindow, mountPage, unmountPage } from '../actions/windows';
-import { addPage, delPage } from '../actions/pages';
+import { focusPage, addWindow, delWindow, mountPage, unmountPage } from '../store/actions/windows';
+import { addPage, delPage } from '../store/actions/pages';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 

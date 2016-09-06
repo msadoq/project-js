@@ -90,6 +90,7 @@
     "react": "^15.3.1",
     "react-bootstrap": "0.30.3",
     "react-dom": "^15.3.1",
+    "react-grid-layout": "^0.13.3",
     "react-redux": "^4.4.5",
     "react-stockcharts": "^0.5.0",
     "react-tabs-redux": "^1.2.2",

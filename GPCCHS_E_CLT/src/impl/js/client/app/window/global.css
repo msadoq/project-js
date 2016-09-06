@@ -2,6 +2,8 @@ body {
   position: relative;
   height: 100vh;
   font-family: Arial, Helvetica, Helvetica Neue;
+  background-color: #F1F1F1;
+  color: #222;
 }
 
 h2 {

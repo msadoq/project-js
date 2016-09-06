@@ -1,4 +1,4 @@
-import debug from '../utils/debug';
+import debug from '../app/utils/debug';
 const logger = debug('gpcchs_e_clt:client:communication:websocket-stub');
 
 let interval = null;

@@ -33,17 +33,13 @@ export default class AddView extends Component {
     return (
       <Form inline className={styles['add-view']}>
         <FormGroup controlId="addAView">
-          <ControlLabel>
-            add a view
-          </ControlLabel>
-          {' '}
           <FormControl
             componentClass="select"
             placeholder="select"
             defaultValue=""
             onChange={this.handleChange}
           >
-            <option key="" value={null}>{' '}</option>
+            <option key="" value={null}>Add a view</option>
             {_.map(views, (v, k) =>
               <option key={k} value={k}>
                 {v.title}
@@ -52,7 +48,7 @@ export default class AddView extends Component {
           </FormControl>
         </FormGroup>
         {' '}
-        <Button onClick={this.handleSubmit}>Add</Button>
+        <Button bsSize='small' onClick={this.handleSubmit}>Add</Button>
       </Form>
     );
   }

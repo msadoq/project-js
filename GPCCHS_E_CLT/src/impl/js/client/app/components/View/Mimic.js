@@ -9,7 +9,7 @@ export default class Mimic extends Component {
     updateContent: PropTypes.func,
   };
   constructor({...args}) {
-    super({...args});
+    super(...args);
     this.state = {
       purpleRy: 30,
       limeRy: 20,

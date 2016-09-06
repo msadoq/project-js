@@ -2,8 +2,8 @@ import React from 'react';
 import Page from '../components/Page';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { addView, delView } from '../actions/views';
-import { mountView, unmountView } from '../actions/pages';
+import { addView, delView } from '../store/actions/views';
+import { mountView, unmountView } from '../store/actions/pages';
 
 const PageContainer = props => <Page {...props} />;
 

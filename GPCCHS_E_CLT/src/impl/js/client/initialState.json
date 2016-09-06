@@ -5,7 +5,6 @@
       "focusedTab": "page1",
       "pages": [
         "page1",
-        "page4",
         "mimic"
       ],
       "geometry": {
@@ -29,16 +28,6 @@
         "view3"
       ]
     },
-    "page4": {
-      "title": "Page4",
-      "editor": {
-        "opened": false,
-        "viewId": null
-      },
-      "views": [
-        "view2"
-      ]
-    },
     "mimic": {
       "title": "Mimic",
       "editor": {
@@ -56,28 +45,52 @@
       "type": "plot",
       "content": "Hello world of all!",
       "subscriptions": [],
-      "visible": []
+      "visible": [],
+      "geometry": {
+        "x": 0,
+        "y": 0,
+        "w": 4,
+        "h": 4
+      }
     },
     "view2": {
       "title": "Title 2",
       "type": "plot",
       "content": "Hello world of me!",
       "subscriptions": [],
-      "visible" : []
+      "visible" : [],
+      "geometry": {
+        "x": 4,
+        "y": 0,
+        "w": 3,
+        "h": 4
+      }
     },
     "view3": {
       "title": "Title 3",
       "type": "text",
       "content": "Hello world of us!",
       "subscriptions": [],
-      "visible" : []
+      "visible" : [],
+      "geometry": {
+        "x": 2,
+        "y": 4,
+        "w": 2,
+        "h": 2
+      }
     },
     "mimicView": {
       "title": "test mimic",
       "type": "mimic",
       "content": null,
       "subscriptions": [],
-      "visible" : []
+      "visible" : [],
+      "geometry": {
+        "x": 0,
+        "y": 0,
+        "w": 4,
+        "h": 4
+      }
     }
   },
   "plots": {},

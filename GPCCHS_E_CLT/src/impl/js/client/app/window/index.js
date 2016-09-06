@@ -1,20 +1,18 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import WindowContainer from './containers/WindowContainer';
-import './app.global.css';
-import './shortcuts.global.css';
+import { initStore, getStore } from '../store/windowStore';
+import WindowContainer from '../containers/WindowContainer';
+import './global.css';
+import '../shortcuts.global.css';
 
 const search = global.location.search;
 const windowId = search.replace('?windowId=', '');
 
-const store = require('./store/rendererStore')(
-  null,
-  process.env.NODE_ENV === 'development'
-);
+initStore();
 
 render(
-  <Provider store={store}>
+  <Provider store={getStore()}>
     <WindowContainer windowId={windowId} />
   </Provider>,
   document.getElementById('root')

@@ -2,8 +2,8 @@ import React from 'react';
 import Editor from '../components/Editor';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { closeEditor } from '../actions/pages';
-import { switchSubVisibility, requestSub } from '../actions/views';
+import { closeEditor } from '../store/actions/pages';
+import { switchSubVisibility, requestSub } from '../store/actions/views';
 
 const EditorContainer = props => <Editor {...props} />;
 

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Button } from 'react-bootstrap';
+import { Label } from 'react-bootstrap';
 
 export default class Websocket extends Component {
   static propTypes = {
@@ -20,11 +20,13 @@ export default class Websocket extends Component {
     }
 
     return (
-      <div className="dib">
-        <Button bsStyle={style}>
-          status: {this.props.status}
+      <div className='dib ml5 mt5'>
+        main process websocket:
+        {' '}
+        <Label bsStyle={style}>{this.props.status}</Label>
+        <strong>
           {(this.props.err) ? `(Error: ${this.props.err.message})` : ''}
-        </Button>
+        </strong>
       </div>
     );
   }

@@ -1,8 +1,8 @@
 import debug from '../utils/debug';
 import _ from 'lodash';
 import { BrowserWindow } from 'electron';
-import { delWindow } from '../actions/windows';
-import { getStore } from './store';
+import { delWindow } from '../store/actions/windows';
+import { getStore } from '../store/mainStore';
 
 const logger = debug('main:windows');
 
@@ -22,7 +22,7 @@ export function open(data, windowId) {
   // prevent garbage collection
   windows[windowId] = window;
 
-  window.loadURL(`file://${__dirname}/../window.html?windowId=${windowId}`);
+  window.loadURL(`file://${__dirname}/../window/index.html?windowId=${windowId}`);
 
   window.webContents.on('did-finish-load', () => {
     window.show();

@@ -1,7 +1,7 @@
 import debug from '../utils/debug';
 import Primus from '../../../../../../../GPCCHS_D_SVR/src/impl/js/server/primus.client';
-import { mainWebsocketStatus } from '../actions/mainWebsocket';
-import { getStore } from './store';
+import { mainWebsocketStatus } from '../store/actions/mainWebsocket';
+import { getStore } from '../store/mainStore';
 
 const logger = debug('main:websocket');
 

@@ -2,6 +2,9 @@ import React, { PropTypes } from 'react';
 import { Nav, NavItem, Glyphicon } from 'react-bootstrap';
 import styles from './Navbar.css';
 
+/*
+  Barre de Navigation qui permet de changer d'onglet et de fermer l'éditeur.
+*/
 
 export default class EditorNavbar extends React.Component {
   static propTypes = {
@@ -14,9 +17,13 @@ export default class EditorNavbar extends React.Component {
     super(...args);
     this.state = { activeTab: this.props.currentDisplay };
   }
-  onNavItemClick(activeTab) {
-    this.setState({ 'activeTab': activeTab });
-    this.props.changeCurrentDisplay(activeTab);
+  /*
+    Fonction appelée lorsqu'un item a recu un évenement click.
+    Param tab : onglet à afficher.
+  */
+  onNavItemClick(tab) {
+    this.setState({ activeTab: tab });
+    this.props.changeCurrentDisplay(tab);
   }
   render() {
     let items = this.props.items.map((item, index) => (
@@ -36,7 +43,7 @@ export default class EditorNavbar extends React.Component {
       <Nav className={styles.navbar} bsStyle="tabs">
         {items}
         <NavItem className={[styles.navItem, styles.close]} onClick={this.props.closeEditor}>
-          <Glyphicon glyph='remove-circle' />
+          <Glyphicon glyph="remove-circle" />
         </NavItem>
       </Nav>
     );

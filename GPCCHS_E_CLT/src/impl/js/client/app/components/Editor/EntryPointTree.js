@@ -1,24 +1,40 @@
 import React from 'react';
-import AddEntryPoint from './AddEntryPoint';
 import EntryPointDetails from './EntryPointDetails';
 import styles from './EntryPointTree.css';
 
+/*
+  EntryPointTree liste les EntryPoints à afficher.
+  Permet également d'appliquer un filtre sur le nom
+*/
+
 export default class EntryPointTree extends React.Component {
   static propTypes = {
-    entryPoints: React.PropTypes.array
+    entryPoints: React.PropTypes.array,
+    search: React.PropTypes.string,
+    handleEntryPoint : React.PropTypes.func,
+    remove: React.PropTypes.func
   }
   constructor(...args) {
     super(...args);
     this.state = {};
   }
   render() {
-    let EntryPointsName = this.props.entryPoints.map(entryPoint =>
-      <EntryPointDetails key={entryPoint.name} entryPoint={entryPoint} />
+    const mask = `${this.props.search}.*`;
+    let EntryPointsName = this.props.entryPoints.map((entryPoint, key_) =>
+      ((entryPoint.name.match(mask)) ?
+        <EntryPointDetails
+          key={key_}
+          idPoint={key_}
+          entryPoint={entryPoint}
+          handleEntryPoint={this.props.handleEntryPoint}
+          remove={this.props.remove}
+        /> :
+        null
+      )
     );
     return (
       <div className={styles.entryPointsTree}>
         {EntryPointsName}
-        <AddEntryPoint />
       </div>
     );
   }

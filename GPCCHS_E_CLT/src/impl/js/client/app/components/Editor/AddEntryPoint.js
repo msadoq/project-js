@@ -1,7 +1,9 @@
 import React from 'react';
 import { Form, FormGroup, FormControl, InputGroup, Button, Glyphicon } from 'react-bootstrap';
 import styles from './AddEntryPoint.css';
-
+/*
+  A SUPPRIMER
+*/
 export default class AddEntryPoint extends React.Component {
   constructor(...args) {
     super(...args);
@@ -12,7 +14,7 @@ export default class AddEntryPoint extends React.Component {
   }
   addPoint() {
     if (this.state.name !== '') {
-        console.log(this.state.name);
+      console.log(this.state.name);
     }
   }
   render() {

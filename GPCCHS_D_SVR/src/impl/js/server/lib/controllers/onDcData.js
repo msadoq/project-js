@@ -1,4 +1,4 @@
-const debug = require('../io/debug')('controllers:onDcArchiveData');
+const debug = require('../io/debug')('controllers:onDcData');
 const async = require('async');
 const _ = require('lodash');
 const { decode } = require('../protobuf');
@@ -11,6 +11,8 @@ const cacheJsonModel = require('../models/cacheJson');
  * @param buffer
  */
 module.exports = buffer => {
+  debug.verbose('called');
+
   let message;
   let payloads;
   async.series([

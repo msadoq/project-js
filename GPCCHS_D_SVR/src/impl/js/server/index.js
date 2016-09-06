@@ -8,6 +8,8 @@ const app = require('./lib/express');
 const http = require('http');
 const zmq = require('./lib/io/zmq');
 const primus = require('./lib/io/primus');
+const onClientOpen = require('./lib/controllers/onClientOpen');
+const onClientClose = require('./lib/controllers/onClientClose');
 const onDcData = require('./lib/controllers/onDcData');
 const onTimeBarUpdate = require('./lib/controllers/onTimeBarUpdate');
 const onViewOpen = require('./lib/controllers/onViewOpen');
@@ -73,8 +75,12 @@ server.on('listening', () => {
 });
 
 // Primus
-primus.init(server, onViewOpen, onViewClose, {
-  viewUpdate: onViewUpdate,
+primus.init(server, {
+  onClientOpen,
+  onClientClose,
+  onViewOpen,
+  onViewClose,
+  onViewUpdate,
 });
 
 // ZeroMQ

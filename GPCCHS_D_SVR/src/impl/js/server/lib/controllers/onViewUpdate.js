@@ -1,4 +1,5 @@
+const debug = require('../io/debug')('controllers:onViewUpdate');
 
-module.exports = () => {
-  //
+module.exports = (spark, message) => {
+  debug.debug('called', spark.id, message);
 };

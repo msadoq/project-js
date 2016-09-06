@@ -1,4 +1,4 @@
-// const debug = require('../io/debug')('controllers:onTimeBarUpdate');
+const debug = require('../io/debug')('controllers:onTimeBarUpdate');
 const { get, set } = require('../timeBar/index');
 const tbUpdate = require('../timeBar/tbUpdate');
 
@@ -7,6 +7,7 @@ const tbUpdate = require('../timeBar/tbUpdate');
  * @param newTimebar
  */
 module.exports = buffer => {
+  debug.debug('called');
   // Convert buffer to string : Needed when using zmq
   let newTimebar;
   const string = buffer.toString();

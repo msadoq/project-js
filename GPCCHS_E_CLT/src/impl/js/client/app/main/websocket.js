@@ -14,6 +14,12 @@ export function connect() {
     instance.on('open', () => {
       logger.info('connected!');
       getStore().dispatch(mainWebsocketStatus('connected'));
+      instance.write({
+        event: 'identity',
+        payload: {
+          identity: 'main',
+        },
+      });
     });
     instance.on('close', () => {
       logger.info('closed!');

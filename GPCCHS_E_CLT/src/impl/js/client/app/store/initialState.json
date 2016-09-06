@@ -81,9 +81,6 @@
     }
   },
   "plots": {},
-  "websocket": {
-    "stub": false
-  },
   "subscriptions": {
     "waiting": 0
   }

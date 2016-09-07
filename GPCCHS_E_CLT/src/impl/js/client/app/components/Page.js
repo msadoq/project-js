@@ -1,11 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import ReactGridLayout, { Responsive, WidthProvider } from 'react-grid-layout';
+import { Responsive, WidthProvider } from 'react-grid-layout';
 import ViewContainer from '../containers/ViewContainer';
 import EditorContainer from '../containers/EditorContainer';
 import AddView from './Page/AddView';
 
 const GridLayout = WidthProvider(Responsive);
-// const GridLayout = WidthProvider(ReactGridLayout);
 
 // TODO : factorize grid-view in proper class
 // TODO : mount editor as fixed grid view
@@ -23,8 +22,6 @@ export default class Page extends Component {
   render() {
     const isEditorOpened = (this.props.editor
       && this.props.editor.opened === true);
-
-    console.log(this.props.views);
 
     const layouts = { lg: [] };
 

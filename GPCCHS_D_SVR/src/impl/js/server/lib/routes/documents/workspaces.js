@@ -2,26 +2,29 @@ const debug = require('../../io/debug')('documents:workspaces');
 const { Router } = require('express');
 const validatePathOrOId = require('../../middlewares/validatePathOrOId');
 const validFs = require('../../middlewares/validFs');
-
-const { validateWsJson } = require('../../schemaManager');
-const validateWorkspaceToPage = require('../../middlewares/validateWorkspaceToPage');
+const validatorJson = require('../../middlewares/validatorJson');
 
 const router = new Router();
 
 router.post('/workspaces', [
   validatePathOrOId,
   validFs,
-  validateWsJson,
-  validateWorkspaceToPage,
-],
+  validatorJson,
+  // validateWorkspaceToPage,
+], (req, res) => {
+  debug.debug('received', req.body, 'send', req.validated);
+  const response = {
+    data: {
+      content: req.validated.content,
+    },
+  };
 
-  (req, res) => {
-    debug.debug('received', req.body, 'send', req.validated);
-    const data = (req.validated.path)
-      ? { path: req.validated.path }
-      : { oId: req.validated.oId };
+  if (req.validated.path) {
+    response.data.path = req.validated.path;
+  } else {
+    response.data.oId = req.validated.oId;
+  }
+  res.json(response);
+});
 
-    const content = req.validated.reqValidatedPath;
-    return res.json({ data }, { content });
-  });
 module.exports = router;

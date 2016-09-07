@@ -7,6 +7,7 @@ const attachValidated = require('./middlewares/attachValidated');
 const errorHandler = require('./routes/error');
 const ApiError = require('./utils/apiError');
 
+
 const app = express();
 
 if (process.env.HTTP_LOGS === '1') {
@@ -19,11 +20,12 @@ app.use(contentType);
 app.use(linker);
 app.use(attachValidated);
 
+
 app.use('/api/', require('./routes/index'));
 app.use('/api/documents/', require('./routes/documents/pages'));
 app.use('/api/documents/', require('./routes/documents/views'));
 app.use('/api/documents/', require('./routes/documents/workspaces'));
-
+// app.use('api/documents/', require('./routes/documents/documents'));
 app.use((req, res, next) => next(new ApiError(404, 'Not Found')));
 app.use(errorHandler);
 

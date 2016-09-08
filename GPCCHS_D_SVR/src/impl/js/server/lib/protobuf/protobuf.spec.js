@@ -1,9 +1,10 @@
 const { should } = require('../utils/test');
-
 const protobuf = require('./index');
 const {
   encodeAttribute,
   decodeAttribute,
+  ushortToBytes,
+  bytesToUshort,
   uintToBytes,
   bytesToUint,
 } = require('./converters/lpisis/types');
@@ -122,6 +123,33 @@ describe('protobuf', () => {
           should.not.exist(bytesToUint(NaN));
           should.not.exist(bytesToUint(null));
           should.not.exist(bytesToUint());
+        });
+      });
+    });
+    describe('ushortToBytes/bytesToUshort', () => {
+      const number = 21;
+      let buffer;
+      describe('ushortToBytes', () => {
+        it('works', () => {
+          buffer = ushortToBytes(number);
+          (ByteBuffer.isByteBuffer(buffer)).should.equal(true);
+        });
+        it('invalid input', () => {
+          (() => ushortToBytes('string')).should.throw(Error);
+          (() => ushortToBytes(NaN)).should.throw(Error);
+          (() => ushortToBytes(null)).should.not.throw(Error);
+          (() => ushortToBytes()).should.not.throw(Error);
+        });
+      });
+      describe('bytesToUshort', () => {
+        it('works', () => {
+          bytesToUshort(buffer.toBuffer()).should.equal(number);
+        });
+        it('invalid input', () => {
+          should.not.exist(bytesToUshort('string'));
+          should.not.exist(bytesToUshort(NaN));
+          should.not.exist(bytesToUshort(null));
+          should.not.exist(bytesToUshort());
         });
       });
     });

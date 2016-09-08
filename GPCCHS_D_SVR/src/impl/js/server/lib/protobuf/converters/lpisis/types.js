@@ -95,17 +95,6 @@ module.exports = {
 
     return value;
   },
-  uintToBytes: number => {
-    if (_.isUndefined(number) || _.isNull(number)) {
-      return undefined;
-    }
-
-    if (!_.isNumber(number)) {
-      throw new Error(`Unable to convert '${number}' to int buffer`);
-    }
-
-    return new ByteBuffer().writeUint32(number).flip();
-  },
   ushortToBytes: number => {
     if (_.isUndefined(number) || _.isNull(number)) {
       return undefined;
@@ -115,18 +104,29 @@ module.exports = {
       throw new Error(`Unable to convert '${number}' to short buffer`);
     }
 
-    return new ByteBuffer().writeUint16(number).flip();
-  },
-  bytesToUint: buffer => {
-    if (!_.isBuffer(buffer)) {
-      return undefined;
-    }
-    return buffer.readUInt32LE();
+    return new ByteBuffer(null, true).writeUint16(number).flip();
   },
   bytesToUshort: buffer => {
     if (!_.isBuffer(buffer)) {
       return undefined;
     }
     return buffer.readUInt16LE();
+  },
+  uintToBytes: number => {
+    if (_.isUndefined(number) || _.isNull(number)) {
+      return undefined;
+    }
+
+    if (!_.isNumber(number)) {
+      throw new Error(`Unable to convert '${number}' to int buffer`);
+    }
+
+    return new ByteBuffer(null, true).writeUint32(number).flip();
+  },
+  bytesToUint: buffer => {
+    if (!_.isBuffer(buffer)) {
+      return undefined;
+    }
+    return buffer.readUInt32LE();
   },
 };

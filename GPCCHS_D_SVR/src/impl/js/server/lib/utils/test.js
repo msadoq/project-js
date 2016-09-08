@@ -39,6 +39,7 @@ const shouldBeApiError = (status, title, pointer) => res => {
 
 module.exports = {
   should: chai.should(),
+  expect: chai.expect,
   request,
   expressApp,
   postApiRequest,

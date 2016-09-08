@@ -17,8 +17,9 @@ describe('parseDataFullName', () => {
     should.not.exist(parseDataFullName('Reporting.ATT_BC_STR1VOLTAGE<>'));
     should.not.exist(parseDataFullName('Reporting.ATT_BC_STR1VOLTAGE'));
     should.not.exist(parseDataFullName('Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>x'));
+    should.not.exist(parseDataFullName('Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.'));
   });
-  it('works', () => {
+  it('works without field', () => {
     parseDataFullName('Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>')
       .should.be.an('object')
       .with.properties({
@@ -26,6 +27,18 @@ describe('parseDataFullName', () => {
         catalog: 'Reporting',
         parameter: 'ATT_BC_STR1VOLTAGE',
         type: 'ReportingParameter',
+        field: undefined,
+      });
+  });
+  it('works with field', () => {
+    parseDataFullName('Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue')
+      .should.be.an('object')
+      .with.properties({
+        dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue',
+        catalog: 'Reporting',
+        parameter: 'ATT_BC_STR1VOLTAGE',
+        type: 'ReportingParameter',
+        field: 'extractedValue',
       });
   });
 });

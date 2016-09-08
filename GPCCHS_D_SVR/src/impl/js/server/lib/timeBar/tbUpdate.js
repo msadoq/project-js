@@ -56,14 +56,21 @@ module.exports = (oldTb, newTb) => {
             case 'visuWindow':
               // Update of parameter of visuWindow
               createObjectParam(cmdList, 'visuWindowUpdate');
-              cmdList.visuWindowUpdate[current.path[2]] = current.rhs;
+              if (current.path[2] === 'current') {
+                cmdList.visuWindowUpdate.current = current.rhs;
+              } else {
+                createObjectParam(cmdList.visuWindowUpdate, 'bounds');
+                cmdList.visuWindowUpdate.bounds.lower = newTb.data.visuWindow.lower;
+                cmdList.visuWindowUpdate.bounds.upper = newTb.data.visuWindow.upper;
+              }
               break;
             case 'slideWindow':
               // Add slideWindow under visuWindowUpdate
               createObjectParam(cmdList, 'visuWindowUpdate');
               const visuW = cmdList.visuWindowUpdate;
               createObjectParam(visuW, 'slideWindow');
-              visuW.slideWindow[current.path[2]] = current.rhs;
+              cmdList.visuWindowUpdate.slideWindow.lower = newTimebar.data.slideWindow.lower;
+              cmdList.visuWindowUpdate.slideWindow.upper = newTimebar.data.slideWindow.upper;
               break;
             case 'extUpperBound':
               // Add extUpperBound under visuWindowUpdate
@@ -116,6 +123,14 @@ module.exports = (oldTb, newTb) => {
             if (element.kind === 'Session') addTlUpdate(cmdList, element, 'sessionId');
             else if (element.kind === 'Dataset') addTlUpdate(cmdList, element, 'dsPath');
             else if (element.kind === 'Recordset') addTlUpdate(cmdList, element, 'rsPath');
+          } else {
+            if (element.sessionId && oldTls[ind].sessionId !== element.sessionId) {
+              addTlUpdate(cmdList, element, 'sessionId');
+            } else if (element.dsPath && oldTls[ind].dsPath !== element.dsPath) {
+              addTlUpdate(cmdList, element, 'dsPath');
+            } else if (element.rsPath && oldTls[ind].rsPath !== element.rsPath) {
+              addTlUpdate(cmdList, element, 'rsPath');
+            }
           }
         }
       });

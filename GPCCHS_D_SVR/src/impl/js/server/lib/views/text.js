@@ -1,4 +1,14 @@
-const { addTimeline, removeTimeline } = require('./utils');
+const {
+  addTimeline,
+  removeTimeline,
+  getTimelineSessionId,
+  getTimelineByName,
+  getTimelineById,
+  updateDataFromTl,
+  updateData,
+} = require('./utils');
+const getTb = require('../timeBar/index').get;
+const parseDataFullName = require('../utils/parseDataFullName');
 
 function TextView(configuration) {
   this.spark = configuration.spark;
@@ -14,6 +24,9 @@ TextView.prototype.isType = function (type) {
 TextView.prototype.onTimebarUpdate = function (cmdList) {
   // TODO
   console.log('onTimebarUpdate text', cmdList);
+  const tb = getTb();
+  console.log('tb:',tb);
+
   for (key in cmdList) {
     const curKey = cmdList[key] ;
     switch (key) {
@@ -21,9 +34,15 @@ TextView.prototype.onTimebarUpdate = function (cmdList) {
         // Reacts only on current time update
         if (curKey.current) {
           this.conf.textViewEntryPoints.forEach((element, index, array) => {
-            // TODO update subscription
+            // TODO query
+            const visuBounds = {
+              lower: cmdList.visuWindowUpdate.current,
+              upper: cmdList.visuWindowUpdate.current,
+            };
+            const dataId = parseDataFullName(element.connectedData.formula);
+            updateData(tb.data.timeLines, element.connectedData, visuBounds, dataId,
+                       this.spark.write);
           });
-          console.log('current');
         }
         break;
       case 'timelineUpdate':
@@ -33,20 +52,18 @@ TextView.prototype.onTimebarUpdate = function (cmdList) {
         for (tlId in curKey.timeLines) {
           this.conf.textViewEntryPoints.forEach((element, index, array)=> {
             if (element.connectedData.timeline === tlId) {
-              // TODO update subscription
+              // TODO make query
             }
           });
         }
         break;
-      case 'modeUpdate':
+      case 'modeUpdate': // for optim
         break;
-      case 'playingStateUpdate':
-        // TODO Update subscription
+      case 'playingStateUpdate': // for optim
         break;
-      case 'speedUpdate':
-        // TODO Update subscription ?
+      case 'speedUpdate': // for optim
         break;
-      case 'timeSpecUpdate':
+      case 'timeSpecUpdate': // Not implemented yet
         break;
       case 'timelineAdded':
         this.conf.textViewEntryPoints.forEach((element, index, array) => {

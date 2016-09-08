@@ -1,7 +1,7 @@
 const {
   postApiRequest,
   shouldBeApiError,
-} = require('../../lib/utils/test');
+} = require('../../utils/test');
 const pathApi = require('path');
 
 const reqPathPV = pathApi.join(__dirname, '../../lib/schemaManager/examples/PV.example.json');

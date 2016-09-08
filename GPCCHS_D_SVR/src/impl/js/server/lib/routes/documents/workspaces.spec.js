@@ -1,7 +1,7 @@
 const {
   postApiRequest,
   shouldBeApiError,
-} = require('../../lib/utils/test');
+} = require('../../utils/test');
 const pathApi = require('path');
 
 const reqPathWksp = pathApi.join(__dirname, '../../lib/schemaManager/examples/WS.example.json');

@@ -1,7 +1,7 @@
 const {
   postApiRequest,
   shouldBeApiError,
-} = require('../../lib/utils/test');
+} = require('../../utils/test');
 const pathApi = require('path');
 
 const reqPathPage = pathApi.join(__dirname, '../../lib/schemaManager/examples/PG.example.json');

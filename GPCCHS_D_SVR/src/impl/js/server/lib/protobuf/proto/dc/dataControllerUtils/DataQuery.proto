@@ -3,9 +3,11 @@ package dataControllerUtils.protobuf;
 import "dataControllerUtils/TimeInterval.proto";
 import "dataControllerUtils/DataId.proto";
 
+
+//Query to archive, with parameter, filters, interval and sampling level (for plot) (eventually)
 message DataQuery {
 extensions 14 to 107;
   optional string id = 2;
-  optional DataId dataId = 3;
-  optional TimeInterval interval = 4;
+  required DataId dataId = 3;
+  required TimeInterval interval = 4;
 }

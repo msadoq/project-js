@@ -80,6 +80,8 @@ register({
       DataSubscribe: require('./converters/dc/dataSubscribe'),
       DcResponse: require('./converters/dc/dcResponse'),
       NewDataMessage: require('./converters/dc/newDataMessage'),
+      DomainQuery: require('./converters/dc/domainQuery'),
+      DomainResponse: require('./converters/dc/domainResponse'),
     },
   },
   lpisis: {
@@ -104,7 +106,6 @@ module.exports = {
   decode: (type, buffer) => {
     const builder = getType(type);
     const raw = builder.decode(buffer).toRaw();
-
     return builder.mapper
       ? removeEmpty(builder.mapper.decode(raw))
       : removeEmpty(raw);

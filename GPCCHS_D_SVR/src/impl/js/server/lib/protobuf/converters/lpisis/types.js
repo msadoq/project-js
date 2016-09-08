@@ -61,8 +61,8 @@ module.exports = {
       value = attribute._blob.value;
     } else if (attribute._boolean != null) {
       value = attribute._boolean.value;
-    } else if (attribute.float != null) {
-      value = attribute.float.value;
+    } else if (attribute._float != null) {
+      value = attribute._float.value;
     } else if (attribute._double != null) {
       value = attribute._double.value;
     } else if (attribute._identifier != null) {
@@ -106,11 +106,27 @@ module.exports = {
 
     return new ByteBuffer().writeUint32(number).flip();
   },
+  ushortToBytes: number => {
+    if (_.isUndefined(number) || _.isNull(number)) {
+      return undefined;
+    }
+
+    if (!_.isNumber(number)) {
+      throw new Error(`Unable to convert '${number}' to short buffer`);
+    }
+
+    return new ByteBuffer().writeUint16(number).flip();
+  },
   bytesToUint: buffer => {
     if (!_.isBuffer(buffer)) {
       return undefined;
     }
-
-    return buffer.readUInt32BE();
+    return buffer.readUInt32LE();
+  },
+  bytesToUshort: buffer => {
+    if (!_.isBuffer(buffer)) {
+      return undefined;
+    }
+    return buffer.readUInt16LE();
   },
 };

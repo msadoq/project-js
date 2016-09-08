@@ -1,0 +1,17 @@
+package dataControllerUtils.protobuf;
+
+//The parameter full identity 
+
+message DcClientMessage {
+extensions 15 to 107;
+
+  required string id = 1;
+  enum DcClientMessageType {
+    DATA_QUERY = 0;
+    DATA_SUBSCRIBE = 1;
+    DOMAIN_QUERY = 2;
+  }
+  
+  required DcClientMessageType messageType = 2;
+  required bytes payload = 3;
+}

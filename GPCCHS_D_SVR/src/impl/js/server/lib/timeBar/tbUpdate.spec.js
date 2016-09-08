@@ -1,9 +1,8 @@
-const expect = require('chai').expect;
-const should = require('chai').should;
-const tbUpdate = require('../../lib/timeBar/tbUpdate');
+const { should, expect } = require('../utils/test');
+const tbUpdate = require('./tbUpdate');
 
 // input data
-let tbRef = require('../../lib/schemaManager/examples/TB.example');
+let tbRef = require('../schemaManager/examples/TB.example');
 
 const tb1 = JSON.parse(JSON.stringify(tbRef));
 
@@ -16,10 +15,10 @@ describe('Timebar update', () => {
   it('visuWindow parameter update', () => {
     // tb1 update
     tb1.data.visuWindow.current += -1000;
-    tb1.data.visuWindow.lower += 2000;
+//    tb1.data.visuWindow.lower += 2000;
     tb1.data.visuWindow.upper += 3000;
     tb1.data.slideWindow.lower += 4000;
-    tb1.data.slideWindow.upper += 5000;
+//    tb1.data.slideWindow.upper += 5000;
     tb1.data.extUpperBound += 6000;
     // get updates
     cmdList = tbUpdate(tbRef,tb1);
@@ -27,21 +26,23 @@ describe('Timebar update', () => {
     cmdList.should.be.an('object');
     cmdList.should.have.property('visuWindowUpdate');
     cmdList.visuWindowUpdate.should.have.all.keys(
-      ['lower', 'upper', 'current', 'slideWindow', 'extUpperBound']
+      ['bounds', 'current', 'slideWindow', 'extUpperBound']
     );
     cmdList.visuWindowUpdate.current.should.equal(tb1.data.visuWindow.current);
-    cmdList.visuWindowUpdate.lower.should.equal(tb1.data.visuWindow.lower);
-    cmdList.visuWindowUpdate.upper.should.equal(tb1.data.visuWindow.upper);
+    cmdList.visuWindowUpdate.bounds.should.be.an('object').with.all.keys(['lower', 'upper']);
+    cmdList.visuWindowUpdate.bounds.lower.should.equal(tbRef.data.visuWindow.lower);
+    cmdList.visuWindowUpdate.bounds.upper.should.equal(tb1.data.visuWindow.upper);
     cmdList.visuWindowUpdate.extUpperBound.should.equal(tb1.data.extUpperBound);
     cmdList.visuWindowUpdate.slideWindow.should.be.an('object').with.all.keys(['lower', 'upper']);
     cmdList.visuWindowUpdate.slideWindow.lower.should.equal(tb1.data.slideWindow.lower);
-    cmdList.visuWindowUpdate.slideWindow.upper.should.equal(tb1.data.slideWindow.upper);
+    cmdList.visuWindowUpdate.slideWindow.upper.should.equal(tbRef.data.slideWindow.upper);
     // tbRef update
     tbRef = JSON.parse(JSON.stringify(tb1));
   });
   it('timeline parameter update', () => {
     // tb1 update
     tb1.data.timeLines[0].name = 'newTb1';
+    tb1.data.timeLines[0].offset = 2000;
     tb1.data.timeLines[1].offset = 1000;
     tb1.data.masterId = '5';
     tb1.data.offsetFromUTC = 100;
@@ -49,15 +50,16 @@ describe('Timebar update', () => {
     // get updates
     cmdList = tbUpdate(tbRef, tb1);
     // check updates
+    const id0 = tb1.data.timeLines[0].id ;
+    const id1 = tb1.data.timeLines[1].id ;
     cmdList.should.be.an('object').with.property('timelineUpdate');
     cmdList.timelineUpdate.should.have.all.keys(['timeLines', 'masterId', 'offsetFromUTC']);
-    cmdList.timelineUpdate.timeLines.should.be.an('array').with.lengthOf(2);
-    cmdList.timelineUpdate.timeLines[0].should.have.all.keys(['id', 'name']);
-    cmdList.timelineUpdate.timeLines[0].id.should.equal(tb1.data.timeLines[0].id);
-    cmdList.timelineUpdate.timeLines[0].name.should.equal(tb1.data.timeLines[0].name);
-    cmdList.timelineUpdate.timeLines[1].should.have.all.keys(['id', 'offset']);
-    cmdList.timelineUpdate.timeLines[1].id.should.equal(tb1.data.timeLines[1].id);
-    cmdList.timelineUpdate.timeLines[1].offset.should.equal(tb1.data.timeLines[1].offset);
+    cmdList.timelineUpdate.timeLines.should.be.an('object').with.all.keys([id0, id1]);
+    cmdList.timelineUpdate.timeLines[id0].should.have.all.keys(['offset', 'name']);
+    cmdList.timelineUpdate.timeLines[id1].should.have.all.keys(['offset']);
+    cmdList.timelineUpdate.timeLines[id0].name.should.equal('newTb1');
+    cmdList.timelineUpdate.timeLines[id0].offset.should.equal(2000);
+    cmdList.timelineUpdate.timeLines[id1].offset.should.equal(1000);
     cmdList.timelineUpdate.masterId.should.equal('5');
     cmdList.timelineUpdate.offsetFromUTC.should.equal(100);
     // tbRef update

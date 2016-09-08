@@ -1,0 +1,10 @@
+package dataControllerUtils.protobuf;
+
+message Domain {
+    optional string itemNamespace = 1;
+    optional string name = 2;
+    optional string oid = 3;
+    optional uint32 domainId = 4; //todo should be uint16 
+    optional uint32 parentDomainId = 5;
+    
+}

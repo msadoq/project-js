@@ -2,12 +2,16 @@ package dataControllerUtils.protobuf;
 
 import "dataControllerUtils/DataId.proto";
 
+
+// Subscription message for Real Time, specifies only the parameter. 
+// Time specified in TimeFilterMessage
+
 message DataSubscribe {
 extensions 14 to 107;
-  optional Action action = 1;
+  required Action action = 1;
   optional string id = 2;
-  optional DataId dataId = 4;
-
+  required DataId dataId = 4;
+  
   enum Action {
     ADD = 0;
     UPDATE = 1;

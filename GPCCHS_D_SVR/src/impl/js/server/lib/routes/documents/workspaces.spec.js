@@ -5,9 +5,10 @@ const {
 const pathApi = require('path');
 
 const reqPathWksp = pathApi.join(__dirname, '../../lib/schemaManager/examples/WS.example.json');
-const reqPathPage = pathApi.join(__dirname, '../../lib/schemaManager/examples/PG.example.json');
-const reqOIdOk = 'oId_to_test';
-const badPath = 'zzz';
+// const reqPathPage = pathApi.join(__dirname, '../../lib/schemaManager/examples/PG.example.json');
+const reqOIdWksp = 'oId_to_test';
+// const badPath = 'zzz';
+
 
 describe('POST API workspaces', () => {
   describe('success', done => {
@@ -16,18 +17,10 @@ describe('POST API workspaces', () => {
         .expect(res => {
           const body = res.body;
           body.should.be.an('object').and.have.property('data').that.is.an('object');
-          body.data.should.have.property({ path: reqPathWksp });
-        });
-    });
-        // console.log('CA PASSE?');
-    it('oId valid', () => {
-      postApiRequest('/api/documents/workspaces', { oId: reqOIdOk })
-      .expect(res => {
-        const body = res.body;
-        body.should.be.an('object').and.have.properties('data').that.is.an('object');
-        body.data.should.have.property({ oId: reqOIdOk });
-      })
-      .expect(200, done);
+          body.data.should.have.property('path', reqPathWksp || 'oId', reqOIdWksp);
+          body.data.should.have.property('content');
+        })
+        .expect(200, done);
     });
   });
   describe('error params', () => {
@@ -66,18 +59,18 @@ describe('POST API workspaces', () => {
         .expect(400, done);
     });
   });
-  describe('checks if workspace contains Page', done => {
-    it('no page', () => {
-      postApiRequest('/api/documents/workspaces',
-          { path: reqPathWksp, view: { path: badPath } })
-          .expect(shouldBeApiError(400, 'page doesnt exist for this workspace', '/body'))
-          .expect(400, done);
-    });
-    it('page exist', () => {
-      postApiRequest('/api/documents/workspaces',
-          { path: reqPathWksp, view: { path: reqPathPage } })
-          .expect(shouldBeApiError(400, 'Plotview found for this workspace', '/body'))
-          .expect(400, done);
-    });
-  });
+  // describe('checks if workspace contains Page', done => {
+  //   it('no page', () => {
+  //     postApiRequest('/api/documents/workspaces',
+  //         { path: reqPathWksp, view: { path: badPath } })
+  //         .expect(shouldBeApiError(400, 'page doesnt exist for this workspace', '/body'))
+  //         .expect(400, done);
+  //   });
+  //   it('page exist', () => {
+  //     postApiRequest('/api/documents/workspaces',
+  //         { path: reqPathWksp, view: { path: reqPathPage } })
+  //         .expect(shouldBeApiError(400, 'Plotview found for this workspace', '/body'))
+  //         .expect(400, done);
+  //   });
+  // });
 });

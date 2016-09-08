@@ -1,0 +1,18 @@
+package dataControllerUtils.protobuf;
+
+//The parameter full identity 
+
+message DcServerMessage {
+extensions 15 to 107;
+
+  // Id of the client message that triggered the Server message.
+  required string id = 1;
+  enum DcServerMessageType {
+    NEW_DATA_MESSAGE = 0;
+    DC_RESPONSE = 1;
+    DOMAIN_RESPONSE = 2;
+  }
+  
+  required DcServerMessageType messageType = 2;
+  required bytes payload = 3;
+}

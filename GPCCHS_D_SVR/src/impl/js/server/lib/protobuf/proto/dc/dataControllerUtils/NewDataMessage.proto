@@ -1,10 +1,13 @@
 package dataControllerUtils.protobuf;
 
-import "dataControllerUtils/DataId.proto";
 import "dataControllerUtils/DataPayload.proto";
+import "dataControllerUtils/DataId.proto";
 
+
+//Query to archive, with parameter, filters, interval and sampling level (for plot) (eventually)
 message NewDataMessage {
 extensions 14 to 107;
   required DataId dataId = 1;
   repeated DataPayload payloads = 2;
+  required string id = 3;
 }

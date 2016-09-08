@@ -2,8 +2,9 @@ package dataControllerUtils.protobuf;
 
 import "dataControllerUtils/Timestamp.proto";
 
+
 message TimeInterval {
 extensions 5 to 107;
-  optional Timestamp lowerTs = 1;
-  optional Timestamp upperTs = 2;
+    optional Timestamp lowerTs = 1;
+    optional Timestamp upperTs = 2;
 }

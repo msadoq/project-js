@@ -1,7 +1,7 @@
 require('dotenv-safe').load();
 
 // disable HTTP server logs for test run
-process.env.HTTP_LOGS = 0;
+process.env.HTTP_LOGS = 1;
 
 const chai = require('chai'); // eslint-disable-line import/no-extraneous-dependencies
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -39,6 +39,7 @@ const shouldBeApiError = (status, title, pointer) => res => {
 
 module.exports = {
   should: chai.should(),
+  expect: chai.expect,
   request,
   expressApp,
   postApiRequest,

@@ -1,4 +1,4 @@
-const { encodeAttribute, decodeAttribute, uintToBytes, bytesToUint } = require('./types');
+const { encodeAttribute, decodeAttribute, uintToBytes, bytesToUint , bytesToUshort} = require('./types');
 
 module.exports = {
   encode: data => ({
@@ -20,8 +20,8 @@ module.exports = {
     convertedValue: decodeAttribute(data.convertedValue),
     rawValue: decodeAttribute(data.rawValue),
     extractedValue: decodeAttribute(data.extractedValue),
-    triggerOnCounter: bytesToUint(data.triggerOnCounter.value),
-    triggerOffCounter: bytesToUint(data.triggerOffCounter.value),
+    triggerOnCounter: bytesToUshort(data.triggerOnCounter.value),
+    triggerOffCounter: bytesToUshort(data.triggerOffCounter.value),
     monitoringState: data.monitoringState,
     validityState: data.validityState,
     isObsolete: data.isObsolete.value,

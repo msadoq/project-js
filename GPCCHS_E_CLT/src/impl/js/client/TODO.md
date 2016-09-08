@@ -4,15 +4,16 @@
  * windows/page/view configuration, geometry and focus
  * main websocket state
 
-* Main
-  * [ ] Implement a main websocket adapter, sync with store
+* Open real world workspace document example!
+  - in main process empty initial state (no window)
+  - open websocket, on open send a open workspace message to HSS
+  - if receive document : convert and put in redux store (=windows open)
+  - else : open file picker
 
 * React/redux
-  * [=] Add view component w/ https://github.com/STRML/react-grid-layout OR https://github.com/bokuweb/react-resizable-and-movable
   * [=] Etudier webview electron (http://electron.atom.io/docs/api/web-view-tag/)
-  * [ ] Add geometry saving for views
   * [ ] Add geometry saving for windows
-  * [ ] Add focus saving for page
+  * [ ] Add focus and view geometry saving for page
   * [ ] Pass component display size to plotview: https://www.npmjs.com/package/react-dimensions
 
 * [ ] Introduce updeep https://github.com/substantial/updeep

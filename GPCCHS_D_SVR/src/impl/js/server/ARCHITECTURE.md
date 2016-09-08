@@ -130,23 +130,19 @@ Inform HSS with new view dimension and view visibility:
 
 /!\ Already in cache data search doesn't works for realtime data, we should trace that realtime data was received
 
-### New archive data from DC
+### New data from DC (onDcData)
 
-* On each incoming **dataQuery** HSS:
-  - set corresponding **requestedIntervals** as received
-  - insert records in **cacheJson**
-  - determine if data should be send to HSC view (based on TB position and view type)
-  - apply filters on data
-  - send data to HSC view (**displayData**)
+* decode protobuf
+* if protobuf has 'realtime' flag:
+ - if this data corresponds to a known **requestedIntervals** insert records in **cacheJson**
+* if protobuf hasn't 'realtime' field:
+ - insert records in **cacheJson**
+ - if protobuf has 'finish' field:
+   - set corresponding **requestedIntervals** as received
+* call .onDcData(data) on each view
 
-### New realtime data from DC
-
-* On each incoming **dataRealtime** HSS:
-  - same as [New archive data from DC](New archive data from DC) without **requestedIntervals** step
- 
 ### TB change
 
-// 1. [Inform each view of the new timebar position (if needed)]
 // 1. HSS loop on each opened view and determine if data is already present
 
 * On each incoming TB **timeBarConfiguration** message HSS loop on views and depending view type:

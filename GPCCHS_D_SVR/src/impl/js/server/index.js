@@ -21,7 +21,7 @@ const tbStub = require('./lib/stubs/tb');
 const fs = require('fs');
 const path = require('path');
 const check = require('./lib/schemaManager');
-const { set } = require('./lib/timeBar/index');
+const { setTimebar } = require('./lib/timeBar/index');
 
 // port
 function normalizePort(val) {
@@ -121,7 +121,7 @@ zmq.open({
       debug.error('Invalid JSON file');
       throw new Error('Invalid JSON file');
     }
-    set(JSON.parse(JSON.stringify(tb)));
+    setTimebar(JSON.parse(JSON.stringify(tb)));
     tbStub(tb, launchStubError => {
       if (launchStubError) {
         throw launchStubError;

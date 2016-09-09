@@ -1,141 +1,140 @@
-const { should, expect } = require('../utils/test');
-const tbUpdate = require('./tbUpdate');
+const { expect } = require('../utils/test');
+const compareTimebars = require('./tbUpdate');
 
 // input data
 let tbRef = require('../schemaManager/examples/TB.example');
 
 const tb1 = JSON.parse(JSON.stringify(tbRef));
 
-let cmdList;
+let differences;
 /* eslint-disable no-unused-expressions */
 describe('Timebar update', () => {
   it('No update', () => {
-    expect(tbUpdate(tbRef, tbRef)).to.be.undefined;
+    expect(compareTimebars(tbRef, tbRef)).to.be.undefined;
   });
   it('visuWindow parameter update', () => {
     // tb1 update
-    tb1.data.visuWindow.current += -1000;
-//    tb1.data.visuWindow.lower += 2000;
-    tb1.data.visuWindow.upper += 3000;
-    tb1.data.slideWindow.lower += 4000;
-//    tb1.data.slideWindow.upper += 5000;
-    tb1.data.extUpperBound += 6000;
+    tb1.visuWindow.current += -1000;
+    tb1.visuWindow.upper += 3000;
+    tb1.slideWindow.lower += 4000;
+    tb1.extUpperBound += 6000;
     // get updates
-    cmdList = tbUpdate(tbRef,tb1);
+    differences = compareTimebars(tbRef, tb1);
     // check updates
-    cmdList.should.be.an('object');
-    cmdList.should.have.property('visuWindowUpdate');
-    cmdList.visuWindowUpdate.should.have.all.keys(
+    differences.should.be.an('object');
+    differences.should.have.property('visuWindowUpdate');
+    differences.visuWindowUpdate.should.have.all.keys(
       ['bounds', 'current', 'slideWindow', 'extUpperBound']
     );
-    cmdList.visuWindowUpdate.current.should.equal(tb1.data.visuWindow.current);
-    cmdList.visuWindowUpdate.bounds.should.be.an('object').with.all.keys(['lower', 'upper']);
-    cmdList.visuWindowUpdate.bounds.lower.should.equal(tbRef.data.visuWindow.lower);
-    cmdList.visuWindowUpdate.bounds.upper.should.equal(tb1.data.visuWindow.upper);
-    cmdList.visuWindowUpdate.extUpperBound.should.equal(tb1.data.extUpperBound);
-    cmdList.visuWindowUpdate.slideWindow.should.be.an('object').with.all.keys(['lower', 'upper']);
-    cmdList.visuWindowUpdate.slideWindow.lower.should.equal(tb1.data.slideWindow.lower);
-    cmdList.visuWindowUpdate.slideWindow.upper.should.equal(tbRef.data.slideWindow.upper);
+    differences.visuWindowUpdate.current.should.equal(tb1.visuWindow.current);
+    differences.visuWindowUpdate.bounds.should.be.an('object').with.all.keys(['lower', 'upper']);
+    differences.visuWindowUpdate.bounds.lower.should.equal(tbRef.visuWindow.lower);
+    differences.visuWindowUpdate.bounds.upper.should.equal(tb1.visuWindow.upper);
+    differences.visuWindowUpdate.extUpperBound.should.equal(tb1.extUpperBound);
+    differences.visuWindowUpdate.slideWindow.should.be.an('object')
+      .with.all.keys(['lower', 'upper']);
+    differences.visuWindowUpdate.slideWindow.lower.should.equal(tb1.slideWindow.lower);
+    differences.visuWindowUpdate.slideWindow.upper.should.equal(tbRef.slideWindow.upper);
     // tbRef update
     tbRef = JSON.parse(JSON.stringify(tb1));
   });
   it('timeline parameter update', () => {
     // tb1 update
-    tb1.data.timeLines[0].name = 'newTb1';
-    tb1.data.timeLines[0].offset = 2000;
-    tb1.data.timeLines[1].offset = 1000;
-    tb1.data.masterId = '5';
-    tb1.data.offsetFromUTC = 100;
+    tb1.timeLines[0].name = 'newTb1';
+    tb1.timeLines[0].offset = 2000;
+    tb1.timeLines[1].offset = 1000;
+    tb1.masterId = '5';
+    tb1.offsetFromUTC = 100;
     // console.log('\n\ntb1: ',tb1);
     // get updates
-    cmdList = tbUpdate(tbRef, tb1);
+    differences = compareTimebars(tbRef, tb1);
     // check updates
-    const id0 = tb1.data.timeLines[0].id ;
-    const id1 = tb1.data.timeLines[1].id ;
-    cmdList.should.be.an('object').with.property('timelineUpdate');
-    cmdList.timelineUpdate.should.have.all.keys(['timeLines', 'masterId', 'offsetFromUTC']);
-    cmdList.timelineUpdate.timeLines.should.be.an('object').with.all.keys([id0, id1]);
-    cmdList.timelineUpdate.timeLines[id0].should.have.all.keys(['offset', 'name']);
-    cmdList.timelineUpdate.timeLines[id1].should.have.all.keys(['offset']);
-    cmdList.timelineUpdate.timeLines[id0].name.should.equal('newTb1');
-    cmdList.timelineUpdate.timeLines[id0].offset.should.equal(2000);
-    cmdList.timelineUpdate.timeLines[id1].offset.should.equal(1000);
-    cmdList.timelineUpdate.masterId.should.equal('5');
-    cmdList.timelineUpdate.offsetFromUTC.should.equal(100);
+    const id0 = tb1.timeLines[0].id;
+    const id1 = tb1.timeLines[1].id;
+    differences.should.be.an('object').with.property('timelineUpdate');
+    differences.timelineUpdate.should.have.all.keys(['timeLines', 'masterId', 'offsetFromUTC']);
+    differences.timelineUpdate.timeLines.should.be.an('object').with.all.keys([id0, id1]);
+    differences.timelineUpdate.timeLines[id0].should.have.all.keys(['offset', 'name']);
+    differences.timelineUpdate.timeLines[id1].should.have.all.keys(['offset']);
+    differences.timelineUpdate.timeLines[id0].name.should.equal('newTb1');
+    differences.timelineUpdate.timeLines[id0].offset.should.equal(2000);
+    differences.timelineUpdate.timeLines[id1].offset.should.equal(1000);
+    differences.timelineUpdate.masterId.should.equal('5');
+    differences.timelineUpdate.offsetFromUTC.should.equal(100);
     // tbRef update
     tbRef = JSON.parse(JSON.stringify(tb1));
   });
   it('timeline addition', () => {
     // tb1 update
     const nb = Math.floor(Math.random() * 100);
-    const tlName = 'Session ' + nb.toString();
+    const tlName = 'Session ${nb}';
     const newTl = {
       id: nb,
       name: tlName,
       offset: 0,
       kind: 'Session',
-      sessionId: nb
+      sessionId: nb,
     };
-    tb1.data.timeLines.unshift(newTl);
+    tb1.timeLines.unshift(newTl);
     const newTl2 = JSON.parse(JSON.stringify(newTl));
     newTl2.id = nb + 1;
-    tb1.data.timeLines.push(newTl2);
+    tb1.timeLines.push(newTl2);
     // get updates
-    cmdList = tbUpdate(tbRef, tb1);
+    differences = compareTimebars(tbRef, tb1);
     // check updates
-    cmdList.should.be.an('object').with.property('timelineAdded');
-    cmdList.timelineAdded.should.be.an('array').with.lengthOf(2);
-    cmdList.timelineAdded[0].should.deep.equal(newTl);
-    cmdList.timelineAdded[1].should.deep.equal(newTl2);
+    differences.should.be.an('object').with.property('timelineAdded');
+    differences.timelineAdded.should.be.an('array').with.lengthOf(2);
+    differences.timelineAdded[0].should.deep.equal(newTl);
+    differences.timelineAdded[1].should.deep.equal(newTl2);
     // tbRef update
     tbRef = JSON.parse(JSON.stringify(tb1));
   });
   it('timeline deletion', () => {
     // tb1 update
-    const tl1 = tb1.data.timeLines.splice(0,1);
-    const tl2 = tb1.data.timeLines.splice(tb1.data.timeLines.length-1,1);
+    const tl1 = tb1.timeLines.splice(0, 1);
+    const tl2 = tb1.timeLines.splice(tb1.timeLines.length - 1, 1);
     // get updates
-    cmdList = tbUpdate(tbRef, tb1);
+    differences = compareTimebars(tbRef, tb1);
     // check updates
-    cmdList.should.be.an('object').with.property('timelineRemoved');
-    cmdList.timelineRemoved.should.be.an('array').with.lengthOf(2);
-    cmdList.timelineRemoved[0].should.deep.equal(tl1[0]);
-    cmdList.timelineRemoved[1].should.deep.equal(tl2[0]);
+    differences.should.be.an('object').with.property('timelineRemoved');
+    differences.timelineRemoved.should.be.an('array').with.lengthOf(2);
+    differences.timelineRemoved[0].should.deep.equal(tl1[0]);
+    differences.timelineRemoved[1].should.deep.equal(tl2[0]);
     // tbRef update
     tbRef = JSON.parse(JSON.stringify(tb1));
   });
   it('other simple parameters update', () => {
     // tb1 update
-    tb1.data.mode = 'Extended';
-    tb1.data.playingState = 'replay';
-    tb1.data.speed = 5;
-    tb1.data.timeSpec = 'UTC';
+    tb1.mode = 'Extended';
+    tb1.playingState = 'replay';
+    tb1.speed = 5;
+    tb1.timeSpec = 'UTC';
     // get updates
-    cmdList = tbUpdate(tbRef, tb1);
+    differences = compareTimebars(tbRef, tb1);
     // check updates
-    cmdList.should.be.an('object').with.all.keys(
+    differences.should.be.an('object').with.all.keys(
       ['modeUpdate', 'playingStateUpdate', 'speedUpdate', 'timeSpecUpdate']);
-    cmdList.modeUpdate.should.equal('Extended');
-    cmdList.playingStateUpdate.should.equal('replay');
-    cmdList.speedUpdate.should.equal(5);
-    cmdList.timeSpecUpdate.should.equal('UTC');
+    differences.modeUpdate.should.equal('Extended');
+    differences.playingStateUpdate.should.equal('replay');
+    differences.speedUpdate.should.equal(5);
+    differences.timeSpecUpdate.should.equal('UTC');
     // tbRef update
     tbRef = JSON.parse(JSON.stringify(tb1));
   });
   it('action = initialUpd', () => {
     // tb1 update
-    tb1.data.action = 'initialUpd';
+    tb1.action = 'initialUpd';
     // get updates
-    cmdList = tbUpdate(tbRef, tb1);
+    differences = compareTimebars(tbRef, tb1);
     // check updates
-    expect(cmdList).to.be.undefined;
+    expect(differences).to.be.undefined;
   });
   it('action = tbSaving', () => {
     // tb1 update
-    tb1.data.action = 'tbSaving';
+    tb1.action = 'tbSaving';
     // get updates
-    cmdList = tbUpdate(tbRef, tb1);
+    differences = compareTimebars(tbRef, tb1);
     // check updates
-    expect(cmdList).to.be.undefined;
+    expect(differences).to.be.undefined;
   });
 });

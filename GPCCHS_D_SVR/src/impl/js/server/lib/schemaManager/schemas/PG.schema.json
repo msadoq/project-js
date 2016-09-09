@@ -4,61 +4,77 @@
         "geometry": {
             "type": "object",
             "properties": {
-                "kind": {"type": "string", "default": "Relative", "enum": ["Relative", "Absolute"]},
-                "x": {"type": "number"},
-                "y": {"type": "number"},
-                "w": {"type": "number"},
-                "h": {"type": "number"}
+                "kind": {
+                    "type": "string",
+                    "default": "Relative",
+                    "enum": ["Relative", "Absolute"]
+                },
+                "x": {
+                    "type": "number"
+                },
+                "y": {
+                    "type": "number"
+                },
+                "w": {
+                    "type": "number"
+                },
+                "h": {
+                    "type": "number"
+                }
             },
             "required": ["kind", "x", "y", "w", "h"],
             "additionalProperties": false
         },
         "docLocation": {
-            "oneOf": [
-                {
-                    "properties": {
-                        "oId": {"type": "string"}
-                    },
-                    "required": ["oId"]
+            "oneOf": [{
+                "properties": {
+                    "oId": {
+                        "type": "string"
+                    }
                 },
-                {
-                    "properties": {
-                        "path": {"type": "string"}
-                    },
-                    "required": ["path"]
-                }
-            ]
+                "required": ["oId"]
+            }, {
+                "properties": {
+                    "path": {
+                        "type": "string"
+                    }
+                },
+                "required": ["path"]
+            }]
         },
         "view": {
-            "allOf": [
-                {"$ref": "#/definitions/docLocation"},
-                {
-                    "properties": {
-                        "geometry": {"$ref": "#/definitions/geometry"},
-                        "windowState": {"type": "string", "default": "Normalized","enum": ["Minimized", "Normalized", "Maximized"]}
+            "allOf": [{
+                "$ref": "#/definitions/docLocation"
+            }, {
+                "properties": {
+                    "geometry": {
+                        "$ref": "#/definitions/geometry"
                     },
-                    "required": ["geometry", "windowState"]
-                }
-            ]
+                    "windowState": {
+                        "type": "string",
+                        "default": "Normalized",
+                        "enum": ["Minimized", "Normalized", "Maximized"]
+                    }
+                },
+                "required": ["geometry", "windowState"]
+            }]
         }
     },
 
     "type": "object",
     "properties": {
-        "data": {
-            "type": "object",
-            "properties": {
-                "type": {"type": "string", "enum": ["Page"]},
-                "attributes": {
-                    "type": "object",
-                    "properties": {
-                        "hideBorders": {"type": "boolean", "default": false},
-                        "views": {
-                            "type": "array",
-                            "items": {"$ref": "#/definitions/view"}
-                        }
-                    }
-                }
+        "type": {
+            "type": "string",
+            "enum": ["Page"]
+        },
+        "hideBorders": {
+            "type": "boolean",
+            "default": false
+        },
+        "views": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/view"
             }
         }
     }

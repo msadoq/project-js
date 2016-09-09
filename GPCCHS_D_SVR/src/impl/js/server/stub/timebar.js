@@ -4,35 +4,40 @@ require('dotenv-safe').load();
 
 const debug = require('../lib/io/debug')('stub:timebar');
 const zmq = require('../lib/io/zmq');
-const parseArgs = require('minimist');
+const parseArgs = require('minimist'); // eslint-disable-line  no-extraneous-dependencies
 
 const exit = require('exit');
 
 const usage = () =>
-  console.log('USAGE: node timebar.js [ -h | --help ] [ -forward time (in ms) | -f time (in ms) ]\
-          [ -addtimeline | -a ] [ -removetimeline | -r ][ -offset val (in ms)| -o val (in ms)]');
-
-const FORWARD = 1000;
-const OFFSET = 1000;
+  debug.debug('USAGE: node timebar.js [ -h | --help ] [ -forward time (in ms) | -f time (in ms) ]',
+          '[ -addtimeline | -a ] [ -removetimeline | -r ][ -offset val (in ms)| -o val (in ms)]');
 
 // options definitions
 const options = {
-  boolean: 'h',
-  boolean: 'a',
-  boolean: 'r',
-  number: 'o',
-  number: 'f',
-  default: {
-    h: false,
-    a: false,
-    r: false,
+  help: {
+    type: 'boolean',
+    alias: 'h',
+    default: false,
   },
-  alias: {
-    h: 'help',
-    f: 'forward',
-    a: 'addtimeline',
-    r: 'removetimeline',
-    o: 'offset'
+  forward: {
+    type: 'number',
+    alias: 'f',
+    default: 0,
+  },
+  addTimeline: {
+    type: 'boolean',
+    alias: 'a',
+    default: false,
+  },
+  removeTimeline: {
+    type: 'boolean',
+    alias: 'r',
+    default: false,
+  },
+  offset: {
+    type: 'number',
+    alias: 'o',
+    default: 0,
   },
 };
 
@@ -42,7 +47,7 @@ if (argv.h) {
   usage();
   process.exit(1);
 }
-let cmdList = {};
+const cmdList = {};
 if (argv.f) {
   // Update current TB
   cmdList.currentTimeUpd = argv.f;
@@ -50,9 +55,9 @@ if (argv.f) {
 if (argv.a) {
   // Add a timeline
   const nb = Math.floor(Math.random() * 100);
-  const tlName = 'Session ' + nb.toString();
+  const tlName = `Session ${nb}`;
   cmdList.tlAdded = {
-    id: nb,
+    id: nb.toString(),
     name: tlName,
     offset: 0,
     kind: 'Session',

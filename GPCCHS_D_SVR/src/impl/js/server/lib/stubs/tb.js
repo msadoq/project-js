@@ -1,12 +1,12 @@
 const zmq = require('../io/zmq');
 const debug = require('../io/debug')('stub:tb');
-const { get, set } = require('../timeBar/index');
+const _ = require('lodash');
 
-let tb ;
+let tb;
 
 function onTbStubUpdate(buffer) {
   // Convert buffer to string : Needed when using zmq
-  let cmdList ;
+  let cmdList;
   const string = buffer.toString();
   try {
     cmdList = JSON.parse(string);
@@ -15,32 +15,35 @@ function onTbStubUpdate(buffer) {
     throw (err);
   }
   // Timebar Update
-  for (item in cmdList) {
-    tb.data.action = item;
-    switch (item) {
+  _.each(cmdList, (param, command) => {
+    tb.action = command;
+    switch (command) {
       case 'currentTimeUpd':
-        tb.data.visuWindow.current += cmdList[item];
+        tb.visuWindow.current += param;
         break;
       case 'tlAdded':
-        tb.data.timeLines.push(cmdList[item]);
+        tb.timeLines.push(param);
         break;
       case 'tlRemoved':
-        if (cmdList[item] == 0) tb.data.timeLines.splice(0,1);
-        else tb.data.timeLines.splice(tb.data.timeLines.length-1,1);
+        if (param === 0) {
+          tb.timeLines.splice(0, 1);
+        } else {
+          tb.timeLines.splice(tb.timeLines.length - 1, 1);
+        }
         break;
       case 'tlOffsetUpd':
-        for (let i = 0; i < tb.data.timeLines.length; i++) {
-          tb.data.timeLines[i].offset += cmdList[item];
+        for (let i = 0; i < tb.timeLines.length; i++) {
+          tb.timeLines[i].offset += param;
         }
         break;
       default:
-        debug.error('Command', item, 'not implemented in stub!');
+        debug.error('Command ${command} not implemented in stub!');
     }
-  }
+  });
   // Send new tb;
   zmq.push('timebarPush', JSON.stringify(tb), () => {
     debug.info('tb updated sent');
-  })
+  });
 }
 
 module.exports = (tbInit, callback) => {

@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react';
+import _ from 'lodash';
 import { Col, Button } from 'react-bootstrap';
-import Plot from './View/Plot';
-import Text from './View/Text';
-import Mimic from './View/Mimic';
 import Unknown from './View/Unknown';
+import external from '../../external.modules';
 
 export default class View extends Component {
   static propTypes = {
@@ -13,28 +12,16 @@ export default class View extends Component {
     openEditor: PropTypes.func,
     unmountView: PropTypes.func,
   };
-  constructor(props) {
-    super(props);
-    console.log('CONSTRUCTOR', this.props.viewId);
-  }
-  componentDidMount() {
-    console.log('VIEW MOUNTED', this.props.viewId);
-  }
-  componentWillUnmount() {
-    console.log('VIEW UNMOUNTED', this.props.viewId);
-  }
   render() {
     const { type, viewId } = this.props;
-    let component = null;
-    if (type === 'plot') {
-      component = <Plot {...this.props} />;
-    } else if (type === 'text') {
-      component = <Text {...this.props} />;
-    } else if (type === 'mimic') {
-      component = <Mimic {...this.props} />;
-    } else {
-      component = <Unknown {...this.props} />;
+
+    if (!_.has(external, type)) {
+      // TODO : handle unknown view placeholder
+      throw new Error(`Unknown view type requested '${type}'`);
     }
+
+    const ViewTypeComponent = _.has(external, type) ? external[type] : Unknown;
+    const component = <ViewTypeComponent {...this.props} />
 
     return (
       <Col xs={12} className="p10">

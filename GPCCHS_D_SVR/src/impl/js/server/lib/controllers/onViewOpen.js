@@ -1,31 +1,21 @@
 const debug = require('../io/debug')('controllers:onViewOpen');
+const _ = require('lodash');
 const viewsModel = require('../models/views');
-const PlotView = require('../views/plot');
-const TextView = require('../views/text');
-
+const external = require('../../external.modules');
 
 module.exports = (spark, identity, type, conf) => {
   debug.debug('called');
-  // TODO view type
-  let instance;
-  switch (type) {
-    case 'plot':
-      instance = new PlotView({
-        spark,
-        identity,
-        conf,
-      });
-      break;
-    case 'text':
-      instance = new TextView({
-        spark,
-        identity,
-        conf,
-      });
-      break;
-    default:
-      console.log('unknown view');
-      return;
+
+  if (!_.has(external, type)) {
+    throw new Error(`Unknown view type requested '${type}'`);
   }
+
+  const constructor = external[type];
+  const instance = new constructor({
+    spark,
+    identity,
+    conf,
+  });
+
   viewsModel.addRecord(spark.id, instance);
 };

@@ -1,4 +1,4 @@
-const debug = require('../io/debug')('subscriptionManager:intervals');
+const debug = require('../lib/io/debug')('subscriptionManager:intervals');
 
 const lowerSort = (obj1, obj2) => {
   let returnValue = null;

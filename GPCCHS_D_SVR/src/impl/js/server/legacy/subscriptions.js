@@ -8,7 +8,7 @@ const validateVisuWindow = require('../lib/middlewares/validateVisuWindow');
 const validateField = require('../lib/middlewares/validateField');
 const validateVisuSpeed = require('../lib/middlewares/validateVisuSpeed');
 const validateFilters = require('../lib/middlewares/validateFilters');
-const createSubscription = require('../lib/subscriptionManager/createSubscription');
+const createSubscription = require('createSubscription');
 
 const router = new Router();
 
@@ -17,16 +17,16 @@ const router = new Router();
  *
  * Required parameters:
  * - dataFullName (str)
- * - domainId (int) // TODO : should be retrieved on DC on app launching
+ * - domainId (int)
  * - timeLineType enum('session', 'recordSet', 'dataSet')
  * - sessionId (only if timeLineType is 'session')
  * - setFileName (only if timeLineType is 'recordSet' or 'dataSet')
- * - subscriptionState enum('play', 'pause') // TODO : seems not used by DC
+ * - subscriptionState enum('play', 'pause')
  * - visuWindow ({ lower (int), upper (int)})
  *
  * Optionnal parameters:
  * - field (str)
- * - visuSpeed (int) // TODO we don't care on DC
+ * - visuSpeed (int)
  * - filter ({ dataFullName (str), field (str), operator (enum), value (string|number) })
  */
 router.post('/subscriptions', [
@@ -40,7 +40,6 @@ router.post('/subscriptions', [
   validateFilters,
 ], (req, res) => {
   debug.debug('received', req.body, 'send', req.validated);
-  // TODO : concurency problem, DC data is send before view is ready
   const subscriptionId = createSubscription(req.validated);
   debug.debug('return subscriptionId', subscriptionId);
   return res.json({

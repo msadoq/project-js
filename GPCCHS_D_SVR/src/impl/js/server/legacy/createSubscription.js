@@ -1,9 +1,9 @@
-const debug = require('../io/debug')('subscriptionManager:subscriptionApi');
-const { request } = require('../io/zmq');
+const debug = require('../lib/io/debug')('subscriptionManager:subscriptionApi');
+const { request } = require('../lib/io/zmq');
 const { v4 } = require('node-uuid');
-const model = require('../models/subscriptions');
+const model = require('subscriptionsModel');
 const searchIntervals = require('./intervals'); // TODO : should not be here ?
-const { searchSubscriptionData } = require('../dataCache/cacheManager'); // TODO : should be here ?
+const { searchSubscriptionData } = require('cacheManager'); // TODO : should be here ?
 
 module.exports = subscription => {
   const subId = v4();

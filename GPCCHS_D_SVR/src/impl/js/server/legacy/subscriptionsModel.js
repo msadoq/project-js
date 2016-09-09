@@ -1,4 +1,4 @@
-const database = require('../io/loki');
+const database = require('../lib/io/loki');
 
 const collection = database.addCollection('subscriptions');
 

@@ -4,7 +4,6 @@
 // } = require('../../lib/utils/test');
 // const constants = require('../../lib/constants');
 //
-// // TODO : ugly coupling in createSubscription helper (called by route)
 // describe('POST API subscriptions', () => {
 //   describe('success', () => {
 //     const fixture = {

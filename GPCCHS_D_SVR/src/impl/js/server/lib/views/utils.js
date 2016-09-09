@@ -1,6 +1,6 @@
-const searchInterval = require('../subscriptionManager/intervals');
+const searchInterval = require('../../legacy/intervals');
 const debug = require('../io/debug')('views:utils');
-const subscriptionModel = require('../models/subscriptions');
+const subscriptionModel = require('../../legacy/subscriptionsModel');
 const cacheJson = require('../models/cacheJson');
 
 function addTimeline(connectedData, tlId) {

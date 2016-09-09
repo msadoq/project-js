@@ -24,8 +24,6 @@ module.exports = dataFullName => {
     return undefined;
   }
   const parsed = {
-    // TODO : remove from communication with DC
-    // TODO : sometimes dataFullName sometimes fullDataId
     dataFullName,
     catalog: matches[1],
     parameter: matches[2],

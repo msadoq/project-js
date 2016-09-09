@@ -12,7 +12,7 @@ module.exports = spark => {
 
   workspaceParser('dev.workspace.json', (err, content) => {
     if (err) {
-      throw err; // TODO error channel?
+      throw err;
     }
 
     return spark.write({

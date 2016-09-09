@@ -53,7 +53,6 @@ module.exports = {
   //     return;
   //   }
   //
-  //   // TODO : bufferisation
   //   // debug.verbose(`point: ${point}`);
   //   // if (dataBuffer[subscription.subId]) {
   //   //   dataBuffer[subscription.subId] = { points: [] };

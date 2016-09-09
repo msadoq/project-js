@@ -3,6 +3,7 @@ const async = require('async');
 const _ = require('lodash');
 const { decode } = require('../protobuf');
 const cacheJsonModel = require('../models/cacheJson');
+const viewsModel = require('../models/views');
 
 // TODO : test
 
@@ -41,11 +42,15 @@ module.exports = buffer => {
 
       return callback(null);
     },
-    // TODO loop over views and pass payload to them
-    callback => callback(null),
-  ], err => {
-    if (err) {
-      debug.error(err);
-    }
-  });
+    callback => {
+      const views = viewsModel.retrieveVisible();
+
+      // TODO possible event loop bottleneck, envisage async repartition of view calls on nextTicks
+      views.forEach(v => {
+        v.onDcData(message.dataId, payloads);
+      });
+
+      return callback(null);
+    },
+  ], err => (err ? debug.error(err) : debug.verbose('end')));
 };

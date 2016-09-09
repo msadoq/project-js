@@ -13,7 +13,8 @@ describe('models/cacheJson', () => {
   describe('addRecord', () => {
     const timestamp = Date.now();
     it('one', () => {
-      model.addRecord(dataId, timestamp, payload);
+      const record = model.addRecord(dataId, timestamp, payload);
+      record.should.be.an('object').with.property('$loki');
       const records = model.find();
       records.should.be.an('array').that.has.lengthOf(1);
       records[0].should.be.an('object').with.properties({

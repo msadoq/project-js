@@ -8,12 +8,12 @@ collection.getLocalId = require('./getLocalId');
 
 collection.addRecord = (dataId, timestamp, payload) => {
   const localId = collection.getLocalId(dataId);
-  collection.insert({
+  debug.debug('insert', localId);
+  return collection.insert({
     localId,
     timestamp,
     payload,
   });
-  debug.debug('inserted', localId);
 };
 
 collection.findByInterval = (dataId, lower, upper) => {

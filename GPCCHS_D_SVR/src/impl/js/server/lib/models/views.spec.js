@@ -9,7 +9,8 @@ describe('models/views', () => {
   const viewInstance = {};
 
   it('addRecord', () => {
-    model.addRecord('my-id', viewInstance);
+    const record = model.addRecord('my-id', viewInstance);
+    record.should.be.an('object').with.property('$loki');
     const records = model.find();
     records.should.be.an('array').that.has.lengthOf(1);
     records[0].should.be.an('object');
@@ -29,5 +30,23 @@ describe('models/views', () => {
     model.addRecord('bar', viewInstance);
     model.addRecord('baz', viewInstance);
     model.findBySparkId('bar')[0].id.should.equal('bar');
+  });
+  describe('retrieveVisible', () => {
+    it('works', () => {
+      model.addRecord('foo', viewInstance);
+      const bar = model.addRecord('bar', viewInstance);
+      bar.visible = false;
+      model.update(bar);
+      const records = model.retrieveVisible();
+      records.should.be.an('array').with.lengthOf(1);
+      records[0].id.should.equal('foo');
+    });
+    it('always returns array', () => {
+      model.retrieveVisible().should.be.an('array').with.lengthOf(0);
+      const bar = model.addRecord('bar', viewInstance);
+      bar.visible = false;
+      model.update(bar);
+      model.retrieveVisible().should.be.an('array').with.lengthOf(0);
+    });
   });
 });

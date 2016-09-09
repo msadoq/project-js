@@ -6,7 +6,6 @@ const debug = require('../lib/io/debug')('stub:timebar');
 const zmq = require('../lib/io/zmq');
 const parseArgs = require('minimist');
 
-
 const exit = require('exit');
 
 const usage = () =>
@@ -57,7 +56,7 @@ if (argv.a) {
     name: tlName,
     offset: 0,
     kind: 'Session',
-    sessionId: nb
+    sessionId: nb,
   };
 }
 
@@ -79,7 +78,6 @@ zmq.open({
   if (err) {
     throw err;
   }
-
 
   zmq.push('tbCliPush', JSON.stringify(cmdList), () => {
     // close socket

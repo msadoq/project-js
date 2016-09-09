@@ -4,11 +4,12 @@ const database = require('../io/loki');
 const collection = database.addCollection('views');
 
 collection.addRecord = (sparkId, instance) => {
-  collection.insert({
+  debug.debug('insert', sparkId);
+  return collection.insert({
     id: sparkId,
+    visible: true,
     instance,
   });
-  debug.debug('inserted', sparkId);
 };
 
 collection.delRecord = sparkId => {
@@ -18,6 +19,10 @@ collection.delRecord = sparkId => {
 
 collection.findBySparkId = sparkId => collection.find({
   id: sparkId,
+});
+
+collection.retrieveVisible = () => collection.find({
+  visible: true,
 });
 
 module.exports = collection;

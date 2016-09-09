@@ -1,41 +1,49 @@
 const debug = require('../io/debug')('controllers:onTimeBarUpdate');
 const { get, set } = require('../timeBar/index');
 const tbUpdate = require('../timeBar/tbUpdate');
-const viewModel = require('../models/views');
+const viewsModel = require('../models/views');
 const { validateTbJson } = require('../schemaManager/index');
 
 /**
- * Controller that save timebar update
- * @param newTimebar
+ * Controller that listne for timebar update
+ * @param buffer
  */
 module.exports = buffer => {
   debug.debug('called');
-  // Convert buffer to string : Needed when using zmq
+
+  // Buffer to JSON
   let newTimebar;
   const string = buffer.toString();
   try {
     newTimebar = JSON.parse(string);
   } catch (err) {
     // Case for test not using zmq
-    try { newTimebar = JSON.parse(JSON.stringify(buffer)); }
-    catch (e) {
-      throw err;
+    try {
+      newTimebar = JSON.parse(JSON.stringify(buffer));
+      // TODO aleal generate buffer in tests and support only buffer in this function
+    } catch (e) {
+      throw e;
     }
   }
+
   // Check timebar validity
   const errors = validateTbJson(newTimebar);
   if (errors) {
     debug.debug('Invalid format of timebar:', errors);
     throw errors;
   }
+
   // Get differences
+  // TODO aleal rename tbUpdate as 'compareTimebars()'
+  // TODO aleal rename cmdList as 'differences'
+  // TODO aleal you can now remove useless comments
   const cmdList = tbUpdate(get(), newTimebar);
   if (cmdList) {
-    console.log('Envoi des modifs de TB aux vues');
-    // Get view collection
-    // Send update commands to each view
-    viewModel.data.forEach((element, index, array) => {
-      element.instance.onTimebarUpdate(cmdList);
+    const views = viewsModel.retrieveVisible();
+
+    // TODO possible event loop bottleneck, envisage async repartition of view calls on nextTicks
+    views.forEach(v => {
+      v.onTimebarUpdate(cmdList);
     });
   }
 

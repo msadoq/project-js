@@ -3,7 +3,7 @@ const { validatePgJson, validateWsJson, validateTvJson, validatePvJson }
 const ApiError = require('../utils/apiError');
 
 module.exports = type => (req, res, next) => {
-  // console.log('entrée dans Validator');
+  console.log('entrée dans Validator');
   let validator;
   if (type === 'page') {
     validator = validatePgJson;
@@ -16,10 +16,11 @@ module.exports = type => (req, res, next) => {
   } else {
     return next(new ApiError(400, 'Unknown JSON type', '/body'));
   }
-  // console.log(validator);
+  console.log(validator);
   const errorValidate = validator(req.validated.content);
   if (errorValidate) {
     return next(new ApiError(400, 'invalid JSON', '/body'));
   }
+
   return next();
 };

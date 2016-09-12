@@ -1,88 +1,122 @@
-//const debug = require('../io/debug')('timeBar:tbUpdate');
+const debug = require('../io/debug')('timeBar:tbUpdate');
 const diff = require('deep-diff').diff;
+const _ = require('lodash');
 
 
 // Get index of id in table
 function getIndex(table, id) {
   // Number of timelines already declared
-  const length = table.length;
-  // Check if new Id is already declared in timeline table
-  for (let i = 0; i < length; i++) {
-    if (table[i].id === id) return i;
-  }
+  // const length = table.length;
+  // // Check if new Id is already declared in timeline table
+  // for (let i = 0; i < length; i++) {
+  //   if (table[i].id === id) {
+  //     return i;
+  //   }
+  // }
+  const a = _.filter(table, item => {
+    if (item.id === id) {
+    return item.id === id;
+  }});
   return -1;
 }
 
-
-function createObjectParam(object, param) {
-  if (!Object.getOwnPropertyDescriptor(object, param)) object[param] = {};
+let cmdList;
+function createObjectParamOnCmdList(param, keyNames) {
+  if (!cmdList) {
+    cmdList = {};
+  }
+  let current = cmdList;
+  let final = cmdList;
+  _.forEach(keyNames, element => {
+    current = final;
+    if (!Object.getOwnPropertyDescriptor(current, element)) {
+      current[element] = {};
+    }
+    final = current[element];
+  });
+  if (!Object.getOwnPropertyDescriptor(final, param)) {
+    final[param] = {};
+  }
 }
-function createArrayParam(object, param) {
-  if (!Object.getOwnPropertyDescriptor(object, param)) object[param] = [];
+
+function createArrayParamOnCmdList(param, keyNames) {
+  if (!cmdList) {
+    cmdList = {};
+  }
+  let current = cmdList;
+  let final = current;
+  _.forEach(keyNames, element => {
+    current = final;
+    if (!Object.getOwnPropertyDescriptor(current, element)) {
+      current[element] = {};
+    }
+    final = current[element];
+  });
+  if (!Object.getOwnPropertyDescriptor(final, param)) {
+    final[param] = [];
+  }
 }
 
-function addTlUpdate(cmdList, tl, param) {
-  if (!cmdList) cmdList = {};
-  createObjectParam(cmdList, 'timelineUpdate');
-  createObjectParam(cmdList.timelineUpdate, 'timeLines');
-  createObjectParam(cmdList.timelineUpdate.timeLines, tl.id);
+function addTlUpdate(tl, param) {
+  if (!cmdList) {
+    cmdList = {};
+  }
+  createObjectParamOnCmdList(tl.id, ['timelineUpdate', 'timeLines']);
   cmdList.timelineUpdate.timeLines[tl.id][param] = tl[param];
 }
 
 module.exports = (oldTb, newTb) => {
-  let cmdList;
   // Comparison between timebars when this is not initialization or saving
-  switch (newTb.data.action) {
+  switch (newTb.action) {
     case 'initialUpd':
+      cmdList = undefined;
       break;
     case 'tbSaving':
+      cmdList = undefined;
       break;
-    default:
+    default: {
       // Take timeline tables to make specific Comparison
       const newTimebar = JSON.parse(JSON.stringify(newTb));
-      const newTls = newTimebar.data.timeLines.splice(0, newTimebar.data.timeLines.length);
-      const oldTimebar = JSON.parse(JSON.stringify(oldTb)) ;
-      const oldTls = oldTimebar.data.timeLines.splice(0, oldTimebar.data.timeLines.length);
+      const newTls = newTimebar.timeLines.splice(0, newTimebar.timeLines.length);
+      const oldTimebar = JSON.parse(JSON.stringify(oldTb));
+      const oldTls = oldTimebar.timeLines.splice(0, oldTimebar.timeLines.length);
 
       // Get differences between versions
       const result = diff(oldTimebar, newTimebar);
-      if (result) cmdList = {};
-      for (key in result) {
-        const current = result[key];
-
+      if (result) {
+        cmdList = {};
+      }
+      _.each(result, current => {
         if (current.kind === 'E') {
-          switch (current.path[1]) {
+          switch (current.path[0]) {
             // ---------- Visualization window updates
             case 'visuWindow':
               // Update of parameter of visuWindow
-              createObjectParam(cmdList, 'visuWindowUpdate');
-              if (current.path[2] === 'current') {
+              createObjectParamOnCmdList('visuWindowUpdate');
+              if (current.path[1] === 'current') {
                 cmdList.visuWindowUpdate.current = current.rhs;
               } else {
-                createObjectParam(cmdList.visuWindowUpdate, 'bounds');
-                cmdList.visuWindowUpdate.bounds.lower = newTb.data.visuWindow.lower;
-                cmdList.visuWindowUpdate.bounds.upper = newTb.data.visuWindow.upper;
+                createObjectParamOnCmdList('bounds', ['visuWindowUpdate']);
+                cmdList.visuWindowUpdate.bounds.lower = newTb.visuWindow.lower;
+                cmdList.visuWindowUpdate.bounds.upper = newTb.visuWindow.upper;
               }
               break;
             case 'slideWindow':
               // Add slideWindow under visuWindowUpdate
-              createObjectParam(cmdList, 'visuWindowUpdate');
-              const visuW = cmdList.visuWindowUpdate;
-              createObjectParam(visuW, 'slideWindow');
-              cmdList.visuWindowUpdate.slideWindow.lower = newTimebar.data.slideWindow.lower;
-              cmdList.visuWindowUpdate.slideWindow.upper = newTimebar.data.slideWindow.upper;
+              createObjectParamOnCmdList('slideWindow', ['visuWindowUpdate']);
+              cmdList.visuWindowUpdate.slideWindow.lower = newTimebar.slideWindow.lower;
+              cmdList.visuWindowUpdate.slideWindow.upper = newTimebar.slideWindow.upper;
               break;
             case 'extUpperBound':
-              // Add extUpperBound under visuWindowUpdate
-              createObjectParam(cmdList, 'visuWindowUpdate');
+              createObjectParamOnCmdList('visuWindowUpdate');
               cmdList.visuWindowUpdate.extUpperBound = current.rhs;
               break;
             case 'masterId':
-              createObjectParam(cmdList, 'timelineUpdate');
+              createObjectParamOnCmdList('timelineUpdate');
               cmdList.timelineUpdate.masterId = current.rhs;
               break;
             case 'offsetFromUTC':
-              createObjectParam(cmdList, 'timelineUpdate');
+              createObjectParamOnCmdList('timelineUpdate');
               cmdList.timelineUpdate.offsetFromUTC = current.rhs;
               break;
             // ---------- Other updates
@@ -104,45 +138,64 @@ module.exports = (oldTb, newTb) => {
         // } else {
         //   // **** Case for action update : nothing to do ?
         }
-      }
+      });
       // --- timeline treatment
       // addition
-      newTls.forEach((element, index, array) => {
-        const ind = getIndex(oldTls, element.id);
-        if (ind < 0) {
+      _.forEach(newTls, element => {
+        const oldTl = _.find(oldTls, { id: element.id });
+        if (!oldTl) {
           // Add action in cmdList
-          if (!cmdList) cmdList = {};
-          createArrayParam(cmdList, 'timelineAdded');
+          createArrayParamOnCmdList('timelineAdded');
           cmdList.timelineAdded.push(element);
         } else {
           // Check for updates
-          if (oldTls[ind].name !== element.name) addTlUpdate(cmdList, element, 'name');
-          if (oldTls[ind].offset !== element.offset) addTlUpdate(cmdList, element, 'offset');
-          if (oldTls[ind].kind !== element.kind) {
-            addTlUpdate(cmdList, element, 'kind');
-            if (element.kind === 'Session') addTlUpdate(cmdList, element, 'sessionId');
-            else if (element.kind === 'Dataset') addTlUpdate(cmdList, element, 'dsPath');
-            else if (element.kind === 'Recordset') addTlUpdate(cmdList, element, 'rsPath');
+          if (oldTl.name !== element.name) {
+            addTlUpdate(element, 'name');
+          }
+          if (oldTl.offset !== element.offset) {
+            addTlUpdate(element, 'offset');
+          }
+          if (oldTl.kind !== element.kind) {
+            addTlUpdate(element, 'kind');
+            if (element.kind === 'Session') {
+              addTlUpdate(element, 'sessionId');
+            } else if (element.kind === 'Dataset') {
+              addTlUpdate(element, 'dsPath');
+            } else if (element.kind === 'Recordset') {
+              addTlUpdate(element, 'rsPath');
+            }
           } else {
-            if (element.sessionId && oldTls[ind].sessionId !== element.sessionId) {
-              addTlUpdate(cmdList, element, 'sessionId');
-            } else if (element.dsPath && oldTls[ind].dsPath !== element.dsPath) {
-              addTlUpdate(cmdList, element, 'dsPath');
-            } else if (element.rsPath && oldTls[ind].rsPath !== element.rsPath) {
-              addTlUpdate(cmdList, element, 'rsPath');
+            switch (element.kind) {
+              case 'Session':
+                if (oldTl.sessionId !== element.sessionId) {
+                  addTlUpdate(element, 'sessionId');
+                }
+                break;
+              case 'Dataset':
+                if (oldTl.dsPath !== element.dsPath) {
+                  addTlUpdate(element, 'dsPath');
+                }
+                break;
+              case 'Recordset':
+                if (oldTl.rsPath !== element.rsPath) {
+                  addTlUpdate(element, 'rsPath');
+                }
+                break;
+              default:
+                debug.debug('Unknown kind', element.kind);
             }
           }
         }
       });
       // deletion
-      oldTls.forEach((element, index, array) => {
-        if (getIndex(newTls, element.id) < 0) {
-          // Remove action in cmdList
-          if (!cmdList) cmdList = {};
-          createArrayParam(cmdList, 'timelineRemoved');
+      _.forEach(oldTls, element => {
+        const oldTl = _.find(newTls, { id: element.id });
+        if (!oldTl) {
+          createArrayParamOnCmdList('timelineRemoved');
           cmdList.timelineRemoved.push(element);
         }
       });
+    }
   }
   return cmdList;
 };

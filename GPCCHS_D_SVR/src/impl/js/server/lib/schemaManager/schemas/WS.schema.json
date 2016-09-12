@@ -259,48 +259,38 @@
 
     "type": "object",
     "properties": {
-        "data": {
+        "type": {
+            "type": "string",
+            "enum": ["WorkSpace"]
+        },
+        "windows": {
+            "type": "array",
+            "items": {
+                "oneOf": [{
+                    "$ref": "#/definitions/documentWindow"
+                }, {
+                    "$ref": "#/definitions/globalViewWindow"
+                }, {
+                    "$ref": "#/definitions/sideWindow"
+                }]
+            }
+        },
+        "timeBarWindow": {
             "type": "object",
             "properties": {
                 "type": {
                     "type": "string",
-                    "enum": ["WorkSpace"]
+                    "enum": ["timeBarWindowConfiguration"]
                 },
-                "attributes": {
-                    "type": "object",
-                    "properties": {
-                        "windows": {
-                            "type": "array",
-                            "items": {
-                                "oneOf": [{
-                                    "$ref": "#/definitions/documentWindow"
-                                }, {
-                                    "$ref": "#/definitions/globalViewWindow"
-                                }, {
-                                    "$ref": "#/definitions/sideWindow"
-                                }]
-                            }
-                        },
-                        "timeBarWindow": {
-                            "type": "object",
-                            "properties": {
-                                "type": {
-                                    "type": "string",
-                                    "enum": ["timeBarWindowConfiguration"]
-                                },
-                                "timeBar": {
-                                    "$ref": "#/definitions/timeBar"
-                                },
-                                "geometry": {
-                                    "$ref": "#/definitions/geometry"
-                                }
-                            },
-                            "required": ["type", "timeBar"]
-                        }
-                    },
-                    "required": ["windows"]
+                "timeBar": {
+                    "$ref": "#/definitions/timeBar"
+                },
+                "geometry": {
+                    "$ref": "#/definitions/geometry"
                 }
-            }
+            },
+            "required": ["type", "timeBar"]
         }
-    }
+    },
+    "required": ["windows"]
 }

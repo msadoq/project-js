@@ -8,15 +8,22 @@ const {
   updateDataFromTl,
   updateData,
 } = require('./utils');
-const getTb = require('../timeBar/index').get;
+const getTb = require('../timeBar/index').getTimebar;
 const parseDataFullName = require('../utils/parseDataFullName');
+const _ = require('lodash');
 
 function PlotView(configuration) {
   this.spark = configuration.spark;
   this.conf = configuration.conf;
   this.identity = configuration.identity;
-  if (!this.conf.plotViewEntryPoints) this.conf.plotViewEntryPoints = [];
+  if (!this.conf.plotViewEntryPoints) {
+    this.conf.plotViewEntryPoints = [];
+  }
 }
+
+PlotView.prototype.type = function () {
+  return 'plot';
+};
 
 PlotView.prototype.isType = function (type) {
   return type === 'plot';
@@ -24,15 +31,13 @@ PlotView.prototype.isType = function (type) {
 
 PlotView.prototype.onTimebarUpdate = function (cmdList) {
   // TODO
-  console.log('onTimebarUpdate plot', cmdList);
+  debug.debug('onTimebarUpdate plot', cmdList);
   const timebar = getTb();
-  //this.spark.write({});
-  for (key in cmdList) {
+  _.each(cmdList, (value, key) => {
     console.log('key:', key);
+    console.log('value', value);
     switch (key) {
       case 'visuWindowUpdate':
-        const visuUpd = cmdList[key];
-        console.log('visuUpd', visuUpd);
         // if (visuUpd.slideWindow) {
         //   if (visuUpd.slideWindow.lower) {}
         //   if (visuUpd.slideWindow.upper) {}
@@ -40,21 +45,21 @@ PlotView.prototype.onTimebarUpdate = function (cmdList) {
         // if (visuUpd.extUpperBound) {}
         // if (visuUpd.masterId) {}
         // if (visuUpd.offsetFromUTC) {}
-        if (visuUpd.current) {
+        if (value.current) {
           // TODO update plot view for current line
-          this.spark.write({ currentUpdate: visuUpd.current });
+          this.spark.write({ currentUpdate: value.current });
         }
-        if (visuUpd.bounds) {
+        if (value.bounds) {
           // TODO update plot view for axis
           // update data
-          this.conf.plotViewEntryPoints.forEach((element, index, array) => {
+          this.conf.plotViewEntryPoints.forEach(element => {
             // X axis
             const dataIdX = parseDataFullName(element.connectedDataX.formula);
-            updateData(timebar.data.timeLines, element.connectedDataX, visuUpd.bounds,
+            updateData(timebar.timeLines, element.connectedDataX, value.bounds,
                        dataIdX, this.spark.write);
             // Y axis
             const dataIdY = parseDataFullName(element.connectedDataY.formula);
-            updateData(timebar.data.timeLines, element.connectedDataY, visuUpd.bounds,
+            updateData(timebar.timeLines, element.connectedDataY, value.bounds,
                        dataIdY, this.spark.write);
           });
         }
@@ -67,58 +72,59 @@ PlotView.prototype.onTimebarUpdate = function (cmdList) {
         break;
       case 'timeSpecUpdate': // Not implemented yet
         break;
-      case 'timelineUpdate':
-        //Check if tl is used
-        const tlUpdate = cmdList.timelineUpdate.timeLines;
-        if (tlUpdate) {
-          for (tlId in tlUpdate) {
-            // if only name has changed, nothing to do except modifiing EP data
-            if (Object.keys(tlId) !== ['name']) {
-              const tl = getTimelineById(timebar.data.timeLines, tlId);
-              if (tl) {
-                // update data
-                this.conf.plotViewEntryPoints.forEach((element, index, array) => {
-                  // X axis TODO vérifier si id ou nom qui est enregistré dans EP
-                  if (element.connectedDataX.timebar === tl.name) {
-                    const dataIdX = parseDataFullName(element.connectedDataX.formula);
-                    updateDataFromTl(tl, element.connectedDataX, visuUpd.bounds, dataIdX,
-                                     this.spark.write);
-                    // send data to socket
-                  }
-                  // Y axis
-                  if (element.connectedDataX.timebar === tl.name) {
-                    const dataIdY = parseDataFullName(element.connectedDataY.formula);
-                    updateDataFromTl(tl, element.connectedDataY, visuUpd.bounds, dataIdY,
-                                     this.spark.write);
-                  }
-                });
-              }
+      case 'timelineUpdate': {
+        // Check if tl is used
+        // const tlUpdate = cmdList.timelineUpdate.timeLines;
+        // if (tlUpdate) {
+        //   for (tlId in tlUpdate) {
+        _.each(cmdList.timelineUpdate.timeLines, (tlValue, tlId) => {
+          // if only name has changed, nothing to do except modifiing EP data
+          if (Object.keys(tlId) !== ['name']) {
+            const tl = getTimelineById(timebar.timeLines, tlId);
+            if (tl) {
+              // update data
+              this.conf.plotViewEntryPoints.forEach(element => {
+                // X axis TODO vérifier si id ou nom qui est enregistré dans EP
+                if (element.connectedDataX.timebar === tl.name) {
+                  const dataIdX = parseDataFullName(element.connectedDataX.formula);
+                  updateDataFromTl(tl, element.connectedDataX, value.bounds, dataIdX,
+                                   this.spark.write);
+                  // send data to socket
+                }
+                // Y axis
+                if (element.connectedDataX.timebar === tl.name) {
+                  const dataIdY = parseDataFullName(element.connectedDataY.formula);
+                  updateDataFromTl(tl, element.connectedDataY, value.bounds, dataIdY,
+                                   this.spark.write);
+                }
+              });
             }
           }
-        }
+        });
         break;
+      }
       case 'timelineAdded':
         // Add subscription if connected data has wilcard on timeline
-        this.conf.plotViewEntryPoints.forEach((element, index, array) => {
+        this.conf.plotViewEntryPoints.forEach(element => {
           addTimeline(element.connectedDataX);
           addTimeline(element.connectedDataY);
         });
         break;
       case 'timelineRemoved':
         // Remove subscriptions with concerned timeline
-        this.conf.plotViewEntryPoints.forEach((element, index, array) => {
+        this.conf.plotViewEntryPoints.forEach(element => {
           removeTimeline(element.connectedDataX);
           removeTimeline(element.connectedDataY);
         });
         break;
       default:
     }
-  }
+  });
 };
 
 PlotView.prototype.onDcData = function (payloads) {
   // TODO
-  console.log('onDcData', payloads);
+  debug.debug('onDcData', payloads);
 };
 
 module.exports = PlotView;

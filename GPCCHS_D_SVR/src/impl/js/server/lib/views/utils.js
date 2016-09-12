@@ -2,17 +2,24 @@ const searchInterval = require('../../legacy/intervals');
 const debug = require('../io/debug')('views:utils');
 const subscriptionModel = require('../../legacy/subscriptionsModel');
 const cacheJson = require('../models/cacheJson');
+const _ = require('lodash');
 
 function addTimeline(connectedData, tlId) {
-  connectedData.foreach((element, index, array) => {
-    if (element.timeline.contains('*')) {
-      // Add subscription
+  // _.each(connectedData, element => {
+  //   if (element.timeline.contains('*')) {
+  //     // Add subscription
+  //   }
+  // });
+  const wilcardElem = _.filter(connectedData, () => {
+    if (connectedData.timeline) {
+      return connectedData.timeline.contains('*');
     }
+    return false;
   });
 }
 
 function removeTimeline(connectedData, tlId) {
-  connectedData.foreach((element, index, array) => {
+  connectedData.foreach(element => {
     if (element.timeline.contains('*')) {
       // remove subscription
     } else if (element.timeline === tlId) {
@@ -22,13 +29,13 @@ function removeTimeline(connectedData, tlId) {
 }
 
 function getTimelineByName(timelines, name) {
-  return timelines.find((element, index, array) => {
+  return timelines.find(element => {
     if (element.name === name) return true;
     return false;
   });
 }
 function getTimelineById(timelines, id) {
-  return timelines.find((element, index, array) => {
+  return timelines.find(element => {
     if (element.id === id) return true;
     return false;
   });
@@ -59,7 +66,7 @@ function queryParam(connectedData, timeline, visuLower, visuUpper) {
   };
 }
 // TODO
-function addQuery(element, index, array) {
+function addQuery(element) {
   // Each element in an interval
 
 }

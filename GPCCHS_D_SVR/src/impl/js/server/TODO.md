@@ -6,6 +6,7 @@ Only list expected tasks for PBF shipping of end of october.
 
 * [ ] Launch procedure, stop procedure, process on unexcepted stop of one component
 * [ ] Finalize LPISIS packaging constrains implementation (Matthieu)
+* [ ] Lauching VIMA with timebar only (RISK!)
 
 ## GPCCHSS (Node.js)
 
@@ -71,6 +72,8 @@ Only list expected tasks for PBF shipping of end of october.
 * [ ] IHM design and cleanup
 * [ ] Complete README.md (lint, quality and coverage, stub  commands usage) (Damien)
 * [ ] Code review and cleaning (convention, comments, TODO , small optimizations) (Damien)
+* [ ] Merge Aziz branch
+* [ ] Merge 
   
 ## Postponed
 

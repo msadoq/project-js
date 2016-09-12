@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 import { Col, Button } from 'react-bootstrap';
-import Unknown from './View/Unknown';
+import Unknown from '../window/View/Unknown';
 import external from '../../external.modules';
 
 export default class View extends Component {

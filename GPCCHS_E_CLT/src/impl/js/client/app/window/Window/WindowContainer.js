@@ -2,7 +2,15 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Window from './Window';
+import { getFocusedPage } from '../../store/mutations/windowReducer';
 
 const WindowContainer = props => <Window {...props} />;
 
-export default connect()(WindowContainer);
+function mapStateToProps(state, { windowId }) {
+  return {
+    windowId,
+    pageId: getFocusedPage(state, windowId),
+  };
+}
+
+export default connect(mapStateToProps)(WindowContainer);

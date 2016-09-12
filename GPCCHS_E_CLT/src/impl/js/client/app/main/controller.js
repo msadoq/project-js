@@ -27,7 +27,13 @@ export default function controller(event, payload) {
         e.uuid,
         e.path || e.oId,
         _.map(e.views, v => v.uuid),
-        _.map(e.views, v => Object.assign({ viewId: v.uuid }, v.geometry)),
+        _.map(e.views, v => Object.assign({
+          i: v.uuid,
+          x: v.geometry.x,
+          y: v.geometry.y,
+          w: v.geometry.w,
+          h: v.geometry.h,
+        })),
       )));
 
       // add windows

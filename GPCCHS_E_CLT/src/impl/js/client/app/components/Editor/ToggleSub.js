@@ -7,7 +7,6 @@ export default class ToggleSub extends Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
     configuration: PropTypes.object.isRequired,
-    switchSubVisibility: PropTypes.func.isRequired,
     requestSub: PropTypes.func.isRequired,
   };
   static contextTypes = {
@@ -65,7 +64,7 @@ export default class ToggleSub extends Component {
             <Checkbox
               key={k}
               checked={visible}
-              onChange={() => this.props.switchSubVisibility(v)}
+              onChange={() => console.log('change', v)}
             >
               {v}
             </Checkbox>

@@ -6,7 +6,6 @@ export default class Mimic extends Component {
     viewId: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     content: PropTypes.string,
-    updateContent: PropTypes.func,
   };
   constructor({...args}) {
     super(...args);

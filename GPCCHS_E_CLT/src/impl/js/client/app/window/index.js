@@ -1,8 +1,9 @@
 import React from 'react';
 import { render } from 'react-dom';
+import WindowIdProvider from './Window/WindowIdProvider';
+import WindowContainer from './Window/WindowContainer';
 import { Provider } from 'react-redux';
 import { initStore, getStore } from '../store/windowStore';
-import WindowContainer from '../containers/WindowContainer';
 import './global.css';
 import '../shortcuts.global.css';
 
@@ -11,9 +12,13 @@ const windowId = search.replace('?windowId=', '');
 
 initStore();
 
-render(
-  <Provider store={getStore()}>
-    <WindowContainer windowId={windowId} />
-  </Provider>,
-  document.getElementById('root')
-);
+setTimeout(() => {
+  render(
+    <Provider store={getStore()}>
+      <WindowIdProvider windowId={windowId}>
+        <WindowContainer />
+      </WindowIdProvider>
+    </Provider>,
+    document.getElementById('root')
+  );
+}, 150);

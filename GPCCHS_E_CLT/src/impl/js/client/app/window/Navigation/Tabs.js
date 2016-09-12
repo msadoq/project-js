@@ -1,18 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { Nav, NavItem, Glyphicon } from 'react-bootstrap';
-import styles from './PagesNavigation.css';
+import styles from './Tabs.css';
 
-export default class PagesNavigation extends Component {
+export default class Tabs extends Component {
   static propTypes = {
-    pageId: PropTypes.string,
-    title: PropTypes.string,
-    focusedTab: PropTypes.string,
     pages: PropTypes.array.isRequired,
-    addPage: PropTypes.func.isRequired,
-    delPage: PropTypes.func.isRequired,
-    mountPage: PropTypes.func.isRequired,
-    unmountPage: PropTypes.func.isRequired,
-    focusPage: PropTypes.func.isRequired,
+    focusedPage: PropTypes.string,
+    focusPage: PropTypes.func,
+    addAndMount: PropTypes.func,
+    removeAndUnmountPage: PropTypes.func,
   };
   constructor(...args) {
     super(...args);
@@ -21,31 +17,23 @@ export default class PagesNavigation extends Component {
   }
   handleSelect(eventKey) {
     if (eventKey === 'new') {
-      const id = `${Math.random()}`;
-      this.props.addPage(id, 'New page title');
-      return this.props.mountPage(id);
+      return this.props.addAndMount();
     }
 
     this.props.focusPage(eventKey);
   }
   handleClose(e, pageId) {
     e.preventDefault();
-    this.props.delPage(pageId);
-    this.props.unmountPage(pageId);
+    this.props.removeAndUnmountPage(pageId);
   }
   render() {
-    const { pages } = this.props;
-
-    let focusedTab = this.props.focusedTab;
-    if (!focusedTab && pages.length > 0) {
-      focusedTab = pages[0].pageId;
-    }
+    const { pages, focusedPage } = this.props;
 
     return (
-      <Nav bsStyle="tabs" activeKey={focusedTab} onSelect={this.handleSelect}>
+      <Nav bsStyle="tabs" activeKey={focusedPage} onSelect={this.handleSelect}>
         {pages.map(page =>
           <NavItem
-            key={`page${page.pageId}`}
+            key={page.pageId}
             eventKey={page.pageId}
           >
             <div className={styles.title}>

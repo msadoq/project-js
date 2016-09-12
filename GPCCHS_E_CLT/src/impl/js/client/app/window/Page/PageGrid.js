@@ -1,18 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { Responsive, WidthProvider } from 'react-grid-layout';
-import ViewContainer from '../containers/ViewContainer';
-import EditorContainer from '../containers/EditorContainer';
-import AddView from './Page/AddView';
+import PageGridBlock from './PageGridBlock';
 
 const GridLayout = WidthProvider(Responsive);
 
-// TODO : factorize grid-view in proper class
-// TODO : mount editor as fixed grid view
-// TODO : current state is current layout (inited with props), once layout is moved a "modified" state is set to true, * is displayed in page tab, click on save will send it to hss
-// TODO : geometry is set on page per each view
-
-export default class Page extends Component {
+export default class PageGrid extends Component {
   static propTypes = {
+    isEditorOpen: PropTypes.bool.isRequired,
     pageId: PropTypes.string.isRequired,
     editor: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
@@ -21,17 +15,11 @@ export default class Page extends Component {
   };
   render() {
     const isEditorOpened = (this.props.editor
-      && this.props.editor.opened === true);
+    && this.props.editor.opened === true);
 
     const layouts = { lg: [] };
 
     const cols = { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 };
-
-    var divStyle = {
-      backgroundColor: 'white',
-      border: '2px solid grey',
-      overflow: 'auto',
-    };
     const views = this.props.views.map((viewId, index) => {
       const v = this.context.store.getState().views[viewId];
       layouts.lg.push(Object.assign({}, v.geometry, { i: viewId, minW: 2, maxW: 6, minH: 2, maxH: 6 }));
@@ -81,12 +69,8 @@ export default class Page extends Component {
         rowHeight={30}
         width={1200}
       >
-        {views}
+        {this.props.children}
       </GridLayout>
     );
   }
 }
-
-Page.contextTypes = {
-  store: React.PropTypes.object.isRequired,
-};

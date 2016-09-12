@@ -2,8 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import View from '../components/View';
 import { connect } from 'react-redux';
-import { updateContent } from '../store/actions/views';
-import { openEditor } from '../store/actions/pages';
+import { openEditor } from '../store/mutations/pageActions';
 
 const ViewContainer = props => <View {...props} />;
 
@@ -28,7 +27,6 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    updateContent: content => dispatch(updateContent(ownProps.viewId, content)),
     openEditor: () => dispatch(openEditor(ownProps.pageId, ownProps.viewId)),
   };
 }

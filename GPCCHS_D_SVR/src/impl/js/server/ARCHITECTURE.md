@@ -1,14 +1,5 @@
 # ARCHITECTURE
 
-## TODO
-* [ ] Add play / pause mode with upcoming buffer request
-* [ ] Add view update and take care of view (page) in each previous flows
-* [ ] Add close view flow
-* [ ] Handle virtual interval for realtime data (when i'm in realtime)
-* [ ] Data filtering and timeline and bufferisation offset is operate on HSS before sending to HSC
-* [ ] Implement a view adapter for each view type on server side to control data to retrieve and send to view
-* [ ] Could filter data sending from HSS to HSC based on view (page) visibility
-
 ## Sub-components
 * HS Server (node, HSS)
 * HS Client (electron, HSC)
@@ -113,8 +104,6 @@ Inform HSS with new view dimension and view visibility:
 ** Open a main websocket with HSS
 * HSC opens windows
 * Each windows renders pages
-* Each pages render views as containerized WebView (http://electron.atom.io/docs/api/web-view-tag/)
-** Inside view WebView see [View opening](View opening)
 
 ### View opening
 

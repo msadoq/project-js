@@ -43,10 +43,8 @@ Only list expected tasks for PBF shipping of end of october.
 * [ ] Implement data filtering on server-side view instance
 * [ ] Documents schema finalization (Philippe, Audrey)
   - [ ] no UC first
-  - [ ] remove data node
-  - [ ] clarification on path vs. oId
-  - [ ] on entryPoint configuration add a "type" to separate simple parameter and formula (and formula=>content)
   - [ ] add title on page and window
+  - [ ] Remove unused key: showBorder, kind:relative, ...
   - [ ] update schemas, validation helper, fixtures and tests
 * [ ] Correct support of path and oId in documents (Phillipe ?)
 * [ ] [Add HSC stub (reaction to new client, new view, new param to listen, view closing)]

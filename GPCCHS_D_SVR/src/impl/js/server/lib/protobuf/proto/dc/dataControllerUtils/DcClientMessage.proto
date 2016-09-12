@@ -5,11 +5,11 @@ package dataControllerUtils.protobuf;
 message DcClientMessage {
 extensions 15 to 107;
 
-  required string id = 1;
   enum DcClientMessageType {
-    DATA_QUERY = 0;
-    DATA_SUBSCRIBE = 1;
-    DOMAIN_QUERY = 2;
+    UNKWOWN = 0;
+    DATA_QUERY = 1;
+    DATA_SUBSCRIBE = 2;
+    DOMAIN_QUERY = 3;
   }
   
   required DcClientMessageType messageType = 2;

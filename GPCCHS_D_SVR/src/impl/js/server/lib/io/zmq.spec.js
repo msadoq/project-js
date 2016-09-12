@@ -7,7 +7,8 @@ describe('io/zmq', () => {
     done();
   });
 
-  const url = 'inproc://foo';
+  //TODO DBRUGNE add specific port for unit test in .env
+  const url = 'tcp://127.0.0.1:9929';
 
   const openCallback = (done, onConnect = () => {}) => err => {
     if (err) {

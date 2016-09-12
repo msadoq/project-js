@@ -84,6 +84,7 @@ stubs.getDataSubscribeProtobuf = override => protobuf.encode(
 stubs.getNewDataMessage = override => applyOverride({
   dataId: stubs.getDataId(),
   id: 'test',
+  dataSource : 'ARCHIVE',
   payloads: [
     {
       timestamp: { ms: now },

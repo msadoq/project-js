@@ -1,5 +1,5 @@
 var zmq = require("zmq"),
-    socketOut = zmq.socket("req"),
+    socketOut = zmq.socket("push"),
     socketPull = zmq.socket("pull"),
     protoBuf = require("protobufjs");
 const { encode } = require("../../lib/protobuf");
@@ -12,9 +12,83 @@ var uri = 'tcp://127.0.0.1:49165';
 let socketIn = socketPull.bind(uri);
 
 
-//Treat data from DC
-socketIn.on("message",(header, msg) => onDcData(msg));
 
+
+var builder = protoBuf.newBuilder();
+
+//
+// //THE FOLLOWING CODE IS USEFUL TO GET ENUMS
+// const { join } = require('path');
+// let buildProtobuf = (builder, ...protofiles) => {
+//     protofiles.map( file => protoBuf.loadProtoFile({
+//       root: join(__dirname, '../../protobuf/proto/dc'),
+//       file,
+//     }, builder));
+// }
+//
+// buildProtobuf(builder,  "dataControllerUtils/NewDataMessage.proto", "dataControllerUtils/DcServerMessage.proto" );
+//
+// console.log(root);
+// var root = builder.build("dataControllerUtils");
+//
+// let {NewDataMessage, DcServerMessage, DcResponse} = root.protobuf;
+
+
+// let {UNKNOWN, REAL_TIME, ARCHIVE } = NewDataMessage;
+// let {NEW_DATE_MESSAGE, DC_RESPONSE, DOMAIN_RESPONSE } = DcServerMessage;
+// let {OK, ERROR, WARNING } = DcResponse;
+
+//Treat data from DC
+socketIn.on("message",(header, msg) => {
+  let servMsg = decode("dc.dataControllerUtils.DcServerMessage",msg);
+  switch (servMsg.messageType){
+    case 'NEW_DATA_MESSAGE':
+      let dataMsg = decode("dc.dataControllerUtils.NewDataMessage",servMsg.payload);
+      switch (dataMsg.dataSource){
+        case 'UNKNOWN':
+          //shouldn't happen
+          console.log("dataSource from outter space");
+          onDcData(servMsg.payload);
+          break;
+        case 'REAL_TIME':
+          console.log("received real time data for ", dataMsg.dataId);
+          onDcData(servMsg.payload);
+          break;
+        case 'ARCHIVE':
+          if (dataMsg.isEndOfQuery){
+            console.log("received all data from dataId ",dataMsg.dataId);
+          } else {
+            console.log("received incomplete data from ",dataMsg.dataId);
+          }
+          onDcData(servMsg.payload);
+          break;
+      }
+      break;
+    case 'DC_RESPONSE':{
+      let dcResp = decode("dc.dataControllerUtils.DcResponse",servMsg.payload);
+      console.log(dcResp);
+      switch (dcResp.status){
+        case 'OK':
+          console.log("received  OK dcResponse for ", dcResp.id);
+          break;
+        case 'ERROR':
+          console.log("received ERROR dcResponse for ", dcResp.id);
+          break;
+        case 'WARNING':
+          console.log("received WARNING dcResponse for ", dcResp.id);
+          break;
+      }
+      break;
+    }
+    case 'DOMAIN_RESPONSE':{
+      dcResp = decode("dc.dataControllerUtils.DcResponse",servMsg.payload);
+      console.log("received Domain Response for ");
+      break;
+    }
+  }
+
+});
+// socketIn.on("message",(msg) => console.log(msg));
 
 
 
@@ -111,7 +185,7 @@ var onResponse = function (reply) {
 }
 let sendRequest = function (request, callback){
     //put the callback in the queue and send request
-    console.log(callback);
+    console.log(request);
     callbackQueue.push(callback);
     socketOut.send(request);
 }
@@ -119,10 +193,12 @@ let sendRequest = function (request, callback){
 
 // Response received from DC
 let checkDcAnswer =  (waitedAnswer) => function (msg) {
-    var did = decode("dc.dataControllerUtils.DcResponse",msg);
+    var did = decode("dc.dataControllerUtils.DcServerMessage",msg);
+    var resp = decode("dc.dataControllerUtils.DcResponse",did.payload);
     console.log("checkDcAnswer")
-    console.log(waitedAnswer == did.status)
-    if (waitedAnswer != did.status){
+    console.log(resp);
+    console.log(waitedAnswer == resp.status)
+    if (waitedAnswer != resp.status){
       throw "checkDcAsnwer failure";
     }
 }
@@ -141,33 +217,41 @@ let checkDcAnswer =  (waitedAnswer) => function (msg) {
 socketOut.on("message",onResponse);
 
 let dataQueryPb = encode("dc.dataControllerUtils.DataQuery",dataQuery);
+
+
 let wrongDataQueryPb = encode("dc.dataControllerUtils.DataQuery",wrongDataQuery);
 //sendRequestProtobuf(dataQueryPb);
 domainQuery = encode("dc.dataControllerUtils.DomainQuery",domainQuery);
 
+let wrappedDataQuery ={
+  "messageType" : 'DATA_QUERY',
+  "payload" : dataQueryPb
+}
+wrappedDataQueryPb = encode("dc.dataControllerUtils.DcClientMessage", wrappedDataQuery);
+
 
 let i = 0;
 for (i = 0; i < 5; i++){
-  sendRequest(dataQueryPb, checkDcAnswer('OK'));
+  sendRequest(wrappedDataQueryPb, checkDcAnswer('OK'));
 }
-
-sendRequest(wrongDataQueryPb, checkDcAnswer('ERROR'));
-sendRequest(wrongDataQueryPb, checkDcAnswer('ERROR'));
-sendRequest(wrongDataQueryPb, checkDcAnswer('ERROR'));
-sendRequest(wrongDataQueryPb, checkDcAnswer('ERROR'));
-sendRequest(wrongDataQueryPb, checkDcAnswer('ERROR'));
-sendRequest(dataQueryPb, checkDcAnswer('OK'));
-sendRequest(domainQuery, msg => {
-  console.log(decode("dc.dataControllerUtils.DomainResponse",msg))
-});
-
-let dataFilterPb = encode("dc.dataControllerUtils.DataSubscribe",dataFilter);
-// sendRequestProtobuf(dataFilterPb , onMessage);
-
-//Expected DcResponse : ERROR
-// let wrongDataFilterPb = encode("dc.dataControllerUtils.DataSubscribe",dataFilter);
-// sendRequestProtobuf(wrongDataFilterPb, onMessage);
-sendRequest(dataFilterPb, checkDcAnswer('OK'));
+//
+// sendRequest(wrongDataQueryPb, checkDcAnswer('ERROR'));
+// sendRequest(wrongDataQueryPb, checkDcAnswer('ERROR'));
+// sendRequest(wrongDataQueryPb, checkDcAnswer('ERROR'));
+// sendRequest(wrongDataQueryPb, checkDcAnswer('ERROR'));
+// sendRequest(wrongDataQueryPb, checkDcAnswer('ERROR'));
+// sendRequest(dataQueryPb, checkDcAnswer('OK'));
+// sendRequest(domainQuery, msg => {
+//   console.log(decode("dc.dataControllerUtils.DomainResponse",msg))
+// });
+//
+// let dataFilterPb = encode("dc.dataControllerUtils.DataSubscribe",dataFilter);
+// // sendRequestProtobuf(dataFilterPb , onMessage);
+//
+// //Expected DcResponse : ERROR
+// // let wrongDataFilterPb = encode("dc.dataControllerUtils.DataSubscribe",dataFilter);
+// // sendRequestProtobuf(wrongDataFilterPb, onMessage);
+// sendRequest(dataFilterPb, checkDcAnswer('OK'));
 
 
 //Expected DcResponse : OK

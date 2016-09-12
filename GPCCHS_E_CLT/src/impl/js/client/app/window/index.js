@@ -16,7 +16,7 @@ setTimeout(() => {
   render(
     <Provider store={getStore()}>
       <WindowIdProvider windowId={windowId}>
-        <WindowContainer />
+        <WindowContainer windowId={windowId} />
       </WindowIdProvider>
     </Provider>,
     document.getElementById('root')

@@ -3,14 +3,14 @@ import WebsocketContainer from './WebsocketContainer';
 import TabsContainer from './TabsContainer';
 
 export default class Navigation extends Component {
-  static contextTypes = {
-    windowId: PropTypes.string,
-  };
   render() {
     return (
       <div>
         <WebsocketContainer />
-        <TabsContainer windowId={this.context.windowId} />
+        <TabsContainer
+          windowId={this.props.windowId}
+          pageId={this.props.pageId}
+        />
       </div>
     );
   }

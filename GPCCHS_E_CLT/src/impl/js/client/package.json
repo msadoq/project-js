@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --compilers js:babel-register --recursive --require ./test/setup.js test/**/*.spec.js",
+    "test": "NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --compilers js:babel-register --recursive app/**/*.spec.js",
     "test-watch": "npm test -- --watch",
     "test-e2e": "NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --compilers js:babel-register --require ./test/setup.js ./test/e2e.js",
     "lint": "eslint app test *.js",
@@ -79,12 +79,14 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.6",
+    "chai-properties": "^1.2.1",
     "css-modules-require-hook": "^4.0.2",
     "debug": "^2.2.0",
     "dotenv-safe": "^2.3.1",
     "electron-debug": "^1.0.1",
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.13.1",
+    "node-uuid": "^1.4.7",
     "postcss": "^5.1.2",
     "primus": "^6.0.2",
     "react": "^15.3.1",
@@ -98,6 +100,7 @@
     "redux-electron-store": "^0.3.11",
     "redux-thunk": "^2.1.0",
     "source-map-support": "^0.4.2",
+    "updeep": "^0.16.1",
     "uws": "^0.8.0"
   },
   "devEngines": {

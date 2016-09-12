@@ -22,7 +22,6 @@ const self = module.exports = {
           if (err) {
             return callback(new Error(err));
           }
-
           return callback(null, content);
         });
       });
@@ -41,7 +40,6 @@ const self = module.exports = {
       if (err) {
         return callback(err);
       }
-
       return self.parse(content, callback);
     });
   },

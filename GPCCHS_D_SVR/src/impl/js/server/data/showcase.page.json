@@ -1,54 +1,45 @@
 {
-  "data": {
     "type": "Page",
-    "attributes": {
-      "hideBorders": false,
-      "views": [
-        {
-          "oId": "/views/text1.view.json",
-          "geometry": {
+    "hideBorders": false,
+    "views": [{
+        "oId": "/views/text1.view.json",
+        "geometry": {
             "kind": "Relative",
             "x": 0,
             "y": 0,
             "w": 4,
             "h": 4
-          },
-          "windowState": "Normalized"
         },
-        {
-          "oId": "/views/text2.view.json",
-          "geometry": {
+        "windowState": "Normalized"
+    }, {
+        "oId": "/views/text2.view.json",
+        "geometry": {
             "kind": "Relative",
             "x": 0,
             "y": 5,
             "w": 4,
             "h": 3
-          },
-          "windowState": "Normalized"
         },
-        {
-          "oId": "/views/plot1.view.json",
-          "geometry": {
+        "windowState": "Normalized"
+    }, {
+        "oId": "/views/plot1.view.json",
+        "geometry": {
             "kind": "Relative",
             "x": 8,
             "y": 0,
             "w": 4,
             "h": 3
-          },
-          "windowState": "Normalized"
         },
-        {
-          "path": "/views/plot2.view.json",
-          "geometry": {
+        "windowState": "Normalized"
+    }, {
+        "path": "/views/plot2.view.json",
+        "geometry": {
             "kind": "Relative",
             "x": 8,
             "y": 4,
             "w": 4,
             "h": 3
-          },
-          "windowState": "Normalized"
-        }
-      ]
-    }
-  }
+        },
+        "windowState": "Normalized"
+    }]
 }

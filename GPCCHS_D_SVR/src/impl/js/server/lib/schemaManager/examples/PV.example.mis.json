@@ -16,7 +16,6 @@
       "name": "ATT_BC_STR1VOLTAGE",
       "connectedDataX": {
         "formula": "Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.groundDate",
-
         "digits": 5,
         "format": "decimal",
         "domain": "",

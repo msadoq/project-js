@@ -1,7 +1,7 @@
 import debug from '../utils/debug';
 import _ from 'lodash';
 import { BrowserWindow } from 'electron';
-import { delWindow } from '../store/actions/windows';
+import { remove } from '../store/mutations/windowActions';
 import { getStore } from '../store/mainStore';
 
 const logger = debug('main:windows');
@@ -9,14 +9,14 @@ const logger = debug('main:windows');
 const windows = {};
 
 export function open(data, windowId) {
-  logger.info('opening window', windowId);
+  logger.info(`opening window ${windowId}`);
   const window = new BrowserWindow({
     show: false,
     x: data.geometry.x,
     y: data.geometry.y,
-    width: data.geometry.width,
-    height: data.geometry.height,
-    title: `${data.title} - VIMA`, // TODO
+    width: data.geometry.w,
+    height: data.geometry.h,
+    title: `${data.title} - VIMA`,
   });
 
   // prevent garbage collection
@@ -34,7 +34,7 @@ export function open(data, windowId) {
     window[windowId] = null;
 
     // update redux store
-    getStore().dispatch(delWindow(windowId));
+    getStore().dispatch(remove(windowId));
   });
 
   if (process.env.NODE_ENV === 'development') {

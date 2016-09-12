@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { electronEnhancer } from 'redux-electron-store';
 import thunk from 'redux-thunk';
-import reducer from './reducers';
+import reducer from './mutations';
 
 let store;
 
@@ -16,7 +16,7 @@ export function initStore(initialState) {
 
 export function getStore() {
   if (!store) {
-    throw new Error('store wasn\t inited yet');
+    throw new Error('store wasn\'t inited yet');
   }
   return store;
 }

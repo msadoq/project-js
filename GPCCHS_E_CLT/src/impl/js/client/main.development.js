@@ -2,7 +2,6 @@ app.commandLine.appendSwitch('no-proxy-server'); // TODO dbrugne : analysis
 import debug from './app/utils/debug';
 import { app } from 'electron';
 import installExtensions from './app/main/installExtensions';
-import initialState from './initialState.json'; // TODO remove
 import { initStore, getStore } from './app/store/mainStore';
 import { connect, disconnect } from './app/main/websocket';
 import { sync as syncWindows } from './app/main/windows';
@@ -21,7 +20,7 @@ app.on('ready', async () => {
 
   await installExtensions();
 
-  initStore(initialState);
+  initStore();
   store = getStore();
   storeSubscription = store.subscribe(() => {
     syncWindows();

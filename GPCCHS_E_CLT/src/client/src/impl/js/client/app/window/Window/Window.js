@@ -16,12 +16,10 @@ export default class Window extends Component {
           </Col>
         </Row>
         <Row>
-          <Col xs={12}>
-            <PageContainer
-              windowId={this.props.windowId}
-              pageId={this.props.pageId}
-            />
-          </Col>
+          <PageContainer
+            windowId={this.props.windowId}
+            pageId={this.props.pageId}
+          />
         </Row>
       </Grid>
     );

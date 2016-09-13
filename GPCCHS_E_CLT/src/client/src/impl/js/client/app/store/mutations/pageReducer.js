@@ -97,6 +97,10 @@ export function getViews(state, pageId) {
   }, []);
 }
 
-export function getLayout(state, pageId) { // TODO
-  return {};
+export function getEditor(state, pageId) { // TODO TESt
+  if (!pageId) {
+    return null;
+  }
+
+  return _.get(state, `pages.${pageId}.editor`);
 }

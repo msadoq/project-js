@@ -3,6 +3,10 @@ import WebsocketContainer from './WebsocketContainer';
 import TabsContainer from './TabsContainer';
 
 export default class Navigation extends Component {
+  static propTypes = {
+    windowId: PropTypes.string.isRequired,
+    pageId: PropTypes.string.isRequired,
+  };
   render() {
     return (
       <div>

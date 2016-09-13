@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-export default class View extends Component {
+export default class UnknownView extends Component {
   static propTypes = {
     type: React.PropTypes.string,
     viewId: PropTypes.string.isRequired,

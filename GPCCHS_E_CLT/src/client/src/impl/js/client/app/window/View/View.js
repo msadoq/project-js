@@ -1,21 +1,18 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 import { Button } from 'react-bootstrap';
-import external from '../../external.modules';
-import Unknow from './Unknown';
+import external from '../../../external.modules';
+import UnknownView from './UnknownView';
 
 export default class View extends Component {
   static propTypes = {
     type: React.PropTypes.string.isRequired,
     viewId: PropTypes.string.isRequired,
-    configuration: PropTypes.object.isRequired,
   };
   render() {
-    const { type, viewId, configuration } = this.props;
+    const { type, viewId } = this.props;
 
-    console.log(external, type);
-    const ViewTypeComponent = _.has(external, type) ? external[type] : Unknown;
-    const component = <ViewTypeComponent {...this.props} />
+    const ViewTypeContainer = _.has(external, type) ? external[type].container : UnknownView;
 
     return (
       <div>
@@ -29,7 +26,7 @@ export default class View extends Component {
           </Button>
         </div>
         <div>
-          {component}
+          <ViewTypeContainer {...this.props} />
         </div>
       </div>
     );

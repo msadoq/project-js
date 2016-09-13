@@ -1,12 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 import { WidthProvider, Responsive } from 'react-grid-layout';
-// import ViewContainer from '../../containers/ViewContainer';
-// import EditorContainer from '../../containers/EditorContainer';
+import View from '../View/View';
 import styles from './Page.css';
 
-// TODO : mount editor as fixed grid view
-// TODO : current state is current layout (inited with props), once layout is moved a "modified" state is set to true, * is displayed in page tab, click on save will send it to hss
 // TODO : remove AddView and add add window and add page in electron menu bar
 
 const Grid = WidthProvider(Responsive);
@@ -34,9 +31,6 @@ export default class Page extends Component {
     this.onLayoutChange = this.onLayoutChange.bind(this);
   }
   render() {
-    // const isEditorOpened = (this.props.editor
-    //   && this.props.editor.opened === true);
-
     console.log(this.props);
 
     const layouts = {
@@ -56,10 +50,18 @@ export default class Page extends Component {
         cols={{lg: 12}}
         onLayoutChange={this.onLayoutChange}
       >
-        {_.map(this.props.views, v => <div className={styles.block} key={v.viewId}>{v.title}:{v.type}</div>)}
+        {_.map(this.props.views, v =>
+          <div className={styles.block} key={v.viewId}>
+            <View viewId={v.viewId} type={v.type} configuration={v.configuration} />
+          </div>
+        )}
       </Grid>
     );
 
+    // TODO : mount editor as fixed grid view
+    // import EditorContainer from '../../containers/EditorContainer';
+    // const isEditorOpened = (this.props.editor
+    //   && this.props.editor.opened === true);
     // const editorWidth = 3;
     // if (isEditorOpened) {
     //   cols.lg = 12 + editorWidth;

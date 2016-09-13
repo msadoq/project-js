@@ -1,4 +1,4 @@
-const debug = require('../io/debug')('views:plot');
+const debug = require('../../lib/io/debug')('views:plot');
 const {
   addTimeline,
   removeTimeline,
@@ -7,9 +7,9 @@ const {
   getTimelineById,
   updateDataFromTl,
   updateData,
-} = require('./utils');
-const getTb = require('../timeBar/index').getTimebar;
-const parseDataFullName = require('../utils/parseDataFullName');
+} = require('../../lib/utils/timebar');
+const getTb = require('../../lib/timeBar/index').getTimebar;
+const parseDataFullName = require('../../lib/utils/parseDataFullName');
 const _ = require('lodash');
 
 function PlotView(configuration) {

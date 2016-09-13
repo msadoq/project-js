@@ -10,7 +10,7 @@ module.exports = (spark, identity, type, conf) => {
     throw new Error(`Unknown view type requested '${type}'`);
   }
 
-  const constructor = external[type];
+  const constructor = external[type].adapter;
   const instance = new constructor({
     spark,
     identity,

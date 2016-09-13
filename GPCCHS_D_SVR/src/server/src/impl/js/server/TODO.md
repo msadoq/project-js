@@ -61,19 +61,20 @@ Only list expected tasks for PBF shipping of end of october.
   - [ ] Same from redux to workspace document format
   - [ ] Mount on client side
   - [ ] Implement following process: HSS send to HSC a workspace path, HSC read and transform documents
-* [ ] Finalize page customizable layout implementation
-* [ ] Finalize windows, pages, views add/remove/mount/unmount/updateGeometry/focus reducers and actions
+* [ ] Finalize page customizable layout implementation (Damien)
+* [x] Finalize windows, pages, views add/remove/mount/unmount/updateGeometry/focus reducers and actions (Damien)
 * [ ] Implement <EntryPointsContainer/> for triggering DC realtime un/subscription
 * [ ] Implement <PlotView/>
 * [ ] Implement <TextView/>
 * [ ] Pass realtime dimensions to each view (e.g.: <WithProvider/>)
 * [ ] Customize electron menu bar
+* [ ] Add actions in menu bar: new window, new view (for current focused page)
 * [ ] Implement a websocket connection by windows and add a correct dispatching logic on HSS side
 * [ ] IHM design and cleanup
 * [ ] Complete README.md (lint, quality and coverage, stub  commands usage) (Damien)
 * [ ] Code review and cleaning (convention, comments, TODO , small optimizations) (Damien)
 * [ ] Merge Aziz branch
-* [ ] Merge 
+* [ ] Merge Editor branch
   
 ## Postponed
 
@@ -83,3 +84,4 @@ Only list expected tasks for PBF shipping of end of october.
 * [ ] Envisage removing express from HSC to use webpack server instead
 * [ ] Hot reload in main process https://github.com/chentsulin/electron-react-boilerplate/issues/360
 * [ ] Envisage replacing stockchart with https://github.com/recharts/recharts
+* [ ] Fix Primus node.js client generation bug and use C++ also on client side: https://github.com/primus/primus#connecting-from-the-server

@@ -16,12 +16,12 @@ extensions 14 to 107;
     REAL_TIME = 1;
     ARCHIVE = 2;
   }
-
-
-  required DataSource dataSource = 4;
-
+  
+  
+  required DataSource dataSource = 4; 
+  
+  
   //True if all data from archive was retrieved for query, False otherwise
-
   optional bool isEndOfQuery = 5; // only for data from Archive. 
 
 }

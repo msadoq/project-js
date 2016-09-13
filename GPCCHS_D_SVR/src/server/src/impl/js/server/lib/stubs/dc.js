@@ -21,34 +21,60 @@ const supportedParameters = [
  * Receive request for both realtime subscriptions and data query
  * @param buffer
  */
+
+ let wrapServerMessage = (dataType, payload) => {
+      serverMsgPayload = protobuf.encode('dc.dataControllerUtils.DcServerMessage' , {
+        messageType : dataType,
+        payload : payload
+      });
+ }
 const onHssMessage = buffer => {
   let type;
+  let dcClientMessage;
   let payload;
   try {
-    payload = protobuf.decode('dc.dataControllerUtils.DataQuery', buffer);
-    type = 'dataQuery';
-  } catch (dataQueryException) {
-    try {
-      payload = protobuf.decode('dc.dataControllerUtils.DataSubscribe', buffer);
-      type = 'dataSubscribe';
-    } catch (dataSubscribeException) {
-      return zmq.respond('stubdcrep', protobuf.encode('dc.dataControllerUtils.DcResponse', {
-        id: null,
-        status: 'ERROR',
-        reason: 'Unable to decode protobuf',
-      }));
+    dcClientMessage = protobuf.decode('dc.dataControllerUtils.DcClientMessage', buffer);
+  try {
+    type = protobuf.messageType;
+    switch (dcClientMessage.messageType){
+      case 'DATA_QUERY':
+        payload = protobuf.decode('dc.dataControllerUtils.DataQuery', dcClientMessage.payload);
+        break;
+      case 'DATA_SUBSCRIBE':
+        payload = protobuf.decode('dc.dataControllerUtils.DataSubscribe', dcClientMessage.payload);
+        break;
+      case 'DOMAIN_QUERY':
+        payload = protobuf.decode('dc.dataControllerUtils.DomainQuery', dcClientMessage.payload);
+        break;
+      default:
+        throw new Error("Unknown messageType for dcClientMessage");
+        break;
     }
+  } catch (decodeException) {
+      return zmq.send('stubdcrep',  wrapServerMessage('DC_RESPONSE', protobuf.encode('dc.dataControllerUtils.DcResponse', {
+        id : null,
+        status : 'ERROR',
+        reason : 'Unable to decode dcClientMessage payload of type '+type
+      })));
+    }
+  }
+  catch (clientMsgException) {
+    return zmq.send('stubdcrep', wrapServerMessage('DC_RESPONSE', protobuf.encode('dc.dataControllerUtils.DcResponse', {
+      id : null,
+      status : 'ERROR',
+      reason : 'Unable to decode dcClientMessage'
+    })));
   }
 
   const parameter
     = `${payload.dataId.catalog}.${payload.dataId.parameterName}<${payload.dataId.comObject}>`;
 
   if (supportedParameters.indexOf(parameter) === -1) {
-    return zmq.respond('stubdcrep', protobuf.encode('dc.dataControllerUtils.DcResponse', {
+    return zmq.respond('stubdcrep',  wrapServerMessage('DC_RESPONSE', protobuf.encode('dc.dataControllerUtils.DcResponse', {
       id: null,
       status: 'ERROR',
       reason: 'Unsupported stub parameter',
-    }));
+    })));
   }
 
   if (type === 'dataQuery') {
@@ -65,10 +91,10 @@ const onHssMessage = buffer => {
     debug.debug('subscription removed', parameter);
   }
 
-  return zmq.respond('stubdcrep', protobuf.encode('dc.dataControllerUtils.DcResponse', {
+  return zmq.respond('stubdcrep', wrapServerMessage('DC_RESPONSE', protobuf.encode('dc.dataControllerUtils.DcResponse', {
     id: payload.id,
     status: 'OK',
-  }));
+  })));
 };
 
 const pushData = (dataId, payloads) => {
@@ -89,7 +115,9 @@ const pushData = (dataId, payloads) => {
     dataId,
     payloads: buffers,
   });
-  return zmq.push('stubData', buffer);
+
+  const wrappedBuffer = wrapServerMessage('NEW_DATA_MESSAGE', buffer);
+  return zmq.push('stubData', wrappedBuffer);
 };
 
 const emulateDc = () => {
@@ -130,13 +158,13 @@ const emulateDc = () => {
 module.exports = callback => {
   zmq.open({
     stubdcrep: {
-      type: 'rep',
-      url: process.env.ZMQ_GPCCDC_REQ,
+      type: 'pull',
+      url: process.env.ZMQ_GPCCDC_PUSH,
       handler: onHssMessage,
     },
     stubData: {
       type: 'push',
-      url: process.env.ZMQ_GPCCDC_DATA,
+      url: process.env.ZMQ_GPCCDC_PULL,
     },
   }, err => {
     if (err) {

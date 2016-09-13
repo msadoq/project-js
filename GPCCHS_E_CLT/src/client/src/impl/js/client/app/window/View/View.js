@@ -8,9 +8,11 @@ export default class View extends Component {
   static propTypes = {
     type: React.PropTypes.string.isRequired,
     viewId: PropTypes.string.isRequired,
+    openEditor: PropTypes.func,
+    closeEditor: PropTypes.func,
   };
   render() {
-    const { type, viewId } = this.props;
+    const { type, viewId, configuration } = this.props;
 
     const ViewTypeContainer = _.has(external, type) ? external[type].container : UnknownView;
 
@@ -18,7 +20,7 @@ export default class View extends Component {
       <div>
         <div>
           {this.props.title}
-          <Button onClick={() => console.log('open', viewId)}>
+          <Button onClick={() => this.props.openEditor(viewId, type, configuration)}>
             Edit this view
           </Button>
           <Button onClick={() => console.log('remove', viewId)}>

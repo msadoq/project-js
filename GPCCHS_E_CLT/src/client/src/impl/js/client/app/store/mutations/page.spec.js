@@ -164,8 +164,5 @@ describe('store:page', () => {
         { viewId: 'v1' },
       ]);
     });
-    it('getLayout', () => {
-      // TODO getLayout
-    });
   });
 });

@@ -78,6 +78,7 @@
     "webpack-merge": "^0.14.1"
   },
   "dependencies": {
+    "ajv": "^4.7.0",
     "bootstrap": "^3.3.6",
     "chai-properties": "^1.2.1",
     "css-modules-require-hook": "^4.0.2",

@@ -11,7 +11,7 @@ const router = new Router();
 router.post('/pages', [
   validatePathOrOId,
   validFs,
-  validatorJson,
+  //validatorJson,
     // validatePageToView,
 ],
   (req, res) => {

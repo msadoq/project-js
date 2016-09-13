@@ -2,14 +2,14 @@ const debug = require('../../io/debug')('documents:workspaces');
 const { Router } = require('express');
 const validatePathOrOId = require('../../middlewares/validatePathOrOId');
 const validFs = require('../../middlewares/validFs');
-const validatorJson = require('../../middlewares/validatorJson');
+// const validatorJson = require('../../middlewares/validatorJson');
 
 const router = new Router();
 
 router.post('/workspaces', [
   validatePathOrOId,
   validFs,
-  validatorJson,
+  // validatorJson,
   // validateWorkspaceToPage,
 ], (req, res) => {
   debug.debug('received', req.body, 'send', req.validated);

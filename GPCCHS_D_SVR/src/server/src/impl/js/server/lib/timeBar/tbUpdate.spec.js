@@ -1,8 +1,11 @@
 const { expect } = require('../utils/test');
 const compareTimebars = require('./tbUpdate');
+const pathApi = require('path');
 
 // input data
-let tbRef = require('../schemaManager/examples/TB.example');
+// let tbRef = require('../schemaManager/examples/TB.example');
+let tbRef = require('../../../../../../../../../GPCCHS_E_CLT/src/client/src/' +
+  'impl/js/client/app/schemaManager/examples/TB.example');
 
 const tb1 = JSON.parse(JSON.stringify(tbRef));
 

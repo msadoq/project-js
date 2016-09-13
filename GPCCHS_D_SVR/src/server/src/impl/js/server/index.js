@@ -115,12 +115,15 @@ zmq.open({
   if (process.env.STUB_TB_ON === 'on') {
     // Read TB file
     const tb = JSON.parse(
-      fs.readFileSync(path.join(__dirname, 'lib/schemaManager/examples/TB.example.json'), 'utf8')
+      fs.readFileSync(path.join(__dirname,
+        '../../../../../../../GPCCHS_E_CLT/src/client/src/impl/js/client/app/schemaManager' +
+        '/examples/TB.example.json'),
+        'utf8')
     );
-    if (check.validateTbJson(tb)) {
-      debug.error('Invalid JSON file');
-      throw new Error('Invalid JSON file');
-    }
+    // if (check.validateTbJson(tb)) {
+    //   debug.error('Invalid JSON file');
+    //   throw new Error('Invalid JSON file');
+    // }
     setTimebar(JSON.parse(JSON.stringify(tb)));
     tbStub(tb, launchStubError => {
       if (launchStubError) {

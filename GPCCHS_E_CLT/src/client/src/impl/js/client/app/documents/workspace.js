@@ -5,7 +5,6 @@ const documents = require('../documents');
 const { v4 } = require('node-uuid');
 const validator = require('../schemaManager/index');
 
-
 // TODO aleal unit test
 // TODO same page/view used in more than one window/page
 
@@ -233,4 +232,4 @@ module.exports = {
   readPages,
   readViews,
   separateConnectedData,
-}
+};

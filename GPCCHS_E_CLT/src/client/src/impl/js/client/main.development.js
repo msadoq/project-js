@@ -5,6 +5,7 @@ import installExtensions from './app/main/installExtensions';
 import { initStore, getStore } from './app/store/mainStore';
 import { connect, disconnect } from './app/main/websocket';
 import { sync as syncWindows } from './app/main/windows';
+import loadWorkspace from './app/main/loadWorkspace';
 
 if (process.env.NODE_ENV === 'development') {
   require('electron-debug')(); // eslint-disable-line global-require
@@ -13,6 +14,7 @@ if (process.env.NODE_ENV === 'development') {
 const logger = debug('main');
 
 let store = null;
+let workspaceLoaded = 'not-started';
 let storeSubscription = null;
 
 app.on('ready', async () => {
@@ -24,6 +26,17 @@ app.on('ready', async () => {
   store = getStore();
   storeSubscription = store.subscribe(() => {
     syncWindows();
+
+    if (store.getState().hss.status === 'connected' && workspaceLoaded === 'not-started') {
+      workspaceLoaded = 'in-progress';
+      loadWorkspace('dev.workspace.json', err => {
+        if (err) {
+          throw err;
+        }
+
+        workspaceLoaded = 'done'; // TODO : flag encapsulated in loadWorkspace
+      });
+    }
   });
 
   connect();

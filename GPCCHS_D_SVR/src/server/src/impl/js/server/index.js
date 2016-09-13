@@ -21,7 +21,6 @@ const tbStub = require('./lib/stubs/tb');
 // const dataStub = require('./lib/stubs/data');
 const fs = require('fs');
 const path = require('path');
-const check = require('./lib/schemaManager');
 const { setTimebar } = require('./lib/timeBar/index');
 
 // port
@@ -124,10 +123,6 @@ zmq.open({
         '/examples/TB.example.json'),
         'utf8')
     );
-    // if (check.validateTbJson(tb)) {
-    //   debug.error('Invalid JSON file');
-    //   throw new Error('Invalid JSON file');
-    // }
     setTimebar(JSON.parse(JSON.stringify(tb)));
     tbStub(tb, launchStubError => {
       if (launchStubError) {

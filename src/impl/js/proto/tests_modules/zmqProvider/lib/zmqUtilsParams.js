@@ -5,19 +5,31 @@ var zmq = require("zmq"),
 
 const fs = require('fs'),
     path = require('path');
+    
+const util = require('util');
 
 function logToConsole (message) {
-  console.log("[" + new Date().toLocaleTimeString() + "]" + message);
+  console.log("[" + new Date().toLocaleTimeString() + "]" + util.inspect(message));
 }
 
 function sendMessage (header, payload) {
-    logToConsole("Sending " + header);
+    // logToConsole(Header.decode(header));
     socketOut.send([null, header, payload]);
+}
+
+
+let factor = 1;
+if (!isNaN(parseInt(process.argv[2], 10))) {
+    factor = parseInt(process.argv[2], 10);
 }
 
 var JS = require("../files/reportingParameter.proto.js"); 
 var ReportingParameter = JS.ReportingParameter;
+var Protobuf = JS.protobuf;
+var Header = require("../files/header.proto.js");
 
+console.log(JS);
+console.log(ReportingParameter);
 // socketOut.bind("tcp://127.0.0.1:3000");
 socketOut.bind("tcp://127.0.0.1:49159", (err) => {
     if (err) throw err;
@@ -28,13 +40,13 @@ socketIn.connect("tcp://127.0.0.1:4000");
 socketIn.on("message", function (subscriptions) {
     JSON.parse(subscriptions).forEach(function(newSubscription){
         console.log(newSubscription);
-        var dInf = newSubscription.VisuWindow.dInf;
-        var dSup = newSubscription.VisuWindow.dSup;
-        var timeStep = 600;
+        var lower = newSubscription.visuWindow.lower;
+        var upper = newSubscription.visuWindow.upper;
+        var timeStep = 600*factor;
         var sendToCache = setInterval(function () {
-            if(dInf < dSup) {
+            if(lower < upper) {
                 parameter = new ReportingParameter({
-                    "onboardDate" : {"value" : dInf},
+                    "onboardDate" : {"value" : lower},
                     "groundDate" : {"value" : Math.round(+new Date()/1000)},
                     "convertedValue" : {"_double" : {"value" : Math.floor((Math.random() * 100) + 1)}},
                     "rawValue" : {"_double" : {"value" : Math.floor((Math.random() * 100) + 1)}},
@@ -51,23 +63,22 @@ socketIn.on("message", function (subscriptions) {
                 var buffer = byteBuffer.toBuffer();
 
                 var OID = "000100010100010001" + Math.floor((Math.random() * 99999999) + 1);
-                const splittedId = newSubscription.DataFullName.split('.');
+                const splittedId = newSubscription.dataFullName.split('.');
                 const splittedParameter = splittedId[1].split('<');
                 const splittedType = splittedParameter[1].split('>');
-                var obj = {
+                var obj = new Header({
                     'catalog' : splittedId[0],
-                    'fullDataId' : newSubscription.DataFullName,
+                    'fullDataId' : newSubscription.dataFullName,
                     'oid' : OID,
                     'parameter' : splittedParameter[0],
-                    'binPayload' : buffer,
-                    'session'  : newSubscription.SessionId,
-                    'timestamp' : dInf,
+                    'session'  : newSubscription.sessionId,
+                    'timestamp' : lower,
                     'type' : splittedType[0]
-                };
+                });
                 //console.log(JSON.stringify(obj));
-                const metaData = new Buffer(JSON.stringify(obj));
+                const metaData = obj.encode().toBuffer();
                 sendMessage(metaData, buffer);   
-                dInf = dInf + timeStep;
+                lower = lower + timeStep;
             } else {
                 console.log('terminé');
                 clearInterval(sendToCache);

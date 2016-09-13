@@ -1,0 +1,9 @@
+package dataControllerUtils.protobuf;
+
+import "dataControllerUtils/Timestamp.proto";
+
+message DataPayload {
+extensions 15 to 107;
+  optional Timestamp timestamp = 1;
+  optional bytes payload = 2;
+}

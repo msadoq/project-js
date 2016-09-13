@@ -1,0 +1,16 @@
+package dataControllerUtils.protobuf;
+
+import "dataControllerUtils/DataId.proto";
+
+message DataSubscribe {
+extensions 14 to 107;
+  optional Action action = 1;
+  optional string id = 2;
+  optional DataId dataId = 4;
+
+  enum Action {
+    ADD = 0;
+    UPDATE = 1;
+    DELETE = 2;
+  }
+}

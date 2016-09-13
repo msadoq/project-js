@@ -12,11 +12,11 @@ exports.getSubscriptions = function (data) {
         '$and': [{ 
             'DataFullName' : data.catalog+'.'+data.parameter+'<'+data.type+'>'
             },{ 
-            'VisuWindow.dInf' : {
+            'visuWindow.lower' : {
                 '$lte': data.timestamp
                 }
             },{ 
-            'VisuWindow.dSup' : {
+            'visuWindow.upper' : {
                 '$gte': data.timestamp
                 }
             },{ 

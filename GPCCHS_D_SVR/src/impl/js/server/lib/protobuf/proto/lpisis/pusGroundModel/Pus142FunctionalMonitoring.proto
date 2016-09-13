@@ -1,0 +1,22 @@
+// Produced by Acceleo Cpp Generator 1.1.0-R7S1-20151214
+
+import "ccsds_mal/types.proto";
+import "pusGroundModel/PusElement.proto";
+import "pusGroundModel/Pus142ParameterMonitoringDefinition.proto";
+
+package pusGroundModel.protobuf;
+
+message Pus142FunctionalMonitoring {
+extensions 11 to 111;
+
+  optional ccsds_mal.protobuf.UINTEGER fmonId = 1;
+  optional ccsds_mal.protobuf.UINTEGER protectionStatus = 2;
+  optional ccsds_mal.protobuf.UINTEGER status = 3;
+  optional ccsds_mal.protobuf.UINTEGER checkingStatus = 4;
+  optional ccsds_mal.protobuf.UINTEGER rid = 5;
+  repeated pusGroundModel.protobuf.Pus142ParameterMonitoringDefinition pus142ParameterMonitoringDefinition = 6;
+  optional ccsds_mal.protobuf.UINTEGER validityParameterId = 7;
+  optional ccsds_mal.protobuf.UINTEGER validityParameterMask = 8;
+  optional ccsds_mal.protobuf.ATTRIBUTE validityParameterExpectedValue = 9;
+  optional pusGroundModel.protobuf.PusElement pusElement = 10;
+}

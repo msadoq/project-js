@@ -1,0 +1,17 @@
+// Produced by Acceleo Cpp Generator 1.1.0-R7S1-20151214
+
+import "ccsds_mal/types.proto";
+import "pusGroundModel/PusElement.proto";
+
+package pusGroundModel.protobuf;
+
+message Pus011SubSchedule {
+extensions 7 to 107;
+
+  optional ccsds_mal.protobuf.UINTEGER ssId = 1;
+  optional ccsds_mal.protobuf.UINTEGER status = 2;
+  optional ccsds_mal.protobuf.ULONG executionTimeFirstTc = 3;
+  optional ccsds_mal.protobuf.UINTEGER apid = 4;
+  optional pusGroundModel.protobuf.PusElement pusElement = 5;
+  optional ccsds_mal.protobuf.TIME groundDate = 6;
+}

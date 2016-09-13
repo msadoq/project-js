@@ -337,7 +337,7 @@ return /******/ (function(modules) { // webpackBootstrap
 					if (process.env.NODE_ENV !== "production") console.log("RESET CHART, one or more of these props changed", CANDIDATES_FOR_RESET);
 					this.setState(calculateState(nextProps));
 				} else if (!(0, _utils.shallowEqual)(this.props.xExtents, nextProps.xExtents)) {
-					if (process.env.NODE_ENV !== "production") console.log("xExtents changed");
+					//if (process.env.NODE_ENV !== "production") console.log("xExtents changed");
 					// since the xExtents changed update fullData, plotData, xExtentsCalculator to state
 	
 					var _calculateState = calculateState(nextProps);
@@ -2729,7 +2729,7 @@ return /******/ (function(modules) { // webpackBootstrap
 				var newState;
 				if (reset) {
 					if (process.env.NODE_ENV !== "production") {
-						console.log("DATA VIEW PORT CHANGED - CHART RESET");
+						//console.log("DATA VIEW PORT CHANGED - CHART RESET");
 					}
 	
 					plotData = postCalculator(plotData);

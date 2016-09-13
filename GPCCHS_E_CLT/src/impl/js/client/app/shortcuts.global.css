@@ -6,6 +6,10 @@
   display: none;
 }
 
+.dib {
+  display: inline-block;;
+}
+
 .m0 {
   margin: 0;
 }
@@ -287,23 +291,23 @@
 }
 
 .b {
-  border: 1px solid #eeeeee;
+  border: 1px solid #cccccc;
 }
 
 .bt {
-  border-top: 1px solid #eeeeee;
+  border-top: 1px solid #cccccc;
 }
 
 .br {
-  border-right: 1px solid #eeeeee;
+  border-right: 1px solid #cccccc;
 }
 
 .bb {
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: 1px solid #cccccc;
 }
 
 .bl {
-  border-left: 1px solid #eeeeee;
+  border-left: 1px solid #cccccc;
 }
 
 .cp {

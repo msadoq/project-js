@@ -1,11 +1,11 @@
-const { timeLineCache } = require('../../io/loki');
+const { timelineColl } = require('../../io/loki');
 
-const addTimeLine = (timeLineJson) => timeLineCache
+const addTimeLine = (timeLineJson) => timelineColl
   .insert(JSON.parse(timeLineJson));
 
 const updateTimeLine = (timeLineLokiId, timeLineUpdates) => {
   // On récupère la timeLine avec son lokiId
-  const timeLine = timeLineCache.get(parseInt(timeLineLokiId, 10));
+  const timeLine = timelineColl.get(parseInt(timeLineLokiId, 10));
   const jsonUpdates = JSON.parse(timeLineUpdates);
 
   // On boucle sur les modifications à apporter
@@ -16,19 +16,19 @@ const updateTimeLine = (timeLineLokiId, timeLineUpdates) => {
     timeLine.timeLine[attributeName] = attributeValue;
   }
   // on stock la timeline
-  return timeLineCache.update(timeLine);
+  return timelineColl.update(timeLine);
 };
 
-const getTimeLineById = (id) => timeLineCache
+const getTimeLineById = (id) => timelineColl
   .get(id);
 
-const findTimeLineById = (id) => timeLineCache
+const findTimeLineById = (id) => timelineColl
   .find({ 'timeLine.id': parseInt(id, 10) });
 
-const deleteTimeLineByFindId = (id) => timeLineCache
+const deleteTimeLineByFindId = (id) => timelineColl
   .removeWhere({ 'timeLine.id': parseInt(id, 10) });
 
-const getAllTimeLines = () => timeLineCache
+const getAllTimeLines = () => timelineColl
   .find();
 
 exports.addTimeLine = addTimeLine;

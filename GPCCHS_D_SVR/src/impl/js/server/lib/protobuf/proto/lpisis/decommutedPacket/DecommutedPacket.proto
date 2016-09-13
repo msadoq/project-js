@@ -1,0 +1,15 @@
+// Produced by Acceleo Cpp Generator 0.0.6-R4-20150203
+
+import "ccsds_mal/types.proto";
+import "decommutedPacket/DecommutedValue.proto";
+
+package decommutedPacket.protobuf;
+
+message DecommutedPacket {
+extensions 5 to 105;
+    optional ccsds_mal.protobuf.TIME onboardDate = 1;
+    optional ccsds_mal.protobuf.TIME groundDate = 2;
+    optional ccsds_mal.protobuf.BOOLEAN isNominal = 3;
+    repeated decommutedPacket.protobuf.DecommutedValue decommutedValues = 4;
+
+}

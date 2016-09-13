@@ -1,0 +1,20 @@
+// Produced by Acceleo Cpp Generator 1.1.0-R7S1-20151207
+
+import "ccsds_mal/types.proto";
+import "ccsds_mal/NamedValue.proto";
+import "computedEvent/EventClass.proto";
+
+package computedEvent.protobuf;
+
+message ComputedEvent {
+extensions 9 to 109;
+
+  optional ccsds_mal.protobuf.TIME eventDate = 1;
+  optional ccsds_mal.protobuf.TIME systemDate = 2;
+  optional ccsds_mal.protobuf.STRING mission = 3;
+  optional ccsds_mal.protobuf.ULONG satellite = 4;
+  optional ccsds_mal.protobuf.BLOB producer = 5;
+  optional computedEvent.protobuf.EventClass eventClass = 6;
+  optional ccsds_mal.protobuf.STRING source = 7;
+  repeated ccsds_mal.protobuf.NamedValue specificAttributes = 8;
+}

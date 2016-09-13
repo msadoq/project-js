@@ -1,0 +1,18 @@
+// Produced by Acceleo Cpp Generator 0.0.8-R6S1
+
+import "ccsds_mal/types.proto";
+import "computedEvent/EventClass.proto";
+import "event/SpecificAttributeDefinition.proto";
+import "ccsds_mal/NamedValue.proto";
+
+package computedEvent.protobuf;
+
+message ComputedEventDefinition {
+extensions 6 to 106;
+
+  optional ccsds_mal.protobuf.IDENTIFIER name = 1;
+  repeated ccsds_mal.protobuf.NamedValue pattern = 2;
+  optional computedEvent.protobuf.EventClass eventClass = 3;
+  repeated event.protobuf.SpecificAttributeDefinition specificAttributeDefinition = 4;
+  optional ccsds_mal.protobuf.IDENTIFIER origin = 5;
+}

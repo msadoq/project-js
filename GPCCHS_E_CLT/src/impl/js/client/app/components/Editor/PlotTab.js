@@ -14,6 +14,7 @@ import ColorPicker from './ColorPicker.js';
 import SelectFontFamilySize from './SelectFontFamilySize.js';
 import SelectFontStyle from './SelectFontStyle.js';
 import PlotAxis from './PlotAxis.js';
+import Marker from './Marker.js';
 import styles from './PlotTab.css';
 import select from './Select.css';
 import classNames from 'classnames';
@@ -30,12 +31,14 @@ export default class PlotTab extends React.Component {
   static propTypes = {
     title: React.PropTypes.string,
     axes: React.PropTypes.array,
+    markers: React.PropTypes.array,
     grid: React.PropTypes.object,
     titleStyle: React.PropTypes.object,
     handleGrid: React.PropTypes.func,
     handlePlotTitle: React.PropTypes.func,
     handlePlotTitleStyle: React.PropTypes.func,
     handlePlotAxes: React.PropTypes.func,
+    handlePlotMarkers: React.PropTypes.func
   }
   constructor(...args) {
     super(...args);
@@ -73,7 +76,7 @@ export default class PlotTab extends React.Component {
     this.props.handleGrid('yAxisId', e.target.value);
   }
   render() {
-    let axes = this.props.axes.map((axis, key) =>
+    const axes = this.props.axes.map((axis, key) =>
       <PlotAxis
         key={key}
         idAxe={key}
@@ -91,6 +94,20 @@ export default class PlotTab extends React.Component {
         showAxis={axis.showAxis}
         style={axis.style}
         handlePlotAxes={this.props.handlePlotAxes}
+      />
+    );
+    console.log(this.props.markers);
+    const markers = this.props.markers.map((marker, key) =>
+      <Marker
+        key={key}
+        idAxe={key}
+        kind={marker.kind}
+        label={marker.label}
+        relPosX={marker.relativePosX}
+        relPosY={marker.relativePosY}
+        markerStyle={marker.style}
+        handlePlotMarker={this.props.handlePlotMarkers}
+        axes={this.props.axes}
       />
     );
     return (
@@ -297,6 +314,9 @@ export default class PlotTab extends React.Component {
           </div>
         </Collapse>
         <br />
+        { /** ********************************************************************** **/
+        /** ==============================> MARKERS <=============================== **/
+        /** ********************************************************************** **/ }
         <a
           className={
             this.state.openM ?
@@ -312,20 +332,7 @@ export default class PlotTab extends React.Component {
         </a>
         <Collapse in={this.state.openM}>
           <div className={classNames(styles.shift, styles.mt5)}>
-            <Form horizontal>
-              <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalName">
-                <Col componentClass={ControlLabel} xs={4} className={styles.formLabel}>
-                  Title
-                </Col>
-                <Col xs={8}>
-                  <FormControl
-                    controlId="title"
-                    type="text"
-                    className={styles.input_xsmall}
-                  />
-                </Col>
-              </FormGroup>
-            </Form>
+            {markers}
           </div>
         </Collapse>
       </div>

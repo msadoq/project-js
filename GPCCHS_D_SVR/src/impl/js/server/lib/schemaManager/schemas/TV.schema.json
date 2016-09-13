@@ -1,0 +1,101 @@
+{
+  "$schema":"http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "condition": {
+      "type": "object",
+      "properties": {
+        "field": {"type": "string"},
+        "operator": {"type": "string", "enum": ["==", "!=", "<", ">", "<=", ">=", "CONTAINS", "ICONTAINS"]},
+        "operand": {"type": "string"}
+      }
+    },
+    "connectedData": {
+      "type": "object",
+      "properties": {
+        "formula": {"type": "string"},
+        "unit": {"type": "string"},
+        "digits": {"type": "integer"},
+        "format": {"type": "string"},
+        "filter": {"$ref": "#/definitions/condition"},
+        "domain": {"type": "string"},
+        "timeLine": {"type": "string"}
+      },
+      "required": ["formula","unit", "digits", "format", "domain", "timeLine"]
+    },
+    "viewEntryPoint": {
+      "type": "object",
+      "properties": {
+        "name": {"type": "string"},
+        "connectedData": {"$ref": "#/definitions/connectedData"},
+        "stateColours": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "colour": {"type": "integer"},
+              "condition": {"$ref": "#/definitions/condition"}
+            },
+            "required": ["colour","condition"]
+          }
+        }
+      },
+      "required": ["name"]
+    },
+    "textViewEntryPoint": {"$ref": "#/definitions/viewEntryPoint"},
+    "viewCommonAttributes": {
+      "type": "object",
+      "properties": {
+        "path": {"type": "string"},
+        "links": {
+          "type": "array",
+          "items": {
+            "name": {"type": "string"},
+            "url": {"type": "string"}
+          }
+        },
+        "procedures": {
+          "type": "array",
+          "items": {
+            "name": {"type": "string"},
+            "path": {"type": "string"}
+          }
+        },
+        "defaultRatio": {
+          "type": "object",
+          "properties": {
+            "length": {"type": "number"},
+            "width": {"type": "number"}
+          },
+          "required": ["length", "width"]
+        }
+      }
+    }
+  },
+
+  "type":"object",
+  "properties": {
+    "data": {
+      "type":"object",
+      "properties": {
+        "type": {"type" : "string", "enum" : ["TextView"]},
+        "attributes": {
+          "allOf": [
+            {"$ref": "#/definitions/viewCommonAttributes"},
+            {
+              "properties": {
+                "textViewEntryPoints": {
+                  "type": "array",
+                  "items": {"$ref": "#/definitions/textViewEntryPoint"}
+                },
+                "content": {
+                  "type" : "array",
+                  "items": {"type": "string"}
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

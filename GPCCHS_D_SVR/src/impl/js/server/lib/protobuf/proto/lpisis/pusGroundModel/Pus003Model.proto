@@ -1,0 +1,21 @@
+// Produced by Acceleo Cpp Generator 1.1.0-R7S1-20151214
+
+import "ccsds_mal/types.proto";
+import "pusGroundModel/PusElement.proto";
+import "pusGroundModel/Pus003HkPacket.proto";
+import "pusGroundModel/Pus003DiagnosticPacket.proto";
+
+package pusGroundModel.protobuf;
+
+message Pus003Model {
+extensions 9 to 109;
+
+  repeated pusGroundModel.protobuf.Pus003DiagnosticPacket pus003DiagPacket = 1;
+  optional ccsds_mal.protobuf.UINTEGER numberHkPackets = 2;
+  optional ccsds_mal.protobuf.UINTEGER numberDiagPackets = 3;
+  optional ccsds_mal.protobuf.UINTEGER apid = 4;
+  repeated pusGroundModel.protobuf.Pus003HkPacket pus003HkPacket = 5;
+  optional ccsds_mal.protobuf.UINTEGER status = 6;
+  optional ccsds_mal.protobuf.TIME groundDate = 7;
+  optional pusGroundModel.protobuf.PusElement pusElement = 8;
+}

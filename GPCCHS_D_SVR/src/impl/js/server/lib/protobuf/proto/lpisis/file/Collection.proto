@@ -1,0 +1,25 @@
+// Produced by Acceleo Cpp Generator 1.1.0-R7S1-20151214
+
+import "ccsds_mal/types.proto";
+import "file/UserRight.proto";
+import "file/ProfileRight.proto";
+import "file/CollectionDocument.proto";
+import "file/CollectionVirtualFolder.proto";
+
+package file.protobuf;
+
+message Collection {
+extensions 12 to 112;
+
+  optional ccsds_mal.protobuf.STRING collectionName = 1;
+  optional ccsds_mal.protobuf.URI collectionDirname = 2;
+  optional ccsds_mal.protobuf.STRING virtualName = 3;
+  optional ccsds_mal.protobuf.BOOLEAN isVirtualFolder = 4;
+  optional ccsds_mal.protobuf.LONG collectionRefForVf = 5;
+  repeated file.protobuf.CollectionDocument documents = 6;
+  repeated file.protobuf.CollectionVirtualFolder virtualFolders = 7;
+  repeated file.protobuf.ProfileRight profilesAccess = 8;
+  repeated file.protobuf.UserRight usersAccess = 9;
+  optional ccsds_mal.protobuf.BLOB user = 10;
+  optional ccsds_mal.protobuf.BLOB lockedBy = 11;
+}

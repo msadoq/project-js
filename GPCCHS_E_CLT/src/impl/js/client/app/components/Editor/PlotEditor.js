@@ -37,6 +37,7 @@ export default class Editor extends Component {
     this.removeEntryPoint = this.removeEntryPoint.bind(this);
     this.addEntryPoint = this.addEntryPoint.bind(this);
     this.handleAxes = this.handleAxes.bind(this);
+    this.handlePlotMarkers = this.handlePlotMarkers.bind(this);
   }
   handleEntryPoint(key, label, newVal) {
     let val = newVal;
@@ -49,7 +50,7 @@ export default class Editor extends Component {
       });
       val = tmp;
     }
-    
+
     if (label === 'stateColour') {
       const tmp = this.state.entryPoints[key].stateColours;
       if (newVal.keyToRemove !== undefined) {
@@ -136,6 +137,28 @@ export default class Editor extends Component {
     });
     console.log(`${label} : ${newVal}`);
   }
+  handlePlotMarkers(key, label, newVal) {
+    let val = newVal;
+    const labels = label.split('.');
+
+    if (labels[0] === 'style') {
+      let tmp = this.state.markers[key].style;
+      tmp = Object.assign({}, tmp, {
+        [labels[1]]: newVal,
+      });
+      val = tmp;
+    }
+
+    const newState = this.state.markers;
+    newState[key] = Object.assign({}, newState[key], {
+      [labels[0]]: val,
+    });
+
+    this.setState({
+      markers: newState,
+    });
+    console.log(`${labels[0]} : ${newVal}`);
+  }
   handleAxes(key, label, newVal) {
     let val = newVal;
     const labels = label.split('.');
@@ -159,13 +182,13 @@ export default class Editor extends Component {
     console.log(`${label} : ${newVal}`);
   }
   /*
-    Applée lorsque le formulaire de filtre des entrypoints est mis à jour.
+    Appelée lorsque le formulaire de filtre des entrypoints est mis à jour.
   */
   changeSearch(s) {
     this.setState({ search: s });
   }
   /*
-    Applée lorsque le un item de la navbar est cliqué.
+    Appelée lorsque le un item de la navbar est cliqué.
     param id :
       0 : EntryPoints
       1 : PlotTab
@@ -195,7 +218,9 @@ export default class Editor extends Component {
               handlePlotTitle={this.handlePlotTitle}
               handlePlotTitleStyle={this.handlePlotTitleStyle}
               handlePlotAxes={this.handleAxes}
+              handlePlotMarkers={this.handlePlotMarkers}
               axes={this.props.configuration.attributes.axes}
+              markers={this.state.markers}
               title={this.state.title}
               grid={this.state.grid}
               titleStyle={this.state.titleStyle}

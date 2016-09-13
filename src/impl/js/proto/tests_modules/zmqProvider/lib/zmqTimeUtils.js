@@ -9,27 +9,41 @@ function logToConsole (message) {
 }
 
 function sendMessage (header) {
-    logToConsole("Sending " + JSON.parse(header).Timelines[0].VisuWindow.dInf + " - " + JSON.parse(header).Timelines[0].VisuWindow.dSup);
+    logToConsole("Sending " + JSON.parse(header).Timelines[0].visuWindow.lower + " - " + JSON.parse(header).Timelines[0].visuWindow.upper);
     socketOut.send(header);
 }
 
 var day = 'default';
+let length = 1;
+const lengthOfDay = 86400000;
 
-days = {
-    'default' : {'dInf': 1438412400000,'dSup': 1438413000000},
-    'lu' : {'dInf': 1467583200,'dSup': 1467669600},
-    'ma' : {'dInf': 1467669600,'dSup': 1467756000},
-    'me' : {'dInf': 1467756000,'dSup': 1467842340},
-    'luma' : {'dInf': 1467583200,'dSup': 1467756000},
-    'mame' : {'dInf': 1467669600,'dSup': 1467842340},
-    'lume' : {'dInf': 1467583200,'dSup': 1467842340}
+//const startValue = 1467496800;
+const startValue = 1420675200000;
+
+const visuWindow = {'lower': 0,'upper': 0};
+
+const days = {
+    'default' : 0,
+    'lu' : 1,
+    'ma' : 2,
+    'me' : 3,
+    'je' : 4,
+    've' : 5,
+    'sa' : 6,
+    'di' : 7
 }
 
 if (process.argv[2] in days) {
     day=process.argv[2];
+    visuWindow.lower = startValue + days[day]*lengthOfDay;
+    if (!isNaN(parseInt(process.argv[3], 10))) {
+      length = parseInt(process.argv[3], 10);
+    }
+    visuWindow.upper = visuWindow.lower + length*lengthOfDay;
+    if (visuWindow.upper < visuWindow.lower) [visuWindow.lower, visuWindow.upper] = [visuWindow.upper, visuWindow.lower];
 }
 
-console.log('DAY: '+day+' -> '+days[day].dInf+' - '+days[day].dSup);
+console.log('DAY: '+length+' day(s) from '+day+' -> '+visuWindow.lower+' - '+visuWindow.upper);
 
 socketOut.bind("tcp://*:4242");
 
@@ -44,11 +58,8 @@ var timelines = {
             "SetFileName" : "Bar",
             "SubscriptionState" : "Play",
             "VisuSpeed" : 50,
-            "VisuWindow" : {
-                "dInf" : days[day].dInf,
-                "dSup" : days[day].dSup
-            },
-            "CurrentTime" : (days[day].dInf+days[day].dSup)/2
+            "visuWindow" : visuWindow,
+            "CurrentTime" : (visuWindow.lower+visuWindow.upper)/2
         }
     ],
     "MasterId" : 91

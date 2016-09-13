@@ -1,0 +1,10 @@
+package dataControllerUtils.protobuf;
+
+import "dataControllerUtils/DataId.proto";
+import "dataControllerUtils/DataPayload.proto";
+
+message NewDataMessage {
+extensions 14 to 107;
+  required DataId dataId = 1;
+  repeated DataPayload payloads = 2;
+}

@@ -35,19 +35,19 @@
         "VisuSpeed": {
             "type": "integer"
         },
-        "VisuWindow": {
+        "visuWindow": {
             "type": "object",
             "properties": {
-                "dInf": {
+                "lower": {
                     "type": "dateTime"
                 },
-                "dSup": {
+                "upper": {
                     "type": "dateTime"
                 }
             },
             "required": [
-                "dInf",
-                "dSup"
+                "lower",
+                "upper"
             ]
         },
         "Filter": {
@@ -59,6 +59,6 @@
       "DomainId",
       "TimeLineType",
       "SubscriptionState",
-      "VisuWindow"
+      "visuWindow"
   ]
 }

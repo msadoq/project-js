@@ -5,18 +5,8 @@ const ReportingParameter = JS.ReportingParameter;
 
 exports.binToJson = (payload) => {
   const decoded = ReportingParameter.decode(payload);
-  const parameter = {
-    onboardDate: decoded.onboardDate.value,
-    groundDate: decoded.groundDate.value,
-    extractedValue: getAttributeValue(decoded.extractedValue),
-    rawValue: getAttributeValue(decoded.rawValue),
-    convertedValue: getAttributeValue(decoded.convertedValue),
-    triggerOnCounter: '',
-    triggerOffCounter: '',
-    monitoringState: decoded.monitoringState,
-    validityState: decoded.validityState,
-    isObsolete: decoded.isObsolete.value,
-    isNominal: decoded.isNominal.value,
+  const reportingParameter = {
+    onboardDate: decoded.onboardDate.value,    groundDate: decoded.groundDate.value,    convertedValue: getAttributeValue(decoded.convertedValue),    rawValue: getAttributeValue(decoded.rawValue),    extractedValue: getAttributeValue(decoded.extractedValue),    triggerOnCounter: decoded.triggerOnCounter.value,    triggerOffCounter: decoded.triggerOffCounter.value,    monitoringState: decoded.monitoringState,    validityState: decoded.validityState,    isObsolete: decoded.isObsolete.value,    isNominal: decoded.isNominal.value
   };
-  return parameter;
+  return reportingParameter;
 };

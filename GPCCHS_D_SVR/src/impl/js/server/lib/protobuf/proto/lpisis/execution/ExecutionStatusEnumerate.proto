@@ -1,0 +1,12 @@
+package execution.protobuf;
+
+enum ExecutionStatusEnumerate {
+  IDLE = 0;
+  RUNNING = 1;
+  STOPPED = 2;
+  PAUSED = 3;
+  ABORTED = 4;
+  CANCELLED = 5;
+  ERROR = 6;
+  SUCCESS = 7;
+}

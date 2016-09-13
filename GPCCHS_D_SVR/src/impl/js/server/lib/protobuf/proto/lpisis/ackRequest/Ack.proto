@@ -1,0 +1,12 @@
+// Produced by Acceleo Cpp Generator 1.1.0-R7S1-20151214
+
+import "ccsds_mal/types.proto";
+
+package ackRequest.protobuf;
+
+message Ack {
+extensions 3 to 103;
+
+  optional ccsds_mal.protobuf.TIME ackDate = 1;
+  optional ccsds_mal.protobuf.BLOB acknowledger = 2;
+}

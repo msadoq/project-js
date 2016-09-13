@@ -3,6 +3,7 @@ import Editor from '../components/Editor';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { closeEditor } from '../actions/pages';
+import { switchSubVisibility, requestSub } from '../actions/views';
 
 const dataPlotView = {
   "data":{
@@ -244,17 +245,17 @@ const dataPlotView = {
          },
          "markers":[
             {
-               "kind":"Text",
+               "kind":"text",
                "label":"VBAT",
                "style":{
-                  "font":"Arial",
+                  "font":"arial",
                   "size":12,
                   "bold":false,
                   "italic":false,
                   "underline":true,
                   "strikeOut":false,
-                  "alignLeft":false,
-                  "colour":0
+                  "align":"left",
+                  "colour":'#F5A623'
                },
                "relativePosX":5.6,
                "relativePosY":8.9
@@ -340,14 +341,18 @@ const EditorContainer = props => <Editor {...props} />;
 function mapStateToProps(state, ownProps) {
   return {
     ...ownProps.editor,
+
     // configuration: state.views[ownProps.viewId],
-    configuration: dataPlotView.data,
+   configuration: dataPlotView.data,
+    viewId: ownProps.viewId,
   };
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
   return bindActionCreators({
     closeEditor: () => closeEditor(ownProps.pageId),
+    switchSubVisibility: (subId) => switchSubVisibility(ownProps.viewId, subId),
+    requestSub: (subType) => requestSub(ownProps.viewId, subType),
   }, dispatch);
 }
 

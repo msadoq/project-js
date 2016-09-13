@@ -1,0 +1,20 @@
+// Produced by Acceleo Cpp Generator 1.1.0-R7S1-20151214
+
+import "ccsds_mal/types.proto";
+import "ccsds_mc/ValidityState.proto";
+import "ccsds_mc/MonitoringState.proto";
+
+package ccsds_mc.protobuf;
+
+message ParameterValue {
+extensions 9 to 109;
+
+  optional ccsds_mal.protobuf.ATTRIBUTE convertedValue = 1;
+  optional ccsds_mal.protobuf.ATTRIBUTE extractedValue = 2;
+  optional ccsds_mal.protobuf.ATTRIBUTE rawValue = 3;
+  optional ccsds_mal.protobuf.BOOLEAN isObsolete = 4;
+  optional ccsds_mal.protobuf.USHORT triggerOnCounter = 5;
+  optional ccsds_mal.protobuf.USHORT triggerOffCounter = 6;
+  optional ccsds_mc.protobuf.MonitoringState monitoringState = 7;
+  optional ccsds_mc.protobuf.ValidityState validityState = 8;
+}

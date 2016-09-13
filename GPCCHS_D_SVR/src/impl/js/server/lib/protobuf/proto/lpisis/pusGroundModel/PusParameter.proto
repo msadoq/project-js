@@ -1,0 +1,13 @@
+// Produced by Acceleo Cpp Generator 1.1.0-R7S1-20151214
+
+import "ccsds_mal/types.proto";
+
+package pusGroundModel.protobuf;
+
+message PusParameter {
+extensions 4 to 104;
+
+  optional ccsds_mal.protobuf.UINTEGER parameterId = 1;
+  optional ccsds_mal.protobuf.STRING parameterName = 2;
+  optional ccsds_mal.protobuf.ATTRIBUTE value = 3;
+}

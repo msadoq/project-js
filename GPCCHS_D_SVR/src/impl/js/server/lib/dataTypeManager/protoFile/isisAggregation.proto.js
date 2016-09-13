@@ -1,3 +1,4 @@
+// .generated
 module.exports = require("protobufjs").newBuilder({})['import']({
     "package": null,
     "messages": [

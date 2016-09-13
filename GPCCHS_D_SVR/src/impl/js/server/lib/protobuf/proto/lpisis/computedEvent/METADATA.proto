@@ -1,0 +1,18 @@
+// Produced by Acceleo Cpp Generator 0.0.6-R4
+
+import "ccsds_mal/types.proto";
+import "computedEvent/AltDef.proto";
+import "computedEvent/RefFrame.proto";
+
+
+package computedEvent.protobuf;
+
+message METADATA {
+extensions 6 to 106;
+    optional computedEvent.protobuf.AltDef altDef = 1;
+    optional ccsds_mal.protobuf.STRING comment = 2;
+    optional ccsds_mal.protobuf.FLOAT orbitBeginningAol = 3;
+    optional ccsds_mal.protobuf.FLOAT param_nature = 4;
+    optional computedEvent.protobuf.RefFrame refFrame = 5;
+
+}

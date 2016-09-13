@@ -1,0 +1,19 @@
+package pusGroundModel.protobuf;
+
+enum GroundmodelMessageType {
+  Pus012ModelType = 7;
+  Pus011CommandType = 4;
+  Pus003ModelType = 1;
+  Pus140ModelType = 13;
+  Pus014ModelType = 9;
+  Pus142ModelType = 14;
+  Pus005ModelType = 2;
+  Pus018ModelType = 11;
+  Pus013ModelType = 8;
+  Pus011ModelType = 3;
+  Pus019ModelType = 12;
+  Pus011SubScheduleType = 5;
+  Pus015ModelType = 10;
+  Pus011SyncPointType = 6;
+  Pus144ModelType = 15;
+}

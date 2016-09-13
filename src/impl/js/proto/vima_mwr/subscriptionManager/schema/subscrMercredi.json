@@ -7,9 +7,9 @@
     "SetFileName": "",
     "SubscriptionState": "Play",
     "VisuSpeed": 0,
-    "VisuWindow": {
-        "dInf": 1467756000,
-        "dSup": 1467842340
+    "visuWindow": {
+        "lower": 1467756000,
+        "upper": 1467842340
         },
     "Filter": ""
 }

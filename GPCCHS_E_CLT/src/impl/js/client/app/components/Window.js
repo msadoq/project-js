@@ -1,66 +1,42 @@
 import React, { Component, PropTypes } from 'react';
-import { Grid, Row, Col, ButtonGroup, Button } from 'react-bootstrap';
-import { Tabs, TabLink, TabContent } from 'react-tabs-redux';
+import { Grid, Row, Col } from 'react-bootstrap';
+import Navigation from './Window/Navigation';
+import PagesNavigation from './Window/PagesNavigation';
 import PageContainer from '../containers/PageContainer';
 
 export default class Window extends Component {
   static propTypes = {
-    windowId: PropTypes.any.isRequired,
-    title: PropTypes.string,
-    selectedTab: PropTypes.string,
+    focusedTab: PropTypes.string,
     pages: PropTypes.array.isRequired,
-    changePage: PropTypes.func.isRequired,
-    addWindow: PropTypes.func.isRequired,
-    delWindow: PropTypes.func.isRequired,
   };
   render() {
-    const { windowId, pages, changePage } = this.props;
+    const { pages } = this.props;
 
-    let selectedTab = this.props.selectedTab;
-    if (!selectedTab && pages.length > 0) {
-      selectedTab = pages[0].pageId;
+    // test for page existence in store (old ref in window)
+    const pageExists = pageId => !!pages.find(p => p.pageId === pageId);
+
+    let focusedTab = this.props.focusedTab;
+    if ((!focusedTab || !pageExists(focusedTab)) && pages.length > 0) {
+      focusedTab = pages[0].pageId;
     }
+
+    const page = pageExists(focusedTab)
+      ? <PageContainer pageId={focusedTab} />
+      : null;
+
     return (
       <Grid fluid>
         <Row>
-          <Col xs={12}>
-            <ButtonGroup>
-              <Button
-                onClick={() => this.props.addWindow('' + Math.random(), 'My new window')}>
-                Open new window
-              </Button>
-              <Button
-                onClick={() => this.props.delWindow(this.props.windowId)}>
-                Close this window
-              </Button>
-            </ButtonGroup>
+          <Col xs={12} className="mt10 mb10">
+            <Navigation {...this.props} />
           </Col>
         </Row>
-        <Tabs
-          name={windowId}
-          handleSelect={changePage}
-          selectedTab={selectedTab}
-        >
-          <ul className="nav nav-tabs" style={{ 'marginTop': '15px' }}>
-            {pages.map(page =>
-              <li className={(selectedTab === page.pageId) ? 'active' : ''} key={`tab${page.pageId}`}>
-                <a>
-                  <TabLink to={`${page.pageId}`}>
-                    {page.title}
-                  </TabLink>
-                </a>
-              </li>
-            )}
-            <li key="tabNew">
-              <a>New page +</a>
-            </li>
-          </ul>
-          {pages.map(page =>
-            <TabContent for={page.pageId} key={`tabContent${page.pageId}`}>
-              <PageContainer windowId={windowId} pageId={page.pageId} />
-            </TabContent>
-          )}
-        </Tabs>
+        <Row>
+          <Col xs={12}>
+            <PagesNavigation focusedTab={focusedTab} {...this.props} />
+            {page}
+          </Col>
+        </Row>
       </Grid>
     );
   }

@@ -2,6 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import PlotEditor from './Editor/PlotEditor';
 import TextEditor from './Editor/TextEditor';
 
+import { Row, Col } from 'react-bootstrap';
+import ToggleSub from './Editor/ToggleSub';
+
 export default class Editor extends Component {
   static propTypes = {
     closeEditor: PropTypes.func.isRequired,

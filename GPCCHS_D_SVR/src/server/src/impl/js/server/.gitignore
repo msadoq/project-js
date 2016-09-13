@@ -36,6 +36,3 @@ node_modules
 
 # IDE
 .idea
-
-# primus client (build on each run)
-primus.client.js

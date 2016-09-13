@@ -88,7 +88,6 @@
     "lodash": "^4.13.1",
     "node-uuid": "^1.4.7",
     "postcss": "^5.1.2",
-    "primus": "^6.0.2",
     "react": "^15.3.1",
     "react-bootstrap": "0.30.3",
     "react-dom": "^15.3.1",
@@ -101,7 +100,7 @@
     "redux-thunk": "^2.1.0",
     "source-map-support": "^0.4.2",
     "updeep": "^0.16.1",
-    "uws": "^0.8.0"
+    "ws": "^1.1.1"
   },
   "devEngines": {
     "node": "6.x",

@@ -70,8 +70,8 @@ server.on('error', (error) => {
 });
 server.on('listening', () => {
   const addr = server.address();
-  const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
-  debug.info(`Server launched on ${bind}`);
+  const bind = typeof addr === 'string' ? ` pipe ${addr}` : `${addr.port}`;
+  debug.info(`Server listening on http://127.0.0.1:${bind}`);
 });
 
 // Primus

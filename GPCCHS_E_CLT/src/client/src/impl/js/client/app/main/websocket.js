@@ -1,8 +1,9 @@
 import debug from '../utils/debug';
-import Primus from '../../../../../../../GPCCHS_D_SVR/src/impl/js/server/primus.client';
 import { getStore } from '../store/mainStore';
 import controller from './controller';
 import { updateStatus } from '../store/mutations/hssActions';
+
+import { Primus } from '../../external.modules';
 
 const logger = debug('main:websocket');
 
@@ -11,7 +12,13 @@ let instance;
 export function connect() {
   if (!instance) {
     logger.info('trying open connection to', process.env.HSS);
-    instance = new Primus(process.env.HSS);
+
+    try {
+      instance = new Primus(process.env.HSS);
+    } catch(e) {
+      logger.error(e);
+    }
+
     instance.on('open', () => {
       logger.info('connected!');
       getStore().dispatch(updateStatus('connected'));

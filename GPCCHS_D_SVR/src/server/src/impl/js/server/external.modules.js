@@ -1,6 +1,6 @@
 // generated
 /* eslint-disable global-require */
 module.exports = {
-  plotView: require('./lib/views/plot'),
-  textView: require('./lib/views/text'),
+  plotView: require('./external/PlotView'),
+  textView: require('./external/TextView'),
 };

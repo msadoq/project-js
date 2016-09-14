@@ -169,11 +169,11 @@ function separateConnectedData(content, cb) {
       case 'PlotView':
         _.forEach(view.configuration.plotViewEntryPoints, (value, index, source) => {
           const dataX = moveConnectedData(value.connectedDataX);
-          cdList.push(dataX.toStore);
+          cdList.push(dataX.dataToStore);
           // eslint-disable-next-line no-param-reassign
           source[index].connectedDataX = dataX.connectedData;
           const dataY = moveConnectedData(value.connectedDataY);
-          cdList.push(dataY.toStore);
+          cdList.push(dataY.dataToStore);
           // eslint-disable-next-line no-param-reassign
           source[index].connectedDataY = dataY.connectedData;
         });
@@ -181,7 +181,7 @@ function separateConnectedData(content, cb) {
       case 'TextView':
         _.forEach(view.configuration.textViewEntryPoints, (value, index, source) => {
           const data = moveConnectedData(value.connectedData);
-          cdList.push(data.toStore);
+          cdList.push(data.dataToStores);
           source[index].connectedData = data.connectedData; // eslint-disable-line no-param-reassign
         });
         break;

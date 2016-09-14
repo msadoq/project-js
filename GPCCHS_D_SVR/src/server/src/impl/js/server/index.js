@@ -18,7 +18,7 @@ const onViewUpdate = require('./lib/controllers/onViewUpdate');
 
 const dcStub = require('./lib/stubs/dc');
 const tbStub = require('./lib/stubs/tb');
-// const dataStub = require('./lib/stubs/data');
+const dataStub = require('./lib/stubs/data');
 const fs = require('fs');
 const path = require('path');
 const { setTimebar } = require('./lib/timeBar/index');
@@ -110,9 +110,17 @@ zmq.open({
         throw launchStubError;
       }
 
-      // setTimeout(() => {
-      //   zmq.push('dcPush', dataStub.getDcClientMessage());
-      // }, 100);
+      setTimeout(() => {
+        zmq.push('dcPush', dataStub.getWrappedDataSubscribeProtobuf());
+      }, 100);
+
+      setInterval(() => {
+        zmq.push('dcPush', dataStub.getWrappedDataQueryProtobuf());
+      }, 1000);
+
+      setInterval(() => {
+        zmq.push('dcPush', dataStub.getWrappedDomainQueryProtobuf());
+      }, 10000);
     });
   }
   if (process.env.STUB_TB_ON === 'on') {

@@ -83,7 +83,9 @@ register({
       DomainQuery: require('./converters/dc/domainQuery'),
       DomainResponse: require('./converters/dc/domainResponse'),
       DcClientMessage: require('./converters/dc/dcClientMessage'),
-      DcServerMessage: require('./converters/dc/dcServerMessage')
+      DcServerMessage: require('./converters/dc/dcServerMessage'),
+      Timestamp: require('./converters/dc/timestamp'),
+      TimeInterval: require('./converters/dc/timeInterval')
     },
   },
   lpisis: {

@@ -1,0 +1,15 @@
+package dataControllerUtils.protobuf;
+
+
+message DcResponse {
+extensions 15 to 107;
+
+  required string id = 1;
+  enum Status {
+    OK = 0;
+    ERROR = 1;
+    WARNING = 2;
+  }
+  required Status status = 2 [default = OK];
+  optional string reason = 3;
+}

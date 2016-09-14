@@ -1,0 +1,17 @@
+{
+  "type": "Page",
+  "hideBorders": false,
+  "views": [
+    {
+      "oId": "/views/plot99.view.json",
+      "geometry": {
+        "kind": "Relative",
+        "x": 0,
+        "y": 0,
+        "w": 4,
+        "h": 3
+      },
+      "windowState": "Normalized"
+    }
+  ]
+}

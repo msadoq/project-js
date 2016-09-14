@@ -70,6 +70,8 @@ export default class PageContent extends Component {
 
     const newLayout = _.map(layout, block => _.omit(block, filterLayoutBlockFields));
 
+    // remove following test after
+    // https://github.com/STRML/react-grid-layout/pull/328/commits/a3afd28b579140c84e1e6e849077c7b245405345
     if (_.isEqual(newLayout, this.props.layout)) {
       return;
     }

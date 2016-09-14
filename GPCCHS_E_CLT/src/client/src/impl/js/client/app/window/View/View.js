@@ -37,7 +37,6 @@ export default class View extends Component {
   onOpenEditor(e) {
     e.stopPropagation();
     e.preventDefault();
-    console.log('unmountAndRemove');
     if (!this.props.openEditor) {
       return;
     }
@@ -51,7 +50,6 @@ export default class View extends Component {
   onRemove(e) {
     e.stopPropagation();
     e.preventDefault();
-    console.log('unmountAndRemove');
     if (!this.props.unmountAndRemove) {
       return;
     }

@@ -63,12 +63,17 @@ export default class PageContent extends Component {
       </Grid>
     );
   }
-  onLayoutChange(layouts) {
+  onLayoutChange(layout) {
     if (!this.props.updateLayout) {
       return;
     }
 
-    const newLayouts = _.map(layouts, block => _.omit(block, filterLayoutBlockFields));
-    this.props.updateLayout(newLayouts);
+    const newLayout = _.map(layout, block => _.omit(block, filterLayoutBlockFields));
+
+    if (_.isEqual(newLayout, this.props.layout)) {
+      return;
+    }
+
+    this.props.updateLayout(newLayout);
   }
 }

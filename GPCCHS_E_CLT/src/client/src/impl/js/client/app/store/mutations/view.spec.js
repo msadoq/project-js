@@ -1,7 +1,7 @@
 /* eslint no-unused-expressions: 0 */
 import { should, getStore } from '../../utils/test';
 import * as actions from './viewActions';
-import reducer, { getView, getEntryPoints } from './viewReducer';
+import reducer, { getView, getConnectedData } from './viewReducer';
 
 describe('store:views', () => {
   describe('actions & reducer', () => {
@@ -16,13 +16,12 @@ describe('store:views', () => {
       it('add', () => {
         const state = reducer(
           undefined,
-          actions.add('myViewId', 'plot', { setting: 'value' }, ['ep1'])
+          actions.add('myViewId', 'plot', { setting: 'value' })
         );
         state.myViewId.should.eql({
           title: 'Unknown',
           type: 'plot',
           configuration: { setting: 'value' },
-          entryPoints: ['ep1'],
         });
       });
       it('add empty', () => {
@@ -34,7 +33,6 @@ describe('store:views', () => {
           title: 'Unknown',
           type: null,
           configuration: {},
-          entryPoints: [],
         });
       });
     });
@@ -54,47 +52,47 @@ describe('store:views', () => {
         state.should.have.property('myViewId');
       });
     });
-    describe('un/mount entry point', () => {
-      it('mount', () => {
-        let state = reducer(
-          { myViewId: { entryPoints: [] } },
-          actions.mountEntryPoint('myViewId', 'myEntryPointId')
-        );
-        state.myViewId.entryPoints.should.eql(['myEntryPointId']);
-        state = reducer(
-          state,
-          actions.mountEntryPoint('myViewId', 'another')
-        );
-        state.myViewId.entryPoints.should.eql(['myEntryPointId', 'another']);
-      });
-      it('unmount', () => {
-        let state = reducer(
-          { myViewId: { entryPoints: ['myViewId', 'another'] } },
-          actions.unmountEntryPoint('myViewId', 'myViewId')
-        );
-        state.myViewId.entryPoints.should.eql(['another']);
-        state = reducer(
-          state,
-          actions.unmountEntryPoint('myViewId', 'another')
-        );
-        state.myViewId.entryPoints.should.eql([]);
-      });
-    });
-    describe('addAndMount/unmountAndRemove', () => {
-      const { dispatch, getState } = getStore({ views: { myViewId: { entryPoints: ['ep1'] } } });
-      let newEntryPointId;
-      it('addAndMount', () => {
-        dispatch(actions.addAndMount('myViewId'));
-        getState().views.myViewId.entryPoints.should.be.an('array').with.lengthOf(2);
-        newEntryPointId = getState().views.myViewId.entryPoints[1];
-        getState().entryPoints[newEntryPointId].title.should.equal('Unknown');
-      });
-      it('unmountAndRemove', () => {
-        dispatch(actions.unmountAndRemove('myViewId', newEntryPointId));
-        getState().views.myViewId.entryPoints.should.be.an('array').with.lengthOf(1);
-        should.not.exist(getState().entryPoints[newEntryPointId]);
-      });
-    });
+    // describe('un/mount connected data', () => {
+    //   it('mount', () => {
+    //     let state = reducer(
+    //       { myViewId: { connectedData: [] } },
+    //       actions.mountConnectedData('myViewId', 'myconnectedDataId')
+    //     );
+    //     state.myViewId.connectedData.should.eql(['myconnectedDataId']);
+    //     state = reducer(
+    //       state,
+    //       actions.mountConnectedData('myViewId', 'another')
+    //     );
+    //     state.myViewId.connectedData.should.eql(['myconnectedDataId', 'another']);
+    //   });
+    //   it('unmount', () => {
+    //     let state = reducer(
+    //       { myViewId: { connectedData: ['myViewId', 'another'] } },
+    //       actions.unmountConnectedData('myViewId', 'myViewId')
+    //     );
+    //     state.myViewId.connectedData.should.eql(['another']);
+    //     state = reducer(
+    //       state,
+    //       actions.unmountConnectedData('myViewId', 'another')
+    //     );
+    //     state.myViewId.connectedData.should.eql([]);
+    //   });
+    // });
+  //   describe('addAndMount/unmountAndRemove', () => {
+  //     const { dispatch, getState } = getStore({ views: { myViewId: { connectedData: ['ep1'] } } });
+  //     let newconnectedDataId;
+  //     it('addAndMount', () => {
+  //       dispatch(actions.addAndMount('myViewId'));
+  //       getState().views.myViewId.connectedData.should.be.an('array').with.lengthOf(2);
+  //       newconnectedDataId = getState().views.myViewId.connectedData[1];
+  //       getState().connectedData[newconnectedDataId].should.be.an('object');
+  //     });
+  //     it('unmountAndRemove', () => {
+  //       dispatch(actions.unmountAndRemove('myViewId', newconnectedDataId));
+  //       getState().views.myViewId.connectedData.should.be.an('array').with.lengthOf(1);
+  //       should.not.exist(getState().connectedData[newconnectedDataId]);
+  //     });
+  //   });
   });
   describe('selectors', () => {
     it('getView', () => {
@@ -106,16 +104,25 @@ describe('store:views', () => {
       getView(getState(), 'myViewId').should.have.property('title', 'Title 1');
       should.not.exist(getView(getState(), 'unknownId'));
     });
-    it('getEntryPoints', () => {
+    it('getConnectedData', () => {
       const { getState } = getStore({
         views: {
-          myViewId: { entryPoints: ['ep3', 'ep1', 'ep4'] },
+          myViewId: { type: 'PlotView', configuration: { plotViewEntryPoints: [
+            { connectedDataX: { uuid: 'ep1' }, connectedDataY: { uuid: 'ep2' } },
+          ] } },
+          myOtherId: { type: 'TextView', configuration: { textViewEntryPoints: [
+            { connectedData: { uuid: 'ep3' } },
+            { connectedData: { uuid: 'ep4' } },
+          ] } },
         },
-        entryPoints: { ep1: {}, ep2: {}, ep3: {} },
+        connectedData: { ep1: {}, ep2: {}, ep3: {} },
       });
-      getEntryPoints(getState(), 'myViewId').should.eql([
-        { entryPointId: 'ep3' },
-        { entryPointId: 'ep1' },
+      getConnectedData(getState(), 'myViewId').should.eql([
+        { connectedDataId: 'ep1' },
+        { connectedDataId: 'ep2' },
+      ]);
+      getConnectedData(getState(), 'myOtherId').should.eql([
+        { connectedDataId: 'ep3' },
       ]);
     });
   });

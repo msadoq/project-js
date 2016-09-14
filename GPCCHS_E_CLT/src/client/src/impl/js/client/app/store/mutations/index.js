@@ -3,14 +3,14 @@ import hss from './hssReducer';
 import windows from './windowReducer';
 import pages from './pageReducer';
 import views from './viewReducer';
-import entryPoints from './entryPointReducer';
+import connectedData from './connectedDataReducer';
 
 const reducer = combineReducers({
   hss,
   windows,
   pages,
   views,
-  entryPoints,
+  connectedData,
 });
 
 export default reducer;

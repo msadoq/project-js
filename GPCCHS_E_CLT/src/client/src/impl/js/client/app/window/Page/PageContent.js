@@ -54,6 +54,7 @@ export default class PageContent extends Component {
               viewId={v.viewId}
               type={v.type}
               configuration={v.configuration}
+              unmountAndRemove={this.props.unmountAndRemove}
               openEditor={this.props.openEditor}
               closeEditor={this.props.closeEditor}
             />

@@ -13,7 +13,7 @@
             },
             "required": ["lower", "upper"]
         },
-        "timeLine": {
+        "timeline": {
             "type": "object",
             "properties": {
                 "id": {
@@ -31,7 +31,7 @@
         },
         "sessionLine": {
             "allOf": [{
-                "$ref": "#/definitions/timeLine"
+                "$ref": "#/definitions/timeline"
             }, {
                 "properties": {
                     "kind": {
@@ -47,7 +47,7 @@
         },
         "datasetLine": {
             "allOf": [{
-                "$ref": "#/definitions/timeLine"
+                "$ref": "#/definitions/timeline"
             }, {
                 "properties": {
                     "kind": {
@@ -63,7 +63,7 @@
         },
         "recordsetLine": {
             "allOf": [{
-                "$ref": "#/definitions/timeLine"
+                "$ref": "#/definitions/timeline"
             }, {
                 "properties": {
                     "kind": {
@@ -146,7 +146,7 @@
         "masterId": {
             "type": "string"
         },
-        "timeLines": {
+        "timelines": {
             "type": "array",
             "items": {
                 "oneOf": [{
@@ -159,6 +159,6 @@
             }
         }
     },
-    "required": ["id", "mode", "visuWindow", "slideWindow", "extUpperBound", "timeLines"]
+    "required": ["id", "mode", "visuWindow", "slideWindow", "extUpperBound", "timelines"]
 
 }

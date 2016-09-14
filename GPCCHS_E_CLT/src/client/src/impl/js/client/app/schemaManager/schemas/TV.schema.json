@@ -37,11 +37,11 @@
                 "domain": {
                     "type": "string"
                 },
-                "timeLine": {
+                "timeline": {
                     "type": "string"
                 }
             },
-            "required": ["formula", "unit", "digits", "format", "domain", "timeLine"]
+            "required": ["formula", "unit", "digits", "format", "domain", "timeline"]
         },
         "viewEntryPoint": {
             "type": "object",

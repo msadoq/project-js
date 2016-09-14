@@ -14,7 +14,7 @@
           "operand": "nominal"
         },
         "domain": ".*",
-        "timeLine": "Session 1"
+        "timeline": "Session 1"
       }
     },
     {
@@ -30,7 +30,7 @@
           "operand": "0"
         },
         "domain": ".*",
-        "timeLine": "Session 1"
+        "timeline": "Session 1"
       }
     },
     {
@@ -41,7 +41,7 @@
         "digits": 5,
         "format": "decimal",
         "domain": ".*",
-        "timeLine": "Session 1"
+        "timeline": "Session 1"
       }
     }
   ],

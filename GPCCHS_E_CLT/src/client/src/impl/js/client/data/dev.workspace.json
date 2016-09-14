@@ -89,7 +89,7 @@
       "playingState": "pause",
       "timeSpec": "LocalTime",
       "offsetFromUTC": 0,
-      "timeLines": [
+      "timelines": [
         {
           "id": "Session 1",
           "offset": 0,

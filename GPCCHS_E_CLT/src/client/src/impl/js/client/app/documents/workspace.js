@@ -181,7 +181,7 @@ function separateConnectedData(content, cb) {
       case 'TextView':
         _.forEach(view.configuration.textViewEntryPoints, (value, index, source) => {
           const data = moveConnectedData(value.connectedData);
-          cdList.push(data.dataToStores);
+          cdList.push(data.dataToStore);
           source[index].connectedData = data.connectedData; // eslint-disable-line no-param-reassign
         });
         break;
@@ -189,7 +189,6 @@ function separateConnectedData(content, cb) {
         debug.debug('No treatment for connectedData of view type: ${viewContent.type}');
     }
   });
-  // console.log('list', cdList);
   const r = Object.assign(content, { connectedData: cdList });
   return cb(null, r);
 }

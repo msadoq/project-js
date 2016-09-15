@@ -1,72 +1,16 @@
 import React, { Component, PropTypes } from 'react';
-import { Col } from 'react-bootstrap';
-import convert, { generateInitialState, cleanSvg } from './MimicComponent/Svg2React';
-import fs from 'fs';
+import convert, { generateInitialState, cleanSvg } from './Svg2React';
 
-// Random values for testing
-let origin = Math.PI;
-let originOrbite = Math.PI;
-let zerocolor = 0;
-// Random testing SVGs. To test one of them rename it svg
-
-const svg3 = fs.readFileSync('/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_CLT/src/client/src/impl/js/client/app/components/View/MimicComponent/TestingSvgs/omin.svg', 'utf-8');
-const svg = fs.readFileSync('/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_CLT/src/client/src/impl/js/client/app/components/View/MimicComponent/TestingSvgs/mimicTestOpti.svg', 'utf-8');
-const svg2 = fs.readFileSync('/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_CLT/src/client/src/impl/js/client/app/components/View/MimicComponent/TestingSvgs/gaugeOpti.svg', 'utf-8');
-const svg4 = fs.readFileSync('/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_CLT/src/client/src/impl/js/client/app/components/View/MimicComponent/TestingSvgs/pathtesting.svg', 'utf-8');
-const svg5 = '<svg id =\"mySvg\" xmlns=\"http://www.w3.org/2000/svg\"  width=\"2000\" height=\"2000\">'
-           + '<text text-anchor=\"middle\" font-family=\"serif\" font-size=\"24\"  y=\"100\" x=\"400\" id=\"svg_7\" stroke-linecap=\"null\" stroke-linejoin=\"null\" stroke-dasharray=\"null\" stroke-width=\"0\" stroke=\"#000000\" fill=\"#000000\">This value will change</text>'
-           + '<circle id=\"circle\" cx =\"400\" cy=\"400\" fill=\"blue\" r=\"40\" stroke-width=\"2\" stroke=\"#424242\" />'
-           + '<line id=\"l1\" x1=\"250\" y1=\"250\" transform=\"rotate(45) translate(100 100)\" x2=\"600\" y2=\"600\" stroke=\"green\" stroke-width=\"2\"/>'
-           + '<rect  x=\"150\" y=\"150\"  width=\"50\" id=\"r1\" transform=\"rotate(45) translate(100 100)\" height=\"50\" stroke-width=\"5\" stroke=\"#000000\" fill=\"#FF0000\" />'
-           + '<rect id=\"svg_1\" height=\"103\" width=\"103\" y=\"145\" x=\"31\" stroke-width=\"5\" stroke=\"#000000\" fill=\"#FF0000\"/>'
-           + '<polyline id=\"ply1\" transform=\" rotate(45) translate(100 100)  \"  points=\"0,40 40,40 40,80 80,80 80,120 120,120 120,160\" stroke=\"green\" fill=\"blue\" strokeWidth=\"5\" />'
+const svg = '<svg id ="mySvg" xmlns="http://www.w3.org/2000/svg"  width="2000" height="2000">'
+           + '<text text-anchor="middle" font-family="serif" font-size="24"  y="100" x="400" id="svg_7" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" stroke="#000000" fill="#000000">This value will change</text>'
+           + '<circle id="circle" cx ="400" cy="400" fill="blue" r="40" stroke-width="2" stroke="#424242" />'
+           + '<line id="l1" x1="250" y1="250" transform="rotate(45) translate(100 100)" x2="600" y2="600" stroke="green" stroke-width="2"/>'
+           + '<rect  x="150" y="150"  width="50" id="r1" transform="rotate(45) translate(100 100)" height="50" stroke-width="5" stroke="#000000" fill="#FF0000" />'
+           + '<rect id="svg_1" height="103" width="103" y="145" x="31" stroke-width="5" stroke="#000000" fill="#FF0000"/>'
+           + '<polyline id="ply1" transform=" rotate(45) translate(100 100)  "  points="0,40 40,40 40,80 80,80 80,120 120,120 120,160" stroke="green" fill="blue" strokeWidth="5" />'
            + '</svg>';
 
-// Sample JSON representing animation configuration
-const jsconfSatelite = {
-  id: 'satelite',
-  type: 'Rotate',
-  angleMin: -180,
-  angleMax: 180,
-  minVal: -1,
-  maxVal: 1,
-  cx: 515,
-  cy: 2000
-};
-
-const jsconfColor = {
-  id: 'path3622',
-  type: 'Color',
-  color: '#8D0808',
-  condition: 'ge',
-  seuil: 5
-};
-
-const jsconfRotate = {
-  id: 'rotate',
-  type: 'Rotate',
-  angleMin: -33,
-  angleMax: 33,
-  minVal: -1,
-  maxVal: 1,
-  cx: 515,
-  cy: 650
-};
-
-const jsconfScale = {
-  id: 'lune',
-  type: 'Scale',
-  xMin: 0,
-  xMax: 1,
-  yMin: 0,
-  yMax: 1,
-  minVal: -1,
-  maxVal: 1
-};
-
-
-// Mimic is the component in charge of displaying and animating SVGs
-export default class Mimic extends Component {
+export default class MimicView extends Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
@@ -87,7 +31,7 @@ export default class Mimic extends Component {
   }
 
   componentDidMount() {
-    this.interval = setInterval(this.testAnimParam.bind(this), 50);
+    //this.interval = setInterval(this.testAnimParam.bind(this), 50);
   }
 
   componentWillUnmount() {
@@ -230,6 +174,7 @@ export default class Mimic extends Component {
   }
 
   render() {
+    //return <div>visibleyyyyyyyyyyyyyyyyyyyyyyyyy</div>;
     return (<div onClick={this.clicked}>{this.state.code}</div>);
       // return (<div>{this.state.code}</div>);
   }

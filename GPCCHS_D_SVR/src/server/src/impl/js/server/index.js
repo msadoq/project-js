@@ -85,7 +85,7 @@ primus.init(server, {
   onViewClose,
   onViewUpdate,
   onConnectedDataOpen: onConnectedDataOpen.call,
-  onConnectedDataClose: onConnectedDataClose.call,
+  onConnectedDataClose,
   onTimebarUpdate,
 });
 

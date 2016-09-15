@@ -17,34 +17,38 @@ Only list expected tasks for PBF shipping of end of october.
   - [x] Migrate stub and data helpers (Adrien ?)
   - [ ] Test every LPISIS parameter type conversion (C++ types to Javascript)
   - [ ] Envisage to fork in child_process the HSS DC stub (Damien)
-  - [ ] Envisage to try/catch every ZeroMQ/protobuf operation
+  - [ ] Envisage to try/catch every ZeroMQ/protobuf operation (Damien)
 * [ ] Controller
-  * [ ] onDcPull (Renaud)
-  * [ ] onDcData
-  * [ ] onTimebarUpdate
-  * [ ] onClientOpen
-  * [ ] onClientClose
-  * [ ] onParameterSubscribe
-  * [ ] onParameterUnsubscribe
-  * [ ] onViewBecomeVisible
-  * [ ] onViewBecomeInvisible
-* [ ] View types, implement each controller call with specific logic for each view type
+  * [ ] onClientOpen (Damien)
+  * [ ] onClientClose (Damien)
+  * [ ] onConnectedDataOpen (Damien)
+  * [ ] onConnectedDataClose (Damien)
+  * [x] onDcPull (Renaud)
+  * [ ] onDomainResponse
+  * [x] onNewDataMessage (Renaud)
+  * [x] onDcResponse (Renaud)
+* [ ] View types
   * [ ] PlotView
+    - [ ] onTimebarUpdate
+    - [ ] onNewData
+    - [ ] onDimensionUpdate
   * [ ] TextView
-* [ ] (opened) Views management
-* [ ] (opened) Parameters management
-* [ ] View management
+    - [ ] onTimebarUpdate
+    - [ ] onNewData
+* [ ] Views management
 * [ ] Cache Management (Renaud)
-  - [ ] CacheJSON
-  - [ ] Intervals
+  - [x] CacheJSON
+  - [x] ConnectedData
   - [ ] Cache invalidation automatic mechanism
-* [ ] Timebar play mode upcoming bufferisation (ask for more than immediately needed)
-* [ ] Implement domains list retrieving from DC and storing on HSS launch (Adrien)
+* [ ] Domain management
+  - [ ] Implement list retrieving from DC HSS launch
+  - [ ] Add a module to store domain with accessor
+  - [ ] Add logic for domain wilcarding (.get, .getBy(pattern))
+  - [ ] Use in onConnectedDataOpen and onConnectedDataClose
 * [ ] Analyze, measure and test and the LokiJS index for cache dataId and interval (Renaud)
 * [ ] LPISIS protobuf and types converters code generation (Adrien)
 * [ ] Implement data filtering on server-side view instance
 * [ ] Documents schema finalization (Philippe, Audrey)
-  - [ ] no UC first
   - [ ] add title on page and window
   - [ ] Remove unused key: showBorder, kind:relative, ...
   - [ ] update schemas, validation helper, fixtures and tests
@@ -54,22 +58,25 @@ Only list expected tasks for PBF shipping of end of october.
 * [ ] Implement a clean log and error channel to files (Damien)
 * [ ] Complete README.md (lint, quality and coverage, stub  commands usage) (Damien)
 * [ ] Code review and cleaning (convention, comments, TODO , small optimizations) (Damien)
+* [ ] Plot sampling algo (Philippe)
+* [ ] Timebar play mode upcoming bufferisation (ask for more than immediately needed)
 
 ## GPCCHSC (Electron)
 
+* [ ] Improve main process debugging by try-catching on ready logic (Damien)
+* [ ] Fix the debug module non-logging in renderer (Damien)
 * [ ] Workspace opening procedure
   - [ ] Factorize an helper to transform a workspace and associated files in redux compliant tree (Audrey)
   - [ ] Same from redux to workspace document format (Audrey)
-  - [ ] Mount on client side (Audrey)
+  - [x] Mount on client side (Audrey)
 * [x] Finalize page customizable layout implementation (Damien)
 * [x] Finalize windows, pages, views add/remove/mount/unmount/updateGeometry/focus reducers and actions (Damien)
 * [x] Implement <ConnectedDataContainer/> for triggering DC realtime un/subscription
 * [ ] Implement <PlotView/>
 * [ ] Implement <TextView/>
 * [ ] Pass realtime dimensions to each view (e.g.: <WithProvider/>)
-* [ ] Customize electron menu bar
-* [ ] Add actions in menu bar: new window, new view (for current focused page)
-* [ ] Implement a websocket connection by windows and add a correct dispatching logic on HSS side
+* [ ] Customize electron menu bar + add actions in menu bar: new window, new view (for current focused page)
+* [x] Implement a websocket connection by windows and add a correct dispatching logic on HSS side (Damien)
 * [ ] IHM design and cleanup
 * [ ] Complete README.md (lint, quality and coverage, stub  commands usage) (Damien)
 * [ ] Code review and cleaning (convention, comments, TODO , small optimizations) (Damien)

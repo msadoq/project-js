@@ -4,4 +4,4 @@ import * as types from './types';
 /**
  * Simple actions
  */
-export const updateStatus = simple(types.HSS_MAIN_UPDATE_STATUS, 'status', 'error');
+export const updateStatus = simple(types.HSS_WS_UPDATE_STATUS, 'identity', 'status', 'error');

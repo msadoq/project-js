@@ -32,7 +32,7 @@ export default class PlotTab extends React.Component {
     title: React.PropTypes.string,
     axes: React.PropTypes.array,
     markers: React.PropTypes.array,
-    grids: React.PropTypes.object,
+    grids: React.PropTypes.array,
     titleStyle: React.PropTypes.object,
     handleGrid: React.PropTypes.func,
     handlePlotTitle: React.PropTypes.func,
@@ -136,7 +136,6 @@ export default class PlotTab extends React.Component {
                 </Col>
                 <Col xs={8}>
                   <FormControl
-                    controlId="title"
                     type="text"
                     className={styles.input_xsmall}
                     value={this.props.title}
@@ -279,7 +278,6 @@ export default class PlotTab extends React.Component {
                 </Col>
                 <Col xs={8}>
                   <FormControl
-                    controlId="name"
                     type="number"
                     className={styles.input_xsmall}
                     value={this.props.grids[0].width}

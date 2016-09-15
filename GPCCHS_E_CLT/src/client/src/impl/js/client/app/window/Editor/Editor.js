@@ -11,6 +11,7 @@ export default class Editor extends Component {
     closeEditor: PropTypes.func,
   };
   render() {
+    console.log(this.props.editor.configuration);
     switch (this.props.editor.configuration.type) {
       case 'PlotView' : return (<PlotEditor
         configuration={this.props.editor.configuration}

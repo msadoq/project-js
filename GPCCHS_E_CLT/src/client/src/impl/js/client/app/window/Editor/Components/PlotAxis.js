@@ -126,7 +126,6 @@ export default class PlotAxis extends React.Component {
                 </Col>
                 <Col xs={8}>
                   <FormControl
-                    controlId="label"
                     type="text"
                     className={styles.input_xsmall}
                     value={this.props.label}
@@ -212,7 +211,6 @@ export default class PlotAxis extends React.Component {
                 </Col>
                 <Col xs={8}>
                   <FormControl
-                    controlId="min"
                     type="number"
                     className={styles.input_xsmall}
                     value={this.props.min}
@@ -226,7 +224,6 @@ export default class PlotAxis extends React.Component {
                 </Col>
                 <Col xs={8}>
                   <FormControl
-                    controlId="max"
                     type="number"
                     className={styles.input_xsmall}
                     value={this.props.max}
@@ -240,7 +237,6 @@ export default class PlotAxis extends React.Component {
                 </Col>
                 <Col xs={8}>
                   <FormControl
-                    controlId="unit"
                     type="text"
                     className={styles.input_xsmall}
                     value={this.props.unit}
@@ -286,7 +282,6 @@ export default class PlotAxis extends React.Component {
                 </Col>
                 <Col xs={8}>
                   <FormControl
-                    controlId="gradDist"
                     type="number"
                     className={styles.input_xsmall}
                     value={this.props.tickStep}

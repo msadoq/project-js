@@ -10,14 +10,15 @@ import select from './Select.css';
 
 export default class Marker extends React.Component {
   static propTypes = {
-    key: React.PropTypes.number,
     idAxe: React.PropTypes.number,
     kind: React.PropTypes.string,
     label: React.PropTypes.string,
-    relPosX: React.PropTypes.string,
-    relPosY: React.PropTypes.string,
+    relPosX: React.PropTypes.number,
+    relPosY: React.PropTypes.number,
+    posX: React.PropTypes.number,
+    posY: React.PropTypes.number,
     markerStyle: React.PropTypes.object,
-    axes: React.PropTypes.object,
+    axes: React.PropTypes.array,
     handlePlotMarker: React.PropTypes.func
   }
   constructor(props) {
@@ -27,6 +28,11 @@ export default class Marker extends React.Component {
     this.handleLabel = this.handleLabel.bind(this);
     this.handleAlign = this.handleAlign.bind(this);
     this.handleMarkerStyle = this.handleMarkerStyle.bind(this);
+    this.handleLineStyle = this.handleLineStyle.bind(this);
+    this.handleRelPosX = this.handleRelPosX.bind(this);
+    this.handleRelPosY = this.handleRelPosY.bind(this);
+    this.handlePosX = this.handlePosX.bind(this);
+    this.handlePosY = this.handlePosY.bind(this);
   }
   handleType(e) {
     this.props.handlePlotMarker(this.props.idAxe, 'kind', e.target.value);
@@ -46,8 +52,16 @@ export default class Marker extends React.Component {
   handleRelPosY(e) {
     this.props.handlePlotMarker(this.props.idAxe, 'relativePosY', e.target.value);
   }
+  handlePosX(e) {
+    this.props.handlePlotMarker(this.props.idAxe, 'posX', e.target.value);
+  }
+  handlePosY(e) {
+    this.props.handlePlotMarker(this.props.idAxe, 'posY', e.target.value);
+  }
+  handleLineStyle(val) {
+    this.props.handlePlotMarker(this.props.idAxe, 'style.lineStyle', val);
+  }
   render() {
-    console.log(this.props.kind);
     return (
       <div>
         <a
@@ -72,28 +86,26 @@ export default class Marker extends React.Component {
                 </Col>
                 <Col xs={8}>
                   <FormControl
-                    controlId="text"
                     componentClass="select"
                     className={styles.input_xsmall}
                     value={this.props.kind}
                     onChange={this.handleType}
                   >
-                    <option value="text">Text</option>
-                    <option value="horizontal">Horizontal</option>
-                    <option value="vertical">Vertical</option>
+                    <option value="Text">Text</option>
+                    <option value="Horizontal">Horizontal</option>
+                    <option value="Vertical">Vertical</option>
                     <option value="onePoint">One point - no implemented</option>
                     <option value="twoPoint">Two point - no implemented</option>
                   </FormControl>
                 </Col>
               </FormGroup>
-              {(this.props.kind === 'text') ?
+              {(this.props.kind === 'Text') ?
                 <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalLabel">
                   <Col xs={4} className={styles.formLabel}>
                     Label
                   </Col>
                   <Col xs={8}>
                     <FormControl
-                      controlId="label"
                       type="text"
                       className={styles.input_xsmall}
                       value={this.props.label}
@@ -103,7 +115,7 @@ export default class Marker extends React.Component {
                 </FormGroup>
                 : null
               }
-              {(this.props.kind === 'text') ?
+              {(this.props.kind === 'Text') ?
                 <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalName">
                   <Col xs={4} className={styles.formLabel}>
                     Font
@@ -118,7 +130,7 @@ export default class Marker extends React.Component {
                 </FormGroup>
                   : null
               }
-              {(this.props.kind === 'text') ?
+              {(this.props.kind === 'Text') ?
                 <FormGroup
                   className={styles.formGroupXsmall}
                   controlId="formControlsSelect"
@@ -149,7 +161,7 @@ export default class Marker extends React.Component {
                   <ColorPicker color={this.props.markerStyle.colour} onChange={this.handleMarkerStyle} />
                 </Col>
               </FormGroup>
-              {(this.props.kind === 'text') ?
+              {(this.props.kind === 'Text') ?
                 <FormGroup
                   className={styles.formGroupXsmall}
                   controlId="formControlsSelect"
@@ -172,7 +184,7 @@ export default class Marker extends React.Component {
                 </FormGroup>
                 : null
               }
-              {(this.props.kind === 'horizontal' || this.props.kind === 'vertical') ?
+              {(this.props.kind === 'Horizontal' || this.props.kind === 'Vertical') ?
                 <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalCurve">
                   <Col xs={4} className={styles.formLabel}>
                     Line
@@ -192,7 +204,7 @@ export default class Marker extends React.Component {
                 </FormGroup>
                 : null
               }
-              {(this.props.kind === 'text') ?
+              {(this.props.kind === 'Text') ?
                 <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalPosX">
                   <Col xs={4} className={styles.formLabel}>
                     rel. Pos X
@@ -200,7 +212,6 @@ export default class Marker extends React.Component {
                   <Col xs={8}>
                     <InputGroup>
                       <FormControl
-                        controlId="label"
                         type="number"
                         className={styles.input_xsmall}
                         value={this.props.relPosX}
@@ -212,7 +223,7 @@ export default class Marker extends React.Component {
                 </FormGroup>
                 : null
               }
-              {(this.props.kind === 'text') ?
+              {(this.props.kind === 'Text') ?
                 <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalPosY">
                   <Col xs={4} className={styles.formLabel}>
                     rel. Pos Y
@@ -220,7 +231,6 @@ export default class Marker extends React.Component {
                   <Col xs={8}>
                     <InputGroup>
                       <FormControl
-                        controlId="label"
                         type="number"
                         className={styles.input_xsmall}
                         value={this.props.relPosY}
@@ -232,41 +242,39 @@ export default class Marker extends React.Component {
                 </FormGroup>
                 : null
               }
-              {(this.props.kind === 'vertical') ?
+              {(this.props.kind === 'Vertical') ?
                 <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalLabel">
                   <Col xs={4} className={styles.formLabel}>
                     Pos X
                   </Col>
                   <Col xs={8}>
                     <FormControl
-                      controlId="label"
                       type="number"
                       className={styles.input_xsmall}
-                      value={this.props.label}
-                      onChange={this.handleLabel}
+                      value={this.props.posX}
+                      onChange={this.handlePosX}
                     />
                   </Col>
                 </FormGroup>
                 : null
               }
-              {(this.props.kind === 'horizontal') ?
+              {(this.props.kind === 'Horizontal') ?
                 <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalLabel">
                   <Col xs={4} className={styles.formLabel}>
                     Pos Y
                   </Col>
                   <Col xs={8}>
                     <FormControl
-                      controlId="label"
                       type="number"
                       className={styles.input_xsmall}
-                      value={this.props.label}
-                      onChange={this.handleLabel}
+                      value={this.props.posY}
+                      onChange={this.handlePosY}
                     />
                   </Col>
                 </FormGroup>
                 : null
               }
-              {(this.props.kind === 'vertical') ?
+              {(this.props.kind === 'Vertical') ?
                 <FormGroup className={styles.formGroupXsmall} controlId="formControlsSelect">
                   <Col className={styles.formLabel} xs={4}>
                     X Axis
@@ -284,7 +292,7 @@ export default class Marker extends React.Component {
                 </FormGroup>
                 : null
               }
-               {(this.props.kind === 'horizontal') ?
+               {(this.props.kind === 'Horizontal') ?
                 <FormGroup className={styles.formGroupXsmall} controlId="formControlsSelect">
                   <Col className={styles.formLabel} xs={4}>
                     Y Axis

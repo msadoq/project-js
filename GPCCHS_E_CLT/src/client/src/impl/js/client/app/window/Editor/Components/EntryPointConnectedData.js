@@ -141,13 +141,12 @@ export default class EntryPointConnectedData extends React.Component {
           </Col>
         </FormGroup>
         {(this.state.format === 'decimal') ?
-          <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalName">
+          <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalDigits">
             <Col componentClass={ControlLabel} xs={3} className={styles.formLabel}>
               Digits
             </Col>
             <Col xs={9}>
               <FormControl
-                controlId="digits"
                 type="number"
                 className={styles.input_xsmall}
                 value={this.props.connectedData.digits}

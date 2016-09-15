@@ -14,7 +14,7 @@ export default class SelectButton extends React.Component {
     size: React.PropTypes.string,
     active: React.PropTypes.string,
     buttons: React.PropTypes.array,
-    onChange: React.PropTypes.func.isRequired
+    onChange: React.PropTypes.func,
   }
   constructor(props) {
     super(props);

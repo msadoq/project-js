@@ -29,7 +29,6 @@ export default class EntryPointDetails extends React.Component {
   }
   constructor(...args) {
     super(...args);
-    console.log(this.props.entryPoint);
     this.state = {
       nameEditable: false,
       newStateColor: '#FFFFFF',
@@ -108,12 +107,9 @@ export default class EntryPointDetails extends React.Component {
         </tr>
       );
     });
-    let filterOptions = this.state.filter.map(filter => {
-      return (filter === 'monitoringState') ?
-        <option value={filter} selected>{filter}</option> :
-        <option value={filter}>{filter}</option>
+    let filterOptions = this.state.filter.map((filter, key) => {
+      return <option key={key} value={filter}>{filter}</option>;
     });
-    console.log("render entryPoint Details");
     return (
       <div className={styles.EntryPointTreeFirstLvl}>
         <a

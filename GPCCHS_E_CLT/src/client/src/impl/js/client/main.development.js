@@ -39,7 +39,7 @@ app.on('ready', async () => {
     }
   });
 
-  //connect();
+  connect();
   syncWindows();
 });
 

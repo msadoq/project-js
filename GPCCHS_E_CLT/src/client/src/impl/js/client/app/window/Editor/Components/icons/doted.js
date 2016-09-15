@@ -13,7 +13,7 @@ export default class Doted extends React.Component {
         </g>
         <g>
           <title>Layer 1</title>
-          <line strokeDasharray="2" strokeLinecap="undefined" stroke-linejoin="undefined" id="svg_1" y2="7" x2="55" y1="7" x1="5" strokeWidth="2" stroke="#333" fill="none" />
+          <line strokeDasharray="2" strokeLinecap="undefined" strokeLinejoin="undefined" id="svg_1" y2="7" x2="55" y1="7" x1="5" strokeWidth="2" stroke="#333" fill="none" />
         </g>
       </svg>
     );

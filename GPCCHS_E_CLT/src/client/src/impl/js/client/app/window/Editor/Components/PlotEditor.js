@@ -28,7 +28,6 @@ export default class Editor extends Component {
       legend: this.props.configuration.legend,
       markers: this.props.configuration.markers
     };
-    console.log('configuration', this.props.configuration);
     this.changeCurrentDisplay = this.changeCurrentDisplay.bind(this);
     this.changeSearch = this.changeSearch.bind(this);
     this.handleEntryPoint = this.handleEntryPoint.bind(this);
@@ -151,6 +150,23 @@ export default class Editor extends Component {
     }
 
     const newState = this.state.markers;
+    switch (labels[0]) {
+      case 'kind':
+        newState[0].kind = val;
+        break;
+      case 'label':
+        newState[0].label = val;
+        break;
+      case 'relativePosX':
+        newState[0].relativePosX = val;
+        break;
+      case 'relativePosY':
+        newState[0].relativePosY = val;
+        break;
+      default:
+        console.log('unknown attribute');
+        break;
+    }
     newState[key] = Object.assign({}, newState[key], {
       [labels[0]]: val,
     });

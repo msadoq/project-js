@@ -1,22 +1,22 @@
 /**
- * dataFullName sample 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue'
+ * formula sample 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue'
  * should be parsed in:
  * {
- *   dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue'
+ *   formula: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue'
  *   catalog: 'Reporting',
  *   parameter: 'ATT_BC_STR1VOLTAGE',
- *   type: 'ReportingParameter',
+ *   comObject: 'ReportingParameter',
  *   field: 'extractedValue'   <-- Optional
  * }
  */
 
 const pattern = /^([^\.]+)\.([^<]+)<([^>]+)>(\.){0,1}([\w]+){0,1}$/i;
-module.exports = dataFullName => {
-  if (typeof dataFullName !== 'string' || !pattern.test(dataFullName)) {
+module.exports = formula => {
+  if (typeof formula !== 'string' || !pattern.test(formula)) {
     return undefined;
   }
 
-  const matches = dataFullName.match(pattern);
+  const matches = formula.match(pattern);
   // Check validity of field : a . must be in 4th position if table length is 5
   if (matches[5]) {
     if (matches[4] !== '.') return undefined;
@@ -24,13 +24,13 @@ module.exports = dataFullName => {
     return undefined;
   }
   const parsed = {
-    dataFullName,
+    formula,
     catalog: matches[1],
     parameter: matches[2],
-    type: matches[3],
+    comObject: matches[3],
     field: matches[5],
   };
-  if (!parsed.catalog || !parsed.parameter || !parsed.type) {
+  if (!parsed.catalog || !parsed.parameter || !parsed.comObject) {
     return undefined;
   }
 

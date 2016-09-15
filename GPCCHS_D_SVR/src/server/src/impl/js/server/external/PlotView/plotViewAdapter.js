@@ -9,7 +9,7 @@ const {
   updateData,
 } = require('../../lib/utils/timebar');
 const getTb = require('../../lib/timeBar/index').getTimebar;
-const parseDataFullName = require('../../lib/utils/parseDataFullName');
+const formula = require('../../lib/utils/formula');
 const _ = require('lodash');
 
 function PlotView(configuration) {
@@ -54,11 +54,11 @@ PlotView.prototype.onTimebarUpdate = function (cmdList) {
           // update data
           this.conf.plotViewEntryPoints.forEach(element => {
             // X axis
-            const dataIdX = parseDataFullName(element.connectedDataX.formula);
+            const dataIdX = formula(element.connectedDataX.formula);
             updateData(timebar.timeLines, element.connectedDataX, value.bounds,
                        dataIdX, this.spark.write);
             // Y axis
-            const dataIdY = parseDataFullName(element.connectedDataY.formula);
+            const dataIdY = formula(element.connectedDataY.formula);
             updateData(timebar.timeLines, element.connectedDataY, value.bounds,
                        dataIdY, this.spark.write);
           });
@@ -86,14 +86,14 @@ PlotView.prototype.onTimebarUpdate = function (cmdList) {
               this.conf.plotViewEntryPoints.forEach(element => {
                 // X axis TODO vérifier si id ou nom qui est enregistré dans EP
                 if (element.connectedDataX.timebar === tl.name) {
-                  const dataIdX = parseDataFullName(element.connectedDataX.formula);
+                  const dataIdX = formula(element.connectedDataX.formula);
                   updateDataFromTl(tl, element.connectedDataX, value.bounds, dataIdX,
                                    this.spark.write);
                   // send data to socket
                 }
                 // Y axis
                 if (element.connectedDataX.timebar === tl.name) {
-                  const dataIdY = parseDataFullName(element.connectedDataY.formula);
+                  const dataIdY = formula(element.connectedDataY.formula);
                   updateDataFromTl(tl, element.connectedDataY, value.bounds, dataIdY,
                                    this.spark.write);
                 }

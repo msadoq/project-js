@@ -59,6 +59,10 @@ const primusExports = module.exports = {
             handlers.onConnectedDataClose(spark, message.payload);
             break;
           }
+          case 'timebarUpdate': {
+            handlers.onTimebarUpdate(spark, message.payload);
+            break;
+          }
           default:
             throw new Error(`Websocket incoming message unknown event key: ${message.event}`);
         }

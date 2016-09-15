@@ -1,8 +1,8 @@
 const zmq = require('../io/zmq');
 const debug = require('../io/debug')('stub:tb');
 const _ = require('lodash');
-
-let tb;
+const { setTimebar } = require('../timeBar');
+const tb = require('../timeBar/tb.fixtures.json');
 
 function onTbStubUpdate(buffer) {
   // Convert buffer to string : Needed when using zmq
@@ -46,7 +46,7 @@ function onTbStubUpdate(buffer) {
   });
 }
 
-module.exports = (tbInit, callback) => {
+module.exports = (callback) => {
   // ZMQ initialization
   zmq.open({
     timebarPush: {
@@ -62,7 +62,8 @@ module.exports = (tbInit, callback) => {
     if (err) {
       return callback(err);
     }
-    tb = tbInit;
+
+    setTimebar(tb);
     debug.info('sockets opened');
 
     return callback(null);

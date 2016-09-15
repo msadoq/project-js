@@ -32,7 +32,7 @@ export default class PlotTab extends React.Component {
     title: React.PropTypes.string,
     axes: React.PropTypes.array,
     markers: React.PropTypes.array,
-    grid: React.PropTypes.object,
+    grids: React.PropTypes.object,
     titleStyle: React.PropTypes.object,
     handleGrid: React.PropTypes.func,
     handlePlotTitle: React.PropTypes.func,
@@ -51,7 +51,7 @@ export default class PlotTab extends React.Component {
     this.handleLineStyle = this.handleLineStyle.bind(this);
     this.handleYAxis = this.handleYAxis.bind(this);
     
-    console.log(this.props.axes[0].style);
+    console.log("titleStyle", this.props.titleStyle);
   }
   handleTitleStyle(field, value) {
     this.props.handlePlotTitleStyle(field, value);
@@ -96,7 +96,6 @@ export default class PlotTab extends React.Component {
         handlePlotAxes={this.props.handlePlotAxes}
       />
     );
-    console.log(this.props.markers);
     const markers = this.props.markers.map((marker, key) =>
       <Marker
         key={key}
@@ -232,7 +231,7 @@ export default class PlotTab extends React.Component {
                   <ToggleButton
                     on={"ON"}
                     off={"OFF"}
-                    default={(this.props.grid.showGrid === true) ? 'ON' : 'OFF'}
+                    default={(this.props.grids[0].showGrid === true) ? 'ON' : 'OFF'}
                     size="xsmall"
                     styleOn="primary"
                     styleOff="warning"
@@ -247,7 +246,7 @@ export default class PlotTab extends React.Component {
                 <Col xs={8}>
                   <SelectButton
                     size="xsmall"
-                    active={this.props.grid.lineStyle}
+                    active={this.props.grids[0].lineStyle}
                     buttons={[
                       { label: 'Continuous', icon: 'continuous' },
                       { label: 'Dashed', icon: 'dashed' },
@@ -263,7 +262,7 @@ export default class PlotTab extends React.Component {
                 </Col>
                 <Col xs={8}>
                   <FormControl
-                    value={this.props.grid.yAxisId}
+                    value={this.props.grids[0].yAxisId}
                     onChange={this.handleYAxis}
                     componentClass="select"
                     className={select.xsmall}
@@ -283,7 +282,7 @@ export default class PlotTab extends React.Component {
                     controlId="name"
                     type="number"
                     className={styles.input_xsmall}
-                    value={this.props.grid.width}
+                    value={this.props.grids[0].width}
                     onChange={this.handleWidth}
                   />
                 </Col>

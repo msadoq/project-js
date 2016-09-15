@@ -19,15 +19,16 @@ export default class Editor extends Component {
     this.state = {
       currentDisplay: 0,
       search: '',
-      entryPoints: this.props.configuration.attributes.plotViewEntryPoints,
-      axes: this.props.configuration.attributes.axes,
-      grid: this.props.configuration.attributes.grid,
-      title: this.props.configuration.attributes.title,
-      titleStyle: this.props.configuration.attributes.titleStyle,
-      plotBackGround: this.props.configuration.attributes.plotBackgroundColour,
-      legend: this.props.configuration.attributes.legend,
-      markers: this.props.configuration.attributes.markers
+      entryPoints: this.props.configuration.plotViewEntryPoints,
+      axes: this.props.configuration.axes,
+      grid: this.props.configuration.grid,
+      title: this.props.configuration.title,
+      titleStyle: this.props.configuration.titleStyle,
+      plotBackGround: this.props.configuration.plotBackgroundColour,
+      legend: this.props.configuration.legend,
+      markers: this.props.configuration.markers
     };
+    console.log('configuration', this.props.configuration);
     this.changeCurrentDisplay = this.changeCurrentDisplay.bind(this);
     this.changeSearch = this.changeSearch.bind(this);
     this.handleEntryPoint = this.handleEntryPoint.bind(this);
@@ -219,11 +220,11 @@ export default class Editor extends Component {
               handlePlotTitleStyle={this.handlePlotTitleStyle}
               handlePlotAxes={this.handleAxes}
               handlePlotMarkers={this.handlePlotMarkers}
-              axes={this.props.configuration.attributes.axes}
-              markers={this.state.markers}
-              title={this.state.title}
-              grid={this.state.grid}
-              titleStyle={this.state.titleStyle}
+              axes={this.props.configuration.axes}
+              markers={this.props.configuration.markers}
+              title={this.props.configuration.title}
+              grids={this.props.configuration.grids}
+              titleStyle={this.props.configuration.titleStyle}
             /> :
             null
         }
@@ -235,7 +236,7 @@ export default class Editor extends Component {
                 addEntryPoint={this.addEntryPoint}
               />
               <EntryPointTree
-                entryPoints={this.state.entryPoints}
+                entryPoints={this.props.configuration.plotViewEntryPoints}
                 search={this.state.search}
                 handleEntryPoint={this.handleEntryPoint}
                 remove={this.removeEntryPoint}

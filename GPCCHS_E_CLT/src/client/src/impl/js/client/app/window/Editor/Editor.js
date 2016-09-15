@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { Button } from 'react-bootstrap';
 import PlotEditor from './Components/PlotEditor';
 import TextEditor from './Components/TextEditor';
 
@@ -12,7 +11,7 @@ export default class Editor extends Component {
     closeEditor: PropTypes.func,
   };
   render() {
-    switch (this.props.configuration.type) {
+    switch (this.props.editor.configuration.type) {
       case 'PlotView' : return (<PlotEditor
         configuration={this.props.editor.configuration}
         closeEditor={this.props.closeEditor}

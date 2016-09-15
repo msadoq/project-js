@@ -1,10 +1,9 @@
-const debug = require('../io/debug')('documents:workspace');
+const debug = require('../utils/debug')('documents:workspace');
 const _ = require('lodash');
 const async = require('async');
 const documents = require('../documents');
 const { v4 } = require('node-uuid');
 const validator = require('../schemaManager/index');
-
 
 // TODO aleal unit test
 // TODO same page/view used in more than one window/page
@@ -28,6 +27,17 @@ function listWindows(windows) {
     _.filter(windows, w => supportedWindowTypes.indexOf(w.type) !== -1),
     w => Object.assign(w, { uuid: v4() })
   );
+}
+
+function getTimebarAndWindows(workspace, cb) {
+  const validErr = validator.validateWsJson(workspace);
+  if (validErr) {
+    return cb(validErr, workspace);
+  }
+  return cb(null, {
+    timebar: _.get(workspace, 'timeBarWindow.timeBar', {}),
+    windows: _.get(workspace, 'windows', {}),
+  });
 }
 
 function discoverPages(window) {
@@ -159,18 +169,20 @@ function separateConnectedData(content, cb) {
       case 'PlotView':
         _.forEach(view.configuration.plotViewEntryPoints, (value, index, source) => {
           const dataX = moveConnectedData(value.connectedDataX);
-          cdList.push(dataX.toStore);
+          cdList.push(dataX.dataToStore);
+          // eslint-disable-next-line no-param-reassign
           source[index].connectedDataX = dataX.connectedData;
           const dataY = moveConnectedData(value.connectedDataY);
-          cdList.push(dataY.toStore);
+          cdList.push(dataY.dataToStore);
+          // eslint-disable-next-line no-param-reassign
           source[index].connectedDataY = dataY.connectedData;
         });
         break;
       case 'TextView':
         _.forEach(view.configuration.textViewEntryPoints, (value, index, source) => {
           const data = moveConnectedData(value.connectedData);
-          cdList.push(data.toStore);
-          source[index].connectedData = data.connectedData;
+          cdList.push(data.dataToStores);
+          source[index].connectedData = data.connectedData; // eslint-disable-line no-param-reassign
         });
         break;
       default:
@@ -182,39 +194,42 @@ function separateConnectedData(content, cb) {
   return cb(null, r);
 }
 
-module.exports = (path, callback) => {
+function getWindowList(content, cb) {
+  content.windows = listWindows(content.windows); // eslint-disable-line no-param-reassign
+  return cb(null, content);
+}
+
+function identifyPages(content, cb) {
+  const pages = _.reduce(content.windows, (list, w) => list.concat(discoverPages(w)), []);
+  return cb(null, Object.assign(content, { pages }));
+}
+
+function identifyViews(content, cb) {
+  const views = _.reduce(content.pages, (list, p) => list.concat(discoverViews(p)), []);
+  return cb(null, Object.assign(content, { views }));
+}
+
+function readWorkspace(path, callback) {
   debug.debug(`reading workspace ${path}`);
   async.waterfall([
     cb => documents.readJsonFromPath(path, cb), // <- read workspace
-    (workspace, cb) => {
-      const validErr = validator.validateWsJson(workspace);
-      if (validErr) {
-        return cb(validErr, workspace);
-      }
-      return cb(null, {
-        timebar: _.get(workspace, 'timeBarWindow.timeBar', {}),
-        windows: _.get(workspace, 'windows', {}),
-      });
-    },
-    (content, cb) => {
-      content.windows = listWindows(content.windows); // eslint-disable-line no-param-reassign
-      return cb(null, content);
-    },
-    (content, cb) => {
-      const pages = _.reduce(
-        content.windows,
-        (list, w) => list.concat(discoverPages(w)),
-        []
-      );
-
-      return cb(null, Object.assign(content, { pages }));
-    },
+    (workspace, cb) => getTimebarAndWindows(workspace, cb),
+    (content, cb) => getWindowList(content, cb),
+    (content, cb) => identifyPages(content, cb),
     (content, cb) => readPages(content, cb),
-    (content, cb) => {
-      const views = _.reduce(content.pages, (list, p) => list.concat(discoverViews(p)), []);
-      return cb(null, Object.assign(content, { views }));
-    },
+    (content, cb) => identifyViews(content, cb),
     (content, cb) => readViews(content, cb),
     (content, cb) => separateConnectedData(content, cb),
   ], callback);
+}
+
+module.exports = {
+  readWorkspace,
+  identifyViews,
+  identifyPages,
+  getWindowList,
+  getTimebarAndWindows,
+  readPages,
+  readViews,
+  separateConnectedData,
 };

@@ -29,15 +29,8 @@ export default class EntryPointDetails extends React.Component {
   }
   constructor(...args) {
     super(...args);
+    console.log(this.props.entryPoint);
     this.state = {
-      name: this.props.entryPoint.name,
-      connectedData: this.props.entryPoint.connectedData,
-      connectedDataX: this.props.entryPoint.connectedDataX,
-      connectedDataY: this.props.entryPoint.connectedDataY,
-      lineStyle: this.props.entryPoint.lineStyle,
-      pointsStyle: this.props.entryPoint.pointsStyle,
-      curveColor: this.props.entryPoint.curveColour,
-      stateColors: this.props.entryPoint.stateColours,
       nameEditable: false,
       newStateColor: '#FFFFFF',
       newStateFilter: '',
@@ -103,22 +96,24 @@ export default class EntryPointDetails extends React.Component {
     this.setState({ open: !this.state.open });
   }
   render() {
+   
     let stateColours = this.props.entryPoint.stateColours.map((stateColour, key) => {
       return (
         <tr key={key}>
           <td className="col-xs-2"><ColorPicker color={stateColour.colour} /></td>
-          <td className="col-xs-9">{stateColour.condition}</td>
+          <td className="col-xs-9">{stateColour.condition.field} {stateColour.condition.operator} {stateColour.condition.operand}</td>
           <td className="col-xs-1">
             <Glyphicon glyph="trash" onClick={() => this.removeStateColor(key)} />
           </td>
         </tr>
       );
     });
-    let filterOptions = this.state.filter.map( filter => {
+    let filterOptions = this.state.filter.map(filter => {
       return (filter === 'monitoringState') ?
         <option value={filter} selected>{filter}</option> :
         <option value={filter}>{filter}</option>
     });
+    console.log("render entryPoint Details");
     return (
       <div className={styles.EntryPointTreeFirstLvl}>
         <a
@@ -166,9 +161,9 @@ export default class EntryPointDetails extends React.Component {
         <Collapse in={this.state.open}>
           <div className={styles.shift}>
           {
-            (this.state.lineStyle !== undefined &&
-             this.state.pointsStyle !== undefined &&
-             this.state.curveColor !== undefined) ?
+            (this.props.entryPoint.lineStyle !== undefined &&
+             this.props.entryPoint.pointsStyle !== undefined &&
+             this.props.entryPoint.curveColour !== undefined) ?
              /* STYLES COLLAPSE - TODO : CREATE COMPONENT */
             <div>
               <a
@@ -193,7 +188,7 @@ export default class EntryPointDetails extends React.Component {
                       <Col xs={9}>
                         <SelectButton
                           size="xsmall"
-                          active={this.state.lineStyle}
+                          active={this.props.entryPoint.lineStyle}
                           buttons={[
                             { label: 'Continuous', icon: 'continuous' },
                             { label: 'Dashed', icon: 'dashed' },
@@ -214,7 +209,7 @@ export default class EntryPointDetails extends React.Component {
                       <Col xs={9}>
                         <SelectButton
                           size="xsmall"
-                          active={this.state.pointsStyle}
+                          active={this.props.entryPoint.pointsStyle}
                           buttons={[
                             { label: 'None', icon: 'none' },
                             { label: 'Triangle', icon: 'triangle' },
@@ -234,7 +229,7 @@ export default class EntryPointDetails extends React.Component {
                       </Col>
                       <Col xs={9}>
                         <ColorPicker
-                          color={this.state.curveColor}
+                          color={this.props.entryPoint.curveColor}
                           onChange={this.handleCurveColor}
                         />
                       </Col>
@@ -245,7 +240,7 @@ export default class EntryPointDetails extends React.Component {
             </div>
             /* END STYLES COLLAPSE */
             : null}
-             {(this.state.connectedData !== undefined) ?
+             {(this.props.entryPoint.connectedData !== undefined) ?
             <div>
               <a
                 className={
@@ -266,7 +261,7 @@ export default class EntryPointDetails extends React.Component {
               </Collapse>
             </div>
             : null}
-            {(this.state.connectedDataY !== undefined) ?
+            {(this.props.entryPoint.connectedDataY !== undefined) ?
             <div>
               <a
                 className={
@@ -290,7 +285,7 @@ export default class EntryPointDetails extends React.Component {
               </Collapse>
             </div>
             : null}
-            {(this.state.connectedDataX !== undefined) ?
+            {(this.props.entryPoint.connectedDataX !== undefined) ?
             <div>
               <a
                 className={
@@ -311,7 +306,7 @@ export default class EntryPointDetails extends React.Component {
               </Collapse>
             </div>
             : null}
-            {(this.state.stateColors !== undefined) ?
+            {(this.props.entryPoint.stateColours !== undefined) ?
             <div>
               <a
                 className={

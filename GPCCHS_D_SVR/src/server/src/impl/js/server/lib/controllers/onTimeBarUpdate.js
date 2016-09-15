@@ -2,7 +2,7 @@ const debug = require('../io/debug')('controllers:onTimeBarUpdate');
 const { getTimebar, setTimebar } = require('../timeBar/index');
 const compareTimebars = require('../timeBar/tbUpdate');
 const viewsModel = require('../models/views');
-const { validateTbJson } = require('../schemaManager/index');
+// const { validateTbJson } = require('../schemaManager/index');
 const _ = require('lodash');
 
 /**
@@ -22,12 +22,12 @@ module.exports = buffer => {
   }
 
   // Check timebar validity
-  const errors = validateTbJson(newTimebar);
-  if (errors) {
-    debug.debug('Invalid format of timebar:', errors);
-    console.log(errors);
-    throw errors;
-  }
+  // const errors = validateTbJson(newTimebar);
+  // if (errors) {
+  //   debug.debug('Invalid format of timebar:', errors);
+  //   console.log(errors);
+  //   throw errors;
+  // }
 
   // Get differences
   // TODO aleal rename tbUpdate as 'compareTimebars()'

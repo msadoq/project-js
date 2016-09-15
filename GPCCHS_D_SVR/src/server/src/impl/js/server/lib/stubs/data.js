@@ -108,6 +108,118 @@ stubs.getNewDataMessageProtobuf = override => protobuf.encode(
   stubs.getNewDataMessage(override)
 );
 
+
+stubs.getDomainQuery = override => applyOverride({
+    id : "myQueryId"
+});
+
+stubs.getDomainQueryProtobuf = override =>  protobuf.encode(
+  'dc.dataControllerUtils.DomainQuery',
+  stubs.getDomainQuery(override)
+);
+
+stubs.getDomainResponse = override => applyOverride({
+    id : "myQueryId",
+    domains : [
+      {
+        itemNamespace : 'domainsNamespace',
+        name : 'fr.cnes.sat1.iongun',
+        oid : '0051525005151000565215601510515',
+        domainId : 98,
+        parentDomainId : 42
+      },
+      {
+        itemNamespace : 'domainsNamespace',
+        name : 'fr.cnes.sat1',
+        oid : '0051525005151000565215465660515',
+        domainId : 27,
+        parentDomainId : 98
+      }]
+});
+
+stubs.getDomainResponseProtobuf = override => protobuf.encode(
+  'dc.dataControllerUtils.DomainResponse',
+  stubs.getDomainResponse(override)
+);
+
+
+
+// SERVER MESSAGES (DcServerMessage)
+stubs.getWrappedNewDataMessage = override => applyOverride({
+    messageType : 'NEW_DATA_MESSAGE',
+    payload : stubs.getNewDataMessageProtobuf(override)
+}, override);
+
+stubs.getWrappedDcResponse = override => applyOverride({
+    messageType : 'DC_RESPONSE',
+    payload : stubs.getDcResponseProtobuf(override)
+}, override);
+
+stubs.getWrappedDomainResponse = override => applyOverride({
+    messageType : 'DOMAIN_RESPONSE',
+    payload : stubs.getDomainResponseProtobuf(override)
+}, override);
+
+// CLIENT MESSAGES (DcClientMessage)
+stubs.getWrappedDataQuery = override => applyOverride({
+    messageType : 'DATA_QUERY',
+    payload : stubs.getDataQueryProtobuf(override)
+}, override);
+
+stubs.getWrappedDataSubscribe = override => applyOverride({
+    messageType : 'DATA_SUBSCRIBE',
+    payload : stubs.getDataSubscribeProtobuf(override)
+}, override);
+
+stubs.getWrappedDomainQuery = override => applyOverride({
+    messageType : 'DOMAIN_QUERY',
+    payload : stubs.getDomainQueryProtobuf(override)
+}, override);
+
+// SERVER MESSAGES PROTOBUF (DcServerMessage)
+stubs.getWrappedNewDataMessageProtobuf = override => protobuf.encode(
+    'dc.dataControllerUtils.NewDataMessage',
+    stub.getNewDataMessage(override)
+);
+
+stubs.getWrappedDcResponseProtobuf = override => protobuf.encode(
+    'dc.dataControllerUtils.DcResponse',
+    stub.getDcResponse(override)
+);
+
+stubs.getWrappedDomainResponseProtobuf = override => protobuf.encode(
+  'dc.dataControllerUtils.DomainResponse',
+  stub.getDomainResponse(override)
+);
+
+stubs.getWrappedDataQueryProtobuf = override => protobuf.encode(
+  'dc.dataControllerUtils.DataQuery',
+  stub.getDataQuery(override)
+);
+stubs.getWrappedDataSubscribeProtobuf = override => protobuf.encode(
+  'dc.dataControllerUtils.DataSubscribe',
+  stub.getDataSubscribe(override)
+);
+
+stubs.getWrappedDomainQueryProtobuf = override => protobuf.encode(
+  'dc.dataControllerUtils.DomainQuery',
+  stub.getDomainQuery(override)
+);
+
+stubs.getReportingParameter = override => applyOverride({
+  onboardDate: now,
+  groundDate: now + 20,
+  convertedValue: _.random(1, 100, true),
+  rawValue: _.random(1, 100, true),
+  extractedValue: _.random(1, 100, true),
+  triggerOnCounter: 6,
+  triggerOffCounter: 10,
+  monitoringState: 'INFORMATIONAL',
+  validityState: 'INVALID',
+  isObsolete: false,
+  isNominal: false,
+}, override);
+
 // const parseDataFullName = require('./parseDataFullName');
 // const constants = require('../constants');
 // stubs.getSubscription = override => {

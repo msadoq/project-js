@@ -10,7 +10,7 @@ const router = new Router();
 router.post('/views', [
   validatePathOrOId,
   validFs,
-  validatorJson,
+  // validatorJson,
   // validatePageToView, ????
 ],
 (req, res) => {

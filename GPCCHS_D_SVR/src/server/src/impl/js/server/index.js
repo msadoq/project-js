@@ -10,7 +10,7 @@ const zmq = require('./lib/io/zmq');
 const primus = require('./lib/io/primus');
 const onClientOpen = require('./lib/controllers/onClientOpen');
 const onClientClose = require('./lib/controllers/onClientClose');
-const onDcData = require('./lib/controllers/onDcData');
+const onDcPull = require('./lib/controllers/onDcPull');
 const onTimeBarUpdate = require('./lib/controllers/onTimeBarUpdate');
 const onViewOpen = require('./lib/controllers/onViewOpen');
 const onViewClose = require('./lib/controllers/onViewClose');
@@ -18,9 +18,9 @@ const onViewUpdate = require('./lib/controllers/onViewUpdate');
 
 const dcStub = require('./lib/stubs/dc');
 const tbStub = require('./lib/stubs/tb');
+// const dataStub = require('./lib/stubs/data');
 const fs = require('fs');
 const path = require('path');
-const check = require('./lib/schemaManager');
 const { setTimebar } = require('./lib/timeBar/index');
 
 // port
@@ -85,15 +85,14 @@ primus.init(server, {
 
 // ZeroMQ
 zmq.open({
-  dcReq: {
-    type: 'req',
-    url: process.env.ZMQ_GPCCDC_REQ,
-    handler: payload => payload, // TODO implement a onDcRequestResponse (with error)
-  },
-  dcData: {
+  dcPull: {
     type: 'pull',
-    url: process.env.ZMQ_GPCCDC_DATA,
-    handler: onDcData,
+    url: process.env.ZMQ_GPCCDC_PULL,
+    handler: onDcPull,
+  },
+  dcPush: {
+    type: 'push',
+    url: process.env.ZMQ_GPCCDC_PUSH,
   },
   vimatimebar: {
     type: 'pull',
@@ -110,17 +109,20 @@ zmq.open({
       if (launchStubError) {
         throw launchStubError;
       }
+
+      // setTimeout(() => {
+      //   zmq.push('dcPush', dataStub.getDcClientMessage());
+      // }, 100);
     });
   }
   if (process.env.STUB_TB_ON === 'on') {
     // Read TB file
     const tb = JSON.parse(
-      fs.readFileSync(path.join(__dirname, 'lib/schemaManager/examples/TB.example.json'), 'utf8')
+      fs.readFileSync(path.join(__dirname,
+        '../../../../../../../GPCCHS_E_CLT/src/client/src/impl/js/client/app/schemaManager' +
+        '/examples/TB.example.json'),
+        'utf8')
     );
-    if (check.validateTbJson(tb)) {
-      debug.error('Invalid JSON file');
-      throw new Error('Invalid JSON file');
-    }
     setTimebar(JSON.parse(JSON.stringify(tb)));
     tbStub(tb, launchStubError => {
       if (launchStubError) {

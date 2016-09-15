@@ -11,7 +11,7 @@ export default class EntryPointTree extends React.Component {
   static propTypes = {
     entryPoints: React.PropTypes.array,
     search: React.PropTypes.string,
-    handleEntryPoint : React.PropTypes.func,
+    handleEntryPoint: React.PropTypes.func,
     remove: React.PropTypes.func
   }
   constructor(...args) {
@@ -20,7 +20,7 @@ export default class EntryPointTree extends React.Component {
   }
   render() {
     const mask = `${this.props.search}.*`;
-    let EntryPointsName = this.props.entryPoints.map((entryPoint, key_) =>
+    const EntryPointsName = this.props.entryPoints.map((entryPoint, key_) =>
       ((entryPoint.name.match(mask)) ?
         <EntryPointDetails
           key={key_}

@@ -4,7 +4,7 @@ const pathTestFMD = '/data/work/gitRepositories/LPISIS/GPCCHS/' +
   'GPCCHS_E_CLT/src/client/src/impl/js/client/data/' +
   'dev.workspace.json';
 
-describe.only('functions documents/index', () => {
+describe('functions documents/index', () => {
   describe('function < resolve >', () => {
     it('correct path', () => {
       const pathReturn = documents.resolve('dev.workspace.json');

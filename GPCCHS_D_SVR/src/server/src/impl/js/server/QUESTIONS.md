@@ -2,6 +2,7 @@
 
 ## Philippe
 
+* document: plusieurs filtres par connected data
 * document: Avoir un plot entryPoint qui écoute 1 paramètre sur x et 1 paramètre sur y (pas le même)
 * document: (postponed) Format des formules
 * document: remove data node

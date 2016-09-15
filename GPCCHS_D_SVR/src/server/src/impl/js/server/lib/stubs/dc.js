@@ -6,7 +6,7 @@ const stubData = require('./data');
 
 let subscriptions = {}; // realtime
 let queries = []; // archive
-
+let domainQueried = false; // domains were queried
 // stub supported parameters list
 const supportedParameters = [
   'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>',
@@ -29,13 +29,13 @@ const supportedParameters = [
       });
  }
 const onHssMessage = buffer => {
-  let type;
+  console.log("onHssMessage");
   let dcClientMessage;
   let payload;
   try {
     dcClientMessage = protobuf.decode('dc.dataControllerUtils.DcClientMessage', buffer);
+    type = dcClientMessage.messageType;
   try {
-    type = protobuf.messageType;
     switch (dcClientMessage.messageType){
       case 'DATA_QUERY':
         payload = protobuf.decode('dc.dataControllerUtils.DataQuery', dcClientMessage.payload);
@@ -51,7 +51,8 @@ const onHssMessage = buffer => {
         break;
     }
   } catch (decodeException) {
-      return zmq.send('stubdcrep',  wrapServerMessage('DC_RESPONSE', protobuf.encode('dc.dataControllerUtils.DcResponse', {
+      console.log("decode exception");
+      return zmq.push('stubData',  wrapServerMessage('DC_RESPONSE', protobuf.encode('dc.dataControllerUtils.DcResponse', {
         id : null,
         status : 'ERROR',
         reason : 'Unable to decode dcClientMessage payload of type '+type
@@ -59,39 +60,47 @@ const onHssMessage = buffer => {
     }
   }
   catch (clientMsgException) {
-    return zmq.send('stubdcrep', wrapServerMessage('DC_RESPONSE', protobuf.encode('dc.dataControllerUtils.DcResponse', {
-      id : null,
+    console.log(clientMsgException);
+    return zmq.push('stubData', wrapServerMessage('DC_RESPONSE', protobuf.encode('dc.dataControllerUtils.DcResponse', {
+      id : 'null',
       status : 'ERROR',
       reason : 'Unable to decode dcClientMessage'
     })));
   }
 
-  const parameter
-    = `${payload.dataId.catalog}.${payload.dataId.parameterName}<${payload.dataId.comObject}>`;
+  let parameter;
 
-  if (supportedParameters.indexOf(parameter) === -1) {
-    return zmq.respond('stubdcrep',  wrapServerMessage('DC_RESPONSE', protobuf.encode('dc.dataControllerUtils.DcResponse', {
-      id: null,
-      status: 'ERROR',
-      reason: 'Unsupported stub parameter',
-    })));
+  if (type === 'DATA_QUERY' || type === 'DATA_SUBSCRIBE') {
+    parameter = `${payload.dataId.catalog}.${payload.dataId.parameterName}<${payload.dataId.comObject}>`;
+
+    if (supportedParameters.indexOf(parameter) === -1) {
+      return zmq.push('stubData',  wrapServerMessage('DC_RESPONSE', protobuf.encode('dc.dataControllerUtils.DcResponse', {
+        id: dcClientMessage.id,
+        status: 'ERROR',
+        reason: 'Unsupported stub parameter',
+      })));
+    }
   }
 
-  if (type === 'dataQuery') {
+  if (type == 'DATA_QUERY') {
     // add query to process list
     queries.push(payload);
     debug.debug('query registered', parameter, payload.interval);
-  } else if (type === 'dataSubscribe' && payload.action === 'ADD') {
+  } else if (type === 'DATA_SUBSCRIBE' && payload.action == 'ADD') {
     // add realtime parameter
     subscriptions[parameter] = payload.dataId;
     debug.debug('subscription added', parameter);
-  } else if (type === 'dataSubscribe' && payload.action === 'DELETE') {
+  } else if (type === 'DATA_SUBSCRIBE' && payload.action == 'DELETE') {
     // remove realtime parameter
     subscriptions = _.omit(subscriptions, parameter);
     debug.debug('subscription removed', parameter);
+  } else if (type === 'DOMAIN_QUERY') {
+    domainQueried = true;
+  } else {
+      throw "Neither a Data Query nor a supported data subscribe nor a domain query"
   }
 
-  return zmq.respond('stubdcrep', wrapServerMessage('DC_RESPONSE', protobuf.encode('dc.dataControllerUtils.DcResponse', {
+  return zmq.push('stubData', wrapServerMessage('DC_RESPONSE', protobuf.encode('dc.dataControllerUtils.DcResponse', {
     id: payload.id,
     status: 'OK',
   })));
@@ -103,21 +112,21 @@ const pushData = (dataId, payloads) => {
   }
 
   const buffers = _.map(payloads, pl => ({
-    timestamp: { ms: pl.timestamp },
     payload: stubData.getReportingParameterProtobuf({
       groundDate: pl.timestamp + 20,
       onboardDate: pl.timestamp,
       // values already vary in stubData helper
     }),
+    timestamp:{ ms: pl.timestamp }
   }));
 
-  const buffer = protobuf.encode('dc.dataControllerUtils.NewDataMessage', {
+  const buffer = wrapServerMessage('NEW_DATA_MESSAGE', protobuf.encode('dc.dataControllerUtils.NewDataMessage', {
     dataId,
     payloads: buffers,
-  });
+    dataSource : 'REAL_TIME'
+  }));
 
-  const wrappedBuffer = wrapServerMessage('NEW_DATA_MESSAGE', buffer);
-  return zmq.push('stubData', wrappedBuffer);
+  return zmq.push('stubData', buffer);
 };
 
 const emulateDc = () => {
@@ -130,10 +139,16 @@ const emulateDc = () => {
       // fake time repartition
       payloads.push({ timestamp: Date.now() - (i * 10) });
     }
-
+    console.log('push data from subscription');
     return pushData(dataId, payloads);
   });
 
+  if (domainQueried){
+    const buffer = stubData.getWrappedDomainResponseProtobuf();
+    console.log('push Domains');
+    zmq.push('stubData', buffer);
+    domainQueried = false;
+  }
   if (!queries.length) {
     return;
   }
@@ -150,7 +165,7 @@ const emulateDc = () => {
     for (let i = from; i <= to; i += 2000) {
       payloads.push({ timestamp: i });
     }
-
+    console.log('push data from query');
     return pushData(query.dataId, payloads);
   });
 };

@@ -6,8 +6,8 @@ import * as types from './types';
  */
 export default function views(state = {}, action) {
   switch (action.type) {
-    case types.WS_VIEW_ENTRYPOINT_MOUNT:
-    case types.WS_VIEW_ENTRYPOINT_UNMOUNT:
+    case types.WS_VIEW_CD_MOUNT:
+    case types.WS_VIEW_CD_UNMOUNT:
       return Object.assign({}, state, {
         [action.payload.viewId]: view(state[action.payload.viewId], action)
       });
@@ -26,8 +26,6 @@ export default function views(state = {}, action) {
 const initialState = {
   title: 'Unknown',
   type: null,
-  configuration: {},
-  entryPoints: [],
 };
 
 function view(state = initialState, action) {
@@ -36,17 +34,26 @@ function view(state = initialState, action) {
       return Object.assign({}, state, {
         title: action.payload.title || state.title,
         type: action.payload.type || state.type,
-        configuration: action.payload.configuration || state.configuration,
-        entryPoints: action.payload.entryPoints || state.entryPoints,
+        configuration: configuration(undefined, action),
       });
-    case types.WS_VIEW_ENTRYPOINT_MOUNT:
-      return Object.assign({}, state, {
-        entryPoints: [...state.entryPoints, action.payload.entryPointId],
-      });
-    case types.WS_VIEW_ENTRYPOINT_UNMOUNT:
-      return Object.assign({}, state, {
-        entryPoints: _.without(state.entryPoints, action.payload.entryPointId),
-      });
+    default:
+      return state;
+  }
+}
+
+// TODO remove and add configuration entry point
+function configuration(state = {}, action) {
+  switch (action.type) {
+    case types.WS_VIEW_ADD:
+      return Object.assign({}, action.payload.configuration || state);
+    // case types.WS_VIEW_CD_MOUNT:
+    //   return Object.assign({}, state, {
+    //     connectedData: [...state.connectedData, action.payload.connectedDataId], // TODO remove and add configuration entry point
+    //   });
+    // case types.WS_VIEW_CD_UNMOUNT:
+    //   return Object.assign({}, state, {
+    //     connectedData: _.without(state.connectedData, action.payload.connectedDataId), // TODO remove and add configuration entry point
+    //   });
     default:
       return state;
   }
@@ -59,18 +66,38 @@ export function getView(state, viewId) {
   return state.views[viewId];
 }
 
-export function getEntryPoints(state, viewId) {
-  // Plot
-  // - plotViewEntryPoints[].connectedDataX.formula
-  // - plotViewEntryPoints[].connectedDataY.formula
-  // Text
-  // - textViewEntryPoints[].connectedData.formula
-  return _.reduce(state.views[viewId].entryPoints, (entryPoints, id) => {
-    const ep = state.entryPoints[id];
+// TODO TEST all exit cases
+export function getConnectedData(state, viewId) {
+  const view = _.get(state, `views.${viewId}`);
+  if (!viewId || !view) {
+    return [];
+  }
+
+  // TODO external abstraction
+  const epIds = [];
+  if (view.type === 'PlotView') {
+    // type : PlotView : configuration.plotViewEntryPoints[{connectedDataX.uuid, connectedDataY.uuid}]
+    _.each(_.get(view, 'configuration.plotViewEntryPoints'), ep => {
+      epIds.push(_.get(ep, 'connectedDataX.uuid'));
+      epIds.push(_.get(ep, 'connectedDataY.uuid'));
+    });
+  } else if (view.type === 'TextView') {
+    // type : TextView : configuration.textViewEntryPoints[{connectedData.uuid}]
+    _.each(_.get(view, 'configuration.textViewEntryPoints'), ep => {
+      epIds.push(_.get(ep, 'connectedData.uuid'));
+    });
+  }
+
+  if (!epIds.length) {
+    return [];
+  }
+
+  return _.reduce(epIds, (connectedData, id) => {
+    const ep = state.connectedData[id];
     if (!ep) {
-      return entryPoints;
+      return connectedData;
     }
 
-    return [...entryPoints, Object.assign({ entryPointId: id }, ep)];
+    return [...connectedData, Object.assign({ connectedDataId: id }, ep)];
   }, []);
 }

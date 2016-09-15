@@ -54,7 +54,7 @@
             },
             "required": ["lower", "upper"]
         },
-        "timeLine": {
+        "timeline": {
             "type": "object",
             "properties": {
                 "id": {
@@ -69,7 +69,7 @@
         },
         "sessionLine": {
             "allOf": [{
-                "$ref": "#/definitions/timeLine"
+                "$ref": "#/definitions/timeline"
             }, {
                 "properties": {
                     "kind": {
@@ -85,7 +85,7 @@
         },
         "datasetLine": {
             "allOf": [{
-                "$ref": "#/definitions/timeLine"
+                "$ref": "#/definitions/timeline"
             }, {
                 "properties": {
                     "kind": {
@@ -101,7 +101,7 @@
         },
         "recordsetLine": {
             "allOf": [{
-                "$ref": "#/definitions/timeLine"
+                "$ref": "#/definitions/timeline"
             }, {
                 "properties": {
                     "kind": {
@@ -174,7 +174,7 @@
                     "type": "number",
                     "default": 0
                 },
-                "timeLines": {
+                "timelines": {
                     "type": "array",
                     "items": {
                         "oneOf": [{
@@ -190,7 +190,7 @@
                     "type": "string"
                 }
             },
-            "required": ["type", "id", "mode", "visuWindow", "slideWindow", "extUpperBound", "rulerStart", "rulerResolution", "timeLines"],
+            "required": ["type", "id", "mode", "visuWindow", "slideWindow", "extUpperBound", "rulerStart", "rulerResolution", "timelines"],
             "additionalProperties": false
         },
         "documentWindow": {

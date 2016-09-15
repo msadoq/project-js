@@ -2,34 +2,36 @@ import debug from '../utils/debug';
 import _ from 'lodash';
 import { readWorkspace } from '../documents/workspace';
 import { getStore } from '../store/mainStore';
-// import { add as addEntryPoint } from '../store/mutations/entryPointActions';
+import { add as addConnectedData } from '../store/mutations/connectedDataActions';
 import { add as addView } from '../store/mutations/viewActions';
 import { add as addPage } from '../store/mutations/pageActions';
 import { add as addWindow } from '../store/mutations/windowActions';
 
 const logger = debug('main:loadWorkspace');
 
+// TODO : read file path in params => file picker
+// TODO : handle error in workspace reading => file picker
+
 export default function loadWorkspace(path, callback) {
-  // TODO : read file path in params => file picker
   readWorkspace(path, (err, workspace) => {
     if (err) {
       return callback(err);
     }
 
-    console.log(workspace);
-
-    // TODO : handle empty payload => file picker
-
-    // TODO : duplicate window/page/view on ws reconnect (uuid is done on server side on each connect)!
-
     const dispatch = getStore().dispatch;
 
     // connectedData
-    console.log(workspace.connectedData)
-    // TODO add entry points
+    _.each(workspace.connectedData, e => dispatch(addConnectedData(
+      e.uuid,
+      e.formula,
+      e.domain,
+      e.timeLine, // TODO timeline => after Audrey key change
+      e.filter
+    )));
 
     // add views
-    _.each(workspace.views, e => dispatch(addView(e.uuid, e.type, e.configuration, [])));
+    // console.log(workspace.views[1].configuration.textViewEntryPoints)
+    _.each(workspace.views, e => dispatch(addView(e.uuid, e.type, e.configuration)));
 
     // add pages
     _.each(workspace.pages, e => dispatch(addPage(
@@ -57,7 +59,6 @@ export default function loadWorkspace(path, callback) {
       v: Object.keys(state.views).length,
     };
     logger.info(`${count.w} windows, ${count.p} pages, ${count.v} views`);
-    // console.log(getStore().getState())
     return callback(null);
   });
 }

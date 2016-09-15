@@ -15,8 +15,8 @@ const mapStateToProps = (state, ownProps) => {
 
 function mapDispatchToProps(dispatch, { pageId }) {
   return bindActionCreators({
-    addAndMount: viewId => addAndMount(viewId, pageId),
-    unmountAndRemove: viewId => unmountAndRemove(viewId, pageId),
+    addAndMount: () => addAndMount(pageId),
+    unmountAndRemove: viewId => unmountAndRemove(pageId, viewId),
     updateLayout: layout => updateLayout(pageId, layout),
   }, dispatch);
 }

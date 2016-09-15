@@ -83,7 +83,7 @@ export function getPage(state, pageId) {
 }
 
 export function getViews(state, pageId) {
-  if (!pageId || !_.get(state, `pages.${pageId}.views`)) { // TODO replicate on getPages + TEST
+  if (!pageId || !_.get(state, `pages.${pageId}.views`)) { // TODO TEST
     return [];
   }
 

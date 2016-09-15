@@ -12,7 +12,6 @@ const viewsModel = require('../models/views');
  * @param buffer
  */
 module.exports = buffer => {
-  debug.verbose('called');
 
   let message;
   let payloads;

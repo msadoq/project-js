@@ -144,7 +144,7 @@ function readViews(content, cb) {
 
 function createConnectedData(data, uuid) {
   // Get parameters of global connected Data
-  const cData = _.pick(data, ['formula', 'domain', 'timeLine']);
+  const cData = _.pick(data, ['formula', 'domain', 'timeline']);
   if (data.filter) {
     cData.filter = data.filter;
   }
@@ -157,7 +157,7 @@ function moveConnectedData(connectedData) {
   const uuid = v4();
   const dataToStore = createConnectedData(connectedData, uuid);
   // Delete parameters stored in the view
-  const data = _.omit(connectedData, ['formula', 'domain', 'timeLine', 'filter']);
+  const data = _.omit(connectedData, ['formula', 'domain', 'timeline', 'filter']);
   connectedData = Object.assign({}, data, { uuid }); // eslint-disable-line no-param-reassign
   return { dataToStore, connectedData };
 }
@@ -181,7 +181,7 @@ function separateConnectedData(content, cb) {
       case 'TextView':
         _.forEach(view.configuration.textViewEntryPoints, (value, index, source) => {
           const data = moveConnectedData(value.connectedData);
-          cdList.push(data.dataToStores);
+          cdList.push(data.dataToStore);
           source[index].connectedData = data.connectedData; // eslint-disable-line no-param-reassign
         });
         break;
@@ -189,7 +189,6 @@ function separateConnectedData(content, cb) {
         debug.debug('No treatment for connectedData of view type: ${viewContent.type}');
     }
   });
-  // console.log('list', cdList);
   const r = Object.assign(content, { connectedData: cdList });
   return cb(null, r);
 }
@@ -232,4 +231,5 @@ module.exports = {
   readPages,
   readViews,
   separateConnectedData,
+  listWindows,
 };

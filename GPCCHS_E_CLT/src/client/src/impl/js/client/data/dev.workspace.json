@@ -1,104 +1,116 @@
 {
-    "type": "WorkSpace",
-    "windows": [{
-        "type": "sideWindow",
-        "kind": "DocumentExplorer",
-        "geometry": {
-            "kind": "Absolute",
-            "x": 10,
-            "y": 10,
-            "w": 100,
-            "h": 500
-        }
-    }, {
-        "type": "sideWindow",
-        "kind": "InspectorView",
-        "geometry": {
-            "kind": "Absolute",
-            "x": 10,
-            "y": 510,
-            "w": 100,
-            "h": 300
-        }
-    }, {
-        "type": "sideWindow",
-        "kind": "RTDExplorer",
-        "geometry": {
-            "kind": "Absolute",
-            "x": 1420,
-            "y": 10,
-            "w": 500,
-            "h": 600
-        }
-    }, {
-        "type": "globalViewWindow",
-        "kind": "GMAView",
-        "timeBarId": "TB1",
-        "geometry": {
-            "kind": "Absolute",
-            "x": 1420,
-            "y": 610,
-            "w": 500,
-            "h": 200
-        }
-    }, {
-        "type": "documentWindow",
-        "timeBarId": "TB1",
-        "pages": [{
-            "oId": "folder/simple.page.vipg"
-        }, {
-            "path": "/showcase.page.json"
-        }],
-        "geometry": {
-            "kind": "Absolute",
-            "x": 110,
-            "y": 10,
-            "w": 1310,
-            "h": 800
-        }
-    }],
-    "timeBarWindow": {
-        "type": "timeBarWindowConfiguration",
-        "timeBar": {
-            "type": "timeBarConfiguration",
-            "id": "TB1",
-            "mode": "Normal",
-            "visuWindow": {
-                "lower": 1420106400000,
-                "upper": 1420113600000,
-                "current": 1420110000000,
-                "defaultWidth": 7200000
-            },
-            "slideWindow": {
-                "lower": 1420108200000,
-                "upper": 1420111800000
-            },
-            "extUpperBound": 1420115400000,
-            "rulerStart": 1420106400000,
-            "rulerResolution": 11250,
-            "speed": 1.0,
-            "playingState": "pause",
-            "timeSpec": "LocalTime",
-            "offsetFromUTC": 0,
-            "timeLines": [{
-                "id": "Session 1",
-                "offset": 0,
-                "kind": "Session",
-                "sessionId": 1
-            }, {
-                "id": "Dataset 1",
-                "offset": 0,
-                "kind": "Dataset",
-                "dsPath": "/dataset.xml"
-            }],
-            "masterId": "Session 1"
+  "type": "WorkSpace",
+  "windows": [
+    {
+      "type": "sideWindow",
+      "kind": "DocumentExplorer",
+      "geometry": {
+        "kind": "Absolute",
+        "x": 10,
+        "y": 10,
+        "w": 100,
+        "h": 500
+      }
+    },
+    {
+      "type": "sideWindow",
+      "kind": "InspectorView",
+      "geometry": {
+        "kind": "Absolute",
+        "x": 10,
+        "y": 510,
+        "w": 100,
+        "h": 300
+      }
+    },
+    {
+      "type": "sideWindow",
+      "kind": "RTDExplorer",
+      "geometry": {
+        "kind": "Absolute",
+        "x": 1420,
+        "y": 10,
+        "w": 500,
+        "h": 600
+      }
+    },
+    {
+      "type": "globalViewWindow",
+      "kind": "GMAView",
+      "timeBarId": "TB1",
+      "geometry": {
+        "kind": "Absolute",
+        "x": 1420,
+        "y": 610,
+        "w": 500,
+        "h": 200
+      }
+    },
+    {
+      "type": "documentWindow",
+      "timeBarId": "TB1",
+      "pages": [
+        {
+          "path": "/pages/showcase.page.json"
         },
-        "geometry": {
-            "kind": "Absolute",
-            "x": 10,
-            "y": 810,
-            "w": 1900,
-            "h": 100
+        {
+          "oId": "pages/simple.page.vipg"
         }
+      ],
+      "geometry": {
+        "kind": "Absolute",
+        "x": 110,
+        "y": 10,
+        "w": 1310,
+        "h": 800
+      }
     }
+  ],
+  "timeBarWindow": {
+    "type": "timeBarWindowConfiguration",
+    "timeBar": {
+      "type": "timeBarConfiguration",
+      "id": "TB1",
+      "mode": "Normal",
+      "visuWindow": {
+        "lower": 1420106400000,
+        "upper": 1420113600000,
+        "current": 1420110000000,
+        "defaultWidth": 7200000
+      },
+      "slideWindow": {
+        "lower": 1420108200000,
+        "upper": 1420111800000
+      },
+      "extUpperBound": 1420115400000,
+      "rulerStart": 1420106400000,
+      "rulerResolution": 11250,
+      "speed": 1.0,
+      "playingState": "pause",
+      "timeSpec": "LocalTime",
+      "offsetFromUTC": 0,
+      "timelines": [
+        {
+          "id": "Session 1",
+          "offset": 0,
+          "kind": "Session",
+          "sessionId": 1
+        },
+        {
+          "id": "Dataset 1",
+          "offset": 0,
+          "kind": "Dataset",
+          "dsPath": "/dataset.xml"
+        }
+      ],
+      "masterId": "Session 1"
+    },
+    "geometry": {
+      "kind": "Absolute",
+      "x": 10,
+      "y": 810,
+      "w": 1900,
+      "h": 100
+    }
+  }
 }

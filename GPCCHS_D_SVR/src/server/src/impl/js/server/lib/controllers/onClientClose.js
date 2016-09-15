@@ -5,5 +5,5 @@ const debug = require('../io/debug')('controllers:onClientClose');
  * @param spark
  */
 module.exports = spark => {
-  debug.info(spark.id, 'closed');
+  debug.info(spark.id, 'main process websocket closed');
 };

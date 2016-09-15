@@ -13,10 +13,10 @@ const _ = require('lodash');
 
 function TextView(configuration) {
   this.spark = configuration.spark;
-  this.conf = configuration.conf;
+  this.configuration = configuration.configuration;
   this.identity = configuration.identity;
-  if (!this.conf.textViewEntryPoints) {
-    this.conf.textViewEntryPoints = [];
+  if (!this.configuration.textViewEntryPoints) {
+    this.configuration.textViewEntryPoints = [];
   }
 }
 

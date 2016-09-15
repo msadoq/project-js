@@ -8,7 +8,7 @@ function getInstance(server) {
 }
 
 const primusExports = module.exports = {
-  getInstance: getInstance,
+  getInstance,
   init: (server, handlers) => {
     if (primus) {
       throw new Error('Primus adapter already inited');
@@ -26,19 +26,37 @@ const primusExports = module.exports = {
           throw new Error('Websocket incoming message without event key');
         }
 
+        // TODO : inject windowId as parameter in each handler
+
         switch (message.event) {
           case 'identity': {
             if (message.payload.identity === 'main') {
               handlers.onClientOpen(spark);
               spark.on('end', () => handlers.onClientClose(spark));
             } else {
-              handlers.onViewOpen(spark, message.payload);
-              spark.on('end', () => handlers.onViewClose(spark));
+              handlers.onWindowOpen(spark, message.payload.identity);
+              spark.on('end', () => handlers.onWindowClose(spark, message.payload.identity));
             }
             break;
           }
+          case 'viewOpen': {
+            handlers.onViewOpen(spark, message.payload);
+            break;
+          }
+          case 'viewClose': {
+            handlers.onViewClose(spark, message.payload);
+            break;
+          }
           case 'viewUpdate': {
-            handlers.onViewUpdate(spark, message);
+            handlers.onViewUpdate(spark, message.payload);
+            break;
+          }
+          case 'connectedDataOpen': {
+            handlers.onConnectedDataOpen(spark, message.payload);
+            break;
+          }
+          case 'connectedDataClose': {
+            handlers.onConnectedDataClose(spark, message.payload);
             break;
           }
           default:

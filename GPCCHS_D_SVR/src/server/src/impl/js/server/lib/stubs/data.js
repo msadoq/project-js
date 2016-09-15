@@ -94,7 +94,7 @@ stubs.getNewDataMessage = override => applyOverride({
       ),
     },
     {
-      timestamp: { ms: now },
+      timestamp: { ms: now + 1 },
       payload: protobuf.encode(
         'lpisis.decommutedParameter.ReportingParameter',
         stubs.getReportingParameter()
@@ -178,32 +178,32 @@ stubs.getWrappedDomainQuery = override => applyOverride({
 
 // SERVER MESSAGES PROTOBUF (DcServerMessage)
 stubs.getWrappedNewDataMessageProtobuf = override => protobuf.encode(
-    'dc.dataControllerUtils.NewDataMessage',
-    stub.getNewDataMessage(override)
+    'dc.dataControllerUtils.DcServerMessage',
+    stubs.getWrappedNewDataMessage(override)
 );
 
 stubs.getWrappedDcResponseProtobuf = override => protobuf.encode(
-    'dc.dataControllerUtils.DcResponse',
-    stub.getDcResponse(override)
+    'dc.dataControllerUtils.DcServerMessage',
+    stubs.getWrappedDcResponse(override)
 );
 
 stubs.getWrappedDomainResponseProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.DomainResponse',
-  stub.getDomainResponse(override)
+  'dc.dataControllerUtils.DcServerMessage',
+  stubs.getWrappedDomainResponse(override)
 );
 
 stubs.getWrappedDataQueryProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.DataQuery',
-  stub.getDataQuery(override)
+  'dc.dataControllerUtils.DcServerMessage',
+  stubs.getWrappedDataQuery(override)
 );
 stubs.getWrappedDataSubscribeProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.DataSubscribe',
-  stub.getDataSubscribe(override)
+  'dc.dataControllerUtils.DcServerMessage',
+  stubs.getWrappedDataSubscribe(override)
 );
 
 stubs.getWrappedDomainQueryProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.DomainQuery',
-  stub.getDomainQuery(override)
+  'dc.dataControllerUtils.DcServerMessage',
+  stubs.getWrappedDomainQuery(override)
 );
 
 stubs.getReportingParameter = override => applyOverride({

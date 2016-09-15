@@ -1,7 +1,18 @@
+const debug = require('../io/debug')('utils:intervals');
 const _ = require('lodash');
 
 const isTimestampInInterval = (timestamp, interval) =>
   (timestamp >= interval[0] && timestamp <= interval[1]);
+
+const isTimestampInIntervals = (timestamp, intervals) =>
+  _.some(intervals, interval => {
+    debug.debug('checking interval', interval);
+    if (isTimestampInInterval(timestamp, interval)) {
+      return true;
+    }
+    return false;
+  }
+);
 
 const mergeIntervals = (knownIntervals, interval) => {
   // No known intervals
@@ -109,5 +120,6 @@ const mergeIntervals = (knownIntervals, interval) => {
 
 module.exports = {
   isTimestampInInterval,
+  isTimestampInIntervals,
   mergeIntervals,
 };

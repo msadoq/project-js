@@ -1,19 +1,20 @@
+const _ = require('lodash');
 const dataId = require('./dataId');
-const dataPayloads = require('./dataPayloads');
+const dataPayload = require('./dataPayload');
 
 module.exports = {
   encode: data => ({
-    id : data.id,
-    dataSource : data.dataSource,
+    id: data.id,
+    dataSource: data.dataSource,
     dataId: dataId.encode(data.dataId),
-    payloads: dataPayloads.encode(data.payloads),
-    isEndOfQuery : data.isEndOfQuery
+    payloads: _.map(data.payloads, item => dataPayload.encode(item)),
+    isEndOfQuery: data.isEndOfQuery,
   }),
   decode: data => ({
-    id : data.id,
-    dataSource : data.dataSource,
+    id: data.id,
+    dataSource: data.dataSource,
     dataId: dataId.decode(data.dataId),
-    payloads: dataPayloads.decode(data.payloads),
-    isEndOfQuery : data.isEndOfQuery
+    payloads: _.map(data.payloads, item => dataPayload.decode(item)),
+    isEndOfQuery: data.isEndOfQuery,
   }),
 };

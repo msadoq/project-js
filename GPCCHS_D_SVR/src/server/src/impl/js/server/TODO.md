@@ -19,7 +19,7 @@ Only list expected tasks for PBF shipping of end of october.
   - [ ] Envisage to fork in child_process the HSS DC stub (Damien)
   - [ ] Envisage to try/catch every ZeroMQ/protobuf operation
 * [ ] Controller
-  * [ ] onDcData
+  * [ ] onNewDataMessage
   * [ ] onTimebarUpdate
   * [ ] onClientOpen
   * [ ] onClientClose

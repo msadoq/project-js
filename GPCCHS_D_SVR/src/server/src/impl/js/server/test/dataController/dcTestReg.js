@@ -4,7 +4,7 @@ var zmq = require("zmq"),
     protoBuf = require("protobufjs");
 const { encode } = require("../../lib/protobuf");
 const { decode } = require("../../lib/protobuf");
-const onDcData = require('../../lib/controllers/onDcData');
+const onNewDataMessage = require('../../lib/controllers/onNewDataMessage');
 
 socketOut.connect("tcp://127.0.0.1:5042");
 
@@ -48,11 +48,11 @@ socketIn.on("message",(header, msg) => {
         case 'UNKNOWN':
           //shouldn't happen
           console.log("dataSource from outter space");
-          onDcData(servMsg.payload);
+          onNewDataMessage(servMsg.payload);
           break;
         case 'REAL_TIME':
           console.log("received real time data for ", dataMsg.dataId);
-          onDcData(servMsg.payload);
+          onNewDataMessage(servMsg.payload);
           break;
         case 'ARCHIVE':
           if (dataMsg.isEndOfQuery){
@@ -60,7 +60,7 @@ socketIn.on("message",(header, msg) => {
           } else {
             console.log("received incomplete data from ",dataMsg.dataId);
           }
-          onDcData(servMsg.payload);
+          onNewDataMessage(servMsg.payload);
           break;
       }
       break;

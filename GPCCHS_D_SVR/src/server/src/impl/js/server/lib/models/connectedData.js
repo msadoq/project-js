@@ -1,6 +1,6 @@
 const debug = require('../io/debug')('models:connectedData');
 const database = require('../io/loki');
-const { isTimestampInInterval, mergeIntervals } = require('../utils/intervals');
+const { isTimestampInIntervals, mergeIntervals } = require('../utils/intervals');
 const { inspect } = require('util');
 const _ = require('lodash');
 
@@ -19,19 +19,18 @@ collection.isTimestampInKnownIntervals = (dataId, timestamp) => {
   // Check if timestamp is currently in intervals known or requested for this dataId
   const connectedData = collection.by('dataId', dataId);
   if (connectedData !== undefined) {
-    _.map(connectedData.intervals, (interval) => {
-      debug.debug('known interval', inspect(interval));
-      if (isTimestampInInterval(timestamp, interval)) {
-        return true;
-      }
-    });
-    _.map(connectedData.requested, (interval) => {
-      debug.debug('known requested interval', inspect(interval));
-      if (isTimestampInInterval(timestamp, interval)) {
-        return true;
-      }
-    });
+    debug.debug('check received intervals')
+    if (isTimestampInIntervals(timestamp, connectedData.intervals)) {
+      debug.debug('timestamp in received intervals');
+      return true;
+    }
+    debug.debug('check requested intervals')
+    if (isTimestampInIntervals(timestamp, connectedData.requested)) {
+      debug.debug('timestamp in requested intervals');
+      return true;
+    }
   }
+  debug.debug('timestamp not in known intervals');
   return false;
 };
 
@@ -40,9 +39,10 @@ collection.isTimestampInKnownIntervals = (dataId, timestamp) => {
 collection.setIntervalAsReceived = (dataId, queryUuid) => {
   // Set query interval as received for this dataId
   let connectedData = collection.by('dataId', dataId);
-  connectedData.intervals = mergeIntervals(connectedData.intervals, connectedData.requested[queryUuid]);
+  const interval = connectedData.requested[queryUuid]
+  connectedData.intervals = mergeIntervals(connectedData.intervals, interval);
   connectedData.requested = _.omit(connectedData.requested, queryUuid);
-  debug.debug('interval received', connectedData);
+  debug.debug('set interval', interval, 'as received', connectedData);
   collection.update(connectedData); // TODO This update operation could be not needed
   // TODO Is it needed to deal with a no longer present interval ?
 };

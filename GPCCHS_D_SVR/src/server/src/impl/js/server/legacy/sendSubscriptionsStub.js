@@ -8,7 +8,7 @@ const parseArgs = require('minimist');
 
 const usage = () => console.log(
   'USAGE: ',
-  'node sendSubscriptions.js [ -h | --help ] ',
+  'node sendSubscriptionsStub.js [ -h | --help ] ',
   '[ -d | --delay DELAY (in ms) ] '
 );
 

@@ -1,4 +1,4 @@
-const debug = require('../lib/io/debug')('test-perf:cache-find');
+const debug = require('../lib/io/debug')('benchmark:cache-find');
 const _ = require('lodash');
 
 const { Cache } = require('cache');

@@ -14,10 +14,10 @@ const _ = require('lodash');
 
 function PlotView(configuration) {
   this.spark = configuration.spark;
-  this.conf = configuration.conf;
+  this.configuration = configuration.configuration;
   this.identity = configuration.identity;
-  if (!this.conf.plotViewEntryPoints) {
-    this.conf.plotViewEntryPoints = [];
+  if (!this.configuration.plotViewEntryPoints) {
+    this.configuration.plotViewEntryPoints = [];
   }
 }
 

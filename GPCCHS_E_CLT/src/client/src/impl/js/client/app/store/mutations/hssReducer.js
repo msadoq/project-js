@@ -1,4 +1,6 @@
 import * as types from './types';
+import _ from 'lodash';
+import u from 'updeep';
 
 /**
  * Reducer
@@ -8,13 +10,15 @@ const initialState = {
   error: null,
 };
 
-export default function hss(state = initialState, action) {
+export default function hss(state = {}, action) {
   switch (action.type) {
-    case types.HSS_MAIN_UPDATE_STATUS:
-      return Object.assign({}, state, {
-        status: action.payload.status,
-        error: action.payload.error,
-      });
+    case types.HSS_WS_UPDATE_STATUS:
+      return u({
+        [action.payload.identity]: {
+          status: action.payload.status || initialState.status,
+          error: action.payload.error || initialState.error,
+        }
+      }, state);
     default:
       return state;
   }
@@ -23,9 +27,18 @@ export default function hss(state = initialState, action) {
 /**
  * Selectors
  */
-export function getStatus(state) {
+export function getStatus(state, identity) {
+  if (!identity) {
+    return undefined;
+  }
+
+  const ws = _.get(state, `hss.${identity}`);
+  if (!ws) {
+    return undefined;
+  }
+
   return {
-    status: state.hss.status,
-    error: state.hss.error,
+    status: ws.status,
+    error: ws.error,
   };
 }

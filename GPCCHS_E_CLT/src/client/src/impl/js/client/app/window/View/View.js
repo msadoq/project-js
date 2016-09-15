@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
+import { getWebsocket } from '../websocket';
 import { Button } from 'react-bootstrap';
 import external from '../../../external.modules';
 import UnknownView from './UnknownView';
@@ -8,10 +9,32 @@ export default class View extends Component {
   static propTypes = {
     type: React.PropTypes.string.isRequired,
     viewId: PropTypes.string.isRequired,
+    configuration: PropTypes.object.isRequired,
     openEditor: PropTypes.func,
     closeEditor: PropTypes.func,
     unmountAndRemove: PropTypes.func,
   };
+  componentDidMount() {
+    console.log('send to websocket new view'); // TODO
+    getWebsocket().write({
+      event: 'viewOpen',
+      payload: {
+        type: this.props.type,
+        viewId: this.props.viewId,
+        configuration: this.props.configuration,
+      },
+    });
+  }
+  componentWillUnmount() {
+    console.log('send to websocket close view'); // TODO
+    getWebsocket().write({
+      event: 'viewClose',
+      payload: {
+        type: this.props.type,
+        viewId: this.props.viewId,
+      },
+    });
+  }
   render() {
     const { type } = this.props;
 

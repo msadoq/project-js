@@ -1,19 +1,15 @@
-const { expect } = require('../utils/test');
-const compareTimebars = require('./tbUpdate');
-const pathApi = require('path');
-
-// input data
-// let tbRef = require('../schemaManager/examples/TB.example');
-let tbRef = require('../../../../../../../../../GPCCHS_E_CLT/src/client/src/' +
-  'impl/js/client/app/schemaManager/examples/TB.example');
-
-const tb1 = JSON.parse(JSON.stringify(tbRef));
-
-let differences;
 /* eslint-disable no-unused-expressions */
+const { should } = require('../utils/test');
+const _ = require('lodash');
+const compareTimebars = require('./tbUpdate');
+
+let tbRef = require('./tb.fixtures.json');
+
+const tb1 = _.cloneDeep(tbRef);
+
 describe('Timebar update', () => {
   it('No update', () => {
-    expect(compareTimebars(tbRef, tbRef)).to.be.undefined;
+    should.not.exist(compareTimebars(tbRef, tbRef));
   });
   it('visuWindow parameter update', () => {
     // tb1 update
@@ -22,7 +18,7 @@ describe('Timebar update', () => {
     tb1.slideWindow.lower += 4000;
     tb1.extUpperBound += 6000;
     // get updates
-    differences = compareTimebars(tbRef, tb1);
+    const differences = compareTimebars(tbRef, tb1);
     // check updates
     differences.should.be.an('object');
     differences.should.have.property('visuWindowUpdate');
@@ -43,25 +39,25 @@ describe('Timebar update', () => {
   });
   it('timeline parameter update', () => {
     // tb1 update
-    tb1.timeLines[0].name = 'newTb1';
-    tb1.timeLines[0].offset = 2000;
-    tb1.timeLines[1].offset = 1000;
+    tb1.timelines[0].name = 'newTb1';
+    tb1.timelines[0].offset = 2000;
+    tb1.timelines[1].offset = 1000;
     tb1.masterId = '5';
     tb1.offsetFromUTC = 100;
     // console.log('\n\ntb1: ',tb1);
     // get updates
-    differences = compareTimebars(tbRef, tb1);
+    const differences = compareTimebars(tbRef, tb1);
     // check updates
-    const id0 = tb1.timeLines[0].id;
-    const id1 = tb1.timeLines[1].id;
+    const id0 = tb1.timelines[0].id;
+    const id1 = tb1.timelines[1].id;
     differences.should.be.an('object').with.property('timelineUpdate');
-    differences.timelineUpdate.should.have.all.keys(['timeLines', 'masterId', 'offsetFromUTC']);
-    differences.timelineUpdate.timeLines.should.be.an('object').with.all.keys([id0, id1]);
-    differences.timelineUpdate.timeLines[id0].should.have.all.keys(['offset', 'name']);
-    differences.timelineUpdate.timeLines[id1].should.have.all.keys(['offset']);
-    differences.timelineUpdate.timeLines[id0].name.should.equal('newTb1');
-    differences.timelineUpdate.timeLines[id0].offset.should.equal(2000);
-    differences.timelineUpdate.timeLines[id1].offset.should.equal(1000);
+    differences.timelineUpdate.should.have.all.keys(['timelines', 'masterId', 'offsetFromUTC']);
+    differences.timelineUpdate.timelines.should.be.an('object').with.all.keys([id0, id1]);
+    differences.timelineUpdate.timelines[id0].should.have.all.keys(['offset', 'name']);
+    differences.timelineUpdate.timelines[id1].should.have.all.keys(['offset']);
+    differences.timelineUpdate.timelines[id0].name.should.equal('newTb1');
+    differences.timelineUpdate.timelines[id0].offset.should.equal(2000);
+    differences.timelineUpdate.timelines[id1].offset.should.equal(1000);
     differences.timelineUpdate.masterId.should.equal('5');
     differences.timelineUpdate.offsetFromUTC.should.equal(100);
     // tbRef update
@@ -78,12 +74,12 @@ describe('Timebar update', () => {
       kind: 'Session',
       sessionId: nb,
     };
-    tb1.timeLines.unshift(newTl);
+    tb1.timelines.unshift(newTl);
     const newTl2 = JSON.parse(JSON.stringify(newTl));
     newTl2.id = nb + 1;
-    tb1.timeLines.push(newTl2);
+    tb1.timelines.push(newTl2);
     // get updates
-    differences = compareTimebars(tbRef, tb1);
+    const differences = compareTimebars(tbRef, tb1);
     // check updates
     differences.should.be.an('object').with.property('timelineAdded');
     differences.timelineAdded.should.be.an('array').with.lengthOf(2);
@@ -94,10 +90,10 @@ describe('Timebar update', () => {
   });
   it('timeline deletion', () => {
     // tb1 update
-    const tl1 = tb1.timeLines.splice(0, 1);
-    const tl2 = tb1.timeLines.splice(tb1.timeLines.length - 1, 1);
+    const tl1 = tb1.timelines.splice(0, 1);
+    const tl2 = tb1.timelines.splice(tb1.timelines.length - 1, 1);
     // get updates
-    differences = compareTimebars(tbRef, tb1);
+    const differences = compareTimebars(tbRef, tb1);
     // check updates
     differences.should.be.an('object').with.property('timelineRemoved');
     differences.timelineRemoved.should.be.an('array').with.lengthOf(2);
@@ -113,7 +109,7 @@ describe('Timebar update', () => {
     tb1.speed = 5;
     tb1.timeSpec = 'UTC';
     // get updates
-    differences = compareTimebars(tbRef, tb1);
+    const differences = compareTimebars(tbRef, tb1);
     // check updates
     differences.should.be.an('object').with.all.keys(
       ['modeUpdate', 'playingStateUpdate', 'speedUpdate', 'timeSpecUpdate']);
@@ -128,16 +124,16 @@ describe('Timebar update', () => {
     // tb1 update
     tb1.action = 'initialUpd';
     // get updates
-    differences = compareTimebars(tbRef, tb1);
+    const differences = compareTimebars(tbRef, tb1);
     // check updates
-    expect(differences).to.be.undefined;
+    should.not.exist(differences);
   });
   it('action = tbSaving', () => {
     // tb1 update
     tb1.action = 'tbSaving';
     // get updates
-    differences = compareTimebars(tbRef, tb1);
+    const differences = compareTimebars(tbRef, tb1);
     // check updates
-    expect(differences).to.be.undefined;
+    should.not.exist(differences);
   });
 });

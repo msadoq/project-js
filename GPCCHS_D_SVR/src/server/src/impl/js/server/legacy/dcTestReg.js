@@ -2,9 +2,9 @@ var zmq = require("zmq"),
     socketOut = zmq.socket("push"),
     socketPull = zmq.socket("pull"),
     protoBuf = require("protobufjs");
-const { encode } = require("../../lib/protobuf");
-const { decode } = require("../../lib/protobuf");
-const onDcData = require('../../lib/controllers/onDcData');
+const { encode } = require("../lib/protobuf/index");
+const { decode } = require("../lib/protobuf/index");
+const onDcData = require('../lib/controllers/onDcData');
 
 socketOut.connect("tcp://127.0.0.1:5042");
 

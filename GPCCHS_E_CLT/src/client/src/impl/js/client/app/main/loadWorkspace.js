@@ -30,7 +30,6 @@ export default function loadWorkspace(path, callback) {
     )));
 
     // add views
-    // console.log(workspace.views[1].configuration.textViewEntryPoints)
     _.each(workspace.views, e => dispatch(addView(e.uuid, e.type, e.configuration)));
 
     // add pages

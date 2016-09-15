@@ -1,4 +1,4 @@
-const debug = require('../lib/io/debug')('test-perf:loki-find');
+const debug = require('../lib/io/debug')('benchmark:loki-find');
 const _ = require('lodash');
 
 const Loki = require('lokijs');

@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import WindowIdProvider from './Window/WindowIdProvider';
+import WebsocketContainer from './Websocket/WebsocketContainer';
 import WindowContainer from './Window/WindowContainer';
 import { Provider } from 'react-redux';
 import { initStore, getStore } from '../store/windowStore';
@@ -12,13 +13,13 @@ const windowId = search.replace('?windowId=', '');
 
 initStore();
 
-setTimeout(() => {
-  render(
-    <Provider store={getStore()}>
-      <WindowIdProvider windowId={windowId}>
+render(
+  <Provider store={getStore()}>
+    <WindowIdProvider windowId={windowId}>
+      <WebsocketContainer windowId={windowId}>
         <WindowContainer windowId={windowId} />
-      </WindowIdProvider>
-    </Provider>,
-    document.getElementById('root')
-  );
-}, 150);
+      </WebsocketContainer>
+    </WindowIdProvider>
+  </Provider>,
+  document.getElementById('root')
+);

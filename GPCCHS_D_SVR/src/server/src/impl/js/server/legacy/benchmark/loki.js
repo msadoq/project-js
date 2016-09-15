@@ -1,4 +1,4 @@
-const debug = require('../lib/io/debug')('test-perf:loki');
+const debug = require('../lib/io/debug')('benchmark:loki');
 const Loki = require('lokijs');
 
 const cache = new Loki('cache.json');

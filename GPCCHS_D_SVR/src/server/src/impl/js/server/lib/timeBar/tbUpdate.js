@@ -2,23 +2,23 @@ const debug = require('../io/debug')('timeBar:tbUpdate');
 const diff = require('deep-diff').diff;
 const _ = require('lodash');
 
-
-// Get index of id in table
-function getIndex(table, id) {
-  // Number of timelines already declared
-  // const length = table.length;
-  // // Check if new Id is already declared in timeline table
-  // for (let i = 0; i < length; i++) {
-  //   if (table[i].id === id) {
-  //     return i;
-  //   }
-  // }
-  const a = _.filter(table, item => {
-    if (item.id === id) {
-    return item.id === id;
-  }});
-  return -1;
-}
+// // Get index of id in table
+// function getIndex(table, id) {
+//   // Number of timelines already declared
+//   // const length = table.length;
+//   // // Check if new Id is already declared in timeline table
+//   // for (let i = 0; i < length; i++) {
+//   //   if (table[i].id === id) {
+//   //     return i;
+//   //   }
+//   // }
+//   const a = _.filter(table, item => {
+//     if (item.id === id) {
+//       return item.id === id;
+//     }
+//   });
+//   return -1;
+// }
 
 let cmdList;
 function createObjectParamOnCmdList(param, keyNames) {
@@ -61,8 +61,8 @@ function addTlUpdate(tl, param) {
   if (!cmdList) {
     cmdList = {};
   }
-  createObjectParamOnCmdList(tl.id, ['timelineUpdate', 'timeLines']);
-  cmdList.timelineUpdate.timeLines[tl.id][param] = tl[param];
+  createObjectParamOnCmdList(tl.id, ['timelineUpdate', 'timelines']);
+  cmdList.timelineUpdate.timelines[tl.id][param] = tl[param];
 }
 
 module.exports = (oldTb, newTb) => {
@@ -77,9 +77,9 @@ module.exports = (oldTb, newTb) => {
     default: {
       // Take timeline tables to make specific Comparison
       const newTimebar = JSON.parse(JSON.stringify(newTb));
-      const newTls = newTimebar.timeLines.splice(0, newTimebar.timeLines.length);
+      const newTls = newTimebar.timelines.splice(0, newTimebar.timelines.length);
       const oldTimebar = JSON.parse(JSON.stringify(oldTb));
-      const oldTls = oldTimebar.timeLines.splice(0, oldTimebar.timeLines.length);
+      const oldTls = oldTimebar.timelines.splice(0, oldTimebar.timelines.length);
 
       // Get differences between versions
       const result = diff(oldTimebar, newTimebar);
@@ -133,10 +133,10 @@ module.exports = (oldTb, newTb) => {
               cmdList.timeSpecUpdate = current.rhs;
               break;
             default:
-              // case for action
+            // case for action
           }
-        // } else {
-        //   // **** Case for action update : nothing to do ?
+          // } else {
+          //   // **** Case for action update : nothing to do ?
         }
       });
       // --- timeline treatment

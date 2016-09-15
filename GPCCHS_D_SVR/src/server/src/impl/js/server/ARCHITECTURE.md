@@ -6,28 +6,55 @@
 * TimeBar (QT, TB)
 * Data Communication (C++, DC)
 
-## Launching and stopping
-
-On application start CNT/IHM component launch:
-* an HSS instance with a set of port (for listening and TB, DC communication)
-* an HSC instance with HSS port and optionally a workspace file path
-
-On application close (by user from HSC or on SIGTERM to HSS or HSC)
-* HSC and HSS should be closed
-* DC should be informed of this shutdown to be able to unsubdcribe from realtime data
-
-/!\ Close process wasn't discussed until now.
-
 ## Inter-components communication
 
-Overview:
-* From HSS to DC:
-  - DataQuery 
-  - DataSubscribe 
-* From DC to HSS:
-  - data (from archive or realtime)
-* From TB to DC:
-  - timeBarConfiguration
+### DC<->HSS communication
+
+Two ZeroMQ sockets are opened between HSS et DC:
+* **dcPull**: pull for HSS and push for DC
+* **dcPush**: push for HSS and pull for DC
+
+Every HS->DC messages are encoded with **DcClientMessage** protobuf.
+Every DC->HS messages are encoded with **DcServerMessage** protobuf.
+
+**Domain request**
+On startup HS asks to DC domain list with **DomainQuery** message.
+DC responds with **DomainResponse** message.
+
+**pub/sub data subscription**
+On every new connectedData discovered HSC inform HSS to start listening on DC with **DataSubscribe** message (*action*=0).
+On every new connectedData discovered HSC inform HSS to stop listening on DC with **DataSubscribe** message (*action*=2).
+After both DC answers immediately a **DcResponse** message to confirm or indicate an error.
+
+**archive data query**
+Anytime HSS need data from archive it send a **DataQuery** to DC.
+DC answer immediately a **DcResponse** message to confirm or indicate an error.
+
+**new data**
+When DC received pub/sub new data or query answer from archive he send a **NewDataMessage** to HSS. 
+
+### TB<->HSS communication
+
+One ZeroMQ socket is opened between HSS and TB:
+* **tb**: pull for HSS and push for TB
+
+Messages are plain JSON.
+
+TODO : add open workspace scenario
+
+**TB update**
+Everytime timebar changes (visualization window, play mode, timelines...) a message with the whole TB state is sent from TB to HSS.
+
+### HSS<->HSC communication
+
+*n* websockets (bidirectional) are opened by HSC on HSS:
+* **main**: for communication between electron main process and HSS
+* *windowId*: for communication between each electron window and HSS
+
+
+
+
+
 
 ### HSS->DC (ZeroMQ/Protobuf)
 **DataQuery**
@@ -149,22 +176,3 @@ Inform HSS with new view dimension and view visibility:
 /!\ TAKE IN CONSIDERATION TIMELINE OFFSET
 
 + realtime unsubcribtion
-
-## HSS
-HSS should have full knowledge of open view and visible data in HSC in realtime.
-HSS maintains Loki collection for:
-- **openedWebsockets**: list of opened Websocket with for each the parameter and the state (visible or not)
-- **subscribedParameters**: whole list of parameter visible in views
-- **requestedIntervals**: whole list of interval requested for each parameter (<= cleaned on cache invalidation)
-- **cacheJson**: list of received data (archive and realtime) from DC for each parameter (<= cleaned on cache invalidation)
-
-## HSC
-```
-1 electron instance
- |_ 1 websocket
- |_ **n** windows
-    |_ **n** pages
-      |_ **n** views 
-        |_ 1 websocket connection
-        |_ **n** subscription ID
-```

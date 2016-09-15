@@ -57,3 +57,10 @@ export function disconnect() {
     instance = null;
   }
 }
+
+export function getWebsocket() {
+  if (!instance) {
+    throw new Error('websocket wasn\'t inited yet');
+  }
+  return instance;
+}

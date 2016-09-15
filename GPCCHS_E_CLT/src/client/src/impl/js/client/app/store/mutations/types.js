@@ -1,9 +1,10 @@
 /**
- * Namespaces: HSS, WS
+ * Namespaces: HSC, HSS, WS
  * Domains: WINDOW, PAGE, VIEW, CD, EDITOR
  * Verbs: ADD, REMOVE, UN/MOUNT, UPDATE, OPEN, CLOSE
  */
 
+export const HSC_UPDATE_STATUS = 'HSC_UPDATE_STATUS';
 export const HSS_WS_UPDATE_STATUS = 'HSS_WS_UPDATE_STATUS';
 
 export const WS_WINDOW_ADD = 'WS_WINDOW_ADD';

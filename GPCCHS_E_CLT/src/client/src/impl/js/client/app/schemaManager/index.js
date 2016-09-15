@@ -9,6 +9,8 @@ const schemaTV = require('./schemas/TV.schema.json');
 const schemaTB = require('./schemas/timeBarSchema.json');
 const schemaPV = require('./schemas/PV.schema.json');
 const schemaPG = require('./schemas/PG.schema.json');
+const schemaMV = require('./schemas/MV.schema.json');
+
 
 // Apply Schema
 const validateWS = ajv.compile(schemaWS);
@@ -16,6 +18,8 @@ const validateTV = ajv.compile(schemaTV);
 const validateTB = ajv.compile(schemaTB);
 const validatePV = ajv.compile(schemaPV);
 const validatePG = ajv.compile(schemaPG);
+const validateMV = ajv.compile(schemaMV);
+
 
 const validateJson = (data, validFct) => {
   let errors;
@@ -48,6 +52,10 @@ function validatePvJson(data) {
 // Workspace
 function validatePgJson(data) {
   return validateJson(data, validatePG);
+}
+// MimicView
+function validateMvJson(data) {
+  return validateJson(data, validateMV);
 }
 
 // Function export

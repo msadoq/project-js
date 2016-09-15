@@ -17,11 +17,14 @@ const dataTb = require('./examples/TB.example');
 const dataPv = require('./examples/PV.example');
 const dataTv = require('./examples/TV.example');
 const dataPg = require('./examples/PG.example');
+const dataMv = require('./examples/MV.example');
 const dataWsMis = require('./examples/WS.example.mis');
 const dataTbMis = require('./examples/TB.example.mis');
 const dataPvMis = require('./examples/PV.example.mis');
 const dataTvMis = require('./examples/TV.example.mis');
 const dataPgMis = require('./examples/PG.example.mis');
+const dataMvMis = require('./examples/MV.example.mis');
+
 
 function checkErrorObject(obj) {
   for (let i = 0; i < obj.length; i++) {
@@ -80,6 +83,20 @@ describe('schemaManager/validateJson', () => {
     });
   });
   describe('TextView', () => {
+    it('Valid', () => {
+      should.not.exist(validateTvJson(dataTv));
+    });
+    it('Empty', () => {
+      const msg = validateTvJson(emptyData);
+      msg.should.equal('Empty file');
+    });
+    it('Invalid', () => {
+      const msg = validateTvJson(dataTvMis);
+      msg.length.should.equal(5);
+      checkErrorObject(msg);
+    });
+  });
+  describe('MimicView', () => {
     it('Valid', () => {
       should.not.exist(validateTvJson(dataTv));
     });

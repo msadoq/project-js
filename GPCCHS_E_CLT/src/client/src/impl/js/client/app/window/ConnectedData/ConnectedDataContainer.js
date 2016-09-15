@@ -15,6 +15,7 @@ class ConnectedDataContainer extends Component {
         {_.map(
           this.props.connectedData, cd => <ConnectedData
             key={cd.connectedDataId}
+            connectedDataId={cd.connectedDataId}
             formula={cd.formula}
             domain={cd.domain}
             timeline={cd.timeline}

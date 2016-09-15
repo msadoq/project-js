@@ -1,5 +1,6 @@
 app.commandLine.appendSwitch('no-proxy-server'); // TODO dbrugne : analysis
 import debug from './app/utils/debug';
+import _  from 'lodash';
 import { app } from 'electron';
 import installExtensions from './app/main/installExtensions';
 import { initStore, getStore } from './app/store/mainStore';
@@ -22,25 +23,29 @@ app.on('ready', async () => {
 
   await installExtensions();
 
-  initStore();
-  store = getStore();
-  storeSubscription = store.subscribe(() => {
+  try {
+    initStore();
+    store = getStore();
+    storeSubscription = store.subscribe(() => {
+      syncWindows();
+
+      if (_.get(store.getState(), 'hss.main.status') === 'connected' && workspaceLoaded === 'not-started') {
+        workspaceLoaded = 'in-progress';
+        loadWorkspace('dev.workspace.json', err => {
+          if (err) {
+            throw err;
+          }
+
+          workspaceLoaded = 'done'; // TODO : flag encapsulated in loadWorkspace
+        });
+      }
+    });
+
+    connect();
     syncWindows();
-
-    if (store.getState().hss.status === 'connected' && workspaceLoaded === 'not-started') {
-      workspaceLoaded = 'in-progress';
-      loadWorkspace('dev.workspace.json', err => {
-        if (err) {
-          throw err;
-        }
-
-        workspaceLoaded = 'done'; // TODO : flag encapsulated in loadWorkspace
-      });
-    }
-  });
-
-  connect();
-  syncWindows();
+  } catch (e) {
+    logger.error(e);
+  }
 });
 
 app.on('window-all-closed', () => app.quit());

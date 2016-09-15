@@ -26,9 +26,7 @@
       bundle.src = (env.HOT) ? `http://localhost:${port}/dist/bundle.js` : '../dist/bundle.js';
       document.write(bundle.outerHTML);
 
-      const primus = document.createElement('script');
-      primus.src = env.HSS + '/primus/primus.js';
-      document.write(primus.outerHTML);
+      global.env = env;
     </script>
   </body>
 </html>

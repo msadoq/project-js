@@ -113,11 +113,11 @@
   "titleStyle": {
     "font": "Arial",
     "size": 12,
-    "bold": false,
+    "bold": true,
     "italic": false,
     "underline": false,
     "strikeOut": false,
-    "alignLeft": false,
+    "align": "center",
     "colour": "#000000"
   },
   "plotBackgroundColour": "#FFFFFF",
@@ -129,7 +129,7 @@
       "italic": false,
       "underline": false,
       "strikeOut": false,
-      "alignLeft": false,
+      "align": "right",
       "colour": "#000000"
     },
     "location": "Top"
@@ -145,7 +145,7 @@
         "italic": false,
         "underline": true,
         "strikeOut": false,
-        "alignLeft": false,
+        "align": "left",
         "colour": "#000000"
       },
       "relativePosX": 5.6,

@@ -1,6 +1,6 @@
-const ApiError = require('../utils/apiError');
-const constants = require('../constants');
-const parseDataFullName = require('../utils/parseDataFullName');
+const ApiError = require('../lib/utils/apiError');
+const constants = require('../lib/constants');
+const parseDataFullName = require('../lib/utils/formula');
 
 module.exports = (req, res, next) => {
   const filter = [];

@@ -1,5 +1,5 @@
-const ApiError = require('../utils/apiError');
-const parseDataFullName = require('../utils/parseDataFullName');
+const ApiError = require('../lib/utils/apiError');
+const parseDataFullName = require('../lib/utils/formula');
 
 module.exports = (req, res, next) => {
   if (!req.body || typeof req.body.dataFullName === 'undefined') {

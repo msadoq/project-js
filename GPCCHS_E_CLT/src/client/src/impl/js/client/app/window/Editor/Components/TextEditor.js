@@ -7,22 +7,19 @@ import EntryPointActions from './EntryPointActions';
 export default class Editor extends Component {
   static propTypes = {
     closeEditor: PropTypes.func.isRequired,
-    configuration: PropTypes.any,
-  }
+    entryPoints: PropTypes.array,
+    links: PropTypes.array,
+    defaultRatio: PropTypes.array,
+    content: PropTypes.object,
+  };
   constructor(...args) {
     super(...args);
     this.state = { currentDisplay: 0, search: '' };
     this.changeCurrentDisplay = this.changeCurrentDisplay.bind(this);
     this.changeSearch = this.changeSearch.bind(this);
-    console.log(this.props.configuration.attributes.TextViewEntryPoints);
-  }
-  changeSearch(s) {
-    this.setState({ search: s });
-  }
-  changeCurrentDisplay(id) {
-    this.setState({ currentDisplay: id });
   }
   render() {
+    console.log(this.props);
     return (
       <div className={styles.editor}>
         <Navbar
@@ -36,7 +33,7 @@ export default class Editor extends Component {
             <div>
               <EntryPointActions changeSearch={this.changeSearch} />
               <EntryPointTree
-                entryPoints={this.props.configuration.attributes.TextViewEntryPoints}
+                entryPoints={this.props.entryPoints}
                 search={this.state.search}
               />
             </div>
@@ -45,5 +42,11 @@ export default class Editor extends Component {
         }
       </div>
     );
+  }
+  changeSearch(s) {
+    this.setState({ search: s });
+  }
+  changeCurrentDisplay(id) {
+    this.setState({ currentDisplay: id });
   }
 }

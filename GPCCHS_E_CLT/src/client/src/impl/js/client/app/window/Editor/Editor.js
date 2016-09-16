@@ -1,30 +1,29 @@
 import React, { Component, PropTypes } from 'react';
-import PlotEditor from './Components/PlotEditor';
-import TextEditor from './Components/TextEditor';
+import PlotEditorContainer from './Components/PlotEditorContainer';
+import TextEditorContainer from './Components/TextEditorContainer';
+
+const InvalidConfiguration = props => <div>unknown view type or invalid configuration:</div>; // TODO dedicated component
 
 export default class Editor extends Component {
   static propTypes = {
-    windowId: PropTypes.string.isRequired,
-    pageId: PropTypes.string.isRequired,
-    editor: PropTypes.object,
-    openEditor: PropTypes.func,
+    viewId: PropTypes.string.isRequired,
+    viewType: PropTypes.string.isRequired,
+    configuration: PropTypes.object,
     closeEditor: PropTypes.func,
   };
   render() {
-    console.log(this.props.editor.configuration);
-    switch (this.props.editor.configuration.type) {
-      case 'PlotView' : return (<PlotEditor
-        configuration={this.props.editor.configuration}
-        closeEditor={this.props.closeEditor}
-      />);
-      case 'TextView' : return (<TextEditor
-        configuration={this.props.editor.configuration}
-        closeEditor={this.props.closeEditor}
-      />);
-      default : return (<PlotEditor
-        configuration={this.props.editor.configuration}
-        closeEditor={this.props.closeEditor}
-      />);
+    const configuration = this.props.configuration;
+    if (!configuration) {
+      return <InvalidConfiguration />;
+    }
+
+    switch (configuration.type) { // TODO dynamic type
+      case 'PlotView' :
+        return <PlotEditorContainer {...this.props} />;
+      case 'TextView' :
+        return <TextEditorContainer {...this.props} />;
+      default :
+        return <InvalidConfiguration />;
     }
   }
 }

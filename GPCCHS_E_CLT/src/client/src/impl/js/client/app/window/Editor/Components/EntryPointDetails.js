@@ -95,18 +95,19 @@ export default class EntryPointDetails extends React.Component {
     this.setState({ open: !this.state.open });
   }
   render() {
-   
-    let stateColours = this.props.entryPoint.stateColours.map((stateColour, key) => {
-      return (
-        <tr key={key}>
-          <td className="col-xs-2"><ColorPicker color={stateColour.colour} /></td>
-          <td className="col-xs-9">{stateColour.condition.field} {stateColour.condition.operator} {stateColour.condition.operand}</td>
-          <td className="col-xs-1">
-            <Glyphicon glyph="trash" onClick={() => this.removeStateColor(key)} />
-          </td>
-        </tr>
-      );
-    });
+    // TODO : alexis
+    let stateColours = [];
+    // let stateColours = this.props.entryPoint.stateColours.map((stateColour, key) => {
+    //   return (
+    //     <tr key={key}>
+    //       <td className="col-xs-2"><ColorPicker color={stateColour.colour} /></td>
+    //       <td className="col-xs-9">{stateColour.condition.field} {stateColour.condition.operator} {stateColour.condition.operand}</td>
+    //       <td className="col-xs-1">
+    //         <Glyphicon glyph="trash" onClick={() => this.removeStateColor(key)} />
+    //       </td>
+    //     </tr>
+    //   );
+    // });
     let filterOptions = this.state.filter.map((filter, key) => {
       return <option key={key} value={filter}>{filter}</option>;
     });
@@ -140,7 +141,7 @@ export default class EntryPointDetails extends React.Component {
             /> : this.props.entryPoint.name}
         </a>
         <a className="pull-right">
-          
+
           <Glyphicon className={styles.danger} onClick={this.removeEntryPoint} glyph="remove" title="Remove" />
         </a>
         <a className="pull-right">
@@ -151,9 +152,9 @@ export default class EntryPointDetails extends React.Component {
             onClick={(e) => this.rcOnName(e)}
           />&nbsp;&nbsp;
         </a>
-        
-        
-        
+
+
+
         <Collapse in={this.state.open}>
           <div className={styles.shift}>
           {

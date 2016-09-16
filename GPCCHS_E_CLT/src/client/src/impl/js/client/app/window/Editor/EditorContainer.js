@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 // import { bindActionCreators } from 'redux';
 // import { closeEditor } from '../store/mutations/pageActions';
 import Editor from './Editor';
 
 const EditorContainer = props => <Editor {...props} />;
+
+EditorContainer.propTypes = {
+  viewId: PropTypes.string.isRequired,
+  viewType: PropTypes.string.isRequired,
+  configuration: PropTypes.object,
+  closeEditor: PropTypes.func,
+};
 
 // function mapStateToProps(state, ownProps) {
 //   return {
@@ -17,7 +24,6 @@ const EditorContainer = props => <Editor {...props} />;
 // function mapDispatchToProps(dispatch, ownProps) {
 //   return bindActionCreators({
 //     closeEditor: () => closeEditor(ownProps.pageId),
-//     requestSub: (subType) => requestSub(ownProps.viewId, subType),
 //   }, dispatch);
 // }
 

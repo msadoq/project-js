@@ -3,6 +3,9 @@ import { Col } from 'react-bootstrap';
 import PageContentContainer from './PageContentContainer';
 import EditorContainer from '../Editor/EditorContainer';
 
+const cols = 12;
+const editorCols = 4;
+
 export default class Page extends Component {
   static propTypes = {
     windowId: PropTypes.string.isRequired,
@@ -14,11 +17,20 @@ export default class Page extends Component {
   };
   render() {
     const isEditorOpened = (this.props.editor && this.props.editor.isOpened === true);
-    const pageContentWidth = isEditorOpened ? 9 : 12;
+    const pageContentWidth = isEditorOpened ? cols - editorCols : cols;
 
     return (
       <div>
-        {(isEditorOpened ? <Col xs={3}><EditorContainer {...this.props} /></Col> : '')}
+        {(isEditorOpened
+          ? <Col xs={editorCols}>
+              <EditorContainer
+                viewId={this.props.editor.viewId}
+                viewType={this.props.editor.viewType}
+                configuration={this.props.editor.configuration}
+                closeEditor={this.props.closeEditor}
+              />
+            </Col>
+          : '')}
         <Col xs={pageContentWidth}>
           <PageContentContainer {...this.props} />
         </Col>

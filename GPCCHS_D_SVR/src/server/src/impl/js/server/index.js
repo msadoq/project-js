@@ -12,9 +12,13 @@ const onClientOpen = require('./lib/controllers/onClientOpen');
 const onClientClose = require('./lib/controllers/onClientClose');
 const { onDcPull } = require('./lib/controllers/onDcPull');
 const onTimeBarUpdate = require('./lib/controllers/onTimeBarUpdate');
+const onWindowOpen = require('./lib/controllers/onWindowOpen');
+const onWindowClose = require('./lib/controllers/onWindowClose');
 const onViewOpen = require('./lib/controllers/onViewOpen');
 const onViewClose = require('./lib/controllers/onViewClose');
 const onViewUpdate = require('./lib/controllers/onViewUpdate');
+const onConnectedDataOpen = require('./lib/controllers/onConnectedDataOpen');
+const onConnectedDataClose = require('./lib/controllers/onConnectedDataClose');
 
 const dcStub = require('./lib/stubs/dc');
 const tbStub = require('./lib/stubs/tb');
@@ -78,9 +82,13 @@ server.on('listening', () => {
 primus.init(server, {
   onClientOpen,
   onClientClose,
+  onWindowOpen,
+  onWindowClose,
   onViewOpen,
   onViewClose,
   onViewUpdate,
+  onConnectedDataOpen,
+  onConnectedDataClose,
 });
 
 // ZeroMQ
@@ -111,8 +119,16 @@ zmq.open({
       }
 
       // setTimeout(() => {
-      //   zmq.push('dcPush', dataStub.getDcClientMessage());
+      //   zmq.push('dcPush', dataStub.getWrappedDataSubscribeProtobuf());
       // }, 100);
+      //
+      // setInterval(() => {
+      //   zmq.push('dcPush', dataStub.getWrappedDataQueryProtobuf());
+      // }, 1000);
+      //
+      // setInterval(() => {
+      //   zmq.push('dcPush', dataStub.getWrappedDomainQueryProtobuf());
+      // }, 10000);
     });
   }
   if (process.env.STUB_TB_ON === 'on') {

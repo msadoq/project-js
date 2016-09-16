@@ -110,7 +110,7 @@ stubs.getNewDataMessageProtobuf = override => protobuf.encode(
 
 
 stubs.getDomainQuery = override => applyOverride({
-    id : "myQueryId"
+  id : "myQueryId"
 });
 
 stubs.getDomainQueryProtobuf = override =>  protobuf.encode(
@@ -119,22 +119,22 @@ stubs.getDomainQueryProtobuf = override =>  protobuf.encode(
 );
 
 stubs.getDomainResponse = override => applyOverride({
-    id : "myQueryId",
-    domains : [
-      {
-        itemNamespace : 'domainsNamespace',
-        name : 'fr.cnes.sat1.iongun',
-        oid : '0051525005151000565215601510515',
-        domainId : 98,
-        parentDomainId : 42
-      },
-      {
-        itemNamespace : 'domainsNamespace',
-        name : 'fr.cnes.sat1',
-        oid : '0051525005151000565215465660515',
-        domainId : 27,
-        parentDomainId : 98
-      }]
+  id : "myQueryId",
+  domains : [
+    {
+      itemNamespace : 'domainsNamespace',
+      name : 'fr.cnes.sat1.iongun',
+      oid : '0051525005151000565215601510515',
+      domainId : 98,
+      parentDomainId : 42
+    },
+    {
+      itemNamespace : 'domainsNamespace',
+      name : 'fr.cnes.sat1',
+      oid : '0051525005151000565215465660515',
+      domainId : 27,
+      parentDomainId : 98
+    }]
 });
 
 stubs.getDomainResponseProtobuf = override => protobuf.encode(
@@ -146,18 +146,18 @@ stubs.getDomainResponseProtobuf = override => protobuf.encode(
 
 // SERVER MESSAGES (DcServerMessage)
 stubs.getWrappedNewDataMessage = override => applyOverride({
-    messageType : 'NEW_DATA_MESSAGE',
-    payload : stubs.getNewDataMessageProtobuf(override)
+  messageType : 'NEW_DATA_MESSAGE',
+  payload : stubs.getNewDataMessageProtobuf(override)
 }, override);
 
 stubs.getWrappedDcResponse = override => applyOverride({
-    messageType : 'DC_RESPONSE',
-    payload : stubs.getDcResponseProtobuf(override)
+  messageType : 'DC_RESPONSE',
+  payload : stubs.getDcResponseProtobuf(override)
 }, override);
 
 stubs.getWrappedDomainResponse = override => applyOverride({
-    messageType : 'DOMAIN_RESPONSE',
-    payload : stubs.getDomainResponseProtobuf(override)
+  messageType : 'DOMAIN_RESPONSE',
+  payload : stubs.getDomainResponseProtobuf(override)
 }, override);
 
 // CLIENT MESSAGES (DcClientMessage)
@@ -178,13 +178,13 @@ stubs.getWrappedDomainQuery = override => applyOverride({
 
 // SERVER MESSAGES PROTOBUF (DcServerMessage)
 stubs.getWrappedNewDataMessageProtobuf = override => protobuf.encode(
-    'dc.dataControllerUtils.DcServerMessage',
-    stubs.getWrappedNewDataMessage(override)
+  'dc.dataControllerUtils.DcServerMessage',
+  stubs.getWrappedNewDataMessage(override)
 );
 
 stubs.getWrappedDcResponseProtobuf = override => protobuf.encode(
-    'dc.dataControllerUtils.DcServerMessage',
-    stubs.getWrappedDcResponse(override)
+  'dc.dataControllerUtils.DcServerMessage',
+  stubs.getWrappedDcResponse(override)
 );
 
 stubs.getWrappedDomainResponseProtobuf = override => protobuf.encode(
@@ -193,16 +193,16 @@ stubs.getWrappedDomainResponseProtobuf = override => protobuf.encode(
 );
 
 stubs.getWrappedDataQueryProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.DcServerMessage',
+  'dc.dataControllerUtils.DcClientMessage',
   stubs.getWrappedDataQuery(override)
 );
 stubs.getWrappedDataSubscribeProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.DcServerMessage',
+  'dc.dataControllerUtils.DcClientMessage',
   stubs.getWrappedDataSubscribe(override)
 );
 
 stubs.getWrappedDomainQueryProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.DcServerMessage',
+  'dc.dataControllerUtils.DcClientMessage',
   stubs.getWrappedDomainQuery(override)
 );
 

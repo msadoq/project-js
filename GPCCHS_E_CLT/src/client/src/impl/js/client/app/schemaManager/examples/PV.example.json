@@ -17,7 +17,7 @@
             "digits": 5,
             "format": "decimal",
             "domain": "",
-            "timeLine": "Session 1",
+            "timeline": "Session 1",
             "axisId": "Time"
         },
         "connectedDataY": {
@@ -31,7 +31,7 @@
                 "operand": "0"
             },
             "domain": "",
-            "timeLine": "Session 1",
+            "timeline": "Session 1",
             "axisId": "VBat"
         },
         "lineStyle": "Continuous",
@@ -102,11 +102,11 @@
     "titleStyle": {
         "font": "Arial",
         "size": 12,
-        "bold": false,
+        "bold": true,
         "italic": false,
         "underline": false,
         "strikeOut": false,
-        "alignLeft": false,
+        "align": "center",
         "colour": "#000000"
     },
     "plotBackgroundColour": "#FFFFFF",
@@ -118,7 +118,7 @@
             "italic": false,
             "underline": false,
             "strikeOut": false,
-            "alignLeft": false,
+            "align": "left",
             "colour": "#000000"
         },
         "location": "Top"

@@ -13,7 +13,7 @@
                 "operand": "nominal"
             },
             "domain": ".*",
-            "timeLine": "Session 1"
+            "timeline": "Session 1"
         }
     }, {
         "name": "ATT_BC_STR1VOLTAGE_MS",
@@ -28,7 +28,7 @@
                 "operand": "0"
             },
             "domain": ".*",
-            "timeLine": "Session 1"
+            "timeline": "Session 1"
         }
     }, {
         "name": "ATT_BC_STR1VOLTAGE_CV",
@@ -38,7 +38,7 @@
             "digits": 5,
             "format": "decimal",
             "domain": ".*",
-            "timeLine": "Session 1"
+            "timeline": "Session 1"
         }
     }],
     "links": [{

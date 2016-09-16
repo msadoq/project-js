@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import * as types from './types';
-// import { getViews } from './pageReducer';
-// import { getEntryPoints } from './viewReducer';
+import { getViews } from './pageReducer';
+import { getConnectedData } from './viewReducer';
 
 /**
  * Reducer
@@ -88,6 +88,10 @@ export function getWindow(state, windowId) {
 }
 
 export function getPages(state, windowId) {
+  if (!windowId || !_.get(state, `windows.${windowId}.pages`)) { // TODO TEST
+    return [];
+  }
+
   return _.reduce(state.windows[windowId].pages, (pages, id) => {
     const page = state.pages[id];
     if (!page) {
@@ -119,17 +123,23 @@ export function getFocusedPage(state, windowId) {
 }
 
 /**
- * Return a list a all entry points mounted in this window (for realtime subscription)
+ * Return a list a all connected data mounted in this window (for realtime subscription)
  * @param state
  * @param windowId
  */
-export function getWindowEntryPoints(state, windowId) {
-  // TODO
-  // _.each(getPages(state, windowId), ({ pageId }) => {
-  //   _.each(getViews(state, pageId), ({ viewId }) => {
-  //     _.each(getEntryPoints(state, viewId), entryPoint => {
-  //       console.log(entryPoint);
-  //     });
-  //   });
-  // });
+export function getWindowConnectedData(state, windowId) {
+  const cds = [];
+  _.each(getPages(state, windowId), ({ pageId }) => {
+    if (pageId) {
+      _.each(getViews(state, pageId), ({ viewId }) => {
+        if (viewId) {
+          _.each(getConnectedData(state, viewId), connectedData => {
+            cds.push(connectedData);
+          });
+        }
+      });
+    }
+  });
+
+  return cds;
 }

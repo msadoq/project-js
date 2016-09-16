@@ -12,13 +12,14 @@ Only list expected tasks for PBF shipping of end of october.
 
 * [ ] Communication with real-timebar and open workspace process
 * [ ] Finalize DC communications
-  - [ ] Implement new ZeroMQ/protobuf pattern (Adrien)
-  - [ ] Fix tests (Adrien)
-  - [ ] Migrate stub and data helpers (Adrien ?)
+  - [x] Implement new ZeroMQ/protobuf pattern (Adrien)
+  - [x] Fix tests (Adrien)
+  - [x] Migrate stub and data helpers (Adrien ?)
   - [ ] Test every LPISIS parameter type conversion (C++ types to Javascript)
   - [ ] Envisage to fork in child_process the HSS DC stub (Damien)
   - [ ] Envisage to try/catch every ZeroMQ/protobuf operation
 * [ ] Controller
+  * [ ] onDcPull (Renaud)
   * [ ] onNewDataMessage
   * [ ] onTimebarUpdate
   * [ ] onClientOpen
@@ -57,13 +58,12 @@ Only list expected tasks for PBF shipping of end of october.
 ## GPCCHSC (Electron)
 
 * [ ] Workspace opening procedure
-  - [ ] Factorize an helper to transform a workspace and associated files in redux compliant tree
-  - [ ] Same from redux to workspace document format
-  - [ ] Mount on client side
-  - [ ] Implement following process: HSS send to HSC a workspace path, HSC read and transform documents
-* [ ] Finalize page customizable layout implementation (Damien)
+  - [ ] Factorize an helper to transform a workspace and associated files in redux compliant tree (Audrey)
+  - [ ] Same from redux to workspace document format (Audrey)
+  - [ ] Mount on client side (Audrey)
+* [x] Finalize page customizable layout implementation (Damien)
 * [x] Finalize windows, pages, views add/remove/mount/unmount/updateGeometry/focus reducers and actions (Damien)
-* [ ] Implement <EntryPointsContainer/> for triggering DC realtime un/subscription
+* [x] Implement <ConnectedDataContainer/> for triggering DC realtime un/subscription
 * [ ] Implement <PlotView/>
 * [ ] Implement <TextView/>
 * [ ] Pass realtime dimensions to each view (e.g.: <WithProvider/>)
@@ -78,6 +78,7 @@ Only list expected tasks for PBF shipping of end of october.
   
 ## Postponed
 
+* [ ] Webpackize the HSS code and study C++ module portability
 * [ ] Replace Protobufjs with module that use a C++ parser
 * [ ] Add eslint pre-commit hook
 * [ ] Implement buffering on server-side view instance data sending to client 

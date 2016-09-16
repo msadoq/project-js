@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --compilers js:babel-register --recursive app/**/*.spec.js",
+    "test": "NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --compilers js:babel-register --recursive \"app/**/*.spec.js\"",
     "test-watch": "npm test -- --watch",
     "test-e2e": "NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --compilers js:babel-register --require ./test/setup.js ./test/e2e.js",
     "lint": "eslint app test *.js",
@@ -87,6 +87,9 @@
     "electron-debug": "^1.0.1",
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.13.1",
+    "react-color": "^2.2.2",
+    "react-colorpicker": "^0.3.14",
+    "react-select": "^1.0.0-beta14",
     "node-uuid": "^1.4.7",
     "postcss": "^5.1.2",
     "react": "^15.3.1",
@@ -106,5 +109,6 @@
   "devEngines": {
     "node": "6.x",
     "npm": "3.x"
-  }
+  },
+  "style": "./app/app.global.css"
 }

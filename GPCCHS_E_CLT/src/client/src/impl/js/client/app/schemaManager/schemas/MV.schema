@@ -1,0 +1,167 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "definitions": {
+        "condition": {
+            "type": "object",
+            "properties": {
+                "field": {
+                    "type": "string"
+                },
+                "operator": {
+                    "type": "string",
+                    "enum": ["==", "!=", "<", ">", "<=", ">=", "CONTAINS", "ICONTAINS"]
+                },
+                "operand": {
+                    "type": "string"
+                }
+            }
+        },
+        "connectedData": {
+            "type": "object",
+            "properties": {
+                "formula": {
+                    "type": "string"
+                },
+                "unit": {
+                    "type": "string"
+                },
+                "digits": {
+                    "type": "integer"
+                },
+                "format": {
+                    "type": "string"
+                },
+                "filter": {
+                    "$ref": "#/definitions/condition"
+                },
+                "domain": {
+                    "type": "string"
+                },
+                "timeline": {
+                    "type": "string"
+                }
+            },
+            "required": ["formula", "unit", "digits", "format", "domain", "timeline"]
+        },
+        "mimicAnimation": {
+            "type": "object",
+            "properties": {
+                "transformation": {
+                    "type": "string",
+                    "enum": ["text", "color", "translate", "rotate", "scale", "skew"]
+                },
+                "parameters": {
+                    "type": "string"
+                },
+                "svgItem": {
+                    "type": "string"
+                }
+            },
+            "required": ["transformation", "parameters", "svgItem"]
+        },
+        "viewEntryPoint": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "connectedData": {
+                    "$ref": "#/definitions/connectedData"
+                },
+                "stateColours": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "colour": {
+                                "type": "integer"
+                            },
+                            "condition": {
+                                "$ref": "#/definitions/condition"
+                            }
+                        },
+                        "required": ["colour", "condition"]
+                    }
+                }
+            },
+            "required": ["name"]
+        },
+        "mimicViewEntryPoint": {
+            "allOf": [{
+                "$ref": "#/definitions/viewEntryPoint"
+            }, {
+                "properties": {
+                    "animation": {
+                        "$ref": "#/definitions/mimicAnimation"
+                    }
+                }
+            }]
+        },
+        "viewCommonAttributes": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string"
+                },
+                "links": {
+                    "type": "array",
+                    "items": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "url": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "procedures": {
+                    "type": "array",
+                    "items": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "path": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "defaultRatio": {
+                    "type": "object",
+                    "properties": {
+                        "length": {
+                            "type": "number"
+                        },
+                        "width": {
+                            "type": "number"
+                        }
+                    },
+                    "required": ["length", "width"]
+                }
+            }
+        }
+    },
+
+    "type": "object",
+    "allOf": [{
+        "$ref": "#/definitions/viewCommonAttributes"
+    }, {
+        "properties": {
+            "type": {
+                "type": "string",
+                "enum": ["MimicView"]
+            },
+            "mimicViewEntryPoints": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/mimicViewEntryPoint"
+                }
+            },
+            "content": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            }
+        }
+    }]
+}

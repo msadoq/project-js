@@ -54,6 +54,7 @@ export default class PageContent extends Component {
               viewId={v.viewId}
               type={v.type}
               configuration={v.configuration}
+              unmountAndRemove={this.props.unmountAndRemove}
               openEditor={this.props.openEditor}
               closeEditor={this.props.closeEditor}
             />
@@ -62,12 +63,19 @@ export default class PageContent extends Component {
       </Grid>
     );
   }
-  onLayoutChange(layouts) {
+  onLayoutChange(layout) {
     if (!this.props.updateLayout) {
       return;
     }
 
-    const newLayouts = _.map(layouts, block => _.omit(block, filterLayoutBlockFields));
-    this.props.updateLayout(newLayouts);
+    const newLayout = _.map(layout, block => _.omit(block, filterLayoutBlockFields));
+
+    // remove following test after
+    // https://github.com/STRML/react-grid-layout/pull/328/commits/a3afd28b579140c84e1e6e849077c7b245405345
+    if (_.isEqual(newLayout, this.props.layout)) {
+      return;
+    }
+
+    this.props.updateLayout(newLayout);
   }
 }

@@ -3,16 +3,11 @@ const {
   join
 } = require('path');
 
-// TODO test
-
-const FMD_ROOT = process.env.FMD_ROOT;
-
 const self = module.exports = {
-  resolve: path => join(FMD_ROOT, path),
+  resolve: (folder, relativePath) => join(folder, relativePath),
   isExists: (path, callback) => fs.access(path, fs.constants.F_OK, err => callback(!err)),
   isReadable: (path, callback) => fs.access(path, fs.constants.R_OK, err => callback(!err)),
   read: (path, callback) => {
-
     self.isExists(path, exists => {
       if (!exists) {
         return callback(new Error(`File '${path}' doesn't exist`));
@@ -38,8 +33,8 @@ const self = module.exports = {
       return callback(e);
     }
   },
-  readJsonFromPath: (path, callback) => {
-    self.read(self.resolve(path), (err, content) => {
+  readJsonFromPath: (folder, relativePath, callback) => {
+    self.read(self.resolve(folder, relativePath), (err, content) => {
       if (err) {
         return callback(err);
       }

@@ -4,7 +4,7 @@
   "title": "simple page",
   "views": [
 	{
-	  "oId": "/views/plot99.view.json",
+	  "oId": "/views/plot1.view.json",
 	  "geometry": {
 		"kind": "Relative",
 		"x": 0,

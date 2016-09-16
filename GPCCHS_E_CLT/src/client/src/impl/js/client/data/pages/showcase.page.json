@@ -1,6 +1,7 @@
 {
   "type": "Page",
   "hideBorders": false,
+  "title": "showCase page",
   "views": [
     {
       "oId": "/views/plot1.view.json",

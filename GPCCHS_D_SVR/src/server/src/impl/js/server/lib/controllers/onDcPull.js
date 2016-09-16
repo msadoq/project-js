@@ -22,11 +22,12 @@ const callDcPullControllers = (
   let message;
 
   async.series([
-    callback => {
+    (callback) => {
+      debug.debug('decoding Dc Server Message');
       message = decode('dc.dataControllerUtils.DcServerMessage', buffer);
       return callback(null);
     },
-    callback => {
+    (callback) => {
       switch (message.messageType) {
         case 'DC_RESPONSE':
           dcResponseHandler(message.payload);

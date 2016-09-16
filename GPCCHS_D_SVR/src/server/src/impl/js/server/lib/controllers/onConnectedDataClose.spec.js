@@ -2,12 +2,12 @@ require('../utils/test');
 const formula = require('../utils/formula');
 const { decode } = require('../protobuf');
 // const stubData = require('../stubs/data');
-const { startConnectedDataSubscription } = require('./onConnectedDataOpen');
+const { endConnectedDataSubscription } = require('./onConnectedDataClose');
 
-describe('onConnectedDataOpen', () => {
+describe('onConnectedDataClose', () => {
   it('messageHandler error', () => {
     const dataFormula = 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.convertedValue';
-    (() => startConnectedDataSubscription(
+    (() => endConnectedDataSubscription(
       { id: 'test' },
       {
         formula: dataFormula,
@@ -19,9 +19,9 @@ describe('onConnectedDataOpen', () => {
       }
     )).should.throw(Error);
   });
-  it('start subscription', () => {
+  it('end subscription', () => {
     const dataFormula = 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.convertedValue';
-    startConnectedDataSubscription(
+    endConnectedDataSubscription(
       { id: 'test' },
       {
         formula: dataFormula,
@@ -41,8 +41,7 @@ describe('onConnectedDataOpen', () => {
         const payload = decode('dc.dataControllerUtils.DataSubscribe', subscription.payload);
         payload.should.be.an('object')
           .that.have.an.property('action')
-          .that.equal('ADD');
-        payload.should.have.an.property('id');
+          .that.equal('DELETE');
         payload.should.have.an.property('dataId')
           .that.be.an('object');
         const data = formula(dataFormula);

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 import { getWebsocket } from '../websocket';
 import { Button } from 'react-bootstrap';
-import external from '../../../external.modules';
+import external from '../../../external.window';
 import UnknownView from './UnknownView';
 
 export default class View extends Component {

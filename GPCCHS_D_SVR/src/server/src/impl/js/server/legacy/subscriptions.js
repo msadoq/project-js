@@ -1,13 +1,13 @@
 const debug = require('../lib/io/debug')('routes:subscriptions');
 const { Router } = require('express');
-const validateDataFullName = require('../lib/middlewares/validateDataFullName');
+const validateDataFullName = require('validateDataFullName');
 const validateDomainId = require('../lib/middlewares/validateDomainId');
 const validateTimeLineType = require('../lib/middlewares/validateTimeLineType');
 const validateSubscriptionState = require('../lib/middlewares/validateSubscriptionState');
 const validateVisuWindow = require('../lib/middlewares/validateVisuWindow');
 const validateField = require('../lib/middlewares/validateField');
 const validateVisuSpeed = require('../lib/middlewares/validateVisuSpeed');
-const validateFilters = require('../lib/middlewares/validateFilters');
+const validateFilters = require('validateFilters');
 const createSubscription = require('createSubscription');
 
 const router = new Router();

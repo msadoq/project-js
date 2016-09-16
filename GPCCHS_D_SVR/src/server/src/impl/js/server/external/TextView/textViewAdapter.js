@@ -8,7 +8,7 @@ const {
   updateData,
 } = require('../../lib/utils/timebar');
 const getTb = require('../../lib/timeBar/index').getTimebar;
-const parseDataFullName = require('../../lib/utils/parseDataFullName');
+const formula = require('../../lib/utils/formula');
 const _ = require('lodash');
 
 function TextView(configuration) {
@@ -47,7 +47,7 @@ TextView.prototype.onTimebarUpdate = function (cmdList) {
               lower: cmdList.visuWindowUpdate.current,
               upper: cmdList.visuWindowUpdate.current,
             };
-            const dataId = parseDataFullName(element.connectedData.formula);
+            const dataId = formula(element.connectedData.formula);
             updateData(tb.data.timeLines, element.connectedData, visuBounds, dataId,
                        this.spark.write);
           });

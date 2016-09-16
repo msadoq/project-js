@@ -5,5 +5,5 @@ const debug = require('../io/debug')('controllers:onConnectedDataClose');
  * @param spark
  */
 module.exports = (spark, payload) => {
-  debug.info(spark.id, 'connectedData closed', payload);
+  debug.debug(spark.id, 'connectedData closed', payload);
 };

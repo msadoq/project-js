@@ -6,4 +6,6 @@ const debug = require('../io/debug')('controllers:onClientClose');
  */
 module.exports = spark => {
   debug.info(spark.id, 'main process websocket closed');
+
+  // TODO destroy all views
 };

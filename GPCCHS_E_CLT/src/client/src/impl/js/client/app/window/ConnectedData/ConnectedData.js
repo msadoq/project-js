@@ -10,7 +10,6 @@ export default class ConnectedData extends Component {
     filter: PropTypes.any, // TODO object or array?
   };
   componentDidMount() {
-    console.log('send to websocket new param to start listening'); // TODO
     getWebsocket().write({
       event: 'connectedDataOpen',
       payload: {
@@ -23,11 +22,14 @@ export default class ConnectedData extends Component {
     });
   }
   componentWillUnmount() {
-    console.log('send to websocket new param to stop'); // TODO
     getWebsocket().write({
       event: 'connectedDataClose',
       payload: {
         connectedDataId: this.props.connectedDataId,
+        formula: this.props.formula,
+        domain: this.props.domain,
+        timeline: this.props.timeline,
+        filter: this.props.filter,
       },
     });
   }

@@ -19,13 +19,10 @@ const onViewClose = require('./lib/controllers/onViewClose');
 const onViewUpdate = require('./lib/controllers/onViewUpdate');
 const onConnectedDataOpen = require('./lib/controllers/onConnectedDataOpen');
 const onConnectedDataClose = require('./lib/controllers/onConnectedDataClose');
+const onTimebarUpdate = require('./lib/controllers/onHscTimebarUpdate');
 
 const dcStub = require('./lib/stubs/dc');
 const tbStub = require('./lib/stubs/tb');
-// const dataStub = require('./lib/stubs/data');
-const fs = require('fs');
-const path = require('path');
-const { setTimebar } = require('./lib/timeBar/index');
 
 // port
 function normalizePort(val) {
@@ -87,8 +84,9 @@ primus.init(server, {
   onViewOpen,
   onViewClose,
   onViewUpdate,
-  onConnectedDataOpen,
+  onConnectedDataOpen: onConnectedDataOpen.call,
   onConnectedDataClose,
+  onTimebarUpdate,
 });
 
 // ZeroMQ
@@ -102,7 +100,7 @@ zmq.open({
     type: 'push',
     url: process.env.ZMQ_GPCCDC_PUSH,
   },
-  vimatimebar: {
+  tb: {
     type: 'pull',
     url: process.env.ZMQ_VIMA_TIMEBAR,
     handler: onTimeBarUpdate,
@@ -117,30 +115,10 @@ zmq.open({
       if (launchStubError) {
         throw launchStubError;
       }
-
-      // setTimeout(() => {
-      //   zmq.push('dcPush', dataStub.getWrappedDataSubscribeProtobuf());
-      // }, 100);
-      //
-      // setInterval(() => {
-      //   zmq.push('dcPush', dataStub.getWrappedDataQueryProtobuf());
-      // }, 1000);
-      //
-      // setInterval(() => {
-      //   zmq.push('dcPush', dataStub.getWrappedDomainQueryProtobuf());
-      // }, 10000);
     });
   }
   if (process.env.STUB_TB_ON === 'on') {
-    // Read TB file
-    const tb = JSON.parse(
-      fs.readFileSync(path.join(__dirname,
-        '../../../../../../../GPCCHS_E_CLT/src/client/src/impl/js/client/app/schemaManager' +
-        '/examples/TB.example.json'),
-        'utf8')
-    );
-    setTimebar(JSON.parse(JSON.stringify(tb)));
-    tbStub(tb, launchStubError => {
+    tbStub(launchStubError => {
       if (launchStubError) {
         throw launchStubError;
       }

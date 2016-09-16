@@ -78,14 +78,14 @@ register({
     dataControllerUtils: {
       DataQuery: require('./converters/dc/dataQuery'),
       DataSubscribe: require('./converters/dc/dataSubscribe'),
+      DcClientMessage: require('./converters/dc/dcClientMessage'),
       DcResponse: require('./converters/dc/dcResponse'),
-      NewDataMessage: require('./converters/dc/newDataMessage'),
+      DcServerMessage: require('./converters/dc/dcServerMessage'),
       DomainQuery: require('./converters/dc/domainQuery'),
       DomainResponse: require('./converters/dc/domainResponse'),
-      DcClientMessage: require('./converters/dc/dcClientMessage'),
-      DcServerMessage: require('./converters/dc/dcServerMessage'),
+      NewDataMessage: require('./converters/dc/newDataMessage'),
       Timestamp: require('./converters/dc/timestamp'),
-      TimeInterval: require('./converters/dc/timeInterval')
+      TimeInterval: require('./converters/dc/timeInterval'),
     },
   },
   lpisis: {

@@ -1,82 +1,168 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
     "definitions": {
-        "geometry": {
+        "condition": {
             "type": "object",
             "properties": {
-                "kind": {
+                "field": {
+                    "type": "string"
+                },
+                "operator": {
                     "type": "string",
-                    "default": "Relative",
-                    "enum": ["Relative", "Absolute"]
+                    "enum": ["==", "!=", "<", ">", "<=", ">=", "CONTAINS", "ICONTAINS"]
                 },
-                "x": {
-                    "type": "number"
+                "operand": {
+                    "type": "string"
+                }
+            }
+        },
+        "connectedData": {
+            "type": "object",
+            "properties": {
+                "formula": {
+                    "type": "string"
                 },
-                "y": {
-                    "type": "number"
+                "unit": {
+                    "type": "string"
                 },
-                "w": {
-                    "type": "number"
+                "digits": {
+                    "type": "integer"
                 },
-                "h": {
-                    "type": "number"
+                "format": {
+                    "type": "string"
+                },
+                "filter": {
+                    "$ref": "#/definitions/condition"
+                },
+                "domain": {
+                    "type": "string"
+                },
+                "timeline": {
+                    "type": "string"
                 }
             },
-            "required": ["kind", "x", "y", "w", "h"],
-            "additionalProperties": false
+            "required": ["formula", "unit", "digits", "format", "domain", "timeline"]
         },
-        "docLocation": {
-            "oneOf": [{
-                "properties": {
-                    "oId": {
-                        "type": "string"
-                    }
+        "mimicAnimation": {
+            "type": "object",
+            "properties": {
+                "transformation": {
+                    "type": "string",
+                    "enum": ["text", "color", "translate", "rotate", "scale", "skew"]
                 },
-                "required": ["oId"]
-            }, {
-                "properties": {
-                    "path": {
-                        "type": "string"
-                    }
+                "parameters": {
+                    "type": "string"
                 },
-                "required": ["path"]
-            }]
+                "svgItem": {
+                    "type": "string"
+                }
+            },
+            "required": ["transformation", "parameters", "svgItem"]
         },
-        "view": {
+        "viewEntryPoint": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "connectedData": {
+                    "$ref": "#/definitions/connectedData"
+                },
+                "stateColours": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "colour": {
+                                "type": "integer"
+                            },
+                            "condition": {
+                                "$ref": "#/definitions/condition"
+                            }
+                        },
+                        "required": ["colour", "condition"]
+                    }
+                }
+            },
+            "required": ["name"]
+        },
+        "mimicViewEntryPoint": {
             "allOf": [{
-                "$ref": "#/definitions/docLocation"
+                "$ref": "#/definitions/viewEntryPoint"
             }, {
                 "properties": {
-                    "geometry": {
-                        "$ref": "#/definitions/geometry"
-                    },
-                    "windowState": {
-                        "type": "string",
-                        "default": "Normalized",
-                        "enum": ["Minimized", "Normalized", "Maximized"]
+                    "animation": {
+                        "$ref": "#/definitions/mimicAnimation"
+                    }
+                }
+            }]
+        },
+        "viewCommonAttributes": {
+            "type": "object",
+            "properties": {
+                "path": {
+                    "type": "string"
+                },
+                "links": {
+                    "type": "array",
+                    "items": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "url": {
+                            "type": "string"
+                        }
                     }
                 },
-                "required": ["geometry", "windowState"]
-            }]
+                "procedures": {
+                    "type": "array",
+                    "items": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "path": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "defaultRatio": {
+                    "type": "object",
+                    "properties": {
+                        "length": {
+                            "type": "number"
+                        },
+                        "width": {
+                            "type": "number"
+                        }
+                    },
+                    "required": ["length", "width"]
+                }
+            }
         }
     },
 
     "type": "object",
-    "properties": {
-        "type": {
-            "type": "string",
-            "enum": ["Page"]
-        },
-        "hideBorders": {
-            "type": "boolean",
-            "default": false
-        },
-        "views": {
-            "type": "array",
-            "items": {
-                "$ref": "#/definitions/view"
+    "allOf": [{
+        "$ref": "#/definitions/viewCommonAttributes"
+    }, {
+        "properties": {
+            "type": {
+                "type": "string",
+                "enum": ["MimicView"]
+            },
+            "mimicViewEntryPoints": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/mimicViewEntryPoint"
+                }
+            },
+            "content": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
             }
-        }
-    },
-    "required": ["type", "views"]
+        },
+        "required": ["type", "mimicViewEntryPoints", "content"]
+    }]
 }

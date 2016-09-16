@@ -141,6 +141,7 @@
                     "type": "string"
                 }
             }
-        }
+        },
+        "required": ["type", "textViewEntryPoints", "content"]
     }]
 }

@@ -8,6 +8,7 @@ const {
   validateTbJson,
   validatePvJson,
   validatePgJson,
+  validateMvJson,
 } = require('../schemaManager');
 
 const emptyData = '';
@@ -92,21 +93,21 @@ describe('schemaManager/validateJson', () => {
     });
     it('Invalid', () => {
       const msg = validateTvJson(dataTvMis);
-      msg.length.should.equal(5);
+      msg.length.should.equal(6);
       checkErrorObject(msg);
     });
   });
   describe('MimicView', () => {
     it('Valid', () => {
-      should.not.exist(validateTvJson(dataTv));
+      should.not.exist(validateMvJson(dataMv));
     });
     it('Empty', () => {
-      const msg = validateTvJson(emptyData);
+      const msg = validateMvJson(emptyData);
       msg.should.equal('Empty file');
     });
     it('Invalid', () => {
-      const msg = validateTvJson(dataTvMis);
-      msg.length.should.equal(5);
+      const msg = validateMvJson(dataMvMis);
+      msg.length.should.equal(1);
       checkErrorObject(msg);
     });
   });

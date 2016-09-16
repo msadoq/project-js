@@ -59,4 +59,11 @@ function validateMvJson(data) {
 }
 
 // Function export
-module.exports = { validateWsJson, validateTvJson, validateTbJson, validatePvJson, validatePgJson };
+module.exports = {
+  validateWsJson,
+  validateTvJson,
+  validateTbJson,
+  validatePvJson,
+  validatePgJson,
+  validateMvJson,
+};

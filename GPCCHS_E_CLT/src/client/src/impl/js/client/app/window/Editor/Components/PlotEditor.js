@@ -21,7 +21,7 @@ export default class Editor extends Component {
       search: '',
       entryPoints: this.props.configuration.plotViewEntryPoints,
       axes: this.props.configuration.axes,
-      grid: this.props.configuration.grid,
+      grids: this.props.configuration.grids,
       title: this.props.configuration.title,
       titleStyle: this.props.configuration.titleStyle,
       plotBackGround: this.props.configuration.plotBackgroundColour,
@@ -38,6 +38,7 @@ export default class Editor extends Component {
     this.addEntryPoint = this.addEntryPoint.bind(this);
     this.handleAxes = this.handleAxes.bind(this);
     this.handlePlotMarkers = this.handlePlotMarkers.bind(this);
+    console.log(this.props.configuration);
   }
   handleEntryPoint(key, label, newVal) {
     let val = newVal;
@@ -98,18 +99,20 @@ export default class Editor extends Component {
 
       ]
     };
-    const newState = this.state.entryPoints;
+    const newState = this.state.entryPoints.slice();
     newState.push(newEntryPoint);
     this.setState({
       entryPoints: newState,
     });
+    console.log(newState);
   }
   removeEntryPoint(key) {
-    const newState = this.state.entryPoints;
-    delete newState[key];
+    const newState = this.state.entryPoints.slice();
+    newState.splice(key, 1);
     this.setState({
       entryPoints: newState,
     });
+    console.log(newState);
   }
   handleGrid(label, newVal) {
     let newState = this.state.grid;
@@ -236,11 +239,11 @@ export default class Editor extends Component {
               handlePlotTitleStyle={this.handlePlotTitleStyle}
               handlePlotAxes={this.handleAxes}
               handlePlotMarkers={this.handlePlotMarkers}
-              axes={this.props.configuration.axes}
-              markers={this.props.configuration.markers}
-              title={this.props.configuration.title}
-              grids={this.props.configuration.grids}
-              titleStyle={this.props.configuration.titleStyle}
+              axes={this.state.axes}
+              markers={this.state.markers}
+              title={this.state.title}
+              grids={this.state.grids}
+              titleStyle={this.state.titleStyle}
             /> :
             null
         }
@@ -252,7 +255,7 @@ export default class Editor extends Component {
                 addEntryPoint={this.addEntryPoint}
               />
               <EntryPointTree
-                entryPoints={this.props.configuration.plotViewEntryPoints}
+                entryPoints={this.state.entryPoints}
                 search={this.state.search}
                 handleEntryPoint={this.handleEntryPoint}
                 remove={this.removeEntryPoint}

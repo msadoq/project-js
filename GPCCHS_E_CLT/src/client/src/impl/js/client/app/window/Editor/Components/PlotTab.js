@@ -50,8 +50,6 @@ export default class PlotTab extends React.Component {
     this.handleWidth = this.handleWidth.bind(this);
     this.handleLineStyle = this.handleLineStyle.bind(this);
     this.handleYAxis = this.handleYAxis.bind(this);
-    
-    console.log("titleStyle", this.props.titleStyle);
   }
   handleTitleStyle(field, value) {
     this.props.handlePlotTitleStyle(field, value);

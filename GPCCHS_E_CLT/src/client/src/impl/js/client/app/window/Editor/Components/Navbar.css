@@ -1,22 +1,22 @@
 .navbar{
-  background-color:#333
+  background-color:white;
 };
 
 .navItem{
-  background-color:#333;
+  background-color:#F1F1F1;
   border: none;
 }
 
 .navItem a{
-  background-color:#333 !important;
-  color:#EEE;
+  background-color:#F1F1F1 !important;
+  color:#337ab7;
   border-radius:none !important;
   border:none !important;
   margin-bottom:1px;
 }
 
 .navItem a:hover{
-  color:#FFF;
+  color:#23527c;
   border:none !important;
   cursor:default;
 }

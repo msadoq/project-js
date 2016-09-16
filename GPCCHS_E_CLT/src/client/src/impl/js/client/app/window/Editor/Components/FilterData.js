@@ -18,15 +18,15 @@ export default class FilterData extends React.Component {
   }
   handleFilter(e) {
     this.setState({ filter: e.target.value });
-    this.props.onChange(this.state.filter + this.state.operator + this.state.value);
+    this.props.onChange(e.target.value, this.state.operator, this.state.value);
   }
   handleOperator(e) {
     this.setState({ operator: e.target.value });
-    this.props.onChange(this.state.filter + this.state.operator + this.state.value);
+    this.props.onChange(this.state.filter, e.target.value, this.state.value);
   }
   handleValue(e) {
     this.setState({ value: e.target.value });
-    this.props.onChange(this.state.filter + this.state.operator + this.state.value);
+    this.props.onChange(this.state.filter, this.state.operator, e.target.value);
   }
   render() {
     return (

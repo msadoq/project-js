@@ -38,13 +38,14 @@ export default class Editor extends Component {
     this.addEntryPoint = this.addEntryPoint.bind(this);
     this.handleAxes = this.handleAxes.bind(this);
     this.handlePlotMarkers = this.handlePlotMarkers.bind(this);
+    console.log('configurations');
     console.log(this.props.configuration);
   }
   handleEntryPoint(key, label, newVal) {
     let val = newVal;
     const labels = label.split('.');
 
-    if (labels[0] === 'connectedDataY') {
+    if (labels[0] === 'connectedDataY' || labels[0] === 'connectedDataX') {
       let tmp = this.state.entryPoints[key].connectedDataY;
       tmp = Object.assign({}, tmp, {
         [labels[1]]: newVal,
@@ -52,17 +53,17 @@ export default class Editor extends Component {
       val = tmp;
     }
 
-    if (label === 'stateColour') {
-      const tmp = this.state.entryPoints[key].stateColours;
+    if (labels[0] === 'stateColours') {
+      const tmp = this.state.entryPoints[key].stateColours.slice();
       if (newVal.keyToRemove !== undefined) {
         tmp.splice(newVal.keyToRemove, 1);
       } else {
-        tmp.push({ colour: newVal.color, condition: newVal.filter });
+        tmp.push({ colour: newVal.color, condition: { field: newVal.field, operand: newVal.operand, operator: newVal.operator } });
       }
       val = tmp;
     }
 
-    const newState = this.state.entryPoints;
+    const newState = this.state.entryPoints.slice();
     newState[key] = Object.assign({}, newState[key], {
       [labels[0]]: val,
     });
@@ -70,6 +71,7 @@ export default class Editor extends Component {
     this.setState({
       entryPoints: newState,
     });
+    console.log(`update ${label} : ${newVal}`);
   }
   addEntryPoint() {
     const newEntryPoint = {
@@ -104,7 +106,7 @@ export default class Editor extends Component {
     this.setState({
       entryPoints: newState,
     });
-    console.log(newState);
+    console.log(`add entrypoint, new list : ${newState}`);
   }
   removeEntryPoint(key) {
     const newState = this.state.entryPoints.slice();
@@ -112,7 +114,7 @@ export default class Editor extends Component {
     this.setState({
       entryPoints: newState,
     });
-    console.log(newState);
+    console.log(`remove entrypoint, new list : ${newState}`);
   }
   handleGrid(label, newVal) {
     let newState = this.state.grid;
@@ -123,11 +125,11 @@ export default class Editor extends Component {
     this.setState({
       grid: newState,
     });
-    console.log(`${label} : ${newVal}`);
+    console.log(`update ${label} : ${newVal}`);
   }
   handlePlotTitle(val) {
     this.setState({ title: val });
-    console.log(`title : ${val}`);
+    console.log(`update plotTitle : ${val}`);
   }
   handlePlotTitleStyle(label, newVal) {
     let newState = this.state.titleStyle;
@@ -138,7 +140,7 @@ export default class Editor extends Component {
     this.setState({
       titleStyle: newState,
     });
-    console.log(`${label} : ${newVal}`);
+    console.log(`update ${label} : ${newVal}`);
   }
   handlePlotMarkers(key, label, newVal) {
     let val = newVal;
@@ -177,7 +179,7 @@ export default class Editor extends Component {
     this.setState({
       markers: newState,
     });
-    console.log(`${labels[0]} : ${newVal}`);
+    console.log(`update marker ${labels[0]} : ${newVal}`);
   }
   handleAxes(key, label, newVal) {
     let val = newVal;
@@ -199,7 +201,7 @@ export default class Editor extends Component {
     this.setState({
       axes: newState,
     });
-    console.log(`${label} : ${newVal}`);
+    console.log(`update axis ${label} : ${newVal}`);
   }
   /*
     Appelée lorsque le formulaire de filtre des entrypoints est mis à jour.

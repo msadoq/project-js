@@ -5,9 +5,8 @@ const {
   getDcResponse,
   getDcResponseProtobuf,
 } = require('../stubs/data');
-const _ = require('lodash');
 const {
-  dcResponseCallbacks,
+  getDcResponseCallbacks,
   cleanDcResponseCallbacks,
   registerDcResponseCallbackOnHandler,
   onDcResponse,
@@ -21,11 +20,11 @@ describe('onDcResponse', () => {
   });
 
   describe('registerDcResponseCallbackOnHandler', () => {
-  /*  it('one', () => {
+    it('one', () => {
       const myId = 'myId';
       const myCallback = i => i === 0;
       registerDcResponseCallbackOnHandler(testHandler, myId, myCallback);
-      dcResponseCallbacks.should.be.an('object')
+      getDcResponseCallbacks().should.be.an('object')
         .that.have.property(myId)
         .that.equal(myCallback);
     });
@@ -36,12 +35,12 @@ describe('onDcResponse', () => {
       const myCallback2 = i => i !== 0;
       registerDcResponseCallbackOnHandler(testHandler, myId, myCallback);
       registerDcResponseCallbackOnHandler(testHandler, myId2, myCallback2);
-      dcResponseCallbacks.should.be.an('object')
+      getDcResponseCallbacks().should.be.an('object')
         .that.have.an.property(myId)
         .that.equal(myCallback);
-      dcResponseCallbacks.should.have.an.property(myId2)
+      getDcResponseCallbacks().should.have.an.property(myId2)
         .that.equal(myCallback2);
-    });*/
+    });
   });
 
   describe('onDcResponse', () => {

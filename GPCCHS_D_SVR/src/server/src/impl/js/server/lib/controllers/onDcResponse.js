@@ -8,6 +8,8 @@ const { push } = require('../io/zmq');
 
 let dcResponseCallbacks = {}; // { id: callback }
 
+const getDcResponseCallbacks = () => dcResponseCallbacks;
+
 const cleanDcResponseCallbacks = () => {
   dcResponseCallbacks = {};
 };
@@ -59,7 +61,7 @@ const onDcResponse = buffer => {
 
 module.exports = {
   onDcResponse,
-  dcResponseCallbacks,
+  getDcResponseCallbacks,
   cleanDcResponseCallbacks,
   registerDcResponseCallbackOnHandler,
 };

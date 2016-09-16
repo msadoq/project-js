@@ -5,7 +5,6 @@ const onNewDataMessage = require('./onNewDataMessage');
 const getLocalId = require('../models/getLocalId');
 const {
   getDataQuery,
-  getReportingParameter,
   getReportingParameterProtobuf,
   getNewDataMessage,
   getNewDataMessageProtobuf,

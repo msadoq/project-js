@@ -3,35 +3,13 @@
   "hideBorders": false,
   "views": [
     {
-      "oId": "/views/text1.view.json",
-      "geometry": {
-        "kind": "Relative",
-        "x": 0,
-        "y": 0,
-        "w": 4,
-        "h": 4
-      },
-      "windowState": "Normalized"
-    },
-    {
-      "oId": "/views/text2.view.json",
-      "geometry": {
-        "kind": "Relative",
-        "x": 0,
-        "y": 5,
-        "w": 4,
-        "h": 3
-      },
-      "windowState": "Normalized"
-    },
-    {
       "oId": "/views/plot1.view.json",
       "geometry": {
         "kind": "Relative",
-        "x": 8,
+        "x": 0,
         "y": 0,
-        "w": 4,
-        "h": 3
+        "w": 6,
+        "h": 8
       },
       "windowState": "Normalized"
     },
@@ -39,10 +17,43 @@
       "path": "/views/plot2.view.json",
       "geometry": {
         "kind": "Relative",
-        "x": 8,
-        "y": 4,
+        "x": 7,
+        "y": 0,
+        "w": 6,
+        "h": 8
+      },
+      "windowState": "Normalized"
+    },
+    {
+      "oId": "/views/text1.view.json",
+      "geometry": {
+        "kind": "Relative",
+        "x": 0,
+        "y": 9,
         "w": 4,
-        "h": 3
+        "h": 8
+      },
+      "windowState": "Normalized"
+    },
+    {
+      "oId": "/views/text2.view.json",
+      "geometry": {
+        "kind": "Relative",
+        "x": 4,
+        "y": 9,
+        "w": 4,
+        "h": 8
+      },
+      "windowState": "Normalized"
+    },
+    {
+      "oId": "/views/text3.view.json",
+      "geometry": {
+        "kind": "Relative",
+        "x": 8,
+        "y": 9,
+        "w": 4,
+        "h": 8
       },
       "windowState": "Normalized"
     }

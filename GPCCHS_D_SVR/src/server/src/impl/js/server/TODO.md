@@ -80,8 +80,16 @@ Only list expected tasks for PBF shipping of end of october.
 * [ ] IHM design and cleanup
 * [ ] Complete README.md (lint, quality and coverage, stub  commands usage) (Damien)
 * [ ] Code review and cleaning (convention, comments, TODO , small optimizations) (Damien)
-* [ ] Merge Aziz branch
-* [ ] Merge Editor branch
+* [x] Merge Aziz branch
+* [x] Merge Editor branch
+* [ ] To improve stability add an "page close" handler in window and set ws redux state as disconnected
+
+## Common
+
+* [ ] View type abstraction
+  - [ ] React container/component
+  - [ ] Editor React container/component
+  - [ ] Redux converter (both way), actions and reducers
   
 ## Postponed
 

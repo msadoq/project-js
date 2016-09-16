@@ -35,7 +35,6 @@ Only list expected tasks for PBF shipping of end of october.
   * [ ] TextView
     - [ ] onTimebarUpdate
     - [ ] onNewData
-* [ ] Views management
 * [ ] Cache Management (Renaud)
   - [x] CacheJSON
   - [x] ConnectedData
@@ -51,8 +50,8 @@ Only list expected tasks for PBF shipping of end of october.
 * [ ] Documents schema finalization (Philippe, Audrey)
   - [ ] add title on page and window
   - [ ] Remove unused key: showBorder, kind:relative, ...
-  - [ ] update schemas, validation helper, fixtures and tests
-* [ ] Correct support of path and oId in documents (Phillipe ?)
+  - [x] update schemas, validation helper, fixtures and tests
+* [ ] Correct support of path and oId in documents (Audrey)
 * [ ] [Add HSC stub (reaction to new client, new view, new param to listen, view closing)]
 * [ ] Finalize timebar stub (reaction to new client, new view, new param to listen, view closing) (Audrey)
 * [ ] Implement a clean log and error channel to files (Damien)
@@ -83,12 +82,18 @@ Only list expected tasks for PBF shipping of end of october.
 * [x] Merge Aziz branch
 * [x] Merge Editor branch
 * [ ] To improve stability add an "page close" handler in window and set ws redux state as disconnected
+* [ ] Sync with erb: 0b0e19c74518fc97843e9bcb393086aa9a7ad616
 
 ## Common
 
 * [ ] View type abstraction
-  - [ ] React container/component
-  - [ ] Editor React container/component
+  - **React**
+    - Container/Component/sub-components...
+    - React EditorContainer/EditorComponent/sub-components...
+  - **Redux**
+    - View document to Redux
+    - Redux to view document
+  
   - [ ] Redux converter (both way), actions and reducers
   
 ## Postponed

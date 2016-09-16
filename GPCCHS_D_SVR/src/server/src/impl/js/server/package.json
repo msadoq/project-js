@@ -10,7 +10,6 @@
     "send-sub-stub": "node stub/sendSubscriptions.js --delay 5000"
   },
   "dependencies": {
-    "ajv": "^4.3.0",
     "async": "^2.0.1",
     "body-parser": "~1.15.1",
     "bytebuffer": "^5.0.1",

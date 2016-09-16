@@ -19,7 +19,7 @@ export default function loadWorkspace(workspace) {
     e.uuid,
     e.formula,
     e.domain,
-    e.timeline, // TODO timeline => after Audrey key change
+    e.timeline,
     e.filter
   )));
 

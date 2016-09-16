@@ -75,7 +75,10 @@
                     "type": "string"
                 },
                 "filter": {
+                  "type": "array",
+                  "items":{
                     "$ref": "#/definitions/condition"
+                  }
                 },
                 "domain": {
                     "type": "string"
@@ -256,12 +259,7 @@
             }
         }
     },
-
-
     "type": "object",
-
-
-
     "allOf": [{
         "$ref": "#/definitions/viewCommonAttributes"
     }, {
@@ -270,6 +268,7 @@
                 "type": "string",
                 "enum": ["PlotView"]
             },
+
             "plotViewEntryPoints": {
                 "type": "array",
                 "items": {

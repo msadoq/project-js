@@ -28,11 +28,11 @@
         "unit": "V",
         "digits": 5,
         "format": "decimal",
-        "filter": {
+        "filter": [{
           "field": "convertedValue",
           "operator": "!=",
           "operand": "0"
-        },
+        }],
         "domain": "",
         "timeline": "Session 1",
         "axisId": "VBat"

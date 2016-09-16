@@ -45,13 +45,19 @@ stubs.getDataIdProtobuf = override => protobuf.encode(
   stubs.getDataId(override)
 );
 
+stubs.getTimestamp = override => applyOverride({
+  ms: now
+}, override);
+
+stubs.getTimeInterval = override => applyOverride({
+  lowerTs: stubs.getTimestamp({ ms: now - 10000}), // 10s
+  upperTs: stubs.getTimestamp()
+}, override);
+
 stubs.getDataQuery = override => applyOverride({
   id: 'my_unique_id',
   dataId: stubs.getDataId(),
-  interval: {
-    lowerTs: { ms: now - 10000 }, // 10s
-    upperTs: { ms: now },
-  },
+  interval: stubs.getTimeInterval()
 }, override);
 
 stubs.getDataQueryProtobuf = override => protobuf.encode(
@@ -81,25 +87,23 @@ stubs.getDataSubscribeProtobuf = override => protobuf.encode(
   stubs.getDataSubscribe(override)
 );
 
+stubs.getDataPayload = override => applyOverride({
+  timestamp: stubs.getTimestamp(),
+  payload: protobuf.encode(
+    'lpisis.decommutedParameter.ReportingParameter',
+    stubs.getReportingParameter()
+  )
+}, override);
+
 stubs.getNewDataMessage = override => applyOverride({
   dataId: stubs.getDataId(),
   id: 'test',
   dataSource : 'ARCHIVE',
   payloads: [
-    {
-      timestamp: { ms: now },
-      payload: protobuf.encode(
-        'lpisis.decommutedParameter.ReportingParameter',
-        stubs.getReportingParameter()
-      ),
-    },
-    {
-      timestamp: { ms: now + 1 },
-      payload: protobuf.encode(
-        'lpisis.decommutedParameter.ReportingParameter',
-        stubs.getReportingParameter()
-      ),
-    },
+    stubs.getDataPayload(),
+    stubs.getDataPayload({
+      timestamp: { ms: now + 1 }
+    }),
   ],
 }, override);
 
@@ -118,23 +122,25 @@ stubs.getDomainQueryProtobuf = override =>  protobuf.encode(
   stubs.getDomainQuery(override)
 );
 
+stubs.getDomain = override => applyOverride({
+  itemNamespace : 'Domains',
+  name : 'fr.cnes.sat1',
+  oid : '0051525005151000565215465660515',
+  domainId : 27,
+  parentDomainId : 98
+}, override);
+
 stubs.getDomainResponse = override => applyOverride({
   id : "myQueryId",
   domains : [
-    {
-      itemNamespace : 'domainsNamespace',
+    stubs.getDomain(),
+    stubs.getDomain({
       name : 'fr.cnes.sat1.iongun',
       oid : '0051525005151000565215601510515',
       domainId : 98,
       parentDomainId : 42
-    },
-    {
-      itemNamespace : 'domainsNamespace',
-      name : 'fr.cnes.sat1',
-      oid : '0051525005151000565215465660515',
-      domainId : 27,
-      parentDomainId : 98
-    }]
+    })
+  ]
 });
 
 stubs.getDomainResponseProtobuf = override => protobuf.encode(

@@ -15,6 +15,11 @@
         },
         "domain": ".*",
         "timeline": "Session 1"
+      },
+      "animation": {
+        "transformation": "translate",
+        "parameters": "0 400 0 0 -1 1",
+        "svgItem": "svg_1"
       }
     },
     {
@@ -54,13 +59,6 @@
   "defaultRatio": {
     "length": 5,
     "width": 3
-  },
-  "mimicAnimation": {
-    "properties": {
-      "transformation": "translate",
-      "parameters": "0 400 0 0 -1 1",
-      "svgItem": "svg_1"
-    }
   },
   "content": [
     "<svg id =\"mySvg\" xmlns=\"http://www.w3.org/2000/svg\"  width=\"2000\" height=\"2000\">",

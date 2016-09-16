@@ -3,7 +3,7 @@ import { should, getStore } from '../../utils/test';
 import * as actions from './hscActions';
 import reducer, { getStatus } from './hscReducer';
 
-describe.only('store:hss', () => {
+describe('store:hss', () => {
   describe('actions & reducer', () => {
     it('initial state', () => {
       reducer(undefined, {}).should.eql({ status: 'not-started' });

@@ -2,7 +2,6 @@ const debug = require('../io/debug')('controllers:onDcResponse');
 const async = require('async');
 const _ = require('lodash');
 const { decode } = require('../protobuf');
-const { push } = require('../io/zmq');
 
 // TODO : test
 

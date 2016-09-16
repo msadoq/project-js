@@ -200,20 +200,26 @@
                     "type": "string",
                     "enum": ["documentWindow"]
                 },
-                "timeBarId": {
-                    "type": "string"
-                },
                 "pages": {
                     "type": "array",
                     "items": {
+                      "allOf": [{
                         "$ref": "#/definitions/docLocation"
+                      }, {
+                        "properties": {
+                          "timeBarId": {
+                              "type": "string"
+                          }
+                        },
+                        "required": ["timeBarId"]
+                      }]
                     }
                 },
                 "geometry": {
                     "$ref": "#/definitions/geometry"
                 }
             },
-            "required": ["type", "timeBarId", "geometry"],
+            "required": ["type", "geometry"],
             "additionalProperties": false
         },
         "globalViewWindow": {
@@ -282,14 +288,17 @@
                     "type": "string",
                     "enum": ["timeBarWindowConfiguration"]
                 },
-                "timeBar": {
+                "timeBars": {
+                  "type": "array",
+                  "items": {
                     "$ref": "#/definitions/timeBar"
+                  }
                 },
                 "geometry": {
                     "$ref": "#/definitions/geometry"
                 }
             },
-            "required": ["type", "timeBar"]
+            "required": ["type", "timeBars"]
         }
     },
     "required": ["windows"]

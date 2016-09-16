@@ -35,7 +35,7 @@ function getTimebarAndWindows(workspace, cb) {
     return cb(validErr, workspace);
   }
   return cb(null, {
-    timebar: _.get(workspace, 'timeBarWindow.timeBar', {}),
+    timebar: _.get(workspace, 'timeBarWindow.timeBars[0]', {}),
     windows: _.get(workspace, 'windows', {}),
   });
 }
@@ -43,7 +43,6 @@ function getTimebarAndWindows(workspace, cb) {
 function discoverPages(window) {
   const pages = _.get(window, 'pages');
   // TODO resolve oId as path
-
   return _.reduce(pages, (list, page, index) => {
     if (!page.oId && !page.path) {
       return list;
@@ -53,7 +52,6 @@ function discoverPages(window) {
 
     // replace window.pages.item with uuid
     pages[index] = uuid;
-
     list.push(Object.assign({}, page, { uuid })); // eslint-disable-line no-param-reassign
     return list;
   }, []);
@@ -232,4 +230,6 @@ module.exports = {
   readViews,
   separateConnectedData,
   listWindows,
+  discoverPages,
+  discoverViews,
 };

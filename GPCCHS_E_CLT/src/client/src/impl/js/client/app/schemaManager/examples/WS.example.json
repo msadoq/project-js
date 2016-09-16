@@ -43,11 +43,12 @@
       }
   }, {
       "type": "documentWindow",
-      "timeBarId": "TB1",
       "pages": [{
-          "oId": "/VIMA_Demos/Page01.vipg"
+          "oId": "/VIMA_Demos/Page01.vipg",
+          "timeBarId": "TB1"
       }, {
-          "path": "Page02.xml"
+          "path": "Page02.xml",
+          "timeBarId": "TB1"
       }],
       "geometry": {
           "kind": "Absolute",
@@ -59,7 +60,8 @@
   }],
   "timeBarWindow": {
       "type": "timeBarWindowConfiguration",
-      "timeBar": {
+      "timeBars": [
+        {
           "type": "timeBarConfiguration",
           "id": "TB1",
           "mode": "Normal",
@@ -92,7 +94,7 @@
               "dsPath": "/dataset.xml"
           }],
           "masterId": "Session 1"
-      },
+      }],
       "geometry": {
           "kind": "Absolute",
           "x": 10,

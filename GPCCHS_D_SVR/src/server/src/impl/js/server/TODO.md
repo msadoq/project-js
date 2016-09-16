@@ -14,7 +14,7 @@ Only list expected tasks for PBF shipping of end of october.
 * [ ] Finalize DC communications
   - [x] Implement new ZeroMQ/protobuf pattern (Adrien)
   - [x] Fix tests (Adrien)
-  - [x] Migrate stub and data helpers (Adrien ?)
+  - [ ] Migrate stub and data helpers (Renaud)
   - [ ] Test every LPISIS parameter type conversion (C++ types to Javascript)
   - [ ] Envisage to fork in child_process the HSS DC stub (Damien)
   - [ ] Envisage to try/catch every ZeroMQ/protobuf operation (Damien)

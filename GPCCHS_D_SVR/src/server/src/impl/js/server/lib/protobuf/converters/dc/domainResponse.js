@@ -1,12 +1,13 @@
-const domains = require('./domains');
+const _ = require('lodash');
+const domain = require('./domain');
 
 module.exports = {
   encode: data => ({
     id: data.id,
-    domains: domains.encode(data.domains),
+    domains: _.map(data.domains, item => domain.encode(item)),
   }),
   decode: data => ({
     id: data.id,
-    domains: domains.decode(data.domains)
+    domains: _.map(data.domains, item => domain.decode(item)),
   }),
 };

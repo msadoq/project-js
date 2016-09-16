@@ -90,9 +90,9 @@ TextView.prototype.onTimebarUpdate = function (cmdList) {
   });
 }
 
-TextView.prototype.onDcData = function (payloads) {
+TextView.prototype.onNewDataMessage = function (payloads) {
   // TODO
-  console.log('onDcData', payloads);
+  console.log('onNewDataMessage', payloads);
 };
 
 module.exports = TextView;

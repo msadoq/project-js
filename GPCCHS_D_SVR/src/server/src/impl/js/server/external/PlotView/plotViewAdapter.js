@@ -122,9 +122,9 @@ PlotView.prototype.onTimebarUpdate = function (cmdList) {
   });
 };
 
-PlotView.prototype.onDcData = function (payloads) {
+PlotView.prototype.onNewDataMessage = function (payloads) {
   // TODO
-  debug.debug('onDcData', payloads);
+  debug.debug('onNewDataMessage', payloads);
 };
 
 module.exports = PlotView;

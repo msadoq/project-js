@@ -37,6 +37,12 @@ const shouldBeApiError = (status, title, pointer) => res => {
   });
 };
 
+const testPayloads = [];
+
+const testHandler = payload => {
+  testPayloads.push(payload);
+};
+
 module.exports = {
   should: chai.should(),
   expect: chai.expect,
@@ -46,4 +52,6 @@ module.exports = {
   getApiRequest,
   shouldBeApiError,
   database,
+  testHandler,
+  testPayloads,
 };

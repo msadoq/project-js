@@ -146,7 +146,7 @@ Inform HSS with new view dimension and view visibility:
 
 /!\ Already in cache data search doesn't works for realtime data, we should trace that realtime data was received
 
-### New data from DC (onDcData)
+### New data from DC (onNewDataMessage)
 
 * decode protobuf
 * if protobuf has 'realtime' flag:
@@ -155,7 +155,7 @@ Inform HSS with new view dimension and view visibility:
  - insert records in **cacheJson**
  - if protobuf has 'finish' field:
    - set corresponding **requestedIntervals** as received
-* call .onDcData(data) on each view
+* call .onNewDataMessage(data) on each view
 
 ### TB change
 

@@ -116,23 +116,23 @@ describe('models/connectedData', () => {
 
     it('no intervals', () => {
       const result = model.isTimestampInKnownIntervals(myDataId, timestamp);
-      result.should.be.an('boolean', false);
+      result.should.be.an('boolean').and.be.equal(false);
     });
     it('no', () => {
       model.addRequestedInterval(myDataId, myQueryId, myWrongInterval);
       const result = model.isTimestampInKnownIntervals(myDataId, timestamp);
-      result.should.be.an('boolean', false);
+      result.should.be.an('boolean').and.be.equal(false);
     });
     it('yes', () => {
       model.addRequestedInterval(myDataId, myQueryId, myInterval);
       const result = model.isTimestampInKnownIntervals(myDataId, timestamp);
-      result.should.be.an('boolean', false);
+      result.should.be.an('boolean').and.be.equal(true);
     });
     it('yes in received', () => {
       model.addRequestedInterval(myDataId, myQueryId, myInterval);
       model.setIntervalAsReceived(myDataId, myQueryId);
       const result = model.isTimestampInKnownIntervals(myDataId, timestamp);
-      result.should.be.an('boolean', false);
+      result.should.be.an('boolean').and.be.equal(true);
     });
   });
 

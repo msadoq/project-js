@@ -94,7 +94,7 @@ stubs.getNewDataMessage = override => applyOverride({
       ),
     },
     {
-      timestamp: { ms: now },
+      timestamp: { ms: now + 1 },
       payload: protobuf.encode(
         'lpisis.decommutedParameter.ReportingParameter',
         stubs.getReportingParameter()

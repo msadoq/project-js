@@ -13,17 +13,17 @@ const viewsModel = require('../models/views');
  * Controller that listen for DC incoming NewDataMessage
  * @param buffer
  */
-module.exports = buffer => {
+module.exports = (buffer) => {
   debug.verbose('called');
 
   let message;
   let payloads;
   async.series([
-    callback => {
+    (callback) => {
       message = decode('dc.dataControllerUtils.NewDataMessage', buffer);
       return callback(null);
     },
-    callback => {
+    (callback) => {
       // TODO add logic to find the correct path to correct proto
       debug.debug('decode payloads of comObject type', message.dataId.comObject);
       payloads = _.map(message.payloads,
@@ -35,7 +35,7 @@ module.exports = buffer => {
       );
       return callback(null);
     },
-    callback => {
+    (callback) => {
       switch (message.dataSource) {
         case 'REAL_TIME':
           _.each(payloads, payload => {
@@ -77,7 +77,7 @@ module.exports = buffer => {
 
       return callback(null);
     },
-    callback => {
+    (callback) => {
       const views = viewsModel.retrieveVisible();
 
       // TODO possible event loop bottleneck, envisage async repartition of view calls on nextTicks

@@ -1,105 +1,60 @@
-// const debug = require('../io/debug')('controllers:onDcResponse.spec');
-
-require('../utils/test');
-const {
-  getDcResponse,
-  getDcResponseProtobuf,
-} = require('../stubs/data');
-const {
-  getDcResponseCallbacks,
-  cleanDcResponseCallbacks,
-  registerDcResponseCallbackOnHandler,
-  onDcResponse,
-} = require('./onDcResponse');
-
-const testHandler = callback => callback();
+const { should } = require('../utils/test');
+const { getDcResponseProtobuf } = require('../stubs/data');
+const onDcResponse = require('./onDcResponse');
+const registeredCallbacks = require('../utils/registeredCallbacks');
 
 describe('onDcResponse', () => {
   beforeEach(() => {
-    cleanDcResponseCallbacks();
+    registeredCallbacks.clear();
   });
 
-  describe('registerDcResponseCallbackOnHandler', () => {
-    it('one', () => {
-      const myId = 'myId';
-      const myCallback = i => i === 0;
-      registerDcResponseCallbackOnHandler(testHandler, myId, myCallback);
-      getDcResponseCallbacks().should.be.an('object')
-        .that.have.property(myId)
-        .that.equal(myCallback);
-    });
-    it('multi', () => {
-      const myId = 'myId';
-      const myId2 = 'myId2';
-      const myCallback = i => i === 0;
-      const myCallback2 = i => i !== 0;
-      registerDcResponseCallbackOnHandler(testHandler, myId, myCallback);
-      registerDcResponseCallbackOnHandler(testHandler, myId2, myCallback2);
-      getDcResponseCallbacks().should.be.an('object')
-        .that.have.an.property(myId)
-        .that.equal(myCallback);
-      getDcResponseCallbacks().should.have.an.property(myId2)
-        .that.equal(myCallback2);
-    });
+  const ok = getDcResponseProtobuf({
+    id: 'myId',
+    status: 'OK',
+    reason: null,
+  });
+  const warn = getDcResponseProtobuf({
+    id: 'myId',
+    status: 'WARNING',
+    reason: 'My reason',
+  });
+  const error = getDcResponseProtobuf({
+    id: 'myId',
+    status: 'ERROR',
+    reason: 'My reason',
   });
 
-  describe('onDcResponse', () => {
-    let response;
-    const myId = 'myId';
-    const myCallback = err => {
-      if (err) response.err = err;
-      response.ok = true;
-    };
-    beforeEach(() => {
-      response = {};
+  it('works', () => {
+    let called = false;
+    registeredCallbacks.set('myId', (err) => {
+      should.not.exist(err);
+      called = true;
     });
-    it('no registered callback', () => {
-      const dcResponse = getDcResponse({
-        id: myId,
-        status: 'OK',
-      });
-      try {
-        onDcResponse(getDcResponseProtobuf(dcResponse));
-      } catch (e) {
-        e.should.be.an('error');
-      }
+    onDcResponse(ok);
+    called.should.equal(true);
+  });
+  it('unknown id', () => {
+    const message = getDcResponseProtobuf(ok);
+    (() => onDcResponse(message)).should.throw(Error);
+  });
+  it('warning status', () => {
+    let called = false;
+    registeredCallbacks.set('myId', (err) => {
+      err.should.be.an('error');
+      err.message.should.equal('My reason');
+      called = true;
     });
-    it('ok', () => {
-      const dcResponse = getDcResponse({
-        id: myId,
-        status: 'OK',
-      });
-      registerDcResponseCallbackOnHandler(testHandler, myId, myCallback);
-      onDcResponse(getDcResponseProtobuf(dcResponse));
-      response.should.be.an('object')
-        .that.have.an.property('ok')
-        .that.equal(true);
+    onDcResponse(warn);
+    called.should.equal(true);
+  });
+  it('error status', () => {
+    let called = false;
+    registeredCallbacks.set('myId', (err) => {
+      err.should.be.an('error');
+      err.message.should.equal('My reason');
+      called = true;
     });
-    it('warning', () => {
-      const dcResponse = getDcResponse({
-        id: myId,
-        status: 'WARNING',
-        reason: 'why not',
-      });
-      registerDcResponseCallbackOnHandler(testHandler, myId, myCallback);
-      onDcResponse(getDcResponseProtobuf(dcResponse));
-      response.should.be.an('object')
-        .that.have.an.property('err')
-        .that.be.an('error');
-      response.err.message.should.equal(dcResponse.reason);
-    });
-    it('error', () => {
-      const dcResponse = getDcResponse({
-        id: myId,
-        status: 'ERROR',
-        reason: 'bad move',
-      });
-      registerDcResponseCallbackOnHandler(testHandler, myId, myCallback);
-      onDcResponse(getDcResponseProtobuf(dcResponse));
-      response.should.be.an('object')
-        .that.have.an.property('err')
-        .that.be.an('error');
-      response.err.message.should.equal(dcResponse.reason);
-    });
+    onDcResponse(error);
+    called.should.equal(true);
   });
 });

@@ -76,7 +76,10 @@
             "items": {
                 "$ref": "#/definitions/view"
             }
+        },
+        "title": {
+            "type": "string"
         }
     },
-    "required": ["type", "views"]
+    "required": ["type", "views", "title"]
 }

@@ -3,7 +3,7 @@ import { getStore } from '../store/mainStore';
 import controller from './controller';
 import { updateStatus } from '../store/mutations/hssActions';
 
-import { Primus } from '../../external.modules';
+import { Primus } from '../../external.main';
 
 const logger = debug('main:websocket');
 

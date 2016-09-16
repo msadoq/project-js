@@ -6,6 +6,7 @@
     "build-primus-client": "node ./bin/buildPrimusClient",
     "start": "node --max_old_space_size=8000 index",
     "test": "mocha \"lib/**/*.spec.js\"",
+    "tw": "npm test -- --watch",
     "test-perf": "node --max_old_space_size=5120 test-perf/loki.js",
     "send-sub-stub": "node stub/sendSubscriptions.js --delay 5000"
   },

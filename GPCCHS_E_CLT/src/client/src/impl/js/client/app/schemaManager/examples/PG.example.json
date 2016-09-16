@@ -1,6 +1,7 @@
 {
     "type": "Page",
     "hideBorders":false,
+    "title": "Page example",
     "views": [
         {
             "oId": "/VIMA_Demos/PV/PV.example.json",

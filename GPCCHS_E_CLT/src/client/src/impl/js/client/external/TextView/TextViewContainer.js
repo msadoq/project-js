@@ -13,6 +13,7 @@ function mapStateToProps(state, { viewId, type }) {
     type,
     title,
     configuration,
+    state,
   };
 }
 

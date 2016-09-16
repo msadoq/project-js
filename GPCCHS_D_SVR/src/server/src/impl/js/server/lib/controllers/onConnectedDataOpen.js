@@ -1,23 +1,26 @@
 const debug = require('../io/debug')('controllers:onConnectedDataOpen');
 const { v4 } = require('node-uuid');
 const formula = require('../utils/formula');
-const protobuf = require('../protobuf');
+const { encode } = require('../protobuf');
 const zmq = require('../io/zmq');
+const { set } = require('../utils/registeredCallbacks');
 
 /**
  * Triggered when a new connected data is mounted on HSC
  * @param spark
  */
-const onConnectedDataOpen = (spark, payload, zmqAdapter) => {
+const startConnectedDataSubscription = (spark, payload, messageHandler) => {
   debug.debug(spark.id, 'connectedData opened', payload);
 
   const parameter = formula(payload.formula);
 
-  const buffer = protobuf.encode('dc.dataControllerUtils.DcClientMessage', {
+  const id = v4();
+
+  const buffer = encode('dc.dataControllerUtils.DcClientMessage', {
     messageType: 'DATA_SUBSCRIBE',
-    payload: protobuf.encode('dc.dataControllerUtils.DataSubscribe', {
+    payload: encode('dc.dataControllerUtils.DataSubscribe', {
       action: 'ADD',
-      id: v4(),
+      id,
       dataId: {
         parameterName: parameter.parameter,
         catalog: parameter.catalog,
@@ -28,9 +31,18 @@ const onConnectedDataOpen = (spark, payload, zmqAdapter) => {
     }),
   });
 
-  return buffer;
+  messageHandler('dcPush', buffer, (msgErr) => {
+    if (msgErr) throw msgErr;
+    set(id, (respErr) => {
+      if (respErr) throw respErr;
+    });
+  });
 };
 
-const call = (spark, payload) => onConnectedDataOpen(spark, payload, zmq);
+const onConnectedDataOpen = (spark, payload) =>
+  startConnectedDataSubscription(spark, payload, zmq.push);
 
-module.exports = { call, onConnectedDataOpen };
+module.exports = {
+  startConnectedDataSubscription,
+  onConnectedDataOpen,
+};

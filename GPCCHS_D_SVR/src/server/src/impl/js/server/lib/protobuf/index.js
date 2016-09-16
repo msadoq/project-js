@@ -76,11 +76,14 @@ const removeEmpty = collection => {
 register({
   dc: {
     dataControllerUtils: {
+      DataId: require('./converters/dc/dataId'),
+      DataPayload: require('./converters/dc/dataPayload'),
       DataQuery: require('./converters/dc/dataQuery'),
       DataSubscribe: require('./converters/dc/dataSubscribe'),
       DcClientMessage: require('./converters/dc/dcClientMessage'),
       DcResponse: require('./converters/dc/dcResponse'),
       DcServerMessage: require('./converters/dc/dcServerMessage'),
+      Domain: require('./converters/dc/domain'),
       DomainQuery: require('./converters/dc/domainQuery'),
       DomainResponse: require('./converters/dc/domainResponse'),
       NewDataMessage: require('./converters/dc/newDataMessage'),

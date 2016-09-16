@@ -187,8 +187,7 @@ function separateConnectedData(content, cb) {
         debug.debug('No treatment for connectedData of view type: ${viewContent.type}');
     }
   });
-  const r = Object.assign(content, { connectedData: cdList });
-  return cb(null, r);
+  return cb(null, Object.assign(content, { connectedData: cdList }));
 }
 
 function getWindowList(content, cb) {
@@ -232,4 +231,6 @@ module.exports = {
   listWindows,
   discoverPages,
   discoverViews,
+  createConnectedData,
+  moveConnectedData,
 };

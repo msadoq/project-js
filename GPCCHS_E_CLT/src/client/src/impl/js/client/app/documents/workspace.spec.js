@@ -4,6 +4,9 @@ const {
 } = require('../utils/test');
 const documents = require('../documents');
 const _ = require('lodash');
+const path = require('path');
+
+const dir = path.join(__dirname, 'features');
 
 describe('documents/workspace', () => {
   describe('listWindows ', () => {
@@ -47,7 +50,7 @@ describe('documents/workspace', () => {
   });
   describe('getTimebarAndWindows', () => {
     it('workspace valid', done => {
-      documents.readJsonFromPath('dev.workspace.json', (err, json) => {
+      documents.readJsonFromPath(dir, 'dev.workspace.json', (err, json) => {
         should.not.exist(err);
         workspace.getTimebarAndWindows(json, (err1, content) => {
           should.not.exist(err1);
@@ -59,24 +62,17 @@ describe('documents/workspace', () => {
       });
     });
     it('invalid workspace', done => {
-      documents.readJsonFromPath(
-        '../app/schemaManager/examples/WS.example.mis.json',
-        (err, json) => {
-          if (err) {
-            done(err);
-          } else {
-            workspace.getTimebarAndWindows(json, err1 => {
-              err1.should.be.an('array').with.length(20);
-              done();
-            });
-          }
-        });
+      documents.readJsonFromPath(dir, 'WS.example.mis.json', (err, json) => {
+        should.exist(err);
+        should.not.exist(json);
+        done();
+      });
     });
   });
   describe('discoverPages', () => {
     let content;
     before(done => {
-      documents.readJsonFromPath('dev.workspace.json', (err, json) => {
+      documents.readJsonFromPath(dir, 'dev.workspace.json', (err, json) => {
         workspace.getTimebarAndWindows(json, (err1, json1) => {
           workspace.getWindowList(json1, (err2, json2) => {
             content = json2;
@@ -128,7 +124,7 @@ describe('documents/workspace', () => {
   describe('identifyPages', () => {
     let content;
     before(done => {
-      documents.readJsonFromPath('dev.workspace.json', (err, json) => {
+      documents.readJsonFromPath(dir, 'dev.workspace.json', (err, json) => {
         workspace.getTimebarAndWindows(json, (err1, json1) => {
           workspace.getWindowList(json1, (err2, json2) => {
             content = json2;
@@ -156,7 +152,7 @@ describe('documents/workspace', () => {
   describe('readPages', () => {
     let content;
     before(done => {
-      documents.readJsonFromPath('dev.workspace.json', (err, json) => {
+      documents.readJsonFromPath(dir, 'dev.workspace.json', (err, json) => {
         workspace.getTimebarAndWindows(json, (err1, json1) => {
           workspace.getWindowList(json1, (err2, json2) => {
             workspace.identifyPages(json2, (err3, wk) => {
@@ -168,7 +164,7 @@ describe('documents/workspace', () => {
       });
     });
     it('valid', done => {
-      workspace.readPages(content, (err, contentPages) => {
+      workspace.readPages(dir, content, (err, contentPages) => {
         should.not.exist(err);
         contentPages.should.contains.keys('pages');
         _.forEach(contentPages.pages, page => {
@@ -181,7 +177,7 @@ describe('documents/workspace', () => {
     });
     it('invalid page', done => {
       content.pages[0].path = '/pages/showcase.page.invalid.json';
-      workspace.readPages(content, err2 => {
+      workspace.readPages(dir, content, err2 => {
         should.exist(err2);
         done();
       });
@@ -252,11 +248,11 @@ describe('documents/workspace', () => {
   describe('identifyViews', () => {
     let content;
     before(done => {
-      documents.readJsonFromPath('dev.workspace.json', (err, json) => {
+      documents.readJsonFromPath(dir, 'dev.workspace.json', (err, json) => {
         workspace.getTimebarAndWindows(json, (err1, json1) => {
           workspace.getWindowList(json1, (err2, json2) => {
             workspace.identifyPages(json2, (err3, json3) => {
-              workspace.readPages(json3, (err4, json4) => {
+              workspace.readPages(dir, json3, (err4, json4) => {
                 content = json4;
                 done();
               });
@@ -269,7 +265,7 @@ describe('documents/workspace', () => {
       workspace.identifyViews(content, (err, contentViews) => {
         should.not.exist(err);
         contentViews.should.be.an('object').that.contains.keys('views');
-        contentViews.views.should.be.an('array').with.length(6);
+        contentViews.views.should.be.an('array').with.length(3);
         _.each(contentViews.views, view => {
           view.should.have.any.keys(['path', 'oId']);
           view.should.contains.keys('uuid');
@@ -300,11 +296,11 @@ describe('documents/workspace', () => {
   describe('readViews', () => {
     let content;
     before(done => {
-      documents.readJsonFromPath('dev.workspace.json', (err, json) => {
+      documents.readJsonFromPath(dir, 'dev.workspace.json', (err, json) => {
         workspace.getTimebarAndWindows(json, (err1, json1) => {
           workspace.getWindowList(json1, (err2, json2) => {
             workspace.identifyPages(json2, (err3, json3) => {
-              workspace.readPages(json3, (err4, json4) => {
+              workspace.readPages(dir, json3, (err4, json4) => {
                 workspace.identifyViews(json4, (err5, contentViews) => {
                   content = contentViews;
                   done();
@@ -316,7 +312,7 @@ describe('documents/workspace', () => {
       });
     });
     it('valid', done => {
-      workspace.readViews(content, (err, contentViews) => {
+      workspace.readViews(dir, content, (err, contentViews) => {
         should.not.exist(err);
         contentViews.should.contains.keys('views');
         _.forEach(contentViews.views, view => {
@@ -328,7 +324,7 @@ describe('documents/workspace', () => {
     });
     it('invalid view', done => {
       content.views[0].oId = '/views/text1.view1.json';
-      workspace.readViews(content, err => {
+      workspace.readViews(dir, content, err => {
         should.exist(err);
         done();
       });
@@ -410,13 +406,13 @@ describe('documents/workspace', () => {
   describe('separateConnectedData', () => {
     let content;
     before(done => {
-      documents.readJsonFromPath('dev.workspace.json', (err, json) => {
+      documents.readJsonFromPath(dir, 'dev.workspace.json', (err, json) => {
         workspace.getTimebarAndWindows(json, (err1, json1) => {
           workspace.getWindowList(json1, (err2, json2) => {
             workspace.identifyPages(json2, (err3, json3) => {
-              workspace.readPages(json3, (err4, json4) => {
+              workspace.readPages(dir, json3, (err4, json4) => {
                 workspace.identifyViews(json4, (err5, json5) => {
-                  workspace.readViews(json5, (err6, contentAll) => {
+                  workspace.readViews(dir, json5, (err6, contentAll) => {
                     content = contentAll;
                     done();
                   });
@@ -432,7 +428,7 @@ describe('documents/workspace', () => {
         should.not.exist(err);
         final.should.be.an('object').with.all.keys(
           ['windows', 'timebar', 'pages', 'views', 'connectedData']);
-        final.connectedData.should.be.an('array').with.length(15);
+        final.connectedData.should.be.an('array').with.length(7);
         done();
       });
     });
@@ -443,23 +439,23 @@ describe('documents/workspace', () => {
         should.not.exist(err);
         final.should.be.an('object').with.all.keys(
           ['windows', 'timebar', 'pages', 'views', 'connectedData']);
-        final.connectedData.should.be.an('array').with.length(12);
+        final.connectedData.should.be.an('array').with.length(4);
         done();
       });
     });
   });
   describe('readWorkspace', () => {
     it('valid', done => {
-      workspace.readWorkspace('dev.workspace.json', (err, content) => {
+      workspace.readWorkspace(dir, 'dev.workspace.json', (err, content) => {
         should.not.exist(err);
         content.should.be.an('object').with.all.keys(
           ['windows', 'timebar', 'pages', 'views', 'connectedData']);
-        content.connectedData.should.be.an('array').with.length(15);
+        content.connectedData.should.be.an('array').with.length(7);
         done();
       });
     });
     it('invalid', done => {
-      workspace.readWorkspace('../app/schemaManager/examples/dev.workspace.json', err => {
+      workspace.readWorkspace(dir, 'WS.example.mis.json', err => {
         should.exist(err);
         done();
       });

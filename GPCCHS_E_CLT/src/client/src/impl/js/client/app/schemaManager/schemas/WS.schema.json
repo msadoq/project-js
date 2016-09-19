@@ -200,6 +200,9 @@
                     "type": "string",
                     "enum": ["documentWindow"]
                 },
+                "title": {
+                    "type": "string"
+                },
                 "pages": {
                     "type": "array",
                     "items": {
@@ -219,7 +222,7 @@
                     "$ref": "#/definitions/geometry"
                 }
             },
-            "required": ["type", "geometry"],
+            "required": ["type", "geometry", "title"],
             "additionalProperties": false
         },
         "globalViewWindow": {

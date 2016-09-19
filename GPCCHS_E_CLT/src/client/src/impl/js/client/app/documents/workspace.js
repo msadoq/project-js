@@ -76,11 +76,11 @@ function discoverViews(page) {
   }, []);
 }
 
-function readPages(content, cb) {
+function readPages(folder, content, cb) {
   async.reduce(content.pages, [], (list, identity, fn) => {
     // TODO resolve oId as path
     const filepath = identity.path || identity.oId;
-    documents.readJsonFromPath(filepath, (err, pageContent) => {
+    documents.readJsonFromPath(folder, filepath, (err, pageContent) => {
       if (err) {
         return fn(err);
       }
@@ -90,18 +90,17 @@ function readPages(content, cb) {
       }
       // eslint-disable-next-line no-param-reassign
       list = list.concat(Object.assign(pageContent, identity));
-      // list = list.concat(Object.assign(_.get(pageContent, '', {}), identity));
 
       return fn(null, list);
     });
   }, (err, pages) => cb(err, Object.assign(content, { pages })));
 }
 
-function readViews(content, cb) {
+function readViews(folder, content, cb) {
   async.reduce(content.views, [], (list, identity, fn) => {
     // TODO resolve oId as path
     const filepath = identity.path || identity.oId;
-    documents.readJsonFromPath(filepath, (err, viewContent) => {
+    documents.readJsonFromPath(folder, filepath, (err, viewContent) => {
       if (err) {
         return fn(err);
       }
@@ -205,16 +204,16 @@ function identifyViews(content, cb) {
   return cb(null, Object.assign(content, { views }));
 }
 
-function readWorkspace(path, callback) {
-  debug.debug(`reading workspace ${path}`);
+function readWorkspace(folder, relativePath, callback) {
+  debug.debug(`reading workspace ${folder} ${relativePath}`);
   async.waterfall([
-    cb => documents.readJsonFromPath(path, cb), // <- read workspace
+    cb => documents.readJsonFromPath(folder, relativePath, cb), // <- read workspace
     (workspace, cb) => getTimebarAndWindows(workspace, cb),
     (content, cb) => getWindowList(content, cb),
     (content, cb) => identifyPages(content, cb),
-    (content, cb) => readPages(content, cb),
+    (content, cb) => readPages(folder, content, cb),
     (content, cb) => identifyViews(content, cb),
-    (content, cb) => readViews(content, cb),
+    (content, cb) => readViews(folder, content, cb),
     (content, cb) => separateConnectedData(content, cb),
   ], callback);
 }

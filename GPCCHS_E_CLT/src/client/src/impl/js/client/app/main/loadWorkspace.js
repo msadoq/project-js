@@ -29,7 +29,7 @@ export default function loadWorkspace(workspace) {
   // add pages
   _.each(workspace.pages, e => dispatch(addPage(
     e.uuid,
-    e.path || e.oId,
+    e.title,
     _.map(e.views, v => v.uuid),
     _.map(e.views, v => Object.assign({
       i: v.uuid,
@@ -42,7 +42,7 @@ export default function loadWorkspace(workspace) {
 
   // add windows
   _.each(workspace.windows,
-    e => dispatch(addWindow(e.uuid, 'TODO DOC', e.geometry, e.pages))
+    e => dispatch(addWindow(e.uuid, e.title, e.geometry, e.pages))
   );
 
   const state = getStore().getState();

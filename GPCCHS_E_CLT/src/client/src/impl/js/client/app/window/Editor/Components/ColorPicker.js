@@ -41,7 +41,7 @@ export default class ColorPicker extends React.Component {
     Parametre color : un objet color correspondant à la couleur selectionnée
   */
   handleChangeComplete = (color) => {
-    this.props.onChange('colour', color.hex);
+    this.props.onChange(color.hex);
     this.setState({ color: color.hex });
   }
   render() {

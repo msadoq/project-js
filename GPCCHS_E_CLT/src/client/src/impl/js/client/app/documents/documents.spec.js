@@ -1,28 +1,28 @@
-const documents = require('./index');
+const documents = require('../documents');
 const {
   should
 } = require('../utils/test');
 
 const pathTestFMD = '/data/work/gitRepositories/LPISIS/GPCCHS/' +
-  'GPCCHS_E_CLT/src/client/src/impl/js/client/data/' +
+  'GPCCHS_E_CLT/src/client/src/impl/js/client/app/documents/features/' +
   'dev.workspace.json';
 
 describe('functions documents/index', () => {
-  describe('function < resolve >', () => {
-    it('correct path', () => {
-      const pathReturn = documents.resolve('dev.workspace.json');
-      pathReturn.should.equal(pathTestFMD);
-    });
+  it('function < resolve >', () => {
+    const pathReturn = documents.resolve(__dirname, 'features/dev.workspace.json');
+    pathReturn.should.equal(pathTestFMD);
   });
+  const pathOk = documents.resolve(__dirname, 'features/dev.workspace.json');
+  const pathNok = documents.resolve(__dirname, 'features/dev.workspace0.json');
   describe('function < isExists >', () => {
     it('isExists: true', done => {
-      documents.isExists(documents.resolve('dev.workspace.json'), exists => {
+      documents.isExists(pathOk, exists => {
         exists.should.equal(true);
         done();
       });
     });
     it('isExists: false', done => {
-      documents.isExists(documents.resolve('dev.workspace1.json'), exists => {
+      documents.isExists(pathNok, exists => {
         exists.should.equal(false);
         done();
       });
@@ -30,13 +30,13 @@ describe('functions documents/index', () => {
   });
   describe('function < isReadable >', () => {
     it('isReadable: true', done => {
-      documents.isReadable(documents.resolve('dev.workspace.json'), readable => {
+      documents.isReadable(pathOk, readable => {
         readable.should.equal(true);
         done();
       });
     });
     it('isReadable: false', done => {
-      documents.isReadable(documents.resolve('dev.workspace0.json'), readable => {
+      documents.isReadable(pathNok, readable => {
         readable.should.equal(false);
         done();
       });
@@ -44,16 +44,15 @@ describe('functions documents/index', () => {
   });
   describe('function < read >', () => {
     it('readToFile works', done => {
-      documents.read(documents.resolve('dev.workspace.json'), (err, content) => {
+      documents.read(pathOk, (err, content) => {
         should.not.exist(err);
         should.exist(content);
-
         done();
       });
     });
 
     it('readToFile error', done => {
-      documents.read(documents.resolve('dev.workspace0.json'), (err, content) => {
+      documents.read(pathNok, (err, content) => {
         should.exist(err);
         should.not.exist(content);
         done();
@@ -62,13 +61,13 @@ describe('functions documents/index', () => {
   });
   describe('function < parse >', () => {
     it('parseContent OK', done => {
-      documents.parse(documents.resolve('dev.workspace.json'), content => {
+      documents.parse(pathOk, content => {
         should.exist(content);
         done();
       });
     });
     it('parseContent err', done => {
-      documents.parse(documents.resolve('dev.workspace.json'), e => {
+      documents.parse(pathNok, e => {
         should.exist(e);
         done();
       });
@@ -76,7 +75,7 @@ describe('functions documents/index', () => {
   });
   describe('function < readJsonFromPath >', () => {
     it('function works', done => {
-      documents.readJsonFromPath('dev.workspace.json', (err, content) => {
+      documents.readJsonFromPath(__dirname, 'features/dev.workspace.json', (err, content) => {
         should.not.exist(err);
         should.exist(content);
         content.should.have.all.keys(['type', 'timeBarWindow', 'windows']);
@@ -86,7 +85,7 @@ describe('functions documents/index', () => {
       });
     });
     it('readJsonFromPath error', done => {
-      documents.readJsonFromPath('dev.workspace.json', (err, content) => {
+      documents.readJsonFromPath(__dirname, 'features/dev.workspace0.json', (err, content) => {
         should.exist(err);
         should.not.exist(content);
         done();

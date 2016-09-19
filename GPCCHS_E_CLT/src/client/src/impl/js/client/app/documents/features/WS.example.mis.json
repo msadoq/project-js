@@ -43,8 +43,8 @@
         }
     }, {
         "type": "documentWindow",
-        "title": "window example",
         "timeBarId": "TB1",
+        "title": "window example",
         "pages": [{
             "oId": "/VIMA_Demos/Page01.vipg",
             "timeBarId": "TB1"

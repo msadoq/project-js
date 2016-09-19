@@ -17,8 +17,8 @@ const onWindowClose = require('./lib/controllers/onWindowClose');
 const onViewOpen = require('./lib/controllers/onViewOpen');
 const onViewClose = require('./lib/controllers/onViewClose');
 const onViewUpdate = require('./lib/controllers/onViewUpdate');
-const onConnectedDataOpen = require('./lib/controllers/onConnectedDataOpen');
-const onConnectedDataClose = require('./lib/controllers/onConnectedDataClose');
+const { onConnectedDataOpen } = require('./lib/controllers/onConnectedDataOpen');
+const { onConnectedDataClose } = require('./lib/controllers/onConnectedDataClose');
 const onTimebarUpdate = require('./lib/controllers/onHscTimebarUpdate');
 
 const dcStub = require('./lib/stubs/dc');
@@ -84,7 +84,7 @@ primus.init(server, {
   onViewOpen,
   onViewClose,
   onViewUpdate,
-  onConnectedDataOpen: onConnectedDataOpen.call,
+  onConnectedDataOpen,
   onConnectedDataClose,
   onTimebarUpdate,
 });

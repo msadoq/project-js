@@ -19,13 +19,6 @@ export default class EntryPointConnectedData extends React.Component {
   constructor(...args) {
     super(...args);
     this.state = {
-      fullName: this.props.connectedData.fullName,
-      type: '',
-      unit: this.props.connectedData.unit,
-      digits: this.props.connectedData.digits,
-      format: this.props.connectedData.format,
-      domain: this.props.connectedData.domain,
-      session: this.props.connectedData.session,
       axisID: this.props.connectedData.axisId,
       /* Liste des unités possibles, utilisé dans le composant react-select */
       unitOptions: [
@@ -37,7 +30,8 @@ export default class EntryPointConnectedData extends React.Component {
         { value: 'h', label: 'h' },
         { value: 'day', label: 'day' },
         { value: 'year', label: 'year' },
-        { value: 'century', label: 'century' }
+        { value: 'century', label: 'century' },
+        { value: 'V', label: 'V' }
       ],
       unitValue: this.props.connectedData.unit,
       /* Liste des formats possibles, utilisé dans le composant react-select */
@@ -56,7 +50,6 @@ export default class EntryPointConnectedData extends React.Component {
       ],
       axesValue: this.props.connectedData.axisId
     };
-
     /* Bind des fonctions pour utiliser this à l'interieur */
     this.handleUnit = this.handleUnit.bind(this);
     this.handleFormat = this.handleFormat.bind(this);
@@ -64,6 +57,7 @@ export default class EntryPointConnectedData extends React.Component {
     this.handleDigits = this.handleDigits.bind(this);
     this.handleDomain = this.handleDomain.bind(this);
     this.handleSession = this.handleSession.bind(this);
+    this.handleName = this.handleName.bind(this);
   }
   /*
     Toutes les fonctions dont le nom commence par handle sont appelées
@@ -92,7 +86,7 @@ export default class EntryPointConnectedData extends React.Component {
     this.props.handleChange('session', e.target.value);
   }
   handleName(e) {
-    this.setState({ fullName: e.target.value });
+    this.props.handleChange('fullName', e.target.value);
   }
   render() {
     return (
@@ -104,9 +98,10 @@ export default class EntryPointConnectedData extends React.Component {
           <Col xs={9}>
             <FormControl
               type="text"
-              value={this.state.fullName}
+              value={this.props.connectedData.fullName}
               className={styles.input_xsmall}
               onChange={this.handleName}
+              placeholder="no value"
             />
           </Col>
         </FormGroup>
@@ -118,10 +113,10 @@ export default class EntryPointConnectedData extends React.Component {
             <Select
               name="form-field-unit"
               clearable={false}
-              value={this.props.connectedData.unit}
               options={this.state.unitOptions}
               onChange={this.handleUnit}
               className="has-value"
+              value={this.props.connectedData.unit}
             />
           </Col>
         </FormGroup>
@@ -166,6 +161,7 @@ export default class EntryPointConnectedData extends React.Component {
               className={styles.input_xsmall}
               value={this.props.connectedData.domain}
               onChange={this.handleDomain}
+              placeholder="no value"
             />
           </Col>
         </FormGroup>
@@ -179,6 +175,7 @@ export default class EntryPointConnectedData extends React.Component {
               className={styles.input_xsmall}
               value={this.props.connectedData.session}
               onChange={this.handleSession}
+              placeholder="no value"
             />
           </Col>
         </FormGroup>

@@ -32,13 +32,15 @@ export default class EntryPointDetails extends React.Component {
     this.state = {
       nameEditable: false,
       newStateColor: '#FFFFFF',
-      newStateFilter: '',
+      newStateField: '',
+      newStateOperator: '',
+      newStateOperand: '',
       filter: ['convertedValue', 'extractedValue', 'groundDate', 'isNominal', 'isObsolete', 'monitoringState', 'onBoardDate', 'rawValue', 'triggerOffCounter', 'triggerOnCounter', 'validityState']
     };
     this.handleLineStyle = this.handleLineStyle.bind(this);
     this.handlePoints = this.handlePoints.bind(this);
     this.handleName = this.handleName.bind(this);
-    this.handleCurveColor = this.handleCurveColor.bind(this);
+    this.handleCurveColour = this.handleCurveColour.bind(this);
     this.handleDataYChange = this.handleDataYChange.bind(this);
     this.removeEntryPoint = this.removeEntryPoint.bind(this);
     this.handleChangeStateColor = this.handleChangeStateColor.bind(this);
@@ -63,7 +65,8 @@ export default class EntryPointDetails extends React.Component {
   handleName(e) {
     this.props.handleEntryPoint(this.props.idPoint, 'name', e.target.value);
   }
-  handleCurveColor(color) {
+  handleCurveColour(color) {
+    console.log(color);
     this.props.handleEntryPoint(this.props.idPoint, 'curveColour', color);
   }
   handleDataYChange(label, val) {
@@ -72,19 +75,24 @@ export default class EntryPointDetails extends React.Component {
   removeEntryPoint() {
     this.props.remove(this.props.idPoint);
   }
-  handleChangeStateColor(label, color) {
+  handleChangeStateColor(color) {
     this.setState({ newStateColor: color });
   }
-  handleFilter(filter) {
-    this.setState({ newStateFilter: filter });
+  handleFilter(field, operator, operand) {
+    this.setState({ newStateField: field, newStateOperator: operator, newStateOperand: operand });
   }
   addStateColor() {
-    const val = { filter: this.state.newStateFilter, color: this.state.newStateColor };
-    this.props.handleEntryPoint(this.props.idPoint, 'stateColour', val);
+    const val = {
+      field: this.state.newStateField,
+      operator: this.state.newStateOperator,
+      operand: this.state.newStateOperand,
+      color: this.state.newStateColor
+    };
+    this.props.handleEntryPoint(this.props.idPoint, 'stateColours', val);
   }
   removeStateColor(key) {
     const val = { keyToRemove: key };
-    this.props.handleEntryPoint(this.props.idPoint, 'stateColour', val);
+    this.props.handleEntryPoint(this.props.idPoint, 'stateColours', val);
   }
   /*
     RightClick on Name : cette fonction permet de rendre le nom de l'entrypoint éditable
@@ -95,20 +103,20 @@ export default class EntryPointDetails extends React.Component {
     this.setState({ open: !this.state.open });
   }
   render() {
-    // TODO : alexis
-    let stateColours = [];
-    // let stateColours = this.props.entryPoint.stateColours.map((stateColour, key) => {
-    //   return (
-    //     <tr key={key}>
-    //       <td className="col-xs-2"><ColorPicker color={stateColour.colour} /></td>
-    //       <td className="col-xs-9">{stateColour.condition.field} {stateColour.condition.operator} {stateColour.condition.operand}</td>
-    //       <td className="col-xs-1">
-    //         <Glyphicon glyph="trash" onClick={() => this.removeStateColor(key)} />
-    //       </td>
-    //     </tr>
-    //   );
-    // });
-    let filterOptions = this.state.filter.map((filter, key) => {
+    const stateColours = (this.props.entryPoint.stateColours && this.props.entryPoint.stateColours.length > 0) ?
+       this.props.entryPoint.stateColours.map((stateColour, key) => {
+         return (
+           <tr key={key}>
+             <td className="col-xs-2"><ColorPicker color={stateColour.colour} /></td>
+             <td className="col-xs-9">{stateColour.condition.field} {stateColour.condition.operator} {stateColour.condition.operand}</td>
+             <td className="col-xs-1">
+               <Glyphicon glyph="trash" onClick={() => this.removeStateColor(key)} />
+             </td>
+           </tr>
+          );
+       }) :
+      <tr>no marker</tr>;
+    const filterOptions = this.state.filter.map((filter, key) => {
       return <option key={key} value={filter}>{filter}</option>;
     });
     return (
@@ -135,7 +143,6 @@ export default class EntryPointDetails extends React.Component {
               onChange={this.handleName}
               onBlur={() => this.setState({ nameEditable: false })}
               style={{ width: '200px', display: 'inline' }}
-              ref="test"
               /* NEED IT TO SET CURSOR AT THE END */
               onFocus={(e) => { e.target.value = e.target.value }}
             /> : this.props.entryPoint.name}
@@ -226,8 +233,8 @@ export default class EntryPointDetails extends React.Component {
                       </Col>
                       <Col xs={9}>
                         <ColorPicker
-                          color={this.props.entryPoint.curveColor}
-                          onChange={this.handleCurveColor}
+                          color={this.props.entryPoint.curveColour}
+                          onChange={this.handleCurveColour}
                         />
                       </Col>
                     </FormGroup>

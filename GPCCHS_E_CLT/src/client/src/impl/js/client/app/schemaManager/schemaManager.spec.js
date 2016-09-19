@@ -49,7 +49,7 @@ describe('schemaManager/validateJson', () => {
     });
     it('Invalid', () => {
       const msg = validateWsJson(dataWsMis);
-      msg.length.should.equal(20);
+      msg.length.should.equal(23);
       checkErrorObject(msg);
     });
   });

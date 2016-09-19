@@ -8,11 +8,11 @@
         "unit": "V",
         "digits": 5,
         "format": "decimal",
-        "filter": {
+        "filter": [{
           "field": "monitoringState",
           "operator": "!=",
           "operand": "nominal"
-        },
+        }],
         "domain": ".*",
         "timeline": "Session 1"
       }

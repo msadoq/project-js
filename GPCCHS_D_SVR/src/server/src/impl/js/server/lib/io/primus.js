@@ -3,12 +3,13 @@ const Primus = require('primus');
 
 let primus;
 
-function getInstance(server) {
+function getInstance(server) { // TODO : getNewInstance
   return new Primus(server, { transformer: 'uws' });
 }
 
 const primusExports = module.exports = {
   getInstance,
+  get: () => primus,
   init: (server, handlers) => {
     if (primus) {
       throw new Error('Primus adapter already inited');
@@ -69,35 +70,4 @@ const primusExports = module.exports = {
       });
     });
   },
-  get: () => primus,
-  // sendParameterData: (subscription, event, payload) => {
-  //   const applyFilters = require('../utils/filters');
-  //   if (!applyFilters(payload, subscription.filter)) {
-  //     return;
-  //   }
-  //
-  //   // debug.verbose(`point: ${point}`);
-  //   // if (dataBuffer[subscription.subId]) {
-  //   //   dataBuffer[subscription.subId] = { points: [] };
-  //   // }
-  //   //
-  //   // dataBuffer[subscription.subId].points.push(point);
-  //   // const dataBuffer = {};
-  //   // const flushBuffer = () => {
-  //   //   _.forEach(dataBuffer,
-  //   //     (v, k) => {
-  //   //       const points = v.points.splice(0);
-  //   //       if (points.length > 0) {
-  //   //         debug.debug(`Sending subscription ${k} to views`);
-  //   //         send(k, 'plot', points);
-  //   //       }
-  //   //     });
-  //   //   setTimeout(flushBuffer, 40);
-  //   // };
-  //   // const init = () => {
-  //   //   setTimeout(flushBuffer, 40);
-  //   // };
-  //
-  //   primus.write(event, payload);
-  // },
 };

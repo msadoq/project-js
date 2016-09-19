@@ -4,14 +4,14 @@
   "action": "currentTimeUpd",
   "mode": "Normal",
   "visuWindow": {
-      "lower": 1420106400000,
-      "upper": 1420113600000,
-      "current": 1420110000000,
-      "defaultWidth": 7200000
+    "lower": 1420106400000,
+    "upper": 1420113600000,
+    "current": 1420110000000,
+    "defaultWidth": 7200000
   },
   "slideWindow": {
-      "lower": 1420108200000,
-      "upper": 1420111800000
+    "lower": 1420108200000,
+    "upper": 1420111800000
   },
   "extUpperBound": 1420115400000,
   "rulerStart": 1420106400000,
@@ -20,18 +20,21 @@
   "playingState": "pause",
   "timeSpec": "LocalTime",
   "offsetFromUTC": 0,
-  "timelines": [{
+  "timelines": [
+    {
       "id": "1",
       "name": "Session 1",
       "offset": 0,
       "kind": "Session",
       "sessionId": 1
-  }, {
+    },
+    {
       "id": "2",
       "name": "Dataset 1",
       "offset": 0,
       "kind": "Dataset",
       "dsPath": "/dataset.xml"
-  }],
+    }
+  ],
   "masterId": "Session 1"
 }

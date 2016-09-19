@@ -18,13 +18,13 @@ collection.getLocalId = require('./getLocalId');
 collection.isTimestampInKnownIntervals = (dataId, timestamp) => {
   // Check if timestamp is currently in intervals known or requested for this dataId
   const connectedData = collection.by('dataId', dataId);
-  if (connectedData !== undefined) {
-    debug.debug('check received intervals')
+  if (connectedData) {
+    debug.debug('check received intervals');
     if (isTimestampInIntervals(timestamp, connectedData.intervals)) {
       debug.debug('timestamp in received intervals');
       return true;
     }
-    debug.debug('check requested intervals')
+    debug.debug('check requested intervals');
     if (isTimestampInIntervals(timestamp, connectedData.requested)) {
       debug.debug('timestamp in requested intervals');
       return true;
@@ -35,11 +35,10 @@ collection.isTimestampInKnownIntervals = (dataId, timestamp) => {
 };
 
 
-
 collection.setIntervalAsReceived = (dataId, queryUuid) => {
   // Set query interval as received for this dataId
-  let connectedData = collection.by('dataId', dataId);
-  const interval = connectedData.requested[queryUuid]
+  const connectedData = collection.by('dataId', dataId);
+  const interval = connectedData.requested[queryUuid];
   connectedData.intervals = mergeIntervals(connectedData.intervals, interval);
   connectedData.requested = _.omit(connectedData.requested, queryUuid);
   debug.debug('set interval', interval, 'as received', connectedData);
@@ -51,12 +50,12 @@ collection.addRequestedInterval = (dataId, queryUuid, interval) => {
   // Add a query interval in the list of requested intervals for this dataId
   // And create the dataId if it doesnt exist
   let connectedData = collection.by('dataId', dataId);
-  if (connectedData === undefined) {
-
+  if (!connectedData) {
     connectedData = {
       dataId,
       intervals: [],
       requested: {},
+      windows: [],
     };
     connectedData.requested[queryUuid] = interval;
     debug.debug('insert', inspect(connectedData));
@@ -74,7 +73,7 @@ collection.retrieveMissingIntervals = (dataId, interval) => {
   const connectedData = collection.by('dataId', dataId);
 
   // No connectedData
-  if (connectedData === undefined) {
+  if (!connectedData) {
     debug.debug('no connectedData');
     return [interval];
   }
@@ -94,7 +93,7 @@ collection.retrieveMissingIntervals = (dataId, interval) => {
   // Search missing intervals
   const missingIntervals = [];
   let lower = interval[0];
-  let upper = interval[1];
+  const upper = interval[1];
   _.some(intervals, (knownInterval) => {
     if (knownInterval[0] > lower) {
       if (knownInterval[0] > upper) {
@@ -115,7 +114,6 @@ collection.retrieveMissingIntervals = (dataId, interval) => {
       missingIntervals.push([lower, knownInterval[0]]);
       lower = knownInterval[1];
       return false;
-
     }
 
     if (knownInterval[1] > upper) {
@@ -139,6 +137,49 @@ collection.retrieveMissingIntervals = (dataId, interval) => {
   }
 
   return missingIntervals;
+};
+
+collection.addWindowId = (dataId, windowId) => {
+  let connectedData = collection.by('dataId', dataId);
+  if (!connectedData) {
+    connectedData = {
+      dataId,
+      intervals: [],
+      requested: {},
+      windows: [windowId],
+    };
+    debug.debug('insert', inspect(connectedData));
+    collection.insert(connectedData);
+  } else {
+    debug.debug('before update', inspect(connectedData));
+    connectedData.windows = [...connectedData.windows, windowId];
+    debug.debug('update', inspect(connectedData));
+    collection.update(connectedData); // TODO This update operation could be not needed
+  }
+};
+
+collection.removeWindowId = (dataId, windowId) => {
+  const connectedData = collection.by('dataId', dataId);
+  if (connectedData) {
+    debug.debug('before update', inspect(connectedData));
+    connectedData.windows = _.without(connectedData.windows, windowId);
+    debug.debug('update', inspect(connectedData));
+    collection.update(connectedData); // TODO This update operation could be not needed
+  }
+};
+
+collection.isConnectedDataInWindows = (dataId) => {
+  const connectedData = collection.by('dataId', dataId);
+
+  if (!connectedData) {
+    return false;
+  }
+
+  if (connectedData.windows.length === 0) {
+    return false;
+  }
+
+  return true;
 };
 
 module.exports = collection;

@@ -20,6 +20,7 @@ class ConnectedDataContainer extends Component {
             domain={cd.domain}
             timeline={cd.timeline}
             filter={cd['filter']}
+            windowId={this.props.windowId}
           />
         )}
       </div>

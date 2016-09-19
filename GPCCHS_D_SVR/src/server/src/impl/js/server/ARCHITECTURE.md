@@ -44,83 +44,86 @@ TODO : add open workspace scenario
 
 **TB update**
 Everytime timebar changes (visualization window, play mode, timelines...) a message with the whole TB state is sent from TB to HSS.
+See [TB.example.json](./lib/schemaManager/examples/TB.example.json)
 
 ### HSS<->HSC communication
 
 *n* websockets (bidirectional) are opened by HSC on HSS:
-* **main**: for communication between electron main process and HSS
-* *windowId*: for communication between each electron window and HSS
+* **main**: only one
+* *windowId*: one by opened window
 
+## HSS controllers
 
+**onClientOpen**:
+* no particular action
+**onClientClose**: 
+* no particular action
+**onWindowOpen**: 
+* no particular action
+**onWindowClose**: 
+* unsubscribe every connectedData (listened only by this window) and destroy all view instance of closing window
 
+**onViewOpen**:
+* create and register a new view instance
+**onViewClose**: 
+* destroy and unregister view instance
+**onViewUpdate**: 
+* store new size on view instance, compute if view need new interval, look for cache, request datastore if needed
 
+**onConnectedDataOpen**: 
+* store as listened data (with windowId), ask to dc for subscription
+**onConnectedDataClose**: 
+* if was the only window listening, unstore as listened data, ask to dc for unsubscription
 
+**onDcPull**:
+* unprotobuferized DcServerMessage and pass message to one of following controller
+**onDcResponse**:
+* find, unregister and call the previously registered callback for message.id 
+**onNewDataMessage**:
+* if 'realtime': look for known interval for this data and add to cache
+* if not: add to cache, if 'finished' mark interval as fully received
+* both: loop on each view and pass new data
+**onDomainResponse**: 
+* store domain
 
-### HSS->DC (ZeroMQ/Protobuf)
-**DataQuery**
+**onHscTimebarUpdate**: 
+* store new tb state, only on startup to emulate the real Qt TB
+**onTimeBarUpdate**: 
+* store new tb state, loop on each view and pass them the state
 
-Ask DC to request datastore for parameter data on a particular interval:
-* id
-* dataId (catalog, parameterName, comObject, sessionId, domainId)
-* timeInterval(lower, upper)
+## View types
 
-**DataSubscribe**
-
-Inform DC to pass realtime data to HSS for a particular parameter:
-* id
-* dataId (catalog, parameterName, comObject, sessionId, domainId)
-* action (enum(add, remove))
-
-### DC->HSS (ZeroMQ/Protobuf)
-
-Two sockets (1 for realtime and 1 for query data) with the same behavior.
-
-We received data as ZeroMQ messages that can contains one or more value for a given parameter.
-Each message is compound of a first frame:
-* id
-And a length undefined peers of frames:
-* timestamp
-* payload
-
-/!\ This data format is not ideal cause it's very difficult to implement in each component that
-    consume data from DC
-
-### TB->HSS (ZeroMQ/Protobuf)
-**timeBarConfiguration**
-
-Inform HSS with the new TB interval: see [TB.example.json](./lib/schemaManager/examples/TB.example.json)
-
-### HSS->HSC (Websocket)
-
-**timeBarConfiguration**
-
-Inform HSC with the new TB interval:
-* TODO
-
-/!\ maybe not needed as HSS determine by itself which data to pass to each view
-
-**displayData**
-
-Give HSC a new set of data:
-* data (format and quantity depends on view type)
-
-### HSC->HSS (Websocket)
-
-**connect**
-
-Contains a payload with view description:
-* id
-* type
-
-**view_update**
-
-Inform HSS with new view dimension and view visibility:
-* TODO
-
-### HSC/HSS (REST)
-
-**document creation, opening, saving**
-
+Each GPCCHS view is stored in separate component and expose the following components:
+* HSC (window)
+  - View container
+  - View component and sub component
+  - Editor container
+  - Editor component and sub component
+* HSC (main)
+  - getConnectedDataFromDocument
+  - getConnectedDataFromStore
+  - schema.json
+* HSS
+  - View class with methods: 
+    * onViewOpen: 
+      - read timebar
+      - look for cache
+      - request missing interval to DC
+      - send cache to view
+      - persist current display interval in view instance (=> when it should be used?)
+    * onTimebarUpdate:
+      - compute missing interval(s) for new interval (based on current display interval)
+      - look for cache
+      - request missing interval
+      - send cache to view
+      - persist current display interval in view instance  (=> when it should be used?)
+    * onViewUpdate:
+      - save new view dimension in view instance (=> for futur complex sampling)
+    * onNewData:
+      - read timebar
+      - if received data concern this view and is in expected interval send to view
+    * each view instance apply filters AND buffer data sending to view [AND sample data to send to view]
+  
 ## Flows
 
 ### HSC launching
@@ -148,14 +151,8 @@ Inform HSS with new view dimension and view visibility:
 
 ### New data from DC (onNewDataMessage)
 
-* decode protobuf
-* if protobuf has 'realtime' flag:
- - if this data corresponds to a known **requestedIntervals** insert records in **cacheJson**
-* if protobuf hasn't 'realtime' field:
- - insert records in **cacheJson**
  - if protobuf has 'finish' field:
    - set corresponding **requestedIntervals** as received
-* call .onNewDataMessage(data) on each view
 
 ### TB change
 

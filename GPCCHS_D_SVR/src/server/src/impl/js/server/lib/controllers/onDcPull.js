@@ -1,5 +1,4 @@
 const debug = require('../io/debug')('controllers:onDcPull');
-const async = require('async');
 const { decode } = require('../protobuf');
 const onDcResponse = require('./onDcResponse');
 const onDomainResponse = require('./onDomainResponse');
@@ -23,29 +22,22 @@ const callDcPullControllers = (
 ) => {
   debug.verbose('called');
 
-  let message;
+  const message = decode('dc.dataControllerUtils.DcServerMessage', buffer);
 
-  // TODO : simplify, remove async
-  async.series([
-    (callback) => {
-      debug.debug('decoding Dc Server Message');
-      message = decode('dc.dataControllerUtils.DcServerMessage', buffer);
-
-      switch (message.messageType) {
-        case 'DC_RESPONSE':
-          dcResponseHandler(message.payload);
-          break;
-        case 'DOMAIN_RESPONSE':
-          domainResponseHandler(message.payload);
-          break;
-        case 'NEW_DATA_MESSAGE':
-          newDataMessageHandler(message.payload);
-          break;
-        case 'UNKNOWN':
-        default:
-          throw new Error('messageType not recognized');
-    },
-  ], err => (err ? debug.error(err) : debug.verbose('end')));
+  switch (message.messageType) {
+    case 'DC_RESPONSE':
+      dcResponseHandler(message.payload);
+      break;
+    case 'DOMAIN_RESPONSE':
+      domainResponseHandler(message.payload);
+      break;
+    case 'NEW_DATA_MESSAGE':
+      newDataMessageHandler(message.payload);
+      break;
+    case 'UNKNOWN':
+    default:
+      throw new Error('messageType not recognized');
+  }
 };
 
 const onDcPull = (header, buffer) =>

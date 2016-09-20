@@ -3,19 +3,19 @@ const Primus = require('primus');
 
 let primus;
 
-function getInstance(server) { // TODO : getNewInstance
+function getNewInstance(server) {
   return new Primus(server, { transformer: 'uws' });
 }
 
 const primusExports = module.exports = {
-  getInstance,
+  getNewInstance,
   get: () => primus,
   init: (server, handlers) => {
     if (primus) {
       throw new Error('Primus adapter already inited');
     }
 
-    primus = primusExports.getInstance(server);
+    primus = primusExports.getNewInstance(server);
 
     primus.on('connection', (spark) => {
       debug.info('new websocket connection', spark.address);

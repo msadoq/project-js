@@ -7,8 +7,15 @@ const registeredCallbacks = require('../utils/registeredCallbacks');
 const connectedDataModel = require('../models/connectedData');
 
 /**
- * Triggered when a new connected data is mounted on HSC
+ * Triggered when a new connected data is mounted on HSC and should be whitelisted in
+ * DC pub/sub filter.
+ *
+ * - store as subscribed connectedData
+ * - send subscription request to DC
+ *
  * @param spark
+ * @param payload
+ * @param messageHandler
  */
 const startConnectedDataSubscription = (spark, payload, messageHandler) => {
   debug.debug(spark.id, 'connectedData opened', payload);
@@ -47,7 +54,7 @@ const startConnectedDataSubscription = (spark, payload, messageHandler) => {
 
   messageHandler('dcPush', buffer, (msgErr) => {
     if (msgErr) {
-      connectedDataModel.removeWindowId(localId, payload.windowId);
+      connectedDataModel.removeWindowId(localId, payload.windowId); // TODO: rperrot should be in onConnectedDataClose
       registeredCallbacks.remove(id);
       throw msgErr;
     }

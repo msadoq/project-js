@@ -3,6 +3,15 @@ const _ = require('lodash');
 const viewsModel = require('../models/views');
 const external = require('../../external.modules');
 
+/**
+ * Triggered when a new view is mounted on HSC.
+ *
+ * - create a new view type instance
+ * - register instance (loki)
+ *
+ * @param spark
+ * @param payload
+ */
 module.exports = (spark, payload) => {
   debug.debug('view open', spark.id, payload);
 

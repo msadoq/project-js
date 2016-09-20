@@ -1,12 +1,16 @@
 const debug = require('../io/debug')('controllers:onClientOpen');
 
 /**
- * Triggered when client main process WebSocket opens
+ * Triggered when HSC main process WebSocket opens
  *
- * - no specific action
+ * - anwser window WebSocket with 'authenticated' event (for HSC lifecycle)
  *
  * @param spark
  */
 module.exports = (spark) => {
   debug.info(`called (${spark.id})`);
+
+  return spark.write({
+    event: 'authenticated',
+  });
 };

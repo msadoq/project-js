@@ -1,7 +1,7 @@
 const debug = require('../io/debug')('controllers:onClientClose');
 
 /**
- * Triggered when client main process WebSocket closes
+ * Triggered when HSC main process WebSocket closes
  *
  * - unsubscribe every pub/sub connectedData
  * - cleanup local cacheJson (loki)

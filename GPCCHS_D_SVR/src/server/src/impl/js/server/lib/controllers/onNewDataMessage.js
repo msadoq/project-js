@@ -7,10 +7,15 @@ const cacheJsonModel = require('../models/cacheJson');
 const connectedDataModel = require('../models/connectedData');
 const viewsModel = require('../models/views');
 
-// TODO : test
-
 /**
- * Controller that listen for DC incoming NewDataMessage
+ * Trigger on new incoming message NewDataMessage from DC.
+ *
+ * - de-protobuf NewDataMessage
+ * - de-protobuf each payload
+ * - if realtime: if data is in a known interval store in cache, otherwise stop logic
+ * - if archive: store in cache, if end of request set interval as received
+ * - loop on each visible view and call onNewDataMessage
+ *
  * @param buffer
  */
 module.exports = (buffer) => {
@@ -18,6 +23,7 @@ module.exports = (buffer) => {
 
   let message;
   let payloads;
+  // TODO simplify, remove async
   async.series([
     (callback) => {
       message = decode('dc.dataControllerUtils.NewDataMessage', buffer);
@@ -43,13 +49,15 @@ module.exports = (buffer) => {
               payload.timestamp.ms)
             ) {
               cacheJsonModel.addRecord(message.dataId, payload.timestamp.ms, payload.payload);
-              debug.debug(
-                'add real time data',
+              debug.debug('add real time data');
+              debug.verbose(
                 message.dataId.catalog,
                 message.dataId.parameterName,
                 message.dataId.comObject,
                 payload.timestamp.ms
               );
+            } else {
+              // TODO : rperrot should stop here and not call views .onNewDataMessage()
             }
           });
           break;
@@ -57,8 +65,8 @@ module.exports = (buffer) => {
           {
             _.each(payloads, payload => {
               cacheJsonModel.addRecord(message.dataId, payload.timestamp.ms, payload.payload);
-              debug.debug(
-                'add archive data',
+              debug.debug('add archive data');
+              debug.verbose(
                 message.dataId.catalog,
                 message.dataId.parameterName,
                 message.dataId.comObject,

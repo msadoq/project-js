@@ -55,11 +55,12 @@ See [TB.example.json](./lib/schemaManager/examples/TB.example.json)
 ## HSS controllers
 
 **onClientOpen**:
-* no particular action
+* send 'authenticated' answer to client (HSC lifecycle)
 **onClientClose**: 
 * unsubscribe every connectedData, empty cacheJSON/connectedData
+
 **onWindowOpen**: 
-* send 
+* send 'authenticated' answer to client (HSC lifecycle)
 **onWindowClose**: 
 * (for the closing window) unsubscribe every connectedData, empty cacheJSON/connectedData
 
@@ -73,18 +74,18 @@ See [TB.example.json](./lib/schemaManager/examples/TB.example.json)
 **onViewClose**: 
 * destroy and unregister view instance
 **onViewUpdate**: 
-* store new size on view instance, compute if view need new interval, look for cache, request datastore if needed
+* store new size/zoom on view instance, compute if view need new interval, look for cache, request datastore if needed
 
-**onDcPull**:
+**onDcServerMessage**:
 * unprotobuferized DcServerMessage and pass message to one of following controller
 **onDcResponse**:
-* find, unregister and call the previously registered callback for message.id 
+* find, unregister and call the previously registered callback for message.id
 **onNewDataMessage**:
 * if 'realtime': look for known interval for this data and add to cache
 * if not: add to cache, if 'finished' mark interval as fully received
 * both: loop on each view and pass new data
 **onDomainResponse**: 
-* store domain
+* store domain, forward to HSC
 
 **onHscTimebarUpdate**: 
 * store new tb state, only on startup to emulate the real Qt TB

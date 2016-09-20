@@ -3,7 +3,12 @@ const { decode } = require('../protobuf');
 const { get, remove } = require('../utils/registeredCallbacks');
 
 /**
- * Controller that listen for DC incoming Response, simply run registered callback
+ * Triggered on incoming DcResponse message from DC.
+ *
+ * - de-protobuf
+ * - retrieve and unregister registered callback
+ * - execute callback
+ *
  * @param buffer
  */
 const onDcResponse = (buffer) => {
@@ -14,6 +19,7 @@ const onDcResponse = (buffer) => {
   if (!callback) {
     throw new Error('This DC response corresponds to no id');
   }
+
   remove(message.id);
 
   if (message.status === 'OK') {

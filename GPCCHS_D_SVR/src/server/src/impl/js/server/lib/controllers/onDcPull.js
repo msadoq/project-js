@@ -5,10 +5,14 @@ const onDcResponse = require('./onDcResponse');
 const onDomainResponse = require('./onDomainResponse');
 const onNewDataMessage = require('./onNewDataMessage');
 
-// TODO : test
+// TODO : rename to onDcServerMessage
 
 /**
- * Controller that listen for DC incoming NewDataMessage
+ * Trigger on new incoming message DcResponse message from DC.
+ *
+ * - de-protobuf
+ * - call the corresponding callback
+ *
  * @param buffer
  */
 const callDcPullControllers = (
@@ -21,13 +25,12 @@ const callDcPullControllers = (
 
   let message;
 
+  // TODO : simplify, remove async
   async.series([
     (callback) => {
       debug.debug('decoding Dc Server Message');
       message = decode('dc.dataControllerUtils.DcServerMessage', buffer);
-      return callback(null);
-    },
-    (callback) => {
+
       switch (message.messageType) {
         case 'DC_RESPONSE':
           dcResponseHandler(message.payload);
@@ -41,8 +44,6 @@ const callDcPullControllers = (
         case 'UNKNOWN':
         default:
           throw new Error('messageType not recognized');
-      }
-      return callback(null);
     },
   ], err => (err ? debug.error(err) : debug.verbose('end')));
 };

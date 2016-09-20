@@ -13,6 +13,7 @@ describe('onConnectedDataClose', () => {
         formula: dataFormula,
         domain: '.*',
         timeline: 'Session 1',
+        windowId: 42,
       },
       (key, buffer, callback) => {
         callback(new Error());
@@ -27,6 +28,7 @@ describe('onConnectedDataClose', () => {
         formula: dataFormula,
         domain: '.*',
         timeline: 'Session 1',
+        windowId: 42,
       },
       (key, buffer, callback) => {
         key.should.be.an('string')
@@ -46,7 +48,7 @@ describe('onConnectedDataClose', () => {
           .that.be.an('object');
         const data = formula(dataFormula);
         payload.dataId.should.have.properties({
-          parameterName: data.parameter,
+          parameterName: data.parameterName,
           catalog: data.catalog,
           comObject: data.comObject,
         });

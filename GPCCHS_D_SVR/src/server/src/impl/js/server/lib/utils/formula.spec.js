@@ -24,7 +24,7 @@ describe('formula', () => {
       .with.properties({
         formula: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
         catalog: 'Reporting',
-        parameter: 'ATT_BC_STR1VOLTAGE',
+        parameterName: 'ATT_BC_STR1VOLTAGE',
         comObject: 'ReportingParameter',
         field: undefined,
       });
@@ -35,7 +35,7 @@ describe('formula', () => {
       .with.properties({
         formula: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue',
         catalog: 'Reporting',
-        parameter: 'ATT_BC_STR1VOLTAGE',
+        parameterName: 'ATT_BC_STR1VOLTAGE',
         comObject: 'ReportingParameter',
         field: 'extractedValue',
       });

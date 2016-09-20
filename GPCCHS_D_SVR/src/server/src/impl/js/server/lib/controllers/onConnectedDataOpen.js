@@ -3,7 +3,8 @@ const { v4 } = require('node-uuid');
 const formula = require('../utils/formula');
 const { encode } = require('../protobuf');
 const zmq = require('../io/zmq');
-const { set } = require('../utils/registeredCallbacks');
+const registeredCallbacks = require('../utils/registeredCallbacks');
+const connectedDataModel = require('../models/connectedData');
 
 /**
  * Triggered when a new connected data is mounted on HSC
@@ -14,7 +15,20 @@ const startConnectedDataSubscription = (spark, payload, messageHandler) => {
 
   const parameter = formula(payload.formula);
 
+  const localId = connectedDataModel.getLocalId(parameter);
+
+  if (connectedDataModel.isConnectedDataInWindows(localId)) {
+    connectedDataModel.addWindowId(localId, payload.windowId);
+    return;
+  }
+
+  connectedDataModel.addWindowId(localId, payload.windowId);
+
   const id = v4();
+
+  registeredCallbacks.set(id, (respErr) => {
+    if (respErr) throw respErr;
+  });
 
   const buffer = encode('dc.dataControllerUtils.DcClientMessage', {
     messageType: 'DATA_SUBSCRIBE',
@@ -22,7 +36,7 @@ const startConnectedDataSubscription = (spark, payload, messageHandler) => {
       action: 'ADD',
       id,
       dataId: {
-        parameterName: parameter.parameter,
+        parameterName: parameter.parameterName,
         catalog: parameter.catalog,
         comObject: parameter.comObject,
         sessionId: 1234, // TODO : use payload.timeline, compute wildcard and read timebar state
@@ -32,10 +46,11 @@ const startConnectedDataSubscription = (spark, payload, messageHandler) => {
   });
 
   messageHandler('dcPush', buffer, (msgErr) => {
-    if (msgErr) throw msgErr;
-    set(id, (respErr) => {
-      if (respErr) throw respErr;
-    });
+    if (msgErr) {
+      connectedDataModel.removeWindowId(localId, payload.windowId);
+      registeredCallbacks.remove(id);
+      throw msgErr;
+    }
   });
 };
 

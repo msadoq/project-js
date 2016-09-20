@@ -11,7 +11,7 @@
  */
 
 const pattern = /^([^\.]+)\.([^<]+)<([^>]+)>(\.){0,1}([\w]+){0,1}$/i;
-module.exports = formula => {
+module.exports = (formula) => {
   if (typeof formula !== 'string' || !pattern.test(formula)) {
     return undefined;
   }
@@ -26,11 +26,11 @@ module.exports = formula => {
   const parsed = {
     formula,
     catalog: matches[1],
-    parameter: matches[2],
+    parameterName: matches[2],
     comObject: matches[3],
     field: matches[5],
   };
-  if (!parsed.catalog || !parsed.parameter || !parsed.comObject) {
+  if (!parsed.catalog || !parsed.parameterName || !parsed.comObject) {
     return undefined;
   }
 

@@ -2,14 +2,7 @@
 const {
   should,
 } = require('../utils/test');
-const {
-  validateWsJson,
-  validateTvJson,
-  validateTbJson,
-  validatePvJson,
-  validatePgJson,
-  validateMvJson,
-} = require('../schemaManager');
+const validateJson = require('../schemaManager');
 
 const emptyData = '';
 
@@ -41,86 +34,86 @@ function checkErrorObject(obj) {
 describe('schemaManager/validateJson', () => {
   describe('Workspace', () => {
     it('Valid', () => {
-      should.not.exist(validateWsJson(dataWs));
+      should.not.exist(validateJson('Workspace', dataWs));
     });
     it('Empty', () => {
-      const msg = validateWsJson(emptyData);
+      const msg = validateJson('Workspace', emptyData);
       msg.should.equal('Empty file');
     });
     it('Invalid', () => {
-      const msg = validateWsJson(dataWsMis);
+      const msg = validateJson('Workspace', dataWsMis);
       msg.length.should.equal(23);
       checkErrorObject(msg);
     });
   });
   describe('Timebar', () => {
     it('Valid', () => {
-      const err = validateTbJson(dataTb);
+      const err = validateJson('Timebar', dataTb);
       should.not.exist(err);
-      should.not.exist(validateTbJson(dataTb));
+      should.not.exist(validateJson('Timebar', dataTb));
     });
     it('Empty', () => {
-      const msg = validateTbJson(emptyData);
+      const msg = validateJson('Timebar', emptyData);
       msg.should.equal('Empty file');
     });
     it('Invalid', () => {
-      const msg = validateTbJson(dataTbMis);
+      const msg = validateJson('Timebar', dataTbMis);
       msg.length.should.equal(8);
       checkErrorObject(msg);
     });
   });
   describe('PlotView', () => {
     it('Valid', () => {
-      should.not.exist(validatePvJson(dataPv));
+      should.not.exist(validateJson('PlotView', dataPv));
     });
     it('Empty', () => {
-      const msg = validatePvJson(emptyData);
+      const msg = validateJson('PlotView', emptyData);
       msg.should.equal('Empty file');
     });
     it('Invalid', () => {
-      const msg = validatePvJson(dataPvMis);
+      const msg = validateJson('PlotView', dataPvMis);
       msg.length.should.equal(3);
       checkErrorObject(msg);
     });
   });
   describe('TextView', () => {
     it('Valid', () => {
-      should.not.exist(validateTvJson(dataTv));
+      should.not.exist(validateJson('TextView', dataTv));
     });
     it('Empty', () => {
-      const msg = validateTvJson(emptyData);
+      const msg = validateJson('TextView', emptyData);
       msg.should.equal('Empty file');
     });
     it('Invalid', () => {
-      const msg = validateTvJson(dataTvMis);
+      const msg = validateJson('TextView', dataTvMis);
       msg.length.should.equal(6);
       checkErrorObject(msg);
     });
   });
   describe('MimicView', () => {
     it('Valid', () => {
-      should.not.exist(validateMvJson(dataMv));
+      should.not.exist(validateJson('MimicView', dataMv));
     });
     it('Empty', () => {
-      const msg = validateMvJson(emptyData);
+      const msg = validateJson('MimicView', emptyData);
       msg.should.equal('Empty file');
     });
     it('Invalid', () => {
-      const msg = validateMvJson(dataMvMis);
-      msg.length.should.equal(1);
+      const msg = validateJson('MimicView', dataMvMis);
+      msg.length.should.equal(2);
       checkErrorObject(msg);
     });
   });
   describe('Page', () => {
     it('Valid', () => {
-      should.not.exist(validatePgJson(dataPg));
+      should.not.exist(validateJson('Page', dataPg));
     });
     it('Empty', () => {
-      const msg = validatePgJson(emptyData);
+      const msg = validateJson('Page', emptyData);
       msg.should.equal('Empty file');
     });
     it('Invalid', () => {
-      const msg = validatePgJson(dataPgMis);
+      const msg = validateJson('Page', dataPgMis);
       msg.length.should.equal(3);
       checkErrorObject(msg);
     });

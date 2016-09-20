@@ -1,10 +1,13 @@
 require('../utils/test');
 const formula = require('../utils/formula');
 const { decode } = require('../protobuf');
-// const stubData = require('../stubs/data');
+const connectedDataModel = require('../models/connectedData');
 const { startConnectedDataSubscription } = require('./onConnectedDataOpen');
 
 describe('onConnectedDataOpen', () => {
+  beforeEach(() => {
+    connectedDataModel.chain().find().remove();
+  });
   it('messageHandler error', () => {
     const dataFormula = 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.convertedValue';
     (() => startConnectedDataSubscription(
@@ -13,6 +16,7 @@ describe('onConnectedDataOpen', () => {
         formula: dataFormula,
         domain: '.*',
         timeline: 'Session 1',
+        windowId: 42,
       },
       (key, buffer, callback) => {
         callback(new Error());
@@ -27,6 +31,7 @@ describe('onConnectedDataOpen', () => {
         formula: dataFormula,
         domain: '.*',
         timeline: 'Session 1',
+        windowId: 42,
       },
       (key, buffer, callback) => {
         key.should.be.an('string')
@@ -47,7 +52,7 @@ describe('onConnectedDataOpen', () => {
           .that.be.an('object');
         const data = formula(dataFormula);
         payload.dataId.should.have.properties({
-          parameterName: data.parameter,
+          parameterName: data.parameterName,
           catalog: data.catalog,
           comObject: data.comObject,
         });

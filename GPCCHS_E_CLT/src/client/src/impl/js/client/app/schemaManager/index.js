@@ -20,50 +20,48 @@ const validatePV = ajv.compile(schemaPV);
 const validatePG = ajv.compile(schemaPG);
 const validateMV = ajv.compile(schemaMV);
 
+const knownValidators = {
+  PlotView: validatePV,
+  TextView: validateTV,
+  MimicView: validateMV,
+  Page: validatePG,
+  Workspace: validateWS,
+  Timebar: validateTB,
+};
 
-const validateJson = (data, validFct) => {
+
+const validateJson = (id, data, schema) => {
+  if (!knownValidators[id]) {
+    if (!schema) {
+      // throw new Error('Error validate(): Unknown validator');
+      return 'Error validate(): Unknown validator';
+    }
+    knownValidators[id] = ajv.compile(schema);
+  }
   let errors;
   if (typeof data !== 'object' || !Object.keys(data).length) {
     errors = 'Empty file';
-  } else if (!validFct(data)) {
+  } else if (!knownValidators[id](data)) {
     // Save errors in returned value
-    errors = validFct.errors;
+    errors = knownValidators[id].errors;
   }
   return errors;
 };
 
-// Workspace
-function validateWsJson(data) {
-  return validateJson(data, validateWS);
-}
-
-// TextView
-function validateTvJson(data) {
-  return validateJson(data, validateTV);
-}
-// TimeBar
-function validateTbJson(data) {
-  return validateJson(data, validateTB);
-}
-// PlotView
-function validatePvJson(data) {
-  return validateJson(data, validatePV);
-}
-// Workspace
-function validatePgJson(data) {
-  return validateJson(data, validatePG);
-}
-// MimicView
-function validateMvJson(data) {
-  return validateJson(data, validateMV);
-}
-
 // Function export
-module.exports = {
-  validateWsJson,
-  validateTvJson,
-  validateTbJson,
-  validatePvJson,
-  validatePgJson,
-  validateMvJson,
+module.exports = (...args) => {
+  let id;
+  let data;
+  let schema;
+  if (args.length === 2) {
+    id = args[0];
+    data = args[1];
+  } else if (args.length === 3) {
+    id = args[0];
+    data = args[1];
+    schema = args[2];
+  } else {
+    return 'Error validate(): 2 or 3 arguments expected';
+  }
+  return validateJson(id, data, schema);
 };

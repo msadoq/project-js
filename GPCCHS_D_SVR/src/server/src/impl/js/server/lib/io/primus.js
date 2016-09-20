@@ -17,10 +17,10 @@ const primusExports = module.exports = {
 
     primus = primusExports.getInstance(server);
 
-    primus.on('connection', spark => {
+    primus.on('connection', (spark) => {
       debug.info('new websocket connection', spark.address);
 
-      spark.on('data', message => {
+      spark.on('data', (message) => {
         debug.debug('data', message);
 
         if (!message.event) {

@@ -8,6 +8,7 @@ export default class ConnectedData extends Component {
     domain: PropTypes.string,
     timeline: PropTypes.string,
     filter: PropTypes.any, // TODO object or array?
+    windowId: PropTypes.string,
   };
   componentDidMount() {
     getWebsocket().write({
@@ -18,6 +19,7 @@ export default class ConnectedData extends Component {
         domain: this.props.domain,
         timeline: this.props.timeline,
         filter: this.props.filter,
+        windowId: this.props.windowId,
       },
     });
   }
@@ -30,6 +32,7 @@ export default class ConnectedData extends Component {
         domain: this.props.domain,
         timeline: this.props.timeline,
         filter: this.props.filter,
+        windowId: this.props.windowId,
       },
     });
   }

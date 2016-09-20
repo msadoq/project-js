@@ -57,11 +57,16 @@ See [TB.example.json](./lib/schemaManager/examples/TB.example.json)
 **onClientOpen**:
 * no particular action
 **onClientClose**: 
-* no particular action
+* unsubscribe every connectedData, empty cacheJSON/connectedData
 **onWindowOpen**: 
-* no particular action
+* send 
 **onWindowClose**: 
-* unsubscribe every connectedData (listened only by this window) and destroy all view instance of closing window
+* (for the closing window) unsubscribe every connectedData, empty cacheJSON/connectedData
+
+**onConnectedDataOpen**: 
+* store as listened data (with windowId), ask to dc for subscription
+**onConnectedDataClose**: 
+* if was the only window listening, unstore as listened data, ask to dc for unsubscription
 
 **onViewOpen**:
 * create and register a new view instance
@@ -69,11 +74,6 @@ See [TB.example.json](./lib/schemaManager/examples/TB.example.json)
 * destroy and unregister view instance
 **onViewUpdate**: 
 * store new size on view instance, compute if view need new interval, look for cache, request datastore if needed
-
-**onConnectedDataOpen**: 
-* store as listened data (with windowId), ask to dc for subscription
-**onConnectedDataClose**: 
-* if was the only window listening, unstore as listened data, ask to dc for unsubscription
 
 **onDcPull**:
 * unprotobuferized DcServerMessage and pass message to one of following controller
@@ -104,13 +104,17 @@ Each GPCCHS view is stored in separate component and expose the following compon
   - getConnectedDataFromStore
   - schema.json
 * HSS
-  - View class with methods: 
+  - View class with methods:
     * onViewOpen: 
       - read timebar
       - look for cache
       - request missing interval to DC
       - send cache to view
       - persist current display interval in view instance (=> when it should be used?)
+    * onViewClose:
+      - unsubscribe realtime
+      - [cleanup cache]
+      - cleanup memory
     * onTimebarUpdate:
       - compute missing interval(s) for new interval (based on current display interval)
       - look for cache
@@ -148,28 +152,3 @@ Each GPCCHS view is stored in separate component and expose the following compon
   - send cached data to HSC view (**displayData**)
 
 /!\ Already in cache data search doesn't works for realtime data, we should trace that realtime data was received
-
-### New data from DC (onNewDataMessage)
-
- - if protobuf has 'finish' field:
-   - set corresponding **requestedIntervals** as received
-
-### TB change
-
-// 1. HSS loop on each opened view and determine if data is already present
-
-* On each incoming TB **timeBarConfiguration** message HSS loop on views and depending view type:
-  - PlotView:
-    - Compares with previous TB state, establish current displayed interval and missing interval(s) in view
-    - Request cache for existing interval
-    - Ask missing interval to DC
-    - Send cached interval to HSS
-  - TextView:
-    - Compares with previous TB state and established if view has al
-    - Request cache for existing value
-    - Ask missing value to DC
-    - Send cached value to HSS 
-    
-/!\ TAKE IN CONSIDERATION TIMELINE OFFSET
-
-+ realtime unsubcribtion

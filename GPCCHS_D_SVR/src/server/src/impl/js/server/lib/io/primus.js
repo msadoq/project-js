@@ -27,8 +27,6 @@ const primusExports = module.exports = {
           throw new Error('Websocket incoming message without event key');
         }
 
-        // TODO : inject windowId as parameter in each handler
-
         switch (message.event) {
           case 'identity': {
             if (message.payload.identity === 'main') {

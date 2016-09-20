@@ -41,6 +41,7 @@ module.exports = (buffer) => {
       );
       return callback(null);
     },
+    // TODO test if connectedData exist, otherwise stop logic
     (callback) => {
       switch (message.dataSource) {
         case 'REAL_TIME':

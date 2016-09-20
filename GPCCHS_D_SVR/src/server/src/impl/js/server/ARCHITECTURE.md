@@ -77,6 +77,8 @@ See [TB.example.json](./lib/schemaManager/examples/TB.example.json)
 * if 'realtime': look for known interval for this data and add to cache
 * if not: add to cache, if 'finished' mark interval as fully received
 * both: loop on each view and pass new data
+**onDomainQuery**: 
+* request domains list to DC
 **onDomainResponse**: 
 * store domain, forward to HSC
 

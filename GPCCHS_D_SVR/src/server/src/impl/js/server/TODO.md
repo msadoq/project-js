@@ -4,33 +4,35 @@ Only list expected tasks for PBF shipping of end of october.
 
 ## Global
 
-* [ ] Launch procedure, stop procedure, process on unexcepted stop of one component
-* [ ] Finalize LPISIS packaging constrains implementation (Matthieu)
-* [ ] Lauching VIMA with timebar only (RISK!) OR implement a limited timebar in HSC
-* [ ] Wildcard: we can subscribe *n* parameters for the same entryPoint, what we should do with the *n* incoming values (TextView the first, PlotView ?)?
-* [ ] TextView displayed value (the last known before currentTime? until when?)
+* [ ] RISK! Launch procedure, stop procedure, process on unexcepted stop of one component
+* [ ] RISK! Finalize LPISIS packaging constrains implementation (Matthieu)
+* [ ] RISK! Lauching VIMA with timebar only OR implement a limited timebar in HSC
+* [ ] RISK! Wildcard: we can subscribe *n* parameters for the same entryPoint, what we should do with the *n* incoming values (TextView the first, PlotView ?)?
+* [ ] RISK! TextView displayed value (the last known before currentTime? until when?)
 
 ## GPCCHSS (Node.js)
 
+* [ ] Analyze, measure and test and the LokiJS index for cache dataId and interval (Renaud)
 * Finalize DC communications
   - [x] Implement new ZeroMQ/protobuf pattern (Adrien)
   - [x] Fix tests (Adrien)
   - [x] Migrate stub and data helpers (Renaud)
 * Controller
-  * [ ] onClientOpen
-  * [ ] onClientClose
-  * [ ] onWindowOpen
-  * [ ] onWindowClose
-  * [ ] onConnectedDataOpen (Renaud)
-  * [ ] onConnectedDataClose (Renaud)
+  * [x] onClientOpen (Renaud)
+  * [ ] onClientClose (Renaud)
+  * [ ] onWindowOpen (Renaud)
+  * [ ] onWindowClose (Renaud)
+  * [x] onConnectedDataOpen (Renaud)
+  * [x] onConnectedDataClose (Renaud)
   * [ ] onViewOpen
   * [ ] onViewClose
   * [ ] onViewUpdate
   * [x] onDcServerMessage (Renaud)
   * [x] onDcResponse (Renaud)
   * [x] onNewDataMessage (Renaud)
-  * [ ] onDomainResponse (Renaud)
-  * [ ] onTimeBarUpdate (Audrey)
+    - [ ] add test if connected data exists, otherwise exist (update unit test) (Renaud)
+  * [x] onDomainResponse (Renaud)
+  * [=] onTimeBarUpdate (Audrey)
 * [ ] View types
   * [ ] PlotView
     - [ ] onTimebarUpdate
@@ -43,12 +45,9 @@ Only list expected tasks for PBF shipping of end of october.
   - [x] CacheJSON
   - [x] ConnectedData
   - [ ] Cache invalidation automatic mechanism
-* [ ] Domain management
-  - [ ] Implement list retrieving from DC HSS launch
-  - [ ] Add a module to store domain with accessor
-  - [ ] Add logic for domain wilcarding (.get, .getBy(pattern))
-  - [ ] Use in onConnectedDataOpen and onConnectedDataClose
-* [ ] Analyze, measure and test and the LokiJS index for cache dataId and interval (Renaud)
+* Domain management
+  - [x] Implement list retrieving from DC HSS launch
+  - [x] Add a module to store domain with accessor
 * [ ] LPISIS protobuf and types converters code generation (Adrien)
 * [ ] Implement data filtering on server-side view instance
 * Documents schema finalization (Philippe, Audrey)
@@ -78,6 +77,17 @@ Only list expected tasks for PBF shipping of end of october.
 * [=] On connectedData mount and unmount message add explicit domain and session (Audrey)
 * [ ] Take a consideration the WS 'authenticated' anwser in HSC main process lifecycle
 * [ ] Improve main process debugging by try-catching on ready logic (Damien)
+* ConnectedData
+  - [ ] Add selector for domain by wildcard
+  - [ ] Add selector for timebar by wildcard
+  - [ ] Add connectedData duplication logic with domain and session handling
+  - Subscriptions
+    - [ ] Rename ConnectedData* to Subscriptions* (Damien)
+    - [ ] Apply duplication logic and de-duplication (Damien)
+  - ConnectedDataQuery
+    - [ ] Add selector for view to retrieves list of interval to display (connectedData)  
+    - [ ] Add logic on componentWillUpdate() to determine missing interval
+    - [ ] ... request missing interval
 * Implement <PlotView/>
   - [ ] container
   - [ ] component (chart)

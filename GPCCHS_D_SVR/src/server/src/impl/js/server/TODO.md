@@ -56,13 +56,12 @@ Only list expected tasks for PBF shipping of end of october.
   - [x] update schemas, validation helper, fixtures and tests
 * [ ] Correct support of path and oId in documents, maybe required FMD call (Phillipe)
 * [ ] Finalize timebar stub (reaction to new client, new view, new param to listen, view closing) (Audrey)
-* [ ] Implement a clean log and error channel to files (Damien)
-* [ ] Complete README.md (lint, quality and coverage, stub  commands usage) (Damien)
-* [ ] Code review and cleaning (convention, comments, TODO , small optimizations) (Damien)
-* [ ] Study data sampling (https://www.npmjs.com/package/simplify-path)
 * [ ] Communication with real-timebar and open workspace process
+* [ ] Implement a clean log and error channel to files (Damien)
 * [ ] Envisage to try/catch every ZeroMQ/protobuf operation (Damien)
 * [ ] Track "throw" and catch them accordingly (Damien)
+* [ ] Complete README.md (lint, quality and coverage, stub  commands usage) (Damien)
+* [ ] Code review and cleaning (convention, comments, TODO , small optimizations) (Damien)
 
 ## GPCCHSC (Electron)
 
@@ -82,11 +81,30 @@ Only list expected tasks for PBF shipping of end of october.
 * Implement <PlotView/>
   - [ ] container
   - [ ] component (chart)
+  - [ ] https://www.npmjs.com/package/simplify-path
 * [ ] Implement <TextView/>
   - [ ] container
   - [ ] component 
+  - [ ] https://github.com/wrakky/react-html-parser
 * [ ] Pass realtime dimensions to each view (e.g.: <WithProvider/>)
-* [ ] Customize electron menu bar + add actions in menu bar: new window, new view (for current focused page)
+* Customize electron window menu bar (Alexandra)
+  - Workspace
+    - [ ] Save...
+    - [ ] Quit
+  - Window
+    - [ ] everything that is in actual View menu should be append in this menu 
+    - [ ] Minimize
+    - [ ] New
+    - [ ] Close
+  - Page
+    - [ ] Open...
+    - [ ] Add
+    - [ ] Save...
+  - View
+    - [ ] Open... (in current page)
+    - [ ] Add (in current page)
+  - Edit (unchanged)
+  - Remove Help
 * [ ] To improve stability add an "page close" handler in window and set ws redux state as disconnected
 * [ ] Sync with erb: 0b0e19c74518fc97843e9bcb393086aa9a7ad616
 * [ ] IHM design and cleanup (Damien)

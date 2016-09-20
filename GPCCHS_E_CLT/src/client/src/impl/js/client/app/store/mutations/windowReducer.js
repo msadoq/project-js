@@ -141,5 +141,6 @@ export function getWindowConnectedData(state, windowId) {
     }
   });
 
+  // TODO : deduplicate connectedData (same param in multiple view)
   return cds;
 }

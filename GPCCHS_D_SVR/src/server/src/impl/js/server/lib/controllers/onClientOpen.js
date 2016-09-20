@@ -1,10 +1,12 @@
 const debug = require('../io/debug')('controllers:onClientOpen');
-const { setTimebar } = require('../timeBar');
 
 /**
- * Triggered when client main process websocket is open
+ * Triggered when client main process WebSocket opens
+ *
+ * - no specific action
+ *
  * @param spark
  */
-module.exports = spark => {
-  debug.info(spark.id, 'main process websocket opened');
+module.exports = (spark) => {
+  debug.info(`called (${spark.id})`);
 };

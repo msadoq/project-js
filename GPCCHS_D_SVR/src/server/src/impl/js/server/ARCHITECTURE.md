@@ -69,13 +69,6 @@ See [TB.example.json](./lib/schemaManager/examples/TB.example.json)
 **onConnectedDataClose**: 
 * if was the only window listening, unstore as listened data, ask to dc for unsubscription
 
-**onViewOpen**:
-* create and register a new view instance
-**onViewClose**: 
-* destroy and unregister view instance
-**onViewUpdate**: 
-* store new size/zoom on view instance, compute if view need new interval, look for cache, request datastore if needed
-
 **onDcServerMessage**:
 * unprotobuferized DcServerMessage and pass message to one of following controller
 **onDcResponse**:
@@ -86,6 +79,13 @@ See [TB.example.json](./lib/schemaManager/examples/TB.example.json)
 * both: loop on each view and pass new data
 **onDomainResponse**: 
 * store domain, forward to HSC
+
+**onViewOpen**:
+* create and register a new view instance
+**onViewClose**: 
+* destroy and unregister view instance
+**onViewUpdate**: 
+* store new size/zoom on view instance, compute if view need new interval, look for cache, request datastore if needed
 
 **onHscTimebarUpdate**: 
 * store new tb state, only on startup to emulate the real Qt TB

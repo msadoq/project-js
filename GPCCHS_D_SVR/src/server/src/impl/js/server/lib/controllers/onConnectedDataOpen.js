@@ -54,7 +54,7 @@ const startConnectedDataSubscription = (spark, payload, messageHandler) => {
 
   messageHandler('dcPush', buffer, (msgErr) => {
     if (msgErr) {
-      connectedDataModel.removeWindowId(localId, payload.windowId); // TODO: rperrot should be in onConnectedDataClose
+      connectedDataModel.removeWindowId(localId, payload.windowId); // TODO test
       registeredCallbacks.remove(id);
       throw msgErr;
     }

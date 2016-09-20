@@ -53,7 +53,7 @@ const endConnectedDataSubscription = (spark, payload, messageHandler) => {
 
   messageHandler('dcPush', buffer, (msgErr) => {
     if (msgErr) {
-      connectedDataModel.addWindowId(localId, payload.windowId); // TODO: rperrot should be in onConnectedDataOpen
+      connectedDataModel.addWindowId(localId, payload.windowId); // TODO test
       throw msgErr;
     }
   });

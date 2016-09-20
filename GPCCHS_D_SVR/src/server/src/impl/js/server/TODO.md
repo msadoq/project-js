@@ -6,10 +6,9 @@ Only list expected tasks for PBF shipping of end of october.
 
 * [ ] Launch procedure, stop procedure, process on unexcepted stop of one component
 * [ ] Finalize LPISIS packaging constrains implementation (Matthieu)
-* [ ] Lauching VIMA with timebar only (RISK!)
+* [ ] Lauching VIMA with timebar only (RISK!) OR implement a limited timebar in HSC
 * [ ] Wildcard: we can subscribe *n* parameters for the same entryPoint, what we should do with the *n* incoming values (TextView the first, PlotView ?)?
 * [ ] TextView displayed value (the last known before currentTime? until when?)
-* [ ] Study data sampling ()https://www.npmjs.com/package/simplify-path)
 
 ## GPCCHSS (Node.js)
 
@@ -17,10 +16,9 @@ Only list expected tasks for PBF shipping of end of october.
   - [x] Implement new ZeroMQ/protobuf pattern (Adrien)
   - [x] Fix tests (Adrien)
   - [x] Migrate stub and data helpers (Renaud)
-  - [ ] Envisage to try/catch every ZeroMQ/protobuf operation (Damien)
 * Controller
-  * [ ] onClientOpen (Damien)
-  * [ ] onClientClose (Damien)
+  * [ ] onClientOpen
+  * [ ] onClientClose
   * [ ] onWindowOpen
   * [ ] onWindowClose
   * [ ] onConnectedDataOpen (Renaud)
@@ -28,7 +26,7 @@ Only list expected tasks for PBF shipping of end of october.
   * [ ] onViewOpen
   * [ ] onViewClose
   * [ ] onViewUpdate
-  * [x] onDcPull (Renaud)
+  * [x] onDcServerMessage (Renaud)
   * [x] onDcResponse (Renaud)
   * [x] onNewDataMessage (Renaud)
   * [ ] onDomainResponse (Renaud)
@@ -53,17 +51,18 @@ Only list expected tasks for PBF shipping of end of october.
 * [ ] Analyze, measure and test and the LokiJS index for cache dataId and interval (Renaud)
 * [ ] LPISIS protobuf and types converters code generation (Adrien)
 * [ ] Implement data filtering on server-side view instance
-* [ ] Documents schema finalization (Philippe, Audrey)
+* Documents schema finalization (Philippe, Audrey)
   - [x] add title on page and window
   - [x] update schemas, validation helper, fixtures and tests
-* [ ] Correct support of path and oId in documents (Phillipe)
-* [ ] [Add HSC stub (reaction to new client, new view, new param to listen, view closing)]
+* [ ] Correct support of path and oId in documents, maybe required FMD call (Phillipe)
 * [ ] Finalize timebar stub (reaction to new client, new view, new param to listen, view closing) (Audrey)
 * [ ] Implement a clean log and error channel to files (Damien)
 * [ ] Complete README.md (lint, quality and coverage, stub  commands usage) (Damien)
 * [ ] Code review and cleaning (convention, comments, TODO , small optimizations) (Damien)
-* [ ] Plot sampling algo (Philippe)
+* [ ] Study data sampling (https://www.npmjs.com/package/simplify-path)
 * [ ] Communication with real-timebar and open workspace process
+* [ ] Envisage to try/catch every ZeroMQ/protobuf operation (Damien)
+* [ ] Track "throw" and catch them accordingly (Damien)
 
 ## GPCCHSC (Electron)
 
@@ -74,27 +73,30 @@ Only list expected tasks for PBF shipping of end of october.
 * [x] Finalize page customizable layout implementation (Damien)
 * [x] Finalize windows, pages, views add/remove/mount/unmount/updateGeometry/focus reducers and actions (Damien)
 * [x] Implement <ConnectedDataContainer/> for triggering DC realtime un/subscription
-* [=] De-duplicate connectedData for a given windows (windowReducer.getWindowConnectedData) (Audrey) 
-* [ ] Improve main process debugging by try-catching on ready logic (Damien)
-* [ ] Fix the debug module non-logging in renderer (Damien)
-* Implement <PlotView/>
-  - [ ] container
-  - [ ] component
-* [ ] Implement <TextView/>
-  - [ ] container
-  - [ ] component
-* [ ] Pass realtime dimensions to each view (e.g.: <WithProvider/>)
-* [ ] Customize electron menu bar + add actions in menu bar: new window, new view (for current focused page)
 * [x] Merge Aziz branch
 * [x] Merge Editor branch
+* [=] De-duplicate connectedData for a given windows (windowReducer.getWindowConnectedData) (Audrey) 
+* [=] On connectedData mount and unmount message add explicit domain and session (Audrey)
+* [ ] Take a consideration the WS 'authenticated' anwser in HSC main process lifecycle
+* [ ] Improve main process debugging by try-catching on ready logic (Damien)
+* Implement <PlotView/>
+  - [ ] container
+  - [ ] component (chart)
+* [ ] Implement <TextView/>
+  - [ ] container
+  - [ ] component 
+* [ ] Pass realtime dimensions to each view (e.g.: <WithProvider/>)
+* [ ] Customize electron menu bar + add actions in menu bar: new window, new view (for current focused page)
 * [ ] To improve stability add an "page close" handler in window and set ws redux state as disconnected
 * [ ] Sync with erb: 0b0e19c74518fc97843e9bcb393086aa9a7ad616
-* [ ] IHM design and cleanup
+* [ ] IHM design and cleanup (Damien)
+* [ ] Fix the debug module non-logging in renderer (Damien)
 * [ ] Complete README.md (lint, quality and coverage, stub  commands usage) (Damien)
 * [ ] Code review and cleaning (convention, comments, TODO , small optimizations) (Damien)
 
 ## Postponed
 
+* [ ] [Add HSC stub (reaction to new client, new view, new param to listen, view closing)]
 * [ ] Convert redux window/page/view to workspace document format (Audrey)
 * [ ] Envisage to fork in child_process the HSS DC stub (Damien)
 * [ ] Test every LPISIS parameter type conversion (C++ types to Javascript)

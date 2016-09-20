@@ -42,15 +42,19 @@ function onStoreUpdate() {
     });
   }
 
+  // TODO renaud => domain retrieving
+
   if (appStatus === 'workspace-readed') {
     getWebsocket().write({
       event: 'timebarUpdate',
       payload: {
-        timebar: loadedWorkspace.timebar, // TODO handle on HSS
+        timebar: loadedWorkspace.timebar,
       },
     });
     dispatch(updateStatus('timebar-sent-to-hss'));
   }
+
+  // TODO renaud => domain retrieving
 
   if (appStatus === 'hss-ready') {
     dispatch(updateStatus('loading-workspace'));

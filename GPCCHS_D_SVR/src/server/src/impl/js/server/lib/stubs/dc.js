@@ -111,6 +111,7 @@ const onHssMessage = (buffer) => {
     debug.debug('subscription removed', parameter);
   } else if (type === 'DOMAIN_QUERY') {
     domainQueried = true;
+    return;
   } else {
     throw new Error('Neither a Data Query nor a supported data subscribe nor a domain query');
   }

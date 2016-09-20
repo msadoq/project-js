@@ -1,6 +1,9 @@
 const debug = require('../io/debug')('controllers:onDomainResponse');
 const async = require('async');
+const _ = require('lodash');
+const primus = require('../io/primus');
 const { decode } = require('../protobuf');
+const { setDomains } = require('../utils/domains');
 
 // TODO : test
 
@@ -13,7 +16,8 @@ const { decode } = require('../protobuf');
  *
  * @param buffer
  */
-module.exports = (buffer) => {
+
+const sendDomains = (spark, buffer) => {
   debug.verbose('called');
 
   let message;
@@ -25,9 +29,23 @@ module.exports = (buffer) => {
       return callback(null);
     },
     (callback) => {
-      // TODO deal with message.domains. And with message.id ?
       debug.debug('domains', message.domains);
+      setDomains(message.domains);
+      spark.write({
+        event: 'domainResponse',
+        payload: message.domains,
+      });
       return callback(null);
     },
   ], err => (err ? debug.error(err) : debug.verbose('end')));
+};
+
+const onDomainResponse = (buffer) => {
+  const spark = primus.getMainWebsocket();
+  sendDomains(spark, buffer);
+};
+
+module.exports = {
+  onDomainResponse,
+  sendDomains,
 };

@@ -1,4 +1,5 @@
 const debug = require('../io/debug')('websocket');
+const _ = require('lodash');
 const Primus = require('primus');
 
 let primus;
@@ -10,6 +11,18 @@ function getNewInstance(server) {
 const primusExports = module.exports = {
   getNewInstance,
   get: () => primus,
+  getMainWebsocket: () => {
+    // TODO test if primus is initied, else throw
+    let mainWebsocket;
+    primus.forEach(function (spark, id, connections) {
+      if (spark.hsc.identity === 'main') {
+        mainWebsocket = spark;
+        // TODO study _.some equivalent to avoid full list looping
+      }
+    });
+
+    return mainWebsocket;
+  },
   init: (server, handlers) => {
     if (primus) {
       throw new Error('Primus adapter already inited');
@@ -27,12 +40,20 @@ const primusExports = module.exports = {
           throw new Error('Websocket incoming message without event key');
         }
 
+        // TODO : inject windowId as parameter in each handler
+
+        spark.getIdentity = function() {
+          return _.get(this, 'hsc.identity');
+        };
+
         switch (message.event) {
           case 'identity': {
             if (message.payload.identity === 'main') {
+              _.set(spark, 'hsc.identity', 'main');
               handlers.onClientOpen(spark);
               spark.on('end', () => handlers.onClientClose(spark));
             } else {
+              _.set(spark, 'hsc.identity', message.payload.identity);
               handlers.onWindowOpen(spark, message.payload.identity);
               spark.on('end', () => handlers.onWindowClose(spark, message.payload.identity));
             }
@@ -60,6 +81,10 @@ const primusExports = module.exports = {
           }
           case 'timebarUpdate': {
             handlers.onTimebarUpdate(spark, message.payload);
+            break;
+          }
+          case 'domainQuery': {
+            handlers.onClientDomainQuery(spark, message.payload);
             break;
           }
           default:

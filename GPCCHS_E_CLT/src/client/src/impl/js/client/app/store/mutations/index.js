@@ -5,6 +5,7 @@ import windows from './windowReducer';
 import pages from './pageReducer';
 import views from './viewReducer';
 import connectedData from './connectedDataReducer';
+import domains from './domainsReducer';
 
 const reducer = combineReducers({
   hss,
@@ -13,6 +14,7 @@ const reducer = combineReducers({
   pages,
   views,
   connectedData,
+  domains,
 });
 
 export default reducer;

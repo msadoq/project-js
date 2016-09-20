@@ -46,6 +46,13 @@ function onStoreUpdate() {
 
   if (appStatus === 'workspace-readed') {
     getWebsocket().write({
+      event: 'domainQuery',
+    });
+    dispatch(updateStatus('domain-query-sent-to-hss'));
+  }
+
+  if (appStatus === 'domain-retrieved') {
+    getWebsocket().write({
       event: 'timebarUpdate',
       payload: {
         timebar: loadedWorkspace.timebar,

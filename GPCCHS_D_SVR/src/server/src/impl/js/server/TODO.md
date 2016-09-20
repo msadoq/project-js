@@ -74,7 +74,7 @@ Only list expected tasks for PBF shipping of end of october.
 * [x] Implement <ConnectedDataContainer/> for triggering DC realtime un/subscription
 * [x] Merge Aziz branch
 * [x] Merge Editor branch
-* [=] De-duplicate connectedData for a given windows (windowReducer.getWindowConnectedData) (Audrey) 
+* [=] De-duplicate connectedData for a given windows (windowReducer.getWindowConnectedData) (Audrey)
 * [=] On connectedData mount and unmount message add explicit domain and session (Audrey)
 * [ ] Take a consideration the WS 'authenticated' anwser in HSC main process lifecycle
 * [ ] Improve main process debugging by try-catching on ready logic (Damien)
@@ -84,7 +84,7 @@ Only list expected tasks for PBF shipping of end of october.
   - [ ] https://www.npmjs.com/package/simplify-path
 * [ ] Implement <TextView/>
   - [ ] container
-  - [ ] component 
+  - [ ] component
   - [ ] https://github.com/wrakky/react-html-parser
 * [ ] Pass realtime dimensions to each view (e.g.: <WithProvider/>)
 * Customize electron window menu bar (Alexandra)
@@ -92,7 +92,7 @@ Only list expected tasks for PBF shipping of end of october.
     - [ ] Save...
     - [ ] Quit
   - Window
-    - [ ] everything that is in actual View menu should be append in this menu 
+    - [ ] everything that is in actual View menu should be append in this menu
     - [ ] Minimize
     - [ ] New
     - [ ] Close
@@ -121,7 +121,7 @@ Only list expected tasks for PBF shipping of end of october.
 * [ ] Webpackize the HSS code and study C++ module portability
 * [ ] Replace Protobufjs with module that use a C++ parser
 * [ ] Add eslint pre-commit hook
-* [ ] Implement buffering on server-side view instance data sending to client 
+* [ ] Implement buffering on server-side view instance data sending to client
 * [ ] Envisage removing express from HSC to use webpack server instead
 * [ ] Hot reload in main process https://github.com/chentsulin/electron-react-boilerplate/issues/360
 * [ ] Envisage replacing stockchart with https://github.com/recharts/recharts

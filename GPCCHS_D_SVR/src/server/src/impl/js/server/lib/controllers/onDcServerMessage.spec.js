@@ -1,10 +1,10 @@
-// const debug = require('../io/debug')('controllers:onDcPull.spec');
+// const debug = require('../io/debug')('controllers:onDcServerMessage.spec');
 const _ = require('lodash');
 const { testPayloads, testHandler } = require('../utils/test');
-const { callDcPullControllers } = require('./onDcPull');
+const { callDcServerMessageControllers } = require('./onDcServerMessage');
 const dataStub = require('../stubs/data');
 
-describe('onDcPull', () => {
+describe('onDcServerMessage', () => {
   beforeEach(() => {
     testPayloads.length = 0;
   });
@@ -19,7 +19,7 @@ describe('onDcPull', () => {
       }
     );
     try {
-      callDcPullControllers(wrongMessage, testHandler, testHandler, testHandler);
+      callDcServerMessageControllers(wrongMessage, testHandler, testHandler, testHandler);
     } catch (e) {
       e.should.be.an('error');
     }
@@ -28,7 +28,7 @@ describe('onDcPull', () => {
     const dcResponse = dataStub.getDcResponse();
     const dcResponseProto = dataStub.getDcResponseProtobuf(dcResponse);
     const dcResponseMessage = dataStub.getWrappedDcResponseProtobuf(dcResponse);
-    callDcPullControllers(dcResponseMessage, testHandler, testHandler, testHandler);
+    callDcServerMessageControllers(dcResponseMessage, testHandler, testHandler, testHandler);
     testPayloads.should.be.an('array').and.have.lengthOf(1);
     _.isEqual(testPayloads[0], dcResponseProto).should.equal(true);
   });
@@ -36,7 +36,7 @@ describe('onDcPull', () => {
     const newDataMessage = dataStub.getNewDataMessage();
     const newDataMessageProto = dataStub.getNewDataMessageProtobuf(newDataMessage);
     const newDataMessageMessage = dataStub.getWrappedNewDataMessageProtobuf(newDataMessage);
-    callDcPullControllers(newDataMessageMessage, testHandler, testHandler, testHandler);
+    callDcServerMessageControllers(newDataMessageMessage, testHandler, testHandler, testHandler);
     testPayloads.should.be.an('array').and.have.lengthOf(1);
     _.isEqual(testPayloads[0], newDataMessageProto).should.equal(true);
   });
@@ -44,7 +44,7 @@ describe('onDcPull', () => {
     const domainResponse = dataStub.getDomainResponse();
     const domainResponseProto = dataStub.getDomainResponseProtobuf(domainResponse);
     const domainResponseMessage = dataStub.getWrappedDomainResponseProtobuf(domainResponse);
-    callDcPullControllers(domainResponseMessage, testHandler, testHandler, testHandler);
+    callDcServerMessageControllers(domainResponseMessage, testHandler, testHandler, testHandler);
     testPayloads.should.be.an('array').and.have.lengthOf(1);
     _.isEqual(testPayloads[0], domainResponseProto).should.equal(true);
   });

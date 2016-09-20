@@ -46,18 +46,18 @@ stubs.getDataIdProtobuf = override => protobuf.encode(
 );
 
 stubs.getTimestamp = override => applyOverride({
-  ms: now
+  ms: now,
 }, override);
 
 stubs.getTimeInterval = override => applyOverride({
-  lowerTs: stubs.getTimestamp({ ms: now - 10000}), // 10s
-  upperTs: stubs.getTimestamp()
+  lowerTs: stubs.getTimestamp({ ms: now - 10000 }), // 10s
+  upperTs: stubs.getTimestamp(),
 }, override);
 
 stubs.getDataQuery = override => applyOverride({
   id: 'my_unique_id',
   dataId: stubs.getDataId(),
-  interval: stubs.getTimeInterval()
+  interval: stubs.getTimeInterval(),
 }, override);
 
 stubs.getDataQueryProtobuf = override => protobuf.encode(
@@ -92,17 +92,17 @@ stubs.getDataPayload = override => applyOverride({
   payload: protobuf.encode(
     'lpisis.decommutedParameter.ReportingParameter',
     stubs.getReportingParameter()
-  )
+  ),
 }, override);
 
 stubs.getNewDataMessage = override => applyOverride({
   dataId: stubs.getDataId(),
   id: 'test',
-  dataSource : 'ARCHIVE',
+  dataSource: 'ARCHIVE',
   payloads: [
     stubs.getDataPayload(),
     stubs.getDataPayload({
-      timestamp: { ms: now + 1 }
+      timestamp: { ms: now + 1 },
     }),
   ],
 }, override);
@@ -114,72 +114,71 @@ stubs.getNewDataMessageProtobuf = override => protobuf.encode(
 
 
 stubs.getDomainQuery = override => applyOverride({
-  id : "myQueryId"
-});
+  id: 'myQueryId',
+}, override);
 
-stubs.getDomainQueryProtobuf = override =>  protobuf.encode(
+stubs.getDomainQueryProtobuf = override => protobuf.encode(
   'dc.dataControllerUtils.DomainQuery',
   stubs.getDomainQuery(override)
 );
 
 stubs.getDomain = override => applyOverride({
-  itemNamespace : 'Domains',
-  name : 'fr.cnes.sat1',
-  oid : '0051525005151000565215465660515',
-  domainId : 27,
-  parentDomainId : 98
+  itemNamespace: 'Domains',
+  name: 'fr.cnes.sat1',
+  oid: '0051525005151000565215465660515',
+  domainId: 27,
+  parentDomainId: 98,
 }, override);
 
 stubs.getDomainResponse = override => applyOverride({
-  id : "myQueryId",
-  domains : [
+  id: 'myQueryId',
+  domains: [
     stubs.getDomain(),
     stubs.getDomain({
-      name : 'fr.cnes.sat1.iongun',
-      oid : '0051525005151000565215601510515',
-      domainId : 98,
-      parentDomainId : 42
-    })
-  ]
-});
+      name: 'fr.cnes.sat1.iongun',
+      oid: '0051525005151000565215601510515',
+      domainId: 98,
+      parentDomainId: 42,
+    }),
+  ],
+}, override);
 
 stubs.getDomainResponseProtobuf = override => protobuf.encode(
   'dc.dataControllerUtils.DomainResponse',
-  stubs.getDomainResponse(override)
+  override || stubs.getDomainResponse()
 );
-
 
 
 // SERVER MESSAGES (DcServerMessage)
 stubs.getWrappedNewDataMessage = override => applyOverride({
-  messageType : 'NEW_DATA_MESSAGE',
-  payload : stubs.getNewDataMessageProtobuf(override)
+  messageType: 'NEW_DATA_MESSAGE',
+  payload: stubs.getNewDataMessageProtobuf(override),
 }, override);
 
 stubs.getWrappedDcResponse = override => applyOverride({
-  messageType : 'DC_RESPONSE',
-  payload : stubs.getDcResponseProtobuf(override)
+  messageType: 'DC_RESPONSE',
+  payload: stubs.getDcResponseProtobuf(override),
 }, override);
 
 stubs.getWrappedDomainResponse = override => applyOverride({
-  messageType : 'DOMAIN_RESPONSE',
-  payload : stubs.getDomainResponseProtobuf(override)
+  messageType: 'DOMAIN_RESPONSE',
+  payload: stubs.getDomainResponseProtobuf(override),
 }, override);
 
 // CLIENT MESSAGES (DcClientMessage)
 stubs.getWrappedDataQuery = override => applyOverride({
-    messageType : 'DATA_QUERY',
-    payload : stubs.getDataQueryProtobuf(override)
+  messageType: 'DATA_QUERY',
+  payload: stubs.getDataQueryProtobuf(override),
 }, override);
 
 stubs.getWrappedDataSubscribe = override => applyOverride({
-    messageType : 'DATA_SUBSCRIBE',
-    payload : stubs.getDataSubscribeProtobuf(override)
+  messageType: 'DATA_SUBSCRIBE',
+  payload: stubs.getDataSubscribeProtobuf(override),
 }, override);
 
 stubs.getWrappedDomainQuery = override => applyOverride({
-    messageType : 'DOMAIN_QUERY',
-    payload : stubs.getDomainQueryProtobuf(override)
+  messageType: 'DOMAIN_QUERY',
+  payload: stubs.getDomainQueryProtobuf(override),
 }, override);
 
 // SERVER MESSAGES PROTOBUF (DcServerMessage)

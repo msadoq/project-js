@@ -22,6 +22,16 @@ describe('onConnectedDataOpen', () => {
         callback(new Error());
       }
     )).should.throw(Error);
+    const connectedData = connectedDataModel.find();
+    connectedData.should.be.an('array')
+      .that.have.lengthOf(1);
+    connectedData[0].should.be.an('object')
+      .that.have.properties({
+        // TODO deal with dataId when possible
+        intervals: [],
+        requested: {},
+        windows: [],
+      });
   });
   it('start subscription', () => {
     const dataFormula = 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.convertedValue';
@@ -57,6 +67,16 @@ describe('onConnectedDataOpen', () => {
           comObject: data.comObject,
         });
         // TODO check payload.dataId.sessionId and payload.dataId.domainId when implemented
+        const connectedData = connectedDataModel.find();
+        connectedData.should.be.an('array')
+          .that.have.lengthOf(1);
+        connectedData[0].should.be.an('object')
+          .that.have.properties({
+            // TODO deal with dataId when possible
+            intervals: [],
+            requested: {},
+            windows: [42],
+          });
         callback(null);
       }
     );

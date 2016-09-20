@@ -1,27 +1,26 @@
-const debug = require('../io/debug')('controllers:onDcPull');
+const debug = require('../io/debug')('controllers:onDcServerMessage');
+const async = require('async');
 const { decode } = require('../protobuf');
 const onDcResponse = require('./onDcResponse');
-const onDomainResponse = require('./onDomainResponse');
+const { onDomainResponse } = require('./onDomainResponse');
 const onNewDataMessage = require('./onNewDataMessage');
 
-// TODO : rename to onDcServerMessage
+// TODO :
 
 /**
- * Trigger on new incoming message DcResponse message from DC.
- *
- * - de-protobuf
- * - call the corresponding callback
- *
+  * Trigger on new incoming message DcResponse message from DC.
+  *
+  * - de-protobuf
+  * - call the corresponding callback
  * @param buffer
  */
-const callDcPullControllers = (
+const callDcServerMessageControllers = (
   buffer,
   dcResponseHandler,
   domainResponseHandler,
   newDataMessageHandler
 ) => {
-  debug.verbose('called');
-
+  debug.debug('decoding Dc Server Message');
   const message = decode('dc.dataControllerUtils.DcServerMessage', buffer);
 
   switch (message.messageType) {
@@ -40,10 +39,10 @@ const callDcPullControllers = (
   }
 };
 
-const onDcPull = (header, buffer) =>
-  callDcPullControllers(buffer, onDcResponse, onDomainResponse, onNewDataMessage);
+const onDcServerMessage = (header, buffer) =>
+  callDcServerMessageControllers(buffer, onDcResponse, onDomainResponse, onNewDataMessage);
 
 module.exports = {
-  onDcPull,
-  callDcPullControllers,
+  onDcServerMessage,
+  callDcServerMessageControllers,
 };

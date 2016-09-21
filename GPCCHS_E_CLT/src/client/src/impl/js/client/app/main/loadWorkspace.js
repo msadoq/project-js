@@ -1,6 +1,8 @@
 import debug from '../utils/debug';
 import _ from 'lodash';
 import { getStore } from '../store/mainStore';
+import { add as addTimeline } from '../store/mutations/timelineActions';
+import { add as addTimebar } from '../store/mutations/timebarActions';
 import { add as addConnectedData } from '../store/mutations/connectedDataActions';
 import { add as addView } from '../store/mutations/viewActions';
 import { add as addPage } from '../store/mutations/pageActions';
@@ -14,7 +16,13 @@ const logger = debug('main:loadWorkspace');
 export default function loadWorkspace(workspace) {
   const dispatch = getStore().dispatch;
 
-  // connectedData
+  // add timelines
+  _.each(workspace.timelines, e => dispatch(addTimeline(e.uuid, e)));
+
+  // add timebars
+  _.each(workspace.timebars, e => dispatch(addTimebar(e.uuid, e)));
+
+  // add connectedData
   _.each(workspace.connectedData, e => dispatch(addConnectedData(
     e.uuid,
     e.formula,
@@ -31,7 +39,7 @@ export default function loadWorkspace(workspace) {
     e.uuid,
     e.title,
     _.map(e.views, v => v.uuid),
-    _.map(e.views, v => Object.assign({
+    _.map(e.views, v => ({
       i: v.uuid,
       x: v.geometry.x,
       y: v.geometry.y,

@@ -5,12 +5,11 @@ const documents = require('../documents');
 const { v4 } = require('node-uuid');
 const validateJson = require('../schemaManager');
 const external = require('../../external.main');
+const extractTimebars = require('./lib/extractTimebars');
+const extractTimelines = require('./lib/extractTimelines');
+const extractWindows = require('./lib/extractWindows');
 
 // TODO same page/view used in more than one window/page
-
-const supportedWindowTypes = [
-  'documentWindow',
-];
 
 const supportedViewTypes = [
   'PlotView',
@@ -18,26 +17,13 @@ const supportedViewTypes = [
   'MimicView',
 ];
 
-function listWindows(windows) {
-  if (!_.isArray(windows)) {
-    return [];
+function validateWorkspace(workspace, cb) { // TODO add specific test
+  const err = validateJson('Workspace', workspace);
+  if (err) {
+    return cb(err);
   }
 
-  return _.map(
-    _.filter(windows, w => supportedWindowTypes.indexOf(w.type) !== -1),
-    w => Object.assign(w, { uuid: v4() })
-  );
-}
-
-function getTimebarAndWindows(workspace, cb) {
-  const validErr = validateJson('Workspace', workspace);
-  if (validErr) {
-    return cb(validErr, workspace);
-  }
-  return cb(null, {
-    timebar: _.get(workspace, 'timeBarWindow.timeBars[0]', {}),
-    windows: _.get(workspace, 'windows', {}),
-  });
+  return cb(null, workspace);
 }
 
 function discoverPages(window) {
@@ -142,11 +128,6 @@ function separateConnectedData(content, cb) {
   return cb(null, Object.assign(content, { connectedData: cdList }));
 }
 
-function getWindowList(content, cb) {
-  content.windows = listWindows(content.windows); // eslint-disable-line no-param-reassign
-  return cb(null, content);
-}
-
 function identifyPages(content, cb) {
   const pages = _.reduce(content.windows, (list, w) => list.concat(discoverPages(w)), []);
   return cb(null, Object.assign(content, { pages }));
@@ -157,30 +138,19 @@ function identifyViews(content, cb) {
   return cb(null, Object.assign(content, { views }));
 }
 
-function readWorkspace(folder, relativePath, callback) {
+module.exports = function readWorkspace(folder, relativePath, callback) {
   debug.debug(`reading workspace ${folder} ${relativePath}`);
   async.waterfall([
     cb => documents.readJsonFromPath(folder, relativePath, cb), // <- read workspace
-    (workspace, cb) => getTimebarAndWindows(workspace, cb),
-    (content, cb) => getWindowList(content, cb),
+    (workspace, cb) => validateWorkspace(workspace, cb),
+    (workspace, cb) => cb(null, { __original: workspace }),
+    (content, cb) => extractTimebars(content, cb),
+    (content, cb) => extractTimelines(content, cb),
+    (content, cb) => extractWindows(content, cb),
     (content, cb) => identifyPages(content, cb),
     (content, cb) => readPages(folder, content, cb),
     (content, cb) => identifyViews(content, cb),
     (content, cb) => readViews(folder, content, cb),
     (content, cb) => separateConnectedData(content, cb),
   ], callback);
-}
-
-module.exports = {
-  readWorkspace,
-  identifyViews,
-  identifyPages,
-  getWindowList,
-  getTimebarAndWindows,
-  readPages,
-  readViews,
-  separateConnectedData,
-  listWindows,
-  discoverPages,
-  discoverViews,
 };

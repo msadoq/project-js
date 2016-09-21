@@ -3,7 +3,7 @@ import installExtensions from './installExtensions';
 import { initStore, getStore } from '../store/mainStore';
 import { connect, disconnect, getWebsocket } from './websocket';
 import { sync as syncWindows } from './windows';
-import workspace from '../documents/workspace';
+import readWorkspace from '../documents/workspace';
 import loadWorkspace from './loadWorkspace';
 import { getStatus as getMainWsStatus } from '../store/mutations/hssReducer';
 import { getStatus as getAppStatus } from '../store/mutations/hscReducer';
@@ -32,7 +32,7 @@ function onStoreUpdate() {
   }
 
   if (appStatus === 'connected-with-hss') {
-    workspace.readWorkspace(FMD_ROOT, 'dev.workspace.json', (err, workspace) => {
+    readWorkspace(FMD_ROOT, 'dev.workspace.json', (err, workspace) => {
       if (err) {
         throw err;
       }
@@ -41,8 +41,6 @@ function onStoreUpdate() {
       dispatch(updateStatus('workspace-readed'));
     });
   }
-
-  // TODO renaud => domain retrieving
 
   if (appStatus === 'workspace-readed') {
     getWebsocket().write({
@@ -55,13 +53,11 @@ function onStoreUpdate() {
     getWebsocket().write({
       event: 'timebarUpdate',
       payload: {
-        timebar: loadedWorkspace.timebar,
+        timebar: {}, // TODO : this step will probably no longer be needed
       },
     });
     dispatch(updateStatus('timebar-sent-to-hss'));
   }
-
-  // TODO renaud => domain retrieving
 
   if (appStatus === 'hss-ready') {
     dispatch(updateStatus('loading-workspace'));

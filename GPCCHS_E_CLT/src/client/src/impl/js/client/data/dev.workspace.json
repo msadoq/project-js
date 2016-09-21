@@ -37,7 +37,7 @@
     {
       "type": "globalViewWindow",
       "kind": "GMAView",
-      "timeBarId": "TB1",
+      "timeBarId": "Timebar 1",
       "geometry": {
         "kind": "Absolute",
         "x": 1420,
@@ -48,15 +48,15 @@
     },
     {
       "type": "documentWindow",
-      "title": "window example", 
+      "title": "window example",
       "pages": [
         {
           "path": "/pages/showcase.page.json",
-          "timeBarId": "TB1"
+          "timeBarId": "Timebar 1"
         },
         {
           "oId": "pages/simple.page.vipg",
-          "timeBarId": "TB1"
+          "timeBarId": "Timebar 1"
         }
       ],
       "geometry": {
@@ -72,7 +72,7 @@
     "type": "timeBarWindowConfiguration",
     "timeBars": [{
       "type": "timeBarConfiguration",
-      "id": "TB1",
+      "id": "Timebar 1",
       "mode": "Normal",
       "visuWindow": {
         "lower": 1420106400000,
@@ -96,7 +96,13 @@
           "id": "Session 1",
           "offset": 0,
           "kind": "Session",
-          "sessionId": 1
+          "sessionId": 100
+        },
+        {
+          "id": "Session 2",
+          "offset": -3600000,
+          "kind": "Session",
+          "sessionId": 200
         },
         {
           "id": "Dataset 1",

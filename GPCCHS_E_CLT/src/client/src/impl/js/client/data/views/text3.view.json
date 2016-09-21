@@ -13,7 +13,7 @@
           "operator": "!=",
           "operand": "nominal"
         }],
-        "domain": ".*",
+        "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
       }
     },
@@ -29,7 +29,7 @@
           "operator": "!=",
           "operand": "0"
         }],
-        "domain": ".*",
+        "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
       }
     },
@@ -40,7 +40,7 @@
         "unit": "V",
         "digits": 5,
         "format": "decimal",
-        "domain": ".*",
+        "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
       }
     }

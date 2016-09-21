@@ -19,7 +19,7 @@
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "domain": "",
+        "domain": "fr.cnes.sat1",
         "timeline": "Session 1",
         "axisId": "Time"
       },
@@ -33,7 +33,7 @@
           "operator": "!=",
           "operand": "0"
         }],
-        "domain": "",
+        "domain": "fr.cnes.sat1",
         "timeline": "Session 1",
         "axisId": "VBat"
       },

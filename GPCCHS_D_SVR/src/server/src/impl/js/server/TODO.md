@@ -12,16 +12,16 @@ Only list expected tasks for PBF shipping of end of october.
 
 ## GPCCHSS (Node.js)
 
-* [ ] Analyze, measure and test and the LokiJS index for cache dataId and interval (Renaud)
+* [=] Analyze, measure and test and the LokiJS index for cache dataId and interval, https://github.com/techfort/LokiJS/issues/477 (Damien)
 * Finalize DC communications
   - [x] Implement new ZeroMQ/protobuf pattern (Adrien)
   - [x] Fix tests (Adrien)
   - [x] Migrate stub and data helpers (Renaud)
 * Controller
   * [x] onClientOpen (Renaud)
-  * [ ] onClientClose (Renaud)
-  * [ ] onWindowOpen (Renaud)
-  * [ ] onWindowClose (Renaud)
+  * [=] onClientClose (Renaud)
+  * [=] onWindowOpen (Renaud)
+  * [=] onWindowClose (Renaud)
   * [x] onConnectedDataOpen (Renaud)
   * [x] onConnectedDataClose (Renaud)
   * [ ] onViewOpen
@@ -30,10 +30,10 @@ Only list expected tasks for PBF shipping of end of october.
   * [x] onDcServerMessage (Renaud)
   * [x] onDcResponse (Renaud)
   * [x] onNewDataMessage (Renaud)
-    - [ ] add test if connected data exists, otherwise exist (update unit test) (Renaud)
+    - [=] add test if connected data exists, otherwise exist (update unit test) (Renaud)
   * [x] onDomainResponse (Renaud)
   * [=] onTimeBarUpdate (Audrey)
-* [ ] View types
+* View types
   * [ ] PlotView
     - [ ] onTimebarUpdate
     - [ ] onNewData
@@ -41,10 +41,9 @@ Only list expected tasks for PBF shipping of end of october.
   * [ ] TextView
     - [ ] onTimebarUpdate
     - [ ] onNewData
-* [ ] Cache Management (Renaud)
+* Cache Management (Renaud)
   - [x] CacheJSON
   - [x] ConnectedData
-  - [ ] Cache invalidation automatic mechanism
 * Domain management
   - [x] Implement list retrieving from DC HSS launch
   - [x] Add a module to store domain with accessor
@@ -57,7 +56,9 @@ Only list expected tasks for PBF shipping of end of october.
 * [ ] Finalize timebar stub (reaction to new client, new view, new param to listen, view closing) (Audrey)
 * [ ] Communication with real-timebar and open workspace process
 * [ ] Add debug routes on HSS: index, connectedData collection, cacheJson collection, domains, timebar, ... (Alexandra)
+* [ ] Cache invalidation automatic mechanism
 * [ ] Implement a clean log and error channel to files (Damien)
+* [ ] Add robustness in every controller by controlling HSC input (Damien)
 * [ ] Envisage to try/catch every ZeroMQ/protobuf operation (Damien)
 * [ ] Track "throw" and catch them accordingly (Damien)
 * [ ] Complete README.md (lint, quality and coverage, stub  commands usage) (Damien)
@@ -74,13 +75,14 @@ Only list expected tasks for PBF shipping of end of october.
 * [x] Implement <ConnectedDataContainer/> for triggering DC realtime un/subscription
 * [x] Merge Aziz branch
 * [x] Merge Editor branch
-* [=] De-duplicate connectedData for a given windows (windowReducer.getWindowConnectedData) (Audrey)
+* [=] De-duplicate connectedData for a given windows (windowReducer.getWindowConnectedData) (Damien)
 * [=] On connectedData mount and unmount message add explicit domain and session (Audrey)
 * [ ] Take a consideration the WS 'authenticated' anwser in HSC main process lifecycle
 * [ ] Improve main process debugging by try-catching on ready logic (Damien)
+* [ ] Fix the grid layout click capture, add header and allow drag only from header on views (Damien)
 * ConnectedData
-  - [ ] Add selector for domain by wildcard
-  - [ ] Add selector for timebar by wildcard
+  - [=] Add selector for domain by wildcard (Audrey)
+  - [=] Add selector for timebar by wildcard (Audrey)
   - [ ] Add connectedData duplication logic with domain and session handling
   - Subscriptions
     - [ ] Rename ConnectedData* to Subscriptions* (Damien)
@@ -92,10 +94,12 @@ Only list expected tasks for PBF shipping of end of october.
 * Implement <PlotView/>
   - [ ] container
   - [ ] component (chart)
+  - [ ] Prototype and implement a chart library
   - [ ] https://www.npmjs.com/package/simplify-path
 * [ ] Implement <TextView/>
   - [ ] container
   - [ ] component
+  - [ ] Dangerously inject dynamised static HTML in view
   - [ ] https://github.com/wrakky/react-html-parser
 * [ ] Pass realtime dimensions to each view (e.g.: <WithProvider/>)
 * Customize electron window menu bar (Alexandra)
@@ -116,6 +120,7 @@ Only list expected tasks for PBF shipping of end of october.
     - [ ] Add (in current page)
   - Edit (unchanged)
   - Remove Help
+* [ ] Add a clean "error" page when unable to connect to server or when DC stub is off
 * [ ] To improve stability add an "page close" handler in window and set ws redux state as disconnected
 * [ ] Sync with erb: 0b0e19c74518fc97843e9bcb393086aa9a7ad616
 * [ ] IHM design and cleanup (Damien)

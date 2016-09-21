@@ -1,7 +1,7 @@
 require('../utils/test');
 const { sendDomains } = require('../controllers/onDomainResponse');
 const { getDomain, getDomainResponseProtobuf } = require('../stubs/data');
-const TestSpark = require('../stubs/TestSpark');
+const TestSpark = require('../stubs/testSpark');
 
 const spark = new TestSpark();
 

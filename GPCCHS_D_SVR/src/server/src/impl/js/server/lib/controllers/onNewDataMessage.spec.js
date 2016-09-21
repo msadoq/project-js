@@ -19,9 +19,9 @@ const testViewInstance = new TestView({});
 
 describe('onNewDataMessage', () => {
   beforeEach(() => {
-    viewsModel.chain().find().remove();
-    cacheJsonModel.chain().find().remove();
-    connectedDataModel.chain().find().remove();
+    viewsModel.cleanup();
+    cacheJsonModel.cleanup();
+    connectedDataModel.cleanup();
     testViewInstance.payloads.length = 0;
     viewsModel.addRecord('testViewId', testViewInstance);
   });
@@ -29,13 +29,22 @@ describe('onNewDataMessage', () => {
   afterEach(() => {
     viewsModel.delRecord('testViewId');
   });
-
+  it('Archive Data (but no connected data)', () => {
+    const newDataMessage = getNewDataMessage();
+    const newDataMessageProto = getNewDataMessageProtobuf(newDataMessage);
+    onNewDataMessage(newDataMessageProto);
+    // checking Data are not in cacheJson
+    const cachedData = cacheJsonModel.find();
+    cachedData.should.be.an('array').and.have.lengthOf(0);
+    // Check that data are not received in views
+    testViewInstance.payloads.length.should.equal(0);
+  });
   it('Archive Data', () => {
     const dataQuery = getDataQuery();
     connectedDataModel.addRequestedInterval(
-      getLocalId(dataQuery.dataId),
+      dataQuery.dataId,
       dataQuery.id,
-      [dataQuery.interval.lowerTs.ms, dataQuery.interval.upperTs.ms]
+      [dataQuery.interval.lowerTs.ms - 1e9, dataQuery.interval.upperTs.ms + 1e9]
     );
     const newDataMessage = getNewDataMessage({
       id: dataQuery.id,
@@ -65,8 +74,8 @@ describe('onNewDataMessage', () => {
       .that.have.property(dataQuery.id)
       .that.be.an('array')
       .that.has.lengthOf(2);
-    connectedData[0].requested[dataQuery.id][0].should.equal(dataQuery.interval.lowerTs.ms);
-    connectedData[0].requested[dataQuery.id][1].should.equal(dataQuery.interval.upperTs.ms);
+    connectedData[0].requested[dataQuery.id][0].should.equal(dataQuery.interval.lowerTs.ms - 1e9);
+    connectedData[0].requested[dataQuery.id][1].should.equal(dataQuery.interval.upperTs.ms + 1e9);
     connectedData[0].should.have.property('intervals');
     connectedData[0].intervals.should.be.an('array')
       .that.has.lengthOf(0);
@@ -74,7 +83,7 @@ describe('onNewDataMessage', () => {
     testViewInstance.payloads.length.should.equal(1);
     testViewInstance.payloads[0].should.be.an('object')
       .and.have.property('dataId')
-      .that.equal(getLocalId(newDataMessage.dataId));
+      .that.deep.equal(newDataMessage.dataId);
     testViewInstance.payloads[0].should.have.property('payloads')
       .that.have.lengthOf(newDataMessage.payloads.length);
     for (let i = 0; i < testViewInstance.payloads[0].payloads.length; i++) {
@@ -91,9 +100,9 @@ describe('onNewDataMessage', () => {
   it('Last Archive Data', () => {
     const dataQuery = getDataQuery();
     connectedDataModel.addRequestedInterval(
-      getLocalId(dataQuery.dataId),
+      dataQuery.dataId,
       dataQuery.id,
-      [dataQuery.interval.lowerTs.ms, dataQuery.interval.upperTs.ms]
+      [dataQuery.interval.lowerTs.ms - 1e9, dataQuery.interval.upperTs.ms + 1e9]
     );
     const newDataMessage = getNewDataMessage({
       id: dataQuery.id,
@@ -127,13 +136,13 @@ describe('onNewDataMessage', () => {
       .that.has.lengthOf(1);
     connectedData[0].intervals[0].should.be.an('array')
       .that.has.lengthOf(2);
-    connectedData[0].intervals[0][0].should.equal(dataQuery.interval.lowerTs.ms);
-    connectedData[0].intervals[0][1].should.equal(dataQuery.interval.upperTs.ms);
+    connectedData[0].intervals[0][0].should.equal(dataQuery.interval.lowerTs.ms - 1e9);
+    connectedData[0].intervals[0][1].should.equal(dataQuery.interval.upperTs.ms + 1e9);
     // Check that data are received in views
     testViewInstance.payloads.length.should.equal(1);
     testViewInstance.payloads[0].should.be.an('object')
       .and.have.property('dataId')
-      .that.equal(getLocalId(newDataMessage.dataId));
+      .that.deep.equal(newDataMessage.dataId);
     testViewInstance.payloads[0].should.have.property('payloads')
       .that.have.lengthOf(newDataMessage.payloads.length);
     for (let i = 0; i < testViewInstance.payloads[0].payloads.length; i++) {
@@ -147,8 +156,27 @@ describe('onNewDataMessage', () => {
       ).should.equal(true);
     }
   });
-  it('Real Time Data', () => {
+  it('Real Time Data (but no connected data)', () => {
     const newDataMessage = getNewDataMessage({
+      dataSource: 'REAL_TIME',
+    });
+    const newDataMessageProto = getNewDataMessageProtobuf(newDataMessage);
+    onNewDataMessage(newDataMessageProto);
+    // checking Data are not in cacheJson
+    const cachedData = cacheJsonModel.find();
+    cachedData.should.be.an('array').and.have.lengthOf(0);
+    // Check that data are not received in views
+    testViewInstance.payloads.length.should.equal(0);
+  });
+  it('Real Time Data', () => {
+    const dataQuery = getDataQuery();
+    connectedDataModel.addRequestedInterval(
+      dataQuery.dataId,
+      dataQuery.id,
+      [dataQuery.interval.lowerTs.ms - 1e9, dataQuery.interval.upperTs.ms - 1e6]
+    );
+    const newDataMessage = getNewDataMessage({
+      id: dataQuery.id,
       dataSource: 'REAL_TIME',
     });
     const newDataMessageProto = getNewDataMessageProtobuf(newDataMessage);
@@ -160,7 +188,7 @@ describe('onNewDataMessage', () => {
     testViewInstance.payloads.length.should.equal(1);
     testViewInstance.payloads[0].should.be.an('object')
       .and.have.property('dataId')
-      .that.equal(getLocalId(newDataMessage.dataId));
+      .that.deep.equal(newDataMessage.dataId);
     testViewInstance.payloads[0].should.have.property('payloads')
       .that.have.lengthOf(newDataMessage.payloads.length);
     for (let i = 0; i < testViewInstance.payloads[0].payloads.length; i++) {
@@ -177,9 +205,9 @@ describe('onNewDataMessage', () => {
   it('Real Time Data associated to a query', () => {
     const dataQuery = getDataQuery();
     connectedDataModel.addRequestedInterval(
-      getLocalId(dataQuery.dataId),
+      dataQuery.dataId,
       dataQuery.id,
-      [dataQuery.interval.lowerTs.ms - 10000000, dataQuery.interval.upperTs.ms + 10000000]
+      [dataQuery.interval.lowerTs.ms - 1e9, dataQuery.interval.upperTs.ms + 1e9]
     );
     const newDataMessage = getNewDataMessage({
       id: dataQuery.id,
@@ -211,9 +239,9 @@ describe('onNewDataMessage', () => {
       .that.be.an('array')
       .that.has.lengthOf(2);
     connectedData[0].requested[dataQuery.id][0]
-      .should.equal(dataQuery.interval.lowerTs.ms - 10000000);
+      .should.equal(dataQuery.interval.lowerTs.ms - 1e9);
     connectedData[0].requested[dataQuery.id][1]
-      .should.equal(dataQuery.interval.upperTs.ms + 10000000);
+      .should.equal(dataQuery.interval.upperTs.ms + 1e9);
     connectedData[0].should.have.property('intervals');
     connectedData[0].intervals.should.be.an('array')
       .that.has.lengthOf(0);
@@ -221,7 +249,7 @@ describe('onNewDataMessage', () => {
     testViewInstance.payloads.length.should.equal(1);
     testViewInstance.payloads[0].should.be.an('object')
       .and.have.property('dataId')
-      .that.equal(getLocalId(newDataMessage.dataId));
+      .that.deep.equal(newDataMessage.dataId);
     testViewInstance.payloads[0].should.have.property('payloads')
       .that.have.lengthOf(newDataMessage.payloads.length);
     for (let i = 0; i < testViewInstance.payloads[0].payloads.length; i++) {

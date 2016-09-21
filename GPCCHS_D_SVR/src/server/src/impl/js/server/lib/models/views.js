@@ -12,7 +12,7 @@ collection.addRecord = (sparkId, instance) => {
   });
 };
 
-collection.delRecord = sparkId => {
+collection.delRecord = (sparkId) => {
   collection.removeWhere({ id: sparkId });
   debug.debug('deleted', sparkId);
 };
@@ -24,5 +24,7 @@ collection.findBySparkId = sparkId => collection.find({
 collection.retrieveVisible = () => collection.find({
   visible: true,
 });
+
+collection.cleanup = () => collection.chain().find().remove();
 
 module.exports = collection;

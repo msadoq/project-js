@@ -1,5 +1,4 @@
 const debug = require('../io/debug')('controllers:onDcServerMessage');
-const async = require('async');
 const { decode } = require('../protobuf');
 const onDcResponse = require('./onDcResponse');
 const { onDomainResponse } = require('./onDomainResponse');

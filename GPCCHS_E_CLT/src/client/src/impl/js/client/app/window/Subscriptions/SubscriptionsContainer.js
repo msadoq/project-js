@@ -13,7 +13,7 @@ class SubscriptionsContainer extends Component {
   render() {
     return (
       <div>
-        {_.map(this.props.connectedData, cd => {
+        {_.map(this.props.subscriptions, cd => {
           const parameter = formula(cd.formula);
 
           return (
@@ -21,9 +21,8 @@ class SubscriptionsContainer extends Component {
               key={cd.connectedDataId}
               windowId={this.props.windowId}
               connectedDataId={cd.connectedDataId}
-              formula={cd.formula}
-              parameterName={parameter.parameterName}
               catalog={parameter.catalog}
+              parameterName={parameter.parameterName}
               comObject={parameter.comObject}
               domainId={cd.domainId}
               sessionId={cd.sessionId}

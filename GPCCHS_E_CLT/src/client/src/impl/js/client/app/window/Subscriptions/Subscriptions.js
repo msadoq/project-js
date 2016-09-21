@@ -5,9 +5,11 @@ export default class Subscription extends Component {
   static propTypes = {
     windowId: PropTypes.string,
     connectedDataId: PropTypes.string.isRequired,
-    formula: PropTypes.string,
-    sessionId: PropTypes.string,
-    domainId: PropTypes.string,
+    catalog: PropTypes.string,
+    parameterName: PropTypes.string,
+    comObject: PropTypes.string,
+    sessionId: PropTypes.number,
+    domainId: PropTypes.number,
   };
   componentDidMount() {
     getWebsocket().write({
@@ -15,7 +17,9 @@ export default class Subscription extends Component {
       payload: {
         windowId: this.props.windowId,
         connectedDataId: this.props.connectedDataId,
-        formula: this.props.formula,
+        catalog: this.props.catalog,
+        parameterName: this.props.parameterName,
+        comObject: this.props.comObject,
         sessionId: this.props.sessionId,
         domainId: this.props.domainId,
       },
@@ -27,7 +31,9 @@ export default class Subscription extends Component {
       payload: {
         windowId: this.props.windowId,
         connectedDataId: this.props.connectedDataId,
-        formula: this.props.formula,
+        catalog: this.props.catalog,
+        parameterName: this.props.parameterName,
+        comObject: this.props.comObject,
         sessionId: this.props.sessionId,
         domainId: this.props.domainId,
       },

@@ -123,11 +123,11 @@ export function getFocusedPage(state, windowId) {
 }
 
 /**
- * Return a list a all connected data mounted in this window (for realtime subscription)
+ * Return a list a all pub/sub subscriptions to mount in this window
  * @param state
  * @param windowId
  */
-export function getWindowConnectedData(state, windowId) {
+export function getWindowSubscriptions(state, windowId) {
   const cds = [];
   _.each(getPages(state, windowId), ({ pageId }) => {
     if (pageId) {

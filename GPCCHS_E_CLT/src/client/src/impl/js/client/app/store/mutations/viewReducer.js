@@ -72,6 +72,19 @@ export function getConnectedData(state, viewId) {
   if (!viewId || !view) {
     return [];
   }
+  const domains = state.domains;
+  if (!domains) {
+    return [];
+  }
+  const timelines = state.timelines;
+  if (!timelines) {
+    return [];
+  }
+
+  // TODO : decorate list with domains
+  // console.log(state.domains);
+  // TODO : decorate list with session
+  // console.log(state.timebar);
 
   // TODO external abstraction
   const epIds = [];

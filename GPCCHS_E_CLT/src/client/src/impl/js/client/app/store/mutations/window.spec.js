@@ -5,7 +5,7 @@ import reducer, {
   getWindow,
   getPages,
   getFocusedPage,
-  getWindowConnectedData,
+  getWindowSubscriptions,
 } from './windowReducer';
 
 describe('store:window', () => {
@@ -238,7 +238,7 @@ describe('store:window', () => {
         getFocusedPage(getState(), 'myWindowId').should.equal('p3');
       });
     });
-    describe('getWindowConnectedData', () => {
+    describe('getWindowSubscriptions', () => {
       it('works', () => {
         const store = getStore({
           windows: { myWindowId: { pages: ['p1', 'p2', 'p3', 'not-exist'] }},
@@ -264,7 +264,7 @@ describe('store:window', () => {
             cd3: { formula: 'f*f' },
           },
         });
-        getWindowConnectedData(store.getState(), 'myWindowId').should.eql([
+        getWindowSubscriptions(store.getState(), 'myWindowId').should.eql([
           { connectedDataId: 'cd1', formula: 'f-f' },
           { connectedDataId: 'cd2', formula: 'f+f' },
           { connectedDataId: 'cd3', formula: 'f*f' },
@@ -272,7 +272,7 @@ describe('store:window', () => {
       });
       it('unknown window', () => {
         const store = getStore({});
-        getWindowConnectedData(store.getState(), 'myWindowId').should.eql([]);
+        getWindowSubscriptions(store.getState(), 'myWindowId').should.eql([]);
       });
     });
   });

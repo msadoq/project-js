@@ -29,8 +29,6 @@ export default class TextView extends Component {
         {this.props.type}
         <br />
         {entryPointsText}
-        <br />
-        {this.props.content}
       </div>
     );
   }

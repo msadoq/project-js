@@ -18,7 +18,6 @@ module.exports = {
     const ids = _.map(entryPoints, pt => {
       return pt.connectedData.uuid;
     });
-    console.log('content',state.content);
     return _.reduce(_.get(state,'connectedData'), (result, data, key) => {
       if (_.indexOf(ids,key) >= 0) {
         Object.assign(result, { [key]: data });

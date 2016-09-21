@@ -12,7 +12,7 @@ const { tmpdir } = require('os');
 
 const fs = require('./fs');
 
-describe.only('documents/fs', () => {
+describe('documents/fs', () => {
   const folder = fs.resolve(tmpdir(), '/test');
   const file = fs.resolve(folder, '/foo.txt');
   const json = fs.resolve(folder, '/foo.json');

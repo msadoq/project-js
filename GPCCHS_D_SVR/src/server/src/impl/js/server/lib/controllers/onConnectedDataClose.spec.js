@@ -1,5 +1,4 @@
 require('../utils/test');
-const formula = require('../utils/formula');
 const { decode } = require('../protobuf');
 const { startConnectedDataSubscription } = require('./onConnectedDataOpen');
 const { endConnectedDataSubscription } = require('./onConnectedDataClose');
@@ -10,48 +9,51 @@ describe('onConnectedDataClose', () => {
     connectedDataModel.chain().find().remove();
   });
   it('messageHandler error', () => {
-    const dataFormula = 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.convertedValue';
     (() => endConnectedDataSubscription(
       { id: 'test' },
       {
-        formula: dataFormula,
-        domain: '.*',
-        timeline: 'Session 1',
-        windowId: 42,
+        windowId: 'myWindowId',
+        parameterName: 'ATT_BC_STR1VOLTAGE',
+        catalog: 'Reporting',
+        comObject: 'ReportingParameter',
+        domainId: 12345,
+        sessionId: 6789,
       },
       (key, buffer, callback) => {
         callback(new Error());
       }
     )).should.throw(Error);
+
     const connectedData = connectedDataModel.find();
-    connectedData.should.be.an('array')
-      .that.have.lengthOf(1);
-    connectedData[0].should.be.an('object')
-      .that.have.properties({
-        // TODO deal with dataId when possible
-        intervals: [],
-        requested: {},
-        windows: [42],
-      });
+    connectedData.should.be.an('array').that.have.lengthOf(1);
+    connectedData[0].should.be.an('object').that.have.properties({
+      // TODO deal with dataId when possible
+      intervals: [],
+      requested: {},
+      windows: ['myWindowId'],
+    });
   });
   it('end subscription', () => {
-    const dataFormula = 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.convertedValue';
     startConnectedDataSubscription(
       { id: 'test' },
       {
-        formula: dataFormula,
-        domain: '.*',
-        timeline: 'Session 1',
-        windowId: 42,
+        windowId: 'windowId',
+        parameterName: 'ATT_BC_STR1VOLTAGE',
+        catalog: 'Reporting',
+        comObject: 'ReportingParameter',
+        domainId: 12345,
+        sessionId: 6789,
       },
       (k, b, cb) => {
         endConnectedDataSubscription(
           { id: 'test' },
           {
-            formula: dataFormula,
-            domain: '.*',
-            timeline: 'Session 1',
-            windowId: 42,
+            windowId: 'windowId',
+            parameterName: 'ATT_BC_STR1VOLTAGE',
+            catalog: 'Reporting',
+            comObject: 'ReportingParameter',
+            domainId: 12345,
+            sessionId: 6789,
           },
           (key, buffer, callback) => {
             key.should.be.an('string')
@@ -69,11 +71,10 @@ describe('onConnectedDataClose', () => {
               .that.equal('DELETE');
             payload.should.have.an.property('dataId')
               .that.be.an('object');
-            const data = formula(dataFormula);
             payload.dataId.should.have.properties({
-              parameterName: data.parameterName,
-              catalog: data.catalog,
-              comObject: data.comObject,
+              parameterName: 'ATT_BC_STR1VOLTAGE',
+              catalog: 'Reporting',
+              comObject: 'ReportingParameter',
             });
             // TODO check payload.dataId.sessionId and payload.dataId.domainId when implemented
             const connectedData = connectedDataModel.find();

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import Navigation from '../Navigation/Navigation';
-import ConnectedDataContainer from '../ConnectedData/ConnectedDataContainer';
+import SubscriptionsContainer from '../Subscriptions/SubscriptionsContainer';
 import PageContainer from '../Page/PageContainer';
 
 export default class Window extends Component {
   render() {
     return (
       <Grid fluid>
-        <ConnectedDataContainer
+        <SubscriptionsContainer
           windowId={this.props.windowId}
         />
         <Row>

@@ -1,25 +1,23 @@
 import React, { Component, PropTypes } from 'react';
 import { getWebsocket } from '../websocket';
 
-export default class ConnectedData extends Component {
+export default class Subscription extends Component {
   static propTypes = {
+    windowId: PropTypes.string,
     connectedDataId: PropTypes.string.isRequired,
     formula: PropTypes.string,
-    domain: PropTypes.string,
-    timeline: PropTypes.string,
-    filter: PropTypes.any, // TODO object or array?
-    windowId: PropTypes.string,
+    sessionId: PropTypes.string,
+    domainId: PropTypes.string,
   };
   componentDidMount() {
     getWebsocket().write({
       event: 'connectedDataOpen',
       payload: {
+        windowId: this.props.windowId,
         connectedDataId: this.props.connectedDataId,
         formula: this.props.formula,
-        domain: this.props.domain,
-        timeline: this.props.timeline,
-        filter: this.props.filter,
-        windowId: this.props.windowId,
+        sessionId: this.props.sessionId,
+        domainId: this.props.domainId,
       },
     });
   }
@@ -27,12 +25,11 @@ export default class ConnectedData extends Component {
     getWebsocket().write({
       event: 'connectedDataClose',
       payload: {
+        windowId: this.props.windowId,
         connectedDataId: this.props.connectedDataId,
         formula: this.props.formula,
-        domain: this.props.domain,
-        timeline: this.props.timeline,
-        filter: this.props.filter,
-        windowId: this.props.windowId,
+        sessionId: this.props.sessionId,
+        domainId: this.props.domainId,
       },
     });
   }

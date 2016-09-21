@@ -23,8 +23,8 @@ class SubscriptionsContainer extends Component {
               parameterName={parameter.parameterName}
               catalog={parameter.catalog}
               comObject={parameter.comObject}
-              domainId={123}//cd.domainId}
-              sessionId={345}//{cd.sessionId}
+              domainId={123}//cd.domainId} // TODO dbrugne
+              sessionId={345}//{cd.sessionId} // TODO dbrugne
             />
           );
         })}

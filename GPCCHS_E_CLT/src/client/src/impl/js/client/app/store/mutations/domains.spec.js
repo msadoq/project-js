@@ -1,7 +1,8 @@
 /* eslint no-unused-expressions: 0 */
+import _ from 'lodash';
 import { should, getStore } from '../../utils/test';
 import * as actions from './domainsActions';
-import reducer, { getDomains, getDomain } from './domainsReducer';
+import reducer, { getDomain } from './domainsReducer';
 
 describe('store:domains', () => {
   describe('actions & reducer', () => {
@@ -50,7 +51,7 @@ describe('store:domains', () => {
           domainId: 27,
           parentDomainId: 98,
         }] });
-        getDomains(getState()).should.eql([{
+        _.get(getState(), 'domains').should.eql([{
           itemNamespace: 'Domains',
           name: 'fr.cnes.sat1',
           oid: '0051525005151000565215465660515',
@@ -60,7 +61,7 @@ describe('store:domains', () => {
       });
       it('empty', () => {
         const { getState } = getStore({ domains: [] });
-        getDomains(getState()).should.eql([]);
+        _.get(getState(), 'domains').should.eql([]);
       });
     });
     describe('getDomain', () => {

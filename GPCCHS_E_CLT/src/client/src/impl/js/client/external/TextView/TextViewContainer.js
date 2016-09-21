@@ -20,7 +20,7 @@ function mapStateToProps(state, { viewId, type }) {
     start = 1;
   }
   const content = _.join(_.slice(contentArray, start), '');
-
+  // <div dangerouslySetInnerHTML={myFunction()} />
   return {
     viewId,
     type,

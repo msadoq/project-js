@@ -34,4 +34,12 @@ collection.findByInterval = (dataId, lower, upper) => {
   return collection.find(query);
 };
 
+collection.removeByDataId = (dataId) => {
+  collection.removeWhere({
+    localId: collection.getLocalId(dataId),
+  });
+};
+
+collection.cleanup = () => collection.chain().find().remove();
+
 module.exports = collection;

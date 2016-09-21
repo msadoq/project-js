@@ -18,7 +18,9 @@ const queryDomains = (spark, payload, messageHandler) => {
   });
 
   messageHandler('dcPush', buffer, (msgErr) => {
-    if (msgErr) throw msgErr;
+    if (msgErr) {
+      throw msgErr;
+    }
   });
 };
 

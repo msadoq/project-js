@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import * as types from './types';
+import convertWildcard from '../../utils/converter';
 
 /**
  * Reducer
@@ -58,4 +59,25 @@ function timebar(state = initialState, action) {
  */
 export function getTimebar(state, timebarId) {
   return state.timebars[timebarId];
+}
+export function getSessionIdsByWildcard(state, timebarId, search) {
+  const regex = new RegExp(convertWildcard(search));
+  const tb = getTimebar(state, timebarId);
+  if (!tb) {
+    return [];
+  }
+  // Get all timelines of tb
+  const listId = _.reduce(_.get(state, 'timelines'), (list, tl) => {
+    if (_.indexOf(tb.timelines, tl.uuid) < 0) {
+      return list;
+    }
+    if (!tl.sessionId) {
+      return list;
+    }
+    if (regex.test(tl.id)) {
+      (list || (list = [])).push(tl.sessionId); // eslint-disable-line no-param-reassign
+    }
+    return list;
+  }, []);
+  return listId;
 }

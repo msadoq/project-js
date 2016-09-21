@@ -133,7 +133,7 @@ function separateConnectedData(content, cb) {
   const cdList = [];
   _.forEach(content.views, view => {
     if (_.has(external, view.type)) {
-      const cdListPart = external[view.type].getConnectedDataFromView(view);
+      const cdListPart = external[view.type].getConnectedDataFromViewDocument(view);
       _.each(cdListPart, elem => {
         cdList.push(elem);
       });

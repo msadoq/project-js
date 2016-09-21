@@ -4,7 +4,9 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --compilers js:babel-register --recursive \"app/**/*.spec.js\"",
+    "test": "NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --compilers js:babel-register --recursive \"+(app|external)/**/*.spec.js\"",
+    "test1": "mocha --compilers js:babel-register \"app/**/*.spec.js\"",
+    "test-view": "mocha --compilers js:babel-register \"external/**/*.spec.js\"",
     "test-watch": "npm test -- --watch",
     "test-e2e": "NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --compilers js:babel-register --require ./test/setup.js ./test/e2e.js",
     "lint": "eslint app test *.js",

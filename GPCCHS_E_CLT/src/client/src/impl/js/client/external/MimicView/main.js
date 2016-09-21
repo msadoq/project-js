@@ -1,7 +1,7 @@
 const schema = require('../../app/schemaManager/schemas/MV.schema.json');
 
 module.exports = {
-  getConnectedDataFromView(viewContent) {
+  getConnectedDataFromViewDocument(viewContent) {
     const cdList = [];
     if (_.has(viewContent, 'configuration')) {
       _.forEach(viewContent.configuration.mimicViewEntryPoints, (value, index, source) => {

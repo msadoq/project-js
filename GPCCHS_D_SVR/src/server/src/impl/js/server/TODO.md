@@ -120,6 +120,7 @@ Only list expected tasks for PBF shipping of end of october.
     - [ ] Add (in current page)
   - Edit (unchanged)
   - Remove Help
+* [ ] Re-implement documents/workspace unit test (Damien)
 * [ ] Add a clean "error" page when unable to connect to server or when DC stub is off
 * [ ] To improve stability add an "page close" handler in window and set ws redux state as disconnected
 * [ ] Sync with erb: 0b0e19c74518fc97843e9bcb393086aa9a7ad616

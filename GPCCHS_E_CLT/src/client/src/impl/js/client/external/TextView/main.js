@@ -1,4 +1,4 @@
-const schema = require('../../app/schemaManager/schemas/TV.schema.json');
+const schema = require('./TextView.schema.json');
 const common = require('../common');
 const _ = require('lodash');
 

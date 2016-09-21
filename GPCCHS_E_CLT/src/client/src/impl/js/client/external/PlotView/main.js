@@ -1,4 +1,4 @@
-const schema = require('../../app/schemaManager/schemas/PV.schema.json');
+const schema = require('./PlotView.schema.json');
 const common = require('../common');
 const _ = require('lodash');
 

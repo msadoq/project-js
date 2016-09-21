@@ -1,4 +1,4 @@
-const schema = require('../../app/schemaManager/schemas/MV.schema.json');
+const schema = require('./MimicView.schema.json');
 
 module.exports = {
   getConnectedDataFromViewDocument(viewContent) {

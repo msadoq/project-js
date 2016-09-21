@@ -23,5 +23,7 @@ module.exports = (content, cb) => {
     w => Object.assign(w, { uuid: v4() })
   );
 
-  return cb(null, Object.assign(content, { windows }));
+  return cb(null, Object.assign(content, {
+    windows: _.reduce(windows, (l, v) => Object.assign(l, { [v.uuid]: v }), {}),
+  }));
 };

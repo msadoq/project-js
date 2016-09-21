@@ -16,5 +16,7 @@ module.exports = (content, cb) => {
 
   timebars = _.map(timebars, w => Object.assign(w, { uuid: v4() }));
 
-  return cb(null, Object.assign(content, { timebars }));
+  return cb(null, Object.assign(content, {
+    timebars: _.reduce(timebars, (l, v) => Object.assign(l, { [v.uuid]: v }), {}),
+  }));
 };

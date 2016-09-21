@@ -15,21 +15,21 @@ module.exports = (content, cb) => {
 
   // loop on timebars
   content.timelines = _.reduce(timebars, (list, timebar, index) => {
-    const tls = _.get(timebar, 'timelines', []);
+    const timelines = _.get(timebar, 'timelines', []);
 
     // loop on timelines
-    _.each(tls, (timeline, idx) => {
+    _.each(timelines, (timeline, idx) => {
       const uuid = v4();
 
       // replace timebar.timelines.item with uuid
       timebars[index].timelines[idx] = uuid;
 
       // eslint-disable-next-line no-param-reassign
-      list.push(Object.assign({}, timeline, { uuid }));
+      list[uuid] = Object.assign({}, timeline, { uuid });
     });
 
     return list;
-  }, []);
+  }, {});
 
   return cb(null, content);
 };

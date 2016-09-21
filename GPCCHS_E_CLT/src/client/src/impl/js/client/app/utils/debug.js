@@ -1,5 +1,5 @@
 // specific management of renderer env
-if (!process.env.DEBUG && global.env.DEBUG) {
+if (!process.env.DEBUG && global.env && global.env.DEBUG) {
   process.env.DEBUG = global.env.DEBUG;
 }
 
@@ -12,7 +12,10 @@ const VERBOSE = 'VERBOSE';
 
 module.exports = namespace => {
   const logger = d(`GPCCHS:${namespace}`);
-  const level = process.env.LEVEL || global.env.LEVEL;
+  let level = process.env.LEVEL;
+  if (!level && global.env && global.env.LEVEL) {
+    level = global.env.LEVEL;
+  }
 
   return {
     error: (...args) => {

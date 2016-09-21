@@ -56,6 +56,7 @@ Only list expected tasks for PBF shipping of end of october.
 * [ ] Correct support of path and oId in documents, maybe required FMD call (Phillipe)
 * [ ] Finalize timebar stub (reaction to new client, new view, new param to listen, view closing) (Audrey)
 * [ ] Communication with real-timebar and open workspace process
+* [ ] Add debug routes on HSS: index, connectedData collection, cacheJson collection, domains, timebar, ... (Alexandra)
 * [ ] Implement a clean log and error channel to files (Damien)
 * [ ] Envisage to try/catch every ZeroMQ/protobuf operation (Damien)
 * [ ] Track "throw" and catch them accordingly (Damien)

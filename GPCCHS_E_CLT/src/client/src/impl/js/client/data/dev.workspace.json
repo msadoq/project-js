@@ -48,7 +48,28 @@
     },
     {
       "type": "documentWindow",
-      "title": "window example", 
+      "title": "window example",
+      "pages": [
+        {
+          "path": "/pages/showcase.page.json",
+          "timeBarId": "TB1"
+        },
+        {
+          "oId": "pages/simple.page.vipg",
+          "timeBarId": "TB1"
+        }
+      ],
+      "geometry": {
+        "kind": "Absolute",
+        "x": 110,
+        "y": 10,
+        "w": 1310,
+        "h": 800
+      }
+    },
+    {
+      "type": "documentWindow",
+      "title": "window example",
       "pages": [
         {
           "path": "/pages/showcase.page.json",

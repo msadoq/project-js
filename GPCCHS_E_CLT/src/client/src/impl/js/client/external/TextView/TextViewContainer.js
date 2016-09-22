@@ -14,13 +14,24 @@ function mapStateToProps(state, { viewId, type }) {
   const cData = getConnectedDataFromState(state, entryPoints);
   const links = _.get(configuration, 'links', []);
   const defaultRatio = _.get(configuration, 'defaultRatio', {});
-  let start = 0;
   const contentArray = _.get(configuration, 'content');
-  if (contentArray[0] === '<!DOCTYPE html>') {
-    start = 1;
+
+  let iStart = _.findIndex(contentArray, item => {
+    return (item.search('<body') >= 0);
+  });
+  let iEnd = -1;
+  if (iStart >= 0) {
+    iEnd = _.findIndex(contentArray, item => {
+      return (item.search('</body') >= 0);
+    });
+    if (iEnd < 0) {
+      iEnd = contentArray.length;
+    }
+  } else {
+    iStart = 0;
   }
-  const content = _.join(_.slice(contentArray, start), '');
-  // <div dangerouslySetInnerHTML={myFunction()} />
+  const content = _.join(_.slice(contentArray, iStart + 1, iEnd), '');
+
   return {
     viewId,
     type,

@@ -9,16 +9,16 @@ const http = require('http');
 const zmq = require('./lib/io/zmq');
 const primus = require('./lib/io/primus');
 const onClientOpen = require('./lib/controllers/onClientOpen');
-const onClientClose = require('./lib/controllers/onClientClose');
+const { onClientClose } = require('./lib/controllers/onClientClose');
 const { onDcServerMessage } = require('./lib/controllers/onDcServerMessage');
 const onTimeBarUpdate = require('./lib/controllers/onTimeBarUpdate');
 const onWindowOpen = require('./lib/controllers/onWindowOpen');
-const onWindowClose = require('./lib/controllers/onWindowClose');
+const { onWindowClose } = require('./lib/controllers/onWindowClose');
 const onViewOpen = require('./lib/controllers/onViewOpen');
 const onViewClose = require('./lib/controllers/onViewClose');
 const onViewUpdate = require('./lib/controllers/onViewUpdate');
-const onConnectedDataOpen = require('./lib/controllers/onConnectedDataOpen');
-const onConnectedDataClose = require('./lib/controllers/onConnectedDataClose');
+const { onSubscriptionOpen } = require('./lib/controllers/onSubscriptionOpen');
+const { onSubscriptionClose } = require('./lib/controllers/onSubscriptionClose');
 const { onClientDomainQuery } = require('./lib/controllers/onClientDomainQuery');
 const onTimebarUpdate = require('./lib/controllers/onHscTimebarUpdate');
 
@@ -85,8 +85,8 @@ primus.init(server, {
   onViewOpen,
   onViewClose,
   onViewUpdate,
-  onConnectedDataOpen,
-  onConnectedDataClose,
+  onSubscriptionOpen,
+  onSubscriptionClose,
   onTimebarUpdate,
   onClientDomainQuery,
 });

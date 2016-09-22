@@ -40,6 +40,9 @@ collection.removeByDataId = (dataId) => {
   });
 };
 
-collection.cleanup = () => collection.chain().find().remove();
+collection.cleanup = () => {
+  debug.debug('cacheJson cleared');
+  collection.chain().find().remove();
+};
 
 module.exports = collection;

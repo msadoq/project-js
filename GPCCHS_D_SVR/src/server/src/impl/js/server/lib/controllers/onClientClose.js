@@ -2,6 +2,8 @@ const debug = require('../io/debug')('controllers:onClientClose');
 const subscriptions = require('../utils/subscriptions');
 const cacheJsonModel = require('../models/cacheJson');
 const connectedDataModel = require('../models/connectedData');
+const registeredCallbacks = require('../utils/registeredCallbacks');
+const { stopSubscription } = require('./onSubscriptionClose');
 const zmq = require('../io/zmq');
 const _ = require('lodash');
 const { resetTimebar } = require('../timeBar');
@@ -17,29 +19,32 @@ const { resetDomains } = require('../utils/domains');
  *
  * @param spark
  */
-module.exports = (spark) => {
-  debug.info(`called (${spark.id})`);
 
-  // TODO unsubscribe every pub/sub connectedData
+const cleanUpRemainingData = (messageHandler) => {
+  // unsubscribe every remaining pub/sub connectedData
   _.each(connectedDataModel.getAll(), (connectedData) => {
     _.each(connectedData.windows, (windowId) => {
-      subscriptions.stop({
-        parameterName: connectedData.parameterName,
-        catalog: connectedData.catalog,
-        comObject: connectedData.comObject,
-        sessionId: connectedData.sessionId,
-        domainId: connectedData.domainId,
-        windowId,
-      }, zmq.push);
+      stopSubscription(Object.assign({}, connectedData, { windowId }), messageHandler);
     });
   });
-  // TODO cleanup local cacheJson (loki)
+  // cleanup local cacheJson (loki)
   cacheJsonModel.cleanup();
-  // TODO cleanup local connectedData (loki)
+  // cleanup local connectedData (loki)
   connectedDataModel.cleanup();
-  // TODO cleanup local domains
+  // cleanup local domains
   resetDomains();
-  // TODO cleanup local timebar
+  // cleanup local timebar
   resetTimebar();
+  // cleanup registered callbacks
+  registeredCallbacks.clear();
+
   debug.debug('cleanup done');
+};
+
+module.exports = {
+  cleanUpRemainingData,
+  onClientClose: (spark) => {
+    debug.info(`called (${spark.id})`);
+    cleanUpRemainingData(zmq.push);
+  },
 };

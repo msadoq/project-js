@@ -8,6 +8,7 @@ import loadWorkspace from './loadWorkspace';
 import { getStatus as getMainWsStatus } from '../store/mutations/hssReducer';
 import { getStatus as getAppStatus } from '../store/mutations/hscReducer';
 import { updateStatus } from '../store/mutations/hscActions';
+import menu from'./menu';
 
 const logger = debug('main:launch');
 // TODO: A supprimer!!!!

@@ -8,6 +8,7 @@ import { initStore, getStore } from '../store/windowStore';
 import './global.css';
 import '../shortcuts.global.css';
 
+
 const search = global.location.search;
 const windowId = search.replace('?windowId=', '');
 

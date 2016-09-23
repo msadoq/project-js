@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-expressions */
-const { should } = require('./test');
+const { should } = require('./../utils/test');
 const formula = require('./formula');
 
-describe('formula', () => {
+describe('connectedData/formula', () => {
   it('empty or invalid type', () => {
     should.not.exist(formula());
     should.not.exist(formula(null));

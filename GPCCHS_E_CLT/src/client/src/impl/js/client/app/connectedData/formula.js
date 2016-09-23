@@ -1,4 +1,6 @@
 /**
+ * Parse formula string and return an object with extracted data.
+ *
  * formula sample 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue'
  * should be parsed in:
  * {
@@ -8,8 +10,10 @@
  *   comObject: 'ReportingParameter',
  *   field: 'extractedValue'   <-- Optional
  * }
+ *
+ * @param formula
+ * @returns {*}
  */
-
 const pattern = /^([^\.]+)\.([^<]+)<([^>]+)>(\.){0,1}([\w]+){0,1}$/i;
 module.exports = (formula) => {
   if (typeof formula !== 'string' || !pattern.test(formula)) {

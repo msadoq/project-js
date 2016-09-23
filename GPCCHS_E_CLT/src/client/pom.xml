@@ -50,13 +50,7 @@
         <dependency>
             <groupId>fr.cnes.lpisis.cots</groupId>
             <artifactId>electron-debug</artifactId>
-        	<version>2.3.1</version>
-            <type>isis-cots</type>
-        </dependency>
-        <dependency>
-            <groupId>fr.cnes.lpisis.cots</groupId>
-            <artifactId>electron-debug</artifactId>
-        	<version>2.3.1</version>
+        	<version>1.0.1</version>
             <type>isis-cots</type>
         </dependency>
         <dependency>
@@ -149,11 +143,52 @@
         	<version>0.8.0</version>
             <type>isis-cots</type>
         </dependency>
-
-
         <dependency>
-            <groupId>org.sourceforge.pyunit</groupId>
-            <artifactId>COTS-pyunit</artifactId>
+            <groupId>fr.cnes.lpisis.cots</groupId>
+            <artifactId>ajv</artifactId>
+        	<version>4.3.0</version>
+            <type>isis-cots</type>
+        </dependency>
+        <dependency>
+            <groupId>fr.cnes.lpisis.cots</groupId>
+            <artifactId>chai-properties</artifactId>
+        	<version>1.2.1</version>
+            <type>isis-cots</type>
+        </dependency>
+        <dependency>
+            <groupId>fr.cnes.lpisis.cots</groupId>
+            <artifactId>react-color</artifactId>
+        	<version>2.2.2</version>
+            <type>isis-cots</type>
+        </dependency>
+        <dependency>
+            <groupId>fr.cnes.lpisis.cots</groupId>
+            <artifactId>react-colorpicker</artifactId>
+        	<version>0.3.14</version>
+            <type>isis-cots</type>
+        </dependency>
+        <dependency>
+            <groupId>fr.cnes.lpisis.cots</groupId>
+            <artifactId>react-select</artifactId>
+        	<version>1.0.0-beta14</version>
+            <type>isis-cots</type>
+        </dependency>
+        <dependency>
+            <groupId>fr.cnes.lpisis.cots</groupId>
+            <artifactId>node-uuid</artifactId>
+        	<version>1.4.7</version>
+            <type>isis-cots</type>
+        </dependency>
+        <dependency>
+            <groupId>fr.cnes.lpisis.cots</groupId>
+            <artifactId>react-grid-layout</artifactId>
+        	<version>0.13.3</version>
+            <type>isis-cots</type>
+        </dependency>
+        <dependency>
+            <groupId>fr.cnes.lpisis.cots</groupId>
+            <artifactId>updeep</artifactId>
+        	<version>0.16.1</version>
             <type>isis-cots</type>
         </dependency>
     </dependencies>

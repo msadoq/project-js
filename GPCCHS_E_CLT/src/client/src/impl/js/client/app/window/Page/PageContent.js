@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 import { WidthProvider, Responsive } from 'react-grid-layout';
-import View from '../View/View';
+import ViewContainer from '../View/ViewContainer';
 import styles from './Page.css';
 
 // TODO : remove AddView and add add window and add page in electron menu bar
@@ -50,10 +50,9 @@ export default class PageContent extends Component {
       >
         {_.map(this.props.views, v =>
           <div className={styles.block} key={v.viewId}>
-            <View
+            <ViewContainer
+              timebarId={this.props.page.timebarId}
               viewId={v.viewId}
-              type={v.type}
-              configuration={v.configuration}
               unmountAndRemove={this.props.unmountAndRemove}
               openEditor={this.props.openEditor}
               closeEditor={this.props.closeEditor}

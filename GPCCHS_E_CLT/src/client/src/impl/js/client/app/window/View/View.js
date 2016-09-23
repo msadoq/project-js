@@ -7,9 +7,11 @@ import UnknownView from './UnknownView';
 
 export default class View extends Component {
   static propTypes = {
+    timebarId: PropTypes.string.isRequired,
     type: React.PropTypes.string.isRequired,
     viewId: PropTypes.string.isRequired,
     configuration: PropTypes.object.isRequired,
+    connectedData: PropTypes.array,
     openEditor: PropTypes.func,
     closeEditor: PropTypes.func,
     unmountAndRemove: PropTypes.func,
@@ -41,7 +43,7 @@ export default class View extends Component {
     const ViewTypeContainer = _.has(external, type) ? external[type].container : UnknownView;
 
     return (
-      <div>
+      <div onClick={this.onStopGridLayoutPropagation.bind(this)}>
         <div>
           {this.props.title}
           <Button onClick={this.onOpenEditor.bind(this)}>
@@ -52,7 +54,13 @@ export default class View extends Component {
           </Button>
         </div>
         <div>
-          <ViewTypeContainer {...this.props} />
+          <ViewTypeContainer
+            timebarId={this.props.timebarId}
+            viewId={this.props.viewId}
+            type={this.props.type}
+            configuration={this.props.configuration}
+            connectedData={this.props.connectedData}
+          />
         </div>
       </div>
     );
@@ -78,5 +86,9 @@ export default class View extends Component {
     }
 
     this.props.unmountAndRemove(this.props.viewId);
+  }
+  onStopGridLayoutPropagation(e) {
+    e.preventDefault();
+    e.stopPropagation(); // TODO need both?
   }
 }

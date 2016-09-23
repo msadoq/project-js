@@ -1,39 +1,24 @@
 import React from 'react';
+import _ from 'lodash';
 import { connect } from 'react-redux';
-import { getView } from '../../app/store/mutations/viewReducer';
+
 import PlotView from './PlotView';
-import { getConnectedDataFromState } from './main';
 
 const PlotViewContainer = props => <PlotView {...props} />;
 
-function mapStateToProps(state, { viewId, type }) {
-  const { title, configuration } = getView(state, viewId);
-  const axes = _.get(configuration, 'axes', []);
-  const grids = _.get(configuration, 'grids', []);
-  const entryPoints = _.get(configuration, 'plotViewEntryPoints', []);
-  const cData = getConnectedDataFromState(state, entryPoints);
-  const titleStyle = _.get(configuration, 'titleStyle');
-  const links = _.get(configuration, 'links', []);
-  const procedures = _.get(configuration, 'procedures', []);
-  const defaultRatio = _.get(configuration, 'defaultRatio', {});
-  const legend = _.get(configuration, 'legend', {});
-  const markers = _.get(configuration, 'markers', []);
-
+function mapStateToProps(state, ownProps) {
+  const { configuration } = ownProps;
   return {
-    viewId,
-    type,
-    title,
-    entryPoints,
-    cData,
-    axes,
-    grids,
-    titleStyle,
-    links,
-    procedures,
-    defaultRatio,
-    legend,
-    markers,
-    state,
+    ...ownProps,
+    entryPoints: _.get(configuration, 'plotViewEntryPoints', []),
+    axes: _.get(configuration, 'axes', []),
+    grids: _.get(configuration, 'grids', []),
+    titleStyle: _.get(configuration, 'titleStyle'),
+    links: _.get(configuration, 'links', []),
+    procedures: _.get(configuration, 'procedures', []),
+    defaultRatio: _.get(configuration, 'defaultRatio', {}),
+    legend: _.get(configuration, 'legend', {}),
+    markers: _.get(configuration, 'markers', []),
   };
 }
 

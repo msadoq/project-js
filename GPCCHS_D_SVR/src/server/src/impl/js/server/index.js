@@ -25,6 +25,11 @@ const onTimebarUpdate = require('./lib/controllers/onHscTimebarUpdate');
 const dcStub = require('./lib/stubs/dc');
 const tbStub = require('./lib/stubs/tb');
 
+const perfTool = require('./lib/utils/performanceTool');
+
+perfTool.init();
+perfTool.launch();
+
 // port
 function normalizePort(val) {
   const p = parseInt(val, 10);

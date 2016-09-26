@@ -16,6 +16,7 @@ const windowId = search.replace('?windowId=', '');
 
 initStore();
 
+// TODO : factorize in separate module, test to embed in WebsocketContainer
 window.addEventListener('beforeunload', () => {
   logger.info('onbeforeunload called');
   getStore().dispatch(remove(windowId));

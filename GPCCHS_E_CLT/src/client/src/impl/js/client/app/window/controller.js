@@ -1,4 +1,4 @@
-import debug from '../utils/debug';
+import debug from '../utils/windowDebug';
 import { getStore } from '../store/windowStore';
 import { updateStatus } from '../store/mutations/hssActions';
 

@@ -1,4 +1,4 @@
-import debug from '../utils/debug';
+import debug from '../utils/mainDebug';
 import { getStore } from '../store/mainStore';
 import { updateStatus as updateAppStatus } from '../store/mutations/hscActions';
 import { updateDomains } from '../store/mutations/domainsActions';

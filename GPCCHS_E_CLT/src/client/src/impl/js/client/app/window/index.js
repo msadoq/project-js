@@ -1,10 +1,10 @@
+import debug from '../utils/windowDebug';
 import React from 'react';
 import { render } from 'react-dom';
 import WebsocketContainer from './Websocket/WebsocketContainer';
 import WindowContainer from './Window/WindowContainer';
 import { Provider } from 'react-redux';
 import { initStore, getStore } from '../store/windowStore';
-import debug from '../utils/debug';
 import { remove } from '../store/mutations/hssActions';
 import './global.css';
 import '../shortcuts.global.css';

@@ -1,4 +1,4 @@
-import debug from '../utils/debug';
+import debug from '../utils/mainDebug';
 import installExtensions from './installExtensions';
 import { initStore, getStore } from '../store/mainStore';
 import { connect, disconnect, getWebsocket } from './websocket';

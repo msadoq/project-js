@@ -1,4 +1,4 @@
-const debug = require('../utils/debug')('documents:workspace');
+const debug = require('../utils/mainDebug')('documents:workspace');
 const _ = require('lodash');
 const async = require('async');
 const fs = require('./fs');

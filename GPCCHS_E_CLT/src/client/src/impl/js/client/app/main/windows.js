@@ -1,4 +1,4 @@
-import debug from '../utils/debug';
+import debug from '../utils/mainDebug';
 import _ from 'lodash';
 import { BrowserWindow } from 'electron';
 import { remove } from '../store/mutations/windowActions';

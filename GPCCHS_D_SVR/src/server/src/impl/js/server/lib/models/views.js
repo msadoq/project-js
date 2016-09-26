@@ -1,30 +1,45 @@
 const debug = require('../io/debug')('models:views');
 const database = require('../io/loki');
+const _ = require('lodash');
 
-const collection = database.addCollection('views');
+const collection = database.addCollection('views',
+  {
+    unique: 'viewId',
+  }
+);
 
-collection.addRecord = (sparkId, instance) => {
-  debug.debug('insert', sparkId);
+collection.getViewIdIndex = () => collection.constraints.unique.viewId;
+
+collection.getAll = () => _.remove(_.values(collection.getViewIdIndex().keyMap), undefined);
+
+collection.addRecord = (viewId, instance) => {
+  debug.debug('insert', viewId);
   return collection.insert({
-    id: sparkId,
+    viewId,
     visible: true,
     instance,
   });
 };
 
-collection.delRecord = (sparkId) => {
-  collection.removeWhere({ id: sparkId });
-  debug.debug('deleted', sparkId);
+collection.delRecord = (viewId) => {
+  const view = collection.by('viewId', viewId);
+  if (typeof view === 'undefined') {
+    return;
+  }
+  collection.remove(view);
+  debug.debug('deleted', viewId);
 };
 
-collection.findBySparkId = sparkId => collection.find({
-  id: sparkId,
-});
+collection.findByViewId = viewId => collection.by('viewId', viewId);
 
 collection.retrieveVisible = () => collection.find({
   visible: true,
 });
 
-collection.cleanup = () => collection.chain().find().remove();
+collection.cleanup = () => {
+  debug.debug('views cleared');
+  collection.clear();
+  collection.getViewIdIndex().clear();
+};
 
 module.exports = collection;

@@ -26,5 +26,5 @@ module.exports = (spark, payload) => {
     configuration: payload.configuration,
   });
 
-  viewsModel.addRecord(spark.id, instance);
+  viewsModel.addRecord(payload.viewId, instance);
 };

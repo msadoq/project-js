@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
-import { getWebsocket } from '../websocket';
-import { Button } from 'react-bootstrap';
+import { getWebsocket } from '../../websocket/windowWebsocket';
+import { Button, Glyphicon } from 'react-bootstrap';
 import external from '../../../external.window';
 import UnknownView from './UnknownView';
 
@@ -16,6 +16,18 @@ export default class View extends Component {
     closeEditor: PropTypes.func,
     unmountAndRemove: PropTypes.func,
   };
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      isLoading: true,
+    };
+  }
+  componentWillReceiveProps(nextProps) {
+    // An opportunity to react to a prop transition before render() is called by updating the state
+    // using this.setState().
+    // Calling this.setState() within this function will not trigger an additional render.
+    this.queryData(this.props.connectedData, nextProps.connectedData);
+  }
   componentDidMount() {
     console.log('send to websocket new view'); // TODO
     getWebsocket().write({
@@ -23,9 +35,11 @@ export default class View extends Component {
       payload: {
         type: this.props.type,
         viewId: this.props.viewId,
-        configuration: this.props.configuration,
+        // configuration: this.props.configuration,
+        // connectedData: this.props.connectedData,
       },
     });
+    this.queryData({}, this.props.connectedData);
   }
   componentWillUnmount() {
     console.log('send to websocket close view'); // TODO
@@ -54,13 +68,17 @@ export default class View extends Component {
           </Button>
         </div>
         <div>
-          <ViewTypeContainer
-            timebarId={this.props.timebarId}
-            viewId={this.props.viewId}
-            type={this.props.type}
-            configuration={this.props.configuration}
-            connectedData={this.props.connectedData}
-          />
+          {this.state.isLoading
+            ? <Glyphicon glyph="repeat" />
+            : <ViewTypeContainer
+                timebarId={this.props.timebarId}
+                viewId={this.props.viewId}
+                type={this.props.type}
+                configuration={this.props.configuration}
+                connectedData={this.props.connectedData}
+              />
+          }
+
         </div>
       </div>
     );
@@ -90,5 +108,12 @@ export default class View extends Component {
   onStopGridLayoutPropagation(e) {
     e.preventDefault();
     e.stopPropagation(); // TODO need both?
+  }
+  queryData(connectedDataBefore, connectedDataAfter) {
+    console.log('compare', connectedDataBefore, connectedDataAfter);
+
+    // determine which new connected data is present
+
+    // determine missing interval for each connectedData
   }
 }

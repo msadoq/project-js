@@ -9,7 +9,6 @@ export default function controller(event, payload) {
   switch (event) {
     case 'authenticated':
       logger.error('authenticated');
-      // TODO do something here ?
       break;
     case 'ready':
       getStore().dispatch(updateAppStatus('hss-ready'));

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { getWebsocket } from '../websocket';
+import { getWebsocket } from '../../websocket/windowWebsocket';
 
 export default class Subscription extends Component {
   static propTypes = {

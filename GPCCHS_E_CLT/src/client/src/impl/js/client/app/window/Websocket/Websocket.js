@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
-import { connect, disconnect, getWebsocket } from '../websocket';
+import { connect, disconnect, getWebsocket } from '../../websocket/windowWebsocket';
 
 export default class Websocket extends Component {
   static propTypes = {

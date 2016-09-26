@@ -1,6 +1,6 @@
 import debug from '../utils/mainDebug';
 import { getStore } from '../store/mainStore';
-import controller from './controller';
+import controller from './mainController';
 import { updateStatus } from '../store/mutations/hssActions';
 
 import { Primus } from '../../external.main';

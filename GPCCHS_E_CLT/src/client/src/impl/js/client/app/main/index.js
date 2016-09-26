@@ -1,7 +1,7 @@
 import debug from '../utils/mainDebug';
 import installExtensions from './installExtensions';
 import { initStore, getStore } from '../store/mainStore';
-import { connect, disconnect, getWebsocket } from './websocket';
+import { connect, disconnect, getWebsocket } from '../websocket/mainWebsocket';
 import { sync as syncWindows } from './windows';
 import readWorkspace from '../documents/workspace';
 import loadWorkspace from './loadWorkspace';

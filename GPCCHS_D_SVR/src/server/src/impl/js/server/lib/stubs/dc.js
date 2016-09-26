@@ -208,7 +208,7 @@ module.exports = callback => {
 
     debug.info('sockets opened');
 
-    setInterval(emulateDc, 500);
+    setInterval(emulateDc, 5000);
 
     return callback(null);
   });

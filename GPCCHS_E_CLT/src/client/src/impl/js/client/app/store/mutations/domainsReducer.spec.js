@@ -1,7 +1,8 @@
+import { getStore } from '../../utils/test';
 import { getDomainIdsByWildcard } from './domainsReducer';
-import { should, getStore } from '../../utils/test';
 
 describe('domainsReducer', () => {
+  // TODO missing tests empty store, unknown action
   let state;
   before(() => {
     const { getState } = getStore({ domains: [{
@@ -24,49 +25,5 @@ describe('domainsReducer', () => {
       parentDomainId: 76,
     }] });
     state = getState();
-  });
-  describe('getDomainIdsByWildcard', () => {
-    it('wildcard ok', () => {
-      const dId = getDomainIdsByWildcard(state, 'fr.new.*');
-      dId.should.be.an('array').with.length(2);
-      dId[0].should.equal(32);
-      dId[1].should.equal(33);
-    });
-    it('wildcard nok', () => {
-      const dId = getDomainIdsByWildcard(state, 'not.fr.cnes.*');
-      dId.should.be.an('array').with.length(0);
-    });
-    it('no wildcard', () => {
-      const dId = getDomainIdsByWildcard(state, 'fr.cnes.sat1');
-      dId.should.be.an('array').with.length(1);
-      dId[0].should.equal(27);
-    });
-    it('no wildcard but invalid', () => {
-      const dId = getDomainIdsByWildcard(state, 'fr.cnes.sat');
-      dId.should.be.an('array').with.length(0);
-    });
-    it('wildcard *', () => {
-      const dId = getDomainIdsByWildcard(state, '*');
-      dId.should.be.an('array').with.length(3);
-      dId[0].should.equal(27);
-      dId[1].should.equal(32);
-      dId[2].should.equal(33);
-    });
-    it('wildcard * in middle', () => {
-      const dId = getDomainIdsByWildcard(state, 'fr.*.sat1');
-      dId.should.be.an('array').with.length(2);
-      dId[0].should.equal(27);
-      dId[1].should.equal(32);
-    });
-    it('wildcard ?', () => {
-      const dId = getDomainIdsByWildcard(state, 'fr.new.sat?');
-      dId.should.be.an('array').with.length(2);
-      dId[0].should.equal(32);
-      dId[1].should.equal(33);
-    });
-    it('wildcard ? invalid', () => {
-      const dId = getDomainIdsByWildcard(state, 'fr.??.*');
-      dId.should.be.an('array').with.length(0);
-    });
   });
 });

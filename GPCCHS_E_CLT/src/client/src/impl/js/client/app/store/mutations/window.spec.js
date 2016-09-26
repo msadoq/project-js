@@ -5,7 +5,6 @@ import reducer, {
   getWindow,
   getPages,
   getFocusedPage,
-  getWindowSubscriptions,
 } from './windowReducer';
 
 describe('store:window', () => {
@@ -236,43 +235,6 @@ describe('store:window', () => {
           pages: { p3: {}, p4: {} }
         });
         getFocusedPage(getState(), 'myWindowId').should.equal('p3');
-      });
-    });
-    describe('getWindowSubscriptions', () => {
-      it('works', () => {
-        const store = getStore({
-          windows: { myWindowId: { pages: ['p1', 'p2', 'p3', 'not-exist'] }},
-          pages: {
-            p1: { views: ['v1'] },
-            p2: { views: ['v2', 'not-exist', 'v3'] },
-            p3: { views: [] },
-          },
-          views: {
-            v1: { type: 'TextView', configuration: { textViewEntryPoints: [
-              { connectedData: { uuid: 'cd1' } }
-            ] } },
-            v2: { type: 'TextView', configuration: [] },
-            v3: { type: 'TextView', configuration: { textViewEntryPoints: [
-              { connectedData: { uuid: 'cd2' } },
-              { connectedData: { uuid: 'not-exist' } },
-              { connectedData: { uuid: 'cd3' } },
-            ] } },
-          },
-          connectedData: {
-            cd1: { formula: 'f-f' },
-            cd2: { formula: 'f+f' },
-            cd3: { formula: 'f*f' },
-          },
-        });
-        getWindowSubscriptions(store.getState(), 'myWindowId').should.eql([
-          { connectedDataId: 'cd1', formula: 'f-f' },
-          { connectedDataId: 'cd2', formula: 'f+f' },
-          { connectedDataId: 'cd3', formula: 'f*f' },
-        ]);
-      });
-      it('unknown window', () => {
-        const store = getStore({});
-        getWindowSubscriptions(store.getState(), 'myWindowId').should.eql([]);
       });
     });
   });

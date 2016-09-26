@@ -42,6 +42,6 @@ function cd(state = initialState, action) {
 /**
  * Selectors
  */
-export function getConnectedData(state, connectedDataId) {
+export function getConnectedDatum(state, connectedDataId) {
   return state.connectedData[connectedDataId];
 }

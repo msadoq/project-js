@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import * as types from './types';
+import external from '../../../external.main';
 
 /**
  * Reducer
@@ -66,51 +67,15 @@ export function getView(state, viewId) {
   return state.views[viewId];
 }
 
-// TODO TEST all exit cases
-export function getConnectedData(state, viewId) {
-  const view = _.get(state, `views.${viewId}`);
-  if (!viewId || !view) {
+export function getConnectedData(state, viewId) { // TODO test
+  const view = getView(state, viewId);
+  if (!view) {
     return [];
   }
-  const domains = state.domains;
-  if (!domains) {
-    return [];
-  }
-  const timelines = state.timelines;
-  if (!timelines) {
+  const selector = _.get(external, `${view.type}.getConnectedDataFromState`);
+  if (!_.isFunction(selector)) {
     return [];
   }
 
-  // TODO : decorate list with domains
-  // console.log(state.domains);
-  // TODO : decorate list with session
-  // console.log(state.timebar);
-
-  // TODO external abstraction
-  const epIds = [];
-  if (view.type === 'PlotView') {
-    // type : PlotView : configuration.plotViewEntryPoints[{connectedDataX.uuid, connectedDataY.uuid}]
-    _.each(_.get(view, 'configuration.plotViewEntryPoints'), ep => {
-      epIds.push(_.get(ep, 'connectedDataX.uuid'));
-      epIds.push(_.get(ep, 'connectedDataY.uuid'));
-    });
-  } else if (view.type === 'TextView') {
-    // type : TextView : configuration.textViewEntryPoints[{connectedData.uuid}]
-    _.each(_.get(view, 'configuration.textViewEntryPoints'), ep => {
-      epIds.push(_.get(ep, 'connectedData.uuid'));
-    });
-  }
-
-  if (!epIds.length) {
-    return [];
-  }
-
-  return _.reduce(epIds, (connectedData, id) => {
-    const ep = state.connectedData[id];
-    if (!ep) {
-      return connectedData;
-    }
-
-    return [...connectedData, Object.assign({ connectedDataId: id }, ep)];
-  }, []);
+  return selector(state, viewId);
 }

@@ -1,11 +1,11 @@
 import _ from 'lodash';
 import * as types from './types';
-import convertWildcard from '../../utils/converter';
+import { getTimeline } from './timelineReducer';
 
 /**
  * Reducer
  */
-export default function timebars(state = {}, action) {
+export default function timebars(state = {}, action) { // TODO test
   switch (action.type) {
     case types.WS_TIMEBAR_ADD:
       return {
@@ -32,7 +32,7 @@ const initialState = {
   timelines: [],
 };
 
-function timebar(state = initialState, action) {
+function timebar(state = initialState, action) { // TODO test
   switch (action.type) {
     case types.WS_TIMEBAR_ADD: {
       const configuration = _.get(action, 'payload.configuration', {});
@@ -57,27 +57,16 @@ function timebar(state = initialState, action) {
 /**
  * Selectors
  */
-export function getTimebar(state, timebarId) {
-  return state.timebars[timebarId];
+export function getTimebar(state, timebarId) { // TODO test
+  return _.get(state, `timebars.${timebarId}`);
 }
-export function getSessionIdsByWildcard(state, timebarId, search) {
-  const regex = new RegExp(convertWildcard(search));
-  const tb = getTimebar(state, timebarId);
-  if (!tb) {
-    return [];
-  }
-  // Get all timelines of tb
-  const listId = _.reduce(_.get(state, 'timelines'), (list, tl) => {
-    if (_.indexOf(tb.timelines, tl.uuid) < 0) {
-      return list;
-    }
-    if (!tl.sessionId) {
-      return list;
-    }
-    if (regex.test(tl.id)) {
-      (list || (list = [])).push(tl.sessionId); // eslint-disable-line no-param-reassign
-    }
-    return list;
+
+export function getTimelines(state, timebarId) { // TODO test
+  const timelines = _.get(state, `timebars.${timebarId}.timelines`, []);
+  return _.reduce(timelines, (list, timelineId) => {
+    const timeline = getTimeline(state, timelineId);
+    return timeline
+      ? list.concat(timeline)
+      : list;
   }, []);
-  return listId;
 }

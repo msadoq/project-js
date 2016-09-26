@@ -45,5 +45,5 @@ function timeline(state = initialState, action) {
  * Selectors
  */
 export function getTimeline(state, timelineId) {
-  return state.timelines[timelineId];
+  return _.get(state, `timelines.${timelineId}`);
 }

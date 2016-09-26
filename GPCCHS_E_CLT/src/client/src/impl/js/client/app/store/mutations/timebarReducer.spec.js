@@ -1,78 +1,36 @@
-import { getSessionIdsByWildcard } from './timebarReducer';
 import { should, getStore } from '../../utils/test';
+import { getTimelines } from './timebarReducer';
 
 describe('timebarReducer', () => {
-  let state;
-  before(() => {
-    const { getState } = getStore({ timebars: {
-      tb1: {
-        uuid: 'id1',
-        timelines: [
-          'tl1',
-          'tl2',
-        ]
-      },
-      tb2: {
-        uuid: 'id2',
-        timelines: [
-          'tl3',
-        ]
-      },
-    },
-    timelines: [{
-      uuid: 'tl1',
-      id: 'session1',
-      sessionId: 100,
-    }, {
-      uuid: 'tl2',
-      id: 'session20',
-      sessionId: 101,
-    }, {
-      uuid: 'tl3',
-      id: 'session10',
-      sessionId: 102
-    }]
-   });
-    state = getState();
-  });
-  describe('getSessionIdsByWildcard', () => {
-    it('wildcard ok', () => {
-      const sId = getSessionIdsByWildcard(state, 'tb1', 'session1*');
-      sId.should.be.an('array').with.length(1);
-      sId[0].should.equal(100);
-    });
-    it('wildcard nok', () => {
-      const sId = getSessionIdsByWildcard(state, 'tb1', 'notSession*');
-      sId.should.be.an('array').with.length(0);
-    });
-    it('no wildcard', () => {
-      const sId = getSessionIdsByWildcard(state, 'tb1', 'session20');
-      sId.should.be.an('array').with.length(1);
-      sId[0].should.equal(101);
-    });
-    it('no wildcard but invalid', () => {
-      const sId = getSessionIdsByWildcard(state, 'tb1', 'session');
-      sId.should.be.an('array').with.length(0);
-    });
-    it('wildcard *', () => {
-      const sId = getSessionIdsByWildcard(state, 'tb1', '*');
-      sId.should.be.an('array').with.length(2);
-      sId[0].should.equal(100);
-      sId[1].should.equal(101);
-    });
-    it('wildcard * in middle', () => {
-      const sId = getSessionIdsByWildcard(state, 'tb1', 'se*sion1');
-      sId.should.be.an('array').with.length(1);
-      sId[0].should.equal(100);
-    });
-    it('wildcard ?', () => {
-      const sId = getSessionIdsByWildcard(state, 'tb1', 'session?');
-      sId.should.be.an('array').with.length(1);
-      sId[0].should.equal(100);
-    });
-    it('wildcard ? invalid', () => {
-      const sId = getSessionIdsByWildcard(state, 'tb1', 's??n*');
-      sId.should.be.an('array').with.length(0);
+  // TODO missing all test!!
+
+  describe('selectors', () => {
+    describe('getTimelines', () => {
+      it('empty store', () => {
+        getTimelines({}, 'tb1').should.eql([]);
+      });
+
+      const state = {
+        timebars: {
+          tb1: { timelines: ['tl1', 'tl2'] },
+          tb2: { timelines: ['tl3', undefined] },
+        },
+        timelines: {
+          tl1: { sessionId: 's1' },
+          tl2: { sessionId: 's2' },
+          tl3: { sessionId: 's3' },
+        },
+      };
+      it('no argument', () => {
+        getTimelines(state).should.eql([]);
+      });
+      it('unknown', () => {
+        getTimelines(state, 'tb3').should.eql([]);
+      });
+      it('works', () => {
+        getTimelines(state, 'tb1').should.eql([{ sessionId: 's1' }, { sessionId: 's2' }]);
+        getTimelines(state, 'tb2').should.eql([{ sessionId: 's3' }]);
+      });
     });
   });
 });

@@ -1,7 +1,5 @@
 import _ from 'lodash';
 import * as types from './types';
-import { getViews } from './pageReducer';
-import { getConnectedData } from './viewReducer';
 
 /**
  * Reducer
@@ -122,25 +120,3 @@ export function getFocusedPage(state, windowId) {
   return pageId;
 }
 
-/**
- * Return a list a all pub/sub subscriptions to mount in this window
- * @param state
- * @param windowId
- */
-export function getWindowSubscriptions(state, windowId) {
-  const cds = [];
-  _.each(getPages(state, windowId), ({ pageId }) => {
-    if (pageId) {
-      _.each(getViews(state, pageId), ({ viewId }) => {
-        if (viewId) {
-          _.each(getConnectedData(state, viewId), connectedData => {
-            cds.push(connectedData);
-          });
-        }
-      });
-    }
-  });
-
-  // TODO : deduplicate connectedData (same param in multiple view)
-  return cds;
-}

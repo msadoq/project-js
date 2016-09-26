@@ -29,6 +29,7 @@ export default function pages(state = {}, action) {
 
 const initialState = {
   title: 'Unknown',
+  timebarId: null,
   layout: [],
   views: [],
   editor: {
@@ -44,6 +45,7 @@ function page(state = initialState, action) {
     case types.WS_PAGE_ADD:
       return Object.assign({}, state, {
         title: action.payload.title || state.title,
+        timebarId: action.payload.timebarId || state.timebarId,
         layout: action.payload.layout || state.layout,
         views: action.payload.views || state.views,
       });

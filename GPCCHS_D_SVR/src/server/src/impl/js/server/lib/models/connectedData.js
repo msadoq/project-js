@@ -16,19 +16,24 @@ collection.isTimestampInKnownIntervals = (dataId, timestamp) => {
   const localId = collection.getLocalId(dataId);
   // Check if timestamp is currently in intervals known or requested for this localId
   const connectedData = collection.by('localId', localId);
-  if (connectedData) {
-    debug.debug('check received intervals');
-    if (isTimestampInIntervals(timestamp, connectedData.intervals)) {
-      debug.debug('timestamp in received intervals');
-      return true;
-    }
-    debug.debug('check requested intervals');
-    if (isTimestampInIntervals(timestamp, connectedData.requested)) {
-      debug.debug('timestamp in requested intervals');
-      return true;
-    }
+
+  if (typeof connectedData === 'undefined') {
+    debug.debug('timestamp not in known intervals');
+    return false;
   }
-  debug.debug('timestamp not in known intervals');
+
+  debug.debug('check received intervals');
+  if (isTimestampInIntervals(timestamp, connectedData.intervals)) {
+    debug.debug('timestamp in received intervals');
+    return true;
+  }
+
+  debug.debug('check requested intervals');
+  if (isTimestampInIntervals(timestamp, connectedData.requested)) {
+    debug.debug('timestamp in requested intervals');
+    return true;
+  }
+
   return false;
 };
 
@@ -37,12 +42,18 @@ collection.setIntervalAsReceived = (dataId, queryUuid) => {
   const localId = collection.getLocalId(dataId);
   // Set query interval as received for this localId
   const connectedData = collection.by('localId', localId);
-  const interval = connectedData.requested[queryUuid];
+
+  const interval = _.get(connectedData, ['requested', queryUuid]);
+  if (typeof interval === 'undefined') {
+    return undefined;
+  }
+
   connectedData.intervals = mergeIntervals(connectedData.intervals, interval);
   connectedData.requested = _.omit(connectedData.requested, queryUuid);
   debug.debug('set interval', interval, 'as received', connectedData);
   collection.update(connectedData); // TODO This update operation could be not needed
-  // TODO Is it needed to deal with a no longer present interval ?
+
+  return connectedData;
 };
 
 collection.addRequestedInterval = (dataId, queryUuid, interval) => {
@@ -50,7 +61,8 @@ collection.addRequestedInterval = (dataId, queryUuid, interval) => {
   // Add a query interval in the list of requested intervals for this localId
   // And create the localId if it doesnt exist
   let connectedData = collection.by('localId', localId);
-  if (!connectedData) {
+
+  if (typeof connectedData === 'undefined') {
     connectedData = {
       localId,
       dataId,
@@ -60,13 +72,15 @@ collection.addRequestedInterval = (dataId, queryUuid, interval) => {
     };
     connectedData.requested[queryUuid] = interval;
     debug.debug('insert', inspect(connectedData));
-    collection.insert(connectedData);
-  } else {
-    debug.debug('before update', inspect(connectedData));
-    connectedData.requested[queryUuid] = interval;
-    debug.debug('update', inspect(connectedData));
-    collection.update(connectedData); // TODO This update operation could be not needed
+    return collection.insert(connectedData);
   }
+
+  debug.debug('before update', inspect(connectedData));
+  connectedData.requested[queryUuid] = interval;
+  debug.debug('update', inspect(connectedData));
+  collection.update(connectedData); // TODO This update operation could be not needed
+
+  return connectedData;
 };
 
 collection.retrieveMissingIntervals = (dataId, interval) => {
@@ -75,7 +89,7 @@ collection.retrieveMissingIntervals = (dataId, interval) => {
   const connectedData = collection.by('localId', localId);
 
   // No connectedData
-  if (!connectedData) {
+  if (typeof connectedData === 'undefined') {
     debug.debug('no connectedData');
     return [interval];
   }
@@ -144,7 +158,7 @@ collection.retrieveMissingIntervals = (dataId, interval) => {
 collection.addWindowId = (dataId, windowId) => {
   const localId = collection.getLocalId(dataId);
   let connectedData = collection.by('localId', localId);
-  if (!connectedData) {
+  if (typeof connectedData === 'undefined') {
     connectedData = {
       localId,
       dataId,
@@ -153,39 +167,28 @@ collection.addWindowId = (dataId, windowId) => {
       windows: [windowId],
     };
     debug.debug('insert', inspect(connectedData));
-    collection.insert(connectedData);
-  } else {
-    debug.debug('before update', inspect(connectedData));
-    connectedData.windows = [...connectedData.windows, windowId];
-    debug.debug('update', inspect(connectedData));
-    collection.update(connectedData); // TODO This update operation could be not needed
+    return collection.insert(connectedData);
   }
+
+  debug.debug('before update', inspect(connectedData));
+  connectedData.windows = [...connectedData.windows, windowId];
+  debug.debug('update', inspect(connectedData));
+  collection.update(connectedData); // TODO This update operation could be not needed
+  return connectedData;
 };
 
 collection.removeWindowId = (dataId, windowId) => {
   const localId = collection.getLocalId(dataId);
+  debug.debug(localId);
   const connectedData = collection.by('localId', localId);
-  if (connectedData) {
-    debug.debug('before update', inspect(connectedData));
-    connectedData.windows = _.without(connectedData.windows, windowId);
-    debug.debug('update', inspect(connectedData));
-    collection.update(connectedData); // TODO This update operation could be not needed
+  if (typeof connectedData === 'undefined') {
+    return undefined;
   }
-};
-
-collection.isConnectedDataInWindows = (dataId) => {
-  const localId = collection.getLocalId(dataId);
-  const connectedData = collection.by('localId', localId);
-
-  if (!connectedData) {
-    return false;
-  }
-
-  if (connectedData.windows.length === 0) {
-    return false;
-  }
-
-  return true;
+  debug.debug('before update', inspect(connectedData));
+  connectedData.windows = _.without(connectedData.windows, windowId);
+  debug.debug('update', inspect(connectedData));
+  collection.update(connectedData); // TODO This update operation could be not needed
+  return connectedData;
 };
 
 collection.retrieveByWindow = windowId => collection.find({
@@ -195,21 +198,26 @@ collection.retrieveByWindow = windowId => collection.find({
 });
 
 collection.exists = (dataId) => {
-  if (collection.by('localId', collection.getLocalId(dataId))) {
-    return true;
+  const localId = collection.getLocalId(dataId);
+  if (typeof collection.by('localId', localId) === 'undefined') {
+    return false;
   }
-  return false;
+  return true;
 };
 
 collection.removeByDataId = (dataId) => {
   const localId = collection.getLocalId(dataId);
   const connectedData = collection.by('localId', localId);
-  if (connectedData) {
-    collection.remove(connectedData);
+
+  if (typeof connectedData === 'undefined') {
+    return;
   }
+
+  collection.remove(connectedData);
 };
 
 collection.cleanup = () => {
+  debug.debug('connectedData cleared');
   collection.clear();
   collection.localIdIndex.clear();
 };

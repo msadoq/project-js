@@ -72,11 +72,11 @@ const primusExports = module.exports = {
             break;
           }
           case 'connectedDataOpen': {
-            handlers.onConnectedDataOpen(spark, message.payload);
+            handlers.onSubscriptionOpen(spark, message.payload);
             break;
           }
           case 'connectedDataClose': {
-            handlers.onConnectedDataClose(spark, message.payload);
+            handlers.onSubscriptionClose(spark, message.payload);
             break;
           }
           case 'timebarUpdate': {

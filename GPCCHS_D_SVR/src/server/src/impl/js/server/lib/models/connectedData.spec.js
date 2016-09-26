@@ -1,5 +1,5 @@
 const debug = require('../io/debug')('models:intervals.spec');
-require('../utils/test');
+const { should } = require('../utils/test');
 const model = require('./connectedData');
 const { getDataId } = require('../stubs/data');
 const getLocalId = require('../models/getLocalId');
@@ -18,7 +18,7 @@ describe('models/connectedData', () => {
     const myInterval2 = [4, 8];
 
     it('one', () => {
-      model.addRequestedInterval(myDataId, myQueryId, myInterval);
+      const connectedDatum = model.addRequestedInterval(myDataId, myQueryId, myInterval);
       model.count().should.equal(1);
       const connectedData = model.find();
       connectedData.should.be.an('array').and.have.lengthOf(1);
@@ -41,11 +41,12 @@ describe('models/connectedData', () => {
       connectedData[0].should.have.an.property('windows')
         .that.is.an('array')
         .that.have.lengthOf(0);
+      connectedDatum.should.deep.equal(connectedData[0]);
     });
 
     it('one and multi intervals', () => {
       model.addRequestedInterval(myDataId, myQueryId, myInterval);
-      model.addRequestedInterval(myDataId, myQueryId2, myInterval2);
+      const connectedDatum = model.addRequestedInterval(myDataId, myQueryId2, myInterval2);
       model.count().should.equal(1);
       const connectedData = model.find();
       connectedData.should.be.an('array')
@@ -74,11 +75,13 @@ describe('models/connectedData', () => {
       connectedData[0].should.have.an.property('windows')
         .that.is.an('array')
         .that.have.lengthOf(0);
+
+      connectedDatum.should.deep.equal(connectedData[0]);
     });
 
     it('multi', () => {
-      model.addRequestedInterval(myDataId, myQueryId, myInterval);
-      model.addRequestedInterval(myDataId2, myQueryId2, myInterval2);
+      const connectedDatum1 = model.addRequestedInterval(myDataId, myQueryId, myInterval);
+      const connectedDatum2 = model.addRequestedInterval(myDataId2, myQueryId2, myInterval2);
       model.count().should.equal(2);
       const connectedData = model.find();
       connectedData.should.be.an('array').and.have.lengthOf(2);
@@ -116,6 +119,9 @@ describe('models/connectedData', () => {
       connectedData[0].should.have.an.property('windows')
         .that.is.an('array')
         .that.have.lengthOf(0);
+
+      connectedDatum1.should.deep.equal(connectedData[0]);
+      connectedDatum2.should.deep.equal(connectedData[1]);
     });
   });
 
@@ -124,9 +130,38 @@ describe('models/connectedData', () => {
     const myQueryId = 'queryId';
     const myInterval = [0, 2];
 
+    it('none', () => {
+      (() => model.setIntervalAsReceived(myDataId, myQueryId)).should.not.throw();
+      model.count().should.equal(0);
+    });
+
+    it('not this interval', () => {
+      model.addRequestedInterval(myDataId, myQueryId, myInterval);
+      (() => model.setIntervalAsReceived(myDataId, undefined)).should.not.throw();
+      model.count().should.equal(1);
+      const connectedData = model.find();
+      connectedData.should.be.an('array')
+        .that.have.lengthOf(1);
+      connectedData[0].should.be.an('object');
+      connectedData[0].should.have.an.property('localId')
+        .that.equal(getLocalId(myDataId));
+      connectedData[0].should.have.an.property('dataId')
+        .that.is.an('object')
+        .that.has.properties(myDataId);
+      connectedData[0].should.have.an.property('intervals')
+        .that.is.an('array').that.have.lengthOf(0);
+      connectedData[0].should.have.an.property('requested')
+        .that.be.an('object');
+      connectedData[0].requested.should.have.an.property(myQueryId);
+      connectedData[0].requested[myQueryId].should.be.an('array')
+        .that.have.lengthOf(2);
+      connectedData[0].requested[myQueryId][0].should.equal(myInterval[0]);
+      connectedData[0].requested[myQueryId][1].should.equal(myInterval[1]);
+    });
+
     it('one', () => {
       model.addRequestedInterval(myDataId, myQueryId, myInterval);
-      model.setIntervalAsReceived(myDataId, myQueryId);
+      const connectedDatum = model.setIntervalAsReceived(myDataId, myQueryId);
       model.count().should.equal(1);
       const connectedData = model.find();
       connectedData.should.be.an('array')
@@ -150,6 +185,7 @@ describe('models/connectedData', () => {
       connectedData[0].should.have.an.property('dataId')
         .that.is.an('object')
         .that.has.properties(myDataId);
+      connectedDatum.should.deep.equal(connectedData[0]);
     });
   });
 
@@ -402,95 +438,99 @@ describe('models/connectedData', () => {
     it('one', () => {
       const myDataId = getDataId();
       const myWindowId = 42;
-      model.addWindowId(myDataId, myWindowId);
+      const connectedDatum = model.addWindowId(myDataId, myWindowId);
       model.count().should.equal(1);
       const connectedData = model.find();
       connectedData.should.be.an('array')
         .that.have.lengthOf(1);
-      connectedData[0].should.have.an.property('localId')
-        .that.equal(getLocalId(myDataId));
-      connectedData[0].should.have.an.property('dataId')
-        .that.is.an('object')
-        .that.has.properties(myDataId);
-      connectedData[0].should.have.an.property('intervals')
-        .that.is.an('array')
-        .that.have.lengthOf(0);
-      connectedData[0].should.have.an.property('requested')
-        .that.is.an('object')
-        .that.have.properties({});
-      connectedData[0].should.have.an.property('windows')
-        .that.is.an('array')
-        .that.have.lengthOf(1);
-      connectedData[0].windows[0].should.equal(myWindowId);
+      connectedData[0].should.be.an('object');
+      connectedData[0].should.have.properties({
+        localId: getLocalId(myDataId),
+        dataId: myDataId,
+        intervals: [],
+        requested: {},
+        windows: [myWindowId],
+      });
+      connectedDatum.should.be.an('object');
+      connectedDatum.should.have.properties({
+        localId: getLocalId(myDataId),
+        dataId: myDataId,
+        intervals: [],
+        requested: {},
+        windows: [myWindowId],
+      });
     });
     it('one with multiple ids', () => {
       const myDataId = getDataId();
       const myWindowId = 42;
       const myWindowId2 = 91;
       model.addWindowId(myDataId, myWindowId);
-      model.addWindowId(myDataId, myWindowId2);
+      const connectedDatum = model.addWindowId(myDataId, myWindowId2);
       model.count().should.equal(1);
       const connectedData = model.find();
       connectedData.should.be.an('array')
         .that.have.lengthOf(1);
-      connectedData[0].should.have.an.property('localId')
-        .that.equal(getLocalId(myDataId));
-      connectedData[0].should.have.an.property('dataId')
-        .that.is.an('object')
-        .that.has.properties(myDataId);
-      connectedData[0].should.have.an.property('intervals')
-        .that.is.an('array')
-        .that.have.lengthOf(0);
-      connectedData[0].should.have.an.property('requested')
-        .that.is.an('object')
-        .that.have.properties({});
-      connectedData[0].should.have.an.property('windows')
-        .that.is.an('array')
-        .that.have.lengthOf(2);
-      connectedData[0].windows[0].should.equal(myWindowId);
-      connectedData[0].windows[1].should.equal(myWindowId2);
+      connectedData[0].should.be.an('object');
+      connectedData[0].should.have.properties({
+        localId: getLocalId(myDataId),
+        dataId: myDataId,
+        intervals: [],
+        requested: {},
+        windows: [myWindowId, myWindowId2],
+      });
+      connectedDatum.should.be.an('object');
+      connectedDatum.should.have.properties({
+        localId: getLocalId(myDataId),
+        dataId: myDataId,
+        intervals: [],
+        requested: {},
+        windows: [myWindowId, myWindowId2],
+      });
     });
     it('multi', () => {
       const myDataId = getDataId({ parameterName: 'dataId' });
       const myWindowId = 42;
       const myDataId2 = getDataId({ parameterName: 'dataId2' });
       const myWindowId2 = 91;
-      model.addWindowId(myDataId, myWindowId);
-      model.addWindowId(myDataId2, myWindowId2);
+      const connectedDatum1 = model.addWindowId(myDataId, myWindowId);
+      const connectedDatum2 = model.addWindowId(myDataId2, myWindowId2);
       model.count().should.equal(2);
       const connectedData = model.find();
       connectedData.should.be.an('array')
         .that.have.lengthOf(2);
-      connectedData[0].should.have.an.property('localId')
-        .that.equal(getLocalId(myDataId));
-      connectedData[0].should.have.an.property('dataId')
-        .that.is.an('object')
-        .that.has.properties(myDataId);
-      connectedData[0].should.have.an.property('intervals')
-        .that.is.an('array')
-        .that.have.lengthOf(0);
-      connectedData[0].should.have.an.property('requested')
-        .that.is.an('object')
-        .that.have.properties({});
-      connectedData[0].should.have.an.property('windows')
-        .that.is.an('array')
-        .that.have.lengthOf(1);
-      connectedData[0].windows[0].should.equal(myWindowId);
-      connectedData[1].should.have.an.property('localId')
-        .that.equal(getLocalId(myDataId2));
-      connectedData[1].should.have.an.property('dataId')
-        .that.is.an('object')
-        .that.has.properties(myDataId2);
-      connectedData[1].should.have.an.property('intervals')
-        .that.is.an('array')
-        .that.have.lengthOf(0);
-      connectedData[1].should.have.an.property('requested')
-        .that.is.an('object')
-        .that.have.properties({});
-      connectedData[1].should.have.an.property('windows')
-        .that.is.an('array')
-        .that.have.lengthOf(1);
-      connectedData[1].windows[0].should.equal(myWindowId2);
+      connectedData[0].should.be.an('object');
+      connectedData[0].should.have.properties({
+        localId: getLocalId(myDataId),
+        dataId: myDataId,
+        intervals: [],
+        requested: {},
+        windows: [myWindowId],
+      });
+      connectedDatum1.should.be.an('object');
+      connectedDatum1.should.have.properties({
+        localId: getLocalId(myDataId),
+        dataId: myDataId,
+        intervals: [],
+        requested: {},
+        windows: [myWindowId],
+      });
+
+      connectedData[1].should.be.an('object');
+      connectedData[1].should.have.properties({
+        localId: getLocalId(myDataId2),
+        dataId: myDataId2,
+        intervals: [],
+        requested: {},
+        windows: [myWindowId2],
+      });
+      connectedDatum2.should.be.an('object');
+      connectedDatum2.should.have.properties({
+        localId: getLocalId(myDataId2),
+        dataId: myDataId2,
+        intervals: [],
+        requested: {},
+        windows: [myWindowId2],
+      });
     });
   });
 
@@ -498,32 +538,35 @@ describe('models/connectedData', () => {
     it('does not exist', () => {
       const myDataId = getDataId();
       const myWindowId = 42;
-      model.removeWindowId(myDataId, myWindowId);
+      const connectedDatum = model.removeWindowId(myDataId, myWindowId);
       model.count().should.equal(0);
+      should.not.exist(connectedDatum);
     });
     it('one', () => {
       const myDataId = getDataId();
       const myWindowId = 42;
       model.addWindowId(myDataId, myWindowId);
-      model.removeWindowId(myDataId, myWindowId);
+      const connectedDatum = model.removeWindowId(myDataId, myWindowId);
       model.count().should.equal(1);
       const connectedData = model.find();
       connectedData.should.be.an('array')
         .that.have.lengthOf(1);
-      connectedData[0].should.have.an.property('localId')
-        .that.equal(getLocalId(myDataId));
-      connectedData[0].should.have.an.property('dataId')
-        .that.is.an('object')
-        .that.has.properties(myDataId);
-      connectedData[0].should.have.an.property('intervals')
-        .that.is.an('array')
-        .that.have.lengthOf(0);
-      connectedData[0].should.have.an.property('requested')
-        .that.is.an('object')
-        .that.have.properties({});
-      connectedData[0].should.have.an.property('windows')
-        .that.is.an('array')
-        .that.have.lengthOf(0);
+      connectedData[0].should.be.an('object');
+      connectedData[0].should.have.properties({
+        localId: getLocalId(myDataId),
+        dataId: myDataId,
+        intervals: [],
+        requested: {},
+        windows: [],
+      });
+      connectedDatum.should.be.an('object');
+      connectedDatum.should.have.properties({
+        localId: getLocalId(myDataId),
+        dataId: myDataId,
+        intervals: [],
+        requested: {},
+        windows: [],
+      });
     });
     it('one amongst several', () => {
       const myDataId = getDataId();
@@ -531,62 +574,27 @@ describe('models/connectedData', () => {
       const myWindowId2 = 91;
       model.addWindowId(myDataId, myWindowId);
       model.addWindowId(myDataId, myWindowId2);
-      model.removeWindowId(myDataId, myWindowId);
+      const connectedDatum = model.removeWindowId(myDataId, myWindowId);
       model.count().should.equal(1);
       const connectedData = model.find();
       connectedData.should.be.an('array')
         .that.have.lengthOf(1);
-      connectedData[0].should.have.an.property('localId')
-        .that.equal(getLocalId(myDataId));
-      connectedData[0].should.have.an.property('dataId')
-        .that.is.an('object')
-        .that.has.properties(myDataId);
-      connectedData[0].should.have.an.property('intervals')
-        .that.is.an('array')
-        .that.have.lengthOf(0);
-      connectedData[0].should.have.an.property('requested')
-        .that.is.an('object')
-        .that.have.properties({});
-      connectedData[0].should.have.an.property('windows')
-        .that.is.an('array')
-        .that.have.lengthOf(1);
-      connectedData[0].windows[0].should.equal(myWindowId2);
-    });
-  });
-
-  describe('isConnectedDataInWindows', () => {
-    it('does not exist', () => {
-      const myDataId = getDataId();
-      const res = model.isConnectedDataInWindows(myDataId);
-      res.should.be.an('boolean')
-        .that.equal(false);
-    });
-    it('no more', () => {
-      const myDataId = getDataId();
-      const myWindowId = 42;
-      model.addWindowId(myDataId, myWindowId);
-      model.removeWindowId(myDataId, myWindowId);
-      const res = model.isConnectedDataInWindows(myDataId);
-      res.should.be.an('boolean')
-        .that.equal(false);
-    });
-    it('yes', () => {
-      const myDataId = getDataId();
-      const myWindowId = 42;
-      model.addWindowId(myDataId, myWindowId);
-      const res = model.isConnectedDataInWindows(myDataId);
-      res.should.be.an('boolean')
-        .that.equal(true);
-    });
-    it('yes multi', () => {
-      const myDataId = getDataId();
-      const myWindowId = 42;
-      const myWindowId2 = 91;
-      model.addWindowId(myDataId, myWindowId);
-      model.addWindowId(myDataId, myWindowId2);
-      const res = model.isConnectedDataInWindows(myDataId);
-      res.should.be.an('boolean')
-        .that.equal(true);
+      connectedData[0].should.be.an('object');
+      connectedData[0].should.have.properties({
+        localId: getLocalId(myDataId),
+        dataId: myDataId,
+        intervals: [],
+        requested: {},
+        windows: [myWindowId2],
+      });
+      connectedDatum.should.be.an('object');
+      connectedDatum.should.have.properties({
+        localId: getLocalId(myDataId),
+        dataId: myDataId,
+        intervals: [],
+        requested: {},
+        windows: [myWindowId2],
+      });
     });
   });
   describe('retrieveByWindow', () => {
@@ -649,7 +657,19 @@ describe('models/connectedData', () => {
     });
   });
   describe('exists', () => {
-
+    it('yes', () => {
+      const myDataId = getDataId();
+      model.addWindowId(myDataId, 42);
+      model.exists(myDataId)
+        .should.be.an('boolean')
+        .that.equal(true);
+    });
+    it('no', () => {
+      const myDataId = getDataId();
+      model.exists(myDataId)
+        .should.be.an('boolean')
+        .that.equal(false);
+    });
   });
   describe('removeByDataId', () => {
     it('not existing', () => {
@@ -659,7 +679,7 @@ describe('models/connectedData', () => {
       connectedData.should.be.an('array')
         .that.have.lengthOf(0);
     });
-    it('', () => {
+    it('one', () => {
       const myDataId = getDataId();
       model.addWindowId(myDataId, 42);
       let connectedData = model.find();

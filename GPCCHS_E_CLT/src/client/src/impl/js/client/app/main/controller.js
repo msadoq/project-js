@@ -7,11 +7,14 @@ const logger = debug('main:controller');
 
 export default function controller(event, payload) {
   switch (event) {
+    case 'authenticated':
+      logger.error('authenticated');
+      // TODO do something here ?
+      break;
     case 'ready':
       getStore().dispatch(updateAppStatus('hss-ready'));
       break;
     case 'domainResponse':
-      // TODO dispatch domains action
       getStore().dispatch(updateDomains(payload));
       getStore().dispatch(updateAppStatus('domain-retrieved'));
       break;

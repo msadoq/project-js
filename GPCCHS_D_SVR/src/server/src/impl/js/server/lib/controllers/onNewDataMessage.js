@@ -1,8 +1,6 @@
 const debug = require('../io/debug')('controllers:onNewDataMessage');
-const async = require('async');
 const _ = require('lodash');
 const { decode } = require('../protobuf');
-const getLocalId = require('../models/getLocalId');
 const cacheJsonModel = require('../models/cacheJson');
 const connectedDataModel = require('../models/connectedData');
 const viewsModel = require('../models/views');

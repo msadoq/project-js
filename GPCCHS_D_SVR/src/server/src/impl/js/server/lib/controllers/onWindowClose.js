@@ -1,6 +1,6 @@
 const debug = require('../io/debug')('controllers:onWindowClose');
 const _ = require('lodash');
-const subscriptions = require('../utils/subscriptions');
+const { stopSubscription } = require('./onSubscriptionClose');
 const connectedDataModel = require('../models/connectedData');
 const zmq = require('../io/zmq');
 
@@ -14,18 +14,19 @@ const zmq = require('../io/zmq');
  * @param spark
  * @param windowId
  */
-module.exports = (spark, windowId) => {
-  debug.info(`called (${windowId})`);
 
+const stopWindowSubscriptions = (windowId, messageHandler) => {
+  debug.debug('stopping subscriptions for window', windowId);
   _.each(connectedDataModel.retrieveByWindow(windowId), (connectedData) => {
-    subscriptions.stop({
-      parameterName: connectedData.dataId.parameterName,
-      catalog: connectedData.dataId.catalog,
-      comObject: connectedData.dataId.comObject,
-      sessionId: connectedData.dataId.sessionId,
-      domainId: connectedData.dataId.domainId,
-      windowId,
-    }, zmq.push);
-    subscriptions.cleanupModels(connectedData.dataId);
+    debug.debug('subscription to stop: ', connectedData);
+    stopSubscription(Object.assign({}, connectedData, { windowId }), messageHandler);
   });
+};
+
+module.exports = {
+  stopWindowSubscriptions,
+  onWindowClose: (spark, windowId) => {
+    debug.info(`called (${windowId})`);
+    stopWindowSubscriptions(windowId, zmq.push);
+  },
 };

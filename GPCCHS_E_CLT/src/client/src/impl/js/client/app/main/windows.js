@@ -19,6 +19,9 @@ export function open(data, windowId) {
     title: `${data.title} - VIMA`,
   });
 
+  // persist windowId on BrowserWindow instance
+  window.windowId = windowId; // eslint-disable-line no-param-reassign
+
   // prevent garbage collection
   windows[windowId] = window;
 

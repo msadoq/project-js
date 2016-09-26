@@ -29,6 +29,14 @@ PlotView.prototype.isType = function (type) {
   return type === 'plot';
 };
 
+PlotView.prototype.setConfiguration = function (configuration) {
+  this.configuration = configuration; // TODO test
+};
+
+PlotView.prototype.setSpark = function (spark) {
+  this.spark = spark; // TODO test
+};
+
 PlotView.prototype.onTimebarUpdate = function (cmdList) {
   // // TODO
   // debug.debug('onTimebarUpdate plot', cmdList);

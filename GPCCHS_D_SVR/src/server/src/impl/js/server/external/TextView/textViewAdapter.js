@@ -28,6 +28,14 @@ TextView.prototype.isType = function (type) {
   return type === 'text';
 };
 
+TextView.prototype.setConfiguration = function (configuration) {
+  this.configuration = configuration; // TODO test
+};
+
+TextView.prototype.setSpark = function (spark) {
+  this.spark = spark; // TODO test
+};
+
 TextView.prototype.onTimebarUpdate = function (cmdList) {
   // // TODO
   // console.log('onTimebarUpdate text', cmdList);

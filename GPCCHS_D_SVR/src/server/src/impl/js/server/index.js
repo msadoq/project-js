@@ -16,7 +16,6 @@ const onWindowOpen = require('./lib/controllers/onWindowOpen');
 const { onWindowClose } = require('./lib/controllers/onWindowClose');
 const onViewOpen = require('./lib/controllers/onViewOpen');
 const onViewClose = require('./lib/controllers/onViewClose');
-const onViewUpdate = require('./lib/controllers/onViewUpdate');
 const { onSubscriptionOpen } = require('./lib/controllers/onSubscriptionOpen');
 const { onSubscriptionClose } = require('./lib/controllers/onSubscriptionClose');
 const { onClientDomainQuery } = require('./lib/controllers/onClientDomainQuery');
@@ -89,7 +88,6 @@ primus.init(server, {
   onWindowClose,
   onViewOpen,
   onViewClose,
-  onViewUpdate,
   onSubscriptionOpen,
   onSubscriptionClose,
   onTimebarUpdate,
@@ -112,20 +110,20 @@ zmq.open({
     url: process.env.ZMQ_VIMA_TIMEBAR,
     handler: onTimeBarUpdate,
   },
-}, err => {
+}, (err) => {
   if (err) {
     throw err;
   }
 
   if (process.env.STUB_DC_ON === 'on') {
-    dcStub(launchStubError => {
+    dcStub((launchStubError) => {
       if (launchStubError) {
         throw launchStubError;
       }
     });
   }
   if (process.env.STUB_TB_ON === 'on') {
-    tbStub(launchStubError => {
+    tbStub((launchStubError) => {
       if (launchStubError) {
         throw launchStubError;
       }

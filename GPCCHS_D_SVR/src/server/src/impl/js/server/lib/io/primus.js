@@ -14,7 +14,7 @@ const primusExports = module.exports = {
   getMainWebsocket: () => {
     // TODO test if primus is initied, else throw
     let mainWebsocket;
-    primus.forEach(function (spark, id, connections) {
+    primus.forEach((spark) => {
       if (spark.hsc.identity === 'main') {
         mainWebsocket = spark;
         // TODO study _.some equivalent to avoid full list looping
@@ -42,9 +42,8 @@ const primusExports = module.exports = {
 
         // TODO : inject windowId as parameter in each handler
 
-        spark.getIdentity = function() {
-          return _.get(this, 'hsc.identity');
-        };
+        // eslint-disable-next-line no-param-reassign
+        spark.getIdentity = () => _.get(spark, 'hsc.identity');
 
         switch (message.event) {
           case 'identity': {
@@ -65,10 +64,6 @@ const primusExports = module.exports = {
           }
           case 'viewClose': {
             handlers.onViewClose(spark, message.payload);
-            break;
-          }
-          case 'viewUpdate': {
-            handlers.onViewUpdate(spark, message.payload);
             break;
           }
           case 'connectedDataOpen': {

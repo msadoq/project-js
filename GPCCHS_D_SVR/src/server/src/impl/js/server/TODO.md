@@ -26,7 +26,7 @@ Only list expected tasks for PBF shipping of end of october.
   * [x] onConnectedDataClose (Renaud)
   * [ ] onViewOpen
   * [ ] onViewClose
-  * [ ] onViewUpdate
+  * [ ] onViewQuery
   * [x] onDcServerMessage (Renaud)
   * [x] onDcResponse (Renaud)
   * [x] onNewDataMessage (Renaud)
@@ -51,20 +51,18 @@ Only list expected tasks for PBF shipping of end of october.
 * Domain management
   - [x] Implement list retrieving from DC HSS launch
   - [x] Add a module to store domain with accessor
-* [ ] LPISIS protobuf and types converters code generation (Adrien)
-* [ ] Implement data filtering on server-side view instance
 * Documents schema finalization (Philippe, Audrey)
   - [x] add title on page and window
   - [x] update schemas, validation helper, fixtures and tests
 * [=] Correct support of path and oId in documents, maybe required FMD call (Damien)
+* [ ] LPISIS protobuf and types converters code generation (Adrien)
+* [ ] Implement data filtering on server-side view instance
 * [ ] Finalize timebar stub (reaction to new client, new view, new param to listen, view closing) (Audrey)
 * [ ] Add debug routes on HSS: index, connectedData collection, cacheJson collection, domains, timebar, ... (Alexandra)
-
 * [ ] Cache invalidation automatic mechanism
-
 * [ ] Implement a clean log and error channel to files (Damien)
 * [ ] Add robustness in every controller by controlling HSC input (Damien)
-* [ ] Envisage to try/catch every ZeroMQ/protobuf operation (Damien)
+* [ ] try/catch every controller (Renaud)
 * [ ] Track "throw" and catch them accordingly (Damien)
 * [ ] Complete README.md (lint, quality and coverage, stub  commands usage) (Damien)
 * [ ] Code review and cleaning (convention, comments, TODO , small optimizations) (Damien)
@@ -81,6 +79,8 @@ Only list expected tasks for PBF shipping of end of october.
 * [x] Merge Aziz branch
 * [x] Merge Editor branch
 * [x] Take in consideration the WS 'authenticated' anwser in HSC main process lifecycle (Renaud)
+* [ ] Analyse connectedData module, complete tests, same for selectors and others (Damien) 
+* [ ] Add reselect on connectedData (Damien) 
 * [ ] Improve main process debugging by try-catching on ready logic (Damien)
 * [ ] Fix the grid layout click capture, add header and allow drag only from header on views (Damien)
 * ConnectedData

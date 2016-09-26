@@ -86,8 +86,6 @@ See [TB.example.json](./lib/schemaManager/examples/TB.example.json)
 * create and register a new view instance
 **onViewClose**: 
 * destroy and unregister view instance
-**onViewUpdate**: 
-* store new size/zoom on view instance, compute if view need new interval, look for cache, request datastore if needed
 
 **onHscTimebarUpdate**: 
 * store new tb state, only on startup to emulate the real Qt TB
@@ -124,8 +122,6 @@ Each GPCCHS view is stored in separate component and expose the following compon
       - request missing interval
       - send cache to view
       - persist current display interval in view instance  (=> when it should be used?)
-    * onViewUpdate:
-      - save new view dimension in view instance (=> for futur complex sampling)
     * onNewData:
       - read timebar
       - if received data concern this view and is in expected interval send to view

@@ -12,7 +12,7 @@ router.get('/',
     '<!DOCTYPE html>' +
     '<html>' +
     ' <head>' +
-    '   <meta charset="utf-8" http-equiv="refresh" content="1"/>' +
+    '   <meta charset="utf-8" http-equiv="refresh" content="5"/>' +
     '   <title>Views</title>' +
     ' </head>' +
     ' <body>' +

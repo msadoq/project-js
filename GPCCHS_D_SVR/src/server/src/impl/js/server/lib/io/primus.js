@@ -1,6 +1,7 @@
 const debug = require('../io/debug')('websocket');
 const _ = require('lodash');
 const Primus = require('primus');
+const errorHandler = require('../utils/errorHandler');
 
 let primus;
 
@@ -49,37 +50,37 @@ const primusExports = module.exports = {
           case 'identity': {
             if (message.payload.identity === 'main') {
               _.set(spark, 'hsc.identity', 'main');
-              handlers.onClientOpen(spark);
-              spark.on('end', () => handlers.onClientClose(spark));
+              errorHandler(() => handlers.onClientOpen(spark));
+              spark.on('end', () => errorHandler(() => handlers.onClientClose(spark)));
             } else {
               _.set(spark, 'hsc.identity', message.payload.identity);
-              handlers.onWindowOpen(spark, message.payload.identity);
-              spark.on('end', () => handlers.onWindowClose(spark, message.payload.identity));
+              errorHandler(() => handlers.onWindowOpen(spark, message.payload.identity));
+              spark.on('end', () => errorHandler(() => handlers.onWindowClose(spark, message.payload.identity)));
             }
             break;
           }
           case 'viewOpen': {
-            handlers.onViewOpen(spark, message.payload);
+            errorHandler(() => handlers.onViewOpen(spark, message.payload));
             break;
           }
           case 'viewClose': {
-            handlers.onViewClose(spark, message.payload);
+            errorHandler(() => handlers.onViewClose(spark, message.payload));
             break;
           }
           case 'connectedDataOpen': {
-            handlers.onSubscriptionOpen(spark, message.payload);
+            errorHandler(() => handlers.onSubscriptionOpen(spark, message.payload));
             break;
           }
           case 'connectedDataClose': {
-            handlers.onSubscriptionClose(spark, message.payload);
+            errorHandler(() => handlers.onSubscriptionClose(spark, message.payload));
             break;
           }
           case 'timebarUpdate': {
-            handlers.onTimebarUpdate(spark, message.payload);
+            errorHandler(() => handlers.onTimebarUpdate(spark, message.payload));
             break;
           }
           case 'domainQuery': {
-            handlers.onClientDomainQuery(spark, message.payload);
+            errorHandler(() => handlers.onClientDomainQuery(spark, message.payload));
             break;
           }
           default:

@@ -64,7 +64,7 @@ describe('connectedData/forWindow', () => {
     });
     it('works', () => {
       const { getState } = getStore({
-        domains: [{ oid: 'd1', name: 'cnes.isis' }],
+        domains: [{ domainId: 'd1', name: 'cnes.isis' }],
         timebars: { tb1: { timelines: ['tl1'] }},
         timelines: { tl1: { id: 'TL1', sessionId: 's1' }},
         windows: { w1: { pages: ['p1'] }},

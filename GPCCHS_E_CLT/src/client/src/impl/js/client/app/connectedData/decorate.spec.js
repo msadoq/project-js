@@ -5,10 +5,10 @@ import decorate from './decorate';
 describe('connectedData/decorate', () => {
   const { getState } = getStore({
     domains: [
-      { oid: 'd1', name: 'cnes.isis.sat1' },
-      { oid: 'd2', name: 'cnes.isis.sat2' },
-      { oid: 'd3', name: 'cnes.isis.sat2.ion' },
-      { oid: 'd4', name: 'cnes.isis.sat2.flak' },
+      { domainId: 'd1', name: 'cnes.isis.sat1' },
+      { domainId: 'd2', name: 'cnes.isis.sat2' },
+      { domainId: 'd3', name: 'cnes.isis.sat2.ion' },
+      { domainId: 'd4', name: 'cnes.isis.sat2.flak' },
     ],
     timebars: {
       tb1: { timelines: ['tl1', 'tl3', 'tl4'] },

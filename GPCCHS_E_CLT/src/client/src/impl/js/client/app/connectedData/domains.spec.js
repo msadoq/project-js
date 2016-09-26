@@ -4,12 +4,12 @@ import filter from './domains';
 
 describe('connectedData/domains', () => {
   const list = [
-    { oid: 'd1', name: 'cnes' },
-    { oid: 'd2', name: 'cnes.isis' },
-    { oid: 'd3', name: 'cnes.isis.sat1' },
-    { oid: 'd4', name: 'cnes.isis.sat2' },
-    { oid: 'd5', name: 'cnes.isis.sat2.gun' },
-    { oid: 'invalid', name: undefined },
+    { domainId: 'd1', name: 'cnes' },
+    { domainId: 'd2', name: 'cnes.isis' },
+    { domainId: 'd3', name: 'cnes.isis.sat1' },
+    { domainId: 'd4', name: 'cnes.isis.sat2' },
+    { domainId: 'd5', name: 'cnes.isis.sat2.gun' },
+    { domainId: 'invalid', name: undefined },
   ];
   it('exact', () => {
     filter(list, 'cnes').should.eql(['d1']);

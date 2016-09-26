@@ -20,13 +20,13 @@ export default function filter(domains, search) {
     if (!domain) {
       return [];
     }
-    return [domain.oid];
+    return [domain.domainId];
   }
 
   const reg = generate(search);
   return _.reduce(domains, (list, domain) => {
     return domain.name && reg.test(domain.name)
-      ? list.concat(domain.oid)
+      ? list.concat(domain.domainId)
       : list;
   }, []);
 }

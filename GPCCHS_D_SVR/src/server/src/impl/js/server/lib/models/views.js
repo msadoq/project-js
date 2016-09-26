@@ -2,11 +2,7 @@ const debug = require('../io/debug')('models:views');
 const database = require('../io/loki');
 const _ = require('lodash');
 
-const collection = database.addCollection('views',
-  {
-    unique: 'viewId',
-  }
-);
+const collection = database.addCollection('views', { unique: 'viewId' });
 
 collection.getViewIdIndex = () => collection.constraints.unique.viewId;
 

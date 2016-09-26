@@ -6,7 +6,7 @@ import { add as addView, remove as removeView } from './viewActions';
 /**
  * Simple actions
  */
-export const add = simple(types.WS_PAGE_ADD, 'pageId', 'title', 'views', 'layout');
+export const add = simple(types.WS_PAGE_ADD, 'pageId', 'timebarId', 'title', 'views', 'layout');
 export const remove = simple(types.WS_PAGE_REMOVE, 'pageId');
 export const mountView = simple(types.WS_PAGE_VIEW_MOUNT, 'pageId', 'viewId');
 export const unmountView = simple(types.WS_PAGE_VIEW_UNMOUNT, 'pageId', 'viewId');

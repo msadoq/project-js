@@ -16,12 +16,13 @@ describe('store:page', () => {
       it('add', () => {
         const state = reducer(
           undefined,
-          actions.add('myPageId', 'Title', ['myViewId'], [
+          actions.add('myPageId', 'myTimebarId', 'Title', ['myViewId'], [
             { viewId: 'myViewId', x: 10, y: 10, w: 10, h: 10 },
           ])
         );
         state.myPageId.should.deep.eql({
           title: 'Title',
+          timebarId: 'myTimebarId',
           views: ['myViewId'],
           layout: [
             { viewId: 'myViewId', x: 10, y: 10, w: 10, h: 10 },
@@ -41,6 +42,7 @@ describe('store:page', () => {
         );
         state.myPageId.should.deep.eql({
           title: 'Unknown',
+          timebarId: null,
           views: [],
           layout: [],
           editor: {

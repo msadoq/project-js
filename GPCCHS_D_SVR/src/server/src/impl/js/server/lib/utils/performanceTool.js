@@ -29,8 +29,8 @@ const init = () => {
 };
 
 const doAverage = (measures, currentAvg) => {
-  const mean = _.mean(measures);
-  return (typeof currentAvg === 'undefined') ? mean : _.mean([currentAvg, mean]);
+  const mean = _.round(_.mean(measures));
+  return (typeof currentAvg === 'undefined') ? mean : _.round(_.mean([currentAvg, mean]));
 };
 
 const launch = () => setImmediate(() => {
@@ -78,4 +78,10 @@ const launch = () => setImmediate(() => {
 module.exports = {
   init,
   launch,
+  getAvgTime: () => [avgSecTime, avgNanoTime],
+  getAvgMemoryUsage: () => ({
+    rss: avgRssMemUsage,
+    heapTotal: avgHeapMemUsage,
+    heapUsed: avgUsedMemUsage,
+  }),
 };

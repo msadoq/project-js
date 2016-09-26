@@ -4,11 +4,15 @@ const { isTimestampInIntervals, mergeIntervals } = require('../utils/intervals')
 const { inspect } = require('util');
 const _ = require('lodash');
 
-const collection = database.addCollection('connectedData');
+const collection = database.addCollection('connectedData',
+  {
+    unique: 'localId',
+  }
+);
 
-collection.localIdIndex = collection.ensureUniqueIndex('localId');
+collection.getLocalIdIndex = () => collection.constraints.unique.localId;
 
-collection.getAll = () => _.remove(_.values(collection.localIdIndex.keyMap, undefined));
+collection.getAll = () => _.remove(_.values(collection.getLocalIdIndex().keyMap), undefined);
 
 collection.getLocalId = require('./getLocalId');
 
@@ -216,10 +220,15 @@ collection.removeByDataId = (dataId) => {
   collection.remove(connectedData);
 };
 
+collection.getByDataId = (dataId) => {
+  const localId = (typeof dataId === 'string') ? dataId : collection.getLocalId(dataId);
+  return collection.by('localId', localId);
+};
+
 collection.cleanup = () => {
   debug.debug('connectedData cleared');
   collection.clear();
-  collection.localIdIndex.clear();
+  collection.getLocalIdIndex().clear();
 };
 
 module.exports = collection;

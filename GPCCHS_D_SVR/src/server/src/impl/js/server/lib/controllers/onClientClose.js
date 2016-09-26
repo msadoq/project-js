@@ -2,6 +2,7 @@ const debug = require('../io/debug')('controllers:onClientClose');
 const subscriptions = require('../utils/subscriptions');
 const cacheJsonModel = require('../models/cacheJson');
 const connectedDataModel = require('../models/connectedData');
+const viewModel = require('../models/views');
 const registeredCallbacks = require('../utils/registeredCallbacks');
 const { stopSubscription } = require('./onSubscriptionClose');
 const zmq = require('../io/zmq');
@@ -31,6 +32,8 @@ const cleanUpRemainingData = (messageHandler) => {
   cacheJsonModel.cleanup();
   // cleanup local connectedData (loki)
   connectedDataModel.cleanup();
+  // cleanup views (loki)
+  viewModel.cleanup();
   // cleanup local domains
   resetDomains();
   // cleanup local timebar

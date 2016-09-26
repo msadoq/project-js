@@ -16,15 +16,19 @@ if (process.env.HTTP_LOGS === '1') {
 
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(contentType);
+// app.use(contentType);
 app.use(linker);
-app.use(attachValidated);
+// app.use(attachValidated);
 
 
-app.use('/api/', require('./routes/index'));
-app.use('/api/documents/', require('./routes/documents/pages'));
-app.use('/api/documents/', require('./routes/documents/views'));
-app.use('/api/documents/', require('./routes/documents/workspaces'));
+app.use('/debug/', require('./routes/debug/index'));
+app.use('/debug/connectedData/', require('./routes/debug/connectedData'));
+app.use('/debug/localId/', require('./routes/debug/localId'));
+app.use('/debug/views/', require('./routes/debug/views'));
+// app.use('/api/', require('./routes/index'));
+// app.use('/api/documents/', require('./routes/documents/pages'));
+// app.use('/api/documents/', require('./routes/documents/views'));
+// app.use('/api/documents/', require('./routes/documents/workspaces'));
 // app.use('api/documents/', require('./routes/documents/documents'));
 app.use((req, res, next) => next(new ApiError(404, 'Not Found')));
 app.use(errorHandler);

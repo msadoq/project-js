@@ -41,7 +41,6 @@ collection.isTimestampInKnownIntervals = (dataId, timestamp) => {
   return false;
 };
 
-
 collection.setIntervalAsReceived = (dataId, queryUuid) => {
   const localId = collection.getLocalId(dataId);
   // Set query interval as received for this localId

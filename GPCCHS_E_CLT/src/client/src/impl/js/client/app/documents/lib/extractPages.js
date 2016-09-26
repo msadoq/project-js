@@ -4,7 +4,7 @@ const { v4 } = require('node-uuid');
 const fs = require('../fs');
 const validation = require('../validation');
 
-function findWindowPagesAndReplaceWithUuid(window) {
+function findWindowPagesAndReplaceWithUuid(window, timebars) {
   const pages = _.get(window, 'pages');
   return _.reduce(pages, (list, page, index) => {
     if (!page.oId && !page.path) {
@@ -13,11 +13,18 @@ function findWindowPagesAndReplaceWithUuid(window) {
 
     const uuid = v4();
 
+    const timebar = _.find(timebars, tb => tb.id === pages[index].timeBarId);
+    const timebarId = timebar ? timebar.uuid : null;
+
     // replace window.pages.item with uuid
     pages[index] = uuid;
 
     // add page to read in list
-    list.push(Object.assign({}, page, { uuid })); // eslint-disable-line no-param-reassign
+    // eslint-disable-next-line no-param-reassign
+    list.push(Object.assign({}, page, {
+      uuid,
+      timebarId,
+    }));
 
     return list;
   }, []);
@@ -57,7 +64,7 @@ module.exports = (content, cb) => {
   }
 
   const pagesToRead = _.reduce(windows, (list, w) =>
-      list.concat(findWindowPagesAndReplaceWithUuid(w)),
+      list.concat(findWindowPagesAndReplaceWithUuid(w, _.get(content, 'timebars', {}))),
   []);
 
   return readPages(content.__folder, pagesToRead, (err, pages) => {

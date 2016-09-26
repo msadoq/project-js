@@ -37,6 +37,7 @@ export default function loadWorkspace(workspace) {
   // add pages
   _.each(workspace.pages, e => dispatch(addPage(
     e.uuid,
+    e.timebarId,
     e.title,
     _.map(e.views, v => v.uuid),
     _.map(e.views, v => ({

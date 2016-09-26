@@ -29,6 +29,6 @@ export default class Subscription extends Component {
     });
   }
   render() {
-    return <div>{`${this.props.cd.catalog}.${this.props.cd.parameterName}<${this.props.cd.comObject}>@${this.props.cd.domainId}:${this.props.cd.sessionId}`}</div>;
+    return <div>{`${this.props.cd.localId}`}</div>;
   }
 }

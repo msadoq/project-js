@@ -60,7 +60,7 @@ export function disconnect() {
 
 export function getWebsocket() {
   if (!instance) {
-    throw new Error('websocket wasn\'t inited yet');
+    return logger.error('websocket wasn\'t inited yet');
   }
   return instance;
 }

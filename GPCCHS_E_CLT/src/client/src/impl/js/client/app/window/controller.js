@@ -7,7 +7,6 @@ const logger = debug('window:controller');
 export default function controller(windowId, event, payload) {
   switch (event) {
     case 'authenticated':
-      console.log('authenticated')
       getStore().dispatch(updateStatus(windowId, 'authenticated'));
       break;
     default:

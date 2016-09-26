@@ -4,13 +4,22 @@ import WebsocketContainer from './Websocket/WebsocketContainer';
 import WindowContainer from './Window/WindowContainer';
 import { Provider } from 'react-redux';
 import { initStore, getStore } from '../store/windowStore';
+import debug from '../utils/debug';
+import { remove } from '../store/mutations/hssActions';
 import './global.css';
 import '../shortcuts.global.css';
+
+const logger = debug('window:index');
 
 const search = global.location.search;
 const windowId = search.replace('?windowId=', '');
 
 initStore();
+
+window.addEventListener('beforeunload', () => {
+  logger.info('onbeforeunload called');
+  getStore().dispatch(remove(windowId));
+});
 
 render(
   <Provider store={getStore()}>

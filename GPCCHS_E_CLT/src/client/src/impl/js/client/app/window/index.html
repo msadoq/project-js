@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../../node_modules/react-grid-layout/css/styles.css" />
     <link rel="stylesheet" href="../../node_modules/react-resizable/css/styles.css" />
     <script>
-
       // https://github.com/electron/electron/issues/5224
       const env = require('electron').remote.getGlobal('process').env;
 
@@ -17,18 +16,6 @@
         link.href = '../dist/style.css';
         document.write(link.outerHTML);
       }
-
-      // const remote = require('electron').remote;
-      // const Menu = remote.Menu;
-      // const MenuItem = remote.MenuItem;
-      //
-      // let menu = new Menu();
-      // menu.append(new MenuItem({label:'coucou', click: function(){ console.log('coucou item click'); } }));
-      // window.addEventListener('contextmenu', function(e) {
-      //   e.preventDefault();
-      //   menu.popup(remote.getCurrentWindow());
-      // }, false);
-      // 
     </script>
   </head>
   <body>

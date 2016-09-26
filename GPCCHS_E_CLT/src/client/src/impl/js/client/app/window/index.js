@@ -6,6 +6,7 @@ import WindowContainer from './Window/WindowContainer';
 import { Provider } from 'react-redux';
 import { initStore, getStore } from '../store/windowStore';
 import { remove } from '../store/mutations/hssActions';
+import { disconnect } from '../websocket/windowWebsocket';
 import './global.css';
 import '../shortcuts.global.css';
 
@@ -19,6 +20,7 @@ initStore();
 // TODO : factorize in separate module, test to embed in WebsocketContainer
 window.addEventListener('beforeunload', () => {
   logger.info('onbeforeunload called');
+  disconnect();
   getStore().dispatch(remove(windowId));
 });
 

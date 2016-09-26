@@ -4,20 +4,33 @@ import filter from './sessions';
 
 describe('connectedData/sessions', () => {
   const list = [
-    { id: 'tl1', sessionId: 'session1' },
-    { id: 'tl2', sessionId: 'session2' },
-    { id: 'other', sessionId: 'sessionOther' },
-    { id: undefined, sessionId: 'invalid' },
+    { id: 'tl1', sessionId: 'session1', offset: 0 },
+    { id: 'tl2', sessionId: 'session2', offset: 10 },
+    { id: 'other', sessionId: 'sessionOther', offset: -10 },
+    { id: undefined, sessionId: 'invalid', offset: 0 },
   ];
   it('exact', () => {
-    filter(list, 'tl1').should.eql(['session1']);
+    filter(list, 'tl1').should.eql([{ sessionId: 'session1', offset: 0 }]);
   });
   it('wildcard', () => {
-    filter(list, '*').should.eql(['session1', 'session2', 'sessionOther']);
-    filter(list, 'tl*').should.eql(['session1', 'session2']);
-    filter(list, 't?1').should.eql(['session1']);
-    filter(list, 't??').should.eql(['session1', 'session2']);
-    filter(list, '*l*').should.eql(['session1', 'session2']);
+    filter(list, '*').should.eql([
+      { sessionId: 'session1', offset: 0 },
+      { sessionId: 'session2', offset: 10 },
+      { sessionId: 'sessionOther', offset: -10 }
+    ]);
+    filter(list, 'tl*').should.eql([
+      { sessionId: 'session1', offset: 0 },
+      { sessionId: 'session2', offset: 10 },
+    ]);
+    filter(list, 't?1').should.eql([{ sessionId: 'session1', offset: 0 }]);
+    filter(list, 't??').should.eql([
+      { sessionId: 'session1', offset: 0 },
+      { sessionId: 'session2', offset: 10 },
+    ]);
+    filter(list, '*l*').should.eql([
+      { sessionId: 'session1', offset: 0 },
+      { sessionId: 'session2', offset: 10 },
+    ]);
   });
   it('no timeline', () => {
     filter(undefined, 'tl1').should.eql([]);

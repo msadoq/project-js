@@ -12,13 +12,8 @@ export default class Subscription extends Component {
       event: 'connectedDataOpen',
       payload: {
         windowId: windowId,
-        dataId: {
-          catalog: cd.catalog,
-          parameterName: cd.parameterName,
-          comObject: cd.comObject,
-          sessionId: cd.sessionId,
-          domainId: cd.domainId,
-        },
+        localId: cd.localId,
+        dataId: cd.dataId,
       },
     });
   }
@@ -28,13 +23,8 @@ export default class Subscription extends Component {
       event: 'connectedDataClose',
       payload: {
         windowId: windowId,
-        dataId: {
-          catalog: cd.catalog,
-          parameterName: cd.parameterName,
-          comObject: cd.comObject,
-          sessionId: cd.sessionId,
-          domainId: cd.domainId,
-        },
+        localId: cd.localId,
+        dataId: cd.dataId,
       },
     });
   }

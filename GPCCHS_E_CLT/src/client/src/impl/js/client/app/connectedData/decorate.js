@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import formula from './formula';
+import localId from './localId';
 import domainsFilter from './domains';
 import timelinesFilter from './sessions';
 import { getTimelines } from '../store/mutations/timebarReducer';
@@ -24,7 +25,7 @@ export default function decorate(state, connectedData) {
     }
 
     _.each(forDomains, (domainId) => {
-      _.each(forSessionIds, (sessionId) => {
+      _.each(forSessionIds, ({ sessionId, offset }) => {
         const p = formula(cd.formula);
 
         // de-duplication
@@ -34,13 +35,18 @@ export default function decorate(state, connectedData) {
         }
         _.set(known, path, true);
 
-        list.push({
+        const dataId = {
           catalog: p.catalog,
           parameterName: p.parameterName,
           comObject: p.comObject,
           domainId,
           sessionId,
-          // TODO : field + filters?
+        };
+
+        list.push({
+          localId: localId(dataId),
+          offset,
+          dataId,
         })
       });
     });

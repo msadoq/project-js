@@ -15,12 +15,23 @@ describe('connectedData/decorate', () => {
       tb2: { timelines: ['tl2'] },
     },
     timelines: {
-      tl1: { id: 'TL1', sessionId: 's1' },
-      tl2: { id: 'TL2', sessionId: 's2' },
-      tl3: { id: 'TL3', sessionId: 's3' },
-      tl4: { id: '4TL', sessionId: 's4' },
+      tl1: { id: 'TL1', sessionId: 's1', offset: 0 },
+      tl2: { id: 'TL2', sessionId: 's2', offset: 10 },
+      tl3: { id: 'TL3', sessionId: 's3', offset: -10 },
+      tl4: { id: '4TL', sessionId: 's4', offset: 0 },
     },
   });
+
+  const assert = (r, catalog, parameterName, comObject, domainId, sessionId, offset) => {
+    r.should.be.an('object').with.property('offset', offset);
+    r.dataId.should.be.an('object').with.properties({
+      catalog,
+      parameterName,
+      comObject,
+      domainId,
+      sessionId,
+    });
+  };
 
   it('empty state', () => {
     decorate({}, [{ formula: 'c.pn<co>.f' }]).should.eql([]);
@@ -29,13 +40,12 @@ describe('connectedData/decorate', () => {
     decorate({ domains: [] }, []).should.eql([]);
   });
   it('simple domain and timeline', () => {
-    decorate(getState(), [
+    const r = decorate(getState(), [
         { domain: 'cnes.isis.sat1', timebarId: 'tb1', timeline: 'TL1', formula: 'c.pn<co>.f' },
         { domain: 'cnes.isis.sat2', timebarId: 'tb2', timeline: 'TL2', formula: 'c2.pn2<co2>.f2' },
-    ]).should.eql([
-      { catalog: 'c', parameterName: 'pn', comObject: 'co', domainId: 'd1', sessionId: 's1' },
-      { catalog: 'c2', parameterName: 'pn2', comObject: 'co2', domainId: 'd2', sessionId: 's2' },
     ]);
+    assert(r[0], 'c', 'pn', 'co', 'd1', 's1', 0);
+    assert(r[1], 'c2', 'pn2', 'co2', 'd2', 's2', 10);
   });
   it('different timelines', () => {
     decorate(getState(), [
@@ -43,62 +53,55 @@ describe('connectedData/decorate', () => {
     ]).should.eql([]);
   });
   it('domain wildcard', () => {
-    decorate(getState(), [
+    const r = decorate(getState(), [
       { domain: 'cnes.isis.sat2*', timebarId: 'tb2', timeline: 'TL2', formula: 'c.pn<co>.f' },
-    ]).should.eql([
-      { catalog: 'c', parameterName: 'pn', comObject: 'co', domainId: 'd2', sessionId: 's2' },
-      { catalog: 'c', parameterName: 'pn', comObject: 'co', domainId: 'd3', sessionId: 's2' },
-      { catalog: 'c', parameterName: 'pn', comObject: 'co', domainId: 'd4', sessionId: 's2' },
     ]);
+    assert(r[0], 'c', 'pn', 'co', 'd2', 's2', 10);
+    assert(r[1], 'c', 'pn', 'co', 'd3', 's2', 10);
+    assert(r[2], 'c', 'pn', 'co', 'd4', 's2', 10);
   });
   it('timeline wildcard', () => {
-    decorate(getState(), [
+    const r = decorate(getState(), [
       { domain: 'cnes.isis.sat1', timebarId: 'tb1', timeline: 'TL*', formula: 'c.pn<co>.f' },
-    ]).should.eql([
-      { catalog: 'c', parameterName: 'pn', comObject: 'co', domainId: 'd1', sessionId: 's1' },
-      { catalog: 'c', parameterName: 'pn', comObject: 'co', domainId: 'd1', sessionId: 's3' },
     ]);
+    assert(r[0], 'c', 'pn', 'co', 'd1', 's1', 0);
+    assert(r[1], 'c', 'pn', 'co', 'd1', 's3', -10);
   });
   it('mix', () => {
-    decorate(getState(), [
+    const r = decorate(getState(), [
       { domain: 'cnes.isis.sat2.flak', timebarId: 'tb1', timeline: 'TL1', formula: 'c.pn<co>.f' },
       { domain: 'cnes.isis.sat1', timebarId: 'tb1', timeline: 'TL*', formula: 'c2.pn<co>.f' },
       { domain: 'cnes.isis.sat2*', timebarId: 'tb2', timeline: 'TL2', formula: 'c3.pn<co>.f' },
-    ]).should.eql([
-      { catalog: 'c', parameterName: 'pn', comObject: 'co', domainId: 'd4', sessionId: 's1' },
-      { catalog: 'c2', parameterName: 'pn', comObject: 'co', domainId: 'd1', sessionId: 's1' },
-      { catalog: 'c2', parameterName: 'pn', comObject: 'co', domainId: 'd1', sessionId: 's3' },
-      { catalog: 'c3', parameterName: 'pn', comObject: 'co', domainId: 'd2', sessionId: 's2' },
-      { catalog: 'c3', parameterName: 'pn', comObject: 'co', domainId: 'd3', sessionId: 's2' },
-      { catalog: 'c3', parameterName: 'pn', comObject: 'co', domainId: 'd4', sessionId: 's2' },
     ]);
+    assert(r[0], 'c', 'pn', 'co', 'd4', 's1', 0);
+    assert(r[1], 'c2', 'pn', 'co', 'd1', 's1', 0);
+    assert(r[2], 'c2', 'pn', 'co', 'd1', 's3', -10);
+    assert(r[3], 'c3', 'pn', 'co', 'd2', 's2', 10);
+    assert(r[4], 'c3', 'pn', 'co', 'd3', 's2', 10);
+    assert(r[5], 'c3', 'pn', 'co', 'd4', 's2', 10);
   });
   it ('double wildcard', () => {
-    decorate(getState(), [
+    const r = decorate(getState(), [
       { domain: '*', timebarId: 'tb1', timeline: '*', formula: 'c.pn<co>.f' },
-    ]).should.eql([
-      { catalog: 'c', parameterName: 'pn', comObject: 'co', domainId: 'd1', sessionId: 's1' },
-      { catalog: 'c', parameterName: 'pn', comObject: 'co', domainId: 'd1', sessionId: 's3' },
-      { catalog: 'c', parameterName: 'pn', comObject: 'co', domainId: 'd1', sessionId: 's4' },
-      { catalog: 'c', parameterName: 'pn', comObject: 'co', domainId: 'd2', sessionId: 's1' },
-      { catalog: 'c', parameterName: 'pn', comObject: 'co', domainId: 'd2', sessionId: 's3' },
-      { catalog: 'c', parameterName: 'pn', comObject: 'co', domainId: 'd2', sessionId: 's4' },
-      { catalog: 'c', parameterName: 'pn', comObject: 'co', domainId: 'd3', sessionId: 's1' },
-      { catalog: 'c', parameterName: 'pn', comObject: 'co', domainId: 'd3', sessionId: 's3' },
-      { catalog: 'c', parameterName: 'pn', comObject: 'co', domainId: 'd3', sessionId: 's4' },
-      { catalog: 'c', parameterName: 'pn', comObject: 'co', domainId: 'd4', sessionId: 's1' },
-      { catalog: 'c', parameterName: 'pn', comObject: 'co', domainId: 'd4', sessionId: 's3' },
-      { catalog: 'c', parameterName: 'pn', comObject: 'co', domainId: 'd4', sessionId: 's4' },
-
     ]);
+    assert(r[0], 'c', 'pn', 'co', 'd1', 's1', 0);
+    assert(r[1], 'c', 'pn', 'co', 'd1', 's3', -10);
+    assert(r[2], 'c', 'pn', 'co', 'd1', 's4', 0);
+    assert(r[3], 'c', 'pn', 'co', 'd2', 's1', 0);
+    assert(r[4], 'c', 'pn', 'co', 'd2', 's3', -10);
+    assert(r[5], 'c', 'pn', 'co', 'd2', 's4', 0);
+    assert(r[6], 'c', 'pn', 'co', 'd3', 's1', 0);
+    assert(r[7], 'c', 'pn', 'co', 'd3', 's3', -10);
+    assert(r[8], 'c', 'pn', 'co', 'd3', 's4', 0);
+    assert(r[9], 'c', 'pn', 'co', 'd4', 's1', 0);
+    assert(r[10], 'c', 'pn', 'co', 'd4', 's3', -10);
+    assert(r[11], 'c', 'pn', 'co', 'd4', 's4', 0);
   });
-  it ('duplication', () => {
-    decorate(getState(), [
+  it ('de-duplication', () => {
+    const r = decorate(getState(), [
       { domain: 'cnes.isis.sat1', timebarId: 'tb1', timeline: 'TL1', formula: 'c.pn<co>.f' },
       { domain: 'cnes.isis.sat1', timebarId: 'tb1', timeline: 'TL1', formula: 'c.pn<co>.f' },
-    ]).should.eql([
-      { catalog: 'c', parameterName: 'pn', comObject: 'co', domainId: 'd1', sessionId: 's1' },
-
     ]);
+    assert(r[0], 'c', 'pn', 'co', 'd1', 's1', 0);
   });
 });

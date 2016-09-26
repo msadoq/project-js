@@ -22,7 +22,20 @@ export function extractFromWindow(state, windowId) { // TODO : in connectedData 
 }
 
 /**
- * Return a de-duplicated list of connectedData with sessionId and domainId for windowId
+ * Returns a de-duplicated list of connectedData with sessionId and domainId sets:
+ *
+ * [
+ *   {
+ *     localId,
+ *     offset,
+ *     dataId: {
+ *       catalog,
+ *       parameterName,
+ *       comObject,
+ *       domainId,
+ *       sessionId,
+ *   }
+ * ]
  *
  * @param state
  * @param windowId

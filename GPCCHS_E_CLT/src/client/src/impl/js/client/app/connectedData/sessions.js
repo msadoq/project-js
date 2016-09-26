@@ -18,13 +18,13 @@ export default function filter(timelines, search) {
     if (!timeline) {
       return [];
     }
-    return [timeline.sessionId];
+    return [{ sessionId: timeline.sessionId, offset: timeline.offset }];
   }
 
   const reg = generate(search);
   return _.reduce(timelines, (list, timeline) => {
     return timeline.id && reg.test(timeline.id)
-      ? list.concat(timeline.sessionId)
+      ? list.concat({ sessionId: timeline.sessionId, offset: timeline.offset })
       : list;
   }, []);
 }

@@ -16,9 +16,9 @@ function PlotView(configuration) {
   this.spark = configuration.spark;
   this.configuration = configuration.configuration;
   this.identity = configuration.identity;
-  if (!this.configuration.plotViewEntryPoints) {
-    this.configuration.plotViewEntryPoints = [];
-  }
+  // if (!this.configuration.plotViewEntryPoints) {
+  //   this.configuration.plotViewEntryPoints = [];
+  // }
 }
 
 PlotView.prototype.type = function () {

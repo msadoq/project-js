@@ -15,9 +15,9 @@ function TextView(configuration) {
   this.spark = configuration.spark;
   this.configuration = configuration.configuration;
   this.identity = configuration.identity;
-  if (!this.configuration.textViewEntryPoints) {
-    this.configuration.textViewEntryPoints = [];
-  }
+  // if (!this.configuration.textViewEntryPoints) {
+  //   this.configuration.textViewEntryPoints = [];
+  // }
 }
 
 TextView.prototype.type = function () {

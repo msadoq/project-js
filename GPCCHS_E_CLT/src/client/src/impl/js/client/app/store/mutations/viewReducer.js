@@ -76,6 +76,5 @@ export function getConnectedData(state, viewId) { // TODO test
   if (!_.isFunction(selector)) {
     return [];
   }
-
   return selector(state, viewId);
 }

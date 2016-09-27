@@ -82,8 +82,8 @@ const primusExports = module.exports = {
             errorHandler(() => handlers.onSubscriptionClose(spark, message.payload));
             break;
           }
-          case 'timebarUpdate': {
-            errorHandler(() => handlers.onTimebarUpdate(spark, message.payload));
+          case 'timebarInit': {
+            errorHandler(() => handlers.onHscTimebarInit(spark, message.payload));
             break;
           }
           case 'domainQuery': {

@@ -1,3 +1,5 @@
+import _ from 'lodash';
+import u from 'updeep';
 import debug from '../utils/mainDebug';
 import installExtensions from './installExtensions';
 import { initStore, getStore } from '../store/mainStore';
@@ -51,11 +53,20 @@ function onStoreUpdate() {
   }
 
   if (appStatus === 'domain-retrieved') {
+    // Replace timeline uuid with referenced value to send it to Qt
+    const tbs = [];
+    _.each(loadedWorkspace.timebars, (tb) => {
+      const tbtmp = JSON.parse(JSON.stringify(tb));
+      tbtmp.timelines = [];
+      _.each(tb.timelines, (id) => {
+        tbtmp.timelines.push(loadedWorkspace.timelines[id]);
+      });
+      tbs.push(tbtmp);
+    });
+
     getWebsocket().write({
-      event: 'timebarUpdate',
-      payload: {
-        timebar: {}, // TODO : this step will probably no longer be needed
-      },
+      event: 'timebarInit',
+      payload: tbs,
     });
     dispatch(updateStatus('timebar-sent-to-hss'));
   }

@@ -1,24 +1,6 @@
-const debug = require('../io/debug')('timeBar:tbUpdate');
+// const debug = require('../io/debug')('timeBar:tbUpdate');
 const diff = require('deep-diff').diff;
 const _ = require('lodash');
-
-// // Get index of id in table
-// function getIndex(table, id) {
-//   // Number of timelines already declared
-//   // const length = table.length;
-//   // // Check if new Id is already declared in timeline table
-//   // for (let i = 0; i < length; i++) {
-//   //   if (table[i].id === id) {
-//   //     return i;
-//   //   }
-//   // }
-//   const a = _.filter(table, item => {
-//     if (item.id === id) {
-//       return item.id === id;
-//     }
-//   });
-//   return -1;
-// }
 
 let cmdList;
 function createObjectParamOnCmdList(param, keyNames) {
@@ -45,7 +27,7 @@ function createArrayParamOnCmdList(param, keyNames) {
   }
   let current = cmdList;
   let final = current;
-  _.forEach(keyNames, element => {
+  _.forEach(keyNames, (element) => {
     current = final;
     if (!Object.getOwnPropertyDescriptor(current, element)) {
       current[element] = {};
@@ -86,20 +68,23 @@ module.exports = (oldTb, newTb) => {
       if (result) {
         cmdList = {};
       }
-      _.each(result, current => {
+      _.each(result, (current) => {
         if (current.kind === 'E') {
           switch (current.path[0]) {
             // ---------- Visualization window updates
             case 'visuWindow':
               // Update of parameter of visuWindow
               createObjectParamOnCmdList('visuWindowUpdate');
-              if (current.path[1] === 'current') {
-                cmdList.visuWindowUpdate.current = current.rhs;
-              } else {
-                createObjectParamOnCmdList('bounds', ['visuWindowUpdate']);
-                cmdList.visuWindowUpdate.bounds.lower = newTb.visuWindow.lower;
-                cmdList.visuWindowUpdate.bounds.upper = newTb.visuWindow.upper;
-              }
+              cmdList.visuWindowUpdate.lower = newTb.visuWindow.lower;
+              cmdList.visuWindowUpdate.upper = newTb.visuWindow.upper;
+              cmdList.visuWindowUpdate.current = newTb.visuWindow.current;
+              // if (current.path[1] === 'current') {
+              //   cmdList.visuWindowUpdate.current = current.rhs;
+              // } else {
+              //   createObjectParamOnCmdList('bounds', ['visuWindowUpdate']);
+              //   cmdList.visuWindowUpdate.bounds.lower = newTb.visuWindow.lower;
+              //   cmdList.visuWindowUpdate.bounds.upper = newTb.visuWindow.upper;
+              // }
               break;
             case 'slideWindow':
               // Add slideWindow under visuWindowUpdate
@@ -132,8 +117,11 @@ module.exports = (oldTb, newTb) => {
             case 'timeSpec':
               cmdList.timeSpecUpdate = current.rhs;
               break;
+            case 'id':
+              cmdList.idUpdate = current.rhs;
+              break;
             default:
-            // case for action
+            // case for actions
           }
           // } else {
           //   // **** Case for action update : nothing to do ?
@@ -141,8 +129,8 @@ module.exports = (oldTb, newTb) => {
       });
       // --- timeline treatment
       // addition
-      _.forEach(newTls, element => {
-        const oldTl = _.find(oldTls, { id: element.id });
+      _.forEach(newTls, (element) => {
+        const oldTl = _.find(oldTls, { id: element.id }); // TODO compare uuid?
         if (!oldTl) {
           // Add action in cmdList
           createArrayParamOnCmdList('timelineAdded');
@@ -182,14 +170,14 @@ module.exports = (oldTb, newTb) => {
                 }
                 break;
               default:
-                debug.debug('Unknown kind', element.kind);
+                // debug.debug('Unknown kind', element.kind);
             }
           }
         }
       });
       // deletion
-      _.forEach(oldTls, element => {
-        const oldTl = _.find(newTls, { id: element.id });
+      _.forEach(oldTls, (element) => {
+        const oldTl = _.find(newTls, { id: _.get(element, 'id') });
         if (!oldTl) {
           createArrayParamOnCmdList('timelineRemoved');
           cmdList.timelineRemoved.push(element);

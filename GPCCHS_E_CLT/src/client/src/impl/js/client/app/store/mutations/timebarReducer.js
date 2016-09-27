@@ -14,6 +14,17 @@ export default function timebars(state = {}, action) { // TODO test
       };
     case types.WS_TIMEBAR_REMOVE:
       return _.omit(state, [action.payload.timebarId]);
+    case types.WS_TIMEBAR_ID_UPDATE:
+    case types.WS_TIMEBAR_VISUWINDOW_UPDATE:
+    case types.WS_TIMEBAR_SPEED_UPDATE:
+    case types.WS_TIMEBAR_PLAYINGSTATE_UPDATE:
+    case types.WS_TIMEBAR_MASTERID_UPDATE:
+    case types.WS_TIMEBAR_MOUNT_TIMELINE:
+    case types.WS_TIMEBAR_UNMOUNT_TIMELINE:
+      return {
+        ...state,
+        [action.payload.timebarId]: timebar(state[action.payload.timebarId], action),
+      };
     default:
       return state;
   }
@@ -32,7 +43,7 @@ const initialState = {
   timelines: [],
 };
 
-function timebar(state = initialState, action) { // TODO test
+function timebar(state = initialState, action) {
   switch (action.type) {
     case types.WS_TIMEBAR_ADD: {
       const configuration = _.get(action, 'payload.configuration', {});
@@ -49,13 +60,33 @@ function timebar(state = initialState, action) { // TODO test
         timelines: configuration.timelines || initialState.timelines,
       });
     }
+    case types.WS_TIMEBAR_MOUNT_TIMELINE:
+      return Object.assign({}, state,
+        { timelines: [...state.timelines, action.payload.timelineId] });
+    case types.WS_TIMEBAR_UNMOUNT_TIMELINE:
+      return Object.assign({}, state,
+        { timelines: _.without(state.timelines, action.payload.timelineId) });
+    case types.WS_TIMEBAR_ID_UPDATE:
+      return Object.assign({}, state, { id: action.payload.id });
+    case types.WS_TIMEBAR_VISUWINDOW_UPDATE:
+      return Object.assign({}, state, { visuWindow: {
+        lower: action.payload.lower,
+        upper: action.payload.upper,
+        current: action.payload.current,
+      } });
+    case types.WS_TIMEBAR_SPEED_UPDATE:
+      return Object.assign({}, state, { speed: action.payload.speed });
+    case types.WS_TIMEBAR_PLAYINGSTATE_UPDATE:
+      return Object.assign({}, state, { playingState: action.payload.playingState });
+    case types.WS_TIMEBAR_MASTERID_UPDATE:
+      return Object.assign({}, state, { masterId: action.payload.masterId });
     default:
       return state;
   }
 }
 
 /**
- * Selectors
+* Selectors
  */
 export function getTimebar(state, timebarId) { // TODO test
   return _.get(state, `timebars.${timebarId}`);

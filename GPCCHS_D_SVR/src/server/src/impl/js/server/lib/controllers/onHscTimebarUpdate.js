@@ -1,14 +1,18 @@
-const debug = require('../io/debug')('controllers:onTimeBarUpdate');
-const { setTimebar } = require('../timeBar/index');
+const debug = require('../io/debug')('controllers:onHSCTimebarUpdate');
+const zmq = require('../io/zmq');
+const _ = require('lodash');
 
 /**
  * Triggered when HSC send the timebar status (one time on launch)
  * @param timebar
  */
-module.exports = (spark, { timebar }) => {
-  debug.debug('called', timebar);
-  setTimebar(timebar);
+module.exports = (spark, timebars) => {
   spark.write({
     event: 'ready',
+  });
+  debug.info('timebars', _.sample(timebars).timelines);
+  // Send initial tb;
+  zmq.push('tbPush', JSON.stringify(timebars), () => {
+    debug.info('tb init sent to TB widget');
   });
 };

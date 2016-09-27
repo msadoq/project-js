@@ -23,12 +23,11 @@ describe('Timebar update', () => {
     differences.should.be.an('object');
     differences.should.have.property('visuWindowUpdate');
     differences.visuWindowUpdate.should.have.all.keys(
-      ['bounds', 'current', 'slideWindow', 'extUpperBound']
+      ['lower', 'upper', 'current', 'slideWindow', 'extUpperBound']
     );
     differences.visuWindowUpdate.current.should.equal(tb1.visuWindow.current);
-    differences.visuWindowUpdate.bounds.should.be.an('object').with.all.keys(['lower', 'upper']);
-    differences.visuWindowUpdate.bounds.lower.should.equal(tbRef.visuWindow.lower);
-    differences.visuWindowUpdate.bounds.upper.should.equal(tb1.visuWindow.upper);
+    differences.visuWindowUpdate.lower.should.equal(tbRef.visuWindow.lower);
+    differences.visuWindowUpdate.upper.should.equal(tb1.visuWindow.upper);
     differences.visuWindowUpdate.extUpperBound.should.equal(tb1.extUpperBound);
     differences.visuWindowUpdate.slideWindow.should.be.an('object')
       .with.all.keys(['lower', 'upper']);

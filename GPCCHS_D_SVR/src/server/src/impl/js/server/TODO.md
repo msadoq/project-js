@@ -85,7 +85,7 @@ Errors
   - [x] Add selector for timebar by wildcard (Audrey)
   - [x] On connectedData mount and unmount message add explicit domain and session (Damien)
   - [x] Add connectedData duplication logic with domain and session handling
-  - [x] De-duplicate connectedData for a given windows (windowReducer.getWindowConnectedData) (Damien) 
+  - [x] De-duplicate connectedData for a given windows (windowReducer.getWindowConnectedData) (Damien)
   - Subscriptions
     - [x] Rename ConnectedData* to Subscriptions* (Damien)
     - [x] Apply duplication logic and de-duplication (Damien)
@@ -109,19 +109,19 @@ Errors
 * Customize electron window menu bar (Alexandra)
   - Workspace
     - [ ] Save...
-    - [ ] Quit
+    - [x] Quit
   - Window
-    - [ ] everything that is in actual View menu should be append in this menu
-    - [ ] Minimize
-    - [ ] New
-    - [ ] Close
+    - [x] everything that is in actual View menu should be append in this menu
+    - [x] Minimize
+    - [x] New
+    - [x] Close
   - Page
     - [ ] Open...
-    - [ ] Add
+    - [x] Add
     - [ ] Save...
   - View
     - [ ] Open... (in current page)
-    - [ ] Add (in current page)
+    - [=] Add (in current page)
   - Edit (unchanged)
   - Remove Help
 * [ ] Fix the grid layout click capture, add header and allow drag only from header on views (Damien)

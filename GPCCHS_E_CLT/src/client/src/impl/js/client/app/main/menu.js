@@ -4,6 +4,7 @@ import { add, addAndMount as addAndMountPage, unmountAndRemove as unmountAndRemo
 import { addAndMount as addAndMountView, unmountAndRemove as unmountAndRemoveView } from '../store/mutations/pageActions';
 
 const { Menu } = require('electron');
+    /* NB: the native action-event (ex:'Quit') don't work with a function Click*/
 
 const template = [{
   label: 'Workspace',
@@ -15,22 +16,26 @@ const template = [{
     }
   }, {
     label: 'Quit',
-    // accelerator: 'Ctrl+Command+Q',
-    // click() {
-    //   console.log('workspace closed!'),
-    /* NB: the native action-event (ex:'Quit') don't work with a function Click*/
     role: 'quit'
-      // }
   }]
 }, {
   label: 'Window',
   submenu: [{
+    label: 'New',
+    accelerator: '',
+    click() {
+      console.log('create a new window!!!!');
+      getStore().dispatch(add(v4(), 'Test window'));
+    }
+  }, {
     label: 'Reload',
     accelerator: '',
     click(item, focusedWindow) {
       if (focusedWindow) focusedWindow.reload();
       console.log('window reloaded!')
     }
+  }, {
+    type: 'separator'
   }, {
     label: 'Toggle Developer Tools',
     accelerator: '',
@@ -40,13 +45,7 @@ const template = [{
     }
   }, {
     label: 'Actual Size',
-    // accelerator: '',
-    // click() {
-    //   console.log('reset zoom the window!'),
-    // {
     role: 'resetzoom'
-      // }
-      // }
   }, {
     label: 'Zoom In',
     role: 'zoomin'
@@ -61,13 +60,6 @@ const template = [{
   }, {
     type: 'separator'
   }, {
-    label: 'New',
-    accelerator: '',
-    click() {
-      console.log('create a new window!!!!');
-      getStore().dispatch(add(v4(), 'Test window'));
-    }
-  }, {
     label: 'Minimize',
     role: 'minimize'
   }, {
@@ -77,17 +69,20 @@ const template = [{
 }, {
   label: 'Page',
   submenu: [{
+    label: 'Add ...',
+    accelerator: '',
+    click(item, focusedWindow) {
+      console.log('page added!')
+      getStore().dispatch(addAndMountPage(focusedWindow.windowId, v4(), 'add example'));
+    // for add a page in a new window, we have to 'Reload' after action click 'Add'!
+      console.log('window reloaded!')
+      focusedWindow.reload();
+    }
+  }, {
     label: 'Open ...',
     accelerator: '',
     click() {
       console.log('page opened!')
-    }
-  }, {
-    label: 'Add ...',
-    accelerator: '',
-    click() {
-      console.log('page added!')
-      getStore().dispatch(addAndMountPage(v4(), 'window example'));
     }
   }, {
     label: 'Save ...',
@@ -99,17 +94,17 @@ const template = [{
 }, {
   label: 'View',
   submenu: [{
-    label: 'Open ...',
-    accelerator: '',
-    click() {
-      console.log('view opened!')
-    }
-  }, {
     label: 'Add ...',
     accelerator: '',
     click() {
       console.log('view added!')
       getStore().dispatch(addAndMountView(v4(), 'TV'));
+    }
+  }, {
+    label: 'Open ...',
+    accelerator: '',
+    click() {
+      console.log('view opened!')
     }
   }]
 }, {

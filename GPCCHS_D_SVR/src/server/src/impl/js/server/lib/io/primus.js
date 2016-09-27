@@ -2,6 +2,7 @@ const debug = require('../io/debug')('websocket');
 const _ = require('lodash');
 const Primus = require('primus');
 const errorHandler = require('../utils/errorHandler');
+const sendToWindow = require('../utils/sendToWindow');
 
 let primus;
 
@@ -45,6 +46,12 @@ const primusExports = module.exports = {
 
         // eslint-disable-next-line no-param-reassign
         spark.getIdentity = () => _.get(spark, 'hsc.identity');
+
+        // eslint-disable-next-line no-param-reassign
+        spark.sendToWindow = (data) => {
+          debug.debug('sending data to window');
+          sendToWindow(spark, data);
+        };
 
         switch (message.event) {
           case 'identity': {

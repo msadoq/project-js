@@ -12,7 +12,6 @@ collection.addRecord = (viewId, instance) => {
   debug.debug('insert', viewId);
   return collection.insert({
     viewId,
-    visible: true,
     instance,
   });
 };
@@ -27,10 +26,6 @@ collection.delRecord = (viewId) => {
 };
 
 collection.findByViewId = viewId => collection.by('viewId', viewId);
-
-collection.retrieveVisible = () => collection.find({
-  visible: true,
-});
 
 collection.cleanup = () => {
   debug.debug('views cleared');

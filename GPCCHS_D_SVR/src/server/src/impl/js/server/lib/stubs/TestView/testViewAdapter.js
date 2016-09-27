@@ -1,10 +1,10 @@
 const debug = require('../../io/debug')('stubs:testViewAdapter');
+const _ = require('lodash');
 
 function TestView(configuration) {
   this.spark = configuration.spark;
   this.conf = configuration.conf;
   this.identity = configuration.identity;
-  this.payloads = [];
 }
 
 TestView.prototype.type = function () {
@@ -19,9 +19,11 @@ TestView.prototype.onTimebarUpdate = function (cmdList) {
   // TODO
 };
 
-TestView.prototype.onNewDataMessage = function (dataId, payloads) {
-  debug.debug('onNewDataMessage');
-  this.payloads.push({ dataId, payloads });
+TestView.prototype.onNewData = function (dataId, payload) {
+  debug.debug('onNewData');
+  const payloads = (_.isArray(payload)) ? payload : [payload];
+
+  this.spark.sendToWindow({ dataId, payloads });
 };
 
 module.exports = TestView;

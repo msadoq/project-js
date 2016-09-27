@@ -9,6 +9,10 @@ export default function controller(windowId, event, payload) {
     case 'authenticated':
       getStore().dispatch(updateStatus(windowId, 'authenticated'));
       break;
+    case 'newData':
+      logger.debug('newData');
+      logger.debug(payload);
+      break;
     default:
       logger.error('Received not yet implemented event', event);
   }

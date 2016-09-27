@@ -96,11 +96,14 @@ TextView.prototype.onTimebarUpdate = function (cmdList) {
   //       console.log(key);
   //   }
   // });
-}
+};
 
-TextView.prototype.onNewDataMessage = function (payloads) {
+TextView.prototype.onNewData = function (dataId, payload) {
   // TODO
-  console.log('onNewDataMessage', payloads);
+  console.log('onNewData', payload);
+  const payloads = (_.isArray(payload)) ? payload : [payload];
+
+  this.spark.sendToWindow({ dataId, payloads });
 };
 
 module.exports = TextView;

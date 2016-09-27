@@ -130,9 +130,12 @@ PlotView.prototype.onTimebarUpdate = function (cmdList) {
   // });
 };
 
-PlotView.prototype.onNewDataMessage = function (payloads) {
+PlotView.prototype.onNewData = function (dataId, payload) {
   // TODO
-  debug.debug('onNewDataMessage', payloads);
+  debug.debug('onNewData', payload);
+  const payloads = (_.isArray(payload)) ? payload : [payload];
+
+  this.spark.sendToWindow({ dataId, payloads });
 };
 
 module.exports = PlotView;

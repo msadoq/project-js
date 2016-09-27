@@ -230,6 +230,15 @@ describe('models/connectedData', () => {
       intervals[0][0].should.equal(myInterval[0]);
       intervals[0][1].should.equal(myInterval[1]);
     });
+    it('Connected Data without interval', () => {
+      model.addWindowId(myDataId, 42);
+      const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
+      debug.debug('intervals', intervals);
+      intervals.should.be.an('array').that.has.lengthOf(1);
+      intervals[0].should.be.an('array').that.has.lengthOf(2);
+      intervals[0][0].should.equal(myInterval[0]);
+      intervals[0][1].should.equal(myInterval[1]);
+    });
     it('leftQuery', () => {
       const leftQueryId = 'left';
       const leftQueryInterval = [-5, 5];

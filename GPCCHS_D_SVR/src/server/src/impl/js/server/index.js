@@ -19,6 +19,7 @@ const onViewClose = require('./lib/controllers/onViewClose');
 const { onSubscriptionOpen } = require('./lib/controllers/onSubscriptionOpen');
 const { onSubscriptionClose } = require('./lib/controllers/onSubscriptionClose');
 const { onClientDomainQuery } = require('./lib/controllers/onClientDomainQuery');
+const { onViewQuery } = require('./lib/controllers/onViewQuery');
 const onTimebarUpdate = require('./lib/controllers/onHscTimebarUpdate');
 
 const dcStub = require('./lib/stubs/dc');
@@ -92,6 +93,7 @@ primus.init(server, {
   onSubscriptionClose,
   onTimebarUpdate,
   onClientDomainQuery,
+  onViewQuery,
 });
 
 // ZeroMQ

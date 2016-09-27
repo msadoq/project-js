@@ -1,3 +1,4 @@
+const debug = require('../../lib/io/debug')('views:text');
 const {
   addTimeline,
   removeTimeline,
@@ -100,10 +101,10 @@ TextView.prototype.onTimebarUpdate = function (cmdList) {
 
 TextView.prototype.onNewData = function (dataId, payload) {
   // TODO
-  console.log('onNewData', payload);
+  debug.debug('onNewData');
   const payloads = (_.isArray(payload)) ? payload : [payload];
 
-  this.spark.sendToWindow({ dataId, payloads });
+  this.spark.addToQueue({ dataId, payloads });
 };
 
 module.exports = TextView;

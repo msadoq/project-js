@@ -1,0 +1,39 @@
+/*.block {
+  background-color: white;
+  border: 2px solid grey;
+  overflow: auto;
+}*/
+
+/*.status_background {
+  background-color: white;
+  width: 900px;
+  height: 1400px;
+  min-width: 100%;
+  margin-bottom: 50vh;
+  position: absolute;
+}
+.status_transbox{
+  margin: 300px;
+  border: 1px solid black;
+  opacity: 0.2;
+  /*-webkit-transform:rotate(-350deg);*/
+/*}*/
+
+/*.statusDisconnect_transbox  label{
+  background-color: red;
+  font-family: Arial;
+  text-align: center;
+  font-size: 11px;
+  color: black;
+  border: 1px solid black;
+  opacity: 0.2;
+}
+.statusConnect_transbox  label{
+  background-color: lime;
+  font-family: Arial;
+  text-align: center;
+  font-size: 11px;
+  color: black;
+  border: 1px solid black;
+  opacity: 0.2;
+}*/

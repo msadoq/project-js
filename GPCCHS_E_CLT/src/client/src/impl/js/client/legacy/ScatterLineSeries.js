@@ -11,7 +11,7 @@ class ScatterLineSeries extends Component {
         // The following are available from props
 
         // plotData is an array containing the points to be displayed on the screen. This is not the same as the data
-        //      you provided as input. It is most likely smaller in size since it contains a filtered list of items 
+        //      you provided as input. It is most likely smaller in size since it contains a filtered list of items
         //      which are to be displayed for the domain of xScale
 
         // The x & y Accessor are used to get the x & y value for each element in the plotData
@@ -22,7 +22,6 @@ class ScatterLineSeries extends Component {
 
 
         // In the event there is a CompareSeries in that Chart this is available
-        // TODO explain more about compare series and why it is special
 
         var { compareSeries } = props;
 
@@ -49,9 +48,9 @@ class ScatterLineSeries extends Component {
 }
 
 var getDrawDotFunction = (shape) => {
-	
+
 	let drawFunction = (ctx , x, y) => undefined;
-	
+
 	if (shape == "circle"){
 		drawFunction = (ctx , x, y) => {
 	    ctx.moveTo(x,y);
@@ -95,15 +94,15 @@ ScatterLineSeries.drawOnCanvas = (props, ctx, xScale, yScale, plotData) => {
 
 
 	var begin = true;
-	
+
 	let drawDotFunction = getDrawDotFunction(pointsStyle);
-	
+
 
 	//init
 	ctx.strokeStyle = stroke;
 	ctx.lineWidth = props.lineWidth;
 	ctx.beginPath();
-	
+
 	if (lineStyle == "dashed"){
 		ctx.setLineDash([5]);
 	}
@@ -116,15 +115,15 @@ ScatterLineSeries.drawOnCanvas = (props, ctx, xScale, yScale, plotData) => {
 			var x = (xScale(xAccessor(d)));
 			var y = (yScale(props.toNumber(yAccessor(d))));
 
-                //MODIFICATION : IF Y UNDEFINED , DONT "LIFT THE PENCIL"	      
-			
+                //MODIFICATION : IF Y UNDEFINED , DONT "LIFT THE PENCIL"
+
 			let localColor = localColorAccessor(xAccessor(d));
-		
+
 			if (lineStyle == "continuous" || lineStyle == "dashed"){
 				ctx.lineTo(xScale(xAccessor(d)), yScale(yAccessor(d)));
 			}
-			
-			
+
+
 			//LOCAL COLOR STUFF
 			if (localColor != undefined && currentColor != localColor){
 				ctx.stroke();
@@ -141,10 +140,10 @@ ScatterLineSeries.drawOnCanvas = (props, ctx, xScale, yScale, plotData) => {
 				begin = true;
 			}
 			//END OF LOCAL COLOR
-			
-			
+
+
 			if (lineStyle == "continuous" || lineStyle == "dashed"){
-				
+
 				if (begin){
 					var tx = ~ ~(0.5 + x);
 					var ty = ~ ~(0.5 + y);

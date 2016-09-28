@@ -3,5 +3,5 @@ import { should, getStore } from '../utils/test';
 import forView from './forView';
 
 describe('connectedData/forView', () => {
-  // TODO
+  //
 });

@@ -1,4 +1,3 @@
-// TODO memoize and save few CPU cycles
 const detectPattern = /(\*|\?)/;
 export function detect(string) {
   return detectPattern.test(string);

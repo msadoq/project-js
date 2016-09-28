@@ -1,8 +1,6 @@
 import _ from 'lodash';
 import { detect, generate } from './wildcard';
 
-// TODO memoize (domains list is immutable in lifecycle)
-
 /**
  * Filter domains on name and return and an array of ids.
  *

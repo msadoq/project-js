@@ -21,8 +21,6 @@ Only list expected tasks for PBF shipping of end of october.
 * Controllers
   * [ ] onViewUpdate (store new configuration)
   * [=] onViewQuery (Renaud)
-    - [ ] PlotView: onNewData (Renaud)
-    - [ ] TextView: onNewData (Renaud)
 * [ ] Move localId generation from HSS to HSC in <Subscription/> and <View/> (Damien)
 * [ ] Implement data filtering on server-side view instance
 * [ ] LPISIS protobuf and types converters code generation (Adrien)
@@ -30,6 +28,15 @@ Only list expected tasks for PBF shipping of end of october.
 * [ ] Track every "throw" on HSS and catch them accordingly
 * [ ] Add robustness in every controller by controlling HSC input
 * [ ] Cache invalidation automatic mechanism
+
+Renaud
+* [ ] onNewDataMessage: separate in two controllers: onRealtimeData, onArchiveData
+  - Don't de-protobuf in first _.map (only get timestamp), de-protobuf parameter value at last moment
+  - In onArchiveData consider data as ordered (take first and last timestamp, search for this interval existence, insert)
+  - In onRealtimeData list and order timestamp, implement a method that walk known intervals with timestamp list and return only ones that are in known interval .areTimestampInKnownIntervals([timestamp]) => [timestamp]  
+  - In both generate localId in each controller and not in .addRecord()
+* [ ] View type onNewData: implement localId filtering, displayed interval filtering, filter, select field and send [[timestamp, value]]
+* [ ] onViewQuery/onNewDataMessage: test AVLTree instead of Loki for cache retrieving/insertion OR our proper data structure DataStructure{[order],{key:{value}}
 
 ## GPCCHSC (Electron)
 

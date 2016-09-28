@@ -1,4 +1,4 @@
-const ApiError = require('../utils/apiError');
+const ApiError = require('../../lib/utils/apiError');
 
 const defaultValue = 0;
 

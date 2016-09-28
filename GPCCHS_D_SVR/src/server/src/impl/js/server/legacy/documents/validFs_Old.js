@@ -1,4 +1,4 @@
-const ApiError = require('../utils/apiError');
+const ApiError = require('../../lib/utils/apiError');
 const fs = require('fs');
 
 module.exports = (req, res, next) => {

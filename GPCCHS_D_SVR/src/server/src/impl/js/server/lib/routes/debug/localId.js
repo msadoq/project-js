@@ -5,7 +5,6 @@ const ApiError = require('../../utils/apiError');
 
 const router = new Router();
 
-
 router.get('/',
 (req, res, next) => {
   const localId = _.get(req, 'query.localId');

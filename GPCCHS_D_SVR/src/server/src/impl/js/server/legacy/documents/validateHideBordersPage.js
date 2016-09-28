@@ -1,4 +1,4 @@
-const ApiError = require('../utils/apiError');
+const ApiError = require('../../lib/utils/apiError');
 /* first param required of page schema : hideBorders to FALSE */
 
 module.exports = (req, res, next) => {

@@ -1,5 +1,5 @@
-const ApiError = require('../utils/apiError');
-const constants = require('../constants');
+const ApiError = require('../../lib/utils/apiError');
+const constants = require('../../lib/constants');
 
 module.exports = (req, res, next) => {
   if (!req.body || typeof req.body.timeLineType === 'undefined') {

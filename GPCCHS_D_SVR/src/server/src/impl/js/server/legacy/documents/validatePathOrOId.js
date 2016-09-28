@@ -1,4 +1,4 @@
-const ApiError = require('../utils/apiError');
+const ApiError = require('../../lib/utils/apiError');
 
 module.exports = (req, res, next) => {
   if (!req.body || (typeof req.body.path === 'undefined' && typeof req.body.oId === 'undefined')) {

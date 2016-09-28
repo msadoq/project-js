@@ -1,13 +1,15 @@
-const {
-  addTimeline,
-  removeTimeline,
-  getTimelineSessionId,
-  getTimelineByName,
-  getTimelineById,
-  updateDataFromTl,
-  updateData,
-} = require('../../lib/utils/timebar');
-const getTb = require('../../lib/timeBar/index').getTimebar;
+
+// const {
+//   addTimeline,
+//   removeTimeline,
+//   getTimelineSessionId,
+//   getTimelineByName,
+//   getTimelineById,
+//   updateDataFromTl,
+//   updateData,
+// } = require('../../lib/utils/timebar');
+// const getTb = require('../../lib/timeBar/index').getTimebar;
+const debug = require('../../lib/io/debug')('views:text');
 // const formula = require('../../lib/utils/formula');
 const _ = require('lodash');
 
@@ -96,11 +98,14 @@ TextView.prototype.onTimebarUpdate = function (cmdList) {
   //       console.log(key);
   //   }
   // });
-}
+};
 
-TextView.prototype.onNewDataMessage = function (payloads) {
+TextView.prototype.onNewData = function (dataId, payload) {
   // TODO
-  console.log('onNewDataMessage', payloads);
+  debug.debug('onNewData');
+  const payloads = (_.isArray(payload)) ? payload : [payload];
+
+  this.spark.addToQueue({ dataId, payloads });
 };
 
 module.exports = TextView;

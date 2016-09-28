@@ -3,6 +3,7 @@ import { Grid, Row, Col } from 'react-bootstrap';
 import WebsocketContainer from './WebsocketContainer';
 import TabsContainer from './TabsContainer';
 import Debug from './Debug';
+import Timebar from './Timebar';
 
 export default class Navigation extends Component {
   static propTypes = {
@@ -18,6 +19,7 @@ export default class Navigation extends Component {
           </Col>
           <Col xs={2}>
             <Debug />
+            <Timebar />
           </Col>
         </Row>
         <Row>

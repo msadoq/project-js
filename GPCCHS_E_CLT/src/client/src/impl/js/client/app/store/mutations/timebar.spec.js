@@ -2,9 +2,7 @@
 import _ from 'lodash';
 import { should, getStore } from '../../utils/test';
 import * as actions from './timebarActions';
-import reducer, {
-  getTimebar,
-} from './timebarReducer';
+import reducer, { getTimebar, getTimelines } from './timebarReducer';
 
 describe('store:timebar', () => {
   describe('actions & reducer', () => {
@@ -72,6 +70,132 @@ describe('store:timebar', () => {
         state.should.have.property('myTimebarId');
       });
     });
+    describe('update', () => {
+      let state;
+      before(() => {
+        state = getStore({
+          timebars: {
+            myTimebarId: {
+              id: 'Id',
+              visuWindow: { lower: 10, upper: 20, current: 15 },
+              slideWindow: { lower: 20, upper: 30 },
+              rulerResolution: 100,
+              speed: 10,
+              playingState: 'play',
+              masterId: 'OtherId',
+              timelines: ['myTimelineId', 'myTimelineId3']
+            } },
+          timelines: {
+            myTimelineId: { id: 'tl1' },
+            myTimelineId2: { id: 'tl2' },
+            myTimelineId3: { id: 'tl3' },
+          } }).getState();
+      });
+      it('id', () => {
+        const newState = reducer(state.timebars, actions.updateId('myTimebarId', 'newId'));
+        newState.should.have.property('myTimebarId');
+        newState.myTimebarId.should.have.property('id');
+        newState.myTimebarId.id.should.equal('newId');
+      });
+      it('visuWindow', () => {
+        const newState = reducer(state.timebars, actions.updateVisuWindow('myTimebarId',
+         5, 40, 30));
+        newState.should.have.property('myTimebarId');
+        newState.myTimebarId.should.have.property('visuWindow');
+        newState.myTimebarId.visuWindow.should.have.property('lower');
+        newState.myTimebarId.visuWindow.lower.should.equal(5);
+        newState.myTimebarId.visuWindow.should.have.property('upper');
+        newState.myTimebarId.visuWindow.upper.should.equal(40);
+        newState.myTimebarId.visuWindow.should.have.property('current');
+        newState.myTimebarId.visuWindow.current.should.equal(30);
+      });
+      it('speed', () => {
+        const newState = reducer(state.timebars, actions.updateSpeed('myTimebarId', 20));
+        newState.should.have.property('myTimebarId');
+        newState.myTimebarId.speed.should.equal(20);
+      });
+      it('playing state', () => {
+        const newState = reducer(state.timebars, actions.updatePlayingState('myTimebarId', 'pause'));
+        newState.should.have.property('myTimebarId');
+        newState.myTimebarId.should.have.property('playingState');
+        newState.myTimebarId.playingState.should.equal('pause');
+      });
+      it('masterId', () => {
+        const newState = reducer(state.timebars, actions.updateMasterId('myTimebarId', 'myTlId'));
+        newState.should.have.property('myTimebarId');
+        newState.myTimebarId.should.have.property('masterId');
+        newState.myTimebarId.masterId.should.equal('myTlId');
+      });
+      it('mount timeline', () => {
+        const newState = reducer(state.timebars, actions.mountTimeline('myTimebarId', 'myTimelineId2'));
+        newState.should.have.property('myTimebarId');
+        newState.myTimebarId.should.have.property('timelines');
+        newState.myTimebarId.timelines.should.have.length(3);
+        newState.myTimebarId.timelines.should.deep.equal(['myTimelineId', 'myTimelineId3', 'myTimelineId2']);
+      });
+      it('unmount timeline', () => {
+        const newState = reducer(state.timebars, actions.unmountTimeline('myTimebarId', 'myTimelineId'));
+        newState.should.have.property('myTimebarId');
+        newState.myTimebarId.should.have.property('timelines');
+        newState.myTimebarId.timelines.should.have.length(1);
+        newState.myTimebarId.timelines.should.deep.equal(['myTimelineId3']);
+      });
+    });
+    describe('Compound actions', () => {
+      it('add and mount timeline', () => {
+        const { dispatch, getState } = getStore({
+          timebars: {
+            myTimebarId: {
+              id: 'Id',
+              visuWindow: { lower: 10, upper: 20, current: 15 },
+              slideWindow: { lower: 20, upper: 30 },
+              rulerResolution: 100,
+              speed: 10,
+              playingState: 'play',
+              masterId: 'OtherId',
+              timelines: ['myTimelineId', 'myTimelineId3']
+            } },
+          timelines: {
+            myTimelineId: { id: 'tl1' },
+            myTimelineId2: { id: 'tl2' },
+            myTimelineId3: { id: 'tl3' },
+          } });
+
+        const fixture = {
+          id: 'Id',
+          offset: 10,
+          kind: 'DataSet',
+          sessionId: 100
+        };
+        dispatch(actions.addAndMountTimeline('myTimebarId', fixture));
+        getState().timebars.myTimebarId.timelines.should.be.an('array').with.length(3);
+        _.forEach(getState().timebars.myTimebarId.timelines, (tlId) => {
+          should.exist(getState().timelines[tlId]);
+        });
+      });
+      it('remove and unmount timeline', () => {
+        const { dispatch, getState } = getStore({
+          timebars: {
+            myTimebarId: {
+              id: 'Id',
+              visuWindow: { lower: 10, upper: 20, current: 15 },
+              slideWindow: { lower: 20, upper: 30 },
+              rulerResolution: 100,
+              speed: 10,
+              playingState: 'play',
+              masterId: 'OtherId',
+              timelines: ['myTimelineId', 'myTimelineId3']
+            } },
+          timelines: {
+            myTimelineId: { id: 'tl1' },
+            myTimelineId2: { id: 'tl2' },
+            myTimelineId3: { id: 'tl3' },
+          } });
+        dispatch(actions.unmountAndRemoveTimeline('myTimebarId', 'myTimelineId'));
+        getState().timebars.myTimebarId.timelines.should.be.an('array').with.length(1);
+        getState().timelines.should.not.keys('myTimelineId');
+      });
+    });
   });
   describe('selectors', () => {
     it('getTimebar', () => {
@@ -82,6 +206,31 @@ describe('store:timebar', () => {
       });
       getTimebar(getState(), 'myTimebarId').should.have.property('id', 'Id');
       should.not.exist(getTimebar(getState(), 'unknownId'));
+    });
+    it('getTimelines', () => {
+      const { getState } = getStore({
+        timebars: {
+          myTimebarId: {
+            id: 'Id',
+            visuWindow: { lower: 10 },
+            slideWindow: { lower: 20 },
+            rulerResolution: 100,
+            speed: 10,
+            playingState: 'play',
+            masterId: 'OtherId',
+            timelines: ['myTimelineId1', 'myTimelineId3'],
+          },
+        },
+        timelines: {
+          myTimelineId1: { a: 1 },
+          myTimelineId2: { a: 2 },
+          myTimelineId3: { a: 3 },
+        } });
+      const tls = getTimelines(getState(), 'myTimebarId');
+      tls.should.be.an('array').with.length(2);
+      tls[0].a.should.equal(1);
+      tls[1].a.should.equal(3);
+      getTimelines(getState(), 'wrongId').should.have.length(0);
     });
   });
 });

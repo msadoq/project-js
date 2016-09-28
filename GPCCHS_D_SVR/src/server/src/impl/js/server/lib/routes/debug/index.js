@@ -27,7 +27,7 @@ const convertBytes = (value) => {
 };
 
 const convertTime = (hrTime) => {
-  if (hrTime[0] > 0) {
+  if (hrTime[0] >= 1) {
     const hourValue = hrTime[0] / 3600;
     if (_.floor(hourValue) > 0) {
       const minValue = (hrTime[0] % 3600) / 60;

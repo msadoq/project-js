@@ -15,7 +15,6 @@
     "body-parser": "~1.15.1",
     "bytebuffer": "^5.0.1",
     "debug": "^2.2.0",
-    "deep-diff": "^0.3.4",
     "dotenv-safe": "^2.3.1",
     "exit": "^0.1.2",
     "express": "4.14.0",

@@ -106,7 +106,7 @@ collection.retrieveMissingIntervals = (dataId, interval) => {
   // No known intervals
   if (intervals.length === 0) {
     debug.debug('no intervals');
-    return [];
+    return [interval];
   }
 
   // Search missing intervals

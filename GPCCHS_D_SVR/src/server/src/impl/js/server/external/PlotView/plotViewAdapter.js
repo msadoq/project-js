@@ -1,14 +1,14 @@
 const debug = require('../../lib/io/debug')('views:plot');
-const {
-  addTimeline,
-  removeTimeline,
-//  getTimelineSessionId,
-//  getTimelineByName,
-  getTimelineById,
-  updateDataFromTl,
-  updateData,
-} = require('../../lib/utils/timebar');
-const getTb = require('../../lib/timeBar/index').getTimebar;
+// const {
+//   addTimeline,
+//   removeTimeline,
+// //  getTimelineSessionId,
+// //  getTimelineByName,
+//   getTimelineById,
+//   updateDataFromTl,
+//   updateData,
+// } = require('../../lib/utils/timebar');
+// const getTb = require('../../lib/timeBar/index').getTimebar;
 // const formula = require('../../lib/utils/formula');
 const _ = require('lodash');
 
@@ -130,9 +130,12 @@ PlotView.prototype.onTimebarUpdate = function (cmdList) {
   // });
 };
 
-PlotView.prototype.onNewDataMessage = function (payloads) {
+PlotView.prototype.onNewData = function (dataId, payload) {
   // TODO
-  debug.debug('onNewDataMessage', payloads);
+  debug.debug('onNewData');
+  const payloads = (_.isArray(payload)) ? payload : [payload];
+
+  this.spark.addToQueue({ dataId, payloads });
 };
 
 module.exports = PlotView;

@@ -28,9 +28,9 @@ const init = () => {
   currentTime = process.hrtime();
 };
 
-const doAverage = (measures, currentAvg) => {
+const doAverage = (measures, currentAvg, precision = 0) => {
   const mean = _.round(_.mean(measures));
-  return (typeof currentAvg === 'undefined') ? mean : _.round(_.mean([currentAvg, mean]));
+  return (typeof currentAvg === 'undefined') ? mean : _.round(_.mean([currentAvg, mean]), precision);
 };
 
 const launch = () => setImmediate(() => {
@@ -42,7 +42,7 @@ const launch = () => setImmediate(() => {
   heapMemUsages.push(memUsage.heapTotal);
   usedMemUsages.push(memUsage.heapUsed);
   if (cpt % 10 === 0) {
-    avgSecTime = doAverage(secDiffs, avgSecTime);
+    avgSecTime = doAverage(secDiffs, avgSecTime, 3);
     avgNanoTime = doAverage(nanoDiffs, avgNanoTime);
     avgRssMemUsage = doAverage(rssMemUsages, avgRssMemUsage);
     avgHeapMemUsage = doAverage(heapMemUsages, avgHeapMemUsage);

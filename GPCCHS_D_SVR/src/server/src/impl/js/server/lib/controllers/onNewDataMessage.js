@@ -62,10 +62,10 @@ module.exports = (buffer) => {
     }
   });
 
-  const views = viewsModel.retrieveVisible();
+  const views = viewsModel.getAll();
 
   // TODO possible event loop bottleneck, envisage async repartition of view calls on nextTicks
-  views.forEach((v) => {
-    v.instance.onNewDataMessage(message.dataId, payloads);
+  _.each(views, (v) => {
+    v.instance.onNewData(message.dataId, payloads);
   });
 };

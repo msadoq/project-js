@@ -3,7 +3,6 @@ import _ from 'lodash';
 import { getWebsocket } from '../../websocket/windowWebsocket';
 import { Button } from 'react-bootstrap';
 import external from '../../../external.window';
-import queries from '../../connectedData/queries';
 import UnknownView from './UnknownView';
 import ConnectedDataContainer from './ConnectedDataContainer';
 

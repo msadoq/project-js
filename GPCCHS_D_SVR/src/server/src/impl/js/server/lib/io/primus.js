@@ -5,6 +5,8 @@ const errorHandler = require('../utils/errorHandler');
 
 let primus;
 
+const TIMESTEP = 100; // 100 ms
+
 function getNewInstance(server) {
   return new Primus(server, { transformer: 'uws' });
 }
@@ -33,6 +35,26 @@ const primusExports = module.exports = {
 
     primus.on('connection', (spark) => {
       debug.info('new websocket connection', spark.address);
+
+      _.set(spark, 'queue', []);
+      console.log(spark.queue);
+
+      // eslint-disable-next-line no-param-reassign
+      spark.sendToWindow = _.throttle(() => {
+        debug.debug('sending data to window');
+        spark.write({
+          event: 'newData',
+          payload: spark.queue,
+        });
+        _.set(spark, 'queue', []);
+      }, TIMESTEP);
+
+      // eslint-disable-next-line no-param-reassign
+      spark.addToQueue = (data) => {
+        debug.debug('adding to queue');
+        _.set(spark, 'queue', _.concat(_.get(spark, 'queue'), data));
+        spark.sendToWindow();
+      };
 
       spark.on('data', (message) => {
         debug.debug('data', message);
@@ -75,12 +97,16 @@ const primusExports = module.exports = {
             errorHandler(() => handlers.onSubscriptionClose(spark, message.payload));
             break;
           }
-          case 'timebarUpdate': {
-            errorHandler(() => handlers.onTimebarUpdate(spark, message.payload));
+          case 'vimaTimebarInit': {
+            errorHandler(() => handlers.onHscVimaTimebarInit(spark, message.payload));
             break;
           }
           case 'domainQuery': {
             errorHandler(() => handlers.onClientDomainQuery(spark, message.payload));
+            break;
+          }
+          case 'viewQuery': {
+            errorHandler(() => handlers.onViewQuery(spark, message.payload));
             break;
           }
           default:

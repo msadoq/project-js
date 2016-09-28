@@ -24,6 +24,7 @@ export function addAndMount(windowId) {
     const pageId = v4();
     dispatch(addPage(pageId));
     dispatch(mountPage(windowId, pageId));
+    dispatch(focusPage(windowId, pageId));
   };
 }
 

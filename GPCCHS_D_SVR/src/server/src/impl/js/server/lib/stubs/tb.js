@@ -1,10 +1,10 @@
 const zmq = require('../io/zmq');
 const debug = require('../io/debug')('stub:tb');
 const _ = require('lodash');
-const { setTimebar } = require('../timeBar');
-const tb = require('../timeBar/tb.fixtures.json');
 
-function onTbStubUpdate(buffer) {
+let tb = [];
+
+function onVimaTbStubUpdate(buffer) {
   // Convert buffer to string : Needed when using zmq
   let cmdList;
   const string = buffer.toString();
@@ -15,55 +15,75 @@ function onTbStubUpdate(buffer) {
     throw (err);
   }
   // Timebar Update
+  const tbHead = _.head(tb);
   _.each(cmdList, (param, command) => {
-    tb.action = command;
+    tbHead.action = command;
     switch (command) {
       case 'currentTimeUpd':
-        tb.visuWindow.current += param;
+        tbHead.visuWindow.current += param;
         break;
       case 'tlAdded':
-        tb.timeLines.push(param);
+        tbHead.timeLines.push(param);
         break;
       case 'tlRemoved':
         if (param === 0) {
-          tb.timeLines.splice(0, 1);
+          tbHead.timeLines.splice(0, 1);
         } else {
-          tb.timeLines.splice(tb.timeLines.length - 1, 1);
+          tbHead.timeLines.splice(tbHead.timeLines.length - 1, 1);
         }
         break;
       case 'tlOffsetUpd':
-        for (let i = 0; i < tb.timeLines.length; i++) {
-          tb.timeLines[i].offset += param;
-        }
+        _.each(tbHead.timeLines, (tl) => {
+          tl.offset += param; // eslint-disable-line no-param-reassign
+        });
         break;
       default:
         debug.error('Command ${command} not implemented in stub!');
     }
   });
   // Send new tb;
-  zmq.push('timebarPush', JSON.stringify(tb), () => {
+  zmq.push('vimaTimebarPush', JSON.stringify(tbHead), () => {
     debug.info('tb updated sent');
   });
+}
+
+function onVimaTbStubInit(timebarBuffer) {
+  // Convert buffer to string : Needed when using zmq
+  let timebars;
+  const string = timebarBuffer.toString();
+  try {
+    timebars = JSON.parse(string);
+  } catch (err) {
+      // Error parsing JSON
+    throw (err);
+  }
+  tb = timebars;
+  debug.info('onTbStubInit', tb)
 }
 
 module.exports = (callback) => {
   // ZMQ initialization
   zmq.open({
-    timebarPush: {
+    vimaTimebarPush: {
       type: 'push',
       url: process.env.ZMQ_VIMA_TIMEBAR,
     },
-    tbCliPull: {
+    vimaTbCliPull: {
       type: 'pull',
       url: process.env.ZMQ_VIMA_STUB_TIMEBAR,
-      handler: onTbStubUpdate,
+      handler: onVimaTbStubUpdate,
+    },
+    vimaTimebarInit: {
+      type: 'pull',
+      url: process.env.ZMQ_VIMA_TIMEBAR_INIT,
+      handler: onVimaTbStubInit,
     },
   }, err => {
     if (err) {
       return callback(err);
     }
 
-    setTimebar(tb);
+    // setTimebar(tb);
     debug.info('sockets opened');
 
     return callback(null);

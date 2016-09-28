@@ -123,11 +123,12 @@ Alexandra
 
 Damien
 * [ ] Sync with erb: 0b0e19c74518fc97843e9bcb393086aa9a7ad616
-* [ ] IHM design and cleanup (Damien)
-* [ ] Improve main process debugging by try-catching on ready logic (Damien)
-* [ ] Complete README.md (lint, quality and coverage, stub  commands usage) (Damien)
-* [ ] Code review and cleaning (convention, comments, TODO , small optimizations) (Damien)
+* [ ] IHM design and cleanup
+* [ ] Improve main process debugging by try-catching on ready logic
+* [ ] Complete README.md (lint, quality and coverage, stub  commands usage)
+* [ ] Code review and cleaning (convention, comments, TODO , small optimizations)
 * [ ] HSC tree refactoring: lib/(mainProcess|windowProcess)/index.js // common, store, websocket, documents, connectedData(=dataConsumption)
+* [ ] Fix launching warning on document.write injection by adding cross origin policy
 
 ## Postponed
 

@@ -5,7 +5,7 @@ import { getConnectedData } from '../store/mutations/viewReducer';
 
 import decorate from './decorate';
 
-export function extractFromWindow(state, windowId) { // TODO : in connectedData reducer?
+export function extractFromWindow(state, windowId) {
   const cds = [];
   _.each(getPages(state, windowId), ({ pageId, timebarId }) => {
     if (pageId) {

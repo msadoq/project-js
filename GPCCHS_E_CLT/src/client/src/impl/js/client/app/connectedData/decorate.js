@@ -12,8 +12,6 @@ import { getTimelines } from '../store/mutations/timebarReducer';
  * @param state
  * @param connectedData
  */
-
-// TODO don't take offset in consideration for realtime (OR WE DUPLICATE subscriptions)
 export default function decorate(state, connectedData) {
   const known = {};
   return _.reduce(connectedData, (list, cd) => {

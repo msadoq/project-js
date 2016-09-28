@@ -10,8 +10,6 @@ import missingIntervals from '../utils/intervals';
  * @param nextInterval
  */
 export default function queries(viewId, { localId, dataId, offset }, prevInterval, nextInterval) {
-  // TODO TEST
-  // TODO handle view type to request only needed value (everything for plot, lower->current for text)
   if (!localId) {
     return [];
   }
@@ -32,27 +30,3 @@ export default function queries(viewId, { localId, dataId, offset }, prevInterva
     interval,
   }));
 }
-
-// // TODO improve forView/forWindow and return {localId: {...}}
-// const prev = _.reduce(props.connectedData, (list, cd) => {
-//   return Object.assign({}, list, { [cd.localId]: _.omit(cd, 'localId') });
-// }, {});
-// const next = _.reduce(nextProps.connectedData, (list, cd) => {
-//   return Object.assign({}, list, { [cd.localId]: _.omit(cd, 'localId') });
-// }, {});
-
-// determine which connected data has disappeared
-// const prevKeys = Object.keys(prev);
-// const nextKeys = Object.keys(next);
-// const toAdd = _.difference(nextKeys, prevKeys);
-// const toRemove = _.difference(prevKeys, nextKeys);
-// console.log('TOADD', toAdd);
-// console.log('TOREMOVE', toRemove);
-// TODO remove from state (???)
-// determine missing interval for each connectedData
-// TODO
-//   - call view type method to determine expected interval (computeExpectedInterval(connectedData))
-//   - make diff between state interval (displayed or already required)
-//   - dataQuery missing interval
-//   - dataQuery add requested interval in state
-//   - add clear comment to explain that master timeline has offset=0 (so no need to know master)

@@ -17,15 +17,15 @@ let xScale = d3.time.scale();
 
 
 
-var log = (m, ...rest) => {  
+var log = (m, ...rest) => {
 //	console.log(m, rest);
 	;
 }
-var warn = (m, ...rest) => {  
+var warn = (m, ...rest) => {
 	console.warn(m, ...rest);
 	;
 }
-var error = (m, ...rest) => {  
+var error = (m, ...rest) => {
 	console.error(m, rest);
 	;
 }
@@ -39,27 +39,26 @@ export default class Plot extends Component {
     visible: PropTypes.array.isRequired,
     points: PropTypes.any,
   };
- 
-    
+
+
   render() {
     const points = this.props.points;
-    
+
     if (Object.keys(points).length < 3) return <div />;
- 
+
     // console.log(data.length);
 
     let yIdList = [];
-   
-    //TODO remove stub 
+
     yIdList = this.props.subscriptions;
     const visibleSubs = this.props.visible;
-    
+
     const plotConfiguration = { 0: { stroke: 'green' }, 1: { stroke: 'purple' }, 2: { stroke: 'orange' }, 3: { stroke: 'black' }, 4: { stroke: 'blue' }, 5: { stroke: 'red' } };
-    
+
     let series = yIdList.map((yId, index) => {
       if (visibleSubs.includes(yId)) return <ScatterLineSeries key={yId} pointsStyle="circle" lineStyle="continuous" stroke={plotConfiguration[yId.split('sub')[1] % 6].stroke} yAccessor={(d) => d[yId]} />;
     });
-    
+
 
     return (
       <div>

@@ -17,11 +17,6 @@ const supportedParameters = [
   'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
 ];
 
-/**
- * Receive request for both realtime subscriptions and data query
- * @param buffer
- */
-
 const wrapServerMessage = (dataType, payload) =>
   protobuf.encode('dc.dataControllerUtils.DcServerMessage', {
     messageType: dataType,
@@ -61,23 +56,25 @@ const onHssMessage = (buffer) => {
       }
     } catch (decodeException) {
       debug.debug('decode exception');
-      return zmq.push('stubData', [null,
+      return zmq.push('stubData', [
+        null,
         wrapServerMessage('DC_RESPONSE', protobuf.encode('dc.dataControllerUtils.DcResponse', {
           id: null,
           status: 'ERROR',
           reason: `Unable to decode dcClientMessage payload of type ${type}`,
-        }))]
-      );
+        })),
+      ]);
     }
   } catch (clientMsgException) {
     debug.debug(clientMsgException);
-    return zmq.push('stubData', [null,
+    return zmq.push('stubData', [
+      null,
       wrapServerMessage('DC_RESPONSE', protobuf.encode('dc.dataControllerUtils.DcResponse', {
         id: null,
         status: 'ERROR',
         reason: 'Unable to decode dcClientMessage',
-      }))]
-    );
+      })),
+    ]);
   }
 
   let parameter;
@@ -87,13 +84,14 @@ const onHssMessage = (buffer) => {
       `${payload.dataId.catalog}.${payload.dataId.parameterName}<${payload.dataId.comObject}>`;
 
     if (supportedParameters.indexOf(parameter) === -1) {
-      return zmq.push('stubData', [null,
+      return zmq.push('stubData', [
+        null,
         wrapServerMessage('DC_RESPONSE', protobuf.encode('dc.dataControllerUtils.DcResponse', {
           id: dcClientMessage.id,
           status: 'ERROR',
           reason: 'Unsupported stub parameter',
-        }))]
-      );
+        })),
+      ]);
     }
   }
 
@@ -111,7 +109,7 @@ const onHssMessage = (buffer) => {
     debug.debug('subscription removed', parameter);
   } else if (type === 'DOMAIN_QUERY') {
     domainQueried = true;
-    return;
+    return undefined;
   } else {
     throw new Error('Neither a Data Query nor a supported data subscribe nor a domain query');
   }
@@ -155,7 +153,7 @@ const emulateDc = () => {
   _.each(subscriptions, (dataId) => {
     const payloads = [];
     // push randomly 1 to 4 parameters
-    for (let i = 0; i <= _.random(0, 3); i++) {
+    for (let i = 0; i <= _.random(0, 3); i += 1) {
       // fake time repartition
       payloads.push({ timestamp: Date.now() - (i * 10) });
     }
@@ -175,20 +173,6 @@ const emulateDc = () => {
 
   // push queries
   debug.info('pushing queries');
-  /*queries = _.dropWhile(queries, (query) => {
-    const from = query.interval.lowerTs.ms;
-    const to = query.interval.upperTs.ms;
-    if (to <= from) {
-      return debug.error('Unvalid interval');
-    }
-
-    const payloads = [];
-    for (let i = from; i <= to; i += 2000) {
-      payloads.push({ timestamp: i });
-    }
-    debug.info('push data from query');
-    return pushData(query.dataId, payloads);
-  });*/
   _.each(queries, (query) => {
     const from = query.interval.lowerTs.ms;
     const to = query.interval.upperTs.ms;

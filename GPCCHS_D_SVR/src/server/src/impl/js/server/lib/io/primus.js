@@ -36,23 +36,25 @@ const primusExports = module.exports = {
     primus.on('connection', (spark) => {
       debug.info('new websocket connection', spark.address);
 
-      _.set(spark, 'queue', []);
-      console.log(spark.queue);
+      _.set(spark, 'hsc.queue', []);
 
       // eslint-disable-next-line no-param-reassign
       spark.sendToWindow = _.throttle(() => {
         debug.debug('sending data to window');
+        const start = process.hrtime();
         spark.write({
           event: 'newData',
-          payload: spark.queue,
+          payload: _.get(spark, 'hsc.queue'),
         });
-        _.set(spark, 'queue', []);
+        const stop = process.hrtime(start);
+        debug.debug('flushing time', stop);
+        _.set(spark, 'hsc.queue', []);
       }, TIMESTEP);
 
       // eslint-disable-next-line no-param-reassign
       spark.addToQueue = (data) => {
         debug.debug('adding to queue');
-        _.set(spark, 'queue', _.concat(_.get(spark, 'queue'), data));
+        _.set(spark, 'hsc.queue', _.concat(_.get(spark, 'hsc.queue'), data));
         spark.sendToWindow();
       };
 

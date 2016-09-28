@@ -160,7 +160,7 @@ const emulateDc = () => {
       payloads.push({ timestamp: Date.now() - (i * 10) });
     }
     debug.debug('push data from subscription');
-    return pushData(dataId, payloads);
+    pushData(dataId, payloads);
   });
 
   if (domainQueried) {
@@ -170,11 +170,12 @@ const emulateDc = () => {
     domainQueried = false;
   }
   if (!queries.length) {
-    return;
+    return setTimeout(emulateDc, 5000);
   }
 
   // push queries
-  queries = _.dropWhile(queries, (query) => {
+  debug.info('pushing queries');
+  /*queries = _.dropWhile(queries, (query) => {
     const from = query.interval.lowerTs.ms;
     const to = query.interval.upperTs.ms;
     if (to <= from) {
@@ -185,13 +186,29 @@ const emulateDc = () => {
     for (let i = from; i <= to; i += 2000) {
       payloads.push({ timestamp: i });
     }
-    debug.debug('push data from query');
+    debug.info('push data from query');
+    return pushData(query.dataId, payloads);
+  });*/
+  _.each(queries, (query) => {
+    const from = query.interval.lowerTs.ms;
+    const to = query.interval.upperTs.ms;
+    if (to <= from) {
+      return debug.error('Unvalid interval');
+    }
+    const payloads = [];
+    for (let i = from; i <= to; i += 2000) {
+      payloads.push({ timestamp: i });
+    }
+    debug.info('push data from query');
     return pushData(query.dataId, payloads);
   });
+  queries = [];
+
+  return setTimeout(emulateDc, 5000);
 };
 
-module.exports = callback => {
-  zmq.open({
+zmq.open(
+  {
     stubdcrep: {
       type: 'pull',
       url: process.env.ZMQ_GPCCDC_PUSH,
@@ -201,15 +218,14 @@ module.exports = callback => {
       type: 'push',
       url: process.env.ZMQ_GPCCDC_PULL,
     },
-  }, err => {
+  },
+  (err) => {
     if (err) {
-      return callback(err);
+      return;
     }
 
     debug.info('sockets opened');
 
-    setInterval(emulateDc, 5000);
-
-    return callback(null);
-  });
-};
+    setTimeout(emulateDc, 5000);
+  }
+);

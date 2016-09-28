@@ -5,7 +5,7 @@ export default class PlotView extends Component {
     type: React.PropTypes.string.isRequired,
     viewId: PropTypes.string.isRequired,
     entryPoints: PropTypes.array.isRequired,
-    connectedData: PropTypes.array.isRequired,
+    // connectedData: PropTypes.array.isRequired,
     axes: PropTypes.array,
     grids: PropTypes.array,
     titleStyle: PropTypes.object,

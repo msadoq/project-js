@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getView } from '../../store/mutations/viewReducer';
 import { getTimebar } from '../../store/mutations/timebarReducer';
 import View from './View';
 
-import forView from '../../connectedData/forView';
-
 const ViewContainer = props => <View {...props} />;
+
+ViewContainer.propTypes = {
+  timebarId: PropTypes.string.isRequired,
+  viewId: PropTypes.string.isRequired,
+  openEditor: PropTypes.func,
+  closeEditor: PropTypes.func,
+  unmountAndRemove: PropTypes.func,
+};
 
 const mapStateToProps = (state, ownProps) => {
   const { type, configuration } = getView(state, ownProps.viewId);
@@ -18,10 +24,7 @@ const mapStateToProps = (state, ownProps) => {
     ...ownProps,
     type,
     configuration,
-    lower,
-    current,
-    upper,
-    connectedData: forView(state, ownProps.timebarId, ownProps.viewId),
+    interval: { lower, current, upper },
   }
 };
 

@@ -11,10 +11,6 @@ import { updateStatus } from '../store/mutations/hscActions';
 import menu from'./menu';
 
 const logger = debug('main:launch');
-// TODO: A supprimer!!!!
-const FMD_ROOT = process.env.FMD_ROOT;
-// fin TODO
-
 
 let storeUnsubscribe;
 let loadedWorkspace;
@@ -33,7 +29,7 @@ function onStoreUpdate() {
   }
 
   if (appStatus === 'connected-with-hss') {
-    readWorkspace(FMD_ROOT, 'dev.workspace.json', (err, workspace) => {
+    readWorkspace(process.env.FMD_ROOT, 'dev.workspace.json', (err, workspace) => {
       if (err) {
         throw err;
       }

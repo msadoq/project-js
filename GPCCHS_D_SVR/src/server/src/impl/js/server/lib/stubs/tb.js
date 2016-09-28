@@ -5,15 +5,7 @@ const _ = require('lodash');
 let tb = [];
 
 function onVimaTbStubUpdate(buffer) {
-  // Convert buffer to string : Needed when using zmq
-  let cmdList;
-  const string = buffer.toString();
-  try {
-    cmdList = JSON.parse(string);
-  } catch (err) {
-      // Error parsing JSON
-    throw (err);
-  }
+  const cmdList = JSON.parse(buffer.toString());
   // Timebar Update
   const tbHead = _.head(tb);
   _.each(cmdList, (param, command) => {
@@ -38,7 +30,7 @@ function onVimaTbStubUpdate(buffer) {
         });
         break;
       default:
-        debug.error('Command ${command} not implemented in stub!');
+        debug.error(`Command ${command} not implemented in stub!`);
     }
   });
   // Send new tb;
@@ -48,17 +40,8 @@ function onVimaTbStubUpdate(buffer) {
 }
 
 function onVimaTbStubInit(timebarBuffer) {
-  // Convert buffer to string : Needed when using zmq
-  let timebars;
-  const string = timebarBuffer.toString();
-  try {
-    timebars = JSON.parse(string);
-  } catch (err) {
-      // Error parsing JSON
-    throw (err);
-  }
-  tb = timebars;
-  debug.info('onTbStubInit', tb)
+  tb = JSON.parse(timebarBuffer.toString());
+  debug.info('onTbStubInit', tb);
 }
 
 module.exports = (callback) => {
@@ -78,12 +61,11 @@ module.exports = (callback) => {
       url: process.env.ZMQ_VIMA_TIMEBAR_INIT,
       handler: onVimaTbStubInit,
     },
-  }, err => {
+  }, (err) => {
     if (err) {
       return callback(err);
     }
 
-    // setTimebar(tb);
     debug.info('sockets opened');
 
     return callback(null);

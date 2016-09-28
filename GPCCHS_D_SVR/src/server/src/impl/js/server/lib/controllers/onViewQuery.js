@@ -7,32 +7,30 @@ const { encode } = require('../protobuf');
 const { v4 } = require('node-uuid');
 const zmq = require('../io/zmq');
 const _ = require('lodash');
+const { getTimebars } = require('../timebars');
 
 /**
  * Triggered when a view query for data from HSC.
  *
- * - ???
+ * - retrieve missing intervals from cache
+ * - query missings to DC
+ * - send cache data to views
  *
  * @param spark
  * @param payload
+ * @param messageHandler
  */
 
 const queryData = (spark, payload, messageHandler) => {
-  /**
-   * payload {
-   *   dataId
-   *   interval
-   * }
-   */
-
-  // check if query is valid
   const dataId = _.get(payload, 'dataId');
   const interval = _.get(payload, 'interval');
   if (typeof dataId === 'undefined' || typeof interval === 'undefined') {
     return undefined;
   }
+
   // check missing data retrieveMissingIntervals
   const missingIntervals = connectedDataModel.retrieveMissingIntervals(dataId, interval);
+
   // do query to dc
   _.each(missingIntervals, (missingInterval) => {
     const id = v4();
@@ -65,7 +63,7 @@ const queryData = (spark, payload, messageHandler) => {
   const views = viewsModel.getAll();
 
   return _.each(views, (v) => {
-    v.instance.onNewData(dataId, cachedData);
+    v.instance.onNewData(getTimebars(), dataId, cachedData);
   });
 };
 

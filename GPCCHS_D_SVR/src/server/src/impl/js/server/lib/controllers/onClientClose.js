@@ -1,5 +1,4 @@
 const debug = require('../io/debug')('controllers:onClientClose');
-const subscriptions = require('../utils/subscriptions');
 const cacheJsonModel = require('../models/cacheJson');
 const connectedDataModel = require('../models/connectedData');
 const viewModel = require('../models/views');
@@ -7,8 +6,9 @@ const registeredCallbacks = require('../utils/registeredCallbacks');
 const { stopSubscription } = require('./onSubscriptionClose');
 const zmq = require('../io/zmq');
 const _ = require('lodash');
-const { resetTimebar } = require('../timebar');
+const { resetTimebars } = require('../timebars');
 const { resetDomains } = require('../utils/domains');
+
 /**
  * Triggered when HSC main process WebSocket closes
  *
@@ -18,7 +18,7 @@ const { resetDomains } = require('../utils/domains');
  * - cleanup local domains
  * - cleanup local timebar
  *
- * @param spark
+ * @param messageHandler
  */
 
 const cleanUpRemainingData = (messageHandler) => {
@@ -37,7 +37,7 @@ const cleanUpRemainingData = (messageHandler) => {
   // cleanup local domains
   resetDomains();
   // cleanup local timebar
-  resetTimebar();
+  resetTimebars();
   // cleanup registered callbacks
   registeredCallbacks.clear();
 

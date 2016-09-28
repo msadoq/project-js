@@ -1,6 +1,6 @@
 require('../utils/test');
 const timebarUpdate = require('./onTimebarUpdate');
-const { getTimebar } = require('../timebar');
+const { getTimebars } = require('../timebars');
 
 describe('onTimebarUpdate', () => {
   it('update', () => {
@@ -18,14 +18,14 @@ describe('onTimebarUpdate', () => {
         tl2: {},
       },
     };
-    getTimebar().should.deep.equal({});
+    getTimebars().should.deep.equal({});
     timebarUpdate(payload);
-    getTimebar().should.have.an.property('timebars')
+    getTimebars().should.have.an.property('timebars')
       .that.is.an('object')
       .that.have.an.property('tb1')
       .that.have.an.property('timelines')
       .that.is.an('array');
-    getTimebar().should.have.an.property('timelines')
+    getTimebars().should.have.an.property('timelines')
       .that.is.an('object')
       .that.have.properties({ tl1: {}, tl2: {} });
   });

@@ -4,6 +4,7 @@ const { decode } = require('../protobuf');
 const cacheJsonModel = require('../models/cacheJson');
 const connectedDataModel = require('../models/connectedData');
 const viewsModel = require('../models/views');
+const { getTimebars } = require('../timebars');
 
 /**
  * Trigger on new incoming message NewDataMessage from DC.
@@ -66,6 +67,6 @@ module.exports = (buffer) => {
 
   // TODO possible event loop bottleneck, envisage async repartition of view calls on nextTicks
   _.each(views, (v) => {
-    v.instance.onNewData(message.dataId, payloads);
+    v.instance.onNewData(getTimebars(), message.dataId, payloads);
   });
 };

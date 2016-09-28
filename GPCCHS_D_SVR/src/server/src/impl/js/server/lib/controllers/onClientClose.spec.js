@@ -4,14 +4,8 @@ const { cleanUpRemainingData } = require('./onClientClose');
 const connectedDataModel = require('../models/connectedData');
 const registeredCallbacks = require('../utils/registeredCallbacks');
 const cacheJsonModel = require('../models/cacheJson');
-const {
-  setDomains,
-  getDomains,
-} = require('../utils/domains')
-const {
-  setTimebar,
-  getTimebar,
-} = require('../timebar');
+const { setDomains, getDomains } = require('../utils/domains');
+const { setTimebars, getTimebars } = require('../timebars');
 const {
   getDataId,
   getReportingParameter,
@@ -39,7 +33,7 @@ describe('onWindowClose', () => {
 
       connectedDataModel.addWindowId(myDataId, 42);
       cacheJsonModel.addRecord(myDataId, _.now(), proto);
-      setTimebar({ timebar: 'timebar' });
+      setTimebars({ timebar: 'timebar' });
       setDomains([1]);
 
       cleanUpRemainingData(zmqEmulator);
@@ -70,7 +64,7 @@ describe('onWindowClose', () => {
         .that.have.lengthOf(0);
       getDomains().should.be.an('array')
         .that.has.lengthOf(0);
-      getTimebar().should.be.an('object')
+      getTimebars().should.be.an('object')
         .that.has.properties({});
       registeredCallbacks.getAll().should.be.an('object')
         .that.has.properties({});

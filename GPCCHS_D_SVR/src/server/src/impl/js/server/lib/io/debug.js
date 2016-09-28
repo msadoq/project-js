@@ -1,6 +1,7 @@
 const d = require('debug');
 
 const ERROR = 'ERROR';
+const WARN = 'WARN';
 const INFO = 'INFO';
 const DEBUG = 'DEBUG';
 const VERBOSE = 'VERBOSE';
@@ -13,18 +14,23 @@ module.exports = (namespace) => {
         logger(...args);
       }
     },
+    warn: (...args) => {
+      if ([VERBOSE, DEBUG, INFO, WARN].indexOf(process.env.LEVEL) !== -1) {
+        logger(...args);
+      }
+    },
     info: (...args) => {
-      if ([VERBOSE, DEBUG, INFO].indexOf(process.env.LEVEL) !== -1) {
+      if ([VERBOSE, DEBUG, INFO, WARN].indexOf(process.env.LEVEL) !== -1) {
         logger(...args);
       }
     },
     debug: (...args) => {
-      if ([VERBOSE, DEBUG].indexOf(process.env.LEVEL) !== -1) {
+      if ([VERBOSE, DEBUG, WARN].indexOf(process.env.LEVEL) !== -1) {
         logger(...args);
       }
     },
     verbose: (...args) => {
-      if ([VERBOSE].indexOf(process.env.LEVEL) !== -1) {
+      if ([VERBOSE, WARN].indexOf(process.env.LEVEL) !== -1) {
         logger(...args);
       }
     },

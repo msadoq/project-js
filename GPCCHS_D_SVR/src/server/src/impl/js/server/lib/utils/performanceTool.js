@@ -25,10 +25,10 @@ const MONITORING_FILE_PATH = './monitoring.json';
 const PEAKS_FILE_PATH = './monitoringPeaks.json';
 
 const init = () => {
-  const mfd = fs.openSync(MONITORING_FILE_PATH, 'a');
+  const mfd = fs.openSync(MONITORING_FILE_PATH, 'w');
   fs.writeSync(mfd, `HSS monitoring - ${new Date()}\n`);
   fs.closeSync(mfd);
-  const pfd = fs.openSync(PEAKS_FILE_PATH, 'a');
+  const pfd = fs.openSync(PEAKS_FILE_PATH, 'w');
   fs.writeSync(pfd, `HSS monitoring peaks - ${new Date()}\n`);
   fs.closeSync(pfd);
 

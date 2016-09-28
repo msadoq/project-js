@@ -25,6 +25,7 @@ const onTimebarUpdate = require('./lib/controllers/onTimebarUpdate');
 const { onViewQuery } = require('./lib/controllers/onViewQuery');
 
 const cp = require('child_process');
+const errorHandler = require('./lib/utils/errorHandler');
 
 const dcStub = require('./lib/stubs/dc');
 const tbStub = require('./lib/stubs/tb');
@@ -109,7 +110,7 @@ zmq.open({
   dcPull: {
     type: 'pull',
     url: process.env.ZMQ_GPCCDC_PULL,
-    handler: onDcServerMessage,
+    handler: (header, buffer) => errorHandler('onDcServerMessage', () => onDcServerMessage(header, buffer)),
   },
   dcPush: {
     type: 'push',
@@ -118,7 +119,7 @@ zmq.open({
   vimaTbPull: {
     type: 'pull',
     url: process.env.ZMQ_VIMA_TIMEBAR,
-    handler: onVimaTimebarUpdate,
+    handler: buffer => errorHandler('onVimaTimebarUpdate', () => onVimaTimebarUpdate(buffer)),
   },
   vimaTbPush: {
     type: 'push',

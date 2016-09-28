@@ -3,6 +3,7 @@ const { decode } = require('../protobuf');
 const onDcResponse = require('./onDcResponse');
 const { onDomainResponse } = require('./onDomainResponse');
 const onNewDataMessage = require('./onNewDataMessage');
+const errorHandler = require('../utils/errorHandler');
 
 // TODO :
 
@@ -24,13 +25,13 @@ const callDcServerMessageControllers = (
 
   switch (message.messageType) {
     case 'DC_RESPONSE':
-      dcResponseHandler(message.payload);
+      errorHandler('onDcResponse', () => dcResponseHandler(message.payload));
       break;
     case 'DOMAIN_RESPONSE':
-      domainResponseHandler(message.payload);
+      errorHandler('onDomainResponse', () => domainResponseHandler(message.payload));
       break;
     case 'NEW_DATA_MESSAGE':
-      newDataMessageHandler(message.payload);
+      errorHandler('onNewDataMessage', () => newDataMessageHandler(message.payload));
       break;
     case 'UNKNOWN':
     default:

@@ -27,7 +27,7 @@ const convertBytes = (value) => {
 };
 
 const convertTime = (hrTime) => {
-  if (hrTime[0] >= 1) {
+  if (hrTime[0] * 1e9 > hrTime[1]) {
     const hourValue = hrTime[0] / 3600;
     if (_.floor(hourValue) > 0) {
       const minValue = (hrTime[0] % 3600) / 60;
@@ -80,16 +80,18 @@ router.get('/',
       ' <body>' +
       '   <h1>DEBUG</h1>' +
       '   <h2>Monitoring</h2>' +
-      '     <h3>Average time between two eventloop ticks</h3>' +
-      '     <ul>' +
-      `       <li>${convertTime(avgTime)}</li>` +
-      '     </ul>' +
-      '     <h3>Average memory usage</h3>' +
-      '     <ul>' +
-      `       <li>RSS: ${convertBytes(avgMemoryUsage.rss)}</li>` +
-      `       <li>Heap Total: ${convertBytes(avgMemoryUsage.heapTotal)}</li>` +
-      `       <li>Heap Used: ${convertBytes(avgMemoryUsage.heapUsed)}</li>` +
-      '     </ul>' +
+      ((perfTool.isInited() === false)
+        ? 'MONITORING OFF'
+        : ('     <h3>Average time between two eventloop ticks</h3>' +
+          '     <ul>' +
+          `       <li>${convertTime(avgTime)}</li>` +
+          '     </ul>' +
+          '     <h3>Average memory usage</h3>' +
+          '     <ul>' +
+          `       <li>RSS: ${convertBytes(avgMemoryUsage.rss)}</li>` +
+          `       <li>Heap Total: ${convertBytes(avgMemoryUsage.heapTotal)}</li>` +
+          `       <li>Heap Used: ${convertBytes(avgMemoryUsage.heapUsed)}</li>` +
+          '     </ul>')) +
       '   <h2>Domains</h2>' +
       '     <ul>' +
       ((htmlDomains === '') ? 'no domains retrieved' : htmlDomains) +

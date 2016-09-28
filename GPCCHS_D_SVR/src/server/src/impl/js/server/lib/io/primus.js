@@ -36,23 +36,25 @@ const primusExports = module.exports = {
     primus.on('connection', (spark) => {
       debug.info('new websocket connection', spark.address);
 
-      _.set(spark, 'queue', []);
-      console.log(spark.queue);
+      _.set(spark, 'hsc.queue', []);
 
       // eslint-disable-next-line no-param-reassign
       spark.sendToWindow = _.throttle(() => {
         debug.debug('sending data to window');
+        const start = process.hrtime();
         spark.write({
           event: 'newData',
-          payload: spark.queue,
+          payload: _.get(spark, 'hsc.queue'),
         });
-        _.set(spark, 'queue', []);
+        const stop = process.hrtime(start);
+        debug.debug('flushing time', stop);
+        _.set(spark, 'hsc.queue', []);
       }, TIMESTEP);
 
       // eslint-disable-next-line no-param-reassign
       spark.addToQueue = (data) => {
         debug.debug('adding to queue');
-        _.set(spark, 'queue', _.concat(_.get(spark, 'queue'), data));
+        _.set(spark, 'hsc.queue', _.concat(_.get(spark, 'hsc.queue'), data));
         spark.sendToWindow();
       };
 
@@ -72,45 +74,45 @@ const primusExports = module.exports = {
           case 'identity': {
             if (message.payload.identity === 'main') {
               _.set(spark, 'hsc.identity', 'main');
-              errorHandler(() => handlers.onClientOpen(spark));
-              spark.on('end', () => errorHandler(() => handlers.onClientClose(spark)));
+              errorHandler('onClienOpen', () => handlers.onClientOpen(spark));
+              spark.on('end', () => errorHandler('onClientClose', () => handlers.onClientClose(spark)));
             } else {
               _.set(spark, 'hsc.identity', message.payload.identity);
-              errorHandler(() => handlers.onWindowOpen(spark, message.payload.identity));
-              spark.on('end', () => errorHandler(() => handlers.onWindowClose(spark, message.payload.identity)));
+              errorHandler('onWindowOpen', () => handlers.onWindowOpen(spark, message.payload.identity));
+              spark.on('end', () => errorHandler('onWindowClose', () => handlers.onWindowClose(spark, message.payload.identity)));
             }
             break;
           }
           case 'viewOpen': {
-            errorHandler(() => handlers.onViewOpen(spark, message.payload));
+            errorHandler('onViewOpen', () => handlers.onViewOpen(spark, message.payload));
             break;
           }
           case 'viewClose': {
-            errorHandler(() => handlers.onViewClose(spark, message.payload));
+            errorHandler('onViewClose', () => handlers.onViewClose(spark, message.payload));
             break;
           }
           case 'connectedDataOpen': {
-            errorHandler(() => handlers.onSubscriptionOpen(spark, message.payload));
+            errorHandler('onSubscriptionOpen', () => handlers.onSubscriptionOpen(spark, message.payload));
             break;
           }
           case 'connectedDataClose': {
-            errorHandler(() => handlers.onSubscriptionClose(spark, message.payload));
+            errorHandler('onSubscriptionClose', () => handlers.onSubscriptionClose(spark, message.payload));
             break;
           }
           case 'vimaTimebarInit': {
-            errorHandler(() => handlers.onHscVimaTimebarInit(spark, message.payload));
+            errorHandler('onHscVimaTimebarInit', () => handlers.onHscVimaTimebarInit(spark, message.payload));
             break;
           }
           case 'timebarUpdate': {
-            errorHandler(() => handlers.onTimebarUpdate(message.payload));
+            errorHandler('onTimebarUpdate', () => handlers.onTimebarUpdate(message.payload));
             break;
           }
           case 'domainQuery': {
-            errorHandler(() => handlers.onClientDomainQuery(spark, message.payload));
+            errorHandler('onClientDomainQuery', () => handlers.onClientDomainQuery(spark, message.payload));
             break;
           }
           case 'viewQuery': {
-            errorHandler(() => handlers.onViewQuery(spark, message.payload));
+            errorHandler('onViewQuery', () => handlers.onViewQuery(spark, message.payload));
             break;
           }
           default:

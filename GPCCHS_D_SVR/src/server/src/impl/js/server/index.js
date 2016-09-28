@@ -24,13 +24,18 @@ const onHscVimaTimebarInit = require('./lib/controllers/onHscVimaTimebarInit');
 const onTimebarUpdate = require('./lib/controllers/onTimebarUpdate');
 const { onViewQuery } = require('./lib/controllers/onViewQuery');
 
+const cp = require('child_process');
+const errorHandler = require('./lib/utils/errorHandler');
+
 const dcStub = require('./lib/stubs/dc');
 const tbStub = require('./lib/stubs/tb');
 
 const perfTool = require('./lib/utils/performanceTool');
 
-perfTool.init();
-perfTool.launch();
+if (process.env.MONITORING === 'on') {
+  perfTool.init();
+  perfTool.launch();
+}
 
 // port
 function normalizePort(val) {
@@ -105,7 +110,7 @@ zmq.open({
   dcPull: {
     type: 'pull',
     url: process.env.ZMQ_GPCCDC_PULL,
-    handler: onDcServerMessage,
+    handler: (header, buffer) => errorHandler('onDcServerMessage', () => onDcServerMessage(header, buffer)),
   },
   dcPush: {
     type: 'push',
@@ -114,7 +119,7 @@ zmq.open({
   vimaTbPull: {
     type: 'pull',
     url: process.env.ZMQ_VIMA_TIMEBAR,
-    handler: onVimaTimebarUpdate,
+    handler: buffer => errorHandler('onVimaTimebarUpdate', () => onVimaTimebarUpdate(buffer)),
   },
   vimaTbPush: {
     type: 'push',
@@ -126,11 +131,13 @@ zmq.open({
   }
 
   if (process.env.STUB_DC_ON === 'on') {
-    dcStub((launchStubError) => {
+    const dc = cp.fork(`${__dirname}/lib/stubs/dc.js`);
+    dc.on('message', msg => debug.info('HSS got DC message: ', msg));
+    /* dcStub((launchStubError) => {
       if (launchStubError) {
         throw launchStubError;
       }
-    });
+    }); */
   }
   if (process.env.STUB_TB_ON === 'on') {
     tbStub((launchStubError) => {

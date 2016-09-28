@@ -441,6 +441,25 @@ describe('models/connectedData', () => {
       debug.debug('intervals', intervals);
       intervals.should.be.an('array').that.has.lengthOf(0);
     });
+    it('Bigger query', () => {
+      const leftQueryId = 'left';
+      const leftQueryInterval = [-5, 15];
+      model.addRequestedInterval(myDataId, leftQueryId, leftQueryInterval);
+      const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
+      debug.debug('intervals', intervals);
+      intervals.should.be.an('array').that.has.lengthOf(0);
+    });
+    it('Bigger query in received', () => {
+      const leftQueryId = 'left';
+      const rightQueryId = 'right';
+      const leftQueryInterval = [-5, 15];
+      model.addRequestedInterval(myDataId, leftQueryId, leftQueryInterval);
+      model.setIntervalAsReceived(myDataId, leftQueryId);
+      model.setIntervalAsReceived(myDataId, rightQueryId);
+      const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
+      debug.debug('intervals', intervals);
+      intervals.should.be.an('array').that.has.lengthOf(0);
+    });
   });
 
   describe('addWindowId', () => {

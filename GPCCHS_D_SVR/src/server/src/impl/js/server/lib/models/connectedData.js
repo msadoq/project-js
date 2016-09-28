@@ -99,7 +99,7 @@ collection.retrieveMissingIntervals = (dataId, interval) => {
 
   // Merge known intervals and requested intervals in a local variable
   let intervals = connectedData.intervals;
-  _.map(connectedData.requested, (value) => {
+  _.each(connectedData.requested, (value) => {
     intervals = mergeIntervals(intervals, value);
   });
 

@@ -15,7 +15,6 @@ Only list expected tasks for PBF shipping of end of october.
 
 ## GPCCHSS (Node.js)
 
-* Move localId generation from HSS to HSC in <Subscription/> and <View/> (Damien)
 * [=] Analyze, measure and test and the LokiJS index for cache dataId and interval, https://github.com/techfort/LokiJS/issues/477 (Damien)
 * Finalize DC communications
   - [x] Implement new ZeroMQ/protobuf pattern (Adrien)
@@ -49,20 +48,21 @@ Only list expected tasks for PBF shipping of end of october.
   - [x] add title on page and window
   - [x] update schemas, validation helper, fixtures and tests
 * Timebar (Audrey)
-  * [=] Add push socket with TB
-  * [=] On HSS reception of TB by HSC forward to TB
-  * [=] Add TB forward to HSC from VIMA
-  * [=] Implement redux mutation
-  * [ ] Finalize timebar stub (reaction to new client, new view, new param to listen, view closing) (Audrey)
+  * [x] Add push socket with TB
+  * [x] On HSS reception of TB by HSC forward to TB
+  * [x] Add TB forward to HSC from VIMA
+  * [x] Implement redux mutation
+  * [x] Finalize timebar stub (reaction to new client, new view, new param to listen, view closing) (Audrey)
+* [x] Add debug routes on HSS: index, connectedData collection, cacheJson collection, domains, timebar, ... (Renaud)
+* [ ] Move localId generation from HSS to HSC in <Subscription/> and <View/> (Damien)
 * [ ] Implement data filtering on server-side view instance
-* [ ] Add debug routes on HSS: index, connectedData collection, cacheJson collection, domains, timebar, ... (Alexandra)
 * [ ] Cache invalidation automatic mechanism
 * [ ] Complete README.md (lint, quality and coverage, stub  commands usage) (Damien)
 * [ ] Code review and cleaning (convention, comments, TODO , small optimizations) (Damien)
 * [ ] LPISIS protobuf and types converters code generation (Adrien)
 
 Errors
-* [ ] try/catch every controller (Renaud)
+* [x] try/catch every controller (Renaud)
 * [ ] Track "throw" and catch them accordingly (Damien)
 * [ ] Implement a clean log and error channel to files
 * [ ] Add robustness in every controller by controlling HSC input (Damien)
@@ -105,36 +105,29 @@ Errors
   - [ ] component
   - [ ] Dangerously inject dynamised static HTML in view
   - [ ] https://github.com/wrakky/react-html-parser
-* [ ] Pass realtime dimensions to each view (e.g.: <WithProvider/>)
-* Customize electron window menu bar (Alexandra)
-  - Workspace
-    - [ ] Save...
-    - [ ] Quit
-  - Window
-    - [ ] everything that is in actual View menu should be append in this menu
-    - [ ] Minimize
-    - [ ] New
-    - [ ] Close
-  - Page
-    - [ ] Open...
-    - [ ] Add
-    - [ ] Save...
-  - View
-    - [ ] Open... (in current page)
-    - [ ] Add (in current page)
-  - Edit (unchanged)
-  - Remove Help
-* [ ] Fix the grid layout click capture, add header and allow drag only from header on views (Damien)
+* [x] Implement a monitoring endpoint (event loop timing, memory) (Renaud)
+* [x] Fix the grid layout click capture, add header and allow drag only from header on views (Damien)
+* [ ] Persist window geometry and focus in Redux
+
+Audrey
 * [ ] Re-implement documents/workspace unit test (Audrey)
 * [ ] Move timebars on root level in documents (Audrey)
-* [ ] Add a clean "error" page when unable to connect to server or when DC stub is off (Aziz)
-* [ ] Improve window closing by implementing a confirmation box with WS disconnection
+
+Aziz
+* [ ] Improve window closing by implementing a confirmation box with WS disconnection (Aziz)
+* [ ] Pass realtime dimensions to each view (e.g.: <WithProvider/>) (Aziz)
+
+Alexandra
+* [=] Customize electron window menu bar (Alexandra)
+* [=] Add a clean "error" page when unable to connect to server or when DC stub is off (Alexandra)
+
+Damien
 * [ ] Sync with erb: 0b0e19c74518fc97843e9bcb393086aa9a7ad616
-* [=] Implement a monitoring endpoint (event loop timing, memory) (Renaud)
 * [ ] IHM design and cleanup (Damien)
 * [ ] Improve main process debugging by try-catching on ready logic (Damien)
 * [ ] Complete README.md (lint, quality and coverage, stub  commands usage) (Damien)
 * [ ] Code review and cleaning (convention, comments, TODO , small optimizations) (Damien)
+* [ ] HSC tree refactoring: lib/(mainProcess|windowProcess)/index.js // common, store, websocket, documents, connectedData(=dataConsumption)
 
 ## Postponed
 

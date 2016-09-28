@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import u from 'updeep';
 import debug from '../utils/mainDebug';
 import installExtensions from './installExtensions';
 import { initStore, getStore } from '../store/mainStore';
@@ -59,10 +58,15 @@ function onStoreUpdate() {
       });
       tbs.push(tbtmp);
     });
-
+    // Send tb init for VIMA widget
     getWebsocket().write({
       event: 'vimaTimebarInit',
       payload: tbs,
+    });
+    // Send tb init to hss
+    getWebsocket().write({
+      event: 'timebarUpdate',
+      payload: { timebars: loadedWorkspace.timebars, timelines: loadedWorkspace.timelines },
     });
     dispatch(updateStatus('timebar-sent-to-hss'));
   }

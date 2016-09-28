@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import u from 'updeep';
-import compareTimebars from '../timeBar/tbUpdate';
+import compareTimebars from '../timebar/tbUpdate';
 import { getStore } from '../store/mainStore';
 import { getTimebar, getTimelines } from '../store/mutations/timebarReducer';
 

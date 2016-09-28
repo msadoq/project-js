@@ -114,12 +114,13 @@ const onHssMessage = (buffer) => {
     throw new Error('Neither a Data Query nor a supported data subscribe nor a domain query');
   }
 
-  return zmq.push('stubData', [null,
+  return zmq.push('stubData', [
+    null,
     wrapServerMessage('DC_RESPONSE', protobuf.encode('dc.dataControllerUtils.DcResponse', {
       id: payload.id,
       status: 'OK',
-    }))]
-  );
+    })),
+  ]);
 };
 
 const pushData = (dataId, payloads) => {

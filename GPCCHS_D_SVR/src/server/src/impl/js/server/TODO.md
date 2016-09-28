@@ -37,7 +37,8 @@ Renaud
   - In both generate localId in each controller and not in .addRecord()
 * [ ] View type onNewData: implement localId filtering, displayed interval filtering, filter, select field and send [[timestamp, value]]
 * [ ] onViewQuery/onNewDataMessage: test AVLTree instead of Loki for cache retrieving/insertion OR our proper data structure DataStructure{[order],{key:{value}}
-
+* [ ] Profiling: rename errorHandler=>execController, only on 'end' controllers 
+ 
 ## GPCCHSC (Electron)
 
 * Implement <PlotView/>
@@ -52,7 +53,8 @@ Renaud
 * [ ] Persist window geometry and focus in Redux
 * [ ] Improve window closing by implementing a confirmation box with WS disconnection
 * [ ] Pass realtime dimensions to each view (react-grid-layout/build/components/WidthProvider.js.flow, react-dimensions, https://github.com/souporserious/react-measure)
-
+* [ ] Replace tabs with reactjs/react-tabs
+ 
 Audrey
 * [ ] Re-implement documents/workspace unit test (Audrey)
 

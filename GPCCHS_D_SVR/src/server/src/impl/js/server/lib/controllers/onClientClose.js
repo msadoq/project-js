@@ -7,7 +7,7 @@ const registeredCallbacks = require('../utils/registeredCallbacks');
 const { stopSubscription } = require('./onSubscriptionClose');
 const zmq = require('../io/zmq');
 const _ = require('lodash');
-const { resetTimebar } = require('../timeBar');
+const { resetTimebar } = require('../timebar');
 const { resetDomains } = require('../utils/domains');
 /**
  * Triggered when HSC main process WebSocket closes

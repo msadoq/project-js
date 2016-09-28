@@ -101,6 +101,10 @@ const primusExports = module.exports = {
             errorHandler(() => handlers.onHscVimaTimebarInit(spark, message.payload));
             break;
           }
+          case 'timebarUpdate': {
+            errorHandler(() => handlers.onTimebarUpdate(message.payload));
+            break;
+          }
           case 'domainQuery': {
             errorHandler(() => handlers.onClientDomainQuery(spark, message.payload));
             break;

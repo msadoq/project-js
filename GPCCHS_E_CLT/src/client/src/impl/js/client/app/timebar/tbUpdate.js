@@ -1,4 +1,4 @@
-// const debug = require('../io/debug')('timeBar:tbUpdate');
+// const debug = require('../io/debug')('timebar:tbUpdate');
 const diff = require('deep-diff').diff;
 const _ = require('lodash');
 

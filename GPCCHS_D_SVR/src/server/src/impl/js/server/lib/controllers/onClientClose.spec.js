@@ -11,7 +11,7 @@ const {
 const {
   setTimebar,
   getTimebar,
-} = require('../timeBar');
+} = require('../timebar');
 const {
   getDataId,
   getReportingParameter,

@@ -2,9 +2,10 @@ const debug = require('../io/debug')('websocket');
 const _ = require('lodash');
 const Primus = require('primus');
 const errorHandler = require('../utils/errorHandler');
-const sendToWindow = require('../utils/sendToWindow');
 
 let primus;
+
+const TIMESTEP = 100; // 100 ms
 
 function getNewInstance(server) {
   return new Primus(server, { transformer: 'uws' });
@@ -35,6 +36,26 @@ const primusExports = module.exports = {
     primus.on('connection', (spark) => {
       debug.info('new websocket connection', spark.address);
 
+      _.set(spark, 'queue', []);
+      console.log(spark.queue);
+
+      // eslint-disable-next-line no-param-reassign
+      spark.sendToWindow = _.throttle(() => {
+        debug.debug('sending data to window');
+        spark.write({
+          event: 'newData',
+          payload: spark.queue,
+        });
+        _.set(spark, 'queue', []);
+      }, TIMESTEP);
+
+      // eslint-disable-next-line no-param-reassign
+      spark.addToQueue = (data) => {
+        debug.debug('adding to queue');
+        _.set(spark, 'queue', _.concat(_.get(spark, 'queue'), data));
+        spark.sendToWindow();
+      };
+
       spark.on('data', (message) => {
         debug.debug('data', message);
 
@@ -46,12 +67,6 @@ const primusExports = module.exports = {
 
         // eslint-disable-next-line no-param-reassign
         spark.getIdentity = () => _.get(spark, 'hsc.identity');
-
-        // eslint-disable-next-line no-param-reassign
-        spark.sendToWindow = (data) => {
-          debug.debug('sending data to window');
-          sendToWindow(spark, data);
-        };
 
         switch (message.event) {
           case 'identity': {
@@ -88,6 +103,10 @@ const primusExports = module.exports = {
           }
           case 'domainQuery': {
             errorHandler(() => handlers.onClientDomainQuery(spark, message.payload));
+            break;
+          }
+          case 'viewQuery': {
+            errorHandler(() => handlers.onViewQuery(spark, message.payload));
             break;
           }
           default:

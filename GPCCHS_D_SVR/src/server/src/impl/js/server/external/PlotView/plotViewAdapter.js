@@ -132,10 +132,10 @@ PlotView.prototype.onTimebarUpdate = function (cmdList) {
 
 PlotView.prototype.onNewData = function (dataId, payload) {
   // TODO
-  debug.debug('onNewData', payload);
+  debug.debug('onNewData');
   const payloads = (_.isArray(payload)) ? payload : [payload];
 
-  this.spark.sendToWindow({ dataId, payloads });
+  this.spark.addToQueue({ dataId, payloads });
 };
 
 module.exports = PlotView;

@@ -1,4 +1,5 @@
 const debug = require('../io/debug')('controllers:onViewQuery');
+const registeredCallbacks = require('../utils/registeredCallbacks');
 const connectedDataModel = require('../models/connectedData');
 const cacheJsonModel = require('../models/cacheJson');
 const viewsModel = require('../models/views');
@@ -40,13 +41,26 @@ const queryData = (spark, payload, messageHandler) => {
       payload: encode('dc.dataControllerUtils.DataQuery', {
         id,
         dataId,
-        interval: missingInterval,
+        interval: {
+          lowerTs: { ms: missingInterval[0] },
+          upperTs: { ms: missingInterval[1] },
+        },
       }),
     });
+    registeredCallbacks.set(id, (respErr) => {
+      if (respErr) {
+        throw respErr;
+      }
+    });
     messageHandler('dcPush', buffer);
+    connectedDataModel.addRequestedInterval(dataId, id, missingInterval);
   });
   // retrieve full interval from cache and flush to hsc (spark.id)
   const cachedData = cacheJsonModel.findByInterval(dataId, interval[0], interval[1]);
+
+  if (cachedData.length === 0) {
+    return undefined;
+  }
 
   const views = viewsModel.getAll();
 

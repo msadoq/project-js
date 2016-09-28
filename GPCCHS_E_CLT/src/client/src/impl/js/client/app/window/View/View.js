@@ -168,7 +168,7 @@ export default class View extends Component {
     _.each(newProps.connectedData, (cd) => {
       // console.log('request', this.props.viewId, cd.localId, cd.dataId, this.props.lower, this.props.upper);
       getWebsocket().write({
-        event: 'viewOpen',
+        event: 'viewQuery',
         payload: {
           type: this.props.type,
           viewId: this.props.viewId,

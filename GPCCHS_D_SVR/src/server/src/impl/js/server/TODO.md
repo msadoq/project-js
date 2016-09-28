@@ -60,6 +60,8 @@ Alexandra
 * [=] Add a clean "error" page when unable to connect to server or when DC stub is off (Alexandra)
 
 Damien
+* [ ] NewData channel handling in client
+* [ ] Remove mutations/connectedData with a sub-reducer in views
 * [ ] Sync with erb: 0b0e19c74518fc97843e9bcb393086aa9a7ad616
 * [ ] Improve main process debugging by try-catching on ready logic
 * [ ] Fix launching warning on document.write injection by adding cross origin policy

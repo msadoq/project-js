@@ -42,11 +42,9 @@ Only list expected tasks for PBF shipping of end of october.
   - [ ] container
   - [ ] component
   - [ ] https://github.com/wrakky/react-html-parser
-- [ ] Analyse connectedData module, complete tests, same for selectors and others (Damien)
-- [ ] Implement reselect on connectedData (Damien)
 * [ ] Persist window geometry and focus in Redux
 * [ ] Improve window closing by implementing a confirmation box with WS disconnection
-* [ ] Pass realtime dimensions to each view (e.g.: <WithProvider/>)
+* [ ] Pass realtime dimensions to each view (react-grid-layout/build/components/WidthProvider.js.flow, react-dimensions, https://github.com/souporserious/react-measure)
 
 Audrey
 * [ ] Re-implement documents/workspace unit test (Audrey)
@@ -60,7 +58,10 @@ Alexandra
 * [=] Add a clean "error" page when unable to connect to server or when DC stub is off (Alexandra)
 
 Damien
+* [ ] Analyse connectedData module, complete tests, same for selectors and others
+* [ ] Implement reselect on connectedData
 * [ ] NewData channel handling in client
+* [ ] Implement ConnectedDataContainer in <Page/> and not in <Views/>
 * [ ] Remove mutations/connectedData with a sub-reducer in views
 * [ ] Sync with erb: 0b0e19c74518fc97843e9bcb393086aa9a7ad616
 * [ ] Improve main process debugging by try-catching on ready logic

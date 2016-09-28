@@ -80,7 +80,7 @@ describe('connectedData/decorate', () => {
     assert(r[4], 'c3', 'pn', 'co', 'd3', 's2', 10);
     assert(r[5], 'c3', 'pn', 'co', 'd4', 's2', 10);
   });
-  it ('double wildcard', () => {
+  it('double wildcard', () => {
     const r = decorate(getState(), [
       { domain: '*', timebarId: 'tb1', timeline: '*', formula: 'c.pn<co>.f' },
     ]);
@@ -97,11 +97,23 @@ describe('connectedData/decorate', () => {
     assert(r[10], 'c', 'pn', 'co', 'd4', 's3', -10);
     assert(r[11], 'c', 'pn', 'co', 'd4', 's4', 0);
   });
-  it ('de-duplication', () => {
-    const r = decorate(getState(), [
-      { domain: 'cnes.isis.sat1', timebarId: 'tb1', timeline: 'TL1', formula: 'c.pn<co>.f' },
-      { domain: 'cnes.isis.sat1', timebarId: 'tb1', timeline: 'TL1', formula: 'c.pn<co>.f' },
-    ]);
-    assert(r[0], 'c', 'pn', 'co', 'd1', 's1', 0);
+  describe('de-duplication', () => {
+    it('same', () => {
+      const r = decorate(getState(), [
+        { domain: 'cnes.isis.sat1', timebarId: 'tb1', timeline: 'TL1', formula: 'c.pn<co>.f' },
+        { domain: 'cnes.isis.sat1', timebarId: 'tb1', timeline: 'TL1', formula: 'c.pn<co>.f' },
+      ]);
+      r.should.be.an('array').with.lengthOf(1);
+      assert(r[0], 'c', 'pn', 'co', 'd1', 's1', 0);
+    });
+    it('handle offset', () => {
+      const r = decorate(getState(), [
+        { domain: 'cnes.isis.sat1', timebarId: 'tb1', timeline: 'TL1', formula: 'c.pn<co>.f' },
+        { domain: 'cnes.isis.sat1', timebarId: 'tb1', timeline: 'TL3', formula: 'c.pn<co>.f' },
+      ]);
+      r.should.be.an('array').with.lengthOf(2);
+      assert(r[0], 'c', 'pn', 'co', 'd1', 's1', 0);
+      assert(r[1], 'c', 'pn', 'co', 'd1', 's3', -10);
+    });
   });
 });

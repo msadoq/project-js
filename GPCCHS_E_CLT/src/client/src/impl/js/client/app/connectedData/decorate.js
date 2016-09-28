@@ -29,7 +29,8 @@ export default function decorate(state, connectedData) {
         const p = formula(cd.formula);
 
         // de-duplication
-        const path = `${p.catalog}.${p.parameterName}.${p.comObject}.${domainId}.${sessionId}`;
+        const path =
+          `${p.catalog}.${p.parameterName}.${p.comObject}.${domainId}.${sessionId}.${offset}`;
         if (_.has(known, path)) {
           return;
         }

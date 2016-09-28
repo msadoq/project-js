@@ -1,4 +1,4 @@
-const debug = require('../io/debug')('controllers:onTimeBarUpdate');
+const debug = require('../io/debug')('controllers:onVimaTimeBarUpdate');
 const primus = require('../io/primus');
 
 /**
@@ -8,16 +8,16 @@ const primus = require('../io/primus');
 module.exports = buffer => {
   debug.debug('called');
   // Buffer to JSON
-  let updTimebar;
+  let updVimaTimebar;
   const string = buffer.toString();
   try {
-    updTimebar = JSON.parse(string);
+    updVimaTimebar = JSON.parse(string);
   } catch (err) {
     throw err;
   }
   const spark = primus.getMainWebsocket();
   spark.write({
-    event: 'timebarUpdate',
-    payload: updTimebar,
+    event: 'vimaTimebarUpdate',
+    payload: updVimaTimebar,
   });
 };

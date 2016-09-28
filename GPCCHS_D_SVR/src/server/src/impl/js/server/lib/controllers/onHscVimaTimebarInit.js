@@ -1,4 +1,4 @@
-const debug = require('../io/debug')('controllers:onHSCTimebarUpdate');
+const debug = require('../io/debug')('controllers:onHscVimaTimebarUpdate');
 const zmq = require('../io/zmq');
 const _ = require('lodash');
 
@@ -12,7 +12,7 @@ module.exports = (spark, timebars) => {
   });
   debug.info('timebars', _.sample(timebars).timelines);
   // Send initial tb;
-  zmq.push('tbPush', JSON.stringify(timebars), () => {
-    debug.info('tb init sent to TB widget');
+  zmq.push('vimaTbPush', JSON.stringify(timebars), () => {
+    debug.info('tb init sent to VIMA TB widget');
   });
 };

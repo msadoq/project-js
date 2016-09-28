@@ -15,7 +15,8 @@ import {
   updateTimeline,
 } from '../store/mutations/timebarActions';
 
-export default function updateFromTimebar(timebarId, newTimebar) {
+
+export default function updateFromVimaTimebar(timebarId, newTimebar) {
   const state = getStore().getState();
   const oldTimebar = getTimebar(state, timebarId);
   const oldTimelines = getTimelines(state, timebarId);

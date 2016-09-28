@@ -97,8 +97,8 @@ const primusExports = module.exports = {
             errorHandler(() => handlers.onSubscriptionClose(spark, message.payload));
             break;
           }
-          case 'timebarInit': {
-            errorHandler(() => handlers.onHscTimebarInit(spark, message.payload));
+          case 'vimaTimebarInit': {
+            errorHandler(() => handlers.onHscVimaTimebarInit(spark, message.payload));
             break;
           }
           case 'domainQuery': {

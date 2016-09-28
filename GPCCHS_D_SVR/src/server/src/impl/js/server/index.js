@@ -11,7 +11,7 @@ const primus = require('./lib/io/primus');
 const onClientOpen = require('./lib/controllers/onClientOpen');
 const { onClientClose } = require('./lib/controllers/onClientClose');
 const { onDcServerMessage } = require('./lib/controllers/onDcServerMessage');
-const onTimebarUpdate = require('./lib/controllers/onTimeBarUpdate');
+const onVimaTimebarUpdate = require('./lib/controllers/onVimaTimeBarUpdate');
 const onWindowOpen = require('./lib/controllers/onWindowOpen');
 const { onWindowClose } = require('./lib/controllers/onWindowClose');
 const onViewOpen = require('./lib/controllers/onViewOpen');
@@ -20,7 +20,7 @@ const { onSubscriptionOpen } = require('./lib/controllers/onSubscriptionOpen');
 const { onSubscriptionClose } = require('./lib/controllers/onSubscriptionClose');
 const { onClientDomainQuery } = require('./lib/controllers/onClientDomainQuery');
 
-const onHscTimebarInit = require('./lib/controllers/onHscTimebarUpdate');
+const onHscVimaTimebarInit = require('./lib/controllers/onHscVimaTimebarInit');
 const { onViewQuery } = require('./lib/controllers/onViewQuery');
 
 const dcStub = require('./lib/stubs/dc');
@@ -92,8 +92,8 @@ primus.init(server, {
   onViewClose,
   onSubscriptionOpen,
   onSubscriptionClose,
-  onTimebarUpdate,
-  onHscTimebarInit,
+  onVimaTimebarUpdate,
+  onHscVimaTimebarInit,
   onClientDomainQuery,
   onViewQuery,
 });
@@ -109,12 +109,12 @@ zmq.open({
     type: 'push',
     url: process.env.ZMQ_GPCCDC_PUSH,
   },
-  tbPull: {
+  vimaTbPull: {
     type: 'pull',
     url: process.env.ZMQ_VIMA_TIMEBAR,
-    handler: onTimebarUpdate,
+    handler: onVimaTimebarUpdate,
   },
-  tbPush: {
+  vimaTbPush: {
     type: 'push',
     url: process.env.ZMQ_VIMA_TIMEBAR_INIT,
   },

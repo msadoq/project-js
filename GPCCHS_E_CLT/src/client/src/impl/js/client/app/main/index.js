@@ -65,7 +65,7 @@ function onStoreUpdate() {
     });
 
     getWebsocket().write({
-      event: 'timebarInit',
+      event: 'vimaTimebarInit',
       payload: tbs,
     });
     dispatch(updateStatus('timebar-sent-to-hss'));

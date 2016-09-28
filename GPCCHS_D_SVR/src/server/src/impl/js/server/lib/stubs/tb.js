@@ -4,7 +4,7 @@ const _ = require('lodash');
 
 let tb = [];
 
-function onTbStubUpdate(buffer) {
+function onVimaTbStubUpdate(buffer) {
   // Convert buffer to string : Needed when using zmq
   let cmdList;
   const string = buffer.toString();
@@ -42,12 +42,12 @@ function onTbStubUpdate(buffer) {
     }
   });
   // Send new tb;
-  zmq.push('timebarPush', JSON.stringify(tbHead), () => {
+  zmq.push('vimaTimebarPush', JSON.stringify(tbHead), () => {
     debug.info('tb updated sent');
   });
 }
 
-function onTbStubInit(timebarBuffer) {
+function onVimaTbStubInit(timebarBuffer) {
   // Convert buffer to string : Needed when using zmq
   let timebars;
   const string = timebarBuffer.toString();
@@ -64,19 +64,19 @@ function onTbStubInit(timebarBuffer) {
 module.exports = (callback) => {
   // ZMQ initialization
   zmq.open({
-    timebarPush: {
+    vimaTimebarPush: {
       type: 'push',
       url: process.env.ZMQ_VIMA_TIMEBAR,
     },
-    tbCliPull: {
+    vimaTbCliPull: {
       type: 'pull',
       url: process.env.ZMQ_VIMA_STUB_TIMEBAR,
-      handler: onTbStubUpdate,
+      handler: onVimaTbStubUpdate,
     },
-    timebarInit: {
+    vimaTimebarInit: {
       type: 'pull',
       url: process.env.ZMQ_VIMA_TIMEBAR_INIT,
-      handler: onTbStubInit,
+      handler: onVimaTbStubInit,
     },
   }, err => {
     if (err) {

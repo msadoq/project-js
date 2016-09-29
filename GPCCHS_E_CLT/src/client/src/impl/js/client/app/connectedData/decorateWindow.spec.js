@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions: 0 */
 import { getStore } from '../utils/test';
-import decorate from './decorate';
+import decorate from './decorateWindow';
 
 describe('connectedData/decorate', () => {
   const { getState } = getStore({

@@ -1,14 +1,11 @@
+const _ = require('lodash');
+
 /**
- * Generate a predictable local unique id for a given dataId Object
- * @param dataId {catalog, parameterName, comObject, sessionId, domainId }
+ * Generate a predictable localId part for a given type, field and offset
+ *
+ * @param type string
+ * @param field string
+ * @param offset number
+ * @return string
  */
-module.exports = (dataId) => {
-  const {
-    catalog,
-    parameterName,
-    comObject,
-    sessionId,
-    domainId,
-  } = dataId;
-  return `${catalog}.${parameterName}<${comObject}>:${sessionId}:${domainId}`;
-};
+module.exports = (type, field, offset) => `${type}.${field}.${offset}`;

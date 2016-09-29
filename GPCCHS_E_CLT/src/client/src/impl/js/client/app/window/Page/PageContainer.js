@@ -8,9 +8,11 @@ import { openEditor, closeEditor } from '../../store/mutations/pageActions';
 const PageContainer = props => <Page {...props} />;
 
 const mapStateToProps = (state, { windowId, pageId }) => {
+  const { timebarId } = getPage(state, pageId);
   return {
     windowId,
     pageId,
+    timebarId,
     editor: getEditor(state, pageId),
   }
 };

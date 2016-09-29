@@ -4,7 +4,7 @@ import { getWebsocket } from '../../websocket/windowWebsocket';
 import { Button } from 'react-bootstrap';
 import external from '../../../external.window';
 import UnknownView from './UnknownView';
-import ConnectedDataContainer from './ConnectedDataContainer';
+// import ConnectedDataContainer from './ConnectedDataContainer';
 
 export default class View extends Component {
   static propTypes = {
@@ -28,8 +28,6 @@ export default class View extends Component {
       payload: {
         type: this.props.type,
         viewId: this.props.viewId,
-        // configuration: this.props.configuration,
-        // connectedData: this.props.connectedData,
       },
     });
   }
@@ -59,7 +57,7 @@ export default class View extends Component {
           </Button>
         </div>
         <div>
-          <ConnectedDataContainer {...this.props} />
+          {/*<ConnectedDataContainer {...this.props} />*/}
           <ViewTypeContainer {...this.props} />
         </div>
       </div>

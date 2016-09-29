@@ -1,8 +1,9 @@
 import React from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Window from './Window';
 import { getFocusedPage } from '../../store/mutations/windowReducer';
+
+const { dialog } = require('electron').remote.dialog;
 
 const WindowContainer = props => <Window {...props} />;
 

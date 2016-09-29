@@ -4,6 +4,15 @@
   overflow: auto;
 }*/
 
+.statusConnected p{
+  background-color: green;
+  color: white;
+}
+
+.statusDisconnected p{
+  background-color: red;
+  color: white;
+}
 /*.status_background {
   background-color: white;
   width: 900px;
@@ -19,7 +28,7 @@
   /*-webkit-transform:rotate(-350deg);*/
 /*}*/
 
-/*.statusDisconnect_transbox  label{
+.statusDisconnect_transbox  label{
   background-color: red;
   font-family: Arial;
   text-align: center;
@@ -36,4 +45,4 @@
   color: black;
   border: 1px solid black;
   opacity: 0.2;
-}*/
+}

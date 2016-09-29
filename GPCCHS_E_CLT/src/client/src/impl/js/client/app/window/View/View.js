@@ -6,6 +6,8 @@ import external from '../../../external.window';
 import UnknownView from './UnknownView';
 import ConnectedDataContainer from './ConnectedDataContainer';
 
+import styles from '../Page/Page.css';
+
 export default class View extends Component {
   static propTypes = {
     timebarId: PropTypes.string.isRequired,
@@ -51,17 +53,19 @@ export default class View extends Component {
       <div onMouseDown={this.onStopGridLayoutPropagation}>
         <div>
           {this.props.title}
-          <Button onClick={this.onOpenEditor.bind(this)}>
+          <Button className={styles.buttonPage_Editview} onClick={this.onOpenEditor.bind(this)}>
             Edit this view
           </Button>
-          <Button onClick={this.onRemove.bind(this)}>
+          <Button className={styles.buttonPage_Removeview} onClick={this.onRemove.bind(this)}>
             Remove view
           </Button>
         </div>
-        <div>
-          <ConnectedDataContainer {...this.props} />
+        <div className={styles.ViewTypeContainer}>
           <ViewTypeContainer {...this.props} />
         </div>
+          <div className={styles.ConnectedDataContainer}>
+            <ConnectedDataContainer {...this.props} />
+      </div>
       </div>
     );
   }

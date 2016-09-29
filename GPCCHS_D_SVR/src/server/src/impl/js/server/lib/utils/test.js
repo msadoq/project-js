@@ -9,6 +9,7 @@ const properties = require('chai-properties');
 const request = require('supertest'); // eslint-disable-line import/no-extraneous-dependencies
 const expressApp = require('../express');
 const database = require('../io/loki');
+const _ = require('lodash');
 
 chai.use(properties);
 
@@ -39,8 +40,10 @@ const shouldBeApiError = (status, title, pointer) => res => {
 
 const testPayloads = [];
 
-const testHandler = payload => {
-  testPayloads.push(payload);
+const testHandler = (...args) => {
+  _.each(args, (arg) => {
+    testPayloads.push(arg);
+  });
 };
 
 module.exports = {

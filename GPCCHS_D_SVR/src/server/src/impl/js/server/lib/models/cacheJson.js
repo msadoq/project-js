@@ -1,13 +1,22 @@
 const debug = require('../io/debug')('models:cacheJson');
 const database = require('../io/loki');
+const _ = require('lodash');
 const { inspect } = require('util');
 
 const collection = database.addCollection('cacheJson');
 
 collection.getLocalId = require('./getLocalId');
 
-collection.addRecord = (dataId, timestamp, payload) => {
+collection.addRecords = (dataId, records) => {
   const localId = collection.getLocalId(dataId);
+  debug.debug(`add ${records.length} records`);
+  _.each(records, (record) => {
+    collection.addRecord(localId, record.timestamp, record.payload);
+  });
+};
+
+collection.addRecord = (dataId, timestamp, payload) => {
+  const localId = (typeof dataId === 'string') ? dataId : collection.getLocalId(dataId);
   debug.debug('insert', localId);
   return collection.insert({
     localId,

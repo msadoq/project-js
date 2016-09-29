@@ -130,8 +130,11 @@ describe('onWindowClose', () => {
       connectedData[0].should.be.an('object')
         .that.has.properties({
           dataId: myDataId[1],
-          intervals: [],
-          requested: {},
+          intervals: {
+            all: [],
+            received: [],
+            requested: {},
+          },
           windows: [91],
         });
     });

@@ -6,6 +6,7 @@ import { getStore } from '../store/mainStore';
 
 const logger = debug('main:windows');
 
+
 const windows = {};
 
 export function open(data, windowId) {

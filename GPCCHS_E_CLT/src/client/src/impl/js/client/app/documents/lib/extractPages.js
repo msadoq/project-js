@@ -57,7 +57,7 @@ function readPages(folder, pagesToRead, cb) {
  * @param cb
  * @returns {*}
  */
-module.exports = (content, cb) => {
+function extractPages(content, cb) {
   let windows = content.windows;
   if (!_.isObject(windows)) {
     windows = {};
@@ -76,4 +76,6 @@ module.exports = (content, cb) => {
       pages: _.reduce(pages, (l, v) => Object.assign(l, { [v.uuid]: v }), {}),
     }));
   })
-};
+}
+
+module.exports = { extractPages, readPages, findWindowPagesAndReplaceWithUuid }

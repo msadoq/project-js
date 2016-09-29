@@ -19,10 +19,9 @@ TestView.prototype.onTimebarUpdate = function (cmdList) {
   // TODO
 };
 
-TestView.prototype.onNewData = function (dataId, payload) {
+TestView.prototype.onNewData = function (timebars, dataId, payload) {
   debug.debug('onNewData');
   const payloads = (_.isArray(payload)) ? payload : [payload];
-  debug.debug(this.spark.addToQueue.toString());
   this.spark.addToQueue({ dataId, payloads });
   debug.debug(this.spark.queue);
 };

@@ -72,8 +72,11 @@ describe('onSubscriptionClose', () => {
       connectedData[0].should.be.an('object')
         .that.has.properties({
           dataId: myDataId,
-          intervals: [],
-          requested: {},
+          intervals: {
+            all: [],
+            received: [],
+            requested: {},
+          },
           windows: [91],
         });
     });

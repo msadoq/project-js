@@ -33,7 +33,7 @@ router.get('/',
     '   <h3>Received Intervals</h3>' +
     '   <ul>';
 
-  _.each(connectedData.intervals, (interval) => {
+  _.each(connectedData.intervals.received, (interval) => {
     response += `     <li>[ ${interval[0]} , ${interval[1]} ]</li>`;
   });
 
@@ -42,7 +42,7 @@ router.get('/',
     '   <h3>Requested Intervals</h3>' +
     '   <ul>';
 
-  _.each(connectedData.requested, (interval) => {
+  _.each(connectedData.intervals.requested, (interval) => {
     response += `     <li>[ ${interval[0]} , ${interval[1]} ]</li>`;
   });
 

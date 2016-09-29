@@ -3,6 +3,9 @@ import { getStore } from '../store/mainStore';
 import { add, addAndMount as addAndMountPage, unmountAndRemove as unmountAndRemovePage } from '../store/mutations/windowActions';
 import { addAndMount as addAndMountView, unmountAndRemove as unmountAndRemoveView } from '../store/mutations/pageActions';
 
+// const remote = require('remote');
+const { dialog } = require('electron');
+
 const { Menu } = require('electron');
     /* NB: the native action-event (ex:'Quit') don't work with a function Click*/
 
@@ -11,7 +14,8 @@ const template = [{
   submenu: [{
     label: 'Save ...',
     accelerator: 'Ctrl+Command+S',
-    click() {
+    click: (item, focusedWindow) => {
+      if (focusedWindow) dialog.showMessageBox({ type: 'info', message: 'hello', buttons: ['ok'] });
       console.log('workspace saved!')
     }
   }, {
@@ -25,7 +29,14 @@ const template = [{
     accelerator: '',
     click() {
       console.log('create a new window!!!!');
+      dialog.showMessageBox({ title: 'Opening new window', message: 'a new window is being opened... valid please', buttons: ['ok'] });
       getStore().dispatch(add(v4(), 'Test window'));
+      dialog.showMessageBox({
+        title: 'Do not forget !',
+        message: 'new window is empty',
+        detail: 'this window needs creating a page, in Menu: Page > Add',
+        buttons: ['I understood']
+      });
     }
   }, {
     label: 'Reload',
@@ -64,26 +75,43 @@ const template = [{
     role: 'minimize'
   }, {
     label: 'Close',
+    click(focusedWindow) {
+      if (focusedWindow) dialog.showMessageBox({ type: 'info', message: 'window closed', buttons: ['ok'] });
+      //how send a message before an action close ?
+    },
     role: 'close'
   }]
 }, {
   label: 'Page',
   submenu: [{
-    label: 'Add ...',
+    label: 'Add',
     accelerator: '',
     click(item, focusedWindow) {
       console.log('page added!')
+      if (focusedWindow) dialog.showMessageBox({ type: 'info', title: 'Information', message: 'new page added!', buttons: ['ok'] });
       getStore().dispatch(addAndMountPage(focusedWindow.windowId, v4(), 'add example'));
-    // for add a page in a new window, we have to 'Reload' after action click 'Add'!
-      console.log('window reloaded!')
-      focusedWindow.reload();
+      // {
+
+      // } else {
+      //   dialog.showErrorBox({ title: 'Information', message: 'error' });
+      // }
     }
   }, {
     label: 'Open ...',
     accelerator: '',
-    click() {
-      console.log('page opened!')
-    }
+    // click(item, focusedWindow) {
+    //   console.log('page opened!')
+    //   if (focusedWindow) {
+    //     dialog.showOpenDialog({
+    //       title: 'Select a page',
+    //       defaultPath: '',
+    //       buttonLabel: 'Open a file',
+    //       filters: [''],
+    //       properties: ['openFile'],
+    //       read: ('../app/documents/examples/PG.example.json')
+    //     })
+    //   }
+    // }
   }, {
     label: 'Save ...',
     accelerator: '',

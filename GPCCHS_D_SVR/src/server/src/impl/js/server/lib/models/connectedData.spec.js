@@ -28,16 +28,19 @@ describe('models/connectedData', () => {
       connectedData[0].should.have.an.property('dataId')
         .that.is.an('object')
         .that.has.properties(myDataId);
-      connectedData[0].should.have.an.property('intervals');
-      connectedData[0].intervals.should.be.an('array')
-        .that.have.lengthOf(0);
-      connectedData[0].should.have.an.property('requested')
+      connectedData[0].should.have.an.property('intervals')
         .that.is.an('object');
-      connectedData[0].requested.should.have.an.property(myQueryId);
-      connectedData[0].requested[myQueryId].should.be.an('array')
+      connectedData[0].intervals.should.have.a.property('all')
+        .deep.equal([myInterval]);
+      connectedData[0].intervals.should.have.a.property('received')
+        .deep.equal([]);
+      connectedData[0].intervals.should.have.an.property('requested')
+        .that.is.an('object');
+      connectedData[0].intervals.requested.should.have.an.property(myQueryId);
+      connectedData[0].intervals.requested[myQueryId].should.be.an('array')
         .that.have.lengthOf(2);
-      connectedData[0].requested[myQueryId][0].should.equal(myInterval[0]);
-      connectedData[0].requested[myQueryId][1].should.equal(myInterval[1]);
+      connectedData[0].intervals.requested[myQueryId][0].should.equal(myInterval[0]);
+      connectedData[0].intervals.requested[myQueryId][1].should.equal(myInterval[1]);
       connectedData[0].should.have.an.property('windows')
         .that.is.an('array')
         .that.have.lengthOf(0);
@@ -60,18 +63,21 @@ describe('models/connectedData', () => {
         .that.is.an('object')
         .that.has.properties(myDataId);
       connectedData[0].should.have.an.property('intervals')
-        .that.is.an('array')
-        .that.have.lengthOf(0);
-      connectedData[0].should.have.an.property('requested')
         .that.is.an('object');
-      connectedData[0].requested.should.have.an.property(myQueryId);
-      connectedData[0].requested[myQueryId].should.be.an('array').that.have.lengthOf(2);
-      connectedData[0].requested[myQueryId][0].should.equal(myInterval[0]);
-      connectedData[0].requested[myQueryId][1].should.equal(myInterval[1]);
-      connectedData[0].requested.should.have.an.property(myQueryId2);
-      connectedData[0].requested[myQueryId2].should.be.an('array').that.have.lengthOf(2);
-      connectedData[0].requested[myQueryId2][0].should.equal(myInterval2[0]);
-      connectedData[0].requested[myQueryId2][1].should.equal(myInterval2[1]);
+      connectedData[0].intervals.should.have.an.property('all')
+        .that.deep.equal([myInterval, myInterval2]);
+      connectedData[0].intervals.should.have.an.property('received')
+        .that.deep.equal([]);
+      connectedData[0].intervals.should.have.an.property('requested')
+        .that.is.an('object');
+      connectedData[0].intervals.requested.should.have.an.property(myQueryId);
+      connectedData[0].intervals.requested[myQueryId].should.be.an('array').that.have.lengthOf(2);
+      connectedData[0].intervals.requested[myQueryId][0].should.equal(myInterval[0]);
+      connectedData[0].intervals.requested[myQueryId][1].should.equal(myInterval[1]);
+      connectedData[0].intervals.requested.should.have.an.property(myQueryId2);
+      connectedData[0].intervals.requested[myQueryId2].should.be.an('array').that.have.lengthOf(2);
+      connectedData[0].intervals.requested[myQueryId2][0].should.equal(myInterval2[0]);
+      connectedData[0].intervals.requested[myQueryId2][1].should.equal(myInterval2[1]);
       connectedData[0].should.have.an.property('windows')
         .that.is.an('array')
         .that.have.lengthOf(0);
@@ -92,30 +98,37 @@ describe('models/connectedData', () => {
         .that.is.an('object')
         .that.has.properties(myDataId);
       connectedData[0].should.have.an.property('intervals')
+        .that.is.an('object');
+      connectedData[0].intervals.should.have.an.property('all')
+        .that.deep.equal([myInterval]);
+      connectedData[0].intervals.should.have.an.property('received')
         .that.is.an('array').that.have.lengthOf(0);
-      connectedData[0].should.have.an.property('requested')
+      connectedData[0].intervals.should.have.an.property('requested')
         .that.be.an('object');
-      connectedData[0].requested.should.have.an.property(myQueryId);
-      connectedData[0].requested[myQueryId].should.be.an('array')
+      connectedData[0].intervals.requested.should.have.an.property(myQueryId);
+      connectedData[0].intervals.requested[myQueryId].should.be.an('array')
         .that.have.lengthOf(2);
-      connectedData[0].requested[myQueryId][0].should.equal(myInterval[0]);
-      connectedData[0].requested[myQueryId][1].should.equal(myInterval[1]);
+      connectedData[0].intervals.requested[myQueryId][0].should.equal(myInterval[0]);
+      connectedData[0].intervals.requested[myQueryId][1].should.equal(myInterval[1]);
       connectedData[1].should.be.an('object');
       connectedData[1].should.have.an.property('localId')
         .that.equal(getLocalId(myDataId2));
       connectedData[1].should.have.an.property('dataId')
         .that.is.an('object')
         .that.has.properties(myDataId2);
-      connectedData[1].should.have.an.property('intervals');
-      connectedData[1].intervals.should.be.an('array')
-        .that.have.lengthOf(0);
-      connectedData[1].should.have.an.property('requested')
+      connectedData[1].should.have.an.property('intervals')
         .that.is.an('object');
-      connectedData[1].requested.should.have.an.property(myQueryId2);
-      connectedData[1].requested[myQueryId2].should.be.an('array')
+      connectedData[1].intervals.should.have.an.property('all')
+        .that.deep.equal([myInterval2]);
+      connectedData[1].intervals.should.have.an.property('received')
+        .that.is.an('array').that.have.lengthOf(0);
+      connectedData[1].intervals.should.have.an.property('requested')
+        .that.be.an('object');
+      connectedData[1].intervals.requested.should.have.an.property(myQueryId2);
+      connectedData[1].intervals.requested[myQueryId2].should.be.an('array')
         .that.have.lengthOf(2);
-      connectedData[1].requested[myQueryId2][0].should.equal(myInterval2[0]);
-      connectedData[1].requested[myQueryId2][1].should.equal(myInterval2[1]);
+      connectedData[1].intervals.requested[myQueryId2][0].should.equal(myInterval2[0]);
+      connectedData[1].intervals.requested[myQueryId2][1].should.equal(myInterval2[1]);
       connectedData[0].should.have.an.property('windows')
         .that.is.an('array')
         .that.have.lengthOf(0);
@@ -149,14 +162,18 @@ describe('models/connectedData', () => {
         .that.is.an('object')
         .that.has.properties(myDataId);
       connectedData[0].should.have.an.property('intervals')
+        .that.is.an('object');
+      connectedData[0].intervals.should.have.a.property('all')
+        .that.deep.equal([myInterval]);
+      connectedData[0].intervals.should.have.a.property('received')
         .that.is.an('array').that.have.lengthOf(0);
-      connectedData[0].should.have.an.property('requested')
+      connectedData[0].intervals.should.have.an.property('requested')
         .that.be.an('object');
-      connectedData[0].requested.should.have.an.property(myQueryId);
-      connectedData[0].requested[myQueryId].should.be.an('array')
+      connectedData[0].intervals.requested.should.have.an.property(myQueryId);
+      connectedData[0].intervals.requested[myQueryId].should.be.an('array')
         .that.have.lengthOf(2);
-      connectedData[0].requested[myQueryId][0].should.equal(myInterval[0]);
-      connectedData[0].requested[myQueryId][1].should.equal(myInterval[1]);
+      connectedData[0].intervals.requested[myQueryId][0].should.equal(myInterval[0]);
+      connectedData[0].intervals.requested[myQueryId][1].should.equal(myInterval[1]);
     });
 
     it('one', () => {
@@ -168,15 +185,12 @@ describe('models/connectedData', () => {
         .that.have.lengthOf(1);
       connectedData[0].should.be.an('object')
         .that.have.an.property('intervals');
-      connectedData[0].intervals.should.be.an('array')
-        .that.have.lengthOf(1);
-      connectedData[0].intervals[0].should.be.an('array')
-        .that.have.lengthOf(2);
-      connectedData[0].intervals[0][0].should.equal(myInterval[0]);
-      connectedData[0].intervals[0][1].should.equal(myInterval[1]);
-      connectedData[0].should.have.an.property('requested');
-      connectedData[0].requested.should.be.an('object')
-        .and.have.properties({});
+      connectedData[0].intervals.should.be.an('object')
+        .that.have.properties({
+          all: [myInterval],
+          received: [myInterval],
+          requested: {},
+        });
       connectedData[0].should.have.an.property('windows')
         .that.is.an('array')
         .that.have.lengthOf(0);
@@ -186,6 +200,29 @@ describe('models/connectedData', () => {
         .that.is.an('object')
         .that.has.properties(myDataId);
       connectedDatum.should.deep.equal(connectedData[0]);
+    });
+  });
+
+  describe('isRequested', () => {
+    const myDataId = getDataId();
+    const myQueryId = 'queryId';
+    const myInterval = [42, 42];
+
+    it('no connected data', () => {
+      model.isRequested(myDataId, myQueryId).should.equal(false);
+    });
+    it('no', () => {
+      model.addRequestedInterval(myDataId, 'nope', myInterval);
+      model.isRequested(myDataId, myQueryId).should.equal(false);
+    });
+    it('no more', () => {
+      model.addRequestedInterval(myDataId, myQueryId, myInterval);
+      model.setIntervalAsReceived(myDataId, myQueryId);
+      model.isRequested(myDataId, myQueryId).should.equal(false);
+    });
+    it('yes', () => {
+      model.addRequestedInterval(myDataId, myQueryId, myInterval);
+      model.isRequested(myDataId, myQueryId).should.equal(true);
     });
   });
 
@@ -218,11 +255,41 @@ describe('models/connectedData', () => {
     });
   });
 
+  describe('areTimestampsInKnownIntervals', () => {
+    const now = Date.now();
+    const timestamps = [now - 2, now];
+    const myDataId = getDataId();
+    const myQueryId = 'queryId';
+    const myInterval = [now - 1, now + 1];
+    const myAllInterval = [now - 5, now + 5];
+    const myWrongInterval = [now + 1, now + 2];
+
+    it('no intervals', () => {
+      const result = model.areTimestampsInKnownIntervals(myDataId, timestamps);
+      result.should.deep.equal([]);
+    });
+    it('no', () => {
+      model.addRequestedInterval(myDataId, myQueryId, myWrongInterval);
+      const result = model.areTimestampsInKnownIntervals(myDataId, timestamps);
+      result.should.deep.equal([]);
+    });
+    it('only one', () => {
+      model.addRequestedInterval(myDataId, myQueryId, myInterval);
+      const result = model.areTimestampsInKnownIntervals(myDataId, timestamps);
+      result.should.deep.equal([timestamps[1]]);
+    });
+    it('all', () => {
+      model.addRequestedInterval(myDataId, myQueryId, myAllInterval);
+      const result = model.areTimestampsInKnownIntervals(myDataId, timestamps);
+      result.should.deep.equal(timestamps);
+    });
+  });
+
   describe('retrieveMissingIntervals', () => {
     const myDataId = getDataId();
-    const myInterval = [0, 10];
 
-    it('noQuery', () => {
+    it('no connected data', () => {
+      const myInterval = [0, 10];
       const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
       debug.debug('intervals', intervals);
       intervals.should.be.an('array').that.has.lengthOf(1);
@@ -230,7 +297,8 @@ describe('models/connectedData', () => {
       intervals[0][0].should.equal(myInterval[0]);
       intervals[0][1].should.equal(myInterval[1]);
     });
-    it('Connected Data without interval', () => {
+    it('connected Data without interval', () => {
+      const myInterval = [0, 10];
       model.addWindowId(myDataId, 42);
       const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
       debug.debug('intervals', intervals);
@@ -239,226 +307,296 @@ describe('models/connectedData', () => {
       intervals[0][0].should.equal(myInterval[0]);
       intervals[0][1].should.equal(myInterval[1]);
     });
-    it('leftQuery', () => {
-      const leftQueryId = 'left';
-      const leftQueryInterval = [-5, 5];
-      model.addRequestedInterval(myDataId, leftQueryId, leftQueryInterval);
-      const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
-      debug.debug('intervals', intervals);
-      intervals.should.be.an('array').that.has.lengthOf(1);
-      intervals[0].should.be.an('array').that.has.lengthOf(2);
-      intervals[0][0].should.equal(leftQueryInterval[1]);
-      intervals[0][1].should.equal(myInterval[1]);
-    });
-    it('leftQuery in received', () => {
-      const leftQueryId = 'left';
-      const leftQueryInterval = [-5, 5];
-      model.addRequestedInterval(myDataId, leftQueryId, leftQueryInterval);
-      model.setIntervalAsReceived(myDataId, leftQueryId);
-      const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
-      debug.debug('intervals', intervals);
-      intervals.should.be.an('array').that.has.lengthOf(1);
-      intervals[0].should.be.an('array').that.has.lengthOf(2);
-      intervals[0][0].should.equal(leftQueryInterval[1]);
-      intervals[0][1].should.equal(myInterval[1]);
-    });
-    it('rightQuery', () => {
-      const rightQueryId = 'right';
-      const rightQueryInterval = [5, 15];
-      model.addRequestedInterval(myDataId, rightQueryId, rightQueryInterval);
+    it('lower', () => {
+      const myInterval = [0, 2];
+      const queryIds = ['1', '2'];
+      const queryIntervals = [[4, 6], [8, 10]];
+      model.addRequestedInterval(myDataId, queryIds[0], queryIntervals[0]);
+      model.addRequestedInterval(myDataId, queryIds[1], queryIntervals[1]);
+      // In requested
       const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
       debug.debug('intervals', intervals);
       intervals.should.be.an('array').that.has.lengthOf(1);
       intervals[0].should.be.an('array').that.has.lengthOf(2);
       intervals[0][0].should.equal(myInterval[0]);
-      intervals[0][1].should.equal(rightQueryInterval[0]);
+      intervals[0][1].should.equal(myInterval[1]);
+      // In received
+      model.setIntervalAsReceived(myDataId, queryIds[0]);
+      model.setIntervalAsReceived(myDataId, queryIds[1]);
+      const intervals2 = model.retrieveMissingIntervals(myDataId, myInterval);
+      debug.debug('intervals2', intervals2);
+      intervals2.should.deep.equal(intervals);
     });
-    it('rightQuery in received', () => {
-      const rightQueryId = 'right';
-      const rightQueryInterval = [5, 15];
-      model.addRequestedInterval(myDataId, rightQueryId, rightQueryInterval);
-      model.setIntervalAsReceived(myDataId, rightQueryId);
+    it('lower and inner inside interval', () => {
+      const myInterval = [0, 5];
+      const queryIds = ['1', '2'];
+      const queryIntervals = [[4, 6], [8, 10]];
+      model.addRequestedInterval(myDataId, queryIds[0], queryIntervals[0]);
+      model.addRequestedInterval(myDataId, queryIds[1], queryIntervals[1]);
+      // In requested
       const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
       debug.debug('intervals', intervals);
       intervals.should.be.an('array').that.has.lengthOf(1);
       intervals[0].should.be.an('array').that.has.lengthOf(2);
       intervals[0][0].should.equal(myInterval[0]);
-      intervals[0][1].should.equal(rightQueryInterval[0]);
+      intervals[0][1].should.equal(queryIntervals[0][0]);
+      // In received
+      model.setIntervalAsReceived(myDataId, queryIds[0]);
+      model.setIntervalAsReceived(myDataId, queryIds[1]);
+      const intervals2 = model.retrieveMissingIntervals(myDataId, myInterval);
+      debug.debug('intervals2', intervals2);
+      intervals2.should.deep.equal(intervals);
     });
-    it('leftAndRightQueries', () => {
-      const leftQueryId = 'left';
-      const rightQueryId = 'right';
-      const leftQueryInterval = [-5, 2.5];
-      const rightQueryInterval = [7.5, 15];
-      model.addRequestedInterval(myDataId, leftQueryId, leftQueryInterval);
-      model.addRequestedInterval(myDataId, rightQueryId, rightQueryInterval);
-      const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
-      debug.debug('intervals', intervals);
-      intervals.should.be.an('array').that.has.lengthOf(1);
-      intervals[0].should.be.an('array').that.has.lengthOf(2);
-      intervals[0][0].should.equal(leftQueryInterval[1]);
-      intervals[0][1].should.equal(rightQueryInterval[0]);
-    });
-    it('leftAndRightQueries in received', () => {
-      const leftQueryId = 'left';
-      const rightQueryId = 'right';
-      const leftQueryInterval = [-5, 2.5];
-      const rightQueryInterval = [7.5, 15];
-      model.addRequestedInterval(myDataId, leftQueryId, leftQueryInterval);
-      model.addRequestedInterval(myDataId, rightQueryId, rightQueryInterval);
-      model.setIntervalAsReceived(myDataId, leftQueryId);
-      model.setIntervalAsReceived(myDataId, rightQueryId);
-      const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
-      debug.debug('intervals', intervals);
-      intervals.should.be.an('array').that.has.lengthOf(1);
-      intervals[0].should.be.an('array').that.has.lengthOf(2);
-      intervals[0][0].should.equal(leftQueryInterval[1]);
-      intervals[0][1].should.equal(rightQueryInterval[0]);
-    });
-    it('middleQuery', () => {
-      const middleQueryId = 'middle';
-      const middleQueryInterval = [2.5, 7.5];
-      model.addRequestedInterval(myDataId, middleQueryId, middleQueryInterval);
+    it('lower and inner outside interval', () => {
+      const myInterval = [0, 7];
+      const queryIds = ['1', '2'];
+      const queryIntervals = [[4, 6], [8, 10]];
+      model.addRequestedInterval(myDataId, queryIds[0], queryIntervals[0]);
+      model.addRequestedInterval(myDataId, queryIds[1], queryIntervals[1]);
+      // In requested
       const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
       debug.debug('intervals', intervals);
       intervals.should.be.an('array').that.has.lengthOf(2);
       intervals[0].should.be.an('array').that.has.lengthOf(2);
       intervals[0][0].should.equal(myInterval[0]);
-      intervals[0][1].should.equal(middleQueryInterval[0]);
+      intervals[0][1].should.equal(queryIntervals[0][0]);
       intervals[1].should.be.an('array').that.has.lengthOf(2);
-      intervals[1][0].should.equal(middleQueryInterval[1]);
+      intervals[1][0].should.equal(queryIntervals[0][1]);
       intervals[1][1].should.equal(myInterval[1]);
+      // In received
+      model.setIntervalAsReceived(myDataId, queryIds[0]);
+      model.setIntervalAsReceived(myDataId, queryIds[1]);
+      const intervals2 = model.retrieveMissingIntervals(myDataId, myInterval);
+      debug.debug('intervals2', intervals2);
+      intervals2.should.deep.equal(intervals);
     });
-    it('middleQuery in received', () => {
-      const middleQueryId = 'middle';
-      const middleQueryInterval = [2.5, 7.5];
-      model.addRequestedInterval(myDataId, middleQueryId, middleQueryInterval);
-      model.setIntervalAsReceived(myDataId, middleQueryId);
+    it('inner in/out', () => {
+      const myInterval = [1, 3];
+      const queryIds = ['1', '2', '3'];
+      const queryIntervals = [[0, 2], [4, 6], [8, 10]];
+      model.addRequestedInterval(myDataId, queryIds[0], queryIntervals[0]);
+      model.addRequestedInterval(myDataId, queryIds[1], queryIntervals[1]);
+      model.addRequestedInterval(myDataId, queryIds[2], queryIntervals[2]);
+      // In requested
+      const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
+      debug.debug('intervals', intervals);
+      intervals.should.be.an('array').that.has.lengthOf(1);
+      intervals[0].should.be.an('array').that.has.lengthOf(2);
+      intervals[0][0].should.equal(queryIntervals[0][1]);
+      intervals[0][1].should.equal(myInterval[1]);
+      // In received
+      model.setIntervalAsReceived(myDataId, queryIds[0]);
+      model.setIntervalAsReceived(myDataId, queryIds[1]);
+      model.setIntervalAsReceived(myDataId, queryIds[2]);
+      const intervals2 = model.retrieveMissingIntervals(myDataId, myInterval);
+      debug.debug('intervals2', intervals2);
+      intervals2.should.deep.equal(intervals);
+    });
+    it('inner in-between', () => {
+      const myInterval = [6.5, 7.5];
+      const queryIds = ['1', '2', '3'];
+      const queryIntervals = [[0, 2], [4, 6], [8, 10]];
+      model.addRequestedInterval(myDataId, queryIds[0], queryIntervals[0]);
+      model.addRequestedInterval(myDataId, queryIds[1], queryIntervals[1]);
+      model.addRequestedInterval(myDataId, queryIds[2], queryIntervals[2]);
+      // In requested
+      const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
+      debug.debug('intervals', intervals);
+      intervals.should.be.an('array').that.has.lengthOf(1);
+      intervals[0].should.be.an('array').that.has.lengthOf(2);
+      intervals[0][0].should.equal(myInterval[0]);
+      intervals[0][1].should.equal(myInterval[1]);
+      // In received
+      model.setIntervalAsReceived(myDataId, queryIds[0]);
+      model.setIntervalAsReceived(myDataId, queryIds[1]);
+      model.setIntervalAsReceived(myDataId, queryIds[2]);
+      const intervals2 = model.retrieveMissingIntervals(myDataId, myInterval);
+      intervals2.should.deep.equal(intervals);
+    });
+    it('inner inside interval', () => {
+      const myInterval = [4.5, 5.5];
+      const queryIds = ['1', '2', '3'];
+      const queryIntervals = [[0, 2], [4, 6], [8, 10]];
+      model.addRequestedInterval(myDataId, queryIds[0], queryIntervals[0]);
+      model.addRequestedInterval(myDataId, queryIds[1], queryIntervals[1]);
+      model.addRequestedInterval(myDataId, queryIds[2], queryIntervals[2]);
+      // In requested
+      const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
+      debug.debug('intervals', intervals);
+      intervals.should.be.an('array').that.has.lengthOf(0);
+      // In received
+      model.setIntervalAsReceived(myDataId, queryIds[0]);
+      model.setIntervalAsReceived(myDataId, queryIds[1]);
+      model.setIntervalAsReceived(myDataId, queryIds[2]);
+      const intervals2 = model.retrieveMissingIntervals(myDataId, myInterval);
+      intervals2.should.deep.equal(intervals);
+    });
+    it('inner out/in', () => {
+      const myInterval = [3, 5];
+      const queryIds = ['1', '2', '3'];
+      const queryIntervals = [[0, 2], [4, 6], [8, 10]];
+      model.addRequestedInterval(myDataId, queryIds[0], queryIntervals[0]);
+      model.addRequestedInterval(myDataId, queryIds[1], queryIntervals[1]);
+      model.addRequestedInterval(myDataId, queryIds[2], queryIntervals[2]);
+      // In requested
+      const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
+      debug.debug('intervals', intervals);
+      intervals.should.be.an('array')
+        .that.has.lengthOf(1);
+      intervals[0].should.be.an('array')
+        .that.has.lengthOf(2);
+      intervals[0][0].should.equal(myInterval[0]);
+      intervals[0][1].should.equal(queryIntervals[1][0]);
+      // In received
+      model.setIntervalAsReceived(myDataId, queryIds[0]);
+      model.setIntervalAsReceived(myDataId, queryIds[1]);
+      model.setIntervalAsReceived(myDataId, queryIds[2]);
+      const intervals2 = model.retrieveMissingIntervals(myDataId, myInterval);
+      intervals2.should.deep.equal(intervals);
+    });
+    it('inner covering outside intervals', () => {
+      const myInterval = [3, 7];
+      const queryIds = ['1', '2', '3', '4'];
+      const queryIntervals = [[0, 2], [4, 4.5], [5, 6], [8, 10]];
+      model.addRequestedInterval(myDataId, queryIds[0], queryIntervals[0]);
+      model.addRequestedInterval(myDataId, queryIds[1], queryIntervals[1]);
+      model.addRequestedInterval(myDataId, queryIds[2], queryIntervals[2]);
+      model.addRequestedInterval(myDataId, queryIds[3], queryIntervals[3]);
+      // In requested
+      const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
+      debug.debug('intervals', intervals);
+      intervals.should.be.an('array')
+        .that.has.lengthOf(3);
+      intervals[0].should.be.an('array')
+        .that.has.lengthOf(2);
+      intervals[0][0].should.equal(myInterval[0]);
+      intervals[0][1].should.equal(queryIntervals[1][0]);
+      intervals[1].should.be.an('array')
+        .that.has.lengthOf(2);
+      intervals[1][0].should.equal(queryIntervals[1][1]);
+      intervals[1][1].should.equal(queryIntervals[2][0]);
+      intervals[2].should.be.an('array')
+        .that.has.lengthOf(2);
+      intervals[2][0].should.equal(queryIntervals[2][1]);
+      intervals[2][1].should.equal(myInterval[1]);
+      // In received
+      model.setIntervalAsReceived(myDataId, queryIds[0]);
+      model.setIntervalAsReceived(myDataId, queryIds[1]);
+      model.setIntervalAsReceived(myDataId, queryIds[2]);
+      model.setIntervalAsReceived(myDataId, queryIds[3]);
+      const intervals2 = model.retrieveMissingIntervals(myDataId, myInterval);
+      intervals2.should.deep.equal(intervals);
+    });
+    it('inner covering inside intervals', () => {
+      const myInterval = [1, 5];
+      const queryIds = ['1', '2', '3'];
+      const queryIntervals = [[0, 2], [4, 6], [8, 10]];
+      model.addRequestedInterval(myDataId, queryIds[0], queryIntervals[0]);
+      model.addRequestedInterval(myDataId, queryIds[1], queryIntervals[1]);
+      model.addRequestedInterval(myDataId, queryIds[2], queryIntervals[2]);
+      // In requested
+      const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
+      debug.debug('intervals', intervals);
+      intervals.should.be.an('array').that.has.lengthOf(1);
+      intervals[0].should.be.an('array').that.has.lengthOf(2);
+      intervals[0][0].should.equal(queryIntervals[0][1]);
+      intervals[0][1].should.equal(queryIntervals[1][0]);
+      // In received
+      model.setIntervalAsReceived(myDataId, queryIds[0]);
+      model.setIntervalAsReceived(myDataId, queryIds[1]);
+      model.setIntervalAsReceived(myDataId, queryIds[2]);
+      const intervals2 = model.retrieveMissingIntervals(myDataId, myInterval);
+      intervals2.should.deep.equal(intervals2);
+    });
+    it('inner outside interval and upper', () => {
+      const myInterval = [3, 10];
+      const queryIds = ['1', '2'];
+      const queryIntervals = [[0, 2], [4, 6]];
+      model.addRequestedInterval(myDataId, queryIds[0], queryIntervals[0]);
+      model.addRequestedInterval(myDataId, queryIds[1], queryIntervals[1]);
+      // In requested
       const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
       debug.debug('intervals', intervals);
       intervals.should.be.an('array').that.has.lengthOf(2);
       intervals[0].should.be.an('array').that.has.lengthOf(2);
       intervals[0][0].should.equal(myInterval[0]);
-      intervals[0][1].should.equal(middleQueryInterval[0]);
+      intervals[0][1].should.equal(queryIntervals[1][0]);
       intervals[1].should.be.an('array').that.has.lengthOf(2);
-      intervals[1][0].should.equal(middleQueryInterval[1]);
+      intervals[1][0].should.equal(queryIntervals[1][1]);
       intervals[1][1].should.equal(myInterval[1]);
+      // In received
+      model.setIntervalAsReceived(myDataId, queryIds[0]);
+      model.setIntervalAsReceived(myDataId, queryIds[1]);
+      const intervals2 = model.retrieveMissingIntervals(myDataId, myInterval);
+      intervals2.should.deep.equal(intervals2);
     });
-    it('threeQueries', () => {
-      const leftQueryId = 'left';
-      const middleQueryId = 'middle';
-      const rightQueryId = 'right';
-      const leftQueryInterval = [-5, 2];
-      const middleQueryInterval = [4, 6];
-      const rightQueryInterval = [8, 15];
-      model.addRequestedInterval(myDataId, middleQueryId, middleQueryInterval);
-      model.addRequestedInterval(myDataId, leftQueryId, leftQueryInterval);
-      model.addRequestedInterval(myDataId, rightQueryId, rightQueryInterval);
+    it('inner inside interval and upper', () => {
+      const myInterval = [5, 10];
+      const queryIds = ['1', '2'];
+      const queryIntervals = [[0, 2], [4, 6]];
+      model.addRequestedInterval(myDataId, queryIds[0], queryIntervals[0]);
+      model.addRequestedInterval(myDataId, queryIds[1], queryIntervals[1]);
+      // In requested
       const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
       debug.debug('intervals', intervals);
-      intervals.should.be.an('array').that.has.lengthOf(2);
+      intervals.should.be.an('array').that.has.lengthOf(1);
       intervals[0].should.be.an('array').that.has.lengthOf(2);
-      intervals[0][0].should.equal(leftQueryInterval[1]);
-      intervals[0][1].should.equal(middleQueryInterval[0]);
-      intervals[1].should.be.an('array').that.has.lengthOf(2);
-      intervals[1][0].should.equal(middleQueryInterval[1]);
-      intervals[1][1].should.equal(rightQueryInterval[0]);
+      intervals[0][0].should.equal(queryIntervals[1][1]);
+      intervals[0][1].should.equal(myInterval[1]);
+      // In received
+      model.setIntervalAsReceived(myDataId, queryIds[0]);
+      model.setIntervalAsReceived(myDataId, queryIds[1]);
+      const intervals2 = model.retrieveMissingIntervals(myDataId, myInterval);
+      intervals2.should.deep.equal(intervals);
     });
-    it('threeQueries in received', () => {
-      const leftQueryId = 'left';
-      const middleQueryId = 'middle';
-      const rightQueryId = 'right';
-      const leftQueryInterval = [-5, 2];
-      const middleQueryInterval = [4, 6];
-      const rightQueryInterval = [8, 15];
-      model.addRequestedInterval(myDataId, middleQueryId, middleQueryInterval);
-      model.addRequestedInterval(myDataId, leftQueryId, leftQueryInterval);
-      model.addRequestedInterval(myDataId, rightQueryId, rightQueryInterval);
-      model.setIntervalAsReceived(myDataId, middleQueryId);
-      model.setIntervalAsReceived(myDataId, leftQueryId);
-      model.setIntervalAsReceived(myDataId, rightQueryId);
-      const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
-      debug.debug('intervals', intervals);
-      intervals.should.be.an('array').that.has.lengthOf(2);
-      intervals[0].should.be.an('array').that.has.lengthOf(2);
-      intervals[0][0].should.equal(leftQueryInterval[1]);
-      intervals[0][1].should.equal(middleQueryInterval[0]);
-      intervals[1].should.be.an('array').that.has.lengthOf(2);
-      intervals[1][0].should.equal(middleQueryInterval[1]);
-      intervals[1][1].should.equal(rightQueryInterval[0]);
-    });
-    it('outsideLeftAndRightQueries', () => {
-      const leftQueryId = 'left';
-      const rightQueryId = 'right';
-      const leftQueryInterval = [-5, -2.5];
-      const rightQueryInterval = [12.5, 15];
-      model.addRequestedInterval(myDataId, leftQueryId, leftQueryInterval);
-      model.addRequestedInterval(myDataId, rightQueryId, rightQueryInterval);
+    it('upper', () => {
+      const myInterval = [8, 10];
+      const queryIds = ['1', '2'];
+      const queryIntervals = [[0, 2], [4, 6]];
+      model.addRequestedInterval(myDataId, queryIds[0], queryIntervals[0]);
+      model.addRequestedInterval(myDataId, queryIds[1], queryIntervals[1]);
+      // In requested
       const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
       debug.debug('intervals', intervals);
       intervals.should.be.an('array').that.has.lengthOf(1);
       intervals[0].should.be.an('array').that.has.lengthOf(2);
       intervals[0][0].should.equal(myInterval[0]);
       intervals[0][1].should.equal(myInterval[1]);
+      // In received
+      model.setIntervalAsReceived(myDataId, queryIds[0]);
+      model.setIntervalAsReceived(myDataId, queryIds[1]);
+      const intervals2 = model.retrieveMissingIntervals(myDataId, myInterval);
+      intervals2.should.deep.equal(intervals);
     });
-    it('outsideLeftAndRightQueries in received', () => {
-      const leftQueryId = 'left';
-      const rightQueryId = 'right';
-      const leftQueryInterval = [-5, -2.5];
-      const rightQueryInterval = [12.5, 15];
-      model.addRequestedInterval(myDataId, leftQueryId, leftQueryInterval);
-      model.addRequestedInterval(myDataId, rightQueryId, rightQueryInterval);
-      model.setIntervalAsReceived(myDataId, leftQueryId);
-      model.setIntervalAsReceived(myDataId, rightQueryId);
+    it('covering', () => {
+      const myInterval = [0, 10];
+      const queryIds = ['1', '2', '3'];
+      const queryIntervals = [[1, 2], [4, 6], [8, 9]];
+      model.addRequestedInterval(myDataId, queryIds[0], queryIntervals[0]);
+      model.addRequestedInterval(myDataId, queryIds[1], queryIntervals[1]);
+      model.addRequestedInterval(myDataId, queryIds[2], queryIntervals[2]);
+      // In requested
       const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
       debug.debug('intervals', intervals);
-      intervals.should.be.an('array').that.has.lengthOf(1);
+      intervals.should.be.an('array').that.has.lengthOf(4);
       intervals[0].should.be.an('array').that.has.lengthOf(2);
       intervals[0][0].should.equal(myInterval[0]);
-      intervals[0][1].should.equal(myInterval[1]);
-    });
-    it('fullQuery', () => {
-      const leftQueryId = 'left';
-      const rightQueryId = 'right';
-      const leftQueryInterval = [0, 5];
-      const rightQueryInterval = [5, 10];
-      model.addRequestedInterval(myDataId, leftQueryId, leftQueryInterval);
-      model.addRequestedInterval(myDataId, rightQueryId, rightQueryInterval);
-      const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
-      debug.debug('intervals', intervals);
-      intervals.should.be.an('array').that.has.lengthOf(0);
-    });
-    it('fullQuery in received', () => {
-      const leftQueryId = 'left';
-      const rightQueryId = 'right';
-      const leftQueryInterval = [0, 5];
-      const rightQueryInterval = [5, 10];
-      model.addRequestedInterval(myDataId, leftQueryId, leftQueryInterval);
-      model.addRequestedInterval(myDataId, rightQueryId, rightQueryInterval);
-      model.setIntervalAsReceived(myDataId, leftQueryId);
-      model.setIntervalAsReceived(myDataId, rightQueryId);
-      const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
-      debug.debug('intervals', intervals);
-      intervals.should.be.an('array').that.has.lengthOf(0);
-    });
-    it('Bigger query', () => {
-      const leftQueryId = 'left';
-      const leftQueryInterval = [-5, 15];
-      model.addRequestedInterval(myDataId, leftQueryId, leftQueryInterval);
-      const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
-      debug.debug('intervals', intervals);
-      intervals.should.be.an('array').that.has.lengthOf(0);
-    });
-    it('Bigger query in received', () => {
-      const leftQueryId = 'left';
-      const rightQueryId = 'right';
-      const leftQueryInterval = [-5, 15];
-      model.addRequestedInterval(myDataId, leftQueryId, leftQueryInterval);
-      model.setIntervalAsReceived(myDataId, leftQueryId);
-      model.setIntervalAsReceived(myDataId, rightQueryId);
-      const intervals = model.retrieveMissingIntervals(myDataId, myInterval);
-      debug.debug('intervals', intervals);
-      intervals.should.be.an('array').that.has.lengthOf(0);
+      intervals[0][1].should.equal(queryIntervals[0][0]);
+      intervals[1].should.be.an('array').that.has.lengthOf(2);
+      intervals[1][0].should.equal(queryIntervals[0][1]);
+      intervals[1][1].should.equal(queryIntervals[1][0]);
+      intervals[2].should.be.an('array').that.has.lengthOf(2);
+      intervals[2][0].should.equal(queryIntervals[1][1]);
+      intervals[2][1].should.equal(queryIntervals[2][0]);
+      intervals[3].should.be.an('array').that.has.lengthOf(2);
+      intervals[3][0].should.equal(queryIntervals[2][1]);
+      intervals[3][1].should.equal(myInterval[1]);
+      // In received
+      model.setIntervalAsReceived(myDataId, queryIds[0]);
+      model.setIntervalAsReceived(myDataId, queryIds[1]);
+      model.setIntervalAsReceived(myDataId, queryIds[2]);
+      const intervals2 = model.retrieveMissingIntervals(myDataId, myInterval);
+      intervals2.should.deep.equal(intervals);
     });
   });
 
@@ -475,18 +613,14 @@ describe('models/connectedData', () => {
       connectedData[0].should.have.properties({
         localId: getLocalId(myDataId),
         dataId: myDataId,
-        intervals: [],
-        requested: {},
+        intervals: {
+          all: [],
+          received: [],
+          requested: {},
+        },
         windows: [myWindowId],
       });
-      connectedDatum.should.be.an('object');
-      connectedDatum.should.have.properties({
-        localId: getLocalId(myDataId),
-        dataId: myDataId,
-        intervals: [],
-        requested: {},
-        windows: [myWindowId],
-      });
+      connectedDatum.should.deep.equal(connectedData[0]);
     });
     it('one with multiple ids', () => {
       const myDataId = getDataId();
@@ -502,18 +636,15 @@ describe('models/connectedData', () => {
       connectedData[0].should.have.properties({
         localId: getLocalId(myDataId),
         dataId: myDataId,
-        intervals: [],
-        requested: {},
+        intervals: {
+          all: [],
+          received: [],
+          requested: {},
+        },
         windows: [myWindowId, myWindowId2],
       });
       connectedDatum.should.be.an('object');
-      connectedDatum.should.have.properties({
-        localId: getLocalId(myDataId),
-        dataId: myDataId,
-        intervals: [],
-        requested: {},
-        windows: [myWindowId, myWindowId2],
-      });
+      connectedDatum.should.deep.equal(connectedData[0]);
     });
     it('multi', () => {
       const myDataId = getDataId({ parameterName: 'dataId' });
@@ -530,35 +661,29 @@ describe('models/connectedData', () => {
       connectedData[0].should.have.properties({
         localId: getLocalId(myDataId),
         dataId: myDataId,
-        intervals: [],
-        requested: {},
+        intervals: {
+          all: [],
+          received: [],
+          requested: {},
+        },
         windows: [myWindowId],
       });
       connectedDatum1.should.be.an('object');
-      connectedDatum1.should.have.properties({
-        localId: getLocalId(myDataId),
-        dataId: myDataId,
-        intervals: [],
-        requested: {},
-        windows: [myWindowId],
-      });
+      connectedDatum1.should.deep.equal(connectedData[0]);
 
       connectedData[1].should.be.an('object');
       connectedData[1].should.have.properties({
         localId: getLocalId(myDataId2),
         dataId: myDataId2,
-        intervals: [],
-        requested: {},
+        intervals: {
+          all: [],
+          received: [],
+          requested: {},
+        },
         windows: [myWindowId2],
       });
       connectedDatum2.should.be.an('object');
-      connectedDatum2.should.have.properties({
-        localId: getLocalId(myDataId2),
-        dataId: myDataId2,
-        intervals: [],
-        requested: {},
-        windows: [myWindowId2],
-      });
+      connectedDatum2.should.deep.equal(connectedData[1]);
     });
   });
 
@@ -583,18 +708,15 @@ describe('models/connectedData', () => {
       connectedData[0].should.have.properties({
         localId: getLocalId(myDataId),
         dataId: myDataId,
-        intervals: [],
-        requested: {},
+        intervals: {
+          all: [],
+          received: [],
+          requested: {},
+        },
         windows: [],
       });
       connectedDatum.should.be.an('object');
-      connectedDatum.should.have.properties({
-        localId: getLocalId(myDataId),
-        dataId: myDataId,
-        intervals: [],
-        requested: {},
-        windows: [],
-      });
+      connectedDatum.should.deep.equal(connectedData[0]);
     });
     it('one amongst several', () => {
       const myDataId = getDataId();
@@ -611,20 +733,18 @@ describe('models/connectedData', () => {
       connectedData[0].should.have.properties({
         localId: getLocalId(myDataId),
         dataId: myDataId,
-        intervals: [],
-        requested: {},
+        intervals: {
+          all: [],
+          received: [],
+          requested: {},
+        },
         windows: [myWindowId2],
       });
       connectedDatum.should.be.an('object');
-      connectedDatum.should.have.properties({
-        localId: getLocalId(myDataId),
-        dataId: myDataId,
-        intervals: [],
-        requested: {},
-        windows: [myWindowId2],
-      });
+      connectedDatum.should.deep.equal(connectedData[0]);
     });
   });
+
   describe('retrieveByWindow', () => {
     it('none', () => {
       const myWindowId = 42;
@@ -639,21 +759,16 @@ describe('models/connectedData', () => {
       const connectedData = model.retrieveByWindow(myWindowId);
       connectedData.should.be.an('array')
         .that.have.lengthOf(1);
-      connectedData[0].should.have.an.property('localId')
-        .that.equal(getLocalId(myDataId));
-      connectedData[0].should.have.an.property('dataId')
-        .that.is.an('object')
-        .that.has.properties(myDataId);
-      connectedData[0].should.have.an.property('intervals')
-        .that.is.an('array')
-        .that.have.lengthOf(0);
-      connectedData[0].should.have.an.property('requested')
-        .that.is.an('object')
-        .that.have.properties({});
-      connectedData[0].should.have.an.property('windows')
-        .that.is.an('array')
-        .that.have.lengthOf(1);
-      connectedData[0].windows[0].should.equal(myWindowId);
+      connectedData[0].should.have.properties({
+        localId: getLocalId(myDataId),
+        dataId: myDataId,
+        intervals: {
+          all: [],
+          received: [],
+          requested: {},
+        },
+        windows: [myWindowId],
+      });
     });
     it('multi', () => {
       const myDataId = getDataId({ parameterName: 'dataId' });
@@ -671,19 +786,26 @@ describe('models/connectedData', () => {
       connectedData[1].should.have.properties({
         localId: getLocalId(myDataId),
         dataId: myDataId,
-        intervals: [],
-        requested: {},
+        intervals: {
+          all: [],
+          received: [],
+          requested: {},
+        },
         windows: [myWindowId, myWindowId2],
       });
       connectedData[0].should.have.properties({
         localId: getLocalId(myDataId3),
         dataId: myDataId3,
-        intervals: [],
-        requested: {},
+        intervals: {
+          all: [],
+          received: [],
+          requested: {},
+        },
         windows: [myWindowId],
       });
     });
   });
+
   describe('exists', () => {
     it('yes', () => {
       const myDataId = getDataId();
@@ -699,6 +821,7 @@ describe('models/connectedData', () => {
         .that.equal(false);
     });
   });
+
   describe('removeByDataId', () => {
     it('not existing', () => {
       const myDataId = getDataId();
@@ -719,6 +842,7 @@ describe('models/connectedData', () => {
         .that.have.lengthOf(0);
     });
   });
+
   describe('getAll', () => {
     it('none', () => {
       const connectedData = model.getAll();
@@ -735,8 +859,11 @@ describe('models/connectedData', () => {
       connectedData[0].should.be.an('object')
         .that.has.properties({
           dataId: myDataId,
-          intervals: [],
-          requested: {},
+          intervals: {
+            all: [],
+            received: [],
+            requested: {},
+          },
           windows: [myWindowId],
         });
     });
@@ -755,15 +882,21 @@ describe('models/connectedData', () => {
       connectedData[0].should.be.an('object')
         .that.has.properties({
           dataId: myDataId,
-          intervals: [],
-          requested: {},
+          intervals: {
+            all: [],
+            received: [],
+            requested: {},
+          },
           windows: [myWindowId],
         });
       connectedData[1].should.be.an('object')
         .that.has.properties({
           dataId: myDataId2,
-          intervals: [],
-          requested: {},
+          intervals: {
+            all: [],
+            received: [],
+            requested: {},
+          },
           windows: [myWindowId],
         });
     });

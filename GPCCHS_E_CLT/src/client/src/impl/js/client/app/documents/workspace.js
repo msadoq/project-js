@@ -7,8 +7,8 @@ const validation = require('./validation');
 const extractTimebars = require('./lib/extractTimebars');
 const extractTimelines = require('./lib/extractTimelines');
 const extractWindows = require('./lib/extractWindows');
-const extractPages = require('./lib/extractPages');
-const extractViews = require('./lib/extractViews');
+const { extractPages } = require('./lib/extractPages');
+const { extractViews } = require('./lib/extractViews');
 const extractConnectedData = require('./lib/extractConnectedData');
 
 module.exports = function readWorkspace(folder, relativePath, callback) {

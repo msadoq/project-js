@@ -30,7 +30,7 @@ Only list expected tasks for PBF shipping of end of october.
 * [ ] Cache invalidation automatic mechanism
 
 Renaud
-* [=] connectedData Model: fix retrieveMissingIntervals and update tests
+* [x] connectedData Model: fix retrieveMissingIntervals and update tests
 * [ ] onNewDataMessage: separate in two controllers: onRealtimeData, onArchiveData
   - Don't de-protobuf in first _.map (only get timestamp), de-protobuf parameter value at last moment
   - In onArchiveData consider data as ordered (take first and last timestamp, search for this interval existence, insert)

@@ -30,6 +30,7 @@ Only list expected tasks for PBF shipping of end of october.
 * [ ] Cache invalidation automatic mechanism
 
 Renaud
+* [=] connectedData Model: fix retrieveMissingIntervals and update tests
 * [ ] onNewDataMessage: separate in two controllers: onRealtimeData, onArchiveData
   - Don't de-protobuf in first _.map (only get timestamp), de-protobuf parameter value at last moment
   - In onArchiveData consider data as ordered (take first and last timestamp, search for this interval existence, insert)
@@ -37,8 +38,8 @@ Renaud
   - In both generate localId in each controller and not in .addRecord()
 * [ ] View type onNewData: implement localId filtering, displayed interval filtering, filter, select field and send [[timestamp, value]]
 * [ ] onViewQuery/onNewDataMessage: test AVLTree instead of Loki for cache retrieving/insertion OR our proper data structure DataStructure{[order],{key:{value}}
-* [ ] Profiling: rename errorHandler=>execController, only on 'end' controllers 
- 
+* [ ] Profiling: rename errorHandler=>execController, only on 'end' controllers
+
 ## GPCCHSC (Electron)
 
 * Implement <PlotView/>
@@ -54,7 +55,7 @@ Renaud
 * [ ] Improve window closing by implementing a confirmation box with WS disconnection
 * [ ] Pass realtime dimensions to each view (react-grid-layout/build/components/WidthProvider.js.flow, react-dimensions, https://github.com/souporserious/react-measure)
 * [ ] Replace tabs with reactjs/react-tabs
- 
+
 Audrey
 * [ ] Re-implement documents/workspace unit test (Audrey)
 
@@ -82,7 +83,7 @@ Damien
 * [ ] connectedData/queries.js: handle view type to request only needed value (everything for plot, lower->current for text)
 * [ ] connectedData/wildcard.js: memoize .generate()
 * [ ] Analyse connectedData module, complete tests, same for selectors and others
-* [ ] HSC tree refactoring: 
+* [ ] HSC tree refactoring:
   - app=>lib
   - main=>mainProcess + window=>windowProcess
   - PageContent=>Content

@@ -113,47 +113,61 @@ collection.retrieveMissingIntervals = (dataId, interval) => {
   const missingIntervals = [];
   let lower = interval[0];
   const upper = interval[1];
-  _.some(intervals, (knownInterval) => {
-    if (knownInterval[0] > lower) {
-      if (knownInterval[0] > upper) {
-        debug.debug('last missing interval (below upper)');
+  _.some(intervals, (knownInterval, index) => {
+    if (lower < knownInterval[0]) {
+      // Completety below known interval
+      if (upper < knownInterval[0]) {
         missingIntervals.push([lower, upper]);
-        lower = knownInterval[0];
         return true;
       }
 
-      if (knownInterval[1] > upper) {
-        debug.debug('last missing interval');
-        missingIntervals.push([lower, knownInterval[0]]);
-        lower = knownInterval[1];
-        return true;
-      }
-
-      debug.debug('another missing interval');
       missingIntervals.push([lower, knownInterval[0]]);
+
+      // Below and inside known interval
+      if (upper <= knownInterval[1]) {
+        return true;
+      }
+
+      // Covering known interval
+      if (index === intervals.length - 1) {
+        // Last one
+        missingIntervals.push([knownInterval[1], upper]);
+        return true;
+      }
+
+      // Next known interval
       lower = knownInterval[1];
       return false;
     }
 
-    if (knownInterval[1] > upper) {
-      debug.debug('no more interval');
-      return true;
-    }
+    if (lower <= knownInterval[1]) {
+      // Completety inside known interval
+      if (upper <= knownInterval[1]) {
+        return true;
+      }
 
-    if (knownInterval[1] < lower) {
-      debug.debug('check another interval (upside lower)');
+      // Inside and above known interval
+      if (index === intervals.length - 1) {
+        // Last one
+        missingIntervals.push([knownInterval[1], upper]);
+        return true;
+      }
+
+      // Next known interval
+      lower = knownInterval[1];
       return false;
     }
 
-    debug.debug('check another interval');
-    lower = knownInterval[1];
+    // Completely above known interval
+    if (index === intervals.length - 1) {
+      // Last one
+      missingIntervals.push(interval);
+      return true;
+    }
+
+    // Next known interval
     return false;
   });
-
-  if (lower < upper) {
-    debug.debug('final interval');
-    missingIntervals.push([lower, upper]);
-  }
 
   return missingIntervals;
 };

@@ -102,6 +102,14 @@ collection.addRequestedInterval = (dataId, queryUuid, interval) => {
   return connectedData;
 };
 
+collection.isRequested = (dataId, queryUuid) => {
+  const localId = collection.getLocalId(dataId);
+
+  const connectedData = collection.by('localId', localId);
+
+  return _.has(connectedData, ['intervals', 'requested', queryUuid]);
+};
+
 collection.retrieveMissingIntervals = (dataId, interval) => {
   const localId = collection.getLocalId(dataId);
   // Retrieve missing intervals for this localId for the given interval

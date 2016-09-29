@@ -203,6 +203,29 @@ describe('models/connectedData', () => {
     });
   });
 
+  describe('isRequested', () => {
+    const myDataId = getDataId();
+    const myQueryId = 'queryId';
+    const myInterval = [42, 42];
+
+    it('no connected data', () => {
+      model.isRequested(myDataId, myQueryId).should.equal(false);
+    });
+    it('no', () => {
+      model.addRequestedInterval(myDataId, 'nope', myInterval);
+      model.isRequested(myDataId, myQueryId).should.equal(false);
+    });
+    it('no more', () => {
+      model.addRequestedInterval(myDataId, myQueryId, myInterval);
+      model.setIntervalAsReceived(myDataId, myQueryId);
+      model.isRequested(myDataId, myQueryId).should.equal(false);
+    });
+    it('yes', () => {
+      model.addRequestedInterval(myDataId, myQueryId, myInterval);
+      model.isRequested(myDataId, myQueryId).should.equal(true);
+    });
+  });
+
   describe('isTimestampInKnownIntervals', () => {
     const timestamp = Date.now();
     const myDataId = getDataId();

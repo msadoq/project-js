@@ -123,7 +123,7 @@ const onHssMessage = (buffer) => {
   ]);
 };
 
-const pushData = (dataId, payloads) => {
+const pushData = (dataId, id, payloads, dataSource) => {
   if (!payloads.length) {
     return undefined;
   }
@@ -137,12 +137,16 @@ const pushData = (dataId, payloads) => {
     timestamp: { ms: pl.timestamp },
   }));
 
+  const message = {
+    dataId,
+    id,
+    payloads: buffers,
+    dataSource,
+    isEndOfQuery: true,
+  };
+
   const buffer = wrapServerMessage('NEW_DATA_MESSAGE',
-    protobuf.encode('dc.dataControllerUtils.NewDataMessage', {
-      dataId,
-      payloads: buffers,
-      dataSource: 'REAL_TIME',
-    })
+    protobuf.encode('dc.dataControllerUtils.NewDataMessage', message)
   );
 
   return zmq.push('stubData', [null, buffer]);
@@ -159,7 +163,7 @@ const emulateDc = () => {
       payloads.push({ timestamp: Date.now() - (i * 10) });
     }
     debug.debug('push data from subscription');
-    pushData(dataId, payloads);
+    pushData(dataId, undefined, payloads, 'REAL_TIME');
   });
 
   if (domainQueried) {
@@ -185,7 +189,7 @@ const emulateDc = () => {
       payloads.push({ timestamp: i });
     }
     debug.info('push data from query');
-    return pushData(query.dataId, payloads);
+    return pushData(query.dataId, query.id, payloads, 'ARCHIVE');
   });
   queries = [];
 

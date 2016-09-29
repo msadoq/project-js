@@ -2,7 +2,8 @@ const debug = require('../io/debug')('controllers:onDcServerMessage');
 const { decode } = require('../protobuf');
 const onDcResponse = require('./onDcResponse');
 const { onDomainResponse } = require('./onDomainResponse');
-const onNewDataMessage = require('./onNewDataMessage');
+const onQueryData = require('./onQueryData');
+const onSubscriptionData = require('./onSubscriptionData');
 const errorHandler = require('../utils/errorHandler');
 
 // TODO :
@@ -18,7 +19,8 @@ const callDcServerMessageControllers = (
   buffer,
   dcResponseHandler,
   domainResponseHandler,
-  newDataMessageHandler
+  queryDataHandler,
+  subscriptionDataHandler
 ) => {
   debug.debug('decoding Dc Server Message');
   const message = decode('dc.dataControllerUtils.DcServerMessage', buffer);
@@ -31,8 +33,30 @@ const callDcServerMessageControllers = (
       errorHandler('onDomainResponse', () => domainResponseHandler(message.payload));
       break;
     case 'NEW_DATA_MESSAGE':
-      errorHandler('onNewDataMessage', () => newDataMessageHandler(message.payload));
-      break;
+      {
+        const newDataMessage = decode('dc.dataControllerUtils.NewDataMessage', message.payload);
+
+        switch (newDataMessage.dataSource) {
+          case 'ARCHIVE':
+            errorHandler('onQueryData', () => queryDataHandler(
+              newDataMessage.dataId,
+              newDataMessage.id,
+              newDataMessage.payloads,
+              newDataMessage.isEndOfQuery)
+            );
+            break;
+          case 'REAL_TIME':
+            errorHandler('onSubscriptionData', () => subscriptionDataHandler(
+              newDataMessage.dataId,
+              newDataMessage.payloads)
+            );
+            break;
+          case 'UNKNOWN':
+          default:
+            throw new Error('Unknown data source');
+        }
+        break;
+      }
     case 'UNKNOWN':
     default:
       throw new Error('messageType not recognized');
@@ -40,7 +64,13 @@ const callDcServerMessageControllers = (
 };
 
 const onDcServerMessage = (header, buffer) =>
-  callDcServerMessageControllers(buffer, onDcResponse, onDomainResponse, onNewDataMessage);
+  callDcServerMessageControllers(
+    buffer,
+    onDcResponse,
+    onDomainResponse,
+    onQueryData,
+    onSubscriptionData
+  );
 
 module.exports = {
   onDcServerMessage,

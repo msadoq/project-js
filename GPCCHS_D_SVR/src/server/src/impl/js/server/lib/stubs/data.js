@@ -105,6 +105,7 @@ stubs.getNewDataMessage = override => applyOverride({
       timestamp: { ms: now + 1 },
     }),
   ],
+  isEndOfQuery: false,
 }, override);
 
 stubs.getNewDataMessageProtobuf = override => protobuf.encode(

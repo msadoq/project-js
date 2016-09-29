@@ -1,5 +1,4 @@
-const debug = require('../io/debug')('utils:intervals.spec');
-require('./test');
+require('../utils/test');
 const { isTimestampInInterval, mergeIntervals } = require('./intervals');
 
 describe('utils/intervals', () => {
@@ -37,9 +36,6 @@ describe('utils/intervals', () => {
       const myInterval = [0, 10];
       const knownIntervals = [];
       const intervals = mergeIntervals(knownIntervals, myInterval);
-      debug.debug('my interval', myInterval);
-      debug.debug('known intervals', knownIntervals);
-      debug.debug('merged intervals', intervals);
       intervals.should.be.an('array').that.have.lengthOf(1);
       intervals[0].should.be.an('array').that.have.lengthOf(2);
       intervals[0][0].should.equal(myInterval[0]);
@@ -49,9 +45,6 @@ describe('utils/intervals', () => {
       const myInterval = [0, 2];
       const knownIntervals = [[4, 6], [8, 10]];
       const intervals = mergeIntervals(knownIntervals, myInterval);
-      debug.debug('my interval', myInterval);
-      debug.debug('known intervals', knownIntervals);
-      debug.debug('merged intervals', intervals);
       intervals.should.be.an('array').that.have.lengthOf(3);
       intervals[0].should.be.an('array').that.have.lengthOf(2);
       intervals[0][0].should.equal(myInterval[0]);
@@ -67,9 +60,6 @@ describe('utils/intervals', () => {
       const myInterval = [0, 5];
       const knownIntervals = [[4, 6], [8, 10]];
       const intervals = mergeIntervals(knownIntervals, myInterval);
-      debug.debug('my interval', myInterval);
-      debug.debug('known intervals', knownIntervals);
-      debug.debug('merged intervals', intervals);
       intervals.should.be.an('array').that.have.lengthOf(2);
       intervals[0].should.be.an('array').that.have.lengthOf(2);
       intervals[0][0].should.equal(myInterval[0]);
@@ -82,9 +72,6 @@ describe('utils/intervals', () => {
       const myInterval = [0, 7];
       const knownIntervals = [[4, 6], [8, 10]];
       const intervals = mergeIntervals(knownIntervals, myInterval);
-      debug.debug('my interval', myInterval);
-      debug.debug('known intervals', knownIntervals);
-      debug.debug('merged intervals', intervals);
       intervals.should.be.an('array').that.have.lengthOf(2);
       intervals[0].should.be.an('array').that.have.lengthOf(2);
       intervals[0][0].should.equal(myInterval[0]);
@@ -97,9 +84,6 @@ describe('utils/intervals', () => {
       const myInterval = [1, 3];
       const knownIntervals = [[0, 2], [4, 6], [8, 10]];
       const intervals = mergeIntervals(knownIntervals, myInterval);
-      debug.debug('my interval', myInterval);
-      debug.debug('known intervals', knownIntervals);
-      debug.debug('merged intervals', intervals);
       intervals.should.be.an('array').that.have.lengthOf(3);
       intervals[0].should.be.an('array').that.have.lengthOf(2);
       intervals[0][0].should.equal(knownIntervals[0][0]);
@@ -115,9 +99,6 @@ describe('utils/intervals', () => {
       const myInterval = [6.5, 7.5];
       const knownIntervals = [[0, 2], [4, 6], [8, 10]];
       const intervals = mergeIntervals(knownIntervals, myInterval);
-      debug.debug('my interval', myInterval);
-      debug.debug('known intervals', knownIntervals);
-      debug.debug('merged intervals', intervals);
       intervals.should.be.an('array').that.have.lengthOf(4);
       intervals[0].should.be.an('array').that.have.lengthOf(2);
       intervals[0][0].should.equal(knownIntervals[0][0]);
@@ -136,9 +117,6 @@ describe('utils/intervals', () => {
       const myInterval = [4.5, 5.5];
       const knownIntervals = [[0, 2], [4, 6], [8, 10]];
       const intervals = mergeIntervals(knownIntervals, myInterval);
-      debug.debug('my interval', myInterval);
-      debug.debug('known intervals', knownIntervals);
-      debug.debug('merged intervals', intervals);
       intervals.should.be.an('array').that.have.lengthOf(3);
       intervals[0].should.be.an('array').that.have.lengthOf(2);
       intervals[0][0].should.equal(knownIntervals[0][0]);
@@ -154,9 +132,6 @@ describe('utils/intervals', () => {
       const myInterval = [3, 5];
       const knownIntervals = [[0, 2], [4, 6], [8, 10]];
       const intervals = mergeIntervals(knownIntervals, myInterval);
-      debug.debug('my interval', myInterval);
-      debug.debug('known intervals', knownIntervals);
-      debug.debug('merged intervals', intervals);
       intervals.should.be.an('array').that.have.lengthOf(3);
       intervals[0].should.be.an('array').that.have.lengthOf(2);
       intervals[0][0].should.equal(knownIntervals[0][0]);
@@ -172,9 +147,6 @@ describe('utils/intervals', () => {
       const myInterval = [3, 7];
       const knownIntervals = [[0, 2], [4, 4.5], [5, 6], [8, 10]];
       const intervals = mergeIntervals(knownIntervals, myInterval);
-      debug.debug('my interval', myInterval);
-      debug.debug('known intervals', knownIntervals);
-      debug.debug('merged intervals', intervals);
       intervals.should.be.an('array').that.have.lengthOf(3);
       intervals[0].should.be.an('array').that.have.lengthOf(2);
       intervals[0][0].should.equal(knownIntervals[0][0]);
@@ -190,9 +162,6 @@ describe('utils/intervals', () => {
       const myInterval = [1, 5];
       const knownIntervals = [[0, 2], [4, 6], [8, 10]];
       const intervals = mergeIntervals(knownIntervals, myInterval);
-      debug.debug('my interval', myInterval);
-      debug.debug('known intervals', knownIntervals);
-      debug.debug('merged intervals', intervals);
       intervals.should.be.an('array').that.have.lengthOf(2);
       intervals[0].should.be.an('array').that.have.lengthOf(2);
       intervals[0][0].should.equal(knownIntervals[0][0]);
@@ -205,9 +174,6 @@ describe('utils/intervals', () => {
       const myInterval = [3, 10];
       const knownIntervals = [[0, 2], [4, 6]];
       const intervals = mergeIntervals(knownIntervals, myInterval);
-      debug.debug('my interval', myInterval);
-      debug.debug('known intervals', knownIntervals);
-      debug.debug('merged intervals', intervals);
       intervals.should.be.an('array').that.have.lengthOf(2);
       intervals[0].should.be.an('array').that.have.lengthOf(2);
       intervals[0][0].should.equal(knownIntervals[0][0]);
@@ -220,9 +186,6 @@ describe('utils/intervals', () => {
       const myInterval = [5, 10];
       const knownIntervals = [[0, 2], [4, 6]];
       const intervals = mergeIntervals(knownIntervals, myInterval);
-      debug.debug('my interval', myInterval);
-      debug.debug('known intervals', knownIntervals);
-      debug.debug('merged intervals', intervals);
       intervals.should.be.an('array').that.have.lengthOf(2);
       intervals[0].should.be.an('array').that.have.lengthOf(2);
       intervals[0][0].should.equal(knownIntervals[0][0]);
@@ -235,9 +198,6 @@ describe('utils/intervals', () => {
       const myInterval = [8, 10];
       const knownIntervals = [[0, 2], [4, 6]];
       const intervals = mergeIntervals(knownIntervals, myInterval);
-      debug.debug('my interval', myInterval);
-      debug.debug('known intervals', knownIntervals);
-      debug.debug('merged intervals', intervals);
       intervals.should.be.an('array').that.have.lengthOf(3);
       intervals[0].should.be.an('array').that.have.lengthOf(2);
       intervals[0][0].should.equal(knownIntervals[0][0]);
@@ -253,9 +213,6 @@ describe('utils/intervals', () => {
       const myInterval = [0, 10];
       const knownIntervals = [[1, 2], [4, 6], [8, 9]];
       const intervals = mergeIntervals(knownIntervals, myInterval);
-      debug.debug('my interval', myInterval);
-      debug.debug('known intervals', knownIntervals);
-      debug.debug('merged intervals', intervals);
       intervals.should.be.an('array').that.have.lengthOf(1);
       intervals[0].should.be.an('array').that.have.lengthOf(2);
       intervals[0][0].should.equal(myInterval[0]);

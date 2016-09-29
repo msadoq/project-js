@@ -67,21 +67,21 @@ Alexandra
 * [=] Add a clean "error" page when unable to connect to server or when DC stub is off (Alexandra)
 
 Damien
-* [ ] Analyse connectedData module, complete tests, same for selectors and others
-* [ ] Implement reselect on connectedData
-* [ ] NewData channel handling in client
+* [ ] connectedData/decorate.js: don't take offset in consideration when called from forWindow()
 * [ ] Implement ConnectedDataContainer in <Page/> and not in <Views/>
+* [ ] NewData channel handling in client
 * [ ] Remove mutations/connectedData with a sub-reducer in views
 * [ ] Sync with erb: 0b0e19c74518fc97843e9bcb393086aa9a7ad616
 * [ ] Improve main process debugging by try-catching on ready logic
 * [ ] Fix launching warning on document.write injection by adding cross origin policy
-* [ ] connectedData/decorate.js: don't take offset in consideration when called from forWindow()
+* [ ] Implement reselect on connectedData
 * [ ] connectedData/domains.js: add reselect
 * [ ] connectedData/forView.js: test
 * [ ] connectedData/forWindow.js: move .extractFromWindow() in selector
 * [ ] connectedData/queries.js: test
 * [ ] connectedData/queries.js: handle view type to request only needed value (everything for plot, lower->current for text)
 * [ ] connectedData/wildcard.js: memoize .generate()
+* [ ] Analyse connectedData module, complete tests, same for selectors and others
 * [ ] HSC tree refactoring: 
   - app=>lib
   - main=>mainProcess + window=>windowProcess

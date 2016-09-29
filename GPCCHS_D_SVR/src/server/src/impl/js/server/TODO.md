@@ -52,11 +52,16 @@ Renaud
   - [ ] https://github.com/wrakky/react-html-parser
 * [ ] Persist window geometry and focus in Redux
 * [ ] Improve window closing by implementing a confirmation box with WS disconnection
-* [ ] Pass realtime dimensions to each view (react-grid-layout/build/components/WidthProvider.js.flow, react-dimensions, https://github.com/souporserious/react-measure)
 * [ ] Replace tabs with reactjs/react-tabs
+* [ ] Sync with erb: 0b0e19c74518fc97843e9bcb393086aa9a7ad616
+* [ ] Improve main process debugging by try-catching on ready logic
+* [ ] Fix launching warning on document.write injection by adding cross origin policy
+ 
+Adrien
+* [ ] Pass realtime dimensions to each view (react-grid-layout/build/components/WidthProvider.js.flow, react-dimensions, https://github.com/souporserious/react-measure)
  
 Audrey
-* [ ] Re-implement documents/workspace unit test (Audrey)
+* [x] Re-implement documents/workspace unit test (Audrey)
 
 Aziz
 * [ ] TextView parsing to React component
@@ -65,15 +70,18 @@ Aziz
 Alexandra
 * [=] Customize electron window menu bar (Alexandra)
 * [=] Add a clean "error" page when unable to connect to server or when DC stub is off (Alexandra)
+* [ ] Complete workspace
 
 Damien
+* New ids (the 3 are send on HSS)
+  - [ ] localId: remoteId + field + offset + type => HSS view sending to HSC, HSC de-duplication
+  - [ ] remoteId: dataId + filter => DC requesting, DC reception
+  - [ ] dataId: catalog, name, comObject, sessionId, domainId
+* [ ] Implement ConnectedDataContainer in <Page/> and not in <Views/> ...
+* [ ] ... on each update list the whole query list to do in one packet (localId+)
 * [ ] connectedData/decorate.js: don't take offset in consideration when called from forWindow()
-* [ ] Implement ConnectedDataContainer in <Page/> and not in <Views/>
 * [ ] NewData channel handling in client
 * [ ] Remove mutations/connectedData with a sub-reducer in views
-* [ ] Sync with erb: 0b0e19c74518fc97843e9bcb393086aa9a7ad616
-* [ ] Improve main process debugging by try-catching on ready logic
-* [ ] Fix launching warning on document.write injection by adding cross origin policy
 * [ ] Implement reselect on connectedData
 * [ ] connectedData/domains.js: add reselect
 * [ ] connectedData/forView.js: test

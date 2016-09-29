@@ -232,6 +232,36 @@ describe('models/connectedData', () => {
     });
   });
 
+  describe('areTimestampsInKnownIntervals', () => {
+    const now = Date.now();
+    const timestamps = [now - 2, now];
+    const myDataId = getDataId();
+    const myQueryId = 'queryId';
+    const myInterval = [now - 1, now + 1];
+    const myAllInterval = [now - 5, now + 5];
+    const myWrongInterval = [now + 1, now + 2];
+
+    it('no intervals', () => {
+      const result = model.areTimestampsInKnownIntervals(myDataId, timestamps);
+      result.should.deep.equal([]);
+    });
+    it('no', () => {
+      model.addRequestedInterval(myDataId, myQueryId, myWrongInterval);
+      const result = model.areTimestampsInKnownIntervals(myDataId, timestamps);
+      result.should.deep.equal([]);
+    });
+    it('only one', () => {
+      model.addRequestedInterval(myDataId, myQueryId, myInterval);
+      const result = model.areTimestampsInKnownIntervals(myDataId, timestamps);
+      result.should.deep.equal([timestamps[1]]);
+    });
+    it('all', () => {
+      model.addRequestedInterval(myDataId, myQueryId, myAllInterval);
+      const result = model.areTimestampsInKnownIntervals(myDataId, timestamps);
+      result.should.deep.equal(timestamps);
+    });
+  });
+
   describe('retrieveMissingIntervals', () => {
     const myDataId = getDataId();
 

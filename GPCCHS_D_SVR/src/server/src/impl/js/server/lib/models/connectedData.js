@@ -16,6 +16,23 @@ collection.getAll = () => _.remove(_.values(collection.getLocalIdIndex().keyMap)
 
 collection.getLocalId = require('./getLocalId');
 
+collection.areTimestampsInKnownIntervals = (dataId, timestamps) => {
+  const localId = collection.getLocalId(dataId);
+  // Return timestamps that are currently in intervals known or requested for this localId
+  const connectedData = collection.by('localId', localId);
+
+  if (typeof connectedData === 'undefined') {
+    debug.debug('timestamps not in known intervals');
+    return [];
+  }
+
+  debug.debug('check intervals for these timestamps');
+  return _.filter(
+    timestamps,
+    timestamp => isTimestampInIntervals(timestamp, connectedData.intervals.all)
+  );
+};
+
 collection.isTimestampInKnownIntervals = (dataId, timestamp) => {
   const localId = collection.getLocalId(dataId);
   // Check if timestamp is currently in intervals known or requested for this localId
@@ -26,7 +43,7 @@ collection.isTimestampInKnownIntervals = (dataId, timestamp) => {
     return false;
   }
 
-  debug.debug('check received intervals');
+  debug.debug('check intervals');
   if (isTimestampInIntervals(timestamp, connectedData.intervals.all)) {
     debug.debug('timestamp in intervals');
     return true;

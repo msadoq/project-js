@@ -27,14 +27,8 @@ collection.isTimestampInKnownIntervals = (dataId, timestamp) => {
   }
 
   debug.debug('check received intervals');
-  if (isTimestampInIntervals(timestamp, connectedData.intervals)) {
-    debug.debug('timestamp in received intervals');
-    return true;
-  }
-
-  debug.debug('check requested intervals');
-  if (isTimestampInIntervals(timestamp, connectedData.requested)) {
-    debug.debug('timestamp in requested intervals');
+  if (isTimestampInIntervals(timestamp, connectedData.intervals.all)) {
+    debug.debug('timestamp in intervals');
     return true;
   }
 
@@ -46,13 +40,13 @@ collection.setIntervalAsReceived = (dataId, queryUuid) => {
   // Set query interval as received for this localId
   const connectedData = collection.by('localId', localId);
 
-  const interval = _.get(connectedData, ['requested', queryUuid]);
+  const interval = _.get(connectedData, ['intervals', 'requested', queryUuid]);
   if (typeof interval === 'undefined') {
     return undefined;
   }
 
-  connectedData.intervals = mergeIntervals(connectedData.intervals, interval);
-  connectedData.requested = _.omit(connectedData.requested, queryUuid);
+  connectedData.intervals.received = mergeIntervals(connectedData.intervals.received, interval);
+  connectedData.intervals.requested = _.omit(connectedData.intervals.requested, queryUuid);
   debug.debug('set interval', interval, 'as received', connectedData);
   collection.update(connectedData); // TODO This update operation could be not needed
 
@@ -69,17 +63,22 @@ collection.addRequestedInterval = (dataId, queryUuid, interval) => {
     connectedData = {
       localId,
       dataId,
-      intervals: [],
-      requested: {},
+      intervals: {
+        all: [],
+        received: [],
+        requested: {},
+      },
       windows: [],
     };
-    connectedData.requested[queryUuid] = interval;
+    connectedData.intervals.requested[queryUuid] = interval;
+    connectedData.intervals.all.push(interval);
     debug.debug('insert', inspect(connectedData));
     return collection.insert(connectedData);
   }
 
   debug.debug('before update', inspect(connectedData));
-  connectedData.requested[queryUuid] = interval;
+  connectedData.intervals.requested[queryUuid] = interval;
+  connectedData.intervals.all = mergeIntervals(connectedData.intervals.all, interval);
   debug.debug('update', inspect(connectedData));
   collection.update(connectedData); // TODO This update operation could be not needed
 
@@ -97,11 +96,7 @@ collection.retrieveMissingIntervals = (dataId, interval) => {
     return [interval];
   }
 
-  // Merge known intervals and requested intervals in a local variable
-  let intervals = connectedData.intervals;
-  _.each(connectedData.requested, (value) => {
-    intervals = mergeIntervals(intervals, value);
-  });
+  const intervals = connectedData.intervals.all;
 
   // No known intervals
   if (intervals.length === 0) {
@@ -179,8 +174,11 @@ collection.addWindowId = (dataId, windowId) => {
     connectedData = {
       localId,
       dataId,
-      intervals: [],
-      requested: {},
+      intervals: {
+        all: [],
+        received: [],
+        requested: {},
+      },
       windows: [windowId],
     };
     debug.debug('insert', inspect(connectedData));

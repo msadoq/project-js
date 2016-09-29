@@ -28,16 +28,19 @@ describe('models/connectedData', () => {
       connectedData[0].should.have.an.property('dataId')
         .that.is.an('object')
         .that.has.properties(myDataId);
-      connectedData[0].should.have.an.property('intervals');
-      connectedData[0].intervals.should.be.an('array')
-        .that.have.lengthOf(0);
-      connectedData[0].should.have.an.property('requested')
+      connectedData[0].should.have.an.property('intervals')
         .that.is.an('object');
-      connectedData[0].requested.should.have.an.property(myQueryId);
-      connectedData[0].requested[myQueryId].should.be.an('array')
+      connectedData[0].intervals.should.have.a.property('all')
+        .deep.equal([myInterval]);
+      connectedData[0].intervals.should.have.a.property('received')
+        .deep.equal([]);
+      connectedData[0].intervals.should.have.an.property('requested')
+        .that.is.an('object');
+      connectedData[0].intervals.requested.should.have.an.property(myQueryId);
+      connectedData[0].intervals.requested[myQueryId].should.be.an('array')
         .that.have.lengthOf(2);
-      connectedData[0].requested[myQueryId][0].should.equal(myInterval[0]);
-      connectedData[0].requested[myQueryId][1].should.equal(myInterval[1]);
+      connectedData[0].intervals.requested[myQueryId][0].should.equal(myInterval[0]);
+      connectedData[0].intervals.requested[myQueryId][1].should.equal(myInterval[1]);
       connectedData[0].should.have.an.property('windows')
         .that.is.an('array')
         .that.have.lengthOf(0);
@@ -60,18 +63,21 @@ describe('models/connectedData', () => {
         .that.is.an('object')
         .that.has.properties(myDataId);
       connectedData[0].should.have.an.property('intervals')
-        .that.is.an('array')
-        .that.have.lengthOf(0);
-      connectedData[0].should.have.an.property('requested')
         .that.is.an('object');
-      connectedData[0].requested.should.have.an.property(myQueryId);
-      connectedData[0].requested[myQueryId].should.be.an('array').that.have.lengthOf(2);
-      connectedData[0].requested[myQueryId][0].should.equal(myInterval[0]);
-      connectedData[0].requested[myQueryId][1].should.equal(myInterval[1]);
-      connectedData[0].requested.should.have.an.property(myQueryId2);
-      connectedData[0].requested[myQueryId2].should.be.an('array').that.have.lengthOf(2);
-      connectedData[0].requested[myQueryId2][0].should.equal(myInterval2[0]);
-      connectedData[0].requested[myQueryId2][1].should.equal(myInterval2[1]);
+      connectedData[0].intervals.should.have.an.property('all')
+        .that.deep.equal([myInterval, myInterval2]);
+      connectedData[0].intervals.should.have.an.property('received')
+        .that.deep.equal([]);
+      connectedData[0].intervals.should.have.an.property('requested')
+        .that.is.an('object');
+      connectedData[0].intervals.requested.should.have.an.property(myQueryId);
+      connectedData[0].intervals.requested[myQueryId].should.be.an('array').that.have.lengthOf(2);
+      connectedData[0].intervals.requested[myQueryId][0].should.equal(myInterval[0]);
+      connectedData[0].intervals.requested[myQueryId][1].should.equal(myInterval[1]);
+      connectedData[0].intervals.requested.should.have.an.property(myQueryId2);
+      connectedData[0].intervals.requested[myQueryId2].should.be.an('array').that.have.lengthOf(2);
+      connectedData[0].intervals.requested[myQueryId2][0].should.equal(myInterval2[0]);
+      connectedData[0].intervals.requested[myQueryId2][1].should.equal(myInterval2[1]);
       connectedData[0].should.have.an.property('windows')
         .that.is.an('array')
         .that.have.lengthOf(0);
@@ -92,30 +98,37 @@ describe('models/connectedData', () => {
         .that.is.an('object')
         .that.has.properties(myDataId);
       connectedData[0].should.have.an.property('intervals')
+        .that.is.an('object');
+      connectedData[0].intervals.should.have.an.property('all')
+        .that.deep.equal([myInterval]);
+      connectedData[0].intervals.should.have.an.property('received')
         .that.is.an('array').that.have.lengthOf(0);
-      connectedData[0].should.have.an.property('requested')
+      connectedData[0].intervals.should.have.an.property('requested')
         .that.be.an('object');
-      connectedData[0].requested.should.have.an.property(myQueryId);
-      connectedData[0].requested[myQueryId].should.be.an('array')
+      connectedData[0].intervals.requested.should.have.an.property(myQueryId);
+      connectedData[0].intervals.requested[myQueryId].should.be.an('array')
         .that.have.lengthOf(2);
-      connectedData[0].requested[myQueryId][0].should.equal(myInterval[0]);
-      connectedData[0].requested[myQueryId][1].should.equal(myInterval[1]);
+      connectedData[0].intervals.requested[myQueryId][0].should.equal(myInterval[0]);
+      connectedData[0].intervals.requested[myQueryId][1].should.equal(myInterval[1]);
       connectedData[1].should.be.an('object');
       connectedData[1].should.have.an.property('localId')
         .that.equal(getLocalId(myDataId2));
       connectedData[1].should.have.an.property('dataId')
         .that.is.an('object')
         .that.has.properties(myDataId2);
-      connectedData[1].should.have.an.property('intervals');
-      connectedData[1].intervals.should.be.an('array')
-        .that.have.lengthOf(0);
-      connectedData[1].should.have.an.property('requested')
+      connectedData[1].should.have.an.property('intervals')
         .that.is.an('object');
-      connectedData[1].requested.should.have.an.property(myQueryId2);
-      connectedData[1].requested[myQueryId2].should.be.an('array')
+      connectedData[1].intervals.should.have.an.property('all')
+        .that.deep.equal([myInterval2]);
+      connectedData[1].intervals.should.have.an.property('received')
+        .that.is.an('array').that.have.lengthOf(0);
+      connectedData[1].intervals.should.have.an.property('requested')
+        .that.be.an('object');
+      connectedData[1].intervals.requested.should.have.an.property(myQueryId2);
+      connectedData[1].intervals.requested[myQueryId2].should.be.an('array')
         .that.have.lengthOf(2);
-      connectedData[1].requested[myQueryId2][0].should.equal(myInterval2[0]);
-      connectedData[1].requested[myQueryId2][1].should.equal(myInterval2[1]);
+      connectedData[1].intervals.requested[myQueryId2][0].should.equal(myInterval2[0]);
+      connectedData[1].intervals.requested[myQueryId2][1].should.equal(myInterval2[1]);
       connectedData[0].should.have.an.property('windows')
         .that.is.an('array')
         .that.have.lengthOf(0);
@@ -149,14 +162,18 @@ describe('models/connectedData', () => {
         .that.is.an('object')
         .that.has.properties(myDataId);
       connectedData[0].should.have.an.property('intervals')
+        .that.is.an('object');
+      connectedData[0].intervals.should.have.a.property('all')
+        .that.deep.equal([myInterval]);
+      connectedData[0].intervals.should.have.a.property('received')
         .that.is.an('array').that.have.lengthOf(0);
-      connectedData[0].should.have.an.property('requested')
+      connectedData[0].intervals.should.have.an.property('requested')
         .that.be.an('object');
-      connectedData[0].requested.should.have.an.property(myQueryId);
-      connectedData[0].requested[myQueryId].should.be.an('array')
+      connectedData[0].intervals.requested.should.have.an.property(myQueryId);
+      connectedData[0].intervals.requested[myQueryId].should.be.an('array')
         .that.have.lengthOf(2);
-      connectedData[0].requested[myQueryId][0].should.equal(myInterval[0]);
-      connectedData[0].requested[myQueryId][1].should.equal(myInterval[1]);
+      connectedData[0].intervals.requested[myQueryId][0].should.equal(myInterval[0]);
+      connectedData[0].intervals.requested[myQueryId][1].should.equal(myInterval[1]);
     });
 
     it('one', () => {
@@ -168,15 +185,12 @@ describe('models/connectedData', () => {
         .that.have.lengthOf(1);
       connectedData[0].should.be.an('object')
         .that.have.an.property('intervals');
-      connectedData[0].intervals.should.be.an('array')
-        .that.have.lengthOf(1);
-      connectedData[0].intervals[0].should.be.an('array')
-        .that.have.lengthOf(2);
-      connectedData[0].intervals[0][0].should.equal(myInterval[0]);
-      connectedData[0].intervals[0][1].should.equal(myInterval[1]);
-      connectedData[0].should.have.an.property('requested');
-      connectedData[0].requested.should.be.an('object')
-        .and.have.properties({});
+      connectedData[0].intervals.should.be.an('object')
+        .that.have.properties({
+          all: [myInterval],
+          received: [myInterval],
+          requested: {},
+        });
       connectedData[0].should.have.an.property('windows')
         .that.is.an('array')
         .that.have.lengthOf(0);
@@ -546,18 +560,14 @@ describe('models/connectedData', () => {
       connectedData[0].should.have.properties({
         localId: getLocalId(myDataId),
         dataId: myDataId,
-        intervals: [],
-        requested: {},
+        intervals: {
+          all: [],
+          received: [],
+          requested: {},
+        },
         windows: [myWindowId],
       });
-      connectedDatum.should.be.an('object');
-      connectedDatum.should.have.properties({
-        localId: getLocalId(myDataId),
-        dataId: myDataId,
-        intervals: [],
-        requested: {},
-        windows: [myWindowId],
-      });
+      connectedDatum.should.deep.equal(connectedData[0]);
     });
     it('one with multiple ids', () => {
       const myDataId = getDataId();
@@ -573,18 +583,15 @@ describe('models/connectedData', () => {
       connectedData[0].should.have.properties({
         localId: getLocalId(myDataId),
         dataId: myDataId,
-        intervals: [],
-        requested: {},
+        intervals: {
+          all: [],
+          received: [],
+          requested: {},
+        },
         windows: [myWindowId, myWindowId2],
       });
       connectedDatum.should.be.an('object');
-      connectedDatum.should.have.properties({
-        localId: getLocalId(myDataId),
-        dataId: myDataId,
-        intervals: [],
-        requested: {},
-        windows: [myWindowId, myWindowId2],
-      });
+      connectedDatum.should.deep.equal(connectedData[0]);
     });
     it('multi', () => {
       const myDataId = getDataId({ parameterName: 'dataId' });
@@ -601,35 +608,29 @@ describe('models/connectedData', () => {
       connectedData[0].should.have.properties({
         localId: getLocalId(myDataId),
         dataId: myDataId,
-        intervals: [],
-        requested: {},
+        intervals: {
+          all: [],
+          received: [],
+          requested: {},
+        },
         windows: [myWindowId],
       });
       connectedDatum1.should.be.an('object');
-      connectedDatum1.should.have.properties({
-        localId: getLocalId(myDataId),
-        dataId: myDataId,
-        intervals: [],
-        requested: {},
-        windows: [myWindowId],
-      });
+      connectedDatum1.should.deep.equal(connectedData[0]);
 
       connectedData[1].should.be.an('object');
       connectedData[1].should.have.properties({
         localId: getLocalId(myDataId2),
         dataId: myDataId2,
-        intervals: [],
-        requested: {},
+        intervals: {
+          all: [],
+          received: [],
+          requested: {},
+        },
         windows: [myWindowId2],
       });
       connectedDatum2.should.be.an('object');
-      connectedDatum2.should.have.properties({
-        localId: getLocalId(myDataId2),
-        dataId: myDataId2,
-        intervals: [],
-        requested: {},
-        windows: [myWindowId2],
-      });
+      connectedDatum2.should.deep.equal(connectedData[1]);
     });
   });
 
@@ -654,18 +655,15 @@ describe('models/connectedData', () => {
       connectedData[0].should.have.properties({
         localId: getLocalId(myDataId),
         dataId: myDataId,
-        intervals: [],
-        requested: {},
+        intervals: {
+          all: [],
+          received: [],
+          requested: {},
+        },
         windows: [],
       });
       connectedDatum.should.be.an('object');
-      connectedDatum.should.have.properties({
-        localId: getLocalId(myDataId),
-        dataId: myDataId,
-        intervals: [],
-        requested: {},
-        windows: [],
-      });
+      connectedDatum.should.deep.equal(connectedData[0]);
     });
     it('one amongst several', () => {
       const myDataId = getDataId();
@@ -682,18 +680,15 @@ describe('models/connectedData', () => {
       connectedData[0].should.have.properties({
         localId: getLocalId(myDataId),
         dataId: myDataId,
-        intervals: [],
-        requested: {},
+        intervals: {
+          all: [],
+          received: [],
+          requested: {},
+        },
         windows: [myWindowId2],
       });
       connectedDatum.should.be.an('object');
-      connectedDatum.should.have.properties({
-        localId: getLocalId(myDataId),
-        dataId: myDataId,
-        intervals: [],
-        requested: {},
-        windows: [myWindowId2],
-      });
+      connectedDatum.should.deep.equal(connectedData[0]);
     });
   });
 
@@ -711,21 +706,16 @@ describe('models/connectedData', () => {
       const connectedData = model.retrieveByWindow(myWindowId);
       connectedData.should.be.an('array')
         .that.have.lengthOf(1);
-      connectedData[0].should.have.an.property('localId')
-        .that.equal(getLocalId(myDataId));
-      connectedData[0].should.have.an.property('dataId')
-        .that.is.an('object')
-        .that.has.properties(myDataId);
-      connectedData[0].should.have.an.property('intervals')
-        .that.is.an('array')
-        .that.have.lengthOf(0);
-      connectedData[0].should.have.an.property('requested')
-        .that.is.an('object')
-        .that.have.properties({});
-      connectedData[0].should.have.an.property('windows')
-        .that.is.an('array')
-        .that.have.lengthOf(1);
-      connectedData[0].windows[0].should.equal(myWindowId);
+      connectedData[0].should.have.properties({
+        localId: getLocalId(myDataId),
+        dataId: myDataId,
+        intervals: {
+          all: [],
+          received: [],
+          requested: {},
+        },
+        windows: [myWindowId],
+      });
     });
     it('multi', () => {
       const myDataId = getDataId({ parameterName: 'dataId' });
@@ -743,15 +733,21 @@ describe('models/connectedData', () => {
       connectedData[1].should.have.properties({
         localId: getLocalId(myDataId),
         dataId: myDataId,
-        intervals: [],
-        requested: {},
+        intervals: {
+          all: [],
+          received: [],
+          requested: {},
+        },
         windows: [myWindowId, myWindowId2],
       });
       connectedData[0].should.have.properties({
         localId: getLocalId(myDataId3),
         dataId: myDataId3,
-        intervals: [],
-        requested: {},
+        intervals: {
+          all: [],
+          received: [],
+          requested: {},
+        },
         windows: [myWindowId],
       });
     });
@@ -810,8 +806,11 @@ describe('models/connectedData', () => {
       connectedData[0].should.be.an('object')
         .that.has.properties({
           dataId: myDataId,
-          intervals: [],
-          requested: {},
+          intervals: {
+            all: [],
+            received: [],
+            requested: {},
+          },
           windows: [myWindowId],
         });
     });
@@ -830,15 +829,21 @@ describe('models/connectedData', () => {
       connectedData[0].should.be.an('object')
         .that.has.properties({
           dataId: myDataId,
-          intervals: [],
-          requested: {},
+          intervals: {
+            all: [],
+            received: [],
+            requested: {},
+          },
           windows: [myWindowId],
         });
       connectedData[1].should.be.an('object')
         .that.has.properties({
           dataId: myDataId2,
-          intervals: [],
-          requested: {},
+          intervals: {
+            all: [],
+            received: [],
+            requested: {},
+          },
           windows: [myWindowId],
         });
     });

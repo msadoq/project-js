@@ -46,8 +46,11 @@ describe('onSubscriptionOpen', () => {
         .that.have.properties({
           localId: connectedDataModel.getLocalId(myDataId),
           dataId: myDataId,
-          intervals: [],
-          requested: {},
+          intervals: {
+            all: [],
+            received: [],
+            requested: {},
+          },
           windows: [42],
         });
     });
@@ -68,8 +71,11 @@ describe('onSubscriptionOpen', () => {
         .that.have.properties({
           localId: connectedDataModel.getLocalId(myDataId),
           dataId: myDataId,
-          intervals: [],
-          requested: {},
+          intervals: {
+            all: [],
+            received: [],
+            requested: {},
+          },
         });
       connectedData[0].should.have.a.property('windows')
         .that.is.an('array')

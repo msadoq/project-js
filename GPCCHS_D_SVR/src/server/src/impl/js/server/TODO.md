@@ -31,12 +31,12 @@ Only list expected tasks for PBF shipping of end of october.
 
 Renaud
 * [x] connectedData Model: fix retrieveMissingIntervals and update tests
-* [=] connectedData Model: store merge of both requested and received intervals into a separate entry
+* [x] connectedData Model: store merge of both requested and received intervals into a separate entry
 * [ ] onNewDataMessage: separate in two controllers: onRealtimeData, onArchiveData
-  - Don't de-protobuf in first _.map (only get timestamp), de-protobuf parameter value at last moment
-  - In onArchiveData consider data as ordered (take first and last timestamp, search for this interval existence, insert)
-  - In onRealtimeData list and order timestamp, implement a method that walk known intervals with timestamp list and return only ones that are in known interval .areTimestampInKnownIntervals([timestamp]) => [timestamp]  
-  - In both generate localId in each controller and not in .addRecord()
+  - [ ] Don't de-protobuf in first _.map (only get timestamp), de-protobuf parameter value at last moment
+  - [ ] In onArchiveData consider data as ordered (take first and last timestamp, search for this interval existence, insert)
+  - [=] In onRealtimeData list and order timestamp, implement a method that walk known intervals with timestamp list and return only ones that are in known interval .areTimestampInKnownIntervals([timestamp]) => [timestamp]  
+  - [=] connectedDataModel: change .addRecord() to .addRecords()
 * [ ] View type onNewData: implement localId filtering, displayed interval filtering, filter, select field and send [[timestamp, value]]
 * [ ] onViewQuery/onNewDataMessage: test AVLTree instead of Loki for cache retrieving/insertion OR our proper data structure DataStructure{[order],{key:{value}}
 * [ ] Profiling: rename errorHandler=>execController, only on 'end' controllers

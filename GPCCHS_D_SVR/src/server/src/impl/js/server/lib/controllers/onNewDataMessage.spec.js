@@ -74,17 +74,15 @@ describe('onNewDataMessage', () => {
     const connectedData = connectedDataModel.find();
     connectedData.should.be.an('array')
       .and.have.lengthOf(1);
-    connectedData[0].should.be.an('object')
-      .and.have.property('requested');
-    connectedData[0].requested.should.be.an('object')
-      .that.have.property(dataQuery.id)
-      .that.be.an('array')
-      .that.has.lengthOf(2);
-    connectedData[0].requested[dataQuery.id][0].should.equal(dataQuery.interval.lowerTs.ms - 1e9);
-    connectedData[0].requested[dataQuery.id][1].should.equal(dataQuery.interval.upperTs.ms + 1e9);
-    connectedData[0].should.have.property('intervals');
-    connectedData[0].intervals.should.be.an('array')
+    connectedData[0].intervals.requested[dataQuery.id][0]
+      .should.equal(dataQuery.interval.lowerTs.ms - 1e9);
+    connectedData[0].intervals.requested[dataQuery.id][1]
+      .should.equal(dataQuery.interval.upperTs.ms + 1e9);
+    connectedData[0].intervals.received.should.be.an('array')
       .that.has.lengthOf(0);
+    connectedData[0].intervals.all.should.deep.equal([
+      [dataQuery.interval.lowerTs.ms - 1e9, dataQuery.interval.upperTs.ms + 1e9],
+    ]);
     // Check that data are received in views
     const message = testSpark.getMessage();
     message.should.be.an('object')
@@ -140,17 +138,10 @@ describe('onNewDataMessage', () => {
     const connectedData = connectedDataModel.find();
     connectedData.should.be.an('array')
       .and.have.lengthOf(1);
-    connectedData[0].should.be.an('object')
-      .and.have.property('requested');
-    connectedData[0].requested.should.be.an('object');
-    _.keys(connectedData[0].requested).length.should.equal(0);
-    connectedData[0].should.have.property('intervals');
-    connectedData[0].intervals.should.be.an('array')
-      .that.has.lengthOf(1);
-    connectedData[0].intervals[0].should.be.an('array')
-      .that.has.lengthOf(2);
-    connectedData[0].intervals[0][0].should.equal(dataQuery.interval.lowerTs.ms - 1e9);
-    connectedData[0].intervals[0][1].should.equal(dataQuery.interval.upperTs.ms + 1e9);
+    connectedData[0].intervals.requested.should.have.properties({});
+    connectedData[0].intervals.received.should.deep.equal([
+      [dataQuery.interval.lowerTs.ms - 1e9, dataQuery.interval.upperTs.ms + 1e9],
+    ]);
     // Check that data are received in views
     const message = testSpark.getMessage();
     message.should.be.an('object')
@@ -261,18 +252,18 @@ describe('onNewDataMessage', () => {
     const connectedData = connectedDataModel.find();
     connectedData.should.be.an('array')
       .and.have.lengthOf(1);
-    connectedData[0].should.be.an('object')
-      .and.have.property('requested');
-    connectedData[0].requested.should.be.an('object')
+    connectedData[0].intervals.requested.should.be.an('object')
       .that.have.property(dataQuery.id)
       .that.be.an('array')
       .that.has.lengthOf(2);
-    connectedData[0].requested[dataQuery.id][0]
+    connectedData[0].intervals.requested[dataQuery.id][0]
       .should.equal(dataQuery.interval.lowerTs.ms - 1e9);
-    connectedData[0].requested[dataQuery.id][1]
+    connectedData[0].intervals.requested[dataQuery.id][1]
       .should.equal(dataQuery.interval.upperTs.ms + 1e9);
-    connectedData[0].should.have.property('intervals');
-    connectedData[0].intervals.should.be.an('array')
+    connectedData[0].intervals.all.should.deep.equal([
+      [dataQuery.interval.lowerTs.ms - 1e9, dataQuery.interval.upperTs.ms + 1e9],
+    ]);
+    connectedData[0].intervals.received.should.be.an('array')
       .that.has.lengthOf(0);
     // Check that data are received in views
     const message = testSpark.getMessage();

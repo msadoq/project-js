@@ -32,6 +32,18 @@ stubs.getReportingParameterProtobuf = override => protobuf.encode(
   stubs.getReportingParameter(override)
 );
 
+stubs.getDataFilter = override => applyOverride({
+  lhs: 'extractedValue',
+  comp: 'OP_GT',
+  rhs: '42',
+}, override);
+
+stubs.getDataFilterProtobuf = override => protobuf.encode(
+  'dc.dataControllerUtils.DataFilter',
+  stubs.getDataFilter(override)
+);
+
+
 stubs.getDataId = override => applyOverride({
   parameterName: 'ATT_BC_STR1STRRFQ1',
   catalog: 'Reporting',
@@ -39,6 +51,20 @@ stubs.getDataId = override => applyOverride({
   sessionId: 100,
   domainId: 200,
 }, override);
+
+stubs.getDataIdWithFilter = override => applyOverride({
+  parameterName: 'ATT_BC_STR1STRRFQ1',
+  catalog: 'Reporting',
+  comObject: 'ReportingParameter',
+  sessionId: 100,
+  domainId: 200,
+  dataFilter: [stubs.getDataFilter(), stubs.getDataFilter({ comp: 'OP_LT', rhs: '84' })],
+}, override);
+
+stubs.getDataIdWithFilterProtobuf = override => protobuf.encode(
+  'dc.dataControllerUtils.DataId',
+  stubs.getDataIdWithFilter(override)
+);
 
 stubs.getDataIdProtobuf = override => protobuf.encode(
   'dc.dataControllerUtils.DataId',

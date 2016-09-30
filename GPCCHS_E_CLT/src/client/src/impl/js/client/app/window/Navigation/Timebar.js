@@ -18,7 +18,6 @@ export default class Timebar extends Component {
   moveForward() {
     const state = this.context.store.getState();
     const timebarId = Object.keys(state.timebars)[0];
-    console.log(timebarId, 'fuxk', state.timebars[timebarId])
     const { visuWindow } = state.timebars[timebarId];
     if (!visuWindow) {
       console.log('no timebar');

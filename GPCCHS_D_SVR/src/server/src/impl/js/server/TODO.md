@@ -30,18 +30,15 @@ Only list expected tasks for PBF shipping of end of october.
 * [ ] Cache invalidation automatic mechanism
 
 Renaud
-* [x] connectedData Model: fix retrieveMissingIntervals and update tests
-* [x] connectedData Model: store merge of both requested and received intervals into a separate entry
-* [=] onNewDataMessage: separate in two controllers: onSubscribedData, onArchiveData
-  - [x] Don't de-protobuf in first _.map (only get timestamp), de-protobuf parameter value at last moment
-  - [x] In onQueryData consider data as ordered (take first and last timestamp, search for this interval existence, insert)
-  - [x] In onSubscriptionData list and order timestamp, insert only intervals in known intervals
-  - [=] To improve : connectedData Model: implement a method that walk known intervals with timestamp list and return only ones that are in known interval .areTimestampInKnownIntervals([timestamp]) => [timestamp]  
-  - [x] cacheJson Model : change .addRecord() to .addRecords()
+* [ ] onNewDataMessage: separate in two controllers: onRealtimeData, onArchiveData
+  - Don't de-protobuf in first _.map (only get timestamp), de-protobuf parameter value at last moment
+  - In onArchiveData consider data as ordered (take first and last timestamp, search for this interval existence, insert)
+  - In onRealtimeData list and order timestamp, implement a method that walk known intervals with timestamp list and return only ones that are in known interval .areTimestampInKnownIntervals([timestamp]) => [timestamp]  
+  - In both generate localId in each controller and not in .addRecord()
 * [ ] View type onNewData: implement localId filtering, displayed interval filtering, filter, select field and send [[timestamp, value]]
 * [ ] onViewQuery/onNewDataMessage: test AVLTree instead of Loki for cache retrieving/insertion OR our proper data structure DataStructure{[order],{key:{value}}
-* [ ] Profiling: rename errorHandler=>execController, only on 'end' controllers
-
+* [ ] Profiling: rename errorHandler=>execController, only on 'end' controllers 
+ 
 ## GPCCHSC (Electron)
 
 * Implement <PlotView/>
@@ -55,11 +52,16 @@ Renaud
   - [ ] https://github.com/wrakky/react-html-parser
 * [ ] Persist window geometry and focus in Redux
 * [ ] Improve window closing by implementing a confirmation box with WS disconnection
-* [ ] Pass realtime dimensions to each view (react-grid-layout/build/components/WidthProvider.js.flow, react-dimensions, https://github.com/souporserious/react-measure)
 * [ ] Replace tabs with reactjs/react-tabs
-
+* [ ] Sync with erb: 0b0e19c74518fc97843e9bcb393086aa9a7ad616
+* [ ] Improve main process debugging by try-catching on ready logic
+* [ ] Fix launching warning on document.write injection by adding cross origin policy
+ 
+Adrien
+* [ ] Pass realtime dimensions to each view (react-grid-layout/build/components/WidthProvider.js.flow, react-dimensions, https://github.com/souporserious/react-measure)
+ 
 Audrey
-* [ ] Re-implement documents/workspace unit test (Audrey)
+* [x] Re-implement documents/workspace unit test (Audrey)
 
 Aziz
 * [ ] TextView parsing to React component
@@ -68,15 +70,18 @@ Aziz
 Alexandra
 * [=] Customize electron window menu bar (Alexandra)
 * [=] Add a clean "error" page when unable to connect to server or when DC stub is off (Alexandra)
+* [ ] Complete workspace
 
 Damien
+* New ids (the 3 are send on HSS)
+  - [ ] localId: remoteId + field + offset + type => HSS view sending to HSC, HSC de-duplication
+  - [ ] remoteId: dataId + filter => DC requesting, DC reception
+  - [ ] dataId: catalog, name, comObject, sessionId, domainId
+* [ ] Implement ConnectedDataContainer in <Page/> and not in <Views/> ...
+* [ ] ... on each update list the whole query list to do in one packet (localId+)
 * [ ] connectedData/decorate.js: don't take offset in consideration when called from forWindow()
-* [ ] Implement ConnectedDataContainer in <Page/> and not in <Views/>
 * [ ] NewData channel handling in client
 * [ ] Remove mutations/connectedData with a sub-reducer in views
-* [ ] Sync with erb: 0b0e19c74518fc97843e9bcb393086aa9a7ad616
-* [ ] Improve main process debugging by try-catching on ready logic
-* [ ] Fix launching warning on document.write injection by adding cross origin policy
 * [ ] Implement reselect on connectedData
 * [ ] connectedData/domains.js: add reselect
 * [ ] connectedData/forView.js: test
@@ -85,7 +90,7 @@ Damien
 * [ ] connectedData/queries.js: handle view type to request only needed value (everything for plot, lower->current for text)
 * [ ] connectedData/wildcard.js: memoize .generate()
 * [ ] Analyse connectedData module, complete tests, same for selectors and others
-* [ ] HSC tree refactoring:
+* [ ] HSC tree refactoring: 
   - app=>lib
   - main=>mainProcess + window=>windowProcess
   - PageContent=>Content

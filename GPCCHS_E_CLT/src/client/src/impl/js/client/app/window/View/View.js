@@ -30,8 +30,6 @@ export default class View extends Component {
       payload: {
         type: this.props.type,
         viewId: this.props.viewId,
-        // configuration: this.props.configuration,
-        // connectedData: this.props.connectedData,
       },
     });
   }
@@ -60,12 +58,13 @@ export default class View extends Component {
             Remove view
           </Button>
         </div>
+
         <div className={styles.ViewTypeContainer}>
           <ViewTypeContainer {...this.props} />
         </div>
-          <div className={styles.ConnectedDataContainer}>
-            <ConnectedDataContainer {...this.props} />
-      </div>
+        <div className={styles.ConnectedDataContainer}>
+          <ConnectedDataContainer {...this.props} />
+        </div>
       </div>
     );
   }

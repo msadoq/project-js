@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import missingIntervals from '../utils/intervals';
+import missingIntervals from './missingIntervals';
 
 /**
  * Apply missing interval logic on connectedData and returns a list of query to pass to HSS

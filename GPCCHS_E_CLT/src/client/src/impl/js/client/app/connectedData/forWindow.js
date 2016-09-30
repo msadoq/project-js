@@ -3,7 +3,7 @@ import { getPages } from '../store/mutations/windowReducer';
 import { getViews } from '../store/mutations/pageReducer';
 import { getConnectedData } from '../store/mutations/viewReducer';
 
-import decorate from './decorate';
+import decorate from './decorateWindow';
 
 export function extractFromWindow(state, windowId) {
   const cds = [];

@@ -1,7 +1,7 @@
-import { should } from './test';
-import missingIntervals from './intervals';
+import { should } from '../utils/test';
+import missingIntervals from './missingIntervals';
 
-describe('utils/intervals', () => {
+describe('utils/missingIntervals', () => {
   const interval = [10, 20];
   it('no previous', () => {
     missingIntervals([], [10, 20]).should.eql([[10, 20]]);

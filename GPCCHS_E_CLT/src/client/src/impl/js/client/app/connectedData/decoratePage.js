@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import formula from './formula';
-import localId from './localId';
+import remoteIdGenerator from './remoteId';
+import localIdGenerator from './localId';
 import domainsFilter from './domains';
 import timelinesFilter from './sessions';
 import { getTimelines } from '../store/mutations/timebarReducer';
@@ -13,7 +14,7 @@ import { getTimelines } from '../store/mutations/timebarReducer';
  * @param connectedData
  */
 export default function decorate(state, connectedData) {
-  const known = {};
+  // const known = {};
   return _.reduce(connectedData, (list, cd) => {
     const forDomains = domainsFilter(state.domains, cd.domain);
     if (!forDomains.length) {
@@ -26,16 +27,8 @@ export default function decorate(state, connectedData) {
 
     _.each(forDomains, (domainId) => {
       _.each(forSessionIds, ({ sessionId, offset }) => {
+        // remoteId
         const p = formula(cd.formula);
-
-        // de-duplication
-        const path =
-          `${p.catalog}.${p.parameterName}.${p.comObject}.${domainId}.${sessionId}.${offset}`;
-        if (_.has(known, path)) {
-          return;
-        }
-        _.set(known, path, true);
-
         const dataId = {
           catalog: p.catalog,
           parameterName: p.parameterName,
@@ -43,15 +36,27 @@ export default function decorate(state, connectedData) {
           domainId,
           sessionId,
         };
+        const remoteId = remoteIdGenerator(dataId, p.filter);
 
-        list.push({
-          localId: localId(dataId),
+        // localId
+        const localId = localIdGenerator(cd.viewType, p.field, offset);
+
+        // de-duplication
+        if (typeof list[remoteId] === 'undefined') {
+          list[remoteId] = {};
+        } else if (typeof list[remoteId][localId] !== 'undefined') {
+          return;
+        }
+
+        list[remoteId][localId] = {
+          viewType: cd.viewType,
+          field: p.field,
           offset,
           dataId,
-        })
+        };
       });
     });
 
     return list;
-  }, []);
+  }, {});
 }

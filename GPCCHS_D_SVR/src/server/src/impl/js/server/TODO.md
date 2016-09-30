@@ -6,6 +6,8 @@ Only list expected tasks for PBF shipping of end of october.
 
 * [ ] Wildcard: we can subscribe *n* parameters for the same entryPoint, what we should do with the *n* incoming values (TextView the first, PlotView ?)?
 * [ ] TextView displayed value (the last known before currentTime? until when?)
+* [ ] Risk! De-protobuf 10000 parameters in 500ms, even if we dedicate a process for that we can only handle 20 000 / seconds (and a simple plot on 15 days is 1 300 000 values)
+* [ ] Feature: ask to datastore last value before a given date (for TextView and MimicView)
 
 ## Global
 
@@ -19,9 +21,12 @@ Only list expected tasks for PBF shipping of end of october.
 
 * [=] Analyze, measure and test and the LokiJS index for cache dataId and interval, https://github.com/techfort/LokiJS/issues/477 (Damien)
 * Controllers
-  * [ ] onViewUpdate (store new configuration)
-  * [=] onViewQuery (Renaud)
-* [ ] Move localId generation from HSS to HSC in <Subscription/> and <View/> (Damien)
+  - [ ] onViewUpdate (store new configuration)
+  - [=] onViewQuery (Renaud)
+* Protobuf
+  - [ ] Study and remove the toRaw() method, remove the removeEmpty() parsing
+  - [ ] Replace Protobufjs with module that use a C++ parser (https://github.com/fuwaneko/node-protobuf or google C++ wrapped by us)
+* [=] Move localId generation from HSS to HSC in <Subscription/> and <View/>
 * [ ] Implement data filtering on server-side view instance
 * [ ] LPISIS protobuf and types converters code generation (Adrien)
 * [ ] Test every LPISIS parameter type conversion (C++ types to Javascript) (Adrien)
@@ -58,10 +63,10 @@ Renaud
 * [ ] Fix launching warning on document.write injection by adding cross origin policy
  
 Adrien
-* [ ] Pass realtime dimensions to each view (react-grid-layout/build/components/WidthProvider.js.flow, react-dimensions, https://github.com/souporserious/react-measure)
+* [=] Pass realtime dimensions to each view (react-grid-layout/build/components/WidthProvider.js.flow, react-dimensions, https://github.com/souporserious/react-measure)
  
 Audrey
-* [x] Re-implement documents/workspace unit test (Audrey)
+* [=] Incoming data channel from HSS to DC 
 
 Aziz
 * [ ] TextView parsing to React component
@@ -73,13 +78,7 @@ Alexandra
 * [ ] Complete workspace
 
 Damien
-* New ids (the 3 are send on HSS)
-  - [ ] localId: remoteId + field + offset + type => HSS view sending to HSC, HSC de-duplication
-  - [ ] remoteId: dataId + filter => DC requesting, DC reception
-  - [ ] dataId: catalog, name, comObject, sessionId, domainId
-* [ ] Implement ConnectedDataContainer in <Page/> and not in <Views/> ...
-* [ ] ... on each update list the whole query list to do in one packet (localId+)
-* [ ] connectedData/decorate.js: don't take offset in consideration when called from forWindow()
+* [ ] Update intervals lib from Renaud code
 * [ ] NewData channel handling in client
 * [ ] Remove mutations/connectedData with a sub-reducer in views
 * [ ] Implement reselect on connectedData
@@ -103,7 +102,6 @@ Damien
 * [ ] Replace localId with unique number id to save Loki memory
 * [ ] Envisage to fork in child_process the HSS DC stub (Damien)
 * [ ] Webpackize the HSS code and study C++ module portability
-* [ ] Replace Protobufjs with module that use a C++ parser
 * [ ] Add eslint pre-commit hook
 * [ ] Envisage removing express from HSC to use webpack server instead
 * [ ] Hot reload in main process https://github.com/chentsulin/electron-react-boilerplate/issues/360

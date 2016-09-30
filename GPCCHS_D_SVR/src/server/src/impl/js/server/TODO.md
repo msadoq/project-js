@@ -20,6 +20,8 @@ Only list expected tasks for PBF shipping of end of october.
 ## GPCCHSS (Node.js)
 
 * [=] Analyze, measure and test and the LokiJS index for cache dataId and interval, https://github.com/techfort/LokiJS/issues/477 (Damien)
+* [ ] Describe new DC->HSS communication (Damien)
+* [ ] Stub and test new DC->HSS communication
 * Controllers
   - [ ] onViewUpdate (store new configuration)
   - [=] onViewQuery (Renaud)

@@ -1,11 +1,10 @@
-import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
+import React, { Component, PropTypes } from 'react';
 import { getWebsocket } from '../../websocket/windowWebsocket';
-import { Button } from 'react-bootstrap';
 import external from '../../../external.window';
 import UnknownView from './UnknownView';
+import ViewHeader from './Component/ViewHeader';
 import ConnectedDataContainer from './ConnectedDataContainer';
-
 import styles from '../Page/Page.css';
 
 export default class View extends Component {
@@ -15,13 +14,21 @@ export default class View extends Component {
     viewId: PropTypes.string.isRequired,
     title: PropTypes.string,
     configuration: PropTypes.object.isRequired,
+    pageId: PropTypes.string,
+    connectedData: PropTypes.array,
     interval: PropTypes.object.isRequired,
     openEditor: PropTypes.func,
+    isViewsEditorOpen: PropTypes.bool,
     closeEditor: PropTypes.func,
     unmountAndRemove: PropTypes.func,
+    onOpenEditor: PropTypes.func
   };
+
   constructor(props, context) {
     super(props, context);
+    this.onOpenEditor = this.onOpenEditor.bind(this);
+    this.onRemove = this.onRemove.bind(this);
+    this.onCloseEditor = this.onCloseEditor.bind(this);
     this.onStopGridLayoutPropagation = this.onStopGridLayoutPropagation.bind(this);
   }
   componentDidMount() {
@@ -43,32 +50,6 @@ export default class View extends Component {
       },
     });
   }
-  render() {
-    const { type } = this.props;
-
-    const ViewTypeContainer = _.has(external, type) ? external[type].container : UnknownView;
-
-    return (
-      <div onMouseDown={this.onStopGridLayoutPropagation}>
-        <div>
-          { this.props.title }
-          <Button className={styles.buttonPage_Editview} onClick={this.onOpenEditor.bind(this)}>
-            Edit this view
-          </Button>
-          <Button className={styles.buttonPage_Removeview} onClick={this.onRemove.bind(this)}>
-            Remove view
-          </Button>
-        </div>
-
-        <div className={styles.ViewTypeContainer}>
-          <ViewTypeContainer {...this.props} />
-        </div>
-        <div className={styles.ConnectedDataContainer}>
-          <ConnectedDataContainer {...this.props} />
-        </div>
-      </div>
-    );
-  }
   onOpenEditor(e) {
     e.stopPropagation();
     e.preventDefault();
@@ -82,6 +63,12 @@ export default class View extends Component {
       this.props.configuration,
     );
   }
+  onCloseEditor() {
+    if (!this.props.closeEditor) {
+      return;
+    }
+    this.props.closeEditor(this.props.pageId);
+  }
   onRemove(e) {
     e.stopPropagation();
     e.preventDefault();
@@ -93,5 +80,34 @@ export default class View extends Component {
   }
   onStopGridLayoutPropagation(e) {
     e.stopPropagation();
+  }
+  render() {
+    const { type } = this.props;
+
+    const ViewTypeContainer = _.has(external, type) ? external[type].container : UnknownView;
+    return (
+      <div>
+        <ViewHeader
+          pageId={this.props.pageId}
+          title={this.props.configuration.title}
+          isViewsEditorOpen={this.props.isViewsEditorOpen}
+          onOpenEditor={this.onOpenEditor}
+          onCloseEditor={this.onCloseEditor}
+          onRemove={this.onRemove}
+        />
+        <div className={styles.ViewTypeContainer}>
+          <ViewTypeContainer
+            timebarId={this.props.timebarId}
+            viewId={this.props.viewId}
+            type={this.props.type}
+            configuration={this.props.configuration}
+            connectedData={this.props.connectedData}
+          />
+        </div>
+        <div className={styles.ConnectedDataContainer}>
+            {/*<ConnectedDataContainer {...this.props} />*/}
+        </div>
+      </div>
+    );
   }
 }

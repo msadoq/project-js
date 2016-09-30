@@ -24,8 +24,8 @@ const mapStateToProps = (state, ownProps) => {
     ...ownProps,
     type,
     configuration,
-    interval: { lower, current, upper },
-  }
+    interval: { lower, current, upper }
+  };
 };
 
 export default connect(mapStateToProps)(ViewContainer);

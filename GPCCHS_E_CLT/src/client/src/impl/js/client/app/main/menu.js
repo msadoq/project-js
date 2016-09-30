@@ -3,6 +3,7 @@ import { getStore } from '../store/mainStore';
 import { add, addAndMount as addAndMountPage, unmountAndRemove as unmountAndRemovePage } from '../store/mutations/windowActions';
 import { addAndMount as addAndMountView, unmountAndRemove as unmountAndRemoveView } from '../store/mutations/pageActions';
 
+
 // const remote = require('remote');
 const { dialog } = require('electron');
 
@@ -31,12 +32,13 @@ const template = [{
       accelerator: '',
       click() {
         console.log('create a new window!!!!');
-        dialog.showMessageBox({ type: 'info', title: 'Opening new window', message: 'a new window is being opened... valid please', buttons: ['ok'] });
-        getStore().dispatch(add(v4(), 'Test window'));
+        dialog.showMessageBox({ type: 'info', title: 'Opening new window', message: 'A new window is being opened... valid please', buttons: ['ok'] });
+        getStore().dispatch(add(v4(), 'New window'));
+        // console.log(add(v4()));
         dialog.showMessageBox({
           title: 'Do not forget !',
-          message: 'new window is empty',
-          detail: 'this window needs creating a page, in Menu: Page > Add',
+          message: 'New window is empty',
+          detail: 'This window needs creating a page, in Menu: Page > Add',
           buttons: ['I understood']
         });
       }
@@ -97,7 +99,7 @@ const template = [{
     accelerator: '',
     click(item, focusedWindow) {
       console.log('page added!')
-      if (focusedWindow) dialog.showMessageBox({ type: 'info', title: 'Information', message: 'new page added!', buttons: ['ok'] });
+      if (focusedWindow) dialog.showMessageBox({ type: 'info', title: 'Information', message: 'New page added!', buttons: ['ok'] });
       getStore().dispatch(addAndMountPage(focusedWindow.windowId, v4(), 'add example'));
       // {
 

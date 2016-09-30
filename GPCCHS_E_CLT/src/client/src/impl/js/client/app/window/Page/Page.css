@@ -2,6 +2,7 @@
   background-color: white;
   border: 2px solid grey;
   overflow: auto;
+  height: 100%;
 }
 
 

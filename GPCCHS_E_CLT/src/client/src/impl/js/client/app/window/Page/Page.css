@@ -25,3 +25,35 @@
   font-size: 100px;
   color: black;
 }
+
+.buttonPage_Editview {
+  font-family: Arial;
+  color: white;
+  background-color: darkblue;
+  opacity: 0.5;
+ }
+
+.buttonPage_Removeview {
+  font-family: Arial;
+  color: white;
+  background-color: darkred;
+  opacity: 0.5;
+}
+.ConnectedDataContainer{
+  font-family: Arial;
+  color: black;
+  background-color: whitesmoke;
+  border-style: dotted;;
+  border-width: thin;
+}
+
+.ViewTypeContainer {
+  text-align: center;
+  font-family: Arial;
+  color: dimgray;
+  font-weight: bold;
+  background-color: lightsteelblue;
+  border-style: dotted;;
+  border-width: thin;
+    /*opacity: 0.5;*/
+}

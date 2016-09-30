@@ -4,7 +4,6 @@ import controller from './windowController';
 import { updateStatus } from '../store/mutations/hssActions';
 
 import { Primus } from '../../external.main';
-import styles from '../window/Websocket/Status.css';
 
 const logger = debug('window:websocket');
 

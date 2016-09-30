@@ -4,7 +4,7 @@ const _ = require('lodash');
 
 module.exports = {
   getSchemaJson: () => schema,
-  getConnectedDataFromViewDocument: function(viewContent) { // TODO missing test
+  getConnectedDataFromViewDocument: function(viewContent) { // TODO aleal missing test
     const cdList = [];
     if (_.has(viewContent, 'configuration')) {
       _.forEach(viewContent.configuration.textViewEntryPoints, (value, index, source) => {

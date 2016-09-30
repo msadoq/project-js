@@ -1,4 +1,4 @@
-import debug from '../utils/debug';
+import debug from '../utils/mainDebug';
 import _ from 'lodash';
 import { getStore } from '../store/mainStore';
 import { add as addTimeline } from '../store/mutations/timelineActions';

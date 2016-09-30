@@ -1,17 +1,10 @@
-// specific management of renderer env
-if (!process.env.DEBUG && global.env && global.env.DEBUG) {
-  process.env.DEBUG = global.env.DEBUG;
-}
-
-const d = require('debug');
-
 const ERROR = 'ERROR';
 const INFO = 'INFO';
 const DEBUG = 'DEBUG';
 const VERBOSE = 'VERBOSE';
 
-module.exports = namespace => {
-  const logger = d(`GPCCHS:${namespace}`);
+module.exports = debug => namespace => {
+  const logger = debug(`GPCCHS:${namespace}`);
   let level = process.env.LEVEL;
   if (!level && global.env && global.env.LEVEL) {
     level = global.env.LEVEL;

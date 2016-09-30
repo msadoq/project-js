@@ -86,8 +86,6 @@ See [TB.example.json](./lib/schemaManager/examples/TB.example.json)
 * create and register a new view instance
 **onViewClose**: 
 * destroy and unregister view instance
-**onViewUpdate**: 
-* store new size/zoom on view instance, compute if view need new interval, look for cache, request datastore if needed
 
 **onHscTimebarUpdate**: 
 * store new tb state, only on startup to emulate the real Qt TB
@@ -124,34 +122,7 @@ Each GPCCHS view is stored in separate component and expose the following compon
       - request missing interval
       - send cache to view
       - persist current display interval in view instance  (=> when it should be used?)
-    * onViewUpdate:
-      - save new view dimension in view instance (=> for futur complex sampling)
     * onNewData:
       - read timebar
       - if received data concern this view and is in expected interval send to view
     * each view instance apply filters AND buffer data sending to view [AND sample data to send to view]
-  
-## Flows
-
-### HSC launching
-
-* HSC received a computed version of workspace/pages/views to open
-* HSC launch electron
-** Initiate redux store with received data
-** Open a main websocket with HSS
-* HSC opens windows
-* Each windows renders pages
-
-### View opening
-
-* View opens a websocket with HSS (viewId)
-* HSS creates a record in **openedWebsockets**
-* View transmits to HSS a parameter subscription (parameterSubscriptionId, catalog, parameter, type, filter)
-* For each HSS:
-  - creates a record in **subscribedParameters** (adding viewId)
-  - looks for existing intervals (based on Timebar position) in cache for this parameter
-  - ask DC (**dataQuery**) for each missing interval and for each creates record in **requestedIntervals**
-  - apply filters on cached data
-  - send cached data to HSC view (**displayData**)
-
-/!\ Already in cache data search doesn't works for realtime data, we should trace that realtime data was received

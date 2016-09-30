@@ -1,7 +1,8 @@
-import debug from '../utils/debug';
+import _ from 'lodash';
+import debug from '../utils/mainDebug';
 import installExtensions from './installExtensions';
 import { initStore, getStore } from '../store/mainStore';
-import { connect, disconnect, getWebsocket } from './websocket';
+import { connect, disconnect, getWebsocket } from '../websocket/mainWebsocket';
 import { sync as syncWindows } from './windows';
 import readWorkspace from '../documents/workspace';
 import loadWorkspace from './loadWorkspace';
@@ -11,10 +12,6 @@ import { updateStatus } from '../store/mutations/hscActions';
 import menu from'./menu';
 
 const logger = debug('main:launch');
-// TODO: A supprimer!!!!
-const FMD_ROOT = process.env.FMD_ROOT;
-// fin TODO
-
 
 let storeUnsubscribe;
 let loadedWorkspace;
@@ -33,7 +30,7 @@ function onStoreUpdate() {
   }
 
   if (appStatus === 'connected-with-hss') {
-    readWorkspace(FMD_ROOT, 'dev.workspace.json', (err, workspace) => {
+    readWorkspace(process.env.FMD_ROOT, 'dev.workspace.json', (err, workspace) => {
       if (err) {
         throw err;
       }
@@ -51,11 +48,25 @@ function onStoreUpdate() {
   }
 
   if (appStatus === 'domain-retrieved') {
+    // Replace timeline uuid with referenced value to send it to Qt
+    const tbs = [];
+    _.each(loadedWorkspace.timebars, (tb) => {
+      const tbtmp = JSON.parse(JSON.stringify(tb));
+      tbtmp.timelines = [];
+      _.each(tb.timelines, (id) => {
+        tbtmp.timelines.push(loadedWorkspace.timelines[id]);
+      });
+      tbs.push(tbtmp);
+    });
+    // Send tb init for VIMA widget
+    getWebsocket().write({
+      event: 'vimaTimebarInit',
+      payload: tbs,
+    });
+    // Send tb init to hss
     getWebsocket().write({
       event: 'timebarUpdate',
-      payload: {
-        timebar: {}, // TODO : this step will probably no longer be needed
-      },
+      payload: { timebars: loadedWorkspace.timebars, timelines: loadedWorkspace.timelines },
     });
     dispatch(updateStatus('timebar-sent-to-hss'));
   }

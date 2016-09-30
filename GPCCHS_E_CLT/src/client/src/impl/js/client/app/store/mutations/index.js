@@ -8,6 +8,7 @@ import pages from './pageReducer';
 import views from './viewReducer';
 import connectedData from './connectedDataReducer';
 import domains from './domainsReducer';
+// import toastr from './toastrReducer';
 
 const reducer = combineReducers({
   hss,
@@ -19,6 +20,7 @@ const reducer = combineReducers({
   views,
   connectedData,
   domains,
+  // toastr,
 });
 
 export default reducer;

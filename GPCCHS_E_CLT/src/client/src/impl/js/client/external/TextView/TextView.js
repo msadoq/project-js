@@ -5,7 +5,7 @@ export default class TextView extends Component {
     type: React.PropTypes.string.isRequired,
     viewId: PropTypes.string.isRequired,
     entryPoints: PropTypes.array.isRequired,
-    connectedData: PropTypes.array.isRequired,
+    // connectedData: PropTypes.array.isRequired,
     links: PropTypes.array,
     defaultRatio: PropTypes.object,
   };

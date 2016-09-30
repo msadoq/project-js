@@ -2,17 +2,21 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Page from './Page';
-import { getEditor } from '../../store/mutations/pageReducer';
+import { getEditor, getPage } from '../../store/mutations/pageReducer';
 import { openEditor, closeEditor } from '../../store/mutations/pageActions';
 
 const PageContainer = props => <Page {...props} />;
 
-const mapStateToProps = (state, { windowId, pageId }) => ({
-  windowId,
-  pageId,
-  editor: getEditor(state, pageId),
-  isEditorOpened: getEditor(state, pageId).isOpened
-});
+const mapStateToProps = (state, { windowId, pageId }) => {
+  const { timebarId } = getPage(state, pageId);
+  return {
+    windowId,
+    pageId,
+    timebarId,
+    editor: getEditor(state, pageId),
+    isEditorOpened: getEditor(state, pageId).isOpened
+  }
+};
 
 const mapDispatchToProps = (dispatch, { pageId }) => bindActionCreators({
   openEditor: (viewId, viewType, configuration) => openEditor(

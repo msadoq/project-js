@@ -19,7 +19,7 @@ export default function hss(state = {}, action) {
           error: action.payload.error || initialState.error,
         }
       }, state);
-    case types.WS_WINDOW_REMOVE:
+    case types.HSS_WS_REMOVE:
       return _.omit(state, [action.payload.windowId]); // TODO add test
     default:
       return state;

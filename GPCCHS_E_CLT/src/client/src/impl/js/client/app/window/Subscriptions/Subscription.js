@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { getWebsocket } from '../websocket';
+import { getWebsocket } from '../../websocket/windowWebsocket';
 
 export default class Subscription extends Component {
   static propTypes = {
@@ -12,13 +12,8 @@ export default class Subscription extends Component {
       event: 'connectedDataOpen',
       payload: {
         windowId: windowId,
-        dataId: {
-          catalog: cd.catalog,
-          parameterName: cd.parameterName,
-          comObject: cd.comObject,
-          sessionId: cd.sessionId,
-          domainId: cd.domainId,
-        },
+        localId: cd.localId,
+        dataId: cd.dataId,
       },
     });
   }
@@ -28,17 +23,12 @@ export default class Subscription extends Component {
       event: 'connectedDataClose',
       payload: {
         windowId: windowId,
-        dataId: {
-          catalog: cd.catalog,
-          parameterName: cd.parameterName,
-          comObject: cd.comObject,
-          sessionId: cd.sessionId,
-          domainId: cd.domainId,
-        },
+        localId: cd.localId,
+        dataId: cd.dataId,
       },
     });
   }
   render() {
-    return <div>{`${this.props.cd.catalog}.${this.props.cd.parameterName}<${this.props.cd.comObject}>@${this.props.cd.domainId}:${this.props.cd.sessionId}`}</div>;
+    return <div>{`${this.props.cd.localId}`}</div>;
   }
 }

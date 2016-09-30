@@ -1,10 +1,11 @@
-import debug from '../utils/debug';
+import debug from '../utils/mainDebug';
 import _ from 'lodash';
 import { BrowserWindow } from 'electron';
 import { remove } from '../store/mutations/windowActions';
 import { getStore } from '../store/mainStore';
 
 const logger = debug('main:windows');
+
 
 const windows = {};
 

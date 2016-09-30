@@ -66,7 +66,7 @@ describe('connectedData/forWindow', () => {
       const { getState } = getStore({
         domains: [{ domainId: 'd1', name: 'cnes.isis' }],
         timebars: { tb1: { timelines: ['tl1'] }},
-        timelines: { tl1: { id: 'TL1', sessionId: 's1' }},
+        timelines: { tl1: { id: 'TL1', sessionId: 's1', offset: 10 }},
         windows: { w1: { pages: ['p1'] }},
         pages: { p1: { timebarId: 'tb1', views: ['v1'] } },
         views: { v1: { type: 'TextView', configuration: { textViewEntryPoints: [
@@ -74,9 +74,17 @@ describe('connectedData/forWindow', () => {
         ] } } },
         connectedData: { cd1: { formula: 'c.pn<co>.f', domain: 'cnes.isis', timeline: 'TL1' } },
       });
-      forWindow(getState(), 'w1').should.eql([
-        { catalog: 'c', parameterName: 'pn', comObject: 'co', domainId: 'd1', sessionId: 's1' },
-      ]);
+      forWindow(getState(), 'w1').should.eql([{
+        localId: 'c.pn<co>:s1:d1',
+        offset: 10,
+        dataId: {
+          catalog: 'c',
+          parameterName: 'pn',
+          comObject: 'co',
+          domainId: 'd1',
+          sessionId: 's1'
+        },
+      }]);
     });
   });
 });

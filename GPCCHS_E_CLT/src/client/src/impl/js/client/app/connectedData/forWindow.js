@@ -3,9 +3,9 @@ import { getPages } from '../store/mutations/windowReducer';
 import { getViews } from '../store/mutations/pageReducer';
 import { getConnectedData } from '../store/mutations/viewReducer';
 
-import decorate from './decorate';
+import decorate from './decorateWindow';
 
-export function extractFromWindow(state, windowId) { // TODO : in connectedData reducer?
+export function extractFromWindow(state, windowId) {
   const cds = [];
   _.each(getPages(state, windowId), ({ pageId, timebarId }) => {
     if (pageId) {
@@ -22,7 +22,20 @@ export function extractFromWindow(state, windowId) { // TODO : in connectedData 
 }
 
 /**
- * Return a de-duplicated list of connectedData with sessionId and domainId for windowId
+ * Returns a de-duplicated list of connectedData with sessionId and domainId sets:
+ *
+ * [
+ *   {
+ *     localId,
+ *     offset,
+ *     dataId: {
+ *       catalog,
+ *       parameterName,
+ *       comObject,
+ *       domainId,
+ *       sessionId,
+ *   }
+ * ]
  *
  * @param state
  * @param windowId

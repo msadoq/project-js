@@ -1,10 +1,11 @@
 import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
-import { getWebsocket } from '../websocket';
+import { getWebsocket } from '../../websocket/windowWebsocket';
 import external from '../../../external.window';
 import UnknownView from './UnknownView';
 import ViewHeader from './Component/ViewHeader';
-
+import ConnectedDataContainer from './ConnectedDataContainer';
+import styles from '../Page/Page.css';
 
 export default class View extends Component {
   static propTypes = {
@@ -14,31 +15,32 @@ export default class View extends Component {
     configuration: PropTypes.object.isRequired,
     pageId: PropTypes.string,
     connectedData: PropTypes.array,
+    interval: PropTypes.object.isRequired,
     openEditor: PropTypes.func,
     isViewsEditorOpen: PropTypes.bool,
     closeEditor: PropTypes.func,
     unmountAndRemove: PropTypes.func,
     onOpenEditor: PropTypes.func
   };
-  constructor(...args) {
-    super(...args);
+
+  constructor(props, context) {
+    super(props, context);
     this.onOpenEditor = this.onOpenEditor.bind(this);
     this.onRemove = this.onRemove.bind(this);
     this.onCloseEditor = this.onCloseEditor.bind(this);
+    this.onStopGridLayoutPropagation = this.onStopGridLayoutPropagation.bind(this);
   }
   componentDidMount() {
-    console.log('send to websocket new view'); // TODO
+    // TODO pass explicitly interesting configuration (for each connected data field, filter)
     getWebsocket().write({
       event: 'viewOpen',
       payload: {
         type: this.props.type,
         viewId: this.props.viewId,
-        configuration: this.props.configuration,
       },
     });
   }
   componentWillUnmount() {
-    console.log('send to websocket close view'); // TODO
     getWebsocket().write({
       event: 'viewClose',
       payload: {
@@ -76,8 +78,7 @@ export default class View extends Component {
     this.props.unmountAndRemove(this.props.viewId);
   }
   onStopGridLayoutPropagation(e) {
-    e.preventDefault();
-    e.stopPropagation(); // TODO need both?
+    e.stopPropagation();
   }
   render() {
     const { type } = this.props;
@@ -93,13 +94,18 @@ export default class View extends Component {
           onCloseEditor={this.onCloseEditor}
           onRemove={this.onRemove}
         />
-        <ViewTypeContainer
-          timebarId={this.props.timebarId}
-          viewId={this.props.viewId}
-          type={this.props.type}
-          configuration={this.props.configuration}
-          connectedData={this.props.connectedData}
-        />
+        <div className={styles.ViewTypeContainer}>
+          <ViewTypeContainer
+            timebarId={this.props.timebarId}
+            viewId={this.props.viewId}
+            type={this.props.type}
+            configuration={this.props.configuration}
+            connectedData={this.props.connectedData}
+          />
+        </div>
+        <div className={styles.ConnectedDataContainer}>
+            {/*<ConnectedDataContainer {...this.props} />*/}
+        </div>
       </div>
     );
   }

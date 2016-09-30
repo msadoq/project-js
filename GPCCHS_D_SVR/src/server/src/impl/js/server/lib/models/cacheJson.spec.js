@@ -36,6 +36,35 @@ describe('models/cacheJson', () => {
       records[1].localId.should.equal(model.getLocalId(secondDataId));
     });
   });
+
+  describe('addRecords', () => {
+    const now = Date.now();
+    const payloads = [
+      {
+        timestamp: now,
+        payload,
+      }, {
+        timestamp: now + 1,
+        payload,
+      },
+    ];
+    it('multi', () => {
+      model.addRecords(dataId, payloads);
+      const records = model.find();
+      records.should.be.an('array').that.has.lengthOf(2);
+      records[0].should.be.an('object').with.properties({
+        localId: model.getLocalId(dataId),
+        timestamp: now,
+        payload,
+      });
+      records[1].should.be.an('object').with.properties({
+        localId: model.getLocalId(dataId),
+        timestamp: now + 1,
+        payload,
+      });
+    });
+  });
+
   describe('findByInterval', () => {
     it('empty', () => {
       const records = model.findByInterval(dataId, Date.now(), Date.now());
@@ -62,6 +91,7 @@ describe('models/cacheJson', () => {
       const records = model.findByInterval(dataId, Date.now() - 1000, Date.now() + 1000);
       records.should.be.an('array').that.has.lengthOf(1);
     });
+
     describe('filter on interval', () => {
       const now = Date.now();
       beforeEach(() => {

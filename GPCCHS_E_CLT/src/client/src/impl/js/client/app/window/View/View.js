@@ -5,9 +5,11 @@ import external from '../../../external.window';
 import UnknownView from './UnknownView';
 import ViewHeader from './Component/ViewHeader';
 import ConnectedDataContainer from './ConnectedDataContainer';
+import SizeMe from 'react-sizeme';
 import styles from '../Page/Page.css';
 
-export default class View extends Component {
+class View extends Component {
+
   static propTypes = {
     timebarId: PropTypes.string.isRequired,
     type: React.PropTypes.string.isRequired,
@@ -86,7 +88,7 @@ export default class View extends Component {
 
     const ViewTypeContainer = _.has(external, type) ? external[type].container : UnknownView;
     return (
-      <div>
+      <div style={{ height: '100%' }}>
         <ViewHeader
           pageId={this.props.pageId}
           title={this.props.configuration.title}
@@ -102,12 +104,12 @@ export default class View extends Component {
             type={this.props.type}
             configuration={this.props.configuration}
             connectedData={this.props.connectedData}
+            size={this.props.size}
           />
-        </div>
-        <div className={styles.ConnectedDataContainer}>
-            {/*<ConnectedDataContainer {...this.props} />*/}
         </div>
       </div>
     );
   }
 }
+
+export default View;

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { getView } from '../../store/mutations/viewReducer';
 import { getTimebar } from '../../store/mutations/timebarReducer';
 import View from './View';
-
+import SizeMe from 'react-sizeme';
 const ViewContainer = props => <View {...props} />;
 
 ViewContainer.propTypes = {
@@ -28,4 +28,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(ViewContainer);
+ export default SizeMe({ monitorHeight: true })(connect(mapStateToProps)(ViewContainer));

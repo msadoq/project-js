@@ -91,6 +91,7 @@
     "react-color": "^2.3.2",
     "react-colorpicker": "^0.3.14",
     "react-select": "^1.0.0-rc.2",
+    "react-sizeme": "^2.2.0",
     "lodash": "^4.13.1",
     "node-uuid": "^1.4.7",
     "postcss": "^5.2.2",

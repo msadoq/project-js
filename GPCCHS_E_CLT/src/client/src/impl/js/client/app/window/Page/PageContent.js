@@ -24,44 +24,18 @@ export default class PageContent extends Component {
     page: PropTypes.object.isRequired,
     views: PropTypes.array.isRequired,
     layout: PropTypes.array.isRequired,
+    unmountAndRemove: PropTypes.func,
+    openEditor: PropTypes.func,
+    closeEditor: PropTypes.func,
+    isEditorOpened: PropTypes.bool,
+    viewOpenedInEditor: PropTypes.string,
     updateLayout: PropTypes.func,
   };
   constructor(...args) {
     super(...args);
     this.onLayoutChange = this.onLayoutChange.bind(this);
   }
-  render() {
-    const layouts = {
-      lg: _.map(this.props.layout, e => Object.assign({
-        minW: 3,
-        minH: 3,
-      }, e)),
-    };
 
-    return (
-      <Grid
-        layouts={layouts}
-        className="layout"
-        rowHeight={30}
-        width={1200}
-        breakpoints={{lg: 1200}}
-        cols={{lg: 12}}
-        onLayoutChange={this.onLayoutChange}
-      >
-        {_.map(this.props.views, v =>
-          <div className={styles.block} key={v.viewId}>
-            <ViewContainer
-              timebarId={this.props.page.timebarId}
-              viewId={v.viewId}
-              unmountAndRemove={this.props.unmountAndRemove}
-              openEditor={this.props.openEditor}
-              closeEditor={this.props.closeEditor}
-            />
-          </div>
-        )}
-      </Grid>
-    );
-  }
   onLayoutChange(layout) {
     if (!this.props.updateLayout) {
       return;
@@ -76,5 +50,46 @@ export default class PageContent extends Component {
     }
 
     this.props.updateLayout(newLayout);
+  }
+
+  render() {
+    const layouts = {
+      lg: _.map(this.props.layout, e => Object.assign({
+        minW: 3,
+        minH: 3
+      }, e)),
+    };
+
+    return (
+      <Grid
+        layouts={layouts}
+        className="layout"
+        rowHeight={30}
+        width={1200}
+        breakpoints={{ lg: 1200 }}
+        cols={{ lg: 12 }}
+        draggableHandle=".moveHandler"
+        onLayoutChange={this.onLayoutChange}
+      >
+        {_.map(this.props.views, (v) => {
+          const isViewsEditorOpen =
+          this.props.viewOpenedInEditor === v.viewId && this.props.isEditorOpened;
+
+          return (
+            <div className={isViewsEditorOpen ? styles.blockedited : styles.block} key={v.viewId}>
+              <ViewContainer
+                timebarId={this.props.page.timebarId}
+                pageId={this.props.page.pageId}
+                viewId={v.viewId}
+                unmountAndRemove={this.props.unmountAndRemove}
+                viewOpenedInEditor={this.props.viewOpenedInEditor}
+                isViewsEditorOpen={isViewsEditorOpen}
+                openEditor={this.props.openEditor}
+                closeEditor={this.props.closeEditor}
+              />
+            </div>); }
+        )}
+      </Grid>
+    );
   }
 }

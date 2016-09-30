@@ -14,7 +14,7 @@ const mapStateToProps = (state, ownProps) => {
     type,
     configuration,
     connectedData: forView(state, ownProps.timebarId, ownProps.viewId),
-  }
+  };
 };
 
 export default connect(mapStateToProps)(ViewContainer);

@@ -3,3 +3,9 @@
   border: 2px solid grey;
   overflow: auto;
 }
+
+.blockedited {
+  background-color: white;
+  border: 2px solid red;
+  overflow: auto;
+}

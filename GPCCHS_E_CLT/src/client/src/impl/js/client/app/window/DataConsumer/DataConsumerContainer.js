@@ -22,11 +22,14 @@ class DataConsumerContainer extends Component {
     this.missingData(this.props.remoteIds, this.props.interval, nextProps.interval);
   }
   componentDidMount() {
+    // TODO : BIG BUG, componentDidMount isn't fired again on other page
     this.missingData(this.props.remoteIds, null, this.props.interval);
   }
 
   // TODO FACTORIZE ELSEWHERE
   missingData(remoteIds, prevInterval, nextInterval) {
+    // TODO : we should maintain a remoteId=known intervals logic, in redux?
+
     const queries = {};
     _.each(remoteIds, (localIds, remoteId) => {
       _.each(localIds, ({ offset }, localId) => {

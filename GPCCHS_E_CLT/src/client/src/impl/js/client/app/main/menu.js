@@ -3,7 +3,6 @@ import { getStore } from '../store/mainStore';
 import { add, addAndMount as addAndMountPage, unmountAndRemove as unmountAndRemovePage } from '../store/mutations/windowActions';
 import { addAndMount as addAndMountView, unmountAndRemove as unmountAndRemoveView } from '../store/mutations/pageActions';
 
-import { menuCss } from '../window/Navigation/menu.css';
 // const remote = require('remote');
 const { dialog } = require('electron');
 

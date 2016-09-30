@@ -13,6 +13,7 @@ export default class View extends Component {
     timebarId: PropTypes.string.isRequired,
     type: React.PropTypes.string.isRequired,
     viewId: PropTypes.string.isRequired,
+    title: PropTypes.string,
     configuration: PropTypes.object.isRequired,
     interval: PropTypes.object.isRequired,
     openEditor: PropTypes.func,
@@ -50,7 +51,7 @@ export default class View extends Component {
     return (
       <div onMouseDown={this.onStopGridLayoutPropagation}>
         <div>
-          {this.props.title}
+          { this.props.title }
           <Button className={styles.buttonPage_Editview} onClick={this.onOpenEditor.bind(this)}>
             Edit this view
           </Button>

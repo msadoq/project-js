@@ -3,10 +3,14 @@ import React, { Component, PropTypes } from 'react';
 import { getWebsocket } from '../../websocket/windowWebsocket';
 import external from '../../../external.window';
 import UnknownView from './UnknownView';
+
 import ViewHeader from './Component/ViewHeader';
 import ConnectedDataContainer from './ConnectedDataContainer';
 import SizeMe from 'react-sizeme';
 import styles from '../Page/Page.css';
+import { getStore } from '../../utils/test';
+// import ConnectedDataContainer from './ConnectedDataContainer';
+import forView from '../../connectedData/forView';
 
 class View extends Component {
 
@@ -35,11 +39,13 @@ class View extends Component {
   }
   componentDidMount() {
     // TODO pass explicitly interesting configuration (for each connected data field, filter)
+
     getWebsocket().write({
       event: 'viewOpen',
       payload: {
         type: this.props.type,
         viewId: this.props.viewId,
+        connectedData: forView(getStore().getState(), this.props.timebarId, this.props.viewId),
       },
     });
   }

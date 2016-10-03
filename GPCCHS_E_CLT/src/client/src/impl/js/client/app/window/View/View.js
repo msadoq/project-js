@@ -38,8 +38,6 @@ class View extends Component {
     this.onStopGridLayoutPropagation = this.onStopGridLayoutPropagation.bind(this);
   }
   componentDidMount() {
-    // TODO pass explicitly interesting configuration (for each connected data field, filter)
-
     getWebsocket().write({
       event: 'viewOpen',
       payload: {

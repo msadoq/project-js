@@ -13,8 +13,6 @@ export default class ViewHeader extends Component {
   };
 
   render() {
-    console.log(this.props.onCloseEditor);
-
     return (<div>
       <ul className={topbarStyles.bar}>
         <li className={topbarStyles.item}>{this.props.title}</li>

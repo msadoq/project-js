@@ -7,7 +7,9 @@ Only list expected tasks for PBF shipping of end of october.
 * [ ] Wildcard: we can subscribe *n* parameters for the same entryPoint, what we should do with the *n* incoming values (TextView the first, PlotView ?)?
 * [ ] TextView displayed value (the last known before currentTime? until when?)
 * [ ] Risk! De-protobuf 10000 parameters in 500ms, even if we dedicate a process for that we can only handle 20 000 / seconds (and a simple plot on 15 days is 1 300 000 values)
+  - send protocol to Matthieu and Remy
 * [ ] Feature: ask to datastore last value before a given date (for TextView and MimicView)
+  - Matthieu look for information if already implemented (a filter getLastBeforeDate)
 
 ## Global
 
@@ -19,6 +21,7 @@ Only list expected tasks for PBF shipping of end of october.
 
 ## GPCCHSS (Node.js)
 
+* [ ] Refactor DC HSS communication
 * [=] Analyze, measure and test and the LokiJS index for cache dataId and interval, https://github.com/techfort/LokiJS/issues/477 (Damien)
 * [ ] Describe new DC->HSS communication (Damien)
 * [ ] Stub and test new DC->HSS communication

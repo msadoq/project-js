@@ -4,25 +4,25 @@ import * as types from './types';
 /**
  * Reducer
  */
-export default function windows(state = {}, action) {
+export default function windows(stateWindows = {}, action) {
   switch (action.type) {
     case types.WS_WINDOW_UPDATE_GEOMETRY:
     case types.WS_WINDOW_PAGE_FOCUS:
     case types.WS_WINDOW_PAGE_REORDER:
     case types.WS_WINDOW_PAGE_MOUNT:
     case types.WS_WINDOW_PAGE_UNMOUNT:
-      return Object.assign({}, state, {
-        [action.payload.windowId]: window(state[action.payload.windowId], action)
+      return Object.assign({}, stateWindows, {
+        [action.payload.windowId]: window(stateWindows[action.payload.windowId], action)
       });
     case types.WS_WINDOW_ADD:
       return {
-        ...state,
+        ...stateWindows,
         [action.payload.windowId]: window(undefined, action),
       };
     case types.WS_WINDOW_REMOVE:
-      return _.omit(state, [action.payload.windowId]);
+      return _.omit(stateWindows, [action.payload.windowId]);
     default:
-      return state;
+      return stateWindows;
   }
 }
 
@@ -38,43 +38,44 @@ const initialState = {
   },
 };
 
-function window(state = initialState, action) {
+function window(stateWindow = initialState, action) {
   switch (action.type) {
     case types.WS_WINDOW_ADD:
-      return Object.assign({}, state, {
-        title: action.payload.title || state.title,
-        geometry: Object.assign({}, state.geometry, action.payload.geometry),
-        pages: action.payload.pages || state.pages,
+      return Object.assign({}, stateWindow, {
+        title: action.payload.title || stateWindow.title,
+        geometry: Object.assign({}, stateWindow.geometry, action.payload.geometry),
+        pages: action.payload.pages || stateWindow.pages,
       });
     case types.WS_WINDOW_UPDATE_GEOMETRY: {
-      return Object.assign({}, state, {
-        geometry: _.defaults({}, _.omit(action.payload, ['windowId']), state.geometry),
+      return Object.assign({}, stateWindow, {
+        geometry: _.defaults({}, _.omit(action.payload, ['windowId']), stateWindow.geometry),
       });
     }
     case types.WS_WINDOW_PAGE_FOCUS:
-      return Object.assign({}, state, {
+      return Object.assign({}, stateWindow, {
         focusedPage: action.payload.pageId,
       });
-    case types.WS_WINDOW_PAGE_REORDER:
+    case types.WS_WINDOW_PAGE_REORDER: {
       const { remaining, sorted } = _.reduce(action.payload.pages, (acc, pageId) => {
         return {
           remaining: _.without(acc.remaining, pageId),
-          sorted: (state.pages.indexOf(pageId) !== -1) ? [...acc.sorted, pageId] : acc.sorted,
+          sorted: (stateWindow.pages.indexOf(pageId) !== -1) ? [...acc.sorted, pageId] : acc.sorted,
         };
-      }, { remaining: _.clone(state.pages), sorted: [] });
-      return Object.assign({}, state, {
+      }, { remaining: _.clone(stateWindow.pages), sorted: [] });
+      return Object.assign({}, stateWindow, {
         pages: [...sorted, ...remaining],
       });
+    }
     case types.WS_WINDOW_PAGE_MOUNT:
-      return Object.assign({}, state, {
-        pages: [...state.pages, action.payload.pageId],
+      return Object.assign({}, stateWindow, {
+        pages: [...stateWindow.pages, action.payload.pageId],
       });
     case types.WS_WINDOW_PAGE_UNMOUNT:
-      return Object.assign({}, state, {
-        pages: _.without(state.pages, action.payload.pageId),
+      return Object.assign({}, stateWindow, {
+        pages: _.without(stateWindow.pages, action.payload.pageId),
       });
     default:
-      return state;
+      return stateWindow;
   }
 }
 
@@ -119,4 +120,3 @@ export function getFocusedPage(state, windowId) {
 
   return pageId;
 }
-

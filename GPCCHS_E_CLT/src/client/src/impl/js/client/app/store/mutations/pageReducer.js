@@ -5,25 +5,25 @@ import * as types from './types';
 /**
  * Reducer
  */
-export default function pages(state = {}, action) {
+export default function pages(statePages = {}, action) {
   switch (action.type) {
     case types.WS_PAGE_EDITOR_OPEN:
     case types.WS_PAGE_EDITOR_CLOSE:
     case types.WS_PAGE_VIEW_MOUNT:
     case types.WS_PAGE_VIEW_UNMOUNT:
     case types.WS_PAGE_UPDATE_LAYOUT:
-      return Object.assign({}, state, {
-        [action.payload.pageId]: page(state[action.payload.pageId], action)
+      return Object.assign({}, statePages, {
+        [action.payload.pageId]: page(statePages[action.payload.pageId], action)
       });
     case types.WS_PAGE_ADD:
       return {
-        ...state,
+        ...statePages,
         [action.payload.pageId]: page(undefined, action),
       };
     case types.WS_PAGE_REMOVE:
-      return _.omit(state, [action.payload.pageId]);
+      return _.omit(statePages, [action.payload.pageId]);
     default:
-      return state;
+      return statePages;
   }
 }
 
@@ -40,14 +40,14 @@ const initialState = {
   },
 };
 
-function page(state = initialState, action) {
+function page(statePage = initialState, action) {
   switch (action.type) {
     case types.WS_PAGE_ADD:
-      return Object.assign({}, state, {
-        title: action.payload.title || state.title,
-        timebarId: action.payload.timebarId || state.timebarId,
-        layout: action.payload.layout || state.layout,
-        views: action.payload.views || state.views,
+      return Object.assign({}, statePage, {
+        title: action.payload.title || statePage.title,
+        timebarId: action.payload.timebarId || statePage.timebarId,
+        layout: action.payload.layout || statePage.layout,
+        views: action.payload.views || statePage.views,
       });
     case types.WS_PAGE_EDITOR_OPEN:
       return u({
@@ -57,23 +57,23 @@ function page(state = initialState, action) {
           viewType: action.payload.viewType,
           configuration: action.payload.configuration,
         },
-      }, state);
+      }, statePage);
     case types.WS_PAGE_EDITOR_CLOSE:
-      return u({ editor: { isOpened: false } }, state);
+      return u({ editor: { isOpened: false } }, statePage);
     case types.WS_PAGE_VIEW_MOUNT:
-      return Object.assign({}, state, {
-        views: [...state.views, action.payload.viewId],
+      return Object.assign({}, statePage, {
+        views: [...statePage.views, action.payload.viewId],
       });
     case types.WS_PAGE_VIEW_UNMOUNT:
-      return Object.assign({}, state, {
-        views: _.without(state.views, action.payload.viewId),
+      return Object.assign({}, statePage, {
+        views: _.without(statePage.views, action.payload.viewId),
       });
     case types.WS_PAGE_UPDATE_LAYOUT:
-      return Object.assign({}, state, {
-        layout: action.payload.layout || state.layout,
+      return Object.assign({}, statePage, {
+        layout: action.payload.layout || statePage.layout,
       });
     default:
-      return state;
+      return statePage;
   }
 }
 

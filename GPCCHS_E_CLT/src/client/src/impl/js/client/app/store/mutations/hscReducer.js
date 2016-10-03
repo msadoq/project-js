@@ -1,15 +1,15 @@
-import * as types from './types';
 import _ from 'lodash';
+import * as types from './types';
 
 /**
  * Reducer
  */
-export default function hsc(state = { status: 'not-started' }, action) {
+export default function hsc(stateHsc = { status: 'not-started' }, action) {
   switch (action.type) {
     case types.HSC_UPDATE_STATUS:
       return Object.assign({}, { status: action.payload.status });
     default:
-      return state;
+      return stateHsc;
   }
 }
 

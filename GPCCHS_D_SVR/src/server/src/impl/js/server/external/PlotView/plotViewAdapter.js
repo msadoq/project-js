@@ -20,20 +20,15 @@ PlotView.prototype.setSpark = function (spark) {
 };
 
 PlotView.prototype.onNewData = function (timebars, remoteId, payload) {
-  // TODO is this view concerned by this dataId?
-  // TODO is this payload in currently displayed interval
-  // TODO prepare message (select field and compute)
-debug.debug('/////////////////////////onNewData');
-
+  debug.debug('/////////////////////////onNewData');
   const cData = this.connectedData[remoteId];
-  // Conversion of dataId to check interest
   if (!cData) {
     return;
   }
 
   // Check if this payload in currently displayed interval
   let { lower, upper } = timebars[cData.timebarId].visuWindow;
-  const finalPayloads = {};
+  const payloadForView = {};
   _.each(cData.localIds, (locId, key) => {
     // Apply offset
     lower -= locId.offset;
@@ -44,26 +39,23 @@ debug.debug('/////////////////////////onNewData');
       if (p.timestamp >= lower && p.timestamp <= upper) {
         const val = p.payload[locId.field];
         if (val) {
-          if (!finalPayloads[name]) {
-            finalPayloads[name] = {};
-          }
-          finalPayloads[name] = Object.assign({}, finalPayloads[name],
+          (payloadForView[name] || (payloadForView[name] = [])).push(
             { timestamp: p.timestamp, value: val });
         }
       }
     });
   });
 
-  if (Object.getOwnPropertyNames(finalPayloads).length === 0) {
+  if (Object.getOwnPropertyNames(payloadForView).length === 0) {
     return;
   }
 
   // Order values by timestamp
-  _.each(finalPayloads, rId => {
+  _.each(payloadForView, rId => {
     _.orderBy(rId, ['timestamp'], ['asc']);
   });
 
-  this.spark.addToQueue({ remoteId, finalPayloads }); // TODO voir pourquoi tableau
+  this.spark.addToQueue({ remoteId, payloadForView });
 };
 
 module.exports = PlotView;

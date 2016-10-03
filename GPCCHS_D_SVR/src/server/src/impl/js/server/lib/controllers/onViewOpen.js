@@ -19,6 +19,7 @@ module.exports = (spark, payload) => {
     throw new Error(`Unknown view type requested '${payload.type}'`);
   }
 
+console.log('*************payload', payload);
   // view could already exists when HSC and HSS states are not fully sync
   const alreadyExisting = viewsModel.findByViewId(payload.viewId);
   if (alreadyExisting) {
@@ -33,7 +34,7 @@ module.exports = (spark, payload) => {
   const instance = new constructor({
     spark,
     viewId: payload.viewId,
-    configuration: payload.configuration,
+    connectedData: payload.connectedData,
   });
 
   viewsModel.addRecord(payload.viewId, instance);

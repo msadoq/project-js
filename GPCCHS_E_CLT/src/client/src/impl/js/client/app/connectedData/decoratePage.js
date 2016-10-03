@@ -43,16 +43,19 @@ export default function decorate(state, connectedData) {
 
         // de-duplication
         if (typeof list[remoteId] === 'undefined') {
-          list[remoteId] = {};
+          list[remoteId] = {
+            dataId: dataId,
+            filter: p.filter,
+            localIds: {},
+          };
         } else if (typeof list[remoteId][localId] !== 'undefined') {
           return;
         }
 
-        list[remoteId][localId] = {
+        list[remoteId].localIds[localId] = {
           viewType: cd.viewType,
           field: p.field,
           offset,
-          dataId,
         };
       });
     });

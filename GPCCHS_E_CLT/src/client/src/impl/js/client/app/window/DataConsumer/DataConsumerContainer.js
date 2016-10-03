@@ -28,11 +28,9 @@ class DataConsumerContainer extends Component {
 
   // TODO FACTORIZE ELSEWHERE
   missingData(remoteIds, prevInterval, nextInterval) {
-    // TODO : we should maintain a remoteId=known intervals logic, in redux?
-
     const queries = {};
-    _.each(remoteIds, (localIds, remoteId) => {
-      _.each(localIds, ({ offset }, localId) => {
+    _.each(remoteIds, ({ localIds, dataId, filter }, remoteId) => {
+      _.each(localIds, ({ offset }) => {
         const missing = missingIntervals(
           prevInterval ? [prevInterval.lower + offset, prevInterval.upper + offset] : [],
           [nextInterval.lower + offset, nextInterval.upper + offset]
@@ -43,11 +41,15 @@ class DataConsumerContainer extends Component {
         }
 
         if (!queries[remoteId]) {
-          queries[remoteId] = [];
+          queries[remoteId] = {
+            dataId,
+            filter,
+            intervals: [],
+          };
         }
 
         _.each(missing, (m) => {
-          queries[remoteId] = mergeIntervals(queries[remoteId], m);
+          queries[remoteId].intervals = mergeIntervals(queries[remoteId].intervals, m);
         });
       });
     });
@@ -59,7 +61,6 @@ class DataConsumerContainer extends Component {
   render() {
     return (
       <div>
-        hello ❤
         <ul>
           {_.map(this.props.remoteIds, (l, remoteId) =>
             <li key={`${remoteId}`}>

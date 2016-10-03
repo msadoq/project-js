@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
+import SizeMe from 'react-sizeme';
 
-export default class PlotView extends Component {
+
+class PlotView extends Component {
   static propTypes = {
     type: React.PropTypes.string.isRequired,
     viewId: PropTypes.string.isRequired,
@@ -19,9 +21,11 @@ export default class PlotView extends Component {
     return (
       <div>
         {this.props.type}
+        {JSON.stringify(this.props.size)}
         <br />
         {JSON.stringify(this.props.connectedData)}
       </div>
     );
   }
 }
+export default (PlotView);

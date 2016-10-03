@@ -1,7 +1,7 @@
 import React from 'react';
-import PageContent from './PageContent';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import PageContent from './PageContent';
 import { getViews } from '../../store/mutations/pageReducer';
 import { addAndMount, unmountAndRemove, updateLayout } from '../../store/mutations/pageActions';
 import styles from './Page.css'

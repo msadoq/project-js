@@ -16,7 +16,7 @@ module.exports = (spark, payload) => {
 
   // TODO retrieve instance
 
-  viewsModel.delRecord(spark.id);
+  viewsModel.delRecord(payload.viewId);
 
   // TODO call .onDestroy
   // TODO trigger GC (freeup pointer)

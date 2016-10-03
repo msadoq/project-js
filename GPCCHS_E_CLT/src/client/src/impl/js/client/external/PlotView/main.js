@@ -2,20 +2,9 @@ const schema = require('./PlotView.schema.json');
 const common = require('../common');
 const _ = require('lodash');
 
-function getEntryPoints() {
-  const idX = _.map(entryPoints, pt => {
-    return { uuid: pt.connectedDataX.uuid };
-  });
-  const cDataX = _.reduce(_.get(state,'connectedData'), (result, data, key) => {
-    if (_.find(idX, {'uuid': key})) {
-      (result || (result = [])).push({key: data});
-    }
-    console.log('result', result);
-    return result;
-  } , []);
-}
 module.exports = {
-  getConnectedDataFromViewDocument: function(viewContent) {
+  getSchemaJson: () => schema,
+  getConnectedDataFromViewDocument: function(viewContent) { // TODO missing test
     const cdList = [];
     if (_.has(viewContent, 'configuration')) {
       _.forEach(viewContent.configuration.plotViewEntryPoints, (value, index, source) => {
@@ -31,22 +20,35 @@ module.exports = {
     }
     return cdList;
   },
-  getConnectedDataFromState: function(state, entryPoints) {
-    const idX = _.map(entryPoints, pt => {
-      return pt.connectedDataX.uuid;
-    });
-    const idY = _.map(entryPoints, pt => {
-      return pt.connectedDataY.uuid;
-    });
-    const ids = _.concat(idX, idY);
-    return _.reduce(_.get(state,'connectedData'), (result, data, key) => {
-      if (_.indexOf(ids,key) >= 0) {
-        Object.assign(result, { [key]: data });
+  getConnectedDataFromState: function(state, viewId) {
+    const entryPoints = _.get(state, `views.${viewId}.configuration.plotViewEntryPoints`);
+    if (!entryPoints || !entryPoints.length) {
+      return [];
+    }
+
+    const connectedData = _.get(state, 'connectedData');
+    if (!connectedData || !Object.keys(connectedData).length) {
+      return [];
+    }
+
+    const connectedDataIds = [];
+    _.each(entryPoints, ep => {
+      if (!ep) {
+        return;
       }
-      return result;
-    } , {});
+
+      if (ep.connectedDataX && ep.connectedDataX.uuid) {
+        connectedDataIds.push(ep.connectedDataX.uuid);
+      }
+      if (ep.connectedDataY && ep.connectedDataY.uuid) {
+        connectedDataIds.push(ep.connectedDataY.uuid);
+      }
+    });
+
+    return _.reduce(connectedDataIds, (list, id) => {
+      return connectedData[id]
+        ? list.concat(connectedData[id])
+        : list;
+    } , []);
   },
-  getSchemaJson: function () {
-    return schema;
-  }
 };

@@ -2,11 +2,11 @@ import { v4 } from 'node-uuid';
 import simple from './simpleActionCreator';
 import * as types from './types';
 import { add as addView, remove as removeView } from './viewActions';
-
+import { getViews, getEditor } from './pageReducer';
 /**
  * Simple actions
  */
-export const add = simple(types.WS_PAGE_ADD, 'pageId', 'title', 'views', 'layout');
+export const add = simple(types.WS_PAGE_ADD, 'pageId', 'timebarId', 'title', 'views', 'layout');
 export const remove = simple(types.WS_PAGE_REMOVE, 'pageId');
 export const mountView = simple(types.WS_PAGE_VIEW_MOUNT, 'pageId', 'viewId');
 export const unmountView = simple(types.WS_PAGE_VIEW_UNMOUNT, 'pageId', 'viewId');
@@ -35,8 +35,16 @@ export function unmountAndRemove(pageId, viewId) {
 
 export function openViewInEditor(pageId, viewId) { // TODO
   return (dispatch, state) => {
-    // TODO : check if view exist
-    // TODO : check if view is displayed on page
-    // TODO : dispatch openEditor
+        // TODO : check if view exist
+    if (pageId) {
+      dispatch(getViews(state, pageId));
+      console.log('Found view , pageId => ', pageId);
+      // TODO : check if view is displayed on page
+      addAndMount(pageId, viewId);
+    } else {
+        console.log('ERROR, do not find existing view');
+    }
+      // TODO : dispatch openEditor
+    return dispatch(getEditor(state, pageId));
   };
 }

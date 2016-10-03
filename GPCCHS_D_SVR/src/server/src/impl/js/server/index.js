@@ -11,19 +11,31 @@ const primus = require('./lib/io/primus');
 const onClientOpen = require('./lib/controllers/onClientOpen');
 const { onClientClose } = require('./lib/controllers/onClientClose');
 const { onDcServerMessage } = require('./lib/controllers/onDcServerMessage');
-const onTimeBarUpdate = require('./lib/controllers/onTimeBarUpdate');
+const onVimaTimebarUpdate = require('./lib/controllers/onVimaTimeBarUpdate');
 const onWindowOpen = require('./lib/controllers/onWindowOpen');
 const { onWindowClose } = require('./lib/controllers/onWindowClose');
 const onViewOpen = require('./lib/controllers/onViewOpen');
 const onViewClose = require('./lib/controllers/onViewClose');
-const onViewUpdate = require('./lib/controllers/onViewUpdate');
 const { onSubscriptionOpen } = require('./lib/controllers/onSubscriptionOpen');
 const { onSubscriptionClose } = require('./lib/controllers/onSubscriptionClose');
 const { onClientDomainQuery } = require('./lib/controllers/onClientDomainQuery');
-const onTimebarUpdate = require('./lib/controllers/onHscTimebarUpdate');
+
+const onHscVimaTimebarInit = require('./lib/controllers/onHscVimaTimebarInit');
+const onTimebarUpdate = require('./lib/controllers/onTimebarUpdate');
+const { onViewQuery } = require('./lib/controllers/onViewQuery');
+
+const cp = require('child_process');
+const errorHandler = require('./lib/utils/errorHandler');
 
 const dcStub = require('./lib/stubs/dc');
 const tbStub = require('./lib/stubs/tb');
+
+const perfTool = require('./lib/utils/performanceTool');
+
+if (process.env.MONITORING === 'on') {
+  perfTool.init();
+  perfTool.launch();
+}
 
 // port
 function normalizePort(val) {
@@ -84,11 +96,13 @@ primus.init(server, {
   onWindowClose,
   onViewOpen,
   onViewClose,
-  onViewUpdate,
   onSubscriptionOpen,
   onSubscriptionClose,
   onTimebarUpdate,
+  onVimaTimebarUpdate,
+  onHscVimaTimebarInit,
   onClientDomainQuery,
+  onViewQuery,
 });
 
 // ZeroMQ
@@ -96,31 +110,37 @@ zmq.open({
   dcPull: {
     type: 'pull',
     url: process.env.ZMQ_GPCCDC_PULL,
-    handler: onDcServerMessage,
+    handler: (header, buffer) => errorHandler('onDcServerMessage', () => onDcServerMessage(header, buffer)),
   },
   dcPush: {
     type: 'push',
     url: process.env.ZMQ_GPCCDC_PUSH,
   },
-  tb: {
+  vimaTbPull: {
     type: 'pull',
     url: process.env.ZMQ_VIMA_TIMEBAR,
-    handler: onTimeBarUpdate,
+    handler: buffer => errorHandler('onVimaTimebarUpdate', () => onVimaTimebarUpdate(buffer)),
   },
-}, err => {
+  vimaTbPush: {
+    type: 'push',
+    url: process.env.ZMQ_VIMA_TIMEBAR_INIT,
+  },
+}, (err) => {
   if (err) {
     throw err;
   }
 
   if (process.env.STUB_DC_ON === 'on') {
-    dcStub(launchStubError => {
+    const dc = cp.fork(`${__dirname}/lib/stubs/dc.js`);
+    dc.on('message', msg => debug.info('HSS got DC message: ', msg));
+    /* dcStub((launchStubError) => {
       if (launchStubError) {
         throw launchStubError;
       }
-    });
+    }); */
   }
   if (process.env.STUB_TB_ON === 'on') {
-    tbStub(launchStubError => {
+    tbStub((launchStubError) => {
       if (launchStubError) {
         throw launchStubError;
       }

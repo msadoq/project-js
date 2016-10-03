@@ -4,17 +4,17 @@ import * as types from './types';
 /**
  * Reducer
  */
-export default function timelines(state = {}, action) {
+export default function timelines(stateTimelines = {}, action) {
   switch (action.type) {
     case types.WS_TIMELINE_ADD:
       return {
-        ...state,
+        ...stateTimelines,
         [action.payload.timelineId]: timeline(undefined, action),
       };
     case types.WS_TIMELINE_REMOVE:
-      return _.omit(state, [action.payload.timelineId]);
+      return _.omit(stateTimelines, [action.payload.timelineId]);
     default:
-      return state;
+      return stateTimelines;
   }
 }
 
@@ -25,11 +25,11 @@ const initialState = {
   sessionId: null,
 };
 
-function timeline(state = initialState, action) {
+function timeline(stateTimeline = initialState, action) {
   switch (action.type) {
     case types.WS_TIMELINE_ADD: {
       const configuration = _.get(action, 'payload.configuration', {});
-      return Object.assign({}, state, {
+      return Object.assign({}, stateTimeline, {
         id: configuration.id || initialState.id,
         offset: configuration.offset || initialState.offset,
         kind: configuration.kind || initialState.kind,
@@ -37,7 +37,7 @@ function timeline(state = initialState, action) {
       });
     }
     default:
-      return state;
+      return stateTimeline;
   }
 }
 
@@ -45,5 +45,5 @@ function timeline(state = initialState, action) {
  * Selectors
  */
 export function getTimeline(state, timelineId) {
-  return state.timelines[timelineId];
+  return _.get(state, `timelines.${timelineId}`);
 }

@@ -102,7 +102,7 @@
           "id": "Session 2",
           "offset": -3600000,
           "kind": "Session",
-          "sessionId": 200
+          "sessionId": 100
         },
         {
           "id": "Dataset 1",

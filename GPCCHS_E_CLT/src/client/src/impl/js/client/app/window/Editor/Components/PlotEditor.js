@@ -38,8 +38,6 @@ export default class Editor extends Component {
     this.addEntryPoint = this.addEntryPoint.bind(this);
     this.handleAxes = this.handleAxes.bind(this);
     this.handlePlotMarkers = this.handlePlotMarkers.bind(this);
-    console.log('configurations');
-    console.log(this.props.configuration);
   }
   handleEntryPoint(key, label, newVal) {
     let val = newVal;

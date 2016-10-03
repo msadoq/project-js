@@ -50,6 +50,45 @@
           }
         }
       ]
+    },
+    {
+      "name": "ATT_BC_STR1VOLTAGE",
+      "connectedDataX": {
+        "formula": "Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.groundDate",
+        "unit": "s",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 2",
+        "axisId": "Time"
+      },
+      "connectedDataY": {
+        "formula": "Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 2",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColour": "#000000",
+      "stateColours": [
+        {
+          "colour": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ]
     }
   ],
   "axes": [

@@ -21,5 +21,4 @@ function moveConnectedData(connectedData) {
   return { dataToStore, connectedData };
 }
 
-
 module.exports = { moveConnectedData, createConnectedData };

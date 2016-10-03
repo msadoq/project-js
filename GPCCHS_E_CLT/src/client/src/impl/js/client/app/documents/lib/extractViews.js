@@ -45,7 +45,6 @@ function readViews(folder, viewsToRead, cb) {
       if (supportedViewTypes.indexOf(viewContent.type) === -1) {
         return fn(new Error(`Unsupported view type '${viewContent.type}'`), list);
       }
-
       const getSchemaJson = external[viewContent.type].getSchemaJson;
       if (!_.isFunction(getSchemaJson)) {
         return fn(new Error(`Missing .getSchemaJson() on view type '${viewContent.type}'`), list);
@@ -55,12 +54,10 @@ function readViews(folder, viewsToRead, cb) {
       if (!schema) {
         return fn(new Error(`Invalid schema on view type '${viewContent.type}'`), list);
       }
-
       const validationError = validation(viewContent.type, viewContent, schema);
       if (validationError) {
         return fn(validationError);
       }
-
       // eslint-disable-next-line no-param-reassign
       list = list.concat(Object.assign({
         type: viewContent.type,
@@ -83,7 +80,7 @@ function readViews(folder, viewsToRead, cb) {
  * @param cb
  * @returns {*}
  */
-module.exports = (content, cb) => {
+function extractViews(content, cb) {
   let pages = content.pages;
   if (!_.isObject(pages)) {
     pages = {};
@@ -102,4 +99,6 @@ module.exports = (content, cb) => {
       views: _.reduce(views, (l, v) => Object.assign(l, { [v.uuid]: v }), {}),
     }));
   })
-};
+}
+
+module.exports = { extractViews, readViews, findPageViewsAndReplaceWithUuid }

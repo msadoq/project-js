@@ -1,7 +1,7 @@
 /* eslint no-unused-expressions: 0 */
 import { should, getStore } from '../../utils/test';
 import * as actions from './connectedDataActions';
-import reducer, { getConnectedData } from './connectedDataReducer';
+import reducer, { getConnectedDatum } from './connectedDataReducer';
 
 describe('store:connectedData', () => {
   describe('actions & reducer', () => {
@@ -62,14 +62,14 @@ describe('store:connectedData', () => {
     });
   });
   describe('selectors', () => {
-    it('getConnectedData', () => {
+    it('getConnectedDatum', () => {
       const { getState } = getStore({
         connectedData: {
           myConnectedDataId: { formula: 'f*f' },
         },
       });
-      getConnectedData(getState(), 'myConnectedDataId').should.have.property('formula', 'f*f');
-      should.not.exist(getConnectedData(getState(), 'unknownId'));
+      getConnectedDatum(getState(), 'myConnectedDataId').should.have.property('formula', 'f*f');
+      should.not.exist(getConnectedDatum(getState(), 'unknownId'));
     });
   });
 });

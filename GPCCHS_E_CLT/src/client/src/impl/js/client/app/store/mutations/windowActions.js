@@ -6,7 +6,7 @@ import { add as addPage, remove as removePage } from './pageActions';
 /**
  * Simple actions
  */
-export const add = simple(types.WS_WINDOW_ADD, 'windowId', 'title', 'geometry', 'pages');
+export const add = simple(types.WS_WINDOW_ADD, 'windowId', 'title', 'geometry', 'pages', 'pageId');
 export const remove = simple(types.WS_WINDOW_REMOVE, 'windowId');
 export const focusPage = simple(types.WS_WINDOW_PAGE_FOCUS, 'windowId', 'pageId');
 export const mountPage = simple(types.WS_WINDOW_PAGE_MOUNT, 'windowId', 'pageId');
@@ -24,6 +24,7 @@ export function addAndMount(windowId) {
     const pageId = v4();
     dispatch(addPage(pageId));
     dispatch(mountPage(windowId, pageId));
+    dispatch(focusPage(windowId, pageId));
   };
 }
 

@@ -17,11 +17,6 @@ const supportedParameters = [
   'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
 ];
 
-/**
- * Receive request for both realtime subscriptions and data query
- * @param buffer
- */
-
 const wrapServerMessage = (dataType, payload) =>
   protobuf.encode('dc.dataControllerUtils.DcServerMessage', {
     messageType: dataType,
@@ -61,23 +56,25 @@ const onHssMessage = (buffer) => {
       }
     } catch (decodeException) {
       debug.debug('decode exception');
-      return zmq.push('stubData', [null,
+      return zmq.push('stubData', [
+        null,
         wrapServerMessage('DC_RESPONSE', protobuf.encode('dc.dataControllerUtils.DcResponse', {
           id: null,
           status: 'ERROR',
           reason: `Unable to decode dcClientMessage payload of type ${type}`,
-        }))]
-      );
+        })),
+      ]);
     }
   } catch (clientMsgException) {
     debug.debug(clientMsgException);
-    return zmq.push('stubData', [null,
+    return zmq.push('stubData', [
+      null,
       wrapServerMessage('DC_RESPONSE', protobuf.encode('dc.dataControllerUtils.DcResponse', {
         id: null,
         status: 'ERROR',
         reason: 'Unable to decode dcClientMessage',
-      }))]
-    );
+      })),
+    ]);
   }
 
   let parameter;
@@ -87,13 +84,14 @@ const onHssMessage = (buffer) => {
       `${payload.dataId.catalog}.${payload.dataId.parameterName}<${payload.dataId.comObject}>`;
 
     if (supportedParameters.indexOf(parameter) === -1) {
-      return zmq.push('stubData', [null,
+      return zmq.push('stubData', [
+        null,
         wrapServerMessage('DC_RESPONSE', protobuf.encode('dc.dataControllerUtils.DcResponse', {
           id: dcClientMessage.id,
           status: 'ERROR',
           reason: 'Unsupported stub parameter',
-        }))]
-      );
+        })),
+      ]);
     }
   }
 
@@ -111,20 +109,21 @@ const onHssMessage = (buffer) => {
     debug.debug('subscription removed', parameter);
   } else if (type === 'DOMAIN_QUERY') {
     domainQueried = true;
-    return;
+    return undefined;
   } else {
     throw new Error('Neither a Data Query nor a supported data subscribe nor a domain query');
   }
 
-  return zmq.push('stubData', [null,
+  return zmq.push('stubData', [
+    null,
     wrapServerMessage('DC_RESPONSE', protobuf.encode('dc.dataControllerUtils.DcResponse', {
       id: payload.id,
       status: 'OK',
-    }))]
-  );
+    })),
+  ]);
 };
 
-const pushData = (dataId, payloads) => {
+const pushData = (dataId, id, payloads, dataSource) => {
   if (!payloads.length) {
     return undefined;
   }
@@ -138,12 +137,16 @@ const pushData = (dataId, payloads) => {
     timestamp: { ms: pl.timestamp },
   }));
 
+  const message = {
+    dataId,
+    id,
+    payloads: buffers,
+    dataSource,
+    isEndOfQuery: true,
+  };
+
   const buffer = wrapServerMessage('NEW_DATA_MESSAGE',
-    protobuf.encode('dc.dataControllerUtils.NewDataMessage', {
-      dataId,
-      payloads: buffers,
-      dataSource: 'REAL_TIME',
-    })
+    protobuf.encode('dc.dataControllerUtils.NewDataMessage', message)
   );
 
   return zmq.push('stubData', [null, buffer]);
@@ -155,12 +158,12 @@ const emulateDc = () => {
   _.each(subscriptions, (dataId) => {
     const payloads = [];
     // push randomly 1 to 4 parameters
-    for (let i = 0; i <= _.random(0, 3); i++) {
+    for (let i = 0; i <= _.random(0, 3); i += 1) {
       // fake time repartition
       payloads.push({ timestamp: Date.now() - (i * 10) });
     }
     debug.debug('push data from subscription');
-    return pushData(dataId, payloads);
+    pushData(dataId, undefined, payloads, 'REAL_TIME');
   });
 
   if (domainQueried) {
@@ -170,28 +173,31 @@ const emulateDc = () => {
     domainQueried = false;
   }
   if (!queries.length) {
-    return;
+    return setTimeout(emulateDc, 5000);
   }
 
   // push queries
-  queries = _.dropWhile(queries, (query) => {
+  debug.info('pushing queries');
+  _.each(queries, (query) => {
     const from = query.interval.lowerTs.ms;
     const to = query.interval.upperTs.ms;
     if (to <= from) {
       return debug.error('Unvalid interval');
     }
-
     const payloads = [];
     for (let i = from; i <= to; i += 2000) {
       payloads.push({ timestamp: i });
     }
-    debug.debug('push data from query');
-    return pushData(query.dataId, payloads);
+    debug.info('push data from query');
+    return pushData(query.dataId, query.id, payloads, 'ARCHIVE');
   });
+  queries = [];
+
+  return setTimeout(emulateDc, 5000);
 };
 
-module.exports = callback => {
-  zmq.open({
+zmq.open(
+  {
     stubdcrep: {
       type: 'pull',
       url: process.env.ZMQ_GPCCDC_PUSH,
@@ -201,15 +207,14 @@ module.exports = callback => {
       type: 'push',
       url: process.env.ZMQ_GPCCDC_PULL,
     },
-  }, err => {
+  },
+  (err) => {
     if (err) {
-      return callback(err);
+      return;
     }
 
     debug.info('sockets opened');
 
-    setInterval(emulateDc, 500);
-
-    return callback(null);
-  });
-};
+    setTimeout(emulateDc, 5000);
+  }
+);

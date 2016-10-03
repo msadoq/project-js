@@ -4,17 +4,17 @@ import * as types from './types';
 /**
  * Reducer
  */
-export default function connectedData(state = {}, action) {
+export default function connectedData(stateConnectedData = {}, action) {
   switch (action.type) {
     case types.WS_CD_ADD:
       return {
-        ...state,
+        ...stateConnectedData,
         [action.payload.connectedDataId]: cd(undefined, action),
       };
     case types.WS_CD_REMOVE:
-      return _.omit(state, [action.payload.connectedDataId]);
+      return _.omit(stateConnectedData, [action.payload.connectedDataId]);
     default:
-      return state;
+      return stateConnectedData;
   }
 }
 
@@ -25,23 +25,23 @@ const initialState = {
   filter: null,
 };
 
-function cd(state = initialState, action) {
+function cd(stateConnectedDatum = initialState, action) {
   switch (action.type) {
     case types.WS_CD_ADD:
-      return Object.assign({}, state, {
-        formula: action.payload.formula || state.formula,
-        domain: action.payload.domain || state.domain,
-        timeline: action.payload.timeline || state.timeline,
-        filter: action.payload.filter || state.filter,
+      return Object.assign({}, stateConnectedDatum, {
+        formula: action.payload.formula || stateConnectedDatum.formula,
+        domain: action.payload.domain || stateConnectedDatum.domain,
+        timeline: action.payload.timeline || stateConnectedDatum.timeline,
+        filter: action.payload.filter || stateConnectedDatum.filter,
       });
     default:
-      return state;
+      return stateConnectedDatum;
   }
 }
 
 /**
  * Selectors
  */
-export function getConnectedData(state, connectedDataId) {
+export function getConnectedDatum(state, connectedDataId) {
   return state.connectedData[connectedDataId];
 }

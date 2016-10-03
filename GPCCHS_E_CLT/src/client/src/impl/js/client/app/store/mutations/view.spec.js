@@ -1,7 +1,7 @@
 /* eslint no-unused-expressions: 0 */
 import { should, getStore } from '../../utils/test';
 import * as actions from './viewActions';
-import reducer, { getView, getConnectedData } from './viewReducer';
+import reducer, { getView } from './viewReducer';
 
 describe('store:views', () => {
   describe('actions & reducer', () => {
@@ -103,27 +103,6 @@ describe('store:views', () => {
       });
       getView(getState(), 'myViewId').should.have.property('title', 'Title 1');
       should.not.exist(getView(getState(), 'unknownId'));
-    });
-    it('getConnectedData', () => {
-      const { getState } = getStore({
-        views: {
-          myViewId: { type: 'PlotView', configuration: { plotViewEntryPoints: [
-            { connectedDataX: { uuid: 'ep1' }, connectedDataY: { uuid: 'ep2' } },
-          ] } },
-          myOtherId: { type: 'TextView', configuration: { textViewEntryPoints: [
-            { connectedData: { uuid: 'ep3' } },
-            { connectedData: { uuid: 'ep4' } },
-          ] } },
-        },
-        connectedData: { ep1: {}, ep2: {}, ep3: {} },
-      });
-      getConnectedData(getState(), 'myViewId').should.eql([
-        { connectedDataId: 'ep1' },
-        { connectedDataId: 'ep2' },
-      ]);
-      getConnectedData(getState(), 'myOtherId').should.eql([
-        { connectedDataId: 'ep3' },
-      ]);
     });
   });
 });

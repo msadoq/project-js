@@ -12,5 +12,4 @@ function mapStateToProps(state, { windowId, children }) {
     children,
   };
 }
-
 export default connect(mapStateToProps)(WebsocketContainer);

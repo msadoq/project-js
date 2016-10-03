@@ -1,98 +1,61 @@
-const {
-  addTimeline,
-  removeTimeline,
-  getTimelineSessionId,
-  getTimelineByName,
-  getTimelineById,
-  updateDataFromTl,
-  updateData,
-} = require('../../lib/utils/timebar');
-const getTb = require('../../lib/timeBar/index').getTimebar;
-// const formula = require('../../lib/utils/formula');
+const debug = require('../../lib/io/debug')('views:text');
 const _ = require('lodash');
+const serializeDataId = require('../../lib/models/getLocalId');
+
 
 function TextView(configuration) {
   this.spark = configuration.spark;
   this.configuration = configuration.configuration;
   this.identity = configuration.identity;
-  if (!this.configuration.textViewEntryPoints) {
-    this.configuration.textViewEntryPoints = [];
+  this.cDatum = configuration.cDatum;
+}
+
+TextView.prototype.type = 'text';
+
+TextView.prototype.setConfiguration = function (configuration) {
+  this.configuration = configuration; // TODO move in abstract and test
+};
+
+TextView.prototype.setSpark = function (spark) {
+  this.spark = spark; // TODO move in abstract and test
+};
+
+TextView.prototype.onNewData = function (timebars, remoteId, payload) {
+  // TODO apply filter ?
+  const cData = this.connectedData[remoteId];
+  if (!cData) {
+    return;
   }
-}
 
-TextView.prototype.type = function () {
-  return 'text';
-};
+  // Check if this payload in currently displayed interval
+  let { current } = timebars[cData.timebarId].visuWindow;
+  const payloadForView = {};
+  _.each(cData.localIds, (locId, key) => {
+    // Apply offset
+    current -= locId.offset;
+    let name;
+    name.concat(remoteId, ':', key);
+    _.each(payload, p => {
+      // Get all values between current time and a minute before
+      if (p.timestamp === current || p.timestamp >= current - 60000) {
+        const val = p.payload[locId.field];
+        if (val) {
+          (payloadForView[name] || (payloadForView[name] = [])).push(
+            { timestamp: p.timestamp, value: val });
+        }
+      }
+    });
+  });
 
-TextView.prototype.isType = function (type) {
-  return type === 'text';
-};
+  if (Object.getOwnPropertyNames(payloadForView).length === 0) {
+    return;
+  }
+  // Order values by timestamp
+  _.each(payloadForView, rId => {
+    _.orderBy(rId, ['timestamp'], ['asc']);
+  });
 
-TextView.prototype.onTimebarUpdate = function (cmdList) {
-  // // TODO
-  // console.log('onTimebarUpdate text', cmdList);
-  // const tb = getTb();
-  // console.log('tb:',tb);
-  //
-  // // for (key in cmdList) {
-  // _.each(cmdList, (curKey, key) => {
-  //   // const curKey = cmdList[key] ;
-  //   switch (key) {
-  //     case 'visuWindowUpdate':
-  //       // Reacts only on current time update
-  //       if (curKey.current) {
-  //         this.conf.textViewEntryPoints.forEach(element => {
-  //           // TODO query
-  //           const visuBounds = {
-  //             lower: cmdList.visuWindowUpdate.current,
-  //             upper: cmdList.visuWindowUpdate.current,
-  //           };
-  //           const dataId = formula(element.connectedData.formula);
-  //           updateData(tb.data.timeLines, element.connectedData, visuBounds, dataId,
-  //                      this.spark.write);
-  //         });
-  //       }
-  //       break;
-  //     case 'timelineUpdate':
-  //       // masterId & offsetFromUTC
-  //       // timeLines : name, offset, kind, sessionId, dsPath, rsPath
-  //       // Updates are stored by timeline id
-  //       // for (tlId in curKey.timeLines) {
-  //       _.each(curKey.timeLines, tlId => {
-  //         this.conf.textViewEntryPoints.forEach(element => {
-  //           if (element.connectedData.timeline === tlId) {
-  //             // TODO make query
-  //           }
-  //         });
-  //       });
-  //       break;
-  //     case 'modeUpdate': // for optim
-  //       break;
-  //     case 'playingStateUpdate': // for optim
-  //       break;
-  //     case 'speedUpdate': // for optim
-  //       break;
-  //     case 'timeSpecUpdate': // Not implemented yet
-  //       break;
-  //     case 'timelineAdded':
-  //       this.conf.textViewEntryPoints.forEach((element) => {
-  //         addTimeline(element.connectedData);
-  //       });
-  //       break;
-  //     case 'timelineRemoved':
-  //       this.conf.textViewEntryPoints.forEach((element) => {
-  //         removeTimeline(element.connectedData);
-  //       });
-  //       break;
-  //     default:
-  //       console.log(key);
-  //   }
-  // });
-}
-
-TextView.prototype.onNewDataMessage = function (payloads) {
-  // TODO
-  console.log('onNewDataMessage', payloads);
+  this.spark.addToQueue({ remoteId, payloadForView });
 };
 
 module.exports = TextView;

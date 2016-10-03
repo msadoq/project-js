@@ -12,11 +12,13 @@ const { v4 } = require('node-uuid');
  */
 module.exports = (content, cb) => {
   const timebars = _.get(content, 'timebars', []);
-
   // loop on timebars
+  // eslint-disable-next-line no-param-reassign
   content.timelines = _.reduce(timebars, (list, timebar, index) => {
-    const timelines = _.get(timebar, 'timelines', []);
-
+    let timelines = _.get(timebar, 'timelines', []);
+    if (!_.isArray(timelines)) {
+      timelines = [];
+    }
     // loop on timelines
     _.each(timelines, (timeline, idx) => {
       const uuid = v4();

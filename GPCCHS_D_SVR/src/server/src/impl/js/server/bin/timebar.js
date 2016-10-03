@@ -75,7 +75,7 @@ if (argv.o) {
 
 // ZMQ initialization
 zmq.open({
-  tbCliPush: {
+  vimaTbCliPush: {
     type: 'push',
     url: process.env.ZMQ_VIMA_STUB_TIMEBAR,
   },
@@ -84,7 +84,7 @@ zmq.open({
     throw err;
   }
 
-  zmq.push('tbCliPush', JSON.stringify(cmdList), () => {
+  zmq.push('vimaTbCliPush', JSON.stringify(cmdList), () => {
     // close socket
     zmq.closeSockets();
     exit(0);

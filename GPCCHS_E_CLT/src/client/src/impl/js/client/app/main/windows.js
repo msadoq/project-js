@@ -1,10 +1,11 @@
-import debug from '../utils/debug';
+import debug from '../utils/mainDebug';
 import _ from 'lodash';
 import { BrowserWindow } from 'electron';
 import { remove } from '../store/mutations/windowActions';
 import { getStore } from '../store/mainStore';
 
 const logger = debug('main:windows');
+
 
 const windows = {};
 
@@ -18,6 +19,9 @@ export function open(data, windowId) {
     height: data.geometry.h,
     title: `${data.title} - VIMA`,
   });
+
+  // persist windowId on BrowserWindow instance
+  window.windowId = windowId; // eslint-disable-line no-param-reassign
 
   // prevent garbage collection
   windows[windowId] = window;

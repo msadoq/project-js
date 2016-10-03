@@ -3,7 +3,7 @@ const { stringify } = require('querystring');
 function flatten(o) {
   const flat = {};
   Object.keys(o).forEach(i => {
-    if (!{}.hasOwnProperty(o, i)) {
+    if (!{}.hasOwnProperty.call(o, i)) {
       return;
     }
 
@@ -18,7 +18,7 @@ function flatten(o) {
 
     const flatObject = flatten(o[i]);
     Object.keys(flatObject).forEach(x => {
-      if (!{}.hasOwnProperty(flatObject, x)) {
+      if (!{}.hasOwnProperty.call(flatObject, x)) {
         return;
       }
 
@@ -46,7 +46,7 @@ module.exports = (req, res, next) => {
       ? `?${stringify(flatten(params))}`
       : '';
 
-    return `${req.protocol}://${req.hostname}${port}/api/${route}${query}`;
+    return `${req.protocol}://${req.hostname}${port}/${route}${query}`;
   };
 
   next();

@@ -1,4 +1,4 @@
-import debug from '../utils/debug';
+import debug from '../utils/mainDebug';
 import _ from 'lodash';
 import { getStore } from '../store/mainStore';
 import { add as addTimeline } from '../store/mutations/timelineActions';
@@ -37,6 +37,7 @@ export default function loadWorkspace(workspace) {
   // add pages
   _.each(workspace.pages, e => dispatch(addPage(
     e.uuid,
+    e.timebarId,
     e.title,
     _.map(e.views, v => v.uuid),
     _.map(e.views, v => ({

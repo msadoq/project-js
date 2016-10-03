@@ -8,7 +8,7 @@ let instance;
 export function connect() {
   if (!instance) {
     logger.info('trying open connection to', process.env.HSS);
-    instance = new Primus(process.env.HSS); // TODO pass query string in URL to identify this as main socket, handle on client side
+    instance = new Primus(process.env.HSS);
     instance.on('open', () => {
       logger.info('connected!');
     });

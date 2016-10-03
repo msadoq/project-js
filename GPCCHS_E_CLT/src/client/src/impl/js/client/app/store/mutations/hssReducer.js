@@ -1,6 +1,6 @@
-import * as types from './types';
 import _ from 'lodash';
 import u from 'updeep';
+import * as types from './types';
 
 /**
  * Reducer
@@ -10,7 +10,7 @@ const initialState = {
   error: null,
 };
 
-export default function hss(state = {}, action) {
+export default function hss(stateHss = {}, action) {
   switch (action.type) {
     case types.HSS_WS_UPDATE_STATUS:
       return u({
@@ -18,9 +18,11 @@ export default function hss(state = {}, action) {
           status: action.payload.status || initialState.status,
           error: action.payload.error || initialState.error,
         }
-      }, state);
+      }, stateHss);
+    case types.HSS_WS_REMOVE:
+      return _.omit(stateHss, [action.payload.windowId]); // TODO add test
     default:
-      return state;
+      return stateHss;
   }
 }
 

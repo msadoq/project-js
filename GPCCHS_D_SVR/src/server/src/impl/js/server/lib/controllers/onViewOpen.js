@@ -19,12 +19,23 @@ module.exports = (spark, payload) => {
     throw new Error(`Unknown view type requested '${payload.type}'`);
   }
 
+console.log('*************payload', payload);
+  // view could already exists when HSC and HSS states are not fully sync
+  const alreadyExisting = viewsModel.findByViewId(payload.viewId);
+  if (alreadyExisting) {
+    debug.debug('view already exist', payload.viewId);
+    // TODO : robustness code, avoid crash when view already exists in loki
+    alreadyExisting.instance.setSpark(spark);
+    alreadyExisting.instance.setConfiguration(payload.configuration);
+    return;
+  }
+
   const constructor = external[payload.type].adapter;
   const instance = new constructor({
     spark,
     viewId: payload.viewId,
-    configuration: payload.configuration,
+    connectedData: payload.connectedData,
   });
 
-  viewsModel.addRecord(spark.id, instance);
+  viewsModel.addRecord(payload.viewId, instance);
 };

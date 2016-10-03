@@ -4,12 +4,12 @@ import * as types from './types';
 /**
  * Reducer
  */
-export default function domains(state = [], action) {
+export default function domains(stateDomains = [], action) {
   switch (action.type) {
     case types.HSS_UPDATE_DOMAINS:
       return _.clone(action.payload.domains);
     default:
-      return state;
+      return stateDomains;
   }
 }
 
@@ -22,4 +22,3 @@ export default function domains(state = [], action) {
 export function getDomain(state, key) {
   return _.find(_.get(state, 'domains'), o => _.eq(o.name, key));
 }
-

@@ -5,22 +5,22 @@ import external from '../../../external.main';
 /**
  * Reducer
  */
-export default function views(state = {}, action) {
+export default function views(stateViews = {}, action) {
   switch (action.type) {
     case types.WS_VIEW_CD_MOUNT:
     case types.WS_VIEW_CD_UNMOUNT:
-      return Object.assign({}, state, {
-        [action.payload.viewId]: view(state[action.payload.viewId], action)
+      return Object.assign({}, stateViews, {
+        [action.payload.viewId]: view(stateViews[action.payload.viewId], action)
       });
     case types.WS_VIEW_ADD:
       return {
-        ...state,
+        ...stateViews,
         [action.payload.viewId]: view(undefined, action),
       };
     case types.WS_VIEW_REMOVE:
-      return _.omit(state, [action.payload.viewId]);
+      return _.omit(stateViews, [action.payload.viewId]);
     default:
-      return state;
+      return stateViews;
   }
 }
 
@@ -29,16 +29,16 @@ const initialState = {
   type: null,
 };
 
-function view(state = initialState, action) {
+function view(stateView = initialState, action) {
   switch (action.type) {
     case types.WS_VIEW_ADD:
-      return Object.assign({}, state, {
-        title: action.payload.title || state.title,
-        type: action.payload.type || state.type,
+      return Object.assign({}, stateView, {
+        title: action.payload.title || stateView.title,
+        type: action.payload.type || stateView.type,
         configuration: configuration(undefined, action),
       });
     default:
-      return state;
+      return stateView;
   }
 }
 

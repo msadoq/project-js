@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Col } from 'react-bootstrap';
 import PageContentContainer from './PageContentContainer';
-import EditorContainer from '../Editor/EditorContainer';
+// import EditorContainer from '../Editor/EditorContainer';
 import DataConsumerContainer from '../DataConsumer/DataConsumerContainer';
 
 const cols = 12;
@@ -30,12 +30,13 @@ export default class Page extends Component {
         />
         {(this.props.isEditorOpened
           ? <Col xs={editorCols}>
-            <EditorContainer
-              closeEditor={this.props.closeEditor}
-              viewId={this.props.editor.viewId}
-              viewType={this.props.editor.viewType}
-              configuration={this.props.editor.configuration}
-            />
+            this is editor
+            {/*<EditorContainer*/}
+              {/*closeEditor={this.props.closeEditor}*/}
+              {/*viewId={this.props.editor.viewId}*/}
+              {/*viewType={this.props.editor.viewType}*/}
+              {/*configuration={this.props.editor.configuration}*/}
+            {/*/>*/}
           </Col>
           : '')}
         <Col xs={pageContentWidth}>

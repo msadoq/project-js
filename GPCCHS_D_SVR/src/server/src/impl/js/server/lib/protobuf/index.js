@@ -117,4 +117,11 @@ module.exports = {
       ? removeEmpty(builder.mapper.decode(raw))
       : removeEmpty(raw);
   },
+  decodeFaster: (type, buffer) => {
+    const builder = getType(type);
+    const message = builder.decode(buffer);
+    return builder.mapper
+      ? builder.mapper.decode(message)
+      : message;
+  },
 };

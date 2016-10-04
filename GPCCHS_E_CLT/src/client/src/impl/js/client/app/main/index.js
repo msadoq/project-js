@@ -2,6 +2,7 @@ import _ from 'lodash';
 import debug from '../utils/mainDebug';
 import installExtensions from './installExtensions';
 import { initStore, getStore } from '../store/mainStore';
+import observeStore from '../store/observeStore';
 import { connect, disconnect, getWebsocket } from '../websocket/mainWebsocket';
 import { sync as syncWindows } from './windows';
 import readWorkspace from '../documents/workspace';
@@ -15,17 +16,17 @@ const logger = debug('main:launch');
 
 let storeUnsubscribe;
 let loadedWorkspace;
-let lastKnownAppStatus;
 
-function onStoreUpdate() {
-  const state = getStore().getState();
+function onStoreUpdate(previousState, state) {
   const dispatch = getStore().dispatch;
+  const lastKnownAppStatus = getAppStatus(previousState);
   const appStatus = getAppStatus(state);
   if (lastKnownAppStatus !== appStatus) {
-    logger.info(appStatus);
+    logger.info(appStatus, lastKnownAppStatus);
   }
 
-  if (appStatus === 'not-started' && getMainWsStatus(state, 'main').status === 'connected') {
+  const mainWsStatus = getMainWsStatus(state, 'main');
+  if (appStatus === 'not-started' && mainWsStatus && mainWsStatus.status === 'connected') {
     dispatch(updateStatus('connected-with-hss'));
   }
 
@@ -87,7 +88,7 @@ export async function start() {
   try {
     await installExtensions();
     initStore();
-    storeUnsubscribe = getStore().subscribe(onStoreUpdate);
+    storeUnsubscribe = observeStore(getStore(), onStoreUpdate);
     connect();
   } catch (e) {
     logger.error(e);

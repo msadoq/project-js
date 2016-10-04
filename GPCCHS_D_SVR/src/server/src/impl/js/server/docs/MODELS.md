@@ -1,6 +1,8 @@
 # Models
 
-## connectedData
+## Loki
+
+**connectedData**
 
 Example:
 ```
@@ -27,7 +29,7 @@ Example:
   - ``intervals.requested``is an object whose keys are query ids and values are query intervals
   - ``intervals.all`` is an array of the merging of both received and requested intervals
 
-## subscriptions
+**subscriptions**
 
 Example:
 ```
@@ -72,7 +74,7 @@ Example:
 
 
 
-## cacheJson (TODO maybe we should rename it as timebasedData for example)
+**cacheJson** (TODO maybe we should rename it as timebasedData for example)
 
 Example:
 ```
@@ -86,3 +88,31 @@ Example:
 * ``remoteId``is a string representing the remoteId (see connectedData)
 * ``timestamp`` is an integer representing the timestamp of the data
 * ``payload`` is an object representing the content of the data, it is specific to the comObject type
+
+## Singletons
+
+**registeredQueries**
+
+Example:
+```
+{
+  '1d8ebb73-2ef8-4cf7-988f-40766decf93b': 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:groundDate.OP_LT.42,groundDate.OP_GT.13'
+}
+```
+
+* Object whose keys are queryIds and values are remoteIds
+
+**registeredCallbacks**
+
+Example:
+```
+{
+  '1d8ebb73-2ef8-4cf7-988f-40766decf93b': (err) => { if (err) { throw err; } }
+}
+```
+
+* Object whose keys are queryIds values are callback functions
+
+**domains**
+
+TODO

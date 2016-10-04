@@ -68,7 +68,7 @@ Example:
   - ``filters[remoteId]`` is an array of objects
     * ``filters[remoteId][index].field`` is a string representing the field of the parameter to filter
     * ``filters[remoteId][index].operator`` is a string enum of the comparison operator (``OP_EQ``, ``OP_NE``, ``OP_LT``, ``OP_LE``, ``OP_GT``, ``OP_GE``, ``OP_CONTAINS``, ``OP_ICONTAINS``)
-    * ``filters[remoteId][index].operand`` is the comparison value. It may be a string or an integer (TODO is it ?)
+    * ``filters[remoteId][index].operand`` is the comparison value. It may be a string or a number
 
 
 
@@ -79,9 +79,7 @@ Example:
 {
   remoteId: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:groundDate.OP_LT.42,groundDate.OP_GT.13',
   timestamp: 55,
-  payload: {
-    // An object depending on the type of comObject
-  }
+  payload: {/* an object depending on the type of comObject */}
 }
 ```
 

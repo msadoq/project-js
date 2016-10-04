@@ -16,28 +16,23 @@ Only list expected tasks for PBF shipping of end of october.
 * [=] Launch procedure, stop procedure, unexcepted stop of one component (Matthieu)
 * [=] Finalize LPISIS packaging constrains implementation (Matthieu)
 * [=] Lauching VIMA with timebar only OR implement a limited timebar in HSC (Olivier/Audrey)
+* [ ] Sync with erb: 0b0e19c74518fc97843e9bcb393086aa9a7ad616 (Damien)
 * [ ] Complete README.md: lint, quality and coverage, stub  commands usage... (Damien)
 * [ ] Code review and cleaning: convention, comments, TODO , small optimizations... (Damien)
 
 ## GPCCHSS (Node.js)
 
-* [ ] Refactor DC HSS communication
-* [=] Analyze, measure and test and the LokiJS index for cache dataId and interval, https://github.com/techfort/LokiJS/issues/477 (Damien)
-* [ ] Describe new DC->HSS communication (Damien)
-* [ ] Stub and test new DC->HSS communication
-* Controllers
-  - [ ] onViewUpdate (store new configuration)
-  - [=] onViewQuery (Renaud)
-* Protobuf
-  - [ ] Study and remove the toRaw() method, remove the removeEmpty() parsing
-  - [ ] Replace Protobufjs with module that use a C++ parser (https://github.com/fuwaneko/node-protobuf or google C++ wrapped by us)
-* [=] Move localId generation from HSS to HSC in <Subscription/> and <View/>
-* [ ] Implement data filtering on server-side view instance
-* [ ] LPISIS protobuf and types converters code generation (Adrien)
-* [ ] Test every LPISIS parameter type conversion (C++ types to Javascript) (Adrien)
+* Refactoring
+  - [ ] DC communication: implement on HSS new protocol (protobuf, stub, data helper, unit test)
+  - [ ] Protobuf: study and remove the toRaw() method, remove the removeEmpty() parsing
+  - [ ] View type: remove HSS instance and code
+  - [ ] dataQuery from HSC to DC
+  - [ ] subscriptionOpen from HSC to DC ()
+  - [ ] onDataQuery
+
+* [ ] Implement realtime (only) data filtering on server-side
 * [ ] Track every "throw" on HSS and catch them accordingly
 * [ ] Add robustness in every controller by controlling HSC input
-* [ ] Cache invalidation automatic mechanism
 
 Renaud
 * [ ] onNewDataMessage: separate in two controllers: onRealtimeData, onArchiveData
@@ -63,7 +58,7 @@ Renaud
 * [ ] Persist window geometry and focus in Redux
 * [ ] Improve window closing by implementing a confirmation box with WS disconnection
 * [ ] Replace tabs with reactjs/react-tabs
-* [ ] Sync with erb: 0b0e19c74518fc97843e9bcb393086aa9a7ad616
+
 * [ ] Improve main process debugging by try-catching on ready logic
 * [ ] Fix launching warning on document.write injection by adding cross origin policy
  
@@ -104,6 +99,8 @@ Damien
 
 ## Postponed
 
+* [ ] LPISIS protobuf and types converters code generation (Adrien)
+* [ ] Test every LPISIS parameter type conversion (C++ types to Javascript) (Adrien)
 * [ ] Replace localId with unique number id to save Loki memory
 * [ ] Envisage to fork in child_process the HSS DC stub (Damien)
 * [ ] Webpackize the HSS code and study C++ module portability
@@ -114,6 +111,7 @@ Damien
 * [ ] Fix Primus node.js client generation bug and use C++ also on client side: https://github.com/primus/primus#connecting-from-the-server
 * [ ] Move timebars on root level in documents (Audrey)
 * [ ] Implement a clean log and error channel (with bridge)
+- [ ] Replace Protobufjs with module that use a C++ parser (https://github.com/fuwaneko/node-protobuf or google C++ wrapped by us)
 
 ## v2
 * [ ] Timebar play mode upcoming bufferisation (ask for more than immediately needed)

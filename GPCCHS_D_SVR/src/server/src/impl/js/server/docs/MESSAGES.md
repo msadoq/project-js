@@ -112,10 +112,10 @@
 
 ## data
 
-**dataQuery** (HSC->HSS)
+**timebasedQuery** (HSC->HSS)
 ```
 {
-  event: 'dataQuery',
+  event: 'timebasedQuery',
   payload: {
     remoteId: {
       dataId: dataId,
@@ -128,30 +128,30 @@
 }
 ```
 
-**dataQuery** (HSS->DC)
+**timebasedQuery** (HSS->DC)
 ```
 [
-  'dataQuery',
+  'timebasedQuery',
   string, // unique query ID
   dataId,
   [filter],
 ]
 ```
 
-**dataSubscription** (HSS->DC)
+**timebasedSubscription** (HSS->DC)
 ```
 [
-  'dataSubscription',
+  'timebasedSubscription', 
   string, // unique query ID
   dataId,
   enum('ADD', 'DELETE'),
 ]
 ```
 
-**queryData** (DC->HSS)
+**timebasedArchiveData** (DC->HSS)
 ```
 [
-  'queryData',
+  'timebasedArchiveData',
   string, // unique query ID
   dataId,
   boolean, // is last the last chunk for query ID
@@ -162,10 +162,10 @@
 ]
 ```
 
-**subscriptionData** (DC->HSS)
+**timebasedPubSubData** (DC->HSS)
 ```
 [
-  'subscriptionData',
+  'timebasedPubSubData',
   string, // unique query ID
   dataId,
   timestamp,
@@ -175,10 +175,10 @@
 ]
 ```
 
-**newData** (HSS->HSC)
+**timebasedData** (HSS->HSC)
 ```
 {
-  event: 'newData',
+  event: 'timebasedData',
   payload: {
     remoteId: [
       {
@@ -214,7 +214,7 @@
 ## Sub-structures
 **dcHeader**
 ```
-enum(‘domainQuery’, ‘dataQuery’, ‘dataSubscription’, ‘dcResponse’, 'domainData', 'queryData', 'subscriptionData')
+enum(‘domainQuery’, ‘timebasedQuery’, ‘timebasedSubscription’, ‘dcResponse’, 'domainData', 'timebasedArchiveData', 'timebasedPubSubData')
 ```
 
 **dataId**

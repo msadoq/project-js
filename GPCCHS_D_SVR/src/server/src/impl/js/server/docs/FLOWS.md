@@ -1,15 +1,8 @@
 # Architecture
 
-Details of:
-- Messages: from/to, content
-- Controllers: logic
-- Models: fields
-
-dataId (flat): catalog, parameterName, comObject, sessionId, domainId
+dataId (flat): catalog + parameterName + comObject + sessionId + domainId
 remoteId: DataId + filters
 localId: type + field + offset
-
-// TODO : handle dataQueries and dataSubscription in mainProcess
 
 **Pub/sub data subscription**
 1. HSC loads and displays <SubscriptionsContainer/> on each visible window (1 per window)
@@ -32,7 +25,7 @@ localId: type + field + offset
 1. Loop on each value
    2. Determine if incoming queryId exists in connectedData models
    3. Mark connectedData model interval as received if isEndOfQuery
-   4. Insert payloads in cacheJson model
+   4. Insert payloads in timebasedData model
    5. Send data to HSC main process (=>HSC)
 
 **Pub/sub data arriving (onSubscriptionData)**
@@ -41,7 +34,7 @@ localId: type + field + offset
 3. Loop on remoteIds:
    4. **apply filters** (maybe more than one) on each incoming data
    5. determine for if (each) payloads areTimestampsInKnownIntervals
-   6. insert payloads in cacheJson model
+   6. insert payloads in timebasedData model
 7. Send data to HSC main process (=>HSC)
 
 **HSS data arriving**

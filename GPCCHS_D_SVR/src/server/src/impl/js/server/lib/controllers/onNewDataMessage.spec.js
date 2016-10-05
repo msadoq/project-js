@@ -9,7 +9,7 @@
 //   getNewDataMessage,
 //   getNewDataMessageProtobuf,
 // } = require('../stubs/data');
-// const cacheJsonModel = require('../models/cacheJson');
+// const timebasedDataModel = require('../models/timebasedData');
 // const connectedDataModel = require('../models/connectedData');
 // const viewsModel = require('../models/views');
 // const testView = require('../stubs/TestView');
@@ -24,7 +24,7 @@
 // describe('onNewDataMessage', () => {
 //   beforeEach(() => {
 //     viewsModel.cleanup();
-//     cacheJsonModel.cleanup();
+//     timebasedDataModel.cleanup();
 //     connectedDataModel.cleanup();
 //     testSpark.resetMessage();
 //     viewsModel.addRecord('testViewId', testViewInstance);
@@ -37,8 +37,8 @@
 //     const newDataMessage = getNewDataMessage();
 //     const newDataMessageProto = getNewDataMessageProtobuf(newDataMessage);
 //     onNewDataMessage(newDataMessageProto);
-//     // checking Data are not in cacheJson
-//     const cachedData = cacheJsonModel.find();
+//     // checking Data are not in timebasedData
+//     const cachedData = timebasedDataModel.find();
 //     cachedData.should.be.an('array').and.have.lengthOf(0);
 //     // Check that data are not received in views
 //     const message = testSpark.getMessage();
@@ -57,8 +57,8 @@
 //     });
 //     const newDataMessageProto = getNewDataMessageProtobuf(newDataMessage);
 //     onNewDataMessage(newDataMessageProto);
-//     // checking Data are in cacheJson
-//     const cachedData = cacheJsonModel.find();
+//     // checking Data are in timebasedData
+//     const cachedData = timebasedDataModel.find();
 //     cachedData.should.be.an('array').and.have.lengthOf(newDataMessage.payloads.length);
 //     for (let i = 0; i < cachedData.length; i++) {
 //       _.isEqual(
@@ -121,8 +121,8 @@
 //     });
 //     const newDataMessageProto = getNewDataMessageProtobuf(newDataMessage);
 //     onNewDataMessage(newDataMessageProto);
-//     // checking Data are in cacheJson
-//     const cachedData = cacheJsonModel.find();
+//     // checking Data are in timebasedData
+//     const cachedData = timebasedDataModel.find();
 //     cachedData.should.be.an('array').and.have.lengthOf(newDataMessage.payloads.length);
 //     for (let i = 0; i < cachedData.length; i++) {
 //       _.isEqual(
@@ -173,8 +173,8 @@
 //     });
 //     const newDataMessageProto = getNewDataMessageProtobuf(newDataMessage);
 //     onNewDataMessage(newDataMessageProto);
-//     // checking Data are not in cacheJson
-//     const cachedData = cacheJsonModel.find();
+//     // checking Data are not in timebasedData
+//     const cachedData = timebasedDataModel.find();
 //     cachedData.should.be.an('array').and.have.lengthOf(0);
 //     // Check that data are not received in views
 //     const message = testSpark.getMessage();
@@ -194,8 +194,8 @@
 //     });
 //     const newDataMessageProto = getNewDataMessageProtobuf(newDataMessage);
 //     onNewDataMessage(newDataMessageProto);
-//     // checking Data are not in cacheJson
-//     const cachedData = cacheJsonModel.find();
+//     // checking Data are not in timebasedData
+//     const cachedData = timebasedDataModel.find();
 //     cachedData.should.be.an('array').and.have.lengthOf(0);
 //     // Check that data are received in views
 //     const message = testSpark.getMessage();
@@ -235,8 +235,8 @@
 //     });
 //     const newDataMessageProto = getNewDataMessageProtobuf(newDataMessage);
 //     onNewDataMessage(newDataMessageProto);
-//     // checking Data are in cacheJson
-//     const cachedData = cacheJsonModel.find();
+//     // checking Data are in timebasedData
+//     const cachedData = timebasedDataModel.find();
 //     cachedData.should.be.an('array').and.have.lengthOf(newDataMessage.payloads.length);
 //     for (let i = 0; i < cachedData.length; i++) {
 //       _.isEqual(

@@ -8,9 +8,9 @@ const app = require('./lib/express');
 const http = require('http');
 const zmq = require('./lib/io/zmq');
 const primus = require('./lib/io/primus');
-const onClientOpen = require('./lib/controllers/onClientOpen');
-const { onClientClose } = require('./lib/controllers/onClientClose');
-const { onDcServerMessage } = require('./lib/controllers/onDcServerMessage');
+const onOpen = require('./lib/controllers/client/onOpen');
+const { onClose } = require('./lib/controllers/client/onClose');
+const { onMessage } = require('./lib/controllers/dc/onMessage');
 const onVimaTimebarUpdate = require('./lib/controllers/onVimaTimeBarUpdate');
 const onWindowOpen = require('./lib/controllers/onWindowOpen');
 const { onWindowClose } = require('./lib/controllers/onWindowClose');
@@ -18,11 +18,11 @@ const onViewOpen = require('./lib/controllers/onViewOpen');
 const onViewClose = require('./lib/controllers/onViewClose');
 const { onSubscriptionOpen } = require('./lib/controllers/onSubscriptionOpen');
 const { onSubscriptionClose } = require('./lib/controllers/onSubscriptionClose');
-const { onClientDomainQuery } = require('./lib/controllers/onClientDomainQuery');
+const { onDomainQuery } = require('./lib/controllers/client/onDomainQuery');
 
 const onHscVimaTimebarInit = require('./lib/controllers/onHscVimaTimebarInit');
 const onTimebarUpdate = require('./lib/controllers/onTimebarUpdate');
-const { onViewQuery } = require('./lib/controllers/onViewQuery');
+const { onTimebasedQuery } = require('./lib/controllers/client/onTimebasedQuery');
 
 const cp = require('child_process');
 const errorHandler = require('./lib/utils/errorHandler');
@@ -90,8 +90,8 @@ server.on('listening', () => {
 
 // Primus
 primus.init(server, {
-  onClientOpen,
-  onClientClose,
+  onOpen,
+  onClose,
   onWindowOpen,
   onWindowClose,
   onViewOpen,
@@ -101,8 +101,8 @@ primus.init(server, {
   onTimebarUpdate,
   onVimaTimebarUpdate,
   onHscVimaTimebarInit,
-  onClientDomainQuery,
-  onViewQuery,
+  onDomainQuery,
+  onTimebasedQuery,
 });
 
 // ZeroMQ
@@ -110,7 +110,7 @@ zmq.open({
   dcPull: {
     type: 'pull',
     url: process.env.ZMQ_GPCCDC_PULL,
-    handler: (header, buffer) => errorHandler('onDcServerMessage', () => onDcServerMessage(header, buffer)),
+    handler: (header, buffer) => errorHandler('onMessage', () => onMessage(header, buffer)),
   },
   dcPush: {
     type: 'push',

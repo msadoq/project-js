@@ -1,15 +1,15 @@
-// const debug = require('../io/debug')('controllers:onDcServerMessage.spec');
+// const debug = require('../io/debug')('controllers:onMessage.spec');
 const _ = require('lodash');
-const { testPayloads, testHandler } = require('../utils/test');
-const { callDcServerMessageControllers } = require('./onDcServerMessage');
-const dataStub = require('../stubs/data');
+const { testPayloads, testHandler } = require('../../utils/test');
+const { callDcServerMessageControllers } = require('./onMessage');
+const dataStub = require('../../stubs/data');
 
-describe('onDcServerMessage', () => {
+describe('onMessage', () => {
   beforeEach(() => {
     testPayloads.length = 0;
   });
   it('unknown messageType', () => {
-    const protobuf = require('../protobuf/index');
+    const protobuf = require('../../protobuf/index');
 
     const wrongMessage = protobuf.encode(
       'dc.dataControllerUtils.DcServerMessage',

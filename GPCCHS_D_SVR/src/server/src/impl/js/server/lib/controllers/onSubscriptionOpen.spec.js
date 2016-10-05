@@ -1,8 +1,9 @@
 require('../utils/test');
 const { decode } = require('../protobuf');
 const { startSubscription } = require('./onSubscriptionOpen');
-const connectedDataModel = require('../models/connectedData');
+const subscriptionsModel = require('../models/subscriptions');
 const { getDataId } = require('../stubs/data');
+const flattenDataId = require('../models/getLocalId');
 
 let calls = [];
 const zmqEmulator = (key, payload) => {
@@ -13,13 +14,13 @@ const zmqEmulator = (key, payload) => {
 
 describe('onSubscriptionOpen', () => {
   beforeEach(() => {
-    connectedDataModel.cleanup();
+    subscriptionsModel.cleanup();
     calls = [];
   });
   describe('startSubscription', () => {
     it('new', () => {
       const myDataId = getDataId();
-      startSubscription({ dataId: myDataId, windowId: 42 }, zmqEmulator);
+      startSubscription({ dataId: myDataId }, zmqEmulator);
 
       calls.should.be.an('array')
         .that.has.lengthOf(1);
@@ -39,48 +40,15 @@ describe('onSubscriptionOpen', () => {
       payload.should.have.an.property('dataId')
         .that.be.an('object');
       payload.dataId.should.have.properties(myDataId);
-      const connectedData = connectedDataModel.find();
-      connectedData.should.be.an('array')
+      const subscriptions = subscriptionsModel.find();
+      subscriptions.should.be.an('array')
         .that.have.lengthOf(1);
-      connectedData[0].should.be.an('object')
+      subscriptions[0].should.be.an('object')
         .that.have.properties({
-          localId: connectedDataModel.getLocalId(myDataId),
+          flatDataId: flattenDataId(myDataId),
           dataId: myDataId,
-          intervals: {
-            all: [],
-            received: [],
-            requested: {},
-          },
-          windows: [42],
+          filters: {},
         });
-    });
-    it('already in another window', () => {
-      const myDataId = getDataId();
-
-      connectedDataModel.addWindowId(myDataId, 91);
-
-      startSubscription({ dataId: myDataId, windowId: 42 }, zmqEmulator);
-
-      calls.should.be.an('array')
-        .that.has.lengthOf(0);
-
-      const connectedData = connectedDataModel.find();
-      connectedData.should.be.an('array')
-        .that.have.lengthOf(1);
-      connectedData[0].should.be.an('object')
-        .that.have.properties({
-          localId: connectedDataModel.getLocalId(myDataId),
-          dataId: myDataId,
-          intervals: {
-            all: [],
-            received: [],
-            requested: {},
-          },
-        });
-      connectedData[0].should.have.a.property('windows')
-        .that.is.an('array')
-        .that.contains(42)
-        .and.contains(91);
     });
   });
 });

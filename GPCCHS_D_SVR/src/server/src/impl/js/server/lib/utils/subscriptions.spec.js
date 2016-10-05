@@ -2,7 +2,7 @@
 // const { decode } = require('../protobuf');
 // const subscriptions = require('./subscriptions');
 // const connectedDataModel = require('../models/connectedData');
-// const cacheJsonModel = require('../models/cacheJson');
+// const timebasedDataModel = require('../models/timebasedData');
 // const { getDataId } = require('../stubs/data');
 //
 // describe('subscriptions', () => {
@@ -208,7 +208,7 @@
 //     subscriptions.cleanupModels(myDataId);
 //     connectedDataModel.find().should.be.an('array')
 //       .that.have.lengthOf(0);
-//     cacheJsonModel.find().should.be.an('array')
+//     timebasedDataModel.find().should.be.an('array')
 //       .that.have.lengthOf(0);
 //   });
 // });

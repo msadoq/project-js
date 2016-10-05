@@ -1,9 +1,9 @@
 const debug = require('../lib/io/debug')('cache');
-const cacheJsonModel = require('../lib/models/cacheJson');
+const timebasedDataModel = require('../lib/models/timebasedData');
 const { sendParameterData } = require('../lib/io/primus');
 
 const searchSubscriptionData = subscription => {
-  const storedData = cacheJsonModel.findByInterval(subscription, null, null);
+  const storedData = timebasedDataModel.findByInterval(subscription, null, null);
   const points = [];
   storedData.forEach((data) => {
     const jsonPayLoad = data.jsonPayload;

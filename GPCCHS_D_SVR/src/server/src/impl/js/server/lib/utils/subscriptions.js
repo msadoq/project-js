@@ -18,14 +18,6 @@ const createSubscriptionMessage = (action, id, payload) => encode('dc.dataContro
   }),
 });
 
-/*const cleanupModels = (dataId) => {
-  if (connectedDataModel.isConnectedDataInWindows(dataId)) {
-    return;
-  }
-  cacheJsonModel.removeByDataId(dataId);
-  connectedDataModel.removeByDataId(dataId);
-};*/
-
 const createAddSubscriptionMessage = (payload) => {
   const id = v4();
 

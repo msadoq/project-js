@@ -1,13 +1,13 @@
-require('../utils/test');
-const { sendDomains } = require('../controllers/onDomainResponse');
-const { getDomain, getDomainResponseProtobuf } = require('../stubs/data');
-const TestWebSocket = require('../stubs/testWebSocket');
+require('../../utils/test');
+const { sendDomainData } = require('./onDomainData');
+const { getDomain, getDomainResponseProtobuf } = require('../../stubs/data');
+const TestWebSocket = require('../../stubs/testWebSocket');
 
 const testWebsocket = new TestWebSocket();
 testWebsocket.init();
 const spark = testWebsocket.getSpark();
 
-describe('onDomainResponse', () => {
+describe('onDomainData', () => {
   beforeEach(() => {
     spark.resetMessage();
   });
@@ -21,7 +21,7 @@ describe('onDomainResponse', () => {
       ],
     };
     const domainProto = getDomainResponseProtobuf(domainResponse);
-    sendDomains(spark, domainProto);
+    sendDomainData(spark, domainProto);
     const domains = spark.getMessage();
     domains.should.be.an('object');
     domains.should.have.an.property('event')

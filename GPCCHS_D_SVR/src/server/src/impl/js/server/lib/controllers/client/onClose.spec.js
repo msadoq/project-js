@@ -1,16 +1,18 @@
-require('../utils/test');
-const { decode } = require('../protobuf');
-const { cleanUpRemainingData } = require('./onClientClose');
-const connectedDataModel = require('../models/connectedData');
-const registeredCallbacks = require('../utils/registeredCallbacks');
-const cacheJsonModel = require('../models/cacheJson');
-const { setDomains, getDomains } = require('../utils/domains');
-const { setTimebars, getTimebars } = require('../timebars');
+require('../../utils/test');
+const { decode } = require('../../protobuf');
+const { close } = require('./onClose');
+const connectedDataModel = require('../../models/connectedData');
+const subscriptionsModel = require('../../models/subscriptions');
+const timebasedDataModel = require('../../models/timebasedData');
+const registeredCallbacks = require('../../utils/registeredCallbacks');
+const registeredQueries = require('../../utils/registeredQueries');
+const { setDomains, getDomains } = require('../../utils/domains');
 const {
   getDataId,
+  getRemoteId,
   getReportingParameter,
   getReportingParameterProtobuf,
-} = require('../stubs/data');
+} = require('../../stubs/data');
 const _ = require('lodash');
 
 let calls = [];
@@ -20,23 +22,26 @@ const zmqEmulator = (key, payload) => {
   calls.push(payload);
 };
 
-describe('onWindowClose', () => {
+describe('onClose', () => {
   beforeEach(() => {
-    connectedDataModel.cleanup();
+    subscriptionsModel.cleanup();
     calls = [];
   });
-  describe('cleanUpRemainingData', () => {
+  describe('close', () => {
     it('one', () => {
       const myDataId = getDataId();
+      const myRemoteId = getRemoteId(myDataId);
       const myRp = getReportingParameter();
       const proto = getReportingParameterProtobuf(myRp);
 
-      connectedDataModel.addWindowId(myDataId, 42);
-      cacheJsonModel.addRecord(myDataId, _.now(), proto);
-      setTimebars({ timebar: 'timebar' });
+      subscriptionsModel.addRecord(myDataId);
+      timebasedDataModel.addRecord(myRemoteId, _.now(), proto);
+      connectedDataModel.addRequestedInterval(myRemoteId, 'queryId', [42, 42]);
       setDomains([1]);
+      registeredCallbacks.set('toto', toto => toto === 1);
+      registeredQueries.set('queryId', myRemoteId);
 
-      cleanUpRemainingData(zmqEmulator);
+      close(zmqEmulator);
 
       calls.should.be.an('array')
         .that.has.lengthOf(1);
@@ -59,14 +64,17 @@ describe('onWindowClose', () => {
       const connectedData = connectedDataModel.find();
       connectedData.should.be.an('array')
         .that.have.lengthOf(0);
-      const cachedData = cacheJsonModel.find();
-      cachedData.should.be.an('array')
+      const subscriptions = subscriptionsModel.find();
+      subscriptions.should.be.an('array')
+        .that.have.lengthOf(0);
+      const timebasedData = timebasedDataModel.find();
+      timebasedData.should.be.an('array')
         .that.have.lengthOf(0);
       getDomains().should.be.an('array')
         .that.has.lengthOf(0);
-      getTimebars().should.be.an('object')
-        .that.has.properties({});
       registeredCallbacks.getAll().should.be.an('object')
+        .that.has.properties({});
+      registeredQueries.getAll().should.be.an('object')
         .that.has.properties({});
     });
   });

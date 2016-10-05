@@ -52,6 +52,27 @@ stubs.getDataId = override => applyOverride({
   domainId: 200,
 }, override);
 
+stubs.getFilter = override => applyOverride({
+  field: 'groundDate',
+  operator: 'OP_EQ',
+  value: 42,
+}, override);
+
+stubs.getRemoteId = (override) => {
+  const r = stubs.getDataId(override);
+  const filters = (typeof override !== 'undefined' && typeof override.filters !== 'undefined')
+    ? override.filters
+    : [stubs.getFilter()];
+  const flattenFilters = _.sortBy(_.map(filters,
+    ({ field, operator, value }) => `${field}.${operator}.${value}`
+  ), e => e);
+  let remoteId = `${r.catalog}.${r.parameterName}<${r.comObject}>:${r.sessionId}:${r.domainId}`;
+  if (flattenFilters) {
+    remoteId += `:${flattenFilters.join(',')}`;
+  }
+  return remoteId;
+};
+
 stubs.getDataIdWithFilter = override => applyOverride({
   parameterName: 'ATT_BC_STR1STRRFQ1',
   catalog: 'Reporting',

@@ -5,6 +5,7 @@ import { initStore, getStore } from '../store/mainStore';
 import observeStore from '../store/observeStore';
 import { connect, disconnect, getWebsocket } from '../websocket/mainWebsocket';
 import { sync as syncWindows } from './windows';
+import { sync as syncData } from '../connectedData';
 import readWorkspace from '../documents/workspace';
 import loadWorkspace from './loadWorkspace';
 import { getStatus as getMainWsStatus } from '../store/mutations/hssReducer';
@@ -18,12 +19,27 @@ let storeUnsubscribe;
 let loadedWorkspace;
 
 function onStoreUpdate(previousState, state) {
-  const dispatch = getStore().dispatch;
   const lastKnownAppStatus = getAppStatus(previousState);
   const appStatus = getAppStatus(state);
+
   if (lastKnownAppStatus !== appStatus) {
-    logger.info(appStatus, lastKnownAppStatus);
+    logger.info(`appStatus from ${lastKnownAppStatus} to ${appStatus}`);
   }
+
+  const dispatch = getStore().dispatch;
+
+  /**
+   * Client lifecycle:
+   * - not-started
+   * - main process WS connection (out of this file)
+   * - read workspace files
+   * - query domains
+   * - receive domains (out of this file)
+   * - send timebar to VIMA
+   * - get 'ready' from HSS (out of this file, remove)
+   * - load workspace in redux
+   * - first syncWindows
+   */
 
   const mainWsStatus = getMainWsStatus(state, 'main');
   if (appStatus === 'not-started' && mainWsStatus && mainWsStatus.status === 'connected') {
@@ -49,7 +65,7 @@ function onStoreUpdate(previousState, state) {
   }
 
   if (appStatus === 'domain-retrieved') {
-    // Replace timeline uuid with referenced value to send it to Qt
+    // replace timeline uuid with referenced value to send it to Qt
     const tbs = [];
     _.each(loadedWorkspace.timebars, (tb) => {
       const tbtmp = JSON.parse(JSON.stringify(tb));
@@ -59,15 +75,9 @@ function onStoreUpdate(previousState, state) {
       });
       tbs.push(tbtmp);
     });
-    // Send tb init for VIMA widget
     getWebsocket().write({
       event: 'vimaTimebarInit',
       payload: tbs,
-    });
-    // Send tb init to hss
-    getWebsocket().write({
-      event: 'timebarUpdate',
-      payload: { timebars: loadedWorkspace.timebars, timelines: loadedWorkspace.timelines },
     });
     dispatch(updateStatus('timebar-sent-to-hss'));
   }
@@ -79,7 +89,8 @@ function onStoreUpdate(previousState, state) {
   }
 
   if (appStatus === 'started') {
-    syncWindows();
+    syncWindows(previousState, state);
+    syncData(previousState, state);
   }
 }
 

@@ -1,6 +1,6 @@
-require('../utils/test');
+require('../lib/utils/test');
 const timebarUpdate = require('./onTimebarUpdate');
-const { getTimebars } = require('../timebars');
+const { getTimebars } = require('../lib/timebars/index');
 
 describe('onTimebarUpdate', () => {
   it('update', () => {

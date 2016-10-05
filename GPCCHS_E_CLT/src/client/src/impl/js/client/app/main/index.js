@@ -2,8 +2,10 @@ import _ from 'lodash';
 import debug from '../utils/mainDebug';
 import installExtensions from './installExtensions';
 import { initStore, getStore } from '../store/mainStore';
+import observeStore from '../store/observeStore';
 import { connect, disconnect, getWebsocket } from '../websocket/mainWebsocket';
 import { sync as syncWindows } from './windows';
+import { sync as syncData } from '../connectedData';
 import readWorkspace from '../documents/workspace';
 import loadWorkspace from './loadWorkspace';
 import { getStatus as getMainWsStatus } from '../store/mutations/hssReducer';
@@ -15,17 +17,32 @@ const logger = debug('main:launch');
 
 let storeUnsubscribe;
 let loadedWorkspace;
-let lastKnownAppStatus;
 
-function onStoreUpdate() {
-  const state = getStore().getState();
-  const dispatch = getStore().dispatch;
+function onStoreUpdate(previousState, state) {
+  const lastKnownAppStatus = getAppStatus(previousState);
   const appStatus = getAppStatus(state);
+
   if (lastKnownAppStatus !== appStatus) {
-    logger.info(appStatus);
+    logger.info(`appStatus from ${lastKnownAppStatus} to ${appStatus}`);
   }
 
-  if (appStatus === 'not-started' && getMainWsStatus(state, 'main').status === 'connected') {
+  const dispatch = getStore().dispatch;
+
+  /**
+   * Client lifecycle:
+   * - not-started
+   * - main process WS connection (out of this file)
+   * - read workspace files
+   * - query domains
+   * - receive domains (out of this file)
+   * - send timebar to VIMA
+   * - get 'ready' from HSS (out of this file, remove)
+   * - load workspace in redux
+   * - first syncWindows
+   */
+
+  const mainWsStatus = getMainWsStatus(state, 'main');
+  if (appStatus === 'not-started' && mainWsStatus && mainWsStatus.status === 'connected') {
     dispatch(updateStatus('connected-with-hss'));
   }
 
@@ -48,7 +65,7 @@ function onStoreUpdate() {
   }
 
   if (appStatus === 'domain-retrieved') {
-    // Replace timeline uuid with referenced value to send it to Qt
+    // replace timeline uuid with referenced value to send it to Qt
     const tbs = [];
     _.each(loadedWorkspace.timebars, (tb) => {
       const tbtmp = JSON.parse(JSON.stringify(tb));
@@ -58,15 +75,9 @@ function onStoreUpdate() {
       });
       tbs.push(tbtmp);
     });
-    // Send tb init for VIMA widget
     getWebsocket().write({
       event: 'vimaTimebarInit',
       payload: tbs,
-    });
-    // Send tb init to hss
-    getWebsocket().write({
-      event: 'timebarUpdate',
-      payload: { timebars: loadedWorkspace.timebars, timelines: loadedWorkspace.timelines },
     });
     dispatch(updateStatus('timebar-sent-to-hss'));
   }
@@ -78,7 +89,8 @@ function onStoreUpdate() {
   }
 
   if (appStatus === 'started') {
-    syncWindows();
+    syncWindows(previousState, state);
+    syncData(previousState, state);
   }
 }
 
@@ -87,7 +99,7 @@ export async function start() {
   try {
     await installExtensions();
     initStore();
-    storeUnsubscribe = getStore().subscribe(onStoreUpdate);
+    storeUnsubscribe = observeStore(getStore(), onStoreUpdate);
     connect();
   } catch (e) {
     logger.error(e);

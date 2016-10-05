@@ -17,6 +17,7 @@ export default function controller(event, payload) {
       getStore().dispatch(updateAppStatus('hss-ready'));
       break;
     case 'domainResponse':
+      logger.info('domains received');
       getStore().dispatch(updateDomains(payload));
       getStore().dispatch(updateAppStatus('domain-retrieved'));
       break;
@@ -27,7 +28,7 @@ export default function controller(event, payload) {
       getWebsocket().write({
         event: 'timebarUpdate',
         payload: { timebars: state.timebars, timelines: state.timelines },
-      });    
+      });
       break;
     default:
       logger.error('Received not yet implemented event', event);

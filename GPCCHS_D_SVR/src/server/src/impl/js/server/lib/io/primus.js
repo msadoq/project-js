@@ -15,14 +15,15 @@ const primusExports = module.exports = {
   getNewInstance,
   get: () => primus,
   getMainWebsocket: () => {
-    // TODO test if primus is initied, else throw
+    if (!primus) {
+      throw new Error('primus wasn\'t inited yet');
+    }
     let mainWebsocket;
-    _.some(primus, (spark) => {
-      if (spark.getIdentity() === 'main') {
+    primus.forEach((spark) => {
+      if (spark.hsc.identity === 'main') {
         mainWebsocket = spark;
-        return true;
+        // TODO study _.some equivalent to avoid full list looping
       }
-      return false;
     });
 
     return mainWebsocket;
@@ -38,6 +39,9 @@ const primusExports = module.exports = {
       debug.info('new websocket connection', spark.address);
 
       _.set(spark, 'hsc.queue', {});
+
+      // eslint-disable-next-line no-param-reassign
+      spark.hsc.getIdentity = () => _.get(spark, 'hsc.identity');
 
       // eslint-disable-next-line no-param-reassign
       spark.sendToWindow = _.throttle(() => {
@@ -71,11 +75,6 @@ const primusExports = module.exports = {
           throw new Error('Websocket incoming message without event key');
         }
 
-        // TODO : inject windowId as parameter in each handler
-
-        // eslint-disable-next-line no-param-reassign
-        spark.getIdentity = () => _.get(spark, 'hsc.identity');
-
         switch (message.event) {
           case 'identity': {
             if (message.payload.identity === 'main') {
@@ -107,10 +106,6 @@ const primusExports = module.exports = {
           }
           case 'vimaTimebarInit': {
             errorHandler('onHscVimaTimebarInit', () => handlers.onHscVimaTimebarInit(spark, message.payload));
-            break;
-          }
-          case 'timebarUpdate': {
-            errorHandler('onTimebarUpdate', () => handlers.onTimebarUpdate(message.payload));
             break;
           }
           case 'domainQuery': {

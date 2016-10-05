@@ -21,7 +21,6 @@ const { onSubscriptionClose } = require('./lib/controllers/onSubscriptionClose')
 const { onDomainQuery } = require('./lib/controllers/client/onDomainQuery');
 
 const onHscVimaTimebarInit = require('./lib/controllers/onHscVimaTimebarInit');
-const onTimebarUpdate = require('./lib/controllers/onTimebarUpdate');
 const { onTimebasedQuery } = require('./lib/controllers/client/onTimebasedQuery');
 
 const cp = require('child_process');
@@ -98,7 +97,6 @@ primus.init(server, {
   onViewClose,
   onSubscriptionOpen,
   onSubscriptionClose,
-  onTimebarUpdate,
   onVimaTimebarUpdate,
   onHscVimaTimebarInit,
   onDomainQuery,

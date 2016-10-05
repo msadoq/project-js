@@ -1,5 +1,5 @@
 const debug = require('../../io/debug')('controllers:onDomainData');
-const primus = require('../../io/primus');
+const { getMainWebsocket } = require('../../io/primus');
 const { decode } = require('../../protobuf');
 const { setDomains } = require('../../utils/domains');
 
@@ -31,7 +31,7 @@ const sendDomainData = (spark, buffer) => {
 };
 
 const onDomainData = (buffer) => {
-  const spark = primus.getMainWebsocket();
+  const spark = getMainWebsocket();
   sendDomainData(spark, buffer);
 };
 

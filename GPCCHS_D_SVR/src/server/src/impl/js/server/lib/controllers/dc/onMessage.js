@@ -1,9 +1,9 @@
 const debug = require('../../io/debug')('controllers:onMessage');
 const { decode } = require('../../protobuf');
-const onResponse = require('./onResponse');
+const { onResponse } = require('./onResponse');
 const { onDomainData } = require('./onDomainData');
-const onTimebasedArchiveData = require('./onTimebasedArchiveData');
-const onTimebasedPubSubData = require('./onTimebasedPubSubData');
+const { onTimebasedArchiveData } = require('./onTimebasedArchiveData');
+const { onTimebasedPubSubData } = require('./onTimebasedPubSubData');
 const errorHandler = require('../../utils/errorHandler');
 
 // TODO :

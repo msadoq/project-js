@@ -26,5 +26,4 @@ module.exports = (content, cb) => {
   return cb(null, Object.assign(content, {
     connectedData: _.reduce(connectedData, (l, v) => Object.assign(l, { [v.uuid]: v }), {}),
   }));
-
 };

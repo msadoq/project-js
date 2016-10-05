@@ -2,7 +2,7 @@ import debug from '../utils/windowDebug';
 import { getStore } from '../store/windowStore';
 import controller from './windowController';
 import { updateStatus } from '../store/mutations/hssActions';
-
+import parameters from '../main/parameters';
 import { Primus } from '../../external.main';
 
 const logger = debug('window:websocket');
@@ -12,7 +12,6 @@ let instance;
 export function connect(windowId) {
   if (!instance) {
     logger.info('trying open connection to', global.env.HSS);
-
     try {
       instance = new Primus(global.env.HSS);
     } catch(e) {
@@ -20,7 +19,7 @@ export function connect(windowId) {
     }
 
     instance.on('open', () => {
-      logger.info('connected!');
+      logger.info('window:websocket connected!');
       getStore().dispatch(updateStatus(windowId, 'connected'));
       instance.write({
         event: 'identity',

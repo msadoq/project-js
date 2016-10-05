@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="../../node_modules/react-resizable/css/styles.css" />
     <script>
       // https://github.com/electron/electron/issues/5224
-      const env = require('electron').remote.getGlobal('process').env;
+      //const env = require('electron').remote.getGlobal('process').env;
+      const env = require('electron').remote.getCurrentWindow().parameters;
 
       if (!env.HOT) {
         const link = document.createElement('link');

@@ -6,7 +6,6 @@ const stubData = require('./data');
 
 let subscriptions = {}; // realtime
 let queries = []; // archive
-let domainQueried = false; // domains were queried
 // stub supported parameters list
 const supportedParameters = [
   'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>',
@@ -108,8 +107,9 @@ const onHssMessage = (buffer) => {
     subscriptions = _.omit(subscriptions, parameter);
     debug.debug('subscription removed', parameter);
   } else if (type === 'DOMAIN_QUERY') {
-    domainQueried = true;
-    return undefined;
+    const domainResponse = stubData.getWrappedDomainResponseProtobuf();
+    debug.info('push Domains');
+    return zmq.push('stubData', [null, domainResponse]);
   } else {
     throw new Error('Neither a Data Query nor a supported data subscribe nor a domain query');
   }
@@ -166,12 +166,6 @@ const emulateDc = () => {
     pushData(dataId, undefined, payloads, 'REAL_TIME');
   });
 
-  if (domainQueried) {
-    const buffer = stubData.getWrappedDomainResponseProtobuf();
-    debug.debug('push Domains');
-    zmq.push('stubData', [null, buffer]);
-    domainQueried = false;
-  }
   if (!queries.length) {
     return setTimeout(emulateDc, 5000);
   }

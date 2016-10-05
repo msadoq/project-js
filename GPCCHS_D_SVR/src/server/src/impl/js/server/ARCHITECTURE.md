@@ -54,9 +54,9 @@ See [TB.example.json](./lib/schemaManager/examples/TB.example.json)
 
 ## HSS controllers
 
-**onClientOpen**:
+**onOpen**:
 * send 'authenticated' answer to client (HSC lifecycle)
-**onClientClose**: 
+**onClose**: 
 * unsubscribe every connectedData, empty cacheJSON/connectedData
 
 **onWindowOpen**: 
@@ -69,9 +69,9 @@ See [TB.example.json](./lib/schemaManager/examples/TB.example.json)
 **onConnectedDataClose**: 
 * if was the only window listening, unstore as listened data, ask to dc for unsubscription
 
-**onDcServerMessage**:
+**onMessage**:
 * unprotobuferized DcServerMessage and pass message to one of following controller
-**onDcResponse**:
+**onResponse**:
 * find, unregister and call the previously registered callback for message.id
 **onNewDataMessage**:
 * if 'realtime': look for known interval for this data and add to cache
@@ -79,7 +79,7 @@ See [TB.example.json](./lib/schemaManager/examples/TB.example.json)
 * both: loop on each view and pass new data
 **onDomainQuery**: 
 * request domains list to DC
-**onDomainResponse**: 
+**onDomainData**: 
 * store domain, forward to HSC
 
 **onViewOpen**:

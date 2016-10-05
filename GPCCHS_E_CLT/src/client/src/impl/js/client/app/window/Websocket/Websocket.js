@@ -21,8 +21,10 @@ export default class Websocket extends Component {
       ? this.props.children
       : <div className={styles.errorpage_background}>
         <div className={styles.errorpage_transbox}>
-          <p>Error connection (status: {_.get(this.props, 'ws.status')})</p>
+          <p>Connection state: {_.get(this.props, 'ws.status')}</p>
+          <p>Window state: NO PAGE </p>
         </div>
       </div>;
+      // TODO: no found call to DC Stub (on/off) for launch a error page
   }
 }

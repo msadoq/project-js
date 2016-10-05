@@ -1,8 +1,9 @@
 require('../utils/test');
 const { decode } = require('../protobuf');
 const { startSubscription } = require('./onSubscriptionOpen');
-const connectedDataModel = require('../models/connectedData');
+const subscriptionsModel = require('../models/subscriptions');
 const { getDataId } = require('../stubs/data');
+const flattenDataId = require('../models/getLocalId');
 
 let calls = [];
 const zmqEmulator = (key, payload) => {
@@ -13,13 +14,13 @@ const zmqEmulator = (key, payload) => {
 
 describe('onSubscriptionOpen', () => {
   beforeEach(() => {
-    connectedDataModel.cleanup();
+    subscriptionsModel.cleanup();
     calls = [];
   });
   describe('startSubscription', () => {
     it('new', () => {
       const myDataId = getDataId();
-      startSubscription({ dataId: myDataId, windowId: 42 }, zmqEmulator);
+      startSubscription({ dataId: myDataId }, zmqEmulator);
 
       calls.should.be.an('array')
         .that.has.lengthOf(1);
@@ -28,59 +29,26 @@ describe('onSubscriptionOpen', () => {
       const subscription = decode('dc.dataControllerUtils.DcClientMessage', calls[0]);
       subscription.should.be.an('object')
         .that.have.an.property('messageType')
-        .that.equal('DATA_SUBSCRIBE');
+        .that.equal(2); // 'DATA_SUBSCRIBE'
       subscription.should.have.an.property('payload');
       subscription.payload.constructor.should.equal(Buffer);
       const payload = decode('dc.dataControllerUtils.DataSubscribe', subscription.payload);
       payload.should.be.an('object')
         .that.have.an.property('action')
-        .that.equal('ADD');
+        .that.equal(0); // 'ADD'
       payload.should.have.an.property('id');
       payload.should.have.an.property('dataId')
         .that.be.an('object');
       payload.dataId.should.have.properties(myDataId);
-      const connectedData = connectedDataModel.find();
-      connectedData.should.be.an('array')
+      const subscriptions = subscriptionsModel.find();
+      subscriptions.should.be.an('array')
         .that.have.lengthOf(1);
-      connectedData[0].should.be.an('object')
+      subscriptions[0].should.be.an('object')
         .that.have.properties({
-          localId: connectedDataModel.getLocalId(myDataId),
+          flatDataId: flattenDataId(myDataId),
           dataId: myDataId,
-          intervals: {
-            all: [],
-            received: [],
-            requested: {},
-          },
-          windows: [42],
+          filters: {},
         });
-    });
-    it('already in another window', () => {
-      const myDataId = getDataId();
-
-      connectedDataModel.addWindowId(myDataId, 91);
-
-      startSubscription({ dataId: myDataId, windowId: 42 }, zmqEmulator);
-
-      calls.should.be.an('array')
-        .that.has.lengthOf(0);
-
-      const connectedData = connectedDataModel.find();
-      connectedData.should.be.an('array')
-        .that.have.lengthOf(1);
-      connectedData[0].should.be.an('object')
-        .that.have.properties({
-          localId: connectedDataModel.getLocalId(myDataId),
-          dataId: myDataId,
-          intervals: {
-            all: [],
-            received: [],
-            requested: {},
-          },
-        });
-      connectedData[0].should.have.a.property('windows')
-        .that.is.an('array')
-        .that.contains(42)
-        .and.contains(91);
     });
   });
 });

@@ -2,6 +2,7 @@
 
 const _ = require('lodash');
 const ByteBuffer = require('bytebuffer');
+const ProtoBuf = require('protobufjs');
 
 module.exports = {
   encodeAttribute: attribute => {
@@ -107,10 +108,14 @@ module.exports = {
     return new ByteBuffer(null, true).writeUint16(number).flip();
   },
   bytesToUshort: buffer => {
-    if (!_.isBuffer(buffer)) {
+    if (!buffer || !buffer.buffer) {
       return undefined;
     }
-    return buffer.readUInt16LE();
+    // Buffer is associated with key buffer
+    if (!_.isBuffer(buffer.buffer)) {
+      return undefined;
+    }
+    return buffer.buffer.readUInt16LE(buffer.offset);
   },
   uintToBytes: number => {
     if (_.isUndefined(number) || _.isNull(number)) {
@@ -124,9 +129,13 @@ module.exports = {
     return new ByteBuffer(null, true).writeUint32(number).flip();
   },
   bytesToUint: buffer => {
-    if (!_.isBuffer(buffer)) {
+    if (!buffer || !buffer.buffer) {
       return undefined;
     }
-    return buffer.readUInt32LE();
+    // Buffer is associated with key buffer
+    if (!_.isBuffer(buffer.buffer)) {
+      return undefined;
+    }
+    return buffer.buffer.readUInt32LE(buffer.offset);
   },
 };

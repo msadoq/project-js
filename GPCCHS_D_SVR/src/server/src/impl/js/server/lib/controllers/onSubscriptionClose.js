@@ -2,7 +2,9 @@ const debug = require('../io/debug')('controllers:onSubscriptionClose');
 const zmq = require('../io/zmq');
 const { createDeleteSubscriptionMessage } = require('../utils/subscriptions');
 const connectedDataModel = require('../models/connectedData');
-const cacheJsonModel = require('../models/cacheJson');
+const subscriptionsModel = require('../models/subscriptions');
+const timebasedDataModel = require('../models/timebasedData');
+const _ = require('lodash');
 
 /**
  * Triggered when a connectedData is unmounted on HSC and should be unsubscribed from
@@ -15,17 +17,21 @@ const cacheJsonModel = require('../models/cacheJson');
  * @param payload
  */
 
-const stopSubscription = (payload, messageHandler) => {
-  debug.debug('stopping subscription', payload);
-  const connectedData = connectedDataModel.removeWindowId(payload.dataId, payload.windowId);
-  if (!connectedData || connectedData.windows.length !== 0) {
+const stopSubscription = (subscription, messageHandler) => {
+  debug.debug('stopping subscription', subscription);
+  /* const subscription = subscriptionsModel.removeWindowId(payload.dataId, payload.windowId);*/
+  if (!subscriptionsModel.exists(subscription.dataId)) {
     return undefined;
   }
 
-  connectedDataModel.removeByDataId(payload.dataId);
-  cacheJsonModel.removeByDataId(payload.dataId);
+  _.keys(subscription.filters, (remoteId) => {
+    connectedDataModel.removeByRemoteId(remoteId);
+    timebasedDataModel.removeByRemoteId(remoteId);
+  });
 
-  const message = createDeleteSubscriptionMessage(payload.dataId);
+  subscriptionsModel.removeByDataId(subscription.dataId);
+
+  const message = createDeleteSubscriptionMessage(subscription.dataId);
 
   debug.debug('sending stop command to DC');
   return messageHandler('dcPush', message.buffer);

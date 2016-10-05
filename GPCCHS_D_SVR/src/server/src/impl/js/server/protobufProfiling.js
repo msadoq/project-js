@@ -10,7 +10,7 @@ const newDataMessage = stubs.getNewDataMessageProtobuf({
   payloads,
 });
 const dcMessage = stubs.getWrappedNewDataMessageProtobuf({
-  messageType: 'NEW_DATA_MESSAGE',
+  messageType: 1, // 'NEW_DATA_MESSAGE',
   payload: newDataMessage,
 });
 
@@ -28,5 +28,3 @@ function fire(method) {
 }
 
 fire('decode');
-fire('decodeFaster');
-

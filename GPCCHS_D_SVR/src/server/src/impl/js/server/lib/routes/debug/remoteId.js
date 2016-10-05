@@ -7,11 +7,11 @@ const router = new Router();
 
 router.get('/',
 (req, res, next) => {
-  const localId = _.get(req, 'query.localId');
-  if (typeof localId === 'undefined') {
-    next(new ApiError(400, 'invalid JSON', '/query/localId'));
+  const remoteId = _.get(req, 'query.remoteId');
+  if (typeof remoteId === 'undefined') {
+    next(new ApiError(400, 'invalid JSON', '/query/remoteId'));
   }
-  const connectedData = connectedDataModel.getByDataId(localId);
+  const connectedData = connectedDataModel.getByRemoteId(remoteId);
 
   let response =
     '<!DOCTYPE html>' +
@@ -21,15 +21,7 @@ router.get('/',
     '   <title>Connected Data</title>' +
     ' </head>' +
     ' <body>' +
-    `   <h1>CONNECTED DATA ${localId}</h1>` +
-    '   <h3>Data Id</h3>' +
-    '   <ul>' +
-    `     <li>Catalog: ${connectedData.dataId.catalog}</li>` +
-    `     <li>Com Object: ${connectedData.dataId.comObject}</li>` +
-    `     <li>Parameter Name: ${connectedData.dataId.parameterName}</li>` +
-    `     <li>Session Id: ${connectedData.dataId.sessionId}</li>` +
-    `     <li>Domain Id: ${connectedData.dataId.domainId}</li>` +
-    '   </ul>' +
+    `   <h2>RemoteId ${remoteId}</h1>` +
     '   <h3>Received Intervals</h3>' +
     '   <ul>';
 
@@ -48,16 +40,8 @@ router.get('/',
 
   response +=
     '   </ul>' +
-    '   <h3>Window Ids</h3>' +
-    '   <ul>';
-
-  _.each(connectedData.windows, (windowId) => {
-    response += `     <li>${windowId}</li>`;
-  });
-
-  response +=
     '   <br />' +
-    '   <a href="/debug/connectedData">Back</a>' +
+    '   <a href="/debug/">Back</a>' +
     ' </body>' +
     '</html>';
 

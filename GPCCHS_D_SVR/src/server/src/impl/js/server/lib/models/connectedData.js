@@ -6,20 +6,17 @@ const _ = require('lodash');
 
 const collection = database.addCollection('connectedData',
   {
-    unique: 'localId',
+    unique: 'remoteId',
   }
 );
 
-collection.getLocalIdIndex = () => collection.constraints.unique.localId;
+collection.getRemoteIdIndex = () => collection.constraints.unique.remoteId;
 
-collection.getAll = () => _.remove(_.values(collection.getLocalIdIndex().keyMap), undefined);
+collection.getAll = () => _.remove(_.values(collection.getRemoteIdIndex().keyMap), undefined);
 
-collection.getLocalId = require('./getLocalId');
-
-collection.areTimestampsInKnownIntervals = (dataId, timestamps) => {
-  const localId = collection.getLocalId(dataId);
-  // Return timestamps that are currently in intervals known or requested for this localId
-  const connectedData = collection.by('localId', localId);
+collection.areTimestampsInKnownIntervals = (remoteId, timestamps) => {
+  // Return timestamps that are currently in intervals known or requested for this remoteId
+  const connectedData = collection.by('remoteId', remoteId);
 
   if (typeof connectedData === 'undefined') {
     debug.debug('timestamps not in known intervals');
@@ -33,10 +30,9 @@ collection.areTimestampsInKnownIntervals = (dataId, timestamps) => {
   );
 };
 
-collection.isTimestampInKnownIntervals = (dataId, timestamp) => {
-  const localId = collection.getLocalId(dataId);
-  // Check if timestamp is currently in intervals known or requested for this localId
-  const connectedData = collection.by('localId', localId);
+collection.isTimestampInKnownIntervals = (remoteId, timestamp) => {
+  // Check if timestamp is currently in intervals known or requested for this remoteId
+  const connectedData = collection.by('remoteId', remoteId);
 
   if (typeof connectedData === 'undefined') {
     debug.debug('timestamp not in known intervals');
@@ -52,10 +48,9 @@ collection.isTimestampInKnownIntervals = (dataId, timestamp) => {
   return false;
 };
 
-collection.setIntervalAsReceived = (dataId, queryUuid) => {
-  const localId = collection.getLocalId(dataId);
-  // Set query interval as received for this localId
-  const connectedData = collection.by('localId', localId);
+collection.setIntervalAsReceived = (remoteId, queryUuid) => {
+  // Set query interval as received for this remoteId
+  const connectedData = collection.by('remoteId', remoteId);
 
   const interval = _.get(connectedData, ['intervals', 'requested', queryUuid]);
   if (typeof interval === 'undefined') {
@@ -70,22 +65,19 @@ collection.setIntervalAsReceived = (dataId, queryUuid) => {
   return connectedData;
 };
 
-collection.addRequestedInterval = (dataId, queryUuid, interval) => {
-  const localId = collection.getLocalId(dataId);
-  // Add a query interval in the list of requested intervals for this localId
-  // And create the localId if it doesnt exist
-  let connectedData = collection.by('localId', localId);
+collection.addRequestedInterval = (remoteId, queryUuid, interval) => {
+  // Add a query interval in the list of requested intervals for this flatDataId
+  // And create the flatDataId if it doesnt exist
+  let connectedData = collection.by('remoteId', remoteId);
 
   if (typeof connectedData === 'undefined') {
     connectedData = {
-      localId,
-      dataId,
+      remoteId,
       intervals: {
         all: [],
         received: [],
         requested: {},
       },
-      windows: [],
     };
     connectedData.intervals.requested[queryUuid] = interval;
     connectedData.intervals.all.push(interval);
@@ -102,18 +94,15 @@ collection.addRequestedInterval = (dataId, queryUuid, interval) => {
   return connectedData;
 };
 
-collection.isRequested = (dataId, queryUuid) => {
-  const localId = collection.getLocalId(dataId);
-
-  const connectedData = collection.by('localId', localId);
+collection.isRequested = (remoteId, queryUuid) => {
+  const connectedData = collection.by('remoteId', remoteId);
 
   return _.has(connectedData, ['intervals', 'requested', queryUuid]);
 };
 
-collection.retrieveMissingIntervals = (dataId, interval) => {
-  const localId = collection.getLocalId(dataId);
-  // Retrieve missing intervals for this localId for the given interval
-  const connectedData = collection.by('localId', localId);
+collection.retrieveMissingIntervals = (remoteId, interval) => {
+  // Retrieve missing intervals for this remoteId for the given interval
+  const connectedData = collection.by('remoteId', remoteId);
 
   // No connectedData
   if (typeof connectedData === 'undefined') {
@@ -192,62 +181,15 @@ collection.retrieveMissingIntervals = (dataId, interval) => {
   return missingIntervals;
 };
 
-collection.addWindowId = (dataId, windowId) => {
-  const localId = collection.getLocalId(dataId);
-  let connectedData = collection.by('localId', localId);
-  if (typeof connectedData === 'undefined') {
-    connectedData = {
-      localId,
-      dataId,
-      intervals: {
-        all: [],
-        received: [],
-        requested: {},
-      },
-      windows: [windowId],
-    };
-    debug.debug('insert', inspect(connectedData));
-    return collection.insert(connectedData);
-  }
-
-  debug.debug('before update', inspect(connectedData));
-  connectedData.windows = [...connectedData.windows, windowId];
-  debug.debug('update', inspect(connectedData));
-  collection.update(connectedData); // TODO This update operation could be not needed
-  return connectedData;
-};
-
-collection.removeWindowId = (dataId, windowId) => {
-  const localId = collection.getLocalId(dataId);
-  debug.debug(localId);
-  const connectedData = collection.by('localId', localId);
-  if (typeof connectedData === 'undefined') {
-    return undefined;
-  }
-  debug.debug('before update', inspect(connectedData));
-  connectedData.windows = _.without(connectedData.windows, windowId);
-  debug.debug('update', inspect(connectedData));
-  collection.update(connectedData); // TODO This update operation could be not needed
-  return connectedData;
-};
-
-collection.retrieveByWindow = windowId => collection.find({
-  windows: {
-    $contains: windowId,
-  },
-});
-
-collection.exists = (dataId) => {
-  const localId = collection.getLocalId(dataId);
-  if (typeof collection.by('localId', localId) === 'undefined') {
+collection.exists = (remoteId) => {
+  if (typeof collection.by('remoteId', remoteId) === 'undefined') {
     return false;
   }
   return true;
 };
 
-collection.removeByDataId = (dataId) => {
-  const localId = collection.getLocalId(dataId);
-  const connectedData = collection.by('localId', localId);
+collection.removeByRemoteId = (remoteId) => {
+  const connectedData = collection.by('remoteId', remoteId);
 
   if (typeof connectedData === 'undefined') {
     return;
@@ -256,15 +198,12 @@ collection.removeByDataId = (dataId) => {
   collection.remove(connectedData);
 };
 
-collection.getByDataId = (dataId) => {
-  const localId = (typeof dataId === 'string') ? dataId : collection.getLocalId(dataId);
-  return collection.by('localId', localId);
-};
+collection.getByRemoteId = remoteId => collection.by('remoteId', remoteId);
 
 collection.cleanup = () => {
   debug.debug('connectedData cleared');
   collection.clear();
-  collection.getLocalIdIndex().clear();
+  collection.getRemoteIdIndex().clear();
 };
 
 module.exports = collection;

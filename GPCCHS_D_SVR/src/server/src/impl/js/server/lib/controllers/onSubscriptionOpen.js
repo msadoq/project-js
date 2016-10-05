@@ -1,7 +1,7 @@
 const debug = require('../io/debug')('controllers:onSubscriptionOpen');
 const zmq = require('../io/zmq');
 const { createAddSubscriptionMessage } = require('../utils/subscriptions');
-const connectedDataModel = require('../models/connectedData');
+const subscriptionsModel = require('../models/subscriptions');
 
 /**
  * Triggered when a new connected data is mounted on HSC and should be whitelisted in DC pub/sub
@@ -16,10 +16,12 @@ const connectedDataModel = require('../models/connectedData');
 
 const startSubscription = (payload, messageHandler) => {
   debug.debug('start subscription', payload);
-  const connectedData = connectedDataModel.addWindowId(payload.dataId, payload.windowId);
-  if (connectedData.windows.length !== 1) {
+
+  if (subscriptionsModel.exists(payload.dataId)) {
     return undefined;
   }
+
+  subscriptionsModel.addRecord(payload.dataId);
 
   const message = createAddSubscriptionMessage(payload.dataId);
 

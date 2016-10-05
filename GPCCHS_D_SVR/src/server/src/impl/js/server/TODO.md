@@ -28,7 +28,7 @@ Only list expected tasks for PBF shipping of end of october.
   - [ ] View type: remove HSS instance and code
   - [ ] dataQuery from HSC to DC
   - [ ] subscriptionOpen from HSC to DC ()
-  - [ ] onDataQuery
+  - [ ] onTimebasedArchiveData
 
 * [ ] Implement realtime (only) data filtering on server-side
 * [ ] Track every "throw" on HSS and catch them accordingly

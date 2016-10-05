@@ -17,8 +17,8 @@ app.use(linker);
 
 app.use('/debug/', require('./routes/debug/index'));
 app.use('/debug/connectedData/', require('./routes/debug/connectedData'));
-app.use('/debug/localId/', require('./routes/debug/localId'));
-app.use('/debug/views/', require('./routes/debug/views'));
+app.use('/debug/remoteId/', require('./routes/debug/remoteId'));
+app.use('/debug/subscriptions/', require('./routes/debug/subscriptions'));
 app.use((req, res, next) => next(new ApiError(404, 'Not Found')));
 app.use(errorHandler);
 

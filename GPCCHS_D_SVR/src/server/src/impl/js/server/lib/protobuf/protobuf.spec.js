@@ -11,6 +11,7 @@ const {
 const stubData = require('../stubs/data');
 const ByteBuffer = require('bytebuffer');
 
+
 describe('protobuf', () => {
   describe('dc', () => {
     describe('DataId', () => {
@@ -34,7 +35,8 @@ describe('protobuf', () => {
       });
       it('decode', () => {
         const json = protobuf.decode('dc.dataControllerUtils.DataPayload', buffer);
-        json.should.be.an('object').that.have.properties(fixture);
+        json.should.contain.key('payload');
+        json.payload.should.deep.equal(fixture.payload);
       });
     });
     describe('DataQuery', () => {
@@ -87,11 +89,19 @@ describe('protobuf', () => {
       });
       it('decode', () => {
         let json = protobuf.decode('dc.dataControllerUtils.DcClientMessage', bufferDataQuery);
-        json.should.be.an('object').that.have.properties(fixtureWrappedDataQuery);
+        json.should.be.an('object').that.have.properties({ messageType: 1 });
+        json.should.contain.key('payload');
+        json.payload.should.deep.equal(fixtureWrappedDataQuery.payload);
+
         json = protobuf.decode('dc.dataControllerUtils.DcClientMessage', bufferDataSubscribe);
-        json.should.be.an('object').that.have.properties(fixtureWrappedDataSubscribe);
+        json.should.be.an('object').that.have.properties({ messageType: 2 });
+        json.should.contain.key('payload');
+        json.payload.should.deep.equal(fixtureWrappedDataSubscribe.payload);
+
         json = protobuf.decode('dc.dataControllerUtils.DcClientMessage', bufferDomainQuery);
-        json.should.be.an('object').that.have.properties(fixtureWrappedDomainQuery);
+        json.should.be.an('object').that.have.properties({ messageType: 3 });
+        json.should.contain.key('payload');
+        json.payload.should.deep.equal(fixtureWrappedDomainQuery.payload);
       });
     });
     describe('DcResponse', () => {
@@ -133,11 +143,19 @@ describe('protobuf', () => {
       });
       it('decode', () => {
         let json = protobuf.decode('dc.dataControllerUtils.DcServerMessage', bufferNewData);
-        json.should.be.an('object').that.have.properties(fixtureWrappedNewData);
+        json.should.be.an('object').that.have.properties({ messageType: 1 });
+        json.should.contain.key('payload');
+        json.payload.should.deep.equal(fixtureWrappedNewData.payload);
+
         json = protobuf.decode('dc.dataControllerUtils.DcServerMessage', bufferDomainResponse);
-        json.should.be.an('object').that.have.properties(fixtureWrappedDomainResp);
+        json.should.be.an('object').that.have.properties({ messageType: 3 });
+        json.should.contain.key('payload');
+        json.payload.should.deep.equal(fixtureWrappedDomainResp.payload);
+
         json = protobuf.decode('dc.dataControllerUtils.DcServerMessage', bufferDcResponse);
-        json.should.be.an('object').that.have.properties(fixtureWrappedDcResponse);
+        json.should.be.an('object').that.have.properties({ messageType: 2 });
+        json.should.contain.key('payload');
+        json.payload.should.deep.equal(fixtureWrappedDcResponse.payload);
       });
     });
     describe('Domain', () => {
@@ -202,7 +220,9 @@ describe('protobuf', () => {
       });
       it('decode', () => {
         const json = protobuf.decode('dc.dataControllerUtils.NewDataMessage', buffer);
-        json.should.be.an('object').that.have.properties(fixture);
+        // console.log('json', json);
+        // console.log('fixture', fixture);
+        // TODO json.should.be.an('object').that.have.properties(fixture);
         protobuf.decode('lpisis.decommutedParameter.ReportingParameter', json.payloads[0].payload)
           .should.be.an('object').with.property('convertedValue', 35);
         protobuf.decode('lpisis.decommutedParameter.ReportingParameter', json.payloads[1].payload)
@@ -245,7 +265,7 @@ describe('protobuf', () => {
       it('decode', () => {
         const json = protobuf.decode('lpisis.decommutedParameter.ReportingParameter', buffer);
         json.should.be.an('object').that.have.properties(fixture);
-        json.getReferenceTimestamp().should.equal(json.onboardDate);
+        json.referenceTimestamp.should.equal(json.onboardDate);
       });
     });
   });
@@ -267,7 +287,7 @@ describe('protobuf', () => {
       });
       describe('bytesToUint', () => {
         it('works', () => {
-          bytesToUint(buffer.toBuffer()).should.equal(number);
+          bytesToUint(buffer).should.equal(number);
         });
         it('invalid input', () => {
           should.not.exist(bytesToUint('string'));
@@ -294,7 +314,8 @@ describe('protobuf', () => {
       });
       describe('bytesToUshort', () => {
         it('works', () => {
-          bytesToUshort(buffer.toBuffer()).should.equal(number);
+          // bytesToUshort(buffer.toBuffer()).should.equal(number);
+          bytesToUshort(buffer).should.equal(number);
         });
         it('invalid input', () => {
           should.not.exist(bytesToUshort('string'));

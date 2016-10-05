@@ -13,7 +13,7 @@ const queryDomains = (spark, payload, messageHandler) => {
   const id = v4();
 
   const buffer = encode('dc.dataControllerUtils.DcClientMessage', {
-    messageType: 'DOMAIN_QUERY',
+    messageType: 'DOMAIN_QUERY', // 3, //
     payload: encode('dc.dataControllerUtils.DomainQuery', { id }),
   });
 

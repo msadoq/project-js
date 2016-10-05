@@ -26,18 +26,18 @@ const callDcServerMessageControllers = (
   const message = decode('dc.dataControllerUtils.DcServerMessage', buffer);
 
   switch (message.messageType) {
-    case 'DC_RESPONSE':
+    case 2: // 'DC_RESPONSE'
       errorHandler('onDcResponse', () => dcResponseHandler(message.payload));
       break;
-    case 'DOMAIN_RESPONSE':
+    case 3: // 'DOMAIN_RESPONSE'
       errorHandler('onDomainResponse', () => domainResponseHandler(message.payload));
       break;
-    case 'NEW_DATA_MESSAGE':
+    case 1: // 'NEW_DATA_MESSAGE'
       {
         const newDataMessage = decode('dc.dataControllerUtils.NewDataMessage', message.payload);
 
         switch (newDataMessage.dataSource) {
-          case 'ARCHIVE':
+          case 2: // 'ARCHIVE'
             errorHandler('onQueryData', () => queryDataHandler(
               newDataMessage.dataId,
               newDataMessage.id,
@@ -45,19 +45,19 @@ const callDcServerMessageControllers = (
               newDataMessage.isEndOfQuery)
             );
             break;
-          case 'REAL_TIME':
+          case 1: // 'REAL_TIME'
             errorHandler('onSubscriptionData', () => subscriptionDataHandler(
               newDataMessage.dataId,
               newDataMessage.payloads)
             );
             break;
-          case 'UNKNOWN':
+          case 0: // 'UNKNOWN':
           default:
             throw new Error('Unknown data source');
         }
         break;
       }
-    case 'UNKNOWN':
+    case 0: // 'UNKNOWN'
     default:
       throw new Error('messageType not recognized');
   }

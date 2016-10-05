@@ -22,10 +22,11 @@ const onDcResponse = (buffer) => {
 
   remove(message.id);
 
-  if (message.status === 'OK') {
+  if (message.status === 0) { // 'OK'
     return callback(null);
   }
-  if (message.status === 'WARNING' || message.status === 'ERROR') {
+  // 2 = 'WARNING', 1 = 'ERROR'
+  if (message.status === 2 || message.status === 1) {
     return callback(new Error(message && message.reason ? message.reason : 'unknown reason'));
   }
 

@@ -21,8 +21,8 @@ stubs.getReportingParameter = override => applyOverride({
   extractedValue: _.random(1, 100, true),
   triggerOnCounter: 6,
   triggerOffCounter: 10,
-  monitoringState: 'INFORMATIONAL',
-  validityState: 'INVALID',
+  monitoringState: 0,
+  validityState: 0,
   isObsolete: false,
   isNominal: false,
 }, override);
@@ -93,7 +93,7 @@ stubs.getDataQueryProtobuf = override => protobuf.encode(
 
 stubs.getDcResponse = override => applyOverride({
   id: 'my_unique_id',
-  status: 'ERROR',
+  status: 1, // 'ERROR',
   reason: 'My reason',
 }, override);
 
@@ -103,7 +103,7 @@ stubs.getDcResponseProtobuf = override => protobuf.encode(
 );
 
 stubs.getDataSubscribe = override => applyOverride({
-  action: 'ADD',
+  action: 0, // 'ADD',
   id: 'my_unique_id',
   dataId: stubs.getDataId(),
 }, override);
@@ -124,7 +124,7 @@ stubs.getDataPayload = override => applyOverride({
 stubs.getNewDataMessage = override => applyOverride({
   dataId: stubs.getDataId(),
   id: 'test',
-  dataSource: 'ARCHIVE',
+  dataSource: 2, // 'ARCHIVE',
   payloads: [
     stubs.getDataPayload(),
     stubs.getDataPayload({
@@ -178,33 +178,33 @@ stubs.getDomainResponseProtobuf = override => protobuf.encode(
 
 // SERVER MESSAGES (DcServerMessage)
 stubs.getWrappedNewDataMessage = override => applyOverride({
-  messageType: 'NEW_DATA_MESSAGE',
+  messageType: 1, // 'NEW_DATA_MESSAGE',
   payload: stubs.getNewDataMessageProtobuf(override),
 }, override);
 
 stubs.getWrappedDcResponse = override => applyOverride({
-  messageType: 'DC_RESPONSE',
+  messageType: 2, // 'DC_RESPONSE',
   payload: stubs.getDcResponseProtobuf(override),
 }, override);
 
 stubs.getWrappedDomainResponse = override => applyOverride({
-  messageType: 'DOMAIN_RESPONSE',
+  messageType: 3, // 'DOMAIN_RESPONSE',
   payload: stubs.getDomainResponseProtobuf(override),
 }, override);
 
 // CLIENT MESSAGES (DcClientMessage)
 stubs.getWrappedDataQuery = override => applyOverride({
-  messageType: 'DATA_QUERY',
+  messageType: 1, // 'DATA_QUERY',
   payload: stubs.getDataQueryProtobuf(override),
 }, override);
 
 stubs.getWrappedDataSubscribe = override => applyOverride({
-  messageType: 'DATA_SUBSCRIBE',
+  messageType: 2, // 'DATA_SUBSCRIBE',
   payload: stubs.getDataSubscribeProtobuf(override),
 }, override);
 
 stubs.getWrappedDomainQuery = override => applyOverride({
-  messageType: 'DOMAIN_QUERY',
+  messageType: 3, // 'DOMAIN_QUERY',
   payload: stubs.getDomainQueryProtobuf(override),
 }, override);
 
@@ -237,67 +237,3 @@ stubs.getWrappedDomainQueryProtobuf = override => protobuf.encode(
   'dc.dataControllerUtils.DcClientMessage',
   stubs.getWrappedDomainQuery(override)
 );
-
-stubs.getReportingParameter = override => applyOverride({
-  onboardDate: now,
-  groundDate: now + 20,
-  convertedValue: _.random(1, 100, true),
-  rawValue: _.random(1, 100, true),
-  extractedValue: _.random(1, 100, true),
-  triggerOnCounter: 6,
-  triggerOffCounter: 10,
-  monitoringState: 'INFORMATIONAL',
-  validityState: 'INVALID',
-  isObsolete: false,
-  isNominal: false,
-}, override);
-
-// const parseDataFullName = require('./parseDataFullName');
-// const constants = require('../constants');
-// stubs.getSubscription = override => {
-//   let subscription = {
-//     dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
-//     catalog: 'Reporting',
-//     parameter: 'ATT_BC_STR1VOLTAGE',
-//     type: 'ReportingParameter',
-//     field: 'rawValue',
-//     domainId: 0,
-//     timeLineType: constants.TIMELINETYPE_SESSION,
-//     sessionId: 100,
-//     setFileName: '',
-//     subscriptionState: constants.SUBSCRIPTIONSTATE_PLAY,
-//     visuSpeed: 0,
-//     visuWindow: {
-//       lower: now - (3600 * 1000),
-//       upper: now + (3600 * 1000),
-//     },
-//     filter: [],
-//   };
-//
-//   if (override) {
-//     _.forEach(override, (value, key) => {
-//       // remove this key
-//       if (typeof value === 'undefined') {
-//         subscription = _.omit(subscription, [key]);
-//         return;
-//       }
-//
-//       // dataFullName
-//       if (key === 'dataFullName') {
-//         const parsed = parseDataFullName(value);
-//         Object.assign(subscription, {
-//           dataFullName: parsed.dataFullName,
-//           catalog: parsed.catalog,
-//           parameter: parsed.parameter,
-//           type: parsed.type,
-//         });
-//         return;
-//       }
-//
-//       // override key value
-//       subscription[key] = value;
-//     });
-//   }
-//
-//   return subscription;
-// };

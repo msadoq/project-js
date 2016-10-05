@@ -14,7 +14,7 @@ describe('onDcServerMessage', () => {
     const wrongMessage = protobuf.encode(
       'dc.dataControllerUtils.DcServerMessage',
       {
-        messageType: 'UNKNOWN',
+        messageType: 0, // 'UNKNOWN'
         payload: dataStub.getNewDataMessageProtobuf(),
       }
     );
@@ -45,7 +45,7 @@ describe('onDcServerMessage', () => {
     _.isEqual(testPayloads[0], dcResponseProto).should.equal(true);
   });
   it('Archive Message', () => {
-    const archive = dataStub.getNewDataMessage({ dataSource: 'ARCHIVE' });
+    const archive = dataStub.getNewDataMessage({ dataSource: 2 }); // 'ARCHIVE'
     const archiveMessage = dataStub.getWrappedNewDataMessageProtobuf(archive);
     callDcServerMessageControllers(
       archiveMessage,
@@ -61,7 +61,7 @@ describe('onDcServerMessage', () => {
     testPayloads[3].should.deep.equal(archive.isEndOfQuery);
   });
   it('RealTime Message', () => {
-    const realtime = dataStub.getNewDataMessage({ dataSource: 'REAL_TIME' });
+    const realtime = dataStub.getNewDataMessage({ dataSource: 1 }); // 'REAL_TIME'
     const realtimeMessage = dataStub.getWrappedNewDataMessageProtobuf(realtime);
     callDcServerMessageControllers(
       realtimeMessage,

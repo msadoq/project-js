@@ -35,7 +35,7 @@ const queryData = (spark, payload, messageHandler) => {
   _.each(missingIntervals, (missingInterval) => {
     const id = v4();
     const buffer = encode('dc.dataControllerUtils.DcClientMessage', {
-      messageType: 'DATA_QUERY',
+      messageType: 1, // 'DATA_QUERY'
       payload: encode('dc.dataControllerUtils.DataQuery', {
         id,
         dataId,

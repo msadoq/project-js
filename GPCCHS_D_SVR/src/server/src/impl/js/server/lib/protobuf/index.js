@@ -112,10 +112,12 @@ module.exports = {
   },
   decode: (type, buffer) => {
     const builder = getType(type);
-    const raw = builder.decode(buffer).toRaw();
+    const raw = builder.decode(buffer);
     return builder.mapper
-      ? removeEmpty(builder.mapper.decode(raw))
-      : removeEmpty(raw);
+      ? builder.mapper.decode(raw)
+      : raw;
+      // ? removeEmpty(builder.mapper.decode(raw))
+      // : removeEmpty(raw);
   },
   decodeFaster: (type, buffer) => {
     const builder = getType(type);

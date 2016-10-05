@@ -1,4 +1,5 @@
 const ERROR = 'ERROR';
+const WARN = 'WARN';
 const INFO = 'INFO';
 const DEBUG = 'DEBUG';
 const VERBOSE = 'VERBOSE';
@@ -13,6 +14,11 @@ module.exports = debug => namespace => {
   return {
     error: (...args) => {
       if ([VERBOSE, DEBUG, INFO, ERROR].indexOf(level) !== -1) {
+        logger(...args);
+      }
+    },
+    warn: (...args) => {
+      if ([VERBOSE, DEBUG, INFO, WARN].indexOf(level) !== -1) {
         logger(...args);
       }
     },

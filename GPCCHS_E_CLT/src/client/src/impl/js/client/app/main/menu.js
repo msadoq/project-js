@@ -56,21 +56,7 @@ template.splice(1, 0,
       {
         label: 'New',
         accelerator: '',
-        click() {
-          dialog.showMessageBox({
-            type: 'info',
-            title: 'Opening new window',
-            message: 'A new window is being opened... valid please',
-            buttons: ['ok']
-          });
-          getStore().dispatch(add(v4(), 'New window'));
-          dialog.showMessageBox({
-            title: 'Do not forget !',
-            message: 'New window is empty',
-            detail: 'This window needs creating a page, in Menu: Page > Add',
-            buttons: ['I understood']
-          });
-        }
+        click() { getStore().dispatch(add(v4(), 'New window')); }
       }, {
         label: 'Reload',
         accelerator: '',
@@ -117,12 +103,6 @@ template.splice(2, 0,
       accelerator: '',
       click(item, focusedWindow) {
         if (focusedWindow) {
-          dialog.showMessageBox({
-            type: 'info',
-            title: 'Information',
-            message: 'New page added!',
-            buttons: ['ok']
-          });
           getStore().dispatch(addAndMountPage(focusedWindow.windowId, v4(), 'add example'));
         }
       }

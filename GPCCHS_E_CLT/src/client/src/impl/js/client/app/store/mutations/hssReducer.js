@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import u from 'updeep';
-import * as types from './types';
+import * as types from '../types';
 
 /**
  * Reducer

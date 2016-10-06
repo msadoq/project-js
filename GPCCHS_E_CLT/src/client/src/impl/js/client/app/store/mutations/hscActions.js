@@ -1,5 +1,5 @@
-import simple from './simpleActionCreator';
-import * as types from './types';
+import simple from '../simpleActionCreator';
+import * as types from '../types';
 
 /**
  * Simple actions

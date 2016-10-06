@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { electronEnhancer } from 'redux-electron-store';
 import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
-import reducer from './mutations';
+import reducer from './reducers';
 
 let store;
 
@@ -29,8 +29,8 @@ export function initStore(initialState) {
   }
 
   if (module.hot) {
-    module.hot.accept('./mutations', () =>
-      store.replaceReducer(require('./mutations')) // eslint-disable-line global-require
+    module.hot.accept('./reducers', () =>
+      store.replaceReducer(require('./reducers')) // eslint-disable-line global-require
     );
   }
 }

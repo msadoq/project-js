@@ -17,7 +17,7 @@ describe('onDomainQuery', () => {
     const message = decode('dc.dataControllerUtils.DcClientMessage', testPayloads[1]);
     message.should.be.an('object')
       .that.have.property('messageType')
-      .that.equal('DOMAIN_QUERY');
+      .that.equal(3); // DOMAIN QUERY
     message.should.have.an.property('payload');
     const query = decode('dc.dataControllerUtils.DomainQuery', message.payload);
     query.should.be.an('object')

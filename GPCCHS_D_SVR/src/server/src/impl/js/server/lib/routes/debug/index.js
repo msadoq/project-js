@@ -1,8 +1,8 @@
 const { Router } = require('express');
 
+const subscriptionsModel = require('../../models/subscriptions');
 const connectedDataModel = require('../../models/connectedData');
 const timebasedDataModel = require('../../models/timebasedData');
-const viewModel = require('../../models/views');
 const { getDomains } = require('../../utils/domains');
 const perfTool = require('../../utils/performanceTool');
 
@@ -61,7 +61,7 @@ router.get('/',
     const domains = getDomains();
     const cdNb = connectedDataModel.count();
     const dataNb = timebasedDataModel.count();
-    const viewNb = viewModel.count();
+    const subNb = subscriptionsModel.count();
     const avgTime = perfTool.getAvgTime();
     const avgMemoryUsage = perfTool.getAvgMemoryUsage();
 
@@ -100,7 +100,7 @@ router.get('/',
       '     <ul>' +
       `       <li>timebasedData: ${dataNb} element(s)</li>` +
       `       <li><a href="/debug/connectedData/">connectedData</a>: ${cdNb} element(s)</li>` +
-      `       <li><a href="/debug/views/">views</a>: ${viewNb} element(s)</li>` +
+      `       <li><a href="/debug/subscriptions/">subscriptions</a>: ${subNb} element(s)</li>` +
       '     </ul>' +
       ' </body>' +
       '</html>';

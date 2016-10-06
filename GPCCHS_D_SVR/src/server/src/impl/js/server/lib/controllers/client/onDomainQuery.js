@@ -15,7 +15,7 @@ const domainQuery = (spark, payload, messageHandler) => {
 
   const queryId = v4();
   const buffer = encode('dc.dataControllerUtils.DcClientMessage', {
-    messageType: 'DOMAIN_QUERY',
+    messageType: 3, // DOMAIN QUERY
     payload: encode('dc.dataControllerUtils.DomainQuery', { id: queryId }),
   });
 

@@ -16,10 +16,12 @@ const subscriptionsModel = require('../models/subscriptions');
 
 const startSubscription = (payload, messageHandler) => {
   debug.debug('start subscription', payload);
-  const subscription = subscriptionsModel.addWindowId(payload.dataId, payload.windowId);
-  if (subscription.windows.length !== 1) {
+
+  if (subscriptionsModel.exists(payload.dataId)) {
     return undefined;
   }
+
+  subscriptionsModel.addRecord(payload.dataId);
 
   const message = createAddSubscriptionMessage(payload.dataId);
 

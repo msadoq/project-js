@@ -28,7 +28,7 @@ const response = (spark, buffer) => {
   registeredCallbacks.remove(message.id);
 
   // if status is SUCCESS, execute callback and stop logic
-  if (message.status === 'OK') {
+  if (message.status === 0) { // OK
     return callback(null);
   }
 

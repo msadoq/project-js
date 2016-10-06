@@ -1,7 +1,7 @@
 // require('../utils/test');
 // const { decode } = require('../protobuf');
 // const { stopWindowSubscriptions } = require('./onWindowClose');
-// const subscriptionsModel = require('../models/subscriptions');
+// const connectedDataModel = require('../models/connectedData');
 // const { getDataId } = require('../stubs/data');
 //
 // let calls = [];
@@ -13,7 +13,7 @@
 //
 // describe('onWindowClose', () => {
 //   beforeEach(() => {
-//     subscriptionsModel.cleanup();
+//     connectedDataModel.cleanup();
 //     calls = [];
 //   });
 //   describe('stopWindowSubscriptions', () => {
@@ -23,14 +23,14 @@
 //       calls.should.be.an('array')
 //         .that.has.lengthOf(0);
 //
-//       const subscriptions = subscriptionsModel.find();
-//       subscriptions.should.be.an('array')
+//       const connectedData = connectedDataModel.find();
+//       connectedData.should.be.an('array')
 //         .that.have.lengthOf(0);
 //     });
 //     it('one', () => {
 //       const myDataId = getDataId();
 //
-//       subscriptionsModel.addWindowId(myDataId, 42);
+//       connectedDataModel.addWindowId(myDataId, 42);
 //
 //       stopWindowSubscriptions(42, zmqEmulator);
 //
@@ -41,19 +41,19 @@
 //       const subscription = decode('dc.dataControllerUtils.DcClientMessage', calls[0]);
 //       subscription.should.be.an('object')
 //         .that.have.an.property('messageType')
-//         .that.equal('DATA_SUBSCRIBE');
+//         .that.equal(2); // 'DATA_SUBSCRIBE'
 //       subscription.should.have.an.property('payload');
 //       subscription.payload.constructor.should.equal(Buffer);
 //       const payload = decode('dc.dataControllerUtils.DataSubscribe', subscription.payload);
 //       payload.should.be.an('object')
 //         .that.have.an.property('action')
-//         .that.equal('DELETE');
+//         .that.equal(2); // 'DELETE'
 //       payload.should.have.an.property('dataId')
 //         .that.be.an('object');
 //       payload.dataId.should.have.properties(myDataId);
 //
-//       const subscriptions = subscriptionsModel.find();
-//       subscriptions.should.be.an('array')
+//       const connectedData = connectedDataModel.find();
+//       connectedData.should.be.an('array')
 //         .that.have.lengthOf(0);
 //     });
 //     it('multi', () => {
@@ -64,8 +64,8 @@
 //         }),
 //       ];
 //
-//       subscriptionsModel.addWindowId(myDataId[1], 42);
-//       subscriptionsModel.addWindowId(myDataId[0], 42);
+//       connectedDataModel.addWindowId(myDataId[1], 42);
+//       connectedDataModel.addWindowId(myDataId[0], 42);
 //
 //       stopWindowSubscriptions(42, zmqEmulator);
 //
@@ -77,20 +77,20 @@
 //         const subscription = decode('dc.dataControllerUtils.DcClientMessage', calls[i]);
 //         subscription.should.be.an('object')
 //           .that.have.an.property('messageType')
-//           .that.equal('DATA_SUBSCRIBE');
+//           .that.equal(2); // 'DATA_SUBSCRIBE'
 //         subscription.should.have.an.property('payload');
 //         subscription.payload.constructor.should.equal(Buffer);
 //         const payload = decode('dc.dataControllerUtils.DataSubscribe', subscription.payload);
 //         payload.should.be.an('object')
 //           .that.have.an.property('action')
-//           .that.equal('DELETE');
+//           .that.equal(2); // 'DELETE';
 //         payload.should.have.an.property('dataId')
 //           .that.be.an('object');
 //         payload.dataId.should.have.properties(myDataId[i]);
 //       }
 //
-//       const subscriptions = subscriptionsModel.find();
-//       subscriptions.should.be.an('array')
+//       const connectedData = connectedDataModel.find();
+//       connectedData.should.be.an('array')
 //         .that.have.lengthOf(0);
 //     });
 //     it('multi window', () => {
@@ -101,8 +101,8 @@
 //         }),
 //       ];
 //
-//       subscriptionsModel.addWindowId(myDataId[0], 42);
-//       subscriptionsModel.addWindowId(myDataId[1], 91);
+//       connectedDataModel.addWindowId(myDataId[0], 42);
+//       connectedDataModel.addWindowId(myDataId[1], 91);
 //
 //       stopWindowSubscriptions(42, zmqEmulator);
 //
@@ -113,25 +113,29 @@
 //       const subscription = decode('dc.dataControllerUtils.DcClientMessage', calls[0]);
 //       subscription.should.be.an('object')
 //         .that.have.an.property('messageType')
-//         .that.equal('DATA_SUBSCRIBE');
+//         .that.equal(2); // 'DATA_SUBSCRIBE'
 //       subscription.should.have.an.property('payload');
 //       subscription.payload.constructor.should.equal(Buffer);
 //       const payload = decode('dc.dataControllerUtils.DataSubscribe', subscription.payload);
 //       payload.should.be.an('object')
 //         .that.have.an.property('action')
-//         .that.equal('DELETE');
+//         .that.equal(2); // 'DELETE'
 //       payload.should.have.an.property('dataId')
 //         .that.be.an('object');
 //       payload.dataId.should.have.properties(myDataId[0]);
 //
-//       const subscriptions = subscriptionsModel.find();
-//       subscriptions.should.be.an('array')
+//       const connectedData = connectedDataModel.find();
+//       connectedData.should.be.an('array')
 //         .that.have.lengthOf(1);
-//       subscriptions[0].should.be.an('object')
+//       connectedData[0].should.be.an('object')
 //         .that.has.properties({
 //           dataId: myDataId[1],
+//           intervals: {
+//             all: [],
+//             received: [],
+//             requested: {},
+//           },
 //           windows: [91],
-//           filters: {},
 //         });
 //     });
 //   });

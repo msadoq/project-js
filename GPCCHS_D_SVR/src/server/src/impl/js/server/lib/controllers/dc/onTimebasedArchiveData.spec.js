@@ -10,7 +10,7 @@ const {
   getDataPayload,
   getTimestamp,
   getReportingParameter,
-  getReportingParameterProtobuf
+  getReportingParameterProtobuf,
 } = require('../../stubs/data');
 const TestWebSocket = require('../../stubs/testWebSocket');
 
@@ -82,9 +82,9 @@ describe('onTimebasedArchiveData', () => {
         intervals: {
           all: [interval],
           received: [],
-          requested: { [queryId]: interval},
+          requested: { [queryId]: interval },
         },
-      })
+      });
     timebasedDataModel.count().should.equal(2);
     const timebasedData = timebasedDataModel.find();
     timebasedData.should.have.properties([
@@ -96,7 +96,7 @@ describe('onTimebasedArchiveData', () => {
         remoteId,
         timestamp: payloads[1].timestamp.ms,
         payload: rp,
-      }
+      },
     ]);
     spark.getMessage().should.have.properties({
       event: 'newData',
@@ -110,7 +110,7 @@ describe('onTimebasedArchiveData', () => {
             payload: rp,
           },
         ],
-      }
+      },
     });
   });
 
@@ -132,7 +132,7 @@ describe('onTimebasedArchiveData', () => {
           received: [interval],
           requested: {},
         },
-      })
+      });
     timebasedDataModel.count().should.equal(2);
     const timebasedData = timebasedDataModel.find();
     timebasedData.should.have.properties([
@@ -144,7 +144,7 @@ describe('onTimebasedArchiveData', () => {
         remoteId,
         timestamp: payloads[1].timestamp.ms,
         payload: rp,
-      }
+      },
     ]);
     spark.getMessage().should.have.properties({
       event: 'newData',
@@ -158,7 +158,7 @@ describe('onTimebasedArchiveData', () => {
             payload: rp,
           },
         ],
-      }
+      },
     });
   });
 });

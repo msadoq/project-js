@@ -27,7 +27,7 @@ const createAddSubscriptionMessage = (payload) => {
     }
   });
 
-  const buffer = createSubscriptionMessage('ADD', id, payload);
+  const buffer = createSubscriptionMessage(0, id, payload); // 'ADD'
 
   return { buffer, id };
 };
@@ -41,7 +41,7 @@ const createDeleteSubscriptionMessage = (payload) => {
     }
   });
 
-  const buffer = createSubscriptionMessage('DELETE', id, payload);
+  const buffer = createSubscriptionMessage(2, id, payload); // 'DELETE'
 
   return { buffer, id };
 };

@@ -14,7 +14,7 @@ describe('onMessage', () => {
     const wrongMessage = protobuf.encode(
       'dc.dataControllerUtils.DcServerMessage',
       {
-        messageType: 'UNKNOWN',
+        messageType: 0, // 'UNKNOWN'
         payload: dataStub.getNewDataMessageProtobuf(),
       }
     );
@@ -45,7 +45,7 @@ describe('onMessage', () => {
     _.isEqual(testPayloads[0], dcResponseProto).should.equal(true);
   });
   it('Archive Message', () => {
-    const archive = dataStub.getNewDataMessage({ dataSource: 'ARCHIVE' });
+    const archive = dataStub.getNewDataMessage({ dataSource: 2 }); // 'ARCHIVE'
     const archiveMessage = dataStub.getWrappedNewDataMessageProtobuf(archive);
     callDcServerMessageControllers(
       archiveMessage,
@@ -55,13 +55,13 @@ describe('onMessage', () => {
       undefined
     );
     testPayloads.should.be.an('array').and.have.lengthOf(4);
-    testPayloads[0].should.deep.equal(archive.dataId);
-    testPayloads[1].should.deep.equal(archive.id);
-    testPayloads[2].should.deep.equal(archive.payloads);
-    testPayloads[3].should.deep.equal(archive.isEndOfQuery);
+    testPayloads[0].should.have.properties(archive.dataId);
+    testPayloads[1].should.equal(archive.id);
+    testPayloads[2].should.have.properties(archive.payloads);
+    testPayloads[3].should.have.properties(archive.isEndOfQuery);
   });
   it('RealTime Message', () => {
-    const realtime = dataStub.getNewDataMessage({ dataSource: 'REAL_TIME' });
+    const realtime = dataStub.getNewDataMessage({ dataSource: 1 }); // 'REAL_TIME'
     const realtimeMessage = dataStub.getWrappedNewDataMessageProtobuf(realtime);
     callDcServerMessageControllers(
       realtimeMessage,
@@ -71,8 +71,8 @@ describe('onMessage', () => {
       testHandler
     );
     testPayloads.should.be.an('array').and.have.lengthOf(2);
-    testPayloads[0].should.deep.equal(realtime.dataId);
-    testPayloads[1].should.deep.equal(realtime.payloads);
+    testPayloads[0].should.have.properties(realtime.dataId);
+    testPayloads[1].should.have.properties(realtime.payloads);
   });
   it('Domain Response', () => {
     const domainResponse = dataStub.getDomainResponse();

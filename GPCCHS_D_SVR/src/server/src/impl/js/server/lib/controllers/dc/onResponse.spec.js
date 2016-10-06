@@ -17,12 +17,12 @@ describe('onResponse', () => {
 
   const ok = getDcResponseProtobuf({
     id: 'myId',
-    status: 'OK',
+    status: 0, // OK
     reason: null,
   });
   const error = getDcResponseProtobuf({
     id: 'myId',
-    status: 'ERROR',
+    status: 1, // ERROR
     reason: 'My reason',
   });
 

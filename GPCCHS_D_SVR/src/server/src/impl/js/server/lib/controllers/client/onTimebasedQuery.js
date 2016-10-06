@@ -75,7 +75,7 @@ const timebasedQuery = (spark, payload, messageHandler) => {
         : Object.assign({}, query.dataId, { filters: convertedFilters });
       debug.debug('encode dataId with filters', dataId, 'and interval', missingInterval);
       const buffer = encode('dc.dataControllerUtils.DcClientMessage', {
-        messageType: 'DATA_QUERY',
+        messageType: 1, // DATA QUERY
         payload: encode('dc.dataControllerUtils.DataQuery', {
           id: queryId,
           dataId,
@@ -104,7 +104,7 @@ const timebasedQuery = (spark, payload, messageHandler) => {
       });
       // queue a zmq dataSubscription message (with 'ADD' action)
       const buffer = encode('dc.dataControllerUtils.DcClientMessage', {
-        messageType: 'DATA_SUBSCRIBE',
+        messageType: 2, // DATA SUBSCRIBE
         payload: encode('dc.dataControllerUtils.DataSubscribe', {
           action: 'ADD',
           id: queryId,

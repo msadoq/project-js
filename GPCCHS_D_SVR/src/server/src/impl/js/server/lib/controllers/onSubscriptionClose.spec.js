@@ -41,13 +41,13 @@ describe('onSubscriptionClose', () => {
       const subscription = decode('dc.dataControllerUtils.DcClientMessage', calls[0]);
       subscription.should.be.an('object')
         .that.have.an.property('messageType')
-        .that.equal('DATA_SUBSCRIBE');
+        .that.equal(2); // 'DATA_SUBSCRIBE'
       subscription.should.have.an.property('payload');
       subscription.payload.constructor.should.equal(Buffer);
       const payload = decode('dc.dataControllerUtils.DataSubscribe', subscription.payload);
       payload.should.be.an('object')
         .that.have.an.property('action')
-        .that.equal('DELETE');
+        .that.equal(2); // 'DELETE'
       payload.should.have.an.property('dataId')
         .that.be.an('object');
       payload.dataId.should.have.properties(myDataId);

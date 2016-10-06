@@ -12,7 +12,8 @@ const configuration = {
   HSS: null,
   DEBUG: null,
   LEVEL: null,
-  FMD_ROOT: null
+  FMD_ROOT: null,
+  HOT: null,
 };
 
 if (process.env && process.env.NODE_ENV === 'development') {
@@ -24,11 +25,10 @@ if (process.env && process.env.NODE_ENV === 'development') {
   });
 } else {
   try {
-    var argv = minimist(process.argv)
-    configuration['PORT'] = argv.PORT;
-    configuration['HSS'] = argv.HSS;
-    configuration['FMD_ROOT'] = argv.FMD_ROOT;
-    configuration['NODE_ENV'] = argv.NODE_ENV;
+    const argv = minimist(process.argv);
+    _.each(configuration, (v, key) => {
+      configuration[key] = argv[key];
+    });
   } catch (e) {
 
   }

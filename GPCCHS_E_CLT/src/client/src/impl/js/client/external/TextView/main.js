@@ -4,43 +4,19 @@ const _ = require('lodash');
 
 module.exports = {
   getSchemaJson: () => schema,
-  getConnectedDataFromViewDocument: function(viewContent) { // TODO aleal missing test
-    const cdList = [];
-    if (_.has(viewContent, 'configuration')) {
-      _.forEach(viewContent.configuration.textViewEntryPoints, (value, index, source) => {
-        const data = common.moveConnectedData(value.connectedData);
-        cdList.push(data.dataToStore);
-        source[index].connectedData = data.connectedData; // eslint-disable-line no-param-reassign
-      });
-    }
-    return cdList;
-  },
-  getConnectedDataFromState: function(state, viewId) {
-    const entryPoints = _.get(state, `views.${viewId}.configuration.textViewEntryPoints`);
-    if (!entryPoints || !entryPoints.length) {
-      return [];
-    }
-
-    const connectedData = _.get(state, 'connectedData');
-    if (!connectedData || !Object.keys(connectedData).length) {
-      return [];
-    }
-
-    const connectedDataIds = [];
-    _.each(entryPoints, ep => {
+  // TODO: memoize
+  getConnectedDataFromState: function(configuration) {
+    const entryPoints = _.get(configuration, ['textViewEntryPoints'], []);
+    return _.reduce(entryPoints, (list, ep) => {
       if (!ep) {
-        return;
+        return list;
       }
 
-      if (ep.connectedData && ep.connectedData.uuid) {
-        connectedDataIds.push(ep.connectedData.uuid);
+      if (ep.connectedData) {
+        list = list.concat(ep.connectedData);
       }
-    });
 
-    return _.reduce(connectedDataIds, (list, id) => {
-      return connectedData[id]
-        ? list.concat(connectedData[id])
-        : list;
-    } , []);
+      return list;
+    }, []);
   },
 };

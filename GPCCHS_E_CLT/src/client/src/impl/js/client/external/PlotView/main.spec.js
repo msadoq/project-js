@@ -9,9 +9,6 @@ describe('PlotView/main', () => {
   it('getSchemaJson', () => {
     getSchemaJson().should.be.an('object');
   });
-  describe('getConnectedDataFromViewDocument', () => {
-    // TODO: aleal
-  });
   describe('getConnectedDataFromState', () => {
     const { getState } = getStore({
       views: {

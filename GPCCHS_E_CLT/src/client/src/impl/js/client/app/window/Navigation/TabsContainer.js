@@ -8,10 +8,10 @@ import Tabs from './Tabs';
 
 const TabsContainer = props => <Tabs {...props} />;
 
-function mapStateToStore(state, { windowId, pageId }) {
+function mapStateToStore(state, { windowId, focusedPageId }) {
   return ({
     pages: getPages(state, windowId),
-    focusedPage: pageId,
+    focusedPageId,
   });
 }
 

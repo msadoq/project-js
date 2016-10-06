@@ -4,8 +4,6 @@ import { WidthProvider, Responsive } from 'react-grid-layout';
 import ViewContainer from '../View/ViewContainer';
 import styles from './Page.css';
 
-// TODO : remove AddView and add window and add page in electron menu bar
-
 const Grid = WidthProvider(Responsive);
 
 const filterLayoutBlockFields = [
@@ -21,21 +19,19 @@ const filterLayoutBlockFields = [
 
 export default class PageContent extends Component {
   static propTypes = {
-    page: PropTypes.object.isRequired,
-    views: PropTypes.array.isRequired,
-    layout: PropTypes.array.isRequired,
+    focusedPage: PropTypes.object.isRequired,
+    views: PropTypes.array,
+    viewOpenedInEditor: PropTypes.string,
     unmountAndRemove: PropTypes.func,
     openEditor: PropTypes.func,
     closeEditor: PropTypes.func,
     isEditorOpened: PropTypes.bool,
-    viewOpenedInEditor: PropTypes.string,
     updateLayout: PropTypes.func,
   };
   constructor(...args) {
     super(...args);
     this.onLayoutChange = this.onLayoutChange.bind(this);
   }
-
   onLayoutChange(layout) {
     if (!this.props.updateLayout) {
       return;
@@ -43,18 +39,20 @@ export default class PageContent extends Component {
 
     const newLayout = _.map(layout, block => _.omit(block, filterLayoutBlockFields));
 
-    // remove following test after
+    // TODO remove following test after
     // https://github.com/STRML/react-grid-layout/pull/328/commits/a3afd28b579140c84e1e6e849077c7b245405345
-    if (_.isEqual(newLayout, this.props.layout)) {
+    if (_.isEqual(newLayout, this.props.focusedPage.layout)) {
       return;
     }
 
     this.props.updateLayout(newLayout);
   }
-
   render() {
+    const { focusedPage } = this.props;
+    const { layout } = focusedPage;
+
     const layouts = {
-      lg: _.map(this.props.layout, e => Object.assign({
+      lg: _.map(layout, e => Object.assign({
         minW: 3,
         minH: 3
       }, e)),
@@ -78,8 +76,8 @@ export default class PageContent extends Component {
           return (
             <div className={isViewsEditorOpen ? styles.blockedited : styles.block} key={v.viewId}>
               <ViewContainer
-                timebarId={this.props.page.timebarId}
-                pageId={this.props.page.pageId}
+                timebarId={focusedPage.timebarId}
+                pageId={focusedPage.pageId}
                 viewId={v.viewId}
                 unmountAndRemove={this.props.unmountAndRemove}
                 viewOpenedInEditor={this.props.viewOpenedInEditor}

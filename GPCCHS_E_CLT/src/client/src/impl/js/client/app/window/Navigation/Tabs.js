@@ -5,7 +5,7 @@ import styles from './Tabs.css';
 export default class Tabs extends Component {
   static propTypes = {
     pages: PropTypes.array.isRequired,
-    focusedPage: PropTypes.string,
+    focusedPageId: PropTypes.string,
     focusPage: PropTypes.func,
     addAndMount: PropTypes.func,
     removeAndUnmountPage: PropTypes.func,
@@ -27,10 +27,10 @@ export default class Tabs extends Component {
     this.props.removeAndUnmountPage(pageId);
   }
   render() {
-    const { pages, focusedPage } = this.props;
+    const { pages, focusedPageId } = this.props;
 
     return (
-      <Nav bsStyle="tabs" activeKey={focusedPage} onSelect={this.handleSelect}>
+      <Nav bsStyle="tabs" activeKey={focusedPageId} onSelect={this.handleSelect}>
         {pages.map(page =>
           <NavItem
             key={page.pageId}

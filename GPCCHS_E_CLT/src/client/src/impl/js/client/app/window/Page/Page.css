@@ -10,43 +10,31 @@
   border: 2px solid red;
   overflow: auto;
 }
-.nopage_background {
-  background-color:white;
-  width: 900px;
-  height: 1400px;
-  min-width: 100%;
-  margin-bottom: 50vh;
-  position: absolute;
-}
-.nopage_transbox{
-  background-color: darkgray;
-  margin: 300px;
-  border: 1px solid black;
-  opacity: 0.2;
-  /*-webkit-transform:rotate(-350deg);*/
-}
-.nopage_transbox  p{
-  font-family: Arial;
+
+.noPage {
+  width: 400px;
+  height: 100%;
+  min-height: 100%;
+  margin: 30vh auto 0 auto;
   text-align: center;
-  font-size: 100px;
-  color: black;
+  font-size: 5rem;
+  font-weight: bolder;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, .1);
 }
 
 .buttonPage_Editview {
-  font-family: Arial;
   color: white;
   background-color: darkblue;
   opacity: 0.5;
  }
 
 .buttonPage_Removeview {
-  font-family: Arial;
   color: white;
   background-color: darkred;
   opacity: 0.5;
 }
 .ConnectedDataContainer{
-  font-family: Arial;
   color: black;
   background-color: whitesmoke;
   border-style: dotted;;
@@ -55,7 +43,6 @@
 
 .ViewTypeContainer {
   text-align: center;
-  font-family: Arial;
   color: dimgray;
   font-weight: bold;
   background-color: lightsteelblue;

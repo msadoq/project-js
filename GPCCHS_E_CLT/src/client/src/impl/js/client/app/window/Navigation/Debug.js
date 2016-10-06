@@ -5,9 +5,8 @@ export default class Debug extends Component {
   static propTypes = {};
 
   render() {
-    const route = 'http://127.0.0.1:3000/debug/';
     return (
-      <div>
+      <div style={{display: 'inline'}}>
         <Button
           href="http://127.0.0.1:3000/debug/"
           target="_blank"

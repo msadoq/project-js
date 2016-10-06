@@ -10,7 +10,7 @@ export default class Timebar extends Component {
   };
   render() {
     return (
-      <div>
+      <div style={{display: 'inline'}}>
         <Button onClick={this.moveForward.bind(this)}>MOVE 10s</Button>
       </div>
     );

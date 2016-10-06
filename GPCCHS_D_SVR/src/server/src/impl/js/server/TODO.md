@@ -18,12 +18,12 @@ Only list expected tasks for PBF shipping of end of october.
 
 * [ ] Cache invalidation /!\
 * [ ] DC communication: 
-  - [renaud] .proto
-  - [ ] converters
-  - [ ] data helper
-  - [ ] protobuf/index.js unit test for each new message
+  - [x] .proto
+  - [x] converters
+  - [x] data helper
+  - [x] protobuf/index.js unit test for each new message
   - [ ] DC stub + controllers
-* [ ] Remove HSS view type instance and code
+* [x] Remove HSS view type instance and code
 * Profiling
   - [ ] CacheJson: test AVLTree instead of Loki for cache retrieving/insertion OR our proper data structure DataStructure{[order],{key:{value}}
   - [ ] Test and profile LokiJS index auto update https://github.com/techfort/LokiJS/issues/477
@@ -35,8 +35,12 @@ Only list expected tasks for PBF shipping of end of october.
 * Implement <PlotView/>
   - [ ] Prototype and implement a chart library
   - [ ] Test live sampling https://www.npmjs.com/package/simplify-path
-* [ ] Implement <TextView/>
+* Implement <TextView/>
   - [ ] HTML to React with https://github.com/wrakky/react-html-parser
+* DataManager
+  - [ ] sync (actor) method that compute dataMap and missing interval and request data
+  - [ ] outcoming queries reducer and actions
+  - [ ] incoming data reducer and actions
 * [ ] Tree refactoring (Damien)
   - impl/js/client|common|server
   - app=>lib
@@ -44,7 +48,7 @@ Only list expected tasks for PBF shipping of end of october.
   - PageContent=>Content
   - utils=>common
   - connectedData=>dataConsumption
-  - store/mutations=>store/reducers|actions|types.js
+  - store/mutations=>store/reducers|actions|selectors|types.js
 
 ## Postponed
 

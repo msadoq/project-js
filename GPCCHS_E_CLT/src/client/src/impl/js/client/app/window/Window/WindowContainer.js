@@ -12,7 +12,7 @@ const WindowContainer = props => <Window {...props} />;
 
 const makeMapStateToProps = () => {
   const focusedPageSelector = makeGetWindowFocusedPage();
-  return mapStateToProps = (state, props) => {
+  return (state, props) => {
     return {
       windowId: props.windowId,
       focusedPageId: getWindowFocusedPageId(state, props),

@@ -112,6 +112,8 @@ export function getFocusedPage(state, windowId) {
     return null;
   }
 
+  // TODO : deprecate this logic, focusedPage should be maintained in Redux store to allow
+  //        optimizations in connectedData manager
   let pageId = w.focusedPage;
   if (!pageId || !pages.indexOf(pageId) === -1 || !state.pages[pageId]) {
     // take first existing pages

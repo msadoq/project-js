@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Col } from 'react-bootstrap';
 import PageContentContainer from './PageContentContainer';
 // import EditorContainer from '../Editor/EditorContainer';
-import DataConsumerContainer from '../DataConsumer/DataConsumerContainer';
+// import DataConsumerContainer from '../DataConsumer/DataConsumerContainer';
 
 const cols = 12;
 const editorCols = 4;
@@ -23,11 +23,10 @@ export default class Page extends Component {
 
     return (
       <div>
-
-        <DataConsumerContainer
-          pageId={this.props.pageId}
-          timebarId={this.props.timebarId}
-        />
+        {/*<DataConsumerContainer*/}
+          {/*pageId={this.props.pageId}*/}
+          {/*timebarId={this.props.timebarId}*/}
+        {/*/>*/}
         {(this.props.isEditorOpened
           ? <Col xs={editorCols}>
             this is editor

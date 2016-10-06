@@ -1,7 +1,7 @@
 require('../utils/test');
 const { decode } = require('../protobuf');
 const { stopSubscription } = require('./onSubscriptionClose');
-const connectedDataModel = require('../models/connectedData');
+const subscriptionsModel = require('../models/subscriptions');
 const { getDataId } = require('../stubs/data');
 
 let calls = [];
@@ -13,7 +13,7 @@ const zmqEmulator = (key, payload) => {
 
 describe('onSubscriptionClose', () => {
   beforeEach(() => {
-    connectedDataModel.cleanup();
+    subscriptionsModel.cleanup();
     calls = [];
   });
   describe('stopSubscription', () => {
@@ -24,15 +24,15 @@ describe('onSubscriptionClose', () => {
       calls.should.be.an('array')
         .that.has.lengthOf(0);
 
-      const connectedData = connectedDataModel.find();
-      connectedData.should.be.an('array')
+      const subscriptions = subscriptionsModel.find();
+      subscriptions.should.be.an('array')
         .that.have.lengthOf(0);
     });
     it('one', () => {
       const myDataId = getDataId();
 
-      connectedDataModel.addWindowId(myDataId, 42);
-      stopSubscription({ dataId: myDataId, windowId: 42 }, zmqEmulator);
+      subscriptionsModel.addRecord(myDataId);
+      stopSubscription({ dataId: myDataId }, zmqEmulator);
 
       calls.should.be.an('array')
         .that.has.lengthOf(1);
@@ -41,44 +41,20 @@ describe('onSubscriptionClose', () => {
       const subscription = decode('dc.dataControllerUtils.DcClientMessage', calls[0]);
       subscription.should.be.an('object')
         .that.have.an.property('messageType')
-        .that.equal('DATA_SUBSCRIBE');
+        .that.equal(2); // 'DATA_SUBSCRIBE'
       subscription.should.have.an.property('payload');
       subscription.payload.constructor.should.equal(Buffer);
       const payload = decode('dc.dataControllerUtils.DataSubscribe', subscription.payload);
       payload.should.be.an('object')
         .that.have.an.property('action')
-        .that.equal('DELETE');
+        .that.equal(2); // 'DELETE'
       payload.should.have.an.property('dataId')
         .that.be.an('object');
       payload.dataId.should.have.properties(myDataId);
 
-      const connectedData = connectedDataModel.find();
-      connectedData.should.be.an('array')
+      const subscriptions = subscriptionsModel.find();
+      subscriptions.should.be.an('array')
         .that.have.lengthOf(0);
-    });
-    it('one in another window', () => {
-      const myDataId = getDataId();
-
-      connectedDataModel.addWindowId(myDataId, 42);
-      connectedDataModel.addWindowId(myDataId, 91);
-      stopSubscription({ dataId: myDataId, windowId: 42 }, zmqEmulator);
-
-      calls.should.be.an('array')
-        .that.has.lengthOf(0);
-
-      const connectedData = connectedDataModel.find();
-      connectedData.should.be.an('array')
-        .that.have.lengthOf(1);
-      connectedData[0].should.be.an('object')
-        .that.has.properties({
-          dataId: myDataId,
-          intervals: {
-            all: [],
-            received: [],
-            requested: {},
-          },
-          windows: [91],
-        });
     });
   });
 });

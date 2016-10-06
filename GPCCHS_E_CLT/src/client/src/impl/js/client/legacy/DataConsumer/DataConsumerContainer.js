@@ -55,7 +55,7 @@ class DataConsumerContainer extends Component {
     });
 
     logger.debug('dataQuery', queries);
-    getWebsocket().write({ event: 'viewQuery', queries });
+    getWebsocket().write({ event: 'dataQuery', payload: queries });
   }
   // TODO FACTORIZE ELSEWHERE
   render() {

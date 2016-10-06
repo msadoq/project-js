@@ -1,5 +1,22 @@
 const debug = require('../io/debug')('utils:filters');
 const constants = require('../constants');
+const _ = require('lodash');
+
+function convertFilter(filter) {
+  if (
+    typeof filter.operator !== 'string'
+    || filter.operator === ''
+    || typeof filter.field !== 'string'
+    || filter.field === ''
+    || typeof filter.value === 'undefined') {
+    return undefined;
+  }
+  return {
+    lhs: filter.field,
+    comp: filter.operator,
+    rhs: `${filter.value}`,
+  };
+}
 
 function applyFilter(data, filter) {
   if (
@@ -12,7 +29,7 @@ function applyFilter(data, filter) {
     return true;
   }
 
-  debug.verbose(`applying filter ${filter} to data ${data[filter.field]}`);
+  debug.debug(`applying filter ${filter} to data ${data[filter.field]}`);
 
   const expected = filter.value;
   const value = data[filter.field];
@@ -38,4 +55,7 @@ function applyFilter(data, filter) {
   }
 }
 
-module.exports = (data, filters = []) => !filters.find(f => !applyFilter(data, f));
+module.exports = {
+  applyFilters: (data, filters = []) => !filters.find(f => !applyFilter(data, f)),
+  convertFilters: (filters = []) => _.remove(_.map(filters, f => convertFilter(f)), undefined),
+};

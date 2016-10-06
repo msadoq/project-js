@@ -15,7 +15,9 @@ const primusExports = module.exports = {
   getNewInstance,
   get: () => primus,
   getMainWebsocket: () => {
-    // TODO test if primus is initied, else throw
+    if (!primus) {
+      throw new Error('primus wasn\'t inited yet');
+    }
     let mainWebsocket;
     primus.forEach((spark) => {
       if (spark.hsc.identity === 'main') {
@@ -36,7 +38,10 @@ const primusExports = module.exports = {
     primus.on('connection', (spark) => {
       debug.info('new websocket connection', spark.address);
 
-      _.set(spark, 'hsc.queue', []);
+      _.set(spark, 'hsc.queue', {});
+
+      // eslint-disable-next-line no-param-reassign
+      spark.hsc.getIdentity = () => _.get(spark, 'hsc.identity');
 
       // eslint-disable-next-line no-param-reassign
       spark.sendToWindow = _.throttle(() => {
@@ -52,9 +57,14 @@ const primusExports = module.exports = {
       }, TIMESTEP);
 
       // eslint-disable-next-line no-param-reassign
-      spark.addToQueue = (data) => {
+      spark.addToQueue = (remoteId, payload) => {
         debug.debug('adding to queue');
-        _.set(spark, 'hsc.queue', _.concat(_.get(spark, 'hsc.queue'), data));
+        const previous = _.get(spark, ['hsc', 'queue', remoteId]);
+        if (typeof previous === 'undefined') {
+          _.set(spark, ['hsc', 'queue', remoteId], payload);
+        } else {
+          _.set(spark, ['hsc', 'queue', remoteId], _.concat(previous, payload));
+        }
         spark.sendToWindow();
       };
 
@@ -65,17 +75,12 @@ const primusExports = module.exports = {
           throw new Error('Websocket incoming message without event key');
         }
 
-        // TODO : inject windowId as parameter in each handler
-
-        // eslint-disable-next-line no-param-reassign
-        spark.getIdentity = () => _.get(spark, 'hsc.identity');
-
         switch (message.event) {
           case 'identity': {
             if (message.payload.identity === 'main') {
               _.set(spark, 'hsc.identity', 'main');
-              errorHandler('onClienOpen', () => handlers.onClientOpen(spark));
-              spark.on('end', () => errorHandler('onClientClose', () => handlers.onClientClose(spark)));
+              errorHandler('onClienOpen', () => handlers.onOpen(spark));
+              spark.on('end', () => errorHandler('onClose', () => handlers.onClose(spark)));
             } else {
               _.set(spark, 'hsc.identity', message.payload.identity);
               errorHandler('onWindowOpen', () => handlers.onWindowOpen(spark, message.payload.identity));
@@ -104,11 +109,11 @@ const primusExports = module.exports = {
             break;
           }
           case 'domainQuery': {
-            errorHandler('onClientDomainQuery', () => handlers.onClientDomainQuery(spark, message.payload));
+            errorHandler('onDomainQuery', () => handlers.onDomainQuery(spark, message.payload));
             break;
           }
-          case 'viewQuery': {
-            errorHandler('onViewQuery', () => handlers.onViewQuery(spark, message.payload));
+          case 'dataQuery': {
+            errorHandler('onTimebasedQuery', () => handlers.onTimebasedQuery(spark, message.payload));
             break;
           }
           default:

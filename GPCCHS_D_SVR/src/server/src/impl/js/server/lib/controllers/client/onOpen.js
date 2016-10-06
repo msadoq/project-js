@@ -1,4 +1,4 @@
-const debug = require('../io/debug')('controllers:onClientOpen');
+const debug = require('../../io/debug')('controllers:onOpen');
 
 /**
  * Triggered when HSC main process WebSocket opens

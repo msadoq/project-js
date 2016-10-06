@@ -18,14 +18,6 @@ const createSubscriptionMessage = (action, id, payload) => encode('dc.dataContro
   }),
 });
 
-/*const cleanupModels = (dataId) => {
-  if (connectedDataModel.isConnectedDataInWindows(dataId)) {
-    return;
-  }
-  cacheJsonModel.removeByDataId(dataId);
-  connectedDataModel.removeByDataId(dataId);
-};*/
-
 const createAddSubscriptionMessage = (payload) => {
   const id = v4();
 
@@ -35,7 +27,7 @@ const createAddSubscriptionMessage = (payload) => {
     }
   });
 
-  const buffer = createSubscriptionMessage('ADD', id, payload);
+  const buffer = createSubscriptionMessage(0, id, payload); // 'ADD'
 
   return { buffer, id };
 };
@@ -49,7 +41,7 @@ const createDeleteSubscriptionMessage = (payload) => {
     }
   });
 
-  const buffer = createSubscriptionMessage('DELETE', id, payload);
+  const buffer = createSubscriptionMessage(2, id, payload); // 'DELETE'
 
   return { buffer, id };
 };

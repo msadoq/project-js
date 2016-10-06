@@ -5,6 +5,7 @@ const {
   bytesToUshort,
 } = require('./types');
 
+
 module.exports = {
   encode: data => ({
     onboardDate: { value: data.onboardDate },
@@ -19,7 +20,8 @@ module.exports = {
     isObsolete: { value: data.isObsolete },
     isNominal: { value: data.isNominal },
   }),
-  decode: data => ({
+  decode: data => {
+  return ({
     onboardDate: data.onboardDate.value.toNumber(),
     groundDate: data.groundDate.value.toNumber(),
     convertedValue: decodeAttribute(data.convertedValue),
@@ -31,6 +33,6 @@ module.exports = {
     validityState: data.validityState,
     isObsolete: data.isObsolete.value,
     isNominal: data.isNominal.value,
-    getReferenceTimestamp: () => data.onboardDate.value.toNumber(),
-  }),
+    referenceTimestamp: data.onboardDate.value.toNumber(),
+  })},
 };

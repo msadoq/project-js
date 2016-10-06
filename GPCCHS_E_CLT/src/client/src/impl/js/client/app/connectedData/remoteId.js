@@ -6,7 +6,7 @@ function flattenFilters(filters = []) {
   }
 
   return _.sortBy(_.map(filters,
-    ({field, operator, operand}) => `${field}${operator}${operand}`
+    ({ field, operator, operand }) => `${field}.${operator}.${operand}`
   ), e => e);
 }
 

@@ -3,6 +3,7 @@ export function detect(string) {
   return detectPattern.test(string);
 }
 
+// TODO memoize with lodash (string), no expiration
 export function generate(string) {
   if (typeof string !== 'string') {
     return new RegExp();

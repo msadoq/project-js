@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import { detect, generate } from './wildcard';
 
+// TODO: memoize with reselect (domains, search)
+
 /**
  * Filter domains on name and return and an array of ids.
  *

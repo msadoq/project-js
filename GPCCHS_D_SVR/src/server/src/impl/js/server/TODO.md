@@ -18,15 +18,10 @@ Only list expected tasks for PBF shipping of end of october.
 
 * [ ] Cache invalidation /!\
 * [ ] DC communication: 
-  - [x] .proto
-  - [x] converters
-  - [x] data helper
-  - [x] protobuf/index.js unit test for each new message
-  - [ ] DC stub + controllers
-* [x] Remove HSS view type instance and code
+  - [renaud] DC stub + controllers
 * Profiling
   - [ ] CacheJson: test AVLTree instead of Loki for cache retrieving/insertion OR our proper data structure DataStructure{[order],{key:{value}}
-  - [ ] Test and profile LokiJS index auto update https://github.com/techfort/LokiJS/issues/477
+  - [aziz] Test and profile LokiJS index auto update https://github.com/techfort/LokiJS/issues/477
  
 ## GPCCHSC (Electron)
 

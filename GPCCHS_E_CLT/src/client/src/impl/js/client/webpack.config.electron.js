@@ -11,6 +11,11 @@ export default merge(baseConfig, {
     path: __dirname,
     filename: './main.js'
   },
+  externals: {
+    "font-awesome": "font-awesome",
+    "source-map-support": "source-map-support",
+    "ws": "ws"
+  },
 
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
@@ -34,10 +39,5 @@ export default merge(baseConfig, {
   node: {
     __dirname: false,
     __filename: false
-  },
-
-  externals: [
-    'font-awesome',
-    'source-map-support'
-  ]
+  }
 });

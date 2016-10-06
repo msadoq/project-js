@@ -12,6 +12,7 @@ import { getStatus as getMainWsStatus } from '../store/mutations/hssReducer';
 import { getStatus as getAppStatus } from '../store/mutations/hscReducer';
 import { updateStatus } from '../store/mutations/hscActions';
 import menu from'./menu';
+import parameters from './parameters';
 
 const logger = debug('main:launch');
 
@@ -47,7 +48,7 @@ function onStoreUpdate(previousState, state) {
   }
 
   if (appStatus === 'connected-with-hss') {
-    readWorkspace(process.env.FMD_ROOT, 'dev.workspace.json', (err, workspace) => {
+    readWorkspace(parameters.FMD_ROOT, 'dev.workspace.json', (err, workspace) => {
       if (err) {
         throw err;
       }

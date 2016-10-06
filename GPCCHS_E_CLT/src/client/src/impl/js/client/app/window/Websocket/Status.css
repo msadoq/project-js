@@ -11,9 +11,13 @@
   margin: 300px;
   border: 1px solid black;
   opacity: 0.2;
-  -webkit-transform:rotate(-350deg);
+  /*-webkit-transform:rotate(-350deg);*/
 }
 .errorpage_transbox  p{
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-left: 15px;
+  margin-right: 15px;
   font-family: Arial;
   text-align: center;
   font-size: 25px;

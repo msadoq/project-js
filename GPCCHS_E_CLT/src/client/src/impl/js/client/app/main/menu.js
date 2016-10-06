@@ -7,6 +7,9 @@ const { dialog } = require('electron');
 
 const { Menu } = require('electron');
 
+//TODO: instead of the native menu Electron, add actionsMenu on RendererProcess to enhance a customized menubar
+
+
 const template = [{
   label: 'Edit',
   submenu: [{
@@ -169,7 +172,6 @@ template.splice(3, 0,
       }
     }]
   });
-
 
 const menu = Menu.buildFromTemplate(template);
 Menu.setApplicationMenu(menu);

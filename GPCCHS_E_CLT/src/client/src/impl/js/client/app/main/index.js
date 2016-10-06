@@ -51,31 +51,7 @@ function onStoreUpdate(previousState, state) {
 // TODO: HERE insert new json workspaces  to launch:
 // small.workspace.json , medium.workspace.json, large.workspace.json
   if (appStatus === 'connected-with-hss') {
-    // readWorkspace(process.env.FMD_ROOT, 'dev.workspace.json', (err, workspace) => {
-    //   if (err) {
-    //     throw err;
-    //   }
-    //   loadedWorkspace = workspace;
-    //   dispatch(updateStatus('workspace-readed'));
-    // });
-
-    // readWorkspace(process.env.FMD_ROOT, 'small.workspace.json', (err, workspace) => {
-    //   if (err) {
-    //     throw err;
-    //   }
-    //   loadedWorkspace = workspace;
-    //   dispatch(updateStatus('workspace-readed'));
-    // });
-
-    // readWorkspace(process.env.FMD_ROOT, 'medium.workspace.json', (err, workspace) => {
-    //   if (err) {
-    //     throw err;
-    //   }
-    //   loadedWorkspace = workspace;
-    //   dispatch(updateStatus('workspace-readed'));
-    // });
-
-    readWorkspace(process.env.FMD_ROOT, 'large.workspace.json', (err, workspace) => {
+    readWorkspace(process.env.FMD_ROOT, 'dev.workspace.json', (err, workspace) => {
       if (err) {
         throw err;
       }

@@ -18,7 +18,7 @@ Only list expected tasks for PBF shipping of end of october.
 
 * [ ] Cache invalidation /!\
 * [ ] DC communication: 
-  - [ ] .proto
+  - [renaud] .proto
   - [ ] converters
   - [ ] data helper
   - [ ] protobuf/index.js unit test for each new message
@@ -31,7 +31,7 @@ Only list expected tasks for PBF shipping of end of october.
 ## GPCCHSC (Electron)
 
 * [ ] Cache invalidation /!\
-* [ ] A complete workspace with 2 windows, 3 pages, 16 plots lines, 300 text params
+* [alex] A complete workspace with 2 windows, 3 pages, 16 plots lines, 300 text params
 * Implement <PlotView/>
   - [ ] Prototype and implement a chart library
   - [ ] Test live sampling https://www.npmjs.com/package/simplify-path

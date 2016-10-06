@@ -58,8 +58,8 @@ export function close(windowId) {
   windows[windowId].destroy();
 }
 
-export function sync(previoustState, state) {
-  const list = state.windows;
+export function sync() {
+  const list = getStore().getState().windows;
   const inStore = Object.keys(list);
   const opened = Object.keys(windows);
   const toOpen = _.difference(inStore, opened);

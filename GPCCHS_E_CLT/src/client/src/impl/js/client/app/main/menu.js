@@ -36,6 +36,24 @@ template.splice(0, 0,
   {
     label: 'Workspace',
     submenu: [{
+      label: 'New ... ',
+      accelerator: '',
+      click() {
+        dialog.showMessageBox({
+          type: 'info',
+          title: 'Opening new workspace',
+          message: 'A new workspace is being opened... valid please',
+          buttons: ['ok']
+        });
+        // getStore().dispatch(add(v4(), 'New workspace'));
+        dialog.showMessageBox({
+          title: 'Do not forget !',
+          message: 'New workspace is empty',
+          detail: 'This workspace needs creating a window, in Menu: Window > New',
+          buttons: ['I understood']
+        });
+      }
+    }, {
       label: 'Save ...',
       accelerator: 'Ctrl+Command+S',
       click: (item, focusedWindow) => {

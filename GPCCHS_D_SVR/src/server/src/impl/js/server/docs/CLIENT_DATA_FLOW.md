@@ -40,7 +40,7 @@ dataRequests: {
     dataId: {...},
     filter: [{...}],
     localIds: {
-      localId: { viewType, field, offset[, timebarId] },
+      localId: { viewType, field, offset[, timebarId], intervals },
     },
     intervals: [],
   }

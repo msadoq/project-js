@@ -17,7 +17,7 @@ module.exports = buffer => {
   }
   const spark = primus.getMainWebsocket();
   spark.write({
-    event: 'vimaTimebarUpdate',
+    event: 'timebarUpdate',
     payload: updVimaTimebar,
   });
 };

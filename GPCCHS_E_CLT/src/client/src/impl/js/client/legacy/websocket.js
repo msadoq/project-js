@@ -1,4 +1,4 @@
-import debug from '../app/utils/debug';
+import debug from '../lib/common/debug/debug';
 import Primus from '../../../../../../GPCCHS_D_SVR/src/impl/js/server/primus.client';
 
 const logger = debug('communication:websocket');

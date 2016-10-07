@@ -1,4 +1,4 @@
-import { should, getStore } from '../../app/utils/test';
+import { should, getStore } from '../../lib/utils/test';
 import {
   getSchemaJson,
   getConnectedDataFromState,

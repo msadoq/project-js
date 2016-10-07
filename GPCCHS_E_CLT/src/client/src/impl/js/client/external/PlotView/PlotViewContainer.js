@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import PlotView from './PlotView';
 import plotView from './main';
-import remoteId from '../../app/connectedData/remoteId';
+import remoteId from '../../lib/common/remoteId';
 
 const PlotViewContainer = props => <PlotView {...props} />;
 

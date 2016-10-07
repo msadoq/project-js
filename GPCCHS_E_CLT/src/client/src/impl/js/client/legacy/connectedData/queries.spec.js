@@ -1,4 +1,4 @@
-require('../../app/utils/test');
+require('.././utils/test');
 const queries = require('./queries');
 
 describe('utils/queries', () => {

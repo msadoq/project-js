@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getView } from '../../app/store/selectors/views';
+import { getView } from '../../lib/store/selectors/views';
 import MimicView from './MimicView';
 
 const MimicViewContainer = props => <MimicView {...props} />;

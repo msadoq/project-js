@@ -10,32 +10,33 @@ Only list expected tasks for PBF shipping of end of october.
 
 ## Global
 
-* [=] Launch procedure, stop procedure, unexcepted stop of one component (Matthieu)
-* [=] Finalize LPISIS packaging constrains implementation (Matthieu)
-* [=] Lauching VIMA with timebar only OR implement a limited timebar in HSC (Olivier/Audrey)
+* [matthieu] Launch procedure, stop procedure, unexcepted stop of one component (Matthieu)
+* [matthieu] Finalize LPISIS packaging constrains implementation (Matthieu)
+* [olivier] Lauching VIMA with timebar only OR implement a limited timebar in HSC (Olivier/Audrey)
 
 ## GPCCHSS (Node.js)
 
 * [ ] Cache invalidation /!\
-* [ ] DC communication: 
-  - [renaud] DC stub + controllers
+* [renaud] Change primus.js main socket writing to fix consecutive client launch process
+* [ ] DC timebasedQuery modification (filter=>settings{filters,sort,limit})
 * Profiling
   - [ ] CacheJson: test AVLTree instead of Loki for cache retrieving/insertion OR our proper data structure DataStructure{[order],{key:{value}}
   - [aziz] Test and profile LokiJS index auto update https://github.com/techfort/LokiJS/issues/477
- 
+
 ## GPCCHSC (Electron)
 
 * [ ] Cache invalidation /!\
 * [alex] A complete workspace with 2 windows, 3 pages, 16 plots lines, 300 text params
+* DataManager
+  - [ ] sync (actor) method that compute dataMap and missing interval and request data
+  - [ ] outcoming queries reducer and actions
+  - [ ] incoming data reducer and actions
+  - [ ] ViewDataContainer
 * Implement <PlotView/>
   - [ ] Prototype and implement a chart library
   - [ ] Test live sampling https://www.npmjs.com/package/simplify-path
 * Implement <TextView/>
   - [ ] HTML to React with https://github.com/wrakky/react-html-parser
-* DataManager
-  - [ ] sync (actor) method that compute dataMap and missing interval and request data
-  - [ ] outcoming queries reducer and actions
-  - [ ] incoming data reducer and actions
 * [ ] Tree refactoring (Damien)
   - impl/js/client|common|server
   - app=>lib

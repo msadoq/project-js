@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import u from 'updeep';
-import compareTimebars from '../timebar/tbUpdate';
-import { getStore } from '../store/mainStore';
-import { getTimebar, getTimelines } from '../store/mutations/timebarReducer';
+import compareTimebars from '../../timebar/tbUpdate';
+import { getStore } from '../../store/mainStore';
+import { getTimebar, getTimelines } from '../../store/mutations/timebarReducer';
 
 import {
   updateId,
@@ -13,21 +13,18 @@ import {
   addAndMountTimeline,
   unmountAndRemoveTimeline,
   updateTimeline,
-} from '../store/mutations/timebarActions';
+} from '../../store/mutations/timebarActions';
 
-
-export default function updateFromVimaTimebar(timebarId, newTimebar) {
-  const state = getStore().getState();
+export default function updateFromVimaTimebar(state, dispatch, data) {
+  const timebarId = data.uuid;
   const oldTimebar = getTimebar(state, timebarId);
   const oldTimelines = getTimelines(state, timebarId);
 
   const oldTb = u({ timelines: oldTimelines }, oldTimebar);
-  const differences = compareTimebars(oldTb, newTimebar);
+  const differences = compareTimebars(oldTb, data);
   if (!differences) {
     return;
   }
-
-  const dispatch = getStore().dispatch;
 
   if (differences.idUpdate) {
     dispatch(updateId(timebarId, differences.idUpdate));

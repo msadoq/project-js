@@ -1,11 +1,14 @@
-import debug from '../utils/mainDebug';
 import _ from 'lodash';
 import { BrowserWindow } from 'electron';
-import { remove } from '../store/mutations/windowActions';
-import { getStore } from '../store/mainStore';
-import parameters from './parameters';
-const logger = debug('main:windows');
 
+import * as constants from '../../constants';
+import parameters from '../../main/parameters';
+import debug from '../../utils/mainDebug';
+import { remove } from '../mutations/windowActions';
+import { getStore } from '../mainStore';
+import { getStatus as getAppStatus } from '../mutations/hscReducer';
+
+const logger = debug('store:observers:windows');
 
 const windows = {};
 
@@ -31,7 +34,7 @@ export function open(data, windowId) {
   if (process.env.NODE_ENV === 'production') {
     window.loadURL(`file://${__dirname}/app/window/index.html?windowId=${windowId}`);
   } else {
-    window.loadURL(`file://${__dirname}/../window/index.html?windowId=${windowId}`);
+    window.loadURL(`file://${__dirname}/../../window/index.html?windowId=${windowId}`);
   }
 
 
@@ -58,8 +61,12 @@ export function close(windowId) {
   windows[windowId].destroy();
 }
 
-export function sync() {
-  const list = getStore().getState().windows;
+export default function windowsObserver(state, dispatch, previousState) {
+  if (getAppStatus(state) !== constants.LIFECYCLE_STARTED) {
+    return undefined;
+  }
+
+  const list = state.windows;
   const inStore = Object.keys(list);
   const opened = Object.keys(windows);
   const toOpen = _.difference(inStore, opened);

@@ -1,34 +1,37 @@
 import _ from 'lodash';
+import * as constants from '../constants';
 import debug from '../utils/mainDebug';
 import { getStore } from '../store/mainStore';
 import { updateStatus as updateAppStatus } from '../store/mutations/hscActions';
 import { updateDomains } from '../store/mutations/domainsActions';
-import updateFromVimaTimebar from '../main/updateFromVimaTimebar';
+import updateStore from '../main/vima/updateStore';
 import { getWebsocket } from '../websocket/mainWebsocket';
+import convertFromStore from '../main/vima/convertFromStore';
 
 const logger = debug('main:controller');
 
 export default function controller(event, payload) {
+  const store = getStore();
   switch (event) {
     case 'authenticated':
-      logger.error('authenticated');
-      break;
-    case 'ready':
-      getStore().dispatch(updateAppStatus('hss-ready'));
+      store.dispatch(updateAppStatus(constants.LIFECYCLE_CONNECTED_WITH_HSS));
+      getWebsocket().write({ event: 'domainQuery' });
       break;
     case 'domainResponse':
-      logger.info('domains received');
-      getStore().dispatch(updateDomains(payload));
-      getStore().dispatch(updateAppStatus('domain-retrieved'));
-      break;
-    case 'vimaTimebarUpdate':
-      updateFromVimaTimebar(_.get(payload, 'uuid'), payload);
-      // Send tb update to hss
-      const state = getStore().getState();
+      store.dispatch(updateDomains(payload));
       getWebsocket().write({
-        event: 'timebarUpdate',
-        payload: { timebars: state.timebars, timelines: state.timelines },
+        event: 'vimaTimebarInit',
+        payload: convertFromStore(getStore().getState()),
       });
+      break;
+    case 'ready':
+      store.dispatch(updateAppStatus(constants.LIFECYCLE_STARTED));
+      break;
+    case 'timebarUpdate':
+      updateStore(store.getState(), store.dispatch, payload);
+      break;
+    case 'newData':
+      console.log('newData', payload);
       break;
     default:
       logger.error('Received not yet implemented event', event);

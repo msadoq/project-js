@@ -110,7 +110,7 @@ function get(key, type) {
 function push(key, payload, callback = () => {}) {
   const socket = get(key, 'push');
   debug.debug(`sending to ${key}`);
-  return socket.send(payload, 0, () => {
+  return socket.send(payload, 1, () => {
     debug.debug(`sent to ${key}`);
     return callback(null);
   });

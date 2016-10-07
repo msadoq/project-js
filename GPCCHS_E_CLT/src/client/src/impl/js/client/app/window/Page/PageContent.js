@@ -68,6 +68,7 @@ export default class PageContent extends Component {
         cols={{ lg: 12 }}
         draggableHandle=".moveHandler"
         onLayoutChange={this.onLayoutChange}
+        measureBeforeMount
       >
         {_.map(this.props.views, (v) => {
           const isViewsEditorOpen =

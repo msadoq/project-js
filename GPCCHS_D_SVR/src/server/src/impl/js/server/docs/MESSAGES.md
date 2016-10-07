@@ -134,7 +134,8 @@
   'timebasedQuery',
   string, // unique query ID
   dataId,
-  [filter],
+  [number, number], // interval
+  queryArguments,
 ]
 ```
 
@@ -225,6 +226,17 @@ enum(‘domainQuery’, ‘timebasedQuery’, ‘timebasedSubscription’, ‘dc
   comObject: string,
   sessionId: number,
   domainId: number,
+}
+```
+
+**queryArguments**
+```
+{
+  filter: filter,
+  sortField: string,
+  sortOrder: string, 
+  limitStart: number,
+  limitNumber: number,
 }
 ```
 

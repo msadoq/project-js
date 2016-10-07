@@ -1,6 +1,7 @@
-import debug from '../utils/mainDebug';
 import _ from 'lodash';
-import { getStore } from '../store/mainStore';
+
+import debug from '../utils/mainDebug';
+import readWorkspace from '../documents/workspace';
 import { add as addTimeline } from '../store/mutations/timelineActions';
 import { add as addTimebar } from '../store/mutations/timebarActions';
 import { add as addConnectedData } from '../store/mutations/connectedDataActions';
@@ -10,12 +11,7 @@ import { add as addWindow } from '../store/mutations/windowActions';
 
 const logger = debug('main:loadWorkspace');
 
-// TODO : read file path in params => file picker
-// TODO : handle error in workspace reading => file picker
-
-export default function loadWorkspace(workspace) {
-  const dispatch = getStore().dispatch;
-
+function loadInStore(workspace, dispatch) {
   // add timelines
   _.each(workspace.timelines, e => dispatch(addTimeline(e.uuid, e)));
 
@@ -60,12 +56,24 @@ export default function loadWorkspace(workspace) {
       dispatch(addWindow(e.uuid, e.title, e.geometry, e.pages, pageId));
     }
   );
+}
 
-  const state = getStore().getState();
-  const count = {
-    w: Object.keys(state.windows).length,
-    p: Object.keys(state.pages).length,
-    v: Object.keys(state.views).length,
-  };
-  logger.info(`${count.w} windows, ${count.p} pages, ${count.v} views`);
+/**
+ * Open 'file' relative to 'root' folder, 'dispatch' corresponding actions and call 'callback'
+ *
+ * @param root
+ * @param file
+ * @param dispatch
+ * @param callback
+ */
+export default function openWorkspace(root, file, dispatch, callback) {
+  readWorkspace(root, file, (err, workspace) => {
+    if (err) {
+      return callback(err);
+    }
+
+    loadInStore(workspace, dispatch);
+
+    return callback(null);
+  });
 }

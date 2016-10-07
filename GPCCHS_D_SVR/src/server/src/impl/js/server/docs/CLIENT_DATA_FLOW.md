@@ -38,9 +38,9 @@ Data requests send to HSS list:
 dataRequests: {
   remoteId: {
     dataId: {...},
-    filter: [{...}],
+    filters: [{...}], 
     localIds: {
-      localId: { viewType, field, offset[, timebarId], intervals },
+      localId: { viewType, field, offset, timebarId },
     },
     intervals: [],
   }

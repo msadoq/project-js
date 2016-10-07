@@ -6,4 +6,10 @@ describe('store:reducers:dataRequests', () => {
   it('initial state', () => {
     reducer(undefined, {}).should.be.an('object').that.is.empty;
   });
+  it('unknow action', () => {
+    // TODO
+  });
+  it('add request', () => {
+    // TODO
+  });
 });

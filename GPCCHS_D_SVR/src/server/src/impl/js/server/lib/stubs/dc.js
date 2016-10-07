@@ -72,7 +72,6 @@ const pushDomainData = (queryId, domains) => {
     stubData.getStringProtobuf(queryId),
   ];
   _.each(domains, domain => buffer.push(stubData.getDomainProtobuf(domain)));
-  debug.debug('domain', protobuf.decode('dc.dataControllerUtils.Domain', buffer[4]));
   zmq.push('stubData', buffer);
 };
 const pushTimebasedArchiveData = (queryId, dataId, isLast, payloads) => {

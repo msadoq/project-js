@@ -15,5 +15,5 @@ module.exports = (buffer) => {
   } catch (err) {
     throw err;
   }
-  sendToMain('vimaTimebarUpdate', updVimaTimebar);
+  sendToMain('timebarUpdate', updVimaTimebar);
 };

@@ -4,52 +4,23 @@ const _ = require('lodash');
 
 module.exports = {
   getSchemaJson: () => schema,
-  getConnectedDataFromViewDocument: function(viewContent) { // TODO missing test
-    const cdList = [];
-    if (_.has(viewContent, 'configuration')) {
-      _.forEach(viewContent.configuration.plotViewEntryPoints, (value, index, source) => {
-        const dataX = common.moveConnectedData(value.connectedDataX);
-        cdList.push(dataX.dataToStore);
-        // eslint-disable-next-line no-param-reassign
-        source[index].connectedDataX = dataX.connectedData;
-        const dataY = common.moveConnectedData(value.connectedDataY);
-        cdList.push(dataY.dataToStore);
-        // eslint-disable-next-line no-param-reassign
-        source[index].connectedDataY = dataY.connectedData;
-      });
-    }
-    return cdList;
-  },
-  getConnectedDataFromState: function(state, viewId) {
-    const entryPoints = _.get(state, `views.${viewId}.configuration.plotViewEntryPoints`);
-    if (!entryPoints || !entryPoints.length) {
-      return [];
-    }
-
-    const connectedData = _.get(state, 'connectedData');
-    if (!connectedData || !Object.keys(connectedData).length) {
-      return [];
-    }
-
-    const connectedDataIds = [];
-    _.each(entryPoints, ep => {
+  // TODO: memoize
+  getConnectedDataFromState: function(configuration) {
+    const entryPoints = _.get(configuration, ['plotViewEntryPoints'], []);
+    return _.reduce(entryPoints, (list, ep) => {
       if (!ep) {
-        return;
+        return list;
       }
 
-      if (ep.connectedDataX && ep.connectedDataX.uuid) {
-        connectedDataIds.push(ep.connectedDataX.uuid);
+      if (ep.connectedDataX) {
+        list = list.concat(ep.connectedDataX); // TODO : only if not the same params as Y
       }
-      if (ep.connectedDataY && ep.connectedDataY.uuid) {
-        connectedDataIds.push(ep.connectedDataY.uuid);
+      if (ep.connectedDataY) {
+        list = list.concat(ep.connectedDataY);
       }
-    });
 
-    return _.reduce(connectedDataIds, (list, id) => {
-      return connectedData[id]
-        ? list.concat(connectedData[id])
-        : list;
-    } , []);
+      return list;
+    }, []);
   },
   getUsedValues: function(stateLocalId, field, visuWindow, offset, remoteIdPayload) {
     const lower = visuWindow.lower - offset;
@@ -58,6 +29,17 @@ module.exports = {
     let final;
     if (stateLocalId) {
       final = Object.assign({}, stateLocalId);
+      const iLower = _.findIndex(final.index, (i) => i > lower);
+      const iUpper = _.findIndex(final.index, (i) => i > upper, iLower < 0 ? 0 : iLower);
+      if (iLower >= 0 || iUpper >= 0) {
+        final.index = _.slice(final.index, iLower < 0 ? 0 : iLower,
+          iUpper < 0 ? final.index.length : iUpper);
+        const update = {};
+        _.each(final.index, time => {
+          update[time] = final.data[time];
+        });
+        final.data = update;
+      }
     } else {
       final = { data: {}, index: []};
     }

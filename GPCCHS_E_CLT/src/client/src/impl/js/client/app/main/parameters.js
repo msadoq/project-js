@@ -6,7 +6,6 @@ const minimist = require('minimist');
  * line in production environment.
  */
 
-
 const configuration = {
   PORT: null,
   HSS: null,

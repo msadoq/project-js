@@ -23,8 +23,11 @@ const { applyFilters } = require('../../utils/filters');
  *
  * @param buffer
  */
-const sendTimebasedPubSubData = (spark, dataId, payloads) => {
+const sendTimebasedPubSubData = (spark, dataIdBuffer, ...payloadsBuffers) => {
   debug.verbose('called');
+
+  // deprotobufferize dataId
+  const dataId = decode('dc.dataControllerUtils.DataId', dataIdBuffer);
 
   // if dataId not in subscriptions model, stop logic
   if (!subscriptionsModel.exists(dataId)) {
@@ -39,18 +42,24 @@ const sendTimebasedPubSubData = (spark, dataId, payloads) => {
   if (_.isEmpty(filtersByRemoteId)) {
     return undefined;
   }
+  if (payloadsBuffers.length % 2 !== 0) {
+    return undefined;
+  }
 
   // loop over arguments peers (timestamp, payload)
-  return _.each(payloads, (payload) => {
+  return _.each(_.chunk(payloadsBuffers, 2), (payloadBuffer) => {
     _.each(filtersByRemoteId, (filters, remoteId) => {
-      debug.debug('check intervals for remoteId', remoteId, 'for timestamp', payload.timestamp.ms);
+      // deprotobufferize timestamp
+      const timestamp = decode('dc.dataControllerUtils.Timestamp', payloadBuffer[0]);
+
+      debug.debug('check intervals for remoteId', remoteId, 'for timestamp', timestamp.ms);
       // if timestamp not in interval in connectedData model, continue to next iteration
-      if (!connectedDataModel.isTimestampInKnownIntervals(remoteId, payload.timestamp.ms)) {
+      if (!connectedDataModel.isTimestampInKnownIntervals(remoteId, timestamp.ms)) {
         return;
       }
       debug.debug('decode payload');
       // deprotobufferize payload
-      const decodedPayload = decode(`lpisis.decommutedParameter.${dataId.comObject}`, payload.payload);
+      const decodedPayload = decode(`lpisis.decommutedParameter.${dataId.comObject}`, payloadBuffer[1]);
 
       // apply filters on decoded payload
       if (!applyFilters(decodedPayload, filters)) {
@@ -58,7 +67,7 @@ const sendTimebasedPubSubData = (spark, dataId, payloads) => {
       }
       debug.debug('corresponding to filters', filters);
       const tbd = {
-        timestamp: payload.timestamp.ms,
+        timestamp: timestamp.ms,
         payload: decodedPayload,
       };
       // store decoded payload in timebasedData model
@@ -70,9 +79,9 @@ const sendTimebasedPubSubData = (spark, dataId, payloads) => {
 };
 
 module.exports = {
-  onTimebasedPubSubData: (dataId, payloads) => {
+  onTimebasedPubSubData: (dataIdBuffer, ...payloadsBuffers) => {
     const mainWebsocket = getMainWebsocket();
-    sendTimebasedPubSubData(mainWebsocket, dataId, payloads);
+    sendTimebasedPubSubData(mainWebsocket, dataIdBuffer, ...payloadsBuffers);
   },
   sendTimebasedPubSubData,
 };

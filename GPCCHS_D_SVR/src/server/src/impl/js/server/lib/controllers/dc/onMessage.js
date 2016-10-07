@@ -5,6 +5,8 @@ const { onDomainData } = require('./onDomainData');
 const { onTimebasedArchiveData } = require('./onTimebasedArchiveData');
 const { onTimebasedPubSubData } = require('./onTimebasedPubSubData');
 const errorHandler = require('../../utils/errorHandler');
+const constants = require('../../constants');
+const _ = require('lodash');
 
 // TODO :
 
@@ -15,64 +17,45 @@ const errorHandler = require('../../utils/errorHandler');
   * - call the corresponding callback
  * @param buffer
  */
-const callDcServerMessageControllers = (
-  buffer,
-  dcResponseHandler,
-  domainResponseHandler,
-  queryDataHandler,
-  subscriptionDataHandler
+const message = (
+  responseHandler,
+  domainDataHandler,
+  timebasedArchiveDataHandler,
+  timebasedPubSubDataHandler,
+  headerBuffer,
+  ...args
 ) => {
-  debug.debug('decoding Dc Server Message');
-  const message = decode('dc.dataControllerUtils.DcServerMessage', buffer);
+  debug.debug('decoding message type');
+  const header = decode('dc.dataControllerUtils.Header', headerBuffer);
 
-  switch (message.messageType) {
-    case 2: // 'DC_RESPONSE'
-      errorHandler('onResponse', () => dcResponseHandler(message.payload));
+  switch (header.messageType) {
+    case constants.MESSAGETYPE_RESPONSE:
+      errorHandler('onResponse', () => responseHandler(args[0], args[1], args[2]));
       break;
-    case 3: // 'DOMAIN_RESPONSE'
-      errorHandler('onDomainData', () => domainResponseHandler(message.payload));
+    case constants.MESSAGETYPE_DOMAIN_DATA:
+      errorHandler('onDomainData', () => domainDataHandler(args[0], ..._.slice(args, 1)));
       break;
-    case 1: // 'NEW_DATA_MESSAGE'
-      {
-        const newDataMessage = decode('dc.dataControllerUtils.NewDataMessage', message.payload);
-
-        switch (newDataMessage.dataSource) {
-          case 2: // 'ARCHIVE'
-            errorHandler('onTimebasedArchiveData', () => queryDataHandler(
-              newDataMessage.dataId,
-              newDataMessage.id,
-              newDataMessage.payloads,
-              newDataMessage.isEndOfQuery)
-            );
-            break;
-          case 1: // 'REAL_TIME'
-            errorHandler('onTimebasedPubSubData', () => subscriptionDataHandler(
-              newDataMessage.dataId,
-              newDataMessage.payloads)
-            );
-            break;
-          case 0: // 'UNKNOWN':
-          default:
-            throw new Error('Unknown data source');
-        }
-        break;
-      }
-    case 0: // 'UNKNOWN'
+    case constants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA:
+      errorHandler('onTimebasedArchiveData', () => timebasedArchiveDataHandler(args[0], args[1], args[2], ..._.slice(args, 3)));
+      break;
+    case constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA:
+      errorHandler('onTimebasedPubSubData', () => timebasedPubSubDataHandler(args[0], ..._.slice(args, 1)));
+      break;
     default:
-      throw new Error('messageType not recognized');
+      throw new Error('message type not recognized');
   }
 };
 
-const onMessage = (header, buffer) =>
-  callDcServerMessageControllers(
-    buffer,
+const onMessage = (...args) =>
+  message(
     onResponse,
     onDomainData,
     onTimebasedArchiveData,
-    onTimebasedPubSubData
+    onTimebasedPubSubData,
+    ...args
   );
 
 module.exports = {
   onMessage,
-  callDcServerMessageControllers,
+  message,
 };

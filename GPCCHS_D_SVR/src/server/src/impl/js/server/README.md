@@ -18,7 +18,7 @@ Copy the ``.env.example`` to ``.env`` and edit it to set your local environment:
 
 > npm run test
 
-**Note**: to run only one or some test add the .only directive to your decribe() or it() call:
+**Note**: to run only one or some test add the  directive to your decribe() or it() call:
 
 > decribe('my awesome tests', () => ...
 

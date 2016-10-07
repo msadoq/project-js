@@ -5,15 +5,9 @@ const timebasedDataModel = require('../../models/timebasedData');
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
 const _ = require('lodash');
-const {
-  getDataId,
-  getRemoteId,
-  getDataPayload,
-  getTimestamp,
-  getReportingParameter,
-  getReportingParameterProtobuf
-} = require('../../stubs/data');
+const dataStub = require('../../stubs/data');
 const TestWebSocket = require('../../stubs/testWebSocket');
+const constants = require('../../constants');
 
 const testWebsocket = new TestWebSocket();
 testWebsocket.init();
@@ -35,42 +29,53 @@ describe('onTimebasedPubSubData', () => {
   });
 
   const queryId = 'queryId';
-  const dataId = getDataId();
-  const rp = getReportingParameter({ onboardDate: getTimestamp().ms });
-  const rp2 = getReportingParameter({ onboardDate: getTimestamp().ms + 1 });
-  const protoRp = getReportingParameterProtobuf(rp);
-  const protoRp2 = getReportingParameterProtobuf(rp2);
-  const payloads = [
-    getDataPayload({ timestamp: { ms: getTimestamp().ms }, payload: protoRp }),
-    getDataPayload({ timestamp: { ms: getTimestamp().ms + 1 }, payload: protoRp2 }),
-  ];
-  const fullInterval = [getTimestamp().ms - 10, getTimestamp().ms + 10];
-  const halfInterval = [getTimestamp().ms - 10, getTimestamp().ms];
+  const dataId = dataStub.getDataId();
+  const dataIdProto = dataStub.getDataIdProtobuf(dataId);
+
+  const t1 = 5;
+  const t2 = 10;
+  const fullInterval = [-15, 15];
+  const halfInterval = [-15, 5];
+  const timestamp1 = dataStub.getTimestampProtobuf({ ms: t1 });
+  const timestamp2 = dataStub.getTimestampProtobuf({ ms: t2 });
+
+  const rp = dataStub.getReportingParameter({ onboardDate: t1 });
+  const rp2 = dataStub.getReportingParameter({ onboardDate: t2 });
+  const protoRp = dataStub.getReportingParameterProtobuf(rp);
+  const protoRp2 = dataStub.getReportingParameterProtobuf(rp2);
+
   const fullFilter = [
     {
       field: 'onboardDate',
-      operator: 'OP_GT',
-      value: getTimestamp().ms - 10,
+      operator: constants.FILTEROPERATOR_GT,
+      value: -15,
     }, {
       field: 'onboardDate',
-      operator: 'OP_LT',
-      value: getTimestamp().ms + 10,
+      operator: constants.FILTEROPERATOR_LT,
+      value: 15,
     },
   ];
   const halfFilter = [
     {
       field: 'onboardDate',
-      operator: 'OP_EQ',
-      value: getTimestamp().ms + 1,
+      operator: constants.FILTEROPERATOR_EQ,
+      value: 10,
     },
   ];
-  const fullRemoteId = getRemoteId(Object.assign({}, dataId, { filters: fullFilter }));
-  const halfRemoteId = getRemoteId(Object.assign({}, dataId, { filters: halfFilter }));
+  const fullRemoteId = dataStub.getRemoteId(Object.assign({}, dataId, { filters: fullFilter }));
+  const halfRemoteId = dataStub.getRemoteId(Object.assign({}, dataId, { filters: halfFilter }));
 
   it('no dataId in subscriptions', () => {
     // init test
     // launch test
-    sendTimebasedPubSubData(spark, dataId, payloads);
+    sendTimebasedPubSubData(
+      spark,
+      dataIdProto,
+      timestamp1,
+      protoRp,
+      timestamp2,
+      protoRp2
+    );
     // check data
     timebasedDataModel.count().should.equal(0);
     spark.getMessage().should.have.properties({});
@@ -80,7 +85,14 @@ describe('onTimebasedPubSubData', () => {
     // init test
     subscriptionsModel.addRecord(dataId);
     // launch test
-    sendTimebasedPubSubData(spark, dataId, payloads);
+    sendTimebasedPubSubData(
+      spark,
+      dataIdProto,
+      timestamp1,
+      protoRp,
+      timestamp2,
+      protoRp2
+    );
     // check data
     timebasedDataModel.count().should.equal(0);
     spark.getMessage().should.have.properties({});
@@ -92,13 +104,20 @@ describe('onTimebasedPubSubData', () => {
     subscriptionsModel.addFilters(dataId, { [fullRemoteId]: fullFilter });
     connectedDataModel.addRequestedInterval(fullRemoteId, queryId, halfInterval);
     // launch test
-    sendTimebasedPubSubData(spark, dataId, payloads);
+    sendTimebasedPubSubData(
+      spark,
+      dataIdProto,
+      timestamp1,
+      protoRp,
+      timestamp2,
+      protoRp2
+    );
     // check data
     timebasedDataModel.count().should.equal(1);
     const tbd = timebasedDataModel.find();
     tbd[0].should.have.properties({
       remoteId: fullRemoteId,
-      timestamp: payloads[0].timestamp.ms,
+      timestamp: t1,
       payload: rp,
     });
     spark.getMessage().should.have.properties({
@@ -106,7 +125,7 @@ describe('onTimebasedPubSubData', () => {
       payload: {
         [fullRemoteId]: [
           {
-            timestamp: payloads[0].timestamp.ms,
+            timestamp: t1,
             payload: rp,
           },
         ],
@@ -120,13 +139,20 @@ describe('onTimebasedPubSubData', () => {
     subscriptionsModel.addFilters(dataId, { [halfRemoteId]: halfFilter });
     connectedDataModel.addRequestedInterval(halfRemoteId, queryId, fullInterval);
     // launch test
-    sendTimebasedPubSubData(spark, dataId, payloads);
+    sendTimebasedPubSubData(
+      spark,
+      dataIdProto,
+      timestamp1,
+      protoRp,
+      timestamp2,
+      protoRp2
+    );
     // check data
     timebasedDataModel.count().should.equal(1);
     const tbd = timebasedDataModel.find();
     tbd[0].should.have.properties({
       remoteId: halfRemoteId,
-      timestamp: payloads[1].timestamp.ms,
+      timestamp: t2,
       payload: rp2,
     });
     spark.getMessage().should.have.properties({
@@ -134,7 +160,7 @@ describe('onTimebasedPubSubData', () => {
       payload: {
         [halfRemoteId]: [
           {
-            timestamp: payloads[1].timestamp.ms,
+            timestamp: t2,
             payload: rp2,
           },
         ],

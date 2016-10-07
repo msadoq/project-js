@@ -1,18 +1,16 @@
 package dataControllerUtils.protobuf;
-import "dataControllerUtils/DataFilter.proto";
 
-//The parameter full identity 
+//The parameter full identity
 
 message DataId {
-extensions 15 to 107;
+extensions 9 to 109;
 
-  required string parameterName = 2;
-  optional string oid = 3; // oid can't and isn't filled by GPCCHS. 
-  required string catalog = 4;
-  optional string comObject = 5;
-  required uint32 sessionId = 6; //todo should be uint16 
-  optional uint32 domainId = 7;  //todo should be uint16 
-  optional string url = 8; //for fds parameters
-  optional string version = 9; //for fds parameters
-  repeated DataFilter filters = 10;
+  required string parameterName = 1;
+  optional string oid = 2; // oid can't and isn't filled by GPCCHS.
+  required string catalog = 3;
+  optional string comObject = 4;
+  required uint32 sessionId = 5; // should be uint16
+  optional uint32 domainId = 6; // should be uint16
+  optional string url = 7; //for fds parameters
+  optional string version = 8; //for fds parameters
 }

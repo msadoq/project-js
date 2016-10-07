@@ -1,0 +1,16 @@
+package dataControllerUtils.protobuf;
+
+message Header {
+extensions 2 to 102;
+      enum MESSAGE_TYPE {
+        DOMAIN_QUERY = 0;
+        TIMEBASED_QUERY = 1;
+        TIMEBASED_SUBSCRIPTION = 2;
+        RESPONSE = 3;
+        DOMAIN_DATA = 4;
+        TIMEBASED_ARCHIVE_DATA = 5;
+        TIMEBASED_PUBSUB_DATA = 6;
+      }
+
+    required MESSAGE_TYPE messageType = 1;
+}

@@ -2,48 +2,60 @@ const debug = require('../../io/debug')('controllers:onResponse');
 const { decode } = require('../../protobuf');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
 const { getMainWebsocket } = require('../../io/primus');
+const constants = require('../../constants');
+
 /**
  * Triggered on incoming DcResponse message from DC.
  *
- * - deprotobufferize
+ * - deprotobufferize queryId
  * - check if queryId exists in registeredCallbacks singleton, if no stop logic
  * - unregister queryId
+ * - deprotobufferize status
  * - if status is SUCCESS, execute callback and stop logic
+ * - deprotobufferize reason
  * - send error message to client and execute callback
  *
  * @param buffer
  */
-const response = (spark, buffer) => {
+const response = (spark, queryIdBuffer, statusBuffer, reasonBuffer) => {
   debug.verbose('called');
 
-  // deprotobufferize buffer
-  const message = decode('dc.dataControllerUtils.DcResponse', buffer);
+  debug.debug('decode queryId')
+  // deprotobufferize queryId
+  const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
   // check if queryId exists in registeredCallbacks singleton, if no stop logic
-  const callback = registeredCallbacks.get(message.id);
-  if (!callback) {
-    throw new Error('This DC response corresponds to no id');
+  const callback = registeredCallbacks.get(queryId);
+  if (typeof callback === 'undefined') {
+    throw new Error('This response corresponds to no queryId');
   }
 
   // unregister queryId
-  registeredCallbacks.remove(message.id);
+  registeredCallbacks.remove(queryId);
 
+debug.debug('decode status')
+  // deprotobufferize status
+  const status = decode('dc.dataControllerUtils.Status', statusBuffer).status;
   // if status is SUCCESS, execute callback and stop logic
-  if (message.status === 0) { // OK
+  if (status === constants.STATUS_SUCCESS) {
     return callback(null);
   }
+
+debug.debug('decode reason')
+  // deprotobufferize reason
+  const reason = (typeof reasonBuffer !== 'undefined') ? decode('dc.dataControllerUtils.String', reasonBuffer).string : reasonBuffer;
 
   // send error message to client and execute callback
   spark.write({
     event: 'responseError',
-    payload: message.reason,
+    payload: reason,
   });
-  return callback(new Error(message && message.reason ? message.reason : 'unknown reason'));
+  return callback(new Error((typeof reason !== 'undefined') ? reason : 'unknown reason'));
 };
 
 module.exports = {
-  onResponse: (buffer) => {
+  onResponse: (queryIdBuffer, statusBuffer, reasonBuffer) => {
     const mainWebsocket = getMainWebsocket();
-    return response(mainWebsocket, buffer);
+    return response(mainWebsocket, queryIdBuffer, statusBuffer, reasonBuffer);
   },
   response,
 };

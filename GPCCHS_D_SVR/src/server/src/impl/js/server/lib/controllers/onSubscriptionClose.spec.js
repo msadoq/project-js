@@ -1,24 +1,26 @@
 require('../utils/test');
-const { decode } = require('../protobuf');
 const { stopSubscription } = require('./onSubscriptionClose');
 const subscriptionsModel = require('../models/subscriptions');
-const { getDataId } = require('../stubs/data');
+const registeredCallbacks = require('../utils/registeredCallbacks');
+const dataStub = require('../stubs/data');
+const _ = require('lodash');
 
 let calls = [];
-const zmqEmulator = (key, payload) => {
+const zmqEmulator = (key, args) => {
   key.should.be.a('string')
     .that.equal('dcPush');
-  calls.push(payload);
+  _.each(args, arg => calls.push(arg));
 };
 
 describe('onSubscriptionClose', () => {
   beforeEach(() => {
+    registeredCallbacks.clear();
     subscriptionsModel.cleanup();
     calls = [];
   });
   describe('stopSubscription', () => {
     it('none', () => {
-      const myDataId = getDataId();
+      const myDataId = dataStub.getDataId();
       stopSubscription({ dataId: myDataId, windowId: 42 }, zmqEmulator);
 
       calls.should.be.an('array')
@@ -29,28 +31,22 @@ describe('onSubscriptionClose', () => {
         .that.have.lengthOf(0);
     });
     it('one', () => {
-      const myDataId = getDataId();
+      const myDataId = dataStub.getDataId();
 
       subscriptionsModel.addRecord(myDataId);
       stopSubscription({ dataId: myDataId }, zmqEmulator);
 
-      calls.should.be.an('array')
-        .that.has.lengthOf(1);
+      const cbs = _.keys(registeredCallbacks.getAll());
+      cbs.should.have.lengthOf(1);
+      const queryId = cbs[0];
 
-      calls[0].constructor.should.equal(Buffer);
-      const subscription = decode('dc.dataControllerUtils.DcClientMessage', calls[0]);
-      subscription.should.be.an('object')
-        .that.have.an.property('messageType')
-        .that.equal(2); // 'DATA_SUBSCRIBE'
-      subscription.should.have.an.property('payload');
-      subscription.payload.constructor.should.equal(Buffer);
-      const payload = decode('dc.dataControllerUtils.DataSubscribe', subscription.payload);
-      payload.should.be.an('object')
-        .that.have.an.property('action')
-        .that.equal(2); // 'DELETE'
-      payload.should.have.an.property('dataId')
-        .that.be.an('object');
-      payload.dataId.should.have.properties(myDataId);
+      calls.should.be.an('array')
+        .that.has.lengthOf(4);
+
+      calls[0].should.have.properties(dataStub.getTimebasedSubscriptionHeaderProtobuf());
+      calls[1].should.have.properties(dataStub.getStringProtobuf(queryId));
+      calls[2].should.have.properties(dataStub.getDataIdProtobuf(myDataId));
+      calls[3].should.have.properties(dataStub.getDeleteActionProtobuf());
 
       const subscriptions = subscriptionsModel.find();
       subscriptions.should.be.an('array')

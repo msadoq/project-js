@@ -7,6 +7,7 @@ const timebasedDataModel = require('../../models/timebasedData');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
 const registeredQueries = require('../../utils/registeredQueries');
 const { setDomains, getDomains } = require('../../utils/domains');
+const constants = require('../../constants');
 const {
   getDataId,
   getRemoteId,
@@ -19,7 +20,7 @@ let calls = [];
 const zmqEmulator = (key, payload) => {
   key.should.be.a('string')
     .that.equal('dcPush');
-  calls.push(payload);
+  calls = _.concat(calls, payload);
 };
 
 describe('onClose', () => {
@@ -44,22 +45,15 @@ describe('onClose', () => {
       close(zmqEmulator);
 
       calls.should.be.an('array')
-        .that.has.lengthOf(1);
-
+        .that.has.lengthOf(4);
       calls[0].constructor.should.equal(Buffer);
-      const subscription = decode('dc.dataControllerUtils.DcClientMessage', calls[0]);
-      subscription.should.be.an('object')
-        .that.have.an.property('messageType')
-        .that.equal(2); // 'DATA_SUBSCRIBE'
-      subscription.should.have.an.property('payload');
-      subscription.payload.constructor.should.equal(Buffer);
-      const payload = decode('dc.dataControllerUtils.DataSubscribe', subscription.payload);
-      payload.should.be.an('object')
-        .that.have.an.property('action')
-        .that.equal(2); // 'DELETE'
-      payload.should.have.an.property('dataId')
-        .that.be.an('object');
-      payload.dataId.should.have.properties(myDataId);
+      const messageType = decode('dc.dataControllerUtils.Header', calls[0]).messageType;
+      messageType.should.equal(constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION);
+      const queryId = decode('dc.dataControllerUtils.String', calls[1]).string;
+      const dataId = decode('dc.dataControllerUtils.DataId', calls[2]);
+      dataId.should.have.properties(myDataId);
+      const action = decode('dc.dataControllerUtils.Action', calls[3]).action;
+      action.should.equal(constants.SUBSCRIPTIONACTION_DELETE);
 
       const connectedData = connectedDataModel.find();
       connectedData.should.be.an('array')

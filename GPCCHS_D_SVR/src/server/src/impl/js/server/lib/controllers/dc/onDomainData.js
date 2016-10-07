@@ -2,6 +2,8 @@ const debug = require('../../io/debug')('controllers:onDomainData');
 const { getMainWebsocket } = require('../../io/primus');
 const { decode } = require('../../protobuf');
 const { setDomains } = require('../../utils/domains');
+const registeredCallbacks = require('../../utils/registeredCallbacks');
+const _ = require('lodash');
 
 // TODO :
 
@@ -15,27 +17,37 @@ const { setDomains } = require('../../utils/domains');
  * @param buffer
  */
 
-const sendDomainData = (spark, buffer) => {
+const domainData = (spark, queryIdBuffer, ...domainsBuffer) => {
   debug.verbose('called');
 
+  // deprotobufferize queryId
+  const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
+  debug.debug('decoded queryId', queryId);
+
+  // check if queryId exists in registeredCallbacks singleton, if no stop logic
+  const callback = registeredCallbacks.get(queryId);
+  if (!callback) {
+    throw new Error('This Domain Data corresponds to no queryId');
+  }
+  debug.debug(`${domainsBuffer.length} domains`);
   // deprotobufferize domains
-  const message = decode('dc.dataControllerUtils.DomainResponse', buffer);
-  debug.debug('domains', message.domains);
+  const domains = _.map(domainsBuffer, domainBuffer => decode('dc.dataControllerUtils.Domain', domainBuffer));
+
   // store domains
-  setDomains(message.domains);
+  setDomains(domains);
   // forward to client
   spark.write({
     event: 'domainResponse',
-    payload: message.domains,
+    payload: domains,
   });
 };
 
-const onDomainData = (buffer) => {
+const onDomainData = (queryIdBuffer, ...domainsBuffer) => {
   const spark = getMainWebsocket();
-  sendDomainData(spark, buffer);
+  domainData(spark, queryIdBuffer, ...domainsBuffer);
 };
 
 module.exports = {
   onDomainData,
-  sendDomainData,
+  domainData,
 };

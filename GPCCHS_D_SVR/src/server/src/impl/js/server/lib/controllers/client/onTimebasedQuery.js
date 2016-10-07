@@ -9,7 +9,7 @@ const { v4 } = require('node-uuid');
 const zmq = require('../../io/zmq');
 const _ = require('lodash');
 const { getMainWebsocket } = require('../../io/primus');
-const { convertFilters } = require('../../utils/filters');
+const constants = require('../../constants');
 
 /**
  * Triggered when the data consumer query for timebased data
@@ -68,24 +68,25 @@ const timebasedQuery = (spark, payload, messageHandler) => {
       });
       // register queryId/remoteId association
       registeredQueries.set(queryId, remoteId);
-      // queue a zmq dataQuery message
-      const convertedFilters = convertFilters(query.filter);
-      const dataId = (convertedFilters.length === 0)
-        ? query.dataId
-        : Object.assign({}, query.dataId, { filters: convertedFilters });
-      debug.debug('encode dataId with filters', dataId, 'and interval', missingInterval);
-      const buffer = encode('dc.dataControllerUtils.DcClientMessage', {
-        messageType: 1, // DATA QUERY
-        payload: encode('dc.dataControllerUtils.DataQuery', {
-          id: queryId,
-          dataId,
-          interval: {
-            lowerTs: { ms: missingInterval[0] },
-            upperTs: { ms: missingInterval[1] },
-          },
+
+      // create a zmq timeBasedQuery message
+      // protobufferize header, queryId, dataId and interval
+      debug.debug('encode dataId', query.dataId, 'and interval', missingInterval);
+      const queryArgs = [
+        encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_TIMEBASED_QUERY }),
+        encode('dc.dataControllerUtils.String', { string: queryId }),
+        encode('dc.dataControllerUtils.DataId', query.dataId),
+        encode('dc.dataControllerUtils.TimeInterval', {
+          lowerTs: { ms: missingInterval[0] },
+          upperTs: { ms: missingInterval[1] },
         }),
+      ];
+      // protobufferize filters if any
+      _.each(query.filter, (filter) => {
+        queryArgs.push(encode('dc.dataControllerUtils.Filter', filter));
       });
-      messageQueue.push(buffer);
+      // queue the message
+      messageQueue.push(queryArgs);
       // add requested interval to connectedData model
       connectedDataModel.addRequestedInterval(remoteId, queryId, missingInterval);
     });
@@ -102,16 +103,15 @@ const timebasedQuery = (spark, payload, messageHandler) => {
           throw respErr;
         }
       });
-      // queue a zmq dataSubscription message (with 'ADD' action)
-      const buffer = encode('dc.dataControllerUtils.DcClientMessage', {
-        messageType: 2, // DATA SUBSCRIBE
-        payload: encode('dc.dataControllerUtils.DataSubscribe', {
-          action: 'ADD',
-          id: queryId,
-          dataId: query.dataId,
-        }),
-      });
-      messageQueue.push(buffer);
+      // create a zmq dataSubscription message (with 'ADD' action)
+      const subArgs = [
+        encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION }),
+        encode('dc.dataControllerUtils.String', { string: queryId }),
+        encode('dc.dataControllerUtils.DataId', query.dataId),
+        encode('dc.dataControllerUtils.Action', { action: constants.SUBSCRIPTIONACTION_ADD }),
+      ];
+      // queue the message
+      messageQueue.push(subArgs);
     }
 
     // add remoteId and corresponding filters to subscriptions model
@@ -139,7 +139,7 @@ const timebasedQuery = (spark, payload, messageHandler) => {
     return undefined;
   }
 
-  return _.each(messageQueue, msg => messageHandler('dcPush', msg));
+  return _.each(messageQueue, args => messageHandler('dcPush', args));
 };
 
 module.exports = {

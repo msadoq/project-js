@@ -4,13 +4,13 @@ module.exports = {
     name: data.name,
     oid: data.oid,
     domainId: data.domainId,
-    parentDomainId: data.parentDomainId
+    parentDomainId: data.parentDomainId,
   }),
   decode: data => ({
     itemNamespace: data.itemNamespace,
     name: data.name,
     oid: data.oid,
     domainId: data.domainId,
-    parentDomainId: data.parentDomainId
+    parentDomainId: data.parentDomainId,
   }),
 };

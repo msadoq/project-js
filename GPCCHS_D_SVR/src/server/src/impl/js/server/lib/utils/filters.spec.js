@@ -4,48 +4,6 @@ const { applyFilters, convertFilters } = require('./filters');
 const constants = require('../constants');
 
 describe('filters', () => {
-  describe('convertFilters', () => {
-    it('one', () => {
-      const filters = [
-        {
-          field: 'intDataValue',
-          operator: constants.FILTEROPERATOR_EQ,
-          value: 42,
-        },
-      ];
-      convertFilters(filters).should.deep.equal([
-        {
-          lhs: 'intDataValue',
-          comp: constants.FILTEROPERATOR_EQ,
-          rhs: '42',
-        },
-      ]);
-    });
-    it('multi', () => {
-      const filters = [
-        {
-          field: 'intDataValue',
-          operator: constants.FILTEROPERATOR_LT,
-          value: 42,
-        }, {
-          field: 'intDataValue',
-          operator: constants.FILTEROPERATOR_GT,
-          value: 13,
-        },
-      ];
-      convertFilters(filters).should.deep.equal([
-        {
-          lhs: 'intDataValue',
-          comp: constants.FILTEROPERATOR_LT,
-          rhs: '42',
-        }, {
-          lhs: 'intDataValue',
-          comp: constants.FILTEROPERATOR_GT,
-          rhs: '13',
-        },
-      ]);
-    });
-  });
   describe('applyiFilters', () => {
     it('OP_EQ', () => {
       const filter = [

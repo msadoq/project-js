@@ -1,0 +1,22 @@
+package dataControllerUtils.protobuf;
+
+import "../lpisis/ccsds_mal/types.proto";
+
+message Filter {
+extensions 4 to 104;
+    required string field = 1;
+
+      enum FILTER_OPERATOR {
+        OP_EQ = 0;
+        OP_NE = 1;
+        OP_LT = 2;
+        OP_LE = 3;
+        OP_GT = 4;
+        OP_GE = 5;
+        OP_CONTAINS = 6;
+        OP_ICONTAINS = 7;
+      }
+
+    required FILTER_OPERATOR operator = 2;
+    required ccsds_mal.protobuf.ATTRIBUTE value = 3;
+}

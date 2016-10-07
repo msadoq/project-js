@@ -1,0 +1,29 @@
+{
+  "type": "Page",
+  "hideBorders": false,
+  "title": "page example 2",
+  "views": [
+	{
+	  "path": "/views/text.exe1.workspace.json",
+	  "geometry": {
+		"kind": "Relative",
+		"x": 0,
+		"y": 0,
+		"w": 12,
+		"h": 7
+	  },
+	  "windowState": "Normalized"
+	},
+  {
+	  "path": "/views/plot.exe2.workspace.json",
+	  "geometry": {
+		"kind": "Relative",
+		"x": 0,
+		"y": 0,
+		"w": 12,
+		"h": 7
+	  },
+	  "windowState": "Normalized"
+	}
+  ]
+}

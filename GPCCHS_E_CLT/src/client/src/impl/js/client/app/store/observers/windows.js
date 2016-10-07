@@ -1,5 +1,3 @@
-import * as constants from '../../constants';
-import parameters from '../../main/parameters';
 import debug from '../../utils/mainDebug';
 import _ from 'lodash';
 import { BrowserWindow } from 'electron';

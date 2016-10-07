@@ -2,23 +2,16 @@ const debug = require('../io/debug')('utils:subscriptions');
 const { v4 } = require('node-uuid');
 const registeredCallbacks = require('../utils/registeredCallbacks');
 const { encode } = require('../protobuf');
+const constants = require('../constants');
 
-const createSubscriptionMessage = (action, id, payload) => encode('dc.dataControllerUtils.DcClientMessage', {
-  messageType: 'DATA_SUBSCRIBE',
-  payload: encode('dc.dataControllerUtils.DataSubscribe', {
-    action,
-    id,
-    dataId: {
-      parameterName: payload.parameterName,
-      catalog: payload.catalog,
-      comObject: payload.comObject,
-      sessionId: payload.sessionId,
-      domainId: payload.domainId,
-    },
-  }),
-});
+const createSubscriptionMessageArguments = (action, queryId, dataId) => ([
+  encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION }),
+  encode('dc.dataControllerUtils.String', { string: queryId }),
+  encode('dc.dataControllerUtils.DataId', dataId),
+  encode('dc.dataControllerUtils.Action', { action }),
+]);
 
-const createAddSubscriptionMessage = (payload) => {
+const createAddSubscriptionMessage = (dataId) => {
   const id = v4();
 
   registeredCallbacks.set(id, (respErr) => {
@@ -27,12 +20,12 @@ const createAddSubscriptionMessage = (payload) => {
     }
   });
 
-  const buffer = createSubscriptionMessage(0, id, payload); // 'ADD'
+  const args = createSubscriptionMessageArguments(constants.SUBSCRIPTIONACTION_ADD, id, dataId);
 
-  return { buffer, id };
+  return { args, id };
 };
 
-const createDeleteSubscriptionMessage = (payload) => {
+const createDeleteSubscriptionMessage = (dataId) => {
   const id = v4();
 
   registeredCallbacks.set(id, (respErr) => {
@@ -41,9 +34,9 @@ const createDeleteSubscriptionMessage = (payload) => {
     }
   });
 
-  const buffer = createSubscriptionMessage(2, id, payload); // 'DELETE'
+  const args = createSubscriptionMessageArguments(constants.SUBSCRIPTIONACTION_DELETE, id, dataId);
 
-  return { buffer, id };
+  return { args, id };
 };
 
 module.exports = {

@@ -14,6 +14,30 @@ const ByteBuffer = require('bytebuffer');
 
 describe('protobuf', () => {
   describe('dc', () => {
+    describe('Action', () => {
+      const fixture = stubData.getAddAction();
+      let buffer;
+      it('encode', () => {
+        buffer = protobuf.encode('dc.dataControllerUtils.Action', fixture);
+        buffer.constructor.should.equal(Buffer);
+      });
+      it('decode', () => {
+        const json = protobuf.decode('dc.dataControllerUtils.Action', buffer);
+        json.should.be.an('object').that.have.properties(fixture);
+      });
+    });
+    describe('Boolean', () => {
+      const fixture = stubData.getBoolean();
+      let buffer;
+      it('encode', () => {
+        buffer = protobuf.encode('dc.dataControllerUtils.Boolean', fixture);
+        buffer.constructor.should.equal(Buffer);
+      });
+      it('decode', () => {
+        const json = protobuf.decode('dc.dataControllerUtils.Boolean', buffer);
+        json.should.be.an('object').that.have.properties(fixture);
+      });
+    });
     describe('DataId', () => {
       const fixture = stubData.getDataId();
       let buffer;
@@ -24,138 +48,6 @@ describe('protobuf', () => {
       it('decode', () => {
         const json = protobuf.decode('dc.dataControllerUtils.DataId', buffer);
         json.should.be.an('object').that.have.properties(fixture);
-      });
-    });
-    describe('DataPayload', () => {
-      const fixture = stubData.getDataPayload();
-      let buffer;
-      it('encode', () => {
-        buffer = protobuf.encode('dc.dataControllerUtils.DataPayload', fixture);
-        buffer.constructor.should.equal(Buffer);
-      });
-      it('decode', () => {
-        const json = protobuf.decode('dc.dataControllerUtils.DataPayload', buffer);
-        json.should.contain.key('payload');
-        json.payload.should.deep.equal(fixture.payload);
-      });
-    });
-    describe('DataQuery', () => {
-      const fixture = stubData.getDataQuery();
-      let buffer;
-      it('encode', () => {
-        buffer = protobuf.encode('dc.dataControllerUtils.DataQuery', fixture);
-        buffer.constructor.should.equal(Buffer);
-      });
-      it('decode', () => {
-        const json = protobuf.decode('dc.dataControllerUtils.DataQuery', buffer);
-        json.should.be.an('object').that.have.properties(fixture);
-      });
-    });
-    describe('DataSubscribe', () => {
-      const fixture = stubData.getDataSubscribe();
-      let buffer;
-      it('encode', () => {
-        buffer = protobuf.encode('dc.dataControllerUtils.DataSubscribe', fixture);
-        buffer.constructor.should.equal(Buffer);
-      });
-      it('decode', () => {
-        const json = protobuf.decode('dc.dataControllerUtils.DataSubscribe', buffer);
-        json.should.be.an('object').that.have.properties(fixture);
-      });
-    });
-    describe('DcClientMessage', () => {
-      const fixtureWrappedDataQuery = stubData.getWrappedDataQuery();
-      const fixtureWrappedDataSubscribe = stubData.getWrappedDataSubscribe();
-      const fixtureWrappedDomainQuery = stubData.getWrappedDomainQuery();
-      let bufferDataQuery;
-      let bufferDataSubscribe;
-      let bufferDomainQuery;
-      it('encode', () => {
-        bufferDataQuery = protobuf.encode(
-          'dc.dataControllerUtils.DcClientMessage',
-          fixtureWrappedDataQuery
-        );
-        bufferDataQuery.constructor.should.equal(Buffer);
-        bufferDataSubscribe = protobuf.encode(
-          'dc.dataControllerUtils.DcClientMessage',
-          fixtureWrappedDataSubscribe
-        );
-        bufferDataSubscribe.constructor.should.equal(Buffer);
-        bufferDomainQuery = protobuf.encode(
-          'dc.dataControllerUtils.DcClientMessage',
-          fixtureWrappedDomainQuery
-        );
-        bufferDomainQuery.constructor.should.equal(Buffer);
-      });
-      it('decode', () => {
-        let json = protobuf.decode('dc.dataControllerUtils.DcClientMessage', bufferDataQuery);
-        json.should.be.an('object').that.have.properties({ messageType: 1 });
-        json.should.contain.key('payload');
-        json.payload.should.deep.equal(fixtureWrappedDataQuery.payload);
-
-        json = protobuf.decode('dc.dataControllerUtils.DcClientMessage', bufferDataSubscribe);
-        json.should.be.an('object').that.have.properties({ messageType: 2 });
-        json.should.contain.key('payload');
-        json.payload.should.deep.equal(fixtureWrappedDataSubscribe.payload);
-
-        json = protobuf.decode('dc.dataControllerUtils.DcClientMessage', bufferDomainQuery);
-        json.should.be.an('object').that.have.properties({ messageType: 3 });
-        json.should.contain.key('payload');
-        json.payload.should.deep.equal(fixtureWrappedDomainQuery.payload);
-      });
-    });
-    describe('DcResponse', () => {
-      const fixture = stubData.getDcResponse();
-      let buffer;
-      it('encode', () => {
-        buffer = protobuf.encode('dc.dataControllerUtils.DcResponse', fixture);
-        buffer.constructor.should.equal(Buffer);
-      });
-      it('decode', () => {
-        const json = protobuf.decode('dc.dataControllerUtils.DcResponse', buffer);
-        json.should.be.an('object').that.have.properties(fixture);
-      });
-    });
-    describe('DcServerMessage', () => {
-      const fixtureWrappedNewData = stubData.getWrappedNewDataMessage();
-      const fixtureWrappedDomainResp = stubData.getWrappedDomainResponse();
-      const fixtureWrappedDcResponse = stubData.getWrappedDcResponse();
-      let bufferNewData;
-      let bufferDomainResponse;
-      let bufferDcResponse;
-
-      it('encode', () => {
-        bufferNewData = protobuf.encode(
-          'dc.dataControllerUtils.DcServerMessage',
-          fixtureWrappedNewData
-        );
-        bufferNewData.constructor.should.equal(Buffer);
-        bufferDomainResponse = protobuf.encode(
-          'dc.dataControllerUtils.DcServerMessage',
-          fixtureWrappedDomainResp
-        );
-        bufferDomainResponse.constructor.should.equal(Buffer);
-        bufferDcResponse = protobuf.encode(
-          'dc.dataControllerUtils.DcServerMessage',
-          fixtureWrappedDcResponse
-        );
-        bufferDcResponse.constructor.should.equal(Buffer);
-      });
-      it('decode', () => {
-        let json = protobuf.decode('dc.dataControllerUtils.DcServerMessage', bufferNewData);
-        json.should.be.an('object').that.have.properties({ messageType: 1 });
-        json.should.contain.key('payload');
-        json.payload.should.deep.equal(fixtureWrappedNewData.payload);
-
-        json = protobuf.decode('dc.dataControllerUtils.DcServerMessage', bufferDomainResponse);
-        json.should.be.an('object').that.have.properties({ messageType: 3 });
-        json.should.contain.key('payload');
-        json.payload.should.deep.equal(fixtureWrappedDomainResp.payload);
-
-        json = protobuf.decode('dc.dataControllerUtils.DcServerMessage', bufferDcResponse);
-        json.should.be.an('object').that.have.properties({ messageType: 2 });
-        json.should.contain.key('payload');
-        json.payload.should.deep.equal(fixtureWrappedDcResponse.payload);
       });
     });
     describe('Domain', () => {
@@ -170,63 +62,52 @@ describe('protobuf', () => {
         json.should.be.an('object').that.have.properties(fixture);
       });
     });
-    describe('DomainQuery', () => {
-      const fixture = stubData.getDomainQuery();
+    describe('Filter', () => {
+      const fixture = stubData.getFilter();
       let buffer;
       it('encode', () => {
-        buffer = protobuf.encode('dc.dataControllerUtils.DomainQuery', fixture);
+        buffer = protobuf.encode('dc.dataControllerUtils.Filter', fixture);
         buffer.constructor.should.equal(Buffer);
       });
       it('decode', () => {
-        const json = protobuf.decode('dc.dataControllerUtils.DomainQuery', buffer);
+        const json = protobuf.decode('dc.dataControllerUtils.Filter', buffer);
         json.should.be.an('object').that.have.properties(fixture);
       });
     });
-    describe('DomainResponse', () => {
-      const fixture = stubData.getDomainResponse();
+    describe('Header', () => {
+      const fixture = stubData.getTimebasedQueryHeader();
       let buffer;
       it('encode', () => {
-        buffer = protobuf.encode('dc.dataControllerUtils.DomainResponse', fixture);
+        buffer = protobuf.encode('dc.dataControllerUtils.Header', fixture);
         buffer.constructor.should.equal(Buffer);
       });
       it('decode', () => {
-        const json = protobuf.decode('dc.dataControllerUtils.DomainResponse', buffer);
+        const json = protobuf.decode('dc.dataControllerUtils.Header', buffer);
         json.should.be.an('object').that.have.properties(fixture);
       });
     });
-    describe('NewDataMessage', () => {
-      const fixture = stubData.getNewDataMessage({
-        payloads: [
-          {
-            timestamp: { ms: 100000000 },
-            payload: protobuf.encode(
-              'lpisis.decommutedParameter.ReportingParameter',
-              stubData.getReportingParameter({ convertedValue: 35 })
-            ),
-          },
-          {
-            timestamp: { ms: 100000010 },
-            payload: protobuf.encode(
-              'lpisis.decommutedParameter.ReportingParameter',
-              stubData.getReportingParameter({ convertedValue: 50 })
-            ),
-          },
-        ],
-      });
+    describe('Status', () => {
+      const fixture = stubData.getSuccessStatus();
       let buffer;
       it('encode', () => {
-        buffer = protobuf.encode('dc.dataControllerUtils.NewDataMessage', fixture);
+        buffer = protobuf.encode('dc.dataControllerUtils.Status', fixture);
         buffer.constructor.should.equal(Buffer);
       });
       it('decode', () => {
-        const json = protobuf.decode('dc.dataControllerUtils.NewDataMessage', buffer);
-        // console.log('json', json);
-        // console.log('fixture', fixture);
-        // TODO json.should.be.an('object').that.have.properties(fixture);
-        protobuf.decode('lpisis.decommutedParameter.ReportingParameter', json.payloads[0].payload)
-          .should.be.an('object').with.property('convertedValue', 35);
-        protobuf.decode('lpisis.decommutedParameter.ReportingParameter', json.payloads[1].payload)
-          .should.be.an('object').with.property('convertedValue', 50);
+        const json = protobuf.decode('dc.dataControllerUtils.Status', buffer);
+        json.should.be.an('object').that.have.properties(fixture);
+      });
+    });
+    describe('String', () => {
+      const fixture = stubData.getString();
+      let buffer;
+      it('encode', () => {
+        buffer = protobuf.encode('dc.dataControllerUtils.String', fixture);
+        buffer.constructor.should.equal(Buffer);
+      });
+      it('decode', () => {
+        const json = protobuf.decode('dc.dataControllerUtils.String', buffer);
+        json.should.be.an('object').that.have.properties(fixture);
       });
     });
     describe('TimeInterval', () => {

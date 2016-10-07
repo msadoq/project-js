@@ -58,6 +58,17 @@ module.exports = {
     let final;
     if (stateLocalId) {
       final = Object.assign({}, stateLocalId);
+      const iLower = _.findIndex(final.index, (i) => i > lower);
+      const iUpper = _.findIndex(final.index, (i) => i > upper, iLower < 0 ? 0 : iLower);
+      if (iLower >= 0 || iUpper >= 0) {
+        final.index = _.slice(final.index, iLower < 0 ? 0 : iLower,
+          iUpper < 0 ? final.index.length : iUpper);
+        const update = {};
+        _.each(final.index, time => {
+          update[time] = final.data[time];
+        });
+        final.data = update;
+      }
     } else {
       final = { data: {}, index: []};
     }

@@ -1,6 +1,9 @@
-import debug from '../../utils/mainDebug';
 import _ from 'lodash';
 import { BrowserWindow } from 'electron';
+
+import * as constants from '../../constants';
+import parameters from '../../main/parameters';
+import debug from '../../utils/mainDebug';
 import { remove } from '../mutations/windowActions';
 import { getStore } from '../mainStore';
 import { getStatus as getAppStatus } from '../mutations/hscReducer';

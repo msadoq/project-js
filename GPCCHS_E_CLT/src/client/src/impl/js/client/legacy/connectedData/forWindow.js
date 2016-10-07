@@ -1,7 +1,7 @@
 import _ from 'lodash';
-import { getPages } from '../store/mutations/windowReducer';
-import { getViews } from '../store/mutations/pageReducer';
-import { getConnectedData } from '../store/mutations/viewReducer';
+import { getPages } from '../../app/store/mutations/windowReducer';
+import { getViews } from '../../app/store/mutations/pageReducer';
+import { getConnectedData } from '../../app/store/mutations/viewReducer';
 
 import decorate from './decorateWindow';
 

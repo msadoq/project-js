@@ -8,7 +8,7 @@ import SizeMe from 'react-sizeme';
 
 import remoteId from '../../connectedData/remoteId';
 import external from '../../../external.main';
-import forView from '../../connectedData/forView';
+import forView from '../../../legacy/connectedData/forView';
 
 
 const ViewContainer = props => <View {...props} />;

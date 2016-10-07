@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { getConnectedData } from '../store/mutations/viewReducer';
+import { getConnectedData } from '../../app/store/mutations/viewReducer';
 import decorate from './decorateView';
 
 /**

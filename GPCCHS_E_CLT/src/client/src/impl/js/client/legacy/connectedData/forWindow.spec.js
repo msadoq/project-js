@@ -1,5 +1,5 @@
 /* eslint no-unused-expressions: 0 */
-import { getStore } from '../utils/test';
+import { getStore } from '../../app/utils/test';
 import forWindow, { extractFromWindow } from './forWindow';
 
 describe('connectedData/forWindow', () => {

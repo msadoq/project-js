@@ -1,51 +1,69 @@
-/**
- * Compare prev interval with next interval and return missing interval or undefined
- *
- * @param prev array
- * @param next array
- * @return array
- */
-export default function missingIntervals(prev, next) {
-  if (!prev || !prev.length) {
-    return [next];
+const _ = require('lodash');
+
+export default function missingIntervals(known = [], wanted) {
+  const list = [];
+  let lower = wanted[0];
+  const upper = wanted[1];
+
+  if (!known.length) {
+    return [wanted];
   }
 
-  const prevLower = prev[0];
-  const prevUpper = prev[1];
-  const nextLower = next[0];
-  const nextUpper = next[1];
-  // is new interval the same as previous
-  if (prevLower === nextLower && prevUpper === nextUpper) {
-    return [];
-  }
+  _.some(known, (knownInterval, index) => {
+    if (lower < knownInterval[0]) {
+      // Completety below known interval
+      if (upper < knownInterval[0]) {
+        list.push([lower, upper]);
+        return true;
+      }
 
-  // is new interval contained in previous
-  if (prevLower <= nextLower && prevUpper >= nextUpper) {
-    return [];
-  }
+      list.push([lower, knownInterval[0]]);
 
-  // is new interval "fully" outside of previous interval
-  if (prevLower > nextUpper || prevUpper < nextLower) {
-    return [next];
-  }
+      // Below and inside known interval
+      if (upper <= knownInterval[1]) {
+        return true;
+      }
 
-  // is new interval "around" previous interval
-  if (prevLower > nextLower && prevUpper < nextUpper) {
-    return [
-      [nextLower, prevLower],
-      [prevUpper, nextUpper],
-    ];
-  }
+      // Covering known interval
+      if (index === known.length - 1) {
+        // Last one
+        list.push([knownInterval[1], upper]);
+        return true;
+      }
 
-  // is new interval start before previous interval
-  if (prevLower >= nextLower) {
-    return [[nextLower, prevLower]];
-  }
+      // Next known interval
+      lower = knownInterval[1];
+      return false;
+    }
 
-  // is new interval end after previous interval
-  if (prevUpper <= nextUpper) {
-    return [[prevUpper, nextUpper]];
-  }
+    if (lower <= knownInterval[1]) {
+      // Completety inside known interval
+      if (upper <= knownInterval[1]) {
+        return true;
+      }
 
-  throw new Error('hit bottom'); // TODO remove
+      // Inside and above known interval
+      if (index === known.length - 1) {
+        // Last one
+        list.push([knownInterval[1], upper]);
+        return true;
+      }
+
+      // Next known interval
+      lower = knownInterval[1];
+      return false;
+    }
+
+    // Completely above known interval
+    if (index === known.length - 1) {
+      // Last one
+      list.push(wanted);
+      return true;
+    }
+
+    // Next known interval
+    return false;
+  });
+
+  return list;
 }

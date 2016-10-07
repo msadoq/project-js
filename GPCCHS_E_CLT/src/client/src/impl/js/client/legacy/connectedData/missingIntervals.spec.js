@@ -1,4 +1,4 @@
-import { should } from '../utils/test';
+import { should } from '../../app/utils/test';
 import missingIntervals from './missingIntervals';
 
 describe('utils/missingIntervals', () => {

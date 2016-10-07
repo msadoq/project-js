@@ -1,7 +1,7 @@
 import debug from '../utils/mainDebug';
 import { getStore } from '../store/mainStore';
 import controller from './mainController';
-import { updateStatus } from '../store/mutations/hssActions';
+import { updateStatus } from '../store/actions/hss';
 import parameters from '../main/parameters';
 import { Primus } from '../../external.main';
 
@@ -15,7 +15,7 @@ export function connect() {
 
     try {
       instance = new Primus(parameters.HSS);
-    } catch(e) {
+    } catch (e) {
       logger.error(e);
     }
 
@@ -37,7 +37,7 @@ export function connect() {
       logger.error('error', err.stack);
       getStore().dispatch(updateStatus('main', 'error', err.message));
     });
-    instance.on('data', data => {
+    instance.on('data', (data) => {
       if (!data || !data.event) {
         return logger.error('Invalid event received', data);
       }

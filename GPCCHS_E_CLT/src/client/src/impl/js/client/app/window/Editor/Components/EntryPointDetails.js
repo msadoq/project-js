@@ -66,7 +66,6 @@ export default class EntryPointDetails extends React.Component {
     this.props.handleEntryPoint(this.props.idPoint, 'name', e.target.value);
   }
   handleCurveColour(color) {
-    console.log(color);
     this.props.handleEntryPoint(this.props.idPoint, 'curveColour', color);
   }
   handleDataYChange(label, val) {

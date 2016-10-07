@@ -2,9 +2,9 @@ import _ from 'lodash';
 import * as constants from '../constants';
 import debug from '../utils/mainDebug';
 import { getStore } from '../store/mainStore';
-import { updateStatus as updateAppStatus } from '../store/mutations/hscActions';
-import { updateDomains } from '../store/mutations/domainsActions';
 import updateStore from '../main/vima/updateStore';
+import { updateStatus as updateAppStatus } from '../store/actions/hsc';
+import { updateDomains } from '../store/actions/domains';
 import { getWebsocket } from '../websocket/mainWebsocket';
 import convertFromStore from '../main/vima/convertFromStore';
 

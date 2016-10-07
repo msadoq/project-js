@@ -1,9 +1,8 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getPages } from '../../store/mutations/windowReducer';
-import { focusPage } from '../../store/mutations/windowActions';
-import { addAndMount, unmountAndRemove } from '../../store/mutations/windowActions';
+import { getPages } from '../../store/selectors/windows';
+import { focusPage, addAndMount, unmountAndRemove } from '../../store/actions/windows';
 import Tabs from './Tabs';
 
 const TabsContainer = props => <Tabs {...props} />;

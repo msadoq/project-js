@@ -79,7 +79,7 @@ describe('PlotView/main', () => {
       visuWindow = { lower: 2, upper: 3 };
     });
     it('valid payload, state undefined', () => {
-      const ret = getUsedValues(stateLocalId, 'val1', visuWindow, 0, payload);
+      const ret = getUsedValues(undefined, 'val1', visuWindow, 0, payload);
       ret.should.be.an('object').with.keys('data', 'index');
       ret.data.should.be.an('object').with.keys('2', '3');
       ret.data[3].should.deep.equal(payload[3].val1);

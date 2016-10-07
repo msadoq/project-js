@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {
   getWindowFocusedPageId,
   makeGetWindowFocusedPage,
-} from '../../store/mutations/windowReducer';
+} from '../../store/selectors/windows';
 
 import Window from './Window';
 

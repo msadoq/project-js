@@ -4,9 +4,9 @@ import { BrowserWindow } from 'electron';
 import * as constants from '../../constants';
 import parameters from '../../main/parameters';
 import debug from '../../utils/mainDebug';
-import { remove } from '../mutations/windowActions';
+import { remove } from '../actions/windows';
 import { getStore } from '../mainStore';
-import { getStatus as getAppStatus } from '../mutations/hscReducer';
+import { getStatus as getAppStatus } from '../selectors/hsc';
 
 const logger = debug('store:observers:windows');
 

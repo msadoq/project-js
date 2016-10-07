@@ -1,5 +1,13 @@
 import React, { Component, PropTypes } from 'react';
+import _ from 'lodash';
 
+function cData(connectedData) {
+  const data = [];
+  _.each(connectedData, cd => {
+    data.push('{' + cd.formula + '}');
+  });
+  return data;
+}
 export default class TextView extends Component {
   static propTypes = {
     type: React.PropTypes.string.isRequired,
@@ -14,7 +22,7 @@ export default class TextView extends Component {
       <div>
         {this.props.type}
         <br />
-        {JSON.stringify(this.props.connectedData)}
+        {}
       </div>
     );
   }

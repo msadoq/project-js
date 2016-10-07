@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import * as types from '../types';
-import external from '../../../external.main';
+
 
 /**
  * Reducer
@@ -58,23 +58,4 @@ function configuration(state = {}, action) {
     default:
       return state;
   }
-}
-
-/**
- * Selectors
- */
-export function getView(state, viewId) {
-  return state.views[viewId];
-}
-
-export function getConnectedData(state, viewId) { // TODO test
-  const view = getView(state, viewId);
-  if (!view) {
-    return [];
-  }
-  const selector = _.get(external, `${view.type}.getConnectedDataFromState`);
-  if (!_.isFunction(selector)) {
-    return [];
-  }
-  return selector(state, viewId);
 }

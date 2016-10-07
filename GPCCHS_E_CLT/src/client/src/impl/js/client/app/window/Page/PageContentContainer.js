@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getViews } from '../../store/mutations/pageReducer';
-import { addAndMount, unmountAndRemove, updateLayout } from '../../store/mutations/pageActions';
+import { getViews } from '../../store/selectors/pages';
+import { addAndMount, unmountAndRemove, updateLayout } from '../../store/actions/pages';
 
 import PageContent from './PageContent';
 

@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
-import hss from '../mutations/hssReducer';
-import hsc from '../mutations/hscReducer';
-import timebars from '../mutations/timebarReducer';
-import timelines from '../mutations/timelineReducer';
-import windows from '../mutations/windowReducer';
-import pages from '../mutations/pageReducer';
-import views from '../mutations/viewReducer';
-import domains from '../mutations/domainsReducer';
+import hss from './hss';
+import hsc from './hsc';
+import timebars from './timebars';
+import timelines from './timelines';
+import windows from './windows';
+import pages from './pages';
+import views from './views';
+import domains from './domains';
 import dataRequests from './dataRequests';
 import dataCache from './dataCache';
 

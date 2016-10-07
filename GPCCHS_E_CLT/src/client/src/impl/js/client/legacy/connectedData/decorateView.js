@@ -1,10 +1,10 @@
 import _ from 'lodash';
-import formula from '../../app/connectedData/formula';
-import remoteIdGenerator from '../../app/connectedData/remoteId';
-import localIdGenerator from '../../app/connectedData/localId';
-import domainsFilter from '../../app/connectedData/domains';
-import timelinesFilter from '../../app/connectedData/sessions';
-import { getTimelines } from '../../app/store/mutations/timebarReducer';
+import formula from './formula';
+import remoteIdGenerator from './remoteId';
+import localIdGenerator from './localId';
+import domainsFilter from './domains';
+import timelinesFilter from './sessions';
+import { getTimelines } from '../store/selectors/timebars';
 
 /**
  * Loop on connectedData and apply real domainId and sessionId (with wildcard handling) and return

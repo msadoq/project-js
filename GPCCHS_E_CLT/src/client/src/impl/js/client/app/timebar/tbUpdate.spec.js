@@ -43,7 +43,7 @@ describe('Timebar update', () => {
     tb1.timelines[1].offset = 1000;
     tb1.masterId = '5';
     tb1.offsetFromUTC = 100;
-    // console.log('\n\ntb1: ',tb1);
+
     // get updates
     const differences = compareTimebars(tbRef, tb1);
     // check updates

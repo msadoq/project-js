@@ -13,10 +13,3 @@ export default function hsc(stateHsc = { status: constants.LIFECYCLE_NOT_STARTED
       return stateHsc;
   }
 }
-
-/**
- * Selectors
- */
-export function getStatus(state) {
-  return _.get(state, 'hsc.status');
-}

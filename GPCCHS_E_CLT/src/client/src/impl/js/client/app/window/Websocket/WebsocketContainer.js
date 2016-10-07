@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getStatus } from '../../store/mutations/hssReducer';
+import { getStatus } from '../../store/selectors/hss';
 import Websocket from './Websocket';
 
 const WebsocketContainer = props => <Websocket {...props} />;

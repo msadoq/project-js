@@ -7,7 +7,7 @@ import { getWebsocket } from '../../websocket/windowWebsocket';
 import forPage from '../../connectedData/forPage';
 import missingIntervals from '../../connectedData/missingIntervals';
 import { mergeIntervals } from '../../connectedData/intervals';
-import { getTimebar } from '../../store/mutations/timebarReducer';
+import { getTimebar } from '../../store/selectors/timebars';
 
 const logger = debug('DataConsumerContainer');
 

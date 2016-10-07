@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import * as constants from '../../constants';
 import debug from '../../utils/mainDebug';
-import { getStatus as getAppStatus } from '../mutations/hscReducer';
+import { getStatus as getAppStatus } from '../selectors/hsc';
 import dataMapGenerator from '../../connectedData/dataMap';
 import requestsMapGenerator from '../../connectedData/requestsMap';
 import { getWebsocket } from '../../websocket/mainWebsocket';
@@ -30,5 +30,8 @@ export default function data(state, dispatch) {
 
   dispatch(addRequests(dataQueries));
 
-  logger.debug('data synchronization done in', process.hrtime(start)[1] / 1e6);
+  const duration = process.hrtime(start)[1] / 1e6;
+  logger.debug(
+    `data synchronization done in ${duration}ms, ${Object.keys(dataQueries).length} remoteId`
+  );
 }

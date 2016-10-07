@@ -5,7 +5,7 @@ import {
   add as addTimeline,
   remove as removeTimeline,
   update as updateTL,
-} from './timelineActions';
+} from './timelines';
 
 /**
  * Simple actions

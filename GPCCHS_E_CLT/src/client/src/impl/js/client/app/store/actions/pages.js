@@ -1,8 +1,8 @@
 import { v4 } from 'node-uuid';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
-import { add as addView, remove as removeView } from './viewActions';
-import { getViews, getEditor } from './pageReducer';
+import { add as addView, remove as removeView } from './views';
+import { getViews, getEditor } from '../reducers/pages';
 /**
  * Simple actions
  */
@@ -38,7 +38,6 @@ export function openViewInEditor(pageId, viewId) { // TODO
         // TODO : check if view exist
     if (pageId) {
       dispatch(getViews(state, pageId));
-      console.log('Found view , pageId => ', pageId);
       // TODO : check if view is displayed on page
       addAndMount(pageId, viewId);
     } else {

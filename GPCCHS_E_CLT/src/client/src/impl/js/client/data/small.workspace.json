@@ -6,10 +6,6 @@
       "title": "window example Small",
       "pages": [
         {
-          "oId": "",
-          "timeBarId": "TB1"
-        },
-        {
           "path": "page.exe1.workspace.json",
           "timeBarId": "TB1"
         }

@@ -18,9 +18,9 @@
       }
     },
     {
-      "name": "ATT_BC_STR1VOLTAGE_MS",
+      "name": "SAT_BC_TSTPARVQ3_MS",
       "connectedData": {
-        "formula": "Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.monitoringState",
+        "formula": "Reporting.SAT_BC_TSTPARVQ3<ReportingParameter>.monitoringState",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -34,9 +34,9 @@
       }
     },
     {
-      "name": "ATT_BC_STR1VOLTAGE_CV",
+      "name": "MIS_BC_DAGAFREQ_CV",
       "connectedData": {
-        "formula": "Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.convertedValue",
+        "formula": "Reporting.MIS_BC_DAGAFREQ<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -49,7 +49,7 @@
       "connectedData": {
         "formula": "Reporting.GENE_AM_CCSDSAPID<ReportingParameter>.extractedValue",
         "unit": "V",
-        "digits": 5,
+        "digits": 8,
         "format": "",
         "filter": [{
           "field": "monitoringState",
@@ -61,11 +61,11 @@
       }
     },
     {
-      "name": "GENE_AM_CCSDSAPID_MS",
+      "name": "POW_BC_MAXENER_MS",
       "connectedData": {
-        "formula": "Reporting.GENE_AM_CCSDSAPID<ReportingParameter>.monitoringState",
+        "formula": "Reporting.POW_BC_MAXENER<ReportingParameter>.monitoringState",
         "unit": "V",
-        "digits": 5,
+        "digits": 8,
         "format": "",
         "filter": [{
           "field": "convertedValue",
@@ -77,12 +77,66 @@
       }
     },
     {
-      "name": "GENE_AM_CCSDSAPID_CV",
+      "name": "TMMGT_BC_BCSTATUSW_CV",
       "connectedData": {
-        "formula": "Reporting.GENE_AM_CCSDSAPID<ReportingParameter>.convertedValue",
+        "formula": "Reporting.TMMGT_BC_BCSTATUSW<ReportingParameter>.convertedValue",
         "unit": "V",
-        "digits": 5,
+        "digits": 8,
         "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "FMGT_BC_OBCP8EXSTAT_EV",
+      "connectedData": {
+        "formula": "Reporting.FMGT_BC_OBCP8EXSTAT<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "decimal",
+        "filter": [{
+          "field": "monitoringState",
+          "operator": "!=",
+          "operand": "nominal"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ORB_BC_TSTPARVFLT_MS",
+      "connectedData": {
+        "formula": "Reporting.ORB_BC_TSTPARVFLT<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "CLK_BC_EVACGENSTA_CV",
+      "connectedData": {
+        "formula": "Reporting.CLK_BC_EVACGENSTA<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "hexadecimal",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    }
+    {
+      "name": "AGA_AM_VISIANGLE_CV",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_VISIANGLE<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "hexadecimal",
         "domain": "fr.cnes*",
         "timeline": "Session*"
       }
@@ -106,12 +160,16 @@
     " </head>",
     " <body>",
     "  <table border=\"2\">",
-    "   <tr><td>ATT_BC_STR1VOLTAGE_MS</td><td><span class=\"EntryPoint\" id=\"ATT_BC_STR1VOLTAGE_MS\"/></td></tr>",
-    "   <tr><td>ATT_BC_STR1VOLTAGE_EV</td><td><span class=\"EntryPoint\" id=\"ATT_BC_STR1VOLTAGE_EV\"/></td></tr>",
-    "   <tr><td>ATT_BC_STR1VOLTAGE_CV</td><td><span class=\"EntryPoint\" id=\"ATT_BC_STR1VOLTAGE_CV\"/></td></tr>",
-    "  <tr><td>GENE_AM_CCSDSAPID_MS</td><td><span class=\"EntryPoint\" id=\"GENE_AM_CCSDSAPID_MS\"/></td></tr>",
-   "   <tr><td>GENE_AM_CCSDSAPID_EV</td><td><span class=\"EntryPoint\" id=\"GENE_AM_CCSDSAPID_EV\"/></td></tr>",
-   "   <tr><td>GENE_AM_CCSDSAPID_CV</td><td><span class=\"EntryPoint\" id=\"GENE_AM_CCSDSAPID_CV\"/></td></tr>",
+    "    <tr><td>ATT_BC_STR1VOLTAGE_MS</td><td><span class=\"EntryPoint\" id=\"ATT_BC_STR1VOLTAGE_MS\"/></td></tr>",
+    "    <tr><td>SAT_BC_TSTPARVQ3_MS_EV</td><td><span class=\"EntryPoint\" id=\"SAT_BC_TSTPARVQ3_MS_EV\"/></td></tr>",
+    "    <tr><td>MIS_BC_DAGAFREQ_CV</td><td><span class=\"EntryPoint\" id=\"MIS_BC_DAGAFREQ_CV\"/></td></tr>",
+    "    <tr><td>GENE_AM_CCSDSAPID_MS</td><td><span class=\"EntryPoint\" id=\"GENE_AM_CCSDSAPID_MS\"/></td></tr>",
+    "    <tr><td>POW_BC_MAXENER_EV</td><td><span class=\"EntryPoint\" id=\"POW_BC_MAXENER_EV\"/></td></tr>",
+    "    <tr><td>TMMGT_BC_BCSTATUSW_CV</td><td><span class=\"EntryPoint\" id=\"TMMGT_BC_BCSTATUSW_CV\"/></td></tr>",
+    "    <tr><td>FMGT_BC_OBCP8EXSTAT_CV</td><td><span class=\"EntryPoint\" id=\"FMGT_BC_OBCP8EXSTAT_CV\"/></td></tr>",
+    "    <tr><td>ORB_BC_TSTPARVFLT_CV</td><td><span class=\"EntryPoint\" id=\"GENE_AM_CCSDSAPID_CV\"/></td></tr>",
+    "    <tr><td>CLK_BC_EVACGENSTA_CV</td><td><span class=\"EntryPoint\" id=\"CLK_BC_EVACGENSTA_CV\"/></td></tr>",
+    "  <tr><td>AGA_AM_VISIANGLE_CV</td><td><span class=\"EntryPoint\" id=\"AGA_AM_VISIANGLE_CV\"/></td></tr>",
     "  </table>",
     " </body>",
     "</html>"

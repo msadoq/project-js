@@ -1,6 +1,6 @@
 import { v4 } from 'node-uuid';
-import simple from './simpleActionCreator';
-import * as types from './types';
+import simple from '../simpleActionCreator';
+import * as types from '../types';
 import { add as addView, remove as removeView } from './viewActions';
 import { getViews, getEditor } from './pageReducer';
 /**

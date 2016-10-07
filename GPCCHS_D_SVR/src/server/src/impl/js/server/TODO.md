@@ -5,115 +5,69 @@ Only list expected tasks for PBF shipping of end of october.
 ## Questions
 
 * [ ] Wildcard: we can subscribe *n* parameters for the same entryPoint, what we should do with the *n* incoming values (TextView the first, PlotView ?)?
-* [ ] TextView displayed value (the last known before currentTime? until when?)
-* [ ] Risk! De-protobuf 10000 parameters in 500ms, even if we dedicate a process for that we can only handle 20 000 / seconds (and a simple plot on 15 days is 1 300 000 values)
-  - send protocol to Matthieu and Remy
-* [ ] Feature: ask to datastore last value before a given date (for TextView and MimicView)
-  - Matthieu look for information if already implemented (a filter getLastBeforeDate)
+* [ ] Send new DC API to Matthieu and Remy
+* [ ] Email to ask DS feature, lastValueBefore date filter (for TextView and MimicView) and sort+limit+offset
 
 ## Global
 
 * [=] Launch procedure, stop procedure, unexcepted stop of one component (Matthieu)
 * [=] Finalize LPISIS packaging constrains implementation (Matthieu)
 * [=] Lauching VIMA with timebar only OR implement a limited timebar in HSC (Olivier/Audrey)
-* [ ] Sync with erb: 0b0e19c74518fc97843e9bcb393086aa9a7ad616 (Damien)
-* [ ] Complete README.md: lint, quality and coverage, stub  commands usage... (Damien)
-* [ ] Code review and cleaning: convention, comments, TODO , small optimizations... (Damien)
 
 ## GPCCHSS (Node.js)
 
-* Refactoring
-  - [ ] DC communication: implement on HSS new protocol (protobuf, stub, data helper, unit test)
-  - [ ] Protobuf: study and remove the toRaw() method, remove the removeEmpty() parsing
-  - [ ] View type: remove HSS instance and code
-  - [ ] dataQuery from HSC to DC
-  - [ ] subscriptionOpen from HSC to DC ()
-  - [ ] onTimebasedArchiveData
-
-* [ ] Implement realtime (only) data filtering on server-side
-* [ ] Track every "throw" on HSS and catch them accordingly
-* [ ] Add robustness in every controller by controlling HSC input
-
-Renaud
-* [ ] onNewDataMessage: separate in two controllers: onRealtimeData, onArchiveData
-  - Don't de-protobuf in first _.map (only get timestamp), de-protobuf parameter value at last moment
-  - In onArchiveData consider data as ordered (take first and last timestamp, search for this interval existence, insert)
-  - In onRealtimeData list and order timestamp, implement a method that walk known intervals with timestamp list and return only ones that are in known interval .areTimestampInKnownIntervals([timestamp]) => [timestamp]  
-  - In both generate localId in each controller and not in .addRecord()
-* [ ] View type onNewData: implement localId filtering, displayed interval filtering, filter, select field and send [[timestamp, value]]
-* [ ] onViewQuery/onNewDataMessage: test AVLTree instead of Loki for cache retrieving/insertion OR our proper data structure DataStructure{[order],{key:{value}}
-* [ ] Profiling: rename errorHandler=>execController, only on 'end' controllers 
+* [ ] Cache invalidation /!\
+* [ ] DC communication: 
+  - [renaud] DC stub + controllers
+* Profiling
+  - [ ] CacheJson: test AVLTree instead of Loki for cache retrieving/insertion OR our proper data structure DataStructure{[order],{key:{value}}
+  - [aziz] Test and profile LokiJS index auto update https://github.com/techfort/LokiJS/issues/477
  
 ## GPCCHSC (Electron)
 
+* [ ] Cache invalidation /!\
+* [alex] A complete workspace with 2 windows, 3 pages, 16 plots lines, 300 text params
 * Implement <PlotView/>
-  - [ ] container
-  - [ ] component (chart)
   - [ ] Prototype and implement a chart library
-  - [ ] https://www.npmjs.com/package/simplify-path
-* [ ] Implement <TextView/>
-  - [ ] container
-  - [ ] component
-  - [ ] https://github.com/wrakky/react-html-parser
-* [ ] Persist window geometry and focus in Redux
-* [ ] Improve window closing by implementing a confirmation box with WS disconnection
-* [ ] Replace tabs with reactjs/react-tabs
-
-* [ ] Improve main process debugging by try-catching on ready logic
-* [ ] Fix launching warning on document.write injection by adding cross origin policy
- 
-Adrien
-* [=] Pass realtime dimensions to each view (react-grid-layout/build/components/WidthProvider.js.flow, react-dimensions, https://github.com/souporserious/react-measure)
- 
-Audrey
-* [=] Incoming data channel from HSS to DC 
-
-Aziz
-* [ ] TextView parsing to React component
-* [ ] Filepicker on start (root on data/)
-
-Alexandra
-* [=] Customize electron window menu bar (Alexandra)
-* [=] Add a clean "error" page when unable to connect to server or when DC stub is off (Alexandra)
-* [ ] Complete workspace
-
-Damien
-* [ ] Update intervals lib from Renaud code
-* [ ] NewData channel handling in client
-* [ ] Remove mutations/connectedData with a sub-reducer in views
-* [ ] Implement reselect on connectedData
-* [ ] connectedData/domains.js: add reselect
-* [ ] connectedData/forView.js: test
-* [ ] connectedData/forWindow.js: move .extractFromWindow() in selector
-* [ ] connectedData/queries.js: test
-* [ ] connectedData/queries.js: handle view type to request only needed value (everything for plot, lower->current for text)
-* [ ] connectedData/wildcard.js: memoize .generate()
-* [ ] Analyse connectedData module, complete tests, same for selectors and others
-* [ ] HSC tree refactoring: 
+  - [ ] Test live sampling https://www.npmjs.com/package/simplify-path
+* Implement <TextView/>
+  - [ ] HTML to React with https://github.com/wrakky/react-html-parser
+* DataManager
+  - [ ] sync (actor) method that compute dataMap and missing interval and request data
+  - [ ] outcoming queries reducer and actions
+  - [ ] incoming data reducer and actions
+* [ ] Tree refactoring (Damien)
+  - impl/js/client|common|server
   - app=>lib
   - main=>mainProcess + window=>windowProcess
   - PageContent=>Content
   - utils=>common
   - connectedData=>dataConsumption
-  - store/mutations=>store/reducers|actions|types.js
+  - store/mutations=>store/reducers|actions|selectors|types.js
 
 ## Postponed
 
+* [ ] Sync with erb: 0b0e19c74518fc97843e9bcb393086aa9a7ad616 (Damien)
+* [ ] Track every HSS "throw" on HSS and catch them accordingly
+* [ ] Test every LPISIS parameter type conversion (C++ types to Javascript)
+* [ ] Improve window closing by implementing a confirmation box with WS disconnection
+* [ ] Fix launching warning on document.write injection by adding cross origin policy
+* [ ] Filepicker on start (root on data/)
+* [ ] Persist window geometry and focus in Redux
+* [ ] Improve main process debugging by try-catching on ready logic
+* [ ] Add robustness in every HSS/client controllers by controlling HSC input
 * [ ] LPISIS protobuf and types converters code generation (Adrien)
-* [ ] Test every LPISIS parameter type conversion (C++ types to Javascript) (Adrien)
-* [ ] Replace localId with unique number id to save Loki memory
 * [ ] Envisage to fork in child_process the HSS DC stub (Damien)
 * [ ] Webpackize the HSS code and study C++ module portability
 * [ ] Add eslint pre-commit hook
 * [ ] Envisage removing express from HSC to use webpack server instead
 * [ ] Hot reload in main process https://github.com/chentsulin/electron-react-boilerplate/issues/360
-* [ ] Envisage replacing stockchart with https://github.com/recharts/recharts or https://github.com/reactjs/react-chartjs
 * [ ] Fix Primus node.js client generation bug and use C++ also on client side: https://github.com/primus/primus#connecting-from-the-server
 * [ ] Move timebars on root level in documents (Audrey)
 * [ ] Implement a clean log and error channel (with bridge)
 - [ ] Replace Protobufjs with module that use a C++ parser (https://github.com/fuwaneko/node-protobuf or google C++ wrapped by us)
-
-## v2
 * [ ] Timebar play mode upcoming bufferisation (ask for more than immediately needed)
-* [ ] Convert redux window/page/view to workspace document format (Audrey)
+* [ ] Convert redux window/page/view to workspace document format
 * [ ] Correct support of path and oId in documents, maybe required FMD call
+* [ ] Complete README.md: lint, quality and coverage, stub  commands usage... (Damien)
+* [ ] Code review and cleaning: convention, comments, TODO , small optimizations... (Damien)

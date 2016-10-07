@@ -2,7 +2,7 @@ import debug from '../utils/mainDebug';
 import { getStore } from '../store/mainStore';
 import controller from './mainController';
 import { updateStatus } from '../store/mutations/hssActions';
-
+import parameters from '../main/parameters';
 import { Primus } from '../../external.main';
 
 const logger = debug('main:websocket');
@@ -11,10 +11,10 @@ let instance;
 
 export function connect() {
   if (!instance) {
-    logger.info('trying open connection to', process.env.HSS);
+    logger.info('trying open connection to', parameters.HSS);
 
     try {
-      instance = new Primus(process.env.HSS);
+      instance = new Primus(parameters.HSS);
     } catch(e) {
       logger.error(e);
     }

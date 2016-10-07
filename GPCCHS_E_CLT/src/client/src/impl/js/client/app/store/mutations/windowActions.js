@@ -1,12 +1,12 @@
 import { v4 } from 'node-uuid';
-import simple from './simpleActionCreator';
-import * as types from './types';
+import simple from '../simpleActionCreator';
+import * as types from '../types';
 import { add as addPage, remove as removePage } from './pageActions';
 
 /**
  * Simple actions
  */
-export const add = simple(types.WS_WINDOW_ADD, 'windowId', 'title', 'geometry', 'pages', 'pageId');
+export const add = simple(types.WS_WINDOW_ADD, 'windowId', 'title', 'geometry', 'pages', 'focusedPage');
 export const remove = simple(types.WS_WINDOW_REMOVE, 'windowId');
 export const focusPage = simple(types.WS_WINDOW_PAGE_FOCUS, 'windowId', 'pageId');
 export const mountPage = simple(types.WS_WINDOW_PAGE_MOUNT, 'windowId', 'pageId');

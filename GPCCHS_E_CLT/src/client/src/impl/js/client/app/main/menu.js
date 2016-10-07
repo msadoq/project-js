@@ -7,6 +7,9 @@ const { dialog } = require('electron');
 
 const { Menu } = require('electron');
 
+//TODO: instead of the native menu Electron, add actionsMenu on RendererProcess to enhance a customized menubar
+
+
 const template = [{
   label: 'Edit',
   submenu: [{
@@ -33,6 +36,24 @@ template.splice(0, 0,
   {
     label: 'Workspace',
     submenu: [{
+      label: 'New ... ',
+      accelerator: '',
+      click() {
+        dialog.showMessageBox({
+          type: 'info',
+          title: 'Opening new workspace',
+          message: 'A new workspace is being opened... valid please',
+          buttons: ['ok']
+        });
+        // getStore().dispatch(add(v4(), 'New workspace'));
+        dialog.showMessageBox({
+          title: 'Do not forget !',
+          message: 'New workspace is empty',
+          detail: 'This workspace needs creating a window, in Menu: Window > New',
+          buttons: ['I understood']
+        });
+      }
+    }, {
       label: 'Save ...',
       accelerator: 'Ctrl+Command+S',
       click: (item, focusedWindow) => {
@@ -56,21 +77,7 @@ template.splice(1, 0,
       {
         label: 'New',
         accelerator: '',
-        click() {
-          dialog.showMessageBox({
-            type: 'info',
-            title: 'Opening new window',
-            message: 'A new window is being opened... valid please',
-            buttons: ['ok']
-          });
-          getStore().dispatch(add(v4(), 'New window'));
-          dialog.showMessageBox({
-            title: 'Do not forget !',
-            message: 'New window is empty',
-            detail: 'This window needs creating a page, in Menu: Page > Add',
-            buttons: ['I understood']
-          });
-        }
+        click() { getStore().dispatch(add(v4(), 'New window')); }
       }, {
         label: 'Reload',
         accelerator: '',
@@ -117,12 +124,6 @@ template.splice(2, 0,
       accelerator: '',
       click(item, focusedWindow) {
         if (focusedWindow) {
-          dialog.showMessageBox({
-            type: 'info',
-            title: 'Information',
-            message: 'New page added!',
-            buttons: ['ok']
-          });
           getStore().dispatch(addAndMountPage(focusedWindow.windowId, v4(), 'add example'));
         }
       }
@@ -169,7 +170,6 @@ template.splice(3, 0,
       }
     }]
   });
-
 
 const menu = Menu.buildFromTemplate(template);
 Menu.setApplicationMenu(menu);

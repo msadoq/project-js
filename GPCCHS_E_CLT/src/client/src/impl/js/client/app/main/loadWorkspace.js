@@ -51,7 +51,14 @@ export default function loadWorkspace(workspace) {
 
   // add windows
   _.each(workspace.windows,
-    e => dispatch(addWindow(e.uuid, e.title, e.geometry, e.pages))
+    (e) => {
+      // set focusedPage on the fly (not in documents)
+      let pageId = null;
+      if (e.pages && e.pages.length) {
+        pageId = e.pages[0];
+      }
+      dispatch(addWindow(e.uuid, e.title, e.geometry, e.pages, pageId));
+    }
   );
 
   const state = getStore().getState();

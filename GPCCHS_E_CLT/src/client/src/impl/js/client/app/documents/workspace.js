@@ -22,7 +22,7 @@ module.exports = function readWorkspace(folder, relativePath, callback) {
     (content, cb) => extractWindows(content, cb),
     (content, cb) => extractPages(content, cb),
     (content, cb) => extractViews(content, cb),
-    (content, cb) => extractConnectedData(content, cb),
+    // (content, cb) => extractConnectedData(content, cb),
     (content, cb) => cb(null, _.omit(content, ['__folder', '__original'])),
   ], callback);
 };

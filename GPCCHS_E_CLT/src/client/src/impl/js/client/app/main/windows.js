@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { BrowserWindow } from 'electron';
 import { remove } from '../store/mutations/windowActions';
 import { getStore } from '../store/mainStore';
-
+import parameters from './parameters';
 const logger = debug('main:windows');
 
 
@@ -20,13 +20,20 @@ export function open(data, windowId) {
     title: `${data.title} - VIMA`,
   });
 
+  window.parameters = parameters;
+
   // persist windowId on BrowserWindow instance
   window.windowId = windowId; // eslint-disable-line no-param-reassign
 
   // prevent garbage collection
   windows[windowId] = window;
 
-  window.loadURL(`file://${__dirname}/../window/index.html?windowId=${windowId}`);
+  if (process.env.NODE_ENV === 'production') {
+    window.loadURL(`file://${__dirname}/app/window/index.html?windowId=${windowId}`);
+  } else {
+    window.loadURL(`file://${__dirname}/../window/index.html?windowId=${windowId}`);
+  }
+
 
   window.webContents.on('did-finish-load', () => {
     window.show();
@@ -51,8 +58,8 @@ export function close(windowId) {
   windows[windowId].destroy();
 }
 
-export function sync(previoustState, state) {
-  const list = state.windows;
+export function sync() {
+  const list = getStore().getState().windows;
   const inStore = Object.keys(list);
   const opened = Object.keys(windows);
   const toOpen = _.difference(inStore, opened);

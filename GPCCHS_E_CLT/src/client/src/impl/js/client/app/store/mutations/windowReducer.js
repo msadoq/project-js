@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import * as types from './types';
+import * as types from '../types';
+import { createSelector } from 'reselect';
 
 /**
  * Reducer
@@ -45,6 +46,7 @@ function window(stateWindow = initialState, action) {
         title: action.payload.title || stateWindow.title,
         geometry: Object.assign({}, stateWindow.geometry, action.payload.geometry),
         pages: action.payload.pages || stateWindow.pages,
+        focusedPage: action.payload.focusedPage || stateWindow.focusedPage,
       });
     case types.WS_WINDOW_UPDATE_GEOMETRY: {
       return Object.assign({}, stateWindow, {
@@ -82,6 +84,8 @@ function window(stateWindow = initialState, action) {
 /**
  * Selectors
  */
+const getAllPages = state => state.pages; // TODO page selector
+
 export function getWindow(state, windowId) {
   return state.windows[windowId];
 }
@@ -101,22 +105,12 @@ export function getPages(state, windowId) {
   }, []);
 }
 
-export function getFocusedPage(state, windowId) {
-  const w = state.windows[windowId];
-  if (!w) {
-    return null;
-  }
+export const getWindowFocusedPageId =
+  (state, { windowId }) => _.get(state, ['windows', windowId, 'focusedPage']);
 
-  const pages = w.pages;
-  if (!pages || !pages.length) {
-    return null;
-  }
-
-  let pageId = w.focusedPage;
-  if (!pageId || !pages.indexOf(pageId) === -1 || !state.pages[pageId]) {
-    // take first existing pages
-    pageId = _.find(pages, uuid => !!state.pages[uuid]);
-  }
-
-  return pageId;
-}
+export const makeGetWindowFocusedPage = () => createSelector([
+  getAllPages,
+  getWindowFocusedPageId,
+], (pages, pageId) => {
+  return _.get(pages, pageId);
+});

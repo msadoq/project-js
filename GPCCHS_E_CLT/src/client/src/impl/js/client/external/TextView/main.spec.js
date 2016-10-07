@@ -2,6 +2,7 @@ import { should, getStore } from '../../app/utils/test';
 import {
   getSchemaJson,
   getConnectedDataFromState,
+  getUsedValues,
 } from './main';
 
 describe('TextView/main', () => {
@@ -33,8 +34,8 @@ describe('TextView/main', () => {
             ],
           },
         },
-        noconfiguration: { type: 'TextView', configuration: undefined},
-        noentrypoint: { type: 'TextView', configuration: { textViewEntryPoints: undefined }},
+        noconfiguration: { type: 'TextView', configuration: undefined },
+        noentrypoint: { type: 'TextView', configuration: { textViewEntryPoints: undefined } },
       },
       connectedData: {
         cd1: { uuid: 'cd1' },
@@ -59,6 +60,38 @@ describe('TextView/main', () => {
       cd.should.eql([
         { uuid: 'cd1' },
       ]);
+    });
+  });
+  describe('getUsedValues', () => {
+    it('valid payload with current inside', () => {
+      const payload = {
+        1: { val1: '10', val2: '20' },
+        2: { val1: '11', val2: '21' },
+        3: { val1: '12', val2: '22' },
+      };
+      const visuWindow = { current: 2 };
+      let stateLocalId;
+      const ret = getUsedValues(stateLocalId, 'val1', visuWindow, 0, payload);
+      ret.should.be.an('object').with.keys('data', 'index');
+      ret.data.should.be.an('object').with.keys('2');
+      ret.data[2].should.deep.equal(payload[2].val1);
+      ret.index.should.be.an('array').with.length(1);
+      ret.index[0].should.equal('2');
+    });
+    it('valid payload without current inside', () => {
+      const payload = {
+        1: { val1: '10', val2: '20' },
+        2: { val1: '11', val2: '21' },
+        3: { val1: '12', val2: '22' },
+      };
+      const visuWindow = { current: 2 };
+      let stateLocalId;
+      const ret = getUsedValues(stateLocalId, 'val1', visuWindow, -0.5, payload);
+      ret.should.be.an('object').with.keys('data', 'index');
+      ret.data.should.be.an('object').with.keys('2');
+      ret.data[2].should.deep.equal(payload[2].val1);
+      ret.index.should.be.an('array').with.length(1);
+      ret.index[0].should.equal('2');
     });
   });
 });

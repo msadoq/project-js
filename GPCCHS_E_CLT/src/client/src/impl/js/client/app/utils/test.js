@@ -3,7 +3,7 @@ import chai from 'chai'; // eslint-disable-line import/no-extraneous-dependencie
 import properties from 'chai-properties';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import reducer from '../store/mutations/index';
+import reducer from '../store/reducers/index';
 
 //import 'babel-polyfill';
 //import { jsdom } from 'jsdom';

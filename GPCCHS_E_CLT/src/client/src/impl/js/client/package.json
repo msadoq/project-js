@@ -12,7 +12,7 @@
     "build-main": "NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.electron.js --progress --profile --colors",
     "build-renderer": "NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.production.js --progress --profile --colors",
     "build": "npm run build-main && npm run build-renderer",
-    "start": "NODE_ENV=production electron ./",
+    "start": "NODE_ENV=production electron ./ --PORT=3100 --HSS=http://127.0.0.1:3000 --FMD_ROOT=/data/work/gitRepositories/dev/src/LPISIS/GPCCHS/GPCCHS_E_CLT/src/client/src/impl/js/client/data",
     "start-hot": "HOT=1 electron -r ./app/utils/dotenv -r babel-register -r babel-polyfill ./main.development",
     "package": "NODE_ENV=production node -r babel-register -r babel-polyfill package.js",
     "package-all": "npm run package -- --all",
@@ -102,6 +102,7 @@
     "redux": "^3.6.0",
     "redux-electron-store": "^0.3.13",
     "redux-thunk": "^2.1.0",
+    "reselect": "^2.5.4",
     "source-map-support": "^0.4.2",
     "updeep": "^0.16.1",
     "ws": "^1.1.1"

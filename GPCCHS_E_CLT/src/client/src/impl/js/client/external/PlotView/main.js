@@ -51,4 +51,29 @@ module.exports = {
         : list;
     } , []);
   },
+  getUsedValues: function(stateLocalId, field, visuWindow, offset, remoteIdPayload) {
+    const lower = visuWindow.lower - offset;
+    const upper = visuWindow.upper - offset;
+
+    let final;
+    if (stateLocalId) {
+      final = Object.assign({}, stateLocalId);
+    } else {
+      final = { data: {}, index: []};
+    }
+
+    _.each(remoteIdPayload, (val, time) => {
+      if (time >= lower && time <= upper) {
+        const index = _.findIndex(final.index, (i) => i > time);
+        if (index < 0) {
+          final.index.push(time);
+        } else {
+          final.index = _.concat(_.slice(final.index, 0, index), time, _.slice(final.index, index));
+        }
+        final.data[time] = _.get(val, field, undefined);
+      }
+    });
+
+    return final;
+  }
 };

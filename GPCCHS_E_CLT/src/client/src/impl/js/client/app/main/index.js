@@ -12,7 +12,9 @@ import { getStatus as getMainWsStatus } from '../store/mutations/hssReducer';
 import { getStatus as getAppStatus } from '../store/mutations/hscReducer';
 import { updateStatus } from '../store/mutations/hscActions';
 import menu from'./menu';
+import parameters from './parameters';
 
+// const pathJsonWorkspace = ('dev.workspace.json', 'small.workspace.json');
 const logger = debug('main:launch');
 
 let storeUnsubscribe;
@@ -46,12 +48,13 @@ function onStoreUpdate(previousState, state) {
     dispatch(updateStatus('connected-with-hss'));
   }
 
+// TODO: HERE insert new json workspaces  to launch:
+// small.workspace.json , medium.workspace.json, large.workspace.json
   if (appStatus === 'connected-with-hss') {
     readWorkspace(process.env.FMD_ROOT, 'dev.workspace.json', (err, workspace) => {
       if (err) {
         throw err;
       }
-
       loadedWorkspace = workspace;
       dispatch(updateStatus('workspace-readed'));
     });

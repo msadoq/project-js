@@ -1,16 +1,12 @@
 require('../../utils/test');
 const { domainData } = require('./onDomainData');
 const dataStub = require('../../stubs/data');
-const TestWebSocket = require('../../stubs/testWebSocket');
+const { sendToTestWs, getMessage, resetMessage } = require('../../stubs/testWebSocket');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
-
-const testWebsocket = new TestWebSocket();
-testWebsocket.init();
-const spark = testWebsocket.getSpark();
 
 describe('onDomainData', () => {
   beforeEach(() => {
-    spark.resetMessage();
+    resetMessage();
   });
 
   it('not queried', () => {
@@ -20,7 +16,7 @@ describe('onDomainData', () => {
     const myDomain = dataStub.getDomain({ name: 'fr.cnes.sat1.batman' });
     const myDomainProto = dataStub.getDomainProtobuf(myDomain);
     // launch test
-    (() => domainData(spark, myQueryIdProto, myDomainProto)).should.throw();
+    (() => domainData(sendToTestWs, myQueryIdProto, myDomainProto)).should.throw();
   });
 
   it('works', () => {
@@ -33,9 +29,9 @@ describe('onDomainData', () => {
     const myDomainProto2 = dataStub.getDomainProtobuf(myDomain2);
     registeredCallbacks.set(myQueryId, () => {});
     // launch test
-    domainData(spark, myQueryIdProto, myDomainProto, myDomainProto2);
+    domainData(sendToTestWs, myQueryIdProto, myDomainProto, myDomainProto2);
     // check data
-    const domains = spark.getMessage();
+    const domains = getMessage();
     domains.should.be.an('object');
     domains.should.have.an.property('event')
       .that.equal('domainResponse');

@@ -1,7 +1,7 @@
 const debug = require('../../io/debug')('controllers:onResponse');
 const { decode } = require('../../protobuf');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
-const { getMainWebsocket } = require('../../io/primus');
+const { sendToMain } = require('../../websocket/sendToMain');
 const constants = require('../../constants');
 
 /**
@@ -17,10 +17,10 @@ const constants = require('../../constants');
  *
  * @param buffer
  */
-const response = (spark, queryIdBuffer, statusBuffer, reasonBuffer) => {
+const response = (websocketHandler, queryIdBuffer, statusBuffer, reasonBuffer) => {
   debug.verbose('called');
 
-  debug.debug('decode queryId')
+  debug.debug('decode queryId');
   // deprotobufferize queryId
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
   // check if queryId exists in registeredCallbacks singleton, if no stop logic
@@ -32,7 +32,7 @@ const response = (spark, queryIdBuffer, statusBuffer, reasonBuffer) => {
   // unregister queryId
   registeredCallbacks.remove(queryId);
 
-debug.debug('decode status')
+  debug.debug('decode status');
   // deprotobufferize status
   const status = decode('dc.dataControllerUtils.Status', statusBuffer).status;
   // if status is SUCCESS, execute callback and stop logic
@@ -40,22 +40,17 @@ debug.debug('decode status')
     return callback(null);
   }
 
-debug.debug('decode reason')
+  debug.debug('decode reason');
   // deprotobufferize reason
   const reason = (typeof reasonBuffer !== 'undefined') ? decode('dc.dataControllerUtils.String', reasonBuffer).string : reasonBuffer;
 
   // send error message to client and execute callback
-  spark.write({
-    event: 'responseError',
-    payload: reason,
-  });
+  websocketHandler('responseError', reason);
   return callback(new Error((typeof reason !== 'undefined') ? reason : 'unknown reason'));
 };
 
 module.exports = {
-  onResponse: (queryIdBuffer, statusBuffer, reasonBuffer) => {
-    const mainWebsocket = getMainWebsocket();
-    return response(mainWebsocket, queryIdBuffer, statusBuffer, reasonBuffer);
-  },
+  onResponse: (queryIdBuffer, statusBuffer, reasonBuffer) =>
+    response(sendToMain, queryIdBuffer, statusBuffer, reasonBuffer),
   response,
 };

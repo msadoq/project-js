@@ -4,7 +4,7 @@ const { decode } = require('../../protobuf');
 const timebasedDataModel = require('../../models/timebasedData');
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
-const { getMainWebsocket } = require('../../io/primus');
+const { addToMainQueue } = require('../../websocket/sendToMain');
 const { applyFilters } = require('../../utils/filters');
 
 /**
@@ -23,7 +23,7 @@ const { applyFilters } = require('../../utils/filters');
  *
  * @param buffer
  */
-const sendTimebasedPubSubData = (spark, dataIdBuffer, ...payloadsBuffers) => {
+const sendTimebasedPubSubData = (websocketHandler, dataIdBuffer, ...payloadsBuffers) => {
   debug.verbose('called');
 
   // deprotobufferize dataId
@@ -73,15 +73,13 @@ const sendTimebasedPubSubData = (spark, dataIdBuffer, ...payloadsBuffers) => {
       // store decoded payload in timebasedData model
       timebasedDataModel.addRecord(remoteId, tbd.timestamp, tbd.payload);
       // queue a ws newData message (sent periodically)
-      spark.addToQueue(remoteId, [tbd]);
+      websocketHandler(remoteId, [tbd]);
     });
   });
 };
 
 module.exports = {
-  onTimebasedPubSubData: (dataIdBuffer, ...payloadsBuffers) => {
-    const mainWebsocket = getMainWebsocket();
-    sendTimebasedPubSubData(mainWebsocket, dataIdBuffer, ...payloadsBuffers);
-  },
+  onTimebasedPubSubData: (dataIdBuffer, ...payloadsBuffers) =>
+    sendTimebasedPubSubData(addToMainQueue, dataIdBuffer, ...payloadsBuffers),
   sendTimebasedPubSubData,
 };

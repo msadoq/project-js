@@ -1,11 +1,11 @@
 const debug = require('../io/debug')('controllers:onVimaTimeBarUpdate');
-const primus = require('../io/primus');
+const { sendToMain } = require('../websocket/sendToMain');
 
 /**
  * Controller that listens for timebar update
  * @param buffer
  */
-module.exports = buffer => {
+module.exports = (buffer) => {
   debug.debug('called');
   // Buffer to JSON
   let updVimaTimebar;
@@ -15,9 +15,5 @@ module.exports = buffer => {
   } catch (err) {
     throw err;
   }
-  const spark = primus.getMainWebsocket();
-  spark.write({
-    event: 'vimaTimebarUpdate',
-    payload: updVimaTimebar,
-  });
+  sendToMain('vimaTimebarUpdate', updVimaTimebar);
 };

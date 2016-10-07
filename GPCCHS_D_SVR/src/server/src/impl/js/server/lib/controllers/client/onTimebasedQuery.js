@@ -8,7 +8,7 @@ const { encode } = require('../../protobuf');
 const { v4 } = require('node-uuid');
 const zmq = require('../../io/zmq');
 const _ = require('lodash');
-const { getMainWebsocket } = require('../../io/primus');
+const { addToMainQueue } = require('../../websocket/sendToMain');
 const constants = require('../../constants');
 
 /**
@@ -37,7 +37,7 @@ const constants = require('../../constants');
  * @param messageHandler
  */
 
-const timebasedQuery = (spark, payload, messageHandler) => {
+const timebasedQuery = (websocketHandler, payload, messageHandler) => {
   const messageQueue = [];
   // loop over remoteIds
   _.each(payload, (query, remoteId) => {
@@ -130,7 +130,7 @@ const timebasedQuery = (spark, payload, messageHandler) => {
       if (cachedData.length === 0) {
         return;
       }
-      spark.addToQueue(remoteId, cachedData);
+      websocketHandler(remoteId, cachedData);
     });
   });
 
@@ -146,7 +146,6 @@ module.exports = {
   timebasedQuery,
   onTimebasedQuery: (spark, payload) => {
     debug.debug('data query', spark.id, payload);
-    const mainWebsocket = getMainWebsocket();
-    timebasedQuery(mainWebsocket, payload, zmq.push);
+    timebasedQuery(addToMainQueue, payload, zmq.push);
   },
 };

@@ -6,12 +6,8 @@ const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
 const _ = require('lodash');
 const dataStub = require('../../stubs/data');
-const TestWebSocket = require('../../stubs/testWebSocket');
+const { addToTestQueue, getMessage, resetMessage } = require('../../stubs/testWebSocket');
 const constants = require('../../constants');
-
-const testWebsocket = new TestWebSocket();
-testWebsocket.init();
-const spark = testWebsocket.getSpark();
 
 /* onTimebasedPubSubData Test
  *
@@ -25,7 +21,7 @@ describe('onTimebasedPubSubData', () => {
     subscriptionsModel.cleanup();
     connectedDataModel.cleanup();
     timebasedDataModel.cleanup();
-    spark.resetMessage();
+    resetMessage();
   });
 
   const queryId = 'queryId';
@@ -69,7 +65,7 @@ describe('onTimebasedPubSubData', () => {
     // init test
     // launch test
     sendTimebasedPubSubData(
-      spark,
+      addToTestQueue,
       dataIdProto,
       timestamp1,
       protoRp,
@@ -78,7 +74,7 @@ describe('onTimebasedPubSubData', () => {
     );
     // check data
     timebasedDataModel.count().should.equal(0);
-    spark.getMessage().should.have.properties({});
+    getMessage().should.have.properties({});
   });
 
   it('no query for this dataId', () => {
@@ -86,7 +82,7 @@ describe('onTimebasedPubSubData', () => {
     subscriptionsModel.addRecord(dataId);
     // launch test
     sendTimebasedPubSubData(
-      spark,
+      addToTestQueue,
       dataIdProto,
       timestamp1,
       protoRp,
@@ -95,7 +91,7 @@ describe('onTimebasedPubSubData', () => {
     );
     // check data
     timebasedDataModel.count().should.equal(0);
-    spark.getMessage().should.have.properties({});
+    getMessage().should.have.properties({});
   });
 
   it('one in interval, all in filters', () => {
@@ -105,7 +101,7 @@ describe('onTimebasedPubSubData', () => {
     connectedDataModel.addRequestedInterval(fullRemoteId, queryId, halfInterval);
     // launch test
     sendTimebasedPubSubData(
-      spark,
+      addToTestQueue,
       dataIdProto,
       timestamp1,
       protoRp,
@@ -120,8 +116,8 @@ describe('onTimebasedPubSubData', () => {
       timestamp: t1,
       payload: rp,
     });
-    spark.getMessage().should.have.properties({
-      event: 'newData',
+    getMessage().should.have.properties({
+      event: 'timebasedData',
       payload: {
         [fullRemoteId]: [
           {
@@ -140,7 +136,7 @@ describe('onTimebasedPubSubData', () => {
     connectedDataModel.addRequestedInterval(halfRemoteId, queryId, fullInterval);
     // launch test
     sendTimebasedPubSubData(
-      spark,
+      addToTestQueue,
       dataIdProto,
       timestamp1,
       protoRp,
@@ -155,8 +151,8 @@ describe('onTimebasedPubSubData', () => {
       timestamp: t2,
       payload: rp2,
     });
-    spark.getMessage().should.have.properties({
-      event: 'newData',
+    getMessage().should.have.properties({
+      event: 'timebasedData',
       payload: {
         [halfRemoteId]: [
           {

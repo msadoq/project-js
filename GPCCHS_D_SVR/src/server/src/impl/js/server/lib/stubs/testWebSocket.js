@@ -1,37 +1,31 @@
 const _ = require('lodash');
 
-function TestWebSocket() {
-  this.spark = {};
-}
+let testQueue = {};
+let message = {};
 
-TestWebSocket.prototype.init = () => {
-  this.spark = {
-    queue: {},
-    message: {},
-    getMessage: () => this.spark.message,
-    resetMessage: () => { this.spark.message = {}; },
-    write: (message) => {
-      this.spark.message = message;
-    },
-    addToQueue: (remoteId, payload) => {
-      const previous = _.get(this.spark, ['queue', remoteId]);
-      if (typeof previous === 'undefined') {
-        _.set(this.spark, ['queue', remoteId], payload);
-      } else {
-        _.set(this.spark, ['queue', remoteId], _.concat(previous, payload));
-      }
-      this.spark.sendToWindow();
-    },
-    sendToWindow: () => {
-      this.spark.write({
-        event: 'newData',
-        payload: this.spark.queue,
-      });
-      this.spark.queue = {};
-    },
-  };
+const sendToTestWs = (event, payload) => {
+  message.event = event;
+  message.payload = payload;
 };
 
-TestWebSocket.prototype.getSpark = () => this.spark;
+const flushTestQueue = () => {
+  sendToTestWs('timebasedData', testQueue);
+  testQueue = {};
+};
 
-module.exports = TestWebSocket;
+const addToTestQueue = (remoteId, payload) => {
+  const previous = _.get(testQueue, [remoteId]);
+  if (typeof previous === 'undefined') {
+    _.set(testQueue, [remoteId], payload);
+  } else {
+    _.set(testQueue, [remoteId], _.concat(previous, payload));
+  }
+  flushTestQueue();
+};
+
+module.exports = {
+  getMessage: () => message,
+  resetMessage: () => { message = {}; },
+  addToTestQueue,
+  sendToTestWs,
+};

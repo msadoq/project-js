@@ -3,16 +3,12 @@ const dataStub = require('../../stubs/data');
 const { response } = require('./onResponse');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
 
-const TestWebSocket = require('../../stubs/testWebSocket');
-
-const testWebsocket = new TestWebSocket();
-testWebsocket.init();
-const spark = testWebsocket.getSpark();
+const { sendToTestWs, getMessage, resetMessage } = require('../../stubs/testWebSocket');
 
 describe('onResponse', () => {
   beforeEach(() => {
     registeredCallbacks.clear();
-    spark.resetMessage();
+    resetMessage();
   });
 
   const myQueryId = 'myQueryId';
@@ -28,13 +24,13 @@ describe('onResponse', () => {
       should.not.exist(err);
       called = true;
     });
-    response(spark, myQueryIdProto, successProto);
-    spark.getMessage().should.deep.equal({});
+    response(sendToTestWs, myQueryIdProto, successProto);
+    getMessage().should.deep.equal({});
     called.should.equal(true);
   });
   it('unknown id', () => {
-    (() => response(spark, myQueryIdProto, successProto)).should.throw(Error);
-    spark.getMessage().should.deep.equal({});
+    (() => response(sendToTestWs, myQueryIdProto, successProto)).should.throw(Error);
+    getMessage().should.deep.equal({});
   });
   it('error status', () => {
     let called = false;
@@ -43,8 +39,8 @@ describe('onResponse', () => {
       err.message.should.equal(reason);
       called = true;
     });
-    response(spark, myQueryIdProto, errorProto, reasonProto);
-    const responseError = spark.getMessage();
+    response(sendToTestWs, myQueryIdProto, errorProto, reasonProto);
+    const responseError = getMessage();
     responseError.should.be.an('object')
       .that.has.properties({
         event: 'responseError',

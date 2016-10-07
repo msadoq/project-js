@@ -5,11 +5,7 @@ const connectedDataModel = require('../../models/connectedData');
 const timebasedDataModel = require('../../models/timebasedData');
 const _ = require('lodash');
 const dataStub = require('../../stubs/data');
-const TestWebSocket = require('../../stubs/testWebSocket');
-
-const testWebsocket = new TestWebSocket();
-testWebsocket.init();
-const spark = testWebsocket.getSpark();
+const { addToTestQueue, getMessage, resetMessage } = require('../../stubs/testWebSocket');
 
 /* onTimebasedArchiveData Test
  *
@@ -24,7 +20,7 @@ describe('onTimebasedArchiveData', () => {
     registeredQueries.clear();
     connectedDataModel.cleanup();
     timebasedDataModel.cleanup();
-    spark.resetMessage();
+    resetMessage();
   });
 
   const queryId = 'queryId';
@@ -46,7 +42,7 @@ describe('onTimebasedArchiveData', () => {
     connectedDataModel.addRequestedInterval(remoteId, queryId, interval);
     // launch test
     sendTimebasedArchiveData(
-      spark,
+      addToTestQueue,
       queryIdProto,
       dataIdProto,
       isLast,
@@ -67,7 +63,7 @@ describe('onTimebasedArchiveData', () => {
         },
       });
     timebasedDataModel.count().should.equal(0);
-    spark.getMessage().should.deep.equal({});
+    getMessage().should.deep.equal({});
   });
 
   it('works', () => {
@@ -77,7 +73,7 @@ describe('onTimebasedArchiveData', () => {
     registeredQueries.set(queryId, remoteId);
     // launch test
     sendTimebasedArchiveData(
-      spark,
+      addToTestQueue,
       queryIdProto,
       dataIdProto,
       isLast,
@@ -111,8 +107,8 @@ describe('onTimebasedArchiveData', () => {
         payload: rp,
       },
     ]);
-    spark.getMessage().should.have.properties({
-      event: 'newData',
+    getMessage().should.have.properties({
+      event: 'timebasedData',
       payload: {
         [remoteId]: [
           {
@@ -134,7 +130,7 @@ describe('onTimebasedArchiveData', () => {
     registeredQueries.set(queryId, remoteId);
     // launch test
     sendTimebasedArchiveData(
-      spark,
+      addToTestQueue,
       queryIdProto,
       dataIdProto,
       isLast,
@@ -168,8 +164,8 @@ describe('onTimebasedArchiveData', () => {
         payload: rp,
       },
     ]);
-    spark.getMessage().should.have.properties({
-      event: 'newData',
+    getMessage().should.have.properties({
+      event: 'timebasedData',
       payload: {
         [remoteId]: [
           {

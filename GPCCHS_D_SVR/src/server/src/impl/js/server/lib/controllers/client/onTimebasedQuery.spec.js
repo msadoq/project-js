@@ -9,11 +9,7 @@ const registeredCallbacks = require('../../utils/registeredCallbacks');
 const _ = require('lodash');
 const dataStub = require('../../stubs/data');
 const constants = require('../../constants');
-const TestWebSocket = require('../../stubs/testWebSocket');
-
-const testWebsocket = new TestWebSocket();
-testWebsocket.init();
-const spark = testWebsocket.getSpark();
+const { addToTestQueue, getMessage, resetMessage } = require('../../stubs/testWebSocket');
 
 let calls = [];
 const zmqEmulator = (key, payload) => {
@@ -40,7 +36,7 @@ describe('onTimebasedQuery', () => {
     connectedDataModel.cleanup();
     timebasedDataModel.cleanup();
     subscriptionsModel.cleanup();
-    spark.resetMessage();
+    resetMessage();
     calls.length = 0;
   });
 
@@ -98,7 +94,7 @@ describe('onTimebasedQuery', () => {
     connectedDataModel.addRequestedInterval(remoteId, 'queryId', interval);
     timebasedDataModel.addRecords(remoteId, payloads);
     // launch test
-    timebasedQuery(spark, query, zmqEmulator);
+    timebasedQuery(addToTestQueue, query, zmqEmulator);
     // check registeredQueries
     _.isEmpty(registeredQueries.getAll()).should.equal(true);
     // check registeredCallbacks
@@ -106,8 +102,8 @@ describe('onTimebasedQuery', () => {
     // check zmq messages
     calls.length.should.equal(0);
     // check ws messages
-    spark.getMessage().should.have.properties({
-      event: 'newData',
+    getMessage().should.have.properties({
+      event: 'timebasedData',
       payload: {
         [remoteId]: [
           {
@@ -148,7 +144,7 @@ describe('onTimebasedQuery', () => {
     subscriptionsModel.addRecord(dataId);
     timebasedDataModel.addRecords(remoteId, payloads);
     // launch test
-    timebasedQuery(spark, query, zmqEmulator);
+    timebasedQuery(addToTestQueue, query, zmqEmulator);
     // check registeredQueries
     const queryIds = _.keys(registeredQueries.getAll());
     queryIds.length.should.equal(1);
@@ -165,7 +161,7 @@ describe('onTimebasedQuery', () => {
     calls[4].should.have.properties(filterProto1);
     calls[5].should.have.properties(filterProto2);
     // check ws messages
-    spark.getMessage().should.have.properties({});
+    getMessage().should.have.properties({});
     // check connectedDataModel
     connectedDataModel.count().should.equal(1);
     const connectedData = connectedDataModel.find();
@@ -195,7 +191,7 @@ describe('onTimebasedQuery', () => {
     connectedDataModel.addRequestedInterval(remoteId, 'myQueryId', [5, 10]);
     timebasedDataModel.addRecord(remoteId, payloads[1].timestamp, payloads[1].payload);
     // launch test
-    timebasedQuery(spark, query, zmqEmulator);
+    timebasedQuery(addToTestQueue, query, zmqEmulator);
     // check registeredQueries
     const queryIds = _.keys(registeredQueries.getAll());
     queryIds.length.should.equal(1);
@@ -212,8 +208,8 @@ describe('onTimebasedQuery', () => {
     calls[4].should.have.properties(filterProto1);
     calls[5].should.have.properties(filterProto2);
     // check ws messages
-    spark.getMessage().should.have.properties({
-      event: 'newData',
+    getMessage().should.have.properties({
+      event: 'timebasedData',
       payload: {
         [remoteId]: [
           {
@@ -250,7 +246,7 @@ describe('onTimebasedQuery', () => {
     // init test
     timebasedDataModel.addRecords(remoteId, payloads);
     // launch test
-    timebasedQuery(spark, query, zmqEmulator);
+    timebasedQuery(addToTestQueue, query, zmqEmulator);
     // check registeredQueries
     const queryIds = _.keys(registeredQueries.getAll());
     queryIds.length.should.equal(1);
@@ -275,7 +271,7 @@ describe('onTimebasedQuery', () => {
     calls[8].should.have.properties(dataIdProto);
     calls[9].should.have.properties(dataStub.getAddActionProtobuf());
     // check ws messages
-    spark.getMessage().should.have.properties({});
+    getMessage().should.have.properties({});
     // check connectedDataModel
     connectedDataModel.count().should.equal(1);
     const connectedData = connectedDataModel.find();

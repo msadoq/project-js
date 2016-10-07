@@ -1,5 +1,5 @@
 const debug = require('../../io/debug')('controllers:onDomainData');
-const { getMainWebsocket } = require('../../io/primus');
+const { sendToMain } = require('../../websocket/sendToMain');
 const { decode } = require('../../protobuf');
 const { setDomains } = require('../../utils/domains');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
@@ -17,7 +17,7 @@ const _ = require('lodash');
  * @param buffer
  */
 
-const domainData = (spark, queryIdBuffer, ...domainsBuffer) => {
+const domainData = (websocketHandler, queryIdBuffer, ...domainsBuffer) => {
   debug.verbose('called');
 
   // deprotobufferize queryId
@@ -36,15 +36,11 @@ const domainData = (spark, queryIdBuffer, ...domainsBuffer) => {
   // store domains
   setDomains(domains);
   // forward to client
-  spark.write({
-    event: 'domainResponse',
-    payload: domains,
-  });
+  websocketHandler('domainResponse', domains);
 };
 
 const onDomainData = (queryIdBuffer, ...domainsBuffer) => {
-  const spark = getMainWebsocket();
-  domainData(spark, queryIdBuffer, ...domainsBuffer);
+  domainData(sendToMain, queryIdBuffer, ...domainsBuffer);
 };
 
 module.exports = {

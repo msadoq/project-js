@@ -4,7 +4,7 @@ const { decode } = require('../../protobuf');
 const timebasedDataModel = require('../../models/timebasedData');
 const connectedDataModel = require('../../models/connectedData');
 const registeredQueries = require('../../utils/registeredQueries');
-const { getMainWebsocket } = require('../../io/primus');
+const { addToMainQueue } = require('../../websocket/sendToMain');
 
 /**
  * Trigger on new incoming message NewDataMessage from DC.
@@ -20,7 +20,7 @@ const { getMainWebsocket } = require('../../io/primus');
  * @param buffer
  */
 const sendTimebasedArchiveData = (
-  spark,
+  websocketHandler,
   queryIdBuffer,
   dataIdBuffer,
   isLastBuffer,
@@ -67,19 +67,17 @@ const sendTimebasedArchiveData = (
   timebasedDataModel.addRecords(remoteId, payloadsToInsert);
 
   // queue a ws newData message (sent periodically)
-  return spark.addToQueue(remoteId, payloadsToInsert);
+  return websocketHandler(remoteId, payloadsToInsert);
 };
 
 module.exports = {
-  onTimebasedArchiveData: (queryIdBuffer, dataIdBuffer, isLastBuffer, ...payloadBuffers) => {
-    const mainWebsocket = getMainWebsocket();
+  onTimebasedArchiveData: (queryIdBuffer, dataIdBuffer, isLastBuffer, ...payloadBuffers) =>
     sendTimebasedArchiveData(
-      mainWebsocket,
+      addToMainQueue,
       queryIdBuffer,
       dataIdBuffer,
       isLastBuffer,
       ...payloadBuffers
-    );
-  },
+    ),
   sendTimebasedArchiveData,
 };

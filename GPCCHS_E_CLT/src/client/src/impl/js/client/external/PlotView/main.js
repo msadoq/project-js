@@ -22,6 +22,9 @@ module.exports = {
       return list;
     }, []);
   },
+  getExpectedInterval: function(lower, current, upper) {
+    return [lower, upper];
+  },
   getUsedValues: function(stateLocalId, field, visuWindow, offset, remoteIdPayload) {
     const lower = visuWindow.lower - offset;
     const upper = visuWindow.upper - offset;

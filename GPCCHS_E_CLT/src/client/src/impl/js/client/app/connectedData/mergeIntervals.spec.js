@@ -1,5 +1,5 @@
 require('../utils/test');
-const { isTimestampInInterval, mergeIntervals } = require('./intervals');
+const { isTimestampInInterval, mergeIntervals } = require('./mergeIntervals');
 
 describe('utils/intervals', () => {
   describe('isTimestampInInterval', () => {

@@ -19,6 +19,9 @@ module.exports = {
       return list;
     }, []);
   },
+  getExpectedInterval: function(lower, current) {
+    return [current - 1e4, current]; // TODO getLast to TBD
+  },
   getUsedValues: function(stateLocalId, field, visuWindow, offset, remoteIdPayload) {
     const current = visuWindow.current - offset;
 

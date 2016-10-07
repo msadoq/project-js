@@ -41,7 +41,7 @@ export async function start() {
 
       // subscribe spectators and actors observers
       storeUnsubscribe.push(storeSpectator(getStore(), lifecycleObserver));
-      // storeUnsubscribe.push(storeActor(getStore(), dataObserver));
+      storeUnsubscribe.push(storeActor(getStore(), dataObserver));
       storeUnsubscribe.push(storeSpectator(getStore(), windowsObserver));
 
       // open websocket connection

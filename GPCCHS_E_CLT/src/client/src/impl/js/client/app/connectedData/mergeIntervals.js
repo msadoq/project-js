@@ -1,18 +1,6 @@
 const _ = require('lodash');
 
-const isTimestampInInterval = (timestamp, interval) =>
-  (timestamp >= interval[0] && timestamp <= interval[1]);
-
-const isTimestampInIntervals = (timestamp, intervals) =>
-  _.some(intervals, interval => {
-      if (isTimestampInInterval(timestamp, interval)) {
-        return true;
-      }
-      return false;
-    }
-  );
-
-const mergeIntervals = (knownIntervals, interval) => {
+export default function mergeIntervals(knownIntervals, interval) {
   // No known intervals
   if (knownIntervals.length === 0) {
     return [interval];
@@ -114,10 +102,4 @@ const mergeIntervals = (knownIntervals, interval) => {
     [interval[0], knownIntervals[upper][1]],
     ..._.slice(knownIntervals, upper + 1),
   ];
-};
-
-module.exports = {
-  isTimestampInInterval,
-  isTimestampInIntervals,
-  mergeIntervals,
 };

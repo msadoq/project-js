@@ -1,15 +1,7 @@
 const _ = require('lodash');
 import { createSelector } from 'reselect';
+
 import external from '../../external.main';
-
-import { getWebsocket } from '../websocket/mainWebsocket';
-
-import { addRequest } from '../store/actions/dataRequests';
-import { getStore } from '../store/mainStore';
-
-import missingIntervals from '../connectedData/missingIntervals';
-import { mergeIntervals } from '../connectedData/intervals';
-
 import formulaParser from './formula';
 import remoteIdGenerator from './remoteId';
 import localIdGenerator from './localId';
@@ -106,23 +98,6 @@ const getVisibleRemoteIds = createSelector(
     // TODO memoize formula parsing (formula)
     // TODO memoize domains search (redux domains, search)
     // TODO memoize sessions search (redux timebarTimelines, redux timelines, search)
-    // _.each(cds, ({ type, timebarId, connectedData }) => {
-    // //   console.log(
-    // //     cd, timebarId,
-    // //     // cd.formula,
-    // //     // cd.filter,
-    // //     // cd.domain,
-    // //     // cd.timeline,
-    // //     // type,
-    // //     //formula.field,
-    // //     // timeline.offset
-    // //     '=='
-    // //   );
-    // //   // remoteIds
-    // //   // cd.formula, cd.filter, cd.domain, cd.timeline
-    // //   // localId
-    // //   // viewData.type, formula.field, timeline.offset
-    // });
     return decorate(domains, timebars, timelines, cds);
   }
 );
@@ -184,10 +159,26 @@ function decorate(domains, timebars, timelines, cds) {
             return;
           }
 
+          // current visuWindow
+          const visuWindow = _.get(timebars, [timebarId, 'visuWindow']);
+          if (!visuWindow) {
+            throw new Error('Unexpected store state');
+          }
+          const selector = _.get(external, [type, 'getExpectedInterval']);
+          if (!_.isFunction(selector)) {
+            throw new Error('Unexpected external view type', type);
+          }
+
           sublist[remoteId].localIds[localId] = {
             viewType: type,
             field: p.field,
+            timebarId,
             offset,
+            expectedInterval: selector(
+              visuWindow.lower + offset,
+              visuWindow.current + offset,
+              visuWindow.upper + offset
+            ),
           };
         });
       });
@@ -198,60 +189,27 @@ function decorate(domains, timebars, timelines, cds) {
 }
 
 /**
- * A pure function that establish things to do with Redux data and HSS:
- * - Compare previous and next states to find focused pages/views and establish new remoteId and
- *   localId list
- * - Compare visuWindow
+ * Return the current client dataMap
+ *
+ * {
+ *   'remoteId': {
+ *     dataId: {},
+ *     filter: {},
+ *     localIds: {
+ *       'localId': {
+ *          viewType: string,
+ *          field: string,
+ *          timebarId: string,
+ *          offset: number,
+ *          expectedInterval: [number, number],
+ *        }
+ *     }
+ *   }
+ * }
  *
  * @param state
+ * @return object
  */
-module.exports = function syncData(previousState, state, dispatch, websocket) {
-  const dataMap = getVisibleRemoteIds(state);
-
-  const queries = missingData(dataMap, null, { lower: 100, upper: 100 });
-  // console.log('dataQuery', queries);
-  websocket.write({ event: 'dataQuery', payload: queries });
-
-  // dispatch(addRequest(remoteId, localId, dataId, filter));
-
-  // => compare with state.viewsQuery{remoteId{localIds{intervals}}}
-  // => compare with state.viewsData{remoteId{localIds{intervals}}}
-  // TODO which data have been already requested/set in redux? => reselect selector
-  // TODO establish missing interval for each remoteId => compute
-  // TODO send to ws
-
-  // TODO transform observable method in actor wrapper:
-  //     http://jamesknelson.com/join-the-dark-side-of-the-flux-responding-to-actions-with-actors/
-  // return dataMap;
+export default function dataMap(state) {
+  return getVisibleRemoteIds(state);
 };
-
-function missingData(remoteIds, prevInterval, nextInterval) {
-  const queries = {};
-  _.each(remoteIds, ({ dataId, filter, localIds }, remoteId) => {
-    _.each(localIds, ({ viewType, field, offset }, localId) => {
-      // console.log('dataId', filter, remoteId, localId, viewType, field, offset);
-      const missing = missingIntervals(
-        prevInterval ? [prevInterval.lower + offset, prevInterval.upper + offset] : [],
-        [nextInterval.lower + offset, nextInterval.upper + offset]
-      );
-
-      if (!missing.length) {
-        return [];
-      }
-
-      if (!queries[remoteId]) {
-        queries[remoteId] = {
-          dataId,
-          filter,
-          intervals: [],
-        };
-      }
-
-      _.each(missing, (m) => {
-        queries[remoteId].intervals = mergeIntervals(queries[remoteId].intervals, m);
-      });
-    });
-  });
-
-  return queries;
-}

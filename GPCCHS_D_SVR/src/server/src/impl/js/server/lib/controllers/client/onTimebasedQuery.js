@@ -11,6 +11,18 @@ const _ = require('lodash');
 const { getMainWebsocket } = require('../../io/primus');
 const constants = require('../../constants');
 
+// TODO factorize
+const operators = {
+  '=': 0,
+  '!=': 1,
+  '<': 2,
+  '<=': 3,
+  '>': 4,
+  '>=': 5,
+  contains: 6,
+  icontains: 7,
+};
+
 /**
  * Triggered when the data consumer query for timebased data
  *
@@ -83,7 +95,11 @@ const timebasedQuery = (spark, payload, messageHandler) => {
       ];
       // protobufferize filters if any
       _.each(query.filter, (filter) => {
-        queryArgs.push(encode('dc.dataControllerUtils.Filter', filter));
+        queryArgs.push(encode('dc.dataControllerUtils.Filter', {
+          field: filter.field,
+          operator: operators[filter.fields],
+          operand: filter.operand,
+        }));
       });
       // queue the message
       messageQueue.push(queryArgs);

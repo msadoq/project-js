@@ -33,25 +33,6 @@ class View extends Component {
     this.onCloseEditor = this.onCloseEditor.bind(this);
     this.onStopGridLayoutPropagation = this.onStopGridLayoutPropagation.bind(this);
   }
-  componentDidMount() {
-    getWebsocket().write({
-      event: 'viewOpen',
-      payload: {
-        type: this.props.type,
-        viewId: this.props.viewId,
-        connectedData: this.props.decoratedData,
-      },
-    });
-  }
-  componentWillUnmount() {
-    getWebsocket().write({
-      event: 'viewClose',
-      payload: {
-        type: this.props.type,
-        viewId: this.props.viewId,
-      },
-    });
-  }
   onOpenEditor(e) {
     e.stopPropagation();
     e.preventDefault();

@@ -25,22 +25,3 @@ export default function hss(stateHss = {}, action) {
       return stateHss;
   }
 }
-
-/**
- * Selectors
- */
-export function getStatus(state, identity) {
-  if (!identity) {
-    return undefined;
-  }
-
-  const ws = _.get(state, `hss.${identity}`);
-  if (!ws) {
-    return undefined;
-  }
-
-  return {
-    status: ws.status,
-    error: ws.error,
-  };
-}

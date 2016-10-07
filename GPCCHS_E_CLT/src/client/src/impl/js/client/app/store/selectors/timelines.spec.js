@@ -1,0 +1,17 @@
+/* eslint no-unused-expressions: 0 */
+import { should, getStore } from '../../utils/test';
+import getTimeline from './timelines';
+
+describe('store:timeline', () => {
+  describe('selectors', () => {
+    it('getTimeline', () => {
+      const { getState } = getStore({
+        timelines: {
+          myTimelineId: { id: 'Id' },
+        },
+      });
+      getTimeline(getState(), 'myTimelineId').should.have.property('id', 'Id');
+      should.not.exist(getTimeline(getState(), 'unknownId'));
+    });
+  });
+});

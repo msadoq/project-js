@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getView } from '../../store/mutations/viewReducer';
-import { getTimebar } from '../../store/mutations/timebarReducer';
-import View from './View';
-
 import SizeMe from 'react-sizeme';
+
+import { getView } from '../../store/selectors/views';
+import { getTimebar } from '../../store/selectors/timebars';
+import View from './View';
 
 import remoteId from '../../connectedData/remoteId';
 import external from '../../../external.main';

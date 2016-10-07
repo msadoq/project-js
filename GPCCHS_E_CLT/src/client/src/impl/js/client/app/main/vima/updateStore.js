@@ -2,7 +2,7 @@ import _ from 'lodash';
 import u from 'updeep';
 import compareTimebars from '../../timebar/tbUpdate';
 import { getStore } from '../../store/mainStore';
-import { getTimebar, getTimelines } from '../../store/mutations/timebarReducer';
+import { getTimebar, getTimelines } from '../store/selectors/timebars';
 
 import {
   updateId,
@@ -13,7 +13,7 @@ import {
   addAndMountTimeline,
   unmountAndRemoveTimeline,
   updateTimeline,
-} from '../../store/mutations/timebarActions';
+} from '../store/actions/timebars';
 
 export default function updateFromVimaTimebar(state, dispatch, data) {
   const timebarId = data.uuid;

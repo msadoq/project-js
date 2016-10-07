@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { Button } from 'react-bootstrap';
-import { updateVisuWindow } from '../../store/mutations/timebarActions';
+import { updateVisuWindow } from '../../store/actions/timebars';
 
 export default class Timebar extends Component {
   static propTypes = {};

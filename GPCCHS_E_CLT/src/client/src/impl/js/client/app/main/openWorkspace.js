@@ -2,12 +2,12 @@ import _ from 'lodash';
 
 import debug from '../utils/mainDebug';
 import readWorkspace from '../documents/workspace';
-import { add as addTimeline } from '../store/mutations/timelineActions';
-import { add as addTimebar } from '../store/mutations/timebarActions';
-import { add as addConnectedData } from '../store/mutations/connectedDataActions';
-import { add as addView } from '../store/mutations/viewActions';
-import { add as addPage } from '../store/mutations/pageActions';
-import { add as addWindow } from '../store/mutations/windowActions';
+import { getStore } from '../store/mainStore';
+import { add as addTimeline } from '../store/actions/timelines';
+import { add as addTimebar } from '../store/actions/timebars';
+import { add as addView } from '../store/actions/views';
+import { add as addPage } from '../store/actions/pages';
+import { add as addWindow } from '../store/actions/windows';
 
 const logger = debug('main:loadWorkspace');
 
@@ -19,13 +19,13 @@ function loadInStore(workspace, dispatch) {
   _.each(workspace.timebars, e => dispatch(addTimebar(e.uuid, e)));
 
   // add connectedData
-  _.each(workspace.connectedData, e => dispatch(addConnectedData(
-    e.uuid,
-    e.formula,
-    e.domain,
-    e.timeline,
-    e.filter
-  )));
+  // _.each(workspace.connectedData, e => dispatch(addConnectedData(
+  //   e.uuid,
+  //   e.formula,
+  //   e.domain,
+  //   e.timeline,
+  //   e.filter
+  // )));
 
   // add views
   _.each(workspace.views, e => dispatch(addView(e.uuid, e.type, e.configuration)));

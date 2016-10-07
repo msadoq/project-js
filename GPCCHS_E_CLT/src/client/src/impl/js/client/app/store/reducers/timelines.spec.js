@@ -1,9 +1,7 @@
 /* eslint no-unused-expressions: 0 */
-import { should, getStore } from '../../utils/test';
-import * as actions from './timelineActions';
-import reducer, {
-  getTimeline,
-} from './timelineReducer';
+import { should } from '../../utils/test';
+import * as actions from '../actions/timelines';
+import reducer from './timelines';
 
 describe('store:timeline', () => {
   describe('actions & reducer', () => {
@@ -56,17 +54,6 @@ describe('store:timeline', () => {
         );
         state.should.have.property('myTimelineId');
       });
-    });
-  });
-  describe('selectors', () => {
-    it('getTimeline', () => {
-      const { getState } = getStore({
-        timelines: {
-          myTimelineId: { id: 'Id' },
-        },
-      });
-      getTimeline(getState(), 'myTimelineId').should.have.property('id', 'Id');
-      should.not.exist(getTimeline(getState(), 'unknownId'));
     });
   });
 });

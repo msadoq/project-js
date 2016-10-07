@@ -4,7 +4,7 @@ import remoteIdGenerator from './remoteId';
 import localIdGenerator from './localId';
 import domainsFilter from './domains';
 import timelinesFilter from './sessions';
-import { getTimelines } from '../store/mutations/timebarReducer';
+import { getTimelines } from '../store/selectors/timebars';
 
 /**
  * Loop on connectedData and apply real domainId and sessionId (with wildcard handling) and return

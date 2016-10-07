@@ -1,7 +1,7 @@
 import debug from '../utils/windowDebug';
 import { getStore } from '../store/windowStore';
 import controller from './windowController';
-import { updateStatus } from '../store/mutations/hssActions';
+import { updateStatus } from '../store/actions/hss';
 import parameters from '../main/parameters';
 import { Primus } from '../../external.main';
 
@@ -14,7 +14,7 @@ export function connect(windowId) {
     logger.info('trying open connection to', global.env.HSS);
     try {
       instance = new Primus(global.env.HSS);
-    } catch(e) {
+    } catch (e) {
       return logger.error(e);
     }
 
@@ -32,11 +32,11 @@ export function connect(windowId) {
       logger.info('closed!');
       getStore().dispatch(updateStatus(windowId, 'disconnected'));
     });
-    instance.on('error', err => {
+    instance.on('error', (err) => {
       logger.error('error', err.stack);
       getStore().dispatch(updateStatus(windowId, 'error', err.message));
     });
-    instance.on('data', data => {
+    instance.on('data', (data) => {
       if (!data || !data.event) {
         return logger.error('Invalid event received', data);
       }

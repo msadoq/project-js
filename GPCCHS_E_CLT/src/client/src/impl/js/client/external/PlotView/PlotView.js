@@ -1,6 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import SizeMe from 'react-sizeme';
+import _ from 'lodash';
 
+function cData(connectedData) {
+  const data = [];
+  _.each(connectedData, (cd) => {
+    data.push('{' + cd.formula + '}');
+  });
+  return data;
+}
 
 class PlotView extends Component {
   static propTypes = {
@@ -20,10 +28,9 @@ class PlotView extends Component {
   render() {
     return (
       <div>
-        {this.props.type}
         {JSON.stringify(this.props.size)}
         <br />
-        {JSON.stringify(this.props.connectedData)}
+        {}
       </div>
     );
   }

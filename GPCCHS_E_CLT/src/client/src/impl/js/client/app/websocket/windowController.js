@@ -1,6 +1,6 @@
 import debug from '../utils/windowDebug';
 import { getStore } from '../store/windowStore';
-import { updateStatus } from '../store/mutations/hssActions';
+import { updateStatus } from '../store/actions/hss';
 
 const logger = debug('window:controller');
 

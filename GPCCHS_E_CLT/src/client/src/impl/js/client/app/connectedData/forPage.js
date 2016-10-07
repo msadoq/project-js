@@ -1,7 +1,5 @@
 import _ from 'lodash';
-import { getPage } from '../store/mutations/pageReducer';
-import { getViews } from '../store/mutations/pageReducer';
-import { getConnectedData } from '../store/mutations/viewReducer';
+import { getPage, getViews } from '../store/selectors/pages';
 
 import decorate from './decoratePage';
 

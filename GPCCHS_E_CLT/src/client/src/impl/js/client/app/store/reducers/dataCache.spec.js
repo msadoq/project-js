@@ -71,8 +71,8 @@ describe('store:reducers:dataCache', () => {
     retValue.rId1.should.be.an('object').with.keys('lId1', 'lId2', 'lId10');
     retValue.rId1.lId10.should.have.properties(state.rId1.lId10);
     retValue.rId1.lId1.should.be.an('object').with.keys('data', 'index');
-    retValue.rId1.lId1.index.should.be.an('array').with.length(6)
-    .that.have.properties(['0.3', '0.5', '2', '3', '4', '8']);
+    retValue.rId1.lId1.index.should.be.an('array').with.length(3)
+    .that.have.properties(['2', '3', '4']);
     retValue.rId1.lId2.should.be.an('object').with.keys('data', 'index');
     retValue.rId1.lId2.index.should.be.an('array').with.length(1)
     .that.have.properties(['3']);

@@ -1,13 +1,13 @@
 import { v4 } from 'node-uuid';
 import { getStore } from '../store/mainStore';
-import { add, addAndMount as addAndMountPage } from '../store/mutations/windowActions';
-import { addAndMount as addAndMountView } from '../store/mutations/pageActions';
+import { add, addAndMount as addAndMountPage } from '../store/actions/windows';
+import { addAndMount as addAndMountView } from '../store/actions/pages';
 
 const { dialog } = require('electron');
 
 const { Menu } = require('electron');
 
-//TODO: instead of the native menu Electron, add actionsMenu on RendererProcess to enhance a customized menubar
+// TODO: instead of the native menu Electron, add actionsMenu on RendererProcess to enhance a customized menubar
 
 
 const template = [{

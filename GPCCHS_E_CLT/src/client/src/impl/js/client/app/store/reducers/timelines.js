@@ -40,10 +40,3 @@ function timeline(stateTimeline = initialState, action) {
       return stateTimeline;
   }
 }
-
-/**
- * Selectors
- */
-export function getTimeline(state, timelineId) {
-  return _.get(state, `timelines.${timelineId}`);
-}

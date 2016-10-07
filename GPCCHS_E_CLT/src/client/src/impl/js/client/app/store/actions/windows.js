@@ -1,7 +1,7 @@
 import { v4 } from 'node-uuid';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
-import { add as addPage, remove as removePage } from './pageActions';
+import { add as addPage, remove as removePage } from './pages';
 
 /**
  * Simple actions

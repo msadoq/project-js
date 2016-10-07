@@ -27,15 +27,16 @@ Only list expected tasks for PBF shipping of end of october.
 
 * [ ] Cache invalidation /!\
 * [alex] A complete workspace with 2 windows, 3 pages, 16 plots lines, 300 text params
+* DataManager
+  - [ ] sync (actor) method that compute dataMap and missing interval and request data
+  - [ ] outcoming queries reducer and actions
+  - [ ] incoming data reducer and actions
+  - [ ] ViewDataContainer
 * Implement <PlotView/>
   - [ ] Prototype and implement a chart library
   - [ ] Test live sampling https://www.npmjs.com/package/simplify-path
 * Implement <TextView/>
   - [ ] HTML to React with https://github.com/wrakky/react-html-parser
-* DataManager
-  - [ ] sync (actor) method that compute dataMap and missing interval and request data
-  - [ ] outcoming queries reducer and actions
-  - [ ] incoming data reducer and actions
 * [ ] Tree refactoring (Damien)
   - impl/js/client|common|server
   - app=>lib

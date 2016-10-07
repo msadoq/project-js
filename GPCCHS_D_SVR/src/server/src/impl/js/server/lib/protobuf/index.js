@@ -76,19 +76,16 @@ const removeEmpty = collection => {
 register({
   dc: {
     dataControllerUtils: {
+      Action: require('./converters/dc/action'),
+      Boolean: require('./converters/dc/boolean'),
       DataId: require('./converters/dc/dataId'),
-      DataPayload: require('./converters/dc/dataPayload'),
-      DataQuery: require('./converters/dc/dataQuery'),
-      DataSubscribe: require('./converters/dc/dataSubscribe'),
-      DcClientMessage: require('./converters/dc/dcClientMessage'),
-      DcResponse: require('./converters/dc/dcResponse'),
-      DcServerMessage: require('./converters/dc/dcServerMessage'),
       Domain: require('./converters/dc/domain'),
-      DomainQuery: require('./converters/dc/domainQuery'),
-      DomainResponse: require('./converters/dc/domainResponse'),
-      NewDataMessage: require('./converters/dc/newDataMessage'),
-      Timestamp: require('./converters/dc/timestamp'),
+      Filter: require('./converters/dc/filter'),
+      Header: require('./converters/dc/header'),
+      Status: require('./converters/dc/status'),
+      String: require('./converters/dc/string'),
       TimeInterval: require('./converters/dc/timeInterval'),
+      Timestamp: require('./converters/dc/timestamp'),
     },
   },
   lpisis: {

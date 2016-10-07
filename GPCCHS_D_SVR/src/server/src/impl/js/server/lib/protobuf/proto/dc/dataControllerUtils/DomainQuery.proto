@@ -1,6 +1,0 @@
-package dataControllerUtils.protobuf;
-
-message DomainQuery {
-extensions 14 to 107;
-  optional string id = 1;
-}

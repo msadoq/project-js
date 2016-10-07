@@ -26,7 +26,6 @@ const { onTimebasedQuery } = require('./lib/controllers/client/onTimebasedQuery'
 const cp = require('child_process');
 const errorHandler = require('./lib/utils/errorHandler');
 
-const dcStub = require('./lib/stubs/dc');
 const tbStub = require('./lib/stubs/tb');
 
 const perfTool = require('./lib/utils/performanceTool');
@@ -108,7 +107,7 @@ zmq.open({
   dcPull: {
     type: 'pull',
     url: process.env.ZMQ_GPCCDC_PULL,
-    handler: (header, buffer) => errorHandler('onMessage', () => onMessage(header, buffer)),
+    handler: (trash, header, ...args) => errorHandler('onMessage', () => onMessage(header, ...args)),
   },
   dcPush: {
     type: 'push',

@@ -1,26 +1,33 @@
 require('../../utils/test');
 const { decode } = require('../../protobuf');
 const { domainQuery } = require('./onDomainQuery');
-const { testPayloads, testHandler } = require('../../utils/test');
+const registeredCallbacks = require('../../utils/registeredCallbacks');
+const constants = require('../../constants');
+const _ = require('lodash');
+
+let calls = [];
+const zmqEmulator = (key, payload) => {
+  key.should.be.a('string')
+    .that.equal('dcPush');
+  calls = _.concat(calls, payload);
+};
 
 describe('onDomainQuery', () => {
   beforeEach(() => {
-    testPayloads.length = 0;
+    calls.length = 0;
   });
   it('domainQuery', () => {
-    domainQuery({ id: 'test' }, {}, testHandler);
-
-    testPayloads.should.be.an('array')
+    // launch test
+    domainQuery(zmqEmulator);
+    // check data
+    const cbs = _.keys(registeredCallbacks.getAll());
+    cbs.length.should.equal(1);
+    const queryId = cbs[0];
+    calls.should.be.an('array')
       .that.has.lengthOf(2);
-    testPayloads[0].should.be.an('string').that.equal('dcPush');
-    testPayloads[1].constructor.should.equal(Buffer);
-    const message = decode('dc.dataControllerUtils.DcClientMessage', testPayloads[1]);
-    message.should.be.an('object')
-      .that.have.property('messageType')
-      .that.equal(3); // DOMAIN QUERY
-    message.should.have.an.property('payload');
-    const query = decode('dc.dataControllerUtils.DomainQuery', message.payload);
-    query.should.be.an('object')
-      .that.have.an.property('id');
+    calls[0].constructor.should.equal(Buffer);
+    decode('dc.dataControllerUtils.Header', calls[0]).messageType.should.equal(constants.MESSAGETYPE_DOMAIN_QUERY);
+    calls[1].constructor.should.equal(Buffer);
+    decode('dc.dataControllerUtils.String', calls[1]).string.should.equal(queryId);
   });
 });

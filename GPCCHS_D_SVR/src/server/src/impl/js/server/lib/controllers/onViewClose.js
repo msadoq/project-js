@@ -1,5 +1,4 @@
 const debug = require('../io/debug')('controllers:onViewClose');
-const viewsModel = require('../models/views');
 
 /**
  * Triggered when a new view is unmounted from HSC.
@@ -16,7 +15,7 @@ module.exports = (spark, payload) => {
 
   // TODO retrieve instance
 
-  viewsModel.delRecord(payload.viewId);
+  // viewsModel.delRecord(payload.viewId);
 
   // TODO call .onDestroy
   // TODO trigger GC (freeup pointer)

@@ -1,0 +1,6 @@
+package dataControllerUtils.protobuf;
+
+message Boolean {
+extensions 2 to 102;
+    required bool boolean = 1;
+}

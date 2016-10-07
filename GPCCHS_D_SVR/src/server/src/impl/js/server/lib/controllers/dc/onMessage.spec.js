@@ -1,85 +1,109 @@
-// const debug = require('../io/debug')('controllers:onMessage.spec');
-const _ = require('lodash');
 const { testPayloads, testHandler } = require('../../utils/test');
-const { callDcServerMessageControllers } = require('./onMessage');
+const { message } = require('./onMessage');
 const dataStub = require('../../stubs/data');
 
 describe('onMessage', () => {
   beforeEach(() => {
     testPayloads.length = 0;
   });
-  it('unknown messageType', () => {
-    const protobuf = require('../../protobuf/index');
-
-    const wrongMessage = protobuf.encode(
-      'dc.dataControllerUtils.DcServerMessage',
-      {
-        messageType: 0, // 'UNKNOWN'
-        payload: dataStub.getNewDataMessageProtobuf(),
-      }
+  it('Response', () => {
+    const header = dataStub.getResponseHeaderProtobuf();
+    const queryId = dataStub.getStringProtobuf();
+    const status = dataStub.getSuccessStatusProtobuf();
+    message(
+      testHandler,
+      undefined,
+      undefined,
+      undefined,
+      header,
+      queryId,
+      status
     );
-    try {
-      callDcServerMessageControllers(
-        wrongMessage,
-        testHandler,
-        testHandler,
-        testHandler,
-        testHandler
-      );
-    } catch (e) {
-      e.should.be.an('error');
-    }
+    testPayloads.should.have.lengthOf(3);
+    testPayloads.should.have.properties([
+      queryId,
+      status,
+    ]);
   });
-  it('DC Response', () => {
-    const dcResponse = dataStub.getDcResponse();
-    const dcResponseProto = dataStub.getDcResponseProtobuf(dcResponse);
-    const dcResponseMessage = dataStub.getWrappedDcResponseProtobuf(dcResponse);
-    callDcServerMessageControllers(
-      dcResponseMessage,
-      testHandler,
-      testHandler,
-      testHandler,
-      testHandler
-    );
-    testPayloads.should.be.an('array').and.have.lengthOf(1);
-    _.isEqual(testPayloads[0], dcResponseProto).should.equal(true);
-  });
-  it('Archive Message', () => {
-    const archive = dataStub.getNewDataMessage({ dataSource: 2 }); // 'ARCHIVE'
-    const archiveMessage = dataStub.getWrappedNewDataMessageProtobuf(archive);
-    callDcServerMessageControllers(
-      archiveMessage,
+  it('Archive Data', () => {
+    const header = dataStub.getTimebasedArchiveDataHeaderProtobuf();
+    const queryId = dataStub.getStringProtobuf();
+    const dataId = dataStub.getDataIdProtobuf();
+    const isLast = dataStub.getBooleanProtobuf();
+    const timestamp = dataStub.getTimestampProtobuf();
+    const payload = dataStub.getReportingParameterProtobuf();
+    message(
       undefined,
       undefined,
       testHandler,
-      undefined
+      undefined,
+      header,
+      queryId,
+      dataId,
+      isLast,
+      timestamp,
+      payload,
+      timestamp,
+      payload
     );
-    testPayloads.should.be.an('array').and.have.lengthOf(4);
-    testPayloads[0].should.have.properties(archive.dataId);
-    testPayloads[1].should.equal(archive.id);
-    testPayloads[2].should.have.properties(archive.payloads);
-    testPayloads[3].should.have.properties(archive.isEndOfQuery);
+    testPayloads.should.have.lengthOf(7);
+    testPayloads.should.have.properties([
+      queryId,
+      dataId,
+      isLast,
+      timestamp,
+      payload,
+      timestamp,
+      payload,
+    ]);
   });
-  it('RealTime Message', () => {
-    const realtime = dataStub.getNewDataMessage({ dataSource: 1 }); // 'REAL_TIME'
-    const realtimeMessage = dataStub.getWrappedNewDataMessageProtobuf(realtime);
-    callDcServerMessageControllers(
-      realtimeMessage,
+  it('PubSub Data', () => {
+    const header = dataStub.getTimebasedPubSubDataHeaderProtobuf();
+    const dataId = dataStub.getDataIdProtobuf();
+    const timestamp = dataStub.getTimestampProtobuf();
+    const payload = dataStub.getReportingParameterProtobuf();
+    message(
       undefined,
       undefined,
       undefined,
-      testHandler
+      testHandler,
+      header,
+      dataId,
+      timestamp,
+      payload,
+      timestamp,
+      payload
     );
-    testPayloads.should.be.an('array').and.have.lengthOf(2);
-    testPayloads[0].should.have.properties(realtime.dataId);
-    testPayloads[1].should.have.properties(realtime.payloads);
+    testPayloads.should.have.lengthOf(5);
+    testPayloads.should.have.properties([
+      dataId,
+      timestamp,
+      payload,
+      timestamp,
+      payload,
+    ]);
   });
-  it('Domain Response', () => {
-    const domainResponse = dataStub.getDomainResponse();
-    const domainResponseProto = dataStub.getDomainResponseProtobuf(domainResponse);
-    const domainResponseMessage = dataStub.getWrappedDomainResponseProtobuf(domainResponse);
-    callDcServerMessageControllers(domainResponseMessage, testHandler, testHandler, testHandler);
-    testPayloads.should.be.an('array').and.have.lengthOf(1);
-    _.isEqual(testPayloads[0], domainResponseProto).should.equal(true);
+  it('Domain Data', () => {
+    const header = dataStub.getDomainDataHeaderProtobuf();
+    const queryId = dataStub.getDataIdProtobuf();
+    const domain = dataStub.getDomainProtobuf();
+    message(
+      undefined,
+      testHandler,
+      undefined,
+      undefined,
+      header,
+      queryId,
+      domain,
+      domain,
+      domain
+    );
+    testPayloads.should.have.lengthOf(4);
+    testPayloads.should.have.properties([
+      queryId,
+      domain,
+      domain,
+      domain,
+    ]);
   });
 });

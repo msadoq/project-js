@@ -26,7 +26,7 @@ const startSubscription = (payload, messageHandler) => {
   const message = createAddSubscriptionMessage(payload.dataId);
 
   debug.debug('sending subscription to DC');
-  return messageHandler('dcPush', message.buffer);
+  return messageHandler('dcPush', message.args);
 };
 
 module.exports = {

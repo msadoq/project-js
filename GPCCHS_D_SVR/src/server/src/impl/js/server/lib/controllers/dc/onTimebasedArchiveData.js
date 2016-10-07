@@ -19,8 +19,17 @@ const { getMainWebsocket } = require('../../io/primus');
  *
  * @param buffer
  */
-const sendTimebasedArchiveData = (spark, dataId, queryId, payloads, isEndOfQuery) => {
+const sendTimebasedArchiveData = (
+  spark,
+  queryIdBuffer,
+  dataIdBuffer,
+  isLastBuffer,
+  ...payloadBuffers
+) => {
   debug.verbose('called');
+
+  // deprotobufferize queryId
+  const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
 
   // if queryId not in registeredQuerues, stop logic
   const remoteId = registeredQueries.get(queryId);
@@ -29,21 +38,30 @@ const sendTimebasedArchiveData = (spark, dataId, queryId, payloads, isEndOfQuery
   }
   debug.debug('received data from query', queryId);
 
+  // deprotobufferize isLast
+  const isLast = decode('dc.dataControllerUtils.Boolean', isLastBuffer).boolean;
+
   // if last chunk of data, set interval as received in connectedData model and unregister queryId
-  if (isEndOfQuery) {
+  if (isLast) {
     debug.debug('last chunk of queried timebased data', queryId);
     connectedDataModel.setIntervalAsReceived(remoteId, queryId);
     registeredQueries.remove(queryId);
   }
 
+  // deprotobufferize dataId
+  const dataId = decode('dc.dataControllerUtils.DataId', dataIdBuffer);
+
   // loop over arguments peers (timestamp, payload) and deprotobufferize
-  const payloadsToInsert = _.map(payloads, payload => (
+  if (payloadBuffers.length % 2 !== 0) {
+    return undefined;
+  }
+  const payloadsToInsert = _.map(_.chunk(payloadBuffers, 2), payloadBuffer => (
     {
-      timestamp: payload.timestamp.ms,
-      payload: decode(`lpisis.decommutedParameter.${dataId.comObject}`, payload.payload),
+      timestamp: decode('dc.dataControllerUtils.Timestamp', payloadBuffer[0]).ms,
+      payload: decode(`lpisis.decommutedParameter.${dataId.comObject}`, payloadBuffer[1]),
     }
   ));
-  debug.debug(`inserting ${payloadsToInsert.length} data`);
+  debug.error(`inserting ${payloadsToInsert.length} data`);
 
   // store decoded payloads in timebasedData model
   timebasedDataModel.addRecords(remoteId, payloadsToInsert);
@@ -53,9 +71,15 @@ const sendTimebasedArchiveData = (spark, dataId, queryId, payloads, isEndOfQuery
 };
 
 module.exports = {
-  onTimebasedArchiveData: (dataId, queryId, payloads, isEndOfQuery) => {
+  onTimebasedArchiveData: (queryIdBuffer, dataIdBuffer, isLastBuffer, ...payloadBuffers) => {
     const mainWebsocket = getMainWebsocket();
-    sendTimebasedArchiveData(mainWebsocket, dataId, queryId, payloads, isEndOfQuery);
+    sendTimebasedArchiveData(
+      mainWebsocket,
+      queryIdBuffer,
+      dataIdBuffer,
+      isLastBuffer,
+      ...payloadBuffers
+    );
   },
   sendTimebasedArchiveData,
 };

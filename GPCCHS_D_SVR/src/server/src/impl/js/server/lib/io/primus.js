@@ -109,7 +109,7 @@ const primusExports = module.exports = {
             break;
           }
           case 'domainQuery': {
-            errorHandler('onDomainQuery', () => handlers.onDomainQuery(spark, message.payload));
+            errorHandler('onDomainQuery', () => handlers.onDomainQuery());
             break;
           }
           case 'dataQuery': {

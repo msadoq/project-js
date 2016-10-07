@@ -13,6 +13,11 @@ function applyOverride(payload, override) {
 
 const stubs = module.exports = {};
 
+/*
+ * LPISIS
+ */
+
+// ReportinParameter
 stubs.getReportingParameter = override => applyOverride({
   onboardDate: now,
   groundDate: now + 20,
@@ -32,18 +37,38 @@ stubs.getReportingParameterProtobuf = override => protobuf.encode(
   stubs.getReportingParameter(override)
 );
 
-stubs.getDataFilter = override => applyOverride({
-  lhs: 'extractedValue',
-  comp: 'OP_GT',
-  rhs: '42',
-}, override);
+/*
+ * DC COMICS
+ */
 
-stubs.getDataFilterProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.DataFilter',
-  stubs.getDataFilter(override)
+// Action
+stubs.getAddAction = () => ({
+  action: 0, // ADD
+});
+stubs.getDeleteAction = () => ({
+  action: 1, // DELETE
+});
+
+stubs.getAddActionProtobuf = () => protobuf.encode(
+  'dc.dataControllerUtils.Action',
+  stubs.getAddAction()
+);
+stubs.getDeleteActionProtobuf = () => protobuf.encode(
+  'dc.dataControllerUtils.Action',
+  stubs.getDeleteAction()
 );
 
+// Boolean
+stubs.getBoolean = (boolean = false) => ({
+  boolean,
+});
 
+stubs.getBooleanProtobuf = boolean => protobuf.encode(
+  'dc.dataControllerUtils.Boolean',
+  stubs.getBoolean(boolean)
+);
+
+// DataId
 stubs.getDataId = override => applyOverride({
   parameterName: 'ATT_BC_STR1STRRFQ1',
   catalog: 'Reporting',
@@ -52,12 +77,142 @@ stubs.getDataId = override => applyOverride({
   domainId: 200,
 }, override);
 
+stubs.getDataIdProtobuf = override => protobuf.encode(
+  'dc.dataControllerUtils.DataId',
+  stubs.getDataId(override)
+);
+
+// Domain
+stubs.getDomain = override => applyOverride({
+  itemNamespace: 'Domains',
+  name: 'fr.cnes.sat1',
+  oid: '0051525005151000565215465660515',
+  domainId: 27,
+  parentDomainId: 98,
+}, override);
+
+stubs.getDomainProtobuf = override => protobuf.encode(
+  'dc.dataControllerUtils.Domain',
+  stubs.getDomain(override)
+);
+
+// Filter
 stubs.getFilter = override => applyOverride({
-  field: 'groundDate',
-  operator: 'OP_EQ',
+  field: 'extractedValue',
+  operator: 4, // OP_GT
   value: 42,
 }, override);
 
+stubs.getFilterProtobuf = override => protobuf.encode(
+  'dc.dataControllerUtils.Filter',
+  stubs.getFilter(override)
+);
+
+// Header
+stubs.getDomainQueryHeader = () => ({
+  messageType: 0, // DOMAIN_QUERY
+});
+stubs.getTimebasedQueryHeader = () => ({
+  messageType: 1, // TIMEBASED_QUERY
+});
+stubs.getTimebasedSubscriptionHeader = () => ({
+  messageType: 2, // TIMEBASED_SUBSCRIPTION
+});
+stubs.getResponseHeader = () => ({
+  messageType: 3, // RESPONSE
+});
+stubs.getDomainDataHeader = () => ({
+  messageType: 4, // DOMAIN_DATA
+});
+stubs.getTimebasedArchiveDataHeader = () => ({
+  messageType: 5, // TIMEBASED_ARCHIVE_DATA
+});
+stubs.getTimebasedPubSubDataHeader = () => ({
+  messageType: 6, // TIMEBASED_PUBSUB_DATA
+});
+
+stubs.getDomainQueryHeaderProtobuf = () => protobuf.encode(
+  'dc.dataControllerUtils.Header',
+  stubs.getDomainQueryHeader()
+);
+stubs.getTimebasedQueryHeaderProtobuf = () => protobuf.encode(
+  'dc.dataControllerUtils.Header',
+  stubs.getTimebasedQueryHeader()
+);
+stubs.getTimebasedSubscriptionHeaderProtobuf = () => protobuf.encode(
+  'dc.dataControllerUtils.Header',
+  stubs.getTimebasedSubscriptionHeader()
+);
+stubs.getResponseHeaderProtobuf = () => protobuf.encode(
+  'dc.dataControllerUtils.Header',
+  stubs.getResponseHeader()
+);
+stubs.getDomainDataHeaderProtobuf = () => protobuf.encode(
+  'dc.dataControllerUtils.Header',
+  stubs.getDomainDataHeader()
+);
+stubs.getTimebasedArchiveDataHeaderProtobuf = () => protobuf.encode(
+  'dc.dataControllerUtils.Header',
+  stubs.getTimebasedArchiveDataHeader()
+);
+stubs.getTimebasedPubSubDataHeaderProtobuf = () => protobuf.encode(
+  'dc.dataControllerUtils.Header',
+  stubs.getTimebasedPubSubDataHeader()
+);
+
+// Status
+stubs.getSuccessStatus = () => ({
+  status: 0, // SUCCESS
+});
+stubs.getErrorStatus = () => ({
+  status: 1, // ERROR
+});
+
+stubs.getSuccessStatusProtobuf = () => protobuf.encode(
+  'dc.dataControllerUtils.Status',
+  stubs.getSuccessStatus()
+);
+stubs.getErrorStatusProtobuf = () => protobuf.encode(
+  'dc.dataControllerUtils.Status',
+  stubs.getErrorStatus()
+);
+
+// String
+stubs.getString = (string = 'defaultString') => ({
+  string,
+});
+stubs.getStringProtobuf = string => protobuf.encode(
+  'dc.dataControllerUtils.String',
+  stubs.getString(string)
+);
+
+// TimeInterval
+stubs.getTimeInterval = override => applyOverride({
+  lowerTs: stubs.getTimestamp({ ms: now - 10000 }), // 10s
+  upperTs: stubs.getTimestamp(),
+}, override);
+
+stubs.getTimeIntervalProtobuf = override => protobuf.encode(
+  'dc.dataControllerUtils.TimeInterval',
+  stubs.getTimeInterval(override)
+);
+
+// Timestamp
+stubs.getTimestamp = override => applyOverride({
+  ms: now,
+}, override);
+
+stubs.getTimestampProtobuf = override => protobuf.encode(
+  'dc.dataControllerUtils.Timestamp',
+  stubs.getTimestamp(override)
+);
+
+
+/*
+ * HSS
+ */
+
+// RemoteId
 stubs.getRemoteId = (override) => {
   const r = stubs.getDataId(override);
   const filters = (typeof override !== 'undefined' && typeof override.filters !== 'undefined')
@@ -72,189 +227,3 @@ stubs.getRemoteId = (override) => {
   }
   return remoteId;
 };
-
-stubs.getDataIdWithFilter = override => applyOverride({
-  parameterName: 'ATT_BC_STR1STRRFQ1',
-  catalog: 'Reporting',
-  comObject: 'ReportingParameter',
-  sessionId: 100,
-  domainId: 200,
-  dataFilter: [stubs.getDataFilter(), stubs.getDataFilter({ comp: 'OP_LT', rhs: '84' })],
-}, override);
-
-stubs.getDataIdWithFilterProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.DataId',
-  stubs.getDataIdWithFilter(override)
-);
-
-stubs.getDataIdProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.DataId',
-  stubs.getDataId(override)
-);
-
-stubs.getTimestamp = override => applyOverride({
-  ms: now,
-}, override);
-
-stubs.getTimeInterval = override => applyOverride({
-  lowerTs: stubs.getTimestamp({ ms: now - 10000 }), // 10s
-  upperTs: stubs.getTimestamp(),
-}, override);
-
-stubs.getDataQuery = override => applyOverride({
-  id: 'my_unique_id',
-  dataId: stubs.getDataId(),
-  interval: stubs.getTimeInterval(),
-}, override);
-
-stubs.getDataQueryProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.DataQuery',
-  stubs.getDataQuery(override)
-);
-
-stubs.getDcResponse = override => applyOverride({
-  id: 'my_unique_id',
-  status: 1, // 'ERROR',
-  reason: 'My reason',
-}, override);
-
-stubs.getDcResponseProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.DcResponse',
-  stubs.getDcResponse(override)
-);
-
-stubs.getDataSubscribe = override => applyOverride({
-  action: 0, // 'ADD',
-  id: 'my_unique_id',
-  dataId: stubs.getDataId(),
-}, override);
-
-stubs.getDataSubscribeProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.DataSubscribe',
-  stubs.getDataSubscribe(override)
-);
-
-stubs.getDataPayload = override => applyOverride({
-  timestamp: stubs.getTimestamp(),
-  payload: protobuf.encode(
-    'lpisis.decommutedParameter.ReportingParameter',
-    stubs.getReportingParameter()
-  ),
-}, override);
-
-stubs.getNewDataMessage = override => applyOverride({
-  dataId: stubs.getDataId(),
-  id: 'test',
-  dataSource: 2, // 'ARCHIVE',
-  payloads: [
-    stubs.getDataPayload(),
-    stubs.getDataPayload({
-      timestamp: { ms: now + 1 },
-    }),
-  ],
-  isEndOfQuery: false,
-}, override);
-
-stubs.getNewDataMessageProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.NewDataMessage',
-  stubs.getNewDataMessage(override)
-);
-
-
-stubs.getDomainQuery = override => applyOverride({
-  id: 'myQueryId',
-}, override);
-
-stubs.getDomainQueryProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.DomainQuery',
-  stubs.getDomainQuery(override)
-);
-
-stubs.getDomain = override => applyOverride({
-  itemNamespace: 'Domains',
-  name: 'fr.cnes.sat1',
-  oid: '0051525005151000565215465660515',
-  domainId: 27,
-  parentDomainId: 98,
-}, override);
-
-stubs.getDomainResponse = override => applyOverride({
-  id: 'myQueryId',
-  domains: [
-    stubs.getDomain(),
-    stubs.getDomain({
-      name: 'fr.cnes.sat1.iongun',
-      oid: '0051525005151000565215601510515',
-      domainId: 98,
-      parentDomainId: 42,
-    }),
-  ],
-}, override);
-
-stubs.getDomainResponseProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.DomainResponse',
-  override || stubs.getDomainResponse()
-);
-
-
-// SERVER MESSAGES (DcServerMessage)
-stubs.getWrappedNewDataMessage = override => applyOverride({
-  messageType: 1, // 'NEW_DATA_MESSAGE',
-  payload: stubs.getNewDataMessageProtobuf(override),
-}, override);
-
-stubs.getWrappedDcResponse = override => applyOverride({
-  messageType: 2, // 'DC_RESPONSE',
-  payload: stubs.getDcResponseProtobuf(override),
-}, override);
-
-stubs.getWrappedDomainResponse = override => applyOverride({
-  messageType: 3, // 'DOMAIN_RESPONSE',
-  payload: stubs.getDomainResponseProtobuf(override),
-}, override);
-
-// CLIENT MESSAGES (DcClientMessage)
-stubs.getWrappedDataQuery = override => applyOverride({
-  messageType: 1, // 'DATA_QUERY',
-  payload: stubs.getDataQueryProtobuf(override),
-}, override);
-
-stubs.getWrappedDataSubscribe = override => applyOverride({
-  messageType: 2, // 'DATA_SUBSCRIBE',
-  payload: stubs.getDataSubscribeProtobuf(override),
-}, override);
-
-stubs.getWrappedDomainQuery = override => applyOverride({
-  messageType: 3, // 'DOMAIN_QUERY',
-  payload: stubs.getDomainQueryProtobuf(override),
-}, override);
-
-// SERVER MESSAGES PROTOBUF (DcServerMessage)
-stubs.getWrappedNewDataMessageProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.DcServerMessage',
-  stubs.getWrappedNewDataMessage(override)
-);
-
-stubs.getWrappedDcResponseProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.DcServerMessage',
-  stubs.getWrappedDcResponse(override)
-);
-
-stubs.getWrappedDomainResponseProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.DcServerMessage',
-  stubs.getWrappedDomainResponse(override)
-);
-
-stubs.getWrappedDataQueryProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.DcClientMessage',
-  stubs.getWrappedDataQuery(override)
-);
-stubs.getWrappedDataSubscribeProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.DcClientMessage',
-  stubs.getWrappedDataSubscribe(override)
-);
-
-stubs.getWrappedDomainQueryProtobuf = override => protobuf.encode(
-  'dc.dataControllerUtils.DcClientMessage',
-  stubs.getWrappedDomainQuery(override)
-);

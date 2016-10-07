@@ -34,7 +34,7 @@ const stopSubscription = (subscription, messageHandler) => {
   const message = createDeleteSubscriptionMessage(subscription.dataId);
 
   debug.debug('sending stop command to DC');
-  return messageHandler('dcPush', message.buffer);
+  return messageHandler('dcPush', message.args);
 };
 
 module.exports = {

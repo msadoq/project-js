@@ -1,8 +1,8 @@
 module.exports = {
   encode: data => ({
-    id: data.id
+    action: data.action,
   }),
   decode: data => ({
-    id: data.id
-  })
+    action: data.action,
+  }),
 };

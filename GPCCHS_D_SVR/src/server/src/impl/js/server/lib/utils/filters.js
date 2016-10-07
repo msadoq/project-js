@@ -2,26 +2,9 @@ const debug = require('../io/debug')('utils:filters');
 const constants = require('../constants');
 const _ = require('lodash');
 
-function convertFilter(filter) {
-  if (
-    typeof filter.operator !== 'string'
-    || filter.operator === ''
-    || typeof filter.field !== 'string'
-    || filter.field === ''
-    || typeof filter.value === 'undefined') {
-    return undefined;
-  }
-  return {
-    lhs: filter.field,
-    comp: filter.operator,
-    rhs: `${filter.value}`,
-  };
-}
-
 function applyFilter(data, filter) {
   if (
-    typeof filter.operator !== 'string'
-    || filter.operator === ''
+    typeof filter.operator !== 'number'
     || typeof filter.field !== 'string'
     || filter.field === ''
     || typeof filter.value === 'undefined'

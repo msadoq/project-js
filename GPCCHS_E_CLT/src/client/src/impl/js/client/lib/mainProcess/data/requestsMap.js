@@ -4,6 +4,18 @@ import { createSelector } from 'reselect';
 import missingIntervals from '../../common/missingIntervals';
 import mergeIntervals from '../../common/mergeIntervals';
 
+// TODO factorize
+const operators = {
+  '=': 0,
+  '!=': 1,
+  '<': 2,
+  '<=': 3,
+  '>': 4,
+  '>=': 5,
+  contains: 6,
+  icontains: 7,
+};
+
 /**
  * Return the current missing intervals requests list
  *
@@ -43,9 +55,15 @@ export default function requestsMap(state, dataMap) {
       }
 
       if (!queries[remoteId]) {
+        const queryFilter = (typeof filter !== 'undefined') ?
+        {
+          field: filter.field,
+          operator: operators[filter.operator],
+          value: filter.value,
+        } : filter;
         queries[remoteId] = {
           dataId,
-          filter,
+          filter: queryFilter,
           intervals: [],
         };
       }

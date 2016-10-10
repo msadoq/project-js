@@ -11,18 +11,6 @@ const _ = require('lodash');
 const { addToMainQueue } = require('../../websocket/sendToMain');
 const constants = require('../../constants');
 
-// TODO factorize
-const operators = {
-  '=': 0,
-  '!=': 1,
-  '<': 2,
-  '<=': 3,
-  '>': 4,
-  '>=': 5,
-  contains: 6,
-  icontains: 7,
-};
-
 /**
  * Triggered when the data consumer query for timebased data
  *
@@ -95,11 +83,7 @@ const timebasedQuery = (websocketHandler, payload, messageHandler) => {
       ];
       // protobufferize filters if any
       _.each(query.filter, (filter) => {
-        queryArgs.push(encode('dc.dataControllerUtils.Filter', {
-          field: filter.field,
-          operator: operators[filter.fields],
-          operand: filter.operand,
-        }));
+        queryArgs.push(encode('dc.dataControllerUtils.Filter', filter));
       });
       // queue the message
       messageQueue.push(queryArgs);

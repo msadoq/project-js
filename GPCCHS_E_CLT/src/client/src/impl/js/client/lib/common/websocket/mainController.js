@@ -32,15 +32,10 @@ export default function controller(event, payload) {
       updateStore(store.getState(), store.dispatch, payload);
       break;
     case 'timebasedData': {
+
       console.log('timebasedData', payload);
       const state = store.getState();
       console.log(state);
-      store.dispatch(
-        _.get(state, 'dataCache'),
-        importPayload(payload),
-        _.get(state, 'dataRequests'),
-        _.get(state, 'timebars')
-      );
       break;
     }
     default:

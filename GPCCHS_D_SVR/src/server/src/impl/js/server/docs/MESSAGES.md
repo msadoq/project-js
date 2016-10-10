@@ -134,7 +134,7 @@
   'timebasedQuery',
   string, // unique query ID
   dataId,
-  [number, number], // interval
+  timeInterval,
   queryArguments,
 ]
 ```
@@ -213,7 +213,7 @@
 ```
 
 ## Sub-structures
-**dcHeader**
+**header**
 ```
 enum(‘domainQuery’, ‘timebasedQuery’, ‘timebasedSubscription’, ‘dcResponse’, 'domainData', 'timebasedArchiveData', 'timebasedPubSubData')
 ```
@@ -229,23 +229,45 @@ enum(‘domainQuery’, ‘timebasedQuery’, ‘timebasedSubscription’, ‘dc
 }
 ```
 
+**timeInterval**
+```
+{
+  startTime: timestamp,
+  endTime: timestamp,
+}
+```
+
+**timestamp**
+```
+{
+  ms: number,
+  ps: number,
+}
+```
+
 **queryArguments**
 ```
 {
-  filter: filter,
-  sortField: string,
-  sortOrder: string, 
+  filters: [filter], // optionnal
+  sortFieldName: string, // optionnal
+  sortOrder: enum('ASC', 'DESC'), // startTime
   limitStart: number,
   limitNumber: number,
+  getLastType: enum('getLast', 'getNLast'),
+  getLastFromTime: timestamp, // optionnal
+  getLastNumber: number, // optionnal
+  // the 3 above parameters allow getLast(), getLast(fromTime), getNLast(number), getNLast(number, fromTime)
+  
+  // TODO sampling
 }
 ```
 
 **filter**
 ```
 {
-  field: string,
-  operator: enum(OP_EQ, OP_NE, OP_LT, OP_LE, OP_GT, OP_GE, OP_CONTAINS, OP_ICONTAINS),
-  operand: string|number,
+  fieldName: string,
+  type: enum(OP_EQ, OP_NE, OP_LT, OP_LE, OP_GT, OP_GE, OP_CONTAINS, OP_ICONTAINS),
+  fieldValue: ccsds_mal_attribute, // cf. LPISIS
 }
 ```
 

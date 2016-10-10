@@ -1,6 +1,6 @@
 /* eslint max-len: 0 */
 
-require('./app/utils/dotenv');
+require('./lib/common/dotenv');
 
 import webpack from 'webpack';
 import merge from 'webpack-merge';
@@ -16,7 +16,7 @@ export default merge(baseConfig, {
   entry: [
     `webpack-hot-middleware/client?path=http://localhost:${port}/__webpack_hmr`,
     'babel-polyfill',
-    './app/window/index'
+    './lib/windowProcess/index'
   ],
 
   output: {

@@ -1,4 +1,4 @@
-import { should, getStore } from '../../app/utils/test';
+import { should, getStore } from '../../lib/utils/test';
 import {
   getSchemaJson,
   getConnectedDataFromState,
@@ -67,7 +67,7 @@ describe('TextView/main', () => {
         3: { val1: '12', val2: '22' },
       };
       const visuWindow = { current: 2 };
-      const ret = getUsedValues(stateLocalId, 'val1', visuWindow, 0, payload);
+      const ret = getUsedValues(undefined, 'val1', visuWindow, 0, payload);
       ret.should.be.an('object').with.keys('data', 'index');
       ret.data.should.be.an('object').with.keys('2');
       ret.data[2].should.deep.equal(payload[2].val1);
@@ -81,7 +81,7 @@ describe('TextView/main', () => {
         3: { val1: '12', val2: '22' },
       };
       const visuWindow = { current: 2 };
-      const ret = getUsedValues(stateLocalId, 'val1', visuWindow, -0.5, payload);
+      const ret = getUsedValues(undefined, 'val1', visuWindow, -0.5, payload);
       ret.should.be.an('object').with.keys('data', 'index');
       ret.data.should.be.an('object').with.keys('2');
       ret.data[2].should.deep.equal(payload[2].val1);

@@ -19,6 +19,7 @@ Only list expected tasks for PBF shipping of end of october.
 * [ ] Cache invalidation /!\
 * [renaud] Change primus.js main socket writing to fix consecutive client launch process
 * [ ] DC timebasedQuery modification (filter=>settings{filters,sort,limit})
+* [ ] Prevent exception when client close: "Error: This response corresponds to no queryId"
 * Profiling
   - [ ] CacheJson: test AVLTree instead of Loki for cache retrieving/insertion OR our proper data structure DataStructure{[order],{key:{value}}
   - [aziz] Test and profile LokiJS index auto update https://github.com/techfort/LokiJS/issues/477
@@ -39,12 +40,7 @@ Only list expected tasks for PBF shipping of end of october.
   - [ ] HTML to React with https://github.com/wrakky/react-html-parser
 * [ ] Tree refactoring (Damien)
   - impl/js/client|common|server
-  - app=>lib
-  - main=>mainProcess + window=>windowProcess
-  - PageContent=>Content
-  - utils=>common
-  - connectedData=>dataConsumption
-  - store/mutations=>store/reducers|actions|selectors|types.js
+  - constants, ws event type, filter operator enum values
 
 ## Postponed
 

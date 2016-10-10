@@ -1,6 +1,6 @@
 /* eslint no-console: 0 */
 
-require('./app/utils/dotenv');
+require('./lib/common/dotenv');
 import express from 'express';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';

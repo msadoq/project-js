@@ -7,6 +7,7 @@ import { updateStatus as updateAppStatus } from '../../store/actions/hsc';
 import { updateDomains } from '../../store/actions/domains';
 import { getWebsocket } from './mainWebsocket';
 import convertFromStore from '../../mainProcess/vima/convertFromStore';
+import importPayload from '../../store/actions/dataCache';
 
 const logger = debug('main:controller');
 
@@ -30,9 +31,18 @@ export default function controller(event, payload) {
     case 'timebarUpdate':
       updateStore(store.getState(), store.dispatch, payload);
       break;
-    case 'timebasedData':
+    case 'timebasedData': {
       console.log('timebasedData', payload);
+      const state = store.getState();
+      console.log(state);
+      store.dispatch(
+        _.get(state, 'dataCache'),
+        importPayload(payload),
+        _.get(state, 'dataRequests'),
+        _.get(state, 'timebars')
+      );
       break;
+    }
     default:
       logger.error('Received not yet implemented event', event);
   }

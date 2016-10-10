@@ -4,4 +4,4 @@ import * as types from '../types';
 /**
  * Simple actions
  */
-export const importPayload = simple(types.DATA_IMPORT_PAYLOADS,'payload',);
+export const importPayload = simple(types.DATA_IMPORT_PAYLOADS, 'payload');

@@ -1,5 +1,5 @@
 // const extractConnectedData = require('./extractConnectedData');
-// const { should } = require('../../utils/test');
+// const { should } = require('../../common/test');
 // const _ = require('lodash');
 //
 // describe('documents/lib', () => {

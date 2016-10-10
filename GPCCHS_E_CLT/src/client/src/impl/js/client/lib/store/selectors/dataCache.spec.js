@@ -1,5 +1,5 @@
 /* eslint no-unused-expressions: 0 */
-import { should } from '../../utils/test';
+import { should } from '../../common/test';
 import { getLocalIdData } from './dataCache';
 
 describe('dataCache selector', () => {

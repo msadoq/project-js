@@ -1,5 +1,5 @@
 // const workspace = require('./workspace');
-// const { should } = require('../utils/test');
+// const { should } = require('../common/test');
 // const documents = require('../documents');
 // const _ = require('lodash');
 // const path = require('path');

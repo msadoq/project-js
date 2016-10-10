@@ -1,4 +1,4 @@
-import { should, getStore } from '../../lib/utils/test';
+import { should, getStore } from '../../lib/common/test';
 
 import {
   getSchemaJson,

@@ -4,10 +4,10 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --compilers js:babel-register --recursive \"+(app|external)/**/*.spec.js\"",
+    "test": "NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --compilers js:babel-register --recursive \"+(lib|external)/**/*.spec.js\"",
     "test-watch": "npm test -- --watch",
     "test-e2e": "NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --compilers js:babel-register --require ./test/setup.js ./test/e2e.js",
-    "lint": "eslint app test *.js",
+    "lint": "eslint lib test *.js",
     "hot-server": "node -r babel-register server.js",
     "build-main": "NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.electron.js --progress --profile --colors",
     "build-renderer": "NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.production.js --progress --profile --colors",
@@ -111,5 +111,5 @@
     "node": "6.x",
     "npm": "3.x"
   },
-  "style": "./app/app.global.css"
+  "style": "./lib/app.global.css"
 }

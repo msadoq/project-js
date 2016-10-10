@@ -158,9 +158,9 @@
       }
     },
     {
-      "name": "POW_BC_PCDENABLED",
+      "name": "ASETYPE_AM_TIMET09F14_MS",
       "connectedData": {
-        "formula": "Reporting.POW_BC_PCDENABLED<ReportingParameter>.monitoringState",
+        "formula": "Reporting.ASETYPE_AM_TIMET09F14<ReportingParameter>.monitoringState",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -702,6 +702,11 @@
         "timeline": "Session 1"
       }
     },
+
+
+
+
+
     {
       "name": "TMMGT_BC_LASTSQNUM0",
       "connectedData": {
@@ -1439,6 +1444,18 @@
     "    <tr><td>POW_BC_NUMRJCTTC11</td><td><span class=\"EntryPoint\" id=\"POW_BC_NUMRJCTTC11\"/></td></tr>",
     "  <tr><td>POW_BC_TSTPARFQ0</td><td><span class=\"EntryPoint\" id=\"POW_BC_TSTPARFQ0\"/></td></tr>",
 
+    "<tr><td>ATT_BC_STR1VOLTAGE_MS</td><td><span class=\"EntryPoint\" id=\"ATT_BC_STR1VOLTAGE_MS\"/></td></tr>",
+    "    <tr><td>SAT_BC_TSTPARVQ3_MS_EV</td><td><span class=\"EntryPoint\" id=\"SAT_BC_TSTPARVQ3_MS_EV\"/></td></tr>",
+    "    <tr><td>MIS_BC_DAGAFREQ_CV</td><td><span class=\"EntryPoint\" id=\"MIS_BC_DAGAFREQ_CV\"/></td></tr>",
+    "    <tr><td>GENE_AM_CCSDSAPID_MS</td><td><span class=\"EntryPoint\" id=\"GENE_AM_CCSDSAPID_MS\"/></td></tr>",
+    "    <tr><td>POW_BC_MAXENER_EV</td><td><span class=\"EntryPoint\" id=\"POW_BC_MAXENER_EV\"/></td></tr>",
+    "    <tr><td>TMMGT_BC_BCSTATUSW_CV</td><td><span class=\"EntryPoint\" id=\"TMMGT_BC_BCSTATUSW_CV\"/></td></tr>",
+    "    <tr><td>FMGT_BC_OBCP8EXSTAT_CV</td><td><span class=\"EntryPoint\" id=\"FMGT_BC_OBCP8EXSTAT_CV\"/></td></tr>",
+    "    <tr><td>ORB_BC_TSTPARVFLT_CV</td><td><span class=\"EntryPoint\" id=\"GENE_AM_CCSDSAPID_CV\"/></td></tr>",
+    "    <tr><td>CLK_BC_EVACGENSTA_CV</td><td><span class=\"EntryPoint\" id=\"CLK_BC_EVACGENSTA_CV\"/></td></tr>",
+    "  <tr><td>AGA_AM_VISIANGLE_CV</td><td><span class=\"EntryPoint\" id=\"AGA_AM_VISIANGLE_CV\"/></td></tr>",
+
+    "<tr><td>TMMGT_BC_BCSTATUSW_CV</td><td><span class=\"EntryPoint\" id=\"TMMGT_BC_BCSTATUSW_CV\"/></td></tr>",
     "    <tr><td>SAT_BC_ENABLED2</td><td><span class=\"EntryPoint\" id=\"SAT_BC_ENABLED2\"/></td></tr>",
     "    <tr><td>SAT_BC_LASTSQNUM10</td><td><span class=\"EntryPoint\" id=\"SAT_BC_LASTSQNUM10\"/></td></tr>",
     "    <tr><td>SAT_BC_NUMRJCTTC16</td><td><span class=\"EntryPoint\" id=\"SAT_BC_NUMRJCTTC16\"/></td></tr>",

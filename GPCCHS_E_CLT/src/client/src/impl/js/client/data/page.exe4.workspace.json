@@ -1,0 +1,51 @@
+{
+  "type": "Page",
+  "hideBorders": false,
+  "title": "page example 4",
+  "views": [
+	{
+	  "path": "/views/plot.exe1.workspace.json",
+	  "geometry": {
+		"kind": "Relative",
+		"x": 0,
+		"y": 0,
+		"w": 4,
+		"h": 7
+	  },
+	  "windowState": "Normalized"
+	},
+  {
+	  "path": "/views/plot.exe2.workspace.json",
+	  "geometry": {
+		"kind": "Relative",
+		"x": 0,
+		"y": 0,
+		"w": 4,
+		"h": 7
+	  },
+	  "windowState": "Normalized"
+	},
+  {
+	  "path": "/views/plot.exe3.workspace.json",
+	  "geometry": {
+		"kind": "Relative",
+		"x": 0,
+		"y": 0,
+		"w": 4,
+		"h": 7
+	  },
+	  "windowState": "Normalized"
+	},
+  {
+	  "path": "/views/plot.exe4.workspace.json",
+	  "geometry": {
+		"kind": "Relative",
+		"x": 0,
+		"y": 0,
+		"w": 4,
+		"h": 7
+	  },
+	  "windowState": "Normalized"
+	}
+  ]
+}

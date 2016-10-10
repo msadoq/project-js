@@ -166,6 +166,9 @@ const onHssMessage = (...args) => {
   }
 };
 
+const TIME = 1420106390000;
+let timestamp = TIME;
+
 const emulateDc = () => {
   debug.verbose('emulateDc call', Object.keys(subscriptions).length, queries.length);
   // push realtime on each parameter
@@ -186,8 +189,7 @@ const emulateDc = () => {
     //     }
     //   );
     // }
-    const TIME = 1420102800000;
-    let timestamp = TIME;
+
     const payloads = _.map(realtimePayloads, (pl) => {
       timestamp += 1;
       return {

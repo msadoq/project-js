@@ -55,12 +55,11 @@ export default function requestsMap(state, dataMap) {
       }
 
       if (!queries[remoteId]) {
-        const queryFilter = (typeof filter !== 'undefined') ?
-        {
-          field: filter.field,
-          operator: operators[filter.operator],
-          value: filter.value,
-        } : filter;
+        const queryFilter = (typeof filter === 'undefined') ? [] : _.map(filter, f => ({
+          field: f.field,
+          operator: operators[f.operator],
+          value: f.operand,
+        }));
         queries[remoteId] = {
           dataId,
           filter: queryFilter,

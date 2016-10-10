@@ -1,4 +1,4 @@
-// import { should, getStore } from '../utils/test';
+// import { should, getStore } from '../common/test';
 // import forView from './forView';
 //
 // describe('connectedData/forView', () => {

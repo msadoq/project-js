@@ -1,4 +1,4 @@
-const { should } = require('../app/utils/test');
+const { should } = require('../lib/common/test');
 const common = require('./common');
 
 describe('external/common', () => {

@@ -1,4 +1,4 @@
-const { should } = require('../utils/test');
+const { should } = require('../common/test');
 const {
   mkdirSync,
   writeFileSync,

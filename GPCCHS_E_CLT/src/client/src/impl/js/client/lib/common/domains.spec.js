@@ -1,5 +1,5 @@
 /* eslint no-unused-expressions: 0 */
-import '../utils/test';
+import '../common/test';
 import filter from './domains';
 
 describe('connectedData/domains', () => {

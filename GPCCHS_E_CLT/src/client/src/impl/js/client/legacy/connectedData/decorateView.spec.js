@@ -1,4 +1,4 @@
-// import { getStore } from '../utils/test';
+// import { getStore } from '../common/test';
 // import decorate from './decorateView';
 //
 // describe('connectedData/decorateView', () => {

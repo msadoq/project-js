@@ -83,6 +83,7 @@ const timebasedQuery = (websocketHandler, payload, messageHandler) => {
       ];
       // protobufferize filters if any
       _.each(query.filter, (filter) => {
+        debug.debug('protobufferize filter', filter);
         queryArgs.push(encode('dc.dataControllerUtils.Filter', filter));
       });
       // queue the message

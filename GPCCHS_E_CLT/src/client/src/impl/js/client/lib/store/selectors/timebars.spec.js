@@ -1,5 +1,5 @@
 /* eslint no-unused-expressions: 0 */
-import { should, getStore } from '../../utils/test';
+import { should, getStore } from '../../common/test';
 import { getTimebar, getTimelines } from './timebars';
 
 

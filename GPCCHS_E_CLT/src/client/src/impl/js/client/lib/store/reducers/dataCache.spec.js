@@ -1,5 +1,5 @@
 /* eslint no-unused-expressions: 0 */
-import { should } from '../../utils/test';
+import { should } from '../../common/test';
 import reducer from './dataCache';
 import * as actions from '../actions/dataCache';
 

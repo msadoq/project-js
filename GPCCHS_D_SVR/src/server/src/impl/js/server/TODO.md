@@ -4,9 +4,16 @@ Only list expected tasks for PBF shipping of end of october.
 
 ## Questions
 
-* [ ] Wildcard: we can subscribe *n* parameters for the same entryPoint, what we should do with the *n* incoming values (TextView the first, PlotView ?)?
-* [ ] Send new DC API to Matthieu and Remy
+* [ ] Francois
+  * [ ] Wildcard: we can subscribe *n* parameters for the same entryPoint, what we should do with the *n* incoming values (TextView the first, PlotView ?)?
+  * [ ] Data sampling
+* [damien] Send new DC API to Matthieu and Remy
 * [ ] Email to ask DS feature, lastValueBefore date filter (for TextView and MimicView) and sort+limit+offset
+* [ ] Change branch R7S2
+* [olivier] Write SDD
+* [olivier] Open issue on Mantis for computing library 
+* [adrien] Open issue on Mantis for data sampling
+* [adrien] Open issue on Mantis for getLast before date
 
 ## Global
 
@@ -16,28 +23,30 @@ Only list expected tasks for PBF shipping of end of october.
 
 ## GPCCHSS (Node.js)
 
-* [ ] Cache invalidation /!\
-* [renaud] Change primus.js main socket writing to fix consecutive client launch process
-* [ ] DC timebasedQuery modification (filter=>settings{filters,sort,limit})
+* [adrien] DC protocol refactoring
+* [renaud] DC timebasedQuery modification (filter=>settings{filters,sort,limit})
 * [ ] Prevent exception when client close: "Error: This response corresponds to no queryId"
 * Profiling
   - [ ] CacheJson: test AVLTree instead of Loki for cache retrieving/insertion OR our proper data structure DataStructure{[order],{key:{value}}
   - [aziz] Test and profile LokiJS index auto update https://github.com/techfort/LokiJS/issues/477
+* [ ] Cache invalidation /!\
 
 ## GPCCHSC (Electron)
 
-* [ ] Cache invalidation /!\
 * [alex] A complete workspace with 2 windows, 3 pages, 16 plots lines, 300 text params
+* [ ] Cache invalidation /!\
 * DataManager
-  - [ ] sync (actor) method that compute dataMap and missing interval and request data
-  - [ ] outcoming queries reducer and actions
-  - [ ] incoming data reducer and actions
+  - [x] sync (actor) method that compute dataMap and missing interval and request data
+  - [x] outcoming queries reducer and actions
+  - [audrey] incoming data reducer and actions
   - [ ] ViewDataContainer
+  - [ ] tests and profiling
 * Implement <PlotView/>
-  - [ ] Prototype and implement a chart library
+  - [ ] Implement react-stock-chart for PBF
+  - [ ] Implement chart.js and react wrapper for more evolutive chart cots
   - [ ] Test live sampling https://www.npmjs.com/package/simplify-path
 * Implement <TextView/>
-  - [ ] HTML to React with https://github.com/wrakky/react-html-parser
+  - [julien] HTML to React with https://github.com/wrakky/react-html-parser
 * [ ] Tree refactoring (Damien)
   - impl/js/client|common|server
   - constants, ws event type, filter operator enum values

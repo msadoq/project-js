@@ -30,8 +30,8 @@ export default function controller(event, payload) {
     case 'timebarUpdate':
       updateStore(store.getState(), store.dispatch, payload);
       break;
-    case 'newData':
-      console.log('newData', payload);
+    case 'timebasedData':
+      console.log('timebasedData', payload);
       break;
     default:
       logger.error('Received not yet implemented event', event);

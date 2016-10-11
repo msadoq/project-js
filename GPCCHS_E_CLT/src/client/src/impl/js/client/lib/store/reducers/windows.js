@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import * as types from '../types';
-import { createSelector } from 'reselect';
 
 /**
  * Reducer

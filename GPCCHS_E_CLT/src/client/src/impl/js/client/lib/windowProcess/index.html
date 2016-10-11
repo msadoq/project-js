@@ -11,7 +11,6 @@
       //const env = require('electron').remote.getGlobal('process').env;
       const env = require('electron').remote.getCurrentWindow().parameters;
 
-
       if (!env.HOT) {
         const link = document.createElement('link');
         link.rel = 'stylesheet';

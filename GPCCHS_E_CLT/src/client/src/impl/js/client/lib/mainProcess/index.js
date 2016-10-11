@@ -25,7 +25,7 @@ export async function start() {
     // TODO : read file path in params => file picker
 
     // read workspace async and on callback connect observers
-    openWorkspace(parameters.FMD_ROOT, 'large.workspace.json', getStore().dispatch, (err) => {
+    openWorkspace(parameters.FMD_ROOT, parameters.OPEN, getStore().dispatch, (err) => {
       if (err) {
         logger.error(err);
         return console.warn('TODO display file picker'); // TODO : file picker

@@ -27,6 +27,28 @@ dataCache: {
 Data requests send to HSS list:
 ```
 dataRequests: {
-  remoteId: [[number, number]],
+  remoteId: {
+    dataId: {
+        catalog,
+        parameterName,
+        comObject,
+        sessionId,
+        domainId,
+    },
+    intervals: [[number, number]],
+    queryArguments: {
+      sortOrder,
+      limitStart,
+      limitNumber,
+      getLastType,
+      getLastFromTime,
+      getLastNumber,
+      filters: [{
+        fieldName,
+        type,
+        fieldValue,
+      }],
+    }
+  }
 },
 ```

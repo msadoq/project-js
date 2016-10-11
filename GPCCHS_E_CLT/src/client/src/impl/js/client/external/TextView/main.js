@@ -22,9 +22,7 @@ module.exports = {
   getExpectedInterval: function(lower, current) {
     return [current - 1e4, current]; // TODO getLast to TBD
   },
-  getUsedValues: function(stateLocalId, field, visuWindow, offset, remoteIdPayload) {
-    const current = visuWindow.current - offset;
-
+  getUsedValues: function(stateLocalId, field, interval, remoteIdPayload) {
     let final;
     if (stateLocalId) {
       final = Object.assign({}, stateLocalId);
@@ -33,7 +31,7 @@ module.exports = {
     }
 
     _.each(remoteIdPayload, (val, time) => {
-      if (time <= current) {
+      if (time <= interval[1] && time >= interval[0]) {
         const oldTime = _.head(Object.keys(final.data));
         if (!oldTime || oldTime < time) {
           final.data = {};

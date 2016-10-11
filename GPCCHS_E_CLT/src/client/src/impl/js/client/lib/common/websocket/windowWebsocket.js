@@ -41,7 +41,7 @@ export function connect(windowId) {
         return logger.error('Invalid event received', data);
       }
       logger.info(`Incoming event ${data.event}`);
-      controller(windowId, data.event, data.payload);
+      controller(getStore().getState(), getStore().dispatch, windowId, data.event, data.payload);
     });
   }
 

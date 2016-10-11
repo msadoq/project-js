@@ -42,7 +42,7 @@ export function connect() {
         return logger.error('Invalid event received', data);
       }
       logger.info(`Incoming event ${data.event}`);
-      controller(data.event, data.payload);
+      controller(getStore().getState(), getStore().dispatch, data.event, data.payload);
     });
   }
 

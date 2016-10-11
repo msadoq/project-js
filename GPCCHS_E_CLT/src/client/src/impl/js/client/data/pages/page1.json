@@ -4,7 +4,7 @@
   "title": "page example 1",
   "views": [
 	{
-	  "path": "/views/plot.exe1.workspace.json",
+	  "path": "/views/plot1.json",
 	  "geometry": {
 		"kind": "Relative",
 		"x": 0,

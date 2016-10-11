@@ -25,15 +25,12 @@ module.exports = {
   getExpectedInterval: function(lower, current, upper) {
     return [lower, upper];
   },
-  getUsedValues: function(stateLocalId, field, visuWindow, offset, remoteIdPayload) {
-    const lower = visuWindow.lower - offset;
-    const upper = visuWindow.upper - offset;
-
+  getUsedValues: function(stateLocalId, field, interval, remoteIdPayload) {
     let final;
     if (stateLocalId) {
       final = Object.assign({}, stateLocalId);
-      const iLower = _.findIndex(final.index, (i) => i > lower);
-      const iUpper = _.findIndex(final.index, (i) => i > upper, iLower < 0 ? 0 : iLower);
+      const iLower = _.findIndex(final.index, (i) => i > interval[0]);
+      const iUpper = _.findIndex(final.index, (i) => i > interval[1], iLower < 0 ? 0 : iLower);
       if (iLower >= 0 || iUpper >= 0) {
         final.index = _.slice(final.index, iLower < 0 ? 0 : iLower,
           iUpper < 0 ? final.index.length : iUpper);

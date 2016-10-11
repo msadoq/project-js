@@ -131,9 +131,9 @@
       }
     },
     {
-      "name": "BASETYPE_AM_TIMET09F14_MS",
+      "name": "ASETYPE_AM_TIMET09F14_MS",
       "connectedData": {
-        "formula": "Reporting.BASETYPE_AM_TIMET09F14<ReportingParameter>.monitoringState",
+        "formula": "Reporting.ASETYPE_AM_TIMET09F14<ReportingParameter>.monitoringState",
         "unit": "V",
         "digits": 2,
         "format": "scientific",

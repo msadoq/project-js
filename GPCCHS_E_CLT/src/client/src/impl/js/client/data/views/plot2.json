@@ -2,8 +2,8 @@
   "type": "PlotView",
   "links": [
     {
-      "name": "Page01",
-      "path": "../Page01.vipg"
+      "name": "page2",
+      "path": "./pages/page2.json"
     }
   ],
   "procedures": [],
@@ -35,6 +35,45 @@
         }],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColour": "#000000",
+      "stateColours": [
+        {
+          "colour": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ATT_BC_STR1VOLTAGE",
+      "connectedDataX": {
+        "formula": "Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.groundDate",
+        "unit": "s",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 2",
+        "axisId": "Time"
+      },
+      "connectedDataY": {
+        "formula": "Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 2",
         "axisId": "VBat"
       },
       "lineStyle": "Continuous",
@@ -109,13 +148,13 @@
       "showGrid": true
     }
   ],
-  "title": "VIMA Plot example",
+  "title": "VIMA Plot example 2",
   "titleStyle": {
     "font": "Arial",
     "size": 12,
-    "bold": true,
+    "bold": false,
     "italic": false,
-    "underline": false,
+    "underline": true,
     "strikeOut": false,
     "align": "center",
     "colour": "#000000"
@@ -129,7 +168,7 @@
       "italic": false,
       "underline": false,
       "strikeOut": false,
-      "align": "right",
+      "align": "left",
       "colour": "#000000"
     },
     "location": "Top"
@@ -152,4 +191,4 @@
       "relativePosY": 8.9
     }
   ]
-}
+  }

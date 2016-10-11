@@ -7,37 +7,32 @@ Only list expected tasks for PBF shipping of end of october.
 * [ ] Francois
   * [ ] Wildcard: we can subscribe *n* parameters for the same entryPoint, what we should do with the *n* incoming values (TextView the first, PlotView ?)?
   * [ ] Data sampling
-* [damien] Send new DC API to Matthieu and Remy
 * [ ] Email to ask DS feature, lastValueBefore date filter (for TextView and MimicView) and sort+limit+offset
-* [ ] Change branch R7S2
-* [olivier] Write SDD
-* [olivier] Open issue on Mantis for computing library 
-* [adrien] Open issue on Mantis for data sampling
-* [adrien] Open issue on Mantis for getLast before date
 
 ## Global
 
 * [matthieu] Launch procedure, stop procedure, unexcepted stop of one component (Matthieu)
 * [matthieu] Finalize LPISIS packaging constrains implementation (Matthieu)
 * [olivier] Lauching VIMA with timebar only OR implement a limited timebar in HSC (Olivier/Audrey)
+* [olivier] Write SDD
+* [olivier] Open issue on Mantis for computing library 
+* [adrien] Open issue on Mantis for data sampling
+* [adrien] Open issue on Mantis for getLast before date
 
 ## GPCCHSS (Node.js)
 
 * [adrien] DC protocol refactoring
-* [renaud] DC timebasedQuery modification (filter=>settings{filters,sort,limit})
-* [ ] Prevent exception when client close: "Error: This response corresponds to no queryId"
-* Profiling
-  - [ ] CacheJson: test AVLTree instead of Loki for cache retrieving/insertion OR our proper data structure DataStructure{[order],{key:{value}}
-  - [aziz] Test and profile LokiJS index auto update https://github.com/techfort/LokiJS/issues/477
+* [aziz] Profiling: test LokiJS index auto update https://github.com/techfort/LokiJS/issues/477
 * [ ] Cache invalidation /!\
+* [renaud] Prevent exception when client close: "Error: This response corresponds to no queryId"
+* [walid] Add robustness in every HSS/client controllers by controlling HSC input
+* [ ] Profiling: test AVLTree instead of Loki for cache retrieving/insertion OR our proper data structure DataStructure{[order],{key:{value}}
 
 ## GPCCHSC (Electron)
 
 * [alex] A complete workspace with 2 windows, 3 pages, 16 plots lines, 300 text params
 * [ ] Cache invalidation /!\
 * DataManager
-  - [x] sync (actor) method that compute dataMap and missing interval and request data
-  - [x] outcoming queries reducer and actions
   - [audrey] incoming data reducer and actions
   - [ ] ViewDataContainer
   - [ ] tests and profiling
@@ -46,10 +41,11 @@ Only list expected tasks for PBF shipping of end of october.
   - [ ] Implement chart.js and react wrapper for more evolutive chart cots
   - [ ] Test live sampling https://www.npmjs.com/package/simplify-path
 * Implement <TextView/>
-  - [julien] HTML to React with https://github.com/wrakky/react-html-parser
+  - [julien] HTML to React with https://github.com/wrakky/react-html-parser + https://github.com/reactjs/react-magic/blob/master/README-htmltojsx.md
 * [ ] Tree refactoring (Damien)
   - impl/js/client|common|server
   - constants, ws event type, filter operator enum values
+  - change branch R7S2
 
 ## Postponed
 
@@ -61,7 +57,6 @@ Only list expected tasks for PBF shipping of end of october.
 * [ ] Filepicker on start (root on data/)
 * [ ] Persist window geometry and focus in Redux
 * [ ] Improve main process debugging by try-catching on ready logic
-* [ ] Add robustness in every HSS/client controllers by controlling HSC input
 * [ ] LPISIS protobuf and types converters code generation (Adrien)
 * [ ] Envisage to fork in child_process the HSS DC stub (Damien)
 * [ ] Webpackize the HSS code and study C++ module portability

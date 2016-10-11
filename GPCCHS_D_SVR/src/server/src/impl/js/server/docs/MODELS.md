@@ -45,14 +45,14 @@ Example:
   filters: {
     'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:groundDate.OP_LT.42,groundDate.OP_GT.13': [
       {
-        field: 'groundDate',
-        operator: 'OP_LT',
-        operand: 42
+        fieldName: 'groundDate',
+        type: 2,
+        fieldValue: 42
       },
       {
-        field: 'groundDate',
-        operator: 'OP_GT',
-        operand: 13
+        fieldName: 'groundDate',
+        type: 4,
+        fieldValue: 13
       }
     ]
   }
@@ -68,9 +68,9 @@ Example:
   - ``dataId.domainId`` is an integer representing the id of the domain
 * ``filters`` is an object whose keys are remoteIds for which this subscription is queried and values the filters associated to the queries
   - ``filters[remoteId]`` is an array of objects
-    * ``filters[remoteId][index].field`` is a string representing the field of the parameter to filter
-    * ``filters[remoteId][index].operator`` is a string enum of the comparison operator (``OP_EQ``, ``OP_NE``, ``OP_LT``, ``OP_LE``, ``OP_GT``, ``OP_GE``, ``OP_CONTAINS``, ``OP_ICONTAINS``)
-    * ``filters[remoteId][index].operand`` is the comparison value. It may be a string or a number
+    * ``filters[remoteId][index].fieldName`` is a string representing the field of the parameter to filter
+    * ``filters[remoteId][index].type`` is an enum representing the type of comparison operator (``OP_EQ (0)``, ``OP_NE (1)``, ``OP_LT (2)``, ``OP_LE (3)``, ``OP_GT (4)``, ``OP_GE (5)``, ``OP_CONTAINS (6)``, ``OP_ICONTAINS (7)``)
+    * ``filters[remoteId][index].fieldValue`` is the comparison value. It is a polymorphic value (ccsds_mal_attribute)
 
 
 

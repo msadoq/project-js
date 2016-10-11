@@ -80,6 +80,7 @@ register({
       Boolean: require('./converters/dc/boolean'),
       DataId: require('./converters/dc/dataId'),
       Domain: require('./converters/dc/domain'),
+      Domains: require('./converters/dc/domains'),
       Filter: require('./converters/dc/filter'),
       Header: require('./converters/dc/header'),
       QueryArguments: require('./converters/dc/queryArguments'),

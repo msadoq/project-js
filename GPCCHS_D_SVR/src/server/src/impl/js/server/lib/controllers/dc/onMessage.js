@@ -42,7 +42,8 @@ const message = (
       errorHandler('onTimebasedPubSubData', () => timebasedPubSubDataHandler(args[0], ..._.slice(args, 1)));
       break;
     default:
-      throw new Error('message type not recognized');
+      debug.debug('message type not recognized');
+      break;
   }
 };
 

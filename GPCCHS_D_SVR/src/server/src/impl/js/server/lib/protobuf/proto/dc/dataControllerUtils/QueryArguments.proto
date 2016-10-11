@@ -1,6 +1,7 @@
 package dataControllerUtils.protobuf;
 
 import "dataControllerUtils/Timestamp.proto";
+import "dataControllerUtils/Filter.proto";
 
 message QueryArguments {
 extensions 9 to 109;

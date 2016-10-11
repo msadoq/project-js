@@ -97,6 +97,19 @@ stubs.getDomainProtobuf = override => protobuf.encode(
   stubs.getDomain(override)
 );
 
+// Domains
+stubs.getDomains = override => applyOverride({
+  domains: [
+    stubs.getDomain(),
+    stubs.getDomain({ name: 'fr.cnes.sat1.ion', domainId: 42, parentDomainId: 27 }),
+  ],
+}, override);
+
+stubs.getDomainsProtobuf = override => protobuf.encode(
+  'dc.dataControllerUtils.Domains',
+  stubs.getDomain(override)
+);
+
 // Filter
 stubs.getFilter = override => applyOverride({
   fieldName: 'extractedValue',

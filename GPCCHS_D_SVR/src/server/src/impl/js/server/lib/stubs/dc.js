@@ -4,6 +4,7 @@ const zmq = require('../io/zmq');
 const protobuf = require('../protobuf/index');
 const stubData = require('./data');
 const constants = require('../constants');
+const supportedParameters = require('./supportedParameters');
 
 let subscriptions = {}; // realtime
 let queries = []; // archive
@@ -30,14 +31,14 @@ const generateRealtimePayloads = () => {
 const realtimePayloads = generateRealtimePayloads();
 
 // stub supported parameters list
-const supportedParameters = [
+/* const supportedParameters = [
   'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>',
   'Reporting.ATT_BC_STR1STRSAQ0<ReportingParameter>',
   'Reporting.ATT_BC_STR1STRSAQ1<ReportingParameter>',
   'Reporting.ATT_BC_STR1STRSAQ2<ReportingParameter>',
   'Reporting.ATT_BC_STR1STRSAQ3<ReportingParameter>',
   'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
-];
+];*/
 
 const isParameterSupported = (dataId) => {
   const parameter = `${dataId.catalog}.${dataId.parameterName}<${dataId.comObject}>`;
@@ -70,8 +71,8 @@ const pushDomainData = (queryId, domains) => {
   const buffer = [null,
     stubData.getDomainDataHeaderProtobuf(),
     stubData.getStringProtobuf(queryId),
+    stubData.getDomainsProtobuf(domains),
   ];
-  _.each(domains, domain => buffer.push(stubData.getDomainProtobuf(domain)));
   zmq.push('stubData', buffer);
 };
 const pushTimebasedArchiveData = (queryId, dataId, isLast, payloads) => {
@@ -113,10 +114,7 @@ const onHssMessage = (...args) => {
       switch (type) {
         case constants.MESSAGETYPE_DOMAIN_QUERY:
           {
-            const domains = [
-              stubData.getDomain(),
-              stubData.getDomain({ name: 'fr.cnes.sat1.ion', domainId: 42, parentDomainId: 27 }),
-            ];
+            const domains = stubData.getDomains();
             debug.info('push Domains', domains);
             return pushDomainData(queryId, domains);
           }
@@ -124,10 +122,10 @@ const onHssMessage = (...args) => {
           {
             const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
             if (typeof isParameterSupported(dataId) === 'undefined') {
-              return pushError(queryId, 'parameter not yet supported by stub');
+              return pushError(queryId, `parameter ${dataId.parameterName} not yet supported by stub`);
             }
             const interval = protobuf.decode('dc.dataControllerUtils.TimeInterval', args[3]);
-            const queryArguments = protobuf.decode('dc.dataControllerUtils.queryArguments', args[4]);
+            const queryArguments = protobuf.decode('dc.dataControllerUtils.QueryArguments', args[4]);
             queries.push({ queryId, dataId, interval, queryArguments });
             debug.debug('query registered', dataId.parameterName, interval);
             return pushSuccess(queryId);
@@ -137,7 +135,7 @@ const onHssMessage = (...args) => {
             const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
             const parameter = isParameterSupported(dataId);
             if (typeof parameter === 'undefined') {
-              return pushError(queryId, 'parameter not yet supported by stub');
+              return pushError(queryId, `parameter ${dataId.parameterName} not yet supported by stub`);
             }
             const action = protobuf.decode('dc.dataControllerUtils.Action', args[3]).action;
             if (action === constants.SUBSCRIPTIONACTION_ADD) {

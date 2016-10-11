@@ -40,9 +40,11 @@ const sendTimebasedPubSubData = (websocketHandler, dataIdBuffer, ...payloadsBuff
 
   // if there is no remoteId for this dataId, stop logic
   if (_.isEmpty(filtersByRemoteId)) {
+    debug.debug('no query registered for this dataId', dataId);
     return undefined;
   }
   if (payloadsBuffers.length % 2 !== 0) {
+    debug.debug('payloads should be sent by (timestamp, payloads) peers');
     return undefined;
   }
 

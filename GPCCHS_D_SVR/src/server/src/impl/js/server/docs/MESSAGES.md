@@ -13,16 +13,16 @@
 **domainQuery** (HSS->DC)
 ```
 [
-  'domainQuery',
-  string, // unique query ID
+  'domainQuery',  // (Protobuf Header)
+  string, // unique query ID (Protobuf String)
 ]
 ```
 
 **domainData** (DC->HSS)
 ```
 [
-  'domainData',
-  string, // unique query ID
+  'domainData', // (Protobuf Header)
+  string, // unique query ID // (Protobuf String)
   [
     {
       domainId: number,
@@ -31,7 +31,7 @@
       oid: string,
       parentDomainId: number,
     },
-  ],
+  ], // (Protobuf Domains)
 ]
 ```
 
@@ -131,34 +131,34 @@
 **timebasedQuery** (HSS->DC)
 ```
 [
-  'timebasedQuery',
-  string, // unique query ID
-  dataId,
-  timeInterval,
-  queryArguments,
+  'timebasedQuery', // (Protobuf Header)
+  string, // unique query ID // (Protobuf String)
+  dataId, // (Protobuf DataId)
+  timeInterval, // (Protobuf TimeInterval)
+  queryArguments, // (Protobuf QueryArguments)
 ]
 ```
 
 **timebasedSubscription** (HSS->DC)
 ```
 [
-  'timebasedSubscription',
-  string, // unique query ID
-  dataId,
-  enum('ADD', 'DELETE'),
+  'timebasedSubscription', // (Protobuf Header)
+  string, // unique query ID // (Protobuf String)
+  dataId, // (Protobuf DataId)
+  enum('ADD', 'DELETE'), // (Protobuf Action)
 ]
 ```
 
 **timebasedArchiveData** (DC->HSS)
 ```
 [
-  'timebasedArchiveData',
-  string, // unique query ID
-  dataId,
-  boolean, // is last the last chunk for query ID
-  timestamp,
-  payload,
-  timestamp,
+  'timebasedArchiveData', // (Protobuf Header)
+  string, // unique query ID // (Protobuf String)
+  dataId, // (Protobuf DataId)
+  boolean, // is last the last chunk for query ID // (Protobuf Boolean)
+  timestamp, // (Protobuf Timestamp)
+  payload, // (Protobuf of payload type)
+  timestamp, // (Protobuf Timestamp)
   ...
 ]
 ```
@@ -166,11 +166,11 @@
 **timebasedPubSubData** (DC->HSS)
 ```
 [
-  'timebasedPubSubData',
-  dataId,
-  timestamp,
-  payload,
-  timestamp,
+  'timebasedPubSubData', // (Protobuf Header)
+  dataId, // (Protobuf DataId)
+  timestamp, // (Protobuf Timestamp)
+  payload, // (Protobuf of payload type)
+  timestamp, // (Protobuf Timestamp)
   ...
 ]
 ```
@@ -194,10 +194,10 @@
 **response** (DC->HSS)
 ```
 [
-  'response',
-  string, // unique query ID
-  enum(’SUCCESS’, ‘ERROR'),
-  string, // error message
+  'response', // (Protobuf Header)
+  string, // unique query ID // (Protobuf String)
+  enum(’SUCCESS’, ‘ERROR'), // (Protobuf Status)
+  string, // error message // (Protobuf String)
 ]
 ```
 
@@ -205,6 +205,7 @@
 ```
 {
   event: 'error',
+  type: enum('response'),
   payload: {
     message: string,
   },
@@ -225,6 +226,10 @@ enum(‘domainQuery’, ‘timebasedQuery’, ‘timebasedSubscription’, ‘re
   comObject: string,
   sessionId: number,
   domainId: number,
+  oid: string, // for DC
+  sourceOid: string, // for DC
+  url: string, // for FDS
+  version: string, // for FDS
 }
 ```
 

@@ -1,0 +1,8 @@
+package dataControllerUtils.protobuf;
+
+import "dataControllerUtils/Domain.proto";
+
+message Domains {
+extensions 2 to 102;
+    repeated Domain domains = 1;
+}

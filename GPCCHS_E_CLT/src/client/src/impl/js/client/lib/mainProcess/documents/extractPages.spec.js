@@ -35,7 +35,7 @@ describe('documents/lib', () => {
         id: 'TB1',
         uuid: tbid,
       };
-      content.__folder = path.join(__dirname, '../examples');
+      content.__folder = path.join(__dirname, 'examples');
     });
     describe('findWindowPagesAndReplaceWithUuid', () => {
       it('window valid', () => {

@@ -90,7 +90,7 @@ describe('Timebar update', () => {
     const id1 = tb1.timelines[1].id;
     differences.should.be.an('object').with.property('timelineUpdate');
     differences.timelineUpdate.should.have.all.keys(['timelines', 'masterId', 'offsetFromUTC']);
-    differences.timelineUpdate.timelines.should.be.an('object').with.all.keys([id0, id1]);
+    differences.timelineUpdate.timelines.should.be.an('object').with.properties( 0, 1);
     differences.timelineUpdate.timelines[id0].should.have.all.keys(['offset', 'name']);
     differences.timelineUpdate.timelines[id1].should.have.all.keys(['offset']);
     differences.timelineUpdate.timelines[id0].name.should.equal('newTb1');

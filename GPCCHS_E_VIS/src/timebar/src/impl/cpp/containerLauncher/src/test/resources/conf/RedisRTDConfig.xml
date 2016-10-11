@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Servers>
+    <Server name="Server.RTD" unixSocketPath="/tmp/redis/rtdRedisDb.sock" confPath="/tmp/redis/rtdRedisDb.conf"/>
+    <Server name="Server.SVD" unixSocketPath="/tmp/redis.sock" confPath="/tmp/redis/svdRedis.conf"/>
+
+  </Servers>
+  
+  <Session id="0">
+
+    <!-- System -->
+
+    <Catalog name="ProviderDefinition" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/System/ProviderDefinition/1.0</Source>
+    </Catalog>
+    <Catalog name="ComputedEventDefinition" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/System/ComputedEventDefinition/1.0</Source>
+    </Catalog>
+    <Catalog name="DataType" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/System/DataType/1.0</Source>
+    </Catalog>
+    <Catalog name="Domains" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/System/Domains/1.0</Source>
+    </Catalog>   
+    <Catalog name="IsisFilters" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/System/IsisFilters/1.0</Source>
+    </Catalog> 
+    <Catalog name="LogbookEventDefinition" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/System/LogbookEventDefinition/1.0</Source>
+    </Catalog>
+    <Catalog name="ObjectType" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/System/ObjectType/1.0</Source>
+    </Catalog>
+    <Catalog name="ParameterValueDefinition" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/System/ParameterValueDefinition/1.0</Source>
+    </Catalog>  
+    <Catalog name="PusGroundModelDefinition" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/System/PusGroundModelDefinition/1.0</Source>   
+    </Catalog>
+    <Catalog name="Scalar" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/System/Scalar/1.0</Source>
+    </Catalog>
+    <Catalog name="Service" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/System/Service/1.0</Source>
+    </Catalog>
+    <Catalog name="TestCatalog" version="TEST">
+        <Source>${run.dir}/RTD_catalogs/System/TestCatalog/TEST</Source>
+    </Catalog>    
+    <Catalog name="TypeMime" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/System/TypeMime/1.0</Source>
+    </Catalog>
+    <Catalog name="UserEventDefinition" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/System/UserEventDefinition/1.0</Source>
+    </Catalog>
+    <Catalog name="FDSScalarDefinition" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/System/FDSScalarDefinition/1.0</Source>
+    </Catalog>
+
+    <!-- SDB -->  
+
+    <Catalog name="ActivityArgument" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/SDB/V0.0/ActivityArgument/1.0</Source>
+    </Catalog> 
+    <Catalog name="AggregateType" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/SDB/V0.0/AggregateType/1.0</Source>
+    </Catalog> 
+    <Catalog name="Assignment" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/SDB/V0.0/Assignment/1.0</Source>
+    </Catalog> 
+    <Catalog name="BaseType" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/SDB/V0.0/BaseType/1.0</Source>
+    </Catalog> 
+    <Catalog name="EnumeratedType" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/SDB/V0.0/EnumeratedType/1.0</Source>
+    </Catalog> 
+    <Catalog name="FunctionalSystemElement" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/SDB/V0.0/FunctionalSystemElement/1.0</Source>
+    </Catalog> 
+    <Catalog name="GenericTelecommandPacket" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/SDB/V0.0/GenericTelecommandPacket/1.0</Source>
+    </Catalog> 
+    <Catalog name="GenericTelemetryPacket" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/SDB/V0.0/GenericTelemetryPacket/1.0</Source>
+    </Catalog> 
+    <Catalog name="InterpretationFunction" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/SDB/V0.0/InterpretationFunction/1.0</Source>
+    </Catalog> 
+    <Catalog name="Monitoring" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/SDB/V0.0/Monitoring/1.0</Source>
+    </Catalog> 
+    <Catalog name="OnBoardEvent" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/SDB/V0.0/OnBoardEvent/1.0</Source>
+    </Catalog> 
+    <Catalog name="OperationParameter" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/SDB/V0.0/OperationParameter/1.0</Source>
+    </Catalog> 
+    <Catalog name="PhysicalSystemElement" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/SDB/V0.0/PhysicalSystemElement/1.0</Source>
+    </Catalog> 
+    <Catalog name="Reporting" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/SDB/V0.0/Reporting/1.0</Source>
+    </Catalog> 
+    <Catalog name="RootTelecommandPacket" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/SDB/V0.0/RootTelecommandPacket/1.0</Source>
+    </Catalog> 
+    <Catalog name="RootTelemetryPacket" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/SDB/V0.0/RootTelemetryPacket/1.0</Source>
+    </Catalog> 
+    <Catalog name="SystemParameter" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/SDB/V0.0/SystemParameter/1.0</Source>
+    </Catalog> 
+    <Catalog name="TelecommandPacket" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/SDB/V0.0/TelecommandPacket/1.0</Source>
+    </Catalog> 
+    <Catalog name="TelecommandStructureContainer" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/SDB/V0.0/TelecommandStructureContainer/1.0</Source>
+    </Catalog> 
+    <Catalog name="TelemetryPacket" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/SDB/V0.0/TelemetryPacket/1.0</Source>
+    </Catalog> 
+    <Catalog name="TelemetryStructureContainer" version="1.0">
+        <Source>${run.dir}/RTD_catalogs/SDB/V0.0/TelemetryStructureContainer/1.0</Source>
+    </Catalog> 
+  </Session>
+</CONFIG>

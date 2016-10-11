@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features name="Features">
+        <feature name="FeatureRedisRTD">
+                <bundle_container>fr.cnes.lpisis.gpds.cpp/gpdsrt_d_rtd_manageRedis/gpdsrt_d_rtd_manageRedis-${gpdsrt.version}</bundle_container>
+                <bundle_container>fr.cnes.lpisis.gpds.cpp/gpdsrt_d_rtd_realTimeDatabase/gpdsrt_d_rtd_realTimeDatabase-${gpdsrt.version}</bundle_container>
+        </feature>
+</features>

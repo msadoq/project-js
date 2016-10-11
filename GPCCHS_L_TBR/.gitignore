@@ -1,0 +1,11 @@
+*~
+~*
+builds/
+build/
+reports/
+CMakeLists.txt.user
+target/
+*.pid
+.project
+.cproject
+ddc-ng.log

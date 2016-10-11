@@ -1,0 +1,175 @@
+#!/bin/bash
+
+############################################################################
+#This script creates the directory tree necessary to run a container
+# by default this directory is target/run in current directory
+# it can be provides as argument to script;
+#  in this case, it must be a path relative to current directory
+############################################################################
+
+RUNDIR=target/run
+
+if [ $# -ge 1 ] ; then
+  RUNDIR=$1
+fi
+
+#Function to create a symbolic link for $1 in $2 (target directory)
+#$1 and $2 must be paths relative to current directory
+function installLink {
+  source=$1
+  targetDir=$2
+  
+  upString=$(echo -n "$targetDir" | sed -e "s@[^/][^/]*@..@g")
+  
+  [ -d "$targetDir" ] || mkdir -p "$targetDir"
+  if [ ! -L $targetDir/$(basename $source) ] ; then
+    ln -s "$upString/$source" "$targetDir"
+  else
+    echo "Warning: installLink: link for \'$(basename $source)\' already exists in \'$targetDir\'" >&2
+    echo "                      it points to: $(ls -l $targetDir/$(basename $source))" >&2
+    echo "                      failed to install link to: $source" >&2
+  fi
+}
+
+#Function to install a link to a Python script
+function installLinkPy {
+  source=$1
+  targetDir=$2
+  prefix=$3
+
+  shortSource=${source#$prefix}
+  shortTarget=$(dirname $shortSource)
+  
+  installLink $source $targetDir/$shortTarget
+}
+
+#Create directory or empty it
+[ -d $RUNDIR ] || mkdir -p $RUNDIR
+rm -rf $RUNDIR/*
+
+
+#Install features ...
+#... create directory
+mkdir -p $RUNDIR/features
+
+#... install local features (after filtering) (support both old and new path for feature storage)
+for feature in $(ls target/resource/feature/*.xml target/resource/features/*.xml 2> /dev/null) ; do
+  installLink "$feature" $RUNDIR/features
+done
+
+#... install features from dependencies (support both old and new path for feature storage)
+for feature in $(ls target/dependencies/feature/*.xml target/dependencies/features/*.xml 2> /dev/null) ; do
+  installLink "$feature" $RUNDIR/features
+done
+
+#Install libraries...
+mkdir -p $RUNDIR/lib/so
+
+#... locally built
+for lib in $(ls target/lib/so/*.so* 2> /dev/null) ; do
+  installLink $lib $RUNDIR/lib/so
+done
+
+for lib in $(ls target/lib/*.so* 2> /dev/null) ; do
+  installLink $lib $RUNDIR/lib
+done
+
+#... and from dependencies
+for lib in $(ls target/dependencies/lib/*.so* 2> /dev/null) ; do
+  installLink $lib $RUNDIR/lib
+done
+
+for lib in $(ls target/dependencies/lib/so/*.so* 2> /dev/null) ; do
+  installLink $lib $RUNDIR/lib/so
+done
+
+#Install Python packages ... (along with any resource file)
+mkdir -p $RUNDIR/lib/py
+
+#... local packages
+if [ -d src/main/py ] ; then
+  for pyfile in $(find -L src/main/py -type f) ; do
+    installLinkPy "$pyfile" "$RUNDIR/lib/py" "src/main/py"
+  done
+fi
+
+if [ -d src/test/py ] ; then
+  for pyfile in $(find -L src/test/py -type f) ; do
+    installLinkPy "$pyfile" "$RUNDIR/lib/py" "src/test/py"
+  done
+fi
+
+#... packages from dependencies
+if [ -d target/dependencies/lib/py ] ; then
+  for pyfile in $(find -L target/dependencies/lib/py -type f) ; do
+    installLinkPy $pyfile $RUNDIR/lib/py target/dependencies/lib/py
+  done
+fi
+
+#... COTS
+if [ -d target/dependencies/lib/python3.4/site-packages ] ; then
+  for entry in $(find target/dependencies/lib/python3.4/site-packages -maxdepth 1 -mindepth 1) ; do
+    installLink $entry $RUNDIR/lib/py
+  done
+fi
+
+#Install binaries...
+mkdir -p $RUNDIR/bin
+
+#... local binaries
+for binary in $(ls target/bin/* 2> /dev/null) ; do
+  installLink $binary $RUNDIR/bin
+done
+
+for binary in $(ls src/*/resources/bin/* 2> /dev/null) ; do
+  [ -f $binary ] && installLink $binary $RUNDIR/bin
+done
+
+#... binaries from dependencies
+for binary in $(ls target/dependencies/bin/* 2> /dev/null) ; do
+  [ -f $binary ] && installLink $binary $RUNDIR/bin
+done
+
+#Install properties ...
+mkdir $RUNDIR/properties
+
+#... local properties
+for property in $(find target/share/properties -maxdepth 1 -mindepth 1 -type f) ; do
+  installLink $property $RUNDIR/properties
+done
+
+#... properties from dependencies
+for property in $(find target/dependencies/share/properties -maxdepth 1 -mindepth 1 -type f) ; do
+  installLink $property $RUNDIR/properties
+done
+
+# Manage yescard for accessControl: install yescard by default
+if [ "${NO_YESCARD-none}" = "none" ] ; then
+
+  echo "Installing yescard"
+
+  SAVEDIR=$PWD
+
+  # manage yescard in C++
+  cd $RUNDIR/lib/so
+  yescardCpp="libgpin_accessControl_yescard.so.${GPIN_VERSION}"
+  accessCtlCpp="libgpin_accessControl.so.${GPIN_VERSION}"
+  if [ -L "$yescardCpp" ] ; then
+    rm ${accessCtlCpp} 2> /dev/null
+    ln -s ${yescardCpp} ${accessCtlCpp}
+  fi
+  
+  cd $SAVEDIR
+  
+  # manage yescard in Python
+  cd $RUNDIR/lib/py/GPIN
+  yescardPy=accessControl_yescard
+  accessCtlPy=accessControl
+  if [ -d $yescardPy ] ; then
+    rm -rf $accessCtlPy 2> /dev/null
+    ln -s ${yescardPy} ${accessCtlPy}
+  fi
+  
+  cd $SAVEDIR
+
+fi

@@ -1,0 +1,35 @@
+<?xml version="1.0" ?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- Produced by  -->
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
+    <artifactId>gpcchs_e_vis_client</artifactId>
+    <packaging>isis-js-bundle</packaging>
+    <version>1.1.0-R7S1-SNAPSHOT</version>
+
+    <parent>
+        <groupId>fr.cnes.lpisis.gpcc</groupId>
+        <artifactId>gpcc-parent</artifactId>
+        <version>1.1.0-R7S1-SNAPSHOT</version>
+        <relativePath />
+    </parent>
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <find.dependencies.dir>${basedir}/target/dependencies</find.dependencies.dir>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <api.target.dir>${basedir}/target</api.target.dir>
+        <api.lib.dir>${api.target.dir}/lib</api.lib.dir>
+        <api.work.dir>${api.target.dir}/work</api.work.dir>
+        <api.main.dir>${api.work.dir}/${artifactId}-${project.version}</api.main.dir>
+    </properties>
+    <dependencies>
+        
+
+
+        <dependency>
+            <groupId>org.sourceforge.pyunit</groupId>
+            <artifactId>COTS-pyunit</artifactId>
+            <type>isis-cots</type>
+        </dependency>
+    </dependencies>
+</project>

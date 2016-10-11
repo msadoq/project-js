@@ -1,0 +1,40 @@
+{
+    "actionType": "tlAdded",
+    "extUpperBound": 1475573258348,
+    "id": "TimeBar",
+    "masterId": 1,
+    "mode": "Normal",
+    "offsetFromUTC": 0,
+    "playingState": "pause",
+    "rulerResolution": 11250,
+    "rulerStart": 1475566058348,
+    "slideWindow": {
+        "lower": 1475566058348,
+        "upper": 1475573258348
+    },
+    "speed": 1,
+    "timeLines": [
+        {
+            "id": 1,
+            "kind": "Session",
+            "name": "sat1",
+            "offset": 0,
+            "sessionId": "1"
+        },
+        {
+            "id": 2,
+            "kind": "Session",
+            "name": "system",
+            "offset": 0,
+            "sessionId": "0"
+        }
+    ],
+    "timeSpec": "LocalTime",
+    "type": "timeBarConfiguration",
+    "visuWindow": {
+        "current": 1475573258348,
+        "defaultWidth": 7200000,
+        "lower": 1475566058348,
+        "upper": 1475573258348
+    }
+}

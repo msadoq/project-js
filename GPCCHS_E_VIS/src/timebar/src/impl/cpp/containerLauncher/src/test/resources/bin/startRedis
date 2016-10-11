@@ -1,0 +1,333 @@
+#!/bin/bash
+
+#########################################################################
+# Description
+#  This script starts manageRedis and RTD
+#
+#  It must be run from the root directory of a test module to be able
+#  access resources installed by Maven in target/ directory
+#
+#  It supposes USER_TARGET_DIR is set because it calls startContainer
+#
+#  Accepts the following options
+#   -debug <DEBUG_OPTS>: debug options to be passed to container
+#   --skip-merge: to be used if the merge has been done before
+#
+#  User can define the following variables to override default values:
+#  - USER_REDIS_RTD_FEATURE_FILE: feature for starting ManageRedis / RTD bundles
+#  - USER_REDIS_RTD_CONFIG_FILE: configuration file for ManageRedis / RTD bundles
+#  - USER_CATALOGS_INSTALL_PREFIX: prefix for installation of catalogs
+#########################################################################
+
+
+#################################
+# Environment
+#################################
+
+# Location of catalogs in project
+LOCAL_CATALOG_PREFIX=target/resource/share/catalogs/
+DEPENDENCY_CATALOG_PREFIX=target/dependencies/share/catalogs/
+
+# Directory for gathering catalogs files
+TMP_CATALOGS_DIR=target/run/catalogs
+
+# For using startContainer_cmd
+CONTAINER_CMD=target/dependencies/bin/gpcctc_l_cnt_isisStartContainer_cmd${GPCCTC_VERSION}
+LD_LIBRARY_PATH=$PWD/target/dependencies/lib:$PWD/target/dependencies/lib/so:$LD_LIBRARY_PATH
+
+# Tool for merging catalogs
+MERGE_TOOL=target/dependencies/bin/catalogAggregator.py
+
+# Feature for starting Redis / RTD
+DEFAULT_REDIS_RTD_FEATURE_FILE=FeatureRedisRtd.xml
+if [ "$USER_REDIS_RTD_FEATURE_FILE" != "" ] ; then
+  REDIS_RTD_FEATURE_FILE=$USER_REDIS_RTD_FEATURE_FILE
+else
+  REDIS_RTD_FEATURE_FILE=$DEFAULT_REDIS_RTD_FEATURE_FILE
+fi
+
+# Configuration for Redis / RTD feature
+DEFAULT_REDIS_RTD_CONFIG_FILE=$PWD/target/dependencies/share/config/Redis-config.xml
+if [ "$USER_REDIS_RTD_CONFIG_FILE" != "" ] ; then
+  REDIS_RTD_CONFIG_FILE=$USER_REDIS_RTD_CONFIG_FILE
+else
+  REDIS_RTD_CONFIG_FILE=$DEFAULT_REDIS_RTD_CONFIG_FILE
+fi
+
+# Prefix for installing catalogs
+DEFAULT_CATALOGS_INSTALL_PREFIX=/tmp/catalogs/
+if [ "$USER_CATALOGS_INSTALL_PREFIX" != "" ] ; then
+  CATALOGS_INSTALL_PREFIX=$USER_CATALOGS_INSTALL_PREFIX
+else
+  CATALOGS_INSTALL_PREFIX=$DEFAULT_CATALOGS_INSTALL_PREFIX
+fi
+
+# List of catalogs to be processed
+CATALOGS=()
+
+
+#################################
+# Functions
+#################################
+
+# Install a link with absolute path to a file / directory in a sub-directory of a target directory
+function installAbsLink {
+  source=$1
+  # ... compute absolute path
+  prefix=$(readlink -f $2)
+  targetBase=$3
+
+  sourceAbs=$(readlink -f $source)
+  path=$(dirname $sourceAbs)
+  file=$(basename $source)
+
+  subdir=${path#$prefix}
+  targetDir=$targetBase/$subdir
+
+  [ -d $targetDir ] || mkdir -p $targetDir
+
+  if [ ! -e $targetDir/$file ] ; then 
+    ln -s $sourceAbs $targetDir
+  else
+    echo "startRedis: Warning: impossible to install link to $source in $targetDir: file already exists"
+  fi
+}
+
+# Compute list of catalogs from configuration file
+function computeCatalogs {
+
+  echo "startRedis: Info: Extracting catalog list from '$REDIS_RTD_CONFIG_FILE'" >&2
+
+  while read catalog_inst ; do
+  
+    catalog=${catalog_inst#$CATALOGS_INSTALL_PREFIX}
+  
+    # Only process if installation path starts with prefix
+    # other paths must be installed by user
+    if [ "$catalog" != "$catalog_inst" ] ; then
+      CATALOGS+=("$catalog")
+    else
+      echo "startRedis: Warning: ignoring catalog '$catalog_inst', not prefixed by '$CATALOGS_INSTALL_PREFIX'" >&2
+    fi
+  
+  done  < <(grep "<Source>" $REDIS_RTD_CONFIG_FILE | sed -e "s@.*<Source>\(.*\)</Source>.*@\1@")
+  
+}
+
+# Process one catalog
+function processCatalog {
+
+catalog=$1
+
+version=$(basename $catalog)
+name=$(basename $(dirname $catalog))
+radix=$(dirname $(dirname $catalog))
+
+hasAVSC="false"
+hasCatalog="false"
+
+echo "startRedis: Info: processing catalog $catalog: radix=$radix name=$name version=$version" >&2
+
+# Install .avsc files in $CATALOGS_INSTALL_PREFIX
+# try local first
+local_dirs=$(find $LOCAL_CATALOG_PREFIX -type d -name $name)
+for dir in $local_dirs ; do
+  
+  # Compute if radix is present in path
+  hasRadix=0
+  tmpCatalog=${dir#$LOCAL_CATALOG_PREFIX}
+  if [ ${tmpCatalog#$radix} != ${tmpCatalog} ] ; then
+    hasRadix=1
+  fi
+  
+  for file in $(find $dir -name "*.avsc") ; do
+  
+    if [ $hasRadix -eq 1 ] ; then
+      installAbsLink $file $PWD/$LOCAL_CATALOG_PREFIX/ $CATALOGS_INSTALL_PREFIX
+    else
+      installAbsLink $file $PWD/$LOCAL_CATALOG_PREFIX/ $CATALOGS_INSTALL_PREFIX/$radix
+    fi
+    hasAVSC="true"
+  done
+done
+  
+# then from dependency
+dep_dirs=$(find $DEPENDENCY_CATALOG_PREFIX -type d -name $name)
+for dir in $dep_dirs ; do
+
+  # Compute if radix is present in path
+  hasRadix=0
+  tmpCatalog=${dir#$DEPENDENCY_CATALOG_PREFIX}
+  if [ ${tmpCatalog#$radix} != ${tmpCatalog} ] ; then
+    hasRadix=1
+  fi
+
+  for file in $(find $dir -name "*.avsc") ; do
+    
+    if [ $hasRadix -eq 1 ] ; then
+      installAbsLink $file $PWD/$DEPENDENCY_CATALOG_PREFIX/ $CATALOGS_INSTALL_PREFIX
+    else
+      installAbsLink $file $PWD/$DEPENDENCY_CATALOG_PREFIX/ $CATALOGS_INSTALL_PREFIX/$radix
+    fi
+    hasAVSC="true"
+  done
+done
+
+# Check presence of AVSC file
+if [ $hasAVSC != "true" ] ; then
+  echo "startRedis: Warning: no .avsc file found for catalog $catalog" >&2
+fi
+
+# Gather .json files in $TMP_CATALOGS_DIR
+# install local files
+local_dirs=$(find $LOCAL_CATALOG_PREFIX -type d -name $name)
+for dir in $local_dirs ; do
+
+  # Compute if radix is present in path
+  hasRadix=0
+  tmpCatalog=${dir#$LOCAL_CATALOG_PREFIX}
+  if [ ${tmpCatalog#$radix} != ${tmpCatalog} ] ; then
+    hasRadix=1
+  fi
+
+  if [ -d $dir/$version ] ; then
+    for file in $(find $dir/$version -name "*.json") ; do
+      if [ $hasRadix -eq 1 ] ; then
+        installAbsLink $file $PWD/$LOCAL_CATALOG_PREFIX/ $PWD/$TMP_CATALOGS_DIR
+      else
+        installAbsLink $file $PWD/$LOCAL_CATALOG_PREFIX/ $PWD/$TMP_CATALOGS_DIR/$radix
+      fi
+      hasCatalog="true"
+    done
+  fi
+done
+
+# install dependency files
+dep_dirs=$(find $DEPENDENCY_CATALOG_PREFIX -type d -name $name)
+echo "startRedis: Info: catalog data in $dep_dirs" >&2
+for dir in $dep_dirs ; do
+
+  # Compute if radix is present in path
+  hasRadix=0
+  tmpCatalog=${dir#$DEPENDENCY_CATALOG_PREFIX}
+  if [ ${tmpCatalog#$radix} != ${tmpCatalog} ] ; then
+    hasRadix=1
+  fi
+
+  if [ -d $dir/$version ] ; then
+    for file in $(find $dir/$version -name "*.json") ; do
+      if [ $hasRadix -eq 1 ] ; then
+        installAbsLink $file $PWD/$DEPENDENCY_CATALOG_PREFIX/ $PWD/$TMP_CATALOGS_DIR
+      else
+        installAbsLink $file $PWD/$DEPENDENCY_CATALOG_PREFIX/ $PWD/$TMP_CATALOGS_DIR/$radix
+      fi
+      hasCatalog="true"
+    done
+  fi
+done
+
+if [ "$hasCatalog" = "true" ] ; then
+  echo "startRedis: Info: Merging .json files for catalog $catalog" >&2
+  # Merge .json files
+  $MERGE_TOOL -c $name -v $version -s $TMP_CATALOGS_DIR/$radix -d $CATALOGS_INSTALL_PREFIX/$radix
+
+else
+  echo "startRedis: Warning: No .json file found for catalog $catalog" >&2
+fi
+
+}
+DEBUG_REDIS_OPTS=""
+if [ "$1" = "-debug" ] ; then
+  DEBUG_REDIS_OPTS="-debug $2"
+fi
+
+
+#################################
+# Start of script
+#################################
+
+# Analyze options
+DEBUG_REDIS_OPTS=""
+SKIP_MERGE_OPT=""
+while [ $# -ne 0 ]; do
+  case "$1" in
+    "-debug")
+      DEBUG_REDIS_OPTS="-debug $2"
+      shift
+      ;;
+    "--skip-merge")
+      SKIP_MERGE_OPT="y"
+      ;;
+    *)
+      ;;
+  esac
+  shift
+done
+
+  # Clear DB dumps, unless user want to keep them
+  if [ ${KEEP_REDIS_DUMP-none} = none ] ; then
+    echo "startRedis: cleaning dumps" 
+    rm -rf /tmp/redis-dump
+    mkdir /tmp/redis-dump
+  fi
+
+
+  # Install redis files (configuration) in /tmp
+
+  localConf=$(find target/resource/share/redis -name '*.conf')
+  dependencyConf=$(find target/dependencies/share/redis -name '*.conf')
+
+  for conf in $localConf ; do
+    installAbsLink "$conf" "$PWD/target/resource/share/" /tmp
+  done
+
+  for conf in $dependencyConf ; do
+    installAbsLink "$conf" "$PWD/target/dependencies/share/" /tmp
+  done
+
+if [ "$SKIP_MERGE_OPT" != "y" ]; then
+
+  # Clear previous installation
+  rm -rf /tmp/redis $CATALOGS_INSTALL_PREFIX $TMP_CATALOGS_DIR
+
+  # Manage catalogs:
+  # - extract used catalogs from RTD configuration
+  # - gather .json files from local project and dependencies
+  # - merge catalogs in destination
+
+  # Compute catalogs
+  computeCatalogs
+
+  # Create temporary directory for gathering all catalogs
+  mkdir -p $TMP_CATALOGS_DIR
+
+  # Create directory for storing merged catalogs
+  mkdir -p $CATALOGS_INSTALL_PREFIX
+
+  # Process all catalogs
+  for catalog in "${CATALOGS[@]}" ; do
+    processCatalog "$catalog"
+  done
+
+else
+  echo '*********** Merge of catalogs SKIPPED !'
+fi # SKIP_MERGE_OPT
+
+
+# Configure redis-server for manageRedis bundle
+export REDIS_SERVER_PATH=$PWD/target/dependencies/bin/redis-server
+
+. target/dependencies/bin/startContainer $DEBUG_REDIS_OPT -name redis -standalone -no-log-manager -no-router -no-pub-sub -no-acl-cache $REDIS_RTD_FEATURE_FILE $REDIS_RTD_CONFIG_FILE
+
+# Wait for start of container
+REDIS_PID=$CONTAINER_PID
+
+checkProcess $REDIS_PID
+
+# Temporary wait, to offset internal sleep in RTD
+# To be removed when ACTIVATE command is answered when configuration processing is effectively over
+sleep 4
+
+checkProcess $REDIS_PID
+
+

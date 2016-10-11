@@ -1,0 +1,205 @@
+<?xml version="1.0" ?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>fr.cnes.lpisis.gpcc</groupId>
+  <artifactId>gpcchs_e_vis-parent</artifactId>
+  <packaging>pom</packaging>
+  <version>1.1.0-R7S1-SNAPSHOT</version>
+  <name>${project.groupId}.${project.artifactId}</name>
+  <parent>
+    <groupId>fr.cnes.lpisis</groupId>
+    <artifactId>isis-parent</artifactId>
+    <version>1.1.0-R7S1-SNAPSHOT</version>
+    <relativePath/>
+  </parent>
+  <dependencyManagement>
+    <dependencies>
+
+      <!-- Dependencies on GPCCCM modules -->
+
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
+        <artifactId>gpcccm_l_cml_timeBarsModel</artifactId>
+        <type>isis-cpp-module-dependency</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcccm.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
+        <artifactId>gpcccm_l_cml_isisGUIProcessMain</artifactId>
+        <type>isis-container-cpp-bundle</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcccm.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.python</groupId>
+        <artifactId>gpcccm_l_cml_isisGUIProcessDispatcher</artifactId>
+        <type>isis-python-module-dependency</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcccm.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
+        <artifactId>gpcccm_l_cml_apiWrapper</artifactId>
+        <type>isis-cpp-bundle</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcccm.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
+        <artifactId>gpcccm_l_cml_commonMMILibraryActors</artifactId>
+        <type>isis-cpp-bundle</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcccm.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
+        <artifactId>gpcccm_l_cml_documentApiTest</artifactId>
+        <type>isis-cpp-module-dependency</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcccm.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc</groupId>
+        <artifactId>gpcccm_l_cml_testCatalogs</artifactId>
+        <type>zip</type>
+        <classifier>resources</classifier>
+        <version>${gpcccm.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
+        <artifactId>gpcccm_l_cml_sessionLibraryWrapper</artifactId>
+        <type>isis-cpp-module-dependency</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcccm.version}</version>
+      </dependency>
+
+      <!-- Dependencies on GPCCHS_L_TBR modules -->
+
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
+        <artifactId>gpcchs_l_tbr_timeBar</artifactId>
+        <type>isis-cpp-module-dependency</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcc.version}</version>
+      </dependency>
+
+      <!-- Dependencies on internal modules -->
+
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
+        <artifactId>gpcchs_e_vis_standaloneTimeBar</artifactId>
+        <type>isis-cpp-bundle</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcc.version}</version>
+      </dependency>
+
+      <!-- Dependencies on GPCCTC -->
+
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
+        <artifactId>gpcctc_l_cnt_isisStartContainer</artifactId>
+        <type>isis-container-cpp-bundle</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
+        <artifactId>gpcctc_l_lof_logManager</artifactId>
+        <type>isis-container-cpp-bundle</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
+        <artifactId>gpcctc_l_lof_logApi</artifactId>
+        <type>isis-cpp-module-dependency</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcc.version}</version>
+      </dependency>
+
+      <!-- Dependencies on GPIN -->
+
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpin.cpp</groupId>
+        <artifactId>gpin_sessionLibrary_stub</artifactId>
+        <type>isis-cpp-module-dependency</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpin.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpin.cpp</groupId>
+        <artifactId>gpin_directoryClient</artifactId>
+        <type>isis-cpp-module-dependency</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpin.version}</version>
+      </dependency>
+
+      <!-- Dependencies on GPDS -->
+
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpds.cpp</groupId>
+        <artifactId>gpdsrt_d_rtd_manageRedis</artifactId>
+        <type>isis-container-cpp-bundle</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpds.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpds.cpp</groupId>
+        <artifactId>gpdsrt_d_rtd_realTimeDatabase</artifactId>
+        <type>isis-container-cpp-bundle</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpds.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpds.cpp</groupId>
+        <artifactId>gpds_rt_database_api</artifactId>
+        <type>isis-cpp-module-dependency</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpds.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpds.cpp</groupId>
+        <artifactId>gpds_rtdDataModel</artifactId>
+        <type>isis-cpp-module-dependency</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpds.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpds.cpp</groupId>
+        <artifactId>gpdsfd_d_fmd_archiveService</artifactId>
+        <type>isis-cpp-bundle</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpds.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpds.cpp</groupId>
+        <artifactId>gpdsfd_d_fmd_fileServiceManager</artifactId>
+        <type>isis-cpp-bundle</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpds.version}</version>
+      </dependency>
+
+
+      <!-- Dependencies on catalogs -->
+
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpds</groupId>
+        <artifactId>gpds_catalogs</artifactId>
+        <type>zip</type>
+        <classifier>resources</classifier>
+        <version>${gpds.version}</version>
+      </dependency>
+
+      <!-- Dependencies on GPCC -->
+
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
+        <artifactId>gpcc_ccsds_com_archive</artifactId>
+        <type>isis-cpp-module-dependency</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcc.version}</version>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+</project>

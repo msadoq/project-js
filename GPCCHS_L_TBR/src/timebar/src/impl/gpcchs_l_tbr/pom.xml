@@ -1,0 +1,77 @@
+<?xml version="1.0" ?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>fr.cnes.lpisis.gpcc</groupId>
+  <artifactId>gpcchs_l_tbr-parent</artifactId>
+  <packaging>pom</packaging>
+  <version>1.1.0-R7S1-SNAPSHOT</version>
+  <name>${project.groupId}.${project.artifactId}</name>
+  <parent>
+    <groupId>fr.cnes.lpisis</groupId>
+    <artifactId>isis-parent</artifactId>
+    <version>1.1.0-R7S1-SNAPSHOT</version>
+    <relativePath/>
+  </parent>
+  <dependencyManagement>
+    <dependencies>
+
+      <!-- Dependencies on GPIN -->
+
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpin.cpp</groupId>
+        <artifactId>gpin_sessionLibrary</artifactId>
+        <type>isis-cpp-module-dependency</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpin.version}</version>
+      </dependency>
+
+      <!-- Dependencies on GPCCCM modules -->
+
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
+        <artifactId>gpcccm_l_cml_commonMMI</artifactId>
+        <type>isis-cpp-module-dependency</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcccm.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
+        <artifactId>gpcccm_l_cml_timeBarsModel</artifactId>
+        <type>isis-cpp-module-dependency</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcccm.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
+        <artifactId>gpcccm_l_cml_commonMMIUtils</artifactId>
+        <type>isis-cpp-module-dependency</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcccm.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
+        <artifactId>gpcccm_l_cml_sessionLibraryWrapper</artifactId>
+        <type>isis-cpp-module-dependency</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcccm.version}</version>
+      </dependency>
+
+      <!-- Dependencies on internal modules -->
+
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
+        <artifactId>gpcchs_l_tbr_jsUtils</artifactId>
+        <type>isis-cpp-module-dependency</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
+        <artifactId>gpcchs_l_tbr_timeBar</artifactId>
+        <type>isis-cpp-module-dependency</type>
+        <classifier>unix_dev</classifier>
+        <version>${gpcc.version}</version>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
+</project>

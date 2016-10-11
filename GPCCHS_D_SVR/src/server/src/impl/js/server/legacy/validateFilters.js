@@ -60,14 +60,14 @@
 //       }
 //       if (typeof value.operator !== 'string'
 //         || [
-//           constants.FILTEROPERATOR_EQ,
-//           constants.FILTEROPERATOR_NE,
-//           constants.FILTEROPERATOR_LT,
-//           constants.FILTEROPERATOR_LE,
-//           constants.FILTEROPERATOR_GT,
-//           constants.FILTEROPERATOR_GE,
-//           constants.FILTEROPERATOR_CONTAINS,
-//           constants.FILTEROPERATOR_ICONTAINS,
+//           constants.FILTERTYPE_EQ,
+//           constants.FILTERTYPE_NE,
+//           constants.FILTERTYPE_LT,
+//           constants.FILTERTYPE_LE,
+//           constants.FILTERTYPE_GT,
+//           constants.FILTERTYPE_GE,
+//           constants.FILTERTYPE_CONTAINS,
+//           constants.FILTERTYPE_ICONTAINS,
 //         ].indexOf(value.operator) === -1) {
 //         error = new ApiError(
 //           400,

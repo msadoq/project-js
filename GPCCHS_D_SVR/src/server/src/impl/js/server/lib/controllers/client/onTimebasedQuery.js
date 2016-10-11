@@ -72,22 +72,20 @@ const timebasedQuery = (websocketHandler, payload, messageHandler) => {
       // create a zmq timeBasedQuery message
       // protobufferize header, queryId, dataId and interval
       debug.debug('encode dataId', query.dataId, 'and interval', missingInterval);
-      const queryArgs = [
+      const messageArgs = [
         encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_TIMEBASED_QUERY }),
         encode('dc.dataControllerUtils.String', { string: queryId }),
         encode('dc.dataControllerUtils.DataId', query.dataId),
         encode('dc.dataControllerUtils.TimeInterval', {
-          lowerTs: { ms: missingInterval[0] },
-          upperTs: { ms: missingInterval[1] },
+          startTime: { ms: missingInterval[0] },
+          endTime: { ms: missingInterval[1] },
         }),
       ];
-      // protobufferize filters if any
-      _.each(query.filter, (filter) => {
-        debug.debug('protobufferize filter', filter);
-        queryArgs.push(encode('dc.dataControllerUtils.Filter', filter));
-      });
+      // protobufferize queryArguments
+      messageArgs.push(encode('dc.dataControllerUtils.QueryArguments', query.queryArguments));
+
       // queue the message
-      messageQueue.push(queryArgs);
+      messageQueue.push(messageArgs);
       // add requested interval to connectedData model
       connectedDataModel.addRequestedInterval(remoteId, queryId, missingInterval);
     });
@@ -116,7 +114,7 @@ const timebasedQuery = (websocketHandler, payload, messageHandler) => {
     }
 
     // add remoteId and corresponding filters to subscriptions model
-    subscriptionsModel.addFilters(query.dataId, { [remoteId]: query.filter });
+    subscriptionsModel.addFilters(query.dataId, { [remoteId]: query.queryArguments.filters });
 
     // loop over intervals (TODO here or last action ?)
     _.each(query.intervals, (interval) => {

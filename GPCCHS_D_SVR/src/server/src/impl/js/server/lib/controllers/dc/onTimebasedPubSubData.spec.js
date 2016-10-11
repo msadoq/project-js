@@ -42,20 +42,20 @@ describe('onTimebasedPubSubData', () => {
 
   const fullFilter = [
     {
-      field: 'onboardDate',
-      operator: constants.FILTEROPERATOR_GT,
-      value: -15,
+      fieldName: 'onboardDate',
+      type: constants.FILTERTYPE_GT,
+      fieldValue: -15,
     }, {
-      field: 'onboardDate',
-      operator: constants.FILTEROPERATOR_LT,
-      value: 15,
+      fieldName: 'onboardDate',
+      type: constants.FILTERTYPE_LT,
+      fieldValue: 15,
     },
   ];
   const halfFilter = [
     {
-      field: 'onboardDate',
-      operator: constants.FILTEROPERATOR_EQ,
-      value: 10,
+      fieldName: 'onboardDate',
+      type: constants.FILTERTYPE_EQ,
+      fieldValue: 10,
     },
   ];
   const fullRemoteId = dataStub.getRemoteId(Object.assign({}, dataId, { filters: fullFilter }));

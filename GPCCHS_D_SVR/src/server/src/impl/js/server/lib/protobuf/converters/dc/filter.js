@@ -5,13 +5,13 @@ const {
 
 module.exports = {
   encode: data => ({
-    field: data.field,
-    operator: data.operator,
-    value: encodeAttribute(data.value),
+    fieldName: data.fieldName,
+    type: data.type,
+    fieldValue: encodeAttribute(data.fieldValue),
   }),
   decode: data => ({
-    field: data.field,
-    operator: data.operator,
-    value: decodeAttribute(data.value),
+    fieldName: data.fieldName,
+    type: data.type,
+    fieldValue: decodeAttribute(data.fieldValue),
   }),
 };

@@ -26,7 +26,7 @@ const response = (websocketHandler, queryIdBuffer, statusBuffer, reasonBuffer) =
   // check if queryId exists in registeredCallbacks singleton, if no stop logic
   const callback = registeredCallbacks.get(queryId);
   if (typeof callback === 'undefined') {
-    throw new Error('This response corresponds to no queryId');
+    return undefined;
   }
 
   // unregister queryId
@@ -45,7 +45,7 @@ const response = (websocketHandler, queryIdBuffer, statusBuffer, reasonBuffer) =
   const reason = (typeof reasonBuffer !== 'undefined') ? decode('dc.dataControllerUtils.String', reasonBuffer).string : reasonBuffer;
 
   // send error message to client and execute callback
-  websocketHandler('responseError', reason);
+  websocketHandler('error', { type: constants.ERRORTYPE_RESPONSE, reason });
   return callback(new Error((typeof reason !== 'undefined') ? reason : 'unknown reason'));
 };
 

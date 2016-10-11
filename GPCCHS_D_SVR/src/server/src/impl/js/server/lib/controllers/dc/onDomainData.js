@@ -17,7 +17,7 @@ const _ = require('lodash');
  * @param buffer
  */
 
-const domainData = (websocketHandler, queryIdBuffer, ...domainsBuffer) => {
+const domainData = (websocketHandler, queryIdBuffer, domainsBuffer) => {
   debug.verbose('called');
 
   // deprotobufferize queryId
@@ -27,20 +27,19 @@ const domainData = (websocketHandler, queryIdBuffer, ...domainsBuffer) => {
   // check if queryId exists in registeredCallbacks singleton, if no stop logic
   const callback = registeredCallbacks.get(queryId);
   if (!callback) {
-    throw new Error('This Domain Data corresponds to no queryId');
+    return undefined;
   }
-  debug.debug(`${domainsBuffer.length} domains`);
   // deprotobufferize domains
-  const domains = _.map(domainsBuffer, domainBuffer => decode('dc.dataControllerUtils.Domain', domainBuffer));
+  const domains = decode('dc.dataControllerUtils.Domains', domainsBuffer).domains;
 
   // store domains
   setDomains(domains);
   // forward to client
-  websocketHandler('domainResponse', domains);
+  return websocketHandler('domainResponse', domains);
 };
 
-const onDomainData = (queryIdBuffer, ...domainsBuffer) => {
-  domainData(sendToMain, queryIdBuffer, ...domainsBuffer);
+const onDomainData = (queryIdBuffer, domainsBuffer) => {
+  domainData(sendToMain, queryIdBuffer, domainsBuffer);
 };
 
 module.exports = {

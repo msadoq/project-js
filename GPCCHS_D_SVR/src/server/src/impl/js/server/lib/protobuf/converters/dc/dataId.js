@@ -2,6 +2,7 @@ module.exports = {
   encode: data => ({
     parameterName: data.parameterName,
     oid: data.oid,
+    sourceOid: data.sourceOid,
     catalog: data.catalog,
     comObject: data.comObject,
     sessionId: data.sessionId,
@@ -12,6 +13,7 @@ module.exports = {
   decode: data => ({
     parameterName: data.parameterName,
     oid: data.oid,
+    sourceOid: data.sourceOid,
     catalog: data.catalog,
     comObject: data.comObject,
     sessionId: data.sessionId,

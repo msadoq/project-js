@@ -16,20 +16,19 @@ describe('onDomainData', () => {
     const myDomain = dataStub.getDomain({ name: 'fr.cnes.sat1.batman' });
     const myDomainProto = dataStub.getDomainProtobuf(myDomain);
     // launch test
-    (() => domainData(sendToTestWs, myQueryIdProto, myDomainProto)).should.throw();
+    domainData(sendToTestWs, myQueryIdProto, myDomainProto);
+    getMessage().should.deep.equal({});
   });
 
   it('works', () => {
     // init test
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
-    const myDomain = dataStub.getDomain({ name: 'fr.cnes.sat1.batman' });
-    const myDomain2 = dataStub.getDomain({ name: 'fr.cnes.sat1.robin' });
-    const myDomainProto = dataStub.getDomainProtobuf(myDomain);
-    const myDomainProto2 = dataStub.getDomainProtobuf(myDomain2);
+    const myDomains = dataStub.getDomains();
+    const myDomainsProto = dataStub.getDomainsProtobuf(myDomains);
     registeredCallbacks.set(myQueryId, () => {});
     // launch test
-    domainData(sendToTestWs, myQueryIdProto, myDomainProto, myDomainProto2);
+    domainData(sendToTestWs, myQueryIdProto, myDomainsProto);
     // check data
     const domains = getMessage();
     domains.should.be.an('object');
@@ -37,10 +36,6 @@ describe('onDomainData', () => {
       .that.equal('domainResponse');
     domains.should.have.an.property('payload')
       .that.is.an('array')
-      .that.have.lengthOf(2);
-    domains.payload.should.have.properties([
-      myDomain,
-      myDomain2,
-    ]);
+      .that.have.properties(myDomains.domains);
   });
 });

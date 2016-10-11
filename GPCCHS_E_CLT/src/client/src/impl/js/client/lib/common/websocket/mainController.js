@@ -32,11 +32,21 @@ export default function controller(event, payload) {
       updateStore(store.getState(), store.dispatch, payload);
       break;
     case 'timebasedData': {
-      console.log('timebasedData', payload);
+      logger.debug('timebasedData', payload);
       const state = store.getState();
-      console.log(state);
+      logger.debug(state);
       break;
     }
+    case 'error':
+      switch (payload.type) {
+        case constants.ERRORTYPE_RESPONSE:
+          logger.error('DC Response Error', payload.reason);
+          break;
+        default:
+          logger.error('Unrecognized Error type');
+          break;
+      }
+      break;
     default:
       logger.error('Received not yet implemented event', event);
   }

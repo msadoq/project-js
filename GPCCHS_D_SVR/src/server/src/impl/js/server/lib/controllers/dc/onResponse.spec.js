@@ -2,7 +2,7 @@ const { should } = require('../../utils/test');
 const dataStub = require('../../stubs/data');
 const { response } = require('./onResponse');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
-
+const constants = require('../../constants');
 const { sendToTestWs, getMessage, resetMessage } = require('../../stubs/testWebSocket');
 
 describe('onResponse', () => {
@@ -28,10 +28,6 @@ describe('onResponse', () => {
     getMessage().should.deep.equal({});
     called.should.equal(true);
   });
-  it('unknown id', () => {
-    (() => response(sendToTestWs, myQueryIdProto, successProto)).should.throw(Error);
-    getMessage().should.deep.equal({});
-  });
   it('error status', () => {
     let called = false;
     registeredCallbacks.set(myQueryId, (err) => {
@@ -43,8 +39,11 @@ describe('onResponse', () => {
     const responseError = getMessage();
     responseError.should.be.an('object')
       .that.has.properties({
-        event: 'responseError',
-        payload: reason,
+        event: 'error',
+        payload: {
+          type: constants.ERRORTYPE_RESPONSE,
+          reason,
+        }
       });
     called.should.equal(true);
   });

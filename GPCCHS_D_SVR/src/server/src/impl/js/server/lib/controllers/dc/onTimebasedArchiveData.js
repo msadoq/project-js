@@ -53,6 +53,7 @@ const sendTimebasedArchiveData = (
 
   // loop over arguments peers (timestamp, payload) and deprotobufferize
   if (payloadBuffers.length % 2 !== 0) {
+    debug.debug('payloads should be sent by (timestamp, payloads) peers');
     return undefined;
   }
   const payloadsToInsert = _.map(_.chunk(payloadBuffers, 2), payloadBuffer => (
@@ -61,7 +62,7 @@ const sendTimebasedArchiveData = (
       payload: decode(`lpisis.decommutedParameter.${dataId.comObject}`, payloadBuffer[1]),
     }
   ));
-  debug.error(`inserting ${payloadsToInsert.length} data`);
+  debug.debug(`inserting ${payloadsToInsert.length} data`);
 
   // store decoded payloads in timebasedData model
   timebasedDataModel.addRecords(remoteId, payloadsToInsert);

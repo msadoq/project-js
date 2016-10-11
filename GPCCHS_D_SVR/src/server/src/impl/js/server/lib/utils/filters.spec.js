@@ -1,16 +1,16 @@
 require('./test');
 const _ = require('lodash');
-const { applyFilters, convertFilters } = require('./filters');
+const { applyFilters } = require('./filters');
 const constants = require('../constants');
 
 describe('filters', () => {
-  describe('applyiFilters', () => {
+  describe('applyFilters', () => {
     it('OP_EQ', () => {
       const filter = [
         {
-          field: 'intDataValue',
-          operator: constants.FILTEROPERATOR_EQ,
-          value: 42,
+          fieldName: 'intDataValue',
+          type: constants.FILTERTYPE_EQ,
+          fieldValue: 42,
         },
       ];
       applyFilters({ intDataValue: 42 }, filter).should.equal(true);
@@ -19,9 +19,9 @@ describe('filters', () => {
     it('OP_NE', () => {
       const filter = [
         {
-          field: 'intDataValue',
-          operator: constants.FILTEROPERATOR_NE,
-          value: 42,
+          fieldName: 'intDataValue',
+          type: constants.FILTERTYPE_NE,
+          fieldValue: 42,
         },
       ];
       applyFilters({ intDataValue: 42 }, filter).should.equal(false);
@@ -30,9 +30,9 @@ describe('filters', () => {
     it('OP_LT', () => {
       const filter = [
         {
-          field: 'intDataValue',
-          operator: constants.FILTEROPERATOR_LT,
-          value: 42,
+          fieldName: 'intDataValue',
+          type: constants.FILTERTYPE_LT,
+          fieldValue: 42,
         },
       ];
       applyFilters({ intDataValue: 40 }, filter).should.equal(true);
@@ -42,9 +42,9 @@ describe('filters', () => {
     it('OP_GT', () => {
       const filter = [
         {
-          field: 'intDataValue',
-          operator: constants.FILTEROPERATOR_GT,
-          value: 42,
+          fieldName: 'intDataValue',
+          type: constants.FILTERTYPE_GT,
+          fieldValue: 42,
         },
       ];
       applyFilters({ intDataValue: 40 }, filter).should.equal(false);
@@ -54,9 +54,9 @@ describe('filters', () => {
     it('OP_LE', () => {
       const filter = [
         {
-          field: 'intDataValue',
-          operator: constants.FILTEROPERATOR_LE,
-          value: 42,
+          fieldName: 'intDataValue',
+          type: constants.FILTERTYPE_LE,
+          fieldValue: 42,
         },
       ];
       applyFilters({ intDataValue: 40 }, filter).should.equal(true);
@@ -66,9 +66,9 @@ describe('filters', () => {
     it('OP_GE', () => {
       const filter = [
         {
-          field: 'intDataValue',
-          operator: constants.FILTEROPERATOR_GE,
-          value: 42,
+          fieldName: 'intDataValue',
+          type: constants.FILTERTYPE_GE,
+          fieldValue: 42,
         },
       ];
       applyFilters({ intDataValue: 40 }, filter).should.equal(false);
@@ -78,9 +78,9 @@ describe('filters', () => {
     it('OP_CONTAINS', () => {
       const filter = [
         {
-          field: 'stringDataValue',
-          operator: constants.FILTEROPERATOR_CONTAINS,
-          value: 'foo',
+          fieldName: 'stringDataValue',
+          type: constants.FILTERTYPE_CONTAINS,
+          fieldValue: 'foo',
         },
       ];
       applyFilters({ stringDataValue: 'foo' }, filter).should.equal(true);
@@ -90,9 +90,9 @@ describe('filters', () => {
     it('OP_ICONTAINS', () => {
       const filter = [
         {
-          field: 'stringDataValue',
-          operator: constants.FILTEROPERATOR_ICONTAINS,
-          value: 'foo',
+          fieldName: 'stringDataValue',
+          type: constants.FILTERTYPE_ICONTAINS,
+          fieldValue: 'foo',
         },
       ];
       applyFilters({ stringDataValue: 'foo' }, filter).should.equal(false);
@@ -102,14 +102,14 @@ describe('filters', () => {
     it('multi', () => {
       const filter = [
         {
-          field: 'intDataValue',
-          operator: constants.FILTEROPERATOR_GT,
-          value: 40,
+          fieldName: 'intDataValue',
+          type: constants.FILTERTYPE_GT,
+          fieldValue: 40,
         },
         {
-          field: 'intDataValue',
-          operator: constants.FILTEROPERATOR_LE,
-          value: 49,
+          fieldName: 'intDataValue',
+          type: constants.FILTERTYPE_LE,
+          fieldValue: 49,
         },
       ];
       applyFilters({ intDataValue: 30 }, filter).should.equal(false);
@@ -121,9 +121,9 @@ describe('filters', () => {
     it('invalid data', () => {
       const filter = [
         {
-          field: 'intDataValue',
-          operator: constants.FILTEROPERATOR_EQ,
-          value: 42,
+          fieldName: 'intDataValue',
+          type: constants.FILTERTYPE_EQ,
+          fieldValue: 42,
         },
       ];
       applyFilters({ otherField: 42 }, filter).should.equal(true);
@@ -131,15 +131,15 @@ describe('filters', () => {
     });
     it('invalid filter', () => {
       const filter = {
-        field: 'intDataValue',
-        operator: constants.FILTEROPERATOR_EQ,
-        value: 42,
+        fieldName: 'intDataValue',
+        type: constants.FILTERTYPE_EQ,
+        fieldValue: 42,
       };
-      applyFilters({ intDataValue: 50 }, [_.omit(filter, ['field'])]).should.equal(true);
-      applyFilters({ intDataValue: 50 }, [_.assign({}, filter, { field: '' })]).should.equal(true);
-      applyFilters({ intDataValue: 50 }, [_.omit(filter, ['operator'])]).should.equal(true);
-      applyFilters({ intDataValue: 50 }, [_.assign({}, filter, { operator: '' })]).should.equal(true);
-      applyFilters({ intDataValue: 50 }, [_.omit(filter, ['value'])]).should.equal(true);
+      applyFilters({ intDataValue: 50 }, [_.omit(filter, ['fieldName'])]).should.equal(true);
+      applyFilters({ intDataValue: 50 }, [_.assign({}, filter, { fieldName: '' })]).should.equal(true);
+      applyFilters({ intDataValue: 50 }, [_.omit(filter, ['type'])]).should.equal(true);
+      applyFilters({ intDataValue: 50 }, [_.assign({}, filter, { type: '' })]).should.equal(true);
+      applyFilters({ intDataValue: 50 }, [_.omit(filter, ['fieldValue'])]).should.equal(true);
     });
   });
 });

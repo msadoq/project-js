@@ -10,6 +10,10 @@ const svg = '<svg id ="mySvg" xmlns="http://www.w3.org/2000/svg"  width="2000" h
            + '<polyline id="ply1" transform=" rotate(45) translate(100 100)  "  points="0,40 40,40 40,80 80,80 80,120 120,120 120,160" stroke="green" fill="blue" strokeWidth="5" />'
            + '</svg>';
 
+let origin;
+let originOrbite;
+let zerocolor;
+
 export default class MimicView extends Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,

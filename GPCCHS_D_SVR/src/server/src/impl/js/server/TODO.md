@@ -21,28 +21,28 @@ Only list expected tasks for PBF shipping of end of october.
 
 ## GPCCHSS (Node.js)
 
-* [adrien] DC protocol refactoring
-* [aziz] Profiling: test LokiJS index auto update https://github.com/techfort/LokiJS/issues/477
-* [renaud] Prevent exception when client close: "Error: This response corresponds to no queryId"
-* [ ] Cache invalidation /!\
-* [walid] Add robustness in every HSS/client controllers by controlling HSC input
-* [ ] Profiling: test AVLTree instead of Loki for cache retrieving/insertion OR our proper data structure DataStructure{[order],{key:{value}}
-* [ ] Implement getLast with optional before for TextView 
+//* [adrien] DC protocol refactoring
+//* [aziz] Profiling: test LokiJS index auto update https://github.com/techfort/LokiJS/issues/477
+//* [renaud] Prevent exception when client close: "Error: This response corresponds to no queryId"
+//* [ ] Cache invalidation /!\
+//* [walid] Add robustness in every HSS/client controllers by controlling HSC input
+//* [ ] Profiling: test AVLTree instead of Loki for cache retrieving/insertion OR our proper data structure DataStructure{[order],{key:{value}}
+//* [ ] Implement getLast with optional before for TextView 
 
 ## GPCCHSC (Electron)
 
-* [alex] A complete workspace with 2 windows, 3 pages, 16 plots lines, 300 text params
-* [ ] Cache invalidation /!\
-* DataManager
-  - [audrey] incoming data reducer and actions
-  - [ ] ViewDataContainer
-  - [ ] tests and profiling
-* Implement <PlotView/>
-  - [ ] Implement react-stock-chart for PBF
-  - [ ] Implement chart.js and react wrapper for more evolutive chart cots
-  - [ ] Test live sampling https://www.npmjs.com/package/simplify-path
-* Implement <TextView/>
-  - [julien] HTML to React with https://github.com/wrakky/react-html-parser + https://github.com/reactjs/react-magic/blob/master/README-htmltojsx.md
+//* [alex] A complete workspace with 2 windows, 3 pages, 16 plots lines, 300 text params
+//* [ ] Cache invalidation /!\
+//* DataManager
+//  - [audrey] incoming data reducer and actions
+//  - [ ] ViewDataContainer
+//  - [ ] tests and profiling
+//* Implement <PlotView/>
+//  - [ ] Implement react-stock-chart for PBF
+//  - [ ] Implement chart.js and react wrapper for more evolutive chart cots
+//  - [ ] Test live sampling https://www.npmjs.com/package/simplify-path
+//* Implement <TextView/>
+//  - [julien] HTML to React with https://github.com/wrakky/react-html-parser + https://github.com/reactjs/react-magic/blob/master/README-htmltojsx.md
 * [ ] Tree refactoring (Damien)
   - impl/js/client|common|server
   - constants, ws event type, filter operator enum values

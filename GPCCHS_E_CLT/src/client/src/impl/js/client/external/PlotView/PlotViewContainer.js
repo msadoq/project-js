@@ -10,7 +10,6 @@ const PlotViewContainer = props => <PlotView {...props} />;
 
 function mapStateToProps(state, ownProps) {
   const { configuration } = ownProps;
-  console.log(ownProps);
   return {
     ...ownProps,
     entryPoints: _.get(configuration, 'plotViewEntryPoints', []),

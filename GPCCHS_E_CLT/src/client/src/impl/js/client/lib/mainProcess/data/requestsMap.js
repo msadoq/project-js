@@ -43,7 +43,6 @@ export default function requestsMap(state, dataMap) {
   const queries = {};
   _.each(dataMap, ({ dataId, filter, localIds }, remoteId) => {
     _.each(localIds, ({ expectedInterval }, localId) => {
-
       // TODO memoize
       const knownIntervals = _.get(state, [
         'dataRequests', remoteId, 'localIds', localId, 'intervals'
@@ -55,15 +54,17 @@ export default function requestsMap(state, dataMap) {
       }
 
       if (!queries[remoteId]) {
-        const queryFilter = (typeof filter === 'undefined') ? [] : _.map(filter, f => ({
-          field: f.field,
-          operator: operators[f.operator],
-          value: f.operand,
-        }));
+        const queryArguments = {
+          filters: (typeof filter === 'undefined') ? [] : _.map(filter, f => ({
+            fieldName: f.field,
+            type: operators[f.operator],
+            fieldValue: f.operand,
+          })),
+        };
         queries[remoteId] = {
           dataId,
-          filter: queryFilter,
           intervals: [],
+          queryArguments,
         };
       }
 

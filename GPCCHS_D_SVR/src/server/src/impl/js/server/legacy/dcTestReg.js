@@ -97,8 +97,8 @@ socketIn.on("message",(header, msg) => {
 let ts1 = {"ms" : 1 };
 let ts2 = {"ms" : 1455413400000 };
 let timeInterval = {
-    "lowerTs" : ts1, // 8 aout 2015 9h15
-    "upperTs" : ts2 // 8 aout 2015 9h15:XX
+    "startTime" : ts1, // 8 aout 2015 9h15
+    "endTime" : ts2 // 8 aout 2015 9h15:XX
 };
 
 let sessionIdTest = 1;

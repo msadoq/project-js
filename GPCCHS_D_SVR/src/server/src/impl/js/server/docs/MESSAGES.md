@@ -118,11 +118,11 @@
   event: 'timebasedQuery',
   payload: {
     remoteId: {
-      dataId: dataId,
-      filter: [filter],
+      dataId,
       intervals: [
         [number, number],
       ],
+      queryArguments,
     },
   },
 }
@@ -142,7 +142,7 @@
 **timebasedSubscription** (HSS->DC)
 ```
 [
-  'timebasedSubscription', 
+  'timebasedSubscription',
   string, // unique query ID
   dataId,
   enum('ADD', 'DELETE'),
@@ -167,7 +167,6 @@
 ```
 [
   'timebasedPubSubData',
-  string, // unique query ID
   dataId,
   timestamp,
   payload,
@@ -192,10 +191,10 @@
 ```
 
 ## DC communication
-**dcResponse** (DC->HSS)
+**response** (DC->HSS)
 ```
 [
-  'dcResponse',
+  'response',
   string, // unique query ID
   enum(’SUCCESS’, ‘ERROR'),
   string, // error message
@@ -215,7 +214,7 @@
 ## Sub-structures
 **header**
 ```
-enum(‘domainQuery’, ‘timebasedQuery’, ‘timebasedSubscription’, ‘dcResponse’, 'domainData', 'timebasedArchiveData', 'timebasedPubSubData')
+enum(‘domainQuery’, ‘timebasedQuery’, ‘timebasedSubscription’, ‘response’, 'domainData', 'timebasedArchiveData', 'timebasedPubSubData')
 ```
 
 **dataId**
@@ -248,16 +247,16 @@ enum(‘domainQuery’, ‘timebasedQuery’, ‘timebasedSubscription’, ‘dc
 **queryArguments**
 ```
 {
-  filters: [filter], // optionnal
-  sortFieldName: string, // optionnal
+  filters: [filter], // optional
+  sortFieldName: string, // optional
   sortOrder: enum('ASC', 'DESC'), // startTime
   limitStart: number,
   limitNumber: number,
   getLastType: enum('getLast', 'getNLast'),
-  getLastFromTime: timestamp, // optionnal
-  getLastNumber: number, // optionnal
+  getLastFromTime: timestamp, // optional
+  getLastNumber: number, // optional
   // the 3 above parameters allow getLast(), getLast(fromTime), getNLast(number), getNLast(number, fromTime)
-  
+
   // TODO sampling
 }
 ```

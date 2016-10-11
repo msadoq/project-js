@@ -23,12 +23,12 @@
 //         {
 //           dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
 //           field: 'rawValue',
-//           operator: constants.FILTEROPERATOR_GT,
+//           operator: constants.FILTERTYPE_GT,
 //           value: 25,
 //         }, {
 //           dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
 //           field: 'rawValue',
-//           operator: constants.FILTEROPERATOR_LT,
+//           operator: constants.FILTERTYPE_LT,
 //           value: 75,
 //         },
 //       ],
@@ -337,7 +337,7 @@
 //             {
 //               dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
 //               field: 'rawValue',
-//               operator: constants.FILTEROPERATOR_GT,
+//               operator: constants.FILTERTYPE_GT,
 //             },
 //           ],
 //         }))
@@ -354,7 +354,7 @@
 //             {
 //               dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
 //               field: 'rawValue',
-//               operator: constants.FILTEROPERATOR_GT,
+//               operator: constants.FILTERTYPE_GT,
 //               value: '', // empty string
 //             },
 //           ],

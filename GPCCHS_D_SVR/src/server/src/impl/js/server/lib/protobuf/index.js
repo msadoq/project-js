@@ -82,6 +82,7 @@ register({
       Domain: require('./converters/dc/domain'),
       Filter: require('./converters/dc/filter'),
       Header: require('./converters/dc/header'),
+      QueryArguments: require('./converters/dc/queryArguments'),
       Status: require('./converters/dc/status'),
       String: require('./converters/dc/string'),
       TimeInterval: require('./converters/dc/timeInterval'),

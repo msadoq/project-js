@@ -86,6 +86,18 @@ describe('protobuf', () => {
         json.should.be.an('object').that.have.properties(fixture);
       });
     });
+    describe('QueryArguments', () => {
+      const fixture = stubData.getQueryArguments();
+      let buffer;
+      it('encode', () => {
+        buffer = protobuf.encode('dc.dataControllerUtils.QueryArguments', fixture);
+        buffer.constructor.should.equal(Buffer);
+      });
+      it('decode', () => {
+        const json = protobuf.decode('dc.dataControllerUtils.QueryArguments', buffer);
+        json.should.be.an('object').that.have.properties(fixture);
+      });
+    });
     describe('Status', () => {
       const fixture = stubData.getSuccessStatus();
       let buffer;

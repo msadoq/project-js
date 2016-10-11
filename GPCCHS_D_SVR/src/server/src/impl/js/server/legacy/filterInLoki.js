@@ -1,14 +1,14 @@
 const constants = require('../lib/constants');
 
 const dcLokiOperatorMapping = {
-  [constants.FILTEROPERATOR_EQ]: '$eq',
-  [constants.FILTEROPERATOR_NE]: '$ne',
-  [constants.FILTEROPERATOR_LT]: '$lt',
-  [constants.FILTEROPERATOR_LE]: '$lte',
-  [constants.FILTEROPERATOR_GT]: '$gt',
-  [constants.FILTEROPERATOR_GE]: '$gte',
-  [constants.FILTEROPERATOR_CONTAINS]: '$contains',
-  [constants.FILTEROPERATOR_ICONTAINS]: '$containsNone',
+  [constants.FILTERTYPE_EQ]: '$eq',
+  [constants.FILTERTYPE_NE]: '$ne',
+  [constants.FILTERTYPE_LT]: '$lt',
+  [constants.FILTERTYPE_LE]: '$lte',
+  [constants.FILTERTYPE_GT]: '$gt',
+  [constants.FILTERTYPE_GE]: '$gte',
+  [constants.FILTERTYPE_CONTAINS]: '$contains',
+  [constants.FILTERTYPE_ICONTAINS]: '$containsNone',
 };
 
 const resolveCacheFilter = filter => ({
@@ -48,7 +48,7 @@ const resolveCacheFilters = filterArray => (
 //         {
 //           dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
 //           field: 'rawValue',
-//           operator: constants.FILTEROPERATOR_LT,
+//           operator: constants.FILTERTYPE_LT,
 //           value: 75,
 //         },
 //       ],
@@ -60,13 +60,13 @@ const resolveCacheFilters = filterArray => (
 //         {
 //           dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
 //           field: 'rawValue',
-//           operator: constants.FILTEROPERATOR_LT,
+//           operator: constants.FILTERTYPE_LT,
 //           value: 76,
 //         },
 //         {
 //           dataFullName: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
 //           field: 'rawValue',
-//           operator: constants.FILTEROPERATOR_GT,
+//           operator: constants.FILTERTYPE_GT,
 //           value: 46,
 //         },
 //       ],

@@ -2,11 +2,11 @@ const timestamp = require('./timestamp');
 
 module.exports = {
   encode: data => ({
-    lowerTs: timestamp.encode(data.lowerTs),
-    upperTs: timestamp.encode(data.upperTs),
+    startTime: timestamp.encode(data.startTime),
+    endTime: timestamp.encode(data.endTime),
   }),
   decode: data => ({
-    lowerTs: timestamp.decode(data.lowerTs),
-    upperTs: timestamp.decode(data.upperTs),
+    startTime: timestamp.decode(data.startTime),
+    endTime: timestamp.decode(data.endTime),
   }),
 };

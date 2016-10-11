@@ -45,32 +45,30 @@ describe('onTimebasedQuery', () => {
   const remoteId = dataStub.getRemoteId(dataId);
   const interval = [1, 10];
   const intervalProto = dataStub.getTimeIntervalProtobuf({
-    lowerTs: { ms: 1 },
-    upperTs: { ms: 10 },
+    startTime: { ms: 1 },
+    endTime: { ms: 10 },
   });
   const halfIntervalProto = dataStub.getTimeIntervalProtobuf({
-    lowerTs: { ms: 1 },
-    upperTs: { ms: 5 },
+    startTime: { ms: 1 },
+    endTime: { ms: 5 },
   });
-  const filter1 = {
-    field: 'extractedValue',
-    operator: constants.FILTEROPERATOR_GT,
-    value: 42,
+  /* const filter1 = {
+    fieldName: 'extractedValue',
+    type: constants.FILTERTYPE_GT,
+    fieldValue: 42,
   };
   const filter2 = {
-    field: 'groundDate',
-    operator: constants.FILTEROPERATOR_EQ,
-    value: 42,
+    fieldName: 'groundDate',
+    type: constants.FILTERTYPE_EQ,
+    fieldValue: 42,
   };
   const filterProto1 = dataStub.getFilterProtobuf(filter1);
-  const filterProto2 = dataStub.getFilterProtobuf(filter2);
+  const filterProto2 = dataStub.getFilterProtobuf(filter2); */
 
-  // const dataIdWithFilter = getDataIdWithFilter(
-  //   Object.assign(
-  //     {},
-  //     dataId,
-  //     { filters: [{ lhs: filter.field, comp: filter.operator, rhs: `${filter.value}` }] })
-  // );
+  const queryArguments = dataStub.getQueryArguments();
+  const filters = queryArguments.filters;
+  const queryArgumentsProto = dataStub.getQueryArgumentsProtobuf(queryArguments);
+
   const rp = dataStub.getReportingParameter();
   const t1 = 3;
   const t2 = 5;
@@ -84,7 +82,7 @@ describe('onTimebasedQuery', () => {
     [remoteId]: {
       dataId,
       intervals: [interval],
-      filter: [filter1, filter2],
+      queryArguments,
     },
   };
 
@@ -133,9 +131,7 @@ describe('onTimebasedQuery', () => {
     subscriptions[0].should.have.properties({
       flatDataId: flattenDataId(dataId),
       dataId,
-      filters: {
-        [remoteId]: [filter1, filter2],
-      },
+      filters: { [remoteId]: filters },
     });
   });
 
@@ -153,13 +149,12 @@ describe('onTimebasedQuery', () => {
     should.exist(registeredCallbacks.get(queryId));
     // check zmq messages
     const queryIdProto = dataStub.getStringProtobuf(queryId);
-    calls.length.should.equal(6);
+    calls.length.should.equal(5);
     calls[0].should.have.properties(dataStub.getTimebasedQueryHeaderProtobuf());
     calls[1].should.have.properties(queryIdProto);
     calls[2].should.have.properties(dataIdProto);
     calls[3].should.have.properties(intervalProto);
-    calls[4].should.have.properties(filterProto1);
-    calls[5].should.have.properties(filterProto2);
+    calls[4].should.have.properties(queryArgumentsProto);
     // check ws messages
     getMessage().should.have.properties({});
     // check connectedDataModel
@@ -179,9 +174,7 @@ describe('onTimebasedQuery', () => {
     subscriptions[0].should.have.properties({
       flatDataId: flattenDataId(dataId),
       dataId,
-      filters: {
-        [remoteId]: [filter1, filter2],
-      },
+      filters: { [remoteId]: filters },
     });
   });
 
@@ -200,13 +193,12 @@ describe('onTimebasedQuery', () => {
     should.exist(registeredCallbacks.get(queryId));
     // check zmq messages
     const queryIdProto = dataStub.getStringProtobuf(queryId);
-    calls.length.should.equal(6);
+    calls.length.should.equal(5);
     calls[0].should.have.properties(dataStub.getTimebasedQueryHeaderProtobuf());
     calls[1].should.have.properties(queryIdProto);
     calls[2].should.have.properties(dataIdProto);
     calls[3].should.have.properties(halfIntervalProto);
-    calls[4].should.have.properties(filterProto1);
-    calls[5].should.have.properties(filterProto2);
+    calls[4].should.have.properties(queryArgumentsProto);
     // check ws messages
     getMessage().should.have.properties({
       event: 'timebasedData',
@@ -236,9 +228,7 @@ describe('onTimebasedQuery', () => {
     subscriptions[0].should.have.properties({
       flatDataId: flattenDataId(dataId),
       dataId,
-      filters: {
-        [remoteId]: [filter1, filter2],
-      },
+      filters: { [remoteId]: filters },
     });
   });
 
@@ -259,17 +249,16 @@ describe('onTimebasedQuery', () => {
     // check zmq messages
     const queryIdProto = dataStub.getStringProtobuf(queryId);
     const subIdProto = dataStub.getStringProtobuf(subId);
-    calls.length.should.equal(10);
+    calls.length.should.equal(9);
     calls[0].should.have.properties(dataStub.getTimebasedQueryHeaderProtobuf());
     calls[1].should.have.properties(queryIdProto);
     calls[2].should.have.properties(dataIdProto);
     calls[3].should.have.properties(intervalProto);
-    calls[4].should.have.properties(filterProto1);
-    calls[5].should.have.properties(filterProto2);
-    calls[6].should.have.properties(dataStub.getTimebasedSubscriptionHeaderProtobuf());
-    calls[7].should.have.properties(subIdProto);
-    calls[8].should.have.properties(dataIdProto);
-    calls[9].should.have.properties(dataStub.getAddActionProtobuf());
+    calls[4].should.have.properties(queryArgumentsProto);
+    calls[5].should.have.properties(dataStub.getTimebasedSubscriptionHeaderProtobuf());
+    calls[6].should.have.properties(subIdProto);
+    calls[7].should.have.properties(dataIdProto);
+    calls[8].should.have.properties(dataStub.getAddActionProtobuf());
     // check ws messages
     getMessage().should.have.properties({});
     // check connectedDataModel
@@ -289,9 +278,7 @@ describe('onTimebasedQuery', () => {
     subscriptions[0].should.have.properties({
       flatDataId: flattenDataId(dataId),
       dataId,
-      filters: {
-        [remoteId]: [filter1, filter2],
-      },
+      filters: { [remoteId]: filters },
     });
   });
 });

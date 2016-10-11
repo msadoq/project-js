@@ -127,9 +127,8 @@ const onHssMessage = (...args) => {
               return pushError(queryId, 'parameter not yet supported by stub');
             }
             const interval = protobuf.decode('dc.dataControllerUtils.TimeInterval', args[3]);
-            const filters = [];
-            _.each(_.slice(args, 4), (filter) => { filters.push(filter); });
-            queries.push({ queryId, dataId, interval, filters });
+            const queryArguments = protobuf.decode('dc.dataControllerUtils.queryArguments', args[4]);
+            queries.push({ queryId, dataId, interval, queryArguments });
             debug.debug('query registered', dataId.parameterName, interval);
             return pushSuccess(queryId);
           }
@@ -208,8 +207,8 @@ const emulateDc = () => {
   // push queries
   debug.info('pushing queries');
   _.each(queries, (query) => {
-    const from = query.interval.lowerTs.ms;
-    const to = query.interval.upperTs.ms;
+    const from = query.interval.startTime.ms;
+    const to = query.interval.endTime.ms;
     if (to <= from) {
       return debug.error('Unvalid interval');
     }

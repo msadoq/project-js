@@ -42,8 +42,6 @@ export const WS_VIEW_ADD = 'WS_VIEW_ADD';
 export const WS_VIEW_REMOVE = 'WS_VIEW_REMOVE';
 export const WS_VIEW_CD_MOUNT = 'WS_VIEW_CD_MOUNT';
 export const WS_VIEW_CD_UNMOUNT = 'WS_VIEW_CD_UNMOUNT';
-export const WS_CD_ADD = 'WS_CD_ADD';
-export const WS_CD_REMOVE = 'WS_CD_REMOVE';
 
 export const DATA_ADD_REQUESTS = 'DATA_ADD_REQUESTS';
 export const DATA_IMPORT_PAYLOADS = 'DATA_IMPORT_PAYLOADS';

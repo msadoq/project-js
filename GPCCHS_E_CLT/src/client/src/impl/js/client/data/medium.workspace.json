@@ -86,16 +86,16 @@
         "offsetFromUTC": 0,
         "timelines": [
           {
-            "id": "Session 1.2",
+            "id": "Session 1",
             "offset": 0,
             "kind": "Session",
             "sessionId": 1
           },
           {
-            "id": "Dataset 1.2",
-            "offset": 0,
-            "kind": "Dataset",
-            "dsPath": "/dataset.xml"
+            "id": "Session 2",
+            "offset": -36000000,
+            "kind": "Session",
+            "sessionId": 2
           }
         ],
         "masterId": "Session 1.2"

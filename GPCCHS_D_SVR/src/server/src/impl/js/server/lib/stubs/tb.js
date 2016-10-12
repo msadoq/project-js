@@ -41,7 +41,7 @@ function onVimaTbStubUpdate(buffer) {
 
 function onVimaTbStubInit(timebarBuffer) {
   tb = JSON.parse(timebarBuffer.toString());
-  debug.info('onTbStubInit', tb);
+  debug.info('onTbStubInit');
 }
 
 module.exports = (callback) => {

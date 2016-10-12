@@ -38,6 +38,7 @@ const constants = require('../../constants');
  */
 
 const timebasedQuery = (websocketHandler, payload, messageHandler) => {
+  debug.info('called', Object.keys(payload).length, 'remoteIds');
   const messageQueue = [];
   // loop over remoteIds
   _.each(payload, (query, remoteId) => {

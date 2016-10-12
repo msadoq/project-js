@@ -30,7 +30,7 @@ export default function controller(state, dispatch, event, payload) {
       updateStore(state, dispatch, payload);
       break;
     case 'timebasedData': {
-      console.log('********************timebasedData', payload);
+      logger.debug('timebasedData received', payload);
       dispatch(importPayload(payload));
       break;
     }

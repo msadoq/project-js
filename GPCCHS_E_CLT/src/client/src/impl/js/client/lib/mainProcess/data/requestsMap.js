@@ -42,11 +42,9 @@ const operators = {
 export default function requestsMap(state, dataMap) {
   const queries = {};
   _.each(dataMap, ({ dataId, filter, localIds }, remoteId) => {
-    _.each(localIds, ({ expectedInterval }, localId) => {
+    _.each(localIds, ({ expectedInterval }) => {
       // TODO memoize
-      const knownIntervals = _.get(state, [
-        'dataRequests', remoteId, 'localIds', localId, 'intervals'
-      ], []);
+      const knownIntervals = _.get(state, ['dataRequests', remoteId], []);
 
       const needed = missingIntervals(knownIntervals, expectedInterval);
       if (!needed.length) {

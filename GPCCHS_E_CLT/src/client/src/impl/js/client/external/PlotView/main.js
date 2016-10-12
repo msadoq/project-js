@@ -25,7 +25,7 @@ module.exports = {
   getExpectedInterval: function(lower, current, upper) {
     return [lower, upper];
   },
-  getUsedValues: function(stateLocalId, field, interval, remoteIdPayload) {
+  getDisplayedValues: function(stateLocalId, field, interval, remoteIdPayload) {
     let final;
     if (stateLocalId) {
       final = Object.assign({}, stateLocalId);

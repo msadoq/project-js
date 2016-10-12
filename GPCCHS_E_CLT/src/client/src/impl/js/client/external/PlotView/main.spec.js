@@ -3,7 +3,7 @@ import { should, getStore } from '../../lib/common/test';
 import {
   getSchemaJson,
   getConnectedDataFromState,
-  getUsedValues,
+  getDisplayedValues,
 } from './main';
 
 describe('PlotView/main', () => {
@@ -67,7 +67,7 @@ describe('PlotView/main', () => {
       ]);
     });
   });
-  describe('getUsedValues', () => {
+  describe('getDisplayedValues', () => {
     let payload;
     let visuWindow;
     before(() => {
@@ -80,7 +80,7 @@ describe('PlotView/main', () => {
       visuWindow = [2, 3];
     });
     it('valid payload, state undefined', () => {
-      const ret = getUsedValues(undefined, 'val1', visuWindow, payload);
+      const ret = getDisplayedValues(undefined, 'val1', visuWindow, payload);
       ret.should.be.an('object').with.keys('data', 'index');
       ret.data.should.be.an('object').with.keys('2', '3');
       ret.data[3].should.deep.equal(payload[2].payload.val1);
@@ -93,7 +93,7 @@ describe('PlotView/main', () => {
         data: { 0: '100', 2.5: '101', 4: '102' },
         index: [0, 2.5, 4],
       };
-      const ret = getUsedValues(stateLocalId, 'val1', visuWindow, payload);
+      const ret = getDisplayedValues(stateLocalId, 'val1', visuWindow, payload);
       ret.should.be.an('object').with.keys('data', 'index');
       ret.data.should.be.an('object').with.keys('2', '2.5', '3');
       ret.data[3].should.deep.equal(payload[2].payload.val1);

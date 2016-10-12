@@ -22,7 +22,7 @@ module.exports = {
   getExpectedInterval: function(lower, current) {
     return [current - 1e4, current]; // TODO getLast to TBD
   },
-  getUsedValues: function(stateLocalId, field, interval, remoteIdPayload) {
+  getDisplayedValues: function(stateLocalId, field, interval, remoteIdPayload) {
     let final = {};
     _.each(remoteIdPayload, payload => {
       const time = payload.timestamp;

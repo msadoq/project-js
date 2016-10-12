@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { getTimebar } from '../../store/selectors/timebars';
-import external from '../../../external.main';
 
 const Data = props => {
   const ViewType = props.component;

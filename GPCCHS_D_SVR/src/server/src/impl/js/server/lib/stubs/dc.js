@@ -180,23 +180,6 @@ const emulateDc = () => {
   debug.info('emulateDc call', Object.keys(subscriptions).length, queries.length);
   // push realtime on each parameter
   _.each(subscriptions, (dataId) => {
-    // const payloads = [];
-    // push randomly 1 to 4 parameters
-    // for (let i = 0; i <= _.random(0, 3); i += 1) {
-    //   // fake time repartition
-    //   const timestamp = Date.now() - (i * 10);
-    //   payloads.push(
-    //     {
-    //       timestamp: stubData.getTimestampProtobuf({ ms: timestamp }),
-    //       payload: stubData.getReportingParameterProtobuf({
-    //         groundDate: timestamp + 20,
-    //         onboardDate: timestamp,
-    //         // values already vary in stubData helper
-    //       }),
-    //     }
-    //   );
-    // }
-
     const payloads = _.map(realtimePayloads, (pl) => {
       timestamp += 1;
       return {

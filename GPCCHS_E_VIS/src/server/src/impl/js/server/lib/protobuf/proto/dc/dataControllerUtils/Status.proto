@@ -1,0 +1,11 @@
+package dataControllerUtils.protobuf;
+
+message Status {
+extensions 2 to 102;
+      enum STATUS {
+        SUCCESS = 0;
+        ERROR = 1;
+      }
+
+    required STATUS status = 1;
+}

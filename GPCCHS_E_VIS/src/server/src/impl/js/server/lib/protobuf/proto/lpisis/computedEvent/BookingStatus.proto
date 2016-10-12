@@ -1,0 +1,9 @@
+package computedEvent.protobuf;
+
+enum BookingStatus {
+  BOOKED = 0;
+  AVAILABLE = 1;
+  UNAVAILABLE = 2;
+  FORBIDDEN = 3;
+  REJECTED = 4;
+}

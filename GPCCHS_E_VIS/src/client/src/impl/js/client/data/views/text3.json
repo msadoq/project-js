@@ -1,0 +1,1494 @@
+{
+  "type": "TextView",
+  "textViewEntryPoints": [
+    {
+      "name": "GENE_AM_CCSDSGFLAG",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_CCSDSGFLAG<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [{
+          "field": "monitoringState",
+          "operator": "!=",
+          "operand": "nominal"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "BASETYPE_AM_TIMET09F10",
+      "connectedData": {
+        "formula": "Reporting.BASETYPE_AM_TIMET09F10<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_CCSDSVERS",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_CCSDSVERS<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "GENE_AM_ZSPARE32",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_ZSPARE32<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "filter": [{
+          "field": "monitoringState",
+          "operator": "!=",
+          "operand": "nominal"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_ZSPARE02",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_ZSPARE02<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_N104NUMAREA",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_N104NUMAREA<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "ORB_BC_ENABLED5N",
+      "connectedData": {
+        "formula": "Reporting.ORB_BC_ENABLED5N<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "decimal",
+        "filter": [{
+          "field": "monitoringState",
+          "operator": "!=",
+          "operand": "nominal"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_PARAMVALQ0",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_PARAMVALQ0<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_TM005007PAR",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_TM005007PAR<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "hexadecimal",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "GENE_AM_ACTOBCPNUM",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_ACTOBCPNUM<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_ACTOBCPCHKS",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_ACTOBCPCHKS<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "hexadecimal",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "GENE_AM_D3135PERIOD",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_D3135PERIOD<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_BUSCOUPLER",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_BUSCOUPLER<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_FAILURECODE",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_FAILURECODE<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "GENE_AM_HILIMITDED",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_HILIMITDED<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I135VPARID",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I135VPARID<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "GENE_AM_MAXVALUINT",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_MAXVALUINT<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_MAXVALBYTE",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_MAXVALBYTE<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "GENE_AM_NUMSUBSCHED",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_NUMSUBSCHED<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_PVALPUSREF",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_PVALPUSREF<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "GENE_BC_AMACKFLAG",
+      "connectedData": {
+        "formula": "Reporting.GENE_BC_AMACKFLAG<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "ATT_BC_BCSTWORDCSO",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_BCSTWORDCSO<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_MAG1SATQ1",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG1SATQ1<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "ATT_BC_MTQ1VOLTAGE",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MTQ1VOLTAGE<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_QSUNDIRSAT",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_QSUNDIRSAT<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "ATT_BC_RWH1INITDEL",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_RWH1INITDEL<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_SAS4SATQ0",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_SAS4SATQ0<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "ATT_BC_SSCHEDID16",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_SSCHEDID16<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_THR1QUATSAT",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_THR1QUATSAT<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "ORB_BC_GPS2WEEKNUM",
+      "connectedData": {
+        "formula": "Reporting.ORB_BC_GPS2WEEKNUM<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+      {
+      "name": "AGA_AM_FMONSTATUS",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_FMONSTATUS<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ORB_BC_LASTSQNUM5",
+      "connectedData": {
+        "formula": "Reporting.ORB_BC_LASTSQNUM5<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "ORB_BC_NUMRJCTTC13",
+      "connectedData": {
+        "formula": "Reporting.ORB_BC_NUMRJCTTC13<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ORB_BC_NUMRJCTTC5",
+      "connectedData": {
+        "formula": "Reporting.ORB_BC_NUMRJCTTC5<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "ORB_BC_SSCHEDID17",
+      "connectedData": {
+        "formula": "Reporting.ORB_BC_SSCHEDID17<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ORB_BC_TSTPARFBOOL",
+      "connectedData": {
+        "formula": "Reporting.ORB_BC_TSTPARFBOOL<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "POW_BC_ENABLED13",
+      "connectedData": {
+        "formula": "Reporting.POW_BC_ENABLED13<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "POW_BC_LASTSQNUM14",
+      "connectedData": {
+        "formula": "Reporting.POW_BC_LASTSQNUM14<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "POW_BC_NUMTC19",
+      "connectedData": {
+        "formula": "Reporting.POW_BC_NUMTC19<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "POW_BC_TSTPARVLONG",
+      "connectedData": {
+        "formula": "Reporting.POW_BC_TSTPARVLONG<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "SAT_BC_ENERGYDL",
+      "connectedData": {
+        "formula": "Reporting.SAT_BC_ENERGYDL<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "SAT_BC_FUNCMONITEN",
+      "connectedData": {
+        "formula": "Reporting.SAT_BC_FUNCMONITEN<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "SAT_BC_LDONBRDUID",
+      "connectedData": {
+        "formula": "Reporting.SAT_BC_LDONBRDUID<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "SAT_BC_NUMTC20",
+      "connectedData": {
+        "formula": "Reporting.SAT_BC_NUMTC20<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+      {
+      "name": "SAT_BC_TSTPARVBYTE",
+      "connectedData": {
+        "formula": "Reporting.SAT_BC_TSTPARVBYTE<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "MIS_BC_DALMCURR",
+      "connectedData": {
+        "formula": "Reporting.MIS_BC_DALMCURR<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "MIS_BC_ENABLED17",
+      "connectedData": {
+        "formula": "Reporting.MIS_BC_ENABLED17<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_S513VSTATUS",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_S513VSTATUS<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "ATT_BC_FREEMEMORY",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_FREEMEMORY<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_REVTCOUNT3",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_REVTCOUNT3<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [{
+          "field": "monitoringState",
+          "operator": "!=",
+          "operand": "nominal"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_STR1QSTRREF",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_STR1QSTRREF<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_STR2QUALITY",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_STR2QUALITY<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "ATT_BC_THR2VOLTAGE",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_THR2VOLTAGE<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "filter": [{
+          "field": "monitoringState",
+          "operator": "!=",
+          "operand": "nominal"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_TSTPARVBYTE",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_TSTPARVBYTE<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ORB_BC_EXECTIME1TC",
+      "connectedData": {
+        "formula": "Reporting.ORB_BC_EXECTIME1TC<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "ORB_BC_GPS2ENABLED",
+      "connectedData": {
+        "formula": "Reporting.ORB_BC_GPS2ENABLED<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "decimal",
+        "filter": [{
+          "field": "monitoringState",
+          "operator": "!=",
+          "operand": "nominal"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ORB_BC_LVVELZJ2000",
+      "connectedData": {
+        "formula": "Reporting.ORB_BC_LVVELZJ2000<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ORB_BC_NUMTC0",
+      "connectedData": {
+        "formula": "Reporting.ORB_BC_NUMTC0<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "hexadecimal",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "ORB_BC_SSCHEDID12",
+      "connectedData": {
+        "formula": "Reporting.ORB_BC_SSCHEDID12<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "POW_BC_DBATCURRENT",
+      "connectedData": {
+        "formula": "Reporting.POW_BC_DBATCURRENT<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "hexadecimal",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "POW_BC_ENABLED5",
+      "connectedData": {
+        "formula": "Reporting.POW_BC_ENABLED5<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "POW_BC_NUMRJCTTC0",
+      "connectedData": {
+        "formula": "Reporting.POW_BC_NUMRJCTTC0<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "POW_BC_NUMTC13",
+      "connectedData": {
+        "formula": "Reporting.POW_BC_NUMTC13<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "POW_BC_SSCHEDID14",
+      "connectedData": {
+        "formula": "Reporting.POW_BC_SSCHEDID14<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "SAT_BC_DELIBMAXDUR",
+      "connectedData": {
+        "formula": "Reporting.SAT_BC_DELIBMAXDUR<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "SAT_BC_ENABLED7",
+      "connectedData": {
+        "formula": "Reporting.SAT_BC_ENABLED7<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "SAT_BC_LASTSQNUM16",
+      "connectedData": {
+        "formula": "Reporting.SAT_BC_LASTSQNUM16<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "SAT_BC_MAXMERGDIST",
+      "connectedData": {
+        "formula": "Reporting.SAT_BC_MAXMERGDIST<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "SAT_BC_PARMONITEN",
+      "connectedData": {
+        "formula": "Reporting.SAT_BC_PARMONITEN<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "SAT_BC_SSCHEDID5",
+      "connectedData": {
+        "formula": "Reporting.SAT_BC_SSCHEDID5<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "SAT_BC_TCTBUFNUMTC",
+      "connectedData": {
+        "formula": "Reporting.SAT_BC_TCTBUFNUMTC<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "MIS_BC_DAGMDETTHRE",
+      "connectedData": {
+        "formula": "Reporting.MIS_BC_DAGMDETTHRE<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "MIS_BC_DHDRINITDEL",
+      "connectedData": {
+        "formula": "Reporting.MIS_BC_DHDRINITDEL<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "MIS_BC_ENABLED10",
+      "connectedData": {
+        "formula": "Reporting.MIS_BC_ENABLED10<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "MIS_BC_LASTSQNUM10",
+      "connectedData": {
+        "formula": "Reporting.MIS_BC_LASTSQNUM10<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "MIS_BC_LASTSQNUM8",
+      "connectedData": {
+        "formula": "Reporting.MIS_BC_LASTSQNUM8<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "MIS_BC_NUMRJCTTC18",
+      "connectedData": {
+        "formula": "Reporting.MIS_BC_NUMRJCTTC18<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "MIS_BC_NUMTC9",
+      "connectedData": {
+        "formula": "Reporting.MIS_BC_NUMTC9<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "MIS_BC_SSCHEDID20",
+      "connectedData": {
+        "formula": "Reporting.MIS_BC_SSCHEDID20<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "MIS_BC_TSTPARFQ",
+      "connectedData": {
+        "formula": "Reporting.MIS_BC_TSTPARFQ<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "MIS_BC_TSTPARVDBLE",
+      "connectedData": {
+        "formula": "Reporting.MIS_BC_TSTPARVDBLE<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "FMGT_BC_ENABLED15",
+      "connectedData": {
+        "formula": "Reporting.FMGT_BC_ENABLED15<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "FMGT_BC_ENABLED20",
+      "connectedData": {
+        "formula": "Reporting.FMGT_BC_ENABLED20<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "FMGT_BC_LASTSQNUM12",
+      "connectedData": {
+        "formula": "Reporting.FMGT_BC_LASTSQNUM12<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "FMGT_BC_LASTSQNUM18",
+      "connectedData": {
+        "formula": "Reporting.FMGT_BC_LASTSQNUM18<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "FMGT_BC_NUMRJCTTC16",
+      "connectedData": {
+        "formula": "Reporting.FMGT_BC_NUMRJCTTC16<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "FMGT_BC_NUMTC19",
+      "connectedData": {
+        "formula": "Reporting.FMGT_BC_NUMTC19<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "FMGT_BC_OBCP0EXSTAT",
+      "connectedData": {
+        "formula": "Reporting.FMGT_BC_OBCP0EXSTAT<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "FMGT_BC_OBCP4STEPID",
+      "connectedData": {
+        "formula": "Reporting.FMGT_BC_OBCP4STEPID<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "FMGT_BC_OBCP6PRIO",
+      "connectedData": {
+        "formula": "Reporting.FMGT_BC_OBCP6PRIO<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "FMGT_BC_SSCHEDID20",
+      "connectedData": {
+        "formula": "Reporting.FMGT_BC_SSCHEDID20<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "FMGT_BC_TSTPARFSHRT",
+      "connectedData": {
+        "formula": "Reporting.FMGT_BC_TSTPARFSHRT<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "TMMGT_BC_ENABLE5",
+      "connectedData": {
+        "formula": "Reporting.TMMGT_BC_ENABLE5<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "TMMGT_BC_ENABLED2",
+      "connectedData": {
+        "formula": "Reporting.TMMGT_BC_ENABLED2<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "TMMGT_BC_ENABLED12",
+      "connectedData": {
+        "formula": "Reporting.TMMGT_BC_ENABLED12<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+      {
+      "name": "TMMGT_BC_LASTSQNUM9",
+      "connectedData": {
+        "formula": "Reporting.TMMGT_BC_LASTSQNUM9<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "TMMGT_BC_NUMRJCTTC9",
+      "connectedData": {
+        "formula": "Reporting.TMMGT_BC_NUMRJCTTC9<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    },
+    {
+      "name": "TMMGT_BC_PKTST9DOWN",
+      "connectedData": {
+        "formula": "Reporting.TMMGT_BC_PKTST9DOWN<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "OBCPE1_BC_EXECTIME1TC",
+      "connectedData": {
+        "formula": "Reporting.OBCPE1_BC_EXECTIME1TC<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "domain": "fr.cnes*",
+        "timeline": "Session*"
+      }
+    }
+  ],
+  "links": [
+    {
+      "name": "page.exe2.workspace",
+      "path": "../page.exe2.workspace.json"
+    }
+  ],
+  "defaultRatio": {
+    "length": 5,
+    "width": 3
+  },
+  "content": [
+    "<!DOCTYPE html>",
+    "<html>",
+    " <head>",
+    "  <title>TV example 3</title>",
+    " </head>",
+    " <body>",
+    "  <table border=\"2\">",
+    "    <tr><td>GENE_AM_CCSDSGFLAG</td><td><span class=\"EntryPoint\" {{GENE_AM_CCSDSGFLAG}}></td></tr>",
+    "    <tr><td>BASETYPE_AM_TIMET09F10</td><td><span class=\"EntryPoint\" {{BASETYPE_AM_TIMET09F10}}></td></tr>",
+    "    <tr><td>AGA_AM_CCSDSVERS</td><td><span class=\"EntryPoint\" {{AGA_AM_CCSDSVERS}}></td></tr>",
+    "    <tr><td>GENE_AM_ZSPARE32</td><td><span class=\"EntryPoint\" {{GENE_AM_ZSPARE32}}></td></tr>",
+    "    <tr><td>GENE_AM_ZSPARE02</td><td><span class=\"EntryPoint\" {{GENE_AM_ZSPARE02}}></td></tr>",
+    "    <tr><td>AGA_AM_N104NUMAREA</td><td><span class=\"EntryPoint\" {{AGA_AM_N104NUMAREA}}></td></tr>",
+    "    <tr><td>AGA_AM_FMONSTATUS</td><td><span class=\"EntryPoint\" {{AGA_AM_FMONSTATUS}}></td></tr>",
+    "    <tr><td>AGA_AM_PARAMVALQ0</td><td><span class=\"EntryPoint\" {{AGA_AM_PARAMVALQ0}}></td></tr>",
+    "    <tr><td>AGA_AM_TM005007PAR</td><td><span class=\"EntryPoint\" {{AGA_AM_TM005007PAR}}></td></tr>",
+    "    <tr><td>GENE_AM_ACTOBCPNUM</td><td><span class=\"EntryPoint\" {{GENE_AM_ACTOBCPNUM}}></td></tr>",
+
+    "    <tr><td>GENE_AM_ACTOBCPCHKS</td><td><span class=\"EntryPoint\" {{GENE_AM_ACTOBCPCHKS}}></td></tr>",
+    "    <tr><td>GENE_AM_D3135PERIOD</td><td><span class=\"EntryPoint\" {{GENE_AM_D3135PERIOD}}></td></tr>",
+    "    <tr><td>GENE_AM_BUSCOUPLER</td><td><span class=\"EntryPoint\" {{GENE_AM_BUSCOUPLER}}></td></tr>",
+    "    <tr><td>GENE_AM_FAILURECODE</td><td><span class=\"EntryPoint\" {{GENE_AM_FAILURECODE}}></td></tr>",
+    "    <tr><td>GENE_AM_HILIMITDED</td><td><span class=\"EntryPoint\" {{GENE_AM_HILIMITDED}}></td></tr>",
+    "    <tr><td>GENE_AM_I135VPARID</td><td><span class=\"EntryPoint\" {{GENE_AM_I135VPARID}}></td></tr>",
+    "    <tr><td>GENE_AM_MAXVALUINT</td><td><span class=\"EntryPoint\" {{GENE_AM_MAXVALUINT}}></td></tr>",
+    "    <tr><td>GENE_AM_MAXVALBYTE</td><td><span class=\"EntryPoint\" {{GENE_AM_MAXVALBYTE}}></td></tr>",
+    "    <tr><td>GENE_AM_NUMSUBSCHED</td><td><span class=\"EntryPoint\" {{GENE_AM_NUMSUBSCHED}}></td></tr>",
+    "    <tr><td>GENE_AM_PVALPUSREF</td><td><span class=\"EntryPoint\" {{GENE_AM_PVALPUSREF}}></td></tr>",
+
+    "    <tr><td>GENE_BC_AMACKFLAG</td><td><span class=\"EntryPoint\" {{GENE_BC_AMACKFLAG}}></td></tr>",
+    "    <tr><td>ATT_BC_BCSTWORDCSO</td><td><span class=\"EntryPoint\" {{ATT_BC_BCSTWORDCSO}}></td></tr>",
+    "    <tr><td>ATT_BC_MAG1SATQ1</td><td><span class=\"EntryPoint\" {{ATT_BC_MAG1SATQ1}}></td></tr>",
+    "    <tr><td>ATT_BC_MTQ1VOLTAGE</td><td><span class=\"EntryPoint\" {{ATT_BC_MTQ1VOLTAGE}}></td></tr>",
+    "    <tr><td>ATT_BC_QSUNDIRSAT</td><td><span class=\"EntryPoint\" {{ATT_BC_QSUNDIRSAT}}></td></tr>",
+    "    <tr><td>ATT_BC_RWH1INITDEL</td><td><span class=\"EntryPoint\" {{ATT_BC_RWH1INITDEL}}></td></tr>",
+    "    <tr><td>ATT_BC_SAS4SATQ0</td><td><span class=\"EntryPoint\" {{ATT_BC_SAS4SATQ0}}></td></tr>",
+    "    <tr><td>ATT_BC_SSCHEDID16</td><td><span class=\"EntryPoint\" {{ATT_BC_SSCHEDID16}}></td></tr>",
+    "    <tr><td>ATT_BC_THR1QUATSAT</td><td><span class=\"EntryPoint\" {{ATT_BC_THR1QUATSAT}}></td></tr>",
+    "    <tr><td>ORB_BC_ENABLED5</td><td><span class=\"EntryPoint\" {{ORB_BC_ENABLED5}}></td></tr>",
+
+    "    <tr><td>ORB_BC_GPS2WEEKNUM</td><td><span class=\"EntryPoint\" {{ORB_BC_GPS2WEEKNUM}}></td></tr>",
+    "    <tr><td>ORB_BC_LASTSQNUM5</td><td><span class=\"EntryPoint\" {{ORB_BC_LASTSQNUM5}}></td></tr>",
+    "    <tr><td>ORB_BC_NUMRJCTTC13</td><td><span class=\"EntryPoint\" {{ORB_BC_NUMRJCTTC13}}></td></tr>",
+    "    <tr><td>ORB_BC_NUMRJCTTC5</td><td><span class=\"EntryPoint\" {{ORB_BC_NUMRJCTTC5}}></td></tr>",
+    "    <tr><td>ORB_BC_SSCHEDID17</td><td><span class=\"EntryPoint\" {{ORB_BC_SSCHEDID17}}></td></tr>",
+    "    <tr><td>ORB_BC_TSTPARFBOOL</td><td><span class=\"EntryPoint\" {{ORB_BC_TSTPARFBOOL}}></td></tr>",
+    "    <tr><td>POW_BC_ENABLED13</td><td><span class=\"EntryPoint\" {{POW_BC_ENABLED13}}></td></tr>",
+    "    <tr><td>POW_BC_LASTSQNUM14</td><td><span class=\"EntryPoint\" {{POW_BC_LASTSQNUM14}}></td></tr>",
+    "    <tr><td>POW_BC_NUMTC19</td><td><span class=\"EntryPoint\" {{POW_BC_NUMTC19}}></td></tr>",
+
+    "    <tr><td>POW_BC_TSTPARVLONG</td><td><span class=\"EntryPoint\" {{POW_BC_TSTPARVLONG}}></td></tr>",
+    "    <tr><td>SAT_BC_ENERGYDL</td><td><span class=\"EntryPoint\" {{SAT_BC_ENERGYDL}}></td></tr>",
+    "    <tr><td>SAT_BC_FUNCMONITEN</td><td><span class=\"EntryPoint\" {{SAT_BC_FUNCMONITEN}}></td></tr>",
+    "    <tr><td>SAT_BC_LDONBRDUID</td><td><span class=\"EntryPoint\" {{SAT_BC_LDONBRDUID}}></td></tr>",
+    "    <tr><td>SAT_BC_NUMTC20</td><td><span class=\"EntryPoint\" {{SAT_BC_NUMTC20}}></td></tr>",
+    "    <tr><td>SAT_BC_TSTPARVBYTE</td><td><span class=\"EntryPoint\" {{SAT_BC_TSTPARVBYTE}}></td></tr>",
+    "    <tr><td>MIS_BC_DALMCURR</td><td><span class=\"EntryPoint\" {{MIS_BC_DALMCURR}}></td></tr>",
+    "    <tr><td>MIS_BC_ENABLED17</td><td><span class=\"EntryPoint\" {{MIS_BC_ENABLED17}}></td></tr>",
+    "    <tr><td>GENE_AM_S513VSTATUS</td><td><span class=\"EntryPoint\" {{GENE_AM_S513VSTATUS}}></td></tr>",
+    "    <tr><td>ATT_BC_FREEMEMORY</td><td><span class=\"EntryPoint\" {{ATT_BC_FREEMEMORY}}></td></tr>",
+
+    "    <tr><td>ATT_BC_REVTCOUNT3</td><td><span class=\"EntryPoint\" {{ATT_BC_REVTCOUNT3}}></td></tr>",
+    "    <tr><td>ATT_BC_STR1QSTRREF</td><td><span class=\"EntryPoint\" {{ATT_BC_STR1QSTRREF}}></td></tr>",
+    "    <tr><td>ATT_BC_STR2QUALITY</td><td><span class=\"EntryPoint\" {{ATT_BC_STR2QUALITY}}></td></tr>",
+    "    <tr><td>ATT_BC_THR2VOLTAGE</td><td><span class=\"EntryPoint\" {{ATT_BC_THR2VOLTAGE}}></td></tr>",
+    "    <tr><td>ATT_BC_TSTPARVBYTE</td><td><span class=\"EntryPoint\" {{ATT_BC_TSTPARVBYTE}}></td></tr>",
+    "    <tr><td>ORB_BC_EXECTIME1TC</td><td><span class=\"EntryPoint\" {{ORB_BC_EXECTIME1TC}}></td></tr>",
+    "    <tr><td>ORB_BC_GPS2ENABLED</td><td><span class=\"EntryPoint\" {{ORB_BC_GPS2ENABLED}}></td></tr>",
+    "    <tr><td>ORB_BC_LVVELZJ2000</td><td><span class=\"EntryPoint\" {{ORB_BC_LVVELZJ2000}}></td></tr>",
+    "    <tr><td>ORB_BC_NUMTC0</td><td><span class=\"EntryPoint\" {{ORB_BC_NUMTC0}}></td></tr>",
+    "    <tr><td>ORB_BC_SSCHEDID12</td><td><span class=\"EntryPoint\" {{ORB_BC_SSCHEDID12}}></td></tr>",
+
+    "    <tr><td>POW_BC_DBATCURRENT</td><td><span class=\"EntryPoint\" {{POW_BC_DBATCURRENT}}></td></tr>",
+    "    <tr><td>POW_BC_ENABLED5</td><td><span class=\"EntryPoint\" {{POW_BC_ENABLED5}}></td></tr>",
+    "    <tr><td>POW_BC_NUMRJCTTC0</td><td><span class=\"EntryPoint\" {{POW_BC_NUMRJCTTC0}}></td></tr>",
+    "    <tr><td>POW_BC_NUMTC13</td><td><span class=\"EntryPoint\" {{POW_BC_NUMTC13}}></td></tr>",
+    "    <tr><td>POW_BC_SSCHEDID14</td><td><span class=\"EntryPoint\" {{POW_BC_SSCHEDID14}}></td></tr>",
+    "    <tr><td>SAT_BC_DELIBMAXDUR</td><td><span class=\"EntryPoint\" {{SAT_BC_DELIBMAXDUR}}></td></tr>",
+    "    <tr><td>SAT_BC_ENABLED7</td><td><span class=\"EntryPoint\" {{SAT_BC_ENABLED7}}></td></tr>",
+    "    <tr><td>SAT_BC_LASTSQNUM16</td><td><span class=\"EntryPoint\" {{SAT_BC_LASTSQNUM16}}></td></tr>",
+    "    <tr><td>SAT_BC_MAXMERGDIST</td><td><span class=\"EntryPoint\" {{SAT_BC_MAXMERGDIST}}></td></tr>",
+    "    <tr><td>SAT_BC_PARMONITEN</td><td><span class=\"EntryPoint\" {{SAT_BC_PARMONITEN}}></td></tr>",
+
+    "    <tr><td>SAT_BC_SSCHEDID5</td><td><span class=\"EntryPoint\" {{SAT_BC_SSCHEDID5}}></td></tr>",
+    "    <tr><td>SAT_BC_TCTBUFNUMTC</td><td><span class=\"EntryPoint\" {{SAT_BC_TCTBUFNUMTC}}></td></tr>",
+    "    <tr><td>MIS_BC_DAGMDETTHRE</td><td><span class=\"EntryPoint\" {{MIS_BC_DAGMDETTHRE}}></td></tr>",
+    "    <tr><td>MIS_BC_DHDRINITDEL</td><td><span class=\"EntryPoint\" {{MIS_BC_DHDRINITDEL}}></td></tr>",
+    "    <tr><td>MIS_BC_ENABLED10</td><td><span class=\"EntryPoint\" {{MIS_BC_ENABLED10}}></td></tr>",
+    "    <tr><td>MIS_BC_LASTSQNUM10</td><td><span class=\"EntryPoint\" {{MIS_BC_LASTSQNUM10}}></td></tr>",
+    "    <tr><td>MIS_BC_LASTSQNUM8</td><td><span class=\"EntryPoint\" {{MIS_BC_LASTSQNUM8}}></td></tr>",
+    "    <tr><td>MIS_BC_NUMRJCTTC18</td><td><span class=\"EntryPoint\" {{MIS_BC_NUMRJCTTC18}}></td></tr>",
+    "    <tr><td>MIS_BC_NUMTC9</td><td><span class=\"EntryPoint\" {{MIS_BC_NUMTC9}}></td></tr>",
+    "    <tr><td>MIS_BC_SSCHEDID20</td><td><span class=\"EntryPoint\" {{MIS_BC_SSCHEDID20}}></td></tr>",
+
+    "    <tr><td>MIS_BC_TSTPARFQ</td><td><span class=\"EntryPoint\" {{MIS_BC_TSTPARFQ}}></td></tr>",
+    "    <tr><td>MIS_BC_TSTPARVDBLE</td><td><span class=\"EntryPoint\" {{MIS_BC_TSTPARVDBLE}}></td></tr>",
+    "    <tr><td>FMGT_BC_ENABLED15</td><td><span class=\"EntryPoint\" {{FMGT_BC_ENABLED15}}></td></tr>",
+    "    <tr><td>FMGT_BC_ENABLED20</td><td><span class=\"EntryPoint\" {{FMGT_BC_ENABLED20}}></td></tr>",
+    "    <tr><td>FMGT_BC_LASTSQNUM12</td><td><span class=\"EntryPoint\" {{FMGT_BC_LASTSQNUM12}}></td></tr>",
+    "    <tr><td>FMGT_BC_LASTSQNUM18</td><td><span class=\"EntryPoint\" {{FMGT_BC_LASTSQNUM18}}></td></tr>",
+    "    <tr><td>FMGT_BC_NUMRJCTTC16</td><td><span class=\"EntryPoint\" {{FMGT_BC_NUMRJCTTC16}}></td></tr>",
+    "    <tr><td>FMGT_BC_NUMTC19</td><td><span class=\"EntryPoint\" {{FMGT_BC_NUMTC19}}></td></tr>",
+    "    <tr><td>FMGT_BC_OBCP0EXSTAT</td><td><span class=\"EntryPoint\" {{FMGT_BC_OBCP0EXSTAT}}></td></tr>",
+    "    <tr><td>FMGT_BC_OBCP4STEPID</td><td><span class=\"EntryPoint\" {{FMGT_BC_OBCP4STEPID}}></td></tr>",
+
+    "    <tr><td>FMGT_BC_OBCP6PRIO</td><td><span class=\"EntryPoint\" {{FMGT_BC_OBCP6PRIO}}></td></tr>",
+    "    <tr><td>FMGT_BC_SSCHEDID20</td><td><span class=\"EntryPoint\" {{FMGT_BC_SSCHEDID20}}></td></tr>",
+    "    <tr><td>FMGT_BC_TSTPARFSHRT</td><td><span class=\"EntryPoint\" {{FMGT_BC_TSTPARFSHRT}}></td></tr>",
+    "    <tr><td>TMMGT_BC_ENABLE5</td><td><span class=\"EntryPoint\" {{TMMGT_BC_ENABLE5}}></td></tr>",
+    "    <tr><td>TMMGT_BC_ENABLED2</td><td><span class=\"EntryPoint\" {{TMMGT_BC_ENABLED2}}></td></tr>",
+    "    <tr><td>TMMGT_BC_ENABLED12</td><td><span class=\"EntryPoint\" {{TMMGT_BC_ENABLED12}}></td></tr>",
+    "    <tr><td>TMMGT_BC_LASTSQNUM9</td><td><span class=\"EntryPoint\" {{TMMGT_BC_LASTSQNUM9}}></td></tr>",
+    "    <tr><td>TMMGT_BC_NUMRJCTTC9</td><td><span class=\"EntryPoint\" {{TMMGT_BC_NUMRJCTTC9}}></td></tr>",
+    "    <tr><td>TMMGT_BC_PKTST9DOWN</td><td><span class=\"EntryPoint\" {{TMMGT_BC_PKTST9DOWN}}></td></tr>",
+    "    <tr><td>OBCPE1_BC_EXECTIME1TC</td><td><span class=\"EntryPoint\" {{OBCPE1_BC_EXECTIME1TC}}></td></tr>",
+    "  </table>",
+    " </body>",
+    "</html>"
+  ]
+}

@@ -1,0 +1,272 @@
+{
+  "type": "PlotView",
+  "links": [
+    {
+      "name": "page4",
+      "path": "./pages/page4.json"
+    }
+  ],
+  "procedures": [],
+  "defaultRatio": {
+    "length": 50,
+    "width": 50
+  },
+  "plotViewEntryPoints": [
+    {
+      "name": "OBCPE1_BC_SSCHEDID11",
+      "connectedDataX": {
+        "formula": "Reporting.OBCPE1_BC_SSCHEDID11<ReportingParameter>.groundDate",
+        "unit": "s",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1",
+        "axisId": "Time"
+      },
+      "connectedDataY": {
+        "formula": "Reporting.OBCPE1_BC_SSCHEDID11<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColour": "#000000",
+      "stateColours": [
+        {
+          "colour": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ]
+    },
+    {
+      "name": "TMMGT_BC_ENABLED12",
+      "connectedDataX": {
+        "formula": "Reporting.TMMGT_BC_ENABLED12<ReportingParameter>.groundDate",
+        "unit": "s",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 2",
+        "axisId": "Time"
+      },
+      "connectedDataY": {
+        "formula": "Reporting.TMMGT_BC_ENABLED12<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 2",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColour": "#000000",
+      "stateColours": [
+        {
+          "colour": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ]
+    },
+    {
+      "name": "FMGT_BC_LASTSQNUM8",
+      "connectedDataX": {
+        "formula": "Reporting.FMGT_BC_LASTSQNUM8<ReportingParameter>.groundDate",
+        "unit": "s",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 3",
+        "axisId": "Time"
+      },
+      "connectedDataY": {
+        "formula": "Reporting.FMGT_BC_LASTSQNUM8<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 3",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColour": "#000000",
+      "stateColours": [
+        {
+          "colour": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ]
+    },
+    {
+      "name": "MIS_BC_LASTSQNUM1",
+      "connectedDataX": {
+        "formula": "Reporting.MIS_BC_LASTSQNUM1<ReportingParameter>.groundDate",
+        "unit": "s",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 4",
+        "axisId": "Time"
+      },
+      "connectedDataY": {
+        "formula": "Reporting.MIS_BC_LASTSQNUM1<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 4",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColour": "#000000",
+      "stateColours": [
+        {
+          "colour": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ]
+    }
+  ],
+  "axes": [
+    {
+      "label": "Time",
+      "unit": "<DATE>",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikeOut": false,
+        "align": "left",
+        "colour": "#000000"
+      },
+      "min": 0,
+      "max": 10,
+      "autoLimits": true,
+      "tickStep": 0.5,
+      "autoTick": true,
+      "showTicks": true,
+      "showTickLabels": true,
+      "isLogarithmic": false,
+      "showAxis": true
+    },
+    {
+      "label": "VBat",
+      "unit": "V",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikeOut": false,
+        "align": "left",
+        "colour": "#000000"
+      },
+      "min": -300,
+      "max": 300,
+      "autoLimits": false,
+      "tickStep": 50,
+      "autoTick": false,
+      "showTicks": true,
+      "showTickLabels": true,
+      "isLogarithmic": false,
+      "showAxis": true
+    }
+  ],
+  "grids": [
+    {
+      "xAxisId": "Time",
+      "yAxisId": "VBat",
+      "lineStyle": "Continuous",
+      "width": 1,
+      "showGrid": true
+    }
+  ],
+  "title": "VIMA Plot example 3",
+  "titleStyle": {
+    "font": "Arial",
+    "size": 12,
+    "bold": false,
+    "italic": false,
+    "underline": true,
+    "strikeOut": false,
+    "align": "center",
+    "colour": "#000000"
+  },
+  "plotBackgroundColour": "#FFFFFF",
+  "legend": {
+    "style": {
+      "font": "Arial",
+      "size": 12,
+      "bold": false,
+      "italic": false,
+      "underline": false,
+      "strikeOut": false,
+      "align": "left",
+      "colour": "#000000"
+    },
+    "location": "Top"
+  },
+  "markers": [
+    {
+      "kind": "Text",
+      "label": "VBAT",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": true,
+        "strikeOut": false,
+        "align": "left",
+        "colour": "#000000"
+      },
+      "relativePosX": 5.6,
+      "relativePosY": 8.9
+    }
+  ]
+  }

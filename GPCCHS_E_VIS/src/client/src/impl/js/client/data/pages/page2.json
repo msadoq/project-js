@@ -1,0 +1,29 @@
+{
+  "type": "Page",
+  "hideBorders": false,
+  "title": "page example 2",
+  "views": [
+	{
+	  "path": "/views/text1.json",
+	  "geometry": {
+		"kind": "Relative",
+		"x": 0,
+		"y": 0,
+		"w": 12,
+		"h": 7
+	  },
+	  "windowState": "Normalized"
+	},
+  {
+	  "path": "/views/plot2.json",
+	  "geometry": {
+		"kind": "Relative",
+		"x": 0,
+		"y": 0,
+		"w": 12,
+		"h": 7
+	  },
+	  "windowState": "Normalized"
+	}
+  ]
+}

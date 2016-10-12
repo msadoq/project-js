@@ -1,0 +1,20 @@
+// Produced by Acceleo Cpp Generator 1.1.0-R7S1-20151214
+
+import "ccsds_mal/types.proto";
+import "pusGroundModel/PusElement.proto";
+import "pusGroundModel/PusParameter.proto";
+
+package pusGroundModel.protobuf;
+
+message Pus018Obcp {
+extensions 9 to 109;
+
+  optional ccsds_mal.protobuf.UINTEGER id = 1;
+  optional ccsds_mal.protobuf.UINTEGER status = 2;
+  optional ccsds_mal.protobuf.UINTEGER stepId = 3;
+  optional ccsds_mal.protobuf.UINTEGER partitionId = 4;
+  optional ccsds_mal.protobuf.UINTEGER observabilityLevel = 5;
+  optional ccsds_mal.protobuf.UINTEGER priority = 6;
+  repeated pusGroundModel.protobuf.PusParameter pus18Parameter = 7;
+  optional pusGroundModel.protobuf.PusElement pusElement = 8;
+}

@@ -1,0 +1,12 @@
+.title {
+  padding-right: 15px;
+  color: #708090;
+  font-weight: bold;
+
+}
+
+.close-button {
+  position: absolute;
+  right: 8px;
+  top: 11px;
+}

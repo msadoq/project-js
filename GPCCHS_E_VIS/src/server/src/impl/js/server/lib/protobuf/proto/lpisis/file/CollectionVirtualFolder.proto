@@ -1,0 +1,12 @@
+// Produced by Acceleo Cpp Generator 0.0.8-R6-20150710
+
+import "ccsds_mal/types.proto";
+
+package file.protobuf;
+
+message CollectionVirtualFolder {
+extensions 3 to 103;
+
+  optional ccsds_mal.protobuf.STRING name = 1;
+  optional ccsds_mal.protobuf.LONG uid = 2;
+}

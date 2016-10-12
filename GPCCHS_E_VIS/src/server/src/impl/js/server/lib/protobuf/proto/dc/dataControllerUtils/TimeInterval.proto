@@ -1,0 +1,9 @@
+package dataControllerUtils.protobuf;
+
+import "dataControllerUtils/Timestamp.proto";
+
+message TimeInterval {
+extensions 3 to 103;
+    optional Timestamp startTime = 1;
+    optional Timestamp endTime = 2;
+}

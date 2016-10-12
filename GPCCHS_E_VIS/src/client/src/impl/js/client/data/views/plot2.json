@@ -1,0 +1,194 @@
+{
+  "type": "PlotView",
+  "links": [
+    {
+      "name": "page2",
+      "path": "./pages/page2.json"
+    }
+  ],
+  "procedures": [],
+  "defaultRatio": {
+    "length": 50,
+    "width": 50
+  },
+  "plotViewEntryPoints": [
+    {
+      "name": "GENE_AM_N1PKTSQCTRL",
+      "connectedDataX": {
+        "formula": "Reporting.GENE_AM_N1PKTSQCTRL<ReportingParameter>.groundDate",
+        "unit": "s",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1",
+        "axisId": "Time"
+      },
+      "connectedDataY": {
+        "formula": "Reporting.GENE_AM_N1PKTSQCTRL<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColour": "#000000",
+      "stateColours": [
+        {
+          "colour": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ]
+    },
+    {
+      "name": "AGA_AM_N102NUMAREA",
+      "connectedDataX": {
+        "formula": "Reporting.AGA_AM_N102NUMAREA<ReportingParameter>.groundDate",
+        "unit": "s",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 2",
+        "axisId": "Time"
+      },
+      "connectedDataY": {
+        "formula": "Reporting.AGA_AM_N102NUMAREA<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 2",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColour": "#000000",
+      "stateColours": [
+        {
+          "colour": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ]
+    }
+  ],
+  "axes": [
+    {
+      "label": "Time",
+      "unit": "<DATE>",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikeOut": false,
+        "align": "left",
+        "colour": "#000000"
+      },
+      "min": 0,
+      "max": 10,
+      "autoLimits": true,
+      "tickStep": 0.5,
+      "autoTick": true,
+      "showTicks": true,
+      "showTickLabels": true,
+      "isLogarithmic": false,
+      "showAxis": true
+    },
+    {
+      "label": "VBat",
+      "unit": "V",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikeOut": false,
+        "align": "left",
+        "colour": "#000000"
+      },
+      "min": -300,
+      "max": 300,
+      "autoLimits": false,
+      "tickStep": 50,
+      "autoTick": false,
+      "showTicks": true,
+      "showTickLabels": true,
+      "isLogarithmic": false,
+      "showAxis": true
+    }
+  ],
+  "grids": [
+    {
+      "xAxisId": "Time",
+      "yAxisId": "VBat",
+      "lineStyle": "Continuous",
+      "width": 1,
+      "showGrid": true
+    }
+  ],
+  "title": "VIMA Plot example 2",
+  "titleStyle": {
+    "font": "Arial",
+    "size": 12,
+    "bold": false,
+    "italic": false,
+    "underline": true,
+    "strikeOut": false,
+    "align": "center",
+    "colour": "#000000"
+  },
+  "plotBackgroundColour": "#FFFFFF",
+  "legend": {
+    "style": {
+      "font": "Arial",
+      "size": 12,
+      "bold": false,
+      "italic": false,
+      "underline": false,
+      "strikeOut": false,
+      "align": "left",
+      "colour": "#000000"
+    },
+    "location": "Top"
+  },
+  "markers": [
+    {
+      "kind": "Text",
+      "label": "VBAT",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": true,
+        "strikeOut": false,
+        "align": "left",
+        "colour": "#000000"
+      },
+      "relativePosX": 5.6,
+      "relativePosY": 8.9
+    }
+  ]
+  }

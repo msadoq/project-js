@@ -1,0 +1,24 @@
+package dataControllerUtils.protobuf;
+
+import "dataControllerUtils/Timestamp.proto";
+import "dataControllerUtils/Filter.proto";
+
+message QueryArguments {
+extensions 9 to 109;
+    optional string sortFieldName = 1;
+      enum SORT_ORDER {
+          ASC = 0;
+          DESC = 1;
+      }
+    optional SORT_ORDER sortOrder = 2;
+    optional uint32 limitStart = 3;
+    optional uint32 limitNumber = 4;
+      enum GET_LAST_TYPE {
+        GET_LAST = 0;
+        GET_N_LAST = 1;
+      }
+    optional GET_LAST_TYPE getLastType = 5;
+    optional Timestamp getLastFromTime = 6;
+    optional uint32 getLastNumber = 7;
+    repeated Filter filters = 8;
+}

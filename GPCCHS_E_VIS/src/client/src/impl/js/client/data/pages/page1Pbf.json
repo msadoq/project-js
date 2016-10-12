@@ -1,0 +1,40 @@
+{
+  "type": "Page",
+  "hideBorders": false,
+  "title": "page example PBF",
+  "views": [
+	{
+	  "path": "./views/plot1pbf.json",
+	  "geometry": {
+		"kind": "Relative",
+		"x": 0,
+		"y": 2,
+		"w": 4,
+		"h": 16
+	  },
+	  "windowState": "Normalized"
+	},
+  {
+	  "path": "./views/text1pbf.json",
+	  "geometry": {
+		"kind": "Relative",
+		"x": 8,
+		"y": 4,
+		"w": 4,
+		"h": 16
+	  },
+	  "windowState": "Normalized"
+	},
+  {
+	  "path": "./views/text2pbf.json",
+	  "geometry": {
+		"kind": "Relative",
+		"x": 4,
+		"y": 6,
+		"w": 4,
+		"h": 16
+	  },
+	  "windowState": "Normalized"
+	}
+  ]
+}

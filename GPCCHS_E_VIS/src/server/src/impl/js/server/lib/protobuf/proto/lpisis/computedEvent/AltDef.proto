@@ -1,0 +1,7 @@
+package computedEvent.protobuf;
+
+enum AltDef {
+  GEODESIC = 0;
+  GEOCENTRIC = 1;
+  SPHERICAL = 2;
+}

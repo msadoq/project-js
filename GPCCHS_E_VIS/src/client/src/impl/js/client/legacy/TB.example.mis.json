@@ -1,0 +1,36 @@
+{
+  "type": "timeBarConfiguration",
+  "id": "TB1",
+  "action": "invalid",
+  "mode": "Normal",
+  "visuWindow": {
+
+      "upper": 1420113600000,
+      "current": 1420110000000,
+      "defaultWidth": 7200000
+  },
+  "slideWindow": {
+      "lower": 1420108200000,
+      "upper": 1420111800000
+  },
+  "extUpperBound": 1420115400000,
+  "rulerStart": 1420106400000,
+  "rulerResolution": 11250,
+  "speed": 1.0,
+  "playingState": "pause",
+  "timeSpec": "LocalTime",
+  "offsetFromUTC": 0,
+  "timelines": [{
+      "id": "1",
+      "name": "Session 1",
+      "offset": 0,
+
+      "sessionId": 1
+  }, {
+      "id": "2",
+      "name": "Dataset 1",
+      "offset": 0,
+      "kind": "Dataset",
+      "dsPath": "/dataset.xml"
+  }]
+}

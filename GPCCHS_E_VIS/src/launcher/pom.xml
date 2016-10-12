@@ -9,7 +9,7 @@
     <parent>
         <groupId>fr.cnes.lpisis.gpcc</groupId>
         <artifactId>gpcc-parent</artifactId>
-        <version>1.1.0-R7S1-SNAPSHOT</version>
+        <version>1.1.0-R7S2-SNAPSHOT</version>
         <relativePath />
     </parent>
     
@@ -23,12 +23,10 @@
         <api.main.dir>${api.work.dir}/${artifactId}-${project.version}</api.main.dir>
     </properties>
     <dependencies>
-        
-
-
         <dependency>
-            <groupId>org.sourceforge.pyunit</groupId>
-            <artifactId>COTS-pyunit</artifactId>
+            <groupId>fr.cnes.lpisis.cots</groupId>
+            <artifactId>electron</artifactId>
+        	<version>1.4.1</version>
             <type>isis-cots</type>
         </dependency>
     </dependencies>

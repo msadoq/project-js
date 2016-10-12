@@ -1,0 +1,6 @@
+package computedEvent.protobuf;
+
+enum Type {
+  CONT = 0;
+  INTERM = 1;
+}

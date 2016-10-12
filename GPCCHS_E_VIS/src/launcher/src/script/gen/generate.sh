@@ -19,18 +19,18 @@ untar() {
 
 deploy_cots() {
   Log "deploy_bundle" "deploy js bundle" ${INFO}
-  rm -rf ${api.work.dir}
-  mkdir ${api.work.dir}
-  cd ${api.work.dir}
+  rm -rf ${api.lib.dir}
+  mkdir -p ${api.lib.dir}/js/${artifactId}/node_modules
+  mkdir -p ${api.lib.dir}/js/${artifactId}/client
+  mkdir -p ${api.lib.dir}/js/${artifactId}/server
+  mkdir -p ${api.lib.dir}/js/${artifactId}/common
 
-  mkdir -p ${api.lib.dir}/js/${artifactId}
+  cd ${basedir}	
 
-  rm -rf ${api.lib.dir}/js/${artifactId}/node_modules
-  mkdir ${api.lib.dir}/js/${artifactId}/node_modules
-
-  cp -R ${basedir}/src/impl/js/launcher/* ${api.lib.dir}/js/${artifactId}
-  cp -R ${basedir}/src/impl/js/launcher/.* ${api.lib.dir}/js/${artifactId}
+  cp -R ../client/target/lib/js/gpcchs_e_vis_client/* ${api.lib.dir}/js/${artifactId}/client
+  cp -R ../server/target/lib/js/gpcchs_e_vis_server/* ${api.lib.dir}/js/${artifactId}/server
   cp -R ${api.target.dir}/dependencies/lib/js/**/node_modules/* ${api.lib.dir}/js/${artifactId}/node_modules
+  cp -R ${api.target.dir}/dependencies/lib/js/**/node_modules/.bin ${api.lib.dir}/js/${artifactId}/node_modules
 }
 
 case "$1" in

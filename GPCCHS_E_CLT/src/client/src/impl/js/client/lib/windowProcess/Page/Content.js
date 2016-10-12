@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import ViewContainer from '../View/ViewContainer';
-import styles from './Page.css';
+import styles from './Content.css';
 
 const Grid = WidthProvider(Responsive);
 

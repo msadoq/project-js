@@ -6,6 +6,8 @@ const stubData = require('./data');
 const constants = require('../constants');
 const supportedParameters = require('./supportedParameters');
 
+require('dotenv-safe').load();
+
 let subscriptions = {}; // realtime
 let queries = []; // archive
 
@@ -212,13 +214,13 @@ const emulateDc = () => {
     }
     const payloads = [];
     for (let i = from; i <= to; i += 2000) {
-      const timestamp = i;
+      const ts = i;
       payloads.push(
         {
-          timestamp: stubData.getTimestampProtobuf({ ms: timestamp }),
+          timestamp: stubData.getTimestampProtobuf({ ms: ts }),
           payload: stubData.getReportingParameterProtobuf({
-            groundDate: timestamp + 20,
-            onboardDate: timestamp,
+            groundDate: ts + 20,
+            onboardDate: ts,
             // values already vary in stubData helper
           }),
         }

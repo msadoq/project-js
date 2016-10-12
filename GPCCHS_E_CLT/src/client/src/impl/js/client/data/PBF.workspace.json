@@ -3,10 +3,10 @@
   "windows": [
     {
       "type": "documentWindow",
-      "title": "window example Small",
+      "title": "window example PBF",
       "pages": [
         {
-          "path": "./pages/page1.json",
+          "path": "./pages/page1Pbf.json",
           "timeBarId": "TB1"
         }
       ],
@@ -49,8 +49,8 @@
             "offset": -10000,
             "kind": "Session",
             "sessionId": 1
-          }
-      ],
+          },
+        ],
         "masterId": "Session 1"
       }
     ],

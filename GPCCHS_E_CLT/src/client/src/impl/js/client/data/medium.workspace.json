@@ -50,15 +50,9 @@
         "timelines": [
           {
             "id": "Session 1",
-            "offset": 0,
+            "offset": -10000,
             "kind": "Session",
             "sessionId": 1
-          },
-          {
-            "id": "Dataset 1",
-            "offset": 0,
-            "kind": "Dataset",
-            "dsPath": "/dataset.xml"
           }
         ],
         "masterId": "Session 1"
@@ -87,18 +81,12 @@
         "timelines": [
           {
             "id": "Session 2",
-            "offset": 0,
+            "offset": -10000,
             "kind": "Session",
             "sessionId": 1
-          },
-          {
-            "id": "Dataset 2",
-            "offset": 0,
-            "kind": "Dataset",
-            "dsPath": "/dataset.xml"
           }
         ],
-        "masterId": "Session 2"
+        "masterId": "Session 1"
       }
     ],
     "geometry": {

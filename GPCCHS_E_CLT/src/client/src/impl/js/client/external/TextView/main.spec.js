@@ -2,7 +2,7 @@ import { should, getStore } from '../../lib/common/test';
 import {
   getSchemaJson,
   getConnectedDataFromState,
-  getUsedValues,
+  getDisplayedValues,
 } from './main';
 
 describe('TextView/main', () => {
@@ -59,7 +59,7 @@ describe('TextView/main', () => {
       ]);
     });
   });
-  describe('getUsedValues', () => {
+  describe('getDisplayedValues', () => {
     let payload;
     before(() => {
       payload = [
@@ -70,14 +70,14 @@ describe('TextView/main', () => {
     });
     it('valid payload with current inside', () => {
       const visuWindow = [1.9, 2];
-      const ret = getUsedValues(undefined, 'val1', visuWindow, payload);
+      const ret = getDisplayedValues(undefined, 'val1', visuWindow, payload);
       ret.should.be.an('object').with.keys('timestamp', 'value');
       ret.timestamp.should.equal(payload[1].timestamp);
       ret.value.should.equal(payload[1].payload.val1);
     });
     it('valid payload without current inside', () => {
       const visuWindow = [1.9, 2.5];
-      const ret = getUsedValues(undefined, 'val1', visuWindow, payload);
+      const ret = getDisplayedValues(undefined, 'val1', visuWindow, payload);
       ret.should.be.an('object').with.keys('timestamp', 'value');
       ret.timestamp.should.equal(payload[1].timestamp);
       ret.value.should.equal(payload[1].payload.val1);

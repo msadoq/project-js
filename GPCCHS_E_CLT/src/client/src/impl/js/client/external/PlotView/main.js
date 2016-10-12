@@ -11,11 +11,12 @@ module.exports = {
       if (!ep) {
         return list;
       }
-
       if (ep.connectedDataX) {
+        // Check uuid
         list = list.concat(ep.connectedDataX); // TODO : only if not the same params as Y
       }
       if (ep.connectedDataY) {
+        // Check uuid
         list = list.concat(ep.connectedDataY);
       }
 
@@ -25,7 +26,7 @@ module.exports = {
   getExpectedInterval: function(lower, current, upper) {
     return [lower, upper];
   },
-  getUsedValues: function(stateLocalId, field, interval, remoteIdPayload) {
+  getDisplayedValues: function(stateLocalId, field, interval, remoteIdPayload) {
     let final;
     if (stateLocalId) {
       final = Object.assign({}, stateLocalId);

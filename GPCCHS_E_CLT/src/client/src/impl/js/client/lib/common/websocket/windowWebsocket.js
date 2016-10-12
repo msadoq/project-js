@@ -2,8 +2,8 @@ import debug from '../../common/debug/windowDebug';
 import { getStore } from '../../store/windowStore';
 import controller from './windowController';
 import { updateStatus } from '../../store/actions/hss';
-import parameters from '../parameters';
-import { Primus } from '../../../external.main';
+// import parameters from '../parameters';
+import Primus from '../../../external/primus';
 
 const logger = debug('window:websocket');
 

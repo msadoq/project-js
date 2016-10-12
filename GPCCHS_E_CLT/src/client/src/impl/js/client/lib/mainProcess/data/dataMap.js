@@ -1,7 +1,10 @@
 const _ = require('lodash');
 import { createSelector } from 'reselect';
 
-import external from '../../../external.main';
+import {
+  getConnectedDataFromState,
+  getExpectedInterval
+} from '../../../external/main';
 import formulaParser from '../../common/formula';
 import remoteIdGenerator from '../../common/remoteId';
 import localIdGenerator from '../../common/localId';
@@ -77,12 +80,10 @@ const getVisibleConnectedData = createSelector(
       return list;
     }
 
-    const selector = _.get(external, [type, 'getConnectedDataFromState']);
-    if (!_.isFunction(selector)) {
+    const connectedData = getConnectedDataFromState(type, configuration);
+    if (!connectedData) {
       return list;
     }
-
-    const connectedData = selector(configuration);
     return list.concat({ type, timebarId, connectedData });
   }, [])
 );
@@ -164,22 +165,19 @@ function decorate(domains, timebars, timelines, cds) {
           if (!visuWindow) {
             throw new Error('Unexpected store state');
           }
-          const selector = _.get(external, [type, 'getExpectedInterval']);
-          if (!_.isFunction(selector)) {
-            throw new Error('Unexpected external view type', type);
+          const interval = getExpectedInterval(type, visuWindow.lower - offset,
+            visuWindow.current - offset, visuWindow.upper - offset);
+          if (!interval) {
+            throw new Error('Unexpected function getExpectedInterval for view type', type);
           }
-
           sublist[remoteId].localIds[localId] = {
             viewType: type,
             field: p.field,
             timebarId,
             offset,
-            expectedInterval: selector(
-              visuWindow.lower - offset,
-              visuWindow.current - offset,
-              visuWindow.upper - offset
-            ),
+            expectedInterval: interval,
           };
+
         });
       });
 
@@ -212,4 +210,4 @@ function decorate(domains, timebars, timelines, cds) {
  */
 export default function dataMap(state) {
   return getVisibleRemoteIds(state);
-};
+}

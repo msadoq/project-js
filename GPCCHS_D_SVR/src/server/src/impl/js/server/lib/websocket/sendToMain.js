@@ -28,12 +28,8 @@ const flushMainQueue = _.throttle(() => {
 
 const addToMainQueue = (remoteId, payload) => {
   debug.debug('adding to queue');
-  const previous = _.get(mainQueue, [remoteId]);
-  if (typeof previous === 'undefined') {
-    _.set(mainQueue, [remoteId], payload);
-  } else {
-    _.set(mainQueue, [remoteId], _.concat(previous, payload));
-  }
+  const previous = _.get(mainQueue, [remoteId], []);
+  _.set(mainQueue, [remoteId], _.concat(previous, payload));
   flushMainQueue();
 };
 

@@ -16,10 +16,11 @@ Incoming data message:
 Cached data:
 ```
 dataCache: {
-  remoteId: {
-    localId: [ // ordered
-      timestamp: value, // value=field  
-    ], // TODO update
+  'remoteId': {
+    'localId': {
+      index: [number], // ordered
+      data: { 'timestamp': value },
+    }
   }
 }
 ```

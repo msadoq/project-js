@@ -8,6 +8,7 @@ Only list expected tasks for PBF shipping of end of october.
   * [ ] Wildcard: we can subscribe *n* parameters for the same entryPoint, what we should do with the *n* incoming values (TextView the first, PlotView ?)?
     - [ ] Propose to change the wildcard handling by viewType (textView only select the first domain and timeline that match)
   * [ ] Data sampling
+  * PBF workspace parameter types
 * [ ] Email to ask DS feature, lastValueBefore date filter (for TextView and MimicView) and sort+limit+offset
 * [ ] Propose a datastore feature to make query with multiple domainId and sessionId
 * [olivier] Open issue on Mantis for computing library

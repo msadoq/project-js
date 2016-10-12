@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "lokijs" : "techfort/LokiJS"
+    "async": "^2.0.1",
+    "lokijs": "techfort/LokiJS"
   }
 }

@@ -52,9 +52,9 @@
       ]
     },
     {
-      "name": "ATT_BC_STR1VOLTAGE",
+      "name": "SAT_BC_MERMEANRATE",
       "connectedDataX": {
-        "formula": "Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.groundDate",
+        "formula": "Reporting.SAT_BC_MERMEANRATE<ReportingParameter>.groundDate",
         "unit": "s",
         "digits": 5,
         "format": "decimal",
@@ -63,7 +63,7 @@
         "axisId": "Time"
       },
       "connectedDataY": {
-        "formula": "Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue",
+        "formula": "Reporting.SAT_BC_MERMEANRATE<ReportingParameter>.extractedValue",
         "unit": "V",
         "digits": 5,
         "format": "decimal",

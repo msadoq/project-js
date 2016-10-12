@@ -13,9 +13,9 @@
   },
   "plotViewEntryPoints": [
     {
-      "name": "ATT_BC_STR1VOLTAGE",
+      "name": "GENE_AM_N1PKTSQCTRL",
       "connectedDataX": {
-        "formula": "Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.groundDate",
+        "formula": "Reporting.GENE_AM_N1PKTSQCTRL<ReportingParameter>.groundDate",
         "unit": "s",
         "digits": 5,
         "format": "decimal",
@@ -24,7 +24,7 @@
         "axisId": "Time"
       },
       "connectedDataY": {
-        "formula": "Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue",
+        "formula": "Reporting.GENE_AM_N1PKTSQCTRL<ReportingParameter>.extractedValue",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -52,9 +52,9 @@
       ]
     },
     {
-      "name": "ATT_BC_STR1VOLTAGE",
+      "name": "AGA_AM_N102NUMAREA",
       "connectedDataX": {
-        "formula": "Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.groundDate",
+        "formula": "Reporting.AGA_AM_N102NUMAREA<ReportingParameter>.groundDate",
         "unit": "s",
         "digits": 5,
         "format": "decimal",
@@ -63,7 +63,7 @@
         "axisId": "Time"
       },
       "connectedDataY": {
-        "formula": "Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue",
+        "formula": "Reporting.AGA_AM_N102NUMAREA<ReportingParameter>.extractedValue",
         "unit": "V",
         "digits": 5,
         "format": "decimal",

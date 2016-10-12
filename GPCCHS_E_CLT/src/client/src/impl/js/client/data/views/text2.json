@@ -88,9 +88,9 @@
       }
     },
     {
-      "name": "AGA_AM_LASTOBSDATEN",
+      "name": "AGA_AM_LASTOBSDATE",
       "connectedData": {
-        "formula": "Reporting.AGA_AM_LASTOBSDATEN<ReportingParameter>.extractedValue",
+        "formula": "Reporting.AGA_AM_LASTOBSDATE<ReportingParameter>.extractedValue",
         "unit": "V",
         "digits": 2,
         "format": "decimal",

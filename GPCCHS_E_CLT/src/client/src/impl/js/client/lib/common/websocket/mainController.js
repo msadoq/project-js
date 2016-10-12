@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import * as constants from '../../constants';
 import debug from '../debug/mainDebug';
 // import { getStore } from '../../store/mainStore';
@@ -30,7 +31,7 @@ export default function controller(state, dispatch, event, payload) {
       updateStore(state, dispatch, payload);
       break;
     case 'timebasedData': {
-      logger.debug('timebasedData received', payload);
+      logger.debug('timebasedData received with', payload ? payload.length : 'nothing');
       dispatch(importPayload(payload));
       break;
     }

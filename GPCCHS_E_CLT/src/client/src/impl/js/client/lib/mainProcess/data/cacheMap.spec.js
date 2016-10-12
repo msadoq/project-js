@@ -8,7 +8,7 @@ import testState from './state.json';
 import extractInterval from '../../common/extractInterval';
 
 
-describe.only('data:cacheMap', () => {
+describe('data:cacheMap', () => {
   const store = getStore(testState.committedState);
   const map = dataMap(store.getState());
   const requests = store.getState().dataRequests;

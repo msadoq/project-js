@@ -8,12 +8,14 @@ const supportedParameters = require('./supportedParameters');
 
 require('dotenv-safe').load();
 
+const DC_FREQUENCY = 1000;
+
 let subscriptions = {}; // realtime
 let queries = []; // archive
 
 const generateRealtimePayloads = () => {
   const payloads = [];
-  for (let i = 0; i < 200; i += 1) {
+  for (let i = 0; i < 10; i += 1) {
     // fake time repartition
     const timestamp = Date.now() - (i * 10);
     payloads.push(
@@ -60,7 +62,7 @@ const pushSuccess = (queryId) => {
   ]);
 };
 const pushError = (queryId = '', reason = '') => {
-  debug.debug('STUB ERROR', reason);
+  debug.error('STUB ERROR', reason);
   zmq.push('stubData', [
     null,
     stubData.getResponseHeaderProtobuf(),
@@ -106,7 +108,7 @@ const pushTimebasedPubSubData = (dataId, payloads) => {
 
 // Message Controller
 const onHssMessage = (...args) => {
-  debug.debug('onHssMessage');
+  debug.info('onHssMessage');
   let header;
   try {
     header = protobuf.decode('dc.dataControllerUtils.Header', args[0]);
@@ -124,12 +126,17 @@ const onHssMessage = (...args) => {
           {
             const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
             if (typeof isParameterSupported(dataId) === 'undefined') {
-              return pushError(queryId, `parameter ${dataId.parameterName} not yet supported by stub`);
+              return pushError(
+                queryId,
+                `parameter ${dataId.parameterName} not yet supported by stub`
+              );
             }
             const interval = protobuf.decode('dc.dataControllerUtils.TimeInterval', args[3]);
-            const queryArguments = protobuf.decode('dc.dataControllerUtils.QueryArguments', args[4]);
+            const queryArguments = protobuf.decode(
+              'dc.dataControllerUtils.QueryArguments', args[4]
+            );
             queries.push({ queryId, dataId, interval, queryArguments });
-            debug.debug('query registered', dataId.parameterName, interval);
+            debug.verbose('query registered', dataId.parameterName, interval);
             return pushSuccess(queryId);
           }
         case constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION:
@@ -137,7 +144,10 @@ const onHssMessage = (...args) => {
             const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
             const parameter = isParameterSupported(dataId);
             if (typeof parameter === 'undefined') {
-              return pushError(queryId, `parameter ${dataId.parameterName} not yet supported by stub`);
+              return pushError(
+                queryId,
+                `parameter ${dataId.parameterName} not yet supported by stub`
+              );
             }
             const action = protobuf.decode('dc.dataControllerUtils.Action', args[3]).action;
             if (action === constants.SUBSCRIPTIONACTION_ADD) {
@@ -154,13 +164,11 @@ const onHssMessage = (...args) => {
           throw new Error('Unknown messageType');
       }
     } catch (decodeException) {
-      debug.debug('decode exception');
-      debug.debug(decodeException);
+      debug.error('decode exception', decodeException);
       return pushError(queryId, `Unable to decode message of type ${type}`);
     }
   } catch (clientMsgException) {
-    debug.debug('decode exception');
-    debug.debug(clientMsgException);
+    debug.error('decode exception', clientMsgException);
     return pushError(undefined, `Unable to decode message ${header.messageType}`);
   }
 };
@@ -169,7 +177,7 @@ const TIME = 1420106390000;
 let timestamp = TIME;
 
 const emulateDc = () => {
-  debug.verbose('emulateDc call', Object.keys(subscriptions).length, queries.length);
+  debug.info('emulateDc call', Object.keys(subscriptions).length, queries.length);
   // push realtime on each parameter
   _.each(subscriptions, (dataId) => {
     // const payloads = [];
@@ -196,16 +204,16 @@ const emulateDc = () => {
         payload: pl.payload,
       };
     });
-    debug.debug('push data from subscription');
+    debug.verbose('push data from subscription');
     pushTimebasedPubSubData(dataId, payloads);
   });
 
   if (!queries.length) {
-    return setTimeout(emulateDc, 5000);
+    return setTimeout(emulateDc, DC_FREQUENCY);
   }
 
   // push queries
-  debug.info('pushing queries');
+  debug.debug('pushing queries');
   _.each(queries, (query) => {
     const from = query.interval.startTime.ms;
     const to = query.interval.endTime.ms;
@@ -226,12 +234,12 @@ const emulateDc = () => {
         }
       );
     }
-    debug.info('push data from query');
+    debug.debug('push data from query');
     return pushTimebasedArchiveData(query.queryId, query.dataId, true, payloads);
   });
   queries = [];
 
-  return setTimeout(emulateDc, 5000);
+  return setTimeout(emulateDc, DC_FREQUENCY);
 };
 
 zmq.open(
@@ -252,7 +260,6 @@ zmq.open(
     }
 
     debug.info('sockets opened');
-
-    setTimeout(emulateDc, 5000);
+    setTimeout(emulateDc, DC_FREQUENCY);
   }
 );

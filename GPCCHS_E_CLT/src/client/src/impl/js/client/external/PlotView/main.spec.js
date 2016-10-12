@@ -51,7 +51,7 @@ describe('PlotView/main', () => {
       getConnectedDataFromState(getState(), 'noentrypoint').should.be.an('array').that.is.empty;
     });
     it('valid entry points', () => {
-      const cd = getConnectedDataFromState(getState(), 'v1');
+      const cd = getConnectedDataFromState(getState().views.v1.configuration);
       cd.should.eql([
         { uuid: 'cd3' },
         { uuid: 'cd4' },
@@ -60,7 +60,7 @@ describe('PlotView/main', () => {
       ]);
     });
     it('with invalid or incomplete entry points', () => {
-      const cd = getConnectedDataFromState(getState(), 'v2');
+      const cd = getConnectedDataFromState(getState().views.v2.configuration);
       cd.should.eql([
         { uuid: 'cd1' },
         { uuid: 'cd2' },

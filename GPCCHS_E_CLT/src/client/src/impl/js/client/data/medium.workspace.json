@@ -32,15 +32,15 @@
         "mode": "Normal",
         "visuWindow": {
           "lower": 1420106400000,
-          "upper": 1420113600000,
-          "current": 1420110000000,
-          "defaultWidth": 7200000
+          "upper": 1420107300000,
+          "current": 1420106850000,
+          "defaultWidth": 900000
         },
         "slideWindow": {
-          "lower": 1420108200000,
-          "upper": 1420111800000
+          "lower": 1420106550000,
+          "upper": 1420107150000
         },
-        "extUpperBound": 1420115400000,
+        "extUpperBound": 1420107500000,
         "rulerStart": 1420106400000,
         "rulerResolution": 11250,
         "speed": 1.0,
@@ -69,15 +69,15 @@
         "mode": "Normal",
         "visuWindow": {
           "lower": 1420106400000,
-          "upper": 1420113600000,
-          "current": 1420110000000,
-          "defaultWidth": 7200000
+          "upper": 1420107300000,
+          "current": 1420106850000,
+          "defaultWidth": 900000
         },
         "slideWindow": {
-          "lower": 1420108200000,
-          "upper": 1420111800000
+          "lower": 1420106550000,
+          "upper": 1420107150000
         },
-        "extUpperBound": 1420115400000,
+        "extUpperBound": 1420107500000,
         "rulerStart": 1420106400000,
         "rulerResolution": 11250,
         "speed": 1.0,
@@ -86,19 +86,19 @@
         "offsetFromUTC": 0,
         "timelines": [
           {
-            "id": "Session 1",
+            "id": "Session 2",
             "offset": 0,
             "kind": "Session",
             "sessionId": 1
           },
           {
-            "id": "Session 2",
-            "offset": -36000000,
-            "kind": "Session",
-            "sessionId": 2
+            "id": "Dataset 2",
+            "offset": 0,
+            "kind": "Dataset",
+            "dsPath": "/dataset.xml"
           }
         ],
-        "masterId": "Session 1.2"
+        "masterId": "Session 2"
       }
     ],
     "geometry": {

@@ -1,7 +1,5 @@
 const zmq = require('../io/zmq');
 const { encode, decode } = require('../protobuf');
-const { onMessage } = require('../controllers/dc/onMessage');
-const errorHandler = require('../utils/errorHandler');
 const constants = require('../constants');
 const async = require('async');
 const _ = require('lodash');

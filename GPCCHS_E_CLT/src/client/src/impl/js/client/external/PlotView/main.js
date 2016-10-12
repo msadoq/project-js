@@ -11,11 +11,12 @@ module.exports = {
       if (!ep) {
         return list;
       }
-
       if (ep.connectedDataX) {
+        // Check uuid
         list = list.concat(ep.connectedDataX); // TODO : only if not the same params as Y
       }
       if (ep.connectedDataY) {
+        // Check uuid
         list = list.concat(ep.connectedDataY);
       }
 

@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react';
 
 export default class TextView extends Component {
   static propTypes = {
-    data: PropTypes.array.isRequired,
+    viewId: PropTypes.string.isRequired,
+    data: PropTypes.any,
     interval: PropTypes.object.isRequired,
     configuration: PropTypes.object.isRequired,
     size: PropTypes.object.isRequired,
@@ -17,6 +18,7 @@ export default class TextView extends Component {
         size: {this.props.size.width}x{this.props.size.height}
         {JSON.stringify(this.props.interval)}
         {JSON.stringify(this.props.data)}
+        {this.props.viewId}
       </div>
     );
   }

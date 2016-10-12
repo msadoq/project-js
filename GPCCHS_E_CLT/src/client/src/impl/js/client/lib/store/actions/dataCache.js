@@ -6,18 +6,12 @@ import dataMap from '../../mainProcess/data/dataMap';
 /**
  * Simple actions
  */
-export const writePayload = simple(types.DATA_IMPORT_PAYLOADS, 'payload', 'remoteIds'); // TODO rename constant
+export const writePayload = simple(types.DATA_IMPORT_PAYLOADS, 'payloads', 'remoteIds');
 
 export function importPayload(payload) {
-    return (state, dispatch) => {
+    return (dispatch, getState) => {
       // make your data computing
-      if (!state.dataRequests || !state.timebars) {
-        return dispatch('error', 'No timebar or dataRequest');
-      }
-
-      const remoteIds = dataMap(state);
-
-      // const toWrite = {};
+      const remoteIds = dataMap(getState());
       dispatch(writePayload(payload, remoteIds));
     }
 }
@@ -33,7 +27,7 @@ export function importPayload(payload) {
 //         return dispatch('error', response.err.message);
 //       }
 //
-//       dispatch(addPosts(response.payoad));
+//       dispatch(addPosts(response.payload));
 //     });
 //   };
 // }

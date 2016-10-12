@@ -3,30 +3,24 @@ import { should } from '../../common/test';
 import reducer from './dataCache';
 import * as actions from '../actions/dataCache';
 
-describe('store:reducers:dataCache', () => {
+describe.only('store:reducers:dataCache', () => {
   let payload;
-  let dataRequests;
-  let timebars;
+  let remoteIds;
   before(() => {
-    payload = { rId1: {
-      1: { val1: 11, val2: 12, val3: 13 },
-      2: { val1: 21, val2: 22, val3: 23 },
-      3: { val1: 31, val2: 32, val3: 33 },
-      4: { val1: 41, val2: 42, val3: 43 },
-    } };
-    dataRequests = {
+    payload = { rId1: [
+      { timestamp: 1, payload: { val1: 11, val2: 12, val3: 13 } },
+      { timestamp: 2, payload: { val1: 21, val2: 22, val3: 23 } },
+      { timestamp: 3, payload: { val1: 31, val2: 32, val3: 33 } },
+      { timestamp: 4, payload: { val1: 41, val2: 42, val3: 43 } },
+    ] };
+    remoteIds = {
       rId1: {
         localIds: {
-          lId1: { viewType: 'PlotView', field: 'val1', offset: 0, timebarId: 'tb1' },
-          lId2: { viewType: 'TextView', field: 'val2', offset: 0, timebarId: 'tb1' },
+          lId1: { viewType: 'PlotView', field: 'val1', expectedInterval: [1, 3] },
+          lId2: { viewType: 'TextView', field: 'val2', expectedInterval: [1, 2] },
         },
       }
     };
-    timebars = { tb1: { visuWindow: {
-      lower: 2,
-      upper: 4,
-      current: 3,
-    } } };
   });
   it('initial state', () => {
     reducer(undefined, {}).should.be.an('object').that.is.empty;
@@ -36,15 +30,15 @@ describe('store:reducers:dataCache', () => {
     //   .should.eql({ myConnectedDataId: { formula: 'catalog.Parameter<Type>.field' } });
   });
   it('import with old state empty', () => {
-    const retValue = reducer({}, actions.importPayload(payload), dataRequests, timebars);
+    const retValue = reducer({}, actions.writePayload(payload, remoteIds));
     retValue.should.be.an('object').with.key('rId1');
     retValue.rId1.should.be.an('object').with.keys('lId1', 'lId2');
     retValue.rId1.lId1.should.be.an('object').with.keys('data', 'index');
     retValue.rId1.lId1.index.should.be.an('array').with.length(3)
-    .that.have.properties(['2', '3', '4']);
+    .that.have.properties([1, 2, 3]);
     retValue.rId1.lId2.should.be.an('object').with.keys('data', 'index');
     retValue.rId1.lId2.index.should.be.an('array').with.length(1)
-    .that.have.properties(['3']);
+    .that.have.properties([2]);
   });
   it('import with old state not empty', () => {
     const state = {
@@ -65,16 +59,16 @@ describe('store:reducers:dataCache', () => {
         }
       }
     };
-    const retValue = reducer(state, actions.importPayload(payload), dataRequests, timebars);
+    const retValue = reducer(state, actions.writePayload(payload, remoteIds));
     retValue.should.be.an('object').with.keys('rId1', 'rId2');
     retValue.rId2.should.have.properties(state.rId2);
     retValue.rId1.should.be.an('object').with.keys('lId1', 'lId2', 'lId10');
     retValue.rId1.lId10.should.have.properties(state.rId1.lId10);
     retValue.rId1.lId1.should.be.an('object').with.keys('data', 'index');
     retValue.rId1.lId1.index.should.be.an('array').with.length(3)
-    .that.have.properties(['2', '3', '4']);
+    .that.have.properties([1, 2, 3]);
     retValue.rId1.lId2.should.be.an('object').with.keys('data', 'index');
     retValue.rId1.lId2.index.should.be.an('array').with.length(1)
-    .that.have.properties(['3']);
+    .that.have.properties([2]);
   });
 });

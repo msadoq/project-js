@@ -175,9 +175,9 @@ function decorate(domains, timebars, timelines, cds) {
             timebarId,
             offset,
             expectedInterval: selector(
-              visuWindow.lower + offset,
-              visuWindow.current + offset,
-              visuWindow.upper + offset
+              visuWindow.lower - offset,
+              visuWindow.current - offset,
+              visuWindow.upper - offset
             ),
           };
         });

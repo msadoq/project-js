@@ -23,20 +23,23 @@ module.exports = {
     return [current - 1e4, current]; // TODO getLast to TBD
   },
   getUsedValues: function(stateLocalId, field, interval, remoteIdPayload) {
-    let final;
+    let final = {};
     if (stateLocalId) {
       final = Object.assign({}, stateLocalId);
-    } else {
-      final = { data: {}, index: []};
+    // } else {
+    //   final = { data: {}, index: []};
     }
 
-    _.each(remoteIdPayload, (val, time) => {
+    _.each(remoteIdPayload, payload => {
+      const time = payload.timestamp;
       if (time <= interval[1] && time >= interval[0]) {
-        const oldTime = _.head(Object.keys(final.data));
+        const oldTime = final.timestamp;
         if (!oldTime || oldTime < time) {
-          final.data = {};
-          final.data[time] = val[field] ;
-          final.index = [ time ];
+          // final.data = {};
+          // final.data[time] = payload.payload[field] ;
+          // final.index = [ time ];
+          final.timestamp = time;
+          final.value = payload.payload[field];
         }
       }
     });

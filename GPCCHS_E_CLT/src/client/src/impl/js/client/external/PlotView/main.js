@@ -30,7 +30,7 @@ module.exports = {
     if (stateLocalId) {
       final = Object.assign({}, stateLocalId);
       const iLower = _.findIndex(final.index, (i) => i > interval[0]);
-      const iUpper = _.findLastIndex(final.index, (i) => i < interval[1]); // , iLower < 0 ? 0 : iLower);
+      const iUpper = _.findLastIndex(final.index, (i) => i < interval[1]);
       //const iUpper = _.findIndex(final.index, (i) => i > interval[1], iLower < 0 ? 0 : iLower);
       if (iLower >= 0 || iUpper >= 0) {
         final.index = _.slice(final.index, iLower < 0 ? 0 : iLower,
@@ -44,15 +44,18 @@ module.exports = {
     } else {
       final = { data: {}, index: []};
     }
+    let lastIndex = 0;
     _.each(remoteIdPayload, payload => {
       const time = payload.timestamp;
       if (time >= interval[0] && time <= interval[1]) {
-        if (_.findIndex(final.index, (i) => i === time) < 0) {
-          const index = _.findIndex(final.index, (i) => i > time);
+        if (_.findIndex(final.index, (i) => i === time, lastIndex) < 0) {
+          const index = _.findIndex(final.index, (i) => i > time, lastIndex);
           if (index < 0) {
               final.index.push(time);
+              lastIndex = final.index.length - 1;
           } else {
             final.index = _.concat(_.slice(final.index, 0, index), time, _.slice(final.index, index));
+            lastIndex = index;
           }
           final.data[time] = payload.payload[field];
         }

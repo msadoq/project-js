@@ -60,33 +60,27 @@ describe('TextView/main', () => {
     });
   });
   describe('getUsedValues', () => {
+    let payload;
+    before(() => {
+      payload = [
+        { timestamp: 1, payload: { val1: '10', val2: '20' } },
+        { timestamp: 2, payload: { val1: '11', val2: '21' } },
+        { timestamp: 3, payload: { val1: '12', val2: '22' } },
+      ];
+    });
     it('valid payload with current inside', () => {
-      const payload = {
-        1: { val1: '10', val2: '20' },
-        2: { val1: '11', val2: '21' },
-        3: { val1: '12', val2: '22' },
-      };
-      const visuWindow = { current: 2 };
-      const ret = getUsedValues(undefined, 'val1', visuWindow, 0, payload);
-      ret.should.be.an('object').with.keys('data', 'index');
-      ret.data.should.be.an('object').with.keys('2');
-      ret.data[2].should.deep.equal(payload[2].val1);
-      ret.index.should.be.an('array').with.length(1);
-      ret.index[0].should.equal('2');
+      const visuWindow = [1.9, 2];
+      const ret = getUsedValues(undefined, 'val1', visuWindow, payload);
+      ret.should.be.an('object').with.keys('timestamp', 'value');
+      ret.timestamp.should.equal(payload[1].timestamp);
+      ret.value.should.equal(payload[1].payload.val1);
     });
     it('valid payload without current inside', () => {
-      const payload = {
-        1: { val1: '10', val2: '20' },
-        2: { val1: '11', val2: '21' },
-        3: { val1: '12', val2: '22' },
-      };
-      const visuWindow = { current: 2 };
-      const ret = getUsedValues(undefined, 'val1', visuWindow, -0.5, payload);
-      ret.should.be.an('object').with.keys('data', 'index');
-      ret.data.should.be.an('object').with.keys('2');
-      ret.data[2].should.deep.equal(payload[2].val1);
-      ret.index.should.be.an('array').with.length(1);
-      ret.index[0].should.equal('2');
+      const visuWindow = [1.9, 2.5];
+      const ret = getUsedValues(undefined, 'val1', visuWindow, payload);
+      ret.should.be.an('object').with.keys('timestamp', 'value');
+      ret.timestamp.should.equal(payload[1].timestamp);
+      ret.value.should.equal(payload[1].payload.val1);
     });
   });
 });

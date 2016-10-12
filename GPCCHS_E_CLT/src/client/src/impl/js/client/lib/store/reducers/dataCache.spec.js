@@ -3,7 +3,7 @@ import { should } from '../../common/test';
 import reducer from './dataCache';
 import * as actions from '../actions/dataCache';
 
-describe.only('store:reducers:dataCache', () => {
+describe('store:reducers:dataCache', () => {
   let payload;
   let remoteIds;
   before(() => {
@@ -36,9 +36,9 @@ describe.only('store:reducers:dataCache', () => {
     retValue.rId1.lId1.should.be.an('object').with.keys('data', 'index');
     retValue.rId1.lId1.index.should.be.an('array').with.length(3)
     .that.have.properties([1, 2, 3]);
-    retValue.rId1.lId2.should.be.an('object').with.keys('data', 'index');
-    retValue.rId1.lId2.index.should.be.an('array').with.length(1)
-    .that.have.properties([2]);
+    retValue.rId1.lId2.should.be.an('object').with.keys('timestamp', 'value');
+    retValue.rId1.lId2.timestamp.should.equal(2);
+    retValue.rId1.lId2.value.should.equal(payload.rId1[1].payload.val2);
   });
   it('import with old state not empty', () => {
     const state = {
@@ -62,13 +62,12 @@ describe.only('store:reducers:dataCache', () => {
     const retValue = reducer(state, actions.writePayload(payload, remoteIds));
     retValue.should.be.an('object').with.keys('rId1', 'rId2');
     retValue.rId2.should.have.properties(state.rId2);
-    retValue.rId1.should.be.an('object').with.keys('lId1', 'lId2', 'lId10');
-    retValue.rId1.lId10.should.have.properties(state.rId1.lId10);
+    retValue.rId1.should.be.an('object').with.keys('lId1', 'lId2');
     retValue.rId1.lId1.should.be.an('object').with.keys('data', 'index');
     retValue.rId1.lId1.index.should.be.an('array').with.length(3)
     .that.have.properties([1, 2, 3]);
-    retValue.rId1.lId2.should.be.an('object').with.keys('data', 'index');
-    retValue.rId1.lId2.index.should.be.an('array').with.length(1)
-    .that.have.properties([2]);
+    retValue.rId1.lId2.should.be.an('object').with.keys('timestamp', 'value');
+    retValue.rId1.lId2.timestamp.should.equal(2);
+    retValue.rId1.lId2.value.should.equal(22);
   });
 });

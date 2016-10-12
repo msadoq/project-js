@@ -4,10 +4,10 @@ import { updateStatus } from '../../store/actions/hss';
 
 const logger = debug('window:controller');
 
-export default function controller(windowId, event, payload) {
+export default function controller(state, dispatch, windowId, event, payload) {
   switch (event) {
     case 'authenticated':
-      getStore().dispatch(updateStatus(windowId, 'authenticated'));
+      dispatch(updateStatus(windowId, 'authenticated'));
       break;
     case 'timebasedData':
       logger.debug('timebasedData', payload);

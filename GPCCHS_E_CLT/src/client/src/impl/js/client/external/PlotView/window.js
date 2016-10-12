@@ -1,5 +1,5 @@
-const PlotViewContainer = require('./PlotViewContainer');
+const PlotView = require('./PlotView');
 
 module.exports = {
-  container: PlotViewContainer,
+  component: PlotView,
 };

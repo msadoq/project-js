@@ -40,13 +40,3 @@
   border-style: dotted;;
   border-width: thin;
 }
-
-.ViewTypeContainer {
-  text-align: center;
-  color: dimgray;
-  font-weight: bold;
-  background-color: lightsteelblue;
-  border-style: dotted;;
-  border-width: thin;
-    /*opacity: 0.5;*/
-}

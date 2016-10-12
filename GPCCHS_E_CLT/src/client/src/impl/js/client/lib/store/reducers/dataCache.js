@@ -3,19 +3,15 @@ import * as types from '../types';
 import external from '../../../external.main';
 
 
-export default function dataCache(stateDataCache = {}, action, dataRequests, timebars) {
+export default function dataCache(stateDataCache = {}, action) {
   switch (action.type) {
     case types.DATA_IMPORT_PAYLOADS: {
-      if (!dataRequests || !timebars) {
-        return stateDataCache;
-      }
-      const rIds = _.keys(action.payload.payload);
       let newState = Object.assign({}, stateDataCache);
 
-      _.each(rIds, (rId) => {
+      _.each(action.remoteIds, (object, rId) => {
         newState = Object.assign({}, newState, {
           [rId]: remoteId(stateDataCache[rId], action.type, action.payload.payload[rId],
-            dataRequests[rId], timebars)
+            object.localIds)
         });
       });
       return newState;
@@ -26,20 +22,28 @@ export default function dataCache(stateDataCache = {}, action, dataRequests, tim
 }
 
 const dataCacheInitialState = {};
-
-function remoteId(stateRemoteId, actionType, remoteIdPayload, remoteIdRequests, timebars) {
+/*
+*       'localId': {
+*          viewType: string,
+*          field: string,
+*          timebarId: string,
+*          offset: number,
+*          expectedInterval: [number, number],
+*        }
+*/
+function remoteId(stateRemoteId, actionType, remoteIdPayload, localIds) {
   switch (actionType) {
     case types.DATA_IMPORT_PAYLOADS: {
-      if (!remoteIdRequests) {
+      if (!localIds) {
         return undefined;
       }
 
       // Get localId from remoteIdRequests
       //      localId: { viewType, field, offset[, timebarId] },
       let newState = Object.assign({}, stateRemoteId);
-      _.each(remoteIdRequests.localIds, (value, locId) => {
+      _.each(localIds, (value, locId) => {
         const newObj = {};
-        newObj[locId] = localId(newState[locId], actionType, value, remoteIdPayload, timebars);
+        newObj[locId] = localId(newState[locId], actionType, value, remoteIdPayload);
         newState = Object.assign({}, newState, newObj);
       });
       return newState;
@@ -49,18 +53,18 @@ function remoteId(stateRemoteId, actionType, remoteIdPayload, remoteIdRequests, 
   }
 }
 
-function localId(stateLocalId, actionType, localIdObj, remoteIdPayload, timebars) {
+function localId(stateLocalId, actionType, localIdObj, remoteIdPayload) {
   switch (actionType) {
     case types.DATA_IMPORT_PAYLOADS: {
       // Check viewType
       if (!_.has(external, localIdObj.viewType)) {
         return undefined;
       }
-      // Get timebar
-      const timebar = _.get(timebars, localIdObj.timebarId);
-      if (!timebar) {
+      // Get interval
+      if (!localIdObj.expectedInterval) {
         return undefined;
       }
+      console.log('type',localIdObj.viewType);
       if (!_.has(external, localIdObj.viewType)) {
         return undefined;
       }
@@ -68,9 +72,9 @@ function localId(stateLocalId, actionType, localIdObj, remoteIdPayload, timebars
       if (!_.isFunction(getUsedValues)) {
         return undefined;
       }
-      const rVal =  getUsedValues(stateLocalId, localIdObj.field, timebar.visuWindow, localIdObj.offset,
+      const rVal = getUsedValues(stateLocalId, localIdObj.field, localIdObj.expectedInterval,
         remoteIdPayload);
-        return rVal;
+      return rVal;
     }
     default:
       return undefined;

@@ -4,7 +4,7 @@
   "title": "page example 2",
   "views": [
 	{
-	  "path": "/views/text.exe1.workspace.json",
+	  "path": "/views/text1.json",
 	  "geometry": {
 		"kind": "Relative",
 		"x": 0,
@@ -15,7 +15,7 @@
 	  "windowState": "Normalized"
 	},
   {
-	  "path": "/views/plot.exe2.workspace.json",
+	  "path": "/views/plot2.json",
 	  "geometry": {
 		"kind": "Relative",
 		"x": 0,

@@ -1,40 +1,37 @@
-import _ from 'lodash';
 import * as constants from '../../constants';
 import debug from '../debug/mainDebug';
-import { getStore } from '../../store/mainStore';
+// import { getStore } from '../../store/mainStore';
 import updateStore from '../../mainProcess/vima/updateStore';
 import { updateStatus as updateAppStatus } from '../../store/actions/hsc';
 import { updateDomains } from '../../store/actions/domains';
 import { getWebsocket } from './mainWebsocket';
 import convertFromStore from '../../mainProcess/vima/convertFromStore';
-import importPayload from '../../store/actions/dataCache';
+import { importPayload } from '../../store/actions/dataCache';
 
 const logger = debug('main:controller');
 
-export default function controller(event, payload) {
-  const store = getStore();
+export default function controller(state, dispatch, event, payload) {
   switch (event) {
     case 'authenticated':
-      store.dispatch(updateAppStatus(constants.LIFECYCLE_CONNECTED_WITH_HSS));
+      dispatch(updateAppStatus(constants.LIFECYCLE_CONNECTED_WITH_HSS));
       getWebsocket().write({ event: 'domainQuery' });
       break;
     case 'domainResponse':
-      store.dispatch(updateDomains(payload));
+      dispatch(updateDomains(payload));
       getWebsocket().write({
         event: 'vimaTimebarInit',
-        payload: convertFromStore(getStore().getState()),
+        payload: convertFromStore(state),
       });
       break;
     case 'ready':
-      store.dispatch(updateAppStatus(constants.LIFECYCLE_STARTED));
+      dispatch(updateAppStatus(constants.LIFECYCLE_STARTED));
       break;
     case 'timebarUpdate':
-      updateStore(store.getState(), store.dispatch, payload);
+      updateStore(state, dispatch, payload);
       break;
     case 'timebasedData': {
-      logger.debug('timebasedData', payload);
-      const state = store.getState();
-      logger.debug(state);
+      console.log('********************timebasedData', payload);
+      dispatch(importPayload(payload));
       break;
     }
     case 'error':

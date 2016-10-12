@@ -19,7 +19,6 @@ export default class Editor extends Component {
     this.changeSearch = this.changeSearch.bind(this);
   }
   render() {
-    console.log(this.props);
     return (
       <div className={styles.editor}>
         <Navbar

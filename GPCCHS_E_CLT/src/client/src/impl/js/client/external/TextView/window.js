@@ -1,5 +1,5 @@
-const TextViewContainer = require('./TextViewContainer');
+const TextView = require('./TextView');
 
 module.exports = {
-  container: TextViewContainer,
+  component: TextView,
 };

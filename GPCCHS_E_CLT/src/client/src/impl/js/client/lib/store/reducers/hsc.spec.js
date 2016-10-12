@@ -6,7 +6,7 @@ import reducer from './hsc';
 describe('store:hss', () => {
   describe('actions & reducer', () => {
     it('initial state', () => {
-      reducer(undefined, {}).should.eql({ status: 'not-started' });
+      reducer(undefined, {}).should.eql({ status: 'LIFECYCLE_NOT_STARTED' });
     });
     it('unknown action', () => {
       reducer({ status: 'started' }, {})

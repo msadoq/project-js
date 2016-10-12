@@ -6,11 +6,11 @@
       "title": "window example Medium",
       "pages": [
         {
-          "path": "page.exe2.workspace.json",
+          "path": "./pages/page2.json",
           "timeBarId": "TB1"
         },
         {
-          "path": "page.exe3.workspace.json",
+          "path": "./pages/page3.json",
           "timeBarId": "TB2"
         }
       ],

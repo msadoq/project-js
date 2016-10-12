@@ -13,6 +13,7 @@ const configuration = {
   LEVEL: null,
   FMD_ROOT: null,
   HOT: null,
+  OPEN: null,
 };
 
 if (process.env && process.env.NODE_ENV === 'development') {

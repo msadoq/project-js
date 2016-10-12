@@ -31,7 +31,7 @@ describe('documents/lib', () => {
       uuid: id1,
       timebarId: id,
     };
-    content.__folder = path.join(__dirname, '../examples');
+    content.__folder = path.join(__dirname, 'examples');
   });
   describe('findPageViewsAndReplaceWithUuid', () => {
     it('valid', () => {

@@ -4,7 +4,50 @@
   "title": "page example 4",
   "views": [
 	{
-	  "path": "/views/plot.exe1.workspace.json",
+	  "path": "/views/plot1.json",
+	  "geometry": {
+		"kind": "Relative",
+		"x": 8,
+		"y": 8,
+		"w": 4,
+		"h": 7
+	  },
+	  "windowState": "Normalized"
+	},
+  {
+	  "path": "/views/plot2.json",
+	  "geometry": {
+		"kind": "Relative",
+		"x": 8,
+		"y": 8,
+		"w": 4,
+		"h": 7
+	  },
+	  "windowState": "Normalized"
+	},
+  {
+	  "path": "/views/text1.json",
+	  "geometry": {
+		"kind": "Relative",
+		"x": 4,
+		"y": 4,
+		"w": 4,
+		"h": 7
+	  },
+	  "windowState": "Normalized"
+	},{
+	  "path": "/views/text2.json",
+	  "geometry": {
+		"kind": "Relative",
+		"x": 4,
+		"y": 4,
+		"w": 4,
+		"h": 7
+	  },
+	  "windowState": "Normalized"
+	},
+  {
+	  "path": "/views/plot3.json",
 	  "geometry": {
 		"kind": "Relative",
 		"x": 0,
@@ -15,33 +58,11 @@
 	  "windowState": "Normalized"
 	},
   {
-	  "path": "/views/plot.exe2.workspace.json",
+	  "path": "/views/plot4.json",
 	  "geometry": {
 		"kind": "Relative",
 		"x": 0,
-		"y": 0,
-		"w": 4,
-		"h": 7
-	  },
-	  "windowState": "Normalized"
-	},
-  {
-	  "path": "/views/plot.exe3.workspace.json",
-	  "geometry": {
-		"kind": "Relative",
-		"x": 0,
-		"y": 0,
-		"w": 4,
-		"h": 7
-	  },
-	  "windowState": "Normalized"
-	},
-  {
-	  "path": "/views/plot.exe4.workspace.json",
-	  "geometry": {
-		"kind": "Relative",
-		"x": 0,
-		"y": 0,
+		"y": 5,
 		"w": 4,
 		"h": 7
 	  },

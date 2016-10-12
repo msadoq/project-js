@@ -23,10 +23,11 @@ Only list expected tasks for PBF shipping of end of october.
 
 * [adrien] DC protocol refactoring
 * [aziz] Profiling: test LokiJS index auto update https://github.com/techfort/LokiJS/issues/477
-* [ ] Cache invalidation /!\
 * [renaud] Prevent exception when client close: "Error: This response corresponds to no queryId"
+* [ ] Cache invalidation /!\
 * [walid] Add robustness in every HSS/client controllers by controlling HSC input
 * [ ] Profiling: test AVLTree instead of Loki for cache retrieving/insertion OR our proper data structure DataStructure{[order],{key:{value}}
+* [ ] Implement getLast with optional before for TextView 
 
 ## GPCCHSC (Electron)
 
@@ -49,6 +50,7 @@ Only list expected tasks for PBF shipping of end of october.
 
 ## Postponed
 
+* [ ] Add debug page on client with HSS REST infos and current dataMap
 * [ ] Sync with erb: 0b0e19c74518fc97843e9bcb393086aa9a7ad616 (Damien)
 * [ ] Track every HSS "throw" on HSS and catch them accordingly
 * [ ] Test every LPISIS parameter type conversion (C++ types to Javascript)

@@ -2,8 +2,8 @@
   "type": "PlotView",
   "links": [
     {
-      "name": "page.exe4.workspace",
-      "path": "../page.exe4.workspace.json"
+      "name": "page4",
+      "path": "./pages/page4.json"
     }
   ],
   "procedures": [],
@@ -13,9 +13,9 @@
   },
   "plotViewEntryPoints": [
     {
-      "name": "ATT_BC_THR1CURRENT",
+      "name": "OBCPE1_BC_SSCHEDID11",
       "connectedDataX": {
-        "formula": "Reporting.ATT_BC_THR1CURRENT<ReportingParameter>.groundDate",
+        "formula": "Reporting.OBCPE1_BC_SSCHEDID11<ReportingParameter>.groundDate",
         "unit": "s",
         "digits": 5,
         "format": "decimal",
@@ -24,7 +24,7 @@
         "axisId": "Time"
       },
       "connectedDataY": {
-        "formula": "Reporting.ATT_BC_THR1CURRENT<ReportingParameter>.extractedValue",
+        "formula": "Reporting.OBCPE1_BC_SSCHEDID11<ReportingParameter>.extractedValue",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -52,9 +52,9 @@
       ]
     },
     {
-      "name": "GENE_AM_OBCPSTEPID",
+      "name": "TMMGT_BC_ENABLED12",
       "connectedDataX": {
-        "formula": "Reporting.GENE_AM_OBCPSTEPID<ReportingParameter>.groundDate",
+        "formula": "Reporting.TMMGT_BC_ENABLED12<ReportingParameter>.groundDate",
         "unit": "s",
         "digits": 5,
         "format": "decimal",
@@ -63,7 +63,7 @@
         "axisId": "Time"
       },
       "connectedDataY": {
-        "formula": "Reporting.GENE_AM_OBCPSTEPID<ReportingParameter>.extractedValue",
+        "formula": "Reporting.TMMGT_BC_ENABLED12<ReportingParameter>.extractedValue",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -91,9 +91,9 @@
       ]
     },
     {
-      "name": "GENE_AM_HILIMITDED",
+      "name": "FMGT_BC_LASTSQNUM8",
       "connectedDataX": {
-        "formula": "Reporting.GENE_AM_HILIMITDED<ReportingParameter>.groundDate",
+        "formula": "Reporting.FMGT_BC_LASTSQNUM8<ReportingParameter>.groundDate",
         "unit": "s",
         "digits": 5,
         "format": "decimal",
@@ -102,7 +102,7 @@
         "axisId": "Time"
       },
       "connectedDataY": {
-        "formula": "Reporting.GENE_AM_HILIMITDED<ReportingParameter>.extractedValue",
+        "formula": "Reporting.FMGT_BC_LASTSQNUM8<ReportingParameter>.extractedValue",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -130,9 +130,9 @@
       ]
     },
     {
-      "name": "BASETYPE_AM_TIMET09F17",
+      "name": "MIS_BC_LASTSQNUM1",
       "connectedDataX": {
-        "formula": "Reporting.BASETYPE_AM_TIMET09F17<ReportingParameter>.groundDate",
+        "formula": "Reporting.MIS_BC_LASTSQNUM1<ReportingParameter>.groundDate",
         "unit": "s",
         "digits": 5,
         "format": "decimal",
@@ -141,7 +141,7 @@
         "axisId": "Time"
       },
       "connectedDataY": {
-        "formula": "Reporting.BASETYPE_AM_TIMET09F17<ReportingParameter>.extractedValue",
+        "formula": "Reporting.MIS_BC_LASTSQNUM1<ReportingParameter>.extractedValue",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -226,7 +226,7 @@
       "showGrid": true
     }
   ],
-  "title": "VIMA Plot example 4",
+  "title": "VIMA Plot example 3",
   "titleStyle": {
     "font": "Arial",
     "size": 12,

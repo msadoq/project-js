@@ -93,12 +93,6 @@
       <classifier>unix_dev</classifier>
     </dependency>
     <dependency>
-      <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
-      <artifactId>gpcccm_l_cml_documentApiTest</artifactId>
-      <type>isis-cpp-module-dependency</type>
-      <classifier>unix_dev</classifier>
-    </dependency>
-    <dependency>
       <groupId>fr.cnes.lpisis.gpcc</groupId>
       <artifactId>gpcccm_l_cml_testCatalogs</artifactId>
       <type>zip</type>

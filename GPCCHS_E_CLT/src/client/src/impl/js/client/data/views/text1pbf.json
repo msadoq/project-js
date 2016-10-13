@@ -40,8 +40,8 @@
         "unit": "V",
         "digits": 5,
         "format": "decimal",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -83,8 +83,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -126,8 +126,8 @@
         "unit": "V",
         "digits": 2,
         "format": "hexadecimal",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     }
   ],
@@ -145,7 +145,7 @@
     "<!DOCTYPE html>",
     "<html>",
     " <head>",
-    "  <title>TV example 1</title>",
+    "  <title>TextView example 1</title>",
     " </head>",
     " <body>",
     "  <table border=\"2\">",

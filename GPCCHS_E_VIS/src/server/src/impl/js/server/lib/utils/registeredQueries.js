@@ -30,6 +30,10 @@ function remove(queryId) {
   queries = _.omit(queries, [queryId]);
 }
 
+function removeMulti(queryIds) {
+  queries = _.omit(queries, queryIds);
+}
+
 function clear() {
   debug.debug('queries cleared');
   queries = {};
@@ -40,5 +44,6 @@ module.exports = {
   get,
   getAll,
   remove,
+  removeMulti,
   clear,
 };

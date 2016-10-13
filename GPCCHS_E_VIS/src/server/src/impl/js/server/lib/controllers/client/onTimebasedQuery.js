@@ -1,7 +1,7 @@
 const debug = require('../../io/debug')('controllers:onTimebasedQuery');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
 const connectedDataModel = require('../../models/connectedData');
-const timebasedDataModel = require('../../models/timebasedData');
+const { getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const subscriptionsModel = require('../../models/subscriptions');
 const registeredQueries = require('../../utils/registeredQueries');
 const { encode } = require('../../protobuf');
@@ -118,11 +118,15 @@ const timebasedQuery = (websocketHandler, payload, messageHandler) => {
     subscriptionsModel.addFilters(query.dataId, { [remoteId]: query.queryArguments.filters });
 
     // loop over intervals (TODO here or last action ?)
+    const timebasedDataModel = getTimebasedDataModel(remoteId);
+    if (!timebasedDataModel) {
+      return;
+    }
     _.each(query.intervals, (interval) => {
       // retrieve data in timebasedData model
       debug.debug('find by interval', interval);
+
       const cachedData = timebasedDataModel.findByInterval(
-        remoteId,
         interval[0],
         interval[1]
       );

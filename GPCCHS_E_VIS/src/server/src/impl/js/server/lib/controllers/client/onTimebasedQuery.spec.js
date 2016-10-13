@@ -2,7 +2,7 @@ const { should } = require('../../utils/test');
 const flattenDataId = require('../../models/getLocalId');
 const { timebasedQuery } = require('./onTimebasedQuery');
 const connectedDataModel = require('../../models/connectedData');
-const timebasedDataModel = require('../../models/timebasedData');
+const { clearFactory, addTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const subscriptionsModel = require('../../models/subscriptions');
 const registeredQueries = require('../../utils/registeredQueries');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
@@ -34,7 +34,7 @@ describe('onTimebasedQuery', () => {
     registeredQueries.clear();
     registeredCallbacks.clear();
     connectedDataModel.cleanup();
-    timebasedDataModel.cleanup();
+    clearFactory();
     subscriptionsModel.cleanup();
     resetMessage();
     calls.length = 0;
@@ -90,7 +90,8 @@ describe('onTimebasedQuery', () => {
     // init test
     subscriptionsModel.addRecord(dataId);
     connectedDataModel.addRequestedInterval(remoteId, 'queryId', interval);
-    timebasedDataModel.addRecords(remoteId, payloads);
+    const timebasedDataModel = addTimebasedDataModel(remoteId);
+    timebasedDataModel.addRecords(payloads);
     // launch test
     timebasedQuery(addToTestQueue, query, zmqEmulator);
     // check registeredQueries
@@ -105,11 +106,11 @@ describe('onTimebasedQuery', () => {
       payload: {
         [remoteId]: [
           {
-            timestamp: payloads[1].timestamp,
-            payload: payloads[1].payload,
-          }, {
             timestamp: payloads[0].timestamp,
             payload: payloads[0].payload,
+          }, {
+            timestamp: payloads[1].timestamp,
+            payload: payloads[1].payload,
           },
         ],
       },
@@ -138,7 +139,8 @@ describe('onTimebasedQuery', () => {
   it('all intervals missing', () => {
     // init test
     subscriptionsModel.addRecord(dataId);
-    timebasedDataModel.addRecords(remoteId, payloads);
+    const timebasedDataModel = addTimebasedDataModel(remoteId);
+    timebasedDataModel.addRecords(payloads);
     // launch test
     timebasedQuery(addToTestQueue, query, zmqEmulator);
     // check registeredQueries
@@ -182,7 +184,8 @@ describe('onTimebasedQuery', () => {
     // init test
     subscriptionsModel.addRecord(dataId);
     connectedDataModel.addRequestedInterval(remoteId, 'myQueryId', [5, 10]);
-    timebasedDataModel.addRecord(remoteId, payloads[1].timestamp, payloads[1].payload);
+    const timebasedDataModel = addTimebasedDataModel(remoteId);
+    timebasedDataModel.addRecord(payloads[1].timestamp, payloads[1].payload);
     // launch test
     timebasedQuery(addToTestQueue, query, zmqEmulator);
     // check registeredQueries
@@ -234,7 +237,8 @@ describe('onTimebasedQuery', () => {
 
   it('dataId not in subscriptions', () => {
     // init test
-    timebasedDataModel.addRecords(remoteId, payloads);
+    const timebasedDataModel = addTimebasedDataModel(remoteId)
+    timebasedDataModel.addRecords(payloads);
     // launch test
     timebasedQuery(addToTestQueue, query, zmqEmulator);
     // check registeredQueries

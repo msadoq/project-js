@@ -1,7 +1,11 @@
-require('../../utils/test');
+const { should } = require('../../utils/test');
 
 const { sendTimebasedPubSubData } = require('./onTimebasedPubSubData');
-const timebasedDataModel = require('../../models/timebasedData');
+const {
+  clearFactory,
+  getTimebasedDataModel,
+  getAllTimebasedDataModelRemoteIds,
+} = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
 const _ = require('lodash');
@@ -20,7 +24,7 @@ describe('onTimebasedPubSubData', () => {
   beforeEach(() => {
     subscriptionsModel.cleanup();
     connectedDataModel.cleanup();
-    timebasedDataModel.cleanup();
+    clearFactory();
     resetMessage();
   });
 
@@ -73,7 +77,7 @@ describe('onTimebasedPubSubData', () => {
       protoRp2
     );
     // check data
-    timebasedDataModel.count().should.equal(0);
+    getAllTimebasedDataModelRemoteIds().should.have.lengthOf(0);
     getMessage().should.have.properties({});
   });
 
@@ -90,7 +94,7 @@ describe('onTimebasedPubSubData', () => {
       protoRp2
     );
     // check data
-    timebasedDataModel.count().should.equal(0);
+    getAllTimebasedDataModelRemoteIds().should.have.lengthOf(0);
     getMessage().should.have.properties({});
   });
 
@@ -109,10 +113,12 @@ describe('onTimebasedPubSubData', () => {
       protoRp2
     );
     // check data
+    should.not.exist(getTimebasedDataModel(halfRemoteId));
+    const timebasedDataModel = getTimebasedDataModel(fullRemoteId);
+    should.exist(timebasedDataModel);
     timebasedDataModel.count().should.equal(1);
     const tbd = timebasedDataModel.find();
     tbd[0].should.have.properties({
-      remoteId: fullRemoteId,
       timestamp: t1,
       payload: rp,
     });
@@ -144,10 +150,12 @@ describe('onTimebasedPubSubData', () => {
       protoRp2
     );
     // check data
+    should.not.exist(getTimebasedDataModel(fullRemoteId));
+    const timebasedDataModel = getTimebasedDataModel(halfRemoteId);
+    should.exist(timebasedDataModel);
     timebasedDataModel.count().should.equal(1);
     const tbd = timebasedDataModel.find();
     tbd[0].should.have.properties({
-      remoteId: halfRemoteId,
       timestamp: t2,
       payload: rp2,
     });

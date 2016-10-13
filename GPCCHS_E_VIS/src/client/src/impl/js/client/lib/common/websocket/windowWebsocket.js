@@ -3,7 +3,7 @@ import { getStore } from '../../store/windowStore';
 import controller from './windowController';
 import { updateStatus } from '../../store/actions/hss';
 // import parameters from '../parameters';
-import Primus from '../../../external/primus';
+import Primus from '../../../VIVL/primus';
 
 const logger = debug('window:websocket');
 

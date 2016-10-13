@@ -2,7 +2,7 @@ import debug from '../debug/mainDebug';
 import { getStore } from '../../store/mainStore';
 import { updateStatus } from '../../store/actions/hss';
 import parameters from '../../common/parameters';
-import Primus from '../../../external/primus';
+import Primus from '../../../VIVL/primus';
 import controller from './mainController';
 
 const logger = debug('main:websocket');

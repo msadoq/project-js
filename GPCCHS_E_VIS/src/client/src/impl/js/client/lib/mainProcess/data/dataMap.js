@@ -1,10 +1,7 @@
 const _ = require('lodash');
 import { createSelector } from 'reselect';
 
-import {
-  getConnectedDataFromState,
-  getExpectedInterval
-} from '../../../external/main';
+import vivl from '../../../VIVL/main';
 import formulaParser from '../../common/formula';
 import remoteIdGenerator from '../../common/remoteId';
 import localIdGenerator from '../../common/localId';
@@ -80,7 +77,7 @@ const getVisibleConnectedData = createSelector(
       return list;
     }
 
-    const connectedData = getConnectedDataFromState(type, configuration);
+    const connectedData = vivl(type, 'getConnectedDataFromState')(configuration);
     if (!connectedData) {
       return list;
     }
@@ -165,7 +162,7 @@ function decorate(domains, timebars, timelines, cds) {
           if (!visuWindow) {
             throw new Error('Unexpected store state');
           }
-          const interval = getExpectedInterval(type, visuWindow.lower - offset,
+          const interval = vivl(type, 'getExpectedInterval')(visuWindow.lower - offset,
             visuWindow.current - offset, visuWindow.upper - offset);
           if (!interval) {
             throw new Error('Unexpected function getExpectedInterval for view type', type);

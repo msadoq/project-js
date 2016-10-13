@@ -1,5 +1,5 @@
 const debug = require('../../io/debug')('controllers:onClose');
-const timebasedDataModel = require('../../models/timebasedData');
+const { clearFactory } = require('../../models/timebasedDataFactory');
 const subscriptionsModel = require('../../models/subscriptions');
 const connectedDataModel = require('../../models/connectedData');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
@@ -31,7 +31,7 @@ const close = (messageHandler) => {
     stopSubscription(subscription, messageHandler);
   });
   // cleanup timebasedData model
-  timebasedDataModel.cleanup();
+  clearFactory();
   // cleanup connectedData model
   connectedDataModel.cleanup();
   // cleanup subscriptions model

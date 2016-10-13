@@ -1,7 +1,7 @@
 const debug = require('../../io/debug')('controllers:onTimebasedArchiveData');
 const _ = require('lodash');
 const { decode } = require('../../protobuf');
-const timebasedDataModel = require('../../models/timebasedData');
+const { addTimebasedDataModel, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 const registeredQueries = require('../../utils/registeredQueries');
 const { addToMainQueue } = require('../../websocket/sendToMain');
@@ -65,7 +65,11 @@ const sendTimebasedArchiveData = (
   debug.debug(`inserting ${payloadsToInsert.length} data`);
 
   // store decoded payloads in timebasedData model
-  timebasedDataModel.addRecords(remoteId, payloadsToInsert);
+  let timebasedDataModel = getTimebasedDataModel(remoteId);
+  if (!timebasedDataModel) {
+    timebasedDataModel = addTimebasedDataModel(remoteId);
+  }
+  timebasedDataModel.addRecords(payloadsToInsert);
 
   // queue a ws newData message (sent periodically)
   return websocketHandler(remoteId, payloadsToInsert);

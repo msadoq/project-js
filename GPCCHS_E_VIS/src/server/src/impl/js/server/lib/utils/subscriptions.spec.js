@@ -2,7 +2,7 @@
 // const { decode } = require('../protobuf');
 // const subscriptions = require('./subscriptions');
 // const connectedDataModel = require('../models/connectedData');
-// const timebasedDataModel = require('../models/timebasedData');
+// const timebasedDataModel = require('../models/timebasedDataFactory');
 // const { getDataId } = require('../stubs/data');
 //
 // describe('subscriptions', () => {

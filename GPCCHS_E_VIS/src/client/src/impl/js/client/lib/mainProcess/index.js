@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import parameters from '../common/parameters';
 import debug from '../common/debug/mainDebug';
 import './menu';
@@ -28,7 +26,7 @@ export async function start() {
     openWorkspace(parameters.FMD_ROOT, parameters.OPEN, getStore().dispatch, (err) => {
       if (err) {
         logger.error(err);
-        return console.warn('TODO display file picker'); // TODO : file picker
+        throw new Error('display file picker'); // TODO : file picker
       }
 
       const state = getStore().getState();

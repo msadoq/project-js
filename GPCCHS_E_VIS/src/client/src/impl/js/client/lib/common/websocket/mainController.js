@@ -1,7 +1,5 @@
-import _ from 'lodash';
 import * as constants from '../../constants';
 import debug from '../debug/mainDebug';
-// import { getStore } from '../../store/mainStore';
 import updateStore from '../../mainProcess/vima/updateStore';
 import { updateStatus as updateAppStatus } from '../../store/actions/hsc';
 import { updateDomains } from '../../store/actions/domains';
@@ -31,7 +29,7 @@ export default function controller(state, dispatch, event, payload) {
       updateStore(state, dispatch, payload);
       break;
     case 'timebasedData': {
-      logger.debug('timebasedData received with', payload ? payload.length : 'nothing');
+      logger.debug('timebasedData received with', payload ? Object.keys(payload).length : 'nothing');
       dispatch(importPayload(payload));
       break;
     }

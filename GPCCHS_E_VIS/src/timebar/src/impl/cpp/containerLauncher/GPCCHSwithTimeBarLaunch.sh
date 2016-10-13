@@ -292,6 +292,9 @@ then
   pkill -TERM -P $HSCPID
 fi
 
+killall -9 node
+killall -9 electron
+
 #Remove ipc
 rm -rf /tmp/ipc* /tmp/ActorID* /tmp/OIDGenerat*
 

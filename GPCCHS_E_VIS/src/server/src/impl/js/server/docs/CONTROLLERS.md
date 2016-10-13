@@ -26,7 +26,7 @@
     - loop over intervals
         * retrieve missing intervals from connectedData model
     - loop over missing intervals
-        * create a queryId 
+        * create a queryId
         * register queryId in registeredQueries singleton
         * register queryId in registeredCallbacks singleton
         * queue a zmq timebasedQuery message (with dataId, query id, interval and filter)
@@ -39,7 +39,7 @@
         * retrieve data in timebasedData model
         * queue a ws timebasedData message (sent periodically)
 * send queued messages to DC
-    
+
 
 **dc/onTimebasedArchiveData**
 * if queryId not in registeredQueries, stop logic
@@ -68,6 +68,18 @@
 
 **client/onCacheCleanup**
 // trigger by HSC
+* loop over expired requests ('remoteId': [interval])
+  - remove intervals from connectedData model
+  - get corresponding dataId from connectedData model
+  - if no more intervals in connectedData model for this remoteId
+    * remove remoteId from connectedData model
+    * remove remoteId for corresponding dataId from subscriptions model
+    * remove data corresponding to remoteId from timebasedData model
+  - else remove data corresponding to intervals from timebasedData model
+  - if no more remoteId in subscriptions model for this dataId
+    * remove dataId from subscriptions model
+    * queue a zmq timebasedSubscription message (with 'DELETE' action)
+* send queued messages to DC
 
 ## dc communication
 

@@ -4,13 +4,13 @@ const exit = require('exit');
 const http = require('http');
 const app = require('../lib/express');
 const { join } = require('path');
-const { getInstance } = require('../lib/websocket/primus');
+const { getNewInstance } = require('../lib/websocket/primus');
 
 const server = http.createServer(app);
-const instance = getInstance(server);
-const output = join('/tmp/primus.js');
+const instance = getNewInstance(server);
+const output = join(__dirname, '../../../../../../client/src/impl/js/client/external/primus.js');
 
-instance.save(output, err => {
+instance.save(output, (err) => {
   if (err) {
     return debug.error(err);
   }

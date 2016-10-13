@@ -58,10 +58,15 @@ module.exports = (oldTb, newTb) => {
     default: {
       // Take timeline tables to make specific Comparison
       const newTimebar = JSON.parse(JSON.stringify(newTb));
-      const newTls = newTimebar.timelines.splice(0, newTimebar.timelines.length);
+      let newTls = [];
+      if (newTimebar.timelines) {
+        newTls = newTimebar.timelines.splice(0, newTimebar.timelines.length);
+      }
       const oldTimebar = JSON.parse(JSON.stringify(oldTb));
-      const oldTls = oldTimebar.timelines.splice(0, oldTimebar.timelines.length);
-
+      let oldTls = [];
+      if (oldTimebar.timelines) {
+        oldTls = oldTimebar.timelines.splice(0, oldTimebar.timelines.length);
+      }
       // Get differences between versions
       const result = diff(oldTimebar, newTimebar);
       if (result) {

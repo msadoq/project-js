@@ -28,6 +28,5 @@ For compatibility reasons the websocket client library for primus/uws couldn't b
 After updating primus/uws version on HSS you should regenerate the client module with this command:
 
 $> npm run build-primus-client
-$> cp /tmp/primus.js /...path.to.hsc.project.../client/external
 
 The primus.js file should be versionned. 

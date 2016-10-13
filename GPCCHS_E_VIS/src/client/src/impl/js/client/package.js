@@ -1,4 +1,5 @@
 /* eslint strict: 0, no-shadow: 0, no-unused-vars: 0, no-console: 0 */
+
 'use strict';
 
 require('babel-polyfill');
@@ -75,7 +76,7 @@ async function startPack() {
   try {
     await build(electronCfg);
     await build(cfg);
-    const paths = await del('release');
+    await del('release');
 
     if (shouldBuildAll) {
       // build for all platforms

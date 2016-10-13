@@ -1,27 +1,36 @@
 Incoming data message:
 ```
 {
-  event: 'timebasedData',
-  payload: {
-    remoteId: [
-     {
-       timestamp,
-       payload,
-     }
-   ],
- },
+  'remoteId': { // <= loop
+    dataId: {},
+    filter: {},
+    localIds: {
+      'localId': { // <= loop
+        type: string,
+        field: string,
+        timebarId: string,
+        offset: string,
+      }
+    }
+  }
 }
 ```
 
 Cached data:
 ```
 dataCache: {
-  'remoteId': {
-    'localId': {
-      index: [number], // ordered
-      data: { 'timestamp': value },
-    }
-  }
+ 'remoteId': {
+   ...,
+   localIds: {
+     'localId': { timestamp: 'timestamp', value: number } // Text
+     },
+     },
+     'localId': {
+       index: [timestamp],
+       data: { 'timestamp': number }, // Plot
+     }
+   }
+ }
 }
 ```
 

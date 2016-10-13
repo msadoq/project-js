@@ -7,7 +7,7 @@
 function usage
 {
   echo ""
-  echo "usage ./StandaloneTimeBarLaunch.sh [options]"
+  echo "usage ./GPCCHSwithTimeBarLaunch.sh [options]"
   echo ""
   echo "Options:"
   echo " -h,--help            Display help information"
@@ -80,7 +80,7 @@ trap 'rm -rf /tmp/ipc* /tmp/Re* /tmp/ActorID* /tmp/OIDGenerat*; exit' 3
 trap 'echo SIGSEGV received; exit' 11
 
 # kill all processes in case it is usefull
-pkill -9 gpcc & pkill -9 redis & pkill -9 dbus-launch
+pkill -9 gpcc & pkill -9 redis & pkill -9 dbus-launch & killall -9 node
 
 #Remove the redis and rtd conf directories
 rm -rf /tmp/redis/ /tmp/rtd/ /tmp/workingRedis.sock /tmp/redis.sock  /tmp/catalogs /tmp/*.pid /tmp/containerCfg_*.xml /tmp/GDB.*
@@ -91,8 +91,8 @@ rm -rf /tmp/redis/ /tmp/rtd/ /tmp/workingRedis.sock /tmp/redis.sock  /tmp/catalo
 #########################################
 
 # Port number for timebar communication
-export PORT_NUM_TIMEBAR_PULL_TimeBar=17501
-export PORT_NUM_TIMEBAR_PUSH_TimeBar=17500
+export PORT_NUM_TIMEBAR_PULL_TimeBar=5000
+export PORT_NUM_TIMEBAR_PUSH_TimeBar=4050
 
 # Location of test project
 LOC=$(dirname $(which $0))
@@ -242,12 +242,58 @@ sleep 1
 
 echo "### STANDALONE TIMEBAR LAUNCHED"
 
+
+########################################
+#       Launch javascript GPCCHS       #
+########################################
+
+PREVIOUS_DIR=$(pwd)
+HSSDIR=../../../../../server/src/impl/js/server
+if [[ -d $HSSDIR ]]; then
+  cd $HSSDIR
+  npm start &
+  HSSPID=$!
+  sleep 1
+else
+  echo "Cannot start server, directory doesn't exists : ${PREVIOUS_DIR}${HSSDIR}"
+fi
+
+echo "### GPCCHS server LAUNCHED"
+
+cd $PREVIOUS_DIR
+HSCDIR=../../../../../client/src/impl/js/client
+if [[ -d $HSCDIR ]]; then
+  cd $HSCDIR
+  HOT=1 ./node_modules/.bin/electron -r ./lib/common/dotenv -r babel-register -r babel-polyfill ./main.development &
+  HSCPID=$!
+  sleep 1
+else
+  echo "Cannot start client, directory doesn't exists : ${PREVIOUS_DIR}${HSCDIR}"
+fi
+cd $PREVIOUS_DIR
+
+echo "### GPCCHS client LAUNCHED"
+
 ################################################################
-#################### Clean all after launch ####################
+#################### Clean all after launch ##############
 ################################################################
 
 # Wait a key to finish and kill container Process
 read key
+
+# Kill node GPCCHS processes
+if [ ! -z "$HSSPID" ]
+then
+  pkill -TERM -P $HSSPID
+fi
+
+if [ ! -z "$HSCSPID" ]
+then
+  pkill -TERM -P $HSCPID
+fi
+
+killall -9 node
+killall -9 electron
 
 #Remove ipc
 rm -rf /tmp/ipc* /tmp/ActorID* /tmp/OIDGenerat*

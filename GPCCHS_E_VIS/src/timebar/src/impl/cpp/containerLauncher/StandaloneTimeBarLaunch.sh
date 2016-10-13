@@ -91,8 +91,8 @@ rm -rf /tmp/redis/ /tmp/rtd/ /tmp/workingRedis.sock /tmp/redis.sock  /tmp/catalo
 #########################################
 
 # Port number for timebar communication
-export PORT_NUM_TIMEBAR_PULL_TimeBar=17501
-export PORT_NUM_TIMEBAR_PUSH_TimeBar=17500
+export PORT_NUM_TIMEBAR_PULL_TimeBar=5000
+export PORT_NUM_TIMEBAR_PUSH_TimeBar=4050
 
 # Location of test project
 LOC=$(dirname $(which $0))
@@ -241,6 +241,20 @@ checkResult "$OUTPUT"
 sleep 1
 
 echo "### STANDALONE TIMEBAR LAUNCHED"
+
+
+########################################
+#       Launch javascript GPCCHS       #
+########################################
+
+PREVIOUS_DIR=$(pwd)
+cd ../../../../../server/src/impl/js/server
+#npm start
+#sleep 1
+cd ../../../../../client/src/impl/js/client
+HOT=1 ./node_modules/.bin/electron -r ./lib/common/dotenv -r babel-register -r babel-polyfill ./main.development
+sleep 1
+cd $PREVIOUS_DIR
 
 
 ################################################################

@@ -327,7 +327,7 @@ const testState = {
   }
 };
 
-describe.only('data:expirationsMap', () => {
+describe('data:expirationsMap', () => {
   const store = getStore(testState);
   const map = dataMap(store.getState());
 

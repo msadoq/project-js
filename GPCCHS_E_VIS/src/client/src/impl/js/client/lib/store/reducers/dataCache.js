@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import * as types from '../types';
-import { getDisplayedValues } from '../../../external/main';
+import vivl from '../../../VIVL/main';
 
 export default function dataCache(stateDataCache = {}, action) {
   switch (action.type) {
@@ -12,7 +12,7 @@ export default function dataCache(stateDataCache = {}, action) {
         if (action.payload.remoteIds[k]) {
         // loop on actions.payload.remoteIds[k].localIds
           _.each(action.payload.remoteIds[k].localIds, (value, localId) => {
-            const rVal = getDisplayedValues(value.viewType,
+            const rVal = vivl(value.viewType, 'getDisplayedValues')(
               stateDataCache[k] ? stateDataCache[k][localId] : undefined, value.field,
               value.expectedInterval, p);
             if (rVal) {

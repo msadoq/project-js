@@ -3,7 +3,7 @@ const async = require('async');
 const { v4 } = require('node-uuid');
 const fs = require('../../common/fs');
 const validation = require('./validation');
-const { getSchemaJson } = require('../../../external/main');
+const vivl = require('../../../VIVL/main');
 
 const supportedViewTypes = [
   'PlotView',
@@ -40,8 +40,10 @@ function readViews(folder, viewsToRead, cb) {
       if (supportedViewTypes.indexOf(viewContent.type) === -1) {
         return fn(new Error(`Unsupported view type '${viewContent.type}'`), list);
       }
-      const schema = getSchemaJson(viewContent.type);
-      if (!schema) {
+      let schema;
+      try {
+        schema = vivl(viewContent.type, 'getSchemaJson')();
+      } catch (e) {
         return fn(new Error(`Invalid schema on view type '${viewContent.type}'`), list);
       }
       const validationError = validation(viewContent.type, viewContent, schema);

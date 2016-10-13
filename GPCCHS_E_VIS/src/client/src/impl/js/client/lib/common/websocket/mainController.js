@@ -31,7 +31,7 @@ export default function controller(state, dispatch, event, payload) {
       updateStore(state, dispatch, payload);
       break;
     case 'timebasedData': {
-      logger.debug('timebasedData received with', payload ? payload.length : 'nothing');
+      logger.debug('timebasedData received with', payload ? Object.keys(payload).length : 'nothing');
       dispatch(importPayload(payload));
       break;
     }

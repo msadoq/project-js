@@ -2,7 +2,7 @@ const { should } = require('../../utils/test');
 const { sendTimebasedArchiveData } = require('./onTimebasedArchiveData');
 const registeredQueries = require('../../utils/registeredQueries');
 const connectedDataModel = require('../../models/connectedData');
-const timebasedDataModel = require('../../models/timebasedData');
+const { clearFactory, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const _ = require('lodash');
 const dataStub = require('../../stubs/data');
 const { addToTestQueue, getMessage, resetMessage } = require('../../stubs/testWebSocket');
@@ -19,7 +19,7 @@ describe('onTimebasedArchiveData', () => {
   beforeEach(() => {
     registeredQueries.clear();
     connectedDataModel.cleanup();
-    timebasedDataModel.cleanup();
+    clearFactory();
     resetMessage();
   });
 
@@ -62,7 +62,8 @@ describe('onTimebasedArchiveData', () => {
           requested: { [queryId]: interval },
         },
       });
-    timebasedDataModel.count().should.equal(0);
+    const timebasedDataModel = getTimebasedDataModel(remoteId);
+    should.not.exist(timebasedDataModel);
     getMessage().should.deep.equal({});
   });
 
@@ -94,15 +95,15 @@ describe('onTimebasedArchiveData', () => {
           requested: { [queryId]: interval },
         },
       });
+    const timebasedDataModel = getTimebasedDataModel(remoteId);
+    should.exist(timebasedDataModel);
     timebasedDataModel.count().should.equal(2);
     const timebasedData = timebasedDataModel.find();
     timebasedData.should.have.properties([
       {
-        remoteId,
         timestamp: t1,
         payload: rp,
       }, {
-        remoteId,
         timestamp: t2,
         payload: rp,
       },
@@ -151,15 +152,15 @@ describe('onTimebasedArchiveData', () => {
           requested: {},
         },
       });
+    const timebasedDataModel = getTimebasedDataModel(remoteId);
+    should.exist(timebasedDataModel);
     timebasedDataModel.count().should.equal(2);
     const timebasedData = timebasedDataModel.find();
     timebasedData.should.have.properties([
       {
-        remoteId,
         timestamp: t1,
         payload: rp,
       }, {
-        remoteId,
         timestamp: t2,
         payload: rp,
       },

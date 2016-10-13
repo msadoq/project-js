@@ -69,12 +69,6 @@ collection.removeByDataId = (dataId) => {
   collection.remove(subscription);
 };
 
-collection.retrieveByWindow = windowId => collection.find({
-  windows: {
-    $contains: windowId,
-  },
-});
-
 collection.exists = (dataId) => {
   const flatDataId = flattenDataId(dataId);
   if (typeof collection.by('flatDataId', flatDataId) === 'undefined') {
@@ -83,6 +77,9 @@ collection.exists = (dataId) => {
   return true;
 };
 
+collection.removeRemoteId = (dataId, remoteId) => {
+
+};
 
 collection.cleanup = () => {
   debug.debug('subscription cleared');

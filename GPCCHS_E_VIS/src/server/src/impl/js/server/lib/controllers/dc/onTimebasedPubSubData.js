@@ -1,7 +1,7 @@
 const debug = require('../../io/debug')('controllers:onTimebasedPubSubData');
 const _ = require('lodash');
 const { decode } = require('../../protobuf');
-const timebasedDataModel = require('../../models/timebasedData');
+const { addTimebasedDataModel, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
 const { addToMainQueue } = require('../../websocket/sendToMain');
@@ -73,7 +73,11 @@ const sendTimebasedPubSubData = (websocketHandler, dataIdBuffer, ...payloadsBuff
         payload: decodedPayload,
       };
       // store decoded payload in timebasedData model
-      timebasedDataModel.addRecord(remoteId, tbd.timestamp, tbd.payload);
+      let timebasedDataModel = getTimebasedDataModel(remoteId);
+      if (!timebasedDataModel) {
+        timebasedDataModel = addTimebasedDataModel(remoteId);
+      }
+      timebasedDataModel.addRecord(tbd.timestamp, tbd.payload);
       // queue a ws newData message (sent periodically)
       websocketHandler(remoteId, [tbd]);
     });

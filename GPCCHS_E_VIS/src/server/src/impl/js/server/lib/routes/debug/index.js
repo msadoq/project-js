@@ -2,7 +2,7 @@ const { Router } = require('express');
 
 const subscriptionsModel = require('../../models/subscriptions');
 const connectedDataModel = require('../../models/connectedData');
-const timebasedDataModel = require('../../models/timebasedData');
+const timebasedDataModel = require('../../models/timebasedDataFactory');
 const { getDomains } = require('../../utils/domains');
 const perfTool = require('../../utils/performanceTool');
 

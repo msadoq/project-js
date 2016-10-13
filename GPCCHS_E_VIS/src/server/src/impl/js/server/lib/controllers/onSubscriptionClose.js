@@ -3,7 +3,7 @@ const zmq = require('../io/zmq');
 const { createDeleteSubscriptionMessage } = require('../utils/subscriptions');
 const connectedDataModel = require('../models/connectedData');
 const subscriptionsModel = require('../models/subscriptions');
-const timebasedDataModel = require('../models/timebasedData');
+const timebasedDataModel = require('../models/timebasedDataFactory');
 const _ = require('lodash');
 
 /**

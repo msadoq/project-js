@@ -3,7 +3,7 @@ const { decode } = require('../../protobuf');
 const { close } = require('./onClose');
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
-const timebasedDataModel = require('../../models/timebasedData');
+const { clearFactory, addTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
 const registeredQueries = require('../../utils/registeredQueries');
 const { setDomains, getDomains } = require('../../utils/domains');
@@ -26,6 +26,8 @@ const zmqEmulator = (key, payload) => {
 describe('onClose', () => {
   beforeEach(() => {
     subscriptionsModel.cleanup();
+    clearFactory();
+    connectedDataModel.cleanup();
     calls = [];
   });
   describe('close', () => {
@@ -36,7 +38,8 @@ describe('onClose', () => {
       const proto = getReportingParameterProtobuf(myRp);
 
       subscriptionsModel.addRecord(myDataId);
-      timebasedDataModel.addRecord(myRemoteId, _.now(), proto);
+      const timebasedDataModel = addTimebasedDataModel(myRemoteId);
+      timebasedDataModel.addRecord(_.now(), proto);
       connectedDataModel.addRequestedInterval(myRemoteId, 'queryId', [42, 42]);
       setDomains([1]);
       registeredCallbacks.set('toto', toto => toto === 1);

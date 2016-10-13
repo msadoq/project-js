@@ -94,6 +94,18 @@ collection.addRequestedInterval = (remoteId, queryUuid, interval) => {
   return connectedData;
 };
 
+collection.removeInterval = (remoteId, interval) => {
+
+};
+
+collection.hasIntervals = (remoteId) => {
+
+};
+
+collection.getDataId = (remoteId) => {
+
+};
+
 collection.isRequested = (remoteId, queryUuid) => {
   const connectedData = collection.by('remoteId', remoteId);
 

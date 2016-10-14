@@ -19,7 +19,9 @@ describe('utils/remoteId', () => {
   });
 //   it('one filter', () => {
 //     remoteId(dataId, [{field: 'convertedValue', operator: '!=',  operand: '0'}])
-//       .should.equal('Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:convertedValue!=0');
+//       .should.equal(
+//        'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:convertedValue!=0'
+//        );
 //   });
 //   it('multi filter with predictable order', () => {
 //     remoteId(dataId, [

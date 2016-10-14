@@ -1,35 +1,30 @@
-import _ from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import SizeMe from 'react-sizeme'; // TODO : make sizeme optionnal by view type
 
-import { component } from '../../../VIVL/window';
-
-import UnknownView from './UnknownView';
 import ViewHeader from './Header';
-import Data from './Data';
+import UnknownView from './UnknownView';
+
 import styles from './View.css';
 
 class View extends Component {
   static propTypes = {
-    type: PropTypes.string.isRequired,
-    size: PropTypes.object,
+    component: PropTypes.func,
+    size: PropTypes.shape({
+      width: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
+      height: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
+    }),
   };
   render() {
-    const { type } = this.props;
-    let ViewTypeComponent = component(type);
-    if (!ViewTypeComponent) {
-      ViewTypeComponent = UnknownView;
-    }
-
+    const ContentComponent = this.props.component || UnknownView;
     return (
       <div style={{ height: '100%' }}>
         <ViewHeader {...this.props} />
         <div className={styles.container}>
-          <Data {...this.props} component={ViewTypeComponent} />
+          <ContentComponent {...this.props} />
         </div>
       </div>
     );
   }
 }
 
-export default SizeMe({ monitorHeight: true })(View);
+export default SizeMe({ monitorHeight: true })(View); // eslint-disable-line new-cap

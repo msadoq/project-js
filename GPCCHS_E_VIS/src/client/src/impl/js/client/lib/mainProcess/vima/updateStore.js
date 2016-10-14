@@ -1,8 +1,7 @@
 import _ from 'lodash';
 import u from 'updeep';
 import compareTimebars from './update';
-import { getStore } from '../../store/mainStore';
-import { getTimebar, getTimelines } from '../../store/selectors/timebars';
+import { getTimebarById, getTimelinesFromTimebar } from '../../store/selectors/timebars';
 
 import {
   updateId,
@@ -17,9 +16,8 @@ import {
 
 export default function updateFromVimaTimebar(state, dispatch, data) {
   const timebarId = data.uuid;
-  const oldTimebar = getTimebar(state, timebarId);
-  const oldTimelines = getTimelines(state, timebarId);
-
+  const oldTimebar = getTimebarById(state, data.id);
+  const oldTimelines = getTimelinesFromTimebar(state, oldTimebar);
   const oldTb = u({ timelines: oldTimelines }, oldTimebar);
   const differences = compareTimebars(oldTb, data);
   if (!differences) {

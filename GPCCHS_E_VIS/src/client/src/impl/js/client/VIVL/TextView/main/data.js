@@ -25,7 +25,7 @@ module.exports = {
       const time = payload.timestamp;
       if (time <= interval[1] && time >= interval[0]) {
         const oldTime = (final.timestamp || (stateLocalId && stateLocalId.timestamp));
-        if (!oldTime || oldTime < time) {
+        if (!oldTime || oldTime <= time) {
           final.timestamp = time;
           final.value = payload.payload[field];
         }

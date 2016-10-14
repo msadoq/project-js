@@ -13,7 +13,7 @@ module.exports = (spark, timebars) => {
   if (timebars.length > 0) {
     tbForQt = _.omit(timebars[0], 'timelines');
     tbForQt.timeLines = [];
-    let index = 1;
+    let index = 0;
     _.each(timebars[0].timelines, (timeline) => {
       tbForQt.timeLines.push({
         id: index,

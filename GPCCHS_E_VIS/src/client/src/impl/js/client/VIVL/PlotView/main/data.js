@@ -56,8 +56,8 @@ module.exports = {
             final.index = _.concat(_.slice(final.index, 0, index), time, _.slice(final.index, index));
             lastIndex = index;
           }
-          final.data[time] = payload.payload[field];
         }
+        final.data[time] = payload.payload[field];
       }
     });
     return final;

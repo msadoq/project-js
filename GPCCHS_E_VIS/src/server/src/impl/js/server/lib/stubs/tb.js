@@ -2,7 +2,7 @@ const zmq = require('../io/zmq');
 const debug = require('../io/debug')('stub:tb');
 const _ = require('lodash');
 
-let tb = [];
+const tb = [];
 
 function onVimaTbStubUpdate(buffer) {
   const cmdList = JSON.parse(buffer.toString());
@@ -40,7 +40,7 @@ function onVimaTbStubUpdate(buffer) {
 }
 
 function onVimaTbStubInit(timebarBuffer) {
-  tb = JSON.parse(timebarBuffer.toString());
+  tb.push(JSON.parse(timebarBuffer.toString()));
   debug.info('onTbStubInit');
 }
 

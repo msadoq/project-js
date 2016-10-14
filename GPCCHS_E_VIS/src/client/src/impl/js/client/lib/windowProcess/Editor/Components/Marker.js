@@ -1,11 +1,11 @@
 import React from 'react';
+import classNames from 'classnames';
 import { Glyphicon, Collapse, Form, FormGroup, Col, FormControl, InputGroup } from 'react-bootstrap';
 import styles from './PlotTab.css';
-import classNames from 'classnames';
-import SelectFontFamilySize from './SelectFontFamilySize.js';
-import SelectFontStyle from './SelectFontStyle.js';
+import SelectFontFamilySize from './SelectFontFamilySize';
+import SelectFontStyle from './SelectFontStyle';
 import SelectButton from './Buttons/SelectButton';
-import ColorPicker from './ColorPicker.js';
+import ColorPicker from './ColorPicker';
 import select from './Select.css';
 
 export default class Marker extends React.Component {
@@ -158,7 +158,10 @@ export default class Marker extends React.Component {
                   Color
                 </Col>
                 <Col xs={8}>
-                  <ColorPicker color={this.props.markerStyle.colour} onChange={this.handleMarkerStyle} />
+                  <ColorPicker
+                    color={this.props.markerStyle.colour}
+                    onChange={this.handleMarkerStyle}
+                  />
                 </Col>
               </FormGroup>
               {(this.props.kind === 'Text') ?
@@ -292,7 +295,7 @@ export default class Marker extends React.Component {
                 </FormGroup>
                 : null
               }
-               {(this.props.kind === 'Horizontal') ?
+              {(this.props.kind === 'Horizontal') ?
                 <FormGroup className={styles.formGroupXsmall} controlId="formControlsSelect">
                   <Col className={styles.formLabel} xs={4}>
                     Y Axis

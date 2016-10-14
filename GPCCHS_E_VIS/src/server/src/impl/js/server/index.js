@@ -19,7 +19,7 @@ const onViewClose = require('./lib/controllers/onViewClose');
 const { onSubscriptionOpen } = require('./lib/controllers/onSubscriptionOpen');
 const { onSubscriptionClose } = require('./lib/controllers/onSubscriptionClose');
 const { onDomainQuery } = require('./lib/controllers/client/onDomainQuery');
-
+const { onCacheCleanup } = require('./lib/controllers/client/onCacheCleanup');
 const onHscVimaTimebarInit = require('./lib/controllers/onHscVimaTimebarInit');
 const { onTimebasedQuery } = require('./lib/controllers/client/onTimebasedQuery');
 
@@ -100,6 +100,7 @@ primus.init(server, {
   onHscVimaTimebarInit,
   onDomainQuery,
   onTimebasedQuery,
+  onCacheCleanup,
 });
 
 // ZeroMQ

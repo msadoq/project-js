@@ -1,6 +1,7 @@
 const debug = require('../io/debug')('models:connectedData');
 const database = require('../io/loki');
 const { isTimestampInIntervals, mergeIntervals } = require('../utils/intervals');
+const extractInterval = require('../utils/extractInterval');
 const { inspect } = require('util');
 const _ = require('lodash');
 
@@ -65,24 +66,31 @@ collection.setIntervalAsReceived = (remoteId, queryUuid) => {
   return connectedData;
 };
 
+collection.addRecord = (remoteId, dataId) => {
+  let connectedData = collection.by('remoteId', remoteId);
+  if (connectedData) {
+    return connectedData;
+  }
+  connectedData = {
+    remoteId,
+    dataId,
+    intervals: {
+      all: [],
+      received: [],
+      requested: {},
+    },
+  };
+  debug.debug('insert', inspect(connectedData));
+  return collection.insert(connectedData);
+};
+
 collection.addRequestedInterval = (remoteId, queryUuid, interval) => {
   // Add a query interval in the list of requested intervals for this flatDataId
   // And create the flatDataId if it doesnt exist
-  let connectedData = collection.by('remoteId', remoteId);
+  const connectedData = collection.by('remoteId', remoteId);
 
-  if (typeof connectedData === 'undefined') {
-    connectedData = {
-      remoteId,
-      intervals: {
-        all: [],
-        received: [],
-        requested: {},
-      },
-    };
-    connectedData.intervals.requested[queryUuid] = interval;
-    connectedData.intervals.all.push(interval);
-    debug.debug('insert', inspect(connectedData));
-    return collection.insert(connectedData);
+  if (!connectedData) {
+    return undefined;
   }
 
   debug.debug('before update', inspect(connectedData));
@@ -94,16 +102,50 @@ collection.addRequestedInterval = (remoteId, queryUuid, interval) => {
   return connectedData;
 };
 
-collection.removeInterval = (remoteId, interval) => {
+collection.removeIntervals = (remoteId, intervals) => {
+  const connectedData = collection.by('remoteId', remoteId);
+  if (!connectedData) {
+    return [];
+  }
+  let requestedIntervals = connectedData.intervals.requested;
+  let receivedIntervals = connectedData.intervals.received;
+  const queryIds = [];
+  _.each(intervals, (interval) => {
+    _.some(requestedIntervals, (value, key) => {
+      if (value === interval) {
+        queryIds.push(key);
+        requestedIntervals = _.omit(requestedIntervals, key);
+        return true;
+      }
+      return false;
+    });
+    receivedIntervals = extractInterval(receivedIntervals, interval);
+  });
+  let allIntervals = receivedIntervals;
+  _.each(requestedIntervals, (interval) => {
+    allIntervals = mergeIntervals(allIntervals, interval);
+  });
+  connectedData.intervals.requested = requestedIntervals;
+  connectedData.intervals.received = receivedIntervals;
+  connectedData.intervals.all = allIntervals;
 
+  return queryIds;
 };
 
-collection.hasIntervals = (remoteId) => {
-
+collection.getIntervals = (remoteId) => {
+  const connectedData = collection.by('remoteId', remoteId);
+  if (!connectedData) {
+    return undefined;
+  }
+  return connectedData.intervals.all;
 };
 
 collection.getDataId = (remoteId) => {
-
+  const connectedData = collection.by('remoteId', remoteId);
+  if (!connectedData) {
+    return undefined;
+  }
+  return connectedData.dataId;
 };
 
 collection.isRequested = (remoteId, queryUuid) => {

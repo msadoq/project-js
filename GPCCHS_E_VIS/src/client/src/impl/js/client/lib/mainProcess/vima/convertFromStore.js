@@ -9,7 +9,7 @@ export default function convertFromStore(state) {
   return _.map(state.timebars, (storeTimebar) => {
     const timebar = _.cloneDeep(storeTimebar);
     timebar.timelines =
-      _.map(storeTimebar.timelines, (timelineId) => _.cloneDeep(state.timelines[timelineId]));
+      _.map(storeTimebar.timelines, timelineId => _.cloneDeep(state.timelines[timelineId]));
     return timebar;
   });
 }

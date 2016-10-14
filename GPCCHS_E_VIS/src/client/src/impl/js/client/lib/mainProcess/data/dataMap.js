@@ -87,4 +87,15 @@ const getVisibleConnectedData = createSelector(
 export default createSelector(
   [getDomains, getTimebars, getTimelines, getVisibleConnectedData],
   (domains, timebars, timelines, cds) => decline(domains, timebars, timelines, cds)
+const getVisibleRemoteIds = createSelector(
+  [
+    getDomains,
+    getTimebars,
+    getTimelines,
+    getVisibleConnectedData,
+  ],
+   // TODO memoize formula parsing (formula)
+   // TODO memoize domains search (redux domains, search)
+  // TODO memoize sessions search (redux timebarTimelines, redux timelines, search)
+  (domains, timebars, timelines, cds) => decorate(domains, timebars, timelines, cds)
 );

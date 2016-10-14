@@ -19,7 +19,7 @@ export const updateLayout = simple(types.WS_PAGE_UPDATE_LAYOUT, 'pageId', 'layou
  * Compound actions
  */
 export function addAndMount(pageId) {
-  return dispatch => {
+  return (dispatch) => {
     const viewId = v4();
     dispatch(addView(viewId));
     dispatch(mountView(pageId, viewId));
@@ -27,7 +27,7 @@ export function addAndMount(pageId) {
 }
 
 export function unmountAndRemove(pageId, viewId) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(unmountView(pageId, viewId));
     dispatch(removeView(viewId));
   };
@@ -41,7 +41,7 @@ export function openViewInEditor(pageId, viewId) { // TODO
       // TODO : check if view is displayed on page
       addAndMount(pageId, viewId);
     } else {
-        console.log('ERROR, do not find existing view');
+      console.log('ERROR, do not find existing view');
     }
       // TODO : dispatch openEditor
     return dispatch(getEditor(state, pageId));

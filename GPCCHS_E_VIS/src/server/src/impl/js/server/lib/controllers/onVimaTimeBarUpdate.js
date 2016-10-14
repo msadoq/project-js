@@ -1,6 +1,6 @@
 const debug = require('../io/debug')('controllers:onVimaTimeBarUpdate');
 const { sendToMain } = require('../websocket/sendToMain');
-
+const _ = require('lodash');
 /**
  * Controller that listens for timebar update
  * @param buffer
@@ -15,5 +15,19 @@ module.exports = (buffer) => {
   } catch (err) {
     throw err;
   }
-  sendToMain('timebarUpdate', updVimaTimebar);
+  // Format json to be compliant with redux
+  const tbForClient = _.omit(updVimaTimebar, 'timeLines');
+  tbForClient.timelines = [];
+  _.each(updVimaTimebar.timeLines, (timeline) => {
+    tbForClient.timelines.push({
+      id: timeline.name,
+      offset: timeline.offset,
+      kind: timeline.kind,
+      sessionId: timeline.sessionId,
+    });
+    if (timeline.id === updVimaTimebar.masterId) {
+      tbForClient.masterId = timeline.name;
+    }
+  });
+  sendToMain('timebarUpdate', tbForClient);
 };

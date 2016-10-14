@@ -1,7 +1,8 @@
 import React from 'react';
+import classNames from 'classnames';
 import { Glyphicon, Collapse, Table } from 'react-bootstrap';
 import styles from './Misc.css';
-import classNames from 'classnames';
+
 
 export default class Misc extends React.Component {
   constructor(...args) {
@@ -70,9 +71,6 @@ export default class Misc extends React.Component {
         </a>
         <Collapse in={this.state.openP}>
           <div className={styles.shift}>
-            <div>
-            
-            </div>
           </div>
         </Collapse>
       </div>

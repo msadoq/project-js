@@ -56,7 +56,9 @@ export default class Editor extends Component {
       if (newVal.keyToRemove !== undefined) {
         tmp.splice(newVal.keyToRemove, 1);
       } else {
-        tmp.push({ colour: newVal.color, condition: { field: newVal.field, operand: newVal.operand, operator: newVal.operator } });
+        tmp.push({
+          colour: newVal.color,
+          condition: { field: newVal.field, operand: newVal.operand, operator: newVal.operator } });
       }
       val = tmp;
     }
@@ -73,29 +75,29 @@ export default class Editor extends Component {
   }
   addEntryPoint() {
     const newEntryPoint = {
-      "name":"NewEntryPoint",
-      "connectedDataX":{
-          "fullName":"",
-          "unit":"ms",
-          "digits":5,
-          "format":"decimal",
-          "domain":"",
-          "session":"Session 1",
-          "axisId":"time"
+      name: 'NewEntryPoint',
+      connectedDataX: {
+        fullName: '',
+        unit: 'ms',
+        digits: 5,
+        format: 'decimal',
+        domain: '',
+        session: 'Session 1',
+        axisId: 'time'
       },
-      "connectedDataY":{
-          "fullName":"",
-          "unit":"ms",
-          "digits":5,
-          "format":"decimal",
-          "domain":"",
-          "session":"Session 1",
-          "axisId":"time"
+      connectedDataY: {
+        fullName: '',
+        unit: 'ms',
+        digits: 5,
+        format: 'decimal',
+        domain: '',
+        session: 'Session 1',
+        axisId: 'time'
       },
-      "lineStyle":"Continuous",
-      "pointsStyle":"None",
-      "curveColour":"#222222",
-      "stateColours":[
+      lineStyle: 'Continuous',
+      pointsStyle: 'None',
+      curveColour: '#222222',
+      stateColours: [
 
       ]
     };

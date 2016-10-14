@@ -1,12 +1,11 @@
 /* eslint no-console: 0 */
-
-require('./lib/common/dotenv');
 import express from 'express';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-
 import config from './webpack.config.development';
+
+require('./lib/common/dotenv');
 
 const app = express();
 const compiler = webpack(config);
@@ -23,7 +22,7 @@ app.use(wdm);
 
 app.use(webpackHotMiddleware(compiler));
 
-const server = app.listen(PORT, 'localhost', err => {
+const server = app.listen(PORT, 'localhost', (err) => {
   if (err) {
     console.error(err);
     return;

@@ -15,7 +15,7 @@ const { addToTestQueue, getMessage, resetMessage } = require('../../stubs/testWe
  *
  */
 
-describe('onTimebasedArchiveData', () => {
+describe('controllers/onTimebasedArchiveData', () => {
   beforeEach(() => {
     registeredQueries.clear();
     connectedDataModel.cleanup();
@@ -39,6 +39,7 @@ describe('onTimebasedArchiveData', () => {
   it('unknown queryId', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(false);
+    connectedDataModel.addRecord(remoteId, dataId);
     connectedDataModel.addRequestedInterval(remoteId, queryId, interval);
     // launch test
     sendTimebasedArchiveData(
@@ -70,6 +71,7 @@ describe('onTimebasedArchiveData', () => {
   it('works', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(false);
+    connectedDataModel.addRecord(remoteId, dataId);
     connectedDataModel.addRequestedInterval(remoteId, queryId, interval);
     registeredQueries.set(queryId, remoteId);
     // launch test
@@ -127,6 +129,7 @@ describe('onTimebasedArchiveData', () => {
   it('last chunk', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(true);
+    connectedDataModel.addRecord(remoteId, dataId);
     connectedDataModel.addRequestedInterval(remoteId, queryId, interval);
     registeredQueries.set(queryId, remoteId);
     // launch test

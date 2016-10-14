@@ -33,7 +33,7 @@ export default class EntryPointTree extends React.Component {
           null
         )
       ) :
-      <div>No entryPoints to display</div>;
+        <div>No entryPoints to display</div>;
     return (
       <div className={styles.entryPointsTree}>
         {EntryPointsName}

@@ -15,7 +15,7 @@ const config = merge(baseConfig, {
     publicPath: '../dist/'
   },
   externals: {
-    "ws": "ws"
+    ws: 'ws'
   },
 
   module: {
@@ -51,8 +51,6 @@ const config = merge(baseConfig, {
     }),
     new ExtractTextPlugin('style.css', { allChunks: true })
   ],
-
-
 
   target: 'electron-renderer'
 });

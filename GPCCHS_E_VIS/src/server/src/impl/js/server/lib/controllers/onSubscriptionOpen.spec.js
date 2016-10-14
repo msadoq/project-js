@@ -13,7 +13,7 @@ const zmqEmulator = (key, args) => {
   _.each(args, arg => calls.push(arg));
 };
 
-describe('onSubscriptionOpen', () => {
+describe('controllers/onSubscriptionOpen', () => {
   beforeEach(() => {
     registeredCallbacks.clear();
     subscriptionsModel.cleanup();

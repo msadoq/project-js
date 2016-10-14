@@ -1,6 +1,5 @@
 import { each, get, map } from 'lodash';
 import { createSelector } from 'reselect';
-
 import missingIntervals from '../../common/missingIntervals';
 import mergeIntervals from '../../common/mergeIntervals';
 

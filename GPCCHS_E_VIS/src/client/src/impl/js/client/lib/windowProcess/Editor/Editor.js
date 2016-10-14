@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import PlotEditorContainer from './Components/PlotEditorContainer';
 import TextEditorContainer from './Components/TextEditorContainer';
 
-const InvalidConfiguration = props => <div>unknown view type or invalid configuration:</div>; // TODO dedicated component
+const InvalidConfiguration = props => <div> unknown view type or invalid configuration: </div>;
+// TODO dedicated component
 
 export default class Editor extends Component {
   static propTypes = {

@@ -1,6 +1,9 @@
 import React, { Component, PropTypes } from 'react';
+import Mustache from 'mustache';
 
 export default class TextView extends Component {
+  state = { template: '' };
+
   static propTypes = {
     viewId: PropTypes.string.isRequired,
     data: PropTypes.any,
@@ -11,7 +14,19 @@ export default class TextView extends Component {
     // links: PropTypes.array,
     // defaultRatio: PropTypes.object,
   };
+
+  componentDidMount(){
+    // recreate the html string from an array
+    this.setState({ template: this.props.configuration.content.join('') });
+  }
+
+  getMarkup = () => Mustache.render(
+    this.state.template,
+    this.props.configuration.textViewEntryPoints
+  )
+
   render() {
+    const innerHTML = this.getMarkup();
     return (
       <div>
         ok text view ({this.props.viewId})
@@ -20,6 +35,8 @@ export default class TextView extends Component {
         {JSON.stringify(this.props.interval)}
         <br />
         {JSON.stringify(this.props.data)}
+        {this.props.viewId}
+        <div dangerouslySetInnerHTML={{ __html: innerHTML }}></div>
       </div>
     );
   }

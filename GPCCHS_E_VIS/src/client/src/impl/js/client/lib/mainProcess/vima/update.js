@@ -8,7 +8,7 @@ function createObjectParamOnCmdList(param, keyNames) {
   }
   let current = cmdList;
   let final = cmdList;
-  _.forEach(keyNames, element => {
+  _.forEach(keyNames, (element) => {
     current = final;
     if (!Object.getOwnPropertyDescriptor(current, element)) {
       current[element] = {};
@@ -82,13 +82,6 @@ module.exports = (oldTb, newTb) => {
               cmdList.visuWindowUpdate.lower = newTb.visuWindow.lower;
               cmdList.visuWindowUpdate.upper = newTb.visuWindow.upper;
               cmdList.visuWindowUpdate.current = newTb.visuWindow.current;
-              // if (current.path[1] === 'current') {
-              //   cmdList.visuWindowUpdate.current = current.rhs;
-              // } else {
-              //   createObjectParamOnCmdList('bounds', ['visuWindowUpdate']);
-              //   cmdList.visuWindowUpdate.bounds.lower = newTb.visuWindow.lower;
-              //   cmdList.visuWindowUpdate.bounds.upper = newTb.visuWindow.upper;
-              // }
               break;
             case 'slideWindow':
               // Add slideWindow under visuWindowUpdate

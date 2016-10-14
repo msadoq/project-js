@@ -26,7 +26,7 @@ export default class EditorNavbar extends React.Component {
     this.props.changeCurrentDisplay(tab);
   }
   render() {
-    let items = this.props.items.map((item, index) => (
+    const items = this.props.items.map((item, index) => (
       <NavItem
         key={index}
         className={(this.state.activeTab === index) ?

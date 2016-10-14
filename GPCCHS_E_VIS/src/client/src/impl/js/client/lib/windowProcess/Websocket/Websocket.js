@@ -21,10 +21,10 @@ export default class Websocket extends Component {
       ? this.props.children
       : <div className={styles.box}>
           Connection in progress
-          <div>...</div>
-          <div className={styles.message}>
-            ({_.get(this.props, 'ws.status')})
-          </div>
-        </div>;
+        <div>...</div>
+        <div className={styles.message}>
+          ({_.get(this.props, 'ws.status')})
+        </div>
+      </div>;
   }
 }

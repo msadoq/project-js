@@ -49,7 +49,7 @@
             "offset": -10000,
             "kind": "Session",
             "sessionId": 1
-          },
+          }
         ],
         "masterId": "Session 1"
       }

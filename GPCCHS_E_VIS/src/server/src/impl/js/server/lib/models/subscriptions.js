@@ -16,7 +16,7 @@ collection.getAll = () => _.remove(_.values(collection.getFlatDataIdIndex().keyM
 collection.addFilters = (dataId, filters) => {
   const flatDataId = flattenDataId(dataId);
   const subscription = collection.by('flatDataId', flatDataId);
-  if (typeof subscription === 'undefined') {
+  if (!subscription) {
     return undefined;
   }
   debug.debug('before update', subscription);
@@ -29,7 +29,7 @@ collection.addFilters = (dataId, filters) => {
 collection.getRemoteIds = (dataId) => {
   const flatDataId = flattenDataId(dataId);
   const subscription = collection.by('flatDataId', flatDataId);
-  if (typeof subscription === 'undefined') {
+  if (!subscription) {
     return undefined;
   }
   return _.keys(subscription.filters);
@@ -38,7 +38,7 @@ collection.getRemoteIds = (dataId) => {
 collection.getFilters = (dataId) => {
   const flatDataId = flattenDataId(dataId);
   const subscription = collection.by('flatDataId', flatDataId);
-  if (typeof subscription === 'undefined') {
+  if (!subscription) {
     return undefined;
   }
   return subscription.filters;
@@ -62,7 +62,7 @@ collection.removeByDataId = (dataId) => {
   const flatDataId = flattenDataId(dataId);
   const subscription = collection.by('flatDataId', flatDataId);
 
-  if (typeof subscription === 'undefined') {
+  if (!subscription) {
     return;
   }
 
@@ -71,14 +71,21 @@ collection.removeByDataId = (dataId) => {
 
 collection.exists = (dataId) => {
   const flatDataId = flattenDataId(dataId);
-  if (typeof collection.by('flatDataId', flatDataId) === 'undefined') {
+  if (!collection.by('flatDataId', flatDataId)) {
     return false;
   }
   return true;
 };
 
 collection.removeRemoteId = (dataId, remoteId) => {
-
+  const flatDataId = flattenDataId(dataId);
+  const subscription = collection.by('flatDataId', flatDataId);
+  if (!subscription) {
+    return undefined;
+  }
+  subscription.filters = _.omit(subscription.filters, remoteId);
+  collection.update(subscription); // TODO This update operation could be not needed
+  return subscription;
 };
 
 collection.cleanup = () => {

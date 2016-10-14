@@ -7,7 +7,7 @@ export default class UnknownView extends Component {
   };
   render() {
     return (
-      <div>View #{this.props.viewId} has unknown type: '{this.props.type}'</div>
+      <div>View #{this.props.viewId} has unknown type: {this.props.type}</div>
     );
   }
 }

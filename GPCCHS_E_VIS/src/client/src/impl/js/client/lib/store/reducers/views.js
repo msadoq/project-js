@@ -49,11 +49,13 @@ function configuration(state = {}, action) {
       return Object.assign({}, action.payload.configuration || state);
     // case types.WS_VIEW_CD_MOUNT:
     //   return Object.assign({}, state, {
-    //     connectedData: [...state.connectedData, action.payload.connectedDataId], // TODO remove and add configuration entry point
+    //     connectedData: [...state.connectedData, action.payload.connectedDataId],
+    // TODO remove and add configuration entry point
     //   });
     // case types.WS_VIEW_CD_UNMOUNT:
     //   return Object.assign({}, state, {
-    //     connectedData: _.without(state.connectedData, action.payload.connectedDataId), // TODO remove and add configuration entry point
+    //     connectedData: _.without(state.connectedData, action.payload.connectedDataId),
+    // TODO remove and add configuration entry point
     //   });
     default:
       return state;

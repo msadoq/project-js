@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import {
   Glyphicon,
   Collapse,
@@ -10,14 +11,14 @@ import {
 } from 'react-bootstrap';
 import ToggleButton from './Buttons/ToggleButton';
 import SelectButton from './Buttons/SelectButton';
-import ColorPicker from './ColorPicker.js';
-import SelectFontFamilySize from './SelectFontFamilySize.js';
-import SelectFontStyle from './SelectFontStyle.js';
-import PlotAxis from './PlotAxis.js';
-import Marker from './Marker.js';
+import ColorPicker from './ColorPicker';
+import SelectFontFamilySize from './SelectFontFamilySize';
+import SelectFontStyle from './SelectFontStyle';
+import PlotAxis from './PlotAxis';
+import Marker from './Marker';
 import styles from './PlotTab.css';
 import select from './Select.css';
-import classNames from 'classnames';
+
 
 /*
   PlotTab représente l'onglet "Plot" de l'éditeur Plot.
@@ -109,7 +110,7 @@ export default class PlotTab extends React.Component {
     );
     return (
       <div className={styles.PlotTreeFirstLvl}>
-      { /** ********************************************************************** **/
+        { /** ********************************************************************** **/
         /** ==============================> TITLE <=============================== **/
         /** ********************************************************************** **/ }
         <a
@@ -201,7 +202,7 @@ export default class PlotTab extends React.Component {
           </div>
         </Collapse>
         <br />
-      { /** ********************************************************************** **/
+        { /** ********************************************************************** **/
         /** ==============================> GRID <=============================== **/
         /** ********************************************************************** **/ }
         <a
@@ -226,8 +227,8 @@ export default class PlotTab extends React.Component {
                 </Col>
                 <Col xs={8}>
                   <ToggleButton
-                    on={"ON"}
-                    off={"OFF"}
+                    on={'ON'}
+                    off={'OFF'}
                     default={(this.props.grids[0].showGrid === true) ? 'ON' : 'OFF'}
                     size="xsmall"
                     styleOn="primary"
@@ -287,7 +288,7 @@ export default class PlotTab extends React.Component {
           </div>
         </Collapse>
         <br />
-      { /** ********************************************************************** **/
+        { /** ********************************************************************** **/
         /** ==============================> AXES <=============================== **/
         /** ********************************************************************** **/ }
         <a

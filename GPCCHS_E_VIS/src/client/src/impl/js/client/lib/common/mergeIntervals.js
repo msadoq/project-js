@@ -102,4 +102,4 @@ export default function mergeIntervals(knownIntervals, interval) {
     [interval[0], knownIntervals[upper][1]],
     ..._.slice(knownIntervals, upper + 1),
   ];
-};
+}

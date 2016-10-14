@@ -13,7 +13,7 @@ const mapStateToProps = (state, ownProps) => {
     ...ownProps,
     editor,
     isEditorOpened: editor && editor.isOpened,
-  }
+  };
 };
 
 const mapDispatchToProps = (dispatch, { pageId }) => bindActionCreators({

@@ -30,7 +30,7 @@ export const unmountTimeline = simple(types.WS_TIMEBAR_UNMOUNT_TIMELINE, 'timeba
  * Compound actions
  */
 export function addAndMountTimeline(timebarId, configuration) {
-  return dispatch => {
+  return (dispatch) => {
     const timelineId = v4();
     dispatch(addTimeline(timelineId, configuration));
     dispatch(mountTimeline(timebarId, timelineId));
@@ -38,14 +38,14 @@ export function addAndMountTimeline(timebarId, configuration) {
 }
 
 export function unmountAndRemoveTimeline(timebarId, timelineId) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(unmountTimeline(timebarId, timelineId));
     dispatch(removeTimeline(timelineId));
   };
 }
 
 export function updateTimeline(timelineId, configuration) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(updateTL(timelineId, configuration));
-  }
+  };
 }

@@ -32,7 +32,7 @@ export default class ToggleButton extends React.Component {
     return (
       <Button
         bsSize="xsmall"
-        bsStyle={(this.state.onoff === 'ON') ? this.props.styleOn :this.props.styleOff}
+        bsStyle={(this.state.onoff === 'ON') ? this.props.styleOn : this.props.styleOff}
         onClick={this.toogleMe}
         className={this.state.size === 'xsmall' ? styles.xsmall : null}
       >

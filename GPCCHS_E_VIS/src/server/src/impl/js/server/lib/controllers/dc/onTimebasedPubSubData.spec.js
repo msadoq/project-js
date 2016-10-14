@@ -20,7 +20,7 @@ const constants = require('../../constants');
  *
  */
 
-describe('onTimebasedPubSubData', () => {
+describe('controllers/onTimebasedPubSubData', () => {
   beforeEach(() => {
     subscriptionsModel.cleanup();
     connectedDataModel.cleanup();
@@ -102,6 +102,7 @@ describe('onTimebasedPubSubData', () => {
     // init test
     subscriptionsModel.addRecord(dataId);
     subscriptionsModel.addFilters(dataId, { [fullRemoteId]: fullFilter });
+    connectedDataModel.addRecord(fullRemoteId, dataId);
     connectedDataModel.addRequestedInterval(fullRemoteId, queryId, halfInterval);
     // launch test
     sendTimebasedPubSubData(
@@ -139,6 +140,7 @@ describe('onTimebasedPubSubData', () => {
     // init test
     subscriptionsModel.addRecord(dataId);
     subscriptionsModel.addFilters(dataId, { [halfRemoteId]: halfFilter });
+    connectedDataModel.addRecord(halfRemoteId, dataId);
     connectedDataModel.addRequestedInterval(halfRemoteId, queryId, fullInterval);
     // launch test
     sendTimebasedPubSubData(

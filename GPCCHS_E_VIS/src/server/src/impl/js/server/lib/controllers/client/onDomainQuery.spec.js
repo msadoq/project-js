@@ -12,7 +12,7 @@ const zmqEmulator = (key, payload) => {
   calls = _.concat(calls, payload);
 };
 
-describe('onDomainQuery', () => {
+describe('controllers/onDomainQuery', () => {
   beforeEach(() => {
     calls.length = 0;
   });

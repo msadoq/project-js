@@ -190,6 +190,16 @@
 }
 ```
 
+**timebasedQueryInvalidation** (HSC->HSS)
+```
+{
+  event: 'timebasedQueryInvalidation',
+  payload: {
+    remoteId: [[number, number]],
+  },
+}
+```
+
 ## DC communication
 **response** (DC->HSS)
 ```

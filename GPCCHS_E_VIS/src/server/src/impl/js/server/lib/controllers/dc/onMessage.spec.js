@@ -2,7 +2,7 @@ const { testPayloads, testHandler } = require('../../utils/test');
 const { message } = require('./onMessage');
 const dataStub = require('../../stubs/data');
 
-describe('onMessage', () => {
+describe('controllers/onMessage', () => {
   beforeEach(() => {
     testPayloads.length = 0;
   });

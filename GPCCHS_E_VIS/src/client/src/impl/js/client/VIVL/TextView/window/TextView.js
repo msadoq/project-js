@@ -15,14 +15,14 @@ export default class TextView extends Component {
     // defaultRatio: PropTypes.object,
   };
 
-  componentDidMount(){
+  componentDidMount() {
     // recreate the html string from an array
     this.setState({ template: this.props.configuration.content.join('') });
   }
 
   getMarkup = () => Mustache.render(
     this.state.template,
-    this.props.configuration.textViewEntryPoints
+    this.props.data
   )
 
   render() {

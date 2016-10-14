@@ -3,6 +3,8 @@ const { should } = require('../../common/test');
 
 const validate = require('./validation');
 
+const schema = require('./schemas/page.schema.json');
+
 const page = { type: 'Page', hideBorders: false, title: 'Page example', views: [] };
 const pageInvalid = { type: 'View', foo: 'bar' };
 const pageSchema = {
@@ -33,7 +35,7 @@ describe('documents/validation', () => {
     should.not.exist(validate('page', page));
   });
   it('runtime imported schema', () => {
-    should.not.exist(validate('simplePage', page, ('./schemas/page.schema.json')));
+    should.not.exist(validate('simplePage', page, schema));
   });
   it('errors', () => {
     validate('page', pageInvalid).should.be.an('array').with.lengthOf(3);

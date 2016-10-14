@@ -6,7 +6,7 @@
  * {
  *   formula: 'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue'
  *   catalog: 'Reporting',
- *   parameter: 'ATT_BC_STR1VOLTAGE',
+ *   parameterName: 'ATT_BC_STR1VOLTAGE',
  *   comObject: 'ReportingParameter',
  *   field: 'extractedValue'   <-- Optional
  * }

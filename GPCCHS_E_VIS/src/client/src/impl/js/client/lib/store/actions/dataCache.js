@@ -13,7 +13,7 @@ export function importPayload(payload) {
       // make your data computing
     const remoteIds = dataMap(getState());
     dispatch(writePayload(payload, remoteIds));
-  }
+  };
 }
 
 

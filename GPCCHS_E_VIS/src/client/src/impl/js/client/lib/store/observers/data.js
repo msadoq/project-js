@@ -16,7 +16,7 @@ export default function data(state, dispatch) {
     return undefined;
   }
 
-  logger.debug('begin data synchronisation');
+  logger.verbose('begin data synchronisation');
 
   const start = process.hrtime();
 
@@ -34,6 +34,6 @@ export default function data(state, dispatch) {
 
   const duration = process.hrtime(start)[1] / 1e6;
   logger.debug(
-    `data synchronization done in ${duration}ms, ${Object.keys(dataQueries).length} remoteId`
+    `data synchronization done in ${duration}ms, ${Object.keys(dataQueries).length} remoteId requests`
   );
 }

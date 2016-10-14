@@ -29,8 +29,13 @@ export default function controller(state, dispatch, event, payload) {
       updateStore(state, dispatch, payload);
       break;
     case 'timebasedData': {
-      logger.debug('timebasedData received with', payload ? Object.keys(payload).length : 'nothing');
+      const start = process.hrtime();
       dispatch(importPayload(payload));
+      const duration = process.hrtime(start)[1] / 1e6;
+      const count = Object.keys(payload).length ? Object.keys(payload).length : 0;
+      logger.debug(
+        `data injection done in ${duration}ms, for ${count} remoteIds`
+      );
       break;
     }
     case 'error':

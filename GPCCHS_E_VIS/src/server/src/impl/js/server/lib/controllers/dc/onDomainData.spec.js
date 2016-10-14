@@ -4,7 +4,7 @@ const dataStub = require('../../stubs/data');
 const { sendToTestWs, getMessage, resetMessage } = require('../../stubs/testWebSocket');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
 
-describe('onDomainData', () => {
+describe('controllers/onDomainData', () => {
   beforeEach(() => {
     resetMessage();
   });

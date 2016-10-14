@@ -8,6 +8,13 @@ Example:
 ```
 {
   remoteId: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:groundDate.OP_LT.42,groundDate.OP_GT.13',
+  dataId: {
+    catalog: 'Reporting',
+    parameterName: 'ATT_BC_STR1STRRFQ1',
+    comObject: 'ReportingParameter',
+    sessionId: 100,
+    domainId: 200
+  },
   intervals: {
     requested: {
       '1d8ebb73-2ef8-4cf7-988f-40766decf93b': [13, 42]
@@ -23,7 +30,13 @@ Example:
 }
 ```
 
-* ``remoteId``is a string representing the dataId (catalog, parameterName, comObject, sessionId, domainId) and the applied filters (field, operator, operand). It is the unique key of the model
+* ``remoteId``is a string representing the dataId (catalog, parameterName, comObject, sessionId, domainId) and the applied filters (field, type, fieldValue). It is the unique key of the model
+* ``dataId`` is an object
+  - ``dataId.catalog`` is a string representing the name of the catalog
+  - ``dataId.parameterName`` is a string representing the name of the parameter
+  - ``dataId.comObject`` is a string representing the name of the comObject
+  - ``dataId.sessionId`` is an integer representing the id of the session
+  - ``dataId.domainId`` is an integer representing the id of the domain
 * ``intervals`` is an object
   - ``intervals.received`` is an array of fully received intervals of archive data
   - ``intervals.requested``is an object whose keys are query ids and values are query intervals
@@ -76,16 +89,16 @@ Example:
 
 **timebasedData**
 
+There is one timebasedData model by remoteId.
+
 Example:
 ```
 {
-  remoteId: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:groundDate.OP_LT.42,groundDate.OP_GT.13',
   timestamp: 55,
   payload: {/* an object depending on the type of comObject */}
 }
 ```
 
-* ``remoteId``is a string representing the remoteId (see connectedData)
 * ``timestamp`` is an integer representing the timestamp of the data
 * ``payload`` is an object representing the content of the data, it is specific to the comObject type
 

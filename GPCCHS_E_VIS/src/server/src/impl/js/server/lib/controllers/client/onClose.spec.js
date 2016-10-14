@@ -23,7 +23,7 @@ const zmqEmulator = (key, payload) => {
   calls = _.concat(calls, payload);
 };
 
-describe('onClose', () => {
+describe('controllers/onClose', () => {
   beforeEach(() => {
     subscriptionsModel.cleanup();
     clearFactory();

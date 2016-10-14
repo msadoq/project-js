@@ -3,7 +3,7 @@ const _ = require('lodash');
 const { applyFilters } = require('./filters');
 const constants = require('../constants');
 
-describe('filters', () => {
+describe('utils/filters', () => {
   describe('applyFilters', () => {
     it('OP_EQ', () => {
       const filter = [

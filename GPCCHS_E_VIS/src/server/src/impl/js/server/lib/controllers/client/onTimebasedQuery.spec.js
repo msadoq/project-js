@@ -29,7 +29,7 @@ const zmqEmulator = (key, payload) => {
  *
  */
 
-describe('onTimebasedQuery', () => {
+describe('controllers/onTimebasedQuery', () => {
   beforeEach(() => {
     registeredQueries.clear();
     registeredCallbacks.clear();
@@ -89,6 +89,7 @@ describe('onTimebasedQuery', () => {
   it('no missing intervals', () => {
     // init test
     subscriptionsModel.addRecord(dataId);
+    connectedDataModel.addRecord(remoteId, dataId);
     connectedDataModel.addRequestedInterval(remoteId, 'queryId', interval);
     const timebasedDataModel = addTimebasedDataModel(remoteId);
     timebasedDataModel.addRecords(payloads);
@@ -183,6 +184,7 @@ describe('onTimebasedQuery', () => {
   it('some missing intervals', () => {
     // init test
     subscriptionsModel.addRecord(dataId);
+    connectedDataModel.addRecord(remoteId, dataId);
     connectedDataModel.addRequestedInterval(remoteId, 'myQueryId', [5, 10]);
     const timebasedDataModel = addTimebasedDataModel(remoteId);
     timebasedDataModel.addRecord(payloads[1].timestamp, payloads[1].payload);
@@ -237,7 +239,7 @@ describe('onTimebasedQuery', () => {
 
   it('dataId not in subscriptions', () => {
     // init test
-    const timebasedDataModel = addTimebasedDataModel(remoteId)
+    const timebasedDataModel = addTimebasedDataModel(remoteId);
     timebasedDataModel.addRecords(payloads);
     // launch test
     timebasedQuery(addToTestQueue, query, zmqEmulator);

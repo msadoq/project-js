@@ -57,6 +57,9 @@ const timebasedQuery = (websocketHandler, payload, messageHandler) => {
       );
     });
     debug.debug('missing intervals', missingIntervals);
+    if (!connectedDataModel.exists(remoteId)) {
+      connectedDataModel.addRecord(remoteId, query.dataId);
+    }
     // loop over missing intervals
     _.each(missingIntervals, (missingInterval) => {
       // create a query id

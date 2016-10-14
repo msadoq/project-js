@@ -68,18 +68,19 @@
 
 **client/onCacheCleanup**
 // trigger by HSC
-* loop over expired requests ('remoteId': [interval])
-  - remove intervals from connectedData model
-  - get corresponding dataId from connectedData model
-  - if no more intervals in connectedData model for this remoteId
-    * remove remoteId from connectedData model
-    * remove remoteId for corresponding dataId from subscriptions model
-    * remove data corresponding to remoteId from timebasedData model
-  - else remove data corresponding to intervals from timebasedData model
-  - if no more remoteId in subscriptions model for this dataId
-    * remove dataId from subscriptions model
-    * queue a zmq timebasedSubscription message (with 'DELETE' action)
-* send queued messages to DC
+- loop over expired requests ('remoteId': [interval])
+  * remove intervals from connectedData model
+  * if there are still requested intervals in connectedData model for this remoteId
+    - remove data corresponding to expired intervals from timebasedData model and stop logic
+  * get corresponding dataId from connectedData model
+  * remove remoteId from connectedData model
+  * remove data corresponding to remoteId from timebasedData model
+  * remove remoteId for corresponding dataId from subscriptions model
+  * if there are still remoteIds in subscriptions model for this dataId, stop logic
+  * remove dataId from subscriptions model
+  * create a queryId and register a queryid/callbakc association
+  * queue a zmq timebasedSubscription message (with 'DELETE' action)
+- send queued messages to DC
 
 ## dc communication
 

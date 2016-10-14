@@ -257,7 +257,7 @@ stubs.getRemoteId = (override) => {
     ? override.filters
     : [stubs.getFilter()];
   const flattenFilters = _.sortBy(_.map(filters,
-    ({ field, operator, value }) => `${field}.${operator}.${value}`
+    ({ fieldName, type, fieldValue }) => `${fieldName}.${type}.${fieldValue}`
   ), e => e);
   let remoteId = `${r.catalog}.${r.parameterName}<${r.comObject}>:${r.sessionId}:${r.domainId}`;
   if (flattenFilters) {

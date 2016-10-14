@@ -3,7 +3,7 @@ const { encode } = require('../../protobuf');
 const { v4 } = require('node-uuid');
 const zmq = require('../../io/zmq');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
-const registeredQueries = require('../../utils/registeredCallbacks');
+const registeredQueries = require('../../utils/registeredQueries');
 const { getTimebasedDataModel, removeTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
@@ -15,15 +15,16 @@ const _ = require('lodash');
  *
  * - loop over expired requests ('remoteId': [interval])
  *    - remove intervals from connectedData model
- *    - if no more intervals in connectedData model for this remoteId
- *        - get corresponding dataId from connectedData model
- *        - remove remoteId from connectedData model
- *        - remove data corresponding to remoteId from timebasedData model
- *        - remove remoteId for corresponding dataId from subscriptions model
- *        - if no more remoteId in subscriptions model for this dataId
- *            - remove dataId from subscriptions model
- *            - queue a zmq timebasedSubscription message (with 'DELETE' action)
- *    - else remove data corresponding to intervals from timebasedData model
+ *    - if there are still requested intervals in connectedData model for this remoteId
+ *        - remove data corresponding to expired intervals from timebasedData model and stop logic
+ *    - get corresponding dataId from connectedData model
+ *    - remove remoteId from connectedData model
+ *    - remove data corresponding to remoteId from timebasedData model
+ *    - remove remoteId for corresponding dataId from subscriptions model
+ *    - if there are still remoteIds in subscriptions model for this dataId, stop logic
+ *    - remove dataId from subscriptions model
+ *    - create a queryId and register a queryid/callbakc association
+ *    - queue a zmq timebasedSubscription message (with 'DELETE' action)
  * - send queued messages to DC
  *
  * @param expiredRequests
@@ -37,78 +38,60 @@ const cacheCleanup = (messageHandler, expiredRequests) => {
   _.each(expiredRequests, (intervals, remoteId) => {
     // remove intervals from connectedData model
     const queryIds = connectedDataModel.removeIntervals(remoteId, intervals);
-    registeredQueries.remove(queryIds);
-    // if no more intervals in connectedData model for this remoteId
-    if (connectedDataModel.getIntervals(remoteId).length === 0) {
-      // get corresponding dataId from connectedData model
-      const dataId = connectedDataModel.getDataId(remoteId);
-      // remove remoteId from connectedData model
-      connectedDataModel.removeByRemoteId(remoteId);
-      // remove data corresponding to remoteId from timebasedData model
-      removeTimebasedDataModel(remoteId);
-      // remove remoteId for corresponding dataId from subscriptions model
-      subscriptionsModel.removeRemoteId(dataId, remoteId);
-      // if no more remoteId in subscriptions model for this dataId
-      if (subscriptionsModel.getRemoteIds(dataId).length === 0) {
-        // remove dataId from subscriptions model
-        subscriptionsModel.removeByDataId(dataId);
-        // create a queryId
-        const queryId = v4();
-        // register queryId/callback association
-        registeredCallbacks.set(queryId, (respErr) => {
-          if (respErr) {
-            throw respErr;
-          }
-        });
-        // queue a zmq timebasedSubscription message (with 'DELETE' action)
-        const subArgs = [
-          encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION }),
-          encode('dc.dataControllerUtils.String', { string: queryId }),
-          encode('dc.dataControllerUtils.DataId', dataId),
-          encode('dc.dataControllerUtils.Action', { action: constants.SUBSCRIPTIONACTION_DELETE }),
-        ];
-        // queue the message
-        messageQueue.push(subArgs);
+    registeredQueries.removeMulti(queryIds);
+    // if there are still requested intervals in connectedData model for this remoteId
+    if (connectedDataModel.getIntervals(remoteId).length !== 0) {
+      // remove data corresponding to expired intervals from timebasedData model
+      const timebasedDataModel = getTimebasedDataModel(remoteId);
+      if (!timebasedDataModel) {
+        return undefined;
       }
+      let timebasedDataToRemove = [];
+      _.each(intervals, (interval) => {
+        timebasedDataToRemove = _.concat(
+          timebasedDataToRemove,
+          timebasedDataModel.findByInterval(interval[0], interval[1])
+        );
+      });
+      return _.each(timebasedDataToRemove, tbd => timebasedDataModel.remove(tbd));
     }
-    // TODO else remove data corresponding to intervals from timebasedData model
-    const timebasedDataModel = getTimebasedDataModel(remoteId);
-    if (!timebasedDataModel) {
-      return;
+    // else, no more intervals for this remoteId
+    // get corresponding dataId from connectedData model
+    const dataId = connectedDataModel.getDataId(remoteId);
+    // remove remoteId from connectedData model
+    connectedDataModel.removeByRemoteId(remoteId);
+    // remove data corresponding to remoteId from timebasedData model
+    removeTimebasedDataModel(remoteId);
+    // remove remoteId for corresponding dataId from subscriptions model
+    subscriptionsModel.removeRemoteId(dataId, remoteId);
+    // if there are still remoteIds in subscriptions model for this dataId
+    if (subscriptionsModel.getRemoteIds(dataId).length !== 0) {
+      return undefined;
     }
-    let timebasedDataToRemove = [];
-    _.each(intervals, (interval) => {
-      timebasedDataToRemove = _.concat(
-        timebasedDataToRemove,
-        timebasedDataModel.findByInterval(interval[0], interval[1])
-      );
+    // else, no more remoteIds for this dataId
+    // remove dataId from subscriptions model
+    subscriptionsModel.removeByDataId(dataId);
+    // create a queryId
+    const queryId = v4();
+    // register queryId/callback association
+    registeredCallbacks.set(queryId, (respErr) => {
+      if (respErr) {
+        throw respErr;
+      }
     });
-    _.each(timebasedDataToRemove, tbd => timebasedDataModel.remove(tbd));
+    // queue a zmq timebasedSubscription message (with 'DELETE' action)
+    const subArgs = [
+      encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION }),
+      encode('dc.dataControllerUtils.String', { string: queryId }),
+      encode('dc.dataControllerUtils.DataId', dataId),
+      encode('dc.dataControllerUtils.Action', { action: constants.SUBSCRIPTIONACTION_DELETE }),
+    ];
+    // queue the message
+    return messageQueue.push(subArgs);
   });
 
   // send queued messages to DC
   return _.each(messageQueue, args => messageHandler('dcPush', args));
-
-/*  // protobufferize messageType
-  const domainQueryHeader = encode('dc.dataControllerUtils.Header', {
-    messageType: constants.MESSAGETYPE_DOMAIN_QUERY,
-  });
-
-  // create and register queryId
-  const id = v4();
-  registeredCallbacks.set(id, (err) => {
-    if (err) {
-      throw err;
-    }
-  });
-  // protobufferize queryId
-  const queryId = encode('dc.dataControllerUtils.String', {
-    string: id,
-  });
-
-  const queryArgs = [domainQueryHeader, queryId];
-
-  messageHandler('dcPush', queryArgs);*/
 };
 
 module.exports = {

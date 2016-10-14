@@ -106,7 +106,7 @@ describe('store:page', () => {
       it('open', () => {
         const state = reducer(
           reducer(undefined, actions.add('myPageId')),
-          actions.openEditor('myPageId', 'myViewId', 'plot', { foo: 'bar'})
+          actions.openEditor('myPageId', 'myViewId', 'plot', { foo: 'bar' })
         );
         state.myPageId.editor.should.eql(editor);
       });

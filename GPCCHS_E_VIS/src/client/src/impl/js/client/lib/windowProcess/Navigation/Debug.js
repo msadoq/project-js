@@ -6,12 +6,12 @@ export default class Debug extends Component {
 
   render() {
     return (
-      <div style={{display: 'inline'}}>
+      <div style={{ display: 'inline' }}>
         <Button
           href="http://127.0.0.1:3000/debug/"
           target="_blank"
         >
-        {'DEBUG'}
+          {'DEBUG'}
         </Button>
       </div>
     );

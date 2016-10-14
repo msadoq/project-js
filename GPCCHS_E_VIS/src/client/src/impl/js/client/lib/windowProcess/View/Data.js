@@ -7,7 +7,7 @@ import makeEntryPointsMap from '../../mainProcess/data/entryPointsMap';
 
 const selector = makeEntryPointsMap();
 
-const Data = props => {
+const Data = (props) => {
   const ViewType = props.component;
   return <ViewType {...props} />;
 };

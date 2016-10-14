@@ -14,6 +14,10 @@ module.exports = function extractInterval(knownIntervals, interval) {
   const lower = sortedLastIndexBy(knownIntervals, interval, i => i[0]);
   const upper = sortedIndexBy(knownIntervals, interval, i => i[1]);
 
+  if (lower === 0) {
+    return [];
+  }
+
   // higher than low limit
   if (interval[0] > knownIntervals[lower - 1][0]) {
     // and lower than high limit

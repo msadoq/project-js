@@ -73,6 +73,10 @@ const primusExports = module.exports = {
             errorHandler('onTimebasedQuery', () => handlers.onTimebasedQuery(spark, message.payload));
             break;
           }
+          case 'timebasedQueryInvalidation': {
+            errorHandler('onCacheCleanup', () => handlers.onCacheCleanup(message.payload));
+            break;
+          }
           default:
             throw new Error(`Websocket incoming message unknown event key: ${message.event}`);
         }

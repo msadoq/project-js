@@ -36,11 +36,18 @@ const cacheCleanup = (messageHandler, expiredRequests) => {
   const messageQueue = [];
   // loop over expired requests ('remoteId': [interval])
   _.each(expiredRequests, (intervals, remoteId) => {
+    debug.error('intervals', intervals);
     // remove intervals from connectedData model
     const queryIds = connectedDataModel.removeIntervals(remoteId, intervals);
     registeredQueries.removeMulti(queryIds);
+    debug.error('Query Ids no longer needed', queryIds);
     // if there are still requested intervals in connectedData model for this remoteId
-    if (connectedDataModel.getIntervals(remoteId).length !== 0) {
+    const remainingIntervals = connectedDataModel.getIntervals(remoteId);
+    if (!remainingIntervals) {
+      return undefined;
+    }
+    if (remainingIntervals.length !== 0) {
+      debug.error('still requested');
       // remove data corresponding to expired intervals from timebasedData model
       const timebasedDataModel = getTimebasedDataModel(remoteId);
       if (!timebasedDataModel) {
@@ -53,8 +60,10 @@ const cacheCleanup = (messageHandler, expiredRequests) => {
           timebasedDataModel.findByInterval(interval[0], interval[1])
         );
       });
+      debug.error('nb to remove', timebasedDataToRemove.length);
       return _.each(timebasedDataToRemove, tbd => timebasedDataModel.remove(tbd));
     }
+    debug.error('no more interval');
     // else, no more intervals for this remoteId
     // get corresponding dataId from connectedData model
     const dataId = connectedDataModel.getDataId(remoteId);
@@ -68,6 +77,7 @@ const cacheCleanup = (messageHandler, expiredRequests) => {
     if (subscriptionsModel.getRemoteIds(dataId).length !== 0) {
       return undefined;
     }
+    debug.error('no more remoteIds');
     // else, no more remoteIds for this dataId
     // remove dataId from subscriptions model
     subscriptionsModel.removeByDataId(dataId);
@@ -89,7 +99,7 @@ const cacheCleanup = (messageHandler, expiredRequests) => {
     // queue the message
     return messageQueue.push(subArgs);
   });
-
+  debug.error('message queue length', messageQueue.length);
   // send queued messages to DC
   return _.each(messageQueue, args => messageHandler('dcPush', args));
 };

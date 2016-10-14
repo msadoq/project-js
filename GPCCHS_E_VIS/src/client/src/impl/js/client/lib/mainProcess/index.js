@@ -5,6 +5,7 @@ import debug from '../common/debug/mainDebug';
 import './menu';
 import installExtensions from './installExtensions';
 import openWorkspace from './openWorkspace';
+import invalidateCache from './invalidateCache';
 import { initStore, getStore } from '../store/mainStore';
 import { storeSpectator, storeActor } from '../store/observerGenerator';
 import lifecycleObserver from '../store/observers/lifecycle';
@@ -15,6 +16,8 @@ import { connect, disconnect } from '../common/websocket/mainWebsocket';
 const logger = debug('main');
 
 let storeUnsubscribe = [];
+let cacheInvalidor;
+const CACHE_INVALIDATION_TIMESTEP = 5000;
 
 export async function start() {
   logger.info('app start');
@@ -47,6 +50,7 @@ export async function start() {
       // open websocket connection
       connect();
     });
+    cacheInvalidor = setInterval(() => invalidateCache(getStore()), CACHE_INVALIDATION_TIMESTEP);
   } catch (e) {
     logger.error(e);
   }
@@ -60,6 +64,7 @@ export function stop() {
       storeUnsubscribe.map(sub => sub());
       storeUnsubscribe = [];
     }
+    clearInterval(cacheInvalidor);
   } catch (e) {
     logger.error(e);
   }

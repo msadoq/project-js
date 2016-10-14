@@ -135,7 +135,7 @@ collection.removeIntervals = (remoteId, intervals) => {
 collection.getIntervals = (remoteId) => {
   const connectedData = collection.by('remoteId', remoteId);
   if (!connectedData) {
-    return [];
+    return undefined;
   }
   return connectedData.intervals.all;
 };

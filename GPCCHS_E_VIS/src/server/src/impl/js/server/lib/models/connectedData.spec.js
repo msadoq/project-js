@@ -715,7 +715,7 @@ describe('models/connectedData', () => {
       model.getIntervals(myRemoteId).should.have.properties([interval]);
     });
     it('not existing', () => {
-      model.getIntervals(myRemoteId).should.have.lengthOf(0);
+      should.not.exist(model.getIntervals(myRemoteId));
     });
   });
 

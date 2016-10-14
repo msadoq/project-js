@@ -1,6 +1,0 @@
-package dataControllerUtils.protobuf;
-
-message String {
-extensions 2 to 102;
-    required string string = 1;
-}

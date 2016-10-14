@@ -1,8 +1,0 @@
-package ccsds_mal.protobuf;
-
-enum QOSLevel {
-  BESTEFFORT = 1;
-  ASSURED = 2;
-  QUEUED = 3;
-  TIMELY = 4;
-}

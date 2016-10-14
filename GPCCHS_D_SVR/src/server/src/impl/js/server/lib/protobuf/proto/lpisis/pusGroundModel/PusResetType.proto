@@ -1,7 +1,0 @@
-package pusGroundModel.protobuf;
-
-enum PusResetType {
-  GroundModel = 1;
-  CompletedDownlinkLDT = 2;
-  CompletedUplinkLDT = 3;
-}

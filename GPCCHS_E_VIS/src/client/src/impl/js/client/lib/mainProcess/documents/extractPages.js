@@ -75,7 +75,7 @@ function extractPages(content, cb) {
     return cb(null, Object.assign(content, {
       pages: _.reduce(pages, (l, v) => Object.assign(l, { [v.uuid]: v }), {}),
     }));
-  })
+  });
 }
 
-module.exports = { extractPages, readPages, findWindowPagesAndReplaceWithUuid }
+module.exports = { extractPages, readPages, findWindowPagesAndReplaceWithUuid };

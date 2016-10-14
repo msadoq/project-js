@@ -8,7 +8,7 @@ function createObjectParamOnCmdList(param, keyNames) {
   }
   let current = cmdList;
   let final = cmdList;
-  _.forEach(keyNames, element => {
+  _.forEach(keyNames, (element) => {
     current = final;
     if (!Object.getOwnPropertyDescriptor(current, element)) {
       current[element] = {};

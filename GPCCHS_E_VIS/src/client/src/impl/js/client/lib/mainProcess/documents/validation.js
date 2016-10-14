@@ -1,10 +1,12 @@
 const Ajv = require('ajv');
 
-const required = require();
+const pathWorkspace = require('./schemas/workspace.schema.json');
+const pathPage = require('./schemas/page.schema.json');
+
 const ajv = new Ajv({ allErrors: true });
 const knownValidators = {
-  workspace: ajv.compile(required('./schemas/workspace.schema.json')),
-  page: ajv.compile(required('./schemas/page.schema.json')),
+  workspace: ajv.compile(pathWorkspace),
+  page: ajv.compile(pathPage),
 };
 
 const validate = (id, data, schema) => {

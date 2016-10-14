@@ -6,7 +6,7 @@ import { addAndMount, unmountAndRemove, updateLayout } from '../../store/actions
 
 import Content from './Content';
 
-import styles from './Content.css'
+import styles from './Content.css';
 
 const PageContentContainer = props => props.focusedPage
   ? <Content {...props} />

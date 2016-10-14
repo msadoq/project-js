@@ -9,7 +9,7 @@ import styles from './EntryPointTree.css';
 
 export default class EntryPointTree extends React.Component {
   static propTypes = {
-    entryPoints: React.PropTypes.Array,
+    entryPoints: React.PropTypes.array,
     search: React.PropTypes.string,
     handleEntryPoint: React.PropTypes.func,
     remove: React.PropTypes.func

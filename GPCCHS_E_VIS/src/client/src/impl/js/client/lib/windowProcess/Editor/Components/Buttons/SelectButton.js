@@ -13,7 +13,7 @@ export default class SelectButton extends React.Component {
   static propTypes = {
     size: React.PropTypes.string,
     active: React.PropTypes.string,
-    buttons: React.PropTypes.Array,
+    buttons: React.PropTypes.array,
     onChange: React.PropTypes.func,
   }
   constructor(props) {

@@ -8,13 +8,6 @@ export default class Timebar extends Component {
   static contextTypes = {
     store: React.PropTypes.object.isRequired,
   };
-  render() {
-    return (
-      <div style={{display: 'inline'}}>
-        <Button onClick={this.moveForward.bind(this)}>MOVE 10s</Button>
-      </div>
-    );
-  }
   moveForward() {
     const state = this.context.store.getState();
     const timebarId = Object.keys(state.timebars)[0];
@@ -29,5 +22,12 @@ export default class Timebar extends Component {
       visuWindow.upper + 10000,
       visuWindow.current + 10000
     ));
+  }
+  render() {
+    return (
+      <div style={{ display: 'inline' }}>
+        <Button onClick={this.moveForward.bind(this)}>MOVE 10s</Button>
+      </div>
+    );
   }
 }

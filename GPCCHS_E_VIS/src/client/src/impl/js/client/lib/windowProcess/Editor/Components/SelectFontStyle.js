@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col } from 'react-bootstrap';
-import ToggleButton from './Buttons/ToggleButton.js';
+import ToggleButton from './Buttons/ToggleButton';
 
 /*
   SelectFontStyle permet d'éditer les propriétés de styles :
@@ -65,8 +65,8 @@ export default class SelectFontStyle extends React.Component {
         </Col>
         <Col xs={3}>
           <ToggleButton
-            on={"U"}
-            off={"U"}
+            on={'U'}
+            off={'U'}
             default={(this.props.underline ? 'ON' : 'OFF')}
             size="xsmall"
             styleOn="primary"
@@ -76,8 +76,8 @@ export default class SelectFontStyle extends React.Component {
         </Col>
         <Col xs={3}>
           <ToggleButton
-            on={"S"}
-            off={"S"}
+            on={'S'}
+            off={'S'}
             default={(this.props.strikeOut ? 'ON' : 'OFF')}
             size="xsmall"
             styleOn="primary"

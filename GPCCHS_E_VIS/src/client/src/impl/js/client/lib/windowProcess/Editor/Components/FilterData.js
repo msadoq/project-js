@@ -68,17 +68,17 @@ export default class FilterData extends React.Component {
   }
 }
 
-let ColStyle1 = { 
-  "paddingLeft": "10px",
-  "paddingRight": "4px"
-}
+let ColStyle1 = {
+  paddingLeft: '10px',
+  paddingRight: '4px'
+};
 
-let ColStyle2 = { 
-  "paddingLeft": "4px",
-  "paddingRight": "4px"
-}
+let ColStyle2 = {
+  paddingLeft: '4px',
+  paddingRight: '4px'
+};
 
-let ColStyle3 = { 
-  "paddingLeft": "4px",
-  "paddingRight": "10px"
-}
+let ColStyle3 = {
+  paddingLeft: '4px',
+  paddingRight: '10px'
+};

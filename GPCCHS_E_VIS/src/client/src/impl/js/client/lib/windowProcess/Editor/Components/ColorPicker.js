@@ -58,7 +58,7 @@ export default class ColorPicker extends React.Component {
     };
     return (
       <div>
-        <button
+        <button>
           style={{
             backgroundColor: this.state.color,
             borderColor: '#333',
@@ -67,14 +67,13 @@ export default class ColorPicker extends React.Component {
             width: '32px'
           }}
           onClick={this.handleClick}
-        >
         </button>
         {this.state.display ?
           <div style={popover}>
-            <div
+            <div>
               style={cover}
               onClick={this.handleClose}
-            />
+            </div>
             <SketchPicker
               onChange={this.handleChangeComplete}
               color={this.props.color === undefined ? '#FFF' : this.props.color}

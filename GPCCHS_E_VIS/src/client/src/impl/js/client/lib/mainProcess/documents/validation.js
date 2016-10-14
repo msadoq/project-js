@@ -1,6 +1,6 @@
 const Ajv = require('ajv');
 
-const required = require();
+const required = require;
 const ajv = new Ajv({ allErrors: true });
 const knownValidators = {
   workspace: ajv.compile(required('./schemas/workspace.schema.json')),

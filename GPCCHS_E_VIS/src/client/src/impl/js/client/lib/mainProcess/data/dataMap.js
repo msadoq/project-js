@@ -95,7 +95,7 @@ const getVisibleRemoteIds = createSelector(
    // TODO memoize formula parsing (formula)
    // TODO memoize domains search (redux domains, search)
   // TODO memoize sessions search (redux timebarTimelines, redux timelines, search)
-  (domains, timebars, timelines, cds) => ({ decorate(domains, timebars, timelines, cds) })
+  (domains, timebars, timelines, cds) => decorate(domains, timebars, timelines, cds)
 );
 
 // TODO memoized and/or getTimebarWithTimelines as compound selector of getVisibleRemoteIds

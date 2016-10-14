@@ -49,7 +49,7 @@ export default function getDataFromCache() {
     [
       getDomains,
       getTimelinesByTimelineId,
-      getDataCache,
+      getDataCache, // TODO change on each dataCache insertion triggering a re-render...
       (state, props) => props.timebarId,
       (state, props) => props.configuration,
     ],

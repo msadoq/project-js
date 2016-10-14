@@ -20,7 +20,7 @@ export const updateGeometry = simple(types.WS_WINDOW_UPDATE_GEOMETRY,
  * Compound actions
  */
 export function addAndMount(windowId) {
-  return dispatch => {
+  return (dispatch) => {
     const pageId = v4();
     dispatch(addPage(pageId));
     dispatch(mountPage(windowId, pageId));
@@ -29,7 +29,7 @@ export function addAndMount(windowId) {
 }
 
 export function unmountAndRemove(windowId, pageId) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(unmountPage(windowId, pageId));
     dispatch(removePage(pageId));
   };

@@ -14,11 +14,12 @@ export default class TextView extends Component {
   render() {
     return (
       <div>
-        ok text view
+        ok text view ({this.props.viewId})
         size: {this.props.size.width}x{this.props.size.height}
+        <br />
         {JSON.stringify(this.props.interval)}
+        <br />
         {JSON.stringify(this.props.data)}
-        {this.props.viewId}
       </div>
     );
   }

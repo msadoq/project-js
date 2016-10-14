@@ -6,7 +6,7 @@ const TextView = require('./TextView/window');
 const supportedView = { PlotView, TextView };
 
 module.exports = {
-  component: (viewType) => {
+  getComponent: (viewType) => {
     if (!supportedView[viewType]) {
       return undefined;
     }

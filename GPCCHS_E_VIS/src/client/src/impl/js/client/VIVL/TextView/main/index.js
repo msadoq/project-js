@@ -1,8 +1,14 @@
-const data = require('./data.js');
+import schema from './TextView.schema.json';
+import getDataFromCache from './getDataFromCache';
+import getConnectedDataFromState from './getConnectedDataFromState';
+import getExpectedInterval from './getExpectedInterval';
+import getDisplayedValues from './getDisplayedValues';
 
 module.exports = {
-  getSchemaJson: data.getSchemaJson,
-  getConnectedDataFromState: data.getConnectedDataFromState,
-  getExpectedInterval: data.getExpectedInterval,
-  getDisplayedValues: data.getDisplayedValues,
-}
+  isMultiDomainAndSessionSupported: () => false,
+  getSchemaJson: () => schema,
+  getDataFromCache,
+  getConnectedDataFromState,
+  getExpectedInterval,
+  getDisplayedValues,
+};

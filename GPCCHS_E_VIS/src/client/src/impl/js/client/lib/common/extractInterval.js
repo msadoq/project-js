@@ -11,6 +11,8 @@ export default function extractInterval(knownIntervals, interval) {
   const lower = sortedLastIndexBy(knownIntervals, interval, i => i[0]);
   const upper = sortedIndexBy(knownIntervals, interval, i => i[1]);
 
+  // TODO rperrot add robustness code
+
   // higher than low limit
   if (interval[0] > knownIntervals[lower - 1][0]) {
     // and lower than high limit

@@ -15,8 +15,8 @@ const PageContentContainer = props => (
 );
 
 PageContentContainer.propTypes = {
-  focusedPage: PropTypes.string,
-}
+  focusedPage: PropTypes.object,
+};
 
 const mapStateToProps = (state, ownProps) => {
   if (!ownProps.focusedPage) {

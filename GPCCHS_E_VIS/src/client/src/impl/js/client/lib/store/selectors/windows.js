@@ -31,6 +31,6 @@ export const getWindowFocusedPageId =
 export const makeGetWindowFocusedPage = () => createSelector([
   getAllPages,
   getWindowFocusedPageId,
-], (pages, pageId) => {
-  return _.get(pages, pageId);
-});
+], (pages, pageId) =>
+   _.get(pages, pageId)
+);

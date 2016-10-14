@@ -284,11 +284,9 @@ export default class Marker extends React.Component {
                   </Col>
                   <Col xs={8}>
                     <FormControl componentClass="select" className={select.xsmall}>
-                      {this.props.axes.map((axis, key) => {
-                        return (
-                          <option key={key}>{axis.label}</option>
-                        );
-                      })
+                      {this.props.axes.map((axis, key) => (
+                        <option key={key}>{axis.label}</option>
+                        ))
                       }
                     </FormControl>
                   </Col>
@@ -302,11 +300,9 @@ export default class Marker extends React.Component {
                   </Col>
                   <Col xs={8}>
                     <FormControl componentClass="select" className={select.xsmall}>
-                      {this.props.axes.map((axis, key) => {
-                        return (
-                          <option key={key}>{axis.label}</option>
-                        );
-                      })
+                      {this.props.axes.map((axis, key) => (
+                        <option key={key}>{axis.label}</option>
+                        ))
                       }
                     </FormControl>
                   </Col>

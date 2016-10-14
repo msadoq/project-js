@@ -103,21 +103,18 @@ export default class EntryPointDetails extends React.Component {
   render() {
     const stateColours =
     (this.props.entryPoint.stateColours && this.props.entryPoint.stateColours.length > 0) ?
-       this.props.entryPoint.stateColours.map((stateColour, key) => {
-         return (
-           <tr key={key}>
-             <td className="col-xs-2"><ColorPicker color={stateColour.colour} /></td>
-             <td className="col-xs-9">{stateColour.condition.field} {stateColour.condition.operator} {stateColour.condition.operand}</td>
-             <td className="col-xs-1">
-               <Glyphicon glyph="trash" onClick={() => this.removeStateColor(key)} />
-             </td>
-           </tr>
-          );
-       }) :
-         <tr>no marker</tr>;
-    const filterOptions = this.state.filter.map((filter, key) => {
-      return <option key={key} value={filter}>{filter}</option>;
-    });
+       this.props.entryPoint.stateColours.map((stateColour, key) => (
+         <tr key={key}>
+           <td className="col-xs-2"><ColorPicker color={stateColour.colour} /></td>
+           <td className="col-xs-9">{stateColour.condition.field} {stateColour.condition.operator} {stateColour.condition.operand}</td>
+           <td className="col-xs-1">
+             <Glyphicon glyph="trash" onClick={() => this.removeStateColor(key)} />
+           </td>
+         </tr>
+          )) :
+            <tr>no marker</tr>;
+    const filterOptions = this.state.filter.map((filter, key) =>
+      <option key={key} value={filter}>{filter}</option>);
     return (
       <div className={styles.EntryPointTreeFirstLvl}>
         <a

@@ -8,9 +8,9 @@
 	  "geometry": {
 		"kind": "Relative",
 		"x": 0,
-		"y": 2,
-		"w": 4,
-		"h": 16
+		"y": 0,
+		"w": 6,
+		"h": 10
 	  },
 	  "windowState": "Normalized"
 	},
@@ -19,9 +19,9 @@
 	  "geometry": {
 		"kind": "Relative",
 		"x": 8,
-		"y": 4,
-		"w": 4,
-		"h": 16
+		"y": 5,
+		"w": 6,
+		"h": 10
 	  },
 	  "windowState": "Normalized"
 	},
@@ -31,8 +31,8 @@
 		"kind": "Relative",
 		"x": 4,
 		"y": 6,
-		"w": 4,
-		"h": 16
+		"w": 16,
+		"h": 6
 	  },
 	  "windowState": "Normalized"
 	}

@@ -18,7 +18,7 @@ export default class Marker extends React.Component {
     posX: React.PropTypes.number,
     posY: React.PropTypes.number,
     markerStyle: React.PropTypes.object,
-    axes: React.PropTypes.Array,
+    axes: React.PropTypes.array,
     handlePlotMarker: React.PropTypes.func
   }
   constructor(props) {

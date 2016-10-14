@@ -30,10 +30,10 @@ describe('documents/validation', () => {
     validate('page', page, pageSchema, 'foo').should.be.an('error');
   });
   it('pre-existing schema', () => {
-    should.not.exist(validate('page', page))
+    should.not.exist(validate('page', page));
   });
   it('runtime imported schema', () => {
-    should.not.exist(validate('simplePage', page, require('./schemas/page.schema.json')))
+    should.not.exist(validate('simplePage', page, ('./schemas/page.schema.json')));
   });
   it('errors', () => {
     validate('page', pageInvalid).should.be.an('array').with.lengthOf(3);

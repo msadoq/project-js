@@ -14,7 +14,7 @@ export default function filter(timelines, search) {
   }
 
   if (!detect(search)) {
-    const timeline = _.find(timelines, (v) => v.id === search);
+    const timeline = _.find(timelines, v => v.id === search);
     if (!timeline) {
       return [];
     }
@@ -22,9 +22,7 @@ export default function filter(timelines, search) {
   }
 
   const reg = generate(search);
-  return _.reduce(timelines, (list, timeline) => {
-    return timeline.id && reg.test(timeline.id)
-      ? list.concat({ sessionId: timeline.sessionId, offset: timeline.offset })
-      : list;
-  }, []);
+  return _.reduce(timelines, (list, timeline) => (timeline.id && reg.test(timeline.id)
+    ? list.concat({ sessionId: timeline.sessionId, offset: timeline.offset })
+    : list), []);
 }

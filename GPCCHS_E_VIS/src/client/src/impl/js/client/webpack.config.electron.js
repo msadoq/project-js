@@ -12,9 +12,9 @@ export default merge(baseConfig, {
     filename: './main.js'
   },
   externals: {
-    "font-awesome": "font-awesome",
-    "source-map-support": "source-map-support",
-    "ws": "ws"
+    'font-awesome': 'font-awesome',
+    'source-map-support': 'source-map-support',
+    ws: 'ws'
   },
 
   plugins: [

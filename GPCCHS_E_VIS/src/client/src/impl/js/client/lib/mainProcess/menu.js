@@ -1,9 +1,10 @@
 import { v4 } from 'node-uuid';
-const { Menu, dialog } = require('electron');
 
 import { getStore } from '../store/mainStore';
 import { add, addAndMount as addAndMountPage } from '../store/actions/windows';
 import { addAndMount as addAndMountView } from '../store/actions/pages';
+
+const { Menu, dialog } = require('electron');
 
 const template = [{
   label: 'Edit',

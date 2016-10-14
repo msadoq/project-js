@@ -1,12 +1,12 @@
-const _ = require('lodash');
 import { createSelector } from 'reselect';
-
 import vivl from '../../../VIVL/main';
 import formulaParser from '../../common/formula';
 import remoteIdGenerator from '../../common/remoteId';
 import localIdGenerator from '../../common/localId';
 import domainsFilter from '../../common/domains';
 import timelinesFilter from '../../common/sessions';
+
+const _ = require('lodash');
 
 const getDomains = state => state.domains;
 const getTimebars = state => state.timebars;
@@ -47,7 +47,7 @@ const getWindowsVisibleViewIds = createSelector(
       return list;
     }
 
-    return list.concat({ timebarId: page.timebarId, viewIds: page.views});
+    return list.concat({ timebarId: page.timebarId, viewIds: page.views });
   }, [])
 );
 
@@ -66,7 +66,7 @@ const getWindowsVisibleViews = createSelector(
 
 const getVisibleConnectedData = createSelector(
   [getWindowsVisibleViews],
-  (views) => _.reduce(views, (list, view) => {
+  views => _.reduce(views, (list, view) => {
     if (!view.viewData) {
       return list;
     }
@@ -92,12 +92,10 @@ const getVisibleRemoteIds = createSelector(
     getTimelines,
     getVisibleConnectedData,
   ],
-  (domains, timebars, timelines, cds) => {
-    // TODO memoize formula parsing (formula)
-    // TODO memoize domains search (redux domains, search)
-    // TODO memoize sessions search (redux timebarTimelines, redux timelines, search)
-    return decorate(domains, timebars, timelines, cds);
-  }
+   // TODO memoize formula parsing (formula)
+   // TODO memoize domains search (redux domains, search)
+  // TODO memoize sessions search (redux timebarTimelines, redux timelines, search)
+  (domains, timebars, timelines, cds) => ({ decorate(domains, timebars, timelines, cds) })
 );
 
 // TODO memoized and/or getTimebarWithTimelines as compound selector of getVisibleRemoteIds
@@ -174,7 +172,6 @@ function decorate(domains, timebars, timelines, cds) {
             offset,
             expectedInterval: interval,
           };
-
         });
       });
 

@@ -1,7 +1,9 @@
-app.commandLine.appendSwitch('no-proxy-server'); // TODO dbrugne : analysis
+
 import { app } from 'electron';
 import { start, stop } from './lib/mainProcess';
 import './lib/common/parameters';
+
+app.commandLine.appendSwitch('no-proxy-server'); // TODO dbrugne : analysis
 
 if (process.env.NODE_ENV === 'development') {
   require('electron-debug')(); // eslint-disable-line global-require

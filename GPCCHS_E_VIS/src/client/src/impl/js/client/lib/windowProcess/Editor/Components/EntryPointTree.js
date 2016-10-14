@@ -9,7 +9,7 @@ import styles from './EntryPointTree.css';
 
 export default class EntryPointTree extends React.Component {
   static propTypes = {
-    entryPoints: React.PropTypes.array,
+    entryPoints: React.PropTypes.Array,
     search: React.PropTypes.string,
     handleEntryPoint: React.PropTypes.func,
     remove: React.PropTypes.func
@@ -33,7 +33,7 @@ export default class EntryPointTree extends React.Component {
           null
         )
       ) :
-      <div>No entryPoints to display</div>;
+        <div>No entryPoints to display</div>;
     return (
       <div className={styles.entryPointsTree}>
         {EntryPointsName}

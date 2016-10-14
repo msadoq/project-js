@@ -20,16 +20,11 @@ Cached data:
 ```
 dataCache: {
  'remoteId': {
-   ...,
-   localIds: {
-     'localId': { timestamp: 'timestamp', value: number } // Text
-     },
-     },
-     'localId': {
-       index: [timestamp],
-       data: { 'timestamp': number }, // Plot
-     }
-   }
+   'localId': { timestamp: 'timestamp', value: number }, // Text
+   'localId': {
+     index: [timestamp],
+     data: { 'timestamp': number }, // Plot
+   },
  }
 }
 ```

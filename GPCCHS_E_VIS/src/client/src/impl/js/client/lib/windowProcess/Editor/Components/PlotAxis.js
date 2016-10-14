@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import {
   Glyphicon,
   Collapse,
@@ -8,13 +9,12 @@ import {
   Col,
   ControlLabel
 } from 'react-bootstrap';
-import ToggleButton from './Buttons/ToggleButton.js';
-import classNames from 'classnames';
+import ToggleButton from './Buttons/ToggleButton';
 import styles from './PlotTab.css';
-import ColorPicker from './ColorPicker.js';
+import ColorPicker from './ColorPicker';
 import SelectButton from './Buttons/SelectButton';
-import SelectFontFamilySize from './SelectFontFamilySize.js';
-import SelectFontStyle from './SelectFontStyle.js';
+import SelectFontFamilySize from './SelectFontFamilySize';
+import SelectFontStyle from './SelectFontStyle';
 
 export default class PlotAxis extends React.Component {
   static propTypes = {
@@ -195,8 +195,8 @@ export default class PlotAxis extends React.Component {
                 </Col>
                 <Col xs={8}>
                   <ToggleButton
-                    on={"ON"}
-                    off={"OFF"}
+                    on={'ON'}
+                    off={'OFF'}
                     default={(this.props.showAxis === true) ? 'ON' : 'OFF'}
                     size="xsmall"
                     styleOn="primary"
@@ -250,8 +250,8 @@ export default class PlotAxis extends React.Component {
                 </Col>
                 <Col xs={8}>
                   <ToggleButton
-                    on={"ON"}
-                    off={"OFF"}
+                    on={'ON'}
+                    off={'OFF'}
                     default={(this.props.autoLimits === true) ? 'ON' : 'OFF'}
                     size="xsmall"
                     styleOn="primary"
@@ -266,8 +266,8 @@ export default class PlotAxis extends React.Component {
                 </Col>
                 <Col xs={8}>
                   <ToggleButton
-                    on={"ON"}
-                    off={"OFF"}
+                    on={'ON'}
+                    off={'OFF'}
                     default={(this.props.autoTick === true) ? 'ON' : 'OFF'}
                     size="xsmall"
                     styleOn="primary"
@@ -295,8 +295,8 @@ export default class PlotAxis extends React.Component {
                 </Col>
                 <Col xs={8}>
                   <ToggleButton
-                    on={"ON"}
-                    off={"OFF"}
+                    on={'ON'}
+                    off={'OFF'}
                     default={(this.props.showTicks === true) ? 'ON' : 'OFF'}
                     size="xsmall"
                     styleOn="primary"
@@ -311,8 +311,8 @@ export default class PlotAxis extends React.Component {
                 </Col>
                 <Col xs={8}>
                   <ToggleButton
-                    on={"ON"}
-                    off={"OFF"}
+                    on={'ON'}
+                    off={'OFF'}
                     default={(this.props.showTickLabels === true) ? 'ON' : 'OFF'}
                     size="xsmall"
                     styleOn="primary"
@@ -327,8 +327,8 @@ export default class PlotAxis extends React.Component {
                 </Col>
                 <Col xs={8}>
                   <ToggleButton
-                    on={"ON"}
-                    off={"OFF"}
+                    on={'ON'}
+                    off={'OFF'}
                     default={(this.props.isLogarithmic === true) ? 'ON' : 'OFF'}
                     size="xsmall"
                     styleOn="primary"

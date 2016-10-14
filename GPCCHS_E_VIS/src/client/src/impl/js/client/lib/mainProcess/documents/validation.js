@@ -1,9 +1,10 @@
 const Ajv = require('ajv');
 
+const required = require();
 const ajv = new Ajv({ allErrors: true });
 const knownValidators = {
-  workspace: ajv.compile(('./schemas/workspace.schema.json')),
-  page: ajv.compile(('./schemas/page.schema.json')),
+  workspace: ajv.compile(required('./schemas/workspace.schema.json')),
+  page: ajv.compile(required('./schemas/page.schema.json')),
 };
 
 const validate = (id, data, schema) => {

@@ -1,19 +1,19 @@
 import React from 'react';
 import { ButtonGroup, Button, Glyphicon } from 'react-bootstrap';
-import Continuous from '../icons/continuous.js';
-import Dashed from '../icons/dashed.js';
-import Doted from '../icons/doted.js';
-import Square from '../icons/square.js';
-import Dot from '../icons/dot.js';
-import Triangle from '../icons/triangle.js';
-import None from '../icons/none.js';
+import Continuous from '../icons/continuous';
+import Dashed from '../icons/dashed';
+import Doted from '../icons/doted';
+import Square from '../icons/square';
+import Dot from '../icons/dot';
+import Triangle from '../icons/triangle';
+import None from '../icons/none';
 import styles from './SelectButton.css';
 
 export default class SelectButton extends React.Component {
   static propTypes = {
     size: React.PropTypes.string,
     active: React.PropTypes.string,
-    buttons: React.PropTypes.array,
+    buttons: React.PropTypes.Array,
     onChange: React.PropTypes.func,
   }
   constructor(props) {
@@ -31,13 +31,13 @@ export default class SelectButton extends React.Component {
     this.props.onChange(label);
   }
   render() {
-    let buttons = [];
+    const buttons = [];
     this.props.buttons.forEach((button) => {
       buttons.push(<Button
         key={button.label}
         bsStyle={(this.state.active === button.label) ? 'primary' : 'default'}
         bsSize="xsmall"
-        onClick={(e) => this.changeActive(e, button.label)}
+        onClick={e => this.changeActive(e, button.label)}
         className={this.state.size === 'xsmall' ? styles.xsmall : null}
       >
         {(button.icon === 'continuous') ? <Continuous /> : null}

@@ -8,11 +8,11 @@ const self = module.exports = {
   isExists: (path, callback) => fs.access(path, fs.constants.F_OK, err => callback(!err)),
   isReadable: (path, callback) => fs.access(path, fs.constants.R_OK, err => callback(!err)),
   read: (path, callback) => {
-    self.isExists(path, exists => {
+    self.isExists(path, (exists) => {
       if (!exists) {
         return callback(new Error(`File '${path}' doesn't exist`));
       }
-      return self.isReadable(path, readable => {
+      return self.isReadable(path, (readable) => {
         if (!readable) {
           return callback(new Error(`File '${path}' isn't readable`));
         }

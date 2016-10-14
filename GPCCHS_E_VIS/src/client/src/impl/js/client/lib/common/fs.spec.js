@@ -56,42 +56,42 @@ describe('documents/fs', () => {
     fs.resolve('/foo/bar', 'file.json').should.equal('/foo/bar/file.json');
   });
   describe('isExists', () => {
-    it('file exists', done => {
-      fs.isExists(file, exists => {
+    it('file exists', (done) => {
+      fs.isExists(file, (exists) => {
         exists.should.equal(true);
         done();
       });
     });
-    it('file not exists', done => {
-      fs.isExists(notExists, exists => {
+    it('file not exists', (done) => {
+      fs.isExists(notExists, (exists) => {
         exists.should.equal(false);
         done();
       });
     });
   });
   describe('isReadable', () => {
-    it('readable', done => {
-      fs.isReadable(file, readable => {
+    it('readable', (done) => {
+      fs.isReadable(file, (readable) => {
         readable.should.equal(true);
         done();
       });
     });
-    it('not readable', done => {
-      fs.isReadable(unreadable, readable => {
+    it('not readable', (done) => {
+      fs.isReadable(unreadable, (readable) => {
         readable.should.equal(false);
         done();
       });
     });
   });
   describe('read', () => {
-    it('works', done => {
+    it('works', (done) => {
       fs.read(file, (err, content) => {
         should.not.exist(err);
         content.should.equal('my content');
         done();
       });
     });
-    it('error', done => {
+    it('error', (done) => {
       fs.read(unreadable, (err, content) => {
         err.should.be.an('error');
         should.not.exist(content);
@@ -100,14 +100,14 @@ describe('documents/fs', () => {
     });
   });
   describe('parse', () => {
-    it('valid', done => {
+    it('valid', (done) => {
       fs.parse('{"foo":"bar"}', (err, content) => {
         should.not.exist(err);
         content.should.eql({ foo: 'bar' });
         done();
       });
     });
-    it('invalid', done => {
+    it('invalid', (done) => {
       fs.parse('"{"foo":"bar""', (err, content) => {
         err.should.be.an('error');
         should.not.exist(content);
@@ -116,14 +116,14 @@ describe('documents/fs', () => {
     });
   });
   describe('readJsonFromPath', () => {
-    it('works', done => {
+    it('works', (done) => {
       fs.readJsonFromPath('/tmp/test/', 'foo.json', (err, content) => {
         should.not.exist(err);
         content.should.eql({ foo: 'bar' });
         done();
       });
     });
-    it('readJsonFromPath error', done => {
+    it('readJsonFromPath error', (done) => {
       fs.readJsonFromPath('/tmp/test/', 'not-exists.txt', (err, content) => {
         err.should.be.an('error');
         should.not.exist(content);

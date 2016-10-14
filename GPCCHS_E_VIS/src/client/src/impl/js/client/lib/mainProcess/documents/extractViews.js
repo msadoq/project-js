@@ -90,7 +90,7 @@ function extractViews(content, cb) {
     return cb(null, Object.assign(content, {
       views: _.reduce(views, (l, v) => Object.assign(l, { [v.uuid]: v }), {}),
     }));
-  })
+  });
 }
 
-module.exports = { extractViews, readViews, findPageViewsAndReplaceWithUuid }
+module.exports = { extractViews, readViews, findPageViewsAndReplaceWithUuid };

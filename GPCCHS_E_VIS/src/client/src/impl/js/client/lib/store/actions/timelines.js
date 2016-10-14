@@ -16,7 +16,7 @@ export const updateSessionId = simple(types.WS_TIMELINE_UPDATE_SESSIONID, 'timel
  * Compound actions
  */
 export function update(timelineId, configuration) {
-  return dispatch => {
+  return (dispatch) => {
     if (configuration.name) {
       dispatch(updateName(timelineId, configuration.name));
     }
@@ -29,5 +29,5 @@ export function update(timelineId, configuration) {
     if (configuration.id) {
       dispatch(updateName(timelineId, configuration.id));
     }
-  }
+  };
 }

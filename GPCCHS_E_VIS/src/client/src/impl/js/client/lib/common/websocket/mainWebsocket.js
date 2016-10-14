@@ -33,7 +33,7 @@ export function connect() {
       logger.info('closed!');
       getStore().dispatch(updateStatus('main', 'disconnected'));
     });
-    instance.on('error', err => {
+    instance.on('error', (err) => {
       logger.error('error', err.stack);
       getStore().dispatch(updateStatus('main', 'error', err.message));
     });

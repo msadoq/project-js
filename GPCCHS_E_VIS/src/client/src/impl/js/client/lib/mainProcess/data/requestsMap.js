@@ -1,8 +1,8 @@
-const _ = require('lodash');
 import { createSelector } from 'reselect';
-
 import missingIntervals from '../../common/missingIntervals';
 import mergeIntervals from '../../common/mergeIntervals';
+
+const _ = require('lodash');
 
 // TODO factorize
 const operators = {

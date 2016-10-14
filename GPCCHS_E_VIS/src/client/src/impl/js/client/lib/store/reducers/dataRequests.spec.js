@@ -1,5 +1,4 @@
 /* eslint no-unused-expressions: 0 */
-import { should, getStore } from '../../common/test';
 import reducer from './dataRequests';
 import * as actions from '../actions/dataRequests';
 
@@ -27,7 +26,7 @@ describe('store:reducers:dataRequests', () => {
   it('complex', () => {
     reducer(state, actions.addRequests({
       myRemoteId: { intervals: [[2, 3]] },
-      myOtherId: { intervals: [[4, 6], [9, 15], [25, 30]]},
+      myOtherId: { intervals: [[4, 6], [9, 15], [25, 30]] },
       otherOne: { intervals: [[17, 20]] },
       empty: { intervals: [] },
     })).should.eql({

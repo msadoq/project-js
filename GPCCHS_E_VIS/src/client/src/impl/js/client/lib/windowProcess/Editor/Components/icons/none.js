@@ -11,9 +11,6 @@ export default class None extends React.Component {
             <rect fill="url(#gridpattern)" strokeWidth="0" y="0" x="0" height="100%" width="100%" />
           </g>
         </g>
-        <g>
-          
-        </g>
       </svg>
     );
   }

@@ -4,7 +4,7 @@ const INFO = 'INFO';
 const DEBUG = 'DEBUG';
 const VERBOSE = 'VERBOSE';
 
-module.exports = debug => namespace => {
+module.exports = debug => (namespace) => {
   const logger = debug(`GPCCHS:${namespace}`);
   let level = process.env.LEVEL;
   if (!level && global.env && global.env.LEVEL) {

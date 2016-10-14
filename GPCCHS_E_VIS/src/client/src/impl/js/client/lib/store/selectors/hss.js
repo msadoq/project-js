@@ -13,8 +13,5 @@ export function getStatus(state, identity) {
     return undefined;
   }
 
-  return {
-    status: ws.status,
-    error: ws.error,
-  };
+  return ws;
 }

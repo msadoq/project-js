@@ -10,20 +10,19 @@ const PageContainer = props => <Page {...props} />;
 const mapStateToProps = (state, ownProps) => {
   const editor = getEditor(state, ownProps.focusedPageId);
   return {
-    ...ownProps,
     editor,
     isEditorOpened: editor && editor.isOpened,
   };
 };
 
 const mapDispatchToProps = (dispatch, { pageId }) => bindActionCreators({
+  closeEditor: () => closeEditor(pageId),
   openEditor: (viewId, viewType, configuration) => openEditor(
     pageId,
     viewId,
     viewType,
     configuration
   ),
-  closeEditor: () => closeEditor(pageId),
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageContainer);

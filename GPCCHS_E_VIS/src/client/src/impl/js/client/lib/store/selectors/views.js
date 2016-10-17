@@ -1,4 +1,1 @@
-
-export function getView(state, viewId) {
-  return state.views[viewId];
-}
+export const getView = (state, viewId) =>  state.views[viewId];

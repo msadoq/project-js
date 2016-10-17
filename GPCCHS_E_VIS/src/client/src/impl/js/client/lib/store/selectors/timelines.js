@@ -1,7 +1,4 @@
-import _ from 'lodash';
 /**
  * Selectors
  */
-export default function getTimeline(state, timelineId) {
-  return _.get(state, `timelines.${timelineId}`);
-}
+export const getTimeline = (state, timelineId) => state.timelines[timelineId];

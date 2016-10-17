@@ -1,26 +1,25 @@
-import _ from 'lodash';
-import getTimeline from './timelines';
+import _find from 'lodash/find';
+import _get from 'lodash/get';
+import { getTimeline } from './timelines';
 
 /**
 * Selectors
  */
-export function getTimebar(state, timebarId) { // TODO test
-  return _.get(state, `timebars.${timebarId}`);
-}
+export const getTimebar = (state, timebarId) => state.timebars[timebarId];
 
 export function getTimebarById(state, timebarId) { // TODO test
-  return _.find(state.timebars, tb => tb.id === timebarId);
+  return _find(state.timebars, tb => tb.id === timebarId);
 }
 
 export function getMasterTimeline(state, timebarId) { // TODO test
   const { masterId } = getTimebar(state, timebarId);
   const timelines = getTimelines(state, timebarId);
-  return _.find(timelines, timeline => timeline.id === masterId);
+  return _find(timelines, timeline => timeline.id === masterId);
 }
 
 export function getTimelines(state, timebarId) { // TODO test
-  const timelines = _.get(state, `timebars.${timebarId}.timelines`, []);
-  return _.reduce(timelines, (list, timelineId) => {
+  const timelines = _get(state, `timebars.${timebarId}.timelines`, []);
+  return timelines.reduce((list, timelineId) => {
     const timeline = getTimeline(state, timelineId);
     return timeline
       ? list.concat(timeline)
@@ -30,7 +29,7 @@ export function getTimelines(state, timebarId) { // TODO test
 
 export function getTimelinesFromTimebar(state, timebar) { // TODO test
   const timelines = timebar ? timebar.timelines : [];
-  return _.reduce(timelines, (list, timelineId) => {
+  return timelines.reduce((list, timelineId) => {
     const timeline = getTimeline(state, timelineId);
     return timeline
       ? list.concat(timeline)

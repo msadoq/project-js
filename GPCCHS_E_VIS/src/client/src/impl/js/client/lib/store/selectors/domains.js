@@ -1,4 +1,6 @@
-import _ from 'lodash';
+import _find from 'lodash/find';
+import _eq from 'lodash/eq';
+
 /**
  * Selectors
  */
@@ -6,5 +8,5 @@ import _ from 'lodash';
 // TODO rename as getDomainByName (or remove)
 // TODO implement a simple getDomain (by uuid)
 export default function getDomain(state, key) {
-  return _.find(_.get(state, 'domains'), o => _.eq(o.name, key));
+  return _find(state.domains, o => _eq(o.name, key));
 }

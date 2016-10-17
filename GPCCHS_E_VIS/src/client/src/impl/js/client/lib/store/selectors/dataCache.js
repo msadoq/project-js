@@ -1,5 +1,5 @@
-import _ from 'lodash';
+import _get from 'lodash/get';
 
 export function getLocalIdData(state, remoteId, localId) {
-  return _.get(state, ['dataCache', remoteId, localId], undefined);
+  return _get(state, ['dataCache', remoteId, localId]);
 }

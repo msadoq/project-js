@@ -9,7 +9,7 @@ import domainsFilter from '../../common/domains';
 import timelinesFilter from '../../common/sessions';
 import getTimebarTimelines from './selectors/getTimebarTimelines';
 
-const logger = debug('mainProcess/data/decline');
+const logger = debug('mainProcess:data:decline');
 
 /**
  * Decline cds for domainId and sessionId.

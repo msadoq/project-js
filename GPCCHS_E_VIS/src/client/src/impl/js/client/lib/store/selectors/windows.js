@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _get from 'lodash/get';
 import { createSelector } from 'reselect';
 
 /**
@@ -11,26 +11,24 @@ export function getWindow(state, windowId) {
 }
 
 export function getPages(state, windowId) {
-  if (!windowId || !_.get(state, `windows.${windowId}.pages`)) { // TODO TEST
+  const pages = _get(state, `windows.${windowId}.pages`, []);
+  if (!windowId) { // TODO TEST
     return [];
   }
 
-  return _.reduce(state.windows[windowId].pages, (pages, id) => {
-    const page = state.pages[id];
-    if (!page) {
-      return pages;
+  return pages.map((id) => {
+    const page = state.pages[id] || {};
+    return {
+      pageId: id,
+      ...page
     }
-
-    return [...pages, Object.assign({ pageId: id }, page)];
-  }, []);
+  });
 }
 
 export const getWindowFocusedPageId =
-  (state, { windowId }) => _.get(state, ['windows', windowId, 'focusedPage']);
+  (state, { windowId }) => _get(state, ['windows', windowId, 'focusedPage']);
 
 export const makeGetWindowFocusedPage = () => createSelector([
   getAllPages,
   getWindowFocusedPageId,
-], (pages, pageId) =>
-   _.get(pages, pageId)
-);
+], (pages, pageId) => pages[pageId]);

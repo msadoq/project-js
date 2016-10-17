@@ -29,6 +29,7 @@ describe('controllers/onTimebasedPubSubData', () => {
   });
 
   const queryId = 'queryId';
+  const queryIdProto = dataStub.getStringProtobuf(queryId);
   const dataId = dataStub.getDataId();
   const dataIdProto = dataStub.getDataIdProtobuf(dataId);
 
@@ -70,6 +71,7 @@ describe('controllers/onTimebasedPubSubData', () => {
     // launch test
     sendTimebasedPubSubData(
       addToTestQueue,
+      queryIdProto,
       dataIdProto,
       timestamp1,
       protoRp,
@@ -87,6 +89,7 @@ describe('controllers/onTimebasedPubSubData', () => {
     // launch test
     sendTimebasedPubSubData(
       addToTestQueue,
+      queryIdProto,
       dataIdProto,
       timestamp1,
       protoRp,
@@ -107,6 +110,7 @@ describe('controllers/onTimebasedPubSubData', () => {
     // launch test
     sendTimebasedPubSubData(
       addToTestQueue,
+      queryIdProto,
       dataIdProto,
       timestamp1,
       protoRp,
@@ -145,6 +149,7 @@ describe('controllers/onTimebasedPubSubData', () => {
     // launch test
     sendTimebasedPubSubData(
       addToTestQueue,
+      queryIdProto,
       dataIdProto,
       timestamp1,
       protoRp,

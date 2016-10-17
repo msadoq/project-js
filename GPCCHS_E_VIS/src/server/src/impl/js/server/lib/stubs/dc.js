@@ -116,6 +116,7 @@ const onHssMessage = (...args) => {
           {
             const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
             if (typeof isParameterSupported(dataId) === 'undefined') {
+              debug.warn('query of unsupported parameter sent to DC stub', dataId);
               return pushError(
                 queryId,
                 `parameter ${dataId.parameterName} not yet supported by stub`
@@ -134,6 +135,7 @@ const onHssMessage = (...args) => {
             const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
             const parameter = isParameterSupported(dataId);
             if (typeof parameter === 'undefined') {
+              debug.warn('subscription of unsupported parameter sent to DC stub', dataId);
               return pushError(
                 queryId,
                 `parameter ${dataId.parameterName} not yet supported by stub`

@@ -17,9 +17,9 @@ class View extends Component {
   render() {
     const ContentComponent = this.props.component || UnknownView;
     return (
-      <div style={{ height: '100%' }}>
+      <div className={styles.container}>
         <ViewHeader {...this.props} />
-        <div className={styles.container}>
+        <div className={styles.content}>
           <ContentComponent {...this.props} />
         </div>
       </div>

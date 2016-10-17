@@ -1,5 +1,11 @@
 .container {
-  text-align: center;
-  color: dimgray;
+  height: 100%;
+  position: relative;
+  padding-top: 25px;
+  overflow: hidden;
 }
-
+.content {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}

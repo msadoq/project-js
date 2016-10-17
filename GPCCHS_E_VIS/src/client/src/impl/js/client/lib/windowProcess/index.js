@@ -22,7 +22,19 @@ if (process.env.NODE_ENV === 'development') {
   // Enable why-did-you-update when necessary only
   window.whyDidYouUpdate = () => {
     const {whyDidYouUpdate} = require('why-did-you-update')
-    whyDidYouUpdate(React)
+    const internal = [
+      'Connect'
+    ]
+    const dependencies = [
+      'Glyphicon', 'NavItem', // Bootstrap
+      'SafeAnchor', 'DraggableCore', 'Resizable',
+      'ReactGridLayout', 'ResponsiveReactGridLayout',
+      'SizeMeReferenceWrapper'
+    ]
+    const excludeList = internal.concat(dependencies).join('|');
+    whyDidYouUpdate(React, {
+      exclude: new RegExp(excludeList)
+    });
   }
 }
 

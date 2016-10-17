@@ -82,10 +82,11 @@ const pushTimebasedArchiveData = (queryId, dataId, isLast, payloads) => {
   });
   zmq.push('stubData', buffer);
 };
-const pushTimebasedPubSubData = (dataId, payloads) => {
+const pushTimebasedPubSubData = (queryId, dataId, payloads) => {
   const buffer = [
     null,
     stubData.getTimebasedPubSubDataHeaderProtobuf(),
+    stubData.getStringProtobuf(queryId),
     stubData.getDataIdProtobuf(dataId),
   ];
   _.each(payloads, (payload) => {
@@ -142,7 +143,10 @@ const onHssMessage = (...args) => {
             }
             const action = protobuf.decode('dc.dataControllerUtils.Action', args[3]).action;
             if (action === constants.SUBSCRIPTIONACTION_ADD) {
-              subscriptions[parameter] = dataId;
+              subscriptions[parameter] = {
+                queryId,
+                dataId,
+              };
               debug.debug('subscription added', parameter);
             }
             if (action === constants.SUBSCRIPTIONACTION_DELETE) {
@@ -168,9 +172,9 @@ const emulateDc = () => {
   debug.info('emulateDc call', Object.keys(subscriptions).length, queries.length);
 
   // pub/sub
-  _.each(subscriptions, (dataId) => {
+  _.each(subscriptions, ({ queryId, dataId }) => {
     debug.verbose('push data from subscription');
-    pushTimebasedPubSubData(dataId, generateRealtimePayloads());
+    pushTimebasedPubSubData(queryId, dataId, generateRealtimePayloads());
   });
 
   if (!queries.length) {
@@ -211,11 +215,13 @@ zmq.open(
   {
     stubdcrep: {
       type: 'pull',
+      role: 'server',
       url: process.env.ZMQ_GPCCDC_PUSH,
       handler: onHssMessage,
     },
     stubData: {
       type: 'push',
+      role: 'client',
       url: process.env.ZMQ_GPCCDC_PULL,
     },
   },

@@ -86,7 +86,7 @@ describe('controllers/onMessage', () => {
   it('Domain Data', () => {
     const header = dataStub.getDomainDataHeaderProtobuf();
     const queryId = dataStub.getDataIdProtobuf();
-    const domain = dataStub.getDomainProtobuf();
+    const domains = dataStub.getDomainsProtobuf();
     message(
       undefined,
       testHandler,
@@ -94,16 +94,12 @@ describe('controllers/onMessage', () => {
       undefined,
       header,
       queryId,
-      domain,
-      domain,
-      domain
+      domains
     );
-    testPayloads.should.have.lengthOf(4);
+    testPayloads.should.have.lengthOf(2);
     testPayloads.should.have.properties([
       queryId,
-      domain,
-      domain,
-      domain,
+      domains,
     ]);
   });
 });

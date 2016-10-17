@@ -1,5 +1,3 @@
-// Produced by Acceleo Cpp Generator 0.0.6-R4S1
-
 /*!*******************************************************************
  * Project : ISIS
  * Component : StandaloneTimeBarMMIBundle
@@ -31,16 +29,21 @@
 #include "commonMMI/GenericConfigurationUtils.h"
 #include "commonMMI/MainWindow.h"
 #include "commonMMI/DockWidget.h"
+#include "commonMMIUtils/ComManager.h"
+
+#include "container/PipeMessage.h"
 
 #include "core/BOOL.h"
 #include "core/UINT32.h"
 
 #include <QtCore/QDateTime>
+#include <QtCore/QString>
 
 // End of user code
 
 #include "commonMMI/GUIApplication.h"
 #include "standaloneTimeBar/standaloneTimeBarActivator/StandaloneTimeBarMMIBundle.h"
+#include "standaloneTimeBar/StandaloneTimeBarEvent.h"
 
 namespace standaloneTimeBar
 {
@@ -49,7 +52,6 @@ namespace standaloneTimeBarActivator
 {
 
 const QString StandaloneTimeBarMMIBundle::SOCKET_URI_BASE        = QString("tcp://127.0.0.1:%1");
-const QString StandaloneTimeBarMMIBundle::PULL_PORT_ENV_VAR_NAME_BASE = QString("PORT_NUM_TIMEBAR_PULL_%1");
 const QString StandaloneTimeBarMMIBundle::PUSH_PORT_ENV_VAR_NAME_BASE = QString("PORT_NUM_TIMEBAR_PUSH_%1");
 
 /*!***************************************************************************
@@ -58,6 +60,10 @@ const QString StandaloneTimeBarMMIBundle::PUSH_PORT_ENV_VAR_NAME_BASE = QString(
  ****************************************************************************/
 StandaloneTimeBarMMIBundle::~StandaloneTimeBarMMIBundle()
 {
+    // Perform a try catch according to coding rule
+    try {
+        // Nothing to do
+    } catch (...) {}
 }
 
 /*!***************************************************************************
@@ -84,11 +90,9 @@ QString StandaloneTimeBarMMIBundle::getPipeId()
  ****************************************************************************/
 void StandaloneTimeBarMMIBundle::initialize()
 {
-    // generated
     commonMMI::GUIApplication* application = commonMMI::GUIApplication::get();
     commonMMI::MainWindow* mainWindow = application->getMainWindow();
 
-    //To implement
     // Initialize necessary class members
     _document = new commonMMI::DocumentModel;
 	_timeBarsDataModel = new timeBarsModel::TimeBars(_document);
@@ -101,13 +105,19 @@ void StandaloneTimeBarMMIBundle::initialize()
         }
     }
 
-    // Start of user code initialize
-    openTimeBar();
+    // Initialize the data models for timebars
+	initTimeBarsModel();
 
     // Show main window
     mainWindow->show();
+    mainWindow->activateWindow();
+    mainWindow->raise();
 
-    // End of user code
+    // Start the StandaloneTimeBar Actor to wait for timebar configuration reception
+	container::PipeMessage * msg = commonMMIUtils::ComManager::getInstance()->createCmdMessage(getPipeId(),280);
+	QString * str = new QString("START");
+	msg->addFrame(zframe_new(str, sizeof(*str)));
+	commonMMIUtils::ComManager::getInstance()->sendMessage(getPipeId(),msg);
 }
 
 /*!***************************************************************************
@@ -116,9 +126,8 @@ void StandaloneTimeBarMMIBundle::initialize()
  ****************************************************************************/
 void StandaloneTimeBarMMIBundle::finalize()
 {
-    //To implement
     // Start of user code finalize
-
+	// Nothing to do
 	// End of user code
 }
 
@@ -128,9 +137,8 @@ void StandaloneTimeBarMMIBundle::finalize()
  ****************************************************************************/
 void StandaloneTimeBarMMIBundle::openDocument(const QString & path, const QMap<QString, QString>& config)
 {
-    //To implement
     // Start of user code openDocument
-
+	// Nothing to do
     // End of user code
 }
 
@@ -178,24 +186,13 @@ timeBarsModel::TimeBar* StandaloneTimeBarMMIBundle::createEmptyTimeBar(const QSt
 }
 
 /*!***************************************************************************
- * Method : StandaloneTimeBarMMIBundle::openTimeBar
- * Purpose : Open a single timebar
+ * Method : StandaloneTimeBarMMIBundle::initTimeBarsModel
+ * Purpose : Initialize the data model of timebars
  ****************************************************************************/
-void StandaloneTimeBarMMIBundle::openTimeBar(void)
+void StandaloneTimeBarMMIBundle::initTimeBarsModel(void)
 {
-	// Create an empty timeBar
-	timeBarsModel::TimeBar* newTB = createEmptyTimeBar("TimeBar");
-
-    // Add the empty timebar to data model
-    _timeBarsDataModel->addTimeBar(newTB);
-
-    // Populate the TimeManagers singleton before creating the timebar widget in order to initialize it
+    // Populate the TimeManagers singleton to initialize it
     timeBar::TimeManagers::get()->populate(_timeBarsDataModel);
-
-    // Create the timeBar widgets
-    foreach (timeBarsModel::TimeBar* timeBar, _timeBarsDataModel->getTimeBars()) {
-        timeBarAdded(timeBar);
-    }
 
     // Connect the TimeBar creation and deletion handlers to the model before creating TimeManager objects in order to get
     // the right calls order on time bar destruction (first widget, then manager)
@@ -275,53 +272,6 @@ core::UINT32 StandaloneTimeBarMMIBundle::createPushSocket(QString tbName)
 
 /*!***************************************************************************
  * Method : StandaloneTimeBarMMIBundle::initializeTimeBar
- * Purpose : Create a socket and wait for timeBar configuration from javascript to populate data model
- ****************************************************************************/
-void StandaloneTimeBarMMIBundle::retrieveTimeBarConf(timeBarsModel::TimeBar* timeBar)
-{
-	core::UINT32 port = 0;
-	core::BOOL portNumValid = false;
-	core::UINT32 socketID = 0;
-	QByteArray timeBarConf;
-	timeBar::TimeBarJsModel jsModel;
-	QString envVarName(PULL_PORT_ENV_VAR_NAME_BASE.arg(timeBar->getName()));
-
-	// Check if the environment variable for the port number of this timebar exists
-	if( qEnvironmentVariableIsSet(qPrintable(envVarName)) ) {
-			// Retrieve the value of the environment variable
-			port = qgetenv(qPrintable(envVarName)).toInt(&portNumValid);
-			// Check if conversion of the variable value into integer succeeded
-			if(portNumValid) {
-				// Create the socket for the timebar
-				socketID = timeBar::TimeBarSocket::get()->createSocket(ZMQ_PULL,"StandaloneTimeBar",SOCKET_URI_BASE.arg(port));
-				// Check if the socket creation succeeded
-				if(socketID) {
-					LOF_INFO(QString("TimeBar is waiting to received its configuration from URI : %1 ").arg(SOCKET_URI_BASE.arg(port)));
-					// Wait for the timebar configuration from javascript
-					timeBar::TimeBarSocket::get()->receive(socketID,timeBarConf);
-
-					// Populate the timebar model from the received configuration
-					jsModel.fromJson(timeBarConf);
-					jsModel.toTimeBarModel(timeBar);
-
-					// Delete the PULL socket not more usefull
-					timeBar::TimeBarSocket::get()->deleteSocket(socketID);
-				} else {
-					// Report the socket creation error
-					LOF_ERROR(QString("Socket creation failed to retrieve timeBar configuration from URI ").arg(SOCKET_URI_BASE.arg(port)));
-				}
-			} else {
-				// Report the port number error
-				LOF_ERROR(QString("Port number in environment variable %1 is not a valid number").arg(envVarName));
-			}
-	} else {
-   		// Report the port definition error
-		LOF_ERROR(QString("Environment variable for port number to be used by timebar not defined. Expected variable is : %1").arg(envVarName));
-	}
-}
-
-/*!***************************************************************************
- * Method : StandaloneTimeBarMMIBundle::initializeTimeBar
  * Purpose : Create a TimeBarWidget and populate it with the given timeBar model data
  ****************************************************************************/
 void StandaloneTimeBarMMIBundle::initializeTimeBar(timeBarsModel::TimeBar* timeBar)
@@ -333,8 +283,6 @@ void StandaloneTimeBarMMIBundle::initializeTimeBar(timeBarsModel::TimeBar* timeB
 	// Get the pointer to MainWindow to be able to insert a timeBar Widget
 	commonMMI::MainWindow* mainWindow = commonMMI::GUIApplication::get()->getMainWindow();
 
-	// Retrieve the configuration of this timebar from javascript
-	retrieveTimeBarConf(timeBar);
 	// Create the socket to let the timebar push the user actions to javascript
 	socketID = createPushSocket(timeBar->getName());
 	// Put the socket ID in timebar configuration structure
@@ -372,7 +320,6 @@ void StandaloneTimeBarMMIBundle::initNextTimeBar()
 	if (!_timeBarInitQueue.isEmpty()) {
 		_timeBarInitQueue.removeLast();
 	}
-
 	// Then check if another time bar is waiting to be initialized
 	if (!_timeBarInitQueue.isEmpty()) {
 		initializeTimeBar(_timeBarInitQueue.last());
@@ -389,8 +336,54 @@ void StandaloneTimeBarMMIBundle::removeTimeBar(timeBarsModel::TimeBar* timeBar)
 	_timeBarsDataModel->removeTimeBar(timeBar);
 }
 
-// End of user code
+/*!***************************************************************************
+ * Method : StandaloneTimeBarMMIBundle::event
+ * Purpose : Event handler for new timebar creation
+ ****************************************************************************/
+bool StandaloneTimeBarMMIBundle::event(QEvent * e)
+{
+	// Do not catch this event by default
+	core::BOOL ret_val = false;
+	core::INT32 foundIdx = -1;
+	core::INT32 tbIdx = 0;
+	StandaloneTimeBarEvent * tbEvent = dynamic_cast<StandaloneTimeBarEvent*>(e);
+	timeBarsModel::TimeBar * newTimeBar = 0;
+	timeBar::TimeBarJsModel jsModel;
 
-} // namespace standaloneTimeBarActivator
+	// If the event type correspond to StandaloneTimeBarEvent
+    if (tbEvent){
+    	// Set return value in order to catch this event (which means that it will be deleted on this function return)
+    	ret_val = true;
 
-} // namespace standaloneTimeBar
+    	// Create a jsonMessage from the received bytes array
+    	jsModel.fromJson(tbEvent->getTimeBarConf());
+    	// Check if the timebar is already known
+    	while( (tbIdx < _timeBarsDataModel->getTimeBars().size()) && (foundIdx==-1) ) {
+    		// Check if the name of the timebar in json message is one of the timebars from the data model
+    		if( _timeBarsDataModel->getTimeBars()[tbIdx]->getName().compare(jsModel.getId()) == 0 ){
+    			foundIdx = tbIdx;
+    		}
+    		// Increment timebar index
+    		tbIdx++;
+    	}
+
+    	// Check if the received timebar configuration has the name of an already opened timebar
+    	if( foundIdx != -1 ) {
+    		// Update the already existing timebar with the received configuration
+    		jsModel.toTimeBarModel(_timeBarsDataModel->getTimeBars()[foundIdx]);
+    	} else {
+    		// Create an empty timebar model for the new timebar (the model takes ownership on it, so it shall not be deleted here)
+    		newTimeBar = new timeBarsModel::TimeBar();
+    		// Fill-in the new timebar data model
+    		jsModel.toTimeBarModel(newTimeBar);
+    		// Add the newly created timebar to the main model
+    		_timeBarsDataModel->addTimeBar(newTimeBar);
+    	}
+    }
+
+    return ret_val;
+}
+
+}
+
+}

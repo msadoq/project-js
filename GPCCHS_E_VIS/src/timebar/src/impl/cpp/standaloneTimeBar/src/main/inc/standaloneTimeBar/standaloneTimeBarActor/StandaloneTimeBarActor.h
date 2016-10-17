@@ -1,13 +1,11 @@
 /*!*******************************************************************
  * Project : ISIS
  * Component : GPCCHS_E_VIS
- * \file StandaloneTimeBarActivator.h
- * \author isis
- * \date 18/11/2014
- * \brief TODO Enter documentation in RSA model
- * \type BundleActivator
- * 
- * TODO Enter documentation in RSA model
+ * \file StandaloneTimeBarActor.h
+ * \author OHD
+ * \date 17/10/2016
+ * \brief StandaloneTimeBar Actor
+ * \type Actor
  ********************************************************************/
 
 /********************************************************************
@@ -18,13 +16,15 @@
  * END-HISTORY
  ********************************************************************/
 
-#ifndef STANDALONETIMEBAR_STANDALONETIMEBARACTIVATOR_STANDALONETIMEBARACTIVATOR_H_
-#define STANDALONETIMEBAR_STANDALONETIMEBARACTIVATOR_STANDALONETIMEBARACTIVATOR_H_
+#ifndef STANDALONETIMEBAR_STANDALONETIMEBARACTOR_STANDALONETIMEBARACTOR_H__
+#define STANDALONETIMEBAR_STANDALONETIMEBARACTOR_STANDALONETIMEBARACTOR_H__
 
 // Start of user code includes
 
 // End of user code
-#include "container/IsisModuleActor.h"
+
+#include "standaloneTimeBar/standaloneTimeBarActor/StandaloneTimeBarHandler.h"
+#include "container/IsisActor.h"
 
 // Start of user code namespaces
 
@@ -32,11 +32,17 @@
 
 namespace standaloneTimeBar{
 
-namespace standaloneTimeBarActivator{
+namespace standaloneTimeBarActor{
 
-class StandaloneTimeBarActivator : public ::container::IsisModuleActor{
+// Start of user code GlobalNamespaceAttributes
+
+// End of user code
+
+class StandaloneTimeBarActor : public ::container::IsisActor{
 
 protected:
+
+    ::standaloneTimeBar::standaloneTimeBarActor::StandaloneTimeBarHandler* _standaloneTimeBarHandler;
 
 protected:
     // Start of user code ProtectedAttrZone
@@ -44,9 +50,8 @@ protected:
     // End of user code
 
 public:
-
     /*!***************************************************************************
-     * Method : StandaloneTimeBarActivator::launchActor
+     * Method : StandaloneTimeBarActor::launchActor
      *
      * \brief This method is dedicated to thread management.
      * Every actor is launch and instanciated by the same thread
@@ -54,59 +59,59 @@ public:
      * \param args Launching arguments
      * \param ctx The context
      * \param parentPipe The parent pipe
-     *
      * This method is dedicated to thread management.
      * Every actor is launch and instanciated by the same thread
      ****************************************************************************/
     static void launchActor(void* args, zctx_t* ctx, void* parentPipe);
 
     /*!***************************************************************************
-     * Method : StandaloneTimeBarActivator::StandaloneTimeBarActivator
+     * Method : StandaloneTimeBarActor::StandaloneTimeBarActor
      *
      * \brief Constructor
      *
-     * \param context The context
-     * \param parentPipe The Isis pipe
+     * \param nodeType The node type
+     * \param parentPipe The parent pipe
      *
-     * Constructor of StandaloneTimeBarActivator
+     * Constructor
      ****************************************************************************/
-    StandaloneTimeBarActivator(core::Context* const context, container::IsisPipe* const parentPipe);
+    StandaloneTimeBarActor(const container::PipeNodeType nodeType, container::IsisPipe * const parentPipe);
 
     /*!***************************************************************************
-     * Method : StandaloneTimeBarActivator::~StandaloneTimeBarActivator
+     * Method : StandaloneTimeBarActor::~StandaloneTimeBarActor
      *
      * \brief Destructor
      *
-     * Destructor of ~StandaloneTimeBarActivator
+     * Destructor
      ****************************************************************************/
-    virtual ~StandaloneTimeBarActivator();
+    virtual ~StandaloneTimeBarActor();
 
     /*!***************************************************************************
-     * Method : StandaloneTimeBarActivator::doInit
+     * Method : StandaloneTimeBarActor::doInit
      *
-     * \brief StandaloneTimeBarActivator initialization
+     * \brief StandaloneTimeBarActor initialization
      * 
-     * StandaloneTimeBarActivator initialization
+     * StandaloneTimeBarActor initialization
      ****************************************************************************/
     void doInit();
 
     /*!***************************************************************************
-     * Method : StandaloneTimeBarActivator::postInit
+     * Method : StandaloneTimeBarActor::postInit
      *
-     * \brief StandaloneTimeBarActivator postinitialization
+     * \brief StandaloneTimeBarActor postinitialization
      *
-     * StandaloneTimeBarActivator postinitialization
+     * StandaloneTimeBarActor postinitialization
      ****************************************************************************/
     virtual void postInit();
 
+
     /*!***************************************************************************
-     * Method : StandaloneTimeBarActivator::createStandaloneTimeBarActor
+     * Method : StandaloneTimeBarActor::registerStandaloneTimeBarHandler
      *
-     * \brief Create the actor StandaloneTimeBarActor
+     * \brief Register StandaloneTimeBarHandler handler
      *
-     * Create the actor StandaloneTimeBarActor
+     * Register StandaloneTimeBarHandler handler
      ****************************************************************************/
-    void createStandaloneTimeBarActor();
+    void registerStandaloneTimeBarHandler();
 
 protected:
     // Start of user code ProtectedOperZone
@@ -114,8 +119,8 @@ protected:
     // End of user code
 };
 
-} // namespace standaloneTimeBarActivator
+}
 
-} // namespace standaloneTimeBar
+}
 
-#endif // STANDALONETIMEBAR_STANDALONETIMEBARACTIVATOR_STANDALONETIMEBARACTIVATOR_H_
+#endif

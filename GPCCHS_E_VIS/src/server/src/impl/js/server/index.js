@@ -107,20 +107,24 @@ primus.init(server, {
 zmq.open({
   dcPull: {
     type: 'pull',
+    role: 'server',
     url: process.env.ZMQ_GPCCDC_PULL,
     handler: (trash, header, ...args) => errorHandler('onMessage', () => onMessage(header, ...args)),
   },
   dcPush: {
     type: 'push',
+    role: 'client',
     url: process.env.ZMQ_GPCCDC_PUSH,
   },
   vimaTbPull: {
     type: 'pull',
+    role: 'server',
     url: process.env.ZMQ_VIMA_TIMEBAR,
     handler: buffer => errorHandler('onVimaTimebarUpdate', () => onVimaTimebarUpdate(buffer)),
   },
   vimaTbPush: {
     type: 'push',
+    role: 'client',
     url: process.env.ZMQ_VIMA_TIMEBAR_INIT,
   },
 }, (err) => {

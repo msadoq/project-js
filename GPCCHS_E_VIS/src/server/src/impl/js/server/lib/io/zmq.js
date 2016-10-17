@@ -25,6 +25,26 @@ const bindLifecycleEvents =
 
 let sockets = {};
 
+const connect = (socket, url, callback, handler) => {
+  socket.connect(url);
+  if (handler) {
+    socket.on('message', (...args) => handler(...args));
+  }
+  return callback(null);
+};
+
+const bind = (socket, url, callback, handler) => {
+  return socket.bind(url, (err) => {
+    if (err) {
+      return callback(err);
+    }
+    if (handler) {
+      socket.on('message', (...args) => handler(...args));
+    }
+    return callback(null);
+  });
+};
+
 function open(configuration, callback) {
   async.each(Object.keys(configuration), (key, cb) => {
     const item = configuration[key];
@@ -37,7 +57,12 @@ function open(configuration, callback) {
       return cb(new Error(`Handler function required for ZeroMQ socket type: ${item.type}`));
     }
 
-    const done = err => {
+    // .role required
+    if (['client', 'server'].indexOf(item.role) === -1) {
+      return cb(new Error('Role must be client or server and is required'));
+    }
+
+    const done = (err) => {
       if (err) {
         return cb(err);
       }
@@ -52,40 +77,41 @@ function open(configuration, callback) {
     // req
     if (item.type === 'req') {
       sockets[key] = zmq.socket('req');
-      return sockets[key].bind(item.url, err => {
-        if (err) {
-          return done(err);
-        }
-
-        sockets[key].on('message', (...args) => item.handler(...args));
-        return done(null);
-      });
+      if (item.role === 'server') {
+        return bind(sockets[key], item.url, done, item.handler);
+      }
+      return connect(sockets[key], item.url, done, item.handler);
     }
 
     // rep
     if (item.type === 'rep') {
       sockets[key] = zmq.socket('rep');
-      sockets[key].connect(item.url);
-      sockets[key].on('message', (...args) => item.handler(...args));
-      return done(null);
+      if (item.role === 'server') {
+        return bind(sockets[key], item.url, done, item.handler);
+      }
+      return connect(sockets[key], item.url, done, item.handler);
     }
 
     // push
     if (item.type === 'push') {
       sockets[key] = zmq.socket('push');
-      return sockets[key].bind(item.url, done);
+      if (item.role === 'server') {
+        return bind(sockets[key], item.url, done);
+      }
+      return connect(sockets[key], item.url, done);
     }
 
     // pull
     if (item.type === 'pull') {
       sockets[key] = zmq.socket('pull');
-      sockets[key].connect(item.url);
-      sockets[key].on('message', (...args) => item.handler(...args));
-      return done(null);
+      if (item.role === 'server') {
+        return bind(sockets[key], item.url, done, item.handler);
+      }
+      return connect(sockets[key], item.url, done, item.handler);
     }
 
     return cb(new Error(`Unknown ZeroMQ socket type: ${item.type}`));
-  }, err => {
+  }, (err) => {
     if (err) {
       return callback(err);
     }

@@ -41,8 +41,8 @@
         "unit": "V",
         "digits": 5,
         "format": "decimal",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -84,8 +84,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -127,8 +127,8 @@
         "unit": "V",
         "digits": 2,
         "format": "hexadecimal",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -154,8 +154,8 @@
         "unit": "V",
         "digits": 2,
         "format": "hexadecimal",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -197,8 +197,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -224,8 +224,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -251,8 +251,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -278,8 +278,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -289,8 +289,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -316,8 +316,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -343,8 +343,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -370,8 +370,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -397,8 +397,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -440,8 +440,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -467,8 +467,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -494,8 +494,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -521,8 +521,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -548,8 +548,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -575,8 +575,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -602,8 +602,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
       {
@@ -629,8 +629,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -656,8 +656,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -715,8 +715,8 @@
         "unit": "V",
         "digits": 5,
         "format": "decimal",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -758,8 +758,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -801,8 +801,8 @@
         "unit": "V",
         "digits": 2,
         "format": "hexadecimal",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -828,8 +828,8 @@
         "unit": "V",
         "digits": 2,
         "format": "hexadecimal",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -871,8 +871,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -898,8 +898,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -925,8 +925,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -952,8 +952,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -979,8 +979,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -1006,8 +1006,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -1033,8 +1033,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -1060,8 +1060,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -1087,8 +1087,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -1114,8 +1114,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -1141,8 +1141,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -1168,8 +1168,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -1195,8 +1195,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -1222,8 +1222,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -1249,8 +1249,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -1276,8 +1276,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -1303,8 +1303,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
       {
@@ -1330,8 +1330,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     },
     {
@@ -1357,8 +1357,8 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session1"
       }
     }
   ],
@@ -1379,7 +1379,9 @@
     "  <title>TV example 2</title>",
     " </head>",
     " <body>",
-    "  <table border=\"2\">",
+    " <table class=\"mainTab\" align=\"center\" width=\"90%\">",
+    "   <table border=\"1\" align= \"left\" width=\"30%\">",
+    "    <th width=\"50%\" bgcolor=\"lightsteelblue\"> NAME </th><th width=\"50%\" bgcolor=\"lightsteelblue\"> VALUE</th>",
     "    <tr><td>POW_BC_NUMRJCTTC8</td><td><span class=\"EntryPoint\">{{POW_BC_NUMRJCTTC8}}</span></td></tr>",
     "    <tr><td>POW_BC_NUMTCMAX</td><td><span class=\"EntryPoint\">{{POW_BC_NUMTCMAX}}</span></td></tr>",
     "    <tr><td>POW_BC_RTSTATWORD</td><td><span class=\"EntryPoint\">{{POW_BC_RTSTATWORD}}</span></td></tr>",
@@ -1390,7 +1392,6 @@
     "    <tr><td>SAT_BC_LASTSQNUM19</td><td><span class=\"EntryPoint\">{{SAT_BC_LASTSQNUM19}}</span></td></tr>",
     "    <tr><td>SAT_BC_MERMEANRATE</td><td><span class=\"EntryPoint\">{{SAT_BC_MERMEANRATE}}</span></td></tr>",
     "    <tr><td>SAT_BC_REVTCOUNT2</td><td><span class=\"EntryPoint\">{{SAT_BC_REVTCOUNT2}}</span></td></tr>",
-
     "    <tr><td>SAT_BC_TCR1CURRENT</td><td><span class=\"EntryPoint\">{{SAT_BC_TCR1CURRENT}}</span></td></tr>",
     "    <tr><td>SAT_BC_TCTMAXDLTIM</td><td><span class=\"EntryPoint\">{{SAT_BC_TCTMAXDLTIM}}</span></td></tr>",
     "    <tr><td>SAT_BC_TSTPARFLONG</td><td><span class=\"EntryPoint\">{{SAT_BC_TSTPARFLONG}}</span></td></tr>",
@@ -1401,7 +1402,6 @@
     "    <tr><td>ATT_BC_STR1SATRFQ1</td><td><span class=\"EntryPoint\">{{ATT_BC_STR1SATRFQ1}}</span></td></tr>",
     "    <tr><td>ATT_BC_SAS5YSUNSAS</td><td><span class=\"EntryPoint\">{{ATT_BC_SAS5YSUNSAS}}</span></td></tr>",
     "    <tr><td>ATT_BC_SSCHEDID10</td><td><span class=\"EntryPoint\">{{ATT_BC_SSCHEDID10}}</span></td></tr>",
-
     "    <tr><td>ATT_BC_SAS6VISISUN</td><td><span class=\"EntryPoint\">{{ATT_BC_SAS6VISISUN}}</span></td></tr>",
     "    <tr><td>ATT_BC_RWH3INITDEL</td><td><span class=\"EntryPoint\">{{ATT_BC_RWH3INITDEL}}</span></td></tr>",
     "    <tr><td>ATT_BC_QSATOLQ0</td><td><span class=\"EntryPoint\">{{ATT_BC_QSATOLQ0}}</span></td></tr>",
@@ -1412,17 +1412,18 @@
     "    <tr><td>GENE_AM_N1PKTSQCTRL</td><td><span class=\"EntryPoint\">{{GENE_AM_N1PKTSQCTRL}}</span></td></tr>",
     "    <tr><td>GENE_AM_LIMCROSSEDFL</td><td><span class=\"EntryPoint\">{{GENE_AM_LIMCROSSEDFL}}</span></td></tr>",
     "    <tr><td>AGA_AM_LASTOBSDATE</td><td><span class=\"EntryPoint\">{{AGA_AM_LASTOBSDATE}}</span></td></tr>",
-
     "    <tr><td>SAT_BC_HOTSPLGRID</td><td><span class=\"EntryPoint\">{{SAT_BC_HOTSPLGRID}}</span></td></tr>",
     "    <tr><td>SAT_BC_ENERGYPLATF</td><td><span class=\"EntryPoint\">{{SAT_BC_ENERGYPLATF}}</span></td></tr>",
     "    <tr><td>MIS_BC_DHDTVOLTAGE</td><td><span class=\"EntryPoint\">{{MIS_BC_DHDTVOLTAGE}}</span></td></tr>",
+
+    "   <table border=\"1\" align= \"left\" width=\"30%\">",
+    "    <th width=\"50%\" bgcolor=\"lightsteelblue\"> NAME </th><th width=\"50%\" bgcolor=\"lightsteelblue\"> VALUE</th>",
     "    <tr><td>MIS_BC_GAMAGAMMODE</td><td><span class=\"EntryPoint\">{{MIS_BC_GAMAGAMMODE}}</span></td></tr>",
     "    <tr><td>MIS_BC_LASTSQNUM17</td><td><span class=\"EntryPoint\">{{MIS_BC_LASTSQNUM17}}</span></td></tr>",
     "    <tr><td>MIS_BC_S19FREENUM</td><td><span class=\"EntryPoint\">{{MIS_BC_S19FREENUM}}</span></td></tr>",
     "    <tr><td>AGA_AM_ACQPRIORITY</td><td><span class=\"EntryPoint\">{{AGA_AM_ACQPRIORITY}}</span></td></tr>",
     "    <tr><td>AGA_AM_FIDSTATUS</td><td><span class=\"EntryPoint\">{{AGA_AM_FIDSTATUS}}</span></td></tr>",
     "    <tr><td>AGA_AM_N102NUMAREA</td><td><span class=\"EntryPoint\">{{AGA_AM_N102NUMAREA}}</span></td></tr>",
-
     "    <tr><td>GENE_AM_ZSPARE15</td><td><span class=\"EntryPoint\">{{GENE_AM_ZSPARE15}}</span></td></tr>",
     "    <tr><td>AGA_AM_CCSDSDATA</td><td><span class=\"EntryPoint\">{{AGA_AM_CCSDSDATA}}</span></td></tr>",
     "    <tr><td>AGA_AM_FREQUENCY</td><td><span class=\"EntryPoint\">{{AGA_AM_FREQUENCY}}</span></td></tr>",
@@ -1433,7 +1434,6 @@
     "    <tr><td>GENE_AM_PUSSUBTYPE</td><td><span class=\"EntryPoint\">{{GENE_AM_PUSSUBTYPE}}</span></td></tr>",
     "    <tr><td>BASETYPE_AM_PACKETDATA</td><td><span class=\"EntryPoint\">{{BASETYPE_AM_PACKETDATA}}</span></td></tr>",
     "    <tr><td>BASETYPE_AM_TIMET09F14</td><td><span class=\"EntryPoint\">{{BASETYPE_AM_TIMET09F14}}</span></td></tr>",
-
     "    <tr><td>BASETYPE_AM_TIMET10F15</td><td><span class=\"EntryPoint\">{{BASETYPE_AM_TIMET10F15}}</span></td></tr>",
     "    <tr><td>BASETYPE_AM_TIMET10F11</td><td><span class=\"EntryPoint\">{{BASETYPE_AM_TIMET10F11}}</span></td></tr>",
     "    <tr><td>GENE_AM_ZTIMESYNCH</td><td><span class=\"EntryPoint\">{{GENE_AM_ZTIMESYNCH}}</span></td></tr>",
@@ -1444,7 +1444,6 @@
     "    <tr><td>AGA_AM_Z9VAEXPV</td><td><span class=\"EntryPoint\">{{AGA_AM_Z9VAEXPV}}</span></td></tr>",
     "    <tr><td>AGA_AM_Z102LAT</td><td><span class=\"EntryPoint\">{{AGA_AM_Z102LAT}}</span></td></tr>",
     "    <tr><td>GENE_AM_144PARDBLE</td><td><span class=\"EntryPoint\">{{GENE_AM_144PARDBLE}}</span></td></tr>",
-
     "    <tr><td>AGA_AM_ZOWNERID</td><td><span class=\"EntryPoint\">{{AGA_AM_ZOWNERID}}</span></td></tr>",
     "    <tr><td>GENE_AM_144PARSHRT</td><td><span class=\"EntryPoint\">{{GENE_AM_144PARSHRT}}</span></td></tr>",
     "    <tr><td>GENE_AM_EVTTCPLEN</td><td><span class=\"EntryPoint\">{{GENE_AM_EVTTCPLEN}}</span></td></tr>",
@@ -1452,10 +1451,13 @@
     "    <tr><td>GENE_AM_EXPNU</td><td><span class=\"EntryPoint\">{{GENE_AM_EXPNU}}</span></td></tr>",
     "    <tr><td>GENE_AM_INTLCKASSID</td><td><span class=\"EntryPoint\">{{GENE_AM_INTLCKASSID}}</span></td></tr>",
     "    <tr><td>GENE_AM_MEANVALFLT</td><td><span class=\"EntryPoint\">{{GENE_AM_MEANVALFLT}}</span></td></tr>",
+
+
+    "   <table border=\"1\" align= \"left\" width=\"30%\">",
+    "    <th width=\"50%\" bgcolor=\"lightsteelblue\"> NAME </th><th width=\"50%\" bgcolor=\"lightsteelblue\"> VALUE</th>",
     "    <tr><td>GENE_AM_MINVALUSHT</td><td><span class=\"EntryPoint\">{{GENE_AM_MINVALUSHT}}</span></td></tr>",
     "    <tr><td>GENE_AM_N14PUSSUBT</td><td><span class=\"EntryPoint\">{{GENE_AM_N14PUSSUBT}}</span></td></tr>",
     "    <tr><td>GENE_AM_MINVALDBLE</td><td><span class=\"EntryPoint\">{{GENE_AM_MINVALDBLE}}</span></td></tr>",
-
     "    <tr><td>GENE_AM_OBCPWARNID</td><td><span class=\"EntryPoint\">{{GENE_AM_OBCPWARNID}}</span></td></tr>",
     "    <tr><td>GENE_AM_STORTIME1</td><td><span class=\"EntryPoint\">{{GENE_AM_STORTIME1}}</span></td></tr>",
     "    <tr><td>GENE_AM_TRACKINGSTA</td><td><span class=\"EntryPoint\">{{GENE_AM_TRACKINGSTA}}</span></td></tr>",
@@ -1466,7 +1468,6 @@
     "    <tr><td>ATT_BC_ENABLED12</td><td><span class=\"EntryPoint\">{{ATT_BC_ENABLED12}}</span></td></tr>",
     "    <tr><td>ATT_BC_LASTSQNUM13</td><td><span class=\"EntryPoint\">{{ATT_BC_LASTSQNUM13}}</span></td></tr>",
     "    <tr><td>ATT_BC_LASTSQNUM18</td><td><span class=\"EntryPoint\">{{ATT_BC_LASTSQNUM18}}</span></td></tr>",
-
     "    <tr><td>ATT_BC_MAG1YFIELDM</td><td><span class=\"EntryPoint\">{{ATT_BC_MAG1YFIELDM}}</span></td></tr>",
     "    <tr><td>ATT_BC_MAG2SATQ0</td><td><span class=\"EntryPoint\">{{ATT_BC_MAG2SATQ0}}</span></td></tr>",
     "    <tr><td>ATT_BC_MTQ1ERROR</td><td><span class=\"EntryPoint\">{{ATT_BC_MTQ1ERROR}}</span></td></tr>",
@@ -1477,7 +1478,6 @@
     "    <tr><td>ATT_BC_NUMRJCTTC8</td><td><span class=\"EntryPoint\">{{ATT_BC_NUMRJCTTC8}}</span></td></tr>",
     "    <tr><td>ATT_BC_PARMONITEN</td><td><span class=\"EntryPoint\">{{ATT_BC_PARMONITEN}}</span></td></tr>",
     "    <tr><td>ATT_BC_SAS3INITDEL</td><td><span class=\"EntryPoint\">{{ATT_BC_SAS3INITDEL}}</span></td></tr>",
-
     "    <tr><td>ATT_BC_SEQNUM1TC</td><td><span class=\"EntryPoint\">{{ATT_BC_SEQNUM1TC}}</span></td></tr>",
     "    <tr><td>ATT_BC_STR1ENABLED</td><td><span class=\"EntryPoint\">{{ATT_BC_STR1ENABLED}}</span></td></tr>",
     "    <tr><td>ATT_BC_THR1VOLTAGE</td><td><span class=\"EntryPoint\">{{ATT_BC_THR1VOLTAGE}}</span></td></tr>",
@@ -1489,6 +1489,7 @@
     "    <tr><td>ORB_BC_POSXITRF</td><td><span class=\"EntryPoint\">{{ORB_BC_POSXITRF}}</span></td></tr>",
     "    <tr><td>ORB_BC_NUMTC20</td><td><span class=\"EntryPoint\">{{ORB_BC_NUMTC20}}</span></td></tr>",
     "  </table>",
+    "</table>",
     " </body>",
     "</html>"
   ]

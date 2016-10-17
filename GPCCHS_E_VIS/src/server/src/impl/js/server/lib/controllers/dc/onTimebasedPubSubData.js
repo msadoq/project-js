@@ -21,9 +21,16 @@ const { applyFilters } = require('../../utils/filters');
  *        - store filtered payload in timebasedData model
  *        - queue a ws newData message (sent periodically)
  *
- * @param buffer
+ * @param queryIdBuffer (not used for now)
+ * @param dataIdBuffer
+ * @param payloadsBuffers
  */
-const sendTimebasedPubSubData = (websocketHandler, dataIdBuffer, ...payloadsBuffers) => {
+const sendTimebasedPubSubData = (
+  websocketHandler,
+  queryIdBuffer,
+  dataIdBuffer,
+  ...payloadsBuffers
+) => {
   debug.verbose('called');
 
   // deprotobufferize dataId
@@ -85,7 +92,7 @@ const sendTimebasedPubSubData = (websocketHandler, dataIdBuffer, ...payloadsBuff
 };
 
 module.exports = {
-  onTimebasedPubSubData: (dataIdBuffer, ...payloadsBuffers) =>
-    sendTimebasedPubSubData(addToMainQueue, dataIdBuffer, ...payloadsBuffers),
+  onTimebasedPubSubData: (queryIdBuffer, dataIdBuffer, ...payloadsBuffers) =>
+    sendTimebasedPubSubData(addToMainQueue, queryIdBuffer, dataIdBuffer, ...payloadsBuffers),
   sendTimebasedPubSubData,
 };

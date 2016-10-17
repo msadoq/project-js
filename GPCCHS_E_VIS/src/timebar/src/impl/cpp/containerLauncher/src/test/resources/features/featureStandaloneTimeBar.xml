@@ -2,7 +2,6 @@
 <features name="standaloneTimeBarFeatures">
         <feature name="featureStandaloneTimeBar">
            <bundle_hmi start-level="1">fr.cnes.lpisis.gpcc.cpp/gpcccm_l_cml_apiWrapper/gpcccm_l_cml_apiWrapper-${gpcccm.version}</bundle_hmi>
-           <bundle_hmi start-level="2">fr.cnes.lpisis.gpcc.cpp/gpcccm_l_cml_commonMMILibraryActors/gpcccm_l_cml_commonMMILibraryActors.${gpcc.version}</bundle_hmi>
-           <bundle_hmi start-level="3">fr.cnes.lpisis.gpcc.cpp/gpcchs_e_vis_standaloneTimeBar/gpcchs_e_vis_standaloneTimeBar.${gpcc.version}</bundle_hmi>
+           <bundle_hmi start-level="2">fr.cnes.lpisis.gpcc.cpp/gpcchs_e_vis_standaloneTimeBar/gpcchs_e_vis_standaloneTimeBar.${gpcc.version}</bundle_hmi>
         </feature>
 </features>

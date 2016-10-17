@@ -49,15 +49,18 @@ module.exports = (callback) => {
   zmq.open({
     vimaTimebarPush: {
       type: 'push',
+      role: 'client',
       url: process.env.ZMQ_VIMA_TIMEBAR,
     },
     vimaTbCliPull: {
       type: 'pull',
+      role: 'server',
       url: process.env.ZMQ_VIMA_STUB_TIMEBAR,
       handler: onVimaTbStubUpdate,
     },
     vimaTimebarInit: {
       type: 'pull',
+      role: 'server',
       url: process.env.ZMQ_VIMA_TIMEBAR_INIT,
       handler: onVimaTbStubInit,
     },

@@ -13,10 +13,10 @@ describe('models/timebasedDataFactory', () => {
     clearFactory();
   });
   describe('addTimebasedDataModel', () => {
-    const model = addTimebasedDataModel('myRemoteId');
+    let model;
 
     beforeEach(() => {
-      model.cleanup();
+      model = addTimebasedDataModel('myRemoteId');
     });
 
     const payload = getReportingParameter();

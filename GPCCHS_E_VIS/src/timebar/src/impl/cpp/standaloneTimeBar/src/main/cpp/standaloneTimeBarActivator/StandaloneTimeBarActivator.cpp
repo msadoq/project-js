@@ -1,5 +1,3 @@
-// Produced by Acceleo Cpp Generator 0.0.6-R4S1
-
 /*!*******************************************************************
  * Project : ISIS
  * Component : GPCCHS_E_VIS
@@ -37,6 +35,7 @@
 #include "commonMMIUtils/ComManager.h"
 
 #include "standaloneTimeBar/standaloneTimeBarActivator/StandaloneTimeBarActivator.h"
+#include "standaloneTimeBar/standaloneTimeBarActor/StandaloneTimeBarActor.h"
 
 namespace standaloneTimeBar{
 
@@ -118,6 +117,7 @@ void StandaloneTimeBarActivator::doInit()
 
 
     // Start of user code doInit
+    createStandaloneTimeBarActor();
     commonMMIUtils::ComManager::getInstance()->registerIsisActorContext(StandaloneTimeBarMMIBundle::getPipeId(),this->getContext());
     // End of user code
 }
@@ -127,25 +127,27 @@ void StandaloneTimeBarActivator::doInit()
  * Method : StandaloneTimeBarActivator::postInit
  * Purpose : StandaloneTimeBarActivator postinitialization
  ****************************************************************************/
-void StandaloneTimeBarActivator::postInit(){
-
-    // generated
-
-    // Start of user code postInit
-    // End of user code
+void StandaloneTimeBarActivator::postInit()
+{
+	// Nothing to do
 }
 
+/*!***************************************************************************
+ * Method : StandaloneTimeBarActivator::createStandaloneTimeBarActor
+ * Purpose : Create StandaloneTimeBarActor
+ ****************************************************************************/
+void StandaloneTimeBarActivator::createStandaloneTimeBarActor()
+{
+    core::VOID_PTR args = NULL;
 
+    fork((void*)::standaloneTimeBar::standaloneTimeBarActor::StandaloneTimeBarActor::launchActor, args, NULL);
+}
 
 
 extern "C" void create(void *args, zctx_t *ctx, void *pipe) {
     StandaloneTimeBarActivator::launchActor(args, ctx, pipe);
 }
 
-// Start of user code ProtectedOperZone
+}
 
-// End of user code
-
-} // namespace standaloneTimeBarActivator
-
-} // namespace standaloneTimeBar
+}

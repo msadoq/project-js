@@ -35,7 +35,7 @@ const cacheCleanup = (messageHandler, expiredRequests) => {
 
   const messageQueue = [];
   // loop over expired requests ('remoteId': [interval])
-  _.each(expiredRequests, (intervals, remoteId) => {
+  _.each(expiredRequests, ({ intervals }, remoteId) => {
     debug.error('intervals', intervals);
     // remove intervals from connectedData model
     const queryIds = connectedDataModel.removeIntervals(remoteId, intervals);

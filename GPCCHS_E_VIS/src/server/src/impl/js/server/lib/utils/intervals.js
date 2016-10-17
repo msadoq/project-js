@@ -5,7 +5,7 @@ const isTimestampInInterval = (timestamp, interval) =>
   (timestamp >= interval[0] && timestamp <= interval[1]);
 
 const isTimestampInIntervals = (timestamp, intervals) =>
-  _.some(intervals, interval => {
+  _.some(intervals, (interval) => {
     debug.debug('checking interval', interval);
     if (isTimestampInInterval(timestamp, interval)) {
       return true;
@@ -63,7 +63,7 @@ const mergeIntervals = (knownIntervals, interval) => {
 
 
   // Lower limit in a known interval
-  if (interval[0] < knownIntervals[lower - 1][1]) {
+  if (interval[0] <= knownIntervals[lower - 1][1]) {
     const upper = _.sortedIndexBy(knownIntervals, interval, i => i[1]);
 
     // And Upper limit upper than known intervals

@@ -16,7 +16,7 @@ const getExpiredRequests = (dataMap, dataRequests) => {
     });
     // if some expired intervals, add to invalidation
     if (expiredIntervals.length > 0) {
-      expiredRequests[remoteId] = expiredIntervals;
+      expiredRequests[remoteId] = { intervals: expiredIntervals };
     }
   });
   return expiredRequests;

@@ -33,6 +33,15 @@ describe('utils/intervals', () => {
   // });
 
   describe('mergeIntervals', () => {
+    it('near', () => {
+      const myInterval = [10, 20];
+      const knownIntervals = [[0, 10]];
+      const intervals = mergeIntervals(knownIntervals, myInterval);
+      intervals.should.be.an('array').that.have.lengthOf(1);
+      intervals[0].should.be.an('array').that.have.lengthOf(2);
+      intervals[0][1].should.equal(myInterval[1]);
+      intervals[0][0].should.equal(knownIntervals[0][0]);
+    });
     it('no intervals', () => {
       const myInterval = [0, 10];
       const knownIntervals = [];

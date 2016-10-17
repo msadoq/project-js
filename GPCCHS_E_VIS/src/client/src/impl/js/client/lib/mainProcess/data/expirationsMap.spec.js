@@ -334,8 +334,8 @@ describe('data:expirationsMap', () => {
   it('works', () => {
     const expiredRequests = expirationsMap(store.getState(), map);
     expiredRequests.should.have.properties({
-      [REMOTE_ID2]: [VISU_WINDOW],
-      [REMOTE_ID3]: [[VISU_WINDOW[0] - 1e5, VISU_WINDOW[0]]],
+      [REMOTE_ID2]: { intervals: [VISU_WINDOW] },
+      [REMOTE_ID3]: { intervals: [[VISU_WINDOW[0] - 1e5, VISU_WINDOW[0]]] },
     });
   });
 });

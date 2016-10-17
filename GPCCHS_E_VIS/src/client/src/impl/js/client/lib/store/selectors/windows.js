@@ -6,29 +6,29 @@ import { createSelector } from 'reselect';
  */
 const getAllPages = state => state.pages; // TODO page selector
 
-export function getWindow(state, windowId) {
-  return state.windows[windowId];
-}
+export const getWindow = (state, windowId) => state.windows[windowId];
 
 export function getPages(state, windowId) {
-  const pages = _get(state, `windows.${windowId}.pages`, []);
   if (!windowId) { // TODO TEST
     return [];
   }
 
-  return pages.map((id) => {
-    const page = state.pages[id] || {};
-    return {
-      pageId: id,
-      ...page
+  const pages = _get(state, `windows.${windowId}.pages`, []);
+
+  return pages.reduce((pages, id) => {
+    const page = state.pages[id];
+    if (!page) {
+      return pages;
     }
-  });
+
+    return [...pages, { pageId: id, ...page }];
+  }, []);
 }
 
 export const getWindowFocusedPageId =
   (state, { windowId }) => _get(state, ['windows', windowId, 'focusedPage']);
 
-export const makeGetWindowFocusedPage = () => createSelector([
+export const getWindowFocusedPageSelector = createSelector([
   getAllPages,
   getWindowFocusedPageId,
 ], (pages, pageId) => pages[pageId]);

@@ -5,11 +5,8 @@ import Websocket from './Websocket';
 
 const WebsocketContainer = props => <Websocket {...props} />;
 
-function mapStateToProps(state, { windowId, children }) {
-  return {
-    windowId,
-    ws: getStatus(state, windowId) || { status: 'disconnected' },
-    children,
-  };
-}
+const mapStateToProps = (state, props) => ({
+  ws: getStatus(state, props.windowId)
+});
+
 export default connect(mapStateToProps)(WebsocketContainer);

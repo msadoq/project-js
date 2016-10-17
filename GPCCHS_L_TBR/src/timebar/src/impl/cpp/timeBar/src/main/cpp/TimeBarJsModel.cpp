@@ -194,6 +194,9 @@ void TimeBarJsModel::toTimeBarModel(timeBarsModel::TimeBar* model)
 	timeBarsModel::Timeline * timeline = 0;
 
 	// Read and write timebar members
+	if(_msgContent.contains(jsUtils::JsonMsg::ID_KEY_NAME)) {
+		model->modifyName(_msgContent[jsUtils::JsonMsg::ID_KEY_NAME].toString());
+	}
 	if(_msgContent.contains(MASTERTLID_KEY_NAME)) {
 		tmpInt32 = _msgContent[MASTERTLID_KEY_NAME].toInt(&convOk);
 		if(convOk) {
@@ -290,10 +293,24 @@ void TimeBarJsModel::toTimeBarModel(timeBarsModel::TimeBar* model)
 	// Initialize drag as not on-going
 	model->modifyIsDragOnGoing(false);
 
-	// Check if there are timelines in the message
-	if(_timelines.length()) {
+	// Check if the given model already have timelines
+	if( model->getTimelines() ) {
+		// Retrieve the timelines pointer from model
+		timelines = model->getTimelines();
+		// Remove all the existing timelines
+		foreach(timeline, timelines->getTimelines()) {
+			timelines->removeTimeline(timeline,false);
+		}
+	} else {
 		// Create the timelines model with parent relationship to let the data model work
 		timelines = new timeBarsModel::Timelines(model);
+		// Set the created timeline list into model
+		model->setTimelines(timelines);
+	}
+
+	// Check if there are timelines in the message
+	if(_timelines.size()) {
+
 		// Parse each timeline of the message
 		while( index<_timelines.size() ) {
 			// Check that the QVariant conversion works
@@ -318,14 +335,12 @@ void TimeBarJsModel::toTimeBarModel(timeBarsModel::TimeBar* model)
 				}
 				// TLID_KEY_NAME is not existing in data model because this is a runtime computed data
 				// DS_PATH_KEY_NAME is not read and written because not implemented in data model
-				// Add the created timeline to the list
-				timelines->addTimeline(timeline);
+				// Add the created timeline to the list without undo capability, otherwise the timeline is not added
+				timelines->addTimeline(timeline,false);
 			}
 			index = index + 1;
 		}
 	}
-	// Set the created timeline list
-	model->setTimelines(timelines);
 }
 
 /*!***************************************************************************

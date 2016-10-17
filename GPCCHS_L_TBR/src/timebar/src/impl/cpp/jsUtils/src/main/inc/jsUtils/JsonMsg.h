@@ -102,6 +102,16 @@ public:
     void setId(QString id);
 
     /*!***************************************************************
+     * Method : getId
+     * \brief Get the identifier of the message
+     *
+     * \return The identifier of the message
+     *
+     * Retrieve the identifier of the message
+     *****************************************************************/
+    QString getId();
+
+    /*!***************************************************************
      * Method : getType
      * \brief Get the type of the message
      *

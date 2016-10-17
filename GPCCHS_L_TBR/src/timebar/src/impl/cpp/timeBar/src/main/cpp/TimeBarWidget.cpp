@@ -2095,46 +2095,48 @@ void TimeBarWidget::populate(timeBarsModel::TimeBar *tb, commonMMI::keyValConfHa
         date = QDateTime(QDate(QDate::currentDate().year()-1,QDate::currentDate().month(),QDate::currentDate().day()));
 
         // Open the timelines stored in the data model
-        for(tlIdx=0;tlIdx<_timeBarModel->getTimelines()->getTimelines().size();tlIdx++) {
-            timelinedata.tlPtr = _timeBarModel->getTimelines()->getTimelines().value(tlIdx);
-            tlType = TlType(TlType::TL_SESSION);
-            timelinedata.isMaster = false;
-            timelinedata.color = generateColorFromName(timelinedata.tlPtr->getName());
-            // Check if it is a session or a dataset/recordset
-            if(timelinedata.tlPtr->getType().compare(tlType.name())==0) {
-                timelinedata.type = tlType;
-                // For sessions, start and end time are arbitrary, because the drawn timelines are infinite, only the offset is usefull
-                timelinedata.startTime = date.toMSecsSinceEpoch();
-                timelinedata.endTime = timelinedata.startTime + NB_MILLISECONDS_IN_24HRS;
-                if(tlIdx == _timeBarModel->getMasterSession()) {
-                    masterSessionFound = true;
-                    timelinedata.isMaster = true;
-                }
-            } else {
-                tlType = TlType(TlType::TL_DATASET);
-                if(timelinedata.tlPtr->getType().compare(tlType.name())==0) {
-                    timelinedata.type = tlType;
-                    // TODO : update this initialization with actual read of dataset in datastore :
-                    timelinedata.startTime = date.toMSecsSinceEpoch();
-                    timelinedata.endTime = QDateTime(QDateTime::currentDateTime()).toMSecsSinceEpoch() + NB_MILLISECONDS_IN_24HRS;
-                }
-                tlType = TlType(TlType::TL_RECORDSET);
-                if(timelinedata.tlPtr->getType().compare(tlType.name())==0) {
-                    timelinedata.type = tlType;
-                    // TODO : update this initialization with actual read of recordset in datastore
-                    timelinedata.startTime = QDateTime(QDateTime::currentDateTime()).toMSecsSinceEpoch();
-                    timelinedata.endTime = timelinedata.startTime + NB_MILLISECONDS_IN_24HRS;
-                }
-            }
-            // Add the session timeline to QML
-            addedTlIdx = insertTimeLine(&timelinedata, timelinedata.tlPtr->getName(), timelinedata.tlPtr->getRef());
+        if(_timeBarModel->getTimelines()) {
+			for(tlIdx=0;tlIdx<_timeBarModel->getTimelines()->getTimelines().size();tlIdx++) {
+				timelinedata.tlPtr = _timeBarModel->getTimelines()->getTimelines().value(tlIdx);
+				tlType = TlType(TlType::TL_SESSION);
+				timelinedata.isMaster = false;
+				timelinedata.color = generateColorFromName(timelinedata.tlPtr->getName());
+				// Check if it is a session or a dataset/recordset
+				if(timelinedata.tlPtr->getType().compare(tlType.name())==0) {
+					timelinedata.type = tlType;
+					// For sessions, start and end time are arbitrary, because the drawn timelines are infinite, only the offset is usefull
+					timelinedata.startTime = date.toMSecsSinceEpoch();
+					timelinedata.endTime = timelinedata.startTime + NB_MILLISECONDS_IN_24HRS;
+					if(tlIdx == _timeBarModel->getMasterSession()) {
+						masterSessionFound = true;
+						timelinedata.isMaster = true;
+					}
+				} else {
+					tlType = TlType(TlType::TL_DATASET);
+					if(timelinedata.tlPtr->getType().compare(tlType.name())==0) {
+						timelinedata.type = tlType;
+						// TODO : update this initialization with actual read of dataset in datastore :
+						timelinedata.startTime = date.toMSecsSinceEpoch();
+						timelinedata.endTime = QDateTime(QDateTime::currentDateTime()).toMSecsSinceEpoch() + NB_MILLISECONDS_IN_24HRS;
+					}
+					tlType = TlType(TlType::TL_RECORDSET);
+					if(timelinedata.tlPtr->getType().compare(tlType.name())==0) {
+						timelinedata.type = tlType;
+						// TODO : update this initialization with actual read of recordset in datastore
+						timelinedata.startTime = QDateTime(QDateTime::currentDateTime()).toMSecsSinceEpoch();
+						timelinedata.endTime = timelinedata.startTime + NB_MILLISECONDS_IN_24HRS;
+					}
+				}
+				// Add the session timeline to QML
+				addedTlIdx = insertTimeLine(&timelinedata, timelinedata.tlPtr->getName(), timelinedata.tlPtr->getRef());
 
-            // Apply the timeline offset from the data model if the timeline addition was successful
-            if( addedTlIdx >=0 ) {
-                // ofs field is set to 0 because this field is added to the data model offset by the updateTimelineOfs function and
-                // we don't want to add additional offset in this case
-                updateTimelineOfs(static_cast<TBElt>(addedTlIdx),0, true,false);
-            }
+				// Apply the timeline offset from the data model if the timeline addition was successful
+				if( addedTlIdx >=0 ) {
+					// ofs field is set to 0 because this field is added to the data model offset by the updateTimelineOfs function and
+					// we don't want to add additional offset in this case
+					updateTimelineOfs(static_cast<TBElt>(addedTlIdx),0, true,false);
+				}
+			}
         }
 
         // Connect signals with slots

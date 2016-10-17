@@ -1,12 +1,10 @@
-// Produced by Acceleo Cpp Generator 0.0.6-R4S1
-
 /*!*******************************************************************
  * Project : ISIS
  * Component : StandaloneTimeBarMMIBundle
- * \file StandaloneTimeBarMMIBundle.cpp
- * \author isis
- * \date 18/11/2014
- * \brief MMI Bundle main class.
+ * \file StandaloneTimeBarMMIBundle.h
+ * \author Olivier HUYARD
+ * \date 29/09/2016
+ * \brief StandaloneTimeBar MMI Bundle main class.
  * 
  * MMI Bundle class is used for defining how MMI Bundle should be 
  * initialized, finalized and how it can open document 
@@ -20,8 +18,8 @@
  * END-HISTORY
  ********************************************************************/
 
-#ifndef STANDALONETIMEBARMMIBUNDLE_H_
-#define STANDALONETIMEBARMMIBUNDLE_H_
+#ifndef STANDALONETIMEBAR_STANDALONETIMEBARACTIVATOR_STANDALONETIMEBARMMIBUNDLE_H_
+#define STANDALONETIMEBAR_STANDALONETIMEBARACTIVATOR_STANDALONETIMEBARMMIBUNDLE_H_
 
 // Start of user code includes
 // End of user code
@@ -59,7 +57,6 @@ protected:
     // Start of user code ProtectedAttrZone
 
 	static const QString SOCKET_URI_BASE;                      ///< URI template for the used socket binding
-	static const QString PULL_PORT_ENV_VAR_NAME_BASE;          ///< Base name of the environment variable containing the PULL socket port number
 	static const QString PUSH_PORT_ENV_VAR_NAME_BASE;          ///< Base name of the environment variable containing the PUSH socket port number
 
 	commonMMI::DocumentModel * _document;                                 ///< Document requires to let the data model work
@@ -134,10 +131,17 @@ public:
      *****************************************************************/
     virtual void openDocument(const QString & path, const QMap<QString, QString>& config= QMap<QString, QString>());
 
+    /*!***************************************************************
+     * Method : event
+     *
+     * \param e The received event
+     *
+     * Event handler for new timebar creation
+     *****************************************************************/
+    bool event(QEvent * e);
+
 protected:
     // Start of user code ProtectedOperZone
-
-public:
 
 private:
     /*!***************************************************************
@@ -149,15 +153,6 @@ private:
      * Create a socket to let the timebar push to javascript all the user actions
      *****************************************************************/
     core::UINT32 createPushSocket(QString tbName);
-
-    /*!***************************************************************
-     * Method : retrieveTimeBarConf
-     *
-     * \param timeBar The timebar to initialize
-     *
-     * Create a socket and wait for timeBar configuration from javascript to populate data model
-     *****************************************************************/
-    void retrieveTimeBarConf(timeBarsModel::TimeBar* timeBar);
 
     /*!***************************************************************
      * Method : initializeTimeBar
@@ -180,11 +175,11 @@ private:
     timeBarsModel::TimeBar* createEmptyTimeBar(const QString name);
 
     /*!***************************************************************
-     * Method : openTimeBar
+     * Method : initTimeBarsModel
      *
-     * Open a single timebar
+     * Initialize the data model of timebars
      *****************************************************************/
-    void openTimeBar();
+    void initTimeBarsModel();
 
 private slots:
 

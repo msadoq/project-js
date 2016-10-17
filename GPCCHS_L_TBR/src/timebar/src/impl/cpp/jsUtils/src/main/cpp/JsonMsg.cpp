@@ -100,6 +100,20 @@ void JsonMsg::setId(QString id)
 }
 
 /*!***************************************************************************
+ * Method : JsonMsg::getId
+ * Purpose : Retrieve the identifier of the message
+ ****************************************************************************/
+QString JsonMsg::getId()
+{
+    QString ret_val(QString::null);
+    // Check if the type exist in map
+    if(_msgContent.contains(JsonMsg::ID_KEY_NAME)) {
+        ret_val = _msgContent[JsonMsg::ID_KEY_NAME].toString();
+    }
+    return ret_val;
+}
+
+/*!***************************************************************************
  * Method : JsonMsg::getType
  * Purpose : Retrieve the type of the message
  ****************************************************************************/

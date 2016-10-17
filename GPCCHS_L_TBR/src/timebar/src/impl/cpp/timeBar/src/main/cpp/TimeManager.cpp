@@ -494,9 +494,12 @@ void TimeManager::populate(timeBarsModel::TimeBar *tb,core::UINT32 socketID)
         _datesTimeSpec = Qt::LocalTime;
     }
 
-    // Load the timelines data from the data model. This will also inform the TimeBarJsManager
-    foreach(timeBarsModel::Timeline* tl, tb->getTimelines()->getTimelines()) {
-        timelineAdded(tl);
+    // Check if there is timelines in the model
+    if(tb->getTimelines()) {
+		// Load the timelines data from the data model. This will also inform the TimeBarJsManager
+		foreach(timeBarsModel::Timeline* tl, tb->getTimelines()->getTimelines()) {
+			timelineAdded(tl);
+		}
     }
 
     // Connect signals with slots

@@ -118,13 +118,13 @@ zmq.open({
   },
   vimaTbPull: {
     type: 'pull',
-    role: 'client',
+    role: 'server',
     url: process.env.ZMQ_VIMA_TIMEBAR,
     handler: buffer => errorHandler('onVimaTimebarUpdate', () => onVimaTimebarUpdate(buffer)),
   },
   vimaTbPush: {
     type: 'push',
-    role: 'server',
+    role: 'client',
     url: process.env.ZMQ_VIMA_TIMEBAR_INIT,
   },
 }, (err) => {

@@ -13,7 +13,10 @@ const addTimebasedDataModel = (remoteId) => {
     return getTimebasedDataModel(remoteId);
   }
   remoteIds.push(remoteId);
-  const collection = database.addCollection(`${constants.COLLECTION_TIMEBASED_DATA_PREFIX}.${remoteId}`);
+  const collection = database.addCollection(
+    `${constants.COLLECTION_TIMEBASED_DATA_PREFIX}.${remoteId}`,
+    { unique: ['timestamp'] }
+  );
 
   collection.addRecords = (records) => {
     debug.debug(`add ${records.length} records`);
@@ -24,10 +27,16 @@ const addTimebasedDataModel = (remoteId) => {
 
   collection.addRecord = (timestamp, payload) => {
     debug.debug('add record', collection.name);
-    return collection.insert({
-      timestamp,
-      payload,
-    });
+    const record = collection.by('timestamp', timestamp);
+    if (typeof record === 'undefined') {
+      return collection.insert({
+        timestamp,
+        payload,
+      });
+    }
+    record.payload = payload;
+    collection.update(record);
+    return record;
   };
 
   collection.findByInterval = (lower, upper) => {

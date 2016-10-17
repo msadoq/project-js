@@ -31,11 +31,13 @@ const createZmqConnection = (callback, pullHandler) => {
   zmq.open({
     dcPull: {
       type: 'pull',
+      role: 'server',
       url: process.env.ZMQ_GPCCDC_PULL,
       handler: (...args) => pullHandler(callback, ...args),
     },
     dcPush: {
       type: 'push',
+      role: 'client',
       url: process.env.ZMQ_GPCCDC_PUSH,
     },
   }, (err) => {

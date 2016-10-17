@@ -219,11 +219,13 @@ zmq.open(
   {
     stubdcrep: {
       type: 'pull',
+      role: 'server',
       url: process.env.ZMQ_GPCCDC_PUSH,
       handler: onHssMessage,
     },
     stubData: {
       type: 'push',
+      role: 'client',
       url: process.env.ZMQ_GPCCDC_PULL,
     },
   },

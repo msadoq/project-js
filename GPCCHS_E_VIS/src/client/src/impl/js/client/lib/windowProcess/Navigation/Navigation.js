@@ -13,9 +13,9 @@ const Navigation = props => (
         <div style={{ textAlign: 'right' }}>
           <Debug />
           {' '}
-          <Timebar />
-          {' '}
           <DataMap />
+          {' '}
+          <Timebar {...props} />
         </div>
       </Col>
     </Row>

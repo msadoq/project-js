@@ -3,7 +3,7 @@
   "type": "TextView",
   "textViewEntryPoints": [
     {
-      "name": "ATT_BC_STR1VOLTAGE_EV",
+      "name": "ATT_BC_STR1VOLTAGE_MS",
       "connectedData": {
         "formula": "Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.extractedValue",
         "unit": "V",
@@ -1408,9 +1408,9 @@
     " <body>",
     "  <table border=\"2\">",
     "    <tr><td>ATT_BC_STR1VOLTAGE_MS</td><td><span class=\"EntryPoint\">{{ATT_BC_STR1VOLTAGE_MS}}</span></td></tr>",
-    "    <tr><td>SAT_BC_TSTPARVQ3_MS_EV</td><td><span class=\"EntryPoint\">{{SAT_BC_TSTPARVQ3_MS_EV}}</span></td></tr>",
+    "    <tr><td>SAT_BC_TSTPARVQ3_MS</td><td><span class=\"EntryPoint\">{{SAT_BC_TSTPARVQ3_MS}}</span></td></tr>",
     "    <tr><td>MIS_BC_DAGAFREQ_CV</td><td><span class=\"EntryPoint\">{{MIS_BC_DAGAFREQ_CV}}</span></td></tr>",
-    "    <tr><td>GENE_AM_CCSDSAPID_MS</td><td><span class=\"EntryPoint\">{{GENE_AM_CCSDSAPID_MS}}</span></td></tr>",
+    "    <tr><td>GENE_AM_CCSDSAPID_EV</td><td><span class=\"EntryPoint\">{{GENE_AM_CCSDSAPID_EV}}</span></td></tr>",
     "    <tr><td>POW_BC_MAXENER_EV</td><td><span class=\"EntryPoint\">{{POW_BC_MAXENER_EV}}</span></td></tr>",
     "    <tr><td>TMMGT_BC_BCSTATUSW_CV</td><td><span class=\"EntryPoint\">{{TMMGT_BC_BCSTATUSW_CV}}</span></td></tr>",
     "    <tr><td>FMGT_BC_OBCP8EXSTAT_CV</td><td><span class=\"EntryPoint\">{{FMGT_BC_OBCP8EXSTAT_CV}}</span></td></tr>",

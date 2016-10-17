@@ -12,8 +12,11 @@ export default function getDisplayedValues(stateLocalId, field, interval, remote
       }
     }
   });
-  if (final.value) {
+
+  // test if value was set above, shoud test undefined to preserve falsable values
+  if (typeof final.value !== 'undefined') {
     return final;
   }
+
   return stateLocalId;
 }

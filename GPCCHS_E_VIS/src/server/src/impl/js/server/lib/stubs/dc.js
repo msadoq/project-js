@@ -8,14 +8,15 @@ const supportedParameters = require('./supportedParameters');
 
 require('dotenv-safe').load();
 
-const DC_FREQUENCY = 1000;
+const DC_FREQUENCY = 100;
+const PARAMETER_FREQUENCY = 2000;
 
 let subscriptions = {}; // realtime
 let queries = []; // archive
 
 const generateRealtimePayloads = () => {
   const payloads = [];
-  for (let i = 0; i < 10; i += 1) {
+  for (let i = 0; i < _.random(0, 3); i += 1) {
     // fake time repartition
     const timestamp = Date.now() - (i * 10);
     payloads.push(
@@ -31,8 +32,6 @@ const generateRealtimePayloads = () => {
   }
   return payloads;
 };
-
-const realtimePayloads = generateRealtimePayloads();
 
 const isParameterSupported = (dataId) => {
   const parameter = `${dataId.catalog}.${dataId.parameterName}<${dataId.comObject}>`;
@@ -153,7 +152,7 @@ const onHssMessage = (...args) => {
             return pushSuccess(queryId);
           }
         default:
-          throw new Error('Unknown messageType');
+          return pushError(queryId, `Unknown message type ${type}`);
       }
     } catch (decodeException) {
       debug.error('decode exception', decodeException);
@@ -165,29 +164,20 @@ const onHssMessage = (...args) => {
   }
 };
 
-const TIME = 1420106390000;
-let timestamp = TIME;
-
 const emulateDc = () => {
   debug.info('emulateDc call', Object.keys(subscriptions).length, queries.length);
-  // push realtime on each parameter
+
+  // pub/sub
   _.each(subscriptions, (dataId) => {
-    const payloads = _.map(realtimePayloads, (pl) => {
-      timestamp += 1;
-      return {
-        timestamp: stubData.getTimestampProtobuf({ ms: timestamp }),
-        payload: pl.payload,
-      };
-    });
     debug.verbose('push data from subscription');
-    pushTimebasedPubSubData(dataId, payloads);
+    pushTimebasedPubSubData(dataId, generateRealtimePayloads());
   });
 
   if (!queries.length) {
     return setTimeout(emulateDc, DC_FREQUENCY);
   }
 
-  // push queries
+  // queries
   debug.debug('pushing queries');
   _.each(queries, (query) => {
     const from = query.interval.startTime.ms;
@@ -196,7 +186,7 @@ const emulateDc = () => {
       return debug.error('Unvalid interval');
     }
     const payloads = [];
-    for (let i = from; i <= to; i += 2000) {
+    for (let i = from; i <= to; i += PARAMETER_FREQUENCY) {
       const ts = i;
       payloads.push(
         {

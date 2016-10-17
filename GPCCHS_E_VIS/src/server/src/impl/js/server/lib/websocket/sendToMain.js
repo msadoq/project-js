@@ -2,7 +2,7 @@ const debug = require('../io/debug')('websocket');
 const primus = require('./primus');
 const _ = require('lodash');
 
-const TIMESTEP = 100; // 100 ms
+const FLUSH_FREQUENCY = 25; // ms
 let mainQueue = {};
 
 const sendToMain = (event, payload) => {
@@ -24,7 +24,7 @@ const flushMainQueue = _.throttle(() => {
   const stop = process.hrtime(start);
   debug.debug('flushing time', stop);
   mainQueue = {};
-}, TIMESTEP);
+}, FLUSH_FREQUENCY);
 
 const addToMainQueue = (remoteId, payload) => {
   debug.debug('adding to queue');

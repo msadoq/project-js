@@ -1,5 +1,6 @@
 import { reduce, each, set, get } from 'lodash';
 
+import debug from '../../common/debug/mainDebug';
 import vivl from '../../../VIVL/main';
 import formulaParser from '../../common/formula';
 import remoteIdGenerator from '../../common/remoteId';
@@ -7,6 +8,8 @@ import localIdGenerator from '../../common/localId';
 import domainsFilter from '../../common/domains';
 import timelinesFilter from '../../common/sessions';
 import getTimebarTimelines from './selectors/getTimebarTimelines';
+
+const logger = debug('mainProcess/data/decline');
 
 /**
  * Decline cds for domainId and sessionId.
@@ -60,9 +63,11 @@ export default function decline(domains, timebars, timelines, cds) {
     return reduce(connectedData, (sublist, cd) => {
       const forDomains = domainsFilter(domains, cd.domain);
       if (!forDomains.length) {
+        logger.debug('no domain for this connectedData', cd.domain);
         return sublist;
       }
       if (forDomains.length > 1 && noMulti) {
+        logger.debug('too many domains for this connectedData', cd.domain);
         return sublist;
       }
 
@@ -71,9 +76,11 @@ export default function decline(domains, timebars, timelines, cds) {
         cd.timeline
       );
       if (!forSessionIds.length) {
+        logger.debug('no session for this connectedData', cd.domain);
         return sublist;
       }
       if (forSessionIds.length > 1 && noMulti) {
+        logger.debug('too many sessions for this connectedData', cd.domain);
         return sublist;
       }
 
@@ -117,7 +124,7 @@ export default function decline(domains, timebars, timelines, cds) {
             visuWindow.lower - offset, visuWindow.current - offset, visuWindow.upper - offset
           );
           if (!interval) {
-            throw new Error(`Unexpected function getExpectedInterval for view type ${type}`);
+            throw new Error(`Unexpected getExpectedInterval result for view type ${type}`);
           }
 
           set(sublist, [remoteId, 'localIds', localId], {

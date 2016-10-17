@@ -1,7 +1,0 @@
-package ackRequest.protobuf;
-
-enum AckWay {
-  SMS = 1;
-  Editor = 2;
-  Procedure = 3;
-}

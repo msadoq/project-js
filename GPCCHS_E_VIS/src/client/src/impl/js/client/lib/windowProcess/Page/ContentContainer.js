@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getViews } from '../../store/selectors/pages';
@@ -8,9 +8,15 @@ import Content from './Content';
 
 import styles from './Content.css';
 
-const PageContentContainer = props => props.focusedPage
-  ? <Content {...props} />
-  : <div className={styles.noPage}>No page ...</div>;
+const PageContentContainer = props => (
+  (props.focusedPage)
+    ? <Content {...props} />
+    : <div className={styles.noPage}>No page ...</div>
+);
+
+PageContentContainer.propTypes = {
+  focusedPage: PropTypes.object,
+};
 
 const mapStateToProps = (state, ownProps) => {
   if (!ownProps.focusedPage) {
@@ -18,7 +24,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   const views = getViews(state, ownProps.focusedPageId);
-  return { ...ownProps, views };
+  return { views };
 };
 
 function mapDispatchToProps(dispatch, { pageId }) {

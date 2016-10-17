@@ -16,7 +16,7 @@ export default function data(state, dispatch) {
     return undefined;
   }
 
-  logger.debug('begin data synchronisation');
+  logger.verbose('begin data synchronisation');
 
   const start = process.hrtime();
 
@@ -26,12 +26,14 @@ export default function data(state, dispatch) {
   const dataQueries = requestsMapGenerator(state, dataMap);
   // console.log(require('util').inspect(dataQueries, {depth: 5}));
 
-  getWebsocket().write({ event: 'dataQuery', payload: dataQueries });
+  if (dataQueries && _.isObject(dataQueries) && Object.keys(dataQueries).length) {
+    getWebsocket().write({ event: 'dataQuery', payload: dataQueries });
+  }
 
   dispatch(addRequests(dataQueries));
 
   const duration = process.hrtime(start)[1] / 1e6;
   logger.debug(
-    `data synchronization done in ${duration}ms, ${Object.keys(dataQueries).length} remoteId`
+    `data requests done in ${duration}ms, ${Object.keys(dataQueries).length} remoteId requests`
   );
 }

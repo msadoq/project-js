@@ -1,4 +1,4 @@
-# LP ISIS - GPCCHS CLIENT
+# GPCCHS CLIENT
 
 Desktop visualisation application for ISIS project.
 
@@ -14,4 +14,10 @@ Launch project in development:
 
 ```
 npm run dev
+``` 
+
+Check the project source code linting:
+
+```
+npm run lint
 ``` 

@@ -6,14 +6,13 @@ import extractInterval from '../../common/extractInterval';
 export default function requests(state = {}, action) {
   switch (action.type) {
     case types.DATA_ADD_REQUESTS: {
-      const modified = _reduce(action.payload.requests, (list, { intervals }, remoteId) => {
+      const modified = _reduce(action.payload.requests, (list, { intervals }, remoteId) =>
         // TODO : miss support of multiple intervals to merge in mergeIntervals([], [])
-        return _set(list, [remoteId], _reduce(
+        _set(list, [remoteId], _reduce(
           intervals,
           (a, i) => mergeIntervals(a, i),
           Array.from(state[remoteId] ? state[remoteId] : [])
-        ));
-      }, {});
+        )), {});
       return {
         ...state,
         ...modified,

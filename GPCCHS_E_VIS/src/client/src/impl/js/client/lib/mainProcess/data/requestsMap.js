@@ -1,8 +1,7 @@
+import { each, get, map } from 'lodash';
 import { createSelector } from 'reselect';
 import missingIntervals from '../../common/missingIntervals';
 import mergeIntervals from '../../common/mergeIntervals';
-
-const _ = require('lodash');
 
 // TODO factorize
 const operators = {
@@ -41,10 +40,10 @@ const operators = {
  */
 export default function requestsMap(state, dataMap) {
   const queries = {};
-  _.each(dataMap, ({ dataId, filter, localIds }, remoteId) => {
-    _.each(localIds, ({ expectedInterval }) => {
+  each(dataMap, ({ dataId, filter, localIds }, remoteId) => {
+    each(localIds, ({ expectedInterval }) => {
       // TODO memoize
-      const knownIntervals = _.get(state, ['dataRequests', remoteId], []);
+      const knownIntervals = get(state, ['dataRequests', remoteId], []);
 
       const needed = missingIntervals(knownIntervals, expectedInterval);
       if (!needed.length) {
@@ -53,7 +52,7 @@ export default function requestsMap(state, dataMap) {
 
       if (!queries[remoteId]) {
         const queryArguments = {
-          filters: (typeof filter === 'undefined') ? [] : _.map(filter, f => ({
+          filters: (typeof filter === 'undefined') ? [] : map(filter, f => ({
             fieldName: f.field,
             type: operators[f.operator],
             fieldValue: f.operand,
@@ -66,7 +65,7 @@ export default function requestsMap(state, dataMap) {
         };
       }
 
-      _.each(needed, (m) => {
+      each(needed, (m) => {
         queries[remoteId].intervals = mergeIntervals(queries[remoteId].intervals, m);
       });
     });

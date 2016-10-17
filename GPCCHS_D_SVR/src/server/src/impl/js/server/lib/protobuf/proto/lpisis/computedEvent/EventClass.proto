@@ -1,8 +1,0 @@
-package computedEvent.protobuf;
-
-enum EventClass {
-  ORBITAL = 0;
-  MISSION = 1;
-  SATELLITE = 2;
-  STATION = 3;
-}

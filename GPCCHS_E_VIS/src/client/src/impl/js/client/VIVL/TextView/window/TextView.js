@@ -15,23 +15,25 @@ export default class TextView extends Component {
     // defaultRatio: PropTypes.object,
   };
 
-  componentDidMount(){
+  componentDidMount() {
     // recreate the html string from an array
     this.setState({ template: this.props.configuration.content.join('') });
   }
 
   getMarkup = () => Mustache.render(
     this.state.template,
-    this.props.configuration.textViewEntryPoints
+    this.props.data
   )
 
   render() {
     const innerHTML = this.getMarkup();
     return (
       <div>
-        ok text view
+        ok text view ({this.props.viewId})
         size: {this.props.size.width}x{this.props.size.height}
+        <br />
         {JSON.stringify(this.props.interval)}
+        <br />
         {JSON.stringify(this.props.data)}
         {this.props.viewId}
         <div dangerouslySetInnerHTML={{ __html: innerHTML }}></div>

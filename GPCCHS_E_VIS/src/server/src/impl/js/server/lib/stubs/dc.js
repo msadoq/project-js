@@ -34,16 +34,6 @@ const generateRealtimePayloads = () => {
 
 const realtimePayloads = generateRealtimePayloads();
 
-// stub supported parameters list
-/* const supportedParameters = [
-  'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>',
-  'Reporting.ATT_BC_STR1STRSAQ0<ReportingParameter>',
-  'Reporting.ATT_BC_STR1STRSAQ1<ReportingParameter>',
-  'Reporting.ATT_BC_STR1STRSAQ2<ReportingParameter>',
-  'Reporting.ATT_BC_STR1STRSAQ3<ReportingParameter>',
-  'Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>',
-];*/
-
 const isParameterSupported = (dataId) => {
   const parameter = `${dataId.catalog}.${dataId.parameterName}<${dataId.comObject}>`;
   if (supportedParameters.indexOf(parameter) === -1) {
@@ -109,7 +99,7 @@ const pushTimebasedPubSubData = (dataId, payloads) => {
 // Message Controller
 const onHssMessage = (...args) => {
   debug.info('onHssMessage');
-  let header;
+  let header = '';
   try {
     header = protobuf.decode('dc.dataControllerUtils.Header', args[0]);
     const queryId = protobuf.decode('dc.dataControllerUtils.String', args[1]).string;

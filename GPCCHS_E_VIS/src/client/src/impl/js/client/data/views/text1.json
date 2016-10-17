@@ -434,17 +434,6 @@
       }
     },
     {
-      "name": "TMMGT_BC_BCSTATUSW_CV",
-      "connectedData": {
-        "formula": "Reporting.TMMGT_BC_BCSTATUSW<ReportingParameter>.convertedValue",
-        "unit": "V",
-        "digits": 8,
-        "format": "",
-        "domain": "fr.cnes*",
-        "timeline": "Session*"
-      }
-    },
-    {
       "name": "SAT_BC_ENABLED2",
       "connectedData": {
         "formula": "Reporting.SAT_BC_ENABLED2<ReportingParameter>.monitoringState",
@@ -1407,16 +1396,16 @@
     " </head>",
     " <body>",
     "  <table border=\"2\">",
-    "    <tr><td>ATT_BC_STR1VOLTAGE_MS</td><td><span class=\"EntryPoint\">{{ATT_BC_STR1VOLTAGE_MS}}</span></td></tr>",
-    "    <tr><td>SAT_BC_TSTPARVQ3_MS_EV</td><td><span class=\"EntryPoint\">{{SAT_BC_TSTPARVQ3_MS_EV}}</span></td></tr>",
-    "    <tr><td>MIS_BC_DAGAFREQ_CV</td><td><span class=\"EntryPoint\">{{MIS_BC_DAGAFREQ_CV}}</span></td></tr>",
-    "    <tr><td>GENE_AM_CCSDSAPID_MS</td><td><span class=\"EntryPoint\">{{GENE_AM_CCSDSAPID_MS}}</span></td></tr>",
-    "    <tr><td>POW_BC_MAXENER_EV</td><td><span class=\"EntryPoint\">{{POW_BC_MAXENER_EV}}</span></td></tr>",
-    "    <tr><td>TMMGT_BC_BCSTATUSW_CV</td><td><span class=\"EntryPoint\">{{TMMGT_BC_BCSTATUSW_CV}}</span></td></tr>",
-    "    <tr><td>FMGT_BC_OBCP8EXSTAT_CV</td><td><span class=\"EntryPoint\">{{FMGT_BC_OBCP8EXSTAT_CV}}</span></td></tr>",
-    "    <tr><td>ORB_BC_TSTPARVFLT_CV</td><td><span class=\"EntryPoint\">{{ORB_BC_TSTPARVFLT_CV}}</span></td></tr>",
-    "    <tr><td>CLK_BC_EVACGENSTA_CV</td><td><span class=\"EntryPoint\">{{CLK_BC_EVACGENSTA_CV}}</span></td></tr>",
-    "    <tr><td>AGA_AM_VISIANGLE_CV</td><td><span class=\"EntryPoint\">{{AGA_AM_VISIANGLE_CV}}</span></td></tr>",
+    "    <tr><td>ATT_BC_STR1VOLTAGE_EV</td><td><span class=\"EntryPoint\">{{ATT_BC_STR1VOLTAGE}}</span></td></tr>",
+    "    <tr><td>SAT_BC_TSTPARVQ3_MS</td><td><span class=\"EntryPoint\">{{SAT_BC_TSTPARVQ3}}</span></td></tr>",
+    "    <tr><td>MIS_BC_DAGAFREQ_CV</td><td><span class=\"EntryPoint\">{{MIS_BC_DAGAFREQ}}</span></td></tr>",
+    "    <tr><td>GENE_AM_CCSDSAPID_EV</td><td><span class=\"EntryPoint\">{{GENE_AM_CCSDSAPID}}</span></td></tr>",
+    "    <tr><td>POW_BC_MAXENER_MS</td><td><span class=\"EntryPoint\">{{POW_BC_MAXENER}}</span></td></tr>",
+    "    <tr><td>TMMGT_BC_BCSTATUSW_CV</td><td><span class=\"EntryPoint\">{{TMMGT_BC_BCSTATUSW}}</span></td></tr>",
+    "    <tr><td>FMGT_BC_OBCP8EXSTAT_EV</td><td><span class=\"EntryPoint\">{{FMGT_BC_OBCP8EXSTAT}}</span></td></tr>",
+    "    <tr><td>ORB_BC_TSTPARVFLT_MS</td><td><span class=\"EntryPoint\">{{ORB_BC_TSTPARVFLT}}</span></td></tr>",
+    "    <tr><td>CLK_BC_EVACGENSTA_CV</td><td><span class=\"EntryPoint\">{{CLK_BC_EVACGENSTA}}</span></td></tr>",
+    "    <tr><td>AGA_AM_VISIANGLE_CV</td><td><span class=\"EntryPoint\">{{AGA_AM_VISIANGLE}}</span></td></tr>",
 
     "    <tr><td>POW_BC_PCDENABLED</td><td><span class=\"EntryPoint\">{{POW_BC_PCDENABLED}}</span></td></tr>",
     "    <tr><td>GENE_AM_CCSDSSOUR</td><td><span class=\"EntryPoint\">{{GENE_AM_CCSDSSOUR}}</span></td></tr>",

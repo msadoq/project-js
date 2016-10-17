@@ -1,7 +1,7 @@
 require('../utils/test');
 const zmq = require('./zmq');
 
-describe.only('io/zmq', () => {
+describe('io/zmq', () => {
   afterEach((done) => {
     zmq.closeSockets();
     done();

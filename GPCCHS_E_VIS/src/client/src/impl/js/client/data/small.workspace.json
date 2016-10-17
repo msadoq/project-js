@@ -46,7 +46,7 @@
         "timelines": [
           {
             "id": "Session 1",
-            "offset": -10000,
+            "offset": 0,
             "kind": "Session",
             "sessionId": 1
           }

@@ -53,43 +53,40 @@ export default function getDataFromCache() {
       (state, props) => props.timebarId,
       (state, props) => props.configuration,
     ],
-    (domains, timelines, cache, timebarId, configuration) => {
-      return reduce(getEntryPointsFromState(configuration), (list, ep) => {
+    (domains, timelines, cache, timebarId, configuration) =>
+      reduce(getEntryPointsFromState(configuration), (list, ep) => {
         if (!ep || !ep.name || !ep.connectedData) {
           return list;
         }
 
         const cd = ep.connectedData;
 
-        let value;
+        // domain (only one per entry point for TextView)
         const domainIds = domainsFilter(domains, cd.domain);
-        const sessionIds = domainIds.length === 1
-          ? timelinesFilter(timelines, cd.timeline)
-          : [];
-
-        if (!domainIds.length || !sessionIds.length) {
-          return list;
+        if (!domainIds.length || domainIds.length > 1) {
+          return Object.assign(list, { [ep.name]: 'INVALID (domain)' });
         }
 
-        if (domainIds.length > 1 || sessionIds.length > 1) {
-          value = 'INVALID';
-        } else {
-          const { sessionId, offset } = sessionIds[0];
-          const p = formulaParser(cd.formula);
-          const dataId = {
-            catalog: p.catalog,
-            parameterName: p.parameterName,
-            comObject: p.comObject,
-            domainId: domainIds[0],
-            sessionId,
-          };
-          const remoteId = remoteIdGenerator(dataId, cd.filter);
-          const localId = localIdGenerator('TextView', p.field, timebarId, offset);
-          value = get(cache, [remoteId, localId, 'value']);
+        // session (only one per entry point for TextView)
+        const sessionIds = timelinesFilter(timelines, cd.timeline);
+        if (!sessionIds.length || sessionIds.length > 1) {
+          return Object.assign(list, { [ep.name]: 'INVALID (session)' });
         }
+
+        const { sessionId, offset } = sessionIds[0];
+        const p = formulaParser(cd.formula);
+        const dataId = {
+          catalog: p.catalog,
+          parameterName: p.parameterName,
+          comObject: p.comObject,
+          domainId: domainIds[0],
+          sessionId,
+        };
+        const remoteId = remoteIdGenerator(dataId, cd.filter);
+        const localId = localIdGenerator('TextView', p.field, timebarId, offset);
+        const value = get(cache, [remoteId, localId, 'value']);
 
         return Object.assign(list, { [ep.name]: value });
-      }, {});
-    }
+      }, {})
   );
 }

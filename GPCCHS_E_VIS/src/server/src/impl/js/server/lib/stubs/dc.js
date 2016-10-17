@@ -83,10 +83,11 @@ const pushTimebasedArchiveData = (queryId, dataId, isLast, payloads) => {
   });
   zmq.push('stubData', buffer);
 };
-const pushTimebasedPubSubData = (dataId, payloads) => {
+const pushTimebasedPubSubData = (queryId, dataId, payloads) => {
   const buffer = [
     null,
     stubData.getTimebasedPubSubDataHeaderProtobuf(),
+    stubData.getStringProtobuf(queryId),
     stubData.getDataIdProtobuf(dataId),
   ];
   _.each(payloads, (payload) => {
@@ -143,7 +144,10 @@ const onHssMessage = (...args) => {
             }
             const action = protobuf.decode('dc.dataControllerUtils.Action', args[3]).action;
             if (action === constants.SUBSCRIPTIONACTION_ADD) {
-              subscriptions[parameter] = dataId;
+              subscriptions[parameter] = {
+                queryId,
+                dataId,
+              };
               debug.debug('subscription added', parameter);
             }
             if (action === constants.SUBSCRIPTIONACTION_DELETE) {
@@ -171,7 +175,7 @@ let timestamp = TIME;
 const emulateDc = () => {
   debug.info('emulateDc call', Object.keys(subscriptions).length, queries.length);
   // push realtime on each parameter
-  _.each(subscriptions, (dataId) => {
+  _.each(subscriptions, ({ queryId, dataId }) => {
     const payloads = _.map(realtimePayloads, (pl) => {
       timestamp += 1;
       return {
@@ -180,7 +184,7 @@ const emulateDc = () => {
       };
     });
     debug.verbose('push data from subscription');
-    pushTimebasedPubSubData(dataId, payloads);
+    pushTimebasedPubSubData(queryId, dataId, payloads);
   });
 
   if (!queries.length) {

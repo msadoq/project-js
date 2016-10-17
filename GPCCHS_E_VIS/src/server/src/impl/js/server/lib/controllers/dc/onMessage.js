@@ -33,13 +33,13 @@ const message = (
       errorHandler('onResponse', () => responseHandler(args[0], args[1], args[2]));
       break;
     case constants.MESSAGETYPE_DOMAIN_DATA:
-      errorHandler('onDomainData', () => domainDataHandler(args[0], ..._.slice(args, 1)));
+      errorHandler('onDomainData', () => domainDataHandler(args[0], args[1]));
       break;
     case constants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA:
       errorHandler('onTimebasedArchiveData', () => timebasedArchiveDataHandler(args[0], args[1], args[2], ..._.slice(args, 3)));
       break;
     case constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA:
-      errorHandler('onTimebasedPubSubData', () => timebasedPubSubDataHandler(args[0], ..._.slice(args, 1)));
+      errorHandler('onTimebasedPubSubData', () => timebasedPubSubDataHandler(args[0], args[1], ..._.slice(args, 2)));
       break;
     default:
       debug.debug('message type not recognized');

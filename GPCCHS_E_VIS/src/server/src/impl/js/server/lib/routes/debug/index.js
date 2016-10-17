@@ -2,7 +2,7 @@ const { Router } = require('express');
 
 const subscriptionsModel = require('../../models/subscriptions');
 const connectedDataModel = require('../../models/connectedData');
-const timebasedDataModel = require('../../models/timebasedDataFactory');
+const { getAllTimebasedDataModelRemoteIds, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const { getDomains } = require('../../utils/domains');
 const perfTool = require('../../utils/performanceTool');
 
@@ -60,7 +60,7 @@ router.get('/',
   (req, res) => {
     const domains = getDomains();
     const cdNb = connectedDataModel.count();
-    const dataNb = timebasedDataModel.count();
+    const tbModels = getAllTimebasedDataModelRemoteIds();
     const subNb = subscriptionsModel.count();
     const avgTime = perfTool.getAvgTime();
     const avgMemoryUsage = perfTool.getAvgMemoryUsage();
@@ -98,7 +98,7 @@ router.get('/',
       '     </ul>' +
       '   <h2>Models</h2>' +
       '     <ul>' +
-      `       <li>timebasedData: ${dataNb} element(s)</li>` +
+      `       <li><a href="/debug/timebasedData/">timebasedData</a>: ${tbModels.length} model(s)</li>` +
       `       <li><a href="/debug/connectedData/">connectedData</a>: ${cdNb} element(s)</li>` +
       `       <li><a href="/debug/subscriptions/">subscriptions</a>: ${subNb} element(s)</li>` +
       '     </ul>' +

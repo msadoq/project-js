@@ -20,8 +20,8 @@ describe('store:hss', () => {
         });
         getStatus(getState(), 'main').should.eql({ status: 'error', error: 'My error' });
         getStatus(getState(), 'myWindowId').should.eql({ status: 'connected', error: null });
-        should.not.exist(getStatus(getState(), 'otherId'));
-        should.not.exist(getStatus(getState()));
+        getStatus(getState(), 'otherId').should.eql({ status: 'disconnected' });
+        getStatus(getState()).should.eql({ status: 'disconnected' });
       });
     });
   });

@@ -4,7 +4,7 @@
   "title": "page example 1",
   "views": [
 	{
-	  "path": "/views/plot1.json",
+	  "path": "/views/text1.json",
 	  "geometry": {
 		"kind": "Relative",
 		"x": 0,

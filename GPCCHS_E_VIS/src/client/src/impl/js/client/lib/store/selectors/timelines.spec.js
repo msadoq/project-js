@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions: 0 */
 import { should, getStore } from '../../common/test';
-import getTimeline from './timelines';
+import { getTimeline } from './timelines';
 
 describe('store:timeline', () => {
   describe('selectors', () => {

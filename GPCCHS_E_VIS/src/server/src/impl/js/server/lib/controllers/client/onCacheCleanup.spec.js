@@ -108,8 +108,8 @@ describe('controllers/onCacheCleanup', () => {
   it('not all intervals expired', () => {
     // init test
     const expiredRequests = {
-      [remoteId11]: [interval111],
-      [remoteId21]: [interval212],
+      [remoteId11]: { intervals: [interval111] },
+      [remoteId21]: { intervals: [interval212] },
     };
     // launch test
     cacheCleanup(zmqEmulator, expiredRequests);
@@ -193,8 +193,8 @@ describe('controllers/onCacheCleanup', () => {
   it('all intervals expired', () => {
     // init test
     const expiredRequests = {
-      [remoteId11]: [interval111],
-      [remoteId21]: [interval211, interval212],
+      [remoteId11]: { intervals: [interval111] },
+      [remoteId21]: { intervals: [interval211, interval212] },
     };
     // launch test
     cacheCleanup(zmqEmulator, expiredRequests);
@@ -264,9 +264,9 @@ describe('controllers/onCacheCleanup', () => {
   it('subscription no longer needed', () => {
     // init test
     const expiredRequests = {
-      [remoteId11]: [interval111],
-      [remoteId21]: [interval211, interval212],
-      [remoteId22]: [interval221, interval222],
+      [remoteId11]: { intervals: [interval111] },
+      [remoteId21]: { intervals: [interval211, interval212] },
+      [remoteId22]: { intervals: [interval221, interval222] },
     };
     // launch test
     cacheCleanup(zmqEmulator, expiredRequests);

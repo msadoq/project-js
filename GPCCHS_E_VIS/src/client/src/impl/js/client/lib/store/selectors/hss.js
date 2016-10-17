@@ -1,17 +1,10 @@
-import _ from 'lodash';
-
 /**
  * Selectors
  */
 export function getStatus(state, identity) {
-  if (!identity) {
-    return undefined;
+  const identityObject = state.hss[identity];
+  if (!identityObject) {
+    return { status: 'disconnected' };
   }
-
-  const ws = _.get(state, `hss.${identity}`);
-  if (!ws) {
-    return undefined;
-  }
-
-  return ws;
+  return identityObject;
 }

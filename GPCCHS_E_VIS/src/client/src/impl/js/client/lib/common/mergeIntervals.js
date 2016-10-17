@@ -49,7 +49,7 @@ export default function mergeIntervals(knownIntervals, interval) {
 
 
   // Lower limit in a known interval
-  if (interval[0] < knownIntervals[lower - 1][1]) {
+  if (interval[0] <= knownIntervals[lower - 1][1]) {
     const upper = _.sortedIndexBy(knownIntervals, interval, i => i[1]);
 
     // And Upper limit upper than known intervals

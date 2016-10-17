@@ -1,4 +1,5 @@
 import debug from '../common/debug/mainDebug';
+import { removeRequests } from '../store/actions/dataRequests';
 import expirationsMapGenerator from './data/expirationsMap';
 import dataMapGenerator from './data/dataMap';
 import { getWebsocket } from '../common/websocket/mainWebsocket';
@@ -13,5 +14,6 @@ export default function (store) {
   if (Object.keys(expiredRequests).length === 0) {
     return;
   }
-  //getWebsocket().write({ event: 'timebasedQueryInvalidation', payload: expiredRequests });
+  getWebsocket().write({ event: 'timebasedQueryInvalidation', payload: expiredRequests });
+  store.dispatch(removeRequests(expiredRequests));
 }

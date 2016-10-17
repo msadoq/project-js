@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { electronEnhancer } from 'redux-electron-store';
 import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
-import reducer from './reducers';
+import reducers from './reducers';
 
 let store;
 
@@ -22,8 +22,8 @@ const enhancer = compose(
 );
 
 export function initStore(initialState) {
-  store = createStore(reducer, initialState, enhancer);
-
+  store = createStore(reducers, initialState, enhancer);
+  console.log('store', store.getState())
   if (window.devToolsExtension) {
     window.devToolsExtension.updateStore(store);
   }

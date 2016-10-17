@@ -18,6 +18,14 @@ const windowId = search.replace('?windowId=', '');
 
 initStore();
 
+if (process.env.NODE_ENV === 'development') {
+  // Enable why-did-you-update when necessary only
+  window.whyDidYouUpdate = () => {
+    const {whyDidYouUpdate} = require('why-did-you-update')
+    whyDidYouUpdate(React)
+  }
+}
+
 // TODO : factorize in separate module, test to embed in WebsocketContainer
 window.addEventListener('beforeunload', () => {
   logger.info('onbeforeunload called');

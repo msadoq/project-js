@@ -1,7 +1,7 @@
 const debug = require('../io/debug')('models:connectedData');
 const database = require('../io/loki');
 const { isTimestampInIntervals, mergeIntervals } = require('../utils/intervals');
-const extractInterval = require('../utils/extractInterval');
+const removeInterval = require('../utils/removeInterval');
 const { inspect } = require('util');
 const _ = require('lodash');
 
@@ -119,7 +119,7 @@ collection.removeIntervals = (remoteId, intervals) => {
       }
       return false;
     });
-    receivedIntervals = extractInterval(receivedIntervals, interval);
+    receivedIntervals = removeInterval(receivedIntervals, interval);
   });
   let allIntervals = receivedIntervals;
   _.each(requestedIntervals, (interval) => {

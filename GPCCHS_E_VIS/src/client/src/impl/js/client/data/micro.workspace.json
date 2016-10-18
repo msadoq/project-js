@@ -1,0 +1,65 @@
+{
+  "type": "WorkSpace",
+  "windows": [
+    {
+      "type": "documentWindow",
+      "title": "Micro workspace",
+      "pages": [
+        {
+          "path": "./pages/page5.json",
+          "timeBarId": "TB1"
+        }
+      ],
+      "geometry": {
+        "kind": "Absolute",
+        "x": 110,
+        "y": 10,
+        "w": 1310,
+        "h": 800
+      }
+    }
+  ],
+  "timeBarWindow": {
+    "type": "timeBarWindowConfiguration",
+    "timeBars": [
+      {
+        "type": "timeBarConfiguration",
+        "id": "TB1",
+        "mode": "Normal",
+        "visuWindow": {
+          "lower": 1420106400000,
+          "upper": 1420106520000,
+          "current": 1420106460000,
+          "defaultWidth": 900000
+        },
+        "slideWindow": {
+          "lower": 1420106550000,
+          "upper": 1420107150000
+        },
+        "extUpperBound": 1420107500000,
+        "rulerStart": 1420106400000,
+        "rulerResolution": 11250,
+        "speed": 1.0,
+        "playingState": "pause",
+        "timeSpec": "LocalTime",
+        "offsetFromUTC": 0,
+        "timelines": [
+          {
+            "id": "Session 1",
+            "offset": 0,
+            "kind": "Session",
+            "sessionId": 1
+          }
+      ],
+        "masterId": "Session 1"
+      }
+    ],
+    "geometry": {
+      "kind": "Absolute",
+      "x": 10,
+      "y": 810,
+      "w": 1900,
+      "h": 100
+    }
+  }
+}

@@ -1,9 +1,9 @@
 import '../../../lib/common/test';
-import { isMultiDomainAndSessionSupported, getSchemaJson } from './index';
+import { dataLayout, getSchemaJson } from './index';
 
 describe('TextView/main', () => {
-  it('isMultiDomainAndSessionSupported', () => {
-    isMultiDomainAndSessionSupported().should.equal(false);
+  it('dataLayout', () => {
+    dataLayout().should.equal('one');
   });
   it('getSchemaJson', () => {
     getSchemaJson().should.be.an('object');

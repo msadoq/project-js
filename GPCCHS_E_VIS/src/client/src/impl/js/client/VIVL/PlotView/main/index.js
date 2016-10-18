@@ -5,7 +5,7 @@ import getExpectedInterval from './getExpectedInterval';
 import getDisplayedValues from './getDisplayedValues';
 
 module.exports = {
-  isMultiDomainAndSessionSupported: () => true,
+  dataLayout: () => 'range',
   getSchemaJson: () => schema,
   getDataFromCache,
   getConnectedDataFromState,

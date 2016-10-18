@@ -1,13 +1,12 @@
-import _ from 'lodash';
+import { last, has, each, concat, slice, findIndex, get, set, find } from 'lodash';
+import vivl from '../../../VIVL/main';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
 import dataMap from '../../mainProcess/data/dataMap';
 import debug from '../../common/debug/mainDebug';
 
 const logger = debug('store:action:dataCache');
-/**
- * Simple actions
- */
+
 export const writeOnePayload = simple(types.DATA_IMPORT_ONE_PAYLOAD, 'remoteId', 'localId', 'valuesToDisplay');
 export const writeRangePayloads = simple(types.DATA_IMPORT_RANGE_PAYLOADS, 'remoteId', 'localId',
   'valuesToDisplay', 'interval');
@@ -26,26 +25,26 @@ function rangeValues(rIdData, lIdParam) {
   let lastIndex = 0;
   let lastTimestamp = 0;
   let indexes = [];
-  _.each(rIdData, (value) => {
+  each(rIdData, (value) => {
     const timestamp = value.timestamp;
     if (timestamp < lower || timestamp > upper) {
       return;
     }
 
-
-    // add at the end
     if ((displayedData.length === 0) ||
       (timestamp > lastTimestamp && lastIndex === displayedData.length)) {
+      // add at the end
       lastIndex = displayedData.length;
       indexes.push(timestamp);
-    } else {  // insertion
-      const insertIndex = _.findIndex(
+    } else {
+      // insertion
+      const insertIndex = findIndex(
         indexes,
         time => time > timestamp,
         timestamp > lastTimestamp ? lastIndex : 0
       );
-      indexes = _.concat(
-        _.slice(indexes, 0, insertIndex), timestamp, _.slice(indexes, insertIndex)
+      indexes = concat(
+        slice(indexes, 0, insertIndex), timestamp, slice(indexes, insertIndex)
       );
       lastIndex = insertIndex;
     }
@@ -55,27 +54,30 @@ function rangeValues(rIdData, lIdParam) {
   return displayedData;
 }
 
-function oneValue(rIdData, lIdParam, stateLocalId) {
-  let displayedData = null;
+function oneValue(remoteIdData, lIdParam, stateLocalId) {
+  let newValue = null;
   const lower = lIdParam.expectedInterval[0];
-  const upper = lIdParam.expectedInterval[1];
-  _.each(rIdData, (value) => {
-    const timestamp = value.timestamp;
-    if (timestamp < lower || timestamp > upper) {
+  const current = lIdParam.expectedInterval[1];
+  each(remoteIdData, (p) => {
+    const timestamp = p.timestamp;
+    if (timestamp < lower || timestamp > current) {
       return;
     }
 
-    const data = value.payload[lIdParam.field];
-    if (!displayedData) {
+    const value = p.payload[lIdParam.field];
+    if (!newValue) {
+      // compare with previous state
       if (!stateLocalId || (stateLocalId && timestamp >= stateLocalId.timestamp)) {
-        displayedData = Object.assign({}, { timestamp }, { value: data });
+        newValue = { timestamp, value };
       }
-    } else if (timestamp >= displayedData.timestamp) {
-      displayedData = Object.assign({}, { timestamp }, { value: data });
+    } else if (timestamp >= newValue.timestamp) {
+      // compare with previously found eligible value
+      newValue = { timestamp, value };
     }
   });
-  return displayedData;
+  return newValue;
 }
+
 // dataCache: {
 //  'remoteId': {
 //    'localId': { timestamp: 'timestamp', value: number }, // Text
@@ -88,38 +90,51 @@ function oneValue(rIdData, lIdParam, stateLocalId) {
 export function importPayload(payload) {
   logger.debug('importPayload');
   return (dispatch, getState) => {
-    // make your data computing
-    const remoteIds = dataMap(getState());
-    // Loop on remote IDs
-    _.each(payload, (rIdData, remoteId) => {
-      if (!remoteIds[remoteId]) {
+    const state = getState();
+    const remoteIds = dataMap(state);
+
+    const bag = {
+      one: {},
+      range: {},
+    };
+
+    // remoteId
+    each(payload, (remoteIdData, remoteId) => {
+      if (!has(remoteIds, [remoteId])) {
         return;
       }
-      // loop on local IDs
-      _.each(remoteIds[remoteId].localIds, (lIdParam, localId) => {
-        switch (lIdParam.viewType) {
-          case 'PlotView': {
-            const displayedData = rangeValues(rIdData, lIdParam);
-            if (Object.keys(displayedData) === 0) {
+
+      // localId
+      each(remoteIds[remoteId].localIds, (lIdParam, localId) => {
+        const dataLayout = vivl(lIdParam.viewType, 'dataLayout')();
+        switch (dataLayout) {
+          case 'one': {
+            const currentSubState = get(state, ['dataCache', remoteId, localId]);
+            const newData = oneValue(remoteIdData, lIdParam, currentSubState);
+            if (!newData) {
               return;
             }
-            dispatch(
-              writeRangePayloads(remoteId, localId, displayedData, lIdParam.expectedInterval)
-            );
+
+            set(bag, ['one', remoteId, localId], newData);
             break;
           }
-          case 'TextView': {
-            const stateLocalId = _.get(getState(), ['dataCache', remoteId, localId], undefined);
-            const displayedData = oneValue(rIdData, lIdParam, stateLocalId);
-            if (!displayedData) {
+          case 'range': {
+            const newData = rangeValues(remoteIdData, lIdParam);
+            if (Object.keys(newData) === 0) {
               return;
             }
-            dispatch(writeOnePayload(remoteId, localId, displayedData));
+
+            set(bag, ['range', remoteId, localId], newData);
             break;
           }
-          default :
+          default:
+            logger.warn(`unknown view type ${lIdParam.viewType}`);
         }
       });
     });
   };
+
+  // TODO dispatch
+  // dispatch(writeOnePayload(remoteId, localId, displayedData));
+  // dispatch(writeRangePayloads(remoteId, localId, newData, lIdParam.expectedInterval));
 }

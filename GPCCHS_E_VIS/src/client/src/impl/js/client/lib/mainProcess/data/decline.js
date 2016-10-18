@@ -58,7 +58,7 @@ export default function decline(domains, timebars, timelines, cds) {
   // console.log(domains, timebars, timelines, cds)
   return reduce(cds, (list, { type, timebarId, connectedData }) => {
     // avoid domain, session declination for certain type of view (that display one value at a time)
-    const noMulti = !vivl(type, 'isMultiDomainAndSessionSupported')();
+    const noMulti = vivl(type, 'dataLayout')() === 'one';
 
     return reduce(connectedData, (sublist, cd) => {
       const forDomains = domainsFilter(domains, cd.domain);

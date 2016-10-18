@@ -1,9 +1,9 @@
 import '../../../lib/common/test';
-import { isMultiDomainAndSessionSupported, getSchemaJson } from './index';
+import { dataLayout, getSchemaJson } from './index';
 
 describe('PlotView/main', () => {
-  it('isMultiDomainAndSessionSupported', () => {
-    isMultiDomainAndSessionSupported().should.equal(true);
+  it('dataLayout', () => {
+    dataLayout().should.equal('range');
   });
   it('getSchemaJson', () => {
     getSchemaJson().should.be.an('object');

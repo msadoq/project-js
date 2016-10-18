@@ -49,15 +49,13 @@ const getWindowsVisibleViewIds = createSelector(
 
 const getWindowsVisibleViews = createSelector(
   [getWindowsVisibleViewIds, getViews],
-  (pages, views) => reduce(pages, (list, { timebarId, viewIds }) => {
-    return reduce(viewIds, (l, viewId) => {
-      if (!views[viewId]) {
-        return l;
-      }
+  (pages, views) => reduce(pages, (list, { timebarId, viewIds }) => reduce(viewIds, (l, viewId) => {
+    if (!views[viewId]) {
+      return l;
+    }
 
-      return l.concat({ viewId, timebarId, viewData: views[viewId] });
-    }, []);
-  }, [])
+    return l.concat({ viewId, timebarId, viewData: views[viewId] });
+  }, []), [])
 );
 
 const getVisibleConnectedData = createSelector(
@@ -87,4 +85,7 @@ const getVisibleConnectedData = createSelector(
 export default createSelector(
   [getDomains, getTimebars, getTimelines, getVisibleConnectedData],
   (domains, timebars, timelines, cds) => decline(domains, timebars, timelines, cds)
+  // TODO : first establish map(windows, pages, views, domains, /!\ timelines) (memoized until configuration modification)
+  // TODO : timelines stored directly on timebars.timelines to compare directly the array ref?
+  // TODO : then establish intervals(map, timebars) (memoized until visuWindow modification)
 );

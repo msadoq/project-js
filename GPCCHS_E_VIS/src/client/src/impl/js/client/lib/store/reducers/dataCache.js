@@ -1,9 +1,6 @@
 import _ from 'lodash';
 import u from 'updeep';
 import * as types from '../types';
-import debug from '../../common/debug/mainDebug';
-
-const logger = debug('store:reducers:dataCache');
 
 export default function dataCache(stateDataCache = {}, action) {
   switch (action.type) {

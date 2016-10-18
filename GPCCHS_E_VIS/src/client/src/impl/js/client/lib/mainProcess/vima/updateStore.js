@@ -17,6 +17,8 @@ import {
 export default function updateFromVimaTimebar(state, dispatch, data) {
   const timebarId = data.uuid;
   const oldTimebar = getTimebarById(state, data.id);
+
+  // TODO aleal, avoid updating timelines for PBF, will trigger too many re-render of views
   const oldTimelines = getTimelinesFromTimebar(state, oldTimebar);
   const oldTb = u({ timelines: oldTimelines }, oldTimebar);
   const differences = compareTimebars(oldTb, data);

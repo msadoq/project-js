@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 import vivl from '../../../VIVL/main';
 import { getComponent } from '../../../VIVL/window';
 import { getView } from '../../store/selectors/views';
+import { makeGetTimebarTimelines } from '../../store/selectors/timebars';
 
 import View from './View';
 
 let selector = null;
+const getTimebarTimelines = makeGetTimebarTimelines();
 
 const ViewContainer = props => <View {...props} />;
 
@@ -29,7 +31,11 @@ const mapStateToProps = (state, ownProps) => {
     configuration,
     component: ViewTypeComponent,
     selector: viewTypeSelector,
-    data: selector(state, { ...ownProps, configuration }),
+    data: selector(state, {
+      ...ownProps,
+      configuration,
+      timelines: getTimebarTimelines(state, { timebarId: ownProps.timebarId }), // memoized
+    })
   };
 };
 

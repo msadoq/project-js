@@ -147,8 +147,8 @@ const QString TimeBarWidget::CURRENT_TIME_PLAY_LEFT_MARGIN_KEY("currentTimePlayL
 const QString TimeBarWidget::CURRENT_TIME_PLAY_RIGHT_MARGIN_KEY("currentTimePlayRightMargin");
 
 // Static variables for configuration parameters initialization values
-const QString TimeBarWidget::DATE_FORMAT_SHORT_INIT;
-const QString TimeBarWidget::DATE_FORMAT_LONG_INIT;
+const QString TimeBarWidget::DATE_FORMAT_SHORT_INIT("dd MM yyyy HH:mm:ss.zzz");
+const QString TimeBarWidget::DATE_FORMAT_LONG_INIT("d MMMM yyyy HH:mm:ss.zzz");
 const qreal TimeBarWidget::ZOOM_STEP_FACTOR_INIT=2;
 const QString TimeBarWidget::BORDER_COLOR_PAUSE_INIT("black");
 const QString TimeBarWidget::BORDER_COLOR_PAST_INIT("darkblue");

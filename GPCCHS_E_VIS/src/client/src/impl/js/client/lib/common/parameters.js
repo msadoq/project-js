@@ -30,7 +30,7 @@ if (process.env && process.env.NODE_ENV === 'development') {
       configuration[key] = argv[key];
     });
   } catch (e) {
-
+ /* empty */
   }
 }
 

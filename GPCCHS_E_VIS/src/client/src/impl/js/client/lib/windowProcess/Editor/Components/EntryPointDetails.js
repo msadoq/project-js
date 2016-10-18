@@ -140,7 +140,7 @@ export default class EntryPointDetails extends React.Component {
               onBlur={() => this.setState({ nameEditable: false })}
               style={{ width: '200px', display: 'inline' }}
               /* NEED IT TO SET CURSOR AT THE END */
-              onFocus={(e) => { e.target.value = e.target.value }}
+              onFocus={(e) => { e.target.value = e.target.value; }}
             /> : this.props.entryPoint.name}
         </a>
         <a className="pull-right">
@@ -163,18 +163,18 @@ export default class EntryPointDetails extends React.Component {
              this.props.entryPoint.curveColour !== undefined) ?
              /* STYLES COLLAPSE - TODO : CREATE COMPONENT */
                <div>
-              <a
-                className={
+               <a
+                 className={
                   this.state.openG ?
                   classNames(styles.collapseEvent, styles.active) :
                   classNames(styles.collapseEvent)}
-                onClick={() => this.setState({ openG: !this.state.openG })}
-              >
-                <Glyphicon
-                  className={styles.glyphMenu}
-                  glyph={this.state.openG ? 'menu-down' : 'menu-right'}
-                /> Styles
-              </a>
+                 onClick={() => this.setState({ openG: !this.state.openG })}
+               >
+                 <Glyphicon
+                   className={styles.glyphMenu}
+                   glyph={this.state.openG ? 'menu-down' : 'menu-right'}
+                 /> Styles
+               </a>
                  <Collapse in={this.state.openG}>
                    <div className={classNames(styles.shift, styles.mt5)}>
                      <Form horizontal>
@@ -239,18 +239,18 @@ export default class EntryPointDetails extends React.Component {
             : null}
             {(this.props.entryPoint.connectedData !== undefined) ?
               <div>
-            <a
-              className={
+                <a
+                  className={
                   this.state.openC ?
                   classNames(styles.collapseEvent, styles.active) :
                   classNames(styles.collapseEvent)}
-              onClick={() => this.setState({ openC: !this.state.openC })}
-            >
-              <Glyphicon
-                className={styles.glyphMenu}
-                glyph={this.state.openC ? 'menu-down' : 'menu-right'}
-              /> Conn Data
-            </a>
+                  onClick={() => this.setState({ openC: !this.state.openC })}
+                >
+                  <Glyphicon
+                    className={styles.glyphMenu}
+                    glyph={this.state.openC ? 'menu-down' : 'menu-right'}
+                  /> Conn Data
+                </a>
                 <Collapse in={this.state.openC}>
                   <div className={classNames(styles.shift, styles.mt5)}>
                     <EntryPointConnectedData
@@ -262,19 +262,19 @@ export default class EntryPointDetails extends React.Component {
             : null}
             {(this.props.entryPoint.connectedDataY !== undefined) ?
               <div>
-                  <a
-                    className={
+                <a
+                  className={
                       this.state.openY ?
                       classNames(styles.collapseEvent, styles.active) :
                       classNames(styles.collapseEvent)}
-                    onClick={() => this.setState({ openY: !this.state.openY })}
-                  >
-                    <Glyphicon
-                      className={styles.glyphMenu}
-                      glyph={this.state.openY ? 'menu-down' : 'menu-right'}
-                      />
+                  onClick={() => this.setState({ openY: !this.state.openY })}
+                >
+                  <Glyphicon
+                    className={styles.glyphMenu}
+                    glyph={this.state.openY ? 'menu-down' : 'menu-right'}
+                  />
                       Ordinate
-                  </a>
+                </a>
                 <Collapse in={this.state.openY}>
                   <div className={classNames(styles.shift, styles.mt5)}>
                     <EntryPointConnectedData
@@ -297,9 +297,9 @@ export default class EntryPointDetails extends React.Component {
                   <Glyphicon
                     className={styles.glyphMenu}
                     glyph={this.state.openX ? 'menu-down' : 'menu-right'}
-                    />
+                  />
                     Absciss
-                    </a>
+                </a>
                 <Collapse in={this.state.openX}>
                   <div className={classNames(styles.shift, styles.mt5)}>
                     <EntryPointConnectedData connectedData={this.props.entryPoint.connectedDataX} />
@@ -309,19 +309,19 @@ export default class EntryPointDetails extends React.Component {
             : null}
             {(this.props.entryPoint.stateColours !== undefined) ?
               <div>
-                  <a
-                    className={
+                <a
+                  className={
                   this.state.openST ?
                   classNames(styles.collapseEvent, styles.active) :
                   classNames(styles.collapseEvent)}
-                    onClick={() => this.setState({ openST: !this.state.openST })}
-                  >
-                    <Glyphicon
-                      className={styles.glyphMenu}
-                      glyph={this.state.openST ? 'menu-down' : 'menu-right'}
-                    />
+                  onClick={() => this.setState({ openST: !this.state.openST })}
+                >
+                  <Glyphicon
+                    className={styles.glyphMenu}
+                    glyph={this.state.openST ? 'menu-down' : 'menu-right'}
+                  />
                   State colours
-                  </a>
+                </a>
                 <Collapse in={this.state.openST}>
                   <div className={classNames(styles.shift, styles.mt5)}>
                     <Table condensed striped style={{ fontSize: '12px' }}>

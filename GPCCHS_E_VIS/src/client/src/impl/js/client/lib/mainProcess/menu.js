@@ -58,7 +58,7 @@ template.splice(0, 0,
             type: 'warning',
             message: 'Do you confirm to save ?',
             buttons: ['ok', 'cancel'] });
-        console.log('workspace saved!');
+          // console.log('workspace saved!');
         }
       }
     }, {
@@ -142,7 +142,7 @@ template.splice(2, 0,
       label: 'Save ...',
       accelerator: '',
       click() {
-        console.log('page saved!');
+        // console.log('page saved!');
       }
     }]
   });
@@ -160,7 +160,7 @@ template.splice(3, 0,
       label: 'Open ...',
       accelerator: '',
       click() {
-        console.log('view opened!');
+        // console.log('view opened!');
       }
     }]
   });

@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import vivl from '../../../VIVL/main';
 import { getComponent } from '../../../VIVL/window';
 import { getView } from '../../store/selectors/views';
-import { getTimebar } from '../../store/selectors/timebars';
 
 import View from './View';
 
@@ -25,15 +24,11 @@ const mapStateToProps = (state, ownProps) => {
     selector = vivl(type, 'getDataFromCache')();
   }
 
-  // current visualisation window
-  const timebar = getTimebar(state, ownProps.timebarId);
-
   return {
     type,
     configuration,
     component: ViewTypeComponent,
     selector: viewTypeSelector,
-    interval: timebar.visuWindow,
     data: selector(state, { ...ownProps, configuration }),
   };
 };

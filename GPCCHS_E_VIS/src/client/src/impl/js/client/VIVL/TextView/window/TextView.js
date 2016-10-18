@@ -5,7 +5,6 @@ export default class TextView extends Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
     data: PropTypes.any,
-    // interval: PropTypes.object.isRequired,
     configuration: PropTypes.object.isRequired,
     size: PropTypes.object.isRequired,
     // entryPoints: PropTypes.array.isRequired,

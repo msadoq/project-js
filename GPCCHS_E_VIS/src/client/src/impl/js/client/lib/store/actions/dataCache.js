@@ -7,9 +7,7 @@ import debug from '../../common/debug/mainDebug';
 
 const logger = debug('store:action:dataCache');
 
-export const writeOnePayload = simple(types.DATA_IMPORT_ONE_PAYLOAD, 'remoteId', 'localId', 'valuesToDisplay');
-export const writeRangePayloads = simple(types.DATA_IMPORT_RANGE_PAYLOADS, 'remoteId', 'localId',
-  'valuesToDisplay', 'interval');
+export const writePayload = simple(types.DATA_IMPORT_PAYLOAD, 'valuesToDisplay');
 
 function rangeValues(rIdData, lIdParam) {
   // rIdData = [ timestamp : value ]
@@ -21,37 +19,15 @@ function rangeValues(rIdData, lIdParam) {
   // *          expectedInterval: [number, number],
   const lower = lIdParam.expectedInterval[0];
   const upper = lIdParam.expectedInterval[1];
-  const displayedData = {};
-  let lastIndex = 0;
-  let lastTimestamp = 0;
-  let indexes = [];
+  const newValue = {};
   each(rIdData, (value) => {
     const timestamp = value.timestamp;
     if (timestamp < lower || timestamp > upper) {
       return;
     }
-
-    if ((displayedData.length === 0) ||
-      (timestamp > lastTimestamp && lastIndex === displayedData.length)) {
-      // add at the end
-      lastIndex = displayedData.length;
-      indexes.push(timestamp);
-    } else {
-      // insertion
-      const insertIndex = findIndex(
-        indexes,
-        time => time > timestamp,
-        timestamp > lastTimestamp ? lastIndex : 0
-      );
-      indexes = concat(
-        slice(indexes, 0, insertIndex), timestamp, slice(indexes, insertIndex)
-      );
-      lastIndex = insertIndex;
-    }
-    displayedData[timestamp] = value.payload[lIdParam.field];
-    lastTimestamp = timestamp;
+    newValue[timestamp] = value.payload[lIdParam.field];
   });
-  return displayedData;
+  return newValue;
 }
 
 function oneValue(remoteIdData, lIdParam, stateLocalId) {
@@ -114,7 +90,6 @@ export function importPayload(payload) {
             if (!newData) {
               return;
             }
-
             set(bag, ['one', remoteId, localId], newData);
             break;
           }
@@ -124,7 +99,8 @@ export function importPayload(payload) {
               return;
             }
 
-            set(bag, ['range', remoteId, localId], newData);
+            set(bag, ['range', remoteId, localId],
+            { data: newData, interval: lIdParam.expectedInterval });
             break;
           }
           default:
@@ -132,9 +108,6 @@ export function importPayload(payload) {
         }
       });
     });
+    dispatch(writePayload(bag));
   };
-
-  // TODO dispatch
-  // dispatch(writeOnePayload(remoteId, localId, displayedData));
-  // dispatch(writeRangePayloads(remoteId, localId, newData, lIdParam.expectedInterval));
 }

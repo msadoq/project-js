@@ -1,21 +1,16 @@
-import _ from 'lodash';
+import { last, has, each, concat, slice, findIndex, get, set, find } from 'lodash';
 import u from 'updeep';
 import * as types from '../types';
+import debug from '../../common/debug/mainDebug';
+
+const logger = debug('store:action:dataCache');
 
 export default function dataCache(stateDataCache = {}, action) {
   switch (action.type) {
-    case types.DATA_IMPORT_RANGE_PAYLOADS: {
-      const localIdState = updateRangePayloads(stateDataCache, action);
-      const update = {};
-      update[action.payload.remoteId] = {};
-      update[action.payload.remoteId][action.payload.localId] = localIdState;
-      return u(update, stateDataCache);
-    }
-    case types.DATA_IMPORT_ONE_PAYLOAD: {
-      const update = {};
-      update[action.payload.remoteId] = {};
-      update[action.payload.remoteId][action.payload.localId] = action.payload.valuesToDisplay;
-      return u(update, stateDataCache);
+    case types.DATA_IMPORT_PAYLOAD: {
+      const updateRange = updateRangePayloads(stateDataCache, action);
+      const updateOne = updateOnePayloads(stateDataCache, action);
+      return u(Object.assign(updateRange, updateOne), stateDataCache);
     }
     default:
       return stateDataCache;
@@ -23,35 +18,41 @@ export default function dataCache(stateDataCache = {}, action) {
 }
 
 function updateRangePayloads(stateDataCache, action) {
-  const newLocalIdState = { data: {}, index: [] };
-  const remoteId = action.payload.remoteId;
-  const localId = action.payload.localId;
-  const lower = action.payload.interval[0];
-  const upper = action.payload.interval[1];
+  const newState = {};
+  // loop on remoteId
+  each(action.payload.valuesToDisplay.range, (data, remoteId) => {
+    // loop on localId
+    each(data, (values, localId) => {
+      const lower = values.interval[0];
+      const upper = values.interval[1];
+      set(newState, [remoteId, localId], {});
 
-  if (_.get(stateDataCache, [remoteId, localId])) {
-    // Cleaning of values outside interval
-    _.each(stateDataCache[remoteId][localId].index, (timestamp) => {
-      if (timestamp >= lower && timestamp <= upper) {
-        newLocalIdState.index.push(timestamp);
-        newLocalIdState.data[timestamp] = stateDataCache[remoteId][localId].data[timestamp];
+      // Existing dataCache
+      if (get(stateDataCache, [remoteId, localId])) {
+        // Cleaning of values outside interval
+        each(Object.keys(stateDataCache[remoteId][localId]), (timestamp) => {
+          if (timestamp < lower && timestamp > upper) {
+            return;
+          }
+          newState[remoteId][localId][timestamp] = stateDataCache[remoteId][localId][timestamp];
+        });
       }
+      // Add new values
+      Object.assign(newState[remoteId][localId], values.data);
     });
-  }
-  // Add new values
-  const keys = Object.keys(action.payload.valuesToDisplay);
-  let index = 0;
-  keys.forEach((item) => { // ordering keys
-    const insertIndex = _.findIndex(newLocalIdState.index, time => time > item, index);
-    if (insertIndex < 0) {
-      newLocalIdState.index.push(item);
-      index = newLocalIdState.index.length - 1;
-    } else {
-      newLocalIdState.index = _.concat(_.slice(newLocalIdState.index, 0, insertIndex), item,
-      _.slice(newLocalIdState.index, insertIndex));
-      index = insertIndex;
-    }
   });
-  Object.assign(newLocalIdState.data, action.payload.valuesToDisplay);
-  return newLocalIdState;
+
+  return newState;
+}
+
+function updateOnePayloads(stateDataCache, action) {
+  const newState = {};
+  // loop on remoteId
+  each(action.payload.valuesToDisplay.one, (data, remoteId) => {
+    // loop on localId
+    each(data, (value, localId) => {
+      set(newState, [remoteId, localId], value);
+    });
+  });
+  return newState;
 }

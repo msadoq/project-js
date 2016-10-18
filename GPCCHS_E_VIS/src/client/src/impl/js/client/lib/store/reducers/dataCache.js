@@ -2,8 +2,8 @@ import _ from 'lodash';
 import u from 'updeep';
 import * as types from '../types';
 import debug from '../../common/debug/mainDebug';
-const logger = debug('store:reducers:dataCache');
 
+const logger = debug('store:reducers:dataCache');
 
 export default function dataCache(stateDataCache = {}, action) {
   switch (action.type) {
@@ -12,13 +12,13 @@ export default function dataCache(stateDataCache = {}, action) {
       const update = {};
       update[action.payload.remoteId] = {};
       update[action.payload.remoteId][action.payload.localId] = localIdState;
-      return u(update,stateDataCache);
+      return u(update, stateDataCache);
     }
     case types.DATA_IMPORT_ONE_PAYLOAD: {
       const update = {};
       update[action.payload.remoteId] = {};
       update[action.payload.remoteId][action.payload.localId] = action.payload.valuesToDisplay;
-      return u(update,stateDataCache);
+      return u(update, stateDataCache);
     }
     default:
       return stateDataCache;
@@ -26,7 +26,7 @@ export default function dataCache(stateDataCache = {}, action) {
 }
 
 function updateRangePayloads(stateDataCache, action) {
-  const newLocalIdState = { data: {}, index: []};
+  const newLocalIdState = { data: {}, index: [] };
   const remoteId = action.payload.remoteId;
   const localId = action.payload.localId;
   const lower = action.payload.interval[0];
@@ -44,7 +44,7 @@ function updateRangePayloads(stateDataCache, action) {
   // Add new values
   const keys = Object.keys(action.payload.valuesToDisplay);
   let index = 0;
-  keys.forEach(item => {  // ordoring keys
+  keys.forEach((item) => { // ordering keys
     const insertIndex = _.findIndex(newLocalIdState.index, time => time > item, index);
     if (insertIndex < 0) {
       newLocalIdState.index.push(item);

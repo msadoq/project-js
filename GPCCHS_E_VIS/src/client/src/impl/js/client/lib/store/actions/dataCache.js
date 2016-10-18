@@ -3,6 +3,7 @@ import simple from '../simpleActionCreator';
 import * as types from '../types';
 import dataMap from '../../mainProcess/data/dataMap';
 import debug from '../../common/debug/mainDebug';
+
 const logger = debug('store:action:dataCache');
 /**
  * Simple actions
@@ -38,9 +39,14 @@ function rangeValues(rIdData, lIdParam) {
       lastIndex = displayedData.length;
       indexes.push(timestamp);
     } else {  // insertion
-      const insertIndex = _.findIndex(indexes, time => time > timestamp,
-        timestamp > lastTimestamp? lastIndex: 0);
-      indexes = _.concat(_.slice(indexes, 0, insertIndex), timestamp, _.slice(indexes, insertIndex));
+      const insertIndex = _.findIndex(
+        indexes,
+        time => time > timestamp,
+        timestamp > lastTimestamp ? lastIndex : 0
+      );
+      indexes = _.concat(
+        _.slice(indexes, 0, insertIndex), timestamp, _.slice(indexes, insertIndex)
+      );
       lastIndex = insertIndex;
     }
     displayedData[timestamp] = value.payload[lIdParam.field];
@@ -50,7 +56,7 @@ function rangeValues(rIdData, lIdParam) {
 }
 
 function oneValue(rIdData, lIdParam, stateLocalId) {
-  let displayedData;
+  let displayedData = null;
   const lower = lIdParam.expectedInterval[0];
   const upper = lIdParam.expectedInterval[1];
   _.each(rIdData, (value) => {
@@ -60,12 +66,12 @@ function oneValue(rIdData, lIdParam, stateLocalId) {
     }
 
     const data = value.payload[lIdParam.field];
-    if (!displayedData ) {
+    if (!displayedData) {
       if (!stateLocalId || (stateLocalId && timestamp >= stateLocalId.timestamp)) {
-        displayedData = Object.assign({}, { timestamp: timestamp }, { value: data });
+        displayedData = Object.assign({}, { timestamp }, { value: data });
       }
     } else if (timestamp >= displayedData.timestamp) {
-      displayedData = Object.assign({}, { timestamp: timestamp }, { value: data });
+      displayedData = Object.assign({}, { timestamp }, { value: data });
     }
   });
   return displayedData;
@@ -84,7 +90,6 @@ export function importPayload(payload) {
   return (dispatch, getState) => {
     // make your data computing
     const remoteIds = dataMap(getState());
-    const valuesToDisplay = {};
     // Loop on remote IDs
     _.each(payload, (rIdData, remoteId) => {
       if (!remoteIds[remoteId]) {
@@ -98,7 +103,9 @@ export function importPayload(payload) {
             if (Object.keys(displayedData) === 0) {
               return;
             }
-            dispatch(writeRangePayloads(remoteId, localId, displayedData, lIdParam.expectedInterval));
+            dispatch(
+              writeRangePayloads(remoteId, localId, displayedData, lIdParam.expectedInterval)
+            );
             break;
           }
           case 'TextView': {

@@ -1,1 +1,2 @@
-export const getStatus = state => state.hsc.status;
+const getStatus = state => state.hsc.status;
+export default getStatus;

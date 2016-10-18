@@ -91,8 +91,8 @@ rm -rf /tmp/redis/ /tmp/rtd/ /tmp/workingRedis.sock /tmp/redis.sock  /tmp/catalo
 #########################################
 
 # Port number for timebar communication
-export PORT_NUM_TIMEBAR_PULL_TimeBar=5000
-export PORT_NUM_TIMEBAR_PUSH_TimeBar=4050
+export PORT_NUM_TIMEBAR_PULL=5000
+export PORT_NUM_TIMEBAR_PUSH_TB1=4050
 
 # Location of test project
 LOC=$(dirname $(which $0))

@@ -31,7 +31,7 @@ export default class PlotAxis extends React.Component {
     isLogarithmic: React.PropTypes.bool,
     showAxis: React.PropTypes.bool,
     handlePlotAxes: React.PropTypes.func,
-    style: React.PropTypes.object 
+    style: React.PropTypes.object
   }
   constructor(...args) {
     super(...args);

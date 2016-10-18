@@ -7,7 +7,7 @@ import debug from '../../common/debug/mainDebug';
 
 const logger = debug('store:action:dataCache');
 
-export const writePayload = simple(types.DATA_IMPORT_PAYLOAD, 'valuesToDisplay');
+// export const writePayload = simple(types.DATA_IMPORT_PAYLOAD, 'valuesToDisplay');
 
 function rangeValues(rIdData, lIdParam) {
   // rIdData = [ timestamp : value ]
@@ -90,7 +90,7 @@ export function importPayload(payload) {
             if (!newData) {
               return;
             }
-            set(bag, ['one', remoteId, localId], newData);
+            set(bag, ['data', remoteId, localId], newData);
             break;
           }
           case 'range': {
@@ -99,8 +99,8 @@ export function importPayload(payload) {
               return;
             }
 
-            set(bag, ['range', remoteId, localId],
-            { data: newData, interval: lIdParam.expectedInterval });
+            set(bag, ['data', remoteId, localId], newData);
+            set(bag, ['intervalToKeep', remoteId, localId], lIdParam.expectedInterval);
             break;
           }
           default:
@@ -108,6 +108,13 @@ export function importPayload(payload) {
         }
       });
     });
-    dispatch(writePayload(bag));
+    const start = process.hrtime();
+    dispatch({
+      type: types.DATA_IMPORT_PAYLOAD,
+      payload: bag,
+    });
+    const duration = process.hrtime(start)[1] / 1e6;
+    const count = Object.keys(payload).length ? Object.keys(payload).length : 0;
+    logger.debug(`cacheData update done in ${duration}ms, for ${count} remoteIds`);
   };
 }

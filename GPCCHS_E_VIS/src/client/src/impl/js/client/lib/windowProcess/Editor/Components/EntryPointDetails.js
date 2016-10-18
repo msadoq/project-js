@@ -262,19 +262,19 @@ export default class EntryPointDetails extends React.Component {
             : null}
             {(this.props.entryPoint.connectedDataY !== undefined) ?
               <div>
-                  <a
-                    className={
+                <a
+                  className={
                       this.state.openY ?
                       classNames(styles.collapseEvent, styles.active) :
                       classNames(styles.collapseEvent)}
-                    onClick={() => this.setState({ openY: !this.state.openY })}
-                  >
-                    <Glyphicon
-                      className={styles.glyphMenu}
-                      glyph={this.state.openY ? 'menu-down' : 'menu-right'}
-                    />
+                  onClick={() => this.setState({ openY: !this.state.openY })}
+                >
+                  <Glyphicon
+                    className={styles.glyphMenu}
+                    glyph={this.state.openY ? 'menu-down' : 'menu-right'}
+                  />
                       Ordinate
-                  </a>
+                </a>
                 <Collapse in={this.state.openY}>
                   <div className={classNames(styles.shift, styles.mt5)}>
                     <EntryPointConnectedData

@@ -21,7 +21,7 @@ initStore();
 if (process.env.NODE_ENV === 'development') {
   // Enable why-did-you-update when necessary only
   window.whyDidYouUpdate = () => {
-    const { whyDidYouUpdate } = require('why-did-you-update')
+    const { whyDidYouUpdate } = require('why-did-you-update');
     const internal = [
       'Connect'
     ];

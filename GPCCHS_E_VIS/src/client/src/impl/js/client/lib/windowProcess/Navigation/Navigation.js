@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 
 import TabsContainer from './TabsContainer';
@@ -15,7 +15,7 @@ const Navigation = props => (
           {' '}
           <DataMap />
           {' '}
-          <Timebar {...props} />
+          {props.focusedPage && props.focusedPage.timebarId ? <Timebar {...props} /> : null}
         </div>
       </Col>
     </Row>
@@ -24,5 +24,9 @@ const Navigation = props => (
     </Row>
   </Grid>
 );
+
+Navigation.propTypes = {
+  focusedPage: PropTypes.object,
+};
 
 export default Navigation;

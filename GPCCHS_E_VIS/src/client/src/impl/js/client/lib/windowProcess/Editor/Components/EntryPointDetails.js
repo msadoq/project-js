@@ -239,18 +239,18 @@ export default class EntryPointDetails extends React.Component {
             : null}
             {(this.props.entryPoint.connectedData !== undefined) ?
               <div>
-              <a
-              className={
+                <a
+                  className={
                   this.state.openC ?
                   classNames(styles.collapseEvent, styles.active) :
                   classNames(styles.collapseEvent)}
-              onClick={() => this.setState({ openC: !this.state.openC })}
-            >
-              <Glyphicon
-                className={styles.glyphMenu}
-                glyph={this.state.openC ? 'menu-down' : 'menu-right'}
-              /> Conn Data
-            </a>
+                  onClick={() => this.setState({ openC: !this.state.openC })}
+                >
+                  <Glyphicon
+                    className={styles.glyphMenu}
+                    glyph={this.state.openC ? 'menu-down' : 'menu-right'}
+                  /> Conn Data
+                </a>
                 <Collapse in={this.state.openC}>
                   <div className={classNames(styles.shift, styles.mt5)}>
                     <EntryPointConnectedData
@@ -262,7 +262,7 @@ export default class EntryPointDetails extends React.Component {
             : null}
             {(this.props.entryPoint.connectedDataY !== undefined) ?
               <div>
-                    <a
+                  <a
                     className={
                       this.state.openY ?
                       classNames(styles.collapseEvent, styles.active) :
@@ -272,7 +272,7 @@ export default class EntryPointDetails extends React.Component {
                     <Glyphicon
                       className={styles.glyphMenu}
                       glyph={this.state.openY ? 'menu-down' : 'menu-right'}
-                      />
+                    />
                       Ordinate
                   </a>
                 <Collapse in={this.state.openY}>
@@ -297,7 +297,7 @@ export default class EntryPointDetails extends React.Component {
                   <Glyphicon
                     className={styles.glyphMenu}
                     glyph={this.state.openX ? 'menu-down' : 'menu-right'}
-                    />
+                  />
                     Absciss
                 </a>
                 <Collapse in={this.state.openX}>

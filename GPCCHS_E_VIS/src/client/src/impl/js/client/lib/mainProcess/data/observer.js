@@ -1,21 +1,15 @@
 import _ from 'lodash';
 
-import * as constants from '../../constants';
 import debug from '../../common/debug/mainDebug';
-import { getStatus as getAppStatus } from '../selectors/hsc';
-import dataMapGenerator from '../../mainProcess/data/dataMap';
-import requestsMapGenerator from '../../mainProcess/data/requestsMap';
+import dataMapGenerator from './dataMap';
+import requestsMapGenerator from './requestsMap';
 import { getWebsocket } from '../../common/websocket/mainWebsocket';
-import { addRequests } from '../actions/dataRequests';
+import { addRequests } from '../../store/actions/dataRequests';
 
 const logger = debug('store:observers:data');
 
 // TODO _.throttle
 export default function data(state, dispatch) {
-  if (getAppStatus(state) !== constants.LIFECYCLE_STARTED) {
-    return undefined;
-  }
-
   logger.verbose('begin data synchronisation');
 
   const start = process.hrtime();

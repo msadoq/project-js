@@ -1,7 +1,7 @@
-import * as constants from '../../constants';
-import debug from '../../common/debug/mainDebug';
-import { getStatus as getAppStatus } from '../selectors/hsc';
-import { updateStatus } from '../actions/hsc';
+import * as constants from '../lib/constants';
+import debug from '../lib/common/debug/mainDebug';
+import { getStatus as getAppStatus } from '../lib/store/selectors/hsc';
+import { updateStatus } from '../lib/store/actions/hsc';
 
 const logger = debug('store:observers:lifecycle');
 

@@ -1,18 +1,17 @@
 import _ from 'lodash';
+import async from 'async';
 import { BrowserWindow } from 'electron';
 
-import * as constants from '../../constants';
 import parameters from '../../common/parameters';
 import debug from '../../common/debug/mainDebug';
-import { remove } from '../actions/windows';
-import { getStore } from '../mainStore';
-import { getStatus as getAppStatus } from '../selectors/hsc';
+import { remove } from '../../store/actions/windows';
+import { getStore } from '../../store/mainStore';
 
 const logger = debug('store:observers:windows');
 
 const windows = {};
 
-export function open(data, windowId) {
+export function open(data, windowId, cb) {
   logger.info(`opening window ${windowId}`);
   const window = new BrowserWindow({
     show: false,
@@ -37,10 +36,11 @@ export function open(data, windowId) {
     window.loadURL(`file://${__dirname}/../../windowProcess/index.html?windowId=${windowId}`);
   }
 
-
-  window.webContents.on('did-finish-load', () => {
+  // ready-to-show is the right element to subscribe to trigger logic only once by window
+  window.on('ready-to-show', () => {
     window.show();
     window.focus();
+    return cb(null);
   });
 
   window.on('closed', () => {
@@ -61,16 +61,17 @@ export function close(windowId) {
   windows[windowId].destroy();
 }
 
-export default function windowsObserver(state, dispatch, previousState) {
-  if (getAppStatus(state) !== constants.LIFECYCLE_STARTED) {
-    return undefined;
-  }
-
+export default function windowsObserver(state, callback) {
   const list = state.windows;
   const inStore = Object.keys(list);
   const opened = Object.keys(windows);
   const toOpen = _.difference(inStore, opened);
   const toClose = _.difference(opened, inStore);
-  toOpen.forEach(windowId => open(list[windowId], windowId));
   toClose.forEach(windowId => close(windowId));
+
+  if (!toOpen.length) {
+    return callback(null);
+  }
+
+  async.each(toOpen, (windowId, cb) => open(list[windowId], windowId, cb), callback);
 }

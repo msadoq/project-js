@@ -2,7 +2,7 @@ function Previous() {
   this.previousState = null;
 }
 
-Previous.prototype.switch = function(nextState) {
+Previous.prototype.switch = function (nextState) {
   const previous = this.previousState;
 
   if (typeof nextState !== 'undefined') {

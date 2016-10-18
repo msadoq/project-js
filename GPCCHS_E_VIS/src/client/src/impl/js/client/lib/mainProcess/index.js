@@ -1,21 +1,18 @@
 import parameters from '../common/parameters';
 import debug from '../common/debug/mainDebug';
-import './menu';
 import installExtensions from './installExtensions';
 import openWorkspace from './openWorkspace';
 import invalidateCache from './invalidateCache';
 import { initStore, getStore } from '../store/mainStore';
-import { storeSpectator, storeActor } from '../store/observerGenerator';
-import lifecycleObserver from '../store/observers/lifecycle';
-import dataObserver from '../store/observers/data';
-import windowsObserver from '../store/observers/windows';
+import storeObserver from './storeObserver';
 import { connect, disconnect } from '../common/websocket/mainWebsocket';
+import './menu';
 
-const logger = debug('main');
+const logger = debug('mainProcess:index');
 
-let storeUnsubscribe = [];
-let cacheInvalidor;
-const CACHE_INVALIDATION_TIMESTEP = 5000;
+let storeSubscription = null;
+let cacheInvalidator;
+const CACHE_INVALIDATION_FREQUENCY = 5000;
 
 export async function start() {
   logger.info('app start');
@@ -41,15 +38,19 @@ export async function start() {
       };
       logger.info(`${count.w} windows, ${count.p} pages, ${count.v} views`);
 
-      // subscribe spectators and actors observers
-      storeUnsubscribe.push(storeSpectator(getStore(), lifecycleObserver));
-      storeUnsubscribe.push(storeActor(getStore(), dataObserver));
-      storeUnsubscribe.push(storeSpectator(getStore(), windowsObserver));
+      // main process store observer
+      storeSubscription = getStore().subscribe(storeObserver);
 
       // open websocket connection
+      // TODO : on websocket disconnection cleanup dataCache and dataRequests
       connect();
+
+      // cache invalidation
+      cacheInvalidator = setInterval(() => invalidateCache(
+        getStore()),
+        CACHE_INVALIDATION_FREQUENCY
+      );
     });
-    cacheInvalidor = setInterval(() => invalidateCache(getStore()), CACHE_INVALIDATION_TIMESTEP);
   } catch (e) {
     logger.error(e);
   }
@@ -59,11 +60,12 @@ export function stop() {
   logger.info('app stop');
   try {
     disconnect();
-    if (storeUnsubscribe.length) {
-      storeUnsubscribe.map(sub => sub());
-      storeUnsubscribe = [];
+    if (storeSubscription) {
+      storeSubscription();
     }
-    clearInterval(cacheInvalidor);
+    if (cacheInvalidator) {
+      clearInterval(cacheInvalidator);
+    }
   } catch (e) {
     logger.error(e);
   }

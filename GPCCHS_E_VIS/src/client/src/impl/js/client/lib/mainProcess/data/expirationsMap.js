@@ -1,6 +1,6 @@
 import { each, get } from 'lodash';
 
-import extractInterval from '../../common/extractInterval';
+import removeInterval from '../../common/removeInterval';
 
 const getExpiredRequests = (dataMap, dataRequests) => {
   const expiredRequests = {};
@@ -12,7 +12,7 @@ const getExpiredRequests = (dataMap, dataRequests) => {
     each(localIds, (localValue) => {
       // extract visible interval from expired intervals
       const expectedInterval = localValue.expectedInterval;
-      expiredIntervals = extractInterval(expiredIntervals, expectedInterval);
+      expiredIntervals = removeInterval(expiredIntervals, expectedInterval);
     });
     // if some expired intervals, add to invalidation
     if (expiredIntervals.length > 0) {

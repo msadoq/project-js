@@ -1,7 +1,7 @@
 import { reduce as _reduce, set as _set, omit as _omit } from 'lodash';
 import * as types from '../types';
 import mergeIntervals from '../../common/mergeIntervals';
-import extractInterval from '../../common/extractInterval';
+import removeInterval from '../../common/removeInterval';
 
 export default function requests(state = {}, action) {
   switch (action.type) {
@@ -22,7 +22,7 @@ export default function requests(state = {}, action) {
       const idToRemove = [];
       const modified = _reduce(action.payload.requests, (list, { intervals }, remoteId) => {
         const reqIntervals = _reduce(intervals,
-          (a, i) => extractInterval(a, i),
+          (a, i) => removeInterval(a, i),
           Array.from(state[remoteId] ? state[remoteId] : [])
         );
         if (reqIntervals.length === 0) {

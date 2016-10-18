@@ -47,10 +47,7 @@ const sendZmqMessage = (args) => {
   zmq.push('dcPush', args);
 };
 
-/* let trashFlag = true;
-setTimeout(() => {
-  trashFlag = false;
-}, 2000);
+let trashFlag = true;
 // TRASH DATA
 const trashPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
   console.log('receiving trash from dc');
@@ -60,7 +57,7 @@ const trashPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
   }
   zmq.closeSockets();
   callback(null);
-};*/
+};
 
 // DOMAIN DATA
 const domainDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
@@ -172,14 +169,15 @@ const timeInterval = {
   endTime: ts2,
 };
 
-const sessionIdTest = 1;
+const sessionIdTest = 65535;
+const domainIdTest = 1;
 
 const myDataId = {   // corresponds to SubscriptionID ?
   parameterName: 'ATT_BC_STR1VOLTAGE',
   catalog: 'Reporting',
   comObject: 'ReportingParameter',
   sessionId: sessionIdTest, // TODO type is currently uint32, should be uint16 (bytes)
-  domainId: 65535,  // TODO type is currently uint32, should be uint16 (bytes)
+  domainId: domainIdTest,  // TODO type is currently uint32, should be uint16 (bytes)
   // url: 'theUrl',  // for FDS params
   // version: 'theVersion',  //for FDS params
 };
@@ -230,26 +228,84 @@ const tbStopSubMessageArgs = [
   encode('dc.dataControllerUtils.Action', { action: constants.SUBSCRIPTIONACTION_DELETE }),
 ];
 
-async.series([
+
 // ARCHIVE TEST
+const domainTest =
   (callback) => {
     console.log('> Test Domain');
     createZmqConnection(callback, domainDataPullHandler);
     sendZmqMessage(domainQueryMessageArgs);
-  },
+  };
 // ARCHIVE TEST
+const archiveTest =
   (callback) => {
     console.log('> Test Archive');
     createZmqConnection(callback, archiveDataPullHandler);
     sendZmqMessage(tbQueryMessageArgs);
-  },
+  };
 // PUBSUB TEST
+const pubSubTest =
   (callback) => {
     console.log('> Test PubSub');
     createZmqConnection(callback, pubSubDataPullHandler);
     sendZmqMessage(tbStartSubMessageArgs);
+  };
+// TRASH TEST
+const trashTest =
+  (callback) => {
+    console.log('> Trash Test');
+    createZmqConnection(callback, trashPullHandler);
+    setTimeout(() => {
+      trashFlag = false;
+    }, 2000);
+  };
+
+
+let testFunctions = [];
+
+const parseArgs = require('minimist');
+const options = {
+  boolean: ['d', 'p', 'a', 'all', 't'],
+  default: {
+    all: true,
+    d: false,
+    p: false,
+    a: false,
+    t: false,
   },
-], (err) => {
+  alias: {
+    d: 'domains',
+    p: 'pubsub',
+    a: 'archive',
+    t: 'trash',
+  },
+};
+const argv = parseArgs(process.argv.slice(2), options);
+if (argv.domains) {
+  argv.all = false;
+  testFunctions.push(domainTest);
+}
+if (argv.archive) {
+  argv.all = false;
+  testFunctions.push(archiveTest);
+}
+if (argv.pubsub) {
+  argv.all = false;
+  testFunctions.push(pubSubTest);
+}
+if (argv.trash) {
+  argv.all = false;
+  testFunctions = [trashTest];
+}
+if (argv.all) {
+  testFunctions = [];
+  testFunctions.push(domainTest);
+  testFunctions.push(archiveTest);
+  testFunctions.push(pubSubTest);
+}
+
+
+async.series(testFunctions, (err) => {
   if (err) {
     console.log(err.message);
   }

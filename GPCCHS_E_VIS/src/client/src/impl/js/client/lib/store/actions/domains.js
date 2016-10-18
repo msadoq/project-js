@@ -4,4 +4,5 @@ import * as types from '../types';
 /**
  * Simple actions
  */
-export const updateDomains = simple(types.HSS_UPDATE_DOMAINS, 'domains');
+const updateDomains = simple(types.HSS_UPDATE_DOMAINS, 'domains');
+export default updateDomains;

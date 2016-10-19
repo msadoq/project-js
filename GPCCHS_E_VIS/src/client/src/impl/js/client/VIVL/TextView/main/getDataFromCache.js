@@ -82,7 +82,7 @@ export default function getDataFromCache() {
       console.log('compute data');
       return reduce(map, (list, detail, name) => {
         if (detail.invalid === true) {
-          return set(list, [name], detail);
+          return set(list, [name], `INVALID (${detail.reason})`);
         }
 
         const { remoteId, localId } = detail;

@@ -1,72 +1,185 @@
 /* eslint no-unused-expressions: 0 */
-import reducer from './dataCache';
-import * as actions from '../actions/dataCache';
+import reducer, { updateRangePayloads, cleanDataCache } from './dataCache';
+import { selectData } from '../actions/dataCache';
+import u from 'updeep';
+import { each } from 'lodash';
+
+
+// process.env.NODE_ENV =  'production'
 
 describe('store:reducers:dataCache', () => {
   let payload;
-  let remoteIds;
+  let remoteIdPlots, remoteIdTexts, remoteIds;
+  let emptyState, stateFilled;
+  let bagPlots, bagTexts, bag;
+  let actionPlots, actionTexts, action;
   before(() => {
-    payload = { rId1: [
-      { timestamp: 1, payload: { val1: 11, val2: 12, val3: 13 } },
-      { timestamp: 2, payload: { val1: 21, val2: 22, val3: 23 } },
-      { timestamp: 3, payload: { val1: 31, val2: 32, val3: 33 } },
-      { timestamp: 4, payload: { val1: 41, val2: 42, val3: 43 } },
-    ] };
-    remoteIds = {
+    payload = { rId1: [], rId2: [], rId3: [] };
+    for (let j = 100; j < 1000; j++) {
+      payload.rId1.push({ timestamp: j, payload: { val1: (j * 10) + 1, val2: (j * 10) + 2, val3: (j * 10) + 3 } })
+      payload.rId2.push({ timestamp: j, payload: { val1: (j * 10) + 1, val2: (j * 10) + 2, val3: (j * 10) + 3 } })
+      payload.rId3.push({ timestamp: j, payload: { val1: (j * 10) + 1, val2: (j * 10) + 2, val3: (j * 10) + 3 } })
+    }
+    remoteIdPlots = Object.freeze({
       rId1: {
         localIds: {
-          lId1: { viewType: 'PlotView', field: 'val1', expectedInterval: [1, 3] },
-          lId2: { viewType: 'TextView', field: 'val2', expectedInterval: [1, 2] },
+          lId1: { viewType: 'PlotView', field: 'val1', expectedInterval: [200, 255] },
+          lId2: { viewType: 'PlotView', field: 'val2', expectedInterval: [150, 800] },
+          lId3: { viewType: 'PlotView', field: 'val3', expectedInterval: [100, 999] },
         },
-      }
-    };
-  });
-  it('initial state', () => {
-    reducer(undefined, {}).should.be.an('object').that.is.empty;
-  });
-  it('unknown action', () => {
-    // reducer({ myConnectedDataId: { formula: 'catalog.Parameter<Type>.field' } }, {})
-    //   .should.eql({ myConnectedDataId: { formula: 'catalog.Parameter<Type>.field' } });
-  });
-  it('import with old state empty', () => {
-    const retValue = reducer({}, actions.writePayload(payload, remoteIds));
-    retValue.should.be.an('object').with.key('rId1');
-    retValue.rId1.should.be.an('object').with.keys('lId1', 'lId2');
-    retValue.rId1.lId1.should.be.an('object').with.keys('data', 'index');
-    retValue.rId1.lId1.index.should.be.an('array').with.length(3)
-    .that.have.properties([1, 2, 3]);
-    retValue.rId1.lId2.should.be.an('object').with.keys('timestamp', 'value');
-    retValue.rId1.lId2.timestamp.should.equal(2);
-    retValue.rId1.lId2.value.should.equal(payload.rId1[1].payload.val2);
-  });
-  it('import with old state not empty', () => {
-    const state = {
-      rId1: {
-        lId1: {
-          data: { 0.3: 21, 0.5: 31, 8: 41 },
-          index: ['0.3', '0.5', '8']
-        },
-        lId10: {
-          data: { 2: 21, 3: 31, 4: 41 },
-          index: ['2', '3', '4']
-        }
       },
       rId2: {
-        lId10: {
-          data: { 2: 21, 3: 31, 4: 41 },
-          index: ['2', '3', '4']
-        }
+        localIds: {
+          lId1: { viewType: 'PlotView', field: 'val1', expectedInterval: [200, 550] },
+          lId2: { viewType: 'PlotView', field: 'val2', expectedInterval: [150, 800] },
+          lId3: { viewType: 'PlotView', field: 'val3', expectedInterval: [100, 999] },
+        },
       }
-    };
-    const retValue = reducer(state, actions.writePayload(payload, remoteIds));
-    retValue.should.be.an('object').with.keys('rId1', 'rId2');
-    retValue.rId2.should.have.properties(state.rId2);
-    retValue.rId1.should.be.an('object').with.keys('lId1', 'lId2');
-    retValue.rId1.lId1.should.be.an('object').with.keys('data', 'index');
-    retValue.rId1.lId1.index.should.be.an('array').with.length(3)
-    .that.have.properties([1, 2, 3]);
-    retValue.rId1.lId2.should.be.an('object').with.keys('timestamp', 'value');
-    retValue.rId1.lId2.timestamp.should.equal(2);
-    retValue.rId1.lId2.value.should.equal(22);
+    });
+    remoteIdTexts = Object.freeze({
+      rId1: {
+        localIds: {
+          lId10: { viewType: 'TextView', field: 'val1', expectedInterval: [540, 550] },
+          lId20: { viewType: 'TextView', field: 'val2', expectedInterval: [790, 800] },
+        },
+      },
+      rId2: {
+        localIds: {
+          lId30: { viewType: 'TextView', field: 'val1', expectedInterval: [110, 120] },
+          lId40: { viewType: 'TextView', field: 'val2', expectedInterval: [990, 1000] },
+          lId50: { viewType: 'TextView', field: 'val1', expectedInterval: [545, 555] },
+          lId60: { viewType: 'TextView', field: 'val2', expectedInterval: [101, 110] },
+          lId70: { viewType: 'TextView', field: 'val1', expectedInterval: [220, 230] },
+          lId80: { viewType: 'TextView', field: 'val2', expectedInterval: [999, 1009] },
+          lId90: { viewType: 'TextView', field: 'val1', expectedInterval: [102, 112] },
+          lId100: { viewType: 'TextView', field: 'val2', expectedInterval: [660, 670] },
+        },
+      }
+    });
+
+    emptyState = {};
+    stateFilled = { rId1: { lId1: {}}, rId2: { lId70: {}}, rId3: { lId1: { 10: 23 }}};
+    for (let i = 50; i < 250; i++) {
+      stateFilled.rId1.lId1[i+0.5] = (i * 10) + 0.5;
+    }
+    stateFilled.rId2.lId70 = { timestamp: 225, value: 265 };
+
+    remoteIds = u(remoteIdPlots, remoteIdTexts);
+    bagPlots = selectData(emptyState, remoteIdPlots, payload);
+    bagTexts = selectData(emptyState, remoteIdTexts, payload);
+    bag = selectData(emptyState, remoteIds, payload);
+    actionPlots = { type: 'DATA_IMPORT_PAYLOAD', payload: bagPlots };
+    actionTexts = { type: 'DATA_IMPORT_PAYLOAD', payload: bagTexts };
+    action = { type: 'DATA_IMPORT_PAYLOAD', payload: bag };
   });
+  it('unknown action', () => {
+    reducer({ myConnectedDataId: { formula: 'catalog.Parameter<Type>.field' } }, {})
+      .should.eql({ myConnectedDataId: { formula: 'catalog.Parameter<Type>.field' } });
+  });
+  it('action without payload', () => {
+    const action = { type: 'DATA_IMPORT_PAYLOAD', payload: {} };
+    reducer({ myConnectedDataId: { formula: 'catalog.Parameter<Type>.field' } }, action)
+      .should.eql({ myConnectedDataId: { formula: 'catalog.Parameter<Type>.field' } });
+  });
+  it('action without eligible payload', () => {
+    const action = { type: 'DATA_IMPORT_PAYLOAD', payload: { rId3 : { lId1 : {}}} };
+    reducer({ myConnectedDataId: { formula: 'catalog.Parameter<Type>.field' } }, action)
+      .should.eql({ myConnectedDataId: { formula: 'catalog.Parameter<Type>.field' } });
+  });
+  let retValueRef;
+  it('import with old state empty', () => {
+    const start = process.hrtime();
+    const retValue = reducer({}, actionPlots);
+    const duration = process.hrtime(start)[1] / 1e6;
+    console.log(`dataCache update done in ${duration} ms`);
+    retValue.should.have.keys(remoteIdPlots);
+    retValue.rId1.should.have.all.keys(remoteIdPlots.rId1.localIds);
+    retValue.rId2.should.have.all.keys(remoteIdPlots.rId2.localIds);
+    retValueRef = retValue;
+  });
+  it('cleanDataCache empty cache', () => {
+    const start = process.hrtime();
+    const initialState = {};
+    const updateVal = cleanDataCache(initialState, actionPlots);
+    const duration = process.hrtime(start)[1] / 1e6;
+    console.log(`cleanDataCache done in ${duration} ms`);
+    updateVal.should.equal(initialState);
+  });
+  it('updateRangePayloads', () => {
+    const start = process.hrtime();
+    const updateValue = updateRangePayloads({}, actionPlots);
+    const duration = process.hrtime(start)[1] / 1e6;
+    console.log(`updateRangePayloads done in ${duration} ms`);
+    updateValue.should.deep.equal(retValueRef);
+  });
+  it('updeep', () => {
+    const start2 = process.hrtime();
+    const newState = u(actionPlots.payload.data, emptyState);
+    const duration2 = process.hrtime(start2)[1] / 1e6;
+    console.log(`u(stateDataCache) done in ${duration2}ms`);
+    newState.should.deep.equal(retValueRef);
+  });
+  describe('mixed payload', () => {
+    let updatedValue;
+    it('without updeep, empty state', () => {
+      const start = process.hrtime();
+      for (let i = 0; i < 100; i++) {
+        const updatedState = cleanDataCache({}, action);
+        updatedValue = updateRangePayloads(updatedState, action);
+      }
+      const duration = (process.hrtime(start)[1] / 1e6) / 100;
+      console.log(`(without updeep, empty state) done in ${duration}ms`);
+      updatedValue.should.have.properties(action.payload.data);
+      each(action.payload.data, (val, rId) => {
+        updatedValue[rId].should.have.properties(val);
+      });
+    });
+    it('with updeep, empty state', () => {
+      let retValue;
+      const start = process.hrtime();
+      for (let i = 0 ; i < 100; i++) {
+        retValue = reducer({}, action);
+      }
+      const duration = (process.hrtime(start)[1] / 1e6) / 100;
+      console.log(`dataCache update done in ${duration} ms`);
+      retValue.should.deep.equal(updatedValue);
+    });
+    let result;
+    it('without updeep, state filled', () => {
+      const start = process.hrtime();
+      for (let i = 0; i < 100; i++) {
+        const updatedState = Object.assign({}, stateFilled, cleanDataCache(stateFilled, action));
+        const payloads = updateRangePayloads(updatedState, action);
+        result = Object.assign({}, updatedState, payloads);
+      }
+      const duration = (process.hrtime(start)[1] / 1e6) / 100;
+      console.log(`(without updeep, empty state) done in ${duration}ms`);
+      result.should.have.keys(['rId1', 'rId2', 'rId3']);
+      result.rId3.should.equal(stateFilled.rId3);
+      Object.keys(result.rId1.lId1)[0].should.equal('200');
+      result.rId2.lId70.should.deep.equal({ timestamp: 230, value: 2301 });
+    });
+    it('with updeep, state filled', () => {
+      const start = process.hrtime();
+      let finalState;
+      for (let i = 0 ; i < 100; i++) {
+        const dataCache = cleanDataCache(stateFilled, action);
+        finalState = u(action.payload.data, Object.assign({}, stateFilled, dataCache));
+      }
+      const duration = (process.hrtime(start)[1] / 1e6) / 100;
+      console.log(`dataCache update done in ${duration} ms`);
+      finalState.should.deep.equal(result);
+    });
+    it('using reducer', () => {
+      const start = process.hrtime();
+      let finalState;
+      for (let i = 0 ; i < 100; i++) {
+        finalState = reducer(stateFilled, action);
+      }
+      const duration = (process.hrtime(start)[1] / 1e6) / 100;
+      console.log(`dataCache update done in ${duration} ms`);
+      finalState.should.deep.equal(result);
+    })
+  });
+
 });

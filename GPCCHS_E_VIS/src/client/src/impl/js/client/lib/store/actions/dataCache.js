@@ -7,7 +7,6 @@ import debug from '../../common/debug/mainDebug';
 
 const logger = debug('store:action:dataCache');
 
-// export const writePayload = simple(types.DATA_IMPORT_PAYLOAD, 'valuesToDisplay');
 
 function rangeValues(rIdData, lIdParam) {
   // rIdData = [ timestamp : value ]
@@ -63,51 +62,57 @@ function oneValue(remoteIdData, lIdParam, stateLocalId) {
 //    },
 //  }
 // }
+export function selectData(state, remoteIds, payload) {
+  const bag = {};
+  const start0 = process.hrtime();
+  let counter = 0;
+  // remoteId
+  each(payload, (remoteIdData, remoteId) => {
+    if (!has(remoteIds, [remoteId])) {
+      return;
+    }
+
+    // localId
+    each(remoteIds[remoteId].localIds, (lIdParam, localId) => {
+      counter += 1;
+      const dataLayout = vivl(lIdParam.viewType, 'dataLayout')();
+      switch (dataLayout) {
+        case 'one': {
+          const currentSubState = get(state, ['dataCache', remoteId, localId]);
+          const newData = oneValue(remoteIdData, lIdParam, currentSubState);
+          if (!newData) {
+            return;
+          }
+          set(bag, ['data', remoteId, localId], newData);
+          break;
+        }
+        case 'range': {
+          const newData = rangeValues(remoteIdData, lIdParam);
+          if (Object.keys(newData) === 0) {
+            return;
+          }
+
+          set(bag, ['data', remoteId, localId], newData);
+          set(bag, ['intervalToKeep', remoteId, localId], lIdParam.expectedInterval);
+          break;
+        }
+        default:
+          logger.warn(`unknown view type ${lIdParam.viewType}`);
+      }
+    });
+  });
+  const duration0 = process.hrtime(start0)[1] / 1e6;
+  logger.debug(`cacheData preparation done in ${duration0}ms, for ${counter} localIds`);
+
+  return bag;
+}
 export function importPayload(payload) {
   logger.debug('importPayload');
   return (dispatch, getState) => {
     const state = getState();
     const remoteIds = dataMap(state);
+    const bag = selectData(state, remoteIds, payload);
 
-    const bag = {
-      one: {},
-      range: {},
-    };
-
-    // remoteId
-    each(payload, (remoteIdData, remoteId) => {
-      if (!has(remoteIds, [remoteId])) {
-        return;
-      }
-
-      // localId
-      each(remoteIds[remoteId].localIds, (lIdParam, localId) => {
-        const dataLayout = vivl(lIdParam.viewType, 'dataLayout')();
-        switch (dataLayout) {
-          case 'one': {
-            const currentSubState = get(state, ['dataCache', remoteId, localId]);
-            const newData = oneValue(remoteIdData, lIdParam, currentSubState);
-            if (!newData) {
-              return;
-            }
-            set(bag, ['data', remoteId, localId], newData);
-            break;
-          }
-          case 'range': {
-            const newData = rangeValues(remoteIdData, lIdParam);
-            if (Object.keys(newData) === 0) {
-              return;
-            }
-
-            set(bag, ['data', remoteId, localId], newData);
-            set(bag, ['intervalToKeep', remoteId, localId], lIdParam.expectedInterval);
-            break;
-          }
-          default:
-            logger.warn(`unknown view type ${lIdParam.viewType}`);
-        }
-      });
-    });
     const start = process.hrtime();
     dispatch({
       type: types.DATA_IMPORT_PAYLOAD,

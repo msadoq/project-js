@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Nav, NavItem, Glyphicon } from 'react-bootstrap';
+import { Nav, NavItem, Button, Glyphicon } from 'react-bootstrap';
 import styles from './Tabs.css';
 
 export default class Tabs extends Component {
@@ -28,7 +28,6 @@ export default class Tabs extends Component {
   }
   render() {
     const { pages, focusedPageId } = this.props;
-
     return (
       <Nav bsStyle="tabs" activeKey={focusedPageId} onSelect={this.handleSelect}>
         {pages.map(page =>
@@ -38,9 +37,13 @@ export default class Tabs extends Component {
           >
             <div className={styles.title}>
               {page.title}
-            </div>
-            <div onClick={e => this.handleClose(e, page.pageId)} className={styles['close-button']}>
-              <Glyphicon glyph="remove-circle" />
+              <Button
+                bsStyle="link"
+                onClick={e => this.handleClose(e, page.pageId)}
+                className={styles.close}
+              >
+                <Glyphicon glyph="remove-circle" />
+              </Button>
             </div>
           </NavItem>
         )}

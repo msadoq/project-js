@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import SizeMe from 'react-sizeme'; // TODO : make sizeme optionnal by view type
+import shallowEqual from 'fbjs/lib/shallowEqual';
 
 import ViewHeader from './Header';
 import UnknownView from './UnknownView';
@@ -16,31 +17,8 @@ class View extends Component {
     }),
   };
   shouldComponentUpdate(nextProps) {
-
-    // TODO react-addons-shallow-compare
-    // TODO https://github.com/omnidan/redux-ignore
-
-    const propsKeys = Object.keys(this.props.data);
-    const nextKeys = Object.keys(nextProps.data);
-
-    // at least one or more added or removed keys
-    if (propsKeys.length !== nextKeys.length) {
-      console.log('re-render number');
-      return true;
-    }
-
-    // compare each data exact reference with previous props
-    let i = 0;
-    for (let name in nextProps.data) {
-      i ++;
-      if (nextProps.data[name] !== this.props.data[name]) {
-        console.log('re-render value', i);
-        return true;
-      }
-    }
-
-    console.log('no re-render please');
-    return false;
+    // TODO : allow re-rendering if size.width/height change
+    return !shallowEqual(this.props.data, nextProps.data);
   }
   render() {
     console.log('re-render me harder');

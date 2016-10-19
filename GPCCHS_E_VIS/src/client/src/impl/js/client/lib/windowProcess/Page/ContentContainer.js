@@ -27,11 +27,11 @@ const mapStateToProps = (state, ownProps) => {
   return { views };
 };
 
-function mapDispatchToProps(dispatch, { pageId }) {
+function mapDispatchToProps(dispatch, { focusedPageId }) {
   return bindActionCreators({
-    addAndMount: () => addAndMount(pageId),
-    unmountAndRemove: viewId => unmountAndRemove(pageId, viewId),
-    updateLayout: layout => updateLayout(pageId, layout),
+    addAndMount: () => addAndMount(focusedPageId),
+    unmountAndRemove: viewId => unmountAndRemove(focusedPageId, viewId),
+    updateLayout: layout => updateLayout(focusedPageId, layout),
   }, dispatch);
 }
 

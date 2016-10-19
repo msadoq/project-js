@@ -4,7 +4,7 @@ import { WidthProvider, Responsive } from 'react-grid-layout';
 import ViewContainer from '../View/ViewContainer';
 import styles from './Content.css';
 
-const Grid = WidthProvider(Responsive);
+const Grid = WidthProvider(Responsive); // eslint-disable-line new-cap
 
 const filterLayoutBlockFields = [
   'minW',
@@ -19,6 +19,7 @@ const filterLayoutBlockFields = [
 
 export default class PageContent extends Component {
   static propTypes = {
+    focusedPageId: PropTypes.string.isRequired,
     focusedPage: PropTypes.object.isRequired,
     views: PropTypes.array,
     viewOpenedInEditor: PropTypes.string,
@@ -48,7 +49,7 @@ export default class PageContent extends Component {
     this.props.updateLayout(newLayout);
   }
   render() {
-    const { focusedPage } = this.props;
+    const { focusedPageId, focusedPage } = this.props;
     const { layout } = focusedPage;
 
     const layouts = {
@@ -78,7 +79,7 @@ export default class PageContent extends Component {
             <div className={isViewsEditorOpen ? styles.blockedited : styles.block} key={v.viewId}>
               <ViewContainer
                 timebarId={focusedPage.timebarId}
-                pageId={focusedPage.pageId}
+                pageId={focusedPageId}
                 viewId={v.viewId}
                 unmountAndRemove={this.props.unmountAndRemove}
                 viewOpenedInEditor={this.props.viewOpenedInEditor}

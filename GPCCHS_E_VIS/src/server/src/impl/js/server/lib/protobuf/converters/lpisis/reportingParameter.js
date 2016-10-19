@@ -20,8 +20,7 @@ module.exports = {
     isObsolete: { value: data.isObsolete },
     isNominal: { value: data.isNominal },
   }),
-  decode: data => {
-  return ({
+  decode: data => ({
     onboardDate: data.onboardDate.value.toNumber(),
     groundDate: data.groundDate.value.toNumber(),
     convertedValue: decodeAttribute(data.convertedValue),
@@ -34,5 +33,5 @@ module.exports = {
     isObsolete: data.isObsolete.value,
     isNominal: data.isNominal.value,
     referenceTimestamp: data.onboardDate.value.toNumber(),
-  })},
+  }),
 };

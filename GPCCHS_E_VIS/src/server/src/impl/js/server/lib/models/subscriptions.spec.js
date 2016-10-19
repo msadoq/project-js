@@ -1,15 +1,12 @@
 const { should } = require('../utils/test');
 const model = require('./subscriptions');
 const { getDataId, getFilter, getRemoteId } = require('../stubs/data');
-const flattenDataId = require('../models/getLocalId');
+const flattenDataId = require('../utils/flattenDataId');
 
 describe('models/subscriptions', () => {
   beforeEach(() => {
     model.cleanup();
   });
-
-
-
 
   describe('exists', () => {
     it('yes', () => {

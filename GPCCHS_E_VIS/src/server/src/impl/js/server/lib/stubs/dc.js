@@ -1,5 +1,9 @@
 const debug = require('../io/debug')('stub:dc');
-const _ = require('lodash');
+const {
+  random: _random,
+  each: _each,
+  omit: _omit,
+} = require('lodash');
 const zmq = require('../io/zmq');
 const protobuf = require('../protobuf/index');
 const stubData = require('./data');
@@ -16,7 +20,7 @@ let queries = []; // archive
 
 const generateRealtimePayloads = () => {
   const payloads = [];
-  for (let i = 0; i < _.random(0, 3); i += 1) {
+  for (let i = 0; i < _random(0, 3); i += 1) {
     // fake time repartition
     const timestamp = Date.now() - (i * 10);
     payloads.push(
@@ -76,7 +80,7 @@ const pushTimebasedArchiveData = (queryId, dataId, isLast, payloads) => {
     stubData.getDataIdProtobuf(dataId),
     stubData.getBooleanProtobuf(isLast),
   ];
-  _.each(payloads, (payload) => {
+  _each(payloads, (payload) => {
     buffer.push(payload.timestamp);
     buffer.push(payload.payload);
   });
@@ -89,7 +93,7 @@ const pushTimebasedPubSubData = (queryId, dataId, payloads) => {
     stubData.getStringProtobuf(queryId),
     stubData.getDataIdProtobuf(dataId),
   ];
-  _.each(payloads, (payload) => {
+  _each(payloads, (payload) => {
     buffer.push(payload.timestamp);
     buffer.push(payload.payload);
   });
@@ -150,7 +154,7 @@ const onHssMessage = (...args) => {
               debug.debug('subscription added', parameter);
             }
             if (action === constants.SUBSCRIPTIONACTION_DELETE) {
-              subscriptions = _.omit(subscriptions, parameter);
+              subscriptions = _omit(subscriptions, parameter);
               debug.debug('subscription removed', parameter);
             }
             return pushSuccess(queryId);
@@ -172,7 +176,7 @@ const emulateDc = () => {
   debug.info('emulateDc call', Object.keys(subscriptions).length, queries.length);
 
   // pub/sub
-  _.each(subscriptions, ({ queryId, dataId }) => {
+  _each(subscriptions, ({ queryId, dataId }) => {
     debug.verbose('push data from subscription');
     pushTimebasedPubSubData(queryId, dataId, generateRealtimePayloads());
   });
@@ -183,7 +187,7 @@ const emulateDc = () => {
 
   // queries
   debug.debug('pushing queries');
-  _.each(queries, (query) => {
+  _each(queries, (query) => {
     const from = query.interval.startTime.ms;
     const to = query.interval.endTime.ms;
     if (to <= from) {

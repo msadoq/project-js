@@ -1,4 +1,7 @@
-const _ = require('lodash');
+const {
+  round: _round,
+  mean: _mean,
+} = require('lodash');
 const fs = require('fs');
 
 let isInited = false;
@@ -37,8 +40,8 @@ const init = () => {
 };
 
 const doAverage = (measures, currentAvg, precision = 0) => {
-  const mean = _.round(_.mean(measures));
-  return (typeof currentAvg === 'undefined') ? mean : _.round(_.mean([currentAvg, mean]), precision);
+  const mean = _round(_mean(measures));
+  return (typeof currentAvg === 'undefined') ? mean : _round(_mean([currentAvg, mean]), precision);
 };
 
 const launch = () => setImmediate(() => {

@@ -3,7 +3,6 @@ const { sendTimebasedArchiveData } = require('./onTimebasedArchiveData');
 const registeredQueries = require('../../utils/registeredQueries');
 const connectedDataModel = require('../../models/connectedData');
 const { clearFactory, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
-const _ = require('lodash');
 const dataStub = require('../../stubs/data');
 const { addToTestQueue, getMessage, resetMessage } = require('../../stubs/testWebSocket');
 

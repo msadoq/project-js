@@ -1,15 +1,21 @@
-const _ = require('lodash');
+const {
+  now: _now,
+  defaultsDeep: _defaultsDeep,
+  random: _random,
+  sortBy: _sortBy,
+  map: _map,
+} = require('lodash');
 const protobuf = require('../protobuf/index');
 const constants = require('../constants');
 
-const now = _.now();
+const now = _now();
 
 function applyOverride(payload, override) {
   if (!override) {
     return payload;
   }
 
-  return _.defaultsDeep({}, override, payload);
+  return _defaultsDeep({}, override, payload);
 }
 
 const stubs = module.exports = {};
@@ -22,9 +28,9 @@ const stubs = module.exports = {};
 stubs.getReportingParameter = override => applyOverride({
   onboardDate: now,
   groundDate: now + 20,
-  convertedValue: _.random(1, 100, true),
-  rawValue: _.random(1, 100, true),
-  extractedValue: _.random(1, 100, true),
+  convertedValue: _random(1, 100, true),
+  rawValue: _random(1, 100, true),
+  extractedValue: _random(1, 100, true),
   triggerOnCounter: 6,
   triggerOffCounter: 10,
   monitoringState: 0,
@@ -176,7 +182,7 @@ stubs.getTimebasedPubSubDataHeaderProtobuf = () => protobuf.encode(
 
 // QueryArguments
 stubs.getQueryArguments = override => applyOverride({
-  /*sortFieldName: 'groundDate',
+  /* sortFieldName: 'groundDate',
   sortOrder: constants.SORTORDER_ASC,
   limitStart: 0,
   limitNumber: 1e9,
@@ -256,7 +262,7 @@ stubs.getRemoteId = (override) => {
   const filters = (typeof override !== 'undefined' && typeof override.filters !== 'undefined')
     ? override.filters
     : [stubs.getFilter()];
-  const flattenFilters = _.sortBy(_.map(filters,
+  const flattenFilters = _sortBy(_map(filters,
     ({ fieldName, type, fieldValue }) => `${fieldName}.${type}.${fieldValue}`
   ), e => e);
   let remoteId = `${r.catalog}.${r.parameterName}<${r.comObject}>:${r.sessionId}:${r.domainId}`;

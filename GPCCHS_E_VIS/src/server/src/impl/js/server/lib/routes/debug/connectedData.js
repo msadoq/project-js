@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const connectedDataModel = require('../../models/connectedData');
-const _ = require('lodash');
+const { each: _each } = require('lodash');
 
 const router = new Router();
 
@@ -20,7 +20,7 @@ router.get('/',
     '   <h1>CONNECTED DATA</h1>' +
     '   <ul>';
 
-  _.each(connectedData, (datum) => {
+  _each(connectedData, (datum) => {
     const link = res.linker('debug/remoteId/', { remoteId: datum.remoteId });
     response += `     <li><a href=${link}>${datum.remoteId}</a></li>`;
   });

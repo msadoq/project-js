@@ -6,7 +6,7 @@ const { onTimebasedArchiveData } = require('./onTimebasedArchiveData');
 const { onTimebasedPubSubData } = require('./onTimebasedPubSubData');
 const errorHandler = require('../../utils/errorHandler');
 const constants = require('../../constants');
-const _ = require('lodash');
+const { slice: _slice } = require('lodash');
 
 // TODO :
 
@@ -36,10 +36,10 @@ const message = (
       errorHandler('onDomainData', () => domainDataHandler(args[0], args[1]));
       break;
     case constants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA:
-      errorHandler('onTimebasedArchiveData', () => timebasedArchiveDataHandler(args[0], args[1], args[2], ..._.slice(args, 3)));
+      errorHandler('onTimebasedArchiveData', () => timebasedArchiveDataHandler(args[0], args[1], args[2], ..._slice(args, 3)));
       break;
     case constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA:
-      errorHandler('onTimebasedPubSubData', () => timebasedPubSubDataHandler(args[0], args[1], ..._.slice(args, 2)));
+      errorHandler('onTimebasedPubSubData', () => timebasedPubSubDataHandler(args[0], args[1], ..._slice(args, 2)));
       break;
     default:
       debug.debug('message type not recognized');

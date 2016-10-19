@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { getAllTimebasedDataModelRemoteIds, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
-const _ = require('lodash');
+const { each: _each } = require('lodash');
 
 const router = new Router();
 
@@ -20,7 +20,7 @@ router.get('/',
     '   <h1>TIMEBASED DATA MODELS</h1>' +
     '   <ul>';
 
-  _.each(tbdModels, (remoteId) => {
+  _each(tbdModels, (remoteId) => {
     const model = getTimebasedDataModel(remoteId);
     if (!model) {
       return;

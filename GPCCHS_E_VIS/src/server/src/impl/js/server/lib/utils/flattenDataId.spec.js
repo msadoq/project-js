@@ -1,10 +1,10 @@
 require('../utils/test');
-const getLocalId = require('./getLocalId');
+const flattenDataId = require('./flattenDataId');
 const { getDataId } = require('../stubs/data');
 
 describe('models/getLocalId', () => {
   it('works', () => {
-    getLocalId(getDataId())
+    flattenDataId(getDataId())
       .should.equal('Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200');
   });
 });

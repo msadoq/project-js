@@ -1,6 +1,5 @@
 const debug = require('../io/debug')('utils:filters');
 const constants = require('../constants');
-const _ = require('lodash');
 
 function applyFilter(data, filter) {
   if (

@@ -7,7 +7,10 @@ const registeredQueries = require('../../utils/registeredQueries');
 const { encode } = require('../../protobuf');
 const { v4 } = require('node-uuid');
 const zmq = require('../../io/zmq');
-const _ = require('lodash');
+const {
+  each: _each,
+  concat: _concat,
+} = require('lodash');
 const { addToMainQueue } = require('../../websocket/sendToMain');
 const constants = require('../../constants');
 
@@ -41,14 +44,14 @@ const timebasedQuery = (websocketHandler, payload, messageHandler) => {
   debug.info('called', Object.keys(payload).length, 'remoteIds');
   const messageQueue = [];
   // loop over remoteIds
-  _.each(payload, (query, remoteId) => {
+  _each(payload, (query, remoteId) => {
     let missingIntervals = [];
 
     debug.debug('retrieve missing intervals for remoteId', remoteId, 'and interval', query.intervals);
     // loop over intervals
-    _.each(query.intervals, (interval) => {
+    _each(query.intervals, (interval) => {
       // retrieve missing intervals from connectedData model
-      missingIntervals = _.concat(
+      missingIntervals = _concat(
         missingIntervals,
         connectedDataModel.retrieveMissingIntervals(
           remoteId,
@@ -61,7 +64,7 @@ const timebasedQuery = (websocketHandler, payload, messageHandler) => {
       connectedDataModel.addRecord(remoteId, query.dataId);
     }
     // loop over missing intervals
-    _.each(missingIntervals, (missingInterval) => {
+    _each(missingIntervals, (missingInterval) => {
       // create a query id
       const queryId = v4();
       // register queryId/callback association
@@ -125,7 +128,7 @@ const timebasedQuery = (websocketHandler, payload, messageHandler) => {
     if (!timebasedDataModel) {
       return;
     }
-    _.each(query.intervals, (interval) => {
+    _each(query.intervals, (interval) => {
       // retrieve data in timebasedData model
       debug.debug('find by interval', interval);
 
@@ -146,7 +149,7 @@ const timebasedQuery = (websocketHandler, payload, messageHandler) => {
     return undefined;
   }
 
-  return _.each(messageQueue, args => messageHandler('dcPush', args));
+  return _each(messageQueue, args => messageHandler('dcPush', args));
 };
 
 module.exports = {

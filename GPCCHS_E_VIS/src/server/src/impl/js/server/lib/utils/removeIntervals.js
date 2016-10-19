@@ -2,6 +2,7 @@ const {
   sortedLastIndexBy: _sortedLastIndexBy,
   sortedIndexBy: _sortedIndexBy,
   slice: _slice,
+  reduce: _reduce,
 } = require('lodash');
 
 /**
@@ -11,7 +12,7 @@ const {
  * @param interval [number, number]
  * @return array [[number, number]]
  */
-module.exports = function removeInterval(knownIntervals, interval) {
+function removeInterval(knownIntervals, interval) {
   const lower = _sortedLastIndexBy(knownIntervals, interval, i => i[0]);
   const upper = _sortedIndexBy(knownIntervals, interval, i => i[1]);
 
@@ -106,3 +107,12 @@ module.exports = function removeInterval(knownIntervals, interval) {
     ..._slice(knownIntervals, upper + 1),
   ];
 }
+
+module.exports = {
+  removeInterval,
+  removeIntervals: (knownIntervals, intervals) => _reduce(
+    intervals,
+    (removed, interval) => removeInterval(removed, interval),
+    knownIntervals
+  ),
+};

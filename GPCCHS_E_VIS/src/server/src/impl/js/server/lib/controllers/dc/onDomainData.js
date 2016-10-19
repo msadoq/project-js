@@ -3,9 +3,6 @@ const { sendToMain } = require('../../websocket/sendToMain');
 const { decode } = require('../../protobuf');
 const { setDomains } = require('../../utils/domains');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
-const _ = require('lodash');
-
-// TODO :
 
 /**
  * Triggered on DC domain request response.

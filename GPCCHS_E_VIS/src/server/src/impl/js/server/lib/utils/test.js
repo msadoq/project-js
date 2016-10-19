@@ -9,7 +9,7 @@ const properties = require('chai-properties');
 const request = require('supertest'); // eslint-disable-line import/no-extraneous-dependencies
 const expressApp = require('../express');
 const database = require('../io/loki');
-const _ = require('lodash');
+const { each: _each } = require('lodash');
 
 chai.use(properties);
 
@@ -18,11 +18,11 @@ const postApiRequest = (route, data) => request(expressApp)
   .set('Content-Type', 'application/vnd.api+json')
   .set('Accept', 'application/vnd.api+json')
   .send(JSON.stringify(data));
-const getApiRequest = (url) => request(expressApp)
+const getApiRequest = url => request(expressApp)
   .get(url)
   .set('Content-Type', 'application/vnd.api+json')
   .set('Accept', 'application/vnd.api+json');
-const shouldBeApiError = (status, title, pointer) => res => {
+const shouldBeApiError = (status, title, pointer) => (res) => {
   const body = res.body;
   body.should.be.an('object')
     .that.not.have.property('data');
@@ -41,7 +41,7 @@ const shouldBeApiError = (status, title, pointer) => res => {
 const testPayloads = [];
 
 const testHandler = (...args) => {
-  _.each(args, (arg) => {
+  _each(args, (arg) => {
     testPayloads.push(arg);
   });
 };

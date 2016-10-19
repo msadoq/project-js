@@ -1,3 +1,5 @@
+/* eslint no-underscore-dangle: 0 */
+
 const extractTimebars = require('./extractTimebars');
 const { should } = require('../../common/test');
 

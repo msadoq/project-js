@@ -79,7 +79,7 @@ zmq.open({
     type: 'push',
     url: process.env.ZMQ_VIMA_STUB_TIMEBAR,
   },
-}, err => {
+}, (err) => {
   if (err) {
     throw err;
   }

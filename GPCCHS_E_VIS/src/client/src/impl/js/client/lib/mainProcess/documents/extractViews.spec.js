@@ -1,3 +1,5 @@
+/* eslint no-underscore-dangle: 0 */
+
 const { extractViews, readViews, findPageViewsAndReplaceWithUuid } = require('./extractViews');
 const { should } = require('../../common/test');
 const { v4 } = require('node-uuid');

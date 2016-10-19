@@ -1,4 +1,4 @@
-const debug = require('../io/debug')('controllers:onWindowOpen');
+const debug = require('../../io/debug')('controllers:onWindowOpen');
 
 /**
  * Triggered when HSC open a new window and send the 'authenticate' message

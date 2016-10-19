@@ -1,5 +1,8 @@
 const debug = require('../../io/debug')('controllers:onTimebasedArchiveData');
-const _ = require('lodash');
+const {
+  map: _map,
+  chunk: _chunk,
+} = require('lodash');
 const { decode } = require('../../protobuf');
 const { addTimebasedDataModel, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
@@ -56,7 +59,7 @@ const sendTimebasedArchiveData = (
     debug.debug('payloads should be sent by (timestamp, payloads) peers');
     return undefined;
   }
-  const payloadsToInsert = _.map(_.chunk(payloadBuffers, 2), payloadBuffer => (
+  const payloadsToInsert = _map(_chunk(payloadBuffers, 2), payloadBuffer => (
     {
       timestamp: decode('dc.dataControllerUtils.Timestamp', payloadBuffer[0]).ms,
       payload: decode(`lpisis.decommutedParameter.${dataId.comObject}`, payloadBuffer[1]),

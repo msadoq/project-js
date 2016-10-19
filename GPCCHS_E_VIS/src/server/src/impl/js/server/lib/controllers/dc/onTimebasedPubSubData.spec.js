@@ -8,7 +8,6 @@ const {
 } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
-const _ = require('lodash');
 const dataStub = require('../../stubs/data');
 const { addToTestQueue, getMessage, resetMessage } = require('../../stubs/testWebSocket');
 const constants = require('../../constants');

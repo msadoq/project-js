@@ -1,3 +1,5 @@
+/* eslint no-underscore-dangle: 0 */
+
 const _ = require('lodash');
 const async = require('async');
 const { v4 } = require('node-uuid');

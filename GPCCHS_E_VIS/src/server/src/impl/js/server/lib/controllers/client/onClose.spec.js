@@ -14,13 +14,16 @@ const {
   getReportingParameter,
   getReportingParameterProtobuf,
 } = require('../../stubs/data');
-const _ = require('lodash');
+const {
+  concat: _concat,
+  now: _now,
+} = require('lodash');
 
 let calls = [];
 const zmqEmulator = (key, payload) => {
   key.should.be.a('string')
     .that.equal('dcPush');
-  calls = _.concat(calls, payload);
+  calls = _concat(calls, payload);
 };
 
 describe('controllers/onClose', () => {
@@ -39,7 +42,7 @@ describe('controllers/onClose', () => {
 
       subscriptionsModel.addRecord(myDataId);
       const timebasedDataModel = addTimebasedDataModel(myRemoteId);
-      timebasedDataModel.addRecord(_.now(), proto);
+      timebasedDataModel.addRecord(_now(), proto);
       connectedDataModel.addRequestedInterval(myRemoteId, 'queryId', [42, 42]);
       setDomains([1]);
       registeredCallbacks.set('toto', toto => toto === 1);

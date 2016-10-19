@@ -11,16 +11,12 @@ const primus = require('./lib/websocket/primus');
 const onOpen = require('./lib/controllers/client/onOpen');
 const { onClose } = require('./lib/controllers/client/onClose');
 const { onMessage } = require('./lib/controllers/dc/onMessage');
-const onVimaTimebarUpdate = require('./lib/controllers/onVimaTimeBarUpdate');
-const onWindowOpen = require('./lib/controllers/onWindowOpen');
-const { onWindowClose } = require('./lib/controllers/onWindowClose');
-const onViewOpen = require('./lib/controllers/onViewOpen');
-const onViewClose = require('./lib/controllers/onViewClose');
-const { onSubscriptionOpen } = require('./lib/controllers/onSubscriptionOpen');
-const { onSubscriptionClose } = require('./lib/controllers/onSubscriptionClose');
+const onVimaTimebarUpdate = require('./lib/controllers/timebar/onVimaTimeBarUpdate');
+const onWindowOpen = require('./lib/controllers/client/onWindowOpen');
+const { onWindowClose } = require('./lib/controllers/client/onWindowClose');
 const { onDomainQuery } = require('./lib/controllers/client/onDomainQuery');
 const { onCacheCleanup } = require('./lib/controllers/client/onCacheCleanup');
-const onHscVimaTimebarInit = require('./lib/controllers/onHscVimaTimebarInit');
+const onHscVimaTimebarInit = require('./lib/controllers/client/onHscVimaTimebarInit');
 const { onTimebasedQuery } = require('./lib/controllers/client/onTimebasedQuery');
 
 const cp = require('child_process');
@@ -92,10 +88,6 @@ primus.init(server, {
   onClose,
   onWindowOpen,
   onWindowClose,
-  onViewOpen,
-  onViewClose,
-  onSubscriptionOpen,
-  onSubscriptionClose,
   onVimaTimebarUpdate,
   onHscVimaTimebarInit,
   onDomainQuery,

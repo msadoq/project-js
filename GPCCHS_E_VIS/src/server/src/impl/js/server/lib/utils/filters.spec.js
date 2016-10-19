@@ -1,5 +1,8 @@
 require('./test');
-const _ = require('lodash');
+const {
+  omit: _omit,
+  assign: _assign,
+} = require('lodash');
 const { applyFilters } = require('./filters');
 const constants = require('../constants');
 
@@ -135,11 +138,11 @@ describe('utils/filters', () => {
         type: constants.FILTERTYPE_EQ,
         fieldValue: 42,
       };
-      applyFilters({ intDataValue: 50 }, [_.omit(filter, ['fieldName'])]).should.equal(true);
-      applyFilters({ intDataValue: 50 }, [_.assign({}, filter, { fieldName: '' })]).should.equal(true);
-      applyFilters({ intDataValue: 50 }, [_.omit(filter, ['type'])]).should.equal(true);
-      applyFilters({ intDataValue: 50 }, [_.assign({}, filter, { type: '' })]).should.equal(true);
-      applyFilters({ intDataValue: 50 }, [_.omit(filter, ['fieldValue'])]).should.equal(true);
+      applyFilters({ intDataValue: 50 }, [_omit(filter, ['fieldName'])]).should.equal(true);
+      applyFilters({ intDataValue: 50 }, [_assign({}, filter, { fieldName: '' })]).should.equal(true);
+      applyFilters({ intDataValue: 50 }, [_omit(filter, ['type'])]).should.equal(true);
+      applyFilters({ intDataValue: 50 }, [_assign({}, filter, { type: '' })]).should.equal(true);
+      applyFilters({ intDataValue: 50 }, [_omit(filter, ['fieldValue'])]).should.equal(true);
     });
   });
 });

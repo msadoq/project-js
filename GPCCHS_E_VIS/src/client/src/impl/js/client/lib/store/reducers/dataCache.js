@@ -20,7 +20,7 @@ export default function dataCache(stateDataCache = {}, action) {
       const newState = u(action.payload.data, u(cleanState, stateDataCache));
       const duration2 = process.hrtime(start2)[1] / 1e6;
       logger.debug(`u(stateDataCache) done in ${duration2}ms`);
-      return newState;
+      return newState? newState: stateDataCache;
     }
     default:
       return stateDataCache;

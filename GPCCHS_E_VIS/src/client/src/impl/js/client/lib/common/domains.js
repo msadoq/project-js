@@ -24,9 +24,7 @@ export default function filter(domains, search) {
   }
 
   const reg = generate(search);
-  return _.reduce(domains, (list, domain) => {
-    return domain.name && reg.test(domain.name)
-      ? list.concat(domain.domainId)
-      : list;
-  }, []);
+  return _.reduce(domains, (list, domain) => (domain.name && reg.test(domain.name)
+    ? list.concat(domain.domainId)
+    : list), []);
 }

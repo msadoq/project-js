@@ -21,6 +21,7 @@ export default class PageContent extends Component {
   static propTypes = {
     focusedPageId: PropTypes.string.isRequired,
     focusedPage: PropTypes.object.isRequired,
+    layouts: PropTypes.object.isRequired,
     views: PropTypes.array,
     viewOpenedInEditor: PropTypes.string,
     unmountAndRemove: PropTypes.func,
@@ -32,6 +33,10 @@ export default class PageContent extends Component {
   constructor(...args) {
     super(...args);
     this.onLayoutChange = this.onLayoutChange.bind(this);
+
+    // static objects to avoid too many renders
+    this.breakpoints = { lg: 1200 };
+    this.cols = { lg: 12 };
   }
   onLayoutChange(layout) {
     if (!this.props.updateLayout) {
@@ -39,25 +44,12 @@ export default class PageContent extends Component {
     }
 
     const newLayout = _.map(layout, block => _.omit(block, filterLayoutBlockFields));
-
-    // TODO remove following test after
-    // https://github.com/STRML/react-grid-layout/pull/328/commits/a3afd28b579140c84e1e6e849077c7b245405345
-    if (_.isEqual(newLayout, this.props.focusedPage.layout)) {
-      return;
-    }
-
     this.props.updateLayout(newLayout);
   }
   render() {
-    const { focusedPageId, focusedPage } = this.props;
-    const { layout } = focusedPage;
+    const { focusedPageId, focusedPage, layouts } = this.props;
 
-    const layouts = {
-      lg: _.map(layout, e => Object.assign({
-        minW: 3,
-        minH: 3
-      }, e)),
-    };
+    console.log('re-render page content');
 
     return (
       <Grid
@@ -65,8 +57,8 @@ export default class PageContent extends Component {
         className="layout"
         rowHeight={30}
         width={1200}
-        breakpoints={{ lg: 1200 }}
-        cols={{ lg: 12 }}
+        breakpoints={this.breakpoints}
+        cols={this.cols}
         draggableHandle=".moveHandler"
         onLayoutChange={this.onLayoutChange}
         measureBeforeMount

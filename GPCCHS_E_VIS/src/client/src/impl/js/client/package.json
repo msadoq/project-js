@@ -97,7 +97,7 @@
     "react-color": "^2.3.2",
     "react-colorpicker": "^0.3.14",
     "react-dom": "^15.3.2",
-    "react-grid-layout": "^0.13.6",
+    "react-grid-layout": "^0.13.8",
     "react-redux": "^4.4.5",
     "react-select": "^1.0.0-rc.2",
     "react-sizeme": "^2.2.0",

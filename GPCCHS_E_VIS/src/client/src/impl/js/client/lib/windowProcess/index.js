@@ -27,10 +27,11 @@ if (process.env.NODE_ENV === 'development') {
       'Connect'
     ];
     const dependencies = [
-      'Glyphicon', 'NavItem', // Bootstrap
+      'Glyphicon', 'NavItem',
       'SafeAnchor', 'DraggableCore', 'Resizable',
       'ReactGridLayout', 'ResponsiveReactGridLayout',
-      'SizeMeReferenceWrapper', 'Button', 'Tabs', 'GridItem'
+      'SizeMeReferenceWrapper', 'Button', 'Tabs', 'GridItem',
+      'Grid', 'Row', 'Col',
     ];
     const excludeList = internal.concat(dependencies).join('|');
     whyDidYouUpdate(React, {

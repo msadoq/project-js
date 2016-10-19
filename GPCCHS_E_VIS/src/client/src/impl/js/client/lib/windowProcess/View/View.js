@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import throttle from 'react-throttle-render';
 import SizeMe from 'react-sizeme'; // TODO : make sizeme optionnal by view type
 import shallowEqual from 'fbjs/lib/shallowEqual';
 
@@ -27,7 +28,8 @@ class View extends Component {
     return !shallowEqual(this.props.data, nextProps.data);
   }
   render() {
-    console.log('re-render me harder');
+    console.log('re-render me harder', Date.now() - this.lastRender || Date.now());
+    this.lastRender = Date.now();
     const ContentComponent = this.props.component || UnknownView;
     return (
       <div className={styles.container}>
@@ -40,4 +42,4 @@ class View extends Component {
   }
 }
 
-export default SizeMe({ monitorHeight: true })(View); // eslint-disable-line new-cap
+export default SizeMe({ monitorHeight: true })(throttle(View, 100)); // eslint-disable-line new-cap

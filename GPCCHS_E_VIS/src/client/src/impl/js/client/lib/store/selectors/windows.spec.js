@@ -13,18 +13,6 @@ describe('store:window', () => {
       getWindow(getState(), 'myWindowId').should.have.property('title', 'Title 1');
       should.not.exist(getWindow(getState(), 'unknownId'));
     });
-    it('getPages', () => {
-      const { getState } = getStore({
-        windows: {
-          myWindowId: { pages: ['p3', 'p1', 'p4'] },
-        },
-        pages: { p1: {}, p2: {}, p3: {} },
-      });
-      getPages(getState(), 'myWindowId').should.eql([
-        { pageId: 'p3' },
-        { pageId: 'p1' },
-      ]);
-    });
     // describe.only('getFocusedPage', () => {
     //   it('works', () => {
     //     const { getState } = getStore({

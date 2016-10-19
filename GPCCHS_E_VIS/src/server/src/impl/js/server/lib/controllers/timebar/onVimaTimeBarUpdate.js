@@ -1,5 +1,5 @@
-const debug = require('../io/debug')('controllers:onVimaTimeBarUpdate');
-const { sendToMain } = require('../websocket/sendToMain');
+const debug = require('../../io/debug')('controllers:onVimaTimeBarUpdate');
+const { sendToMain } = require('../../websocket/sendToMain');
 const _ = require('lodash');
 /**
  * Controller that listens for timebar update

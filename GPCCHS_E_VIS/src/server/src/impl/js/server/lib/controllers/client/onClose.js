@@ -4,7 +4,7 @@ const subscriptionsModel = require('../../models/subscriptions');
 const connectedDataModel = require('../../models/connectedData');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
 const registeredQueries = require('../../utils/registeredQueries');
-const { stopSubscription } = require('./../onSubscriptionClose');
+const { createDeleteSubscriptionMessage } = require('../../utils/subscriptions');
 const zmq = require('../../io/zmq');
 const _ = require('lodash');
 const { resetDomains } = require('../../utils/domains');
@@ -28,7 +28,9 @@ const { resetDomains } = require('../../utils/domains');
 const close = (messageHandler) => {
   // loop on subscriptions and stop subscription
   _.each(subscriptionsModel.getAll(), (subscription) => {
-    stopSubscription(subscription, messageHandler);
+    const message = createDeleteSubscriptionMessage(subscription.dataId);
+    debug.debug('sending delete subscription message to DC');
+    return messageHandler('dcPush', message.args);
   });
   // cleanup timebasedData model
   clearFactory();

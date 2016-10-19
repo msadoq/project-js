@@ -1,5 +1,5 @@
-const debug = require('../io/debug')('controllers:onHscVimaTimebarUpdate');
-const zmq = require('../io/zmq');
+const debug = require('../../io/debug')('controllers:onHscVimaTimebarUpdate');
+const zmq = require('../../io/zmq');
 const _ = require('lodash');
 
 /**

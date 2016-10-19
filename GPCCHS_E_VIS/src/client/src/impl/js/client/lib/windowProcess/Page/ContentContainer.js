@@ -11,19 +11,19 @@ import styles from './Content.css';
 const getLayouts = makeGetLayouts();
 const getViews = makeGetViews();
 
-const PageContentContainer = props => (
+const ContentContainer = props => (
   (props.focusedPage)
     ? <Content {...props} />
     : <div className={styles.noPage}>No page ...</div>
 );
 
-PageContentContainer.propTypes = {
+ContentContainer.propTypes = {
   focusedPage: PropTypes.object,
 };
 
 const mapStateToProps = (state, ownProps) => {
   if (!ownProps.focusedPage) {
-    return undefined;
+    return {};
   }
 
   const p = { pageId: ownProps.focusedPageId };
@@ -44,4 +44,4 @@ function mapDispatchToProps(dispatch, { focusedPageId }) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PageContentContainer);
+)(ContentContainer);

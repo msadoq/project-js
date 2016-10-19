@@ -57,12 +57,12 @@ function window(stateWindow = initialState, action) {
         focusedPage: action.payload.pageId,
       });
     case types.WS_WINDOW_PAGE_REORDER: {
-      const { remaining, sorted } = _.reduce(action.payload.pages, (acc, pageId) => {
-        return {
+      const { remaining, sorted } = _.reduce(action.payload.pages, (acc, pageId) => (
+        {
           remaining: _.without(acc.remaining, pageId),
           sorted: (stateWindow.pages.indexOf(pageId) !== -1) ? [...acc.sorted, pageId] : acc.sorted,
-        };
-      }, { remaining: _.clone(stateWindow.pages), sorted: [] });
+        }
+      ), { remaining: _.clone(stateWindow.pages), sorted: [] });
       return Object.assign({}, stateWindow, {
         pages: [...sorted, ...remaining],
       });

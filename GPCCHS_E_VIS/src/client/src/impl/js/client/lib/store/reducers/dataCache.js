@@ -8,21 +8,8 @@ const logger = debug('store:action:dataCache');
 export default function dataCache(stateDataCache = {}, action) {
   switch (action.type) {
     case types.DATA_IMPORT_PAYLOAD: {
-      // const updateRange = updateRangePayloads(stateDataCache, action);
-      // const updateOne = updateOnePayloads(stateDataCache, action);
-      // return u(Object.assign(updateRange, updateOne), stateDataCache);
-
-      // const start1 = process.hrtime();
       const cleanState = cleanDataCache(stateDataCache, action);
-      // const duration1 = process.hrtime(start1)[1] / 1e6;
-      // logger.debug(`cleanDataCache done in ${duration1}ms`);
-
-      // const start2 = process.hrtime();
-      // const newState = u(action.payload.data, cleanState); //u(cleanState, stateDataCache));
       return updateRangePayloads(cleanState, action);
-      // const duration2 = process.hrtime(start2)[1] / 1e6;
-      // logger.debug(`u(stateDataCache) done in ${duration2}ms`);
-      //return newState? newState: stateDataCache;
     }
     default:
       return stateDataCache;

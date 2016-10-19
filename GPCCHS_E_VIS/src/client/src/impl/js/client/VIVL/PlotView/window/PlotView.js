@@ -70,14 +70,16 @@ export default class PlotView extends Component {
       <div>
         ok plot view
         size: {this.props.size.width}x{this.props.size.height}
-        {JSON.stringify(this.props.data) }
         {this.props.viewId}
-        <ChartCanvas ratio={ratio} width={width} height={400}
+        <ChartCanvas
+          ratio={ratio} width={width} height={400}
           margin={{ left: 50, right: 50, top: 10, bottom: 30 }}
           seriesName="MSFT"
-          data={data} type={type}
+          data={data}
+          type="hybrid"
           xAccessor={d => d.date} xScaleProvider={discontinuousTimeScaleProvider}
-          xExtents={[data[0].date, data[data.length - 1].date]}>
+          xExtents={[data[0].date, data[data.length - 1].date]}
+        >
           <Chart id={0} yExtents={d => d.close}>
             <XAxis axisAt="bottom" orient="bottom" />
             <YAxis axisAt="right" orient="right" ticks={5} />

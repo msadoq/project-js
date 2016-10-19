@@ -17,7 +17,13 @@ class View extends Component {
     }),
   };
   shouldComponentUpdate(nextProps) {
-    // TODO : allow re-rendering if size.width/height change
+    // size modification
+    if (this.props.size.width !== nextProps.size.width
+      || this.props.size.height !== nextProps.size.height) {
+      return true;
+    }
+
+    // data modification
     return !shallowEqual(this.props.data, nextProps.data);
   }
   render() {

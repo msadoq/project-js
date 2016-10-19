@@ -61,18 +61,18 @@ export default class PlotView extends Component {
     this.date = new Date();
     this.setState({
       rows: this.getRandomRows()
-    })
+    });
   }
   render() {
     const { rows: data } = this.state;
-    const { type = 'hybrid', width = 1000, ratio = 2 } = this.props;
+    const { size, ratio = 2 } = this.props;
     return (
       <div>
         ok plot view
-        size: {this.props.size.width}x{this.props.size.height}
+        size: {size.width}x{size.height}
         {this.props.viewId}
         <ChartCanvas
-          ratio={ratio} width={width} height={400}
+          ratio={ratio} width={size.width} height={size.height}
           margin={{ left: 50, right: 50, top: 10, bottom: 30 }}
           seriesName="MSFT"
           data={data}

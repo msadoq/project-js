@@ -21,6 +21,7 @@ initStore();
 if (process.env.NODE_ENV === 'development') {
   // Enable why-did-you-update when necessary only
   window.whyDidYouUpdate = () => {
+    // eslint-disable-next-line global-require
     const { whyDidYouUpdate } = require('why-did-you-update');
     const internal = [
       'Connect'
@@ -29,12 +30,13 @@ if (process.env.NODE_ENV === 'development') {
       'Glyphicon', 'NavItem', // Bootstrap
       'SafeAnchor', 'DraggableCore', 'Resizable',
       'ReactGridLayout', 'ResponsiveReactGridLayout',
-      'SizeMeReferenceWrapper'
+      'SizeMeReferenceWrapper', 'Button', 'Tabs', 'GridItem'
     ];
     const excludeList = internal.concat(dependencies).join('|');
     whyDidYouUpdate(React, {
       exclude: new RegExp(excludeList)
     });
+    window.whyDidYouUpdate.loaded = true;
   };
 }
 

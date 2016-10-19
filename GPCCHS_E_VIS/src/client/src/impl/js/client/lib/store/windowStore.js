@@ -23,7 +23,6 @@ const enhancer = compose(
 
 export function initStore(initialState) {
   store = createStore(reducers, initialState, enhancer);
-  console.log('store', store.getState());
   if (window.devToolsExtension) {
     window.devToolsExtension.updateStore(store);
   }

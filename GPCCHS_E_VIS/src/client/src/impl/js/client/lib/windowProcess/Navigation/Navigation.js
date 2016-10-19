@@ -11,7 +11,7 @@ const Navigation = props => (
     <Row>
       <Col xs={12}>
         <div style={{ textAlign: 'right' }}>
-          <Debug />
+          <Debug {...props} />
           {' '}
           <DataMap />
           {' '}

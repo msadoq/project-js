@@ -1,9 +1,7 @@
 import _ from 'lodash';
+import u from 'updeep';
 import * as types from '../types';
 
-/**
- * Reducer
- */
 export default function windows(stateWindows = {}, action) {
   switch (action.type) {
     case types.WS_WINDOW_UPDATE_GEOMETRY:
@@ -11,6 +9,7 @@ export default function windows(stateWindows = {}, action) {
     case types.WS_WINDOW_PAGE_REORDER:
     case types.WS_WINDOW_PAGE_MOUNT:
     case types.WS_WINDOW_PAGE_UNMOUNT:
+    case types.WS_WINDOW_DEBUG_SWITCH:
       return Object.assign({}, stateWindows, {
         [action.payload.windowId]: window(stateWindows[action.payload.windowId], action)
       });
@@ -36,6 +35,9 @@ const initialState = {
     x: 10,
     y: 10,
   },
+  debug: {
+    whyDidYouUpdate: false,
+  },
 };
 
 function window(stateWindow = initialState, action) {
@@ -57,15 +59,20 @@ function window(stateWindow = initialState, action) {
         focusedPage: action.payload.pageId,
       });
     case types.WS_WINDOW_PAGE_REORDER: {
-      const { remaining, sorted } = _.reduce(action.payload.pages, (acc, pageId) => {
-        return {
-          remaining: _.without(acc.remaining, pageId),
-          sorted: (stateWindow.pages.indexOf(pageId) !== -1) ? [...acc.sorted, pageId] : acc.sorted,
-        };
-      }, { remaining: _.clone(stateWindow.pages), sorted: [] });
+      const { remaining, sorted } = _.reduce(action.payload.pages, (acc, pageId) => ({
+        remaining: _.without(acc.remaining, pageId),
+        sorted: (stateWindow.pages.indexOf(pageId) !== -1) ? [...acc.sorted, pageId] : acc.sorted,
+      }), { remaining: _.clone(stateWindow.pages), sorted: [] });
       return Object.assign({}, stateWindow, {
         pages: [...sorted, ...remaining],
       });
+    }
+    case types.WS_WINDOW_DEBUG_SWITCH: { // TODO test
+      return u({
+        debug: {
+          [action.payload.which]: action.payload.status,
+        },
+      }, stateWindow);
     }
     case types.WS_WINDOW_PAGE_MOUNT:
       return Object.assign({}, stateWindow, {

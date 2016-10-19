@@ -15,6 +15,7 @@ export const reorderPages = simple(types.WS_WINDOW_PAGE_REORDER, 'windowId', 'pa
 export const updateGeometry = simple(types.WS_WINDOW_UPDATE_GEOMETRY,
   'windowId', 'x', 'y', 'w', 'h'
 );
+export const switchDebug = simple(types.WS_WINDOW_DEBUG_SWITCH, 'windowId', 'which', 'status');
 
 /**
  * Compound actions

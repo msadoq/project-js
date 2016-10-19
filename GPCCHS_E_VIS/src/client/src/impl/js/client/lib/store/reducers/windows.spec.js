@@ -23,6 +23,7 @@ describe('store:window', () => {
           focusedPage: null,
           pages: ['myPageId'],
           geometry: { w: 800, h: 600, x: 110, y: 10 },
+          debug: { whyDidYouUpdate: false },
         });
       });
       it('add empty', () => {
@@ -35,6 +36,7 @@ describe('store:window', () => {
           focusedPage: null,
           pages: [],
           geometry: { x: 10, y: 10, w: 800, h: 600 },
+          debug: { whyDidYouUpdate: false },
         });
       });
     });

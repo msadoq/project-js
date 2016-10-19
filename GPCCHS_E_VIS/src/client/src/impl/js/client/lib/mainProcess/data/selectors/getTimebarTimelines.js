@@ -1,5 +1,7 @@
-const _ = require('lodash');
+
 import { createSelector } from 'reselect';
+
+const _ = require('lodash');
 
 // TODO memoized and/or getTimebarWithTimelines as compound selector of getVisibleRemoteIds
 export default function getTimebarTimelines(timebars, timelines, timebarId) {

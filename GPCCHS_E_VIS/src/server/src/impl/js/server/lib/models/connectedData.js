@@ -1,7 +1,8 @@
 const debug = require('../io/debug')('models:connectedData');
 const database = require('../io/loki');
-const { isTimestampInIntervals, mergeIntervals } = require('../utils/intervals');
-const removeInterval = require('../utils/removeInterval');
+const { mergeInterval, mergeIntervals } = require('../utils/mergeIntervals');
+const { isTimestampInIntervals } = require('../utils/isTimestampInIntervals');
+const { removeInterval } = require('../utils/removeIntervals');
 const { inspect } = require('util');
 const _ = require('lodash');
 
@@ -58,7 +59,7 @@ collection.setIntervalAsReceived = (remoteId, queryUuid) => {
     return undefined;
   }
 
-  connectedData.intervals.received = mergeIntervals(connectedData.intervals.received, interval);
+  connectedData.intervals.received = mergeInterval(connectedData.intervals.received, interval);
   connectedData.intervals.requested = _.omit(connectedData.intervals.requested, queryUuid);
   debug.debug('set interval', interval, 'as received', connectedData);
   collection.update(connectedData); // TODO This update operation could be not needed
@@ -95,7 +96,7 @@ collection.addRequestedInterval = (remoteId, queryUuid, interval) => {
 
   debug.debug('before update', inspect(connectedData));
   connectedData.intervals.requested[queryUuid] = interval;
-  connectedData.intervals.all = mergeIntervals(connectedData.intervals.all, interval);
+  connectedData.intervals.all = mergeInterval(connectedData.intervals.all, interval);
   debug.debug('update', inspect(connectedData));
   collection.update(connectedData); // TODO This update operation could be not needed
 
@@ -121,10 +122,7 @@ collection.removeIntervals = (remoteId, intervals) => {
     });
     receivedIntervals = removeInterval(receivedIntervals, interval);
   });
-  let allIntervals = receivedIntervals;
-  _.each(requestedIntervals, (interval) => {
-    allIntervals = mergeIntervals(allIntervals, interval);
-  });
+  const allIntervals = mergeIntervals(receivedIntervals, requestedIntervals);
   connectedData.intervals.requested = requestedIntervals;
   connectedData.intervals.received = receivedIntervals;
   connectedData.intervals.all = allIntervals;

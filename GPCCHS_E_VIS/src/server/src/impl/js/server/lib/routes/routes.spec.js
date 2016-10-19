@@ -12,7 +12,7 @@ describe('routes', () => {
         .set('Accept', 'application/vnd.api+json')
         .send(JSON.stringify({}))
         .expect('Content-Type', /json/)
-        .expect(res => {
+        .expect((res) => {
           const body = res.body;
           body.should.be.an('object').that.not.have.property('data');
           body.should.have.a.property('errors')

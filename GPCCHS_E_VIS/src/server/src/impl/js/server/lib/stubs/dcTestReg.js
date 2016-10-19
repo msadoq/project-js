@@ -2,7 +2,11 @@ const zmq = require('../io/zmq');
 const { encode, decode } = require('../protobuf');
 const constants = require('../constants');
 const async = require('async');
-const _ = require('lodash');
+const {
+  each: _each,
+  chunk: _chunk,
+  slice: _slice,
+} = require('lodash');
 
 require('../utils/test');
 
@@ -136,8 +140,8 @@ const pubSubDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =>
           (() => decode('dc.dataControllerUtils.String', argsBuffers[0])).should.not.throw();
           const dataId = decode('dc.dataControllerUtils.DataId', argsBuffers[1]);
           dataId.should.have.properties(myDataId);
-          (_.slice(argsBuffers, 2).length % 2).should.equal(0);
-          _.each(_.chunk(_.slice(argsBuffers, 2), 2), (argBuffer) => {
+          (_slice(argsBuffers, 2).length % 2).should.equal(0);
+          _each(_chunk(_slice(argsBuffers, 2), 2), (argBuffer) => {
             (() => decode('dc.dataControllerUtils.Timestamp', argBuffer[0])).should.not.throw();
             (() => decode(`lpisis.decommutedParameter.${dataId.comObject}`, argBuffer[1])).should.not.throw();
           });

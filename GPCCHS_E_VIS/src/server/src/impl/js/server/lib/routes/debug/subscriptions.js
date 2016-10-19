@@ -1,6 +1,9 @@
 const { Router } = require('express');
 const subscriptionsModel = require('../../models/subscriptions');
-const _ = require('lodash');
+const {
+  each: _each,
+  isEmpty, _isEmpty,
+} = require('lodash');
 
 const router = new Router();
 
@@ -19,13 +22,13 @@ router.get('/',
     '   <h1>VIEWS</h1>' +
     '   <ul>';
 
-  _.each(subscriptions, (subscription) => {
+  _each(subscriptions, (subscription) => {
     response += `     <li>${subscription.flatDataId}</li>`;
-    if (_.isEmpty(subscription.filters)) {
+    if (_isEmpty(subscription.filters)) {
       return;
     }
     response += '     <ul>';
-    _.each(subscription.filters, (filter, remoteId) => {
+    _each(subscription.filters, (filter, remoteId) => {
       const link = res.linker('debug/remoteId/', { remoteId });
       response += `     <li><a href=${link}>${remoteId}</a></li>`;
     });

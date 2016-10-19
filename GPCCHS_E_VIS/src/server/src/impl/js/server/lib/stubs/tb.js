@@ -1,14 +1,17 @@
 const zmq = require('../io/zmq');
 const debug = require('../io/debug')('stub:tb');
-const _ = require('lodash');
+const {
+  head: _head,
+  each: _each,
+} = require('lodash');
 
 const tb = [];
 
 function onVimaTbStubUpdate(buffer) {
   const cmdList = JSON.parse(buffer.toString());
   // Timebar Update
-  const tbHead = _.head(tb);
-  _.each(cmdList, (param, command) => {
+  const tbHead = _head(tb);
+  _each(cmdList, (param, command) => {
     tbHead.action = command;
     switch (command) {
       case 'currentTimeUpd':
@@ -25,7 +28,7 @@ function onVimaTbStubUpdate(buffer) {
         }
         break;
       case 'tlOffsetUpd':
-        _.each(tbHead.timeLines, (tl) => {
+        _each(tbHead.timeLines, (tl) => {
           tl.offset += param; // eslint-disable-line no-param-reassign
         });
         break;

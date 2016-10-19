@@ -3,10 +3,10 @@
 Profile points:
 
 * data
-    * dataMap + dataRequests (client)
-    * onTimebasedQuery (server)
-    * onTimebasedArchiveData (server)
-    * onTimebasedPubSubData (server)
+  * dataMap + dataRequests (client)
+  * onTimebasedQuery (server)
+  * onTimebasedArchiveData (server)
+  * onTimebasedPubSubData (server)
 * cache invalidation
-   * expirationsMapGenerator
-   * onCacheCleanup
+  * expirationsMapGenerator (client)
+  * onCacheCleanup (server)

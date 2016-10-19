@@ -1,16 +1,22 @@
 const debug = require('../io/debug')('utils:registeredCallbacks');
-const _ = require('lodash');
+const {
+  isString: _isString,
+  isEmpty: _isEmpty,
+  has: _has,
+  isFunction: _isFunction,
+  omit: _omit,
+} = require('lodash');
 
 let callbacks = {};
 
 function set(id, callback) {
-  if (!_.isString(id) || _.isEmpty(id)) {
+  if (!_isString(id) || _isEmpty(id)) {
     throw new Error(`setting a new callback required a string id '${id}'`);
   }
-  if (_.has(callbacks, id)) {
+  if (_has(callbacks, id)) {
     throw new Error(`a callback is already registered for this id '${id}'`);
   }
-  if (!_.isFunction(callback)) {
+  if (!_isFunction(callback)) {
     throw new Error(`setting a new callback require a valid function '${id}'`);
   }
 
@@ -27,7 +33,7 @@ function getAll() {
 }
 
 function remove(id) {
-  callbacks = _.omit(callbacks, [id]);
+  callbacks = _omit(callbacks, [id]);
 }
 
 function clear() {

@@ -1,16 +1,21 @@
 const debug = require('../io/debug')('utils:registeredQueries');
-const _ = require('lodash');
+const {
+  isString: _isString,
+  isEmpty: _isEmpty,
+  has: _has,
+  omit: _omit,
+} = require('lodash');
 
 let queries = {};
 
 function set(queryId, remoteId) {
-  if (!_.isString(queryId) || _.isEmpty(queryId)) {
+  if (!_isString(queryId) || _isEmpty(queryId)) {
     throw new Error(`setting a new query require a string id '${queryId}'`);
   }
-  if (_.has(queries, queryId)) {
+  if (_has(queries, queryId)) {
     throw new Error(`a query is already registered for this id '${queryId}'`);
   }
-  if (!_.isString(remoteId) || _.isEmpty(remoteId)) {
+  if (!_isString(remoteId) || _isEmpty(remoteId)) {
     throw new Error(`setting a new remoteId require a string id '${queryId}'`);
   }
 
@@ -27,11 +32,11 @@ function getAll() {
 }
 
 function remove(queryId) {
-  queries = _.omit(queries, [queryId]);
+  queries = _omit(queries, [queryId]);
 }
 
 function removeMulti(queryIds) {
-  queries = _.omit(queries, queryIds);
+  queries = _omit(queries, queryIds);
 }
 
 function clear() {

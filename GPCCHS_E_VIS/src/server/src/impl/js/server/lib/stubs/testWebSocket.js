@@ -1,4 +1,8 @@
-const _ = require('lodash');
+const {
+  get: _get,
+  set: _set,
+  concat: _concat,
+} = require('lodash');
 
 let testQueue = {};
 let message = {};
@@ -14,11 +18,11 @@ const flushTestQueue = () => {
 };
 
 const addToTestQueue = (remoteId, payload) => {
-  const previous = _.get(testQueue, [remoteId]);
+  const previous = _get(testQueue, [remoteId]);
   if (typeof previous === 'undefined') {
-    _.set(testQueue, [remoteId], payload);
+    _set(testQueue, [remoteId], payload);
   } else {
-    _.set(testQueue, [remoteId], _.concat(previous, payload));
+    _set(testQueue, [remoteId], _concat(previous, payload));
   }
   flushTestQueue();
 };

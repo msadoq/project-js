@@ -1,6 +1,11 @@
 const debug = require('../io/debug')('websocket');
 const primus = require('./primus');
-const _ = require('lodash');
+const {
+  get: _get,
+  set: _set,
+  throttle: _throttle,
+  concat: _concat,
+} = require('lodash');
 
 const FLUSH_FREQUENCY = 25; // ms
 let mainQueue = {};
@@ -17,7 +22,7 @@ const sendToMain = (event, payload) => {
   });
 };
 
-const flushMainQueue = _.throttle(() => {
+const flushMainQueue = _throttle(() => {
   debug.debug('sending data to window');
   const start = process.hrtime();
   sendToMain('timebasedData', mainQueue);
@@ -28,8 +33,8 @@ const flushMainQueue = _.throttle(() => {
 
 const addToMainQueue = (remoteId, payload) => {
   debug.debug('adding to queue');
-  const previous = _.get(mainQueue, [remoteId], []);
-  _.set(mainQueue, [remoteId], _.concat(previous, payload));
+  const previous = _get(mainQueue, [remoteId], []);
+  _set(mainQueue, [remoteId], _concat(previous, payload));
   flushMainQueue();
 };
 

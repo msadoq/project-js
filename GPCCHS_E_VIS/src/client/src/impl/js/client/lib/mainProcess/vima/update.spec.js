@@ -104,7 +104,7 @@ describe('Timebar update', () => {
   it('timeline addition', () => {
     // tb1 update
     const nb = Math.floor(Math.random() * 100);
-    const tlName = 'Session ${nb}';
+    const tlName = `Session ${nb}`;
     const newTl = {
       id: nb,
       name: tlName,

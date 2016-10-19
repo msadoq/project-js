@@ -1381,7 +1381,7 @@
     " <body>",
     " <table class=\"mainTab\" align=\"center\" width=\"90%\">",
     "   <table border=\"1\" align= \"left\" width=\"30%\">",
-    "    <th width=\"50%\" bgcolor=\"lightsteelblue\"> NAME </th><th width=\"50%\" bgcolor=\"lightsteelblue\"> VALUE</th>",
+    "    <th width=\"50%\" bgcolor=\"428bca\"> NAME </th><th width=\"50%\" bgcolor=\"428bca\"> VALUE</th>",
     "    <tr><td>POW_BC_NUMRJCTTC8</td><td><span class=\"EntryPoint\">{{POW_BC_NUMRJCTTC8}}</span></td></tr>",
     "    <tr><td>POW_BC_NUMTCMAX</td><td><span class=\"EntryPoint\">{{POW_BC_NUMTCMAX}}</span></td></tr>",
     "    <tr><td>POW_BC_RTSTATWORD</td><td><span class=\"EntryPoint\">{{POW_BC_RTSTATWORD}}</span></td></tr>",
@@ -1417,7 +1417,7 @@
     "    <tr><td>MIS_BC_DHDTVOLTAGE</td><td><span class=\"EntryPoint\">{{MIS_BC_DHDTVOLTAGE}}</span></td></tr>",
 
     "   <table border=\"1\" align= \"left\" width=\"30%\">",
-    "    <th width=\"50%\" bgcolor=\"lightsteelblue\"> NAME </th><th width=\"50%\" bgcolor=\"lightsteelblue\"> VALUE</th>",
+    "    <th width=\"50%\" bgcolor=\"428bca\"> NAME </th><th width=\"50%\" bgcolor=\"428bca\"> VALUE</th>",
     "    <tr><td>MIS_BC_GAMAGAMMODE</td><td><span class=\"EntryPoint\">{{MIS_BC_GAMAGAMMODE}}</span></td></tr>",
     "    <tr><td>MIS_BC_LASTSQNUM17</td><td><span class=\"EntryPoint\">{{MIS_BC_LASTSQNUM17}}</span></td></tr>",
     "    <tr><td>MIS_BC_S19FREENUM</td><td><span class=\"EntryPoint\">{{MIS_BC_S19FREENUM}}</span></td></tr>",
@@ -1454,7 +1454,7 @@
 
 
     "   <table border=\"1\" align= \"left\" width=\"30%\">",
-    "    <th width=\"50%\" bgcolor=\"lightsteelblue\"> NAME </th><th width=\"50%\" bgcolor=\"lightsteelblue\"> VALUE</th>",
+    "    <th width=\"50%\" bgcolor=\"428bca\"> NAME </th><th width=\"50%\" bgcolor=\"428bca\"> VALUE</th>",
     "    <tr><td>GENE_AM_MINVALUSHT</td><td><span class=\"EntryPoint\">{{GENE_AM_MINVALUSHT}}</span></td></tr>",
     "    <tr><td>GENE_AM_N14PUSSUBT</td><td><span class=\"EntryPoint\">{{GENE_AM_N14PUSSUBT}}</span></td></tr>",
     "    <tr><td>GENE_AM_MINVALDBLE</td><td><span class=\"EntryPoint\">{{GENE_AM_MINVALDBLE}}</span></td></tr>",

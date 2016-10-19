@@ -1,5 +1,8 @@
 const debug = require('../io/debug')('zmq');
-const _ = require('lodash');
+const {
+  each: _each,
+  isFunction: _isFunction,
+} = require('lodash');
 const async = require('async');
 const zmq = require('zmq');
 
@@ -21,7 +24,7 @@ const debugLifecycle = (event, url) => {
 };
 
 const bindLifecycleEvents =
-  socket => _.each(lifeCycleEvents, event => socket.on(event, debugLifecycle));
+  socket => _each(lifeCycleEvents, event => socket.on(event, debugLifecycle));
 
 let sockets = {};
 
@@ -33,8 +36,9 @@ const connect = (socket, url, callback, handler) => {
   return callback(null);
 };
 
-const bind = (socket, url, callback, handler) => {
-  return socket.bind(url, (err) => {
+const bind = (socket, url, callback, handler) => socket.bind(
+  url,
+  (err) => {
     if (err) {
       return callback(err);
     }
@@ -42,8 +46,8 @@ const bind = (socket, url, callback, handler) => {
       socket.on('message', (...args) => handler(...args));
     }
     return callback(null);
-  });
-};
+  }
+);
 
 function open(configuration, callback) {
   async.each(Object.keys(configuration), (key, cb) => {
@@ -53,7 +57,7 @@ function open(configuration, callback) {
     }
 
     // .handler required for certain types
-    if (['req', 'res', 'pull'].indexOf(item.type) !== -1 && !_.isFunction(item.handler)) {
+    if (['req', 'res', 'pull'].indexOf(item.type) !== -1 && !_isFunction(item.handler)) {
       return cb(new Error(`Handler function required for ZeroMQ socket type: ${item.type}`));
     }
 
@@ -161,7 +165,7 @@ function respond(key, payload, callback = () => {}) {
 }
 
 function closeSockets() {
-  _.each(sockets, item => item.close());
+  _each(sockets, item => item.close());
   sockets = {};
   debug.info('all sockets closed');
 }

@@ -1,21 +1,25 @@
 const { should } = require('../../utils/test');
-const flattenDataId = require('../../models/getLocalId');
+const flattenDataId = require('../../utils/flattenDataId');
 const { timebasedQuery } = require('./onTimebasedQuery');
 const connectedDataModel = require('../../models/connectedData');
 const { clearFactory, addTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const subscriptionsModel = require('../../models/subscriptions');
 const registeredQueries = require('../../utils/registeredQueries');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
-const _ = require('lodash');
+const {
+  isEmpty: _isEmpty,
+  keys: _keys,
+  pull: _pull,
+  concat: _concat,
+} = require('lodash');
 const dataStub = require('../../stubs/data');
-const constants = require('../../constants');
 const { addToTestQueue, getMessage, resetMessage } = require('../../stubs/testWebSocket');
 
 let calls = [];
 const zmqEmulator = (key, payload) => {
   key.should.be.a('string')
     .that.equal('dcPush');
-  calls = _.concat(calls, payload);
+  calls = _concat(calls, payload);
 };
 
 /* onTimebasedPubSubData Test
@@ -96,9 +100,9 @@ describe('controllers/onTimebasedQuery', () => {
     // launch test
     timebasedQuery(addToTestQueue, query, zmqEmulator);
     // check registeredQueries
-    _.isEmpty(registeredQueries.getAll()).should.equal(true);
+    _isEmpty(registeredQueries.getAll()).should.equal(true);
     // check registeredCallbacks
-    _.isEmpty(registeredCallbacks.getAll()).should.equal(true);
+    _isEmpty(registeredCallbacks.getAll()).should.equal(true);
     // check zmq messages
     calls.length.should.equal(0);
     // check ws messages
@@ -145,7 +149,7 @@ describe('controllers/onTimebasedQuery', () => {
     // launch test
     timebasedQuery(addToTestQueue, query, zmqEmulator);
     // check registeredQueries
-    const queryIds = _.keys(registeredQueries.getAll());
+    const queryIds = _keys(registeredQueries.getAll());
     queryIds.length.should.equal(1);
     const queryId = queryIds[0];
     // check registeredCallbacks
@@ -191,7 +195,7 @@ describe('controllers/onTimebasedQuery', () => {
     // launch test
     timebasedQuery(addToTestQueue, query, zmqEmulator);
     // check registeredQueries
-    const queryIds = _.keys(registeredQueries.getAll());
+    const queryIds = _keys(registeredQueries.getAll());
     queryIds.length.should.equal(1);
     const queryId = queryIds[0];
     // check registeredCallbacks
@@ -244,14 +248,14 @@ describe('controllers/onTimebasedQuery', () => {
     // launch test
     timebasedQuery(addToTestQueue, query, zmqEmulator);
     // check registeredQueries
-    const queryIds = _.keys(registeredQueries.getAll());
+    const queryIds = _keys(registeredQueries.getAll());
     queryIds.length.should.equal(1);
     const queryId = queryIds[0];
     // check registeredCallbacks
     should.exist(registeredCallbacks.get(queryId));
-    const callbackIds = _.keys(registeredCallbacks.getAll());
+    const callbackIds = _keys(registeredCallbacks.getAll());
     callbackIds.length.should.equal(2);
-    const subId = _.pull(callbackIds, queryId)[0];
+    const subId = _pull(callbackIds, queryId)[0];
     // check zmq messages
     const queryIdProto = dataStub.getStringProtobuf(queryId);
     const subIdProto = dataStub.getStringProtobuf(subId);

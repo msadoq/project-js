@@ -1,6 +1,9 @@
 const debug = require('../../io/debug')('controllers:onHscVimaTimebarUpdate');
 const zmq = require('../../io/zmq');
-const _ = require('lodash');
+const {
+  each: _each,
+  omit: _omit,
+} = require('lodash');
 
 /**
  * Triggered when HSC send the timebar status (one time on launch)
@@ -11,10 +14,10 @@ module.exports = (spark, timebars) => {
   // Transform timebar json to be compliant with tb Qt
   let tbForQt = {};
   if (timebars.length > 0) {
-    tbForQt = _.omit(timebars[0], 'timelines');
+    tbForQt = _omit(timebars[0], 'timelines');
     tbForQt.timeLines = [];
     let index = 0;
-    _.each(timebars[0].timelines, (timeline) => {
+    _each(timebars[0].timelines, (timeline) => {
       tbForQt.timeLines.push({
         id: index,
         name: timeline.id,

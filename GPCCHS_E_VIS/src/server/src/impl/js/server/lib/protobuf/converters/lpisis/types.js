@@ -1,11 +1,17 @@
 /* eslint-disable no-underscore-dangle */
 
-const _ = require('lodash');
+const {
+  isInteger: _isInteger,
+  isBuffer: _isBuffer,
+  isNumber: _isNumber,
+  isUndefined: _isUndefined,
+  isNull: _isNull,
+} = require('lodash');
 const ByteBuffer = require('bytebuffer');
 const ProtoBuf = require('protobufjs');
 
 module.exports = {
-  encodeAttribute: attribute => {
+  encodeAttribute: (attribute) => {
     const mixedType = typeof attribute;
     if (
       attribute === null
@@ -23,7 +29,7 @@ module.exports = {
         value = attribute;
         break;
       case 'number': {
-        if (_.isInteger(attribute)) {
+        if (_isInteger(attribute)) {
           type = (attribute >= 0)
             ? '_uinteger'
             : '_integer';
@@ -40,7 +46,7 @@ module.exports = {
         break;
       case 'object': {
         // TODO : complete with real received type parsing from DC/LPISIS
-        if (_.isBuffer(attribute)) {
+        if (_isBuffer(attribute)) {
           type = '_blob';
           value = attribute;
           break;
@@ -52,7 +58,7 @@ module.exports = {
 
     return { [type]: { value } };
   },
-  decodeAttribute: attribute => {
+  decodeAttribute: (attribute) => {
     if (attribute === null || typeof attribute === 'undefined') {
       return undefined;
     }
@@ -96,44 +102,44 @@ module.exports = {
 
     return value;
   },
-  ushortToBytes: number => {
-    if (_.isUndefined(number) || _.isNull(number)) {
+  ushortToBytes: (number) => {
+    if (_isUndefined(number) || _isNull(number)) {
       return undefined;
     }
 
-    if (!_.isNumber(number)) {
+    if (!_isNumber(number)) {
       throw new Error(`Unable to convert '${number}' to short buffer`);
     }
 
     return new ByteBuffer(null, true).writeUint16(number).flip();
   },
-  bytesToUshort: buffer => {
+  bytesToUshort: (buffer) => {
     if (!buffer || !buffer.buffer) {
       return undefined;
     }
     // Buffer is associated with key buffer
-    if (!_.isBuffer(buffer.buffer)) {
+    if (!_isBuffer(buffer.buffer)) {
       return undefined;
     }
     return buffer.buffer.readUInt16LE(buffer.offset);
   },
-  uintToBytes: number => {
-    if (_.isUndefined(number) || _.isNull(number)) {
+  uintToBytes: (number) => {
+    if (_isUndefined(number) || _isNull(number)) {
       return undefined;
     }
 
-    if (!_.isNumber(number)) {
+    if (!_isNumber(number)) {
       throw new Error(`Unable to convert '${number}' to int buffer`);
     }
 
     return new ByteBuffer(null, true).writeUint32(number).flip();
   },
-  bytesToUint: buffer => {
+  bytesToUint: (buffer) => {
     if (!buffer || !buffer.buffer) {
       return undefined;
     }
     // Buffer is associated with key buffer
-    if (!_.isBuffer(buffer.buffer)) {
+    if (!_isBuffer(buffer.buffer)) {
       return undefined;
     }
     return buffer.buffer.readUInt32LE(buffer.offset);

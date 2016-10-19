@@ -3,13 +3,16 @@ const { decode } = require('../../protobuf');
 const { domainQuery } = require('./onDomainQuery');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
 const constants = require('../../constants');
-const _ = require('lodash');
+const {
+  keys: _keys,
+  concat: _concat,
+} = require('lodash');
 
 let calls = [];
 const zmqEmulator = (key, payload) => {
   key.should.be.a('string')
     .that.equal('dcPush');
-  calls = _.concat(calls, payload);
+  calls = _concat(calls, payload);
 };
 
 describe('controllers/onDomainQuery', () => {
@@ -20,7 +23,7 @@ describe('controllers/onDomainQuery', () => {
     // launch test
     domainQuery(zmqEmulator);
     // check data
-    const cbs = _.keys(registeredCallbacks.getAll());
+    const cbs = _keys(registeredCallbacks.getAll());
     cbs.length.should.equal(1);
     const queryId = cbs[0];
     calls.should.be.an('array')

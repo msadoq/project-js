@@ -1,5 +1,9 @@
 const debug = require('../../io/debug')('controllers:onTimebasedPubSubData');
-const _ = require('lodash');
+const {
+  isEmpty: _isEmpty,
+  each: _each,
+  chunk: _chunk,
+} = require('lodash');
 const { decode } = require('../../protobuf');
 const { addTimebasedDataModel, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
@@ -46,7 +50,7 @@ const sendTimebasedPubSubData = (
   const filtersByRemoteId = subscriptionsModel.getFilters(dataId);
 
   // if there is no remoteId for this dataId, stop logic
-  if (_.isEmpty(filtersByRemoteId)) {
+  if (_isEmpty(filtersByRemoteId)) {
     debug.debug('no query registered for this dataId', dataId);
     return undefined;
   }
@@ -56,8 +60,8 @@ const sendTimebasedPubSubData = (
   }
 
   // loop over arguments peers (timestamp, payload)
-  return _.each(_.chunk(payloadsBuffers, 2), (payloadBuffer) => {
-    _.each(filtersByRemoteId, (filters, remoteId) => {
+  return _each(_chunk(payloadsBuffers, 2), (payloadBuffer) => {
+    _each(filtersByRemoteId, (filters, remoteId) => {
       // deprotobufferize timestamp
       const timestamp = decode('dc.dataControllerUtils.Timestamp', payloadBuffer[0]);
 

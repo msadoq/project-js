@@ -2,7 +2,7 @@ const { stringify } = require('querystring');
 
 function flatten(o) {
   const flat = {};
-  Object.keys(o).forEach(i => {
+  Object.keys(o).forEach((i) => {
     if (!{}.hasOwnProperty.call(o, i)) {
       return;
     }
@@ -17,7 +17,7 @@ function flatten(o) {
     }
 
     const flatObject = flatten(o[i]);
-    Object.keys(flatObject).forEach(x => {
+    Object.keys(flatObject).forEach((x) => {
       if (!{}.hasOwnProperty.call(flatObject, x)) {
         return;
       }

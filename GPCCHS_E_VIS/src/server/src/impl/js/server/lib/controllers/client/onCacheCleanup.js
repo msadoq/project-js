@@ -8,7 +8,10 @@ const { getTimebasedDataModel, removeTimebasedDataModel } = require('../../model
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
 const constants = require('../../constants');
-const _ = require('lodash');
+const {
+  each: _each,
+  concat: _concat,
+} = require('lodash');
 
 /**
  * Cache Cleanup: clear expired queries from models, stop subscriptions if needed
@@ -35,7 +38,7 @@ const cacheCleanup = (messageHandler, expiredRequests) => {
 
   const messageQueue = [];
   // loop over expired requests ('remoteId': [interval])
-  _.each(expiredRequests, ({ intervals }, remoteId) => {
+  _each(expiredRequests, ({ intervals }, remoteId) => {
     debug.debug('intervals', intervals);
     // remove intervals from connectedData model
     const queryIds = connectedDataModel.removeIntervals(remoteId, intervals);
@@ -54,14 +57,14 @@ const cacheCleanup = (messageHandler, expiredRequests) => {
         return undefined;
       }
       let timebasedDataToRemove = [];
-      _.each(intervals, (interval) => {
-        timebasedDataToRemove = _.concat(
+      _each(intervals, (interval) => {
+        timebasedDataToRemove = _concat(
           timebasedDataToRemove,
           timebasedDataModel.findByInterval(interval[0], interval[1])
         );
       });
       debug.debug('nb to remove', timebasedDataToRemove.length);
-      return _.each(timebasedDataToRemove, tbd => timebasedDataModel.remove(tbd));
+      return _each(timebasedDataToRemove, tbd => timebasedDataModel.remove(tbd));
     }
     debug.debug('no more interval');
     // else, no more intervals for this remoteId
@@ -101,7 +104,7 @@ const cacheCleanup = (messageHandler, expiredRequests) => {
   });
   debug.debug('message queue length', messageQueue.length);
   // send queued messages to DC
-  return _.each(messageQueue, args => messageHandler('dcPush', args));
+  return _each(messageQueue, args => messageHandler('dcPush', args));
 };
 
 module.exports = {

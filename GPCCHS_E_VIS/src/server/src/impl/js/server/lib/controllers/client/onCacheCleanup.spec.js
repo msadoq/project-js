@@ -11,14 +11,14 @@ const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
 const registeredQueries = require('../../utils/registeredQueries');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
-const _ = require('lodash');
+const { concat: _concat } = require('lodash');
 const dataStub = require('../../stubs/data');
 
 let calls = [];
 const zmqEmulator = (key, payload) => {
   key.should.be.a('string')
     .that.equal('dcPush');
-  calls = _.concat(calls, payload);
+  calls = _concat(calls, payload);
 };
 
 /* onCacheCleanup Test

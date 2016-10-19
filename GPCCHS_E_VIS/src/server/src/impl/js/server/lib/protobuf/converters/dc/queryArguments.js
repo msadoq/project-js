@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const { map: _map } = require('lodash');
 const timestamp = require('./timestamp');
 const filter = require('./filter');
 
@@ -13,7 +13,7 @@ module.exports = {
       ? timestamp.encode(data.getLastFromTime)
       : undefined,
     getLastNumber: data.getLastNumber,
-    filters: _.map(data.filters, f => filter.encode(f)),
+    filters: _map(data.filters, f => filter.encode(f)),
   }),
   decode: data => ({
     sortFieldName: data.sortFieldName,
@@ -25,6 +25,6 @@ module.exports = {
       ? timestamp.decode(data.getLastFromTime)
       : undefined,
     getLastNumber: data.getLastNumber,
-    filters: _.map(data.filters, f => filter.decode(f)),
+    filters: _map(data.filters, f => filter.decode(f)),
   }),
 };

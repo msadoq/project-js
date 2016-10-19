@@ -4,7 +4,16 @@ const { mergeInterval, mergeIntervals } = require('../utils/mergeIntervals');
 const { isTimestampInIntervals } = require('../utils/isTimestampInIntervals');
 const { removeInterval } = require('../utils/removeIntervals');
 const { inspect } = require('util');
-const _ = require('lodash');
+const {
+  remove: _remove,
+  values: _values,
+  filter: _filter,
+  get: _get,
+  omit: _omit,
+  each: _each,
+  some: _some,
+  has: _has,
+} = require('lodash');
 
 const collection = database.addCollection('connectedData',
   {
@@ -14,7 +23,7 @@ const collection = database.addCollection('connectedData',
 
 collection.getRemoteIdIndex = () => collection.constraints.unique.remoteId;
 
-collection.getAll = () => _.remove(_.values(collection.getRemoteIdIndex().keyMap), undefined);
+collection.getAll = () => _remove(_values(collection.getRemoteIdIndex().keyMap), undefined);
 
 collection.areTimestampsInKnownIntervals = (remoteId, timestamps) => {
   // Return timestamps that are currently in intervals known or requested for this remoteId
@@ -26,7 +35,7 @@ collection.areTimestampsInKnownIntervals = (remoteId, timestamps) => {
   }
 
   debug.debug('check intervals for these timestamps');
-  return _.filter(
+  return _filter(
     timestamps,
     timestamp => isTimestampInIntervals(timestamp, connectedData.intervals.all)
   );
@@ -54,13 +63,13 @@ collection.setIntervalAsReceived = (remoteId, queryUuid) => {
   // Set query interval as received for this remoteId
   const connectedData = collection.by('remoteId', remoteId);
 
-  const interval = _.get(connectedData, ['intervals', 'requested', queryUuid]);
+  const interval = _get(connectedData, ['intervals', 'requested', queryUuid]);
   if (typeof interval === 'undefined') {
     return undefined;
   }
 
   connectedData.intervals.received = mergeInterval(connectedData.intervals.received, interval);
-  connectedData.intervals.requested = _.omit(connectedData.intervals.requested, queryUuid);
+  connectedData.intervals.requested = _omit(connectedData.intervals.requested, queryUuid);
   debug.debug('set interval', interval, 'as received', connectedData);
   collection.update(connectedData); // TODO This update operation could be not needed
 
@@ -111,11 +120,11 @@ collection.removeIntervals = (remoteId, intervals) => {
   let requestedIntervals = connectedData.intervals.requested;
   let receivedIntervals = connectedData.intervals.received;
   const queryIds = [];
-  _.each(intervals, (interval) => {
-    _.some(requestedIntervals, (value, key) => {
+  _each(intervals, (interval) => {
+    _some(requestedIntervals, (value, key) => {
       if (value === interval) {
         queryIds.push(key);
-        requestedIntervals = _.omit(requestedIntervals, key);
+        requestedIntervals = _omit(requestedIntervals, key);
         return true;
       }
       return false;
@@ -149,7 +158,7 @@ collection.getDataId = (remoteId) => {
 collection.isRequested = (remoteId, queryUuid) => {
   const connectedData = collection.by('remoteId', remoteId);
 
-  return _.has(connectedData, ['intervals', 'requested', queryUuid]);
+  return _has(connectedData, ['intervals', 'requested', queryUuid]);
 };
 
 collection.retrieveMissingIntervals = (remoteId, interval) => {
@@ -174,7 +183,7 @@ collection.retrieveMissingIntervals = (remoteId, interval) => {
   const missingIntervals = [];
   let lower = interval[0];
   const upper = interval[1];
-  _.some(intervals, (knownInterval, index) => {
+  _some(intervals, (knownInterval, index) => {
     if (lower < knownInterval[0]) {
       // Completety below known interval
       if (upper < knownInterval[0]) {

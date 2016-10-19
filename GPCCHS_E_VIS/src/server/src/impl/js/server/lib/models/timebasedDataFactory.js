@@ -1,6 +1,10 @@
 const debug = require('../io/debug')('models:timebasedData');
 const database = require('../io/loki');
-const _ = require('lodash');
+const {
+  includes: _includes,
+  each: _each,
+  without: _without,
+} = require('lodash');
 const { inspect } = require('util');
 const constants = require('../constants');
 
@@ -9,7 +13,7 @@ let remoteIds = [];
 const getTimebasedDataModel = remoteId => database.getCollection(`${constants.COLLECTION_TIMEBASED_DATA_PREFIX}.${remoteId}`);
 
 const addTimebasedDataModel = (remoteId) => {
-  if (_.includes(remoteIds, remoteId)) {
+  if (_includes(remoteIds, remoteId)) {
     return getTimebasedDataModel(remoteId);
   }
   remoteIds.push(remoteId);
@@ -20,7 +24,7 @@ const addTimebasedDataModel = (remoteId) => {
 
   collection.addRecords = (records) => {
     debug.debug(`add ${records.length} records`);
-    _.each(records, (record) => {
+    _each(records, (record) => {
       collection.addRecord(record.timestamp, record.payload);
     });
   };
@@ -62,7 +66,7 @@ const addTimebasedDataModel = (remoteId) => {
 };
 
 const removeTimebasedDataModel = (remoteId) => {
-  remoteIds = _.without(remoteIds, remoteId);
+  remoteIds = _without(remoteIds, remoteId);
   database.removeCollection(`${constants.COLLECTION_TIMEBASED_DATA_PREFIX}.${remoteId}`);
 };
 
@@ -70,6 +74,6 @@ module.exports = {
   addTimebasedDataModel,
   getTimebasedDataModel,
   removeTimebasedDataModel,
-  clearFactory: () => _.each(remoteIds, remoteId => removeTimebasedDataModel(remoteId)),
+  clearFactory: () => _each(remoteIds, remoteId => removeTimebasedDataModel(remoteId)),
   getAllTimebasedDataModelRemoteIds: () => remoteIds,
 };

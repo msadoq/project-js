@@ -6,7 +6,7 @@ const registeredCallbacks = require('../../utils/registeredCallbacks');
 const registeredQueries = require('../../utils/registeredQueries');
 const { createDeleteSubscriptionMessage } = require('../../utils/subscriptions');
 const zmq = require('../../io/zmq');
-const _ = require('lodash');
+const { each: _each } = require('lodash');
 const { resetDomains } = require('../../utils/domains');
 
 /**
@@ -27,7 +27,7 @@ const { resetDomains } = require('../../utils/domains');
 
 const close = (messageHandler) => {
   // loop on subscriptions and stop subscription
-  _.each(subscriptionsModel.getAll(), (subscription) => {
+  _each(subscriptionsModel.getAll(), (subscription) => {
     const message = createDeleteSubscriptionMessage(subscription.dataId);
     debug.debug('sending delete subscription message to DC');
     return messageHandler('dcPush', message.args);

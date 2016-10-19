@@ -1,21 +1,34 @@
 /* eslint-disable global-require */
 
 const ProtoBuf = require('protobufjs');
-const _ = require('lodash');
+const {
+  each: _each,
+  forOwn: _forOwn,
+  isUndefined: _isUndefined,
+  isNull: _isNull,
+  isNaN: _isNaN,
+  isString: _isString,
+  isEmpty: _isEmpty,
+  isObject: _isObject,
+  isFunction: _isFunction,
+  isArray: _isArray,
+  pull: _pull,
+  get: _get,
+} = require('lodash');
 const { join } = require('path');
 
 const types = {};
 
 const register = (tree) => {
-  _.each(tree, (namespaces, root) => {
+  _each(tree, (namespaces, root) => {
     if (!types[root]) {
       types[root] = {};
     }
     const rootPath = join(__dirname, 'proto', root);
-    _.each(namespaces, (protos, namespace) => {
+    _each(namespaces, (protos, namespace) => {
       const namespaceBuilder = ProtoBuf.newBuilder();
       const attach = {};
-      _.each(protos, (mapper, proto) => {
+      _each(protos, (mapper, proto) => {
         // append definition to builder
         const builder = ProtoBuf.loadProtoFile({
           root: rootPath,
@@ -35,15 +48,15 @@ const register = (tree) => {
 
       // store parser and attach
       types[root][namespace] = namespaceBuilder.build(namespace).protobuf;
-      _.each(types[root][namespace], (type, typeKey) => {
+      _each(types[root][namespace], (type, typeKey) => {
         Object.assign(type, attach[typeKey]);
       });
     });
   });
 };
 
-const getType = key => {
-  const type = _.get(types, key);
+const getType = (key) => {
+  const type = _get(types, key);
 
   if (typeof type === 'undefined') {
     throw new Error('protobuf type no registered', key);
@@ -52,22 +65,22 @@ const getType = key => {
   return type;
 };
 
-const removeEmpty = collection => {
-  _.forOwn(collection, (value, key) => {
+const removeEmpty = (collection) => {
+  _forOwn(collection, (value, key) => {
     if (
-      _.isUndefined(value)
-      || _.isNull(value)
-      || _.isNaN(value)
-      || (_.isString(value) && _.isEmpty(value))
-      || (_.isObject(value) && !_.isFunction(value) && _.isEmpty(removeEmpty(value)))
+      _isUndefined(value)
+      || _isNull(value)
+      || _isNaN(value)
+      || (_isString(value) && _isEmpty(value))
+      || (_isObject(value) && !_isFunction(value) && _isEmpty(removeEmpty(value)))
     ) {
       // eslint-disable-next-line no-param-reassign
       delete collection[key];
     }
   });
 
-  if (_.isArray(collection)) {
-    _.pull(collection, undefined);
+  if (_isArray(collection)) {
+    _pull(collection, undefined);
   }
 
   return collection;

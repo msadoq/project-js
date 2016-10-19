@@ -1,7 +1,13 @@
 const debug = require('../io/debug')('models:subscriptions');
 const database = require('../io/loki');
-const _ = require('lodash');
-const flattenDataId = require('./getLocalId');
+const {
+  remove: _remove,
+  values: _values,
+  assign: _assign,
+  keys: _keys,
+  omit: _omit,
+} = require('lodash');
+const flattenDataId = require('../utils/flattenDataId');
 
 const collection = database.addCollection('subscriptions',
   {
@@ -11,7 +17,7 @@ const collection = database.addCollection('subscriptions',
 
 collection.getFlatDataIdIndex = () => collection.constraints.unique.flatDataId;
 
-collection.getAll = () => _.remove(_.values(collection.getFlatDataIdIndex().keyMap), undefined);
+collection.getAll = () => _remove(_values(collection.getFlatDataIdIndex().keyMap), undefined);
 
 collection.addFilters = (dataId, filters) => {
   const flatDataId = flattenDataId(dataId);
@@ -20,7 +26,7 @@ collection.addFilters = (dataId, filters) => {
     return undefined;
   }
   debug.debug('before update', subscription);
-  subscription.filters = _.assign({}, subscription.filters, filters);
+  subscription.filters = _assign({}, subscription.filters, filters);
   debug.debug('update', subscription);
   collection.update(subscription); // TODO This update operation could be not needed
   return subscription;
@@ -32,7 +38,7 @@ collection.getRemoteIds = (dataId) => {
   if (!subscription) {
     return undefined;
   }
-  return _.keys(subscription.filters);
+  return _keys(subscription.filters);
 };
 
 collection.getFilters = (dataId) => {
@@ -83,7 +89,7 @@ collection.removeRemoteId = (dataId, remoteId) => {
   if (!subscription) {
     return undefined;
   }
-  subscription.filters = _.omit(subscription.filters, remoteId);
+  subscription.filters = _omit(subscription.filters, remoteId);
   collection.update(subscription); // TODO This update operation could be not needed
   return subscription;
 };

@@ -13,6 +13,7 @@ const {
 } = require('lodash');
 const { addToMainQueue } = require('../../websocket/sendToMain');
 const constants = require('../../constants');
+const monitoring = require('../../utils/monitoring');
 
 /**
  * Triggered when the data consumer query for timebased data
@@ -48,6 +49,7 @@ const timebasedQuery = (websocketHandler, payload, messageHandler) => {
     let missingIntervals = [];
 
     debug.debug('retrieve missing intervals for remoteId', remoteId, 'and interval', query.intervals);
+    const missStart = monitoring.start();
     // loop over intervals
     _each(query.intervals, (interval) => {
       // retrieve missing intervals from connectedData model
@@ -59,10 +61,12 @@ const timebasedQuery = (websocketHandler, payload, messageHandler) => {
         )
       );
     });
+    monitoring.stop('misssing intervals', missStart);
     debug.debug('missing intervals', missingIntervals);
     if (!connectedDataModel.exists(remoteId)) {
       connectedDataModel.addRecord(remoteId, query.dataId);
     }
+    const encodeStart = monitoring.start();
     // loop over missing intervals
     _each(missingIntervals, (missingInterval) => {
       // create a query id
@@ -96,6 +100,7 @@ const timebasedQuery = (websocketHandler, payload, messageHandler) => {
       // add requested interval to connectedData model
       connectedDataModel.addRequestedInterval(remoteId, queryId, missingInterval);
     });
+    monitoring.stop(`encode ${missingIntervals.length} queries`, encodeStart);
 
     // if dataId not in subscriptions model
     if (!subscriptionsModel.exists(query.dataId)) {
@@ -131,11 +136,12 @@ const timebasedQuery = (websocketHandler, payload, messageHandler) => {
     _each(query.intervals, (interval) => {
       // retrieve data in timebasedData model
       debug.debug('find by interval', interval);
-
+      const findStart = monitoring.start();
       const cachedData = timebasedDataModel.findByInterval(
         interval[0],
         interval[1]
       );
+      monitoring.stop('find interval', findStart);
       // queue a ws newData message (sent periodically)
       if (cachedData.length === 0) {
         return;

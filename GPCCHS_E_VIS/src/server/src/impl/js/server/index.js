@@ -101,7 +101,7 @@ zmq.open({
     type: 'pull',
     role: 'server',
     url: process.env.ZMQ_GPCCDC_PULL,
-    handler: (trash, header, ...args) => errorHandler('onMessage', () => onMessage(header, ...args)),
+    handler: (trash, header, ...args) => errorHandler('onMessage', () => onMessage(header, ...args), false),
   },
   dcPush: {
     type: 'push',

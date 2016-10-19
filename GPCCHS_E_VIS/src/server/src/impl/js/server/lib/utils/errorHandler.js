@@ -1,11 +1,10 @@
-const { round: _round } = require('lodash');
 const debug = require('../io/debug')('utils:errorHandler');
-const monitoring = require('../io/debug')('utils:monitoring');
+const monitoring = require('./monitoring');
 
-module.exports = (name, thunk) => {
+module.exports = (name, thunk, monitor = true) => {
   let start;
-  if (process.env.MONITORING === 'on') {
-    start = process.hrtime();
+  if (monitor && process.env.MONITORING === 'on') {
+    start = monitoring.start();
   }
 
   try {
@@ -14,10 +13,7 @@ module.exports = (name, thunk) => {
     debug.error(e);
   }
 
-  if (process.env.MONITORING === 'on') {
-    let duration = process.hrtime(start);
-    duration = (duration[0] * 1e3) + _round(duration[1] / 1e6, 6);
-    const method = duration >= 1e2 ? 'error' : 'info';
-    monitoring[method](`${name} execution time ${duration} ms`);
+  if (monitor && process.env.MONITORING === 'on') {
+    monitoring.stop(name, start);
   }
 };

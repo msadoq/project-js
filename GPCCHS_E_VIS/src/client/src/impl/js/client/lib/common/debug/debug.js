@@ -13,7 +13,7 @@ module.exports = debug => (namespace) => {
 
   return {
     error: (...args) => {
-      if ([VERBOSE, DEBUG, INFO, ERROR].indexOf(level) !== -1) {
+      if ([VERBOSE, DEBUG, INFO, WARN, ERROR].indexOf(level) !== -1) {
         logger(...args);
       }
     },

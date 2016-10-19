@@ -10,7 +10,7 @@ module.exports = (namespace) => {
   const logger = d(`GPCCHS:${namespace}`);
   return {
     error: (...args) => {
-      if ([VERBOSE, DEBUG, INFO, ERROR].indexOf(process.env.LEVEL) !== -1) {
+      if ([VERBOSE, DEBUG, INFO, WARN, ERROR].indexOf(process.env.LEVEL) !== -1) {
         logger(...args);
       }
     },
@@ -20,17 +20,17 @@ module.exports = (namespace) => {
       }
     },
     info: (...args) => {
-      if ([VERBOSE, DEBUG, INFO, WARN].indexOf(process.env.LEVEL) !== -1) {
+      if ([VERBOSE, DEBUG, INFO].indexOf(process.env.LEVEL) !== -1) {
         logger(...args);
       }
     },
     debug: (...args) => {
-      if ([VERBOSE, DEBUG, WARN].indexOf(process.env.LEVEL) !== -1) {
+      if ([VERBOSE, DEBUG].indexOf(process.env.LEVEL) !== -1) {
         logger(...args);
       }
     },
     verbose: (...args) => {
-      if ([VERBOSE, WARN].indexOf(process.env.LEVEL) !== -1) {
+      if ([VERBOSE].indexOf(process.env.LEVEL) !== -1) {
         logger(...args);
       }
     },

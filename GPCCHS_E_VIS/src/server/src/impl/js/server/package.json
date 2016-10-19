@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "postinstall": "npm link ../../../../../common/src/impl/js/common/",
     "build-primus-client": "node ./bin/buildPrimusClient",
     "start": "node --max_old_space_size=8000 index",
     "test": "mocha \"lib/**/*.spec.js\"",

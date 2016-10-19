@@ -1,13 +1,17 @@
-const debug = require('../io/debug')('utils:mergeIntervals');
+// const debug = require('../io/debug')('utils:mergeIntervals');
 const {
    head: _head,
    last: _last,
    sortedIndexBy: _sortedIndexBy,
    slice: _slice,
    reduce: _reduce,
+   isArray: _isArray,
  } = require('lodash');
 
-const mergeInterval = (knownIntervals, interval) => {
+const merge = (knownIntervals, interval) => {
+  if (interval.length !== 2) {
+    return knownIntervals;
+  }
   // No known intervals
   if (knownIntervals.length === 0) {
     return [interval];
@@ -111,11 +115,16 @@ const mergeInterval = (knownIntervals, interval) => {
   ];
 };
 
-module.exports = {
-  mergeInterval,
-  mergeIntervals: (knownIntervals, intervals) => _reduce(
-    intervals,
-    (merged, interval) => mergeInterval(merged, interval),
-    knownIntervals
-  ),
+module.exports = (knownIntervals, intervals) => {
+  if (!_isArray(knownIntervals) || !_isArray(intervals) || intervals.length === 0) {
+    return knownIntervals;
+  }
+  if (_isArray(intervals[0])) {
+    return _reduce(
+      intervals,
+      (merged, interval) => merge(merged, interval),
+      knownIntervals
+    );
+  }
+  return merge(knownIntervals, intervals);
 };

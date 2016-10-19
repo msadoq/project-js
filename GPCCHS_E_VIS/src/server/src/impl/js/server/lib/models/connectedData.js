@@ -1,8 +1,6 @@
 const debug = require('../io/debug')('models:connectedData');
 const database = require('../io/loki');
-const { mergeInterval, mergeIntervals } = require('../utils/mergeIntervals');
-const { isTimestampInIntervals } = require('../utils/isTimestampInIntervals');
-const { removeInterval } = require('../utils/removeIntervals');
+const { intervals: intervalManager } = require('common');
 const { inspect } = require('util');
 const {
   remove: _remove,
@@ -37,7 +35,7 @@ collection.areTimestampsInKnownIntervals = (remoteId, timestamps) => {
   debug.debug('check intervals for these timestamps');
   return _filter(
     timestamps,
-    timestamp => isTimestampInIntervals(timestamp, connectedData.intervals.all)
+    timestamp => intervalManager.includesTimestamp(connectedData.intervals.all, timestamp)
   );
 };
 
@@ -51,7 +49,7 @@ collection.isTimestampInKnownIntervals = (remoteId, timestamp) => {
   }
 
   debug.debug('check intervals');
-  if (isTimestampInIntervals(timestamp, connectedData.intervals.all)) {
+  if (intervalManager.includesTimestamp(connectedData.intervals.all, timestamp)) {
     debug.debug('timestamp in intervals');
     return true;
   }
@@ -68,7 +66,8 @@ collection.setIntervalAsReceived = (remoteId, queryUuid) => {
     return undefined;
   }
 
-  connectedData.intervals.received = mergeInterval(connectedData.intervals.received, interval);
+  connectedData.intervals.received =
+    intervalManager.merge(connectedData.intervals.received, interval);
   connectedData.intervals.requested = _omit(connectedData.intervals.requested, queryUuid);
   debug.debug('set interval', interval, 'as received', connectedData);
   collection.update(connectedData); // TODO This update operation could be not needed
@@ -105,7 +104,7 @@ collection.addRequestedInterval = (remoteId, queryUuid, interval) => {
 
   debug.debug('before update', inspect(connectedData));
   connectedData.intervals.requested[queryUuid] = interval;
-  connectedData.intervals.all = mergeInterval(connectedData.intervals.all, interval);
+  connectedData.intervals.all = intervalManager.merge(connectedData.intervals.all, interval);
   debug.debug('update', inspect(connectedData));
   collection.update(connectedData); // TODO This update operation could be not needed
 
@@ -129,13 +128,14 @@ collection.removeIntervals = (remoteId, intervals) => {
       }
       return false;
     });
-    receivedIntervals = removeInterval(receivedIntervals, interval);
+    receivedIntervals = intervalManager.remove(receivedIntervals, interval);
   });
-  const allIntervals = mergeIntervals(receivedIntervals, requestedIntervals);
+  const allIntervals = intervalManager.merge(receivedIntervals, _values(requestedIntervals));
   connectedData.intervals.requested = requestedIntervals;
   connectedData.intervals.received = receivedIntervals;
   connectedData.intervals.all = allIntervals;
 
+  collection.update(connectedData);
   return queryIds;
 };
 
@@ -171,10 +171,10 @@ collection.retrieveMissingIntervals = (remoteId, interval) => {
     return [interval];
   }
 
-  const intervals = connectedData.intervals.all;
+  const allIntervals = connectedData.intervals.all;
 
   // No known intervals
-  if (intervals.length === 0) {
+  if (allIntervals.length === 0) {
     debug.debug('no intervals');
     return [interval];
   }
@@ -183,7 +183,7 @@ collection.retrieveMissingIntervals = (remoteId, interval) => {
   const missingIntervals = [];
   let lower = interval[0];
   const upper = interval[1];
-  _some(intervals, (knownInterval, index) => {
+  _some(allIntervals, (knownInterval, index) => {
     if (lower < knownInterval[0]) {
       // Completety below known interval
       if (upper < knownInterval[0]) {
@@ -199,7 +199,7 @@ collection.retrieveMissingIntervals = (remoteId, interval) => {
       }
 
       // Covering known interval
-      if (index === intervals.length - 1) {
+      if (index === allIntervals.length - 1) {
         // Last one
         missingIntervals.push([knownInterval[1], upper]);
         return true;
@@ -217,7 +217,7 @@ collection.retrieveMissingIntervals = (remoteId, interval) => {
       }
 
       // Inside and above known interval
-      if (index === intervals.length - 1) {
+      if (index === allIntervals.length - 1) {
         // Last one
         missingIntervals.push([knownInterval[1], upper]);
         return true;
@@ -229,7 +229,7 @@ collection.retrieveMissingIntervals = (remoteId, interval) => {
     }
 
     // Completely above known interval
-    if (index === intervals.length - 1) {
+    if (index === allIntervals.length - 1) {
       // Last one
       missingIntervals.push(interval);
       return true;

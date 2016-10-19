@@ -3,16 +3,17 @@ const {
   sortedIndexBy: _sortedIndexBy,
   slice: _slice,
   reduce: _reduce,
+  isArray: _isArray,
 } = require('lodash');
 
 /**
- * Extract an interval from an array of interval
+ * Remove an interval from an array of interval
  *
  * @param knownIntervals [[number, number]]
  * @param interval [number, number]
  * @return array [[number, number]]
  */
-function removeInterval(knownIntervals, interval) {
+function remove(knownIntervals, interval) {
   const lower = _sortedLastIndexBy(knownIntervals, interval, i => i[0]);
   const upper = _sortedIndexBy(knownIntervals, interval, i => i[1]);
 
@@ -108,11 +109,16 @@ function removeInterval(knownIntervals, interval) {
   ];
 }
 
-module.exports = {
-  removeInterval,
-  removeIntervals: (knownIntervals, intervals) => _reduce(
-    intervals,
-    (removed, interval) => removeInterval(removed, interval),
-    knownIntervals
-  ),
+module.exports = (knownIntervals, intervals) => {
+  if (!_isArray(knownIntervals) || !_isArray(intervals) || intervals.length === 0) {
+    return knownIntervals;
+  }
+  if (_isArray(intervals[0])) {
+    return _reduce(
+      intervals,
+      (removed, interval) => remove(removed, interval),
+      knownIntervals
+    );
+  }
+  return remove(knownIntervals, intervals);
 };

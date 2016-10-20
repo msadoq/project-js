@@ -85,7 +85,4 @@ const getVisibleConnectedData = createSelector(
 export default createSelector(
   [getDomains, getTimebars, getTimelines, getVisibleConnectedData],
   (domains, timebars, timelines, cds) => decline(domains, timebars, timelines, cds)
-  // TODO : first establish map(windows, pages, views, domains, /!\ timelines) (memoized until configuration modification)
-  // TODO : timelines stored directly on timebars.timelines to compare directly the array ref?
-  // TODO : then establish intervals(map, timebars) (memoized until visuWindow modification)
 );

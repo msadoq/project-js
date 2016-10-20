@@ -23,7 +23,7 @@ export function makeGetDataMap() {
       (state, props) => props.configuration,
     ],
     (domains, timelines, timebarId, configuration) => {
-      console.log('compute view map');
+      console.log('compute text view map');
       return reduce(getEntryPointsFromState(configuration), (list, ep) => {
         if (!ep || !ep.name || !ep.connectedData) {
           return list;
@@ -44,6 +44,8 @@ export function makeGetDataMap() {
         }
 
         const { sessionId, offset } = sessionIds[0];
+
+        // TODO : implement a remoteIdGenerator from formula
         const p = formulaParser(cd.formula);
         const dataId = {
           catalog: p.catalog,
@@ -65,7 +67,7 @@ export default function getDataFromCache() {
    * Returns cache data for given view.
    *
    * {
-   *   'name': value|'invalid',
+   *   'name': value|'INVALID',
    * }
    *
    * @param state
@@ -79,7 +81,7 @@ export default function getDataFromCache() {
       getDataCache,
     ],
     (map, cache) => {
-      console.log('compute data');
+      console.log('compute text data');
       return reduce(map, (list, detail, name) => {
         if (detail.invalid === true) {
           return set(list, [name], `INVALID (${detail.reason})`);

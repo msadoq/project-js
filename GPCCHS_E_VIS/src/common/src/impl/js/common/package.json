@@ -11,6 +11,8 @@
     "lodash": "^4.16.2"
   },
   "devDependencies": {
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
     "chai": "^3.5.0",
     "chai-properties": "^1.2.1",
     "eslint": "^3.6.1",

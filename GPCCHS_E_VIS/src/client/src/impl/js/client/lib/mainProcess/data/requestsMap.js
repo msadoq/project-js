@@ -1,7 +1,6 @@
 import { each, get, map } from 'lodash';
 import { createSelector } from 'reselect';
-import missingIntervals from '../../common/missingIntervals';
-import mergeIntervals from '../../common/mergeIntervals';
+import { intervals as intervalManager } from 'common';
 
 // TODO factorize
 const operators = {
@@ -45,7 +44,7 @@ export default function requestsMap(state, dataMap) {
       // TODO memoize
       const knownIntervals = get(state, ['dataRequests', remoteId], []);
 
-      const needed = missingIntervals(knownIntervals, expectedInterval);
+      const needed = intervalManager.missing(knownIntervals, expectedInterval);
       if (!needed.length) {
         return [];
       }
@@ -66,7 +65,7 @@ export default function requestsMap(state, dataMap) {
       }
 
       each(needed, (m) => {
-        queries[remoteId].intervals = mergeIntervals(queries[remoteId].intervals, m);
+        queries[remoteId].intervals = intervalManager.merge(queries[remoteId].intervals, m);
       });
     });
   });

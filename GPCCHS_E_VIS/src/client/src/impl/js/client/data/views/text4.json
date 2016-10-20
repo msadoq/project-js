@@ -1389,6 +1389,12 @@
     "width": 3
   },
   "content": [
+    "<!DOCTYPE html>",
+    "<html>",
+    " <head>",
+    "  <title></title>",
+    " </head>",
+    " <body>",
     "    <table border=\"1\" align=\"left\" style=\"width: 30%; font-size: 11px;\">",
     "   <th style=\"vertical-align: top; width=\"50%\" bgcolor=\"#428bca\"> NAME </th><th width=\"50%\" bgcolor=\"#428bca\"> VALUE</th>",
     "         <tr><td>ATT_BC_STR1VOLTAGE_EV</td><td><span>{{ATT_BC_STR1VOLTAGE_EV}}</span></td></tr>",
@@ -1498,6 +1504,8 @@
     "         <tr><td>ORB_BC_VXITRF</td><td><span>{{ORB_BC_VXITRF}}</span></td></tr>",
     "       </td></tr></table></td>",
     "    </tr>",
-    "  </table>"
+    "  </table>",
+    " </body>",
+    "</html>"
   ]
 }

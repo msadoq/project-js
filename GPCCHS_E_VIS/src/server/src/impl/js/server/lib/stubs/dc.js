@@ -103,7 +103,7 @@ const pushTimebasedPubSubData = (queryId, dataId, payloads) => {
 
 // Message Controller
 const onHssMessage = (...args) => {
-  debug.info('onHssMessage');
+  debug.debug('onHssMessage');
   let header = '';
   try {
     header = protobuf.decode('dc.dataControllerUtils.Header', args[0]);
@@ -174,7 +174,7 @@ const onHssMessage = (...args) => {
 };
 
 const emulateDc = () => {
-  debug.info('emulateDc call', Object.keys(subscriptions).length, queries.length);
+  debug.debug('emulateDc call', Object.keys(subscriptions).length, queries.length);
 
   // pub/sub
   _each(subscriptions, ({ queryId, dataId }) => {

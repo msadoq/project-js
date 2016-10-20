@@ -42,7 +42,7 @@ const monitoring = require('../../utils/monitoring');
  */
 
 const timebasedQuery = (websocketQueueHandler, payload, messageHandler) => {
-  debug.info('called', Object.keys(payload).length, 'remoteIds');
+  debug.debug('called', Object.keys(payload).length, 'remoteIds');
   const messageQueue = [];
   // loop over remoteIds
   _each(payload, (query, remoteId) => {

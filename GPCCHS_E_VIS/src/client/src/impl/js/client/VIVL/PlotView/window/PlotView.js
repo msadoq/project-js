@@ -1,21 +1,19 @@
 import React, { Component, PropTypes } from 'react';
-import { format } from "d3-format";
-import { timeFormat } from "d3-time-format";
-import { schemeCategory10 as colors } from "d3-scale";
-import { ChartCanvas, Chart, series, scale, coordinates, tooltip, axes, helper } from "react-stockcharts";
+import _get from 'lodash/get';
+import _map from 'lodash/map';
+import { format } from 'd3-format';
+import { timeFormat } from 'd3-time-format';
+import { ChartCanvas, Chart, series, scale, coordinates, axes } from 'react-stockcharts';
 
-const { LineSeries, AreaSeries, ScatterSeries, CircleMarker } = series;
+const { LineSeries, ScatterSeries, CircleMarker } = series;
 const { discontinuousTimeScaleProvider } = scale;
 const { CrossHairCursor, MouseCoordinateX, MouseCoordinateY, CurrentCoordinate } = coordinates;
-const { OHLCTooltip } = tooltip;
 const { XAxis, YAxis } = axes;
-const { fitWidth } = helper;
 
 export default class PlotView extends Component {
   static propTypes = {
-    viewId: PropTypes.string.isRequired,
     data: PropTypes.any,
-    configuration: PropTypes.object.isRequired,
+    // configuration: PropTypes.object.isRequired,
     size: PropTypes.object.isRequired,
     // entryPoints: PropTypes.array.isRequired,
     // axes: PropTypes.array,
@@ -27,130 +25,76 @@ export default class PlotView extends Component {
     // legend: PropTypes.object,
     // markers: PropTypes.array,
   };
-  state = { rows: [] };
-  margin = { left: 10, right: 60, top: 20, bottom: 20 };
-  maxPoints = 200;
-  maxY = 10000;
-  minY = 0;
-  date = new Date();
-  componentWillMount() {
-    // random number of lines
-    this.lines = Math.floor(Math.random() * (5 - 1)) + 1;
-    this.reRender();
-    this.interval = setInterval(() => {
-      // fill in undefined values
-      let found = false;
-      const newRows = this.state.rows.map(row => {
-        const keys = Object.keys(row);
-        keys.forEach(key => {
-          if (row[key] === undefined){
-            found = true;
-            row[key] = this.getRandomYValue(90);
-          }
-        });
-        return row;
-      });
-      if (!found){
-        console.log('plot completed')
-        clearInterval(this.interval);
-      }
-      this.setState({ rows: newRows });
-      // this.state.rows.shift()
-      // this.setState({
-      //   rows: [...this.state.rows, this.getRandomRow()]
-      // })
-    }, 1000)
+  constructor(...args) {
+    super(...args);
+    this.yExtents = this.yExtents.bind(this);
   }
-  componentWillUnmount() {
-    clearInterval(this.interval);
+  yExtents(d) {
+    return _map(this.props.data.lines, ({ key }) => _get(d, [key]));
   }
-  getRandomYValue(PercentOfUndefined = 50) {
-    if (Math.floor(Math.random() * 100) > (100 - PercentOfUndefined)) {
-      return undefined;
-    }
-    return Math.floor(Math.random() * (this.maxY - this.minY)) + this.minY;
-  }
-  getRandomRow() {
-    let row = {
-      date: new Date(this.date.setDate(this.date.getDate() + 1))
-    };
-    for (let i = 0; i < this.lines; i++) {
-      row[`value${i}`] = this.getRandomYValue();
-    }
-    return row;
-  }
-  getRandomRows() {
-    let rows = [];
-    for (let i = 0; i < this.maxPoints; i++) {
-      rows.push(this.getRandomRow());
-    }
-    return rows;
-  }
-  reRender() {
-    this.date = new Date();
-    this.setState({
-      rows: this.getRandomRows()
-    });
-  }
-  getLines() {
-    const lines = [];
-    for (let i = 0; i < this.lines; i++) {
-      lines.push(<LineSeries
-        key={`line${i}`}
-        yAccessor={d => d[`value${i}`]}
-        stroke={colors[i]}
-        />);
-      lines.push(<ScatterSeries
-        key={`scatter${i}`}
-        yAccessor={d => d[`value${i}`]}
-        marker={CircleMarker}
-        markerProps={{ r: 1, stroke: colors[i] }}
-        />);
-      lines.push(<CurrentCoordinate
-        key={`coordinate${i}`}
-        yAccessor={d => d[`value${i}`]}
-        fill={colors[i]}
-        />);
-    }
-    return lines;
+  renderLines(lines = []) {
+    return lines.map(({ key, color }) => (
+      <div key={key}>
+        <LineSeries
+          key={`line${key}`}
+          yAccessor={d => d[key]}
+          stroke={color}
+        />
+        <ScatterSeries
+          key={`scatter${key}`}
+          yAccessor={d => d[key]}
+          marker={CircleMarker}
+          markerProps={{ r: 1, stroke: color }}
+        />
+        <CurrentCoordinate
+          key={`coordinate${key}`}
+          yAccessor={d => d[key]}
+          fill={color}
+        />
+      </div>
+    ));
   }
   render() {
-    const { rows: data } = this.state;
-    const { size, ratio = 2 } = this.props;
+    const { size, data } = this.props;
+    const { width, height } = size;
+    const { lines, columns } = data;
 
-    const Lines = this.getLines();
+    const xExtents = [
+      _get(columns, '[0].x'),
+      _get(columns, [(columns.length - 1), 'x']),
+    ];
 
     return (
       <div>
         <ChartCanvas
-          ratio={ratio}
-          width={size.width}
-          height={size.height - 50}
-          margin={this.margin}
+          ratio={2}
+          width={width}
+          height={height - 50}
+          margin={{ left: 10, right: 60, top: 20, bottom: 20 }}
           seriesName="PlotView"
-          data={data}
+          data={columns}
           type="hybrid"
-          xAccessor={d => d.date} xScaleProvider={discontinuousTimeScaleProvider}
-          xExtents={[data[0].date, data[data.length - 1].date]}
+          xAccessor={d => d.x}
+          xScaleProvider={discontinuousTimeScaleProvider}
+          xExtents={xExtents}
+        >
+          <Chart
+            id={1}
+            yExtents={this.yExtents}
           >
-          <Chart id={1} yExtents={d => {
-            const data = [];
-            for (let i = 0; i < this.lines; i++) {
-              data.push(d[`value${i}`]);
-            }
-            return data
-          } }>
             <XAxis axisAt="bottom" orient="bottom" />
             <YAxis axisAt="right" orient="right" ticks={5} />
             <MouseCoordinateX
               at="bottom"
               orient="bottom"
-              displayFormat={timeFormat("%Y-%m-%d")} />
+              displayFormat={timeFormat('%Y-%m-%d')}
+            />
             <MouseCoordinateY
               at="right"
               orient="right"
-              displayFormat={format(".2f")} />
-            {Lines}
+              displayFormat={format('.2f')}
+            />
+            {this.renderLines(lines)}
           </Chart>
           <CrossHairCursor />
         </ChartCanvas>

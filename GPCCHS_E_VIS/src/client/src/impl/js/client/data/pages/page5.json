@@ -4,7 +4,7 @@
   "title": "micro page 1",
   "views": [
 	{
-	  "path": "/views/text5.json",
+	  "path": "/views/plot1.json",
 	  "geometry": {
 		"kind": "Relative",
 		"x": 0,

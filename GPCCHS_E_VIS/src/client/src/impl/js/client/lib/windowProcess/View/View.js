@@ -26,6 +26,8 @@ class View extends Component {
 
     // data modification
     return !shallowEqual(this.props.data, nextProps.data);
+    // TODO : massive perf down with plot ... should implement shouldComponentUpdate logic in each
+    //        view type
   }
   render() {
     console.log('re-render me harder', Date.now() - this.lastRender || Date.now());

@@ -145,10 +145,12 @@
     "<!DOCTYPE html>",
     "<html>",
     " <head>",
-    "  <title>TextView example 1</title>",
+    "  <title></title>",
     " </head>",
     " <body>",
-    "  <table border=\"2\">",
+    " <table class=\"mainTab\" align=\"center\" width=\"90%\">",
+    "   <table border=\"1\" align= \"left\" width=\"30%\">",
+    "    <th width=\"50%\" bgcolor=\"#428bca\"> NAME </th><th width=\"50%\" bgcolor=\"#428bca\"> VALUE</th>",
     "    <tr><td>CLCW_AM_SPARE0A</td><td><span class=\"EntryPoint\">{{CLCW_AM_SPARE0A}}</span></td></tr>",
     "    <tr><td>CLCW_AM_NORFA</td><td><span class=\"EntryPoint\">{{CLCW_AM_NORFA}}</span></td></tr>",
     "    <tr><td>CLCW_AM_NOBITLOCKA</td><td><span class=\"EntryPoint\">{{CLCW_AM_NOBITLOCKA}}</span></td></tr>",
@@ -159,6 +161,7 @@
     "    <tr><td>CLCW_AM_SPARE1A</td><td><span class=\"EntryPoint\">{{CLCW_AM_SPARE1A}}</span></td></tr>",
     "    <tr><td>CLCW_AM_REPORTVALA</td><td><span class=\"EntryPoint\">{{CLCW_AM_REPORTVALA}}</span></td></tr>",
       "  </table>",
+      " </table>",
     " </body>",
     "</html>"
   ]

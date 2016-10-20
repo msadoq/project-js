@@ -13,14 +13,15 @@ const supportedParameters = require('./supportedParameters');
 require('dotenv-safe').load();
 
 const DC_FREQUENCY = 100;
-const PARAMETER_FREQUENCY = 2000;
+const MAX_SUBSCRIPTION_PUSH = 3;
+const PARAMETER_VALUE_STEP = 2000;
 
 let subscriptions = {}; // realtime
 let queries = []; // archive
 
 const generateRealtimePayloads = () => {
   const payloads = [];
-  for (let i = 0; i < _random(0, 3); i += 1) {
+  for (let i = 0; i < _random(0, MAX_SUBSCRIPTION_PUSH); i += 1) {
     // fake time repartition
     const timestamp = Date.now() - (i * 10);
     payloads.push(
@@ -194,7 +195,7 @@ const emulateDc = () => {
       return debug.error('Unvalid interval');
     }
     const payloads = [];
-    for (let i = from; i <= to; i += PARAMETER_FREQUENCY) {
+    for (let i = from; i <= to; i += PARAMETER_VALUE_STEP) {
       const ts = i;
       payloads.push(
         {

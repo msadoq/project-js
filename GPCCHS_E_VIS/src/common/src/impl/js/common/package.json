@@ -7,6 +7,7 @@
     "tw": "npm test -- --watch"
   },
   "dependencies": {
+    "debug": "^2.2.0",
     "dotenv-safe": "^2.3.2",
     "lodash": "^4.16.2",
     "ws": "^1.1.1"

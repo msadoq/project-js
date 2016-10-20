@@ -1,4 +1,3 @@
-// const debug = require('../io/debug')('utils:mergeIntervals');
 const {
    head: _head,
    last: _last,

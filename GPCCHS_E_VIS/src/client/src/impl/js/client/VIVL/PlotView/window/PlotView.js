@@ -29,7 +29,7 @@ export default class PlotView extends Component {
   };
   state = { rows: [] };
   margin = { left: 10, right: 60, top: 20, bottom: 20 };
-  maxPoints = 500;
+  maxPoints = 200;
   maxY = 10000;
   minY = 0;
   date = new Date();
@@ -37,15 +37,35 @@ export default class PlotView extends Component {
     // random number of lines
     this.lines = Math.floor(Math.random() * (5 - 1)) + 1;
     this.reRender();
-    // setInterval(() => {
-    //   this.state.rows.shift()
-    //   this.setState({
-    //     rows: [...this.state.rows, this.getRandomRow()]
-    //   })
-    // }, 1000)
+    this.interval = setInterval(() => {
+      // fill in undefined values
+      let found = false;
+      const newRows = this.state.rows.map(row => {
+        const keys = Object.keys(row);
+        keys.forEach(key => {
+          if (row[key] === undefined){
+            found = true;
+            row[key] = this.getRandomYValue(90);
+          }
+        });
+        return row;
+      });
+      if (!found){
+        console.log('plot completed')
+        clearInterval(this.interval);
+      }
+      this.setState({ rows: newRows });
+      // this.state.rows.shift()
+      // this.setState({
+      //   rows: [...this.state.rows, this.getRandomRow()]
+      // })
+    }, 1000)
   }
-  getRandomYValue() {
-    if (Math.floor(Math.random() * 100) > 66) {
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+  getRandomYValue(PercentOfUndefined = 50) {
+    if (Math.floor(Math.random() * 100) > (100 - PercentOfUndefined)) {
       return undefined;
     }
     return Math.floor(Math.random() * (this.maxY - this.minY)) + this.minY;

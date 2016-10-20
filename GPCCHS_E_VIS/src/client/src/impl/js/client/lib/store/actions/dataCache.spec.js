@@ -1,6 +1,7 @@
+import u from 'updeep';
 import { selectData } from './dataCache';
 import { should, getStore } from '../../common/test';
-import u from 'updeep';
+
 
 describe('store/actions/dataCache', () => {
   let payload;
@@ -10,8 +11,12 @@ describe('store/actions/dataCache', () => {
   before(() => {
     payload = { rId1: [], rId2: [] };
     for (let j = 1; j < 1000; j++) {
-      payload.rId1.push({ timestamp: j, payload: { val1: (j * 10) + 1, val2: (j * 10) + 2, val3: (j * 10) + 3 } })
-      payload.rId2.push({ timestamp: j, payload: { val1: (j * 10) + 1, val2: (j * 10) + 2, val3: (j * 10) + 3 } })
+      payload.rId1.push({
+        timestamp: j, payload: { val1: (j * 10) + 1, val2: (j * 10) + 2, val3: (j * 10) + 3 }
+      });
+      payload.rId2.push({
+        timestamp: j, payload: { val1: (j * 10) + 1, val2: (j * 10) + 2, val3: (j * 10) + 3 }
+      });
     }
     remoteIdPlots = {
       rId1: {

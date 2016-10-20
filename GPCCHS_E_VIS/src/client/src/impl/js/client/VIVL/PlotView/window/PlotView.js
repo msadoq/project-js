@@ -57,7 +57,7 @@ export default class PlotView extends Component {
   render() {
     const { size, data } = this.props;
     const { width, height } = size;
-    const { lines, columns } = data;
+    const { lines, columns = [] } = data;
 
     const xExtents = [
       _get(columns, '[0].x'),

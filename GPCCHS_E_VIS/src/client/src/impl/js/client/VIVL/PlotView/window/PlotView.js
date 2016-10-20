@@ -27,6 +27,7 @@ export default class PlotView extends Component {
     // markers: PropTypes.array,
   };
   state = { rows: [] };
+  margin = { left: 20, right: 20, top: 20, bottom: 40 };
   maxPoints = 1000;
   maxY = 10000;
   minY = 0;
@@ -66,14 +67,18 @@ export default class PlotView extends Component {
   render() {
     const { rows: data } = this.state;
     const { size, ratio = 2 } = this.props;
+    const { top, right, bottom, left } = this.margin;
+    const width = size.width - right - left;
+    const height = size.height - top - bottom;
+
     return (
       <div>
-        ok plot view
-        size: {size.width}x{size.height}
-        {this.props.viewId}
+        plot view | {this.props.viewId} | {this.props.size.width}x{this.props.size.height}
         <ChartCanvas
-          ratio={ratio} width={size.width} height={size.height}
-          margin={{ left: 50, right: 50, top: 10, bottom: 30 }}
+          ratio={ratio}
+          width={width}
+          height={height}
+          margin={this.margin}
           seriesName="MSFT"
           data={data}
           type="hybrid"

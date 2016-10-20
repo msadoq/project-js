@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import _ from 'lodash';
 import { WidthProvider, Responsive } from 'react-grid-layout';
-import ViewContainer from '../View/ViewContainer';
+import makeViewContainer from '../View/ViewContainer';
 import styles from './Content.css';
 
 const Grid = WidthProvider(Responsive); // eslint-disable-line new-cap
@@ -66,6 +66,10 @@ export default class PageContent extends Component {
         {_.map(this.props.views, (v) => {
           const isViewsEditorOpen =
           this.props.viewOpenedInEditor === v.viewId && this.props.isEditorOpened;
+
+          // avoid React reconciliation issue when all Content child components are ViewContainer
+          // and sort order with siblings change
+          const ViewContainer = makeViewContainer();
 
           return (
             <div className={isViewsEditorOpen ? styles.blockedited : styles.block} key={v.viewId}>

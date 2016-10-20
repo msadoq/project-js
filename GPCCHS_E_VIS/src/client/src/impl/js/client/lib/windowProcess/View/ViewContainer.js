@@ -39,4 +39,5 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(ViewContainer);
+// return function to avoid page grid layout and React DOM re-conciliation issue
+export default () => connect(mapStateToProps)(ViewContainer);

@@ -1,4 +1,5 @@
 const debug = require('../../io/debug')('controllers:onVimaTimeBarUpdate');
+const { constants: globalConstants } = require('common');
 const { sendToMain } = require('../../websocket/sendToMain');
 const {
   each: _each,
@@ -32,5 +33,5 @@ module.exports = (buffer) => {
       tbForClient.masterId = timeline.name;
     }
   });
-  sendToMain('timebarUpdate', tbForClient);
+  sendToMain(globalConstants.EVENT_TIMEBAR_UPDATE, tbForClient);
 };

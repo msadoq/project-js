@@ -1,3 +1,4 @@
+import { constants as globalConstants } from 'common';
 import * as constants from '../../constants';
 import debug from '../debug/mainDebug';
 import updateStore from '../../mainProcess/vima/updateStore';
@@ -12,24 +13,24 @@ const logger = debug('main:controller');
 
 export default function controller(state, dispatch, event, payload) {
   switch (event) {
-    case 'authenticated':
+    case globalConstants.EVENT_AUTHENTICATED:
       dispatch(updateAppStatus(constants.LIFECYCLE_CONNECTED_WITH_HSS));
-      getWebsocket().write({ event: 'domainQuery' });
+      getWebsocket().write({ event: globalConstants.EVENT_DOMAIN_QUERY });
       break;
-    case 'domainResponse':
+    case globalConstants.EVENT_DOMAIN_RESPONSE:
       dispatch(updateDomains(payload));
       getWebsocket().write({
-        event: 'vimaTimebarInit',
+        event: globalConstants.EVENT_VIMA_TIMEBAR_INIT,
         payload: convertFromStore(state),
       });
       break;
-    case 'ready':
+    case globalConstants.EVENT_READY:
       dispatch(updateAppStatus(constants.LIFECYCLE_READY));
       break;
-    case 'timebarUpdate':
+    case globalConstants.EVENT_TIMEBAR_UPDATE:
       updateStore(state, dispatch, payload);
       break;
-    case 'timebasedData': {
+    case globalConstants.EVENT_TIMEBASED_DATA: {
       setActingOn();
       const start = process.hrtime();
       dispatch(importPayload(payload));
@@ -39,9 +40,9 @@ export default function controller(state, dispatch, event, payload) {
       setActingOff();
       break;
     }
-    case 'error':
+    case globalConstants.EVENT_ERROR:
       switch (payload.type) {
-        case constants.ERRORTYPE_RESPONSE:
+        case globalConstants.ERRORTYPE_RESPONSE:
           logger.error('DC Response Error', payload.reason);
           break;
         default:

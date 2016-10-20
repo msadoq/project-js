@@ -1,9 +1,12 @@
+import {
+  websocket as Primus,
+  constants as globalConstants,
+} from 'common';
 import debug from '../../common/debug/windowDebug';
 import { getStore } from '../../store/windowStore';
 import controller from './windowController';
 import { updateStatus } from '../../store/actions/hss';
 // import parameters from '../parameters';
-import Primus from '../../../VIVL/primus';
 
 const logger = debug('window:websocket');
 
@@ -22,7 +25,7 @@ export function connect(windowId) {
       logger.info('window:websocket connected!');
       getStore().dispatch(updateStatus(windowId, 'connected'));
       instance.write({
-        event: 'identity',
+        event: globalConstants.EVENT_IDENTITY,
         payload: {
           identity: windowId,
         },

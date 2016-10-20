@@ -3,6 +3,7 @@ const dataStub = require('../../stubs/data');
 const { response } = require('./onResponse');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
 const constants = require('../../constants');
+const { constants: globalConstants } = require('common');
 const { sendToTestWs, getMessage, resetMessage } = require('../../stubs/testWebSocket');
 
 describe('controllers/onResponse', () => {
@@ -41,7 +42,7 @@ describe('controllers/onResponse', () => {
       .that.has.properties({
         event: 'error',
         payload: {
-          type: constants.ERRORTYPE_RESPONSE,
+          type: globalConstants.ERRORTYPE_RESPONSE,
           reason,
         }
       });

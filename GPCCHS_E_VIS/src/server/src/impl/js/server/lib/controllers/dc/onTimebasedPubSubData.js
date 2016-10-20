@@ -30,7 +30,7 @@ const { applyFilters } = require('../../utils/filters');
  * @param payloadsBuffers
  */
 const sendTimebasedPubSubData = (
-  websocketHandler,
+  websocketQueueHandler,
   queryIdBuffer,
   dataIdBuffer,
   ...payloadsBuffers
@@ -90,7 +90,7 @@ const sendTimebasedPubSubData = (
       }
       timebasedDataModel.addRecord(tbd.timestamp, tbd.payload);
       // queue a ws newData message (sent periodically)
-      websocketHandler(remoteId, [tbd]);
+      websocketQueueHandler(remoteId, [tbd]);
     });
   });
 };

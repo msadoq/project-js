@@ -11,6 +11,7 @@ const subscriptionsModel = require('../../models/subscriptions');
 const dataStub = require('../../stubs/data');
 const { addToTestQueue, getMessage, resetMessage } = require('../../stubs/testWebSocket');
 const constants = require('../../constants');
+const { constants: globalConstants } = require('common');
 
 /* onTimebasedPubSubData Test
  *
@@ -47,18 +48,18 @@ describe('controllers/onTimebasedPubSubData', () => {
   const fullFilter = [
     {
       fieldName: 'onboardDate',
-      type: constants.FILTERTYPE_GT,
+      type: globalConstants.FILTERTYPE_GT,
       fieldValue: -15,
     }, {
       fieldName: 'onboardDate',
-      type: constants.FILTERTYPE_LT,
+      type: globalConstants.FILTERTYPE_LT,
       fieldValue: 15,
     },
   ];
   const halfFilter = [
     {
       fieldName: 'onboardDate',
-      type: constants.FILTERTYPE_EQ,
+      type: globalConstants.FILTERTYPE_EQ,
       fieldValue: 10,
     },
   ];

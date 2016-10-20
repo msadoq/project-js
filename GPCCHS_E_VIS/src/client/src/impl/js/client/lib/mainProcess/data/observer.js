@@ -1,4 +1,6 @@
-import _ from 'lodash';
+import { isObject as _isObject } from 'lodash';
+
+import { constants as globalConstants } from 'common';
 
 import debug from '../../common/debug/mainDebug';
 import dataMapGenerator from './dataMap';
@@ -20,8 +22,8 @@ export default function data(state, dispatch) {
   const dataQueries = requestsMapGenerator(state, dataMap);
   // console.log(require('util').inspect(dataQueries, {depth: 5}));
 
-  if (dataQueries && _.isObject(dataQueries) && Object.keys(dataQueries).length) {
-    getWebsocket().write({ event: 'dataQuery', payload: dataQueries });
+  if (dataQueries && _isObject(dataQueries) && Object.keys(dataQueries).length) {
+    getWebsocket().write({ event: globalConstants.EVENT_TIMEBASED_QUERY, payload: dataQueries });
   }
 
   dispatch(addRequests(dataQueries));

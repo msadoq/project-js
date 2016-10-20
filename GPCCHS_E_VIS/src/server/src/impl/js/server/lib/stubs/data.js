@@ -7,6 +7,7 @@ const {
 } = require('lodash');
 const protobuf = require('../protobuf/index');
 const constants = require('../constants');
+const { constants: globalConstants } = require('common');
 
 const now = _now();
 
@@ -50,10 +51,10 @@ stubs.getReportingParameterProtobuf = override => protobuf.encode(
 
 // Action
 stubs.getAddAction = () => ({
-  action: 0, // ADD
+  action: constants.SUBSCRIPTIONACTION_ADD,
 });
 stubs.getDeleteAction = () => ({
-  action: 1, // DELETE
+  action: constants.SUBSCRIPTIONACTION_DELETE,
 });
 
 stubs.getAddActionProtobuf = () => protobuf.encode(
@@ -119,7 +120,7 @@ stubs.getDomainsProtobuf = override => protobuf.encode(
 // Filter
 stubs.getFilter = override => applyOverride({
   fieldName: 'extractedValue',
-  type: constants.FILTERTYPE_GT,
+  type: globalConstants.FILTERTYPE_GT,
   fieldValue: 42,
 }, override);
 
@@ -130,25 +131,25 @@ stubs.getFilterProtobuf = override => protobuf.encode(
 
 // Header
 stubs.getDomainQueryHeader = () => ({
-  messageType: 0, // DOMAIN_QUERY
+  messageType: constants.MESSAGETYPE_DOMAIN_QUERY,
 });
 stubs.getTimebasedQueryHeader = () => ({
-  messageType: 1, // TIMEBASED_QUERY
+  messageType: constants.MESSAGETYPE_TIMEBASED_QUERY,
 });
 stubs.getTimebasedSubscriptionHeader = () => ({
-  messageType: 2, // TIMEBASED_SUBSCRIPTION
+  messageType: constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION,
 });
 stubs.getResponseHeader = () => ({
-  messageType: 3, // RESPONSE
+  messageType: constants.MESSAGETYPE_RESPONSE,
 });
 stubs.getDomainDataHeader = () => ({
-  messageType: 4, // DOMAIN_DATA
+  messageType: constants.MESSAGETYPE_DOMAIN_DATA,
 });
 stubs.getTimebasedArchiveDataHeader = () => ({
-  messageType: 5, // TIMEBASED_ARCHIVE_DATA
+  messageType: constants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA,
 });
 stubs.getTimebasedPubSubDataHeader = () => ({
-  messageType: 6, // TIMEBASED_PUBSUB_DATA
+  messageType: constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA,
 });
 
 stubs.getDomainQueryHeaderProtobuf = () => protobuf.encode(
@@ -183,17 +184,17 @@ stubs.getTimebasedPubSubDataHeaderProtobuf = () => protobuf.encode(
 // QueryArguments
 stubs.getQueryArguments = override => applyOverride({
   /* sortFieldName: 'groundDate',
-  sortOrder: constants.SORTORDER_ASC,
+  sortOrder: globalConstants.SORTORDER_ASC,
   limitStart: 0,
   limitNumber: 1e9,
-  getLastType: constants.GETLASTTYPE_GET_N_LAST,
+  getLastType: globalConstants.GETLASTTYPE_GET_N_LAST,
   getLastFromTime: stubs.getTimestamp(),
   getLastNumber: 42,*/
   filters: [
     stubs.getFilter(),
     stubs.getFilter({
       fieldName: 'groundDate',
-      type: constants.FILTERTYPE_LT,
+      type: globalConstants.FILTERTYPE_LT,
       fieldValue: 42,
     }),
   ],
@@ -206,10 +207,10 @@ stubs.getQueryArgumentsProtobuf = override => protobuf.encode(
 
 // Status
 stubs.getSuccessStatus = () => ({
-  status: 0, // SUCCESS
+  status: constants.STATUS_SUCCESS,
 });
 stubs.getErrorStatus = () => ({
-  status: 1, // ERROR
+  status: constants.STATUS_ERROR,
 });
 
 stubs.getSuccessStatusProtobuf = () => protobuf.encode(

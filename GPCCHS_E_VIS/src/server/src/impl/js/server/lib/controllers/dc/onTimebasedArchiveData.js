@@ -23,7 +23,7 @@ const { addToMainQueue } = require('../../websocket/sendToMain');
  * @param buffer
  */
 const sendTimebasedArchiveData = (
-  websocketHandler,
+  websocketQueueHandler,
   queryIdBuffer,
   dataIdBuffer,
   isLastBuffer,
@@ -75,7 +75,7 @@ const sendTimebasedArchiveData = (
   timebasedDataModel.addRecords(payloadsToInsert);
 
   // queue a ws newData message (sent periodically)
-  return websocketHandler(remoteId, payloadsToInsert);
+  return websocketQueueHandler(remoteId, payloadsToInsert);
 };
 
 module.exports = {

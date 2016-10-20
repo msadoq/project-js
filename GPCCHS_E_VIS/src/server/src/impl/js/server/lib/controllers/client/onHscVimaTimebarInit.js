@@ -1,4 +1,5 @@
 const debug = require('../../io/debug')('controllers:onHscVimaTimebarUpdate');
+const { constants: globalConstants } = require('common');
 const zmq = require('../../io/zmq');
 const {
   each: _each,
@@ -10,7 +11,7 @@ const {
  * @param timebar
  */
 module.exports = (spark, timebars) => {
-  spark.write({ event: 'ready' });
+  spark.write({ event: globalConstants.EVENT_READY });
   // Transform timebar json to be compliant with tb Qt
   let tbForQt = {};
   if (timebars.length > 0) {

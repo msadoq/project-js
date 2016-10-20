@@ -6,13 +6,13 @@ import invalidateCache from './invalidateCache';
 import { initStore, getStore } from '../store/mainStore';
 import storeObserver from './storeObserver';
 import { connect, disconnect } from '../common/websocket/mainWebsocket';
+import * as constants from '../constants';
 import './menu';
 
 const logger = debug('mainProcess:index');
 
 let storeSubscription = null;
 let cacheInvalidator;
-const CACHE_INVALIDATION_FREQUENCY = 5000;
 
 export async function start() {
   logger.info('app start');
@@ -48,7 +48,7 @@ export async function start() {
       // cache invalidation
       cacheInvalidator = setInterval(() => invalidateCache(
         getStore()),
-        CACHE_INVALIDATION_FREQUENCY
+        constants.CACHE_INVALIDATION_FREQUENCY
       );
     });
   } catch (e) {

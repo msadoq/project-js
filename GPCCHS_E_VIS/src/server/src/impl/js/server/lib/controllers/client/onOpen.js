@@ -1,3 +1,4 @@
+const { constants: globalConstants } = require('common');
 const debug = require('../../io/debug')('controllers:onOpen');
 
 /**
@@ -11,6 +12,6 @@ module.exports = (spark) => {
   debug.info(`called (${spark.id})`);
 
   return spark.write({
-    event: 'authenticated',
+    event: globalConstants.EVENT_AUTHENTICATED,
   });
 };

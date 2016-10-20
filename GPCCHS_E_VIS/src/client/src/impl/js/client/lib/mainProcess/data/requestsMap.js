@@ -1,18 +1,7 @@
 import { each, get, map } from 'lodash';
 import { createSelector } from 'reselect';
 import { intervals as intervalManager } from 'common';
-
-// TODO factorize
-const operators = {
-  '=': 0,
-  '!=': 1,
-  '<': 2,
-  '<=': 3,
-  '>': 4,
-  '>=': 5,
-  contains: 6,
-  icontains: 7,
-};
+import operators from '../../common/operators';
 
 /**
  * Return the current missing intervals requests list

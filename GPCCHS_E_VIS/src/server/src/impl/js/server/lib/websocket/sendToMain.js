@@ -1,3 +1,4 @@
+const { constants: globalConstants } = require('common');
 const debug = require('../io/debug')('websocket');
 const primus = require('./primus');
 const {
@@ -25,7 +26,7 @@ const sendToMain = (event, payload) => {
 const flushMainQueue = _throttle(() => {
   debug.debug('sending data to window');
   const start = process.hrtime();
-  sendToMain('timebasedData', mainQueue);
+  sendToMain(globalConstants.EVENT_TIMEBASED_DATA, mainQueue);
   const stop = process.hrtime(start);
   debug.debug('flushing time', stop);
   mainQueue = {};

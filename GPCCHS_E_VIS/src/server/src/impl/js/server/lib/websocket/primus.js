@@ -1,3 +1,4 @@
+const { constants: globalConstants } = require('common');
 const debug = require('../io/debug')('websocket');
 const {
   get: _get,
@@ -36,7 +37,7 @@ const primusExports = module.exports = {
         }
 
         switch (message.event) {
-          case 'identity': {
+          case globalConstants.EVENT_IDENTITY: {
             if (message.payload.identity === 'main') {
               _set(spark, 'hsc.identity', 'main');
               errorHandler('onClienOpen', () => handlers.onOpen(spark));
@@ -48,19 +49,19 @@ const primusExports = module.exports = {
             }
             break;
           }
-          case 'vimaTimebarInit': {
+          case globalConstants.EVENT_VIMA_TIMEBAR_INIT: {
             errorHandler('onHscVimaTimebarInit', () => handlers.onHscVimaTimebarInit(spark, message.payload));
             break;
           }
-          case 'domainQuery': {
+          case globalConstants.EVENT_DOMAIN_QUERY: {
             errorHandler('onDomainQuery', () => handlers.onDomainQuery());
             break;
           }
-          case 'dataQuery': {
+          case globalConstants.EVENT_TIMEBASED_QUERY: {
             errorHandler('onTimebasedQuery', () => handlers.onTimebasedQuery(spark, message.payload));
             break;
           }
-          case 'timebasedQueryInvalidation': {
+          case globalConstants.EVENT_TIMEBASED_QUERY_INVALIDATION: {
             errorHandler('onCacheCleanup', () => handlers.onCacheCleanup(message.payload));
             break;
           }

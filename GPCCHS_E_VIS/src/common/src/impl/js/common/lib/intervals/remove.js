@@ -15,7 +15,7 @@ const {
  */
 function remove(knownIntervals, interval) {
   const lower = _sortedLastIndexBy(knownIntervals, interval, i => i[0]);
-  const upper = _sortedIndexBy(knownIntervals, interval, i => i[1]);
+  const upper = _sortedLastIndexBy(knownIntervals, interval, i => i[1]);
 
   // outside lower
   if (lower === 0) {
@@ -44,14 +44,11 @@ function remove(knownIntervals, interval) {
         ..._slice(knownIntervals, upper + 1),
       ];
     }
-    // and equal to low limit
-    if (interval[1] === knownIntervals[lower - 1][1]) {
-      return [
-        ..._slice(knownIntervals, 0, lower - 1),
-        ..._slice(knownIntervals, upper + 1),
-      ];
-    }
-    throw new Error('EQUAL_OFFCASE --- not implemented');
+    // and equal or upper to low limit
+    return [
+      ..._slice(knownIntervals, 0, lower - 1),
+      ..._slice(knownIntervals, upper),
+    ];
   }
 
   // lower than high limit
@@ -70,7 +67,7 @@ function remove(knownIntervals, interval) {
       return [
         ..._slice(knownIntervals, 0, lower - 1),
         [knownIntervals[lower - 1][0], interval[0]],
-        ..._slice(knownIntervals, upper + 1),
+        ..._slice(knownIntervals, upper),
       ];
     }
     // and outside upper

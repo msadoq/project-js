@@ -1,4 +1,5 @@
-// const debug = require('../io/debug')('utils:intervals');
+const debug = require('debug');
+const logger = require('../debug')(debug)('utils:intervals');
 const {
   some: _some,
   isArray: _isArray,
@@ -13,7 +14,7 @@ module.exports = (intervals, timestamp) => {
   }
   if (_isArray(intervals[0])) {
     return _some(intervals, (interval) => {
-    //  debug.debug('checking interval', interval);
+      logger.debug('checking interval', interval);
       if (includesTimestamp(interval, timestamp)) {
         return true;
       }

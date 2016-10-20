@@ -1,24 +1,37 @@
 /* eslint no-unused-expressions: 0 */
-import reducer, { updateRangePayloads, cleanDataCache } from './dataCache';
-import { selectData } from '../actions/dataCache';
 import u from 'updeep';
 import { each } from 'lodash';
+import reducer, { updateRangePayloads, cleanDataCache } from './dataCache';
+import { selectData } from '../actions/dataCache';
 
 
 // process.env.NODE_ENV =  'production'
 
 describe('store:reducers:dataCache', () => {
   let payload;
-  let remoteIdPlots, remoteIdTexts, remoteIds;
-  let emptyState, stateFilled;
-  let bagPlots, bagTexts, bag;
-  let actionPlots, actionTexts, action;
+  let remoteIdPlots;
+  let remoteIdTexts;
+  let remoteIds;
+  let emptyState;
+  let stateFilled;
+  let bagPlots;
+  let bagTexts;
+  let bag;
+  let actionPlots;
+  let actionTexts;
+  let action;
   before(() => {
     payload = { rId1: [], rId2: [], rId3: [] };
     for (let j = 100; j < 1000; j++) {
-      payload.rId1.push({ timestamp: j, payload: { val1: (j * 10) + 1, val2: (j * 10) + 2, val3: (j * 10) + 3 } })
-      payload.rId2.push({ timestamp: j, payload: { val1: (j * 10) + 1, val2: (j * 10) + 2, val3: (j * 10) + 3 } })
-      payload.rId3.push({ timestamp: j, payload: { val1: (j * 10) + 1, val2: (j * 10) + 2, val3: (j * 10) + 3 } })
+      payload.rId1.push({
+        timestamp: j, payload: { val1: (j * 10) + 1, val2: (j * 10) + 2, val3: (j * 10) + 3 }
+      });
+      payload.rId2.push({
+        timestamp: j, payload: { val1: (j * 10) + 1, val2: (j * 10) + 2, val3: (j * 10) + 3 }
+      });
+      payload.rId3.push({
+        timestamp: j, payload: { val1: (j * 10) + 1, val2: (j * 10) + 2, val3: (j * 10) + 3 }
+      });
     }
     remoteIdPlots = Object.freeze({
       rId1: {
@@ -58,7 +71,7 @@ describe('store:reducers:dataCache', () => {
     });
 
     emptyState = {};
-    stateFilled = { rId1: { lId1: {}}, rId2: { lId70: {}}, rId3: { lId1: { 10: 23 }}};
+    stateFilled = { rId1: { lId1: {} }, rId2: { lId70: {} }, rId3: { lId1: { 10: 23 } } };
     for (let i = 50; i < 250; i++) {
       stateFilled.rId1.lId1[i+0.5] = (i * 10) + 0.5;
     }
@@ -82,7 +95,7 @@ describe('store:reducers:dataCache', () => {
       .should.eql({ myConnectedDataId: { formula: 'catalog.Parameter<Type>.field' } });
   });
   it('action without eligible payload', () => {
-    const action = { type: 'DATA_IMPORT_PAYLOAD', payload: { rId3 : { lId1 : {}}} };
+    const action = { type: 'DATA_IMPORT_PAYLOAD', payload: { rId3: { lId1: {} } } };
     reducer({ myConnectedDataId: { formula: 'catalog.Parameter<Type>.field' } }, action)
       .should.eql({ myConnectedDataId: { formula: 'catalog.Parameter<Type>.field' } });
   });
@@ -181,5 +194,4 @@ describe('store:reducers:dataCache', () => {
       finalState.should.deep.equal(result);
     })
   });
-
 });

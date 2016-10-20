@@ -20,7 +20,7 @@ describe('intervals/remove', () => {
       const intervals = remove(knownIntervals, intervalToExtract);
       intervals.should.have.properties([[0, 10], [15, 20]]);
     });
-    it('outside whole', () => {
+    it('outside covering', () => {
       const knownIntervals = [[5, 10], [15, 20]];
       const intervalToExtract = [0, 30];
       const intervals = remove(knownIntervals, intervalToExtract);
@@ -38,29 +38,47 @@ describe('intervals/remove', () => {
       const intervals = remove(knownIntervals, intervalToExtract);
       intervals.should.have.properties([[0, 5]]);
     });
-    it('between whole', () => {
+    it('between covering', () => {
       const knownIntervals = [[0, 15], [20, 30], [40, 50]];
       const intervalToExtract = [17, 35];
       const intervals = remove(knownIntervals, intervalToExtract);
       intervals.should.have.properties([[0, 15], [40, 50]]);
     });
-    it('between first', () => {
+    it('between outside inside', () => {
       const knownIntervals = [[0, 15], [20, 30], [40, 50]];
       const intervalToExtract = [17, 45];
       const intervals = remove(knownIntervals, intervalToExtract);
       intervals.should.have.properties([[0, 15], [45, 50]]);
     });
-    it('between middle', () => {
+    it('between outside', () => {
       const knownIntervals = [[0, 15], [20, 30], [40, 50]];
       const intervalToExtract = [17, 19];
       const intervals = remove(knownIntervals, intervalToExtract);
       intervals.should.have.properties([[0, 15], [20, 30], [40, 50]]);
     });
-    it('between last', () => {
+    it('between inside outside', () => {
       const knownIntervals = [[0, 15], [20, 30], [40, 50]];
       const intervalToExtract = [10, 35];
       const intervals = remove(knownIntervals, intervalToExtract);
       intervals.should.have.properties([[0, 10], [40, 50]]);
+    });
+    it('between first outside', () => {
+      const knownIntervals = [[0, 15], [20, 30], [40, 50]];
+      const intervalToExtract = [20, 35];
+      const intervals = remove(knownIntervals, intervalToExtract);
+      intervals.should.have.properties([[0, 15], [40, 50]]);
+    });
+    it('between outside last', () => {
+      const knownIntervals = [[0, 15], [20, 30], [40, 50]];
+      const intervalToExtract = [17, 30];
+      const intervals = remove(knownIntervals, intervalToExtract);
+      intervals.should.have.properties([[0, 15], [40, 50]]);
+    });
+    it('between first last', () => {
+      const knownIntervals = [[0, 15], [20, 30], [40, 50], [77, 91]];
+      const intervalToExtract = [20, 50];
+      const intervals = remove(knownIntervals, intervalToExtract);
+      intervals.should.have.properties([[0, 15], [77, 91]]);
     });
     it('first whole', () => {
       const knownIntervals = [[0, 7], [11, 14], [42, 91]];

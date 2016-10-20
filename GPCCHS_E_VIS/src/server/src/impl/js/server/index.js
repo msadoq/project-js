@@ -27,8 +27,8 @@ const tbStub = require('./lib/stubs/tb');
 const perfTool = require('./lib/utils/performanceTool');
 
 if (process.env.MONITORING === 'on') {
-  perfTool.init();
-  perfTool.launch();
+  /*perfTool.init();
+  perfTool.launch();*/
 }
 
 // port

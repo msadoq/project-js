@@ -30,11 +30,11 @@ export function cleanDataCache(stateDataCache, action) {
 
       const lower = values[0];
       const upper = values[1];
-      set((!newState? (newState = {}): newState), [remoteId, localId], {});
+      set((!newState ? (newState = {}) : newState), [remoteId, localId], {});
 
       if (keys[0] > upper || keys[l-1] < lower) {
         newState[remoteId][localId] = u.constant({});
-        return ;
+        return;
       }
       // Cleaning of values outside interval
       each(keys, (timestamp) => {
@@ -49,7 +49,7 @@ export function cleanDataCache(stateDataCache, action) {
   if (!newState) {
     return stateDataCache;
   }
-  return Object.assign({}, stateDataCache, newState);;
+  return Object.assign({}, stateDataCache, newState);
 }
 
 export function updateRangePayloads(stateDataCache, action) {
@@ -59,7 +59,7 @@ export function updateRangePayloads(stateDataCache, action) {
     // loop on localId
     each(data, (values, localId) => {
       const interval = get(action.payload.intervalToKeep, [remoteId, localId]);
-      set((!newState? (newState = {}): newState), [remoteId, localId], {});
+      set((!newState ? (newState = {}) : newState), [remoteId, localId], {});
 
       // Existing dataCache
       if (interval && get(stateDataCache, [remoteId, localId])) {

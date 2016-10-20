@@ -28,11 +28,6 @@
         "unit": "V",
         "digits": 5,
         "format": "decimal",
-        "filter": [{
-          "field": "convertedValue",
-          "operator": "!=",
-          "operand": "0"
-        }],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1",
         "axisId": "VBat"
@@ -67,11 +62,6 @@
         "unit": "V",
         "digits": 5,
         "format": "decimal",
-        "filter": [{
-          "field": "convertedValue",
-          "operator": "!=",
-          "operand": "0"
-        }],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 2",
         "axisId": "VBat"
@@ -106,11 +96,6 @@
         "unit": "V",
         "digits": 5,
         "format": "decimal",
-        "filter": [{
-          "field": "convertedValue",
-          "operator": "!=",
-          "operand": "0"
-        }],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 3",
         "axisId": "VBat"
@@ -145,11 +130,6 @@
         "unit": "V",
         "digits": 5,
         "format": "decimal",
-        "filter": [{
-          "field": "convertedValue",
-          "operator": "!=",
-          "operand": "0"
-        }],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 4",
         "axisId": "VBat"

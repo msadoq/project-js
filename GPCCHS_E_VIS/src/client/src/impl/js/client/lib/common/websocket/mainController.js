@@ -30,6 +30,7 @@ export default function controller(state, dispatch, event, payload) {
       updateStore(state, dispatch, payload);
       break;
     case 'timebasedData': {
+      // TODO : add a buffer queue management with .warn on increased delay
       setActingOn();
       const start = process.hrtime();
       dispatch(importPayload(payload));

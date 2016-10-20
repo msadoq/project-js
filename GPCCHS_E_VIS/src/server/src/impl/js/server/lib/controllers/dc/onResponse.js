@@ -3,6 +3,7 @@ const { decode } = require('../../protobuf');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
 const { sendToMain } = require('../../websocket/sendToMain');
 const constants = require('../../constants');
+const { constants: globalConstants } = require('common');
 
 /**
  * Triggered on incoming DcResponse message from DC.
@@ -45,7 +46,10 @@ const response = (websocketHandler, queryIdBuffer, statusBuffer, reasonBuffer) =
   const reason = (typeof reasonBuffer !== 'undefined') ? decode('dc.dataControllerUtils.String', reasonBuffer).string : reasonBuffer;
 
   // send error message to client and execute callback
-  websocketHandler('error', { type: constants.ERRORTYPE_RESPONSE, reason });
+  websocketHandler(
+    globalConstants.EVENT_ERROR,
+    { type: globalConstants.ERRORTYPE_RESPONSE, reason }
+  );
   return callback(new Error((typeof reason !== 'undefined') ? reason : 'unknown reason'));
 };
 

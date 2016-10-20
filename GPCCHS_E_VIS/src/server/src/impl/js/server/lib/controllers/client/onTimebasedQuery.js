@@ -41,7 +41,7 @@ const monitoring = require('../../utils/monitoring');
  * @param messageHandler
  */
 
-const timebasedQuery = (websocketHandler, payload, messageHandler) => {
+const timebasedQuery = (websocketQueueHandler, payload, messageHandler) => {
   debug.info('called', Object.keys(payload).length, 'remoteIds');
   const messageQueue = [];
   // loop over remoteIds
@@ -146,7 +146,7 @@ const timebasedQuery = (websocketHandler, payload, messageHandler) => {
       if (cachedData.length === 0) {
         return;
       }
-      websocketHandler(remoteId, cachedData);
+      websocketQueueHandler(remoteId, cachedData);
     });
   });
 

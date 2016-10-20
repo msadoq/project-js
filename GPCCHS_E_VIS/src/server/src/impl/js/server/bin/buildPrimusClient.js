@@ -8,7 +8,7 @@ const { getNewInstance } = require('../lib/websocket/primus');
 
 const server = http.createServer(app);
 const instance = getNewInstance(server);
-const output = join(__dirname, '../../../../../../client/src/impl/js/client/external/primus.js');
+const output = join(__dirname, '../../../../../../common/src/impl/js/common/lib/websocket/primus.js');
 
 instance.save(output, (err) => {
   if (err) {

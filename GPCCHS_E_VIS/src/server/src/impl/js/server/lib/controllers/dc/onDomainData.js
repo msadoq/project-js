@@ -1,4 +1,5 @@
 const debug = require('../../io/debug')('controllers:onDomainData');
+const { constants: globalConstants } = require('common');
 const { sendToMain } = require('../../websocket/sendToMain');
 const { decode } = require('../../protobuf');
 const { setDomains } = require('../../utils/domains');
@@ -32,7 +33,7 @@ const domainData = (websocketHandler, queryIdBuffer, domainsBuffer) => {
   // store domains
   setDomains(domains);
   // forward to client
-  return websocketHandler('domainResponse', domains);
+  return websocketHandler(globalConstants.EVENT_DOMAIN_RESPONSE, domains);
 };
 
 const onDomainData = (queryIdBuffer, domainsBuffer) => {

@@ -1,3 +1,4 @@
+import { constants as globalConstants } from 'common';
 import debug from '../common/debug/mainDebug';
 import { removeRequests } from '../store/actions/dataRequests';
 import expirationsMapGenerator from './data/expirationsMap';
@@ -14,6 +15,9 @@ export default function (store) {
   if (Object.keys(expiredRequests).length === 0) {
     return;
   }
-  getWebsocket().write({ event: 'timebasedQueryInvalidation', payload: expiredRequests });
+  getWebsocket().write({
+    event: globalConstants.EVENT_TIMEBASED_QUERY_INVALIDATION,
+    payload: expiredRequests,
+  });
   store.dispatch(removeRequests(expiredRequests));
 }

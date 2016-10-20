@@ -80,7 +80,7 @@ export function updateRangePayloads(stateDataCache, action) {
   if (!newState) {
     return stateDataCache;
   }
-  return Object.assign({}, stateDataCache, newState);;
+  return Object.assign({}, stateDataCache, newState);
 }
 
 // function updateOnePayloads(stateDataCache, action) {

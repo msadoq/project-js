@@ -1,6 +1,8 @@
 import _throttle from 'lodash/throttle';
 import _isObject from 'lodash/isObject';
 
+import { constants as globalConstants } from 'common';
+
 import debug from '../../common/debug/mainDebug';
 import dataMapGenerator from './dataMap';
 import requestsMapGenerator from './requestsMap';
@@ -23,7 +25,7 @@ export default _throttle((state, dispatch) => {
   // console.log(require('util').inspect(dataQueries, {depth: 5}));
 
   if (dataQueries && _isObject(dataQueries) && Object.keys(dataQueries).length) {
-    getWebsocket().write({ event: 'dataQuery', payload: dataQueries });
+    getWebsocket().write({ event: globalConstants.EVENT_TIMEBASED_QUERY, payload: dataQueries });
   }
 
   dispatch(addRequests(dataQueries));

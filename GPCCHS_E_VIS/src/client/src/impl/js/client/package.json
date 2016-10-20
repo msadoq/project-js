@@ -108,8 +108,7 @@
     "redux-thunk": "^2.1.0",
     "reselect": "^2.5.4",
     "source-map-support": "^0.4.2",
-    "updeep": "^1.0.0",
-    "ws": "^1.1.1"
+    "updeep": "^1.0.0"
   },
   "devEngines": {
     "node": "6.x",

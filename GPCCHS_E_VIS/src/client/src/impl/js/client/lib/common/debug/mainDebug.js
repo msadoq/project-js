@@ -1,5 +1,5 @@
-const debug = require('debug');
-const helper = require('./debug');
+import debug from 'debug';
+import { debug as debugHelper } from 'common';
 
 // return debug helper with node implementation
-module.exports = helper(debug);
+module.exports = debugHelper(debug);

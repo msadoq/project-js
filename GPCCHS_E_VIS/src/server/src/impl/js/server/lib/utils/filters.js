@@ -1,5 +1,5 @@
 const debug = require('../io/debug')('utils:filters');
-const constants = require('../constants');
+const { constants: globalConstants } = require('common');
 
 function applyFilter(data, filter) {
   if (
@@ -16,21 +16,21 @@ function applyFilter(data, filter) {
   const expected = filter.fieldValue;
   const value = data[filter.fieldName];
   switch (filter.type) {
-    case constants.FILTERTYPE_EQ:
+    case globalConstants.FILTERTYPE_EQ:
       return value === expected;
-    case constants.FILTERTYPE_NE:
+    case globalConstants.FILTERTYPE_NE:
       return value !== expected;
-    case constants.FILTERTYPE_LT:
+    case globalConstants.FILTERTYPE_LT:
       return value < expected;
-    case constants.FILTERTYPE_LE:
+    case globalConstants.FILTERTYPE_LE:
       return value <= expected;
-    case constants.FILTERTYPE_GT:
+    case globalConstants.FILTERTYPE_GT:
       return value > expected;
-    case constants.FILTERTYPE_GE:
+    case globalConstants.FILTERTYPE_GE:
       return value >= expected;
-    case constants.FILTERTYPE_CONTAINS:
+    case globalConstants.FILTERTYPE_CONTAINS:
       return value.includes(expected);
-    case constants.FILTERTYPE_ICONTAINS:
+    case globalConstants.FILTERTYPE_ICONTAINS:
       return !value.includes(expected);
     default:
       return true;

@@ -3,6 +3,7 @@ const {
   set: _set,
   concat: _concat,
 } = require('lodash');
+const { constants: globalConstants } = require('common');
 
 let testQueue = {};
 let message = {};
@@ -13,17 +14,16 @@ const sendToTestWs = (event, payload) => {
 };
 
 const flushTestQueue = () => {
-  sendToTestWs('timebasedData', testQueue);
+  sendToTestWs(globalConstants.EVENT_TIMEBASED_DATA, testQueue);
   testQueue = {};
 };
 
 const addToTestQueue = (remoteId, payload) => {
-  const previous = _get(testQueue, [remoteId]);
-  if (typeof previous === 'undefined') {
-    _set(testQueue, [remoteId], payload);
-  } else {
-    _set(testQueue, [remoteId], _concat(previous, payload));
-  }
+  _set(testQueue, [remoteId], _concat(
+      _get(testQueue, [remoteId], []),
+      payload
+    )
+  );
   flushTestQueue();
 };
 

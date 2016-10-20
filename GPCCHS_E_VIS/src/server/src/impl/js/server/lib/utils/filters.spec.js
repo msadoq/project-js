@@ -4,7 +4,7 @@ const {
   assign: _assign,
 } = require('lodash');
 const { applyFilters } = require('./filters');
-const constants = require('../constants');
+const { constants: globalConstants } = require('common');
 
 describe('utils/filters', () => {
   describe('applyFilters', () => {
@@ -12,7 +12,7 @@ describe('utils/filters', () => {
       const filter = [
         {
           fieldName: 'intDataValue',
-          type: constants.FILTERTYPE_EQ,
+          type: globalConstants.FILTERTYPE_EQ,
           fieldValue: 42,
         },
       ];
@@ -23,7 +23,7 @@ describe('utils/filters', () => {
       const filter = [
         {
           fieldName: 'intDataValue',
-          type: constants.FILTERTYPE_NE,
+          type: globalConstants.FILTERTYPE_NE,
           fieldValue: 42,
         },
       ];
@@ -34,7 +34,7 @@ describe('utils/filters', () => {
       const filter = [
         {
           fieldName: 'intDataValue',
-          type: constants.FILTERTYPE_LT,
+          type: globalConstants.FILTERTYPE_LT,
           fieldValue: 42,
         },
       ];
@@ -46,7 +46,7 @@ describe('utils/filters', () => {
       const filter = [
         {
           fieldName: 'intDataValue',
-          type: constants.FILTERTYPE_GT,
+          type: globalConstants.FILTERTYPE_GT,
           fieldValue: 42,
         },
       ];
@@ -58,7 +58,7 @@ describe('utils/filters', () => {
       const filter = [
         {
           fieldName: 'intDataValue',
-          type: constants.FILTERTYPE_LE,
+          type: globalConstants.FILTERTYPE_LE,
           fieldValue: 42,
         },
       ];
@@ -70,7 +70,7 @@ describe('utils/filters', () => {
       const filter = [
         {
           fieldName: 'intDataValue',
-          type: constants.FILTERTYPE_GE,
+          type: globalConstants.FILTERTYPE_GE,
           fieldValue: 42,
         },
       ];
@@ -82,7 +82,7 @@ describe('utils/filters', () => {
       const filter = [
         {
           fieldName: 'stringDataValue',
-          type: constants.FILTERTYPE_CONTAINS,
+          type: globalConstants.FILTERTYPE_CONTAINS,
           fieldValue: 'foo',
         },
       ];
@@ -94,7 +94,7 @@ describe('utils/filters', () => {
       const filter = [
         {
           fieldName: 'stringDataValue',
-          type: constants.FILTERTYPE_ICONTAINS,
+          type: globalConstants.FILTERTYPE_ICONTAINS,
           fieldValue: 'foo',
         },
       ];
@@ -106,12 +106,12 @@ describe('utils/filters', () => {
       const filter = [
         {
           fieldName: 'intDataValue',
-          type: constants.FILTERTYPE_GT,
+          type: globalConstants.FILTERTYPE_GT,
           fieldValue: 40,
         },
         {
           fieldName: 'intDataValue',
-          type: constants.FILTERTYPE_LE,
+          type: globalConstants.FILTERTYPE_LE,
           fieldValue: 49,
         },
       ];
@@ -125,7 +125,7 @@ describe('utils/filters', () => {
       const filter = [
         {
           fieldName: 'intDataValue',
-          type: constants.FILTERTYPE_EQ,
+          type: globalConstants.FILTERTYPE_EQ,
           fieldValue: 42,
         },
       ];
@@ -135,7 +135,7 @@ describe('utils/filters', () => {
     it('invalid filter', () => {
       const filter = {
         fieldName: 'intDataValue',
-        type: constants.FILTERTYPE_EQ,
+        type: globalConstants.FILTERTYPE_EQ,
         fieldValue: 42,
       };
       applyFilters({ intDataValue: 50 }, [_omit(filter, ['fieldName'])]).should.equal(true);

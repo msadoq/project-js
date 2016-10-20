@@ -1,4 +1,5 @@
 const debug = require('../../io/debug')('controllers:onWindowOpen');
+const { constants: globalConstants } = require('common');
 
 /**
  * Triggered when HSC open a new window and send the 'authenticate' message
@@ -12,6 +13,6 @@ module.exports = (spark, windowId) => {
   debug.info(`called (${windowId})`);
 
   return spark.write({
-    event: 'authenticated',
+    event: globalConstants.EVENT_AUTHENTICATED,
   });
 };

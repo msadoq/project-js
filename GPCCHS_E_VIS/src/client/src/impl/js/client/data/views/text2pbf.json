@@ -145,10 +145,12 @@
     "<!DOCTYPE html>",
     "<html>",
     " <head>",
-    "  <title>TextView example 2</title>",
+    "  <title></title>",
     " </head>",
     " <body>",
-    "  <table border=\"2\">",
+    "  <table class=\"mainTab\" align=\"center\" width=\"90%\">",
+    "   <table border=\"1\" align= \"left\" width=\"30%\">",
+    "    <th width=\"50%\" bgcolor=\"#428bca\"> NAME </th><th width=\"50%\" bgcolor=\"#428bca\"> VALUE</th>",
     "    <tr><td>SAT_BC_CURRENTMODE</td><td><span class=\"EntryPoint\">{{SAT_BC_CURRENTMODE}}</span></td></tr>",
     "    <tr><td>SAT_BC_OBT</td><td><span class=\"EntryPoint\">{{SAT_BC_OBT}}</span></td></tr>",
     "    <tr><td>SAT_BC_TCR1CURRENT</td><td><span class=\"EntryPoint\">{{SAT_BC_TCR1CURRENT}}</span></td></tr>",
@@ -159,6 +161,7 @@
     "    <tr><td>ATT_BC_MAG1SATQ2</td><td><span class=\"EntryPoint\">{{ATT_BC_MAG1SATQ2}}</span></td></tr>",
     "    <tr><td>ATT_BC_MAG1SATQ3</td><td><span class=\"EntryPoint\">{{ATT_BC_MAG1SATQ3}}</span></td></tr>",
       "  </table>",
+      " </table>",
     " </body>",
     "</html>"
   ]

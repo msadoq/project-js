@@ -55,7 +55,6 @@ const logger = debug('mainProcess:data:decline');
  * @return {*}
  */
 export default function decline(domains, timebars, timelines, cds) {
-  // console.log(domains, timebars, timelines, cds)
   return reduce(cds, (list, { type, timebarId, connectedData }) => {
     // avoid domain, session declination for certain type of view (that display one value at a time)
     const noMulti = vivl(type, 'dataLayout')() === 'one';

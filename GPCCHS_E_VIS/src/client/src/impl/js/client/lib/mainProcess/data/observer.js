@@ -1,5 +1,6 @@
 import _throttle from 'lodash/throttle';
 import _isObject from 'lodash/isObject';
+import { inspect } from 'util';
 
 import { constants as globalConstants } from 'common';
 
@@ -18,11 +19,11 @@ export default _throttle((state, dispatch) => {
 
   // TODO : improve memoization
   const dataMap = dataMapGenerator(state);
-  // console.log(require('util').inspect(dataMap, {depth: 5}));
+  logger.verbose(inspect(dataMap, {depth: 5}));
 
   // TODO : improve memoization: pass dataRequests as arguments (/!\ no reselect, should never return previous requests, but maybe requesting could be done in a createSelector)
   const dataQueries = requestsMapGenerator(state, dataMap);
-  // console.log(require('util').inspect(dataQueries, {depth: 5}));
+  logger.verbose(inspect(dataQueries, {depth: 5}));
 
   if (dataQueries && _isObject(dataQueries) && Object.keys(dataQueries).length) {
     getWebsocket().write({ event: globalConstants.EVENT_TIMEBASED_QUERY, payload: dataQueries });

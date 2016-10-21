@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import _reduce from 'lodash/reduce';
+import _find from 'lodash/find';
 import { detect, generate } from './wildcard';
 
 // TODO: memoize with reselect (domains, search)
@@ -16,7 +17,7 @@ export default function filter(domains, search) {
   }
 
   if (!detect(search)) {
-    const domain = _.find(domains, v => v.name === search);
+    const domain = _find(domains, v => v.name === search);
     if (!domain) {
       return [];
     }
@@ -24,7 +25,7 @@ export default function filter(domains, search) {
   }
 
   const reg = generate(search);
-  return _.reduce(domains, (list, domain) => (domain.name && reg.test(domain.name)
+  return _reduce(domains, (list, domain) => (domain.name && reg.test(domain.name)
     ? list.concat(domain.domainId)
     : list), []);
 }

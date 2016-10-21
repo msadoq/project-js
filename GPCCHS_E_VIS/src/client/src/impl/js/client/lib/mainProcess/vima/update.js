@@ -48,7 +48,7 @@ function addTlUpdate(tl, param) {
 
 module.exports = (oldTb, newTb) => {
   // Comparison between timebars when this is not initialization or saving
-  switch (newTb.action) {
+  switch (newTb.actionType) {
     case 'initialUpd':
       cmdList = undefined;
       break;
@@ -134,9 +134,9 @@ module.exports = (oldTb, newTb) => {
           cmdList.timelineAdded.push(element);
         } else {
           // Check for updates
-          if (oldTl.name !== element.name) {
-            addTlUpdate(element, 'name');
-          }
+          // if (oldTl.name !== element.name) {
+          //   addTlUpdate(element, 'name');
+          // }
           if (oldTl.offset !== element.offset) {
             addTlUpdate(element, 'offset');
           }
@@ -152,7 +152,7 @@ module.exports = (oldTb, newTb) => {
           } else {
             switch (element.kind) {
               case 'Session':
-                if (oldTl.sessionId !== element.sessionId) {
+                if (oldTl.sessionId !== parseInt(element.sessionId)) {
                   addTlUpdate(element, 'sessionId');
                 }
                 break;

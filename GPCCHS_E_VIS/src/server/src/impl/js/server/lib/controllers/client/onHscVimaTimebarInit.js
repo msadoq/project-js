@@ -16,6 +16,8 @@ module.exports = (spark, timebars) => {
   let tbForQt = {};
   if (timebars.length > 0) {
     tbForQt = _omit(timebars[0], 'timelines');
+    tbForQt.mode = 'Normal';
+    tbForQt.timeSpec = 'UTC';
     tbForQt.timeLines = [];
     let index = 0;
     _each(timebars[0].timelines, (timeline) => {

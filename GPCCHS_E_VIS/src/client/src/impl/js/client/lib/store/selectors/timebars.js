@@ -1,4 +1,4 @@
-import _find from 'lodash/find';
+// import _find from 'lodash/find';
 import _get from 'lodash/get';
 import _map from 'lodash/map';
 import { createSelector } from 'reselect';
@@ -6,10 +6,17 @@ import { getTimeline } from './timelines';
 
 export const getTimebar = (state, timebarId) => state.timebars[timebarId];
 
-export function getTimebarById(state, timebarId) { // TODO test
-  return _find(state.timebars, tb => tb.id === timebarId);
+// export function getTimebarById(state, timebarId) { // TODO test
+//   return _find(state.timebars, tb => tb.id === timebarId);
+// }
+export function getTimebarUuidById(state, timebarId) { // TODO test
+  for (let key in state.timebars) {
+    if (state.timebars[key].id === timebarId) {
+      return key;
+    }
+  }
+  return -1;
 }
-
 // TODO : deprecate
 export function getTimelines(state, timebarId) { // TODO test
   const timelines = _get(state, `timebars.${timebarId}.timelines`, []);

@@ -1,4 +1,5 @@
-const _ = require('lodash');
+const _each = require('lodash/each');
+const _get = require('lodash/get');
 const minimist = require('minimist');
 
 /**
@@ -20,13 +21,13 @@ if (process.env && process.env.NODE_ENV === 'development') {
   // eslint-disable-next-line global-require
   require('dotenv-safe').load();
 
-  _.each(configuration, (v, key) => {
-    configuration[key] = _.get(process, ['env', key]);
+  _each(configuration, (v, key) => {
+    configuration[key] = _get(process, ['env', key]);
   });
 } else {
   try {
     const argv = minimist(process.argv);
-    _.each(configuration, (v, key) => {
+    _each(configuration, (v, key) => {
       configuration[key] = argv[key];
     });
   } catch (e) {

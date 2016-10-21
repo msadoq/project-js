@@ -1,7 +1,11 @@
-import _ from 'lodash';
+import _each from 'lodash/each';
 import u from 'updeep';
 import compareTimebars from './update';
-import { getTimebarById, getTimelinesFromTimebar } from '../../store/selectors/timebars';
+import {
+  getTimebar,
+  getTimelinesFromTimebar,
+  getTimebarUuidById,
+} from '../../store/selectors/timebars';
 
 import {
   updateId,
@@ -15,10 +19,15 @@ import {
 } from '../../store/actions/timebars';
 
 export default function updateFromVimaTimebar(state, dispatch, data) {
-  const timebarId = data.uuid;
-  const oldTimebar = getTimebarById(state, data.id);
+  if (data.actionType === 'initialUpd') {
+    return;
+  }
+  const timebarId = getTimebarUuidById(state, data.id);
+  if (timebarId < 0) {
+    throw new Error(`Unknown timebar ${data.id}`);
+  }
+  const oldTimebar = getTimebar(state, timebarId);
 
-  // TODO aleal, avoid updating timelines for PBF, will trigger too many re-render of views
   const oldTimelines = getTimelinesFromTimebar(state, oldTimebar);
   const oldTb = u({ timelines: oldTimelines }, oldTimebar);
   const differences = compareTimebars(oldTb, data);
@@ -50,17 +59,17 @@ export default function updateFromVimaTimebar(state, dispatch, data) {
       dispatch(updateMasterId(timebarId, tlUpd.masterId));
     }
     // TODO timeline update
-    _.each(tlUpd.timelines, (tl, uuid) => {
+    _each(tlUpd.timelines, (tl, uuid) => {
       dispatch(updateTimeline(timebarId, uuid, tl));
     });
   }
   if (differences.timelineAdded) {
-    _.each(differences.timelineAdded, (tl) => {
+    _each(differences.timelineAdded, (tl) => {
       dispatch(addAndMountTimeline(timebarId, tl));
     });
   }
   if (differences.timelineRemoved) {
-    _.each(differences.timelineRemoved, (tl) => {
+    _each(differences.timelineRemoved, (tl) => {
       dispatch(unmountAndRemoveTimeline(timebarId, tl.id));
     });
   }

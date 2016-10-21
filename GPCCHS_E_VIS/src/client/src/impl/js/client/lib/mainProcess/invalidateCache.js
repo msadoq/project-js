@@ -4,11 +4,13 @@ import { removeRequests } from '../store/actions/dataRequests';
 import expirationsMapGenerator from './data/expirationsMap';
 import dataMapGenerator from './data/dataMap';
 import { getWebsocket } from '../common/websocket/mainWebsocket';
+import { setActingOn, setActingOff } from './storeObserver'
 
 const logger = debug('mainProcess:invalidateCache');
 
 export default function (store) {
   logger.debug('called');
+  setActingOn();
   const state = store.getState();
   const dataMap = dataMapGenerator(state);
   const expiredRequests = expirationsMapGenerator(state, dataMap);
@@ -20,4 +22,5 @@ export default function (store) {
     payload: expiredRequests,
   });
   store.dispatch(removeRequests(expiredRequests));
+  setActingOff();
 }

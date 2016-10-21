@@ -1,12 +1,11 @@
 /* eslint-disable global-require */
-
-const { get, isFunction } = require('lodash');
-const PlotView = require('./PlotView/main');
-const TextView = require('./TextView/main');
+import TextView from './TextView/main';
+import PlotView from './PlotView/main';
+import { get, isFunction } from 'lodash';
 
 const supportedView = { PlotView, TextView };
 
-module.exports = (viewType, functionName) => {
+export default (viewType, functionName) => {
   const f = get(supportedView, [viewType, functionName]);
   if (!f || !isFunction(f)) {
     throw new Error(`invalid function ${functionName} for view type ${viewType}`)

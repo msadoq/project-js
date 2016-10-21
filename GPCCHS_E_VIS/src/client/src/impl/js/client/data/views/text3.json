@@ -91,7 +91,7 @@
     {
       "name": "ORB_BC_ENABLED5N",
       "connectedData": {
-        "formula": "Reporting.ORB_BC_ENABLED5N<ReportingParameter>.extractedValue",
+        "formula": "Reporting.ORB_BC_ENABLED5<ReportingParameter>.extractedValue",
         "unit": "V",
         "digits": 2,
         "format": "decimal",

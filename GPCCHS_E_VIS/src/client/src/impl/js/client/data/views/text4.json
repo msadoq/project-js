@@ -1392,7 +1392,7 @@
     "<style>",
     "  .myTextView { background-color: lightgrey; width: 100%;font-size: 1.2rem; height: 100%; }",
     "  .myTextView > div { display: inline-block; width: 25%; vertical-align: top; height: 100%; }",
-    "  .myTextView .name { font-weight: bolder; min-width: 40px;  width: 47%; display: inline-block; margin-bottom: 2px; }",
+    "  .myTextView .name { font-weight: bolder; width: 47%; display: inline-block; margin-bottom: 2px; }",
     "  .myTextView .value { margin-left: 10px; background-color: black; color: yellow; font-weight: bold;  width: 47%; display: inline-block; text-align: right; padding: 2px; }",
     "</style>",
     "<div class='myTextView'>",

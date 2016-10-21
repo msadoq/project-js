@@ -24,6 +24,7 @@ export default class Tabs extends Component {
   }
   handleClose(e, pageId) {
     e.preventDefault();
+    e.stopPropagation();
     this.props.removeAndUnmountPage(pageId);
   }
   render() {

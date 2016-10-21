@@ -13,7 +13,7 @@ const supportedParameters = require('./supportedParameters');
 require('dotenv-safe').load();
 
 const DC_FREQUENCY = 100;
-const MAX_SUBSCRIPTION_PUSH = 3;
+const MAX_SUBSCRIPTION_PUSH = 1;
 const PARAMETER_VALUE_STEP = 2000;
 
 let subscriptions = {}; // realtime

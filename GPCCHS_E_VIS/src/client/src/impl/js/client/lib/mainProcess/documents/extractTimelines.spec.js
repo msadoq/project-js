@@ -7,9 +7,8 @@ describe('documents/lib', () => {
   describe('extractTimelines', () => {
     let content;
     beforeEach(() => {
-      content = { timeBarWindow: {
-        type: 'timeBarWindowConfiguration',
-        timeBars: [{
+      content = {
+        timebars: [{
           type: 'timeBarConfiguration',
           id: 'Timebar 1',
           timelines: [
@@ -35,14 +34,7 @@ describe('documents/lib', () => {
           ],
           masterId: 'Session 2',
         }],
-        geometry: {
-          kind: 'Absolute',
-          x: 10,
-          y: 810,
-          w: 1900,
-          h: 100
-        }
-      } };
+      };
       content = Object.assign({}, { __original: content, __folder: '.' });
       extractTimebars(content, (err, val) => { content = val; });
     });

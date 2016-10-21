@@ -99,7 +99,8 @@ describe('store:timebar', () => {
       });
       it('visuWindow', () => {
         const newState = reducer(state.timebars, actions.updateVisuWindow('myTimebarId',
-         5, 40, 30));
+        { lower: 5, upper: 40, current: 30 }));
+        //  5, 40, 30));
         newState.should.have.property('myTimebarId');
         newState.myTimebarId.should.have.property('visuWindow');
         newState.myTimebarId.visuWindow.should.have.property('lower');

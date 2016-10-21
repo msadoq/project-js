@@ -26,6 +26,7 @@ export default class Tabs extends Component {
     e.preventDefault();
     e.stopPropagation();
     this.props.removeAndUnmountPage(pageId);
+    e.stopPropagation();
   }
   render() {
     const { pages, focusedPageId } = this.props;

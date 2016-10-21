@@ -30,8 +30,12 @@ export function addAndMount(windowId) {
 }
 
 export function unmountAndRemove(windowId, pageId) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch(unmountPage(windowId, pageId));
     dispatch(removePage(pageId));
+    if (getState().windows[windowId].pages.length > 0
+        && pageId === getState().windows[windowId].focusedPage) {
+      dispatch(focusPage(windowId, getState().windows[windowId].pages[0]));
+    }
   };
 }

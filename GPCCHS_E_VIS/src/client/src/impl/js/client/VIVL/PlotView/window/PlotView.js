@@ -13,6 +13,11 @@ const { XAxis, YAxis } = axes;
 export default class PlotView extends Component {
   static propTypes = {
     data: PropTypes.any,
+    // @TODO maknig sure we have input data
+    // data: React.PropTypes.shape({
+    //   lines: React.PropTypes.array.isRequired,
+    //   columns: React.PropTypes.array.isRequired
+    // }),
     // configuration: PropTypes.object.isRequired,
     size: PropTypes.object.isRequired,
     // entryPoints: PropTypes.array.isRequired,
@@ -33,25 +38,25 @@ export default class PlotView extends Component {
           key={`line${key}`}
           yAccessor={d => d[key]}
           stroke={color}
-        />
+          />
         <ScatterSeries
           key={`scatter${key}`}
           yAccessor={d => d[key]}
           marker={CircleMarker}
           markerProps={{ r: 1, stroke: color }}
-        />
+          />
         <CurrentCoordinate
           key={`coordinate${key}`}
           yAccessor={d => d[key]}
           fill={color}
-        />
+          />
       </div>
     ));
   }
   render() {
     const { size, data } = this.props;
     const { width, height } = size;
-    const { lines, columns = [] } = data;
+    const { lines, columns = []} = data;
 
     if (!lines || !lines.length) {
       return <div>sorry</div>; // TODO : clean message
@@ -75,24 +80,24 @@ export default class PlotView extends Component {
           xAccessor={d => d.x}
           xScaleProvider={discontinuousTimeScaleProvider}
           xExtents={xExtents}
-        >
+          >
           <Chart
             id={1}
             yExtents={this.yExtents}
-          >
+            >
             <XAxis axisAt="bottom" orient="bottom" />
             <YAxis axisAt="right" orient="right" ticks={5} />
             <MouseCoordinateX
               at="bottom"
               orient="bottom"
-              displayFormat={timeFormat('%Y-%m-%d')}
-            />
+              displayFormat={timeFormat('%Y-%m-%d') }
+              />
             <MouseCoordinateY
               at="right"
               orient="right"
-              displayFormat={format('.2f')}
-            />
-            {this.renderLines(lines)}
+              displayFormat={format('.2f') }
+              />
+            {this.renderLines(lines) }
           </Chart>
           <CrossHairCursor />
         </ChartCanvas>

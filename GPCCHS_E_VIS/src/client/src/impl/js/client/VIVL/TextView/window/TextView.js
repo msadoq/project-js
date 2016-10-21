@@ -30,7 +30,6 @@ export default class TextView extends Component {
     const innerHTML = this.getMarkup();
     return (
       <div>
-        text view | {this.props.viewId} | {this.props.size.width}x{this.props.size.height}
         <div dangerouslySetInnerHTML={{ __html: innerHTML }} />
       </div>
     );

@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import _ from 'lodash';
-import { Glyphicon } from 'react-bootstrap';
+import _get from 'lodash/get';
+import { Glyphicon, DropdownButton, MenuItem } from 'react-bootstrap';
 import styles from './Header.css';
 
-export default class ViewHeader extends Component {
+export default class Header extends Component {
   static propTypes = {
     isViewsEditorOpen: PropTypes.bool.isRequired,
     configuration: PropTypes.object,
@@ -13,64 +13,54 @@ export default class ViewHeader extends Component {
     closeEditor: PropTypes.func,
     unmountAndRemove: PropTypes.func,
   };
-  constructor(...args) {
-    super(...args);
-    this.onOpenEditor = this.onOpenEditor.bind(this);
-    this.onCloseEditor = this.onCloseEditor.bind(this);
-    this.onRemoveView = this.onRemoveView.bind(this);
-  }
-  onOpenEditor(e) {
-    e.preventDefault();
-    if (!this.props.openEditor) {
-      return;
+  onDropDownClick = (key) => {
+    const {
+      viewId,
+      type,
+      configuration,
+      isViewsEditorOpen,
+      openEditor,
+      closeEditor,
+      unmountAndRemove,
+    } = this.props;
+    switch (key) {
+      case 'editor': {
+        if (isViewsEditorOpen === true && closeEditor) {
+          closeEditor();
+        } else if (isViewsEditorOpen === false && openEditor) {
+          openEditor(viewId, type, configuration);
+        }
+        break;
+      }
+      case 'close': {
+        unmountAndRemove(viewId);
+        break;
+      }
+      default:
+        return;
     }
-
-    this.props.openEditor(
-      this.props.viewId,
-      this.props.type,
-      this.props.configuration,
-    );
-  }
-  onCloseEditor(e) {
-    e.preventDefault();
-    if (!this.props.closeEditor) {
-      return;
-    }
-
-    this.props.closeEditor();
-  }
-  onRemoveView(e) {
-    e.preventDefault();
-    if (!this.props.unmountAndRemove) {
-      return;
-    }
-
-    this.props.unmountAndRemove(this.props.viewId);
   }
   render() {
     const { isViewsEditorOpen } = this.props;
-    const title = _.get(this.props, ['configuration', 'title'], 'No title');
+    const title = _get(this.props, ['configuration', 'title'], 'No title');
     return (
       <div className={styles.container}>
-        <ul className={styles.bar}>
-          <li className={styles.item}>{title}</li>
-          <li className={styles.item}>
-            {isViewsEditorOpen
-              ? <a onClick={this.onCloseEditor}>Close editor</a>
-              : <a onClick={this.onOpenEditor}>Edit</a>
-            }
-          </li>
-          <div className={styles.close}>
-            <li>
-              <a className={styles.right}>
-                <Glyphicon className="moveHandler" glyph="move" />
-              </a>
-              <a onClick={this.onRemoveView}>
-                <Glyphicon glyph="remove" />
-              </a>
-            </li>
-          </div>
-        </ul>
+        <div className={`${styles.title} moveHandler`}>
+          {title}
+        </div>
+        <div className={styles.menu}>
+          <DropdownButton
+            pullRight
+            bsStyle="link"
+            title="menu"
+            bsSize="xsmall"
+            onSelect={this.onDropDownClick}
+          >
+            <MenuItem eventKey="editor" active>{isViewsEditorOpen ? 'Close' : 'Open'} editor</MenuItem>
+            <MenuItem divider />
+            <MenuItem eventKey="close">Close view</MenuItem>
+          </DropdownButton>
+        </div>
       </div>
     );
   }

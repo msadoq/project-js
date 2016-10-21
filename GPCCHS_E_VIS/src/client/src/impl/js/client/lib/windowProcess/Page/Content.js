@@ -47,7 +47,7 @@ export default class PageContent extends Component {
     this.props.updateLayout(newLayout);
   }
   render() {
-    const { focusedPageId, focusedPage, layouts } = this.props;
+    const { focusedPageId, focusedPage, layouts, viewOpenedInEditor, isEditorOpened } = this.props;
 
     console.log('re-render page content');
 
@@ -64,8 +64,7 @@ export default class PageContent extends Component {
         measureBeforeMount
       >
         {_.map(this.props.views, (v) => {
-          const isViewsEditorOpen =
-          this.props.viewOpenedInEditor === v.viewId && this.props.isEditorOpened;
+          const isViewsEditorOpen = viewOpenedInEditor === v.viewId && isEditorOpened;
 
           // avoid React reconciliation issue when all Content child components are ViewContainer
           // and sort order with siblings change

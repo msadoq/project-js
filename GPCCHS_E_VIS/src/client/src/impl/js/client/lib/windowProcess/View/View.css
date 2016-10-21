@@ -1,7 +1,6 @@
 .container {
   height: 100%;
   position: relative;
-  padding-top: 25px;
   overflow: hidden;
 }
 .content {

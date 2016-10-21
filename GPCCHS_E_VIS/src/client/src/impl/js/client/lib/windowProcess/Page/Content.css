@@ -1,6 +1,6 @@
 .block {
   background-color: white;
-  border: 2px solid grey;
+  border: 2px solid #CCC;
   overflow: auto;
   height: 100%;
 }
@@ -21,22 +21,4 @@
   font-weight: bolder;
   text-transform: uppercase;
   color: rgba(0, 0, 0, .1);
-}
-
-.buttonPage_Editview {
-  color: white;
-  background-color: darkblue;
-  opacity: 0.5;
- }
-
-.buttonPage_Removeview {
-  color: white;
-  background-color: darkred;
-  opacity: 0.5;
-}
-.ConnectedDataContainer{
-  color: black;
-  background-color: whitesmoke;
-  border-style: dotted;;
-  border-width: thin;
 }

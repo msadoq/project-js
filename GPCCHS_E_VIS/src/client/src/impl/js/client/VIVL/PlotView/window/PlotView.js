@@ -10,6 +10,29 @@ const { discontinuousTimeScaleProvider } = scale;
 const { CrossHairCursor, MouseCoordinateX, MouseCoordinateY, CurrentCoordinate } = coordinates;
 const { XAxis, YAxis } = axes;
 
+function renderLines(lines = []) {
+  return lines.map(({ key, color }) => (
+    <div key={key}>
+      <LineSeries
+        key={`line${key}`}
+        yAccessor={d => d[key]}
+        stroke={color}
+      />
+      <ScatterSeries
+        key={`scatter${key}`}
+        yAccessor={d => d[key]}
+        marker={CircleMarker}
+        markerProps={{ r: 1, stroke: color }}
+      />
+      <CurrentCoordinate
+        key={`coordinate${key}`}
+        yAccessor={d => d[key]}
+        fill={color}
+      />
+    </div>
+  ));
+}
+
 export default class PlotView extends Component {
   static propTypes = {
     data: PropTypes.any,
@@ -30,35 +53,13 @@ export default class PlotView extends Component {
     // legend: PropTypes.object,
     // markers: PropTypes.array,
   };
-  yExtents = d => _map(this.props.data.lines, ({ key }) => _get(d, [key]))
-  renderLines(lines = []) {
-    return lines.map(({ key, color }) => (
-      <div key={key}>
-        <LineSeries
-          key={`line${key}`}
-          yAccessor={d => d[key]}
-          stroke={color}
-          />
-        <ScatterSeries
-          key={`scatter${key}`}
-          yAccessor={d => d[key]}
-          marker={CircleMarker}
-          markerProps={{ r: 1, stroke: color }}
-          />
-        <CurrentCoordinate
-          key={`coordinate${key}`}
-          yAccessor={d => d[key]}
-          fill={color}
-          />
-      </div>
-    ));
-  }
+  yExtents = d => _map(this.props.data.lines, ({ key }) => _get(d, [key]));
   render() {
     const { size, data } = this.props;
     const { width, height } = size;
-    const { lines, columns = []} = data;
+    const { lines, columns = [] } = data;
 
-    if (!lines || !lines.length) {
+    if (!lines || !lines.length || !columns.length) {
       return <div>sorry</div>; // TODO : clean message
     }
 
@@ -80,24 +81,24 @@ export default class PlotView extends Component {
           xAccessor={d => d.x}
           xScaleProvider={discontinuousTimeScaleProvider}
           xExtents={xExtents}
-          >
+        >
           <Chart
             id={1}
             yExtents={this.yExtents}
-            >
+          >
             <XAxis axisAt="bottom" orient="bottom" />
             <YAxis axisAt="right" orient="right" ticks={5} />
             <MouseCoordinateX
               at="bottom"
               orient="bottom"
-              displayFormat={timeFormat('%Y-%m-%d') }
-              />
+              displayFormat={timeFormat('%Y-%m-%d')}
+            />
             <MouseCoordinateY
               at="right"
               orient="right"
-              displayFormat={format('.2f') }
-              />
-            {this.renderLines(lines) }
+              displayFormat={format('.2f')}
+            />
+            {renderLines(lines) }
           </Chart>
           <CrossHairCursor />
         </ChartCanvas>

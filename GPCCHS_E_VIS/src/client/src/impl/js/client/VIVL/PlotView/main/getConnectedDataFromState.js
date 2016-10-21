@@ -1,9 +1,9 @@
-import { reduce } from 'lodash';
-import getEntryPointsFromState from './getEntryPointsFromState';
+import _get from 'lodash/get';
+import _reduce from 'lodash/reduce';
 
 // TODO: memoize
 export default function getConnectedDataFromState(configuration) {
-  return reduce(getEntryPointsFromState(configuration), (list, ep) => {
+  return _reduce(_get(configuration, ['entryPoints'], []), (list, ep) => {
     if (!ep) {
       return list;
     }

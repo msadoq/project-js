@@ -1,6 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import throttle from 'react-throttle-render';
-import SizeMe from 'react-sizeme'; // TODO : make sizeme optionnal by view type
 import shallowEqual from 'fbjs/lib/shallowEqual';
 
 import ViewHeader from './Header';
@@ -8,29 +6,28 @@ import UnknownView from './UnknownView';
 
 import styles from './View.css';
 
-class View extends Component {
+export default class View extends Component {
   static propTypes = {
     component: PropTypes.func,
+    type: PropTypes.string,
     data: PropTypes.object,
-    size: PropTypes.shape({
-      width: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
-      height: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
-    }),
   };
   shouldComponentUpdate(nextProps) {
-    // size modification
-    if (this.props.size.width !== nextProps.size.width
-      || this.props.size.height !== nextProps.size.height) {
-      return true;
+    // data modification
+    // TODO : should implement shouldComponentUpdate logic in view types
+    if (this.props.type === 'PlotView') {
+      // TODO : only the time to implement a per view logic, to test throttle
+      if (nextProps.data === this.props.data) {
+        return false;
+      }
+    } else if (this.props.type === 'PlotView') {
+      return !shallowEqual(this.props.data, nextProps.data);
     }
 
-    // data modification
-    return !shallowEqual(this.props.data, nextProps.data);
-    // TODO : massive perf down with plot ... should implement shouldComponentUpdate logic in each
-    //        view type
+    return true;
   }
   render() {
-    console.log('re-render me harder', Date.now() - this.lastRender || Date.now());
+    console.log('re-render view', this.props.type, Date.now() - this.lastRender || Date.now());
     this.lastRender = Date.now();
     const ContentComponent = this.props.component || UnknownView;
     return (
@@ -43,5 +40,3 @@ class View extends Component {
     );
   }
 }
-
-export default SizeMe({ monitorHeight: true })(throttle(View, 100)); // eslint-disable-line new-cap

@@ -5,7 +5,6 @@ import _set from 'lodash/set';
 import _has from 'lodash/has';
 import _map from 'lodash/map';
 import { createSelector } from 'reselect';
-import getEntryPointsFromState from './getEntryPointsFromState';
 import domainsFilter from '../../../lib/common/domains';
 import timelinesFilter from '../../../lib/common/sessions';
 
@@ -65,7 +64,7 @@ export function makeGetDataMap() {
     ],
     (domains, timelines, timebarId, configuration) => {
       console.log('compute plot view map');
-      return _reduce(getEntryPointsFromState(configuration), (list, ep) => {
+      return _reduce(_get(configuration, ['entryPoints'], []), (list, ep) => {
         if (!ep || !ep.name || !ep.connectedDataX || !ep.connectedDataY) {
           return list;
         }
@@ -100,7 +99,7 @@ export function makeGetDataMap() {
           return list;
         }
 
-        return _set(list, [ep.name], { x: cdX, y: cdY });
+        return _set(list, [ep.name], { x: cdX, y: cdY, color: ep.curveColour || '#00000' }); // TODO default color as constant
       }, {});
     }
   );
@@ -142,7 +141,7 @@ export default function getDataFromCache() {
       let i = 1;
       const lines = [];
       const dictionary = {};
-      _each(map, ({ x, y }, name) => {
+      _each(map, ({ x, y, color }, name) => {
         const key = `col${i}`;
         i += 1;
 
@@ -156,7 +155,7 @@ export default function getDataFromCache() {
          */
 
         // line
-        lines.push({ key, color: '#FF0000', name });
+        lines.push({ key, color, name });
 
         // values
         const xValues = _get(cache, [x.remoteId, x.localId]);

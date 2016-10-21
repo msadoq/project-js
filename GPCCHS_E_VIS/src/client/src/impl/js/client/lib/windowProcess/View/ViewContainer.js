@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import _throttle from 'lodash/throttle';
 
 import vivl from '../../../VIVL/main';
 import { getComponent } from '../../../VIVL/window';
@@ -8,7 +9,7 @@ import { makeGetTimebarTimelines } from '../../store/selectors/timebars';
 
 import View from './View';
 
-let selector = {};
+const selectors = {};
 const getTimebarTimelines = makeGetTimebarTimelines();
 
 const ViewContainer = props => <View {...props} />;
@@ -21,22 +22,22 @@ const mapStateToProps = (state, ownProps) => {
   const { type, configuration } = getView(state, ownProps.viewId);
   const ViewTypeComponent = getComponent(type);
 
-  // @TODO possible memory leak as we do not remove
+  // TODO possible memory leak as we do not remove
   // unused selectors (deleted widget)
-  if (!selector[ownProps.viewId]) {
-    selector[ownProps.viewId] = vivl(type, 'getDataFromCache')();
+  if (!selectors[ownProps.viewId]) {
+    selectors[ownProps.viewId] = _throttle(vivl(type, 'getDataFromCache')(), 50); // constant
   }
 
   return {
     type,
     configuration,
     component: ViewTypeComponent,
-    data: selector[ownProps.viewId](state, {
+    data: selectors[ownProps.viewId](state, {
       ...ownProps,
       configuration,
-      timelines: getTimebarTimelines(state, { timebarId: ownProps.timebarId }), // memoized
-    })
-};
+      timelines: getTimebarTimelines(state, { timebarId: ownProps.timebarId }),
+    }),
+  };
 };
 
 // return function to avoid page grid layout and React DOM re-conciliation issue

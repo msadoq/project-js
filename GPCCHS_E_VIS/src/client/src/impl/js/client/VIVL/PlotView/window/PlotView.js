@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import _get from 'lodash/get';
 import _map from 'lodash/map';
+import SizeMe from 'react-sizeme';
 import { format } from 'd3-format';
 import { timeFormat } from 'd3-time-format';
 import { ChartCanvas, Chart, series, scale, coordinates, axes } from 'react-stockcharts';
@@ -33,16 +34,19 @@ function renderLines(lines = []) {
   ));
 }
 
-export default class PlotView extends Component {
+class PlotView extends Component {
   static propTypes = {
     data: PropTypes.any,
+    size: PropTypes.shape({
+      width: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
+      height: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
+    }),
     // @TODO maknig sure we have input data
     // data: React.PropTypes.shape({
     //   lines: React.PropTypes.array.isRequired,
     //   columns: React.PropTypes.array.isRequired
     // }),
     // configuration: PropTypes.object.isRequired,
-    size: PropTypes.object.isRequired,
     // entryPoints: PropTypes.array.isRequired,
     // axes: PropTypes.array,
     // grids: PropTypes.array,
@@ -59,9 +63,15 @@ export default class PlotView extends Component {
     const { width, height } = size;
     const { lines, columns = [] } = data;
 
+    // TODO : clean message
     if (!lines || !lines.length || !columns.length) {
-      console.log('plot view has nothing to do')
-      return <div>sorry</div>; // TODO : clean message
+      console.log('plot view has nothing to do');
+      if (!lines || !lines.length) {
+        return <div>invalid view configuration</div>;
+      }
+      if (!columns.length) {
+        return <div>no data to render</div>;
+      }
     }
 
     const xExtents = [
@@ -70,7 +80,7 @@ export default class PlotView extends Component {
     ];
 
     return (
-      <div>
+      <div style={{ height: '100%' }}>
         <ChartCanvas
           ratio={2}
           width={width}
@@ -107,3 +117,5 @@ export default class PlotView extends Component {
     );
   }
 }
+
+export default SizeMe({ monitorHeight: true })(PlotView); // eslint-disable-line new-cap

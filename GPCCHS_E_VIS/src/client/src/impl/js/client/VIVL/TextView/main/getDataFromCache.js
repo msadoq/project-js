@@ -1,6 +1,8 @@
-import { reduce, get, set } from 'lodash';
+import _reduce from 'lodash/reduce';
+import _get from 'lodash/get';
+import _set from 'lodash/set';
+
 import { createSelector } from 'reselect';
-import getEntryPointsFromState from './getEntryPointsFromState';
 import domainsFilter from '../../../lib/common/domains';
 import timelinesFilter from '../../../lib/common/sessions';
 
@@ -24,7 +26,7 @@ export function makeGetDataMap() {
     ],
     (domains, timelines, timebarId, configuration) => {
       console.log('compute text view map');
-      return reduce(getEntryPointsFromState(configuration), (list, ep) => {
+      return _reduce(_get(configuration, ['entryPoints'], []), (list, ep) => {
         if (!ep || !ep.name || !ep.connectedData) {
           return list;
         }
@@ -34,13 +36,13 @@ export function makeGetDataMap() {
         // domain (only one per entry point for TextView)
         const domainIds = domainsFilter(domains, cd.domain);
         if (!domainIds.length || domainIds.length > 1) {
-          return set(list, [ep.name], { invalid: true, reason: 'domain' });
+          return _set(list, [ep.name], { invalid: true, reason: 'domain' });
         }
 
         // session (only one per entry point for TextView)
         const sessionIds = timelinesFilter(timelines, cd.timeline);
         if (!sessionIds.length || sessionIds.length > 1) {
-          return set(list, [ep.name], { invalid: true, reason: 'session' });
+          return _set(list, [ep.name], { invalid: true, reason: 'session' });
         }
 
         const { sessionId, offset } = sessionIds[0];
@@ -56,7 +58,7 @@ export function makeGetDataMap() {
         };
         const remoteId = remoteIdGenerator(dataId, cd.filter);
         const localId = localIdGenerator('TextView', p.field, timebarId, offset);
-        return set(list, [ep.name], { remoteId, localId });
+        return _set(list, [ep.name], { remoteId, localId });
       }, {});
     }
   );
@@ -82,14 +84,14 @@ export default function getDataFromCache() {
     ],
     (map, cache) => {
       console.log('compute text data');
-      return reduce(map, (list, detail, name) => {
+      return _reduce(map, (list, detail, name) => {
         if (detail.invalid === true) {
-          return set(list, [name], `INVALID (${detail.reason})`);
+          return _set(list, [name], `INVALID (${detail.reason})`);
         }
 
         const { remoteId, localId } = detail;
-        const value = get(cache, [remoteId, localId, 'value']);
-        return set(list, [name], value);
+        const value = _get(cache, [remoteId, localId, 'value']);
+        return _set(list, [name], value);
       }, {});
     });
 }

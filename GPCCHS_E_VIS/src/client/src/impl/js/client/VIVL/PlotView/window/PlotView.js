@@ -53,6 +53,10 @@ export default class PlotView extends Component {
     const { width, height } = size;
     const { lines, columns = [] } = data;
 
+    if (!lines || !lines.length) {
+      return <div>sorry</div>; // TODO : clean message
+    }
+
     const xExtents = [
       _get(columns, '[0].x'),
       _get(columns, [(columns.length - 1), 'x']),

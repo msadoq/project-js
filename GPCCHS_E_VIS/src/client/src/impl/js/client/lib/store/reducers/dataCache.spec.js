@@ -1,11 +1,8 @@
-/* eslint no-unused-expressions: 0 */
+/* eslint no-unused-expressions: 0 no-console: 0 */
 import u from 'updeep';
 import { each } from 'lodash';
 import reducer, { updateRangePayloads, cleanDataCache } from './dataCache';
 import { selectData } from '../actions/dataCache';
-
-
-// process.env.NODE_ENV =  'production'
 
 describe('store:reducers:dataCache', () => {
   let payload;
@@ -15,14 +12,14 @@ describe('store:reducers:dataCache', () => {
   let emptyState;
   let stateFilled;
   let bagPlots;
-  let bagTexts;
+  // let bagTexts;
   let bag;
   let actionPlots;
-  let actionTexts;
+  // let actionTexts;
   let action;
   before(() => {
     payload = { rId1: [], rId2: [], rId3: [] };
-    for (let j = 100; j < 1000; j++) {
+    for (let j = 100; j < 1000; j += 1) {
       payload.rId1.push({
         timestamp: j, payload: { val1: (j * 10) + 1, val2: (j * 10) + 2, val3: (j * 10) + 3 }
       });
@@ -72,17 +69,17 @@ describe('store:reducers:dataCache', () => {
 
     emptyState = {};
     stateFilled = { rId1: { lId1: {} }, rId2: { lId70: {} }, rId3: { lId1: { 10: 23 } } };
-    for (let i = 50; i < 250; i++) {
-      stateFilled.rId1.lId1[i+0.5] = (i * 10) + 0.5;
+    for (let i = 50; i < 250; i += 1) {
+      stateFilled.rId1.lId1[(i + 0.5)] = (i * 10) + 0.5;
     }
     stateFilled.rId2.lId70 = { timestamp: 225, value: 265 };
 
     remoteIds = u(remoteIdPlots, remoteIdTexts);
     bagPlots = selectData(emptyState, remoteIdPlots, payload);
-    bagTexts = selectData(emptyState, remoteIdTexts, payload);
+    // bagTexts = selectData(emptyState, remoteIdTexts, payload);
     bag = selectData(emptyState, remoteIds, payload);
     actionPlots = { type: 'DATA_IMPORT_PAYLOAD', payload: bagPlots };
-    actionTexts = { type: 'DATA_IMPORT_PAYLOAD', payload: bagTexts };
+    // actionTexts = { type: 'DATA_IMPORT_PAYLOAD', payload: bagTexts };
     action = { type: 'DATA_IMPORT_PAYLOAD', payload: bag };
   });
   it('unknown action', () => {
@@ -136,7 +133,7 @@ describe('store:reducers:dataCache', () => {
     let updatedValue;
     it('without updeep, empty state', () => {
       const start = process.hrtime();
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < 100; i += 1) {
         const updatedState = cleanDataCache({}, action);
         updatedValue = updateRangePayloads(updatedState, action);
       }
@@ -150,7 +147,7 @@ describe('store:reducers:dataCache', () => {
     it('with updeep, empty state', () => {
       let retValue;
       const start = process.hrtime();
-      for (let i = 0 ; i < 100; i++) {
+      for (let i = 0 ; i < 100; i += 1) {
         retValue = reducer({}, action);
       }
       const duration = (process.hrtime(start)[1] / 1e6) / 100;
@@ -160,7 +157,7 @@ describe('store:reducers:dataCache', () => {
     let result;
     it('without updeep, state filled', () => {
       const start = process.hrtime();
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < 100; i += 1) {
         const updatedState = Object.assign({}, stateFilled, cleanDataCache(stateFilled, action));
         const payloads = updateRangePayloads(updatedState, action);
         result = Object.assign({}, updatedState, payloads);
@@ -175,7 +172,7 @@ describe('store:reducers:dataCache', () => {
     it('with updeep, state filled', () => {
       const start = process.hrtime();
       let finalState;
-      for (let i = 0 ; i < 100; i++) {
+      for (let i = 0 ; i < 100; i += 1) {
         const dataCache = cleanDataCache(stateFilled, action);
         finalState = u(action.payload.data, Object.assign({}, stateFilled, dataCache));
       }
@@ -186,7 +183,7 @@ describe('store:reducers:dataCache', () => {
     it('using reducer', () => {
       const start = process.hrtime();
       let finalState;
-      for (let i = 0 ; i < 100; i++) {
+      for (let i = 0 ; i < 100; i += 1) {
         finalState = reducer(stateFilled, action);
       }
       const duration = (process.hrtime(start)[1] / 1e6) / 100;

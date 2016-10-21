@@ -1,7 +1,6 @@
+/* eslint no-console: 0 */
 import u from 'updeep';
 import { selectData } from './dataCache';
-import { should, getStore } from '../../common/test';
-
 
 describe('store/actions/dataCache', () => {
   let payload;
@@ -10,7 +9,7 @@ describe('store/actions/dataCache', () => {
   let state;
   before(() => {
     payload = { rId1: [], rId2: [] };
-    for (let j = 1; j < 1000; j++) {
+    for (let j = 1; j < 1000; j += 1) {
       payload.rId1.push({
         timestamp: j, payload: { val1: (j * 10) + 1, val2: (j * 10) + 2, val3: (j * 10) + 3 }
       });
@@ -59,10 +58,9 @@ describe('store/actions/dataCache', () => {
   });
   it('range payload', () => {
     const start = process.hrtime();
-    let end = 100;
-    let bag;
-    for (let i = 0; i < end; i++) {
-      bag = selectData(state, remoteIdPlots, payload);
+    const end = 100;
+    for (let i = 0; i < end; i += 1) {
+      selectData(state, remoteIdPlots, payload);
     }
     const duration = (process.hrtime(start)[1] / 1e6) / end;
     const count = Object.keys(payload).length ? Object.keys(payload).length : 0;
@@ -70,22 +68,20 @@ describe('store/actions/dataCache', () => {
   });
   it('one payload', () => {
     const start = process.hrtime();
-    let end = 100;
-    let bag;
-    for (let i = 0; i < end; i++) {
-      bag = selectData(state, remoteIdTexts, payload);
+    const end = 100;
+    for (let i = 0; i < end; i += 1) {
+      selectData(state, remoteIdTexts, payload);
     }
     const duration = (process.hrtime(start)[1] / 1e6) / end;
     const count = Object.keys(payload).length ? Object.keys(payload).length : 0;
     console.log(`cacheData update done in ${duration}ms, for ${count} remoteIds`);
   });
   it('mixed payload', () => {
-    let end = 100;
-    let bag;
+    const end = 100;
     const remoteIds = u(remoteIdPlots, remoteIdTexts);
     const start = process.hrtime();
-    for (let i = 0; i < end; i++) {
-      bag = selectData(state, remoteIds, payload);
+    for (let i = 0; i < end; i += 1) {
+      selectData(state, remoteIds, payload);
     }
     const duration = (process.hrtime(start)[1] / 1e6) / end;
     const count = Object.keys(payload).length ? Object.keys(payload).length : 0;

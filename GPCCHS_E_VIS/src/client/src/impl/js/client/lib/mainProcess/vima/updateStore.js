@@ -39,12 +39,7 @@ export default function updateFromVimaTimebar(state, dispatch, data) {
     dispatch(updateId(timebarId, differences.idUpdate));
   }
   if (differences.visuWindowUpdate) {
-    dispatch(updateVisuWindow(
-      timebarId,
-      differences.visuWindowUpdate.lower,
-      differences.visuWindowUpdate.upper,
-      differences.visuWindowUpdate.current
-    ));
+    dispatch(updateVisuWindow(timebarId, differences.visuWindowUpdate));
   }
 
   if (differences.speedUpdate) {

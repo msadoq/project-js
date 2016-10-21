@@ -14,11 +14,7 @@ export const add = simple(types.WS_TIMEBAR_ADD, 'timebarId', 'configuration');
 export const remove = simple(types.WS_TIMEBAR_REMOVE, 'timebarId');
 export const updateId = simple(types.WS_TIMEBAR_ID_UPDATE, 'timebarId', 'id');
 export const updateVisuWindow = simple(types.WS_TIMEBAR_VISUWINDOW_UPDATE,
-  'timebarId',
-  'lower',
-  'upper',
-  'current'
-);
+  'timebarId', 'visuWindowUpdate');
 export const updateSpeed = simple(types.WS_TIMEBAR_SPEED_UPDATE, 'timebarId', 'speed');
 export const updatePlayingState = simple(types.WS_TIMEBAR_PLAYINGSTATE_UPDATE, 'timebarId',
 'playingState');

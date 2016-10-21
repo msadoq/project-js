@@ -10,13 +10,13 @@ const logger = debug('mainProcess:invalidateCache');
 
 export default function (store) {
   logger.debug('called');
-  setActingOn();
   const state = store.getState();
   const dataMap = dataMapGenerator(state);
   const expiredRequests = expirationsMapGenerator(state, dataMap);
   if (Object.keys(expiredRequests).length === 0) {
     return;
   }
+  setActingOn();
   getWebsocket().write({
     event: globalConstants.EVENT_TIMEBASED_QUERY_INVALIDATION,
     payload: expiredRequests,

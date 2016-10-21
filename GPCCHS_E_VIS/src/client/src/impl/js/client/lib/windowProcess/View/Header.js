@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import _get from 'lodash/get';
-import { Glyphicon, DropdownButton, MenuItem } from 'react-bootstrap';
+import { DropdownButton, MenuItem } from 'react-bootstrap';
 import styles from './Header.css';
 
 export default class Header extends Component {
@@ -39,7 +39,7 @@ export default class Header extends Component {
       default:
         return;
     }
-  }
+  };
   render() {
     const { isViewsEditorOpen } = this.props;
     const title = _get(this.props, ['configuration', 'title'], 'No title');
@@ -55,6 +55,7 @@ export default class Header extends Component {
             title="menu"
             bsSize="xsmall"
             onSelect={this.onDropDownClick}
+            id={`menu${this.props.viewId}`}
           >
             <MenuItem eventKey="editor" active>{isViewsEditorOpen ? 'Close' : 'Open'} editor</MenuItem>
             <MenuItem divider />

@@ -151,7 +151,7 @@ core::UINT32 TimeBarSocket::createSocket(core::UINT32 type, QString bundleName, 
 			uri_cpy = new core::CHAR[uri.size()+1];
 			static_cast<void>(std::strncpy(uri_cpy,uri.toStdString().c_str(),uri.size()+1));
 
-			// Connect of bind the socket depending on its type
+			// Connect or bind the socket depending on its type
 			if(type == ZMQ_PUSH) {
 				// Try to bind the socket
 				ret_val = zsocket_bind(createdSock,uri_cpy);
@@ -170,14 +170,15 @@ core::UINT32 TimeBarSocket::createSocket(core::UINT32 type, QString bundleName, 
 				socketId = _socketIdCnt;
 				_socketsMap[socketId].socket = createdSock;
 				_socketsMap[socketId].uri = uri;
+				_socketsMap[socketId].type = type;
 			} else {
 				if(type == ZMQ_PUSH) {
 					// Report the bind error
-					LOF_ERROR(QString("Fail to bind socket for timebar on the URI: %1").arg(uri));
+					LOF_ERROR(QString("Fail to bind socket for timebar on the URI: %1, returned code is %2").arg(uri).arg(ret_val));
 				}
 				if(type == ZMQ_PULL) {
 					// Report the connection error
-					LOF_ERROR(QString("Fail to connect socket for timebar to the URI: %1").arg(uri));
+					LOF_ERROR(QString("Fail to connect socket for timebar to the URI: %1, returned code is %2").arg(uri).arg(ret_val));
 				}
 				// Otherwise delete the created socket
 				zsocket_destroy(reinterpret_cast<zctx_t*>(_context->getContext()), createdSock);
@@ -200,12 +201,44 @@ core::UINT32 TimeBarSocket::createSocket(core::UINT32 type, QString bundleName, 
  ****************************************************************************/
 void TimeBarSocket::deleteSocket(core::UINT32 id)
 {
+	core::INT32 ret_val = -1;
+	core::UINT32 type = 0;
+	core::C_STRING uri_cpy = 0;
+
     // Check if the socket exists
     if(_socketsMap.contains(id)) {
-        // Close the socket
+    	// Prepare URI string
+		// Use a copy of the uri because it seems this is not possible
+		// to get a non const char* on a QString
+		uri_cpy = new core::CHAR[_socketsMap[id].uri.size()+1];
+		static_cast<void>(std::strncpy(uri_cpy,_socketsMap[id].uri.toStdString().c_str(),_socketsMap[id].uri.size()+1));
+    	// Get the socket type
+    	type = _socketsMap[id].type;
+		// Disconnect or unbind the socket depending on its type
+		if(type == ZMQ_PUSH) {
+			// Try to unbind the socket
+			ret_val = zsocket_unbind(_socketsMap[id].socket,uri_cpy);
+			// Check for error
+			if(ret_val) {
+				// Report the unbinding error
+				LOF_ERROR(QString("Fail to unbind socket for timebar on the URI: %1").arg(_socketsMap[id].uri));
+			}
+		}
+		if(type == ZMQ_PULL) {
+			// Try to disconnect from URI
+			ret_val = zsocket_disconnect(_socketsMap[id].socket,uri_cpy);
+			// Check for error
+			if(ret_val) {
+				// Report the disconnection error
+				LOF_ERROR(QString("Fail to disconnect socket for timebar to the URI: %1").arg(_socketsMap[id].uri));
+			}
+		}
+        // Destroy the socket
         zsocket_destroy(reinterpret_cast<zctx_t*>(_context->getContext()),_socketsMap[id].socket);
         // Remove the socket from the map
         _socketsMap.remove(id);
+        // Wait a little bit let the unbind/disconnect free the port (otherwise later bind/connect fails upon timebar re-creation)
+        zclock_sleep(100);
     }
 }
 

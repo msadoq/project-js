@@ -63,6 +63,7 @@ protected:
 	timeBarsModel::TimeBars* _timeBarsDataModel;                          ///< Data model of all the timebars
 	QMap<timeBarsModel::TimeBar*, timeBar::TimeBarWidget*> _timeBarsMap;  ///< Map to link the TimeBar models with their TimeBarWidget
 	QList<timeBarsModel::TimeBar*> _timeBarInitQueue;                     ///< Initialization queue for time bars
+	QList<timeBarsModel::TimeBar*> _timeBarOpenQueue;                     ///< List of the timebars to re-open
 
 public:
     /*!***************************************************************

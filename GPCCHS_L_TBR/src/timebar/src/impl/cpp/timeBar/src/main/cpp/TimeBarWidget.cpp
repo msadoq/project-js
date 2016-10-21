@@ -37,6 +37,7 @@
 #include "timeBar/TimeBarWidget.h"
 #include "timeBar/TimeManager.h"
 #include "timeBar/TimeManagers.h"
+#include "timeBar/QuickViewsManager.h"
 
 namespace timeBar
 {
@@ -1688,8 +1689,7 @@ void TimeBarWidget::updateTimelineOfs(TBElt id, qint64 ofs, bool redraw, bool la
  ****************************************************************************/
 TimeBarWidget::TimeBarWidget(QWidget *parent) :
     QWidget(parent),
-    _ui(new Ui::TimeBarWidget),
-    _view(new QQuickView())
+    _ui(new Ui::TimeBarWidget)
 {
     // Get the pointer to the GUI
     commonMMI::GUIApplication* application = commonMMI::GUIApplication::get();
@@ -1701,6 +1701,9 @@ TimeBarWidget::TimeBarWidget(QWidget *parent) :
         qmlRegisterType<TimeBarWidget>("timeBarQml", 1, 0, "QmlVisuMode");
         _isFirstInit = false;
     }
+
+    // Get an available QQuickView (deletion and creation of QQuickView seems to create segmentation fault)
+    _view = QuickViewsManager::get()->getAvailableQQuickView();
 
     // Initialize user interface
     _ui->setupUi(this);
@@ -1843,7 +1846,7 @@ TimeBarWidget::TimeBarWidget(QWidget *parent) :
     connect(_resetVisuWindowWidthAct, &QAction::triggered, this, &TimeBarWidget::resetVisuWindowWidth);
     connect(_setVisuWindowWidthAct, &QAction::triggered, this, &TimeBarWidget::setVisuWindowWidth);
     connect(_closeTimelineAct, &QAction::triggered, this, &TimeBarWidget::closeTimeline);
-    connect(_closeTimebarAct, &QAction::triggered, this, &TimeBarWidget::closeTimebar);
+    connect(_closeTimebarAct, &QAction::triggered, this, &TimeBarWidget::userCloseTimebar);
     connect(_ui->_sessionButton, &QToolButton::clicked, this, &TimeBarWidget::openSession);
     connect(_ui->_dataSetButton, &QToolButton::clicked, this, &TimeBarWidget::fileChooser);
     connect(_ui->_recordSetButton, &QToolButton::clicked, this, &TimeBarWidget::fileChooser);
@@ -1875,6 +1878,9 @@ TimeBarWidget::~TimeBarWidget()
         if(_view) {
             disconnect(_view, &QQuickView::statusChanged, this, &TimeBarWidget::qmlStatusChanged);
             disconnect(_view, &QWindow::widthChanged, this, &TimeBarWidget::widthChanged);
+            // Free the QQuickView
+            QuickViewsManager::get()->freeQQuickView(_view);
+            _view = 0;
         }
         // Data model signals
         if(_timeBarModel) {
@@ -1884,6 +1890,7 @@ TimeBarWidget::~TimeBarWidget()
                     , this, &TimeBarWidget::visualizationSpeedModified);
             disconnect(_timeBarModel, &timeBarsModel::TimeBar::isPlayingModified, this, &TimeBarWidget::isPlayingModified);
             disconnect(_timeBarModel, &timeBarsModel::TimeBar::currentTimeModified, this, &TimeBarWidget::currentTimeModified);
+            _timeBarModel = 0;
         }
         // TimeManager signals
         if(_timeManager) {
@@ -1907,7 +1914,6 @@ TimeBarWidget::~TimeBarWidget()
         delete _closeTimelineAct;
         delete _closeTimebarAct;
         delete _searchInSessionAct;
-        delete _view;
         delete _ui;
     }
     catch (...) { // %RELAX<Pr.Instruction> RME DV14 TBC_CNES Logiscope false alarm: catch block
@@ -2304,19 +2310,29 @@ void TimeBarWidget::closeEvent(QCloseEvent * event)
 
 /*!***************************************************************************
  * Method : TimeBarWidget::closeTimebar
- * Purpose : Manage the closing of the timebar action in context menu
+ * Purpose : Manage the closing request of this timebar from another software component
  ****************************************************************************/
 void TimeBarWidget::closeTimebar()
 {
+	// Remove all the timelines from the timebar
+	while(_timelinesData.size()) {
+		removeTimeline(0);
+	}
+	// Ask the main application to remove the time bar from the data model,
+	// this will trigger correct objects destruction in mainApplicationMMIBundle and TimeManagers
+	emit timeBarToClose(_timeBarModel);
+}
+
+/*!***************************************************************************
+ * Method : TimeBarWidget::userCloseTimebar
+ * Purpose : Manage the closing of the timebar action in context menu
+ ****************************************************************************/
+void TimeBarWidget::userCloseTimebar()
+{
     if( QMessageBox::warning(this,CLOSE_TIMEBAR_MSG.arg(_timeBarModel->getName()),CLOSE_TIMEBAR_CONFIRMATION_MSG,
                              (QMessageBox::Yes|QMessageBox::Cancel),QMessageBox::Cancel) == QMessageBox::Yes) {
-        // Remove all the timelines from the timebar
-        while(_timelinesData.size()) {
-            removeTimeline(0);
-        }
-        // Ask the main application to remove the time bar from the data model,
-        // this will trigger correct objects destruction in mainApplicationMMIBundle and TimeManagers
-        emit timeBarToClose(_timeBarModel);
+    	// Call the main closing interface
+    	closeTimebar();
     }
 }
 

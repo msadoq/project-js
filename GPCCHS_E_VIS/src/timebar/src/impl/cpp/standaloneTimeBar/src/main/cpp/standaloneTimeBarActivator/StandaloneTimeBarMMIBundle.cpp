@@ -90,8 +90,12 @@ QString StandaloneTimeBarMMIBundle::getPipeId()
  ****************************************************************************/
 void StandaloneTimeBarMMIBundle::initialize()
 {
+	// Get references to main application
     commonMMI::GUIApplication* application = commonMMI::GUIApplication::get();
     commonMMI::MainWindow* mainWindow = application->getMainWindow();
+
+    // Set the displayed main window name
+    application->setApplicationName("Timebars");
 
     // Initialize necessary class members
     _document = new commonMMI::DocumentModel;
@@ -142,48 +146,6 @@ void StandaloneTimeBarMMIBundle::openDocument(const QString & path, const QMap<Q
     // End of user code
 }
 
-// Start of user code ProtectedOperZone
-
-
-/*!***************************************************************************
- * Method : StandaloneTimeBarMMIBundle::createEmptyTimeBar
- * Purpose : Create an empty TimeBar of specified name and return it
- ****************************************************************************/
-timeBarsModel::TimeBar* StandaloneTimeBarMMIBundle::createEmptyTimeBar(const QString name)
-{
-	// Create an empty model for the timelines (without opened timelines)
-    timeBarsModel::Timelines* timeLines(0) ;
-
-    // Create a base timeBar for the empty workspace with 1h time bar and current time set to real current time
-    timeBarsModel::TimeBar* newTB = new timeBarsModel::TimeBar();
-
-    // Set default time bar width to 2 hours
-    qint64 defaultVisuWndWidth = 7200000;
-    // Set default zoom to fit with visualization window width
-    qint64 defaultZoom = 11250;
-    qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
-
-    // Initialize all the fields of TimeBar for which the value set by the default constructor may be a problem
-    newTB->modifyName(name);
-    newTB->modifyTimeSpec("LocalTime");
-    newTB->modifyVisualizationMode(timeBar::VisuMode(timeBar::VisuMode::TB_NORMAL_MODE).name());
-    newTB->modifyCurrentTime(currentTime);
-    newTB->modifyStartTime(currentTime - defaultVisuWndWidth);
-    newTB->modifyEndTime(currentTime);
-    newTB->modifyDefaultVisuWindowWidth(defaultVisuWndWidth);
-    newTB->modifyLowerSlideLimit(newTB->getStartTime());
-    newTB->modifyUpperSlideLimit(newTB->getEndTime());
-    newTB->modifyUpperExtendedLimit(newTB->getEndTime());
-    newTB->modifyVisualizationSpeed(1);
-    newTB->modifyNbMsInPixel(defaultZoom);
-    newTB->modifyTimeBarLeftBorderTimeInMsSinceEpoch(newTB->getStartTime());
-
-    // Create an empty list of timelines
-    timeLines = new timeBarsModel::Timelines(newTB);
-    newTB->setTimelines(timeLines);
-
-    return newTB;
-}
 
 /*!***************************************************************************
  * Method : StandaloneTimeBarMMIBundle::initTimeBarsModel
@@ -220,8 +182,7 @@ void StandaloneTimeBarMMIBundle::timeBarAdded(timeBarsModel::TimeBar* timeBar)
 
 /*!***************************************************************************
  * Method : StandaloneTimeBarMMIBundle::timeBarRemoved
- * Purpose : Triggered when a new time bar is removed from the
- * application
+ * Purpose : Triggered when a new time bar is removed from the application
  ****************************************************************************/
 void StandaloneTimeBarMMIBundle::timeBarRemoved(int index, timeBarsModel::TimeBar* timeBar)
 {
@@ -233,6 +194,11 @@ void StandaloneTimeBarMMIBundle::timeBarRemoved(int index, timeBarsModel::TimeBa
 
     // Remove the reference from the map
     _timeBarsMap.remove(timeBar);
+
+    // Check if there is a timebar to open after this closing
+    if (!_timeBarOpenQueue.isEmpty()) {
+    	_timeBarsDataModel->addTimeBar(_timeBarOpenQueue.takeLast());
+    }
 }
 
 /*!***************************************************************************
@@ -257,7 +223,7 @@ core::UINT32 StandaloneTimeBarMMIBundle::createPushSocket(QString tbName)
 				// Check if the socket creation succeeded
 				if(!socketID) {
 					// Report the socket creation error
-					LOF_ERROR(QString("Socket creation failed to let timeBar send update to from URI ").arg(SOCKET_URI_BASE.arg(port)));
+					LOF_ERROR(QString("Socket creation failed to let timeBar send update to from URI : %1").arg(SOCKET_URI_BASE.arg(port)));
 				}
 			} else {
 				// Report the port number error
@@ -357,6 +323,11 @@ bool StandaloneTimeBarMMIBundle::event(QEvent * e)
 
     	// Create a jsonMessage from the received bytes array
     	jsModel.fromJson(tbEvent->getTimeBarConf());
+		// Create an empty timebar model for the new timebar (the model takes ownership on it, so it shall not be deleted here)
+		newTimeBar = new timeBarsModel::TimeBar();
+		// Fill-in the new timebar data model
+		jsModel.toTimeBarModel(newTimeBar);
+
     	// Check if the timebar is already known
     	while( (tbIdx < _timeBarsDataModel->getTimeBars().size()) && (foundIdx==-1) ) {
     		// Check if the name of the timebar in json message is one of the timebars from the data model
@@ -369,16 +340,19 @@ bool StandaloneTimeBarMMIBundle::event(QEvent * e)
 
     	// Check if the received timebar configuration has the name of an already opened timebar
     	if( foundIdx != -1 ) {
-    		// Update the already existing timebar with the received configuration
-    		jsModel.toTimeBarModel(_timeBarsDataModel->getTimeBars()[foundIdx]);
+    		// Remove the already existing timebar with the same name as the received one
+    		_timeBarsMap[_timeBarsDataModel->getTimeBars()[foundIdx]]->closeTimebar();
+    		// Add the new timebar for opening in the queue (because we first need to close the opened one)
+    		_timeBarOpenQueue.prepend(newTimeBar);
     	} else {
-    		// Create an empty timebar model for the new timebar (the model takes ownership on it, so it shall not be deleted here)
-    		newTimeBar = new timeBarsModel::TimeBar();
-    		// Fill-in the new timebar data model
-    		jsModel.toTimeBarModel(newTimeBar);
-    		// Add the newly created timebar to the main model
+    		// Add the newly created timebar to the main model immediately for opening (no timebar close required)
     		_timeBarsDataModel->addTimeBar(newTimeBar);
     	}
+    }
+    // Check if we need to call the parent class
+    if(ret_val==false) {
+    	// Call the parent class to process the event in case it correspond to standard Qt event
+    	ret_val = QObject::event(e);
     }
 
     return ret_val;

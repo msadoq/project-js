@@ -49,6 +49,7 @@ private:
     typedef struct {
         core::VOID_PTR socket;     ///< Pointer to zmq socket
         QString uri;               ///< URI on which the socket is binded
+        core::UINT32 type;         ///< Type of the socket, either ZMQ_PUSH or ZMQ_PULL
     } socketData;
 
     static const ::core::INT32 DEFAULT_SOCKET_RATE;  ///< Default socket rate

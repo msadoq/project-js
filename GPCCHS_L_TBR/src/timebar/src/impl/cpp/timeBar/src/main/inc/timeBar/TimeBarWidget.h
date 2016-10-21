@@ -877,6 +877,13 @@ public:
      *****************************************************************/
     void populate(timeBarsModel::TimeBar *tb, commonMMI::keyValConfHash * config = 0);
 
+    /*!***************************************************************
+     * Method : closeTimebar
+     *
+     * Manage the closing request of this timebar from another software component
+     *****************************************************************/
+    void closeTimebar();
+
 protected:
     /*!***************************************************************
      * Method : hideEvent
@@ -893,11 +900,11 @@ protected:
     virtual void closeEvent(QCloseEvent * event);
 
     /*!***************************************************************
-     * Method : closeTimebar
+     * Method : userCloseTimebar
      *
      * Manage the closing of the timebar action in context menu
      *****************************************************************/
-    void closeTimebar();
+    void userCloseTimebar();
 
     /*!***************************************************************
      * Method : wheelEvent

@@ -25,13 +25,7 @@ export default class PlotView extends Component {
     // legend: PropTypes.object,
     // markers: PropTypes.array,
   };
-  constructor(...args) {
-    super(...args);
-    this.yExtents = this.yExtents.bind(this);
-  }
-  yExtents(d) {
-    return _map(this.props.data.lines, ({ key }) => _get(d, [key]));
-  }
+  yExtents = d => _map(this.props.data.lines, ({ key }) => _get(d, [key]))
   renderLines(lines = []) {
     return lines.map(({ key, color }) => (
       <div key={key}>

@@ -6,7 +6,7 @@ const compareTimebars = require('./update');
 let fixtures = {
   type: 'timeBarConfiguration',
   id: 'TB1',
-  action: 'currentTimeUpd',
+  actionType: 'currentTimeUpd',
   mode: 'Normal',
   visuWindow: {
     lower: 1420106400000,
@@ -91,9 +91,9 @@ describe('Timebar update', () => {
     differences.should.be.an('object').with.property('timelineUpdate');
     differences.timelineUpdate.should.have.all.keys(['timelines', 'masterId', 'offsetFromUTC']);
     differences.timelineUpdate.timelines.should.be.an('object').with.properties(0, 1);
-    differences.timelineUpdate.timelines[id0].should.have.all.keys(['offset', 'name']);
+    // differences.timelineUpdate.timelines[id0].should.have.all.keys(['offset', 'id']);
     differences.timelineUpdate.timelines[id1].should.have.all.keys(['offset']);
-    differences.timelineUpdate.timelines[id0].name.should.equal('newTb1');
+    // differences.timelineUpdate.timelines[id0].name.should.equal('newTb1');
     differences.timelineUpdate.timelines[id0].offset.should.equal(2000);
     differences.timelineUpdate.timelines[id1].offset.should.equal(1000);
     differences.timelineUpdate.masterId.should.equal('5');
@@ -160,7 +160,7 @@ describe('Timebar update', () => {
   });
   it('action = initialUpd', () => {
     // tb1 update
-    tb1.action = 'initialUpd';
+    tb1.actionType = 'initialUpd';
     // get updates
     const differences = compareTimebars(fixtures, tb1);
     // check updates
@@ -168,7 +168,7 @@ describe('Timebar update', () => {
   });
   it('action = tbSaving', () => {
     // tb1 update
-    tb1.action = 'tbSaving';
+    tb1.actionType = 'tbSaving';
     // get updates
     const differences = compareTimebars(fixtures, tb1);
     // check updates

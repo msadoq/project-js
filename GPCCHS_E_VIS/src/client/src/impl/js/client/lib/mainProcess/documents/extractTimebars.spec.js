@@ -3,13 +3,12 @@
 const extractTimebars = require('./extractTimebars');
 const { should } = require('../../common/test');
 
-describe('documents/lib', () => {
+describe('documents', () => {
   describe('extractTimebars', () => {
     let content;
     beforeEach(() => {
-      content = { timeBarWindow: {
-        type: 'timeBarWindowConfiguration',
-        timeBars: [{
+      content = {
+        timebars: [{
           type: 'timeBarConfiguration',
           id: 'Timebar 1',
           mode: 'Normal',
@@ -45,15 +44,8 @@ describe('documents/lib', () => {
             },
           ],
           masterId: 'Session 1',
-        }],
-        geometry: {
-          kind: 'Absolute',
-          x: 10,
-          y: 810,
-          w: 1900,
-          h: 100
-        }
-      } };
+        }]
+      };
       content = Object.assign({}, { __original: content, __folder: '.' });
     });
     it('workspace valid', () => {
@@ -65,7 +57,7 @@ describe('documents/lib', () => {
       });
     });
     it('invalid workspace', () => {
-      content.__original.timeBarWindow.timeBars = { val: 'wrong' };
+      content.__original.timebars = { val: 'wrong' };
       extractTimebars(content, (err, val) => {
         should.not.exist(err);
         val.should.be.an('object').with.keys('__original', '__folder', 'timebars');
@@ -74,7 +66,7 @@ describe('documents/lib', () => {
       });
     });
     it('no timebars', () => {
-      content.__original.timeBarWindow.timeBars = [];
+      content.__original.timebars = [];
       extractTimebars(content, (err, val) => {
         should.not.exist(err);
         val.should.be.an('object').with.keys('__original', '__folder', 'timebars');

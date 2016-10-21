@@ -59,7 +59,7 @@
           "operand": "0"
         }],
         "domain": "fr.cnes.sat1",
-        "timeline": "Session 2",
+        "timeline": "Session 1",
         "axisId": "Time"
       },
       "connectedDataY": {
@@ -73,7 +73,7 @@
           "operand": "0"
         }],
         "domain": "fr.cnes.sat1",
-        "timeline": "Session 2",
+        "timeline": "Session 1",
         "axisId": "VBat"
       },
       "lineStyle": "Continuous",

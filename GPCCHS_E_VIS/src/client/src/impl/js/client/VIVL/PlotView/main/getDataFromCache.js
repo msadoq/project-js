@@ -138,7 +138,6 @@ export default function getDataFromCache() {
     ],
     (map, cache) => {
       console.log('compute plot data');
-      // console.log(map);
 
       let i = 1;
       const lines = [];
@@ -164,7 +163,7 @@ export default function getDataFromCache() {
         const yValues = _get(cache, [y.remoteId, y.localId]);
 
         _each(xValues, (xValue, timestamp) => {
-          const yValue = _get(yValues, timestamp);
+          const yValue = yValues[timestamp];
           if (typeof yValue === 'undefined') {
             return;
           }

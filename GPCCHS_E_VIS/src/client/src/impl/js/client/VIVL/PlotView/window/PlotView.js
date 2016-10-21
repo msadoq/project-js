@@ -60,6 +60,7 @@ export default class PlotView extends Component {
     const { lines, columns = [] } = data;
 
     if (!lines || !lines.length || !columns.length) {
+      console.log('plot view has nothing to do')
       return <div>sorry</div>; // TODO : clean message
     }
 

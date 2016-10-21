@@ -1,7 +1,7 @@
 const debug = require('../io/debug')('models:connectedData');
 const database = require('../io/loki');
 const { intervals: intervalManager } = require('common');
-const { inspect } = require('util');
+// const { inspect } = require('util');
 const {
   remove: _remove,
   values: _values,
@@ -70,7 +70,8 @@ collection.setIntervalAsReceived = (remoteId, queryUuid) => {
     intervalManager.merge(connectedData.intervals.received, interval);
   connectedData.intervals.requested = _omit(connectedData.intervals.requested, queryUuid);
   debug.debug('set interval', interval, 'as received', connectedData);
-  collection.update(connectedData); // TODO This update operation could be not needed
+  // collection.update(connectedData);
+  // TODO i've commented this line for performance reasons, test non regression
 
   return connectedData;
 };
@@ -89,24 +90,26 @@ collection.addRecord = (remoteId, dataId) => {
       requested: {},
     },
   };
-  debug.debug('insert', inspect(connectedData));
+  // debug.debug('insert', inspect(connectedData));
   return collection.insert(connectedData);
 };
 
 collection.addRequestedInterval = (remoteId, queryUuid, interval) => {
   // Add a query interval in the list of requested intervals for this flatDataId
   // And create the flatDataId if it doesnt exist
+  // TODO : optimization, model should be passed as parameter (onTimebasedQuery already get the model)
   const connectedData = collection.by('remoteId', remoteId);
 
   if (!connectedData) {
     return undefined;
   }
 
-  debug.debug('before update', inspect(connectedData));
+  // debug.debug('before update', inspect(connectedData));
   connectedData.intervals.requested[queryUuid] = interval;
   connectedData.intervals.all = intervalManager.merge(connectedData.intervals.all, interval);
-  debug.debug('update', inspect(connectedData));
-  collection.update(connectedData); // TODO This update operation could be not needed
+  // debug.debug('update', inspect(connectedData));
+  // collection.update(connectedData);
+  // TODO i've commented this line for performance reasons, test non regression
 
   return connectedData;
 };
@@ -135,7 +138,8 @@ collection.removeIntervals = (remoteId, intervals) => {
   connectedData.intervals.received = receivedIntervals;
   connectedData.intervals.all = allIntervals;
 
-  collection.update(connectedData);
+  // collection.update(connectedData);
+  // TODO i've commented this line for performance reasons, test non regression
   return queryIds;
 };
 

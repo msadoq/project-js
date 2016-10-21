@@ -28,7 +28,8 @@ collection.addFilters = (dataId, filters) => {
   debug.debug('before update', subscription);
   subscription.filters = _assign({}, subscription.filters, filters);
   debug.debug('update', subscription);
-  collection.update(subscription); // TODO This update operation could be not needed
+  // collection.update(subscription);
+  // TODO This update operation could be not needed
   return subscription;
 };
 
@@ -90,7 +91,8 @@ collection.removeRemoteId = (dataId, remoteId) => {
     return undefined;
   }
   subscription.filters = _omit(subscription.filters, remoteId);
-  collection.update(subscription); // TODO This update operation could be not needed
+  // collection.update(subscription);
+  // TODO This update operation could be not needed
   return subscription;
 };
 

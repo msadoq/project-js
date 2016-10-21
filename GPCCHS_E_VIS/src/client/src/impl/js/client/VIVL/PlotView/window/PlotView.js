@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import _get from 'lodash/get';
-import _map from 'lodash/map';
 import { format } from 'd3-format';
 import { timeFormat } from 'd3-time-format';
 import { ChartCanvas, Chart, series, scale, coordinates, axes } from 'react-stockcharts';
@@ -12,7 +11,10 @@ const { XAxis, YAxis } = axes;
 
 export default class PlotView extends Component {
   static propTypes = {
-    data: PropTypes.any,
+    data: React.PropTypes.shape({
+      lines: React.PropTypes.array.isRequired,
+      columns: React.PropTypes.array.isRequired
+    }),
     // configuration: PropTypes.object.isRequired,
     size: PropTypes.object.isRequired,
     // entryPoints: PropTypes.array.isRequired,
@@ -25,7 +27,7 @@ export default class PlotView extends Component {
     // legend: PropTypes.object,
     // markers: PropTypes.array,
   };
-  yExtents = d => _map(this.props.data.lines, ({ key }) => _get(d, [key]))
+  yExtents = d => this.props.data.lines.map(({ key }) => d[key])
   renderLines(lines = []) {
     return lines.map(({ key, color }) => (
       <div key={key}>

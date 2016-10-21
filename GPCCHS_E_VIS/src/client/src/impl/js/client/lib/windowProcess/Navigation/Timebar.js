@@ -28,9 +28,11 @@ class Timebar extends Component {
     const { timebarId } = focusedPage;
     this.props.dispatch(updateVisuWindow(
       timebarId,
-      visuWindow.lower + ms,
-      visuWindow.upper + ms,
-      visuWindow.current + ms
+      {
+        lower: visuWindow.lower + ms,
+        upper: visuWindow.upper + ms,
+        current: visuWindow.current + ms,
+      }
     ));
   }
   moveForward() {

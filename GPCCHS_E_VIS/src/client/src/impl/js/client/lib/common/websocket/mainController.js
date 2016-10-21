@@ -37,7 +37,11 @@ export default function controller(state, dispatch, event, payload) {
       dispatch(importPayload(payload));
       const duration = process.hrtime(start)[1] / 1e6;
       const count = Object.keys(payload).length ? Object.keys(payload).length : 0;
-      logger.debug(`data injection done in ${duration}ms, for ${count} remoteIds`);
+      if (duration > 10) {
+        logger.warn(`data injection done in ${duration}ms, for ${count} remoteIds`);
+      } else {
+        logger.debug(`data injection done in ${duration}ms, for ${count} remoteIds`);
+      }
       setActingOff();
       break;
     }

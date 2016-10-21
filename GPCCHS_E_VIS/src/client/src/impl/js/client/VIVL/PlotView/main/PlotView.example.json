@@ -9,7 +9,7 @@
         "length": 50,
         "width": 50
     },
-    "plotViewEntryPoints": [{
+    "entryPoints": [{
         "name": "ATT_BC_STR1VOLTAGE",
         "connectedDataX": {
             "formula": "Reporting.ATT_BC_STR1VOLTAGE<ReportingParameter>.groundDate",

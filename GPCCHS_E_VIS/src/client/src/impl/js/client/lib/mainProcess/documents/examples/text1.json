@@ -1,6 +1,6 @@
 {
   "type": "TextView",
-  "textViewEntryPoints": [
+  "entryPoints": [
     {
       "name": "ATT_BC_STR1VOLTAGE_EV",
       "connectedData": {

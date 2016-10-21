@@ -11,7 +11,7 @@
     "length": 50,
     "width": 50
   },
-  "plotViewEntryPoints": [
+  "entryPoints": [
     {
       "name": "OBCPE1_BC_SSCHEDID11",
       "connectedDataX": {

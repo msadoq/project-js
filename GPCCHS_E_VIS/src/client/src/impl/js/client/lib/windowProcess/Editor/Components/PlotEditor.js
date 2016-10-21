@@ -19,7 +19,7 @@ export default class Editor extends Component {
     this.state = {
       currentDisplay: 0,
       search: '',
-      entryPoints: this.props.configuration.plotViewEntryPoints,
+      entryPoints: this.props.configuration.entryPoints,
       axes: this.props.configuration.axes,
       grids: this.props.configuration.grids,
       title: this.props.configuration.title,

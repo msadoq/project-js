@@ -7,7 +7,10 @@ import debug from '../../common/debug/mainDebug';
 
 const logger = debug('store:action:dataCache');
 
+// simple action
+export const removeDataCache = simple(types.DATA_REMOVE_ALL_DATACACHE);
 
+// other action
 function rangeValues(rIdData, lIdParam) {
   // rIdData = [ timestamp : value ]
   // lIdParam =
@@ -64,8 +67,6 @@ function oneValue(remoteIdData, lIdParam, stateLocalId) {
 // }
 export function selectData(state, remoteIds, payload) {
   const bag = {};
-  const start0 = process.hrtime();
-  let counter = 0;
   // remoteId
   each(payload, (remoteIdData, remoteId) => {
     if (!has(remoteIds, [remoteId])) {
@@ -74,7 +75,6 @@ export function selectData(state, remoteIds, payload) {
 
     // localId
     each(remoteIds[remoteId].localIds, (lIdParam, localId) => {
-      counter += 1;
       const dataLayout = vivl(lIdParam.viewType, 'dataLayout')();
       switch (dataLayout) {
         case 'one': {
@@ -101,25 +101,17 @@ export function selectData(state, remoteIds, payload) {
       }
     });
   });
-  const duration0 = process.hrtime(start0)[1] / 1e6;
-  logger.debug(`cacheData preparation done in ${duration0}ms, for ${counter} localIds`);
-
   return bag;
 }
 export function importPayload(payload) {
-  logger.debug('importPayload');
   return (dispatch, getState) => {
     const state = getState();
     const remoteIds = dataMap(state);
     const bag = selectData(state, remoteIds, payload);
 
-    const start = process.hrtime();
     dispatch({
       type: types.DATA_IMPORT_PAYLOAD,
       payload: bag,
     });
-    const duration = process.hrtime(start)[1] / 1e6;
-    const count = Object.keys(payload).length ? Object.keys(payload).length : 0;
-    logger.debug(`cacheData update done in ${duration}ms, for ${count} remoteIds`);
   };
 }

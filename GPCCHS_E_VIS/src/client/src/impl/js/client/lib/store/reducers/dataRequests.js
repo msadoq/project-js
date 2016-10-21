@@ -40,6 +40,8 @@ export default function requests(state = {}, action) {
         ...modified,
       };
     }
+    case types.DATA_REMOVE_ALL_REQUESTS:
+      return {};
     default:
       return state;
   }

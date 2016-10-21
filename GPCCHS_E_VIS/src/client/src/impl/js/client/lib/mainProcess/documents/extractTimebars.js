@@ -9,7 +9,7 @@ const { v4 } = require('node-uuid');
  * @returns {*}
  */
 module.exports = (content, cb) => {
-  let timebars = _.get(content, '__original.timeBarWindow.timeBars');
+  let timebars = _.get(content, '__original.timebars');
   if (!_.isArray(timebars)) {
     timebars = [];
   }

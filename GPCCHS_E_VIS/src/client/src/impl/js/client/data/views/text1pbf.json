@@ -1,6 +1,6 @@
 {
   "type": "TextView",
-  "textViewEntryPoints": [
+  "entryPoints": [
     {
       "name": "CLCW_AM_SPARE0A",
       "connectedData": {

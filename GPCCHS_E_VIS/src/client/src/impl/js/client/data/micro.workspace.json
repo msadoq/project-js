@@ -19,16 +19,14 @@
       }
     }
   ],
-  "timeBarWindow": {
-    "type": "timeBarWindowConfiguration",
-    "timeBars": [
+  "timebars": [
       {
         "type": "timeBarConfiguration",
         "id": "TB1",
         "mode": "Normal",
         "visuWindow": {
           "lower": 1420106400000,
-          "upper": 1420106520000,
+          "upper": 1420106700000,
           "current": 1420106460000,
           "defaultWidth": 900000
         },
@@ -49,17 +47,15 @@
             "offset": 0,
             "kind": "Session",
             "sessionId": 1
+          },
+          {
+            "id": "Session 2",
+            "offset": 10000,
+            "kind": "Session",
+            "sessionId": 1
           }
-      ],
+        ],
         "masterId": "Session 1"
       }
-    ],
-    "geometry": {
-      "kind": "Absolute",
-      "x": 10,
-      "y": 810,
-      "w": 1900,
-      "h": 100
-    }
-  }
+    ]
 }

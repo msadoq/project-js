@@ -11,7 +11,7 @@
     "length": 50,
     "width": 50
   },
-  "plotViewEntryPoints": [
+  "entryPoints": [
     {
       "name": "GENE_AM_N1PKTSQCTRL",
       "connectedDataX": {

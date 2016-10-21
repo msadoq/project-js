@@ -284,25 +284,12 @@
                 }]
             }
         },
-        "timeBarWindow": {
-            "type": "object",
-            "properties": {
-                "type": {
-                    "type": "string",
-                    "enum": ["timeBarWindowConfiguration"]
-                },
-                "timeBars": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/timeBar"
-                  }
-                },
-                "geometry": {
-                    "$ref": "#/definitions/geometry"
-                }
-            },
-            "required": ["type", "timeBars"]
+        "timebars": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/timeBar"
+          }
         }
     },
-    "required": ["windows"]
+    "required": ["windows", "timebars"]
 }

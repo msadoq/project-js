@@ -269,7 +269,7 @@
                 "enum": ["PlotView"]
             },
 
-            "plotViewEntryPoints": {
+            "entryPoints": {
                 "type": "array",
                 "items": {
                     "$ref": "#/definitions/plotViewEntryPoint"

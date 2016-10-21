@@ -1,7 +1,7 @@
 {
   "title": "TextView 3",
   "type": "TextView",
-  "textViewEntryPoints": [
+  "entryPoints": [
     {
       "name": "GENE_AM_CCSDSGFLAG",
       "connectedData": {

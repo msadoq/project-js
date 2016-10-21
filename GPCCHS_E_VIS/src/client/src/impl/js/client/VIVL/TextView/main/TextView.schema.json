@@ -129,7 +129,7 @@
                 "type": "string",
                 "enum": ["TextView"]
             },
-            "textViewEntryPoints": {
+            "entryPoints": {
                 "type": "array",
                 "items": {
                     "$ref": "#/definitions/textViewEntryPoint"
@@ -142,6 +142,6 @@
                 }
             }
         },
-        "required": ["type", "textViewEntryPoints", "content"]
+        "required": ["type", "entryPoints", "content"]
     }]
 }

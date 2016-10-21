@@ -1,6 +1,6 @@
 {
   "type": "TextView",
-  "textViewEntryPoints": [
+  "entryPoints": [
     {
       "name": "SAT_BC_CURRENTMODE",
       "connectedData": {

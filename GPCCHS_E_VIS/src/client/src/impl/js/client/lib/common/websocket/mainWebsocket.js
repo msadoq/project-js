@@ -5,6 +5,10 @@ import {
 import debug from '../debug/mainDebug';
 import { getStore } from '../../store/mainStore';
 import { updateStatus } from '../../store/actions/hss';
+import { removeDataCache } from '../../store/actions/dataCache';
+import { removeAllRequests } from '../../store/actions/dataRequests';
+import { setActingOn, setActingOff } from '../../mainProcess/storeObserver';
+
 import parameters from '../../common/parameters';
 
 import controller from './mainController';
@@ -34,8 +38,12 @@ export function connect() {
       });
     });
     instance.on('close', () => {
-      logger.info('closed!');
+      setActingOn();
       getStore().dispatch(updateStatus('main', 'disconnected'));
+      getStore().dispatch(removeAllRequests());
+      getStore().dispatch(removeDataCache());
+      // timeout added to avoid data observer update
+      setTimeout(() => { setActingOff();}, 0);
     });
     instance.on('error', (err) => {
       logger.error('error', err.stack);

@@ -13,7 +13,7 @@ TextEditorContainer.propTypes = {
 
 function mapStateToProps(state, { configuration, closeEditor }) {
   return {
-    entryPoints: configuration.textViewEntryPoints,
+    entryPoints: configuration.entryPoints,
     links: configuration.links,
     defaultRatio: configuration.defaultRatio,
     content: configuration.content,

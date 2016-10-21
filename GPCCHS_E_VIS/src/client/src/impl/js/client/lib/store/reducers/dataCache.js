@@ -11,6 +11,8 @@ export default function dataCache(stateDataCache = {}, action) {
       const cleanState = cleanDataCache(stateDataCache, action);
       return updateRangePayloads(cleanState, action);
     }
+    case types.DATA_REMOVE_ALL_DATACACHE:
+      return {};
     default:
       return stateDataCache;
   }

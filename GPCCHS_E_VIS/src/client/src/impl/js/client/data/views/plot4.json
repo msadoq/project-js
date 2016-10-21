@@ -11,7 +11,7 @@
     "length": 50,
     "width": 50
   },
-  "plotViewEntryPoints": [
+  "entryPoints": [
     {
       "name": "ATT_BC_THR1CURRENT",
       "connectedDataX": {

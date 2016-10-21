@@ -1389,13 +1389,7 @@
     "width": 3
   },
   "content": [
-    "<!DOCTYPE html>",
-    "<html>",
-    " <head>",
-    "  <title></title>",
-    " </head>",
-    " <body>",
-    "    <table border=\"1\" align=\"left\" style=\"width: 30%; font-size: 11px;\">",
+    "<table border=\"1\" align=\"left\" width=\"100%\" styles=\"width: 100%; font-size: 11px;\">",
     "   <th style=\"vertical-align: top; width=\"50%\" bgcolor=\"#428bca\"> NAME </th><th width=\"50%\" bgcolor=\"#428bca\"> VALUE</th>",
     "    <tr><td>ATT_BC_STR1VOLTAGE_EV</td><td><span class=\"EntryPoint\">{{ATT_BC_STR1VOLTAGE_EV}}</span></td></tr>",
     "    <tr><td>SAT_BC_TSTPARVQ3_MS</td><td><span class=\"EntryPoint\">{{SAT_BC_TSTPARVQ3_MS}}</span></td></tr>",
@@ -1430,10 +1424,6 @@
     "    <tr><td>SAT_BC_ENABLED2</td><td><span class=\"EntryPoint\">{{SAT_BC_ENABLED2}}</span></td></tr>",
     "    <tr><td>SAT_BC_LASTSQNUM10</td><td><span class=\"EntryPoint\">{{SAT_BC_LASTSQNUM10}}</span></td></tr>",
     "    <tr><td>SAT_BC_NUMRJCTTC16</td><td><span class=\"EntryPoint\">{{SAT_BC_NUMRJCTTC16}}</span></td></tr>",
-    " </table>",
-
-    "   <table border=\"1\" align= \"left\" style=\"width: 30%; font-size: 11px;\">",
-    "   <th style=\"vertical-align: top; width=\"50%\" bgcolor=\"#428bca\"> NAME </th><th width=\"50%\" bgcolor=\"#428bca\"> VALUE</th>",
     "    <tr><td>SAT_BC_MINENERGY</td><td><span class=\"EntryPoint\">{{SAT_BC_MINENERGY}}</span></td></tr>",
     "    <tr><td>SAT_BC_OBCPS6</td><td><span class=\"EntryPoint\">{{SAT_BC_OBCPS6}}</span></td></tr>",
     "    <tr><td>SAT_BC_SSCHEDID16</td><td><span class=\"EntryPoint\">{{SAT_BC_SSCHEDID16}}</span></td></tr>",
@@ -1467,10 +1457,6 @@
     "    <tr><td>MIS_BC_NEXTDEADL</td><td><span class=\"EntryPoint\">{{MIS_BC_NEXTDEADL}}</span></td></tr>",
     "    <tr><td>MIS_BC_ENABLED8</td><td><span class=\"EntryPoint\">{{MIS_BC_ENABLED8}}</span></td></tr>",
     "    <tr><td>MIS_BC_DALMINITDEL</td><td><span class=\"EntryPoint\">{{MIS_BC_DALMINITDEL}}</span></td></tr>",
-        " </table>",
-
-    "    <table border=\"1\" align=\"left\" style=\"width: 30%; font-size: 11px;\">",
-    "   <th style=\"vertical-align: top; width=\"50%\" bgcolor=\"#428bca\"> NAME </th><th width=\"50%\" bgcolor=\"#428bca\"> VALUE</th>",
     "    <tr><td>MIS_BC_DAGADETTHRE</td><td><span class=\"EntryPoint\">{{MIS_BC_DAGADETTHRE}}</span></td></tr>",
     "    <tr><td>MIS_BC_AOCSLOTPER</td><td><span class=\"EntryPoint\">{{MIS_BC_AOCSLOTPER}}</span></td></tr>",
     "    <tr><td>SAT_BC_TMTREDOND</td><td><span class=\"EntryPoint\">{{SAT_BC_TMTREDOND}}</span></td></tr>",
@@ -1504,8 +1490,6 @@
     "    <tr><td>ORB_BC_QUATCONS3</td><td><span class=\"EntryPoint\">{{ORB_BC_QUATCONS3}}</span></td></tr>",
     "    <tr><td>ORB_BC_TSTPARFLONG</td><td><span class=\"EntryPoint\">{{ORB_BC_TSTPARFLONG}}</span></td></tr>",
     "    <tr><td>ORB_BC_VXITRF</td><td><span class=\"EntryPoint\">{{ORB_BC_VXITRF}}</span></td></tr>",
-    "   </table>",
-    " </body>",
-    "</html>"
+    "</table>"
   ]
 }

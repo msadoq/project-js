@@ -1,5 +1,5 @@
 {
-  "title": "TextView 1",
+  "title": "TextView 4",
   "type": "TextView",
   "entryPoints": [
     {
@@ -10,7 +10,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [{
-          "field": "monitoringState",
+          "field": "convertedValue",
           "operator": "!=",
           "operand": "nominal"
         }],
@@ -21,7 +21,7 @@
     {
       "name": "SAT_BC_TSTPARVQ3_MS",
       "connectedData": {
-        "formula": "Reporting.SAT_BC_TSTPARVQ3<ReportingParameter>.monitoringState",
+        "formula": "Reporting.SAT_BC_TSTPARVQ3<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -42,7 +42,7 @@
         "digits": 5,
         "format": "decimal",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
@@ -53,7 +53,7 @@
         "digits": 8,
         "format": "",
         "filter": [{
-          "field": "monitoringState",
+          "field": "convertedValue",
           "operator": "!=",
           "operand": "nominal"
         }],
@@ -64,7 +64,7 @@
     {
       "name": "POW_BC_MAXENER_MS",
       "connectedData": {
-        "formula": "Reporting.POW_BC_MAXENER<ReportingParameter>.monitoringState",
+        "formula": "Reporting.POW_BC_MAXENER<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 8,
         "format": "",
@@ -85,7 +85,7 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
@@ -96,7 +96,7 @@
         "digits": 2,
         "format": "decimal",
         "filter": [{
-          "field": "monitoringState",
+          "field": "convertedValue",
           "operator": "!=",
           "operand": "nominal"
         }],
@@ -107,7 +107,7 @@
     {
       "name": "ORB_BC_TSTPARVFLT_MS",
       "connectedData": {
-        "formula": "Reporting.ORB_BC_TSTPARVFLT<ReportingParameter>.monitoringState",
+        "formula": "Reporting.ORB_BC_TSTPARVFLT<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -128,13 +128,13 @@
         "digits": 2,
         "format": "hexadecimal",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "BASETYPE_AM_TIMET09F14_MS",
       "connectedData": {
-        "formula": "Reporting.BASETYPE_AM_TIMET09F14<ReportingParameter>.monitoringState",
+        "formula": "Reporting.BASETYPE_AM_TIMET09F14<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -155,13 +155,13 @@
         "digits": 2,
         "format": "hexadecimal",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "POW_BC_PCDENABLED",
       "connectedData": {
-        "formula": "Reporting.POW_BC_PCDENABLED<ReportingParameter>.monitoringState",
+        "formula": "Reporting.POW_BC_PCDENABLED<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -177,7 +177,7 @@
     {
       "name": "GENE_AM_CCSDSSOUR",
       "connectedData": {
-        "formula": "Reporting.GENE_AM_CCSDSSOUR<ReportingParameter>.monitoringState",
+        "formula": "Reporting.GENE_AM_CCSDSSOUR<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -198,13 +198,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "GENE_AM_I13STOREID",
       "connectedData": {
-        "formula": "Reporting.GENE_AM_I13STOREID<ReportingParameter>.monitoringState",
+        "formula": "Reporting.GENE_AM_I13STOREID<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -225,13 +225,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "ATT_BC_ENABLED8",
       "connectedData": {
-        "formula": "Reporting.ATT_BC_ENABLED8<ReportingParameter>.monitoringState",
+        "formula": "Reporting.ATT_BC_ENABLED8<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -252,13 +252,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "ATT_BC_MAGREFQ0",
       "connectedData": {
-        "formula": "Reporting.ATT_BC_MAGREFQ0<ReportingParameter>.monitoringState",
+        "formula": "Reporting.ATT_BC_MAGREFQ0<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -279,13 +279,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "ATT_BC_NUMTC16",
       "connectedData": {
-        "formula": "Reporting.ATT_BC_NUMTC16<ReportingParameter>.monitoringState",
+        "formula": "Reporting.ATT_BC_NUMTC16<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -306,13 +306,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "ATT_BC_SSCHEDID19",
       "connectedData": {
-        "formula": "Reporting.ATT_BC_SSCHEDID19<ReportingParameter>.monitoringState",
+        "formula": "Reporting.ATT_BC_SSCHEDID19<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -333,13 +333,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "ATT_BC_THR4SATQ2",
       "connectedData": {
-        "formula": "Reporting.ATT_BC_THR4SATQ2<ReportingParameter>.monitoringState",
+        "formula": "Reporting.ATT_BC_THR4SATQ2<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -360,13 +360,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "ORB_BC_LASTSQNUM14",
       "connectedData": {
-        "formula": "Reporting.ORB_BC_LASTSQNUM14<ReportingParameter>.monitoringState",
+        "formula": "Reporting.ORB_BC_LASTSQNUM14<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -387,13 +387,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "POW_BC_ENERCURRLVL",
       "connectedData": {
-        "formula": "Reporting.POW_BC_ENERCURRLVL<ReportingParameter>.monitoringState",
+        "formula": "Reporting.POW_BC_ENERCURRLVL<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -414,13 +414,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "POW_BC_TSTPARFQ0",
       "connectedData": {
-        "formula": "Reporting.POW_BC_TSTPARFQ0<ReportingParameter>.monitoringState",
+        "formula": "Reporting.POW_BC_TSTPARFQ0<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -436,7 +436,7 @@
     {
       "name": "SAT_BC_ENABLED2",
       "connectedData": {
-        "formula": "Reporting.SAT_BC_ENABLED2<ReportingParameter>.monitoringState",
+        "formula": "Reporting.SAT_BC_ENABLED2<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -457,13 +457,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "SAT_BC_NUMRJCTTC16",
       "connectedData": {
-        "formula": "Reporting.SAT_BC_NUMRJCTTC16<ReportingParameter>.monitoringState",
+        "formula": "Reporting.SAT_BC_NUMRJCTTC16<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -484,13 +484,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "SAT_BC_OBCPS6",
       "connectedData": {
-        "formula": "Reporting.SAT_BC_OBCPS6<ReportingParameter>.monitoringState",
+        "formula": "Reporting.SAT_BC_OBCPS6<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -511,13 +511,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "SAT_BC_TMT1CURRENT",
       "connectedData": {
-        "formula": "Reporting.SAT_BC_TMT1CURRENT<ReportingParameter>.monitoringState",
+        "formula": "Reporting.SAT_BC_TMT1CURRENT<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -538,13 +538,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "MIS_BC_NUMTC19",
       "connectedData": {
-        "formula": "Reporting.MIS_BC_NUMTC19<ReportingParameter>.monitoringState",
+        "formula": "Reporting.MIS_BC_NUMTC19<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -565,13 +565,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "MIS_BC_TSTPARVSHRT",
       "connectedData": {
-        "formula": "Reporting.MIS_BC_TSTPARVSHRT<ReportingParameter>.monitoringState",
+        "formula": "Reporting.MIS_BC_TSTPARVSHRT<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -592,13 +592,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "FMGT_BC_LASTSQNUM5",
       "connectedData": {
-        "formula": "Reporting.FMGT_BC_LASTSQNUM5<ReportingParameter>.monitoringState",
+        "formula": "Reporting.FMGT_BC_LASTSQNUM5<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -619,13 +619,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "FMGT_BC_NUMTC",
       "connectedData": {
-        "formula": "Reporting.FMGT_BC_NUMTC<ReportingParameter>.monitoringState",
+        "formula": "Reporting.FMGT_BC_NUMTC<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -646,13 +646,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "FMGT_BC_OBCPFREEMEM",
       "connectedData": {
-        "formula": "Reporting.FMGT_BC_OBCPFREEMEM<ReportingParameter>.monitoringState",
+        "formula": "Reporting.FMGT_BC_OBCPFREEMEM<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -673,13 +673,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "FMGT_BC_TSTPARFBYTE",
       "connectedData": {
-        "formula": "Reporting.FMGT_BC_TSTPARFBYTE<ReportingParameter>.monitoringState",
+        "formula": "Reporting.FMGT_BC_TSTPARFBYTE<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -700,7 +700,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [{
-          "field": "monitoringState",
+          "field": "convertedValue",
           "operator": "!=",
           "operand": "nominal"
         }],
@@ -711,7 +711,7 @@
     {
       "name": "TMMGT_BC_FREEMEMORY",
       "connectedData": {
-        "formula": "Reporting.TMMGT_BC_FREEMEMORY<ReportingParameter>.monitoringState",
+        "formula": "Reporting.TMMGT_BC_FREEMEMORY<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -732,7 +732,7 @@
         "digits": 5,
         "format": "decimal",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
@@ -743,7 +743,7 @@
         "digits": 8,
         "format": "",
         "filter": [{
-          "field": "monitoringState",
+          "field": "convertedValue",
           "operator": "!=",
           "operand": "nominal"
         }],
@@ -754,7 +754,7 @@
     {
       "name": "TMMGT_BC_VCARATIO0",
       "connectedData": {
-        "formula": "Reporting.TMMGT_BC_VCARATIO0<ReportingParameter>.monitoringState",
+        "formula": "Reporting.TMMGT_BC_VCARATIO0<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 8,
         "format": "",
@@ -775,7 +775,7 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
@@ -786,7 +786,7 @@
         "digits": 2,
         "format": "decimal",
         "filter": [{
-          "field": "monitoringState",
+          "field": "convertedValue",
           "operator": "!=",
           "operand": "nominal"
         }],
@@ -797,7 +797,7 @@
     {
       "name": "OBCPE1_BC_SSCHEDID5",
       "connectedData": {
-        "formula": "Reporting.OBCPE1_BC_SSCHEDID5<ReportingParameter>.monitoringState",
+        "formula": "Reporting.OBCPE1_BC_SSCHEDID5<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -818,13 +818,13 @@
         "digits": 2,
         "format": "hexadecimal",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "OBCPE2_BC_SSCHEDID18",
       "connectedData": {
-        "formula": "Reporting.OBCPE2_BC_SSCHEDID18<ReportingParameter>.monitoringState",
+        "formula": "Reporting.OBCPE2_BC_SSCHEDID18<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -845,13 +845,13 @@
         "digits": 2,
         "format": "hexadecimal",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "FMGT_BC_ENABLED",
       "connectedData": {
-        "formula": "Reporting.FMGT_BC_ENABLED<ReportingParameter>.monitoringState",
+        "formula": "Reporting.FMGT_BC_ENABLED<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -867,7 +867,7 @@
     {
       "name": "MIS_BC_SSCHEDID14",
       "connectedData": {
-        "formula": "Reporting.MIS_BC_SSCHEDID14<ReportingParameter>.monitoringState",
+        "formula": "Reporting.MIS_BC_SSCHEDID14<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -888,13 +888,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "MIS_BC_NEXTDEADL",
       "connectedData": {
-        "formula": "Reporting.MIS_BC_NEXTDEADL<ReportingParameter>.monitoringState",
+        "formula": "Reporting.MIS_BC_NEXTDEADL<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -915,13 +915,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "MIS_BC_DALMINITDEL",
       "connectedData": {
-        "formula": "Reporting.MIS_BC_DALMINITDEL<ReportingParameter>.monitoringState",
+        "formula": "Reporting.MIS_BC_DALMINITDEL<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -942,13 +942,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "MIS_BC_AOCSLOTPER",
       "connectedData": {
-        "formula": "Reporting.MIS_BC_AOCSLOTPER<ReportingParameter>.monitoringState",
+        "formula": "Reporting.MIS_BC_AOCSLOTPER<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -969,13 +969,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "SAT_BC_TMT1ERROR",
       "connectedData": {
-        "formula": "Reporting.SAT_BC_TMT1ERROR<ReportingParameter>.monitoringState",
+        "formula": "Reporting.SAT_BC_TMT1ERROR<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -996,13 +996,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "SAT_BC_SECMISCENT3",
       "connectedData": {
-        "formula": "Reporting.SAT_BC_SECMISCENT3<ReportingParameter>.monitoringState",
+        "formula": "Reporting.SAT_BC_SECMISCENT3<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -1023,13 +1023,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "SAT_BC_OBCPS1",
       "connectedData": {
-        "formula": "Reporting.SAT_BC_OBCPS1<ReportingParameter>.monitoringState",
+        "formula": "Reporting.SAT_BC_OBCPS1<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -1050,13 +1050,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "SAT_BC_NUMTC0",
       "connectedData": {
-        "formula": "Reporting.SAT_BC_NUMTC0<ReportingParameter>.monitoringState",
+        "formula": "Reporting.SAT_BC_NUMTC0<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -1077,13 +1077,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "SAT_BC_CMSIMMEDTC",
       "connectedData": {
-        "formula": "Reporting.SAT_BC_CMSIMMEDTC<ReportingParameter>.monitoringState",
+        "formula": "Reporting.SAT_BC_CMSIMMEDTC<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -1104,13 +1104,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "POW_BC_TSTPARFBOOL",
       "connectedData": {
-        "formula": "Reporting.POW_BC_TSTPARFBOOL<ReportingParameter>.monitoringState",
+        "formula": "Reporting.POW_BC_TSTPARFBOOL<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -1131,13 +1131,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "POW_BC_PARMONEN",
       "connectedData": {
-        "formula": "Reporting.POW_BC_PARMONEN<ReportingParameter>.monitoringState",
+        "formula": "Reporting.POW_BC_PARMONEN<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -1158,13 +1158,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "POW_BC_LASTSQNUM4",
       "connectedData": {
-        "formula": "Reporting.POW_BC_LASTSQNUM4<ReportingParameter>.monitoringState",
+        "formula": "Reporting.POW_BC_LASTSQNUM4<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -1185,13 +1185,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "POW_BC_ENABLED2",
       "connectedData": {
-        "formula": "Reporting.POW_BC_ENABLED2<ReportingParameter>.monitoringState",
+        "formula": "Reporting.POW_BC_ENABLED2<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -1212,13 +1212,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "ORB_BC_TSTPARVINT",
       "connectedData": {
-        "formula": "Reporting.ORB_BC_TSTPARVINT<ReportingParameter>.monitoringState",
+        "formula": "Reporting.ORB_BC_TSTPARVINT<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -1239,13 +1239,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "ORB_BC_SSCHEDID20",
       "connectedData": {
-        "formula": "Reporting.ORB_BC_SSCHEDID20<ReportingParameter>.monitoringState",
+        "formula": "Reporting.ORB_BC_SSCHEDID20<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -1266,13 +1266,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "ORB_BC_LASTSQNUM10",
       "connectedData": {
-        "formula": "Reporting.ORB_BC_LASTSQNUM10<ReportingParameter>.monitoringState",
+        "formula": "Reporting.ORB_BC_LASTSQNUM10<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -1293,13 +1293,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "ORB_BC_NUMRJCTTC2",
       "connectedData": {
-        "formula": "Reporting.ORB_BC_NUMRJCTTC2<ReportingParameter>.monitoringState",
+        "formula": "Reporting.ORB_BC_NUMRJCTTC2<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -1320,13 +1320,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "ORB_BC_NUMTCMAX",
       "connectedData": {
-        "formula": "Reporting.ORB_BC_NUMTCMAX<ReportingParameter>.monitoringState",
+        "formula": "Reporting.ORB_BC_NUMTCMAX<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -1347,13 +1347,13 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     },
     {
       "name": "ORB_BC_TSTPARFLONG",
       "connectedData": {
-        "formula": "Reporting.ORB_BC_TSTPARFLONG<ReportingParameter>.monitoringState",
+        "formula": "Reporting.ORB_BC_TSTPARFLONG<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -1374,7 +1374,7 @@
         "digits": 8,
         "format": "",
         "domain": "fr.cnes.sat1",
-        "timeline": "Session*"
+        "timeline": "Session 1"
       }
     }
   ],
@@ -1389,123 +1389,117 @@
     "width": 3
   },
   "content": [
-    "<!DOCTYPE html>",
-    "<html>",
-    " <head>",
-    "  <title></title>",
-    " </head>",
-    " <body>",
-    "    <table border=\"1\" align=\"left\" style=\"width: 30%; font-size: 11px;\">",
-    "   <th style=\"vertical-align: top; width=\"50%\" bgcolor=\"#428bca\"> NAME </th><th width=\"50%\" bgcolor=\"#428bca\"> VALUE</th>",
-    "         <tr><td>ATT_BC_STR1VOLTAGE_EV</td><td><span>{{ATT_BC_STR1VOLTAGE_EV}}</span></td></tr>",
-    "         <tr><td>SAT_BC_TSTPARVQ3_MS</td><td><span>{{SAT_BC_TSTPARVQ3_MS}}</span></td></tr>",
-    "         <tr><td>MIS_BC_DAGAFREQ_CV</td><td><span>{{MIS_BC_DAGAFREQ_CV}}</span></td></tr>",
-    "         <tr><td>GENE_AM_CCSDSAPID_EV</td><td><span>{{GENE_AM_CCSDSAPID_EV}}</span></td></tr>",
-    "         <tr><td>POW_BC_MAXENER_MS</td><td><span>{{POW_BC_MAXENER_MS}}</span></td></tr>",
-    "         <tr><td>TMMGT_BC_BCSTATUSW_CV</td><td><span>{{TMMGT_BC_BCSTATUSW_CV}}</span></td></tr>",
-    "         <tr><td>FMGT_BC_OBCP8EXSTAT_EV</td><td><span>{{FMGT_BC_OBCP8EXSTAT_EV}}</span></td></tr>",
-    "         <tr><td>ORB_BC_TSTPARVFLT_MS</td><td><span>{{ORB_BC_TSTPARVFLT_MS}}</span></td></tr>",
-    "         <tr><td>CLK_BC_EVACGENSTA_CV</td><td><span>{{CLK_BC_EVACGENSTA_CV}}</span></td></tr>",
-    "         <tr><td>AGA_AM_VISIANGLE_CV</td><td><span>{{AGA_AM_VISIANGLE_CV}}</span></td></tr>",
-    "         <tr><td>POW_BC_PCDENABLED</td><td><span>{{POW_BC_PCDENABLED}}</span></td></tr>",
-    "         <tr><td>GENE_AM_CCSDSSOUR</td><td><span>{{GENE_AM_CCSDSSOUR}}</span></td></tr>",
-    "         <tr><td>GENE_AM_FRPOFLAG</td><td><span>{{GENE_AM_FRPOFLAG}}</span></td></tr>",
-    "         <tr><td>GENE_AM_I13STOREID</td><td><span>{{GENE_AM_I13STOREID}}</span></td></tr>",
-    "         <tr><td>GENE_AM_I1TCPKTID</td><td><span>{{GENE_AM_I1TCPKTID}}</span></td></tr>",
-    "         <tr><td>ATT_BC_ENABLED8</td><td><span>{{ATT_BC_ENABLED8}}</span></td></tr>",
-    "         <tr><td>ATT_BC_LASTSQNUM4</td><td><span>{{ATT_BC_LASTSQNUM4}}</span></td></tr>",
-    "         <tr><td>ATT_BC_MAGREFQ0</td><td><span>{{ATT_BC_MAGREFQ0}}</span></td></tr>",
-    "         <tr><td>ATT_BC_NUMRJCTTC12</td><td><span>{{ATT_BC_NUMRJCTTC12}}</span></td></tr>",
-    "         <tr><td>ATT_BC_NUMTC16</td><td><span>{{ATT_BC_NUMTC16}}</span></td></tr>",
-    "         <tr><td>ATT_BC_SAS1VOLTAGE</td><td><span>{{ATT_BC_SAS1VOLTAGE}}</span></td></tr>",
-    "         <tr><td>ATT_BC_SSCHEDID19</td><td><span>{{ATT_BC_SSCHEDID19}}</span></td></tr>",
-    "         <tr><td>ATT_BC_STR2SATRFQ3</td><td><span>{{ATT_BC_STR2SATRFQ3}}</span></td></tr>",
-    "         <tr><td>ATT_BC_THR4SATQ2</td><td><span>{{ATT_BC_THR4SATQ2}}</span></td></tr>",
-    "         <tr><td>ORB_BC_GPS1VOLTAGE</td><td><span>{{ORB_BC_GPS1VOLTAGE}}</span></td></tr>",
-    "         <tr><td>ORB_BC_LASTSQNUM14</td><td><span>{{ORB_BC_LASTSQNUM14}}</span></td></tr>",
-    "         <tr><td>ORB_BC_RTSTATWORD</td><td><span>{{ORB_BC_RTSTATWORD}}</span></td></tr>",
-    "         <tr><td>POW_BC_ENERCURRLVL</td><td><span>{{POW_BC_ENERCURRLVL}}</span></td></tr>",
-    "         <tr><td>POW_BC_NUMRJCTTC11</td><td><span>{{POW_BC_NUMRJCTTC11}}</span></td></tr>",
-    "         <tr><td>POW_BC_TSTPARFQ0</td><td><span>{{POW_BC_TSTPARFQ0}}</span></td></tr>",
-    "         <tr><td>SAT_BC_ENABLED2</td><td><span>{{SAT_BC_ENABLED2}}</span></td></tr>",
-    "         <tr><td>SAT_BC_LASTSQNUM10</td><td><span>{{SAT_BC_LASTSQNUM10}}</span></td></tr>",
-    "         <tr><td>SAT_BC_NUMRJCTTC16</td><td><span>{{SAT_BC_NUMRJCTTC16}}</span></td></tr>",
-    "       </td></tr></table></td>",
-    "    <table border=\"1\" align=\"left\" style=\"width: 30%; font-size: 11px;\">",
-    "   <th style=\"vertical-align: top; width=\"50%\" bgcolor=\"#428bca\"> NAME </th><th width=\"50%\" bgcolor=\"#428bca\"> VALUE</th>",
-    "         <tr><td>SAT_BC_MINENERGY</td><td><span>{{SAT_BC_MINENERGY}}</span></td></tr>",
-    "         <tr><td>SAT_BC_OBCPS6</td><td><span>{{SAT_BC_OBCPS6}}</span></td></tr>",
-    "         <tr><td>SAT_BC_SSCHEDID16</td><td><span>{{SAT_BC_SSCHEDID16}}</span></td></tr>",
-    "         <tr><td>SAT_BC_TMT1CURRENT</td><td><span>{{SAT_BC_TMT1CURRENT}}</span></td></tr>",
-    "         <tr><td>MIS_BC_DMEMMAXMEM</td><td><span>{{MIS_BC_DMEMMAXMEM}}</span></td></tr>",
-    "         <tr><td>MIS_BC_NUMTC19</td><td><span>{{MIS_BC_NUMTC19}}</span></td></tr>",
-    "         <tr><td>MIS_BC_TSTPARFBOOL</td><td><span>{{MIS_BC_TSTPARFBOOL}}</span></td></tr>",
-    "         <tr><td>MIS_BC_TSTPARVSHRT</td><td><span>{{MIS_BC_TSTPARVSHRT}}</span></td></tr>",
-    "         <tr><td>FMGT_BC_EXECTIME1TC</td><td><span>{{FMGT_BC_EXECTIME1TC}}</span></td></tr>",
-    "         <tr><td>FMGT_BC_LASTSQNUM5</td><td><span>{{FMGT_BC_LASTSQNUM5}}</span></td></tr>",
-    "         <tr><td>FMGT_BC_NUMRJCTTC2</td><td><span>{{FMGT_BC_NUMRJCTTC2}}</span></td></tr>",
-    "         <tr><td>FMGT_BC_NUMTC</td><td><span>{{FMGT_BC_NUMTC}}</span></td></tr>",
-    "         <tr><td>FMGT_BC_OBCP1ID</td><td><span>{{FMGT_BC_OBCP1ID}}</span></td></tr>",
-    "         <tr><td>FMGT_BC_OBCPFREEMEM</td><td><span>{{FMGT_BC_OBCPFREEMEM}}</span></td></tr>",
-    "         <tr><td>FMGT_BC_SSCHEDID13</td><td><span>{{FMGT_BC_SSCHEDID13}}</span></td></tr>",
-    "         <tr><td>FMGT_BC_TSTPARFBYTE</td><td><span>{{FMGT_BC_TSTPARFBYTE}}</span></td></tr>",
-    "         <tr><td>TMMGT_BC_LASTSQNUM0</td><td><span>{{TMMGT_BC_LASTSQNUM0}}</span></td></tr>",
-    "         <tr><td>TMMGT_BC_FREEMEMORY</td><td><span>{{TMMGT_BC_FREEMEMORY}}</span></td></tr>",
-    "         <tr><td>TMMGT_BC_SSCHEDID4</td><td><span>{{TMMGT_BC_SSCHEDID4}}</span></td></tr>",
-    "         <tr><td>OBCPE1_BC_BCSTATUSW</td><td><span>{{OBCPE1_BC_BCSTATUSW}}</span></td></tr>",
-    "         <tr><td>TMMGT_BC_VCARATIO0</td><td><span>{{TMMGT_BC_VCARATIO0}}</span></td></tr>",
-    "         <tr><td>OBCPE1_BC_NUMTC4</td><td><span>{{OBCPE1_BC_NUMTC4}}</span></td></tr>",
-    "         <tr><td>OBCPE1_BC_PARMONITEN</td><td><span>{{OBCPE1_BC_PARMONITEN}}</span></td></tr>",
-    "         <tr><td>OBCPE1_BC_SSCHEDID5</td><td><span>{{OBCPE1_BC_SSCHEDID5}}</span></td></tr>",
-    "         <tr><td>OBCPE2_BC_NUMRJCTTC7</td><td><span>{{OBCPE2_BC_NUMRJCTTC7}}</span></td></tr>",
-    "         <tr><td>OBCPE2_BC_SSCHEDID18</td><td><span>{{OBCPE2_BC_SSCHEDID18}}</span></td></tr>",
-    "         <tr><td>FMGT_BC_LASTSQNUM7</td><td><span>{{FMGT_BC_LASTSQNUM7}}</span></td></tr>",
-    "         <tr><td>FMGT_BC_ENABLED</td><td><span>{{FMGT_BC_ENABLED}}</span></td></tr>",
-    "         <tr><td>MIS_BC_SSCHEDID14</td><td><span>{{MIS_BC_SSCHEDID14}}</span></td></tr>",
-    "         <tr><td>MIS_BC_NUMTC</td><td><span>{{MIS_BC_NUMTC}}</span></td></tr>",
-    "         <tr><td>MIS_BC_NEXTDEADL</td><td><span>{{MIS_BC_NEXTDEADL}}</span></td></tr>",
-    "         <tr><td>MIS_BC_ENABLED8</td><td><span>{{MIS_BC_ENABLED8}}</span></td></tr>",
-    "         <tr><td>MIS_BC_DALMINITDEL</td><td><span>{{MIS_BC_DALMINITDEL}}</span></td></tr>",
-    "       </td></tr></table></td>",
-    "    <table border=\"1\" align=\"left\" style=\"width: 30%; font-size: 11px;\">",
-    "   <th style=\"vertical-align: top; width=\"50%\" bgcolor=\"#428bca\"> NAME </th><th width=\"50%\" bgcolor=\"#428bca\"> VALUE</th>",
-    "         <tr><td>MIS_BC_DAGADETTHRE</td><td><span>{{MIS_BC_DAGADETTHRE}}</span></td></tr>",
-    "         <tr><td>MIS_BC_AOCSLOTPER</td><td><span>{{MIS_BC_AOCSLOTPER}}</span></td></tr>",
-    "         <tr><td>SAT_BC_TMTREDOND</td><td><span>{{SAT_BC_TMTREDOND}}</span></td></tr>",
-    "         <tr><td>SAT_BC_TMT1ERROR</td><td><span>{{SAT_BC_TMT1ERROR}}</span></td></tr>",
-    "         <tr><td>SAT_BC_TCR2VISFLAG</td><td><span>{{SAT_BC_TCR2VISFLAG}}</span></td></tr>",
-    "         <tr><td>SAT_BC_SECMISCENT3</td><td><span>{{SAT_BC_SECMISCENT3}}</span></td></tr>",
-    "         <tr><td>SAT_BC_OBCPS8</td><td><span>{{SAT_BC_OBCPS8}}</span></td></tr>",
-    "         <tr><td>SAT_BC_OBCPS1</td><td><span>{{SAT_BC_OBCPS1}}</span></td></tr>",
-    "         <tr><td>SAT_BC_NUMRJCTTC9</td><td><span>{{SAT_BC_NUMRJCTTC9}}</span></td></tr>",
-    "         <tr><td>SAT_BC_NUMTC0</td><td><span>{{SAT_BC_NUMTC0}}</span></td></tr>",
-    "         <tr><td>SAT_BC_HSPDEFPRIOR</td><td><span>{{SAT_BC_HSPDEFPRIOR}}</span></td></tr>",
-    "         <tr><td>SAT_BC_CMSIMMEDTC</td><td><span>{{SAT_BC_CMSIMMEDTC}}</span></td></tr>",
-    "         <tr><td>POW_BC_SSCHEDID3</td><td><span>{{POW_BC_SSCHEDID3}}</span></td></tr>",
-    "         <tr><td>POW_BC_TSTPARFBOOL</td><td><span>{{POW_BC_TSTPARFBOOL}}</span></td></tr>",
-    "         <tr><td>POW_BC_SEQNUM1TC</td><td><span>{{POW_BC_SEQNUM1TC}}</span></td></tr>",
-    "         <tr><td>POW_BC_PARMONEN</td><td><span>{{POW_BC_PARMONEN}}</span></td></tr>",
-    "         <tr><td>POW_BC_NUMRJCTTC15</td><td><span>{{POW_BC_NUMRJCTTC15}}</span></td></tr>",
-    "         <tr><td>POW_BC_LASTSQNUM4</td><td><span>{{POW_BC_LASTSQNUM4}}</span></td></tr>",
-    "         <tr><td>POW_BC_LASTSQNUM0</td><td><span>{{POW_BC_LASTSQNUM0}}</span></td></tr>",
-    "         <tr><td>POW_BC_ENABLED2</td><td><span>{{POW_BC_ENABLED2}}</span></td></tr>",
-    "         <tr><td>POW_BC_CURRENTENER</td><td><span>{{POW_BC_CURRENTENER}}</span></td></tr>",
-    "         <tr><td>ORB_BC_TSTPARVINT</td><td><span>{{ORB_BC_TSTPARVINT}}</span></td></tr>",
-    "         <tr><td>POW_BC_BATENER</td><td><span>{{POW_BC_BATENER}}</span></td></tr>",
-    "         <tr><td>ORB_BC_SSCHEDID20</td><td><span>{{ORB_BC_SSCHEDID20}}</span></td></tr>",
-    "         <tr><td>ORB_BC_GPSREDOND</td><td><span>{{ORB_BC_GPSREDOND}}</span></td></tr>",
-    "         <tr><td>ORB_BC_LASTSQNUM10</td><td><span>{{ORB_BC_LASTSQNUM10}}</span></td></tr>",
-    "         <tr><td>ORB_BC_LVVELXITRF</td><td><span>{{ORB_BC_LVVELXITRF}}</span></td></tr>",
-    "         <tr><td>ORB_BC_NUMRJCTTC2</td><td><span>{{ORB_BC_NUMRJCTTC2}}</span></td></tr>",
-    "         <tr><td>ORB_BC_NUMTC14</td><td><span>{{ORB_BC_NUMTC14}}</span></td></tr>",
-    "         <tr><td>ORB_BC_NUMTCMAX</td><td><span>{{ORB_BC_NUMTCMAX}}</span></td></tr>",
-    "         <tr><td>ORB_BC_QUATCONS3</td><td><span>{{ORB_BC_QUATCONS3}}</span></td></tr>",
-    "         <tr><td>ORB_BC_TSTPARFLONG</td><td><span>{{ORB_BC_TSTPARFLONG}}</span></td></tr>",
-    "         <tr><td>ORB_BC_VXITRF</td><td><span>{{ORB_BC_VXITRF}}</span></td></tr>",
-    "       </td></tr></table></td>",
-    "    </tr>",
-    "  </table>",
-    " </body>",
-    "</html>"
+    "<style>",
+    "  .myTextView { background-color: lightgrey; width: 100%;font-size: 1.2rem; height: 100%; }",
+    "  .myTextView > div { display: inline-block; width: 25%; vertical-align: top; height: 100%; }",
+    "  .myTextView .name { font-weight: bolder; min-width: 40px;  width: 47%; display: inline-block; margin-bottom: 2px; }",
+    "  .myTextView .value { margin-left: 10px; background-color: black; color: yellow; font-weight: bold;  width: 47%; display: inline-block; text-align: right; padding: 2px; }",
+    "</style>",
+    "<div class='myTextView'>",
+    "  <div>",
+    "    <div><span class='name'>ATT_BC_STR1VOLTAGE_EV</span><span class='value'>{{ATT_BC_STR1VOLTAGE_EV}}</span></div>",
+    "    <div><span class='name'>SAT_BC_TSTPARVQ3_MS</span><span class='value'>{{SAT_BC_TSTPARVQ3_MS}}</span></div>",
+    "    <div><span class='name'>MIS_BC_DAGAFREQ_CV</span><span class='value'>{{MIS_BC_DAGAFREQ_CV}}</span></div>",
+    "    <div><span class='name'>GENE_AM_CCSDSAPID_EV</span><span class='value'>{{GENE_AM_CCSDSAPID_EV}}</span></div>",
+    "    <div><span class='name'>POW_BC_MAXENER_MS</span><span class='value'>{{POW_BC_MAXENER_MS}}</span></div>",
+    "    <div><span class='name'>TMMGT_BC_BCSTATUSW_CV</span><span class='value'>{{TMMGT_BC_BCSTATUSW_CV}}</span></div>",
+    "    <div><span class='name'>FMGT_BC_OBCP8EXSTAT_EV</span><span class='value'>{{FMGT_BC_OBCP8EXSTAT_EV}}</span></div>",
+    "    <div><span class='name'>ORB_BC_TSTPARVFLT_MS</span><span class='value'>{{ORB_BC_TSTPARVFLT_MS}}</span></div>",
+    "    <div><span class='name'>CLK_BC_EVACGENSTA_CV</span><span class='value'>{{CLK_BC_EVACGENSTA_CV}}</span></div>",
+    "    <div><span class='name'>AGA_AM_VISIANGLE_CV</span><span class='value'>{{AGA_AM_VISIANGLE_CV}}</span></div>",
+    "    <div><span class='name'>POW_BC_PCDENABLED</span><span class='value'>{{POW_BC_PCDENABLED}}</span></div>",
+    "    <div><span class='name'>GENE_AM_CCSDSSOUR</span><span class='value'>{{GENE_AM_CCSDSSOUR}}</span></div>",
+    "    <div><span class='name'>GENE_AM_FRPOFLAG</span><span class='value'>{{GENE_AM_FRPOFLAG}}</span></div>",
+    "    <div><span class='name'>GENE_AM_I13STOREID</span><span class='value'>{{GENE_AM_I13STOREID}}</span></div>",
+    "    <div><span class='name'>GENE_AM_I1TCPKTID</span><span class='value'>{{GENE_AM_I1TCPKTID}}</span></div>",
+    "    <div><span class='name'>ATT_BC_ENABLED8</span><span class='value'>{{ATT_BC_ENABLED8}}</span></div>",
+    "    <div><span class='name'>ATT_BC_LASTSQNUM4</span><span class='value'>{{ATT_BC_LASTSQNUM4}}</span></div>",
+    "    <div><span class='name'>ATT_BC_MAGREFQ0</span><span class='value'>{{ATT_BC_MAGREFQ0}}</span></div>",
+    "    <div><span class='name'>ATT_BC_NUMRJCTTC12</span><span class='value'>{{ATT_BC_NUMRJCTTC12}}</span></div>",
+    "    <div><span class='name'>ATT_BC_NUMTC16</span><span class='value'>{{ATT_BC_NUMTC16}}</span></div>",
+    "    <div><span class='name'>ATT_BC_SAS1VOLTAGE</span><span class='value'>{{ATT_BC_SAS1VOLTAGE}}</span></div>",
+    "    <div><span class='name'>ATT_BC_SSCHEDID19</span><span class='value'>{{ATT_BC_SSCHEDID19}}</span></div>",
+    "    <div><span class='name'>ATT_BC_STR2SATRFQ3</span><span class='value'>{{ATT_BC_STR2SATRFQ3}}</span></div>",
+    "    <div><span class='name'>ATT_BC_THR4SATQ2</span><span class='value'>{{ATT_BC_THR4SATQ2}}</span></div>",
+    "    <div><span class='name'>ORB_BC_GPS1VOLTAGE</span><span class='value'>{{ORB_BC_GPS1VOLTAGE}}</span></div>",
+    "  </div><div>",
+    "    <div><span class='name'>ORB_BC_LASTSQNUM14</span><span class='value'>{{ORB_BC_LASTSQNUM14}}</span></div>",
+    "    <div><span class='name'>ORB_BC_RTSTATWORD</span><span class='value'>{{ORB_BC_RTSTATWORD}}</span></div>",
+    "    <div><span class='name'>POW_BC_ENERCURRLVL</span><span class='value'>{{POW_BC_ENERCURRLVL}}</span></div>",
+    "    <div><span class='name'>POW_BC_NUMRJCTTC11</span><span class='value'>{{POW_BC_NUMRJCTTC11}}</span></div>",
+    "    <div><span class='name'>POW_BC_TSTPARFQ0</span><span class='value'>{{POW_BC_TSTPARFQ0}}</span></div>",
+    "    <div><span class='name'>SAT_BC_ENABLED2</span><span class='value'>{{SAT_BC_ENABLED2}}</span></div>",
+    "    <div><span class='name'>SAT_BC_LASTSQNUM10</span><span class='value'>{{SAT_BC_LASTSQNUM10}}</span></div>",
+    "    <div><span class='name'>SAT_BC_NUMRJCTTC16</span><span class='value'>{{SAT_BC_NUMRJCTTC16}}</span></div>",
+    "    <div><span class='name'>SAT_BC_MINENERGY</span><span class='value'>{{SAT_BC_MINENERGY}}</span></div>",
+    "    <div><span class='name'>SAT_BC_OBCPS6</span><span class='value'>{{SAT_BC_OBCPS6}}</span></div>",
+    "    <div><span class='name'>SAT_BC_SSCHEDID16</span><span class='value'>{{SAT_BC_SSCHEDID16}}</span></div>",
+    "    <div><span class='name'>SAT_BC_TMT1CURRENT</span><span class='value'>{{SAT_BC_TMT1CURRENT}}</span></div>",
+    "    <div><span class='name'>MIS_BC_DMEMMAXMEM</span><span class='value'>{{MIS_BC_DMEMMAXMEM}}</span></div>",
+    "    <div><span class='name'>MIS_BC_NUMTC19</span><span class='value'>{{MIS_BC_NUMTC19}}</span></div>",
+    "    <div><span class='name'>MIS_BC_TSTPARFBOOL</span><span class='value'>{{MIS_BC_TSTPARFBOOL}}</span></div>",
+    "    <div><span class='name'>MIS_BC_TSTPARVSHRT</span><span class='value'>{{MIS_BC_TSTPARVSHRT}}</span></div>",
+    "    <div><span class='name'>FMGT_BC_EXECTIME1TC</span><span class='value'>{{FMGT_BC_EXECTIME1TC}}</span></div>",
+    "    <div><span class='name'>FMGT_BC_LASTSQNUM5</span><span class='value'>{{FMGT_BC_LASTSQNUM5}}</span></div>",
+    "    <div><span class='name'>FMGT_BC_NUMRJCTTC2</span><span class='value'>{{FMGT_BC_NUMRJCTTC2}}</span></div>",
+    "    <div><span class='name'>FMGT_BC_NUMTC</span><span class='value'>{{FMGT_BC_NUMTC}}</span></div>",
+    "    <div><span class='name'>FMGT_BC_OBCP1ID</span><span class='value'>{{FMGT_BC_OBCP1ID}}</span></div>",
+    "    <div><span class='name'>FMGT_BC_OBCPFREEMEM</span><span class='value'>{{FMGT_BC_OBCPFREEMEM}}</span></div>",
+    "    <div><span class='name'>FMGT_BC_SSCHEDID13</span><span class='value'>{{FMGT_BC_SSCHEDID13}}</span></div>",
+    "    <div><span class='name'>FMGT_BC_TSTPARFBYTE</span><span class='value'>{{FMGT_BC_TSTPARFBYTE}}</span></div>",
+    "    <div><span class='name'>TMMGT_BC_LASTSQNUM0</span><span class='value'>{{TMMGT_BC_LASTSQNUM0}}</span></div>",
+    "  </div><div>",
+    "    <div><span class='name'>TMMGT_BC_FREEMEMORY</span><span class='value'>{{TMMGT_BC_FREEMEMORY}}</span></div>",
+    "    <div><span class='name'>TMMGT_BC_SSCHEDID4</span><span class='value'>{{TMMGT_BC_SSCHEDID4}}</span></div>",
+    "    <div><span class='name'>OBCPE1_BC_BCSTATUSW</span><span class='value'>{{OBCPE1_BC_BCSTATUSW}}</span></div>",
+    "    <div><span class='name'>TMMGT_BC_VCARATIO0</span><span class='value'>{{TMMGT_BC_VCARATIO0}}</span></div>",
+    "    <div><span class='name'>OBCPE1_BC_NUMTC4</span><span class='value'>{{OBCPE1_BC_NUMTC4}}</span></div>",
+    "    <div><span class='name'>OBCPE1_BC_PARMONITEN</span><span class='value'>{{OBCPE1_BC_PARMONITEN}}</span></div>",
+    "    <div><span class='name'>OBCPE1_BC_SSCHEDID5</span><span class='value'>{{OBCPE1_BC_SSCHEDID5}}</span></div>",
+    "    <div><span class='name'>OBCPE2_BC_NUMRJCTTC7</span><span class='value'>{{OBCPE2_BC_NUMRJCTTC7}}</span></div>",
+    "    <div><span class='name'>OBCPE2_BC_SSCHEDID18</span><span class='value'>{{OBCPE2_BC_SSCHEDID18}}</span></div>",
+    "    <div><span class='name'>FMGT_BC_LASTSQNUM7</span><span class='value'>{{FMGT_BC_LASTSQNUM7}}</span></div>",
+    "    <div><span class='name'>FMGT_BC_ENABLED</span><span class='value'>{{FMGT_BC_ENABLED}}</span></div>",
+    "    <div><span class='name'>MIS_BC_SSCHEDID14</span><span class='value'>{{MIS_BC_SSCHEDID14}}</span></div>",
+    "    <div><span class='name'>MIS_BC_NUMTC</span><span class='value'>{{MIS_BC_NUMTC}}</span></div>",
+    "    <div><span class='name'>MIS_BC_NEXTDEADL</span><span class='value'>{{MIS_BC_NEXTDEADL}}</span></div>",
+    "    <div><span class='name'>MIS_BC_ENABLED8</span><span class='value'>{{MIS_BC_ENABLED8}}</span></div>",
+    "    <div><span class='name'>MIS_BC_DALMINITDEL</span><span class='value'>{{MIS_BC_DALMINITDEL}}</span></div>",
+    "    <div><span class='name'>MIS_BC_DAGADETTHRE</span><span class='value'>{{MIS_BC_DAGADETTHRE}}</span></div>",
+    "    <div><span class='name'>MIS_BC_AOCSLOTPER</span><span class='value'>{{MIS_BC_AOCSLOTPER}}</span></div>",
+    "    <div><span class='name'>SAT_BC_TMTREDOND</span><span class='value'>{{SAT_BC_TMTREDOND}}</span></div>",
+    "    <div><span class='name'>SAT_BC_TMT1ERROR</span><span class='value'>{{SAT_BC_TMT1ERROR}}</span></div>",
+    "    <div><span class='name'>SAT_BC_TCR2VISFLAG</span><span class='value'>{{SAT_BC_TCR2VISFLAG}}</span></div>",
+    "    <div><span class='name'>SAT_BC_SECMISCENT3</span><span class='value'>{{SAT_BC_SECMISCENT3}}</span></div>",
+    "    <div><span class='name'>SAT_BC_OBCPS8</span><span class='value'>{{SAT_BC_OBCPS8}}</span></div>",
+    "    <div><span class='name'>SAT_BC_OBCPS1</span><span class='value'>{{SAT_BC_OBCPS1}}</span></div>",
+    "  </div><div>",
+    "    <div><span class='name'>SAT_BC_NUMRJCTTC9</span><span class='value'>{{SAT_BC_NUMRJCTTC9}}</span></div>",
+    "    <div><span class='name'>SAT_BC_NUMTC0</span><span class='value'>{{SAT_BC_NUMTC0}}</span></div>",
+    "    <div><span class='name'>SAT_BC_HSPDEFPRIOR</span><span class='value'>{{SAT_BC_HSPDEFPRIOR}}</span></div>",
+    "    <div><span class='name'>SAT_BC_CMSIMMEDTC</span><span class='value'>{{SAT_BC_CMSIMMEDTC}}</span></div>",
+    "    <div><span class='name'>POW_BC_SSCHEDID3</span><span class='value'>{{POW_BC_SSCHEDID3}}</span></div>",
+    "    <div><span class='name'>POW_BC_TSTPARFBOOL</span><span class='value'>{{POW_BC_TSTPARFBOOL}}</span></div>",
+    "    <div><span class='name'>POW_BC_SEQNUM1TC</span><span class='value'>{{POW_BC_SEQNUM1TC}}</span></div>",
+    "    <div><span class='name'>POW_BC_PARMONEN</span><span class='value'>{{POW_BC_PARMONEN}}</span></div>",
+    "    <div><span class='name'>POW_BC_NUMRJCTTC15</span><span class='value'>{{POW_BC_NUMRJCTTC15}}</span></div>",
+    "    <div><span class='name'>POW_BC_LASTSQNUM4</span><span class='value'>{{POW_BC_LASTSQNUM4}}</span></div>",
+    "    <div><span class='name'>POW_BC_LASTSQNUM0</span><span class='value'>{{POW_BC_LASTSQNUM0}}</span></div>",
+    "    <div><span class='name'>POW_BC_ENABLED2</span><span class='value'>{{POW_BC_ENABLED2}}</span></div>",
+    "    <div><span class='name'>POW_BC_CURRENTENER</span><span class='value'>{{POW_BC_CURRENTENER}}</span></div>",
+    "    <div><span class='name'>ORB_BC_TSTPARVINT</span><span class='value'>{{ORB_BC_TSTPARVINT}}</span></div>",
+    "    <div><span class='name'>POW_BC_BATENER</span><span class='value'>{{POW_BC_BATENER}}</span></div>",
+    "    <div><span class='name'>ORB_BC_SSCHEDID20</span><span class='value'>{{ORB_BC_SSCHEDID20}}</span></div>",
+    "    <div><span class='name'>ORB_BC_GPSREDOND</span><span class='value'>{{ORB_BC_GPSREDOND}}</span></div>",
+    "    <div><span class='name'>ORB_BC_LASTSQNUM10</span><span class='value'>{{ORB_BC_LASTSQNUM10}}</span></div>",
+    "    <div><span class='name'>ORB_BC_LVVELXITRF</span><span class='value'>{{ORB_BC_LVVELXITRF}}</span></div>",
+    "    <div><span class='name'>ORB_BC_NUMRJCTTC2</span><span class='value'>{{ORB_BC_NUMRJCTTC2}}</span></div>",
+    "    <div><span class='name'>ORB_BC_NUMTC14</span><span class='value'>{{ORB_BC_NUMTC14}}</span></div>",
+    "    <div><span class='name'>ORB_BC_NUMTCMAX</span><span class='value'>{{ORB_BC_NUMTCMAX}}</span></div>",
+    "    <div><span class='name'>ORB_BC_QUATCONS3</span><span class='value'>{{ORB_BC_QUATCONS3}}</span></div>",
+    "    <div><span class='name'>ORB_BC_TSTPARFLONG</span><span class='value'>{{ORB_BC_TSTPARFLONG}}</span></div>",
+    "    <div><span class='name'>ORB_BC_VXITRF</span><span class='value'>{{ORB_BC_VXITRF}}</span></div>",
+    "  </div>",
+    "</div>"
   ]
 }

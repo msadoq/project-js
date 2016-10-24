@@ -70,7 +70,6 @@ class PlotView extends Component {
 
   handleTooltipContent = ({ currentItem, xAccessor }) => {
     const { data: { lines = []} = {} } = this.props;
-    console.log('lines', lines, currentItem)
     return {
       x: this.dateFormat(xAccessor(currentItem)),
       y: lines.map((line) => ({

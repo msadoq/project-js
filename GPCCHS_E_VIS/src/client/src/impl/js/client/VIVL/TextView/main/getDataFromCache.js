@@ -84,7 +84,9 @@ export default function getDataFromCache() {
     ],
     (map, cache) => {
       console.log('compute text data');
-      return _reduce(map, (list, detail, name) => {
+      const start = process.hrtime();
+
+      const data = _reduce(map, (list, detail, name) => {
         if (detail.invalid === true) {
           return _set(list, [name], `INVALID (${detail.reason})`);
         }
@@ -93,5 +95,11 @@ export default function getDataFromCache() {
         const value = _get(cache, [remoteId, localId, 'value']);
         return _set(list, [name], value);
       }, {});
+
+      // TODO : console.log points number and duration
+      const duration = (process.hrtime(start)[1] / 1e6);
+      console.log('text getDataFromCache done in', duration);
+
+      return data;
     });
 }

@@ -1,20 +1,56 @@
-Incoming data message:
+Incoming data message (timebasedData):
 ```
 {
-  'remoteId': { // <= loop
-    dataId: {},
-    filter: {},
-    localIds: {
-      'localId': { // <= loop
-        type: string,
-        field: string,
-        timebarId: string,
-        offset: string,
-      }
+  'remoteId': [
+    {
+      timestamp: 'timestamp',
+      payload: { ....'fields'... }
     }
-  }
+  ]
 }
 ```
+
+View data cache map:
+```
+{
+  'remoteId': {
+    'viewId': {
+      type: string,
+      entryPoints: {
+        'name': {
+          field: string,
+          options: { color: string },
+          expectedInterval: [number, number],
+        },
+      }
+    },
+  },
+}
+```
+
+View cached data:
+```
+{
+  // TextView
+  'viewId': {
+    index: { 'name': 'timestamp' },
+    values: { 'name': 'value' },
+  },
+  // PlotView
+  'viewId': {
+    index: { 'name': ['timestamp'] },
+    lines: [
+      { key: 'key1', color: string, name: string }
+    ],
+    columns: {
+      'name': [
+        { x: 'timestamp', 'key1': number }
+      ]
+    }
+  },
+}
+```
+
 
 Cached data:
 ```

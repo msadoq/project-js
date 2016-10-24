@@ -137,6 +137,7 @@ export default function getDataFromCache() {
     ],
     (map, cache) => {
       console.log('compute plot data');
+      const start = process.hrtime();
 
       let i = 1;
       const lines = [];
@@ -168,12 +169,17 @@ export default function getDataFromCache() {
           }
 
           if (!_has(dictionary, [xValue, key])) {
+            // TODO : set null key for every expected lines (allow missing x in multi-lines)
             _set(dictionary, [xValue, 'x'], new Date(xValue));
           }
 
           _set(dictionary, [xValue, key], yValue);
         });
       });
+
+      // TODO : console.log points number and duration
+      const duration = (process.hrtime(start)[1] / 1e6);
+      console.log('plot getDataFromCache done in', duration);
 
       return {
         lines,

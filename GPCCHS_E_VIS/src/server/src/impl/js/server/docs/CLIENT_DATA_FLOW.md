@@ -13,18 +13,28 @@ Incoming data message (timebasedData):
 View data cache map:
 ```
 {
-  'remoteId': {
     'viewId': {
-      type: string,
-      entryPoints: {
-        'name': {
-          field: string,
-          options: { color: string },
-          expectedInterval: [number, number],
+        type: 'TextView',
+        entryPoints: {
+            'name': {
+              remoteId: string,
+              field: string,
+              expectedInterval: [number, number],
+            },
         },
-      }
     },
-  },
+    'viewId': {
+      type: 'PlotView',
+      entryPoints: {
+          'name': {
+            remoteId: string,
+            fieldX: string,
+            fieldY: string,
+            color: string,
+            expectedInterval: [number, number],
+          },
+      },
+    },
 }
 ```
 

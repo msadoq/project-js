@@ -16,11 +16,13 @@ View data cache map:
   'remoteId': {
     'viewId': {
       type: string,
-      'name': {
-        field: string,
-        options: { color: string },
-        expectedInterval: [number, number],
-      },
+      entryPoints: {
+        'name': {
+          field: string,
+          options: { color: string },
+          expectedInterval: [number, number],
+        },
+      }
     },
   },
 }

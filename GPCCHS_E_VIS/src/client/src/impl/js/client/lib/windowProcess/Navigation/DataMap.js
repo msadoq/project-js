@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import dataMap from '../../mainProcess/data/dataMap';
+import dataMap from '../../mainProcess/data/map/visible';
 
 export default class Timebar extends Component {
   static propTypes = {};

@@ -4,17 +4,18 @@ import _isObject from 'lodash/isObject';
 import { constants as globalConstants } from 'common';
 
 import debug from '../../common/debug/mainDebug';
-import dataMapGenerator from './dataMap';
-import requestsMapGenerator from './requestsMap';
+import profiling from '../../common/debug/profiling';
+import dataMapGenerator from './map/visible';
+import requestsMapGenerator from './map/requests';
 import { getWebsocket } from '../../common/websocket/mainWebsocket';
 import { addRequests } from '../../store/actions/dataRequests';
 
-const logger = debug('store:observers:data');
+const logger = debug('data:requests');
 
 export default _throttle((state, dispatch) => {
-  logger.verbose('begin data synchronisation');
+  logger.verbose('begin data/requests');
 
-  const start = process.hrtime();
+  const start = profiling.start();
 
   // TODO : improve memoization
   const dataMap = dataMapGenerator(state);
@@ -31,9 +32,8 @@ export default _throttle((state, dispatch) => {
 
   dispatch(addRequests(dataQueries));
 
-  const duration = process.hrtime(start)[1] / 1e6;
-  const count = Object.keys(dataQueries).length;
-  return count
-    ? logger.debug(`data requests done in ${duration}ms, ${count} remoteId requests`)
-    : logger.debug('no data to requests');
+  profiling.stop(
+    start,
+    `dataRequests done (${Object.keys(dataQueries).length} remoteId requested)`
+  );
 }, globalConstants.HSC_THROTTLE_REQUESTS);

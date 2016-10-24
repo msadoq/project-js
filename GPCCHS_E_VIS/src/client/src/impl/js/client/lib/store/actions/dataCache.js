@@ -2,7 +2,7 @@ import { last, has, each, concat, slice, findIndex, get, set, find } from 'lodas
 import vivl from '../../../VIVL/main';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
-import dataMap from '../../mainProcess/data/dataMap';
+import dataMap from '../../mainProcess/data/map/visible';
 import debug from '../../common/debug/mainDebug';
 
 const logger = debug('store:action:dataCache');

@@ -3,7 +3,7 @@ import parameters from '../common/parameters';
 import debug from '../common/debug/mainDebug';
 import installExtensions from './installExtensions';
 import openWorkspace from './openWorkspace';
-import invalidateCache from './invalidateCache';
+import invalidateCache from './data/invalidate';
 import { initStore, getStore } from '../store/mainStore';
 import storeObserver from './storeObserver';
 import { connect, disconnect } from '../common/websocket/mainWebsocket';

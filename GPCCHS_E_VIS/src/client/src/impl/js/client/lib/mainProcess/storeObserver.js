@@ -53,6 +53,6 @@ export default function storeObserver() {
     logger.debug('data synchronisation');
     dataObserver(state, dispatch);
     // timeout added to avoid data observer update
-    setTimeout(() => { setActingOff();}, 0);
+    setTimeout(setActingOff, 0);
   }
 }

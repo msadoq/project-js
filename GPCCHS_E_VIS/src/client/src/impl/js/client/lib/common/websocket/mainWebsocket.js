@@ -51,7 +51,7 @@ export function connect() {
       getStore().dispatch(removeAllRequests());
       getStore().dispatch(removeDataCache());
       // warning: timeout to handle a weird behavior that trigger data observer update
-      setTimeout(() => setActingOff, 0);
+      setTimeout(setActingOff, 0);
     });
     instance.on('error', (err) => {
       logger.error('error', err.stack);

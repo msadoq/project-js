@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 const { constants: globalConstants } = require('common');
 const debug = require('../io/debug')('websocket');
 const primus = require('./primus');
@@ -8,7 +9,6 @@ const {
   concat: _concat,
 } = require('lodash');
 
-const FLUSH_FREQUENCY = 25; // ms
 let mainQueue = {};
 
 const sendToMain = (event, payload) => {
@@ -30,7 +30,7 @@ const flushMainQueue = _throttle(() => {
   const stop = process.hrtime(start);
   debug.debug('flushing time', stop);
   mainQueue = {};
-}, FLUSH_FREQUENCY);
+}, globalConstants.FLUSH_TO_HSC_FREQUENCY);
 
 const addToMainQueue = (remoteId, payload) => {
   debug.debug('adding to queue');

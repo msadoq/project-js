@@ -1,3 +1,6 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { constants: globalConstants } = require('common');
+
 const debug = require('../io/debug')('stub:dc');
 const {
   random: _random,
@@ -12,16 +15,12 @@ const supportedParameters = require('./supportedParameters');
 
 require('dotenv-safe').load();
 
-const DC_FREQUENCY = 100;
-const MAX_SUBSCRIPTION_PUSH = 1;
-const PARAMETER_VALUE_STEP = 2000;
-
 let subscriptions = {}; // realtime
 let queries = []; // archive
 
 const generateRealtimePayloads = () => {
   const payloads = [];
-  for (let i = 0; i < _random(0, MAX_SUBSCRIPTION_PUSH); i += 1) {
+  for (let i = 0; i < _random(0, globalConstants.DC_STUB_MAX_SUBSCRIPTION_VALUES); i += 1) {
     // fake time repartition
     const timestamp = Date.now() - (i * 10);
     payloads.push(
@@ -183,7 +182,7 @@ const emulateDc = () => {
   });
 
   if (!queries.length) {
-    return setTimeout(emulateDc, DC_FREQUENCY);
+    return setTimeout(emulateDc, globalConstants.DC_STUB_FREQUENCY);
   }
 
   // queries
@@ -195,7 +194,7 @@ const emulateDc = () => {
       return debug.error('Unvalid interval');
     }
     const payloads = [];
-    for (let i = from; i <= to; i += PARAMETER_VALUE_STEP) {
+    for (let i = from; i <= to; i += globalConstants.DC_STUB_VALUE_TIMESTEP) {
       const ts = i;
       payloads.push(
         {
@@ -213,7 +212,7 @@ const emulateDc = () => {
   });
   queries = [];
 
-  return setTimeout(emulateDc, DC_FREQUENCY);
+  return setTimeout(emulateDc, globalConstants.DC_STUB_FREQUENCY);
 };
 
 zmq.open(
@@ -236,6 +235,6 @@ zmq.open(
     }
 
     debug.info('sockets opened');
-    setTimeout(emulateDc, DC_FREQUENCY);
+    setTimeout(emulateDc, globalConstants.DC_STUB_FREQUENCY);
   }
 );

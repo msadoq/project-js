@@ -1,3 +1,4 @@
+import { constants as globalConstants } from 'common';
 import parameters from '../common/parameters';
 import debug from '../common/debug/mainDebug';
 import installExtensions from './installExtensions';
@@ -6,7 +7,6 @@ import invalidateCache from './invalidateCache';
 import { initStore, getStore } from '../store/mainStore';
 import storeObserver from './storeObserver';
 import { connect, disconnect } from '../common/websocket/mainWebsocket';
-import * as constants from '../constants';
 import './menu';
 
 const logger = debug('mainProcess:index');
@@ -48,7 +48,7 @@ export async function start() {
       // cache invalidation
       cacheInvalidator = setInterval(() => invalidateCache(
         getStore()),
-        constants.CACHE_INVALIDATION_FREQUENCY
+        globalConstants.CACHE_INVALIDATION_FREQUENCY
       );
     });
   } catch (e) {

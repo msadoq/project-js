@@ -15,8 +15,8 @@ View data cache map:
 {
   'remoteId': {
     'viewId': {
+      type: string,
       'name': {
-        type: string,
         field: string,
         options: { color: string },
         expectedInterval: [number, number],

@@ -15,7 +15,7 @@
 	  "windowState": "Normalized"
 	},
   {
-	  "path": "/views/plot2.json",
+	  "path": "/views/plotviewOne.json",
 	  "geometry": {
 		"kind": "Relative",
 		"x": 8,
@@ -47,7 +47,7 @@
 	  "windowState": "Normalized"
 	},
   {
-	  "path": "/views/plot3.json",
+	  "path": "/views/plotview4.json",
 	  "geometry": {
 		"kind": "Relative",
 		"x": 0,
@@ -58,7 +58,7 @@
 	  "windowState": "Normalized"
 	},
   {
-	  "path": "/views/plot4.json",
+	  "path": "/views/plotview10.json",
 	  "geometry": {
 		"kind": "Relative",
 		"x": 0,

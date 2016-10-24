@@ -1,0 +1,466 @@
+{
+  "type": "PlotView",
+  "links": [
+    {
+      "name": "page4",
+      "path": "./pages/page4.json"
+    }
+  ],
+  "procedures": [],
+  "defaultRatio": {
+    "length": 50,
+    "width": 50
+  },
+  "entryPoints": [
+    {
+      "name": "GENE_AM_FRVERSION",
+      "connectedDataX": {
+        "formula": "Reporting.GENE_AM_FRVERSION<ReportingParameter>.groundDate",
+        "unit": "s",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1",
+        "axisId": "Time"
+      },
+      "connectedDataY": {
+        "formula": "Reporting.GENE_AM_FRVERSION<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColour": "#000000",
+      "stateColours": [
+        {
+          "colour": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ATT_BC_MAG1VOLTAGE",
+      "connectedDataX": {
+        "formula": "Reporting.ATT_BC_MAG1VOLTAGE<ReportingParameter>.groundDate",
+        "unit": "s",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 2",
+        "axisId": "Time"
+      },
+      "connectedDataY": {
+        "formula": "Reporting.ATT_BC_MAG1VOLTAGE<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 2",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColour": "#000000",
+      "stateColours": [
+        {
+          "colour": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ATT_BC_NUMRJCTTC15",
+      "connectedDataX": {
+        "formula": "Reporting.ATT_BC_NUMRJCTTC15<ReportingParameter>.groundDate",
+        "unit": "s",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1",
+        "axisId": "Time"
+      },
+      "connectedDataY": {
+        "formula": "Reporting.ATT_BC_NUMRJCTTC15<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColour": "#000000",
+      "stateColours": [
+        {
+          "colour": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ATT_BC_STR2QSTRREF",
+      "connectedDataX": {
+        "formula": "Reporting.ATT_BC_STR2QSTRREF<ReportingParameter>.groundDate",
+        "unit": "s",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 2",
+        "axisId": "Time"
+      },
+      "connectedDataY": {
+        "formula": "Reporting.ATT_BC_STR2QSTRREF<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 2",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColour": "#000000",
+      "stateColours": [
+        {
+          "colour": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ORB_BC_LVVELXJ2000",
+      "connectedDataX": {
+        "formula": "Reporting.ORB_BC_LVVELXJ2000<ReportingParameter>.groundDate",
+        "unit": "s",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 3",
+        "axisId": "Time"
+      },
+      "connectedDataY": {
+        "formula": "Reporting.ORB_BC_LVVELXJ2000<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 3",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColour": "#000000",
+      "stateColours": [
+        {
+          "colour": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ORB_BC_NXTDEADLINE",
+      "connectedDataX": {
+        "formula": "Reporting.ORB_BC_NXTDEADLINE<ReportingParameter>.groundDate",
+        "unit": "s",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 4",
+        "axisId": "Time"
+      },
+      "connectedDataY": {
+        "formula": "Reporting.ORB_BC_NXTDEADLINE<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 4",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColour": "#000000",
+      "stateColours": [
+        {
+          "colour": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ]
+    },
+    {
+    "name": "POW_BC_NUMRJCTTC18",
+    "connectedDataX": {
+      "formula": "Reporting.POW_BC_NUMRJCTTC18<ReportingParameter>.groundDate",
+      "unit": "s",
+      "digits": 5,
+      "format": "decimal",
+      "domain": "fr.cnes.sat1",
+      "timeline": "Session 1",
+      "axisId": "Time"
+    },
+    "connectedDataY": {
+      "formula": "Reporting.POW_BC_NUMRJCTTC18<ReportingParameter>.extractedValue",
+      "unit": "V",
+      "digits": 5,
+      "format": "decimal",
+      "domain": "fr.cnes.sat1",
+      "timeline": "Session 1",
+      "axisId": "VBat"
+    },
+    "lineStyle": "Continuous",
+    "pointsStyle": "None",
+    "curveColour": "#21610B",
+    "stateColours": [
+      {
+        "colour": "#000000",
+        "condition": {
+          "field": "monitoringState",
+          "operator": "==",
+          "operand": "waiting"
+        }
+      }
+    ]
+  },
+  {
+    "name": "SAT_BC_CCCIMMEDTC",
+    "connectedDataX": {
+      "formula": "Reporting.SAT_BC_CCCIMMEDTC<ReportingParameter>.groundDate",
+      "unit": "s",
+      "digits": 5,
+      "format": "decimal",
+      "domain": "fr.cnes.sat1",
+      "timeline": "Session 1",
+      "axisId": "Time"
+    },
+    "connectedDataY": {
+      "formula": "Reporting.SAT_BC_CCCIMMEDTC<ReportingParameter>.extractedValue",
+      "unit": "V",
+      "digits": 5,
+      "format": "decimal",
+      "domain": "fr.cnes.sat1",
+      "timeline": "Session 1",
+      "axisId": "VBat"
+    },
+    "lineStyle": "Continuous",
+    "pointsStyle": "None",
+    "curveColour": "#000000",
+    "stateColours": [
+      {
+        "colour": "#000000",
+        "condition": {
+          "field": "monitoringState",
+          "operator": "==",
+          "operand": "waiting"
+        }
+      }
+    ]
+  },
+  {
+    "name": "SAT_BC_LASTSQNUM5",
+    "connectedDataX": {
+      "formula": "Reporting.SAT_BC_LASTSQNUM5<ReportingParameter>.groundDate",
+      "unit": "s",
+      "digits": 5,
+      "format": "decimal",
+      "domain": "fr.cnes.sat1",
+      "timeline": "Session 2",
+      "axisId": "Time"
+    },
+    "connectedDataY": {
+      "formula": "Reporting.SAT_BC_LASTSQNUM5<ReportingParameter>.extractedValue",
+      "unit": "V",
+      "digits": 5,
+      "format": "decimal",
+      "domain": "fr.cnes.sat1",
+      "timeline": "Session 2",
+      "axisId": "VBat"
+    },
+    "lineStyle": "Continuous",
+    "pointsStyle": "None",
+    "curveColour": "#000000",
+    "stateColours": [
+      {
+        "colour": "#000000",
+        "condition": {
+          "field": "monitoringState",
+          "operator": "==",
+          "operand": "waiting"
+        }
+      }
+    ]
+  },
+  {
+    "name": "MIS_BC_DALMVOLTAGE",
+    "connectedDataX": {
+      "formula": "Reporting.MIS_BC_DALMVOLTAGE<ReportingParameter>.groundDate",
+      "unit": "s",
+      "digits": 5,
+      "format": "decimal",
+      "filter": [{
+        "field": "convertedValue",
+        "operator": "!=",
+        "operand": "0"
+      }],
+      "domain": "fr.cnes.sat1",
+      "timeline": "Session 1",
+      "axisId": "Time"
+    },
+    "connectedDataY": {
+      "formula": "Reporting.MIS_BC_DALMVOLTAGE<ReportingParameter>.extractedValue",
+      "unit": "V",
+      "digits": 5,
+      "format": "decimal",
+      "filter": [{
+        "field": "convertedValue",
+        "operator": "!=",
+        "operand": "0"
+      }],
+      "domain": "fr.cnes.sat1",
+      "timeline": "Session 1",
+      "axisId": "VBat"
+    },
+    "lineStyle": "Continuous",
+    "pointsStyle": "None",
+    "curveColour": "#4000FF",
+    "stateColours": [
+      {
+        "colour": "#000000",
+        "condition": {
+          "field": "monitoringState",
+          "operator": "==",
+          "operand": "waiting"
+        }
+      }
+    ]
+  }
+],
+  "axes": [
+    {
+      "label": "Time",
+      "unit": "<DATE>",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikeOut": false,
+        "align": "left",
+        "colour": "#000000"
+      },
+      "min": 0,
+      "max": 10,
+      "autoLimits": true,
+      "tickStep": 0.5,
+      "autoTick": true,
+      "showTicks": true,
+      "showTickLabels": true,
+      "isLogarithmic": false,
+      "showAxis": true
+    },
+    {
+      "label": "VBat",
+      "unit": "V",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikeOut": false,
+        "align": "left",
+        "colour": "#000000"
+      },
+      "min": -300,
+      "max": 300,
+      "autoLimits": false,
+      "tickStep": 50,
+      "autoTick": false,
+      "showTicks": true,
+      "showTickLabels": true,
+      "isLogarithmic": false,
+      "showAxis": true
+    }
+  ],
+  "grids": [
+    {
+      "xAxisId": "Time",
+      "yAxisId": "VBat",
+      "lineStyle": "Continuous",
+      "width": 1,
+      "showGrid": true
+    }
+  ],
+  "title": "Plotview 10 parameters",
+  "titleStyle": {
+    "font": "Arial",
+    "size": 12,
+    "bold": false,
+    "italic": false,
+    "underline": true,
+    "strikeOut": false,
+    "align": "center",
+    "colour": "#000000"
+  },
+  "plotBackgroundColour": "#FFFFFF",
+  "legend": {
+    "style": {
+      "font": "Arial",
+      "size": 12,
+      "bold": false,
+      "italic": false,
+      "underline": false,
+      "strikeOut": false,
+      "align": "left",
+      "colour": "#000000"
+    },
+    "location": "Top"
+  },
+  "markers": [
+    {
+      "kind": "Text",
+      "label": "VBAT",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": true,
+        "strikeOut": false,
+        "align": "left",
+        "colour": "#000000"
+      },
+      "relativePosX": 5.6,
+      "relativePosY": 8.9
+    }
+  ]
+  }

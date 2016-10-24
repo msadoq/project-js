@@ -1,0 +1,252 @@
+{
+  "type": "PlotView",
+  "links": [
+    {
+      "name": "page1Pbf",
+      "path": "./pages/page1Pbf.json"
+    }
+  ],
+  "procedures": [],
+  "defaultRatio": {
+    "length": 50,
+    "width": 50
+  },
+  "entryPoints": [
+    {
+      "name": "ATT_BC_REVTCOUNT1",
+      "connectedDataX": {
+        "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.convertedvalue",
+        "unit": "s",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1",
+        "axisId": "Time"
+      },
+      "connectedDataY": {
+        "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.convertedvalue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColour": "#000000",
+      "stateColours": [
+        {
+          "colour": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ATT_BC_REVTCOUNT2",
+      "connectedDataX": {
+        "formula": "Reporting.ATT_BC_REVTCOUNT2<ReportingParameter>.convertedvalue",
+        "unit": "s",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1",
+        "axisId": "Time"
+      },
+      "connectedDataY": {
+        "formula": "Reporting.ATT_BC_REVTCOUNT2<ReportingParameter>.convertedvalue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColour": "#000000",
+      "stateColours": [
+        {
+          "colour": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ATT_BC_REVTCOUNT3",
+      "connectedDataX": {
+        "formula": "Reporting.ATT_BC_REVTCOUNT3<ReportingParameter>.convertedvalue",
+        "unit": "s",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1",
+        "axisId": "Time"
+      },
+      "connectedDataY": {
+        "formula": "Reporting.ATT_BC_REVTCOUNT3<ReportingParameter>.convertedvalue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColour": "#000000",
+      "stateColours": [
+        {
+          "colour": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ATT_BC_REVTCOUNT4",
+      "connectedDataX": {
+        "formula": "Reporting.ATT_BC_REVTCOUNT4<ReportingParameter>.convertedvalue",
+        "unit": "s",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1",
+        "axisId": "Time"
+      },
+      "connectedDataY": {
+        "formula": "Reporting.ATT_BC_REVTCOUNT4<ReportingParameter>.convertedvalue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1",
+        "axisId": "VBat"
+      },
+      "lineStyle": "Continuous",
+      "pointsStyle": "None",
+      "curveColour": "#000000",
+      "stateColours": [
+        {
+          "colour": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ]
+    }
+  ],
+  "axes": [
+    {
+      "label": "Time",
+      "unit": "<DATE>",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikeOut": false,
+        "align": "left",
+        "colour": "#000000"
+      },
+      "min": 0,
+      "max": 10,
+      "autoLimits": true,
+      "tickStep": 0.5,
+      "autoTick": true,
+      "showTicks": true,
+      "showTickLabels": true,
+      "isLogarithmic": false,
+      "showAxis": true
+    },
+    {
+      "label": "VBat",
+      "unit": "V",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikeOut": false,
+        "align": "left",
+        "colour": "#000000"
+      },
+      "min": -300,
+      "max": 300,
+      "autoLimits": false,
+      "tickStep": 50,
+      "autoTick": false,
+      "showTicks": true,
+      "showTickLabels": true,
+      "isLogarithmic": false,
+      "showAxis": true
+    }
+  ],
+  "grids": [
+    {
+      "xAxisId": "Time",
+      "yAxisId": "VBat",
+      "lineStyle": "Continuous",
+      "width": 1,
+      "showGrid": true
+    }
+  ],
+  "title": "Plotview 4 parameters",
+  "titleStyle": {
+    "font": "Arial",
+    "size": 12,
+    "bold": false,
+    "italic": false,
+    "underline": true,
+    "strikeOut": false,
+    "align": "center",
+    "colour": "#000000"
+  },
+  "plotBackgroundColour": "#FFFFFF",
+  "legend": {
+    "style": {
+      "font": "Arial",
+      "size": 12,
+      "bold": false,
+      "italic": false,
+      "underline": false,
+      "strikeOut": false,
+      "align": "left",
+      "colour": "#000000"
+    },
+    "location": "Top"
+  },
+  "markers": [
+    {
+      "kind": "Text",
+      "label": "VBAT",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": true,
+        "strikeOut": false,
+        "align": "left",
+        "colour": "#000000"
+      },
+      "relativePosX": 5.6,
+      "relativePosY": 8.9
+    }
+  ]
+  }

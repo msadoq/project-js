@@ -1390,10 +1390,10 @@
   },
   "content": [
     "<style>",
-    "  .myTextView { background-color: lightgrey; width: 100%;font-size: 1.2rem; height: 100%; }",
+    "  .myTextView { background-color: white; width: 100%;font-size: 1.2rem; height: 100%; }",
     "  .myTextView > div { display: inline-block; width: 25%; vertical-align: top; height: 100%; }",
-    "  .myTextView .name { font-weight: bolder; width: 47%; display: inline-block; margin-bottom: 2px; }",
-    "  .myTextView .value { margin-left: 10px; background-color: black; color: yellow; font-weight: bold;  width: 47%; display: inline-block; text-align: right; padding: 2px; }",
+    "  .myTextView .name { margin-left: 10px; background-color: #a9b3bc; color: black; font-weight: bolder; width: 85%; display: inline-block; margin-top: 5px;text-align: center;}",
+    "  .myTextView .value { margin-left: 10px; background-color: black; color: #00ff00; font-weight: bold;  width: 85%; display: inline-block; text-align: left; padding: 10px; }",
     "</style>",
     "<div class='myTextView'>",
     "  <div>",

@@ -22,7 +22,15 @@ export function connect() {
     logger.info('trying open connection to', parameters.HSS);
 
     try {
-      instance = new Primus(parameters.HSS);
+      instance = new Primus(parameters.HSS, {
+        reconnect: {
+          max: 2000,
+          min: 200,
+          retries: 50,
+          'reconnect timeout': 1000,
+          factor: 1.5,
+        },
+      });
     } catch (e) {
       logger.error(e);
     }
@@ -42,8 +50,8 @@ export function connect() {
       getStore().dispatch(updateStatus('main', 'disconnected'));
       getStore().dispatch(removeAllRequests());
       getStore().dispatch(removeDataCache());
-      // timeout added to avoid data observer update
-      setTimeout(() => { setActingOff();}, 0);
+      // warning: timeout to handle a weird behavior that trigger data observer update
+      setTimeout(() => setActingOff, 0);
     });
     instance.on('error', (err) => {
       logger.error('error', err.stack);

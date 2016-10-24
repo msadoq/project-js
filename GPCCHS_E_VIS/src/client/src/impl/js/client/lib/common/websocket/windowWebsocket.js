@@ -16,7 +16,15 @@ export function connect(windowId) {
   if (!instance) {
     logger.info('trying open connection to', global.env.HSS);
     try {
-      instance = new Primus(global.env.HSS);
+      instance = new Primus(global.env.HSS, {
+        reconnect: {
+          max: 2000,
+          min: 200,
+          retries: 50,
+          'reconnect timeout': 1000,
+          factor: 1.5,
+        },
+      });
     } catch (e) {
       return logger.error(e);
     }

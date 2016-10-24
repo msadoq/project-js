@@ -4,11 +4,18 @@ import _map from 'lodash/map';
 import SizeMe from 'react-sizeme';
 import { format } from 'd3-format';
 import { timeFormat } from 'd3-time-format';
-import { ChartCanvas, Chart, series, scale, coordinates, axes } from 'react-stockcharts';
+import {
+  ChartCanvas, Chart, series, scale,
+  coordinates, axes, tooltip
+} from 'react-stockcharts';
 
 const { LineSeries, ScatterSeries, CircleMarker } = series;
 const { discontinuousTimeScaleProvider } = scale;
-const { CrossHairCursor, MouseCoordinateX, MouseCoordinateY, CurrentCoordinate } = coordinates;
+const { HoverTooltip } = tooltip;
+const {
+  CrossHairCursor, MouseCoordinateX,
+  MouseCoordinateY, CurrentCoordinate
+} = coordinates;
 const { XAxis, YAxis } = axes;
 
 function renderLines(lines = []) {
@@ -18,18 +25,18 @@ function renderLines(lines = []) {
         key={`line${key}`}
         yAccessor={d => d[key]}
         stroke={color}
-      />
+        />
       <ScatterSeries
         key={`scatter${key}`}
         yAccessor={d => d[key]}
         marker={CircleMarker}
         markerProps={{ r: 1, stroke: color }}
-      />
+        />
       <CurrentCoordinate
         key={`coordinate${key}`}
         yAccessor={d => d[key]}
         fill={color}
-      />
+        />
     </div>
   ));
 }
@@ -57,11 +64,27 @@ class PlotView extends Component {
     // legend: PropTypes.object,
     // markers: PropTypes.array,
   };
+  dateFormat = timeFormat('%Y-%m-%d %H:%M:%S.%L');
+
   yExtents = d => _map(this.props.data.lines, ({ key }) => _get(d, [key]));
+
+  handleTooltipContent = ({ currentItem, xAccessor }) => {
+    const { data: { lines = []} = {} } = this.props;
+    console.log('lines', lines, currentItem)
+    return {
+      x: this.dateFormat(xAccessor(currentItem)),
+      y: lines.map((line) => ({
+        label: line.name,
+        value: currentItem[line.key],
+        stroke: line.color
+      }))
+    };
+  }
+
   render() {
     const { size, data } = this.props;
     const { width, height } = size;
-    const { lines, columns = [] } = data;
+    const { lines, columns = []} = data;
 
     // TODO : clean message
     if (!lines || !lines.length || !columns.length) {
@@ -92,26 +115,31 @@ class PlotView extends Component {
           xAccessor={d => d.x}
           xScaleProvider={discontinuousTimeScaleProvider}
           xExtents={xExtents}
-        >
+          >
           <Chart
             id={1}
             yExtents={this.yExtents}
-          >
-            <XAxis axisAt="bottom" orient="bottom" />
+            >
+            <XAxis axisAt="bottom" orient="bottom" ticks={5} />
             <YAxis axisAt="right" orient="right" ticks={5} />
             <MouseCoordinateX
               at="bottom"
               orient="bottom"
-              displayFormat={timeFormat('%Y-%m-%d')}
-            />
+              rectWidth={150}
+              displayFormat={this.dateFormat}
+              />
             <MouseCoordinateY
               at="right"
               orient="right"
-              displayFormat={format('.2f')}
-            />
+              displayFormat={format('.2f') }
+              />
             {renderLines(lines) }
           </Chart>
           <CrossHairCursor />
+          <HoverTooltip
+            tooltipContent={this.handleTooltipContent}
+            bgwidth={300}
+           />
         </ChartCanvas>
       </div>
     );

@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import _throttle from 'lodash/throttle';
+import { constants as globalConstants } from 'common';
 
 import vivl from '../../../VIVL/main';
 import { getComponent } from '../../../VIVL/window';
@@ -25,7 +26,10 @@ const mapStateToProps = (state, ownProps) => {
   // TODO possible memory leak as we do not remove
   // unused selectors (deleted widget)
   if (!selectors[ownProps.viewId]) {
-    selectors[ownProps.viewId] = _throttle(vivl(type, 'getDataFromCache')(), 50); // constant
+    selectors[ownProps.viewId] = _throttle(
+      vivl(type, 'getDataFromCache')(),
+      globalConstants.HSC_THROTTLE_RENDER
+    ); // constant
   }
 
   return {

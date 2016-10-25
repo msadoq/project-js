@@ -31,9 +31,9 @@ deploy_cots() {
 
   cd ${api.work.dir}/js/${artifactId}
 
-  node -r babel-register ${api.lib.dir}/js/${artifactId}/node_modules/webpack/bin/webpack --config webpack.config.electron.js --progress --profile --colors
+  node -r babel-register ${api.work.dir}/js/${artifactId}/node_modules/webpack/bin/webpack --config webpack.config.electron.js --progress --profile --colors
 
-  node -r babel-register ${api.lib.dir}/js/${artifactId}/node_modules/webpack/bin/webpack --config webpack.config.production.js --progress --profile --colors
+  node -r babel-register ${api.work.dir}/js/${artifactId}/node_modules/webpack/bin/webpack --config webpack.config.production.js --progress --profile --colors
 
   cp -R ${api.work.dir}/js/${artifactId}/dist ${api.lib.dir}/js/${artifactId}/
 
@@ -44,15 +44,7 @@ deploy_cots() {
 
 }
 
-case "$1" in
-	untar)
-		untar
-		;;
-	deploy_cots)
-		deploy_cots
-		;;
-	*)
-		Log "generate" "generate all" ${INFO}
-		deploy_cots
-esac
+Log "generate" "generate all" ${INFO}
+deploy_cots
+
 

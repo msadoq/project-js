@@ -1,7 +1,6 @@
 import _get from 'lodash/get';
 import _reduce from 'lodash/reduce';
 
-// TODO: memoize
 export default function extractConnectedData(configuration) {
   return _reduce(_get(configuration, ['entryPoints'], []), (list, ep) => {
     if (!ep) {

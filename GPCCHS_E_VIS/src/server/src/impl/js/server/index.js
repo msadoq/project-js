@@ -24,13 +24,6 @@ const errorHandler = require('./lib/utils/errorHandler');
 
 const tbStub = require('./lib/stubs/tb');
 
-const perfTool = require('./lib/utils/performanceTool');
-
-if (process.env.MONITORING === 'on') {
-  /*perfTool.init();
-  perfTool.launch();*/
-}
-
 // port
 function normalizePort(val) {
   const p = parseInt(val, 10);

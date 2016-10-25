@@ -1,0 +1,40 @@
+{
+  "type": "Page",
+  "hideBorders": false,
+  "title": "page Large workspace 1",
+  "views": [
+    {
+      "path": "/views/text100.json",
+      "geometry": {
+      "kind": "Relative",
+      "x": 4,
+      "y": 4,
+      "w": 8,
+      "h": 10
+      },
+      "windowState": "Normalized"
+    },
+	{
+	  "path": "/views/plotview10.json",
+	  "geometry": {
+		"kind": "Relative",
+		"x": 0,
+		"y": 2,
+		"w": 4,
+		"h": 10
+	  },
+	  "windowState": "Normalized"
+	},
+  {
+	  "path": "/views/text30.json",
+	  "geometry": {
+		"kind": "Relative",
+		"x": 10,
+		"y": 6,
+		"w": 16,
+		"h": 6
+	  },
+	  "windowState": "Normalized"
+	}
+  ]
+}

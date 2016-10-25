@@ -13,7 +13,7 @@ import domainsFilter from '../../domains';
 import timelinesFilter from '../../sessions';
 import { getWindowsVisibleViews } from '../../../store/selectors/windows';
 
-const logger = debug('data:map');
+const logger = debug('data:map:visibleRemoteIds');
 
 const getDomains = state => state.domains;
 const getTimebars = state => state.timebars;
@@ -32,7 +32,7 @@ export const getWindowsVisibleConnectedData = createSelector(
       return list;
     }
 
-    const connectedData = vivl(type, 'getConnectedDataFromState')(configuration);
+    const connectedData = vivl(type, 'extractConnectedData')(configuration);
     if (!connectedData) {
       return list;
     }

@@ -1,11 +1,8 @@
 import _each from 'lodash/each';
 import u from 'updeep';
 import compareTimebars from './update';
-import {
-  getTimebar,
-  getTimelinesFromTimebar,
-  getTimebarUuidById,
-} from '../../store/selectors/timebars';
+import { getTimebar, getTimebarUuidById } from '../../store/selectors/timebars';
+import { getTimeline } from '../../store/selectors/timelines';
 
 import {
   updateId,
@@ -17,6 +14,16 @@ import {
   unmountAndRemoveTimeline,
   updateTimeline,
 } from '../../store/actions/timebars';
+
+function getTimelinesFromTimebar(state, timebar) {
+  const timelines = timebar ? timebar.timelines : [];
+  return timelines.reduce((list, timelineId) => {
+    const timeline = getTimeline(state, timelineId);
+    return timeline
+      ? list.concat(timeline)
+      : list;
+  }, []);
+}
 
 export default function updateFromVimaTimebar(state, dispatch, data) {
   if (data.actionType === 'initialUpd') {

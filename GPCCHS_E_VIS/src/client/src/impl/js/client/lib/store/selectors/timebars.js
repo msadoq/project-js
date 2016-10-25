@@ -1,6 +1,7 @@
 // import _find from 'lodash/find';
 import _get from 'lodash/get';
 import _map from 'lodash/map';
+import _reduce from 'lodash/reduce';
 import { createSelector } from 'reselect';
 import { getTimeline } from './timelines';
 
@@ -17,25 +18,16 @@ export function getTimebarUuidById(state, timebarId) { // TODO test
   }
   return -1;
 }
-// TODO : deprecate
-export function getTimelines(state, timebarId) { // TODO test
-  const timelines = _get(state, `timebars.${timebarId}.timelines`, []);
-  return timelines.reduce((list, timelineId) => {
-    const timeline = getTimeline(state, timelineId);
-    return timeline
-      ? list.concat(timeline)
-      : list;
-  }, []);
-}
 
-// TODO : deprecate
-export function getTimelinesFromTimebar(state, timebar) { // TODO test
-  const timelines = timebar ? timebar.timelines : [];
-  return timelines.reduce((list, timelineId) => {
-    const timeline = getTimeline(state, timelineId);
-    return timeline
-      ? list.concat(timeline)
-      : list;
+export function getTimebarTimelines(timebars, timelines, timebarId) {
+  const timebarTimelines = _get(timebars, [timebarId, 'timelines']);
+  return _reduce(timebarTimelines, (list, timelineId) => {
+    const timeline = _get(timelines, timelineId);
+    if (!timeline || !timeline.id || !timeline.sessionId) {
+      return list;
+    }
+
+    return list.concat(timeline);
   }, []);
 }
 

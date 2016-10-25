@@ -10,6 +10,9 @@
       // https://github.com/electron/electron/issues/5224
       //const env = require('electron').remote.getGlobal('process').env;
       const env = require('electron').remote.getCurrentWindow().parameters;
+       if (env.DEBUG) {
+         localStorage.setItem('debug', env.DEBUG);
+       }
 
       if (!env.HOT) {
         const link = document.createElement('link');

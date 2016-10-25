@@ -9,6 +9,8 @@ module.exports = debug => (namespace) => {
   let level = process.env.LEVEL;
   if (!level && global.env && global.env.LEVEL) {
     level = global.env.LEVEL;
+  } else if (!level) {
+    level = ERROR;
   }
 
   return {

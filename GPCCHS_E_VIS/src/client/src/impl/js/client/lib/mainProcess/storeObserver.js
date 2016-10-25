@@ -3,7 +3,7 @@ import debug from '../common/debug/mainDebug';
 import { getStatus as getAppStatus } from '../store/selectors/hsc';
 import { updateStatus } from '../store/actions/hsc';
 import { getStore } from '../store/mainStore';
-import dataRequests from './data/requests';
+import dataRequests from '../common/data/requests';
 import windowsObserver from './windows/observer';
 
 const logger = debug('mainProcess:storeObserver');

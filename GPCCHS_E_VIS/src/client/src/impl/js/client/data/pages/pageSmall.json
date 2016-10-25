@@ -1,10 +1,10 @@
 {
   "type": "Page",
   "hideBorders": false,
-  "title": "page example 1",
+  "title": "page Small workspace",
   "views": [
     {
-      "path": "/views/text4.json",
+      "path": "/views/textOne.json",
       "geometry": {
       "kind": "Relative",
       "x": 0,
@@ -15,7 +15,7 @@
       "windowState": "Normalized"
     },
     {
-      "path": "/views/plot1.json",
+      "path": "/views/plotviewOne.json",
       "geometry": {
         "kind": "Relative",
         "x": 6,

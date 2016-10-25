@@ -1,8 +1,11 @@
-import { last, has, each, concat, slice, findIndex, get, set, find } from 'lodash';
+import _each from 'lodash/each';
+import _has from 'lodash/has';
+import _get from 'lodash/get';
+import _set from 'lodash/set';
 import vivl from '../../../VIVL/main';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
-import dataMap from '../../mainProcess/data/map/visible';
+import visibleRemoteIds from '../../common/data/map/visibleRemoteIds';
 import debug from '../../common/debug/mainDebug';
 
 const logger = debug('store:action:dataCache');
@@ -22,7 +25,7 @@ function rangeValues(rIdData, lIdParam) {
   const lower = lIdParam.expectedInterval[0];
   const upper = lIdParam.expectedInterval[1];
   const newValue = {};
-  each(rIdData, (value) => {
+  _each(rIdData, (value) => {
     const timestamp = value.timestamp;
     if (timestamp < lower || timestamp > upper) {
       return;
@@ -36,7 +39,7 @@ function oneValue(remoteIdData, lIdParam, stateLocalId) {
   let newValue = null;
   const lower = lIdParam.expectedInterval[0];
   const current = lIdParam.expectedInterval[1];
-  each(remoteIdData, (p) => {
+  _each(remoteIdData, (p) => {
     const timestamp = p.timestamp;
     if (timestamp < lower || timestamp > current) {
       return;
@@ -68,22 +71,22 @@ function oneValue(remoteIdData, lIdParam, stateLocalId) {
 export function selectData(state, remoteIds, payload) {
   const bag = {};
   // remoteId
-  each(payload, (remoteIdData, remoteId) => {
-    if (!has(remoteIds, [remoteId])) {
+  _each(payload, (remoteIdData, remoteId) => {
+    if (!_has(remoteIds, [remoteId])) {
       return;
     }
 
     // localId
-    each(remoteIds[remoteId].localIds, (lIdParam, localId) => {
+    _each(remoteIds[remoteId].localIds, (lIdParam, localId) => {
       const dataLayout = vivl(lIdParam.viewType, 'dataLayout')();
       switch (dataLayout) {
         case 'one': {
-          const currentSubState = get(state, ['dataCache', remoteId, localId]);
+          const currentSubState = _get(state, ['dataCache', remoteId, localId]);
           const newData = oneValue(remoteIdData, lIdParam, currentSubState);
           if (!newData) {
             return;
           }
-          set(bag, ['data', remoteId, localId], newData);
+          _set(bag, ['data', remoteId, localId], newData);
           break;
         }
         case 'range': {
@@ -92,8 +95,8 @@ export function selectData(state, remoteIds, payload) {
             return;
           }
 
-          set(bag, ['data', remoteId, localId], newData);
-          set(bag, ['intervalToKeep', remoteId, localId], lIdParam.expectedInterval);
+          _set(bag, ['data', remoteId, localId], newData);
+          _set(bag, ['intervalToKeep', remoteId, localId], lIdParam.expectedInterval);
           break;
         }
         default:
@@ -106,7 +109,7 @@ export function selectData(state, remoteIds, payload) {
 export function importPayload(payload) {
   return (dispatch, getState) => {
     const state = getState();
-    const remoteIds = dataMap(state);
+    const remoteIds = visibleRemoteIds(state);
     const bag = selectData(state, remoteIds, payload);
 
     dispatch({

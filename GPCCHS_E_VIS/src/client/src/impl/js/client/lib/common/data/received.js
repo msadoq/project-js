@@ -1,6 +1,6 @@
-import profiling from '../../common/debug/profiling';
+import profiling from '../debug/profiling';
 import { importPayload } from '../../store/actions/dataCache';
-import debug from '../../common/debug/mainDebug';
+import debug from '../debug/mainDebug';
 
 const logger = debug('data:requests');
 

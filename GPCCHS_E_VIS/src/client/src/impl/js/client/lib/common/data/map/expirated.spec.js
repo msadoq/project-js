@@ -1,8 +1,8 @@
 /* eslint no-unused-expressions: 0 */
 
-import { getStore } from '../../../common/test';
-import expirationsMap from './expirated';
-import dataMap from './map';
+import { getStore } from '../../test';
+import expirationsMap from './expiratedRemoteIds';
+import visibleDataMap from './visibleRemoteIds';
 
 const OFFSET = 0;
 const VISU_WINDOW = [1420106400000, 1420107300000];
@@ -328,7 +328,7 @@ const testState = {
 
 describe('data:expirationsMap', () => {
   const store = getStore(testState);
-  const map = dataMap(store.getState());
+  const map = visibleDataMap(store.getState());
 
   it('works', () => {
     const expiredRequests = expirationsMap(store.getState(), map);

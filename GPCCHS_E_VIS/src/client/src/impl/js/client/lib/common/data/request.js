@@ -12,8 +12,8 @@ import { addRequests } from '../../store/actions/dataRequests';
 
 const logger = debug('data:requests');
 
-export default _throttle((state, dispatch) => {
-  logger.verbose('begin data/requests');
+function request(state, dispatch) {
+  logger.verbose('begin');
 
   const start = profiling.start();
 
@@ -36,4 +36,6 @@ export default _throttle((state, dispatch) => {
     start,
     `dataRequests done (${Object.keys(dataQueries).length} remoteId requested)`
   );
-}, globalConstants.HSC_THROTTLE_REQUESTS);
+}
+
+export default _throttle(request, globalConstants.HSC_THROTTLE_REQUESTS);

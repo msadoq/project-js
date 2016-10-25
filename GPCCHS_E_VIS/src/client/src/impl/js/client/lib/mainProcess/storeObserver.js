@@ -3,7 +3,7 @@ import debug from '../common/debug/mainDebug';
 import { getStatus as getAppStatus } from '../store/selectors/hsc';
 import { updateStatus } from '../store/actions/hsc';
 import { getStore } from '../store/mainStore';
-import dataRequests from '../common/data/requests';
+import requestData from '../common/data/request';
 import windowsObserver from './windows/observer';
 
 const logger = debug('mainProcess:storeObserver');
@@ -47,10 +47,10 @@ export default function storeObserver() {
   }
 
   // data sync is done only if windows was opened at least one time and if dispatched action not
-  // come from dataRequests()
+  // come from requestData()
   if (windowAlreadyOpened === true && !isActing()) {
     setActingOn();
-    dataRequests(state, dispatch);
+    requestData(state, dispatch);
     setTimeout(setActingOff, 0); // timeout added to avoid data observer update
   }
 }

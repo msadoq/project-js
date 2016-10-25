@@ -8,8 +8,8 @@ import { getWebsocket } from '../websocket/mainWebsocket';
 
 const logger = debug('data:invalidate');
 
-export default function invalidated(store) {
-  logger.verbose('begin data/invalidated');
+export default function invalidate(store) {
+  logger.verbose('begin');
 
   const start = profiling.start();
 

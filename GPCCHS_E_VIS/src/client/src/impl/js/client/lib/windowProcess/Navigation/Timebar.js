@@ -2,6 +2,7 @@ import { get } from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
+import { constants as globalConstants } from 'common';
 import { updateVisuWindow } from '../../store/actions/timebars';
 
 function timestampAsText(timestamp) {
@@ -40,7 +41,10 @@ class Timebar extends Component {
   }
   toggleMode() {
     if (this.state.mode === 'pause') {
-      this.interval = setInterval(() => this.updateVisuWindow(250), 250);
+      this.interval = setInterval(
+        () => this.updateVisuWindow(globalConstants.HSC_PLAY_FREQUENCY),
+        globalConstants.HSC_PLAY_FREQUENCY
+      );
       this.setState({ mode: 'play' });
     } else {
       clearInterval(this.interval);
@@ -59,7 +63,9 @@ class Timebar extends Component {
         <div style={{ display: 'inline-block' }}>
           <Button onClick={this.moveForward}>MOVE 10s</Button>
           {' '}
-          <Button onClick={this.toggleMode}>{mode === 'play' ? 'PAUSE' : 'PLAY'}</Button>
+          <Button onClick={this.toggleMode}>
+            {mode === 'play' ? 'PAUSE' : `PLAY (${globalConstants.HSC_PLAY_FREQUENCY}ms)`}
+            </Button>
         </div>
         <div>
           [{lower}|{current}|{upper}]

@@ -5,8 +5,8 @@ import { constants as globalConstants } from 'common';
 
 import debug from '../debug/mainDebug';
 import profiling from '../debug/profiling';
-import visibleDataMap from './map/visible';
-import requestsMapGenerator from './map/requests';
+import visibleRemoteIds from './map/visibleRemoteIds';
+import missingRemoteIds from './map/missingRemoteIds';
 import { getWebsocket } from '../websocket/mainWebsocket';
 import { addRequests } from '../../store/actions/dataRequests';
 
@@ -18,12 +18,12 @@ export default _throttle((state, dispatch) => {
   const start = profiling.start();
 
   // TODO : improve memoization
-  const dataMap = visibleDataMap(state);
+  const dataMap = visibleRemoteIds(state);
   logger.verbose(dataMap);
 
   // TODO : improve memoization: pass dataRequests as arguments (/!\ no reselect, should never
   //        return previous requests, but maybe requesting could be done in a createSelector)
-  const dataQueries = requestsMapGenerator(state, dataMap);
+  const dataQueries = missingRemoteIds(state, dataMap);
   logger.verbose(dataQueries);
 
   if (dataQueries && _isObject(dataQueries) && Object.keys(dataQueries).length) {

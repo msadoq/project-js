@@ -1,8 +1,8 @@
 /* eslint no-unused-expressions: 0 */
 
 import { getStore } from '../../test';
-import expirationsMap from './expirated';
-import visibleDataMap from './visible';
+import expirationsMap from './expiratedRemoteIds';
+import visibleDataMap from './visibleRemoteIds';
 
 const OFFSET = 0;
 const VISU_WINDOW = [1420106400000, 1420107300000];

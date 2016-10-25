@@ -1,5 +1,4 @@
 import { each, get } from 'lodash';
-
 import { intervals as intervalManager } from 'common';
 
 const getExpiredRequests = (dataMap, dataRequests) => {

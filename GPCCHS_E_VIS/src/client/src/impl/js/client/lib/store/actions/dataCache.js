@@ -5,7 +5,7 @@ import _set from 'lodash/set';
 import vivl from '../../../VIVL/main';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
-import visibleDataMap from '../../common/data/map/visible';
+import visibleRemoteIds from '../../common/data/map/visibleRemoteIds';
 import debug from '../../common/debug/mainDebug';
 
 const logger = debug('store:action:dataCache');
@@ -109,7 +109,7 @@ export function selectData(state, remoteIds, payload) {
 export function importPayload(payload) {
   return (dispatch, getState) => {
     const state = getState();
-    const remoteIds = visibleDataMap(state);
+    const remoteIds = visibleRemoteIds(state);
     const bag = selectData(state, remoteIds, payload);
 
     dispatch({

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import visibleDataMap from '../../common/data/map/visible';
+import visibleRemoteIds from '../../common/data/map/visibleRemoteIds';
 
 export default class Timebar extends Component {
   static propTypes = {};
@@ -9,7 +9,7 @@ export default class Timebar extends Component {
   };
   display() {
     const state = this.context.store.getState();
-    return console.log(visibleDataMap(state)); // eslint-disable-line no-console
+    return console.log(visibleRemoteIds(state)); // eslint-disable-line no-console
   }
   render() {
     return (

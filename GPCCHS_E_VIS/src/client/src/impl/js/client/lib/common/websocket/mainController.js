@@ -6,7 +6,7 @@ import { updateStatus as updateAppStatus } from '../../store/actions/hsc';
 import { updateDomains } from '../../store/actions/domains';
 import { getWebsocket } from './mainWebsocket';
 import convertFromStore from '../../mainProcess/vima/convertFromStore';
-import dataReceived from '../../mainProcess/data/received';
+import dataReceived from '../data/received';
 import { setActingOn, setActingOff } from '../../mainProcess/storeObserver';
 
 const logger = debug('main:controller');

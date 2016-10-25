@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import dataMap from '../../mainProcess/data/map/visible';
+import dataMap from '../../common/data/map/visible';
 
 export default class Timebar extends Component {
   static propTypes = {};
@@ -9,7 +9,7 @@ export default class Timebar extends Component {
   };
   display() {
     const state = this.context.store.getState();
-    return console.log(dataMap(state));
+    return console.log(dataMap(state)); // eslint-disable-line no-console
   }
   render() {
     return (

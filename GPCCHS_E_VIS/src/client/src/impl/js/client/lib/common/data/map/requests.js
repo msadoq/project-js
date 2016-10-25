@@ -1,6 +1,6 @@
 import { each, get, map } from 'lodash';
 import { intervals as intervalManager } from 'common';
-import operators from '../../../common/operators';
+import operators from '../../operators';
 
 /**
  * Return the current missing intervals requests list

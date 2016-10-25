@@ -3,9 +3,9 @@ import parameters from '../common/parameters';
 import debug from '../common/debug/mainDebug';
 import installExtensions from './installExtensions';
 import openWorkspace from './openWorkspace';
-import invalidateCache from './data/invalidate';
+import invalidateCache from '../common/data/invalidate';
 import { initStore, getStore } from '../store/mainStore';
-import storeObserver from './storeObserver';
+import storeObserver, { setActingOn, setActingOff } from './storeObserver';
 import { connect, disconnect } from '../common/websocket/mainWebsocket';
 import './menu';
 
@@ -46,10 +46,11 @@ export async function start() {
       connect();
 
       // cache invalidation
-      cacheInvalidator = setInterval(() => invalidateCache(
-        getStore()),
-        globalConstants.CACHE_INVALIDATION_FREQUENCY
-      );
+      cacheInvalidator = setInterval(() => {
+        setActingOn();
+        invalidateCache(getStore());
+        setActingOff();
+      }, globalConstants.CACHE_INVALIDATION_FREQUENCY);
     });
   } catch (e) {
     logger.error(e);

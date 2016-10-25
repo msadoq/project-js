@@ -3,11 +3,11 @@ import _isObject from 'lodash/isObject';
 
 import { constants as globalConstants } from 'common';
 
-import debug from '../../common/debug/mainDebug';
-import profiling from '../../common/debug/profiling';
+import debug from '../debug/mainDebug';
+import profiling from '../debug/profiling';
 import dataMapGenerator from './map/visible';
 import requestsMapGenerator from './map/requests';
-import { getWebsocket } from '../../common/websocket/mainWebsocket';
+import { getWebsocket } from '../websocket/mainWebsocket';
 import { addRequests } from '../../store/actions/dataRequests';
 
 const logger = debug('data:requests');

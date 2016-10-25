@@ -5,12 +5,12 @@ import _get from 'lodash/get';
 import { createSelector } from 'reselect';
 
 import vivl from '../../../../VIVL/main';
-import debug from '../../../common/debug/mainDebug';
-import formulaParser from '../../../common/formula';
-import remoteIdGenerator from '../../../common/remoteId';
-import localIdGenerator from '../../../common/localId';
-import domainsFilter from '../../../common/domains';
-import timelinesFilter from '../../../common/sessions';
+import debug from '../../debug/mainDebug';
+import formulaParser from '../../formula';
+import remoteIdGenerator from '../../remoteId';
+import localIdGenerator from '../../localId';
+import domainsFilter from '../../domains';
+import timelinesFilter from '../../sessions';
 import { getWindowsVisibleViews } from '../../../store/selectors/windows';
 
 const logger = debug('data:map');

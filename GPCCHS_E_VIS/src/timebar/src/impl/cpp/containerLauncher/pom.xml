@@ -3,12 +3,12 @@
   <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
   <artifactId>gpcchs_e_vis_containerLauncher</artifactId>
   <packaging>isis-cpp-bundle</packaging>
-  <version>1.1.0-R7S1-SNAPSHOT</version>
+  <version>1.1.0-R7S2-SNAPSHOT</version>
   <name>${project.groupId}.${project.artifactId}</name>
   <parent>
     <groupId>fr.cnes.lpisis.gpcc</groupId>
     <artifactId>gpcchs_e_vis-parent</artifactId>
-    <version>1.1.0-R7S1-SNAPSHOT</version>
+    <version>1.1.0-R7S2-SNAPSHOT</version>
     <relativePath/>
   </parent>
   <properties>

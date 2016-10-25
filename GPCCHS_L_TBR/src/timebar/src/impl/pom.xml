@@ -1,14 +1,14 @@
 <?xml version="1.0" ?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>fr.cnes.lpisis.gpcc</groupId>
-  <artifactId>gpcchs_l_tbr_impl_module_builder</artifactId>
+  <artifactId>gpcchs_l_tbr_timebar_src_impl_module_builder</artifactId>
   <packaging>pom</packaging>
-  <version>1.1.0-R7S1-SNAPSHOT</version>
+  <version>1.1.0-R7S2-SNAPSHOT</version>
   <name>${project.groupId}.${project.artifactId}</name>
   <parent>
     <groupId>fr.cnes.lpisis</groupId>
     <artifactId>isis-system</artifactId>
-    <version>1.1.0-R7S1-SNAPSHOT</version>
+    <version>1.1.0-R7S2-SNAPSHOT</version>
     <relativePath/>
   </parent>
   <modules>

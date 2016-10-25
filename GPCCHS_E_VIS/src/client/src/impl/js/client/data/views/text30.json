@@ -711,8 +711,8 @@
   ],
   "links": [
     {
-      "name": "page.exe2.workspace",
-      "path": "../page.exe2.workspace.json"
+      "name": "pageMedium",
+      "path": "../pageMedium.json"
     }
   ],
   "defaultRatio": {
@@ -721,13 +721,10 @@
   },
   "content": [
     "<style>",
-    "  .myTextView { background-color: white; width: 100%;font-size: 1.2rem; height: 100%; }",
-    "  .myTextView > div { display: inline-block; width: 25%; vertical-align: top; height: 100%; }",
-    "  .myTextView .name { margin-left: 10px; background-color: #a9b3bc; color: black; font-weight: bolder; width: 85%; display: inline-block; margin-top: 5px;text-align: center;}",
-    "  .myTextView .value { margin-left: 10px; background-color: black; color: #00ff00; font-weight: bold;  width: 85%; display: inline-block; text-align: left; padding: 10px; margin-bottom: 10px; }",
+    "  .myTextView .name { overflow: hidden ;margin-left: 10px; background-color: #a9b3bc; color: black; font-weight: bolder; display: inline-block; margin-top: 5px;text-align: center;}",
+    "  .myTextView .value { overflow: hidden; margin-left: 10px; background-color: black; color: #00ff00; font-weight: bold; display: inline-block; text-align: left; padding: 10px; margin-bottom: 5px; }",
     "</style>",
     "<div class='myTextView'>",
-    "  <div>",
     "    <div><span class='name'>AGA_AM_OWNERID</span><span class='value'>{{AGA_AM_OWNERID}}</span></div>",
     "    <div><span class='name'>AGA_AM_QP2</span><span class='value'>{{AGA_AM_QP2}}</span></div>",
     "    <div><span class='name'>AGA_AM_STATIONID</span><span class='value'>{{AGA_AM_STATIONID}}</span></div>",
@@ -736,7 +733,6 @@
     "    <div><span class='name'>GENE_AM_144PARINT</span><span class='value'>{{GENE_AM_144PARINT}}</span></div>",
     "    <div><span class='name'>GENE_AM_144PARUSHT</span><span class='value'>{{GENE_AM_144PARUSHT}}</span></div>",
     "    <div><span class='name'>GENE_AM_FILEDATA</span><span class='value'>{{GENE_AM_FILEDATA}}</span></div>",
-    "  </div><div>",
     "    <div><span class='name'>GENE_AM_I146SPARE</span><span class='value'>{{GENE_AM_I146SPARE}}</span></div>",
     "    <div><span class='name'>GENE_AM_I11TCPEC</span><span class='value'>{{GENE_AM_I11TCPEC}}</span></div>",
     "    <div><span class='name'>GENE_AM_LDTBYTENUSE</span><span class='value'>{{GENE_AM_LDTBYTENUSE}}</span></div>",
@@ -745,7 +741,6 @@
     "    <div><span class='name'>ATT_BC_MAG2YFIELDM</span><span class='value'>{{ATT_BC_MAG2YFIELDM}}</span></div>",
     "    <div><span class='name'>ATT_BC_NUMTC20</span><span class='value'>{{ATT_BC_NUMTC20}}</span></div>",
     "    <div><span class='name'>ATT_BC_RWH2ERROR</span><span class='value'>{{ATT_BC_RWH2ERROR}}</span></div>",
-    "  </div><div>",
     "    <div><span class='name'>ORB_BC_GPS2NBNANOS</span><span class='value'>{{ORB_BC_GPS2NBNANOS}}</span></div>",
     "    <div><span class='name'>ORB_BC_LVPOSZJ2000</span><span class='value'>{{ORB_BC_LVPOSZJ2000}}</span></div>",
     "    <div><span class='name'>ORB_BC_TSTPARVQ</span><span class='value'>{{ORB_BC_TSTPARVQ}}</span></div>",
@@ -754,14 +749,12 @@
     "    <div><span class='name'>SAT_BC_CLOCKFREQ</span><span class='value'>{{SAT_BC_CLOCKFREQ}}</span></div>",
     "    <div><span class='name'>SAT_BC_MNVDEADLRED</span><span class='value'>{{SAT_BC_MNVDEADLRED}}</span></div>",
     "    <div><span class='name'>SAT_BC_OFFSETGPS</span><span class='value'>{{SAT_BC_OFFSETGPS}}</span></div>",
-    "  </div><div>",
     "    <div><span class='name'>SAT_BC_TMFMAXDLT</span><span class='value'>{{SAT_BC_TMFMAXDLT}}</span></div>",
     "    <div><span class='name'>MIS_BC_DAGAEN</span><span class='value'>{{MIS_BC_DAGAEN}}</span></div>",
     "    <div><span class='name'>MIS_BC_ENABLED3</span><span class='value'>{{MIS_BC_ENABLED3}}</span></div>",
     "    <div><span class='name'>FMGT_BC_NUMRJCTTC14</span><span class='value'>{{FMGT_BC_NUMRJCTTC14}}</span></div>",
     "    <div><span class='name'>FMGT_BC_TCSEQDELAY</span><span class='value'>{{FMGT_BC_TCSEQDELAY}}</span></div>",
     "    <div><span class='name'>OBCPE1_BC_NUMRJCTTC0</span><span class='value'>{{OBCPE1_BC_NUMRJCTTC0}}</span></div>",
-    "  </div>",
     "</div>"
   ]
 }

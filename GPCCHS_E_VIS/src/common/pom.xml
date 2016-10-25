@@ -23,8 +23,29 @@
         <api.main.dir>${api.work.dir}/${artifactId}-${project.version}</api.main.dir>
     </properties>
     <dependencies>
-        
-
-
+        <dependency>
+            <groupId>fr.cnes.lpisis.cots</groupId>
+            <artifactId>debug</artifactId>
+        	<version>2.2.0</version>
+            <type>isis-cots</type>
+        </dependency>
+	<dependency>
+            <groupId>fr.cnes.lpisis.cots</groupId>
+            <artifactId>dotenv-safe</artifactId>
+        	<version>2.3.2</version>
+            <type>isis-cots</type>
+        </dependency>
+	<dependency>
+            <groupId>fr.cnes.lpisis.cots</groupId>
+            <artifactId>lodash</artifactId>
+        	<version>4.16.2</version>
+            <type>isis-cots</type>
+        </dependency>
+	<dependency>
+            <groupId>fr.cnes.lpisis.cots</groupId>
+            <artifactId>ws</artifactId>
+        	<version>1.1.1</version>
+            <type>isis-cots</type>
+        </dependency>
     </dependencies>
 </project>

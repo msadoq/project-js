@@ -6,32 +6,15 @@
     "title": "Large workspace 2",
     "pages": [
       {
-        "path": "./pages/page2.json",
+        "path": "./pages/pageLarge1.json",
         "timeBarId": "TB1"
       },
       {
-        "path": "./pages/page4.json",
+        "path": "./pages/pageLarge2.json",
         "timeBarId": "TB1"
       }
     ],
       "geometry": {
-      "kind": "Absolute",
-      "x": 110,
-      "y": 10,
-      "w": 1310,
-      "h": 800
-    }
-  },
-  {
-    "type": "documentWindow",
-    "title": "Large workspace 1",
-    "pages": [
-      {
-        "path": "./pages/page1.json",
-        "timeBarId": "TB1"
-      }
-    ],
-    "geometry": {
       "kind": "Absolute",
       "x": 110,
       "y": 10,

@@ -2,8 +2,8 @@
   "type": "PlotView",
   "links": [
     {
-      "name": "page1Pbf",
-      "path": "./pages/page1Pbf.json"
+      "name": "pageMedium",
+      "path": "./pages/pageMedium.json"
     }
   ],
   "procedures": [],

@@ -6,11 +6,7 @@
       "title": "Medium workspace",
       "pages": [
         {
-          "path": "./pages/page2.json",
-          "timeBarId": "TB1"
-        },
-        {
-          "path": "./pages/page3.json",
+          "path": "./pages/pageMedium.json",
           "timeBarId": "TB1"
         }
       ],
@@ -49,12 +45,6 @@
           {
             "id": "Session 1",
             "offset": 0,
-            "kind": "Session",
-            "sessionId": 1
-          },
-          {
-            "id": "Session 2",
-            "offset": 10000,
             "kind": "Session",
             "sessionId": 1
           }

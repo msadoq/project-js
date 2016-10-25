@@ -1,6 +1,7 @@
 import schema from './TextView.schema.json';
 import getDataFromCache from './getDataFromCache';
-import getConnectedDataFromState from './getConnectedDataFromState';
+import extractConnectedData from './extractConnectedData';
+import extractEntryPoints from './extractEntryPoints';
 import getExpectedInterval from './getExpectedInterval';
 import getDisplayedValues from './getDisplayedValues';
 
@@ -8,7 +9,8 @@ module.exports = {
   dataLayout: () => 'one',
   getSchemaJson: () => schema,
   getDataFromCache,
-  getConnectedDataFromState,
+  extractConnectedData,
+  extractEntryPoints,
   getExpectedInterval,
   getDisplayedValues,
 };

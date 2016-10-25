@@ -721,13 +721,10 @@
   },
   "content": [
     "<style>",
-    "  .myTextView { background-color: white; width: 100%;font-size: 1.2rem; height: 100%; }",
-    "  .myTextView > div { display: inline-block; width: 25%; vertical-align: top; height: 100%; }",
-    "  .myTextView .name { margin-left: 10px; background-color: #a9b3bc; color: black; font-weight: bolder; width: 85%; display: inline-block; margin-top: 5px;text-align: center;}",
-    "  .myTextView .value { margin-left: 10px; background-color: black; color: #00ff00; font-weight: bold;  width: 85%; display: inline-block; text-align: left; padding: 10px; margin-bottom: 10px; }",
+    "  .myTextView .name { overflow: hidden ;margin-left: 10px; background-color: #a9b3bc; color: black; font-weight: bolder; display: inline-block; margin-top: 5px;text-align: center;}",
+    "  .myTextView .value { overflow: hidden; margin-left: 10px; background-color: black; color: #00ff00; font-weight: bold; display: inline-block; text-align: left; padding: 10px; margin-bottom: 5px; }",
     "</style>",
     "<div class='myTextView'>",
-    "  <div>",
     "    <div><span class='name'>GENE_AM_COMMANDWORD</span><span class='value'>{{GENE_AM_COMMANDWORD}}</span></div>",
     "    <div><span class='name'>GENE_BC_VERSIONNBER</span><span class='value'>{{GENE_BC_VERSIONNBER}}</span></div>",
     "    <div><span class='name'>GENE_AM_NUMREPET</span><span class='value'>{{GENE_AM_NUMREPET}}</span></div>",
@@ -741,7 +738,6 @@
     "    <div><span class='name'>SAT_BC_DEADLOFFSET</span><span class='value'>{{SAT_BC_DEADLOFFSET}}</span></div>",
     "    <div><span class='name'>SAT_BC_OBCPENGINE1</span><span class='value'>{{SAT_BC_OBCPENGINE1}}</span></div>",
     "    <div><span class='name'>SAT_BC_SSCHEDID2</span><span class='value'>{{SAT_BC_SSCHEDID2}}</span></div>",
-    "  </div><div>",
     "    <div><span class='name'>SAT_BC_STAVISI</span><span class='value'>{{SAT_BC_STAVISI}}</span></div>",
     "    <div><span class='name'>SAT_BC_TSTPARVDBLE</span><span class='value'>{{SAT_BC_TSTPARVDBLE}}</span></div>",
     "    <div><span class='name'>MIS_BC_DALMEN</span><span class='value'>{{MIS_BC_DALMEN}}</span></div>",
@@ -755,7 +751,6 @@
     "    <div><span class='name'>FMGT_BC_OBCP8ID</span><span class='value'>{{FMGT_BC_OBCP8ID}}</span></div>",
     "    <div><span class='name'>FMGT_BC_TSTPARFSHRT</span><span class='value'>{{FMGT_BC_TSTPARFSHRT}}</span></div>",
     "    <div><span class='name'>TMMGT_BC_BUFFTYPE7</span><span class='value'>{{TMMGT_BC_BUFFTYPE7}}</span></div>",
-    "  </div><div>",
     "    <div><span class='name'>TMMGT_BC_FREESPACE3</span><span class='value'>{{TMMGT_BC_FREESPACE3}}</span></div>",
     "    <div><span class='name'>TMMGT_BC_NUMTC14</span><span class='value'>{{TMMGT_BC_NUMTC14}}</span></div>",
     "    <div><span class='name'>TMMGT_BC_PKTST2DOWN</span><span class='value'>{{TMMGT_BC_PKTST2DOWN}}</span></div>",
@@ -769,7 +764,6 @@
     "    <div><span class='name'>OBCPE2_BC_RTSTATUSW</span><span class='value'>{{OBCPE2_BC_RTSTATUSW}}</span></div>",
     "    <div><span class='name'>OBCPE2_BC_SSCHEDID9</span><span class='value'>{{OBCPE2_BC_SSCHEDID9}}</span></div>",
     "    <div><span class='name'>ATT_BC_SAS4VISISUN</span><span class='value'>{{ATT_BC_SAS4VISISUN}}</span></div>",
-    "  </div><div>",
     "    <div><span class='name'>ATT_BC_SAS1YSUNSAS</span><span class='value'>{{ATT_BC_SAS1YSUNSAS}}</span></div>",
     "    <div><span class='name'>ATT_BC_RWH1CURRENT</span><span class='value'>{{ATT_BC_RWH1CURRENT}}</span></div>",
     "    <div><span class='name'>ATT_BC_QSATJ2000Q0</span><span class='value'>{{ATT_BC_QSATJ2000Q0}}</span></div>",
@@ -781,7 +775,6 @@
     "    <div><span class='name'>GENE_AM_PVALPUSREF</span><span class='value'>{{GENE_AM_PVALPUSREF}}</span></div>",
     "    <div><span class='name'>GENE_AM_I23TMID</span><span class='value'>{{GENE_AM_I23TMID}}</span></div>",
     "    <div><span class='name'>AGA_AM_N102AREAID</span><span class='value'>{{AGA_AM_N102AREAID}}</span></div>",
-    "  </div>",
     "</div>"
   ]
 }

@@ -1401,13 +1401,10 @@
   },
   "content": [
     "<style>",
-    "  .myTextView { background-color: white; width: 100%;font-size: 1.2rem; height: 100%; }",
-    "  .myTextView > div { display: inline-block; width: 25%; vertical-align: top; height: 100%; }",
-    "  .myTextView .name { margin-left: 10px; background-color: #a9b3bc; color: black; font-weight: bolder; width: 85%; display: inline-block; margin-top: 5px;text-align: center;}",
-    "  .myTextView .value { margin-left: 10px; background-color: black; color: #00ff00; font-weight: bold;  width: 85%; display: inline-block; text-align: left; padding: 10px; margin-bottom: 10px; }",
+    "  .myTextView .name { overflow: hidden ;margin-left: 10px; background-color: #a9b3bc; color: black; font-weight: bolder; display: inline-block; margin-top: 5px;text-align: center;}",
+    "  .myTextView .value { overflow: hidden; margin-left: 10px; background-color: black; color: #00ff00; font-weight: bold; display: inline-block; text-align: left; padding: 10px; margin-bottom: 5px; }",
     "</style>",
     "<div class='myTextView'>",
-    "  <div>",
     "    <div><span class='name'>ATT_BC_STR1VOLTAGE_EV</span><span class='value'>{{ATT_BC_STR1VOLTAGE_EV}}</span></div>",
     "    <div><span class='name'>SAT_BC_TSTPARVQ3_MS</span><span class='value'>{{SAT_BC_TSTPARVQ3_MS}}</span></div>",
     "    <div><span class='name'>MIS_BC_DAGAFREQ_CV</span><span class='value'>{{MIS_BC_DAGAFREQ_CV}}</span></div>",
@@ -1433,7 +1430,6 @@
     "    <div><span class='name'>ATT_BC_STR2SATRFQ3</span><span class='value'>{{ATT_BC_STR2SATRFQ3}}</span></div>",
     "    <div><span class='name'>ATT_BC_THR4SATQ2</span><span class='value'>{{ATT_BC_THR4SATQ2}}</span></div>",
     "    <div><span class='name'>ORB_BC_GPS1VOLTAGE</span><span class='value'>{{ORB_BC_GPS1VOLTAGE}}</span></div>",
-    "  </div><div>",
     "    <div><span class='name'>ORB_BC_LASTSQNUM14</span><span class='value'>{{ORB_BC_LASTSQNUM14}}</span></div>",
     "    <div><span class='name'>ORB_BC_RTSTATWORD</span><span class='value'>{{ORB_BC_RTSTATWORD}}</span></div>",
     "    <div><span class='name'>POW_BC_ENERCURRLVL</span><span class='value'>{{POW_BC_ENERCURRLVL}}</span></div>",
@@ -1459,7 +1455,6 @@
     "    <div><span class='name'>FMGT_BC_SSCHEDID13</span><span class='value'>{{FMGT_BC_SSCHEDID13}}</span></div>",
     "    <div><span class='name'>FMGT_BC_TSTPARFBYTE</span><span class='value'>{{FMGT_BC_TSTPARFBYTE}}</span></div>",
     "    <div><span class='name'>TMMGT_BC_LASTSQNUM0</span><span class='value'>{{TMMGT_BC_LASTSQNUM0}}</span></div>",
-    "  </div><div>",
     "    <div><span class='name'>TMMGT_BC_FREEMEMORY</span><span class='value'>{{TMMGT_BC_FREEMEMORY}}</span></div>",
     "    <div><span class='name'>TMMGT_BC_SSCHEDID4</span><span class='value'>{{TMMGT_BC_SSCHEDID4}}</span></div>",
     "    <div><span class='name'>OBCPE1_BC_BCSTATUSW</span><span class='value'>{{OBCPE1_BC_BCSTATUSW}}</span></div>",
@@ -1485,7 +1480,6 @@
     "    <div><span class='name'>SAT_BC_OBCPS8</span><span class='value'>{{SAT_BC_OBCPS8}}</span></div>",
     "    <div><span class='name'>SAT_BC_OBCPS1</span><span class='value'>{{SAT_BC_OBCPS1}}</span></div>",
     "    <div><span class='name'>AGA_AM_NUMSTATIONS</span><span class='value'>{{AGA_AM_NUMSTATIONS}}</span></div>",
-    "  </div><div>",
     "    <div><span class='name'>SAT_BC_NUMRJCTTC9</span><span class='value'>{{SAT_BC_NUMRJCTTC9}}</span></div>",
     "    <div><span class='name'>SAT_BC_NUMTC0</span><span class='value'>{{SAT_BC_NUMTC0}}</span></div>",
     "    <div><span class='name'>SAT_BC_HSPDEFPRIOR</span><span class='value'>{{SAT_BC_HSPDEFPRIOR}}</span></div>",
@@ -1511,7 +1505,6 @@
     "    <div><span class='name'>ORB_BC_QUATCONS3</span><span class='value'>{{ORB_BC_QUATCONS3}}</span></div>",
     "    <div><span class='name'>ORB_BC_TSTPARFLONG</span><span class='value'>{{ORB_BC_TSTPARFLONG}}</span></div>",
     "    <div><span class='name'>ORB_BC_VXITRF</span><span class='value'>{{ORB_BC_VXITRF}}</span></div>",
-    "  </div>",
     "</div>"
   ]
 }

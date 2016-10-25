@@ -3,7 +3,7 @@ import profiling from '../debug/profiling';
 import debug from '../debug/mainDebug';
 import { removeRequests } from '../../store/actions/dataRequests';
 import expirationsMapGenerator from './map/expirated';
-import dataMapGenerator from './map/visible';
+import visibleDataMap from './map/visible';
 import { getWebsocket } from '../websocket/mainWebsocket';
 
 const logger = debug('data:invalidate');
@@ -14,7 +14,7 @@ export default function invalidated(store) {
   const start = profiling.start();
 
   const state = store.getState();
-  const dataMap = dataMapGenerator(state);
+  const dataMap = visibleDataMap(state);
   const expiredRequests = expirationsMapGenerator(state, dataMap);
   if (!Object.keys(expiredRequests).length) {
     return;

@@ -5,7 +5,7 @@ import { constants as globalConstants } from 'common';
 
 import debug from '../debug/mainDebug';
 import profiling from '../debug/profiling';
-import dataMapGenerator from './map/visible';
+import visibleDataMap from './map/visible';
 import requestsMapGenerator from './map/requests';
 import { getWebsocket } from '../websocket/mainWebsocket';
 import { addRequests } from '../../store/actions/dataRequests';
@@ -18,7 +18,7 @@ export default _throttle((state, dispatch) => {
   const start = profiling.start();
 
   // TODO : improve memoization
-  const dataMap = dataMapGenerator(state);
+  const dataMap = visibleDataMap(state);
   logger.verbose(dataMap);
 
   // TODO : improve memoization: pass dataRequests as arguments (/!\ no reselect, should never

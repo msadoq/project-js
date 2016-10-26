@@ -1,8 +1,9 @@
 const debug = require('../../io/debug')('controllers:onResponse');
-const { decode } = require('../../protobuf');
+const { encode, decode } = require('../../protobuf');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
 const { sendToMain } = require('../../websocket/sendToMain');
 const constants = require('../../constants');
+const { isEqual: _isEqual } = require('lodash');
 const { constants: globalConstants } = require('common');
 
 /**
@@ -18,6 +19,9 @@ const { constants: globalConstants } = require('common');
  *
  * @param buffer
  */
+
+const protobufSuccess = encode('dc.dataControllerUtils.Status', { status: constants.STATUS_SUCCESS });
+
 const response = (websocketHandler, queryIdBuffer, statusBuffer, reasonBuffer) => {
   debug.verbose('called');
 
@@ -35,9 +39,9 @@ const response = (websocketHandler, queryIdBuffer, statusBuffer, reasonBuffer) =
 
   debug.debug('decode status');
   // deprotobufferize status
-  const status = decode('dc.dataControllerUtils.Status', statusBuffer).status;
+  /*const status = decode('dc.dataControllerUtils.Status', statusBuffer).status;*/
   // if status is SUCCESS, execute callback and stop logic
-  if (status === constants.STATUS_SUCCESS) {
+  if (_isEqual(statusBuffer, protobufSuccess)) {
     return callback(null);
   }
 

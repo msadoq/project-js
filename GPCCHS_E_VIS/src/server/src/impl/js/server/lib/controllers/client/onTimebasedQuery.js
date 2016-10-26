@@ -10,7 +10,7 @@ const {
 const { addToMainQueue } = require('../../websocket/sendToMain');
 const { createQueryMessage } = require('../../utils/queries');
 const { createAddSubscriptionMessage } = require('../../utils/subscriptions');
-const execution = require('../../utils/execution');
+const execution = require('../../utils/execution')('query');
 
 /**
  * Triggered when the data consumer query for timebased data

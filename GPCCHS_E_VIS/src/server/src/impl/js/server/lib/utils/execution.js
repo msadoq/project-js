@@ -4,7 +4,7 @@ const {
   reduce: _reduce,
 } = require('lodash');
 
-const debug = require('../io/debug')('execution');
+const debug = require('../io/debug');
 
 let executionMap = {};
 function reset() {
@@ -26,11 +26,11 @@ function stop(key) {
   const lastIndex = executionMap[key].length - 1;
   executionMap[key][lastIndex] = process.hrtime(executionMap[key][lastIndex]);
 }
-function print() {
+function print(display) {
   if (process.env.MONITORING === 'off') {
     return;
   }
-  debug.warn('= execution map ====================');
+  display('= execution map ====================');
   _each(executionMap, (r, k) => {
     let d = 0;
     if (r.length === 1) {
@@ -39,14 +39,17 @@ function print() {
       const t = _reduce(r, (total, record) => [total[0] + record[0], total[1] + record[1]], [0, 0]);
       d = (t[0] * 1e3) + _round(t[1] / 1e6, 6);
     }
-    debug.warn(k, 'ms:', d);
+    display(k, 'ms:', d);
   });
-  debug.warn('- execution map --------------------');
+  display('- execution map --------------------');
 }
 
-module.exports = {
-  reset,
-  start,
-  stop,
-  print,
+module.exports = (namespace) => {
+  const display = debug(`execution:${namespace}`).warn;
+  return {
+    reset,
+    start,
+    stop,
+    print: () => print(display),
+  };
 };

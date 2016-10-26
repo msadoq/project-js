@@ -3,7 +3,7 @@ const registeredCallbacks = require('../utils/registeredCallbacks');
 const registeredQueries = require('../utils/registeredQueries');
 const { encode } = require('../protobuf');
 const constants = require('../constants');
-const execution = require('./execution');
+const execution = require('./execution')('query');
 
 let idIndex = 0;
 function generateQueryId() {

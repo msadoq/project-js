@@ -21,19 +21,15 @@ export function connect() {
   if (!instance) {
     logger.info('trying open connection to', parameters.HSS);
 
-    try {
-      instance = new Primus(parameters.HSS, {
-        reconnect: {
-          max: 2000,
-          min: 200,
-          retries: 50,
-          'reconnect timeout': 1000,
-          factor: 1.5,
-        },
-      });
-    } catch (e) {
-      logger.error(e);
-    }
+    instance = new Primus(parameters.HSS, {
+      reconnect: {
+        max: 2000,
+        min: 200,
+        retries: 50,
+        'reconnect timeout': 1000,
+        factor: 1.5,
+      },
+    });
 
     instance.on('open', () => {
       logger.info('connected!');

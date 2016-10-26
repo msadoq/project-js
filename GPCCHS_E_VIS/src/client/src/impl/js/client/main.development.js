@@ -1,4 +1,3 @@
-
 import { app } from 'electron';
 import { start, stop } from './lib/mainProcess';
 import './lib/common/parameters';
@@ -14,3 +13,8 @@ app.on('ready', start);
 app.on('window-all-closed', () => app.quit());
 
 app.on('quit', () => stop);
+
+process.on('uncaughtException', (err) => {
+  console.error(err); // eslint-disable-line no-console
+  app.exit(1);
+});

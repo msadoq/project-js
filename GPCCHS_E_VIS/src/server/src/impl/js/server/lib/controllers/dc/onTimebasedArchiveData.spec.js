@@ -112,15 +112,10 @@ describe('controllers/onTimebasedArchiveData', () => {
     getMessage().should.have.properties({
       event: 'timebasedData',
       payload: {
-        [remoteId]: [
-          {
-            timestamp: t1,
-            payload: rp,
-          }, {
-            timestamp: t2,
-            payload: rp,
-          },
-        ],
+        [remoteId]: {
+          [t1]: rp,
+          [t2]: rp,
+        },
       },
     });
   });
@@ -170,15 +165,10 @@ describe('controllers/onTimebasedArchiveData', () => {
     getMessage().should.have.properties({
       event: 'timebasedData',
       payload: {
-        [remoteId]: [
-          {
-            timestamp: t1,
-            payload: rp,
-          }, {
-            timestamp: t2,
-            payload: rp,
-          },
-        ],
+        [remoteId]: {
+          [t1]: rp,
+          [t2]: rp,
+        },
       },
     });
   });

@@ -6,11 +6,15 @@ const zmq = require('../../io/zmq');
 const {
   each: _each,
   concat: _concat,
+  zipObject: _zipObject,
+  keys: _keys,
+  values: _values,
+  map: _map,
 } = require('lodash');
 const { addToMainQueue } = require('../../websocket/sendToMain');
 const { createQueryMessage } = require('../../utils/queries');
 const { createAddSubscriptionMessage } = require('../../utils/subscriptions');
-const execution = require('../../utils/execution');
+const execution = require('../../utils/execution')('query');
 
 /**
  * Triggered when the data consumer query for timebased data
@@ -139,7 +143,7 @@ const timebasedQuery = (websocketQueueHandler, payload, messageHandler) => {
       }
 
       execution.start('queue cache for sending');
-      websocketQueueHandler(remoteId, cachedData);
+      websocketQueueHandler(remoteId, _zipObject(_map(cachedData, datum => datum.timestamp), _map(cachedData, datum => datum.payload)));
       execution.stop('queue cache for sending');
     });
     execution.stop('finding cache data');

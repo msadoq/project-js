@@ -91,7 +91,7 @@ const sendTimebasedPubSubData = (
       }
       timebasedDataModel.addRecord(tbd.timestamp, tbd.payload);
       // queue a ws newData message (sent periodically)
-      websocketQueueHandler(remoteId, [tbd]);
+      websocketQueueHandler(remoteId, { [tbd.timestamp]: tbd.payload });
     });
   });
 };

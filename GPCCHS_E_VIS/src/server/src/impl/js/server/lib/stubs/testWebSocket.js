@@ -1,7 +1,6 @@
 const {
   get: _get,
   set: _set,
-  concat: _concat,
 } = require('lodash');
 const { constants: globalConstants } = require('common');
 
@@ -19,11 +18,7 @@ const flushTestQueue = () => {
 };
 
 const addToTestQueue = (remoteId, payload) => {
-  _set(testQueue, [remoteId], _concat(
-      _get(testQueue, [remoteId], []),
-      payload
-    )
-  );
+  _set(testQueue, [remoteId], Object.assign({}, _get(testQueue, [remoteId]), payload));
   flushTestQueue();
 };
 

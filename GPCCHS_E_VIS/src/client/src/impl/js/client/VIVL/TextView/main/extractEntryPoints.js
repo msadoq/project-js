@@ -2,7 +2,7 @@ import _reduce from 'lodash/reduce';
 import _first from 'lodash/first';
 
 // import debug from '../../../lib/common/debug/mainDebug';
-import declineConnectedDatum from '../../../lib/common/data/map/declineConnectedDatum';
+import applyDomainsAndTimebar from '../../../lib/common/data/map/applyDomainsAndTimebar';
 
 // const logger = debug('data:map:text:extractEntryPoints');
 
@@ -12,7 +12,7 @@ export default function extractEntryPoints(
   return _reduce(entryPoints, (sublist, ep) => {
     const { name } = ep;
 
-    const cds = declineConnectedDatum(
+    const cds = applyDomainsAndTimebar(
       ep.connectedData, 'TextView', timebarId, visuWindow, timelines, domains, false
     );
     if (!Object.keys(cds).length) {

@@ -1,16 +1,16 @@
 import schema from './TextView.schema.json';
-import getDataFromCache from './getDataFromCache';
-import extractConnectedData from './extractConnectedData';
+import extractRemoteIds from './extractRemoteIds';
 import extractEntryPoints from './extractEntryPoints';
 import getExpectedInterval from './getExpectedInterval';
+import getDataFromCache from './getDataFromCache';
 import getDisplayedValues from './getDisplayedValues';
 
 module.exports = {
   dataLayout: () => 'one',
   getSchemaJson: () => schema,
-  getDataFromCache,
-  extractConnectedData,
+  extractRemoteIds,
   extractEntryPoints,
   getExpectedInterval,
+  getDataFromCache,
   getDisplayedValues,
 };

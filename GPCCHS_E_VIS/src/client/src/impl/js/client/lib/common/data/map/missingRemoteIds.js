@@ -1,5 +1,7 @@
 import { each, get, map } from 'lodash';
 import { intervals as intervalManager } from 'common';
+
+import profiling from '../../debug/profiling';
 import operators from '../../operators';
 
 /**
@@ -25,7 +27,8 @@ import operators from '../../operators';
  * @param dataMap
  * @return object
  */
-export default function requestsMap(state, dataMap) {
+export default function missingRemoteIds(state, dataMap) {
+  const start = profiling.start();
   const queries = {};
   each(dataMap, ({ dataId, filter, localIds }, remoteId) => {
     each(localIds, ({ expectedInterval }) => {
@@ -58,5 +61,6 @@ export default function requestsMap(state, dataMap) {
     });
   });
 
+  profiling.stop(start, 'missingRemoteIds');
   return queries;
 }

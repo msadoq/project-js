@@ -1,7 +1,10 @@
 import { each, get } from 'lodash';
 import { intervals as intervalManager } from 'common';
 
+import profiling from '../../debug/profiling';
+
 const getExpiredRequests = (dataMap, dataRequests) => {
+  const start = profiling.start();
   const expiredRequests = {};
   // get requested remoteIds
   each(dataRequests, (intervals, remoteId) => {
@@ -18,6 +21,8 @@ const getExpiredRequests = (dataMap, dataRequests) => {
       expiredRequests[remoteId] = { intervals: expiredIntervals };
     }
   });
+
+  profiling.stop(start, 'expiredRequests');
   return expiredRequests;
 };
 

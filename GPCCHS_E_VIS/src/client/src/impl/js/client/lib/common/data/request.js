@@ -5,7 +5,7 @@ import { constants as globalConstants } from 'common';
 
 import debug from '../debug/mainDebug';
 import profiling from '../debug/profiling';
-import visibleRemoteIds from './map/visibleRemoteIds';
+import map from './map/visibleRemoteIds';
 import missingRemoteIds from './map/missingRemoteIds';
 import { getWebsocket } from '../websocket/mainWebsocket';
 import { addRequests } from '../../store/actions/dataRequests';
@@ -18,7 +18,7 @@ function request(state, dispatch) {
   const start = profiling.start();
 
   // TODO : improve memoization
-  const dataMap = visibleRemoteIds(state);
+  const dataMap = map(state);
   logger.verbose(dataMap);
 
   // TODO : improve memoization: pass dataRequests as arguments (/!\ no reselect, should never
@@ -34,7 +34,7 @@ function request(state, dispatch) {
 
   profiling.stop(
     start,
-    `dataRequests done (${Object.keys(dataQueries).length} remoteId requested)`
+    `dataRequests (${Object.keys(dataQueries).length} remoteId)`
   );
 }
 

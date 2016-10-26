@@ -13,8 +13,6 @@ export default function inject(dispatch, data) {
 
   profiling.stop(
     start,
-    `dataInjection done (${
-      Object.keys(data).length ? Object.keys(data).length : 0
-    } remoteId injected)`
+    `dataInjection (${Object.keys(data).length ? Object.keys(data).length : 0} remoteId)`
   );
 }

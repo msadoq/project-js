@@ -3,7 +3,7 @@ import profiling from '../debug/profiling';
 import debug from '../debug/mainDebug';
 import { removeRequests } from '../../store/actions/dataRequests';
 import expiratedRemoteIds from './map/expiratedRemoteIds';
-import visibleRemoteIds from './map/visibleRemoteIds';
+import map from './map/visibleRemoteIds';
 import { getWebsocket } from '../websocket/mainWebsocket';
 
 const logger = debug('data:invalidate');
@@ -14,7 +14,7 @@ export default function invalidate(store) {
   const start = profiling.start();
 
   const state = store.getState();
-  const dataMap = visibleRemoteIds(state);
+  const dataMap = map(state);
   const expiredRequests = expiratedRemoteIds(state, dataMap);
   if (!Object.keys(expiredRequests).length) {
     return;
@@ -28,6 +28,6 @@ export default function invalidate(store) {
 
   profiling.stop(
     start,
-    `dataInvalidate done (${Object.keys(expiredRequests).length} requests cleaned)`
+    `dataInvalidate done (${Object.keys(expiredRequests).length} requests)`
   );
 }

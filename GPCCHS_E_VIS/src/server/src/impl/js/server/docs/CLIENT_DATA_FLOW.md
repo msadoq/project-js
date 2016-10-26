@@ -43,17 +43,21 @@ View cached data:
 {
   // TextView
   'viewId': {
-    index: { 'name': 'timestamp' },
+    index: { 'name': 'fieldX' },
     values: { 'name': 'value' },
   },
   // PlotView
   'viewId': {
-    index: { 'name': ['timestamp'] },
+    index: { 'name': ['fieldX'] },
     lines: [
       { key: 'key1', name: string }
     ],
     columns: [
-     { x: 'timestamp', 'key1': number }
+     { 
+       x: 'timestamp', // => master's timestamp 
+       'key1': { x: 'fieldX', value: number }, 
+       ...
+     }
    ]
   },
 }

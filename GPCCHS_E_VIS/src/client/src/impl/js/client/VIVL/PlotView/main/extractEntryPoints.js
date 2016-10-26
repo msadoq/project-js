@@ -50,6 +50,7 @@ export default function extractEntryPoints(
         remoteId: remoteIdX,
         fieldX: localIdXData.field,
         fieldY: localIdYData.field,
+        offset: localIdYData.offset,
         expectedInterval: localIdYData.expectedInterval,
       },
     });

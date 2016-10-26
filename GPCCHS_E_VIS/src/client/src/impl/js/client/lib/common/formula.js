@@ -1,3 +1,7 @@
+import _memoize from 'lodash/memoize';
+
+const pattern = /^([^\.]+)\.([^<]+)<([^>]+)>(\.){0,1}([\w]+){0,1}$/i;
+
 /**
  * Parse formula string and return an object with extracted data.
  *
@@ -8,14 +12,13 @@
  *   catalog: 'Reporting',
  *   parameterName: 'ATT_BC_STR1VOLTAGE',
  *   comObject: 'ReportingParameter',
- *   field: 'extractedValue'   <-- Optional
+ *   field: 'extractedValue' <-- Optional
  * }
  *
  * @param formula
  * @returns {*}
  */
-const pattern = /^([^\.]+)\.([^<]+)<([^>]+)>(\.){0,1}([\w]+){0,1}$/i;
-module.exports = (formula) => {
+function parseFormula(formula) {
   if (typeof formula !== 'string' || !pattern.test(formula)) {
     return undefined;
   }
@@ -39,4 +42,6 @@ module.exports = (formula) => {
   }
 
   return parsed;
-};
+}
+
+export default _memoize(parseFormula);

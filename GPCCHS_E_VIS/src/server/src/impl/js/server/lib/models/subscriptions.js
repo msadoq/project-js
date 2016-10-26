@@ -19,36 +19,47 @@ collection.getFlatDataIdIndex = () => collection.constraints.unique.flatDataId;
 
 collection.getAll = () => _remove(_values(collection.getFlatDataIdIndex().keyMap), undefined);
 
-collection.addFilters = (dataId, filters) => {
-  const flatDataId = flattenDataId(dataId);
-  const subscription = collection.by('flatDataId', flatDataId);
-  if (!subscription) {
-    return undefined;
+collection.getByDataId = dataId => collection.by('flatDataId', flattenDataId(dataId));
+
+collection.addFilters = (dataId, filters, subscription) => {
+  let sub = subscription;
+  if (!sub) {
+    const flatDataId = flattenDataId(dataId);
+    sub = collection.by('flatDataId', flatDataId);
+    if (!sub) {
+      return undefined;
+    }
   }
-  debug.debug('before update', subscription);
-  subscription.filters = _assign({}, subscription.filters, filters);
-  debug.debug('update', subscription);
+  debug.debug('before update', sub);
+  sub.filters = _assign({}, sub.filters, filters);
+  debug.debug('update', sub);
   // collection.update(subscription);
   // TODO This update operation could be not needed
-  return subscription;
+  return sub;
 };
 
-collection.getRemoteIds = (dataId) => {
-  const flatDataId = flattenDataId(dataId);
-  const subscription = collection.by('flatDataId', flatDataId);
-  if (!subscription) {
-    return undefined;
+collection.getRemoteIds = (dataId, subscription) => {
+  let sub = subscription;
+  if (!sub) {
+    const flatDataId = flattenDataId(dataId);
+    sub = collection.by('flatDataId', flatDataId);
+    if (!sub) {
+      return undefined;
+    }
   }
-  return _keys(subscription.filters);
+  return _keys(sub.filters);
 };
 
-collection.getFilters = (dataId) => {
-  const flatDataId = flattenDataId(dataId);
-  const subscription = collection.by('flatDataId', flatDataId);
-  if (!subscription) {
-    return undefined;
+collection.getFilters = (dataId, subscription) => {
+  let sub = subscription;
+  if (!sub) {
+    const flatDataId = flattenDataId(dataId);
+    sub = collection.by('flatDataId', flatDataId);
+    if (!sub) {
+      return undefined;
+    }
   }
-  return subscription.filters;
+  return sub.filters;
 };
 
 collection.addRecord = (dataId) => {
@@ -65,15 +76,17 @@ collection.addRecord = (dataId) => {
   });
 };
 
-collection.removeByDataId = (dataId) => {
-  const flatDataId = flattenDataId(dataId);
-  const subscription = collection.by('flatDataId', flatDataId);
-
-  if (!subscription) {
-    return;
+collection.removeByDataId = (dataId, subscription) => {
+  let sub = subscription;
+  if (!sub) {
+    const flatDataId = flattenDataId(dataId);
+    sub = collection.by('flatDataId', flatDataId);
+    if (!sub) {
+      return;
+    }
   }
 
-  collection.remove(subscription);
+  collection.remove(sub);
 };
 
 collection.exists = (dataId) => {
@@ -84,16 +97,19 @@ collection.exists = (dataId) => {
   return true;
 };
 
-collection.removeRemoteId = (dataId, remoteId) => {
-  const flatDataId = flattenDataId(dataId);
-  const subscription = collection.by('flatDataId', flatDataId);
-  if (!subscription) {
-    return undefined;
+collection.removeRemoteId = (dataId, remoteId, subscription) => {
+  let sub = subscription;
+  if (!sub) {
+    const flatDataId = flattenDataId(dataId);
+    sub = collection.by('flatDataId', flatDataId);
+    if (!sub) {
+      return undefined;
+    }
   }
-  subscription.filters = _omit(subscription.filters, remoteId);
+  sub.filters = _omit(sub.filters, remoteId);
   // collection.update(subscription);
   // TODO This update operation could be not needed
-  return subscription;
+  return sub;
 };
 
 collection.cleanup = () => {

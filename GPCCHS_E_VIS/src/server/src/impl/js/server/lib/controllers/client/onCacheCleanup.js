@@ -1,13 +1,10 @@
 const debug = require('../../io/debug')('controllers:onCacheCleanup');
-const { encode } = require('../../protobuf');
-const { v4 } = require('node-uuid');
 const zmq = require('../../io/zmq');
-const registeredCallbacks = require('../../utils/registeredCallbacks');
 const registeredQueries = require('../../utils/registeredQueries');
 const { getTimebasedDataModel, removeTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
-const constants = require('../../constants');
+const { createDeleteSubscriptionMessage } = require('../../utils/subscriptions');
 const {
   each: _each,
   concat: _concat,
@@ -84,23 +81,9 @@ const cacheCleanup = (messageHandler, expiredRequests) => {
     // else, no more remoteIds for this dataId
     // remove dataId from subscriptions model
     subscriptionsModel.removeByDataId(dataId);
-    // create a queryId
-    const queryId = v4();
-    // register queryId/callback association
-    registeredCallbacks.set(queryId, (respErr) => {
-      if (respErr) {
-        throw respErr;
-      }
-    });
-    // queue a zmq timebasedSubscription message (with 'DELETE' action)
-    const subArgs = [
-      encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION }),
-      encode('dc.dataControllerUtils.String', { string: queryId }),
-      encode('dc.dataControllerUtils.DataId', dataId),
-      encode('dc.dataControllerUtils.Action', { action: constants.SUBSCRIPTIONACTION_DELETE }),
-    ];
+    const message = createDeleteSubscriptionMessage(dataId);
     // queue the message
-    return messageQueue.push(subArgs);
+    return messageQueue.push(message.args);
   });
   debug.debug('message queue length', messageQueue.length);
   // send queued messages to DC

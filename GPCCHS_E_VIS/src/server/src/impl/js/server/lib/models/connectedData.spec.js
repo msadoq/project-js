@@ -72,8 +72,8 @@ describe('models/connectedData', () => {
 
     it('one and multi intervals', () => {
       model.addRecord(myRemoteId, myDataId);
-      model.addRequestedInterval(myRemoteId, myQueryId, myInterval);
-      const connectedDatum = model.addRequestedInterval(myRemoteId, myQueryId2, myInterval2);
+      const cd = model.addRequestedInterval(myRemoteId, myQueryId, myInterval);
+      const connectedDatum = model.addRequestedInterval(myRemoteId, myQueryId2, myInterval2, cd);
       model.count().should.equal(1);
       const connectedData = model.find();
       connectedData.should.be.an('array')
@@ -105,9 +105,9 @@ describe('models/connectedData', () => {
 
     it('multi', () => {
       model.addRecord(myRemoteId, myDataId);
-      model.addRecord(myRemoteId2, myDataId2);
+      const cd2 = model.addRecord(myRemoteId2, myDataId2);
       const connectedDatum1 = model.addRequestedInterval(myRemoteId, myQueryId, myInterval);
-      const connectedDatum2 = model.addRequestedInterval(myRemoteId2, myQueryId2, myInterval2);
+      const connectedDatum2 = model.addRequestedInterval(myRemoteId2, myQueryId2, myInterval2, cd2);
       model.count().should.equal(2);
       const connectedData = model.find();
       connectedData.should.be.an('array').and.have.lengthOf(2);
@@ -206,6 +206,26 @@ describe('models/connectedData', () => {
         .that.equal(myRemoteId);
       connectedDatum.should.deep.equal(connectedData[0]);
     });
+    it('one', () => {
+      model.addRecord(myRemoteId, myDataId);
+      const cd = model.addRequestedInterval(myRemoteId, myQueryId, myInterval);
+      const connectedDatum = model.setIntervalAsReceived(myRemoteId, myQueryId, cd);
+      model.count().should.equal(1);
+      const connectedData = model.find();
+      connectedData.should.be.an('array')
+        .that.have.lengthOf(1);
+      connectedData[0].should.be.an('object')
+        .that.have.an.property('intervals');
+      connectedData[0].intervals.should.be.an('object')
+        .that.have.properties({
+          all: [myInterval],
+          received: [myInterval],
+          requested: {},
+        });
+      connectedData[0].should.have.an.property('remoteId')
+        .that.equal(myRemoteId);
+      connectedDatum.should.deep.equal(connectedData[0]);
+    });
   });
 
   describe('isRequested', () => {
@@ -229,8 +249,9 @@ describe('models/connectedData', () => {
     });
     it('yes', () => {
       model.addRecord(myRemoteId, myDataId);
-      model.addRequestedInterval(myRemoteId, myQueryId, myInterval);
+      const cd = model.addRequestedInterval(myRemoteId, myQueryId, myInterval);
       model.isRequested(myRemoteId, myQueryId).should.equal(true);
+      model.isRequested(myRemoteId, myQueryId, cd).should.equal(true);
     });
   });
 
@@ -255,16 +276,18 @@ describe('models/connectedData', () => {
     });
     it('yes', () => {
       model.addRecord(myRemoteId, myDataId);
-      model.addRequestedInterval(myRemoteId, myQueryId, myInterval);
+      const cd = model.addRequestedInterval(myRemoteId, myQueryId, myInterval);
       const result = model.isTimestampInKnownIntervals(myRemoteId, timestamp);
       result.should.be.an('boolean').and.be.equal(true);
+      model.isTimestampInKnownIntervals(myRemoteId, timestamp, cd).should.be.an('boolean').and.be.equal(true);
     });
     it('yes in received', () => {
       model.addRecord(myRemoteId, myDataId);
-      model.addRequestedInterval(myRemoteId, myQueryId, myInterval);
+      const cd = model.addRequestedInterval(myRemoteId, myQueryId, myInterval);
       model.setIntervalAsReceived(myRemoteId, myQueryId);
       const result = model.isTimestampInKnownIntervals(myRemoteId, timestamp);
       result.should.be.an('boolean').and.be.equal(true);
+      model.isTimestampInKnownIntervals(myRemoteId, timestamp, cd).should.be.an('boolean').and.be.equal(true);
     });
   });
 
@@ -291,15 +314,17 @@ describe('models/connectedData', () => {
     });
     it('only one', () => {
       model.addRecord(myRemoteId, myDataId);
-      model.addRequestedInterval(myRemoteId, myQueryId, myInterval);
+      const cd = model.addRequestedInterval(myRemoteId, myQueryId, myInterval);
       const result = model.areTimestampsInKnownIntervals(myRemoteId, timestamps);
       result.should.deep.equal([timestamps[1]]);
+      model.areTimestampsInKnownIntervals(myRemoteId, timestamps, cd).should.deep.equal([timestamps[1]]);
     });
     it('all', () => {
       model.addRecord(myRemoteId, myDataId);
-      model.addRequestedInterval(myRemoteId, myQueryId, myAllInterval);
+      const cd = model.addRequestedInterval(myRemoteId, myQueryId, myAllInterval);
       const result = model.areTimestampsInKnownIntervals(myRemoteId, timestamps);
       result.should.deep.equal(timestamps);
+      model.areTimestampsInKnownIntervals(myRemoteId, timestamps, cd).should.deep.equal(timestamps);
     });
   });
 
@@ -642,6 +667,18 @@ describe('models/connectedData', () => {
       connectedData.should.be.an('array')
         .that.have.lengthOf(0);
     });
+    it('one', () => {
+      const myDataId = getDataId();
+      const myRemoteId = getRemoteId();
+      const cd = model.addRecord(myRemoteId, myDataId);
+      let connectedData = model.find();
+      connectedData.should.be.an('array')
+        .that.have.lengthOf(1);
+      model.removeByRemoteId(myRemoteId, cd);
+      connectedData = model.find();
+      connectedData.should.be.an('array')
+        .that.have.lengthOf(0);
+    });
   });
 
   describe('removeIntervals', () => {
@@ -682,12 +719,12 @@ describe('models/connectedData', () => {
     });
     it('intervals requested', () => {
       // init test
-      model.addRecord(myRemoteId, myDataId);
+      const cd = model.addRecord(myRemoteId, myDataId);
       model.addRequestedInterval(myRemoteId, queryId, interval);
       model.addRequestedInterval(myRemoteId, queryId2, interval2);
       model.addRequestedInterval(myRemoteId, queryId3, interval3);
       // launch test
-      const queryIds = model.removeIntervals(myRemoteId, [interval, interval3]);
+      const queryIds = model.removeIntervals(myRemoteId, [interval, interval3], cd);
       queryIds.should.have.lengthOf(2);
       queryIds.should.have.properties([queryId, queryId3]);
       const connectedData = model.find();

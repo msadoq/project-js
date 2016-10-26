@@ -130,12 +130,9 @@ describe('controllers/onTimebasedPubSubData', () => {
     getMessage().should.have.properties({
       event: 'timebasedData',
       payload: {
-        [fullRemoteId]: [
-          {
-            timestamp: t1,
-            payload: rp,
-          },
-        ],
+        [fullRemoteId]: {
+          [t1]: rp,
+        },
       },
     });
   });
@@ -169,12 +166,9 @@ describe('controllers/onTimebasedPubSubData', () => {
     getMessage().should.have.properties({
       event: 'timebasedData',
       payload: {
-        [halfRemoteId]: [
-          {
-            timestamp: t2,
-            payload: rp2,
-          },
-        ],
+        [halfRemoteId]: {
+          [t2]: rp2,
+        },
       },
     });
   });

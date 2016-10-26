@@ -6,7 +6,6 @@ const {
   get: _get,
   set: _set,
   throttle: _throttle,
-  concat: _concat,
 } = require('lodash');
 
 let mainQueue = {};
@@ -34,8 +33,7 @@ const flushMainQueue = _throttle(() => {
 
 const addToMainQueue = (remoteId, payload) => {
   debug.debug('adding to queue');
-  const previous = _get(mainQueue, [remoteId], []);
-  _set(mainQueue, [remoteId], _concat(previous, payload));
+  _set(mainQueue, [remoteId], Object.assign({}, _get(mainQueue, [remoteId]), payload));
   flushMainQueue();
 };
 

@@ -3,6 +3,9 @@ const {
   map: _map,
   chunk: _chunk,
   isEqual: _isEqual,
+  zipObject: _zipObject,
+  keys: _keys,
+  values: _values,
 } = require('lodash');
 const { decode, encode } = require('../../protobuf');
 const { addTimebasedDataModel, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
@@ -75,12 +78,16 @@ const sendTimebasedArchiveData = (
     return undefined;
   }
   execution.start('decode payloads');
-  const payloadsToInsert = _map(_chunk(payloadBuffers, 2), payloadBuffer => (
-    {
-      timestamp: decode('dc.dataControllerUtils.Timestamp', payloadBuffer[0]).ms,
-      payload: decode(`lpisis.decommutedParameter.${dataId.comObject}`, payloadBuffer[1]),
+  const payloadsToSend = {};
+  const payloadsToInsert = _map(_chunk(payloadBuffers, 2), (payloadBuffer) => {
+    const timestamp = decode('dc.dataControllerUtils.Timestamp', payloadBuffer[0]).ms;
+    const payload = decode(`lpisis.decommutedParameter.${dataId.comObject}`, payloadBuffer[1])
+    payloadsToSend[timestamp] = payload;
+    return {
+      timestamp,
+      payload,
     }
-  ));
+  });
   execution.stop('decode payloads');
   debug.debug(`inserting ${payloadsToInsert.length} data`);
 
@@ -95,7 +102,7 @@ const sendTimebasedArchiveData = (
 
   execution.start('queue payloads');
   // queue a ws newData message (sent periodically)
-  websocketQueueHandler(remoteId, payloadsToInsert);
+  websocketQueueHandler(remoteId, payloadsToSend);
   execution.stop('queue payloads');
   execution.stop('global');
   execution.print();

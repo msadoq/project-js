@@ -109,15 +109,10 @@ describe('controllers/onTimebasedQuery', () => {
     getMessage().should.have.properties({
       event: 'timebasedData',
       payload: {
-        [remoteId]: [
-          {
-            timestamp: payloads[0].timestamp,
-            payload: payloads[0].payload,
-          }, {
-            timestamp: payloads[1].timestamp,
-            payload: payloads[1].payload,
-          },
-        ],
+        [remoteId]: {
+          [payloads[0].timestamp]: payloads[0].payload,
+          [payloads[1].timestamp]: payloads[1].payload,
+        },
       },
     });
     // check connectedDataModel
@@ -212,12 +207,9 @@ describe('controllers/onTimebasedQuery', () => {
     getMessage().should.have.properties({
       event: 'timebasedData',
       payload: {
-        [remoteId]: [
-          {
-            timestamp: payloads[1].timestamp,
-            payload: payloads[1].payload,
-          },
-        ],
+        [remoteId]: {
+          [payloads[1].timestamp]: payloads[1].payload,
+        },
       },
     });
     // check connectedDataModel

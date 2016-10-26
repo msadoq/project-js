@@ -41,13 +41,14 @@ const sendTimebasedPubSubData = (
   const dataId = decode('dc.dataControllerUtils.DataId', dataIdBuffer);
 
   // if dataId not in subscriptions model, stop logic
-  if (!subscriptionsModel.exists(dataId)) {
+  const subscription = subscriptionsModel.getByDataId(dataId);
+  if (!subscription) {
     return undefined;
   }
   debug.debug('received subscribed timebased data');
 
   // get { remoteId: filters } from subscriptions model
-  const filtersByRemoteId = subscriptionsModel.getFilters(dataId);
+  const filtersByRemoteId = subscriptionsModel.getFilters(dataId, subscription);
 
   // if there is no remoteId for this dataId, stop logic
   if (_isEmpty(filtersByRemoteId)) {

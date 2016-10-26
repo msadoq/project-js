@@ -2,8 +2,8 @@
   "type": "PlotView",
   "links": [
     {
-      "name": "pageMedium",
-      "path": "./pages/pageMedium.json"
+      "name": "page4",
+      "path": "./pages/page4.json"
     }
   ],
   "procedures": [],
@@ -15,7 +15,7 @@
     {
       "name": "ATT_BC_REVTCOUNT1",
       "connectedDataX": {
-        "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.convertedvalue",
+        "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.groundDate",
         "unit": "s",
         "digits": 5,
         "format": "decimal",
@@ -24,7 +24,7 @@
         "axisId": "Time"
       },
       "connectedDataY": {
-        "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.convertedvalue",
+        "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -49,7 +49,7 @@
     {
       "name": "ATT_BC_REVTCOUNT2",
       "connectedDataX": {
-        "formula": "Reporting.ATT_BC_REVTCOUNT2<ReportingParameter>.convertedvalue",
+        "formula": "Reporting.ATT_BC_REVTCOUNT2<ReportingParameter>.groundDate",
         "unit": "s",
         "digits": 5,
         "format": "decimal",
@@ -58,7 +58,7 @@
         "axisId": "Time"
       },
       "connectedDataY": {
-        "formula": "Reporting.ATT_BC_REVTCOUNT2<ReportingParameter>.convertedvalue",
+        "formula": "Reporting.ATT_BC_REVTCOUNT2<ReportingParameter>.extractedValue",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -83,7 +83,7 @@
     {
       "name": "ATT_BC_REVTCOUNT3",
       "connectedDataX": {
-        "formula": "Reporting.ATT_BC_REVTCOUNT3<ReportingParameter>.convertedvalue",
+        "formula": "Reporting.ATT_BC_REVTCOUNT3<ReportingParameter>.groundDate",
         "unit": "s",
         "digits": 5,
         "format": "decimal",
@@ -92,7 +92,7 @@
         "axisId": "Time"
       },
       "connectedDataY": {
-        "formula": "Reporting.ATT_BC_REVTCOUNT3<ReportingParameter>.convertedvalue",
+        "formula": "Reporting.ATT_BC_REVTCOUNT3<ReportingParameter>.extractedValue",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -117,7 +117,7 @@
     {
       "name": "ATT_BC_REVTCOUNT4",
       "connectedDataX": {
-        "formula": "Reporting.ATT_BC_REVTCOUNT4<ReportingParameter>.convertedvalue",
+        "formula": "Reporting.ATT_BC_REVTCOUNT4<ReportingParameter>.groundDate",
         "unit": "s",
         "digits": 5,
         "format": "decimal",
@@ -126,7 +126,7 @@
         "axisId": "Time"
       },
       "connectedDataY": {
-        "formula": "Reporting.ATT_BC_REVTCOUNT4<ReportingParameter>.convertedvalue",
+        "formula": "Reporting.ATT_BC_REVTCOUNT4<ReportingParameter>.extractedValue",
         "unit": "V",
         "digits": 5,
         "format": "decimal",

@@ -10,7 +10,7 @@
       "x": 4,
       "y": 4,
       "w": 8,
-      "h": 10
+      "h": 16
       },
       "windowState": "Normalized"
     },
@@ -21,7 +21,7 @@
 		"x": 0,
 		"y": 2,
 		"w": 4,
-		"h": 10
+		"h": 8
 	  },
 	  "windowState": "Normalized"
 	},
@@ -29,10 +29,10 @@
 	  "path": "/views/text30.json",
 	  "geometry": {
 		"kind": "Relative",
-		"x": 10,
+		"x": 0,
 		"y": 6,
-		"w": 16,
-		"h": 6
+		"w": 4,
+		"h": 8
 	  },
 	  "windowState": "Normalized"
 	}

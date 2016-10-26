@@ -12,27 +12,34 @@ const constants = require('../../constants');
  *
  * @param spark
  */
+
+const protobufDomainHeader = encode('dc.dataControllerUtils.Header', {
+  messageType: constants.MESSAGETYPE_DOMAIN_QUERY,
+});
+let idIndex = 0;
+const generateDomainId = () => {
+  idIndex += 1;
+  return `domain${idIndex}`;
+};
+
+const errorCallback = (err) => {
+  if (err) {
+    throw err;
+  }
+};
+
 const domainQuery = (messageHandler) => {
   debug.debug('new domain query');
 
-  // protobufferize messageType
-  const domainQueryHeader = encode('dc.dataControllerUtils.Header', {
-    messageType: constants.MESSAGETYPE_DOMAIN_QUERY,
-  });
-
   // create and register queryId
-  const id = v4();
-  registeredCallbacks.set(id, (err) => {
-    if (err) {
-      throw err;
-    }
-  });
+  const id = generateDomainId();
+  registeredCallbacks.set(id, errorCallback);
   // protobufferize queryId
   const queryId = encode('dc.dataControllerUtils.String', {
     string: id,
   });
 
-  const queryArgs = [domainQueryHeader, queryId];
+  const queryArgs = [protobufDomainHeader, queryId];
 
   messageHandler('dcPush', queryArgs);
 };

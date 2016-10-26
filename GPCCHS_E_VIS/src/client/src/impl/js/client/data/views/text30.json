@@ -721,8 +721,10 @@
   },
   "content": [
     "<style>",
-    "  .myTextView .name { overflow: hidden ;margin-left: 10px; background-color: #a9b3bc; color: black; font-weight: bolder; display: inline-block; margin-top: 5px;text-align: center;}",
-    "  .myTextView .value { overflow: hidden; margin-left: 10px; background-color: black; color: #00ff00; font-weight: bold; display: inline-block; text-align: left; padding: 10px; margin-bottom: 5px; }",
+    "  .myTextView { background-color: white; width: 100%;font-size: 1.2rem; height: 100%; }",
+    "  .myTextView > div { display: inline-block; width: 25%; vertical-align: top; height: 100%; }",
+    "  .myTextView .name { overflow: hidden; margin-left: 10px; background-color: #a9b3bc; color: black; font-weight: bolder; width: 85%; display: inline-block; margin-top: 5px;text-align: center;}",
+    "  .myTextView .value { overflow: hidden; margin-left: 10px; background-color: black; color: #00ff00; font-weight: bold;  width: 85%; display: inline-block; text-align: left; padding: 10px; margin-bottom: 10px; }",
     "</style>",
     "<div class='myTextView'>",
     "    <div><span class='name'>AGA_AM_OWNERID</span><span class='value'>{{AGA_AM_OWNERID}}</span></div>",

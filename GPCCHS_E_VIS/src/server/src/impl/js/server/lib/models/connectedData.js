@@ -23,33 +23,37 @@ collection.getRemoteIdIndex = () => collection.constraints.unique.remoteId;
 
 collection.getAll = () => _remove(_values(collection.getRemoteIdIndex().keyMap), undefined);
 
-collection.areTimestampsInKnownIntervals = (remoteId, timestamps) => {
+collection.areTimestampsInKnownIntervals = (remoteId, timestamps, connectedData) => {
   // Return timestamps that are currently in intervals known or requested for this remoteId
-  const connectedData = collection.by('remoteId', remoteId);
-
-  if (typeof connectedData === 'undefined') {
-    debug.debug('timestamps not in known intervals');
-    return [];
+  let cd = connectedData;
+  if (!cd) {
+    cd = collection.by('remoteId', remoteId);
+    if (!cd) {
+      debug.debug('timestamps not in known intervals');
+      return [];
+    }
   }
 
   debug.debug('check intervals for these timestamps');
   return _filter(
     timestamps,
-    timestamp => intervalManager.includesTimestamp(connectedData.intervals.all, timestamp)
+    timestamp => intervalManager.includesTimestamp(cd.intervals.all, timestamp)
   );
 };
 
-collection.isTimestampInKnownIntervals = (remoteId, timestamp) => {
+collection.isTimestampInKnownIntervals = (remoteId, timestamp, connectedData) => {
   // Check if timestamp is currently in intervals known or requested for this remoteId
-  const connectedData = collection.by('remoteId', remoteId);
-
-  if (typeof connectedData === 'undefined') {
-    debug.debug('timestamp not in known intervals');
-    return false;
+  let cd = connectedData;
+  if (!cd) {
+    cd = collection.by('remoteId', remoteId);
+    if (!cd) {
+      debug.debug('timestamp not in known intervals');
+      return false;
+    }
   }
 
   debug.debug('check intervals');
-  if (intervalManager.includesTimestamp(connectedData.intervals.all, timestamp)) {
+  if (intervalManager.includesTimestamp(cd.intervals.all, timestamp)) {
     debug.debug('timestamp in intervals');
     return true;
   }
@@ -57,23 +61,29 @@ collection.isTimestampInKnownIntervals = (remoteId, timestamp) => {
   return false;
 };
 
-collection.setIntervalAsReceived = (remoteId, queryUuid) => {
+collection.setIntervalAsReceived = (remoteId, queryUuid, connectedData) => {
   // Set query interval as received for this remoteId
-  const connectedData = collection.by('remoteId', remoteId);
+  let cd = connectedData;
+  if (!cd) {
+    cd = collection.by('remoteId', remoteId);
+    if (!cd) {
+      return undefined;
+    }
+  }
 
-  const interval = _get(connectedData, ['intervals', 'requested', queryUuid]);
+  const interval = _get(cd, ['intervals', 'requested', queryUuid]);
   if (typeof interval === 'undefined') {
     return undefined;
   }
 
-  connectedData.intervals.received =
-    intervalManager.merge(connectedData.intervals.received, interval);
-  connectedData.intervals.requested = _omit(connectedData.intervals.requested, queryUuid);
-  debug.debug('set interval', interval, 'as received', connectedData);
+  cd.intervals.received =
+    intervalManager.merge(cd.intervals.received, interval);
+  cd.intervals.requested = _omit(cd.intervals.requested, queryUuid);
+  debug.debug('set interval', interval, 'as received', cd);
   // collection.update(connectedData);
   // TODO i've commented this line for performance reasons, test non regression
 
-  return connectedData;
+  return cd;
 };
 
 collection.addRecord = (remoteId, dataId) => {
@@ -94,33 +104,38 @@ collection.addRecord = (remoteId, dataId) => {
   return collection.insert(connectedData);
 };
 
-collection.addRequestedInterval = (remoteId, queryUuid, interval) => {
+collection.addRequestedInterval = (remoteId, queryUuid, interval, connectedData) => {
   // Add a query interval in the list of requested intervals for this flatDataId
   // And create the flatDataId if it doesnt exist
-  // TODO : optimization, model should be passed as parameter (onTimebasedQuery already get the model)
-  const connectedData = collection.by('remoteId', remoteId);
 
-  if (!connectedData) {
-    return undefined;
+  let cd = connectedData;
+  if (!cd) {
+    cd = collection.by('remoteId', remoteId);
+    if (!cd) {
+      return undefined;
+    }
   }
 
   // debug.debug('before update', inspect(connectedData));
-  connectedData.intervals.requested[queryUuid] = interval;
-  connectedData.intervals.all = intervalManager.merge(connectedData.intervals.all, interval);
+  cd.intervals.requested[queryUuid] = interval;
+  cd.intervals.all = intervalManager.merge(cd.intervals.all, interval);
   // debug.debug('update', inspect(connectedData));
   // collection.update(connectedData);
   // TODO i've commented this line for performance reasons, test non regression
 
-  return connectedData;
+  return cd;
 };
 
-collection.removeIntervals = (remoteId, intervals) => {
-  const connectedData = collection.by('remoteId', remoteId);
-  if (!connectedData) {
-    return [];
+collection.removeIntervals = (remoteId, intervals, connectedData) => {
+  let cd = connectedData;
+  if (!cd) {
+    cd = collection.by('remoteId', remoteId);
+    if (!cd) {
+      return [];
+    }
   }
-  let requestedIntervals = connectedData.intervals.requested;
-  let receivedIntervals = connectedData.intervals.received;
+  let requestedIntervals = cd.intervals.requested;
+  let receivedIntervals = cd.intervals.received;
   const queryIds = [];
   _each(intervals, (interval) => {
     _some(requestedIntervals, (value, key) => {
@@ -134,48 +149,58 @@ collection.removeIntervals = (remoteId, intervals) => {
     receivedIntervals = intervalManager.remove(receivedIntervals, interval);
   });
   const allIntervals = intervalManager.merge(receivedIntervals, _values(requestedIntervals));
-  connectedData.intervals.requested = requestedIntervals;
-  connectedData.intervals.received = receivedIntervals;
-  connectedData.intervals.all = allIntervals;
+  cd.intervals.requested = requestedIntervals;
+  cd.intervals.received = receivedIntervals;
+  cd.intervals.all = allIntervals;
 
   // collection.update(connectedData);
   // TODO i've commented this line for performance reasons, test non regression
   return queryIds;
 };
 
-collection.getIntervals = (remoteId) => {
-  const connectedData = collection.by('remoteId', remoteId);
-  if (!connectedData) {
-    return undefined;
+collection.getIntervals = (remoteId, connectedData) => {
+  let cd = connectedData;
+  if (!cd) {
+    cd = collection.by('remoteId', remoteId);
+    if (!cd) {
+      return undefined;
+    }
   }
-  return connectedData.intervals.all;
+  return cd.intervals.all;
 };
 
-collection.getDataId = (remoteId) => {
-  const connectedData = collection.by('remoteId', remoteId);
-  if (!connectedData) {
-    return undefined;
+collection.getDataId = (remoteId, connectedData) => {
+  let cd = connectedData;
+  if (!cd) {
+    cd = collection.by('remoteId', remoteId);
+    if (!cd) {
+      return undefined;
+    }
   }
-  return connectedData.dataId;
+  return cd.dataId;
 };
 
-collection.isRequested = (remoteId, queryUuid) => {
-  const connectedData = collection.by('remoteId', remoteId);
+collection.isRequested = (remoteId, queryUuid, connectedData) => {
+  let cd = connectedData;
+  if (!cd) {
+    cd = collection.by('remoteId', remoteId);
+  }
 
-  return _has(connectedData, ['intervals', 'requested', queryUuid]);
+  return _has(cd, ['intervals', 'requested', queryUuid]);
 };
 
-collection.retrieveMissingIntervals = (remoteId, interval) => {
+collection.retrieveMissingIntervals = (remoteId, interval, connectedData) => {
   // Retrieve missing intervals for this remoteId for the given interval
-  const connectedData = collection.by('remoteId', remoteId);
-
-  // No connectedData
-  if (typeof connectedData === 'undefined') {
-    debug.debug('no connectedData');
-    return [interval];
+  let cd = connectedData;
+  if (!cd) {
+    cd = collection.by('remoteId', remoteId);
+    if (!cd) {
+      debug.debug('no connectedData');
+      return [interval];
+    }
   }
 
-  const allIntervals = connectedData.intervals.all;
+  const allIntervals = cd.intervals.all;
 
   return intervalManager.missing(allIntervals, interval);
 };
@@ -187,14 +212,16 @@ collection.exists = (remoteId) => {
   return true;
 };
 
-collection.removeByRemoteId = (remoteId) => {
-  const connectedData = collection.by('remoteId', remoteId);
-
-  if (typeof connectedData === 'undefined') {
-    return;
+collection.removeByRemoteId = (remoteId, connectedData) => {
+  let cd = connectedData;
+  if (!cd) {
+    cd = collection.by('remoteId', remoteId);
+    if (!cd) {
+      return;
+    }
   }
 
-  collection.remove(connectedData);
+  collection.remove(cd);
 };
 
 collection.getByRemoteId = remoteId => collection.by('remoteId', remoteId);

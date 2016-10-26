@@ -3,7 +3,7 @@
   "windows": [
   {
     "type": "documentWindow",
-    "title": "Large workspace 2",
+    "title": "Large workspace",
     "pages": [
       {
         "path": "./pages/pageLarge1.json",
@@ -49,12 +49,6 @@
         {
           "id": "Session 1",
           "offset": 0,
-          "kind": "Session",
-          "sessionId": 1
-        },
-        {
-          "id": "Session 2",
-          "offset": 10000,
           "kind": "Session",
           "sessionId": 1
         }

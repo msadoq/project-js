@@ -50,13 +50,11 @@ View cached data:
   'viewId': {
     index: { 'name': ['timestamp'] },
     lines: [
-      { key: 'key1', color: string, name: string }
+      { key: 'key1', name: string }
     ],
-    columns: {
-      'name': [
-        { x: 'timestamp', 'key1': number }
-      ]
-    }
+    columns: [
+     { x: 'timestamp', 'key1': number }
+   ]
   },
 }
 ```

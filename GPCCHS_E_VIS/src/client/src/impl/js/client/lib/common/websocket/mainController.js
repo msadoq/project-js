@@ -33,7 +33,7 @@ export default function controller(state, dispatch, event, payload) {
     case globalConstants.EVENT_TIMEBASED_DATA: {
       // TODO : add a buffer queue management with .warn on increased delay
       setActingOn();
-      injectData(dispatch, payload);
+      injectData(state, dispatch, payload);
       setActingOff();
       break;
     }

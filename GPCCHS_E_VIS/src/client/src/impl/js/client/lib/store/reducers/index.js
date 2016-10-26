@@ -9,6 +9,7 @@ import views from './views';
 import domains from './domains';
 import dataRequests from './dataRequests';
 import dataCache from './dataCache';
+import viewData from './viewData';
 
 const reducer = combineReducers({
   hss,
@@ -21,6 +22,7 @@ const reducer = combineReducers({
   domains,
   dataRequests,
   dataCache,
+  viewData,
 });
 
 export default reducer;

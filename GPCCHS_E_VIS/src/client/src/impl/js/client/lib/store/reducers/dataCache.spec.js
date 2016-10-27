@@ -87,13 +87,13 @@ describe('store:reducers:dataCache', () => {
       .should.eql({ myConnectedDataId: { formula: 'catalog.Parameter<Type>.field' } });
   });
   it('action without payload', () => {
-    const action = { type: 'DATA_IMPORT_PAYLOAD', payload: {} };
-    reducer({ myConnectedDataId: { formula: 'catalog.Parameter<Type>.field' } }, action)
+    const action1 = { type: 'DATA_IMPORT_PAYLOAD', payload: {} };
+    reducer({ myConnectedDataId: { formula: 'catalog.Parameter<Type>.field' } }, action1)
       .should.eql({ myConnectedDataId: { formula: 'catalog.Parameter<Type>.field' } });
   });
   it('action without eligible payload', () => {
-    const action = { type: 'DATA_IMPORT_PAYLOAD', payload: { rId3: { lId1: {} } } };
-    reducer({ myConnectedDataId: { formula: 'catalog.Parameter<Type>.field' } }, action)
+    const action2 = { type: 'DATA_IMPORT_PAYLOAD', payload: { rId3: { lId1: {} } } };
+    reducer({ myConnectedDataId: { formula: 'catalog.Parameter<Type>.field' } }, action2)
       .should.eql({ myConnectedDataId: { formula: 'catalog.Parameter<Type>.field' } });
   });
   let retValueRef;
@@ -147,7 +147,7 @@ describe('store:reducers:dataCache', () => {
     it('with updeep, empty state', () => {
       let retValue;
       const start = process.hrtime();
-      for (let i = 0 ; i < 100; i += 1) {
+      for (let i = 0; i < 100; i += 1) {
         retValue = reducer({}, action);
       }
       const duration = (process.hrtime(start)[1] / 1e6) / 100;
@@ -172,7 +172,7 @@ describe('store:reducers:dataCache', () => {
     it('with updeep, state filled', () => {
       const start = process.hrtime();
       let finalState;
-      for (let i = 0 ; i < 100; i += 1) {
+      for (let i = 0; i < 100; i += 1) {
         const dataCache = cleanDataCache(stateFilled, action);
         finalState = u(action.payload.data, Object.assign({}, stateFilled, dataCache));
       }
@@ -183,12 +183,12 @@ describe('store:reducers:dataCache', () => {
     it('using reducer', () => {
       const start = process.hrtime();
       let finalState;
-      for (let i = 0 ; i < 100; i += 1) {
+      for (let i = 0; i < 100; i += 1) {
         finalState = reducer(stateFilled, action);
       }
       const duration = (process.hrtime(start)[1] / 1e6) / 100;
       console.log(`dataCache update done in ${duration} ms`);
       finalState.should.deep.equal(result);
-    })
+    });
   });
 });

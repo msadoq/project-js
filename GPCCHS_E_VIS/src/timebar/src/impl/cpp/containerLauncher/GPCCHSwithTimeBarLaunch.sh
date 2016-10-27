@@ -80,7 +80,8 @@ trap 'rm -rf /tmp/ipc* /tmp/Re* /tmp/ActorID* /tmp/OIDGenerat*; exit' 3
 trap 'echo SIGSEGV received; exit' 11
 
 # kill all processes in case it is usefull
-pkill -9 gpcc & pkill -9 redis & pkill -9 dbus-launch & killall -9 node
+pkill -9 gpcc & pkill -9 redis & pkill -9 dbus-launch 
+#& killall -9 node
 
 #Remove the redis and rtd conf directories
 rm -rf /tmp/redis/ /tmp/rtd/ /tmp/workingRedis.sock /tmp/redis.sock  /tmp/catalogs /tmp/*.pid /tmp/containerCfg_*.xml /tmp/GDB.*
@@ -292,7 +293,7 @@ then
   pkill -TERM -P $HSCPID
 fi
 
-killall -9 node
+#killall -9 node
 killall -9 electron
 
 #Remove ipc

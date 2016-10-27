@@ -57,7 +57,7 @@ export function connect() {
       if (!data || !data.event) {
         return logger.error('Invalid event received', data);
       }
-      logger.info(`Incoming event ${data.event}`);
+      logger.debug(`Incoming event ${data.event}`);
       controller(getStore().getState(), getStore().dispatch, data.event, data.payload);
     });
   }

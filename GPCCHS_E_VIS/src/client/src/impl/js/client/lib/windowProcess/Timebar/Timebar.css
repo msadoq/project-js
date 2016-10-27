@@ -1,0 +1,137 @@
+.viewportWrapper{
+    padding-top: 18px;
+    overflow: hidden;
+}
+.viewportContainer{
+    min-height: 100px;
+    position: relative;
+    background: #fff;
+    border: 1px solid #ccc;
+    background: #bcd6ff;
+}
+.viewport{
+    top: 0px;
+    position: absolute;
+    background-color: rgba(49, 126, 249,0.3);
+    height: 100%;
+    cursor: pointer;
+}
+.viewportDragging{
+    background-color: rgba(49, 126, 249,0.5);
+    cursor: move;
+}
+.viewportResizing{
+    background-color: rgba(49, 166, 249,0.5);
+}
+.lower{
+    cursor: col-resize;
+    left: 0px;
+    position: absolute;
+    height: 100%;
+    width: 3px;
+    border-left: 1px solid #4c96ff;
+}
+.upper{
+    cursor: col-resize;
+    right: 0px;
+    position: absolute;
+    height: 100%;
+    width: 3px;
+    border-right: 1px solid #4c96ff;
+}
+.lower:before, .upper:before{
+    width: 10px;
+    height: 10px;
+    content: '≡';
+    color: #4c96ff;
+    transform: rotate(90deg);
+    position: absolute;
+    top: 48%;
+}
+.lower:before{
+    left: 5px;
+}
+.upper:before{
+    left: -5px;
+}
+
+.lowerFormattedTime, .upperFormattedTime, .timeBeginning, .timeEnd{
+    font-size: 0.9em;
+    font-weight: bold;
+    top: -14px;
+    position: absolute;
+    user-select: none;
+}
+.timeBeginning, .timeEnd{
+    top: 4px;
+    font-size: 0.8em;
+    color: rgba(0,0,0,0.6);
+}
+.timeBeginning{
+    left: 4px;
+}
+.timeEnd{
+    right: 4px;
+}
+.lowerFormattedTime{
+    transform: translateX(-50%);
+}
+.upperFormattedTime{
+    right: 0;
+    transform: translateX(50%);
+}
+.arrowLeft, .arrowRight{
+    z-index: 11;
+    position: absolute;
+    color: #fff;
+    background: #444;
+    border-radius: 2px;
+    top: 5px;
+    width: 20px;
+    height: 15px;
+    cursor: pointer;
+}
+.arrowLeft:hover, .arrowRight:hover{
+    background: #333;
+}
+.arrowLeft{
+    left: 7px;
+}
+.arrowLeft:before{
+    content: '➜';
+    position: absolute;
+    transform: scale(-1);
+    top: -2px;
+    left: 4px;
+}
+.arrowRight{
+    right: 7px;
+}
+.arrowRight:before{
+    content: '➜';
+    position: absolute;
+    top: -3px;
+    right: 4px;
+}
+.resizeTimebarContainer{
+  margin: 0;
+  height: 4px;
+  border-top: 1px solid #aaa;
+  cursor: row-resize;
+}
+.resizeTimebarContainer:before{
+    width: 20px;
+    height: 12px;
+    text-align: center;
+    content: '≡';
+    color: #888;
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    font-size: 1.2em;
+    background-color: #F1F1F1;
+    transform: translateX(-50%);
+}
+.resizingTimebarContainer:before{
+  color: #555;
+}

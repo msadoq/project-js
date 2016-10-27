@@ -16,7 +16,7 @@ export default function extractRemoteIds(
       ep.connectedDataX, 'PlotView', timebarId, visuWindow, timelines, domains, false
     );
     if (!Object.keys(cdsX).length) {
-      logger.debug('invalid X connectedData for this entryPoint', name);
+      logger.debug('invalid X connectedData for this entryPoint', ep.name);
       return sublist;
     }
 
@@ -24,14 +24,14 @@ export default function extractRemoteIds(
       ep.connectedDataY, 'PlotView', timebarId, visuWindow, timelines, domains, false
     );
     if (!Object.keys(cdsY).length) {
-      logger.debug('invalid Y connectedData for this entryPoint', name);
+      logger.debug('invalid Y connectedData for this entryPoint', ep.name);
       return sublist;
     }
 
     const remoteIdX = _first(Object.keys(cdsX));
     const remoteIdY = _first(Object.keys(cdsY));
     if (remoteIdX !== remoteIdY) {
-      logger.debug('parametric entryPoint detected for this view (remote)', name);
+      logger.debug('parametric entryPoint detected for this view (remote)', ep.name);
       return sublist;
     }
 
@@ -40,7 +40,7 @@ export default function extractRemoteIds(
     const localIdY = _first(Object.keys(cdsY[remoteIdY].localIds));
     const localIdYData = _get(cdsY, [remoteIdY, 'localIds', localIdY]);
     if (localIdXData.offset !== localIdYData.offset) {
-      logger.debug('parametric entryPoint detected for this view (local)', name);
+      logger.debug('parametric entryPoint detected for this view (local)', ep.name);
       return sublist;
     }
 

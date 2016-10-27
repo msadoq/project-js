@@ -42,8 +42,6 @@ const close = (messageHandler) => {
   resetDomains();
   // reset domains singleton
   registeredQueries.clear();
-  // reset domains singleton
-  registeredCallbacks.clear(); // TODO: as we clear here, the Response from subscription stops will fail
 
   debug.debug('cleanup done');
 };

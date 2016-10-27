@@ -18,6 +18,7 @@ const zmqEmulator = (key, payload) => {
 describe('controllers/onDomainQuery', () => {
   beforeEach(() => {
     calls.length = 0;
+    registeredCallbacks.clear();
   });
   it('domainQuery', () => {
     // launch test

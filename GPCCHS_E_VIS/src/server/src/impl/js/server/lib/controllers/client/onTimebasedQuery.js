@@ -7,8 +7,6 @@ const {
   each: _each,
   concat: _concat,
   zipObject: _zipObject,
-  keys: _keys,
-  values: _values,
   map: _map,
 } = require('lodash');
 const { addToMainQueue } = require('../../websocket/sendToMain');

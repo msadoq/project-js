@@ -1,4 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
+import throttle from 'react-throttle-render';
 
 import ViewHeader from './Header';
 import UnknownView from './UnknownView';
@@ -10,7 +11,7 @@ export default class View extends PureComponent {
     component: PropTypes.func,
   };
   render() {
-    const ContentComponent = this.props.component || UnknownView;
+    const ContentComponent = throttle(this.props.component, 100) || UnknownView;
     return (
       <div className={styles.container}>
         <ViewHeader {...this.props} />

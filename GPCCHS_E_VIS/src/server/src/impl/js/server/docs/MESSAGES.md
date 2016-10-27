@@ -272,6 +272,7 @@ enum(‘domainQuery’, ‘timebasedQuery’, ‘timebasedSubscription’, ‘re
   getLastNumber: number, // optional
   // the 3 above parameters allow getLast(), getLast(fromTime), getNLast(number), getNLast(number, fromTime)
 
+  // TODO deprecate getLastFromTime
   // TODO sampling
 }
 ```

@@ -20,7 +20,7 @@ export function cleanRangeData(viewSubState, ep, epName) {
   if (iLine < 0) {
     throw new Error(`Invalid state for ${epName}: line definition missing`);
   }
-  const newState = { index: {}, columns: [], lines: [viewSubState.lines[iLine]] };
+  const newState = { index: {}, columns: [], lines: viewSubState.lines[iLine] };
   newState.index[epName] = [];
   newState.columns[epName] = [];
 

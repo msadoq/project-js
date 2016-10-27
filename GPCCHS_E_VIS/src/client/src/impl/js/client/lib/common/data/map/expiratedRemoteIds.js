@@ -14,6 +14,7 @@ const getExpiredRequests = (dataMap, dataRequests) => {
     each(localIds, (localValue) => {
       // extract visible interval from expired intervals
       const expectedInterval = localValue.expectedInterval;
+      // TODO getLast optimize .remove code to only remove exact matching interval if getLast cd
       expiredIntervals = intervalManager.remove(expiredIntervals, expectedInterval);
     });
     // if some expired intervals, add to invalidation

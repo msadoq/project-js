@@ -88,6 +88,7 @@ export default function declineConnectedDatum(
         timebarId,
         offset,
         expectedInterval: interval,
+        // TODO getLast add flag
       });
     });
   });

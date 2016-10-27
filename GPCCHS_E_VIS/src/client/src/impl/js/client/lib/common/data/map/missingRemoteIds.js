@@ -32,7 +32,6 @@ export default function missingRemoteIds(state, dataMap) {
   const queries = {};
   each(dataMap, ({ dataId, filter, localIds }, remoteId) => {
     each(localIds, ({ expectedInterval }) => {
-      // TODO memoize
       const knownIntervals = get(state, ['dataRequests', remoteId], []);
 
       const needed = intervalManager.missing(knownIntervals, expectedInterval);
@@ -48,6 +47,12 @@ export default function missingRemoteIds(state, dataMap) {
             fieldValue: f.operand,
           })),
         };
+
+        // TODO getLast add to queryArguments
+        // if (onlyLast) {
+        //   queryArguments.getLastType = globalConstants.GETLASTTYPE_GET_LAST;
+        // }
+
         queries[remoteId] = {
           dataId,
           intervals: [],
@@ -57,6 +62,7 @@ export default function missingRemoteIds(state, dataMap) {
 
       each(needed, (m) => {
         queries[remoteId].intervals = intervalManager.merge(queries[remoteId].intervals, m);
+        // TODO getLast no interval merge if getLast
       });
     });
   });

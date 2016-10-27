@@ -10,7 +10,7 @@ const logger = debug('data:inject');
 export function rangeValues(remoteIdPayload, ep, epName, viewState) {
   const lower = ep.expectedInterval[0];
   const upper = ep.expectedInterval[1];
-  const newState = { ...viewState };
+  const newState = {}; // = { ...viewState };
 
   each(remoteIdPayload, (value, time) => {
     const timestamp = time;
@@ -19,7 +19,8 @@ export function rangeValues(remoteIdPayload, ep, epName, viewState) {
       return;
     }
     const masterTime = timestamp + ep.offset;
-    if (newState[masterTime]) {
+    if (viewState[masterTime]) {
+      newState[masterTime] = viewState[masterTime];
       newState[masterTime][epName] =
         { x: value[ep.fieldX], value: value[ep.fieldY] };
     } else {
@@ -104,8 +105,10 @@ export function selectData(state, viewDefinitions, payload) {
 
           epSubState = rangeValues(payload[ep.remoteId], ep, epName, epSubState);
         });
-        set(bag, [viewId, 'add'], epSubState);
-        set(bag, [viewId, 'dataLayout'], dataLayout);
+        if (Object.keys(epSubState).length !== 0) {
+          set(bag, [viewId, 'add'], epSubState);
+          set(bag, [viewId, 'dataLayout'], dataLayout);
+        }
         break;
       }
       default:

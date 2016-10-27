@@ -1,4 +1,4 @@
-import { each, findIndex, findLastIndex, concat, omit } from 'lodash';
+import { each, findIndex, findLastIndex, concat, omit, head, last } from 'lodash';
 import * as types from '../types';
 import debug from '../../common/debug/mainDebug';
 
@@ -16,13 +16,13 @@ export default function viewData(stateViewData = {}, action) {
             break;
           }
           case 'range': {
-            newState[viewId] = { index: [], columns: [] };
+            newState[viewId] = {}; // index: [], columns: [] };
             if (stateViewData[viewId] && view.remove) {
               newState[viewId] = cleanRangeData(stateViewData[viewId],
-                { type: 'DATA_IMPORT_VIEWDATA', payload: view.remove }); // TODO improve
+                { type: 'DATA_IMPORT_VIEWDATA', payload: view.remove });
             }
             newState[viewId] = updateRangeData(newState[viewId],
-              { type: 'DATA_IMPORT_VIEWDATA', payload: view.add }); // TODO improve
+              { type: 'DATA_IMPORT_VIEWDATA', payload: view.add });
             break;
           }
           default:
@@ -39,12 +39,14 @@ export default function viewData(stateViewData = {}, action) {
 }
 // Clean values outside the expected interval
 export function cleanRangeData(viewSubState, action) {
+  if (!viewSubState || !viewSubState.index.length) {
+    return viewSubState;
+  }
   switch (action.type) {
     case types.DATA_IMPORT_VIEWDATA: {
       // master's timestamp (arbitrary determined from the first entryPoint)
       const lower = action.payload.lower;
       const upper = action.payload.upper;
-
       const newState = { index: [], columns: [] };
 
       const iLower = findIndex(viewSubState.index, t => t >= lower);
@@ -91,6 +93,10 @@ export function updateRangeData(viewSubState, action) {
   switch (action.type) {
     case types.DATA_IMPORT_VIEWDATA: {
       const newState = { ...viewSubState };
+      if (!newState.index) {
+        newState.index = [];
+        newState.columns = [];
+      }
       // Parcours des nouvelles données dans l'ordre temporel
       let lastIndex = 0;
       // newState[masterTime][epName] =

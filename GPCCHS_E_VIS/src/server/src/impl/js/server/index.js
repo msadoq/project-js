@@ -24,6 +24,10 @@ const errorHandler = require('./lib/utils/errorHandler');
 
 const tbStub = require('./lib/stubs/tb');
 
+const { monitoring } = require('common');
+
+monitoring.start();
+
 // port
 function normalizePort(val) {
   const p = parseInt(val, 10);

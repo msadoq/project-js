@@ -2,7 +2,7 @@ const { Router } = require('express');
 const subscriptionsModel = require('../../models/subscriptions');
 const {
   each: _each,
-  isEmpty, _isEmpty,
+  isEmpty: _isEmpty,
 } = require('lodash');
 
 const router = new Router();

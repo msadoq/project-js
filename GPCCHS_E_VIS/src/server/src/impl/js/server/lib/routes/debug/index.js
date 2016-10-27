@@ -4,60 +4,34 @@ const subscriptionsModel = require('../../models/subscriptions');
 const connectedDataModel = require('../../models/connectedData');
 const { getAllTimebasedDataModelRemoteIds } = require('../../models/timebasedDataFactory');
 const { getDomains } = require('../../utils/domains');
-const perfTool = require('../../utils/performanceTool');
+const { monitoring } = require('common');
 
 const {
+  each: _each,
   floor: _floor,
   round: _round,
-  each: _each,
 } = require('lodash');
 
 const router = new Router();
 
+const GIGA_BYTES = Math.pow(2, 30);
+const MEGA_BYTES = Math.pow(2, 20);
+const KILO_BYTES = Math.pow(2, 10);
+
 const convertBytes = (value) => {
-  const gigaValue = value / 1e9;
+  const gigaValue = value / GIGA_BYTES;
   if (_floor(gigaValue) > 0) {
-    return `${_round(gigaValue, 1)} Gb (${value} bytes)`;
+    return `${_round(gigaValue, 1)} GB (${value} bytes)`;
   }
-  const megaValue = value / 1e6;
+  const megaValue = value / MEGA_BYTES;
   if (_floor(megaValue) > 0) {
-    return `${_round(megaValue, 1)} Mb (${value} bytes)`;
+    return `${_round(megaValue, 1)} MB (${value} bytes)`;
   }
-  const kiloValue = value / 1e3;
+  const kiloValue = value / KILO_BYTES;
   if (_floor(kiloValue) > 0) {
-    return `${_round(kiloValue, 1)} kb (${value} bytes)`;
+    return `${_round(kiloValue, 1)} kB (${value} bytes)`;
   }
   return `${value} bytes`;
-};
-
-const convertTime = (hrTime) => {
-  if (hrTime[0] * 1e9 > hrTime[1]) {
-    const hourValue = hrTime[0] / 3600;
-    if (_floor(hourValue) > 0) {
-      const minValue = (hrTime[0] % 3600) / 60;
-      const minString = (minValue > 0) ? ` ${_round(minValue)} m` : '';
-      return `${_floor(hourValue)} h${minString} (${hrTime[0]} seconds)`;
-    }
-
-    const minValue = hrTime[0] / 60;
-    if (_floor(minValue) > 0) {
-      const secValue = hrTime[0] % 60;
-      const secString = (secValue > 0) ? ` ${secValue} s` : '';
-      return `${_floor(minValue)} m${secString} (${hrTime[0]} seconds)`;
-    }
-
-    return `${hrTime[0]} seconds`;
-  }
-
-  const milliValue = hrTime[1] / 1e6;
-  if (_floor(milliValue) > 0) {
-    return `${_round(milliValue, 1)} ms (${hrTime[1]} nanoseconds)`;
-  }
-  const microValue = hrTime[1] / 1e3;
-  if (_floor(microValue) > 0) {
-    return `${_round(microValue, 1)} µs (${hrTime[1]} nanoseconds)`;
-  }
-  return `${hrTime[1]} nanoseconds`;
 };
 
 router.get('/',
@@ -66,13 +40,15 @@ router.get('/',
     const cdNb = connectedDataModel.count();
     const tbModels = getAllTimebasedDataModelRemoteIds();
     const subNb = subscriptionsModel.count();
-    const avgTime = perfTool.getAvgTime();
-    const avgMemoryUsage = perfTool.getAvgMemoryUsage();
+    const avgTime = monitoring.getAverageTime();
+    const memUsage = monitoring.getMemoryUsage();
 
     let htmlDomains = '';
     _each(domains, (domain) => {
       htmlDomains += `       <li>${domain.name}</li>`;
     });
+
+    const profilingOff = (typeof avgTime === 'undefined' || typeof memUsage === 'undefined');
 
     const response =
       '<!DOCTYPE html>' +
@@ -84,17 +60,17 @@ router.get('/',
       ' <body>' +
       '   <h1>DEBUG</h1>' +
       '   <h2>Monitoring</h2>' +
-      ((perfTool.isInited() === false)
+      ((profilingOff === true)
         ? 'MONITORING OFF'
         : ('     <h3>Average time between two eventloop ticks</h3>' +
           '     <ul>' +
-          `       <li>${convertTime(avgTime)}</li>` +
+          `       <li>${avgTime} ms</li>` +
           '     </ul>' +
           '     <h3>Average memory usage</h3>' +
           '     <ul>' +
-          `       <li>RSS: ${convertBytes(avgMemoryUsage.rss)}</li>` +
-          `       <li>Heap Total: ${convertBytes(avgMemoryUsage.heapTotal)}</li>` +
-          `       <li>Heap Used: ${convertBytes(avgMemoryUsage.heapUsed)}</li>` +
+          `       <li>RSS: ${convertBytes(memUsage.rss)}</li>` +
+          `       <li>Heap Total: ${convertBytes(memUsage.heapTotal)}</li>` +
+          `       <li>Heap Used: ${convertBytes(memUsage.heapUsed)}</li>` +
           '     </ul>')) +
       '   <h2>Domains</h2>' +
       '     <ul>' +

@@ -62,7 +62,7 @@ const timebasedQuery = (websocketQueueHandler, payload, messageHandler) => {
       // retrieve missing intervals from connectedData model
       missingIntervals = _concat(
         missingIntervals,
-        connectedDataModel.retrieveMissingIntervals( // TODO getLast: not needed
+        connectedDataModel.retrieveMissingIntervals( // TODO getLast: check includes, not missing
           remoteId,
           interval,
           connectedData

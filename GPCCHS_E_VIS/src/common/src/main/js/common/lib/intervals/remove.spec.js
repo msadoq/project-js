@@ -152,5 +152,15 @@ describe('intervals/remove', () => {
       const intervals = remove(knownIntervals, intervalToExtract);
       intervals.should.have.properties([[0, 7], [11, 14], [42, 77]]);
     });
+    it('unmerged', () => {
+      const knownIntervals = [[0, 7], [3, 14], [42, 91]];
+      const intervalToExtract = [0, 7];
+      const intervals = remove(knownIntervals, intervalToExtract);
+      intervals.should.have.properties([[3, 14], [42, 91]]);
+      const knownIntervals2 = [[0, 7], [3, 14], [42, 91]];
+      const intervalToExtract2 = [3, 14];
+      const intervals2 = remove(knownIntervals2, intervalToExtract2);
+      intervals2.should.have.properties([[0, 7], [42, 91]]);
+    });
   });
 });

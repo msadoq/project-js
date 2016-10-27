@@ -1,4 +1,7 @@
-import { constants as globalConstants } from 'common';
+import {
+  constants as globalConstants,
+  monitoring,
+} from 'common';
 import parameters from '../common/parameters';
 import debug from '../common/debug/mainDebug';
 import installExtensions from './installExtensions';
@@ -15,6 +18,7 @@ let storeSubscription = null;
 let cacheInvalidator;
 
 export async function start() {
+  monitoring.start();
   logger.info('app start');
   try {
     await installExtensions();
@@ -67,6 +71,7 @@ export function stop() {
     if (cacheInvalidator) {
       clearInterval(cacheInvalidator);
     }
+    monitoring.stop();
   } catch (e) {
     logger.error(e);
   }

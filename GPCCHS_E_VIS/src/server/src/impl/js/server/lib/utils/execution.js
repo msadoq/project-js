@@ -11,25 +11,16 @@ function reset() {
   executionMap = {};
 }
 function start(key) {
-  if (process.env.MONITORING === 'off') {
-    return;
-  }
   if (!executionMap[key]) {
     executionMap[key] = [];
   }
   executionMap[key].push(process.hrtime());
 }
 function stop(key) {
-  if (process.env.MONITORING === 'off') {
-    return;
-  }
   const lastIndex = executionMap[key].length - 1;
   executionMap[key][lastIndex] = process.hrtime(executionMap[key][lastIndex]);
 }
 function print(display) {
-  if (process.env.MONITORING === 'off') {
-    return;
-  }
   display('= execution map ====================');
   _each(executionMap, (r, k) => {
     let d = 0;
@@ -45,11 +36,16 @@ function print(display) {
 }
 
 module.exports = (namespace) => {
-  const display = debug(`execution:${namespace}`).warn;
+  const display = debug(`profiling:${namespace}`).warn;
+  const profilingWrapper = (func) => {
+    if (process.env.PROFILING === 'on') {
+      func();
+    }
+  };
   return {
-    reset,
-    start,
-    stop,
-    print: () => print(display),
+    reset: () => profilingWrapper(reset),
+    start: () => profilingWrapper(start),
+    stop: () => profilingWrapper(stop),
+    print: () => profilingWrapper(() => print(display)),
   };
 };

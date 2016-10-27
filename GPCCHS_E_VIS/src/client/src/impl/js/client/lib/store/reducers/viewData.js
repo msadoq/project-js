@@ -1,8 +1,5 @@
-import { each, findIndex, findLastIndex, concat, omit, head, last } from 'lodash';
+import { each, findIndex, findLastIndex, concat, omit } from 'lodash';
 import * as types from '../types';
-import debug from '../../common/debug/mainDebug';
-
-const logger = debug('store:action:dataCache');
 
 export default function viewData(stateViewData = {}, action) {
   switch (action.type) {

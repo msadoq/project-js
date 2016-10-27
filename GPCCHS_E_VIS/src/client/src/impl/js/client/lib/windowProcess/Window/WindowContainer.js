@@ -9,7 +9,6 @@ import Window from './Window';
 
 const WindowContainer = props => <Window {...props} />;
 
-
 const mapStateToProps = (state, props) => ({
   focusedPageId: getWindowFocusedPageId(state, props),
   focusedPage: getWindowFocusedPageSelector(state, props)

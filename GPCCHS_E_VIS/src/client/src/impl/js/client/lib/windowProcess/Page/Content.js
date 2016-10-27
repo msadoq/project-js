@@ -54,7 +54,7 @@ export default class PageContent extends Component {
     return (
       <Grid
         layouts={layouts}
-        className="layout"
+        className="layout row"
         rowHeight={30}
         width={1200}
         breakpoints={this.breakpoints}

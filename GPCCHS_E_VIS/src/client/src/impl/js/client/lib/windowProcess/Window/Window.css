@@ -9,7 +9,7 @@
 }
 
 .content{
-  padding: 5px;
+  padding: 15px;
   overflow: auto;
   display: flex;
   flex: 1 1 100%;

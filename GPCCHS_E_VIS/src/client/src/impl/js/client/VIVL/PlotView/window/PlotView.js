@@ -141,6 +141,8 @@ class PlotView extends Component {
           <CrossHairCursor />
           <HoverTooltip
             tooltipContent={this.handleTooltipContent}
+            opacity={1}
+            fill="#FFFFFF"
             bgwidth={300}
           />
         </ChartCanvas>

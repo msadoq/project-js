@@ -6,59 +6,12 @@ const { getAllTimebasedDataModelRemoteIds } = require('../../models/timebasedDat
 const { getDomains } = require('../../utils/domains');
 const perfTool = require('../../utils/performanceTool');
 
+
 const {
-  floor: _floor,
-  round: _round,
   each: _each,
 } = require('lodash');
 
 const router = new Router();
-
-const convertBytes = (value) => {
-  const gigaValue = value / 1e9;
-  if (_floor(gigaValue) > 0) {
-    return `${_round(gigaValue, 1)} Gb (${value} bytes)`;
-  }
-  const megaValue = value / 1e6;
-  if (_floor(megaValue) > 0) {
-    return `${_round(megaValue, 1)} Mb (${value} bytes)`;
-  }
-  const kiloValue = value / 1e3;
-  if (_floor(kiloValue) > 0) {
-    return `${_round(kiloValue, 1)} kb (${value} bytes)`;
-  }
-  return `${value} bytes`;
-};
-
-const convertTime = (hrTime) => {
-  if (hrTime[0] * 1e9 > hrTime[1]) {
-    const hourValue = hrTime[0] / 3600;
-    if (_floor(hourValue) > 0) {
-      const minValue = (hrTime[0] % 3600) / 60;
-      const minString = (minValue > 0) ? ` ${_round(minValue)} m` : '';
-      return `${_floor(hourValue)} h${minString} (${hrTime[0]} seconds)`;
-    }
-
-    const minValue = hrTime[0] / 60;
-    if (_floor(minValue) > 0) {
-      const secValue = hrTime[0] % 60;
-      const secString = (secValue > 0) ? ` ${secValue} s` : '';
-      return `${_floor(minValue)} m${secString} (${hrTime[0]} seconds)`;
-    }
-
-    return `${hrTime[0]} seconds`;
-  }
-
-  const milliValue = hrTime[1] / 1e6;
-  if (_floor(milliValue) > 0) {
-    return `${_round(milliValue, 1)} ms (${hrTime[1]} nanoseconds)`;
-  }
-  const microValue = hrTime[1] / 1e3;
-  if (_floor(microValue) > 0) {
-    return `${_round(microValue, 1)} µs (${hrTime[1]} nanoseconds)`;
-  }
-  return `${hrTime[1]} nanoseconds`;
-};
 
 router.get('/',
   (req, res) => {

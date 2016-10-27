@@ -12,8 +12,12 @@ export function rangeValues(remoteIdPayload, ep, epName, viewState) {
   const upper = ep.expectedInterval[1];
   const newState = {}; // = { ...viewState };
 
-  each(remoteIdPayload, (value, time) => {
-    const timestamp = time;
+  each(remoteIdPayload, (value) => {
+    const timestamp = value.referenceTimestamp;
+    if (typeof timestamp === 'undefined') {
+      return logger.warn('get a payload without .referenceTimestamp key');
+    }
+
     // check value is in interval
     if (timestamp < lower || timestamp > upper) {
       return;
@@ -46,13 +50,18 @@ export function oneValue(remoteIdPayload, ep, epName, viewSubState) {
   }
   let newValue;
   // search over payloads
-  each(remoteIdPayload, (p, time) => {
-    if (time < lower || time > current) {
+  each(remoteIdPayload, (p) => {
+    const timestamp = p.referenceTimestamp;
+    if (typeof timestamp === 'undefined') {
+      return logger.warn('get a payload without .referenceTimestamp key');
+    }
+
+    if (timestamp < lower || timestamp > current) {
       return;
     }
-    if (time >= previousTime) {
-      newValue = { time, value: p[ep.field] };
-      previousTime = time;
+    if (timestamp >= previousTime) {
+      newValue = { timestamp, value: p[ep.field] };
+      previousTime = timestamp;
     }
   });
   return newValue;

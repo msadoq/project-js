@@ -5,8 +5,9 @@ import styles from './Header.css';
 export default class Header extends Component {
   static propTypes = {
     isViewsEditorOpen: PropTypes.bool.isRequired,
-    title: PropTypes.string,
-    configuration: PropTypes.object,
+    configuration: PropTypes.shape({
+      title: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
+    }),
     viewId: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     openEditor: PropTypes.func,
@@ -14,7 +15,9 @@ export default class Header extends Component {
     unmountAndRemove: PropTypes.func,
   };
   static defaultProps = {
-    title: 'Untitled',
+    configuration: {
+      title: 'Untitled',
+    }
   };
   onDropDownClick = (key) => {
     const {
@@ -44,7 +47,9 @@ export default class Header extends Component {
     }
   };
   render() {
-    const { title, isViewsEditorOpen } = this.props;
+    const { configuration, isViewsEditorOpen } = this.props;
+    const { title } = configuration;
+
     return (
       <div className={styles.container}>
         <div className={`${styles.title} moveHandler`}>

@@ -24,6 +24,7 @@ export default function requests(state = {}, action) {
     }
     case types.DATA_REMOVE_REQUESTS: {
       const idToRemove = [];
+      // TODO getLast optimize .remove code to only remove exact matching interval if getLast cd
       const modified = _reduce(action.payload.requests, (list, { intervals }, remoteId) => {
         const reqIntervals = intervalManager.remove(
           Array.from(state[remoteId] ? state[remoteId] : []),

@@ -8,7 +8,6 @@ import pages from './pages';
 import views from './views';
 import domains from './domains';
 import dataRequests from './dataRequests';
-import dataCache from './dataCache';
 import viewData from './viewData';
 
 const reducer = combineReducers({
@@ -21,7 +20,6 @@ const reducer = combineReducers({
   views,
   domains,
   dataRequests,
-  dataCache,
   viewData,
 });
 

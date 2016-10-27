@@ -5,7 +5,7 @@ import {
 import debug from '../debug/mainDebug';
 import { getStore } from '../../store/mainStore';
 import { updateStatus } from '../../store/actions/hss';
-import { removeDataCache } from '../../store/actions/dataCache';
+import { removeAllData } from '../../store/actions/viewData';
 import { removeAllRequests } from '../../store/actions/dataRequests';
 import { setActingOn, setActingOff } from '../../mainProcess/storeObserver';
 
@@ -45,7 +45,7 @@ export function connect() {
       setActingOn();
       getStore().dispatch(updateStatus('main', 'disconnected'));
       getStore().dispatch(removeAllRequests());
-      getStore().dispatch(removeDataCache());
+      getStore().dispatch(removeAllData());
       // warning: timeout to handle a weird behavior that trigger data observer update
       setTimeout(setActingOff, 0);
     });

@@ -1,10 +1,10 @@
 const debug = require('../io/debug')('utils:errorHandler');
-const monitoring = require('./monitoring');
+const profiling = require('./profiling');
 
-module.exports = (name, thunk, monitor = true) => {
+module.exports = (name, thunk, profile = true) => {
   let start;
-  if (monitor && process.env.MONITORING === 'on') {
-    start = monitoring.start();
+  if (profile && process.env.PROFILING === 'on') {
+    start = profiling.start();
   }
 
   try {
@@ -13,7 +13,7 @@ module.exports = (name, thunk, monitor = true) => {
     debug.error(e);
   }
 
-  if (monitor && process.env.MONITORING === 'on') {
-    monitoring.stop(name, start);
+  if (profile && process.env.PROFILING === 'on') {
+    profiling.stop(name, start);
   }
 };

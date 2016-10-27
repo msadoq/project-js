@@ -29,7 +29,7 @@ export default class TextView extends Component {
 
   getMarkup = () => Mustache.render(
     this.state.template,
-    this.props.data.values
+    this.props.data.values || {} // TODO : temp fix when no value = props is set but empty
   );
 
   render() {

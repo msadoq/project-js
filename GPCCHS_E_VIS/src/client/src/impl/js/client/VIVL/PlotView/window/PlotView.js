@@ -1,25 +1,71 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import _get from 'lodash/get';
 import _map from 'lodash/map';
 import SizeMe from 'react-sizeme';
 import { format } from 'd3-format';
 import { timeFormat } from 'd3-time-format';
-import {
-  ChartCanvas, Chart, series, scale,
-  coordinates, axes, tooltip
-} from 'react-stockcharts';
+import { ChartCanvas, Chart, series, scale, coordinates, axes, tooltip } from 'react-stockcharts';
 
 const { LineSeries, ScatterSeries, CircleMarker } = series;
 const { discontinuousTimeScaleProvider } = scale;
 const { HoverTooltip } = tooltip;
-const {
-  CrossHairCursor, MouseCoordinateX,
-  MouseCoordinateY, CurrentCoordinate
-} = coordinates;
+const { CrossHairCursor, MouseCoordinateX, MouseCoordinateY, CurrentCoordinate } = coordinates;
 const { XAxis, YAxis } = axes;
 
-function renderLines(lines = []) {
-  return lines.map(({ key, color }) => (
+class PlotView extends PureComponent {
+  static propTypes = {
+    size: PropTypes.shape({
+      width: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
+      height: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
+    }),
+    data: PropTypes.shape({
+      lines: PropTypes.array, // eslint-disable-line react/no-unused-prop-types
+      columns: PropTypes.array, // eslint-disable-line react/no-unused-prop-types
+    }),
+    visuWindow: PropTypes.shape({
+      lower: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
+      current: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
+      upper: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
+    }).isRequired,
+    configuration: PropTypes.object.isRequired,
+    // entryPoints: PropTypes.array.isRequired,
+    // axes: PropTypes.array,
+    // grids: PropTypes.array,
+    // titleStyle: PropTypes.object,
+    // links: PropTypes.array,
+    // procedures: PropTypes.array,
+    // defaultRatio: PropTypes.object,
+    // legend: PropTypes.object,
+    // markers: PropTypes.array,
+  };
+  static defaultProps = {
+    data: {
+      lines: [],
+      columns: [],
+    },
+  };
+
+  getLines = () => _map(
+    this.props.configuration.entryPoints,
+    ep => ({ name: ep.name, key: ep.name, color: ep.curveColour })
+  );
+
+  dateFormat = timeFormat('%Y-%m-%d %H:%M:%S.%L');
+
+  yExtents = d => _map(this.getLines(), ({ key }) => _get(d, [key, 'value']));
+
+  handleTooltipContent = ({ currentItem, xAccessor }) => {
+    const { data: { lines = [] } = {} } = this.props;
+    return {
+      x: this.dateFormat(xAccessor(currentItem)),
+      y: lines.map(line => ({
+        label: line.name,
+        value: currentItem[line.key],
+        stroke: line.color
+      }))
+    };
+  };
+  renderLines = lines => lines.map(({ key, color }) => (
     <div key={key}>
       <LineSeries
         key={`line${key}`}
@@ -39,61 +85,18 @@ function renderLines(lines = []) {
       />
     </div>
   ));
-}
-
-class PlotView extends Component {
-  static propTypes = {
-    size: PropTypes.shape({
-      width: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
-      height: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
-    }),
-    data: PropTypes.shape({
-      lines: PropTypes.array,
-      columns: PropTypes.array,
-    }),
-    configuration: PropTypes.object.isRequired,
-    // entryPoints: PropTypes.array.isRequired,
-    // axes: PropTypes.array,
-    // grids: PropTypes.array,
-    // titleStyle: PropTypes.object,
-    // links: PropTypes.array,
-    // procedures: PropTypes.array,
-    // defaultRatio: PropTypes.object,
-    // legend: PropTypes.object,
-    // markers: PropTypes.array,
-  };
-  static defaultProps = {
-    data: {
-      lines: [],
-      columns: [],
-    },
-  };
-
-  getLines = () => _map(this.props.configuration.entryPoints, (ep) => {
-    return { name: ep.name, key: ep.name, color: ep.curveColour };
-  });
-
-  dateFormat = timeFormat('%Y-%m-%d %H:%M:%S.%L');
-
-  yExtents = d => _map(this.getLines(), ({ key }) => _get(d, [key]));
-
-  handleTooltipContent = ({ currentItem, xAccessor }) => {
-    const { data: { lines = [] } = {} } = this.props;
-    return {
-      x: this.dateFormat(xAccessor(currentItem)),
-      y: lines.map(line => ({
-        label: line.name,
-        value: currentItem[line.key],
-        stroke: line.color
-      }))
-    };
-  }
-
   render() {
-    const { size, data } = this.props;
+    console.log('render PlotView');
+    const { size, data, visuWindow } = this.props;
     // const { lines, columns } = data;
     const { columns } = data;
+    const { lower, /* current, */ upper } = visuWindow;
     const { width, height } = size;
+
+    if (width <= 0 || height <= 0) {
+      console.log('plot view has invisible size', width, height);
+      return <div>invisible</div>;
+    }
 
     // TODO : factorize in container
     const lines = this.getLines();
@@ -102,21 +105,21 @@ class PlotView extends Component {
     // TODO : display X time for each data value object instead of master timestamp
 
     // TODO : clean message
-    if (!lines || !lines.length || !columns.length) {
+    if (!lines || !lines.length || !columns || !columns.length) {
       console.log('plot view has nothing to do');
       if (!lines || !lines.length) {
         return <div>invalid view configuration</div>;
       }
-      if (!columns.length) {
+      if (!columns || !columns.length) {
         return <div>no data to render</div>;
       }
     }
 
-    const xExtents = [
-      new Date(_get(columns, '[0].x')),
-      new Date(_get(columns, [(columns.length - 1), 'x'])),
-    ];
+    // TODO:
+    // "lineStyle": "Continuous", // "Continuous", "Dotted", "Dashed"
+    // "pointsStyle": "None", // "None", "Triangle", "Square", "Dot"
 
+    // TODO view.plotBackgroundColour
     return (
       <div style={{ height: '100%' }}>
         <ChartCanvas
@@ -129,7 +132,7 @@ class PlotView extends Component {
           type="hybrid"
           xAccessor={d => new Date(d.x)}
           xScaleProvider={discontinuousTimeScaleProvider}
-          xExtents={xExtents}
+          xExtents={[new Date(lower), new Date(upper)]}
         >
           <Chart
             id={1}
@@ -148,7 +151,7 @@ class PlotView extends Component {
               orient="right"
               displayFormat={format('.2f')}
             />
-            {renderLines(lines) }
+            {this.renderLines(lines)}
           </Chart>
           <CrossHairCursor />
           <HoverTooltip

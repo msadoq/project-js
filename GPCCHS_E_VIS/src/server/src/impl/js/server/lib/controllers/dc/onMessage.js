@@ -8,8 +8,6 @@ const errorHandler = require('../../utils/errorHandler');
 const constants = require('../../constants');
 const { slice: _slice } = require('lodash');
 
-// TODO :
-
 /**
   * Trigger on a new incoming Server Message from DC
   *

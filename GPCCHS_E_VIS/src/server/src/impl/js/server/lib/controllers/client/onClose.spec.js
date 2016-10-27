@@ -28,6 +28,8 @@ const zmqEmulator = (key, payload) => {
 
 describe('controllers/onClose', () => {
   beforeEach(() => {
+    registeredCallbacks.clear();
+    registeredQueries.clear();
     subscriptionsModel.cleanup();
     clearFactory();
     connectedDataModel.cleanup();
@@ -72,10 +74,9 @@ describe('controllers/onClose', () => {
         .that.have.lengthOf(0);
       getDomains().should.be.an('array')
         .that.has.lengthOf(0);
-      registeredCallbacks.getAll().should.be.an('object')
-        .that.has.properties({});
-      registeredQueries.getAll().should.be.an('object')
-        .that.has.properties({});
+      Object.keys(registeredCallbacks.getAll()).should.have.lengthOf(2)
+        .and.have.properties(['toto', queryId]);
+      Object.keys(registeredQueries.getAll()).should.have.lengthOf(0);
     });
   });
 });

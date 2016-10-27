@@ -80,8 +80,6 @@ collection.setIntervalAsReceived = (remoteId, queryUuid, connectedData) => {
     intervalManager.merge(cd.intervals.received, interval);
   cd.intervals.requested = _omit(cd.intervals.requested, queryUuid);
   debug.debug('set interval', interval, 'as received', cd);
-  // collection.update(connectedData);
-  // TODO i've commented this line for performance reasons, test non regression
 
   return cd;
 };
@@ -100,7 +98,6 @@ collection.addRecord = (remoteId, dataId) => {
       requested: {},
     },
   };
-  // debug.debug('insert', inspect(connectedData));
   return collection.insert(connectedData);
 };
 
@@ -116,12 +113,8 @@ collection.addRequestedInterval = (remoteId, queryUuid, interval, connectedData)
     }
   }
 
-  // debug.debug('before update', inspect(connectedData));
   cd.intervals.requested[queryUuid] = interval;
   cd.intervals.all = intervalManager.merge(cd.intervals.all, interval);
-  // debug.debug('update', inspect(connectedData));
-  // collection.update(connectedData);
-  // TODO i've commented this line for performance reasons, test non regression
 
   return cd;
 };
@@ -153,8 +146,6 @@ collection.removeIntervals = (remoteId, intervals, connectedData) => {
   cd.intervals.received = receivedIntervals;
   cd.intervals.all = allIntervals;
 
-  // collection.update(connectedData);
-  // TODO i've commented this line for performance reasons, test non regression
   return queryIds;
 };
 

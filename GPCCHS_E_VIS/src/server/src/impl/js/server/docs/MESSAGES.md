@@ -180,12 +180,9 @@
 {
   event: 'timebasedData',
   payload: {
-    remoteId: [
-      {
-        timestamp,
-        payload,
-      }
-    ],
+    remoteId: {
+      timestamp: payload,
+    }
   },
 }
 ```

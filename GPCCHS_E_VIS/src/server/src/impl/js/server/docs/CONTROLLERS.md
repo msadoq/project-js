@@ -17,7 +17,7 @@
 
 **client/onClose**
 * loop on subscriptions and send timebasedSubscription (with 'DELETE' action) for each
-* empty all models (connectedData, subscriptions, timebasedData) and singletons (domains, timebars, registeredQueries, registeredCallbacks)
+* empty all models (connectedData, subscriptions, timebasedData) and singletons (domains, timebars, registeredQueries)
 
 ## data
 

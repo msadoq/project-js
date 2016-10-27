@@ -1,10 +1,8 @@
 Incoming data message (timebasedData):
 ```
 {
-  'remoteId': [
-    {
-      timestamp: 'timestamp',
-      payload: { ....'fields'... }
+  'remoteId': {
+      'timestamp': { ...payload... }
     }
   ]
 }
@@ -53,9 +51,9 @@ View cached data:
       { key: 'key1', name: string }
     ],
     columns: [
-     { 
-       x: 'timestamp', // => master's timestamp 
-       'key1': { x: 'fieldX', value: number }, 
+     {
+       x: 'timestamp', // => master's timestamp
+       'key1': { x: 'fieldX', value: number },
        ...
      }
    ]

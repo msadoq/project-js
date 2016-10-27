@@ -20,7 +20,6 @@ describe.only('common/data/inject', () => {
           remoteId: 'rId1',
           fieldX: 'time',
           fieldY: 'val1',
-          color: 'red',
           expectedInterval: [10, 15],
         }
       },
@@ -32,14 +31,12 @@ describe.only('common/data/inject', () => {
           remoteId: 'rId1',
           fieldX: 'time',
           fieldY: 'val2',
-          color: 'red',
           expectedInterval: [10, 18],
         },
         ep3: {
           remoteId: 'rId2',
           fieldX: 'time',
           fieldY: 'val2',
-          color: 'red',
           expectedInterval: [15, 20],
         }
       },
@@ -51,7 +48,6 @@ describe.only('common/data/inject', () => {
           remoteId: 'rId1',
           fieldX: 'time',
           fieldY: 'val1',
-          color: 'red',
           expectedInterval: [1001, 1005],
         }
       },
@@ -114,11 +110,11 @@ describe.only('common/data/inject', () => {
           { x: 2, col1: 2.1 },
           { x: 3, col1: 3.1 },
         ] },
-      lines: [{ key: 'col1', color: 'red', name: 'ep1' }] };
+      lines: [{ key: 'col1', name: 'ep1' }] };
       const cleanedState = cleanRangeData(tmpState, viewDataMap.plot1.entryPoints.ep1, 'ep1');
       cleanedState.index.ep1.should.have.length(0);
       cleanedState.columns.ep1.should.have.length(0);
-      cleanedState.lines[0].should.deep.equal({ key: 'col1', color: 'red', name: 'ep1' });
+      cleanedState.lines[0].should.deep.equal({ key: 'col1', name: 'ep1' });
     });
     it('interval to keep', () => {
       const tmpState = { index: { ep1: [8.5, 9.5, 10.5, 11.5] },
@@ -129,7 +125,7 @@ describe.only('common/data/inject', () => {
           { x: 10.5, col1: 2.1 },
           { x: 11.5, col1: 3.1 },
         ] },
-      lines: [{ key: 'col1', color: 'red', name: 'ep1' }] };
+      lines: [{ key: 'col1', name: 'ep1' }] };
       const cleanedState = cleanRangeData(tmpState, viewDataMap.plot1.entryPoints.ep1, 'ep1');
       cleanedState.index.ep1.should.deep.equal([10.5, 11.5]);
       cleanedState.columns.ep1.should.have.length(2);
@@ -145,7 +141,7 @@ describe.only('common/data/inject', () => {
           { x: 11.5, col1: 3.1 },
           { x: 14.5, col1: 0.1 },
         ] },
-      lines: [{ key: 'col1', color: 'red', name: 'ep1' }] };
+      lines: [{ key: 'col1', name: 'ep1' }] };
       const cleanedState = cleanRangeData(tmpState, viewDataMap.plot1.entryPoints.ep1, 'ep1');
       cleanedState.index.ep1.should.deep.equal([10.5, 11.5, 14.5]);
       cleanedState.columns.ep1.should.have.length(3);
@@ -197,7 +193,7 @@ describe.only('common/data/inject', () => {
     it('state empty', () => {
       const oldState = { index: { ep1: [] },
         columns: { ep1: [] },
-        lines: { key: 'col1', color: 'red', name: 'ep1' } };
+        lines: { key: 'col1', name: 'ep1' } };
       const newState = rangeValues(payload.rId1, viewDataMap.plot1.entryPoints.ep1,
         'ep1', 'col1', oldState);
       newState.index.ep1.should.deep.equal([10, 11, 12, 13, 14, 15]);
@@ -207,7 +203,7 @@ describe.only('common/data/inject', () => {
     it('state not empty', () => {
       const oldState = { index: { ep1: [11.5, 12.5] },
         columns: { ep1: [{ x: 11.5, col1: 101 }, { x: 12.5, col1: 102 }] },
-        lines: { key: 'col1', color: 'red', name: 'ep1' } };
+        lines: { key: 'col1', name: 'ep1' } };
       const newState = rangeValues(payload.rId1, viewDataMap.plot1.entryPoints.ep1,
         'ep1', 'col1', oldState);
       newState.index.ep1.should.deep.equal([10, 11, 11.5, 12, 12.5, 13, 14, 15]);
@@ -218,7 +214,7 @@ describe.only('common/data/inject', () => {
     it('state not changed', () => {
       const oldState = { index: { ep1: [1001.5, 1002.5] },
         columns: { ep1: [{ x: 1001.5, col1: 101 }, { x: 1002.5, col1: 102 }] },
-        lines: { key: 'col1', color: 'red', name: 'ep1' } };
+        lines: { key: 'col1', name: 'ep1' } };
       const newState = rangeValues(payload.rId1, viewDataMap.plot3.entryPoints.ep1,
         'ep1', 'col1', oldState);
       newState.should.equal(oldState);

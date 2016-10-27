@@ -12,10 +12,7 @@ export default function viewData(stateViewData = {}, action) {
       each(views, (view, viewId) => {
         switch (view.dataLayout) {
           case 'one': {
-            // newState[viewId] = { ...stateViewData[viewId], ...omit(view, 'dataLayout') };
             newState[viewId] = { ...stateViewData[viewId], ...omit(view, ['dataLayout']) };
-            // newState[viewId] = updateOneValue(stateViewData[viewId],
-            //   { type: 'DATA_IMPORT_VIEWDATA', payload: view });
             break;
           }
           case 'range': {
@@ -100,24 +97,25 @@ export function updateRangeData(viewSubState, action) {
       //   { x: value.payload[ep.fieldX], value: value.payload[ep.fieldY] };
 
       each(Object.keys(action.payload), (time) => {
+        const timestamp = parseInt(time);
         const value = action.payload[time];
         if (lastIndex === -1) {
-          newState.columns.push({ ...value, x: time });
-          newState.index.push(time);
+          newState.columns.push({ ...value, x: new Date(timestamp) });
+          newState.index.push(timestamp);
         } else {
-          const index = findIndex(newState.index, t => t >= time, lastIndex);
+          const index = findIndex(newState.index, t => t >= timestamp, lastIndex);
           lastIndex = index;
           if (index === -1) {
-            newState.columns.push({ ...value, x: time });
-            newState.index.push(time);
-          } else if (newState.index[index] === time) {
+            newState.columns.push({ ...value, x: new Date(timestamp) });
+            newState.index.push(timestamp);
+          } else if (newState.index[index] === timestamp) {
             // update
             newState.columns[index] = { ...newState.columns[index], ...value };
           } else { // add
             newState.index = concat(newState.index.slice(0, index),
-              time, newState.index.slice(index));
+              timestamp, newState.index.slice(index));
             newState.columns = concat(newState.columns.slice(0, index),
-              { ...value, x: time }, newState.columns.slice(index));
+              { ...value, x: new Date(timestamp) }, newState.columns.slice(index));
           }
         }
       });

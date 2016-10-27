@@ -23,18 +23,18 @@ function renderLines(lines = []) {
     <div key={key}>
       <LineSeries
         key={`line${key}`}
-        yAccessor={d => d[key]}
+        yAccessor={d => _get(d, [key, 'value'], 50)}
         stroke={color}
       />
       <ScatterSeries
         key={`scatter${key}`}
-        yAccessor={d => d[key]}
+        yAccessor={d => _get(d, [key, 'value'], 50)}
         marker={CircleMarker}
         markerProps={{ r: 1, stroke: color }}
       />
       <CurrentCoordinate
         key={`coordinate${key}`}
-        yAccessor={d => d[key]}
+        yAccessor={d => _get(d, [key, 'value'], 50)}
         fill={color}
       />
     </div>
@@ -49,9 +49,9 @@ class PlotView extends Component {
     }),
     data: PropTypes.shape({
       lines: PropTypes.array,
-      columns: PropTypes.object,
+      columns: PropTypes.array,
     }),
-    // configuration: PropTypes.object.isRequired,
+    configuration: PropTypes.object.isRequired,
     // entryPoints: PropTypes.array.isRequired,
     // axes: PropTypes.array,
     // grids: PropTypes.array,
@@ -68,9 +68,14 @@ class PlotView extends Component {
       columns: [],
     },
   };
+
+  getLines = () => _map(this.props.configuration.entryPoints, (ep) => {
+    return { name: ep.name, key: ep.name, color: ep.curveColour };
+  });
+
   dateFormat = timeFormat('%Y-%m-%d %H:%M:%S.%L');
 
-  yExtents = d => _map(this.props.data.lines, ({ key }) => _get(d, [key]));
+  yExtents = d => _map(this.getLines(), ({ key }) => _get(d, [key]));
 
   handleTooltipContent = ({ currentItem, xAccessor }) => {
     const { data: { lines = [] } = {} } = this.props;
@@ -86,8 +91,15 @@ class PlotView extends Component {
 
   render() {
     const { size, data } = this.props;
-    const { lines, columns } = data;
+    // const { lines, columns } = data;
+    const { columns } = data;
     const { width, height } = size;
+
+    // TODO : factorize in container
+    const lines = this.getLines();
+    // TODO : end
+
+    // TODO : display X time for each data value object instead of master timestamp
 
     // TODO : clean message
     if (!lines || !lines.length || !columns.length) {
@@ -101,8 +113,8 @@ class PlotView extends Component {
     }
 
     const xExtents = [
-      _get(columns, '[0].x'),
-      _get(columns, [(columns.length - 1), 'x']),
+      new Date(_get(columns, '[0].x')),
+      new Date(_get(columns, [(columns.length - 1), 'x'])),
     ];
 
     return (
@@ -115,7 +127,7 @@ class PlotView extends Component {
           seriesName="PlotView"
           data={columns}
           type="hybrid"
-          xAccessor={d => d.x}
+          xAccessor={d => new Date(d.x)}
           xScaleProvider={discontinuousTimeScaleProvider}
           xExtents={xExtents}
         >

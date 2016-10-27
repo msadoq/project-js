@@ -17,12 +17,12 @@ export default function viewData(stateViewData = {}, action) {
           }
           case 'range': {
             newState[viewId] = { index: [], columns: [] };
-            if (stateViewData[viewId]) {
+            if (stateViewData[viewId] && view.remove) {
               newState[viewId] = cleanRangeData(stateViewData[viewId],
-                { type: 'DATA_IMPORT_VIEWDATA', payload: view.remove });
+                { type: 'DATA_IMPORT_VIEWDATA', payload: view.remove }); // TODO improve
             }
             newState[viewId] = updateRangeData(newState[viewId],
-              { type: 'DATA_IMPORT_VIEWDATA', payload: view.add });
+              { type: 'DATA_IMPORT_VIEWDATA', payload: view.add }); // TODO improve
             break;
           }
           default:
@@ -97,16 +97,16 @@ export function updateRangeData(viewSubState, action) {
       //   { x: value.payload[ep.fieldX], value: value.payload[ep.fieldY] };
 
       each(Object.keys(action.payload), (time) => {
-        const timestamp = parseInt(time);
+        const timestamp = parseInt(time, 10);
         const value = action.payload[time];
         if (lastIndex === -1) {
-          newState.columns.push({ ...value, x: new Date(timestamp) });
+          newState.columns.push({ ...value, x: timestamp });
           newState.index.push(timestamp);
         } else {
           const index = findIndex(newState.index, t => t >= timestamp, lastIndex);
           lastIndex = index;
           if (index === -1) {
-            newState.columns.push({ ...value, x: new Date(timestamp) });
+            newState.columns.push({ ...value, x: timestamp });
             newState.index.push(timestamp);
           } else if (newState.index[index] === timestamp) {
             // update
@@ -115,7 +115,7 @@ export function updateRangeData(viewSubState, action) {
             newState.index = concat(newState.index.slice(0, index),
               timestamp, newState.index.slice(index));
             newState.columns = concat(newState.columns.slice(0, index),
-              { ...value, x: new Date(timestamp) }, newState.columns.slice(index));
+              { ...value, x: timestamp }, newState.columns.slice(index));
           }
         }
       });

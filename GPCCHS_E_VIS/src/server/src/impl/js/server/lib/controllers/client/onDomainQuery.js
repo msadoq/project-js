@@ -1,6 +1,5 @@
 const debug = require('../../io/debug')('controllers:onDomainQuery');
 const { encode } = require('../../protobuf');
-const { v4 } = require('node-uuid');
 const zmq = require('../../io/zmq');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
 const constants = require('../../constants');

@@ -3,9 +3,6 @@ const {
   map: _map,
   chunk: _chunk,
   isEqual: _isEqual,
-  zipObject: _zipObject,
-  keys: _keys,
-  values: _values,
 } = require('lodash');
 const { decode, encode } = require('../../protobuf');
 const { addTimebasedDataModel, getTimebasedDataModel } = require('../../models/timebasedDataFactory');

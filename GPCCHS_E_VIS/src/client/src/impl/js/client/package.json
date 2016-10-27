@@ -12,11 +12,11 @@
     "build-main": "NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.electron.js --progress --profile --colors",
     "build-renderer": "NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.production.js --progress --profile --colors",
     "build": "npm run build-main && npm run build-renderer",
-    "start": "NODE_ENV=production electron ./ --PORT=3100 --HSS=http://127.0.0.1:3000 --FMD_ROOT=/data/work/gitRepositories/dev/src/LPISIS/GPCCHS/GPCCHS_E_CLT/src/client/src/impl/js/client/data",
+    "start": "NODE_ENV=production electron ./ --PORT=3100 --HSS=http://127.0.0.1:3000 --FMD_ROOT=/data/work/gitRepositories/dev/src/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/impl/js/client/data --OPEN=large.workspace.json --PROFILING=off",
     "start-hot": "HOT=1 electron -r ./lib/common/dotenv -r babel-register -r babel-polyfill ./main.development",
     "package": "NODE_ENV=production node -r babel-register -r babel-polyfill package.js",
     "package-all": "npm run package -- --all",
-    "postinstall": "node node_modules/fbjs-scripts/node/check-dev-engines.js package.json && npm link ../../../../../common/src/impl/js/common/",
+    "postinstall": "node node_modules/fbjs-scripts/node/check-dev-engines.js package.json && npm link ../../../../../common/src/main/js/common/",
     "dev": "concurrently --kill-others \"npm run hot-server\" \"npm run start-hot\""
   },
   "bin": {

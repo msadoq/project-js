@@ -8,14 +8,13 @@ const config = merge(baseConfig, {
 
   entry: [
     'babel-polyfill',
-    './app/window/index'
+    './lib/windowProcess/index'
   ],
 
   output: {
     publicPath: '../dist/'
   },
   externals: {
-    ws: 'ws'
   },
 
   module: {

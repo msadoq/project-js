@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Navbar } from 'react-bootstrap';
 import Navigation from '../Navigation/Navigation';
 import PageContainer from '../Page/PageContainer';
+import TabsContainer from '../Navigation/TabsContainer';
+import styles from './Window.css';
 
 export default class Window extends Component {
   render() {
     return (
-      <Grid fluid>
-        <Row>
-          <Col xs={12} className="mt10 mb10">
-            <Navigation {...this.props} />
-          </Col>
-        </Row>
-        <Row>
+      <div className={styles.container}>
+        <Navbar className={styles.navbar}>
+          <Navigation {...this.props} />
+        </Navbar>
+        <div className={styles.content}>
+          <TabsContainer {...this.props} />
           <PageContainer {...this.props} />
-        </Row>
-      </Grid>
+        </div>
+      </div>
     );
   }
 }

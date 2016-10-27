@@ -29,7 +29,6 @@ describe('retrieveMissingIntervals', () => {
     intervals[0].should.be.an('array').that.has.lengthOf(2);
     intervals[0][0].should.equal(myInterval[0]);
     intervals[0][1].should.equal(knownIntervals[0][0]);
-
   });
   it('lower and inner outside interval', () => {
     const myInterval = [0, 7];

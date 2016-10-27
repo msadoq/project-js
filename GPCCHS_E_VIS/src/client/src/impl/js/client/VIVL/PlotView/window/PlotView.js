@@ -25,34 +25,32 @@ function renderLines(lines = []) {
         key={`line${key}`}
         yAccessor={d => d[key]}
         stroke={color}
-        />
+      />
       <ScatterSeries
         key={`scatter${key}`}
         yAccessor={d => d[key]}
         marker={CircleMarker}
         markerProps={{ r: 1, stroke: color }}
-        />
+      />
       <CurrentCoordinate
         key={`coordinate${key}`}
         yAccessor={d => d[key]}
         fill={color}
-        />
+      />
     </div>
   ));
 }
 
 class PlotView extends Component {
   static propTypes = {
-    data: PropTypes.any,
     size: PropTypes.shape({
       width: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
       height: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
     }),
-    // @TODO maknig sure we have input data
-    // data: React.PropTypes.shape({
-    //   lines: React.PropTypes.array.isRequired,
-    //   columns: React.PropTypes.array.isRequired
-    // }),
+    data: PropTypes.shape({
+      lines: PropTypes.array,
+      columns: PropTypes.object,
+    }),
     // configuration: PropTypes.object.isRequired,
     // entryPoints: PropTypes.array.isRequired,
     // axes: PropTypes.array,
@@ -64,15 +62,21 @@ class PlotView extends Component {
     // legend: PropTypes.object,
     // markers: PropTypes.array,
   };
+  static defaultProps = {
+    data: {
+      lines: [],
+      columns: [],
+    },
+  };
   dateFormat = timeFormat('%Y-%m-%d %H:%M:%S.%L');
 
   yExtents = d => _map(this.props.data.lines, ({ key }) => _get(d, [key]));
 
   handleTooltipContent = ({ currentItem, xAccessor }) => {
-    const { data: { lines = []} = {} } = this.props;
+    const { data: { lines = [] } = {} } = this.props;
     return {
       x: this.dateFormat(xAccessor(currentItem)),
-      y: lines.map((line) => ({
+      y: lines.map(line => ({
         label: line.name,
         value: currentItem[line.key],
         stroke: line.color
@@ -82,8 +86,8 @@ class PlotView extends Component {
 
   render() {
     const { size, data } = this.props;
+    const { lines, columns } = data;
     const { width, height } = size;
-    const { lines, columns = []} = data;
 
     // TODO : clean message
     if (!lines || !lines.length || !columns.length) {
@@ -114,11 +118,11 @@ class PlotView extends Component {
           xAccessor={d => d.x}
           xScaleProvider={discontinuousTimeScaleProvider}
           xExtents={xExtents}
-          >
+        >
           <Chart
             id={1}
             yExtents={this.yExtents}
-            >
+          >
             <XAxis axisAt="bottom" orient="bottom" ticks={5} />
             <YAxis axisAt="right" orient="right" ticks={5} />
             <MouseCoordinateX
@@ -126,19 +130,19 @@ class PlotView extends Component {
               orient="bottom"
               rectWidth={150}
               displayFormat={this.dateFormat}
-              />
+            />
             <MouseCoordinateY
               at="right"
               orient="right"
-              displayFormat={format('.2f') }
-              />
+              displayFormat={format('.2f')}
+            />
             {renderLines(lines) }
           </Chart>
           <CrossHairCursor />
           <HoverTooltip
             tooltipContent={this.handleTooltipContent}
             bgwidth={300}
-           />
+          />
         </ChartCanvas>
       </div>
     );

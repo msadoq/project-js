@@ -4,11 +4,18 @@ import Mustache from 'mustache';
 export default class TextView extends Component {
   static propTypes = {
     // viewId: PropTypes.string.isRequired,
-    data: PropTypes.any,
+    data: PropTypes.shape({
+      values: PropTypes.object,
+    }),
     configuration: PropTypes.object.isRequired,
     // entryPoints: PropTypes.array.isRequired,
     // links: PropTypes.array,
     // defaultRatio: PropTypes.object,
+  };
+  static defaultProps = {
+    data: {
+      values: {},
+    },
   };
 
   constructor(props, context) {
@@ -22,7 +29,7 @@ export default class TextView extends Component {
 
   getMarkup = () => Mustache.render(
     this.state.template,
-    this.props.data
+    this.props.data.values
   );
 
   render() {

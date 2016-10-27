@@ -1,17 +1,20 @@
 import React, { Component, PropTypes } from 'react';
-import _get from 'lodash/get';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 import styles from './Header.css';
 
 export default class Header extends Component {
   static propTypes = {
     isViewsEditorOpen: PropTypes.bool.isRequired,
+    title: PropTypes.string,
     configuration: PropTypes.object,
     viewId: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     openEditor: PropTypes.func,
     closeEditor: PropTypes.func,
     unmountAndRemove: PropTypes.func,
+  };
+  static defaultProps = {
+    title: 'Untitled',
   };
   onDropDownClick = (key) => {
     const {
@@ -41,8 +44,7 @@ export default class Header extends Component {
     }
   };
   render() {
-    const { isViewsEditorOpen } = this.props;
-    const title = _get(this.props, ['configuration', 'title'], 'No title');
+    const { title, isViewsEditorOpen } = this.props;
     return (
       <div className={styles.container}>
         <div className={`${styles.title} moveHandler`}>

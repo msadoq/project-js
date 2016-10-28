@@ -25,20 +25,21 @@
 .viewportResizing{
     background-color: rgba(49, 166, 249,0.5);
 }
-.lower{
+.lower, .upper, .current{
     cursor: col-resize;
-    left: 0px;
     position: absolute;
     height: 100%;
     width: 3px;
+}
+.current{
+  border-left: 2px solid #F45;
+}
+.lower{
+    left: 0px;
     border-left: 1px solid #4c96ff;
 }
 .upper{
-    cursor: col-resize;
     right: 0px;
-    position: absolute;
-    height: 100%;
-    width: 3px;
     border-right: 1px solid #4c96ff;
 }
 .lower:before, .upper:before{
@@ -124,11 +125,12 @@
 .resizeTimebarContainer:before{
     width: 20px;
     height: 12px;
+    line-height: 12px;
     text-align: center;
     content: '≡';
     color: #888;
     position: absolute;
-    top: -9px;
+    top: 3px;
     left: 50%;
     font-size: 1.2em;
     background-color: #F1F1F1;

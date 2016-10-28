@@ -1,25 +1,19 @@
 import { get } from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col } from 'react-bootstrap';
-import { findDOMNode } from 'react-dom';
+import { Col } from 'react-bootstrap';
 import { updateVisuWindow } from '../../store/actions/timebars';
 import styles from './Timebar.css';
 import Timebar from './Timebar';
 
 
-class TimebarContainer extends Component{
-  constructor(...args) {
-    super(...args);
-    this.state = { height: 120 };
+class TimebarContainer extends Component {
+
+  static propTypes = {
+    updateVisuWindow: React.PropTypes.func.isRequired,
   }
 
-  dispatchCursor = (...args) => {
-    this.props.dispatch(updateVisuWindow(
-      this.props.focusedPage.timebarId,
-      ...args
-    ));
-  }
+  state = { height: 120 };
 
   resizeWindow = (e) => {
     this.setState({
@@ -51,13 +45,8 @@ class TimebarContainer extends Component{
     e.preventDefault();
   }
 
-  ProtoTypes: {
-    focusedPage: React.PropTypes.object.isRequired,
-    visuWindow:  React.PropTypes.object.isRequired,
-    dispatch:    React.PropTypes.func.isRequired,
-  }
-
   render() {
+    const { updateVisuWindow } = this.props;
     let hrKlasses = styles.resizeTimebarContainer;
     if (this.state.resizingWindow) {
       hrKlasses += ` ${styles.resizingTimebarContainer}`;
@@ -72,7 +61,7 @@ class TimebarContainer extends Component{
           <div><h2>hihi</h2></div>
         </Col>
         <Col xs={9} style={{ height: '100%' }}>
-          <Timebar {...this.props} onDispatch={this.dispatchCursor} />
+          <Timebar {...this.props} onChange={updateVisuWindow} />
         </Col>
       </div>
     );
@@ -84,4 +73,6 @@ export default connect((state, ownProps) => {
   return {
     visuWindow: get(state, ['timebars', timebarId, 'visuWindow']),
   };
+}, {
+  updateVisuWindow
 })(TimebarContainer);

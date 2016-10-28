@@ -1,5 +1,8 @@
 import { each, get, map } from 'lodash';
-import { intervals as intervalManager } from 'common';
+import {
+  constants as globalConstants,
+  intervals as intervalManager,
+} from 'common';
 
 import profiling from '../../debug/profiling';
 import operators from '../../operators';
@@ -40,23 +43,22 @@ export default function missingRemoteIds(state, dataMap) {
       }
 
       if (!queries[remoteId]) {
-        const queryArguments = {
-          filters: (typeof filter === 'undefined') ? [] : map(filter, f => ({
+        const filters = (typeof filter === 'undefined') ?
+          [] :
+          map(filter, f => ({
             fieldName: f.field,
             type: operators[f.operator],
             fieldValue: f.operand,
-          })),
-        };
+          })
+        );
 
-        // TODO getLast add to queryArguments
-        // if (onlyLast) {
-        //   queryArguments.getLastType = globalConstants.GETLASTTYPE_GET_LAST;
-        // }
+        // TODO change type depending on the data structure
 
         queries[remoteId] = {
+          type: globalConstants.DATASTRUCTURE_RANGE,
           dataId,
           intervals: [],
-          queryArguments,
+          filters,
         };
       }
 

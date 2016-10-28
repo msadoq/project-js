@@ -34,15 +34,6 @@ const REMOTE_ID2 = `${DATA_ID}:${flattenFilter(FILTER2)}`;
 const REMOTE_ID3 = `${DATA_ID}`;
 
 const testState = {
-  hss: {
-    main: {
-      status: 'connected',
-      error: null
-    }
-  },
-  hsc: {
-    status: 'LIFECYCLE_STARTED'
-  },
   timebars: {
     '30bb6825-880b-4670-9422-d18a88036cbe': {
       id: 'TB1',
@@ -130,7 +121,7 @@ const testState = {
           length: 50,
           width: 50
         },
-        plotViewEntryPoints: [{
+        entryPoints: [{
           name: PARAMETER_NAME,
           connectedDataX: {
             formula: `${PARAMETER}.groundDate`,
@@ -146,58 +137,32 @@ const testState = {
             unit: 'V',
             digits: 5,
             format: 'decimal',
-            filter: [FILTER1],
             domain: DOMAIN,
             timeline: TL,
             axisId: 'VBat'
           },
-          lineStyle: 'Continuous',
-          pointsStyle: 'None',
-          curveColour: '#000000',
-          stateColours: [{
-            colour: '#000000',
-            condition: {
-              field: 'monitoringState',
-              operator: '==',
-              operand: 'waiting'
-            }
-          }]
         }, {
-          name: 'SAT_BC_MERMEANRATE',
+          name: PARAMETER_NAME,
           connectedDataX: {
-            formula: 'Reporting.SAT_BC_MERMEANRATE<ReportingParameter>.groundDate',
+            formula: `${PARAMETER}.groundDate`,
             unit: 's',
             digits: 5,
             format: 'decimal',
-            domain: 'fr.cnes.sat1',
-            timeline: 'Session 2',
+            filter: [FILTER1],
+            domain: DOMAIN,
+            timeline: TL,
             axisId: 'Time'
           },
           connectedDataY: {
-            formula: 'Reporting.SAT_BC_MERMEANRATE<ReportingParameter>.extractedValue',
+            formula: `${PARAMETER}.extractedValue`,
             unit: 'V',
             digits: 5,
             format: 'decimal',
-            filter: [{
-              field: 'convertedValue',
-              operator: '!=',
-              operand: '0'
-            }],
-            domain: 'fr.cnes.sat1',
-            timeline: 'Session 2',
-            axisId: 'VBat'
+            filter: [FILTER1],
+            domain: DOMAIN,
+            timeline: TL,
+            axisId: 'Time'
           },
-          lineStyle: 'Continuous',
-          pointsStyle: 'None',
-          curveColour: '#000000',
-          stateColours: [{
-            colour: '#000000',
-            condition: {
-              field: 'monitoringState',
-              operator: '==',
-              operand: 'waiting'
-            }
-          }]
         }],
         axes: [{
           label: 'Time',

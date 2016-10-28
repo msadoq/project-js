@@ -1,28 +1,27 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 
 import Debug from './Debug';
-import Timebar from './Timebar';
-import DataMap from './DataMap';
 
-const Navigation = props => (
-  <Grid fluid>
-    <Row>
-      <Col xs={12}>
-        <div style={{ textAlign: 'right' }}>
-          <Debug {...props} />
-          {' '}
-          <DataMap />
-          {' '}
-          {props.focusedPage && props.focusedPage.timebarId ? <Timebar {...props} /> : null}
-        </div>
-      </Col>
-    </Row>
-  </Grid>
-);
-
-Navigation.propTypes = {
-  focusedPage: PropTypes.object,
-};
-
-export default Navigation;
+export default class Navigation extends Component {
+  static propTypes = {
+    windowId: PropTypes.string,
+    focusedPageId: PropTypes.string,
+  };
+  render() {
+    return (
+      <Grid fluid>
+        <Row>
+          <Col xs={12}>
+            <div style={{ textAlign: 'right' }}>
+              <Debug
+                windowId={this.props.windowId}
+                focusedPageId={this.props.focusedPageId}
+              />
+            </div>
+          </Col>
+        </Row>
+      </Grid>
+    );
+  }
+}

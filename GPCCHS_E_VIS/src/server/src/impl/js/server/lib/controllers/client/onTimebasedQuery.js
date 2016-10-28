@@ -13,6 +13,8 @@ const { addToMainQueue } = require('../../websocket/sendToMain');
 const { createQueryMessage } = require('../../utils/queries');
 const { createAddSubscriptionMessage } = require('../../utils/subscriptions');
 const execution = require('../../utils/execution')('query');
+const { constants: globalConstants } = require('common');
+const constants = require('../../constants');
 
 /**
  * Triggered when the data consumer query for timebased data
@@ -48,9 +50,23 @@ const timebasedQuery = (websocketQueueHandler, payload, messageHandler) => {
   // loop over remoteIds
   _each(payload, (query, remoteId) => {
     let missingIntervals = [];
+    const queryArguments = {};
+
+    // add query arguments depending on the type
+    switch (query.type) {
+      case globalConstants.DATASTRUCTURE_LAST:
+        queryArguments.getLastType = constants.GETLASTTYPE_GET_LAST;
+        queryArguments.filters = query.filters;
+        break;
+      case globalConstants.DATASTRUCTURE_RANGE:
+        queryArguments.filters = query.filters;
+        break;
+      default:
+        throw new Error('Consuming type not valid', query.type);
+    }
 
     execution.start('add loki connectedData');
-    const connectedData = connectedDataModel.addRecord(remoteId, query.dataId);
+    const connectedData = connectedDataModel.addRecord(query.type, remoteId, query.dataId);
     execution.stop('add loki connectedData');
 
     // debug.debug(
@@ -78,7 +94,7 @@ const timebasedQuery = (websocketQueueHandler, payload, messageHandler) => {
         remoteId,
         query.dataId,
         missingInterval,
-        query.queryArguments
+        queryArguments
       );
 
       // queue the message
@@ -112,7 +128,7 @@ const timebasedQuery = (websocketQueueHandler, payload, messageHandler) => {
     execution.start('add loki subscription filters');
     subscriptionsModel.addFilters(
       query.dataId,
-      { [remoteId]: query.queryArguments.filters },
+      { [remoteId]: query.filters },
       subscription
     );
     execution.stop('add loki subscription filters');
@@ -141,7 +157,13 @@ const timebasedQuery = (websocketQueueHandler, payload, messageHandler) => {
       }
 
       execution.start('queue cache for sending');
-      websocketQueueHandler(remoteId, _zipObject(_map(cachedData, datum => datum.timestamp), _map(cachedData, datum => datum.payload)));
+      websocketQueueHandler(
+        remoteId,
+        _zipObject(
+          _map(cachedData, datum => datum.timestamp),
+          _map(cachedData, datum => datum.payload)
+        )
+      );
       execution.stop('queue cache for sending');
     });
     execution.stop('finding cache data');

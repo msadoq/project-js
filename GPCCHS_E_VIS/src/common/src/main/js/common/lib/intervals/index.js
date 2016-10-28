@@ -1,11 +1,13 @@
-const merge = require('./merge');
+const includes = require('./includes');
 const includesTimestamp = require('./includesTimestamp');
-const remove = require('./remove');
+const merge = require('./merge');
 const missing = require('./missing');
+const remove = require('./remove');
 
 module.exports = {
-  merge,
+  includes,
   includesTimestamp,
-  remove,
+  merge,
   missing,
+  remove,
 };

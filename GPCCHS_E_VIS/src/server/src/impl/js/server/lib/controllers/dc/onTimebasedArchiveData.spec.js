@@ -5,6 +5,7 @@ const connectedDataModel = require('../../models/connectedData');
 const { clearFactory, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const dataStub = require('../../stubs/data');
 const { addToTestQueue, getMessage, resetMessage } = require('../../stubs/testWebSocket');
+const { constants: globalConstants } = require('common');
 
 /* onTimebasedArchiveData Test
  *
@@ -38,7 +39,7 @@ describe('controllers/onTimebasedArchiveData', () => {
   it('unknown queryId', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(false);
-    connectedDataModel.addRecord(remoteId, dataId);
+    connectedDataModel.addRecord(globalConstants.DATASTRUCTURE_LAST, remoteId, dataId);
     connectedDataModel.addRequestedInterval(remoteId, queryId, interval);
     // launch test
     sendTimebasedArchiveData(
@@ -70,7 +71,7 @@ describe('controllers/onTimebasedArchiveData', () => {
   it('works', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(false);
-    connectedDataModel.addRecord(remoteId, dataId);
+    connectedDataModel.addRecord(globalConstants.DATASTRUCTURE_LAST, remoteId, dataId);
     connectedDataModel.addRequestedInterval(remoteId, queryId, interval);
     registeredQueries.set(queryId, remoteId);
     // launch test
@@ -123,7 +124,7 @@ describe('controllers/onTimebasedArchiveData', () => {
   it('last chunk', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(true);
-    connectedDataModel.addRecord(remoteId, dataId);
+    connectedDataModel.addRecord(globalConstants.DATASTRUCTURE_LAST, remoteId, dataId);
     connectedDataModel.addRequestedInterval(remoteId, queryId, interval);
     registeredQueries.set(queryId, remoteId);
     // launch test

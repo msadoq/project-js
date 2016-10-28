@@ -39,7 +39,7 @@ export default merge(baseConfig, {
         ]
       },
       {
-        test: [/.+\.svg/, /.+\.eot/, /.+\.ttf/, /.+\.woff/, /.+\.woff2/],
+        test: /.+\.(svg|eot|ttf|woff|woff2)/,
         loader: 'file?name=dist/fonts/[name].[ext]'
       }
     ]
@@ -48,13 +48,6 @@ export default merge(baseConfig, {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
-    new webpack.DefinePlugin({
-      // 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      // 'process.env.PORT': JSON.stringify(process.env.PORT),
-      // 'process.env.HSS': JSON.stringify(process.env.HSS),
-      // 'process.env.DEBUG': JSON.stringify(process.env.DEBUG),
-      // 'process.env.LEVEL': JSON.stringify(process.env.LEVEL),
-    })
   ],
 
   target: 'electron-renderer'

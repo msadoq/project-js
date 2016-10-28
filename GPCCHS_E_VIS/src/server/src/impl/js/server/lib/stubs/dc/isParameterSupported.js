@@ -1,4 +1,4 @@
-module.exports = [
+const supported = [
   'Reporting.GENE_AM_CCSDSAPID<ReportingParameter>',
   'Reporting.GENE_AM_CCSDSCOUNT<ReportingParameter>',
   'Reporting.GENE_AM_CCSDSGFLAG<ReportingParameter>',
@@ -2461,3 +2461,9 @@ module.exports = [
   'Reporting.OBCPE2_BC_SSCHEDID8<ReportingParameter>',
   'Reporting.OBCPE2_BC_SSCHEDID9<ReportingParameter>',
 ];
+
+module.exports = function isParameterSupported(dataId) {
+  const parameter = `${dataId.catalog}.${dataId.parameterName}<${dataId.comObject}>`;
+
+  return (supported.indexOf(parameter) !== -1);
+};

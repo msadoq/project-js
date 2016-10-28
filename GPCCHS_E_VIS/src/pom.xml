@@ -13,10 +13,11 @@
     <relativePath/>
   </parent>
   <modules>
-<!--    <module>client</module> -->
-<!--    <module>common</module> -->
-<!--    <module>server</module> -->
+    <module>common</module>
+    <module>client</module>
+    <module>server</module>
     <module>timebar</module>
+    <module>launcher</module>
   </modules>
   <build>
     <plugins>

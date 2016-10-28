@@ -1,7 +1,6 @@
 .viewportWrapper{
     padding-top: 18px;
-    overflow: hidden;
-    height: 100%;
+    overflow: hidden
 }
 .viewportContainer{
     min-height: 100px;

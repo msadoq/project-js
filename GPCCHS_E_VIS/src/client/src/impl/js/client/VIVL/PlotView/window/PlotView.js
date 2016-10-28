@@ -9,6 +9,7 @@ import {
   ChartCanvas, Chart, series,
   coordinates, axes, tooltip
 } from 'react-stockcharts';
+import { SquareMarker, TriangleMarker } from './markers.js';
 
 const { LineSeries, ScatterSeries, CircleMarker } = series;
 const { HoverTooltip } = tooltip;
@@ -53,7 +54,13 @@ class PlotView extends PureComponent {
 
   getLines = () => _map(
     this.props.configuration.entryPoints,
-    ep => ({ name: ep.name, key: ep.name, color: ep.curveColour })
+    ep => ({
+      name: ep.name,
+      key: ep.name,
+      color: ep.curveColour,
+      lineStyle: ep.lineStyle, // "Continuous", "Dotted", "Dashed"
+      pointsStyle: ep.pointsStyle // "None", "Triangle", "Square", "Dot"
+    })
   );
 
   dateFormat = timeFormat('%Y-%m-%d %H:%M:%S.%L');
@@ -71,28 +78,61 @@ class PlotView extends PureComponent {
       }))
     };
   };
-  renderLines = lines => lines.map(({ key, color }) => (
-    <div key={key}>
-      <LineSeries
-        key={`line${key}`}
-        yAccessor={d => _get(d, [key, 'value'], 50) }
-        stroke={color}
-        />
-      <ScatterSeries
-        key={`scatter${key}`}
-        yAccessor={d => _get(d, [key, 'value'], 50) }
-        marker={CircleMarker}
-        markerProps={{ r: 1, stroke: color }}
-        />
-      <CurrentCoordinate
-        key={`coordinate${key}`}
-        yAccessor={d => _get(d, [key, 'value'], 50) }
-        fill={color}
-        />
-    </div>
-  ));
+
+  getLineMarker(pointsStyle) {
+    switch (pointsStyle) {
+      case 'Square':
+        return SquareMarker;
+      case 'Triangle':
+        return TriangleMarker;
+      case 'Dot':
+      case 'None':
+      default:
+        return CircleMarker;
+    }
+  }
+
+  getLineMarkerProps(pointsStyle, props) {
+    let styleProps = {};
+    switch (pointsStyle) {
+      case 'Square':
+        styleProps = { width: 2, height: 2 };
+      case 'Triangle':
+        styleProps = {};
+      case 'Dot':
+      case 'None':
+      default:
+        styleProps = { r: 1 };
+    }
+    return { ...styleProps, ...props };
+  }
+
+  renderLines = lines => lines.map(({
+    key, color, pointsStyle
+  }) => (
+      <div key={key}>
+        <LineSeries
+          key={`line${key}`}
+          yAccessor={d => _get(d, [key, 'value'], 50) }
+          stroke={color}
+          />
+        <ScatterSeries
+          key={`scatter${key}`}
+          yAccessor={d => _get(d, [key, 'value'], 50) }
+          marker={this.getLineMarker(pointsStyle) }
+          markerProps={this.getLineMarkerProps(pointsStyle, {
+            stroke: color
+          }) }
+          />
+        <CurrentCoordinate
+          key={`coordinate${key}`}
+          yAccessor={d => _get(d, [key, 'value'], 50) }
+          fill={color}
+          />
+      </div>
+    ));
   render() {
-    console.log('render PlotView');
+    console.log('render PlotView', this.props.configuration.entryPoints);
     const { size, data, visuWindow } = this.props;
     // const { lines, columns } = data;
     const { columns } = data;
@@ -120,10 +160,6 @@ class PlotView extends PureComponent {
         return <div>no data to render</div>;
       }
     }
-
-    // TODO:
-    // "lineStyle": "Continuous", // "Continuous", "Dotted", "Dashed"
-    // "pointsStyle": "None", // "None", "Triangle", "Square", "Dot"
 
     // TODO view.plotBackgroundColour
     return (

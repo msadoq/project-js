@@ -31,7 +31,6 @@ module.exports = function sendArchiveData(queryId, dataId, interval, zmq) {
     }
   }
 
-  console.log('con de chibre', payloads.length)
   if (!payloads.length) {
     return;
   }

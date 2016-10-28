@@ -3,13 +3,19 @@ import _get from 'lodash/get';
 import _map from 'lodash/map';
 import SizeMe from 'react-sizeme';
 import { format } from 'd3-format';
+import { scaleTime } from 'd3-scale';
 import { timeFormat } from 'd3-time-format';
-import { ChartCanvas, Chart, series, scale, coordinates, axes, tooltip } from 'react-stockcharts';
+import {
+  ChartCanvas, Chart, series,
+  coordinates, axes, tooltip
+} from 'react-stockcharts';
 
 const { LineSeries, ScatterSeries, CircleMarker } = series;
-const { discontinuousTimeScaleProvider } = scale;
 const { HoverTooltip } = tooltip;
-const { CrossHairCursor, MouseCoordinateX, MouseCoordinateY, CurrentCoordinate } = coordinates;
+const {
+  CrossHairCursor, MouseCoordinateX,
+  MouseCoordinateY, CurrentCoordinate
+} = coordinates;
 const { XAxis, YAxis } = axes;
 
 class PlotView extends PureComponent {
@@ -55,7 +61,7 @@ class PlotView extends PureComponent {
   yExtents = d => _map(this.getLines(), ({ key }) => _get(d, [key, 'value']));
 
   handleTooltipContent = ({ currentItem, xAccessor }) => {
-    const { data: { lines = [] } = {} } = this.props;
+    const { data: { lines = []} = {} } = this.props;
     return {
       x: this.dateFormat(xAccessor(currentItem)),
       y: lines.map(line => ({
@@ -69,20 +75,20 @@ class PlotView extends PureComponent {
     <div key={key}>
       <LineSeries
         key={`line${key}`}
-        yAccessor={d => _get(d, [key, 'value'], 50)}
+        yAccessor={d => _get(d, [key, 'value'], 50) }
         stroke={color}
-      />
+        />
       <ScatterSeries
         key={`scatter${key}`}
-        yAccessor={d => _get(d, [key, 'value'], 50)}
+        yAccessor={d => _get(d, [key, 'value'], 50) }
         marker={CircleMarker}
         markerProps={{ r: 1, stroke: color }}
-      />
+        />
       <CurrentCoordinate
         key={`coordinate${key}`}
-        yAccessor={d => _get(d, [key, 'value'], 50)}
+        yAccessor={d => _get(d, [key, 'value'], 50) }
         fill={color}
-      />
+        />
     </div>
   ));
   render() {
@@ -105,12 +111,12 @@ class PlotView extends PureComponent {
     // TODO : display X time for each data value object instead of master timestamp
 
     // TODO : clean message
-    if (!lines || !lines.length || !columns || !columns.length) {
+    if (!lines || !lines.length || !columns || !columns.length || columns.length < 2) {
       console.log('plot view has nothing to do');
       if (!lines || !lines.length) {
         return <div>invalid view configuration</div>;
       }
-      if (!columns || !columns.length) {
+      if (!columns || !columns.length || columns.length < 2) {
         return <div>no data to render</div>;
       }
     }
@@ -130,14 +136,14 @@ class PlotView extends PureComponent {
           seriesName="PlotView"
           data={columns}
           type="hybrid"
-          xAccessor={d => new Date(d.x)}
-          xScaleProvider={discontinuousTimeScaleProvider}
+          xAccessor={d => new Date(d.x) }
+          xScale={scaleTime() }
           xExtents={[new Date(lower), new Date(upper)]}
-        >
+          >
           <Chart
             id={1}
             yExtents={this.yExtents}
-          >
+            >
             <XAxis axisAt="bottom" orient="bottom" ticks={5} />
             <YAxis axisAt="right" orient="right" ticks={5} />
             <MouseCoordinateX
@@ -145,13 +151,13 @@ class PlotView extends PureComponent {
               orient="bottom"
               rectWidth={150}
               displayFormat={this.dateFormat}
-            />
+              />
             <MouseCoordinateY
               at="right"
               orient="right"
-              displayFormat={format('.2f')}
-            />
-            {this.renderLines(lines)}
+              displayFormat={format('.2f') }
+              />
+            {this.renderLines(lines) }
           </Chart>
           <CrossHairCursor />
           <HoverTooltip
@@ -159,7 +165,7 @@ class PlotView extends PureComponent {
             opacity={1}
             fill="#FFFFFF"
             bgwidth={300}
-          />
+            />
         </ChartCanvas>
       </div>
     );

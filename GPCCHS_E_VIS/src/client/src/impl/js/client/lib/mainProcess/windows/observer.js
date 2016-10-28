@@ -31,7 +31,7 @@ export function open(data, windowId, cb) {
   windows[windowId] = window;
 
   if (process.env.NODE_ENV === 'production') {
-    window.loadURL(`file://${__dirname}/lib/windowProcess/index.html?windowId=${windowId}`);
+    window.loadURL(`file://${__dirname}/index.html?windowId=${windowId}`);
   } else {
     window.loadURL(`file://${__dirname}/../../windowProcess/index.html?windowId=${windowId}`);
   }

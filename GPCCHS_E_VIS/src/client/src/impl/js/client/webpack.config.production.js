@@ -15,6 +15,7 @@ const config = merge(baseConfig, {
     publicPath: '../dist/'
   },
   externals: {
+    common: 'common'
   },
 
   module: {

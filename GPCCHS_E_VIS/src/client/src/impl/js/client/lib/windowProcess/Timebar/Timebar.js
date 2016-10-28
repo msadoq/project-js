@@ -36,7 +36,8 @@ export default class Timebar extends Component {
       navigating: false,
       cursorOriginX: e.pageX,
       dragOriginLower: this.state.lower || visuWindow.lower,
-      dragOriginUpper: this.state.upper || visuWindow.upper
+      dragOriginUpper: this.state.upper || visuWindow.upper,
+      dragOriginCurrent: this.state.current || visuWindow.current
     });
 
     document.addEventListener('mousemove', this.onMouseMove);
@@ -50,7 +51,14 @@ export default class Timebar extends Component {
     const lower = this.state.lower || visuWindow.lower;
     const upper = this.state.upper || visuWindow.upper;
     const current = this.state.current || visuWindow.current;
-    this.setState({ lower: null, upper: null, current: null });
+    this.setState({
+      dragging: false,
+      resizing: false,
+      navigating: false,
+      lower: null,
+      upper: null,
+      current: null
+    });
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
     return this.props.onChange(
@@ -71,7 +79,7 @@ export default class Timebar extends Component {
       timeEnd, timeBeginning, cursorOriginX,
       dragging, resizing, dragOriginLower,
       dragOriginUpper, resizeOrigin, resizeCursor,
-      navigating
+      navigating, dragOriginCurrent
     } = this.state;
     const lower = this.state.lower || visuWindow.lower;
     const upper = this.state.upper || visuWindow.upper;
@@ -81,23 +89,13 @@ export default class Timebar extends Component {
       const moved = (e.pageX - cursorOriginX) / findDOMNode(this).clientWidth;
       const lowerPosMs = dragOriginLower + (viewportMsWidth * moved);
       const upperPosMs = dragOriginUpper + (viewportMsWidth * moved);
+      const currentPosMs = dragOriginCurrent + (viewportMsWidth * moved);
 
-      if (visuWindow.current >= lowerPosMs && visuWindow.current <= upperPosMs) {
-        this.setState({
-          lower: lowerPosMs,
-          upper: upperPosMs
-        });
-      }else if ( visuWindow.current < lowerPosMs) {
-        this.setState({
-          lower: visuWindow.current,
-          upper: visuWindow.current + (dragOriginUpper - dragOriginLower)
-        });
-      }else if ( visuWindow.current > upperPosMs) {
-        this.setState({
-          lower: visuWindow.current + (dragOriginLower - dragOriginUpper),
-          upper: visuWindow.current
-        });
-      }
+      this.setState({
+        lower: lowerPosMs,
+        upper: upperPosMs,
+        current: currentPosMs
+      });
     } else if (resizing) {
       const movedPx = (e.pageX - cursorOriginX);
       const timebarContWidth = findDOMNode(this).clientWidth;
@@ -246,7 +244,7 @@ export default class Timebar extends Component {
     let { lower, upper, current } = this.state;
     lower = lower || visuWindow.lower || ((new Date().getTime()) - (1000 * 60 * 48));
     upper = upper || visuWindow.upper || ((new Date().getTime()) + (1000 * 60 * 48));
-    current = current || visuWindow.current || (lower + upper) / 2;;
+    current = current || visuWindow.current || (lower + upper) / 2;
 
     const selectedMsWidth = upper - lower;
     const selectedPercentWidth = (100 * selectedMsWidth) / (timeEnd - timeBeginning);

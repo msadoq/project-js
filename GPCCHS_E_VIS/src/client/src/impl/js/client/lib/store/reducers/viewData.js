@@ -94,11 +94,9 @@ export function updateRangeData(viewSubState, action) {
         newState.index = [];
         newState.columns = [];
       }
-      // Parcours des nouvelles données dans l'ordre temporel
       let lastIndex = 0;
       // newState[masterTime][epName] =
       //   { x: value.payload[ep.fieldX], value: value.payload[ep.fieldY] };
-
       each(Object.keys(action.payload), (time) => {
         const timestamp = parseInt(time, 10);
         const value = action.payload[time];

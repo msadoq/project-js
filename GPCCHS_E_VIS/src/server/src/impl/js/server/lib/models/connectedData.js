@@ -1,8 +1,12 @@
 const debug = require('../io/debug')('models:connectedData');
 const database = require('../io/loki');
-const { intervals: intervalManager } = require('common');
+const {
+  constants: globalConstants,
+  intervals: intervalManager,
+} = require('common');
 // const { inspect } = require('util');
 const {
+  concat: _concat,
   remove: _remove,
   values: _values,
   filter: _filter,
@@ -12,6 +16,17 @@ const {
   some: _some,
   has: _has,
 } = require('lodash');
+
+const createConnectedData = (type, remoteId, dataId) => ({
+  type,
+  remoteId,
+  dataId,
+  intervals: {
+    all: [],
+    received: [],
+    requested: {},
+  },
+});
 
 const collection = database.addCollection('connectedData',
   {
@@ -76,29 +91,37 @@ collection.setIntervalAsReceived = (remoteId, queryUuid, connectedData) => {
     return undefined;
   }
 
-  cd.intervals.received =
-    intervalManager.merge(cd.intervals.received, interval);
+  switch (cd.type) {
+    case globalConstants.DATASTRUCTURE_LAST:
+      cd.intervals.received = [...cd.intervals.received, interval];
+      break;
+    case globalConstants.DATASTRUCTURE_RANGE:
+      cd.intervals.received =
+        intervalManager.merge(cd.intervals.received, interval);
+      break;
+    default:
+      throw new Error('Consuming type not valid:', cd.type);
+  }
+
   cd.intervals.requested = _omit(cd.intervals.requested, queryUuid);
-  debug.debug('set interval', interval, 'as received', cd);
+  debug.debug('set interval', interval, 'as received for', remoteId);
 
   return cd;
 };
 
-collection.addRecord = (remoteId, dataId) => {
+collection.addRecord = (type, remoteId, dataId) => {
   let connectedData = collection.by('remoteId', remoteId);
   if (connectedData) {
     return connectedData;
   }
-  connectedData = {
-    remoteId,
-    dataId,
-    intervals: {
-      all: [],
-      received: [],
-      requested: {},
-    },
-  };
-  return collection.insert(connectedData);
+  switch (type) {
+    case globalConstants.DATASTRUCTURE_LAST:
+    case globalConstants.DATASTRUCTURE_RANGE:
+      connectedData = createConnectedData(type, remoteId, dataId);
+      return collection.insert(connectedData);
+    default:
+      throw new Error('Consuming type not valid:', type);
+  }
 };
 
 collection.addRequestedInterval = (remoteId, queryUuid, interval, connectedData) => {
@@ -112,9 +135,18 @@ collection.addRequestedInterval = (remoteId, queryUuid, interval, connectedData)
       return undefined;
     }
   }
-
-  cd.intervals.requested[queryUuid] = interval;
-  cd.intervals.all = intervalManager.merge(cd.intervals.all, interval);
+  switch (cd.type) {
+    case globalConstants.DATASTRUCTURE_LAST:
+      cd.intervals.requested[queryUuid] = interval;
+      cd.intervals.all = [...cd.intervals.all, interval];
+      break;
+    case globalConstants.DATASTRUCTURE_RANGE:
+      cd.intervals.requested[queryUuid] = interval;
+      cd.intervals.all = intervalManager.merge(cd.intervals.all, interval);
+      break;
+    default:
+      throw new Error('Consuming type not valid:', type);
+  }
 
   return cd;
 };
@@ -141,10 +173,18 @@ collection.removeIntervals = (remoteId, intervals, connectedData) => {
     });
     receivedIntervals = intervalManager.remove(receivedIntervals, interval);
   });
-  const allIntervals = intervalManager.merge(receivedIntervals, _values(requestedIntervals));
+  switch (cd.type) {
+    case globalConstants.DATASTRUCTURE_LAST:
+      cd.intervals.all = _concat(receivedIntervals, _values(requestedIntervals));
+      break;
+    case globalConstants.DATASTRUCTURE_RANGE:
+      cd.intervals.all = intervalManager.merge(receivedIntervals, _values(requestedIntervals));
+      break;
+    default:
+      throw new Error('Consuming type not valid:', type);
+  }
   cd.intervals.requested = requestedIntervals;
   cd.intervals.received = receivedIntervals;
-  cd.intervals.all = allIntervals;
 
   return queryIds;
 };
@@ -193,7 +233,16 @@ collection.retrieveMissingIntervals = (remoteId, interval, connectedData) => {
 
   const allIntervals = cd.intervals.all;
 
-  return intervalManager.missing(allIntervals, interval);
+  switch (cd.type) {
+    case globalConstants.DATASTRUCTURE_LAST:
+      return (intervalManager.includes(allIntervals, interval)) ? [] : [interval] ;
+      break;
+    case globalConstants.DATASTRUCTURE_RANGE:
+      return intervalManager.missing(allIntervals, interval);
+      break;
+    default:
+      throw new Error('Consuming type not valid:', type);
+  }
 };
 
 collection.exists = (remoteId) => {

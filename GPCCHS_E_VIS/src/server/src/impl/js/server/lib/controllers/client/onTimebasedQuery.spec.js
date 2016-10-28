@@ -14,6 +14,8 @@ const {
 } = require('lodash');
 const dataStub = require('../../stubs/data');
 const { addToTestQueue, getMessage, resetMessage } = require('../../stubs/testWebSocket');
+const { constants: globalConstants } = require('common');
+const constants = require('../../constants');
 
 let calls = [];
 const zmqEmulator = (key, payload) => {
@@ -70,8 +72,14 @@ describe('controllers/onTimebasedQuery', () => {
   const filterProto2 = dataStub.getFilterProtobuf(filter2); */
 
   const queryArguments = dataStub.getQueryArguments();
+  const lastQueryArguments = Object.assign(
+    {},
+    queryArguments,
+    { getLastType: constants.GETLASTTYPE_GET_LAST }
+  );
   const filters = queryArguments.filters;
   const queryArgumentsProto = dataStub.getQueryArgumentsProtobuf(queryArguments);
+  const lastQueryArgumentsProto = dataStub.getQueryArgumentsProtobuf(lastQueryArguments);
 
   const rp = dataStub.getReportingParameter();
   const t1 = 3;
@@ -82,205 +90,374 @@ describe('controllers/onTimebasedQuery', () => {
     { timestamp: t2, payload: rp },
   ];
 
-  const query = {
+  const lastQuery = {
     [remoteId]: {
+      type: globalConstants.DATASTRUCTURE_LAST,
       dataId,
       intervals: [interval],
-      queryArguments,
+      filters,
+    },
+  };
+  const rangeQuery = {
+    [remoteId]: {
+      type: globalConstants.DATASTRUCTURE_RANGE,
+      dataId,
+      intervals: [interval],
+      filters,
     },
   };
 
-  it('no missing intervals', () => {
-    // init test
-    subscriptionsModel.addRecord(dataId);
-    connectedDataModel.addRecord(remoteId, dataId);
-    connectedDataModel.addRequestedInterval(remoteId, 'queryId', interval);
-    const timebasedDataModel = addTimebasedDataModel(remoteId);
-    timebasedDataModel.addRecords(payloads);
-    // launch test
-    timebasedQuery(addToTestQueue, query, zmqEmulator);
-    // check registeredQueries
-    _isEmpty(registeredQueries.getAll()).should.equal(true);
-    // check registeredCallbacks
-    _isEmpty(registeredCallbacks.getAll()).should.equal(true);
-    // check zmq messages
-    calls.length.should.equal(0);
-    // check ws messages
-    getMessage().should.have.properties({
-      event: 'timebasedData',
-      payload: {
-        [remoteId]: {
-          [payloads[0].timestamp]: payloads[0].payload,
-          [payloads[1].timestamp]: payloads[1].payload,
+  describe('LAST', () => {
+    it('interval not missing', () => {
+      // init test
+      subscriptionsModel.addRecord(dataId);
+      connectedDataModel.addRecord(globalConstants.DATASTRUCTURE_LAST, remoteId, dataId);
+      connectedDataModel.addRequestedInterval(remoteId, 'queryId', interval);
+      const timebasedDataModel = addTimebasedDataModel(remoteId);
+      timebasedDataModel.addRecords(payloads);
+      // launch test
+      timebasedQuery(addToTestQueue, lastQuery, zmqEmulator);
+      // check registeredQueries
+      _isEmpty(registeredQueries.getAll()).should.equal(true);
+      // check registeredCallbacks
+      _isEmpty(registeredCallbacks.getAll()).should.equal(true);
+      // check zmq messages
+      calls.length.should.equal(0);
+      // check ws messages
+      getMessage().should.have.properties({
+        event: 'timebasedData',
+        payload: {
+          [remoteId]: {
+            [payloads[0].timestamp]: payloads[0].payload,
+            [payloads[1].timestamp]: payloads[1].payload,
+          },
         },
-      },
-    });
-    // check connectedDataModel
-    connectedDataModel.count().should.equal(1);
-    const connectedData = connectedDataModel.find();
-    connectedData[0].should.have.properties({
-      remoteId,
-      intervals: {
-        all: [interval],
-        requested: { queryId: interval },
-        received: [],
-      },
-    });
-    // check subscriptionsModel
-    subscriptionsModel.count().should.equal(1);
-    const subscriptions = subscriptionsModel.find();
-    subscriptions[0].should.have.properties({
-      flatDataId: flattenDataId(dataId),
-      dataId,
-      filters: { [remoteId]: filters },
-    });
-  });
-
-  it('all intervals missing', () => {
-    // init test
-    subscriptionsModel.addRecord(dataId);
-    const timebasedDataModel = addTimebasedDataModel(remoteId);
-    timebasedDataModel.addRecords(payloads);
-    // launch test
-    timebasedQuery(addToTestQueue, query, zmqEmulator);
-    // check registeredQueries
-    const queryIds = _keys(registeredQueries.getAll());
-    queryIds.length.should.equal(1);
-    const queryId = queryIds[0];
-    // check registeredCallbacks
-    should.exist(registeredCallbacks.get(queryId));
-    // check zmq messages
-    const queryIdProto = dataStub.getStringProtobuf(queryId);
-    calls.length.should.equal(5);
-    calls[0].should.have.properties(dataStub.getTimebasedQueryHeaderProtobuf());
-    calls[1].should.have.properties(queryIdProto);
-    calls[2].should.have.properties(dataIdProto);
-    calls[3].should.have.properties(intervalProto);
-    calls[4].should.have.properties(queryArgumentsProto);
-    // check ws messages
-    getMessage().should.have.properties({});
-    // check connectedDataModel
-    connectedDataModel.count().should.equal(1);
-    const connectedData = connectedDataModel.find();
-    connectedData[0].should.have.properties({
-      remoteId,
-      intervals: {
-        all: [interval],
-        requested: { [queryId]: interval },
-        received: [],
-      },
-    });
-    // check subscriptionsModel
-    subscriptionsModel.count().should.equal(1);
-    const subscriptions = subscriptionsModel.find();
-    subscriptions[0].should.have.properties({
-      flatDataId: flattenDataId(dataId),
-      dataId,
-      filters: { [remoteId]: filters },
-    });
-  });
-
-  it('some missing intervals', () => {
-    // init test
-    subscriptionsModel.addRecord(dataId);
-    connectedDataModel.addRecord(remoteId, dataId);
-    connectedDataModel.addRequestedInterval(remoteId, 'myQueryId', [5, 10]);
-    const timebasedDataModel = addTimebasedDataModel(remoteId);
-    timebasedDataModel.addRecord(payloads[1].timestamp, payloads[1].payload);
-    // launch test
-    timebasedQuery(addToTestQueue, query, zmqEmulator);
-    // check registeredQueries
-    const queryIds = _keys(registeredQueries.getAll());
-    queryIds.length.should.equal(1);
-    const queryId = queryIds[0];
-    // check registeredCallbacks
-    should.exist(registeredCallbacks.get(queryId));
-    // check zmq messages
-    const queryIdProto = dataStub.getStringProtobuf(queryId);
-    calls.length.should.equal(5);
-    calls[0].should.have.properties(dataStub.getTimebasedQueryHeaderProtobuf());
-    calls[1].should.have.properties(queryIdProto);
-    calls[2].should.have.properties(dataIdProto);
-    calls[3].should.have.properties(halfIntervalProto);
-    calls[4].should.have.properties(queryArgumentsProto);
-    // check ws messages
-    getMessage().should.have.properties({
-      event: 'timebasedData',
-      payload: {
-        [remoteId]: {
-          [payloads[1].timestamp]: payloads[1].payload,
+      });
+      // check connectedDataModel
+      connectedDataModel.count().should.equal(1);
+      const connectedData = connectedDataModel.find();
+      connectedData[0].should.have.properties({
+        type: globalConstants.DATASTRUCTURE_LAST,
+        remoteId,
+        intervals: {
+          all: [interval],
+          requested: { queryId: interval },
+          received: [],
         },
-      },
+      });
+      // check subscriptionsModel
+      subscriptionsModel.count().should.equal(1);
+      const subscriptions = subscriptionsModel.find();
+      subscriptions[0].should.have.properties({
+        flatDataId: flattenDataId(dataId),
+        dataId,
+        filters: { [remoteId]: filters },
+      });
     });
-    // check connectedDataModel
-    connectedDataModel.count().should.equal(1);
-    const connectedData = connectedDataModel.find();
-    connectedData[0].should.have.properties({
-      remoteId,
-      intervals: {
-        all: [interval],
-        requested: { [queryId]: [1, 5], myQueryId: [5, 10] },
-        received: [],
-      },
+
+    it('interval missing', () => {
+      // init test
+      const otherQueryId = 'otherId';
+      const otherInterval = [5, 42];
+      subscriptionsModel.addRecord(dataId);
+      connectedDataModel.addRecord(globalConstants.DATASTRUCTURE_LAST, remoteId, dataId);
+      connectedDataModel.addRequestedInterval(remoteId, otherQueryId, otherInterval);
+      const timebasedDataModel = addTimebasedDataModel(remoteId);
+      timebasedDataModel.addRecords(payloads);
+      // launch test
+      timebasedQuery(addToTestQueue, lastQuery, zmqEmulator);
+      // check registeredQueries
+      const queryIds = _keys(registeredQueries.getAll());
+      queryIds.length.should.equal(1);
+      const queryId = queryIds[0];
+      // check registeredCallbacks
+      should.exist(registeredCallbacks.get(queryId));
+      // check zmq messages
+      const queryIdProto = dataStub.getStringProtobuf(queryId);
+      calls.length.should.equal(5);
+      calls[0].should.have.properties(dataStub.getTimebasedQueryHeaderProtobuf());
+      calls[1].should.have.properties(queryIdProto);
+      calls[2].should.have.properties(dataIdProto);
+      calls[3].should.have.properties(intervalProto);
+      calls[4].should.have.properties(lastQueryArgumentsProto);
+      // check ws messages
+      getMessage().should.have.properties({});
+      // check connectedDataModel
+      connectedDataModel.count().should.equal(1);
+      const connectedData = connectedDataModel.find();
+      connectedData[0].should.have.properties({
+        type: globalConstants.DATASTRUCTURE_LAST,
+        remoteId,
+        intervals: {
+          all: [otherInterval, interval],
+          requested: { [otherQueryId]: otherInterval, [queryId]: interval },
+          received: [],
+        },
+      });
+      // check subscriptionsModel
+      subscriptionsModel.count().should.equal(1);
+      const subscriptions = subscriptionsModel.find();
+      subscriptions[0].should.have.properties({
+        flatDataId: flattenDataId(dataId),
+        dataId,
+        filters: { [remoteId]: filters },
+      });
     });
-    // check subscriptionsModel
-    subscriptionsModel.count().should.equal(1);
-    const subscriptions = subscriptionsModel.find();
-    subscriptions[0].should.have.properties({
-      flatDataId: flattenDataId(dataId),
-      dataId,
-      filters: { [remoteId]: filters },
+
+    it('dataId not in subscriptions', () => {
+      // init test
+      const timebasedDataModel = addTimebasedDataModel(remoteId);
+      timebasedDataModel.addRecords(payloads);
+      // launch test
+      timebasedQuery(addToTestQueue, lastQuery, zmqEmulator);
+      // check registeredQueries
+      const queryIds = _keys(registeredQueries.getAll());
+      queryIds.length.should.equal(1);
+      const queryId = queryIds[0];
+      // check registeredCallbacks
+      should.exist(registeredCallbacks.get(queryId));
+      const callbackIds = _keys(registeredCallbacks.getAll());
+      callbackIds.length.should.equal(2);
+      const subId = _pull(callbackIds, queryId)[0];
+      // check zmq messages
+      const queryIdProto = dataStub.getStringProtobuf(queryId);
+      const subIdProto = dataStub.getStringProtobuf(subId);
+      calls.length.should.equal(9);
+      calls[0].should.have.properties(dataStub.getTimebasedQueryHeaderProtobuf());
+      calls[1].should.have.properties(queryIdProto);
+      calls[2].should.have.properties(dataIdProto);
+      calls[3].should.have.properties(intervalProto);
+      calls[4].should.have.properties(lastQueryArgumentsProto);
+      calls[5].should.have.properties(dataStub.getTimebasedSubscriptionHeaderProtobuf());
+      calls[6].should.have.properties(subIdProto);
+      calls[7].should.have.properties(dataIdProto);
+      calls[8].should.have.properties(dataStub.getAddActionProtobuf());
+      // check ws messages
+      getMessage().should.have.properties({});
+      // check connectedDataModel
+      connectedDataModel.count().should.equal(1);
+      const connectedData = connectedDataModel.find();
+      connectedData[0].should.have.properties({
+        type: globalConstants.DATASTRUCTURE_LAST,
+        remoteId,
+        intervals: {
+          all: [interval],
+          requested: { [queryId]: interval },
+          received: [],
+        },
+      });
+      // check subscriptionsModel
+      subscriptionsModel.count().should.equal(1);
+      const subscriptions = subscriptionsModel.find();
+      subscriptions[0].should.have.properties({
+        flatDataId: flattenDataId(dataId),
+        dataId,
+        filters: { [remoteId]: filters },
+      });
     });
   });
 
-  it('dataId not in subscriptions', () => {
-    // init test
-    const timebasedDataModel = addTimebasedDataModel(remoteId);
-    timebasedDataModel.addRecords(payloads);
-    // launch test
-    timebasedQuery(addToTestQueue, query, zmqEmulator);
-    // check registeredQueries
-    const queryIds = _keys(registeredQueries.getAll());
-    queryIds.length.should.equal(1);
-    const queryId = queryIds[0];
-    // check registeredCallbacks
-    should.exist(registeredCallbacks.get(queryId));
-    const callbackIds = _keys(registeredCallbacks.getAll());
-    callbackIds.length.should.equal(2);
-    const subId = _pull(callbackIds, queryId)[0];
-    // check zmq messages
-    const queryIdProto = dataStub.getStringProtobuf(queryId);
-    const subIdProto = dataStub.getStringProtobuf(subId);
-    calls.length.should.equal(9);
-    calls[0].should.have.properties(dataStub.getTimebasedQueryHeaderProtobuf());
-    calls[1].should.have.properties(queryIdProto);
-    calls[2].should.have.properties(dataIdProto);
-    calls[3].should.have.properties(intervalProto);
-    calls[4].should.have.properties(queryArgumentsProto);
-    calls[5].should.have.properties(dataStub.getTimebasedSubscriptionHeaderProtobuf());
-    calls[6].should.have.properties(subIdProto);
-    calls[7].should.have.properties(dataIdProto);
-    calls[8].should.have.properties(dataStub.getAddActionProtobuf());
-    // check ws messages
-    getMessage().should.have.properties({});
-    // check connectedDataModel
-    connectedDataModel.count().should.equal(1);
-    const connectedData = connectedDataModel.find();
-    connectedData[0].should.have.properties({
-      remoteId,
-      intervals: {
-        all: [interval],
-        requested: { [queryId]: interval },
-        received: [],
-      },
+  describe('RANGE', () => {
+    it('no missing intervals', () => {
+      // init test
+      subscriptionsModel.addRecord(dataId);
+      connectedDataModel.addRecord(globalConstants.DATASTRUCTURE_RANGE, remoteId, dataId);
+      connectedDataModel.addRequestedInterval(remoteId, 'queryId', interval);
+      const timebasedDataModel = addTimebasedDataModel(remoteId);
+      timebasedDataModel.addRecords(payloads);
+      // launch test
+      timebasedQuery(addToTestQueue, rangeQuery, zmqEmulator);
+      // check registeredQueries
+      _isEmpty(registeredQueries.getAll()).should.equal(true);
+      // check registeredCallbacks
+      _isEmpty(registeredCallbacks.getAll()).should.equal(true);
+      // check zmq messages
+      calls.length.should.equal(0);
+      // check ws messages
+      getMessage().should.have.properties({
+        event: 'timebasedData',
+        payload: {
+          [remoteId]: {
+            [payloads[0].timestamp]: payloads[0].payload,
+            [payloads[1].timestamp]: payloads[1].payload,
+          },
+        },
+      });
+      // check connectedDataModel
+      connectedDataModel.count().should.equal(1);
+      const connectedData = connectedDataModel.find();
+      connectedData[0].should.have.properties({
+        type: globalConstants.DATASTRUCTURE_RANGE,
+        remoteId,
+        intervals: {
+          all: [interval],
+          requested: { queryId: interval },
+          received: [],
+        },
+      });
+      // check subscriptionsModel
+      subscriptionsModel.count().should.equal(1);
+      const subscriptions = subscriptionsModel.find();
+      subscriptions[0].should.have.properties({
+        flatDataId: flattenDataId(dataId),
+        dataId,
+        filters: { [remoteId]: filters },
+      });
     });
-    // check subscriptionsModel
-    subscriptionsModel.count().should.equal(1);
-    const subscriptions = subscriptionsModel.find();
-    subscriptions[0].should.have.properties({
-      flatDataId: flattenDataId(dataId),
-      dataId,
-      filters: { [remoteId]: filters },
+
+    it('all intervals missing', () => {
+      // init test
+      const otherQueryId = 'otherId';
+      const otherInterval = [42, 99];
+      subscriptionsModel.addRecord(dataId);
+      connectedDataModel.addRecord(globalConstants.DATASTRUCTURE_RANGE, remoteId, dataId);
+      connectedDataModel.addRequestedInterval(remoteId, otherQueryId, otherInterval);
+      const timebasedDataModel = addTimebasedDataModel(remoteId);
+      timebasedDataModel.addRecords(payloads);
+      // launch test
+      timebasedQuery(addToTestQueue, rangeQuery, zmqEmulator);
+      // check registeredQueries
+      const queryIds = _keys(registeredQueries.getAll());
+      queryIds.length.should.equal(1);
+      const queryId = queryIds[0];
+      // check registeredCallbacks
+      should.exist(registeredCallbacks.get(queryId));
+      // check zmq messages
+      const queryIdProto = dataStub.getStringProtobuf(queryId);
+      calls.length.should.equal(5);
+      calls[0].should.have.properties(dataStub.getTimebasedQueryHeaderProtobuf());
+      calls[1].should.have.properties(queryIdProto);
+      calls[2].should.have.properties(dataIdProto);
+      calls[3].should.have.properties(intervalProto);
+      calls[4].should.have.properties(queryArgumentsProto);
+      // check ws messages
+      getMessage().should.have.properties({});
+      // check connectedDataModel
+      connectedDataModel.count().should.equal(1);
+      const connectedData = connectedDataModel.find();
+      connectedData[0].should.have.properties({
+        type: globalConstants.DATASTRUCTURE_RANGE,
+        remoteId,
+        intervals: {
+          all: [interval, otherInterval],
+          requested: { [queryId]: interval, [otherQueryId]: otherInterval },
+          received: [],
+        },
+      });
+      // check subscriptionsModel
+      subscriptionsModel.count().should.equal(1);
+      const subscriptions = subscriptionsModel.find();
+      subscriptions[0].should.have.properties({
+        flatDataId: flattenDataId(dataId),
+        dataId,
+        filters: { [remoteId]: filters },
+      });
+    });
+
+    it('some missing intervals', () => {
+      // init test
+      subscriptionsModel.addRecord(dataId);
+      connectedDataModel.addRecord(globalConstants.DATASTRUCTURE_RANGE, remoteId, dataId);
+      connectedDataModel.addRequestedInterval(remoteId, 'myQueryId', [5, 10]);
+      const timebasedDataModel = addTimebasedDataModel(remoteId);
+      timebasedDataModel.addRecord(payloads[1].timestamp, payloads[1].payload);
+      // launch test
+      timebasedQuery(addToTestQueue, rangeQuery, zmqEmulator);
+      // check registeredQueries
+      const queryIds = _keys(registeredQueries.getAll());
+      queryIds.length.should.equal(1);
+      const queryId = queryIds[0];
+      // check registeredCallbacks
+      should.exist(registeredCallbacks.get(queryId));
+      // check zmq messages
+      const queryIdProto = dataStub.getStringProtobuf(queryId);
+      calls.length.should.equal(5);
+      calls[0].should.have.properties(dataStub.getTimebasedQueryHeaderProtobuf());
+      calls[1].should.have.properties(queryIdProto);
+      calls[2].should.have.properties(dataIdProto);
+      calls[3].should.have.properties(halfIntervalProto);
+      calls[4].should.have.properties(queryArgumentsProto);
+      // check ws messages
+      getMessage().should.have.properties({
+        event: 'timebasedData',
+        payload: {
+          [remoteId]: {
+            [payloads[1].timestamp]: payloads[1].payload,
+          },
+        },
+      });
+      // check connectedDataModel
+      connectedDataModel.count().should.equal(1);
+      const connectedData = connectedDataModel.find();
+      connectedData[0].should.have.properties({
+        type: globalConstants.DATASTRUCTURE_RANGE,
+        remoteId,
+        intervals: {
+          all: [interval],
+          requested: { [queryId]: [1, 5], myQueryId: [5, 10] },
+          received: [],
+        },
+      });
+      // check subscriptionsModel
+      subscriptionsModel.count().should.equal(1);
+      const subscriptions = subscriptionsModel.find();
+      subscriptions[0].should.have.properties({
+        flatDataId: flattenDataId(dataId),
+        dataId,
+        filters: { [remoteId]: filters },
+      });
+    });
+
+    it('dataId not in subscriptions', () => {
+      // init test
+      const timebasedDataModel = addTimebasedDataModel(remoteId);
+      timebasedDataModel.addRecords(payloads);
+      // launch test
+      timebasedQuery(addToTestQueue, rangeQuery, zmqEmulator);
+      // check registeredQueries
+      const queryIds = _keys(registeredQueries.getAll());
+      queryIds.length.should.equal(1);
+      const queryId = queryIds[0];
+      // check registeredCallbacks
+      should.exist(registeredCallbacks.get(queryId));
+      const callbackIds = _keys(registeredCallbacks.getAll());
+      callbackIds.length.should.equal(2);
+      const subId = _pull(callbackIds, queryId)[0];
+      // check zmq messages
+      const queryIdProto = dataStub.getStringProtobuf(queryId);
+      const subIdProto = dataStub.getStringProtobuf(subId);
+      calls.length.should.equal(9);
+      calls[0].should.have.properties(dataStub.getTimebasedQueryHeaderProtobuf());
+      calls[1].should.have.properties(queryIdProto);
+      calls[2].should.have.properties(dataIdProto);
+      calls[3].should.have.properties(intervalProto);
+      calls[4].should.have.properties(queryArgumentsProto);
+      calls[5].should.have.properties(dataStub.getTimebasedSubscriptionHeaderProtobuf());
+      calls[6].should.have.properties(subIdProto);
+      calls[7].should.have.properties(dataIdProto);
+      calls[8].should.have.properties(dataStub.getAddActionProtobuf());
+      // check ws messages
+      getMessage().should.have.properties({});
+      // check connectedDataModel
+      connectedDataModel.count().should.equal(1);
+      const connectedData = connectedDataModel.find();
+      connectedData[0].should.have.properties({
+        type: globalConstants.DATASTRUCTURE_RANGE,
+        remoteId,
+        intervals: {
+          all: [interval],
+          requested: { [queryId]: interval },
+          received: [],
+        },
+      });
+      // check subscriptionsModel
+      subscriptionsModel.count().should.equal(1);
+      const subscriptions = subscriptionsModel.find();
+      subscriptions[0].should.have.properties({
+        flatDataId: flattenDataId(dataId),
+        dataId,
+        filters: { [remoteId]: filters },
+      });
     });
   });
 });

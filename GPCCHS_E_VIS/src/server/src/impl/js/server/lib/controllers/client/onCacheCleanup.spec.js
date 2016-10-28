@@ -13,6 +13,7 @@ const registeredQueries = require('../../utils/registeredQueries');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
 const { concat: _concat } = require('lodash');
 const dataStub = require('../../stubs/data');
+const { constants: globalConstants } = require('common');
 
 let calls = [];
 const zmqEmulator = (key, payload) => {
@@ -72,9 +73,9 @@ describe('controllers/onCacheCleanup', () => {
     registeredQueries.clear();
     registeredCallbacks.clear();
     // Init models and singletons
-    connectedDataModel.addRecord(remoteId11, dataId1);
-    connectedDataModel.addRecord(remoteId21, dataId2);
-    connectedDataModel.addRecord(remoteId22, dataId2);
+    connectedDataModel.addRecord(globalConstants.DATASTRUCTURE_LAST, remoteId11, dataId1);
+    connectedDataModel.addRecord(globalConstants.DATASTRUCTURE_RANGE, remoteId21, dataId2);
+    connectedDataModel.addRecord(globalConstants.DATASTRUCTURE_LAST, remoteId22, dataId2);
     connectedDataModel.addRequestedInterval(remoteId11, queryId111, interval111);
     connectedDataModel.addRequestedInterval(remoteId11, queryId112, interval112);
     connectedDataModel.addRequestedInterval(remoteId21, queryId211, interval211);

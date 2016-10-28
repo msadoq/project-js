@@ -64,9 +64,9 @@ export default class Timebar extends Component {
     return this.props.onChange(
       this.props.focusedPage.timebarId,
       {
-        lower,
-        upper,
-        current
+        lower: Math.trunc(lower),
+        upper: Math.trunc(upper),
+        current: Math.trunc(current)
       }
     );
   }

@@ -17,7 +17,7 @@ export default class Window extends Component {
           <TabsContainer {...this.props} />
           <PageContainer {...this.props} />
         </div>
-        {/*<TimebarContainer {...this.props} />*/}
+        <TimebarContainer {...this.props} />
       </div>
     );
   }

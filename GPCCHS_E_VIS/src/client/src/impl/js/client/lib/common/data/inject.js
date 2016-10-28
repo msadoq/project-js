@@ -1,71 +1,13 @@
-import { each, set, get, has } from 'lodash';
+import { each, set } from 'lodash';
 import profiling from '../debug/profiling';
 import debug from '../debug/mainDebug';
 import vivl from '../../../VIVL/main';
 import getViewDefinitions from './map/visibleViews';
 import { importPayload } from '../../store/actions/viewData';
+import selectLastValue from './structures/last/lastValue';
+import selectRangeValues from './structures/range/rangeValues';
 
 const logger = debug('data:inject');
-
-export function rangeValues(remoteIdPayload, ep, epName, viewState) {
-  const lower = ep.expectedInterval[0];
-  const upper = ep.expectedInterval[1];
-  const newState = {}; // = { ...viewState };
-
-  each(remoteIdPayload, (value) => {
-    const timestamp = value.referenceTimestamp;
-    if (typeof timestamp === 'undefined') {
-      return logger.warn('get a payload without .referenceTimestamp key');
-    }
-
-    // check value is in interval
-    if (timestamp < lower || timestamp > upper) {
-      return;
-    }
-    const masterTime = timestamp + ep.offset;
-    if (viewState[masterTime]) {
-      newState[masterTime] = viewState[masterTime];
-      newState[masterTime][epName] =
-        { x: value[ep.fieldX], value: value[ep.fieldY] };
-    } else {
-      set(newState, [masterTime, epName],
-        { x: value[ep.fieldX], value: value[ep.fieldY] });
-    }
-  });
-  return newState;
-}
-
-
-// Get the nearest value from the current time
-export function oneValue(remoteIdPayload, ep, epName, viewSubState) {
-  // Entry points on this remoteId
-  const lower = ep.expectedInterval[0];
-  const current = ep.expectedInterval[1];
-  // previous time recorded
-  let previousTime = 0;
-  if (viewSubState && viewSubState.index[epName]) {
-    if (viewSubState.index[epName] < current) {
-      previousTime = viewSubState.index[epName];
-    }
-  }
-  let newValue;
-  // search over payloads
-  each(remoteIdPayload, (p) => {
-    const timestamp = p.referenceTimestamp;
-    if (typeof timestamp === 'undefined') {
-      return logger.warn('get a payload without .referenceTimestamp key');
-    }
-
-    if (timestamp < lower || timestamp > current) {
-      return;
-    }
-    if (timestamp >= previousTime) {
-      newValue = { timestamp, value: p[ep.field] };
-      previousTime = timestamp;
-    }
-  });
-  return newValue;
-}
 
 export function selectData(state, viewDefinitions, payload) {
   const bag = {};
@@ -75,48 +17,16 @@ export function selectData(state, viewDefinitions, payload) {
     const dataLayout = vivl(view.type, 'dataLayout')();
     switch (dataLayout) {
       case 'one': {
-        // Entry points
-        each(view.entryPoints, (ep, epName) => {
-          // No payload for this remote Id
-          if (!has(payload, ep.remoteId)) {
-            return;
-          }
-          // Get current state for update
-          const currentSubState = get(state, ['viewData', viewId]);
-          // compute new data
-          const newData = oneValue(payload[ep.remoteId], ep, epName, currentSubState);
-          if (!newData) {
-            return;
-          }
-          set(bag, [viewId, 'index', epName], newData.time);
-          set(bag, [viewId, 'values', epName], newData.value);
-          set(bag, [viewId, 'dataLayout'], dataLayout);
-        });
+        const viewBag = selectLastValue(state, payload, viewId, view.entryPoints);
+        if (viewBag) {
+          set(bag, [viewId], viewBag);
+        }
         break;
       }
       case 'range': {
-        let isFirstEp = true;
-        // Get current state for update
-        let epSubState = {};
-
-        each(view.entryPoints, (ep, epName) => {
-          // No payload for this remote Id
-          if (!has(payload, ep.remoteId)) {
-            return;
-          }
-          if (isFirstEp) {
-            // master's timestamp (arbitrary determined from the first entryPoint)
-            set(bag, [viewId, 'remove'], {
-              lower: ep.expectedInterval[0] + ep.offset,
-              upper: ep.expectedInterval[1] + ep.offset });
-            isFirstEp = false;
-          }
-
-          epSubState = rangeValues(payload[ep.remoteId], ep, epName, epSubState);
-        });
-        if (Object.keys(epSubState).length !== 0) {
-          set(bag, [viewId, 'add'], epSubState);
-          set(bag, [viewId, 'dataLayout'], dataLayout);
+        const viewBag = selectRangeValues(payload, view.entryPoints);
+        if (viewBag) {
+          set(bag, [viewId], viewBag);
         }
         break;
       }

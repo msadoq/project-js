@@ -1,6 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import Mustache from 'mustache';
 
+import debug from '../../../lib/common/debug/windowDebug';
+
+const logger = debug('view:text');
+
 export default class TextView extends Component {
   static propTypes = {
     // viewId: PropTypes.string.isRequired,
@@ -33,6 +37,7 @@ export default class TextView extends Component {
   );
 
   render() {
+    logger.debug('render');
     const innerHTML = this.getMarkup();
     return (
       <div>

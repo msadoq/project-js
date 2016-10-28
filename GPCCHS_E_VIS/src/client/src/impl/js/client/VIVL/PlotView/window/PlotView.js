@@ -9,7 +9,11 @@ import {
   ChartCanvas, Chart, series,
   coordinates, axes, tooltip
 } from 'react-stockcharts';
-import { SquareMarker, TriangleMarker } from './markers.js';
+
+import debug from '../../../lib/common/debug/windowDebug';
+import { SquareMarker, TriangleMarker } from './markers';
+
+const logger = debug('view:plot');
 
 const { LineSeries, ScatterSeries, CircleMarker } = series;
 const { HoverTooltip } = tooltip;
@@ -52,33 +56,6 @@ class PlotView extends PureComponent {
     },
   };
 
-  getLines = () => _map(
-    this.props.configuration.entryPoints,
-    ep => ({
-      name: ep.name,
-      key: ep.name,
-      color: ep.curveColour,
-      lineStyle: ep.lineStyle, // "Continuous", "Dotted", "Dashed"
-      pointsStyle: ep.pointsStyle // "None", "Triangle", "Square", "Dot"
-    })
-  );
-
-  dateFormat = timeFormat('%Y-%m-%d %H:%M:%S.%L');
-
-  yExtents = d => _map(this.getLines(), ({ key }) => _get(d, [key, 'value']));
-
-  handleTooltipContent = ({ currentItem, xAccessor }) => {
-    const { data: { lines = []} = {} } = this.props;
-    return {
-      x: this.dateFormat(xAccessor(currentItem)),
-      y: lines.map(line => ({
-        label: line.name,
-        value: currentItem[line.key],
-        stroke: line.color
-      }))
-    };
-  };
-
   getLineMarker(pointsStyle) {
     switch (pointsStyle) {
       case 'Square':
@@ -97,8 +74,10 @@ class PlotView extends PureComponent {
     switch (pointsStyle) {
       case 'Square':
         styleProps = { width: 2, height: 2 };
+        break;
       case 'Triangle':
         styleProps = {};
+        break;
       case 'Dot':
       case 'None':
       default:
@@ -107,60 +86,101 @@ class PlotView extends PureComponent {
     return { ...styleProps, ...props };
   }
 
-  renderLines = lines => lines.map(({
-    key, color, pointsStyle
-  }) => (
+  getLines = () => _map(
+    this.props.configuration.entryPoints,
+    ep => ({
+      name: ep.name,
+      key: ep.name,
+      color: ep.curveColour,
+      lineStyle: ep.lineStyle, // "Continuous", "Dotted", "Dashed"
+      pointsStyle: ep.pointsStyle // "None", "Triangle", "Square", "Dot"
+    })
+  );
+
+  dateFormat = timeFormat('%Y-%m-%d %H:%M:%S.%L');
+
+  yExtents = d => _map(this.getLines(), ({ key }) => _get(d, [key, 'value']));
+
+  handleTooltipContent = ({ currentItem, xAccessor }) => {
+    const { data: { lines = [] } = {} } = this.props;
+    return {
+      x: this.dateFormat(xAccessor(currentItem)),
+      y: lines.map(line => ({
+        label: line.name,
+        value: _get(currentItem, [line.key, 'value']),
+        stroke: line.color,
+      })),
+    };
+  };
+
+  shouldRender() {
+    const { size, data } = this.props;
+
+    if (size.width <= 0 || size.height <= 0) {
+      return `invisible size received ${size.width}x${size.height}`;
+    }
+    if (!data.columns || !data.columns.length || data.columns.length < 2) {
+      return 'no point';
+    }
+    if (data.columns.length < 2) {
+      return 'only one point';
+    }
+
+    const lines = this.getLines();
+    if (!lines || !lines.length) {
+      return 'invalid view configuration';
+    }
+  }
+
+  xAccessor = (d) => {
+    if (typeof d === 'undefined' || typeof d.x === 'undefined') {
+      logger.warn('empty point received');
+      return new Date();
+    }
+
+    return new Date(d.x);
+  };
+
+  renderLines = () => {
+    const lines = this.getLines();
+    return lines.map(({ key, color, pointsStyle }) => (
       <div key={key}>
         <LineSeries
           key={`line${key}`}
-          yAccessor={d => _get(d, [key, 'value'], 50) }
+          yAccessor={d => _get(d, [key, 'value'], 50)}
           stroke={color}
-          />
+        />
         <ScatterSeries
           key={`scatter${key}`}
-          yAccessor={d => _get(d, [key, 'value'], 50) }
-          marker={this.getLineMarker(pointsStyle) }
-          markerProps={this.getLineMarkerProps(pointsStyle, {
-            stroke: color
-          }) }
-          />
+          yAccessor={d => _get(d, [key, 'value'], 50)}
+          marker={this.getLineMarker(pointsStyle)}
+          markerProps={this.getLineMarkerProps(pointsStyle, { stroke: color })}
+        />
         <CurrentCoordinate
           key={`coordinate${key}`}
-          yAccessor={d => _get(d, [key, 'value'], 50) }
+          yAccessor={d => _get(d, [key, 'value'], 50)}
           fill={color}
-          />
+        />
       </div>
     ));
+  };
+
   render() {
-    console.log('render PlotView', this.props.configuration.entryPoints);
+    logger.debug('render');
+
     const { size, data, visuWindow } = this.props;
-    // const { lines, columns } = data;
     const { columns } = data;
-    const { lower, /* current, */ upper } = visuWindow;
+    const { lower, upper } = visuWindow;
     const { width, height } = size;
 
-    if (width <= 0 || height <= 0) {
-      console.log('plot view has invisible size', width, height);
-      return <div>invisible</div>;
+    const noRender = this.shouldRender();
+    if (noRender) {
+      logger.warn('no render due to', noRender);
+      // TODO : clean message component
+      return <div>unable to render plot: {noRender}</div>;
     }
 
-    // TODO : factorize in container
-    const lines = this.getLines();
-    // TODO : end
-
-    // TODO : display X time for each data value object instead of master timestamp
-
-    // TODO : clean message
-    if (!lines || !lines.length || !columns || !columns.length || columns.length < 2) {
-      console.log('plot view has nothing to do');
-      if (!lines || !lines.length) {
-        return <div>invalid view configuration</div>;
-      }
-      if (!columns || !columns.length || columns.length < 2) {
-        return <div>no data to render</div>;
-      }
-    }
-
+    // TODO : display X time for each data value object instead of master timestamp tooltip
     // TODO view.plotBackgroundColour
     return (
       <div style={{ height: '100%' }}>
@@ -172,14 +192,14 @@ class PlotView extends PureComponent {
           seriesName="PlotView"
           data={columns}
           type="hybrid"
-          xAccessor={d => new Date(d.x) }
-          xScale={scaleTime() }
+          xAccessor={this.xAccessor}
+          xScale={scaleTime()}
           xExtents={[new Date(lower), new Date(upper)]}
-          >
+        >
           <Chart
             id={1}
             yExtents={this.yExtents}
-            >
+          >
             <XAxis axisAt="bottom" orient="bottom" ticks={5} />
             <YAxis axisAt="right" orient="right" ticks={5} />
             <MouseCoordinateX
@@ -187,13 +207,13 @@ class PlotView extends PureComponent {
               orient="bottom"
               rectWidth={150}
               displayFormat={this.dateFormat}
-              />
+            />
             <MouseCoordinateY
               at="right"
               orient="right"
-              displayFormat={format('.2f') }
-              />
-            {this.renderLines(lines) }
+              displayFormat={format('.2f')}
+            />
+            {this.renderLines()}
           </Chart>
           <CrossHairCursor />
           <HoverTooltip
@@ -201,7 +221,7 @@ class PlotView extends PureComponent {
             opacity={1}
             fill="#FFFFFF"
             bgwidth={300}
-            />
+          />
         </ChartCanvas>
       </div>
     );

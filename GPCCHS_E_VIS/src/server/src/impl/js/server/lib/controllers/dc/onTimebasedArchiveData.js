@@ -59,7 +59,7 @@ const sendTimebasedArchiveData = (
   if (isLast) {
     debug.debug('last chunk of queried timebased data', queryId);
     execution.start('set interval as received');
-    connectedDataModel.setIntervalAsReceived(remoteId, queryId);
+    connectedDataModel.setIntervalAsReceived(remoteId, queryId); // TODO getLast: merge or not merge
     execution.stop('set interval as received');
     registeredQueries.remove(queryId);
   }

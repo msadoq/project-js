@@ -1,0 +1,17 @@
+#!/usr/share/isis/bin/python3.4
+
+import sys
+import argparse
+from GPCCHS_E_VIS.launcher.gpcchs import GPCCHS
+
+if __name__ == '__main__':
+    # Imported only if called through CLI
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "workspace",
+        help="A folder path to open as workspace"
+    )
+    exit(GPCCHS(parser.parse_args()).run())
+    # End of user code

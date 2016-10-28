@@ -8,6 +8,8 @@ import styles from './Window.css';
 
 export default class Window extends Component {
   render() {
+    const { windowDebug } = this.props;
+
     return (
       <div className={styles.container}>
         <Navbar className={styles.navbar}>
@@ -17,7 +19,8 @@ export default class Window extends Component {
           <TabsContainer {...this.props} />
           <PageContainer {...this.props} />
         </div>
-        <TimebarContainer {...this.props} />
+        {windowDebug && windowDebug.timebarVisibility &&
+          <TimebarContainer {...this.props} />}
       </div>
     );
   }

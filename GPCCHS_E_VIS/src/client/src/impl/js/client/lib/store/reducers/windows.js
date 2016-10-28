@@ -37,6 +37,7 @@ const initialState = {
   },
   debug: {
     whyDidYouUpdate: false,
+    timebarVisibility: false
   },
 };
 

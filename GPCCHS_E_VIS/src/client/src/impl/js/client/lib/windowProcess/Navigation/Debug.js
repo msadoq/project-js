@@ -19,6 +19,12 @@ class Debug extends Component {
       window.whyDidYouUpdate();
     }
   }
+
+  handleTimebarVisibility = () => {
+    const { debug, toggleDebug } = this.props;
+    toggleDebug('timebarVisibility', !debug.timebarVisibility);
+  }
+
   render() {
     const { debug, toggleDebug, dummy } = this.props;
 
@@ -41,6 +47,10 @@ class Debug extends Component {
         {' '}
         <Button onClick={dummy}>
           DUMMY
+        </Button>
+        {' '}
+        <Button onClick={this.handleTimebarVisibility}>
+          TIMEBAR {debug.timebarVisibility ? 'ON' : 'OFF'}
         </Button>
       </div>
     );

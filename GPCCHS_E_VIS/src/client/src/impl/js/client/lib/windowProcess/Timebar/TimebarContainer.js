@@ -64,14 +64,14 @@ class TimebarContainer extends Component{
     }
 
     return (
-      <div style={{ height: `${this.state.height}px` }}>
-        <Col xs={12} style={{ paddingBottom: '18px' }}>
+      <div style={{ height: this.state.height }}>
+        <Col xs={12} style={{ paddingBottom: 18 }}>
           <div><hr onMouseDown={this.resizeWindow} className={hrKlasses} /></div>
         </Col>
         <Col xs={3}>
           <div><h2>hihi</h2></div>
         </Col>
-        <Col xs={9}>
+        <Col xs={9} style={{ height: '100%' }}>
           <Timebar {...this.props} onDispatch={this.dispatchCursor} />
         </Col>
       </div>

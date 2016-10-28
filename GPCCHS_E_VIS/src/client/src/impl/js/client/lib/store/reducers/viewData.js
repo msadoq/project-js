@@ -2,6 +2,7 @@ import { each, findIndex, findLastIndex, concat, omit } from 'lodash';
 import * as types from '../types';
 
 export default function viewData(stateViewData = {}, action) {
+  console.log(Object.keys(stateViewData), action);
   switch (action.type) {
     case types.DATA_IMPORT_VIEWDATA: {
       const views = action.payload.viewData;
@@ -15,11 +16,17 @@ export default function viewData(stateViewData = {}, action) {
           case 'range': {
             newState[viewId] = {}; // index: [], columns: [] };
             if (stateViewData[viewId] && view.remove) {
-              newState[viewId] = cleanRangeData(stateViewData[viewId],
-                { type: 'DATA_IMPORT_VIEWDATA', payload: view.remove });
+              newState[viewId] = cleanRangeData(
+                stateViewData[viewId],
+                { type: 'DATA_IMPORT_VIEWDATA', payload: view.remove }
+                );
             }
-            newState[viewId] = updateRangeData(newState[viewId],
-              { type: 'DATA_IMPORT_VIEWDATA', payload: view.add });
+            if (view.add) {
+              newState[viewId] = updateRangeData(
+                newState[viewId],
+                { type: 'DATA_IMPORT_VIEWDATA', payload: view.add }
+                );
+            }
             break;
           }
           default:
@@ -35,7 +42,7 @@ export default function viewData(stateViewData = {}, action) {
   }
 }
 // Clean values outside the expected interval
-export function cleanRangeData(viewSubState, action) {
+export function cleanRangeData(viewSubState = {}, action) {
   if (!viewSubState || !viewSubState.index || viewSubState.index.length === 0) {
     return viewSubState;
   }
@@ -86,7 +93,7 @@ export function cleanRangeData(viewSubState, action) {
 //     expectedInterval: [number, number],
 //   },
 // }}
-export function updateRangeData(viewSubState, action) {
+export function updateRangeData(viewSubState = {}, action) {
   switch (action.type) {
     case types.DATA_IMPORT_VIEWDATA: {
       // Check presence of payloads

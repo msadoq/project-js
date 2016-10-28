@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <script>
       // https://github.com/electron/electron/issues/5224
-      //const env = require('electron').remote.getGlobal('process').env;
-      const env = require('electron').remote.getCurrentWindow().parameters;
+      const env = global.env = require('electron').remote.getCurrentWindow().parameters;
        if (env.DEBUG) {
          localStorage.setItem('debug', env.DEBUG);
        }
@@ -26,8 +25,6 @@
       const bundle = document.createElement('script');
       bundle.src = (env.HOT) ? `http://localhost:${port}/dist/bundle.js` : './dist/bundle.js';
       document.write(bundle.outerHTML);
-
-      global.env = env;
     </script>
   </body>
 </html>

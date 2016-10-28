@@ -49,7 +49,8 @@ export default class Timebar extends Component {
     const { visuWindow } = this.props;
     const lower = this.state.lower || visuWindow.lower;
     const upper = this.state.upper || visuWindow.upper;
-    this.setState({ lower: null, upper: null });
+    const current = this.state.current || visuWindow.current;
+    this.setState({ lower: null, upper: null, current: null });
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
     return this.props.onChange(
@@ -57,7 +58,7 @@ export default class Timebar extends Component {
       {
         lower,
         upper,
-        current: visuWindow.current
+        current
       }
     );
   }
@@ -81,21 +82,21 @@ export default class Timebar extends Component {
       const lowerPosMs = dragOriginLower + (viewportMsWidth * moved);
       const upperPosMs = dragOriginUpper + (viewportMsWidth * moved);
 
-      this.setState({
-        lower: lowerPosMs,
-        upper: upperPosMs
-      });
-
-      // Change the value of current only if it's in the selected area
-      if (!(visuWindow.current >= lowerPosMs && visuWindow.current <= upperPosMs)) {
-        this.props.onChange(
-          this.props.focusedPage.timebarId,
-          {
-            lower: lowerPosMs,
-            upper: upperPosMs,
-            current: (visuWindow.current < lowerPosMs ? lowerPosMs : upperPosMs)
-          }
-        );
+      if (visuWindow.current >= lowerPosMs && visuWindow.current <= upperPosMs) {
+        this.setState({
+          lower: lowerPosMs,
+          upper: upperPosMs
+        });
+      }else if ( visuWindow.current < lowerPosMs) {
+        this.setState({
+          lower: visuWindow.current,
+          upper: visuWindow.current + (dragOriginUpper - dragOriginLower)
+        });
+      }else if ( visuWindow.current > upperPosMs) {
+        this.setState({
+          lower: visuWindow.current + (dragOriginLower - dragOriginUpper),
+          upper: visuWindow.current
+        });
       }
     } else if (resizing) {
       const movedPx = (e.pageX - cursorOriginX);
@@ -104,73 +105,42 @@ export default class Timebar extends Component {
 
       let cursorPosMs = resizeOrigin + movedMs;
       if (resizeCursor === 'lower') {
-        if (cursorPosMs < timeBeginning) {
+        if (visuWindow.current < cursorPosMs) {
+          cursorPosMs = visuWindow.current;
+        } else if (cursorPosMs < timeBeginning) {
           cursorPosMs = timeBeginning;
         } else if (cursorPosMs > upper) {
           cursorPosMs = upper - 2000;
         }
-        // If current is out of the selected zone, send current to store
-        if (visuWindow.current < cursorPosMs) {
-          this.setState({ lower: cursorPosMs });
-          this.props.onChange(
-            this.props.focusedPage.timebarId,
-            {
-              lower: cursorPosMs,
-              upper,
-              current: cursorPosMs
-            }
-          );
-        } else {
-          this.setState({ lower: cursorPosMs });
-        }
+        this.setState({ lower: cursorPosMs });
       } else if (resizeCursor === 'upper') {
-        if (cursorPosMs > timeEnd) {
+        if (visuWindow.current > cursorPosMs) {
+          cursorPosMs = visuWindow.current;
+        } else if (cursorPosMs > timeEnd) {
           cursorPosMs = timeEnd;
         } else if (cursorPosMs < lower) {
           cursorPosMs = upper + 2000;
         }
-
-        // If current is out of the selected zone, send current to store
-        if (visuWindow.current > cursorPosMs) {
-          this.setState({ upper: cursorPosMs });
-          this.props.onChange(
-            this.props.focusedPage.timebarId,
-            {
-              lower,
-              upper: cursorPosMs,
-              current: cursorPosMs
-            }
-          );
-        } else {
-          this.setState({ upper: cursorPosMs });
-        }
+        this.setState({ upper: cursorPosMs });
       }
     } else if (navigating) {
+      const current = this.state.current || visuWindow.current;
       const movedPx = (e.pageX - cursorOriginX);
       const timebarContWidth = findDOMNode(this).clientWidth;
       const movedMs = (movedPx / timebarContWidth) * viewportMsWidth;
+      let cursorPosMs = resizeOrigin + movedMs;
 
-      const cursorPosMs = resizeOrigin + movedMs;
+      if (cursorPosMs === current) return;
 
-      if (cursorPosMs === visuWindow.current) return;
-
-      let selectedMovedMs = 0;
       if (cursorPosMs < visuWindow.lower) {
-        selectedMovedMs = cursorPosMs - visuWindow.lower;
+        cursorPosMs = visuWindow.lower;
       } else if (cursorPosMs > visuWindow.upper) {
-        selectedMovedMs = cursorPosMs - visuWindow.upper;
+        cursorPosMs = visuWindow.upper;
       }
 
-      const newLower = visuWindow.lower + selectedMovedMs;
-      const newUpper = visuWindow.upper + selectedMovedMs;
-      this.props.onChange(
-        this.props.focusedPage.timebarId,
-        {
-          lower: newLower,
-          upper: newUpper,
-          current: cursorPosMs
-        }
-      );
+      this.setState({
+        current: cursorPosMs
+      });
     }
   }
 
@@ -273,10 +243,10 @@ export default class Timebar extends Component {
   calculate = () => {
     const { visuWindow } = this.props;
     const { timeBeginning, timeEnd } = this.state;
-    let { lower, upper } = this.state;
+    let { lower, upper, current } = this.state;
     lower = lower || visuWindow.lower || ((new Date().getTime()) - (1000 * 60 * 48));
     upper = upper || visuWindow.upper || ((new Date().getTime()) + (1000 * 60 * 48));
-    const current = visuWindow.current || (lower + upper) / 2;
+    current = current || visuWindow.current || (lower + upper) / 2;;
 
     const selectedMsWidth = upper - lower;
     const selectedPercentWidth = (100 * selectedMsWidth) / (timeEnd - timeBeginning);
@@ -300,6 +270,7 @@ export default class Timebar extends Component {
 
     const lower = this.state.lower || visuWindow.lower;
     const upper = this.state.upper || visuWindow.upper;
+    const current = this.state.current || visuWindow.current;
 
     const calc = this.calculate();
 
@@ -352,6 +323,9 @@ export default class Timebar extends Component {
             />
             <span cursor="upper" className={styles.upper} onMouseDown={this.onMouseDownResize} />
             <span className={styles.lowerFormattedTime}>{this.formatDate(lower, true)}</span>
+            <span className={styles.currentFormattedTime} style={{ left: `${calc.currentPercentOffset}%` }}>
+              {this.formatDate(current, true)}
+            </span>
             <span className={styles.upperFormattedTime}>{this.formatDate(upper, true)}</span>
           </div>
         </div>

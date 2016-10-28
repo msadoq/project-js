@@ -1,5 +1,5 @@
-const _each = require('lodash/each');
-const _get = require('lodash/get');
+const _each = require('lodash/each'); // eslint-disable-line no-underscore-dangle
+const _get = require('lodash/get'); // eslint-disable-line no-underscore-dangle
 const minimist = require('minimist');
 
 /**
@@ -15,6 +15,7 @@ const configuration = {
   FMD_ROOT: null,
   HOT: null,
   OPEN: null,
+  PROFILING: null,
 };
 
 if (process.env && process.env.NODE_ENV === 'development') {

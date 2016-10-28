@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Produced by Acceleo Feature Generator Acceleo Python Generator 1.1.0-R7S2-20151214 -->
+<features>
+	<feature name="gpcchs_e_vis_launcher-default" version="${project.version}">
+           <bundle_hmi start-level="1">fr.cnes.lpisis.gpcc.cpp/gpcccm_l_cml_apiWrapper/gpcccm_l_cml_apiWrapper-${gpcccm.version}</bundle_hmi>
+           <bundle_hmi start-level="2">fr.cnes.lpisis.gpcc.cpp/gpcchs_e_vis_standaloneTimeBar/gpcchs_e_vis_standaloneTimeBar.${gpcc.version}</bundle_hmi>
+	</feature>
+</features>

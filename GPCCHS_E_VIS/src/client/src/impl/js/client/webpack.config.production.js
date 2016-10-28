@@ -15,6 +15,7 @@ const config = merge(baseConfig, {
     publicPath: '../dist/'
   },
   externals: {
+    common: 'common'
   },
 
   module: {
@@ -33,6 +34,10 @@ const config = merge(baseConfig, {
           'style-loader',
           'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
         )
+      },
+      {
+        test: [/.+\.svg/, /.+\.eot/, /.+\.ttf/, /.+\.woff/, /.+\.woff2/],
+        loader: 'file?name=dist/fonts/[name].[ext]'
       }
     ]
   },

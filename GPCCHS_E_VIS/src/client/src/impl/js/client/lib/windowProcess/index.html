@@ -13,7 +13,7 @@
       if (!env.HOT) {
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = '../../dist/style.css';
+        link.href = './dist/style.css';
         document.write(link.outerHTML);
       }
     </script>
@@ -24,7 +24,7 @@
       const port = env.PORT || 3000;
 
       const bundle = document.createElement('script');
-      bundle.src = (env.HOT) ? `http://localhost:${port}/dist/bundle.js` : '../../dist/bundle.js';
+      bundle.src = (env.HOT) ? `http://localhost:${port}/dist/bundle.js` : './dist/bundle.js';
       document.write(bundle.outerHTML);
 
       global.env = env;

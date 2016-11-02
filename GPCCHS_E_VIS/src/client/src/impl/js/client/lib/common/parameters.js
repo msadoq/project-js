@@ -1,3 +1,4 @@
+const dotenv = require('dotenv-safe');
 const _each = require('lodash/each'); // eslint-disable-line no-underscore-dangle
 const _get = require('lodash/get'); // eslint-disable-line no-underscore-dangle
 const minimist = require('minimist');
@@ -19,9 +20,7 @@ const configuration = {
 };
 
 if (process.env && process.env.NODE_ENV === 'development') {
-  // eslint-disable-next-line global-require
-  require('dotenv-safe').load();
-
+  dotenv.load();
   _each(configuration, (v, key) => {
     configuration[key] = _get(process, ['env', key]);
   });
@@ -32,7 +31,7 @@ if (process.env && process.env.NODE_ENV === 'development') {
       configuration[key] = argv[key];
     });
   } catch (e) {
- /* empty */
+    // empty
   }
 }
 

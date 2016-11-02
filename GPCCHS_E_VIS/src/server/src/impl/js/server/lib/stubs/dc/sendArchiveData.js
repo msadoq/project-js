@@ -11,7 +11,6 @@ const end = stubData.getBooleanProtobuf(true);
 
 function shouldPushANewValue(timestamp) {
   const e = timestamp % 1000;
-  console.log(e);
   return (e !== 0 && e < 900); //  && timestamp > 1420106700000
 }
 

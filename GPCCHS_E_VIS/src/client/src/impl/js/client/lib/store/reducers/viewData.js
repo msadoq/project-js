@@ -2,7 +2,6 @@ import { each, findIndex, findLastIndex, concat, omit } from 'lodash';
 import * as types from '../types';
 
 export default function viewData(stateViewData = {}, action) {
-  console.log(Object.keys(stateViewData), action);
   switch (action.type) {
     case types.DATA_IMPORT_VIEWDATA: {
       const views = action.payload.viewData;

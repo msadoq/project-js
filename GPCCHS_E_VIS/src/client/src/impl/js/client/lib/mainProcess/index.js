@@ -23,7 +23,7 @@ export async function start() {
   try {
     await installExtensions();
     initStore();
-    logger.info('initial state', getStore().getState());
+    logger.debug('initial state', getStore().getState());
 
     // TODO : read file path in params => file picker
 

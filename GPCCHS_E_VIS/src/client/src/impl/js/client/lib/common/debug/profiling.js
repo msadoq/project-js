@@ -28,6 +28,7 @@ const noOp = {
   stop: () => {},
 };
 
-const isOn = process.env.PROFILING === 'on' || global.env.PROFILING === 'on';
+const isOn = process.env.PROFILING === 'on'
+  || (global && global.env && global.env.PROFILING === 'on');
 
 module.exports = isOn ? profiling : noOp;

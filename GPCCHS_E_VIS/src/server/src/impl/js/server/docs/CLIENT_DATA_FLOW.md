@@ -8,7 +8,7 @@ Incoming data message (timebasedData):
 }
 ```
 
-View data cache map:
+View data map:
 ```
 {
     'viewId': {
@@ -36,7 +36,29 @@ View data cache map:
 }
 ```
 
-View cached data:
+View requests state:
+```
+{
+    'viewId': {
+        entryPoints: {
+            'name': {
+              remoteId: string,
+              requestedInterval: [number, number],
+            },
+        },
+    },
+    'viewId': {
+      entryPoints: {
+          'name': {
+            remoteId: string,
+            requestedInterval: [number, number],
+          },
+      },
+    },
+}
+```
+
+View data state:
 ```
 {
   // TextView

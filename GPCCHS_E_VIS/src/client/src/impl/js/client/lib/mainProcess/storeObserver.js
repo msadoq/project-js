@@ -1,4 +1,4 @@
-import * as constants from '../constants';
+import { LIFECYCLE_READY, LIFECYCLE_STARTED } from './lifecycle';
 import debug from '../common/debug/mainDebug';
 import { getStatus as getAppStatus } from '../store/selectors/hsc';
 import { updateStatus } from '../store/actions/hsc';
@@ -30,8 +30,8 @@ export default function storeObserver() {
   }
 
   // sync windows only if app is ready or started
-  if (getAppStatus(state) === constants.LIFECYCLE_READY
-    || getAppStatus(state) === constants.LIFECYCLE_STARTED) {
+  if (getAppStatus(state) === LIFECYCLE_READY
+    || getAppStatus(state) === LIFECYCLE_STARTED) {
     logger.debug('windows synchronization');
     windowsObserver(state, (err) => {
       if (err) {
@@ -41,7 +41,7 @@ export default function storeObserver() {
       // only one time to avoid infinite recursion
       if (windowAlreadyOpened === false) {
         windowAlreadyOpened = true;
-        dispatch(updateStatus(constants.LIFECYCLE_STARTED));
+        dispatch(updateStatus(LIFECYCLE_STARTED));
       }
     });
   }

@@ -137,7 +137,7 @@ describe('common/data/inject', () => {
       bag.plot2.remove.upper.should.equal(18);
 
       bag.text1.should.have.all.keys(['index', 'values', 'dataLayout']);
-      bag.text1.dataLayout.should.equal('one');
+      bag.text1.dataLayout.should.equal('last');
       bag.text1.index.ep4.should.equal(20);
       bag.text1.values.ep4.should.equal(203);
       bag.text2.should.have.all.keys(['index', 'values', 'dataLayout']);

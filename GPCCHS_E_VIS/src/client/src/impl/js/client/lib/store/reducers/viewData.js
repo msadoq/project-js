@@ -8,7 +8,7 @@ export default function viewData(stateViewData = {}, action) {
       const newState = {};
       each(views, (view, viewId) => {
         switch (view.dataLayout) {
-          case 'one': {
+          case 'last': {
             newState[viewId] = { ...stateViewData[viewId], ...omit(view, ['dataLayout']) };
             break;
           }

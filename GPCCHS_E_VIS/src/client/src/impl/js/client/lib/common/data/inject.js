@@ -16,7 +16,7 @@ export function selectData(state, viewDefinitions, payload) {
     // Check view type
     const dataLayout = vivl(view.type, 'dataLayout')();
     switch (dataLayout) {
-      case 'one': {
+      case 'last': {
         const viewBag = selectLastValue(state, payload, viewId, view.entryPoints);
         if (viewBag) {
           set(bag, [viewId], viewBag);

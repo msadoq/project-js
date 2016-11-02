@@ -11,26 +11,26 @@ describe('utils/remoteId', () => {
   };
 
   it('no filter', () => {
-    remoteId(dataId).should.equal('Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200');
-    remoteId(dataId, undefined)
-      .should.equal('Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200');
-    remoteId(dataId, [])
-      .should.equal('Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200');
+    remoteId('range', dataId).should.equal('range@Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200');
+    remoteId('range', dataId, undefined)
+      .should.equal('range@Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200');
+    remoteId('last', dataId, [])
+      .should.equal('last@Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200');
   });
-//   it('one filter', () => {
-//     remoteId(dataId, [{field: 'convertedValue', operator: '!=',  operand: '0'}])
-//       .should.equal(
-//        'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:convertedValue!=0'
-//        );
-//   });
-//   it('multi filter with predictable order', () => {
-//     remoteId(dataId, [
-//       {field: 'extractedValue', operator: '>=',  operand: '1'},
-//       {field: 'convertedValue', operator: '!=',  operand: '2'},
-//       {field: 'extractedValue', operator: '<=',  operand: '3'},
-//     ]).should.equal(
-//       'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:convertedValue!=2'
-//       + ',extractedValue<=3,extractedValue>=1'
-//     );
-//   });
+  it('one filter', () => {
+    remoteId('range', dataId, [{ field: 'convertedValue', operator: '!=', operand: '0' }])
+      .should.equal(
+       'range@Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:convertedValue.!=.0'
+       );
+  });
+  it('multi filter with predictable order', () => {
+    remoteId('range', dataId, [
+      { field: 'extractedValue', operator: '>=', operand: '1' },
+      { field: 'convertedValue', operator: '!=', operand: '2' },
+      { field: 'extractedValue', operator: '<=', operand: '3' },
+    ]).should.equal(
+      'range@Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:convertedValue.!=.2'
+      + ',extractedValue.<=.3,extractedValue.>=.1'
+    );
+  });
 });

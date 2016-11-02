@@ -3,6 +3,7 @@ import _get from 'lodash/get';
 import { createSelector } from 'reselect';
 
 import vivl from '../../../../VIVL/main';
+import structures from '../structures/main';
 import profiling from '../../debug/profiling';
 import debug from '../../debug/mainDebug';
 import { getWindowsVisibleViews } from '../../../store/selectors/windows';
@@ -66,7 +67,8 @@ export function visibleViews(domains, timebars, timelines, views) {
     // current timelines
     const viewTimelines = getTimebarTimelines(timebars, timelines, timebarId);
 
-    const viewMap = vivl(type, 'extractEntryPoints')(
+    const dataLayout = vivl(type, 'dataLayout')();
+    const viewMap = structures(dataLayout, 'extractEntryPoints')(
       entryPoints, timebarId, viewTimelines, visuWindow, domains
     );
 

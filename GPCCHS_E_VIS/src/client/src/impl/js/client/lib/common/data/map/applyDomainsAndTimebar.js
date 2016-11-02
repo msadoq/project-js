@@ -1,18 +1,19 @@
 import _each from 'lodash/each';
 import _set from 'lodash/set';
 
-import vivl from '../../../../VIVL/main';
+// import vivl from '../../../../VIVL/main';
 import debug from '../../debug/mainDebug';
 import formulaParser from '../../formula';
 import remoteIdGenerator from '../../remoteId';
 import localIdGenerator from '../../localId';
 import domainsFilter from '../../domains';
 import timelinesFilter from '../../sessions';
+import structures from '../structures/main';
 
 const logger = debug('data:map:declineConnectedDatum');
 
 export default function declineConnectedDatum(
-  connectedData, type, timebarId, visuWindow, timelines, domains, allowMultiple
+  connectedData, structureType, timebarId, visuWindow, timelines, domains, allowMultiple
 ) {
   const { formula, domain, timeline, filter } = connectedData;
 
@@ -56,14 +57,15 @@ export default function declineConnectedDatum(
         domainId,
         sessionId,
       };
-      const remoteId = remoteIdGenerator(dataId, filter);
+      const remoteId = remoteIdGenerator(structureType, dataId, filter);
 
       // localId
-      const localId = localIdGenerator(type, p.field, timebarId, offset);
+      const localId = localIdGenerator(p.field, timebarId, offset);
 
       // de-duplication
       if (typeof list[remoteId] === 'undefined') {
         _set(list, [remoteId], {
+          structureType,
           dataId,
           filter, // TODO : filter"s"
           localIds: {},
@@ -74,21 +76,20 @@ export default function declineConnectedDatum(
         return;
       }
 
-      const selector = vivl(type, 'getExpectedInterval');
+      const selector = structures(structureType, 'getExpectedInterval');
       const interval = selector(
         visuWindow.lower - offset, visuWindow.current - offset, visuWindow.upper - offset
       );
       if (!interval) {
-        return logger.debug('no valid expected interval for this connectedData', type);
+        return logger.debug('no valid expected interval for this connectedData', structureType);
       }
 
       _set(list, [remoteId, 'localIds', localId], {
-        viewType: type,
+        // viewType: type,
         field: p.field,
         timebarId,
         offset,
         expectedInterval: interval,
-        // TODO getLast add flag
       });
     });
   });

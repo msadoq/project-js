@@ -2,10 +2,10 @@ import _get from 'lodash/get';
 import _first from 'lodash/first';
 import _reduce from 'lodash/reduce';
 
-import debug from '../../../lib/common/debug/mainDebug';
-import applyDomainsAndTimebar from '../../../lib/common/data/map/applyDomainsAndTimebar';
+import debug from '../../../debug/mainDebug';
+import applyDomainsAndTimebar from '../../map/applyDomainsAndTimebar';
 
-const logger = debug('data:map:plot:extractEntryPoints');
+const logger = debug('data:map:range:extractEntryPoints');
 
 export default function extractEntryPoints(
   entryPoints, timebarId, timelines, visuWindow, domains
@@ -14,7 +14,7 @@ export default function extractEntryPoints(
     const { name } = ep;
 
     const cdsX = applyDomainsAndTimebar(
-      ep.connectedDataX, 'PlotView', timebarId, visuWindow, timelines, domains, false
+      ep.connectedDataX, 'range', timebarId, visuWindow, timelines, domains, false
     );
     if (!Object.keys(cdsX).length) {
       logger.debug('invalid X connectedData for this entryPoint', name);
@@ -22,7 +22,7 @@ export default function extractEntryPoints(
     }
 
     const cdsY = applyDomainsAndTimebar(
-      ep.connectedDataY, 'PlotView', timebarId, visuWindow, timelines, domains, false
+      ep.connectedDataY, 'range', timebarId, visuWindow, timelines, domains, false
     );
     if (!Object.keys(cdsY).length) {
       logger.debug('invalid Y connectedData for this entryPoint', name);

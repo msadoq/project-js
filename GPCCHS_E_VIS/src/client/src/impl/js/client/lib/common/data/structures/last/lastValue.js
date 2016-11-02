@@ -55,7 +55,7 @@ export default function selectLastValue(state, payload, viewId, entryPoints) {
 
     set(viewData, ['index', epName], newData.timestamp);
     set(viewData, ['values', epName], newData.value);
-    set(viewData, ['dataLayout'], 'one');
+    set(viewData, ['dataLayout'], 'last');
   });
   return viewData;
 }

@@ -29,9 +29,9 @@ const SESSION_ID = 1;
 
 const DATA_ID = `${PARAMETER}:${SESSION_ID}:${DOMAIN_ID}`;
 
-const REMOTE_ID1 = `${DATA_ID}:${flattenFilter(FILTER1)}`;
-const REMOTE_ID2 = `${DATA_ID}:${flattenFilter(FILTER2)}`;
-const REMOTE_ID3 = `${DATA_ID}`;
+const REMOTE_ID1 = `range@${DATA_ID}:${flattenFilter(FILTER1)}`;
+const REMOTE_ID2 = `range@${DATA_ID}:${flattenFilter(FILTER2)}`;
+const REMOTE_ID3 = `range@${DATA_ID}`;
 
 const testState = {
   timebars: {

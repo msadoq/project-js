@@ -16,7 +16,7 @@ function flattenFilters(filters = []) {
  * @param filters []
  * @return string
  */
-module.exports = (dataId, filters) => {
+module.exports = (structureType, dataId, filters) => {
   const {
     catalog,
     parameterName,
@@ -25,7 +25,7 @@ module.exports = (dataId, filters) => {
     domainId,
   } = dataId;
 
-  let id = `${catalog}.${parameterName}<${comObject}>:${sessionId}:${domainId}`;
+  let id = `${structureType}@${catalog}.${parameterName}<${comObject}>:${sessionId}:${domainId}`;
 
   const filtersString = flattenFilters(filters);
   if (filtersString) {

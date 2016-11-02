@@ -2,9 +2,9 @@ import _reduce from 'lodash/reduce';
 import _first from 'lodash/first';
 
 // import debug from '../../../lib/common/debug/mainDebug';
-import applyDomainsAndTimebar from '../../../lib/common/data/map/applyDomainsAndTimebar';
+import applyDomainsAndTimebar from '../../map/applyDomainsAndTimebar';
 
-// const logger = debug('data:map:text:extractEntryPoints');
+// const logger = debug('data:map:last:extractEntryPoints');
 
 export default function extractEntryPoints(
   entryPoints, timebarId, timelines, visuWindow, domains
@@ -13,7 +13,7 @@ export default function extractEntryPoints(
     const { name } = ep;
 
     const cds = applyDomainsAndTimebar(
-      ep.connectedData, 'TextView', timebarId, visuWindow, timelines, domains, false
+      ep.connectedData, 'last', timebarId, visuWindow, timelines, domains, false
     );
     if (!Object.keys(cds).length) {
       return sublist;

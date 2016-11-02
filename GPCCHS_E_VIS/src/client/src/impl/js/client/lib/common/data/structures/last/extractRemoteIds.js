@@ -2,14 +2,14 @@ import _first from 'lodash/first';
 import _set from 'lodash/set';
 import _reduce from 'lodash/reduce';
 
-import applyDomainsAndTimebar from '../../../lib/common/data/map/applyDomainsAndTimebar';
+import applyDomainsAndTimebar from '../../map/applyDomainsAndTimebar';
 
 export default function extractRemoteIds(
   list, entryPoints, timebarId, timelines, visuWindow, domains
 ) {
   return _reduce(entryPoints, (sublist, ep) => {
     const cds = applyDomainsAndTimebar(
-      ep.connectedData, 'TextView', timebarId, visuWindow, timelines, domains, false
+      ep.connectedData, 'last', timebarId, visuWindow, timelines, domains, false
     );
     if (!Object.keys(cds).length) {
       return sublist;

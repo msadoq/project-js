@@ -1,0 +1,29 @@
+.timebarRule{
+  position: relative;
+  background-color: #FFF;
+  height: 20px;
+
+}
+.scale{
+  position: absolute;
+}
+.scaleTime{
+  position: absolute;
+  white-space: nowrap;
+  left:0;
+  top: 4px;
+  font-size: 0.8em;
+  font-weight: bold;
+  transform: translateX(-50%);
+  background-color: #fff;
+  text-align: center;
+  width: 40px;
+  z-index: 3;
+}
+.scaleBar{
+  cursor: col-resize;
+  position: absolute;
+  height: 100%;
+  width: 1px;
+  border-left: 1px solid #aaa;
+}

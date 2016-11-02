@@ -16,7 +16,7 @@ class TimebarContainer extends Component {
     timebarId: React.PropTypes.string.isRequired,
   }
 
-  state = { height: 100 };
+  state = { height: 140 };
 
   resizeWindow = (e) => {
     this.setState({

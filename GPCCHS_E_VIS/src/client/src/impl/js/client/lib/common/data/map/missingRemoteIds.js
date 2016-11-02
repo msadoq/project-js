@@ -6,7 +6,7 @@ import {
 
 import profiling from '../../debug/profiling';
 import operators from '../../operators';
-import structures from '../structures/main';
+import structures from '../structures';
 
 /**
  * Return the current missing intervals requests list

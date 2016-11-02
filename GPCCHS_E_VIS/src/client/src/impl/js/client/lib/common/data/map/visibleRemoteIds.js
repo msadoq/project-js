@@ -3,7 +3,7 @@ import _get from 'lodash/get';
 import { createSelector } from 'reselect';
 
 import vivl from '../../../../VIVL/main';
-import structures from '../structures/main';
+import structures from '../structures';
 import profiling from '../../debug/profiling';
 import debug from '../../debug/mainDebug';
 import { getWindowsVisibleViews } from '../../../store/selectors/windows';

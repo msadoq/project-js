@@ -1,14 +1,13 @@
 import _each from 'lodash/each';
 import _set from 'lodash/set';
 
-// import vivl from '../../../../VIVL/main';
 import debug from '../../debug/mainDebug';
 import formulaParser from '../../formula';
 import remoteIdGenerator from '../../remoteId';
 import localIdGenerator from '../../localId';
 import domainsFilter from '../../domains';
 import timelinesFilter from '../../sessions';
-import structures from '../structures/main';
+import structures from '../structures';
 
 const logger = debug('data:map:declineConnectedDatum');
 
@@ -85,7 +84,6 @@ export default function declineConnectedDatum(
       }
 
       _set(list, [remoteId, 'localIds', localId], {
-        // viewType: type,
         field: p.field,
         timebarId,
         offset,

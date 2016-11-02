@@ -1,5 +1,6 @@
 import _reduce from 'lodash/reduce';
 import _first from 'lodash/first';
+import { constants as globalConstants } from 'common';
 
 // import debug from '../../../lib/common/debug/mainDebug';
 import applyDomainsAndTimebar from '../../map/applyDomainsAndTimebar';
@@ -13,7 +14,7 @@ export default function extractEntryPoints(
     const { name } = ep;
 
     const cds = applyDomainsAndTimebar(
-      ep.connectedData, 'last', timebarId, visuWindow, timelines, domains, false
+      ep.connectedData, globalConstants.DATASTRUCTURETYPE_LAST, timebarId, visuWindow, timelines, domains, false
     );
     if (!Object.keys(cds).length) {
       return sublist;

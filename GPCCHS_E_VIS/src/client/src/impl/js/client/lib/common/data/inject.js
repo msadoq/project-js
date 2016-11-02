@@ -6,6 +6,7 @@ import getViewDefinitions from './map/visibleViews';
 import { importPayload } from '../../store/actions/viewData';
 import selectLastValue from './structures/last/lastValue';
 import selectRangeValues from './structures/range/rangeValues';
+import { constants as globalConstants } from 'common';
 
 const logger = debug('data:inject');
 
@@ -16,14 +17,14 @@ export function selectData(state, viewDefinitions, payload) {
     // Check view type
     const dataLayout = vivl(view.type, 'dataLayout')();
     switch (dataLayout) {
-      case 'last': {
+      case globalConstants.DATASTRUCTURETYPE_LAST: {
         const viewBag = selectLastValue(state, payload, viewId, view.entryPoints);
         if (viewBag) {
           set(bag, [viewId], viewBag);
         }
         break;
       }
-      case 'range': {
+      case globalConstants.DATASTRUCTURETYPE_RANGE: {
         const viewBag = selectRangeValues(payload, view.entryPoints);
         if (viewBag) {
           set(bag, [viewId], viewBag);

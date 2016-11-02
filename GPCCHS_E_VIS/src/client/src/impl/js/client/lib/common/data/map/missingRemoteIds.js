@@ -6,6 +6,7 @@ import {
 
 import profiling from '../../debug/profiling';
 import operators from '../../operators';
+import structures from '../structures';
 
 /**
  * Return the current missing intervals requests list
@@ -33,11 +34,14 @@ import operators from '../../operators';
 export default function missingRemoteIds(state, dataMap) {
   const start = profiling.start();
   const queries = {};
-  each(dataMap, ({ dataId, filter, localIds }, remoteId) => {
+  each(dataMap, ({ structureType, dataId, filter, localIds }, remoteId) => {
+    const retrieveNeededIntervals = structures(structureType, 'retrieveNeededIntervals');
+    const addInterval = structures(structureType, 'addInterval');
+
     each(localIds, ({ expectedInterval }) => {
       const knownIntervals = get(state, ['dataRequests', remoteId], []);
 
-      const needed = intervalManager.missing(knownIntervals, expectedInterval);
+      const needed = retrieveNeededIntervals(knownIntervals, expectedInterval);
       if (!needed.length) {
         return [];
       }
@@ -55,7 +59,7 @@ export default function missingRemoteIds(state, dataMap) {
         // TODO change type depending on the data structure
 
         queries[remoteId] = {
-          type: globalConstants.DATASTRUCTURE_RANGE,
+          type: structureType,
           dataId,
           intervals: [],
           filters,
@@ -63,7 +67,7 @@ export default function missingRemoteIds(state, dataMap) {
       }
 
       each(needed, (m) => {
-        queries[remoteId].intervals = intervalManager.merge(queries[remoteId].intervals, m);
+        queries[remoteId].intervals = addInterval(queries[remoteId].intervals, m);
         // TODO getLast no interval merge if getLast
       });
     });

@@ -1,5 +1,6 @@
 import { each, findIndex, findLastIndex, concat, omit } from 'lodash';
 import * as types from '../types';
+import { constants as globalConstants } from 'common';
 
 export default function viewData(stateViewData = {}, action) {
   switch (action.type) {
@@ -8,11 +9,11 @@ export default function viewData(stateViewData = {}, action) {
       const newState = {};
       each(views, (view, viewId) => {
         switch (view.dataLayout) {
-          case 'last': {
+          case globalConstants.DATASTRUCTURETYPE_LAST: {
             newState[viewId] = { ...stateViewData[viewId], ...omit(view, ['dataLayout']) };
             break;
           }
-          case 'range': {
+          case globalConstants.DATASTRUCTURETYPE_RANGE: {
             newState[viewId] = {}; // index: [], columns: [] };
             if (stateViewData[viewId] && view.remove) {
               newState[viewId] = cleanRangeData(

@@ -1,6 +1,7 @@
 import _get from 'lodash/get';
 import _first from 'lodash/first';
 import _reduce from 'lodash/reduce';
+import { constants as globalConstants } from 'common';
 
 import debug from '../../../debug/mainDebug';
 import applyDomainsAndTimebar from '../../map/applyDomainsAndTimebar';
@@ -14,7 +15,7 @@ export default function extractEntryPoints(
     const { name } = ep;
 
     const cdsX = applyDomainsAndTimebar(
-      ep.connectedDataX, 'range', timebarId, visuWindow, timelines, domains, false
+      ep.connectedDataX, globalConstants.DATASTRUCTURETYPE_RANGE, timebarId, visuWindow, timelines, domains, false
     );
     if (!Object.keys(cdsX).length) {
       logger.debug('invalid X connectedData for this entryPoint', name);
@@ -22,7 +23,7 @@ export default function extractEntryPoints(
     }
 
     const cdsY = applyDomainsAndTimebar(
-      ep.connectedDataY, 'range', timebarId, visuWindow, timelines, domains, false
+      ep.connectedDataY, globalConstants.DATASTRUCTURETYPE_RANGE, timebarId, visuWindow, timelines, domains, false
     );
     if (!Object.keys(cdsY).length) {
       logger.debug('invalid Y connectedData for this entryPoint', name);

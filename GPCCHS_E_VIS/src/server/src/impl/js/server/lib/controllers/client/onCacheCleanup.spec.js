@@ -73,9 +73,9 @@ describe('controllers/onCacheCleanup', () => {
     registeredQueries.clear();
     registeredCallbacks.clear();
     // Init models and singletons
-    connectedDataModel.addRecord(globalConstants.DATASTRUCTURE_LAST, remoteId11, dataId1);
-    connectedDataModel.addRecord(globalConstants.DATASTRUCTURE_RANGE, remoteId21, dataId2);
-    connectedDataModel.addRecord(globalConstants.DATASTRUCTURE_LAST, remoteId22, dataId2);
+    connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_LAST, remoteId11, dataId1);
+    connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_RANGE, remoteId21, dataId2);
+    connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_LAST, remoteId22, dataId2);
     connectedDataModel.addRequestedInterval(remoteId11, queryId111, interval111);
     connectedDataModel.addRequestedInterval(remoteId11, queryId112, interval112);
     connectedDataModel.addRequestedInterval(remoteId21, queryId211, interval211);

@@ -1,5 +1,6 @@
 import { each, set, has } from 'lodash';
 import debug from '../../../debug/mainDebug';
+import { constants as globalConstants } from 'common';
 
 const logger = debug('data:rangeValues');
 
@@ -50,7 +51,7 @@ export default function selectRangeValues(payload, entryPoints) {
       set(viewData, ['remove'], {
         lower: ep.expectedInterval[0] + ep.offset,
         upper: ep.expectedInterval[1] + ep.offset });
-      set(viewData, ['dataLayout'], 'range');
+      set(viewData, ['dataLayout'], globalConstants.DATASTRUCTURETYPE_RANGE);
       isFirstEp = false;
     }
 

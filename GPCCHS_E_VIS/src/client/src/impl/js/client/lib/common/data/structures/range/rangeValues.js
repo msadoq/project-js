@@ -51,7 +51,7 @@ export default function selectRangeValues(payload, entryPoints) {
       set(viewData, ['remove'], {
         lower: ep.expectedInterval[0] + ep.offset,
         upper: ep.expectedInterval[1] + ep.offset });
-      set(viewData, ['dataLayout'], globalConstants.DATASTRUCTURETYPE_RANGE);
+      set(viewData, ['structureType'], globalConstants.DATASTRUCTURETYPE_RANGE);
       isFirstEp = false;
     }
 

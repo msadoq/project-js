@@ -76,9 +76,8 @@ export function visibleRemoteIds(domains, timebars, timelines, views) {
     // current timelines
     const viewTimelines = getTimebarTimelines(timebars, timelines, timebarId);
 
-    // return vivl(type, 'extractRemoteIds')(
-    const dataLayout = vivl(type, 'dataLayout')();
-    return structures(dataLayout, 'extractRemoteIds')(
+    const structureType = vivl(type, 'structureType')();
+    return structures(structureType, 'extractRemoteIds')(
       list, entryPoints, timebarId, viewTimelines, visuWindow, domains
     );
   }, {});

@@ -8,9 +8,9 @@ export default function viewData(stateViewData = {}, action) {
       const views = action.payload.viewData;
       const newState = {};
       each(views, (view, viewId) => {
-        switch (view.dataLayout) {
+        switch (view.structureType) {
           case globalConstants.DATASTRUCTURETYPE_LAST: {
-            newState[viewId] = { ...stateViewData[viewId], ...omit(view, ['dataLayout']) };
+            newState[viewId] = { ...stateViewData[viewId], ...omit(view, ['structureType']) };
             break;
           }
           case globalConstants.DATASTRUCTURETYPE_RANGE: {

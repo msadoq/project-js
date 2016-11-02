@@ -15,8 +15,8 @@ export function selectData(state, viewDefinitions, payload) {
   // remoteId
   each(viewDefinitions, (view, viewId) => {
     // Check view type
-    const dataLayout = vivl(view.type, 'dataLayout')();
-    switch (dataLayout) {
+    const structureType = vivl(view.type, 'structureType')();
+    switch (structureType) {
       case globalConstants.DATASTRUCTURETYPE_LAST: {
         const viewBag = selectLastValue(state, payload, viewId, view.entryPoints);
         if (viewBag) {

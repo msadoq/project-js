@@ -1,6 +1,6 @@
 import schema from './PlotView.schema.json';
 
 module.exports = {
-  dataLayout: () => 'range',
+  structureType: () => 'range',
   getSchemaJson: () => schema,
 };

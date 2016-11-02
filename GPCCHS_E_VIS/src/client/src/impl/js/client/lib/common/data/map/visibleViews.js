@@ -67,8 +67,8 @@ export function visibleViews(domains, timebars, timelines, views) {
     // current timelines
     const viewTimelines = getTimebarTimelines(timebars, timelines, timebarId);
 
-    const dataLayout = vivl(type, 'dataLayout')();
-    const viewMap = structures(dataLayout, 'extractEntryPoints')(
+    const structureType = vivl(type, 'structureType')();
+    const viewMap = structures(structureType, 'extractEntryPoints')(
       entryPoints, timebarId, viewTimelines, visuWindow, domains
     );
 

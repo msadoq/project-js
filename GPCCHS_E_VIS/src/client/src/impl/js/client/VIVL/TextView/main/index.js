@@ -1,6 +1,6 @@
 import schema from './TextView.schema.json';
 
 module.exports = {
-  dataLayout: () => 'last',
+  structureType: () => 'last',
   getSchemaJson: () => schema,
 };

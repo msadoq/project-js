@@ -132,7 +132,6 @@ describe('store:page', () => {
         dispatch(actions.addAndMount('myPageId'));
         getState().pages.myPageId.views.should.be.an('array').with.lengthOf(2);
         newViewId = getState().pages.myPageId.views[1];
-        getState().views[newViewId].title.should.equal('Unknown');
       });
       it('unmountAndRemove', () => {
         dispatch(actions.unmountAndRemove('myPageId', newViewId));

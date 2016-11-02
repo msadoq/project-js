@@ -18,7 +18,6 @@ describe('store:views', () => {
           actions.add('myViewId', 'plot', { setting: 'value' })
         );
         state.myViewId.should.eql({
-          title: 'Unknown',
           type: 'plot',
           configuration: { setting: 'value' },
         });
@@ -29,9 +28,10 @@ describe('store:views', () => {
           actions.add('myViewId')
         );
         state.myViewId.should.eql({
-          title: 'Unknown',
           type: null,
-          configuration: {},
+          configuration: {
+            title: null,
+          },
         });
       });
     });

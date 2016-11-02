@@ -1,5 +1,8 @@
 /* eslint no-underscore-dangle:0 */
-const _each = require('lodash/each');
+const {
+  each: _each,
+  get: _get,
+} = require('lodash');
 const debug = require('../../io/debug')('stub:dc');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { constants: globalConstants } = require('common');
@@ -9,12 +12,22 @@ const getPayload = require('./getPayload');
 const header = stubData.getTimebasedArchiveDataHeaderProtobuf();
 const end = stubData.getBooleanProtobuf(true);
 
-function shouldPushANewValue(timestamp) {
-  const e = timestamp % 1000;
-  return (e !== 0 && e < 900); //  && timestamp > 1420106700000
+const queries = {};
+
+function shouldPushANewValue(queryKey, timestamp) {
+  const previous = _get(queries, queryKey);
+  if (typeof previous === 'undefined') {
+    queries[queryKey] = timestamp;
+    return true;
+  }
+  if (timestamp - previous >= globalConstants.DC_STUB_VALUE_TIMESTEP) {
+    queries[queryKey] = timestamp;
+    return true;
+  }
+  return false;
 }
 
-module.exports = function sendArchiveData(queryId, dataId, interval, zmq) {
+module.exports = function sendArchiveData(queryKey, queryId, dataId, interval, zmq) {
   const from = interval.startTime.ms;
   const to = interval.endTime.ms;
   if (to <= from) {
@@ -25,7 +38,7 @@ module.exports = function sendArchiveData(queryId, dataId, interval, zmq) {
   const now = Date.now();
 
   for (let i = from; i <= to && i < now; i += globalConstants.DC_STUB_VALUE_TIMESTEP) {
-    if (shouldPushANewValue(i)) {
+    if (shouldPushANewValue(queryKey, i)) {
       payloads.push(getPayload(i));
     }
   }

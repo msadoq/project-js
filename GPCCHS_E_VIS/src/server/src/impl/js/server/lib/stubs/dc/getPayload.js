@@ -1,7 +1,7 @@
 const stubData = require('../data');
 
 function getValue(timestamp) {
-  return timestamp % 101;
+  return 50 * (1 + Math.sin(timestamp));
 }
 
 module.exports = function getPayload(timestamp) {

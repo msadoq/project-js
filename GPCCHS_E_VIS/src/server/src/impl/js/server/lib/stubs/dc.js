@@ -3,6 +3,7 @@ require('dotenv-safe').load();
 const { constants: globalConstants } = require('common');
 
 const debug = require('../io/debug')('stub:dc');
+const createQueryKey = require('./dc/createQueryKey');
 const isParameterSupported = require('./dc/isParameterSupported');
 const sendDomainData = require('./dc/sendDomainData');
 const sendPubSubData = require('./dc/sendPubSubData');
@@ -64,7 +65,8 @@ const onHssMessage = (...args) => {
       const queryArguments = protobuf.decode(
         'dc.dataControllerUtils.QueryArguments', args[4]
       );
-      queries.push({ queryId, dataId, interval, queryArguments });
+      const queryKey = createQueryKey(dataId, queryArguments);
+      queries.push({ queryKey, queryId, dataId, interval, queryArguments });
       debug.verbose('query registered', dataId.parameterName, interval);
       return pushSuccess(queryId);
     }
@@ -98,7 +100,7 @@ const onHssMessage = (...args) => {
 };
 
 function dcCall() {
-  debug.debug('dcCall call', Object.keys(subscriptions).length, queries.length);
+  debug.verbose('dcCall call', Object.keys(subscriptions).length, queries.length);
 
   // pub/sub
   _each(subscriptions, ({ queryId, dataId }) => {
@@ -109,7 +111,7 @@ function dcCall() {
   // queries
   _each(queries, (query) => {
     debug.debug(`push archive data for ${query.dataId.parameterName}`);
-    sendArchiveData(query.queryId, query.dataId, query.interval, zmq);
+    sendArchiveData(query.queryKey, query.queryId, query.dataId, query.interval, zmq);
   });
   queries = [];
 

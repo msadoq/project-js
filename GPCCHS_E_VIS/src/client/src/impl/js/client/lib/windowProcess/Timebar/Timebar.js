@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import styles from './Timebar.css';
+import TimebarScale from './TimebarScale';
 
 
 export default class Timebar extends Component {
@@ -327,6 +328,7 @@ export default class Timebar extends Component {
             <span className={styles.upperFormattedTime}>{this.formatDate(upper, true)}</span>
           </div>
         </div>
+        <TimebarScale timeBeginning={this.state.timeBeginning} timeEnd={this.state.timeEnd} />
       </div>
     );
   }

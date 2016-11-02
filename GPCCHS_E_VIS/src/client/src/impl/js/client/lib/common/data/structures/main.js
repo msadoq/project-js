@@ -2,8 +2,12 @@
 import last from './last/index';
 import range from './range';
 import { get, isFunction } from 'lodash';
+import { constants as globalConstants } from 'common';
 
-const supportedStructure = { range, last };
+const supportedStructure = {
+  [globalConstants.DATASTRUCTURETYPE_RANGE]: range,
+  [globalConstants.DATASTRUCTURETYPE_LAST]: last,
+};
 
 export default (structureType, functionName) => {
   const f = get(supportedStructure, [structureType, functionName]);

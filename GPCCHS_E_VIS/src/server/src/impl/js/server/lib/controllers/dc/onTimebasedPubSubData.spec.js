@@ -105,7 +105,7 @@ describe('controllers/onTimebasedPubSubData', () => {
     // init test
     subscriptionsModel.addRecord(dataId);
     subscriptionsModel.addFilters(dataId, { [fullRemoteId]: fullFilter });
-    connectedDataModel.addRecord(globalConstants.DATASTRUCTURE_LAST, fullRemoteId, dataId);
+    connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_LAST, fullRemoteId, dataId);
     connectedDataModel.addRequestedInterval(fullRemoteId, queryId, halfInterval);
     // launch test
     sendTimebasedPubSubData(
@@ -141,7 +141,7 @@ describe('controllers/onTimebasedPubSubData', () => {
     // init test
     subscriptionsModel.addRecord(dataId);
     subscriptionsModel.addFilters(dataId, { [halfRemoteId]: halfFilter });
-    connectedDataModel.addRecord(globalConstants.DATASTRUCTURE_LAST, halfRemoteId, dataId);
+    connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_LAST, halfRemoteId, dataId);
     connectedDataModel.addRequestedInterval(halfRemoteId, queryId, fullInterval);
     // launch test
     sendTimebasedPubSubData(

@@ -164,9 +164,9 @@ const pubSubDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =>
   }
 };
 
-
-const ts1 = { ms: 1430810001000 };
-const ts2 = { ms: 1430820001000 };
+const now = Date.now();
+const ts1 = { ms: now/*1430810001000*/ };
+const ts2 = { ms: now + 1000/*1430820001000*/ };
 //const ts2 = { ms: 1431920001000 };
 const timeInterval = {
   startTime: ts1,

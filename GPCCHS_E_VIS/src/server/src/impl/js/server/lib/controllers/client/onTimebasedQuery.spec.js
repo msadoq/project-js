@@ -92,7 +92,7 @@ describe('controllers/onTimebasedQuery', () => {
 
   const lastQuery = {
     [remoteId]: {
-      type: globalConstants.DATASTRUCTURE_LAST,
+      type: globalConstants.DATASTRUCTURETYPE_LAST,
       dataId,
       intervals: [interval],
       filters,
@@ -100,7 +100,7 @@ describe('controllers/onTimebasedQuery', () => {
   };
   const rangeQuery = {
     [remoteId]: {
-      type: globalConstants.DATASTRUCTURE_RANGE,
+      type: globalConstants.DATASTRUCTURETYPE_RANGE,
       dataId,
       intervals: [interval],
       filters,
@@ -111,7 +111,7 @@ describe('controllers/onTimebasedQuery', () => {
     it('interval not missing', () => {
       // init test
       subscriptionsModel.addRecord(dataId);
-      connectedDataModel.addRecord(globalConstants.DATASTRUCTURE_LAST, remoteId, dataId);
+      connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_LAST, remoteId, dataId);
       connectedDataModel.addRequestedInterval(remoteId, 'queryId', interval);
       const timebasedDataModel = addTimebasedDataModel(remoteId);
       timebasedDataModel.addRecords(payloads);
@@ -137,7 +137,7 @@ describe('controllers/onTimebasedQuery', () => {
       connectedDataModel.count().should.equal(1);
       const connectedData = connectedDataModel.find();
       connectedData[0].should.have.properties({
-        type: globalConstants.DATASTRUCTURE_LAST,
+        type: globalConstants.DATASTRUCTURETYPE_LAST,
         remoteId,
         intervals: {
           all: [interval],
@@ -160,7 +160,7 @@ describe('controllers/onTimebasedQuery', () => {
       const otherQueryId = 'otherId';
       const otherInterval = [5, 42];
       subscriptionsModel.addRecord(dataId);
-      connectedDataModel.addRecord(globalConstants.DATASTRUCTURE_LAST, remoteId, dataId);
+      connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_LAST, remoteId, dataId);
       connectedDataModel.addRequestedInterval(remoteId, otherQueryId, otherInterval);
       const timebasedDataModel = addTimebasedDataModel(remoteId);
       timebasedDataModel.addRecords(payloads);
@@ -186,7 +186,7 @@ describe('controllers/onTimebasedQuery', () => {
       connectedDataModel.count().should.equal(1);
       const connectedData = connectedDataModel.find();
       connectedData[0].should.have.properties({
-        type: globalConstants.DATASTRUCTURE_LAST,
+        type: globalConstants.DATASTRUCTURETYPE_LAST,
         remoteId,
         intervals: {
           all: [otherInterval, interval],
@@ -238,7 +238,7 @@ describe('controllers/onTimebasedQuery', () => {
       connectedDataModel.count().should.equal(1);
       const connectedData = connectedDataModel.find();
       connectedData[0].should.have.properties({
-        type: globalConstants.DATASTRUCTURE_LAST,
+        type: globalConstants.DATASTRUCTURETYPE_LAST,
         remoteId,
         intervals: {
           all: [interval],
@@ -261,7 +261,7 @@ describe('controllers/onTimebasedQuery', () => {
     it('no missing intervals', () => {
       // init test
       subscriptionsModel.addRecord(dataId);
-      connectedDataModel.addRecord(globalConstants.DATASTRUCTURE_RANGE, remoteId, dataId);
+      connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_RANGE, remoteId, dataId);
       connectedDataModel.addRequestedInterval(remoteId, 'queryId', interval);
       const timebasedDataModel = addTimebasedDataModel(remoteId);
       timebasedDataModel.addRecords(payloads);
@@ -287,7 +287,7 @@ describe('controllers/onTimebasedQuery', () => {
       connectedDataModel.count().should.equal(1);
       const connectedData = connectedDataModel.find();
       connectedData[0].should.have.properties({
-        type: globalConstants.DATASTRUCTURE_RANGE,
+        type: globalConstants.DATASTRUCTURETYPE_RANGE,
         remoteId,
         intervals: {
           all: [interval],
@@ -310,7 +310,7 @@ describe('controllers/onTimebasedQuery', () => {
       const otherQueryId = 'otherId';
       const otherInterval = [42, 99];
       subscriptionsModel.addRecord(dataId);
-      connectedDataModel.addRecord(globalConstants.DATASTRUCTURE_RANGE, remoteId, dataId);
+      connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_RANGE, remoteId, dataId);
       connectedDataModel.addRequestedInterval(remoteId, otherQueryId, otherInterval);
       const timebasedDataModel = addTimebasedDataModel(remoteId);
       timebasedDataModel.addRecords(payloads);
@@ -336,7 +336,7 @@ describe('controllers/onTimebasedQuery', () => {
       connectedDataModel.count().should.equal(1);
       const connectedData = connectedDataModel.find();
       connectedData[0].should.have.properties({
-        type: globalConstants.DATASTRUCTURE_RANGE,
+        type: globalConstants.DATASTRUCTURETYPE_RANGE,
         remoteId,
         intervals: {
           all: [interval, otherInterval],
@@ -357,7 +357,7 @@ describe('controllers/onTimebasedQuery', () => {
     it('some missing intervals', () => {
       // init test
       subscriptionsModel.addRecord(dataId);
-      connectedDataModel.addRecord(globalConstants.DATASTRUCTURE_RANGE, remoteId, dataId);
+      connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_RANGE, remoteId, dataId);
       connectedDataModel.addRequestedInterval(remoteId, 'myQueryId', [5, 10]);
       const timebasedDataModel = addTimebasedDataModel(remoteId);
       timebasedDataModel.addRecord(payloads[1].timestamp, payloads[1].payload);
@@ -390,7 +390,7 @@ describe('controllers/onTimebasedQuery', () => {
       connectedDataModel.count().should.equal(1);
       const connectedData = connectedDataModel.find();
       connectedData[0].should.have.properties({
-        type: globalConstants.DATASTRUCTURE_RANGE,
+        type: globalConstants.DATASTRUCTURETYPE_RANGE,
         remoteId,
         intervals: {
           all: [interval],
@@ -442,7 +442,7 @@ describe('controllers/onTimebasedQuery', () => {
       connectedDataModel.count().should.equal(1);
       const connectedData = connectedDataModel.find();
       connectedData[0].should.have.properties({
-        type: globalConstants.DATASTRUCTURE_RANGE,
+        type: globalConstants.DATASTRUCTURETYPE_RANGE,
         remoteId,
         intervals: {
           all: [interval],

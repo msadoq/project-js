@@ -1,4 +1,5 @@
 import selectRangeValues, { rangeValues } from './rangeValues';
+import { constants as globalConstants } from 'common';
 
 describe('data/map/rangeValues', () => {
   const payload = { rId1: {}, rId2: {} };
@@ -95,7 +96,7 @@ describe('data/map/rangeValues', () => {
       const ep = viewDataMap.plot1.entryPoints.ep1;
       viewData.remove.lower.should.equal(ep.expectedInterval[0] + ep.offset);
       viewData.remove.upper.should.equal(ep.expectedInterval[1] + ep.offset);
-      viewData.dataLayout.should.equal('range');
+      viewData.dataLayout.should.equal(globalConstants.DATASTRUCTURETYPE_RANGE);
       viewData.add['10'].should.deep.equal({ ep1: { x: 10.2, value: 101 } });
       viewData.add['15'].should.deep.equal({ ep1: { x: 15.2, value: 151 } });
       Object.keys(viewData.add).should.have.length(6);
@@ -106,7 +107,7 @@ describe('data/map/rangeValues', () => {
       const ep = viewDataMap.plot2.entryPoints.ep2;
       viewData.remove.lower.should.equal(ep.expectedInterval[0] + ep.offset);
       viewData.remove.upper.should.equal(ep.expectedInterval[1] + ep.offset);
-      viewData.dataLayout.should.equal('range');
+      viewData.dataLayout.should.equal(globalConstants.DATASTRUCTURETYPE_RANGE);
       viewData.add['14'].should.deep.equal({ ep2: { x: 12.2, value: 122 }, ep3: { x: 14.2, value: 142 } });
       viewData.add['18'].should.deep.equal({ ep2: { x: 16.2, value: 162 }, ep3: { x: 18.2, value: 182 } });
       Object.keys(viewData.add).should.have.length(5);

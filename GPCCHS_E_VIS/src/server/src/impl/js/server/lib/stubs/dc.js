@@ -111,7 +111,14 @@ function dcCall() {
   // queries
   _each(queries, (query) => {
     debug.debug(`push archive data for ${query.dataId.parameterName}`);
-    sendArchiveData(query.queryKey, query.queryId, query.dataId, query.interval, zmq);
+    sendArchiveData(
+      query.queryKey,
+      query.queryId,
+      query.dataId,
+      query.interval,
+      query.queryArguments,
+      zmq
+    );
   });
   queries = [];
 

@@ -54,11 +54,11 @@ const timebasedQuery = (websocketQueueHandler, payload, messageHandler) => {
 
     // add query arguments depending on the type
     switch (query.type) {
-      case globalConstants.DATASTRUCTURE_LAST:
+      case globalConstants.DATASTRUCTURETYPE_LAST:
         queryArguments.getLastType = constants.GETLASTTYPE_GET_LAST;
         queryArguments.filters = query.filters;
         break;
-      case globalConstants.DATASTRUCTURE_RANGE:
+      case globalConstants.DATASTRUCTURETYPE_RANGE:
         queryArguments.filters = query.filters;
         break;
       default:

@@ -1,5 +1,5 @@
 import selectLastValue, { lastValue } from './lastValue';
-
+import { constants as globalConstants } from 'common';
 
 describe('data/map/lastValue', () => {
   const payload = { rId1: {}, rId2: {} };
@@ -81,13 +81,13 @@ describe('data/map/lastValue', () => {
       const newState = selectLastValue({}, payload, 'text1', viewDataMap.text1.entryPoints);
       newState.index.ep4.should.equal(20);
       newState.values.ep4.should.equal(203);
-      newState.dataLayout.should.equal('last');
+      newState.dataLayout.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
     });
     it('state undefined', () => {
       const newState = selectLastValue(undefined, payload, 'text1', viewDataMap.text1.entryPoints);
       newState.index.ep4.should.equal(20);
       newState.values.ep4.should.equal(203);
-      newState.dataLayout.should.equal('last');
+      newState.dataLayout.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
     });
     it('multiple entry points', () => {
       const newState = selectLastValue({}, payload, 'text2', viewDataMap.text2.entryPoints);
@@ -95,7 +95,7 @@ describe('data/map/lastValue', () => {
       newState.values.ep6.should.equal(203);
       newState.index.ep5.should.equal(20);
       newState.values.ep5.should.equal(203);
-      newState.dataLayout.should.equal('last');
+      newState.dataLayout.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
     });
   });
 });

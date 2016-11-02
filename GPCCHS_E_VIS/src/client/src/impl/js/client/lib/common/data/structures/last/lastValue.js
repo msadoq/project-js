@@ -1,5 +1,6 @@
 import { each, has, get, set } from 'lodash';
 import debug from '../../../debug/mainDebug';
+import { constants as globalConstants } from 'common';
 
 const logger = debug('data:lastValue');
 
@@ -55,7 +56,7 @@ export default function selectLastValue(state, payload, viewId, entryPoints) {
 
     set(viewData, ['index', epName], newData.timestamp);
     set(viewData, ['values', epName], newData.value);
-    set(viewData, ['dataLayout'], 'last');
+    set(viewData, ['dataLayout'], globalConstants.DATASTRUCTURETYPE_LAST);
   });
   return viewData;
 }

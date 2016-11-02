@@ -2,6 +2,7 @@
 const {
   each: _each,
   get: _get,
+  random: _random,
 } = require('lodash');
 const debug = require('../../io/debug')('stub:dc');
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -27,7 +28,14 @@ function shouldPushANewValue(queryKey, timestamp) {
   return false;
 }
 
-module.exports = function sendArchiveData(queryKey, queryId, dataId, interval, zmq) {
+module.exports = function sendArchiveData(
+  queryKey,
+  queryId,
+  dataId,
+  interval,
+  queryArguments,
+  zmq
+) {
   const from = interval.startTime.ms;
   const to = interval.endTime.ms;
   if (to <= from) {
@@ -37,9 +45,15 @@ module.exports = function sendArchiveData(queryKey, queryId, dataId, interval, z
   const payloads = [];
   const now = Date.now();
 
-  for (let i = from; i <= to && i < now; i += globalConstants.DC_STUB_VALUE_TIMESTEP) {
-    if (shouldPushANewValue(queryKey, i)) {
-      payloads.push(getPayload(i));
+  if (queryArguments.getLastType === globalConstants.GETLASTTYPE_GET_LAST) {
+    debug.info('push a getLast data');
+    const ts = _random(from, to);
+    payloads.push(getPayload(ts));
+  } else {
+    for (let i = from; i <= to && i < now; i += globalConstants.DC_STUB_VALUE_TIMESTEP) {
+      if (shouldPushANewValue(queryKey, i)) {
+        payloads.push(getPayload(i));
+      }
     }
   }
 

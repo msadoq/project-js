@@ -92,10 +92,10 @@ collection.setIntervalAsReceived = (remoteId, queryUuid, connectedData) => {
   }
 
   switch (cd.type) {
-    case globalConstants.DATASTRUCTURE_LAST:
+    case globalConstants.DATASTRUCTURETYPE_LAST:
       cd.intervals.received = [...cd.intervals.received, interval];
       break;
-    case globalConstants.DATASTRUCTURE_RANGE:
+    case globalConstants.DATASTRUCTURETYPE_RANGE:
       cd.intervals.received =
         intervalManager.merge(cd.intervals.received, interval);
       break;
@@ -115,8 +115,8 @@ collection.addRecord = (type, remoteId, dataId) => {
     return connectedData;
   }
   switch (type) {
-    case globalConstants.DATASTRUCTURE_LAST:
-    case globalConstants.DATASTRUCTURE_RANGE:
+    case globalConstants.DATASTRUCTURETYPE_LAST:
+    case globalConstants.DATASTRUCTURETYPE_RANGE:
       connectedData = createConnectedData(type, remoteId, dataId);
       return collection.insert(connectedData);
     default:
@@ -136,11 +136,11 @@ collection.addRequestedInterval = (remoteId, queryUuid, interval, connectedData)
     }
   }
   switch (cd.type) {
-    case globalConstants.DATASTRUCTURE_LAST:
+    case globalConstants.DATASTRUCTURETYPE_LAST:
       cd.intervals.requested[queryUuid] = interval;
       cd.intervals.all = [...cd.intervals.all, interval];
       break;
-    case globalConstants.DATASTRUCTURE_RANGE:
+    case globalConstants.DATASTRUCTURETYPE_RANGE:
       cd.intervals.requested[queryUuid] = interval;
       cd.intervals.all = intervalManager.merge(cd.intervals.all, interval);
       break;
@@ -174,10 +174,10 @@ collection.removeIntervals = (remoteId, intervals, connectedData) => {
     receivedIntervals = intervalManager.remove(receivedIntervals, interval);
   });
   switch (cd.type) {
-    case globalConstants.DATASTRUCTURE_LAST:
+    case globalConstants.DATASTRUCTURETYPE_LAST:
       cd.intervals.all = _concat(receivedIntervals, _values(requestedIntervals));
       break;
-    case globalConstants.DATASTRUCTURE_RANGE:
+    case globalConstants.DATASTRUCTURETYPE_RANGE:
       cd.intervals.all = intervalManager.merge(receivedIntervals, _values(requestedIntervals));
       break;
     default:
@@ -234,10 +234,10 @@ collection.retrieveMissingIntervals = (remoteId, interval, connectedData) => {
   const allIntervals = cd.intervals.all;
 
   switch (cd.type) {
-    case globalConstants.DATASTRUCTURE_LAST:
+    case globalConstants.DATASTRUCTURETYPE_LAST:
       return (intervalManager.includes(allIntervals, interval)) ? [] : [interval] ;
       break;
-    case globalConstants.DATASTRUCTURE_RANGE:
+    case globalConstants.DATASTRUCTURETYPE_RANGE:
       return intervalManager.missing(allIntervals, interval);
       break;
     default:

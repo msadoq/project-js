@@ -1,31 +1,23 @@
 import { constants as globalConstants } from 'common';
-import * as constants from '../../constants';
+
 import debug from '../debug/mainDebug';
 import updateStore from '../../mainProcess/vima/updateStore';
-import { updateStatus as updateAppStatus } from '../../store/actions/hsc';
-import { updateDomains } from '../../store/actions/domains';
-import { getWebsocket } from './mainWebsocket';
-import convertFromStore from '../../mainProcess/vima/convertFromStore';
 import injectData from '../data/inject';
 import { setActingOn, setActingOff } from '../../mainProcess/storeObserver';
+import { onAuthenticated, onDomainResponse, onReady } from '../../mainProcess/lifecycle';
 
 const logger = debug('main:controller');
 
-export default function controller(state, dispatch, event, payload) {
+export default function controller(ws, state, dispatch, event, payload) {
   switch (event) {
     case globalConstants.EVENT_AUTHENTICATED:
-      dispatch(updateAppStatus(constants.LIFECYCLE_CONNECTED_WITH_HSS));
-      getWebsocket().write({ event: globalConstants.EVENT_DOMAIN_QUERY });
+      onAuthenticated(dispatch, ws);
       break;
     case globalConstants.EVENT_DOMAIN_RESPONSE:
-      dispatch(updateDomains(payload));
-      getWebsocket().write({
-        event: globalConstants.EVENT_VIMA_TIMEBAR_INIT,
-        payload: convertFromStore(state),
-      });
+      onDomainResponse(state, dispatch, ws, payload);
       break;
     case globalConstants.EVENT_READY:
-      dispatch(updateAppStatus(constants.LIFECYCLE_READY));
+      onReady(dispatch);
       break;
     case globalConstants.EVENT_TIMEBAR_UPDATE:
       updateStore(state, dispatch, payload);

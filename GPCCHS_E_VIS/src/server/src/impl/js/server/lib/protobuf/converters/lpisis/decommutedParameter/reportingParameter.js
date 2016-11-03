@@ -3,7 +3,7 @@ const {
   decodeAttribute,
   ushortToBytes,
   bytesToUshort,
-} = require('./types');
+} = require('../types');
 
 
 module.exports = {

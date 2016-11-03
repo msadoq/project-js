@@ -18,6 +18,7 @@ const {
 const { join } = require('path');
 
 const types = {};
+const comObjectProtobufTypes = {};
 
 const register = (tree) => {
   _each(tree, (namespaces, root) => {
@@ -50,6 +51,7 @@ const register = (tree) => {
       types[root][namespace] = namespaceBuilder.build(namespace).protobuf;
       _each(types[root][namespace], (type, typeKey) => {
         Object.assign(type, attach[typeKey]);
+        comObjectProtobufTypes[typeKey] = `${root}.${namespace}.${typeKey}`;
       });
     });
   });
@@ -89,23 +91,23 @@ const removeEmpty = (collection) => {
 register({
   dc: {
     dataControllerUtils: {
-      Action: require('./converters/dc/action'),
-      Boolean: require('./converters/dc/boolean'),
-      DataId: require('./converters/dc/dataId'),
-      Domain: require('./converters/dc/domain'),
-      Domains: require('./converters/dc/domains'),
-      Filter: require('./converters/dc/filter'),
-      Header: require('./converters/dc/header'),
-      QueryArguments: require('./converters/dc/queryArguments'),
-      Status: require('./converters/dc/status'),
-      String: require('./converters/dc/string'),
-      TimeInterval: require('./converters/dc/timeInterval'),
-      Timestamp: require('./converters/dc/timestamp'),
+      Action: require('./converters/dc/dataControllerUtils/action'),
+      Boolean: require('./converters/dc/dataControllerUtils/boolean'),
+      DataId: require('./converters/dc/dataControllerUtils/dataId'),
+      Domain: require('./converters/dc/dataControllerUtils/domain'),
+      Domains: require('./converters/dc/dataControllerUtils/domains'),
+      Filter: require('./converters/dc/dataControllerUtils/filter'),
+      Header: require('./converters/dc/dataControllerUtils/header'),
+      QueryArguments: require('./converters/dc/dataControllerUtils/queryArguments'),
+      Status: require('./converters/dc/dataControllerUtils/status'),
+      String: require('./converters/dc/dataControllerUtils/string'),
+      TimeInterval: require('./converters/dc/dataControllerUtils/timeInterval'),
+      Timestamp: require('./converters/dc/dataControllerUtils/timestamp'),
     },
   },
   lpisis: {
     decommutedParameter: {
-      ReportingParameter: require('./converters/lpisis/reportingParameter'),
+      ReportingParameter: require('./converters/lpisis/decommutedParameter/reportingParameter'),
     },
   },
 });
@@ -129,4 +131,5 @@ module.exports = {
       ? builder.mapper.decode(raw)
       : raw;
   },
+  getType: comObject => comObjectProtobufTypes[comObject],
 };

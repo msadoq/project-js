@@ -6,6 +6,7 @@ const {
   isNumber: _isNumber,
   isUndefined: _isUndefined,
   isNull: _isNull,
+  isString: _isString,
 } = require('lodash');
 const ByteBuffer = require('bytebuffer');
 const ProtoBuf = require('protobufjs');
@@ -143,5 +144,25 @@ module.exports = {
       return undefined;
     }
     return buffer.buffer.readUInt32LE(buffer.offset);
+  },
+  stringToBytes: (string) => {
+    if (_isUndefined(string) || _isNull(string)) {
+      return undefined;
+    }
+
+    if (!_isString(string)) {
+      throw new Error(`unable to convert '${string}' to byte buffer`);
+    }
+
+    return new ByteBuffer(null, true).writeString(string).flip();
+  },
+  bytesToString: (buffer) => {
+    if (!buffer || !buffer.buffer) {
+      return undefined;
+    }
+    if (!_isBuffer(buffer.buffer)) {
+      return undefined;
+    }
+    return buffer.buffer.readString(buffer.offset);
   },
 };

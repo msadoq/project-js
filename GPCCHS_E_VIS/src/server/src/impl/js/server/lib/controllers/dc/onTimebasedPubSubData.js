@@ -4,7 +4,7 @@ const {
   each: _each,
   chunk: _chunk,
 } = require('lodash');
-const { decode } = require('../../protobuf');
+const { decode, getType } = require('../../protobuf');
 const { addTimebasedDataModel, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
@@ -40,6 +40,12 @@ const sendTimebasedPubSubData = (
   // deprotobufferize dataId
   const dataId = decode('dc.dataControllerUtils.DataId', dataIdBuffer);
 
+  // get payload type
+  const payloadProtobufType = getType(dataId.comObject);
+  if (typeof payloadProtobufType === 'undefined') {
+    throw new Error('unsupported comObject', dataId.comObject);
+  }
+
   // if dataId not in subscriptions model, stop logic
   const subscription = subscriptionsModel.getByDataId(dataId);
   if (!subscription) {
@@ -73,7 +79,7 @@ const sendTimebasedPubSubData = (
       }
       debug.debug('decode payload');
       // deprotobufferize payload
-      const decodedPayload = decode(`lpisis.decommutedParameter.${dataId.comObject}`, payloadBuffer[1]);
+      const decodedPayload = decode(payloadProtobufType, payloadBuffer[1]);
 
       // apply filters on decoded payload
       if (!applyFilters(decodedPayload, filters)) {

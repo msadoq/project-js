@@ -1,7 +1,7 @@
 const {
   encodeAttribute,
   decodeAttribute,
-} = require('../lpisis/types');
+} = require('../../lpisis/types');
 
 module.exports = {
   encode: data => ({

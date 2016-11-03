@@ -4,13 +4,16 @@ const {
   includes: _includes,
   each: _each,
   without: _without,
+  memoize: _memoize,
 } = require('lodash');
 const { inspect } = require('util');
 const constants = require('../constants');
 
 let remoteIds = [];
 
-const getTimebasedDataModel = remoteId => database.getCollection(`${constants.COLLECTION_TIMEBASED_DATA_PREFIX}.${remoteId}`);
+const generateCollectionName = _memoize(remoteId => `${constants.COLLECTION_TIMEBASED_DATA_PREFIX}.${remoteId}`);
+
+const getTimebasedDataModel = remoteId => database.getCollection(generateCollectionName(remoteId));
 
 const addTimebasedDataModel = (remoteId) => {
   if (_includes(remoteIds, remoteId)) {
@@ -18,7 +21,7 @@ const addTimebasedDataModel = (remoteId) => {
   }
   remoteIds.push(remoteId);
   const collection = database.addCollection(
-    `${constants.COLLECTION_TIMEBASED_DATA_PREFIX}.${remoteId}`,
+    generateCollectionName(remoteId),
     { unique: ['timestamp'] }
   );
 
@@ -67,7 +70,7 @@ const addTimebasedDataModel = (remoteId) => {
 
 const removeTimebasedDataModel = (remoteId) => {
   remoteIds = _without(remoteIds, remoteId);
-  database.removeCollection(`${constants.COLLECTION_TIMEBASED_DATA_PREFIX}.${remoteId}`);
+  database.removeCollection(generateCollectionName(remoteId));
 };
 
 module.exports = {

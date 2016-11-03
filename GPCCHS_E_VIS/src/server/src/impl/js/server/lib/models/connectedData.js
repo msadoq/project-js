@@ -145,7 +145,7 @@ collection.addRequestedInterval = (remoteId, queryUuid, interval, connectedData)
       cd.intervals.all = intervalManager.merge(cd.intervals.all, interval);
       break;
     default:
-      throw new Error('Consuming type not valid:', type);
+      throw new Error('Consuming type not valid:', cd.type);
   }
 
   return cd;
@@ -181,7 +181,7 @@ collection.removeIntervals = (remoteId, intervals, connectedData) => {
       cd.intervals.all = intervalManager.merge(receivedIntervals, _values(requestedIntervals));
       break;
     default:
-      throw new Error('Consuming type not valid:', type);
+      throw new Error('Consuming type not valid:', cd.type);
   }
   cd.intervals.requested = requestedIntervals;
   cd.intervals.received = receivedIntervals;
@@ -235,13 +235,11 @@ collection.retrieveMissingIntervals = (remoteId, interval, connectedData) => {
 
   switch (cd.type) {
     case globalConstants.DATASTRUCTURETYPE_LAST:
-      return (intervalManager.includes(allIntervals, interval)) ? [] : [interval] ;
-      break;
+      return (intervalManager.includes(allIntervals, interval)) ? [] : [interval];
     case globalConstants.DATASTRUCTURETYPE_RANGE:
       return intervalManager.missing(allIntervals, interval);
-      break;
     default:
-      throw new Error('Consuming type not valid:', type);
+      throw new Error('Consuming type not valid:', cd.type);
   }
 };
 

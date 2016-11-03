@@ -14,7 +14,6 @@ export default class Timeline extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <li
         className={styles.timeline}

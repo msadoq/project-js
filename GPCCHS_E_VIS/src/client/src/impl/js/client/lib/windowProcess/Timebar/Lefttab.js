@@ -47,7 +47,7 @@ export default class Lefttab extends Component {
     const { timelines, unmountTimeline } = this.props;
 
     let formKlass = styles.form;
-    if (this.state.willAdd) formKlass += ' hidden';
+    if (!this.state.willAdd) formKlass += ' hidden';
 
     let noTrack;
     if (timelines.length === 0) {

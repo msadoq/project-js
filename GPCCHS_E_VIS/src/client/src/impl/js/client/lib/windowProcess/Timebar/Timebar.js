@@ -87,6 +87,23 @@ export default class Timebar extends Component {
 
     const viewportMsWidth = timeEnd - timeBeginning;
     if (dragging) {
+      const viewportOffset = findDOMNode(this).getBoundingClientRect();
+      if (viewportOffset.left > e.pageX || viewportOffset.right < e.pageX) {
+        const mult = e.pageX - viewportOffset.left > 0 ? 1 : -1;
+        let offsetRel;
+        if (viewportOffset.left > e.pageX) {
+          offsetRel = (mult * 20) / Math.log10(Math.abs(e.pageX - viewportOffset.left));
+        } else {
+          offsetRel = (mult * 20) / Math.log10(Math.abs(e.pageX - viewportOffset.right));
+        }
+        const offsetMs = viewportMsWidth / offsetRel;
+        this.setState({
+          timeBeginning: this.state.timeBeginning + offsetMs,
+          timeEnd: this.state.timeEnd + offsetMs,
+          cursorOriginX: this.state.cursorOriginX - (findDOMNode(this).clientWidth / offsetRel)
+        });
+      }
+
       const moved = (e.pageX - cursorOriginX) / findDOMNode(this).clientWidth;
       const lowerPosMs = dragOriginLower + (viewportMsWidth * moved);
       const upperPosMs = dragOriginUpper + (viewportMsWidth * moved);
@@ -125,8 +142,8 @@ export default class Timebar extends Component {
     } else if (navigating) {
       const current = this.state.current || visuWindow.current;
       const movedPx = (e.pageX - cursorOriginX);
-      const timebarContWidth = findDOMNode(this).clientWidth;
-      const movedMs = (movedPx / timebarContWidth) * viewportMsWidth;
+      const viewportWidthPx = findDOMNode(this).clientWidth;
+      const movedMs = (movedPx / viewportWidthPx) * viewportMsWidth;
       let cursorPosMs = resizeOrigin + movedMs;
 
       if (cursorPosMs === current) return;

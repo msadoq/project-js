@@ -19,149 +19,149 @@ export default class TimebarScale extends Component {
         duration: day * 365,
         startOf: 'year',
         add: [2, 'month'],
-        format: 'DD[/]MM[/]YYYY'
+        format: 'YYYY[-]MM[-]DD'
       },
       {
         duration: day * 120,
         startOf: 'year',
         add: [1, 'month'],
-        format: 'DD[/]MM[/]YYYY'
+        format: 'YYYY[-]MM[-]DD'
       },
       {
         duration: day * 60,
         startOf: 'month',
         add: [15, 'day'],
-        format: 'DD[/]MM[/]YYYY HH[h]mm'
+        format: 'YYYY[-]MM[-]DD HH[:]mm'
       },
       {
         duration: day * 30,
         startOf: 'month',
         add: [8, 'day'],
-        format: 'DD[/]MM[/]YYYY HH[h]mm'
+        format: 'YYYY[-]MM[-]DD HH[:]mm'
       },
       {
         duration: day * 15,
         startOf: 'month',
         add: [4, 'day'],
-        format: 'DD[/]MM[/]YYYY HH[h]mm'
+        format: 'YYYY[-]MM[-]DD HH[:]mm'
       },
       // level 5
       {
         duration: day * 7,
         startOf: 'month',
         add: [2, 'day'],
-        format: 'DD[/]MM[/]YYYY HH[h]mm'
+        format: 'YYYY[-]MM[-]DD HH[:]mm'
       },
       {
         duration: day * 3,
         startOf: 'day',
         add: [12, 'hour'],
-        format: 'DD[/]MM HH[h]mm'
+        format: 'MM[-]DD HH[:]mm'
       },
       {
         duration: day,
         startOf: 'day',
         add: [6, 'hour'],
-        format: 'DD[/]MM HH[h]mm'
+        format: 'MM[-]DD HH[:]mm'
       },
       {
         duration: 12 * hour,
         startOf: 'day',
         add: [2, 'hour'],
-        format: 'DD[/]MM HH[h]mm'
+        format: 'MM[-]DD HH[:]mm'
       },
       {
         duration: 6 * hour,
         startOf: 'hour',
         add: [30, 'minute'],
-        format: 'HH[h]mm'
+        format: 'HH[:]mm'
       },
       // level 10
       {
         duration: 2 * hour,
         startOf: 'hour',
         add: [15, 'minute'],
-        format: 'HH[h]mm'
+        format: 'HH[:]mm'
       },
       {
         duration: min * 40,
         startOf: 'hour',
         add: [5, 'minute'],
-        format: 'HH[h]mm'
+        format: 'HH[:]mm'
       },
       {
         duration: min * 20,
         startOf: 'hour',
         add: [2, 'minute'],
-        format: 'HH[h]mm'
+        format: 'HH[:]mm'
       },
       {
         duration: min * 10,
         startOf: 'minute',
         add: [1, 'minute'],
-        format: 'HH[h]mm'
+        format: 'HH[:]mm'
       },
       {
         duration: min * 5,
         startOf: 'minute',
         add: [30, 'second'],
-        format: 'HH[h]mm[:]ss'
+        format: 'HH[:]mm[:]ss'
       },
       // level 15
       {
         duration: min * 2,
         startOf: 'minute',
         add: [20, 'second'],
-        format: 'HH[h]mm[:]ss'
+        format: 'HH[:]mm[:]ss'
       },
       {
         duration: min,
         startOf: 'minute',
         add: [10, 'second'],
-        format: 'HH[h]mm[:]ss'
+        format: 'HH[:]mm[:]ss'
       },
       {
         duration: sec * 30,
         startOf: 'minute',
         add: [5, 'second'],
-        format: 'mm[m] ss[s]'
+        format: 'mm[:]ss'
       },
       {
         duration: sec * 10,
         startOf: 'minute',
         add: [2, 'second'],
-        format: 'mm[m] ss[s]'
+        format: 'mm[:]ss'
       },
       {
         duration: sec * 5,
         startOf: 'second',
         add: [1, 'second'],
-        format: 'mm[m] ss[s]'
+        format: 'mm[:]ss'
       },
       // level 20
       {
         duration: sec * 2,
         startOf: 'second',
         add: [500, 'ms'],
-        format: 'ss[s] SSS[ms]'
+        format: 'mm[:]ss SSS'
       },
       {
         duration: sec,
         startOf: 'second',
         add: [200, 'ms'],
-        format: 'ss[s] SSS[ms]'
+        format: 'mm[:]ss SSS'
       },
       {
         duration: sec / 2,
         startOf: 'second',
         add: [100, 'ms'],
-        format: 'ss[s] SSS[ms]'
+        format: 'mm[:]ss SSS'
       },
       {
         duration: sec / 4,
         startOf: 'second',
         add: [50, 'ms'],
-        format: 'ss[s] SSS[ms]'
+        format: 'mm[:]ss SSS'
       }
     ];
   }

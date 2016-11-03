@@ -2,18 +2,23 @@ import { get } from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Col } from 'react-bootstrap';
-import { updateVisuWindow } from '../../store/actions/timebars';
+import { updateVisuWindow, addAndMountTimeline, unmountTimeline } from '../../store/actions/timebars';
 import styles from './Timebar.css';
 import Timebar from './Timebar';
+import Lefttab from './Lefttab';
 
 
 class TimebarContainer extends Component {
 
   static propTypes = {
     changeVisuWindow: React.PropTypes.func.isRequired,
+    addAndMountTimelineAction: React.PropTypes.func.isRequired,
+    unmountTimelineAction: React.PropTypes.func.isRequired,
     focusedPage: React.PropTypes.object.isRequired,
     visuWindow: React.PropTypes.object.isRequired,
     timebarId: React.PropTypes.string.isRequired,
+    timebarName: React.PropTypes.string.isRequired,
+    timelines: React.PropTypes.array.isRequired,
   }
 
   state = { height: 140 };
@@ -49,7 +54,9 @@ class TimebarContainer extends Component {
   }
 
   render() {
-    const { changeVisuWindow } = this.props;
+    const { changeVisuWindow, timelines, timebarId,
+      visuWindow, focusedPage, timebarName,
+      addAndMountTimelineAction, unmountTimelineAction } = this.props;
     let hrKlasses = styles.resizeTimebarContainer;
     if (this.state.resizingWindow) {
       hrKlasses += ` ${styles.resizingTimebarContainer}`;
@@ -61,12 +68,18 @@ class TimebarContainer extends Component {
           <div><hr onMouseDown={this.resizeWindow} className={hrKlasses} /></div>
         </Col>
         <Col xs={3}>
-          <h2>{this.props.timebarId}</h2>
+          <Lefttab
+            timebarId={timebarId}
+            timebarName={timebarName}
+            timelines={timelines}
+            addAndMountTimeline={addAndMountTimelineAction}
+            unmountTimeline={unmountTimelineAction}
+          />
         </Col>
         <Col xs={9} style={{ height: `${this.state.height}px` }}>
           <Timebar
-            visuWindow={this.props.visuWindow}
-            focusedPage={this.props.focusedPage}
+            visuWindow={visuWindow}
+            focusedPage={focusedPage}
             onChange={changeVisuWindow}
           />
         </Col>
@@ -77,10 +90,20 @@ class TimebarContainer extends Component {
 
 export default connect((state, ownProps) => {
   const { timebarId } = ownProps.focusedPage;
+  const timebarName = state.timebars[timebarId].id;
+  const timelines = [];
+  state.timebars[timebarId].timelines.forEach((v) => {
+    timelines.push(Object.assign({}, state.timelines[v], { timelineId: v }));
+  });
+
   return {
     visuWindow: get(state, ['timebars', timebarId, 'visuWindow']),
-    timebarId: get(state, ['timebars', timebarId, 'id']),
+    timebarId,
+    timebarName,
+    timelines
   };
 }, {
-  changeVisuWindow: updateVisuWindow
+  changeVisuWindow: updateVisuWindow,
+  addAndMountTimelineAction: addAndMountTimeline,
+  unmountTimelineAction: unmountTimeline
 })(TimebarContainer);

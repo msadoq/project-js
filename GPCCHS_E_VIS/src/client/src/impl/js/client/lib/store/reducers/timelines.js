@@ -23,6 +23,7 @@ const initialState = {
   offset: 0,
   kind: 'Session',
   sessionId: null,
+  color: null
 };
 
 function timeline(stateTimeline = initialState, action) {
@@ -30,9 +31,10 @@ function timeline(stateTimeline = initialState, action) {
     case types.WS_TIMELINE_ADD: {
       const configuration = _.get(action, 'payload.configuration', {});
       return Object.assign({}, stateTimeline, {
-        id: configuration.id || initialState.id,
+        id: configuration.id || initialState.id || configuration.kind || initialState.kind,
         offset: configuration.offset || initialState.offset,
         kind: configuration.kind || initialState.kind,
+        color: configuration.color || initialState.color,
         sessionId: configuration.sessionId || initialState.sessionId,
       });
     }

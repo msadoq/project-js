@@ -201,16 +201,17 @@ export default class TimebarScale extends Component {
   render() {
     const viewportMs = this.props.timeEnd - this.props.timeBeginning;
     const scales = this.getRules(viewportMs, this.zoomLevel(viewportMs));
-    const scaleElements = scales.map((s, i) =>
-      React.createElement('div', { key: i, className: styles.scaleBar, style: { left: `${s[2]}%` } },
-        React.createElement('span', { className: styles.scaleTime }, s[1]),
-        React.createElement('span', { className: styles.scaleBar })
-      )
-    );
 
     return (
       <div className={styles.timebarRule}>
-        { scaleElements }
+        {
+          scales.map((s, i) =>
+            <div key={i} className={styles.scaleBar} style={{ left: `${s[2]}%` }}>
+              <span className={styles.scaleTime}>{s[1]}</span>
+              <span className={styles.scaleBar} />
+            </div>
+          )
+        }
       </div>
     );
   }

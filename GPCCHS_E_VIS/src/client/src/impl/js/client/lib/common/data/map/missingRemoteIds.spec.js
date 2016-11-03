@@ -4,7 +4,7 @@ import '../../test';
 import missingRemoteIds from './missingRemoteIds';
 import { inspect } from 'util';
 
-describe.only('missingRemoteIds', () => {
+describe('missingRemoteIds', () => {
   const map = {
     myRemoteId: {
       structureType: 'range',

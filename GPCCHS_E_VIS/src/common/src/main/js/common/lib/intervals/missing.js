@@ -1,5 +1,12 @@
 const { some: _some } = require('lodash');
 
+/**
+ * Return slices of an interval not included in an array of intervals
+ *
+ * @param knownIntervals [[number, number]]
+ * @param interval [number, number]
+ * @return intervals not included [[number, number]]
+ */
 module.exports = (knownIntervals, interval) => {
   const length = knownIntervals.length;
   // No known intervals

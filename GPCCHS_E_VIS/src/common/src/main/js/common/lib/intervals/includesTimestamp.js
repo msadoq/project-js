@@ -8,6 +8,14 @@ const {
 const includesTimestamp = (interval, timestamp) =>
   (timestamp >= interval[0] && timestamp <= interval[1]);
 
+/**
+ * Check if any of the intervals from an array is including a timestamp
+ * Stop at first found
+ *
+ * @param intervals [[number, number]]
+ * @param timestamp number
+ * @return boolean
+ */
 module.exports = (intervals, timestamp) => {
   if (!_isArray(intervals) || intervals.length === 0) {
     return false;

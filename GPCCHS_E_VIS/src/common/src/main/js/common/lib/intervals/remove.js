@@ -6,13 +6,6 @@ const {
   isArray: _isArray,
 } = require('lodash');
 
-/**
- * Remove an interval from an array of interval
- *
- * @param knownIntervals [[number, number]]
- * @param interval [number, number]
- * @return array [[number, number]]
- */
 function remove(knownIntervals, interval) {
   const lower = _sortedLastIndexBy(knownIntervals, interval, i => i[0]);
   const upper = _sortedLastIndexBy(knownIntervals, interval, i => i[1]);
@@ -106,6 +99,14 @@ function remove(knownIntervals, interval) {
   ];
 }
 
+/**
+ * Remove some intervals from an array of interval
+ * Keep slices of intervals not removed
+ *
+ * @param knownIntervals [[number, number]]
+ * @param intervals [[number, number]]
+ * @return array [[number, number]]
+ */
 module.exports = (knownIntervals, intervals) => {
   if (!_isArray(knownIntervals) || !_isArray(intervals) || intervals.length === 0) {
     return knownIntervals;

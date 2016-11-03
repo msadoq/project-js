@@ -7,6 +7,7 @@ const {
    isArray: _isArray,
  } = require('lodash');
 
+
 const merge = (knownIntervals, interval) => {
   if (interval.length !== 2) {
     return knownIntervals;
@@ -114,6 +115,13 @@ const merge = (knownIntervals, interval) => {
   ];
 };
 
+/**
+ * Merge some intervals with an array of intervals (already merged)
+ *
+ * @param knownIntervals [[number, number]]
+ * @param intervals [[number, number]]
+ * @return merged intervals [[number, number]]
+ */
 module.exports = (knownIntervals, intervals) => {
   if (!_isArray(knownIntervals) || !_isArray(intervals) || intervals.length === 0) {
     return knownIntervals;

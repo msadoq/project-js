@@ -13,7 +13,9 @@ const logger = createLogger({
 
 const enhancer = compose(
   applyMiddleware(thunk, logger),
-  electronEnhancer(true),
+  electronEnhancer({
+    dataRequests: false,
+  }),
   window.devToolsExtension
     // TODO seems to need to pass all action:
     // https://github.com/chentsulin/electron-react-boilerplate/blob/master/app/store/configureStore.development.js#L25

@@ -1,5 +1,5 @@
-import { intervals as intervalManager } from 'common';
-
-export default function retrieveNeededIntervals(knownIntervals, interval) {
-  return (intervalManager.includes(knownIntervals, interval)) ? [] : [interval];
+export default function retrieveNeededIntervals(knownInterval, interval) {
+  return (!knownInterval || knownInterval[0] !== interval[0] || knownInterval[1] !== interval[1])
+    ? [interval]
+    : [];
 }

@@ -1,12 +1,12 @@
-import { each, get, map } from 'lodash';
-import {
-  constants as globalConstants,
-  intervals as intervalManager,
-} from 'common';
+import _each from 'lodash/each';
+import _get from 'lodash/get';
+import _map from 'lodash/map';
 
 import profiling from '../../debug/profiling';
 import operators from '../../operators';
 import structures from '../structures';
+
+let lastMap = {};
 
 /**
  * Return the current missing intervals requests list
@@ -27,36 +27,33 @@ import structures from '../structures';
  *   }
  * }
  *
- * @param state
  * @param dataMap
  * @return object
  */
-export default function missingRemoteIds(state, dataMap) {
+export default function missingRemoteIds(dataMap) {
   const start = profiling.start();
   const queries = {};
-  each(dataMap, ({ structureType, dataId, filter, localIds }, remoteId) => {
+  _each(dataMap, ({ structureType, dataId, filter, localIds }, remoteId) => {
     const retrieveNeededIntervals = structures(structureType, 'retrieveNeededIntervals');
     const addInterval = structures(structureType, 'addInterval');
 
-    each(localIds, ({ expectedInterval }) => {
-      const knownIntervals = get(state, ['dataRequests', remoteId], []);
+    _each(localIds, ({ expectedInterval }, localId) => {
+      const knownInterval = _get(lastMap, [remoteId, 'localIds', localId, 'expectedInterval']);
 
-      const needed = retrieveNeededIntervals(knownIntervals, expectedInterval);
+      const needed = retrieveNeededIntervals(knownInterval, expectedInterval);
       if (!needed.length) {
-        return [];
+        return;
       }
 
       if (!queries[remoteId]) {
         const filters = (typeof filter === 'undefined') ?
           [] :
-          map(filter, f => ({
+          _map(filter, f => ({
             fieldName: f.field,
             type: operators[f.operator],
             fieldValue: f.operand,
           })
         );
-
-        // TODO change type depending on the data structure
 
         queries[remoteId] = {
           type: structureType,
@@ -66,12 +63,13 @@ export default function missingRemoteIds(state, dataMap) {
         };
       }
 
-      each(needed, (m) => {
+      _each(needed, (m) => {
         queries[remoteId].intervals = addInterval(queries[remoteId].intervals, m);
-        // TODO getLast no interval merge if getLast
       });
     });
   });
+
+  lastMap = dataMap;
 
   profiling.stop(start, 'missingRemoteIds');
   return queries;

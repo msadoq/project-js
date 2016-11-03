@@ -13,7 +13,9 @@ export default class Timebar extends Component {
     focusedPage: React.PropTypes.object.isRequired,
     visuWindow: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired,
+    onVerticalScroll: React.PropTypes.func.isRequired,
     timebarId: React.PropTypes.string.isRequired,
+    verticalScroll: React.PropTypes.number.isRequired,
   }
 
   constructor(...args) {
@@ -197,6 +199,7 @@ export default class Timebar extends Component {
   }
 
   onWheel = (e) => {
+    if (!e.ctrlKey) return;
     e.preventDefault();
     const { timeBeginning, timeEnd } = this.state;
 
@@ -218,7 +221,7 @@ export default class Timebar extends Component {
 
   formatDate(ms, cursor) {
     const date = moment(ms);
-    if(cursor){
+    if (cursor) {
       if ((this.state.timeEnd - this.state.timeBeginning) > (1000 * 60 * 60 * 24 * 30)) {
         return date.format('YYYY[-]MM[-]DD');
       } else if ((this.state.timeEnd - this.state.timeBeginning) > (1000 * 60 * 60 * 24 * 4)) {
@@ -231,14 +234,14 @@ export default class Timebar extends Component {
         return date.format('HH[:]mm[:]ss');
       }
       return date.format('HH[:]mm[:]ss SSS');
-    } else {
-      if ((this.state.timeEnd - this.state.timeBeginning) > (1000 * 60 * 60 * 6)) {
-        return date.format('YYYY[-]MM[-]DD HH[:]mm[:]ss');
-      } else if ((this.state.timeEnd - this.state.timeBeginning) > (1000 * 60 * 4)) {
-        return date.format('MM[-]DD HH[:]mm[:]ss');
-      }
-      return date.format('MM[-]DD HH[:]mm[:]ss SSS');
     }
+
+    if ((this.state.timeEnd - this.state.timeBeginning) > (1000 * 60 * 60 * 6)) {
+      return date.format('YYYY[-]MM[-]DD HH[:]mm[:]ss');
+    } else if ((this.state.timeEnd - this.state.timeBeginning) > (1000 * 60 * 4)) {
+      return date.format('MM[-]DD HH[:]mm[:]ss');
+    }
+    return date.format('MM[-]DD HH[:]mm[:]ss SSS');
   }
 
   rePosition = (side) => {
@@ -347,7 +350,7 @@ export default class Timebar extends Component {
             </span>
             <span className={styles.upperFormattedTime}>{this.formatDate(upper, true)}</span>
           </div>
-          <div className={styles.timelines}>
+          <div ref={el => this.timelinesEl = el} className={styles.timelines} onScroll={this.props.onVerticalScroll}>
             { timelines.map((v, i) =>
               <TimebarTimeline
                 key={i}

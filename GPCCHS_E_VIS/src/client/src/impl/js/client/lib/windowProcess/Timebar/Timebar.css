@@ -144,10 +144,14 @@
 .resizingTimebarContainer:before{
   color: #555;
 }
-
+.timelines{
+  max-height: 150px;
+  overflow-y: auto;
+}
 .timeline{
   width: 100%;
   margin-bottom: 2px;
+  height: 18px;
 }
 .timelineInfos{
   width: 90%;

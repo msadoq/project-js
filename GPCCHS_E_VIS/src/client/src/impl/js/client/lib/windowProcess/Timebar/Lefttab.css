@@ -1,7 +1,14 @@
+.timebarName{
+  position: absolute;
+  top: 0px;
+  left: 15px;
+  margin-top: 0px;
+
+}
 .form{
   position: absolute;
-  right: 13px;
-  top: 0;
+  right: 26px;
+  top: -6px;
   transform: translate(calc(100% - 32px), calc(-100% + 34px));
   background: #fff;
   border: 1px solid #ccc;
@@ -13,7 +20,10 @@
 }
 
 .timelineUl{
+  margin-top: 28px;
   padding-left: 0px;
+  max-height: 150px;
+  overflow-y: auto;
 }
 
 .timeline{
@@ -24,7 +34,7 @@
   font-weight: 500;
   padding: 2px 4px;
   margin-bottom: 2px;
-  padding: 6px 4px;
+  height: 18px;
   font-weight: bold;
 }
 
@@ -35,8 +45,8 @@
 .addTimelineButton{
   z-index: 11;
   position: absolute;
-  top: 6px;
-  right: 18px;
+  top: 0px;
+  right: 31px;
   padding: 2px 7px;
   border-radius: 1px;
 }
@@ -56,20 +66,21 @@
   background: #444;
   cursor: pointer;
   color: #fff;
-  padding: 4px 9px;
+  padding: 1px 6px;
   border-radius: 1px;
   position: absolute;
-  top: 2px;
-  right: 2px;
+  top: 0px;
+  right: 0px;
   text-align: center;
+  border: none;
 }
 .square{
   position: absolute;
-  top: 2px;
-  right: 26px;
-  width: 23px;
-  height: 23px;
-  border-radius: 1px;
+  top: 0px;
+  right: 16px;
+  width: 17px;
+  height: 17px;
+
 }
 .deleteButton:hover{
   background: #222;

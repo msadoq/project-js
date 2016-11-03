@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Button, FormGroup, Form } from 'react-bootstrap';
 import Timeline from './Timeline';
 import styles from './Lefttab.css';
-import ColorPicker from '../Editor/Components/ColorPicker';
 
 export default class Lefttab extends Component {
   static propTypes = {
@@ -10,14 +9,17 @@ export default class Lefttab extends Component {
     timebarId: React.PropTypes.string.isRequired,
     timebarName: React.PropTypes.string.isRequired,
     addAndMountTimeline: React.PropTypes.func.isRequired,
-    unmountTimeline: React.PropTypes.func.isRequired
+    unmountTimeline: React.PropTypes.func.isRequired,
+    onVerticalScroll: React.PropTypes.func.isRequired,
+    verticalScroll: React.PropTypes.number.isRequired,
   }
 
-  constructor(...args) {
-    super(...args);
-    this.state = {
-      willAdd: false
-    };
+  state = {
+    willAdd: false
+  }
+
+  componentDidUpdate() {
+    this.timelinesEl.scrollTop = this.props.verticalScroll;
   }
 
   toggleAddTimeline = (e) => {
@@ -26,7 +28,7 @@ export default class Lefttab extends Component {
   }
 
   handleSelectChange = (e) => {
-    this.refs.newTimelineName.value = e.target.value;
+    this.newTimelineNameEl.value = e.target.value;
   }
 
   willAddTimeline = (e) => {
@@ -34,12 +36,12 @@ export default class Lefttab extends Component {
     this.props.addAndMountTimeline(
       this.props.timebarId,
       {
-        kind: this.refs.newTimelineProprety.value,
-        id: this.refs.newTimelineName.value,
+        kind: this.newTimelinePropretyEl.value,
+        id: this.newTimelineNameEl.value,
         color: `
           ${this.props.timelines.length * 43},
-          ${(Math.random() * 40) + 50}%,
-          ${(Math.random() * 20) + 10}%`
+          ${(Math.random() * 80) + 20}%,
+          ${(Math.random() * 40) + 20}%`
       });
     this.toggleAddTimeline();
   }
@@ -58,13 +60,17 @@ export default class Lefttab extends Component {
     return (
 
       <div>
-        <h5>{this.props.timebarName}</h5>
+        <h5 className={styles.timebarName}>{this.props.timebarName}</h5>
         <Form horizontal className={formKlass}>
           <b>Add a track :</b>
           <br /><br />
           <FormGroup className={styles.formGroup}>
             <b className={styles.labelFormControl}>Parameter</b>
-            <select ref="newTimelineProprety" className={`form-control ${styles.formControl}`} onChange={this.handleSelectChange}>
+            <select
+              ref={el => this.newTimelinePropretyEl = el}
+              className={`form-control ${styles.formControl}`}
+              onChange={this.handleSelectChange}
+            >
               <option value="value1">valeur 1</option>
               <option value="value2">valeur 2</option>
               <option value="value3">valeur 3</option>
@@ -72,14 +78,18 @@ export default class Lefttab extends Component {
           </FormGroup>
           <FormGroup className={styles.formGroup}>
             <b className={styles.labelFormControl}>name</b>
-            <input ref="newTimelineName" className={`form-control ${styles.formControl}`} value={this.state.newTimelineName}/>
+            <input
+              ref={el => this.newTimelineNameEl = el}
+              className={`form-control ${styles.formControl}`}
+              value={this.state.newTimelineName}
+            />
           </FormGroup>
           <Button className="btn-sm btn-primary col-md-offset-4" onClick={this.willAddTimeline}>Add track</Button>
           <hr />
         </Form>
         <Button bsSize="small" className={styles.addTimelineButton} title="Add track" onClick={this.toggleAddTimeline} bsStyle="info">+</Button>
         {noTrack}
-        <ul className={styles.timelineUl}>
+        <ul ref={el => this.timelinesEl = el} className={styles.timelineUl} onScroll={this.props.onVerticalScroll}>
           { timelines.map((v, i) =>
             <Timeline
               key={i}

@@ -79,7 +79,7 @@ class Debug extends PureComponent {
           TIMEBAR {debug.timebarVisibility ? 'ON' : 'OFF'}
         </Button>
         {' '}
-        <Button onClick={this.visibleRemoteIds} {...buttonsProps}>VISIBLE MAP</Button>
+        <Button onClick={this.visibleRemoteIds} {...buttonsProps}>DATA MAP</Button>
         {' '}
         <Button onClick={this.visibleViews} {...buttonsProps}>VIEW MAP</Button>
         {' '}

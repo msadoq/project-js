@@ -21,9 +21,7 @@ function request(state, dispatch) {
   const dataMap = map(state);
   logger.verbose(dataMap);
 
-  // TODO : improve memoization: pass dataRequests as arguments (/!\ no reselect, should never
-  //        return previous requests, but maybe requesting could be done in a createSelector)
-  const dataQueries = missingRemoteIds(state, dataMap);
+  const dataQueries = missingRemoteIds(dataMap);
   logger.verbose(dataQueries);
 
   if (dataQueries && _isObject(dataQueries) && Object.keys(dataQueries).length) {

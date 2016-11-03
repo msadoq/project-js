@@ -76,6 +76,7 @@ export function visibleViews(domains, timebars, timelines, views) {
       ? Object.assign(list, {
         [viewId]: {
           type,
+          structureType,
           entryPoints: viewMap,
         },
       })

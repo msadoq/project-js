@@ -4,7 +4,6 @@ const {
   constants: globalConstants,
   intervals: intervalManager,
 } = require('common');
-// const { inspect } = require('util');
 const {
   concat: _concat,
   remove: _remove,

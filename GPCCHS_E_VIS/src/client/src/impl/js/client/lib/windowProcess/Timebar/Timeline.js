@@ -9,18 +9,19 @@ export default class Timeline extends Component {
     unmountTimeline: React.PropTypes.func.isRequired,
   }
 
-  willUnmountTimeline = (e) => {
+  willUnmountTimeline = () => {
     this.props.unmountTimeline(this.props.timebarId, this.props.id);
   }
 
   render() {
     return (
-      <li
-        className={styles.timeline}
-        style={{ background: (this.props.color ? `hsl(${this.props.color})` : '#31b0d5') }}
-      >
+      <li className={styles.timeline} >
         {this.props.name}
-        <span className={styles.deleteButton} onClick={this.willUnmountTimeline}>-</span>
+        <span
+          className={styles.square}
+          style={{ background: (this.props.color ? `hsl(${this.props.color})` : '#31b0d5') }}>
+        </span>
+        <span className={styles.deleteButton} title="Remove this track" onClick={this.willUnmountTimeline}>-</span>
       </li>
     );
   }

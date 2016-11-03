@@ -78,7 +78,9 @@ class TimebarContainer extends Component {
         </Col>
         <Col xs={9} style={{ height: `${this.state.height}px` }}>
           <Timebar
+            timebarId={timebarId}
             visuWindow={visuWindow}
+            timelines={timelines}
             focusedPage={focusedPage}
             onChange={changeVisuWindow}
           />

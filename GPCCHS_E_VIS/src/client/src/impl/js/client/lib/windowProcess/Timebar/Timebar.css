@@ -1,5 +1,5 @@
 .viewportWrapper{
-    padding-top: 18px;
+    padding-top: 28px;
     overflow: hidden
 }
 .viewportContainer{
@@ -65,7 +65,7 @@
     user-select: none;
 }
 .timeBeginning, .timeEnd{
-    top: 4px;
+    top: -28px;
     font-size: 0.8em;
     color: rgba(0,0,0,0.6);
 }
@@ -143,4 +143,17 @@
 }
 .resizingTimebarContainer:before{
   color: #555;
+}
+
+.timeline{
+  width: 100%;
+  margin-bottom: 2px;
+}
+.timelineInfos{
+  width: 90%;
+  max-width: 200px;
+  background-color: rgba(255,255,255,0.8);
+  height: 100%;
+  margin: 0px auto;
+  padding-left: 6px;
 }

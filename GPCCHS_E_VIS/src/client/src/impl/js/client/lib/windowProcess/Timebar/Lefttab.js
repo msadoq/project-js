@@ -20,8 +20,8 @@ export default class Lefttab extends Component {
     };
   }
 
-  displayAddTimeline = (e) => {
-    e.preventDefault();
+  toggleAddTimeline = (e) => {
+    if (e) e.preventDefault();
     this.setState({ willAdd: !this.state.willAdd });
   }
 
@@ -41,6 +41,7 @@ export default class Lefttab extends Component {
           ${(Math.random() * 40) + 50}%,
           ${(Math.random() * 20) + 10}%`
       });
+    this.toggleAddTimeline();
   }
 
   render() {
@@ -76,7 +77,7 @@ export default class Lefttab extends Component {
           <Button className="btn-sm btn-primary col-md-offset-4" onClick={this.willAddTimeline}>Add track</Button>
           <hr />
         </Form>
-        <Button bsSize="small" className={styles.addTimelineButton} onClick={this.displayAddTimeline} bsStyle="info">+</Button>
+        <Button bsSize="small" className={styles.addTimelineButton} title="Add track" onClick={this.toggleAddTimeline} bsStyle="info">+</Button>
         {noTrack}
         <ul className={styles.timelineUl}>
           { timelines.map((v, i) =>

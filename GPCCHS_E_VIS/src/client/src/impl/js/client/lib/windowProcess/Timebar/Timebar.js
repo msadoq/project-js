@@ -18,6 +18,10 @@ export default class Timebar extends Component {
     verticalScroll: React.PropTypes.number.isRequired,
   }
 
+  componentDidUpdate() {
+    this.timelinesEl.scrollTop = this.props.verticalScroll;
+  }
+
   constructor(...args) {
     super(...args);
 

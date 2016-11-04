@@ -47,8 +47,10 @@ export default function inject(state, dispatch, payload) {
   const data = selectData(state, viewDefinitions, payload, count);
   dispatch(importPayload(data));
 
-  profiling.stop(
-    start,
-    `dataInjection (${count.last} last and ${count.range} range values)`
-  );
+  return (count.last || count.range)
+    ? profiling.stop(
+        start,
+        `dataInjection (${count.last} last and ${count.range} range values)`
+      )
+    : profiling.stop(start, false);
 }

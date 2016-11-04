@@ -34,7 +34,7 @@
       },
       "lineStyle": "Continuous",
       "pointsStyle": "None",
-      "curveColour": "#000000",
+      "curveColour": "#FF0000",
       "stateColours": [
         {
           "colour": "#000000",
@@ -68,7 +68,7 @@
       },
       "lineStyle": "Continuous",
       "pointsStyle": "None",
-      "curveColour": "#000000",
+      "curveColour": "#58FA58",
       "stateColours": [
         {
           "colour": "#000000",
@@ -102,7 +102,7 @@
       },
       "lineStyle": "Continuous",
       "pointsStyle": "None",
-      "curveColour": "#000000",
+      "curveColour": "#F7BE81",
       "stateColours": [
         {
           "colour": "#000000",
@@ -136,7 +136,7 @@
       },
       "lineStyle": "Continuous",
       "pointsStyle": "None",
-      "curveColour": "#000000",
+      "curveColour": "#DF013A",
       "stateColours": [
         {
           "colour": "#000000",

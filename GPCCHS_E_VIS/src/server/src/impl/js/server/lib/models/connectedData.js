@@ -4,7 +4,6 @@ const {
   constants: globalConstants,
   intervals: intervalManager,
 } = require('common');
-// const { inspect } = require('util');
 const {
   concat: _concat,
   remove: _remove,
@@ -235,7 +234,7 @@ collection.retrieveMissingIntervals = (remoteId, interval, connectedData) => {
 
   switch (cd.type) {
     case globalConstants.DATASTRUCTURETYPE_LAST:
-      return (intervalManager.includes(allIntervals, interval)) ? [] : [interval];
+      return intervalManager.notIncluded(allIntervals, interval);
     case globalConstants.DATASTRUCTURETYPE_RANGE:
       return intervalManager.missing(allIntervals, interval);
     default:

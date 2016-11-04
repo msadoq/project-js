@@ -6,7 +6,6 @@ const {
   without: _without,
   memoize: _memoize,
 } = require('lodash');
-const { inspect } = require('util');
 const constants = require('../constants');
 
 let remoteIds = [];
@@ -56,7 +55,7 @@ const addTimebasedDataModel = (remoteId) => {
       query.$and.push({ timestamp: { $lte: upper } });
     }
 
-    debug.debug('searching for', inspect(query));
+    debug.debug('searching for', query.$and);
     return collection.find(query);
   };
 

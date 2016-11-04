@@ -21,7 +21,10 @@ class TimebarContainer extends Component {
     timelines: React.PropTypes.array.isRequired,
   }
 
-  state = { height: 140 };
+  state = {
+    timelinesVerticalScroll: 0,
+    height: 140
+  };
 
   resizeWindow = (e) => {
     this.setState({
@@ -53,10 +56,17 @@ class TimebarContainer extends Component {
     e.preventDefault();
   }
 
+  onTimelinesVerticalScroll = (e) => {
+    e.preventDefault();
+    this.setState({ timelinesVerticalScroll: e.target.scrollTop });
+  }
+
   render() {
+    const { timelinesVerticalScroll, height } = this.state;
     const { changeVisuWindow, timelines, timebarId,
       visuWindow, focusedPage, timebarName,
-      addAndMountTimelineAction, unmountTimelineAction } = this.props;
+      addAndMountTimelineAction, unmountTimelineAction
+    } = this.props;
     let hrKlasses = styles.resizeTimebarContainer;
     if (this.state.resizingWindow) {
       hrKlasses += ` ${styles.resizingTimebarContainer}`;
@@ -74,13 +84,19 @@ class TimebarContainer extends Component {
             timelines={timelines}
             addAndMountTimeline={addAndMountTimelineAction}
             unmountTimeline={unmountTimelineAction}
+            verticalScroll={timelinesVerticalScroll}
+            onVerticalScroll={this.onTimelinesVerticalScroll}
           />
         </Col>
-        <Col xs={9} style={{ height: `${this.state.height}px` }}>
+        <Col xs={9} style={{ height: `${height}px` }}>
           <Timebar
+            timebarId={timebarId}
             visuWindow={visuWindow}
+            timelines={timelines}
             focusedPage={focusedPage}
             onChange={changeVisuWindow}
+            verticalScroll={timelinesVerticalScroll}
+            onVerticalScroll={this.onTimelinesVerticalScroll}
           />
         </Col>
       </div>

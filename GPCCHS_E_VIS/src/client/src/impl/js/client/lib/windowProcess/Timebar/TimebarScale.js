@@ -9,6 +9,30 @@ export default class TimebarScale extends Component {
     timeEnd: React.PropTypes.number.isRequired,
   }
 
+  getRules(viewportMs, zl) {
+    const { timeBeginning, timeEnd } = this.props;
+    const start = moment(timeBeginning);
+    const output = [];
+    const levelRule = this.levelsRules()[zl];
+
+    start.subtract(levelRule.add[0] * 3, levelRule.add[1]).startOf(levelRule.startOf);
+    for (let i = 0; i < 50; i += 1) {
+      let ts;
+      if (zl > 19) {
+        ts = start.add(levelRule.add[0], levelRule.add[1]).toDate().getTime() + levelRule.add[0];
+      } else {
+        ts = start.add(levelRule.add[0], levelRule.add[1]).unix() * 1000;
+      }
+
+      output.push([
+        ts,
+        start.format(levelRule.format),
+        (100 * (ts - timeBeginning)) / (timeEnd - timeBeginning)
+      ]);
+    }
+    return output;
+  }
+
   levelsRules() {
     const day = 1000 * 60 * 60 * 24;
     const hour = 1000 * 60 * 60;
@@ -164,30 +188,6 @@ export default class TimebarScale extends Component {
         format: 'mm[:]ss SSS'
       }
     ];
-  }
-
-  getRules(viewportMs, zl) {
-    const { timeBeginning, timeEnd } = this.props;
-    const start = moment(timeBeginning);
-    const output = [];
-    const levelRule = this.levelsRules()[zl];
-
-    start.subtract(levelRule.add[0] * 3, levelRule.add[1]).startOf(levelRule.startOf);
-    for (let i = 0; i < 50; i += 1) {
-      let ts;
-      if (zl > 19) {
-        ts = start.add(levelRule.add[0], levelRule.add[1]).toDate().getTime() + levelRule.add[0];
-      } else {
-        ts = start.add(levelRule.add[0], levelRule.add[1]).unix() * 1000;
-      }
-
-      output.push([
-        ts,
-        start.format(levelRule.format),
-        (100 * (ts - timeBeginning)) / (timeEnd - timeBeginning)
-      ]);
-    }
-    return output;
   }
 
   zoomLevel(viewportMs) {

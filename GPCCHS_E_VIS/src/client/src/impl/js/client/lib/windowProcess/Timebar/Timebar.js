@@ -1,15 +1,25 @@
+import moment from 'moment';
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import styles from './Timebar.css';
 import TimebarScale from './TimebarScale';
+import TimebarTimeline from './TimebarTimeline';
 
 
 export default class Timebar extends Component {
 
   static propTypes = {
+    timelines: React.PropTypes.array.isRequired,
     focusedPage: React.PropTypes.object.isRequired,
     visuWindow: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired,
+    onVerticalScroll: React.PropTypes.func.isRequired,
+    timebarId: React.PropTypes.string.isRequired,
+    verticalScroll: React.PropTypes.number.isRequired,
+  }
+
+  componentDidUpdate() {
+    this.timelinesEl.scrollTop = this.props.verticalScroll;
   }
 
   constructor(...args) {
@@ -193,6 +203,7 @@ export default class Timebar extends Component {
   }
 
   onWheel = (e) => {
+    if (!e.ctrlKey) return;
     e.preventDefault();
     const { timeBeginning, timeEnd } = this.state;
 
@@ -213,29 +224,28 @@ export default class Timebar extends Component {
   }
 
   formatDate(ms, cursor) {
-    const date = new Date(ms);
-    const y = date.getFullYear();
-    const m = (date.getMonth() + 1).toString().padStart(2, '0');
-    const d = date.getDate().toString().padStart(2, '0');
-    let dateFormatted = `${d}/${m}/${y}`;
-
-    if ((this.state.timeEnd - this.state.timeBeginning) < (1000 * 60 * 96)) {
-      const h = date.getHours().toString().padStart(2, '0');
-      const min = date.getMinutes().toString().padStart(2, '0');
-      if (cursor) {
-        dateFormatted = `${h}h${min}`;
-      } else {
-        dateFormatted += ` ${h}h${min}`;
+    const date = moment(ms);
+    if (cursor) {
+      if ((this.state.timeEnd - this.state.timeBeginning) > (1000 * 60 * 60 * 24 * 30)) {
+        return date.format('YYYY[-]MM[-]DD');
+      } else if ((this.state.timeEnd - this.state.timeBeginning) > (1000 * 60 * 60 * 24 * 4)) {
+        return date.format('YYYY[-]MM[-]DD HH');
+      } else if ((this.state.timeEnd - this.state.timeBeginning) > (1000 * 60 * 60 * 24)) {
+        return date.format('MM[-]DD HH[:]mm[:]ss');
+      } else if ((this.state.timeEnd - this.state.timeBeginning) > (1000 * 60 * 60 * 6)) {
+        return date.format('MM[-]DD HH[:]mm[:]ss');
+      } else if ((this.state.timeEnd - this.state.timeBeginning) > (1000 * 60 * 4)) {
+        return date.format('HH[:]mm[:]ss');
       }
+      return date.format('HH[:]mm[:]ss SSS');
     }
 
-    if ((this.state.timeEnd - this.state.timeBeginning) < (1000 * 60 * 6)) {
-      const s = date.getSeconds().toString().padStart(2, '0');
-      const mil = date.getMilliseconds().toString().padStart(2, '0');
-      dateFormatted += ` ${s}s ${mil}ms`;
+    if ((this.state.timeEnd - this.state.timeBeginning) > (1000 * 60 * 60 * 6)) {
+      return date.format('YYYY[-]MM[-]DD HH[:]mm[:]ss');
+    } else if ((this.state.timeEnd - this.state.timeBeginning) > (1000 * 60 * 4)) {
+      return date.format('MM[-]DD HH[:]mm[:]ss');
     }
-
-    return dateFormatted;
+    return date.format('MM[-]DD HH[:]mm[:]ss SSS');
   }
 
   rePosition = (side) => {
@@ -282,7 +292,7 @@ export default class Timebar extends Component {
         dragging, resizing,
         timeBeginning, timeEnd
     } = this.state;
-    const { visuWindow } = this.props;
+    const { visuWindow, timelines, timebarId } = this.props;
 
     const lower = this.state.lower || visuWindow.lower;
     const upper = this.state.upper || visuWindow.upper;
@@ -343,6 +353,19 @@ export default class Timebar extends Component {
               {this.formatDate(current, true)}
             </span>
             <span className={styles.upperFormattedTime}>{this.formatDate(upper, true)}</span>
+          </div>
+          <div ref={el => this.timelinesEl = el} className={styles.timelines} onScroll={this.props.onVerticalScroll}>
+            { timelines.map((v, i) =>
+              <TimebarTimeline
+                key={i}
+                name={v.id}
+                className={styles.timeline}
+                timebarId={timebarId}
+                id={v.timelineId}
+                color={v.color}
+                offset={v.offset}
+              />
+            )}
           </div>
         </div>
         <TimebarScale timeBeginning={this.state.timeBeginning} timeEnd={this.state.timeEnd} />

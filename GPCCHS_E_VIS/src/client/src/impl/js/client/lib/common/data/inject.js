@@ -5,12 +5,12 @@ import debug from '../debug/mainDebug';
 import vivl from '../../../VIVL/main';
 import getViewDefinitions from './map/visibleViews';
 import { importPayload } from '../../store/actions/viewData';
-import selectLastValue from './structures/last/lastValue';
-import selectRangeValues from './structures/range/rangeValues';
+import lastValue from './structures/last/lastValue';
+import rangeValues from './structures/range/rangeValues';
 
 const logger = debug('data:inject');
 
-export function selectData(state, viewDefinitions, payload) {
+export function selectData(state, viewDefinitions, payload, count) {
   const bag = {};
   // remoteId
   each(viewDefinitions, (view, viewId) => {
@@ -18,14 +18,14 @@ export function selectData(state, viewDefinitions, payload) {
     const structureType = vivl(view.type, 'structureType')();
     switch (structureType) {
       case globalConstants.DATASTRUCTURETYPE_LAST: {
-        const viewBag = selectLastValue(state, payload, viewId, view.entryPoints);
+        const viewBag = lastValue(state, payload, viewId, view.entryPoints, count);
         if (viewBag) {
           set(bag, [viewId], viewBag);
         }
         break;
       }
       case globalConstants.DATASTRUCTURETYPE_RANGE: {
-        const viewBag = selectRangeValues(payload, view.entryPoints);
+        const viewBag = rangeValues(payload, view.entryPoints, count);
         if (viewBag) {
           set(bag, [viewId], viewBag);
         }
@@ -41,13 +41,14 @@ export function selectData(state, viewDefinitions, payload) {
 export default function inject(state, dispatch, payload) {
   logger.verbose('begin');
 
+  const count = { last: 0, range: 0 };
   const start = profiling.start();
   const viewDefinitions = getViewDefinitions(state);
-  const data = selectData(state, viewDefinitions, payload);
+  const data = selectData(state, viewDefinitions, payload, count);
   dispatch(importPayload(data));
 
   profiling.stop(
     start,
-    `dataInjection (${Object.keys(data).length ? Object.keys(data).length : 0} remoteId)`
+    `dataInjection (${count.last} last and ${count.range} range values)`
   );
 }

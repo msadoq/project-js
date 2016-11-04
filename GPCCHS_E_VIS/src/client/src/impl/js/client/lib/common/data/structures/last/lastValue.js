@@ -5,7 +5,7 @@ import debug from '../../../debug/mainDebug';
 const logger = debug('data:lastValue');
 
 // Get the nearest value from the current time
-export function lastValue(remoteIdPayload, ep, epName, viewSubState) {
+export function select(remoteIdPayload, ep, epName, viewSubState) {
   // Entry points on this remoteId
   const lower = ep.expectedInterval[0];
   const current = ep.expectedInterval[1];
@@ -35,7 +35,7 @@ export function lastValue(remoteIdPayload, ep, epName, viewSubState) {
   return newValue;
 }
 
-export default function selectLastValue(state, payload, viewId, entryPoints) {
+export default function lastValue(state, payload, viewId, entryPoints, count) {
   let viewData;
   // Entry points
   each(entryPoints, (ep, epName) => {
@@ -46,7 +46,7 @@ export default function selectLastValue(state, payload, viewId, entryPoints) {
     // Get current state for update
     const currentSubState = get(state, ['viewData', viewId]);
     // compute new data
-    const newData = lastValue(payload[ep.remoteId], ep, epName, currentSubState);
+    const newData = select(payload[ep.remoteId], ep, epName, currentSubState);
     if (!newData) {
       return;
     }
@@ -57,6 +57,7 @@ export default function selectLastValue(state, payload, viewId, entryPoints) {
     set(viewData, ['index', epName], newData.timestamp);
     set(viewData, ['values', epName], newData.value);
     set(viewData, ['structureType'], globalConstants.DATASTRUCTURETYPE_LAST);
+    count.last += 1; // eslint-disable-line no-param-reassign
   });
   return viewData;
 }

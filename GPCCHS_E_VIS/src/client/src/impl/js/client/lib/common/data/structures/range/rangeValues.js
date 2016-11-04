@@ -4,7 +4,7 @@ import debug from '../../../debug/mainDebug';
 
 const logger = debug('data:rangeValues');
 
-export function rangeValues(remoteIdPayload, ep, epName, viewState) {
+export function select(remoteIdPayload, ep, epName, viewState, count) {
   const lower = ep.expectedInterval[0];
   const upper = ep.expectedInterval[1];
   const newState = {};
@@ -28,11 +28,13 @@ export function rangeValues(remoteIdPayload, ep, epName, viewState) {
       set(newState, [masterTime, epName],
         { x: value[ep.fieldX], value: value[ep.fieldY] });
     }
+
+    count.range += 1; // eslint-disable-line no-param-reassign
   });
   return newState;
 }
 
-export default function selectRangeValues(payload, entryPoints) {
+export default function rangeValues(payload, entryPoints, count) {
   let isFirstEp = true;
   // Get current state for update
   let epSubState = {};
@@ -55,7 +57,7 @@ export default function selectRangeValues(payload, entryPoints) {
       isFirstEp = false;
     }
 
-    epSubState = rangeValues(payload[ep.remoteId], ep, epName, epSubState);
+    epSubState = select(payload[ep.remoteId], ep, epName, epSubState, count);
   });
   if (Object.keys(epSubState).length !== 0) {
     set(viewData, ['add'], epSubState);

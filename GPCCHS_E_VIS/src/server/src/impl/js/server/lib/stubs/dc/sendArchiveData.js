@@ -48,11 +48,11 @@ module.exports = function sendArchiveData(
   if (queryArguments.getLastType === globalConstants.GETLASTTYPE_GET_LAST) {
     debug.info('push a getLast data');
     const ts = _random(from, to);
-    payloads.push(getPayload(ts));
+    payloads.push(getPayload(ts, dataId.parameterName));
   } else {
     for (let i = from; i <= to && i < now; i += globalConstants.DC_STUB_VALUE_TIMESTEP) {
       if (shouldPushANewValue(queryKey, i)) {
-        payloads.push(getPayload(i));
+        payloads.push(getPayload(i, dataId.parameterName));
       }
     }
   }

@@ -14,7 +14,7 @@
   border: 1px solid #ccc;
   border-radius: 1px;
   box-shadow: 0px 0px 9px rgba(0,0,0,0.3);
-  z-index: 10;
+  z-index: 2;
   width: 260px;
   padding: 4px;
 }
@@ -43,7 +43,6 @@
 }
 
 .addTimelineButton{
-  z-index: 11;
   position: absolute;
   top: 0px;
   right: 31px;

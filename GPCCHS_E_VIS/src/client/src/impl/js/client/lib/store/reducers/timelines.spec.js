@@ -32,10 +32,11 @@ describe('store:timeline', () => {
           actions.add('myTimelineId')
         );
         state.myTimelineId.should.have.properties({
-          id: null,
+          id: 'Session',
           offset: 0,
           kind: 'Session',
           sessionId: null,
+          color: null,
         });
       });
     });

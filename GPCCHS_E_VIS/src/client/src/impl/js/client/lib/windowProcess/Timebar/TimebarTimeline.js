@@ -12,7 +12,7 @@ export default class TimebarTimeline extends PureComponent {
     return (
       <div
         className={styles.timeline}
-        style={{ background: (color ? `hsl(${color})` : '#31b0d5') }}
+        style={{ background: color || '#31b0d5' }}
       >
         <div className={styles.timelineInfos}>{this.props.name}</div>
       </div>

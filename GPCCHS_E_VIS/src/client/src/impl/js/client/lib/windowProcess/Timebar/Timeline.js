@@ -23,7 +23,7 @@ export default class Timeline extends PureComponent {
         <span
           className={styles.square}
           style={{
-            background: (color ? `hsl(${color})` : '#31b0d5')
+            background: color || '#31b0d5'
           }}
         />
         <button className={styles.deleteButton} title="Remove this track" onClick={this.willUnmountTimeline}>-</button>

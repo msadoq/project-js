@@ -84,7 +84,7 @@ export default class Lefttab extends Component {
               value={this.state.newTimelineName}
             />
           </FormGroup>
-          <Button className="btn-sm btn-primary col-md-offset-4" onClick={this.willAddTimeline}>Add track</Button>
+          <input type="submit" value="Add track" className={`${styles.addTrackButton} btn-sm btn-primary col-md-offset-4`} onClick={this.willAddTimeline} />
           <hr />
         </Form>
         <Button bsSize="small" className={styles.addTimelineButton} title="Add track" onClick={this.toggleAddTimeline} bsStyle="info">+</Button>

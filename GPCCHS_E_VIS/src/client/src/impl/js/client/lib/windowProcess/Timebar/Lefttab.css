@@ -85,3 +85,6 @@
 .deleteButton:hover{
   background: #222;
 }
+.addTrackButton{
+  border: none;
+}

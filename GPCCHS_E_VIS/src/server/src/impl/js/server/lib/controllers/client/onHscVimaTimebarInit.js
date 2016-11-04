@@ -35,7 +35,8 @@ module.exports = (spark, timebars) => {
     });
   }
 
-  debug.info('timebars received from HSC', tbForQt);
+  debug.info('timebars received from HSC');
+  debug.verbose(tbForQt);
   zmq.push('vimaTbPush', JSON.stringify(tbForQt), () => {
     debug.info('timebars sent to VIMA');
   });

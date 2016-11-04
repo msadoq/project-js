@@ -112,17 +112,14 @@ class PlotView extends PureComponent {
 
   yExtents = d => _map(this.lines, ({ key }) => _get(d, [key, 'value']));
 
-  handleTooltipContent = ({ currentItem, xAccessor }) => {
-    const { data: { lines = [] } = {} } = this.props;
-    return {
-      x: this.dateFormat(xAccessor(currentItem)),
-      y: lines.map(line => ({
-        label: line.name,
-        value: _get(currentItem, [line.key, 'value']),
-        stroke: line.color,
-      })),
-    };
-  };
+  handleTooltipContent = ({ currentItem, xAccessor }) => ({
+    x: this.dateFormat(xAccessor(currentItem)),
+    y: this.lines.map(line => ({
+      label: line.name,
+      value: _get(currentItem, [line.key, 'value']),
+      stroke: line.color,
+    })),
+  });
 
   shouldRender() {
     const { size, data } = this.props;

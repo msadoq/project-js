@@ -45,7 +45,7 @@ deploy_cots() {
 
   cp ${api.work.dir}/js/${artifactId}/package.json ${api.work.dir}/js/${artifactId}/toPackage/
 
-  ${api.work.dir}/js/${artifactId}/node_modules/.bin/electron-packager ./toPackage --out=${api.lib.dir}/js/${artifactId}
+  ${api.work.dir}/js/${artifactId}/node_modules/.bin/electron-packager ./toPackage --out=${api.lib.dir}/js/${artifactId} --overwrite --download.cache=.electron/
 
   cp -R ./toPackage/node_modules/common ${api.lib.dir}/js/${artifactId}/lpisis_gpcchs_e_clt-linux-x64/resources/app/node_modules
 

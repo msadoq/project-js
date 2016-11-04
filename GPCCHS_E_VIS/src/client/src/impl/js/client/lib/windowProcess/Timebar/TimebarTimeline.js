@@ -1,22 +1,19 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import styles from './Timebar.css';
 
-export default class TimebarTimeline extends Component {
+export default class TimebarTimeline extends PureComponent {
   static propTypes = {
-    id: React.PropTypes.string.isRequired,
     name: React.PropTypes.string.isRequired,
-    timebarId: React.PropTypes.string.isRequired
   }
 
   render() {
+    const { color } = this.props;
     return (
       <div
         className={styles.timeline}
-        style={{ background: (this.props.color ? `hsl(${this.props.color})` : '#31b0d5') }}
+        style={{ background: (color ? `hsl(${color})` : '#31b0d5') }}
       >
-        <div className={styles.timelineInfos}>
-          {this.props.name}
-        </div>
+        <div className={styles.timelineInfos}>{this.props.name}</div>
       </div>
     );
   }

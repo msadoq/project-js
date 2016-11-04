@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import styles from './Lefttab.css';
 
-export default class Timeline extends Component {
+export default class Timeline extends PureComponent {
   static propTypes = {
     id: React.PropTypes.string.isRequired,
     name: React.PropTypes.string.isRequired,
@@ -15,13 +15,14 @@ export default class Timeline extends Component {
   }
 
   render() {
+    const { color, name } = this.props;
     return (
       <li className={styles.timeline}>
-        {this.props.name}
+        {name}
         <span
           className={styles.square}
           style={{
-            background: (this.props.color ? `hsl(${this.props.color})` : '#31b0d5')
+            background: (color ? `hsl(${color})` : '#31b0d5')
           }}
         />
         <button className={styles.deleteButton} title="Remove this track" onClick={this.willUnmountTimeline}>-</button>

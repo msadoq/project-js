@@ -4,6 +4,9 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import reducer from '../store/reducers/index';
 
+process.env.PROFILING = 'off';
+process.env.MONITORING = 'off';
+
 require('dotenv-safe').load();
 // import 'babel-polyfill';
 // import { jsdom } from 'jsdom';

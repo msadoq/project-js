@@ -89,8 +89,6 @@ export function viewRange(state, viewId, remove, add) {
   }
   viewState = viewRangeAdd(viewState, add);
 
-
-  console.log('pass in ', viewState === state[viewId] ? 'first' : 'second');
   return (viewState === state[viewId])
     ? state // no modification
     : Object.assign({}, state, {

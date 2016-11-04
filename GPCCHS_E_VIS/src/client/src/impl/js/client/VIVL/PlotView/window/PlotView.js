@@ -148,18 +148,18 @@ class PlotView extends PureComponent {
       <div key={key}>
         <LineSeries
           key={`line${key}`}
-          yAccessor={d => _get(d, [key, 'value'], 50)}
+          yAccessor={d => _get(d, [key, 'value'])}
           stroke={color}
         />
         <ScatterSeries
           key={`scatter${key}`}
-          yAccessor={d => _get(d, [key, 'value'], 50)}
+          yAccessor={d => _get(d, [key, 'value'])}
           marker={getLineMarker(pointsStyle)}
           markerProps={getLineMarkerProps(pointsStyle, { stroke: color })}
         />
         <CurrentCoordinate
           key={`coordinate${key}`}
-          yAccessor={d => _get(d, [key, 'value'], 50)}
+          yAccessor={d => _get(d, [key, 'value'])}
           fill={color}
         />
       </div>

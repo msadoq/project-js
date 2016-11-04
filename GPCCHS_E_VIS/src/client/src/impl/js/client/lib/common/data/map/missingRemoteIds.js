@@ -8,6 +8,11 @@ import structures from '../structures';
 
 let lastMap = {};
 
+// TODO : factorize elsewhere
+export function resetPreviousMap() {
+  lastMap = {};
+}
+
 /**
  * Return the current missing intervals requests list
  *

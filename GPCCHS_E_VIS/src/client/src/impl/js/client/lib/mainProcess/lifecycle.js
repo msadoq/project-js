@@ -7,6 +7,7 @@ import convertFromStore from './vima/convertFromStore';
 import { removeAllData } from '../store/actions/viewData';
 import { removeAllRequests } from '../store/actions/dataRequests';
 import { setActingOn, setActingOff } from '../mainProcess/storeObserver';
+import { resetPreviousMap } from '../common/data/map/missingRemoteIds';
 
 export const LIFECYCLE_NOT_STARTED = 'LIFECYCLE_NOT_STARTED';
 export const LIFECYCLE_CONNECTED_WITH_HSS = 'LIFECYCLE_CONNECTED_WITH_HSS';
@@ -45,6 +46,7 @@ export function onClose(dispatch) {
   dispatch(updateStatus('main', 'disconnected'));
   dispatch(removeAllRequests());
   dispatch(removeAllData());
+  resetPreviousMap();
   // warning: timeout to handle a weird behavior that trigger data observer update
   setTimeout(setActingOff, 0);
 }

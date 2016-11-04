@@ -5,14 +5,15 @@ import * as types from '../types';
  * Reducer
  */
 export default function timebars(stateTimebars = {}, action) { // TODO test
+  const { payload } = action;
   switch (action.type) {
     case types.WS_TIMEBAR_ADD:
       return {
         ...stateTimebars,
-        [action.payload.timebarId]: timebar(undefined, action),
+        [payload.timebarId]: timebar(undefined, action),
       };
     case types.WS_TIMEBAR_REMOVE:
-      return _.omit(stateTimebars, [action.payload.timebarId]);
+      return _.omit(stateTimebars, [payload.timebarId]);
     case types.WS_TIMEBAR_ID_UPDATE:
     case types.WS_TIMEBAR_VISUWINDOW_UPDATE:
     case types.WS_TIMEBAR_SPEED_UPDATE:
@@ -22,7 +23,7 @@ export default function timebars(stateTimebars = {}, action) { // TODO test
     case types.WS_TIMEBAR_UNMOUNT_TIMELINE:
       return {
         ...stateTimebars,
-        [action.payload.timebarId]: timebar(stateTimebars[action.payload.timebarId], action),
+        [payload.timebarId]: timebar(stateTimebars[payload.timebarId], action),
       };
     default:
       return stateTimebars;
@@ -43,6 +44,7 @@ const initialState = {
 };
 
 function timebar(stateTimebar = initialState, action) {
+  const { payload } = action;
   switch (action.type) {
     case types.WS_TIMEBAR_ADD: {
       const configuration = _.get(action, 'payload.configuration', {});
@@ -60,16 +62,14 @@ function timebar(stateTimebar = initialState, action) {
       });
     }
     case types.WS_TIMEBAR_MOUNT_TIMELINE:
-      return Object.assign({}, stateTimebar,
-        { timelines: [...stateTimebar.timelines, action.payload.timelineId] });
+      return { ...stateTimebar, timelines: [...stateTimebar.timelines, payload.timelineId] };
     case types.WS_TIMEBAR_UNMOUNT_TIMELINE:
-      return Object.assign({}, stateTimebar,
-        { timelines: _.without(stateTimebar.timelines, action.payload.timelineId) });
+      return { ...stateTimebar, timelines: _.without(stateTimebar.timelines, payload.timelineId) };
     case types.WS_TIMEBAR_ID_UPDATE:
-      return Object.assign({}, stateTimebar, { id: action.payload.id });
+      return { ...stateTimebar, id: payload.id };
     case types.WS_TIMEBAR_VISUWINDOW_UPDATE: {
       let update = {};
-      const toUpdate = action.payload.visuWindowUpdate;
+      const toUpdate = payload.visuWindowUpdate;
       if (toUpdate.lower && toUpdate.upper && toUpdate.current) {
         update = { visuWindow: {
           lower: toUpdate.lower,
@@ -86,11 +86,11 @@ function timebar(stateTimebar = initialState, action) {
       return { ...stateTimebar, ...update };
     }
     case types.WS_TIMEBAR_SPEED_UPDATE:
-      return { ...stateTimebar, speed: action.payload.speed };
+      return { ...stateTimebar, speed: payload.speed };
     case types.WS_TIMEBAR_PLAYINGSTATE_UPDATE:
-      return { ...stateTimebar, playingState: action.payload.playingState };
+      return { ...stateTimebar, playingState: payload.playingState };
     case types.WS_TIMEBAR_MASTERID_UPDATE:
-      return { ...stateTimebar, masterId: action.payload.masterId };
+      return { ...stateTimebar, masterId: payload.masterId };
     default:
       return stateTimebar;
   }

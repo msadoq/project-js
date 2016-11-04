@@ -81,7 +81,7 @@ export function viewLast(state, viewId, index, values) {
   });
 }
 
-export function viewRange(state, viewId, add, remove) {
+export function viewRange(state, viewId, remove, add) {
   let viewState = state[viewId];
   if (remove && remove.lower && remove.upper) {
     viewState = viewRangeRemove(viewState, remove.lower, remove.upper);

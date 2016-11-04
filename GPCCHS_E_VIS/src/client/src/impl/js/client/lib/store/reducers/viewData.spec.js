@@ -2,7 +2,7 @@ import { freezeMe } from '../../common/test';
 import reducer, { viewRangeRemove, viewRangeAdd, viewLast } from './viewData';
 import { importPayload, removeAllData } from '../actions/viewData';
 
-describe('reducers/viewData', () => {
+describe.only('reducers/viewData', () => {
   const payload = { rId1: {}, rId2: {} };
   for (let j = 10; j < 21; j += 1) {
     payload.rId1[j] = {
@@ -150,10 +150,10 @@ describe('reducers/viewData', () => {
   const state = {
     index: [0, 1, 2, 3],
     columns: [
-      { 0: { x: 0, ep1: { x: 0, value: 100.1 }, ep2: { x: 0, value: 200.1 } } },
-      { 1: { x: 1, ep1: { x: 1, value: 100.2 } } },
-      { 2: { x: 2, ep1: { x: 2, value: 100.3 } } },
-      { 3: { x: 3, ep1: { x: 3, value: 100.4 } } },
+      { x: 0, ep1: { x: 0, value: 100.1 }, ep2: { x: 0, value: 200.1 } },
+      { x: 1, ep1: { x: 1, value: 100.2 } },
+      { x: 2, ep1: { x: 2, value: 100.3 } },
+      { x: 3, ep1: { x: 3, value: 100.4 } },
     ],
   };
 
@@ -173,8 +173,8 @@ describe('reducers/viewData', () => {
       viewRangeRemove(freezeMe(state), 1, 2).should.eql({
         index: [1, 2],
         columns: [
-          { 1: { x: 1, ep1: { x: 1, value: 100.2 } } },
-          { 2: { x: 2, ep1: { x: 2, value: 100.3 } } },
+          { x: 1, ep1: { x: 1, value: 100.2 } },
+          { x: 2, ep1: { x: 2, value: 100.3 } },
         ],
       });
       viewRangeRemove(freezeMe(state), 0, 1).index.should.eql([0, 1]);
@@ -186,7 +186,7 @@ describe('reducers/viewData', () => {
       viewRangeRemove(freezeMe(state), 0, 3).index.should.eql([0, 1, 2, 3]);
     });
   });
-  describe.only('viewRangeAdd', () => {
+  describe('viewRangeAdd', () => {
     it('should ignore empty payloads call', () => {
       const previousState = freezeMe(state);
       const newState = viewRangeAdd(previousState, {});
@@ -204,7 +204,7 @@ describe('reducers/viewData', () => {
         ],
       });
     });
-    describe.only('should add points', () => {
+    describe('should add points', () => {
       it('one point in middle', () => {
         viewRangeAdd(Object.freeze({
           index: [1, 4],
@@ -242,7 +242,7 @@ describe('reducers/viewData', () => {
         });
       });
       it('points everywhere', () => {
-        const r = viewRangeAdd(Object.freeze({
+        viewRangeAdd(Object.freeze({
           index: [1, 4, 8, 10],
           columns: [
             { x: 1, ep1: { x: 1, value: 100.1 }, ep2: { x: 1, value: 200.1 } },

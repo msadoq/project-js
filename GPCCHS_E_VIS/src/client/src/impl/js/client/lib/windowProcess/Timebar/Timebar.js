@@ -1,6 +1,5 @@
 import moment from 'moment';
 import React, { Component } from 'react';
-import { findDOMNode } from 'react-dom';
 import styles from './Timebar.css';
 import TimebarScale from './TimebarScale';
 import TimebarTimeline from './TimebarTimeline';
@@ -66,6 +65,7 @@ export default class Timebar extends Component {
       dragging: false,
       resizing: false,
       navigating: false,
+      dragNavigating: false,
       lower: null,
       upper: null,
       current: null
@@ -97,24 +97,45 @@ export default class Timebar extends Component {
 
     const viewportMsWidth = timeEnd - timeBeginning;
     if (dragging) {
-      const viewportOffset = findDOMNode(this).getBoundingClientRect();
+      const viewportOffset = this.el.getBoundingClientRect();
       if (viewportOffset.left > e.pageX || viewportOffset.right < e.pageX) {
         const mult = e.pageX - viewportOffset.left > 0 ? 1 : -1;
-        let offsetRel;
+
+        let abs;
         if (viewportOffset.left > e.pageX) {
-          offsetRel = (mult * 20) / Math.log10(Math.abs(e.pageX - viewportOffset.left));
+          abs = Math.abs(e.pageX - viewportOffset.left);
         } else {
-          offsetRel = (mult * 20) / Math.log10(Math.abs(e.pageX - viewportOffset.right));
+          abs = Math.abs(e.pageX - viewportOffset.right);
         }
-        const offsetMs = viewportMsWidth / offsetRel;
+
+        let pow = 2;
+        if (abs > 100) {
+          pow = 9;
+        } else if (abs > 50) {
+          pow = 6;
+        } else if (abs > 30) {
+          pow = 4;
+        } else if (abs > 15) {
+          pow = 3;
+        }
+
+        const offsetRel = (mult * 20) / Math.pow(abs / 100, pow);
         this.setState({
-          timeBeginning: this.state.timeBeginning + offsetMs,
-          timeEnd: this.state.timeEnd + offsetMs,
-          cursorOriginX: this.state.cursorOriginX - (findDOMNode(this).clientWidth / offsetRel)
+          dragNavigatingOffset: offsetRel,
         });
+        if (!this.state.dragNavigating) {
+          this.setState({
+            dragNavigating: true,
+          });
+          return setTimeout(() => {
+            this.dragNavigate();
+          }, 60);
+        }
+      } else {
+        this.setState({ dragNavigating: false });
       }
 
-      const moved = (e.pageX - cursorOriginX) / findDOMNode(this).clientWidth;
+      const moved = (e.pageX - cursorOriginX) / this.el.clientWidth;
       const lowerPosMs = dragOriginLower + (viewportMsWidth * moved);
       const upperPosMs = dragOriginUpper + (viewportMsWidth * moved);
       const currentPosMs = dragOriginCurrent + (viewportMsWidth * moved);
@@ -126,7 +147,7 @@ export default class Timebar extends Component {
       });
     } else if (resizing) {
       const movedPx = (e.pageX - cursorOriginX);
-      const timebarContWidth = findDOMNode(this).clientWidth;
+      const timebarContWidth = this.el.clientWidth;
       const movedMs = (movedPx / timebarContWidth) * viewportMsWidth;
 
       let cursorPosMs = resizeOrigin + movedMs;
@@ -152,7 +173,7 @@ export default class Timebar extends Component {
     } else if (navigating) {
       const current = this.state.current || visuWindow.current;
       const movedPx = (e.pageX - cursorOriginX);
-      const viewportWidthPx = findDOMNode(this).clientWidth;
+      const viewportWidthPx = this.el.clientWidth;
       const movedMs = (movedPx / viewportWidthPx) * viewportMsWidth;
       let cursorPosMs = resizeOrigin + movedMs;
 
@@ -225,6 +246,28 @@ export default class Timebar extends Component {
     });
   }
 
+  dragNavigate = () => {
+    const { timeEnd, timeBeginning, dragNavigating,
+      dragNavigatingOffset, cursorOriginX, lower,
+      upper, current } = this.state;
+    const viewportMsWidth = timeEnd - timeBeginning;
+
+    if (dragNavigating) {
+      const offsetMs = viewportMsWidth / dragNavigatingOffset;
+      this.setState({
+        timeBeginning: timeBeginning + offsetMs,
+        timeEnd: this.state.timeEnd + offsetMs,
+        cursorOriginX: cursorOriginX - (this.el.clientWidth / dragNavigatingOffset),
+        lower: lower + offsetMs,
+        upper: upper + offsetMs,
+        current: current + offsetMs,
+      });
+      return setTimeout(() => {
+        this.dragNavigate();
+      }, 60);
+    }
+  }
+
   formatDate(ms, cursor) {
     const date = moment(ms);
     if (cursor) {
@@ -294,7 +337,7 @@ export default class Timebar extends Component {
         dragging, resizing,
         timeBeginning, timeEnd
     } = this.state;
-    const { visuWindow, timelines, timebarId } = this.props;
+    const { visuWindow, timelines } = this.props;
 
     const lower = this.state.lower || visuWindow.lower;
     const upper = this.state.upper || visuWindow.upper;
@@ -309,25 +352,14 @@ export default class Timebar extends Component {
     let arrowRight;
     let arrowLeft;
     if (upper <= timeBeginning) {
-      arrowLeft = React.createElement(
-        'span',
-        {
-          className: styles.arrowLeft,
-          onClick: this.rePosition.bind(null, 'left')
-        }
-      );
+      arrowLeft = <button className={styles.arrowLeft} onClick={this.rePosition.bind(null, 'left')} />;
     }
     if (lower >= timeEnd) {
-      arrowRight = React.createElement(
-        'span',
-        {
-          className: styles.arrowRight,
-          onClick: this.rePosition.bind(null, 'right')
-        }
-      );
+      arrowRight = <button className={styles.arrowRight} onClick={this.rePosition.bind(null, 'right')} />;
     }
+
     return (
-      <div className={`${styles.viewportWrapper}`}>
+      <div className={`${styles.viewportWrapper}`} ref={(el) => { this.el = el; }}>
         <div
           className={`${styles.viewportContainer}`}
           onWheel={this.onWheel}
@@ -356,7 +388,11 @@ export default class Timebar extends Component {
             </span>
             <span className={styles.upperFormattedTime}>{this.formatDate(upper, true)}</span>
           </div>
-          <div ref={el => this.timelinesEl = el} className={styles.timelines}>
+          <div
+            ref={(el) => { this.timelinesEl = el; }}
+            className={styles.timelines}
+            onScroll={this.props.onVerticalScroll}
+          >
             { timelines.map((v, i) =>
               <TimebarTimeline
                 key={i}

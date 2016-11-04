@@ -23,6 +23,36 @@ const {
 } = coordinates;
 const { XAxis, YAxis } = axes;
 
+const getLineMarker = (pointsStyle) => {
+  switch (pointsStyle) {
+    case 'Square':
+      return SquareMarker;
+    case 'Triangle':
+      return TriangleMarker;
+    case 'Dot':
+    case 'None':
+    default:
+      return CircleMarker;
+  }
+};
+
+const getLineMarkerProps = (pointsStyle, props) => {
+  let styleProps = {};
+  switch (pointsStyle) {
+    case 'Square':
+      styleProps = { width: 2, height: 2 };
+      break;
+    case 'Triangle':
+      styleProps = {};
+      break;
+    case 'Dot':
+    case 'None':
+    default:
+      styleProps = { r: 1 };
+  }
+  return { ...styleProps, ...props };
+};
+
 class PlotView extends PureComponent {
   static propTypes = {
     size: PropTypes.shape({
@@ -49,42 +79,13 @@ class PlotView extends PureComponent {
     // legend: PropTypes.object,
     // markers: PropTypes.array,
   };
+
   static defaultProps = {
     data: {
       lines: [],
-      columns: [],
-    },
+      columns: []
+    }
   };
-
-  getLineMarker(pointsStyle) {
-    switch (pointsStyle) {
-      case 'Square':
-        return SquareMarker;
-      case 'Triangle':
-        return TriangleMarker;
-      case 'Dot':
-      case 'None':
-      default:
-        return CircleMarker;
-    }
-  }
-
-  getLineMarkerProps(pointsStyle, props) {
-    let styleProps = {};
-    switch (pointsStyle) {
-      case 'Square':
-        styleProps = { width: 2, height: 2 };
-        break;
-      case 'Triangle':
-        styleProps = {};
-        break;
-      case 'Dot':
-      case 'None':
-      default:
-        styleProps = { r: 1 };
-    }
-    return { ...styleProps, ...props };
-  }
 
   getLines = () => _map(
     this.props.configuration.entryPoints,
@@ -153,8 +154,8 @@ class PlotView extends PureComponent {
         <ScatterSeries
           key={`scatter${key}`}
           yAccessor={d => _get(d, [key, 'value'], 50)}
-          marker={this.getLineMarker(pointsStyle)}
-          markerProps={this.getLineMarkerProps(pointsStyle, { stroke: color })}
+          marker={getLineMarker(pointsStyle)}
+          markerProps={getLineMarkerProps(pointsStyle, { stroke: color })}
         />
         <CurrentCoordinate
           key={`coordinate${key}`}

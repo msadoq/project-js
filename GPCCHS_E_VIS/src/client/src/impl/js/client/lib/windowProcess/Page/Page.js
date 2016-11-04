@@ -21,7 +21,7 @@ export default class Page extends Component {
         {(this.props.isEditorOpened
           ? <Col xs={editorCols}>
             this is editor
-            {/*<EditorContainer closeEditor={this.props.closeEditor} {...this.props.editor} />*/}
+            {/* <EditorContainer closeEditor={this.props.closeEditor} {...this.props.editor} /> */}
           </Col>
           : '')}
         <Col xs={pageContentWidth}>

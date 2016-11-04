@@ -7,6 +7,7 @@ export default class Timeline extends PureComponent {
     name: React.PropTypes.string.isRequired,
     timebarId: React.PropTypes.string.isRequired,
     unmountTimeline: React.PropTypes.func.isRequired,
+    color: React.PropTypes.string
   }
 
   willUnmountTimeline = (e) => {

@@ -1,7 +1,7 @@
-import SquareMarker from './SquareMarker.js';
-import TriangleMarker from './TriangleMarker.js';
+import SquareMarker from './SquareMarker';
+import TriangleMarker from './TriangleMarker';
 
-export{
+export {
   SquareMarker,
   TriangleMarker
-}
+};

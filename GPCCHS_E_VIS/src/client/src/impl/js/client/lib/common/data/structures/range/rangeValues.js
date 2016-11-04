@@ -1,6 +1,6 @@
 import { each, set, has } from 'lodash';
-import debug from '../../../debug/mainDebug';
 import { constants as globalConstants } from 'common';
+import debug from '../../../debug/mainDebug';
 
 const logger = debug('data:rangeValues');
 

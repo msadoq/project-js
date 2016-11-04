@@ -4,7 +4,7 @@ import { updateStatus } from '../../store/actions/hss';
 
 const logger = debug('window:controller');
 
-export default function controller(state, dispatch, windowId, event, payload) {
+export default function controller(state, dispatch, windowId, event, /* payload */) {
   switch (event) {
     case globalConstants.EVENT_AUTHENTICATED:
       dispatch(updateStatus(windowId, 'authenticated'));

@@ -67,7 +67,7 @@ export default class Lefttab extends Component {
           <FormGroup className={styles.formGroup}>
             <b className={styles.labelFormControl}>Parameter</b>
             <select
-              ref={el => this.newTimelinePropretyEl = el}
+              ref={(el) => { this.newTimelinePropretyEl = el; }}
               className={`form-control ${styles.formControl}`}
               onChange={this.handleSelectChange}
             >
@@ -79,17 +79,21 @@ export default class Lefttab extends Component {
           <FormGroup className={styles.formGroup}>
             <b className={styles.labelFormControl}>name</b>
             <input
-              ref={el => this.newTimelineNameEl = el}
+              ref={(el) => { this.newTimelineNameEl = el; }}
               className={`form-control ${styles.formControl}`}
               value={this.state.newTimelineName}
             />
           </FormGroup>
-          <Button className="btn-sm btn-primary col-md-offset-4" onClick={this.willAddTimeline}>Add track</Button>
+          <input type="submit" value="Add track" className={`${styles.addTrackButton} btn-sm btn-primary col-md-offset-4`} onClick={this.willAddTimeline} />
           <hr />
         </Form>
         <Button bsSize="small" className={styles.addTimelineButton} title="Add track" onClick={this.toggleAddTimeline} bsStyle="info">+</Button>
         {noTrack}
-        <ul ref={el => this.timelinesEl = el} className={styles.timelineUl} onScroll={this.props.onVerticalScroll}>
+        <ul
+          ref={(el) => { this.timelinesEl = el; }}
+          className={styles.timelineUl}
+          onScroll={this.props.onVerticalScroll}
+        >
           { timelines.map((v, i) =>
             <Timeline
               key={i}

@@ -1,6 +1,6 @@
-import React, { PropTypes } from "react";
+import React, { PropTypes } from 'react';
 
-import { hexToRGBA, functor } from "react-stockcharts/lib/utils";
+import { hexToRGBA, functor } from 'react-stockcharts/lib/utils';
 
 function Square(props) {
   const {
@@ -9,12 +9,17 @@ function Square(props) {
   } = props;
 
   return (
-    <rect className={className}
-      cx={point.x} cy={point.y}
-      stroke={stroke} strokeWidth={strokeWidth}
-      fillOpacity={opacity} fill={fill}
+    <rect
+      className={className}
+      cx={point.x}
+      cy={point.y}
+      stroke={stroke}
+      strokeWidth={strokeWidth}
+      fillOpacity={opacity}
+      fill={fill}
       width={functor(width)(point.datum)}
-      height={functor(height)(point.datum)} />
+      height={functor(height)(point.datum)}
+    />
   );
 }
 
@@ -33,39 +38,37 @@ Square.propTypes = {
     PropTypes.number,
     PropTypes.func
   ]).isRequired,
-	height: PropTypes.oneOfType([
+  height: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.func
   ]).isRequired
 };
 
 Square.defaultProps = {
-  stroke: "red",
+  stroke: 'red',
   strokeWidth: 1,
   opacity: 0.5,
-  fill: "#4682B4",
-  className: "react-stockcharts-marker-rect",
+  fill: '#4682B4',
+  className: 'react-stockcharts-marker-rect',
 };
 
 Square.drawOnCanvas = (props, point, ctx) => {
+  const newCtx = { ...ctx };
+  const { stroke, fill, opacity, strokeWidth } = props;
 
-  var { stroke, fill, opacity, strokeWidth } = props;
+  newCtx.strokeStyle = stroke;
+  newCtx.lineWidth = strokeWidth;
 
-  ctx.strokeStyle = stroke;
-  ctx.lineWidth = strokeWidth;
-
-  if (fill !== "none") {
-    ctx.fillStyle = hexToRGBA(fill, opacity);
+  if (fill !== 'none') {
+    newCtx.fillStyle = hexToRGBA(fill, opacity);
   }
 
   Square.drawOnCanvasWithNoStateChange(props, point, ctx);
 };
 
-
 Square.drawOnCanvasWithNoStateChange = (props, point, ctx) => {
-
-  var { r } = props;
-  var radius = functor(r)(point.datum);
+  const { r } = props;
+  const radius = functor(r)(point.datum);
 
   ctx.moveTo(point.x, point.y);
   ctx.beginPath();

@@ -7,7 +7,7 @@ function getValue(timestamp) {
 module.exports = function getPayload(timestamp, epName) {
   let epNumber = 0;
   Buffer.from(epName).forEach((val) => { epNumber += val; });
-  const value = getValue(timestamp) + (epNumber / 100);
+  const value = getValue(timestamp) + (epNumber / 10);
   return {
     timestamp: stubData.getTimestampProtobuf({ ms: timestamp }),
     payload: stubData.getReportingParameterProtobuf({

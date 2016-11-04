@@ -1,7 +1,6 @@
-import { LIFECYCLE_READY, LIFECYCLE_STARTED } from './lifecycle';
+import { LIFECYCLE_READY, LIFECYCLE_STARTED, onWindowOpened } from './lifecycle';
 import debug from '../common/debug/mainDebug';
 import { getStatus as getAppStatus } from '../store/selectors/hsc';
-import { updateStatus } from '../store/actions/hsc';
 import { getStore } from '../store/mainStore';
 import requestData from '../common/data/request';
 import windowsObserver from './windows/observer';
@@ -41,7 +40,7 @@ export default function storeObserver() {
       // only one time to avoid infinite recursion
       if (windowAlreadyOpened === false) {
         windowAlreadyOpened = true;
-        dispatch(updateStatus(LIFECYCLE_STARTED));
+        onWindowOpened(dispatch);
       }
     });
   }

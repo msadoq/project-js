@@ -41,6 +41,10 @@ export function onReady(dispatch) {
   dispatch(updateAppStatus(LIFECYCLE_READY));
 }
 
+export function onWindowOpened(dispatch) {
+  dispatch(updateStatus(LIFECYCLE_STARTED));
+}
+
 export function onClose(dispatch) {
   setActingOn();
   dispatch(updateStatus('main', 'disconnected'));

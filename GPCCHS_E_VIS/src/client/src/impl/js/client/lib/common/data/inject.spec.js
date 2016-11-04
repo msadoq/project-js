@@ -114,12 +114,13 @@ describe('common/data/inject', () => {
       values: { ep2: 1, ep3: 3 },
     },
   } };
+  const count = { last: 0, range: 0 };
 
 
   describe('select data', () => {
     let bag;
     it('empty state', () => {
-      bag = selectData({}, viewDataMap, payload);
+      bag = selectData({}, viewDataMap, payload, count);
       bag.should.have.all.keys(['plot1', 'plot2', 'plot3', 'text1', 'text2']);
       bag.plot1.should.have.all.keys(['remove', 'add', 'structureType']);
       bag.plot1.add.should.have.all.keys(['10', '11', '12', '13', '14', '15']);
@@ -149,11 +150,11 @@ describe('common/data/inject', () => {
       bag.text2.values.ep6.should.equal(203);
     });
     it('old state not empty', () => {
-      const newState = selectData(state, viewDataMap, payload);
+      const newState = selectData(state, viewDataMap, payload, count);
       newState.should.deep.equal(bag);
     });
     it('invalid view', () => {
-      (() => selectData(state, viewMap2, payload)).should.throw();
+      (() => selectData(state, viewMap2, payload, count)).should.throw();
     });
   });
 });

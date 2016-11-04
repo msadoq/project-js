@@ -43,7 +43,7 @@ export default function viewData(state = {}, action) {
       if (!action.payload.viewData || Object.keys(action.payload.viewData).length < 1) {
         return state;
       }
-      return _reduce(action.payload.viewData, (newState, view, viewId) => {
+      const retValue = _reduce(action.payload.viewData, (newState, view, viewId) => {
         switch (view.structureType) {
           case globalConstants.DATASTRUCTURETYPE_LAST:
             return viewLast(newState, viewId, view.index, view.values);
@@ -54,6 +54,7 @@ export default function viewData(state = {}, action) {
             return newState;
         }
       }, state);
+      return retValue;
     }
     case types.DATA_REMOVE_ALL_VIEWDATA:
       return {};
@@ -88,6 +89,8 @@ export function viewRange(state, viewId, remove, add) {
   }
   viewState = viewRangeAdd(viewState, add);
 
+
+  console.log('pass in ', viewState === state[viewId] ? 'first' : 'second');
   return (viewState === state[viewId])
     ? state // no modification
     : Object.assign({}, state, {
@@ -135,7 +138,7 @@ export function viewRangeRemove(state, lower, upper) {
   };
 }
 
-export function viewRangeAdd(state, payloads) {
+export function viewRangeAdd(state = {}, payloads) {
   const keys = _keys(payloads);
   if (!keys.length) {
     // nothing to import contains no data
@@ -143,11 +146,10 @@ export function viewRangeAdd(state, payloads) {
   }
 
   // from now we are sure we will mutate the state
-  const newState = { ...state };
-  if (!newState.index) {
-    newState.index = [];
-    newState.columns = [];
-  }
+  const newState = {
+    index: [...(state.index || [])],
+    columns: [...(state.columns || [])],
+  };
 
   let lastIndex = 0;
   let lastTime = 0;
@@ -160,8 +162,8 @@ export function viewRangeAdd(state, payloads) {
 
     // if new value should be pushed at end (most common case in play mode)
     if (lastIndex === -1 && timestamp > lastTime) {
-      newState.columns.push({ ...value, x: timestamp });
-      newState.index.push(timestamp);
+      newState.columns = newState.columns.concat({ ...value, x: timestamp });
+      newState.index = newState.index.concat(timestamp);
       lastTime = timestamp;
       return;
     }
@@ -175,8 +177,8 @@ export function viewRangeAdd(state, payloads) {
     lastIndex = index;
     if (index === -1) {
       // add at end
-      newState.columns.push({ ...value, x: timestamp });
-      newState.index.push(timestamp);
+      newState.columns = newState.columns.concat({ ...value, x: timestamp });
+      newState.index = newState.index.concat(timestamp);
       return;
     }
 

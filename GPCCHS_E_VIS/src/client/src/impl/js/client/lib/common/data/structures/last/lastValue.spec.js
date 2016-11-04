@@ -1,4 +1,4 @@
-import selectLastValue, { lastValue } from './lastValue';
+import lastValue, { select } from './lastValue';
 import { constants as globalConstants } from 'common';
 
 describe('data/map/lastValue', () => {
@@ -45,9 +45,9 @@ describe('data/map/lastValue', () => {
       },
     },
   };
-  describe('lastValue', () => {
+  describe('select', () => {
     it('state undefined', () => {
-      const newState = lastValue(payload.rId1, viewDataMap.text1.entryPoints.ep4, 'ep4', undefined);
+      const newState = select(payload.rId1, viewDataMap.text1.entryPoints.ep4, 'ep4', undefined);
       newState.timestamp.should.equal(20);
       newState.value.should.equal(203);
     });
@@ -55,7 +55,7 @@ describe('data/map/lastValue', () => {
       const oldState = { index: {}, values: {} };
       oldState.index.ep4 = 22;
       oldState.values.ep4 = 22;
-      const newState = lastValue(payload.rId1, viewDataMap.text1.entryPoints.ep4, 'ep4', oldState);
+      const newState = select(payload.rId1, viewDataMap.text1.entryPoints.ep4, 'ep4', oldState);
       newState.timestamp.should.equal(20);
       newState.value.should.equal(203);
     });
@@ -63,7 +63,7 @@ describe('data/map/lastValue', () => {
       const oldState = { index: {}, values: {} };
       oldState.index.ep4 = 18.5;
       oldState.values.ep4 = 22;
-      const newState = lastValue(payload.rId1, viewDataMap.text1.entryPoints.ep4, 'ep4', oldState);
+      const newState = select(payload.rId1, viewDataMap.text1.entryPoints.ep4, 'ep4', oldState);
       newState.timestamp.should.equal(20);
       newState.value.should.equal(203);
     });
@@ -71,26 +71,29 @@ describe('data/map/lastValue', () => {
       const oldState = { index: {}, values: {} };
       oldState.index.ep4 = 20;
       oldState.values.ep4 = 22;
-      const newState = lastValue(payload.rId1, viewDataMap.text1.entryPoints.ep4, 'ep4', oldState);
+      const newState = select(payload.rId1, viewDataMap.text1.entryPoints.ep4, 'ep4', oldState);
       newState.timestamp.should.equal(20);
       newState.value.should.equal(203);
     });
   });
-  describe('selectLastValue', () => {
+  describe('lastValue', () => {
     it('state empty', () => {
-      const newState = selectLastValue({}, payload, 'text1', viewDataMap.text1.entryPoints);
+      const count = { last: 0, range: 0 };
+      const newState = lastValue({}, payload, 'text1', viewDataMap.text1.entryPoints, count);
       newState.index.ep4.should.equal(20);
       newState.values.ep4.should.equal(203);
       newState.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
     });
     it('state undefined', () => {
-      const newState = selectLastValue(undefined, payload, 'text1', viewDataMap.text1.entryPoints);
+      const count = { last: 0, range: 0 };
+      const newState = lastValue(undefined, payload, 'text1', viewDataMap.text1.entryPoints, count);
       newState.index.ep4.should.equal(20);
       newState.values.ep4.should.equal(203);
       newState.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
     });
     it('multiple entry points', () => {
-      const newState = selectLastValue({}, payload, 'text2', viewDataMap.text2.entryPoints);
+      const count = { last: 0, range: 0 };
+      const newState = lastValue({}, payload, 'text2', viewDataMap.text2.entryPoints, count);
       newState.index.ep6.should.equal(20);
       newState.values.ep6.should.equal(203);
       newState.index.ep5.should.equal(20);

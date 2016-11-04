@@ -2,6 +2,7 @@ import chai from 'chai'; // eslint-disable-line import/no-extraneous-dependencie
 import properties from 'chai-properties';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import _cloneDeep from 'lodash/cloneDeep';
 import reducer from '../store/reducers/index';
 
 process.env.PROFILING = 'off';
@@ -29,4 +30,5 @@ module.exports = {
   should: chai.should(),
   expect: chai.expect,
   getStore,
+  freezeMe: o => Object.freeze(_cloneDeep(o)),
 };

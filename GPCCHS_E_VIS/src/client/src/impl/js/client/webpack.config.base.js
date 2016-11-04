@@ -1,4 +1,5 @@
 import path from 'path';
+import webpack from 'webpack';
 
 export default {
   module: {
@@ -21,7 +22,7 @@ export default {
     packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main']
   },
   plugins: [
-
+    new webpack.ContextReplacementPlugin(/moment\/locale$/, new RegExp('fr.js')),
   ],
   externals: [
     // put your node 3rd party libraries which can't be built with webpack here

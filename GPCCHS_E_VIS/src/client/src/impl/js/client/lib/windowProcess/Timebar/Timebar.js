@@ -18,10 +18,6 @@ export default class Timebar extends Component {
     verticalScroll: React.PropTypes.number.isRequired,
   }
 
-  componentDidUpdate() {
-    this.timelinesEl.scrollTop = this.props.verticalScroll;
-  }
-
   constructor(...args) {
     super(...args);
 
@@ -35,6 +31,10 @@ export default class Timebar extends Component {
       timeBeginning,
       timeEnd
     };
+  }
+
+  componentDidUpdate() {
+    this.timelinesEl.scrollTop = this.props.verticalScroll;
   }
 
   onMouseDown = (e) => {
@@ -203,7 +203,9 @@ export default class Timebar extends Component {
   }
 
   onWheel = (e) => {
-    if (!e.ctrlKey) return;
+    if (!e.ctrlKey) {
+      return this.props.onVerticalScroll(e, this.timelinesEl);
+    }
     e.preventDefault();
     const { timeBeginning, timeEnd } = this.state;
 
@@ -354,14 +356,11 @@ export default class Timebar extends Component {
             </span>
             <span className={styles.upperFormattedTime}>{this.formatDate(upper, true)}</span>
           </div>
-          <div ref={el => this.timelinesEl = el} className={styles.timelines} onScroll={this.props.onVerticalScroll}>
+          <div ref={el => this.timelinesEl = el} className={styles.timelines}>
             { timelines.map((v, i) =>
               <TimebarTimeline
                 key={i}
                 name={v.id}
-                className={styles.timeline}
-                timebarId={timebarId}
-                id={v.timelineId}
                 color={v.color}
                 offset={v.offset}
               />

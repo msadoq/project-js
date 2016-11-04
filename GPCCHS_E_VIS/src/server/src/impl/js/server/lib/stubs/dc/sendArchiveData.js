@@ -21,7 +21,7 @@ function shouldPushANewValue(queryKey, timestamp) {
     queries[queryKey] = timestamp;
     return true;
   }
-  if (timestamp - previous >= globalConstants.DC_STUB_VALUE_TIMESTEP) {
+  if (Math.abs(timestamp - previous) >= globalConstants.DC_STUB_VALUE_TIMESTEP) {
     queries[queryKey] = timestamp;
     return true;
   }

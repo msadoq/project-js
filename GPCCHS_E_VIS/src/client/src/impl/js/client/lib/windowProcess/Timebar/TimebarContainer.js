@@ -11,7 +11,7 @@ import Lefttab from './Lefttab';
 class TimebarContainer extends Component {
 
   static propTypes = {
-    changeVisuWindow: React.PropTypes.func.isRequired,
+    updateVisuWindowAction: React.PropTypes.func.isRequired,
     addAndMountTimelineAction: React.PropTypes.func.isRequired,
     unmountTimelineAction: React.PropTypes.func.isRequired,
     focusedPage: React.PropTypes.object.isRequired,
@@ -25,6 +25,13 @@ class TimebarContainer extends Component {
     timelinesVerticalScroll: 0,
     height: 140
   };
+
+  onTimelinesVerticalScroll = (e, el) => {
+    e.preventDefault();
+    this.setState({
+      timelinesVerticalScroll: el ? (el.scrollTop + (e.deltaY / 3)) : e.target.scrollTop
+    });
+  }
 
   resizeWindow = (e) => {
     this.setState({
@@ -56,14 +63,9 @@ class TimebarContainer extends Component {
     e.preventDefault();
   }
 
-  onTimelinesVerticalScroll = (e) => {
-    e.preventDefault();
-    this.setState({ timelinesVerticalScroll: e.target.scrollTop });
-  }
-
   render() {
     const { timelinesVerticalScroll, height } = this.state;
-    const { changeVisuWindow, timelines, timebarId,
+    const { updateVisuWindowAction, timelines, timebarId,
       visuWindow, focusedPage, timebarName,
       addAndMountTimelineAction, unmountTimelineAction
     } = this.props;
@@ -94,7 +96,7 @@ class TimebarContainer extends Component {
             visuWindow={visuWindow}
             timelines={timelines}
             focusedPage={focusedPage}
-            onChange={changeVisuWindow}
+            onChange={updateVisuWindowAction}
             verticalScroll={timelinesVerticalScroll}
             onVerticalScroll={this.onTimelinesVerticalScroll}
           />
@@ -119,7 +121,7 @@ export default connect((state, ownProps) => {
     timelines
   };
 }, {
-  changeVisuWindow: updateVisuWindow,
+  updateVisuWindowAction: updateVisuWindow,
   addAndMountTimelineAction: addAndMountTimeline,
   unmountTimelineAction: unmountTimeline
 })(TimebarContainer);

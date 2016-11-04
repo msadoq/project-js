@@ -5,11 +5,6 @@ import { Button } from 'react-bootstrap';
 import { constants as globalConstants } from 'common';
 import { updateVisuWindow } from '../../store/actions/timebars';
 
-function timestampAsText(timestamp) {
-  const d = new Date(timestamp);
-  return `${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}.${d.getMilliseconds()}`;
-}
-
 class Timebar extends PureComponent {
   static propTypes = {
     focusedPage: PropTypes.object.isRequired,
@@ -21,7 +16,7 @@ class Timebar extends PureComponent {
     this.moveForward = this.moveForward.bind(this);
     this.moveBackward = this.moveBackward.bind(this);
     this.toggleMode = this.toggleMode.bind(this);
-    this.goNow = this.goNow.bind(this);
+    this.moveNow = this.moveNow.bind(this);
     this.state = {
       mode: 'pause',
     };
@@ -44,7 +39,7 @@ class Timebar extends PureComponent {
   moveBackward() {
     this.updateVisuWindow(-10000);
   }
-  goNow() {
+  moveNow() {
     const { focusedPage } = this.props;
     const { timebarId } = focusedPage;
     this.props.dispatch(updateVisuWindow(
@@ -58,22 +53,24 @@ class Timebar extends PureComponent {
   }
   toggleMode() {
     if (this.state.mode === 'pause') {
-      this.interval = setInterval(
-        () => this.updateVisuWindow(globalConstants.HSC_PLAY_FREQUENCY),
-        globalConstants.HSC_PLAY_FREQUENCY
-      );
+      this.tick();
       this.setState({ mode: 'play' });
     } else {
       clearInterval(this.interval);
       this.setState({ mode: 'pause' });
     }
   }
+  tick() {
+    this.interval = setTimeout(
+      () => {
+        this.updateVisuWindow(globalConstants.HSC_PLAY_FREQUENCY);
+        this.tick();
+      },
+      globalConstants.HSC_PLAY_FREQUENCY
+    );
+  }
   render() {
     const { mode } = this.state;
-    const { visuWindow } = this.props;
-    const lower = timestampAsText(visuWindow.lower);
-    const current = timestampAsText(visuWindow.current);
-    const upper = timestampAsText(visuWindow.upper);
 
     const buttonsProps = {
       bsSize: 'small',
@@ -84,16 +81,15 @@ class Timebar extends PureComponent {
       <div style={{ display: 'inline-block' }}>
         <Button onClick={this.moveBackward} {...buttonsProps}>{'<<'} 10s</Button>
         {' '}
+        <Button onClick={this.moveNow} {...buttonsProps}>
+          NOW
+        </Button>
+        {' '}
         <Button onClick={this.moveForward} {...buttonsProps}>10s {'>>'}</Button>
         {' '}
         <Button onClick={this.toggleMode} {...buttonsProps}>
           {mode === 'play' ? 'PAUSE' : `PLAY (${globalConstants.HSC_PLAY_FREQUENCY}ms)`}
         </Button>
-        {' '}
-        <Button onClick={this.goNow} {...buttonsProps}>
-          go now
-        </Button>
-        [{lower}|{current}|{upper}]
       </div>
     );
   }

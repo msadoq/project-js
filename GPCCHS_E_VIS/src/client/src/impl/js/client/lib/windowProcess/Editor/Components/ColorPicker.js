@@ -63,10 +63,12 @@ export default class ColorPicker extends React.Component {
           onClick={this.handleClick}
         />
         {this.state.display ?
-          <div style={{
-            position: 'absolute',
-            zIndex: '3'
-          }}>
+          <div
+            style={{
+              position: 'absolute',
+              zIndex: '3'
+            }}
+          >
             <SketchPicker
               onChange={this.handleChangeComplete}
               color={color}

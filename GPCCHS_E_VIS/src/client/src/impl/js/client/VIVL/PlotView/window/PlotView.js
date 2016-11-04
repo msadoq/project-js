@@ -53,6 +53,14 @@ const getLineMarkerProps = (pointsStyle, props) => {
   return { ...styleProps, ...props };
 };
 
+const getLines = (entryPoints = []) => entryPoints.map(ep => ({
+  name: ep.name,
+  key: ep.name,
+  color: ep.curveColour,
+  lineStyle: ep.lineStyle, // "Continuous", "Dotted", "Dashed"
+  pointsStyle: ep.pointsStyle // "None", "Triangle", "Square", "Dot"
+}));
+
 class PlotView extends PureComponent {
   static propTypes = {
     size: PropTypes.shape({
@@ -87,20 +95,22 @@ class PlotView extends PureComponent {
     }
   };
 
-  getLines = () => _map(
-    this.props.configuration.entryPoints,
-    ep => ({
-      name: ep.name,
-      key: ep.name,
-      color: ep.curveColour,
-      lineStyle: ep.lineStyle, // "Continuous", "Dotted", "Dashed"
-      pointsStyle: ep.pointsStyle // "None", "Triangle", "Square", "Dot"
-    })
-  );
+  componentWillMount() {
+    this.lines = getLines(this.props.configuration.entryPoints);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { configuration: { entryPoints } } = this.props;
+    if (entryPoints !== nextProps.configuration.entryPoints) {
+      this.lines = getLines(nextProps.configuration.entryPoints);
+    }
+  }
+
+  lines = [];
 
   dateFormat = timeFormat('%Y-%m-%d %H:%M:%S.%L');
 
-  yExtents = d => _map(this.getLines(), ({ key }) => _get(d, [key, 'value']));
+  yExtents = d => _map(this.lines, ({ key }) => _get(d, [key, 'value']));
 
   handleTooltipContent = ({ currentItem, xAccessor }) => {
     const { data: { lines = [] } = {} } = this.props;
@@ -127,8 +137,7 @@ class PlotView extends PureComponent {
       return 'only one point';
     }
 
-    const lines = this.getLines();
-    if (!lines || !lines.length) {
+    if (!this.lines || !this.lines.length) {
       return 'invalid view configuration';
     }
   }
@@ -142,29 +151,26 @@ class PlotView extends PureComponent {
     return new Date(d.x);
   };
 
-  renderLines = () => {
-    const lines = this.getLines();
-    return lines.map(({ key, color, pointsStyle }) => (
-      <div key={key}>
-        <LineSeries
-          key={`line${key}`}
-          yAccessor={d => _get(d, [key, 'value'])}
-          stroke={color}
-        />
-        <ScatterSeries
-          key={`scatter${key}`}
-          yAccessor={d => _get(d, [key, 'value'])}
-          marker={getLineMarker(pointsStyle)}
-          markerProps={getLineMarkerProps(pointsStyle, { stroke: color })}
-        />
-        <CurrentCoordinate
-          key={`coordinate${key}`}
-          yAccessor={d => _get(d, [key, 'value'])}
-          fill={color}
-        />
-      </div>
-    ));
-  };
+  renderLines = () => this.lines.map(({ key, color, pointsStyle }) => (
+    <div key={key}>
+      <LineSeries
+        key={`line${key}`}
+        yAccessor={d => _get(d, [key, 'value'])}
+        stroke={color}
+      />
+      <ScatterSeries
+        key={`scatter${key}`}
+        yAccessor={d => _get(d, [key, 'value'])}
+        marker={getLineMarker(pointsStyle)}
+        markerProps={getLineMarkerProps(pointsStyle, { stroke: color })}
+      />
+      <CurrentCoordinate
+        key={`coordinate${key}`}
+        yAccessor={d => _get(d, [key, 'value'])}
+        fill={color}
+      />
+    </div>
+  ));
 
   render() {
     logger.debug('render');

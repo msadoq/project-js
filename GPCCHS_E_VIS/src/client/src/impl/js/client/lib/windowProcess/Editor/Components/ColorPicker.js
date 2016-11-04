@@ -19,7 +19,7 @@ export default class ColorPicker extends React.Component {
     super(...args);
     this.state = {
       display: false,
-      color: this.props.color === undefined ? '#FFF' : this.props.color
+      color: null
     };
   }
   /*
@@ -34,7 +34,10 @@ export default class ColorPicker extends React.Component {
     Cache la palette.
   */
   handleClose = () => {
-    this.setState({ display: false });
+    this.setState({
+      display: false,
+      color: null
+    });
   }
   /*
     Lorsqu'une couleur est selectionnée, cette fonction est appelée.
@@ -45,23 +48,13 @@ export default class ColorPicker extends React.Component {
     this.setState({ color: color.hex });
   }
   render() {
-    const popover = {
-      position: 'absolute',
-      zIndex: '3'
-    };
-    const cover = {
-      position: 'fixed',
-      top: '0',
-      right: '0',
-      bottom: '0',
-      left: '0',
-      border: 'none'
-    };
+    const color = this.state.color || this.props.color || '#FFF';
+
     return (
       <div>
         <button
           style={{
-            backgroundColor: this.state.color,
+            backgroundColor: color,
             borderColor: '#333',
             borderWidth: '1px',
             height: '16px',
@@ -70,10 +63,13 @@ export default class ColorPicker extends React.Component {
           onClick={this.handleClick}
         />
         {this.state.display ?
-          <div style={popover}>
+          <div style={{
+            position: 'absolute',
+            zIndex: '3'
+          }}>
             <SketchPicker
               onChange={this.handleChangeComplete}
-              color={this.props.color === undefined ? '#FFF' : this.props.color}
+              color={color}
             />
           </div> : null
         }

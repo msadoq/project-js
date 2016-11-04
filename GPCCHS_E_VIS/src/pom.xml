@@ -18,6 +18,7 @@
     <module>server</module>
     <module>timebar</module>
     <module>launcher</module>
+    <module>tools</module>
   </modules>
   <build>
     <plugins>

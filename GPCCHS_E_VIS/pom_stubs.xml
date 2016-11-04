@@ -14,7 +14,6 @@
   </parent>
   <modules>
     <module>src/timebar/pom_stubs.xml</module>
-<!--    <module>src/launcher/pom.xml</module>  -->
   </modules>
   <build>
     <plugins>

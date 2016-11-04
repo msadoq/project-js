@@ -74,14 +74,9 @@ class GPCCHS(object):
         """
         Property holding command-line as list
         """
-        cmd_args = self._cmd_args.format(
-            sys.executable,
-            self._workspace
-        )
-        return '{} -- ccreate {} {}'.format(
+        return '{} -- ccreate {}'.format(
             self._cmd_base,
-            self._feature_name,
-            cmd_args
+            self._feature_name
         ).split()
 
     @property
@@ -209,9 +204,9 @@ class GPCCHS(object):
         Run a command
         """
         try:
-            print('Running command : {}...'.format(cmd))
+            print('Running command : {}'.format(cmd))
             proc = subprocess.Popen(
-                cmd,
+                cmd.split(),
                 env=os.environ,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE
@@ -243,7 +238,7 @@ class GPCCHS(object):
         if rc == 0 and self._feature_id:
             rc = self._run_cstart()
         if rc == 0:
-            rc = self._run_cmd("code")
+            rc = self._run_cmd("node --max_old_space_size=8000 index")
         return rc
 
 
@@ -251,7 +246,7 @@ if __name__ == '__main__':
     # Imported only if called through CLI
     import argparse
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description='Run visualization application')
     parser.add_argument(
         "workspace",
         help="A folder path to open as workspace"

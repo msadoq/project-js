@@ -97,6 +97,8 @@ export default class Timebar extends Component {
 
     const viewportMsWidth = timeEnd - timeBeginning;
     if (dragging) {
+      // @TODO: replace findDOMNode by ref callbacks
+      // eslint-disable-next-line react/no-find-dom-node
       const viewportOffset = findDOMNode(this).getBoundingClientRect();
       if (viewportOffset.left > e.pageX || viewportOffset.right < e.pageX) {
         const mult = e.pageX - viewportOffset.left > 0 ? 1 : -1;
@@ -294,7 +296,7 @@ export default class Timebar extends Component {
         dragging, resizing,
         timeBeginning, timeEnd
     } = this.state;
-    const { visuWindow, timelines, timebarId } = this.props;
+    const { visuWindow, timelines } = this.props;
 
     const lower = this.state.lower || visuWindow.lower;
     const upper = this.state.upper || visuWindow.upper;
@@ -356,7 +358,11 @@ export default class Timebar extends Component {
             </span>
             <span className={styles.upperFormattedTime}>{this.formatDate(upper, true)}</span>
           </div>
-          <div ref={el => this.timelinesEl = el} className={styles.timelines}>
+          <div
+            ref={(el) => { this.timelinesEl = el; }}
+            className={styles.timelines}
+            onScroll={this.props.onVerticalScroll}
+          >
             { timelines.map((v, i) =>
               <TimebarTimeline
                 key={i}

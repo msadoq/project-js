@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { PureComponent } from 'react';
 import styles from './TimebarScale.css';
 
-const levelsRules = levelsRulesFunc();
+const levelsRules = getLevelsRules();
 
 export default class TimebarScale extends PureComponent {
   static propTypes = {
@@ -34,18 +34,9 @@ export default class TimebarScale extends PureComponent {
     return output;
   }
 
-  zoomLevel() {
-    const viewportMs = this.props.timeEnd - this.props.timeBeginning;
-    const zoomLevels = levelsRules.map(d => d.duration);
-    let zoomLevel = zoomLevels.findIndex(v => viewportMs >= v);
-    if (zoomLevel === -1) zoomLevel = zoomLevels.length - 1;
-
-    return zoomLevel;
-  }
-
   render() {
     const viewportMs = this.props.timeEnd - this.props.timeBeginning;
-    const scales = this.getRules(viewportMs, this.zoomLevel());
+    const scales = this.getRules(viewportMs, getZoomLevel(viewportMs));
 
     return (
       <div className={styles.timebarRule}>
@@ -62,7 +53,15 @@ export default class TimebarScale extends PureComponent {
   }
 }
 
-function levelsRulesFunc() {
+function getZoomLevel(viewportMs) {
+  const zoomLevels = levelsRules.map(d => d.duration);
+  let zoomLevel = zoomLevels.findIndex(v => viewportMs >= v);
+  if (zoomLevel === -1) zoomLevel = zoomLevels.length - 1;
+
+  return zoomLevel;
+}
+
+function getLevelsRules() {
   const day = 1000 * 60 * 60 * 24;
   const hour = 1000 * 60 * 60;
   const min = 1000 * 60;

@@ -4,6 +4,7 @@ import styles from './Timebar.css';
 export default class TimebarTimeline extends PureComponent {
   static propTypes = {
     name: React.PropTypes.string.isRequired,
+    color: React.PropTypes.string
   }
 
   render() {

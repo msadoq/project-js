@@ -23,8 +23,13 @@ export default merge(baseConfig, {
   },
 
   module: {
-    loaders: [
-      {
+    preLoaders: [{
+        test: /\.jsx?$/,
+        loader: "eslint",
+        exclude: [/src\/common/, /node_modules/]
+      }
+    ],
+    loaders: [{
         test: /\.global\.css$/,
         loaders: [
           'style-loader',

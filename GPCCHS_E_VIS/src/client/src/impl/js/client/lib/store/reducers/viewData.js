@@ -1,6 +1,6 @@
 import { each, findIndex, findLastIndex, concat, omit } from 'lodash';
-import * as types from '../types';
 import { constants as globalConstants } from 'common';
+import * as types from '../types';
 
 export default function viewData(stateViewData = {}, action) {
   switch (action.type) {

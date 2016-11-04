@@ -152,7 +152,7 @@ module.exports = (oldTb, newTb) => {
           } else {
             switch (element.kind) {
               case 'Session':
-                if (oldTl.sessionId !== parseInt(element.sessionId)) {
+                if (oldTl.sessionId !== parseInt(element.sessionId, 10)) {
                   addTlUpdate(element, 'sessionId');
                 }
                 break;

@@ -14,7 +14,8 @@ export default function extractRemoteIds(
 ) {
   return _reduce(entryPoints, (sublist, ep) => {
     const cdsX = applyDomainsAndTimebar(
-      ep.connectedDataX, globalConstants.DATASTRUCTURETYPE_RANGE, timebarId, visuWindow, timelines, domains, false
+      ep.connectedDataX, globalConstants.DATASTRUCTURETYPE_RANGE, timebarId,
+      visuWindow, timelines, domains, false
     );
     if (!Object.keys(cdsX).length) {
       logger.debug('invalid X connectedData for this entryPoint', ep.name);
@@ -22,7 +23,8 @@ export default function extractRemoteIds(
     }
 
     const cdsY = applyDomainsAndTimebar(
-      ep.connectedDataY, globalConstants.DATASTRUCTURETYPE_RANGE, timebarId, visuWindow, timelines, domains, false
+      ep.connectedDataY, globalConstants.DATASTRUCTURETYPE_RANGE, timebarId,
+      visuWindow, timelines, domains, false
     );
     if (!Object.keys(cdsY).length) {
       logger.debug('invalid Y connectedData for this entryPoint', ep.name);

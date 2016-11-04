@@ -1,4 +1,5 @@
 import { each, set } from 'lodash';
+import { constants as globalConstants } from 'common';
 import profiling from '../debug/profiling';
 import debug from '../debug/mainDebug';
 import vivl from '../../../VIVL/main';
@@ -6,7 +7,6 @@ import getViewDefinitions from './map/visibleViews';
 import { importPayload } from '../../store/actions/viewData';
 import selectLastValue from './structures/last/lastValue';
 import selectRangeValues from './structures/range/rangeValues';
-import { constants as globalConstants } from 'common';
 
 const logger = debug('data:inject');
 

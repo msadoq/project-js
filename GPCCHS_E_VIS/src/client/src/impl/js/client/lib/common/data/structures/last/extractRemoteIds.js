@@ -10,7 +10,8 @@ export default function extractRemoteIds(
 ) {
   return _reduce(entryPoints, (sublist, ep) => {
     const cds = applyDomainsAndTimebar(
-      ep.connectedData, globalConstants.DATASTRUCTURETYPE_LAST, timebarId, visuWindow, timelines, domains, false
+      ep.connectedData, globalConstants.DATASTRUCTURETYPE_LAST, timebarId,
+      visuWindow, timelines, domains, false
     );
     if (!Object.keys(cds).length) {
       return sublist;

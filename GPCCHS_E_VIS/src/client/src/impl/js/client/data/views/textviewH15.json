@@ -10,11 +10,7 @@
         "unit": "V",
         "digits": 5,
         "format": "decimal",
-        "filter": [{
-          "field": "convertedValue",
-          "operator": "!=",
-          "operand": "0"
-        }],
+        "filter": [],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
       }
@@ -159,11 +155,7 @@
         "unit": "V",
         "digits": 5,
         "format": "decimal",
-        "filter": [{
-          "field": "convertedValue",
-          "operator": "!=",
-          "operand": "0"
-        }],
+        "filter": [],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
       }
@@ -307,11 +299,7 @@
         "unit": "V",
         "digits": 5,
         "format": "decimal",
-        "filter": [{
-          "field": "convertedValue",
-          "operator": "!=",
-          "operand": "0"
-        }],
+        "filter": [],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
       }
@@ -455,11 +443,7 @@
         "unit": "V",
         "digits": 8,
         "format": "decimal",
-        "filter": [{
-          "field": "convertedValue",
-          "operator": "!=",
-          "operand": "0"
-        }],
+        "filter": [],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
       }
@@ -603,11 +587,7 @@
         "unit": "V",
         "digits": 8,
         "format": "decimal",
-        "filter": [{
-          "field": "convertedValue",
-          "operator": "!=",
-          "operand": "0"
-        }],
+        "filter": [],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
       }
@@ -751,11 +731,7 @@
         "unit": "V",
         "digits": 8,
         "format": "decimal",
-        "filter": [{
-          "field": "convertedValue",
-          "operator": "!=",
-          "operand": "0"
-        }],
+        "filter": [],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
       }
@@ -899,11 +875,7 @@
         "unit": "V",
         "digits": 2,
         "format": "decimal",
-        "filter": [{
-          "field": "convertedValue",
-          "operator": "!=",
-          "operand": "0"
-        }],
+        "filter": [],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
       }
@@ -1047,11 +1019,7 @@
         "unit": "V",
         "digits": 2,
         "format": "scientific",
-        "filter": [{
-          "field": "convertedValue",
-          "operator": "!=",
-          "operand": "0"
-        }],
+        "filter": [],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
       }
@@ -1194,11 +1162,7 @@
         "formula": "Reporting.GENE_AM_I146SPARE<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
-        "filter": [{
-          "field": "convertedValue",
-          "operator": "!=",
-          "operand": "0"
-        }],
+        "filter": [],
         "format": "hexadecimal",
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
@@ -1343,11 +1307,7 @@
         "unit": "V",
         "digits": 2,
         "format": "scientific",
-        "filter": [{
-          "field": "convertedValue",
-          "operator": "!=",
-          "operand": "0"
-        }],
+        "filter": [],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
       }
@@ -1491,11 +1451,7 @@
         "unit": "V",
         "digits": 2,
         "format": "hexadecimal",
-        "filter": [{
-          "field": "convertedValue",
-          "operator": "!=",
-          "operand": "0"
-        }],
+        "filter": [],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
       }
@@ -1639,11 +1595,7 @@
         "unit": "V",
         "digits": 2,
         "format": "scientific",
-        "filter": [{
-          "field": "convertedValue",
-          "operator": "!=",
-          "operand": "0"
-        }],
+        "filter": [],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
       }
@@ -1787,11 +1739,7 @@
         "unit": "V",
         "digits": 2,
         "format": "scientific",
-        "filter": [{
-          "field": "convertedValue",
-          "operator": "!=",
-          "operand": "0"
-        }],
+        "filter": [],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
       }
@@ -1935,11 +1883,7 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "filter": [{
-          "field": "convertedValue",
-          "operator": "!=",
-          "operand": "0"
-        }],
+        "filter": [],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
       }
@@ -2083,11 +2027,7 @@
         "unit": "V",
         "digits": 2,
         "format": "scientific",
-        "filter": [{
-          "field": "convertedValue",
-          "operator": "!=",
-          "operand": "0"
-        }],
+        "filter": [],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
       }

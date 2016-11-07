@@ -7,10 +7,13 @@
   display: table-cell;
 }
 .controlButton{
+  min-width: 30px;
   margin-right: 5px;
   border-radius: 1px;
   height: 19px;
   line-height: 1px;
+  font-weight: 600;
+  font-size: 0.8em;
 
 }
 .controlButtonPause{

@@ -15,13 +15,11 @@ export default class TimebarControls extends Component {
     updateVisuWindow: React.PropTypes.func.isRequired,
   }
 
-  updatePlayingState = (e) => {
-    e.preventDefault();
-    const { updatePlayingState, timebarId, timebarPlayingState } = this.props;
-    updatePlayingState(
-      timebarId,
-      (timebarPlayingState === 'pause' ? 'play' : 'pause')
-    );
+  changeSpeed = (dir) => {
+    const { updateSpeed, timebarId, timebarSpeed, timebarPlayingState } = this.props;
+    const newSpeed = dir === 'up' ? 2 * timebarSpeed : timebarSpeed / 2;
+    updateSpeed(timebarId, newSpeed);
+    if (newSpeed !== 1 && timebarPlayingState === 'pause') this.toggleMode();
   }
 
   goNow = (e) => {
@@ -56,16 +54,17 @@ export default class TimebarControls extends Component {
   }
 
   tick() {
-    const { updateVisuWindow, timebarId } = this.props;
-    const { lower, upper, current } = this.props.visuWindow;
+    const { updateVisuWindow, timebarId, timebarSpeed } = this.props;
+    // const { lower, upper, current } = this.props.visuWindow;
     this.interval = setTimeout(
       () => {
+        const { lower, upper, current } = this.props.visuWindow;
         updateVisuWindow(
           timebarId,
           {
-            lower: lower + globalConstants.HSC_PLAY_FREQUENCY,
-            upper: upper + globalConstants.HSC_PLAY_FREQUENCY,
-            current: current + globalConstants.HSC_PLAY_FREQUENCY
+            lower: lower + (globalConstants.HSC_PLAY_FREQUENCY * timebarSpeed),
+            upper: upper + (globalConstants.HSC_PLAY_FREQUENCY * timebarSpeed),
+            current: current + (globalConstants.HSC_PLAY_FREQUENCY * timebarSpeed)
           }
         );
         this.tick();
@@ -75,7 +74,7 @@ export default class TimebarControls extends Component {
   }
 
   render() {
-    const { timebarPlayingState } = this.props;
+    const { timebarPlayingState, timebarSpeed } = this.props;
     const opTimebarPlayingState = timebarPlayingState === 'pause' ? 'play' : 'pause';
 
     const allButtonsKlasses = `btn btn-xs btn-primary ${styles.controlButton}`;
@@ -92,7 +91,15 @@ export default class TimebarControls extends Component {
             <Col xs={12}>
               <ul className={`pull-right ${styles.controlsUl}`}>
                 <li className={styles.controlsLi}>
-                  <button className={allButtonsKlasses}>&#9668;&#9668;</button>
+                  <button
+                    className={allButtonsKlasses}
+                    onClick={this.changeSpeed}
+                    title="Decrease speed"
+                  >
+                    <span
+                      dangerouslySetInnerHTML={{ __html: (timebarSpeed < 1 ? `${timebarSpeed}X` : '&#9668;&#9668;') }}
+                    />
+                  </button>
                 </li>
                 <li className={styles.controlsLi}>
                   <button
@@ -100,14 +107,30 @@ export default class TimebarControls extends Component {
                     onClick={this.toggleMode}
                     title={opTimebarPlayingState}
                   >
-                    <span dangerouslySetInnerHTML={{ __html: (timebarPlayingState === 'play' ? '&#9613;&#9613;' : '&#9658;') }} />
+                    <span
+                      dangerouslySetInnerHTML={{ __html: (timebarPlayingState === 'play' ? '&#9613;&#9613;' : '&#9658;') }}
+                    />
                   </button>
                 </li>
                 <li className={styles.controlsLi}>
-                  <button className={allButtonsKlasses}>&#9658;&#9658;</button>
+                  <button
+                    className={allButtonsKlasses}
+                    onClick={this.changeSpeed.bind(null, 'up')}
+                    title="Increase speed"
+                  >
+                    <span
+                      dangerouslySetInnerHTML={{ __html: (timebarSpeed > 1 ? `${timebarSpeed}X` : '&#9658;&#9658;') }}
+                    />
+                  </button>
                 </li>
                 <li className={styles.controlsLi}>
-                  <button onClick={this.goNow} className={allButtonsKlasses} title="Go now">NOW</button>
+                  <button
+                    className={allButtonsKlasses}
+                    onClick={this.goNow}
+                    title="Go now"
+                  >
+                    NOW
+                  </button>
                 </li>
               </ul>
             </Col>

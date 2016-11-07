@@ -1,4 +1,6 @@
+import _isObject from 'lodash/isObject';
 import { constants as globalConstants } from 'common';
+
 import { getWebsocket } from '../common/websocket/mainWebsocket';
 import inject from '../common/data/inject';
 import { setActingOn, setActingOff } from './storeObserver';
@@ -10,13 +12,14 @@ export function ask() {
 }
 
 export function receive(state, dispatch, payload) {
-  clear(); // precaution
+  clear(); // concurrency issue precaution
 
-  // TODO : look for time and .warn on increased delay between two loop (caution: server doesn't
-  //        send if no new data)
-  setActingOn();
-  inject(state, dispatch, payload);
-  setActingOff();
+  if (_isObject(payload) && Object.keys(payload).length) {
+    // TODO : look for time and .warn on increased delay between two loop
+    setActingOn();
+    inject(state, dispatch, payload);
+    setActingOff();
+  }
 
   schedule();
 }
@@ -26,6 +29,7 @@ export function schedule() {
     return;
   }
 
+  // never trigger a new one until previous was received and injected
   timeout = setTimeout(ask, globalConstants.HSC_PULL_FREQUENCY);
 }
 

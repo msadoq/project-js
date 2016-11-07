@@ -16,9 +16,6 @@ module.exports = (spark) => {
   debug.verbose(`called (${spark.id})`);
 
   const payload = reset();
-  if (!Object.keys(payload).length) {
-    return;
-  }
 
   spark.write({ event: globalConstants.EVENT_TIMEBASED_DATA, payload });
 };

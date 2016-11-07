@@ -32,7 +32,7 @@ describe('store:timeline', () => {
           actions.add('myTimelineId')
         );
         state.myTimelineId.should.have.properties({
-          id: 'Session',
+          id: null,
           offset: 0,
           kind: 'Session',
           sessionId: null,

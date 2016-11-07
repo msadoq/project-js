@@ -184,7 +184,7 @@ class PlotView extends PureComponent {
   xAccessor = (d) => {
     if (typeof d === 'undefined' || typeof d.x === 'undefined') {
       logger.warn('empty point received');
-      return new Date();
+      return;
     }
 
     return new Date(d.x);

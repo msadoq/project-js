@@ -15,7 +15,7 @@ const zmqEmulator = (key, payload) => {
   calls = _concat(calls, payload);
 };
 
-describe('controllers/onDomainQuery', () => {
+describe('controllers/client/onDomainQuery', () => {
   beforeEach(() => {
     calls.length = 0;
     registeredCallbacks.clear();

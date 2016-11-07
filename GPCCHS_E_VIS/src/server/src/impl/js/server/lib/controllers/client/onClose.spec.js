@@ -4,8 +4,8 @@ const { close } = require('./onClose');
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
 const { clearFactory, addTimebasedDataModel } = require('../../models/timebasedDataFactory');
-const registeredCallbacks = require('../../utils/registeredCallbacks');
 const registeredQueries = require('../../utils/registeredQueries');
+const { add, get } = require('../../utils/dataQueue');
 const { setDomains, getDomains } = require('../../utils/domains');
 const constants = require('../../constants');
 const {
@@ -26,57 +26,54 @@ const zmqEmulator = (key, payload) => {
   calls = _concat(calls, payload);
 };
 
-describe('controllers/onClose', () => {
+describe('controllers/client/onClose', () => {
   beforeEach(() => {
-    registeredCallbacks.clear();
     registeredQueries.clear();
     subscriptionsModel.cleanup();
     clearFactory();
     connectedDataModel.cleanup();
     calls = [];
+    add('myRemoteId', { myKey: 'value' });
   });
-  describe('close', () => {
-    it('one', () => {
-      const myDataId = getDataId();
-      const myRemoteId = getRemoteId(myDataId);
-      const myRp = getReportingParameter();
-      const proto = getReportingParameterProtobuf(myRp);
+  it('should cleanup HSS state', () => {
+    const myDataId = getDataId();
+    const myRemoteId = getRemoteId(myDataId);
+    const myRp = getReportingParameter();
+    const proto = getReportingParameterProtobuf(myRp);
 
-      subscriptionsModel.addRecord(myDataId);
-      const timebasedDataModel = addTimebasedDataModel(myRemoteId);
-      timebasedDataModel.addRecord(_now(), proto);
-      connectedDataModel.addRequestedInterval(myRemoteId, 'queryId', [42, 42]);
-      setDomains([1]);
-      registeredCallbacks.set('toto', toto => toto === 1);
-      registeredQueries.set('queryId', myRemoteId);
+    subscriptionsModel.addRecord(myDataId);
+    const timebasedDataModel = addTimebasedDataModel(myRemoteId);
+    timebasedDataModel.addRecord(_now(), proto);
+    connectedDataModel.addRequestedInterval(myRemoteId, 'queryId', [42, 42]);
+    setDomains([1]);
+    registeredQueries.set('queryId', myRemoteId);
 
-      close(zmqEmulator);
+    // call it
+    close(zmqEmulator);
 
-      calls.should.be.an('array')
-        .that.has.lengthOf(4);
-      calls[0].constructor.should.equal(Buffer);
-      const messageType = decode('dc.dataControllerUtils.Header', calls[0]).messageType;
-      messageType.should.equal(constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION);
-      const queryId = decode('dc.dataControllerUtils.String', calls[1]).string;
-      const dataId = decode('dc.dataControllerUtils.DataId', calls[2]);
-      dataId.should.have.properties(myDataId);
-      const action = decode('dc.dataControllerUtils.Action', calls[3]).action;
-      action.should.equal(constants.SUBSCRIPTIONACTION_DELETE);
+    get().should.eql({});
 
-      const connectedData = connectedDataModel.find();
-      connectedData.should.be.an('array')
-        .that.have.lengthOf(0);
-      const subscriptions = subscriptionsModel.find();
-      subscriptions.should.be.an('array')
-        .that.have.lengthOf(0);
-      const timebasedData = timebasedDataModel.find();
-      timebasedData.should.be.an('array')
-        .that.have.lengthOf(0);
-      getDomains().should.be.an('array')
-        .that.has.lengthOf(0);
-      Object.keys(registeredCallbacks.getAll()).should.have.lengthOf(2)
-        .and.have.properties(['toto', queryId]);
-      Object.keys(registeredQueries.getAll()).should.have.lengthOf(0);
-    });
+    calls.should.be.an('array')
+      .that.has.lengthOf(4);
+    calls[0].constructor.should.equal(Buffer);
+    const messageType = decode('dc.dataControllerUtils.Header', calls[0]).messageType;
+    messageType.should.equal(constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION);
+    const dataId = decode('dc.dataControllerUtils.DataId', calls[2]);
+    dataId.should.have.properties(myDataId);
+    const action = decode('dc.dataControllerUtils.Action', calls[3]).action;
+    action.should.equal(constants.SUBSCRIPTIONACTION_DELETE);
+
+    const connectedData = connectedDataModel.find();
+    connectedData.should.be.an('array')
+      .that.have.lengthOf(0);
+    const subscriptions = subscriptionsModel.find();
+    subscriptions.should.be.an('array')
+      .that.have.lengthOf(0);
+    const timebasedData = timebasedDataModel.find();
+    timebasedData.should.be.an('array')
+      .that.have.lengthOf(0);
+    getDomains().should.be.an('array')
+      .that.has.lengthOf(0);
+    Object.keys(registeredQueries.getAll()).should.have.lengthOf(0);
   });
 });

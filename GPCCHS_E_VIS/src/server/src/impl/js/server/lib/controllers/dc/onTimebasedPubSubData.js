@@ -8,7 +8,7 @@ const { decode, getType } = require('../../protobuf');
 const { addTimebasedDataModel, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
-const { addToMainQueue } = require('../../websocket/sendToMain');
+const { add } = require('../../utils/dataQueue');
 const { applyFilters } = require('../../utils/filters');
 
 /**
@@ -25,12 +25,13 @@ const { applyFilters } = require('../../utils/filters');
  *        - store filtered payload in timebasedData model
  *        - queue a ws newData message (sent periodically)
  *
+ * @param addToQueue
  * @param queryIdBuffer (not used for now)
  * @param dataIdBuffer
  * @param payloadsBuffers
  */
 const sendTimebasedPubSubData = (
-  websocketQueueHandler,
+  addToQueue,
   queryIdBuffer,
   dataIdBuffer,
   ...payloadsBuffers
@@ -97,13 +98,13 @@ const sendTimebasedPubSubData = (
       }
       timebasedDataModel.addRecord(tbd.timestamp, tbd.payload);
       // queue a ws newData message (sent periodically)
-      websocketQueueHandler(remoteId, { [tbd.timestamp]: tbd.payload });
+      addToQueue(remoteId, { [tbd.timestamp]: tbd.payload });
     });
   });
 };
 
 module.exports = {
   onTimebasedPubSubData: (queryIdBuffer, dataIdBuffer, ...payloadsBuffers) =>
-    sendTimebasedPubSubData(addToMainQueue, queryIdBuffer, dataIdBuffer, ...payloadsBuffers),
+    sendTimebasedPubSubData(add, queryIdBuffer, dataIdBuffer, ...payloadsBuffers),
   sendTimebasedPubSubData,
 };

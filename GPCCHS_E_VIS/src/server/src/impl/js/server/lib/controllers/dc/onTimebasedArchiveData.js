@@ -8,7 +8,7 @@ const { decode, encode, getType } = require('../../protobuf');
 const { addTimebasedDataModel, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 const registeredQueries = require('../../utils/registeredQueries');
-const { addToMainQueue } = require('../../websocket/sendToMain');
+const { add } = require('../../utils/dataQueue');
 const execution = require('../../utils/execution')('archiveData');
 
 const protobufTrue = encode('dc.dataControllerUtils.Boolean', { boolean: true });
@@ -24,10 +24,15 @@ const protobufTrue = encode('dc.dataControllerUtils.Boolean', { boolean: true })
  * - store decoded payloads in timebasedData model
  * - queue a ws newData message (sent periodically)
  *
- * @param buffer
+ * @param addToQueue
+ * @param queryIdBuffer
+ * @param dataIdBuffer
+ * @param isLastBuffer
+ * @param payloadBuffers
+ * @return {undefined}
  */
 const sendTimebasedArchiveData = (
-  websocketQueueHandler,
+  addToQueue,
   queryIdBuffer,
   dataIdBuffer,
   isLastBuffer,
@@ -105,7 +110,7 @@ const sendTimebasedArchiveData = (
 
   execution.start('queue payloads');
   // queue a ws newData message (sent periodically)
-  websocketQueueHandler(remoteId, payloadsToSend);
+  addToQueue(remoteId, payloadsToSend);
   execution.stop('queue payloads');
   execution.stop('global');
   execution.print();
@@ -115,7 +120,7 @@ const sendTimebasedArchiveData = (
 module.exports = {
   onTimebasedArchiveData: (queryIdBuffer, dataIdBuffer, isLastBuffer, ...payloadBuffers) =>
     sendTimebasedArchiveData(
-      addToMainQueue,
+      add,
       queryIdBuffer,
       dataIdBuffer,
       isLastBuffer,

@@ -1,19 +1,19 @@
-// const debug = require('../../io/debug')('controllers:onTimebasedQuery');
-const connectedDataModel = require('../../models/connectedData');
-const { getTimebasedDataModel } = require('../../models/timebasedDataFactory');
-const subscriptionsModel = require('../../models/subscriptions');
-const zmq = require('../../io/zmq');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { constants: globalConstants } = require('common');
 const {
   each: _each,
   concat: _concat,
   zipObject: _zipObject,
   map: _map,
 } = require('lodash');
-const { addToMainQueue } = require('../../websocket/sendToMain');
+const connectedDataModel = require('../../models/connectedData');
+const { getTimebasedDataModel } = require('../../models/timebasedDataFactory');
+const subscriptionsModel = require('../../models/subscriptions');
+const zmq = require('../../io/zmq');
+const { add } = require('../../utils/dataQueue');
 const { createQueryMessage } = require('../../utils/queries');
 const { createAddSubscriptionMessage } = require('../../utils/subscriptions');
 const execution = require('../../utils/execution')('query');
-const { constants: globalConstants } = require('common');
 const constants = require('../../constants');
 
 /**
@@ -37,12 +37,12 @@ const constants = require('../../constants');
  *        - queue a ws newData message (sent periodically)
  * - send queued messages to DC
  *
- * @param spark
+ * @param addToQueue
  * @param payload
  * @param messageHandler
  */
 
-const timebasedQuery = (websocketQueueHandler, payload, messageHandler) => {
+const timebasedQuery = (addToQueue, payload, messageHandler) => {
   execution.reset();
   execution.start('global');
   // debug.debug('called', Object.keys(payload).length, 'remoteIds');
@@ -157,7 +157,7 @@ const timebasedQuery = (websocketQueueHandler, payload, messageHandler) => {
       }
 
       execution.start('queue cache for sending');
-      websocketQueueHandler(
+      addToQueue(
         remoteId,
         _zipObject(
           _map(cachedData, datum => datum.timestamp),
@@ -183,6 +183,6 @@ module.exports = {
   timebasedQuery,
   onTimebasedQuery: (spark, payload) => {
     // debug.debug('data query', spark.id, payload);
-    timebasedQuery(addToMainQueue, payload, zmq.push);
+    timebasedQuery(add, payload, zmq.push);
   },
 };

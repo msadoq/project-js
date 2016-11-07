@@ -2,7 +2,7 @@ const debug = require('../../io/debug')('controllers:onClose');
 const { clearFactory } = require('../../models/timebasedDataFactory');
 const subscriptionsModel = require('../../models/subscriptions');
 const connectedDataModel = require('../../models/connectedData');
-const registeredCallbacks = require('../../utils/registeredCallbacks');
+const { reset: resetDataQueue } = require('../../utils/dataQueue');
 const registeredQueries = require('../../utils/registeredQueries');
 const { createDeleteSubscriptionMessage } = require('../../utils/subscriptions');
 const zmq = require('../../io/zmq');
@@ -20,7 +20,6 @@ const { resetDomains } = require('../../utils/domains');
  * - reset all singletons
  *    - domains
  *    - registeredQueries
- *    - registeredCallbacks
  *
  * @param messageHandler
  */
@@ -32,15 +31,17 @@ const close = (messageHandler) => {
     debug.debug('sending delete subscription message to DC');
     return messageHandler('dcPush', message.args);
   });
+  // cleanup data queue
+  resetDataQueue();
   // cleanup timebasedData model
   clearFactory();
   // cleanup connectedData model
   connectedDataModel.cleanup();
   // cleanup subscriptions model
   subscriptionsModel.cleanup();
-  // reset domains singleton
+  // cleanup domains singleton
   resetDomains();
-  // reset domains singleton
+  // cleanup queries
   registeredQueries.clear();
 
   debug.debug('cleanup done');

@@ -1,3 +1,12 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { constants: globalConstants } = require('common');
+const {
+  isEmpty: _isEmpty,
+  keys: _keys,
+  pull: _pull,
+  concat: _concat,
+} = require('lodash');
+
 const { should } = require('../../utils/test');
 const flattenDataId = require('../../utils/flattenDataId');
 const { timebasedQuery } = require('./onTimebasedQuery');
@@ -6,15 +15,8 @@ const { clearFactory, addTimebasedDataModel } = require('../../models/timebasedD
 const subscriptionsModel = require('../../models/subscriptions');
 const registeredQueries = require('../../utils/registeredQueries');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
-const {
-  isEmpty: _isEmpty,
-  keys: _keys,
-  pull: _pull,
-  concat: _concat,
-} = require('lodash');
 const dataStub = require('../../stubs/data');
 const { addToTestQueue, getMessage, resetMessage } = require('../../stubs/testWebSocket');
-const { constants: globalConstants } = require('common');
 const constants = require('../../constants');
 
 let calls = [];
@@ -35,7 +37,7 @@ const zmqEmulator = (key, payload) => {
  *
  */
 
-describe('controllers/onTimebasedQuery', () => {
+describe('controllers/client/onTimebasedQuery', () => {
   beforeEach(() => {
     registeredQueries.clear();
     registeredCallbacks.clear();

@@ -1,5 +1,6 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { constants: globalConstants } = require('common');
 const { should } = require('../../utils/test');
-
 const { cacheCleanup } = require('./onCacheCleanup');
 const { decode } = require('../../protobuf');
 const {
@@ -13,7 +14,6 @@ const registeredQueries = require('../../utils/registeredQueries');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
 const { concat: _concat } = require('lodash');
 const dataStub = require('../../stubs/data');
-const { constants: globalConstants } = require('common');
 
 let calls = [];
 const zmqEmulator = (key, payload) => {
@@ -30,7 +30,7 @@ const zmqEmulator = (key, payload) => {
  * - check zmq messages for timebasedSubscription if needed
  */
 
-describe('controllers/onCacheCleanup', () => {
+describe('controllers/client/onCacheCleanup', () => {
   // Declaring test data
   const dataId1 = dataStub.getDataId({ parameterName: 'data1' });
   const dataId2 = dataStub.getDataId({ parameterName: 'data2' });

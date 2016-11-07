@@ -10,6 +10,7 @@ import invalidateCache from '../common/data/invalidate';
 import { initStore, getStore } from '../store/mainStore';
 import storeObserver, { setActingOn, setActingOff } from './storeObserver';
 import { connect, disconnect } from '../common/websocket/mainWebsocket';
+import { schedule, clear } from './pull';
 import './menu';
 
 const logger = debug('mainProcess:index');
@@ -46,15 +47,19 @@ export async function start() {
       storeSubscription = getStore().subscribe(storeObserver);
 
       // open websocket connection
-      // TODO : on websocket disconnection cleanup dataCache and dataRequests
       connect();
 
+      // TODO BE SET ONLY WHEN APP IS STARTED (windows opened)
       // cache invalidation
       cacheInvalidator = setInterval(() => {
         setActingOn();
         invalidateCache(getStore());
         setActingOff();
       }, globalConstants.CACHE_INVALIDATION_FREQUENCY);
+
+      // pull data from HSS
+      schedule();
+      // TODO BE SET ONLY WHEN APP IS STARTED (windows opened)
     });
   } catch (e) {
     logger.error(e);
@@ -71,6 +76,10 @@ export function stop() {
     if (cacheInvalidator) {
       clearInterval(cacheInvalidator);
     }
+
+    // pull data
+    clear();
+
     monitoring.stop();
   } catch (e) {
     logger.error(e);

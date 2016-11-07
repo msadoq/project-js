@@ -1,9 +1,8 @@
 import { constants as globalConstants } from 'common';
 
 import debug from '../debug/mainDebug';
+import { receive } from '../../mainProcess/pull';
 import updateStore from '../../mainProcess/vima/updateStore';
-import injectData from '../data/inject';
-import { setActingOn, setActingOff } from '../../mainProcess/storeObserver';
 import { onAuthenticated, onDomainResponse, onReady } from '../../mainProcess/lifecycle';
 
 const logger = debug('main:controller');
@@ -11,24 +10,15 @@ const logger = debug('main:controller');
 export default function controller(ws, state, dispatch, event, payload) {
   switch (event) {
     case globalConstants.EVENT_AUTHENTICATED:
-      onAuthenticated(dispatch, ws);
-      break;
+      return onAuthenticated(dispatch, ws);
     case globalConstants.EVENT_DOMAIN_RESPONSE:
-      onDomainResponse(state, dispatch, ws, payload);
-      break;
+      return onDomainResponse(state, dispatch, ws, payload);
     case globalConstants.EVENT_READY:
-      onReady(dispatch);
-      break;
+      return onReady(dispatch);
     case globalConstants.EVENT_TIMEBAR_UPDATE:
-      updateStore(state, dispatch, payload);
-      break;
-    case globalConstants.EVENT_TIMEBASED_DATA: {
-      // TODO : add a buffer queue management with .warn on increased delay
-      setActingOn();
-      injectData(state, dispatch, payload);
-      setActingOff();
-      break;
-    }
+      return updateStore(state, dispatch, payload);
+    case globalConstants.EVENT_TIMEBASED_DATA:
+      return receive(state, dispatch, payload);
     case globalConstants.EVENT_ERROR:
       switch (payload.type) {
         case globalConstants.ERRORTYPE_RESPONSE:

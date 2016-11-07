@@ -4,18 +4,6 @@
   "type": "TextView",
   "entryPoints": [
     {
-      "name": "AGA_AM_OWNERID",
-      "connectedData": {
-        "formula": "Reporting.AGA_AM_OWNERID<ReportingParameter>.convertedValue",
-        "unit": "V",
-        "digits": 5,
-        "format": "decimal",
-        "filter": [],
-        "domain": "fr.cnes.sat1",
-        "timeline": "Session 1"
-      }
-    },
-    {
       "name": "AGA_AM_OWNERID_obd",
       "connectedData": {
         "formula": "Reporting.AGA_AM_OWNERID<ReportingParameter>.onboardDate",
@@ -139,19 +127,6 @@
       "name": "AGA_AM_OWNERID_in",
       "connectedData": {
         "formula": "Reporting.AGA_AM_OWNERID<ReportingParameter>.isNominal",
-        "unit": "V",
-        "digits": 5,
-        "format": "decimal",
-        "filter": [],
-        "domain": "fr.cnes.sat1",
-        "timeline": "Session 1"
-      }
-    },
-
-    {
-      "name": "AGA_AM_QP2",
-      "connectedData": {
-        "formula": "Reporting.AGA_AM_QP2<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
@@ -293,18 +268,6 @@
       }
     },
     {
-      "name": "AGA_AM_STATIONID",
-      "connectedData": {
-        "formula": "Reporting.AGA_AM_STATIONID<ReportingParameter>.convertedValue",
-        "unit": "V",
-        "digits": 5,
-        "format": "decimal",
-        "filter": [],
-        "domain": "fr.cnes.sat1",
-        "timeline": "Session 1"
-      }
-    },
-    {
       "name": "AGA_AM_STATIONID_obd",
       "connectedData": {
         "formula": "Reporting.AGA_AM_STATIONID<ReportingParameter>.onboardDate",
@@ -437,18 +400,6 @@
       }
     },
     {
-      "name": "AGA_AM_VALMASK",
-      "connectedData": {
-        "formula": "Reporting.AGA_AM_VALMASK<ReportingParameter>.convertedValue",
-        "unit": "V",
-        "digits": 8,
-        "format": "decimal",
-        "filter": [],
-        "domain": "fr.cnes.sat1",
-        "timeline": "Session 1"
-      }
-    },
-    {
       "name": "AGA_AM_VALMASK_obd",
       "connectedData": {
         "formula": "Reporting.AGA_AM_VALMASK<ReportingParameter>.onboardDate",
@@ -572,18 +523,6 @@
       "name": "AGA_AM_VALMASK_in",
       "connectedData": {
         "formula": "Reporting.AGA_AM_VALMASK<ReportingParameter>.isNominal",
-        "unit": "V",
-        "digits": 8,
-        "format": "decimal",
-        "filter": [],
-        "domain": "fr.cnes.sat1",
-        "timeline": "Session 1"
-      }
-    },
-    {
-      "name": "ATT_BC_QUATSATREF",
-      "connectedData": {
-        "formula": "Reporting.ATT_BC_QUATSATREF<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 8,
         "format": "decimal",
@@ -725,18 +664,6 @@
       }
     },
     {
-      "name": "GENE_AM_144PARINT",
-      "connectedData": {
-        "formula": "Reporting.GENE_AM_144PARINT<ReportingParameter>.convertedValue",
-        "unit": "V",
-        "digits": 8,
-        "format": "decimal",
-        "filter": [],
-        "domain": "fr.cnes.sat1",
-        "timeline": "Session 1"
-      }
-    },
-    {
       "name": "GENE_AM_144PARINT_obd",
       "connectedData": {
         "formula": "Reporting.GENE_AM_144PARINT<ReportingParameter>.onboardDate",
@@ -862,18 +789,6 @@
         "formula": "Reporting.GENE_AM_144PARINT<ReportingParameter>.isNominal",
         "unit": "V",
         "digits": 8,
-        "format": "decimal",
-        "filter": [],
-        "domain": "fr.cnes.sat1",
-        "timeline": "Session 1"
-      }
-    },
-    {
-      "name": "GENE_AM_144PARUSHT",
-      "connectedData": {
-        "formula": "Reporting.GENE_AM_144PARUSHT<ReportingParameter>.convertedValue",
-        "unit": "V",
-        "digits": 2,
         "format": "decimal",
         "filter": [],
         "domain": "fr.cnes.sat1",
@@ -1013,18 +928,6 @@
       }
     },
     {
-      "name": "GENE_AM_FILEDATA",
-      "connectedData": {
-        "formula": "Reporting.GENE_AM_FILEDATA<ReportingParameter>.convertedValue",
-        "unit": "V",
-        "digits": 2,
-        "format": "scientific",
-        "filter": [],
-        "domain": "fr.cnes.sat1",
-        "timeline": "Session 1"
-      }
-    },
-    {
       "name": "GENE_AM_FILEDATA_obd",
       "connectedData": {
         "formula": "Reporting.GENE_AM_FILEDATA<ReportingParameter>.onboardDate",
@@ -1152,18 +1055,6 @@
         "digits": 2,
         "format": "scientific",
         "filter": [],
-        "domain": "fr.cnes.sat1",
-        "timeline": "Session 1"
-      }
-    },
-    {
-      "name": "GENE_AM_I146SPARE",
-      "connectedData": {
-        "formula": "Reporting.GENE_AM_I146SPARE<ReportingParameter>.convertedValue",
-        "unit": "V",
-        "digits": 2,
-        "filter": [],
-        "format": "hexadecimal",
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
       }
@@ -1301,18 +1192,6 @@
       }
     },
     {
-      "name": "POW_BC_SARPOWPROV",
-      "connectedData": {
-        "formula": "Reporting.POW_BC_SARPOWPROV<ReportingParameter>.convertedValue",
-        "unit": "V",
-        "digits": 2,
-        "format": "scientific",
-        "filter": [],
-        "domain": "fr.cnes.sat1",
-        "timeline": "Session 1"
-      }
-    },
-    {
       "name": "POW_BC_SARPOWPROV_obd",
       "connectedData": {
         "formula": "Reporting.POW_BC_SARPOWPROV<ReportingParameter>.onboardDate",
@@ -1439,18 +1318,6 @@
         "unit": "V",
         "digits": 2,
         "format": "scientific",
-        "filter": [],
-        "domain": "fr.cnes.sat1",
-        "timeline": "Session 1"
-      }
-    },
-    {
-      "name": "GENE_AM_I11TCPEC",
-      "connectedData": {
-        "formula": "Reporting.GENE_AM_I11TCPEC<ReportingParameter>.convertedValue",
-        "unit": "V",
-        "digits": 2,
-        "format": "hexadecimal",
         "filter": [],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
@@ -1589,18 +1456,6 @@
       }
     },
     {
-      "name": "GENE_AM_LDTBYTENUSE",
-      "connectedData": {
-        "formula": "Reporting.GENE_AM_LDTBYTENUSE<ReportingParameter>.convertedValue",
-        "unit": "V",
-        "digits": 2,
-        "format": "scientific",
-        "filter": [],
-        "domain": "fr.cnes.sat1",
-        "timeline": "Session 1"
-      }
-    },
-    {
       "name": "GENE_AM_LDTBYTENUSE_obd",
       "connectedData": {
         "formula": "Reporting.GENE_AM_LDTBYTENUSE<ReportingParameter>.onboardDate",
@@ -1724,18 +1579,6 @@
       "name": "GENE_AM_LDTBYTENUSE_in",
       "connectedData": {
         "formula": "Reporting.GENE_AM_LDTBYTENUSE<ReportingParameter>.isNominal",
-        "unit": "V",
-        "digits": 2,
-        "format": "scientific",
-        "filter": [],
-        "domain": "fr.cnes.sat1",
-        "timeline": "Session 1"
-      }
-    },
-    {
-      "name": "GENE_AM_REPORTID",
-      "connectedData": {
-        "formula": "Reporting.GENE_AM_REPORTID<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "scientific",
@@ -1877,18 +1720,6 @@
       }
     },
     {
-      "name": "ATT_BC_MAG1CURRENT",
-      "connectedData": {
-        "formula": "Reporting.ATT_BC_MAG1CURRENT<ReportingParameter>.convertedValue",
-        "unit": "V",
-        "digits": 8,
-        "format": "",
-        "filter": [],
-        "domain": "fr.cnes.sat1",
-        "timeline": "Session 1"
-      }
-    },
-    {
       "name": "ATT_BC_MAG1CURRENT_obd",
       "connectedData": {
         "formula": "Reporting.ATT_BC_MAG1CURRENT<ReportingParameter>.onboardDate",
@@ -2015,18 +1846,6 @@
         "unit": "V",
         "digits": 8,
         "format": "",
-        "filter": [],
-        "domain": "fr.cnes.sat1",
-        "timeline": "Session 1"
-      }
-    },
-    {
-      "name": "ATT_BC_MAG2YFIELDM",
-      "connectedData": {
-        "formula": "Reporting.ATT_BC_MAG2YFIELDM<ReportingParameter>.convertedValue",
-        "unit": "V",
-        "digits": 2,
-        "format": "scientific",
         "filter": [],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
@@ -2188,86 +2007,85 @@
 
     "<table style='border='4px ridge #374048''>",
       "<div class='frame'>",
-    "<th>Name</th><th>Data</th><th>Time</th><th>onboardDate</th><th>groundDate</th><th>convertedValue</th>",
+    "<th>Name</th><th>Time</th><th>onboardDate</th><th>groundDate</th><th>convertedValue</th>",
     "<th>rawValue</th><th>extractedValue</th><th>triggerOnCounter</th><th>triggerOffCounter</th>",
     "<th>monitoringState</th><th>validityState</th><th>isObsolete</th><th>isNominal</th>",
     "<tr class='smallFrame'>",
-    "<th>AGA_AM_OWNERID</th><td class='purple'>{{AGA_AM_OWNERID}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{AGA_AM_OWNERID_obd}}</td>",
+    "<th>AGA_AM_OWNERID</th></td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{AGA_AM_OWNERID_obd}}</td>",
     "<td>{{AGA_AM_OWNERID_gd}}</td><td>{{AGA_AM_OWNERID_cv}}</td><td>{{AGA_AM_OWNERID_rv}}</td><td>{{AGA_AM_OWNERID_ev}}</td><td>{{AGA_AM_OWNERID_tONc}}</td>",
     "<td>{{AGA_AM_OWNERID_tOFFc}}</td><td>{{AGA_AM_OWNERID_ms}}</td><td>{{AGA_AM_OWNERID_vs}}</td><td>{{AGA_AM_OWNERID_io}}</td><td>{{AGA_AM_OWNERID_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>AGA_AM_QP2</th><td class='purple'>{{AGA_AM_QP2}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{AGA_AM_QP2_obd}}</td>",
+    "<th>AGA_AM_QP2</th><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{AGA_AM_QP2_obd}}</td>",
     "<td>{{AGA_AM_QP2_gd}}</td><td>{{AGA_AM_QP2_cv}}</td><td>{{AGA_AM_QP2_rv}}</td><td>{{AGA_AM_QP2_ev}}</td><td>{{AGA_AM_QP2_tONc}}</td>",
-    "<td>{{AGA_AM_QP2.tOFFc}}</td><td>{{AGA_AM_QP2_ms}}</td><td>{{AGA_AM_QP2_vs}}</td><td>{{AGA_AM_QP2_io}}</td><td>{{AGA_AM_QP2.in}}</td>",
+    "<td>{{AGA_AM_QP2_tOFFc}}</td><td>{{AGA_AM_QP2_ms}}</td><td>{{AGA_AM_QP2_vs}}</td><td>{{AGA_AM_QP2_io}}</td><td>{{AGA_AM_QP2_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>AGA_AM_STATIONID</th><td class='purple'>{{AGA_AM_STATIONID}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{AGA_AM_STATIONID_obd}}</td>",
+    "<th>AGA_AM_STATIONID</th><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{AGA_AM_STATIONID_obd}}</td>",
     "<td>{{AGA_AM_STATIONID_gd}}</td><td>{{AGA_AM_STATIONID_cv}}</td><td>{{AGA_AM_STATIONID_rv}}</td><td>{{AGA_AM_STATIONID_ev}}</td><td>{{AGA_AM_STATIONID_tONc}}</td>",
     "<td>{{AGA_AM_STATIONID_tOFFc}}</td><td>{{AGA_AM_STATIONID_ms}}</td><td>{{AGA_AM_STATIONID_vs}}</td><td>{{AGA_AM_STATIONID_io}}</td><td>{{AGA_AM_STATIONID_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>AGA_AM_VALMASK</th><td class='purple'>{{AGA_AM_VALMASK}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{AGA_AM_VALMASK_obd}}</td>",
+    "<th>AGA_AM_VALMASK</th><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{AGA_AM_VALMASK_obd}}</td>",
     "<td>{{AGA_AM_VALMASK_gd}}</td><td>{{AGA_AM_VALMASK_cv}}</td><td>{{AGA_AM_VALMASK_rv}}</td><td>{{AGA_AM_VALMASK_ev}}</td><td>{{AGA_AM_VALMASK_tONc}}</td>",
     "<td>{{AGA_AM_VALMASK_tOFFc}}</td><td>{{AGA_AM_VALMASK_ms}}</td><td>{{AGA_AM_VALMASK_vs}}</td><td>{{AGA_AM_VALMASK_io}}</td><td>{{AGA_AM_VALMASK_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>ATT_BC_QUATSATREF</th><td class='purple'>{{ATT_BC_QUATSATREF}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{ATT_BC_QUATSATREF_obd}}</td>",
+    "<th>ATT_BC_QUATSATREF</th><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{ATT_BC_QUATSATREF_obd}}</td>",
     "<td>{{ATT_BC_QUATSATREF_gd}}</td><td>{{ATT_BC_QUATSATREF_cv}}</td><td>{{ATT_BC_QUATSATREF_rv}}</td><td>{{ATT_BC_QUATSATREF_ev}}</td><td>{{ATT_BC_QUATSATREF_tONc}}</td>",
     "<td>{{ATT_BC_QUATSATREF_tOFFc}}</td><td>{{ATT_BC_QUATSATREF_ms}}</td><td>{{ATT_BC_QUATSATREF_vs}}</td><td>{{ATT_BC_QUATSATREF_io}}</td><td>{{ATT_BC_QUATSATREF_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>GENE_AM_144PARINT</th><td class='purple'>{{GENE_AM_144PARINT}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{GENE_AM_144PARINT_obd}}</td>",
+    "<th>GENE_AM_144PARINT</th><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{GENE_AM_144PARINT_obd}}</td>",
     "<td>{{GENE_AM_144PARINT_gd}}</td><td>{{GENE_AM_144PARINT_cv}}</td><td>{{GENE_AM_144PARINT_rv}}</td><td>{{GENE_AM_144PARINT_ev}}</td><td>{{GENE_AM_144PARINT_tONc}}</td>",
     "<td>{{GENE_AM_144PARINT_tOFFc}}</td><td>{{GENE_AM_144PARINT_ms}}</td><td>{{GENE_AM_144PARINT_vs}}</td><td>{{GENE_AM_144PARINT_io}}</td><td>{{GENE_AM_144PARINT_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>GENE_AM_144PARUSHT</th><td class='purple'>{{GENE_AM_144PARUSHT}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{GENE_AM_144PARUSHT_obd}}</td>",
+    "<th>GENE_AM_144PARUSHT</th><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{GENE_AM_144PARUSHT_obd}}</td>",
     "<td>{{GENE_AM_144PARUSHT_gd}}</td><td>{{GENE_AM_144PARUSHT_cv}}</td><td>{{GENE_AM_144PARUSHT_rv}}</td><td>{{GENE_AM_144PARUSHT_ev}}</td><td>{{GENE_AM_144PARUSHT_tONc}}</td>",
     "<td>{{GENE_AM_144PARUSHT_tOFFc}}</td><td>{{GENE_AM_144PARUSHT_ms}}</td><td>{{GENE_AM_144PARUSHT_vs}}</td><td>{{GENE_AM_144PARUSHT_io}}</td><td>{{GENE_AM_144PARUSHT_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>GENE_AM_FILEDATA</th><td class='purple'>{{GENE_AM_FILEDATA}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{GENE_AM_FILEDATA_obd}}</td>",
+    "<th>GENE_AM_FILEDATA</th><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{GENE_AM_FILEDATA_obd}}</td>",
     "<td>{{GENE_AM_FILEDATA_gd}}</td><td>{{GENE_AM_FILEDATA_cv}}</td><td>{{GENE_AM_FILEDATA_rv}}</td><td>{{GENE_AM_FILEDATA_ev}}</td><td>{{GENE_AM_FILEDATA_tONc}}</td>",
     "<td>{{GENE_AM_FILEDATA_tOFFc}}</td><td>{{GENE_AM_FILEDATA_ms}}</td><td>{{GENE_AM_FILEDATA_vs}}</td><td>{{GENE_AM_FILEDATA_io}}</td><td>{{GENE_AM_FILEDATA_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>GENE_AM_I146SPARE</th><td class='purple'>{{GENE_AM_I146SPARE}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{GENE_AM_I146SPARE_obd}}</td>",
+    "<th>GENE_AM_I146SPARE</th><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{GENE_AM_I146SPARE_obd}}</td>",
     "<td>{{GENE_AM_I146SPARE_gd}}</td><td>{{GENE_AM_I146SPARE_cv}}</td><td>{{GENE_AM_I146SPARE_rv}}</td><td>{{GENE_AM_I146SPARE_ev}}</td><td>{{GENE_AM_I146SPARE_tONc}}</td>",
     "<td>{{GENE_AM_I146SPARE_tOFFc}}</td><td>{{GENE_AM_I146SPARE_ms}}</td><td>{{GENE_AM_I146SPARE_vs}}</td><td>{{GENE_AM_I146SPARE_io}}</td><td>{{GENE_AM_I146SPARE_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>POW_BC_SARPOWPROV</th><td class='purple'>{{POW_BC_SARPOWPROV}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{POW_BC_SARPOWPROV_obd}}</td>",
+    "<th>POW_BC_SARPOWPROV</th><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{POW_BC_SARPOWPROV_obd}}</td>",
     "<td>{{POW_BC_SARPOWPROV_gd}}</td><td>{{POW_BC_SARPOWPROV_cv}}</td><td>{{POW_BC_SARPOWPROV_rv}}</td><td>{{POW_BC_SARPOWPROV_ev}}</td><td>{{POW_BC_SARPOWPROV_tONc}}</td>",
     "<td>{{POW_BC_SARPOWPROV_tOFFc}}</td><td>{{POW_BC_SARPOWPROV_ms}}</td><td>{{POW_BC_SARPOWPROV_vs}}</td><td>{{POW_BC_SARPOWPROV_io}}</td><td>{{POW_BC_SARPOWPROV_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>GENE_AM_I11TCPEC</th><td class='purple'>{{GENE_AM_I11TCPEC}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{GENE_AM_I11TCPEC_obd}}</td>",
+    "<th>GENE_AM_I11TCPEC</th><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{GENE_AM_I11TCPEC_obd}}</td>",
     "<td>{{GENE_AM_I11TCPEC_gd}}</td><td>{{GENE_AM_I11TCPEC_cv}}</td><td>{{GENE_AM_I11TCPEC_rv}}</td><td>{{GENE_AM_I11TCPEC_ev}}</td><td>{{GENE_AM_I11TCPEC_tONc}}</td>",
     "<td>{{GENE_AM_I11TCPEC_tOFFc}}</td><td>{{GENE_AM_I11TCPEC_ms}}</td><td>{{GENE_AM_I11TCPEC_vs}}</td><td>{{GENE_AM_I11TCPEC_io}}</td><td>{{GENE_AM_I11TCPEC_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>GENE_AM_LDTBYTENUSE</th><td class='purple'>{{GENE_AM_LDTBYTENUSE}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{GENE_AM_LDTBYTENUSE_obd}}</td>",
+    "<th>GENE_AM_LDTBYTENUSE</th><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{GENE_AM_LDTBYTENUSE_obd}}</td>",
     "<td>{{GENE_AM_LDTBYTENUSE_gd}}</td><td>{{GENE_AM_LDTBYTENUSE_cv}}</td><td>{{GENE_AM_LDTBYTENUSE_rv}}</td><td>{{GENE_AM_LDTBYTENUSE_ev}}</td><td>{{GENE_AM_LDTBYTENUSE_tONc}}</td>",
     "<td>{{GENE_AM_LDTBYTENUSE_tOFFc}}</td><td>{{GENE_AM_LDTBYTENUSE_ms}}</td><td>{{GENE_AM_LDTBYTENUSE_vs}}</td><td>{{GENE_AM_LDTBYTENUSE_io}}</td><td>{{GENE_AM_LDTBYTENUSE_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>GENE_AM_REPORTID</th><td class='purple'>{{GENE_AM_REPORTID}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{GENE_AM_REPORTID_obd}}</td>",
+    "<th>GENE_AM_REPORTID</th><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{GENE_AM_REPORTID_obd}}</td>",
     "<td>{{GENE_AM_REPORTID_gd}}</td><td>{{GENE_AM_REPORTID_cv}}</td><td>{{GENE_AM_REPORTID_rv}}</td><td>{{GENE_AM_REPORTID_ev}}</td><td>{{GENE_AM_REPORTID_tONc}}</td>",
-    "<td>{{GENE_AM_REPORTID_tOFFc}}</td><td>{{GENE_AM_REPORTID_ms}</td><td>{{GENE_AM_REPORTID_vs}}</td><td>{{GENE_AM_REPORTID_io}}</td><td>{{GENE_AM_REPORTID_in}}</td>",
+    "<td>{{GENE_AM_REPORTID_tOFFc}}</td><td>{{GENE_AM_REPORTID_ms}}</td><td>{{GENE_AM_REPORTID_vs}}</td><td>{{GENE_AM_REPORTID_io}}</td><td>{{GENE_AM_REPORTID_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>ATT_BC_MAG1CURRENT</th><td class='purple'>{{ATT_BC_MAG1CURRENT}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{ATT_BC_MAG1CURRENT_obd}}</td>",
+    "<th>ATT_BC_MAG1CURRENT</th><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{ATT_BC_MAG1CURRENT_obd}}</td>",
     "<td>{{ATT_BC_MAG1CURRENT_gd}}</td><td>{{ATT_BC_MAG1CURRENT_cv}}</td><td>{{ATT_BC_MAG1CURRENT_rv}}</td><td>{{ATT_BC_MAG1CURRENT_ev}}</td><td>{{ATT_BC_MAG1CURRENT_tONc}}</td>",
     "<td>{{ATT_BC_MAG1CURRENT_tOFFc}}</td><td>{{ATT_BC_MAG1CURRENT_ms}}</td><td>{{ATT_BC_MAG1CURRENT_vs}}</td><td>{{ATT_BC_MAG1CURRENT_io}}</td><td>{{ATT_BC_MAG1CURRENT_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>ATT_BC_MAG2YFIELDM</th><td class='purple'>{{ATT_BC_MAG2YFIELDM}}</td><td class='yellow'> YYYY / MM / DD 00:00:0000:00:00</td><td>{{ATT_BC_MAG2YFIELDM_obd}}</td>",
+    "<th>ATT_BC_MAG2YFIELDM</th><td class='yellow'> YYYY / MM / DD 00:00:0000:00:00</td><td>{{ATT_BC_MAG2YFIELDM_obd}}</td>",
     "<td>{{ATT_BC_MAG2YFIELDM_gd}}</td><td>{{ATT_BC_MAG2YFIELDM_cv}}</td><td>{{ATT_BC_MAG2YFIELDM_rv}}</td><td>{{ATT_BC_MAG2YFIELDM_ev}}</td><td>{{ATT_BC_MAG2YFIELDM_tONc}}</td>",
     "<td>{{ATT_BC_MAG2YFIELDM_tOFFc}}</td><td>{{ATT_BC_MAG2YFIELDM_ms}}</td><td>{{ATT_BC_MAG2YFIELDM_vs}}</td><td>{{ATT_BC_MAG2YFIELDM_io}}</td><td>{{ATT_BC_MAG2YFIELDM_in}}</td>",
     "</tr>",
         "</div>",
     "</table>"
-
   ]
 }

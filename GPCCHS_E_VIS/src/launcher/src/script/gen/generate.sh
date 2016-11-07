@@ -17,6 +17,7 @@ deploy_cots() {
   cd ${basedir}	
 
   cp -R ../client/target/lib/js/gpcchs_e_vis_client/lpisis_gpcchs_e_clt-linux-x64/* ${api.lib.dir}/js/${artifactId}/client/
+  cp -R ../client/target/lib/js/gpcchs_e_vis_client/lpisis_gpcchs_e_clt-linux-x64/.env* ${api.lib.dir}/js/${artifactId}/client/
   cp -R ../server/target/lib/js/gpcchs_e_vis_server/* ${api.lib.dir}/js/${artifactId}/server/
   cp -R ../server/target/lib/js/gpcchs_e_vis_server/.* ${api.lib.dir}/js/${artifactId}/server/
 

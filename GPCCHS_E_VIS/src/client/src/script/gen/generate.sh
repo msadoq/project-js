@@ -18,8 +18,7 @@ deploy_cots() {
   mkdir -p ${api.lib.dir}/js/${artifactId}	
   cp -R ${basedir}/src/impl/js/client/* ${api.work.dir}/js/${artifactId}
   cp -R ${basedir}/src/impl/js/client/.babelrc ${api.work.dir}/js/${artifactId}
-  cp ${basedir}/src/impl/js/client/.env.example ${basedir}/src/impl/js/client/.env
-  cp -R ${basedir}/src/impl/js/client/.env ${api.work.dir}/js/${artifactId}
+  cp ${basedir}/src/impl/js/client/.env.example ${api.work.dir}/js/${artifactId}
 
   cd ${api.work.dir}/js/${artifactId}
   tar xzvf ${api.target.dir}/dependencies/lib/js/cots-client/node_modules.tgz 

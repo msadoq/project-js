@@ -15,6 +15,7 @@ const onVimaTimebarUpdate = require('./lib/controllers/timebar/onVimaTimeBarUpda
 const onWindowOpen = require('./lib/controllers/client/onWindowOpen');
 const { onWindowClose } = require('./lib/controllers/client/onWindowClose');
 const { onDomainQuery } = require('./lib/controllers/client/onDomainQuery');
+const onPull = require('./lib/controllers/client/onPull');
 const { onCacheCleanup } = require('./lib/controllers/client/onCacheCleanup');
 const onHscVimaTimebarInit = require('./lib/controllers/client/onHscVimaTimebarInit');
 const { onTimebasedQuery } = require('./lib/controllers/client/onTimebasedQuery');
@@ -24,6 +25,7 @@ const errorHandler = require('./lib/utils/errorHandler');
 
 const tbStub = require('./lib/stubs/tb');
 
+// eslint-disable-next-line import/no-extraneous-dependencies
 const { monitoring } = require('common');
 
 monitoring.start();
@@ -88,6 +90,7 @@ primus.init(server, {
   onVimaTimebarUpdate,
   onHscVimaTimebarInit,
   onDomainQuery,
+  onPull,
   onTimebasedQuery,
   onCacheCleanup,
 });

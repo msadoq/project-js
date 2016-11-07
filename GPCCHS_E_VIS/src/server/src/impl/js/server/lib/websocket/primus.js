@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 const { constants: globalConstants } = require('common');
 const debug = require('../io/debug')('websocket');
 const {
@@ -5,6 +6,7 @@ const {
   set: _set,
 } = require('lodash');
 const Primus = require('primus');
+
 const errorHandler = require('../utils/errorHandler');
 
 let primus;
@@ -55,6 +57,10 @@ const primusExports = module.exports = {
           }
           case globalConstants.EVENT_DOMAIN_QUERY: {
             errorHandler('onDomainQuery', () => handlers.onDomainQuery());
+            break;
+          }
+          case globalConstants.EVENT_PULL: {
+            errorHandler('onPull', () => handlers.onPull(spark, message.payload));
             break;
           }
           case globalConstants.EVENT_TIMEBASED_QUERY: {

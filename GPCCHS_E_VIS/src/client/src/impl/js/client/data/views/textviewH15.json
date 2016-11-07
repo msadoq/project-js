@@ -2031,7 +2031,7 @@
     "<td>{{AGA_AM_VALMASK_tOFFc}}</td><td>{{AGA_AM_VALMASK_ms}}</td><td>{{AGA_AM_VALMASK_vs}}</td><td>{{AGA_AM_VALMASK_io}}</td><td>{{AGA_AM_VALMASK_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>ATT_BC_QUATSATREF</th>><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{ATT_BC_QUATSATREF_obd}}</td>",
+    "<th>ATT_BC_QUATSATREF</th><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{ATT_BC_QUATSATREF_obd}}</td>",
     "<td>{{ATT_BC_QUATSATREF_gd}}</td><td>{{ATT_BC_QUATSATREF_cv}}</td><td>{{ATT_BC_QUATSATREF_rv}}</td><td>{{ATT_BC_QUATSATREF_ev}}</td><td>{{ATT_BC_QUATSATREF_tONc}}</td>",
     "<td>{{ATT_BC_QUATSATREF_tOFFc}}</td><td>{{ATT_BC_QUATSATREF_ms}}</td><td>{{ATT_BC_QUATSATREF_vs}}</td><td>{{ATT_BC_QUATSATREF_io}}</td><td>{{ATT_BC_QUATSATREF_in}}</td>",
     "</tr>",

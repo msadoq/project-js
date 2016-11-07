@@ -7,6 +7,7 @@ const {
 const debug = require('../../io/debug')('stub:dc');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { constants: globalConstants } = require('common');
+const constants = require('../../constants');
 const stubData = require('../data');
 const getPayload = require('./getPayload');
 
@@ -45,8 +46,7 @@ module.exports = function sendArchiveData(
   const payloads = [];
   const now = Date.now();
 
-  if (queryArguments.getLastType === globalConstants.GETLASTTYPE_GET_LAST) {
-    debug.info('push a getLast data');
+  if (queryArguments.getLastType === constants.GETLASTTYPE_GET_LAST) {
     const ts = _random(from, to);
     payloads.push(getPayload(ts, dataId.parameterName));
   } else {

@@ -6,7 +6,7 @@
       "title": "Medium workspace",
       "pages": [
         {
-          "path": "./pages/pageMedium.json",
+          "path": "./pages/pageMiddle.json",
           "timeBarId": "TB1"
         }
       ],

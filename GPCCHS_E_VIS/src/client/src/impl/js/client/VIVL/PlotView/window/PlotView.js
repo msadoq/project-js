@@ -40,10 +40,10 @@ const getLineMarkerProps = (pointsStyle, props) => {
   let styleProps = {};
   switch (pointsStyle) {
     case 'Square':
-      styleProps = { width: 2, height: 2 };
+      styleProps = { width: 5 };
       break;
     case 'Triangle':
-      styleProps = {};
+      styleProps = { width: 5 };
       break;
     case 'Dot':
     case 'None':

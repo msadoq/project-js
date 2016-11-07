@@ -2,6 +2,7 @@ const {
   each: _each,
   round: _round,
   reduce: _reduce,
+  noop: _noop,
 } = require('lodash');
 
 const debug = require('../io/debug');
@@ -35,17 +36,13 @@ function print(display) {
   display('- execution map --------------------');
 }
 
-module.exports = (namespace) => {
+module.exports = function init(namespace) {
   const display = debug(`profiling:${namespace}`).warn;
-  const profilingWrapper = (func) => {
-    if (process.env.PROFILING === 'on') {
-      func();
-    }
-  };
+
   return {
-    reset: () => profilingWrapper(reset),
-    start: () => profilingWrapper(start),
-    stop: () => profilingWrapper(stop),
-    print: () => profilingWrapper(() => print(display)),
+    reset: process.env.PROFILING === 'on' ? reset : _noop,
+    start: process.env.PROFILING === 'on' ? start : _noop,
+    stop: process.env.PROFILING === 'on' ? stop : _noop,
+    print: process.env.PROFILING === 'on' ? () => print(display) : _noop,
   };
 };

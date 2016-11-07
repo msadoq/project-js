@@ -22,8 +22,7 @@ class TimebarContainer extends Component {
   }
 
   state = {
-    timelinesVerticalScroll: 0,
-    height: 140
+    timelinesVerticalScroll: 0
   };
 
   onTimelinesVerticalScroll = (e, el) => {
@@ -37,7 +36,8 @@ class TimebarContainer extends Component {
     this.setState({
       resizingWindow: true,
       cursorOriginY: e.pageY,
-      heightOrigin: this.state.height
+      heightOrigin: this.el.clientHeight,
+      height: this.el.clientHeight
     });
 
     document.addEventListener('mousemove', this.resizeWindowMouseMove);
@@ -64,18 +64,36 @@ class TimebarContainer extends Component {
   }
 
   render() {
-    const { timelinesVerticalScroll, height } = this.state;
+    const { timelinesVerticalScroll } = this.state;
+    let { height } = this.state;
     const { updateVisuWindowAction, timelines, timebarId,
       visuWindow, focusedPage, timebarName,
       addAndMountTimelineAction, unmountTimelineAction
     } = this.props;
+
     let hrKlasses = styles.resizeTimebarContainer;
     if (this.state.resizingWindow) {
       hrKlasses += ` ${styles.resizingTimebarContainer}`;
     }
 
+    let minHeight;
+    if (timelines.length < 6) {
+      minHeight = 180;
+    } else if (timelines.length < 8) {
+      minHeight = (timelines.length * 20) + 90;
+    } else {
+      minHeight = 230;
+    }
+
+    if (minHeight > height || !height) {
+      height = minHeight;
+    }
+
     return (
-      <div>
+      <div
+        ref={(el) => { this.el = el; }}
+        style={{ flex: '0 0 auto', height: `${height}px` }}
+      >
         <Col xs={12} style={{ paddingBottom: 18 }}>
           <div><hr onMouseDown={this.resizeWindow} className={hrKlasses} /></div>
         </Col>
@@ -90,7 +108,7 @@ class TimebarContainer extends Component {
             onVerticalScroll={this.onTimelinesVerticalScroll}
           />
         </Col>
-        <Col xs={9} style={{ height: `${height}px` }}>
+        <div className="col-xs-9">
           <Timebar
             timebarId={timebarId}
             visuWindow={visuWindow}
@@ -100,7 +118,7 @@ class TimebarContainer extends Component {
             verticalScroll={timelinesVerticalScroll}
             onVerticalScroll={this.onTimelinesVerticalScroll}
           />
-        </Col>
+        </div>
       </div>
     );
   }

@@ -29,6 +29,10 @@ export default class Lefttab extends Component {
     this.timelinesEl.scrollTop = this.props.verticalScroll;
   }
 
+  onWheel = (e) => {
+    this.props.onVerticalScroll(e, e.currentTarget);
+  }
+
   setColor(color) {
     const { timelines } = this.props;
     const availableColors = difference(schemeCategory20b, timelines
@@ -160,6 +164,7 @@ export default class Lefttab extends Component {
           ref={(el) => { this.timelinesEl = el; }}
           className={styles.timelineUl}
           onScroll={this.props.onVerticalScroll}
+          onWheel={this.onWheel}
         >
           { timelines.map((v, i) =>
             <Timeline

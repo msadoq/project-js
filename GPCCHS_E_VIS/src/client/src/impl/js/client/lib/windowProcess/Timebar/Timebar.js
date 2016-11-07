@@ -57,7 +57,7 @@ export default class Timebar extends Component {
 
   onMouseUp = (e) => {
     e.preventDefault();
-    const { visuWindow } = this.props;
+    const { visuWindow, onChange, focusedPage } = this.props;
     const lower = this.state.lower || visuWindow.lower;
     const upper = this.state.upper || visuWindow.upper;
     const current = this.state.current || visuWindow.current;
@@ -72,8 +72,8 @@ export default class Timebar extends Component {
     });
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
-    return this.props.onChange(
-      this.props.focusedPage.timebarId,
+    return onChange(
+      focusedPage.timebarId,
       {
         lower: Math.trunc(lower),
         upper: Math.trunc(upper),
@@ -352,10 +352,10 @@ export default class Timebar extends Component {
     let arrowRight;
     let arrowLeft;
     if (upper <= timeBeginning) {
-      arrowLeft = <button className={styles.arrowLeft} onClick={this.rePosition.bind(null, 'left')} />;
+      arrowLeft = <button className={`btn btn-sm btn-primary ${styles.arrowLeft}`} onClick={this.rePosition.bind(null, 'left')} />;
     }
     if (lower >= timeEnd) {
-      arrowRight = <button className={styles.arrowRight} onClick={this.rePosition.bind(null, 'right')} />;
+      arrowRight = <button className={`btn btn-sm btn-primary ${styles.arrowRight}`} onClick={this.rePosition.bind(null, 'right')} />;
     }
 
     return (

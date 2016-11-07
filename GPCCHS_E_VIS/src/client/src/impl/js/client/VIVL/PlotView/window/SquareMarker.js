@@ -1,80 +1,82 @@
-import React, { PropTypes } from 'react';
+/* eslint-disable */
+import React, { PropTypes } from "react";
 
 import { hexToRGBA, functor } from 'react-stockcharts/lib/utils';
 
 function Square(props) {
-  const {
-    className, stroke, strokeWidth, opacity,
-    fill, point, width, height
+	const {
+    className, stroke, strokeWidth,
+    opacity, fill, point, width:w
   } = props;
 
-  return (
-    <rect
+  const width = functor(w)(point.datum);
+  const x = point.x - (width / 2);
+  const y = point.y - (width / 2);
+
+	return (
+		<rect
       className={className}
-      cx={point.x}
-      cy={point.y}
-      stroke={stroke}
+			x={x}
+      y={y}
+			stroke={stroke}
       strokeWidth={strokeWidth}
-      fillOpacity={opacity}
+			fillOpacity={opacity}
       fill={fill}
-      width={functor(width)(point.datum)}
-      height={functor(height)(point.datum)}
+      width={width}
+      height={width}
     />
-  );
+	);
 }
 
 Square.propTypes = {
-  stroke: PropTypes.string,
-  fill: PropTypes.string.isRequired,
-  opacity: PropTypes.number.isRequired,
-  point: PropTypes.shape({
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired,
-    datum: PropTypes.object.isRequired,
-  }).isRequired,
-  className: PropTypes.string,
-  strokeWidth: PropTypes.number,
-  width: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.func
-  ]).isRequired,
-  height: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.func
-  ]).isRequired
+	stroke: PropTypes.string,
+	fill: PropTypes.string.isRequired,
+	opacity: PropTypes.number.isRequired,
+	point: PropTypes.shape({
+		x: PropTypes.number.isRequired,
+		y: PropTypes.number.isRequired,
+		datum: PropTypes.object.isRequired,
+	}).isRequired,
+	className: PropTypes.string,
+	strokeWidth: PropTypes.number,
+	width: PropTypes.oneOfType([
+		PropTypes.number,
+		PropTypes.func
+	]).isRequired
 };
 
 Square.defaultProps = {
-  stroke: 'red',
-  strokeWidth: 1,
-  opacity: 0.5,
-  fill: '#4682B4',
-  className: 'react-stockcharts-marker-rect',
+	stroke: "#4682B4",
+	strokeWidth: 1,
+	opacity: 0.5,
+	fill: "#4682B4",
+	className: "react-stockcharts-marker-rect",
 };
 
 Square.drawOnCanvas = (props, point, ctx) => {
-  const newCtx = { ...ctx };
-  const { stroke, fill, opacity, strokeWidth } = props;
+	const { stroke, fill, opacity, strokeWidth } = props;
 
-  newCtx.strokeStyle = stroke;
-  newCtx.lineWidth = strokeWidth;
+	ctx.strokeStyle = stroke;
+	ctx.lineWidth = strokeWidth;
 
-  if (fill !== 'none') {
-    newCtx.fillStyle = hexToRGBA(fill, opacity);
-  }
+	if (fill !== "none") {
+		ctx.fillStyle = hexToRGBA(fill, opacity);
+	}
 
-  Square.drawOnCanvasWithNoStateChange(props, point, ctx);
+	Square.drawOnCanvasWithNoStateChange(props, point, ctx);
 };
 
-Square.drawOnCanvasWithNoStateChange = (props, point, ctx) => {
-  const { r } = props;
-  const radius = functor(r)(point.datum);
 
-  ctx.moveTo(point.x, point.y);
-  ctx.beginPath();
-  ctx.arc(point.x, point.y, radius, 0, 2 * Math.PI, false);
-  ctx.stroke();
-  ctx.fill();
+Square.drawOnCanvasWithNoStateChange = (props, point, ctx) => {
+	const { width:w } = props;
+  const width = functor(w)(point.datum);
+  const x = point.x - (width / 2);
+  const y = point.y - (width / 2);
+
+	ctx.beginPath();
+  ctx.rect(x, y, width, width);
+	ctx.stroke();
+	ctx.fill();
 };
 
 export default Square;

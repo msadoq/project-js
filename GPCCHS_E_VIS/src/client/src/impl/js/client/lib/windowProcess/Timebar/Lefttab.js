@@ -48,13 +48,21 @@ export default class Lefttab extends Component {
     this.setState({ color: c });
   }
 
-  handleSelectChange = (e) => {
-    this.newTimelineNameEl.value = e.target.value;
+  submitForm = (e) => {
+    if (e.charCode === 13 && this.state.willAdd) {
+      this.willAddTimeline(e);
+    }
   }
 
   toggleAddTimeline = (e) => {
     if (e) e.preventDefault();
-    this.setState({ willAdd: !this.state.willAdd });
+    const { willAdd } = this.state;
+    this.setState({ willAdd: !willAdd });
+    if (willAdd) {
+      document.removeEventListener('keypress', this.submitForm);
+    } else {
+      document.addEventListener('keypress', this.submitForm);
+    }
   }
 
   willAddTimeline = (e) => {
@@ -63,8 +71,8 @@ export default class Lefttab extends Component {
     this.props.addAndMountTimeline(
       this.props.timebarId,
       {
-        kind: this.newTimelinePropretyEl.value,
-        id: this.newTimelineNameEl.value,
+        kind: this.newTimelineKindEl.value,
+        id: this.newTimelineIdEl.value,
         color
       });
     this.setColor(color);
@@ -73,7 +81,7 @@ export default class Lefttab extends Component {
 
   render() {
     const { timelines } = this.props;
-    const { newTimelineName, color } = this.state;
+    const { color } = this.state;
 
     let formKlass = styles.form;
     if (!this.state.willAdd) formKlass += ' hidden';
@@ -87,19 +95,22 @@ export default class Lefttab extends Component {
 
       <div>
         <h5 className={styles.timebarName}>{this.props.timebarName}</h5>
-        <Form horizontal className={formKlass}>
+        <Form
+          horizontal
+          className={formKlass}
+          onSubmit={this.willAddTimeline}
+        >
           <b>Add a track :</b>
           <br /><br />
           <FormGroup className={styles.formGroup}>
-            <b className={styles.labelFormControl}>Parameter</b>
+            <b className={styles.labelFormControl}>Kind</b>
             <select
-              ref={(el) => { this.newTimelinePropretyEl = el; }}
+              ref={(el) => { this.newTimelineKindEl = el; }}
               className={`form-control ${styles.formControl}`}
-              onChange={this.handleSelectChange}
             >
-              <option value="value1">valeur 1</option>
-              <option value="value2">valeur 2</option>
-              <option value="value3">valeur 3</option>
+              <option value="kind1">kind 1</option>
+              <option value="kind2">kind 2</option>
+              <option value="kind3">kind 3</option>
             </select>
           </FormGroup>
           <FormGroup className={styles.formGroup}>
@@ -107,14 +118,22 @@ export default class Lefttab extends Component {
             <ColorPicker color={color} onChange={this.colorChosen} />
           </FormGroup>
           <FormGroup className={styles.formGroup}>
-            <b className={styles.labelFormControl}>Name</b>
-            <input
-              ref={(el) => { this.newTimelineNameEl = el; }}
+            <b className={styles.labelFormControl}>Parameter</b>
+            <select
+              ref={(el) => { this.newTimelineIdEl = el; }}
               className={`form-control ${styles.formControl}`}
-              value={newTimelineName}
-            />
+            >
+              <option value="param1">param 1</option>
+              <option value="param2">param 2</option>
+              <option value="param3">param 3</option>
+            </select>
           </FormGroup>
-          <input type="submit" value="Add track" className={`${styles.addTrackButton} btn-sm btn-primary col-md-offset-4`} onClick={this.willAddTimeline} />
+          <input
+            type="submit"
+            autoFocus
+            value="Add track"
+            className={`${styles.addTrackButton} btn-sm btn-primary col-md-offset-4`}
+          />
           <hr />
           <Button
             bsSize="small"
@@ -126,7 +145,16 @@ export default class Lefttab extends Component {
             -
           </Button>
         </Form>
-        <Button bsSize="small" className={styles.addTimelineButton} title="Add track" onClick={this.toggleAddTimeline} bsStyle="info">+</Button>
+        <Button
+          bsSize="small"
+          className={styles.addTimelineButton}
+          ref={(el) => { this.toggleAddTimelineButtonEl = el; }}
+          title="Add track"
+          onClick={this.toggleAddTimeline}
+          bsStyle="info"
+        >
+          +
+        </Button>
         {noTrack}
         <ul
           ref={(el) => { this.timelinesEl = el; }}

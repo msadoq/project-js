@@ -1,0 +1,34 @@
+.controlsUl{
+  display: table;
+  margin: 0px auto;
+  padding: 0px;
+}
+.controlsLi{
+  display: table-cell;
+}
+.controlButton{
+  margin-right: 5px;
+  border-radius: 1px;
+  height: 19px;
+  line-height: 1px;
+
+}
+.controlButtonPause{
+  font-weight: 600;
+  text-align: center;
+  width: 30px;
+}
+.controlButtonPlay{
+  width: 30px;
+  background: #60a7e5;
+  box-shadow: 0px 0px 6px #337ab7 inset;
+  border: 1px solid #337ab7;
+  font-weight: 600;
+  font-size: 8px;
+  padding-left: 9px;
+}
+.controlButtonPlay:hover{
+  background: #549edd;
+  box-shadow: 0px 0px 6px #337ab7 inset;
+  border: 1px solid #337ab7;
+}

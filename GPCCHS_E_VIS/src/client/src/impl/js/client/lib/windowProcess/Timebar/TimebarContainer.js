@@ -1,11 +1,12 @@
-import { get } from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Col } from 'react-bootstrap';
-import { updateVisuWindow, addAndMountTimeline, unmountTimeline } from '../../store/actions/timebars';
+import { updateVisuWindow, addAndMountTimeline, unmountTimeline,
+  updatePlayingState, updateSpeed } from '../../store/actions/timebars';
 import styles from './Timebar.css';
 import Timebar from './Timebar';
 import Lefttab from './Lefttab';
+import TimebarControls from './TimebarControls';
 
 
 class TimebarContainer extends Component {
@@ -14,8 +15,11 @@ class TimebarContainer extends Component {
     updateVisuWindowAction: React.PropTypes.func.isRequired,
     addAndMountTimelineAction: React.PropTypes.func.isRequired,
     unmountTimelineAction: React.PropTypes.func.isRequired,
+    updatePlayingStateAction: React.PropTypes.func.isRequired,
+    updateSpeedAction: React.PropTypes.func.isRequired,
     focusedPage: React.PropTypes.object.isRequired,
     visuWindow: React.PropTypes.object.isRequired,
+    timebar: React.PropTypes.object.isRequired,
     timebarId: React.PropTypes.string.isRequired,
     timebarName: React.PropTypes.string.isRequired,
     timelines: React.PropTypes.array.isRequired,
@@ -68,7 +72,8 @@ class TimebarContainer extends Component {
     let { height } = this.state;
     const { updateVisuWindowAction, timelines, timebarId,
       visuWindow, focusedPage, timebarName,
-      addAndMountTimelineAction, unmountTimelineAction
+      addAndMountTimelineAction, unmountTimelineAction,
+      updatePlayingStateAction, updateSpeedAction, timebar
     } = this.props;
 
     let hrKlasses = styles.resizeTimebarContainer;
@@ -78,11 +83,11 @@ class TimebarContainer extends Component {
 
     let minHeight;
     if (timelines.length < 6) {
-      minHeight = 180;
+      minHeight = 205;
     } else if (timelines.length < 8) {
-      minHeight = (timelines.length * 20) + 90;
+      minHeight = (timelines.length * 20) + 115;
     } else {
-      minHeight = 230;
+      minHeight = 255;
     }
 
     if (minHeight > height || !height) {
@@ -97,6 +102,15 @@ class TimebarContainer extends Component {
         <Col xs={12} style={{ paddingBottom: 18 }}>
           <div><hr onMouseDown={this.resizeWindow} className={hrKlasses} /></div>
         </Col>
+        <TimebarControls
+          timebarPlayingState={timebar.playingState}
+          timebarSpeed={timebar.speed}
+          timebarId={timebarId}
+          visuWindow={visuWindow}
+          updatePlayingState={updatePlayingStateAction}
+          updateSpeed={updateSpeedAction}
+          updateVisuWindow={updateVisuWindowAction}
+        />
         <Col xs={3}>
           <Lefttab
             timebarId={timebarId}
@@ -126,6 +140,7 @@ class TimebarContainer extends Component {
 
 export default connect((state, ownProps) => {
   const { timebarId } = ownProps.focusedPage;
+  const timebar = state.timebars[timebarId];
   const timebarName = state.timebars[timebarId].id;
   const timelines = [];
   state.timebars[timebarId].timelines.forEach((v) => {
@@ -133,7 +148,8 @@ export default connect((state, ownProps) => {
   });
 
   return {
-    visuWindow: get(state, ['timebars', timebarId, 'visuWindow']),
+    visuWindow: timebar.visuWindow,
+    timebar,
     timebarId,
     timebarName,
     timelines
@@ -141,5 +157,7 @@ export default connect((state, ownProps) => {
 }, {
   updateVisuWindowAction: updateVisuWindow,
   addAndMountTimelineAction: addAndMountTimeline,
-  unmountTimelineAction: unmountTimeline
+  unmountTimelineAction: unmountTimeline,
+  updatePlayingStateAction: updatePlayingState,
+  updateSpeedAction: updateSpeed
 })(TimebarContainer);

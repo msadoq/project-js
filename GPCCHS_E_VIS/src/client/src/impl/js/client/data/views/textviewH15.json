@@ -5,11 +5,15 @@
     {
       "name": "AGA_AM_OWNERID",
       "connectedData": {
-        "formula": "Reporting.AGA_AM_OWNERID<ReportingParameter>",
+        "formula": "Reporting.AGA_AM_OWNERID<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 5,
-        "filter": [],
         "format": "decimal",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
       }
@@ -154,6 +158,142 @@
         "unit": "V",
         "digits": 5,
         "format": "decimal",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_QP2_obd",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_QP2<ReportingParameter>.onboardDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_QP2_gd",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_QP2<ReportingParameter>.groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_QP2_cv",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_QP2<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_QP2_rv",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_QP2<ReportingParameter>.rawValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_QP2_ev",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_QP2<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_QP2_tONc",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_QP2<ReportingParameter>.triggerOnCounter",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_QP2_tOFFc",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_QP2<ReportingParameter>.triggerOffCounter",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_QP2_ms",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_QP2<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_QP2_vs",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_QP2<ReportingParameter>.validityState",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_QP2_io",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_QP2<ReportingParameter>.isObsolete",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_QP2_in",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_QP2<ReportingParameter>.isNominal",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
         "filter": [],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
@@ -166,33 +306,6 @@
         "unit": "V",
         "digits": 5,
         "format": "decimal",
-        "domain": "fr.cnes.sat1",
-        "timeline": "Session 1"
-      }
-    },
-    {
-      "name": "AGA_AM_VALMASK",
-      "connectedData": {
-        "formula": "Reporting.AGA_AM_VALMASK<ReportingParameter>.extractedValue",
-        "unit": "V",
-        "digits": 8,
-        "format": "",
-        "filter": [{
-          "field": "convertedValue",
-          "operator": "!=",
-          "operand": "nominal"
-        }],
-        "domain": "fr.cnes.sat1",
-        "timeline": "Session 1"
-      }
-    },
-    {
-      "name": "ATT_BC_QUATSATREF",
-      "connectedData": {
-        "formula": "Reporting.ATT_BC_QUATSATREF<ReportingParameter>.convertedValue",
-        "unit": "V",
-        "digits": 8,
-        "format": "",
         "filter": [{
           "field": "convertedValue",
           "operator": "!=",
@@ -203,12 +316,577 @@
       }
     },
     {
+      "name": "AGA_AM_STATIONID_obd",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_STATIONID<ReportingParameter>.onboardDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_STATIONID_gd",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_STATIONID<ReportingParameter>.groundDate",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_STATIONID_cv",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_STATIONID<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_STATIONID_rv",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_STATIONID<ReportingParameter>.rawValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_STATIONID_ev",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_STATIONID<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_STATIONID_tONc",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_STATIONID<ReportingParameter>.triggerOnCounter",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_STATIONID_tOFFc",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_STATIONID<ReportingParameter>.triggerOffCounter",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_STATIONID_ms",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_STATIONID<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_STATIONID_vs",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_STATIONID<ReportingParameter>.validityState",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_STATIONID_io",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_STATIONID<ReportingParameter>.isObsolete",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_STATIONID_in",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_STATIONID<ReportingParameter>.isNominal",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_VALMASK",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_VALMASK<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_VALMASK_obd",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_VALMASK<ReportingParameter>.onboardDate",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_VALMASK_gd",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_VALMASK<ReportingParameter>.groundDate",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_VALMASK_cv",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_VALMASK<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_VALMASK_rv",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_VALMASK<ReportingParameter>.rawValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_VALMASK_ev",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_VALMASK<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_VALMASK_tONc",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_VALMASK<ReportingParameter>.triggerOnCounter",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_VALMASK_tOFFc",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_VALMASK<ReportingParameter>.triggerOffCounter",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_VALMASK_ms",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_VALMASK<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_VALMASK_vs",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_VALMASK<ReportingParameter>.validityState",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_VALMASK_io",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_VALMASK<ReportingParameter>.isObsolete",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "AGA_AM_VALMASK_in",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_VALMASK<ReportingParameter>.isNominal",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_QUATSATREF",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_QUATSATREF<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_QUATSATREF_obd",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_QUATSATREF<ReportingParameter>.onboardDate",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_QUATSATREF_gd",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_QUATSATREF<ReportingParameter>.groundDate",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_QUATSATREF_cv",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_QUATSATREF<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_QUATSATREF_rv",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_QUATSATREF<ReportingParameter>.rawValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_QUATSATREF_ev",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_QUATSATREF<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_QUATSATREF_tONc",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_QUATSATREF<ReportingParameter>.triggerOnCounter",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_QUATSATREF_tOFFc",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_QUATSATREF<ReportingParameter>.triggerOffCounter",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_QUATSATREF_ms",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_QUATSATREF<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_QUATSATREF_vs",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_QUATSATREF<ReportingParameter>.validityState",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_QUATSATREF_io",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_QUATSATREF<ReportingParameter>.isObsolete",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_QUATSATREF_in",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_QUATSATREF<ReportingParameter>.isNominal",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
       "name": "GENE_AM_144PARINT",
       "connectedData": {
         "formula": "Reporting.GENE_AM_144PARINT<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 8,
-        "format": "",
+        "format": "decimal",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_144PARINT_obd",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_144PARINT<ReportingParameter>.onboardDate",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_144PARINT_gd",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_144PARINT<ReportingParameter>.groundDate",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_144PARINT_cv",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_144PARINT<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_144PARINT_rv",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_144PARINT<ReportingParameter>.rawValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_144PARINT_ev",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_144PARINT<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_144PARINT_tONc",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_144PARINT<ReportingParameter>.triggerOnCounter",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_144PARINT_tOFFc",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_144PARINT<ReportingParameter>.triggerOffCounter",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_144PARINT_ms",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_144PARINT<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_144PARINT_vs",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_144PARINT<ReportingParameter>.validityState",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_144PARINT_io",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_144PARINT<ReportingParameter>.isObsolete",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_144PARINT_in",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_144PARINT<ReportingParameter>.isNominal",
+        "unit": "V",
+        "digits": 8,
+        "format": "decimal",
+        "filter": [],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
       }
@@ -216,15 +894,147 @@
     {
       "name": "GENE_AM_144PARUSHT",
       "connectedData": {
-        "formula": "Reporting.GENE_AM_144PARUSHT<ReportingParameter>.extractedValue",
+        "formula": "Reporting.GENE_AM_144PARUSHT<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "decimal",
         "filter": [{
           "field": "convertedValue",
           "operator": "!=",
-          "operand": "nominal"
+          "operand": "0"
         }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_144PARUSHT_obd",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_144PARUSHT<ReportingParameter>.onboardDate",
+        "unit": "V",
+        "digits": 2,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_144PARUSHT_gd",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_144PARUSHT<ReportingParameter>.groundDate",
+        "unit": "V",
+        "digits": 2,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_144PARUSHT_cv",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_144PARUSHT<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_144PARUSHT_rv",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_144PARUSHT<ReportingParameter>.rawValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_144PARUSHT_ev",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_144PARUSHT<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_144PARUSHT_tONc",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_144PARUSHT<ReportingParameter>.triggerOnCounter",
+        "unit": "V",
+        "digits": 2,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_144PARUSHT_tOFFc",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_144PARUSHT<ReportingParameter>.triggerOffCounter",
+        "unit": "V",
+        "digits": 2,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_144PARUSHT_ms",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_144PARUSHT<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_144PARUSHT_vs",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_144PARUSHT<ReportingParameter>.validityState",
+        "unit": "V",
+        "digits": 2,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_144PARUSHT_io",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_144PARUSHT<ReportingParameter>.isObsolete",
+        "unit": "V",
+        "digits": 2,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_144PARUSHT_in",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_144PARUSHT<ReportingParameter>.isNominal",
+        "unit": "V",
+        "digits": 2,
+        "format": "decimal",
+        "filter": [],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
       }
@@ -246,11 +1056,280 @@
       }
     },
     {
+      "name": "GENE_AM_FILEDATA_obd",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_FILEDATA<ReportingParameter>.onboardDate",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_FILEDATA_gd",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_FILEDATA<ReportingParameter>.groundDate",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_FILEDATA_cv",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_FILEDATA<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_FILEDATA_rv",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_FILEDATA<ReportingParameter>.rawValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_FILEDATA_ev",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_FILEDATA<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_FILEDATA_tONc",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_FILEDATA<ReportingParameter>.triggerOnCounter",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_FILEDATA_tOFFc",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_FILEDATA<ReportingParameter>.triggerOffCounter",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_FILEDATA_ms",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_FILEDATA<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_FILEDATA_vs",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_FILEDATA<ReportingParameter>.validityState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_FILEDATA_io",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_FILEDATA<ReportingParameter>.isObsolete",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_FILEDATA_in",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_FILEDATA<ReportingParameter>.isNominal",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
       "name": "GENE_AM_I146SPARE",
       "connectedData": {
         "formula": "Reporting.GENE_AM_I146SPARE<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "format": "hexadecimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I146SPARE_obd",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I146SPARE<ReportingParameter>.onboardDate",
+        "unit": "V",
+        "digits": 2,
+        "filter": [],
+        "format": "hexadecimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I146SPARE_gd",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I146SPARE<ReportingParameter>.groundDate",
+        "unit": "V",
+        "digits": 2,
+        "filter": [],
+        "format": "hexadecimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I146SPARE_cv",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I146SPARE<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "filter": [],
+        "format": "hexadecimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I146SPARE_rv",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I146SPARE<ReportingParameter>.rawValue",
+        "unit": "V",
+        "digits": 2,
+        "filter": [],
+        "format": "hexadecimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I146SPARE_ev",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I146SPARE<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 2,
+        "filter": [],
+        "format": "hexadecimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I146SPARE_tONc",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I146SPARE<ReportingParameter>.triggerOnCounter",
+        "unit": "V",
+        "digits": 2,
+        "filter": [],
+        "format": "hexadecimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I146SPARE_tOFFc",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I146SPARE<ReportingParameter>.triggerOffCounter",
+        "unit": "V",
+        "digits": 2,
+        "filter": [],
+        "format": "hexadecimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I146SPARE_ms",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I146SPARE<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "filter": [],
+        "format": "hexadecimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I146SPARE_vs",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I146SPARE<ReportingParameter>.validityState",
+        "unit": "V",
+        "digits": 2,
+        "filter": [],
+        "format": "hexadecimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I146SPARE_io",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I146SPARE<ReportingParameter>.isObsolete",
+        "unit": "V",
+        "digits": 2,
+        "filter": [],
+        "format": "hexadecimal",
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I146SPARE_in",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I146SPARE<ReportingParameter>.isNominal",
+        "unit": "V",
+        "digits": 2,
+        "filter": [],
         "format": "hexadecimal",
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
@@ -273,12 +1352,281 @@
       }
     },
     {
+      "name": "POW_BC_SARPOWPROV_obd",
+      "connectedData": {
+        "formula": "Reporting.POW_BC_SARPOWPROV<ReportingParameter>.onboardDate",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "POW_BC_SARPOWPROV_gd",
+      "connectedData": {
+        "formula": "Reporting.POW_BC_SARPOWPROV<ReportingParameter>.groundDate",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "POW_BC_SARPOWPROV_cv",
+      "connectedData": {
+        "formula": "Reporting.POW_BC_SARPOWPROV<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "POW_BC_SARPOWPROV_rv",
+      "connectedData": {
+        "formula": "Reporting.POW_BC_SARPOWPROV<ReportingParameter>.rawValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "POW_BC_SARPOWPROV_ev",
+      "connectedData": {
+        "formula": "Reporting.POW_BC_SARPOWPROV<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "POW_BC_SARPOWPROV_tONc",
+      "connectedData": {
+        "formula": "Reporting.POW_BC_SARPOWPROV<ReportingParameter>.triggerOnCounter",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "POW_BC_SARPOWPROV_tOFFc",
+      "connectedData": {
+        "formula": "Reporting.POW_BC_SARPOWPROV<ReportingParameter>.triggerOffCounter",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "POW_BC_SARPOWPROV_ms",
+      "connectedData": {
+        "formula": "Reporting.POW_BC_SARPOWPROV<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "POW_BC_SARPOWPROV_vs",
+      "connectedData": {
+        "formula": "Reporting.POW_BC_SARPOWPROV<ReportingParameter>.validityState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "POW_BC_SARPOWPROV_io",
+      "connectedData": {
+        "formula": "Reporting.POW_BC_SARPOWPROV<ReportingParameter>.isObsolete",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "POW_BC_SARPOWPROV_in",
+      "connectedData": {
+        "formula": "Reporting.POW_BC_SARPOWPROV<ReportingParameter>.isNominal",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
       "name": "GENE_AM_I11TCPEC",
       "connectedData": {
         "formula": "Reporting.GENE_AM_I11TCPEC<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 2,
         "format": "hexadecimal",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I11TCPEC_obd",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I11TCPEC<ReportingParameter>.onboardDate",
+        "unit": "V",
+        "digits": 2,
+        "format": "hexadecimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I11TCPEC_gd",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I11TCPEC<ReportingParameter>.groundDate",
+        "unit": "V",
+        "digits": 2,
+        "format": "hexadecimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I11TCPEC_cv",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I11TCPEC<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "hexadecimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I11TCPEC_rv",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I11TCPEC<ReportingParameter>.rawValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "hexadecimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I11TCPEC_ev",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I11TCPEC<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "hexadecimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I11TCPEC_tONc",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I11TCPEC<ReportingParameter>.triggerOnCounter",
+        "unit": "V",
+        "digits": 2,
+        "format": "hexadecimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I11TCPEC_tOFFc",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I11TCPEC<ReportingParameter>.triggerOffCounter",
+        "unit": "V",
+        "digits": 2,
+        "format": "hexadecimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I11TCPEC_ms",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I11TCPEC<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "hexadecimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I11TCPEC_vs",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I11TCPEC<ReportingParameter>.validityState",
+        "unit": "V",
+        "digits": 2,
+        "format": "hexadecimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I11TCPEC_io",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I11TCPEC<ReportingParameter>.isObsolete",
+        "unit": "V",
+        "digits": 2,
+        "format": "hexadecimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_I11TCPEC_in",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_I11TCPEC<ReportingParameter>.isNominal",
+        "unit": "V",
+        "digits": 2,
+        "format": "hexadecimal",
+        "filter": [],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
       }
@@ -300,6 +1648,138 @@
       }
     },
     {
+      "name": "GENE_AM_LDTBYTENUSE_obd",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_LDTBYTENUSE<ReportingParameter>.onboardDate",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_LDTBYTENUSE_gd",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_LDTBYTENUSE<ReportingParameter>.groundDate",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_LDTBYTENUSE_cv",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_LDTBYTENUSE<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_LDTBYTENUSE_rv",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_LDTBYTENUSE<ReportingParameter>.rawValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_LDTBYTENUSE_ev",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_LDTBYTENUSE<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_LDTBYTENUSE_tONc",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_LDTBYTENUSE<ReportingParameter>.triggerOnCounter",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_LDTBYTENUSE_tOFFc",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_LDTBYTENUSE<ReportingParameter>.triggerOffCounter",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_LDTBYTENUSE_ms",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_LDTBYTENUSE<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_LDTBYTENUSE_vs",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_LDTBYTENUSE<ReportingParameter>.validityState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_LDTBYTENUSE_io",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_LDTBYTENUSE<ReportingParameter>.isObsolete",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_LDTBYTENUSE_in",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_LDTBYTENUSE<ReportingParameter>.isNominal",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
       "name": "GENE_AM_REPORTID",
       "connectedData": {
         "formula": "Reporting.GENE_AM_REPORTID<ReportingParameter>.convertedValue",
@@ -316,12 +1796,281 @@
       }
     },
     {
+      "name": "GENE_AM_REPORTID_obd",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_REPORTID<ReportingParameter>.onboardDate",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_REPORTID_gd",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_REPORTID<ReportingParameter>.groundDate",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_REPORTID_cv",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_REPORTID<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_REPORTID_rv",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_REPORTID<ReportingParameter>.rawValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_REPORTID_ev",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_REPORTID<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_REPORTID_tONc",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_REPORTID<ReportingParameter>.triggerOnCounter",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_REPORTID_tOFFc",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_REPORTID<ReportingParameter>.triggerOffCounter",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_REPORTID_ms",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_REPORTID<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_REPORTID_vs",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_REPORTID<ReportingParameter>.validityState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_REPORTID_io",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_REPORTID<ReportingParameter>.isObsolete",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "GENE_AM_REPORTID_in",
+      "connectedData": {
+        "formula": "Reporting.GENE_AM_REPORTID<ReportingParameter>.isNominal",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
       "name": "ATT_BC_MAG1CURRENT",
       "connectedData": {
         "formula": "Reporting.ATT_BC_MAG1CURRENT<ReportingParameter>.convertedValue",
         "unit": "V",
         "digits": 8,
         "format": "",
+        "filter": [{
+          "field": "convertedValue",
+          "operator": "!=",
+          "operand": "0"
+        }],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_MAG1CURRENT_obd",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG1CURRENT<ReportingParameter>.onboardDate",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_MAG1CURRENT_gd",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG1CURRENT<ReportingParameter>.groundDate",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_MAG1CURRENT_cv",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG1CURRENT<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_MAG1CURRENT_rv",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG1CURRENT<ReportingParameter>.rawValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_MAG1CURRENT_ev",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG1CURRENT<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_MAG1CURRENT_tONc",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG1CURRENT<ReportingParameter>.triggerOnCounter",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_MAG1CURRENT_tOFFc",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG1CURRENT<ReportingParameter>.triggerOffCounter",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_MAG1CURRENT_ms",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG1CURRENT<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_MAG1CURRENT_vs",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG1CURRENT<ReportingParameter>.validityState",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_MAG1CURRENT_io",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG1CURRENT<ReportingParameter>.isObsolete",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_MAG1CURRENT_in",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG1CURRENT<ReportingParameter>.isNominal",
+        "unit": "V",
+        "digits": 8,
+        "format": "",
+        "filter": [],
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
       }
@@ -341,6 +2090,138 @@
         "domain": "fr.cnes.sat1",
         "timeline": "Session 1"
       }
+    },
+    {
+      "name": "ATT_BC_MAG2YFIELDM_obd",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG2YFIELDM<ReportingParameter>.onboardDate",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_MAG2YFIELDM_gd",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG2YFIELDM<ReportingParameter>.groundDate",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_MAG2YFIELDM_cv",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG2YFIELDM<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_MAG2YFIELDM_rv",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG2YFIELDM<ReportingParameter>.rawValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_MAG2YFIELDM_ev",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG2YFIELDM<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_MAG2YFIELDM_tONc",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG2YFIELDM<ReportingParameter>.triggerOnCounter",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_MAG2YFIELDM_tOFFc",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG2YFIELDM<ReportingParameter>.triggerOffCounter",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_MAG2YFIELDM_ms",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG2YFIELDM<ReportingParameter>.monitoringState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_MAG2YFIELDM_vs",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG2YFIELDM<ReportingParameter>.validityState",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_MAG2YFIELDM_io",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG2YFIELDM<ReportingParameter>.isObsolete",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "ATT_BC_MAG2YFIELDM_in",
+      "connectedData": {
+        "formula": "Reporting.ATT_BC_MAG2YFIELDM<ReportingParameter>.isNominal",
+        "unit": "V",
+        "digits": 2,
+        "format": "scientific",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
     }
   ],
   "links": [
@@ -355,12 +2236,13 @@
   },
   "content": [
     "<style>",
-    "  .frame { owerflow: hidden; width: 500px; color: #3333ff; background-color: #c5ccd3; font-weight: bolder; font-size: 1.2rem; text-align: center; }",
-    "   .smallFrame td { border-radius: 5px; align: center; border: 1px solid #374048; padding: 10px; background-color: black; color: #00ff00; font-weight: bold;}",
-    "   tr { valign: center; border: 1px solid #374048; padding: 5px;}",
-    "   th { font-size: 1.2rem; color: black; background-color: #c5ccd3; align: center; border: 1px solid #374048; padding: 5px; font-weight: bolder;}",
-    "  .data { width: 20%; background-color: #c5ccd3;  color: black;}",
-    "  .frame .smallFrame {   background-color:  #c5ccd3;  text-align: left; padding: 10px; }",
+    "  .frame { color: #3333ff; background-color: #c5ccd3; font-weight: bolder; text-align: center; }",
+    "  .smallFrame td { width: 5px; height: 5px; border-radius: 5px; align: center; border: 1px solid #374048; padding: 10px; background-color: black; color: #00ff00; font-weight: bold;}",
+    "  tr { font-size: 1.2rem; valign: center; border: 1px solid #374048; padding: 5px;}",
+    "  th { font-size: 1.2rem; color: black; background-color: #c5ccd3; align: center; border: 1px solid #374048; padding: 5px; font-weight: bolder;}",
+    "  tr .yellow {color: yellow; align: center;}",
+    "  tr .purple {color: #ac39ac; align: center;}",
+    "  .frame .smallFrame { background-color:  #c5ccd3;  text-align: left; padding: 5px; }",
     "</style>",
 
     "<table style='border='4px ridge #374048''>",
@@ -369,79 +2251,79 @@
     "<th>rawValue</th><th>extractedValue</th><th>triggerOnCounter</th><th>triggerOffCounter</th>",
     "<th>monitoringState</th><th>validityState</th><th>isObsolete</th><th>isNominal</th>",
     "<tr class='smallFrame'>",
-    "<th>AGA_AM_OWNERID</th><td>{{AGA_AM_OWNERID}}</td><td>      </td><td>{{AGA_AM_OWNERID_obd}}</td>",
+    "<th>AGA_AM_OWNERID</th><td class='purple'>{{AGA_AM_OWNERID}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{AGA_AM_OWNERID_obd}}</td>",
     "<td>{{AGA_AM_OWNERID_gd}}</td><td>{{AGA_AM_OWNERID_cv}}</td><td>{{AGA_AM_OWNERID_rv}}</td><td>{{AGA_AM_OWNERID_ev}}</td><td>{{AGA_AM_OWNERID_tONc}}</td>",
     "<td>{{AGA_AM_OWNERID_tOFFc}}</td><td>{{AGA_AM_OWNERID_ms}}</td><td>{{AGA_AM_OWNERID_vs}}</td><td>{{AGA_AM_OWNERID_io}}</td><td>{{AGA_AM_OWNERID_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>AGA_AM_QP2</th><td>{{AGA_AM_QP2}}</td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
+    "<th>AGA_AM_QP2</th><td class='purple'>{{AGA_AM_QP2}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{AGA_AM_QP2_obd}}</td>",
+    "<td>{{AGA_AM_QP2_gd}}</td><td>{{AGA_AM_QP2_cv}}</td><td>{{AGA_AM_QP2_rv}}</td><td>{{AGA_AM_QP2_ev}}</td><td>{{AGA_AM_QP2_tONc}}</td>",
+    "<td>{{AGA_AM_QP2.tOFFc}}</td><td>{{AGA_AM_QP2_ms}}</td><td>{{AGA_AM_QP2_vs}}</td><td>{{AGA_AM_QP2_io}}</td><td>{{AGA_AM_QP2.in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>AGA_AM_STATIONID</th><td>{{AGA_AM_STATIONID}}</td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
+    "<th>AGA_AM_STATIONID</th><td class='purple'>{{AGA_AM_STATIONID}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{AGA_AM_STATIONID_obd}}</td>",
+    "<td>{{AGA_AM_STATIONID_gd}}</td><td>{{AGA_AM_STATIONID_cv}}</td><td>{{AGA_AM_STATIONID_rv}}</td><td>{{AGA_AM_STATIONID_ev}}</td><td>{{AGA_AM_STATIONID_tONc}}</td>",
+    "<td>{{AGA_AM_STATIONID_tOFFc}}</td><td>{{AGA_AM_STATIONID_ms}}</td><td>{{AGA_AM_STATIONID_vs}}</td><td>{{AGA_AM_STATIONID_io}}</td><td>{{AGA_AM_STATIONID_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>AGA_AM_VALMASK</th><td>{{AGA_AM_VALMASK}}</td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
+    "<th>AGA_AM_VALMASK</th><td class='purple'>{{AGA_AM_VALMASK}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{AGA_AM_VALMASK_obd}}</td>",
+    "<td>{{AGA_AM_VALMASK_gd}}</td><td>{{AGA_AM_VALMASK_cv}}</td><td>{{AGA_AM_VALMASK_rv}}</td><td>{{AGA_AM_VALMASK_ev}}</td><td>{{AGA_AM_VALMASK_tONc}}</td>",
+    "<td>{{AGA_AM_VALMASK_tOFFc}}</td><td>{{AGA_AM_VALMASK_ms}}</td><td>{{AGA_AM_VALMASK_vs}}</td><td>{{AGA_AM_VALMASK_io}}</td><td>{{AGA_AM_VALMASK_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>ATT_BC_QUATSATREF</th><td>{{ATT_BC_QUATSATREF}}  </td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
+    "<th>ATT_BC_QUATSATREF</th><td class='purple'>{{ATT_BC_QUATSATREF}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{ATT_BC_QUATSATREF_obd}}</td>",
+    "<td>{{ATT_BC_QUATSATREF_gd}}</td><td>{{ATT_BC_QUATSATREF_cv}}</td><td>{{ATT_BC_QUATSATREF_rv}}</td><td>{{ATT_BC_QUATSATREF_ev}}</td><td>{{ATT_BC_QUATSATREF_tONc}}</td>",
+    "<td>{{ATT_BC_QUATSATREF_tOFFc}}</td><td>{{ATT_BC_QUATSATREF_ms}}</td><td>{{ATT_BC_QUATSATREF_vs}}</td><td>{{ATT_BC_QUATSATREF_io}}</td><td>{{ATT_BC_QUATSATREF_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>GENE_AM_144PARINT</th><td>{{GENE_AM_144PARINT}}</td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
+    "<th>GENE_AM_144PARINT</th><td class='purple'>{{GENE_AM_144PARINT}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{GENE_AM_144PARINT_obd}}</td>",
+    "<td>{{GENE_AM_144PARINT_gd}}</td><td>{{GENE_AM_144PARINT_cv}}</td><td>{{GENE_AM_144PARINT_rv}}</td><td>{{GENE_AM_144PARINT_ev}}</td><td>{{GENE_AM_144PARINT_tONc}}</td>",
+    "<td>{{GENE_AM_144PARINT_tOFFc}}</td><td>{{GENE_AM_144PARINT_ms}}</td><td>{{GENE_AM_144PARINT_vs}}</td><td>{{GENE_AM_144PARINT_io}}</td><td>{{GENE_AM_144PARINT_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>GENE_AM_144PARUSHT</th><td>{{GENE_AM_144PARUSHT}}</td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
+    "<th>GENE_AM_144PARUSHT</th><td class='purple'>{{GENE_AM_144PARUSHT}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{GENE_AM_144PARUSHT_obd}}</td>",
+    "<td>{{GENE_AM_144PARUSHT_gd}}</td><td>{{GENE_AM_144PARUSHT_cv}}</td><td>{{GENE_AM_144PARUSHT_rv}}</td><td>{{GENE_AM_144PARUSHT_ev}}</td><td>{{GENE_AM_144PARUSHT_tONc}}</td>",
+    "<td>{{GENE_AM_144PARUSHT_tOFFc}}</td><td>{{GENE_AM_144PARUSHT_ms}}</td><td>{{GENE_AM_144PARUSHT_vs}}</td><td>{{GENE_AM_144PARUSHT_io}}</td><td>{{GENE_AM_144PARUSHT_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>GENE_AM_FILEDATA</th><td>{{GENE_AM_FILEDATA}}</td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
+    "<th>GENE_AM_FILEDATA</th><td class='purple'>{{GENE_AM_FILEDATA}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{GENE_AM_FILEDATA_obd}}</td>",
+    "<td>{{GENE_AM_FILEDATA_gd}}</td><td>{{GENE_AM_FILEDATA_cv}}</td><td>{{GENE_AM_FILEDATA_rv}}</td><td>{{GENE_AM_FILEDATA_ev}}</td><td>{{GENE_AM_FILEDATA_tONc}}</td>",
+    "<td>{{GENE_AM_FILEDATA_tOFFc}}</td><td>{{GENE_AM_FILEDATA_ms}}</td><td>{{GENE_AM_FILEDATA_vs}}</td><td>{{GENE_AM_FILEDATA_io}}</td><td>{{GENE_AM_FILEDATA_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>GENE_AM_I146SPARE</th><td>{{GENE_AM_I146SPARE}}</td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
+    "<th>GENE_AM_I146SPARE</th><td class='purple'>{{GENE_AM_I146SPARE}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{GENE_AM_I146SPARE_obd}}</td>",
+    "<td>{{GENE_AM_I146SPARE_gd}}</td><td>{{GENE_AM_I146SPARE_cv}}</td><td>{{GENE_AM_I146SPARE_rv}}</td><td>{{GENE_AM_I146SPARE_ev}}</td><td>{{GENE_AM_I146SPARE_tONc}}</td>",
+    "<td>{{GENE_AM_I146SPARE_tOFFc}}</td><td>{{GENE_AM_I146SPARE_ms}}</td><td>{{GENE_AM_I146SPARE_vs}}</td><td>{{GENE_AM_I146SPARE_io}}</td><td>{{GENE_AM_I146SPARE_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>POW_BC_SARPOWPROV</th><td>{{POW_BC_SARPOWPROV}}</td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
+    "<th>POW_BC_SARPOWPROV</th><td class='purple'>{{POW_BC_SARPOWPROV}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{POW_BC_SARPOWPROV_obd}}</td>",
+    "<td>{{POW_BC_SARPOWPROV_gd}}</td><td>{{POW_BC_SARPOWPROV_cv}}</td><td>{{POW_BC_SARPOWPROV_rv}}</td><td>{{POW_BC_SARPOWPROV_ev}}</td><td>{{POW_BC_SARPOWPROV_tONc}}</td>",
+    "<td>{{POW_BC_SARPOWPROV_tOFFc}}</td><td>{{POW_BC_SARPOWPROV_ms}}</td><td>{{POW_BC_SARPOWPROV_vs}}</td><td>{{POW_BC_SARPOWPROV_io}}</td><td>{{POW_BC_SARPOWPROV_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>GENE_AM_I11TCPEC</th><td>{{GENE_AM_I11TCPEC}}</td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
+    "<th>GENE_AM_I11TCPEC</th><td class='purple'>{{GENE_AM_I11TCPEC}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{GENE_AM_I11TCPEC_obd}}</td>",
+    "<td>{{GENE_AM_I11TCPEC_gd}}</td><td>{{GENE_AM_I11TCPEC_cv}}</td><td>{{GENE_AM_I11TCPEC_rv}}</td><td>{{GENE_AM_I11TCPEC_ev}}</td><td>{{GENE_AM_I11TCPEC_tONc}}</td>",
+    "<td>{{GENE_AM_I11TCPEC_tOFFc}}</td><td>{{GENE_AM_I11TCPEC_ms}}</td><td>{{GENE_AM_I11TCPEC_vs}}</td><td>{{GENE_AM_I11TCPEC_io}}</td><td>{{GENE_AM_I11TCPEC_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>GENE_AM_LDTBYTENUSE</th><td>{{GENE_AM_LDTBYTENUSE}}</td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
+    "<th>GENE_AM_LDTBYTENUSE</th><td class='purple'>{{GENE_AM_LDTBYTENUSE}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{GENE_AM_LDTBYTENUSE_obd}}</td>",
+    "<td>{{GENE_AM_LDTBYTENUSE_gd}}</td><td>{{GENE_AM_LDTBYTENUSE_cv}}</td><td>{{GENE_AM_LDTBYTENUSE_rv}}</td><td>{{GENE_AM_LDTBYTENUSE_ev}}</td><td>{{GENE_AM_LDTBYTENUSE_tONc}}</td>",
+    "<td>{{GENE_AM_LDTBYTENUSE_tOFFc}}</td><td>{{GENE_AM_LDTBYTENUSE_ms}}</td><td>{{GENE_AM_LDTBYTENUSE_vs}}</td><td>{{GENE_AM_LDTBYTENUSE_io}}</td><td>{{GENE_AM_LDTBYTENUSE_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>GENE_AM_REPORTID</th><td>{{GENE_AM_REPORTID}}</td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
+    "<th>GENE_AM_REPORTID</th><td class='purple'>{{GENE_AM_REPORTID}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{GENE_AM_REPORTID_obd}}</td>",
+    "<td>{{GENE_AM_REPORTID_gd}}</td><td>{{GENE_AM_REPORTID_cv}}</td><td>{{GENE_AM_REPORTID_rv}}</td><td>{{GENE_AM_REPORTID_ev}}</td><td>{{GENE_AM_REPORTID_tONc}}</td>",
+    "<td>{{GENE_AM_REPORTID_tOFFc}}</td><td>{{GENE_AM_REPORTID_ms}</td><td>{{GENE_AM_REPORTID_vs}}</td><td>{{GENE_AM_REPORTID_io}}</td><td>{{GENE_AM_REPORTID_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>ATT_BC_MAG1CURRENT</th><td>{{ATT_BC_MAG1CURRENT}}</td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
+    "<th>ATT_BC_MAG1CURRENT</th><td class='purple'>{{ATT_BC_MAG1CURRENT}}</td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{ATT_BC_MAG1CURRENT_obd}}</td>",
+    "<td>{{ATT_BC_MAG1CURRENT_gd}}</td><td>{{ATT_BC_MAG1CURRENT_cv}}</td><td>{{ATT_BC_MAG1CURRENT_rv}}</td><td>{{ATT_BC_MAG1CURRENT_ev}}</td><td>{{ATT_BC_MAG1CURRENT_tONc}}</td>",
+    "<td>{{ATT_BC_MAG1CURRENT_tOFFc}}</td><td>{{ATT_BC_MAG1CURRENT_ms}}</td><td>{{ATT_BC_MAG1CURRENT_vs}}</td><td>{{ATT_BC_MAG1CURRENT_io}}</td><td>{{ATT_BC_MAG1CURRENT_in}}</td>",
     "</tr>",
     "<tr class='smallFrame'>",
-    "<th>ATT_BC_MAG2YFIELDM</th><td>{{ATT_BC_MAG2YFIELDM}}</td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
-    "<td>           </td><td>           </td><td>       </td><td>       </td><td>       </td>",
+    "<th>ATT_BC_MAG2YFIELDM</th><td class='purple'>{{ATT_BC_MAG2YFIELDM}}</td><td class='yellow'> YYYY / MM / DD 00:00:0000:00:00</td><td>{{ATT_BC_MAG2YFIELDM_obd}}</td>",
+    "<td>{{ATT_BC_MAG2YFIELDM_gd}}</td><td>{{ATT_BC_MAG2YFIELDM_cv}}</td><td>{{ATT_BC_MAG2YFIELDM_rv}}</td><td>{{ATT_BC_MAG2YFIELDM_ev}}</td><td>{{ATT_BC_MAG2YFIELDM_tONc}}</td>",
+    "<td>{{ATT_BC_MAG2YFIELDM_tOFFc}}</td><td>{{ATT_BC_MAG2YFIELDM_ms}}</td><td>{{ATT_BC_MAG2YFIELDM_vs}}</td><td>{{ATT_BC_MAG2YFIELDM_io}}</td><td>{{ATT_BC_MAG2YFIELDM_in}}</td>",
     "</tr>",
         "</div>",
     "</table>"

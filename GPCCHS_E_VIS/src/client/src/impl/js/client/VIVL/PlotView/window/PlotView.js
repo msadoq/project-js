@@ -99,7 +99,8 @@ class PlotView extends PureComponent {
 
   state = {
     tooltipWidth: 300,
-    tooltipHeight: 100
+    tooltipHeight: 100,
+    disableZoom: true
   };
 
   componentWillMount() {
@@ -111,6 +112,16 @@ class PlotView extends PureComponent {
     if (entryPoints !== nextProps.configuration.entryPoints) {
       this.lines = getLines(nextProps.configuration.entryPoints);
     }
+  }
+
+  handleMouseEnter = () => {
+    document.body.addEventListener('keydown', this.handleOnKeyDown);
+    document.body.addEventListener('keyup', this.handleOnKeyUp);
+  }
+
+  handleMouseLeave = () => {
+    document.body.removeEventListener('keydown', this.handleOnKeyDown);
+    document.body.removeEventListener('keyup', this.handleOnKeyUp);
   }
 
   lines = [];
@@ -190,6 +201,22 @@ class PlotView extends PureComponent {
     return new Date(d.x);
   };
 
+  handleOnKeyUp = (e) => {
+    const { disableZoom } = this.state;
+    if (e.keyCode === 17 && !disableZoom) {
+      logger.debug('disable zoom');
+      this.setState({ disableZoom: true });
+    }
+  }
+
+  handleOnKeyDown = (e) => {
+    const { disableZoom } = this.state;
+    if (e.keyCode === 17 && disableZoom) {
+      logger.debug('enable zoom');
+      this.setState({ disableZoom: false });
+    }
+  }
+
   renderLines = () => this.lines.map(({ key, color, pointsStyle }) => (
     <div key={key}>
       <LineSeries
@@ -220,7 +247,8 @@ class PlotView extends PureComponent {
     const { width, height } = size;
     const {
       tooltipWidth,
-      tooltipHeight
+      tooltipHeight,
+      disableZoom
     } = this.state;
 
     const noRender = this.shouldRender();
@@ -232,8 +260,13 @@ class PlotView extends PureComponent {
 
     // TODO : display X time for each data value object instead of master timestamp tooltip
     // TODO view.plotBackgroundColour
+    /* eslint-disable */
     return (
-      <div style={{ height: '100%' }}>
+      <div
+        style={{ height: '100%' }}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+      >
         <ChartCanvas
           ratio={2}
           width={width}
@@ -244,6 +277,7 @@ class PlotView extends PureComponent {
           type="hybrid"
           xAccessor={this.xAccessor}
           xScale={scaleTime()}
+          disableZoomEvent={disableZoom}
           xExtents={[new Date(lower), new Date(upper)]}
         >
           <Chart

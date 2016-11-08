@@ -11,7 +11,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Run visualization application')
     parser.add_argument(
         "workspace",
-        help="A folder path to open as workspace"
+        help="The FMD path of the workspace to open"
     )
     exit(GPCCHS(parser.parse_args()).run())
     # End of user code

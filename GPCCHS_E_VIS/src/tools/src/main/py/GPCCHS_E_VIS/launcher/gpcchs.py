@@ -81,7 +81,11 @@ class GPCCHS(object):
         """
         if not self.__container_pid:
             filename = self._container_pid_file.format(self._container_dir)
-            with open(filename) as hdl:
+            try:
+                hdl = open(filename,'r')
+            except IOError:
+                print("GPCCHS Getting desktopx container process ID failed, cannot read file:",filename)
+            else:            
                 self.__container_pid, _ = hdl.read().split()
         return self.__container_pid
 
@@ -336,12 +340,12 @@ class GPCCHS(object):
                 self._dcPullPort = portsNums[2]
                 self._tbPushPort = portsNums[3]
                 self._tbPullPort = portsNums[4]
-                print("HSS run command:")
-                print(self._hss_run_cmd)
-                print("HSC run command:")
-                print(self._hsc_run_cmd)
+                print("HSS run command:",' '.join(self._hss_run_cmd))
+                print("HSC run command:",' '.join(self._hsc_run_cmd))
                 os.environ['PORT_NUM_TIMEBAR_PULL'] = self._tbPullPort
                 os.environ['PORT_NUM_TIMEBAR_PUSH_{}'.format(self._timebarName)] = self._tbPushPort
+                print("Timebar listening on port ",os.environ['PORT_NUM_TIMEBAR_PULL'])
+                print("Timebar TB1 push on port ",os.environ['PORT_NUM_TIMEBAR_PUSH_TB1'])
                 if rc == 0:
                     if not self._feature_id:
                         rc = self._create_feature()
@@ -359,7 +363,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Run visualization application')
     parser.add_argument(
         "workspace",
-        help="A folder path to open as workspace"
+        help="The FMD path of the workspace to open"
     )
     exit(GPCCHS(parser.parse_args()).run())
     # End of user code

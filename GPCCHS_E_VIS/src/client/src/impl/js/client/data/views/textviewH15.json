@@ -2005,13 +2005,13 @@
     "  .frame .smallFrame { background-color:  #c5ccd3;  text-align: left; padding: 5px; }",
     "</style>",
 
-    "<table style='border='4px ridge #374048''>",
-      "<div class='frame'>",
+    "<table>",
+    "<tbody>",
     "<th>Name</th><th>Time</th><th>onboardDate</th><th>groundDate</th><th>convertedValue</th>",
     "<th>rawValue</th><th>extractedValue</th><th>triggerOnCounter</th><th>triggerOffCounter</th>",
     "<th>monitoringState</th><th>validityState</th><th>isObsolete</th><th>isNominal</th>",
     "<tr class='smallFrame'>",
-    "<th>AGA_AM_OWNERID</th></td><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{AGA_AM_OWNERID_obd}}</td>",
+    "<th>AGA_AM_OWNERID</th><td class='yellow'>YYYY / MM / DD 00:00:00</td><td>{{AGA_AM_OWNERID_obd}}</td>",
     "<td>{{AGA_AM_OWNERID_gd}}</td><td>{{AGA_AM_OWNERID_cv}}</td><td>{{AGA_AM_OWNERID_rv}}</td><td>{{AGA_AM_OWNERID_ev}}</td><td>{{AGA_AM_OWNERID_tONc}}</td>",
     "<td>{{AGA_AM_OWNERID_tOFFc}}</td><td>{{AGA_AM_OWNERID_ms}}</td><td>{{AGA_AM_OWNERID_vs}}</td><td>{{AGA_AM_OWNERID_io}}</td><td>{{AGA_AM_OWNERID_in}}</td>",
     "</tr>",
@@ -2085,7 +2085,7 @@
     "<td>{{ATT_BC_MAG2YFIELDM_gd}}</td><td>{{ATT_BC_MAG2YFIELDM_cv}}</td><td>{{ATT_BC_MAG2YFIELDM_rv}}</td><td>{{ATT_BC_MAG2YFIELDM_ev}}</td><td>{{ATT_BC_MAG2YFIELDM_tONc}}</td>",
     "<td>{{ATT_BC_MAG2YFIELDM_tOFFc}}</td><td>{{ATT_BC_MAG2YFIELDM_ms}}</td><td>{{ATT_BC_MAG2YFIELDM_vs}}</td><td>{{ATT_BC_MAG2YFIELDM_io}}</td><td>{{ATT_BC_MAG2YFIELDM_in}}</td>",
     "</tr>",
-        "</div>",
+    "</tbody>",
     "</table>"
   ]
 }

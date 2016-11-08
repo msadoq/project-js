@@ -91,6 +91,7 @@
     "deep-diff": "^0.3.4",
     "dotenv-safe": "^2.3.2",
     "electron-debug": "^1.0.1",
+    "html-to-react": "^1.2.2",
     "lodash": "^4.16.2",
     "moment": "^2.15.2",
     "mustache": "^2.2.1",

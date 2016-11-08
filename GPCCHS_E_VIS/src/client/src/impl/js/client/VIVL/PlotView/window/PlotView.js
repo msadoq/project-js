@@ -23,8 +23,6 @@ const {
 } = coordinates;
 const { XAxis, YAxis } = axes;
 
-const tooltipMargin = { x: 10, y: 15 };
-
 const getLineMarker = (pointsStyle) => {
   switch (pointsStyle) {
     case 'Square':
@@ -141,39 +139,6 @@ class PlotView extends PureComponent {
       })),
   });
 
-  /* eslint-disable */
-  // This function overwrites stockchart tooltipCanvas function
-  // to have a tooltip box that expand with the content
-  // instead of having a the size hardcoded
-  handleTooltipCanvas = ({ fontFamily, fontSize, fontFill }, content, ctx) => {
-    ctx.font = `${fontSize}px ${fontFamily}`;
-    ctx.fillStyle = fontFill;
-    ctx.textAlign = "left";
-    const X = tooltipMargin.x;
-    const Y = tooltipMargin.y;
-    ctx.fillText(content.x, X, Y);
-    let maxHeight = fontSize + 1;
-    let maxWidth = 0;
-    for (let i = 0; i < content.y.length; i++) {
-      let y = content.y[i];
-      let textY = Y + (fontSize * (i + 1));
-      const text = y.label + ": " + y.value;
-      ctx.fillStyle = y.stroke || fontFill;
-      ctx.fillText(text, X, textY);
-      ctx.fillStyle = fontFill;
-      const textWitdh = ctx.measureText(text).width;
-
-      maxHeight += fontSize + 2;
-      if (textWitdh > maxWidth) maxWidth = textWitdh;
-    }
-
-    this.setState({
-      tooltipWidth: maxWidth + 2 * X,
-      tooltipHeight: maxHeight + Y
-    });
-  }
-  /* eslint-enable */
-
   shouldRender() {
     const { size, data } = this.props;
 
@@ -260,7 +225,6 @@ class PlotView extends PureComponent {
 
     // TODO : display X time for each data value object instead of master timestamp tooltip
     // TODO view.plotBackgroundColour
-    /* eslint-disable */
     return (
       <div
         style={{ height: '100%' }}
@@ -306,7 +270,6 @@ class PlotView extends PureComponent {
             fill="#FFFFFF"
             bgwidth={tooltipWidth}
             bgheight={tooltipHeight}
-            tooltipCanvas={this.handleTooltipCanvas}
           />
         </ChartCanvas>
       </div>

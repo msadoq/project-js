@@ -1,7 +1,6 @@
-import {
-  constants as globalConstants,
-  monitoring,
-} from 'common';
+import globalConstants from 'common/constants';
+import monitoring from 'common/monitoring';
+
 import parameters from '../common/parameters';
 import debug from '../common/debug/mainDebug';
 import installExtensions from './installExtensions';

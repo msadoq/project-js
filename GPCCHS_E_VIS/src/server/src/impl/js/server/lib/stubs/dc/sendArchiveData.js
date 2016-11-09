@@ -6,7 +6,8 @@ const {
 } = require('lodash');
 const debug = require('../../io/debug')('stub:dc');
 // eslint-disable-next-line import/no-extraneous-dependencies
-const { constants: globalConstants } = require('common');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const globalConstants = require('common/constants');
 const constants = require('../../constants');
 const stubData = require('../data');
 const getPayload = require('./getPayload');

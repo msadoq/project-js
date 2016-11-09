@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-const { constants: globalConstants } = require('common');
+const globalConstants = require('common/constants');
 const { should } = require('../../utils/test');
 const { cacheCleanup } = require('./onCacheCleanup');
 const { decode } = require('../../protobuf');

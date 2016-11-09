@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-const { constants: globalConstants } = require('common');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const globalConstants = require('common/constants');
 const debug = require('../io/debug')('websocket');
 const {
   get: _get,

@@ -4,7 +4,8 @@ const registeredCallbacks = require('../../utils/registeredCallbacks');
 const { sendToMain } = require('../../websocket/sendToMain');
 const constants = require('../../constants');
 const { isEqual: _isEqual } = require('lodash');
-const { constants: globalConstants } = require('common');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const globalConstants = require('common/constants');
 
 /**
  * Triggered on incoming DcResponse message from DC.

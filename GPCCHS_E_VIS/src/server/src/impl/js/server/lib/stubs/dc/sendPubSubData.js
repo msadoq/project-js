@@ -2,7 +2,8 @@
 const _each = require('lodash/each');
 const _random = require('lodash/random');
 // eslint-disable-next-line import/no-extraneous-dependencies
-const { constants: globalConstants } = require('common');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const globalConstants = require('common/constants');
 const stubData = require('../data');
 const getPayload = require('./getPayload');
 

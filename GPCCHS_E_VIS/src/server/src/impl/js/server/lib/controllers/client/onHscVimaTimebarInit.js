@@ -1,6 +1,8 @@
 const debug = require('../../io/debug')('controllers:onHscVimaTimebarUpdate');
-const { constants: globalConstants } = require('common');
-const zmq = require('../../io/zmq');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const globalConstants = require('common/constants');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const zmq = require('common/zmq');
 const {
   each: _each,
   omit: _omit,

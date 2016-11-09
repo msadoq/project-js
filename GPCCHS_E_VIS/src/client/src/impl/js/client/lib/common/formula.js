@@ -1,6 +1,6 @@
 import _memoize from 'lodash/memoize';
 
-const pattern = /^([^\.]+)\.([^<]+)<([^>]+)>(\.){0,1}([\w]+){0,1}$/i;
+const pattern = /^([^.]+)\.([^<]+)<([^>]+)>(\.){0,1}([\w]+){0,1}$/i;
 
 /**
  * Parse formula string and return an object with extracted data.

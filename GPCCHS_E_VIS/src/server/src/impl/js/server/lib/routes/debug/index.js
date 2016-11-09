@@ -4,7 +4,8 @@ const subscriptionsModel = require('../../models/subscriptions');
 const connectedDataModel = require('../../models/connectedData');
 const { getAllTimebasedDataModelRemoteIds } = require('../../models/timebasedDataFactory');
 const { getDomains } = require('../../utils/domains');
-const { monitoring } = require('common');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const monitoring = require('common/monitoring');
 
 const {
   each: _each,

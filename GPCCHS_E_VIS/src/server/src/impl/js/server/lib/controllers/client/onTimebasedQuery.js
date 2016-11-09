@@ -1,5 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-const { constants: globalConstants } = require('common');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const globalConstants = require('common/constants');
 const {
   each: _each,
   concat: _concat,
@@ -9,7 +10,8 @@ const {
 const connectedDataModel = require('../../models/connectedData');
 const { getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const subscriptionsModel = require('../../models/subscriptions');
-const zmq = require('../../io/zmq');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const zmq = require('common/zmq');
 const { add } = require('../../utils/dataQueue');
 const { createQueryMessage } = require('../../utils/queries');
 const { createAddSubscriptionMessage } = require('../../utils/subscriptions');

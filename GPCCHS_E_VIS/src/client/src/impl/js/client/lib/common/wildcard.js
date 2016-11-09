@@ -10,7 +10,7 @@ export function generate(string) {
   }
 
   let escaped = string;
-  escaped = escaped.replace(/[\-\[\]\/\{\}\(\)\.\+\\\^\$\|]/g, '\\$&');
-  escaped = escaped.replace(/[\*\?]/g, '.$&');
+  escaped = escaped.replace(/[-[\]/{}().+\\^$|]/g, '\\$&');
+  escaped = escaped.replace(/[*?]/g, '.$&');
   return new RegExp(`^${escaped}$`);
 }

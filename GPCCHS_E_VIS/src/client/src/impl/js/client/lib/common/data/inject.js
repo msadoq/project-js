@@ -1,5 +1,5 @@
 import { each, set } from 'lodash';
-import { constants as globalConstants } from 'common';
+import globalConstants from 'common/constants';
 import profiling from '../debug/profiling';
 import debug from '../debug/mainDebug';
 import vivl from '../../../VIVL/main';

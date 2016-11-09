@@ -2,7 +2,8 @@ const {
   get: _get,
   set: _set,
 } = require('lodash');
-const { constants: globalConstants } = require('common');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const globalConstants = require('common/constants');
 
 let testQueue = {};
 let message = {};

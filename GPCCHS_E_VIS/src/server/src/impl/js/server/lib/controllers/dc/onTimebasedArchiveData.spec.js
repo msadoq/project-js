@@ -5,7 +5,8 @@ const connectedDataModel = require('../../models/connectedData');
 const { clearFactory, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const dataStub = require('../../stubs/data');
 const { addToTestQueue, getMessage, resetMessage } = require('../../stubs/testWebSocket');
-const { constants: globalConstants } = require('common');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const globalConstants = require('common/constants');
 
 /* onTimebasedArchiveData Test
  *

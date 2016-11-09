@@ -1,5 +1,6 @@
 const debug = require('../../io/debug')('controllers:onCacheCleanup');
-const zmq = require('../../io/zmq');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const zmq = require('common/zmq');
 const registeredQueries = require('../../utils/registeredQueries');
 const { getTimebasedDataModel, removeTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');

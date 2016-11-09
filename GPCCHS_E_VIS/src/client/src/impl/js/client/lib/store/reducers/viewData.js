@@ -1,4 +1,5 @@
-import { constants as globalConstants } from 'common';
+
+import globalConstants from 'common/constants';
 import { findIndex, findLastIndex, concat } from 'lodash';
 import _each from 'lodash/each';
 import _get from 'lodash/get';

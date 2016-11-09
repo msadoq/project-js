@@ -1,4 +1,5 @@
-const debug = require('../io/debug')('zmq');
+const debug = require('debug');
+const logger = require('../debug')(debug)('common:zmq');
 const {
   each: _each,
   isFunction: _isFunction,
@@ -20,7 +21,7 @@ const lifeCycleEvents = [
 ];
 
 const debugLifecycle = (event, url) => {
-  debug.debug(event, url);
+  logger.debug(event, url);
 };
 
 const bindLifecycleEvents =
@@ -74,7 +75,7 @@ function open(configuration, callback) {
       // bind lifecycle event handlers
       bindLifecycleEvents(sockets[key]);
 
-      debug.info(`${item.type} socket open on ${item.url} for key ${key}`);
+      logger.info(`${item.type} socket open on ${item.url} for key ${key}`);
       return cb(null);
     };
 
@@ -139,27 +140,27 @@ function get(key, type) {
 
 function push(key, payload, callback = () => {}) {
   const socket = get(key, 'push');
-  debug.debug(`sending to ${key}`);
+  logger.debug(`sending to ${key}`);
   return socket.send(payload, 0, () => {
-    debug.debug(`sent to ${key}`);
+    logger.debug(`sent to ${key}`);
     return callback(null);
   });
 }
 
 function request(key, payload, callback = () => {}) {
   const socket = get(key, 'req');
-  debug.debug(`requesting ${key}`);
+  logger.debug(`requesting ${key}`);
   return socket.send(payload, 0, () => {
-    debug.debug(`requested ${key}`, key);
+    logger.debug(`requested ${key}`, key);
     return callback(null);
   });
 }
 
 function respond(key, payload, callback = () => {}) {
   const socket = get(key, 'rep');
-  debug.debug(`responding ${key}`);
+  logger.debug(`responding ${key}`);
   return socket.send(payload, 0, () => {
-    debug.debug(`responded ${key}`, key);
+    logger.debug(`responded ${key}`, key);
     return callback(null);
   });
 }
@@ -167,7 +168,7 @@ function respond(key, payload, callback = () => {}) {
 function closeSockets() {
   _each(sockets, item => item.close());
   sockets = {};
-  debug.info('all sockets closed');
+  logger.info('all sockets closed');
 }
 
 module.exports = {

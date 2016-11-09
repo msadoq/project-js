@@ -1,5 +1,6 @@
 import { get, isFunction } from 'lodash';
-import { constants as globalConstants } from 'common';
+
+import globalConstants from 'common/constants';
 import last from './last/index';
 import range from './range';
 

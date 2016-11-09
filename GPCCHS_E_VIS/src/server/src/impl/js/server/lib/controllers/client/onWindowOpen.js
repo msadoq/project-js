@@ -1,5 +1,6 @@
 const debug = require('../../io/debug')('controllers:onWindowOpen');
-const { constants: globalConstants } = require('common');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const globalConstants = require('common/constants');
 
 /**
  * Triggered when HSC open a new window and send the 'authenticate' message

@@ -1,6 +1,7 @@
 const debug = require('../../io/debug')('controllers:onDomainQuery');
 const { encode } = require('../../protobuf');
-const zmq = require('../../io/zmq');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const zmq = require('common/zmq');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
 const constants = require('../../constants');
 

@@ -1,4 +1,5 @@
-import { constants as globalConstants } from 'common';
+
+import globalConstants from 'common/constants';
 
 export default {
   '=': globalConstants.FILTERTYPE_EQ,

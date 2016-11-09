@@ -1,7 +1,8 @@
 require('dotenv-safe').load();
 // eslint-disable-next-line import/no-extraneous-dependencies
-const { constants: globalConstants } = require('common');
-
+const zmq = require('common/zmq');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const globalConstants = require('common/constants');
 const debug = require('../io/debug')('stub:dc');
 const createQueryKey = require('./dc/createQueryKey');
 const isParameterSupported = require('./dc/isParameterSupported');
@@ -12,7 +13,6 @@ const {
   each: _each,
   omit: _omit,
 } = require('lodash');
-const zmq = require('../io/zmq');
 const protobuf = require('../protobuf/index');
 const stubData = require('./data');
 const constants = require('../constants');

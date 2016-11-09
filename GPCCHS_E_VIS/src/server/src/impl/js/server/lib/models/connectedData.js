@@ -1,9 +1,9 @@
 const debug = require('../io/debug')('models:connectedData');
 const database = require('../io/loki');
-const {
-  constants: globalConstants,
-  intervals: intervalManager,
-} = require('common');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const globalConstants = require('common/constants');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const intervalManager = require('common/intervals');
 const {
   concat: _concat,
   remove: _remove,

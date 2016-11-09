@@ -1,4 +1,5 @@
-import { constants as globalConstants } from 'common';
+
+import globalConstants from 'common/constants';
 
 import debug from '../debug/mainDebug';
 import { receive } from '../../mainProcess/pull';

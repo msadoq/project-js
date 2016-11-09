@@ -1,4 +1,4 @@
-import { websocket as Primus } from 'common';
+import Primus from 'common/websocket';
 import debug from '../debug/mainDebug';
 import { getStore } from '../../store/mainStore';
 import { updateStatus } from '../../store/actions/hss';

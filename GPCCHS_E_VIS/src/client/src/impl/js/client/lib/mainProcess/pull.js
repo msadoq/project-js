@@ -1,5 +1,6 @@
 import _isObject from 'lodash/isObject';
-import { constants as globalConstants } from 'common';
+
+import globalConstants from 'common/constants';
 
 import { getWebsocket } from '../common/websocket/mainWebsocket';
 import inject from '../common/data/inject';

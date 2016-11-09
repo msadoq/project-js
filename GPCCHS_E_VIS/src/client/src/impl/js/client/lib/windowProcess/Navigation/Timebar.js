@@ -2,7 +2,8 @@ import { get } from 'lodash';
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
-import { constants as globalConstants } from 'common';
+
+import globalConstants from 'common/constants';
 import { updateVisuWindow } from '../../store/actions/timebars';
 
 class Timebar extends PureComponent {

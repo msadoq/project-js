@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Col, Row } from 'react-bootstrap';
-import { constants as globalConstants } from 'common';
+
+import globalConstants from 'common/constants';
 import styles from './TimebarControls.css';
 
 export default class TimebarControls extends Component {

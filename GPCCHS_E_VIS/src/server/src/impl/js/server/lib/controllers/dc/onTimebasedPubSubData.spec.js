@@ -11,7 +11,8 @@ const subscriptionsModel = require('../../models/subscriptions');
 const dataStub = require('../../stubs/data');
 const { addToTestQueue, getMessage, resetMessage } = require('../../stubs/testWebSocket');
 const constants = require('../../constants');
-const { constants: globalConstants } = require('common');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const globalConstants = require('common/constants');
 
 /* onTimebasedPubSubData Test
  *

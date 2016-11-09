@@ -1,5 +1,6 @@
 import { each, get } from 'lodash';
-import { intervals as intervalManager } from 'common';
+
+import intervalManager from 'common/intervals';
 
 import profiling from '../../debug/profiling';
 

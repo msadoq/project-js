@@ -14,7 +14,7 @@ let windowAlreadyOpened = false;
 let lastMap = {};
 let actingOnData = false;
 
-export const resetPreviousMap = () => (lastMap = {});
+export const resetPreviousMap = () => (lastMap = {}); // TODO call on HSS disconnection
 export const setActingOn = () => (actingOnData = true);
 export const setActingOff = () => (actingOnData = false);
 export const isActing = () => actingOnData;

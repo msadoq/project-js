@@ -2,7 +2,8 @@
 const globalConstants = require('common/constants');
 const { should } = require('../../utils/test');
 const { cacheCleanup } = require('./onCacheCleanup');
-const { decode } = require('../../protobuf');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { decode } = require('common/protobuf');
 const {
   clearFactory,
   getTimebasedDataModel,
@@ -13,7 +14,8 @@ const subscriptionsModel = require('../../models/subscriptions');
 const registeredQueries = require('../../utils/registeredQueries');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
 const { concat: _concat } = require('lodash');
-const dataStub = require('../../stubs/data');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const dataStub = require('common/stubs/data');
 
 let calls = [];
 const zmqEmulator = (key, payload) => {

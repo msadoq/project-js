@@ -1,5 +1,6 @@
 require('../../utils/test');
-const { decode } = require('../../protobuf');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { decode } = require('common/protobuf');
 const { close } = require('./onClose');
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
@@ -7,13 +8,14 @@ const { clearFactory, addTimebasedDataModel } = require('../../models/timebasedD
 const registeredQueries = require('../../utils/registeredQueries');
 const { add, get } = require('../../utils/dataQueue');
 const { setDomains, getDomains } = require('../../utils/domains');
-const constants = require('../../constants');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const globalConstants = require('common/constants');
 const {
   getDataId,
   getRemoteId,
   getReportingParameter,
   getReportingParameterProtobuf,
-} = require('../../stubs/data');
+} = require('common/stubs/data'); // eslint-disable-line import/no-extraneous-dependencies
 const {
   concat: _concat,
   now: _now,
@@ -57,11 +59,11 @@ describe('controllers/client/onClose', () => {
       .that.has.lengthOf(4);
     calls[0].constructor.should.equal(Buffer);
     const messageType = decode('dc.dataControllerUtils.Header', calls[0]).messageType;
-    messageType.should.equal(constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION);
+    messageType.should.equal(globalConstants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION);
     const dataId = decode('dc.dataControllerUtils.DataId', calls[2]);
     dataId.should.have.properties(myDataId);
     const action = decode('dc.dataControllerUtils.Action', calls[3]).action;
-    action.should.equal(constants.SUBSCRIPTIONACTION_DELETE);
+    action.should.equal(globalConstants.SUBSCRIPTIONACTION_DELETE);
 
     const connectedData = connectedDataModel.find();
     connectedData.should.be.an('array')

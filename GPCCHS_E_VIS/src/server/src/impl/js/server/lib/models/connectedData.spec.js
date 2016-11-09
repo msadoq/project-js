@@ -1,6 +1,7 @@
 const { should } = require('../utils/test');
 const model = require('./connectedData');
-const { getDataId, getRemoteId } = require('../stubs/data');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { getDataId, getRemoteId } = require('common/stubs/data');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
 

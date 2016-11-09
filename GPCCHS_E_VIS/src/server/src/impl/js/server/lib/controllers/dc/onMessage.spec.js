@@ -1,6 +1,7 @@
 const { testPayloads, testHandler } = require('../../utils/test');
 const { message } = require('./onMessage');
-const dataStub = require('../../stubs/data');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const dataStub = require('common/stubs/data');
 
 describe('controllers/onMessage', () => {
   beforeEach(() => {

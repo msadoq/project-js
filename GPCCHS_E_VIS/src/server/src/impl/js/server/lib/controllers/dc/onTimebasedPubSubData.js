@@ -4,7 +4,8 @@ const {
   each: _each,
   chunk: _chunk,
 } = require('lodash');
-const { decode, getType } = require('../../protobuf');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { decode, getType } = require('common/protobuf');
 const { addTimebasedDataModel, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');

@@ -1,9 +1,8 @@
 require('dotenv-safe').load();
-// eslint-disable-next-line import/no-extraneous-dependencies
-const zmq = require('common/zmq');
-// eslint-disable-next-line import/no-extraneous-dependencies
-const globalConstants = require('common/constants');
-const debug = require('../io/debug')('stub:dc');
+const zmq = require('../zmq');
+const globalConstants = require('../constants');
+const debug = require('debug');
+const logger = require('../debug')(debug)('common:stubs:dc');
 const createQueryKey = require('./dc/createQueryKey');
 const isParameterSupported = require('./dc/isParameterSupported');
 const sendDomainData = require('./dc/sendDomainData');
@@ -15,7 +14,6 @@ const {
 } = require('lodash');
 const protobuf = require('../protobuf/index');
 const stubData = require('./data');
-const constants = require('../constants');
 
 let subscriptions = {};
 let queries = [];
@@ -30,7 +28,7 @@ const pushSuccess = (queryId) => {
   ]);
 };
 const pushError = (queryId = '', reason = '') => {
-  debug.error('STUB ERROR', reason);
+  logger.error('STUB ERROR', reason);
   zmq.push('stubData', [
     null,
     stubData.getResponseHeaderProtobuf(),
@@ -42,20 +40,20 @@ const pushError = (queryId = '', reason = '') => {
 
 // Message Controller
 const onHssMessage = (...args) => {
-  debug.debug('onHssMessage');
+  logger.debug('onHssMessage');
 
   const header = protobuf.decode('dc.dataControllerUtils.Header', args[0]);
   const queryId = protobuf.decode('dc.dataControllerUtils.String', args[1]).string;
 
   switch (header.messageType) {
-    case constants.MESSAGETYPE_DOMAIN_QUERY: {
-      debug.info('push domain data');
+    case globalConstants.MESSAGETYPE_DOMAIN_QUERY: {
+      logger.info('push domain data');
       return sendDomainData(queryId, zmq);
     }
-    case constants.MESSAGETYPE_TIMEBASED_QUERY: {
+    case globalConstants.MESSAGETYPE_TIMEBASED_QUERY: {
       const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
       if (!isParameterSupported(dataId)) {
-        debug.warn('query of unsupported parameter sent to DC stub', dataId);
+        logger.warn('query of unsupported parameter sent to DC stub', dataId);
         return pushError(
           queryId,
           `parameter ${dataId.parameterName} not yet supported by stub`
@@ -67,30 +65,30 @@ const onHssMessage = (...args) => {
       );
       const queryKey = createQueryKey(dataId, queryArguments);
       queries.push({ queryKey, queryId, dataId, interval, queryArguments });
-      debug.verbose('query registered', dataId.parameterName, interval);
+      logger.verbose('query registered', dataId.parameterName, interval);
       return pushSuccess(queryId);
     }
-    case constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION: {
+    case globalConstants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION: {
       const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
       const parameter = `${dataId.catalog}.${dataId.parameterName}<${dataId.comObject}>`;
       if (!isParameterSupported(dataId)) {
-        debug.warn('subscription of unsupported parameter sent to DC stub', dataId);
+        logger.warn('subscription of unsupported parameter sent to DC stub', dataId);
         return pushError(
           queryId,
           `parameter ${dataId.parameterName} not yet supported by stub`
         );
       }
       const action = protobuf.decode('dc.dataControllerUtils.Action', args[3]).action;
-      if (action === constants.SUBSCRIPTIONACTION_ADD) {
+      if (action === globalConstants.SUBSCRIPTIONACTION_ADD) {
         subscriptions[parameter] = {
           queryId,
           dataId,
         };
-        debug.debug('subscription added', parameter);
+        logger.debug('subscription added', parameter);
       }
-      if (action === constants.SUBSCRIPTIONACTION_DELETE) {
+      if (action === globalConstants.SUBSCRIPTIONACTION_DELETE) {
         subscriptions = _omit(subscriptions, parameter);
-        debug.debug('subscription removed', parameter);
+        logger.debug('subscription removed', parameter);
       }
       return pushSuccess(queryId);
     }
@@ -100,17 +98,17 @@ const onHssMessage = (...args) => {
 };
 
 function dcCall() {
-  debug.verbose('dcCall call', Object.keys(subscriptions).length, queries.length);
+  logger.verbose('dcCall call', Object.keys(subscriptions).length, queries.length);
 
   // pub/sub
   _each(subscriptions, ({ queryId, dataId }) => {
-    debug.debug(`push pub/sub data for ${dataId.parameterName}`);
+    logger.debug(`push pub/sub data for ${dataId.parameterName}`);
     sendPubSubData(queryId, dataId, zmq);
   });
 
   // queries
   _each(queries, (query) => {
-    debug.debug(`push archive data for ${query.dataId.parameterName}`);
+    logger.debug(`push archive data for ${query.dataId.parameterName}`);
     sendArchiveData(
       query.queryKey,
       query.queryId,
@@ -148,7 +146,7 @@ zmq.open(
       return;
     }
 
-    debug.info('sockets opened');
+    logger.info('sockets opened');
     nextDcCall();
   }
 );

@@ -1,9 +1,7 @@
 /* eslint no-underscore-dangle:0 */
 const _each = require('lodash/each');
 const _random = require('lodash/random');
-// eslint-disable-next-line import/no-extraneous-dependencies
-// eslint-disable-next-line import/no-extraneous-dependencies
-const globalConstants = require('common/constants');
+const globalConstants = require('../../constants');
 const stubData = require('../data');
 const getPayload = require('./getPayload');
 

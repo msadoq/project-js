@@ -1,9 +1,11 @@
 const debug = require('../../io/debug')('controllers:onDomainQuery');
-const { encode } = require('../../protobuf');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { encode } = require('common/protobuf');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const zmq = require('common/zmq');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
-const constants = require('../../constants');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const globalConstants = require('common/constants');
 
 /**
  * Triggered when there is a new domain query on HSC
@@ -14,7 +16,7 @@ const constants = require('../../constants');
  */
 
 const protobufDomainHeader = encode('dc.dataControllerUtils.Header', {
-  messageType: constants.MESSAGETYPE_DOMAIN_QUERY,
+  messageType: globalConstants.MESSAGETYPE_DOMAIN_QUERY,
 });
 let idIndex = 0;
 const generateDomainId = () => {

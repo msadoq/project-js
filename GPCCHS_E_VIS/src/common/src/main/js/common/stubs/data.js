@@ -8,7 +8,7 @@ const {
 const protobuf = require('../protobuf/index');
 const constants = require('../constants');
 // eslint-disable-next-line import/no-extraneous-dependencies
-const globalConstants = require('common/constants');
+const globalConstants = require('../constants');
 
 const now = _now();
 

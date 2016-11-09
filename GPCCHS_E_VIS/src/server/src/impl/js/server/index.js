@@ -126,7 +126,7 @@ zmq.open({
   }
 
   if (process.env.STUB_DC_ON === 'on') {
-    const dc = cp.fork(`${__dirname}/lib/stubs/dc.js`);
+    const dc = cp.fork(`${__dirname}/../../../../../common/src/main/js/common/stubs/dc.js`);
     dc.on('message', msg => debug.info('HSS got DC message: ', msg));
     /* dcStub((launchStubError) => {
       if (launchStubError) {

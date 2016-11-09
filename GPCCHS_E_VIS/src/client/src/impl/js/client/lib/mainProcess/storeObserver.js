@@ -1,4 +1,4 @@
-import { constants as globalConstants } from 'common';
+import globalConstants from 'common/constants';
 import debug from '../common/debug/mainDebug';
 import { LIFECYCLE_READY, LIFECYCLE_STARTED, onWindowOpened } from './lifecycle';
 import { getStatus as getAppStatus, getLastCacheInvalidation } from '../store/selectors/hsc';

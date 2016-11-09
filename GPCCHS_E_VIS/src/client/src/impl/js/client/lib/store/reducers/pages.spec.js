@@ -33,6 +33,8 @@ describe('store:page', () => {
             viewType: null,
             configuration: null,
           },
+          path: undefined,
+          oId: undefined,
         });
       });
       it('add empty', () => {
@@ -51,6 +53,8 @@ describe('store:page', () => {
             viewType: null,
             configuration: null,
           },
+          path: undefined,
+          oId: undefined,
         });
       });
     });

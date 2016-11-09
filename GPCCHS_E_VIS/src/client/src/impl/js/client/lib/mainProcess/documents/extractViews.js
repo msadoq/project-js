@@ -1,6 +1,6 @@
 /* eslint no-underscore-dangle: 0 */
 
-const _ = require('lodash');
+const { get, reduce, isObject } = require('lodash');
 const async = require('async');
 const { v4 } = require('node-uuid');
 const fs = require('../../common/fs');
@@ -14,8 +14,8 @@ const supportedViewTypes = [
 ];
 
 function findPageViewsAndReplaceWithUuid(page) {
-  const views = _.get(page, 'views');
-  return _.reduce(views, (list, view, index) => {
+  const views = get(page, 'views');
+  return reduce(views, (list, view, index) => {
     if (!view.oId && !view.path) {
       return list;
     }
@@ -76,11 +76,11 @@ function readViews(folder, viewsToRead, cb) {
  */
 function extractViews(content, cb) {
   let pages = content.pages;
-  if (!_.isObject(pages)) {
+  if (!isObject(pages)) {
     pages = {};
   }
 
-  const viewsToRead = _.reduce(pages, (list, p) =>
+  const viewsToRead = reduce(pages, (list, p) =>
     list.concat(findPageViewsAndReplaceWithUuid(p)),
   []);
 
@@ -90,7 +90,7 @@ function extractViews(content, cb) {
     }
 
     return cb(null, Object.assign(content, {
-      views: _.reduce(views, (l, v) => Object.assign(l, { [v.uuid]: v }), {}),
+      views: reduce(views, (l, v) => Object.assign(l, { [v.uuid]: v }), {}),
     }));
   });
 }

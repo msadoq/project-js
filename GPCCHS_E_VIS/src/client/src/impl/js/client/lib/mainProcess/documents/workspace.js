@@ -1,5 +1,5 @@
 const debug = require('../../common/debug/mainDebug')('documents:workspace');
-const _ = require('lodash');
+const { omit } = require('lodash');
 const async = require('async');
 const fs = require('../../common/fs');
 const validation = require('./validation');
@@ -21,6 +21,6 @@ module.exports = function readWorkspace(folder, relativePath, callback) {
     (content, cb) => extractWindows(content, cb),
     (content, cb) => extractPages(content, cb),
     (content, cb) => extractViews(content, cb),
-    (content, cb) => cb(null, _.omit(content, ['__folder', '__original'])),
+    (content, cb) => cb(null, omit(content, ['__folder', '__original'])),
   ], callback);
 };

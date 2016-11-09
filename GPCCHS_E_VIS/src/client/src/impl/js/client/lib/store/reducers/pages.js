@@ -1,5 +1,6 @@
-import _ from 'lodash';
+import { without, omit } from 'lodash';
 import u from 'updeep';
+import { relative, resolve } from 'path';
 import * as types from '../types';
 
 /**
@@ -21,7 +22,25 @@ export default function pages(statePages = {}, action) {
         [action.payload.pageId]: page(undefined, action),
       };
     case types.WS_PAGE_REMOVE:
-      return _.omit(statePages, [action.payload.pageId]);
+      return omit(statePages, [action.payload.pageId]);
+    case types.WS_PAGE_UPDATEPATH:
+      // path unchanged or newPath invalid
+      if (!action.payload.newPath ||
+          resolve(action.payload.newPath) === resolve(statePages[action.payload.pageId].path)) {
+        return statePages;
+      }
+      return u({ [action.payload.pageId]: { path: action.payload.newPath } }, statePages);
+    case types.WS_PAGE_UPDATE_RELATIVEPATH: {
+      const newWkFolder = resolve(action.payload.newWkFolder);
+      // workspace folder unchanged
+      if (resolve(action.payload.oldWkFolder) === newWkFolder) {
+        return statePages;
+      }
+      // workspace folder updated
+      const oldPath = resolve(action.payload.oldWkFolder, statePages[action.payload.pageId].path);
+      const pathMvt = relative(newWkFolder, oldPath);
+      return u({ [action.payload.pageId]: { path: pathMvt } }, statePages);
+    }
     default:
       return statePages;
   }
@@ -48,6 +67,8 @@ function page(statePage = initialState, action) {
         timebarId: action.payload.timebarId || statePage.timebarId,
         layout: action.payload.layout || statePage.layout,
         views: action.payload.views || statePage.views,
+        path: action.payload.path,
+        oId: action.payload.oId,
       });
     case types.WS_PAGE_EDITOR_OPEN:
       return u({
@@ -66,7 +87,7 @@ function page(statePage = initialState, action) {
       });
     case types.WS_PAGE_VIEW_UNMOUNT:
       return Object.assign({}, statePage, {
-        views: _.without(statePage.views, action.payload.viewId),
+        views: without(statePage.views, action.payload.viewId),
       });
     case types.WS_PAGE_UPDATE_LAYOUT:
       return Object.assign({}, statePage, {

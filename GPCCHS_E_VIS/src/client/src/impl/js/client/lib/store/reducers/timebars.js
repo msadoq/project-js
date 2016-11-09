@@ -41,6 +41,7 @@ const initialState = {
   playingState: 'pause',
   masterId: null,
   timelines: [],
+  mode: 'Normal',
 };
 
 function timebar(stateTimebar = initialState, action) {
@@ -59,6 +60,7 @@ function timebar(stateTimebar = initialState, action) {
         playingState: configuration.playingState || initialState.playingState,
         masterId: configuration.masterId || initialState.masterId,
         timelines: configuration.timelines || initialState.timelines,
+        mode: configuration.mode || initialState.mode,
       });
     }
     case types.WS_TIMEBAR_MOUNT_TIMELINE:

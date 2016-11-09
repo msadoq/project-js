@@ -20,6 +20,8 @@ describe('store:views', () => {
         state.myViewId.should.eql({
           type: 'plot',
           configuration: { setting: 'value' },
+          path: undefined,
+          oId: undefined,
         });
       });
       it('add empty', () => {
@@ -32,6 +34,8 @@ describe('store:views', () => {
           configuration: {
             title: null,
           },
+          path: undefined,
+          oId: undefined,
         });
       });
     });

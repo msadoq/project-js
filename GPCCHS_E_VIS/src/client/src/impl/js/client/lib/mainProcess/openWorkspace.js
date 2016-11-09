@@ -1,40 +1,43 @@
-import _ from 'lodash';
-
+import { each, map } from 'lodash';
+import { join } from 'path';
 import readWorkspace from './documents/workspace';
-import { getStore } from '../store/mainStore';
 import { add as addTimeline } from '../store/actions/timelines';
 import { add as addTimebar } from '../store/actions/timebars';
 import { add as addView } from '../store/actions/views';
 import { add as addPage } from '../store/actions/pages';
 import { add as addWindow } from '../store/actions/windows';
+import { updatePath } from '../store/actions/workspace';
 
-function loadInStore(workspace, dispatch) {
+
+function loadInStore(workspace, dispatch, root, file) {
   // add timelines
-  _.each(workspace.timelines, e => dispatch(addTimeline(e.uuid, e)));
+  each(workspace.timelines, e => dispatch(addTimeline(e.uuid, e)));
 
   // add timebars
-  _.each(workspace.timebars, e => dispatch(addTimebar(e.uuid, e)));
+  each(workspace.timebars, e => dispatch(addTimebar(e.uuid, e)));
 
   // add views
-  _.each(workspace.views, e => dispatch(addView(e.uuid, e.type, e.configuration)));
+  each(workspace.views, e => dispatch(addView(e.uuid, e.type, e.configuration, e.path, e.oId)));
 
   // add pages
-  _.each(workspace.pages, e => dispatch(addPage(
+  each(workspace.pages, e => dispatch(addPage(
     e.uuid,
     e.timebarId,
     e.title,
-    _.map(e.views, v => v.uuid),
-    _.map(e.views, v => ({
+    map(e.views, v => v.uuid),
+    map(e.views, v => ({
       i: v.uuid,
       x: v.geometry.x,
       y: v.geometry.y,
       w: v.geometry.w,
       h: v.geometry.h,
     })),
+    e.path,
+    e.oId,
   )));
 
   // add windows
-  _.each(workspace.windows,
+  each(workspace.windows,
     (e) => {
       // set focusedPage on the fly (not in documents)
       let pageId = null;
@@ -44,6 +47,8 @@ function loadInStore(workspace, dispatch) {
       dispatch(addWindow(e.uuid, e.title, e.geometry, e.pages, pageId));
     }
   );
+  // workspace path
+  dispatch(updatePath(root, file));
 }
 
 /**
@@ -59,8 +64,7 @@ export default function openWorkspace(root, file, dispatch, callback) {
     if (err) {
       return callback(err);
     }
-
-    loadInStore(workspace, dispatch);
+    loadInStore(workspace, dispatch, root, file);
 
     return callback(null);
   });

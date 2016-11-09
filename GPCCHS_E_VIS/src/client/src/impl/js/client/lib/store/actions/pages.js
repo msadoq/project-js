@@ -6,7 +6,8 @@ import { getViews, getEditor } from '../reducers/pages';
 /**
  * Simple actions
  */
-export const add = simple(types.WS_PAGE_ADD, 'pageId', 'timebarId', 'title', 'views', 'layout');
+export const add = simple(types.WS_PAGE_ADD, 'pageId', 'timebarId', 'title', 'views', 'layout',
+  'path', 'oId');
 export const remove = simple(types.WS_PAGE_REMOVE, 'pageId');
 export const mountView = simple(types.WS_PAGE_VIEW_MOUNT, 'pageId', 'viewId');
 export const unmountView = simple(types.WS_PAGE_VIEW_UNMOUNT, 'pageId', 'viewId');
@@ -14,7 +15,8 @@ export const openEditor = simple(types.WS_PAGE_EDITOR_OPEN,
   'pageId', 'viewId', 'viewType', 'configuration');
 export const closeEditor = simple(types.WS_PAGE_EDITOR_CLOSE, 'pageId');
 export const updateLayout = simple(types.WS_PAGE_UPDATE_LAYOUT, 'pageId', 'layout');
-
+export const updateRelativePath = simple(types.WS_PAGE_UPDATE_RELATIVEPATH, 'pageId', 'oldWkFolder', 'newWkFolder');
+export const updatePath = simple(types.WS_PAGE_UPDATEPATH, 'pageId', 'newPath');
 /**
  * Compound actions
  */

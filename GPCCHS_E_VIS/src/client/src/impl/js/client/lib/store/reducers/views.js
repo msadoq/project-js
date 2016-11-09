@@ -1,6 +1,7 @@
-import _ from 'lodash';
+import { omit } from 'lodash';
+import u from 'updeep';
+import { relative, resolve } from 'path';
 import * as types from '../types';
-
 
 /**
  * Reducer
@@ -18,7 +19,25 @@ export default function views(stateViews = {}, action) {
         [action.payload.viewId]: view(undefined, action),
       };
     case types.WS_VIEW_REMOVE:
-      return _.omit(stateViews, [action.payload.viewId]);
+      return omit(stateViews, [action.payload.viewId]);
+    case types.WS_VIEW_UPDATEPATH:
+      // path unchanged or newPath invalid
+      if (!action.payload.newPath ||
+          resolve(action.payload.newPath) === resolve(stateViews[action.payload.viewId].path)) {
+        return stateViews;
+      }
+      return u({ [action.payload.viewId]: { path: action.payload.newPath } }, stateViews);
+    case types.WS_VIEW_UPDATE_RELATIVEPATH: {
+      const newWkFolder = resolve(action.payload.newWkFolder);
+      // workspace folder unchanged
+      if (resolve(action.payload.oldWkFolder) === newWkFolder) {
+        return stateViews;
+      }
+      // workspace folder updated
+      const oldPath = resolve(action.payload.oldWkFolder, stateViews[action.payload.viewId].path);
+      const pathMvt = relative(newWkFolder, oldPath);
+      return u({ [action.payload.viewId]: { path: pathMvt } }, stateViews);
+    }
     default:
       return stateViews;
   }
@@ -34,6 +53,8 @@ function view(stateView = initialState, action) {
       return Object.assign({}, stateView, {
         type: action.payload.type || stateView.type,
         configuration: configuration(undefined, action),
+        path: action.payload.path,
+        oId: action.payload.oId,
       });
     default:
       return stateView;

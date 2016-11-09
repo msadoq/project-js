@@ -68,7 +68,6 @@ function extractPages(content, cb) {
   const pagesToRead = _.reduce(windows, (list, w) =>
       list.concat(findWindowPagesAndReplaceWithUuid(w, _.get(content, 'timebars', {}))),
   []);
-
   return readPages(content.__folder, pagesToRead, (err, pages) => {
     if (err) {
       return cb(err);

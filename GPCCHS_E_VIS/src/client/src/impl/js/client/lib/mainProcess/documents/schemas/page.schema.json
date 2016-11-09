@@ -4,11 +4,7 @@
         "geometry": {
             "type": "object",
             "properties": {
-                "kind": {
-                    "type": "string",
-                    "default": "Relative",
-                    "enum": ["Relative", "Absolute"]
-                },
+
                 "x": {
                     "type": "number"
                 },
@@ -22,8 +18,7 @@
                     "type": "number"
                 }
             },
-            "required": ["kind", "x", "y", "w", "h"],
-            "additionalProperties": false
+            "required": ["x", "y", "w", "h"]
         },
         "docLocation": {
             "oneOf": [{

@@ -1,3 +1,18 @@
-.formLabel{vertical-align:middle;margin-bottom:0px !important;text-align:left !important;padding-top:1px !important;font-weight:bold;font-size:0.9em;color:#333;}
-.formGroupXsmall{margin-bottom:10px !important;}
-.addon{height:16px;padding:1px 10px 1px 10px;}
+.formLabel {
+  vertical-align: middle;
+  margin-bottom: 0px !important;
+  text-align: left !important;
+  padding-top: 1px !important;
+  font-weight: bold;
+  font-size: 0.9em;
+  color: #333;
+}
+
+.formGroupXsmall {
+  margin-bottom: 10px !important;
+}
+
+.addon {
+  height: 16px;
+  padding: 1px 10px 1px 10px;
+}

@@ -6,6 +6,33 @@ import EntryPointTree from './EntryPointTree';
 import EntryPointActions from './EntryPointActions';
 import styles from '../Editor.css';
 
+const newEntryPoint = {
+  name: 'NewEntryPoint',
+  connectedDataX: {
+    fullName: '',
+    unit: 'ms',
+    digits: 5,
+    format: 'decimal',
+    domain: '',
+    session: 'Session 1',
+    axisId: 'time'
+  },
+  connectedDataY: {
+    fullName: '',
+    unit: 'ms',
+    digits: 5,
+    format: 'decimal',
+    domain: '',
+    session: 'Session 1',
+    axisId: 'time'
+  },
+  lineStyle: 'Continuous',
+  pointsStyle: 'None',
+  curveColour: '#222222',
+  stateColours: [
+
+  ]
+};
 /*
   Composant racine de l'éditeur Plot.
 */
@@ -14,9 +41,9 @@ export default class Editor extends Component {
     closeEditor: PropTypes.func.isRequired,
     configuration: PropTypes.any,
   }
-  constructor(...args) {
-    super(...args);
-    this.state = {
+
+  componentWillMount() {
+    this.setState({
       currentDisplay: 0,
       search: '',
       entryPoints: this.props.configuration.entryPoints,
@@ -27,19 +54,9 @@ export default class Editor extends Component {
       plotBackGround: this.props.configuration.plotBackgroundColour,
       legend: this.props.configuration.legend,
       markers: this.props.configuration.markers
-    };
-    this.changeCurrentDisplay = this.changeCurrentDisplay.bind(this);
-    this.changeSearch = this.changeSearch.bind(this);
-    this.handleEntryPoint = this.handleEntryPoint.bind(this);
-    this.handlePlotTitle = this.handlePlotTitle.bind(this);
-    this.handlePlotTitleStyle = this.handlePlotTitleStyle.bind(this);
-    this.handleGrid = this.handleGrid.bind(this);
-    this.removeEntryPoint = this.removeEntryPoint.bind(this);
-    this.addEntryPoint = this.addEntryPoint.bind(this);
-    this.handleAxes = this.handleAxes.bind(this);
-    this.handlePlotMarkers = this.handlePlotMarkers.bind(this);
+    });
   }
-  handleEntryPoint(key, label, newVal) {
+  handleEntryPoint = (key, label, newVal) => {
     let val = newVal;
     const labels = label.split('.');
 
@@ -73,34 +90,7 @@ export default class Editor extends Component {
     });
     console.log(`update ${label} : ${newVal}`);
   }
-  addEntryPoint() {
-    const newEntryPoint = {
-      name: 'NewEntryPoint',
-      connectedDataX: {
-        fullName: '',
-        unit: 'ms',
-        digits: 5,
-        format: 'decimal',
-        domain: '',
-        session: 'Session 1',
-        axisId: 'time'
-      },
-      connectedDataY: {
-        fullName: '',
-        unit: 'ms',
-        digits: 5,
-        format: 'decimal',
-        domain: '',
-        session: 'Session 1',
-        axisId: 'time'
-      },
-      lineStyle: 'Continuous',
-      pointsStyle: 'None',
-      curveColour: '#222222',
-      stateColours: [
-
-      ]
-    };
+  addEntryPoint = () => {
     const newState = this.state.entryPoints.slice();
     newState.push(newEntryPoint);
     this.setState({
@@ -108,7 +98,7 @@ export default class Editor extends Component {
     });
     console.log(`add entrypoint, new list : ${newState}`);
   }
-  removeEntryPoint(key) {
+  removeEntryPoint = (key) => {
     const newState = this.state.entryPoints.slice();
     newState.splice(key, 1);
     this.setState({
@@ -116,7 +106,7 @@ export default class Editor extends Component {
     });
     console.log(`remove entrypoint, new list : ${newState}`);
   }
-  handleGrid(label, newVal) {
+  handleGrid = (label, newVal) => {
     let newState = this.state.grid;
     newState = Object.assign({}, newState, {
       [label]: newVal,
@@ -127,11 +117,11 @@ export default class Editor extends Component {
     });
     console.log(`update ${label} : ${newVal}`);
   }
-  handlePlotTitle(val) {
+  handlePlotTitle = (val) => {
     this.setState({ title: val });
     console.log(`update plotTitle : ${val}`);
   }
-  handlePlotTitleStyle(label, newVal) {
+  handlePlotTitleStyle = (label, newVal) => {
     let newState = this.state.titleStyle;
     newState = Object.assign({}, newState, {
       [label]: newVal,
@@ -142,7 +132,7 @@ export default class Editor extends Component {
     });
     console.log(`update ${label} : ${newVal}`);
   }
-  handlePlotMarkers(key, label, newVal) {
+  handlePlotMarkers = (key, label, newVal) => {
     let val = newVal;
     const labels = label.split('.');
 
@@ -181,7 +171,7 @@ export default class Editor extends Component {
     });
     console.log(`update marker ${labels[0]} : ${newVal}`);
   }
-  handleAxes(key, label, newVal) {
+  handleAxes = (key, label, newVal) => {
     let val = newVal;
     const labels = label.split('.');
 
@@ -206,9 +196,7 @@ export default class Editor extends Component {
   /*
     Appelée lorsque le formulaire de filtre des entrypoints est mis à jour.
   */
-  changeSearch(s) {
-    this.setState({ search: s });
-  }
+  changeSearch = s => this.setState({ search: s });
   /*
     Appelée lorsque le un item de la navbar est cliqué.
     param id :
@@ -216,56 +204,43 @@ export default class Editor extends Component {
       1 : PlotTab
       2 : Misc
   */
-  changeCurrentDisplay(id) {
-    this.setState({ currentDisplay: id });
-  }
+  changeCurrentDisplay = id => this.setState({ currentDisplay: id });
+
   render() {
+    const { currentDisplay } = this.state;
     return (
       <div className={styles.editor}>
         <Navbar
-          currentDisplay={this.state.currentDisplay}
+          currentDisplay={currentDisplay}
           items={['Entry Points', 'Plot', 'Miscs']}
           changeCurrentDisplay={this.changeCurrentDisplay}
           closeEditor={this.props.closeEditor}
         />
-        {
-          (this.state.currentDisplay === 2) ?
-            <Misc /> :
-            null
-        }
-        {
-          (this.state.currentDisplay === 1) ?
-            <PlotTab
-              handleGrid={this.handleGrid}
-              handlePlotTitle={this.handlePlotTitle}
-              handlePlotTitleStyle={this.handlePlotTitleStyle}
-              handlePlotAxes={this.handleAxes}
-              handlePlotMarkers={this.handlePlotMarkers}
-              axes={this.state.axes}
-              markers={this.state.markers}
-              title={this.state.title}
-              grids={this.state.grids}
-              titleStyle={this.state.titleStyle}
-            /> :
-            null
-        }
-        {
-          (this.state.currentDisplay === 0) ?
-            <div>
-              <EntryPointActions
-                changeSearch={this.changeSearch}
-                addEntryPoint={this.addEntryPoint}
-              />
-              <EntryPointTree
-                entryPoints={this.state.entryPoints}
-                search={this.state.search}
-                handleEntryPoint={this.handleEntryPoint}
-                remove={this.removeEntryPoint}
-              />
-            </div>
-           :
-            null
-        }
+        {currentDisplay === 2 && <Misc />}
+        {currentDisplay === 1 && <PlotTab
+          handleGrid={this.handleGrid}
+          handlePlotTitle={this.handlePlotTitle}
+          handlePlotTitleStyle={this.handlePlotTitleStyle}
+          handlePlotAxes={this.handleAxes}
+          handlePlotMarkers={this.handlePlotMarkers}
+          axes={this.state.axes}
+          markers={this.state.markers}
+          title={this.state.title}
+          grids={this.state.grids}
+          titleStyle={this.state.titleStyle}
+        />}
+        {currentDisplay === 0 && <div>
+          <EntryPointActions
+            changeSearch={this.changeSearch}
+            addEntryPoint={this.addEntryPoint}
+          />
+          <EntryPointTree
+            entryPoints={this.state.entryPoints}
+            search={this.state.search}
+            handleEntryPoint={this.handleEntryPoint}
+            remove={this.removeEntryPoint}
+          />
+        </div>}
       </div>
     );
   }

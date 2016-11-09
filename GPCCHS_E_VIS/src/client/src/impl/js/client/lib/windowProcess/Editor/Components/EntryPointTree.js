@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import EntryPointDetails from './EntryPointDetails';
 import styles from './EntryPointTree.css';
 
@@ -9,34 +9,36 @@ import styles from './EntryPointTree.css';
 
 export default class EntryPointTree extends React.Component {
   static propTypes = {
-    entryPoints: React.PropTypes.array,
-    search: React.PropTypes.string,
-    handleEntryPoint: React.PropTypes.func,
-    remove: React.PropTypes.func
+    entryPoints: PropTypes.array,
+    search: PropTypes.string,
+    handleEntryPoint: PropTypes.func,
+    remove: PropTypes.func
   }
-  constructor(...args) {
-    super(...args);
-    this.state = {};
-  }
+
+  static defaultProps = {
+    entryPoints: []
+  };
+
+  state = {};
+
   render() {
     const mask = `${this.props.search}.*`;
-    const EntryPointsName = (this.props.entryPoints && this.props.entryPoints.length > 0) ?
-      this.props.entryPoints.map((entryPoint, key_) =>
-        ((entryPoint.name.match(mask)) ?
-          <EntryPointDetails
+    const { entryPoints, handleEntryPoint, remove } = this.props;
+
+    return (
+      <div className={styles.entryPointsTree}>
+        {entryPoints.length && entryPoints.map((entryPoint, key_) =>
+        ((entryPoint.name.match(mask))
+          ? <EntryPointDetails
             key={key_}
             idPoint={key_}
             entryPoint={entryPoint}
-            handleEntryPoint={this.props.handleEntryPoint}
-            remove={this.props.remove}
-          /> :
-          null
-        )
-      ) :
-        <div>No entryPoints to display</div>;
-    return (
-      <div className={styles.entryPointsTree}>
-        {EntryPointsName}
+            handleEntryPoint={handleEntryPoint}
+            remove={remove}
+          />
+          : null
+        ))}
+        {!entryPoints.length && <div>No entryPoints to display</div>}
       </div>
     );
   }

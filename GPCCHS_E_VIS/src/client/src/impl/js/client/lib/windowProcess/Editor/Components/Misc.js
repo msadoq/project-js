@@ -1,31 +1,34 @@
 import React from 'react';
-import classNames from 'classnames';
+import classnames from 'classnames';
 import { Glyphicon, Collapse, Table } from 'react-bootstrap';
 import styles from './Misc.css';
 
 
 export default class Misc extends React.Component {
-  constructor(...args) {
-    super(...args);
-    this.state = {};
-  }
+  state = {
+    openL: false,
+    openP: false
+  };
+
+  toggleOpenL = () => this.setState({ openL: !this.state.openL });
+  toggleOpenP = () => this.setState({ openP: !this.state.openP });
+
   render() {
+    const { openL, openP } = this.state;
+
     return (
       <div className={styles.miscContainer}>
-        <a
-          className={
-            this.state.openL ?
-            classNames(styles.collapseEvent, styles.active) :
-            classNames(styles.collapseEvent)}
-          onClick={() => this.setState({ openL: !this.state.openL })}
+        <button
+          className={classnames('btn-link', styles.collapseEvent, { [styles.active]: openL })}
+          onClick={this.toggleOpenL}
         >
           <Glyphicon
             className={styles.glyphMenu}
-            glyph={this.state.openL ? 'menu-down' : 'menu-right'}
+            glyph={openL ? 'menu-down' : 'menu-right'}
           />
-          &nbsp; Links
-        </a>
-        <Collapse in={this.state.openL}>
+          {' '} Links
+        </button>
+        {openL && <Collapse in={openL}>
           <div className={styles.shift}>
             <Table condensed striped style={{ fontSize: '12px' }}>
               <thead>
@@ -54,25 +57,21 @@ export default class Misc extends React.Component {
               </tbody>
             </Table>
           </div>
-        </Collapse>
+        </Collapse>}
         <br />
-        <a
-          className={
-            this.state.openP ?
-            classNames(styles.collapseEvent, styles.active) :
-            classNames(styles.collapseEvent)}
-          onClick={() => this.setState({ openP: !this.state.openP })}
+        <button
+          className={classnames('btn-link', styles.collapseEvent, { [styles.active]: openP })}
+          onClick={this.toggleOpenP}
         >
           <Glyphicon
             className={styles.glyphMenu}
-            glyph={this.state.openP ? 'menu-down' : 'menu-right'}
+            glyph={openP ? 'menu-down' : 'menu-right'}
           />
-          &nbsp; Procedure launcher
-        </a>
-        <Collapse in={this.state.openP}>
-          <div className={styles.shift}>
-          </div>
-        </Collapse>
+          {' '} Procedure launcher
+        </button>
+        {openP && <Collapse in={openP}>
+          <div className={styles.shift} />
+        </Collapse>}
       </div>
     );
   }

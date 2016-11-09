@@ -12,6 +12,7 @@ export function initStore(initialState) {
   );
 
   store = createStore(reducer, initialState, enhancer);
+  return store;
 }
 
 export function getStore() {

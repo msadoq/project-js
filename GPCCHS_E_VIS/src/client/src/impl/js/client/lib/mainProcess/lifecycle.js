@@ -6,8 +6,40 @@ import { updateDomains } from '../store/actions/domains';
 import convertFromStore from './vima/convertFromStore';
 import { removeAllData } from '../store/actions/viewData';
 import { removeAllRequests } from '../store/actions/dataRequests';
-import { setActingOn, setActingOff } from '../mainProcess/storeObserver';
-import { resetPreviousMap } from '../common/data/map/missingRemoteIds';
+import { setActingOn, setActingOff, resetPreviousMap } from './storeObserver';
+
+/**
+ * Launching
+ *
+ * - electron app started
+ * - LIFECYCLE_NOT_STARTED
+ * - open a file picker, read workspace, load in redux
+ * - subscribe storeObserver (windowsObserver, requestData)
+ * - connect ws
+ * - send 'identity' to HSS
+ * - receive 'authenticated' from HSS
+ * - LIFECYCLE_CONNECTED_WITH_HSS
+ * - send domain query to HSS
+ * - receive domain response from HSS
+ * - send timebar init to HSS
+ * - receive 'ready' from HSS
+ * - LIFECYCLE_READY
+ * - first window opening
+ * - LIFECYCLE_STARTED
+ * - first 'requestData'
+ * [- launch data pull]
+ * [- launch cache cleaner]
+ *
+ * Server disconnecting
+ * - remove all requests
+ * - remove all data
+ * - reset previous dataMap
+ * [- stop data pull]
+ * [- stop cache cleaner]
+ *
+ * Server reconnecting
+ * - ...
+ */
 
 export const LIFECYCLE_NOT_STARTED = 'LIFECYCLE_NOT_STARTED';
 export const LIFECYCLE_CONNECTED_WITH_HSS = 'LIFECYCLE_CONNECTED_WITH_HSS';

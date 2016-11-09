@@ -6,13 +6,6 @@ import profiling from '../../debug/profiling';
 import operators from '../../operators';
 import structures from '../structures';
 
-let lastMap = {};
-
-// TODO : factorize elsewhere
-export function resetPreviousMap() {
-  lastMap = {};
-}
-
 /**
  * Return the current missing intervals requests list
  *
@@ -33,9 +26,10 @@ export function resetPreviousMap() {
  * }
  *
  * @param dataMap
+ * @param lastMap
  * @return object
  */
-export default function missingRemoteIds(dataMap) {
+export default function missingRemoteIds(dataMap, lastMap) {
   const start = profiling.start();
   const queries = {};
   _each(dataMap, ({ structureType, dataId, filter, localIds }, remoteId) => {
@@ -73,8 +67,6 @@ export default function missingRemoteIds(dataMap) {
       });
     });
   });
-
-  lastMap = dataMap;
 
   profiling.stop(start, 'missingRemoteIds');
   return queries;

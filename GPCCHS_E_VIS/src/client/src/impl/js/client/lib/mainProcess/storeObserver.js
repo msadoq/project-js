@@ -1,23 +1,26 @@
-import { LIFECYCLE_READY, LIFECYCLE_STARTED, onWindowOpened } from './lifecycle';
+import { constants as globalConstants } from 'common';
 import debug from '../common/debug/mainDebug';
-import { getStatus as getAppStatus } from '../store/selectors/hsc';
-import { getStore } from '../store/mainStore';
-import requestData from '../common/data/request';
+import { LIFECYCLE_READY, LIFECYCLE_STARTED, onWindowOpened } from './lifecycle';
+import { getStatus as getAppStatus, getLastCacheInvalidation } from '../store/selectors/hsc';
 import windowsObserver from './windows/observer';
+import dataMapGenerator from '../common/data/map/visibleRemoteIds';
+import request from '../common/data/request';
+import invalidate from '../common/data/invalidate';
 
 const logger = debug('mainProcess:storeObserver');
 
 let lastKnownAppStatus = null;
 let windowAlreadyOpened = false;
+let lastMap = {};
 let actingOnData = false;
 
+export const resetPreviousMap = () => (lastMap = {});
 export const setActingOn = () => (actingOnData = true);
 export const setActingOff = () => (actingOnData = false);
 export const isActing = () => actingOnData;
 
-export default function storeObserver() {
+export default function storeObserver(store) {
   logger.verbose('storeObserver called');
-  const store = getStore();
   const state = store.getState();
   const dispatch = store.dispatch;
 
@@ -45,11 +48,24 @@ export default function storeObserver() {
     });
   }
 
-  // data sync is done only if windows was opened at least one time and if dispatched action not
-  // come from requestData()
-  if (windowAlreadyOpened === true && !isActing()) {
+  // following is done only while not playing and if windows was opened at least one time
+  if (!isActing() && windowAlreadyOpened === true) {
     setActingOn();
-    requestData(state, dispatch);
+
+    const dataMap = dataMapGenerator(state);
+
+    // data requests to HSS
+    request(state, dispatch, dataMap, lastMap);
+
+    // cache invalidation (only at a certain frequency)
+    const lastCacheInvalidation = getLastCacheInvalidation(state);
+    if (Date.now() - lastCacheInvalidation >= globalConstants.CACHE_INVALIDATION_FREQUENCY) {
+      invalidate(state, dispatch, dataMap);
+    }
+
+    // persist dataMap for next call
+    lastMap = dataMap;
+
     setTimeout(setActingOff, 0); // timeout added to avoid data observer update
   }
 }

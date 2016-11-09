@@ -152,13 +152,6 @@ cp $LOC/target/dependencies/lib/so/libgpin_sessionLibrary_stub.so.${GPCCTC_VERSI
   $LOC/target/dependencies/lib/so/libgpin_sessionLibrary.so.${GPCCTC_VERSION}
 
 
-##### Document API Stub Environment #####
-
-# Use of documentApi stub instead of real documentApi
-cp $LOC/target/dependencies/lib/so/libgpcccm_l_cml_documentApiTest.so.${GPCCTC_VERSION} \
-  $LOC/target/dependencies/lib/so/libgpds_documentAPI.so.${GPCCTC_VERSION}
-
-
 ###### FMD Environment ##### -- useless here
 
 

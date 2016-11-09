@@ -1,5 +1,5 @@
-import React from 'react';
-import classNames from 'classnames';
+import React, { PropTypes } from 'react';
+import classnames from 'classnames';
 import {
   Glyphicon,
   Collapse,
@@ -18,107 +18,74 @@ import SelectFontStyle from './SelectFontStyle';
 
 export default class PlotAxis extends React.Component {
   static propTypes = {
-    idAxe: React.PropTypes.number,
-    label: React.PropTypes.string,
-    unit: React.PropTypes.string,
-    min: React.PropTypes.number,
-    max: React.PropTypes.number,
-    autoLimits: React.PropTypes.bool,
-    tickStep: React.PropTypes.number,
-    autoTick: React.PropTypes.bool,
-    showTicks: React.PropTypes.bool,
-    showTickLabels: React.PropTypes.bool,
-    isLogarithmic: React.PropTypes.bool,
-    showAxis: React.PropTypes.bool,
-    handlePlotAxes: React.PropTypes.func,
-    style: React.PropTypes.object
+    idAxe: PropTypes.number,
+    label: PropTypes.string,
+    unit: PropTypes.string,
+    min: PropTypes.number,
+    max: PropTypes.number,
+    autoLimits: PropTypes.bool,
+    tickStep: PropTypes.number,
+    autoTick: PropTypes.bool,
+    showTicks: PropTypes.bool,
+    showTickLabels: PropTypes.bool,
+    isLogarithmic: PropTypes.bool,
+    showAxis: PropTypes.bool,
+    handlePlotAxes: PropTypes.func,
+    style: PropTypes.object
   }
-  constructor(...args) {
-    super(...args);
-    this.state = {
-      label: this.props.label,
-      unit: this.props.unit,
-      min: this.props.min,
-      max: this.props.max,
-      autoLimits: this.props.autoLimits,
-      tickStep: this.props.tickStep,
-      autoTick: this.props.autoTick,
-      showTicks: this.props.showTicks,
-      showTickLabels: this.props.showTickLabels,
-      isLogarithmic: this.props.isLogarithmic,
-      showAxis: this.props.showAxis
-    };
-    this.handleShow = this.handleShow.bind(this);
-    this.handleLabel = this.handleLabel.bind(this);
-    this.handleMin = this.handleMin.bind(this);
-    this.handleMax = this.handleMax.bind(this);
-    this.handleUnit = this.handleUnit.bind(this);
-    this.handleAutoLimit = this.handleAutoLimit.bind(this);
-    this.handleAutoTick = this.handleAutoTick.bind(this);
-    this.handleTickStep = this.handleTickStep.bind(this);
-    this.handleShowTicks = this.handleShowTicks.bind(this);
-    this.handleTicksLabel = this.handleTicksLabel.bind(this);
-    this.handleLogarithmic = this.handleLogarithmic.bind(this);
-    this.handleAxisStyle = this.handleAxisStyle.bind(this);
-    this.handleAlign = this.handleAlign.bind(this);
-  }
-  handleAxisStyle(field, value) {
-    this.props.handlePlotAxes(this.props.idAxe, `style.${field}`, value);
-  }
-  handleAlign(val) {
-    this.props.handlePlotAxes(this.props.idAxe, 'style.align', val);
-  }
-  handleShow(val) {
-    this.props.handlePlotAxes(this.props.idAxe, 'showAxis', val === 'ON');
-  }
-  handleLabel(e) {
-    this.props.handlePlotAxes(this.props.idAxe, 'label', e.target.value);
-  }
-  handleMin(e) {
-    this.props.handlePlotAxes(this.props.idAxe, 'min', e.target.value);
-  }
-  handleMax(e) {
-    this.props.handlePlotAxes(this.props.idAxe, 'max', e.target.value);
-  }
-  handleUnit(e) {
-    this.props.handlePlotAxes(this.props.idAxe, 'unit', e.target.value);
-  }
-  handleAutoLimit(val) {
-    this.props.handlePlotAxes(this.props.idAxe, 'autoLimits', val === 'ON');
-  }
-  handleAutoTick(val) {
-    this.props.handlePlotAxes(this.props.idAxe, 'autoTick', val === 'ON');
-  }
-  handleTickStep(e) {
-    this.props.handlePlotAxes(this.props.idAxe, 'tickStep', e.target.value);
-  }
-  handleShowTicks(val) {
-    this.props.handlePlotAxes(this.props.idAxe, 'showTicks', val === 'ON');
-  }
-  handleTicksLabel(val) {
-    this.props.handlePlotAxes(this.props.idAxe, 'showTickLabels', val === 'ON');
-  }
-  handleLogarithmic(val) {
-    this.props.handlePlotAxes(this.props.idAxe, 'isLogarithmic', val === 'ON');
-  }
+
+  state = {
+    open: false
+  };
+
+  handleAxisStyle = (field, value) => this.props.handlePlotAxes(this.props.idAxe, `style.${field}`, value);
+  handleAlign = val => this.props.handlePlotAxes(this.props.idAxe, 'style.align', val);
+  handleShow = val => this.props.handlePlotAxes(this.props.idAxe, 'showAxis', val === 'ON');
+  handleLabel = e => this.props.handlePlotAxes(this.props.idAxe, 'label', e.target.value);
+  handleMin = e => this.props.handlePlotAxes(this.props.idAxe, 'min', e.target.value);
+  handleMax = e => this.props.handlePlotAxes(this.props.idAxe, 'max', e.target.value);
+  handleUnit = e => this.props.handlePlotAxes(this.props.idAxe, 'unit', e.target.value);
+  handleAutoLimit = val => this.props.handlePlotAxes(this.props.idAxe, 'autoLimits', val === 'ON');
+  handleAutoTick = val => this.props.handlePlotAxes(this.props.idAxe, 'autoTick', val === 'ON');
+  handleTickStep = e => this.props.handlePlotAxes(this.props.idAxe, 'tickStep', e.target.value);
+  handleShowTicks = val => this.props.handlePlotAxes(this.props.idAxe, 'showTicks', val === 'ON');
+  handleTicksLabel = val => this.props.handlePlotAxes(this.props.idAxe, 'showTickLabels', val === 'ON');
+  handleLogarithmic = val => this.props.handlePlotAxes(this.props.idAxe, 'isLogarithmic', val === 'ON');
+  toggleOpen = () => this.setState({ open: !this.state.open });
+
   render() {
+    const {
+      open
+    } = this.state;
+    const {
+      label,
+      unit,
+      min,
+      max,
+      autoLimits,
+      tickStep,
+      autoTick,
+      showTicks,
+      showTickLabels,
+      isLogarithmic,
+      showAxis,
+      style
+    } = this.props;
+
     return (
       <div className={styles.AxesTreeSecLvl}>
-        <a
-          className={
-            this.state.open ?
-            classNames(styles.collapseEvent, styles.active) :
-            classNames(styles.collapseEvent)}
-          onClick={() => this.setState({ open: !this.state.open })}
+        <button
+          className={classnames('btn-link', styles.collapseEvent, { [styles.active]: open })}
+          onClick={this.toggleOpen}
         >
           <Glyphicon
             className={styles.glyphMenu}
-            glyph={this.state.open ? 'menu-down' : 'menu-right'}
+            glyph={open ? 'menu-down' : 'menu-right'}
           />
-          &nbsp;{this.props.label}
-        </a>
-        <Collapse in={this.state.open}>
-          <div className={classNames(styles.shift, styles.mt5)}>
+          {' '}{this.props.label}
+        </button>
+        {open && <Collapse in={open}>
+          <div className={classnames(styles.shift, styles.mt5)}>
             <Form horizontal>
               <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalName">
                 <Col componentClass={ControlLabel} xs={4} className={styles.formLabel}>
@@ -128,7 +95,7 @@ export default class PlotAxis extends React.Component {
                   <FormControl
                     type="text"
                     className={styles.input_xsmall}
-                    value={this.props.label}
+                    value={label}
                     onChange={this.handleLabel}
                   />
                 </Col>
@@ -151,10 +118,10 @@ export default class PlotAxis extends React.Component {
                 <Col xs={8}>
                   <SelectFontStyle
                     update={this.handleAxisStyle}
-                    bold={this.props.style.bold}
-                    italic={this.props.style.italic}
-                    underline={this.props.style.underline}
-                    strikeout={this.props.style.strikeOut}
+                    bold={style.bold}
+                    italic={style.italic}
+                    underline={style.underline}
+                    strikeout={style.strikeOut}
                   />
                 </Col>
               </FormGroup>
@@ -179,7 +146,7 @@ export default class PlotAxis extends React.Component {
                 <Col xs={8}>
                   <SelectButton
                     size="xsmall"
-                    active={this.props.style.align}
+                    active={style.align}
                     buttons={[
                       { label: 'left', icon: 'alignLeft' },
                       { label: 'center', icon: 'alignCenter' },
@@ -197,7 +164,7 @@ export default class PlotAxis extends React.Component {
                   <ToggleButton
                     on={'ON'}
                     off={'OFF'}
-                    default={(this.props.showAxis === true) ? 'ON' : 'OFF'}
+                    default={(showAxis === true) ? 'ON' : 'OFF'}
                     size="xsmall"
                     styleOn="primary"
                     styleOff="warning"
@@ -213,7 +180,7 @@ export default class PlotAxis extends React.Component {
                   <FormControl
                     type="number"
                     className={styles.input_xsmall}
-                    value={this.props.min}
+                    value={min}
                     onChange={this.handleMin}
                   />
                 </Col>
@@ -226,7 +193,7 @@ export default class PlotAxis extends React.Component {
                   <FormControl
                     type="number"
                     className={styles.input_xsmall}
-                    value={this.props.max}
+                    value={max}
                     onChange={this.handleMax}
                   />
                 </Col>
@@ -239,7 +206,7 @@ export default class PlotAxis extends React.Component {
                   <FormControl
                     type="text"
                     className={styles.input_xsmall}
-                    value={this.props.unit}
+                    value={unit}
                     onChange={this.handleUnit}
                   />
                 </Col>
@@ -252,7 +219,7 @@ export default class PlotAxis extends React.Component {
                   <ToggleButton
                     on={'ON'}
                     off={'OFF'}
-                    default={(this.props.autoLimits === true) ? 'ON' : 'OFF'}
+                    default={(autoLimits === true) ? 'ON' : 'OFF'}
                     size="xsmall"
                     styleOn="primary"
                     styleOff="warning"
@@ -268,7 +235,7 @@ export default class PlotAxis extends React.Component {
                   <ToggleButton
                     on={'ON'}
                     off={'OFF'}
-                    default={(this.props.autoTick === true) ? 'ON' : 'OFF'}
+                    default={(autoTick === true) ? 'ON' : 'OFF'}
                     size="xsmall"
                     styleOn="primary"
                     styleOff="warning"
@@ -284,7 +251,7 @@ export default class PlotAxis extends React.Component {
                   <FormControl
                     type="number"
                     className={styles.input_xsmall}
-                    value={this.props.tickStep}
+                    value={tickStep}
                     onChange={this.handleTickStep}
                   />
                 </Col>
@@ -297,7 +264,7 @@ export default class PlotAxis extends React.Component {
                   <ToggleButton
                     on={'ON'}
                     off={'OFF'}
-                    default={(this.props.showTicks === true) ? 'ON' : 'OFF'}
+                    default={(showTicks === true) ? 'ON' : 'OFF'}
                     size="xsmall"
                     styleOn="primary"
                     styleOff="warning"
@@ -313,7 +280,7 @@ export default class PlotAxis extends React.Component {
                   <ToggleButton
                     on={'ON'}
                     off={'OFF'}
-                    default={(this.props.showTickLabels === true) ? 'ON' : 'OFF'}
+                    default={(showTickLabels === true) ? 'ON' : 'OFF'}
                     size="xsmall"
                     styleOn="primary"
                     styleOff="warning"
@@ -329,7 +296,7 @@ export default class PlotAxis extends React.Component {
                   <ToggleButton
                     on={'ON'}
                     off={'OFF'}
-                    default={(this.props.isLogarithmic === true) ? 'ON' : 'OFF'}
+                    default={(isLogarithmic === true) ? 'ON' : 'OFF'}
                     size="xsmall"
                     styleOn="primary"
                     styleOff="warning"
@@ -339,7 +306,7 @@ export default class PlotAxis extends React.Component {
               </FormGroup>
             </Form>
           </div>
-        </Collapse>
+        </Collapse>}
       </div>
     );
   }

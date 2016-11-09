@@ -1,4 +1,5 @@
-const zmq = require('../io/zmq');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const zmq = require('../zmq');
 const { encode, decode } = require('../protobuf');
 const constants = require('../constants');
 const async = require('async');

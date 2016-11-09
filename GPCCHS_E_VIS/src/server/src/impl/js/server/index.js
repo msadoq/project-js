@@ -6,7 +6,6 @@ const debug = require('./lib/io/debug')('startup');
 const exit = require('exit');
 const app = require('./lib/express');
 const http = require('http');
-const zmq = require('./lib/io/zmq');
 const primus = require('./lib/websocket/primus');
 const onOpen = require('./lib/controllers/client/onOpen');
 const { onClose } = require('./lib/controllers/client/onClose');
@@ -26,7 +25,9 @@ const errorHandler = require('./lib/utils/errorHandler');
 const tbStub = require('./lib/stubs/tb');
 
 // eslint-disable-next-line import/no-extraneous-dependencies
-const { monitoring } = require('common');
+const zmq = require('common/zmq');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const monitoring = require('common/monitoring');
 
 monitoring.start();
 
@@ -125,7 +126,7 @@ zmq.open({
   }
 
   if (process.env.STUB_DC_ON === 'on') {
-    const dc = cp.fork(`${__dirname}/lib/stubs/dc.js`);
+    const dc = cp.fork(`${__dirname}/../../../../../common/src/main/js/common/stubs/dc.js`);
     dc.on('message', msg => debug.info('HSS got DC message: ', msg));
     /* dcStub((launchStubError) => {
       if (launchStubError) {

@@ -1,4 +1,5 @@
-import { intervals as intervalManager } from 'common';
+
+import intervalManager from 'common/intervals';
 
 export default function retrieveNeededIntervals(knownInterval, interval) {
   return (knownInterval)

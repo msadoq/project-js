@@ -1,6 +1,7 @@
 require('./test');
 const remoteId = require('./remoteId');
-import { constants as globalConstants } from 'common';
+
+import globalConstants from 'common/constants';
 
 describe('utils/remoteId', () => {
   const dataId = {

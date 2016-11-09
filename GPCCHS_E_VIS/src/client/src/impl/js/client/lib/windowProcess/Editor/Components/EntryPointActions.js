@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Glyphicon, FormGroup, InputGroup, FormControl, Button, Col } from 'react-bootstrap';
-import classNames from 'classnames';
+import classnames from 'classnames';
 import styles from './EntryPointActions.css';
 
 /*
@@ -14,31 +14,23 @@ export default class EntryPointActions extends React.Component {
     /*
       changeSearch prend en parametre le filtre (chaine de caractères) à appliquer.
     */
-    changeSearch: React.PropTypes.func,
-    addEntryPoint: React.PropTypes.func
+    changeSearch: PropTypes.func,
+    addEntryPoint: PropTypes.func
   }
-  constructor(...args) {
-    super(...args);
-    this.state = {};
-    this.searchName = this.searchName.bind(this);
-    this.addEntryPoint = this.addEntryPoint.bind(this);
-  }
+
   /*
     Fonction appelée lorsque la valeur du filtre de recherche est modifiée.
     Parametre e : évenement detecté (click)
   */
-  searchName(e) {
-    this.props.changeSearch(e.target.value);
-  }
+  searchName = e => this.props.changeSearch(e.target.value);
   /*
     Fonction appelée lorsque le bouton d'ajout d'entryPoint est cliqué.
     @TODO : Ajouter un entryPoint par défaut au composant racine
             qui contient dans ses states la liste des entryPoints
             Cela necessite d'ajouter une fonction de callback aux props de ce composant
   */
-  addEntryPoint() {
-    this.props.addEntryPoint();
-  }
+  addEntryPoint = () => this.props.addEntryPoint();
+
   render() {
     return (
       <div
@@ -54,7 +46,7 @@ export default class EntryPointActions extends React.Component {
               </InputGroup.Addon>
             </InputGroup>
           </Col>
-          <Col xs={4} className={classNames(styles.noPadding, 'text-right')}>
+          <Col xs={4} className={classnames(styles.noPadding, 'text-right')}>
             <Button bsSize="small" onClick={this.addEntryPoint}>
               <Glyphicon glyph="plus" />
             </Button>

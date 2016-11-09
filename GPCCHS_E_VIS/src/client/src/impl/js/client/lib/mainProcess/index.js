@@ -1,4 +1,5 @@
-import { monitoring } from 'common';
+import monitoring from 'common/monitoring';
+
 import parameters from '../common/parameters';
 import debug from '../common/debug/mainDebug';
 import installExtensions from './installExtensions';

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import PlotEditorContainer from './Components/PlotEditorContainer';
 import TextEditorContainer from './Components/TextEditorContainer';
 
-const InvalidConfiguration = props => <div> unknown view type or invalid configuration: </div>;
+const InvalidConfiguration = () => <div> unknown view type or invalid configuration: </div>;
 // TODO dedicated component
 
 export default class Editor extends Component {
@@ -13,7 +13,8 @@ export default class Editor extends Component {
     closeEditor: PropTypes.func,
   };
   render() {
-    const configuration = this.props.configuration;
+    const { configuration } = this.props;
+
     if (!configuration) {
       return <InvalidConfiguration />;
     }

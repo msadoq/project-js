@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { SketchPicker } from 'react-color';
 
 /*
@@ -12,8 +12,8 @@ import { SketchPicker } from 'react-color';
 */
 export default class ColorPicker extends React.Component {
   static propTypes = {
-    color: React.PropTypes.string,
-    onChange: React.PropTypes.func
+    color: PropTypes.string,
+    onChange: PropTypes.func
   }
   constructor(...args) {
     super(...args);

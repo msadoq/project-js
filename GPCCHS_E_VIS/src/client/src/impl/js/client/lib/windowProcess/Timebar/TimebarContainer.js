@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { Col } from 'react-bootstrap';
 import { updateVisuWindow, addAndMountTimeline, unmountTimeline,
@@ -7,6 +8,7 @@ import styles from './Timebar.css';
 import Timebar from './Timebar';
 import Lefttab from './Lefttab';
 import TimebarControls from './TimebarControls';
+import Timesetter from './Timesetter';
 
 
 class TimebarContainer extends Component {
@@ -26,7 +28,9 @@ class TimebarContainer extends Component {
   }
 
   state = {
-    timelinesVerticalScroll: 0
+    timelinesVerticalScroll: 0,
+    displayTimesetter: false,
+    timesetterCursor: null
   };
 
   onTimelinesVerticalScroll = (e, el) => {
@@ -67,19 +71,25 @@ class TimebarContainer extends Component {
     e.preventDefault();
   }
 
+  toggleTimesetter = (e) => {
+    e.preventDefault();
+    if (e.currentTarget.tagName !== e.target.tagName) return;
+    const { displayTimesetter } = this.state;
+    this.setState({
+      displayTimesetter: !displayTimesetter,
+      timesetterCursor: e.currentTarget.getAttribute('cursor')
+    });
+  }
+
   render() {
-    const { timelinesVerticalScroll } = this.state;
+    const { displayTimesetter, timesetterCursor,
+      timelinesVerticalScroll, resizingWindow } = this.state;
     let { height } = this.state;
     const { updateVisuWindowAction, timelines, timebarId,
       visuWindow, focusedPage, timebarName,
       addAndMountTimelineAction, unmountTimelineAction,
       updatePlayingStateAction, updateSpeedAction, timebar
     } = this.props;
-
-    let hrKlasses = styles.resizeTimebarContainer;
-    if (this.state.resizingWindow) {
-      hrKlasses += ` ${styles.resizingTimebarContainer}`;
-    }
 
     let minHeight;
     if (timelines.length < 6) {
@@ -94,13 +104,34 @@ class TimebarContainer extends Component {
       height = minHeight;
     }
 
+    let timesetter;
+    if (displayTimesetter) {
+      timesetter = (<Timesetter
+        visuWindow={visuWindow}
+        onChange={updateVisuWindowAction}
+        timebarId={timebarId}
+        cursor={timesetterCursor || 'all'}
+        onClose={this.toggleTimesetter}
+      />);
+    }
+
     return (
       <div
         ref={(el) => { this.el = el; }}
         style={{ flex: '0 0 auto', height: `${height}px` }}
       >
+        {timesetter}
         <Col xs={12} style={{ paddingBottom: 18 }}>
-          <div><hr onMouseDown={this.resizeWindow} className={hrKlasses} /></div>
+          <div>
+            <hr
+              onMouseDown={this.resizeWindow}
+              className={
+                classnames(
+                  styles.resizeTimebarContainer,
+                  (resizingWindow ? styles.resizingTimebarContainer : null))
+              }
+            />
+          </div>
         </Col>
         <TimebarControls
           timebarPlayingState={timebar.playingState}
@@ -122,7 +153,7 @@ class TimebarContainer extends Component {
             onVerticalScroll={this.onTimelinesVerticalScroll}
           />
         </Col>
-        <div className="col-xs-9">
+        <Col xs={9}>
           <Timebar
             timebarId={timebarId}
             visuWindow={visuWindow}
@@ -131,8 +162,9 @@ class TimebarContainer extends Component {
             onChange={updateVisuWindowAction}
             verticalScroll={timelinesVerticalScroll}
             onVerticalScroll={this.onTimelinesVerticalScroll}
+            displayTimesetter={this.toggleTimesetter}
           />
-        </div>
+        </Col>
       </div>
     );
   }

@@ -1,4 +1,5 @@
 import moment from 'moment';
+import classnames from 'classnames';
 import React, { Component } from 'react';
 import styles from './Timebar.css';
 import TimebarScale from './TimebarScale';
@@ -9,9 +10,9 @@ export default class Timebar extends Component {
 
   static propTypes = {
     timelines: React.PropTypes.array.isRequired,
-    focusedPage: React.PropTypes.object.isRequired,
     visuWindow: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired,
+    displayTimesetter: React.PropTypes.func.isRequired,
     onVerticalScroll: React.PropTypes.func.isRequired,
     timebarId: React.PropTypes.string.isRequired,
     verticalScroll: React.PropTypes.number.isRequired,
@@ -57,7 +58,7 @@ export default class Timebar extends Component {
 
   onMouseUp = (e) => {
     e.preventDefault();
-    const { visuWindow, onChange, focusedPage } = this.props;
+    const { visuWindow, onChange, timebarId } = this.props;
     const lower = this.state.lower || visuWindow.lower;
     const upper = this.state.upper || visuWindow.upper;
     const current = this.state.current || visuWindow.current;
@@ -73,7 +74,7 @@ export default class Timebar extends Component {
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
     return onChange(
-      focusedPage.timebarId,
+      timebarId,
       {
         lower: Math.trunc(lower),
         upper: Math.trunc(upper),
@@ -224,25 +225,52 @@ export default class Timebar extends Component {
   }
 
   onWheel = (e) => {
-    if (!e.ctrlKey) {
-      return this.props.onVerticalScroll(e, this.timelinesEl);
-    }
     e.preventDefault();
     const { timeBeginning, timeEnd } = this.state;
+    if (e.ctrlKey) {
+      const { onChange, timebarId } = this.props;
+      let { lower, upper, current } = this.props.visuWindow;
+      const viewportOffsetLeft = e.currentTarget.getBoundingClientRect().left;
+      const percentOffsetWithLeft = (viewportOffsetLeft - e.pageX) / e.currentTarget.clientWidth;
+      const cursorMs = timeBeginning + ((timeEnd - timeBeginning) * -percentOffsetWithLeft);
+      const coeff = e.deltaY > 0 ? -1 : 1;
 
-    const viewportOffsetLeft = e.currentTarget.getBoundingClientRect().left;
-    const viewportOffsetRight = e.currentTarget.getBoundingClientRect().right;
-    const percentOffsetWithLeft = (viewportOffsetLeft - e.pageX) / e.currentTarget.clientWidth;
-    const percentOffsetWithRight = (viewportOffsetRight - e.pageX) / e.currentTarget.clientWidth;
+      lower += coeff * ((cursorMs - lower) / 5);
+      upper += coeff * ((cursorMs - upper) / 5);
+      current += coeff * ((cursorMs - current) / 5);
 
-    const cursorMs = timeBeginning + ((timeEnd - timeBeginning) * -percentOffsetWithLeft);
-    const coeff = (e.deltaY > 0 ? 0.15 : -0.15);
-    const offsetLeftMs = coeff * ((cursorMs - timeBeginning) * percentOffsetWithLeft);
-    const offsetRightMs = coeff * ((timeEnd - cursorMs) * percentOffsetWithRight);
+      onChange(
+        timebarId,
+        {
+          lower: Math.trunc(lower),
+          upper: Math.trunc(upper),
+          current: Math.trunc(current)
+        }
+      );
+    } else {
+      const viewportOffsetLeft = e.currentTarget.getBoundingClientRect().left;
+      const viewportOffsetRight = e.currentTarget.getBoundingClientRect().right;
+      const percentOffsetWithLeft = (viewportOffsetLeft - e.pageX) / e.currentTarget.clientWidth;
+      const percentOffsetWithRight = (viewportOffsetRight - e.pageX) / e.currentTarget.clientWidth;
 
+      const coeff = (e.deltaY > 0 ? 0.15 : -0.15);
+      const offsetLeftMs = coeff * ((timeEnd - timeBeginning) * percentOffsetWithLeft);
+      const offsetRightMs = coeff * ((timeEnd - timeBeginning) * percentOffsetWithRight);
+
+      this.setState({
+        timeBeginning: timeBeginning + offsetLeftMs,
+        timeEnd: timeEnd + offsetRightMs
+      });
+    }
+  }
+
+  updateCursorTime = (e) => {
+    e.stopPropagation();
+    const { timeEnd, timeBeginning } = this.state;
+    const offsetPx = e.pageX - this.el.getBoundingClientRect().left;
+    const cursorMs = timeBeginning + ((timeEnd - timeBeginning) * (offsetPx / this.el.offsetWidth));
     this.setState({
-      timeBeginning: timeBeginning + offsetLeftMs,
-      timeEnd: timeEnd + offsetRightMs,
+      formatedFullDate: moment(cursorMs).format('D MMMM YYYY HH[:]mm[:]ss[.]SSS')
     });
   }
 
@@ -282,7 +310,7 @@ export default class Timebar extends Component {
       } else if ((this.state.timeEnd - this.state.timeBeginning) > (1000 * 60 * 4)) {
         return date.format('HH[:]mm[:]ss');
       }
-      return date.format('HH[:]mm[:]ss SSS');
+      return date.format('HH[:]mm[:]ss.SSS');
     }
 
     if ((this.state.timeEnd - this.state.timeBeginning) > (1000 * 60 * 60 * 6)) {
@@ -290,7 +318,7 @@ export default class Timebar extends Component {
     } else if ((this.state.timeEnd - this.state.timeBeginning) > (1000 * 60 * 4)) {
       return date.format('MM[-]DD HH[:]mm[:]ss');
     }
-    return date.format('MM[-]DD HH[:]mm[:]ss SSS');
+    return date.format('MM[-]DD HH[:]mm[:]ss.SSS');
   }
 
   rePosition = (side) => {
@@ -335,9 +363,9 @@ export default class Timebar extends Component {
   render() {
     const {
         dragging, resizing,
-        timeBeginning, timeEnd
+        timeBeginning, timeEnd, formatedFullDate
     } = this.state;
-    const { visuWindow, timelines } = this.props;
+    const { visuWindow, timelines, displayTimesetter } = this.props;
 
     const lower = this.state.lower || visuWindow.lower;
     const upper = this.state.upper || visuWindow.upper;
@@ -345,45 +373,68 @@ export default class Timebar extends Component {
 
     const calc = this.calculate();
 
-    let klasses = styles.viewport;
-    if (dragging) klasses += ` ${styles.viewportDragging}`;
-    if (resizing) klasses += ` ${styles.viewportResizing}`;
-
     let arrowRight;
     let arrowLeft;
     if (upper <= timeBeginning) {
-      arrowLeft = <button className={`btn btn-sm btn-primary ${styles.arrowLeft}`} onClick={this.rePosition.bind(null, 'left')} />;
+      arrowLeft = <button className={classnames('btn', 'btn-sm', 'btn-primary', styles.arrowLeft)} onClick={this.rePosition.bind(null, 'left')} />;
     }
     if (lower >= timeEnd) {
-      arrowRight = <button className={`btn btn-sm btn-primary ${styles.arrowRight}`} onClick={this.rePosition.bind(null, 'right')} />;
+      arrowRight = <button className={classnames('btn', 'btn-sm', 'btn-primary', styles.arrowRight)} onClick={this.rePosition.bind(null, 'right')} />;
     }
 
     return (
-      <div className={`${styles.viewportWrapper}`} ref={(el) => { this.el = el; }}>
+      <div
+        className={styles.viewportWrapper}
+        ref={(el) => { this.el = el; }}
+        onMouseMove={this.updateCursorTime}
+      >
+        {formatedFullDate ? <span className={styles.formatedFullDate}>{formatedFullDate}</span> : ''}
         <div
-          className={`${styles.viewportContainer}`}
+          className={styles.viewportContainer}
           onWheel={this.onWheel}
+          onDoubleClick={displayTimesetter}
         >
           { arrowLeft }{ arrowRight }
           <span className={styles.timeBeginning}>{this.formatDate(timeBeginning)}</span>
           <span className={styles.timeEnd}>{this.formatDate(timeEnd)}</span>
           <div
-            className={klasses}
+            className={
+              classnames(
+                styles.viewport,
+                (dragging ? styles.viewportDragging : null),
+                (resizing ? styles.viewportResizing : null)
+              )
+            }
             style={{
               left: `${calc.lowerPercentOffset}%`,
               width: `${calc.selectedPercentWidth}%`
             }}
             onMouseDown={this.onMouseDown}
           >
-            <span cursor="lower" className={styles.lower} onMouseDown={this.onMouseDownResize} />
             <span
+              cursor="lower"
+              className={styles.lower}
+              onMouseDown={this.onMouseDownResize}
+              onDoubleClick={displayTimesetter}
+            />
+            <span
+              cursor="current"
               className={styles.current}
               onMouseDown={this.onMouseDownNavigate}
               style={{ left: `${calc.currentPercentOffset}%` }}
+              onDoubleClick={displayTimesetter}
             />
-            <span cursor="upper" className={styles.upper} onMouseDown={this.onMouseDownResize} />
+            <span
+              cursor="upper"
+              className={styles.upper}
+              onMouseDown={this.onMouseDownResize}
+              onDoubleClick={displayTimesetter}
+            />
             <span className={styles.lowerFormattedTime}>{this.formatDate(lower, true)}</span>
-            <span className={styles.currentFormattedTime} style={{ left: `${calc.currentPercentOffset}%` }}>
+            <span
+              className={styles.currentFormattedTime}
+              style={{ left: `${calc.currentPercentOffset}%` }}
+            >
               {this.formatDate(current, true)}
             </span>
             <span className={styles.upperFormattedTime}>{this.formatDate(upper, true)}</span>

@@ -1,7 +1,5 @@
-import {
-  websocket as Primus,
-  constants as globalConstants,
-} from 'common';
+import Primus from 'common/websocket';
+import globalConstants from 'common/constants';
 import debug from '../../common/debug/windowDebug';
 import { getStore } from '../../store/windowStore';
 import controller from './windowController';

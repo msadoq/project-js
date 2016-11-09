@@ -1,4 +1,5 @@
-import { constants as globalConstants } from 'common';
+
+import globalConstants from 'common/constants';
 
 import { updateStatus } from '../store/actions/hss';
 import { updateStatus as updateAppStatus } from '../store/actions/hsc';

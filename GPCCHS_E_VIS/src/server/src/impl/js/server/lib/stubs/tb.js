@@ -1,4 +1,5 @@
-const zmq = require('../io/zmq');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const zmq = require('common/zmq');
 const debug = require('../io/debug')('stub:tb');
 const {
   head: _head,

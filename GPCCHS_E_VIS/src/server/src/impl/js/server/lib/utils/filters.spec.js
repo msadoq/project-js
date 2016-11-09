@@ -4,7 +4,8 @@ const {
   assign: _assign,
 } = require('lodash');
 const { applyFilters } = require('./filters');
-const { constants: globalConstants } = require('common');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const globalConstants = require('common/constants');
 
 describe('utils/filters', () => {
   describe('applyFilters', () => {

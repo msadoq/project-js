@@ -1,5 +1,5 @@
 import debug from 'debug';
-import { debug as debugHelper } from 'common';
+import debugHelper from 'common/debug';
 
 // return debug helper with node implementation
 module.exports = debugHelper(debug);

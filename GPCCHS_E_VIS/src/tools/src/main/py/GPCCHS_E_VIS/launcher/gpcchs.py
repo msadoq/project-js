@@ -45,8 +45,34 @@ class GPCCHS(object):
     _feature_name = 'gpcchs_e_vis_launcher-default.xml'
     _container_pid_file = '{}gpinde-isis-desktopx.demo-:0-container.pid'
 
-    _cmd = 'gpcctc_l_cnt_isisStartContainer_cmd -p {0} --cd {1}{0}'
-    _cmd_args = '-param command {} -param argc 2 -param arg1 {} -param arg2 {}'
+    _startContainerCmd = 'gpcctc_l_cnt_isisStartContainer_cmd -p {0} --cd {1}{0}'
+    _hssPath = '/usr/share/isis/lib/js/gpcchs_e_vis_launcher/server'
+    _hssRunCmd = 'NODE_ENV=production DEBUG=GPCCHS:* LEVEL=INFO HTTP_LOGS=0 PORT={} ZMQ_GPCCDC_PUSH=tcp://127.0.0.1:{} ZMQ_GPCCDC_PULL=tcp://127.0.0.1:{} ZMQ_VIMA_TIMEBAR=tcp://127.0.0.1:{} ZMQ_VIMA_TIMEBAR_INIT=tcp://127.0.0.1:{} ZMQ_VIMA_STUB_TIMEBAR= STUB_DC_ON=off STUB_TB_ON=off MONITORING=off PROFILING=off node --max_old_space_size=8000 index'
+    _hscPath = '/usr/share/isis/lib/js/gpcchs_e_vis_launcher/client'
+    _hscRunCmd = './lpisis_gpcchs_e_clt --HSS=http://127.0.0.1:{} --FMD_ROOT=$FMD_ROOT_DIR --OPEN={} --PROFILING=off'
+
+    @property
+    def _hss_run_cmd(self):
+        """
+        Property holding HSS run command-line as list
+        """
+        return self._hssRunCmd.format(
+            self._hssPort,
+            self._dcPushPort,
+            self._dcPullPort,
+            self._tbPullPort,            
+            self._tbPushPort
+        ).split()
+
+    @property
+    def _hsc_run_cmd(self):
+        """
+        Property holding HSC run command-line as list
+        """
+        return self._hscRunCmd.format(
+            self._hssPort,
+            self._workspace
+        ).split()
 
     @property
     def _container_pid(self):
@@ -55,16 +81,20 @@ class GPCCHS(object):
         """
         if not self.__container_pid:
             filename = self._container_pid_file.format(self._container_dir)
-            with open(filename) as hdl:
+            try:
+                hdl = open(filename,'r')
+            except IOError:
+                print("GPCCHS Getting desktopx container process ID failed, cannot read file:",filename)
+            else:            
                 self.__container_pid, _ = hdl.read().split()
         return self.__container_pid
 
     @property
-    def _cmd_base(self):
+    def _container_cmd_base(self):
         """
-        Property holding command-line as list
+        Property holding container base command-line as list
         """
-        return self._cmd.format(
+        return self._startContainerCmd.format(
             self._container_pid,
             self._container_dir
         )
@@ -72,30 +102,30 @@ class GPCCHS(object):
     @property
     def _ccreate_cmd(self):
         """
-        Property holding command-line as list
+        Property holding container create command-line as list
         """
         return '{} -- ccreate {}'.format(
-            self._cmd_base,
+            self._container_cmd_base,
             self._feature_name
         ).split()
 
     @property
     def _cactivate_cmd(self):
         """
-        Property holding command-line as list
+        Property holding container activate command-line as list
         """
         return '{} -- cactivate {}'.format(
-            self._cmd_base,
+            self._container_cmd_base,
             self._feature_id
         ).split()
 
     @property
     def _cstart_cmd(self):
         """
-        Property holding command-line as list
+        Property holding container start command-line as list
         """
         return '{} -- cstart {}'.format(
-            self._cmd_base,
+            self._container_cmd_base,
             self._feature_id
         ).split()
 
@@ -108,7 +138,13 @@ class GPCCHS(object):
         # generated
         # Start of user code __init__
         self._context = {}
-        self._options = options
+        self._timebarName = 'TB1'
+        self._hssPort = None
+        self._dcPushPort = None
+        self._dcPullPort = None
+        self._tbPushPort = None
+        self._tbPullPort = None
+        self._fmdRoot = None
         self._feature_id = None
         self.__container_pid = None
         self._workspace = options.workspace
@@ -121,16 +157,25 @@ class GPCCHS(object):
         # generated
         # Start of user code __del__
         self._context = None
-        self._options = None
+        self._timebarName = None
+        self._hssPort = None
+        self._dcPushPort = None
+        self._dcPullPort = None
+        self._tbPushPort = None
+        self._tbPullPort = None
+        self._fmdRoot = None        
         self._workspace = None
         self._feature_id = None
         self.__container_pid = None
         # End of user code
 
     # Start of user code ProtectedOperZone
-    def _run_ccreate(self):
+    def _create_feature(self):
         """
-        Ensure feature is properly created into isisStartContainer
+        Create the feature defined in self._feature_name
+        
+        :return: Zero if success, -1 if error
+        :rtype: integer
         """
 
         def extract_eid(stdout):
@@ -151,13 +196,16 @@ class GPCCHS(object):
             self._feature_id = extract_eid(proc.stdout.read().decode('utf-8'))
             print('Feature instance created under ID {}.'.format(self._feature_id))
         except subprocess.CalledProcessError as error:
-            print("GPCCHS Launcher CalledProcessError Error", error)
+            print("GPCCHS Launcher Feature creation process error:", error)
             return -1
         return 0
 
-    def _run_cactivate(self):
+    def _activate_feature(self):
         """
         Activate the feature (must be created first)
+        
+        :return: Zero if success, -1 if error
+        :rtype: integer
         """
         try:
             print('Activating feature ID {}...'.format(self._feature_id))
@@ -173,13 +221,16 @@ class GPCCHS(object):
                     if 'Error=1' in std:
                         raise IsisContainerError(std)
         except subprocess.CalledProcessError as error:
-            print("GPCCHS Launcher CalledProcessError Error", error)
+            print("GPCCHS Launcher Feature activation process error:", error)
             return -1
         return 0
 
-    def _run_cstart(self):
+    def _start_feature(self):
         """
         Start the feature (must be activated first)
+        
+        :return: Zero if success, -1 if error
+        :rtype: integer
         """
         try:
             print('Starting feature ID {}...'.format(self._feature_id))
@@ -195,14 +246,48 @@ class GPCCHS(object):
                     if 'Error=1' in std:
                         raise IsisContainerError(std)
         except subprocess.CalledProcessError as error:
-            print("GPCCHS Launcher CalledProcessError Error", error)
+            print("GPCCHS Launcher Feature start process error:", error)
             return -1
         return 0
 
-    def _run_cmd(self, cmd):
+    def _exec_cmd(self, cmd, stdstreams):
         """
-        Run a command
+        Execute a command and wait its end to return its output streams
+        
+        :param cmd: Command to run
+        :type cmd: string
+        :param stdstreams: Command outputs 'out' and 'error' streams
+        :type stdstreams: dict with 'out' and 'error' strings
+        :return: Command return code or None if command subprocess creation failed
+        :rtype: integer
         """
+        proc = None
+        try:
+            print('Executing command : {}'.format(cmd))
+            proc = subprocess.Popen(
+                cmd.split(),
+                env=os.environ,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE
+            )
+            proc.wait()
+            stdstreams['out'] = proc.stdout.read().decode('utf-8')
+            stdstreams['error'] = proc.stderr.read().decode('utf-8')
+        except subprocess.CalledProcessError as error:
+            print("GPCCHS Launcher Command execution error:", error)
+            return None
+        return proc.returncode
+
+    def _run_process(self, cmd):
+        """
+        Run a process
+        
+        :param cmd: Command to run the process
+        :type cmd: string
+        :return: Created process or None is process creation failed
+        :rtype: subprocess.Popen
+        """
+        proc = None
         try:
             print('Running command : {}'.format(cmd))
             proc = subprocess.Popen(
@@ -217,28 +302,57 @@ class GPCCHS(object):
                     if 'Error=1' in std:
                         raise IsisContainerError(std)
         except subprocess.CalledProcessError as error:
-            print("GPCCHS Launcher CalledProcessError Error", error)
-            return -1
-        return 0
+            print("GPCCHS Launcher Process creation error:", error)
+            return proc
+        return proc
+    
+    def _read_ports_numbers(self,filepath,portslist):
+        """
+        Read and return a list of port from a given file
+        """
+        try:
+            readFile = open(filepath,'r')
+        except IOError:
+            print("GPCCHS Ports list reading fail from file:",filepath)
+        else:
+            for line in readFile.readlines():
+                portslist.append(line.strip('\n \t'))
+            readFile.close()
 
     def run(self):
         """
-        Entry point
+        Main function
 
-        Execute a call to `startContainer` through `subprocess` module.
+        Perform necessary operation to run GPCCHS
 
-        :return: A Process instance
-        :rtype: subprocess.Popen
+        :return: Zero if success and -1 if error
+        :rtype: integer
         """
-        rc = 0
-        if not self._feature_id:
-            rc = self._run_ccreate()
-        if rc == 0 and self._feature_id:
-            rc = self._run_cactivate()
-        if rc == 0 and self._feature_id:
-            rc = self._run_cstart()
+        rc = -1
+        stdstreams = dict(out=None,error=None)
+        portsNums = []
+        rc = self._exec_cmd("localslot --workdir /tmp --type gpvima",stdstreams)
         if rc == 0:
-            rc = self._run_cmd("node --max_old_space_size=8000 index")
+            self._read_ports_numbers(stdstreams['out'].strip('\n \t'),portsNums)
+            if len(portsNums) >= 5:
+                self._hssPort = portsNums[0]
+                self._dcPushPort = portsNums[1]
+                self._dcPullPort = portsNums[2]
+                self._tbPushPort = portsNums[3]
+                self._tbPullPort = portsNums[4]
+                print("HSS run command:",' '.join(self._hss_run_cmd))
+                print("HSC run command:",' '.join(self._hsc_run_cmd))
+                os.environ['PORT_NUM_TIMEBAR_PULL'] = self._tbPullPort
+                os.environ['PORT_NUM_TIMEBAR_PUSH_{}'.format(self._timebarName)] = self._tbPushPort
+                print("Timebar listening on port ",os.environ['PORT_NUM_TIMEBAR_PULL'])
+                print("Timebar TB1 push on port ",os.environ['PORT_NUM_TIMEBAR_PUSH_TB1'])
+                if rc == 0:
+                    if not self._feature_id:
+                        rc = self._create_feature()
+                    if rc == 0 and self._feature_id:
+                        rc = self._activate_feature()
+                    if rc == 0 and self._feature_id:
+                        rc = self._start_feature()
         return rc
 
 
@@ -249,7 +363,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Run visualization application')
     parser.add_argument(
         "workspace",
-        help="A folder path to open as workspace"
+        help="The FMD path of the workspace to open"
     )
     exit(GPCCHS(parser.parse_args()).run())
     # End of user code

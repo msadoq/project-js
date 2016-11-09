@@ -1,7 +1,9 @@
 const debug = require('../../io/debug')('controllers:onDomainData');
-const { constants: globalConstants } = require('common');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const globalConstants = require('common/constants');
 const { sendToMain } = require('../../websocket/sendToMain');
-const { decode } = require('../../protobuf');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { decode } = require('common/protobuf');
 const { setDomains } = require('../../utils/domains');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
 

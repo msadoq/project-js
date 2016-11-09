@@ -13,9 +13,9 @@ export default class EditorNavbar extends React.Component {
     items: PropTypes.array,
     closeEditor: PropTypes.func
   }
-  constructor(...args) {
-    super(...args);
-    this.state = { activeTab: this.props.currentDisplay };
+
+  componentWillMount() {
+    this.setState({ activeTab: this.props.currentDisplay });
   }
   /*
     Fonction appelée lorsqu'un item a recu un évenement click.
@@ -25,24 +25,27 @@ export default class EditorNavbar extends React.Component {
     this.setState({ activeTab: tab });
     this.props.changeCurrentDisplay(tab);
   }
+
   render() {
-    const items = this.props.items.map((item, index) => (
-      <NavItem
-        key={index}
-        className={(this.state.activeTab === index) ?
-          [styles.navItem, styles.itemActif] :
-          styles.navItem
-        }
-        eventKey={item}
-        onClick={() => this.onNavItemClick(index)}
-      >
-        {item}
-      </NavItem>
-    ));
+    const { items, closeEditor } = this.props;
+    const { activeTab } = this.state;
+
     return (
       <Nav className={styles.navbar} bsStyle="tabs">
-        {items}
-        <NavItem className={[styles.navItem, styles.close]} onClick={this.props.closeEditor}>
+        {items.map((item, index) => (
+          <NavItem
+            key={index}
+            className={(activeTab === index) ?
+              [styles.navItem, styles.itemActif] :
+              styles.navItem
+            }
+            eventKey={item}
+            onClick={() => this.onNavItemClick(index)}
+          >
+            {item}
+          </NavItem>
+        ))}
+        <NavItem className={[styles.navItem, styles.close]} onClick={closeEditor}>
           <Glyphicon glyph="remove-circle" />
         </NavItem>
       </Nav>

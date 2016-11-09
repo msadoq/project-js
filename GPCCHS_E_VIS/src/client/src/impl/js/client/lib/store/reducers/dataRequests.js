@@ -1,5 +1,6 @@
 import { reduce as _reduce, set as _set, omit as _omit } from 'lodash';
-import { intervals as intervalManager } from 'common';
+
+import intervalManager from 'common/intervals';
 import * as types from '../types';
 
 export default function requests(state = {}, action) {

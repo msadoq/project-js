@@ -91,6 +91,7 @@
     "deep-diff": "^0.3.4",
     "dotenv-safe": "^2.3.2",
     "electron-debug": "^1.0.1",
+    "html-to-react": "^1.2.2",
     "lodash": "^4.16.2",
     "moment": "^2.15.2",
     "mustache": "^2.2.1",
@@ -105,13 +106,14 @@
     "react-redux": "^4.4.5",
     "react-select": "^1.0.0-rc.2",
     "react-sizeme": "^2.2.0",
-    "react-stockcharts": "^0.6.0-beta.5",
+    "react-stockcharts": "^0.6.0-beta.7",
     "redux": "^3.6.0",
     "redux-electron-store": "^0.3.13",
     "redux-thunk": "^2.1.0",
     "reselect": "^2.5.4",
     "source-map-support": "^0.4.2",
-    "updeep": "^1.0.0"
+    "updeep": "^1.0.0",
+    "zmq": "^2.15.3"
   },
   "devEngines": {
     "node": "6.x",

@@ -1,10 +1,11 @@
 const debug = require('../../io/debug')('controllers:onResponse');
-const { encode, decode } = require('../../protobuf');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { encode, decode } = require('common/protobuf');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
 const { sendToMain } = require('../../websocket/sendToMain');
-const constants = require('../../constants');
 const { isEqual: _isEqual } = require('lodash');
-const { constants: globalConstants } = require('common');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const globalConstants = require('common/constants');
 
 /**
  * Triggered on incoming DcResponse message from DC.
@@ -20,7 +21,7 @@ const { constants: globalConstants } = require('common');
  * @param buffer
  */
 
-const protobufSuccess = encode('dc.dataControllerUtils.Status', { status: constants.STATUS_SUCCESS });
+const protobufSuccess = encode('dc.dataControllerUtils.Status', { status: globalConstants.STATUS_SUCCESS });
 
 const response = (websocketHandler, queryIdBuffer, statusBuffer, reasonBuffer) => {
   debug.verbose('called');

@@ -1,11 +1,13 @@
 const debug = require('../../io/debug')('controllers:onMessage');
-const { decode } = require('../../protobuf');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { decode } = require('common/protobuf');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const globalConstants = require('common/constants');
 const { onResponse } = require('./onResponse');
 const { onDomainData } = require('./onDomainData');
 const { onTimebasedArchiveData } = require('./onTimebasedArchiveData');
 const { onTimebasedPubSubData } = require('./onTimebasedPubSubData');
 const errorHandler = require('../../utils/errorHandler');
-const constants = require('../../constants');
 const { slice: _slice } = require('lodash');
 
 /**
@@ -27,16 +29,16 @@ const message = (
   const header = decode('dc.dataControllerUtils.Header', headerBuffer);
 
   switch (header.messageType) {
-    case constants.MESSAGETYPE_RESPONSE:
+    case globalConstants.MESSAGETYPE_RESPONSE:
       errorHandler('onResponse', () => responseHandler(args[0], args[1], args[2]));
       break;
-    case constants.MESSAGETYPE_DOMAIN_DATA:
+    case globalConstants.MESSAGETYPE_DOMAIN_DATA:
       errorHandler('onDomainData', () => domainDataHandler(args[0], args[1]));
       break;
-    case constants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA:
+    case globalConstants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA:
       errorHandler('onTimebasedArchiveData', () => timebasedArchiveDataHandler(args[0], args[1], args[2], ..._slice(args, 3)));
       break;
-    case constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA:
+    case globalConstants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA:
       errorHandler('onTimebasedPubSubData', () => timebasedPubSubDataHandler(args[0], args[1], ..._slice(args, 2)));
       break;
     default:

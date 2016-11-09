@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Col } from 'react-bootstrap';
 import ToggleButton from './Buttons/ToggleButton';
 
@@ -12,40 +12,33 @@ import ToggleButton from './Buttons/ToggleButton';
 */
 export default class SelectFontStyle extends React.Component {
   static propTypes = {
-    update: React.PropTypes.func.isRequired,
-    bold: React.PropTypes.bool,
-    italic: React.PropTypes.bool,
-    underline: React.PropTypes.bool,
-    strikeOut: React.PropTypes.bool,
+    update: PropTypes.func.isRequired,
+    bold: PropTypes.bool,
+    italic: PropTypes.bool,
+    underline: PropTypes.bool,
+    strikeOut: PropTypes.bool,
   }
-  constructor(...args) {
-    super(...args);
-    this.state = { name: '' };
-    this.handleBold = this.handleBold.bind(this);
-    this.handleItalic = this.handleItalic.bind(this);
-    this.handleUnderline = this.handleUnderline.bind(this);
-    this.handleStrikeOut = this.handleStrikeOut.bind(this);
-  }
-  handleBold(state) {
-    this.props.update('bold', state === 'ON');
-  }
-  handleItalic(state) {
-    this.props.update('italic', state === 'ON');
-  }
-  handleUnderline(state) {
-    this.props.update('unederline', state === 'ON');
-  }
-  handleStrikeOut(state) {
-    this.props.update('strikeOut', state === 'ON');
-  }
+  state = { name: '' };
+
+  handleBold = state => this.props.update('bold', state === 'ON');
+  handleItalic = state => this.props.update('italic', state === 'ON');
+  handleUnderline = state => this.props.update('unederline', state === 'ON');
+  handleStrikeOut = state => this.props.update('strikeOut', state === 'ON');
+
   render() {
+    const {
+      bold,
+      italic,
+      underline,
+      strikeOut
+    } = this.props;
     return (
       <div className="row">
         <Col xs={3}>
           <ToggleButton
             on="B"
             off="B"
-            default={(this.props.bold ? 'ON' : 'OFF')}
+            default={(bold ? 'ON' : 'OFF')}
             size="xsmall"
             styleOn="primary"
             styleOff="default"
@@ -56,7 +49,7 @@ export default class SelectFontStyle extends React.Component {
           <ToggleButton
             on="I"
             off="I"
-            default={(this.props.italic ? 'ON' : 'OFF')}
+            default={(italic ? 'ON' : 'OFF')}
             size="xsmall"
             styleOn="primary"
             styleOff="default"
@@ -67,7 +60,7 @@ export default class SelectFontStyle extends React.Component {
           <ToggleButton
             on={'U'}
             off={'U'}
-            default={(this.props.underline ? 'ON' : 'OFF')}
+            default={(underline ? 'ON' : 'OFF')}
             size="xsmall"
             styleOn="primary"
             styleOff="default"
@@ -78,7 +71,7 @@ export default class SelectFontStyle extends React.Component {
           <ToggleButton
             on={'S'}
             off={'S'}
-            default={(this.props.strikeOut ? 'ON' : 'OFF')}
+            default={(strikeOut ? 'ON' : 'OFF')}
             size="xsmall"
             styleOn="primary"
             styleOff="default"

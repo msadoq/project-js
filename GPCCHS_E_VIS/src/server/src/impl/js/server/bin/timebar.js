@@ -3,7 +3,8 @@
 require('dotenv-safe').load();
 
 const debug = require('../lib/io/debug')('stub:timebar');
-const zmq = require('../lib/io/zmq');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const zmq = require('common/zmq');
 const parseArgs = require('minimist'); // eslint-disable-line  no-extraneous-dependencies
 
 const exit = require('exit');

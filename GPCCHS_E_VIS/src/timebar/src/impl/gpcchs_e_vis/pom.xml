@@ -53,20 +53,6 @@
       </dependency>
       <dependency>
         <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
-        <artifactId>gpcccm_l_cml_documentApiTest</artifactId>
-        <type>isis-cpp-module-dependency</type>
-        <classifier>unix_dev</classifier>
-        <version>${gpcccm.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>fr.cnes.lpisis.gpcc</groupId>
-        <artifactId>gpcccm_l_cml_testCatalogs</artifactId>
-        <type>zip</type>
-        <classifier>resources</classifier>
-        <version>${gpcccm.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
         <artifactId>gpcccm_l_cml_sessionLibraryWrapper</artifactId>
         <type>isis-cpp-module-dependency</type>
         <classifier>unix_dev</classifier>
@@ -92,6 +78,13 @@
         <classifier>unix_dev</classifier>
         <version>${gpcc.version}</version>
       </dependency>
+      <!--dependency>
+        <groupId>fr.cnes.lpisis.gpcc</groupId>
+        <artifactId>gpcchs_e_vis_timebar_testCatalogs</artifactId>
+        <type>zip</type>
+        <classifier>resources</classifier>
+        <version>${gpcc.version}</version>
+      </dependency-->
 
       <!-- Dependencies on GPCCTC -->
 
@@ -189,6 +182,22 @@
         <classifier>resources</classifier>
         <version>${gpds.version}</version>
       </dependency>
+      
+      <!--dependency>
+        <groupId>fr.cnes.lpisis.gpcc</groupId>
+        <artifactId>gpcc_catalogs</artifactId>
+        <type>zip</type>
+        <classifier>resources</classifier>
+        <version>${gpcc.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>fr.cnes.lpisis.gpin</groupId>
+        <artifactId>gpin_catalogs</artifactId>
+        <type>zip</type>
+        <classifier>resources</classifier>
+        <version>${gpin.version}</version>
+      </dependency-->
 
       <!-- Dependencies on GPCC -->
 

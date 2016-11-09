@@ -1,49 +1,54 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { FormControl, Col, Row } from 'react-bootstrap';
-import classNames from 'classnames';
+import classnames from 'classnames';
 import select from './Select.css';
 import styles from './EntryPointDetails.css';
 
 export default class FilterData extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      filter: 'monitoringState',
-      operator: 'inf',
-      value: 10
-    };
-    this.handleFilter = this.handleFilter.bind(this);
-    this.handleOperator = this.handleOperator.bind(this);
-    this.handleValue = this.handleValue.bind(this);
-  }
-  handleFilter(e) {
+  static propTypes = {
+    onChange: PropTypes.func.isRequired,
+    filterOptions: PropTypes.node.isRequired
+  };
+
+  state = {
+    filter: 'monitoringState',
+    operator: 'inf',
+    value: 10
+  };
+
+  handleFilter = (e) => {
     this.setState({ filter: e.target.value });
     this.props.onChange(e.target.value, this.state.operator, this.state.value);
   }
-  handleOperator(e) {
+
+  handleOperator = (e) => {
     this.setState({ operator: e.target.value });
     this.props.onChange(this.state.filter, e.target.value, this.state.value);
   }
-  handleValue(e) {
+
+  handleValue = (e) => {
     this.setState({ value: e.target.value });
     this.props.onChange(this.state.filter, this.state.operator, e.target.value);
   }
+
   render() {
+    const { filterOptions } = this.props;
+
     return (
       <Row>
         <Col xs={6} style={ColStyle1}>
           <FormControl
             componentClass="select"
-            className={classNames(select.xsmall)}
+            className={classnames(select.xsmall)}
             onChange={this.handleFilter}
           >
-            {this.props.filterOptions}
+            {filterOptions}
           </FormControl>
         </Col>
         <Col xs={3} style={ColStyle2}>
           <FormControl
             componentClass="select"
-            className={classNames(select.xsmall)}
+            className={classnames(select.xsmall)}
             onChange={this.handleOperator}
           >
             <option value="equals"> = </option>
@@ -59,7 +64,7 @@ export default class FilterData extends React.Component {
         <Col xs={3} style={ColStyle3}>
           <FormControl
             type="text"
-            className={classNames(styles.input_xsmall)}
+            className={classnames(styles.input_xsmall)}
             onChange={this.handleValue}
           />
         </Col>

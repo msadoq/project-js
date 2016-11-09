@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Col, Row } from 'react-bootstrap';
-import { constants as globalConstants } from 'common';
+
+import globalConstants from 'common/constants';
 import styles from './TimebarControls.css';
 
 export default class TimebarControls extends Component {
@@ -55,7 +56,6 @@ export default class TimebarControls extends Component {
 
   tick() {
     const { updateVisuWindow, timebarId, timebarSpeed } = this.props;
-    // const { lower, upper, current } = this.props.visuWindow;
     this.interval = setTimeout(
       () => {
         const { lower, upper, current } = this.props.visuWindow;
@@ -89,16 +89,30 @@ export default class TimebarControls extends Component {
         <Col xsOffset={3} xs={9}>
           <Row>
             <Col xs={12}>
-              <ul className={`pull-right ${styles.controlsUl}`}>
+              <ul className={`${styles.controlsUl}`}>
                 <li className={styles.controlsLi}>
                   <button
                     className={allButtonsKlasses}
                     onClick={this.changeSpeed}
                     title="Decrease speed"
                   >
-                    <span
-                      dangerouslySetInnerHTML={{ __html: (timebarSpeed < 1 ? `${timebarSpeed}X` : '&#9668;&#9668;') }}
-                    />
+                    &#9668;&#9668;
+                  </button>
+                </li>
+                <li className={styles.controlsLi}>
+                  <button
+                    className={`btn btn-xs btn-default ${styles.controlButton}`}
+                  >
+                    {`${timebarSpeed}X`}
+                  </button>
+                </li>
+                <li className={styles.controlsLi}>
+                  <button
+                    className={allButtonsKlasses}
+                    onClick={this.changeSpeed.bind(null, 'up')}
+                    title="Increase speed"
+                  >
+                    &#9658;&#9658;
                   </button>
                 </li>
                 <li className={styles.controlsLi}>
@@ -109,17 +123,6 @@ export default class TimebarControls extends Component {
                   >
                     <span
                       dangerouslySetInnerHTML={{ __html: (timebarPlayingState === 'play' ? '&#9613;&#9613;' : '&#9658;') }}
-                    />
-                  </button>
-                </li>
-                <li className={styles.controlsLi}>
-                  <button
-                    className={allButtonsKlasses}
-                    onClick={this.changeSpeed.bind(null, 'up')}
-                    title="Increase speed"
-                  >
-                    <span
-                      dangerouslySetInnerHTML={{ __html: (timebarSpeed > 1 ? `${timebarSpeed}X` : '&#9658;&#9658;') }}
                     />
                   </button>
                 </li>

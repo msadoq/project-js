@@ -1,39 +1,40 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
 import styles from './ToggleButton.css';
 
 export default class ToggleButton extends React.Component {
   static propTypes = {
-    on: React.PropTypes.string,
-    off: React.PropTypes.string,
-    default: React.PropTypes.oneOf(['ON', 'OFF']),
-    size: React.PropTypes.string,
-    styleOn: React.PropTypes.string,
-    styleOff: React.PropTypes.string,
-    onChange: React.PropTypes.func.isRequired
+    on: PropTypes.string,
+    off: PropTypes.string,
+    default: PropTypes.oneOf(['ON', 'OFF']),
+    size: PropTypes.string,
+    styleOn: PropTypes.string,
+    styleOff: PropTypes.string,
+    onChange: PropTypes.func.isRequired
   }
-  constructor(props) {
-    super(props);
-    this.state = {
+
+  componentWillMount() {
+    this.setState({
       onoff: this.props.default,
       size: this.props.size,
       onoffLabel: this.props.default
-    };
-    this.toogleMe = this.toogleMe.bind(this);
+    });
   }
-  toogleMe() {
+
+  handleToggle = () => {
     const newVal = this.state.onoff === 'ON' ? 'OFF' : 'ON';
     this.setState({
       onoff: newVal
     });
     this.props.onChange(newVal);
   }
+
   render() {
     return (
       <Button
         bsSize="xsmall"
         bsStyle={(this.state.onoff === 'ON') ? this.props.styleOn : this.props.styleOff}
-        onClick={this.toogleMe}
+        onClick={this.handleToggle}
         className={this.state.size === 'xsmall' ? styles.xsmall : null}
       >
         {(this.state.onoff === 'ON') ? this.props.on : this.props.off}

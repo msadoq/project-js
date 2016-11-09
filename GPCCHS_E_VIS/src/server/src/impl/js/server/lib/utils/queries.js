@@ -1,8 +1,10 @@
 const debug = require('../io/debug')('utils:queries');
 const registeredCallbacks = require('../utils/registeredCallbacks');
 const registeredQueries = require('../utils/registeredQueries');
-const { encode } = require('../protobuf');
-const constants = require('../constants');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { encode } = require('common/protobuf');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const globalConstants = require('common/constants');
 const execution = require('./execution')('query');
 
 let idIndex = 0;
@@ -21,7 +23,7 @@ function errorCallback(respErr) {
  * Protobuf optimization
  */
 const protobufQueryHeader = encode('dc.dataControllerUtils.Header', {
-  messageType: constants.MESSAGETYPE_TIMEBASED_QUERY,
+  messageType: globalConstants.MESSAGETYPE_TIMEBASED_QUERY,
 });
 
 const dataIdProtobufs = {}; // TODO envisage cache cleaning by adding timestamp on creation

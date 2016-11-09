@@ -1,8 +1,33 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Form, FormGroup, FormControl, Col, ControlLabel } from 'react-bootstrap';
 import Select from 'react-select';
 import styles from './EntryPointDetails.css';
 import select from './Select.css';
+
+export const unitOptions = [
+  { value: 'ns', label: 'ns' },
+  { value: 'us', label: 'us' },
+  { value: 'ms', label: 'ms' },
+  { value: 's', label: 's' },
+  { value: 'min', label: 'min' },
+  { value: 'h', label: 'h' },
+  { value: 'day', label: 'day' },
+  { value: 'year', label: 'year' },
+  { value: 'century', label: 'century' },
+  { value: 'V', label: 'V' }
+];
+
+export const formatOptions = [
+  { value: 'decimal', label: 'decimal' },
+  { value: 'hexadecimal', label: 'hexadecimal' },
+  { value: 'binary', label: 'binary' }
+];
+
+export const axesOptions = [
+  { value: 'time', label: 'time' },
+  { value: 'frequency', label: 'frequency' },
+  { value: 'temperature', label: 'temperature' }
+];
 
 /*
   EntryPointConnectedData représente une donnée connectée à un entryPoint.
@@ -13,51 +38,20 @@ import select from './Select.css';
 */
 export default class EntryPointConnectedData extends React.Component {
   static propTypes = {
-    connectedData: React.PropTypes.object,
-    handleChange: React.PropTypes.func
+    connectedData: PropTypes.object,
+    handleChange: PropTypes.func
   }
-  constructor(...args) {
-    super(...args);
-    this.state = {
-      axisID: this.props.connectedData.axisId,
-      /* Liste des unités possibles, utilisé dans le composant react-select */
-      unitOptions: [
-        { value: 'ns', label: 'ns' },
-        { value: 'us', label: 'us' },
-        { value: 'ms', label: 'ms' },
-        { value: 's', label: 's' },
-        { value: 'min', label: 'min' },
-        { value: 'h', label: 'h' },
-        { value: 'day', label: 'day' },
-        { value: 'year', label: 'year' },
-        { value: 'century', label: 'century' },
-        { value: 'V', label: 'V' }
-      ],
-      unitValue: this.props.connectedData.unit,
-      /* Liste des formats possibles, utilisé dans le composant react-select */
-      formatOptions: [
-        { value: 'decimal', label: 'decimal' },
-        { value: 'hexadecimal', label: 'hexadecimal' },
-        { value: 'binary', label: 'binary' }
-      ],
-      formatValue: this.props.connectedData.format,
+  state = {}
 
-      /* TODO : lier les axes avec les axes créés */
-      axesOptions: [
-        { value: 'time', label: 'time' },
-        { value: 'frequency', label: 'frequency' },
-        { value: 'temperature', label: 'temperature' }
-      ],
-      axesValue: this.props.connectedData.axisId
-    };
-    /* Bind des fonctions pour utiliser this à l'interieur */
-    this.handleUnit = this.handleUnit.bind(this);
-    this.handleFormat = this.handleFormat.bind(this);
-    this.handleAxes = this.handleAxes.bind(this);
-    this.handleDigits = this.handleDigits.bind(this);
-    this.handleDomain = this.handleDomain.bind(this);
-    this.handleSession = this.handleSession.bind(this);
-    this.handleName = this.handleName.bind(this);
+  componentWillMount() {
+    const { connectedData } = this.props;
+
+    this.setState({
+      axisID: connectedData.axisId,
+      unitValue: connectedData.unit,
+      formatValue: connectedData.format,
+      axesValue: connectedData.axisId
+    });
   }
   /*
     Toutes les fonctions dont le nom commence par handle sont appelées
@@ -67,28 +61,22 @@ export default class EntryPointConnectedData extends React.Component {
             dans le noeud racine.
     L'utilisation de setState est temporaire, pour voir la mise à jour dans l'IHM.
   */
-  handleUnit(val) {
-    this.props.handleChange('unit', val.value);
-  }
-  handleFormat(val) {
-    this.props.handleChange('format', val.value);
-  }
-  handleAxes(val) {
-    this.setState({ axesValue: val.value });
-  }
-  handleDigits(e) {
-    this.props.handleChange('digits', e.target.value);
-  }
-  handleDomain(e) {
-    this.props.handleChange('domain', e.target.value);
-  }
-  handleSession(e) {
-    this.props.handleChange('session', e.target.value);
-  }
-  handleName(e) {
-    this.props.handleChange('fullName', e.target.value);
-  }
+  handleUnit = val => this.props.handleChange('unit', val.value);
+  handleFormat = val => this.props.handleChange('format', val.value);
+  handleAxes = val => this.setState({ axesValue: val.value });
+  handleDigits = e => this.props.handleChange('digits', e.target.value);
+  handleDomain = e => this.props.handleChange('domain', e.target.value);
+  handleSession = e => this.props.handleChange('session', e.target.value);
+  handleName = e => this.props.handleChange('fullName', e.target.value);
+
   render() {
+    const { connectedData } = this.props;
+    const {
+      format,
+      type,
+      axesValue
+   } = this.state;
+
     return (
       <Form horizontal>
         <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalConnData">
@@ -98,7 +86,7 @@ export default class EntryPointConnectedData extends React.Component {
           <Col xs={9}>
             <FormControl
               type="text"
-              value={this.props.connectedData.fullName}
+              value={connectedData.fullName}
               className={styles.input_xsmall}
               onChange={this.handleName}
               placeholder="no value"
@@ -113,10 +101,10 @@ export default class EntryPointConnectedData extends React.Component {
             <Select
               name="form-field-unit"
               clearable={false}
-              options={this.state.unitOptions}
+              options={unitOptions}
               onChange={this.handleUnit}
               className="has-value"
-              value={this.props.connectedData.unit}
+              value={connectedData.unit}
             />
           </Col>
         </FormGroup>
@@ -128,14 +116,14 @@ export default class EntryPointConnectedData extends React.Component {
             <Select
               name="form-field-format"
               clearable={false}
-              value={this.props.connectedData.format}
-              options={this.state.formatOptions}
+              value={connectedData.format}
+              options={formatOptions}
               onChange={this.handleFormat}
               className="has-value"
             />
           </Col>
         </FormGroup>
-        {(this.state.format === 'decimal') ?
+        {(format === 'decimal') ?
           <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalDigits">
             <Col componentClass={ControlLabel} xs={3} className={styles.formLabel}>
               Digits
@@ -144,7 +132,7 @@ export default class EntryPointConnectedData extends React.Component {
               <FormControl
                 type="number"
                 className={styles.input_xsmall}
-                value={this.props.connectedData.digits}
+                value={connectedData.digits}
                 onChange={this.handleDigits}
               />
             </Col>
@@ -159,7 +147,7 @@ export default class EntryPointConnectedData extends React.Component {
             <FormControl
               type="text"
               className={styles.input_xsmall}
-              value={this.props.connectedData.domain}
+              value={connectedData.domain}
               onChange={this.handleDomain}
               placeholder="no value"
             />
@@ -173,13 +161,13 @@ export default class EntryPointConnectedData extends React.Component {
             <FormControl
               type="text"
               className={styles.input_xsmall}
-              value={this.props.connectedData.session}
+              value={connectedData.session}
               onChange={this.handleSession}
               placeholder="no value"
             />
           </Col>
         </FormGroup>
-        {(this.state.type === 'FDS') ?
+        {(type === 'FDS') ?
           <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalUrl">
             <Col className={styles.formLabel} componentClass={ControlLabel} xs={3}>
               Url
@@ -190,7 +178,7 @@ export default class EntryPointConnectedData extends React.Component {
           </FormGroup>
          : null
         }
-        {(this.state.type === 'FDS') ?
+        {(type === 'FDS') ?
           <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalVersion">
             <Col className={styles.formLabel} componentClass={ControlLabel} xs={3}>
               Version
@@ -209,8 +197,8 @@ export default class EntryPointConnectedData extends React.Component {
             <Select
               name="form-field-axes"
               clearable={false}
-              value={this.state.axesValue}
-              options={this.state.axesOptions}
+              value={axesValue}
+              options={axesOptions}
               onChange={this.handleAxes}
               className="has-value"
             />

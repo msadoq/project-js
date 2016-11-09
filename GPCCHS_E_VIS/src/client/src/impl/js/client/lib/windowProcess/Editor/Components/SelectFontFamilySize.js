@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Col, FormControl, InputGroup } from 'react-bootstrap';
 import styles from './SelectFontFamilySize.css';
 import select from './Select.css';
@@ -9,23 +9,17 @@ import select from './Select.css';
 */
 export default class SelectFontFamilySize extends React.Component {
   static propTypes = {
-    update: React.PropTypes.func.isRequired,
-    font: React.PropTypes.string,
-    size: React.PropTypes.number
+    update: PropTypes.func.isRequired,
+    font: PropTypes.string,
+    size: PropTypes.number
   }
-  constructor(...args) {
-    super(...args);
-    this.state = { name: '' };
-    this.handleFontFamily = this.handleFontFamily.bind(this);
-    this.handleSize = this.handleSize.bind(this);
-  }
-  handleFontFamily(e) {
-    this.props.update('font', e.target.value);
-  }
-  handleSize(e) {
-    this.props.update('size', e.target.value);
-  }
+
+  handleFontFamily = e => this.props.update('font', e.target.value);
+  handleSize = e => this.props.update('size', e.target.value);
+
   render() {
+    const { font, size } = this.props;
+
     return (
       <div className="row">
         <Col xs={6}>
@@ -33,7 +27,7 @@ export default class SelectFontFamilySize extends React.Component {
             componentClass="select"
             className={select.xsmall}
             onChange={this.handleFontFamily}
-            value={this.props.font}
+            value={font}
           >
             <option value="arial">Arial</option>
             <option value="tahoma">Tahoma</option>
@@ -45,7 +39,7 @@ export default class SelectFontFamilySize extends React.Component {
               componentClass="select"
               className={select.xsmall}
               onChange={this.handleSize}
-              value={this.props.size}
+              value={size}
             >
               <option value="10">10</option>
               <option value="12">12</option>

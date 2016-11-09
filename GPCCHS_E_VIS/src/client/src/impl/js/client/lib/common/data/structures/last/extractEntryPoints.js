@@ -1,6 +1,7 @@
 import _reduce from 'lodash/reduce';
 import _first from 'lodash/first';
-import { constants as globalConstants } from 'common';
+
+import globalConstants from 'common/constants';
 
 // import debug from '../../../lib/common/debug/mainDebug';
 import applyDomainsAndTimebar from '../../map/applyDomainsAndTimebar';

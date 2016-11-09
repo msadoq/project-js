@@ -5,7 +5,8 @@ const connectedDataModel = require('../../models/connectedData');
 const { reset: resetDataQueue } = require('../../utils/dataQueue');
 const registeredQueries = require('../../utils/registeredQueries');
 const { createDeleteSubscriptionMessage } = require('../../utils/subscriptions');
-const zmq = require('../../io/zmq');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const zmq = require('common/zmq');
 const { each: _each } = require('lodash');
 const { resetDomains } = require('../../utils/domains');
 

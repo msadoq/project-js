@@ -1,9 +1,10 @@
 // require('../utils/test');
-// const { decode } = require('../protobuf');
+// const { decode } = require('common/protobuf');
 // const subscriptions = require('./subscriptions');
 // const connectedDataModel = require('../models/connectedData');
 // const timebasedDataModel = require('../models/timebasedDataFactory');
-// const { getDataId } = require('../stubs/data');
+// // eslint-disable-next-line import/no-extraneous-dependencies
+const { getDataId } = require('common/stubs/data');
 //
 // describe('subscriptions', () => {
 //   beforeEach(() => {

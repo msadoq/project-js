@@ -7,7 +7,7 @@
   <name>${project.groupId}.${project.artifactId}</name>
   <parent>
     <groupId>fr.cnes.lpisis.gpcc</groupId>
-    <artifactId>gpcchs_e_vis-parent</artifactId>
+    <artifactId>gpcchs_e_vis_timebar-parent</artifactId>
     <version>1.1.0-R7S2-SNAPSHOT</version>
   </parent>
   <properties>
@@ -92,12 +92,6 @@
       <classifier>unix_dev</classifier>
     </dependency>
     <dependency>
-      <groupId>fr.cnes.lpisis.gpcc</groupId>
-      <artifactId>gpcccm_l_cml_testCatalogs</artifactId>
-      <type>zip</type>
-      <classifier>resources</classifier>
-    </dependency>
-    <dependency>
       <groupId>fr.cnes.lpisis.gpcc.cpp</groupId>
       <artifactId>gpcccm_l_cml_apiWrapper</artifactId>
       <type>isis-cpp-bundle</type>
@@ -130,6 +124,13 @@
       <type>isis-cpp-bundle</type>
       <classifier>unix_dev</classifier>
     </dependency>
+
+    <!--dependency>
+      <groupId>fr.cnes.lpisis.gpcc</groupId>
+      <artifactId>gpcchs_e_vis_timebar_testCatalogs</artifactId>
+      <type>zip</type>
+      <classifier>resources</classifier>
+    </dependency-->
 
       <!-- Dependencies on GPIN -->
 

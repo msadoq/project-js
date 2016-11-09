@@ -1,5 +1,6 @@
 const debug = require('../../io/debug')('controllers:onVimaTimeBarUpdate');
-const { constants: globalConstants } = require('common');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const globalConstants = require('common/constants');
 const { sendToMain } = require('../../websocket/sendToMain');
 const {
   each: _each,

@@ -1,9 +1,10 @@
 const { should } = require('../../utils/test');
-const dataStub = require('../../stubs/data');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const dataStub = require('common/stubs/data');
 const { response } = require('./onResponse');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
-const constants = require('../../constants');
-const { constants: globalConstants } = require('common');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const globalConstants = require('common/constants');
 const { sendToTestWs, getMessage, resetMessage } = require('../../stubs/testWebSocket');
 
 describe('controllers/onResponse', () => {

@@ -2,7 +2,8 @@ const Loki = require('lokijs');
 const async = require('async');
 const databaseLokiv1 = require('../lib/io/loki');
 const databaseLokiv2 = new Loki('test.db');
-const { getRemoteId, getReportingParameter } = require('../lib/stubs/data');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { getRemoteId, getReportingParameter } = require('common/stubs/data');
 
 
 const NUMBER_OF_OPERATIONS = 1e3;

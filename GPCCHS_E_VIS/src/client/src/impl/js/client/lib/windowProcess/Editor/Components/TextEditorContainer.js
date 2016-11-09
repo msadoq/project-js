@@ -11,14 +11,4 @@ TextEditorContainer.propTypes = {
   closeEditor: PropTypes.func,
 };
 
-function mapStateToProps(state, { configuration, closeEditor }) {
-  return {
-    entryPoints: configuration.entryPoints,
-    links: configuration.links,
-    defaultRatio: configuration.defaultRatio,
-    content: configuration.content,
-    closeEditor: closeEditor,
-  };
-}
-
-export default connect(mapStateToProps)(TextEditorContainer);
+export default connect()(TextEditorContainer);

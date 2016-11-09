@@ -1,5 +1,5 @@
-import React from 'react';
-import classNames from 'classnames';
+import React, { PropTypes } from 'react';
+import classnames from 'classnames';
 import {
   Glyphicon,
   Collapse,
@@ -30,51 +30,36 @@ import select from './Select.css';
 */
 export default class PlotTab extends React.Component {
   static propTypes = {
-    title: React.PropTypes.string,
-    axes: React.PropTypes.array,
-    markers: React.PropTypes.array,
-    grids: React.PropTypes.array,
-    titleStyle: React.PropTypes.object,
-    handleGrid: React.PropTypes.func,
-    handlePlotTitle: React.PropTypes.func,
-    handlePlotTitleStyle: React.PropTypes.func,
-    handlePlotAxes: React.PropTypes.func,
-    handlePlotMarkers: React.PropTypes.func
+    title: PropTypes.string,
+    axes: PropTypes.array,
+    markers: PropTypes.array,
+    grids: PropTypes.array,
+    titleStyle: PropTypes.object,
+    handleGrid: PropTypes.func,
+    handlePlotTitle: PropTypes.func,
+    handlePlotTitleStyle: PropTypes.func,
+    handlePlotAxes: PropTypes.func,
+    handlePlotMarkers: PropTypes.func
   }
-  constructor(...args) {
-    super(...args);
-    this.state = {};
-    this.handleTitle = this.handleTitle.bind(this);
-    this.handleTitleStyle = this.handleTitleStyle.bind(this);
-    this.handleAlign = this.handleAlign.bind(this);
-    this.handleShow = this.handleShow.bind(this);
-    this.handleWidth = this.handleWidth.bind(this);
-    this.handleLineStyle = this.handleLineStyle.bind(this);
-    this.handleYAxis = this.handleYAxis.bind(this);
-  }
-  handleTitleStyle(field, value) {
-    this.props.handlePlotTitleStyle(field, value);
-  }
-  handleTitle(e) {
-    this.props.handlePlotTitle(e.target.value);
-  }
-  handleWidth(e) {
-    this.props.handleGrid('width', e.target.value);
-  }
-  handleShow(state) {
-    const newState = state === 'ON';
-    this.props.handleGrid('showGrid', newState);
-  }
-  handleAlign(val) {
-    this.props.handlePlotTitleStyle('align', val);
-  }
-  handleLineStyle(val) {
-    this.props.handleGrid('lineStyle', val);
-  }
-  handleYAxis(e) {
-    this.props.handleGrid('yAxisId', e.target.value);
-  }
+  state = {
+    openT: false
+  };
+
+  handleTitleStyle = (field, value) => this.props.handlePlotTitleStyle(field, value);
+  handleTitle = e => this.props.handlePlotTitle(e.target.value);
+  handleWidth = e => this.props.handleGrid('width', e.target.value);
+  handleShow = state => this.props.handleGrid('showGrid', state === 'ON');
+  handleAlign = val => this.props.handlePlotTitleStyle('align', val);
+  handleLineStyle = val => this.props.handleGrid('lineStyle', val);
+  handleYAxis = e => this.props.handleGrid('yAxisId', e.target.value);
+
+  toggleOpenT = () => this.setState({ openT: !this.state.openT });
+  toggleOpenA = () => this.setState({ openA: !this.state.openA });
+  toggleOpenG = () => this.setState({ openG: !this.state.openG });
+  toggleOpenM = () => this.setState({ openM: !this.state.openM });
+
   render() {
+    const { openT, openA, openG, openM } = this.state;
     const axes = this.props.axes.map((axis, key) =>
       <PlotAxis
         key={key}
@@ -113,21 +98,18 @@ export default class PlotTab extends React.Component {
         { /** ********************************************************************** **/
         /** ==============================> TITLE <=============================== **/
         /** ********************************************************************** **/ }
-        <a
-          className={
-            this.state.openT ?
-            classNames(styles.collapseEvent, styles.active) :
-            classNames(styles.collapseEvent)}
-          onClick={() => this.setState({ openT: !this.state.openT })}
+        <button
+          className={classnames('btn-link', styles.collapseEvent, { [styles.active]: openT })}
+          onClick={this.toggleOpenT}
         >
           <Glyphicon
             className={styles.glyphMenu}
             glyph={this.state.openT ? 'menu-down' : 'menu-right'}
           />
-          &nbsp;TITLE
-        </a>
-        <Collapse in={this.state.openT}>
-          <div className={classNames(styles.shift, styles.mt5)}>
+          {' '}TITLE
+        </button>
+        {openT && <Collapse in={openT}>
+          <div className={classnames(styles.shift, styles.mt5)}>
             <Form horizontal>
               <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalName">
                 <Col componentClass={ControlLabel} xs={4} className={styles.formLabel}>
@@ -200,26 +182,23 @@ export default class PlotTab extends React.Component {
               </FormGroup>
             </Form>
           </div>
-        </Collapse>
+        </Collapse>}
         <br />
         { /** ********************************************************************** **/
         /** ==============================> GRID <=============================== **/
         /** ********************************************************************** **/ }
-        <a
-          className={
-            this.state.openG ?
-            classNames(styles.collapseEvent, styles.active) :
-            classNames(styles.collapseEvent)}
-          onClick={() => this.setState({ openG: !this.state.openG })}
+        <button
+          className={classnames('btn-link', styles.collapseEvent, { [styles.active]: openG })}
+          onClick={this.toggleOpenG}
         >
           <Glyphicon
             className={styles.glyphMenu}
-            glyph={this.state.openG ? 'menu-down' : 'menu-right'}
+            glyph={openG ? 'menu-down' : 'menu-right'}
           />
-          &nbsp;GRID
-        </a>
-        <Collapse in={this.state.openG}>
-          <div className={classNames(styles.shift, styles.mt5)}>
+          {' '}GRID
+        </button>
+        {openG && <Collapse in={openG}>
+          <div className={classnames(styles.shift, styles.mt5)}>
             <Form horizontal>
               <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalName">
                 <Col componentClass={ControlLabel} xs={4} className={styles.formLabel}>
@@ -286,51 +265,45 @@ export default class PlotTab extends React.Component {
               </FormGroup>
             </Form>
           </div>
-        </Collapse>
+        </Collapse>}
         <br />
         { /** ********************************************************************** **/
         /** ==============================> AXES <=============================== **/
         /** ********************************************************************** **/ }
-        <a
-          className={
-            this.state.openA ?
-            classNames(styles.collapseEvent, styles.active) :
-            classNames(styles.collapseEvent)}
-          onClick={() => this.setState({ openA: !this.state.openA })}
+        <button
+          className={classnames('btn-link', styles.collapseEvent, { [styles.active]: openA })}
+          onClick={this.toggleOpenA}
         >
           <Glyphicon
             className={styles.glyphMenu}
-            glyph={this.state.openA ? 'menu-down' : 'menu-right'}
+            glyph={openA ? 'menu-down' : 'menu-right'}
           />
-          &nbsp;AXES
-        </a>
-        <Collapse in={this.state.openA}>
+          {' '}AXES
+        </button>
+        {openA && <Collapse in={openA}>
           <div>
             {axes}
           </div>
-        </Collapse>
+        </Collapse>}
         <br />
         { /** ********************************************************************** **/
         /** ==============================> MARKERS <=============================== **/
         /** ********************************************************************** **/ }
-        <a
-          className={
-            this.state.openM ?
-            classNames(styles.collapseEvent, styles.active) :
-            classNames(styles.collapseEvent)}
-          onClick={() => this.setState({ openM: !this.state.openM })}
+        <button
+          className={classnames('btn-link', styles.collapseEvent, { [styles.active]: openM })}
+          onClick={this.toggleOpenM}
         >
           <Glyphicon
             className={styles.glyphMenu}
-            glyph={this.state.openM ? 'menu-down' : 'menu-right'}
+            glyph={openM ? 'menu-down' : 'menu-right'}
           />
-          &nbsp;MARKERS
-        </a>
-        <Collapse in={this.state.openM}>
-          <div className={classNames(styles.shift, styles.mt5)}>
+          {' '}MARKERS
+        </button>
+        {openM && <Collapse in={openM}>
+          <div className={classnames(styles.shift, styles.mt5)}>
             {markers}
           </div>
-        </Collapse>
+        </Collapse>}
       </div>
     );
   }

@@ -1,5 +1,5 @@
+import globalConstants from 'common/constants';
 import { selectData } from './inject';
-import { constants as globalConstants } from 'common';
 
 describe('common/data/inject', () => {
   const payload = { rId1: {}, rId2: {} };

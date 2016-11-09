@@ -1,7 +1,9 @@
 const debug = require('../io/debug')('utils:subscriptions');
 const registeredCallbacks = require('../utils/registeredCallbacks');
-const { encode } = require('../protobuf');
-const constants = require('../constants');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { encode } = require('common/protobuf');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const globalConstants = require('common/constants');
 const flattenDataId = require('./flattenDataId');
 
 let subIdIndex = 0;
@@ -14,13 +16,13 @@ function generateSubId() {
  * Protobuf optimization
  */
 const protobufSubscriptionHeader = encode('dc.dataControllerUtils.Header', {
-  messageType: constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION,
+  messageType: globalConstants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION,
 });
 const protobufSubscriptionAddAction = encode('dc.dataControllerUtils.Action', {
-  action: constants.SUBSCRIPTIONACTION_ADD,
+  action: globalConstants.SUBSCRIPTIONACTION_ADD,
 });
 const protobufSubscriptionDeleteAction = encode('dc.dataControllerUtils.Action', {
-  action: constants.SUBSCRIPTIONACTION_DELETE,
+  action: globalConstants.SUBSCRIPTIONACTION_DELETE,
 });
 
 const dataIdProtobufs = {}; // TODO envisage cache cleaning by adding timestamp on creation

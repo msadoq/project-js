@@ -4,10 +4,9 @@ const {
   get: _get,
   random: _random,
 } = require('lodash');
-const debug = require('../../io/debug')('stub:dc');
-// eslint-disable-next-line import/no-extraneous-dependencies
-const { constants: globalConstants } = require('common');
-const constants = require('../../constants');
+const debug = require('debug');
+const logger = require('../../debug')(debug)('common:stubs:dc');
+const globalConstants = require('../../constants');
 const stubData = require('../data');
 const getPayload = require('./getPayload');
 
@@ -46,7 +45,7 @@ module.exports = function sendArchiveData(
   const payloads = [];
   const now = Date.now();
 
-  if (queryArguments.getLastType === constants.GETLASTTYPE_GET_LAST) {
+  if (queryArguments.getLastType === globalConstants.GETLASTTYPE_GET_LAST) {
     const ts = _random(from, to);
     payloads.push(getPayload(ts, dataId.parameterName));
   } else {
@@ -74,5 +73,5 @@ module.exports = function sendArchiveData(
   });
 
   zmq.push('stubData', buffer);
-  debug.debug(`push ${payloads.length} data from query from: ${new Date(from)} to ${new Date(to)} now`);
+  logger.debug(`push ${payloads.length} data from query from: ${new Date(from)} to ${new Date(to)} now`);
 };

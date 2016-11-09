@@ -1,5 +1,6 @@
 import rangeValues, { select } from './rangeValues';
-import { constants as globalConstants } from 'common';
+
+import globalConstants from 'common/constants';
 
 describe('data/map/rangeValues', () => {
   const payload = { rId1: {}, rId2: {} };

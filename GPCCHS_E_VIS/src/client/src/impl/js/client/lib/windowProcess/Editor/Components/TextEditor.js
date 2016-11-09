@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { Component, PropTypes } from 'react';
 import styles from '../Editor.css';
 import Navbar from './Navbar';
@@ -7,33 +9,41 @@ import EntryPointActions from './EntryPointActions';
 export default class Editor extends Component {
   static propTypes = {
     closeEditor: PropTypes.func.isRequired,
-    entryPoints: PropTypes.array,
-    links: PropTypes.array,
-    defaultRatio: PropTypes.array,
-    content: PropTypes.object,
+    configuration: PropTypes.shape({
+      entryPoints: PropTypes.array,
+      links: PropTypes.array,
+      defaultRatio: PropTypes.object,
+      content: PropTypes.array
+    })
   };
-  constructor(...args) {
-    super(...args);
-    this.state = { currentDisplay: 0, search: '' };
-    this.changeCurrentDisplay = this.changeCurrentDisplay.bind(this);
-    this.changeSearch = this.changeSearch.bind(this);
-  }
+
+  state = { currentDisplay: 0, search: '' };
+
+  changeSearch = s => this.setState({ search: s });
+  changeCurrentDisplay = id => this.setState({ currentDisplay: id });
+
   render() {
+    const { currentDisplay, search } = this.state;
+    const {
+      closeEditor,
+      configuration: { entryPoints }
+    } = this.props;
+
     return (
       <div className={styles.editor}>
         <Navbar
-          currentDisplay={this.state.currentDisplay}
+          currentDisplay={currentDisplay}
           items={['Entry Points', 'Text Editor', 'Miscs']}
           changeCurrentDisplay={this.changeCurrentDisplay}
-          closeEditor={this.props.closeEditor}
+          closeEditor={closeEditor}
         />
         {
-          (this.state.currentDisplay === 0) ?
+          (currentDisplay === 0) ?
             <div>
               <EntryPointActions changeSearch={this.changeSearch} />
               <EntryPointTree
-                entryPoints={this.props.entryPoints}
-                search={this.state.search}
+                entryPoints={entryPoints}
+                search={search}
               />
             </div>
            :
@@ -41,11 +51,5 @@ export default class Editor extends Component {
         }
       </div>
     );
-  }
-  changeSearch(s) {
-    this.setState({ search: s });
-  }
-  changeCurrentDisplay(id) {
-    this.setState({ currentDisplay: id });
   }
 }

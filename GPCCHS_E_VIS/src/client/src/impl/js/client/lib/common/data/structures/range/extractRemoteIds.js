@@ -2,7 +2,8 @@ import _set from 'lodash/set';
 import _get from 'lodash/get';
 import _first from 'lodash/first';
 import _reduce from 'lodash/reduce';
-import { constants as globalConstants } from 'common';
+
+import globalConstants from 'common/constants';
 
 import debug from '../../../debug/mainDebug';
 import applyDomainsAndTimebar from '../../map/applyDomainsAndTimebar';

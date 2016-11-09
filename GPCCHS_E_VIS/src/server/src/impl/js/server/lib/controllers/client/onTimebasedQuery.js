@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-const { constants: globalConstants } = require('common');
+const globalConstants = require('common/constants');
 const {
   each: _each,
   concat: _concat,
@@ -9,12 +9,12 @@ const {
 const connectedDataModel = require('../../models/connectedData');
 const { getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const subscriptionsModel = require('../../models/subscriptions');
-const zmq = require('../../io/zmq');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const zmq = require('common/zmq');
 const { add } = require('../../utils/dataQueue');
 const { createQueryMessage } = require('../../utils/queries');
 const { createAddSubscriptionMessage } = require('../../utils/subscriptions');
 const execution = require('../../utils/execution')('query');
-const constants = require('../../constants');
 
 /**
  * Triggered when the data consumer query for timebased data
@@ -55,7 +55,7 @@ const timebasedQuery = (addToQueue, payload, messageHandler) => {
     // add query arguments depending on the type
     switch (query.type) {
       case globalConstants.DATASTRUCTURETYPE_LAST:
-        queryArguments.getLastType = constants.GETLASTTYPE_GET_LAST;
+        queryArguments.getLastType = globalConstants.GETLASTTYPE_GET_LAST;
         queryArguments.filters = query.filters;
         break;
       case globalConstants.DATASTRUCTURETYPE_RANGE:

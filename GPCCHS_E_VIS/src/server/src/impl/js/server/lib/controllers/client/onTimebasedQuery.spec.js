@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-const { constants: globalConstants } = require('common');
+const globalConstants = require('common/constants');
 const {
   isEmpty: _isEmpty,
   keys: _keys,
@@ -15,9 +15,9 @@ const { clearFactory, addTimebasedDataModel } = require('../../models/timebasedD
 const subscriptionsModel = require('../../models/subscriptions');
 const registeredQueries = require('../../utils/registeredQueries');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
-const dataStub = require('../../stubs/data');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const dataStub = require('common/stubs/data');
 const { addToTestQueue, getMessage, resetMessage } = require('../../stubs/testWebSocket');
-const constants = require('../../constants');
 
 let calls = [];
 const zmqEmulator = (key, payload) => {
@@ -62,12 +62,12 @@ describe('controllers/client/onTimebasedQuery', () => {
   });
   /* const filter1 = {
     fieldName: 'extractedValue',
-    type: constants.FILTERTYPE_GT,
+    type: globalConstants.FILTERTYPE_GT,
     fieldValue: 42,
   };
   const filter2 = {
     fieldName: 'groundDate',
-    type: constants.FILTERTYPE_EQ,
+    type: globalConstants.FILTERTYPE_EQ,
     fieldValue: 42,
   };
   const filterProto1 = dataStub.getFilterProtobuf(filter1);
@@ -77,7 +77,7 @@ describe('controllers/client/onTimebasedQuery', () => {
   const lastQueryArguments = Object.assign(
     {},
     queryArguments,
-    { getLastType: constants.GETLASTTYPE_GET_LAST }
+    { getLastType: globalConstants.GETLASTTYPE_GET_LAST }
   );
   const filters = queryArguments.filters;
   const queryArgumentsProto = dataStub.getQueryArgumentsProtobuf(queryArguments);

@@ -52,7 +52,7 @@ export default class Header extends Component {
 
     return (
       <div className={styles.container}>
-        <div className={`${styles.title} moveHandler`}>
+        <div className={`${styles.title} moveHandler ellipsis`}>
           {title}
         </div>
         <div className={styles.menu}>

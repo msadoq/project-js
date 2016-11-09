@@ -1,5 +1,6 @@
 import { each, has, get, set } from 'lodash';
-import { constants as globalConstants } from 'common';
+
+import globalConstants from 'common/constants';
 import debug from '../../../debug/mainDebug';
 
 const logger = debug('data:lastValue');

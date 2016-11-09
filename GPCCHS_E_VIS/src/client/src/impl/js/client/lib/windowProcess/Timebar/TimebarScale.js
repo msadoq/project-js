@@ -195,25 +195,25 @@ function getLevelsRules() {
       duration: sec * 2,
       startOf: 'second',
       add: [500, 'ms'],
-      format: 'mm[:]ss SSS'
+      format: 'mm[:]ss[.]SSS'
     },
     {
       duration: sec,
       startOf: 'second',
       add: [200, 'ms'],
-      format: 'mm[:]ss SSS'
+      format: 'mm[:]ss[.]SSS'
     },
     {
       duration: sec / 2,
       startOf: 'second',
       add: [100, 'ms'],
-      format: 'mm[:]ss SSS'
+      format: 'mm[:]ss[.]SSS'
     },
     {
       duration: sec / 4,
       startOf: 'second',
       add: [50, 'ms'],
-      format: 'mm[:]ss SSS'
+      format: 'mm[:]ss[.]SSS'
     }
   ];
 }

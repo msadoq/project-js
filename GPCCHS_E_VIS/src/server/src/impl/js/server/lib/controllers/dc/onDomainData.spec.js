@@ -1,6 +1,7 @@
 require('../../utils/test');
 const { domainData } = require('./onDomainData');
-const dataStub = require('../../stubs/data');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const dataStub = require('common/stubs/data');
 const { sendToTestWs, getMessage, resetMessage } = require('../../stubs/testWebSocket');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
 

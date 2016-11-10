@@ -6,7 +6,7 @@ import globalConstants from 'common/constants';
 import debug from '../debug/mainDebug';
 import profiling from '../debug/profiling';
 import missingRemoteIds from './map/missingRemoteIds';
-import { getWebsocket } from '../websocket/mainWebsocket';
+import { getWebsocket } from '../../mainProcess/websocket';
 import { addRequests } from '../../store/actions/dataRequests';
 
 const logger = debug('data:requests');

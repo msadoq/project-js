@@ -50,13 +50,8 @@ module.exports = {
   // ERROR TYPES
   ERRORTYPE_RESPONSE: 0,
   // EVENTS
-  EVENT_IDENTITY: 'identity',
-  EVENT_AUTHENTICATED: 'authenticated',
   EVENT_PULL: 'pull',
-  EVENT_READY: 'ready',
   EVENT_ERROR: 'error',
-  EVENT_VIMA_TIMEBAR_INIT: 'vimaTimebarInit',
-  EVENT_TIMEBAR_UPDATE: 'timebarUpdate',
   EVENT_DOMAIN_QUERY: 'domainQuery',
   EVENT_DOMAIN_RESPONSE: 'domainResponse',
   EVENT_TIMEBASED_QUERY: 'timebasedQuery',

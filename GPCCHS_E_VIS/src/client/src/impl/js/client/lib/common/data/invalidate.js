@@ -4,7 +4,7 @@ import debug from '../debug/mainDebug';
 import { removeRequests } from '../../store/actions/dataRequests';
 import { updateCacheInvalidation } from '../../store/actions/hsc';
 import expiratedRemoteIds from './map/expiratedRemoteIds';
-import { getWebsocket } from '../websocket/mainWebsocket';
+import { getWebsocket } from '../../mainProcess/websocket';
 
 const logger = debug('data:invalidate');
 

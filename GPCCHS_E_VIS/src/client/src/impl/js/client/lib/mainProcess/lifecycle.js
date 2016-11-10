@@ -3,9 +3,8 @@ import globalConstants from 'common/constants';
 
 import { updateStatus } from '../store/actions/hss';
 import { updateStatus as updateAppStatus } from '../store/actions/hsc';
-import { connect } from '../common/websocket/mainWebsocket';
+import { connect } from './websocket';
 import { updateDomains } from '../store/actions/domains';
-import convertFromStore from './vima/convertFromStore';
 import { removeAllData } from '../store/actions/viewData';
 import { removeAllRequests } from '../store/actions/dataRequests';
 import { setActingOn, setActingOff, resetPreviousMap } from './storeObserver';
@@ -19,13 +18,9 @@ import { schedule, clear as stopDataPulling } from './pull';
  * - open a file picker, read workspace, load in redux
  * - LIFECYCLE_WORKSPACE_LOADED
  * - connect ws
- * - send 'identity' to HSS
- * - receive 'authenticated' from HSS
  * - LIFECYCLE_CONNECTED_WITH_HSS
  * - send domain query to HSS
  * - receive domain response from HSS
- * - send timebar init to HSS
- * - receive 'ready' from HSS
  * - LIFECYCLE_READY
  * - first window opening
  * - LIFECYCLE_STARTED
@@ -63,28 +58,12 @@ export function onWorkspaceLoaded(dispatch) {
 
 export function onOpen(dispatch, ws) {
   dispatch(updateStatus('main', 'connected'));
-  ws.write({
-    event: globalConstants.EVENT_IDENTITY,
-    payload: {
-      identity: 'main',
-    },
-  });
-}
-
-export function onAuthenticated(dispatch, ws) {
   dispatch(updateAppStatus(LIFECYCLE_CONNECTED_WITH_HSS));
   ws.write({ event: globalConstants.EVENT_DOMAIN_QUERY });
 }
 
-export function onDomainResponse(state, dispatch, ws, payload) {
+export function onDomainResponse(dispatch, payload) {
   dispatch(updateDomains(payload));
-  ws.write({
-    event: globalConstants.EVENT_VIMA_TIMEBAR_INIT,
-    payload: convertFromStore(state),
-  });
-}
-
-export function onReady(dispatch) {
   dispatch(updateAppStatus(LIFECYCLE_READY));
 }
 

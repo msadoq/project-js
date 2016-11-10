@@ -1,13 +1,9 @@
 import globalConstants from 'common/constants';
 
 import debug from '../common/debug/mainDebug';
-import {
-  LIFECYCLE_READY,
-  LIFECYCLE_STARTED,
-  onWindowOpened,
-} from './lifecycle';
+import { LIFECYCLE_READY, LIFECYCLE_STARTED, onWindowOpened } from './lifecycle';
 import { getStatus as getAppStatus, getLastCacheInvalidation } from '../store/selectors/hsc';
-import windowsObserver from './windows/observer';
+import windowsObserver from './windows';
 import dataMapGenerator from '../common/data/map/visibleRemoteIds';
 import request from '../common/data/request';
 import invalidate from '../common/data/invalidate';
@@ -19,7 +15,7 @@ let windowAlreadyOpened = false;
 let lastMap = {};
 let actingOnData = false;
 
-export const resetPreviousMap = () => (lastMap = {}); // TODO call on HSS disconnection
+export const resetPreviousMap = () => (lastMap = {});
 export const setActingOn = () => (actingOnData = true);
 export const setActingOff = () => (actingOnData = false);
 export const isActing = () => actingOnData;

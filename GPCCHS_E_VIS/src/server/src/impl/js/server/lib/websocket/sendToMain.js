@@ -5,11 +5,7 @@ const sendToMain = (event, payload) => {
   if (typeof instance === 'undefined') {
     throw new Error('primus wasn\'t inited yet');
   }
-  instance.forEach((spark) => {
-    if (spark.hsc.identity === 'main') {
-      spark.write({ event, payload });
-    }
-  });
+  instance.write({ event, payload });
 };
 
 module.exports = {

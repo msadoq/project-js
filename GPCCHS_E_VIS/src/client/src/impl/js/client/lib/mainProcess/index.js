@@ -5,7 +5,7 @@ import installExtensions from './installExtensions';
 import openWorkspace from './openWorkspace';
 import { initStore } from '../store/mainStore';
 import storeObserver from './storeObserver';
-import { disconnect } from '../common/websocket/mainWebsocket';
+import { disconnect } from './websocket';
 import './menu';
 
 const logger = debug('mainProcess:index');

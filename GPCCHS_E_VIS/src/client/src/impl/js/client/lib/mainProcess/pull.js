@@ -2,7 +2,7 @@ import _isObject from 'lodash/isObject';
 
 import globalConstants from 'common/constants';
 
-import { getWebsocket } from '../common/websocket/mainWebsocket';
+import { getWebsocket } from './websocket';
 import inject from '../common/data/inject';
 import { setActingOn, setActingOff } from './storeObserver';
 

@@ -2,10 +2,10 @@ import _ from 'lodash';
 import async from 'async';
 import { BrowserWindow } from 'electron';
 
-import parameters from '../../common/parameters';
-import debug from '../../common/debug/mainDebug';
-import { remove } from '../../store/actions/windows';
-import { getStore } from '../../store/mainStore';
+import parameters from '../common/parameters';
+import debug from '../common/debug/mainDebug';
+import { remove } from '../store/actions/windows';
+import { getStore } from '../store/mainStore';
 
 const logger = debug('store:observers:windows');
 
@@ -33,7 +33,7 @@ export function open(data, windowId, cb) {
   if (process.env.NODE_ENV === 'production') {
     window.loadURL(`file://${__dirname}/index.html?windowId=${windowId}`);
   } else {
-    window.loadURL(`file://${__dirname}/../../windowProcess/index.html?windowId=${windowId}`);
+    window.loadURL(`file://${__dirname}/../windowProcess/index.html?windowId=${windowId}`);
   }
 
   // ready-to-show is the right element to subscribe to trigger logic only once by window

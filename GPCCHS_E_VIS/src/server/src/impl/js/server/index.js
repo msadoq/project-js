@@ -10,17 +10,13 @@ const primus = require('./lib/websocket/primus');
 const onOpen = require('./lib/controllers/client/onOpen');
 const { onClose } = require('./lib/controllers/client/onClose');
 const { onMessage } = require('./lib/controllers/dc/onMessage');
-const onVimaTimebarUpdate = require('./lib/controllers/timebar/onVimaTimeBarUpdate');
 const { onDomainQuery } = require('./lib/controllers/client/onDomainQuery');
 const onPull = require('./lib/controllers/client/onPull');
 const { onCacheCleanup } = require('./lib/controllers/client/onCacheCleanup');
-const onHscVimaTimebarInit = require('./lib/controllers/client/onHscVimaTimebarInit');
 const { onTimebasedQuery } = require('./lib/controllers/client/onTimebasedQuery');
 
 const cp = require('child_process');
 const errorHandler = require('./lib/utils/errorHandler');
-
-const tbStub = require('./lib/stubs/tb');
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 const zmq = require('common/zmq');
@@ -84,8 +80,6 @@ server.on('listening', () => {
 primus.init(server, {
   onOpen,
   onClose,
-  onVimaTimebarUpdate,
-  onHscVimaTimebarInit,
   onDomainQuery,
   onPull,
   onTimebasedQuery,
@@ -105,17 +99,6 @@ zmq.open({
     role: 'client',
     url: process.env.ZMQ_GPCCDC_PUSH,
   },
-  vimaTbPull: {
-    type: 'pull',
-    role: 'client',
-    url: process.env.ZMQ_VIMA_TIMEBAR,
-    handler: buffer => errorHandler('onVimaTimebarUpdate', () => onVimaTimebarUpdate(buffer)),
-  },
-  vimaTbPush: {
-    type: 'push',
-    role: 'server',
-    url: process.env.ZMQ_VIMA_TIMEBAR_INIT,
-  },
 }, (err) => {
   if (err) {
     throw err;
@@ -124,19 +107,8 @@ zmq.open({
   if (process.env.STUB_DC_ON === 'on') {
     const dc = cp.fork(`${__dirname}/../../../../../common/src/main/js/common/stubs/dc.js`);
     dc.on('message', msg => debug.info('HSS got DC message: ', msg));
-    /* dcStub((launchStubError) => {
-      if (launchStubError) {
-        throw launchStubError;
-      }
-    }); */
   }
-  if (process.env.STUB_TB_ON === 'on') {
-    tbStub((launchStubError) => {
-      if (launchStubError) {
-        throw launchStubError;
-      }
-    });
-  }
+
   // once ZMQ sockets are open, launch express
   debug.info(`Trying to launch server in '${process.env.NODE_ENV}' env`);
   server.listen(port);

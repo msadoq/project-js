@@ -4,7 +4,6 @@ const globalConstants = require('common/constants');
 const debug = require('../io/debug')('websocket');
 const {
   get: _get,
-  set: _set,
 } = require('lodash');
 const Primus = require('primus');
 
@@ -29,10 +28,16 @@ const primusExports = module.exports = {
     primus.on('connection', (spark) => {
       debug.info('new websocket connection', spark.address);
 
-      // eslint-disable-next-line no-param-reassign
-      _set(spark, 'hsc.getIdentity', () => _get(spark, 'hsc.identity'));
+      if (_get(spark, ['query', 'identity']) !== 'main') {
+        debug.warn('unknown websocket client tried to connect to HSS');
+        return spark.end();
+      }
 
-      spark.on('data', (message) => {
+      handlers.onOpen(spark);
+
+      spark.on('end', () => errorHandler('onClose', () => handlers.onClose(spark)));
+
+      return spark.on('data', (message) => {
         debug.debug('data', message);
 
         if (!message.event) {
@@ -40,18 +45,6 @@ const primusExports = module.exports = {
         }
 
         switch (message.event) {
-          case globalConstants.EVENT_IDENTITY: {
-            if (message.payload.identity === 'main') {
-              _set(spark, 'hsc.identity', 'main');
-              errorHandler('onClienOpen', () => handlers.onOpen(spark));
-              spark.on('end', () => errorHandler('onClose', () => handlers.onClose(spark)));
-            }
-            break;
-          }
-          case globalConstants.EVENT_VIMA_TIMEBAR_INIT: {
-            errorHandler('onHscVimaTimebarInit', () => handlers.onHscVimaTimebarInit(spark, message.payload));
-            break;
-          }
           case globalConstants.EVENT_DOMAIN_QUERY: {
             errorHandler('onDomainQuery', () => handlers.onDomainQuery());
             break;

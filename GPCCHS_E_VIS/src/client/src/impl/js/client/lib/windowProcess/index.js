@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import '!style!css!bootstrap/dist/css/bootstrap.min.css';
 import '!style!css!react-select/dist/react-select.css';
 import '!style!css!react-grid-layout/css/styles.css';
 import '!style!css!react-resizable/css/styles.css';

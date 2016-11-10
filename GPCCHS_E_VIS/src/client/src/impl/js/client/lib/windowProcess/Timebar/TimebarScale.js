@@ -6,13 +6,65 @@ const levelsRules = getLevelsRules();
 
 export default class TimebarScale extends PureComponent {
   static propTypes = {
-    timeBeginning: React.PropTypes.number.isRequired,
-    timeEnd: React.PropTypes.number.isRequired,
+    slideLower: React.PropTypes.number.isRequired,
+    slideUpper: React.PropTypes.number.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+  }
+
+  onMouseUp = () => {
+    console.log('mouseup');
+    this.navigate(true);
+    document.removeEventListener('mousemove', this.onMouseMove);
+    document.removeEventListener('mouseup', this.onMouseUp);
+  }
+
+  onMouseDown = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const { slideLower, slideUpper } = this.props;
+    const dragOrigin = e.pageX;
+    this.setState({
+      slideLower,
+      slideUpper,
+      dragOrigin
+    });
+
+    document.addEventListener('mousemove', this.onMouseMove);
+    document.addEventListener('mouseup', this.onMouseUp);
+  }
+
+  onMouseMove = (e) => {
+    const { dragOrigin, navigating } = this.state;
+    const mult = e.pageX > dragOrigin ? 1 : -1;
+    const abs = Math.abs(e.pageX - dragOrigin);
+    let pow = 2;
+    if (abs > 140) {
+      pow = 9;
+    } else if (abs > 100) {
+      pow = 7;
+    } else if (abs > 50) {
+      pow = 6;
+    } else if (abs > 40) {
+      pow = 5;
+    } else if (abs > 30) {
+      pow = 4;
+    } else if (abs > 20) {
+      pow = 3;
+    }
+    const offsetRel = (mult * 20) / Math.pow(abs / 100, pow);
+    this.setState({
+      navigationOffset: offsetRel,
+    });
+
+    if (!navigating) {
+      this.setState({ navigating: true });
+      setTimeout(this.navigate, 60);
+    }
   }
 
   getRules(viewportMs, zl) {
-    const { timeBeginning, timeEnd } = this.props;
-    const start = moment(timeBeginning);
+    const { slideLower, slideUpper } = this.props;
+    const start = moment(slideLower);
     const output = [];
     const levelRule = levelsRules[zl];
 
@@ -28,18 +80,41 @@ export default class TimebarScale extends PureComponent {
       output.push([
         ts,
         start.format(levelRule.format),
-        (100 * (ts - timeBeginning)) / (timeEnd - timeBeginning)
+        (100 * (ts - slideLower)) / (slideUpper - slideLower)
       ]);
     }
     return output;
   }
 
+  navigate = (stop = false) => {
+    const { navigating, navigationOffset } = this.state;
+    const { slideLower, slideUpper, onChange } = this.props;
+    const viewportMsWidth = slideUpper - slideLower;
+    const offsetMs = viewportMsWidth / navigationOffset;
+    onChange(
+      slideLower + offsetMs,
+      slideUpper + offsetMs,
+      stop
+    );
+    if (navigating) {
+      if (stop) {
+        this.setState({ navigating: false });
+      } else {
+        setTimeout(this.navigate, 60);
+      }
+    }
+  }
+
   render() {
-    const viewportMs = this.props.timeEnd - this.props.timeBeginning;
+    const viewportMs = this.props.slideUpper - this.props.slideLower;
     const scales = this.getRules(viewportMs, getZoomLevel(viewportMs));
 
     return (
-      <div className={styles.timebarRule}>
+      <div
+        className={styles.timebarRule}
+        onMouseDown={this.onMouseDown}
+        ref={(el) => { this.el = el; }}
+      >
         {
           scales.map((s, i) =>
             <div key={i} className={styles.scaleBar} style={{ left: `${s[2]}%` }}>

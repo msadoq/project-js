@@ -106,7 +106,6 @@
     cursor: pointer;
     box-shadow: 0px 0px 5px #666;
 }
-
 .arrowLeft{
     left: 7px;
 }
@@ -125,6 +124,21 @@
     position: absolute;
     top: -3px;
     right: 4px;
+}
+.arrowLeftBring, .arrowRightBring{
+  background: #444;
+  top: 25px;
+}
+.arrowLeftBring:hover, .arrowRightBring:hover{
+  background: #111;
+}
+.arrowLeftBring:before{
+    content: '➜';
+    transform: scale(1);
+}
+.arrowRightBring:before{
+    content: '➜';
+    transform: scale(-1);
 }
 .resizeTimebarContainer{
   margin: 0;

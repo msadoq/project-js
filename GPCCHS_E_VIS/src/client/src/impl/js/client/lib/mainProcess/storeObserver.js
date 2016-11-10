@@ -1,6 +1,11 @@
 import globalConstants from 'common/constants';
+
 import debug from '../common/debug/mainDebug';
-import { LIFECYCLE_READY, LIFECYCLE_STARTED, onWindowOpened } from './lifecycle';
+import {
+  LIFECYCLE_READY,
+  LIFECYCLE_STARTED,
+  onWindowOpened,
+} from './lifecycle';
 import { getStatus as getAppStatus, getLastCacheInvalidation } from '../store/selectors/hsc';
 import windowsObserver from './windows/observer';
 import dataMapGenerator from '../common/data/map/visibleRemoteIds';
@@ -31,21 +36,29 @@ export default function storeObserver(store) {
     lastKnownAppStatus = appStatus;
   }
 
-  // sync windows only if app is ready or started
-  if (getAppStatus(state) === LIFECYCLE_READY
-    || getAppStatus(state) === LIFECYCLE_STARTED) {
-    logger.debug('windows synchronization');
-    windowsObserver(state, (err) => {
-      if (err) {
-        logger.error(err);
-      }
+  // continue only if app is ready or started
+  if (appStatus !== LIFECYCLE_READY && appStatus !== LIFECYCLE_STARTED) {
+    return logger.verbose('ignore next storeObserver steps');
+  }
 
-      // only one time to avoid infinite recursion
-      if (windowAlreadyOpened === false) {
-        windowAlreadyOpened = true;
-        onWindowOpened(dispatch);
-      }
-    });
+  // sync windows only if app is ready or started
+  windowsObserver(state, (err) => {
+    if (err) {
+      logger.error(err);
+    }
+
+    logger.debug('windows synchronized', windowAlreadyOpened);
+
+    // only one time to avoid infinite recursion
+    if (windowAlreadyOpened === false || appStatus === LIFECYCLE_READY) {
+      windowAlreadyOpened = true;
+      onWindowOpened(dispatch);
+    }
+  });
+
+  // continue only if app is started
+  if (appStatus !== LIFECYCLE_STARTED) {
+    return logger.verbose('ignore next storeObserver steps');
   }
 
   // following is done only while not playing and if windows was opened at least one time

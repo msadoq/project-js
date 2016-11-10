@@ -1,201 +1,115 @@
 import React, { Component, PropTypes } from 'react';
+import _get from 'lodash/get';
 import Navbar from '../Navbar';
 import { PlotTab } from './';
 import Misc from '../Misc';
 import EntryPointTree from '../EntryPointTree';
 import EntryPointActions from '../EntryPointActions';
 import styles from '../../Editor.css';
+import debug from '../../../../common/debug/windowDebug';
 
-const newEntryPoint = {
-  name: 'NewEntryPoint',
-  connectedDataX: {
-    fullName: '',
-    unit: 'ms',
-    digits: 5,
-    format: 'decimal',
-    domain: '',
-    session: 'Session 1',
-    axisId: 'time'
-  },
-  connectedDataY: {
-    fullName: '',
-    unit: 'ms',
-    digits: 5,
-    format: 'decimal',
-    domain: '',
-    session: 'Session 1',
-    axisId: 'time'
-  },
-  lineStyle: 'Continuous',
-  pointsStyle: 'None',
-  curveColour: '#222222',
-  stateColours: [
+const logger = debug('Editor:Plot');
 
-  ]
-};
+// const newEntryPoint = {
+//   name: 'NewEntryPoint',
+//   connectedDataX: {
+//     fullName: '',
+//     unit: 'ms',
+//     digits: 5,
+//     format: 'decimal',
+//     domain: '',
+//     session: 'Session 1',
+//     axisId: 'time'
+//   },
+//   connectedDataY: {
+//     fullName: '',
+//     unit: 'ms',
+//     digits: 5,
+//     format: 'decimal',
+//     domain: '',
+//     session: 'Session 1',
+//     axisId: 'time'
+//   },
+//   lineStyle: 'Continuous',
+//   pointsStyle: 'None',
+//   curveColour: '#222222',
+//   stateColours: [
+
+//   ]
+// };
 /*
   Composant racine de l'éditeur Plot.
 */
 export default class Editor extends Component {
   static propTypes = {
     closeEditor: PropTypes.func.isRequired,
-    configuration: PropTypes.any,
+    configuration: PropTypes.shape({
+      type: PropTypes.string,
+      links: PropTypes.array,
+      procedures: PropTypes.array,
+      defaultRatio: PropTypes.shape({
+        length: PropTypes.number,
+        width: PropTypes.number
+      }),
+      entryPoints: PropTypes.array,
+      axes: PropTypes.array,
+      grids: PropTypes.array,
+      title: PropTypes.string,
+      titleStyle: PropTypes.shape({
+        font: PropTypes.string,
+        size: PropTypes.number,
+        bold: PropTypes.boolean,
+        italic: PropTypes.boolean,
+        underline: PropTypes.boolean,
+        strikeOut: PropTypes.boolean,
+        align: PropTypes.string,
+        color: PropTypes.string
+      }),
+      plotBackgroundColour: PropTypes.string,
+      legend: PropTypes.object,
+      markers: PropTypes.array,
+    })
   }
 
   componentWillMount() {
     this.setState({
       currentDisplay: 0,
-      search: '',
-      entryPoints: this.props.configuration.entryPoints,
-      axes: this.props.configuration.axes,
-      grids: this.props.configuration.grids,
-      title: this.props.configuration.title,
-      titleStyle: this.props.configuration.titleStyle,
-      plotBackGround: this.props.configuration.plotBackgroundColour,
-      legend: this.props.configuration.legend,
-      markers: this.props.configuration.markers
+      search: ''
     });
   }
   handleEntryPoint = (key, label, newVal) => {
-    let val = newVal;
-    const labels = label.split('.');
-
-    if (labels[0] === 'connectedDataY' || labels[0] === 'connectedDataX') {
-      let tmp = this.state.entryPoints[key].connectedDataY;
-      tmp = Object.assign({}, tmp, {
-        [labels[1]]: newVal,
-      });
-      val = tmp;
-    }
-
-    if (labels[0] === 'stateColours') {
-      const tmp = this.state.entryPoints[key].stateColours.slice();
-      if (newVal.keyToRemove !== undefined) {
-        tmp.splice(newVal.keyToRemove, 1);
-      } else {
-        tmp.push({
-          colour: newVal.color,
-          condition: { field: newVal.field, operand: newVal.operand, operator: newVal.operator } });
-      }
-      val = tmp;
-    }
-
-    const newState = this.state.entryPoints.slice();
-    newState[key] = Object.assign({}, newState[key], {
-      [labels[0]]: val,
-    });
-
-    this.setState({
-      entryPoints: newState,
-    });
-    console.log(`update ${label} : ${newVal}`);
+    const path = `entryPoints[${key}][${label}]`;
+    const currentValue = _get(this.props.configuration, path);
+    logger.debug('EntryPoint onChange', key, label, `${currentValue} => ${newVal}`);
   }
   addEntryPoint = () => {
-    const newState = this.state.entryPoints.slice();
-    newState.push(newEntryPoint);
-    this.setState({
-      entryPoints: newState,
-    });
-    console.log(`add entrypoint, new list : ${newState}`);
+    logger.debug('EntryPoint add');
   }
   removeEntryPoint = (key) => {
-    const newState = this.state.entryPoints.slice();
-    newState.splice(key, 1);
-    this.setState({
-      entryPoints: newState,
-    });
-    console.log(`remove entrypoint, new list : ${newState}`);
+    logger.debug('EntryPoint remove', key);
   }
   handleGrid = (label, newVal) => {
-    let newState = this.state.grid;
-    newState = Object.assign({}, newState, {
-      [label]: newVal,
-    });
-
-    this.setState({
-      grid: newState,
-    });
-    console.log(`update ${label} : ${newVal}`);
+    logger.debug('Grid onChange', label, newVal);
   }
-  handlePlotTitle = (val) => {
-    this.setState({ title: val });
-    console.log(`update plotTitle : ${val}`);
+  handlePlotTitle = (newVal) => {
+    const currentValue = this.props.configuration.title;
+    logger.debug('Title onChange', `${currentValue} => ${newVal}`);
   }
   handlePlotTitleStyle = (label, newVal) => {
-    let newState = this.state.titleStyle;
-    newState = Object.assign({}, newState, {
-      [label]: newVal,
-    });
-
-    this.setState({
-      titleStyle: newState,
-    });
-    console.log(`update ${label} : ${newVal}`);
+    const currentValue = this.props.configuration.titleStyle;
+    logger.debug('TitleStyle onChange', currentValue, newVal);
   }
   handlePlotMarkers = (key, label, newVal) => {
-    let val = newVal;
-    const labels = label.split('.');
-
-    if (labels[0] === 'style') {
-      let tmp = this.state.markers[key].style;
-      tmp = Object.assign({}, tmp, {
-        [labels[1]]: newVal,
-      });
-      val = tmp;
-    }
-
-    const newState = this.state.markers;
-    switch (labels[0]) {
-      case 'kind':
-        newState[0].kind = val;
-        break;
-      case 'label':
-        newState[0].label = val;
-        break;
-      case 'relativePosX':
-        newState[0].relativePosX = val;
-        break;
-      case 'relativePosY':
-        newState[0].relativePosY = val;
-        break;
-      default:
-        console.log('unknown attribute');
-        break;
-    }
-    newState[key] = Object.assign({}, newState[key], {
-      [labels[0]]: val,
-    });
-
-    this.setState({
-      markers: newState,
-    });
-    console.log(`update marker ${labels[0]} : ${newVal}`);
+    const path = `markers[${key}][${label}]`;
+    const currentValue = _get(this.props.configuration, path);
+    logger.debug('Markers onChange', key, label, `${currentValue} => ${newVal}`);
   }
   handleAxes = (key, label, newVal) => {
-    let val = newVal;
-    const labels = label.split('.');
-
-    if (labels[0] === 'style') {
-      let tmp = this.state.axes[key].style;
-      tmp = Object.assign({}, tmp, {
-        [labels[1]]: newVal,
-      });
-      val = tmp;
-    }
-
-    const newState = this.state.axes;
-    newState[key] = Object.assign({}, newState[key], {
-      [labels[0]]: val,
-    });
-
-    this.setState({
-      axes: newState,
-    });
-    console.log(`update axis ${label} : ${newVal}`);
+    const path = `axes[${key}][${label}]`;
+    const currentValue = _get(this.props.configuration, path);
+    logger.debug('Axes onChange', key, label, `${currentValue} => ${newVal}`);
   }
-  /*
-    Appelée lorsque le formulaire de filtre des entrypoints est mis à jour.
-  */
+
   changeSearch = s => this.setState({ search: s });
   /*
     Appelée lorsque le un item de la navbar est cliqué.
@@ -207,7 +121,19 @@ export default class Editor extends Component {
   changeCurrentDisplay = id => this.setState({ currentDisplay: id });
 
   render() {
-    const { currentDisplay } = this.state;
+    const { currentDisplay, search } = this.state;
+    const {
+      configuration: {
+        entryPoints,
+        axes,
+        grids,
+        title,
+        titleStyle,
+        // plotBackGround,
+        // legend,
+        markers
+      }
+    } = this.props;
     return (
       <div className={styles.editor}>
         <Navbar
@@ -223,11 +149,11 @@ export default class Editor extends Component {
           handlePlotTitleStyle={this.handlePlotTitleStyle}
           handlePlotAxes={this.handleAxes}
           handlePlotMarkers={this.handlePlotMarkers}
-          axes={this.state.axes}
-          markers={this.state.markers}
-          title={this.state.title}
-          grids={this.state.grids}
-          titleStyle={this.state.titleStyle}
+          axes={axes}
+          markers={markers}
+          title={title}
+          grids={grids}
+          titleStyle={titleStyle}
         />}
         {currentDisplay === 0 && <div>
           <EntryPointActions
@@ -235,8 +161,8 @@ export default class Editor extends Component {
             addEntryPoint={this.addEntryPoint}
           />
           <EntryPointTree
-            entryPoints={this.state.entryPoints}
-            search={this.state.search}
+            entryPoints={entryPoints}
+            search={search}
             handleEntryPoint={this.handleEntryPoint}
             remove={this.removeEntryPoint}
           />

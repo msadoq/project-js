@@ -82,7 +82,8 @@ export default class PlotTab extends React.Component {
             <PlotTitle
               titleStyle={titleStyle}
               title={title}
-              onChange={this.handleTitleStyle}
+              onTitleStyleChange={this.handleTitleStyle}
+              onAlignChange={this.handleAlign}
             />
           </Panel>
           <Panel

@@ -18,14 +18,16 @@ export default class PlotTitle extends React.Component {
   static propTypes = {
     title: PropTypes.string,
     titleStyle: PropTypes.object,
-    onChange: PropTypes.func.isRequired
+    onTitleStyleChange: PropTypes.func.isRequired,
+    onAlignChange: PropTypes.func.isRequired,
   }
 
   render() {
     const {
       title,
       titleStyle,
-      onChange
+      onTitleStyleChange,
+      onAlignChange
     } = this.props;
 
     return (
@@ -49,7 +51,7 @@ export default class PlotTitle extends React.Component {
               Font
             </Col>
             <Col xs={8}>
-              <SelectFontFamilySize update={onChange} />
+              <SelectFontFamilySize update={onTitleStyleChange} />
             </Col>
           </FormGroup>
           <FormGroup
@@ -61,7 +63,7 @@ export default class PlotTitle extends React.Component {
             </Col>
             <Col xs={8}>
               <SelectFontStyle
-                update={onChange}
+                update={onTitleStyleChange}
                 bold={titleStyle.bold}
                 italic={titleStyle.italic}
                 underline={titleStyle.underline}
@@ -77,7 +79,7 @@ export default class PlotTitle extends React.Component {
               Color
             </Col>
             <Col xs={8}>
-              <ColorPicker color="#F5A623" onChange={onChange} />
+              <ColorPicker color="#F5A623" onChange={onTitleStyleChange} />
             </Col>
           </FormGroup>
           <FormGroup
@@ -96,7 +98,7 @@ export default class PlotTitle extends React.Component {
                   { label: 'center', icon: 'alignCenter' },
                   { label: 'right', icon: 'alignRight' }
                 ]}
-                onChange={this.handleAlign}
+                onChange={onAlignChange}
               />
             </Col>
           </FormGroup>

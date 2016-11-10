@@ -2,6 +2,9 @@ import path from 'path';
 import webpack from 'webpack';
 
 export default {
+  entry: [
+    './lib/windowProcess/bootstrap'
+  ],
   module: {
     loaders: [{
       test: /\.jsx?$/,
@@ -9,7 +12,10 @@ export default {
       exclude: /node_modules/
     }, {
       test: /\.json$/,
-      loader: 'json-loader'
+      loader: 'json'
+    }, {
+      test: /\.less$/,
+      loader: 'style!css!less'
     }]
   },
   output: {
@@ -18,7 +24,7 @@ export default {
     libraryTarget: 'commonjs2'
   },
   resolve: {
-    extensions: ['', '.js', '.jsx', '.json'],
+    extensions: ['', '.js', '.jsx', '.json', '.less'],
     packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main']
   },
   plugins: [

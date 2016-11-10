@@ -1,7 +1,6 @@
 import _throttle from 'lodash/throttle';
 import _isObject from 'lodash/isObject';
 
-
 import globalConstants from 'common/constants';
 
 import debug from '../debug/mainDebug';
@@ -35,4 +34,4 @@ function request(state, dispatch, dataMap, lastMap) {
   );
 }
 
-export default _throttle(request, globalConstants.HSC_THROTTLE_REQUESTS);
+export default _throttle(request, globalConstants.HSC_THROTTLE_REQUESTS, { leading: true });

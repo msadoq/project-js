@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-// eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
+
 const debug = require('../io/debug')('websocket');
 const {
   get: _get,
@@ -45,10 +45,6 @@ const primusExports = module.exports = {
               _set(spark, 'hsc.identity', 'main');
               errorHandler('onClienOpen', () => handlers.onOpen(spark));
               spark.on('end', () => errorHandler('onClose', () => handlers.onClose(spark)));
-            } else {
-              _set(spark, 'hsc.identity', message.payload.identity);
-              errorHandler('onWindowOpen', () => handlers.onWindowOpen(spark, message.payload.identity));
-              spark.on('end', () => errorHandler('onWindowClose', () => handlers.onWindowClose(spark, message.payload.identity)));
             }
             break;
           }

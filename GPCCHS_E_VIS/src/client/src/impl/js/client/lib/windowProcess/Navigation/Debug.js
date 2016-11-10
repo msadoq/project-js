@@ -29,11 +29,6 @@ class Debug extends PureComponent {
     }
   }
 
-  handleTimebarVisibility = () => {
-    const { debug, toggleDebug } = this.props;
-    toggleDebug('timebarVisibility', !debug.timebarVisibility);
-  }
-
   visibleRemoteIds = () => {
     const state = this.context.store.getState();
     return console.log(visibleRemoteIdsMap(state)); // eslint-disable-line no-console
@@ -73,10 +68,6 @@ class Debug extends PureComponent {
         {' '}
         <Button onClick={dummy} {...buttonsProps}>
           DUMMY
-        </Button>
-        {' '}
-        <Button onClick={this.handleTimebarVisibility} {...buttonsProps}>
-          TIMEBAR {debug.timebarVisibility ? 'ON' : 'OFF'}
         </Button>
         {' '}
         <Button onClick={this.visibleRemoteIds} {...buttonsProps}>DATA MAP</Button>

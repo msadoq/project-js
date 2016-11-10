@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+
+import { LIFECYCLE_STARTED } from '../../mainProcess/lifecycle';
 import Navigation from '../Navigation/Navigation';
 import TimebarContainer from '../Timebar/TimebarContainer';
 import PageContainer from '../Page/PageContainer';
@@ -7,11 +9,22 @@ import styles from './Window.css';
 
 export default class Window extends Component {
   static propTypes = {
-    windowDebug: PropTypes.object
+    appStatus: PropTypes.string,
   };
 
   render() {
-    const { windowDebug } = this.props;
+    const { appStatus } = this.props;
+    if (appStatus !== LIFECYCLE_STARTED) {
+      return (
+        <div className={styles.box}>
+          Connection in progress
+          <div>...</div>
+          <div className={styles.message}>
+            ({appStatus})
+          </div>
+        </div>
+      );
+    }
 
     return (
       <div className={styles.container}>
@@ -20,8 +33,7 @@ export default class Window extends Component {
           <TabsContainer {...this.props} />
           <PageContainer {...this.props} />
         </div>
-        {windowDebug && windowDebug.timebarVisibility &&
-          <TimebarContainer {...this.props} />}
+        <TimebarContainer {...this.props} />
       </div>
     );
   }

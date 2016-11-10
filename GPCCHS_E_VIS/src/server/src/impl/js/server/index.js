@@ -11,8 +11,6 @@ const onOpen = require('./lib/controllers/client/onOpen');
 const { onClose } = require('./lib/controllers/client/onClose');
 const { onMessage } = require('./lib/controllers/dc/onMessage');
 const onVimaTimebarUpdate = require('./lib/controllers/timebar/onVimaTimeBarUpdate');
-const onWindowOpen = require('./lib/controllers/client/onWindowOpen');
-const { onWindowClose } = require('./lib/controllers/client/onWindowClose');
 const { onDomainQuery } = require('./lib/controllers/client/onDomainQuery');
 const onPull = require('./lib/controllers/client/onPull');
 const { onCacheCleanup } = require('./lib/controllers/client/onCacheCleanup');
@@ -86,8 +84,6 @@ server.on('listening', () => {
 primus.init(server, {
   onOpen,
   onClose,
-  onWindowOpen,
-  onWindowClose,
   onVimaTimebarUpdate,
   onHscVimaTimebarInit,
   onDomainQuery,

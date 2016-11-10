@@ -1,10 +1,10 @@
-const debug = require('../io/debug')('utils:queries');
-const registeredCallbacks = require('../utils/registeredCallbacks');
-const registeredQueries = require('../utils/registeredQueries');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { encode } = require('common/protobuf');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
+
+const registeredCallbacks = require('./registeredCallbacks');
+const registeredQueries = require('./registeredQueries');
 const execution = require('./execution')('query');
 
 let idIndex = 0;

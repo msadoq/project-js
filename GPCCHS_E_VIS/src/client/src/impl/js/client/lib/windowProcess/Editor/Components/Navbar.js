@@ -31,7 +31,7 @@ export default class EditorNavbar extends React.Component {
     const { activeTab } = this.state;
 
     return (
-      <Nav className={styles.navbar} bsStyle="tabs">
+      <Nav className={styles.navbar} bsStyle="pills">
         {items.map((item, index) => (
           <NavItem
             key={index}

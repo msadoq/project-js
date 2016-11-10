@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import PlotEditorContainer from './Components/PlotEditorContainer';
+import { PlotEditorContainer } from './Components/Plot';
 import TextEditorContainer from './Components/TextEditorContainer';
 
 const InvalidConfiguration = () => <div> unknown view type or invalid configuration: </div>;

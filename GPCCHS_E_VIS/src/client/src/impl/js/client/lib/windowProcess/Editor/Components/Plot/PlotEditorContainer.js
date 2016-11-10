@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import PlotEditor from './PlotEditor';
+import { PlotEditor } from './';
 
 const PlotEditorContainer = props => <PlotEditor {...props} />;
 

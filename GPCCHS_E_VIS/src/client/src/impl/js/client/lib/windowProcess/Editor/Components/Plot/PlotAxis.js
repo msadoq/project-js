@@ -9,12 +9,12 @@ import {
   Col,
   ControlLabel
 } from 'react-bootstrap';
-import ToggleButton from './Buttons/ToggleButton';
+import ToggleButton from '../Buttons/ToggleButton';
 import styles from './PlotTab.css';
-import ColorPicker from './ColorPicker';
-import SelectButton from './Buttons/SelectButton';
-import SelectFontFamilySize from './SelectFontFamilySize';
-import SelectFontStyle from './SelectFontStyle';
+import ColorPicker from '../ColorPicker';
+import SelectButton from '../Buttons/SelectButton';
+import SelectFontFamilySize from '../SelectFontFamilySize';
+import SelectFontStyle from '../SelectFontStyle';
 
 export default class PlotAxis extends React.Component {
   static propTypes = {

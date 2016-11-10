@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import { Glyphicon, Collapse, Form, FormGroup, Col, FormControl, InputGroup } from 'react-bootstrap';
-import styles from './PlotTab.css';
+import styles from './Plot/PlotTab.css';
 import SelectFontFamilySize from './SelectFontFamilySize';
 import SelectFontStyle from './SelectFontStyle';
 import SelectButton from './Buttons/SelectButton';

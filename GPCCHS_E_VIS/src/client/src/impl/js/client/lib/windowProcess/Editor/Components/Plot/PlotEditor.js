@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import Navbar from './Navbar';
-import PlotTab from './PlotTab';
-import Misc from './Misc';
-import EntryPointTree from './EntryPointTree';
-import EntryPointActions from './EntryPointActions';
-import styles from '../Editor.css';
+import Navbar from '../Navbar';
+import { PlotTab } from './';
+import Misc from '../Misc';
+import EntryPointTree from '../EntryPointTree';
+import EntryPointActions from '../EntryPointActions';
+import styles from '../../Editor.css';
 
 const newEntryPoint = {
   name: 'NewEntryPoint',

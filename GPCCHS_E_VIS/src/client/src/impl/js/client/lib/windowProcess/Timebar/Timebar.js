@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { debounce } from 'lodash';
 import classnames from 'classnames';
 import React, { Component } from 'react';
 import styles from './Timebar.css';
@@ -234,12 +235,15 @@ export default class Timebar extends Component {
   onWheel = (e) => {
     e.preventDefault();
 
-    const { slideWindow, onChange, timebarId } = this.props;
+    const { slideWindow, visuWindow, timebarId } = this.props;
     const slideLower = this.state.slideLower || slideWindow.lower;
     const slideUpper = this.state.slideUpper || slideWindow.upper;
 
     if (e.ctrlKey) {
-      let { lower, upper, current } = this.props.visuWindow;
+      let { lower, upper, current } = this.state;
+      lower = lower || visuWindow.lower;
+      upper = upper || visuWindow.upper;
+      current = current || visuWindow.current;
       const viewportOffsetLeft = e.currentTarget.getBoundingClientRect().left;
       const percentOffsetWithLeft = (viewportOffsetLeft - e.pageX) / e.currentTarget.clientWidth;
       const cursorMs = slideLower + ((slideUpper - slideLower) * -percentOffsetWithLeft);
@@ -248,15 +252,22 @@ export default class Timebar extends Component {
       lower += coeff * ((cursorMs - lower) / 5);
       upper += coeff * ((cursorMs - upper) / 5);
       current += coeff * ((cursorMs - current) / 5);
-
-      onChange(
-        timebarId,
-        {
-          lower: Math.trunc(lower),
-          upper: Math.trunc(upper),
-          current: Math.trunc(current)
-        }
-      );
+      lower = Math.trunc(lower);
+      upper = Math.trunc(upper);
+      current = Math.trunc(current);
+      this.setState({ lower, upper, current });
+      if (!this.debounced1) {
+        this.debounced1 = debounce(
+          () => {
+            this.props.onChange(
+              timebarId,
+              { lower, upper, current }
+            );
+          },
+          500
+        );
+      }
+      this.debounced1();
     } else {
       const viewportOffsetLeft = e.currentTarget.getBoundingClientRect().left;
       const viewportOffsetRight = e.currentTarget.getBoundingClientRect().right;
@@ -267,15 +278,30 @@ export default class Timebar extends Component {
       const offsetLeftMs = coeff * ((slideUpper - slideLower) * percentOffsetWithLeft);
       const offsetRightMs = coeff * ((slideUpper - slideLower) * percentOffsetWithRight);
 
-      onChange(
-        timebarId,
-        {
-          slideWindow: {
-            lower: Math.trunc(slideLower + offsetLeftMs),
-            upper: Math.trunc(slideUpper + offsetRightMs)
-          }
-        }
-      );
+      const newSlideLower = Math.trunc(slideLower + offsetLeftMs);
+      const newSlideUpper = Math.trunc(slideUpper + offsetRightMs);
+
+      this.setState({
+        slideLower: newSlideLower,
+        slideUpper: newSlideUpper
+      });
+      if (!this.debounced2) {
+        this.debounced2 = debounce(
+          () => {
+            this.props.onChange(
+              timebarId,
+              {
+                slideWindow: {
+                  lower: newSlideLower,
+                  upper: newSlideUpper
+                }
+              }
+            );
+          },
+          500
+        );
+      }
+      this.debounced2();
     }
   }
 

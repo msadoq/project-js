@@ -11,6 +11,7 @@ export default class Timebar extends Component {
   static propTypes = {
     timelines: React.PropTypes.array.isRequired,
     visuWindow: React.PropTypes.object.isRequired,
+    slideWindow: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired,
     displayTimesetter: React.PropTypes.func.isRequired,
     onVerticalScroll: React.PropTypes.func.isRequired,
@@ -18,19 +19,8 @@ export default class Timebar extends Component {
     verticalScroll: React.PropTypes.number.isRequired,
   }
 
-  constructor(...args) {
-    super(...args);
-
-    const lower = this.props.visuWindow.lower || ((new Date().getTime()) - (1000 * 60 * 48));
-    const upper = this.props.visuWindow.upper || ((new Date().getTime()) + (1000 * 60 * 48));
-    const timeBeginning = lower - ((upper - lower) * 2);
-    const timeEnd = upper + ((upper - lower) * 2);
-
-    this.state = {
-      mode: 'pause',
-      timeBeginning,
-      timeEnd
-    };
+  state = {
+    mode: 'pause'
   }
 
   componentDidUpdate() {
@@ -86,17 +76,18 @@ export default class Timebar extends Component {
   onMouseMove = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    const { visuWindow } = this.props;
+    const { visuWindow, slideWindow } = this.props;
     const {
-      timeEnd, timeBeginning, cursorOriginX,
-      dragging, resizing, dragOriginLower,
+      cursorOriginX, dragging, resizing, dragOriginLower,
       dragOriginUpper, resizeOrigin, resizeCursor,
       navigating, dragOriginCurrent
     } = this.state;
     const lower = this.state.lower || visuWindow.lower;
     const upper = this.state.upper || visuWindow.upper;
+    const slideLower = this.state.slideLower || slideWindow.lower;
+    const slideUpper = this.state.slideUpper || slideWindow.upper;
 
-    const viewportMsWidth = timeEnd - timeBeginning;
+    const viewportMsWidth = slideUpper - slideLower;
     if (dragging) {
       const viewportOffset = this.el.getBoundingClientRect();
       if (viewportOffset.left > e.pageX || viewportOffset.right < e.pageX) {
@@ -155,8 +146,8 @@ export default class Timebar extends Component {
       if (resizeCursor === 'lower') {
         if (visuWindow.current < cursorPosMs) {
           cursorPosMs = visuWindow.current;
-        } else if (cursorPosMs < timeBeginning) {
-          cursorPosMs = timeBeginning;
+        } else if (cursorPosMs < slideLower) {
+          cursorPosMs = slideLower;
         } else if (cursorPosMs > upper) {
           cursorPosMs = upper - 2000;
         }
@@ -164,8 +155,8 @@ export default class Timebar extends Component {
       } else if (resizeCursor === 'upper') {
         if (visuWindow.current > cursorPosMs) {
           cursorPosMs = visuWindow.current;
-        } else if (cursorPosMs > timeEnd) {
-          cursorPosMs = timeEnd;
+        } else if (cursorPosMs > slideUpper) {
+          cursorPosMs = slideUpper;
         } else if (cursorPosMs < lower) {
           cursorPosMs = upper + 2000;
         }
@@ -226,13 +217,16 @@ export default class Timebar extends Component {
 
   onWheel = (e) => {
     e.preventDefault();
-    const { timeBeginning, timeEnd } = this.state;
+
+    const { slideWindow, onChange, timebarId } = this.props;
+    const slideLower = this.state.slideLower || slideWindow.lower;
+    const slideUpper = this.state.slideUpper || slideWindow.upper;
+
     if (e.ctrlKey) {
-      const { onChange, timebarId } = this.props;
       let { lower, upper, current } = this.props.visuWindow;
       const viewportOffsetLeft = e.currentTarget.getBoundingClientRect().left;
       const percentOffsetWithLeft = (viewportOffsetLeft - e.pageX) / e.currentTarget.clientWidth;
-      const cursorMs = timeBeginning + ((timeEnd - timeBeginning) * -percentOffsetWithLeft);
+      const cursorMs = slideLower + ((slideUpper - slideLower) * -percentOffsetWithLeft);
       const coeff = e.deltaY > 0 ? -1 : 1;
 
       lower += coeff * ((cursorMs - lower) / 5);
@@ -254,13 +248,18 @@ export default class Timebar extends Component {
       const percentOffsetWithRight = (viewportOffsetRight - e.pageX) / e.currentTarget.clientWidth;
 
       const coeff = (e.deltaY > 0 ? 0.15 : -0.15);
-      const offsetLeftMs = coeff * ((timeEnd - timeBeginning) * percentOffsetWithLeft);
-      const offsetRightMs = coeff * ((timeEnd - timeBeginning) * percentOffsetWithRight);
+      const offsetLeftMs = coeff * ((slideUpper - slideLower) * percentOffsetWithLeft);
+      const offsetRightMs = coeff * ((slideUpper - slideLower) * percentOffsetWithRight);
 
-      this.setState({
-        timeBeginning: timeBeginning + offsetLeftMs,
-        timeEnd: timeEnd + offsetRightMs
-      });
+      onChange(
+        timebarId,
+        {
+          slideWindow: {
+            lower: Math.trunc(slideLower + offsetLeftMs),
+            upper: Math.trunc(slideUpper + offsetRightMs)
+          }
+        }
+      );
     }
   }
 
@@ -275,16 +274,16 @@ export default class Timebar extends Component {
   }
 
   dragNavigate = () => {
-    const { timeEnd, timeBeginning, dragNavigating,
+    const { slideLower, slideUpper, dragNavigating,
       dragNavigatingOffset, cursorOriginX, lower,
       upper, current } = this.state;
-    const viewportMsWidth = timeEnd - timeBeginning;
+    const viewportMsWidth = slideUpper - slideLower;
 
     if (dragNavigating) {
       const offsetMs = viewportMsWidth / dragNavigatingOffset;
       this.setState({
-        timeBeginning: timeBeginning + offsetMs,
-        timeEnd: this.state.timeEnd + offsetMs,
+        slideLower: slideLower + offsetMs,
+        slideUpper: slideUpper + offsetMs,
         cursorOriginX: cursorOriginX - (this.el.clientWidth / dragNavigatingOffset),
         lower: lower + offsetMs,
         upper: upper + offsetMs,
@@ -328,28 +327,32 @@ export default class Timebar extends Component {
 
     if (side === 'left') {
       this.setState({
-        timeBeginning: lower - ((upper - lower) / 5),
-        timeEnd: upper + ((upper - lower) * 2),
+        slideLower: lower - ((upper - lower) / 5),
+        slideUpper: upper + ((upper - lower) * 2),
       });
     } else if (side === 'right') {
       this.setState({
-        timeBeginning: lower - ((upper - lower) * 2),
-        timeEnd: upper + ((upper - lower) / 5),
+        slideLower: lower - ((upper - lower) * 2),
+        slideUpper: upper + ((upper - lower) / 5),
       });
     }
   }
 
   calculate = () => {
-    const { visuWindow } = this.props;
-    const { timeBeginning, timeEnd } = this.state;
+    const { visuWindow, slideWindow } = this.props;
+
     let { lower, upper, current } = this.state;
     lower = lower || visuWindow.lower || ((new Date().getTime()) - (1000 * 60 * 48));
     upper = upper || visuWindow.upper || ((new Date().getTime()) + (1000 * 60 * 48));
     current = current || visuWindow.current || (lower + upper) / 2;
 
+    let { slideLower, slideUpper } = this.state;
+    slideLower = slideLower || slideWindow.lower || lower - ((upper - lower) * 2);
+    slideUpper = slideUpper || slideWindow.upper || upper + ((upper - lower) * 2);
+
     const selectedMsWidth = upper - lower;
-    const selectedPercentWidth = (100 * selectedMsWidth) / (timeEnd - timeBeginning);
-    const lowerPercentOffset = (100 * (lower - timeBeginning)) / (timeEnd - timeBeginning);
+    const selectedPercentWidth = (100 * selectedMsWidth) / (slideUpper - slideLower);
+    const lowerPercentOffset = (100 * (lower - slideLower)) / (slideUpper - slideLower);
     const currentPercentOffset = (100 * (current - lower)) / (upper - lower);
 
     return {
@@ -362,23 +365,24 @@ export default class Timebar extends Component {
 
   render() {
     const {
-        dragging, resizing,
-        timeBeginning, timeEnd, formatedFullDate
+        dragging, resizing, formatedFullDate
     } = this.state;
-    const { visuWindow, timelines, displayTimesetter } = this.props;
+    const { visuWindow, slideWindow, timelines, displayTimesetter } = this.props;
 
     const lower = this.state.lower || visuWindow.lower;
     const upper = this.state.upper || visuWindow.upper;
     const current = this.state.current || visuWindow.current;
+    const slideLower = this.state.slideLower || slideWindow.lower;
+    const slideUpper = this.state.slideUpper || slideWindow.upper;
 
     const calc = this.calculate();
 
     let arrowRight;
     let arrowLeft;
-    if (upper <= timeBeginning) {
+    if (upper <= slideLower) {
       arrowLeft = <button className={classnames('btn', 'btn-sm', 'btn-primary', styles.arrowLeft)} onClick={this.rePosition.bind(null, 'left')} />;
     }
-    if (lower >= timeEnd) {
+    if (lower >= slideUpper) {
       arrowRight = <button className={classnames('btn', 'btn-sm', 'btn-primary', styles.arrowRight)} onClick={this.rePosition.bind(null, 'right')} />;
     }
 
@@ -395,8 +399,8 @@ export default class Timebar extends Component {
           onDoubleClick={displayTimesetter}
         >
           { arrowLeft }{ arrowRight }
-          <span className={styles.timeBeginning}>{this.formatDate(timeBeginning)}</span>
-          <span className={styles.timeEnd}>{this.formatDate(timeEnd)}</span>
+          <span className={styles.slideLower}>{this.formatDate(slideLower)}</span>
+          <span className={styles.slideUpper}>{this.formatDate(slideUpper)}</span>
           <div
             className={
               classnames(
@@ -454,7 +458,7 @@ export default class Timebar extends Component {
             )}
           </div>
         </div>
-        <TimebarScale timeBeginning={this.state.timeBeginning} timeEnd={this.state.timeEnd} />
+        <TimebarScale timeBeginning={slideLower} timeEnd={slideUpper} />
       </div>
     );
   }

@@ -21,6 +21,7 @@ class TimebarContainer extends Component {
     updateSpeedAction: React.PropTypes.func.isRequired,
     focusedPage: React.PropTypes.object.isRequired,
     visuWindow: React.PropTypes.object.isRequired,
+    slideWindow: React.PropTypes.object.isRequired,
     timebar: React.PropTypes.object.isRequired,
     timebarId: React.PropTypes.string.isRequired,
     timebarName: React.PropTypes.string.isRequired,
@@ -88,8 +89,8 @@ class TimebarContainer extends Component {
     const { updateVisuWindowAction, timelines, timebarId,
       visuWindow, focusedPage, timebarName,
       addAndMountTimelineAction, unmountTimelineAction,
-      updatePlayingStateAction, updateSpeedAction, timebar
-    } = this.props;
+      updatePlayingStateAction, updateSpeedAction, timebar,
+      slideWindow } = this.props;
 
     let minHeight;
     if (timelines.length < 6) {
@@ -157,6 +158,7 @@ class TimebarContainer extends Component {
           <Timebar
             timebarId={timebarId}
             visuWindow={visuWindow}
+            slideWindow={slideWindow}
             timelines={timelines}
             focusedPage={focusedPage}
             onChange={updateVisuWindowAction}
@@ -181,6 +183,7 @@ export default connect((state, ownProps) => {
 
   return {
     visuWindow: timebar.visuWindow,
+    slideWindow: timebar.slideWindow,
     timebar,
     timebarId,
     timebarName,

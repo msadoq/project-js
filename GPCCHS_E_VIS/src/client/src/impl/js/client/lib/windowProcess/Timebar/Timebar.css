@@ -63,22 +63,22 @@
     left: -5px;
 }
 
-.lowerFormattedTime, .upperFormattedTime, .currentFormattedTime, .timeBeginning, .timeEnd{
+.lowerFormattedTime, .upperFormattedTime, .currentFormattedTime, .slideLower, .slideUpper{
     font-size: 0.9em;
     font-weight: bold;
     top: -14px;
     position: absolute;
     user-select: none;
 }
-.timeBeginning, .timeEnd{
+.slideLower, .slideUpper{
     top: -28px;
     font-size: 0.8em;
     color: rgba(0,0,0,0.6);
 }
-.timeBeginning{
+.slideLower{
     left: 4px;
 }
-.timeEnd{
+.slideUpper{
     right: 4px;
 }
 .lowerFormattedTime{

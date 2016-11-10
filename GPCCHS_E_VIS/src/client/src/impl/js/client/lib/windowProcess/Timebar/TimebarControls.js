@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import classnames from 'classnames';
 import { Col, Row } from 'react-bootstrap';
-
 import globalConstants from 'common/constants';
 import styles from './TimebarControls.css';
 
@@ -18,7 +18,14 @@ export default class TimebarControls extends Component {
 
   changeSpeed = (dir) => {
     const { updateSpeed, timebarId, timebarSpeed, timebarPlayingState } = this.props;
-    const newSpeed = dir === 'up' ? 2 * timebarSpeed : timebarSpeed / 2;
+    let newSpeed = dir === 'up' ? 2 * timebarSpeed : timebarSpeed / 2;
+    if (timebarSpeed === 0.1) {
+      newSpeed = 0.125;
+    } else if (timebarSpeed === 10) {
+      newSpeed = 8;
+    }
+    if (newSpeed > 10) newSpeed = 10;
+    if (newSpeed < 0.1) newSpeed = 0.1;
     updateSpeed(timebarId, newSpeed);
     if (newSpeed !== 1 && timebarPlayingState === 'pause') this.toggleMode();
   }
@@ -77,19 +84,14 @@ export default class TimebarControls extends Component {
     const { timebarPlayingState, timebarSpeed } = this.props;
     const opTimebarPlayingState = timebarPlayingState === 'pause' ? 'play' : 'pause';
 
-    const allButtonsKlasses = `btn btn-xs btn-primary ${styles.controlButton}`;
-    let playButtonKlasses = allButtonsKlasses;
-    if (timebarPlayingState === 'play') {
-      playButtonKlasses += ` ${styles.controlButtonPlay}`;
-    } else {
-      playButtonKlasses += ` ${styles.controlButtonPause}`;
-    }
+    const allButtonsKlasses = classnames('btn', 'btn-xs', 'btn-primary', styles.controlButton);
+
     return (
       <div>
         <Col xsOffset={3} xs={9}>
           <Row>
             <Col xs={12}>
-              <ul className={`${styles.controlsUl}`}>
+              <ul className={styles.controlsUl}>
                 <li className={styles.controlsLi}>
                   <button
                     className={allButtonsKlasses}
@@ -101,7 +103,7 @@ export default class TimebarControls extends Component {
                 </li>
                 <li className={styles.controlsLi}>
                   <button
-                    className={`btn btn-xs btn-default ${styles.controlButton}`}
+                    className={classnames('btn', 'btn-xs', 'btn-default', styles.controlButton)}
                   >
                     {`${timebarSpeed}X`}
                   </button>
@@ -117,7 +119,10 @@ export default class TimebarControls extends Component {
                 </li>
                 <li className={styles.controlsLi}>
                   <button
-                    className={playButtonKlasses}
+                    className={classnames(
+                      allButtonsKlasses,
+                      (timebarPlayingState === 'play' ? styles.controlButtonPlay : styles.controlButtonPause)
+                    )}
                     onClick={this.toggleMode}
                     title={opTimebarPlayingState}
                   >

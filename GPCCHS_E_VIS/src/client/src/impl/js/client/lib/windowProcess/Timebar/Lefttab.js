@@ -1,4 +1,5 @@
 import { difference } from 'lodash';
+import classnames from 'classnames';
 import React, { Component } from 'react';
 import { Button, FormGroup, Form } from 'react-bootstrap';
 import { schemeCategory20b } from 'd3-scale';
@@ -85,10 +86,7 @@ export default class Lefttab extends Component {
 
   render() {
     const { timelines } = this.props;
-    const { color } = this.state;
-
-    let formKlass = styles.form;
-    if (!this.state.willAdd) formKlass += ' hidden';
+    const { color, willAdd } = this.state;
 
     let noTrack;
     if (timelines.length === 0) {
@@ -101,7 +99,7 @@ export default class Lefttab extends Component {
         <h5 className={styles.timebarName}>{this.props.timebarName}</h5>
         <Form
           horizontal
-          className={formKlass}
+          className={classnames(styles.form, { hidden: !willAdd })}
           onSubmit={this.willAddTimeline}
         >
           <b>Add a track :</b>
@@ -110,7 +108,7 @@ export default class Lefttab extends Component {
             <b className={styles.labelFormControl}>Kind</b>
             <select
               ref={(el) => { this.newTimelineKindEl = el; }}
-              className={`form-control ${styles.formControl}`}
+              className={classnames('form-control', styles.formControl)}
             >
               <option value="kind1">kind 1</option>
               <option value="kind2">kind 2</option>
@@ -125,7 +123,7 @@ export default class Lefttab extends Component {
             <b className={styles.labelFormControl}>Parameter</b>
             <select
               ref={(el) => { this.newTimelineIdEl = el; }}
-              className={`form-control ${styles.formControl}`}
+              className={classnames('form-control', styles.formControl)}
             >
               <option value="param1">param 1</option>
               <option value="param2">param 2</option>
@@ -136,7 +134,7 @@ export default class Lefttab extends Component {
             type="submit"
             autoFocus
             value="Add track"
-            className={`${styles.addTrackButton} btn-sm btn-primary col-md-offset-4`}
+            className={classnames(styles.addTrackButton, 'btn-sm', 'btn-primary', 'col-md-offset-4')}
           />
           <hr />
           <Button

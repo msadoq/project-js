@@ -58,30 +58,14 @@ export default class EntryPointDetails extends React.Component {
             dans le noeud racine.
     L'utilisation de setState est temporaire, pour voir la mise à jour dans l'IHM.
   */
-  handleLineStyle = (val) => {
-    this.props.handleEntryPoint(this.props.idPoint, 'lineStyle', val);
-  }
-  handlePoints = (val) => {
-    this.props.handleEntryPoint(this.props.idPoint, 'pointStyle', val);
-  }
-  handleName = (e) => {
-    this.props.handleEntryPoint(this.props.idPoint, 'name', e.target.value);
-  }
-  handleCurveColour = (color) => {
-    this.props.handleEntryPoint(this.props.idPoint, 'curveColour', color);
-  }
-  handleDataYChange = (label, val) => {
-    this.props.handleEntryPoint(this.props.idPoint, `connectedDataY.${label}`, val);
-  }
-  removeEntryPoint = () => {
-    this.props.remove(this.props.idPoint);
-  }
-  handleChangeStateColor = (color) => {
-    this.setState({ newStateColor: color });
-  }
-  handleFilter = (field, operator, operand) => {
-    this.setState({ newStateField: field, newStateOperator: operator, newStateOperand: operand });
-  }
+  handleLineStyle = val => this.props.handleEntryPoint(this.props.idPoint, 'lineStyle', val);
+  handlePoints = val => this.props.handleEntryPoint(this.props.idPoint, 'pointStyle', val);
+  handleName = e => this.props.handleEntryPoint(this.props.idPoint, 'name', e.target.value);
+  handleCurveColour = color => this.props.handleEntryPoint(this.props.idPoint, 'curveColour', color);
+  handleDataYChange = (label, val) => this.props.handleEntryPoint(this.props.idPoint, `connectedDataY.${label}`, val);
+  removeEntryPoint = () => this.props.remove(this.props.idPoint);
+  handleChangeStateColor = color => this.setState({ newStateColor: color });
+  handleFilter = (field, operator, operand) => this.setState({ newStateField: field, newStateOperator: operator, newStateOperand: operand });
   addStateColor = () => {
     const val = {
       field: this.state.newStateField,

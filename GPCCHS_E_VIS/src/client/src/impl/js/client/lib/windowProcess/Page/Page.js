@@ -20,7 +20,6 @@ export default class Page extends Component {
       <div>
         {(this.props.isEditorOpened
           ? <Col xs={editorCols}>
-            this is editor
             <EditorContainer closeEditor={this.props.closeEditor} {...this.props.editor} />
           </Col>
           : '')}

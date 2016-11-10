@@ -11,7 +11,7 @@ const { extractPages } = require('./extractPages');
 const { extractViews } = require('./extractViews');
 
 module.exports = function readWorkspace(folder, relativePath, callback) {
-  debug.debug(`reading workspace ${folder} ${relativePath}`);
+  debug.info(`reading workspace ${folder}/${relativePath}`);
   async.waterfall([
     cb => fs.readJsonFromPath(folder, relativePath, cb),
     (workspace, cb) => cb(validation('workspace', workspace), workspace),

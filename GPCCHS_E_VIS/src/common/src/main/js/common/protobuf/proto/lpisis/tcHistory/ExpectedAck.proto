@@ -1,8 +1,8 @@
-// Produced by Acceleo Cpp Generator 1.1.0-R7S1-20151214
+// Produced by Acceleo Python Generator 1.1.0-R7S2-20160930
 
 import "ccsds_mal/types.proto";
 
-package tchistory.protobuf;
+package tcHistory.protobuf;
 
 message ExpectedAck {
 extensions 4 to 104;

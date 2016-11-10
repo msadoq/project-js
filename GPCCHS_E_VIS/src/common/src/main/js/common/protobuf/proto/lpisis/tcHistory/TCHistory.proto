@@ -1,0 +1,22 @@
+// Produced by Acceleo Python Generator 1.1.0-R7S2-20160930
+
+import "ccsds_mal/types.proto";
+import "tcHistory/ExpectedAck.proto";
+import "tcHistory/SendTypeEnum.proto";
+import "tcHistory/SuccessiveAck.proto";
+
+package tcHistory.protobuf;
+
+message TCHistory {
+extensions 10 to 110;
+
+  optional ccsds_mal.protobuf.TIME sendingDate = 1;
+  optional ccsds_mal.protobuf.BOOLEAN tcInProgress = 2;
+  optional ccsds_mal.protobuf.ULONG tcId = 3;
+  optional ccsds_mal.protobuf.STRING historyName = 4;
+  optional tcHistory.protobuf.SendTypeEnum sendType = 5;
+  optional ccsds_mal.protobuf.STRING tcNums = 6;
+  optional tcHistory.protobuf.ExpectedAck expectedAck = 7;
+  optional tcHistory.protobuf.SuccessiveAck successiveAck = 8;
+  optional ccsds_mal.protobuf.BLOB tc = 9;
+}

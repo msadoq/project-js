@@ -5,7 +5,6 @@ const {
   bytesToUshort,
 } = require('../types');
 
-
 module.exports = {
   encode: data => ({
     onboardDate: { value: data.onboardDate },

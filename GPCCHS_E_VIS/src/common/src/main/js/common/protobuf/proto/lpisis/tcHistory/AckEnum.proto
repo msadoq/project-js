@@ -1,4 +1,4 @@
-package tchistory.protobuf;
+package tcHistory.protobuf;
 
 enum AckEnum {
   ACK_NOT_RECEIVED = 0;

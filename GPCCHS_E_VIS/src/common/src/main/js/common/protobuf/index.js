@@ -107,7 +107,10 @@ register({
   },
   lpisis: {
     decommutedParameter: {
-      ReportingParameter: require('./converters/lpisis/decommutedParameter/reportingParameter'),
+      ReportingParameter: require('./converters/lpisis/decommutedParameter/ReportingParameter'),
+    },
+    tcHistory: {
+      TCHistory: require('./converters/lpisis/tcHistory/TCHistory'),
     },
   },
 });

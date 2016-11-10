@@ -1,4 +1,5 @@
 const { should } = require('../utils/test');
+const _omit = require('lodash/omit');
 const protobuf = require('./index');
 const {
   encodeAttribute,
@@ -171,6 +172,25 @@ describe('protobuf', () => {
         const json = protobuf.decode('lpisis.decommutedParameter.ReportingParameter', buffer);
         json.should.be.an('object').that.have.properties(fixture);
         json.referenceTimestamp.should.equal(json.onboardDate);
+      });
+    });
+    describe('TCHistory', () => {
+      const fixture = stubData.getTCHistory();
+      let buffer;
+      it('encode', () => {
+        buffer = protobuf.encode('lpisis.tcHistory.TCHistory', fixture);
+        buffer.constructor.should.equal(Buffer);
+      });
+      it('decode', () => {
+        const json = protobuf.decode('lpisis.tcHistory.TCHistory', buffer);
+        json.should.be.an('object').that.have.properties(_omit(fixture, ['tc']));
+        json.tc.should.be.an('object');
+        json.tc.should.have.property('buffer');
+        json.tc.should.have.property('offset');
+        json.tc.should.have.property('markedOffset');
+        json.tc.should.have.property('limit');
+        json.tc.should.have.property('littleEndian');
+        json.tc.should.have.property('noAssert');
       });
     });
   });

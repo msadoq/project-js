@@ -46,6 +46,43 @@ stubs.getReportingParameterProtobuf = override => protobuf.encode(
   stubs.getReportingParameter(override)
 );
 
+// TCHistory
+stubs.getTCHistory = override => applyOverride({
+  sendingDate: now,
+  tcInProgress: false,
+  tcId: _random(1, 10000),
+  historyName: 'event name',
+  sendType: 2,
+  tcNums: 'event nums',
+  expectedAck: {
+    acceptance: true,
+    executionComplete: true,
+    executionStart: true,
+  },
+  successiveAck: {
+    scdCop1Ack: 1,
+    cop1Ack: 1,
+    stationAck: 1,
+    missionFailure: 1,
+    executionComplete: 1,
+    acceptance: 1,
+    scdCop1AckRcvDate: now,
+    Cop1AckRcvDate: now,
+    stationAckRcvDate: now,
+    missionFailureRcvDate: now,
+    executionCompleteRcvDate: now,
+    acceptanceRcvDate: now,
+    executionStartRcvDate: now,
+    executionStart: 1,
+  },
+  tc: Buffer.alloc(10, 1),
+}, override);
+
+stubs.getTCHistoryProtobuf = override => protobuf.encode(
+  'lpisis.tcHistory.TCHistory',
+  stubs.getTCHistory(override)
+);
+
 /*
  * DC COMICS
  */

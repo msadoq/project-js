@@ -9,7 +9,6 @@ const {
   isString: _isString,
 } = require('lodash');
 const ByteBuffer = require('bytebuffer');
-const ProtoBuf = require('protobufjs');
 
 module.exports = {
   encodeAttribute: (attribute) => {

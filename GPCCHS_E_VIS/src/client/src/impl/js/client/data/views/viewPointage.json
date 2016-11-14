@@ -1,0 +1,230 @@
+
+{
+  "label": "TextView Pointage",
+  "type": "TextView",
+  "entryPoints": [
+    {
+      "name": "BASETYPE_AM_TIMET10F01",
+      "connectedData": {
+        "formula": "Reporting.BASETYPE_AM_TIMET10F01<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "BASETYPE_AM_TIMET10F02",
+      "connectedData": {
+        "formula": "Reporting.BASETYPE_AM_TIMET10F02<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "BASETYPE_AM_TIMET10F03",
+      "connectedData": {
+        "formula": "Reporting.BASETYPE_AM_TIMET10F03<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "BASETYPE_AM_TIMET10F04",
+      "connectedData": {
+        "formula": "Reporting.BASETYPE_AM_TIMET10F04<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "BASETYPE_AM_TIMET10F05",
+      "connectedData": {
+        "formula": "Reporting.BASETYPE_AM_TIMET10F05<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "BASETYPE_AM_TIMET10F06",
+      "connectedData": {
+        "formula": "Reporting.BASETYPE_AM_TIMET10F06<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "BASETYPE_AM_TIMET10F07",
+      "connectedData": {
+        "formula": "Reporting.BASETYPE_AM_TIMET10F07<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "BASETYPE_AM_TIMET10F08",
+      "connectedData": {
+        "formula": "Reporting.BASETYPE_AM_TIMET10F08<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "BASETYPE_AM_TIMET10F09",
+      "connectedData": {
+        "formula": "Reporting.BASETYPE_AM_TIMET10F09<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "BASETYPE_AM_TIMET10F10",
+      "connectedData": {
+        "formula": "Reporting.BASETYPE_AM_TIMET10F10<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "BASETYPE_AM_TIMET10F11",
+      "connectedData": {
+        "formula": "Reporting.BASETYPE_AM_TIMET10F11<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "BASETYPE_AM_TIMET10F12",
+      "connectedData": {
+        "formula": "Reporting.BASETYPE_AM_TIMET10F12<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "BASETYPE_AM_TIMET10F13",
+      "connectedData": {
+        "formula": "Reporting.BASETYPE_AM_TIMET10F13<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "BASETYPE_AM_TIMET10F14",
+      "connectedData": {
+        "formula": "Reporting.BASETYPE_AM_TIMET10F14<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.sat1",
+        "timeline": "Session 1"
+      }
+    }
+  ],
+  "links": [
+    {
+      "name": "pageCommande",
+      "path": "../pageCommande.json"
+    }
+  ],
+  "defaultRatio": {
+    "length": 5,
+    "width": 3
+  },
+  "content": [
+    "<style>",
+    ".contener { margin-left: 50 px; width: 1500px; height: 450px; background-color: #4785b8; border: 2px solid darkblue; }",
+    ".frame1 { width: 700px ; height: 350px; float: left; border: 2px solid purple; border-radius: 10px; margin-left: 10px;}",
+    ".frame2 { width: 700px ; height: 350px; float: right; border: 2px solid orange; border-radius: 10px; margin-right: 10px;}",
+    " colspan { display: inline-block; margin-top: 15px; padding: 10px; }",
+    ".cell { margin-left: 10px; padding: 5px; text-align: center; background-color: ivory; border: 3px outset green; color: green; font-weight: bold; font-size: 1.5rem; }",
+    ".label { margin-left: 30px; text-align: center; color: darkblue; font-weight: bold; padding: 5px; font-size: 1.7rem; }",
+    ".title { margin-left: 20px; text-align: center; color: darkblue; font-weight: bold; padding: 5px; font-size: 1.2rem; }",
+    " .bigtitle { border: 2px solid white; border-radius: 10px; margin-top: 10px; margin-bottom: 10px; margin-left: 10px; text-align: center; color: darkblue; font-weight: bold; padding: 10px; font-size: 1.9rem;}",
+    " tr { padding: 10px; }",
+    ".contenerCol { padding: 20px; margin-left: 30px; margin-right: 30px; }",
+    "</style>",
+
+    "<div class='contener'>",
+        "<div><colspan class='bigtitle'>  POINTAGE </colspan></div>",
+    "<table class='frame1'>",
+      "<div><colspan class='label'>ESTIMATION</colspan></div>",
+      "<div><colspan class='label'></colspan>",
+      "<colspan class='contenerCol'>",
+      "<span class='cell'>{{BASETYPE_AM_TIMET10F01}}</span>",
+      "<span class='cell'>{{BASETYPE_AM_TIMET10F02}}</span>",
+      "<span class='cell'>{{BASETYPE_AM_TIMET10F03}}</span>",
+      "</colspan>",
+      "</div>",
+      "<div>",
+      "<colspan class='contenerCol'>",
+      "<span class='cell'>{{BASETYPE_AM_TIMET10F04}}</span>",
+      "<span class='cell'>{{BASETYPE_AM_TIMET10F05}}</span>",
+      "<span class='cell'>{{BASETYPE_AM_TIMET10F06}}</span>",
+      "</colspan>",
+      "</div>",
+      "<div>",
+      "<colspan class='contenerCol'>",
+      "<span class='cell'>{{BASETYPE_AM_TIMET10F07}}</span>",
+      "<span class='cell'>{{BASETYPE_AM_TIMET10F08}}</span>",
+      "<span class='cell'>{{BASETYPE_AM_TIMET10F09}}</span>",
+      "</colspan>",
+      "</div>",
+    "</table>",
+    "<table class='frame2'>",
+      "<div><colspan class='label'>CONTROLE</colspan></div>",
+    "</table>",
+    "</div>"
+  ]
+}

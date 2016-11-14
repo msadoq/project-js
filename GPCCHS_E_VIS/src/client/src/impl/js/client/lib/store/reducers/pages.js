@@ -55,8 +55,7 @@ const initialState = {
   editor: {
     isOpened: false,
     viewId: null,
-    viewType: null,
-    configuration: null,
+    viewType: null
   },
 };
 
@@ -76,8 +75,7 @@ function page(statePage = initialState, action) {
         editor: {
           isOpened: true,
           viewId: action.payload.viewId,
-          viewType: action.payload.viewType,
-          configuration: action.payload.configuration,
+          viewType: action.payload.viewType
         },
       }, statePage);
     case types.WS_PAGE_EDITOR_CLOSE:

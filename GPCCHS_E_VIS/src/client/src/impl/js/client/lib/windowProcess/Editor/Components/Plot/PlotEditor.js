@@ -10,33 +10,33 @@ import debug from '../../../../common/debug/windowDebug';
 
 const logger = debug('Editor:Plot');
 
-// const newEntryPoint = {
-//   name: 'NewEntryPoint',
-//   connectedDataX: {
-//     fullName: '',
-//     unit: 'ms',
-//     digits: 5,
-//     format: 'decimal',
-//     domain: '',
-//     session: 'Session 1',
-//     axisId: 'time'
-//   },
-//   connectedDataY: {
-//     fullName: '',
-//     unit: 'ms',
-//     digits: 5,
-//     format: 'decimal',
-//     domain: '',
-//     session: 'Session 1',
-//     axisId: 'time'
-//   },
-//   lineStyle: 'Continuous',
-//   pointsStyle: 'None',
-//   curveColour: '#222222',
-//   stateColours: [
+const newEntryPoint = {
+  name: 'NewEntryPoint',
+  connectedDataX: {
+    fullName: '',
+    unit: 'ms',
+    digits: 5,
+    format: 'decimal',
+    domain: '',
+    session: 'Session 1',
+    axisId: 'time'
+  },
+  connectedDataY: {
+    fullName: '',
+    unit: 'ms',
+    digits: 5,
+    format: 'decimal',
+    domain: '',
+    session: 'Session 1',
+    axisId: 'time'
+  },
+  lineStyle: 'Continuous',
+  pointsStyle: 'None',
+  curveColour: '#222222',
+  stateColours: [
 
-//   ]
-// };
+  ]
+};
 /*
   Composant racine de l'éditeur Plot.
 */
@@ -44,6 +44,8 @@ export default class Editor extends Component {
   static propTypes = {
     // actions
     updateEntryPoint: PropTypes.func.isRequired,
+    addEntryPoint: PropTypes.func.isRequired,
+    removeEntryPoint: PropTypes.func.isRequired,
 
     // rest
     viewId: PropTypes.string.isRequired,
@@ -91,10 +93,12 @@ export default class Editor extends Component {
     });
   }
   addEntryPoint = () => {
-    logger.debug('EntryPoint add');
+    const { addEntryPoint, viewId } = this.props;
+    addEntryPoint(viewId, { ...newEntryPoint });
   }
   removeEntryPoint = (key) => {
-    logger.debug('EntryPoint remove', key);
+    const { removeEntryPoint, viewId } = this.props;
+    removeEntryPoint(viewId, key);
   }
   handleGrid = (label, newVal) => {
     logger.debug('Grid onChange', label, newVal);

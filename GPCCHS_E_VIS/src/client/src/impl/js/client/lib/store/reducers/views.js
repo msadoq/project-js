@@ -166,7 +166,7 @@ function addElementInArray(stateViews, action, arrayName, paramName) {
   return u({
     [action.payload.viewId]: {
       configuration: {
-        [arrayName]: [...oldValue, ...action.payload[paramName]]
+        [arrayName]: [...oldValue, ...[action.payload[paramName]]]
       }
     }
   }, stateViews);

@@ -1,0 +1,40 @@
+{
+  "type": "Page",
+  "hideBorders": false,
+  "title": "page Commande",
+  "views": [
+    {
+      "path": "/views/viewTelecommande.json",
+      "geometry": {
+      "kind": "Relative",
+      "x": 0,
+      "y": 0,
+      "w": 16,
+      "h": 12
+      },
+      "windowState": "Normalized"
+    },
+	{
+	  "path": "/views/viewPointagejson",
+	  "geometry": {
+		"kind": "Relative",
+		"x": 0,
+		"y": 2,
+		"w": 16,
+		"h": 10
+	  },
+	  "windowState": "Normalized"
+	},
+  {
+	  "path": "/views/viewGuidage.json",
+	  "geometry": {
+		"kind": "Relative",
+		"x": 0,
+		"y": 4,
+		"w": 16,
+		"h": 10
+	  },
+	  "windowState": "Normalized"
+	}
+  ]
+}

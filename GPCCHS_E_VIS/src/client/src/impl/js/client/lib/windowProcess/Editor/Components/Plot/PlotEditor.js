@@ -42,6 +42,11 @@ const logger = debug('Editor:Plot');
 */
 export default class Editor extends Component {
   static propTypes = {
+    // actions
+    updateEntryPoint: PropTypes.func.isRequired,
+
+    // rest
+    viewId: PropTypes.string.isRequired,
     closeEditor: PropTypes.func.isRequired,
     configuration: PropTypes.shape({
       type: PropTypes.string,
@@ -78,9 +83,12 @@ export default class Editor extends Component {
     });
   }
   handleEntryPoint = (key, label, newVal) => {
-    const path = `entryPoints[${key}][${label}]`;
-    const currentValue = _get(this.props.configuration, path);
-    logger.debug('EntryPoint onChange', key, label, `${currentValue} => ${newVal}`);
+    const { configuration, updateEntryPoint, viewId } = this.props;
+    const currentEntryPoint = _get(configuration, `entryPoints[${key}]`);
+    updateEntryPoint(viewId, key, {
+      ...currentEntryPoint,
+      [label]: newVal
+    });
   }
   addEntryPoint = () => {
     logger.debug('EntryPoint add');

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Col } from 'react-bootstrap';
 import ContentContainer from './ContentContainer';
-import EditorContainer from '../Editor/EditorContainer';
+import Editor from '../Editor/Editor';
 
 const cols = 12;
 const editorCols = 4;
@@ -19,7 +19,7 @@ export default class Page extends Component {
       <div>
         {(this.props.isEditorOpened
           ? <Col xs={editorCols}>
-            <EditorContainer closeEditor={this.props.closeEditor} {...this.props.editor} />
+            <Editor closeEditor={this.props.closeEditor} {...this.props.editor} />
           </Col>
           : '')}
         <Col xs={pageContentWidth}>

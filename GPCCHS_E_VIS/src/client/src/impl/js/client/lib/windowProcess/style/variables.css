@@ -1,0 +1,7 @@
+:root{
+  --mainColor: green;
+}
+
+/*
+Use variables in your files that way: var(--mainColor)
+*/

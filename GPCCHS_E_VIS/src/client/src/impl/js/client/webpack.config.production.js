@@ -19,27 +19,10 @@ const config = merge(baseConfig, {
   },
 
   module: {
-    loaders: [
-      {
-        test: /\.global\.css$/,
-        loader: ExtractTextPlugin.extract(
-          'style-loader',
-          'css-loader'
-        )
-      },
-
-      {
-        test: /^((?!\.global).)*\.css$/,
-        loader: ExtractTextPlugin.extract(
-          'style-loader',
-          'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
-        )
-      },
-      {
-        test: [/.+\.svg/, /.+\.eot/, /.+\.ttf/, /.+\.woff/, /.+\.woff2/],
-        loader: 'file?name=dist/fonts/[name].[ext]'
-      }
-    ]
+    loaders: [{
+      test: [/.+\.svg/, /.+\.eot/, /.+\.ttf/, /.+\.woff/, /.+\.woff2/],
+      loader: 'file?name=dist/fonts/[name].[ext]'
+    }]
   },
 
   plugins: [

@@ -7,8 +7,6 @@ import '!style!css!react-resizable/css/styles.css';
 
 import WindowContainer from './Window/WindowContainer';
 import { initStore, getStore } from '../store/windowStore';
-import './global.css';
-import '../shortcuts.global.css';
 
 const search = global.location.search;
 const windowId = search.replace('?windowId=', '');

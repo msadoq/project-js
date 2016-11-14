@@ -1,12 +1,30 @@
 import path from 'path';
 import webpack from 'webpack';
 
+import postCssImport from 'postcss-smart-import';
+import postCssUrl from 'postcss-url';
+import postCssProperties from 'postcss-custom-properties';
+import postCssNesting from 'postcss-nesting';
+import postCssNext from 'postcss-cssnext';
+import postCssReporter from 'postcss-reporter';
+import postCssBrowserReporter from 'postcss-browser-reporter';
+
 export default {
   entry: [
-    './lib/windowProcess/bootstrap'
+    '!style!css!postcss!./lib/windowProcess/style',
+    './lib/windowProcess/style/bootstrap'
   ],
   module: {
     loaders: [{
+      test: /\.css$/,
+      loaders: [
+        'style',
+        'css?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+        'postcss'
+      ],
+      exclude: /node_modules/
+    },
+    {
       test: /\.jsx?$/,
       loaders: ['babel-loader'],
       exclude: /node_modules/
@@ -24,7 +42,7 @@ export default {
     libraryTarget: 'commonjs2'
   },
   resolve: {
-    extensions: ['', '.js', '.jsx', '.json', '.less'],
+    extensions: ['', '.js', '.jsx', '.json', '.less', '.css'],
     packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main']
   },
   plugins: [
@@ -33,5 +51,14 @@ export default {
   externals: [
     // put your node 3rd party libraries which can't be built with webpack here
     // (mysql, mongodb, and so on..)
+  ],
+  postcss: () => [
+    postCssImport(),
+    postCssUrl(),
+    postCssProperties(),
+    postCssNext(),
+    postCssNesting(),
+    postCssReporter(),
+    postCssBrowserReporter()
   ]
 };

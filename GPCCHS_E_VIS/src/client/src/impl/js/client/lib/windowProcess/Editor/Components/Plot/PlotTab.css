@@ -2,6 +2,12 @@
   color: #333;
   font-size: 0.9em;
   font-weight: bold;
+
+  &:hover {
+    text-decoration: none;
+    cursor: pointer;
+    color: #23537C;
+  }
 }
 
 .active {
@@ -16,16 +22,9 @@
 
 .glyphMenu {
   color: #23527C !important;
-}
-
-.glyphMenu:hover {
-  color: #23527C !important;
-}
-
-.collapseEvent:hover {
-  text-decoration: none;
-  cursor: pointer;
-  color: #23537C;
+  &:hover {
+    color: #23527C !important;
+  }
 }
 
 .PlotTreeFirstLvl {
@@ -38,11 +37,10 @@
 
 .danger {
   color: #D97D7D;
-}
-
-.danger:hover {
-  cursor: pointer;
-  color: #C37070;
+  &:hover {
+    cursor: pointer;
+    color: #C37070;
+  }
 }
 
 .shift {
@@ -61,10 +59,9 @@
   border: 1px solid #BBB;
   transition-property: none;
   box-shadow: none;
-}
-
-.input_xsmall:focus {
-  border: 1px solid #333;
+  &:focus {
+    border: 1px solid #333;
+  }
 }
 
 .formLabel {
@@ -90,10 +87,9 @@
   height: 16px;
   margin-left: 2px !important;
   border: 1px solid #333;
-}
-
-.buttonXsmall:hover {
-  border: 1px solid #222;
+  &:hover {
+    border: 1px solid #222;
+  }
 }
 
 .AxesTreeSecLvl {

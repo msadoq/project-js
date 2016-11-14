@@ -69,6 +69,7 @@ function page(statePage = initialState, action) {
         views: action.payload.views || statePage.views,
         path: action.payload.path,
         oId: action.payload.oId,
+        absolutePath: action.payload.absolutePath,
       });
     case types.WS_PAGE_EDITOR_OPEN:
       return u({

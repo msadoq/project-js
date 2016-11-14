@@ -23,7 +23,14 @@ function loadInStore(workspace, dispatch, root, file) {
   _each(workspace.timebars, e => dispatch(addTimebar(e.uuid, e)));
 
   // add views
-  _each(workspace.views, e => dispatch(addView(e.uuid, e.type, e.configuration, e.path, e.oId)));
+  _each(workspace.views, e => dispatch(addView(
+    e.uuid,
+    e.type,
+    e.configuration,
+    e.path,
+    e.oId,
+    e.absolutePath,
+  )));
 
   // add pages
   _each(workspace.pages, e => dispatch(addPage(
@@ -40,6 +47,7 @@ function loadInStore(workspace, dispatch, root, file) {
     })),
     e.path,
     e.oId,
+    e.absolutePath,
   )));
 
   // add windows

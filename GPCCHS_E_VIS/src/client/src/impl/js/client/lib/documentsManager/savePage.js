@@ -1,7 +1,13 @@
-const { findIndex } = require('lodash');
+/* eslint no-underscore-dangle: 0 */
+const _findIndex = require('lodash/findIndex');
+const _startsWith = require('lodash/startsWith');
 const { writeFile } = require('fs');
-const { join, dirname } = require('path');
+const { dirname } = require('path');
 const checkPath = require('./saveCommon');
+const parameters = require('../common/parameters');
+
+const root = parameters.FMD_ROOT;
+
 /**
  * Save plot view from state to file
  *
@@ -10,13 +16,17 @@ const checkPath = require('./saveCommon');
  * @param path
  * @returns Error or undefined
  */
-function savePageAs(state, pageId, path) {
+function savePageAs(state, pageId, path, useRelativePath = false) {
   if (!state.pages[pageId]) {
     return new Error('unknown page id');
   }
-  const err = checkPath(dirname(path));
-  if (err) {
-    return err;
+  if (path !== state.pages[pageId].absolutePath) {
+    // TODO add case with new FMD path -> createDocument par DC
+
+    const err = checkPath(dirname(path));
+    if (err) {
+      return err;
+    }
   }
   const page = state.pages[pageId];
   const jsonPage = { type: 'Page', title: page.title, views: [] };
@@ -27,9 +37,16 @@ function savePageAs(state, pageId, path) {
     }
     const view = state.views[id];
     const current = {};
-    current.path = view.path;
+    if (useRelativePath) {
+      current.path = path.relative(path, view.absolutePath);
+    } else {
+      current.path = view.absolutePath;
+      if (_startsWith(current.path, root)) {
+        current.path = '/'.concat(path.relative(root, view.absolutePath));
+      }
+    }
     current.oId = view.oId;
-    const index = findIndex(page.layout, item => item.i === id);
+    const index = _findIndex(page.layout, item => item.i === id);
     if (index === -1) {
       console.log('invalid index');
       return;
@@ -61,15 +78,16 @@ function savePageAs(state, pageId, path) {
  * @param path
  * @returns Error or undefined
  */
-function savePage(state, pageId) {
+function savePage(state, pageId, useRelativePath = false) {
   if (!state.pages[pageId]) {
     return new Error('unknown page id');
   }
-  const path = state.pages[pageId].path ? state.pages[pageId].path : state.pages[pageId].oId;
-  if (!path || !state.workspace.folder) {
+  const path = state.pages[pageId].absolutePath ? state.pages[pageId].absolutePath
+                                                : state.pages[pageId].oId;
+  if (!path) {
     return new Error('Unknown path for saving the page');
   }
-  return savePageAs(state, pageId, join(state.workspace.folder, path));
+  return savePageAs(state, pageId, path, useRelativePath);
 }
 
 

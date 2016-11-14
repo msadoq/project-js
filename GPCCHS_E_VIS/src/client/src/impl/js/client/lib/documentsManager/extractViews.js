@@ -1,11 +1,19 @@
 /* eslint no-underscore-dangle: 0 */
 
-const { get, reduce, isObject } = require('lodash');
+const _get = require('lodash/get');
+const _reduce = require('lodash/reduce');
+const _isObject = require('lodash/isObject');
+const _startsWith = require('lodash/startsWith');
 const async = require('async');
 const { v4 } = require('node-uuid');
 const fs = require('../common/fs');
+const fsNode = require('fs');
 const validation = require('./validation');
 const vivl = require('../../VIVL/main');
+const { join, dirname } = require('path');
+const parameters = require('../common/parameters');
+
+const root = parameters.FMD_ROOT;
 
 const supportedViewTypes = [
   'PlotView',
@@ -14,8 +22,10 @@ const supportedViewTypes = [
 ];
 
 function findPageViewsAndReplaceWithUuid(page) {
-  const views = get(page, 'views');
-  return reduce(views, (list, view, index) => {
+  const views = _get(page, 'views');
+  // extract page folder
+  const pageFolder = dirname(page.absolutePath);
+  return _reduce(views, (list, view, index) => {
     if (!view.oId && !view.path) {
       return list;
     }
@@ -26,7 +36,8 @@ function findPageViewsAndReplaceWithUuid(page) {
     views[index].uuid = uuid;
 
     // add page to read in list
-    list.push(Object.assign({}, view, { uuid })); // eslint-disable-line no-param-reassign
+    // eslint-disable-line no-param-reassign
+    list.push(Object.assign({}, view, { uuid }, { pageFolder }));
 
     return list;
   }, []);
@@ -34,8 +45,20 @@ function findPageViewsAndReplaceWithUuid(page) {
 
 function readViews(folder, viewsToRead, cb) {
   async.reduce(viewsToRead, [], (list, identity, fn) => {
-    const filepath = identity.path || identity.oId;
-    fs.readJsonFromPath(folder, filepath, (err, viewContent) => {
+    let filepath = identity.path || identity.oId;
+    // TODO when oId defined, ask DC (?) to get path
+    if (!_startsWith(filepath, '/')) {
+      // relative path from page folder
+      filepath = join(identity.pageFolder, filepath);
+    } else {
+      try {
+        fsNode.accessSync(join(root, filepath), fsNode.constants.F_OK);
+        filepath = join(root, filepath);
+      } catch (e) {
+        // already absolute path
+      }
+    }
+    fs.readJsonFromAbsPath(filepath, (err, viewContent) => {
       if (err) {
         return fn(err);
       }
@@ -60,6 +83,7 @@ function readViews(folder, viewsToRead, cb) {
         path: identity.path,
         oId: identity.oId,
         uuid: identity.uuid,
+        absolutePath: filepath,
       }));
 
       return fn(null, list);
@@ -76,11 +100,11 @@ function readViews(folder, viewsToRead, cb) {
  */
 function extractViews(content, cb) {
   let pages = content.pages;
-  if (!isObject(pages)) {
+  if (!_isObject(pages)) {
     pages = {};
   }
 
-  const viewsToRead = reduce(pages, (list, p) =>
+  const viewsToRead = _reduce(pages, (list, p) =>
     list.concat(findPageViewsAndReplaceWithUuid(p)),
   []);
 
@@ -90,7 +114,7 @@ function extractViews(content, cb) {
     }
 
     return cb(null, Object.assign(content, {
-      views: reduce(views, (l, v) => Object.assign(l, { [v.uuid]: v }), {}),
+      views: _reduce(views, (l, v) => Object.assign(l, { [v.uuid]: v }), {}),
     }));
   });
 }

@@ -14,7 +14,7 @@ const dataStub = require('common/stubs/data');
 
 
 const { should } = require('../../utils/test');
-const { addToTestQueue, getMessage, resetMessage, flushTestQueue } = require('../../stubs/testWebSocket');
+const { addToTestQueue, getMessage, resetMessage, flushTestQueue } = require('../../utils/testWebSocket');
 const flattenDataId = require('../../utils/flattenDataId');
 const registeredQueries = require('../../utils/registeredQueries');
 const registeredCallbacks = require('../../utils/registeredCallbacks');

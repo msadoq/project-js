@@ -5,7 +5,7 @@ const { response } = require('./onResponse');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
-const { sendToTestWs, getMessage, resetMessage } = require('../../stubs/testWebSocket');
+const { sendToTestWs, getMessage, resetMessage } = require('../../utils/testWebSocket');
 
 describe('controllers/dc/onResponse', () => {
   beforeEach(() => {

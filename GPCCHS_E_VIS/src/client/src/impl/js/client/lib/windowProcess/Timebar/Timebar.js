@@ -235,7 +235,7 @@ export default class Timebar extends Component {
   onWheel = (e) => {
     e.preventDefault();
 
-    const { slideWindow, visuWindow, timebarId } = this.props;
+    const { slideWindow, visuWindow } = this.props;
     const slideLower = this.state.slideLower || slideWindow.lower;
     const slideUpper = this.state.slideUpper || slideWindow.upper;
 
@@ -257,15 +257,7 @@ export default class Timebar extends Component {
       current = Math.trunc(current);
       this.setState({ lower, upper, current });
       if (!this.debounced1) {
-        this.debounced1 = debounce(
-          this.props.onChange.bind(
-            null,
-            timebarId,
-            { lower, upper, current }
-          ),
-          500,
-          { leading: true }
-      );
+        this.debounced1 = debounce(this.autoUpdateVisuWindow, 300);
       }
       this.debounced1();
     } else {
@@ -286,20 +278,7 @@ export default class Timebar extends Component {
         slideUpper: newSlideUpper
       });
       if (!this.debounced2) {
-        this.debounced2 = debounce(
-          this.props.onChange.bind(
-            null,
-            timebarId,
-            {
-              slideWindow: {
-                lower: newSlideLower,
-                upper: newSlideUpper
-              }
-            }
-          ),
-          500,
-          { leading: true }
-        );
+        this.debounced2 = debounce(this.autoUpdateSlideWindow, 300);
       }
       this.debounced2();
     }
@@ -324,6 +303,34 @@ export default class Timebar extends Component {
     } else {
       this.setState({ slideLower, slideUpper });
     }
+  }
+
+  autoUpdateSlideWindow = () => {
+    const { timebarId } = this.props;
+    const { slideLower, slideUpper } = this.state;
+    this.props.onChange(
+      timebarId,
+      {
+        slideWindow: {
+          lower: slideLower,
+          upper: slideUpper
+        }
+      }
+    );
+    this.setState({
+      slideLower: null,
+      slideUpper: null
+    });
+  }
+
+  autoUpdateVisuWindow = () => {
+    const { timebarId, onChange } = this.props;
+    const { lower, upper, current } = this.state;
+    onChange(
+      timebarId,
+      { lower, upper, current }
+    );
+    this.setState({ lower: null, upper: null, current: null });
   }
 
   updateCursorTime = (e) => {

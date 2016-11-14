@@ -1,4 +1,5 @@
-import { without, omit } from 'lodash';
+import _without from 'lodash/without';
+import _omit from 'lodash/omit';
 import u from 'updeep';
 import { relative, resolve } from 'path';
 import * as types from '../types';
@@ -22,7 +23,7 @@ export default function pages(statePages = {}, action) {
         [action.payload.pageId]: page(undefined, action),
       };
     case types.WS_PAGE_REMOVE:
-      return omit(statePages, [action.payload.pageId]);
+      return _omit(statePages, [action.payload.pageId]);
     case types.WS_PAGE_UPDATEPATH:
       // path unchanged or newPath invalid
       if (!action.payload.newPath ||
@@ -87,7 +88,7 @@ function page(statePage = initialState, action) {
       });
     case types.WS_PAGE_VIEW_UNMOUNT:
       return Object.assign({}, statePage, {
-        views: without(statePage.views, action.payload.viewId),
+        views: _without(statePage.views, action.payload.viewId),
       });
     case types.WS_PAGE_UPDATE_LAYOUT:
       return Object.assign({}, statePage, {

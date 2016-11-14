@@ -1,4 +1,5 @@
-import { each, get } from 'lodash';
+import _each from 'lodash/each';
+import _get from 'lodash/get';
 
 import intervalManager from 'common/intervals';
 
@@ -8,11 +9,11 @@ const getExpiredRequests = (dataMap, dataRequests) => {
   const start = profiling.start();
   const expiredRequests = {};
   // get requested remoteIds
-  each(dataRequests, (intervals, remoteId) => {
+  _each(dataRequests, (intervals, remoteId) => {
     let expiredIntervals = intervals;
     // get visible localIds for this remoteId if any
-    const localIds = get(dataMap, [remoteId, 'localIds']);
-    each(localIds, (localValue) => {
+    const localIds = _get(dataMap, [remoteId, 'localIds']);
+    _each(localIds, (localValue) => {
       // extract visible interval from expired intervals
       const expectedInterval = localValue.expectedInterval;
       // TODO getLast optimize .remove code to only remove exact matching interval if getLast cd
@@ -40,5 +41,5 @@ const getExpiredRequests = (dataMap, dataRequests) => {
  * @return object
  */
 export default function expirationsMap(state, dataMap) {
-  return getExpiredRequests(dataMap, get(state, 'dataRequests', {}));
+  return getExpiredRequests(dataMap, _get(state, 'dataRequests', {}));
 }

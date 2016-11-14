@@ -1,4 +1,5 @@
-import { each, set } from 'lodash';
+import _each from 'lodash/each';
+import _set from 'lodash/set';
 import globalConstants from 'common/constants';
 import profiling from '../common/debug/profiling';
 import debug from '../common/debug/mainDebug';
@@ -13,21 +14,21 @@ const logger = debug('data:inject');
 export function selectData(state, viewDefinitions, payload, count) {
   const bag = {};
   // remoteId
-  each(viewDefinitions, (view, viewId) => {
+  _each(viewDefinitions, (view, viewId) => {
     // Check view type
     const structureType = vivl(view.type, 'structureType')();
     switch (structureType) {
       case globalConstants.DATASTRUCTURETYPE_LAST: {
         const viewBag = lastValue(state, payload, viewId, view.entryPoints, count);
         if (viewBag) {
-          set(bag, [viewId], viewBag);
+          _set(bag, [viewId], viewBag);
         }
         break;
       }
       case globalConstants.DATASTRUCTURETYPE_RANGE: {
         const viewBag = rangeValues(payload, view.entryPoints, count);
         if (viewBag) {
-          set(bag, [viewId], viewBag);
+          _set(bag, [viewId], viewBag);
         }
         break;
       }

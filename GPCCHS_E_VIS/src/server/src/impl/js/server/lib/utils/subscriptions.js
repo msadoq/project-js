@@ -1,4 +1,3 @@
-const debug = require('../io/debug')('utils:subscriptions');
 const registeredCallbacks = require('../utils/registeredCallbacks');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { encode } = require('common/protobuf');

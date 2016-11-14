@@ -38,6 +38,7 @@ function flatten(o) {
 }
 
 module.exports = (req, res, next) => {
+  // eslint-disable-next-line no-param-reassign
   res.linker = (route = '', params) => {
     const port = (req.app.get('port'))
       ? `:${req.app.get('port')}`

@@ -4,7 +4,7 @@
 // const connectedDataModel = require('../models/connectedData');
 // const timebasedDataModel = require('../models/timebasedDataFactory');
 // // eslint-disable-next-line import/no-extraneous-dependencies
-const { getDataId } = require('common/stubs/data');
+// const { getDataId } = require('common/stubs/data');
 //
 // describe('subscriptions', () => {
 //   beforeEach(() => {
@@ -166,7 +166,10 @@ const { getDataId } = require('common/stubs/data');
 //                 .that.equal('DATA_SUBSCRIBE');
 //               subscription.should.have.an.property('payload');
 //               subscription.payload.constructor.should.equal(Buffer);
-//               const payload = decode('dc.dataControllerUtils.DataSubscribe', subscription.payload);
+//               const payload = decode(
+//                 'dc.dataControllerUtils.DataSubscribe',
+//                  subscription.payload
+//               );
 //               payload.should.be.an('object')
 //                 .that.have.an.property('action')
 //                 .that.equal('DELETE');

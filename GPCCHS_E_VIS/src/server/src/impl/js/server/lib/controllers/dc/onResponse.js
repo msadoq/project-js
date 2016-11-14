@@ -38,9 +38,6 @@ const response = (websocketHandler, queryIdBuffer, statusBuffer, reasonBuffer) =
   // unregister queryId
   registeredCallbacks.remove(queryId);
 
-  debug.debug('decode status');
-  // deprotobufferize status
-  /*const status = decode('dc.dataControllerUtils.Status', statusBuffer).status;*/
   // if status is SUCCESS, execute callback and stop logic
   if (_isEqual(statusBuffer, protobufSuccess)) {
     return callback(null);

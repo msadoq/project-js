@@ -1,3 +1,5 @@
+/* eslint prefer-template:0 */
+
 const { Router } = require('express');
 
 const subscriptionsModel = require('../../models/subscriptions');

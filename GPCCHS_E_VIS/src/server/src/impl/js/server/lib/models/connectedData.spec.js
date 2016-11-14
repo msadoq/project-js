@@ -467,7 +467,8 @@ describe('models/connectedData', () => {
       const cd = model.addRequestedInterval(myRemoteId, myQueryId, myInterval);
       const result = model.areTimestampsInKnownIntervals(myRemoteId, timestamps);
       result.should.deep.equal([timestamps[1]]);
-      model.areTimestampsInKnownIntervals(myRemoteId, timestamps, cd).should.deep.equal([timestamps[1]]);
+      model.areTimestampsInKnownIntervals(myRemoteId, timestamps, cd)
+        .should.deep.equal([timestamps[1]]);
     });
     it('all', () => {
       model.addRecord(globalConstants.DATASTRUCTURETYPE_LAST, myRemoteId, myDataId);

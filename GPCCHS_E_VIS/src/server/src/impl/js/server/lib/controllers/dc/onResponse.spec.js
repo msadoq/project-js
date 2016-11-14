@@ -45,7 +45,7 @@ describe('controllers/onResponse', () => {
         payload: {
           type: globalConstants.ERRORTYPE_RESPONSE,
           reason,
-        }
+        },
       });
     called.should.equal(true);
   });

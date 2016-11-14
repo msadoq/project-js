@@ -25,29 +25,13 @@ export default merge(baseConfig, {
   module: {
     preLoaders: [{
       test: /\.jsx?$/,
-      loader: 'eslint',
+      loader: "eslint",
       exclude: [/src\/common/, /node_modules/]
     }],
-    loaders: [
-      {
-        test: /\.global\.css$/,
-        loaders: [
-          'style-loader',
-          'css-loader?sourceMap',
-        ],
-      },
-      {
-        test: /^((?!\.global).)*\.css$/,
-        loaders: [
-          'style-loader',
-          'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
-        ],
-      },
-      {
-        test: /.+\.(svg|eot|ttf|woff|woff2)/,
-        loader: 'file?name=dist/fonts/[name].[ext]',
-      },
-    ]
+    loaders: [{
+      test: /.+\.(svg|eot|ttf|woff|woff2)/,
+      loader: 'file?name=dist/fonts/[name].[ext]'
+    }]
   },
 
   plugins: [

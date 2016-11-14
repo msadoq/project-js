@@ -46,9 +46,11 @@ const getLineMarkerProps = (pointsStyle, props) => {
       styleProps = { width: 5 };
       break;
     case 'Dot':
+      styleProps = { r: 2 };
+      break;
     case 'None':
     default:
-      styleProps = { r: 1 };
+      styleProps = { r: 0 };
   }
   return { ...styleProps, ...props };
 };

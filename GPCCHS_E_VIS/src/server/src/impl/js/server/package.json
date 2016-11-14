@@ -5,6 +5,7 @@
   "scripts": {
     "postinstall": "npm link ../../../../../common/src/main/js/common/",
     "build-primus-client": "node ./bin/buildPrimusClient",
+    "lint": "eslint lib test *.js",
     "start": "node --max_old_space_size=8000 index",
     "test": "mocha \"lib/**/*.spec.js\"",
     "tw": "npm test -- --watch"

@@ -11,8 +11,6 @@ const {
 
 require('../utils/test');
 
-require('dotenv-safe').load();
-
 const myQueryId = 'myQueryId';
 const myOtherQueryId = 'myOtherQueryId';
 

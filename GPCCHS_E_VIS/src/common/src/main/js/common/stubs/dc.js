@@ -1,4 +1,3 @@
-require('dotenv-safe').load();
 const zmq = require('../zmq');
 const globalConstants = require('../constants');
 const debug = require('debug');

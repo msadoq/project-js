@@ -1,9 +1,10 @@
-const debug = require('../../io/debug')('controllers:onTimebasedArchiveData');
+const { eachSeries } = require('async');
 const {
-  map: _map,
   chunk: _chunk,
   isEqual: _isEqual,
 } = require('lodash');
+
+const debug = require('../../io/debug')('controllers:onTimebasedArchiveData');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { decode, encode, getType } = require('common/protobuf');
 const { addTimebasedDataModel, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
@@ -47,16 +48,15 @@ const sendTimebasedArchiveData = (
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
   execution.stop('decode queryId');
 
-  // if queryId not in registeredQuerues, stop logic
+  // if queryId not in registeredQueries, stop logic
   const remoteId = registeredQueries.get(queryId);
   if (typeof remoteId === 'undefined') {
     return undefined;
   }
   debug.debug('received data from query', queryId);
 
-  execution.start('decode isLast');
   // deprotobufferize isLast
-  /* const isLast = decode('dc.dataControllerUtils.Boolean', isLastBuffer).boolean; */
+  execution.start('decode isLast');
   const isLast = _isEqual(isLastBuffer, protobufTrue);
   execution.stop('decode isLast');
 
@@ -65,14 +65,14 @@ const sendTimebasedArchiveData = (
   if (isLast) {
     debug.debug('last chunk of queried timebased data', queryId);
     execution.start('set interval as received');
-    connectedDataModel.setIntervalAsReceived(remoteId, queryId); // TODO getLast: merge or not merge
+    connectedDataModel.setIntervalAsReceived(remoteId, queryId);
     execution.stop('set interval as received');
     registeredQueries.remove(queryId);
   }
 
-  execution.start('decode dataId');
   // deprotobufferize dataId
-  const dataId = decode('dc.dataControllerUtils.DataId', dataIdBuffer);
+  execution.start('decode dataId');
+  const dataId = decode('dc.dataControllerUtils.DataId', dataIdBuffer); // TODO : avoid deprotobufferization of dataId (we can retrieve it with queryId)
   execution.stop('decode dataId');
 
   // get payload type
@@ -81,41 +81,45 @@ const sendTimebasedArchiveData = (
     throw new Error('unsupported comObject', dataId.comObject);
   }
 
-  // loop over arguments peers (timestamp, payload) and deprotobufferize
+  // check payloads parity
   if (payloadBuffers.length % 2 !== 0) {
     debug.debug('payloads should be sent by (timestamp, payloads) peers');
     return undefined;
   }
-  execution.start('decode payloads');
-  const payloadsToSend = {};
-  const payloadsToInsert = _map(_chunk(payloadBuffers, 2), (payloadBuffer) => {
-    const timestamp = decode('dc.dataControllerUtils.Timestamp', payloadBuffer[0]).ms;
-    const payload = decode(payloadProtobufType, payloadBuffer[1]);
-    payloadsToSend[timestamp] = payload;
-    return {
-      timestamp,
-      payload,
-    };
-  });
-  execution.stop('decode payloads');
-  debug.debug(`inserting ${payloadsToInsert.length} data`);
 
-  // store decoded payloads in timebasedData model
-  execution.start('store payloads');
+  // retrieve cache collection
+  execution.start('retrieve store');
   let timebasedDataModel = getTimebasedDataModel(remoteId);
   if (!timebasedDataModel) {
     timebasedDataModel = addTimebasedDataModel(remoteId);
   }
-  timebasedDataModel.addRecords(payloadsToInsert);
-  execution.stop('store payloads');
+  execution.stop('retrieve store');
 
-  execution.start('queue payloads');
-  // queue a ws newData message (sent periodically)
-  addToQueue(remoteId, payloadsToSend);
-  execution.stop('queue payloads');
-  execution.stop('global');
-  execution.print();
-  return undefined;
+  // only one loop to decode, insert in cache, and add to queue
+  // TODO : avoid iteration by removing chunk
+  return eachSeries(_chunk(payloadBuffers, 2), (payloadBuffer, callback) => {
+    execution.start('decode payloads');
+    const timestamp = decode('dc.dataControllerUtils.Timestamp', payloadBuffer[0]).ms;
+    const payload = decode(payloadProtobufType, payloadBuffer[1]);
+    execution.stop('decode payloads');
+
+    // store in cache
+    execution.start('store payloads');
+    timebasedDataModel.addRecord(timestamp, payload);
+    execution.stop('store payloads');
+
+    // queue new data in spool
+    execution.start('queue payloads');
+    // TODO : simplify management in addToQueue
+    addToQueue(remoteId, { [timestamp]: payload });
+    execution.stop('queue payloads');
+    callback(null);
+  }, () => {
+    debug.debug(`inserting ${payloadBuffers.length / 2} data`);
+
+    execution.stop('global');
+    execution.print();
+  });
 };
 
 module.exports = {

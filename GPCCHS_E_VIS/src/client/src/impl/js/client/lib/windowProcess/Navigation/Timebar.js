@@ -14,10 +14,7 @@ class Timebar extends PureComponent {
   };
   constructor(...args) {
     super(...args);
-    this.moveForward = this.moveForward.bind(this);
-    this.moveBackward = this.moveBackward.bind(this);
     this.toggleMode = this.toggleMode.bind(this);
-    this.moveNow = this.moveNow.bind(this);
     this.state = {
       mode: 'pause',
     };
@@ -34,24 +31,7 @@ class Timebar extends PureComponent {
       }
     ));
   }
-  moveForward() {
-    this.updateVisuWindow(10000);
-  }
-  moveBackward() {
-    this.updateVisuWindow(-10000);
-  }
-  moveNow() {
-    const { focusedPage } = this.props;
-    const { timebarId } = focusedPage;
-    this.props.dispatch(updateVisuWindow(
-      timebarId,
-      {
-        lower: Date.now() - 1e5,
-        current: Date.now(),
-        upper: Date.now() + 1e5,
-      }
-    ));
-  }
+
   toggleMode() {
     if (this.state.mode === 'pause') {
       this.tick();
@@ -80,14 +60,6 @@ class Timebar extends PureComponent {
 
     return (
       <div style={{ display: 'inline-block' }}>
-        <Button onClick={this.moveBackward} {...buttonsProps}>{'<<'} 10s</Button>
-        {' '}
-        <Button onClick={this.moveNow} {...buttonsProps}>
-          NOW
-        </Button>
-        {' '}
-        <Button onClick={this.moveForward} {...buttonsProps}>10s {'>>'}</Button>
-        {' '}
         <Button onClick={this.toggleMode} {...buttonsProps}>
           {mode === 'play' ? 'PAUSE' : `PLAY (${globalConstants.HSC_PLAY_FREQUENCY}ms)`}
         </Button>

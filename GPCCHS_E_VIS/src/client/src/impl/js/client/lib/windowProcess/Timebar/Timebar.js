@@ -258,14 +258,14 @@ export default class Timebar extends Component {
       this.setState({ lower, upper, current });
       if (!this.debounced1) {
         this.debounced1 = debounce(
-          () => {
-            this.props.onChange(
-              timebarId,
-              { lower, upper, current }
-            );
-          },
-          500
-        );
+          this.props.onChange.bind(
+            null,
+            timebarId,
+            { lower, upper, current }
+          ),
+          500,
+          { leading: true }
+      );
       }
       this.debounced1();
     } else {
@@ -287,18 +287,18 @@ export default class Timebar extends Component {
       });
       if (!this.debounced2) {
         this.debounced2 = debounce(
-          () => {
-            this.props.onChange(
-              timebarId,
-              {
-                slideWindow: {
-                  lower: newSlideLower,
-                  upper: newSlideUpper
-                }
+          this.props.onChange.bind(
+            null,
+            timebarId,
+            {
+              slideWindow: {
+                lower: newSlideLower,
+                upper: newSlideUpper
               }
-            );
-          },
-          500
+            }
+          ),
+          500,
+          { leading: true }
         );
       }
       this.debounced2();
@@ -328,9 +328,12 @@ export default class Timebar extends Component {
 
   updateCursorTime = (e) => {
     e.stopPropagation();
-    const { timeEnd, timeBeginning } = this.state;
+    const { slideWindow } = this.props;
+    let { slideLower, slideUpper } = this.state;
+    slideLower = slideLower || slideWindow.lower;
+    slideUpper = slideUpper || slideWindow.upper;
     const offsetPx = e.pageX - this.el.getBoundingClientRect().left;
-    const cursorMs = timeBeginning + ((timeEnd - timeBeginning) * (offsetPx / this.el.offsetWidth));
+    const cursorMs = slideLower + ((slideLower - slideUpper) * (offsetPx / this.el.offsetWidth));
     this.setState({
       formatedFullDate: moment(cursorMs).format('D MMMM YYYY HH[:]mm[:]ss[.]SSS')
     });
@@ -382,21 +385,32 @@ export default class Timebar extends Component {
   }
 
   rePosition = (side) => {
-    const { visuWindow } = this.props;
+    const { visuWindow, onChange, timebarId } = this.props;
     const lower = this.state.lower || visuWindow.lower;
     const upper = this.state.upper || visuWindow.upper;
 
+    let newSlideLower;
+    let newSlideUpper;
     if (side === 'left') {
-      this.setState({
-        slideLower: lower - ((upper - lower) / 5),
-        slideUpper: upper + ((upper - lower) * 2),
-      });
+      newSlideLower = lower - ((upper - lower) / 5);
+      newSlideUpper = upper + ((upper - lower) * 2);
     } else if (side === 'right') {
-      this.setState({
-        slideLower: lower - ((upper - lower) * 2),
-        slideUpper: upper + ((upper - lower) / 5),
-      });
+      newSlideLower = lower - ((upper - lower) * 2);
+      newSlideUpper = upper + ((upper - lower) / 5);
     }
+    onChange(
+      timebarId,
+      {
+        slideWindow: {
+          lower: newSlideLower,
+          upper: newSlideUpper,
+        }
+      }
+    );
+    this.setState({
+      slideLower: null,
+      slideUpper: null,
+    });
   }
 
   bringCursors = (e) => {

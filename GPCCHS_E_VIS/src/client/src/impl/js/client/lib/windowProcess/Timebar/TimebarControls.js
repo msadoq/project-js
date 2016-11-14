@@ -33,20 +33,35 @@ export default class TimebarControls extends Component {
   goNow = (e) => {
     e.preventDefault();
     const { updateVisuWindow, timebarId } = this.props;
-    const { lower, upper, current } = this.props.visuWindow;
+    const { lower, upper } = this.props.visuWindow;
 
-    const nowMs = new Date().getTime();
-    const movedMs = nowMs - current;
+    const nowMs = Date.now();
+    const msWidth = upper - lower;
     updateVisuWindow(
       timebarId,
       {
-        lower: lower + movedMs,
-        upper: upper + movedMs,
+        lower: upper - msWidth,
+        upper: nowMs,
         current: nowMs
       }
     );
   }
 
+  navSeconds = (e) => {
+    e.preventDefault();
+    const { updateVisuWindow, timebarId } = this.props;
+    const { lower, upper, current } = this.props.visuWindow;
+
+    const movedMs = 1000 * e.currentTarget.getAttribute('offset');
+    updateVisuWindow(
+      timebarId,
+      {
+        lower: lower + movedMs,
+        upper: upper + movedMs,
+        current: current + movedMs
+      }
+    );
+  }
   toggleMode = () => {
     const { updatePlayingState, timebarId, timebarPlayingState } = this.props;
     const newtimebarPlayingState = (timebarPlayingState === 'pause' ? 'play' : 'pause');
@@ -138,6 +153,26 @@ export default class TimebarControls extends Component {
                     title="Go now"
                   >
                     NOW
+                  </button>
+                </li>
+                <li className={styles.controlsLi}>
+                  <button
+                    offset={-10}
+                    className={allButtonsKlasses}
+                    onClick={this.navSeconds}
+                    title="- 10s"
+                  >
+                    - 10s
+                  </button>
+                </li>
+                <li className={styles.controlsLi}>
+                  <button
+                    offset={10}
+                    className={allButtonsKlasses}
+                    onClick={this.navSeconds}
+                    title="+ 10s"
+                  >
+                    + 10s
                   </button>
                 </li>
               </ul>

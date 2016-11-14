@@ -12,7 +12,6 @@ export default class TimebarScale extends PureComponent {
   }
 
   onMouseUp = () => {
-    console.log('mouseup');
     this.navigate(true);
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
@@ -35,7 +34,7 @@ export default class TimebarScale extends PureComponent {
 
   onMouseMove = (e) => {
     const { dragOrigin, navigating } = this.state;
-    const mult = e.pageX > dragOrigin ? 1 : -1;
+    const mult = e.pageX > dragOrigin ? -1 : 1;
     const abs = Math.abs(e.pageX - dragOrigin);
     let pow = 2;
     if (abs > 140) {

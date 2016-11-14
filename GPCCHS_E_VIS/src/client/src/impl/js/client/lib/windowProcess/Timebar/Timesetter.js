@@ -16,6 +16,7 @@ export default class Timesetter extends Component {
   state = {
     errorMessages: []
   }
+
   onChangeAction = (lower, upper, current, cursor) => {
     const { timebarId, onChange } = this.props;
     const errorMessages = [];

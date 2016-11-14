@@ -99,12 +99,13 @@ const initialState = {
 function view(stateView = initialState, action) {
   switch (action.type) {
     case types.WS_VIEW_ADD:
-      return Object.assign({}, stateView, {
+      return {
+        ...stateView,
         type: action.payload.type || stateView.type,
         configuration: configuration(undefined, action),
         path: action.payload.path,
         oId: action.payload.oId,
-      });
+      };
     default:
       return stateView;
   }
@@ -128,8 +129,13 @@ function updateObject(stateViews, action, objectName, paramName, viewType) {
   if (viewType && stateViews[action.payload.viewId].type !== viewType) {
     return stateViews;
   }
-  return u({ [action.payload.viewId]: { configuration: { [objectName]: action.payload[paramName] }
-  } }, stateViews);
+  return u({
+    [action.payload.viewId]: {
+      configuration: {
+        [objectName]: action.payload[paramName]
+      }
+    }
+  }, stateViews);
 }
 
 function updateArray(stateViews, action, arrayName, paramName) {
@@ -141,17 +147,29 @@ function updateArray(stateViews, action, arrayName, paramName) {
   if (index < 0 || index >= viewConf[arrayName].length) {
     return stateViews;
   }
-  return u({ [action.payload.viewId]: { configuration: { [arrayName]: { [index]:
-    action.payload[paramName] } } } }, stateViews);
+  return u({
+    [action.payload.viewId]: {
+      configuration: {
+        [arrayName]: {
+          [index]: action.payload[paramName]
+        }
+      }
+    }
+  }, stateViews);
 }
 
 function addElementInArray(stateViews, action, arrayName, paramName) {
   if (!stateViews[action.payload.viewId] || !action.payload[paramName]) {
     return stateViews;
   }
-  return u({ [action.payload.viewId]: { configuration: { [arrayName]:
-    [].concat(stateViews[action.payload.viewId].configuration[arrayName], action.payload[paramName])
-    } } }, stateViews);
+  const oldValue = stateViews[action.payload.viewId].configuration[arrayName];
+  return u({
+    [action.payload.viewId]: {
+      configuration: {
+        [arrayName]: [...oldValue, ...action.payload[paramName]]
+      }
+    }
+  }, stateViews);
 }
 function removeElementInArray(stateViews, action, arrayName) {
   if (!stateViews[action.payload.viewId] || !action.payload.index) {
@@ -162,6 +180,11 @@ function removeElementInArray(stateViews, action, arrayName) {
   if (index < 0 || index >= viewConf[arrayName].length) {
     return stateViews;
   }
-  return u({ [action.payload.viewId]: { configuration: { [arrayName]:
-         _without(viewConf[arrayName], viewConf[arrayName][index]) } } }, stateViews);
+  return u({
+    [action.payload.viewId]: {
+      configuration: {
+        [arrayName]: _without(viewConf[arrayName], viewConf[arrayName][index])
+      }
+    }
+  }, stateViews);
 }

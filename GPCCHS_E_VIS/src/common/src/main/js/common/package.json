@@ -4,14 +4,15 @@
   "main": "./lib/index.js",
   "scripts": {
     "lint": "eslint lib test *.js",
-    "test": "mocha \"+(intervals|zmq|protobuf|stubs)/*.spec.js\"",
-    "tw": "npm test -- --watch"
+    "test": "DEBUG=GPCCHS:* LEVEL=DEBUG mocha \"+(intervals|zmq|protobuf|stubs)/*.spec.js\"",
+    "tw": "npm test -- --watch",
+    "dc-stub": "DEBUG=GPCCHS:* LEVEL=INFO ZMQ_GPCCDC_PUSH=tcp://127.0.0.1:5042 ZMQ_GPCCDC_PULL=tcp://127.0.0.1:49165 node stubs/dc.js",
+    "dc-reg": "DEBUG=GPCCHS:* LEVEL=INFO ZMQ_GPCCDC_PUSH=tcp://127.0.0.1:5042 ZMQ_GPCCDC_PULL=tcp://127.0.0.1:49165 node stubs/dcTestReg.js"
   },
   "dependencies": {
     "async": "^2.1.2",
     "bytebuffer": "^5.0.1",
     "debug": "^2.2.0",
-    "dotenv-safe": "^2.3.2",
     "lodash": "^4.16.2",
     "protobufjs": "^5.0.1",
     "ws": "^1.1.1",

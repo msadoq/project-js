@@ -1,0 +1,11 @@
+package dataControllerUtils.protobuf;
+
+import "dataControllerUtils/Timestamp.proto";
+
+message Session {
+extensions 5 to 105;
+    required string name = 1;
+    required uint32 id = 2;
+    required Timestamp timestamp = 3;
+    required uint64 delta = 4;
+}

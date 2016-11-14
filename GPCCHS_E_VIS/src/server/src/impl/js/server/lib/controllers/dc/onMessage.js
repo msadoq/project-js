@@ -7,6 +7,7 @@ const { onResponse } = require('./onResponse');
 const { onDomainData } = require('./onDomainData');
 const { onTimebasedArchiveData } = require('./onTimebasedArchiveData');
 const { onTimebasedPubSubData } = require('./onTimebasedPubSubData');
+const { onSessionData } = require('./onSessionData');
 const errorHandler = require('../../utils/errorHandler');
 const { slice: _slice } = require('lodash');
 
@@ -22,6 +23,7 @@ const message = (
   domainDataHandler,
   timebasedArchiveDataHandler,
   timebasedPubSubDataHandler,
+  sessionDataHandler,
   headerBuffer,
   ...args
 ) => {
@@ -41,6 +43,9 @@ const message = (
     case globalConstants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA:
       errorHandler('onTimebasedPubSubData', () => timebasedPubSubDataHandler(args[0], args[1], ..._slice(args, 2)));
       break;
+    case globalConstants.MESSAGETYPE_SESSION_DATA:
+      errorHandler('onSessionData', () => sessionDataHandler(args[0], args[1]));
+      break;
     default:
       debug.debug('message type not recognized');
       break;
@@ -53,6 +58,7 @@ const onMessage = (...args) =>
     onDomainData,
     onTimebasedArchiveData,
     onTimebasedPubSubData,
+    onSessionData,
     ...args
   );
 

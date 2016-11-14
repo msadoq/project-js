@@ -111,6 +111,30 @@ describe('protobuf', () => {
         json.should.be.an('object').that.have.properties(fixture);
       });
     });
+    describe('Session', () => {
+      const fixture = stubData.getSession();
+      let buffer;
+      it('encode', () => {
+        buffer = protobuf.encode('dc.dataControllerUtils.Session', fixture);
+        buffer.constructor.should.equal(Buffer);
+      });
+      it('decode', () => {
+        const json = protobuf.decode('dc.dataControllerUtils.Session', buffer);
+        json.should.be.an('object').that.have.properties(fixture);
+      });
+    });
+    describe('Sessions', () => {
+      const fixture = stubData.getSessions();
+      let buffer;
+      it('encode', () => {
+        buffer = protobuf.encode('dc.dataControllerUtils.Sessions', fixture);
+        buffer.constructor.should.equal(Buffer);
+      });
+      it('decode', () => {
+        const json = protobuf.decode('dc.dataControllerUtils.Sessions', buffer);
+        json.should.be.an('object').that.have.properties(fixture);
+      });
+    });
     describe('Status', () => {
       const fixture = stubData.getSuccessStatus();
       let buffer;

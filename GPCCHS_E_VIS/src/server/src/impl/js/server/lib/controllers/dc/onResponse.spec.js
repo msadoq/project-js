@@ -7,7 +7,7 @@ const registeredCallbacks = require('../../utils/registeredCallbacks');
 const globalConstants = require('common/constants');
 const { sendToTestWs, getMessage, resetMessage } = require('../../stubs/testWebSocket');
 
-describe('controllers/onResponse', () => {
+describe('controllers/dc/onResponse', () => {
   beforeEach(() => {
     registeredCallbacks.clear();
     resetMessage();

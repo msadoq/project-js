@@ -59,7 +59,7 @@ export default class EntryPointDetails extends React.Component {
     L'utilisation de setState est temporaire, pour voir la mise à jour dans l'IHM.
   */
   handleLineStyle = val => this.props.handleEntryPoint(this.props.idPoint, 'lineStyle', val);
-  handlePoints = val => this.props.handleEntryPoint(this.props.idPoint, 'pointStyle', val);
+  handlePoints = val => this.props.handleEntryPoint(this.props.idPoint, 'pointsStyle', val);
   handleName = e => this.props.handleEntryPoint(this.props.idPoint, 'name', e.target.value);
   handleCurveColour = color => this.props.handleEntryPoint(this.props.idPoint, 'curveColour', color);
   handleDataYChange = (label, val) => this.props.handleEntryPoint(this.props.idPoint, `connectedDataY.${label}`, val);

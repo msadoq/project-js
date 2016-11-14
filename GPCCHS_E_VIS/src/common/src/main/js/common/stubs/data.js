@@ -26,7 +26,7 @@ const stubs = module.exports = {};
  * LPISIS
  */
 
-// ReportinParameter
+// ReportingParameter
 stubs.getReportingParameter = override => applyOverride({
   onboardDate: now,
   groundDate: now + 20,
@@ -189,6 +189,12 @@ stubs.getTimebasedArchiveDataHeader = () => ({
 stubs.getTimebasedPubSubDataHeader = () => ({
   messageType: constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA,
 });
+stubs.getSessionQueryHeader = () => ({
+  messageType: constants.MESSAGETYPE_SESSION_QUERY,
+});
+stubs.getSessionDataHeader = () => ({
+  messageType: constants.MESSAGETYPE_SESSION_DATA,
+});
 
 stubs.getDomainQueryHeaderProtobuf = () => protobuf.encode(
   'dc.dataControllerUtils.Header',
@@ -218,6 +224,10 @@ stubs.getTimebasedPubSubDataHeaderProtobuf = () => protobuf.encode(
   'dc.dataControllerUtils.Header',
   stubs.getTimebasedPubSubDataHeader()
 );
+stubs.getSessionDataHeaderProtobuf = () => protobuf.encode(
+  'dc.dataControllerUtils.Header',
+  stubs.getSessionDataHeader()
+);
 
 // QueryArguments
 stubs.getQueryArguments = override => applyOverride({
@@ -241,6 +251,32 @@ stubs.getQueryArguments = override => applyOverride({
 stubs.getQueryArgumentsProtobuf = override => protobuf.encode(
   'dc.dataControllerUtils.QueryArguments',
   stubs.getQueryArguments(override)
+);
+
+// Session
+stubs.getSession = override => applyOverride({
+  name: 'Master',
+  id: 0,
+  timestamp: stubs.getTimestamp(),
+  delta: 0,
+}, override);
+
+stubs.getSessionProtobuf = override => protobuf.encode(
+  'dc.dataControllerUtils.Session',
+  stubs.getSession(override)
+);
+
+// Sessions
+stubs.getSessions = override => applyOverride({
+  sessions: [
+    stubs.getSession(),
+    stubs.getSession({ name: 'Session#42', id: 42, delta: 42 }),
+  ],
+}, override);
+
+stubs.getSessionsProtobuf = override => protobuf.encode(
+  'dc.dataControllerUtils.Sessions',
+  stubs.getSession(override)
 );
 
 // Status

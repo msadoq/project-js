@@ -1,4 +1,3 @@
-require('dotenv-safe').load();
 const zmq = require('../zmq');
 const globalConstants = require('../constants');
 const debug = require('debug');
@@ -8,6 +7,7 @@ const isParameterSupported = require('./dc/isParameterSupported');
 const sendDomainData = require('./dc/sendDomainData');
 const sendPubSubData = require('./dc/sendPubSubData');
 const sendArchiveData = require('./dc/sendArchiveData');
+const sendSessionData = require('./dc/sendSessionData');
 const {
   each: _each,
   omit: _omit,
@@ -49,6 +49,10 @@ const onHssMessage = (...args) => {
     case globalConstants.MESSAGETYPE_DOMAIN_QUERY: {
       logger.info('push domain data');
       return sendDomainData(queryId, zmq);
+    }
+    case globalConstants.MESSAGETYPE_SESSION_QUERY: {
+      logger.info('push session data');
+      return sendSessionData(queryId, zmq);
     }
     case globalConstants.MESSAGETYPE_TIMEBASED_QUERY: {
       const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);

@@ -61,6 +61,10 @@ const primusExports = module.exports = {
             errorHandler('onCacheCleanup', () => handlers.onCacheCleanup(message.payload));
             break;
           }
+          case globalConstants.EVENT_SESSION_QUERY: {
+            errorHandler('onSessionQuery', () => handlers.onSessionQuery());
+            break;
+          }
           default:
             throw new Error(`Websocket incoming message unknown event key: ${message.event}`);
         }

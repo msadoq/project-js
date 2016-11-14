@@ -1,6 +1,7 @@
-
 import globalConstants from 'common/constants';
-import { findIndex, findLastIndex, concat } from 'lodash';
+import _findIndex from 'lodash/findIndex';
+import _findLastIndex from 'lodash/findLastIndex';
+import _concat from 'lodash/concat';
 import _each from 'lodash/each';
 import _get from 'lodash/get';
 import _reduce from 'lodash/reduce';
@@ -127,8 +128,8 @@ export function viewRangeRemove(state, lower, upper) {
   }
 
   // cut
-  const iLower = findIndex(state.index, t => t >= lower);
-  let iUpper = findLastIndex(state.index, t => t <= upper);
+  const iLower = _findIndex(state.index, t => t >= lower);
+  let iUpper = _findLastIndex(state.index, t => t <= upper);
   iUpper = (iUpper === -1) ? state.index.length - 1 : iUpper;
 
   return {
@@ -172,7 +173,7 @@ export function viewRangeAdd(state = {}, payloads) {
     }
     lastTime = timestamp;
 
-    const index = findIndex(newState.index, t => t >= timestamp, lastIndex);
+    const index = _findIndex(newState.index, t => t >= timestamp, lastIndex);
     lastIndex = index;
     if (index === -1) {
       // add at end
@@ -188,12 +189,12 @@ export function viewRangeAdd(state = {}, payloads) {
     }
 
     // add at index
-    newState.index = concat(
+    newState.index = _concat(
       newState.index.slice(0, index),
       timestamp,
       newState.index.slice(index)
     );
-    newState.columns = concat(
+    newState.columns = _concat(
       newState.columns.slice(0, index),
       { ...value, x: timestamp },
       newState.columns.slice(index)

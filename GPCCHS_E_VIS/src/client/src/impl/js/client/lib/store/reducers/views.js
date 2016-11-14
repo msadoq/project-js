@@ -1,4 +1,5 @@
-import { omit } from 'lodash';
+import _omit from 'lodash/omit';
+import _without from 'lodash/without';
 import u from 'updeep';
 import { relative, resolve } from 'path';
 import * as types from '../types';
@@ -19,7 +20,7 @@ export default function views(stateViews = {}, action) {
         [action.payload.viewId]: view(undefined, action),
       };
     case types.WS_VIEW_REMOVE:
-      return omit(stateViews, [action.payload.viewId]);
+      return _omit(stateViews, [action.payload.viewId]);
     case types.WS_VIEW_UPDATEPATH:
       // path unchanged or newPath invalid
       if (!action.payload.newPath ||
@@ -38,6 +39,54 @@ export default function views(stateViews = {}, action) {
       const pathMvt = relative(newWkFolder, oldPath);
       return u({ [action.payload.viewId]: { path: pathMvt } }, stateViews);
     }
+    case types.WS_VIEW_UPDATE_ENTRYPOINT:
+      return updateArray(stateViews, action, 'entryPoints', 'entryPoint');
+    case types.WS_VIEW_UPDATE_AXIS:
+      return updateArray(stateViews, action, 'axes', 'axis');
+    case types.WS_VIEW_UPDATE_GRID:
+      return updateArray(stateViews, action, 'grids', 'grid');
+    case types.WS_VIEW_UPDATE_LINK:
+      return updateArray(stateViews, action, 'links', 'link');
+    case types.WS_VIEW_UPDATE_MARKER:
+      return updateArray(stateViews, action, 'markers', 'marker');
+    case types.WS_VIEW_UPDATE_PROCEDURE:
+      return updateArray(stateViews, action, 'procedures', 'procedure');
+    case types.WS_VIEW_UPDATE_RATIO:
+      return updateObject(stateViews, action, 'defaultRatio', 'ratio');
+    case types.WS_VIEW_UPDATE_TITLE:
+      return updateObject(stateViews, action, 'title', 'title');
+    case types.WS_VIEW_UPDATE_TITLESTYLE:
+      return updateObject(stateViews, action, 'titleStyle', 'titleStyle', 'PlotView');
+    case types.WS_VIEW_UPDATE_BGCOLOR:
+      return updateObject(stateViews, action, 'plotBackgroundColour', 'bgColor', 'PlotView');
+    case types.WS_VIEW_UPDATE_LEGEND:
+      return updateObject(stateViews, action, 'legend', 'legend', 'PlotView');
+    case types.WS_VIEW_UPDATE_CONTENT:
+      return updateObject(stateViews, action, 'content', 'content', 'TextView');
+    case types.WS_VIEW_ADD_AXIS:
+      return addElementInArray(stateViews, action, 'axes', 'axis');
+    case types.WS_VIEW_REMOVE_AXIS:
+      return removeElementInArray(stateViews, action, 'axes');
+    case types.WS_VIEW_ADD_ENTRYPOINT:
+      return addElementInArray(stateViews, action, 'entryPoints', 'entryPoint');
+    case types.WS_VIEW_REMOVE_ENTRYPOINT:
+      return removeElementInArray(stateViews, action, 'entryPoints');
+    case types.WS_VIEW_ADD_GRID:
+      return addElementInArray(stateViews, action, 'grids', 'grid');
+    case types.WS_VIEW_REMOVE_GRID:
+      return removeElementInArray(stateViews, action, 'grids');
+    case types.WS_VIEW_ADD_LINK:
+      return addElementInArray(stateViews, action, 'links', 'link');
+    case types.WS_VIEW_REMOVE_LINK:
+      return removeElementInArray(stateViews, action, 'links');
+    case types.WS_VIEW_ADD_MARKER:
+      return addElementInArray(stateViews, action, 'markers', 'marker');
+    case types.WS_VIEW_REMOVE_MARKER:
+      return removeElementInArray(stateViews, action, 'markers');
+    case types.WS_VIEW_ADD_PROCEDURE:
+      return addElementInArray(stateViews, action, 'procedures', 'procedure');
+    case types.WS_VIEW_REMOVE_PROCEDURE:
+      return removeElementInArray(stateViews, action, 'procedures');
     default:
       return stateViews;
   }
@@ -69,4 +118,50 @@ function configuration(state = { title: null }, action) {
     default:
       return state;
   }
+}
+
+function updateObject(stateViews, action, objectName, paramName, viewType) {
+  if (!stateViews[action.payload.viewId] || !action.payload[paramName]) {
+    return stateViews;
+  }
+  // Content only for a type of view if viewType is defined
+  if (viewType && stateViews[action.payload.viewId].type !== viewType) {
+    return stateViews;
+  }
+  return u({ [action.payload.viewId]: { configuration: { [objectName]: action.payload[paramName] }
+  } }, stateViews);
+}
+
+function updateArray(stateViews, action, arrayName, paramName) {
+  if (!stateViews[action.payload.viewId] || !action.payload[paramName]) {
+    return stateViews;
+  }
+  const viewConf = stateViews[action.payload.viewId].configuration;
+  const index = action.payload.index;
+  if (index < 0 || index >= viewConf[arrayName].length) {
+    return stateViews;
+  }
+  return u({ [action.payload.viewId]: { configuration: { [arrayName]: { [index]:
+    action.payload[paramName] } } } }, stateViews);
+}
+
+function addElementInArray(stateViews, action, arrayName, paramName) {
+  if (!stateViews[action.payload.viewId] || !action.payload[paramName]) {
+    return stateViews;
+  }
+  return u({ [action.payload.viewId]: { configuration: { [arrayName]:
+    [].concat(stateViews[action.payload.viewId].configuration[arrayName], action.payload[paramName])
+    } } }, stateViews);
+}
+function removeElementInArray(stateViews, action, arrayName) {
+  if (!stateViews[action.payload.viewId] || !action.payload.index) {
+    return stateViews;
+  }
+  const viewConf = stateViews[action.payload.viewId].configuration;
+  const index = action.payload.index;
+  if (index < 0 || index >= viewConf[arrayName].length) {
+    return stateViews;
+  }
+  return u({ [action.payload.viewId]: { configuration: { [arrayName]:
+         _without(viewConf[arrayName], viewConf[arrayName][index]) } } }, stateViews);
 }

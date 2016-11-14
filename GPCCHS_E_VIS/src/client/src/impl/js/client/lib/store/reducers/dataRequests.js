@@ -1,4 +1,6 @@
-import { reduce as _reduce, set as _set, omit as _omit } from 'lodash';
+import _reduce from 'lodash/reduce';
+import _set from 'lodash/set';
+import _omit from 'lodash/omit';
 
 import intervalManager from 'common/intervals';
 import * as types from '../types';

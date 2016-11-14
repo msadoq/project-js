@@ -1,4 +1,6 @@
-import { each, map } from 'lodash';
+import _each from 'lodash/each';
+import _map from 'lodash/map';
+
 
 import debug from '../common/debug/mainDebug';
 import parameters from '../common/parameters';
@@ -15,21 +17,21 @@ const logger = debug('mainProcess:index');
 
 function loadInStore(workspace, dispatch, root, file) {
   // add timelines
-  each(workspace.timelines, e => dispatch(addTimeline(e.uuid, e)));
+  _each(workspace.timelines, e => dispatch(addTimeline(e.uuid, e)));
 
   // add timebars
-  each(workspace.timebars, e => dispatch(addTimebar(e.uuid, e)));
+  _each(workspace.timebars, e => dispatch(addTimebar(e.uuid, e)));
 
   // add views
-  each(workspace.views, e => dispatch(addView(e.uuid, e.type, e.configuration, e.path, e.oId)));
+  _each(workspace.views, e => dispatch(addView(e.uuid, e.type, e.configuration, e.path, e.oId)));
 
   // add pages
-  each(workspace.pages, e => dispatch(addPage(
+  _each(workspace.pages, e => dispatch(addPage(
     e.uuid,
     e.timebarId,
     e.title,
-    map(e.views, v => v.uuid),
-    map(e.views, v => ({
+    _map(e.views, v => v.uuid),
+    _map(e.views, v => ({
       i: v.uuid,
       x: v.geometry.x,
       y: v.geometry.y,
@@ -41,7 +43,7 @@ function loadInStore(workspace, dispatch, root, file) {
   )));
 
   // add windows
-  each(workspace.windows,
+  _each(workspace.windows,
     (e) => {
       // set focusedPage on the fly (not in documents)
       let pageId = null;

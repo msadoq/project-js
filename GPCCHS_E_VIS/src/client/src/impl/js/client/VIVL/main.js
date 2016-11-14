@@ -1,13 +1,14 @@
 /* eslint-disable global-require */
 import TextView from './TextView/main';
 import PlotView from './PlotView/main';
-import { get, isFunction } from 'lodash';
+import _get from 'lodash/get';
+import _isFunction from 'lodash/isFunction';
 
 const supportedView = { PlotView, TextView };
 
 export default (viewType, functionName) => {
-  const f = get(supportedView, [viewType, functionName]);
-  if (!f || !isFunction(f)) {
+  const f = _get(supportedView, [viewType, functionName]);
+  if (!f || !_isFunction(f)) {
     throw new Error(`invalid function ${functionName} for view type ${viewType}`)
   }
 

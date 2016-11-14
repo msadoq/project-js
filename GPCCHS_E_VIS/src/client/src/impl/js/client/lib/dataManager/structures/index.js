@@ -1,4 +1,5 @@
-import { get, isFunction } from 'lodash';
+import _get from 'lodash/get';
+import _isFunction from 'lodash/isFunction';
 
 import globalConstants from 'common/constants';
 import last from './last';
@@ -10,8 +11,8 @@ const supportedStructure = {
 };
 
 export default (structureType, functionName) => {
-  const f = get(supportedStructure, [structureType, functionName]);
-  if (!f || !isFunction(f)) {
+  const f = _get(supportedStructure, [structureType, functionName]);
+  if (!f || !_isFunction(f)) {
     throw new Error(`invalid function ${functionName} for structure type ${structureType}`);
   }
 

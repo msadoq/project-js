@@ -1,4 +1,6 @@
-import { each, set, has } from 'lodash';
+import _each from 'lodash/each';
+import _set from 'lodash/set';
+import _has from 'lodash/has';
 
 import globalConstants from 'common/constants';
 import debug from '../../../common/debug/mainDebug';
@@ -10,7 +12,7 @@ export function select(remoteIdPayload, ep, epName, viewState, count) {
   const upper = ep.expectedInterval[1];
   const newState = {};
 
-  each(remoteIdPayload, (value) => {
+  _each(remoteIdPayload, (value) => {
     const timestamp = value.referenceTimestamp;
     if (typeof timestamp === 'undefined') {
       return logger.warn('get a payload without .referenceTimestamp key');
@@ -26,7 +28,7 @@ export function select(remoteIdPayload, ep, epName, viewState, count) {
       newState[masterTime][epName] =
         { x: value[ep.fieldX], value: value[ep.fieldY] };
     } else {
-      set(newState, [masterTime, epName],
+      _set(newState, [masterTime, epName],
         { x: value[ep.fieldX], value: value[ep.fieldY] });
     }
 
@@ -41,9 +43,9 @@ export default function rangeValues(payload, entryPoints, count) {
   let epSubState = {};
   let viewData;
 
-  each(entryPoints, (ep, epName) => {
+  _each(entryPoints, (ep, epName) => {
     // No payload for this remote Id
-    if (!has(payload, ep.remoteId)) {
+    if (!_has(payload, ep.remoteId)) {
       return;
     }
     if (isFirstEp) {
@@ -51,17 +53,17 @@ export default function rangeValues(payload, entryPoints, count) {
         viewData = {};
       }
       // master's timestamp (arbitrary determined from the first entryPoint)
-      set(viewData, ['remove'], {
+      _set(viewData, ['remove'], {
         lower: ep.expectedInterval[0] + ep.offset,
         upper: ep.expectedInterval[1] + ep.offset });
-      set(viewData, ['structureType'], globalConstants.DATASTRUCTURETYPE_RANGE);
+      _set(viewData, ['structureType'], globalConstants.DATASTRUCTURETYPE_RANGE);
       isFirstEp = false;
     }
 
     epSubState = select(payload[ep.remoteId], ep, epName, epSubState, count);
   });
   if (Object.keys(epSubState).length !== 0) {
-    set(viewData, ['add'], epSubState);
+    _set(viewData, ['add'], epSubState);
   }
   return viewData;
 }

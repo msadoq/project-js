@@ -30,7 +30,7 @@ export default class EntryPointTree extends React.Component {
         {entryPoints.length && entryPoints.map((entryPoint, key_) =>
         ((entryPoint.name.match(mask))
           ? <EntryPointDetails
-            key={key_}
+            key={key_ + entryPoint.name}
             idPoint={key_}
             entryPoint={entryPoint}
             handleEntryPoint={handleEntryPoint}

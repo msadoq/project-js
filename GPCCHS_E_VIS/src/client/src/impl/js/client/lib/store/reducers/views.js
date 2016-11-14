@@ -105,6 +105,7 @@ function view(stateView = initialState, action) {
         configuration: configuration(undefined, action),
         path: action.payload.path,
         oId: action.payload.oId,
+        absolutePath: action.payload.absolutePath,
       };
     default:
       return stateView;
@@ -166,7 +167,7 @@ function addElementInArray(stateViews, action, arrayName, paramName) {
   return u({
     [action.payload.viewId]: {
       configuration: {
-        [arrayName]: [...oldValue, ...action.payload[paramName]]
+        [arrayName]: [...oldValue, ...[action.payload[paramName]]]
       }
     }
   }, stateViews);

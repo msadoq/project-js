@@ -55,8 +55,7 @@ const initialState = {
   editor: {
     isOpened: false,
     viewId: null,
-    viewType: null,
-    configuration: null,
+    viewType: null
   },
 };
 
@@ -70,14 +69,14 @@ function page(statePage = initialState, action) {
         views: action.payload.views || statePage.views,
         path: action.payload.path,
         oId: action.payload.oId,
+        absolutePath: action.payload.absolutePath,
       });
     case types.WS_PAGE_EDITOR_OPEN:
       return u({
         editor: {
           isOpened: true,
           viewId: action.payload.viewId,
-          viewType: action.payload.viewType,
-          configuration: action.payload.configuration,
+          viewType: action.payload.viewType
         },
       }, statePage);
     case types.WS_PAGE_EDITOR_CLOSE:

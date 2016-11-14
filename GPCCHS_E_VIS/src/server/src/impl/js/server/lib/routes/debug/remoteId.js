@@ -1,10 +1,13 @@
 const { Router } = require('express');
-const connectedDataModel = require('../../models/connectedData');
-const {
-  get: _get,
-  each: _each,
-} = require('lodash');
+// eslint-disable-next-line no-underscore-dangle
+const _get = require('lodash/get');
+// eslint-disable-next-line no-underscore-dangle
+const _each = require('lodash/each');
+
 const ApiError = require('../../utils/apiError');
+
+const connectedDataModel = require('../../models/connectedData');
+
 
 const router = new Router();
 

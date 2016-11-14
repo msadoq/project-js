@@ -1,4 +1,6 @@
-const { round: _round } = require('lodash');
+// eslint-disable-next-line no-underscore-dangle
+const _round = require('lodash/round');
+
 const profiling = require('../io/debug')('profiling');
 
 const start = () => process.hrtime();

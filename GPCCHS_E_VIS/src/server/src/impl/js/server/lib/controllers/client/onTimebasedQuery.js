@@ -1,20 +1,25 @@
+// eslint-disable-next-line no-underscore-dangle
+const _each = require('lodash/each');
+// eslint-disable-next-line no-underscore-dangle
+const _concat = require('lodash/concat');
+// eslint-disable-next-line no-underscore-dangle
+const _zipObject = require('lodash/zipObject');
+// eslint-disable-next-line no-underscore-dangle
+const _map = require('lodash/map');
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
-const {
-  each: _each,
-  concat: _concat,
-  zipObject: _zipObject,
-  map: _map,
-} = require('lodash');
-const connectedDataModel = require('../../models/connectedData');
-const { getTimebasedDataModel } = require('../../models/timebasedDataFactory');
-const subscriptionsModel = require('../../models/subscriptions');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const zmq = require('common/zmq');
+
 const { add } = require('../../utils/dataQueue');
 const { createQueryMessage } = require('../../utils/queries');
 const { createAddSubscriptionMessage } = require('../../utils/subscriptions');
 const execution = require('../../utils/execution')('query');
+
+const connectedDataModel = require('../../models/connectedData');
+const { getTimebasedDataModel } = require('../../models/timebasedDataFactory');
+const subscriptionsModel = require('../../models/subscriptions');
 
 /**
  * Triggered when the data consumer query for timebased data

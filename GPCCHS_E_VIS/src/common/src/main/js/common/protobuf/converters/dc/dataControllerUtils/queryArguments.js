@@ -1,4 +1,6 @@
-const { map: _map } = require('lodash');
+// eslint-disable-next-line no-underscore-dangle
+const _map = require('lodash/map');
+
 const timestamp = require('./timestamp');
 const filter = require('./filter');
 

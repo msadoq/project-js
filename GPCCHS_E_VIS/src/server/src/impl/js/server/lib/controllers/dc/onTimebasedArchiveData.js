@@ -1,17 +1,21 @@
-const { eachSeries } = require('async');
-const {
-  chunk: _chunk,
-  isEqual: _isEqual,
-} = require('lodash');
-
 const debug = require('../../io/debug')('controllers:onTimebasedArchiveData');
+
+const { eachSeries } = require('async');
+// eslint-disable-next-line no-underscore-dangle
+const _chunk = require('lodash/chunk');
+// eslint-disable-next-line no-underscore-dangle
+const _isEqual = require('lodash/isEqual');
+
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { decode, encode, getType } = require('common/protobuf');
-const { addTimebasedDataModel, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
-const connectedDataModel = require('../../models/connectedData');
+
 const registeredQueries = require('../../utils/registeredQueries');
 const { add } = require('../../utils/dataQueue');
 const execution = require('../../utils/execution')('archiveData');
+
+const { addTimebasedDataModel, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
+const connectedDataModel = require('../../models/connectedData');
 
 const protobufTrue = encode('dc.dataControllerUtils.Boolean', { boolean: true });
 

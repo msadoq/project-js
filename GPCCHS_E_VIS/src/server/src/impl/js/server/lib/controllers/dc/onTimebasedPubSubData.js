@@ -1,16 +1,21 @@
 const debug = require('../../io/debug')('controllers:onTimebasedPubSubData');
-const {
-  isEmpty: _isEmpty,
-  each: _each,
-  chunk: _chunk,
-} = require('lodash');
+
+// eslint-disable-next-line no-underscore-dangle
+const _isEmpty = require('lodash/isEmpty');
+// eslint-disable-next-line no-underscore-dangle
+const _each = require('lodash/each');
+// eslint-disable-next-line no-underscore-dangle
+const _chunk = require('lodash/chunk');
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { decode, getType } = require('common/protobuf');
+
+const { add } = require('../../utils/dataQueue');
+const { applyFilters } = require('../../utils/filters');
+
 const { addTimebasedDataModel, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
-const { add } = require('../../utils/dataQueue');
-const { applyFilters } = require('../../utils/filters');
 
 /**
  * Trigger on new incoming message NewDataMessage from DC.

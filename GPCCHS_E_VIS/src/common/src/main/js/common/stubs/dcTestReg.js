@@ -1,15 +1,17 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
+const async = require('async');
+// eslint-disable-next-line no-underscore-dangle
+const _each = require('lodash/each');
+// eslint-disable-next-line no-underscore-dangle
+const _chunk = require('lodash/chunk');
+// eslint-disable-next-line no-underscore-dangle
+const _slice = require('lodash/slice');
+
+require('../utils/test');
+
 const zmq = require('../zmq');
 const { encode, decode } = require('../protobuf');
 const constants = require('../constants');
-const async = require('async');
-const {
-  each: _each,
-  chunk: _chunk,
-  slice: _slice,
-} = require('lodash');
 
-require('../utils/test');
 
 const myQueryId = 'myQueryId';
 const myOtherQueryId = 'myOtherQueryId';

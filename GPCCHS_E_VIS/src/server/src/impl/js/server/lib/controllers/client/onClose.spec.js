@@ -1,25 +1,29 @@
-require('../../utils/test');
-// eslint-disable-next-line import/no-extraneous-dependencies
-const { decode } = require('common/protobuf');
-const { close } = require('./onClose');
-const connectedDataModel = require('../../models/connectedData');
-const subscriptionsModel = require('../../models/subscriptions');
-const { clearFactory, addTimebasedDataModel } = require('../../models/timebasedDataFactory');
-const registeredQueries = require('../../utils/registeredQueries');
-const { add, get } = require('../../utils/dataQueue');
-const { setDomains, getDomains } = require('../../utils/domains');
+// eslint-disable-next-line no-underscore-dangle
+const _concat = require('lodash/concat');
+// eslint-disable-next-line no-underscore-dangle
+const _now = require('lodash/now');
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { decode } = require('common/protobuf');
 const {
   getDataId,
   getRemoteId,
   getReportingParameter,
   getReportingParameterProtobuf,
 } = require('common/stubs/data'); // eslint-disable-line import/no-extraneous-dependencies
-const {
-  concat: _concat,
-  now: _now,
-} = require('lodash');
+
+require('../../utils/test');
+const registeredQueries = require('../../utils/registeredQueries');
+const { add, get } = require('../../utils/dataQueue');
+const { setDomains, getDomains } = require('../../utils/domains');
+
+const connectedDataModel = require('../../models/connectedData');
+const subscriptionsModel = require('../../models/subscriptions');
+const { clearFactory, addTimebasedDataModel } = require('../../models/timebasedDataFactory');
+
+const { close } = require('./onClose');
 
 let calls = [];
 const zmqEmulator = (key, payload) => {

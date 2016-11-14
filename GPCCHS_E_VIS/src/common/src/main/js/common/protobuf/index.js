@@ -1,20 +1,30 @@
 /* eslint-disable global-require */
 
 const ProtoBuf = require('protobufjs');
-const {
-  each: _each,
-  forOwn: _forOwn,
-  isUndefined: _isUndefined,
-  isNull: _isNull,
-  isNaN: _isNaN,
-  isString: _isString,
-  isEmpty: _isEmpty,
-  isObject: _isObject,
-  isFunction: _isFunction,
-  isArray: _isArray,
-  pull: _pull,
-  get: _get,
-} = require('lodash');
+// eslint-disable-next-line no-underscore-dangle
+const _each = require('lodash/each');
+// eslint-disable-next-line no-underscore-dangle
+const _forOwn = require('lodash/forOwn');
+// eslint-disable-next-line no-underscore-dangle
+const _isUndefined = require('lodash/isUndefined');
+// eslint-disable-next-line no-underscore-dangle
+const _isNull = require('lodash/isNull');
+// eslint-disable-next-line no-underscore-dangle
+const _isNaN = require('lodash/isNaN');
+// eslint-disable-next-line no-underscore-dangle
+const _isString = require('lodash/isString');
+// eslint-disable-next-line no-underscore-dangle
+const _isEmpty = require('lodash/isEmpty');
+// eslint-disable-next-line no-underscore-dangle
+const _isObject = require('lodash/isObject');
+// eslint-disable-next-line no-underscore-dangle
+const _isFunction = require('lodash/isFunction');
+// eslint-disable-next-line no-underscore-dangle
+const _isArray = require('lodash/isArray');
+// eslint-disable-next-line no-underscore-dangle
+const _pull = require('lodash/pull');
+// eslint-disable-next-line no-underscore-dangle
+const _get = require('lodash/get');
 const { join } = require('path');
 
 const types = {};

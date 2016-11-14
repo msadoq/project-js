@@ -1,4 +1,6 @@
-const { map: _map } = require('lodash');
+// eslint-disable-next-line no-underscore-dangle
+const _map = require('lodash/map');
+
 const session = require('./session');
 
 module.exports = {

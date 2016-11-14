@@ -1,23 +1,29 @@
+// eslint-disable-next-line no-underscore-dangle
+const _isEmpty = require('lodash/isEmpty');
+// eslint-disable-next-line no-underscore-dangle
+const _keys = require('lodash/keys');
+// eslint-disable-next-line no-underscore-dangle
+const _pull = require('lodash/pull');
+// eslint-disable-next-line no-underscore-dangle
+const _concat = require('lodash/concat');
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
-const {
-  isEmpty: _isEmpty,
-  keys: _keys,
-  pull: _pull,
-  concat: _concat,
-} = require('lodash');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const dataStub = require('common/stubs/data');
+
 
 const { should } = require('../../utils/test');
+const { addToTestQueue, getMessage, resetMessage, flushTestQueue } = require('../../stubs/testWebSocket');
 const flattenDataId = require('../../utils/flattenDataId');
-const { timebasedQuery } = require('./onTimebasedQuery');
+const registeredQueries = require('../../utils/registeredQueries');
+const registeredCallbacks = require('../../utils/registeredCallbacks');
+
 const connectedDataModel = require('../../models/connectedData');
 const { clearFactory, addTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const subscriptionsModel = require('../../models/subscriptions');
-const registeredQueries = require('../../utils/registeredQueries');
-const registeredCallbacks = require('../../utils/registeredCallbacks');
-// eslint-disable-next-line import/no-extraneous-dependencies
-const dataStub = require('common/stubs/data');
-const { addToTestQueue, getMessage, resetMessage, flushTestQueue } = require('../../stubs/testWebSocket');
+
+const { timebasedQuery } = require('./onTimebasedQuery');
 
 let calls = [];
 const zmqEmulator = (key, payload) => {

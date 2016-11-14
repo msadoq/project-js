@@ -1,11 +1,11 @@
+const Primus = require('primus');
+// eslint-disable-next-line no-underscore-dangle
+const _get = require('lodash/get');
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
 
 const debug = require('../io/debug')('websocket');
-const {
-  get: _get,
-} = require('lodash');
-const Primus = require('primus');
 
 const errorHandler = require('../utils/errorHandler');
 

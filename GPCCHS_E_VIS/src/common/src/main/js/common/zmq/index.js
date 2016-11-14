@@ -1,11 +1,13 @@
-const debug = require('debug');
-const logger = require('../debug')(debug)('common:zmq');
-const {
-  each: _each,
-  isFunction: _isFunction,
-} = require('lodash');
+// eslint-disable-next-line no-underscore-dangle
+const _each = require('lodash/each');
+// eslint-disable-next-line no-underscore-dangle
+const _isFunction = require('lodash/isFunction');
 const async = require('async');
 const zmq = require('zmq');
+const debug = require('debug');
+
+const logger = require('../debug')(debug)('common:zmq');
+
 
 const lifeCycleEvents = [
   'connect',

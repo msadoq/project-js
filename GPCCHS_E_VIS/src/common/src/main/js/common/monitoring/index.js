@@ -1,9 +1,11 @@
+// eslint-disable-next-line no-underscore-dangle
+const _round = require('lodash/round');
 const debug = require('debug');
-const {
-  round: _round,
-} = require('lodash');
-const debugHelper = require('../debug');
+
 const bytesToString = require('../utils/bytesConverter');
+
+const debugHelper = require('../debug');
+
 
 const display = debugHelper(debug)('monitoring').warn;
 

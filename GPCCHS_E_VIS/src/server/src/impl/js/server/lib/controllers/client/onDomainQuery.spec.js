@@ -1,14 +1,18 @@
-require('../../utils/test');
+// eslint-disable-next-line no-underscore-dangle
+const _keys = require('lodash/keys');
+// eslint-disable-next-line no-underscore-dangle
+const _concat = require('lodash/concat');
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { decode } = require('common/protobuf');
-const { domainQuery } = require('./onDomainQuery');
-const registeredCallbacks = require('../../utils/registeredCallbacks');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
-const {
-  keys: _keys,
-  concat: _concat,
-} = require('lodash');
+
+require('../../utils/test');
+const registeredCallbacks = require('../../utils/registeredCallbacks');
+
+const { domainQuery } = require('./onDomainQuery');
+
 
 let calls = [];
 const zmqEmulator = (key, payload) => {

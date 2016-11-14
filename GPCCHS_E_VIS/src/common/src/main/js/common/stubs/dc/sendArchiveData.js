@@ -1,11 +1,11 @@
 /* eslint no-underscore-dangle:0 */
-const {
-  each: _each,
-  get: _get,
-  random: _random,
-} = require('lodash');
+const _each = require('lodash/each');
+const _get = require('lodash/get');
+const _random = require('lodash/random');
 const debug = require('debug');
+
 const logger = require('../../debug')(debug)('common:stubs:dc');
+
 const globalConstants = require('../../constants');
 const stubData = require('../data');
 const getPayload = require('./getPayload');

@@ -1,4 +1,5 @@
-const { some: _some } = require('lodash');
+// eslint-disable-next-line no-underscore-dangle
+const _some = require('lodash/some');
 
 /**
  * Return slices of an interval not included in an array of intervals

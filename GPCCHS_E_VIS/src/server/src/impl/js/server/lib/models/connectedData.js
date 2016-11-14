@@ -1,20 +1,31 @@
 const debug = require('../io/debug')('models:connectedData');
-const database = require('../io/loki');
+
+// eslint-disable-next-line no-underscore-dangle
+const _concat = require('lodash/concat');
+// eslint-disable-next-line no-underscore-dangle
+const _remove = require('lodash/remove');
+// eslint-disable-next-line no-underscore-dangle
+const _values = require('lodash/values');
+// eslint-disable-next-line no-underscore-dangle
+const _filter = require('lodash/filter');
+// eslint-disable-next-line no-underscore-dangle
+const _get = require('lodash/get');
+// eslint-disable-next-line no-underscore-dangle
+const _omit = require('lodash/omit');
+// eslint-disable-next-line no-underscore-dangle
+const _each = require('lodash/each');
+// eslint-disable-next-line no-underscore-dangle
+const _some = require('lodash/some');
+// eslint-disable-next-line no-underscore-dangle
+const _has = require('lodash/has');
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const intervalManager = require('common/intervals');
-const {
-  concat: _concat,
-  remove: _remove,
-  values: _values,
-  filter: _filter,
-  get: _get,
-  omit: _omit,
-  each: _each,
-  some: _some,
-  has: _has,
-} = require('lodash');
+
+const database = require('../io/loki');
+
 
 const createConnectedData = (type, remoteId, dataId) => ({
   type,

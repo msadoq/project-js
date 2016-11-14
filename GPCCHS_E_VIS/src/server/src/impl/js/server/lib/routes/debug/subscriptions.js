@@ -1,9 +1,12 @@
 const { Router } = require('express');
+
+// eslint-disable-next-line no-underscore-dangle
+const _each = require('lodash/each');
+// eslint-disable-next-line no-underscore-dangle
+const _isEmpty = require('lodash/isEmpty');
+
 const subscriptionsModel = require('../../models/subscriptions');
-const {
-  each: _each,
-  isEmpty: _isEmpty,
-} = require('lodash');
+
 
 const router = new Router();
 

@@ -1,8 +1,9 @@
-const {
-  isArray: _isArray,
-  reduce: _reduce,
-  sortedIndexBy: _sortedIndexBy,
-} = require('lodash');
+// eslint-disable-next-line no-underscore-dangle
+const _isArray = require('lodash/isArray');
+// eslint-disable-next-line no-underscore-dangle
+const _reduce = require('lodash/reduce');
+// eslint-disable-next-line no-underscore-dangle
+const _sortedIndexBy = require('lodash/sortedIndexBy');
 
 const notIncluded = (knownIntervals, interval) => {
   const lower = _sortedIndexBy(knownIntervals, interval, i => i[0]);

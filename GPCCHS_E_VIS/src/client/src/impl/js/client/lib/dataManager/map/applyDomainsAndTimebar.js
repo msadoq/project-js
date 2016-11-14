@@ -9,9 +9,9 @@ import domainsFilter from '../../common/domains';
 import timelinesFilter from '../../common/sessions';
 import structures from '../structures';
 
-const logger = debug('data:map:declineConnectedDatum');
+const logger = debug('data:map:applyDomainsAndTimebar');
 
-export default function declineConnectedDatum(
+export default function applyDomainsAndTimebar(
   connectedData, structureType, timebarId, visuWindow, timelines, domains, allowMultiple
 ) {
   const { formula, domain, timeline, filter } = connectedData;

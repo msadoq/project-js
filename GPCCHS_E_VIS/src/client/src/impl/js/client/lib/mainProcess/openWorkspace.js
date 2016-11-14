@@ -2,7 +2,7 @@ import { each, map } from 'lodash';
 
 import debug from '../common/debug/mainDebug';
 import parameters from '../common/parameters';
-import readWorkspace from './documents/workspace';
+import readWorkspace from '../documentsManager/workspace';
 import { add as addTimeline } from '../store/actions/timelines';
 import { add as addTimebar } from '../store/actions/timebars';
 import { add as addView } from '../store/actions/views';

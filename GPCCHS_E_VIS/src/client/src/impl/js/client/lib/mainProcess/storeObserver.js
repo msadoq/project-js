@@ -4,9 +4,9 @@ import debug from '../common/debug/mainDebug';
 import { LIFECYCLE_READY, LIFECYCLE_STARTED, onWindowOpened } from './lifecycle';
 import { getStatus as getAppStatus, getLastCacheInvalidation } from '../store/selectors/hsc';
 import windowsObserver from './windows';
-import dataMapGenerator from '../common/data/map/visibleRemoteIds';
-import request from '../common/data/request';
-import invalidate from '../common/data/invalidate';
+import dataMapGenerator from '../dataManager/map/visibleRemoteIds';
+import request from '../dataManager/request';
+import invalidate from '../dataManager/invalidate';
 
 const logger = debug('mainProcess:storeObserver');
 

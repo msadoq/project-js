@@ -8,7 +8,6 @@ const editorCols = 4;
 
 export default class Page extends Component {
   static propTypes = {
-    windowId: PropTypes.string.isRequired,
     editor: PropTypes.object,
     isEditorOpened: PropTypes.bool,
     openEditor: PropTypes.func,

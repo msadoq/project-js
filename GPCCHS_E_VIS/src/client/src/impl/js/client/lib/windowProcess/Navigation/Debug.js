@@ -7,8 +7,8 @@ import { Button } from 'react-bootstrap';
 import { switchDebug } from '../../store/actions/windows';
 import { getWindowDebug } from '../../store/selectors/windows';
 import { getPage } from '../../store/selectors/pages';
-import visibleRemoteIdsMap from '../../common/data/map/visibleRemoteIds';
-import visibleViewsMap from '../../common/data/map/visibleViews';
+import visibleRemoteIdsMap from '../../dataManager/map/visibleRemoteIds';
+import visibleViewsMap from '../../dataManager/map/visibleViews';
 
 import Timebar from './Timebar';
 

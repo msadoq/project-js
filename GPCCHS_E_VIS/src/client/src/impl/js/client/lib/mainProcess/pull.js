@@ -3,7 +3,7 @@ import _isObject from 'lodash/isObject';
 import globalConstants from 'common/constants';
 
 import { getWebsocket } from './websocket';
-import inject from '../common/data/inject';
+import inject from '../dataManager/inject';
 import { setActingOn, setActingOff } from './storeObserver';
 
 let timeout = null;

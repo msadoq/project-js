@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "./lib/index.js",
   "scripts": {
+    "lint": "eslint lib test *.js",
     "test": "mocha \"+(intervals|zmq|protobuf|stubs)/*.spec.js\"",
     "tw": "npm test -- --watch"
   },

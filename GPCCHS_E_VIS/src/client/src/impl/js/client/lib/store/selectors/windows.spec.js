@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions: 0 */
 import { should, getStore } from '../../common/test';
-import { getWindow, getPages } from './windows';
+import { getWindow } from './windows';
 
 describe('store:window', () => {
   describe('selectors', () => {

@@ -1,6 +1,4 @@
-/* eslint no-unused-expressions: 0 */
-import _ from 'lodash';
-import { should } from '../../common/test';
+import '../../common/test';
 import * as actions from '../actions/domains';
 import reducer from './domains';
 

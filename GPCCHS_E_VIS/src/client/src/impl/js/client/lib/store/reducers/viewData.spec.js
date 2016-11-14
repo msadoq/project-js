@@ -1,6 +1,6 @@
 import { freezeMe } from '../../common/test';
 import reducer, { viewRangeRemove, viewRangeAdd, viewLast } from './viewData';
-import { importPayload, removeAllData } from '../actions/viewData';
+import { importPayload } from '../actions/viewData';
 
 describe('reducers/viewData', () => {
   const payload = { rId1: {}, rId2: {} };

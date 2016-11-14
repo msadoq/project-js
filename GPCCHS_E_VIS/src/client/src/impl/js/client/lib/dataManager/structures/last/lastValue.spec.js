@@ -1,6 +1,5 @@
-import lastValue, { select } from './lastValue';
-
 import globalConstants from 'common/constants';
+import lastValue, { select } from './lastValue';
 
 describe('data/map/lastValue', () => {
   const payload = { rId1: {}, rId2: {} };

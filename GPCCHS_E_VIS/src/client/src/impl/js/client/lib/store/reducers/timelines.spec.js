@@ -1,5 +1,5 @@
 /* eslint no-unused-expressions: 0 */
-import { should } from '../../common/test';
+import '../../common/test';
 import * as actions from '../actions/timelines';
 import reducer from './timelines';
 

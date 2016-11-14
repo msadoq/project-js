@@ -68,14 +68,14 @@ describe('documents/lib', () => {
     });
     it('with invalid path', (done) => {
       views.push({ path: 'unknown.json', uuid: v4(), type: 'TextView' });
-      readViews(content.__folder, views, (err, list) => {
+      readViews(content.__folder, views, (err) => {
         should.exist(err);
         done();
       });
     });
     it('with invalid type', (done) => {
       views.push({ path: 'plot1.json', uuid: v4(), type: 'unknownView' });
-      readViews(content.__folder, views, (err, list) => {
+      readViews(content.__folder, views, (err) => {
         should.exist(err);
         done();
       });

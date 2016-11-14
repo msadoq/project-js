@@ -1,7 +1,6 @@
-require('./test');
-const remoteId = require('./remoteId');
-
 import globalConstants from 'common/constants';
+import './test';
+import remoteId from './remoteId';
 
 describe('utils/remoteId', () => {
   const dataId = {
@@ -13,15 +12,19 @@ describe('utils/remoteId', () => {
   };
 
   it('no filter', () => {
-    remoteId(globalConstants.DATASTRUCTURETYPE_RANGE, dataId).should.equal('range@Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200');
+    remoteId(globalConstants.DATASTRUCTURETYPE_RANGE, dataId)
+      .should.equal('range@Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200');
     remoteId(globalConstants.DATASTRUCTURETYPE_RANGE, dataId, undefined)
       .should.equal('range@Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200');
     remoteId(globalConstants.DATASTRUCTURETYPE_LAST, dataId, [])
       .should.equal('last@Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200');
   });
   it('one filter', () => {
-    remoteId(globalConstants.DATASTRUCTURETYPE_RANGE, dataId, [{ field: 'convertedValue', operator: '!=', operand: '0' }])
-      .should.equal(
+    remoteId(
+      globalConstants.DATASTRUCTURETYPE_RANGE,
+      dataId,
+      [{ field: 'convertedValue', operator: '!=', operand: '0' }]
+    ).should.equal(
        'range@Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:convertedValue.!=.0'
        );
   });

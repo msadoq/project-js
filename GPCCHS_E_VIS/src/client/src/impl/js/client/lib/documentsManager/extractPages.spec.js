@@ -1,7 +1,6 @@
 /* eslint no-underscore-dangle: 0 */
-
 const { extractPages, readPages, findWindowPagesAndReplaceWithUuid } = require('./extractPages');
-const { should } = require('../../common/test');
+const { should } = require('../common/test');
 const { v4 } = require('node-uuid');
 const _ = require('lodash');
 const path = require('path');

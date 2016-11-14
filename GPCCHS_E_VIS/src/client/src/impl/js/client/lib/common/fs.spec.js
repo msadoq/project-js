@@ -48,7 +48,9 @@ describe('documents/fs', () => {
       chmodSync(unreadable, 777);
       unlinkSync(unreadable);
       rmdirSync(folder);
-    } catch (e) {}
+    } catch (e) {
+      console.warn(e); // eslint-disable-line no-console
+    }
   });
 
   it('resolve', () => {

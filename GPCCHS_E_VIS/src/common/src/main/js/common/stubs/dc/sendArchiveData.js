@@ -39,7 +39,7 @@ module.exports = function sendArchiveData(
   const from = interval.startTime.ms;
   const to = interval.endTime.ms;
   if (to <= from) {
-    throw new Error('Unvalid interval requested to DC stub');
+    throw new Error('Invalid interval requested to DC stub');
   }
 
   const payloads = [];

@@ -1,11 +1,7 @@
-const {
-  get: _get,
-  set: _set,
-} = require('lodash');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
 
-let testQueue = {};
+let queue = {};
 let message = {};
 
 const sendToTestWs = (event, payload) => {
@@ -14,13 +10,19 @@ const sendToTestWs = (event, payload) => {
 };
 
 const flushTestQueue = () => {
-  sendToTestWs(globalConstants.EVENT_TIMEBASED_DATA, testQueue);
-  testQueue = {};
+  sendToTestWs(globalConstants.EVENT_TIMEBASED_DATA, queue);
+  queue = {};
 };
 
-const addToTestQueue = (remoteId, payload) => {
-  _set(testQueue, [remoteId], Object.assign({}, _get(testQueue, [remoteId]), payload));
-  flushTestQueue();
+const addToTestQueue = (remoteId, payloads) => {
+  if (!Object.keys(payloads).length) {
+    return;
+  }
+  if (typeof queue[remoteId] === 'undefined') {
+    queue[remoteId] = {};
+  }
+
+  queue[remoteId] = Object.assign(queue[remoteId], payloads);
 };
 
 module.exports = {
@@ -28,4 +30,5 @@ module.exports = {
   resetMessage: () => { message = {}; },
   addToTestQueue,
   sendToTestWs,
+  flushTestQueue,
 };

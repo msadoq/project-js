@@ -10,7 +10,12 @@ const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const dataStub = require('common/stubs/data');
-const { addToTestQueue, getMessage, resetMessage } = require('../../stubs/testWebSocket');
+const {
+  addToTestQueue,
+  getMessage,
+  resetMessage,
+  flushTestQueue,
+} = require('../../stubs/testWebSocket');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
 
@@ -81,6 +86,7 @@ describe('controllers/onTimebasedPubSubData', () => {
     );
     // check data
     getAllTimebasedDataModelRemoteIds().should.have.lengthOf(0);
+    flushTestQueue();
     getMessage().should.have.properties({});
   });
 
@@ -99,6 +105,7 @@ describe('controllers/onTimebasedPubSubData', () => {
     );
     // check data
     getAllTimebasedDataModelRemoteIds().should.have.lengthOf(0);
+    flushTestQueue();
     getMessage().should.have.properties({});
   });
 
@@ -128,6 +135,7 @@ describe('controllers/onTimebasedPubSubData', () => {
       timestamp: t1,
       payload: rp,
     });
+    flushTestQueue();
     getMessage().should.have.properties({
       event: 'timebasedData',
       payload: {
@@ -164,6 +172,7 @@ describe('controllers/onTimebasedPubSubData', () => {
       timestamp: t2,
       payload: rp2,
     });
+    flushTestQueue();
     getMessage().should.have.properties({
       event: 'timebasedData',
       payload: {

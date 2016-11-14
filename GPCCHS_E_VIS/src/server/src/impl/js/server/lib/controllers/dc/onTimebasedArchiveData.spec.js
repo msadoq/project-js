@@ -5,16 +5,20 @@ const connectedDataModel = require('../../models/connectedData');
 const { clearFactory, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const dataStub = require('common/stubs/data');
-const { addToTestQueue, getMessage, resetMessage } = require('../../stubs/testWebSocket');
+const {
+  addToTestQueue,
+  getMessage,
+  resetMessage,
+  flushTestQueue,
+} = require('../../stubs/testWebSocket');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
 
-/* onTimebasedArchiveData Test
- *
+/*
+ * onTimebasedArchiveData test:
  * - check interval is received in connectedData model
  * - check payloads are stored in timebasedData model
  * - check ws messages for timebasedData
- *
  */
 
 describe('controllers/onTimebasedArchiveData', () => {
@@ -69,7 +73,6 @@ describe('controllers/onTimebasedArchiveData', () => {
     should.not.exist(timebasedDataModel);
     getMessage().should.deep.equal({});
   });
-
   it('works', () => {
     // init test
     const isLast = dataStub.getBooleanProtobuf(false);
@@ -112,6 +115,8 @@ describe('controllers/onTimebasedArchiveData', () => {
         payload: rp,
       },
     ]);
+
+    flushTestQueue();
     getMessage().should.have.properties({
       event: 'timebasedData',
       payload: {
@@ -165,6 +170,7 @@ describe('controllers/onTimebasedArchiveData', () => {
         payload: rp,
       },
     ]);
+    flushTestQueue();
     getMessage().should.have.properties({
       event: 'timebasedData',
       payload: {

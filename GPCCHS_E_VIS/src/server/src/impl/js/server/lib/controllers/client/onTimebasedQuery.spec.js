@@ -17,7 +17,7 @@ const registeredQueries = require('../../utils/registeredQueries');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const dataStub = require('common/stubs/data');
-const { addToTestQueue, getMessage, resetMessage } = require('../../stubs/testWebSocket');
+const { addToTestQueue, getMessage, resetMessage, flushTestQueue } = require('../../stubs/testWebSocket');
 
 let calls = [];
 const zmqEmulator = (key, payload) => {
@@ -126,6 +126,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       // check zmq messages
       calls.length.should.equal(0);
       // check ws messages
+      flushTestQueue();
       getMessage().should.have.properties({
         event: 'timebasedData',
         payload: {
@@ -183,6 +184,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       calls[3].should.have.properties(intervalProto);
       calls[4].should.have.properties(lastQueryArgumentsProto);
       // check ws messages
+      flushTestQueue();
       getMessage().should.have.properties({});
       // check connectedDataModel
       connectedDataModel.count().should.equal(1);
@@ -235,6 +237,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       calls[7].should.have.properties(dataIdProto);
       calls[8].should.have.properties(dataStub.getAddActionProtobuf());
       // check ws messages
+      flushTestQueue();
       getMessage().should.have.properties({});
       // check connectedDataModel
       connectedDataModel.count().should.equal(1);
@@ -276,6 +279,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       // check zmq messages
       calls.length.should.equal(0);
       // check ws messages
+      flushTestQueue();
       getMessage().should.have.properties({
         event: 'timebasedData',
         payload: {
@@ -333,6 +337,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       calls[3].should.have.properties(intervalProto);
       calls[4].should.have.properties(queryArgumentsProto);
       // check ws messages
+      flushTestQueue();
       getMessage().should.have.properties({});
       // check connectedDataModel
       connectedDataModel.count().should.equal(1);
@@ -380,6 +385,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       calls[3].should.have.properties(halfIntervalProto);
       calls[4].should.have.properties(queryArgumentsProto);
       // check ws messages
+      flushTestQueue();
       getMessage().should.have.properties({
         event: 'timebasedData',
         payload: {
@@ -439,6 +445,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       calls[7].should.have.properties(dataIdProto);
       calls[8].should.have.properties(dataStub.getAddActionProtobuf());
       // check ws messages
+      flushTestQueue();
       getMessage().should.have.properties({});
       // check connectedDataModel
       connectedDataModel.count().should.equal(1);

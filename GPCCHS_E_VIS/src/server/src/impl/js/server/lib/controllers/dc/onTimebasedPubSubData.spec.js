@@ -26,7 +26,7 @@ const globalConstants = require('common/constants');
  *
  */
 
-describe('controllers/onTimebasedPubSubData', () => {
+describe('controllers/dc/onTimebasedPubSubData', () => {
   beforeEach(() => {
     subscriptionsModel.cleanup();
     connectedDataModel.cleanup();

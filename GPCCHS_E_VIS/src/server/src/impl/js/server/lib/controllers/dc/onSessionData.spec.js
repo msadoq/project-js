@@ -1,5 +1,5 @@
 require('../../utils/test');
-const { domainData } = require('./onDomainData');
+const { sessionData } = require('./onSessionData');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const dataStub = require('common/stubs/data');
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -7,7 +7,7 @@ const globalConstants = require('common/constants');
 const { sendToTestWs, getMessage, resetMessage } = require('../../stubs/testWebSocket');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
 
-describe('controllers/dc/onDomainData', () => {
+describe('controllers/dc/onSessionData', () => {
   beforeEach(() => {
     resetMessage();
   });
@@ -16,10 +16,10 @@ describe('controllers/dc/onDomainData', () => {
     // init test
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
-    const myDomain = dataStub.getDomain({ name: 'fr.cnes.sat1.batman' });
-    const myDomainProto = dataStub.getDomainProtobuf(myDomain);
+    const mySession = dataStub.getSession({ name: 'Session#666' });
+    const mySessionProto = dataStub.getSessionProtobuf(mySession);
     // launch test
-    domainData(sendToTestWs, myQueryIdProto, myDomainProto);
+    sessionData(sendToTestWs, myQueryIdProto, mySessionProto);
     getMessage().should.deep.equal({});
   });
 
@@ -27,18 +27,18 @@ describe('controllers/dc/onDomainData', () => {
     // init test
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
-    const myDomains = dataStub.getDomains();
-    const myDomainsProto = dataStub.getDomainsProtobuf(myDomains);
+    const mySessions = dataStub.getSessions();
+    const mySessionsProto = dataStub.getSessionsProtobuf(mySessions);
     registeredCallbacks.set(myQueryId, () => {});
     // launch test
-    domainData(sendToTestWs, myQueryIdProto, myDomainsProto);
+    sessionData(sendToTestWs, myQueryIdProto, mySessionsProto);
     // check data
     const domains = getMessage();
     domains.should.be.an('object');
     domains.should.have.an.property('event')
-      .that.equal(globalConstants.EVENT_DOMAIN_DATA);
+      .that.equal(globalConstants.EVENT_SESSION_DATA);
     domains.should.have.an.property('payload')
       .that.is.an('array')
-      .that.have.properties(myDomains.domains);
+      .that.have.properties(mySessions.session);
   });
 });

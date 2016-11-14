@@ -21,7 +21,7 @@ const globalConstants = require('common/constants');
  * - check ws messages for timebasedData
  */
 
-describe('controllers/onTimebasedArchiveData', () => {
+describe('controllers/dc/onTimebasedArchiveData', () => {
   beforeEach(() => {
     registeredQueries.clear();
     connectedDataModel.cleanup();

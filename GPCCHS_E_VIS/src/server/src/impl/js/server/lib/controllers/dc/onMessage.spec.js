@@ -3,7 +3,7 @@ const { message } = require('./onMessage');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const dataStub = require('common/stubs/data');
 
-describe('controllers/onMessage', () => {
+describe('controllers/dc/onMessage', () => {
   beforeEach(() => {
     testPayloads.length = 0;
   });
@@ -13,6 +13,7 @@ describe('controllers/onMessage', () => {
     const status = dataStub.getSuccessStatusProtobuf();
     message(
       testHandler,
+      undefined,
       undefined,
       undefined,
       undefined,
@@ -37,6 +38,7 @@ describe('controllers/onMessage', () => {
       undefined,
       undefined,
       testHandler,
+      undefined,
       undefined,
       header,
       queryId,
@@ -68,6 +70,7 @@ describe('controllers/onMessage', () => {
       undefined,
       undefined,
       testHandler,
+      undefined,
       header,
       dataId,
       timestamp,
@@ -93,6 +96,7 @@ describe('controllers/onMessage', () => {
       testHandler,
       undefined,
       undefined,
+      undefined,
       header,
       queryId,
       domains
@@ -101,6 +105,26 @@ describe('controllers/onMessage', () => {
     testPayloads.should.have.properties([
       queryId,
       domains,
+    ]);
+  });
+  it('Session Data', () => {
+    const header = dataStub.getSessionDataHeaderProtobuf();
+    const queryId = dataStub.getDataIdProtobuf();
+    const sessions = dataStub.getSessionsProtobuf();
+    message(
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      testHandler,
+      header,
+      queryId,
+      sessions
+    );
+    testPayloads.should.have.lengthOf(2);
+    testPayloads.should.have.properties([
+      queryId,
+      sessions,
     ]);
   });
 });

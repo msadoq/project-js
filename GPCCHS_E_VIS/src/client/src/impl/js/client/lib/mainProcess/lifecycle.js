@@ -62,9 +62,14 @@ export function onOpen(dispatch, ws) {
   ws.write({ event: globalConstants.EVENT_DOMAIN_QUERY });
 }
 
-export function onDomainResponse(dispatch, payload) {
+export function onDomainData(dispatch, payload) {
   dispatch(updateDomains(payload));
   dispatch(updateAppStatus(LIFECYCLE_READY));
+}
+
+export function onSessionData(dispatch, payload) {
+  // TODO to implement
+  console.log('onSessionData', payload);
 }
 
 export function onWindowOpened(dispatch) {

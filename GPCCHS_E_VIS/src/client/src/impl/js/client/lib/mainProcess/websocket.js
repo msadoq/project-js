@@ -4,7 +4,7 @@ import globalConstants from 'common/constants';
 import debug from '../common/debug/mainDebug';
 import { getStore } from '../store/mainStore';
 import { updateStatus } from '../store/actions/hss';
-import { onOpen, onClose, onDomainResponse } from './lifecycle';
+import { onOpen, onClose, onDomainData, onSessionData } from './lifecycle';
 import parameters from '../common/parameters';
 import { receive } from './pull';
 
@@ -50,10 +50,12 @@ export function connect() {
       logger.debug(`Incoming event ${event}`);
 
       switch (event) {
-        case globalConstants.EVENT_DOMAIN_RESPONSE:
-          return onDomainResponse(store.dispatch, payload);
+        case globalConstants.EVENT_DOMAIN_DATA:
+          return onDomainData(store.dispatch, payload);
         case globalConstants.EVENT_TIMEBASED_DATA:
           return receive(store.getState(), store.dispatch, payload);
+        case globalConstants.EVENT_SESSION_DATA:
+          return onSessionData(store.dispatch, payload);
         case globalConstants.EVENT_ERROR:
           switch (payload.type) {
             case globalConstants.ERRORTYPE_RESPONSE:

@@ -1,23 +1,21 @@
-const debug = require('../../io/debug')('controllers:onDomainData');
+const debug = require('../../io/debug')('controllers:onSessionData');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
 const { sendToMain } = require('../../websocket/sendToMain');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { decode } = require('common/protobuf');
-const { setDomains } = require('../../utils/domains');
 const registeredCallbacks = require('../../utils/registeredCallbacks');
 
 /**
- * Triggered on DC domain request response.
+ * Triggered on DC session request response.
  *
- * - deprotobufferize domains
- * - store domains
+ * - deprotobufferize sessions
  * - forward to client
  *
  * @param buffer
  */
 
-const domainData = (websocketHandler, queryIdBuffer, domainsBuffer) => {
+const sessionData = (websocketHandler, queryIdBuffer, sessionsBuffer) => {
   debug.verbose('called');
 
   // deprotobufferize queryId
@@ -29,20 +27,18 @@ const domainData = (websocketHandler, queryIdBuffer, domainsBuffer) => {
   if (!callback) {
     return undefined;
   }
-  // deprotobufferize domains
-  const domains = decode('dc.dataControllerUtils.Domains', domainsBuffer).domains;
+  // deprotobufferize sessions
+  const sessions = decode('dc.dataControllerUtils.Sessions', sessionsBuffer).sessions;
 
-  // store domains
-  setDomains(domains);
   // forward to client
-  return websocketHandler(globalConstants.EVENT_DOMAIN_DATA, domains);
+  return websocketHandler(globalConstants.EVENT_SESSION_DATA, sessions);
 };
 
-const onDomainData = (queryIdBuffer, domainsBuffer) => {
-  domainData(sendToMain, queryIdBuffer, domainsBuffer);
+const onSessionData = (queryIdBuffer, sessionsBuffer) => {
+  sessionData(sendToMain, queryIdBuffer, sessionsBuffer);
 };
 
 module.exports = {
-  onDomainData,
-  domainData,
+  onSessionData,
+  sessionData,
 };

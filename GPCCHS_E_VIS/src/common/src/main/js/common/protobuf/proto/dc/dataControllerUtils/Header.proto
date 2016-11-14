@@ -10,6 +10,8 @@ extensions 2 to 102;
         DOMAIN_DATA = 4;
         TIMEBASED_ARCHIVE_DATA = 5;
         TIMEBASED_PUBSUB_DATA = 6;
+        SESSION_QUERY = 7;
+        SESSION_DATA = 8;
       }
 
     required MESSAGE_TYPE messageType = 1;

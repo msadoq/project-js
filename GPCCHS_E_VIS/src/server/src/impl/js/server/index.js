@@ -14,6 +14,7 @@ const { onDomainQuery } = require('./lib/controllers/client/onDomainQuery');
 const onPull = require('./lib/controllers/client/onPull');
 const { onCacheCleanup } = require('./lib/controllers/client/onCacheCleanup');
 const { onTimebasedQuery } = require('./lib/controllers/client/onTimebasedQuery');
+const { onSessionQuery } = require('./lib/controllers/client/onSessionQuery');
 
 const cp = require('child_process');
 const errorHandler = require('./lib/utils/errorHandler');
@@ -84,6 +85,7 @@ primus.init(server, {
   onPull,
   onTimebasedQuery,
   onCacheCleanup,
+  onSessionQuery,
 });
 
 // ZeroMQ

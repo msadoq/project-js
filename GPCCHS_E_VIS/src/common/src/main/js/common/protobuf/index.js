@@ -99,6 +99,8 @@ register({
       Filter: require('./converters/dc/dataControllerUtils/filter'),
       Header: require('./converters/dc/dataControllerUtils/header'),
       QueryArguments: require('./converters/dc/dataControllerUtils/queryArguments'),
+      Session: require('./converters/dc/dataControllerUtils/session'),
+      Sessions: require('./converters/dc/dataControllerUtils/sessions'),
       Status: require('./converters/dc/dataControllerUtils/status'),
       String: require('./converters/dc/dataControllerUtils/string'),
       TimeInterval: require('./converters/dc/dataControllerUtils/timeInterval'),

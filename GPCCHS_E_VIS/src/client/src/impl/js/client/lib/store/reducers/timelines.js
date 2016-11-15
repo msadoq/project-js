@@ -32,7 +32,7 @@ const initialState = {
   id: null,
   offset: 0,
   kind: 'Session',
-  sessionId: null,
+  sessionId: 0,
   color: null
 };
 
@@ -45,7 +45,8 @@ function timeline(stateTimeline = initialState, action) {
         offset: configuration.offset || initialState.offset,
         kind: configuration.kind || initialState.kind,
         color: configuration.color || initialState.color,
-        sessionId: configuration.sessionId || initialState.sessionId,
+        sessionId: (!configuration.sessionId && configuration.sessionId !== 0) ?
+          initialState.sessionId : configuration.sessionId,
       });
     }
     case types.WS_TIMELINE_UPDATE_ID:

@@ -26,7 +26,7 @@ export default class EditTrack extends Component {
     const { masterId, timeline } = this.props;
     const { duration } = this.state;
     this.editTimelineIdEl.value = timeline.id;
-    this.editTimelineMasterEl.checked = masterId === timeline.timelineId;
+    this.editTimelineMasterEl.checked = masterId === timeline.id;
     ['years', 'months', 'days', 'years', 'months', 'days', 'hours', 'minutes', 'seconds', 'milliseconds'].forEach((x) => {
       this[`${x}El`].value = duration[x]();
     });
@@ -81,7 +81,7 @@ export default class EditTrack extends Component {
           <input
             ref={(el) => { this.editTimelineMasterEl = el; }}
             type="checkbox"
-            disabled={masterId === timeline.timelineId}
+            disabled={masterId === timeline.id}
           />
         </FormGroup>
         <FormGroup className={styles.formGroup}>

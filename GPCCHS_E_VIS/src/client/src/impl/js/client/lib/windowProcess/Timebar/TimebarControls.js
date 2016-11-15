@@ -19,6 +19,7 @@ export default class TimebarControls extends Component {
     updateSpeed: React.PropTypes.func.isRequired,
     updateVisuWindow: React.PropTypes.func.isRequired,
     updateMode: React.PropTypes.func.isRequired,
+    currentSessionOffsetMs: React.PropTypes.number.isRequired,
   }
 
   changeSpeed = (dir) => {
@@ -76,7 +77,7 @@ export default class TimebarControls extends Component {
   switchMode = (e) => {
     e.preventDefault();
     const { updateVisuWindow, timebarId, timebarMode, updateMode,
-      visuWindow } = this.props;
+      visuWindow, currentSessionOffsetMs } = this.props;
     const { lower, upper } = visuWindow;
     const mode = e.currentTarget.getAttribute('mode');
 
@@ -86,10 +87,8 @@ export default class TimebarControls extends Component {
       // Realtime is not really a mode, we just go to session relatime and play
       // updateMode(timebarId, mode);
 
-      // TODO
-      // Recup la valeur temps réel pour la session maîtresse
       const msWidth = upper - lower;
-      const realTimeMs = Date.now();
+      const realTimeMs = Date.now() + currentSessionOffsetMs;
       const newLower = realTimeMs - ((1 - currentUpperMargin) * msWidth);
       const newUpper = realTimeMs + (currentUpperMargin * msWidth);
       updateVisuWindow(

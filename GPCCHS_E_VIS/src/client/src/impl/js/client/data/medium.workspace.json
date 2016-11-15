@@ -31,8 +31,8 @@
           "defaultWidth": 900000
         },
         "slideWindow": {
-          "lower": 1420106550000,
-          "upper": 1420107150000
+          "lower": 1420106300000,
+          "upper": 1420106800000
         },
         "extUpperBound": 1420107500000,
         "rulerStart": 1420106400000,
@@ -46,7 +46,7 @@
             "id": "Session 1",
             "offset": 0,
             "kind": "Session",
-            "sessionId": 1
+            "sessionId": 0
           }
         ],
         "masterId": "Session 1"

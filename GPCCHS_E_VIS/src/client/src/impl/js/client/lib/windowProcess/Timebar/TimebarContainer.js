@@ -36,6 +36,8 @@ class TimebarContainer extends Component {
     timebarId: React.PropTypes.string.isRequired,
     timebarName: React.PropTypes.string.isRequired,
     timelines: React.PropTypes.array.isRequired,
+    sessions: React.PropTypes.array.isRequired,
+    currentSessionOffsetMs: React.PropTypes.number.isRequired
   }
 
   state = {
@@ -102,7 +104,8 @@ class TimebarContainer extends Component {
       addAndMountTimelineAction, unmountTimelineAction,
       updatePlayingStateAction, updateSpeedAction, timebar,
       slideWindow, updateTimelineIdAction, updateMasterIdAction,
-      updateOffsetAction, updateModeAction } = this.props;
+      updateOffsetAction, updateModeAction, sessions,
+      currentSessionOffsetMs } = this.props;
 
     let minHeight;
     if (timelines.length < 6) {
@@ -157,6 +160,7 @@ class TimebarContainer extends Component {
           updateSpeed={updateSpeedAction}
           updateVisuWindow={updateVisuWindowAction}
           updateMode={updateModeAction}
+          currentSessionOffsetMs={currentSessionOffsetMs}
         />
         <Col xs={3}>
           <Lefttab
@@ -167,6 +171,7 @@ class TimebarContainer extends Component {
             masterId={timebar.masterId}
             timebarName={timebarName}
             timelines={timelines}
+            sessions={sessions}
             addAndMountTimeline={addAndMountTimelineAction}
             unmountTimeline={unmountTimelineAction}
             verticalScroll={timelinesVerticalScroll}
@@ -196,13 +201,28 @@ export default connect(
     const timebar = state.timebars[timebarId];
     const timebarName = state.timebars[timebarId].id;
     const timelines = [];
-    state.timebars[timebarId].timelines.forEach((v) => {
-      if (timebar.masterId === v) {
-        timelines.splice(0, 0, Object.assign({}, state.timelines[v], { timelineId: v }));
-      } else {
-        timelines.push(Object.assign({}, state.timelines[v], { timelineId: v }));
+
+    let masterTimeline;
+    Object.entries(state.timelines).forEach((v) => {
+      if (timebar.timelines.includes(v[0])) {
+        if (timebar.masterId === v[1].id) {
+          masterTimeline = Object.assign({}, v[1]);
+          timelines.splice(0, 0, Object.assign({}, v[1], { timelineId: v[0] }));
+        } else {
+          timelines.push(Object.assign({}, v[1], { timelineId: v[0] }));
+        }
       }
     });
+
+    let currentSession;
+    if (masterTimeline) {
+      currentSession = state.sessions.find(s => (s.id === masterTimeline.sessionId));
+    }
+    if (!currentSession) {
+      logger.error('NO CURRENT SESSION');
+    }
+
+    const currentSessionOffsetMs = currentSession ? currentSession.offsetWithmachineTime : 0;
 
     return {
       visuWindow: timebar.visuWindow,
@@ -210,7 +230,9 @@ export default connect(
       timebar,
       timebarId,
       timebarName,
-      timelines
+      timelines,
+      currentSessionOffsetMs,
+      sessions: state.sessions
     };
   }, {
     updateModeAction: updateMode,

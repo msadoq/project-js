@@ -11,6 +11,7 @@ import ColorPicker from '../Editor/Components/ColorPicker';
 export default class Lefttab extends Component {
   static propTypes = {
     timelines: React.PropTypes.array.isRequired,
+    sessions: React.PropTypes.array.isRequired,
     timebarId: React.PropTypes.string.isRequired,
     timebarName: React.PropTypes.string.isRequired,
     masterId: React.PropTypes.string.isRequired,
@@ -84,6 +85,7 @@ export default class Lefttab extends Component {
       {
         kind: this.newTimelineKindEl.value,
         id: this.newTimelineIdEl.value,
+        sessionId: parseInt(this.newTimelineSessionEl.value, 10),
         color
       });
     this.setColor(color);
@@ -94,7 +96,7 @@ export default class Lefttab extends Component {
     this.setState({
       willAdd: false,
       willEdit: false,
-      editingTimelineId: null
+      editingId: null
     });
   }
 
@@ -102,7 +104,6 @@ export default class Lefttab extends Component {
     this.setState({
       willAdd: false,
       willEdit: true,
-      editingTimelineId: timelineId,
       editingId: id
     });
   }
@@ -111,12 +112,12 @@ export default class Lefttab extends Component {
     const { updateOffset, updateTimelineId, timebarId,
       updateMasterId, masterId, timelines } = this.props;
     const timeline = timelines.find(x => x.timelineId === timelineId);
-    const { editingTimelineId } = this.state;
+    const { editingId } = this.state;
 
     if (timeline.id !== id) updateTimelineId(timelineId, id);
 
-    if (master && masterId !== timelineId) {
-      updateMasterId(timebarId, editingTimelineId);
+    if (master && masterId !== id) {
+      updateMasterId(timebarId, editingId);
       timelines.forEach((t) => {
         if (t.timelineId === timelineId) return;
         updateOffset(t.timelineId, t.offset - offset);
@@ -141,8 +142,8 @@ export default class Lefttab extends Component {
   }
 
   render() {
-    const { timelines, masterId } = this.props;
-    const { color, willAdd, willEdit, editingTimelineId } = this.state;
+    const { timelines, masterId, sessions } = this.props;
+    const { color, willAdd, willEdit, editingId } = this.state;
 
     let noTrack;
     if (timelines.length === 0) {
@@ -152,7 +153,7 @@ export default class Lefttab extends Component {
     let editTrack;
     if (willEdit) {
       editTrack = (<EditTrack
-        timeline={timelines.find(x => x.timelineId === editingTimelineId)}
+        timeline={timelines.find(x => x.id === editingId)}
         masterId={masterId}
         hideAddTimeline={this.hideAddTimeline}
         editTimeline={this.editTimeline}
@@ -177,9 +178,9 @@ export default class Lefttab extends Component {
               ref={(el) => { this.newTimelineKindEl = el; }}
               className={classnames('form-control', styles.formControl)}
             >
-              <option value="kind1">kind 1</option>
-              <option value="kind2">kind 2</option>
-              <option value="kind3">kind 3</option>
+              <option value="session">session</option>
+              <option disabled value="dataSet">dataSet</option>
+              <option disabled value="recordSet">recordSet</option>
             </select>
           </FormGroup>
           <FormGroup className={styles.formGroup}>
@@ -187,14 +188,20 @@ export default class Lefttab extends Component {
             <ColorPicker color={color} onChange={this.colorChosen} />
           </FormGroup>
           <FormGroup className={styles.formGroup}>
-            <b className={styles.labelFormControl}>Parameter</b>
-            <select
+            <b className={styles.labelFormControl}>Id</b>
+            <input
               ref={(el) => { this.newTimelineIdEl = el; }}
               className={classnames('form-control', styles.formControl)}
+              placeholder="Parameter n"
+            />
+          </FormGroup>
+          <FormGroup className={styles.formGroup}>
+            <b className={styles.labelFormControl}>Session</b>
+            <select
+              ref={(el) => { this.newTimelineSessionEl = el; }}
+              className={classnames('form-control', styles.formControl)}
             >
-              <option value="param1">param 1</option>
-              <option value="param2">param 2</option>
-              <option value="param3">param 3</option>
+              { sessions.map((v, i) => <option key={i} value={v.id}>{v.name}</option>) }
             </select>
           </FormGroup>
           <input

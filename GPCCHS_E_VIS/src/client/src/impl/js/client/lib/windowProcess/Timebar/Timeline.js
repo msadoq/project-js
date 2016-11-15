@@ -19,17 +19,19 @@ export default class Timeline extends PureComponent {
 
   willUnmountTimeline = (e) => {
     e.preventDefault();
-    const { masterId, timelineId, timelinesLength } = this.props;
-    if (masterId !== timelineId || timelinesLength === 1) {
-      this.props.unmountTimeline(this.props.timebarId, this.props.id);
+    const { masterId, timelineId, id, timelinesLength, unmountTimeline, timebarId } = this.props;
+    if (masterId !== id && timelinesLength !== 1) {
+      unmountTimeline(timebarId, timelineId);
     }
   }
 
   render() {
-    const { color, name, willEditTimeline, timelineId, id, masterId, offset } = this.props;
+    const { color, name, willEditTimeline, timelineId,
+      id, masterId, offset } = this.props;
+
     return (
       <li
-        className={classnames(styles.timeline, { [styles.master]: (timelineId === masterId) })}
+        className={classnames(styles.timeline, { [styles.master]: (id === masterId) })}
         onDoubleClick={willEditTimeline.bind(null, timelineId, id)}
       >
         {name}{`  offset : ${offset === 0 ? '0' : moment.duration(offset).humanize()}`}
@@ -39,7 +41,13 @@ export default class Timeline extends PureComponent {
             background: color || '#31b0d5'
           }}
         />
-        <button className={styles.deleteButton} title="Remove this track" onClick={this.willUnmountTimeline}>-</button>
+        <button
+          className={styles.deleteButton}
+          title="Remove this track"
+          onClick={this.willUnmountTimeline}
+        >
+          -
+        </button>
       </li>
     );
   }

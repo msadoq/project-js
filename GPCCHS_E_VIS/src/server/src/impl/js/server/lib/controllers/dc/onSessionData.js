@@ -32,7 +32,7 @@ const sessionData = (websocketHandler, queryIdBuffer, sessionsBuffer) => {
   const sessions = decode('dc.dataControllerUtils.Sessions', sessionsBuffer).sessions;
 
   // forward to client
-  return websocketHandler(globalConstants.EVENT_SESSION_DATA, sessions);
+  return websocketHandler(globalConstants.EVENT_SESSION_DATA, sessions, queryId);
 };
 
 const onSessionData = (queryIdBuffer, sessionsBuffer) => {

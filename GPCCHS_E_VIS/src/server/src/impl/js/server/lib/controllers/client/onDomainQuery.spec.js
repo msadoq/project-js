@@ -28,9 +28,25 @@ describe('controllers/client/onDomainQuery', () => {
     calls.length = 0;
     registeredCallbacks.clear();
   });
-  it('domainQuery', () => {
+  it('with queryId', () => {
+    const myQueryId = 'totolasticot';
     // launch test
-    domainQuery(zmqEmulator);
+    domainQuery(myQueryId, zmqEmulator);
+    // check data
+    const cbs = _keys(registeredCallbacks.getAll());
+    cbs.length.should.equal(1);
+    const queryId = cbs[0];
+    queryId.should.equal(myQueryId);
+    calls.should.be.an('array')
+      .that.has.lengthOf(2);
+    calls[0].constructor.should.equal(Buffer);
+    decode('dc.dataControllerUtils.Header', calls[0]).messageType.should.equal(globalConstants.MESSAGETYPE_DOMAIN_QUERY);
+    calls[1].constructor.should.equal(Buffer);
+    decode('dc.dataControllerUtils.String', calls[1]).string.should.equal(myQueryId);
+  });
+  it('without queryId', () => {
+    // launch test
+    domainQuery(undefined, zmqEmulator);
     // check data
     const cbs = _keys(registeredCallbacks.getAll());
     cbs.length.should.equal(1);

@@ -41,5 +41,7 @@ describe('controllers/dc/onDomainData', () => {
     domains.should.have.an.property('payload')
       .that.is.an('array')
       .that.have.properties(myDomains.domains);
+    domains.should.have.an.property('queryId')
+      .that.equal(myQueryId);
   });
 });

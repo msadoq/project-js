@@ -28,9 +28,25 @@ describe('controllers/client/onSessionQuery', () => {
     calls.length = 0;
     registeredCallbacks.clear();
   });
-  it('sessionQuery', () => {
+  it('with queryId', () => {
+    const myQueryId = 'totolasticot';
     // launch test
-    sessionQuery(zmqEmulator);
+    sessionQuery(myQueryId, zmqEmulator);
+    // check data
+    const cbs = _keys(registeredCallbacks.getAll());
+    cbs.length.should.equal(1);
+    const queryId = cbs[0];
+    queryId.should.equal(myQueryId);
+    calls.should.be.an('array')
+      .that.has.lengthOf(2);
+    calls[0].constructor.should.equal(Buffer);
+    decode('dc.dataControllerUtils.Header', calls[0]).messageType.should.equal(globalConstants.MESSAGETYPE_SESSION_QUERY);
+    calls[1].constructor.should.equal(Buffer);
+    decode('dc.dataControllerUtils.String', calls[1]).string.should.equal(myQueryId);
+  });
+  it('without queryId', () => {
+    // launch test
+    sessionQuery(undefined, zmqEmulator);
     // check data
     const cbs = _keys(registeredCallbacks.getAll());
     cbs.length.should.equal(1);

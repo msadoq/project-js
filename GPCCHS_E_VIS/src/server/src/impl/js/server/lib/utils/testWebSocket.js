@@ -4,9 +4,10 @@ const globalConstants = require('common/constants');
 let queue = {};
 let message = {};
 
-const sendToTestWs = (event, payload) => {
+const sendToTestWs = (event, payload, queryId) => {
   message.event = event;
   message.payload = payload;
+  message.queryId = queryId;
 };
 
 const flushTestQueue = () => {

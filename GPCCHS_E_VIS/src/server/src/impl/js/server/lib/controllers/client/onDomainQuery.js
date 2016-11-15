@@ -31,26 +31,23 @@ const errorCallback = (err) => {
   }
 };
 
-const domainQuery = (messageHandler) => {
+const domainQuery = (id, messageHandler) => {
   debug.debug('new domain query');
 
   // create and register queryId
-  const id = generateDomainId();
-  registeredCallbacks.set(id, errorCallback);
+  const queryId = (typeof id === 'undefined') ? generateDomainId() : id;
+  registeredCallbacks.set(queryId, errorCallback);
   // protobufferize queryId
-  const queryId = encode('dc.dataControllerUtils.String', {
-    string: id,
+  const protobufQueryId = encode('dc.dataControllerUtils.String', {
+    string: queryId,
   });
 
-  const queryArgs = [protobufDomainHeader, queryId];
+  const queryArgs = [protobufDomainHeader, protobufQueryId];
 
   messageHandler('dcPush', queryArgs);
 };
 
-const onDomainQuery = () =>
-  domainQuery(zmq.push);
-
 module.exports = {
   domainQuery,
-  onDomainQuery,
+  onDomainQuery: queryId => domainQuery(queryId, zmq.push),
 };

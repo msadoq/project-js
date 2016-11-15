@@ -186,8 +186,7 @@ const timebasedQuery = (addToQueue, payload, messageHandler) => {
 
 module.exports = {
   timebasedQuery,
-  onTimebasedQuery: (spark, payload) => {
-    // debug.debug('data query', spark.id, payload);
+  onTimebasedQuery: (payload) => {
     timebasedQuery(add, payload, zmq.push);
   },
 };

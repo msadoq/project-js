@@ -43,9 +43,9 @@ export default class TimebarControls extends Component {
     updateVisuWindow(
       timebarId,
       {
-        lower: upper - msWidth,
-        upper: nowMs,
-        current: nowMs
+        lower: nowMs - msWidth,
+        upper: nowMs + 1e4,
+        current: nowMs,
       }
     );
   }

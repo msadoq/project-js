@@ -16,6 +16,15 @@ export default class Page extends Component {
     openEditor: PropTypes.func,
     focusedPageId: PropTypes.string.isRequired
   };
+
+  componentWillReceiveProps(nextProps) {
+    // Easier way to resize the responsive grid
+    // https://github.com/STRML/react-grid-layout/issues/81
+    if (this.props.isEditorOpened !== nextProps.isEditorOpened) {
+      setTimeout(() => window.dispatchEvent(new Event('resize')));
+    }
+  }
+
   render() {
     logger.debug('render');
     const {
@@ -36,7 +45,6 @@ export default class Page extends Component {
           : '')}
         <Col xs={pageContentWidth}>
           <ContentContainer
-            isEditorOpened={isEditorOpened}
             windowId={windowId}
             focusedPageId={focusedPageId}
             openEditor={openEditor}

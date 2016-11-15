@@ -34,14 +34,6 @@ export default class PageContent extends Component {
     updateLayout: PropTypes.func,
   };
 
-  componentWillReceiveProps(nextProps) {
-    // Easier way to resize the responsive grid
-    // https://github.com/STRML/react-grid-layout/issues/81
-    if (this.props.isEditorOpened !== nextProps.isEditorOpened) {
-      window.dispatchEvent(new Event('resize'));
-    }
-  }
-
   onLayoutChange = (layout = []) => {
     if (!this.props.updateLayout) {
       return;

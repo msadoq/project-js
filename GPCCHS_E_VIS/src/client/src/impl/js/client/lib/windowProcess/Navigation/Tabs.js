@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { Nav, NavItem, Button, Glyphicon } from 'react-bootstrap';
-import diff from 'deep-diff';
 import styles from './Tabs.css';
 import debug from '../../../lib/common/debug/windowDebug';
 
@@ -14,10 +13,6 @@ export default class Tabs extends Component {
     addAndMount: PropTypes.func,
     removeAndUnmountPage: PropTypes.func,
   };
-
-  componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps', diff(this.props, nextProps));
-  }
 
   handleSelect = (eventKey) => {
     if (eventKey === 'new') {

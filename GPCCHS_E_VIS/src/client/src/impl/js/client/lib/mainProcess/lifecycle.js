@@ -1,8 +1,10 @@
+import { series } from 'async';
 import { clear as clearRegisteredCallbacks } from 'common/callbacks/register';
 import { updateStatus } from '../store/actions/hss';
 import { updateStatus as updateAppStatus } from '../store/actions/hsc';
 import { connect } from './websocket';
 import { updateDomains } from '../store/actions/domains';
+import { updateSessions } from '../store/actions/sessions';
 import { removeAllData } from '../store/actions/viewData';
 import { removeAllRequests } from '../store/actions/dataRequests';
 import { setActingOn, setActingOff, resetPreviousMap } from './storeObserver';
@@ -17,8 +19,10 @@ import { schedule, clear as stopDataPulling } from './pull';
  * - LIFECYCLE_WORKSPACE_LOADED
  * - connect ws
  * - LIFECYCLE_CONNECTED_WITH_HSS
- * - send domain query to HSS
- * - receive domain response from HSS
+ * - send domains query to HSS
+ * - receive domains response from HSS
+ * - send sessions query to HSS
+ * - receive sessions response from HSS
  * - LIFECYCLE_READY
  * - first window opening
  * - LIFECYCLE_STARTED
@@ -39,6 +43,7 @@ import { schedule, clear as stopDataPulling } from './pull';
  * - If new state is LIFECYCLE_READY and window opened => LIFECYCLE_STARTED
  */
 
+// TODO : move constants in constants files and avoid loading lifecycle module in window bundle
 export const LIFECYCLE_NOT_STARTED = 'LIFECYCLE_NOT_STARTED';
 export const LIFECYCLE_WORKSPACE_LOADED = 'LIFECYCLE_WORKSPACE_LOADED';
 export const LIFECYCLE_CONNECTED_WITH_HSS = 'LIFECYCLE_CONNECTED_WITH_HSS';
@@ -54,12 +59,43 @@ export function onWorkspaceLoaded(dispatch) {
   connect();
 }
 
-export function onOpen(dispatch, requestDomains) {
+export function onOpen(dispatch, requestDomains, requestSessions) {
   dispatch(updateStatus('main', 'connected'));
   dispatch(updateAppStatus(LIFECYCLE_CONNECTED_WITH_HSS));
-  // TODO : handle error in an error controller that dispatch to redux (displayed in react) and
-  // output in console
-  requestDomains((err, payload) => onDomainData(dispatch, payload));
+
+  // TODO : update sessions and domains regularly
+  series([
+    // domains
+    (callback) => {
+      requestDomains((err, payload) => {
+        if (err) {
+          return callback(err);
+        }
+
+        dispatch(updateDomains(payload));
+        return callback(null);
+      });
+    },
+    // sessions
+    (callback) => {
+      requestSessions((err, payload) => {
+        if (err) {
+          return callback(err);
+        }
+
+        dispatch(updateSessions(payload));
+        return callback(null);
+      });
+    },
+  ], (err) => {
+    if (err) {
+      // TODO : handle error in an error controller that dispatch to redux (displayed in react) and
+      // output in console
+      throw err;
+    }
+
+    dispatch(updateAppStatus(LIFECYCLE_READY));
+  });
 }
 
 export function onDomainData(dispatch, payload) {

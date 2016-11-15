@@ -27,7 +27,7 @@ export default class Page extends Component {
 
     return (
       <div>
-        {(this.props.isEditorOpened
+        {(isEditorOpened
           ? <Col xs={editorCols}>
             <EditorContainer
               focusedPageId={focusedPageId}
@@ -36,6 +36,7 @@ export default class Page extends Component {
           : '')}
         <Col xs={pageContentWidth}>
           <ContentContainer
+            isEditorOpened={isEditorOpened}
             windowId={windowId}
             focusedPageId={focusedPageId}
             openEditor={openEditor}

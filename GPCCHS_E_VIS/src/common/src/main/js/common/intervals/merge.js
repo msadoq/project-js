@@ -43,6 +43,12 @@ const merge = (knownIntervals, interval) => {
   // Lower limit lower than known intervals
   if (lower === 0) {
     const upper = _sortedIndexBy(knownIntervals, interval, i => i[1]);
+    // And Upper limit upper than known intervals
+    if (upper === knownIntervals.length) {
+      return [
+        interval,
+      ];
+    }
     // And Upper limit between intervals
     if (interval[1] < knownIntervals[upper][0]) {
       return [

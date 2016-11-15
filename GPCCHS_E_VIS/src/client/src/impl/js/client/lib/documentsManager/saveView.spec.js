@@ -1,5 +1,6 @@
+import { should } from '../common/test';
+
 const { saveViewAs, saveView } = require('./saveView');
-const { expect } = require('chai');
 const fs = require('../common/fs');
 const { join } = require('path');
 const validation = require('./validation');
@@ -97,76 +98,52 @@ describe('mainProcess/documents/saveViews', () => {
 
   describe('PlotView', () => {
     it('saveAs ok', () => {
-      expect(saveViewAs(state, 'plot1', join(folder, pathPlot))).to.not.be.an('error');
+      saveViewAs(state, 'plot1', join(folder, pathPlot)).should.not.be.an('error');
     });
     it('check new plot view validity', (done) => {
       fs.readJsonFromPath(folder, pathPlot, (err, viewContent) => {
-        if (err) {
-          console.log('readJsonFromPath', err);
-        }
-        expect(err).to.be.an('null');
+        should.not.exist(err);
         const schema = vivl(viewContent.type, 'getSchemaJson')();
         const valErr = validation(viewContent.type, viewContent, schema);
-        if (valErr) {
-          console.log('validation', valErr);
-        }
-        expect(valErr).to.be.an('undefined');
+        should.not.exist(valErr);
         done();
       });
     });
     it('save ok', () => {
-      expect(saveView(state, 'plot1')).to.not.be.an('error');
+      saveView(state, 'plot1').should.not.be.an('error');
     });
     it('check new plot view validity', (done) => {
       fs.readJsonFromPath(state.workspace.folder, state.views.plot1.path, (err, viewContent) => {
-        if (err) {
-          console.log('readJsonFromPath', err);
-        }
-        expect(err).to.be.an('null');
+        should.not.exist(err);
         const schema = vivl(viewContent.type, 'getSchemaJson')();
         const valErr = validation(viewContent.type, viewContent, schema);
-        if (valErr) {
-          console.log('validation', valErr);
-        }
-        expect(valErr).to.be.an('undefined');
+        should.not.exist(valErr);
         done();
       });
     });
   });
   describe('TextView', () => {
     it('saveAs ok', () => {
-      expect(saveViewAs(state, 'text1', join(folder, pathText))).to.not.be.an('error');
+      saveViewAs(state, 'text1', join(folder, pathText)).should.not.be.an('error');
     });
     it('check new text view validity', (done) => {
       fs.readJsonFromPath(folder, pathText, (err, viewContent) => {
-        if (err) {
-          console.log('readJsonFromPath', err);
-        }
-        expect(err).to.be.an('null');
+        should.not.exist(err);
         const schema = vivl(viewContent.type, 'getSchemaJson')();
         const valErr = validation(viewContent.type, viewContent, schema);
-        if (valErr) {
-          console.log('validation', valErr);
-        }
-        expect(valErr).to.be.an('undefined');
+        should.not.exist(valErr);
         done();
       });
     });
     it('save ok', () => {
-      expect(saveView(state, 'text1')).to.not.be.an('error');
+      saveView(state, 'text1').should.not.be.an('error');
     });
     it('check new text view validity', (done) => {
       fs.readJsonFromPath(state.workspace.folder, state.views.text1.path, (err, viewContent) => {
-        if (err) {
-          console.log('readJsonFromPath', err);
-        }
-        expect(err).to.be.an('null');
+        should.not.exist(err);
         const schema = vivl(viewContent.type, 'getSchemaJson')();
         const valErr = validation(viewContent.type, viewContent, schema);
-        if (valErr) {
-          console.log('validation', valErr);
-        }
-        expect(valErr).to.be.an('undefined');
+        should.not.exist(valErr);
         done();
       });
     });

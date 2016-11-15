@@ -43,7 +43,8 @@ export function openViewInEditor(pageId, viewId) { // TODO
       // TODO : check if view is displayed on page
       addAndMount(pageId, viewId);
     } else {
-      console.log('ERROR, do not find existing view');
+      // TODO : display error in react via redux
+      throw new Error('ERROR, do not find existing view');
     }
       // TODO : dispatch openEditor
     return dispatch(getEditor(state, pageId));

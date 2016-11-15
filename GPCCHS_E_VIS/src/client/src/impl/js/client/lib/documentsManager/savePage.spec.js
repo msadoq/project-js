@@ -1,5 +1,6 @@
+import { should } from '../common/test';
+
 const { savePage, savePageAs } = require('./savePage');
-const { expect } = require('chai');
 const { join, dirname } = require('path');
 const fs = require('../common/fs');
 const validation = require('./validation');
@@ -68,38 +69,29 @@ describe('mainProcess/documents/savePage', () => {
   const folder = '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/testAs';
 
   it('saveAs ok', () => {
-    const path = join(folder, './pages/page1.json');
-    expect(savePageAs(state, 'page1', path)).to.not.be.an('error');
+    savePageAs(
+      state,
+      'page1',
+      join(folder, './pages/page1.json')
+    ).should.not.be.an('error');
   });
   it('check validity of saved page', (done) => {
     fs.readJsonFromPath(dirname(join(folder, './pages/page1.json')), 'page1.json', (err, pageContent) => {
-      if (err) {
-        console.log('readJsonFromPath', err);
-      }
-      expect(err).to.be.an('null');
+      should.not.exist(err);
       const validationError = validation('page', pageContent);
-      if (validationError) {
-        console.log('validation', validationError);
-      }
-      expect(validationError).to.be.an('undefined');
+      should.not.exist(validationError);
       done();
     });
   });
   it('save ok', () => {
-    expect(savePage(state, 'page1')).to.not.be.an('error');
+    savePage(state, 'page1').should.not.be.an('error');
   });
   it('check validity of saved page', (done) => {
     fs.readJsonFromPath(dirname(join(state.workspace.folder, state.pages.page1.path)), 'page1.json',
     (err, pageContent) => {
-      if (err) {
-        console.log('readJsonFromPath', err);
-      }
-      expect(err).to.be.an('null');
+      should.not.exist(err);
       const validationError = validation('page', pageContent);
-      if (validationError) {
-        console.log('validation', validationError);
-      }
-      expect(validationError).to.be.an('undefined');
+      should.not.exist(validationError);
       done();
     });
   });

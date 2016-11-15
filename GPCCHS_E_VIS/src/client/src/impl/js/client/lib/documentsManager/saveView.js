@@ -3,7 +3,6 @@ const { writeFile } = require('fs');
 const { dirname } = require('path');
 const checkPath = require('./saveCommon');
 
-
 /**
  * Save view from state to file
  *

@@ -34,7 +34,6 @@ const self = module.exports = {
     }
   },
   readJsonFromAbsPath: (absolutePath, callback) => {
-    console.log('absPath', absolutePath);
     self.read(absolutePath, (err, content) => {
       if (err) {
         return callback(err);

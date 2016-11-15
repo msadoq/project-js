@@ -48,7 +48,6 @@ function savePageAs(state, pageId, path, useRelativePath = false) {
     current.oId = view.oId;
     const index = _findIndex(page.layout, item => item.i === id);
     if (index === -1) {
-      console.log('invalid index');
       return;
     }
     const layout = page.layout[index];

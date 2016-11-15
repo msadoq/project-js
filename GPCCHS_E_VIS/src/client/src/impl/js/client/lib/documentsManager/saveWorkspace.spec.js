@@ -1,5 +1,6 @@
+import { should } from '../common/test';
+
 const { saveWorkspace, saveWorkspaceAs } = require('./saveWorkspace');
-const { expect } = require('chai');
 const { join } = require('path');
 const fs = require('../common/fs');
 const validation = require('./validation');
@@ -78,36 +79,24 @@ describe('mainProcess/documents/workspace', () => {
 
   it('saveAs ok', () => {
     const path = join(folder, 'workspace.json');
-    expect(saveWorkspaceAs(state, path)).to.not.be.an('error');
+    saveWorkspaceAs(state, path).should.not.be.an('error');
   });
   it('check validity of new workspace', (done) => {
     fs.readJsonFromPath(folder, 'workspace.json', (err, wkContent) => {
-      if (err) {
-        console.log('readJsonFromPath', err);
-      }
-      expect(err).to.be.an('null');
+      should.not.exist(err);
       const validationError = validation('workspace', wkContent);
-      if (validationError) {
-        console.log('validation', validationError);
-      }
-      expect(validationError).to.be.an('undefined');
+      should.not.exist(validationError);
       done();
     });
   });
   it('save ok', () => {
-    expect(saveWorkspace(state)).to.not.be.an('error');
+    saveWorkspace(state).should.not.be.an('error');
   });
   it('check validity of new workspace', (done) => {
     fs.readJsonFromPath(state.workspace.folder, state.workspace.file, (err, wkContent) => {
-      if (err) {
-        console.log('readJsonFromPath', err);
-      }
-      expect(err).to.be.an('null');
+      should.not.exist(err);
       const validationError = validation('workspace', wkContent);
-      if (validationError) {
-        console.log('validation', validationError);
-      }
-      expect(validationError).to.be.an('undefined');
+      should.not.exist(validationError);
       done();
     });
   });

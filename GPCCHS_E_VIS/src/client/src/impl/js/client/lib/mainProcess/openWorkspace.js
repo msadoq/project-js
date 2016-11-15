@@ -84,7 +84,7 @@ export default function openWorkspace(dispatch, getState) {
       if (err) {
         logger.error(err);
         // TODO : file picker
-        return console.error('TODO filepicker');
+        throw new Error('TODO open filepicker');
       }
       loadInStore(workspace, dispatch, root, file);
 
@@ -99,6 +99,6 @@ export default function openWorkspace(dispatch, getState) {
   } else {
     // open the file picker
     // TODO : file picker
-    return console.error('TODO filepicker');
+    throw new Error('TODO open filepicker');
   }
 }

@@ -7,6 +7,8 @@ const config = merge(baseConfig, {
   devtool: 'cheap-module-source-map',
 
   entry: [
+    './lib/windowProcess/style/bootstrap',
+    '!style!css!postcss!./lib/windowProcess/style',
     'babel-polyfill',
     './lib/windowProcess/index'
   ],

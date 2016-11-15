@@ -10,10 +10,6 @@ import postCssReporter from 'postcss-reporter';
 import postCssBrowserReporter from 'postcss-browser-reporter';
 
 export default {
-  entry: [
-    '!style!css!postcss!./lib/windowProcess/style',
-    './lib/windowProcess/style/bootstrap'
-  ],
   module: {
     loaders: [{
       test: /\.css$/,

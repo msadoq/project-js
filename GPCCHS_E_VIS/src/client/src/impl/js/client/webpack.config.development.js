@@ -13,6 +13,8 @@ export default merge(baseConfig, {
   devtool: 'eval-source-map',
 
   entry: [
+    './lib/windowProcess/style/bootstrap',
+    '!style!css!postcss!./lib/windowProcess/style',
     `webpack-hot-middleware/client?path=http://localhost:${port}/__webpack_hmr`,
     'babel-polyfill',
     './lib/windowProcess/index'

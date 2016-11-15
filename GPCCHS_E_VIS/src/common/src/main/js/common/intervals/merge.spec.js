@@ -1,9 +1,20 @@
-//const debug = require('../io/debug')('common:intervals.spec');
 require('../utils/test');
 const merge = require('./merge');
 
 describe('intervals/merge', () => {
   describe('one', () => {
+    it('same inf and upper', () => {
+      const myInterval = [0, 21];
+      const knownIntervals = [[0, 10], [12, 20]];
+      const intervals = merge(knownIntervals, myInterval);
+      // debug.debug('my interval', myInterval);
+      // debug.debug('known intervals', knownIntervals);
+      // debug.debug('merged intervals', intervals);
+      intervals.should.be.an('array').that.have.lengthOf(1);
+      intervals[0].should.be.an('array').that.have.lengthOf(2);
+      intervals[0][1].should.equal(myInterval[1]);
+      intervals[0][0].should.equal(knownIntervals[0][0]);
+    });
     it('near', () => {
       const myInterval = [10, 20];
       const knownIntervals = [[0, 10]];

@@ -10,8 +10,6 @@ import { getPage } from '../../store/selectors/pages';
 import visibleRemoteIdsMap from '../../dataManager/map/visibleRemoteIds';
 import visibleViewsMap from '../../dataManager/map/visibleViews';
 
-import Timebar from './Timebar';
-
 class Debug extends PureComponent {
   static propTypes = {
     focusedPage: PropTypes.object,
@@ -40,7 +38,7 @@ class Debug extends PureComponent {
   };
 
   render() {
-    const { debug, toggleDebug, dummy, focusedPage } = this.props;
+    const { debug, toggleDebug, dummy } = this.props;
 
     const toggleWhy = () => {
       if (!debug.whyDidYouUpdate) {
@@ -73,8 +71,6 @@ class Debug extends PureComponent {
         <Button onClick={this.visibleRemoteIds} {...buttonsProps}>DATA MAP</Button>
         {' '}
         <Button onClick={this.visibleViews} {...buttonsProps}>VIEW MAP</Button>
-        {' '}
-        {focusedPage && focusedPage.timebarId ? <Timebar {...this.props} /> : null}
       </div>
     );
   }

@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { Col } from 'react-bootstrap';
 import { updateVisuWindow, addAndMountTimeline, unmountTimeline,
-  updatePlayingState, updateSpeed, updateMasterId } from '../../store/actions/timebars';
+  updatePlayingState, updateSpeed, updateMasterId, updateMode } from '../../store/actions/timebars';
 import { updateId, updateOffset } from '../../store/actions/timelines';
 import styles from './Timebar.css';
 import Timebar from './Timebar';
@@ -23,6 +23,7 @@ class TimebarContainer extends Component {
     updateMasterIdAction: React.PropTypes.func.isRequired,
     updateOffsetAction: React.PropTypes.func.isRequired,
     updateTimelineIdAction: React.PropTypes.func.isRequired,
+    updateModeAction: React.PropTypes.func.isRequired,
     focusedPage: React.PropTypes.object.isRequired,
     visuWindow: React.PropTypes.object.isRequired,
     slideWindow: React.PropTypes.object.isRequired,
@@ -95,7 +96,7 @@ class TimebarContainer extends Component {
       addAndMountTimelineAction, unmountTimelineAction,
       updatePlayingStateAction, updateSpeedAction, timebar,
       slideWindow, updateTimelineIdAction, updateMasterIdAction,
-      updateOffsetAction } = this.props;
+      updateOffsetAction, updateModeAction } = this.props;
 
     let minHeight;
     if (timelines.length < 6) {
@@ -141,12 +142,15 @@ class TimebarContainer extends Component {
         </Col>
         <TimebarControls
           timebarPlayingState={timebar.playingState}
+          timebarMode={timebar.mode}
           timebarSpeed={timebar.speed}
           timebarId={timebarId}
           visuWindow={visuWindow}
+          slideWindow={slideWindow}
           updatePlayingState={updatePlayingStateAction}
           updateSpeed={updateSpeedAction}
           updateVisuWindow={updateVisuWindowAction}
+          updateMode={updateModeAction}
         />
         <Col xs={3}>
           <Lefttab
@@ -204,6 +208,7 @@ export default connect(
       timelines
     };
   }, {
+    updateModeAction: updateMode,
     updateMasterIdAction: updateMasterId,
     updateOffsetAction: updateOffset,
     updateVisuWindowAction: updateVisuWindow,

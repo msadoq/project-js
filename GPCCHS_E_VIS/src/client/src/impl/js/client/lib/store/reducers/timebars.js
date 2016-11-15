@@ -17,6 +17,7 @@ export default function timebars(stateTimebars = {}, action) { // TODO test
     case types.WS_TIMEBAR_ID_UPDATE:
     case types.WS_TIMEBAR_VISUWINDOW_UPDATE:
     case types.WS_TIMEBAR_SPEED_UPDATE:
+    case types.WS_TIMEBAR_MODE_UPDATE:
     case types.WS_TIMEBAR_PLAYINGSTATE_UPDATE:
     case types.WS_TIMEBAR_MASTERID_UPDATE:
     case types.WS_TIMEBAR_MOUNT_TIMELINE:
@@ -89,6 +90,8 @@ function timebar(stateTimebar = initialState, action) {
     }
     case types.WS_TIMEBAR_SPEED_UPDATE:
       return { ...stateTimebar, speed: payload.speed };
+    case types.WS_TIMEBAR_MODE_UPDATE:
+      return { ...stateTimebar, mode: payload.mode };
     case types.WS_TIMEBAR_PLAYINGSTATE_UPDATE:
       return { ...stateTimebar, playingState: payload.playingState };
     case types.WS_TIMEBAR_MASTERID_UPDATE:

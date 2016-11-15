@@ -306,9 +306,9 @@ export default class Timebar extends Component {
   }
 
   autoUpdateSlideWindow = () => {
-    const { timebarId } = this.props;
+    const { timebarId, onChange } = this.props;
     const { slideLower, slideUpper } = this.state;
-    this.props.onChange(
+    onChange(
       timebarId,
       {
         slideWindow: {
@@ -317,10 +317,7 @@ export default class Timebar extends Component {
         }
       }
     );
-    this.setState({
-      slideLower: null,
-      slideUpper: null
-    });
+    this.setState({ slideLower: null, slideUpper: null });
   }
 
   autoUpdateVisuWindow = () => {

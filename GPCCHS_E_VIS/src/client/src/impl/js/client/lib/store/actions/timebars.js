@@ -18,6 +18,8 @@ export const updateVisuWindow = simple(types.WS_TIMEBAR_VISUWINDOW_UPDATE,
 export const updateSpeed = simple(types.WS_TIMEBAR_SPEED_UPDATE, 'timebarId', 'speed');
 export const updatePlayingState = simple(types.WS_TIMEBAR_PLAYINGSTATE_UPDATE, 'timebarId',
 'playingState');
+export const updateMode = simple(types.WS_TIMEBAR_MODE_UPDATE, 'timebarId',
+'mode');
 export const updateMasterId = simple(types.WS_TIMEBAR_MASTERID_UPDATE, 'timebarId', 'masterId');
 export const mountTimeline = simple(types.WS_TIMEBAR_MOUNT_TIMELINE, 'timebarId', 'timelineId');
 export const unmountTimeline = simple(types.WS_TIMEBAR_UNMOUNT_TIMELINE, 'timebarId', 'timelineId');

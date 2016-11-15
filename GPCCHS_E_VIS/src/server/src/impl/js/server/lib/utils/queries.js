@@ -2,8 +2,9 @@
 const { encode } = require('common/protobuf');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const registeredCallbacks = require('common/callbacks/register');
 
-const registeredCallbacks = require('./registeredCallbacks');
 const registeredQueries = require('./registeredQueries');
 const execution = require('./execution')('query');
 

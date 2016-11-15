@@ -3,7 +3,8 @@ const debug = require('../../io/debug')('controllers:onDomainQuery');
 const { encode } = require('common/protobuf');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const zmq = require('common/zmq');
-const registeredCallbacks = require('../../utils/registeredCallbacks');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const registeredCallbacks = require('common/callbacks/register');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
 

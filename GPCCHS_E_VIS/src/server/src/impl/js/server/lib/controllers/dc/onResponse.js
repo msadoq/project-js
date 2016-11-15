@@ -8,7 +8,8 @@ const globalConstants = require('common/constants');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { encode, decode } = require('common/protobuf');
 
-const registeredCallbacks = require('../../utils/registeredCallbacks');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const registeredCallbacks = require('common/callbacks/register');
 
 const { sendToMain } = require('../../websocket/sendToMain');
 

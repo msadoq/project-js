@@ -17,7 +17,8 @@ const { should } = require('../../utils/test');
 const { addToTestQueue, getMessage, resetMessage, flushTestQueue } = require('../../utils/testWebSocket');
 const flattenDataId = require('../../utils/flattenDataId');
 const registeredQueries = require('../../utils/registeredQueries');
-const registeredCallbacks = require('../../utils/registeredCallbacks');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const registeredCallbacks = require('common/callbacks/register');
 
 const connectedDataModel = require('../../models/connectedData');
 const { clearFactory, addTimebasedDataModel } = require('../../models/timebasedDataFactory');

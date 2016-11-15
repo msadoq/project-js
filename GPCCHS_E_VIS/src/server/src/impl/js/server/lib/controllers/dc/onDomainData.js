@@ -5,7 +5,8 @@ const { sendToMain } = require('../../websocket/sendToMain');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { decode } = require('common/protobuf');
 const { setDomains } = require('../../utils/domains');
-const registeredCallbacks = require('../../utils/registeredCallbacks');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const registeredCallbacks = require('common/callbacks/register');
 
 /**
  * Triggered on DC domain request response.

@@ -7,10 +7,12 @@ const globalConstants = require('common/constants');
 const dataStub = require('common/stubs/data');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { decode } = require('common/protobuf');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const registeredCallbacks = require('common/callbacks/register');
 
 const { should } = require('../../utils/test');
 const registeredQueries = require('../../utils/registeredQueries');
-const registeredCallbacks = require('../../utils/registeredCallbacks');
+
 
 const {
   clearFactory,

@@ -4,7 +4,7 @@ const _some = require('lodash/some');
 const _isArray = require('lodash/isArray');
 
 const debug = require('debug');
-const logger = require('../debug')(debug)('utils:intervals');
+const logger = require('../debug')(debug)('common:intervals');
 
 
 const includesTimestamp = (interval, timestamp) =>

@@ -7,9 +7,11 @@ const _concat = require('lodash/concat');
 const { decode } = require('common/protobuf');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const registeredCallbacks = require('common/callbacks/register');
 
 require('../../utils/test');
-const registeredCallbacks = require('../../utils/registeredCallbacks');
+
 
 const { domainQuery } = require('./onDomainQuery');
 

@@ -1,4 +1,5 @@
-const debug = require('../io/debug')('utils:registeredCallbacks');
+const debug = require('debug');
+const logger = require('../debug')(debug)('common:registeredCallbacks');
 
 // eslint-disable-next-line no-underscore-dangle
 const _isString = require('lodash/isString');
@@ -24,7 +25,7 @@ function set(id, callback) {
     throw new Error(`setting a new callback require a valid function '${id}'`);
   }
 
-  debug.debug(`callback registered for '${id}'`);
+  logger.debug(`callback registered for '${id}'`);
   callbacks[id] = callback;
 }
 

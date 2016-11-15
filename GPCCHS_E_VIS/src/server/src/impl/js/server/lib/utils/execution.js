@@ -9,21 +9,20 @@ const _noop = require('lodash/noop');
 
 const debug = require('../io/debug');
 
-let executionMap = {};
-function reset() {
-  executionMap = {};
-}
-function start(key) {
+function start(executionMap, key) {
   if (!executionMap[key]) {
+    // eslint-disable-next-line no-param-reassign
     executionMap[key] = [];
   }
   executionMap[key].push(process.hrtime());
 }
-function stop(key) {
+function stop(executionMap, key) {
   const lastIndex = executionMap[key].length - 1;
+  // eslint-disable-next-line no-param-reassign
   executionMap[key][lastIndex] = process.hrtime(executionMap[key][lastIndex]);
 }
-function print(display) {
+function print(executionMap, namespace) {
+  const display = debug(`profiling:${namespace}`).warn;
   display('= execution map ====================');
   _each(executionMap, (r, k) => {
     let d = 0;
@@ -38,13 +37,24 @@ function print(display) {
   display('- execution map --------------------');
 }
 
+const noOp = {
+  reset: _noop,
+  start: _noop,
+  stop: _noop,
+  print: _noop,
+};
+
 module.exports = function init(namespace) {
-  const display = debug(`profiling:${namespace}`).warn;
+  if (process.env.PROFILING !== 'on') {
+    return noOp;
+  }
+
+  let executionMap = {};
 
   return {
-    reset: process.env.PROFILING === 'on' ? reset : _noop,
-    start: process.env.PROFILING === 'on' ? start : _noop,
-    stop: process.env.PROFILING === 'on' ? stop : _noop,
-    print: process.env.PROFILING === 'on' ? () => print(display) : _noop,
+    reset: () => (executionMap = {}),
+    start: key => start(executionMap, key),
+    stop: key => stop(executionMap, key),
+    print: () => print(executionMap, namespace),
   };
 };

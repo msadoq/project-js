@@ -36,7 +36,7 @@ const domainData = (websocketHandler, queryIdBuffer, domainsBuffer) => {
   // store domains
   setDomains(domains);
   // forward to client
-  return websocketHandler(globalConstants.EVENT_DOMAIN_DATA, domains);
+  return websocketHandler(globalConstants.EVENT_DOMAIN_DATA, domains, queryId);
 };
 
 const onDomainData = (queryIdBuffer, domainsBuffer) => {

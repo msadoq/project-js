@@ -31,26 +31,23 @@ const errorCallback = (err) => {
   }
 };
 
-const sessionQuery = (messageHandler) => {
+const sessionQuery = (id, messageHandler) => {
   debug.debug('new session query');
 
   // create and register queryId
-  const id = generateSessionId();
-  registeredCallbacks.set(id, errorCallback);
+  const queryId = (typeof id === 'undefined') ? generateSessionId() : id;
+  registeredCallbacks.set(queryId, errorCallback);
   // protobufferize queryId
-  const queryId = encode('dc.dataControllerUtils.String', {
-    string: id,
+  const protobufQueryId = encode('dc.dataControllerUtils.String', {
+    string: queryId,
   });
 
-  const queryArgs = [protobufSessionHeader, queryId];
+  const queryArgs = [protobufSessionHeader, protobufQueryId];
 
   messageHandler('dcPush', queryArgs);
 };
 
-const onSessionQuery = () =>
-  sessionQuery(zmq.push);
-
 module.exports = {
   sessionQuery,
-  onSessionQuery,
+  onSessionQuery: queryId => sessionQuery(queryId, zmq.push),
 };

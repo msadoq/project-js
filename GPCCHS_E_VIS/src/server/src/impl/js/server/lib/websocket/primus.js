@@ -46,7 +46,7 @@ const primusExports = module.exports = {
 
         switch (message.event) {
           case globalConstants.EVENT_DOMAIN_QUERY: {
-            errorHandler('onDomainQuery', () => handlers.onDomainQuery());
+            errorHandler('onDomainQuery', () => handlers.onDomainQuery(message.queryId));
             break;
           }
           case globalConstants.EVENT_PULL: {
@@ -54,7 +54,7 @@ const primusExports = module.exports = {
             break;
           }
           case globalConstants.EVENT_TIMEBASED_QUERY: {
-            errorHandler('onTimebasedQuery', () => handlers.onTimebasedQuery(spark, message.payload));
+            errorHandler('onTimebasedQuery', () => handlers.onTimebasedQuery(message.payload));
             break;
           }
           case globalConstants.EVENT_TIMEBASED_QUERY_INVALIDATION: {
@@ -62,7 +62,7 @@ const primusExports = module.exports = {
             break;
           }
           case globalConstants.EVENT_SESSION_QUERY: {
-            errorHandler('onSessionQuery', () => handlers.onSessionQuery());
+            errorHandler('onSessionQuery', () => handlers.onSessionQuery(message.queryId));
             break;
           }
           default:

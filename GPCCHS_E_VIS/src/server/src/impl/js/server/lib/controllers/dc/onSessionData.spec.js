@@ -34,12 +34,14 @@ describe('controllers/dc/onSessionData', () => {
     // launch test
     sessionData(sendToTestWs, myQueryIdProto, mySessionsProto);
     // check data
-    const domains = getMessage();
-    domains.should.be.an('object');
-    domains.should.have.an.property('event')
+    const sessions = getMessage();
+    sessions.should.be.an('object');
+    sessions.should.have.an.property('event')
       .that.equal(globalConstants.EVENT_SESSION_DATA);
-    domains.should.have.an.property('payload')
+    sessions.should.have.an.property('payload')
       .that.is.an('array')
       .that.have.properties(mySessions.session);
+    sessions.should.have.an.property('queryId')
+      .that.equal(myQueryId);
   });
 });

@@ -1,7 +1,7 @@
-import intervalManager from 'common/intervals';
+import missingIntervals from 'common/intervals/missing';
 
 export default function retrieveNeededIntervals(knownInterval, interval) {
   return (knownInterval)
-    ? intervalManager.missing([knownInterval], interval)
+    ? missingIntervals([knownInterval], interval)
     : [interval];
 }

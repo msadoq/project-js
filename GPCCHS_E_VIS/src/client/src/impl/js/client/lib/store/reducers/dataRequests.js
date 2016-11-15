@@ -2,7 +2,8 @@ import _reduce from 'lodash/reduce';
 import _set from 'lodash/set';
 import _omit from 'lodash/omit';
 
-import intervalManager from 'common/intervals';
+import mergeIntervals from 'common/intervals/merge';
+import removeIntervals from 'common/intervals/remove';
 import * as types from '../types';
 
 export default function requests(state = {}, action) {
@@ -13,7 +14,7 @@ export default function requests(state = {}, action) {
         (list, { intervals }, remoteId) => _set(
           list,
           [remoteId],
-          intervalManager.merge(
+          mergeIntervals(
             Array.from(state[remoteId] ? state[remoteId] : []),
             intervals
           )
@@ -29,7 +30,7 @@ export default function requests(state = {}, action) {
       const idToRemove = [];
       // TODO getLast optimize .remove code to only remove exact matching interval if getLast cd
       const modified = _reduce(action.payload.requests, (list, { intervals }, remoteId) => {
-        const reqIntervals = intervalManager.remove(
+        const reqIntervals = removeIntervals(
           Array.from(state[remoteId] ? state[remoteId] : []),
           intervals
         );

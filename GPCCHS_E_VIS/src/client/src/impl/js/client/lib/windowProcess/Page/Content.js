@@ -90,8 +90,8 @@ export default class PageContent extends Component {
                 openEditor={this.props.openEditor}
                 closeEditor={this.props.closeEditor}
               />
-            </div>); }
-        )}
+            </div>);
+        })}
       </Grid>
     );
   }

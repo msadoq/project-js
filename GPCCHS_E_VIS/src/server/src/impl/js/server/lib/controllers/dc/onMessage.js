@@ -1,15 +1,21 @@
 const debug = require('../../io/debug')('controllers:onMessage');
-// eslint-disable-next-line import/no-extraneous-dependencies
-const { decode } = require('common/protobuf');
+
+// eslint-disable-next-line no-underscore-dangle
+const _slice = require('lodash/slice');
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { decode } = require('common/protobuf');
+
+const errorHandler = require('../../utils/errorHandler');
+
 const { onResponse } = require('./onResponse');
 const { onDomainData } = require('./onDomainData');
 const { onTimebasedArchiveData } = require('./onTimebasedArchiveData');
 const { onTimebasedPubSubData } = require('./onTimebasedPubSubData');
 const { onSessionData } = require('./onSessionData');
-const errorHandler = require('../../utils/errorHandler');
-const { slice: _slice } = require('lodash');
+
 
 /**
   * Trigger on a new incoming Server Message from DC

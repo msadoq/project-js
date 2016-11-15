@@ -1,12 +1,18 @@
 const debug = require('../io/debug')('models:timebasedData');
-const database = require('../io/loki');
-const {
-  includes: _includes,
-  each: _each,
-  without: _without,
-  memoize: _memoize,
-} = require('lodash');
+
+// eslint-disable-next-line no-underscore-dangle
+const _includes = require('lodash/includes');
+// eslint-disable-next-line no-underscore-dangle
+const _each = require('lodash/each');
+// eslint-disable-next-line no-underscore-dangle
+const _without = require('lodash/without');
+// eslint-disable-next-line no-underscore-dangle
+const _memoize = require('lodash/memoize');
+
 const constants = require('../constants');
+
+const database = require('../io/loki');
+
 
 let remoteIds = [];
 

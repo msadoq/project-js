@@ -1,9 +1,19 @@
+// eslint-disable-next-line no-underscore-dangle
+const _concat = require('lodash/concat');
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
-const { should } = require('../../utils/test');
-const { cacheCleanup } = require('./onCacheCleanup');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const dataStub = require('common/stubs/data');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { decode } = require('common/protobuf');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const registeredCallbacks = require('common/callbacks/register');
+
+const { should } = require('../../utils/test');
+const registeredQueries = require('../../utils/registeredQueries');
+
+
 const {
   clearFactory,
   getTimebasedDataModel,
@@ -11,11 +21,8 @@ const {
 } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
-const registeredQueries = require('../../utils/registeredQueries');
-const registeredCallbacks = require('../../utils/registeredCallbacks');
-const { concat: _concat } = require('lodash');
-// eslint-disable-next-line import/no-extraneous-dependencies
-const dataStub = require('common/stubs/data');
+
+const { cacheCleanup } = require('./onCacheCleanup');
 
 let calls = [];
 const zmqEmulator = (key, payload) => {

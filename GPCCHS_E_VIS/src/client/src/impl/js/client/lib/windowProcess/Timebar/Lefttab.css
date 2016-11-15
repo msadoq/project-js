@@ -1,3 +1,6 @@
+.leftTab{
+  position: relative;
+}
 .timebarName{
   position: absolute;
   top: 0px;
@@ -7,8 +10,8 @@
 }
 .form{
   position: absolute;
-  right: 26px;
-  top: -6px;
+  right: -4px;
+  top: -32px;
   transform: translate(calc(100% - 32px), calc(-100% + 34px));
   background: #fff;
   border: 1px solid #ccc;
@@ -18,7 +21,13 @@
   width: 260px;
   padding: 4px;
 }
-
+.editForm{
+  right: auto;
+  left: 0px;
+  top: 0px;
+  width: 120%;
+  transform: translateY(calc(-100% - 10px));
+}
 .timelineUl{
   margin-top: 28px;
   padding-left: 0px;
@@ -36,16 +45,23 @@
   margin-bottom: 2px;
   height: 18px;
   font-weight: bold;
+  cursor: pointer;
 }
-
+.timeline:hover{
+  background: #dfdfdf;
+}
+.master{
+  background: #efefef;
+  border: 1px solid #111;
+}
 .formGroup{
   margin-bottom: 4px;
 }
 
 .addTimelineButton{
   position: absolute;
-  top: 0px;
-  right: 31px;
+  top: -28px;
+  right: 0px;
   padding: 2px 7px;
   border-radius: 1px;
 }
@@ -87,3 +103,16 @@
 .addTrackButton{
   border: none;
 }
+.input{
+  padding: 2px 7px;
+  border-radius: 2px;
+  display: inline-block;
+  margin-right: 4px;
+}
+.input_years{ width: 69px; }
+.input_months{ width: 69px; }
+.input_days{ width: 69px; }
+.input_hours{ width: 50px; }
+.input_minutes{ width: 50px; }
+.input_seconds{ width: 50px; }
+.input_milliseconds{ width: 54px; }

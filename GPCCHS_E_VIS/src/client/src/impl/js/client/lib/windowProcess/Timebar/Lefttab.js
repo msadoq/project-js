@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { Button, FormGroup, Form } from 'react-bootstrap';
 import { schemeCategory20b } from 'd3-scale';
 import Timeline from './Timeline';
+import EditTrack from './EditTrack';
 import styles from './Lefttab.css';
 import ColorPicker from '../Editor/Components/ColorPicker';
 
@@ -12,9 +13,13 @@ export default class Lefttab extends Component {
     timelines: React.PropTypes.array.isRequired,
     timebarId: React.PropTypes.string.isRequired,
     timebarName: React.PropTypes.string.isRequired,
+    masterId: React.PropTypes.string.isRequired,
     addAndMountTimeline: React.PropTypes.func.isRequired,
     unmountTimeline: React.PropTypes.func.isRequired,
     onVerticalScroll: React.PropTypes.func.isRequired,
+    updateTimelineId: React.PropTypes.func.isRequired,
+    updateMasterId: React.PropTypes.func.isRequired,
+    updateOffset: React.PropTypes.func.isRequired,
     verticalScroll: React.PropTypes.number.isRequired,
   }
 
@@ -22,6 +27,7 @@ export default class Lefttab extends Component {
     super(...args);
     this.state = {
       willAdd: false,
+      willEdit: false,
       color: schemeCategory20b[this.props.timelines.length % 20]
     };
   }
@@ -84,19 +90,80 @@ export default class Lefttab extends Component {
     this.toggleAddTimeline();
   }
 
+  hideAddTimeline = () => {
+    this.setState({
+      willAdd: false,
+      willEdit: false,
+      editingTimelineId: null
+    });
+  }
+
+  willEditTimeline = (timelineId, id) => {
+    this.setState({
+      willAdd: false,
+      willEdit: true,
+      editingTimelineId: timelineId,
+      editingId: id
+    });
+  }
+
+  editTimeline = (timelineId, id, offset, master) => {
+    const { updateOffset, updateTimelineId, timebarId,
+      updateMasterId, masterId, timelines } = this.props;
+    const timeline = timelines.find(x => x.timelineId === timelineId);
+    const { editingTimelineId } = this.state;
+
+    if (timeline.id !== id) updateTimelineId(timelineId, id);
+
+    if (master && masterId !== timelineId) {
+      updateMasterId(timebarId, editingTimelineId);
+      timelines.forEach((t) => {
+        if (t.timelineId === timelineId) return;
+        updateOffset(t.timelineId, t.offset - offset);
+      });
+      updateOffset(timelineId, 0);
+    } else if (timeline.offset !== offset) {
+      if ((masterId === timelineId) || (master && masterId !== timelineId)) {
+        timelines.forEach((t) => {
+          if (t.timelineId === timelineId) return;
+          updateOffset(t.timelineId, t.offset - offset);
+        });
+        updateOffset(timelineId, 0);
+      } else {
+        updateOffset(timelineId, offset);
+      }
+    }
+
+    this.setState({
+      willAdd: false,
+      willEdit: false
+    });
+  }
+
   render() {
-    const { timelines } = this.props;
-    const { color, willAdd } = this.state;
+    const { timelines, masterId } = this.props;
+    const { color, willAdd, willEdit, editingTimelineId } = this.state;
 
     let noTrack;
     if (timelines.length === 0) {
       noTrack = <p className="text-center"><br /><h5><b>No track to display</b></h5></p>;
     }
 
+    let editTrack;
+    if (willEdit) {
+      editTrack = (<EditTrack
+        timeline={timelines.find(x => x.timelineId === editingTimelineId)}
+        masterId={masterId}
+        hideAddTimeline={this.hideAddTimeline}
+        editTimeline={this.editTimeline}
+      />);
+    }
+
     return (
 
-      <div>
+      <div className={styles.leftTab}>
         <h5 className={styles.timebarName}>{this.props.timebarName}</h5>
+        {editTrack}
         <Form
           horizontal
           className={classnames(styles.form, { hidden: !willAdd })}
@@ -167,10 +234,15 @@ export default class Lefttab extends Component {
           { timelines.map((v, i) =>
             <Timeline
               key={i}
+              offset={v.offset}
               name={v.id}
+              timelinesLength={timelines.length}
               timebarId={this.props.timebarId}
-              id={v.timelineId}
+              id={v.id}
+              timelineId={v.timelineId}
               color={v.color}
+              masterId={masterId}
+              willEditTimeline={this.willEditTimeline}
               unmountTimeline={this.unmountTimelineAction}
             />
           )}

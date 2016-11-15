@@ -4,8 +4,9 @@ const { sessionData } = require('./onSessionData');
 const dataStub = require('common/stubs/data');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
-const { sendToTestWs, getMessage, resetMessage } = require('../../stubs/testWebSocket');
-const registeredCallbacks = require('../../utils/registeredCallbacks');
+const { sendToTestWs, getMessage, resetMessage } = require('../../utils/testWebSocket');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const registeredCallbacks = require('common/callbacks/register');
 
 describe('controllers/dc/onSessionData', () => {
   beforeEach(() => {

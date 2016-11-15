@@ -10,7 +10,7 @@ const {
   getMessage,
   resetMessage,
   flushTestQueue,
-} = require('../../stubs/testWebSocket');
+} = require('../../utils/testWebSocket');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
 

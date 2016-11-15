@@ -1,9 +1,11 @@
+// eslint-disable-next-line no-underscore-dangle
+const _some = require('lodash/some');
+// eslint-disable-next-line no-underscore-dangle
+const _isArray = require('lodash/isArray');
+
 const debug = require('debug');
-const logger = require('../debug')(debug)('utils:intervals');
-const {
-  some: _some,
-  isArray: _isArray,
-} = require('lodash');
+const logger = require('../debug')(debug)('common:intervals');
+
 
 const includesTimestamp = (interval, timestamp) =>
   (timestamp >= interval[0] && timestamp <= interval[1]);

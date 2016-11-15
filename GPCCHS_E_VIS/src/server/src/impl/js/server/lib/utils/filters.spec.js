@@ -1,11 +1,14 @@
-require('./test');
-const {
-  omit: _omit,
-  assign: _assign,
-} = require('lodash');
-const { applyFilters } = require('./filters');
+// eslint-disable-next-line no-underscore-dangle
+const _omit = require('lodash/omit');
+// eslint-disable-next-line no-underscore-dangle
+const _assign = require('lodash/assign');
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
+
+require('./test');
+
+const { applyFilters } = require('./filters');
 
 describe('utils/filters', () => {
   describe('applyFilters', () => {

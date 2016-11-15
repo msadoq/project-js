@@ -1,10 +1,11 @@
-const {
-  sortedLastIndexBy: _sortedLastIndexBy,
-  sortedIndexBy: _sortedIndexBy,
-  slice: _slice,
-  reduce: _reduce,
-  isArray: _isArray,
-} = require('lodash');
+// eslint-disable-next-line no-underscore-dangle
+const _sortedLastIndexBy = require('lodash/sortedLastIndexBy');
+// eslint-disable-next-line no-underscore-dangle
+const _slice = require('lodash/slice');
+// eslint-disable-next-line no-underscore-dangle
+const _reduce = require('lodash/reduce');
+// eslint-disable-next-line no-underscore-dangle
+const _isArray = require('lodash/isArray');
 
 function remove(knownIntervals, interval) {
   const lower = _sortedLastIndexBy(knownIntervals, interval, i => i[0]);

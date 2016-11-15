@@ -11,6 +11,16 @@ export default function timelines(stateTimelines = {}, action) {
         ...stateTimelines,
         [action.payload.timelineId]: timeline(undefined, action),
       };
+    case types.WS_TIMELINE_UPDATE_ID:
+      return {
+        ...stateTimelines,
+        [action.payload.timelineId]: timeline(stateTimelines[action.payload.timelineId], action),
+      };
+    case types.WS_TIMELINE_UPDATE_OFFSET:
+      return {
+        ...stateTimelines,
+        [action.payload.timelineId]: timeline(stateTimelines[action.payload.timelineId], action),
+      };
     case types.WS_TIMELINE_REMOVE:
       return _.omit(stateTimelines, [action.payload.timelineId]);
     default:
@@ -38,6 +48,10 @@ function timeline(stateTimeline = initialState, action) {
         sessionId: configuration.sessionId || initialState.sessionId,
       });
     }
+    case types.WS_TIMELINE_UPDATE_ID:
+      return { ...stateTimeline, id: action.payload.id };
+    case types.WS_TIMELINE_UPDATE_OFFSET:
+      return { ...stateTimeline, offset: action.payload.offset };
     default:
       return stateTimeline;
   }

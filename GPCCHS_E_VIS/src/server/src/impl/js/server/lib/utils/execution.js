@@ -1,9 +1,11 @@
-const {
-  each: _each,
-  round: _round,
-  reduce: _reduce,
-  noop: _noop,
-} = require('lodash');
+// eslint-disable-next-line no-underscore-dangle
+const _each = require('lodash/each');
+// eslint-disable-next-line no-underscore-dangle
+const _round = require('lodash/round');
+// eslint-disable-next-line no-underscore-dangle
+const _reduce = require('lodash/reduce');
+// eslint-disable-next-line no-underscore-dangle
+const _noop = require('lodash/noop');
 
 const debug = require('../io/debug');
 

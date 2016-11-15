@@ -1,11 +1,18 @@
 const debug = require('../../io/debug')('controllers:onResponse');
-// eslint-disable-next-line import/no-extraneous-dependencies
-const { encode, decode } = require('common/protobuf');
-const registeredCallbacks = require('../../utils/registeredCallbacks');
-const { sendToMain } = require('../../websocket/sendToMain');
-const { isEqual: _isEqual } = require('lodash');
+
+// eslint-disable-next-line no-underscore-dangle
+const _isEqual = require('lodash/isEqual');
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { encode, decode } = require('common/protobuf');
+
+// eslint-disable-next-line import/no-extraneous-dependencies
+const registeredCallbacks = require('common/callbacks/register');
+
+const { sendToMain } = require('../../websocket/sendToMain');
+
 
 /**
  * Triggered on incoming DcResponse message from DC.

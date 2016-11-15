@@ -1,11 +1,16 @@
-const debug = require('../io/debug')('utils:registeredCallbacks');
-const {
-  isString: _isString,
-  isEmpty: _isEmpty,
-  has: _has,
-  isFunction: _isFunction,
-  omit: _omit,
-} = require('lodash');
+const debug = require('debug');
+const logger = require('../debug')(debug)('common:registeredCallbacks');
+
+// eslint-disable-next-line no-underscore-dangle
+const _isString = require('lodash/isString');
+// eslint-disable-next-line no-underscore-dangle
+const _isEmpty = require('lodash/isEmpty');
+// eslint-disable-next-line no-underscore-dangle
+const _has = require('lodash/has');
+// eslint-disable-next-line no-underscore-dangle
+const _isFunction = require('lodash/isFunction');
+// eslint-disable-next-line no-underscore-dangle
+const _omit = require('lodash/omit');
 
 let callbacks = {};
 
@@ -20,7 +25,7 @@ function set(id, callback) {
     throw new Error(`setting a new callback require a valid function '${id}'`);
   }
 
-  debug.debug(`callback registered for '${id}'`);
+  logger.debug(`callback registered for '${id}'`);
   callbacks[id] = callback;
 }
 

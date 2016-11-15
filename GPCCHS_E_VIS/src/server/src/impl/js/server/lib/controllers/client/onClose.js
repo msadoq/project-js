@@ -1,14 +1,19 @@
 const debug = require('../../io/debug')('controllers:onClose');
-const { clearFactory } = require('../../models/timebasedDataFactory');
-const subscriptionsModel = require('../../models/subscriptions');
-const connectedDataModel = require('../../models/connectedData');
+
+// eslint-disable-next-line no-underscore-dangle
+const _each = require('lodash/each');
+
+// eslint-disable-next-line import/no-extraneous-dependencies
+const zmq = require('common/zmq');
+
 const { reset: resetDataQueue } = require('../../utils/dataQueue');
 const registeredQueries = require('../../utils/registeredQueries');
 const { createDeleteSubscriptionMessage } = require('../../utils/subscriptions');
-// eslint-disable-next-line import/no-extraneous-dependencies
-const zmq = require('common/zmq');
-const { each: _each } = require('lodash');
 const { resetDomains } = require('../../utils/domains');
+
+const { clearFactory } = require('../../models/timebasedDataFactory');
+const subscriptionsModel = require('../../models/subscriptions');
+const connectedDataModel = require('../../models/connectedData');
 
 /**
  * Triggered when HSC main process WebSocket closes

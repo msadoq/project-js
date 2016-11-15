@@ -235,7 +235,7 @@ export default class Timebar extends Component {
   onWheel = (e) => {
     e.preventDefault();
 
-    const { slideWindow, visuWindow, timebarId } = this.props;
+    const { slideWindow, visuWindow } = this.props;
     const slideLower = this.state.slideLower || slideWindow.lower;
     const slideUpper = this.state.slideUpper || slideWindow.upper;
 
@@ -257,15 +257,7 @@ export default class Timebar extends Component {
       current = Math.trunc(current);
       this.setState({ lower, upper, current });
       if (!this.debounced1) {
-        this.debounced1 = debounce(
-          () => {
-            this.props.onChange(
-              timebarId,
-              { lower, upper, current }
-            );
-          },
-          500
-        );
+        this.debounced1 = debounce(this.autoUpdateVisuWindow, 300);
       }
       this.debounced1();
     } else {
@@ -286,20 +278,7 @@ export default class Timebar extends Component {
         slideUpper: newSlideUpper
       });
       if (!this.debounced2) {
-        this.debounced2 = debounce(
-          () => {
-            this.props.onChange(
-              timebarId,
-              {
-                slideWindow: {
-                  lower: newSlideLower,
-                  upper: newSlideUpper
-                }
-              }
-            );
-          },
-          500
-        );
+        this.debounced2 = debounce(this.autoUpdateSlideWindow, 300);
       }
       this.debounced2();
     }
@@ -326,11 +305,42 @@ export default class Timebar extends Component {
     }
   }
 
+  autoUpdateSlideWindow = () => {
+    const { timebarId } = this.props;
+    const { slideLower, slideUpper } = this.state;
+    this.props.onChange(
+      timebarId,
+      {
+        slideWindow: {
+          lower: slideLower,
+          upper: slideUpper
+        }
+      }
+    );
+    this.setState({
+      slideLower: null,
+      slideUpper: null
+    });
+  }
+
+  autoUpdateVisuWindow = () => {
+    const { timebarId, onChange } = this.props;
+    const { lower, upper, current } = this.state;
+    onChange(
+      timebarId,
+      { lower, upper, current }
+    );
+    this.setState({ lower: null, upper: null, current: null });
+  }
+
   updateCursorTime = (e) => {
     e.stopPropagation();
-    const { timeEnd, timeBeginning } = this.state;
+    const { slideWindow } = this.props;
+    let { slideLower, slideUpper } = this.state;
+    slideLower = slideLower || slideWindow.lower;
+    slideUpper = slideUpper || slideWindow.upper;
     const offsetPx = e.pageX - this.el.getBoundingClientRect().left;
-    const cursorMs = timeBeginning + ((timeEnd - timeBeginning) * (offsetPx / this.el.offsetWidth));
+    const cursorMs = slideLower + ((slideLower - slideUpper) * (offsetPx / this.el.offsetWidth));
     this.setState({
       formatedFullDate: moment(cursorMs).format('D MMMM YYYY HH[:]mm[:]ss[.]SSS')
     });
@@ -382,21 +392,32 @@ export default class Timebar extends Component {
   }
 
   rePosition = (side) => {
-    const { visuWindow } = this.props;
+    const { visuWindow, onChange, timebarId } = this.props;
     const lower = this.state.lower || visuWindow.lower;
     const upper = this.state.upper || visuWindow.upper;
 
+    let newSlideLower;
+    let newSlideUpper;
     if (side === 'left') {
-      this.setState({
-        slideLower: lower - ((upper - lower) / 5),
-        slideUpper: upper + ((upper - lower) * 2),
-      });
+      newSlideLower = lower - ((upper - lower) / 5);
+      newSlideUpper = upper + ((upper - lower) * 2);
     } else if (side === 'right') {
-      this.setState({
-        slideLower: lower - ((upper - lower) * 2),
-        slideUpper: upper + ((upper - lower) / 5),
-      });
+      newSlideLower = lower - ((upper - lower) * 2);
+      newSlideUpper = upper + ((upper - lower) / 5);
     }
+    onChange(
+      timebarId,
+      {
+        slideWindow: {
+          lower: newSlideLower,
+          upper: newSlideUpper,
+        }
+      }
+    );
+    this.setState({
+      slideLower: null,
+      slideUpper: null,
+    });
   }
 
   bringCursors = (e) => {

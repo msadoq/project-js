@@ -1,10 +1,13 @@
 const debug = require('../io/debug')('utils:registeredQueries');
-const {
-  isString: _isString,
-  isEmpty: _isEmpty,
-  has: _has,
-  omit: _omit,
-} = require('lodash');
+
+// eslint-disable-next-line no-underscore-dangle
+const _isString = require('lodash/isString');
+// eslint-disable-next-line no-underscore-dangle
+const _isEmpty = require('lodash/isEmpty');
+// eslint-disable-next-line no-underscore-dangle
+const _has = require('lodash/has');
+// eslint-disable-next-line no-underscore-dangle
+const _omit = require('lodash/omit');
 
 let queries = {};
 

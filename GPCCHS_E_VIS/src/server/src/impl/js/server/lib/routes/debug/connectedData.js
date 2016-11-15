@@ -1,6 +1,9 @@
 const { Router } = require('express');
+// eslint-disable-next-line no-underscore-dangle
+const _each = require('lodash/each');
+
 const connectedDataModel = require('../../models/connectedData');
-const { each: _each } = require('lodash');
+
 
 const router = new Router();
 

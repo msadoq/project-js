@@ -1,15 +1,19 @@
 const debug = require('../../io/debug')('controllers:onCacheCleanup');
+
+// eslint-disable-next-line no-underscore-dangle
+const _each = require('lodash/each');
+// eslint-disable-next-line no-underscore-dangle
+const _concat = require('lodash/concat');
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 const zmq = require('common/zmq');
+
 const registeredQueries = require('../../utils/registeredQueries');
+const { createDeleteSubscriptionMessage } = require('../../utils/subscriptions');
+
 const { getTimebasedDataModel, removeTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
-const { createDeleteSubscriptionMessage } = require('../../utils/subscriptions');
-const {
-  each: _each,
-  concat: _concat,
-} = require('lodash');
 
 /**
  * Cache Cleanup: clear expired queries from models, stop subscriptions if needed

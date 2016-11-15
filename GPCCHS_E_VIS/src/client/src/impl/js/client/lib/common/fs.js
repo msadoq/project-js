@@ -33,6 +33,15 @@ const self = module.exports = {
       return callback(e);
     }
   },
+  readJsonFromAbsPath: (absolutePath, callback) => {
+    console.log('absPath', absolutePath);
+    self.read(absolutePath, (err, content) => {
+      if (err) {
+        return callback(err);
+      }
+      return self.parse(content, callback);
+    });
+  },
   readJsonFromPath: (folder, relativePath, callback) => {
     self.read(self.resolve(folder, relativePath), (err, content) => {
       if (err) {

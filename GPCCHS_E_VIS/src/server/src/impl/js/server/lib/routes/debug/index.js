@@ -1,19 +1,22 @@
 /* eslint prefer-template:0 */
 
 const { Router } = require('express');
+// eslint-disable-next-line no-underscore-dangle
+const _each = require('lodash/each');
+// eslint-disable-next-line no-underscore-dangle
+const _floor = require('lodash/floor');
+// eslint-disable-next-line no-underscore-dangle
+const _round = require('lodash/round');
+
+// eslint-disable-next-line import/no-extraneous-dependencies
+const monitoring = require('common/monitoring');
+
+const { getDomains } = require('../../utils/domains');
 
 const subscriptionsModel = require('../../models/subscriptions');
 const connectedDataModel = require('../../models/connectedData');
 const { getAllTimebasedDataModelRemoteIds } = require('../../models/timebasedDataFactory');
-const { getDomains } = require('../../utils/domains');
-// eslint-disable-next-line import/no-extraneous-dependencies
-const monitoring = require('common/monitoring');
 
-const {
-  each: _each,
-  floor: _floor,
-  round: _round,
-} = require('lodash');
 
 const router = new Router();
 

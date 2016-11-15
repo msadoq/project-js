@@ -1,13 +1,19 @@
 const debug = require('../io/debug')('models:subscriptions');
-const database = require('../io/loki');
-const {
-  remove: _remove,
-  values: _values,
-  assign: _assign,
-  keys: _keys,
-  omit: _omit,
-} = require('lodash');
+
+// eslint-disable-next-line no-underscore-dangle
+const _remove = require('lodash/remove');
+// eslint-disable-next-line no-underscore-dangle
+const _values = require('lodash/values');
+// eslint-disable-next-line no-underscore-dangle
+const _assign = require('lodash/assign');
+// eslint-disable-next-line no-underscore-dangle
+const _keys = require('lodash/keys');
+// eslint-disable-next-line no-underscore-dangle
+const _omit = require('lodash/omit');
+
 const flattenDataId = require('../utils/flattenDataId');
+
+const database = require('../io/loki');
 
 const collection = database.addCollection('subscriptions',
   {

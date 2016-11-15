@@ -105,6 +105,7 @@ function view(stateView = initialState, action) {
         configuration: configuration(undefined, action),
         path: action.payload.path,
         oId: action.payload.oId,
+        absolutePath: action.payload.absolutePath,
       };
     default:
       return stateView;

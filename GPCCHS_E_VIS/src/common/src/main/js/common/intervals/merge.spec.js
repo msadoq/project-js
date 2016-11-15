@@ -1,4 +1,4 @@
-//const debug = require('../io/debug')('utils:intervals.spec');
+//const debug = require('../io/debug')('common:intervals.spec');
 require('../utils/test');
 const merge = require('./merge');
 

@@ -3,7 +3,8 @@ import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { Col } from 'react-bootstrap';
 import { updateVisuWindow, addAndMountTimeline, unmountTimeline,
-  updatePlayingState, updateSpeed } from '../../store/actions/timebars';
+  updatePlayingState, updateSpeed, updateMasterId } from '../../store/actions/timebars';
+import { updateId, updateOffset } from '../../store/actions/timelines';
 import styles from './Timebar.css';
 import Timebar from './Timebar';
 import Lefttab from './Lefttab';
@@ -19,6 +20,9 @@ class TimebarContainer extends Component {
     unmountTimelineAction: React.PropTypes.func.isRequired,
     updatePlayingStateAction: React.PropTypes.func.isRequired,
     updateSpeedAction: React.PropTypes.func.isRequired,
+    updateMasterIdAction: React.PropTypes.func.isRequired,
+    updateOffsetAction: React.PropTypes.func.isRequired,
+    updateTimelineIdAction: React.PropTypes.func.isRequired,
     focusedPage: React.PropTypes.object.isRequired,
     visuWindow: React.PropTypes.object.isRequired,
     slideWindow: React.PropTypes.object.isRequired,
@@ -90,7 +94,8 @@ class TimebarContainer extends Component {
       visuWindow, focusedPage, timebarName,
       addAndMountTimelineAction, unmountTimelineAction,
       updatePlayingStateAction, updateSpeedAction, timebar,
-      slideWindow } = this.props;
+      slideWindow, updateTimelineIdAction, updateMasterIdAction,
+      updateOffsetAction } = this.props;
 
     let minHeight;
     if (timelines.length < 6) {
@@ -145,7 +150,11 @@ class TimebarContainer extends Component {
         />
         <Col xs={3}>
           <Lefttab
+            updateMasterId={updateMasterIdAction}
+            updateOffset={updateOffsetAction}
+            updateTimelineId={updateTimelineIdAction}
             timebarId={timebarId}
+            masterId={timebar.masterId}
             timebarName={timebarName}
             timelines={timelines}
             addAndMountTimeline={addAndMountTimelineAction}
@@ -172,27 +181,37 @@ class TimebarContainer extends Component {
   }
 }
 
-export default connect((state, ownProps) => {
-  const { timebarId } = ownProps.focusedPage;
-  const timebar = state.timebars[timebarId];
-  const timebarName = state.timebars[timebarId].id;
-  const timelines = [];
-  state.timebars[timebarId].timelines.forEach((v) => {
-    timelines.push(Object.assign({}, state.timelines[v], { timelineId: v }));
-  });
+export default connect(
+  (state, ownProps) => {
+    const { timebarId } = ownProps.focusedPage;
+    const timebar = state.timebars[timebarId];
+    const timebarName = state.timebars[timebarId].id;
+    const timelines = [];
+    state.timebars[timebarId].timelines.forEach((v) => {
+      if (timebar.masterId === v) {
+        timelines.splice(0, 0, Object.assign({}, state.timelines[v], { timelineId: v }));
+      } else {
+        timelines.push(Object.assign({}, state.timelines[v], { timelineId: v }));
+      }
+    });
 
-  return {
-    visuWindow: timebar.visuWindow,
-    slideWindow: timebar.slideWindow,
-    timebar,
-    timebarId,
-    timebarName,
-    timelines
-  };
-}, {
-  updateVisuWindowAction: updateVisuWindow,
-  addAndMountTimelineAction: addAndMountTimeline,
-  unmountTimelineAction: unmountTimeline,
-  updatePlayingStateAction: updatePlayingState,
-  updateSpeedAction: updateSpeed
-})(TimebarContainer);
+    return {
+      visuWindow: timebar.visuWindow,
+      slideWindow: timebar.slideWindow,
+      timebar,
+      timebarId,
+      timebarName,
+      timelines
+    };
+  }, {
+    updateMasterIdAction: updateMasterId,
+    updateOffsetAction: updateOffset,
+    updateVisuWindowAction: updateVisuWindow,
+    addAndMountTimelineAction: addAndMountTimeline,
+    updateTimelineIdAction: updateId,
+    unmountTimelineAction: unmountTimeline,
+    updatePlayingStateAction: updatePlayingState,
+    updateSpeedAction: updateSpeed
+  }
+
+)(TimebarContainer);

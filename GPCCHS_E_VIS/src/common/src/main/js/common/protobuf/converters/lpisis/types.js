@@ -1,13 +1,12 @@
 /* eslint-disable no-underscore-dangle */
 
-const {
-  isInteger: _isInteger,
-  isBuffer: _isBuffer,
-  isNumber: _isNumber,
-  isUndefined: _isUndefined,
-  isNull: _isNull,
-  isString: _isString,
-} = require('lodash');
+const _isInteger = require('lodash/isInteger');
+const _isBuffer = require('lodash/isBuffer');
+const _isNumber = require('lodash/isNumber');
+const _isUndefined = require('lodash/isUndefined');
+const _isNull = require('lodash/isNull');
+const _isString = require('lodash/isString');
+
 const ByteBuffer = require('bytebuffer');
 
 module.exports = {

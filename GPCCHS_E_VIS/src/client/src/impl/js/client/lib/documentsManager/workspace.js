@@ -1,5 +1,5 @@
 const debug = require('../common/debug/mainDebug')('documents:workspace');
-const { omit } = require('lodash');
+const omit = require('lodash/omit');
 const async = require('async');
 const fs = require('../common/fs');
 const validation = require('./validation');

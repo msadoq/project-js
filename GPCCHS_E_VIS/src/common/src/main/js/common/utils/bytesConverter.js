@@ -1,7 +1,7 @@
-const {
-  floor: _floor,
-  round: _round,
-} = require('lodash');
+// eslint-disable-next-line no-underscore-dangle
+const _floor = require('lodash/floor');
+// eslint-disable-next-line no-underscore-dangle
+const _round = require('lodash/round');
 
 const GIGA_BYTES = Math.pow(2, 30);
 const MEGA_BYTES = Math.pow(2, 20);

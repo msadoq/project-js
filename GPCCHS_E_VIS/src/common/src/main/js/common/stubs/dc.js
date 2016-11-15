@@ -1,19 +1,23 @@
+const debug = require('debug');
+// eslint-disable-next-line no-underscore-dangle
+const _each = require('lodash/each');
+// eslint-disable-next-line no-underscore-dangle
+const _omit = require('lodash/omit');
+
+const logger = require('../debug')(debug)('common:stubs:dc');
+
 const zmq = require('../zmq');
 const globalConstants = require('../constants');
-const debug = require('debug');
-const logger = require('../debug')(debug)('common:stubs:dc');
+const protobuf = require('../protobuf/index');
+const stubData = require('./data');
+
 const createQueryKey = require('./dc/createQueryKey');
 const isParameterSupported = require('./dc/isParameterSupported');
 const sendDomainData = require('./dc/sendDomainData');
 const sendPubSubData = require('./dc/sendPubSubData');
 const sendArchiveData = require('./dc/sendArchiveData');
 const sendSessionData = require('./dc/sendSessionData');
-const {
-  each: _each,
-  omit: _omit,
-} = require('lodash');
-const protobuf = require('../protobuf/index');
-const stubData = require('./data');
+
 
 let subscriptions = {};
 let queries = [];

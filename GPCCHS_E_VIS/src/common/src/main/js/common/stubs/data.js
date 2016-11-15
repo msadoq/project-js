@@ -1,13 +1,15 @@
-const {
-  now: _now,
-  defaultsDeep: _defaultsDeep,
-  random: _random,
-  sortBy: _sortBy,
-  map: _map,
-} = require('lodash');
+// eslint-disable-next-line no-underscore-dangle
+const _now = require('lodash/now');
+// eslint-disable-next-line no-underscore-dangle
+const _defaultsDeep = require('lodash/defaultsDeep');
+// eslint-disable-next-line no-underscore-dangle
+const _random = require('lodash/random');
+// eslint-disable-next-line no-underscore-dangle
+const _sortBy = require('lodash/sortBy');
+// eslint-disable-next-line no-underscore-dangle
+const _map = require('lodash/map');
+
 const protobuf = require('../protobuf/index');
-const constants = require('../constants');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('../constants');
 
 const now = _now();
@@ -89,10 +91,10 @@ stubs.getTCHistoryProtobuf = override => protobuf.encode(
 
 // Action
 stubs.getAddAction = () => ({
-  action: constants.SUBSCRIPTIONACTION_ADD,
+  action: globalConstants.SUBSCRIPTIONACTION_ADD,
 });
 stubs.getDeleteAction = () => ({
-  action: constants.SUBSCRIPTIONACTION_DELETE,
+  action: globalConstants.SUBSCRIPTIONACTION_DELETE,
 });
 
 stubs.getAddActionProtobuf = () => protobuf.encode(
@@ -169,31 +171,31 @@ stubs.getFilterProtobuf = override => protobuf.encode(
 
 // Header
 stubs.getDomainQueryHeader = () => ({
-  messageType: constants.MESSAGETYPE_DOMAIN_QUERY,
+  messageType: globalConstants.MESSAGETYPE_DOMAIN_QUERY,
 });
 stubs.getTimebasedQueryHeader = () => ({
-  messageType: constants.MESSAGETYPE_TIMEBASED_QUERY,
+  messageType: globalConstants.MESSAGETYPE_TIMEBASED_QUERY,
 });
 stubs.getTimebasedSubscriptionHeader = () => ({
-  messageType: constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION,
+  messageType: globalConstants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION,
 });
 stubs.getResponseHeader = () => ({
-  messageType: constants.MESSAGETYPE_RESPONSE,
+  messageType: globalConstants.MESSAGETYPE_RESPONSE,
 });
 stubs.getDomainDataHeader = () => ({
-  messageType: constants.MESSAGETYPE_DOMAIN_DATA,
+  messageType: globalConstants.MESSAGETYPE_DOMAIN_DATA,
 });
 stubs.getTimebasedArchiveDataHeader = () => ({
-  messageType: constants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA,
+  messageType: globalConstants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA,
 });
 stubs.getTimebasedPubSubDataHeader = () => ({
-  messageType: constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA,
+  messageType: globalConstants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA,
 });
 stubs.getSessionQueryHeader = () => ({
-  messageType: constants.MESSAGETYPE_SESSION_QUERY,
+  messageType: globalConstants.MESSAGETYPE_SESSION_QUERY,
 });
 stubs.getSessionDataHeader = () => ({
-  messageType: constants.MESSAGETYPE_SESSION_DATA,
+  messageType: globalConstants.MESSAGETYPE_SESSION_DATA,
 });
 
 stubs.getDomainQueryHeaderProtobuf = () => protobuf.encode(
@@ -281,10 +283,10 @@ stubs.getSessionsProtobuf = override => protobuf.encode(
 
 // Status
 stubs.getSuccessStatus = () => ({
-  status: constants.STATUS_SUCCESS,
+  status: globalConstants.STATUS_SUCCESS,
 });
 stubs.getErrorStatus = () => ({
-  status: constants.STATUS_ERROR,
+  status: globalConstants.STATUS_ERROR,
 });
 
 stubs.getSuccessStatusProtobuf = () => protobuf.encode(

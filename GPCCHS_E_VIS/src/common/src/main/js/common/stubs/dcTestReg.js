@@ -78,6 +78,20 @@ const domainDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =>
   callback(null);
 };
 
+// SESSION DATA
+const sessionDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
+  console.log('receiving a message from dc');
+  console.log();
+  const header = decode('dc.dataControllerUtils.Header', headerBuffer);
+  header.messageType.should.equal(constants.MESSAGETYPE_SESSION_DATA);
+  const queryId = decode('dc.dataControllerUtils.String', argsBuffers[0]).string;
+  queryId.should.equal(myQueryId);
+  (() => decode('dc.dataControllerUtils.Sessions', argsBuffers[1])).should.not.throw();
+  zmq.closeSockets();
+  console.log('...end test');
+  callback(null);
+};
+
 // ARCHIVE DATA
 const archiveDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
   console.log('receiving a message from dc');
@@ -217,6 +231,12 @@ const domainQueryMessageArgs = [
   encode('dc.dataControllerUtils.String', { string: myQueryId }),
 ];
 
+// session query
+const sessionQueryMessageArgs = [
+  encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_SESSION_QUERY }),
+  encode('dc.dataControllerUtils.String', { string: myQueryId }),
+];
+
 // timebased subscription start
 const tbStartSubMessageArgs = [
   encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION }),
@@ -234,12 +254,19 @@ const tbStopSubMessageArgs = [
 ];
 
 
-// ARCHIVE TEST
+// DOMAIN TEST
 const domainTest =
   (callback) => {
     console.log('> Test Domain');
     createZmqConnection(callback, domainDataPullHandler);
     sendZmqMessage(domainQueryMessageArgs);
+  };
+// SESSION TEST
+const sessionTest =
+  (callback) => {
+    console.log('> Test Session');
+    createZmqConnection(callback, sessionDataPullHandler);
+    sendZmqMessage(sessionQueryMessageArgs);
   };
 // ARCHIVE TEST
 const archiveTest =
@@ -270,25 +297,31 @@ let testFunctions = [];
 
 const parseArgs = require('minimist');
 const options = {
-  boolean: ['d', 'p', 'a', 'all', 't'],
+  boolean: ['d', 'p', 'a', 's', 'all', 't'],
   default: {
     all: true,
     d: false,
     p: false,
     a: false,
     t: false,
+    s: false,
   },
   alias: {
     d: 'domains',
     p: 'pubsub',
     a: 'archive',
     t: 'trash',
+    s: 'sessions',
   },
 };
 const argv = parseArgs(process.argv.slice(2), options);
 if (argv.domains) {
   argv.all = false;
   testFunctions.push(domainTest);
+}
+if (argv.sessions) {
+  argv.all = false;
+  testFunctions.push(sessionTest);
 }
 if (argv.archive) {
   argv.all = false;
@@ -305,6 +338,7 @@ if (argv.trash) {
 if (argv.all) {
   testFunctions = [];
   testFunctions.push(domainTest);
+  testFunctions.push(sessionTest);
   testFunctions.push(archiveTest);
   testFunctions.push(pubSubTest);
 }

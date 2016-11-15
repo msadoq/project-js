@@ -25,6 +25,7 @@ import os
 import re
 import sys
 import subprocess
+from time import sleep
 
 
 class IsisContainerError(Exception):
@@ -40,14 +41,23 @@ class GPCCHS(object):
     @brief: GPCCHS_E_VIS.gpcchs : Launcher of GPCCHS visualization application
     """
     _ROOT = os.path.dirname(__file__)
+    _ISIS_WORK_DIR = os.environ.get('ISIS_WORK_DIR')
+    _ISIS_WORK_DIR = (
+        _ISIS_WORK_DIR + '/'
+        if _ISIS_WORK_DIR and not _ISIS_WORK_DIR.endswith('/')
+        else _ISIS_WORK_DIR
+    )
+    if not _ISIS_WORK_DIR:
+        raise IsisContainerError('Environment varsiable `ISIS_WORK_DIR` is not set!')
+    
     # Start of user code ProtectedAttrZone
-    _container_dir = '/data/isis/work/'
-    _feature_name = 'gpcchs_e_vis_launcher-default.xml'
+    _container_dir = _ISIS_WORK_DIR
+    _gpccdc_feature_name = 'gpccdc_d_dbr-default.xml'
     _container_pid_file = '{}gpinde-isis-desktopx.demo-:0-container.pid'
 
     _startContainerCmd = 'gpcctc_l_cnt_isisStartContainer_cmd -p {0} --cd {1}{0}'
     _hssPath = '/usr/share/isis/lib/js/gpcchs_e_vis_launcher/server'
-    _hssRunCmd = 'NODE_ENV=production DEBUG=GPCCHS:* LEVEL=INFO HTTP_LOGS=0 PORT={} ZMQ_GPCCDC_PUSH=tcp://127.0.0.1:{} ZMQ_GPCCDC_PULL=tcp://127.0.0.1:{} ZMQ_VIMA_TIMEBAR=tcp://127.0.0.1:{} ZMQ_VIMA_TIMEBAR_INIT=tcp://127.0.0.1:{} ZMQ_VIMA_STUB_TIMEBAR= STUB_DC_ON=off STUB_TB_ON=off MONITORING=off PROFILING=off node --max_old_space_size=8000 index'
+    _hssRunCmd = 'node --max_old_space_size=8000 index'
     _hscPath = '/usr/share/isis/lib/js/gpcchs_e_vis_launcher/client'
     _hscRunCmd = './lpisis_gpcchs_e_clt --HSS=http://127.0.0.1:{} --FMD_ROOT=$FMD_ROOT_DIR --OPEN={} --PROFILING=off'
 
@@ -106,7 +116,7 @@ class GPCCHS(object):
         """
         return '{} -- ccreate {}'.format(
             self._container_cmd_base,
-            self._feature_name
+            self._gpccdc_feature_name
         ).split()
 
     @property
@@ -140,6 +150,8 @@ class GPCCHS(object):
         self._context = {}
         self._timebarName = 'TB1'
         self._hssPort = None
+        self._hssProc = None
+        self._hscProc = None
         self._dcPushPort = None
         self._dcPullPort = None
         self._tbPushPort = None
@@ -159,6 +171,8 @@ class GPCCHS(object):
         self._context = None
         self._timebarName = None
         self._hssPort = None
+        self._hssProc = None
+        self._hscProc = None
         self._dcPushPort = None
         self._dcPullPort = None
         self._tbPushPort = None
@@ -172,7 +186,7 @@ class GPCCHS(object):
     # Start of user code ProtectedOperZone
     def _create_feature(self):
         """
-        Create the feature defined in self._feature_name
+        Create the feature defined in self._gpccdc_feature_name
         
         :return: Zero if success, -1 if error
         :rtype: integer
@@ -187,6 +201,7 @@ class GPCCHS(object):
             return matches[0] if matches else None
 
         try:
+            print("GPCCHS launcher execute: ",' '.join(self._ccreate_cmd))
             proc = subprocess.Popen(
                 self._ccreate_cmd,
                 env=os.environ,
@@ -209,6 +224,7 @@ class GPCCHS(object):
         """
         try:
             print('Activating feature ID {}...'.format(self._feature_id))
+            print("GPCCHS launcher execute: ",' '.join(self._cactivate_cmd))            
             proc = subprocess.Popen(
                 self._cactivate_cmd,
                 env=os.environ,
@@ -234,6 +250,7 @@ class GPCCHS(object):
         """
         try:
             print('Starting feature ID {}...'.format(self._feature_id))
+            print("GPCCHS launcher execute: ",' '.join(self._cstart_cmd))
             proc = subprocess.Popen(
                 self._cstart_cmd,
                 env=os.environ,
@@ -296,11 +313,6 @@ class GPCCHS(object):
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE
             )
-            for std in [proc.stdout, proc.stderr]:
-                if std:
-                    std = std.read().decode('utf-8')
-                    if 'Error=1' in std:
-                        raise IsisContainerError(std)
         except subprocess.CalledProcessError as error:
             print("GPCCHS Launcher Process creation error:", error)
             return proc
@@ -318,6 +330,25 @@ class GPCCHS(object):
             for line in readFile.readlines():
                 portslist.append(line.strip('\n \t'))
             readFile.close()
+
+    def _create_hss_env_vars(self):
+        """
+        Set the necessary variables in os.environ for HSS
+        """
+        os.environ["NODE_ENV"] = "production"
+        os.environ["DEBUG"] = "GPCCHS:*"
+        os.environ["LEVEL"] = "INFO"
+        os.environ["HTTP_LOGS"] = "0"
+        os.environ["PORT"] = "{}".format(self._hssPort)
+        os.environ["ZMQ_GPCCDC_PUSH"] = "tcp://127.0.0.1:{}".format(self._dcPushPort)
+        os.environ["ZMQ_GPCCDC_PULL"] = "tcp://127.0.0.1:{}".format(self._dcPullPort)
+        os.environ["ZMQ_VIMA_TIMEBAR"] = "tcp://127.0.0.1:{}".format(self._tbPullPort)
+        os.environ["ZMQ_VIMA_TIMEBAR_INIT"] = "tcp://127.0.0.1:{}".format(self._tbPushPort)
+        os.environ["ZMQ_VIMA_STUB_TIMEBAR"] = " "
+        os.environ["STUB_DC_ON"] = "off"
+        os.environ["STUB_TB_ON"] = "off"
+        os.environ["MONITORING"] = "off"
+        os.environ["PROFILING"] = "off"
 
     def run(self):
         """
@@ -340,12 +371,6 @@ class GPCCHS(object):
                 self._dcPullPort = portsNums[2]
                 self._tbPushPort = portsNums[3]
                 self._tbPullPort = portsNums[4]
-                print("HSS run command:",' '.join(self._hss_run_cmd))
-                print("HSC run command:",' '.join(self._hsc_run_cmd))
-                os.environ['PORT_NUM_TIMEBAR_PULL'] = self._tbPullPort
-                os.environ['PORT_NUM_TIMEBAR_PUSH_{}'.format(self._timebarName)] = self._tbPushPort
-                print("Timebar listening on port ",os.environ['PORT_NUM_TIMEBAR_PULL'])
-                print("Timebar TB1 push on port ",os.environ['PORT_NUM_TIMEBAR_PUSH_TB1'])
                 if rc == 0:
                     if not self._feature_id:
                         rc = self._create_feature()
@@ -353,8 +378,18 @@ class GPCCHS(object):
                         rc = self._activate_feature()
                     if rc == 0 and self._feature_id:
                         rc = self._start_feature()
+                    if rc == 0:
+                        os.chdir(self._hssPath)
+                        self._create_hss_env_vars()
+                        self._hssProc = self._run_process(' '.join(self._hss_run_cmd))
+                    if self._hssProc != None:
+                        os.chdir(self._hscPath)
+                        self._hscProc = self._run_process(' '.join(self._hsc_run_cmd))
+                    if self._hssProc != None:
+                        print("GPCCHS Successfully started")
+                        self._hssProc.wait()
+                    
         return rc
-
 
 if __name__ == '__main__':
     # Imported only if called through CLI

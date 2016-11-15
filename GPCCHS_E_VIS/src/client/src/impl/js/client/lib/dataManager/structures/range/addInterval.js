@@ -1,5 +1,5 @@
-import intervalManager from 'common/intervals';
+import mergeInterval from 'common/intervals/merge';
 
 export default function addInterval(knownIntervals, interval) {
-  return intervalManager.merge(knownIntervals, interval);
+  return mergeInterval(knownIntervals, interval);
 }

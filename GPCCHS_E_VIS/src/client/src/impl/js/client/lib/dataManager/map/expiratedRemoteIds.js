@@ -1,7 +1,7 @@
 import _each from 'lodash/each';
 import _get from 'lodash/get';
 
-import intervalManager from 'common/intervals';
+import removeIntervals from 'common/intervals/remove';
 
 import profiling from '../../common/debug/profiling';
 
@@ -17,7 +17,7 @@ const getExpiredRequests = (dataMap, dataRequests) => {
       // extract visible interval from expired intervals
       const expectedInterval = localValue.expectedInterval;
       // TODO getLast optimize .remove code to only remove exact matching interval if getLast cd
-      expiredIntervals = intervalManager.remove(expiredIntervals, expectedInterval);
+      expiredIntervals = removeIntervals(expiredIntervals, expectedInterval);
     });
     // if some expired intervals, add to invalidation
     if (expiredIntervals.length > 0) {

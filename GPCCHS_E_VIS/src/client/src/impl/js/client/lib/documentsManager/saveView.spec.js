@@ -2,11 +2,10 @@ import { should } from '../common/test';
 
 const { saveViewAs, saveView } = require('./saveView');
 const fs = require('../common/fs');
-const { join } = require('path');
 const validation = require('./validation');
 const vivl = require('../../VIVL/main');
 
-describe('mainProcess/documents/saveViews', () => {
+describe('documentsManager/saveViews', () => {
   const state = {
     views: {
       text1: {
@@ -42,6 +41,7 @@ describe('mainProcess/documents/saveViews', () => {
              '    <div class=\'myContener\'><span class=\'name\'>AGA_AM_PRIORITY</span><span class=\'value\'>{{AGA_AM_PRIORITY}}</span></div>',
              '</div>'] },
         path: './views/text1.json',
+        absolutePath: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/testAs/views/text1.json'
       },
       plot1: {
         type: 'PlotView',
@@ -85,6 +85,7 @@ describe('mainProcess/documents/saveViews', () => {
           markers: [],
         },
         path: 'views/plot1.json',
+        absolutePath: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/testAs/views/plot1.json'
       }
     },
     workspace: {
@@ -92,16 +93,12 @@ describe('mainProcess/documents/saveViews', () => {
     }
   };
 
-  const folder = '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/testAs/';
-  const pathPlot = './views/testPlot.json';
-  const pathText = './views/testText.json';
-
   describe('PlotView', () => {
     it('saveAs ok', () => {
-      saveViewAs(state, 'plot1', join(folder, pathPlot)).should.not.be.an('error');
+      should.not.exist(saveViewAs(state, 'plot1', state.views.plot1.absolutePath));
     });
     it('check new plot view validity', (done) => {
-      fs.readJsonFromPath(folder, pathPlot, (err, viewContent) => {
+      fs.readJsonFromAbsPath(state.views.plot1.absolutePath, (err, viewContent) => {
         should.not.exist(err);
         const schema = vivl(viewContent.type, 'getSchemaJson')();
         const valErr = validation(viewContent.type, viewContent, schema);
@@ -110,10 +107,10 @@ describe('mainProcess/documents/saveViews', () => {
       });
     });
     it('save ok', () => {
-      saveView(state, 'plot1').should.not.be.an('error');
+      should.not.exist(saveView(state, 'plot1'));
     });
     it('check new plot view validity', (done) => {
-      fs.readJsonFromPath(state.workspace.folder, state.views.plot1.path, (err, viewContent) => {
+      fs.readJsonFromAbsPath(state.views.plot1.absolutePath, (err, viewContent) => {
         should.not.exist(err);
         const schema = vivl(viewContent.type, 'getSchemaJson')();
         const valErr = validation(viewContent.type, viewContent, schema);
@@ -124,10 +121,10 @@ describe('mainProcess/documents/saveViews', () => {
   });
   describe('TextView', () => {
     it('saveAs ok', () => {
-      saveViewAs(state, 'text1', join(folder, pathText)).should.not.be.an('error');
+      should.not.exist(saveViewAs(state, 'text1', state.views.text1.absolutePath));
     });
     it('check new text view validity', (done) => {
-      fs.readJsonFromPath(folder, pathText, (err, viewContent) => {
+      fs.readJsonFromAbsPath(state.views.text1.absolutePath, (err, viewContent) => {
         should.not.exist(err);
         const schema = vivl(viewContent.type, 'getSchemaJson')();
         const valErr = validation(viewContent.type, viewContent, schema);
@@ -136,10 +133,10 @@ describe('mainProcess/documents/saveViews', () => {
       });
     });
     it('save ok', () => {
-      saveView(state, 'text1').should.not.be.an('error');
+      should.not.exist(saveView(state, 'text1'));
     });
     it('check new text view validity', (done) => {
-      fs.readJsonFromPath(state.workspace.folder, state.views.text1.path, (err, viewContent) => {
+      fs.readJsonFromAbsPath(state.views.text1.absolutePath, (err, viewContent) => {
         should.not.exist(err);
         const schema = vivl(viewContent.type, 'getSchemaJson')();
         const valErr = validation(viewContent.type, viewContent, schema);

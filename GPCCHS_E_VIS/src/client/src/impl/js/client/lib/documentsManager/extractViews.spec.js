@@ -6,10 +6,11 @@ const { v4 } = require('node-uuid');
 const _ = require('lodash');
 const path = require('path');
 
-describe('documents/lib', () => {
+describe('documentsManager/extractViews', () => {
   let content;
   const id1 = v4();
   const id2 = v4();
+  const folder = '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/impl/js/client/lib/documentsManager/examples/';
 
   before(() => {
     const id = v4();
@@ -23,6 +24,7 @@ describe('documents/lib', () => {
       timeBarId: 'TB1',
       uuid: id1,
       timebarId: id,
+      absolutePath: path.join(folder, 'page1.json'),
     };
     content.pages[id2] = {
       type: 'Page',
@@ -32,6 +34,7 @@ describe('documents/lib', () => {
       timeBarId: 'TB1',
       uuid: id1,
       timebarId: id,
+      absolutePath: path.join(folder, 'page2.json'),
     };
     content.__folder = path.join(__dirname, 'examples');
   });
@@ -52,11 +55,11 @@ describe('documents/lib', () => {
   describe('readViews', () => {
     let views;
     beforeEach(() => {
-      views = [{ path: 'text1.json', uuid: v4(), type: 'TextView' },
-      { oId: 'plot1.json', uuid: v4(), type: 'PlotView' }];
+      views = [{ path: path.join(folder, 'text1.json'), uuid: v4(), type: 'TextView' },
+      { path: path.join(folder, 'plot1.json'), uuid: v4(), type: 'PlotView' }];
     });
     it('valid', (done) => {
-      readViews(content.__folder, views, (err, list) => {
+      readViews(views, (err, list) => {
         should.not.exist(err);
         list.should.be.an('array').with.length(2);
         list[0].type.should.equal('TextView');
@@ -67,15 +70,15 @@ describe('documents/lib', () => {
       });
     });
     it('with invalid path', (done) => {
-      views.push({ path: 'unknown.json', uuid: v4(), type: 'TextView' });
-      readViews(content.__folder, views, (err) => {
+      views.push({ path: path.join(folder, 'unknown.json'), uuid: v4(), type: 'TextView' });
+      readViews(views, (err) => {
         should.exist(err);
         done();
       });
     });
     it('with invalid type', (done) => {
-      views.push({ path: 'plot1.json', uuid: v4(), type: 'unknownView' });
-      readViews(content.__folder, views, (err) => {
+      views.push({ path: path.join(folder, 'plot1.json'), uuid: v4(), type: 'unknownView' });
+      readViews(views, (err) => {
         should.exist(err);
         done();
       });

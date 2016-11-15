@@ -1,5 +1,5 @@
+const { should } = require('../common/test');
 const { saveAllDocumentsAs, saveAllDocuments } = require('./saveAllDocuments');
-const { expect } = require('chai');
 const readWorkspace = require('./workspace');
 
 describe('mainProcess/documents/saveAllDocuments', () => {
@@ -124,20 +124,20 @@ describe('mainProcess/documents/saveAllDocuments', () => {
   const file = 'workspace.json';
 
   it('saveAs ok', () => {
-    expect(saveAllDocumentsAs(state, folder, file)).not.to.be.an('error');
+    should.not.exist(saveAllDocumentsAs(state, folder, file));
   });
   it('check validity of the new documents', (done) => {
     readWorkspace(folder, file, (err) => {
-      expect(err).to.be.an('null');
+      should.not.exist(err);
       done();
     });
   });
   it('save ok', () => {
-    expect(saveAllDocuments(state)).not.to.be.an('error');
+    should.not.exist(saveAllDocuments(state));
   });
   it('check validity of the new documents', (done) => {
     readWorkspace(folder, file, (err) => {
-      expect(err).to.be.an('null');
+      should.not.exist(err);
       done();
     });
   });

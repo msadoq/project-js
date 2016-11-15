@@ -1,7 +1,6 @@
 import { should } from '../common/test';
 
 const { savePage, savePageAs } = require('./savePage');
-const { join, dirname } = require('path');
 const fs = require('../common/fs');
 const validation = require('./validation');
 
@@ -30,6 +29,7 @@ describe('mainProcess/documents/savePage', () => {
         timebarId: 'TB1',
         views: ['plot1', 'text1'],
         path: './pages/page1.json',
+        absolutePath: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/testAs/pages/page1.json',
       }
     },
     views: {
@@ -49,6 +49,7 @@ describe('mainProcess/documents/savePage', () => {
           titleStyle: {},
         },
         path: 'plotview4.json',
+        absolutePath: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/testAs/views/plotview4.json',
       },
       text1: {
         type: 'TextView',
@@ -59,6 +60,7 @@ describe('mainProcess/documents/savePage', () => {
           content: []
         },
         path: 'textOne.json',
+        absolutePath: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/testAs/views/textOne.json',
       }
     },
     workspace: {
@@ -66,17 +68,12 @@ describe('mainProcess/documents/savePage', () => {
       file: './pages/page1.json',
     }
   };
-  const folder = '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/testAs';
 
   it('saveAs ok', () => {
-    savePageAs(
-      state,
-      'page1',
-      join(folder, './pages/page1.json')
-    ).should.not.be.an('error');
+    should.not.exist(savePageAs(state, 'page1', state.pages.page1.absolutePath));
   });
-  it('check validity of saved page', (done) => {
-    fs.readJsonFromPath(dirname(join(folder, './pages/page1.json')), 'page1.json', (err, pageContent) => {
+  it('check validity of saved as page', (done) => {
+    fs.readJsonFromAbsPath(state.pages.page1.absolutePath, (err, pageContent) => {
       should.not.exist(err);
       const validationError = validation('page', pageContent);
       should.not.exist(validationError);
@@ -84,11 +81,10 @@ describe('mainProcess/documents/savePage', () => {
     });
   });
   it('save ok', () => {
-    savePage(state, 'page1').should.not.be.an('error');
+    should.not.exist(savePage(state, 'page1'));
   });
   it('check validity of saved page', (done) => {
-    fs.readJsonFromPath(dirname(join(state.workspace.folder, state.pages.page1.path)), 'page1.json',
-    (err, pageContent) => {
+    fs.readJsonFromAbsPath(state.pages.page1.absolutePath, (err, pageContent) => {
       should.not.exist(err);
       const validationError = validation('page', pageContent);
       should.not.exist(validationError);

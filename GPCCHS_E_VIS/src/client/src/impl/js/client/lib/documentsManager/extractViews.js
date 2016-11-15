@@ -43,7 +43,7 @@ function findPageViewsAndReplaceWithUuid(page) {
   }, []);
 }
 
-function readViews(folder, viewsToRead, cb) {
+function readViews(viewsToRead, cb) {
   async.reduce(viewsToRead, [], (list, identity, fn) => {
     let filepath = identity.path || identity.oId;
     // TODO when oId defined, ask DC (?) to get path
@@ -84,6 +84,7 @@ function readViews(folder, viewsToRead, cb) {
         oId: identity.oId,
         uuid: identity.uuid,
         absolutePath: filepath,
+        // geometry: identity.geometry,
       }));
 
       return fn(null, list);
@@ -108,7 +109,7 @@ function extractViews(content, cb) {
     list.concat(findPageViewsAndReplaceWithUuid(p)),
   []);
 
-  return readViews(content.__folder, viewsToRead, (err, views) => {
+  return readViews(viewsToRead, (err, views) => {
     if (err) {
       return cb(err);
     }

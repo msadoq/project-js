@@ -2,8 +2,8 @@
 const _findIndex = require('lodash/findIndex');
 const _startsWith = require('lodash/startsWith');
 const { writeFile } = require('fs');
-const { dirname } = require('path');
-const checkPath = require('./saveCommon');
+const { dirname, relative } = require('path');
+const { checkPath } = require('../common/fs');
 const parameters = require('../common/parameters');
 
 const root = parameters.FMD_ROOT;
@@ -38,11 +38,11 @@ function savePageAs(state, pageId, path, useRelativePath = false) {
     const view = state.views[id];
     const current = {};
     if (useRelativePath) {
-      current.path = path.relative(path, view.absolutePath);
+      current.path = relative(path, view.absolutePath);
     } else {
       current.path = view.absolutePath;
       if (_startsWith(current.path, root)) {
-        current.path = '/'.concat(path.relative(root, view.absolutePath));
+        current.path = '/'.concat(relative(root, view.absolutePath));
       }
     }
     current.oId = view.oId;

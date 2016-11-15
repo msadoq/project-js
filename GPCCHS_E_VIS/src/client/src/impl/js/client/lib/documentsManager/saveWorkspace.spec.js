@@ -6,7 +6,7 @@ const fs = require('../common/fs');
 const validation = require('./validation');
 
 
-describe('mainProcess/documents/workspace', () => {
+describe('documentsManager/workspace', () => {
   const state = {
     windows: {
       win1: {
@@ -79,7 +79,7 @@ describe('mainProcess/documents/workspace', () => {
 
   it('saveAs ok', () => {
     const path = join(folder, 'workspace.json');
-    saveWorkspaceAs(state, path).should.not.be.an('error');
+    should.not.exist(saveWorkspaceAs(state, path));
   });
   it('check validity of new workspace', (done) => {
     fs.readJsonFromPath(folder, 'workspace.json', (err, wkContent) => {
@@ -90,7 +90,7 @@ describe('mainProcess/documents/workspace', () => {
     });
   });
   it('save ok', () => {
-    saveWorkspace(state).should.not.be.an('error');
+    should.not.exist(saveWorkspace(state));
   });
   it('check validity of new workspace', (done) => {
     fs.readJsonFromPath(state.workspace.folder, state.workspace.file, (err, wkContent) => {

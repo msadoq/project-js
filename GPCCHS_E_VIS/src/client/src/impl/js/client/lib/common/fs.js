@@ -2,6 +2,7 @@ const fs = require('fs');
 const {
   join
 } = require('path');
+const mkdirpSync = require('mkdirp').sync;
 
 const self = module.exports = {
   resolve: (folder, relativePath) => join(folder, relativePath),
@@ -48,5 +49,24 @@ const self = module.exports = {
       }
       return self.parse(content, callback);
     });
+  },
+  /**
+   * Checks if folder exists and if not, creates it
+   *
+   * @param folder
+   * @return {Error}
+   */
+  checkPath: (folder) => {
+    try {
+      fs.accessSync(folder, fs.constants.F_OK);
+    } catch (e) {
+      // TODO check if folder is on FMD
+      mkdirpSync(folder);
+      try {
+        fs.accessSync(folder, fs.constants.F_OK);
+      } catch (err) {
+        return new Error(`Unable to create folder ${folder}`);
+      }
+    }
   },
 };

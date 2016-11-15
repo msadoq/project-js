@@ -4,7 +4,7 @@ const _omit = require('lodash/omit');
 const _startsWith = require('lodash/startsWith');
 const { writeFile } = require('fs');
 const { join, dirname } = require('path');
-const checkPath = require('./saveCommon');
+const { checkPath } = require('../common/fs');
 
 function saveWorkspaceAs(state, path, useRelativePath = false) {
   const errPath = checkPath(dirname(path));

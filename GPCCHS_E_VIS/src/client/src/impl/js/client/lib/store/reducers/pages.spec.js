@@ -31,10 +31,10 @@ describe('store:page', () => {
             isOpened: false,
             viewId: null,
             viewType: null,
-            configuration: null,
           },
           path: undefined,
           oId: undefined,
+          absolutePath: undefined,
         });
       });
       it('add empty', () => {
@@ -51,10 +51,10 @@ describe('store:page', () => {
             isOpened: false,
             viewId: null,
             viewType: null,
-            configuration: null,
           },
           path: undefined,
           oId: undefined,
+          absolutePath: undefined,
         });
       });
     });
@@ -105,7 +105,6 @@ describe('store:page', () => {
         isOpened: true,
         viewId: 'myViewId',
         viewType: 'plot',
-        configuration: { foo: 'bar' },
       };
       it('open', () => {
         const state = reducer(

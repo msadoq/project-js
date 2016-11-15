@@ -1,7 +1,7 @@
 /* eslint no-underscore-dangle: 0 */
 const { writeFile } = require('fs');
 const { dirname } = require('path');
-const checkPath = require('./saveCommon');
+const { checkPath } = require('../common/fs');
 
 /**
  * Save view from state to file

@@ -173,7 +173,7 @@ function addElementInArray(stateViews, action, arrayName, paramName) {
   }, stateViews);
 }
 function removeElementInArray(stateViews, action, arrayName) {
-  if (!stateViews[action.payload.viewId] || !action.payload.index) {
+  if (!stateViews[action.payload.viewId] || action.payload.index === undefined) {
     return stateViews;
   }
   const viewConf = stateViews[action.payload.viewId].configuration;

@@ -1,8 +1,8 @@
 /* eslint no-underscore-dangle: 0 */
 const _each = require('lodash/each');
 const { join } = require('path');
-const { savePageAs } = require('./savePage');
-const { saveViewAs } = require('./saveView');
+const { savePage } = require('./savePage');
+const { saveView } = require('./saveView');
 const { saveWorkspaceAs } = require('./saveWorkspace');
 
 function saveAllDocumentsAs(state, folder, file) {
@@ -11,13 +11,13 @@ function saveAllDocumentsAs(state, folder, file) {
     return err;
   }
   _each(state.pages, (page, id) => {
-    err = savePageAs(state, id, join(folder, page.path), true);
+    err = savePage(state, id, true);
     if (err) {
       return err;
     }
   });
   _each(state.views, (view, id) => {
-    err = saveViewAs(state, id, join(folder, view.path));
+    err = saveView(state, id);
     if (err) {
       return err;
     }

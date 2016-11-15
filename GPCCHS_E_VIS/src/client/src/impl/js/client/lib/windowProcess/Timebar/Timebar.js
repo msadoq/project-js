@@ -459,16 +459,17 @@ export default class Timebar extends Component {
   }
 
   render() {
+    const { visuWindow, slideWindow, timelines, displayTimesetter } = this.props;
     const {
         dragging, resizing, formatedFullDate
     } = this.state;
-    const { visuWindow, slideWindow, timelines, displayTimesetter } = this.props;
+    const { state } = this;
 
-    const lower = this.state.lower || visuWindow.lower;
-    const upper = this.state.upper || visuWindow.upper;
-    const current = this.state.current || visuWindow.current;
-    const slideLower = this.state.slideLower || slideWindow.lower;
-    const slideUpper = this.state.slideUpper || slideWindow.upper;
+    const lower = state.lower || visuWindow.lower;
+    const upper = state.upper || visuWindow.upper;
+    const current = state.current || visuWindow.current;
+    const slideLower = state.slideLower || slideWindow.lower;
+    const slideUpper = state.slideUpper || slideWindow.upper;
 
     const calc = this.calculate();
 

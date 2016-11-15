@@ -12,7 +12,9 @@ export default class TimebarScale extends PureComponent {
   }
 
   onMouseUp = () => {
-    this.navigate(true);
+    this.setState({ navigating: false });
+    setTimeout(this.autoSave, 120);
+
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
   }
@@ -85,7 +87,19 @@ export default class TimebarScale extends PureComponent {
     return output;
   }
 
-  navigate = (stop = false) => {
+  autoSave = () => {
+    const { navigationOffset } = this.state;
+    const { slideLower, slideUpper, onChange } = this.props;
+    const viewportMsWidth = slideUpper - slideLower;
+    const offsetMs = viewportMsWidth / navigationOffset;
+    onChange(
+      slideLower + offsetMs,
+      slideUpper + offsetMs,
+      true
+    );
+  }
+
+  navigate = () => {
     const { navigating, navigationOffset } = this.state;
     const { slideLower, slideUpper, onChange } = this.props;
     const viewportMsWidth = slideUpper - slideLower;
@@ -93,15 +107,9 @@ export default class TimebarScale extends PureComponent {
     onChange(
       slideLower + offsetMs,
       slideUpper + offsetMs,
-      stop
+      false
     );
-    if (navigating) {
-      if (stop) {
-        this.setState({ navigating: false });
-      } else {
-        setTimeout(this.navigate, 60);
-      }
-    }
+    if (navigating) setTimeout(this.navigate, 60);
   }
 
   render() {

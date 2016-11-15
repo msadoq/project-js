@@ -48,10 +48,17 @@ export default class PlotTab extends React.Component {
   handleLineStyle = val => this.props.handleGrid('lineStyle', val);
   handleYAxis = e => this.props.handleGrid('yAxisId', e.target.value);
 
-  toggleTitle = () => this.setState({ isTitleOpen: !this.state.isTitleOpen });
-  toggleGrid = () => this.setState({ isGridOpen: !this.state.isGridOpen });
-  toggleAxes = () => this.setState({ isAxesOpen: !this.state.isAxesOpen });
-  toggleMarkers = () => this.setState({ isMarkersOpen: !this.state.isMarkersOpen });
+  openTitle = () => this.setState({ isTitleOpen: true });
+  closeTitle = () => this.setState({ isTitleOpen: false });
+
+  openGrid = () => this.setState({ isGridOpen: true });
+  closeGrid = () => this.setState({ isGridOpen: false });
+
+  openAxes = () => this.setState({ isAxesOpen: true });
+  closeAxes = () => this.setState({ isAxesOpen: false });
+
+  openMarkers = () => this.setState({ isMarkersOpen: true });
+  closeMarkers = () => this.setState({ isMarkersOpen: false });
 
   render() {
     const {
@@ -77,36 +84,39 @@ export default class PlotTab extends React.Component {
             header="Title"
             eventKey="1"
             expanded={isTitleOpen}
-            onSelect={this.toggleTitle}
+            onSelect={this.openTitle}
+            onExited={this.closeTitle}
           >
-            <PlotTitle
+            {isTitleOpen && <PlotTitle
               titleStyle={titleStyle}
               title={title}
               onTitleStyleChange={this.handleTitleStyle}
               onAlignChange={this.handleAlign}
-            />
+            />}
           </Panel>
           <Panel
             header="Grid"
             eventKey="2"
             expanded={isGridOpen}
-            onSelect={this.toggleGrid}
+            onSelect={this.openGrid}
+            onExited={this.closeGrid}
           >
-            <PlotGrid
+            {isGridOpen && <PlotGrid
               grids={grids}
               onShow={this.handleShow}
               onLineStyleChange={this.handleLineStyle}
               onWidthChange={this.handleWidth}
               onYAxisChange={this.handleYAxis}
-            />
+            />}
           </Panel>
           <Panel
             header="Axes"
             eventKey="3"
             expanded={isAxesOpen}
-            onSelect={this.toggleAxes}
+            onSelect={this.openAxes}
+            onExited={this.closeAxes}
           >
-            {axes.map((axis, key) =>
+            {isAxesOpen && axes.map((axis, key) =>
               <PlotAxis
                 key={key}
                 idAxe={key}
@@ -131,9 +141,10 @@ export default class PlotTab extends React.Component {
             header="Markers"
             eventKey="4"
             expanded={isMarkersOpen}
-            onSelect={this.toggleMarkers}
+            onSelect={this.openMarkers}
+            onExited={this.closeMarkers}
           >
-            {markers.map((marker, key) =>
+            {isMarkersOpen && markers.map((marker, key) =>
               <Marker
                 key={key}
                 idAxe={key}

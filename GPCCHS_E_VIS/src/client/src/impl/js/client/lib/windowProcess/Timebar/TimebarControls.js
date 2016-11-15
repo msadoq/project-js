@@ -4,6 +4,8 @@ import { Col, Row } from 'react-bootstrap';
 import globalConstants from 'common/constants';
 import styles from './TimebarControls.css';
 
+const currentUpperMargin = 1 / 5;
+
 export default class TimebarControls extends Component {
 
   static propTypes = {
@@ -40,12 +42,17 @@ export default class TimebarControls extends Component {
 
     const nowMs = Date.now();
     const msWidth = upper - lower;
+    const newLower = nowMs - msWidth;
     updateVisuWindow(
       timebarId,
       {
-        lower: nowMs - msWidth,
-        upper: nowMs + 1e4,
+        lower: newLower,
+        upper: nowMs,
         current: nowMs,
+        slideWindow: {
+          lower: newLower - (2 * (nowMs - newLower)),
+          upper: nowMs + ((nowMs - newLower) / 5)
+        }
       }
     );
   }
@@ -68,20 +75,33 @@ export default class TimebarControls extends Component {
 
   switchMode = (e) => {
     e.preventDefault();
-    const { updateVisuWindow, timebarId, timebarMode, updateMode } = this.props;
-    const { lower, upper } = this.props.visuWindow;
+    const { updateVisuWindow, timebarId, timebarMode, updateMode,
+      visuWindow } = this.props;
+    const { lower, upper } = visuWindow;
     const mode = e.currentTarget.getAttribute('mode');
+
     if (mode === timebarMode) return;
+
     if (mode === 'Realtime') {
-      updateMode(timebarId, mode);
+      // Realtime is not really a mode, we just go to session relatime and play
+      // updateMode(timebarId, mode);
+
       // TODO
       // Recup la valeur temps réel pour la session maîtresse
+      const msWidth = upper - lower;
+      const realTimeMs = Date.now();
+      const newLower = realTimeMs - ((1 - currentUpperMargin) * msWidth);
+      const newUpper = realTimeMs + (currentUpperMargin * msWidth);
       updateVisuWindow(
         timebarId,
         {
-          lower: Date.now() + (lower - upper),
-          upper: Date.now(),
-          current: Date.now()
+          lower: newLower,
+          upper: newUpper,
+          current: realTimeMs,
+          slideWindow: {
+            lower: newLower - ((newUpper - newLower) * 2),
+            upper: newUpper + ((newUpper - newLower) / 5)
+          }
         }
       );
       this.togglePlayingState(null, 'play');
@@ -112,22 +132,27 @@ export default class TimebarControls extends Component {
         const { lower, upper, current } = this.props.visuWindow;
 
         const newCurrent = current + (globalConstants.HSC_PLAY_FREQUENCY * timebarSpeed);
+
+        const msWidth = upper - lower;
         let offsetMs = 0;
         if (timebarMode === 'Normal' || timebarMode === 'Realtime') {
-          offsetMs = newCurrent > upper ? newCurrent - upper : 0;
+          if (newCurrent + (currentUpperMargin * msWidth) > upper) {
+            offsetMs = (newCurrent + (currentUpperMargin * msWidth)) - upper;
+          }
         }
-        const marginRightMS = (upper - lower) / 10;
-        if (slideWindow.upper < newCurrent + marginRightMS) {
-          const slideWindowOffsetMs = (newCurrent + marginRightMS) - slideWindow.upper;
+
+        const newLower = lower + offsetMs;
+        const newUpper = upper + offsetMs;
+        if (slideWindow.upper < newUpper + ((newUpper - newLower) / 5)) {
           updateVisuWindow(
             timebarId,
             {
-              lower: lower + offsetMs,
-              upper: upper + offsetMs,
+              lower: newLower,
+              upper: newUpper,
               current: newCurrent,
               slideWindow: {
-                lower: slideWindow.lower + slideWindowOffsetMs,
-                upper: slideWindow.upper + slideWindowOffsetMs
+                lower: newLower - ((newUpper - newLower) * 2),
+                upper: newUpper + ((newUpper - newLower) / 5)
               }
             }
           );

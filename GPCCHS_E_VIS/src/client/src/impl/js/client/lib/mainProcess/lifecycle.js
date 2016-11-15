@@ -1,6 +1,4 @@
-
-import globalConstants from 'common/constants';
-
+import { clear as clearRegisteredCallbacks } from 'common/callbacks/register';
 import { updateStatus } from '../store/actions/hss';
 import { updateStatus as updateAppStatus } from '../store/actions/hsc';
 import { connect } from './websocket';
@@ -56,20 +54,17 @@ export function onWorkspaceLoaded(dispatch) {
   connect();
 }
 
-export function onOpen(dispatch, ws) {
+export function onOpen(dispatch, requestDomains) {
   dispatch(updateStatus('main', 'connected'));
   dispatch(updateAppStatus(LIFECYCLE_CONNECTED_WITH_HSS));
-  ws.write({ event: globalConstants.EVENT_DOMAIN_QUERY });
+  // TODO : handle error in an error controller that dispatch to redux (displayed in react) and
+  // output in console
+  requestDomains((err, payload) => onDomainData(dispatch, payload));
 }
 
 export function onDomainData(dispatch, payload) {
   dispatch(updateDomains(payload));
   dispatch(updateAppStatus(LIFECYCLE_READY));
-}
-
-export function onSessionData(dispatch, payload) {
-  // TODO to implement
-  console.log('onSessionData', payload);
 }
 
 export function onWindowOpened(dispatch) {
@@ -82,6 +77,7 @@ export function onWindowOpened(dispatch) {
 export function onClose(dispatch) {
   setActingOn();
   stopDataPulling();
+  clearRegisteredCallbacks();
   dispatch(updateAppStatus(LIFECYCLE_LOST_HSS_CONNECTION));
   dispatch(updateStatus('main', 'disconnected'));
   dispatch(removeAllRequests());

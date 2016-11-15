@@ -42,7 +42,7 @@ function remove(id) {
 }
 
 function clear() {
-  debug.debug('callbacks cleared');
+  logger.debug('callbacks cleared');
   callbacks = {};
 }
 

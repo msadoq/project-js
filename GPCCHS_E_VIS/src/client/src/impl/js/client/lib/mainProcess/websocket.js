@@ -1,10 +1,12 @@
 import Primus from 'common/websocket';
 import globalConstants from 'common/constants';
+import { set, get, remove } from 'common/callbacks/register';
+import { v4 } from 'node-uuid';
 
 import debug from '../common/debug/mainDebug';
 import { getStore } from '../store/mainStore';
 import { updateStatus } from '../store/actions/hss';
-import { onOpen, onClose, onDomainData, onSessionData } from './lifecycle';
+import { onOpen, onClose } from './lifecycle';
 import parameters from '../common/parameters';
 import { receive } from './pull';
 
@@ -30,7 +32,7 @@ export function connect() {
 
     instance.on('open', () => {
       logger.info('opened!');
-      onOpen(getStore().dispatch, instance);
+      onOpen(getStore().dispatch, requestDomains);
     });
     instance.on('close', () => {
       logger.info('closed!');
@@ -45,17 +47,17 @@ export function connect() {
         return logger.error('Invalid event received', data);
       }
 
-      const { event, payload } = data;
+      const { event, queryId, payload } = data;
       const store = getStore();
       logger.debug(`Incoming event ${event}`);
 
       switch (event) {
-        case globalConstants.EVENT_DOMAIN_DATA:
-          return onDomainData(store.dispatch, payload);
         case globalConstants.EVENT_TIMEBASED_DATA:
           return receive(store.getState(), store.dispatch, payload);
+        case globalConstants.EVENT_DOMAIN_DATA:
         case globalConstants.EVENT_SESSION_DATA:
-          return onSessionData(store.dispatch, payload);
+          handleResponse(queryId, payload);
+          break;
         case globalConstants.EVENT_ERROR:
           switch (payload.type) {
             case globalConstants.ERRORTYPE_RESPONSE:
@@ -89,4 +91,32 @@ export function getWebsocket() {
     throw new Error('websocket wasn\'t inited yet');
   }
   return instance;
+}
+
+export function requestDomains(callback) {
+  const queryId = v4();
+  set(queryId, callback);
+  getWebsocket().write({
+    event: globalConstants.EVENT_DOMAIN_QUERY,
+    queryId,
+  });
+}
+
+export function requestSessions(callback) {
+  const queryId = v4();
+  set(queryId, callback);
+  getWebsocket().write({
+    event: globalConstants.EVENT_SESSION_QUERY,
+    queryId,
+  });
+}
+
+export function handleResponse(queryId, payload) {
+  const callback = get(queryId);
+  if (!callback) {
+    return logger.warn(`received an unknown queryId ${queryId}`);
+  }
+
+  remove(queryId);
+  return callback(null, payload);
 }

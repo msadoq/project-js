@@ -1,6 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { Nav, NavItem, Button, Glyphicon } from 'react-bootstrap';
+import diff from 'deep-diff';
 import styles from './Tabs.css';
+import debug from '../../../lib/common/debug/windowDebug';
+
+const logger = debug('Tabs');
 
 export default class Tabs extends Component {
   static propTypes = {
@@ -10,25 +14,28 @@ export default class Tabs extends Component {
     addAndMount: PropTypes.func,
     removeAndUnmountPage: PropTypes.func,
   };
-  constructor(...args) {
-    super(...args);
-    this.handleSelect = this.handleSelect.bind(this);
-    this.handleClose = this.handleClose.bind(this);
+
+  componentWillReceiveProps(nextProps) {
+    console.log('componentWillReceiveProps', diff(this.props, nextProps));
   }
-  handleSelect(eventKey) {
+
+  handleSelect = (eventKey) => {
     if (eventKey === 'new') {
       return this.props.addAndMount();
     }
 
     this.props.focusPage(eventKey);
   }
-  handleClose(e, pageId) {
+
+  handleClose = (e, pageId) => {
     e.preventDefault();
     e.stopPropagation();
     this.props.removeAndUnmountPage(pageId);
     e.stopPropagation();
   }
+
   render() {
+    logger.debug('render');
     const { pages, focusedPageId } = this.props;
     return (
       <Nav bsStyle="tabs" activeKey={focusedPageId} onSelect={this.handleSelect}>

@@ -4,6 +4,9 @@ import ViewHeader from './Header';
 import UnknownView from './UnknownView';
 
 import styles from './View.css';
+import debug from '../../../lib/common/debug/windowDebug';
+
+const logger = debug('View');
 
 export default class View extends PureComponent {
   static propTypes = {
@@ -17,6 +20,7 @@ export default class View extends PureComponent {
     unmountAndRemove: PropTypes.func,
   };
   render() {
+    logger.debug('render');
     const ContentComponent = this.props.component || UnknownView;
     return (
       <div className={styles.container}>

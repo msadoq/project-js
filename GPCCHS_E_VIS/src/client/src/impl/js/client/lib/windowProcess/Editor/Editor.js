@@ -1,6 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { PlotEditorContainer } from './Components/Plot';
 import TextEditorContainer from './Components/TextEditorContainer';
+import debug from '../../../lib/common/debug/windowDebug';
+
+const logger = debug('Editor');
 
 const InvalidConfiguration = () => <div> unknown view type or invalid configuration: </div>;
 // TODO dedicated component
@@ -13,6 +16,7 @@ export default class Editor extends Component {
     closeEditor: PropTypes.func,
   };
   render() {
+    logger.debug('render');
     const { configuration } = this.props;
 
     if (!configuration) {

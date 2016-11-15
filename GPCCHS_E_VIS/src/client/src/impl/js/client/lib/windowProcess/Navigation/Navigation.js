@@ -1,8 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 
 import Debug from './Debug';
 
-export default class Navigation extends Component {
+export default class Navigation extends PureComponent {
   static propTypes = {
     windowId: PropTypes.string,
     focusedPageId: PropTypes.string,

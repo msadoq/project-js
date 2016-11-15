@@ -1,33 +1,25 @@
-import React, { PropTypes } from 'react';
+import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { makeGetLayouts, makeGetViews } from '../../store/selectors/pages';
 import { addAndMount, unmountAndRemove, updateLayout } from '../../store/actions/pages';
+import {
+  getWindowFocusedPageSelector,
+} from '../../store/selectors/windows';
 
 import Content from './Content';
-
-import styles from './Content.css';
 
 const getLayouts = makeGetLayouts();
 const getViews = makeGetViews();
 
-const ContentContainer = props => (
-  (props.focusedPage)
-    ? <Content {...props} />
-    : <div className={styles.noPage}>No page ...</div>
-);
-
-ContentContainer.propTypes = {
-  focusedPage: PropTypes.object,
-};
-
-const mapStateToProps = (state, ownProps) => {
-  if (!ownProps.focusedPage) {
+const mapStateToProps = (state, { windowId, focusedPageId }) => {
+  if (!focusedPageId) {
     return {};
   }
-
-  const p = { pageId: ownProps.focusedPageId };
+  const focusedPage = getWindowFocusedPageSelector(state, windowId);
+  const p = { pageId: focusedPageId };
   return {
+    timebarId: focusedPage.timebarId,
     layouts: getLayouts(state, p),
     views: getViews(state, p),
   };
@@ -41,7 +33,11 @@ function mapDispatchToProps(dispatch, { focusedPageId }) {
   }, dispatch);
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ContentContainer);
+const ContentContainer = connect(mapStateToProps, mapDispatchToProps)(Content);
+
+ContentContainer.propTypes = {
+  windowId: PropTypes.string.isRequired,
+  focusedPageId: PropTypes.string.isRequired
+};
+
+export default ContentContainer;

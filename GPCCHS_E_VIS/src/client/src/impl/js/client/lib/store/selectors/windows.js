@@ -1,5 +1,4 @@
 import _get from 'lodash/get';
-import _map from 'lodash/map';
 import _reduce from 'lodash/reduce';
 import { createSelector } from 'reselect';
 
@@ -7,25 +6,25 @@ const getWindows = state => state.windows;
 const getPages = state => state.pages;
 const getViews = state => state.views;
 
-export const getWindowPageIds = (state, { windowId }) =>
+export const getWindowPageIds = (state, windowId) =>
   _get(state, ['windows', windowId, 'pages']);
 
 export const getWindow = (state, windowId) => state.windows[windowId];
 
 export const getWindowPages = createSelector(
   [
-    getWindowPageIds,
+    (state, windowId) => getWindowPageIds(state, windowId),
     state => state.pages,
   ],
-  (ids, pages) => _map(ids, id => Object.assign({}, pages[id], { pageId: id }))
+  (ids = [], pages) => ids.map(id => ({ ...pages[id], pageId: id }))
 );
 
 export const getWindowFocusedPageId =
-  (state, { windowId }) => _get(state, ['windows', windowId, 'focusedPage']);
+  (state, windowId) => _get(state, ['windows', windowId, 'focusedPage']);
 
 export const getWindowFocusedPageSelector = createSelector([
   getPages,
-  getWindowFocusedPageId,
+  (state, windowId) => getWindowFocusedPageId(state, windowId),
 ], (pages, pageId) => pages[pageId]);
 
 export const getWindowDebug = (state, { windowId }) => _get(state, ['windows', windowId, 'debug']);

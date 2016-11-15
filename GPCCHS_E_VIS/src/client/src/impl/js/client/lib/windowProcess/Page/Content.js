@@ -1,8 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import _ from 'lodash';
+import _omit from 'lodash/omit';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import makeViewContainer from '../View/ViewContainer';
 import styles from './Content.css';
+import debug from '../../../lib/common/debug/windowDebug';
+
+const logger = debug('Content');
 
 const Grid = WidthProvider(Responsive); // eslint-disable-line new-cap
 
@@ -20,7 +23,7 @@ const filterLayoutBlockFields = [
 export default class PageContent extends Component {
   static propTypes = {
     focusedPageId: PropTypes.string.isRequired,
-    focusedPage: PropTypes.object.isRequired,
+    timebarId: PropTypes.string.isRequired,
     layouts: PropTypes.object.isRequired,
     views: PropTypes.array,
     viewOpenedInEditor: PropTypes.string,
@@ -30,26 +33,31 @@ export default class PageContent extends Component {
     isEditorOpened: PropTypes.bool,
     updateLayout: PropTypes.func,
   };
-  constructor(...args) {
-    super(...args);
-    this.onLayoutChange = this.onLayoutChange.bind(this);
 
-    // static objects to avoid too many renders
-    this.breakpoints = { lg: 1200 };
-    this.cols = { lg: 12 };
-  }
-  onLayoutChange(layout) {
+  onLayoutChange = (layout = []) => {
     if (!this.props.updateLayout) {
       return;
     }
 
-    const newLayout = _.map(layout, block => _.omit(block, filterLayoutBlockFields));
+    const newLayout = layout.map(block => _omit(block, filterLayoutBlockFields));
     this.props.updateLayout(newLayout);
   }
-  render() {
-    const { focusedPageId, focusedPage, layouts, viewOpenedInEditor, isEditorOpened } = this.props;
 
-    console.log('re-render page content');
+  cols = { lg: 12 };
+  breakpoints = { lg: 1200 };
+
+  render() {
+    logger.debug('render');
+    const {
+      views = [], focusedPageId, timebarId,
+      layouts, viewOpenedInEditor, isEditorOpened
+    } = this.props;
+
+    if (!focusedPageId) {
+      return (
+        <div className={styles.noPage}>No page ...</div>
+      );
+    }
 
     return (
       <Grid
@@ -63,7 +71,7 @@ export default class PageContent extends Component {
         onLayoutChange={this.onLayoutChange}
         measureBeforeMount
       >
-        {_.map(this.props.views, (v) => {
+        {views.map((v) => {
           const isViewsEditorOpen = viewOpenedInEditor === v.viewId && isEditorOpened;
 
           // avoid React reconciliation issue when all Content child components are ViewContainer
@@ -73,7 +81,7 @@ export default class PageContent extends Component {
           return (
             <div className={isViewsEditorOpen ? styles.blockedited : styles.block} key={v.viewId}>
               <ViewContainer
-                timebarId={focusedPage.timebarId}
+                timebarId={timebarId}
                 pageId={focusedPageId}
                 viewId={v.viewId}
                 unmountAndRemove={this.props.unmountAndRemove}

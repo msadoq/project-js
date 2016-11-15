@@ -10,6 +10,12 @@ import Timebar from './Timebar';
 import Lefttab from './Lefttab';
 import TimebarControls from './TimebarControls';
 import Timesetter from './Timesetter';
+import {
+  getWindowFocusedPageSelector,
+} from '../../store/selectors/windows';
+import debug from '../../../lib/common/debug/windowDebug';
+
+const logger = debug('Timebar');
 
 
 class TimebarContainer extends Component {
@@ -24,7 +30,6 @@ class TimebarContainer extends Component {
     updateOffsetAction: React.PropTypes.func.isRequired,
     updateTimelineIdAction: React.PropTypes.func.isRequired,
     updateModeAction: React.PropTypes.func.isRequired,
-    focusedPage: React.PropTypes.object.isRequired,
     visuWindow: React.PropTypes.object.isRequired,
     slideWindow: React.PropTypes.object.isRequired,
     timebar: React.PropTypes.object.isRequired,
@@ -88,11 +93,12 @@ class TimebarContainer extends Component {
   }
 
   render() {
+    logger.debug('render');
     const { displayTimesetter, timesetterCursor,
       timelinesVerticalScroll, resizingWindow } = this.state;
     let { height } = this.state;
     const { updateVisuWindowAction, timelines, timebarId,
-      visuWindow, focusedPage, timebarName,
+      visuWindow, timebarName,
       addAndMountTimelineAction, unmountTimelineAction,
       updatePlayingStateAction, updateSpeedAction, timebar,
       slideWindow, updateTimelineIdAction, updateMasterIdAction,
@@ -173,7 +179,6 @@ class TimebarContainer extends Component {
             visuWindow={visuWindow}
             slideWindow={slideWindow}
             timelines={timelines}
-            focusedPage={focusedPage}
             onChange={updateVisuWindowAction}
             verticalScroll={timelinesVerticalScroll}
             onVerticalScroll={this.onTimelinesVerticalScroll}
@@ -186,8 +191,8 @@ class TimebarContainer extends Component {
 }
 
 export default connect(
-  (state, ownProps) => {
-    const { timebarId } = ownProps.focusedPage;
+  (state, { windowId }) => {
+    const { timebarId } = getWindowFocusedPageSelector(state, windowId);
     const timebar = state.timebars[timebarId];
     const timebarName = state.timebars[timebarId].id;
     const timelines = [];

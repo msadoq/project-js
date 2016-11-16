@@ -4,7 +4,7 @@ import { Col, Row } from 'react-bootstrap';
 import globalConstants from 'common/constants';
 import styles from './TimebarControls.css';
 
-const currentUpperMargin = 1 / 5;
+const currentUpperMargin = 1 / 100;
 
 export default class TimebarControls extends Component {
 

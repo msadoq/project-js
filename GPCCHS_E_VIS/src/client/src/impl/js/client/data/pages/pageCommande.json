@@ -15,7 +15,7 @@
       "windowState": "Normalized"
     },
 	{
-	  "path": "/views/viewPointagejson",
+	  "path": "/views/viewPointage.json",
 	  "geometry": {
 		"kind": "Relative",
 		"x": 0,

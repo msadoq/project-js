@@ -14,6 +14,7 @@ import {
   getWindowFocusedPageSelector,
 } from '../../store/selectors/windows';
 import debug from '../../../lib/common/debug/windowDebug';
+import { getTimebar, getTimebarTimelinesSelector } from '../../store/selectors/timebars';
 
 const logger = debug('Timebar');
 
@@ -34,7 +35,6 @@ class TimebarContainer extends Component {
     slideWindow: React.PropTypes.object.isRequired,
     timebar: React.PropTypes.object.isRequired,
     timebarId: React.PropTypes.string.isRequired,
-    timebarName: React.PropTypes.string.isRequired,
     timelines: React.PropTypes.array.isRequired,
     sessions: React.PropTypes.array.isRequired,
     currentSessionOffsetMs: React.PropTypes.number,
@@ -100,8 +100,7 @@ class TimebarContainer extends Component {
       timelinesVerticalScroll, resizingWindow } = this.state;
     let { height } = this.state;
     const { updateVisuWindowAction, timelines, timebarId,
-      visuWindow, timebarName,
-      addAndMountTimelineAction, unmountTimelineAction,
+      visuWindow, addAndMountTimelineAction, unmountTimelineAction,
       updatePlayingStateAction, updateSpeedAction, timebar,
       slideWindow, updateTimelineIdAction, updateMasterIdAction,
       updateOffsetAction, updateModeAction, sessions,
@@ -169,7 +168,7 @@ class TimebarContainer extends Component {
             updateTimelineId={updateTimelineIdAction}
             timebarId={timebarId}
             masterId={timebar.masterId}
-            timebarName={timebarName}
+            timebarName={timebar.id}
             timelines={timelines}
             sessions={sessions}
             addAndMountTimeline={addAndMountTimelineAction}
@@ -198,29 +197,16 @@ class TimebarContainer extends Component {
 export default connect(
   (state, { windowId }) => {
     const { timebarId } = getWindowFocusedPageSelector(state, windowId);
-    const timebar = state.timebars[timebarId];
-    const timebarName = state.timebars[timebarId].id;
-    const timelines = [];
+    const timebar = getTimebar(state, timebarId);
 
-    let masterTimeline;
-    Object.entries(state.timelines).forEach((v) => {
-      if (timebar.timelines.includes(v[0])) {
-        if (timebar.masterId === v[1].id) {
-          masterTimeline = Object.assign({}, v[1]);
-          timelines.splice(0, 0, Object.assign({}, v[1], { timelineId: v[0] }));
-        } else {
-          timelines.push(Object.assign({}, v[1], { timelineId: v[0] }));
-        }
-      }
-    });
+    const timelines = getTimebarTimelinesSelector(state, timebarId);
+    const masterTimeline = timelines[0].id === timebar.masterId ? timelines[0] : null;
 
     let currentSession;
     if (masterTimeline) {
       currentSession = state.sessions.find(s => (s.id === masterTimeline.sessionId));
     }
-    if (!currentSession) {
-      logger.error('NO CURRENT SESSION');
-    }
+    if (!currentSession) logger.error('NO CURRENT SESSION');
 
     const currentSessionOffsetMs = currentSession ? currentSession.offsetWithmachineTime : null;
 
@@ -229,7 +215,6 @@ export default connect(
       slideWindow: timebar.slideWindow,
       timebar,
       timebarId,
-      timebarName,
       timelines,
       currentSessionOffsetMs,
       sessions: state.sessions

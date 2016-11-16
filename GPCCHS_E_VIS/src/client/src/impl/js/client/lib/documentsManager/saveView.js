@@ -15,12 +15,10 @@ function saveViewAs(state, viewId, path) {
   if (!state.views[viewId]) {
     return new Error('Unknown view id');
   }
-  if (path !== state.views[viewId].absolutePath) {
-    // TODO add case with new FMD path -> createDocument par DC
-    const err = checkPath(dirname(path));
-    if (err) {
-      return err;
-    }
+  // TODO add case with new FMD path -> createDocument par DC
+  const err = checkPath(dirname(path));
+  if (err) {
+    return err;
   }
   const view = state.views[viewId].configuration;
   writeFile(path, JSON.stringify(view, null, '  '), (errWrite) => {

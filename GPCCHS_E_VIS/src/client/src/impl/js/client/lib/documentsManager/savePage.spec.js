@@ -1,5 +1,6 @@
 import { should } from '../common/test';
 
+const exec = require('child_process').exec;
 const { savePage, savePageAs } = require('./savePage');
 const fs = require('../common/fs');
 const validation = require('./validation');
@@ -69,6 +70,13 @@ describe('mainProcess/documents/savePage', () => {
     }
   };
 
+  after((done) => {
+    const path = '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/';
+    exec('rm -r '.concat(path), () => {
+      // your callback goes here
+      done();
+    });
+  });
   it('saveAs ok', () => {
     should.not.exist(savePageAs(state, 'page1', state.pages.page1.absolutePath));
   });

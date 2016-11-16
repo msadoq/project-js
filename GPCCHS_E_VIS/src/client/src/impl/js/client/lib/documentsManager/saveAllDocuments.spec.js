@@ -1,6 +1,7 @@
 const { should } = require('../common/test');
 const { saveAllDocumentsAs, saveAllDocuments } = require('./saveAllDocuments');
 const readWorkspace = require('./workspace');
+const exec = require('child_process').exec;
 
 describe('mainProcess/documents/saveAllDocuments', () => {
   const state = {
@@ -123,6 +124,13 @@ describe('mainProcess/documents/saveAllDocuments', () => {
   const folder = '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/testAllAs/';
   const file = 'workspace.json';
 
+  after((done) => {
+    const path = '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/';
+    exec('rm -r '.concat(path), () => {
+      // your callback goes here
+      done();
+    });
+  });
   it('saveAs ok', () => {
     should.not.exist(saveAllDocumentsAs(state, folder, file));
   });

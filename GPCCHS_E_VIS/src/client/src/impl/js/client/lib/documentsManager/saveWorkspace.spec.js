@@ -4,7 +4,7 @@ const { saveWorkspace, saveWorkspaceAs } = require('./saveWorkspace');
 const { join } = require('path');
 const fs = require('../common/fs');
 const validation = require('./validation');
-
+const exec = require('child_process').exec;
 
 describe('documentsManager/workspace', () => {
   const state = {
@@ -77,6 +77,13 @@ describe('documentsManager/workspace', () => {
   };
   const folder = '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/testAs';
 
+  after((done) => {
+    const path = '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/';
+    exec('rm -r '.concat(path), () => {
+      // your callback goes here
+      done();
+    });
+  });
   it('saveAs ok', () => {
     const path = join(folder, 'workspace.json');
     should.not.exist(saveWorkspaceAs(state, path));

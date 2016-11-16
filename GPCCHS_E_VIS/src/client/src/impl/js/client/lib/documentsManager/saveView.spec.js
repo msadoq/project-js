@@ -4,6 +4,7 @@ const { saveViewAs, saveView } = require('./saveView');
 const fs = require('../common/fs');
 const validation = require('./validation');
 const vivl = require('../../VIVL/main');
+const exec = require('child_process').exec;
 
 describe('documentsManager/saveViews', () => {
   const state = {
@@ -93,6 +94,13 @@ describe('documentsManager/saveViews', () => {
     }
   };
 
+  after((done) => {
+    const path = '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/';
+    exec('rm -r '.concat(path), () => {
+      // your callback goes here
+      done();
+    });
+  });
   describe('PlotView', () => {
     it('saveAs ok', () => {
       should.not.exist(saveViewAs(state, 'plot1', state.views.plot1.absolutePath));

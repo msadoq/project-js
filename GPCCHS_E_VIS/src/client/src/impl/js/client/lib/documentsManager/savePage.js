@@ -20,13 +20,11 @@ function savePageAs(state, pageId, path, useRelativePath = false) {
   if (!state.pages[pageId]) {
     return new Error('unknown page id');
   }
-  if (path !== state.pages[pageId].absolutePath) {
-    // TODO add case with new FMD path -> createDocument par DC
 
-    const err = checkPath(dirname(path));
-    if (err) {
-      return err;
-    }
+  // TODO add case with new FMD path -> createDocument par DC
+  const err = checkPath(dirname(path));
+  if (err) {
+    return err;
   }
   const page = state.pages[pageId];
   const jsonPage = { type: 'Page', title: page.title, views: [] };

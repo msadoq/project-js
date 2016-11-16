@@ -9,19 +9,15 @@ describe('utils/dataQueue', () => {
 
   describe('add/get', () => {
     it('should ignore empty', () => {
-      add('myRemoteId', {});
+      add('myRemoteId', undefined, undefined);
       get().should.eql({});
     });
     it('should add to queue', () => {
-      add('myRemoteId', {
-        myKey: 'value',
-      });
+      add('myRemoteId', 'myKey', 'value');
       get().should.eql({
         myRemoteId: { myKey: 'value' },
       });
-      add('myRemoteId', {
-        myOtherKey: 'other',
-      });
+      add('myRemoteId', 'myOtherKey', 'other');
       get().should.eql({
         myRemoteId: {
           myKey: 'value',
@@ -30,12 +26,8 @@ describe('utils/dataQueue', () => {
       });
     });
     it('should respect other remoteId', () => {
-      add('myExistingRemoteId', {
-        myKey: 'value',
-      });
-      add('myRemoteId', {
-        myOtherKey: 'other',
-      });
+      add('myExistingRemoteId', 'myKey', 'value');
+      add('myRemoteId', 'myOtherKey', 'other');
       get().should.eql({
         myExistingRemoteId: { myKey: 'value' },
         myRemoteId: { myOtherKey: 'other' },
@@ -44,9 +36,7 @@ describe('utils/dataQueue', () => {
   });
   describe('reset', () => {
     it('should return current queue and reset it', () => {
-      add('myRemoteId', {
-        myKey: 'value',
-      });
+      add('myRemoteId', 'myKey', 'value');
       get().should.eql({
         myRemoteId: { myKey: 'value' },
       });

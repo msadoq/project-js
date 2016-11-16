@@ -181,4 +181,63 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
       },
     });
   });
+  it('big load', () => {
+    // init test
+    const isLast = dataStub.getBooleanProtobuf(true);
+    const queryIds = ['queryId1', 'queryId2', 'queryId3', 'queryId4', 'queryId5', 'queryId6'];
+    const intervals = [[0, 5], [0, 7], [5, 20], [12, 17], [25, 30], [42, 91]];
+    connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_RANGE, remoteId, dataId);
+    connectedDataModel.addRequestedInterval(remoteId, queryId, interval);
+    for (let i = 0; i < 6; i += 1) {
+      connectedDataModel.addRequestedInterval(remoteId, queryIds[i], intervals[i]);
+      registeredQueries.set(queryIds[i], remoteId);
+    }
+    registeredQueries.set(queryId, remoteId);
+    // launch test
+    sendTimebasedArchiveData(
+      addToTestQueue,
+      queryIdProto,
+      dataIdProto,
+      isLast,
+      timestamp1,
+      protoRp,
+      timestamp2,
+      protoRp
+    );
+    // check data
+    /* should.not.exist(registeredQueries.get(queryId));
+    const cd = connectedDataModel.getByRemoteId(remoteId);
+    cd.should.be.an('object')
+      .that.have.properties({
+        remoteId,
+        intervals: {
+          all: [interval],
+          received: [interval],
+          requested: {},
+        },
+      });
+    const timebasedDataModel = getTimebasedDataModel(remoteId);
+    should.exist(timebasedDataModel);
+    timebasedDataModel.count().should.equal(2);
+    const timebasedData = timebasedDataModel.find();
+    timebasedData.should.have.properties([
+      {
+        timestamp: t1,
+        payload: rp,
+      }, {
+        timestamp: t2,
+        payload: rp,
+      },
+    ]);
+    flushTestQueue();
+    getMessage().should.have.properties({
+      event: 'timebasedData',
+      payload: {
+        [remoteId]: {
+          [t1]: rp,
+          [t2]: rp,
+        },
+      },
+    });*/
+  });
 });

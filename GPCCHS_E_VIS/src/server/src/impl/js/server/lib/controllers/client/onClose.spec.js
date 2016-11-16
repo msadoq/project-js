@@ -21,7 +21,7 @@ const { setDomains, getDomains } = require('../../utils/domains');
 
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
-const { clearFactory, addTimebasedDataModel } = require('../../models/timebasedDataFactory');
+const { clearFactory, getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 
 const { close } = require('./onClose');
 
@@ -48,7 +48,7 @@ describe('controllers/client/onClose', () => {
     const proto = getReportingParameterProtobuf(myRp);
 
     subscriptionsModel.addRecord(myDataId);
-    const timebasedDataModel = addTimebasedDataModel(myRemoteId);
+    const timebasedDataModel = getOrCreateTimebasedDataModel(myRemoteId);
     timebasedDataModel.addRecord(_now(), proto);
     connectedDataModel.addRequestedInterval(myRemoteId, 'queryId', [42, 42]);
     setDomains([1]);

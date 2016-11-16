@@ -22,7 +22,7 @@ describe('controllers/client/onPull', () => {
   it('should push data', () => {
     let called = false;
     let sent = null;
-    add('myRemoteId', { myKey: 'value' });
+    add('myRemoteId', 'myKey', 'value');
     onPull({ write: (data) => {
       called = true;
       sent = data;

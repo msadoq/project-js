@@ -21,7 +21,7 @@ const registeredQueries = require('../../utils/registeredQueries');
 const registeredCallbacks = require('common/callbacks/register');
 
 const connectedDataModel = require('../../models/connectedData');
-const { clearFactory, addTimebasedDataModel } = require('../../models/timebasedDataFactory');
+const { clearFactory, getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const subscriptionsModel = require('../../models/subscriptions');
 
 const { timebasedQuery } = require('./onTimebasedQuery');
@@ -122,7 +122,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       subscriptionsModel.addRecord(dataId);
       connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_LAST, remoteId, dataId);
       connectedDataModel.addRequestedInterval(remoteId, 'queryId', interval);
-      const timebasedDataModel = addTimebasedDataModel(remoteId);
+      const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
       timebasedDataModel.addRecords(payloads);
       // launch test
       timebasedQuery(addToTestQueue, lastQuery, zmqEmulator);
@@ -172,7 +172,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       subscriptionsModel.addRecord(dataId);
       connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_LAST, remoteId, dataId);
       connectedDataModel.addRequestedInterval(remoteId, otherQueryId, otherInterval);
-      const timebasedDataModel = addTimebasedDataModel(remoteId);
+      const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
       timebasedDataModel.addRecords(payloads);
       // launch test
       timebasedQuery(addToTestQueue, lastQuery, zmqEmulator);
@@ -217,7 +217,7 @@ describe('controllers/client/onTimebasedQuery', () => {
 
     it('dataId not in subscriptions', () => {
       // init test
-      const timebasedDataModel = addTimebasedDataModel(remoteId);
+      const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
       timebasedDataModel.addRecords(payloads);
       // launch test
       timebasedQuery(addToTestQueue, lastQuery, zmqEmulator);
@@ -275,7 +275,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       subscriptionsModel.addRecord(dataId);
       connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_RANGE, remoteId, dataId);
       connectedDataModel.addRequestedInterval(remoteId, 'queryId', interval);
-      const timebasedDataModel = addTimebasedDataModel(remoteId);
+      const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
       timebasedDataModel.addRecords(payloads);
       // launch test
       timebasedQuery(addToTestQueue, rangeQuery, zmqEmulator);
@@ -325,7 +325,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       subscriptionsModel.addRecord(dataId);
       connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_RANGE, remoteId, dataId);
       connectedDataModel.addRequestedInterval(remoteId, otherQueryId, otherInterval);
-      const timebasedDataModel = addTimebasedDataModel(remoteId);
+      const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
       timebasedDataModel.addRecords(payloads);
       // launch test
       timebasedQuery(addToTestQueue, rangeQuery, zmqEmulator);
@@ -373,7 +373,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       subscriptionsModel.addRecord(dataId);
       connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_RANGE, remoteId, dataId);
       connectedDataModel.addRequestedInterval(remoteId, 'myQueryId', [5, 10]);
-      const timebasedDataModel = addTimebasedDataModel(remoteId);
+      const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
       timebasedDataModel.addRecord(payloads[1].timestamp, payloads[1].payload);
       // launch test
       timebasedQuery(addToTestQueue, rangeQuery, zmqEmulator);
@@ -425,7 +425,7 @@ describe('controllers/client/onTimebasedQuery', () => {
 
     it('dataId not in subscriptions', () => {
       // init test
-      const timebasedDataModel = addTimebasedDataModel(remoteId);
+      const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
       timebasedDataModel.addRecords(payloads);
       // launch test
       timebasedQuery(addToTestQueue, rangeQuery, zmqEmulator);

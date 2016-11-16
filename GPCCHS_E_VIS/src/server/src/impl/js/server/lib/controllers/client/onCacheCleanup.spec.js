@@ -17,7 +17,7 @@ const registeredQueries = require('../../utils/registeredQueries');
 const {
   clearFactory,
   getTimebasedDataModel,
-  addTimebasedDataModel,
+  getOrCreateTimebasedDataModel,
 } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
@@ -106,9 +106,9 @@ describe('controllers/client/onCacheCleanup', () => {
       [remoteId21]: [filter21],
       [remoteId22]: [filter22],
     });
-    const timebasedDataModel11 = addTimebasedDataModel(remoteId11);
-    const timebasedDataModel21 = addTimebasedDataModel(remoteId21);
-    const timebasedDataModel22 = addTimebasedDataModel(remoteId22);
+    const timebasedDataModel11 = getOrCreateTimebasedDataModel(remoteId11);
+    const timebasedDataModel21 = getOrCreateTimebasedDataModel(remoteId21);
+    const timebasedDataModel22 = getOrCreateTimebasedDataModel(remoteId22);
 
     timebasedDataModel11.addRecords(tbds);
     timebasedDataModel21.addRecords(tbds);

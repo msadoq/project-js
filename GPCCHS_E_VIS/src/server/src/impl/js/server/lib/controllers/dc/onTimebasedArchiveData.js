@@ -3,8 +3,6 @@ const debug = require('../../io/debug')('controllers:onTimebasedArchiveData');
 const { eachSeries } = require('async');
 // eslint-disable-next-line no-underscore-dangle
 const _chunk = require('lodash/chunk');
-// eslint-disable-next-line no-underscore-dangle
-const _isEqual = require('lodash/isEqual');
 
 
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -12,9 +10,9 @@ const { decode, encode, getType } = require('common/protobuf');
 
 const registeredQueries = require('../../utils/registeredQueries');
 const { add } = require('../../utils/dataQueue');
-const execution = require('../../utils/execution')('archiveData');
+const executionMonitor = require('../../utils/execution');
 
-const { addTimebasedDataModel, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
+const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 
 const protobufTrue = encode('dc.dataControllerUtils.Boolean', { boolean: true });
@@ -44,6 +42,7 @@ const sendTimebasedArchiveData = (
   isLastBuffer,
   ...payloadBuffers
 ) => {
+  const execution = executionMonitor('archiveData');
   execution.reset();
   execution.start('global');
 
@@ -53,15 +52,17 @@ const sendTimebasedArchiveData = (
   execution.stop('decode queryId');
 
   // if queryId not in registeredQueries, stop logic
+  execution.start('register query');
   const remoteId = registeredQueries.get(queryId);
   if (typeof remoteId === 'undefined') {
     return undefined;
   }
   debug.debug('received data from query', queryId);
+  execution.stop('register query');
 
   // deprotobufferize isLast
   execution.start('decode isLast');
-  const isLast = _isEqual(isLastBuffer, protobufTrue);
+  const isLast = protobufTrue.equals(isLastBuffer);
   execution.stop('decode isLast');
 
   // if last chunk of data, set interval as received in connectedData model and unregister queryId
@@ -70,20 +71,22 @@ const sendTimebasedArchiveData = (
     debug.debug('last chunk of queried timebased data', queryId);
     execution.start('set interval as received');
     connectedDataModel.setIntervalAsReceived(remoteId, queryId);
-    execution.stop('set interval as received');
     registeredQueries.remove(queryId);
+    execution.stop('set interval as received');
   }
 
   // deprotobufferize dataId
   execution.start('decode dataId');
-  const dataId = decode('dc.dataControllerUtils.DataId', dataIdBuffer); // TODO : avoid deprotobufferization of dataId (we can retrieve it with queryId)
+  const dataId = connectedDataModel.getDataId(remoteId);
   execution.stop('decode dataId');
 
   // get payload type
+  execution.start('get com object type');
   const payloadProtobufType = getType(dataId.comObject);
   if (typeof payloadProtobufType === 'undefined') {
     throw new Error('unsupported comObject', dataId.comObject);
   }
+  execution.stop('get com object type');
 
   // check payloads parity
   if (payloadBuffers.length % 2 !== 0) {
@@ -93,14 +96,10 @@ const sendTimebasedArchiveData = (
 
   // retrieve cache collection
   execution.start('retrieve store');
-  let timebasedDataModel = getTimebasedDataModel(remoteId);
-  if (!timebasedDataModel) {
-    timebasedDataModel = addTimebasedDataModel(remoteId);
-  }
+  const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
   execution.stop('retrieve store');
 
   // only one loop to decode, insert in cache, and add to queue
-  // TODO : avoid iteration by removing chunk
   return eachSeries(_chunk(payloadBuffers, 2), (payloadBuffer, callback) => {
     execution.start('decode payloads');
     const timestamp = decode('dc.dataControllerUtils.Timestamp', payloadBuffer[0]).ms;
@@ -115,7 +114,7 @@ const sendTimebasedArchiveData = (
     // queue new data in spool
     execution.start('queue payloads');
     // TODO : simplify management in addToQueue
-    addToQueue(remoteId, { [timestamp]: payload });
+    addToQueue(remoteId, timestamp, payload);
     execution.stop('queue payloads');
     callback(null);
   }, () => {

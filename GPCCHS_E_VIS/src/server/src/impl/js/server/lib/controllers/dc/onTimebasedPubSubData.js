@@ -13,7 +13,7 @@ const { decode, getType } = require('common/protobuf');
 const { add } = require('../../utils/dataQueue');
 const { applyFilters } = require('../../utils/filters');
 
-const { addTimebasedDataModel, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
+const { getOrCreateTimebasedDataModel, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
 
@@ -100,11 +100,11 @@ const sendTimebasedPubSubData = (
       // store decoded payload in timebasedData model
       let timebasedDataModel = getTimebasedDataModel(remoteId);
       if (!timebasedDataModel) {
-        timebasedDataModel = addTimebasedDataModel(remoteId);
+        timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
       }
       timebasedDataModel.addRecord(tbd.timestamp, tbd.payload);
       // queue a ws newData message (sent periodically)
-      addToQueue(remoteId, { [tbd.timestamp]: tbd.payload });
+      addToQueue(remoteId, tbd.timestamp, tbd.payload);
     });
   });
 };

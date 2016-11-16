@@ -1,19 +1,19 @@
 let queue = {};
 
 module.exports = {
-  add: (remoteId, payloads) => {
-    if (!Object.keys(payloads).length) {
+  add: (remoteId, key, value) => {
+    if (typeof key === 'undefined' || typeof value === 'undefined') {
       return;
     }
     if (typeof queue[remoteId] === 'undefined') {
       queue[remoteId] = {};
     }
 
-    queue[remoteId] = Object.assign(queue[remoteId], payloads);
+    queue[remoteId][key] = value;
   },
   get: () => queue,
   reset: () => {
-    const data = queue;
+    const data = queue;//Object.assign({}, queue);
     queue = {};
     return data;
   },

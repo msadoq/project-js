@@ -9,8 +9,6 @@ const _isEmpty = require('lodash/isEmpty');
 const _has = require('lodash/has');
 // eslint-disable-next-line no-underscore-dangle
 const _isFunction = require('lodash/isFunction');
-// eslint-disable-next-line no-underscore-dangle
-const _omit = require('lodash/omit');
 
 let callbacks = {};
 
@@ -38,7 +36,7 @@ function getAll() {
 }
 
 function remove(id) {
-  callbacks = _omit(callbacks, [id]);
+  delete callbacks[id];
 }
 
 function clear() {

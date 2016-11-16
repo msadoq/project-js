@@ -9,8 +9,6 @@ const _values = require('lodash/values');
 // eslint-disable-next-line no-underscore-dangle
 const _filter = require('lodash/filter');
 // eslint-disable-next-line no-underscore-dangle
-const _omit = require('lodash/omit');
-// eslint-disable-next-line no-underscore-dangle
 const _each = require('lodash/each');
 // eslint-disable-next-line no-underscore-dangle
 const _some = require('lodash/some');
@@ -163,14 +161,14 @@ collection.removeIntervals = (remoteId, intervals, connectedData) => {
       return [];
     }
   }
-  let requestedIntervals = cd.intervals.requested;
+  const requestedIntervals = cd.intervals.requested;
   let receivedIntervals = cd.intervals.received;
   const queryIds = [];
   _each(intervals, (interval) => {
     _some(requestedIntervals, (value, key) => {
       if (value === interval) {
         queryIds.push(key);
-        requestedIntervals = _omit(requestedIntervals, key);
+        delete requestedIntervals[key];
         return true;
       }
       return false;

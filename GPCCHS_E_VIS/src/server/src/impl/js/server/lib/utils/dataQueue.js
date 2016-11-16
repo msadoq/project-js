@@ -13,7 +13,7 @@ module.exports = {
   },
   get: () => queue,
   reset: () => {
-    const data = queue;//Object.assign({}, queue);
+    const data = queue;
     queue = {};
     return data;
   },

@@ -8,8 +8,6 @@ const _values = require('lodash/values');
 const _assign = require('lodash/assign');
 // eslint-disable-next-line no-underscore-dangle
 const _keys = require('lodash/keys');
-// eslint-disable-next-line no-underscore-dangle
-const _omit = require('lodash/omit');
 
 const flattenDataId = require('../utils/flattenDataId');
 
@@ -110,7 +108,7 @@ collection.removeRemoteId = (dataId, remoteId, subscription) => {
       return undefined;
     }
   }
-  sub.filters = _omit(sub.filters, remoteId);
+  delete sub.filters[remoteId];
   return sub;
 };
 

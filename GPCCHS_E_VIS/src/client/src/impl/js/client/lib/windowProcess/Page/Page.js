@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Col } from 'react-bootstrap';
+import classnames from 'classnames';
 import ContentContainer from './ContentContainer';
 import EditorContainer from '../Editor/EditorContainer';
 import debug from '../../../lib/common/debug/windowDebug';
@@ -36,7 +37,7 @@ export default class Page extends Component {
     const pageContentWidth = isEditorOpened ? cols - editorCols : cols;
 
     return (
-      <div className="row">
+      <div className={classnames('row', styles.root)}>
         {(isEditorOpened
           ? <Col
             xs={editorCols}

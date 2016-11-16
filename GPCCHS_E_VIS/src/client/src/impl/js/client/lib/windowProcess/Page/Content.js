@@ -65,6 +65,7 @@ export default class PageContent extends Component {
         className="layout"
         rowHeight={30}
         width={1200}
+        containerPadding={[0, 0]}
         breakpoints={this.breakpoints}
         cols={this.cols}
         draggableHandle=".moveHandler"

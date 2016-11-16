@@ -3,6 +3,7 @@ import { Col } from 'react-bootstrap';
 import ContentContainer from './ContentContainer';
 import EditorContainer from '../Editor/EditorContainer';
 import debug from '../../../lib/common/debug/windowDebug';
+import styles from './Page.css';
 
 const logger = debug('Page');
 
@@ -35,9 +36,12 @@ export default class Page extends Component {
     const pageContentWidth = isEditorOpened ? cols - editorCols : cols;
 
     return (
-      <div>
+      <div className="row">
         {(isEditorOpened
-          ? <Col xs={editorCols}>
+          ? <Col
+            xs={editorCols}
+            className={styles.editor}
+          >
             <EditorContainer
               focusedPageId={focusedPageId}
             />

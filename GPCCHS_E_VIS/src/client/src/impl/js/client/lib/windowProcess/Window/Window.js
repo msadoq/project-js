@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import classnames from 'classnames';
 
 import { LIFECYCLE_STARTED } from '../../mainProcess/lifecycle';
 import Navigation from '../Navigation/Navigation';
@@ -42,12 +43,14 @@ export default class Window extends Component {
           windowId={windowId}
           focusedPageId={focusedPageId}
         />
-        <div className={styles.content}>
+        <div className={classnames('row', styles.content)}>
           <TabsContainer
+            className="col-xs-12"
             windowId={windowId}
             focusedPageId={focusedPageId}
           />
           <PageContainer
+            className="col-xs-12"
             windowId={windowId}
             focusedPageId={focusedPageId}
           />

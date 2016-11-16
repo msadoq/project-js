@@ -1,4 +1,4 @@
-// import _find from 'lodash/find';
+import _isNumber from 'lodash/isNumber';
 import _get from 'lodash/get';
 import _map from 'lodash/map';
 import _reduce from 'lodash/reduce';
@@ -6,9 +6,6 @@ import { createSelector } from 'reselect';
 
 export const getTimebar = (state, timebarId) => state.timebars[timebarId];
 
-// export function getTimebarById(state, timebarId) { // TODO test
-//   return _find(state.timebars, tb => tb.id === timebarId);
-// }
 export function getTimebarUuidById(state, timebarId) { // TODO test
   for (const key in state.timebars) {
     if (state.timebars[key].id === timebarId) {
@@ -22,7 +19,7 @@ export function getTimebarTimelines(timebars, timelines, timebarId) {
   const timebarTimelines = _get(timebars, [timebarId, 'timelines']);
   return _reduce(timebarTimelines, (list, timelineId) => {
     const timeline = _get(timelines, timelineId);
-    if (!timeline || !timeline.id || !timeline.sessionId) {
+    if (!timeline || !timeline.id || !_isNumber(timeline.sessionId)) {
       return list;
     }
 

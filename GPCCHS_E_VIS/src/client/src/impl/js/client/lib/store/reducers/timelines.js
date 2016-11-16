@@ -1,9 +1,8 @@
-import _ from 'lodash';
+import _get from 'lodash/get';
+import _omit from 'lodash/omit';
+import _isNumber from 'lodash/isNumber';
 import * as types from '../types';
 
-/**
- * Reducer
- */
 export default function timelines(stateTimelines = {}, action) {
   switch (action.type) {
     case types.WS_TIMELINE_ADD:
@@ -22,7 +21,7 @@ export default function timelines(stateTimelines = {}, action) {
         [action.payload.timelineId]: timeline(stateTimelines[action.payload.timelineId], action),
       };
     case types.WS_TIMELINE_REMOVE:
-      return _.omit(stateTimelines, [action.payload.timelineId]);
+      return _omit(stateTimelines, [action.payload.timelineId]);
     default:
       return stateTimelines;
   }
@@ -32,21 +31,22 @@ const initialState = {
   id: null,
   offset: 0,
   kind: 'Session',
-  sessionId: 0,
+  sessionId: null,
   color: null
 };
 
 function timeline(stateTimeline = initialState, action) {
   switch (action.type) {
     case types.WS_TIMELINE_ADD: {
-      const configuration = _.get(action, 'payload.configuration', {});
+      const configuration = _get(action, 'payload.configuration', {});
       return Object.assign({}, stateTimeline, {
         id: configuration.id || initialState.id,
         offset: configuration.offset || initialState.offset,
         kind: configuration.kind || initialState.kind,
         color: configuration.color || initialState.color,
-        sessionId: (!configuration.sessionId && configuration.sessionId !== 0) ?
-          initialState.sessionId : configuration.sessionId,
+        sessionId: (_isNumber(configuration.sessionId))
+          ? configuration.sessionId
+          : initialState.sessionId,
       });
     }
     case types.WS_TIMELINE_UPDATE_ID:

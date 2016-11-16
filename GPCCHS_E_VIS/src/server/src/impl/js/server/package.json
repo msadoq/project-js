@@ -5,6 +5,7 @@
   "scripts": {
     "postinstall": "npm link ../../../../../common/src/main/js/common/",
     "build-primus-client": "node ./bin/buildPrimusClient",
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha \"lib/**/*.spec.js\" -- -R spec",
     "lint": "eslint lib test *.js",
     "start": "node --max_old_space_size=8000 index",
     "test": "mocha \"lib/**/*.spec.js\"",
@@ -33,6 +34,7 @@
     "eslint-plugin-import": "^2.0.1",
     "eslint-plugin-jsx-a11y": "^2.2.2",
     "eslint-plugin-react": "^6.3.0",
+    "istanbul": "^0.4.5",
     "mocha": "^3.1.0",
     "supertest": "^2.0.0"
   }

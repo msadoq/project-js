@@ -1,25 +1,25 @@
 {
-"type": "WorkSpace",
-"windows": [
-  {
-    "type": "documentWindow",
-    "title": "Medium workspace",
-    "pages": [
-      {
-        "path": "./pages/pagePBF1.json",
-        "timeBarId": "TB1"
+  "type": "WorkSpace",
+  "windows": [
+    {
+      "type": "documentWindow",
+      "title": "PBF workspace",
+      "pages": [
+        {
+          "path": "./pages/pagePBF1.json",
+          "timeBarId": "TB1"
+        }
+      ],
+      "geometry": {
+        "kind": "Absolute",
+        "x": 110,
+        "y": 10,
+        "w": 1310,
+        "h": 800
       }
-    ],
-    "geometry": {
-      "kind": "Absolute",
-      "x": 110,
-      "y": 10,
-      "w": 1310,
-      "h": 800
     }
-  }
-],
-"timebars": [
+  ],
+  "timebars": [
     {
       "type": "timeBarConfiguration",
       "id": "TB1",

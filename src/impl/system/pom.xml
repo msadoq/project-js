@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>fr.cnes.lpisis.gpcc</groupId>
+  <artifactId>gpcchs-system</artifactId>
+  <packaging>pom</packaging>
+  <version>1.1.0-R7S2-SNAPSHOT</version>
+  <name>${project.groupId}.${project.artifactId}</name>
+  <parent>
+    <groupId>fr.cnes.lpisis.gpcc</groupId>
+    <artifactId>gpcc-parent</artifactId>
+    <version>1.1.0-R7S2-SNAPSHOT</version>
+    <relativePath/>
+  </parent>
+  <properties>
+    <gpcchs.version>${gpcc.version}</gpcchs.version>
+  </properties>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>fr.cnes.lpisis.cots</groupId>
+        <artifactId>npm_cache</artifactId>
+        <version>${gpcchs.version}</version>
+        <type>isis-cots</type>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+</project>

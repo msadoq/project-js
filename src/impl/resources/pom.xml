@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>fr.cnes.lpisis.gpcc</groupId>
+  <artifactId>gpcchs-resources</artifactId>
+  <packaging>pom</packaging>
+  <version>1.1.0-R7S2-SNAPSHOT</version>
+  <name>${project.groupId}.${project.artifactId}</name>
+  <parent>
+    <groupId>fr.cnes.lpisis.gpcc</groupId>
+    <artifactId>gpcchs-system</artifactId>
+    <version>1.1.0-R7S2-SNAPSHOT</version>
+    <relativePath>../system</relativePath>
+  </parent>
+  <properties>
+  </properties>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+              <outputDirectory>${basedir}/target/archive</outputDirectory>
+              <descriptors>
+                <descriptor>src/main/assembly/resources.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

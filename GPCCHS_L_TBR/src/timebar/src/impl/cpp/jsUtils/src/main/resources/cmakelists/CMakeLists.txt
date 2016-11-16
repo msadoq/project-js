@@ -28,6 +28,7 @@ message (STATUS, "MODULE_PATH = ${CMAKE_MODULE_PATH}")
 message (STATUS, "construction du projet ${PROJECT_NAME} ${CMAKE_MODULE_PATH}")
 
 include (ISIS REQUIRED)
+include (GPCCHS REQUIRED)
 
 find_package(Qt REQUIRED)
 find_package(Qt5Widgets REQUIRED)
@@ -63,7 +64,7 @@ add_library(${PROJECT_NAME} SHARED ${CPP_LIST} ${UI_FILES} ${MOC_FILES})
 
 target_link_libraries(${PROJECT_NAME} ${ISIS_LIBRARIES} )
 
-set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ${CMAKE_SHARED_LIBRARY_SUFFIX}.${GPCC_VERSION})
+set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ${CMAKE_SHARED_LIBRARY_SUFFIX}.${GPCCHS_VERSION})
 
 # Use module from Qt 5.  
 qt5_use_modules(${PROJECT_NAME} Widgets WebKitWidgets WebSockets)

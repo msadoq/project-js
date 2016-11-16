@@ -12,7 +12,8 @@
     <relativePath/>
   </parent>
   <modules>
-    <module>src/pom_parents.xml</module>
+    <module>src/timebar/src/impl/gpcchs_e_vis</module>
+    <module>src/impl/parent</module>
   </modules>
   <build>
     <plugins>

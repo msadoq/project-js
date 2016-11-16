@@ -8,27 +8,14 @@
 
     <parent>
         <groupId>fr.cnes.lpisis.gpcc</groupId>
-        <artifactId>gpcc-parent</artifactId>
+        <artifactId>gpcchs_e_vis-parent</artifactId>
         <version>1.1.0-R7S2-SNAPSHOT</version>
-        <relativePath />
+        <relativePath/>
     </parent>
-    
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <find.dependencies.dir>${basedir}/target/dependencies</find.dependencies.dir>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <api.target.dir>${basedir}/target</api.target.dir>
-        <api.lib.dir>${api.target.dir}/lib</api.lib.dir>
-        <api.work.dir>${api.target.dir}/work</api.work.dir>
-        <api.main.dir>${api.work.dir}/${artifactId}-${project.version}</api.main.dir>
         <isis.rpm.skip>true</isis.rpm.skip>
     </properties>
-    <dependencies>
-        <dependency>
-            <groupId>fr.cnes.lpisis.cots</groupId>
-            <artifactId>cots-common</artifactId>
-        	<version>1.0.0</version>
-            <type>isis-cots</type>
-        </dependency>
-    </dependencies>
 </project>

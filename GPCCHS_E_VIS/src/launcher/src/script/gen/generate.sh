@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 PRG="$0"
 EXEC_DIR=`dirname ${PRG}`
@@ -14,14 +14,8 @@ deploy_cots() {
   mkdir -p ${api.lib.dir}/js/${artifactId}/client
   mkdir -p ${api.lib.dir}/js/${artifactId}/server
 
-  cd ${basedir}	
-
-  cp -R ../client/target/lib/js/gpcchs_e_vis_client/lpisis_gpcchs_e_clt-linux-x64/* ${api.lib.dir}/js/${artifactId}/client/
-  cp -R ../client/target/lib/js/gpcchs_e_vis_client/lpisis_gpcchs_e_clt-linux-x64/.env* ${api.lib.dir}/js/${artifactId}/client/
-  cp -R ../server/target/lib/js/gpcchs_e_vis_server/* ${api.lib.dir}/js/${artifactId}/server/
-  cp -R ../server/target/lib/js/gpcchs_e_vis_server/.* ${api.lib.dir}/js/${artifactId}/server/
-
-  cd ${basedir}
+  cp -RT ${find.dependencies.dir}/lib/js/gpcchs_e_vis_client/lpisis_gpcchs_e_clt-linux-x64 ${api.lib.dir}/js/${artifactId}/client
+  cp -RT ${find.dependencies.dir}/lib/js/gpcchs_e_vis_server ${api.lib.dir}/js/${artifactId}/server
 
 }
 

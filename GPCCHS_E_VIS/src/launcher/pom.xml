@@ -8,20 +8,43 @@
 
     <parent>
         <groupId>fr.cnes.lpisis.gpcc</groupId>
-        <artifactId>gpcc-parent</artifactId>
+        <artifactId>gpcchs_e_vis-parent</artifactId>
         <version>1.1.0-R7S2-SNAPSHOT</version>
-        <relativePath />
+        <relativePath/>
     </parent>
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <find.dependencies.dir>${basedir}/target/dependencies</find.dependencies.dir>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <api.target.dir>${basedir}/target</api.target.dir>
         <api.lib.dir>${api.target.dir}/lib</api.lib.dir>
         <api.work.dir>${api.target.dir}/work</api.work.dir>
         <api.main.dir>${api.work.dir}/${artifactId}-${project.version}</api.main.dir>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>fr.cnes.lpisis.gpcc.js</groupId>
+            <artifactId>gpcchs_e_vis_client</artifactId>
+            <type>isis-js-bundle</type>
+            <classifier>unix_dev</classifier>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>fr.cnes.lpisis.gpcc.js</groupId>
+            <artifactId>gpcchs_e_vis_server</artifactId>
+            <type>isis-js-bundle</type>
+            <classifier>unix_dev</classifier>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>fr.cnes.lpisis.cots</groupId>
+            <artifactId>zmq</artifactId>
+            <type>isis-cots</type>
+        </dependency>
+        <dependency>
+            <groupId>fr.cnes.lpisis.cots</groupId>
+            <artifactId>node</artifactId>
+            <type>isis-cots</type>
+        </dependency>
     </dependencies>
 </project>

@@ -175,7 +175,7 @@ export default class TimebarControls extends Component {
     const { timebarPlayingState, timebarSpeed, timebarMode, currentSessionOffsetMs } = this.props;
     const opTimebarPlayingState = timebarPlayingState === 'pause' ? 'play' : 'pause';
 
-    const allButtonsKlasses = classnames('btn', 'btn-xs', 'btn-primary', styles.controlButton);
+    const allButtonsKlasses = classnames('btn', 'btn-xs', styles.controlButton);
 
     return (
       <div>

@@ -159,6 +159,7 @@
     font-size: 1.2em;
     background-color: #F1F1F1;
     transform: translateX(-50%);
+    z-index: 4;
 }
 .resizingTimebarContainer:before{
   color: #555;

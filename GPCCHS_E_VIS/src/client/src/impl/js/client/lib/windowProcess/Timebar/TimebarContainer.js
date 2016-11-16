@@ -108,11 +108,11 @@ class TimebarContainer extends Component {
 
     let minHeight;
     if (timelines.length < 6) {
-      minHeight = 205;
+      minHeight = 180;
     } else if (timelines.length < 8) {
-      minHeight = (timelines.length * 20) + 115;
+      minHeight = (timelines.length * 20) + 81;
     } else {
-      minHeight = 255;
+      minHeight = 231;
     }
 
     if (minHeight > height || !height) {
@@ -136,7 +136,7 @@ class TimebarContainer extends Component {
         style={{ flex: '0 0 auto', height: `${height}px` }}
       >
         {timesetter}
-        <Col xs={12} style={{ paddingBottom: 18 }}>
+        <Col xs={12} style={{ paddingBottom: 2 }}>
           <div>
             <hr
               onMouseDown={this.resizeWindow}
@@ -200,7 +200,9 @@ export default connect(
     const timebar = getTimebar(state, timebarId);
 
     const timelines = getTimebarTimelinesSelector(state, timebarId);
-    const masterTimeline = timelines[0].id === timebar.masterId ? timelines[0] : null;
+    const masterTimeline = (timelines[0] && timelines[0].id === timebar.masterId) ?
+      timelines[0] : null;
+    if (!masterTimeline) logger.error('NO MASTER TIMELINE');
 
     let currentSession;
     if (masterTimeline) {

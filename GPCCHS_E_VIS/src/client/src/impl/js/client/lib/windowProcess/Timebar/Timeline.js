@@ -19,7 +19,7 @@ export default class Timeline extends PureComponent {
   willUnmountTimeline = (e) => {
     e.preventDefault();
     const { masterId, timelineId, id, timelinesLength, unmountTimeline, timebarId } = this.props;
-    if (masterId !== id && timelinesLength !== 1) {
+    if (id !== masterId || timelinesLength === 1) {
       unmountTimeline(timebarId, timelineId);
     }
   }

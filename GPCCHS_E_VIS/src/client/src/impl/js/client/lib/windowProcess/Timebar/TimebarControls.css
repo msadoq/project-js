@@ -19,7 +19,24 @@
   line-height: 1px;
   font-weight: 600;
   font-size: 0.8em;
-
+  color: #fff;
+  background-color: #666;
+  border: 1px solid #555;
+  outline: 0;
+}
+.controlButton:hover{
+  background-color: #555;
+  color: #fff;
+  outline: 0 !important;
+}
+.controlButton:active{
+  background-color: #aaa;
+  color: #fff;
+  outline: 0 !important;
+}
+.controlButton:focus{
+  color: #fff;
+  outline: 0 !important;
 }
 .controlButtonPause{
   font-weight: 600;

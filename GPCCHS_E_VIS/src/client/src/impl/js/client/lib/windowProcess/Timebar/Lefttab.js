@@ -80,16 +80,24 @@ export default class Lefttab extends Component {
   willAddTimeline = (e) => {
     e.preventDefault();
     const { color } = this.state;
-    this.props.addAndMountTimeline(
-      this.props.timebarId,
-      {
-        kind: this.newTimelineKindEl.value,
-        id: this.newTimelineIdEl.value,
-        sessionId: parseInt(this.newTimelineSessionEl.value, 10),
-        color
+    const { timelines } = this.props;
+    if (timelines.find(t => t.id === this.newTimelineIdEl.value)) {
+      this.setState({
+        errorMessage: 'This id is already taken'
       });
-    this.setColor(color);
-    this.toggleAddTimeline();
+    } else {
+      this.props.addAndMountTimeline(
+        this.props.timebarId,
+        {
+          kind: this.newTimelineKindEl.value,
+          id: this.newTimelineIdEl.value,
+          sessionId: parseInt(this.newTimelineSessionEl.value, 10),
+          color
+        });
+      this.setColor(color);
+      this.toggleAddTimeline();
+      this.setState({ errorMessage: null });
+    }
   }
 
   hideAddTimeline = () => {
@@ -142,12 +150,12 @@ export default class Lefttab extends Component {
   }
 
   render() {
-    const { timelines, masterId, sessions } = this.props;
-    const { color, willAdd, willEdit, editingId } = this.state;
+    const { timelines, masterId, sessions, timebarName } = this.props;
+    const { color, willAdd, willEdit, editingId, errorMessage } = this.state;
 
     let noTrack;
     if (timelines.length === 0) {
-      noTrack = <p className="text-center"><br /><h5><b>No track to display</b></h5></p>;
+      noTrack = <h5 className="text-center"><br /><b>No track to display</b></h5>;
     }
 
     let editTrack;
@@ -163,7 +171,7 @@ export default class Lefttab extends Component {
     return (
 
       <div className={styles.leftTab}>
-        <h5 className={styles.timebarName}>{this.props.timebarName}</h5>
+        <h5 className={styles.timebarName}>{timebarName}</h5>
         {editTrack}
         <Form
           horizontal
@@ -172,6 +180,7 @@ export default class Lefttab extends Component {
         >
           <b>Add a track :</b>
           <br /><br />
+          {errorMessage ? <p className="text-danger" style={{ fontSize: '1em' }}>{errorMessage}</p> : null}
           <FormGroup className={styles.formGroup}>
             <b className={styles.labelFormControl}>Kind</b>
             <select

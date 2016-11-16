@@ -6,7 +6,7 @@
 ```
 {
   event: 'domainQuery',
-  payload: {},
+  queryId, // unique query ID
 }
 ```
 
@@ -39,6 +39,7 @@
 ```
 {
   event: 'domainData',
+  queryId, // unique query ID
   payload: [
     {
       domainId: number,
@@ -46,6 +47,56 @@
       name: string,
       oid: string,
       parentDomainId: number,
+    },
+  ],
+}
+```
+
+## sessions
+
+**sessionQuery** (HSC->HSS)
+```
+{
+  event: 'sessionQuery',
+  queryId, // unique query ID
+}
+```
+
+**sessionQuery** (HSS->DC)
+```
+[
+  'sessionQuery',  // (Protobuf Header)
+  string, // unique query ID (Protobuf String)
+]
+```
+
+**sessionData** (DC->HSS)
+```
+[
+  'sessionData', // (Protobuf Header)
+  string, // unique query ID // (Protobuf String)
+  [
+    {
+      name: string,
+      id: number,
+      timestamp, // Protobuf Timestamp
+      delta: number,
+    },
+  ], // (Protobuf Sessions)
+]
+```
+
+**sessionData** (HSS->HSC)
+```
+{
+  event: 'sessionData',
+  queryId, // unique query ID
+  payload: [
+    {
+      name: string,
+      id: number,
+      timestamp: number,
+      delta: number,
     },
   ],
 }

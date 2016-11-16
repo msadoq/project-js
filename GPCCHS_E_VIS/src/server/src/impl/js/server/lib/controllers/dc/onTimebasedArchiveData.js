@@ -113,7 +113,6 @@ const sendTimebasedArchiveData = (
 
     // queue new data in spool
     execution.start('queue payloads');
-    // TODO : simplify management in addToQueue
     addToQueue(remoteId, timestamp, payload);
     execution.stop('queue payloads');
     callback(null);

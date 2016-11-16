@@ -25,7 +25,6 @@ const intervalManager = require('common/intervals');
 const database = require('../io/loki');
 
 
-
 const createConnectedData = (type, remoteId, dataId) => ({
   type,
   remoteId,

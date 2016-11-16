@@ -35,7 +35,6 @@ function getAll() {
 }
 
 function remove(queryId) {
-  //queries = _omit(queries, [queryId]);
   delete queries[queryId];
 }
 

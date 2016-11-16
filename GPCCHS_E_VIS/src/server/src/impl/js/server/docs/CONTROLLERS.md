@@ -10,6 +10,15 @@
 * store locally
 * forward to client
 
+## sessions
+
+**client/onSessionQuery**
+* send a SessionQuey message to DC
+
+**dc/onSessionData**
+* receive sessions list from DC
+* forward to client
+
 ## client lifecycle
 
 **client/onOpen**

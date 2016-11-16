@@ -27,7 +27,6 @@ export default class EntryPointTree extends React.Component {
   state = {};
 
   handleRemove = (e, key) => {
-    console.log('handleRemove', e, key);
     e.preventDefault();
     e.stopPropagation();
     this.props.remove(key);
@@ -38,7 +37,7 @@ export default class EntryPointTree extends React.Component {
 
   render() {
     const mask = `${this.props.search}.*`;
-    const { entryPoints, handleEntryPoint, remove } = this.props;
+    const { entryPoints, handleEntryPoint } = this.props;
     const list = entryPoints
       .filter(entryPoint => entryPoint.name.match(mask));
 
@@ -76,7 +75,6 @@ export default class EntryPointTree extends React.Component {
                 idPoint={key}
                 entryPoint={entryPoint}
                 handleEntryPoint={handleEntryPoint}
-                remove={remove}
               />}
             </Panel>
           );

@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { Form, FormGroup, FormControl, Col, ControlLabel } from 'react-bootstrap';
 import Select from 'react-select';
 import styles from './EntryPointDetails.css';
-import select from './Select.css';
+import select from '../Select.css';
 
 export const unitOptions = [
   { value: 'ns', label: 'ns' },
@@ -87,7 +87,7 @@ export default class EntryPointConnectedData extends React.Component {
             <FormControl
               type="text"
               value={connectedData.fullName}
-              className={styles.input_xsmall}
+              className="input-sm"
               onChange={this.handleName}
               placeholder="no value"
             />
@@ -131,7 +131,7 @@ export default class EntryPointConnectedData extends React.Component {
             <Col xs={9}>
               <FormControl
                 type="number"
-                className={styles.input_xsmall}
+                className="input-sm"
                 value={connectedData.digits}
                 onChange={this.handleDigits}
               />
@@ -146,7 +146,7 @@ export default class EntryPointConnectedData extends React.Component {
           <Col xs={9}>
             <FormControl
               type="text"
-              className={styles.input_xsmall}
+              className="input-sm"
               value={connectedData.domain}
               onChange={this.handleDomain}
               placeholder="no value"
@@ -160,7 +160,7 @@ export default class EntryPointConnectedData extends React.Component {
           <Col xs={9}>
             <FormControl
               type="text"
-              className={styles.input_xsmall}
+              className="input-sm"
               value={connectedData.session}
               onChange={this.handleSession}
               placeholder="no value"
@@ -173,7 +173,7 @@ export default class EntryPointConnectedData extends React.Component {
               Url
             </Col>
             <Col xs={9}>
-              <FormControl type="text" className={styles.input_xsmall} />
+              <FormControl type="text" className="input-sm" />
             </Col>
           </FormGroup>
          : null
@@ -184,7 +184,7 @@ export default class EntryPointConnectedData extends React.Component {
               Version
             </Col>
             <Col xs={9}>
-              <FormControl type="text" className={styles.input_xsmall} />
+              <FormControl type="text" className="input-sm" />
             </Col>
           </FormGroup>
         : null
@@ -237,7 +237,7 @@ export default class EntryPointConnectedData extends React.Component {
             </FormControl>
           </Col>
           <Col xs={2}>
-            <FormControl type="text" className={styles.input_xsmall} />
+            <FormControl type="text" className="input-sm" />
           </Col>
         </FormGroup>
       </Form>

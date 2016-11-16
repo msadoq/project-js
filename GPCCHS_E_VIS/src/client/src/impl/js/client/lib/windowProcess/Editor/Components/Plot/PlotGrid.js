@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import classnames from 'classnames';
 import {
   Form,
   FormGroup,
@@ -32,7 +31,7 @@ export default class PlotGrid extends React.Component {
     } = this.props;
 
     return (
-      <div className={classnames(styles.shift, styles.mt5)}>
+      <div >
         <Form horizontal>
           <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalName">
             <Col componentClass={ControlLabel} xs={4} className={styles.formLabel}>
@@ -91,7 +90,7 @@ export default class PlotGrid extends React.Component {
             <Col xs={8}>
               <FormControl
                 type="number"
-                className={styles.input_xsmall}
+                className="input-sm"
                 value={grids[0].width}
                 onChange={onWidthChange}
               />

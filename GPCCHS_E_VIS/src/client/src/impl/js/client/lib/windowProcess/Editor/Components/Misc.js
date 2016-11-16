@@ -29,7 +29,7 @@ export default class Misc extends React.Component {
           {' '} Links
         </button>
         {openL && <Collapse in={openL}>
-          <div className={styles.shift}>
+          <div>
             <Table condensed striped style={{ fontSize: '12px' }}>
               <thead>
                 <tr>
@@ -70,7 +70,7 @@ export default class Misc extends React.Component {
           {' '} Procedure launcher
         </button>
         {openP && <Collapse in={openP}>
-          <div className={styles.shift} />
+          <div />
         </Collapse>}
       </div>
     );

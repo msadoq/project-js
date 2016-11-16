@@ -59,7 +59,7 @@ export default class Marker extends React.Component {
           {' '}{label}
         </button>
         {open && <Collapse in={open}>
-          <div className={classnames(styles.shift, styles.mt5)}>
+          <div >
             <Form horizontal>
               <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalType">
                 <Col xs={4} className={styles.formLabel}>
@@ -68,7 +68,7 @@ export default class Marker extends React.Component {
                 <Col xs={8}>
                   <FormControl
                     componentClass="select"
-                    className={styles.input_xsmall}
+                    className="input-sm"
                     value={kind}
                     onChange={this.handleType}
                   >
@@ -88,7 +88,7 @@ export default class Marker extends React.Component {
                   <Col xs={8}>
                     <FormControl
                       type="text"
-                      className={styles.input_xsmall}
+                      className="input-sm"
                       value={label}
                       onChange={this.handleLabel}
                     />
@@ -197,7 +197,7 @@ export default class Marker extends React.Component {
                     <InputGroup>
                       <FormControl
                         type="number"
-                        className={styles.input_xsmall}
+                        className="input-sm"
                         value={relPosX}
                         onChange={this.handleRelPosX}
                       />
@@ -216,7 +216,7 @@ export default class Marker extends React.Component {
                     <InputGroup>
                       <FormControl
                         type="number"
-                        className={styles.input_xsmall}
+                        className="input-sm"
                         value={relPosY}
                         onChange={this.handleRelPosY}
                       />
@@ -234,7 +234,7 @@ export default class Marker extends React.Component {
                   <Col xs={8}>
                     <FormControl
                       type="number"
-                      className={styles.input_xsmall}
+                      className="input-sm"
                       value={posX}
                       onChange={this.handlePosX}
                     />
@@ -250,7 +250,7 @@ export default class Marker extends React.Component {
                   <Col xs={8}>
                     <FormControl
                       type="number"
-                      className={styles.input_xsmall}
+                      className="input-sm"
                       value={posY}
                       onChange={this.handlePosY}
                     />

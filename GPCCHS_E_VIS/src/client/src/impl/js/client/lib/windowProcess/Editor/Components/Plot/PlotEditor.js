@@ -3,8 +3,8 @@ import _get from 'lodash/get';
 import Navbar from '../Navbar';
 import { PlotTab } from './';
 import Misc from '../Misc';
-import EntryPointTree from '../EntryPointTree';
-import EntryPointActions from '../EntryPointActions';
+import EntryPointTree from '../EntryPoint/EntryPointTree';
+import EntryPointActions from '../EntryPoint/EntryPointActions';
 import styles from '../../Editor.css';
 import debug from '../../../../common/debug/windowDebug';
 

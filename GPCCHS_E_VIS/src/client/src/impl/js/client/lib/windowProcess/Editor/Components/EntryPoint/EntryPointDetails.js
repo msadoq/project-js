@@ -11,14 +11,16 @@ import {
   Col,
   ControlLabel,
   Table,
+  Accordion,
   Panel
 } from 'react-bootstrap';
 
 import EntryPointConnectedData from './EntryPointConnectedData';
-import ColorPicker from './ColorPicker';
-import SelectButton from './Buttons/SelectButton';
+import ColorPicker from '../ColorPicker';
+import SelectButton from '../Buttons/SelectButton';
 import styles from './EntryPointDetails.css';
-import FilterData from './FilterData';
+import EntryPointStyle from './EntryPointStyle';
+import EntryPointStateColours from './EntryPointStateColours';
 
 /*
   EntryPointDetails représente un Point d'entrée,
@@ -28,30 +30,16 @@ export default class EntryPointDetails extends React.Component {
   static propTypes = {
     idPoint: PropTypes.number,
     entryPoint: PropTypes.object,
-    handleEntryPoint: PropTypes.func,
-    remove: PropTypes.func
+    handleEntryPoint: PropTypes.func
   }
 
   state = {
-    open: false,
-    openG: false,
-    openC: false,
-    openY: false,
-    openX: false,
-    openST: false,
     nameEditable: false,
     newStateColor: '#FFFFFF',
     newStateField: '',
     newStateOperator: '',
     newStateOperand: '',
   };
-
-  filters = [
-    'convertedValue', 'extractedValue', 'groundDate',
-    'isNominal', 'isObsolete', 'monitoringState',
-    'onBoardDate', 'rawValue', 'triggerOffCounter',
-    'triggerOnCounter', 'validityState'
-  ];
 
   componentWillMount(){
     this.setState({
@@ -72,7 +60,6 @@ export default class EntryPointDetails extends React.Component {
   handleName = e => this.props.handleEntryPoint(this.props.idPoint, 'name', this.state.name);
   handleCurveColour = color => this.props.handleEntryPoint(this.props.idPoint, 'curveColour', color);
   handleDataYChange = (label, val) => this.props.handleEntryPoint(this.props.idPoint, `connectedDataY.${label}`, val);
-  removeEntryPoint = () => this.props.remove(this.props.idPoint);
   handleChangeStateColor = color => this.setState({ newStateColor: color });
   handleFilter = (field, operator, operand) => this.setState({ newStateField: field, newStateOperator: operator, newStateOperand: operand });
   addStateColor = () => {
@@ -94,66 +81,119 @@ export default class EntryPointDetails extends React.Component {
   rcOnName(e) {
     e.preventDefault();
     this.setState({ nameEditable: !this.state.Editable });
-    this.setState({ open: !this.state.open });
   }
 
-  toggleOpen = () => this.setState({ open: !this.state.open });
-  toggleOpenG = () => this.setState({ openG: !this.state.openG });
-  toggleOpenC = () => this.setState({ openC: !this.state.openC });
-  toggleOpenY = () => this.setState({ openY: !this.state.openY });
-  toggleOpenX = () => this.setState({ openX: !this.state.openX });
-  toggleOpenST = () => this.setState({ openST: !this.state.openST });
+  openPanel = key => this.setState({ [`isPanel${key}Open`]: true });
+  closePanel = key => this.setState({ [`isPanel${key}Open`]: false });
 
   render() {
     const {
-      idPoint
+      idPoint,
+      entryPoint
     } = this.props;
 
     const {
-      open,
-      openG,
-      openC,
-      openY,
-      openX,
-      openST,
+      isPanelStyleOpen,
+      isPanelConnDataOpen,
+      isPanelOrdinateOpen,
+      isPanelAbscissOpen,
+      isPanelStateColoursOpen,
       newStateColor,
       nameEditable
      } = this.state;
 
-    const stateColours =
-    (this.props.entryPoint.stateColours && this.props.entryPoint.stateColours.length > 0) ?
-       this.props.entryPoint.stateColours.map((stateColour, key) => (
-         <tr key={key}>
-           <td className="col-xs-2"><ColorPicker color={stateColour.colour} /></td>
-           <td className="col-xs-9">{stateColour.condition.field} {stateColour.condition.operator} {stateColour.condition.operand}</td>
-           <td className="col-xs-1">
-             <Glyphicon glyph="trash" onClick={() => this.removeStateColor(key)} />
-           </td>
-         </tr>
-          )) :
-            <tr>no marker</tr>;
-    const filterOptions = this.filters.map((filter, key) =>
-      <option key={key} value={filter}>{filter}</option>);
+    return (
+      <Accordion>
+        {entryPoint.lineStyle && <Panel
+          key={'Style'}
+          header="Style"
+          eventKey={'Style'}
+          expanded={isPanelStyleOpen}
+          onSelect={this.openPanel.bind('Style')}
+          onExited={this.closePanel.bind('Style')}
+        >
+          {isPanelStyleOpen && <EntryPointStyle
+            entryPoint={entryPoint}
+            handleCurveColour={this.handleCurveColour}
+            handleLineStyle={this.handleLineStyle}
+            handlePoints={this.handlePoints}
+          />}
+        </Panel>}
+        {entryPoint.connectedData && <Panel
+          key={'ConnData'}
+          header="Conn Data"
+          eventKey={'ConnData'}
+          expanded={isPanelConnDataOpen}
+          onSelect={this.openPanel.bind('ConnData')}
+          onExited={this.closePanel.bind('ConnData')}
+        >
+          {isPanelConnDataOpen && <EntryPointConnectedData
+            connectedData={this.props.entryPoint.connectedData}
+          />}
+        </Panel>}
+        {entryPoint.connectedDataY && <Panel
+          key={'Ordinate'}
+          header="Ordinate"
+          eventKey={'Ordinate'}
+          expanded={isPanelOrdinateOpen}
+          onSelect={this.openPanel.bind('Ordinate')}
+          onExited={this.closePanel.bind('Ordinate')}
+        >
+          {isPanelOrdinateOpen && <EntryPointConnectedData
+            connectedData={this.props.entryPoint.connectedDataY}
+            handleChange={this.handleDataYChange}
+          />}
+        </Panel>}
+        {entryPoint.connectedDataX && <Panel
+          key={'Absciss'}
+          header="Absciss"
+          eventKey={'Absciss'}
+          expanded={isPanelAbscissOpen}
+          onSelect={this.openPanel.bind('Absciss')}
+          onExited={this.closePanel.bind('Absciss')}
+        >
+          {isPanelAbscissOpen && <EntryPointConnectedData
+            connectedData={this.props.entryPoint.connectedDataX}
+          />}
+        </Panel>}
+        {entryPoint.stateColours && <Panel
+          key={'StateColours'}
+          header="State colours"
+          eventKey={'StateColours'}
+          expanded={isPanelStateColoursOpen}
+          onSelect={this.openPanel.bind('StateColours')}
+          onExited={this.closePanel.bind('StateColours')}
+        >
+          {isPanelStateColoursOpen && <EntryPointStateColours
+            stateColours={entryPoint.stateColours}
+            newStateColor={newStateColor}
+            removeStateColor={this.removeStateColor}
+            handleFilter={this.handleFilter}
+            handleChangeStateColor={this.handleChangeStateColor}
+            addStateColor
+          />}
+        </Panel>}
+      </Accordion>
+    )
 
+    /*
     return (
       <div className={styles.EntryPointTreeFirstLvl}>
         <div>
           <FormControl
             autoFocus
-            controlId="name"
             type="text"
-            className={styles.input_xsmall}
+            className="input-sm"
             value={this.state.name}
             onChange={(e) => this.setState({ name:  e.target.value })}
             onBlur={this.handleName}
             style={{ width: '200px', display: 'inline' }}
           />
-          <div className={styles.shift}>
+          <div >
             {
             (this.props.entryPoint.lineStyle !== undefined &&
              this.props.entryPoint.pointsStyle !== undefined &&
              this.props.entryPoint.curveColour !== undefined) ?
-             /* STYLES COLLAPSE - TODO : CREATE COMPONENT */
                <div>
                   <button
                     className={classnames('btn-link', styles.collapseEvent, { [styles.active]: openG })}
@@ -165,66 +205,14 @@ export default class EntryPointDetails extends React.Component {
                     /> Styles
                   </button>
                   {openG && <Collapse in={openG}>
-                    <div className={classnames(styles.shift, styles.mt5)}>
-                      <Form horizontal>
-                        <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalCurve">
-                          <Col componentClass={ControlLabel} xs={3} className={styles.formLabel}>
-                        Line
-                          </Col>
-                          <Col xs={9}>
-                            <SelectButton
-                              size="xsmall"
-                              active={this.props.entryPoint.lineStyle}
-                              buttons={[
-                              { label: 'Continuous', icon: 'continuous' },
-                              { label: 'Dashed', icon: 'dashed' },
-                              { label: 'Dotted', icon: 'doted' }
-                              ]}
-                              iconOnly="true"
-                              onChange={this.handleLineStyle}
-                            />
-                          </Col>
-                        </FormGroup>
-                        <FormGroup
-                          className={styles.formGroupXsmall}
-                          controlId="formHorizontalTimeline"
-                          >
-                          <Col componentClass={ControlLabel} xs={3} className={styles.formLabel}>
-                        Points
-                          </Col>
-                          <Col xs={9}>
-                            <SelectButton
-                              size="xsmall"
-                              active={this.props.entryPoint.pointsStyle}
-                              buttons={[
-                            { label: 'None', icon: 'none' },
-                            { label: 'Triangle', icon: 'triangle' },
-                            { label: 'Square', icon: 'square' },
-                            { label: 'Dot', icon: 'dot' }
-                              ]}
-                              onChange={this.handlePoints}
-                          />
-                          </Col>
-                        </FormGroup>
-                        <FormGroup
-                          className={styles.formGroupXsmall}
-                          controlId="formHorizontalTimeline"
-                          >
-                          <Col componentClass={ControlLabel} xs={3} className={styles.formLabel}>
-                        Color
-                          </Col>
-                          <Col xs={9}>
-                            <ColorPicker
-                              color={this.props.entryPoint.curveColour}
-                              onChange={this.handleCurveColour}
-                          />
-                          </Col>
-                        </FormGroup>
-                      </Form>
-                    </div>
+                    <EntryPointStyle
+                      entryPoint={entryPoint}
+                      handleCurveColour={this.handleCurveColour}
+                      handleLineStyle={this.handleLineStyle}
+                      handlePoints={this.handlePoints}
+                    />
                   </Collapse>}
                </div>
-            /* END STYLES COLLAPSE */
             : null}
             {(this.props.entryPoint.connectedData !== undefined) ?
               <div>
@@ -238,7 +226,7 @@ export default class EntryPointDetails extends React.Component {
                   /> Conn Data
                 </button>
                 {openC && <Collapse in={openC}>
-                  <div className={classnames(styles.shift, styles.mt5)}>
+                  <div >
                     <EntryPointConnectedData
                       connectedData={this.props.entryPoint.connectedData}
                     />
@@ -259,7 +247,7 @@ export default class EntryPointDetails extends React.Component {
                       Ordinate
                 </button>
                 {openY && <Collapse in={openY}>
-                  <div className={classnames(styles.shift, styles.mt5)}>
+                  <div >
                     <EntryPointConnectedData
                       connectedData={this.props.entryPoint.connectedDataY}
                       handleChange={this.handleDataYChange}
@@ -281,13 +269,13 @@ export default class EntryPointDetails extends React.Component {
                     Absciss
                 </button>
                 {openX && <Collapse in={openX}>
-                  <div className={classnames(styles.shift, styles.mt5)}>
+                  <div >
                     <EntryPointConnectedData connectedData={this.props.entryPoint.connectedDataX} />
                   </div>
                 </Collapse>}
               </div>
             : null}
-            {(this.props.entryPoint.stateColours !== undefined) ?
+            {(entryPoint.stateColours !== undefined) ?
               <div>
                 <button
                   className={classnames('btn-link', styles.collapseEvent, { [styles.active]: openST })}
@@ -300,27 +288,16 @@ export default class EntryPointDetails extends React.Component {
                   State colours
                 </button>
                 {openST && <Collapse in={openST}>
-                  <div className={classnames(styles.shift, styles.mt5)}>
-                    <Table condensed striped style={{ fontSize: '12px' }}>
-                      <thead>
-                        <tr>
-                          <th>Color</th>
-                          <th>Condition</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {stateColours}
-                        <tr>
-                          <td className="col-xs-2"><ColorPicker color={newStateColor} onChange={this.handleChangeStateColor} /></td>
-                          <td className="col-xs-8">
-                            <FilterData
-                              filterOptions={filterOptions} onChange={this.handleFilter}
-                            />
-                          </td>
-                          <td className="col-xs-2"> <Glyphicon glyph="plus" onClick={this.addStateColor} /></td>
-                        </tr>
-                      </tbody>
-                    </Table>
+                  <div >
+                    <EntryPointStateColours
+                      stateColours={entryPoint.stateColours}
+                      filterOptions={filterOptions}
+                      newStateColor={newStateColor}
+                      removeStateColor={this.removeStateColor}
+                      handleFilter={this.handleFilter}
+                      handleChangeStateColor={this.handleChangeStateColor}
+                      addStateColor
+                    />
                   </div>
                 </Collapse>}
               </div>
@@ -329,5 +306,6 @@ export default class EntryPointDetails extends React.Component {
         </div>
       </div>
     );
+    */
   }
 }

@@ -85,7 +85,7 @@ export default class PlotAxis extends React.Component {
           {' '}{this.props.label}
         </button>
         {open && <Collapse in={open}>
-          <div className={classnames(styles.shift, styles.mt5)}>
+          <div >
             <Form horizontal>
               <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalName">
                 <Col componentClass={ControlLabel} xs={4} className={styles.formLabel}>
@@ -94,7 +94,7 @@ export default class PlotAxis extends React.Component {
                 <Col xs={8}>
                   <FormControl
                     type="text"
-                    className={styles.input_xsmall}
+                    className="input-sm"
                     value={label}
                     onChange={this.handleLabel}
                   />
@@ -179,7 +179,7 @@ export default class PlotAxis extends React.Component {
                 <Col xs={8}>
                   <FormControl
                     type="number"
-                    className={styles.input_xsmall}
+                    className="input-sm"
                     value={min}
                     onChange={this.handleMin}
                   />
@@ -192,7 +192,7 @@ export default class PlotAxis extends React.Component {
                 <Col xs={8}>
                   <FormControl
                     type="number"
-                    className={styles.input_xsmall}
+                    className="input-sm"
                     value={max}
                     onChange={this.handleMax}
                   />
@@ -205,7 +205,7 @@ export default class PlotAxis extends React.Component {
                 <Col xs={8}>
                   <FormControl
                     type="text"
-                    className={styles.input_xsmall}
+                    className="input-sm"
                     value={unit}
                     onChange={this.handleUnit}
                   />
@@ -250,7 +250,7 @@ export default class PlotAxis extends React.Component {
                 <Col xs={8}>
                   <FormControl
                     type="number"
-                    className={styles.input_xsmall}
+                    className="input-sm"
                     value={tickStep}
                     onChange={this.handleTickStep}
                   />

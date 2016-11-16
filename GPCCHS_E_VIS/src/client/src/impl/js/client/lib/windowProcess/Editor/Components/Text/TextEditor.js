@@ -1,10 +1,10 @@
 /* eslint-disable */
 
 import React, { Component, PropTypes } from 'react';
-import styles from '../Editor.css';
-import Navbar from './Navbar';
-import EntryPointTree from './EntryPointTree';
-import EntryPointActions from './EntryPointActions';
+import styles from '../../Editor.css';
+import Navbar from '../Navbar';
+import EntryPointTree from '../EntryPoint/EntryPointTree';
+import EntryPointActions from '../EntryPoint/EntryPointActions';
 
 export default class Editor extends Component {
   static propTypes = {

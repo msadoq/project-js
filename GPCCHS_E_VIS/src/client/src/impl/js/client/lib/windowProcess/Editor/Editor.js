@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { PlotEditorContainer } from './Components/Plot';
-import TextEditorContainer from './Components/TextEditorContainer';
+import { TextEditorContainer } from './Components/Text';
 import debug from '../../../lib/common/debug/windowDebug';
 
 const logger = debug('Editor');

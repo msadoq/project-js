@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import { FormControl, Col, Row } from 'react-bootstrap';
 import classnames from 'classnames';
 import select from './Select.css';
-import styles from './EntryPointDetails.css';
 
 export default class FilterData extends React.Component {
   static propTypes = {
@@ -64,7 +63,6 @@ export default class FilterData extends React.Component {
         <Col xs={3} style={ColStyle3}>
           <FormControl
             type="text"
-            className={classnames(styles.input_xsmall)}
             onChange={this.handleValue}
           />
         </Col>

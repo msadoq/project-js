@@ -43,25 +43,9 @@
   }
 }
 
-.shift {
-  margin-left: 14px;
-}
-
 .formEditor {
   border: 1px solid #888;
   border-radius: 4px;
-}
-
-.input_xsmall {
-  padding: 0px 0px 0px 6px !important;
-  font-size: 0.9em;
-  height: auto;
-  border: 1px solid #BBB;
-  transition-property: none;
-  box-shadow: none;
-  &:focus {
-    border: 1px solid #333;
-  }
 }
 
 .formLabel {
@@ -76,10 +60,6 @@
 
 .form-horizontal {
   background-color: red;
-}
-
-.mt5 {
-  margin-top: 5px;
 }
 
 .buttonXsmall {

@@ -2,15 +2,18 @@
 
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
-import { Glyphicon,
-         Collapse,
-         Form,
-         FormGroup,
-         FormControl,
-         Col,
-         ControlLabel,
-         Table
-       } from 'react-bootstrap';
+import {
+  Glyphicon,
+  Collapse,
+  Form,
+  FormGroup,
+  FormControl,
+  Col,
+  ControlLabel,
+  Table,
+  Panel
+} from 'react-bootstrap';
+
 import EntryPointConnectedData from './EntryPointConnectedData';
 import ColorPicker from './ColorPicker';
 import SelectButton from './Buttons/SelectButton';
@@ -50,6 +53,12 @@ export default class EntryPointDetails extends React.Component {
     'triggerOnCounter', 'validityState'
   ];
 
+  componentWillMount(){
+    this.setState({
+      name: this.props.entryPoint.name
+    });
+  }
+
   /*
     Toutes les fonctions dont le nom commence par handle sont appelées
     par la modification d'une valeur dans un formulaire.
@@ -60,7 +69,7 @@ export default class EntryPointDetails extends React.Component {
   */
   handleLineStyle = val => this.props.handleEntryPoint(this.props.idPoint, 'lineStyle', val);
   handlePoints = val => this.props.handleEntryPoint(this.props.idPoint, 'pointsStyle', val);
-  handleName = e => this.props.handleEntryPoint(this.props.idPoint, 'name', e.target.value);
+  handleName = e => this.props.handleEntryPoint(this.props.idPoint, 'name', this.state.name);
   handleCurveColour = color => this.props.handleEntryPoint(this.props.idPoint, 'curveColour', color);
   handleDataYChange = (label, val) => this.props.handleEntryPoint(this.props.idPoint, `connectedDataY.${label}`, val);
   removeEntryPoint = () => this.props.remove(this.props.idPoint);
@@ -97,6 +106,10 @@ export default class EntryPointDetails extends React.Component {
 
   render() {
     const {
+      idPoint
+    } = this.props;
+
+    const {
       open,
       openG,
       openC,
@@ -121,44 +134,20 @@ export default class EntryPointDetails extends React.Component {
             <tr>no marker</tr>;
     const filterOptions = this.filters.map((filter, key) =>
       <option key={key} value={filter}>{filter}</option>);
+
     return (
       <div className={styles.EntryPointTreeFirstLvl}>
-        <button
-          className={classnames('btn-link', styles.collapseEvent, { [styles.active]: open })}
-          onClick={this.toggleOpen}
-        >
-          <Glyphicon
-            className={styles.glyphMenu}
-            glyph={open ? 'menu-down' : 'menu-right'}
+        <div>
+          <FormControl
+            autoFocus
+            controlId="name"
+            type="text"
+            className={styles.input_xsmall}
+            value={this.state.name}
+            onChange={(e) => this.setState({ name:  e.target.value })}
+            onBlur={this.handleName}
+            style={{ width: '200px', display: 'inline' }}
           />
-          {' '}
-          {(nameEditable) ?
-            <FormControl
-              autoFocus
-              controlId="name"
-              type="text"
-              className={styles.input_xsmall}
-              value={this.props.entryPoint.name}
-              onChange={this.handleName}
-              onBlur={() => this.setState({ nameEditable: false })}
-              style={{ width: '200px', display: 'inline' }}
-              /* NEED IT TO SET CURSOR AT THE END
-              onFocus={(e) => { e.target.value = e.target.value; }}
-              */
-            /> : this.props.entryPoint.name}
-        </button>
-        <button className="pull-right btn-link">
-          <Glyphicon className={styles.danger} onClick={this.removeEntryPoint} glyph="remove" title="Remove" />
-        </button>
-        <button className="pull-right btn-link">
-          <Glyphicon
-            className={styles.default}
-            glyph="pencil"
-            title="Update"
-            onClick={e => this.rcOnName(e)}
-          />{' '}
-        </button>
-        {open && <Collapse in={open}>
           <div className={styles.shift}>
             {
             (this.props.entryPoint.lineStyle !== undefined &&
@@ -337,7 +326,7 @@ export default class EntryPointDetails extends React.Component {
               </div>
             : null}
           </div>
-        </Collapse>}
+        </div>
       </div>
     );
   }

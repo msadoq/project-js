@@ -1,3 +1,7 @@
+/* eslint no-console:0 */
+// eslint-disable-next-line no-underscore-dangle
+const _noop = require('lodash/noop');
+
 const ERROR = 'ERROR';
 const WARN = 'WARN';
 const INFO = 'INFO';
@@ -5,12 +9,22 @@ const DEBUG = 'DEBUG';
 const VERBOSE = 'VERBOSE';
 
 module.exports = debug => (namespace) => {
-  const logger = debug(`GPCCHS:${namespace}`);
+  const debugNamespace = `GPCCHS:${namespace}`;
+  const logger = debug(debugNamespace);
   let level = process.env.LEVEL;
   if (!level && global.env && global.env.LEVEL) {
     level = global.env.LEVEL;
   } else if (!level) {
     level = ERROR;
+  }
+  if (process.env.NODE_ENV === 'production') {
+    return {
+      error: (...args) => console.error(`[${debugNamespace}]`, ...args),
+      warn: (...args) => console.warn(`[${debugNamespace}]`, ...args),
+      info: (...args) => console.log(`[${debugNamespace}]`, ...args),
+      debug: () => _noop(),
+      verbose: () => _noop(),
+    };
   }
 
   return {

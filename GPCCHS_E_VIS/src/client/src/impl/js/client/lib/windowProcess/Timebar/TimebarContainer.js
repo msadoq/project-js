@@ -37,7 +37,7 @@ class TimebarContainer extends Component {
     timebarName: React.PropTypes.string.isRequired,
     timelines: React.PropTypes.array.isRequired,
     sessions: React.PropTypes.array.isRequired,
-    currentSessionOffsetMs: React.PropTypes.number.isRequired
+    currentSessionOffsetMs: React.PropTypes.number,
   }
 
   state = {
@@ -222,7 +222,7 @@ export default connect(
       logger.error('NO CURRENT SESSION');
     }
 
-    const currentSessionOffsetMs = currentSession ? currentSession.offsetWithmachineTime : 0;
+    const currentSessionOffsetMs = currentSession ? currentSession.offsetWithmachineTime : null;
 
     return {
       visuWindow: timebar.visuWindow,

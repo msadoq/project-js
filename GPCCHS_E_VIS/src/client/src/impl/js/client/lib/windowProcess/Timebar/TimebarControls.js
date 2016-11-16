@@ -19,7 +19,7 @@ export default class TimebarControls extends Component {
     updateSpeed: React.PropTypes.func.isRequired,
     updateVisuWindow: React.PropTypes.func.isRequired,
     updateMode: React.PropTypes.func.isRequired,
-    currentSessionOffsetMs: React.PropTypes.number.isRequired,
+    currentSessionOffsetMs: React.PropTypes.number,
   }
 
   changeSpeed = (dir) => {
@@ -172,7 +172,7 @@ export default class TimebarControls extends Component {
   }
 
   render() {
-    const { timebarPlayingState, timebarSpeed, timebarMode } = this.props;
+    const { timebarPlayingState, timebarSpeed, timebarMode, currentSessionOffsetMs } = this.props;
     const opTimebarPlayingState = timebarPlayingState === 'pause' ? 'play' : 'pause';
 
     const allButtonsKlasses = classnames('btn', 'btn-xs', 'btn-primary', styles.controlButton);
@@ -250,7 +250,7 @@ export default class TimebarControls extends Component {
                   </button>
                 </li>
               </ul>
-              <ul className={classnames('pull-right', styles.controlsUl)}>
+              <ul className={classnames(styles.controlsUl, styles.controlsUlRight)}>
                 <li className={styles.controlsLi}>
                   <button
                     mode="Normal"
@@ -267,6 +267,7 @@ export default class TimebarControls extends Component {
                     className={classnames(allButtonsKlasses, { [styles.controlButtonActive]: (timebarMode === 'Realtime') })}
                     onClick={this.switchMode}
                     title="Real time mode"
+                    disabled={currentSessionOffsetMs ? '' : 'disabled'}
                   >
                     Real time
                   </button>

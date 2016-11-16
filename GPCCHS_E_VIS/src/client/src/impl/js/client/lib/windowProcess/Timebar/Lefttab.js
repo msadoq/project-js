@@ -242,7 +242,6 @@ export default class Lefttab extends Component {
             <Timeline
               key={i}
               offset={v.offset}
-              name={v.id}
               timelinesLength={timelines.length}
               timebarId={this.props.timebarId}
               id={v.id}

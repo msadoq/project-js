@@ -7,7 +7,6 @@ export default class Timeline extends PureComponent {
   static propTypes = {
     offset: React.PropTypes.number.isRequired,
     id: React.PropTypes.string.isRequired,
-    name: React.PropTypes.string.isRequired,
     timebarId: React.PropTypes.string.isRequired,
     timelineId: React.PropTypes.string.isRequired,
     timelinesLength: React.PropTypes.number.isRequired,
@@ -26,7 +25,7 @@ export default class Timeline extends PureComponent {
   }
 
   render() {
-    const { color, name, willEditTimeline, timelineId,
+    const { color, willEditTimeline, timelineId,
       id, masterId, offset } = this.props;
 
     return (
@@ -34,7 +33,7 @@ export default class Timeline extends PureComponent {
         className={classnames(styles.timeline, { [styles.master]: (id === masterId) })}
         onDoubleClick={willEditTimeline.bind(null, timelineId, id)}
       >
-        {name}{`  offset : ${offset === 0 ? '0' : moment.duration(offset).humanize()}`}
+        {id}{`  offset : ${offset === 0 ? '0' : moment.duration(offset).humanize()}`}
         <span
           className={styles.square}
           style={{

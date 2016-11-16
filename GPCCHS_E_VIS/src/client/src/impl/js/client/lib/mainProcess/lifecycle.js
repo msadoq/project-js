@@ -1,4 +1,11 @@
 import { series } from 'async';
+import {
+  LIFECYCLE_WORKSPACE_LOADED,
+  LIFECYCLE_CONNECTED_WITH_HSS,
+  LIFECYCLE_READY,
+  LIFECYCLE_STARTED,
+  LIFECYCLE_LOST_HSS_CONNECTION,
+} from 'common/constants';
 import { clear as clearRegisteredCallbacks } from 'common/callbacks/register';
 import { updateStatus } from '../store/actions/hss';
 import { updateStatus as updateAppStatus } from '../store/actions/hsc';
@@ -42,15 +49,6 @@ import { schedule, clear as stopDataPulling } from './pull';
  * - LIFECYCLE_READY
  * - If new state is LIFECYCLE_READY and window opened => LIFECYCLE_STARTED
  */
-
-// TODO : move constants in constants files and avoid loading lifecycle module in window bundle
-export const LIFECYCLE_NOT_STARTED = 'LIFECYCLE_NOT_STARTED';
-export const LIFECYCLE_WORKSPACE_LOADED = 'LIFECYCLE_WORKSPACE_LOADED';
-export const LIFECYCLE_CONNECTED_WITH_HSS = 'LIFECYCLE_CONNECTED_WITH_HSS';
-export const LIFECYCLE_READY = 'LIFECYCLE_READY';
-export const LIFECYCLE_STARTED = 'LIFECYCLE_STARTED';
-
-export const LIFECYCLE_LOST_HSS_CONNECTION = 'LIFECYCLE_LOST_HSS_CONNECTION';
 
 export function onWorkspaceLoaded(dispatch) {
   dispatch(updateAppStatus(LIFECYCLE_WORKSPACE_LOADED));

@@ -1,4 +1,4 @@
-import { LIFECYCLE_NOT_STARTED } from '../../mainProcess/lifecycle';
+import { LIFECYCLE_NOT_STARTED } from 'common/constants';
 import * as types from '../types';
 
 const initialState = {

@@ -1,7 +1,11 @@
-import globalConstants from 'common/constants';
+import {
+  LIFECYCLE_READY,
+  LIFECYCLE_STARTED,
+  CACHE_INVALIDATION_FREQUENCY,
+} from 'common/constants';
 
 import debug from '../common/debug/mainDebug';
-import { LIFECYCLE_READY, LIFECYCLE_STARTED, onWindowOpened } from './lifecycle';
+import { onWindowOpened } from './lifecycle';
 import { getStatus as getAppStatus, getLastCacheInvalidation } from '../store/selectors/hsc';
 import windowsObserver from './windows';
 import dataMapGenerator from '../dataManager/map/visibleRemoteIds';
@@ -68,7 +72,7 @@ export default function storeObserver(store) {
 
     // cache invalidation (only at a certain frequency)
     const lastCacheInvalidation = getLastCacheInvalidation(state);
-    if (Date.now() - lastCacheInvalidation >= globalConstants.CACHE_INVALIDATION_FREQUENCY) {
+    if (Date.now() - lastCacheInvalidation >= CACHE_INVALIDATION_FREQUENCY) {
       invalidate(state, dispatch, dataMap);
     }
 

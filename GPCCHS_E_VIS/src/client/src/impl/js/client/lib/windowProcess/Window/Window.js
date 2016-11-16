@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
+import { LIFECYCLE_STARTED } from 'commononstants';
 
-import { LIFECYCLE_STARTED } from '../../mainProcess/lifecycle';
 import Navigation from '../Navigation/Navigation';
 import TimebarContainer from '../Timebar/TimebarContainer';
 import PageContainer from '../Page/PageContainer';

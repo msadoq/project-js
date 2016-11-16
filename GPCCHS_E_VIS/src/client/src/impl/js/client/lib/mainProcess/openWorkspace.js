@@ -1,7 +1,6 @@
 import _each from 'lodash/each';
 import _map from 'lodash/map';
 
-
 import debug from '../common/debug/mainDebug';
 import parameters from '../common/parameters';
 import readWorkspace from '../documentsManager/workspace';

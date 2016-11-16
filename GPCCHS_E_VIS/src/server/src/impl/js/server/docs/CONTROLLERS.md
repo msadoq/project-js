@@ -10,6 +10,15 @@
 * store locally
 * forward to client
 
+## sessions
+
+**client/onSessionQuery**
+* send a SessionQuey message to DC
+
+**dc/onSessionData**
+* receive sessions list from DC
+* forward to client
+
 ## client lifecycle
 
 **client/onOpen**
@@ -35,7 +44,7 @@
         * add dataId to subscriptions model
         * queue a zmq timebasedSubscription message (with 'ADD' action)
     - add remoteId and corresponding filters to subscriptions model
-    - loop over intervals (TODO here or last action ?)
+    - loop over intervals
         * retrieve data in timebasedData model
         * queue a ws timebasedData message (sent periodically)
 * send queued messages to DC

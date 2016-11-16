@@ -15,15 +15,12 @@ const flushTestQueue = () => {
   queue = {};
 };
 
-const addToTestQueue = (remoteId, payloads) => {
-  if (!Object.keys(payloads).length) {
-    return;
-  }
+const addToTestQueue = (remoteId, key, value) => {
   if (typeof queue[remoteId] === 'undefined') {
     queue[remoteId] = {};
   }
 
-  queue[remoteId] = Object.assign(queue[remoteId], payloads);
+  queue[remoteId][key] = value;
 };
 
 module.exports = {

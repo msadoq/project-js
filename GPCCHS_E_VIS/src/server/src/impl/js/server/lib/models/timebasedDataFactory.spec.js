@@ -1,7 +1,7 @@
 const { should } = require('../utils/test');
 const {
   clearFactory,
-  addTimebasedDataModel,
+  getOrCreateTimebasedDataModel,
   getTimebasedDataModel,
   removeTimebasedDataModel,
   getAllTimebasedDataModelRemoteIds,
@@ -13,11 +13,11 @@ describe('models/timebasedDataFactory', () => {
   beforeEach(() => {
     clearFactory();
   });
-  describe('addTimebasedDataModel', () => {
+  describe('getOrCreateTimebasedDataModel', () => {
     let model;
 
     beforeEach(() => {
-      model = addTimebasedDataModel('myRemoteId');
+      model = getOrCreateTimebasedDataModel('myRemoteId');
     });
 
     const payload = getReportingParameter();
@@ -123,7 +123,7 @@ describe('models/timebasedDataFactory', () => {
   });
   describe('getTimebasedDataModel', () => {
     it('existing', () => {
-      const myTbdModel = addTimebasedDataModel('myRemoteId');
+      const myTbdModel = getOrCreateTimebasedDataModel('myRemoteId');
       const tbdModel = getTimebasedDataModel('myRemoteId');
       Object.keys(myTbdModel).should.have.properties(Object.keys(tbdModel));
     });
@@ -134,7 +134,7 @@ describe('models/timebasedDataFactory', () => {
   });
   describe('removeTimebasedDataModel', () => {
     it('works', () => {
-      addTimebasedDataModel('myRemoteId');
+      getOrCreateTimebasedDataModel('myRemoteId');
       removeTimebasedDataModel('myRemoteId');
       const tbdModel = getTimebasedDataModel('myRemoteId');
       should.not.exist(tbdModel);
@@ -145,9 +145,9 @@ describe('models/timebasedDataFactory', () => {
   });
   describe('getAllTimebasedDataModelRemoteIds', () => {
     it('works', () => {
-      addTimebasedDataModel('myRemoteId');
-      addTimebasedDataModel('myOtherRemoteId');
-      addTimebasedDataModel('myThirdRemoteId');
+      getOrCreateTimebasedDataModel('myRemoteId');
+      getOrCreateTimebasedDataModel('myOtherRemoteId');
+      getOrCreateTimebasedDataModel('myThirdRemoteId');
       removeTimebasedDataModel('myOtherRemoteId');
       const remoteIds = getAllTimebasedDataModelRemoteIds();
       remoteIds.should.have.lengthOf(2);

@@ -9,8 +9,6 @@ const _values = require('lodash/values');
 // eslint-disable-next-line no-underscore-dangle
 const _filter = require('lodash/filter');
 // eslint-disable-next-line no-underscore-dangle
-const _get = require('lodash/get');
-// eslint-disable-next-line no-underscore-dangle
 const _omit = require('lodash/omit');
 // eslint-disable-next-line no-underscore-dangle
 const _each = require('lodash/each');
@@ -95,12 +93,10 @@ collection.setIntervalAsReceived = (remoteId, queryUuid, connectedData) => {
       return undefined;
     }
   }
-
-  const interval = _get(cd, ['intervals', 'requested', queryUuid]);
+  const interval = cd.intervals.requested[queryUuid];
   if (typeof interval === 'undefined') {
     return undefined;
   }
-
   switch (cd.type) {
     case globalConstants.DATASTRUCTURETYPE_LAST:
       cd.intervals.received = [...cd.intervals.received, interval];
@@ -112,10 +108,8 @@ collection.setIntervalAsReceived = (remoteId, queryUuid, connectedData) => {
     default:
       throw new Error('Consuming type not valid:', cd.type);
   }
-
-  cd.intervals.requested = _omit(cd.intervals.requested, queryUuid);
+  delete cd.intervals.requested[queryUuid];
   debug.debug('set interval', interval, 'as received for', remoteId);
-
   return cd;
 };
 

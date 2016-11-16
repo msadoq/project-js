@@ -1,7 +1,15 @@
 .entryPointsTree {
-  margin: 0px 0px 0px 10px;
+  margin: 20px 10px 10px 10px;
 }
 
 .addEntryPoint {
   margin-top: 20px;
+}
+
+.danger {
+  color: #D97D7D;
+  :hover {
+    cursor: pointer;
+    color: #C37070;
+  }
 }

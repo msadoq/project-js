@@ -36,22 +36,12 @@
   margin-bottom: 10px !important;
 }
 
-.danger {
-  color: #D97D7D;
-}
-
 .default {
   color: #666;
-}
-
-.danger:hover {
-  cursor: pointer;
-  color: #C37070;
-}
-
-.default:hover {
-  cursor: pointer;
-  color: #444;
+  :hover {
+    cursor: pointer;
+    color: #444;
+  }
 }
 
 .shift {

@@ -2,10 +2,6 @@
 const _each = require('lodash/each');
 // eslint-disable-next-line no-underscore-dangle
 const _concat = require('lodash/concat');
-// eslint-disable-next-line no-underscore-dangle
-const _zipObject = require('lodash/zipObject');
-// eslint-disable-next-line no-underscore-dangle
-const _map = require('lodash/map');
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
@@ -37,7 +33,7 @@ const subscriptionsModel = require('../../models/subscriptions');
  *        - add dataId to subscriptions model
  *        - queue a zmq dataSubscription message (with 'ADD' action)
  *    - add remoteId and corresponding filters to subscriptions model
- *    - loop over intervals (TODO here or last action ?)
+ *    - loop over intervals
  *        - retrieve data in timebasedData model
  *        - queue a ws newData message (sent periodically)
  * - send queued messages to DC
@@ -83,7 +79,7 @@ const timebasedQuery = (addToQueue, payload, messageHandler) => {
       // retrieve missing intervals from connectedData model
       missingIntervals = _concat(
         missingIntervals,
-        connectedDataModel.retrieveMissingIntervals( // TODO getLast: check includes, not missing
+        connectedDataModel.retrieveMissingIntervals(
           remoteId,
           interval,
           connectedData
@@ -107,7 +103,7 @@ const timebasedQuery = (addToQueue, payload, messageHandler) => {
 
       // add requested interval to connectedData model
       execution.start('add requested interval');
-      connectedDataModel.addRequestedInterval( // TODO getLast: suspend merge on intervals
+      connectedDataModel.addRequestedInterval(
         remoteId,
         message.queryId,
         missingInterval,
@@ -138,7 +134,7 @@ const timebasedQuery = (addToQueue, payload, messageHandler) => {
     );
     execution.stop('add loki subscription filters');
 
-    // loop over intervals (TODO here or last action ?)
+    // loop over intervals
     execution.start('finding cache model');
     const timebasedDataModel = getTimebasedDataModel(remoteId);
     execution.stop('finding cache model');
@@ -162,13 +158,9 @@ const timebasedQuery = (addToQueue, payload, messageHandler) => {
       }
 
       execution.start('queue cache for sending');
-      addToQueue(
-        remoteId,
-        _zipObject(
-          _map(cachedData, datum => datum.timestamp),
-          _map(cachedData, datum => datum.payload)
-        )
-      );
+      _each(cachedData, (datum) => {
+        addToQueue(remoteId, datum.timestamp, datum.payload);
+      });
       execution.stop('queue cache for sending');
     });
     execution.stop('finding cache data');

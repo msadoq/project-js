@@ -97,6 +97,7 @@ export default class Editor extends Component {
     addEntryPoint(viewId, { ...newEntryPoint });
   }
   removeEntryPoint = (key) => {
+    console.log('removeEntryPoint', key);
     const { removeEntryPoint, viewId } = this.props;
     removeEntryPoint(viewId, key);
   }

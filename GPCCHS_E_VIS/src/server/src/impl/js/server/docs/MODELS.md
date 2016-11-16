@@ -7,7 +7,8 @@
 Example:
 ```
 {
-  remoteId: 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:groundDate.OP_LT.42,groundDate.OP_GT.13',
+  remoteId: 'last@Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:groundDate.OP_LT.42,groundDate.OP_GT.13',
+  type: 'last',
   dataId: {
     catalog: 'Reporting',
     parameterName: 'ATT_BC_STR1STRRFQ1',
@@ -30,7 +31,8 @@ Example:
 }
 ```
 
-* ``remoteId``is a string representing the dataId (catalog, parameterName, comObject, sessionId, domainId) and the applied filters (field, type, fieldValue). It is the unique key of the model
+* ``remoteId``is a string representing the dataId (catalog, parameterName, comObject, sessionId, domainId), the applied filters (field, type, fieldValue) and the structure type of the data (one of 'last' or 'range'). It is the unique key of the model
+* ``type`` is a string representing the structure type of the data (one of 'last' or 'range')
 * ``dataId`` is an object
   - ``dataId.catalog`` is a string representing the name of the catalog
   - ``dataId.parameterName`` is a string representing the name of the parameter
@@ -56,7 +58,7 @@ Example:
     domainId: 200
   },
   filters: {
-    'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:groundDate.OP_LT.42,groundDate.OP_GT.13': [
+    'last@Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:groundDate.OP_LT.42,groundDate.OP_GT.13': [
       {
         fieldName: 'groundDate',
         type: 2,
@@ -109,7 +111,7 @@ Example:
 Example:
 ```
 {
-  '1d8ebb73-2ef8-4cf7-988f-40766decf93b': 'Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:groundDate.OP_LT.42,groundDate.OP_GT.13'
+  '1d8ebb73-2ef8-4cf7-988f-40766decf93b': 'last@Reporting.ATT_BC_STR1STRRFQ1<ReportingParameter>:100:200:groundDate.OP_LT.42,groundDate.OP_GT.13'
 }
 ```
 

@@ -56,7 +56,7 @@ const close = (messageHandler) => {
 module.exports = {
   close,
   onClose: (spark) => {
-    debug.info(`called (${spark.id})`);
+    debug.verbose(`called (${spark.id})`);
     close(zmq.push);
   },
 };

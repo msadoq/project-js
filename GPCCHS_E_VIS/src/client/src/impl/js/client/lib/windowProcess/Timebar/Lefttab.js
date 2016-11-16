@@ -14,7 +14,7 @@ export default class Lefttab extends Component {
     sessions: React.PropTypes.array.isRequired,
     timebarId: React.PropTypes.string.isRequired,
     timebarName: React.PropTypes.string.isRequired,
-    masterId: React.PropTypes.string.isRequired,
+    masterId: React.PropTypes.string,
     addAndMountTimeline: React.PropTypes.func.isRequired,
     unmountTimeline: React.PropTypes.func.isRequired,
     onVerticalScroll: React.PropTypes.func.isRequired,
@@ -29,7 +29,8 @@ export default class Lefttab extends Component {
     this.state = {
       willAdd: false,
       willEdit: false,
-      color: schemeCategory20b[this.props.timelines.length % 20]
+      color: schemeCategory20b[this.props.timelines.length % 20],
+      errorMessage: null
     };
   }
 
@@ -81,10 +82,11 @@ export default class Lefttab extends Component {
     e.preventDefault();
     const { color } = this.state;
     const { timelines } = this.props;
-    if (timelines.find(t => t.id === this.newTimelineIdEl.value)) {
-      this.setState({
-        errorMessage: 'This id is already taken'
-      });
+
+    if (!this.newTimelineIdEl.value) {
+      this.setState({ errorMessage: 'Please enter an id for the new track' });
+    } else if (timelines.find(t => t.id === this.newTimelineIdEl.value)) {
+      this.setState({ errorMessage: 'This id is already taken' });
     } else {
       this.props.addAndMountTimeline(
         this.props.timebarId,
@@ -159,9 +161,10 @@ export default class Lefttab extends Component {
     }
 
     let editTrack;
-    if (willEdit) {
+    const currentlyEditingTimeline = timelines.find(x => x.id === editingId);
+    if (willEdit && currentlyEditingTimeline) {
       editTrack = (<EditTrack
-        timeline={timelines.find(x => x.id === editingId)}
+        timeline={currentlyEditingTimeline}
         masterId={masterId}
         hideAddTimeline={this.hideAddTimeline}
         editTimeline={this.editTimeline}

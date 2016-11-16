@@ -333,11 +333,9 @@ export default class Timebar extends Component {
   updateCursorTime = (e) => {
     e.stopPropagation();
     const { slideWindow } = this.props;
-    let { slideLower, slideUpper } = this.state;
-    slideLower = slideLower || slideWindow.lower;
-    slideUpper = slideUpper || slideWindow.upper;
+    const { lower, upper } = slideWindow;
     const offsetPx = e.pageX - this.el.getBoundingClientRect().left;
-    const cursorMs = slideLower + ((slideLower - slideUpper) * (offsetPx / this.el.offsetWidth));
+    const cursorMs = lower + ((upper - lower) * (offsetPx / this.el.offsetWidth));
     this.setState({
       formatedFullDate: moment(cursorMs).format('D MMMM YYYY HH[:]mm[:]ss[.]SSS')
     });

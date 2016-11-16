@@ -133,10 +133,10 @@ stubs.getDataIdProtobuf = override => protobuf.encode(
 // Domain
 stubs.getDomain = override => applyOverride({
   itemNamespace: 'Domains',
-  name: 'fr.cnes.sat1',
+  name: 'fr.cnes.isis',
   oid: '0051525005151000565215465660515',
-  domainId: 27,
-  parentDomainId: 98,
+  domainId: 1,
+  parentDomainId: 0,
 }, override);
 
 stubs.getDomainProtobuf = override => protobuf.encode(
@@ -148,7 +148,7 @@ stubs.getDomainProtobuf = override => protobuf.encode(
 stubs.getDomains = override => applyOverride({
   domains: [
     stubs.getDomain(),
-    stubs.getDomain({ name: 'fr.cnes.sat1.ion', domainId: 42, parentDomainId: 27 }),
+    stubs.getDomain({ name: 'fr.cnes.isis.simupus', domainId: 4, parentDomainId: 1 }),
   ],
 }, override);
 

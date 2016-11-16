@@ -19,7 +19,7 @@
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
         "axisId": "Time"
       },
@@ -28,7 +28,7 @@
         "unit": "V",
         "digits": 5,
         "format": "decimal",
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
         "axisId": "VBat"
       },
@@ -53,7 +53,7 @@
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
         "axisId": "Time"
       },
@@ -62,7 +62,7 @@
         "unit": "V",
         "digits": 5,
         "format": "decimal",
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
         "axisId": "VBat"
       },
@@ -87,7 +87,7 @@
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
         "axisId": "Time"
       },
@@ -96,7 +96,7 @@
         "unit": "V",
         "digits": 5,
         "format": "decimal",
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
         "axisId": "VBat"
       },
@@ -121,7 +121,7 @@
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
         "axisId": "Time"
       },
@@ -130,7 +130,7 @@
         "unit": "V",
         "digits": 5,
         "format": "decimal",
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
         "axisId": "VBat"
       },

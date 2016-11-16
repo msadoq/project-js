@@ -14,7 +14,7 @@
           "operator": "!=",
           "operand": "nominal"
         }],
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
     }

@@ -11,7 +11,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
     },
@@ -23,7 +23,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
     },
@@ -35,7 +35,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
     },
@@ -47,7 +47,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
     },
@@ -59,7 +59,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
     },
@@ -71,7 +71,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
     },
@@ -83,7 +83,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
     },
@@ -95,7 +95,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
     },
@@ -107,7 +107,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
     },
@@ -119,7 +119,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
     },
@@ -131,7 +131,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
     },
@@ -143,7 +143,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
     },
@@ -155,7 +155,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
     },
@@ -167,7 +167,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
     }

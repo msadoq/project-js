@@ -8,7 +8,7 @@ const globalConstants = require('common/constants');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const zmq = require('common/zmq');
 
-const { add } = require('../../utils/dataQueue');
+const { add: addToQueue } = require('../../websocket/dataQueue');
 const { createQueryMessage } = require('../../utils/queries');
 const { createAddSubscriptionMessage } = require('../../utils/subscriptions');
 const execution = require('../../utils/execution')('query');
@@ -38,12 +38,11 @@ const subscriptionsModel = require('../../models/subscriptions');
  *        - queue a ws newData message (sent periodically)
  * - send queued messages to DC
  *
- * @param addToQueue
  * @param payload
  * @param messageHandler
  */
 
-const timebasedQuery = (addToQueue, payload, messageHandler) => {
+const timebasedQuery = (payload, messageHandler) => {
   execution.reset();
   execution.start('global');
   // debug.debug('called', Object.keys(payload).length, 'remoteIds');
@@ -179,6 +178,6 @@ const timebasedQuery = (addToQueue, payload, messageHandler) => {
 module.exports = {
   timebasedQuery,
   onTimebasedQuery: (payload) => {
-    timebasedQuery(add, payload, zmq.push);
+    timebasedQuery(payload, zmq.push);
   },
 };

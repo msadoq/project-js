@@ -1,11 +1,11 @@
-const { testPayloads, testHandler } = require('../../utils/test');
+const { getTestHandlerArgs, resetTestHandlerArgs, testHandler } = require('../../utils/test');
 const { message } = require('./onMessage');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const dataStub = require('common/stubs/data');
 
 describe('controllers/dc/onMessage', () => {
   beforeEach(() => {
-    testPayloads.length = 0;
+    resetTestHandlerArgs();
   });
   it('Response', () => {
     const header = dataStub.getResponseHeaderProtobuf();
@@ -21,8 +21,8 @@ describe('controllers/dc/onMessage', () => {
       queryId,
       status
     );
-    testPayloads.should.have.lengthOf(3);
-    testPayloads.should.have.properties([
+    getTestHandlerArgs().should.have.lengthOf(3);
+    getTestHandlerArgs().should.have.properties([
       queryId,
       status,
     ]);
@@ -49,8 +49,8 @@ describe('controllers/dc/onMessage', () => {
       timestamp,
       payload
     );
-    testPayloads.should.have.lengthOf(7);
-    testPayloads.should.have.properties([
+    getTestHandlerArgs().should.have.lengthOf(7);
+    getTestHandlerArgs().should.have.properties([
       queryId,
       dataId,
       isLast,
@@ -78,8 +78,8 @@ describe('controllers/dc/onMessage', () => {
       timestamp,
       payload
     );
-    testPayloads.should.have.lengthOf(5);
-    testPayloads.should.have.properties([
+    getTestHandlerArgs().should.have.lengthOf(5);
+    getTestHandlerArgs().should.have.properties([
       dataId,
       timestamp,
       payload,
@@ -101,8 +101,8 @@ describe('controllers/dc/onMessage', () => {
       queryId,
       domains
     );
-    testPayloads.should.have.lengthOf(2);
-    testPayloads.should.have.properties([
+    getTestHandlerArgs().should.have.lengthOf(2);
+    getTestHandlerArgs().should.have.properties([
       queryId,
       domains,
     ]);
@@ -121,8 +121,8 @@ describe('controllers/dc/onMessage', () => {
       queryId,
       sessions
     );
-    testPayloads.should.have.lengthOf(2);
-    testPayloads.should.have.properties([
+    getTestHandlerArgs().should.have.lengthOf(2);
+    getTestHandlerArgs().should.have.properties([
       queryId,
       sessions,
     ]);

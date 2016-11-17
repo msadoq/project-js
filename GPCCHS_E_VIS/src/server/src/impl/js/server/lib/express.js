@@ -7,10 +7,7 @@ const ApiError = require('./utils/apiError');
 
 const app = express();
 
-if (process.env.HTTP_LOGS === '1') {
-  app.use(logger('dev'));
-}
-
+app.use(logger('dev'));
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(linker);

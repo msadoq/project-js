@@ -1,4 +1,4 @@
-const { should } = require('../../utils/test');
+const { should, testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('../../utils/test');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const dataStub = require('common/stubs/data');
 const { response } = require('./onResponse');
@@ -6,12 +6,11 @@ const { response } = require('./onResponse');
 const registeredCallbacks = require('common/callbacks/register');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
-const { sendToTestWs, getMessage, resetMessage } = require('../../utils/testWebSocket');
 
 describe('controllers/dc/onResponse', () => {
   beforeEach(() => {
     registeredCallbacks.clear();
-    resetMessage();
+    resetTestHandlerArgs();
   });
 
   const myQueryId = 'myQueryId';
@@ -27,8 +26,8 @@ describe('controllers/dc/onResponse', () => {
       should.not.exist(err);
       called = true;
     });
-    response(sendToTestWs, myQueryIdProto, successProto);
-    getMessage().should.deep.equal({});
+    response(testHandler, myQueryIdProto, successProto);
+    getTestHandlerArgs().should.have.lengthOf(0);
     called.should.equal(true);
   });
   it('error status', () => {
@@ -38,16 +37,14 @@ describe('controllers/dc/onResponse', () => {
       err.message.should.equal(reason);
       called = true;
     });
-    response(sendToTestWs, myQueryIdProto, errorProto, reasonProto);
-    const responseError = getMessage();
-    responseError.should.be.an('object')
-      .that.has.properties({
-        event: 'error',
-        payload: {
-          type: globalConstants.ERRORTYPE_RESPONSE,
-          reason,
-        },
-      });
+    response(testHandler, myQueryIdProto, errorProto, reasonProto);
+    const wsArgs = getTestHandlerArgs();
+    wsArgs.should.have.lengthOf(2);
+    wsArgs[0].should.equal(globalConstants.EVENT_ERROR);
+    wsArgs[1].should.have.properties({
+      type: globalConstants.ERRORTYPE_RESPONSE,
+      reason,
+    });
     called.should.equal(true);
   });
 });

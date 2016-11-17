@@ -10,7 +10,7 @@ const _chunk = require('lodash/chunk');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { decode, getType } = require('common/protobuf');
 
-const { add } = require('../../utils/dataQueue');
+const { add: addToQueue } = require('../../websocket/dataQueue');
 const { applyFilters } = require('../../utils/filters');
 
 const { getOrCreateTimebasedDataModel, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
@@ -31,13 +31,11 @@ const subscriptionsModel = require('../../models/subscriptions');
  *        - store filtered payload in timebasedData model
  *        - queue a ws newData message (sent periodically)
  *
- * @param addToQueue
  * @param queryIdBuffer (not used for now)
  * @param dataIdBuffer
  * @param payloadsBuffers
  */
-const sendTimebasedPubSubData = (
-  addToQueue,
+const onTimebasedPubSubData = (
   queryIdBuffer,
   dataIdBuffer,
   ...payloadsBuffers
@@ -110,7 +108,5 @@ const sendTimebasedPubSubData = (
 };
 
 module.exports = {
-  onTimebasedPubSubData: (queryIdBuffer, dataIdBuffer, ...payloadsBuffers) =>
-    sendTimebasedPubSubData(add, queryIdBuffer, dataIdBuffer, ...payloadsBuffers),
-  sendTimebasedPubSubData,
+  onTimebasedPubSubData,
 };

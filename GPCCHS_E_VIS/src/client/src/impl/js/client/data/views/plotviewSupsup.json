@@ -24,7 +24,7 @@
           "operator": "!=",
           "operand": "0"
         }],
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
         "axisId": "Time"
       },
@@ -38,7 +38,7 @@
           "operator": "!=",
           "operand": "0"
         }],
-        "domain": "fr.cnes.sat1",
+        "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
         "axisId": "VBat"
       },

@@ -60,7 +60,7 @@ class GPCCHS(object):
     _hssRunCmd = 'node --max_old_space_size=8000 index'
     _hssLogPath = '/var/log/isis/GPCCHS_E_VIS_server.log'
     _hscPath = '/usr/share/isis/lib/js/gpcchs_e_vis_launcher/client'
-    _hscRunCmd = './lpisis_gpcchs_e_clt --HSS=http://127.0.0.1:{} --FMD_ROOT={} --OPEN={} --PROFILING=off'
+    _hscRunCmd = './lpisis_gpcchs_e_clt --HSS=http://127.0.0.1:{} --FMD_ROOT={} --OPEN={} --PROFILING=off {}'
     _hscLogPath = '/var/log/isis/GPCCHS_E_VIS_client.log'
 
     @property
@@ -81,10 +81,14 @@ class GPCCHS(object):
         """
         Property holding HSC run command-line as list
         """
+        debug=""
+        if self._debug == True:
+            debug = "--LEVEL=DEBUG"
         return self._hscRunCmd.format(
             self._hssPort,
             self._fmd_root,
-            self._workspace
+            self._workspace,
+            debug
         ).split()
 
     @property
@@ -141,6 +145,26 @@ class GPCCHS(object):
             self._container_cmd_base,
             self._feature_id
         ).split()
+        
+    @property
+    def _cstop_cmd(self):
+        """
+        Property holding container stop command-line as list
+        """
+        return '{} -- cstop {}'.format(
+            self._container_cmd_base,
+            self._feature_id
+        ).split()
+        
+    @property
+    def _cdestroy_cmd(self):
+        """
+        Property holding container destroy command-line as list
+        """
+        return '{} -- cdestroy {}'.format(
+            self._container_cmd_base,
+            self._feature_id
+        ).split()
 
     # End of user code
 
@@ -162,6 +186,8 @@ class GPCCHS(object):
         self._fmdRoot = None
         self._feature_id = None
         self.__container_pid = None
+        self._gpccdc_created = False
+        self._gpccdc_started = False
         if options.workspace.rfind('/') != -1:
             self._workspace = options.workspace[options.workspace.rfind('/')+1:]
             self._fmd_root = os.environ['FMD_ROOT_DIR'] + '/' + options.workspace[:options.workspace.rfind('/')+1]
@@ -195,6 +221,8 @@ class GPCCHS(object):
         self._hssLogFile = None
         self._feature_id = None
         self.__container_pid = None
+        self._gpccdc_created = False
+        self._gpccdc_started = False
         # End of user code
 
     # Start of user code ProtectedOperZone
@@ -280,6 +308,60 @@ class GPCCHS(object):
                         raise IsisContainerError(std)
         except subprocess.CalledProcessError as error:
             print("GPCCHS Launcher Feature start process error:", error)
+            rc = -1
+        return rc
+        
+    def _stop_feature(self):
+        """
+        Stop the feature (must be started first)
+        
+        :return: Zero if success, -1 if error
+        :rtype: integer
+        """
+        rc = 0
+        try:
+            print('Stopping feature ID {}...'.format(self._feature_id))
+            print("GPCCHS launcher execute: ",' '.join(self._cstop_cmd))
+            proc = subprocess.Popen(
+                self._cstop_cmd,
+                env=os.environ,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE
+            )
+            for std in [proc.stdout, proc.stderr]:
+                if std:
+                    std = std.read().decode('utf-8')
+                    if 'Error=1' in std:
+                        raise IsisContainerError(std)
+        except subprocess.CalledProcessError as error:
+            print("GPCCHS Launcher Feature stop process error:", error)
+            rc = -1
+        return rc
+        
+    def _destroy_feature(self):
+        """
+        Destroy the feature (must be created first)
+        
+        :return: Zero if success, -1 if error
+        :rtype: integer
+        """
+        rc = 0
+        try:
+            print('Destroying feature ID {}...'.format(self._feature_id))
+            print("GPCCHS launcher execute: ",' '.join(self._cdestroy_cmd))
+            proc = subprocess.Popen(
+                self._cstop_cmd,
+                env=os.environ,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE
+            )
+            for std in [proc.stdout, proc.stderr]:
+                if std:
+                    std = std.read().decode('utf-8')
+                    if 'Error=1' in std:
+                        raise IsisContainerError(std)
+        except subprocess.CalledProcessError as error:
+            print("GPCCHS Launcher Feature destroy process error:", error)
             rc = -1
         return rc
 
@@ -414,11 +496,16 @@ class GPCCHS(object):
                 self._tbPullPort = portsNums[4]
                 if rc == 0:
                     if not self._feature_id:
+                        os.environ["GPCCDC_D_DBR_PUSH"] = self._dcPullPort
+                        os.environ["GPCCDC_D_DBR_PULL"] = self._dcPushPort
                         rc = self._create_feature()
                     if rc == 0 and self._feature_id:
+                        self._gpccdc_created = True
                         rc = self._activate_feature()
                     if rc == 0 and self._feature_id:
                         rc = self._start_feature()
+                    if rc == 0 and self._feature_id:
+                        self._gpccdc_started = True
                     if self._debug == True:
                         self._hscLogFile = self._open_log_file(self._hscLogPath)
                         self._hssLogFile = self._open_log_file(self._hssLogPath)
@@ -426,12 +513,25 @@ class GPCCHS(object):
                         os.chdir(self._hssPath)
                         self._create_hss_env_vars()
                         self._hssProc = self._run_process(' '.join(self._hss_run_cmd),self._hssLogFile)
-                    if self._hssProc != None:
+                    if self._hssProc:
                         os.chdir(self._hscPath)
                         self._hscProc = self._run_process(' '.join(self._hsc_run_cmd),self._hscLogFile)
-                    if self._hssProc != None:
+                    if self._hssProc:
                         print("GPCCHS Successfully started")
-                        self._hssProc.wait()
+                        try:
+                            self._hssProc.wait()
+                        except KeyboardInterrupt:
+                            print("\nGPCCHS and GPCCDC processes aborted by user")
+                    if self._gpccdc_started:
+                        rc = self._stop_feature()
+                        self._gpccdc_started = False
+                    if self._gpccdc_created:
+                        rc = self._destroy_feature()
+                        self._gpccdc_created = False                        
+                    if self._hscLogFile:
+                        self._hscLogFile.close()
+                    if self._hssLogFile:
+                        self._hssLogFile.close()
         return rc
 
 if __name__ == '__main__':

@@ -32,7 +32,7 @@ deploy_cots() {
   NPM_CACHE_DURATION=${NPM_CACHE_DURATION:-400000000}
   NPM_USER_CONFIG=${NPM_USER_CONFIG:-${NPM_PROJECT_CONFIG}}
   NPM_OPTS1="--userconfig=${NPM_PROJECT_CONFIG}"
-  NPM_OPTS2="--userconfig=${NPM_USER_CONFIG}"
+  NPM_OPTS2="--userconfig=${NPM_USER_CONFIG} --ignore-scripts"
 
   PATH=${find.dependencies.dir}/bin:$PATH
   export npm_config_nodedir=${find.dependencies.dir}

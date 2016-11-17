@@ -27,10 +27,10 @@ export function receive(state, dispatch, payload) {
 
 export function schedule() {
   if (timeout !== null) {
+    // never trigger a new one until previous was received and injected
     return;
   }
 
-  // never trigger a new one until previous was received and injected
   timeout = setTimeout(ask, globalConstants.HSC_PULL_FREQUENCY);
 }
 

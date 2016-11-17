@@ -1,32 +1,37 @@
-# GPCCHS_D_SVR
+# GPCCHS SERVER
 
-## Installation and configuration
+Desktop visualisation application for ISIS project.
 
-Once to project is cloned go to this folder and install dependencies:
+## Installation
 
-> npm i
+Clone the project and switch to client folder:
+> cd /data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/server/src/impl/js/server
 
-Copy the ``.env.example`` to ``.env`` and edit it to set your local environment:
- 
-> cp .env.example .env && vi .env
+Copy .env file:
+> cd .env.example .env
 
-## Launching server
+Install or update dependencies:
+> npm install
+
+# Launching project:
 
 > npm start
 
-## Running test
+## Other procedures
 
-> npm run test
+Run unit tests:
+> npm test
 
-**Note**: to run only one or some test add the  directive to your decribe() or it() call:
+Check the project source code linting:
+> npm run lint
 
-> decribe('my awesome tests', () => ...
+Check the code coverage:
+> npm run coverage
 
-## Updating primus and uws
+Updating primus and uws client code:
 
 For compatibility reasons the websocket client library for primus/uws couldn't be compiled at runtime on HSC.
+This file should be versionned. 
 After updating primus/uws version on HSS you should regenerate the client module with this command:
 
-$> npm run build-primus-client
-
-The primus.js file should be versionned. 
+> npm run build-primus-client

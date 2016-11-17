@@ -19,7 +19,17 @@ export default class TimebarControls extends Component {
     updateSpeed: React.PropTypes.func.isRequired,
     updateVisuWindow: React.PropTypes.func.isRequired,
     updateMode: React.PropTypes.func.isRequired,
+    extUpperBound: React.PropTypes.number.isRequired,
     currentSessionOffsetMs: React.PropTypes.number,
+  }
+
+  componentDidUpdate() {
+    const { timebarPlayingState } = this.props;
+    if (timebarPlayingState === 'play' && !this.timeout) this.tick();
+    if (timebarPlayingState === 'pause' && this.timeout) {
+      clearTimeout(this.timeout);
+      this.timeout = null;
+    }
   }
 
   changeSpeed = (dir) => {
@@ -83,10 +93,8 @@ export default class TimebarControls extends Component {
 
     if (mode === timebarMode) return;
 
+    // Realtime is not really a mode, we just go to session realtime and play
     if (mode === 'Realtime') {
-      // Realtime is not really a mode, we just go to session relatime and play
-      // updateMode(timebarId, mode);
-
       const msWidth = upper - lower;
       const realTimeMs = Date.now() + currentSessionOffsetMs;
       const newLower = realTimeMs - ((1 - currentUpperMargin) * msWidth);
@@ -104,7 +112,7 @@ export default class TimebarControls extends Component {
         }
       );
       this.togglePlayingState(null, 'play');
-    } else if (mode === 'Normal') {
+    } else {
       updateMode(timebarId, mode);
     }
   }
@@ -121,6 +129,7 @@ export default class TimebarControls extends Component {
       this.tick();
     } else {
       clearTimeout(this.timeout);
+      this.timeout = null;
     }
   }
 
@@ -129,41 +138,75 @@ export default class TimebarControls extends Component {
     this.timeout = setTimeout(
       () => {
         const { lower, upper, current } = this.props.visuWindow;
+        const { extUpperBound } = this.props;
 
         const newCurrent = current + (globalConstants.HSC_PLAY_FREQUENCY * timebarSpeed);
 
         const msWidth = upper - lower;
         let offsetMs = 0;
-        if (timebarMode === 'Normal' || timebarMode === 'Realtime') {
-          if (newCurrent + (currentUpperMargin * msWidth) > upper) {
-            offsetMs = (newCurrent + (currentUpperMargin * msWidth)) - upper;
-          }
+
+        /*
+          Current can not equal upper
+          there is a mandatory margin between the two cursors
+        */
+        const mandatoryMarginMs = currentUpperMargin * msWidth;
+
+        if (newCurrent + mandatoryMarginMs > upper) {
+          offsetMs = (newCurrent + mandatoryMarginMs) - upper;
         }
 
         const newLower = lower + offsetMs;
         const newUpper = upper + offsetMs;
+
+        /*
+          Handling the case where upper cursor is above/near slideWindow.upper
+          Moving slideWindow to the right if it's the case
+        */
+        const newSlideWindow = {};
         if (slideWindow.upper < newUpper + ((newUpper - newLower) / 5)) {
-          updateVisuWindow(
-            timebarId,
-            {
-              lower: newLower,
-              upper: newUpper,
-              current: newCurrent,
-              slideWindow: {
-                lower: newLower - ((newUpper - newLower) * 2),
-                upper: newUpper + ((newUpper - newLower) / 5)
+          newSlideWindow.slideWindow = {};
+          newSlideWindow.slideWindow.lower = newLower - ((newUpper - newLower) * 2);
+          newSlideWindow.slideWindow.upper = newUpper + ((newUpper - newLower) / 5);
+        }
+
+        switch (timebarMode) {
+          case 'Normal':
+            updateVisuWindow(
+              timebarId,
+              {
+                ...newSlideWindow,
+                lower: newLower,
+                upper: newUpper,
+                current: newCurrent
               }
+            );
+            break;
+          case 'Extensible':
+            if (newUpper > extUpperBound) {
+              updateVisuWindow(
+                timebarId,
+                {
+                  ...newSlideWindow,
+                  lower: newLower,
+                  upper: newUpper,
+                  current: newCurrent,
+                  extUpperBound: newUpper
+                }
+              );
+            } else {
+              updateVisuWindow(
+                timebarId,
+                {
+                  ...newSlideWindow,
+                  lower,
+                  upper: newUpper,
+                  current: newCurrent
+                }
+              );
             }
-          );
-        } else {
-          updateVisuWindow(
-            timebarId,
-            {
-              lower: lower + offsetMs,
-              upper: upper + offsetMs,
-              current: newCurrent
-            }
-          );
+            break;
+          default:
+            return null;
         }
         this.tick();
       },
@@ -175,7 +218,7 @@ export default class TimebarControls extends Component {
     const { timebarPlayingState, timebarSpeed, timebarMode, currentSessionOffsetMs } = this.props;
     const opTimebarPlayingState = timebarPlayingState === 'pause' ? 'play' : 'pause';
 
-    const allButtonsKlasses = classnames('btn', 'btn-xs', styles.controlButton);
+    const allButtonsKlasses = classnames('btn', 'btn-xs', 'btn-control');
 
     return (
       <div>
@@ -194,7 +237,7 @@ export default class TimebarControls extends Component {
                 </li>
                 <li className={styles.controlsLi}>
                   <button
-                    className={classnames('btn', 'btn-xs', 'btn-default', styles.controlButton)}
+                    className={classnames('btn', 'btn-xs', 'btn-default')}
                   >
                     {`${timebarSpeed}X`}
                   </button>
@@ -212,7 +255,11 @@ export default class TimebarControls extends Component {
                   <button
                     className={classnames(
                       allButtonsKlasses,
-                      (timebarPlayingState === 'play' ? styles.controlButtonPlay : styles.controlButtonPause)
+                      {
+                        [styles.controlButtonPlay]: timebarPlayingState === 'play',
+                        [styles.controlButtonActive]: timebarPlayingState === 'play',
+                        [styles.controlButtonPause]: timebarPlayingState === 'pause'
+                      }
                     )}
                     onClick={this.togglePlayingState}
                     title={opTimebarPlayingState}
@@ -263,10 +310,20 @@ export default class TimebarControls extends Component {
                 </li>
                 <li className={styles.controlsLi}>
                   <button
+                    mode="Extensible"
+                    className={classnames(allButtonsKlasses, { [styles.controlButtonActive]: (timebarMode === 'Extensible') })}
+                    onClick={this.switchMode}
+                    title="Extensible mode"
+                  >
+                    Extensible
+                  </button>
+                </li>
+                <li className={styles.controlsLi}>
+                  <button
                     mode="Realtime"
                     className={classnames(allButtonsKlasses, { [styles.controlButtonActive]: (timebarMode === 'Realtime') })}
                     onClick={this.switchMode}
-                    title="Real time mode"
+                    title={currentSessionOffsetMs ? 'Real time mode' : "No master track is set, can't go realtime"}
                     disabled={currentSessionOffsetMs ? '' : 'disabled'}
                   >
                     Real time

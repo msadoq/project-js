@@ -1,3 +1,5 @@
+@import '../style/variables.css';
+
 .TimesetterContainer{
   position: absolute;
   top: 50%;
@@ -26,6 +28,18 @@
 
 .formLabel{
   width: 60px;
+}
+[class*="formLabel"]{
+  filter: brightness(0.5);
+}
+.formLabellower, .formLabelupper{
+  color: var(--boundCursorsColor);
+}
+.formLabelcurrent{
+  color: var(--currentCursorColor);
+}
+.formLabelextUpperBound{
+  color: var(--extCursorColor);
 }
 .inputDiv{
   display: inline-block;

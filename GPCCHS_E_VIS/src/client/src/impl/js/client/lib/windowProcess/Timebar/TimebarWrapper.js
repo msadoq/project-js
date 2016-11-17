@@ -76,12 +76,14 @@ export default class TimebarWrapper extends Component {
   }
 
   toggleTimesetter = (e) => {
-    e.preventDefault();
-    if (e.currentTarget.tagName !== e.target.tagName) return;
+    if (e) {
+      e.preventDefault();
+      if (e.currentTarget.tagName !== e.target.tagName) return;
+    }
     const { displayTimesetter } = this.state;
     this.setState({
       displayTimesetter: !displayTimesetter,
-      timesetterCursor: e.currentTarget.getAttribute('cursor')
+      timesetterCursor: (e && e.currentTarget) ? e.currentTarget.getAttribute('cursor') : null
     });
   }
 
@@ -114,6 +116,7 @@ export default class TimebarWrapper extends Component {
     if (displayTimesetter) {
       timesetter = (<Timesetter
         visuWindow={visuWindow}
+        extUpperBound={timebar.extUpperBound}
         onChange={updateVisuWindowAction}
         timebarId={timebarId}
         cursor={timesetterCursor || 'all'}
@@ -140,6 +143,7 @@ export default class TimebarWrapper extends Component {
           </div>
         </Col>
         <TimebarControls
+          extUpperBound={timebar.extUpperBound}
           timebarPlayingState={timebar.playingState}
           timebarMode={timebar.mode}
           timebarSpeed={timebar.speed}
@@ -170,7 +174,11 @@ export default class TimebarWrapper extends Component {
         </Col>
         <Col xs={9}>
           <Timebar
+            updatePlayingState={updatePlayingStateAction}
+            playingState={timebar.playingState}
+            extUpperBound={timebar.extUpperBound}
             timebarId={timebarId}
+            timebarMode={timebar.mode}
             visuWindow={visuWindow}
             slideWindow={slideWindow}
             timelines={timelines}

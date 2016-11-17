@@ -8,6 +8,7 @@ export default class TimesetterFields extends Component {
 
   static propTypes = {
     ms: React.PropTypes.number.isRequired,
+    extUpperBound: React.PropTypes.number.isRequired,
     value: React.PropTypes.string.isRequired,
     disabled: React.PropTypes.bool.isRequired,
     onChange: React.PropTypes.func.isRequired,
@@ -19,11 +20,15 @@ export default class TimesetterFields extends Component {
   }
 
   onChangeAction = () => {
-    const { value, onChange } = this.props;
+    const { value, onChange, visuWindow } = this.props;
+    let { extUpperBound } = this.props;
     const { date } = this.state;
-    const vw = this.props.visuWindow;
-    vw[value] = date.toDate().getTime();
-    onChange(vw.lower, vw.upper, vw.current, value);
+    if (visuWindow[value]) {
+      visuWindow[value] = date.toDate().getTime();
+    } else {
+      extUpperBound = date.toDate().getTime();
+    }
+    onChange(visuWindow.lower, visuWindow.upper, visuWindow.current, extUpperBound, value);
     this.setState({ date: null });
   }
 
@@ -71,10 +76,12 @@ export default class TimesetterFields extends Component {
     }
     return (
       <Col xs={12} className={styles.fieldsContainer}>
-        <div className={styles.formLabel}><b>{value}</b></div>
+        <div className={classnames('text-capitalize', styles.formLabel, { [styles[`formLabel${value}`]]: !disabled })} style={{ width: '100%' }}>
+          <b>{value === 'extUpperBound' ? 'Exterior cursor' : `${value} cursor`}</b>
+        </div>
         {
           arr.map((x, i) =>
-            <div className={styles.inputDiv}>
+            <div key={i} className={styles.inputDiv}>
               <input
                 type="number"
                 ref={(el) => { this[`${x[0]}El`] = el; }}

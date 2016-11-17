@@ -11,43 +11,10 @@
 .controlsLi{
   display: table-cell;
 }
-.controlButton{
-  min-width: 30px;
-  margin-right: 5px;
-  border-radius: 1px;
-  height: 19px;
-  line-height: 1px;
-  font-weight: 600;
-  font-size: 0.8em;
-  color: #fff;
-  background-color: #666;
-  border: 1px solid #555;
-  outline: 0;
-}
-.controlButton:hover{
-  background-color: #555;
-  color: #fff;
-  outline: 0 !important;
-}
-.controlButton:active{
-  background-color: #aaa;
-  color: #fff;
-  outline: 0 !important;
-}
-.controlButton:focus{
-  color: #fff;
-  outline: 0 !important;
-}
 .controlButtonPause{
   font-weight: 600;
-  text-align: center;
-  width: 30px;
 }
 .controlButtonPlay{
-  width: 30px;
-  background: #60a7e5;
-  box-shadow: 0px 0px 6px #337ab7 inset;
-  border: 1px solid #337ab7;
   font-weight: 600;
   font-size: 8px;
   padding-left: 9px;
@@ -61,5 +28,4 @@
   background: #60a7e5;
   box-shadow: 0px 0px 6px #337ab7 inset;
   border: 1px solid #337ab7;
-  cursor: default;
 }

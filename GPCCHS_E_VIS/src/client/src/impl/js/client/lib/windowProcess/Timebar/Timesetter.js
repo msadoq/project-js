@@ -7,6 +7,7 @@ export default class Timesetter extends Component {
 
   static propTypes = {
     visuWindow: React.PropTypes.object.isRequired,
+    extUpperBound: React.PropTypes.number.isRequired,
     onChange: React.PropTypes.func.isRequired,
     onClose: React.PropTypes.func.isRequired,
     cursor: React.PropTypes.string.isRequired,
@@ -17,7 +18,20 @@ export default class Timesetter extends Component {
     errorMessages: []
   }
 
-  onChangeAction = (lower, upper, current, cursor) => {
+  componentDidMount() {
+    document.addEventListener('keyup', this.onKeyUp);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keyup', this.onKeyUp);
+  }
+
+  onKeyUp = (e) => {
+    const { onClose } = this.props;
+    if (e.keyCode === 27) onClose();
+  }
+
+  onChangeAction = (lower, upper, current, extUpperBound, cursor) => {
     const { timebarId, onChange } = this.props;
     const errorMessages = [];
     switch (cursor) {
@@ -46,13 +60,13 @@ export default class Timesetter extends Component {
     if (!errorMessages.length) {
       onChange(
         timebarId,
-        { lower, upper, current }
+        { lower, upper, current, extUpperBound }
       );
     }
   }
 
   render() {
-    const { visuWindow, cursor, onClose } = this.props;
+    const { visuWindow, cursor, onClose, extUpperBound } = this.props;
     const { errorMessages } = this.state;
 
     return (
@@ -61,13 +75,14 @@ export default class Timesetter extends Component {
         {errorMessages.map(x => <p className={classnames('text-danger', styles.errorMessage)}>{x}</p>)}
         <button className={classnames('btn-sm', 'btn', 'btn-danger', styles.buttonClose)} onClick={onClose}>x</button>
         {
-          ['lower', 'current', 'upper'].map((x, i) =>
+          ['lower', 'current', 'upper', 'extUpperBound'].map((x, i) =>
             <TimesetterFields
               key={i}
               value={x}
               disabled={cursor !== 'all' && cursor !== x}
-              ms={visuWindow[x]}
+              ms={visuWindow[x] || this.props[x]}
               visuWindow={visuWindow}
+              extUpperBound={extUpperBound}
               onChange={this.onChangeAction}
             />
           )

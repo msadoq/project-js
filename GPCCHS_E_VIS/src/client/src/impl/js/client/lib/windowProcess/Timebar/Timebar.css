@@ -1,3 +1,5 @@
+@import '../style/variables.css';
+
 .viewportWrapper{
     padding-top: 28px;
     overflow: hidden
@@ -7,7 +9,7 @@
     position: relative;
     background: #fff;
     border: 1px solid #ccc;
-    background: #bcd6ff;
+    background: #e0e0e0;
     height: 100%;
 }
 .viewport{
@@ -30,22 +32,26 @@
   transform: translateX(-50%);
   top: -15px;
 }
-.lower, .upper, .current{
+.lower, .upper, .current, .extUpperBound{
     cursor: col-resize;
     position: absolute;
     height: 100%;
     width: 3px;
 }
 .current{
-  border-left: 2px solid #F45;
+  border-left: 2px solid var(--currentCursorColor);
 }
 .lower{
     left: 0px;
-    border-left: 1px solid #E45;
+    border-left: 1px solid var(--boundCursorsColor);
 }
 .upper{
     right: 0px;
-    border-right: 1px solid #E45;
+    border-right: 1px solid var(--boundCursorsColor);
+}
+.extUpperBound{
+    right: 0px;
+    border-right: 1px solid var(--extCursorColor);
 }
 .lower:before, .upper:before{
     width: 10px;
@@ -89,12 +95,12 @@
     transform: translateX(50%);
 }
 .currentFormattedTime{
-    color: #812;
+    color: #1A2;
     white-space: nowrap;
     z-index: 2;
     transform: translateX(-50%);
 }
-.arrowLeft, .arrowRight{
+.arrowLeft, .arrowRight, .arrowExt{
     z-index: 11;
     position: absolute;
     color: #fff;
@@ -116,8 +122,15 @@
     top: -2px;
     left: 4px;
 }
-.arrowRight{
+.arrowRight, .arrowExt{
     right: 7px;
+}
+.arrowExt{
+  width: 35px;
+  font-size: 1em;
+  font-size: 0.8em;
+  line-height: 0.70em;
+  font-weight: 600;
 }
 .arrowRight:before{
     content: '➜';

@@ -39,17 +39,17 @@ export default class TimebarScale extends PureComponent {
     const mult = e.pageX > dragOrigin ? -1 : 1;
     const abs = Math.abs(e.pageX - dragOrigin);
     let pow = 2;
-    if (abs > 140) {
+    if (abs > 170) {
       pow = 9;
-    } else if (abs > 100) {
+    } else if (abs > 140) {
       pow = 7;
-    } else if (abs > 50) {
+    } else if (abs > 110) {
       pow = 6;
-    } else if (abs > 40) {
+    } else if (abs > 80) {
       pow = 5;
-    } else if (abs > 30) {
+    } else if (abs > 60) {
       pow = 4;
-    } else if (abs > 20) {
+    } else if (abs > 30) {
       pow = 3;
     }
     const offsetRel = (mult * 20) / Math.pow(abs / 100, pow);

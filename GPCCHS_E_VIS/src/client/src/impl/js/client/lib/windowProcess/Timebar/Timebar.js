@@ -16,30 +16,72 @@ export default class Timebar extends Component {
     onChange: React.PropTypes.func.isRequired,
     displayTimesetter: React.PropTypes.func.isRequired,
     onVerticalScroll: React.PropTypes.func.isRequired,
+    updatePlayingState: React.PropTypes.func.isRequired,
     timebarId: React.PropTypes.string.isRequired,
     verticalScroll: React.PropTypes.number.isRequired,
+    extUpperBound: React.PropTypes.number.isRequired,
+    timebarMode: React.PropTypes.string.isRequired,
+    playingState: React.PropTypes.string.isRequired,
   }
 
-  state = {
-    mode: 'pause'
+  state = {}
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.onShortcut);
   }
 
   componentDidUpdate() {
     this.timelinesEl.scrollTop = this.props.verticalScroll;
   }
 
+  onShortcut = (e) => {
+    e.stopPropagation();
+    if (this.el.parentElement.querySelector(':hover')) {
+      const { visuWindow, timebarId, onChange, updatePlayingState, playingState } = this.props;
+      const { lower, upper, current } = visuWindow;
+      const { cursorMs } = this.state;
+      switch (e.keyCode) {
+        case 67:
+          if (cursorMs <= current) {
+            onChange(timebarId, { ...visuWindow, lower: cursorMs });
+          }
+          break;
+        case 86:
+          if (cursorMs >= lower && cursorMs <= upper) {
+            onChange(timebarId, { ...visuWindow, current: cursorMs });
+          }
+          break;
+        case 66:
+          if (cursorMs >= current) {
+            onChange(timebarId, { ...visuWindow, upper: cursorMs });
+          }
+          break;
+        case 78:
+          onChange(timebarId, { extUpperBound: cursorMs });
+          break;
+        case 32:
+          updatePlayingState(timebarId, playingState === 'play' ? 'pause' : 'play');
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
   onMouseDown = (e) => {
     if (e.target.tagName === 'SPAN') return e.stopPropagation();
 
-    const { visuWindow, slideWindow } = this.props;
+    const { visuWindow, slideWindow, extUpperBound } = this.props;
+    const { state } = this;
     this.setState({
       dragging: true,
       resizing: false,
       navigating: false,
       cursorOriginX: e.pageX,
-      dragOriginLower: this.state.lower || visuWindow.lower,
-      dragOriginUpper: this.state.upper || visuWindow.upper,
-      dragOriginCurrent: this.state.current || visuWindow.current,
+      dragOriginLower: state.lower || visuWindow.lower,
+      dragOriginUpper: state.upper || visuWindow.upper,
+      dragOriginCurrent: state.current || visuWindow.current,
+      dragOriginExtUpperBound: state.extUpperBound || extUpperBound,
       slideLower: slideWindow.lower,
       slideUpper: slideWindow.upper
     });
@@ -52,12 +94,14 @@ export default class Timebar extends Component {
   onMouseUp = (e) => {
     e.preventDefault();
     const { visuWindow, slideWindow, onChange, timebarId } = this.props;
+    const { state } = this;
 
-    const lower = this.state.lower || visuWindow.lower;
-    const upper = this.state.upper || visuWindow.upper;
-    const current = this.state.current || visuWindow.current;
-    const slideLower = this.state.slideLower || slideWindow.lower;
-    const slideUpper = this.state.slideUpper || slideWindow.upper;
+    const lower = state.lower || visuWindow.lower;
+    const upper = state.upper || visuWindow.upper;
+    const current = state.current || visuWindow.current;
+    const slideLower = state.slideLower || slideWindow.lower;
+    const slideUpper = state.slideUpper || slideWindow.upper;
+    const extUpperBound = state.extUpperBound || this.props.extUpperBound;
 
     this.setState({
       dragging: false,
@@ -68,7 +112,8 @@ export default class Timebar extends Component {
       upper: null,
       current: null,
       slideLower: null,
-      slideUpper: null
+      slideUpper: null,
+      extUpperBound: null
     });
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
@@ -81,7 +126,8 @@ export default class Timebar extends Component {
         slideWindow: {
           lower: slideLower,
           upper: slideUpper,
-        }
+        },
+        extUpperBound: Math.trunc(extUpperBound)
       }
     );
   }
@@ -90,15 +136,16 @@ export default class Timebar extends Component {
     e.preventDefault();
     e.stopPropagation();
     const { visuWindow, slideWindow } = this.props;
+    const { state } = this;
     const {
-      cursorOriginX, dragging, resizing, dragOriginLower,
-      dragOriginUpper, resizeOrigin, resizeCursor,
+      cursorOriginX, dragging, resizing, dragOriginLower, dragNavigating,
+      dragOriginUpper, resizeOrigin, resizeCursor, dragOriginExtUpperBound,
       navigating, dragOriginCurrent
-    } = this.state;
-    const lower = this.state.lower || visuWindow.lower;
-    const upper = this.state.upper || visuWindow.upper;
-    const slideLower = this.state.slideLower || slideWindow.lower;
-    const slideUpper = this.state.slideUpper || slideWindow.upper;
+    } = state;
+    const lower = state.lower || visuWindow.lower;
+    const upper = state.upper || visuWindow.upper;
+    const slideLower = state.slideLower || slideWindow.lower;
+    const slideUpper = state.slideUpper || slideWindow.upper;
 
     const viewportMsWidth = slideUpper - slideLower;
     if (dragging) {
@@ -132,7 +179,7 @@ export default class Timebar extends Component {
         this.setState({
           dragNavigatingOffset: offsetRel,
         });
-        if (!this.state.dragNavigating) {
+        if (!dragNavigating) {
           this.setState({
             dragNavigating: true,
           });
@@ -142,15 +189,18 @@ export default class Timebar extends Component {
         this.setState({ dragNavigating: false });
       }
 
-      const moved = (e.pageX - cursorOriginX) / this.el.clientWidth;
-      const lowerPosMs = dragOriginLower + (viewportMsWidth * moved);
-      const upperPosMs = dragOriginUpper + (viewportMsWidth * moved);
-      const currentPosMs = dragOriginCurrent + (viewportMsWidth * moved);
+      const movedPercent = (e.pageX - cursorOriginX) / this.el.clientWidth;
+      const movedMs = viewportMsWidth * movedPercent;
+      const lowerPosMs = dragOriginLower + movedMs;
+      const upperPosMs = dragOriginUpper + movedMs;
+      const currentPosMs = dragOriginCurrent + movedMs;
+      const extUpperBoundPosMs = dragOriginExtUpperBound + movedMs;
 
       this.setState({
         lower: lowerPosMs,
         upper: upperPosMs,
-        current: currentPosMs
+        current: currentPosMs,
+        extUpperBound: extUpperBoundPosMs
       });
     } else if (resizing) {
       const movedPx = (e.pageX - cursorOriginX);
@@ -176,9 +226,11 @@ export default class Timebar extends Component {
           cursorPosMs = upper + 2000;
         }
         this.setState({ upper: cursorPosMs });
+      } else if (resizeCursor === 'extUpperBound') {
+        this.setState({ extUpperBound: cursorPosMs });
       }
     } else if (navigating) {
-      const current = this.state.current || visuWindow.current;
+      const current = state.current || visuWindow.current;
       const movedPx = (e.pageX - cursorOriginX);
       const viewportWidthPx = this.el.clientWidth;
       const movedMs = (movedPx / viewportWidthPx) * viewportMsWidth;
@@ -192,14 +244,12 @@ export default class Timebar extends Component {
         cursorPosMs = visuWindow.upper;
       }
 
-      this.setState({
-        current: cursorPosMs
-      });
+      this.setState({ current: cursorPosMs });
     }
   }
 
   onMouseDownResize = (e) => {
-    const { visuWindow } = this.props;
+    const { visuWindow, extUpperBound } = this.props;
     const cursor = e.target.getAttribute('cursor');
     this.setState({
       resizing: true,
@@ -207,7 +257,7 @@ export default class Timebar extends Component {
       navigating: false,
       resizeCursor: cursor,
       cursorOriginX: e.pageX,
-      resizeOrigin: this.state[cursor] || visuWindow[cursor]
+      resizeOrigin: visuWindow[cursor] || extUpperBound
     });
 
     document.addEventListener('mousemove', this.onMouseMove);
@@ -305,6 +355,12 @@ export default class Timebar extends Component {
     }
   }
 
+  componentDidUnmount() {
+    document.removeEventListener('keydown', this.onShortcut);
+    document.removeEventListener('mousemove', this.onMouseMove);
+    document.removeEventListener('mouseup', this.onMouseUp);
+  }
+
   autoUpdateSlideWindow = () => {
     const { timebarId, onChange } = this.props;
     const { slideLower, slideUpper } = this.state;
@@ -337,6 +393,7 @@ export default class Timebar extends Component {
     const offsetPx = e.pageX - this.el.getBoundingClientRect().left;
     const cursorMs = lower + ((upper - lower) * (offsetPx / this.el.offsetWidth));
     this.setState({
+      cursorMs,
       formatedFullDate: moment(cursorMs).format('D MMMM YYYY HH[:]mm[:]ss[.]SSS')
     });
   }
@@ -418,26 +475,41 @@ export default class Timebar extends Component {
   bringCursors = (e) => {
     e.preventDefault();
     const { visuWindow, slideWindow, onChange, timebarId } = this.props;
-    const newLower = slideWindow.lower + ((visuWindow.upper - visuWindow.lower) / 2);
-    const newUpper = slideWindow.upper - ((visuWindow.upper - visuWindow.lower) / 2);
-    const newCurrent = (newLower + newUpper) / 2;
-    onChange(
-      timebarId,
-      {
-        lower: newLower,
-        upper: newUpper,
-        current: newCurrent,
-      }
-    );
+
+    if (e.currentTarget.getAttribute('cursor') === 'extUpperBound') {
+      const { lower, upper } = visuWindow;
+      onChange(
+        timebarId,
+        {
+          extUpperBound: upper + ((upper - lower) / 4)
+        }
+      );
+    } else {
+      const slideWindowWidthMs = slideWindow.upper - slideWindow.lower;
+      const newLower = slideWindow.lower + (slideWindowWidthMs * (5 / 12));
+      const newUpper = slideWindow.lower + (slideWindowWidthMs * (7 / 12));
+      const newCurrent = (newLower + newUpper) / 2;
+      const newExtUpperBound = newUpper + (slideWindowWidthMs / 16);
+      onChange(
+        timebarId,
+        {
+          lower: newLower,
+          upper: newUpper,
+          current: newCurrent,
+          extUpperBound: newExtUpperBound
+        }
+      );
+    }
   }
 
   calculate = () => {
     const { visuWindow, slideWindow } = this.props;
 
-    let { lower, upper, current } = this.state;
+    let { lower, upper, current, extUpperBound } = this.state;
     lower = lower || visuWindow.lower || ((new Date().getTime()) - (1000 * 60 * 48));
     upper = upper || visuWindow.upper || ((new Date().getTime()) + (1000 * 60 * 48));
     current = current || visuWindow.current || (lower + upper) / 2;
+    extUpperBound = extUpperBound || this.props.extUpperBound || upper + ((upper - lower) / 4);
 
     let { slideLower, slideUpper } = this.state;
     slideLower = slideLower || slideWindow.lower || lower - ((upper - lower) * 2);
@@ -446,21 +518,22 @@ export default class Timebar extends Component {
     const selectedMsWidth = upper - lower;
     const selectedPercentWidth = (100 * selectedMsWidth) / (slideUpper - slideLower);
     const lowerPercentOffset = (100 * (lower - slideLower)) / (slideUpper - slideLower);
+    const extUpperPercentOffset = (100 * (extUpperBound - slideLower)) / (slideUpper - slideLower);
     const currentPercentOffset = (100 * (current - lower)) / (upper - lower);
 
     return {
       selectedMsWidth,
       selectedPercentWidth,
       lowerPercentOffset,
-      currentPercentOffset
+      currentPercentOffset,
+      extUpperPercentOffset
     };
   }
 
   render() {
-    const { visuWindow, slideWindow, timelines, displayTimesetter } = this.props;
-    const {
-        dragging, resizing, formatedFullDate
-    } = this.state;
+    const { visuWindow, slideWindow, timelines, displayTimesetter,
+      timebarMode, extUpperBound } = this.props;
+    const { dragging, resizing, formatedFullDate } = this.state;
     const { state } = this;
 
     const lower = state.lower || visuWindow.lower;
@@ -471,7 +544,6 @@ export default class Timebar extends Component {
 
     const calc = this.calculate();
 
-    let arrowRight;
     let arrowLeft;
     if (upper <= slideLower) {
       arrowLeft = (
@@ -481,11 +553,29 @@ export default class Timebar extends Component {
         </div>
       );
     }
+    let arrowRight;
     if (lower >= slideUpper) {
       arrowRight = (
         <div>
           <button title="Navigate to current cursor" className={classnames('btn', 'btn-sm', 'btn-primary', styles.arrowRight)} onClick={this.rePosition.bind(null, 'right')} />
           <button title="Bring cursors in the viewport" className={classnames('btn', 'btn-sm', 'btn-primary', styles.arrowRight, styles.arrowRightBring)} onClick={this.bringCursors} />
+        </div>
+      );
+    }
+
+    let bringExtUpperBound;
+    if (!arrowRight && !arrowLeft &&
+      (extUpperBound < slideLower || extUpperBound > slideUpper)) {
+      bringExtUpperBound = (
+        <div>
+          <button
+            cursor="extUpperBound"
+            title="Bring the exterior cursor near the upper cursor"
+            className={classnames('btn', 'btn-sm', 'btn-primary', styles.arrowExt)}
+            onClick={this.bringCursors}
+          >
+            EXT
+          </button>
         </div>
       );
     }
@@ -502,7 +592,7 @@ export default class Timebar extends Component {
           onWheel={this.onWheel}
           onDoubleClick={displayTimesetter}
         >
-          { arrowLeft }{ arrowRight }
+          { arrowLeft }{ arrowRight }{ bringExtUpperBound }
           <span className={styles.slideLower}>{this.formatDate(slideLower)}</span>
           <span className={styles.slideUpper}>{this.formatDate(slideUpper)}</span>
           <div
@@ -547,6 +637,15 @@ export default class Timebar extends Component {
             </span>
             <span className={styles.upperFormattedTime}>{this.formatDate(upper, true)}</span>
           </div>
+          <span
+            cursor="extUpperBound"
+            style={{
+              left: `${calc.extUpperPercentOffset}%`
+            }}
+            className={classnames(styles.extUpperBound, { hidden: timebarMode !== 'Extensible' })}
+            onMouseDown={this.onMouseDownResize}
+            onDoubleClick={displayTimesetter}
+          />
           <div
             ref={(el) => { this.timelinesEl = el; }}
             className={styles.timelines}

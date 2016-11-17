@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "postinstall": "npm link ../../../../../common/src/main/js/common/",
     "build-primus-client": "node ./bin/buildPrimusClient",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha \"lib/**/*.spec.js\" -- -R spec",
     "lint": "eslint lib test *.js",

@@ -13,5 +13,9 @@ if __name__ == '__main__':
         "workspace",
         help="The FMD path of the workspace to open"
     )
+    parser.add_argument("--debug","-d",
+        action='store_true',
+        help="Activate the traces in /var/log/isis folder"
+    )
     exit(GPCCHS(parser.parse_args()).run())
     # End of user code

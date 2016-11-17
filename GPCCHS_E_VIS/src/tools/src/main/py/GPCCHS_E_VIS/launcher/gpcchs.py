@@ -58,8 +58,10 @@ class GPCCHS(object):
     _startContainerCmd = 'gpcctc_l_cnt_isisStartContainer_cmd -p {0} --cd {1}{0}'
     _hssPath = '/usr/share/isis/lib/js/gpcchs_e_vis_launcher/server'
     _hssRunCmd = 'node --max_old_space_size=8000 index'
+    _hssLogPath = '/var/log/isis/GPCCHS_E_VIS_server.log'
     _hscPath = '/usr/share/isis/lib/js/gpcchs_e_vis_launcher/client'
-    _hscRunCmd = './lpisis_gpcchs_e_clt --HSS=http://127.0.0.1:{} --FMD_ROOT=$FMD_ROOT_DIR --OPEN={} --PROFILING=off'
+    _hscRunCmd = './lpisis_gpcchs_e_clt --HSS=http://127.0.0.1:{} --FMD_ROOT={} --OPEN={} --PROFILING=off'
+    _hscLogPath = '/var/log/isis/GPCCHS_E_VIS_client.log'
 
     @property
     def _hss_run_cmd(self):
@@ -81,6 +83,7 @@ class GPCCHS(object):
         """
         return self._hscRunCmd.format(
             self._hssPort,
+            self._fmd_root,
             self._workspace
         ).split()
 
@@ -159,7 +162,15 @@ class GPCCHS(object):
         self._fmdRoot = None
         self._feature_id = None
         self.__container_pid = None
-        self._workspace = options.workspace
+        if options.workspace.rfind('/') != -1:
+            self._workspace = options.workspace[options.workspace.rfind('/')+1:]
+            self._fmd_root = os.environ['FMD_ROOT_DIR'] + '/' + options.workspace[:options.workspace.rfind('/')+1]
+        else:
+            self._workspace = options.workspace
+            self._fmd_root = os.environ['FMD_ROOT_DIR'] + '/'
+        self._debug = options.debug
+        self._hscLogFile = None
+        self._hssLogFile = None
         # End of user code
 
     def __del__(self):
@@ -179,6 +190,9 @@ class GPCCHS(object):
         self._tbPullPort = None
         self._fmdRoot = None        
         self._workspace = None
+        self._debug = None
+        self._hscLogFile = None
+        self._hssLogFile = None
         self._feature_id = None
         self.__container_pid = None
         # End of user code
@@ -191,7 +205,7 @@ class GPCCHS(object):
         :return: Zero if success, -1 if error
         :rtype: integer
         """
-
+        rc = 0
         def extract_eid(stdout):
             """
             Extract through regex the EID from ccreate command
@@ -212,8 +226,8 @@ class GPCCHS(object):
             print('Feature instance created under ID {}.'.format(self._feature_id))
         except subprocess.CalledProcessError as error:
             print("GPCCHS Launcher Feature creation process error:", error)
-            return -1
-        return 0
+            rc = -1
+        return rc
 
     def _activate_feature(self):
         """
@@ -222,6 +236,7 @@ class GPCCHS(object):
         :return: Zero if success, -1 if error
         :rtype: integer
         """
+        rc = 0
         try:
             print('Activating feature ID {}...'.format(self._feature_id))
             print("GPCCHS launcher execute: ",' '.join(self._cactivate_cmd))            
@@ -238,8 +253,8 @@ class GPCCHS(object):
                         raise IsisContainerError(std)
         except subprocess.CalledProcessError as error:
             print("GPCCHS Launcher Feature activation process error:", error)
-            return -1
-        return 0
+            rc = -1
+        return rc
 
     def _start_feature(self):
         """
@@ -248,6 +263,7 @@ class GPCCHS(object):
         :return: Zero if success, -1 if error
         :rtype: integer
         """
+        rc = 0
         try:
             print('Starting feature ID {}...'.format(self._feature_id))
             print("GPCCHS launcher execute: ",' '.join(self._cstart_cmd))
@@ -264,8 +280,8 @@ class GPCCHS(object):
                         raise IsisContainerError(std)
         except subprocess.CalledProcessError as error:
             print("GPCCHS Launcher Feature start process error:", error)
-            return -1
-        return 0
+            rc = -1
+        return rc
 
     def _exec_cmd(self, cmd, stdstreams):
         """
@@ -278,7 +294,6 @@ class GPCCHS(object):
         :return: Command return code or None if command subprocess creation failed
         :rtype: integer
         """
-        proc = None
         try:
             print('Executing command : {}'.format(cmd))
             proc = subprocess.Popen(
@@ -295,7 +310,7 @@ class GPCCHS(object):
             return None
         return proc.returncode
 
-    def _run_process(self, cmd):
+    def _run_process(self, cmd, logFile=None):
         """
         Run a process
         
@@ -307,20 +322,32 @@ class GPCCHS(object):
         proc = None
         try:
             print('Running command : {}'.format(cmd))
-            proc = subprocess.Popen(
-                cmd.split(),
-                env=os.environ,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE
-            )
+            if logFile:
+                proc = subprocess.Popen(
+                        cmd.split(),
+                        env=os.environ,
+                        stdout=logFile,
+                        stderr=logFile
+                    )
+            else:
+                proc = subprocess.Popen(
+                    cmd.split(),
+                    env=os.environ,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE
+                )
         except subprocess.CalledProcessError as error:
             print("GPCCHS Launcher Process creation error:", error)
-            return proc
         return proc
     
     def _read_ports_numbers(self,filepath,portslist):
         """
         Read and return a list of port from a given file
+        
+        :param filepath: Path of the file in which ports numbers shall be read
+        :type cmd: string
+        :param portslist: List to which append the read ports numbers
+        :type cmd: string list
         """
         try:
             readFile = open(filepath,'r')
@@ -330,6 +357,20 @@ class GPCCHS(object):
             for line in readFile.readlines():
                 portslist.append(line.strip('\n \t'))
             readFile.close()
+            
+    def _open_log_file(self,filepath):
+        """
+        Open a log file to append process output in it
+        
+        :return: Opened file object or None if opening fail
+        :rtype: file object
+        """
+        readFile = None
+        try:
+            readFile = open(filepath,'a')
+        except IOError:
+            print("GPCCHS Log file opening fail:",filepath)
+        return readFile
 
     def _create_hss_env_vars(self):
         """
@@ -378,17 +419,19 @@ class GPCCHS(object):
                         rc = self._activate_feature()
                     if rc == 0 and self._feature_id:
                         rc = self._start_feature()
+                    if self._debug == True:
+                        self._hscLogFile = self._open_log_file(self._hscLogPath)
+                        self._hssLogFile = self._open_log_file(self._hssLogPath)
                     if rc == 0:
                         os.chdir(self._hssPath)
                         self._create_hss_env_vars()
-                        self._hssProc = self._run_process(' '.join(self._hss_run_cmd))
+                        self._hssProc = self._run_process(' '.join(self._hss_run_cmd),self._hssLogFile)
                     if self._hssProc != None:
                         os.chdir(self._hscPath)
-                        self._hscProc = self._run_process(' '.join(self._hsc_run_cmd))
+                        self._hscProc = self._run_process(' '.join(self._hsc_run_cmd),self._hscLogFile)
                     if self._hssProc != None:
                         print("GPCCHS Successfully started")
                         self._hssProc.wait()
-                    
         return rc
 
 if __name__ == '__main__':
@@ -399,6 +442,10 @@ if __name__ == '__main__':
     parser.add_argument(
         "workspace",
         help="The FMD path of the workspace to open"
+    )
+    parser.add_argument("--debug","-d",
+        action='store_true',
+        help="Activate the traces in /var/log/isis folder"
     )
     exit(GPCCHS(parser.parse_args()).run())
     # End of user code

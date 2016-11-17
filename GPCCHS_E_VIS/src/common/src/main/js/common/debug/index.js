@@ -1,6 +1,4 @@
 /* eslint no-console:0 */
-// eslint-disable-next-line no-underscore-dangle
-const _noop = require('lodash/noop');
 
 const ERROR = 'ERROR';
 const WARN = 'WARN';
@@ -19,11 +17,31 @@ module.exports = debug => (namespace) => {
   }
   if (process.env.NODE_ENV === 'production') {
     return {
-      error: (...args) => console.error(`[${debugNamespace}]`, ...args),
-      warn: (...args) => console.warn(`[${debugNamespace}]`, ...args),
-      info: (...args) => console.log(`[${debugNamespace}]`, ...args),
-      debug: () => _noop(),
-      verbose: () => _noop(),
+      error: (...args) => {
+        if ([VERBOSE, DEBUG, INFO, WARN, ERROR].indexOf(level) !== -1) {
+          console.error(`[${debugNamespace}]`, ...args);
+        }
+      },
+      warn: (...args) => {
+        if ([VERBOSE, DEBUG, INFO, WARN].indexOf(level) !== -1) {
+          console.warn(`[${debugNamespace}]`, ...args);
+        }
+      },
+      info: (...args) => {
+        if ([VERBOSE, DEBUG, INFO].indexOf(level) !== -1) {
+          console.info(`[${debugNamespace}]`, ...args);
+        }
+      },
+      debug: (...args) => {
+        if ([VERBOSE, DEBUG].indexOf(level) !== -1) {
+          console.log(`[${debugNamespace}]`, ...args);
+        }
+      },
+      verbose: (...args) => {
+        if ([VERBOSE].indexOf(level) !== -1) {
+          console.log(`[${debugNamespace}]`, ...args);
+        }
+      },
     };
   }
 

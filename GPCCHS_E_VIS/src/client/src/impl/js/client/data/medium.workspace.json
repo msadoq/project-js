@@ -6,7 +6,7 @@
       "title": "Medium workspace",
       "pages": [
         {
-          "path": "./pages/pageMiddle.json",
+          "path": "./pages/pageCommande.json",
           "timeBarId": "TB1"
         }
       ],
@@ -46,7 +46,7 @@
             "id": "Session 1",
             "offset": 0,
             "kind": "Session",
-            "sessionId": 0
+            "sessionId": 1
           }
         ],
         "masterId": "Session 1"

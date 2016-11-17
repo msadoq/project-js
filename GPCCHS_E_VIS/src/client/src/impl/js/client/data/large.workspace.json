@@ -50,7 +50,7 @@
           "id": "Session 1",
           "offset": 0,
           "kind": "Session",
-          "sessionId": 0
+          "sessionId": 1
         }
       ],
       "masterId": "Session 1"

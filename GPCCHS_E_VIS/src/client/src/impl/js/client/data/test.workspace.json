@@ -3,10 +3,10 @@
   "windows": [
     {
       "type": "documentWindow",
-      "title": "Small workspace",
+      "title": "Test workspace",
       "pages": [
         {
-          "path": "./pages/pageSmall.json",
+          "path": "./pages/pageTest.json",
           "timeBarId": "TB1"
         }
       ],

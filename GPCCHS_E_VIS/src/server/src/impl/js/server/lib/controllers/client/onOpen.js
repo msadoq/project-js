@@ -6,5 +6,5 @@ const debug = require('../../io/debug')('controllers:onOpen');
  * @param spark
  */
 module.exports = (spark) => {
-  debug.info(`called (${spark.id})`);
+  debug.verbose(`called (${spark.id})`);
 };

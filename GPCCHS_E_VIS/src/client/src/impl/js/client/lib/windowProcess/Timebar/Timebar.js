@@ -6,6 +6,10 @@ import styles from './Timebar.css';
 import TimebarScale from './TimebarScale';
 import TimebarTimeline from './TimebarTimeline';
 
+// 1980-01-01
+const minSlideLower = 315532800000;
+// 2040-01-01
+const maxSlideUpper = 2208988800000;
 
 export default class Timebar extends Component {
 
@@ -32,6 +36,12 @@ export default class Timebar extends Component {
 
   componentDidUpdate() {
     this.timelinesEl.scrollTop = this.props.verticalScroll;
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.onShortcut);
+    document.removeEventListener('mousemove', this.onMouseMove);
+    document.removeEventListener('mouseup', this.onMouseUp);
   }
 
   onShortcut = (e) => {
@@ -335,6 +345,7 @@ export default class Timebar extends Component {
   }
 
   onTimescaleNavigate = (slideLower, slideUpper, save) => {
+    if (slideLower < minSlideLower || slideUpper > maxSlideUpper) return;
     if (save) {
       const { timebarId, onChange } = this.props;
       this.setState({
@@ -353,12 +364,6 @@ export default class Timebar extends Component {
     } else {
       this.setState({ slideLower, slideUpper });
     }
-  }
-
-  componentDidUnmount() {
-    document.removeEventListener('keydown', this.onShortcut);
-    document.removeEventListener('mousemove', this.onMouseMove);
-    document.removeEventListener('mouseup', this.onMouseUp);
   }
 
   autoUpdateSlideWindow = () => {
@@ -406,9 +411,15 @@ export default class Timebar extends Component {
 
     if (dragNavigating) {
       const offsetMs = viewportMsWidth / dragNavigatingOffset;
+      const newSlideLower = slideLower + offsetMs;
+      const newSlideUpper = slideUpper + offsetMs;
+      if (newSlideLower < minSlideLower || newSlideUpper > maxSlideUpper) {
+        setTimeout(this.dragNavigate, 60);
+        return;
+      }
       this.setState({
-        slideLower: slideLower + offsetMs,
-        slideUpper: slideUpper + offsetMs,
+        slideLower: newSlideLower,
+        slideUpper: newSlideUpper,
         cursorOriginX: cursorOriginX - (this.el.clientWidth / dragNavigatingOffset),
         lower: lower + offsetMs,
         upper: upper + offsetMs,

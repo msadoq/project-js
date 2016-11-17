@@ -1,15 +1,19 @@
 import { connect } from 'react-redux';
+import React from 'react';
 import { updateVisuWindow, addAndMountTimeline, unmountTimeline,
   updatePlayingState, updateSpeed, updateMasterId, updateMode } from '../../store/actions/timebars';
 import { updateId, updateOffset } from '../../store/actions/timelines';
 import { getWindowFocusedPageSelector } from '../../store/selectors/windows';
 import { getTimebar, getTimebarTimelinesSelector } from '../../store/selectors/timebars';
 import TimebarWrapper from './TimebarWrapper';
+import SelectTimebar from './SelectTimebar';
 
 export default connect(
   (state, { windowId }) => {
     const { timebarId } = getWindowFocusedPageSelector(state, windowId);
     const timebar = getTimebar(state, timebarId);
+
+    if (!timebar) return { timebars: state.timebars };
 
     const timelines = getTimebarTimelinesSelector(state, timebarId);
     const masterTimeline = (timelines[0] && timelines[0].id === timebar.masterId) ?
@@ -45,4 +49,4 @@ export default connect(
     updateSpeedAction: updateSpeed
   }
 
-)(TimebarWrapper);
+)(props => (props.timebar ? <TimebarWrapper {...props} /> : <SelectTimebar {...props} />));

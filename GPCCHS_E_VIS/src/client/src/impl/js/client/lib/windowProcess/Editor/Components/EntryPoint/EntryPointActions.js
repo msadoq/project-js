@@ -3,6 +3,8 @@ import { Glyphicon, FormGroup, InputGroup, FormControl, Button, Col } from 'reac
 import classnames from 'classnames';
 import styles from './EntryPointActions.css';
 
+const { Addon } = InputGroup;
+
 /*
   EntryPointActions représente la barre des actions qui peuvent être effectuées sur les entryPoints.
     - Une barre de recherche pour filtrer les entryPoint en fonction de leurs nom.
@@ -41,9 +43,9 @@ export default class EntryPointActions extends React.Component {
           <Col xs={8} className={styles.noPadding}>
             <InputGroup>
               <FormControl type="text" onChange={this.searchName} />
-              <InputGroup.Addon>
+              <Addon>
                 <Glyphicon glyph="search" />
-              </InputGroup.Addon>
+              </Addon>
             </InputGroup>
           </Col>
           <Col xs={4} className={classnames(styles.noPadding, 'text-right')}>

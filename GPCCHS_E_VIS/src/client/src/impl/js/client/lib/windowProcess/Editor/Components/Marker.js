@@ -8,6 +8,8 @@ import SelectButton from './Buttons/SelectButton';
 import ColorPicker from './ColorPicker';
 import select from './Select.css';
 
+const { Addon } = InputGroup;
+
 export default class Marker extends React.Component {
   static propTypes = {
     idAxe: PropTypes.number,
@@ -201,7 +203,7 @@ export default class Marker extends React.Component {
                         value={relPosX}
                         onChange={this.handleRelPosX}
                       />
-                      <InputGroup.Addon className={styles.addon}>%</InputGroup.Addon>
+                      <Addon className={styles.addon}>%</Addon>
                     </InputGroup>
                   </Col>
                 </FormGroup>
@@ -220,7 +222,7 @@ export default class Marker extends React.Component {
                         value={relPosY}
                         onChange={this.handleRelPosY}
                       />
-                      <InputGroup.Addon className={styles.addon}>%</InputGroup.Addon>
+                      <Addon className={styles.addon}>%</Addon>
                     </InputGroup>
                   </Col>
                 </FormGroup>

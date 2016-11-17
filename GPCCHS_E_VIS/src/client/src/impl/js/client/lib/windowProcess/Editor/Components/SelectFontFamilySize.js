@@ -3,6 +3,8 @@ import { Col, FormControl, InputGroup } from 'react-bootstrap';
 import styles from './SelectFontFamilySize.css';
 import select from './Select.css';
 
+const { Addon } = InputGroup;
+
 /*
   SelectFontFamilysize permet de selectionner une police et une taille de caracteres.
   Le composant attend une propriété "update" qui est une fonction à 2 parametres.
@@ -46,7 +48,7 @@ export default class SelectFontFamilySize extends React.Component {
               <option value="14">14</option>
               <option value="16">16</option>
             </FormControl>
-            <InputGroup.Addon className={styles.addon}>px</InputGroup.Addon>
+            <Addon className={styles.addon}>px</Addon>
           </InputGroup>
         </Col>
       </div>

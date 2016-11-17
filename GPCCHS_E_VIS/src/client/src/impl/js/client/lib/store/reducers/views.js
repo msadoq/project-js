@@ -87,6 +87,8 @@ export default function views(stateViews = {}, action) {
       return addElementInArray(stateViews, action, 'procedures', 'procedure');
     case types.WS_VIEW_REMOVE_PROCEDURE:
       return removeElementInArray(stateViews, action, 'procedures');
+    case types.WS_CLOSE_WORKSPACE:
+      return {};
     default:
       return stateViews;
   }

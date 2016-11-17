@@ -26,6 +26,8 @@ export default function timebars(stateTimebars = {}, action) { // TODO test
         ...stateTimebars,
         [payload.timebarId]: timebar(stateTimebars[payload.timebarId], action),
       };
+    case types.WS_CLOSE_WORKSPACE:
+      return {};
     default:
       return stateTimebars;
   }

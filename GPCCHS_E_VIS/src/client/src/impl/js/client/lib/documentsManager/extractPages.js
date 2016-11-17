@@ -43,20 +43,25 @@ function findWindowPagesAndReplaceWithUuid(window, timebars) {
   }, []);
 }
 
-function readPages(folder, pagesToRead, cb) {
+export function readPages(folder, pagesToRead, cb) {
   async.reduce(pagesToRead, [], (list, identity, fn) => {
-    let filepath = identity.path || identity.oId;
-    // TODO: if oId defined, ask FMD to get path
-    if (!_startsWith(filepath, '/')) {
-      // relative path from workspace folder
-      filepath = join(folder, filepath);
+    let filepath;
+    if (!folder || identity.absolutePath) {
+      filepath = identity.absolutePath;
     } else {
-      try {
-        fsNode.accessSync(join(root, filepath), fsNode.constants.F_OK);
-        // FMD path
-        filepath = join(root, filepath);
-      } catch (e) {
-        // path is already absolute
+      filepath = identity.path || identity.oId;
+      // TODO: if oId defined, ask FMD to get path
+      if (!_startsWith(filepath, '/')) {
+        // relative path from workspace folder
+        filepath = join(folder, filepath);
+      } else {
+        try {
+          fsNode.accessSync(join(root, filepath), fsNode.constants.F_OK);
+          // FMD path
+          filepath = join(root, filepath);
+        } catch (e) {
+          // path is already absolute
+        }
       }
     }
     fs.readJsonFromAbsPath(filepath, (err, pageContent) => {

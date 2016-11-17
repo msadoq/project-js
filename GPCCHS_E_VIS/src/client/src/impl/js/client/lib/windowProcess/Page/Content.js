@@ -20,10 +20,10 @@ const filterLayoutBlockFields = [
   'static',
 ];
 
-export default class PageContent extends Component {
+export default class Content extends Component {
   static propTypes = {
     focusedPageId: PropTypes.string.isRequired,
-    timebarId: PropTypes.string.isRequired,
+    timebarId: PropTypes.string,
     layouts: PropTypes.object.isRequired,
     views: PropTypes.array,
     viewOpenedInEditor: PropTypes.string,
@@ -41,7 +41,7 @@ export default class PageContent extends Component {
 
     const newLayout = layout.map(block => _omit(block, filterLayoutBlockFields));
     this.props.updateLayout(newLayout);
-  }
+  };
 
   cols = { lg: 12 };
   breakpoints = { lg: 1200 };

@@ -20,6 +20,8 @@ export default function windows(stateWindows = {}, action) {
       };
     case types.WS_WINDOW_REMOVE:
       return _.omit(stateWindows, [action.payload.windowId]);
+    case types.WS_CLOSE_WORKSPACE:
+      return {};
     default:
       return stateWindows;
   }

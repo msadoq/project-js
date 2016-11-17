@@ -11,6 +11,8 @@ export default function workspace(stateWorkspace = {}, action) {
       }
       // Update all relative path
       return { ...stateWorkspace, folder: action.payload.folder, file: action.payload.file };
+    case types.WS_CLOSE_WORKSPACE:
+      return {};
     default:
       return stateWorkspace;
   }

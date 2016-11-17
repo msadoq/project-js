@@ -42,6 +42,8 @@ export default function pages(statePages = {}, action) {
       const pathMvt = relative(newWkFolder, oldPath);
       return u({ [action.payload.pageId]: { path: pathMvt } }, statePages);
     }
+    case types.WS_CLOSE_WORKSPACE:
+      return {};
     default:
       return statePages;
   }

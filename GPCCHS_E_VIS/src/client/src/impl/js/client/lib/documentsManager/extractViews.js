@@ -45,17 +45,22 @@ function findPageViewsAndReplaceWithUuid(page) {
 
 function readViews(viewsToRead, cb) {
   async.reduce(viewsToRead, [], (list, identity, fn) => {
-    let filepath = identity.path || identity.oId;
-    // TODO when oId defined, ask DC (?) to get path
-    if (!_startsWith(filepath, '/')) {
-      // relative path from page folder
-      filepath = join(identity.pageFolder, filepath);
+    let filepath;
+    if (identity.absolutePath) {
+      filepath = identity.absolutePath;
     } else {
-      try {
-        fsNode.accessSync(join(root, filepath), fsNode.constants.F_OK);
-        filepath = join(root, filepath);
-      } catch (e) {
-        // already absolute path
+      filepath = identity.path || identity.oId;
+      // TODO when oId defined, ask DC (?) to get path
+      if (!_startsWith(filepath, '/')) {
+        // relative path from page folder
+        filepath = join(identity.pageFolder, filepath);
+      } else {
+        try {
+          fsNode.accessSync(join(root, filepath), fsNode.constants.F_OK);
+          filepath = join(root, filepath);
+        } catch (e) {
+          // already absolute path
+        }
       }
     }
     fs.readJsonFromAbsPath(filepath, (err, viewContent) => {
@@ -84,9 +89,8 @@ function readViews(viewsToRead, cb) {
         oId: identity.oId,
         uuid: identity.uuid,
         absolutePath: filepath,
-        // geometry: identity.geometry,
+        geometry: identity.geometry,
       }));
-
       return fn(null, list);
     });
   }, cb);

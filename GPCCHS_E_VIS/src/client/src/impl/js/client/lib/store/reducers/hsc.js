@@ -12,6 +12,8 @@ export default function hsc(state = initialState, action) {
       return Object.assign({}, state, { status: action.payload.status });
     case types.HSC_UPDATE_LAST_CACHE_INVALIDATION:
       return Object.assign({}, state, { lastCacheInvalidation: action.payload.timestamp });
+    case types.HSC_ISWORKSPACE_OPENING:
+      return Object.assign({}, state, { isWorkspaceOpening: action.payload.flag });
     default:
       return state;
   }

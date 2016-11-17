@@ -46,6 +46,7 @@ export default function requests(state = {}, action) {
       };
     }
     case types.DATA_REMOVE_ALL_REQUESTS:
+    case types.WS_CLOSE_WORKSPACE:
       return {};
     default:
       return state;

@@ -1,5 +1,9 @@
 import _each from 'lodash/each';
 import _map from 'lodash/map';
+import path from 'path';
+import { dialog } from 'electron';
+import { v4 } from 'node-uuid';
+
 
 import debug from '../common/debug/mainDebug';
 import parameters from '../common/parameters';
@@ -10,11 +14,12 @@ import { add as addView } from '../store/actions/views';
 import { add as addPage } from '../store/actions/pages';
 import { add as addWindow } from '../store/actions/windows';
 import { updatePath } from '../store/actions/workspace';
-import { onWorkspaceLoaded } from './lifecycle';
 
-const logger = debug('mainProcess:index');
+import { getPathByFilePicker } from './filePicker';
 
-function loadInStore(workspace, dispatch, root, file) {
+const logger = debug('mainProcess:openWorkspace');
+
+export function loadInStore(workspace, dispatch, root, file, callback) {
   // add timelines
   _each(workspace.timelines, e => dispatch(addTimeline(e.uuid, e)));
 
@@ -64,8 +69,9 @@ function loadInStore(workspace, dispatch, root, file) {
   // workspace path
   dispatch(updatePath(root, file));
 
-  // workspace is loaded
-  onWorkspaceLoaded(dispatch);
+  if (typeof callback === 'function') {
+    return callback(null);
+  }
 }
 
 /**
@@ -74,30 +80,95 @@ function loadInStore(workspace, dispatch, root, file) {
  * @param dispatch
  * @param getState
  */
-export default function openWorkspace(dispatch, getState) {
+export default function openWorkspace(dispatch, getState, callback) {
+  const root = parameters.FMD_ROOT;
   if (parameters.OPEN) {
-    const root = parameters.FMD_ROOT;
     const file = parameters.OPEN;
-    // we receive a file to open from the command line
-    readWorkspace(root, file, (err, workspace) => {
-      if (err) {
-        logger.error(err);
-        // TODO : file picker
-        throw new Error('TODO open filepicker');
-      }
-      loadInStore(workspace, dispatch, root, file);
-
-      const state = getState();
-      const count = {
-        w: Object.keys(state.windows).length,
-        p: Object.keys(state.pages).length,
-        v: Object.keys(state.views).length,
-      };
-      logger.info(`${count.w} windows, ${count.p} pages, ${count.v} views`);
-    });
+    readWkFile(dispatch, getState, root, file, callback);
   } else {
+    openDefaultWorkspace(dispatch, root, callback);
     // open the file picker
-    // TODO : file picker
-    throw new Error('TODO open filepicker');
+    // const filePath = getPathByFilePicker(root, 'workspace');
+    // if (!filePath) {
+    // } else {
+    //   readWkFile(dispatch, getState, path.dirname(filePath), path.basename(filePath));
+    // }
   }
+}
+
+export function readWkFile(dispatch, getState, root, file, callback) {
+  // we receive a file to open from the command line
+  readWorkspace(root, file, (err, workspace) => {
+    if (err) {
+      logger.error(err);
+      dialog.showErrorBox('ERROR', err);
+      const filePath = getPathByFilePicker(root, 'workspace');
+      if (filePath) {
+        readWkFile(dispatch, getState, path.dirname(filePath), path.basename(filePath));
+        return;
+      }
+      openDefaultWorkspace(dispatch, root);
+      return;
+    }
+    loadInStore(workspace, dispatch, root, file, callback);
+
+    const state = getState();
+    const count = {
+      w: Object.keys(state.windows).length,
+      p: Object.keys(state.pages).length,
+      v: Object.keys(state.views).length,
+    };
+    logger.info(`${count.w} windows, ${count.p} pages, ${count.v} views`);
+  });
+}
+
+export function openDefaultWorkspace(dispatch, root, callback) {
+  const wsUuid = v4();
+  const tbUuid = v4();
+  const pgUuid = v4();
+  const window = {
+    title: 'Unknown',
+    type: 'documentWindow',
+    focusedPage: pgUuid,
+    pages: [pgUuid],
+    geometry: {
+      w: 1200,
+      h: 900,
+      x: 10,
+      y: 10,
+    }
+  };
+  const timebar = {
+    type: 'timeBarConfiguration',
+    id: 'TB1',
+    mode: 'Normal',
+    visuWindow: {
+      lower: Date.now() - (5 * 60 * 1000),
+      upper: Date.now() + (5 * 60 * 1000),
+      current: Date.now()
+    },
+    slideWindow: {
+      lower: Date.now() - (5 * 60 * 1000),
+      upper: Date.now() + (5 * 60 * 1000),
+    },
+    extUpperBound: Date.now() - (5 * 60 * 1000),
+    rulerStart: Date.now() - (10 * 60 * 1000),
+    rulerResolution: 11250,
+    speed: 1.0,
+    playingState: 'pause',
+    offsetFromUTC: 0,
+    timelines: [],
+  };
+  const page = { type: 'Page',
+    title: 'Unknown',
+    hideBorders: false,
+    timebarId: tbUuid,
+    timeBarId: 'TB1',
+  };
+  const workspace = {
+    windows: { [wsUuid]: Object.assign(window, { uuid: wsUuid }) },
+    timebars: { [tbUuid]: Object.assign(timebar, { uuid: tbUuid }) },
+    pages: { [pgUuid]: Object.assign(page, { uuid: pgUuid }) },
+  };
+  loadInStore(workspace, dispatch, root, undefined, callback);
 }

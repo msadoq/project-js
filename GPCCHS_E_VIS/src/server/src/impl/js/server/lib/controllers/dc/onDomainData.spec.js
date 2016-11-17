@@ -1,16 +1,15 @@
-require('../../utils/test');
+const { testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('../../utils/test');
 const { domainData } = require('./onDomainData');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const dataStub = require('common/stubs/data');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
-const { sendToTestWs, getMessage, resetMessage } = require('../../utils/testWebSocket');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const registeredCallbacks = require('common/callbacks/register');
 
 describe('controllers/dc/onDomainData', () => {
   beforeEach(() => {
-    resetMessage();
+    resetTestHandlerArgs();
   });
 
   it('not queried', () => {
@@ -20,8 +19,8 @@ describe('controllers/dc/onDomainData', () => {
     const myDomain = dataStub.getDomain({ name: 'fr.cnes.sat1.batman' });
     const myDomainProto = dataStub.getDomainProtobuf(myDomain);
     // launch test
-    domainData(sendToTestWs, myQueryIdProto, myDomainProto);
-    getMessage().should.deep.equal({});
+    domainData(testHandler, myQueryIdProto, myDomainProto);
+    getTestHandlerArgs().should.have.lengthOf(0);
   });
 
   it('works', () => {
@@ -32,16 +31,13 @@ describe('controllers/dc/onDomainData', () => {
     const myDomainsProto = dataStub.getDomainsProtobuf(myDomains);
     registeredCallbacks.set(myQueryId, () => {});
     // launch test
-    domainData(sendToTestWs, myQueryIdProto, myDomainsProto);
+    domainData(testHandler, myQueryIdProto, myDomainsProto);
     // check data
-    const domains = getMessage();
-    domains.should.be.an('object');
-    domains.should.have.an.property('event')
-      .that.equal(globalConstants.EVENT_DOMAIN_DATA);
-    domains.should.have.an.property('payload')
-      .that.is.an('array')
+    const wsArgs = getTestHandlerArgs();
+    wsArgs.should.have.lengthOf(3);
+    wsArgs[0].should.equal(globalConstants.EVENT_DOMAIN_DATA);
+    wsArgs[1].should.be.an('array')
       .that.have.properties(myDomains.domains);
-    domains.should.have.an.property('queryId')
-      .that.equal(myQueryId);
+    wsArgs[2].should.equal(myQueryId);
   });
 });

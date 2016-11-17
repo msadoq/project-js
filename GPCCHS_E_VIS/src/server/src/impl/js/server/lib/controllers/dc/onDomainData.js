@@ -1,12 +1,14 @@
 const debug = require('../../io/debug')('controllers:onDomainData');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
-const { sendToMain } = require('../../websocket/sendToMain');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { decode } = require('common/protobuf');
-const { setDomains } = require('../../utils/domains');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const registeredCallbacks = require('common/callbacks/register');
+
+const { setDomains } = require('../../utils/domains');
+const { sendToMain } = require('../../websocket/sendToMain');
+
 
 /**
  * Triggered on DC domain request response.

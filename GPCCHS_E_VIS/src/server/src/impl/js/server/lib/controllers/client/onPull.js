@@ -3,7 +3,7 @@
 const globalConstants = require('common/constants');
 
 const debug = require('../../io/debug')('controllers:onPull');
-const { reset } = require('../../utils/dataQueue');
+const { reset } = require('../../websocket/dataQueue');
 
 /**
  * Triggered when HSC main process pull data spooled by HSC

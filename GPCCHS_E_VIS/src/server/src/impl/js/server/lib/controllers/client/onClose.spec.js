@@ -16,7 +16,7 @@ const {
 
 require('../../utils/test');
 const registeredQueries = require('../../utils/registeredQueries');
-const { add, get } = require('../../utils/dataQueue');
+const { add, get } = require('../../websocket/dataQueue');
 const { setDomains, getDomains } = require('../../utils/domains');
 
 const connectedDataModel = require('../../models/connectedData');

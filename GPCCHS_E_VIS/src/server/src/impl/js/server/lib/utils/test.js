@@ -42,11 +42,12 @@ const shouldBeApiError = (status, title, pointer) => (res) => {
   });
 };
 
-const testPayloads = [];
+
+let testHandlerArgs = [];
 
 const testHandler = (...args) => {
   _each(args, (arg) => {
-    testPayloads.push(arg);
+    testHandlerArgs.push(arg);
   });
 };
 
@@ -60,5 +61,6 @@ module.exports = {
   shouldBeApiError,
   database,
   testHandler,
-  testPayloads,
+  getTestHandlerArgs: () => testHandlerArgs,
+  resetTestHandlerArgs: () => { testHandlerArgs = []; },
 };

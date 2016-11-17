@@ -7,7 +7,6 @@ const _isEqual = require('lodash/isEqual');
 const globalConstants = require('common/constants');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { encode, decode } = require('common/protobuf');
-
 // eslint-disable-next-line import/no-extraneous-dependencies
 const registeredCallbacks = require('common/callbacks/register');
 

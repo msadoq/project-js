@@ -1,16 +1,11 @@
 const { should } = require('../../utils/test');
-const { sendTimebasedArchiveData } = require('./onTimebasedArchiveData');
+const { onTimebasedArchiveData } = require('./onTimebasedArchiveData');
 const registeredQueries = require('../../utils/registeredQueries');
 const connectedDataModel = require('../../models/connectedData');
 const { clearFactory, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const dataStub = require('common/stubs/data');
-const {
-  addToTestQueue,
-  getMessage,
-  resetMessage,
-  flushTestQueue,
-} = require('../../utils/testWebSocket');
+const { get: getQueue, reset: resetQueue } = require('../../websocket/dataQueue');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
 
@@ -26,7 +21,7 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
     registeredQueries.clear();
     connectedDataModel.cleanup();
     clearFactory();
-    resetMessage();
+    resetQueue();
   });
 
   const queryId = 'queryId';
@@ -48,8 +43,7 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
     connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_LAST, remoteId, dataId);
     connectedDataModel.addRequestedInterval(remoteId, queryId, interval);
     // launch test
-    sendTimebasedArchiveData(
-      addToTestQueue,
+    onTimebasedArchiveData(
       queryIdProto,
       dataIdProto,
       isLast,
@@ -71,7 +65,7 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
       });
     const timebasedDataModel = getTimebasedDataModel(remoteId);
     should.not.exist(timebasedDataModel);
-    getMessage().should.deep.equal({});
+    getQueue().should.deep.equal({});
   });
   it('works', () => {
     // init test
@@ -80,8 +74,7 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
     connectedDataModel.addRequestedInterval(remoteId, queryId, interval);
     registeredQueries.set(queryId, remoteId);
     // launch test
-    sendTimebasedArchiveData(
-      addToTestQueue,
+    onTimebasedArchiveData(
       queryIdProto,
       dataIdProto,
       isLast,
@@ -116,14 +109,10 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
       },
     ]);
 
-    flushTestQueue();
-    getMessage().should.have.properties({
-      event: 'timebasedData',
-      payload: {
-        [remoteId]: {
-          [t1]: rp,
-          [t2]: rp,
-        },
+    getQueue().should.have.properties({
+      [remoteId]: {
+        [t1]: rp,
+        [t2]: rp,
       },
     });
   });
@@ -135,8 +124,7 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
     connectedDataModel.addRequestedInterval(remoteId, queryId, interval);
     registeredQueries.set(queryId, remoteId);
     // launch test
-    sendTimebasedArchiveData(
-      addToTestQueue,
+    onTimebasedArchiveData(
       queryIdProto,
       dataIdProto,
       isLast,
@@ -170,14 +158,10 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
         payload: rp,
       },
     ]);
-    flushTestQueue();
-    getMessage().should.have.properties({
-      event: 'timebasedData',
-      payload: {
-        [remoteId]: {
-          [t1]: rp,
-          [t2]: rp,
-        },
+    getQueue().should.have.properties({
+      [remoteId]: {
+        [t1]: rp,
+        [t2]: rp,
       },
     });
   });
@@ -194,8 +178,7 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
     }
     registeredQueries.set(queryId, remoteId);
     // launch test
-    sendTimebasedArchiveData(
-      addToTestQueue,
+    onTimebasedArchiveData(
       queryIdProto,
       dataIdProto,
       isLast,

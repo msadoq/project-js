@@ -14,7 +14,7 @@ const dataStub = require('common/stubs/data');
 
 
 const { should } = require('../../utils/test');
-const { addToTestQueue, getMessage, resetMessage, flushTestQueue } = require('../../utils/testWebSocket');
+const { get: getQueue, reset: resetQueue } = require('../../websocket/dataQueue');
 const flattenDataId = require('../../utils/flattenDataId');
 const registeredQueries = require('../../utils/registeredQueries');
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -51,7 +51,7 @@ describe('controllers/client/onTimebasedQuery', () => {
     connectedDataModel.cleanup();
     clearFactory();
     subscriptionsModel.cleanup();
-    resetMessage();
+    resetQueue();
     calls.length = 0;
   });
 
@@ -125,7 +125,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
       timebasedDataModel.addRecords(payloads);
       // launch test
-      timebasedQuery(addToTestQueue, lastQuery, zmqEmulator);
+      timebasedQuery(lastQuery, zmqEmulator);
       // check registeredQueries
       _isEmpty(registeredQueries.getAll()).should.equal(true);
       // check registeredCallbacks
@@ -133,14 +133,10 @@ describe('controllers/client/onTimebasedQuery', () => {
       // check zmq messages
       calls.length.should.equal(0);
       // check ws messages
-      flushTestQueue();
-      getMessage().should.have.properties({
-        event: 'timebasedData',
-        payload: {
-          [remoteId]: {
-            [payloads[0].timestamp]: payloads[0].payload,
-            [payloads[1].timestamp]: payloads[1].payload,
-          },
+      getQueue().should.have.properties({
+        [remoteId]: {
+          [payloads[0].timestamp]: payloads[0].payload,
+          [payloads[1].timestamp]: payloads[1].payload,
         },
       });
       // check connectedDataModel
@@ -175,7 +171,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
       timebasedDataModel.addRecords(payloads);
       // launch test
-      timebasedQuery(addToTestQueue, lastQuery, zmqEmulator);
+      timebasedQuery(lastQuery, zmqEmulator);
       // check registeredQueries
       const queryIds = _keys(registeredQueries.getAll());
       queryIds.length.should.equal(1);
@@ -191,8 +187,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       calls[3].should.have.properties(intervalProto);
       calls[4].should.have.properties(lastQueryArgumentsProto);
       // check ws messages
-      flushTestQueue();
-      getMessage().should.have.properties({});
+      getQueue().should.have.properties({});
       // check connectedDataModel
       connectedDataModel.count().should.equal(1);
       const connectedData = connectedDataModel.find();
@@ -220,7 +215,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
       timebasedDataModel.addRecords(payloads);
       // launch test
-      timebasedQuery(addToTestQueue, lastQuery, zmqEmulator);
+      timebasedQuery(lastQuery, zmqEmulator);
       // check registeredQueries
       const queryIds = _keys(registeredQueries.getAll());
       queryIds.length.should.equal(1);
@@ -244,8 +239,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       calls[7].should.have.properties(dataIdProto);
       calls[8].should.have.properties(dataStub.getAddActionProtobuf());
       // check ws messages
-      flushTestQueue();
-      getMessage().should.have.properties({});
+      getQueue().should.have.properties({});
       // check connectedDataModel
       connectedDataModel.count().should.equal(1);
       const connectedData = connectedDataModel.find();
@@ -278,7 +272,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
       timebasedDataModel.addRecords(payloads);
       // launch test
-      timebasedQuery(addToTestQueue, rangeQuery, zmqEmulator);
+      timebasedQuery(rangeQuery, zmqEmulator);
       // check registeredQueries
       _isEmpty(registeredQueries.getAll()).should.equal(true);
       // check registeredCallbacks
@@ -286,14 +280,10 @@ describe('controllers/client/onTimebasedQuery', () => {
       // check zmq messages
       calls.length.should.equal(0);
       // check ws messages
-      flushTestQueue();
-      getMessage().should.have.properties({
-        event: 'timebasedData',
-        payload: {
-          [remoteId]: {
-            [payloads[0].timestamp]: payloads[0].payload,
-            [payloads[1].timestamp]: payloads[1].payload,
-          },
+      getQueue().should.have.properties({
+        [remoteId]: {
+          [payloads[0].timestamp]: payloads[0].payload,
+          [payloads[1].timestamp]: payloads[1].payload,
         },
       });
       // check connectedDataModel
@@ -328,7 +318,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
       timebasedDataModel.addRecords(payloads);
       // launch test
-      timebasedQuery(addToTestQueue, rangeQuery, zmqEmulator);
+      timebasedQuery(rangeQuery, zmqEmulator);
       // check registeredQueries
       const queryIds = _keys(registeredQueries.getAll());
       queryIds.length.should.equal(1);
@@ -344,8 +334,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       calls[3].should.have.properties(intervalProto);
       calls[4].should.have.properties(queryArgumentsProto);
       // check ws messages
-      flushTestQueue();
-      getMessage().should.have.properties({});
+      getQueue().should.have.properties({});
       // check connectedDataModel
       connectedDataModel.count().should.equal(1);
       const connectedData = connectedDataModel.find();
@@ -376,7 +365,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
       timebasedDataModel.addRecord(payloads[1].timestamp, payloads[1].payload);
       // launch test
-      timebasedQuery(addToTestQueue, rangeQuery, zmqEmulator);
+      timebasedQuery(rangeQuery, zmqEmulator);
       // check registeredQueries
       const queryIds = _keys(registeredQueries.getAll());
       queryIds.length.should.equal(1);
@@ -392,13 +381,9 @@ describe('controllers/client/onTimebasedQuery', () => {
       calls[3].should.have.properties(halfIntervalProto);
       calls[4].should.have.properties(queryArgumentsProto);
       // check ws messages
-      flushTestQueue();
-      getMessage().should.have.properties({
-        event: 'timebasedData',
-        payload: {
-          [remoteId]: {
-            [payloads[1].timestamp]: payloads[1].payload,
-          },
+      getQueue().should.have.properties({
+        [remoteId]: {
+          [payloads[1].timestamp]: payloads[1].payload,
         },
       });
       // check connectedDataModel
@@ -428,7 +413,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
       timebasedDataModel.addRecords(payloads);
       // launch test
-      timebasedQuery(addToTestQueue, rangeQuery, zmqEmulator);
+      timebasedQuery(rangeQuery, zmqEmulator);
       // check registeredQueries
       const queryIds = _keys(registeredQueries.getAll());
       queryIds.length.should.equal(1);
@@ -452,8 +437,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       calls[7].should.have.properties(dataIdProto);
       calls[8].should.have.properties(dataStub.getAddActionProtobuf());
       // check ws messages
-      flushTestQueue();
-      getMessage().should.have.properties({});
+      getQueue().should.have.properties({});
       // check connectedDataModel
       connectedDataModel.count().should.equal(1);
       const connectedData = connectedDataModel.find();

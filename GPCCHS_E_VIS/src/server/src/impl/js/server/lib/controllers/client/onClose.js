@@ -6,7 +6,7 @@ const _each = require('lodash/each');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const zmq = require('common/zmq');
 
-const { reset: resetDataQueue } = require('../../utils/dataQueue');
+const { reset: resetDataQueue } = require('../../websocket/dataQueue');
 const registeredQueries = require('../../utils/registeredQueries');
 const { createDeleteSubscriptionMessage } = require('../../utils/subscriptions');
 const { resetDomains } = require('../../utils/domains');

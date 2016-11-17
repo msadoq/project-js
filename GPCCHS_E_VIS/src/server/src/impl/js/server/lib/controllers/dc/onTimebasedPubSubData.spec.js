@@ -1,6 +1,6 @@
 const { should } = require('../../utils/test');
 
-const { sendTimebasedPubSubData } = require('./onTimebasedPubSubData');
+const { onTimebasedPubSubData } = require('./onTimebasedPubSubData');
 const {
   clearFactory,
   getTimebasedDataModel,
@@ -10,12 +10,7 @@ const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const dataStub = require('common/stubs/data');
-const {
-  addToTestQueue,
-  getMessage,
-  resetMessage,
-  flushTestQueue,
-} = require('../../utils/testWebSocket');
+const { get: getQueue, reset: resetQueue } = require('../../websocket/dataQueue');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
 
@@ -31,7 +26,7 @@ describe('controllers/dc/onTimebasedPubSubData', () => {
     subscriptionsModel.cleanup();
     connectedDataModel.cleanup();
     clearFactory();
-    resetMessage();
+    resetQueue();
   });
 
   const queryId = 'queryId';
@@ -75,8 +70,7 @@ describe('controllers/dc/onTimebasedPubSubData', () => {
   it('no dataId in subscriptions', () => {
     // init test
     // launch test
-    sendTimebasedPubSubData(
-      addToTestQueue,
+    onTimebasedPubSubData(
       queryIdProto,
       dataIdProto,
       timestamp1,
@@ -86,16 +80,14 @@ describe('controllers/dc/onTimebasedPubSubData', () => {
     );
     // check data
     getAllTimebasedDataModelRemoteIds().should.have.lengthOf(0);
-    flushTestQueue();
-    getMessage().should.have.properties({});
+    getQueue().should.have.properties({});
   });
 
   it('no query for this dataId', () => {
     // init test
     subscriptionsModel.addRecord(dataId);
     // launch test
-    sendTimebasedPubSubData(
-      addToTestQueue,
+    onTimebasedPubSubData(
       queryIdProto,
       dataIdProto,
       timestamp1,
@@ -105,8 +97,7 @@ describe('controllers/dc/onTimebasedPubSubData', () => {
     );
     // check data
     getAllTimebasedDataModelRemoteIds().should.have.lengthOf(0);
-    flushTestQueue();
-    getMessage().should.have.properties({});
+    getQueue().should.have.properties({});
   });
 
   it('one in interval, all in filters', () => {
@@ -116,8 +107,7 @@ describe('controllers/dc/onTimebasedPubSubData', () => {
     connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_LAST, fullRemoteId, dataId);
     connectedDataModel.addRequestedInterval(fullRemoteId, queryId, halfInterval);
     // launch test
-    sendTimebasedPubSubData(
-      addToTestQueue,
+    onTimebasedPubSubData(
       queryIdProto,
       dataIdProto,
       timestamp1,
@@ -135,13 +125,9 @@ describe('controllers/dc/onTimebasedPubSubData', () => {
       timestamp: t1,
       payload: rp,
     });
-    flushTestQueue();
-    getMessage().should.have.properties({
-      event: 'timebasedData',
-      payload: {
-        [fullRemoteId]: {
-          [t1]: rp,
-        },
+    getQueue().should.have.properties({
+      [fullRemoteId]: {
+        [t1]: rp,
       },
     });
   });
@@ -153,8 +139,7 @@ describe('controllers/dc/onTimebasedPubSubData', () => {
     connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_LAST, halfRemoteId, dataId);
     connectedDataModel.addRequestedInterval(halfRemoteId, queryId, fullInterval);
     // launch test
-    sendTimebasedPubSubData(
-      addToTestQueue,
+    onTimebasedPubSubData(
       queryIdProto,
       dataIdProto,
       timestamp1,
@@ -172,13 +157,9 @@ describe('controllers/dc/onTimebasedPubSubData', () => {
       timestamp: t2,
       payload: rp2,
     });
-    flushTestQueue();
-    getMessage().should.have.properties({
-      event: 'timebasedData',
-      payload: {
-        [halfRemoteId]: {
-          [t2]: rp2,
-        },
+    getQueue().should.have.properties({
+      [halfRemoteId]: {
+        [t2]: rp2,
       },
     });
   });

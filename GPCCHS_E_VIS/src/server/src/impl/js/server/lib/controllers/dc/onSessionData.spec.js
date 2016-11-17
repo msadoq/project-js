@@ -1,16 +1,15 @@
-require('../../utils/test');
+const { testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('../../utils/test');
 const { sessionData } = require('./onSessionData');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const dataStub = require('common/stubs/data');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
-const { sendToTestWs, getMessage, resetMessage } = require('../../utils/testWebSocket');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const registeredCallbacks = require('common/callbacks/register');
 
 describe('controllers/dc/onSessionData', () => {
   beforeEach(() => {
-    resetMessage();
+    resetTestHandlerArgs();
   });
 
   it('not queried', () => {
@@ -20,8 +19,8 @@ describe('controllers/dc/onSessionData', () => {
     const mySession = dataStub.getSession({ name: 'Session#666' });
     const mySessionProto = dataStub.getSessionProtobuf(mySession);
     // launch test
-    sessionData(sendToTestWs, myQueryIdProto, mySessionProto);
-    getMessage().should.deep.equal({});
+    sessionData(testHandler, myQueryIdProto, mySessionProto);
+    getTestHandlerArgs().should.have.lengthOf(0);
   });
 
   it('works', () => {
@@ -32,16 +31,13 @@ describe('controllers/dc/onSessionData', () => {
     const mySessionsProto = dataStub.getSessionsProtobuf(mySessions);
     registeredCallbacks.set(myQueryId, () => {});
     // launch test
-    sessionData(sendToTestWs, myQueryIdProto, mySessionsProto);
+    sessionData(testHandler, myQueryIdProto, mySessionsProto);
     // check data
-    const sessions = getMessage();
-    sessions.should.be.an('object');
-    sessions.should.have.an.property('event')
-      .that.equal(globalConstants.EVENT_SESSION_DATA);
-    sessions.should.have.an.property('payload')
-      .that.is.an('array')
+    const wsArgs = getTestHandlerArgs();
+    wsArgs.should.have.lengthOf(3);
+    wsArgs[0].should.equal(globalConstants.EVENT_SESSION_DATA);
+    wsArgs[1].should.be.an('array')
       .that.have.properties(mySessions.session);
-    sessions.should.have.an.property('queryId')
-      .that.equal(myQueryId);
+    wsArgs[2].should.equal(myQueryId);
   });
 });

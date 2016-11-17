@@ -9,7 +9,7 @@ const _chunk = require('lodash/chunk');
 const { decode, encode, getType } = require('common/protobuf');
 
 const registeredQueries = require('../../utils/registeredQueries');
-const { add } = require('../../utils/dataQueue');
+const { add: addToQueue } = require('../../websocket/dataQueue');
 const executionMonitor = require('../../utils/execution');
 
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
@@ -28,15 +28,13 @@ const protobufTrue = encode('dc.dataControllerUtils.Boolean', { boolean: true })
  * - store decoded payloads in timebasedData model
  * - queue a ws newData message (sent periodically)
  *
- * @param addToQueue
  * @param queryIdBuffer
  * @param dataIdBuffer
  * @param isLastBuffer
  * @param payloadBuffers
  * @return {undefined}
  */
-const sendTimebasedArchiveData = (
-  addToQueue,
+const onTimebasedArchiveData = (
   queryIdBuffer,
   dataIdBuffer,
   isLastBuffer,
@@ -125,13 +123,5 @@ const sendTimebasedArchiveData = (
 };
 
 module.exports = {
-  onTimebasedArchiveData: (queryIdBuffer, dataIdBuffer, isLastBuffer, ...payloadBuffers) =>
-    sendTimebasedArchiveData(
-      add,
-      queryIdBuffer,
-      dataIdBuffer,
-      isLastBuffer,
-      ...payloadBuffers
-    ),
-  sendTimebasedArchiveData,
+  onTimebasedArchiveData,
 };

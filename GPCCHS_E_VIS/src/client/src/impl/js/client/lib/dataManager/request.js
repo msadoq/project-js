@@ -7,7 +7,7 @@ import debug from '../common/debug/mainDebug';
 import profiling from '../common/debug/profiling';
 import missingRemoteIds from './map/missingRemoteIds';
 import { getWebsocket } from '../mainProcess/websocket';
-import { addRequests } from '../store/actions/dataRequests';
+// import { addRequests } from '../store/actions/dataRequests';
 
 const logger = debug('data:requests');
 
@@ -25,7 +25,7 @@ function request(state, dispatch, dataMap, lastMap) {
     getWebsocket().write({ event: globalConstants.EVENT_TIMEBASED_QUERY, payload: dataQueries });
 
     // update store
-    dispatch(addRequests(dataQueries));
+    // dispatch(addRequests(dataQueries)); // TODO remove all dataRequests reducer
   }
 
   profiling.stop(

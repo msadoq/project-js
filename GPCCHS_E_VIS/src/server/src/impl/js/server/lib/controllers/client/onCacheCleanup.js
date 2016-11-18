@@ -87,7 +87,7 @@ const cacheCleanup = (messageHandler, dataMap) => {
     const remainingIntervals = connectedDataModel.getIntervals(remoteId);
     execution.stop('get remaining intervals');
     if (!remainingIntervals) {
-      return;
+      return undefined;
     }
     if (remainingIntervals.length !== 0) {
       debug.debug('still requested');
@@ -96,22 +96,14 @@ const cacheCleanup = (messageHandler, dataMap) => {
       const timebasedDataModel = getTimebasedDataModel(remoteId);
       execution.stop('get tbd model');
       if (!timebasedDataModel) {
-        return;
+        return undefined;
       }
-      let timebasedDataToRemove = [];
-      execution.start('find tbd to remove');
-      _each(intervals, (interval) => {
-        timebasedDataToRemove = _concat(
-          timebasedDataToRemove,
-          timebasedDataModel.findByInterval(interval[0], interval[1])
-        );
+
+      return _each(intervals, (interval) => {
+        execution.start('find and remove tbd');
+        timebasedDataModel.removeByInterval(interval[0], interval[1]);
+        execution.stop('find and remove tbd');
       });
-      execution.stop('find tbd to remove');
-      debug.debug('nb to remove', timebasedDataToRemove.length);
-      execution.start('remove tbd');
-      _each(timebasedDataToRemove, tbd => timebasedDataModel.remove(tbd));
-      execution.stop('remove tbd');
-      return;
     }
     debug.debug('no more interval');
     // else, no more intervals for this remoteId
@@ -135,7 +127,7 @@ const cacheCleanup = (messageHandler, dataMap) => {
     execution.start('get remaining remoteIds for this subscription');
     if (subscriptionsModel.getRemoteIds(dataId).length !== 0) {
       execution.stop('get remaining remoteIds for this subscription');
-      return;
+      return undefined;
     }
     execution.stop('get remaining remoteIds for this subscription');
     debug.debug('no more remoteIds');
@@ -149,7 +141,7 @@ const cacheCleanup = (messageHandler, dataMap) => {
     // queue the message
     messageQueue.push(message.args);
     execution.stop('create and push sub message');
-    return;
+    return undefined;
   });
   debug.debug('message queue length', messageQueue.length);
   // send queued messages to DC
@@ -158,7 +150,6 @@ const cacheCleanup = (messageHandler, dataMap) => {
   execution.stop('send zmq messages');
   execution.stop('global');
   execution.print();
-  return;
 };
 
 module.exports = {

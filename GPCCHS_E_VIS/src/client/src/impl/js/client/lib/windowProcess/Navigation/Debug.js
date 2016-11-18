@@ -9,6 +9,7 @@ import { getWindowDebug } from '../../store/selectors/windows';
 import { getPage } from '../../store/selectors/pages';
 import visibleRemoteIdsMap from '../../dataManager/map/visibleRemoteIds';
 import visibleViewsMap from '../../dataManager/map/visibleViews';
+import { updateCacheInvalidation } from '../../store/actions/hsc';
 
 class Debug extends PureComponent {
   static propTypes = {
@@ -37,6 +38,11 @@ class Debug extends PureComponent {
     return console.log(visibleViewsMap(state)); // eslint-disable-line no-console
   };
 
+  cleanCache = () => {
+    this.context.store.dispatch(updateCacheInvalidation(Date.now() - 1e10));
+    this.props.dummy();
+  };
+
   render() {
     const { debug, toggleDebug, dummy } = this.props;
 
@@ -56,7 +62,10 @@ class Debug extends PureComponent {
 
     return (
       <div style={{ display: 'inline' }}>
-        <Button onClick={() => shell.openExternal('http://127.0.0.1:3000/debug/')} {...buttonsProps}>
+        <Button
+          onClick={() => shell.openExternal('http://127.0.0.1:3000/debug/')}
+          {...buttonsProps}
+        >
           HSS
         </Button>
         {' '}
@@ -64,13 +73,13 @@ class Debug extends PureComponent {
           WDYU {debug.whyDidYouUpdate ? 'ON' : 'OFF'}
         </Button>
         {' '}
-        <Button onClick={dummy} {...buttonsProps}>
-          DUMMY
-        </Button>
+        <Button onClick={dummy} {...buttonsProps}>DUMMY</Button>
         {' '}
         <Button onClick={this.visibleRemoteIds} {...buttonsProps}>DATA MAP</Button>
         {' '}
         <Button onClick={this.visibleViews} {...buttonsProps}>VIEW MAP</Button>
+        {' '}
+        <Button onClick={this.cleanCache} {...buttonsProps}>CLEAN CACHE</Button>
       </div>
     );
   }

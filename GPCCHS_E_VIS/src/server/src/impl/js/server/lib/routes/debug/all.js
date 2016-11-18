@@ -14,14 +14,16 @@ router.get('/',
     const connectedData = connectedDataModel.getAll();
     const subscriptions = subscriptionsModel.getAll();
     const tbdModels = getAllTimebasedDataModelRemoteIds();
-    const remoteIds = tbdModels.map(m => ({
-      [m]: getTimebasedDataModel(m),
-    }));
+
+    const timebasedData = tbdModels.reduce((list, model) => Object.assign(
+      list,
+      { [model]: getTimebasedDataModel(model).count() }
+    ), {});
 
     res.send({
       connectedData,
       subscriptions,
-      remoteIds,
+      timebasedData,
     });
   });
 

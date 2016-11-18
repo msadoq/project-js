@@ -1,4 +1,4 @@
-import { remote, shell } from 'electron';
+import { remote } from 'electron';
 import React, { PureComponent, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -13,7 +13,6 @@ import { updateCacheInvalidation } from '../../store/actions/hsc';
 
 class Debug extends PureComponent {
   static propTypes = {
-    focusedPage: PropTypes.object,
     debug: PropTypes.object,
     toggleDebug: PropTypes.func,
     dummy: PropTypes.func,
@@ -27,6 +26,12 @@ class Debug extends PureComponent {
       window.whyDidYouUpdate();
     }
   }
+
+  hssState = () => {
+    fetch('http://127.0.0.1:3000/debug/all')
+      .then(r => r.json())
+      .then(json => console.log(json)); // eslint-disable no-console
+  };
 
   visibleRemoteIds = () => {
     const state = this.context.store.getState();
@@ -62,12 +67,7 @@ class Debug extends PureComponent {
 
     return (
       <div style={{ display: 'inline' }}>
-        <Button
-          onClick={() => shell.openExternal('http://127.0.0.1:3000/debug/')}
-          {...buttonsProps}
-        >
-          HSS
-        </Button>
+        <Button onClick={this.hssState} {...buttonsProps}>HSS</Button>
         {' '}
         <Button onClick={toggleWhy} {...buttonsProps}>
           WDYU {debug.whyDidYouUpdate ? 'ON' : 'OFF'}

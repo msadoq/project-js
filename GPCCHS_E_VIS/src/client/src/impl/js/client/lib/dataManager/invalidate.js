@@ -23,6 +23,7 @@ export default function invalidate(state, dispatch, dataMap) {
     getWebsocket().write({
       event: globalConstants.EVENT_TIMEBASED_QUERY_INVALIDATION,
       payload: expiredRequests,
+      payload2: dataMap,
     });
 
     // store update

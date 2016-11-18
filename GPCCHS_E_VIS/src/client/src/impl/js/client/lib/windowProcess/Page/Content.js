@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import _omit from 'lodash/omit';
+import _isEqual from 'lodash/isEqual';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import makeViewContainer from '../View/ViewContainer';
 import styles from './Content.css';
@@ -40,7 +41,13 @@ export default class Content extends Component {
     }
 
     const newLayout = layout.map(block => _omit(block, filterLayoutBlockFields));
+
+    if (_isEqual(newLayout, this.previousLayout)) {
+      return;
+    }
+
     this.props.updateLayout(newLayout);
+    this.previousLayout = newLayout;
   };
 
   cols = { lg: 12 };

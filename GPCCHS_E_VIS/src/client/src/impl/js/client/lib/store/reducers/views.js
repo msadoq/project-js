@@ -89,6 +89,11 @@ export default function views(stateViews = {}, action) {
       return removeElementInArray(stateViews, action, 'procedures');
     case types.WS_CLOSE_WORKSPACE:
       return {};
+    case types.WS_VIEW_SETMODIFIED:
+      if (!stateViews[action.payload.viewId]) {
+        return stateViews;
+      }
+      return u({ [action.payload.viewId]: { isModified: action.payload.flag } }, stateViews);
     default:
       return stateViews;
   }
@@ -108,6 +113,7 @@ function view(stateView = initialState, action) {
         path: action.payload.path,
         oId: action.payload.oId,
         absolutePath: action.payload.absolutePath,
+        isModified: action.payload.isModified || false,
       };
     default:
       return stateView;
@@ -136,7 +142,8 @@ function updateObject(stateViews, action, objectName, paramName, viewType) {
     [action.payload.viewId]: {
       configuration: {
         [objectName]: action.payload[paramName]
-      }
+      },
+      isModified: true,
     }
   }, stateViews);
 }
@@ -156,7 +163,8 @@ function updateArray(stateViews, action, arrayName, paramName) {
         [arrayName]: {
           [index]: action.payload[paramName]
         }
-      }
+      },
+      isModified: true,
     }
   }, stateViews);
 }
@@ -170,7 +178,8 @@ function addElementInArray(stateViews, action, arrayName, paramName) {
     [action.payload.viewId]: {
       configuration: {
         [arrayName]: [...oldValue, ...[action.payload[paramName]]]
-      }
+      },
+      isModified: true,
     }
   }, stateViews);
 }
@@ -187,7 +196,8 @@ function removeElementInArray(stateViews, action, arrayName) {
     [action.payload.viewId]: {
       configuration: {
         [arrayName]: _without(viewConf[arrayName], viewConf[arrayName][index])
-      }
+      },
+      isModified: true,
     }
   }, stateViews);
 }

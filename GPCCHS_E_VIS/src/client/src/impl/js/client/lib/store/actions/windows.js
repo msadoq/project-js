@@ -1,7 +1,7 @@
 import { v4 } from 'node-uuid';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
-import { add as addPage, remove as removePage } from './pages';
+import { add as addPage, remove as removePage, mountView } from './pages';
 
 /**
  * Simple actions
@@ -16,16 +16,27 @@ export const updateGeometry = simple(types.WS_WINDOW_UPDATE_GEOMETRY,
   'windowId', 'x', 'y', 'w', 'h'
 );
 export const switchDebug = simple(types.WS_WINDOW_DEBUG_SWITCH, 'windowId', 'which', 'status');
-
+export const setModified = simple(types.WS_WINDOW_SETMODIFIED, 'windowId', 'flag');
 /**
  * Compound actions
  */
-export function addAndMount(windowId) {
+export function addAndMount(windowId, pageId = v4(), page) {
   return (dispatch) => {
-    const pageId = v4();
-    dispatch(addPage(pageId));
+    // const pageId = v4();
+    if (!page) {
+      dispatch(addPage(pageId));
+    } else {
+      dispatch(addPage(pageId, page.timebarId, page.title, page.views, page.layout, page.path,
+        page.oId, page.absolutePath));
+    }
     dispatch(mountPage(windowId, pageId));
     dispatch(focusPage(windowId, pageId));
+    if (page) {
+      const viewIds = Object.keys(page.views);
+      viewIds.forEach((index) => {
+        dispatch(mountView(pageId, index));
+      });
+    }
   };
 }
 

@@ -4,12 +4,14 @@ import { Col, FormGroup } from 'react-bootstrap';
 export default class SelectTimebar extends Component {
 
   static propTypes = {
+    updateTimebarIdAction: React.PropTypes.func,
     timebars: React.PropTypes.object.isRequired,
+    focusedPageId: React.PropTypes.string,
   }
 
   onSubmit = (e) => {
     e.preventDefault();
-    console.log(this.timebarsSelect.value);
+    this.props.updateTimebarIdAction(this.props.focusedPageId, this.timebarsSelect.value);
   }
 
   render() {
@@ -24,8 +26,8 @@ export default class SelectTimebar extends Component {
                 ref={(el) => { this.timebarsSelect = el; }}
                 className={'form-control'}
               >
-                { Object.values(timebars).map(
-                  (v, i) => <option key={i} value={v.id}>{v.id}</option>
+                { Object.entries(timebars).map(
+                  (v, i) => <option key={i} value={v[0]}>{v[1].id}</option>
                 ) }
               </select>
             </FormGroup>

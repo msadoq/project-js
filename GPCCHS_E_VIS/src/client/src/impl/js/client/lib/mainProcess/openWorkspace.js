@@ -11,8 +11,8 @@ import readWorkspace from '../documentsManager/workspace';
 import { add as addTimeline } from '../store/actions/timelines';
 import { add as addTimebar } from '../store/actions/timebars';
 import { add as addView } from '../store/actions/views';
-import { add as addPage } from '../store/actions/pages';
-import { add as addWindow } from '../store/actions/windows';
+import { add as addPage, setModified as setModifiedPage } from '../store/actions/pages';
+import { add as addWindow, setModified as setModifiedWindow } from '../store/actions/windows';
 import { updatePath } from '../store/actions/workspace';
 
 import { getPathByFilePicker } from './filePicker';
@@ -37,22 +37,26 @@ export function loadInStore(workspace, dispatch, root, file, callback) {
   )));
 
   // add pages
-  _each(workspace.pages, e => dispatch(addPage(
-    e.uuid,
-    e.timebarId,
-    e.title,
-    _map(e.views, v => v.uuid),
-    _map(e.views, v => ({
-      i: v.uuid,
-      x: v.geometry.x,
-      y: v.geometry.y,
-      w: v.geometry.w,
-      h: v.geometry.h,
-    })),
-    e.path,
-    e.oId,
-    e.absolutePath,
-  )));
+  _each(workspace.pages, (e) => {
+    dispatch(addPage(
+      e.uuid,
+      e.timebarId,
+      e.title,
+      _map(e.views, v => v.uuid),
+      _map(e.views, v => ({
+        i: v.uuid,
+        x: v.geometry.x,
+        y: v.geometry.y,
+        w: v.geometry.w,
+        h: v.geometry.h,
+      })),
+      e.path,
+      e.oId,
+      e.absolutePath,
+    ));
+      // set all files unmodified
+    dispatch(setModifiedPage(e.uuid, false));
+  });
 
   // add windows
   _each(workspace.windows,
@@ -63,11 +67,14 @@ export function loadInStore(workspace, dispatch, root, file, callback) {
         pageId = e.pages[0];
       }
       dispatch(addWindow(e.uuid, e.title, e.geometry, e.pages, pageId));
+      // set all files unmodified
+      dispatch(setModifiedWindow(e.uuid, false));
     }
   );
 
   // workspace path
   dispatch(updatePath(root, file));
+
 
   if (typeof callback === 'function') {
     return callback(null);

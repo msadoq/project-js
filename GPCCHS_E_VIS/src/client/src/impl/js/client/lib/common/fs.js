@@ -27,12 +27,13 @@ const self = module.exports = {
     });
   },
   parse: (content, callback) => {
+    let json;
     try {
-      const json = JSON.parse(content);
-      return callback(null, json);
+      json = JSON.parse(content);
     } catch (e) {
       return callback(e);
     }
+    return callback(null, json);
   },
   readJsonFromAbsPath: (absolutePath, callback) => {
     self.read(absolutePath, (err, content) => {

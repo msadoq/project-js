@@ -7,12 +7,12 @@ import { getWindowFocusedPageSelector } from '../../store/selectors/windows';
 import { getTimebar, getTimebarTimelinesSelector } from '../../store/selectors/timebars';
 import TimebarWrapper from './TimebarWrapper';
 import SelectTimebar from './SelectTimebar';
+import { updateTimebarId } from '../../store/actions/pages';
 
 export default connect(
   (state, { windowId }) => {
     const { timebarId } = getWindowFocusedPageSelector(state, windowId);
     const timebar = getTimebar(state, timebarId);
-
     if (!timebar) return { timebars: state.timebars };
 
     const timelines = getTimebarTimelinesSelector(state, timebarId);
@@ -46,7 +46,8 @@ export default connect(
     updateTimelineIdAction: updateId,
     unmountTimelineAction: unmountTimeline,
     updatePlayingStateAction: updatePlayingState,
-    updateSpeedAction: updateSpeed
+    updateSpeedAction: updateSpeed,
+    updateTimebarIdAction: updateTimebarId
   }
-
+// TODO refactor this container to split into 2 different containers
 )(props => (props.timebar ? <TimebarWrapper {...props} /> : <SelectTimebar {...props} />));

@@ -2,10 +2,10 @@ import { v4 } from 'node-uuid';
 import _map from 'lodash/map';
 import path from 'path';
 import { getStore } from '../store/mainStore';
-import { add, addAndMount as addAndMountPage, focusPage, mountPage } from '../store/actions/windows';
+import { add, addAndMount as addAndMountPage } from '../store/actions/windows';
 import { closeWorkspace } from '../store/actions/workspace';
 import { isWorkspaceOpening } from '../store/actions/hsc';
-import { add as addPage, mountView, updateLayout } from '../store/actions/pages';
+import { addAndMount as addAndMountView } from '../store/actions/pages';
 import { add as addView } from '../store/actions/views';
 import { extractViews, readViews } from '../documentsManager/extractViews';
 import { readPages } from '../documentsManager/extractPages';
@@ -165,7 +165,7 @@ template.splice(2, 0,
       accelerator: '',
       click(item, focusedWindow) {
         if (focusedWindow) {
-          getStore().dispatch(addAndMountPage(focusedWindow.windowId, v4(), 'add example'));
+          getStore().dispatch(addAndMountPage(focusedWindow.windowId, v4()));
         }
       }
     }, {
@@ -190,18 +190,40 @@ template.splice(3, 0,
   {
     label: 'View',
     submenu: [{
-      label: 'Add ...',
+      label: 'Add PlotView...',
       accelerator: '',
       click(item, focusedWindow) {
-        const pageId = getStore().getState().windows[focusedWindow.windowId].focusedPage;
-        const viewId = v4();
-        const config = {
+        const view = {
+          type: 'PlotView',
+          configuration: {
+            type: 'PlotView',
+            axes: [],
+            grids: [],
+            legend: {},
+            markers: [],
+            plotBackgroundColour: '3FFFFFF',
+            defaultRatio: { length: 5, width: 5 },
+            entryPoints: [],
+            links: [],
+            title: 'New Plot View',
+          } };
+        addNewView(focusedWindow, view);
+      }
+    }, {
+      label: 'Add TextView...',
+      accelerator: '',
+      click(item, focusedWindow) {
+        const view = {
           type: 'TextView',
-          uuid: viewId,
-        };
-        getStore().dispatch(addView(viewId, 'TextView', config));
-        getStore().dispatch(mountView(pageId, viewId));
-        // TODO : pouvoir choix du type view et du la config par defaut
+          configuration: {
+            type: 'TextView',
+            content: [],
+            defaultRatio: { length: 5, width: 5 },
+            entryPoints: [],
+            links: [],
+            title: 'New Text View',
+          } };
+        addNewView(focusedWindow, view);
       }
     }, {
       label: 'Open ...',
@@ -249,7 +271,7 @@ function openPage(absolutePath, windowId) {
         dialog.showMessageBox({
           type: 'error',
           title: 'Error on selected page',
-          message: 'Invalid views on selected Page',
+          message: `Invalid views on selected Page ${viewErr}`,
           buttons: ['ok']
         });
         const filepath = getPathByFilePicker(path.dirname(absolutePath), 'page');
@@ -280,22 +302,14 @@ function openView(absolutePath, pageId) {
       });
       return;
     }
-    showSelectedView(view[0], pageId);
+    const current = view[0];
+    current.absolutePath = viewPath;
+    showSelectedView(current, pageId);
   });
 }
 
 function showSelectedPage(pageAndViews, pageId, windowId) {
   const store = getStore();
-  store.dispatch(addPage(pageId, null, pageAndViews.pages[pageId].title,
-    pageAndViews.views));
-  store.dispatch(mountPage(windowId, pageId));
-  store.dispatch(focusPage(windowId, pageId));
-  const viewIds = Object.keys(pageAndViews.views);
-  viewIds.forEach((index) => {
-    const view = pageAndViews.views[index];
-    store.dispatch(addView(index, view.type, view.configuration));
-    store.dispatch(mountView(pageId, index));
-  });
   const layout = _map(pageAndViews.views, v => ({
     i: v.uuid,
     kind: v.geometry.kind,
@@ -304,25 +318,38 @@ function showSelectedPage(pageAndViews, pageId, windowId) {
     w: v.geometry.w,
     h: v.geometry.h,
   }));
-  store.dispatch(updateLayout(pageId, layout));
+  const viewIds = Object.keys(pageAndViews.views);
+  viewIds.forEach((index) => {
+    const view = pageAndViews.views[index];
+    store.dispatch(addView(index, view.type, view.configuration, view.path, view.oId,
+      view.absolutePath, false));
+  });
+  const page = pageAndViews.pages[pageId];
+  page.layout = layout;
+  page.views = viewIds;
+  store.dispatch(addAndMountPage(windowId, pageId, page));
 }
 
 
 function showSelectedView(view, pageId) {
   const viewId = v4();
-  const store = getStore();
-  store.dispatch(addView(viewId, view.type, view.configuration));
-  // TODO walid: recalculer le x et le y en fonction des autres vues de la page
-  // avant de dispatcher le layout
-  const layout = store.getState().pages[pageId].layout;
-  let newY = 0;
-  layout.forEach((elem) => {
-    const val = elem.y + elem.h;
-    if (val > newY) {
-      newY = val;
-    }
+  getStore().dispatch(addAndMountView(pageId, viewId, view, addViewInLayout(pageId, viewId)));
+}
+
+function addNewView(focusedWindow, view) {
+  const pageId = getStore().getState().windows[focusedWindow.windowId].focusedPage;
+  const viewId = v4();
+  getStore().dispatch(addAndMountView(pageId, viewId, view, addViewInLayout(pageId, viewId)));
+}
+
+function addViewInLayout(pageId, viewId) {
+  if (!viewId) {
+    return;
+  }
+  if (!getStore().getState().pages[pageId]) {
+    return [{ i: viewId, w: 5, h: 5, x: 0, y: Infinity }];
+  }
+  return getStore().getState().pages[pageId].layout.concat({
+    i: viewId, w: 5, h: 5, x: 0, y: Infinity
   });
-  layout.push({ i: viewId, kind: 'Relative', x: 0, y: newY, w: 5, h: 5 });
-  store.dispatch(updateLayout(pageId, layout));
-  store.dispatch(mountView(pageId, viewId));
 }

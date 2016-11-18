@@ -30,9 +30,10 @@ from time import sleep
 
 class IsisContainerError(Exception):
     """
-    Custom exception When no cantainer
-    has been found by isisStartContainer
+    Custom exception When no container has been found by isisStartContainer
     """
+    pass
+    
 # End of user code
 
 
@@ -48,7 +49,7 @@ class GPCCHS(object):
         else _ISIS_WORK_DIR
     )
     if not _ISIS_WORK_DIR:
-        raise IsisContainerError('Environment varsiable `ISIS_WORK_DIR` is not set!')
+        raise IsisContainerError('GPCCHS Environment variable `ISIS_WORK_DIR` is not set')
     
     # Start of user code ProtectedAttrZone
     _container_dir = _ISIS_WORK_DIR
@@ -251,7 +252,7 @@ class GPCCHS(object):
                 stderr=subprocess.PIPE
             )
             self._feature_id = extract_eid(proc.stdout.read().decode('utf-8'))
-            print('Feature instance created under ID {}.'.format(self._feature_id))
+            print('GPCCHS Feature instance created under ID {}.'.format(self._feature_id))
         except subprocess.CalledProcessError as error:
             print("GPCCHS Launcher Feature creation process error:", error)
             rc = -1
@@ -266,7 +267,7 @@ class GPCCHS(object):
         """
         rc = 0
         try:
-            print('Activating feature ID {}...'.format(self._feature_id))
+            print('GPCCHS Activating feature ID {}...'.format(self._feature_id))
             print("GPCCHS launcher execute: ",' '.join(self._cactivate_cmd))            
             proc = subprocess.Popen(
                 self._cactivate_cmd,
@@ -293,7 +294,7 @@ class GPCCHS(object):
         """
         rc = 0
         try:
-            print('Starting feature ID {}...'.format(self._feature_id))
+            print('GPCCHS Starting feature ID {}...'.format(self._feature_id))
             print("GPCCHS launcher execute: ",' '.join(self._cstart_cmd))
             proc = subprocess.Popen(
                 self._cstart_cmd,
@@ -320,7 +321,7 @@ class GPCCHS(object):
         """
         rc = 0
         try:
-            print('Stopping feature ID {}...'.format(self._feature_id))
+            print('GPCCHS Stopping feature ID {}...'.format(self._feature_id))
             print("GPCCHS launcher execute: ",' '.join(self._cstop_cmd))
             proc = subprocess.Popen(
                 self._cstop_cmd,
@@ -347,7 +348,7 @@ class GPCCHS(object):
         """
         rc = 0
         try:
-            print('Destroying feature ID {}...'.format(self._feature_id))
+            print('GPCCHS Destroying feature ID {}...'.format(self._feature_id))
             print("GPCCHS launcher execute: ",' '.join(self._cdestroy_cmd))
             proc = subprocess.Popen(
                 self._cstop_cmd,
@@ -377,7 +378,7 @@ class GPCCHS(object):
         :rtype: integer
         """
         try:
-            print('Executing command : {}'.format(cmd))
+            print('GPCCHS Executing command : {}'.format(cmd))
             proc = subprocess.Popen(
                 cmd.split(),
                 env=os.environ,
@@ -403,7 +404,7 @@ class GPCCHS(object):
         """
         proc = None
         try:
-            print('Running command : {}'.format(cmd))
+            print('GPCCHS Running command : {}'.format(cmd))
             if logFile:
                 proc = subprocess.Popen(
                         cmd.split(),
@@ -439,6 +440,25 @@ class GPCCHS(object):
             for line in readFile.readlines():
                 portslist.append(line.strip('\n \t'))
             readFile.close()
+
+    def _create_gpccdc_ports_file(self):
+        """
+        Create /tmp/gpccdc_d_dbr_ports.txt file to give port numbers to GPCCDC
+        
+        :return: Zero if success, -1 if error
+        :rtype: integer
+        """
+        rc = 0
+        try:
+            writeFile = open('/tmp/gpccdc_d_dbr_ports.txt','w')
+        except IOError:
+            print("GPCCHS Failed to create GPCCCDC ports configuratin file")
+            rc = -1
+        else:
+            writeFile.write("tcp://127.0.0.1:{}\n".format(self._dcPullPort))
+            writeFile.write("tcp://127.0.0.1:{}\n".format(self._dcPushPort))
+            writeFile.close()
+        return rc
             
     def _open_log_file(self,filepath):
         """
@@ -458,9 +478,12 @@ class GPCCHS(object):
         """
         Set the necessary variables in os.environ for HSS
         """
+        level="INFO"
+        if self._debug == True:
+            level = "DEBUG"        
         os.environ["NODE_ENV"] = "production"
         os.environ["DEBUG"] = "GPCCHS:*"
-        os.environ["LEVEL"] = "INFO"
+        os.environ["LEVEL"] = level
         os.environ["HTTP_LOGS"] = "0"
         os.environ["PORT"] = "{}".format(self._hssPort)
         os.environ["ZMQ_GPCCDC_PUSH"] = "tcp://127.0.0.1:{}".format(self._dcPushPort)
@@ -482,10 +505,14 @@ class GPCCHS(object):
         :return: Zero if success and -1 if error
         :rtype: integer
         """
-        rc = -1
+        rc = 0
         stdstreams = dict(out=None,error=None)
         portsNums = []
-        rc = self._exec_cmd("localslot --workdir /tmp --type gpvima",stdstreams)
+        if not os.path.isfile(self._fmd_root + self._workspace):
+            print("GPCCHS Specified workspace file does not exist: ",self._fmd_root + self._workspace)
+            rc = -1
+        if rc == 0:
+            rc = self._exec_cmd("localslot --workdir /tmp --type gpvima",stdstreams)
         if rc == 0:
             self._read_ports_numbers(stdstreams['out'].strip('\n \t'),portsNums)
             if len(portsNums) >= 5:
@@ -494,44 +521,56 @@ class GPCCHS(object):
                 self._dcPullPort = portsNums[2]
                 self._tbPushPort = portsNums[3]
                 self._tbPullPort = portsNums[4]
+            else:
+                rc=-1
+        if rc == 0:
+            if not self._feature_id:
+                rc = self._create_gpccdc_ports_file()
                 if rc == 0:
-                    if not self._feature_id:
-                        os.environ["GPCCDC_D_DBR_PUSH"] = self._dcPullPort
-                        os.environ["GPCCDC_D_DBR_PULL"] = self._dcPushPort
-                        rc = self._create_feature()
-                    if rc == 0 and self._feature_id:
-                        self._gpccdc_created = True
-                        rc = self._activate_feature()
-                    if rc == 0 and self._feature_id:
-                        rc = self._start_feature()
-                    if rc == 0 and self._feature_id:
-                        self._gpccdc_started = True
-                    if self._debug == True:
-                        self._hscLogFile = self._open_log_file(self._hscLogPath)
-                        self._hssLogFile = self._open_log_file(self._hssLogPath)
-                    if rc == 0:
-                        os.chdir(self._hssPath)
-                        self._create_hss_env_vars()
-                        self._hssProc = self._run_process(' '.join(self._hss_run_cmd),self._hssLogFile)
-                    if self._hssProc:
-                        os.chdir(self._hscPath)
-                        self._hscProc = self._run_process(' '.join(self._hsc_run_cmd),self._hscLogFile)
-                    if self._hssProc:
-                        print("GPCCHS Successfully started")
-                        try:
-                            self._hssProc.wait()
-                        except KeyboardInterrupt:
-                            print("\nGPCCHS and GPCCDC processes aborted by user")
-                    if self._gpccdc_started:
-                        rc = self._stop_feature()
-                        self._gpccdc_started = False
-                    if self._gpccdc_created:
-                        rc = self._destroy_feature()
-                        self._gpccdc_created = False                        
-                    if self._hscLogFile:
-                        self._hscLogFile.close()
-                    if self._hssLogFile:
-                        self._hssLogFile.close()
+                    rc = self._create_feature()
+            if not self._feature_id:
+                print("GPCCHS Feature cannot be created, check if session and desktop are running")
+                rc = -1
+            else:
+                self._gpccdc_created = True
+        if rc == 0:
+            rc = self._activate_feature()
+        if rc == 0:
+            rc = self._start_feature()
+        if rc == 0:
+            self._gpccdc_started = True
+        if self._debug == True:
+            self._hscLogFile = self._open_log_file(self._hscLogPath)
+            self._hssLogFile = self._open_log_file(self._hssLogPath)
+        if rc == 0:
+            os.chdir(self._hssPath)
+            self._create_hss_env_vars()
+            self._hssProc = self._run_process(' '.join(self._hss_run_cmd),self._hssLogFile)
+            if self._hssProc == None:
+                print("GPCCHS Failed to create server, launch aborted")
+                rc = -1
+        if rc == 0:
+            os.chdir(self._hscPath)
+            self._hscProc = self._run_process(' '.join(self._hsc_run_cmd),self._hscLogFile)
+            if self._hscProc == None:
+                print("GPCCHS Failed to create client, launch aborted")
+                rc = -1
+        if rc == 0:
+            print("GPCCHS Successfully started")
+            try:
+                self._hscProc.wait()
+            except KeyboardInterrupt:
+                print("\nGPCCHS and GPCCDC processes aborted by user")
+        if self._gpccdc_started:
+            rc = self._stop_feature()
+            self._gpccdc_started = False
+        if self._gpccdc_created:
+            rc = self._destroy_feature()
+            self._gpccdc_created = False                        
+        if self._hscLogFile:
+            self._hscLogFile.close()
+        if self._hssLogFile:
+            self._hssLogFile.close()
         return rc
 
 if __name__ == '__main__':

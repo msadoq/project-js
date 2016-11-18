@@ -4,8 +4,8 @@
   "main": "./lib/index.js",
   "scripts": {
     "lint": "eslint lib test *.js",
-    "coverage": "istanbul cover node_modules/mocha/bin/_mocha \"+(intervals|zmq|protobuf|stubs)/*.spec.js\"",
-    "test": "mocha \"+(intervals|zmq|protobuf|stubs)/*.spec.js\"",
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha \"+(intervals|zmq|protobuf|stubs)/**/*.spec.js\"",
+    "test": "mocha \"+(intervals|zmq|protobuf|stubs)/**/*.spec.js\"",
     "tw": "npm test -- --watch",
     "dc-stub": "DEBUG=GPCCHS:* LEVEL=INFO ZMQ_GPCCDC_PUSH=tcp://127.0.0.1:5042 ZMQ_GPCCDC_PULL=tcp://127.0.0.1:49165 node stubs/dc.js",
     "dc-reg": "DEBUG=GPCCHS:* LEVEL=INFO ZMQ_GPCCDC_PUSH=tcp://127.0.0.1:5042 ZMQ_GPCCDC_PULL=tcp://127.0.0.1:49165 node stubs/dcTestReg.js"

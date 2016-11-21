@@ -44,7 +44,7 @@ export default class AddTrack extends Component {
         this.newTimelineKindEl.value,
         this.newTimelineIdEl.value,
         this.state.color,
-        this.newTimelineSessionEl.value
+        parseInt(this.newTimelineSessionEl.value, 10)
       );
     }
   }

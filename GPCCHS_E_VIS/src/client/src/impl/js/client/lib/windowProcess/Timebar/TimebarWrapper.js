@@ -130,12 +130,12 @@ export default class TimebarWrapper extends Component {
       currentSessionOffsetMs } = this.props;
 
     let minHeight;
-    if (timelines.length < 6) {
-      minHeight = 180;
-    } else if (timelines.length < 8) {
-      minHeight = (timelines.length * 20) + 81;
+    if (timelines.length < 3) {
+      minHeight = 135;
+    } else if (timelines.length < 6) {
+      minHeight = (timelines.length * 20) + 84;
     } else {
-      minHeight = 231;
+      minHeight = 185;
     }
 
     if (minHeight > height || !height) {

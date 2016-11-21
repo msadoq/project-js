@@ -7,9 +7,9 @@ import TimebarScale from './TimebarScale';
 import TimebarTimeline from './TimebarTimeline';
 
 // 1980-01-01
-const minSlideLower = 315532800000;
+const minViewportLower = 315532800000;
 // 2040-01-01
-const maxSlideUpper = 2208988800000;
+const maxViewportUpper = 2208988800000;
 
 export default class Timebar extends Component {
 
@@ -49,7 +49,8 @@ export default class Timebar extends Component {
   onShortcut = (e) => {
     e.stopPropagation();
     if (this.el.parentElement.querySelector(':hover')) {
-      const { visuWindow, timebarId, onChange, updatePlayingState, playingState } = this.props;
+      const { visuWindow, timebarId, onChange, timebarMode,
+        updatePlayingState, playingState, slideWindow } = this.props;
       const { lower, upper, current } = visuWindow;
       const { cursorMs } = this.state;
       switch (e.keyCode) {
@@ -68,8 +69,33 @@ export default class Timebar extends Component {
             onChange(timebarId, { ...visuWindow, upper: cursorMs });
           }
           break;
+        case 88:
+          if (timebarMode === 'Normal') return;
+          if (timebarMode === 'Extensible') return;
+          if (timebarMode === 'Fixed' && (cursorMs < lower || cursorMs > current)) return;
+          onChange(
+            timebarId,
+            {
+              slideWindow: {
+                lower: cursorMs,
+                upper: slideWindow.upper,
+              }
+            }
+          );
+          break;
         case 78:
-          onChange(timebarId, { extUpperBound: cursorMs });
+          if (timebarMode === 'Normal') return;
+          if (timebarMode === 'Extensible' && cursorMs < upper) return;
+          if (timebarMode === 'Fixed' && (cursorMs < current || cursorMs > upper)) return;
+          onChange(
+            timebarId,
+            {
+              slideWindow: {
+                lower: slideWindow.lower,
+                upper: cursorMs,
+              }
+            }
+          );
           break;
         case 32:
           updatePlayingState(timebarId, playingState === 'play' ? 'pause' : 'play');
@@ -383,25 +409,28 @@ export default class Timebar extends Component {
     }
   }
 
-  onTimescaleNavigate = (slideLower, slideUpper, save) => {
-    if (slideLower < minSlideLower || slideUpper > maxSlideUpper) return;
+  onTimescaleNavigate = (viewportLower, viewportUpper, save) => {
+    if (viewportLower < minViewportLower || viewportUpper > maxViewportUpper) return;
     if (save) {
       const { timebarId, onChange } = this.props;
       this.setState({
-        slideLower: null,
-        slideUpper: null
+        viewportLower: null,
+        viewportUpper: null
       });
       onChange(
         timebarId,
         {
           viewport: {
-            lower: slideLower,
-            upper: slideUpper
+            lower: viewportLower,
+            upper: viewportUpper
           }
         }
       );
     } else {
-      this.setState({ slideLower, slideUpper });
+      this.setState({
+        viewportLower,
+        viewportUpper
+      });
     }
   }
 
@@ -454,21 +483,23 @@ export default class Timebar extends Component {
   dragNavigate = () => {
     const { slideLower, slideUpper, dragNavigating,
       dragNavigatingOffset, cursorOriginX, lower,
-      upper, current } = this.state;
-    const viewportMsWidth = slideUpper - slideLower;
+      upper, current, viewportLower, viewportUpper } = this.state;
+    const viewportMsWidth = viewportUpper - viewportLower;
 
     if (dragNavigating) {
       const offsetMs = viewportMsWidth / dragNavigatingOffset;
-      const newSlideLower = slideLower + offsetMs;
-      const newSlideUpper = slideUpper + offsetMs;
-      if (newSlideLower < minSlideLower || newSlideUpper > maxSlideUpper) {
+      const newViewportLower = viewportLower + offsetMs;
+      const newViewportUpper = viewportUpper + offsetMs;
+      if (newViewportLower < minViewportLower || newViewportUpper > maxViewportUpper) {
         setTimeout(this.dragNavigate, 60);
         return;
       }
       this.setState({
-        slideLower: newSlideLower,
-        slideUpper: newSlideUpper,
+        viewportLower: newViewportLower,
+        viewportUpper: newViewportUpper,
         cursorOriginX: cursorOriginX - (this.el.clientWidth / dragNavigatingOffset),
+        slideLower: slideLower + offsetMs,
+        slideUpper: slideUpper + offsetMs,
         lower: lower + offsetMs,
         upper: upper + offsetMs,
         current: current + offsetMs,
@@ -640,7 +671,7 @@ export default class Timebar extends Component {
       bringExtBound = (
         <div>
           <button
-            cursor="extUpperBound"
+            cursor="extBound"
             title="Bring the exterior cursors in the viewport"
             className={classnames('btn', 'btn-sm', 'btn-primary', styles.arrowExt)}
             onClick={this.bringCursors}
@@ -710,19 +741,21 @@ export default class Timebar extends Component {
           </div>
           <span
             cursor="slideLower"
+            title="Ext lower cursor"
             style={{
               left: `${calc.slideLowerPercentOffset}%`
             }}
-            className={classnames(styles.extUpperBound, { hidden: timebarMode !== 'Fixed' })}
+            className={classnames(styles.extBound, { hidden: timebarMode !== 'Fixed' })}
             onMouseDown={this.onMouseDownResize}
             onDoubleClick={displayTimesetter}
           />
           <span
             cursor="slideUpper"
+            title="Ext upper cursor"
             style={{
               left: `${calc.slideUpperPercentOffset}%`
             }}
-            className={classnames(styles.extUpperBound, { hidden: timebarMode === 'Normal' })}
+            className={classnames(styles.extBound, { hidden: timebarMode === 'Normal' })}
             onMouseDown={this.onMouseDownResize}
             onDoubleClick={displayTimesetter}
           />
@@ -742,8 +775,8 @@ export default class Timebar extends Component {
           </div>
         </div>
         <TimebarScale
-          slideLower={viewportLower}
-          slideUpper={viewportUpper}
+          viewportLower={viewportLower}
+          viewportUpper={viewportUpper}
           onChange={this.onTimescaleNavigate}
         />
       </div>

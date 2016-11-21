@@ -4,21 +4,19 @@ import styles from './TimebarScale.css';
 
 const levelsRules = getLevelsRules();
 // 1980-01-01
-const minSlideLower = 315532800000;
+const minViewportLower = 315532800000;
 // 2040-01-01
-const maxSlideUpper = 2208988800000;
+const maxViewportUpper = 2208988800000;
 
 export default class TimebarScale extends PureComponent {
   static propTypes = {
-    slideLower: React.PropTypes.number.isRequired,
-    slideUpper: React.PropTypes.number.isRequired,
+    viewportLower: React.PropTypes.number.isRequired,
+    viewportUpper: React.PropTypes.number.isRequired,
     onChange: React.PropTypes.func.isRequired,
   }
 
   onMouseUp = () => {
-    this.setState({ navigating: false });
     setTimeout(this.autoSave, 120);
-
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
   }
@@ -26,11 +24,13 @@ export default class TimebarScale extends PureComponent {
   onMouseDown = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    const { slideLower, slideUpper } = this.props;
+    const { viewportLower, viewportUpper } = this.props;
     const dragOrigin = e.pageX;
     this.setState({
-      slideLower,
-      slideUpper,
+      viewportLower,
+      viewportUpper,
+      originLower: viewportLower,
+      originUpper: viewportUpper,
       dragOrigin
     });
 
@@ -39,37 +39,29 @@ export default class TimebarScale extends PureComponent {
   }
 
   onMouseMove = (e) => {
-    const { dragOrigin, navigating } = this.state;
-    const mult = e.pageX > dragOrigin ? -1 : 1;
-    const abs = Math.abs(e.pageX - dragOrigin);
-    let pow = 1.4;
-    if (abs > 170) {
-      pow = 9;
-    } else if (abs > 140) {
-      pow = 6;
-    } else if (abs > 110) {
-      pow = 5;
-    } else if (abs > 90) {
-      pow = 4;
-    } else if (abs > 65) {
-      pow = 3;
-    } else if (abs > 40) {
-      pow = 2;
-    }
-    const offsetRel = (mult * 20) / Math.pow(abs / 100, pow);
-    this.setState({
-      navigationOffset: offsetRel,
-    });
+    const { viewportLower, viewportUpper, onChange } = this.props;
+    const { dragOrigin, originLower, originUpper } = this.state;
 
-    if (!navigating) {
-      this.setState({ navigating: true });
-      setTimeout(this.navigate, 60);
-    }
+    const abs = e.pageX - dragOrigin;
+    const offsetMs = ((abs / this.el.clientWidth) * (viewportUpper - viewportLower));
+    const newViewportLower = originLower + offsetMs;
+    const newViewportUpper = originUpper + offsetMs;
+    if (newViewportLower < minViewportLower || newViewportUpper > maxViewportUpper) return;
+    onChange(
+      newViewportLower,
+      newViewportUpper,
+      false
+    );
+
+    this.setState({
+      viewportLower: newViewportLower,
+      viewportUpper: newViewportUpper,
+    });
   }
 
   getRules(viewportMs, zl) {
-    const { slideLower, slideUpper } = this.props;
-    const start = moment(slideLower);
+    const { viewportLower, viewportUpper } = this.props;
+    const start = moment(viewportLower);
     const output = [];
     const levelRule = levelsRules[zl];
 
@@ -85,43 +77,24 @@ export default class TimebarScale extends PureComponent {
       output.push([
         ts,
         start.format(levelRule.format),
-        (100 * (ts - slideLower)) / (slideUpper - slideLower)
+        (100 * (ts - viewportLower)) / (viewportUpper - viewportLower)
       ]);
     }
     return output;
   }
 
   autoSave = () => {
-    const { navigationOffset } = this.state;
-    const { slideLower, slideUpper, onChange } = this.props;
-    const viewportMsWidth = slideUpper - slideLower;
-    const offsetMs = viewportMsWidth / navigationOffset;
+    const { viewportLower, viewportUpper } = this.state;
+    const { onChange } = this.props;
     onChange(
-      slideLower + offsetMs,
-      slideUpper + offsetMs,
+      viewportLower,
+      viewportUpper,
       true
     );
   }
 
-  navigate = () => {
-    const { navigating, navigationOffset } = this.state;
-    const { slideLower, slideUpper, onChange } = this.props;
-    const viewportMsWidth = slideUpper - slideLower;
-    const offsetMs = viewportMsWidth / navigationOffset;
-
-    const newSlideLower = slideLower + offsetMs;
-    const newSlideUpper = slideUpper + offsetMs;
-    if (newSlideLower < minSlideLower || newSlideUpper > maxSlideUpper) return;
-    onChange(
-      slideLower + offsetMs,
-      slideUpper + offsetMs,
-      false
-    );
-    if (navigating) setTimeout(this.navigate, 60);
-  }
-
   render() {
-    const viewportMs = this.props.slideUpper - this.props.slideLower;
+    const viewportMs = this.props.viewportUpper - this.props.viewportLower;
     const scales = this.getRules(viewportMs, getZoomLevel(viewportMs));
 
     return (

@@ -49,5 +49,5 @@ export default connect(
     updateSpeedAction: updateSpeed,
     updateTimebarIdAction: updateTimebarId
   }
-// TODO refactor this container to split into 2 different containers
+
 )(props => (props.timebar ? <TimebarWrapper {...props} /> : <SelectTimebar {...props} />));

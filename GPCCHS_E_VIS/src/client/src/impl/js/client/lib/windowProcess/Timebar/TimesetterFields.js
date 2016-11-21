@@ -84,9 +84,9 @@ export default class TimesetterFields extends Component {
     }
     let valueText;
     if (value === 'slideLower') {
-      valueText = 'Ext left cursor';
+      valueText = 'Ext lower cursor';
     } else if (value === 'slideUpper') {
-      valueText = 'Ext right cursor';
+      valueText = 'Ext upper cursor';
     } else {
       valueText = `${value} cursor`;
     }

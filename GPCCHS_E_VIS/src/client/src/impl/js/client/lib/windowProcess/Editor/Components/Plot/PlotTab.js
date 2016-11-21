@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react';
 import {
   Accordion,
-  Panel
+  Panel,
+  Glyphicon,
+  Button
 } from 'react-bootstrap';
 import {
   PlotGrid,
@@ -28,6 +30,8 @@ export default class PlotTab extends React.Component {
     handleGrids: PropTypes.func,
     handlePlotTitle: PropTypes.func,
     handlePlotTitleStyle: PropTypes.func,
+    handleAddPlotAxis: PropTypes.func,
+    handleRemovePlotAxis: PropTypes.func,
     handlePlotAxes: PropTypes.func,
     handlePlotMarkers: PropTypes.func
   }
@@ -37,6 +41,12 @@ export default class PlotTab extends React.Component {
     isGridOpen: false,
     isMarkersOpen: false
   };
+
+  handleAddPlotAxis = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.handleAddPlotAxis();
+  }
 
   openTitle = () => this.setState({ isTitleOpen: true });
   closeTitle = () => this.setState({ isTitleOpen: false });
@@ -64,6 +74,7 @@ export default class PlotTab extends React.Component {
       titleStyle,
       grids,
       handlePlotAxes,
+      handleRemovePlotAxis,
       handlePlotMarkers,
       handleGrids,
       handlePlotTitle,
@@ -100,7 +111,20 @@ export default class PlotTab extends React.Component {
           />}
         </Panel>
         <Panel
-          header="Axes"
+          header={<span>
+            <Button
+              bsSize="xsmall"
+              className="pull-right btn-link"
+              onClick={this.handleAddPlotAxis}
+            >
+              <Glyphicon
+                className="text-success"
+                glyph="plus"
+                title="Add"
+              />
+            </Button>
+            Axes
+          </span>}
           eventKey="3"
           expanded={isAxesOpen}
           onSelect={this.openAxes}
@@ -108,6 +132,7 @@ export default class PlotTab extends React.Component {
         >
           <PlotAxes
             axes={axes}
+            handleRemovePlotAxis={handleRemovePlotAxis}
             handlePlotAxes={handlePlotAxes}
           />
         </Panel>

@@ -1,18 +1,27 @@
 import React, { PropTypes } from 'react';
 import {
   Accordion,
-  Panel
+  Panel,
+  Button,
+  Glyphicon
 } from 'react-bootstrap';
 import PlotAxis from './PlotAxis';
 
 export default class PlotAxes extends React.Component {
   static propTypes = {
     axes: PropTypes.array.isRequired,
-    handlePlotAxes: PropTypes.func.isRequired,
+    handleRemovePlotAxis: PropTypes.func.isRequired,
+    handlePlotAxes: PropTypes.func.isRequired
   }
   state = {};
   openPanel = key => this.setState({ [`isPanel${key}Open`]: true });
   closePanel = key => this.setState({ [`isPanel${key}Open`]: false });
+
+  handleRemovePlotAxis = (e, key) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.handleRemovePlotAxis(key);
+  }
 
   render() {
     const {
@@ -25,7 +34,20 @@ export default class PlotAxes extends React.Component {
         {axes.map((axis, key) =>
           <Panel
             key={key}
-            header={axis.label}
+            header={<span>
+              <Button
+                bsSize="xsmall"
+                className="pull-right btn-link"
+                onClick={e => this.handleRemovePlotAxis(e, key)}
+              >
+                <Glyphicon
+                  className="text-danger"
+                  glyph="remove"
+                  title="Remove"
+                />
+              </Button>
+              {axis.label}
+            </span>}
             eventKey={key}
             expanded={this.state[`isPanel${key}Open`]}
             onSelect={this.openPanel.bind(key)}
@@ -34,7 +56,7 @@ export default class PlotAxes extends React.Component {
             {this.state[`isPanel${key}Open`] &&
               <PlotAxis
                 key={key}
-                idAxe={key}
+                index={key}
                 label={axis.label}
                 unit={axis.unit}
                 axisStyle={axis.style}

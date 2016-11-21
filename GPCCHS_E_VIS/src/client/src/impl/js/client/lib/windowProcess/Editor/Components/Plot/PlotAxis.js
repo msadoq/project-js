@@ -14,7 +14,7 @@ import SelectFontStyle from '../Selects/SelectFontStyle';
 
 export default class PlotAxis extends PureComponent {
   static propTypes = {
-    idAxe: PropTypes.number,
+    index: PropTypes.number,
     label: PropTypes.string,
     unit: PropTypes.string,
     min: PropTypes.number,
@@ -30,19 +30,42 @@ export default class PlotAxis extends PureComponent {
     style: PropTypes.object
   }
 
-  handleAxisStyle = (field, value) => this.props.handlePlotAxes(this.props.idAxe, `style.${field}`, value);
-  handleAlign = val => this.props.handlePlotAxes(this.props.idAxe, 'style.align', val);
-  handleShow = val => this.props.handlePlotAxes(this.props.idAxe, 'showAxis', val === 'ON');
-  handleLabel = e => this.props.handlePlotAxes(this.props.idAxe, 'label', e.target.value);
-  handleMin = e => this.props.handlePlotAxes(this.props.idAxe, 'min', e.target.value);
-  handleMax = e => this.props.handlePlotAxes(this.props.idAxe, 'max', e.target.value);
-  handleUnit = e => this.props.handlePlotAxes(this.props.idAxe, 'unit', e.target.value);
-  handleAutoLimit = val => this.props.handlePlotAxes(this.props.idAxe, 'autoLimits', val === 'ON');
-  handleAutoTick = val => this.props.handlePlotAxes(this.props.idAxe, 'autoTick', val === 'ON');
-  handleTickStep = e => this.props.handlePlotAxes(this.props.idAxe, 'tickStep', e.target.value);
-  handleShowTicks = val => this.props.handlePlotAxes(this.props.idAxe, 'showTicks', val === 'ON');
-  handleTicksLabel = val => this.props.handlePlotAxes(this.props.idAxe, 'showTickLabels', val === 'ON');
-  handleLogarithmic = val => this.props.handlePlotAxes(this.props.idAxe, 'isLogarithmic', val === 'ON');
+  static defaultProps = {
+    unit: '',
+    min: 0,
+    max: 0,
+    autoLimits: true,
+    tickStep: 1,
+    autoTick: true,
+    showTicks: true,
+    showTickLabels: true,
+    isLogarithmic: false,
+    showAxis: true,
+    style: {
+      font: 'Arial',
+      size: 12,
+      bold: false,
+      italic: false,
+      underline: false,
+      strikeOut: false,
+      align: 'left',
+      colour: '#000000'
+    }
+  }
+
+  handleAxisStyle = (field, value) => this.props.handlePlotAxes(this.props.index, `style.${field}`, value);
+  handleAlign = val => this.props.handlePlotAxes(this.props.index, 'style.align', val);
+  handleShow = val => this.props.handlePlotAxes(this.props.index, 'showAxis', val === 'ON');
+  handleLabel = e => this.props.handlePlotAxes(this.props.index, 'label', e.target.value);
+  handleMin = e => this.props.handlePlotAxes(this.props.index, 'min', e.target.value);
+  handleMax = e => this.props.handlePlotAxes(this.props.index, 'max', e.target.value);
+  handleUnit = e => this.props.handlePlotAxes(this.props.index, 'unit', e.target.value);
+  handleAutoLimit = val => this.props.handlePlotAxes(this.props.index, 'autoLimits', val === 'ON');
+  handleAutoTick = val => this.props.handlePlotAxes(this.props.index, 'autoTick', val === 'ON');
+  handleTickStep = e => this.props.handlePlotAxes(this.props.index, 'tickStep', e.target.value);
+  handleShowTicks = val => this.props.handlePlotAxes(this.props.index, 'showTicks', val === 'ON');
+  handleTicksLabel = val => this.props.handlePlotAxes(this.props.index, 'showTickLabels', val === 'ON');
+  handleLogarithmic = val => this.props.handlePlotAxes(this.props.index, 'isLogarithmic', val === 'ON');
 
   render() {
     const {

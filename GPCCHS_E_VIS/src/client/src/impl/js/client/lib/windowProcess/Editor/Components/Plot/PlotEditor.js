@@ -46,6 +46,8 @@ export default class Editor extends Component {
     updateGrid: PropTypes.func.isRequired,
     updateTitle: PropTypes.func.isRequired,
     updateTitleStyle: PropTypes.func.isRequired,
+    addAxis: PropTypes.func.isRequired,
+    removeAxis: PropTypes.func.isRequired,
     updateAxis: PropTypes.func.isRequired,
     updateMarker: PropTypes.func.isRequired,
 
@@ -96,7 +98,7 @@ export default class Editor extends Component {
       [label]: newVal
     });
   }
-  addEntryPoint = () => {
+  handleAddEntryPoint = () => {
     const { addEntryPoint, viewId } = this.props;
     addEntryPoint(viewId, { ...newEntryPoint });
   }
@@ -131,9 +133,20 @@ export default class Editor extends Component {
       [label]: newVal
     });
   }
+  handleAddAxis = () => {
+    const { configuration, addAxis, viewId } = this.props;
+    const currentLength = _get(configuration, 'axes.length', 0);
+    addAxis(viewId, {
+      label: `Axis ${currentLength}`
+    });
+  }
+  handleRemovePlotAxis = (key) => {
+    const { removeAxis, viewId } = this.props;
+    removeAxis(viewId, key);
+  }
   handleAxes = (key, label, newVal) => {
     const { configuration, updateAxis, viewId } = this.props;
-    const currentAxis = _get(configuration, `markers[${key}]`);
+    const currentAxis = _get(configuration, `axes[${key}]`);
     updateAxis(viewId, key, {
       ...currentAxis,
       [label]: newVal
@@ -178,6 +191,8 @@ export default class Editor extends Component {
             handleGrids={this.handleGrids}
             handlePlotTitle={this.handlePlotTitle}
             handlePlotTitleStyle={this.handlePlotTitleStyle}
+            handleAddPlotAxis={this.handleAddAxis}
+            handleRemovePlotAxis={this.handleRemovePlotAxis}
             handlePlotAxes={this.handleAxes}
             handlePlotMarkers={this.handlePlotMarkers}
             axes={axes}
@@ -189,7 +204,7 @@ export default class Editor extends Component {
           {currentDisplay === 0 && <div>
             <EntryPointActions
               changeSearch={this.changeSearch}
-              addEntryPoint={this.addEntryPoint}
+              addEntryPoint={this.handleAddEntryPoint}
             />
             <EntryPointTree
               entryPoints={entryPoints}

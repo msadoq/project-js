@@ -13,7 +13,6 @@ import { connect } from './websocket';
 import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
 import { removeAllData } from '../store/actions/viewData';
-import { removeAllRequests } from '../store/actions/dataRequests';
 import { setActingOn, setActingOff, resetPreviousMap } from './storeObserver';
 import { schedule, clear as stopDataPulling } from './pull';
 
@@ -39,7 +38,6 @@ import { schedule, clear as stopDataPulling } from './pull';
  * Server disconnecting
  * - LIFECYCLE_LOST_HSS_CONNECTION
  * - stop data pull
- * - remove all requests
  * - remove all data
  * - reset previous dataMap
  *
@@ -119,7 +117,6 @@ export function onClose(dispatch) {
   clearRegisteredCallbacks();
   dispatch(updateAppStatus(LIFECYCLE_LOST_HSS_CONNECTION));
   dispatch(updateStatus('main', 'disconnected'));
-  dispatch(removeAllRequests());
   dispatch(removeAllData());
   resetPreviousMap();
 

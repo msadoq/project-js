@@ -3,7 +3,7 @@ import { freezeMe } from '../../common/test';
 import * as actions from '../actions/hsc';
 import reducer from './hsc';
 
-describe.only('store:hss', () => {
+describe('store:hss', () => {
   it('should returns initial state', () => {
     const r = reducer(undefined, {});
     r.should.be.an('object').with.property('status', 'LIFECYCLE_NOT_STARTED');
@@ -23,10 +23,6 @@ describe.only('store:hss', () => {
     reducer(undefined, actions.updateStatus('myStatus'))
       .should.have.property('status', 'myStatus');
   });
-  it('should update lastCacheInvalidation', () => {
-    reducer(undefined, actions.updateCacheInvalidation(10))
-      .should.have.property('lastCacheInvalidation', 10);
-  });
   describe('play/pause', () => {
     it('should set timebarId as playing', () => {
       reducer(freezeMe({}), actions.play(10)).should.have.property('playingTimebarId', 10);
@@ -41,5 +37,9 @@ describe.only('store:hss', () => {
         playingTimebarId: 10,
       }), actions.pause()).should.have.property('playingTimebarId', null);
     });
+  });
+  it('should update lastCacheInvalidation', () => {
+    reducer(undefined, actions.updateCacheInvalidation(10))
+      .should.have.property('lastCacheInvalidation', 10);
   });
 });

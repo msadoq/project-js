@@ -7,6 +7,7 @@
     "build": "npm run build-main && npm run build-renderer",
     "build-main": "NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.electron.js --progress --profile --colors",
     "build-renderer": "NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.production.js --progress --profile --colors",
+    "hello": "npm install && npm link ../../../../../common/src/main/js/common && [ -f .env ] && echo || cp .env.example .env",
     "lint": "eslint lib test *.js",
     "package": "NODE_ENV=production node -r babel-register -r babel-polyfill package.js",
     "package-all": "npm run package -- --all",

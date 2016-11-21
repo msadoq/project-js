@@ -5,6 +5,7 @@
   "scripts": {
     "build-primus-client": "node ./bin/buildPrimusClient",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha \"lib/**/*.spec.js\" -- -R spec",
+    "hello": "npm install && npm link ../../../../../common/src/main/js/common && [ -f .env ] && echo || cp .env.example .env",
     "lint": "eslint lib test *.js",
     "start": "node --max_old_space_size=8000 index",
     "test": "mocha \"lib/**/*.spec.js\"",

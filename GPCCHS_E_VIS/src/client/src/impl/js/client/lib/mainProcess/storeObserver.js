@@ -19,6 +19,7 @@ let windowAlreadyOpened = false;
 let lastMap = {};
 let actingOnData = false;
 
+export const getPreviousMap = () => lastMap;
 export const resetPreviousMap = () => (lastMap = {});
 export const setActingOn = () => (actingOnData = true);
 export const setActingOff = () => (actingOnData = false);

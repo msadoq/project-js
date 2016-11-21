@@ -6,7 +6,6 @@ import {
   ControlLabel
 } from 'react-bootstrap';
 import SelectButton from '../Buttons/SelectButton';
-import styles from './EntryPointDetails.css';
 import ColorPicker from '../ColorPicker';
 
 const LineStyles = [
@@ -41,8 +40,8 @@ export default class EntryPointStyle extends React.Component {
     return (
       <div>
         <Form horizontal>
-          <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalCurve">
-            <Col componentClass={ControlLabel} xs={3} className={styles.formLabel}>
+          <FormGroup controlId="formHorizontalCurve">
+            <Col componentClass={ControlLabel} xs={3} >
               Line
             </Col>
             <Col xs={9}>
@@ -56,10 +55,9 @@ export default class EntryPointStyle extends React.Component {
             </Col>
           </FormGroup>
           <FormGroup
-            className={styles.formGroupXsmall}
             controlId="formHorizontalTimeline"
           >
-            <Col componentClass={ControlLabel} xs={3} className={styles.formLabel}>
+            <Col componentClass={ControlLabel} xs={3} >
               Points
             </Col>
             <Col xs={9}>
@@ -72,10 +70,9 @@ export default class EntryPointStyle extends React.Component {
             </Col>
           </FormGroup>
           <FormGroup
-            className={styles.formGroupXsmall}
             controlId="formHorizontalTimeline"
           >
-            <Col componentClass={ControlLabel} xs={3} className={styles.formLabel}>
+            <Col componentClass={ControlLabel} xs={3} >
               Color
             </Col>
             <Col xs={9}>

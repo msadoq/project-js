@@ -2,11 +2,12 @@ import React, { PropTypes } from 'react';
 import {
   Accordion,
   Panel,
-  Glyphicon
+  Glyphicon,
+  Alert,
+  Button
 } from 'react-bootstrap';
 
 import EntryPointDetails from './EntryPointDetails';
-import styles from './EntryPointTree.css';
 /*
   EntryPointTree liste les EntryPoints à afficher.
   Permet également d'appliquer un filtre sur le nom
@@ -41,29 +42,32 @@ export default class EntryPointTree extends React.Component {
     const list = entryPoints
       .filter(entryPoint => entryPoint.name.match(mask));
 
-    if (!entryPoints.length) {
-      return (<div>No entryPoints to display</div>);
+    if (!list.length) {
+      return (<Alert bsStyle="info" className="m0">
+        <strong>Holy guacamole!</strong> Nothing to display.
+      </Alert>);
     }
 
     return (
-      <Accordion className={styles.entryPointsTree}>
+      <Accordion>
         {list.map((entryPoint, key) => {
           const isOpen = this.state[`panel${key}IsOpen`];
           return (
             <Panel
               key={key}
               header={<span>
-                {entryPoint.name}
-                <button
+                <Button
+                  bsSize="xsmall"
                   className="pull-right btn-link"
                   onClick={e => this.handleRemove(e, key)}
                 >
                   <Glyphicon
-                    className={styles.danger}
+                    className="text-danger"
                     glyph="remove"
                     title="Remove"
                   />
-                </button>
+                </Button>
+                {entryPoint.name}
               </span>}
               eventKey={key}
               expanded={isOpen}
@@ -71,7 +75,7 @@ export default class EntryPointTree extends React.Component {
               onExited={this.closePanel.bind(key)}
             >
               {isOpen && <EntryPointDetails
-                key={key + entryPoint.name}
+                key={key}
                 idPoint={key}
                 entryPoint={entryPoint}
                 handleEntryPoint={handleEntryPoint}

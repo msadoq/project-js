@@ -1,8 +1,9 @@
-import React, { PropTypes } from 'react';
+import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import TextEditor from './TextEditor';
+import * as actions from '../../../../store/actions/views';
 
-const TextEditorContainer = props => <TextEditor {...props} />;
+const TextEditorContainer = connect(null, actions)(TextEditor);
 
 TextEditorContainer.propTypes = {
   viewId: PropTypes.string.isRequired,
@@ -11,4 +12,4 @@ TextEditorContainer.propTypes = {
   closeEditor: PropTypes.func,
 };
 
-export default connect()(TextEditorContainer);
+export default TextEditorContainer;

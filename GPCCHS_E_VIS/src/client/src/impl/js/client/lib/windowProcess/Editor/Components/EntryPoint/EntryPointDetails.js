@@ -18,8 +18,8 @@ import {
 import EntryPointConnectedData from './EntryPointConnectedData';
 import ColorPicker from '../ColorPicker';
 import SelectButton from '../Buttons/SelectButton';
-import styles from './EntryPointDetails.css';
 import EntryPointStyle from './EntryPointStyle';
+import EntryPointName from './EntryPointName';
 import EntryPointStateColours from './EntryPointStateColours';
 
 /*
@@ -34,18 +34,18 @@ export default class EntryPointDetails extends React.Component {
   }
 
   state = {
+    isPanelNameOpen: false,
+    isPanelStyleOpen: false,
+    isPanelConnDataOpen: false,
+    isPanelOrdinateOpen: false,
+    isPanelAbscissOpen: false,
+    isPanelStateColoursOpen: false,
     nameEditable: false,
     newStateColor: '#FFFFFF',
     newStateField: '',
     newStateOperator: '',
     newStateOperand: '',
   };
-
-  componentWillMount(){
-    this.setState({
-      name: this.props.entryPoint.name
-    });
-  }
 
   /*
     Toutes les fonctions dont le nom commence par handle sont appelées
@@ -57,7 +57,7 @@ export default class EntryPointDetails extends React.Component {
   */
   handleLineStyle = val => this.props.handleEntryPoint(this.props.idPoint, 'lineStyle', val);
   handlePoints = val => this.props.handleEntryPoint(this.props.idPoint, 'pointsStyle', val);
-  handleName = e => this.props.handleEntryPoint(this.props.idPoint, 'name', this.state.name);
+  handleName = val => this.props.handleEntryPoint(this.props.idPoint, 'name', val);
   handleCurveColour = color => this.props.handleEntryPoint(this.props.idPoint, 'curveColour', color);
   handleDataYChange = (label, val) => this.props.handleEntryPoint(this.props.idPoint, `connectedDataY.${label}`, val);
   handleChangeStateColor = color => this.setState({ newStateColor: color });
@@ -93,6 +93,7 @@ export default class EntryPointDetails extends React.Component {
     } = this.props;
 
     const {
+      isPanelNameOpen,
       isPanelStyleOpen,
       isPanelConnDataOpen,
       isPanelOrdinateOpen,
@@ -104,6 +105,19 @@ export default class EntryPointDetails extends React.Component {
 
     return (
       <Accordion>
+        {entryPoint.name && <Panel
+          key={'Name'}
+          header="Name"
+          eventKey={'Name'}
+          expanded={isPanelNameOpen}
+          onSelect={this.openPanel.bind('Name')}
+          onExited={this.closePanel.bind('Name')}
+        >
+          {isPanelNameOpen && <EntryPointName
+            name={entryPoint.name}
+            handleName={this.handleName}
+          />}
+        </Panel>}
         {entryPoint.lineStyle && <Panel
           key={'Style'}
           header="Style"
@@ -175,137 +189,5 @@ export default class EntryPointDetails extends React.Component {
         </Panel>}
       </Accordion>
     )
-
-    /*
-    return (
-      <div className={styles.EntryPointTreeFirstLvl}>
-        <div>
-          <FormControl
-            autoFocus
-            type="text"
-            className="input-sm"
-            value={this.state.name}
-            onChange={(e) => this.setState({ name:  e.target.value })}
-            onBlur={this.handleName}
-            style={{ width: '200px', display: 'inline' }}
-          />
-          <div >
-            {
-            (this.props.entryPoint.lineStyle !== undefined &&
-             this.props.entryPoint.pointsStyle !== undefined &&
-             this.props.entryPoint.curveColour !== undefined) ?
-               <div>
-                  <button
-                    className={classnames('btn-link', styles.collapseEvent, { [styles.active]: openG })}
-                    onClick={this.toggleOpenG}
-                  >
-                    <Glyphicon
-                      className={styles.glyphMenu}
-                      glyph={openG ? 'menu-down' : 'menu-right'}
-                    /> Styles
-                  </button>
-                  {openG && <Collapse in={openG}>
-                    <EntryPointStyle
-                      entryPoint={entryPoint}
-                      handleCurveColour={this.handleCurveColour}
-                      handleLineStyle={this.handleLineStyle}
-                      handlePoints={this.handlePoints}
-                    />
-                  </Collapse>}
-               </div>
-            : null}
-            {(this.props.entryPoint.connectedData !== undefined) ?
-              <div>
-                <button
-                  className={classnames('btn-link', styles.collapseEvent, { [styles.active]: openC })}
-                  onClick={this.toggleOpenC}
-                >
-                  <Glyphicon
-                    className={styles.glyphMenu}
-                    glyph={openC ? 'menu-down' : 'menu-right'}
-                  /> Conn Data
-                </button>
-                {openC && <Collapse in={openC}>
-                  <div >
-                    <EntryPointConnectedData
-                      connectedData={this.props.entryPoint.connectedData}
-                    />
-                  </div>
-                </Collapse>}
-              </div>
-            : null}
-            {(this.props.entryPoint.connectedDataY !== undefined) ?
-              <div>
-                <button
-                  className={classnames('btn-link', styles.collapseEvent, { [styles.active]: openY })}
-                  onClick={this.toggleOpenY}
-                >
-                  <Glyphicon
-                    className={styles.glyphMenu}
-                    glyph={openY ? 'menu-down' : 'menu-right'}
-                  />
-                      Ordinate
-                </button>
-                {openY && <Collapse in={openY}>
-                  <div >
-                    <EntryPointConnectedData
-                      connectedData={this.props.entryPoint.connectedDataY}
-                      handleChange={this.handleDataYChange}
-                    />
-                  </div>
-                </Collapse>}
-              </div>
-            : null}
-            {(this.props.entryPoint.connectedDataX !== undefined) ?
-              <div>
-                <button
-                  className={classnames('btn-link', styles.collapseEvent, { [styles.active]: openX })}
-                  onClick={this.toggleopenX}
-                >
-                  <Glyphicon
-                    className={styles.glyphMenu}
-                    glyph={openX ? 'menu-down' : 'menu-right'}
-                  />
-                    Absciss
-                </button>
-                {openX && <Collapse in={openX}>
-                  <div >
-                    <EntryPointConnectedData connectedData={this.props.entryPoint.connectedDataX} />
-                  </div>
-                </Collapse>}
-              </div>
-            : null}
-            {(entryPoint.stateColours !== undefined) ?
-              <div>
-                <button
-                  className={classnames('btn-link', styles.collapseEvent, { [styles.active]: openST })}
-                  onClick={this.toggleOpenST}
-                >
-                  <Glyphicon
-                    className={styles.glyphMenu}
-                    glyph={openST ? 'menu-down' : 'menu-right'}
-                  />
-                  State colours
-                </button>
-                {openST && <Collapse in={openST}>
-                  <div >
-                    <EntryPointStateColours
-                      stateColours={entryPoint.stateColours}
-                      filterOptions={filterOptions}
-                      newStateColor={newStateColor}
-                      removeStateColor={this.removeStateColor}
-                      handleFilter={this.handleFilter}
-                      handleChangeStateColor={this.handleChangeStateColor}
-                      addStateColor
-                    />
-                  </div>
-                </Collapse>}
-              </div>
-            : null}
-          </div>
-        </div>
-      </div>
-    );
-    */
   }
 }

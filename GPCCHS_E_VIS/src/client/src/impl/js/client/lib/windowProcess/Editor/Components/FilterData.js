@@ -1,7 +1,5 @@
 import React, { PropTypes } from 'react';
 import { FormControl, Col, Row } from 'react-bootstrap';
-import classnames from 'classnames';
-import select from './Select.css';
 
 export default class FilterData extends React.Component {
   static propTypes = {
@@ -38,7 +36,6 @@ export default class FilterData extends React.Component {
         <Col xs={6} style={ColStyle1}>
           <FormControl
             componentClass="select"
-            className={classnames(select.xsmall)}
             onChange={this.handleFilter}
           >
             {filterOptions}
@@ -47,7 +44,6 @@ export default class FilterData extends React.Component {
         <Col xs={3} style={ColStyle2}>
           <FormControl
             componentClass="select"
-            className={classnames(select.xsmall)}
             onChange={this.handleOperator}
           >
             <option value="equals"> = </option>

@@ -56,7 +56,7 @@ export default function views(stateViews = {}, action) {
     case types.WS_VIEW_UPDATE_TITLE:
       return updateObject(stateViews, action, 'title', 'title');
     case types.WS_VIEW_UPDATE_TITLESTYLE:
-      return updateObject(stateViews, action, 'titleStyle', 'titleStyle', 'PlotView');
+      return updateObject(stateViews, action, 'titleStyle', 'titleStyle');
     case types.WS_VIEW_UPDATE_BGCOLOR:
       return updateObject(stateViews, action, 'plotBackgroundColour', 'bgColor', 'PlotView');
     case types.WS_VIEW_UPDATE_LEGEND:

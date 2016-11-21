@@ -40,7 +40,7 @@ const getLineMarkerProps = (pointsStyle, props) => {
   let styleProps = {};
   switch (pointsStyle) {
     case 'Square':
-      styleProps = { width: 5 };
+      styleProps = { width: 4 };
       break;
     case 'Triangle':
       styleProps = { width: 5 };
@@ -195,7 +195,10 @@ class PlotView extends PureComponent {
         key={`scatter${key}`}
         yAccessor={d => _get(d, [key, 'value'])}
         marker={getLineMarker(pointsStyle)}
-        markerProps={getLineMarkerProps(pointsStyle, { stroke: color })}
+        markerProps={getLineMarkerProps(pointsStyle, {
+          stroke: color,
+          fill: color
+        })}
       />
       <CurrentCoordinate
         key={`coordinate${key}`}

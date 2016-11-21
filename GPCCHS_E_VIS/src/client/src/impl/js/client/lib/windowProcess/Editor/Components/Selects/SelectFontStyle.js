@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Col } from 'react-bootstrap';
-import ToggleButton from './Buttons/ToggleButton';
+import ToggleButton from '../Buttons/ToggleButton';
 
 /*
   SelectFontStyle permet d'éditer les propriétés de styles :
@@ -22,7 +22,7 @@ export default class SelectFontStyle extends React.Component {
 
   handleBold = state => this.props.update('bold', state === 'ON');
   handleItalic = state => this.props.update('italic', state === 'ON');
-  handleUnderline = state => this.props.update('unederline', state === 'ON');
+  handleUnderline = state => this.props.update('underline', state === 'ON');
   handleStrikeOut = state => this.props.update('strikeOut', state === 'ON');
 
   render() {
@@ -33,7 +33,7 @@ export default class SelectFontStyle extends React.Component {
       strikeOut
     } = this.props;
     return (
-      <div className="row">
+      <div className="row" >
         <Col xs={3}>
           <ToggleButton
             on="B"

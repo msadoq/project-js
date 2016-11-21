@@ -1,8 +1,5 @@
-import React, { PropTypes } from 'react';
-import classnames from 'classnames';
+import React, { PropTypes, PureComponent } from 'react';
 import {
-  Glyphicon,
-  Collapse,
   Form,
   FormGroup,
   FormControl,
@@ -10,13 +7,12 @@ import {
   ControlLabel
 } from 'react-bootstrap';
 import ToggleButton from '../Buttons/ToggleButton';
-import styles from './PlotTab.css';
 import ColorPicker from '../ColorPicker';
 import SelectButton from '../Buttons/SelectButton';
-import SelectFontFamilySize from '../SelectFontFamilySize';
-import SelectFontStyle from '../SelectFontStyle';
+import SelectFontFamilySize from '../Selects/SelectFontFamilySize';
+import SelectFontStyle from '../Selects/SelectFontStyle';
 
-export default class PlotAxis extends React.Component {
+export default class PlotAxis extends PureComponent {
   static propTypes = {
     idAxe: PropTypes.number,
     label: PropTypes.string,
@@ -34,10 +30,6 @@ export default class PlotAxis extends React.Component {
     style: PropTypes.object
   }
 
-  state = {
-    open: false
-  };
-
   handleAxisStyle = (field, value) => this.props.handlePlotAxes(this.props.idAxe, `style.${field}`, value);
   handleAlign = val => this.props.handlePlotAxes(this.props.idAxe, 'style.align', val);
   handleShow = val => this.props.handlePlotAxes(this.props.idAxe, 'showAxis', val === 'ON');
@@ -51,12 +43,8 @@ export default class PlotAxis extends React.Component {
   handleShowTicks = val => this.props.handlePlotAxes(this.props.idAxe, 'showTicks', val === 'ON');
   handleTicksLabel = val => this.props.handlePlotAxes(this.props.idAxe, 'showTickLabels', val === 'ON');
   handleLogarithmic = val => this.props.handlePlotAxes(this.props.idAxe, 'isLogarithmic', val === 'ON');
-  toggleOpen = () => this.setState({ open: !this.state.open });
 
   render() {
-    const {
-      open
-    } = this.state;
     const {
       label,
       unit,
@@ -73,241 +61,223 @@ export default class PlotAxis extends React.Component {
     } = this.props;
 
     return (
-      <div className={styles.AxesTreeSecLvl}>
-        <button
-          className={classnames('btn-link', styles.collapseEvent, { [styles.active]: open })}
-          onClick={this.toggleOpen}
+      <Form horizontal>
+        <FormGroup controlId="formHorizontalName">
+          <Col componentClass={ControlLabel} xs={4} >
+            Label
+          </Col>
+          <Col xs={8}>
+            <FormControl
+              type="text"
+              className="input-sm"
+              value={label}
+              onChange={this.handleLabel}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup controlId="formHorizontalName">
+          <Col componentClass={ControlLabel} xs={4} >
+            Font
+          </Col>
+          <Col xs={8}>
+            <SelectFontFamilySize update={this.handleAxisStyle} />
+          </Col>
+        </FormGroup>
+        <FormGroup
+
+          controlId="formControlsSelect"
         >
-          <Glyphicon
-            className={styles.glyphMenu}
-            glyph={open ? 'menu-down' : 'menu-right'}
-          />
-          {' '}{this.props.label}
-        </button>
-        {open && <Collapse in={open}>
-          <div >
-            <Form horizontal>
-              <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalName">
-                <Col componentClass={ControlLabel} xs={4} className={styles.formLabel}>
-                  Label
-                </Col>
-                <Col xs={8}>
-                  <FormControl
-                    type="text"
-                    className="input-sm"
-                    value={label}
-                    onChange={this.handleLabel}
-                  />
-                </Col>
-              </FormGroup>
-              <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalName">
-                <Col componentClass={ControlLabel} xs={4} className={styles.formLabel}>
-                  Font
-                </Col>
-                <Col xs={8}>
-                  <SelectFontFamilySize update={this.handleAxisStyle} />
-                </Col>
-              </FormGroup>
-              <FormGroup
-                className={styles.formGroupXsmall}
-                controlId="formControlsSelect"
-              >
-                <Col className={styles.formLabel} componentClass={ControlLabel} xs={4}>
-                  Style
-                </Col>
-                <Col xs={8}>
-                  <SelectFontStyle
-                    update={this.handleAxisStyle}
-                    bold={style.bold}
-                    italic={style.italic}
-                    underline={style.underline}
-                    strikeout={style.strikeOut}
-                  />
-                </Col>
-              </FormGroup>
-              <FormGroup
-                className={styles.formGroupXsmall}
-                controlId="formControlsSelect"
-              >
-                <Col className={styles.formLabel} componentClass={ControlLabel} xs={4}>
-                  Color
-                </Col>
-                <Col xs={8}>
-                  <ColorPicker color="#F5A623" onChange={this.handleAxisStyle} />
-                </Col>
-              </FormGroup>
-              <FormGroup
-                className={styles.formGroupXsmall}
-                controlId="formControlsSelect"
-              >
-                <Col className={styles.formLabel} componentClass={ControlLabel} xs={4}>
-                  Align
-                </Col>
-                <Col xs={8}>
-                  <SelectButton
-                    size="xsmall"
-                    active={style.align}
-                    buttons={[
-                      { label: 'left', icon: 'alignLeft' },
-                      { label: 'center', icon: 'alignCenter' },
-                      { label: 'right', icon: 'alignRight' }
-                    ]}
-                    onChange={this.handleAlign}
-                  />
-                </Col>
-              </FormGroup>
-              <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalName">
-                <Col componentClass={ControlLabel} xs={4} className={styles.formLabel}>
-                  Show
-                </Col>
-                <Col xs={8}>
-                  <ToggleButton
-                    on={'ON'}
-                    off={'OFF'}
-                    default={(showAxis === true) ? 'ON' : 'OFF'}
-                    size="xsmall"
-                    styleOn="primary"
-                    styleOff="warning"
-                    onChange={this.handleShow}
-                  />
-                </Col>
-              </FormGroup>
-              <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalName">
-                <Col componentClass={ControlLabel} xs={4} className={styles.formLabel}>
-                  Min
-                </Col>
-                <Col xs={8}>
-                  <FormControl
-                    type="number"
-                    className="input-sm"
-                    value={min}
-                    onChange={this.handleMin}
-                  />
-                </Col>
-              </FormGroup>
-              <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalName">
-                <Col componentClass={ControlLabel} xs={4} className={styles.formLabel}>
-                  Max
-                </Col>
-                <Col xs={8}>
-                  <FormControl
-                    type="number"
-                    className="input-sm"
-                    value={max}
-                    onChange={this.handleMax}
-                  />
-                </Col>
-              </FormGroup>
-              <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalName">
-                <Col componentClass={ControlLabel} xs={4} className={styles.formLabel}>
-                  Unit
-                </Col>
-                <Col xs={8}>
-                  <FormControl
-                    type="text"
-                    className="input-sm"
-                    value={unit}
-                    onChange={this.handleUnit}
-                  />
-                </Col>
-              </FormGroup>
-              <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalName">
-                <Col componentClass={ControlLabel} xs={4} className={styles.formLabel}>
-                  Auto Limit
-                </Col>
-                <Col xs={8}>
-                  <ToggleButton
-                    on={'ON'}
-                    off={'OFF'}
-                    default={(autoLimits === true) ? 'ON' : 'OFF'}
-                    size="xsmall"
-                    styleOn="primary"
-                    styleOff="warning"
-                    onChange={this.handleAutoLimit}
-                  />
-                </Col>
-              </FormGroup>
-              <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalName">
-                <Col componentClass={ControlLabel} xs={4} className={styles.formLabel}>
-                  Auto Tick
-                </Col>
-                <Col xs={8}>
-                  <ToggleButton
-                    on={'ON'}
-                    off={'OFF'}
-                    default={(autoTick === true) ? 'ON' : 'OFF'}
-                    size="xsmall"
-                    styleOn="primary"
-                    styleOff="warning"
-                    onChange={this.handleAutoTick}
-                  />
-                </Col>
-              </FormGroup>
-              <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalName">
-                <Col componentClass={ControlLabel} xs={4} className={styles.formLabel}>
-                  Tick step
-                </Col>
-                <Col xs={8}>
-                  <FormControl
-                    type="number"
-                    className="input-sm"
-                    value={tickStep}
-                    onChange={this.handleTickStep}
-                  />
-                </Col>
-              </FormGroup>
-              <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalName">
-                <Col componentClass={ControlLabel} xs={4} className={styles.formLabel}>
-                  Show ticks
-                </Col>
-                <Col xs={8}>
-                  <ToggleButton
-                    on={'ON'}
-                    off={'OFF'}
-                    default={(showTicks === true) ? 'ON' : 'OFF'}
-                    size="xsmall"
-                    styleOn="primary"
-                    styleOff="warning"
-                    onChange={this.handleShowTicks}
-                  />
-                </Col>
-              </FormGroup>
-              <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalName">
-                <Col componentClass={ControlLabel} xs={4} className={styles.formLabel}>
-                  Ticks label
-                </Col>
-                <Col xs={8}>
-                  <ToggleButton
-                    on={'ON'}
-                    off={'OFF'}
-                    default={(showTickLabels === true) ? 'ON' : 'OFF'}
-                    size="xsmall"
-                    styleOn="primary"
-                    styleOff="warning"
-                    onChange={this.handleTicksLabel}
-                  />
-                </Col>
-              </FormGroup>
-              <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalName">
-                <Col componentClass={ControlLabel} xs={4} className={styles.formLabel}>
-                  Logarithmic
-                </Col>
-                <Col xs={8}>
-                  <ToggleButton
-                    on={'ON'}
-                    off={'OFF'}
-                    default={(isLogarithmic === true) ? 'ON' : 'OFF'}
-                    size="xsmall"
-                    styleOn="primary"
-                    styleOff="warning"
-                    onChange={this.handleLogarithmic}
-                  />
-                </Col>
-              </FormGroup>
-            </Form>
-          </div>
-        </Collapse>}
-      </div>
+          <Col componentClass={ControlLabel} xs={4}>
+            Style
+          </Col>
+          <Col xs={8}>
+            <SelectFontStyle
+              update={this.handleAxisStyle}
+              bold={style.bold}
+              italic={style.italic}
+              underline={style.underline}
+              strikeout={style.strikeOut}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup
+          controlId="formControlsSelect"
+        >
+          <Col componentClass={ControlLabel} xs={4}>
+            Color
+          </Col>
+          <Col xs={8}>
+            <ColorPicker color="#F5A623" onChange={this.handleAxisStyle} />
+          </Col>
+        </FormGroup>
+        <FormGroup
+          controlId="formControlsSelect"
+        >
+          <Col componentClass={ControlLabel} xs={4}>
+            Align
+          </Col>
+          <Col xs={8}>
+            <SelectButton
+              size="xsmall"
+              active={style.align}
+              buttons={[
+                { label: 'left', icon: 'alignLeft' },
+                { label: 'center', icon: 'alignCenter' },
+                { label: 'right', icon: 'alignRight' }
+              ]}
+              onChange={this.handleAlign}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup controlId="formHorizontalName">
+          <Col componentClass={ControlLabel} xs={4} >
+            Show
+          </Col>
+          <Col xs={8}>
+            <ToggleButton
+              on={'ON'}
+              off={'OFF'}
+              default={(showAxis === true) ? 'ON' : 'OFF'}
+              size="xsmall"
+              styleOn="primary"
+              styleOff="warning"
+              onChange={this.handleShow}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup controlId="formHorizontalName">
+          <Col componentClass={ControlLabel} xs={4} >
+            Min
+          </Col>
+          <Col xs={8}>
+            <FormControl
+              type="number"
+              className="input-sm"
+              value={min}
+              onChange={this.handleMin}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup controlId="formHorizontalName">
+          <Col componentClass={ControlLabel} xs={4} >
+            Max
+          </Col>
+          <Col xs={8}>
+            <FormControl
+              type="number"
+              className="input-sm"
+              value={max}
+              onChange={this.handleMax}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup controlId="formHorizontalName">
+          <Col componentClass={ControlLabel} xs={4} >
+            Unit
+          </Col>
+          <Col xs={8}>
+            <FormControl
+              type="text"
+              className="input-sm"
+              value={unit}
+              onChange={this.handleUnit}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup controlId="formHorizontalName">
+          <Col componentClass={ControlLabel} xs={4} >
+            Auto Limit
+          </Col>
+          <Col xs={8}>
+            <ToggleButton
+              on={'ON'}
+              off={'OFF'}
+              default={(autoLimits === true) ? 'ON' : 'OFF'}
+              size="xsmall"
+              styleOn="primary"
+              styleOff="warning"
+              onChange={this.handleAutoLimit}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup controlId="formHorizontalName">
+          <Col componentClass={ControlLabel} xs={4} >
+            Auto Tick
+          </Col>
+          <Col xs={8}>
+            <ToggleButton
+              on={'ON'}
+              off={'OFF'}
+              default={(autoTick === true) ? 'ON' : 'OFF'}
+              size="xsmall"
+              styleOn="primary"
+              styleOff="warning"
+              onChange={this.handleAutoTick}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup controlId="formHorizontalName">
+          <Col componentClass={ControlLabel} xs={4} >
+            Tick step
+          </Col>
+          <Col xs={8}>
+            <FormControl
+              type="number"
+              className="input-sm"
+              value={tickStep}
+              onChange={this.handleTickStep}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup controlId="formHorizontalName">
+          <Col componentClass={ControlLabel} xs={4} >
+            Show ticks
+          </Col>
+          <Col xs={8}>
+            <ToggleButton
+              on={'ON'}
+              off={'OFF'}
+              default={(showTicks === true) ? 'ON' : 'OFF'}
+              size="xsmall"
+              styleOn="primary"
+              styleOff="warning"
+              onChange={this.handleShowTicks}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup controlId="formHorizontalName">
+          <Col componentClass={ControlLabel} xs={4} >
+            Ticks label
+          </Col>
+          <Col xs={8}>
+            <ToggleButton
+              on={'ON'}
+              off={'OFF'}
+              default={(showTickLabels === true) ? 'ON' : 'OFF'}
+              size="xsmall"
+              styleOn="primary"
+              styleOff="warning"
+              onChange={this.handleTicksLabel}
+            />
+          </Col>
+        </FormGroup>
+        <FormGroup controlId="formHorizontalName">
+          <Col componentClass={ControlLabel} xs={4} >
+            Logarithmic
+          </Col>
+          <Col xs={8}>
+            <ToggleButton
+              on={'ON'}
+              off={'OFF'}
+              default={(isLogarithmic === true) ? 'ON' : 'OFF'}
+              size="xsmall"
+              styleOn="primary"
+              styleOff="warning"
+              onChange={this.handleLogarithmic}
+            />
+          </Col>
+        </FormGroup>
+      </Form>
     );
   }
 }

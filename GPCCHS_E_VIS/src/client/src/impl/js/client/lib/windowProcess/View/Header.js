@@ -7,6 +7,7 @@ export default class Header extends Component {
     isViewsEditorOpen: PropTypes.bool.isRequired,
     configuration: PropTypes.shape({
       title: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
+      titleStyle: PropTypes.object
     }),
     viewId: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
@@ -46,13 +47,44 @@ export default class Header extends Component {
         return;
     }
   };
+
+  getTitleStyle() {
+    const { configuration: { titleStyle = {} } } = this.props;
+    const style = {
+      fontFamily: titleStyle.font ? titleStyle.font : null,
+      fontSize: titleStyle.size ? titleStyle.size : null,
+      textAlign: titleStyle.align ? titleStyle.align : null,
+      color: titleStyle.colour ? titleStyle.colour : null,
+      fontWeight: 'normal',
+      fontStyle: 'normal',
+      textDecoration: 'none'
+    };
+
+    if (titleStyle.bold) {
+      style.fontWeight = 'bold';
+    }
+    if (titleStyle.italic) {
+      style.fontStyle = 'italic';
+    }
+    if (titleStyle.underline) {
+      style.textDecoration = 'underline';
+    } else if (titleStyle.strikeOut) {
+      style.textDecoration = 'line-through';
+    }
+    return style;
+  }
+
   render() {
     const { configuration, isViewsEditorOpen } = this.props;
     const { title } = configuration;
+    const titleStyle = this.getTitleStyle();
 
     return (
       <div className={styles.container}>
-        <div className={`${styles.title} moveHandler ellipsis`}>
+        <div
+          style={titleStyle}
+          className={`${styles.title} moveHandler ellipsis`}
+        >
           {title}
         </div>
         <div className={styles.menu}>

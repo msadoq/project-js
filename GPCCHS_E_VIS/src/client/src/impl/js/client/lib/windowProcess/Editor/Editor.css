@@ -1,4 +1,30 @@
 .editor {
+  padding-top: 5px;
   border: 2px solid #CCC;
   background-color: #FFF;
+
+  :global {
+    .panel-group{
+      margin-bottom: 0px;
+    }
+    .panel-title a {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .form-horizontal {
+      .form-group {
+        display: flex;
+        flex-direction: row;
+        > label {
+          align-self: center;
+          padding-top: 0px;
+        }
+      }
+    }
+  }
+}
+
+.content{
+  padding: 10px;
 }

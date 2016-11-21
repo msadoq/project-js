@@ -1,0 +1,11 @@
+.root{
+  > li {
+    &:first-child a{
+      border-left: 0px;
+    }
+    &:last-child a{
+      border-right: 0px;
+      margin-right: 0px;
+    }
+  }
+}

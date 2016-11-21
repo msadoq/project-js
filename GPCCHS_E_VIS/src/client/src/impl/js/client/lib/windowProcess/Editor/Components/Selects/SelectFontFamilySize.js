@@ -1,7 +1,5 @@
 import React, { PropTypes } from 'react';
 import { Col, FormControl, InputGroup } from 'react-bootstrap';
-import styles from './SelectFontFamilySize.css';
-import select from './Select.css';
 
 const { Addon } = InputGroup;
 
@@ -26,8 +24,8 @@ export default class SelectFontFamilySize extends React.Component {
       <div className="row">
         <Col xs={6}>
           <FormControl
+            className="form-control input-sm"
             componentClass="select"
-            className={select.xsmall}
             onChange={this.handleFontFamily}
             value={font}
           >
@@ -38,8 +36,8 @@ export default class SelectFontFamilySize extends React.Component {
         <Col xs={6}>
           <InputGroup>
             <FormControl
+              className="input-sm"
               componentClass="select"
-              className={select.xsmall}
               onChange={this.handleSize}
               value={size}
             >
@@ -48,7 +46,7 @@ export default class SelectFontFamilySize extends React.Component {
               <option value="14">14</option>
               <option value="16">16</option>
             </FormControl>
-            <Addon className={styles.addon}>px</Addon>
+            <Addon>px</Addon>
           </InputGroup>
         </Col>
       </div>

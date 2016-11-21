@@ -49,7 +49,6 @@ export default class EntryPointStyle extends React.Component {
                 size="xsmall"
                 active={entryPoint.lineStyle}
                 buttons={LineStyles}
-                iconOnly="true"
                 onChange={handleLineStyle}
               />
             </Col>

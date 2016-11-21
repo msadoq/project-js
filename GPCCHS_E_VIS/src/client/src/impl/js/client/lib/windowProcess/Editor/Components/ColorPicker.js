@@ -40,7 +40,6 @@ export default class ColorPicker extends React.Component {
       <div className={styles.root}>
         <Button
           style={{ backgroundColor: color }}
-          iconOnly="true"
           bsSize="xsmall"
           onClick={this.handleClick}
         ><None /></Button>

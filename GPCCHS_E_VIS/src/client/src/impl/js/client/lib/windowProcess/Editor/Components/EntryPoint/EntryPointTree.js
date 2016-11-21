@@ -56,6 +56,15 @@ export default class EntryPointTree extends React.Component {
             <Panel
               key={key}
               header={<span>
+                {entryPoint.curveColour && <div
+                  className="pull-left"
+                  style={{
+                    height: '20px',
+                    width: '20px',
+                    marginRight: '10px',
+                    backgroundColor: entryPoint.curveColour
+                  }}
+                />}
                 <Button
                   bsSize="xsmall"
                   className="pull-right btn-link"

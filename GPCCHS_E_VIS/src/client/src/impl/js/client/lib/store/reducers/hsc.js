@@ -3,11 +3,16 @@ import * as types from '../types';
 
 const initialState = {
   status: LIFECYCLE_NOT_STARTED,
+  playingTimebarId: null,
   lastCacheInvalidation: Date.now(),
 };
 
 export default function hsc(state = initialState, action) {
   switch (action.type) {
+    case types.HSC_PLAY:
+      return Object.assign({}, state, { playingTimebarId: action.payload.timebarId });
+    case types.HSC_PAUSE:
+      return Object.assign({}, state, { playingTimebarId: null });
     case types.HSC_UPDATE_STATUS:
       return Object.assign({}, state, { status: action.payload.status });
     case types.HSC_UPDATE_LAST_CACHE_INVALIDATION:

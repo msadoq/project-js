@@ -24,16 +24,41 @@ export default class Timeline extends PureComponent {
     }
   }
 
+  fi = (i, l = 2) => i.toString().padStart(l, '0');
+
+  formatDuration = () => {
+    const { offset } = this.props;
+    const { fi } = this;
+    let ms = moment.duration(offset).asMilliseconds();
+    const neg = ms < 0;
+    if (neg) ms = Math.abs(ms);
+    const h = Math.floor(ms / 3600000);
+    ms -= h * 3600000;
+    const m = Math.floor(ms / 60000);
+    ms -= m * 60000;
+    const s = Math.floor(ms / 1000);
+    ms -= s * 1000;
+    return `${neg ? '-' : ''}${fi(h)}:${fi(m)}:${fi(s)}.${fi(ms, 3)}`;
+  }
+
   render() {
     const { color, willEditTimeline, timelineId,
       id, masterId, offset } = this.props;
 
+    let formattedOffset;
+    if (offset !== 0) {
+      formattedOffset = (
+        <span className={styles.offset}>
+          {this.formatDuration()}
+        </span>);
+    }
     return (
       <li
         className={classnames(styles.timeline, { [styles.master]: (id === masterId) })}
         onDoubleClick={willEditTimeline.bind(null, timelineId, id)}
       >
-        {id}{`  offset : ${offset === 0 ? '0' : moment.duration(offset).humanize()}`}
+        {id}
+        {formattedOffset}
         <span
           className={styles.square}
           style={{

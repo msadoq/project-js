@@ -53,23 +53,14 @@ export default class Timebar extends Component {
         updatePlayingState, playingState, slideWindow } = this.props;
       const { lower, upper, current } = visuWindow;
       const { cursorMs } = this.state;
+      const keys = { x: 88, c: 67, v: 86, b: 66, n: 78, space: 32 };
       switch (e.keyCode) {
-        case 67:
-          if (cursorMs <= current) {
-            onChange(timebarId, { ...visuWindow, lower: cursorMs });
-          }
+        case keys.x:
+          if (cursorMs > current) return;
+          if (timebarMode === 'Fixed' && cursorMs > slideWindow.lower) return;
+          onChange(timebarId, { ...visuWindow, lower: cursorMs });
           break;
-        case 86:
-          if (cursorMs >= lower && cursorMs <= upper) {
-            onChange(timebarId, { ...visuWindow, current: cursorMs });
-          }
-          break;
-        case 66:
-          if (cursorMs >= current) {
-            onChange(timebarId, { ...visuWindow, upper: cursorMs });
-          }
-          break;
-        case 88:
+        case keys.c:
           if (timebarMode === 'Normal') return;
           if (timebarMode === 'Extensible') return;
           if (timebarMode === 'Fixed' && (cursorMs < lower || cursorMs > current)) return;
@@ -83,7 +74,13 @@ export default class Timebar extends Component {
             }
           );
           break;
-        case 78:
+        case keys.v:
+          if (cursorMs < lower || cursorMs > upper) return;
+          if (timebarMode === 'Fixed' && cursorMs < slideWindow.lower) return;
+          if (timebarMode === 'Fixed' && cursorMs > slideWindow.upper) return;
+          onChange(timebarId, { ...visuWindow, current: cursorMs });
+          break;
+        case keys.b:
           if (timebarMode === 'Normal') return;
           if (timebarMode === 'Extensible' && cursorMs < upper) return;
           if (timebarMode === 'Fixed' && (cursorMs < current || cursorMs > upper)) return;
@@ -97,7 +94,13 @@ export default class Timebar extends Component {
             }
           );
           break;
-        case 32:
+        case keys.n:
+          if (cursorMs < current) return;
+          if (timebarMode === 'Extensible' && cursorMs > slideWindow.upper) return;
+          if (timebarMode === 'Fixed' && cursorMs < slideWindow.upper) return;
+          onChange(timebarId, { ...visuWindow, upper: cursorMs });
+          break;
+        case keys.space:
           updatePlayingState(timebarId, playingState === 'play' ? 'pause' : 'play');
           break;
         default:

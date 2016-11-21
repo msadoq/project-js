@@ -22,6 +22,10 @@
   width: 260px;
   padding: 4px;
 }
+.offset{
+  position: absolute;
+  right: 40px;
+}
 .editForm{
   right: auto;
   left: 0px;

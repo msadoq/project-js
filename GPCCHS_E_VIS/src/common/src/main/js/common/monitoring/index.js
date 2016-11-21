@@ -26,7 +26,7 @@ const monitor = () => {
   avgTime = _round((diffTime[0] / (ticks * 1e-3)) + (diffTime[1] / (ticks * 1e6)), 6);
   ticks = 0;
   memUsage = process.memoryUsage();
-  display('= monitoring ========');
+  display(`= monitoring ======== ${(new Date())}`);
   display('average time consumption by loop', avgTime, 'ms');
   display('memory consumption');
   display('  rss', bytesToString(memUsage.rss));

@@ -9,6 +9,7 @@
     "lint": "eslint lib test *.js",
     "start": "node --max_old_space_size=8000 index",
     "test": "mocha \"lib/**/*.spec.js\"",
+    "e2e": "mocha \"e2e/**/*.spec.js\"",
     "tw": "npm test -- --watch"
   },
   "dependencies": {
@@ -36,6 +37,7 @@
     "eslint-plugin-react": "^6.3.0",
     "istanbul": "^0.4.5",
     "mocha": "^3.1.0",
+    "node-uuid": "^1.4.7",
     "supertest": "^2.0.0"
   }
 }

@@ -13,13 +13,16 @@ import {
 export const add = simple(types.WS_TIMEBAR_ADD, 'timebarId', 'configuration');
 export const remove = simple(types.WS_TIMEBAR_REMOVE, 'timebarId');
 export const updateId = simple(types.WS_TIMEBAR_ID_UPDATE, 'timebarId', 'id');
-export const updateVisuWindow = simple(types.WS_TIMEBAR_VISUWINDOW_UPDATE,
-  'timebarId', 'visuWindowUpdate');
+export const updateVisuWindow = simple(
+  types.WS_TIMEBAR_VISUWINDOW_UPDATE, 'timebarId', 'visuWindowUpdate'
+);
 export const updateSpeed = simple(types.WS_TIMEBAR_SPEED_UPDATE, 'timebarId', 'speed');
-export const updatePlayingState = simple(types.WS_TIMEBAR_PLAYINGSTATE_UPDATE, 'timebarId',
-'playingState');
-export const updateMode = simple(types.WS_TIMEBAR_MODE_UPDATE, 'timebarId',
-'mode');
+export const updatePlayingState = simple(
+  types.WS_TIMEBAR_PLAYINGSTATE_UPDATE, 'timebarId', 'playingState'
+);
+export const updateMode = simple(
+  types.WS_TIMEBAR_MODE_UPDATE, 'timebarId', 'mode'
+);
 export const updateMasterId = simple(types.WS_TIMEBAR_MASTERID_UPDATE, 'timebarId', 'masterId');
 export const mountTimeline = simple(types.WS_TIMEBAR_MOUNT_TIMELINE, 'timebarId', 'timelineId');
 export const unmountTimeline = simple(types.WS_TIMEBAR_UNMOUNT_TIMELINE, 'timebarId', 'timelineId');

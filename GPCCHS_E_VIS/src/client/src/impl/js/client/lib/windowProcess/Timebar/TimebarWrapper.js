@@ -132,10 +132,10 @@ export default class TimebarWrapper extends Component {
     let minHeight;
     if (timelines.length < 3) {
       minHeight = 135;
-    } else if (timelines.length < 6) {
+    } else if (timelines.length < 5) {
       minHeight = (timelines.length * 20) + 84;
     } else {
-      minHeight = 185;
+      minHeight = 165;
     }
 
     if (minHeight > height || !height) {
@@ -188,7 +188,7 @@ export default class TimebarWrapper extends Component {
           updateMode={updateModeAction}
           currentSessionOffsetMs={currentSessionOffsetMs}
         />
-        <Col xs={3}>
+        <Col xs={3} style={{ height: '100%' }}>
           <Lefttab
             updateMasterId={updateMasterIdAction}
             updateOffset={updateOffsetAction}
@@ -204,8 +204,8 @@ export default class TimebarWrapper extends Component {
             onVerticalScroll={this.onTimelinesVerticalScroll}
           />
         </Col>
-        <Col xs={9}>
-          <div ref={(el) => { this.timebarEl = el; }}>
+        <Col xs={9} style={{ height: '100%' }}>
+          <div style={{ height: '100%' }} ref={(el) => { this.timebarEl = el; }}>
             <Timebar
               toggleTimebarDidMount={this.toggleTimebarDidMount}
               {...this.mapPropsToTimebarViewport()}

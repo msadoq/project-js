@@ -15,7 +15,7 @@ export default class TimebarControls extends Component {
     timebarSpeed: React.PropTypes.number.isRequired,
     visuWindow: React.PropTypes.object.isRequired,
     slideWindow: React.PropTypes.object.isRequired,
-    viewport: React.PropTypes.object.isRequired,
+    viewport: React.PropTypes.object,
     updatePlayingState: React.PropTypes.func.isRequired,
     updateSpeed: React.PropTypes.func.isRequired,
     onChange: React.PropTypes.func.isRequired,

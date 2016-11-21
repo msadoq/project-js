@@ -10,21 +10,21 @@ import styles from '../../Editor.css';
 const newEntryPoint = {
   name: 'NewEntryPoint',
   connectedDataX: {
-    fullName: '',
+    formula: '',
     unit: 'ms',
     digits: 5,
     format: 'decimal',
     domain: '',
-    session: 'Session 1',
+    timeline: 'Session 1',
     axisId: 'time'
   },
   connectedDataY: {
-    fullName: '',
+    formula: '',
     unit: 'ms',
     digits: 5,
     format: 'decimal',
     domain: '',
-    session: 'Session 1',
+    timeline: 'Session 1',
     axisId: 'time'
   },
   lineStyle: 'Continuous',

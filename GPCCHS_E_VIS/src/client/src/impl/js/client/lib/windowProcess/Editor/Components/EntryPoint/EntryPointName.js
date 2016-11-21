@@ -29,7 +29,7 @@ export default class EntryPointName extends React.Component {
           <FormControl
             autoFocus
             type="text"
-            className="input-small"
+            className="input-sm"
             value={name}
             onChange={this.handleNameChange}
           />

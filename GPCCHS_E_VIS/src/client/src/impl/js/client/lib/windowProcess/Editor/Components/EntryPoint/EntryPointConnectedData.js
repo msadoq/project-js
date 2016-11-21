@@ -1,5 +1,9 @@
 import React, { PropTypes } from 'react';
-import { Form, FormGroup, FormControl, Col, ControlLabel } from 'react-bootstrap';
+import {
+  Form, FormGroup, FormControl,
+  Col, ControlLabel, InputGroup,
+  Button, Glyphicon
+} from 'react-bootstrap';
 import Select from 'react-select';
 
 export const unitOptions = [
@@ -39,18 +43,16 @@ export default class EntryPointConnectedData extends React.Component {
     connectedData: PropTypes.object,
     handleChange: PropTypes.func
   }
-  state = {}
-
-  componentWillMount() {
-    const { connectedData } = this.props;
-
-    this.setState({
-      axisID: connectedData.axisId,
-      unitValue: connectedData.unit,
-      formatValue: connectedData.format,
-      axesValue: connectedData.axisId
-    });
+  state = {
+    axisID: this.props.connectedData.axisId,
+    unitValue: this.props.connectedData.unit,
+    formatValue: this.props.connectedData.format,
+    axesValue: this.props.connectedData.axisId,
+    formula: this.props.connectedData.formula,
+    domain: this.props.connectedData.domain,
+    timeline: this.props.connectedData.timeline
   }
+
   /*
     Toutes les fonctions dont le nom commence par handle sont appelées
     par la modification d'une valeur dans un formulaire.
@@ -63,32 +65,48 @@ export default class EntryPointConnectedData extends React.Component {
   handleFormat = val => this.props.handleChange('format', val.value);
   handleAxes = val => this.setState({ axesValue: val.value });
   handleDigits = e => this.props.handleChange('digits', e.target.value);
-  handleDomain = e => this.props.handleChange('domain', e.target.value);
-  handleSession = e => this.props.handleChange('session', e.target.value);
-  handleName = e => this.props.handleChange('fullName', e.target.value);
+  handleDomain = e => this.setState({ domain: e.target.value });
+  validateDomain = () => this.props.handleChange('domain', this.state.domain);
+  handleTimeline = e => this.setState({ timeline: e.target.value });
+  validateTimeline = () => this.props.handleChange('timeline', this.state.timeline);
+  handleFormula = e => this.setState({ formula: e.target.value });
+  validateFormula = () => this.props.handleChange('formula', this.state.formula);
 
   render() {
     const { connectedData } = this.props;
     const {
       format,
       type,
-      axesValue
+      axesValue,
+      formula,
+      domain,
+      timeline
    } = this.state;
 
     return (
       <Form horizontal>
         <FormGroup controlId="formHorizontalConnData">
           <Col componentClass={ControlLabel} xs={3}>
-            Conn.data
+            Formula
           </Col>
           <Col xs={9}>
-            <FormControl
-              type="text"
-              value={connectedData.fullName}
-              bsSize="xsmall"
-              onChange={this.handleName}
-              placeholder="no value"
-            />
+            <InputGroup>
+              <FormControl
+                type="text"
+                value={formula}
+                className="input-sm"
+                onChange={this.handleFormula}
+                placeholder="no value"
+              />
+              <InputGroup.Button>
+                <Button
+                  onClick={this.validateFormula}
+                  bsSize="small"
+                >
+                  <Glyphicon glyph="ok" />
+                </Button>
+              </InputGroup.Button>
+            </InputGroup>
           </Col>
         </FormGroup>
         <FormGroup controlId="formControlsSelect">
@@ -142,13 +160,23 @@ export default class EntryPointConnectedData extends React.Component {
             Domain
           </Col>
           <Col xs={9}>
-            <FormControl
-              type="text"
-              className="input-sm"
-              value={connectedData.domain}
-              onChange={this.handleDomain}
-              placeholder="no value"
-            />
+            <InputGroup>
+              <FormControl
+                type="text"
+                value={domain}
+                className="input-sm"
+                onChange={this.handleDomain}
+                placeholder="no value"
+              />
+              <InputGroup.Button>
+                <Button
+                  onClick={this.validateDomain}
+                  bsSize="small"
+                >
+                  <Glyphicon glyph="ok" />
+                </Button>
+              </InputGroup.Button>
+            </InputGroup>
           </Col>
         </FormGroup>
         <FormGroup controlId="formHorizontalUrl">
@@ -156,13 +184,23 @@ export default class EntryPointConnectedData extends React.Component {
             Session
           </Col>
           <Col xs={9}>
-            <FormControl
-              type="text"
-              className="input-sm"
-              value={connectedData.session}
-              onChange={this.handleSession}
-              placeholder="no value"
-            />
+            <InputGroup>
+              <FormControl
+                type="text"
+                value={timeline}
+                className="input-sm"
+                onChange={this.handleTimeline}
+                placeholder="no value"
+              />
+              <InputGroup.Button>
+                <Button
+                  onClick={this.validateTimeline}
+                  bsSize="small"
+                >
+                  <Glyphicon glyph="ok" />
+                </Button>
+              </InputGroup.Button>
+            </InputGroup>
           </Col>
         </FormGroup>
         {(type === 'FDS') ?

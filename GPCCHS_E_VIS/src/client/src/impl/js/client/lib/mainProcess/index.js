@@ -10,7 +10,7 @@ import { disconnect } from './websocket';
 import { onWorkspaceLoaded } from './lifecycle';
 import './menu';
 
-const logger = debug('mainProcess:index1');
+const logger = debug('mainProcess:index');
 
 let storeSubscription = null;
 

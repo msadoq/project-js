@@ -1,17 +1,17 @@
 import { connect } from 'react-redux';
 import React from 'react';
+import _get from 'lodash/get';
 import { updateVisuWindow, addAndMountTimeline, unmountTimeline,
   updatePlayingState, updateSpeed, updateMasterId, updateMode } from '../../store/actions/timebars';
 import { updateId, updateOffset } from '../../store/actions/timelines';
-import { getWindowFocusedPageSelector } from '../../store/selectors/windows';
 import { getTimebar, getTimebarTimelinesSelector } from '../../store/selectors/timebars';
 import TimebarWrapper from './TimebarWrapper';
 import SelectTimebar from './SelectTimebar';
 import { updateTimebarId } from '../../store/actions/pages';
 
 export default connect(
-  (state, { windowId }) => {
-    const { timebarId } = getWindowFocusedPageSelector(state, windowId);
+  (state, { focusedPageId }) => {
+    const { timebarId } = _get(state, ['pages', focusedPageId]);
     const timebar = getTimebar(state, timebarId);
     if (!timebar) return { timebars: state.timebars };
 

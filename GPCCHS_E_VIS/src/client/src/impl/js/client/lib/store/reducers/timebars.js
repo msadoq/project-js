@@ -82,12 +82,14 @@ function timebar(stateTimebar = initialState, action) {
           current: toUpdate.current,
         } };
       }
-      if (toUpdate.slideWindow) {
-        update.slideWindow = toUpdate.slideWindow;
-      }
-      if (toUpdate.extUpperBound) {
-        update.extUpperBound = toUpdate.extUpperBound;
-      }
+
+      if (toUpdate.slideWindow) update.slideWindow = toUpdate.slideWindow;
+      if (toUpdate.extUpperBound) update.extUpperBound = toUpdate.extUpperBound;
+      if (toUpdate.extUpperBound) update.extUpperBound = toUpdate.extUpperBound;
+
+      if (toUpdate.rulerStart) update.rulerStart = toUpdate.rulerStart;
+      if (toUpdate.rulerResolution) update.rulerResolution = toUpdate.rulerResolution;
+
       return { ...stateTimebar, ...update };
     }
     case types.WS_TIMEBAR_SPEED_UPDATE:

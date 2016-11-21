@@ -7,7 +7,8 @@ export default class Timesetter extends Component {
 
   static propTypes = {
     visuWindow: React.PropTypes.object.isRequired,
-    extUpperBound: React.PropTypes.number.isRequired,
+    slideWindow: React.PropTypes.object.isRequired,
+    timebarMode: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func.isRequired,
     onClose: React.PropTypes.func.isRequired,
     cursor: React.PropTypes.string.isRequired,
@@ -31,8 +32,8 @@ export default class Timesetter extends Component {
     if (e.keyCode === 27) onClose();
   }
 
-  onChangeAction = (lower, upper, current, extUpperBound, cursor) => {
-    const { timebarId, onChange } = this.props;
+  onChangeAction = (lower, upper, current, slideLower, slideUpper, cursor) => {
+    const { timebarId, onChange, timebarMode } = this.props;
     const errorMessages = [];
     switch (cursor) {
       case 'lower':
@@ -52,6 +53,24 @@ export default class Timesetter extends Component {
           errorMessages.push('Current cursor must be before upper cursor');
         }
         break;
+      case 'slideLower':
+        if (timebarMode === 'Fixed') {
+          if (slideUpper < lower || slideUpper > current) {
+            errorMessages.push('Ext left cursor must be between current cursor and upper cursor in Fixed mode');
+          }
+        }
+        break;
+      case 'slideUpper':
+        if (timebarMode === 'Extensible') {
+          if (slideUpper < upper) {
+            errorMessages.push('Ext right cursor must be after upper cursor in Extensible mode');
+          }
+        } else if (timebarMode === 'Fixed') {
+          if (slideUpper < current || slideUpper > upper) {
+            errorMessages.push('Ext right cursor must be between current cursor and upper cursor in Fixed mode');
+          }
+        }
+        break;
       default:
         break;
     }
@@ -60,13 +79,21 @@ export default class Timesetter extends Component {
     if (!errorMessages.length) {
       onChange(
         timebarId,
-        { lower, upper, current, extUpperBound }
+        {
+          lower,
+          upper,
+          current,
+          slideWindow: {
+            lower: slideLower,
+            upper: slideUpper
+          }
+        }
       );
     }
   }
 
   render() {
-    const { visuWindow, cursor, onClose, extUpperBound } = this.props;
+    const { visuWindow, cursor, onClose, slideWindow } = this.props;
     const { errorMessages } = this.state;
 
     return (
@@ -75,17 +102,29 @@ export default class Timesetter extends Component {
         {errorMessages.map(x => <p className={classnames('text-danger', styles.errorMessage)}>{x}</p>)}
         <button className={classnames('btn-sm', 'btn', 'btn-danger', styles.buttonClose)} onClick={onClose}>x</button>
         {
-          ['lower', 'current', 'upper', 'extUpperBound'].map((x, i) =>
-            <TimesetterFields
+          ['lower', 'current', 'upper', 'slideLower', 'slideUpper'].map((x, i) => {
+            let ms;
+            if (visuWindow[x]) {
+              ms = visuWindow[x];
+            } else if (x === 'slideLower') {
+              ms = slideWindow.lower;
+            } else if (x === 'slideUpper') {
+              ms = slideWindow.upper;
+            }
+
+            let disabled = cursor !== 'all';
+            if (x === cursor) disabled = false;
+
+            return (<TimesetterFields
               key={i}
               value={x}
-              disabled={cursor !== 'all' && cursor !== x}
-              ms={visuWindow[x] || this.props[x]}
+              disabled={disabled}
+              ms={ms}
               visuWindow={visuWindow}
-              extUpperBound={extUpperBound}
+              slideWindow={slideWindow}
               onChange={this.onChangeAction}
-            />
-          )
+            />);
+          })
         }
       </div>
     );

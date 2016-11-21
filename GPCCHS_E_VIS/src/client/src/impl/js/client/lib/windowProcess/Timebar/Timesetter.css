@@ -38,7 +38,7 @@
 .formLabelcurrent{
   color: var(--currentCursorColor);
 }
-.formLabelextUpperBound{
+.formLabelslideLower, .formLabelslideUpper{
   color: var(--extCursorColor);
 }
 .inputDiv{

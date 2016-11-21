@@ -28,13 +28,14 @@ export default class TimebarWrapper extends Component {
     timebarId: React.PropTypes.string.isRequired,
     timelines: React.PropTypes.array.isRequired,
     sessions: React.PropTypes.array.isRequired,
-    currentSessionOffsetMs: React.PropTypes.number,
+    currentSessionOffsetMs: React.PropTypes.number
   }
 
   state = {
     timelinesVerticalScroll: 0,
     displayTimesetter: false,
-    timesetterCursor: null
+    timesetterCursor: null,
+    timebarDidRender: false
   };
 
   onTimelinesVerticalScroll = (e, el) => {
@@ -87,6 +88,35 @@ export default class TimebarWrapper extends Component {
     });
   }
 
+  toggleTimebarDidMount = () => {
+    this.setState({ timebarDidRender: true });
+  }
+
+  mapPropsToTimebarViewport = () => {
+    const { rulerStart, rulerResolution } = this.props.timebar;
+    const { timebarDidRender } = this.state;
+    if (!timebarDidRender) return {};
+
+    return {
+      viewport: {
+        lower: rulerStart,
+        upper: rulerStart + (rulerResolution * this.timebarEl.clientWidth),
+      }
+    };
+  }
+
+  willUpdateVisuWindow = (timebarId, values) => {
+    const { updateVisuWindowAction } = this.props;
+    const { viewport } = values;
+
+    const newValues = values;
+    if (newValues.viewport) {
+      newValues.rulerStart = Math.trunc(viewport.lower);
+      newValues.rulerResolution = (viewport.upper - viewport.lower) / this.timebarEl.clientWidth;
+    }
+    updateVisuWindowAction(timebarId, newValues);
+  }
+
   render() {
     logger.debug('render');
     const { displayTimesetter, timesetterCursor,
@@ -116,7 +146,8 @@ export default class TimebarWrapper extends Component {
     if (displayTimesetter) {
       timesetter = (<Timesetter
         visuWindow={visuWindow}
-        extUpperBound={timebar.extUpperBound}
+        slideWindow={slideWindow}
+        timebarMode={timebar.mode}
         onChange={updateVisuWindowAction}
         timebarId={timebarId}
         cursor={timesetterCursor || 'all'}
@@ -143,6 +174,7 @@ export default class TimebarWrapper extends Component {
           </div>
         </Col>
         <TimebarControls
+          {...this.mapPropsToTimebarViewport()}
           extUpperBound={timebar.extUpperBound}
           timebarPlayingState={timebar.playingState}
           timebarMode={timebar.mode}
@@ -152,7 +184,7 @@ export default class TimebarWrapper extends Component {
           slideWindow={slideWindow}
           updatePlayingState={updatePlayingStateAction}
           updateSpeed={updateSpeedAction}
-          updateVisuWindow={updateVisuWindowAction}
+          onChange={this.willUpdateVisuWindow}
           updateMode={updateModeAction}
           currentSessionOffsetMs={currentSessionOffsetMs}
         />
@@ -173,20 +205,23 @@ export default class TimebarWrapper extends Component {
           />
         </Col>
         <Col xs={9}>
-          <Timebar
-            updatePlayingState={updatePlayingStateAction}
-            playingState={timebar.playingState}
-            extUpperBound={timebar.extUpperBound}
-            timebarId={timebarId}
-            timebarMode={timebar.mode}
-            visuWindow={visuWindow}
-            slideWindow={slideWindow}
-            timelines={timelines}
-            onChange={updateVisuWindowAction}
-            verticalScroll={timelinesVerticalScroll}
-            onVerticalScroll={this.onTimelinesVerticalScroll}
-            displayTimesetter={this.toggleTimesetter}
-          />
+          <div ref={(el) => { this.timebarEl = el; }}>
+            <Timebar
+              toggleTimebarDidMount={this.toggleTimebarDidMount}
+              {...this.mapPropsToTimebarViewport()}
+              updatePlayingState={updatePlayingStateAction}
+              playingState={timebar.playingState}
+              timebarId={timebarId}
+              timebarMode={timebar.mode}
+              visuWindow={visuWindow}
+              slideWindow={slideWindow}
+              timelines={timelines}
+              onChange={this.willUpdateVisuWindow}
+              verticalScroll={timelinesVerticalScroll}
+              onVerticalScroll={this.onTimelinesVerticalScroll}
+              displayTimesetter={this.toggleTimesetter}
+            />
+          </div>
         </Col>
       </div>
     );

@@ -15,11 +15,11 @@ export default class TimebarControls extends Component {
     timebarSpeed: React.PropTypes.number.isRequired,
     visuWindow: React.PropTypes.object.isRequired,
     slideWindow: React.PropTypes.object.isRequired,
+    viewport: React.PropTypes.object.isRequired,
     updatePlayingState: React.PropTypes.func.isRequired,
     updateSpeed: React.PropTypes.func.isRequired,
-    updateVisuWindow: React.PropTypes.func.isRequired,
+    onChange: React.PropTypes.func.isRequired,
     updateMode: React.PropTypes.func.isRequired,
-    extUpperBound: React.PropTypes.number.isRequired,
     currentSessionOffsetMs: React.PropTypes.number,
   }
 
@@ -48,13 +48,13 @@ export default class TimebarControls extends Component {
 
   goNow = (e) => {
     e.preventDefault();
-    const { updateVisuWindow, timebarId } = this.props;
+    const { onChange, timebarId } = this.props;
     const { lower, upper } = this.props.visuWindow;
 
     const nowMs = Date.now();
     const msWidth = upper - lower;
     const newLower = nowMs - msWidth;
-    updateVisuWindow(
+    onChange(
       timebarId,
       {
         lower: newLower,
@@ -70,23 +70,27 @@ export default class TimebarControls extends Component {
 
   jump = (e) => {
     e.preventDefault();
-    const { updateVisuWindow, timebarId } = this.props;
+    const { onChange, timebarId, slideWindow } = this.props;
     const { lower, upper, current } = this.props.visuWindow;
 
     const movedMs = 1000 * e.currentTarget.getAttribute('offset');
-    updateVisuWindow(
+    onChange(
       timebarId,
       {
         lower: lower + movedMs,
         upper: upper + movedMs,
-        current: current + movedMs
+        current: current + movedMs,
+        slideWindow: {
+          lower: slideWindow.lower + movedMs,
+          upper: slideWindow.upper + movedMs,
+        }
       }
     );
   }
 
   switchMode = (e) => {
     e.preventDefault();
-    const { updateVisuWindow, timebarId, timebarMode, updateMode,
+    const { onChange, timebarId, timebarMode, updateMode,
       visuWindow, currentSessionOffsetMs } = this.props;
     const { lower, upper } = visuWindow;
     const mode = e.currentTarget.getAttribute('mode');
@@ -99,7 +103,7 @@ export default class TimebarControls extends Component {
       const realTimeMs = Date.now() + currentSessionOffsetMs;
       const newLower = realTimeMs - ((1 - currentUpperMargin) * msWidth);
       const newUpper = realTimeMs + (currentUpperMargin * msWidth);
-      updateVisuWindow(
+      onChange(
         timebarId,
         {
           lower: newLower,
@@ -134,11 +138,11 @@ export default class TimebarControls extends Component {
   }
 
   tick() {
-    const { updateVisuWindow, timebarId, timebarSpeed, timebarMode, slideWindow } = this.props;
+    const { onChange, timebarId, timebarSpeed, timebarMode, viewport } = this.props;
     this.timeout = setTimeout(
       () => {
         const { lower, upper, current } = this.props.visuWindow;
-        const { extUpperBound } = this.props;
+        const { slideWindow } = this.props;
 
         const newCurrent = current + (globalConstants.HSC_PLAY_FREQUENCY * timebarSpeed);
 
@@ -151,8 +155,14 @@ export default class TimebarControls extends Component {
         */
         const mandatoryMarginMs = currentUpperMargin * msWidth;
 
-        if (newCurrent + mandatoryMarginMs > upper) {
-          offsetMs = (newCurrent + mandatoryMarginMs) - upper;
+        if (timebarMode === 'Normal' || timebarMode === 'Extensible') {
+          if (newCurrent + mandatoryMarginMs > upper) {
+            offsetMs = (newCurrent + mandatoryMarginMs) - upper;
+          }
+        } else if (timebarMode === 'Fixed') {
+          if (newCurrent + mandatoryMarginMs > slideWindow.upper) {
+            offsetMs = (newCurrent + mandatoryMarginMs) - slideWindow.upper;
+          }
         }
 
         const newLower = lower + offsetMs;
@@ -162,19 +172,19 @@ export default class TimebarControls extends Component {
           Handling the case where upper cursor is above/near slideWindow.upper
           Moving slideWindow to the right if it's the case
         */
-        const newSlideWindow = {};
-        if (slideWindow.upper < newUpper + ((newUpper - newLower) / 5)) {
-          newSlideWindow.slideWindow = {};
-          newSlideWindow.slideWindow.lower = newLower - ((newUpper - newLower) * 2);
-          newSlideWindow.slideWindow.upper = newUpper + ((newUpper - newLower) / 5);
+        const newViewport = {};
+        if (viewport.upper < newUpper + ((newUpper - newLower) / 5)) {
+          newViewport.viewport = {};
+          newViewport.viewport.lower = newLower - ((newUpper - newLower) * 2);
+          newViewport.viewport.upper = newUpper + ((newUpper - newLower) / 5);
         }
 
         switch (timebarMode) {
           case 'Normal':
-            updateVisuWindow(
+            onChange(
               timebarId,
               {
-                ...newSlideWindow,
+                ...newViewport,
                 lower: newLower,
                 upper: newUpper,
                 current: newCurrent
@@ -182,22 +192,25 @@ export default class TimebarControls extends Component {
             );
             break;
           case 'Extensible':
-            if (newUpper > extUpperBound) {
-              updateVisuWindow(
+            if (newUpper > slideWindow.upper) {
+              onChange(
                 timebarId,
                 {
-                  ...newSlideWindow,
+                  ...newViewport,
                   lower: newLower,
                   upper: newUpper,
                   current: newCurrent,
-                  extUpperBound: newUpper
+                  slideWindow: {
+                    upper: newUpper,
+                    lower: slideWindow.lower + offsetMs
+                  }
                 }
               );
             } else {
-              updateVisuWindow(
+              onChange(
                 timebarId,
                 {
-                  ...newSlideWindow,
+                  ...newViewport,
                   lower,
                   upper: newUpper,
                   current: newCurrent
@@ -205,8 +218,35 @@ export default class TimebarControls extends Component {
               );
             }
             break;
+          case 'Fixed':
+            if (newUpper > slideWindow.upper) {
+              onChange(
+                timebarId,
+                {
+                  ...newViewport,
+                  lower: newLower,
+                  upper: newUpper,
+                  current: newCurrent,
+                  slideWindow: {
+                    lower: slideWindow.lower + offsetMs,
+                    upper: slideWindow.upper + offsetMs,
+                  }
+                }
+              );
+            } else {
+              onChange(
+                timebarId,
+                {
+                  ...newViewport,
+                  lower,
+                  upper,
+                  current: newCurrent
+                }
+              );
+            }
+            break;
           default:
-            return null;
+            break;
         }
         this.tick();
       },
@@ -215,8 +255,11 @@ export default class TimebarControls extends Component {
   }
 
   render() {
-    const { timebarPlayingState, timebarSpeed, timebarMode, currentSessionOffsetMs } = this.props;
+    const { timebarPlayingState, timebarSpeed,
+      timebarMode, currentSessionOffsetMs, viewport } = this.props;
     const opTimebarPlayingState = timebarPlayingState === 'pause' ? 'play' : 'pause';
+
+    if (!viewport) return (<div />);
 
     const allButtonsKlasses = classnames('btn', 'btn-xs', 'btn-control');
 
@@ -316,6 +359,16 @@ export default class TimebarControls extends Component {
                     title="Extensible mode"
                   >
                     Extensible
+                  </button>
+                </li>
+                <li className={styles.controlsLi}>
+                  <button
+                    mode="Fixed"
+                    className={classnames(allButtonsKlasses, { [styles.controlButtonActive]: (timebarMode === 'Fixed') })}
+                    onClick={this.switchMode}
+                    title="Fixed mode"
+                  >
+                    Fixed
                   </button>
                 </li>
                 <li className={styles.controlsLi}>

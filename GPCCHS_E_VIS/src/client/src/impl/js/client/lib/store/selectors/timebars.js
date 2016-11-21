@@ -1,13 +1,15 @@
+import { HSC_PLAY_STATE } from 'common/constants';
 import _isNumber from 'lodash/isNumber';
 import _get from 'lodash/get';
-import _map from 'lodash/map';
+import _find from 'lodash/find';
 import _reduce from 'lodash/reduce';
 import { createSelector } from 'reselect';
 import { getTimelines } from './timelines';
 
+export const getTimebars = state => state.timebars;
 export const getTimebar = (state, timebarId) => state.timebars[timebarId];
 
-export const getTimebarTimelinesSelector = createSelector(
+export const getTimebarTimelinesSelector = createSelector( // TODO TEST
   [
     (state, timebarId) => getTimebar(state, timebarId),
     getTimelines,
@@ -28,18 +30,15 @@ export const getTimebarTimelinesSelector = createSelector(
   }
 );
 
-// export function getTimebarById(state, timebarId) { // TODO test
-//   return _find(state.timebars, tb => tb.id === timebarId);
-// }
-export function getTimebarUuidById(state, timebarId) { // TODO test
-  for (const key in state.timebars) {
-    if (state.timebars[key].id === timebarId) {
-      return key;
-    }
-  }
-  return -1;
-}
-
+/**
+ * A selector to get timelines from timebarId.
+ * No direct usage of state but receives timebars and timelines due to dataMaps execution context.
+ *
+ * @param timebars
+ * @param timelines
+ * @param timebarId
+ * @return {*}
+ */
 export function getTimebarTimelines(timebars, timelines, timebarId) {
   const timebarTimelines = _get(timebars, [timebarId, 'timelines']);
   return _reduce(timebarTimelines, (list, timelineId) => {
@@ -52,14 +51,7 @@ export function getTimebarTimelines(timebars, timelines, timebarId) {
   }, []);
 }
 
-const getTimebarTimelinesIds = (state, { timebarId }) =>
-  _get(state, ['timebars', timebarId, 'timelines']);
-
-export function makeGetTimebarTimelines() {
-  return createSelector([
-    getTimebarTimelinesIds,
-    state => state.timelines,
-  ],
-  (ids, timelines) => _map(ids, id => timelines[id])
-  );
-}
+export const getPlayingTimebar = createSelector(
+  [getTimebars],
+  timebars => _find(timebars, tb => tb.playingState === HSC_PLAY_STATE)
+);

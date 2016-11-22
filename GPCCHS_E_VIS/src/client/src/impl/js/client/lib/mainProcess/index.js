@@ -22,7 +22,7 @@ export async function start() {
 
     // redux store
     const store = initStore();
-    logger.debug('initial state', store.getState());
+    logger.verbose('initial state', store.getState());
 
     // main process store observer
     storeSubscription = store.subscribe(() => storeObserver(store));

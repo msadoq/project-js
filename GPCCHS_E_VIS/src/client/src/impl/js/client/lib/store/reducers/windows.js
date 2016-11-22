@@ -24,7 +24,7 @@ export default function windows(stateWindows = {}, action) {
       };
     case types.WS_WINDOW_REMOVE:
       return _omit(stateWindows, [action.payload.windowId]);
-    case types.WS_CLOSE_WORKSPACE:
+    case types.HSC_CLOSE_WORKSPACE:
       return {};
     case types.WS_WINDOW_SETMODIFIED:
       if (!stateWindows[action.payload.windowId]) {

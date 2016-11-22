@@ -76,13 +76,6 @@ describe('documentsManager/extractViews', () => {
         done();
       });
     });
-    it('with invalid type', (done) => {
-      views.push({ path: path.join(folder, 'plot1.json'), uuid: v4(), type: 'unknownView' });
-      readViews(views, (err) => {
-        should.exist(err);
-        done();
-      });
-    });
   });
   describe('extractViews', () => {
     it('valid', (done) => {

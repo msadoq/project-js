@@ -23,6 +23,7 @@ describe('store:views', () => {
           absolutePath: undefined,
           path: undefined,
           oId: undefined,
+          isModified: false,
         });
       });
       it('add empty', () => {
@@ -38,6 +39,7 @@ describe('store:views', () => {
           absolutePath: undefined,
           path: undefined,
           oId: undefined,
+          isModified: false,
         });
       });
     });

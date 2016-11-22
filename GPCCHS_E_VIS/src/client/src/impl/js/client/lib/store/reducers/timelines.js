@@ -22,7 +22,7 @@ export default function timelines(stateTimelines = {}, action) {
       };
     case types.WS_TIMELINE_REMOVE:
       return _omit(stateTimelines, [action.payload.timelineId]);
-    case types.WS_CLOSE_WORKSPACE:
+    case types.HSC_CLOSE_WORKSPACE:
       return {};
     default:
       return stateTimelines;

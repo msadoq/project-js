@@ -79,6 +79,9 @@ function savePage(state, pageId, useRelativePath = false) {
   if (!state.pages[pageId]) {
     return new Error('unknown page id');
   }
+  if (!state.pages[pageId].isModified) {
+    return;
+  }
   const path = state.pages[pageId].absolutePath ? state.pages[pageId].absolutePath
                                                 : state.pages[pageId].oId;
   if (!path) {

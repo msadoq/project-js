@@ -1,4 +1,5 @@
 import { difference } from 'lodash';
+import classnames from 'classnames';
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import { schemeCategory20b } from 'd3-scale';
@@ -13,6 +14,7 @@ export default class Lefttab extends Component {
     sessions: React.PropTypes.array.isRequired,
     timebarId: React.PropTypes.string.isRequired,
     timebarName: React.PropTypes.string.isRequired,
+    focusedPageId: React.PropTypes.string.isRequired,
     masterId: React.PropTypes.string,
     addAndMountTimeline: React.PropTypes.func.isRequired,
     unmountTimeline: React.PropTypes.func.isRequired,
@@ -20,6 +22,7 @@ export default class Lefttab extends Component {
     updateTimelineId: React.PropTypes.func.isRequired,
     updateMasterId: React.PropTypes.func.isRequired,
     updateOffset: React.PropTypes.func.isRequired,
+    updateTimebarId: React.PropTypes.func.isRequired,
     verticalScroll: React.PropTypes.number.isRequired,
   }
 
@@ -126,6 +129,12 @@ export default class Lefttab extends Component {
     });
   }
 
+  detach = (e) => {
+    e.preventDefault();
+    const { updateTimebarId, focusedPageId } = this.props;
+    updateTimebarId(focusedPageId, null);
+  }
+
   render() {
     const { timelines, masterId, sessions, timebarName } = this.props;
     const { color, willAdd, willEdit, editingId } = this.state;
@@ -160,7 +169,14 @@ export default class Lefttab extends Component {
     return (
 
       <div className={styles.leftTab}>
-        <h5 className={styles.timebarName}>{timebarName}</h5>
+        <button
+          className={classnames('btn', 'btn-xs', 'btn-control', styles.btnClose)}
+          title="detach timebar and choose another one"
+          onClick={this.detach}
+        >x</button>
+        <h5 className={styles.timebarName}>
+          <b>{timebarName}</b>
+        </h5>
         {editTrack}
         {addTrack}
         <Button

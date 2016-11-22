@@ -116,7 +116,7 @@ describe('mainProcess/documents/saveAllDocuments', () => {
         sessionId: 1
       }
     },
-    workspace: {
+    hsc: {
       file: 'workspaceAll.json',
       folder: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/testAll',
     }

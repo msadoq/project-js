@@ -36,6 +36,12 @@ function saveViewAs(state, viewId, path) {
  * @returns Error or undefined
  */
 function saveView(state, viewId) {
+  if (!state.views[viewId]) {
+    return new Error('Unknown view id');
+  }
+  if (!state.views[viewId].isModified) {
+    return;
+  }
   const absPath = state.views[viewId].absolutePath;
   if (!absPath) {
     return new Error('Unknown path for saving text view');

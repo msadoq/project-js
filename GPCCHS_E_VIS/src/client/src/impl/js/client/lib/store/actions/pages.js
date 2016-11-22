@@ -15,7 +15,7 @@ export const openEditor = simple(types.WS_PAGE_EDITOR_OPEN,
   'pageId', 'viewId', 'viewType', 'configuration');
 export const closeEditor = simple(types.WS_PAGE_EDITOR_CLOSE, 'pageId');
 export const updateLayout = simple(types.WS_PAGE_UPDATE_LAYOUT, 'pageId', 'layout');
-export const updateRelativePath = simple(types.WS_PAGE_UPDATE_RELATIVEPATH, 'pageId', 'oldWkFolder', 'newWkFolder');
+export const updateAbsolutePath = simple(types.WS_PAGE_UPDATE_ABSOLUTEPATH, 'pageId', 'newPath');
 export const updatePath = simple(types.WS_PAGE_UPDATEPATH, 'pageId', 'newPath');
 export const setModified = simple(types.WS_PAGE_SETMODIFIED, 'pageId', 'flag');
 
@@ -26,7 +26,12 @@ export const updateTimebarId = simple(types.WS_PAGE_UPDATE_TIMEBARID, 'focusedPa
  */
 export function addAndMount(pageId, viewId = v4(), view, layout) {
   return (dispatch) => {
-    dispatch(addView(viewId, view ? view.type : undefined, view ? view.configuration : undefined));
+    if (!view) {
+      dispatch(addView(viewId));
+    } else {
+      dispatch(addView(viewId, view.type, view.configuration, view.path, view.oId,
+        view.absolutePath));
+    }
     dispatch(mountView(pageId, viewId, layout));
   };
 }

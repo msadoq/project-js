@@ -137,6 +137,12 @@ function getLevelsRules() {
       format: 'YYYY'
     },
     {
+      duration: day * 365 * 2,
+      startOf: 'year',
+      add: [6, 'months'],
+      format: 'YYYY[-]MM'
+    },
+    {
       duration: day * 365,
       startOf: 'year',
       add: [2, 'month'],

@@ -115,6 +115,7 @@ function showSelectedPage(pageAndViews, pageId, windowId) {
   page.layout = layout;
   page.views = viewIds;
   store.dispatch(addAndMountPage(windowId, pageId, page));
+  // TODO set isModified to false
 }
 
 

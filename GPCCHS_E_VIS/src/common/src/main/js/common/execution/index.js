@@ -9,27 +9,39 @@ const debug = require('../debug')(require('debug'));
 function start(executionMap, key) {
   if (!executionMap[key]) {
     // eslint-disable-next-line no-param-reassign
-    executionMap[key] = [];
+    executionMap[key] = { traces: [] };
   }
-  executionMap[key].push(process.hrtime());
+  executionMap[key].traces.push(process.hrtime());
 }
-function stop(executionMap, key) {
-  const lastIndex = executionMap[key].length - 1;
+function stop(executionMap, key, message) {
+  const lastIndex = executionMap[key].traces.length - 1;
   // eslint-disable-next-line no-param-reassign
-  executionMap[key][lastIndex] = process.hrtime(executionMap[key][lastIndex]);
+  executionMap[key].traces[lastIndex] = process.hrtime(executionMap[key].traces[lastIndex]);
+  if (message) {
+    // eslint-disable-next-line no-param-reassign
+    executionMap[key].traces.message = message;
+  }
 }
 function print(executionMap, namespace) {
   const display = debug(`profiling:${namespace}`).warn;
   display('= execution map ====================');
-  _each(executionMap, (r, k) => {
+  _each(executionMap, ({ traces, m }, k) => {
     let d = 0;
-    if (r.length === 1) {
-      d = (r[0][0] * 1e3) + _round(r[0][1] / 1e6, 6);
+    if (traces.length === 1) {
+      d = (traces[0][0] * 1e3) + _round(traces[0][1] / 1e6, 6);
     } else {
-      const t = _reduce(r, (total, record) => [total[0] + record[0], total[1] + record[1]], [0, 0]);
+      const t = _reduce(
+        traces,
+        (total, record) => [total[0] + record[0], total[1] + record[1]],
+        [0, 0]
+      );
       d = (t[0] * 1e3) + _round(t[1] / 1e6, 6);
     }
-    display(k, 'ms:', d);
+    const args = [k, 'ms:', d];
+    if (m) {
+      args.push(m);
+    }
+    display(...args);
   });
   display('- execution map --------------------');
 }
@@ -51,7 +63,7 @@ module.exports = function init(namespace) {
   return {
     reset: () => (executionMap = {}),
     start: key => start(executionMap, key),
-    stop: key => stop(executionMap, key),
+    stop: (key, message) => stop(executionMap, key, message),
     print: () => print(executionMap, namespace),
   };
 };

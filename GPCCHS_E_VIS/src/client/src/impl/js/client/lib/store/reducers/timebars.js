@@ -37,11 +37,18 @@ export default function timebars(stateTimebars = {}, action) { // TODO test
 
 const initialState = {
   id: null,
-  visuWindow: {},
-  slideWindow: {},
+  visuWindow: {
+    lower: Date.now() - (12 * 60 * 1000),
+    current: Date.now() - (9 * 60 * 1000),
+    upper: Date.now() - (6 * 60 * 1000),
+  },
+  slideWindow: {
+    lower: Date.now() - (11 * 60 * 1000),
+    upper: Date.now() - (7 * 60 * 1000),
+  },
   extUpperBound: Date.now() - (20 * 60 * 1000),
   rulerStart: Date.now() - (20 * 60 * 1000),
-  rulerResolution: 11250,
+  rulerResolution: 2250,
   speed: 1.0,
   playingState: 'pause',
   masterId: null,

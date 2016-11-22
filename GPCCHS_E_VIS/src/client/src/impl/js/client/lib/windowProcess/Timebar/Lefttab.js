@@ -175,7 +175,7 @@ export default class Lefttab extends Component {
           onClick={this.detach}
         >x</button>
         <h5 className={styles.timebarName}>
-          {timebarName}
+          <b>{timebarName}</b>
         </h5>
         {editTrack}
         {addTrack}

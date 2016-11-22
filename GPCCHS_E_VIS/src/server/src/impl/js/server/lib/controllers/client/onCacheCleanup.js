@@ -1,21 +1,13 @@
-const debug = require('../../io/debug')('controllers:onCacheCleanup');
-
-// eslint-disable-next-line no-underscore-dangle
+/* eslint no-underscore-dangle:0 import/no-extraneous-dependencies:0 */
 const _each = require('lodash/each');
-// eslint-disable-next-line no-underscore-dangle
-const _concat = require('lodash/concat');
-// eslint-disable-next-line no-underscore-dangle
 const _get = require('lodash/get');
-
-// eslint-disable-next-line import/no-extraneous-dependencies
 const zmq = require('common/zmq');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const removeIntervals = require('common/intervals/remove');
 
+const debug = require('../../io/debug')('controllers:onCacheCleanup');
 const registeredQueries = require('../../utils/registeredQueries');
 const { createDeleteSubscriptionMessage } = require('../../utils/subscriptions');
-const execution = require('../../utils/execution')('controllers:onCacheCleanup');
-
+const executionMonitor = require('../../utils/execution');
 const { getTimebasedDataModel, removeTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
@@ -37,13 +29,14 @@ const subscriptionsModel = require('../../models/subscriptions');
  *    - queue a zmq timebasedSubscription message (with 'DELETE' action)
  * - send queued messages to DC
  *
- * @param expiredRequests
+ * @param messageHandler
+ * @param dataMap
  */
 
 const cacheCleanup = (messageHandler, dataMap) => {
   debug.debug('called');
   const messageQueue = [];
-  execution.reset();
+  const execution = executionMonitor('cacheCleanup');
   execution.start('global');
   execution.start('get all connected data');
   const connectedData = connectedDataModel.getAll();

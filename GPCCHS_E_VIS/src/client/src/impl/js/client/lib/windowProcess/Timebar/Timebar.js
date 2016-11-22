@@ -569,7 +569,7 @@ export default class Timebar extends Component {
     e.preventDefault();
     const { visuWindow, viewport, onChange, timebarId } = this.props;
 
-    if (e.currentTarget.getAttribute('cursor') === 'extUpperBound') {
+    if (e.currentTarget.getAttribute('cursor') === 'extBound') {
       const { lower, upper } = visuWindow;
       onChange(
         timebarId,
@@ -620,7 +620,6 @@ export default class Timebar extends Component {
     const slideUpperPercentOffset = (100 *
       (slideUpper - viewportLower)) / (viewportUpper - viewportLower);
     const currentPercentOffset = (100 * (current - lower)) / (upper - lower);
-
     return {
       selectedMsWidth,
       selectedPercentWidth,
@@ -733,14 +732,16 @@ export default class Timebar extends Component {
               onMouseDown={this.onMouseDownResize}
               onDoubleClick={displayTimesetter}
             />
-            <span className={styles.lowerFormattedTime}>{this.formatDate(lower, true)}</span>
+            <span
+              className={styles.lowerFormattedTime}
+            >{this.formatDate(lower, true)}</span>
             <span
               className={styles.currentFormattedTime}
               style={{ left: `${calc.currentPercentOffset}%` }}
-            >
-              {this.formatDate(current, true)}
-            </span>
-            <span className={styles.upperFormattedTime}>{this.formatDate(upper, true)}</span>
+            >{this.formatDate(current, true)}</span>
+            <span
+              className={styles.upperFormattedTime}
+            >{this.formatDate(upper, true)}</span>
           </div>
           <span
             cursor="slideLower"

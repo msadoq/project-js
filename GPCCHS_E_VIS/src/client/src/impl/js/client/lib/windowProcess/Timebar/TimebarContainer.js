@@ -32,6 +32,7 @@ export default connect(
       visuWindow: timebar.visuWindow,
       slideWindow: timebar.slideWindow,
       timebar,
+      focusedPageId,
       timebarId,
       timelines,
       currentSessionOffsetMs,

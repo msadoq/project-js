@@ -20,7 +20,7 @@ export default class SelectTimebar extends Component {
       <div>
         <Col xs={12}>
           <h4>Select a timebar</h4>
-          <form onSubmit={this.onSubmit} className="form-horizontal" style={{ maxWidth: '200px', width: '95%' }}>
+          <form onSubmit={this.onSubmit} className="form-horizontal col-xs-12" style={{ maxWidth: '200px', width: '95%' }}>
             <FormGroup>
               <select
                 ref={(el) => { this.timebarsSelect = el; }}

@@ -160,8 +160,8 @@ export default class TimebarControls extends Component {
             offsetMs = (newCurrent + mandatoryMarginMs) - upper;
           }
         } else if (timebarMode === 'Fixed') {
-          if (newCurrent + mandatoryMarginMs > slideWindow.upper) {
-            offsetMs = (newCurrent + mandatoryMarginMs) - slideWindow.upper;
+          if (newCurrent > slideWindow.upper) {
+            offsetMs = newCurrent - slideWindow.upper;
           }
         }
 

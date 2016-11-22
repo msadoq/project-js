@@ -3,6 +3,7 @@ import _find from 'lodash/findIndex';
 import _reduce from 'lodash/reduce';
 import { v4 } from 'node-uuid';
 import path from 'path';
+import { dialog, BrowserWindow } from 'electron';
 
 import {
   addAndMount as addAndMountView,
@@ -17,7 +18,6 @@ import { getStore } from '../store/mainStore';
 import getPathByFilePicker from './filePicker';
 import { saveAllDocuments } from '../documentsManager/saveAllDocuments';
 
-const { dialog } = require('electron');
 
 const WORKSPACE = 'workspace';
 const PAGE = 'page';
@@ -32,12 +32,14 @@ export function openPage(absolutePath, windowId) {
   readPages(undefined, pageToRead, (pageErr, pages) => {
     if (pageErr) {
       // logger.error(pageErr);
-      dialog.showMessageBox({
-        type: 'error',
-        title: 'Error on selected page',
-        message: 'Invalid Page\'s file selected',
-        buttons: ['ok']
-      });
+      dialog.showMessageBox(
+        BrowserWindow.getFocusedWindow(),
+        {
+          type: 'error',
+          title: 'Error on selected page',
+          message: 'Invalid Page\'s file selected',
+          buttons: ['ok']
+        });
       const filepath = getPathByFilePicker(path.dirname(absolutePath), 'page');
       if (filepath) {
         return openPage(filepath, windowId);
@@ -50,12 +52,14 @@ export function openPage(absolutePath, windowId) {
     extractViews(content, (viewErr, pageAndViews) => {
       if (viewErr) {
         // logger.error(viewErr);
-        dialog.showMessageBox({
-          type: 'error',
-          title: 'Error on selected page',
-          message: `Invalid views on selected Page ${viewErr}`,
-          buttons: ['ok']
-        });
+        dialog.showMessageBox(
+          BrowserWindow.getFocusedWindow(),
+          {
+            type: 'error',
+            title: 'Error on selected page',
+            message: `Invalid views on selected Page ${viewErr}`,
+            buttons: ['ok']
+          });
         const filepath = getPathByFilePicker(path.dirname(absolutePath), 'page');
         if (filepath) {
           return openPage(filepath, windowId);
@@ -76,12 +80,14 @@ export function openView(absolutePath, pageId) {
 
   readViews(viewPath, (err, view) => {
     if (err) {
-      dialog.showMessageBox({
-        type: 'error',
-        title: 'Error on selected view',
-        message: `Invalid view. ${err}`,
-        buttons: ['ok']
-      });
+      dialog.showMessageBox(
+        BrowserWindow.getFocusedWindow(),
+        {
+          type: 'error',
+          title: 'Error on selected view',
+          message: `Invalid view. ${err}`,
+          buttons: ['ok']
+        });
       return;
     }
     const current = view[0];
@@ -181,12 +187,14 @@ export function allDocumentsAreSaved(state, dispatch) {
   if (!isSaveNeeded('workspace', state)) {
     return true;
   }
-  const button = dialog.showMessageBox({
-    type: 'question',
-    title: 'Opening new workspace',
-    message: 'Workspace is modified. Do you want to save before closing ?',
-    buttons: ['yes', 'no', 'cancel']
-  });
+  const button = dialog.showMessageBox(
+    BrowserWindow.getFocusedWindow(),
+    {
+      type: 'question',
+      title: 'Opening new workspace',
+      message: 'Workspace is modified. Do you want to save before closing ?',
+      buttons: ['yes', 'no', 'cancel']
+    });
   if (button === 2) { // cancel
     return false;
   }

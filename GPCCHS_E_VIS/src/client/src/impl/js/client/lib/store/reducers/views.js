@@ -34,7 +34,7 @@ export default function views(stateViews = {}, action) {
     case types.WS_VIEW_UPDATE_ABSOLUTEPATH:
       // path unchanged or newPath invalid
       if (!action.payload.newPath ||
-      resolve(action.payload.newPath) === resolve(stateViews[action.payload.viewId].absolutepath)) {
+      resolve(action.payload.newPath) === resolve(stateViews[action.payload.viewId].absolutePath)) {
         return stateViews;
       }
       return u({ [action.payload.viewId]: {
@@ -122,7 +122,6 @@ function view(stateView = initialState, action) {
   }
 }
 
-// TODO remove and add configuration entry point
 function configuration(state = { title: null }, action) {
   switch (action.type) {
     case types.WS_VIEW_ADD:
@@ -132,7 +131,7 @@ function configuration(state = { title: null }, action) {
   }
 }
 
-function updateObject(stateViews, action, objectName, paramName, viewType) {
+export function updateObject(stateViews, action, objectName, paramName, viewType) {
   if (!stateViews[action.payload.viewId] || !action.payload[paramName]) {
     return stateViews;
   }
@@ -150,7 +149,7 @@ function updateObject(stateViews, action, objectName, paramName, viewType) {
   }, stateViews);
 }
 
-function updateArray(stateViews, action, arrayName, paramName) {
+export function updateArray(stateViews, action, arrayName, paramName) {
   if (!stateViews[action.payload.viewId] || !action.payload[paramName]) {
     return stateViews;
   }
@@ -171,7 +170,7 @@ function updateArray(stateViews, action, arrayName, paramName) {
   }, stateViews);
 }
 
-function addElementInArray(stateViews, action, arrayName, paramName) {
+export function addElementInArray(stateViews, action, arrayName, paramName) {
   if (!stateViews[action.payload.viewId] || !action.payload[paramName]) {
     return stateViews;
   }
@@ -185,7 +184,7 @@ function addElementInArray(stateViews, action, arrayName, paramName) {
     }
   }, stateViews);
 }
-function removeElementInArray(stateViews, action, arrayName) {
+export function removeElementInArray(stateViews, action, arrayName) {
   if (!stateViews[action.payload.viewId] || action.payload.index === undefined) {
     return stateViews;
   }

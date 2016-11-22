@@ -37,7 +37,7 @@ export const removeGrid = simple(types.WS_VIEW_REMOVE_GRID, 'viewId', 'index');
 export const addLink = simple(types.WS_VIEW_ADD_LINK, 'viewId', 'link');
 export const removeLink = simple(types.WS_VIEW_REMOVE_LINK, 'viewId', 'index');
 
-export const addMArker = simple(types.WS_VIEW_ADD_MARKER, 'viewId', 'marker');
+export const addMarker = simple(types.WS_VIEW_ADD_MARKER, 'viewId', 'marker');
 export const removeMarker = simple(types.WS_VIEW_REMOVE_MARKER, 'viewId', 'index');
 
 export const addProcedure = simple(types.WS_VIEW_ADD_PROCEDURE, 'viewId', 'procedure');

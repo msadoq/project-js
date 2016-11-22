@@ -159,6 +159,20 @@ export default class TimebarControls extends Component {
     }
   }
 
+  /**
+   * Compute the new 7 cursors positions
+   *
+   * @param lower
+   * @param current // <= computed from time elapsed since next call
+   * @param upper
+   * @param slideLower
+   * @param slideUpper
+   * @param viewportLower
+   * @param viewportUpper
+   * @param mode
+   * @param speed
+   * @return { lower, upper, slideLower, slideUpper, viewportLower, viewportUpper, mode, speed }
+   */
   tick() {
     const { onChange, timebarId, timebarSpeed, timebarMode, viewport } = this.props;
     this.timeout = setTimeout(

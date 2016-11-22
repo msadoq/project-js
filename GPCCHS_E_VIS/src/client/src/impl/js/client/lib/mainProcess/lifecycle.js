@@ -2,7 +2,6 @@ import { series } from 'async';
 import {
   LIFECYCLE_WORKSPACE_LOADED,
   LIFECYCLE_CONNECTED_WITH_HSS,
-  LIFECYCLE_READY,
   LIFECYCLE_STARTED,
   LIFECYCLE_LOST_HSS_CONNECTION,
 } from 'common/constants';
@@ -13,8 +12,7 @@ import { connect } from './websocket';
 import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
 import { removeAllData } from '../store/actions/viewData';
-import { setActingOn, setActingOff, resetPreviousMap } from './storeObserver';
-import { schedule, clear as stopDataPulling } from './pull';
+import { start, stop } from './orchestration';
 
 /**
  * Launching
@@ -29,8 +27,6 @@ import { schedule, clear as stopDataPulling } from './pull';
  * - receive domains response from HSS
  * - send sessions query to HSS
  * - receive sessions response from HSS
- * - LIFECYCLE_READY
- * - first window opening
  * - LIFECYCLE_STARTED
  * - launch data pull
  * - first 'requestData'
@@ -44,8 +40,7 @@ import { schedule, clear as stopDataPulling } from './pull';
  * Server reconnecting
  * - LIFECYCLE_LOST_HSS_CONNECTION
  * - same as app launching
- * - LIFECYCLE_READY
- * - If new state is LIFECYCLE_READY and window opened => LIFECYCLE_STARTED
+ * - LIFECYCLE_STARTED
  */
 
 export function onWorkspaceLoaded(dispatch) {
@@ -95,31 +90,21 @@ export function onOpen(dispatch, requestDomains, requestSessions) {
       throw err;
     }
 
-    dispatch(updateAppStatus(LIFECYCLE_READY));
+    dispatch(updateAppStatus(LIFECYCLE_STARTED));
   });
 }
 
-export function onDomainData(dispatch, payload) {
-  dispatch(updateDomains(payload));
-  dispatch(updateAppStatus(LIFECYCLE_READY));
-}
-
-export function onWindowOpened(dispatch) {
-  dispatch(updateAppStatus(LIFECYCLE_STARTED));
-
-  // pull data from HSS
-  schedule();
+export function onStarted() {
+  // start orchestration
+  start();
 }
 
 export function onClose(dispatch) {
-  setActingOn();
-  stopDataPulling();
+  // stop orchestration
+  stop();
+
   clearRegisteredCallbacks();
   dispatch(updateAppStatus(LIFECYCLE_LOST_HSS_CONNECTION));
   dispatch(updateStatus('main', 'disconnected'));
   dispatch(removeAllData());
-  resetPreviousMap();
-
-  // warning: timeout to handle a weird behavior that trigger data observer update
-  setTimeout(setActingOff, 0);
 }

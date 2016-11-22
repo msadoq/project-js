@@ -8,7 +8,7 @@ import { getStore } from '../store/mainStore';
 import { updateStatus } from '../store/actions/hss';
 import { onOpen, onClose } from './lifecycle';
 import parameters from '../common/parameters';
-import { receive } from './pull';
+import { addToQueue } from './orchestration';
 
 const logger = debug('main:websocket');
 
@@ -48,17 +48,17 @@ export function connect() {
       }
 
       const { event, queryId, payload } = data;
-      const store = getStore();
       logger.debug(`Incoming event ${event}`);
 
       switch (event) {
         case globalConstants.EVENT_TIMEBASED_DATA:
-          return receive(store.getState(), store.dispatch, payload);
+          addToQueue(payload);
+          break;
         case globalConstants.EVENT_DOMAIN_DATA:
         case globalConstants.EVENT_SESSION_DATA:
           handleResponse(queryId, payload);
           break;
-        case globalConstants.EVENT_ERROR:
+        case globalConstants.EVENT_ERROR: // TODO implement error handling function
           switch (payload.type) {
             case globalConstants.ERRORTYPE_RESPONSE:
               logger.error('DC Response Error', payload.reason);

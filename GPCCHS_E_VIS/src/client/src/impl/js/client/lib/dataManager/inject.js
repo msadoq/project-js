@@ -1,15 +1,17 @@
 import _each from 'lodash/each';
 import _set from 'lodash/set';
 import globalConstants from 'common/constants';
-import profiling from '../common/debug/profiling';
-import debug from '../common/debug/mainDebug';
+import executionMonitor from 'common/execution';
+
 import vivl from '../../VIVL/main';
-import getViewDefinitions from './map/visibleViews';
+
+import debug from '../common/debug/mainDebug';
 import { importPayload } from '../store/actions/viewData';
-import lastValue from './structures/last/lastValue';
-import rangeValues from './structures/range/rangeValues';
+import lastValue from './structures/last/lastValue'; // TODO use structures facade instead of require
+import rangeValues from './structures/range/rangeValues'; // TODO use structures facade instead of require
 
 const logger = debug('data:inject');
+const execution = executionMonitor('data:inject');
 
 export function selectData(state, viewDefinitions, payload, count) {
   const bag = {};
@@ -39,19 +41,12 @@ export function selectData(state, viewDefinitions, payload, count) {
   return bag;
 }
 
-export default function inject(state, dispatch, payload) {
-  logger.verbose('begin');
+export default function inject(state, dispatch, viewMap, payload) {
+  execution.start('global');
 
   const count = { last: 0, range: 0 };
-  const start = profiling.start();
-  const viewDefinitions = getViewDefinitions(state);
-  const data = selectData(state, viewDefinitions, payload, count);
+  const data = selectData(state, viewMap, payload, count);
   dispatch(importPayload(data));
 
-  return (count.last || count.range)
-    ? profiling.stop(
-        start,
-        `dataInjection (${count.last} last and ${count.range} range values)`
-      )
-    : profiling.stop(start, false);
+  execution.stop('global', `dataInjection (${count.last} last and ${count.range} range values)`);
 }

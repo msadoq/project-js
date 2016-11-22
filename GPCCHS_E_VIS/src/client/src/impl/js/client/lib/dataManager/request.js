@@ -1,19 +1,86 @@
-import _throttle from 'lodash/throttle';
 import _isObject from 'lodash/isObject';
-
+import _each from 'lodash/each';
+import _map from 'lodash/map';
+import _get from 'lodash/get';
 import globalConstants from 'common/constants';
+import executionMonitor from 'common/execution';
 
 import debug from '../common/debug/mainDebug';
-import profiling from '../common/debug/profiling';
-import missingRemoteIds from './map/missingRemoteIds';
 import { getWebsocket } from '../mainProcess/websocket';
+import operators from '../common/operators';
+import structures from './structures';
 
 const logger = debug('data:requests');
+const execution = executionMonitor('data:request');
 
-function request(state, dispatch, dataMap, lastMap) {
-  logger.verbose('begin');
+/**
+ * Return the current missing intervals requests list
+ *
+ * {
+ *   'remoteId': {
+ *     dataId: {},
+ *     filter: {},
+ *     localIds: {
+ *       'localId': {
+ *          viewType: string,
+ *          field: string,
+ *          timebarId: string,
+ *          offset: number,
+ *          expectedInterval: [number, number],
+ *        }
+ *     }
+ *   }
+ * }
+ *
+ * @param dataMap
+ * @param lastMap
+ * @return object
+ */
+export function missingRemoteIds(dataMap, lastMap) {
+  const queries = {};
+  _each(dataMap, ({ structureType, dataId, filter, localIds }, remoteId) => {
+    const retrieveNeededIntervals = structures(structureType, 'retrieveNeededIntervals');
+    const addInterval = structures(structureType, 'addInterval');
 
-  const start = profiling.start();
+    _each(localIds, ({ expectedInterval }, localId) => {
+      const knownInterval = _get(lastMap, [remoteId, 'localIds', localId, 'expectedInterval']);
+
+      const needed = retrieveNeededIntervals(knownInterval, expectedInterval);
+      if (!needed.length) {
+        return;
+      }
+
+      if (!queries[remoteId]) {
+        const filters = (typeof filter === 'undefined') ?
+          [] :
+          _map(
+            filter,
+            f => ({
+              fieldName: f.field,
+              type: operators[f.operator],
+              fieldValue: f.operand,
+            })
+          );
+
+        queries[remoteId] = {
+          type: structureType,
+          dataId,
+          intervals: [],
+          filters,
+        };
+      }
+
+      _each(needed, (m) => {
+        queries[remoteId].intervals = addInterval(queries[remoteId].intervals, m);
+      });
+    });
+  });
+
+  return queries;
+}
+
+export default function request(state, dispatch, dataMap, lastMap) {
+  execution.start('global');
 
   // compute missing data
   const dataQueries = missingRemoteIds(dataMap, lastMap);
@@ -24,10 +91,5 @@ function request(state, dispatch, dataMap, lastMap) {
     getWebsocket().write({ event: globalConstants.EVENT_TIMEBASED_QUERY, payload: dataQueries });
   }
 
-  profiling.stop(
-    start,
-    `dataRequests (${Object.keys(dataQueries).length} remoteId)`
-  );
+  execution.stop('global', `dataRequests (${Object.keys(dataQueries).length} remoteId)`);
 }
-
-export default _throttle(request, globalConstants.HSC_THROTTLE_REQUESTS, { leading: true });

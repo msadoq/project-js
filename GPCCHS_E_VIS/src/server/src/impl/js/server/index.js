@@ -107,11 +107,26 @@ zmq.open({
   }
 
   if (process.env.STUB_DC_ON === 'on') {
-    const dc = cp.fork(`${__dirname}/node_modules/common/stubs/dc.js`);
-    dc.on('message', msg => debug.info('HSS got DC message: ', msg));
+    const dc = cp.fork(
+      `${__dirname}/node_modules/common/stubs/dc.js`);
+
+    // if HSS is a forked process of Mocha, kill dc child process explicitly
+    if (process.env.RUN_BY_MOCHA === 'true' && process.send) {
+      const exitHandler = () => dc.kill() && process.kill();
+      process.on('exit', exitHandler);
+      process.on('SIGTERM', exitHandler);
+      process.on('SIGINT', exitHandler);
+      process.on('uncaughtException', exitHandler);
+    }
   }
 
   // once ZMQ sockets are open, launch express
   debug.info(`Trying to launch server in '${process.env.NODE_ENV}' env`);
-  server.listen(port);
+  server.listen(port, () => {
+    // if HSS is a forked process of Mocha, used in E2E tests
+    if (process.send) {
+      // Send 'ready' to parent process
+      process.send('ready');
+    }
+  });
 });

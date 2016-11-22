@@ -50,7 +50,7 @@ const testHandler = (...args) => {
 };
 
 // URL used into e2e tests for WS connection with HSS
-const e2eUrl = `${process.env.E2E_URL}:${process.env.PORT}?identity=main`;
+const e2eUrl = () => `${process.env.E2E_URL}:${process.env.PORT}?identity=main`;
 
 // eslint-disable-next-line no-console
 const deepLog = obj => console.log(utils.inspect(obj, false, null));

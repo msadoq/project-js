@@ -60,7 +60,7 @@ export default class TimebarControls extends Component {
         lower: newLower,
         upper: nowMs,
         current: nowMs,
-        slideWindow: {
+        viewport: {
           lower: newLower - (2 * (nowMs - newLower)),
           upper: nowMs + ((nowMs - newLower) / 5)
         }
@@ -91,14 +91,15 @@ export default class TimebarControls extends Component {
   switchMode = (e) => {
     e.preventDefault();
     const { onChange, timebarId, timebarMode, updateMode,
-      visuWindow, currentSessionOffsetMs } = this.props;
-    const { lower, upper } = visuWindow;
+      visuWindow, currentSessionOffsetMs, slideWindow } = this.props;
+    const { lower, upper, current } = visuWindow;
     const mode = e.currentTarget.getAttribute('mode');
 
     if (mode === timebarMode) return;
 
     // Realtime is not really a mode, we just go to session realtime and play
     if (mode === 'Realtime') {
+      if (mode !== 'Normal') updateMode(timebarId, 'Normal');
       const msWidth = upper - lower;
       const realTimeMs = Date.now() + currentSessionOffsetMs;
       const newLower = realTimeMs - ((1 - currentUpperMargin) * msWidth);
@@ -117,6 +118,27 @@ export default class TimebarControls extends Component {
       );
       this.togglePlayingState(null, 'play');
     } else {
+      if (mode === 'Extensible' && slideWindow.upper < upper) {
+        onChange(
+          timebarId,
+          {
+            slideWindow: {
+              lower: slideWindow.lower,
+              upper: upper + ((upper - lower) / 4)
+            }
+          }
+        );
+      } else if (mode === 'Fixed' && slideWindow.upper > upper) {
+        onChange(
+          timebarId,
+          {
+            slideWindow: {
+              lower: slideWindow.lower,
+              upper: upper - ((upper - current) / 2)
+            }
+          }
+        );
+      }
       updateMode(timebarId, mode);
     }
   }

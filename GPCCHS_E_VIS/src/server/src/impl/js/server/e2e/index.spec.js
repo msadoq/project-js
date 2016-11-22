@@ -130,6 +130,7 @@ describe('e2e tests', function () { // eslint-disable-line func-names
   });
 
   beforeEach((done) => {
+    this.onDataCallbacks = [];
     this.startWS().then(done);
   });
 
@@ -157,19 +158,6 @@ describe('e2e tests', function () { // eslint-disable-line func-names
     this.ws.write({
       event: globalConstants.EVENT_SESSION_QUERY,
       queryId: expected.queryId,
-    });
-
-    this.ws.on('data', (actual) => {
-      actual.should.have.properties(expected);
-      done();
-    });
-  });
-
-  it('EVENT_TIMEBASED_DATA (without query)', (done) => {
-    const expected = getEmptyTimebasedData();
-
-    this.ws.write({
-      event: globalConstants.EVENT_PULL,
     });
 
     this.ws.on('data', (actual) => {

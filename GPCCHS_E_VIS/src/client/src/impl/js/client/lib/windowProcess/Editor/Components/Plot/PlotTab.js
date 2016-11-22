@@ -7,7 +7,7 @@ import {
 } from 'react-bootstrap';
 import {
   PlotGrid,
-  PlotAxes,
+  PlotAxesContainer,
   PlotMarkers
 } from './';
 import ViewTitle from '../ViewTitle';
@@ -35,6 +35,10 @@ export default class PlotTab extends React.Component {
     handlePlotAxes: PropTypes.func,
     handlePlotMarkers: PropTypes.func
   }
+  static contextTypes = {
+    viewId: React.PropTypes.string
+  };
+
   state = {
     isTitleOpen: false,
     isAxesOpen: false,
@@ -61,20 +65,21 @@ export default class PlotTab extends React.Component {
   closeMarkers = () => this.setState({ isMarkersOpen: false });
 
   render() {
+    const { viewId } = this.context;
     const {
       isTitleOpen,
       isAxesOpen,
       isGridOpen,
-       isMarkersOpen
-       } = this.state;
+      isMarkersOpen
+    } = this.state;
     const {
       axes,
       markers,
       title,
       titleStyle,
       grids,
-      handlePlotAxes,
-      handleRemovePlotAxis,
+      // handlePlotAxes,
+      // handleRemovePlotAxis,
       handlePlotMarkers,
       handleGrids,
       handlePlotTitle,
@@ -130,11 +135,7 @@ export default class PlotTab extends React.Component {
           onSelect={this.openAxes}
           onExited={this.closeAxes}
         >
-          <PlotAxes
-            axes={axes}
-            handleRemovePlotAxis={handleRemovePlotAxis}
-            handlePlotAxes={handlePlotAxes}
-          />
+          <PlotAxesContainer viewId={viewId} />
         </Panel>
         <Panel
           header="Markers"

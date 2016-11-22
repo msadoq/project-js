@@ -37,7 +37,7 @@ const newEntryPoint = {
 /*
   Composant racine de l'éditeur Plot.
 */
-export default class Editor extends Component {
+export default class PlotEditor extends Component {
   static propTypes = {
     // actions
     updateEntryPoint: PropTypes.func.isRequired,
@@ -47,8 +47,6 @@ export default class Editor extends Component {
     updateTitle: PropTypes.func.isRequired,
     updateTitleStyle: PropTypes.func.isRequired,
     addAxis: PropTypes.func.isRequired,
-    removeAxis: PropTypes.func.isRequired,
-    updateAxis: PropTypes.func.isRequired,
     updateMarker: PropTypes.func.isRequired,
 
     // rest
@@ -140,18 +138,6 @@ export default class Editor extends Component {
       label: `Axis ${currentLength}`
     });
   }
-  handleRemovePlotAxis = (key) => {
-    const { removeAxis, viewId } = this.props;
-    removeAxis(viewId, key);
-  }
-  handleAxes = (key, label, newVal) => {
-    const { configuration, updateAxis, viewId } = this.props;
-    const currentAxis = _get(configuration, `axes[${key}]`);
-    updateAxis(viewId, key, {
-      ...currentAxis,
-      [label]: newVal
-    });
-  }
 
   changeSearch = s => this.setState({ search: s });
   /*
@@ -172,8 +158,6 @@ export default class Editor extends Component {
         grids,
         title,
         titleStyle,
-        // plotBackGround,
-        // legend,
         markers
       }
     } = this.props;
@@ -192,8 +176,6 @@ export default class Editor extends Component {
             handlePlotTitle={this.handlePlotTitle}
             handlePlotTitleStyle={this.handlePlotTitleStyle}
             handleAddPlotAxis={this.handleAddAxis}
-            handleRemovePlotAxis={this.handleRemovePlotAxis}
-            handlePlotAxes={this.handleAxes}
             handlePlotMarkers={this.handlePlotMarkers}
             axes={axes}
             markers={markers}

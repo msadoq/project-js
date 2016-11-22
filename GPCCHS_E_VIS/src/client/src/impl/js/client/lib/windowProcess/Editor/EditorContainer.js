@@ -12,7 +12,8 @@ const mapStateToProps = (state, { focusedPageId }) => {
   return {
     viewId: editor.viewId,
     viewType: view.type,
-    ...view
+    ...view,
+    focusedPageId
   };
 };
 

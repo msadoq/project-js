@@ -14,7 +14,19 @@ export default class Editor extends Component {
     viewType: PropTypes.string.isRequired,
     configuration: PropTypes.object,
     closeEditor: PropTypes.func,
+    focusedPageId: PropTypes.string.isRequired
   };
+
+  static childContextTypes = {
+    viewId: React.PropTypes.string
+  }
+
+  getChildContext() {
+    return {
+      viewId: this.props.viewId
+    };
+  }
+
   render() {
     logger.debug('render');
     const { configuration } = this.props;

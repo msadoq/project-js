@@ -1,5 +1,6 @@
 export PlotGrid from './PlotGrid';
 export PlotAxes from './PlotAxes';
+export PlotAxesContainer from './PlotAxesContainer';
 export PlotAxis from './PlotAxis';
 export PlotTab from './PlotTab';
 export PlotEditor from './PlotEditor';

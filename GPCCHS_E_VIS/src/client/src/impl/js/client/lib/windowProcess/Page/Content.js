@@ -35,6 +35,16 @@ export default class Content extends Component {
     updateLayout: PropTypes.func,
   };
 
+  static childContextTypes = {
+    focusedPageId: React.PropTypes.string
+  }
+
+  getChildContext() {
+    return {
+      focusedPageId: this.props.focusedPageId
+    };
+  }
+
   onLayoutChange = (layout = []) => {
     if (!this.props.updateLayout) {
       return;

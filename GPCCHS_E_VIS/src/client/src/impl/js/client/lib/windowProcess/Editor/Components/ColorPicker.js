@@ -16,7 +16,16 @@ export default class ColorPicker extends React.Component {
     color: PropTypes.string,
     onChange: PropTypes.func
   }
+
   state = { display: false, color: this.props.color || '#FFF' };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.color !== this.props.color) {
+      this.setState({
+        color: nextProps.color
+      });
+    }
+  }
 
   handleClick = (e) => {
     e.preventDefault();

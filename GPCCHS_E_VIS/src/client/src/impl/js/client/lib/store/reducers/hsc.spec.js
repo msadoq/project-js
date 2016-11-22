@@ -3,7 +3,7 @@ import { freezeMe } from '../../common/test';
 import * as actions from '../actions/hsc';
 import reducer from './hsc';
 
-describe('store:hss', () => {
+describe('store:hsc', () => {
   it('should returns initial state', () => {
     const r = reducer(undefined, {});
     r.should.be.an('object').with.property('status', 'LIFECYCLE_NOT_STARTED');
@@ -22,6 +22,10 @@ describe('store:hss', () => {
   it('should update status', () => {
     reducer(undefined, actions.updateStatus('myStatus'))
       .should.have.property('status', 'myStatus');
+  });
+  it('should update windows state', () => {
+    reducer(undefined, actions.setWindowsAsOpened())
+      .should.have.property('windowsOpened', true);
   });
   describe('play/pause', () => {
     it('should set timebarId as playing', () => {

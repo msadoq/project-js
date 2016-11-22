@@ -1,5 +1,10 @@
 import { should, getStore } from '../../common/test';
-import { getStatus, getLastCacheInvalidation, getPlayingTimebarId } from './hsc';
+import {
+  getStatus,
+  getWindowsOpened,
+  getLastCacheInvalidation,
+  getPlayingTimebarId,
+} from './hsc';
 
 describe('store:hss', () => {
   describe('selectors', () => {
@@ -11,6 +16,16 @@ describe('store:hss', () => {
       it('should support empty state', () => {
         const { getState } = getStore({ hsc: {} });
         should.not.exist(getStatus(getState()));
+      });
+    });
+    describe('getWindowsOpened', () => {
+      it('should return status', () => {
+        const { getState } = getStore({ hsc: { windowsOpened: false } });
+        getWindowsOpened(getState()).should.eql(false);
+      });
+      it('should support empty state', () => {
+        const { getState } = getStore({ hsc: {} });
+        should.not.exist(getWindowsOpened(getState()));
       });
     });
     describe('getPlayingTimebarId', () => {

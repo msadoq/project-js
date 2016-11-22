@@ -13,7 +13,7 @@ import { add as addTimebar } from '../store/actions/timebars';
 import { add as addView } from '../store/actions/views';
 import { add as addPage, setModified as setModifiedPage } from '../store/actions/pages';
 import { add as addWindow, setModified as setModifiedWindow } from '../store/actions/windows';
-import { updatePath } from '../store/actions/workspace';
+import { updatePath } from '../store/actions/hsc';
 
 import { getPathByFilePicker } from './filePicker';
 
@@ -94,12 +94,6 @@ export default function openWorkspace(dispatch, getState, callback) {
     readWkFile(dispatch, getState, root, file, callback);
   } else {
     openDefaultWorkspace(dispatch, root, callback);
-    // open the file picker
-    // const filePath = getPathByFilePicker(root, 'workspace');
-    // if (!filePath) {
-    // } else {
-    //   readWkFile(dispatch, getState, path.dirname(filePath), path.basename(filePath));
-    // }
   }
 }
 

@@ -1,3 +1,4 @@
+import _omit from 'lodash/omit';
 import { LIFECYCLE_NOT_STARTED } from 'common/constants';
 import * as types from '../types';
 
@@ -19,6 +20,17 @@ export default function hsc(state = initialState, action) {
       return Object.assign({}, state, { lastCacheInvalidation: action.payload.timestamp });
     case types.HSC_ISWORKSPACE_OPENING:
       return Object.assign({}, state, { isWorkspaceOpening: action.payload.flag });
+    case types.HSC_UPDATE_PATH:
+      if (state.folder === action.payload.folder) {
+        if (state.file === action.payload.file) {
+          return state;
+        }
+        return { ...state, file: action.payload.file };
+      }
+      // Update all relative path
+      return { ...state, folder: action.payload.folder, file: action.payload.file };
+    case types.HSC_CLOSE_WORKSPACE:
+      return _omit(state, ['folder', 'file']);
     default:
       return state;
   }

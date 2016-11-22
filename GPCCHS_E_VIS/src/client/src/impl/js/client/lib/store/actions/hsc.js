@@ -6,6 +6,7 @@ import * as types from '../types';
  */
 export const updateStatus = simple(types.HSC_UPDATE_STATUS, 'status');
 export const isWorkspaceOpening = simple(types.HSC_ISWORKSPACE_OPENING, 'flag');
+export const closeWorkspace = simple(types.HSC_CLOSE_WORKSPACE);
 
 /**
  * Play mode
@@ -18,3 +19,8 @@ export const pause = simple(types.HSC_PAUSE);
  */
 export const updateCacheInvalidation
   = simple(types.HSC_UPDATE_LAST_CACHE_INVALIDATION, 'timestamp');
+
+/**
+ * workspace path
+ */
+export const updatePath = simple(types.HSC_UPDATE_PATH, 'folder', 'file');

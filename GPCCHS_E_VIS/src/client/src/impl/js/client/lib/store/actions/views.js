@@ -4,7 +4,8 @@ import * as types from '../types';
 export const add = simple(types.WS_VIEW_ADD, 'viewId', 'type', 'configuration', 'path', 'oId',
   'absolutePath', 'isModified');
 export const remove = simple(types.WS_VIEW_REMOVE, 'viewId');
-export const updatePath = simple(types.WS_VIEW_UPDATEPATH, 'oldFolder', 'newFolder');
+export const updatePath = simple(types.WS_VIEW_UPDATEPATH, 'newPath');
+export const updateAbsolutePath = simple(types.WS_VIEW_UPDATE_ABSOLUTEPATH, 'viewId', 'newPath');
 export const setModified = simple(types.WS_VIEW_SETMODIFIED, 'viewId', 'flag');
 
 export const updateEntryPoint = simple(types.WS_VIEW_UPDATE_ENTRYPOINT, 'viewId', 'index',

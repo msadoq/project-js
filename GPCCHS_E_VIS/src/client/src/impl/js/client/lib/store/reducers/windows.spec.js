@@ -24,6 +24,7 @@ describe('store:window', () => {
           pages: ['myPageId'],
           geometry: { w: 800, h: 600, x: 110, y: 10 },
           debug: { whyDidYouUpdate: false, timebarVisibility: true },
+          isModified: false,
         });
       });
       it('add empty', () => {
@@ -37,6 +38,7 @@ describe('store:window', () => {
           pages: [],
           geometry: { x: 10, y: 10, w: 800, h: 600 },
           debug: { whyDidYouUpdate: false, timebarVisibility: true },
+          isModified: false,
         });
       });
     });

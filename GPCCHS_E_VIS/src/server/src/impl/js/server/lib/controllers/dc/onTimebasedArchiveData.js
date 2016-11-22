@@ -2,11 +2,11 @@
 const { eachSeries } = require('async');
 const _chunk = require('lodash/chunk');
 const { decode, encode, getType } = require('common/protobuf');
+const executionMonitor = require('common/execution');
 
 const debug = require('../../io/debug')('controllers:onTimebasedArchiveData');
 const registeredQueries = require('../../utils/registeredQueries');
 const { add: addToQueue } = require('../../websocket/dataQueue');
-const executionMonitor = require('../../utils/execution');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 

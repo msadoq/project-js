@@ -3,11 +3,11 @@ const _each = require('lodash/each');
 const _concat = require('lodash/concat');
 const globalConstants = require('common/constants');
 const zmq = require('common/zmq');
+const executionMonitor = require('common/execution');
 
 const { add: addToQueue } = require('../../websocket/dataQueue');
 const { createQueryMessage } = require('../../utils/queries');
 const { createAddSubscriptionMessage } = require('../../utils/subscriptions');
-const executionMonitor = require('../../utils/execution');
 const connectedDataModel = require('../../models/connectedData');
 const { getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const subscriptionsModel = require('../../models/subscriptions');

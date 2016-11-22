@@ -1,5 +1,6 @@
 /* eslint no-underscore-dangle:0 import/no-extraneous-dependencies:0 */
 const { decode, getType } = require('common/protobuf');
+const executionMonitor = require('common/execution');
 const _isEmpty = require('lodash/isEmpty');
 const _each = require('lodash/each');
 const _chunk = require('lodash/chunk');
@@ -10,7 +11,6 @@ const { applyFilters } = require('../../utils/filters');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
-const executionMonitor = require('../../utils/execution');
 
 /**
  * Trigger on new incoming message NewDataMessage from DC.

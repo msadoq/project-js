@@ -4,7 +4,7 @@ const _round = require('lodash/round');
 const _reduce = require('lodash/reduce');
 const _noop = require('lodash/noop');
 
-const debug = require('../io/debug');
+const debug = require('../debug')(require('debug'));
 
 function start(executionMap, key) {
   if (!executionMap[key]) {

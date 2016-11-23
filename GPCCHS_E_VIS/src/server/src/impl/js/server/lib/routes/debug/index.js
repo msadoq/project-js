@@ -20,9 +20,9 @@ const { getAllTimebasedDataModelRemoteIds } = require('../../models/timebasedDat
 
 const router = new Router();
 
-const GIGA_BYTES = Math.pow(2, 30);
-const MEGA_BYTES = Math.pow(2, 20);
-const KILO_BYTES = Math.pow(2, 10);
+const GIGA_BYTES = Math.pow(2, 30); // eslint-disable-line no-restricted-properties
+const MEGA_BYTES = Math.pow(2, 20); // eslint-disable-line no-restricted-properties
+const KILO_BYTES = Math.pow(2, 10); // eslint-disable-line no-restricted-properties
 
 const convertBytes = (value) => {
   const gigaValue = value / GIGA_BYTES;

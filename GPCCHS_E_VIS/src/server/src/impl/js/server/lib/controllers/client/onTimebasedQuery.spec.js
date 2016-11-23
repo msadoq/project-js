@@ -1,23 +1,16 @@
-// eslint-disable-next-line no-underscore-dangle
+/* eslint no-underscore-dangle:0 import/no-extraneous-dependencies:0 */
 const _isEmpty = require('lodash/isEmpty');
-// eslint-disable-next-line no-underscore-dangle
 const _keys = require('lodash/keys');
-// eslint-disable-next-line no-underscore-dangle
 const _pull = require('lodash/pull');
-// eslint-disable-next-line no-underscore-dangle
 const _concat = require('lodash/concat');
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const dataStub = require('common/stubs/data');
-
 
 const { should } = require('../../utils/test');
 const { get: getQueue, reset: resetQueue } = require('../../websocket/dataQueue');
 const flattenDataId = require('../../utils/flattenDataId');
 const registeredQueries = require('../../utils/registeredQueries');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const registeredCallbacks = require('common/callbacks/register');
 
 const connectedDataModel = require('../../models/connectedData');
@@ -33,7 +26,8 @@ const zmqEmulator = (key, payload) => {
   calls = _concat(calls, payload);
 };
 
-/* onTimebasedPubSubData Test
+/**
+ * onTimebasedPubSubData test
  *
  * - check registerQueries for the queryId
  * - check registerQueries for the queryId
@@ -67,18 +61,6 @@ describe('controllers/client/onTimebasedQuery', () => {
     startTime: { ms: 1 },
     endTime: { ms: 5 },
   });
-  /* const filter1 = {
-    fieldName: 'extractedValue',
-    type: globalConstants.FILTERTYPE_GT,
-    fieldValue: 42,
-  };
-  const filter2 = {
-    fieldName: 'groundDate',
-    type: globalConstants.FILTERTYPE_EQ,
-    fieldValue: 42,
-  };
-  const filterProto1 = dataStub.getFilterProtobuf(filter1);
-  const filterProto2 = dataStub.getFilterProtobuf(filter2); */
 
   const queryArguments = dataStub.getQueryArguments();
   const lastQueryArguments = Object.assign(

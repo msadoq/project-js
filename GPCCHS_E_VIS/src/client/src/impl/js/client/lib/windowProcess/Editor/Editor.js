@@ -29,7 +29,7 @@ export default class Editor extends Component {
 
   render() {
     logger.debug('render');
-    const { configuration } = this.props;
+    const { configuration, viewId } = this.props;
 
     if (!configuration) {
       return <InvalidConfiguration />;
@@ -37,9 +37,9 @@ export default class Editor extends Component {
 
     switch (configuration.type) { // TODO dynamic type
       case 'PlotView' :
-        return <PlotEditorContainer {...this.props} />;
+        return <PlotEditorContainer key={viewId} {...this.props} />;
       case 'TextView' :
-        return <TextEditorContainer {...this.props} />;
+        return <TextEditorContainer key={viewId} {...this.props} />;
       default :
         return <InvalidConfiguration />;
     }

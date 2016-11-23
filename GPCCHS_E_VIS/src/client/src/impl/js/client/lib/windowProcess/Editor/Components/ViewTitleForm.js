@@ -36,22 +36,6 @@ class ViewTitleForm extends React.Component {
     valid: PropTypes.bool
   }
 
-  static defaultProps = {
-    initialValues: {
-      title: '',
-      titleStyle: {
-        font: 'Arial',
-        size: 12,
-        bold: false,
-        italic: false,
-        underline: false,
-        strikeOut: false,
-        align: 'left',
-        colour: '#000000'
-      }
-    }
-  }
-
   handleTitle = ({ target: { value: title } }) => {
     this.setState({ title });
   }

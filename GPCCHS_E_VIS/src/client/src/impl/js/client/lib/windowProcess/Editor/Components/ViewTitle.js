@@ -21,7 +21,16 @@ export default class ViewTitle extends React.Component {
 
   static defaultProps = {
     title: '',
-    titleStyle: {}
+    titleStyle: {
+      font: 'Arial',
+      size: 12,
+      bold: false,
+      italic: false,
+      underline: false,
+      strikeOut: false,
+      align: 'left',
+      colour: '#000000'
+    }
   }
 
   handleSubmit = (values) => {

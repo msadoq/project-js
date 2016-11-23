@@ -1,79 +1,25 @@
 const fetch = require('node-fetch'); // eslint-disable-line import/no-extraneous-dependencies
-const cp = require('child_process');
-const testUtils = require('../lib/utils/test');
-const Primus = require('common/websocket'); // eslint-disable-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants'); // eslint-disable-line import/no-extraneous-dependencies
 const {
   getDomain,
   getSession,
   getQuery,
-  getEmptyTimebasedData,
   getTimebasedData,
+  getDataMap,
 } = require('./fixture/data');
+const {
+  startWS,
+  stopWS,
+  addDataCallback,
+  resetDataCallbacks,
+  startHSS,
+  stopHSS,
+} = require('./util');
 
 // HSS specific PORT for tests
 describe('e2e tests', function () { // eslint-disable-line func-names
   this.slow(500);
   this.timeout(10000);
-
-  // If E2E_URL is not defined, HSS server is started
-  const startHSS = !process.env.E2E_URL;
-  const PORT = startHSS ? 3001 : process.env.PORT;
-
-  process.env.E2E_URL = process.env.E2E_URL || 'http://localhost';
-  process.env.PORT = PORT;
-
-  // Array of callbacks triggered on ws.on('data')
-  this.onDataCallbacks = [];
-
-  // start WS connection to HSS
-  this.startWS = () => { // eslint-disable-line arrow-body-style
-    return new Promise((resolve) => {
-      this.ws = new Primus(testUtils.e2eUrl());
-      this.ws.on('open', () => {
-        this.ws.on('data', (...args) => {
-          this.onDataCallbacks.forEach(cb => cb(...args));
-        });
-        resolve();
-      });
-    });
-  };
-
-  // stop WS connection to HSS
-  this.stopWS = () => Promise.resolve(this.ws.end());
-
-  // Add a callback to onDataCallbacks array. They are called on this.on('data') event
-  this.addDataCallback = (cb) => {
-    const i = this.onDataCallbacks.push(cb);
-    // Returns function to remove callback from onDataCallbacks array
-    return () => this.onDataCallbacks.splice(i - 1, 1);
-  };
-
-  // Start HSS
-  this.startHSS = () => { // eslint-disable-line arrow-body-style
-    return new Promise((resolve) => {
-      this.hss = cp.fork('index.js', [], {
-        silent: true, // disable stdin, stdout, stderr
-        env: {
-          PORT,
-          RUN_BY_MOCHA: 'true',
-          ZMQ_GPCCDC_PUSH: 'tcp://127.0.0.1:5043', // use different port from standard HSS
-          ZMQ_GPCCDC_PULL: 'tcp://127.0.0.1:49166', // use different port from standard HSS
-        },
-      });
-      this.hss.on('message', () => resolve());
-    });
-  };
-
-  // Stop HSS
-  this.stopHSS = () => { // eslint-disable-line arrow-body-style
-    return new Promise((resolve) => {
-      if (this.hss) {
-        this.hss.kill();
-        resolve();
-      }
-    });
-  };
 
   // Do a event timebased query and check response
   this.testTimeBaseQuery = ({
@@ -103,14 +49,14 @@ describe('e2e tests', function () { // eslint-disable-line func-names
         });
       }, 100);
 
-      const removeCb = self.addDataCallback((actual) => {
+      const removeCb = addDataCallback((actual) => {
         if (Object.keys(actual.payload).length) {
           try {
             actual.should.have.properties(expected);
           } finally {
             clearInterval(hwInterval);
             removeCb();
-            resolve();
+            resolve(actual);
           }
         }
       });
@@ -118,24 +64,26 @@ describe('e2e tests', function () { // eslint-disable-line func-names
   };
 
   before((done) => {
-    if (!startHSS) {
+    startHSS().then((hss) => {
+      this.hss = hss;
       done();
-      return;
-    }
-    this.startHSS().then(done);
+    });
   });
 
   after((done) => {
-    this.stopHSS().then(done);
+    stopHSS(this.hss).then(done);
   });
 
   beforeEach((done) => {
-    this.onDataCallbacks = [];
-    this.startWS().then(done);
+    resetDataCallbacks();
+    startWS().then((ws) => {
+      this.ws = ws;
+      done();
+    });
   });
 
   afterEach((done) => {
-    this.stopWS().then(() => done());
+    stopWS(this.ws).then(() => done());
   });
 
   it('EVENT_DOMAIN_QUERY', (done) => {
@@ -188,6 +136,36 @@ describe('e2e tests', function () { // eslint-disable-line func-names
       fetch(`${process.env.E2E_URL}:${process.env.PORT}/debug/all`)
         .then(r => r.json())
         .then((actual) => {
+          try {
+            actual.should.have.properties(expected);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+    });
+  });
+
+  it('EVENT_TIMEBASED_QUERY_INVALIDATION (partial)', (done) => {
+    const now = (new Date(2016, 10, 22)).getTime();
+    const start = now - (60 * 1000);
+    const end = now;
+    const parameterName = 'TMMGT_BC_VIRTCHAN3';
+    const self = this;
+
+    this.testTimeBaseQuery({ start, end })
+    .then(() => {
+      self.ws.write({
+        event: globalConstants.EVENT_TIMEBASED_QUERY_INVALIDATION,
+        payload: getDataMap(parameterName, [start, start + (30 * 1000)]),
+      });
+
+      fetch(`${process.env.E2E_URL}:${process.env.PORT}/debug/all`)
+        .then(r => r.json())
+        .then((actual) => {
+          // eslint-disable-next-line global-require, import/no-dynamic-require
+          const expected = require(`./fixture/${self.ctx.test.title}.js`);
+
           try {
             actual.should.have.properties(expected);
             done();

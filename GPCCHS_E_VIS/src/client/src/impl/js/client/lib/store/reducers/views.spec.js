@@ -1,11 +1,13 @@
 /* eslint no-unused-expressions: 0 */
 import * as actions from '../actions/views';
 import reducer,
-  { updateObject,
-    updateArray,
-    addElementInArray,
-    removeElementInArray } from './views';
-import { should, freezeMe } from '../../common/test';
+{
+  updateObject,
+  updateArray,
+  addElementInArray,
+  removeElementInArray
+} from './views';
+import { freezeMe } from '../../common/test';
 
 describe('store:views', () => {
   describe('actions & reducer', () => {
@@ -74,7 +76,8 @@ describe('store:views', () => {
         },
         absolutePath: '/data/oldPath',
         isModified: false,
-      } };
+      }
+    };
     freezeMe(state);
     it('absolute Path', () => {
       const s = reducer(state, actions.updateAbsolutePath('view1', '/data/newPath'));
@@ -85,10 +88,12 @@ describe('store:views', () => {
       reducer(state, actions.updateAbsolutePath('view1', '/data/oldPath')).should.equal(state);
     });
     it('object ok', () => {
-      const action = { payload: {
-        viewId: 'view1',
-        pName: 'newValue',
-      } };
+      const action = {
+        payload: {
+          viewId: 'view1',
+          pName: 'newValue',
+        }
+      };
       updateObject(state, action, 'oName', 'pName').should.deep.equal({
         view1: {
           type: 'plot',
@@ -97,27 +102,34 @@ describe('store:views', () => {
           configuration: {
             oName: 'newValue',
           },
-        } });
+        }
+      });
     });
     it('object: invalid view', () => {
-      const action = { payload: {
-        viewId: 'view2',
-        pName: 'newValue',
-      } };
+      const action = {
+        payload: {
+          viewId: 'view2',
+          pName: 'newValue',
+        }
+      };
       updateObject(state, action, 'oName', 'pName').should.equal(state);
     });
     it('object: invalid view type', () => {
-      const action = { payload: {
-        viewId: 'view1',
-        pName: 'newValue',
-      } };
+      const action = {
+        payload: {
+          viewId: 'view1',
+          pName: 'newValue',
+        }
+      };
       updateObject(state, action, 'oName', 'pName', 'text').should.equal(state);
     });
     it('object: valid view type', () => {
-      const action = { payload: {
-        viewId: 'view1',
-        pName: 'newValue',
-      } };
+      const action = {
+        payload: {
+          viewId: 'view1',
+          pName: 'newValue',
+        }
+      };
       updateObject(state, action, 'oName', 'pName', 'plot').should.deep.equal({
         view1: {
           type: 'plot',
@@ -126,13 +138,16 @@ describe('store:views', () => {
           configuration: {
             oName: 'newValue',
           },
-        } });
+        }
+      });
     });
     it('object: invalid paramName', () => {
-      const action = { payload: {
-        viewId: 'view1',
-        pName: 'newValue',
-      } };
+      const action = {
+        payload: {
+          viewId: 'view1',
+          pName: 'newValue',
+        }
+      };
       updateObject(state, action, 'oName', 'paramName').should.equal(state);
     });
     const stateArray = {
@@ -141,15 +156,18 @@ describe('store:views', () => {
         configuration: {
           oName: ['oldValue1', 'oldValue2']
         },
-      } };
+      }
+    };
     freezeMe(stateArray);
 
     it('array element ok', () => {
-      const action = { payload: {
-        viewId: 'view1',
-        pName: 'newValue',
-        index: 0,
-      } };
+      const action = {
+        payload: {
+          viewId: 'view1',
+          pName: 'newValue',
+          index: 0,
+        }
+      };
       updateArray(stateArray, action, 'oName', 'pName').should.deep.equal({
         view1: {
           type: 'plot',
@@ -157,30 +175,37 @@ describe('store:views', () => {
           configuration: {
             oName: ['newValue', 'oldValue2']
           },
-        } });
+        }
+      });
     });
     it('array: invalid view id', () => {
-      const action = { payload: {
-        viewId: 'view2',
-        pName: 'newValue',
-        index: 0,
-      } };
+      const action = {
+        payload: {
+          viewId: 'view2',
+          pName: 'newValue',
+          index: 0,
+        }
+      };
       updateArray(stateArray, action, 'oName', 'pName').should.equal(stateArray);
     });
     it('array: invalid index', () => {
-      const action = { payload: {
-        viewId: 'view1',
-        pName: 'newValue',
-        index: 2,
-      } };
+      const action = {
+        payload: {
+          viewId: 'view1',
+          pName: 'newValue',
+          index: 2,
+        }
+      };
       updateArray(stateArray, action, 'oName', 'pName').should.equal(stateArray);
     });
     it('array: invalid paramName', () => {
-      const action = { payload: {
-        viewId: 'view1',
-        pName: 'newValue',
-        index: 0,
-      } };
+      const action = {
+        payload: {
+          viewId: 'view1',
+          pName: 'newValue',
+          index: 0,
+        }
+      };
       updateArray(stateArray, action, 'oName', 'paramName').should.equal(stateArray);
     });
   });
@@ -219,13 +244,15 @@ describe('store:views', () => {
   freezeMe(stateViews);
   describe('update action', () => {
     it('Entry Point', () => {
-      const newEp = { name: 'new EP',
-       connectedDataX: { formula: 'cdx' },
-       connectedDataY: { formula: 'cdY' },
-       lineStyle: 'Continuous',
-       pointsStyle: 'None',
-       curveColour: '#DF013A',
-       stateColours: [] };
+      const newEp = {
+        name: 'new EP',
+        connectedDataX: { formula: 'cdx' },
+        connectedDataY: { formula: 'cdY' },
+        lineStyle: 'Continuous',
+        pointsStyle: 'None',
+        curveColour: '#DF013A',
+        stateColours: [],
+      };
       const state = reducer(stateViews, actions.updateEntryPoint('plot1', 0, newEp));
       state.plot1.configuration.entryPoints[0].should.deep.equal(newEp);
     });
@@ -289,14 +316,16 @@ describe('store:views', () => {
           configuration: {
             oName: ['oldValue1', 'oldValue2']
           },
-        } };
+        }
+      };
       freezeMe(stateArray);
 
       const action = {
         payload: {
           viewId: 'view1',
           pName: 'newValue',
-        } };
+        }
+      };
       addElementInArray(stateArray, action, 'oName', 'pName').should.deep.equal({
         view1: {
           type: 'plot',
@@ -304,7 +333,8 @@ describe('store:views', () => {
           configuration: {
             oName: ['oldValue1', 'oldValue2', 'newValue'],
           },
-        } });
+        }
+      });
     });
     it('axis', () => {
       const axis = { axisx: '3' };
@@ -350,7 +380,8 @@ describe('store:views', () => {
         configuration: {
           oName: ['oldValue1', 'oldValue2']
         },
-      } };
+      }
+    };
     freezeMe(stateArray);
 
     it('general ok', () => {
@@ -359,7 +390,8 @@ describe('store:views', () => {
           viewId: 'view1',
           pName: 'newValue',
           index: 0,
-        } };
+        }
+      };
       removeElementInArray(stateArray, action, 'oName').should.deep.equal({
         view1: {
           type: 'plot',
@@ -367,7 +399,8 @@ describe('store:views', () => {
           configuration: {
             oName: ['oldValue2'],
           },
-        } });
+        }
+      });
     });
     it('general - invalid index', () => {
       const action = {
@@ -375,7 +408,8 @@ describe('store:views', () => {
           viewId: 'view1',
           pName: 'newValue',
           index: 3,
-        } };
+        }
+      };
       removeElementInArray(stateArray, action, 'oName').should.equal(stateArray);
     });
     it('general - invalid view ID', () => {
@@ -384,7 +418,8 @@ describe('store:views', () => {
           viewId: 'view2',
           pName: 'newValue',
           index: 0,
-        } };
+        }
+      };
       removeElementInArray(stateArray, action, 'oName').should.equal(stateArray);
     });
     it('axis', () => {

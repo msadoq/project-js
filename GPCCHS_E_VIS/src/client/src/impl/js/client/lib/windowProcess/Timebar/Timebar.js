@@ -226,7 +226,7 @@ export default class Timebar extends Component {
           pow = 3;
         }
 
-        const offsetRel = (mult * 20) / Math.pow(abs / 100, pow);
+        const offsetRel = (mult * 20) / ((abs / 100) ** pow);
         this.setState({
           dragNavigatingOffset: offsetRel,
         });

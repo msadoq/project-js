@@ -1,7 +1,5 @@
 import { dialog, BrowserWindow } from 'electron';
-import debug from '../common/debug/mainDebug';
 
-const logger = debug('mainProcess:filePicker');
 /**
  * show a file picker
  * @param folder : base folder of file picker

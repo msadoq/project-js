@@ -39,10 +39,11 @@ describe('mainProcess/documents/savePage', () => {
         configuration: {
           type: 'PlotView',
           entryPoints: [
-            { name: 'ATT_BC_REVTCOUNT4',
-             connectedDataX: {},
-             connectedDataY: {}
-           }
+            {
+              name: 'ATT_BC_REVTCOUNT4',
+              connectedDataX: {},
+              connectedDataY: {},
+            },
           ],
           axes: [],
           grids: [],

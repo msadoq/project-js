@@ -1,8 +1,6 @@
 const fetch = require('node-fetch'); // eslint-disable-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants'); // eslint-disable-line import/no-extraneous-dependencies
 const {
-  getDomain,
-  getSession,
   getQuery,
   getTimebasedData,
   getDataMap,
@@ -17,7 +15,7 @@ const {
 } = require('./util');
 
 // HSS specific PORT for tests
-describe('e2e tests', function () { // eslint-disable-line func-names
+describe('timebased query', function () { // eslint-disable-line func-names
   this.slow(500);
   this.timeout(10000);
 
@@ -84,34 +82,6 @@ describe('e2e tests', function () { // eslint-disable-line func-names
 
   afterEach((done) => {
     stopWS(this.ws).then(() => done());
-  });
-
-  it('EVENT_DOMAIN_QUERY', (done) => {
-    const expected = getDomain();
-
-    this.ws.write({
-      event: globalConstants.EVENT_DOMAIN_QUERY,
-      queryId: expected.queryId,
-    });
-
-    this.ws.on('data', (actual) => {
-      actual.should.have.properties(expected);
-      done();
-    });
-  });
-
-  it('EVENT_SESSION_QUERY', (done) => {
-    const expected = getSession();
-
-    this.ws.write({
-      event: globalConstants.EVENT_SESSION_QUERY,
-      queryId: expected.queryId,
-    });
-
-    this.ws.on('data', (actual) => {
-      actual.should.have.properties(expected);
-      done();
-    });
   });
 
   it('EVENT_TIMEBASED_DATA', (done) => {

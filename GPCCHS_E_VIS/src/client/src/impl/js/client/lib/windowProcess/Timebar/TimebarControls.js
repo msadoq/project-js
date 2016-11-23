@@ -164,20 +164,22 @@ export default class TimebarControls extends Component {
     this.timeout = setTimeout(
       () => {
         const { onChange, timebarId, timebarSpeed, timebarMode,
-          viewport, slideWindow, visuWindow } = this.props;
+          slideWindow, visuWindow } = this.props;
         const { lower, upper, current } = visuWindow;
 
         const newCurrent = current + (globalConstants.HSC_PLAY_FREQUENCY * timebarSpeed);
         const cursors = compute(newCurrent, lower, upper, slideWindow.lower, slideWindow.upper,
-          viewport.lower, viewport.upper, timebarMode, currentUpperMargin);
+          timebarMode, currentUpperMargin);
         onChange(
           timebarId,
           {
-            lower: cursors[0],
-            upper: cursors[1],
+            lower: cursors.visuWindow.lower,
+            upper: cursors.visuWindow.upper,
             current: newCurrent,
-            viewport: { lower: cursors[4], upper: cursors[5] },
-            slideWindow: { lower: cursors[2], upper: cursors[3] }
+            slideWindow: {
+              lower: cursors.slideWindow.lower,
+              upper: cursors.slideWindow.upper,
+            },
           }
         );
         this.tick();

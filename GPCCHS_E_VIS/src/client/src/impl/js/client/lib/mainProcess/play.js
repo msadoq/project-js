@@ -1,6 +1,6 @@
 
 export default function compute(current, lower, upper, slideLower, slideUpper,
-  viewportLower, viewportUpper, mode, currentUpperMargin) {
+  mode, currentUpperMargin) {
   /*
     Current can not equal upper
     there is a mandatory margin between the two cursors
@@ -23,75 +23,53 @@ export default function compute(current, lower, upper, slideLower, slideUpper,
   const newUpper = upper + offsetMs;
 
   /*
-    Handling the case where upper cursor is above/near slideWindow.upper
-    Moving slideWindow to the right if it's the case
-  */
-  let newViewportLower = viewportLower;
-  let newViewportUpper = viewportUpper;
-  if (viewportUpper < newUpper + ((newUpper - newLower) / 5)) {
-    newViewportLower = newLower - ((newUpper - newLower) * 2);
-    newViewportUpper = newUpper + ((newUpper - newLower) / 5);
-  }
-
-  /*
-  * @return { lower, upper, slideLower, slideUpper, viewportLower, viewportUpper }
+  * @return { lower, upper, slideLower, slideUpper }
   */
 
-  let toReturn = [];
+  const r = {
+    visuWindow: {},
+    slideWindow: {},
+  };
   switch (mode) {
     case 'Normal':
-      toReturn = toReturn.concat([
-        newLower,
-        newUpper,
-        slideLower + offsetMs, // not used - invisible
-        slideUpper + offsetMs, // not used - invisible
-      ]);
+      r.visuWindow.lower = newLower;
+      r.visuWindow.upper = newUpper;
+      r.slideWindow.lower = slideLower + offsetMs; // not used - invisible
+      r.slideWindow.upper = slideUpper + offsetMs; // not used - invisible
       break;
     case 'Extensible':
       if (newUpper > slideUpper) {
-        toReturn = toReturn.concat([
-          newLower,
-          newUpper,
-          slideLower + offsetMs, // not used - invisible
-          newUpper,
-        ]);
+        r.visuWindow.lower = newLower;
+        r.visuWindow.upper = newUpper;
+        r.slideWindow.lower = slideLower + offsetMs; // not used - invisible
+        r.slideWindow.upper = newUpper;
       } else {
-        toReturn = toReturn.concat([
-          lower,
-          newUpper,
-          slideLower + offsetMs, // not used - invisible
-          slideUpper,
-        ]);
+        r.visuWindow.lower = lower;
+        r.visuWindow.upper = newUpper;
+        r.slideWindow.lower = slideLower + offsetMs; // not used - invisible
+        r.slideWindow.upper = slideUpper;
       }
       break;
     case 'Fixed':
       if (newUpper > slideUpper) {
-        toReturn = toReturn.concat([
-          newLower,
-          newUpper,
-          slideLower + offsetMs,
-          slideUpper + offsetMs,
-        ]);
+        r.visuWindow.lower = newLower;
+        r.visuWindow.upper = newUpper;
+        r.slideWindow.lower = slideLower + offsetMs;
+        r.slideWindow.upper = slideUpper + offsetMs;
       } else {
-        toReturn = toReturn.concat([
-          newLower,
-          newUpper,
-          slideLower,
-          slideUpper,
-        ]);
+        r.visuWindow.lower = newLower;
+        r.visuWindow.upper = newUpper;
+        r.slideWindow.lower = slideLower;
+        r.slideWindow.upper = slideUpper;
       }
       break;
     default:
-      toReturn = toReturn.concat([
-        newLower,
-        newUpper,
-        slideLower,
-        slideUpper,
-      ]);
+      r.visuWindow.lower = newLower;
+      r.visuWindow.upper = newUpper;
+      r.slideWindow.lower = slideLower;
+      r.slideWindow.upper = slideUpper;
       break;
   }
 
-  toReturn = toReturn.concat([newViewportLower, newViewportUpper]);
-
-  return [...toReturn];
+  return r;
 }

@@ -10,7 +10,6 @@ describe('mainProcess/play', () => {
     let timebarData;
     let vw;
     let sw;
-    let v;
     beforeEach(() => {
       timebarData = {
         visuWindow: {
@@ -29,50 +28,41 @@ describe('mainProcess/play', () => {
       };
       vw = timebarData.visuWindow;
       sw = timebarData.slideWindow;
-      v = timebarData.viewport;
     });
     it('(Normal mode) -     should move 377ms', () => {
       const offset = 377;
       const newCurrent = timebarData.visuWindow.current + offset;
       const res = compute(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
-        v.lower, v.upper, 'Normal', currentUpperMargin);
+        'Normal', currentUpperMargin);
 
-      res.slice(0, 4).should.eql([
-        vw.lower,
-        vw.upper,
-        sw.lower,
-        sw.upper,
-      ]);
+      res.visuWindow.should.have.property('lower', vw.lower);
+      res.visuWindow.should.have.property('upper', vw.upper);
+      res.slideWindow.should.have.property('lower', sw.lower);
+      res.slideWindow.should.have.property('upper', sw.upper);
     });
 
     it('(Normal mode) -     should move 377ms and move slideWindow', () => {
       const offset = 377;
       const newCurrent = vw.upper + offset;
       const res = compute(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
-        v.lower, v.upper, 'Normal', currentUpperMargin);
+        'Normal', currentUpperMargin);
 
-      res.slice(0, 4).should.eql([
-        vw.lower + offset,
-        newCurrent,
-        sw.lower + offset,
-        sw.upper + offset,
-      ]);
+      res.visuWindow.should.have.property('lower', vw.lower + offset);
+      res.visuWindow.should.have.property('upper', newCurrent);
+      res.slideWindow.should.have.property('lower', sw.lower + offset);
+      res.slideWindow.should.have.property('upper', sw.upper + offset);
     });
 
-    it('(Normal mode) -     should move 106100000ms and  move slideWindow / viewport', () => {
+    it('(Normal mode) -     should move 106100000ms and move slideWindow', () => {
       const offset = 106100000;
       const newCurrent = vw.upper + offset;
       const res = compute(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
-        v.lower, v.upper, 'Normal', currentUpperMargin);
+        'Normal', currentUpperMargin);
 
-      res.should.eql([
-        vw.lower + offset,
-        newCurrent,
-        sw.lower + offset,
-        sw.upper + offset,
-        res[0] - ((res[1] - res[0]) * 2),
-        res[1] + ((res[1] - res[0]) / 5)
-      ]);
+      res.visuWindow.should.have.property('lower', vw.lower + offset);
+      res.visuWindow.should.have.property('upper', newCurrent);
+      res.slideWindow.should.have.property('lower', sw.lower + offset);
+      res.slideWindow.should.have.property('upper', sw.upper + offset);
     });
 
     it('(Extensible mode) - should move 377ms and then 380ms', () => {
@@ -80,25 +70,21 @@ describe('mainProcess/play', () => {
       const secondOffset = 380;
       let newCurrent = vw.upper + offset;
       let res = compute(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
-        v.lower, v.upper, 'Extensible', currentUpperMargin);
+        'Extensible', currentUpperMargin);
 
-      res.slice(0, 4).should.eql([
-        vw.lower,
-        newCurrent,
-        sw.lower + offset,
-        sw.upper,
-      ]);
+      res.visuWindow.should.have.property('lower', vw.lower);
+      res.visuWindow.should.have.property('upper', newCurrent);
+      res.slideWindow.should.have.property('lower', sw.lower + offset);
+      res.slideWindow.should.have.property('upper', sw.upper);
 
       newCurrent += secondOffset;
-      res = compute(newCurrent, res[0], res[1], res[2], res[3],
-        v.lower, v.upper, 'Extensible', currentUpperMargin);
+      res = compute(newCurrent, res.visuWindow.lower, res.visuWindow.upper, res.slideWindow.lower,
+        res.slideWindow.upper, 'Extensible', currentUpperMargin);
 
-      res.slice(0, 4).should.eql([
-        vw.lower + secondOffset,
-        newCurrent,
-        sw.lower + offset + secondOffset,
-        newCurrent
-      ]);
+      res.visuWindow.should.have.property('lower', vw.lower + secondOffset);
+      res.visuWindow.should.have.property('upper', newCurrent);
+      res.slideWindow.should.have.property('lower', sw.lower + offset + secondOffset);
+      res.slideWindow.should.have.property('upper', newCurrent);
     });
     it('(Fixed mode) -      should move 377ms and then 380ms', () => {
       const offset = 377;
@@ -109,25 +95,21 @@ describe('mainProcess/play', () => {
       };
       let newCurrent = vw.current + offset;
       let res = compute(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
-        v.lower, v.upper, 'Fixed', currentUpperMargin);
+        'Fixed', currentUpperMargin);
 
-      res.slice(0, 4).should.eql([
-        vw.lower,
-        vw.upper,
-        sw.lower,
-        sw.upper,
-      ]);
+      res.visuWindow.should.have.property('lower', vw.lower);
+      res.visuWindow.should.have.property('upper', vw.upper);
+      res.slideWindow.should.have.property('lower', sw.lower);
+      res.slideWindow.should.have.property('upper', sw.upper);
 
       newCurrent += secondOffset;
-      res = compute(newCurrent, res[0], res[1], res[2], res[3],
-        v.lower, v.upper, 'Fixed', currentUpperMargin);
+      res = compute(newCurrent, res.visuWindow.lower, res.visuWindow.upper, res.slideWindow.lower,
+        res.slideWindow.upper, 'Fixed', currentUpperMargin);
 
-      res.slice(0, 4).should.eql([
-        vw.lower + ((offset + secondOffset) - 500),
-        vw.upper + ((offset + secondOffset) - 500),
-        sw.lower + ((offset + secondOffset) - 500),
-        sw.upper + ((offset + secondOffset) - 500),
-      ]);
+      res.visuWindow.should.have.property('lower', vw.lower + ((offset + secondOffset) - 500));
+      res.visuWindow.should.have.property('upper', vw.upper + ((offset + secondOffset) - 500));
+      res.slideWindow.should.have.property('lower', sw.lower + ((offset + secondOffset) - 500));
+      res.slideWindow.should.have.property('upper', sw.upper + ((offset + secondOffset) - 500));
     });
   });
 });

@@ -6,11 +6,11 @@ import {
   Button
 } from 'react-bootstrap';
 import {
-  PlotGrid,
   PlotAxesContainer,
+  PlotGridsContainer,
   PlotMarkers
 } from './';
-import ViewTitle from '../ViewTitle';
+import ViewTitleContainer from '../ViewTitleContainer';
 
 /*
   PlotTab représente l'onglet "Plot" de l'éditeur Plot.
@@ -22,17 +22,9 @@ import ViewTitle from '../ViewTitle';
 */
 export default class PlotTab extends React.Component {
   static propTypes = {
-    title: PropTypes.string,
     axes: PropTypes.array,
     markers: PropTypes.array,
-    grids: PropTypes.array,
-    titleStyle: PropTypes.object,
-    handleGrids: PropTypes.func,
-    handlePlotTitle: PropTypes.func,
-    handlePlotTitleStyle: PropTypes.func,
     handleAddPlotAxis: PropTypes.func,
-    handleRemovePlotAxis: PropTypes.func,
-    handlePlotAxes: PropTypes.func,
     handlePlotMarkers: PropTypes.func
   }
   static contextTypes = {
@@ -75,15 +67,7 @@ export default class PlotTab extends React.Component {
     const {
       axes,
       markers,
-      title,
-      titleStyle,
-      grids,
-      // handlePlotAxes,
-      // handleRemovePlotAxis,
-      handlePlotMarkers,
-      handleGrids,
-      handlePlotTitle,
-      handlePlotTitleStyle
+      handlePlotMarkers
     } = this.props;
 
     return (
@@ -95,12 +79,7 @@ export default class PlotTab extends React.Component {
           onSelect={this.openTitle}
           onExited={this.closeTitle}
         >
-          {isTitleOpen && <ViewTitle
-            titleStyle={titleStyle}
-            title={title}
-            onTitleChange={handlePlotTitle}
-            onTitleStyleChange={handlePlotTitleStyle}
-          />}
+          {isTitleOpen && <ViewTitleContainer viewId={viewId} />}
         </Panel>
         <Panel
           header="Grid"
@@ -109,11 +88,7 @@ export default class PlotTab extends React.Component {
           onSelect={this.openGrid}
           onExited={this.closeGrid}
         >
-          {isGridOpen && <PlotGrid
-            index={0}
-            grid={grids && grids[0]}
-            onChange={handleGrids}
-          />}
+          {isGridOpen && <PlotGridsContainer viewId={viewId} />}
         </Panel>
         <Panel
           header={<span>
@@ -135,7 +110,7 @@ export default class PlotTab extends React.Component {
           onSelect={this.openAxes}
           onExited={this.closeAxes}
         >
-          <PlotAxesContainer viewId={viewId} />
+          {isAxesOpen && <PlotAxesContainer viewId={viewId} />}
         </Panel>
         <Panel
           header="Markers"
@@ -144,11 +119,11 @@ export default class PlotTab extends React.Component {
           onSelect={this.openMarkers}
           onExited={this.closeMarkers}
         >
-          <PlotMarkers
+          {isMarkersOpen && <PlotMarkers
             markers={markers}
             axes={axes}
             handlePlotMarkers={handlePlotMarkers}
-          />
+          />}
         </Panel>
       </Accordion>
     );

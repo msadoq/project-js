@@ -43,16 +43,12 @@ export default class PlotEditor extends Component {
     updateEntryPoint: PropTypes.func.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
     removeEntryPoint: PropTypes.func.isRequired,
-    updateGrid: PropTypes.func.isRequired,
-    updateTitle: PropTypes.func.isRequired,
-    updateTitleStyle: PropTypes.func.isRequired,
     addAxis: PropTypes.func.isRequired,
     updateMarker: PropTypes.func.isRequired,
 
     // rest
     viewId: PropTypes.string.isRequired,
     closeEditor: PropTypes.func.isRequired,
-    type: PropTypes.string.isRequired,
     configuration: PropTypes.shape({
       type: PropTypes.string.isRequired,
       links: PropTypes.array,
@@ -82,7 +78,6 @@ export default class PlotEditor extends Component {
   }
 
   componentWillMount() {
-    console.log('componentWillMount', this.props);
     this.setState({
       currentDisplay: 0,
       search: ''
@@ -103,25 +98,6 @@ export default class PlotEditor extends Component {
   removeEntryPoint = (key) => {
     const { removeEntryPoint, viewId } = this.props;
     removeEntryPoint(viewId, key);
-  }
-  handleGrids = (key, label, newVal) => {
-    const { configuration, updateGrid, viewId } = this.props;
-    const currentGrid = _get(configuration, `grids[${key}]`);
-    updateGrid(viewId, key, {
-      ...currentGrid,
-      [label]: newVal
-    });
-  }
-  handlePlotTitle = (newVal) => {
-    const { updateTitle, viewId } = this.props;
-    updateTitle(viewId, newVal);
-  }
-  handlePlotTitleStyle = (label, newVal) => {
-    const { configuration, updateTitleStyle, viewId } = this.props;
-    updateTitleStyle(viewId, {
-      ...configuration.titleStyle,
-      [label]: newVal
-    });
   }
   handlePlotMarkers = (key, label, newVal) => {
     const { configuration, updateMarker, viewId } = this.props;
@@ -172,9 +148,6 @@ export default class PlotEditor extends Component {
         <div className={styles.content}>
           {currentDisplay === 2 && <Misc />}
           {currentDisplay === 1 && <PlotTab
-            handleGrids={this.handleGrids}
-            handlePlotTitle={this.handlePlotTitle}
-            handlePlotTitleStyle={this.handlePlotTitleStyle}
             handleAddPlotAxis={this.handleAddAxis}
             handlePlotMarkers={this.handlePlotMarkers}
             axes={axes}

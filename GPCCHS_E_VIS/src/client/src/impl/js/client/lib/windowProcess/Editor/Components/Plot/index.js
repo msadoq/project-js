@@ -1,4 +1,6 @@
 export PlotGrid from './PlotGrid';
+export PlotGrids from './PlotGrids';
+export PlotGridsContainer from './PlotGridsContainer';
 export PlotAxes from './PlotAxes';
 export PlotAxesContainer from './PlotAxesContainer';
 export PlotAxis from './PlotAxis';

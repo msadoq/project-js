@@ -3,15 +3,16 @@ import { Field, reduxForm } from 'redux-form';
 import {
   Form,
   InputGroup,
-  ButtonGroup,
-  Button,
   Col
 } from 'react-bootstrap';
 import {
   ButtonToggleField, ColorPickerField,
   SelectButtonField, SelectFontField, InputField
 } from '../Fields/';
-import HorizontalFormGroup from '../Forms/HorizontalFormGroup';
+import {
+  HorizontalFormGroup,
+  ClearSubmitButtons
+} from '../Forms/';
 
 const { Addon } = InputGroup;
 
@@ -242,10 +243,12 @@ class PlotAxis extends PureComponent {
           />
         </HorizontalFormGroup>
 
-        <ButtonGroup className="pull-right">
-          <Button type="button" disabled={pristine || submitting} onClick={reset}>Clear</Button>
-          <Button bsStyle="success" type="submit" disabled={pristine || submitting || !valid}>Submit</Button>
-        </ButtonGroup>
+        <ClearSubmitButtons
+          pristine={pristine}
+          submitting={submitting}
+          reset={reset}
+          valid={valid}
+        />
       </Form>
     );
   }

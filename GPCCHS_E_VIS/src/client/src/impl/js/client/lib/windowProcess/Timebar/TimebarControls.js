@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import { Col, Row } from 'react-bootstrap';
 import globalConstants from 'common/constants';
 import styles from './TimebarControls.css';
+import compute from '../../mainProcess/play';
 
 const currentUpperMargin = 1 / 100;
 
@@ -159,131 +160,26 @@ export default class TimebarControls extends Component {
     }
   }
 
-  /**
-   * Compute the new 7 cursors positions
-   *
-   * @param lower
-   * @param current // <= computed from time elapsed since next call
-   * @param upper
-   * @param slideLower
-   * @param slideUpper
-   * @param viewportLower
-   * @param viewportUpper
-   * @param mode
-   * @param speed
-   * @return { lower, upper, slideLower, slideUpper, viewportLower, viewportUpper, mode, speed }
-   */
   tick() {
-    const { onChange, timebarId, timebarSpeed, timebarMode, viewport } = this.props;
     this.timeout = setTimeout(
       () => {
-        const { lower, upper, current } = this.props.visuWindow;
-        const { slideWindow } = this.props;
+        const { onChange, timebarId, timebarSpeed, timebarMode,
+          viewport, slideWindow, visuWindow } = this.props;
+        const { lower, upper, current } = visuWindow;
 
         const newCurrent = current + (globalConstants.HSC_PLAY_FREQUENCY * timebarSpeed);
-
-        const msWidth = upper - lower;
-        let offsetMs = 0;
-
-        /*
-          Current can not equal upper
-          there is a mandatory margin between the two cursors
-        */
-        const mandatoryMarginMs = currentUpperMargin * msWidth;
-
-        if (timebarMode === 'Normal' || timebarMode === 'Extensible') {
-          if (newCurrent + mandatoryMarginMs > upper) {
-            offsetMs = (newCurrent + mandatoryMarginMs) - upper;
+        const cursors = compute(newCurrent, lower, upper, slideWindow.lower, slideWindow.upper,
+          viewport.lower, viewport.upper, timebarMode, currentUpperMargin);
+        onChange(
+          timebarId,
+          {
+            lower: cursors[0],
+            upper: cursors[1],
+            current: newCurrent,
+            viewport: { lower: cursors[4], upper: cursors[5] },
+            slideWindow: { lower: cursors[2], upper: cursors[3] }
           }
-        } else if (timebarMode === 'Fixed') {
-          if (newCurrent > slideWindow.upper) {
-            offsetMs = newCurrent - slideWindow.upper;
-          }
-        }
-
-        const newLower = lower + offsetMs;
-        const newUpper = upper + offsetMs;
-
-        /*
-          Handling the case where upper cursor is above/near slideWindow.upper
-          Moving slideWindow to the right if it's the case
-        */
-        const newViewport = {};
-        if (viewport.upper < newUpper + ((newUpper - newLower) / 5)) {
-          newViewport.viewport = {};
-          newViewport.viewport.lower = newLower - ((newUpper - newLower) * 2);
-          newViewport.viewport.upper = newUpper + ((newUpper - newLower) / 5);
-        }
-
-        switch (timebarMode) {
-          case 'Normal':
-            onChange(
-              timebarId,
-              {
-                ...newViewport,
-                lower: newLower,
-                upper: newUpper,
-                current: newCurrent
-              }
-            );
-            break;
-          case 'Extensible':
-            if (newUpper > slideWindow.upper) {
-              onChange(
-                timebarId,
-                {
-                  ...newViewport,
-                  lower: newLower,
-                  upper: newUpper,
-                  current: newCurrent,
-                  slideWindow: {
-                    upper: newUpper,
-                    lower: slideWindow.lower + offsetMs
-                  }
-                }
-              );
-            } else {
-              onChange(
-                timebarId,
-                {
-                  ...newViewport,
-                  lower,
-                  upper: newUpper,
-                  current: newCurrent
-                }
-              );
-            }
-            break;
-          case 'Fixed':
-            if (newUpper > slideWindow.upper) {
-              onChange(
-                timebarId,
-                {
-                  ...newViewport,
-                  lower: newLower,
-                  upper: newUpper,
-                  current: newCurrent,
-                  slideWindow: {
-                    lower: slideWindow.lower + offsetMs,
-                    upper: slideWindow.upper + offsetMs,
-                  }
-                }
-              );
-            } else {
-              onChange(
-                timebarId,
-                {
-                  ...newViewport,
-                  lower,
-                  upper,
-                  current: newCurrent
-                }
-              );
-            }
-            break;
-          default:
-            break;
-        }
+        );
         this.tick();
       },
       globalConstants.HSC_PLAY_FREQUENCY

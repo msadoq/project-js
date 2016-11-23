@@ -75,6 +75,9 @@ export function tick() {
   execution.start('global');
   tickStart = process.hrtime();
 
+  // websocket
+  const websocket = getWebsocket();
+
   // store
   const { getState, dispatch } = getStore();
   const state = getState();
@@ -121,7 +124,7 @@ export function tick() {
     if (Date.now() - lastCacheInvalidation >= globalConstants.CACHE_INVALIDATION_FREQUENCY) {
       execution.start('cacheInvalidation');
       dispatch(updateCacheInvalidation(Date.now())); // schedule next run
-      getWebsocket().write({
+      websocket.write({
         event: globalConstants.EVENT_TIMEBASED_QUERY_INVALIDATION,
         payload: dataMap,
       });
@@ -129,7 +132,7 @@ export function tick() {
     }
 
     // ask for next data chunk from server
-    getWebsocket().write({ event: globalConstants.EVENT_PULL });
+    websocket.write({ event: globalConstants.EVENT_PULL });
   }
 
   function done() {
@@ -139,7 +142,7 @@ export function tick() {
       previous.viewMap = viewMap;
     }
 
-    // 50ms shortcut
+    // too long tick shortcut
     const duration = process.hrtime(tickStart);
     if (duration[0] > 0 || duration[1] > globalConstants.HSC_ORCHESTRATION_WARNING) {
       // TODO : protect against blocking (by increasing HSC_ORCHESTRATION_FREQUENCY?)

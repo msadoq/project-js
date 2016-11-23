@@ -79,7 +79,7 @@ export function missingRemoteIds(dataMap, lastMap) {
   return queries;
 }
 
-export default function request(state, dispatch, dataMap, lastMap) {
+export default function request(state, dataMap, lastMap) {
   execution.start('global');
 
   // compute missing data

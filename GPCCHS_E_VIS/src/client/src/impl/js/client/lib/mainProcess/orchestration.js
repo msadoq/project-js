@@ -87,8 +87,9 @@ export function tick() {
   // play or pause
   const playingTimebarId = getPlayingTimebarId(state);
 
-  // windows opened or not
+  // windows
   const isWindowsOpened = getWindowsOpened(state);
+  const windowsHasChanged = state.windows !== previous.state.windows;
 
   // queued data to inject
   const dataToInject = getAndResetQueue();
@@ -107,7 +108,7 @@ export function tick() {
       // request data
       // TODO : in play mode hack the state visuWindow OR pass play configuration to reducer, ask
       //        for next tick data only
-      request(state, dispatch, dataMap, previous.dataMap);
+      request(state, dataMap, previous.dataMap);
 
       // should be done here due to request specificity (works on map and last)
       previous.dataMap = dataMap;
@@ -160,7 +161,7 @@ export function tick() {
   }
 
   // sync windows
-  if (somethingHasChanged) {
+  if (windowsHasChanged) {
     execution.start('windows');
     windowsObserver(state, (err) => {
       if (err) {

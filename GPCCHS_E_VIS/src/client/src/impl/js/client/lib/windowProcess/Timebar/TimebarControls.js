@@ -117,7 +117,7 @@ export default class TimebarControls extends Component {
           }
         }
       );
-      this.togglePlayingState(null, 'play');
+      this.togglePlayingState('play');
     } else {
       if (mode === 'Extensible' && slideWindow.upper < upper) {
         onChange(
@@ -144,7 +144,7 @@ export default class TimebarControls extends Component {
     }
   }
 
-  togglePlayingState = (e, mode = null) => {
+  togglePlayingState = (mode = null) => {
     const { updatePlayingState, timebarId, timebarPlayingState } = this.props;
     const newtimebarPlayingState = mode || (timebarPlayingState === 'pause' ? 'play' : 'pause');
     if (timebarPlayingState === newtimebarPlayingState) return;
@@ -236,7 +236,7 @@ export default class TimebarControls extends Component {
                         [styles.controlButtonPause]: timebarPlayingState === 'pause'
                       }
                     )}
-                    onClick={this.togglePlayingState}
+                    onClick={() => this.togglePlayingState()}
                     title={opTimebarPlayingState}
                   >
                     {timebarPlayingState === 'play' ? <span>&#9613;&#9613;</span> : <span>&#9658;</span>}

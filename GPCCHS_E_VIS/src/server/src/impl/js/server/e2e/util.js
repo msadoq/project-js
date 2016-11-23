@@ -63,8 +63,8 @@ const stopHSS = (hss) => { // eslint-disable-line arrow-body-style
   return new Promise((resolve) => {
     if (hss) {
       hss.kill();
-      resolve();
     }
+    resolve();
   });
 };
 

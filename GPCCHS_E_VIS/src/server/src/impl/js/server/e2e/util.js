@@ -1,6 +1,10 @@
 const testUtils = require('../lib/utils/test');
 const Primus = require('common/websocket'); // eslint-disable-line import/no-extraneous-dependencies
 const cp = require('child_process');
+const chai = require('chai'); // eslint-disable-line import/no-extraneous-dependencies
+const chaiJestSnapshot = require('chai-jest-snapshot'); // eslint-disable-line import/no-extraneous-dependencies
+
+chai.use(chaiJestSnapshot);
 
 // If E2E_URL is not defined, HSS server is started
 const mustStartHSS = !process.env.E2E_URL;
@@ -68,6 +72,24 @@ const stopHSS = (hss) => { // eslint-disable-line arrow-body-style
   });
 };
 
+// Snapshot testing
+const getMatchSnapshot = (testCtx, filename) => (obj) => {
+  // eslint-disable-next-line no-param-reassign
+  const ctx = testCtx.ctx.matchSnapshot = testCtx.ctx.matchSnapshot || {
+    testName: testCtx.ctx.test.fullTitle(),
+    count: 1,
+  };
+
+  if (ctx.testName !== testCtx.ctx.test.fullTitle()) {
+    ctx.testName = testCtx.ctx.test.fullTitle();
+    ctx.count = 1;
+  }
+
+  obj.should.to.matchSnapshot(`${filename}.snap`, `${ctx.testName} ${ctx.count}`);
+
+  ctx.count += 1;
+};
+
 module.exports = {
   startWS,
   stopWS,
@@ -75,4 +97,5 @@ module.exports = {
   resetDataCallbacks,
   startHSS,
   stopHSS,
+  getMatchSnapshot,
 };

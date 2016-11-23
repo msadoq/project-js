@@ -1,8 +1,8 @@
 const fetch = require('node-fetch'); // eslint-disable-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants'); // eslint-disable-line import/no-extraneous-dependencies
+const path = require('path');
 const {
   getQuery,
-  getTimebasedData,
   getDataMap,
 } = require('./fixture/data');
 const {
@@ -12,6 +12,7 @@ const {
   resetDataCallbacks,
   startHSS,
   stopHSS,
+  getMatchSnapshot,
 } = require('./util');
 
 // HSS specific PORT for tests
@@ -19,11 +20,21 @@ describe('timebased query', function () { // eslint-disable-line func-names
   this.slow(500);
   this.timeout(10000);
 
+  const matchSnapshot = getMatchSnapshot(
+    this,
+    path.join(
+      __dirname,
+      'fixture',
+      path.parse(__filename).name
+    )
+  );
+
   // Do a event timebased query and check response
   this.testTimeBaseQuery = ({
     parameterName = 'TMMGT_BC_VIRTCHAN3',
     start = Date.now() - (60 * 1000),
     end = start + (60 * 1000),
+    assert = false
   } = {}) => {
     const self = this;
     return new Promise((resolve) => {
@@ -34,13 +45,6 @@ describe('timebased query', function () { // eslint-disable-line func-names
         payload: query,
       });
 
-      const expected = getTimebasedData(
-        parameterName,
-        start,
-        end,
-        Object.keys(query)[0]
-      );
-
       const hwInterval = setInterval(() => {
         self.ws.write({
           event: globalConstants.EVENT_PULL,
@@ -50,7 +54,7 @@ describe('timebased query', function () { // eslint-disable-line func-names
       const removeCb = addDataCallback((actual) => {
         if (Object.keys(actual.payload).length) {
           try {
-            actual.should.have.properties(expected);
+            assert && matchSnapshot(actual);
           } finally {
             clearInterval(hwInterval);
             removeCb();
@@ -61,9 +65,37 @@ describe('timebased query', function () { // eslint-disable-line func-names
     });
   };
 
+  // Return HSS state
+  this.getHSSState = () => fetch(`${process.env.E2E_URL}:${process.env.PORT}/debug/all`)
+    .then(r => r.json());
+
+  // Test HSS state
+  this.checkHHSState = () => this.getHSSState()
+  .then((actual) => {
+    actual.connectedData[0] && delete actual.connectedData[0].meta.created; // eslint-disable-line no-param-reassign
+    actual.subscriptions[0] && delete actual.subscriptions[0].meta.created; // eslint-disable-line no-param-reassign
+    matchSnapshot(actual);
+  });
+
+  // Returns a promise resolved when HSS update his cache
+  this.waitHSSUpdate = () => {
+    return new Promise(r => {
+      this.resolveWaitHSSUpdate = r;
+    });
+  };
+
   before((done) => {
+    const self = this;
+
     startHSS().then((hss) => {
       this.hss = hss;
+
+      hss.on('message', msg => {
+        if (msg === 'updated') {
+          this.resolveWaitHSSUpdate && this.resolveWaitHSSUpdate();
+        }
+      });
+
       done();
     });
   });
@@ -84,65 +116,141 @@ describe('timebased query', function () { // eslint-disable-line func-names
     stopWS(this.ws).then(() => done());
   });
 
-  it('EVENT_TIMEBASED_DATA', (done) => {
-    this.testTimeBaseQuery().then(() => done());
-  });
 
-  it('EVENT_TIMEBASED_QUERY_INVALIDATION (all)', (done) => {
-    const now = Date.now();
-    const self = this;
-    const start = now - (60 * 1000);
-    const end = now;
-
-    this.testTimeBaseQuery({ start, end })
-    .then(() => {
-      const expected = { connectedData: [], subscriptions: [], timebasedData: {} };
-
-      self.ws.write({
-        event: globalConstants.EVENT_TIMEBASED_QUERY_INVALIDATION,
-        payload: {},
-      });
-
-      fetch(`${process.env.E2E_URL}:${process.env.PORT}/debug/all`)
-        .then(r => r.json())
-        .then((actual) => {
-          try {
-            actual.should.have.properties(expected);
-            done();
-          } catch (e) {
-            done(e);
-          }
-        });
-    });
-  });
-
-  it('EVENT_TIMEBASED_QUERY_INVALIDATION (partial)', (done) => {
+  it('1 query', () => {
     const now = (new Date(2016, 10, 22)).getTime();
     const start = now - (60 * 1000);
-    const end = now;
+    const end = start + (2 * 1000);
+
+    return this.testTimeBaseQuery({ start, end, assert: true });
+  });
+
+  it('2 queries with overlap intervals. Second one is after', () => {
+    const now = (new Date(2016, 10, 22)).getTime();
+    const start = now - (60 * 1000);
+    const end = start + (4 * 1000);
+
+    return this.testTimeBaseQuery({ start, end })
+      .then(() => this.checkHHSState())
+      .then(() =>
+        this.testTimeBaseQuery({
+          start: start + (2 * 1000),
+          end: end + (2 * 1000),
+        }))
+      .then(() => this.waitHSSUpdate())
+      .then(() => this.checkHHSState());
+  });
+
+  it('2 queries with overlap intervals. Second one is before', () => {
+    const now = (new Date(2016, 10, 22)).getTime();
+    const start = now - (60 * 1000);
+    const end = start + (4 * 1000);
+
+    return this.testTimeBaseQuery({ start, end })
+      .then(() => this.checkHHSState())
+      .then(() =>
+        this.testTimeBaseQuery({
+          start: start - (2 * 1000),
+          end: end - (2 * 1000),
+        }))
+      .then(() => this.waitHSSUpdate())
+      .then(() => this.checkHHSState());
+  });
+
+  it('2 queries with overlap intervals. Second one is inside first one', () => {
+    const now = (new Date(2016, 10, 22)).getTime();
+    const start = now - (60 * 1000);
+    const end = start + (4 * 1000);
+
+    return this.testTimeBaseQuery({ start, end })
+      .then(() => this.checkHHSState())
+      .then(() =>
+        this.testTimeBaseQuery({
+          start: start + (1 * 1000),
+          end: start + (2 * 1000),
+        }))
+      .then(() => this.checkHHSState());
+  });
+
+  it('2 queries with overlap intervals. First one is inside second one', () => {
+    const now = (new Date(2016, 10, 22)).getTime();
+    const start = now - (60 * 1000);
+    const end = start + (4 * 1000);
+
+    return this.testTimeBaseQuery({ start, end })
+      .then(() => this.checkHHSState())
+      .then(() =>
+        this.testTimeBaseQuery({
+          start: start - (3 * 1000),
+          end: end + (3 * 1000),
+        }))
+      .then(() => this.waitHSSUpdate())
+      .then(() => this.checkHHSState());
+  });
+
+  it('2 queries with apart intervals. Second one is after', () => {
+    const now = (new Date(2016, 10, 22)).getTime();
+    const start = now - (60 * 1000);
+    const end = start + (4 * 1000);
+
+    return this.testTimeBaseQuery({ start, end })
+      .then(() => this.checkHHSState())
+      .then(() =>
+        this.testTimeBaseQuery({
+          start: end + (2 * 1000),
+          end: end + (5 * 1000),
+        }))
+      .then(() => this.checkHHSState());
+  });
+
+  it('2 queries with apart intervals. Second one is before', () => {
+    const now = (new Date(2016, 10, 22)).getTime();
+    const start = now - (60 * 1000);
+    const end = start + (4 * 1000);
+
+    return this.testTimeBaseQuery({ start, end })
+      .then(() => this.checkHHSState())
+      .then(() =>
+        this.testTimeBaseQuery({
+          start: start - (5 * 1000),
+          end: start - (2 * 1000),
+        }))
+      .then(() => this.checkHHSState());
+  });
+
+
+
+  it('EVENT_TIMEBASED_QUERY_INVALIDATION (all)', () => {
+    const now = (new Date(2016, 10, 22)).getTime();
+    const self = this;
+    const start = now - (60 * 1000);
+    const end = start + (2 * 1000);
+
+    return this.testTimeBaseQuery({ start, end })
+      .then(() => {
+        self.ws.write({
+          event: globalConstants.EVENT_TIMEBASED_QUERY_INVALIDATION,
+          payload: {},
+        });
+      })
+      .then(() => this.checkHHSState());
+  });
+
+  it('EVENT_TIMEBASED_QUERY_INVALIDATION (partial)', () => {
+    const now = (new Date(2016, 10, 22)).getTime();
+    const start = now - (60 * 1000);
+    const end = start + (2 * 1000);
     const parameterName = 'TMMGT_BC_VIRTCHAN3';
     const self = this;
 
-    this.testTimeBaseQuery({ start, end })
-    .then(() => {
-      self.ws.write({
-        event: globalConstants.EVENT_TIMEBASED_QUERY_INVALIDATION,
-        payload: getDataMap(parameterName, [start, start + (30 * 1000)]),
-      });
-
-      fetch(`${process.env.E2E_URL}:${process.env.PORT}/debug/all`)
-        .then(r => r.json())
-        .then((actual) => {
-          // eslint-disable-next-line global-require, import/no-dynamic-require
-          const expected = require(`./fixture/${self.ctx.test.title}.js`);
-
-          try {
-            actual.should.have.properties(expected);
-            done();
-          } catch (e) {
-            done(e);
-          }
+    return this.testTimeBaseQuery({ start, end })
+      .then(() => this.checkHHSState())
+      .then(() => {
+        self.ws.write({
+          event: globalConstants.EVENT_TIMEBASED_QUERY_INVALIDATION,
+          payload: getDataMap(parameterName, [start, start + (1 * 1000)]),
         });
-    });
+      })
+      .then(() => this.checkHHSState());
   });
 });

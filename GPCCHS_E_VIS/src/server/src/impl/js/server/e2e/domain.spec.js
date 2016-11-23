@@ -1,19 +1,30 @@
 const globalConstants = require('common/constants'); // eslint-disable-line import/no-extraneous-dependencies
-const {
-  getDomain,
-} = require('./fixture/data');
+const { v4 } = require('node-uuid');
+const path = require('path');
+
 const {
   startWS,
   stopWS,
   resetDataCallbacks,
   startHSS,
   stopHSS,
+  getMatchSnapshot,
+  addDataCallback,
 } = require('./util');
 
 // HSS specific PORT for tests
 describe('domain', function () { // eslint-disable-line func-names
   this.slow(500);
   this.timeout(10000);
+
+  const matchSnapshot = getMatchSnapshot(
+    this,
+    path.join(
+      __dirname,
+      'fixture',
+      path.parse(__filename).name
+    )
+  );
 
   before((done) => {
     startHSS().then((hss) => {
@@ -39,15 +50,14 @@ describe('domain', function () { // eslint-disable-line func-names
   });
 
   it('EVENT_DOMAIN_QUERY', (done) => {
-    const expected = getDomain();
-
     this.ws.write({
       event: globalConstants.EVENT_DOMAIN_QUERY,
-      queryId: expected.queryId,
+      queryId: v4(),
     });
 
-    this.ws.on('data', (actual) => {
-      actual.should.have.properties(expected);
+    addDataCallback((actual) => {
+      delete actual.queryId; // eslint-disable-line no-param-reassign
+      matchSnapshot(actual);
       done();
     });
   });

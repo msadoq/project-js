@@ -111,6 +111,12 @@ const onTimebasedArchiveData = (
   }, () => {
     debug.debug(`inserting ${payloadBuffers.length / 2} data`);
 
+    // if HSS is a forked process, in e2e tests for example
+    if (process.send) {
+      // Send 'updated' to parent process
+      process.send('updated');
+    }
+
     execution.stop('global');
     execution.print();
   });

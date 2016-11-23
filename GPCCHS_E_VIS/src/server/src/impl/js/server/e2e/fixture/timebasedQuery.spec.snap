@@ -1,0 +1,1026 @@
+exports[`timebased query 1 query 1`] = `
+Object {
+  "event": "timebasedData",
+  "payload": Object {
+    "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": Object {
+      "1479772740000": Object {
+        "convertedValue": 138.6320582855435,
+        "extractedValue": 138.6320582855435,
+        "groundDate": 1479772740020,
+        "isNominal": false,
+        "isObsolete": false,
+        "monitoringState": 0,
+        "onboardDate": 1479772740000,
+        "rawValue": 138.6320582855435,
+        "referenceTimestamp": 1479772740000,
+        "triggerOffCounter": 10,
+        "triggerOnCounter": 6,
+        "validityState": 0
+      },
+      "1479772741000": Object {
+        "convertedValue": 138.79021017903133,
+        "extractedValue": 138.79021017903133,
+        "groundDate": 1479772741020,
+        "isNominal": false,
+        "isObsolete": false,
+        "monitoringState": 0,
+        "onboardDate": 1479772741000,
+        "rawValue": 138.79021017903133,
+        "referenceTimestamp": 1479772741000,
+        "triggerOffCounter": 10,
+        "triggerOnCounter": 6,
+        "validityState": 0
+      },
+      "1479772742000": Object {
+        "convertedValue": 138.9375479947504,
+        "extractedValue": 138.9375479947504,
+        "groundDate": 1479772742020,
+        "isNominal": false,
+        "isObsolete": false,
+        "monitoringState": 0,
+        "onboardDate": 1479772742000,
+        "rawValue": 138.9375479947504,
+        "referenceTimestamp": 1479772742000,
+        "triggerOffCounter": 10,
+        "triggerOnCounter": 6,
+        "validityState": 0
+      }
+    }
+  }
+}
+`;
+
+exports[`timebased query 2 queries with apart intervals. Second one is after 1`] = `
+Object {
+  "connectedData": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "intervals": Object {
+        "all": Array [
+          Array [
+            1479772740000,
+            1479772744000
+          ]
+        ],
+        "received": Array [
+          Array [
+            1479772740000,
+            1479772744000
+          ]
+        ],
+        "requested": Object {}
+      },
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      },
+      "remoteId": "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0",
+      "type": "range"
+    }
+  ],
+  "subscriptions": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "filters": Object {
+        "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": Array [
+          Object {
+            "fieldName": "convertedValue",
+            "fieldValue": "0",
+            "type": 1
+          }
+        ]
+      },
+      "flatDataId": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4",
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      }
+    }
+  ],
+  "timebasedData": Object {
+    "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": 5
+  }
+}
+`;
+
+exports[`timebased query 2 queries with apart intervals. Second one is after 2`] = `
+Object {
+  "connectedData": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "intervals": Object {
+        "all": Array [
+          Array [
+            1479772740000,
+            1479772744000
+          ],
+          Array [
+            1479772746000,
+            1479772749000
+          ]
+        ],
+        "received": Array [
+          Array [
+            1479772740000,
+            1479772744000
+          ],
+          Array [
+            1479772746000,
+            1479772749000
+          ]
+        ],
+        "requested": Object {}
+      },
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      },
+      "remoteId": "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0",
+      "type": "range"
+    }
+  ],
+  "subscriptions": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "filters": Object {
+        "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": Array [
+          Object {
+            "fieldName": "convertedValue",
+            "fieldValue": "0",
+            "type": 1
+          }
+        ]
+      },
+      "flatDataId": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4",
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      }
+    }
+  ],
+  "timebasedData": Object {
+    "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": 9
+  }
+}
+`;
+
+exports[`timebased query 2 queries with apart intervals. Second one is before 1`] = `
+Object {
+  "connectedData": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "intervals": Object {
+        "all": Array [
+          Array [
+            1479772740000,
+            1479772744000
+          ]
+        ],
+        "received": Array [
+          Array [
+            1479772740000,
+            1479772744000
+          ]
+        ],
+        "requested": Object {}
+      },
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      },
+      "remoteId": "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0",
+      "type": "range"
+    }
+  ],
+  "subscriptions": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "filters": Object {
+        "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": Array [
+          Object {
+            "fieldName": "convertedValue",
+            "fieldValue": "0",
+            "type": 1
+          }
+        ]
+      },
+      "flatDataId": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4",
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      }
+    }
+  ],
+  "timebasedData": Object {
+    "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": 5
+  }
+}
+`;
+
+exports[`timebased query 2 queries with apart intervals. Second one is before 2`] = `
+Object {
+  "connectedData": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "intervals": Object {
+        "all": Array [
+          Array [
+            1479772735000,
+            1479772738000
+          ],
+          Array [
+            1479772740000,
+            1479772744000
+          ]
+        ],
+        "received": Array [
+          Array [
+            1479772735000,
+            1479772738000
+          ],
+          Array [
+            1479772740000,
+            1479772744000
+          ]
+        ],
+        "requested": Object {}
+      },
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      },
+      "remoteId": "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0",
+      "type": "range"
+    }
+  ],
+  "subscriptions": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "filters": Object {
+        "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": Array [
+          Object {
+            "fieldName": "convertedValue",
+            "fieldValue": "0",
+            "type": 1
+          }
+        ]
+      },
+      "flatDataId": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4",
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      }
+    }
+  ],
+  "timebasedData": Object {
+    "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": 9
+  }
+}
+`;
+
+exports[`timebased query 2 queries with overlap intervals. First one is inside second one 1`] = `
+Object {
+  "connectedData": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "intervals": Object {
+        "all": Array [
+          Array [
+            1479772740000,
+            1479772744000
+          ]
+        ],
+        "received": Array [
+          Array [
+            1479772740000,
+            1479772744000
+          ]
+        ],
+        "requested": Object {}
+      },
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      },
+      "remoteId": "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0",
+      "type": "range"
+    }
+  ],
+  "subscriptions": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "filters": Object {
+        "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": Array [
+          Object {
+            "fieldName": "convertedValue",
+            "fieldValue": "0",
+            "type": 1
+          }
+        ]
+      },
+      "flatDataId": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4",
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      }
+    }
+  ],
+  "timebasedData": Object {
+    "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": 5
+  }
+}
+`;
+
+exports[`timebased query 2 queries with overlap intervals. First one is inside second one 2`] = `
+Object {
+  "connectedData": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "intervals": Object {
+        "all": Array [
+          Array [
+            1479772737000,
+            1479772747000
+          ]
+        ],
+        "received": Array [
+          Array [
+            1479772737000,
+            1479772744000
+          ]
+        ],
+        "requested": Object {
+          "query9": Array [
+            1479772744000,
+            1479772747000
+          ]
+        }
+      },
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      },
+      "remoteId": "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0",
+      "type": "range"
+    }
+  ],
+  "subscriptions": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "filters": Object {
+        "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": Array [
+          Object {
+            "fieldName": "convertedValue",
+            "fieldValue": "0",
+            "type": 1
+          }
+        ]
+      },
+      "flatDataId": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4",
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      }
+    }
+  ],
+  "timebasedData": Object {
+    "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": 8
+  }
+}
+`;
+
+exports[`timebased query 2 queries with overlap intervals. Second one is after 1`] = `
+Object {
+  "connectedData": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "intervals": Object {
+        "all": Array [
+          Array [
+            1479772740000,
+            1479772744000
+          ]
+        ],
+        "received": Array [
+          Array [
+            1479772740000,
+            1479772744000
+          ]
+        ],
+        "requested": Object {}
+      },
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      },
+      "remoteId": "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0",
+      "type": "range"
+    }
+  ],
+  "subscriptions": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "filters": Object {
+        "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": Array [
+          Object {
+            "fieldName": "convertedValue",
+            "fieldValue": "0",
+            "type": 1
+          }
+        ]
+      },
+      "flatDataId": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4",
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      }
+    }
+  ],
+  "timebasedData": Object {
+    "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": 5
+  }
+}
+`;
+
+exports[`timebased query 2 queries with overlap intervals. Second one is after 2`] = `
+Object {
+  "connectedData": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "intervals": Object {
+        "all": Array [
+          Array [
+            1479772740000,
+            1479772746000
+          ]
+        ],
+        "received": Array [
+          Array [
+            1479772740000,
+            1479772746000
+          ]
+        ],
+        "requested": Object {}
+      },
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      },
+      "remoteId": "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0",
+      "type": "range"
+    }
+  ],
+  "subscriptions": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "filters": Object {
+        "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": Array [
+          Object {
+            "fieldName": "convertedValue",
+            "fieldValue": "0",
+            "type": 1
+          }
+        ]
+      },
+      "flatDataId": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4",
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      }
+    }
+  ],
+  "timebasedData": Object {
+    "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": 7
+  }
+}
+`;
+
+exports[`timebased query 2 queries with overlap intervals. Second one is before 1`] = `
+Object {
+  "connectedData": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "intervals": Object {
+        "all": Array [
+          Array [
+            1479772740000,
+            1479772744000
+          ]
+        ],
+        "received": Array [
+          Array [
+            1479772740000,
+            1479772744000
+          ]
+        ],
+        "requested": Object {}
+      },
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      },
+      "remoteId": "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0",
+      "type": "range"
+    }
+  ],
+  "subscriptions": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "filters": Object {
+        "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": Array [
+          Object {
+            "fieldName": "convertedValue",
+            "fieldValue": "0",
+            "type": 1
+          }
+        ]
+      },
+      "flatDataId": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4",
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      }
+    }
+  ],
+  "timebasedData": Object {
+    "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": 5
+  }
+}
+`;
+
+exports[`timebased query 2 queries with overlap intervals. Second one is before 2`] = `
+Object {
+  "connectedData": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "intervals": Object {
+        "all": Array [
+          Array [
+            1479772738000,
+            1479772744000
+          ]
+        ],
+        "received": Array [
+          Array [
+            1479772738000,
+            1479772744000
+          ]
+        ],
+        "requested": Object {}
+      },
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      },
+      "remoteId": "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0",
+      "type": "range"
+    }
+  ],
+  "subscriptions": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "filters": Object {
+        "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": Array [
+          Object {
+            "fieldName": "convertedValue",
+            "fieldValue": "0",
+            "type": 1
+          }
+        ]
+      },
+      "flatDataId": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4",
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      }
+    }
+  ],
+  "timebasedData": Object {
+    "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": 7
+  }
+}
+`;
+
+exports[`timebased query 2 queries with overlap intervals. Second one is inside first one 1`] = `
+Object {
+  "connectedData": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "intervals": Object {
+        "all": Array [
+          Array [
+            1479772740000,
+            1479772744000
+          ]
+        ],
+        "received": Array [
+          Array [
+            1479772740000,
+            1479772744000
+          ]
+        ],
+        "requested": Object {}
+      },
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      },
+      "remoteId": "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0",
+      "type": "range"
+    }
+  ],
+  "subscriptions": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "filters": Object {
+        "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": Array [
+          Object {
+            "fieldName": "convertedValue",
+            "fieldValue": "0",
+            "type": 1
+          }
+        ]
+      },
+      "flatDataId": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4",
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      }
+    }
+  ],
+  "timebasedData": Object {
+    "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": 4
+  }
+}
+`;
+
+exports[`timebased query 2 queries with overlap intervals. Second one is inside first one 2`] = `
+Object {
+  "connectedData": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "intervals": Object {
+        "all": Array [
+          Array [
+            1479772740000,
+            1479772744000
+          ]
+        ],
+        "received": Array [
+          Array [
+            1479772740000,
+            1479772744000
+          ]
+        ],
+        "requested": Object {}
+      },
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      },
+      "remoteId": "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0",
+      "type": "range"
+    }
+  ],
+  "subscriptions": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "filters": Object {
+        "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": Array [
+          Object {
+            "fieldName": "convertedValue",
+            "fieldValue": "0",
+            "type": 1
+          }
+        ]
+      },
+      "flatDataId": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4",
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      }
+    }
+  ],
+  "timebasedData": Object {
+    "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": 4
+  }
+}
+`;
+
+exports[`timebased query EVENT_TIMEBASED_QUERY_INVALIDATION (all) 1`] = `
+Object {
+  "connectedData": Array [],
+  "subscriptions": Array [],
+  "timebasedData": Object {}
+}
+`;
+
+exports[`timebased query EVENT_TIMEBASED_QUERY_INVALIDATION (all) 2`] = `
+Object {
+  "connectedData": Array [],
+  "subscriptions": Array [],
+  "timebasedData": Object {}
+}
+`;
+
+exports[`timebased query EVENT_TIMEBASED_QUERY_INVALIDATION (partial) 1`] = `
+Object {
+  "connectedData": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "intervals": Object {
+        "all": Array [
+          Array [
+            1479772740000,
+            1479772742000
+          ]
+        ],
+        "received": Array [
+          Array [
+            1479772740000,
+            1479772742000
+          ]
+        ],
+        "requested": Object {}
+      },
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      },
+      "remoteId": "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0",
+      "type": "range"
+    }
+  ],
+  "subscriptions": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "filters": Object {
+        "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": Array [
+          Object {
+            "fieldName": "convertedValue",
+            "fieldValue": "0",
+            "type": 1
+          }
+        ]
+      },
+      "flatDataId": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4",
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      }
+    }
+  ],
+  "timebasedData": Object {
+    "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": 3
+  }
+}
+`;
+
+exports[`timebased query EVENT_TIMEBASED_QUERY_INVALIDATION (partial) 2`] = `
+Object {
+  "connectedData": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "intervals": Object {
+        "all": Array [
+          Array [
+            1479772740000,
+            1479772741000
+          ]
+        ],
+        "received": Array [
+          Array [
+            1479772740000,
+            1479772741000
+          ]
+        ],
+        "requested": Object {}
+      },
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      },
+      "remoteId": "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0",
+      "type": "range"
+    }
+  ],
+  "subscriptions": Array [
+    Object {
+      "$loki": 1,
+      "dataId": Object {
+        "catalog": "Reporting",
+        "comObject": "ReportingParameter",
+        "domainId": 4,
+        "parameterName": "TMMGT_BC_VIRTCHAN3",
+        "sessionId": 0
+      },
+      "filters": Object {
+        "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": Array [
+          Object {
+            "fieldName": "convertedValue",
+            "fieldValue": "0",
+            "type": 1
+          }
+        ]
+      },
+      "flatDataId": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4",
+      "meta": Object {
+        "revision": 0,
+        "version": 0
+      }
+    }
+  ],
+  "timebasedData": Object {
+    "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": 1
+  }
+}
+`;

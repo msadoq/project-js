@@ -4,7 +4,7 @@ import SelectButton from '../Buttons/SelectButton';
 export default class SelectButtonField extends React.Component {
   static propTypes = {
     input: PropTypes.object.isRequired,
-    buttons: PropTypes.object.isRequired,
+    buttons: PropTypes.array.isRequired,
     bsSize: PropTypes.string
   }
 

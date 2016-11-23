@@ -3,23 +3,31 @@ import {
   Accordion,
   Panel
 } from 'react-bootstrap';
+import { formValueSelector } from 'redux-form';
 import PlotMarker from './PlotMarker';
 
 export default class PlotMarkers extends React.Component {
   static propTypes = {
+    viewId: PropTypes.string.isRequired,
     markers: PropTypes.array.isRequired,
     axes: PropTypes.array.isRequired,
-    handlePlotMarkers: PropTypes.func.isRequired,
+    updateMarker: PropTypes.func.isRequired,
   }
   state = {};
+
   openPanel = key => this.setState({ [`isPanel${key}Open`]: true });
   closePanel = key => this.setState({ [`isPanel${key}Open`]: false });
+
+  handleSubmit = (key, values) => {
+    const { updateMarker, viewId } = this.props;
+    updateMarker(viewId, key, values);
+  }
 
   render() {
     const {
       markers,
       axes,
-      handlePlotMarkers
+      viewId
     } = this.props;
 
     return (
@@ -36,14 +44,13 @@ export default class PlotMarkers extends React.Component {
             {this.state[`isPanel${key}Open`] &&
               <PlotMarker
                 key={key}
-                idAxe={key}
-                kind={marker.kind}
-                label={marker.label}
-                relPosX={marker.relativePosX}
-                relPosY={marker.relativePosY}
-                markerStyle={marker.style}
-                handlePlotMarker={handlePlotMarkers}
+                index={key}
                 axes={axes}
+                initialValues={marker}
+                formName={`axis-form-${key}-${viewId}`}
+                selector={formValueSelector(`axis-form-${key}-${viewId}`)}
+                onSubmit={this.handleSubmit.bind(this, key)}
+                form={`axis-form-${key}-${viewId}`}
               />}
           </Panel>)}
       </Accordion>

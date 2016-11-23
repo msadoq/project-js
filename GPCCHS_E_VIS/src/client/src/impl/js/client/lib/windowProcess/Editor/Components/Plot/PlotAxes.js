@@ -64,11 +64,9 @@ export default class PlotAxes extends React.Component {
             {this.state[`isPanel${key}Open`] &&
               <PlotAxis
                 key={key}
-                index={key}
                 initialValues={axis}
                 onSubmit={this.handleSubmit.bind(this, key)}
                 form={`axis-form-${key}-${viewId}`}
-                handlePlotAxes={this.handleAxes}
               />}
           </Panel>)}
       </Accordion>

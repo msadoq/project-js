@@ -5,17 +5,18 @@ import {
 } from 'react-bootstrap';
 import {
   ButtonToggleField,
-  SelectButtonField,
   InputField
 } from '../Fields/';
 import {
   HorizontalFormGroup,
   ClearSubmitButtons
 } from '../Forms/';
+import {
+  FormSectionLineStyle
+} from '../FormSections';
 
 class PlotGrid extends React.Component {
   static propTypes = {
-    index: PropTypes.number.isRequired,
     initialValues: PropTypes.shape({
       // label: PropTypes.string,
       xAxisId: PropTypes.string,
@@ -70,16 +71,8 @@ class PlotGrid extends React.Component {
           />
         </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Style">
-          <Field
-            component={SelectButtonField}
-            name="lineStyle"
-            buttons={[
-              { label: 'Continuous', icon: 'continuous' },
-              { label: 'Dashed', icon: 'dashed' },
-              { label: 'Dotted', icon: 'doted' }
-            ]}
-          />
+        <HorizontalFormGroup label="Line">
+          <FormSectionLineStyle />
         </HorizontalFormGroup>
 
         <HorizontalFormGroup label="X Axis">

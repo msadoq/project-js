@@ -8,7 +8,7 @@ import {
 import {
   PlotAxesContainer,
   PlotGridsContainer,
-  PlotMarkers
+  PlotMarkersContainer
 } from './';
 import ViewTitleContainer from '../ViewTitleContainer';
 
@@ -22,10 +22,7 @@ import ViewTitleContainer from '../ViewTitleContainer';
 */
 export default class PlotTab extends React.Component {
   static propTypes = {
-    axes: PropTypes.array,
-    markers: PropTypes.array,
-    handleAddPlotAxis: PropTypes.func,
-    handlePlotMarkers: PropTypes.func
+    handleAddPlotAxis: PropTypes.func
   }
   static contextTypes = {
     viewId: React.PropTypes.string
@@ -64,11 +61,6 @@ export default class PlotTab extends React.Component {
       isGridOpen,
       isMarkersOpen
     } = this.state;
-    const {
-      axes,
-      markers,
-      handlePlotMarkers
-    } = this.props;
 
     return (
       <Accordion>
@@ -119,11 +111,7 @@ export default class PlotTab extends React.Component {
           onSelect={this.openMarkers}
           onExited={this.closeMarkers}
         >
-          {isMarkersOpen && <PlotMarkers
-            markers={markers}
-            axes={axes}
-            handlePlotMarkers={handlePlotMarkers}
-          />}
+          {isMarkersOpen && <PlotMarkersContainer viewId={viewId} />}
         </Panel>
       </Accordion>
     );

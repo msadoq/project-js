@@ -1,24 +1,21 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import {
-  Form,
-  InputGroup,
-  Col
+  Form
 } from 'react-bootstrap';
 import {
-  ButtonToggleField, ColorPickerField,
-  SelectButtonField, SelectFontField, InputField
+  ButtonToggleField, InputField
 } from '../Fields/';
 import {
   HorizontalFormGroup,
   ClearSubmitButtons
 } from '../Forms/';
-
-const { Addon } = InputGroup;
+import {
+  FormSectionFontStyle
+} from '../FormSections/';
 
 class PlotAxis extends PureComponent {
   static propTypes = {
-    index: PropTypes.number,
     initialValues: PropTypes.shape({
       label: PropTypes.string,
       unit: PropTypes.string,
@@ -85,76 +82,7 @@ class PlotAxis extends PureComponent {
           />
         </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Font">
-          <div className="row">
-            <Col xs={6}>
-              <Field
-                name="style.font"
-                component={SelectFontField}
-                className="form-control input-sm"
-                type="text"
-              />
-            </Col>
-            <Col xs={6}>
-              <InputGroup>
-                <Field
-                  name="style.size"
-                  component={InputField}
-                  normalize={value => parseInt(value, 10)}
-                  className="form-control input-sm"
-                  type="number"
-                />
-                <Addon>px</Addon>
-              </InputGroup>
-            </Col>
-          </div>
-        </HorizontalFormGroup>
-
-        <HorizontalFormGroup label="Style">
-          <Field
-            name="style.bold"
-            component={ButtonToggleField}
-            textOn="B"
-            textOff="B"
-          />
-          <Field
-            name="style.italic"
-            component={ButtonToggleField}
-            textOn="I"
-            textOff="I"
-          />
-          <Field
-            name="style.underline"
-            component={ButtonToggleField}
-            textOn="U"
-            textOff="U"
-          />
-          <Field
-            name="style.strikeOut"
-            component={ButtonToggleField}
-            textOn="S"
-            textOff="S"
-          />
-        </HorizontalFormGroup>
-
-        <HorizontalFormGroup label="Color">
-          <Field
-            name="style.colour"
-            component={ColorPickerField}
-          />
-        </HorizontalFormGroup>
-
-        <HorizontalFormGroup label="Align">
-          <Field
-            component={SelectButtonField}
-            name="style.align"
-            buttons={[
-              { label: 'left', icon: 'alignLeft' },
-              { label: 'center', icon: 'alignCenter' },
-              { label: 'right', icon: 'alignRight' }
-            ]}
-          />
-        </HorizontalFormGroup>
+        <FormSectionFontStyle name="style" />
 
         <HorizontalFormGroup label="Show">
           <Field

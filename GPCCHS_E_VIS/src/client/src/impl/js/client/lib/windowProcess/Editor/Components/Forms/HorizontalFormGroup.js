@@ -7,7 +7,7 @@ import {
 
 export default class HorizontalFormGroup extends PureComponent {
   static propTypes = {
-    children: PropTypes.object.isRequired,
+    children: PropTypes.node.isRequired,
     label: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node

@@ -38,7 +38,10 @@ export default class EditorNavbar extends React.Component {
           </NavItem>
         ))}
         <NavItem className="pull-right" onClick={closeEditor}>
-          <Glyphicon glyph="remove-circle" />
+          <Glyphicon
+            glyph="remove-circle"
+            className="text-danger"
+          />
         </NavItem>
       </Nav>
     );

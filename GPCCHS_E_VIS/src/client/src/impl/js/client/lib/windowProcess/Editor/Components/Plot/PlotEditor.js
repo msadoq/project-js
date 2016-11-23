@@ -44,7 +44,6 @@ export default class PlotEditor extends Component {
     addEntryPoint: PropTypes.func.isRequired,
     removeEntryPoint: PropTypes.func.isRequired,
     addAxis: PropTypes.func.isRequired,
-    updateMarker: PropTypes.func.isRequired,
 
     // rest
     viewId: PropTypes.string.isRequired,
@@ -64,10 +63,10 @@ export default class PlotEditor extends Component {
       titleStyle: PropTypes.shape({
         font: PropTypes.string,
         size: PropTypes.number,
-        bold: PropTypes.boolean,
-        italic: PropTypes.boolean,
-        underline: PropTypes.boolean,
-        strikeOut: PropTypes.boolean,
+        bold: PropTypes.bool,
+        italic: PropTypes.bool,
+        underline: PropTypes.bool,
+        strikeOut: PropTypes.bool,
         align: PropTypes.string,
         color: PropTypes.string
       }),
@@ -98,14 +97,6 @@ export default class PlotEditor extends Component {
   removeEntryPoint = (key) => {
     const { removeEntryPoint, viewId } = this.props;
     removeEntryPoint(viewId, key);
-  }
-  handlePlotMarkers = (key, label, newVal) => {
-    const { configuration, updateMarker, viewId } = this.props;
-    const currentMarker = _get(configuration, `markers[${key}]`);
-    updateMarker(viewId, key, {
-      ...currentMarker,
-      [label]: newVal
-    });
   }
   handleAddAxis = () => {
     const { configuration, addAxis, viewId } = this.props;
@@ -149,7 +140,6 @@ export default class PlotEditor extends Component {
           {currentDisplay === 2 && <Misc />}
           {currentDisplay === 1 && <PlotTab
             handleAddPlotAxis={this.handleAddAxis}
-            handlePlotMarkers={this.handlePlotMarkers}
             axes={axes}
             markers={markers}
             title={title}

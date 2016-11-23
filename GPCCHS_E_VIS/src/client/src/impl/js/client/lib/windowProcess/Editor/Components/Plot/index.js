@@ -7,5 +7,6 @@ export PlotAxis from './PlotAxis';
 export PlotTab from './PlotTab';
 export PlotEditor from './PlotEditor';
 export PlotMarkers from './PlotMarkers';
+export PlotMarkersContainer from './PlotMarkersContainer';
 export PlotMarker from './PlotMarker';
 export PlotEditorContainer from './PlotEditorContainer';

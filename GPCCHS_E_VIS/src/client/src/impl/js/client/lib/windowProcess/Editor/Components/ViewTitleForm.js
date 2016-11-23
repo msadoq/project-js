@@ -1,20 +1,18 @@
 import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import {
-  Form,
-  InputGroup,
-  Col
+  Form
 } from 'react-bootstrap';
 import {
-  ButtonToggleField, ColorPickerField,
-  SelectButtonField, SelectFontField, InputField
+  InputField
 } from './Fields/';
 import {
   HorizontalFormGroup,
   ClearSubmitButtons
 } from './Forms/';
-
-const { Addon } = InputGroup;
+import {
+  FormSectionFontStyle
+} from './FormSections/';
 
 class ViewTitleForm extends React.Component {
   static propTypes = {
@@ -23,10 +21,10 @@ class ViewTitleForm extends React.Component {
       titleStyle: PropTypes.shape({
         font: PropTypes.string,
         size: PropTypes.number,
-        bold: PropTypes.boolean,
-        italic: PropTypes.boolean,
-        underline: PropTypes.boolean,
-        strikeOut: PropTypes.boolean,
+        bold: PropTypes.bool,
+        italic: PropTypes.bool,
+        underline: PropTypes.bool,
+        strikeOut: PropTypes.bool,
         align: PropTypes.string,
         color: PropTypes.string
       })
@@ -36,6 +34,22 @@ class ViewTitleForm extends React.Component {
     reset: PropTypes.func,
     submitting: PropTypes.bool,
     valid: PropTypes.bool
+  }
+
+  static defaultProps = {
+    initialValues: {
+      title: '',
+      titleStyle: {
+        font: 'Arial',
+        size: 12,
+        bold: false,
+        italic: false,
+        underline: false,
+        strikeOut: false,
+        align: 'left',
+        colour: '#000000'
+      }
+    }
   }
 
   handleTitle = ({ target: { value: title } }) => {
@@ -62,76 +76,7 @@ class ViewTitleForm extends React.Component {
           />
         </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Font">
-          <div className="row">
-            <Col xs={6}>
-              <Field
-                name="titleStyle.font"
-                component={SelectFontField}
-                className="form-control input-sm"
-                type="text"
-              />
-            </Col>
-            <Col xs={6}>
-              <InputGroup>
-                <Field
-                  name="titleStyle.size"
-                  component={InputField}
-                  normalize={value => parseInt(value, 10)}
-                  className="form-control input-sm"
-                  type="number"
-                />
-                <Addon>px</Addon>
-              </InputGroup>
-            </Col>
-          </div>
-        </HorizontalFormGroup>
-
-        <HorizontalFormGroup label="Align">
-          <Field
-            component={SelectButtonField}
-            name="titleStyle.align"
-            buttons={[
-              { label: 'left', icon: 'alignLeft' },
-              { label: 'center', icon: 'alignCenter' },
-              { label: 'right', icon: 'alignRight' }
-            ]}
-          />
-        </HorizontalFormGroup>
-
-        <HorizontalFormGroup label="Style">
-          <Field
-            name="titleStyle.bold"
-            component={ButtonToggleField}
-            textOn="B"
-            textOff="B"
-          />
-          <Field
-            name="titleStyle.italic"
-            component={ButtonToggleField}
-            textOn="I"
-            textOff="I"
-          />
-          <Field
-            name="titleStyle.underline"
-            component={ButtonToggleField}
-            textOn="U"
-            textOff="U"
-          />
-          <Field
-            name="titleStyle.strikeOut"
-            component={ButtonToggleField}
-            textOn="S"
-            textOff="S"
-          />
-        </HorizontalFormGroup>
-
-        <HorizontalFormGroup label="Color">
-          <Field
-            name="titleStyle.colour"
-            component={ColorPickerField}
-          />
-        </HorizontalFormGroup>
+        <FormSectionFontStyle name="titleStyle" />
 
         <ClearSubmitButtons
           pristine={pristine}

@@ -29,8 +29,8 @@ export default class InputField extends React.Component {
     return (
       <div
         className={classnames({
-          'has-error': error,
-          'has-warning': warning,
+          'has-error': touched && error,
+          'has-warning': touched && warning,
           'has-success': touched && !(error || warning)
         })}
       >
@@ -40,10 +40,10 @@ export default class InputField extends React.Component {
           placeholder={placeholder}
           type={type}
         />
-        {touched && error && <Alert bsStyle="danger" className="m0 p5">
+        {touched && error && <Alert bsStyle="danger" className="m0">
           {error}
         </Alert>}
-        {touched && warning && <Alert bsStyle="warning" className="m0 p5">
+        {touched && warning && <Alert bsStyle="warning" className="m0">
           {warning}
         </Alert>}
       </div>

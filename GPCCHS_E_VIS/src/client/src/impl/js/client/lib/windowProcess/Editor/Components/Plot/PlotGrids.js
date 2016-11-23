@@ -28,7 +28,6 @@ export default class PlotAxes extends React.Component {
     return (
       <PlotGrid
         axes={axes}
-        index={0}
         initialValues={grids[0]}
         onSubmit={this.handleSubmit.bind(this, 0)}
         form={`grid-form-${0}-${viewId}`}

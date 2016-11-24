@@ -1,7 +1,5 @@
 import { dialog, BrowserWindow } from 'electron';
-import debug from '../common/debug/mainDebug';
 
-const logger = debug('mainProcess:filePicker');
 /**
  * show a file picker
  * @param folder : base folder of file picker
@@ -20,10 +18,26 @@ function openFileDialog(folder, type) {
     });
 }
 
-export default function getPathByFilePicker(folder, type) {
-  const filePath = openFileDialog(folder, type);
-  if (filePath) {
-    return filePath[0];
+export default function getPathByFilePicker(folder, type, action = 'open') {
+  let filePath;
+  if (action === 'open') {
+    filePath = openFileDialog(folder, type);
+    if (filePath) {
+      return filePath[0];
+    }
+  } else {
+    return saveFileDialog(folder, type);
   }
   return undefined;
+}
+
+function saveFileDialog(folder, type) {
+  return dialog.showSaveDialog(
+    BrowserWindow.getFocusedWindow(),
+    {
+      title: `Select a ${type}`,
+      defaultPath: folder,
+      buttonLabel: 'Save',
+      filters: [{ name: 'data files', extensions: ['json'] }],
+    });
 }

@@ -2,7 +2,8 @@
 
 .viewportWrapper{
     padding-top: 28px;
-    overflow: hidden
+    overflow: hidden;
+    height: 100%;
 }
 .viewportContainer{
     min-height: 55px;
@@ -10,7 +11,7 @@
     background: #fff;
     border: 1px solid #ccc;
     background: #e0e0e0;
-    height: 100%;
+    height: calc(100% - 52px);
 }
 .viewport{
     top: 0px;
@@ -178,7 +179,7 @@
   color: #555;
 }
 .timelines{
-  max-height: 100px;
+  height: 100%;
   overflow-y: auto;
 }
 .timeline{

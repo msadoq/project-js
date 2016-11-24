@@ -1,12 +1,9 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
+/* eslint no-underscore-dangle:0 import/no-extraneous-dependencies:0 */
 const { encode } = require('common/protobuf');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const registeredCallbacks = require('common/callbacks/register');
 
 const registeredQueries = require('./registeredQueries');
-const execution = require('./execution')('query');
 
 let idIndex = 0;
 function generateQueryId() {
@@ -38,12 +35,12 @@ function getDataIdProtobuf(remoteId, dataId) {
 /**
  * Message creation
  */
-const createQueryMessage = (remoteId, dataId, interval, queryArguments) => {
-  execution.start('creating query handling');
+const createQueryMessage = (remoteId, dataId, interval, queryArguments, execution) => {
+  execution.start('set query handling');
   const queryId = generateQueryId();
   registeredCallbacks.set(queryId, errorCallback);
   registeredQueries.set(queryId, remoteId);
-  execution.stop('creating query handling');
+  execution.stop('set query handling');
 
   execution.start('encode dc query');
   const args = [

@@ -7,7 +7,9 @@ import {
   Button
 } from 'react-bootstrap';
 
-import EntryPointDetails from './EntryPointDetails';
+import {
+  EntryPointDetailsContainer
+} from './';
 /*
   EntryPointTree liste les EntryPoints à afficher.
   Permet également d'appliquer un filtre sur le nom
@@ -25,6 +27,10 @@ export default class EntryPointTree extends React.Component {
     entryPoints: []
   };
 
+  static contextTypes = {
+    viewId: React.PropTypes.string
+  };
+
   state = {};
 
   handleRemove = (e, key) => {
@@ -37,6 +43,7 @@ export default class EntryPointTree extends React.Component {
   closePanel = key => this.setState({ [`panel${key}IsOpen`]: false });
 
   render() {
+    const { viewId } = this.context;
     const mask = `${this.props.search}.*`;
     const { entryPoints, handleEntryPoint } = this.props;
     const list = entryPoints
@@ -56,6 +63,15 @@ export default class EntryPointTree extends React.Component {
             <Panel
               key={key}
               header={<span>
+                {entryPoint.curveColour && <div
+                  className="pull-left"
+                  style={{
+                    height: '20px',
+                    width: '20px',
+                    marginRight: '10px',
+                    backgroundColor: entryPoint.curveColour
+                  }}
+                />}
                 <Button
                   bsSize="xsmall"
                   className="pull-right btn-link"
@@ -74,9 +90,10 @@ export default class EntryPointTree extends React.Component {
               onSelect={this.openPanel.bind(key)}
               onExited={this.closePanel.bind(key)}
             >
-              {isOpen && <EntryPointDetails
+              {isOpen && <EntryPointDetailsContainer
                 key={key}
                 idPoint={key}
+                viewId={viewId}
                 entryPoint={entryPoint}
                 handleEntryPoint={handleEntryPoint}
               />}

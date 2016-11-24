@@ -1,7 +1,7 @@
 import _omit from 'lodash/omit';
 import _without from 'lodash/without';
 import u from 'updeep';
-import { relative, resolve } from 'path';
+import { resolve } from 'path';
 import * as types from '../types';
 
 /**
@@ -27,18 +27,20 @@ export default function views(stateViews = {}, action) {
           resolve(action.payload.newPath) === resolve(stateViews[action.payload.viewId].path)) {
         return stateViews;
       }
-      return u({ [action.payload.viewId]: { path: action.payload.newPath } }, stateViews);
-    case types.WS_VIEW_UPDATE_RELATIVEPATH: {
-      const newWkFolder = resolve(action.payload.newWkFolder);
-      // workspace folder unchanged
-      if (resolve(action.payload.oldWkFolder) === newWkFolder) {
+      return u({ [action.payload.viewId]: {
+        path: action.payload.newPath,
+        isModified: true,
+      } }, stateViews);
+    case types.WS_VIEW_UPDATE_ABSOLUTEPATH:
+      // path unchanged or newPath invalid
+      if (!action.payload.newPath ||
+      resolve(action.payload.newPath) === resolve(stateViews[action.payload.viewId].absolutePath)) {
         return stateViews;
       }
-      // workspace folder updated
-      const oldPath = resolve(action.payload.oldWkFolder, stateViews[action.payload.viewId].path);
-      const pathMvt = relative(newWkFolder, oldPath);
-      return u({ [action.payload.viewId]: { path: pathMvt } }, stateViews);
-    }
+      return u({ [action.payload.viewId]: {
+        absolutePath: action.payload.newPath,
+        isModified: true,
+      } }, stateViews);
     case types.WS_VIEW_UPDATE_ENTRYPOINT:
       return updateArray(stateViews, action, 'entryPoints', 'entryPoint');
     case types.WS_VIEW_UPDATE_AXIS:
@@ -87,7 +89,7 @@ export default function views(stateViews = {}, action) {
       return addElementInArray(stateViews, action, 'procedures', 'procedure');
     case types.WS_VIEW_REMOVE_PROCEDURE:
       return removeElementInArray(stateViews, action, 'procedures');
-    case types.WS_CLOSE_WORKSPACE:
+    case types.HSC_CLOSE_WORKSPACE:
       return {};
     case types.WS_VIEW_SETMODIFIED:
       if (!stateViews[action.payload.viewId]) {
@@ -120,7 +122,6 @@ function view(stateView = initialState, action) {
   }
 }
 
-// TODO remove and add configuration entry point
 function configuration(state = { title: null }, action) {
   switch (action.type) {
     case types.WS_VIEW_ADD:
@@ -130,7 +131,7 @@ function configuration(state = { title: null }, action) {
   }
 }
 
-function updateObject(stateViews, action, objectName, paramName, viewType) {
+export function updateObject(stateViews, action, objectName, paramName, viewType) {
   if (!stateViews[action.payload.viewId] || !action.payload[paramName]) {
     return stateViews;
   }
@@ -148,7 +149,7 @@ function updateObject(stateViews, action, objectName, paramName, viewType) {
   }, stateViews);
 }
 
-function updateArray(stateViews, action, arrayName, paramName) {
+export function updateArray(stateViews, action, arrayName, paramName) {
   if (!stateViews[action.payload.viewId] || !action.payload[paramName]) {
     return stateViews;
   }
@@ -169,7 +170,7 @@ function updateArray(stateViews, action, arrayName, paramName) {
   }, stateViews);
 }
 
-function addElementInArray(stateViews, action, arrayName, paramName) {
+export function addElementInArray(stateViews, action, arrayName, paramName) {
   if (!stateViews[action.payload.viewId] || !action.payload[paramName]) {
     return stateViews;
   }
@@ -183,7 +184,7 @@ function addElementInArray(stateViews, action, arrayName, paramName) {
     }
   }, stateViews);
 }
-function removeElementInArray(stateViews, action, arrayName) {
+export function removeElementInArray(stateViews, action, arrayName) {
   if (!stateViews[action.payload.viewId] || action.payload.index === undefined) {
     return stateViews;
   }

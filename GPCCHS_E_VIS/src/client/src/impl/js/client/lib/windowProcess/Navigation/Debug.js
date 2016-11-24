@@ -7,8 +7,8 @@ import { Button } from 'react-bootstrap';
 import { switchDebug } from '../../store/actions/windows';
 import { getWindowDebug } from '../../store/selectors/windows';
 import { getPage } from '../../store/selectors/pages';
-import visibleRemoteIdsMap from '../../dataManager/map/visibleRemoteIds';
-import visibleViewsMap from '../../dataManager/map/visibleViews';
+import dataMapGenerator from '../../dataManager/map/dataMapGenerator';
+import viewMapGenerator from '../../dataManager/map/viewMapGenerator';
 import { updateCacheInvalidation } from '../../store/actions/hsc';
 
 class Debug extends PureComponent {
@@ -30,17 +30,17 @@ class Debug extends PureComponent {
   hssState = () => {
     fetch('http://127.0.0.1:3000/debug/all')
       .then(r => r.json())
-      .then(json => console.log(json)); // eslint-disable no-console
+      .then(json => console.log(json)); // eslint-disable-line no-console
   };
 
   visibleRemoteIds = () => {
     const state = this.context.store.getState();
-    return console.log(visibleRemoteIdsMap(state)); // eslint-disable-line no-console
+    return console.log(dataMapGenerator(state)); // eslint-disable-line no-console
   };
 
   visibleViews = () => {
     const state = this.context.store.getState();
-    return console.log(visibleViewsMap(state)); // eslint-disable-line no-console
+    return console.log(viewMapGenerator(state)); // eslint-disable-line no-console
   };
 
   cleanCache = () => {

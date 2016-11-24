@@ -1,283 +1,207 @@
 import React, { PropTypes, PureComponent } from 'react';
+import { Field, reduxForm } from 'redux-form';
 import {
-  Form,
-  FormGroup,
-  FormControl,
-  Col,
-  ControlLabel
+  Form
 } from 'react-bootstrap';
-import ToggleButton from '../Buttons/ToggleButton';
-import ColorPicker from '../ColorPicker';
-import SelectButton from '../Buttons/SelectButton';
-import SelectFontFamilySize from '../Selects/SelectFontFamilySize';
-import SelectFontStyle from '../Selects/SelectFontStyle';
+import {
+  ButtonToggleField, InputField
+} from '../Fields/';
+import {
+  HorizontalFormGroup,
+  ClearSubmitButtons
+} from '../Forms/';
+import {
+  FormSectionFontStyle
+} from '../FormSections/';
 
-export default class PlotAxis extends PureComponent {
+class PlotAxis extends PureComponent {
   static propTypes = {
-    idAxe: PropTypes.number,
-    label: PropTypes.string,
-    unit: PropTypes.string,
-    min: PropTypes.number,
-    max: PropTypes.number,
-    autoLimits: PropTypes.bool,
-    tickStep: PropTypes.number,
-    autoTick: PropTypes.bool,
-    showTicks: PropTypes.bool,
-    showTickLabels: PropTypes.bool,
-    isLogarithmic: PropTypes.bool,
-    showAxis: PropTypes.bool,
-    handlePlotAxes: PropTypes.func,
-    style: PropTypes.object
+    /* eslint-disable react/no-unused-prop-types */
+    initialValues: PropTypes.shape({
+      label: PropTypes.string,
+      unit: PropTypes.string,
+      min: PropTypes.number,
+      max: PropTypes.number,
+      autoLimits: PropTypes.bool,
+      tickStep: PropTypes.number,
+      autoTick: PropTypes.bool,
+      showTicks: PropTypes.bool,
+      showTickLabels: PropTypes.bool,
+      isLogarithmic: PropTypes.bool,
+      showAxis: PropTypes.bool,
+      style: PropTypes.object
+    }).isRequired,
+    handleSubmit: PropTypes.func,
+    pristine: PropTypes.bool,
+    reset: PropTypes.func,
+    submitting: PropTypes.bool,
+    valid: PropTypes.bool
   }
 
-  handleAxisStyle = (field, value) => this.props.handlePlotAxes(this.props.idAxe, `style.${field}`, value);
-  handleAlign = val => this.props.handlePlotAxes(this.props.idAxe, 'style.align', val);
-  handleShow = val => this.props.handlePlotAxes(this.props.idAxe, 'showAxis', val === 'ON');
-  handleLabel = e => this.props.handlePlotAxes(this.props.idAxe, 'label', e.target.value);
-  handleMin = e => this.props.handlePlotAxes(this.props.idAxe, 'min', e.target.value);
-  handleMax = e => this.props.handlePlotAxes(this.props.idAxe, 'max', e.target.value);
-  handleUnit = e => this.props.handlePlotAxes(this.props.idAxe, 'unit', e.target.value);
-  handleAutoLimit = val => this.props.handlePlotAxes(this.props.idAxe, 'autoLimits', val === 'ON');
-  handleAutoTick = val => this.props.handlePlotAxes(this.props.idAxe, 'autoTick', val === 'ON');
-  handleTickStep = e => this.props.handlePlotAxes(this.props.idAxe, 'tickStep', e.target.value);
-  handleShowTicks = val => this.props.handlePlotAxes(this.props.idAxe, 'showTicks', val === 'ON');
-  handleTicksLabel = val => this.props.handlePlotAxes(this.props.idAxe, 'showTickLabels', val === 'ON');
-  handleLogarithmic = val => this.props.handlePlotAxes(this.props.idAxe, 'isLogarithmic', val === 'ON');
+  static defaultProps = {
+    initialValues: {
+      unit: '',
+      min: 0,
+      max: 0,
+      autoLimits: true,
+      tickStep: 1,
+      autoTick: true,
+      showTicks: true,
+      showTickLabels: true,
+      isLogarithmic: false,
+      showAxis: true,
+      style: {
+        font: 'Arial',
+        size: 12,
+        bold: false,
+        italic: false,
+        underline: false,
+        strikeOut: false,
+        align: 'left',
+        colour: '#000000'
+      }
+    }
+  }
 
   render() {
     const {
-      label,
-      unit,
-      min,
-      max,
-      autoLimits,
-      tickStep,
-      autoTick,
-      showTicks,
-      showTickLabels,
-      isLogarithmic,
-      showAxis,
-      style
+      handleSubmit,
+      pristine,
+      reset,
+      submitting,
+      valid
     } = this.props;
 
     return (
-      <Form horizontal>
-        <FormGroup controlId="formHorizontalName">
-          <Col componentClass={ControlLabel} xs={4} >
-            Label
-          </Col>
-          <Col xs={8}>
-            <FormControl
-              type="text"
-              className="input-sm"
-              value={label}
-              onChange={this.handleLabel}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup controlId="formHorizontalName">
-          <Col componentClass={ControlLabel} xs={4} >
-            Font
-          </Col>
-          <Col xs={8}>
-            <SelectFontFamilySize update={this.handleAxisStyle} />
-          </Col>
-        </FormGroup>
-        <FormGroup
+      <Form horizontal onSubmit={handleSubmit}>
+        <HorizontalFormGroup label="Label">
+          <Field
+            name="label"
+            component={InputField}
+            className="form-control input-sm"
+            type="text"
+          />
+        </HorizontalFormGroup>
 
-          controlId="formControlsSelect"
-        >
-          <Col componentClass={ControlLabel} xs={4}>
-            Style
-          </Col>
-          <Col xs={8}>
-            <SelectFontStyle
-              update={this.handleAxisStyle}
-              bold={style.bold}
-              italic={style.italic}
-              underline={style.underline}
-              strikeout={style.strikeOut}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup
-          controlId="formControlsSelect"
-        >
-          <Col componentClass={ControlLabel} xs={4}>
-            Color
-          </Col>
-          <Col xs={8}>
-            <ColorPicker color="#F5A623" onChange={this.handleAxisStyle} />
-          </Col>
-        </FormGroup>
-        <FormGroup
-          controlId="formControlsSelect"
-        >
-          <Col componentClass={ControlLabel} xs={4}>
-            Align
-          </Col>
-          <Col xs={8}>
-            <SelectButton
-              size="xsmall"
-              active={style.align}
-              buttons={[
-                { label: 'left', icon: 'alignLeft' },
-                { label: 'center', icon: 'alignCenter' },
-                { label: 'right', icon: 'alignRight' }
-              ]}
-              onChange={this.handleAlign}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup controlId="formHorizontalName">
-          <Col componentClass={ControlLabel} xs={4} >
-            Show
-          </Col>
-          <Col xs={8}>
-            <ToggleButton
-              on={'ON'}
-              off={'OFF'}
-              default={(showAxis === true) ? 'ON' : 'OFF'}
-              size="xsmall"
-              styleOn="primary"
-              styleOff="warning"
-              onChange={this.handleShow}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup controlId="formHorizontalName">
-          <Col componentClass={ControlLabel} xs={4} >
-            Min
-          </Col>
-          <Col xs={8}>
-            <FormControl
-              type="number"
-              className="input-sm"
-              value={min}
-              onChange={this.handleMin}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup controlId="formHorizontalName">
-          <Col componentClass={ControlLabel} xs={4} >
-            Max
-          </Col>
-          <Col xs={8}>
-            <FormControl
-              type="number"
-              className="input-sm"
-              value={max}
-              onChange={this.handleMax}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup controlId="formHorizontalName">
-          <Col componentClass={ControlLabel} xs={4} >
-            Unit
-          </Col>
-          <Col xs={8}>
-            <FormControl
-              type="text"
-              className="input-sm"
-              value={unit}
-              onChange={this.handleUnit}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup controlId="formHorizontalName">
-          <Col componentClass={ControlLabel} xs={4} >
-            Auto Limit
-          </Col>
-          <Col xs={8}>
-            <ToggleButton
-              on={'ON'}
-              off={'OFF'}
-              default={(autoLimits === true) ? 'ON' : 'OFF'}
-              size="xsmall"
-              styleOn="primary"
-              styleOff="warning"
-              onChange={this.handleAutoLimit}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup controlId="formHorizontalName">
-          <Col componentClass={ControlLabel} xs={4} >
-            Auto Tick
-          </Col>
-          <Col xs={8}>
-            <ToggleButton
-              on={'ON'}
-              off={'OFF'}
-              default={(autoTick === true) ? 'ON' : 'OFF'}
-              size="xsmall"
-              styleOn="primary"
-              styleOff="warning"
-              onChange={this.handleAutoTick}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup controlId="formHorizontalName">
-          <Col componentClass={ControlLabel} xs={4} >
-            Tick step
-          </Col>
-          <Col xs={8}>
-            <FormControl
-              type="number"
-              className="input-sm"
-              value={tickStep}
-              onChange={this.handleTickStep}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup controlId="formHorizontalName">
-          <Col componentClass={ControlLabel} xs={4} >
-            Show ticks
-          </Col>
-          <Col xs={8}>
-            <ToggleButton
-              on={'ON'}
-              off={'OFF'}
-              default={(showTicks === true) ? 'ON' : 'OFF'}
-              size="xsmall"
-              styleOn="primary"
-              styleOff="warning"
-              onChange={this.handleShowTicks}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup controlId="formHorizontalName">
-          <Col componentClass={ControlLabel} xs={4} >
-            Ticks label
-          </Col>
-          <Col xs={8}>
-            <ToggleButton
-              on={'ON'}
-              off={'OFF'}
-              default={(showTickLabels === true) ? 'ON' : 'OFF'}
-              size="xsmall"
-              styleOn="primary"
-              styleOff="warning"
-              onChange={this.handleTicksLabel}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup controlId="formHorizontalName">
-          <Col componentClass={ControlLabel} xs={4} >
-            Logarithmic
-          </Col>
-          <Col xs={8}>
-            <ToggleButton
-              on={'ON'}
-              off={'OFF'}
-              default={(isLogarithmic === true) ? 'ON' : 'OFF'}
-              size="xsmall"
-              styleOn="primary"
-              styleOff="warning"
-              onChange={this.handleLogarithmic}
-            />
-          </Col>
-        </FormGroup>
+        <FormSectionFontStyle name="style" />
+
+        <HorizontalFormGroup label="Show">
+          <Field
+            name="showAxis"
+            component={ButtonToggleField}
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Min">
+          <Field
+            name="min"
+            component={InputField}
+            normalize={value => parseFloat(value)}
+            className="form-control input-sm"
+            type="number"
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Max">
+          <Field
+            name="max"
+            component={InputField}
+            normalize={value => parseFloat(value)}
+            className="form-control input-sm"
+            type="number"
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Unit">
+          <Field
+            name="unit"
+            component={InputField}
+            className="form-control input-sm"
+            type="text"
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Auto Limit">
+          <Field
+            name="autoLimits"
+            component={ButtonToggleField}
+            styleOff="warning"
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Auto Tick">
+          <Field
+            name="autoTick"
+            component={ButtonToggleField}
+            styleOff="warning"
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Tick step">
+          <Field
+            name="tickStep"
+            component={InputField}
+            normalize={value => parseFloat(value)}
+            className="form-control input-sm"
+            type="number"
+            step="any"
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Show ticks">
+          <Field
+            name="showTicks"
+            component={ButtonToggleField}
+            styleOff="warning"
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Ticks label">
+          <Field
+            name="showTickLabels"
+            component={ButtonToggleField}
+            styleOff="warning"
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Logarithmic">
+          <Field
+            name="isLogarithmic"
+            component={ButtonToggleField}
+            styleOff="warning"
+          />
+        </HorizontalFormGroup>
+
+        <ClearSubmitButtons
+          pristine={pristine}
+          submitting={submitting}
+          reset={reset}
+          valid={valid}
+        />
       </Form>
     );
   }
 }
+
+const requiredFields = ['label'];
+const validate = (values = {}) => {
+  const errors = {};
+
+  requiredFields.forEach((field) => {
+    if (!values[field]) {
+      errors[field] = 'Required';
+    }
+  });
+  return errors;
+};
+
+const warn = () => {
+  const warnings = {};
+  return warnings;
+};
+
+export default reduxForm({
+  validate,
+  warn,
+  enableReinitialize: true
+})(PlotAxis);

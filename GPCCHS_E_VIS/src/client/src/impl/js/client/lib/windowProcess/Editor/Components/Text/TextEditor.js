@@ -36,10 +36,10 @@ export default class Editor extends Component {
       titleStyle: PropTypes.shape({
         font: PropTypes.string,
         size: PropTypes.number,
-        bold: PropTypes.boolean,
-        italic: PropTypes.boolean,
-        underline: PropTypes.boolean,
-        strikeOut: PropTypes.boolean,
+        bold: PropTypes.bool,
+        italic: PropTypes.bool,
+        underline: PropTypes.bool,
+        strikeOut: PropTypes.bool,
         align: PropTypes.string,
         color: PropTypes.string
       })

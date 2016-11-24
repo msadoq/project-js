@@ -13,6 +13,7 @@ const logger = debug('Timebar');
 export default class TimebarWrapper extends Component {
 
   static propTypes = {
+    updateTimebarIdAction: React.PropTypes.func.isRequired,
     updateVisuWindowAction: React.PropTypes.func.isRequired,
     addAndMountTimelineAction: React.PropTypes.func.isRequired,
     unmountTimelineAction: React.PropTypes.func.isRequired,
@@ -26,6 +27,7 @@ export default class TimebarWrapper extends Component {
     slideWindow: React.PropTypes.object.isRequired,
     timebar: React.PropTypes.object.isRequired,
     timebarId: React.PropTypes.string.isRequired,
+    focusedPageId: React.PropTypes.string.isRequired,
     timelines: React.PropTypes.array.isRequired,
     sessions: React.PropTypes.array.isRequired,
     currentSessionOffsetMs: React.PropTypes.number
@@ -127,15 +129,15 @@ export default class TimebarWrapper extends Component {
       updatePlayingStateAction, updateSpeedAction, timebar,
       slideWindow, updateTimelineIdAction, updateMasterIdAction,
       updateOffsetAction, updateModeAction, sessions,
-      currentSessionOffsetMs } = this.props;
+      currentSessionOffsetMs, updateTimebarIdAction, focusedPageId } = this.props;
 
     let minHeight;
     if (timelines.length < 3) {
       minHeight = 135;
-    } else if (timelines.length < 6) {
+    } else if (timelines.length < 5) {
       minHeight = (timelines.length * 20) + 84;
     } else {
-      minHeight = 185;
+      minHeight = 165;
     }
 
     if (minHeight > height || !height) {
@@ -188,12 +190,14 @@ export default class TimebarWrapper extends Component {
           updateMode={updateModeAction}
           currentSessionOffsetMs={currentSessionOffsetMs}
         />
-        <Col xs={3}>
+        <Col xs={3} style={{ height: '100%' }}>
           <Lefttab
+            updateTimebarId={updateTimebarIdAction}
             updateMasterId={updateMasterIdAction}
             updateOffset={updateOffsetAction}
             updateTimelineId={updateTimelineIdAction}
             timebarId={timebarId}
+            focusedPageId={focusedPageId}
             masterId={timebar.masterId}
             timebarName={timebar.id}
             timelines={timelines}
@@ -204,8 +208,8 @@ export default class TimebarWrapper extends Component {
             onVerticalScroll={this.onTimelinesVerticalScroll}
           />
         </Col>
-        <Col xs={9}>
-          <div ref={(el) => { this.timebarEl = el; }}>
+        <Col xs={9} style={{ height: '100%' }}>
+          <div style={{ height: '100%' }} ref={(el) => { this.timebarEl = el; }}>
             <Timebar
               toggleTimebarDidMount={this.toggleTimebarDidMount}
               {...this.mapPropsToTimebarViewport()}

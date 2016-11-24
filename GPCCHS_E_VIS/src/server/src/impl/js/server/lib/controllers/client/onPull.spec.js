@@ -8,16 +8,8 @@ describe('controllers/client/onPull', () => {
   });
   it('should ignore empty queue', () => {
     let called = false;
-    let sent = false;
-    onPull({ write: (data) => {
-      called = true;
-      sent = data;
-    } });
-    called.should.equal(true);
-    sent.should.eql({
-      event: 'timebasedData',
-      payload: {},
-    });
+    onPull({ write: () => (called = true) });
+    called.should.equal(false);
   });
   it('should push data', () => {
     let called = false;

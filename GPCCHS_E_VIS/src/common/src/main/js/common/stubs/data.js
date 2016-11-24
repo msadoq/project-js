@@ -37,7 +37,7 @@ stubs.getReportingParameter = override => applyOverride({
   extractedValue: _random(1, 100, true),
   triggerOnCounter: 6,
   triggerOffCounter: 10,
-  monitoringState: 0,
+  monitoringState: 'ok',
   validityState: 0,
   isObsolete: false,
   isNominal: false,

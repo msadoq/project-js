@@ -54,10 +54,11 @@ describe('mainProcess/documents/saveAllDocuments', () => {
         configuration: {
           type: 'PlotView',
           entryPoints: [
-            { name: 'ATT_BC_REVTCOUNT4',
-             connectedDataX: {},
-             connectedDataY: {}
-           }
+            {
+              name: 'ATT_BC_REVTCOUNT4',
+              connectedDataX: {},
+              connectedDataY: {},
+            },
           ],
           axes: [],
           grids: [],
@@ -116,7 +117,7 @@ describe('mainProcess/documents/saveAllDocuments', () => {
         sessionId: 1
       }
     },
-    workspace: {
+    hsc: {
       file: 'workspaceAll.json',
       folder: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/testAll',
     }

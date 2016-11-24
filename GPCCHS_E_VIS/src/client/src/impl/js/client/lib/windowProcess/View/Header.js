@@ -44,7 +44,6 @@ export default class Header extends Component {
         break;
       }
       default:
-        return;
     }
   };
 

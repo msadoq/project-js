@@ -1,4 +1,6 @@
-import _ from 'lodash';
+import _omit from 'lodash/omit';
+import _get from 'lodash/get';
+import _without from 'lodash/without';
 import * as types from '../types';
 
 /**
@@ -13,7 +15,7 @@ export default function timebars(stateTimebars = {}, action) { // TODO test
         [payload.timebarId]: timebar(undefined, action),
       };
     case types.WS_TIMEBAR_REMOVE:
-      return _.omit(stateTimebars, [payload.timebarId]);
+      return _omit(stateTimebars, [payload.timebarId]);
     case types.WS_TIMEBAR_ID_UPDATE:
     case types.WS_TIMEBAR_VISUWINDOW_UPDATE:
     case types.WS_TIMEBAR_SPEED_UPDATE:
@@ -26,7 +28,7 @@ export default function timebars(stateTimebars = {}, action) { // TODO test
         ...stateTimebars,
         [payload.timebarId]: timebar(stateTimebars[payload.timebarId], action),
       };
-    case types.WS_CLOSE_WORKSPACE:
+    case types.HSC_CLOSE_WORKSPACE:
       return {};
     default:
       return stateTimebars;
@@ -35,11 +37,18 @@ export default function timebars(stateTimebars = {}, action) { // TODO test
 
 const initialState = {
   id: null,
-  visuWindow: {},
-  slideWindow: {},
+  visuWindow: {
+    lower: Date.now() - (12 * 60 * 1000),
+    current: Date.now() - (9 * 60 * 1000),
+    upper: Date.now() - (6 * 60 * 1000),
+  },
+  slideWindow: {
+    lower: Date.now() - (11 * 60 * 1000),
+    upper: Date.now() - (7 * 60 * 1000),
+  },
   extUpperBound: Date.now() - (20 * 60 * 1000),
   rulerStart: Date.now() - (20 * 60 * 1000),
-  rulerResolution: 11250,
+  rulerResolution: 2250,
   speed: 1.0,
   playingState: 'pause',
   masterId: null,
@@ -51,7 +60,7 @@ function timebar(stateTimebar = initialState, action) {
   const { payload } = action;
   switch (action.type) {
     case types.WS_TIMEBAR_ADD: {
-      const configuration = _.get(action, 'payload.configuration', {});
+      const configuration = _get(action, 'payload.configuration', {});
       return Object.assign({}, stateTimebar, {
         id: configuration.id || initialState.id,
         visuWindow: configuration.visuWindow || initialState.visuWindow,
@@ -69,7 +78,7 @@ function timebar(stateTimebar = initialState, action) {
     case types.WS_TIMEBAR_MOUNT_TIMELINE:
       return { ...stateTimebar, timelines: [...stateTimebar.timelines, payload.timelineId] };
     case types.WS_TIMEBAR_UNMOUNT_TIMELINE:
-      return { ...stateTimebar, timelines: _.without(stateTimebar.timelines, payload.timelineId) };
+      return { ...stateTimebar, timelines: _without(stateTimebar.timelines, payload.timelineId) };
     case types.WS_TIMEBAR_ID_UPDATE:
       return { ...stateTimebar, id: payload.id };
     case types.WS_TIMEBAR_VISUWINDOW_UPDATE: {

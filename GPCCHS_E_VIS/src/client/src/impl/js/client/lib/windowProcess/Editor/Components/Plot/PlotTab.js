@@ -1,14 +1,16 @@
 import React, { PropTypes } from 'react';
 import {
   Accordion,
-  Panel
+  Panel,
+  Glyphicon,
+  Button
 } from 'react-bootstrap';
 import {
-  PlotGrid,
-  PlotAxes,
-  PlotMarkers
+  PlotAxesContainer,
+  PlotGridsContainer,
+  PlotMarkersContainer
 } from './';
-import ViewTitle from '../ViewTitle';
+import ViewTitleContainer from '../ViewTitleContainer';
 
 /*
   PlotTab représente l'onglet "Plot" de l'éditeur Plot.
@@ -20,23 +22,24 @@ import ViewTitle from '../ViewTitle';
 */
 export default class PlotTab extends React.Component {
   static propTypes = {
-    title: PropTypes.string,
-    axes: PropTypes.array,
-    markers: PropTypes.array,
-    grids: PropTypes.array,
-    titleStyle: PropTypes.object,
-    handleGrids: PropTypes.func,
-    handlePlotTitle: PropTypes.func,
-    handlePlotTitleStyle: PropTypes.func,
-    handlePlotAxes: PropTypes.func,
-    handlePlotMarkers: PropTypes.func
+    handleAddPlotAxis: PropTypes.func
   }
+  static contextTypes = {
+    viewId: React.PropTypes.string
+  };
+
   state = {
     isTitleOpen: false,
     isAxesOpen: false,
     isGridOpen: false,
     isMarkersOpen: false
   };
+
+  handleAddPlotAxis = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.handleAddPlotAxis();
+  }
 
   openTitle = () => this.setState({ isTitleOpen: true });
   closeTitle = () => this.setState({ isTitleOpen: false });
@@ -51,24 +54,13 @@ export default class PlotTab extends React.Component {
   closeMarkers = () => this.setState({ isMarkersOpen: false });
 
   render() {
+    const { viewId } = this.context;
     const {
       isTitleOpen,
       isAxesOpen,
       isGridOpen,
-       isMarkersOpen
-       } = this.state;
-    const {
-      axes,
-      markers,
-      title,
-      titleStyle,
-      grids,
-      handlePlotAxes,
-      handlePlotMarkers,
-      handleGrids,
-      handlePlotTitle,
-      handlePlotTitleStyle
-    } = this.props;
+      isMarkersOpen
+    } = this.state;
 
     return (
       <Accordion>
@@ -79,12 +71,7 @@ export default class PlotTab extends React.Component {
           onSelect={this.openTitle}
           onExited={this.closeTitle}
         >
-          {isTitleOpen && <ViewTitle
-            titleStyle={titleStyle}
-            title={title}
-            onTitleChange={handlePlotTitle}
-            onTitleStyleChange={handlePlotTitleStyle}
-          />}
+          {isTitleOpen && <ViewTitleContainer viewId={viewId} />}
         </Panel>
         <Panel
           header="Grid"
@@ -93,23 +80,29 @@ export default class PlotTab extends React.Component {
           onSelect={this.openGrid}
           onExited={this.closeGrid}
         >
-          {isGridOpen && <PlotGrid
-            index={0}
-            grid={grids && grids[0]}
-            onChange={handleGrids}
-          />}
+          {isGridOpen && <PlotGridsContainer viewId={viewId} />}
         </Panel>
         <Panel
-          header="Axes"
+          header={<span>
+            <Button
+              bsSize="xsmall"
+              className="pull-right btn-link"
+              onClick={this.handleAddPlotAxis}
+            >
+              <Glyphicon
+                className="text-success"
+                glyph="plus"
+                title="Add"
+              />
+            </Button>
+            Axes
+          </span>}
           eventKey="3"
           expanded={isAxesOpen}
           onSelect={this.openAxes}
           onExited={this.closeAxes}
         >
-          <PlotAxes
-            axes={axes}
-            handlePlotAxes={handlePlotAxes}
-          />
+          {isAxesOpen && <PlotAxesContainer viewId={viewId} />}
         </Panel>
         <Panel
           header="Markers"
@@ -118,11 +111,7 @@ export default class PlotTab extends React.Component {
           onSelect={this.openMarkers}
           onExited={this.closeMarkers}
         >
-          <PlotMarkers
-            markers={markers}
-            axes={axes}
-            handlePlotMarkers={handlePlotMarkers}
-          />
+          {isMarkersOpen && <PlotMarkersContainer viewId={viewId} />}
         </Panel>
       </Accordion>
     );

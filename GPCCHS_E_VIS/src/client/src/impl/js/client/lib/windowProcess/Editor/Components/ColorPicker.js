@@ -16,7 +16,16 @@ export default class ColorPicker extends React.Component {
     color: PropTypes.string,
     onChange: PropTypes.func
   }
+
   state = { display: false, color: this.props.color || '#FFF' };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.color !== this.props.color) {
+      this.setState({
+        color: nextProps.color
+      });
+    }
+  }
 
   handleClick = (e) => {
     e.preventDefault();
@@ -40,7 +49,6 @@ export default class ColorPicker extends React.Component {
       <div className={styles.root}>
         <Button
           style={{ backgroundColor: color }}
-          iconOnly="true"
           bsSize="xsmall"
           onClick={this.handleClick}
         ><None /></Button>

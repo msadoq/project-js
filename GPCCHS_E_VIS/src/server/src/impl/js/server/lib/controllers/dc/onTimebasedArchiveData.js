@@ -1,17 +1,12 @@
-const debug = require('../../io/debug')('controllers:onTimebasedArchiveData');
-
+/* eslint no-underscore-dangle:0 import/no-extraneous-dependencies:0 */
 const { eachSeries } = require('async');
-// eslint-disable-next-line no-underscore-dangle
 const _chunk = require('lodash/chunk');
-
-
-// eslint-disable-next-line import/no-extraneous-dependencies
 const { decode, encode, getType } = require('common/protobuf');
+const executionMonitor = require('common/execution');
 
+const debug = require('../../io/debug')('controllers:onTimebasedArchiveData');
 const registeredQueries = require('../../utils/registeredQueries');
 const { add: addToQueue } = require('../../websocket/dataQueue');
-const executionMonitor = require('../../utils/execution');
-
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 
@@ -41,7 +36,6 @@ const onTimebasedArchiveData = (
   ...payloadBuffers
 ) => {
   const execution = executionMonitor('archiveData');
-  execution.reset();
   execution.start('global');
 
   execution.start('decode queryId');
@@ -116,6 +110,20 @@ const onTimebasedArchiveData = (
     callback(null);
   }, () => {
     debug.debug(`inserting ${payloadBuffers.length / 2} data`);
+
+    // if HSS is a forked process, in e2e tests for example
+    if (process.send) {
+      // Check if no pending requests
+      const noMorePendingRequests = !connectedDataModel
+        .getAll()
+        .map(data => Object.keys(data.intervals.requested).length)
+        .reduce((acc, l) => acc + l, 0);
+
+      // Send 'updated' to parent process
+      if (noMorePendingRequests) {
+        process.send('updated');
+      }
+    }
 
     execution.stop('global');
     execution.print();

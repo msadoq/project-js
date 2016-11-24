@@ -3,7 +3,7 @@ import {
   Accordion,
   Panel
 } from 'react-bootstrap';
-import ViewTitle from '../ViewTitle';
+import ViewTitleContainer from '../ViewTitleContainer';
 
 export default class PlotTab extends React.Component {
   static propTypes = {
@@ -12,6 +12,9 @@ export default class PlotTab extends React.Component {
     titleStyle: PropTypes.object,
     handlePlotTitleStyle: PropTypes.func
   }
+  static contextTypes = {
+    viewId: React.PropTypes.string
+  };
   state = {
     isTitleOpen: false
   };
@@ -20,15 +23,8 @@ export default class PlotTab extends React.Component {
   closeTitle = () => this.setState({ isTitleOpen: false });
 
   render() {
-    const {
-      isTitleOpen
-    } = this.state;
-    const {
-      title,
-      titleStyle,
-      handlePlotTitle,
-      handlePlotTitleStyle
-    } = this.props;
+    const { viewId } = this.context;
+    const { isTitleOpen } = this.state;
 
     return (
       <Accordion>
@@ -39,12 +35,7 @@ export default class PlotTab extends React.Component {
           onSelect={this.openTitle}
           onExited={this.closeTitle}
         >
-          {isTitleOpen && <ViewTitle
-            titleStyle={titleStyle}
-            title={title}
-            onTitleChange={handlePlotTitle}
-            onTitleStyleChange={handlePlotTitleStyle}
-          />}
+          {isTitleOpen && <ViewTitleContainer viewId={viewId} />}
         </Panel>
       </Accordion>
     );

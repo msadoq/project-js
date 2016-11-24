@@ -1,7 +1,7 @@
 import { v4 } from 'node-uuid';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
-import { add as addPage, remove as removePage, mountView } from './pages';
+import { add as addPage, remove as removePage } from './pages';
 
 /**
  * Simple actions
@@ -31,12 +31,7 @@ export function addAndMount(windowId, pageId = v4(), page) {
     }
     dispatch(mountPage(windowId, pageId));
     dispatch(focusPage(windowId, pageId));
-    if (page) {
-      const viewIds = Object.keys(page.views);
-      viewIds.forEach((index) => {
-        dispatch(mountView(pageId, index));
-      });
-    }
+    // No need to mount views here, this is already done
   };
 }
 

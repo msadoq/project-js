@@ -1,13 +1,24 @@
 {
-    "extends": "airbnb",
+    "extends": "airbnb-base",
     "installedESLint": true,
     "globals": {
       "describe": true,
       "it": true,
-      "expect": true,
       "before": true,
       "after": true,
       "beforeEach": true,
       "afterEach": true
+    },
+    "rules": {
+      "comma-dangle": [
+        "error",
+        {
+          "arrays": "always-multiline",
+          "objects": "always-multiline",
+          "imports": "always-multiline",
+          "exports": "always-multiline",
+          "functions": "never"
+        }
+      ]
     }
 }

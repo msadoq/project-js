@@ -37,22 +37,17 @@ const newEntryPoint = {
 /*
   Composant racine de l'éditeur Plot.
 */
-export default class Editor extends Component {
+export default class PlotEditor extends Component {
   static propTypes = {
     // actions
     updateEntryPoint: PropTypes.func.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
     removeEntryPoint: PropTypes.func.isRequired,
-    updateGrid: PropTypes.func.isRequired,
-    updateTitle: PropTypes.func.isRequired,
-    updateTitleStyle: PropTypes.func.isRequired,
-    updateAxis: PropTypes.func.isRequired,
-    updateMarker: PropTypes.func.isRequired,
+    addAxis: PropTypes.func.isRequired,
 
     // rest
     viewId: PropTypes.string.isRequired,
     closeEditor: PropTypes.func.isRequired,
-    type: PropTypes.string.isRequired,
     configuration: PropTypes.shape({
       type: PropTypes.string.isRequired,
       links: PropTypes.array,
@@ -68,10 +63,10 @@ export default class Editor extends Component {
       titleStyle: PropTypes.shape({
         font: PropTypes.string,
         size: PropTypes.number,
-        bold: PropTypes.boolean,
-        italic: PropTypes.boolean,
-        underline: PropTypes.boolean,
-        strikeOut: PropTypes.boolean,
+        bold: PropTypes.bool,
+        italic: PropTypes.bool,
+        underline: PropTypes.bool,
+        strikeOut: PropTypes.bool,
         align: PropTypes.string,
         color: PropTypes.string
       }),
@@ -82,7 +77,6 @@ export default class Editor extends Component {
   }
 
   componentWillMount() {
-    console.log('componentWillMount', this.props);
     this.setState({
       currentDisplay: 0,
       search: ''
@@ -96,7 +90,7 @@ export default class Editor extends Component {
       [label]: newVal
     });
   }
-  addEntryPoint = () => {
+  handleAddEntryPoint = () => {
     const { addEntryPoint, viewId } = this.props;
     addEntryPoint(viewId, { ...newEntryPoint });
   }
@@ -104,39 +98,11 @@ export default class Editor extends Component {
     const { removeEntryPoint, viewId } = this.props;
     removeEntryPoint(viewId, key);
   }
-  handleGrids = (key, label, newVal) => {
-    const { configuration, updateGrid, viewId } = this.props;
-    const currentGrid = _get(configuration, `grids[${key}]`);
-    updateGrid(viewId, key, {
-      ...currentGrid,
-      [label]: newVal
-    });
-  }
-  handlePlotTitle = (newVal) => {
-    const { updateTitle, viewId } = this.props;
-    updateTitle(viewId, newVal);
-  }
-  handlePlotTitleStyle = (label, newVal) => {
-    const { configuration, updateTitleStyle, viewId } = this.props;
-    updateTitleStyle(viewId, {
-      ...configuration.titleStyle,
-      [label]: newVal
-    });
-  }
-  handlePlotMarkers = (key, label, newVal) => {
-    const { configuration, updateMarker, viewId } = this.props;
-    const currentMarker = _get(configuration, `markers[${key}]`);
-    updateMarker(viewId, key, {
-      ...currentMarker,
-      [label]: newVal
-    });
-  }
-  handleAxes = (key, label, newVal) => {
-    const { configuration, updateAxis, viewId } = this.props;
-    const currentAxis = _get(configuration, `markers[${key}]`);
-    updateAxis(viewId, key, {
-      ...currentAxis,
-      [label]: newVal
+  handleAddAxis = () => {
+    const { configuration, addAxis, viewId } = this.props;
+    const currentLength = _get(configuration, 'axes.length', 0);
+    addAxis(viewId, {
+      label: `Axis ${currentLength}`
     });
   }
 
@@ -159,8 +125,6 @@ export default class Editor extends Component {
         grids,
         title,
         titleStyle,
-        // plotBackGround,
-        // legend,
         markers
       }
     } = this.props;
@@ -175,11 +139,7 @@ export default class Editor extends Component {
         <div className={styles.content}>
           {currentDisplay === 2 && <Misc />}
           {currentDisplay === 1 && <PlotTab
-            handleGrids={this.handleGrids}
-            handlePlotTitle={this.handlePlotTitle}
-            handlePlotTitleStyle={this.handlePlotTitleStyle}
-            handlePlotAxes={this.handleAxes}
-            handlePlotMarkers={this.handlePlotMarkers}
+            handleAddPlotAxis={this.handleAddAxis}
             axes={axes}
             markers={markers}
             title={title}
@@ -189,7 +149,7 @@ export default class Editor extends Component {
           {currentDisplay === 0 && <div>
             <EntryPointActions
               changeSearch={this.changeSearch}
-              addEntryPoint={this.addEntryPoint}
+              addEntryPoint={this.handleAddEntryPoint}
             />
             <EntryPointTree
               entryPoints={entryPoints}

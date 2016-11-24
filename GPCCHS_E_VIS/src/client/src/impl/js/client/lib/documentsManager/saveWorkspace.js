@@ -78,11 +78,11 @@ function saveWorkspaceAs(state, path, useRelativePath = false) {
 }
 
 function saveWorkspace(state, useRelativePath = false) {
-  if (!state.workspace || !state.workspace.folder || !state.workspace.file) {
+  if (!state.hsc || !state.hsc.folder || !state.hsc.file) {
     return new Error('Unable to get path for saving workspace');
   }
   return saveWorkspaceAs(state,
-                         join(state.workspace.folder, state.workspace.file), useRelativePath);
+                         join(state.hsc.folder, state.hsc.file), useRelativePath);
 }
 
 module.exports = { saveWorkspace, saveWorkspaceAs };

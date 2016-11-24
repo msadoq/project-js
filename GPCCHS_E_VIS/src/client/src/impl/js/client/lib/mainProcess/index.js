@@ -10,7 +10,7 @@ import { disconnect } from './websocket';
 import { onWorkspaceLoaded } from './lifecycle';
 import './menu';
 
-const logger = debug('mainProcess:index1');
+const logger = debug('mainProcess:index');
 
 let storeSubscription = null;
 
@@ -22,7 +22,7 @@ export async function start() {
 
     // redux store
     const store = initStore();
-    logger.debug('initial state', store.getState());
+    logger.verbose('initial state', store.getState());
 
     // main process store observer
     storeSubscription = store.subscribe(() => storeObserver(store));

@@ -9,7 +9,7 @@ export default class EditTrack extends Component {
   static propTypes = {
     timeline: React.PropTypes.object.isRequired,
     masterId: React.PropTypes.string.isRequired,
-    hideAddTimeline: React.PropTypes.func.isRequired,
+    hideEditTimeline: React.PropTypes.func.isRequired,
     editTimeline: React.PropTypes.func.isRequired,
   }
 
@@ -23,21 +23,41 @@ export default class EditTrack extends Component {
   }
 
   componentDidMount() {
+    this.updateFields();
+    document.addEventListener('click', this.hideAddTimeline);
+    document.addEventListener('keyup', this.hideAddTimeline);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ duration: moment.duration(nextProps.timeline.offset) });
+  }
+
+  componentDidUpdate() {
+    this.updateFields();
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.hideAddTimeline);
+    document.removeEventListener('keyup', this.hideAddTimeline);
+  }
+
+  updateFields = () => {
     const { masterId, timeline } = this.props;
     const { duration } = this.state;
+
     this.editTimelineIdEl.value = timeline.id;
     this.editTimelineMasterEl.checked = masterId === timeline.id;
     ['years', 'months', 'days', 'years', 'months', 'days', 'hours', 'minutes', 'seconds', 'milliseconds'].forEach((x) => {
       this[`${x}El`].value = duration[x]();
     });
-    document.addEventListener('click', this.hideAddTimeline);
   }
 
-  hideAddTimeline = () => {
-    const { hideAddTimeline } = this.props;
-    if (this.editTimelineFormEl && !this.editTimelineFormEl.parentElement.querySelector(':hover')) {
-      hideAddTimeline();
-      document.removeEventListener('click', this.hideAddTimeline);
+  hideAddTimeline = (e) => {
+    const { hideEditTimeline } = this.props;
+    if (e && e.keyCode && e.keyCode === 27) {
+      hideEditTimeline();
+    } else if (this.editTimelineFormEl && !this.editTimelineFormEl.parentElement.querySelector(':hover')) {
+      hideEditTimeline();
     }
   }
 

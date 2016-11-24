@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import { Col, Row } from 'react-bootstrap';
 import globalConstants from 'common/constants';
 import styles from './TimebarControls.css';
+import compute from '../../mainProcess/play';
 
 const currentUpperMargin = 1 / 100;
 
@@ -15,7 +16,7 @@ export default class TimebarControls extends Component {
     timebarSpeed: React.PropTypes.number.isRequired,
     visuWindow: React.PropTypes.object.isRequired,
     slideWindow: React.PropTypes.object.isRequired,
-    viewport: React.PropTypes.object.isRequired,
+    viewport: React.PropTypes.object,
     updatePlayingState: React.PropTypes.func.isRequired,
     updateSpeed: React.PropTypes.func.isRequired,
     onChange: React.PropTypes.func.isRequired,
@@ -60,7 +61,7 @@ export default class TimebarControls extends Component {
         lower: newLower,
         upper: nowMs,
         current: nowMs,
-        slideWindow: {
+        viewport: {
           lower: newLower - (2 * (nowMs - newLower)),
           upper: nowMs + ((nowMs - newLower) / 5)
         }
@@ -91,14 +92,15 @@ export default class TimebarControls extends Component {
   switchMode = (e) => {
     e.preventDefault();
     const { onChange, timebarId, timebarMode, updateMode,
-      visuWindow, currentSessionOffsetMs } = this.props;
-    const { lower, upper } = visuWindow;
+      visuWindow, currentSessionOffsetMs, slideWindow } = this.props;
+    const { lower, upper, current } = visuWindow;
     const mode = e.currentTarget.getAttribute('mode');
 
     if (mode === timebarMode) return;
 
     // Realtime is not really a mode, we just go to session realtime and play
     if (mode === 'Realtime') {
+      if (mode !== 'Normal') updateMode(timebarId, 'Normal');
       const msWidth = upper - lower;
       const realTimeMs = Date.now() + currentSessionOffsetMs;
       const newLower = realTimeMs - ((1 - currentUpperMargin) * msWidth);
@@ -115,13 +117,34 @@ export default class TimebarControls extends Component {
           }
         }
       );
-      this.togglePlayingState(null, 'play');
+      this.togglePlayingState('play');
     } else {
+      if (mode === 'Extensible' && slideWindow.upper < upper) {
+        onChange(
+          timebarId,
+          {
+            slideWindow: {
+              lower: slideWindow.lower,
+              upper: upper + ((upper - lower) / 4)
+            }
+          }
+        );
+      } else if (mode === 'Fixed' && slideWindow.upper > upper) {
+        onChange(
+          timebarId,
+          {
+            slideWindow: {
+              lower: slideWindow.lower,
+              upper: upper - ((upper - current) / 2)
+            }
+          }
+        );
+      }
       updateMode(timebarId, mode);
     }
   }
 
-  togglePlayingState = (e, mode = null) => {
+  togglePlayingState = (mode = null) => {
     const { updatePlayingState, timebarId, timebarPlayingState } = this.props;
     const newtimebarPlayingState = mode || (timebarPlayingState === 'pause' ? 'play' : 'pause');
     if (timebarPlayingState === newtimebarPlayingState) return;
@@ -138,116 +161,27 @@ export default class TimebarControls extends Component {
   }
 
   tick() {
-    const { onChange, timebarId, timebarSpeed, timebarMode, viewport } = this.props;
     this.timeout = setTimeout(
       () => {
-        const { lower, upper, current } = this.props.visuWindow;
-        const { slideWindow } = this.props;
+        const { onChange, timebarId, timebarSpeed, timebarMode,
+          slideWindow, visuWindow } = this.props;
+        const { lower, upper, current } = visuWindow;
 
         const newCurrent = current + (globalConstants.HSC_PLAY_FREQUENCY * timebarSpeed);
-
-        const msWidth = upper - lower;
-        let offsetMs = 0;
-
-        /*
-          Current can not equal upper
-          there is a mandatory margin between the two cursors
-        */
-        const mandatoryMarginMs = currentUpperMargin * msWidth;
-
-        if (timebarMode === 'Normal' || timebarMode === 'Extensible') {
-          if (newCurrent + mandatoryMarginMs > upper) {
-            offsetMs = (newCurrent + mandatoryMarginMs) - upper;
+        const cursors = compute(newCurrent, lower, upper, slideWindow.lower, slideWindow.upper,
+          timebarMode, currentUpperMargin);
+        onChange(
+          timebarId,
+          {
+            lower: cursors.visuWindow.lower,
+            upper: cursors.visuWindow.upper,
+            current: newCurrent,
+            slideWindow: {
+              lower: cursors.slideWindow.lower,
+              upper: cursors.slideWindow.upper,
+            },
           }
-        } else if (timebarMode === 'Fixed') {
-          if (newCurrent + mandatoryMarginMs > slideWindow.upper) {
-            offsetMs = (newCurrent + mandatoryMarginMs) - slideWindow.upper;
-          }
-        }
-
-        const newLower = lower + offsetMs;
-        const newUpper = upper + offsetMs;
-
-        /*
-          Handling the case where upper cursor is above/near slideWindow.upper
-          Moving slideWindow to the right if it's the case
-        */
-        const newViewport = {};
-        if (viewport.upper < newUpper + ((newUpper - newLower) / 5)) {
-          newViewport.viewport = {};
-          newViewport.viewport.lower = newLower - ((newUpper - newLower) * 2);
-          newViewport.viewport.upper = newUpper + ((newUpper - newLower) / 5);
-        }
-
-        switch (timebarMode) {
-          case 'Normal':
-            onChange(
-              timebarId,
-              {
-                ...newViewport,
-                lower: newLower,
-                upper: newUpper,
-                current: newCurrent
-              }
-            );
-            break;
-          case 'Extensible':
-            if (newUpper > slideWindow.upper) {
-              onChange(
-                timebarId,
-                {
-                  ...newViewport,
-                  lower: newLower,
-                  upper: newUpper,
-                  current: newCurrent,
-                  slideWindow: {
-                    upper: newUpper,
-                    lower: slideWindow.lower + offsetMs
-                  }
-                }
-              );
-            } else {
-              onChange(
-                timebarId,
-                {
-                  ...newViewport,
-                  lower,
-                  upper: newUpper,
-                  current: newCurrent
-                }
-              );
-            }
-            break;
-          case 'Fixed':
-            if (newUpper > slideWindow.upper) {
-              onChange(
-                timebarId,
-                {
-                  ...newViewport,
-                  lower: newLower,
-                  upper: newUpper,
-                  current: newCurrent,
-                  slideWindow: {
-                    lower: slideWindow.lower + offsetMs,
-                    upper: slideWindow.upper + offsetMs,
-                  }
-                }
-              );
-            } else {
-              onChange(
-                timebarId,
-                {
-                  ...newViewport,
-                  lower,
-                  upper,
-                  current: newCurrent
-                }
-              );
-            }
-            break;
-          default:
-            break;
-        }
+        );
         this.tick();
       },
       globalConstants.HSC_PLAY_FREQUENCY
@@ -304,7 +238,7 @@ export default class TimebarControls extends Component {
                         [styles.controlButtonPause]: timebarPlayingState === 'pause'
                       }
                     )}
-                    onClick={this.togglePlayingState}
+                    onClick={() => this.togglePlayingState()}
                     title={opTimebarPlayingState}
                   >
                     {timebarPlayingState === 'play' ? <span>&#9613;&#9613;</span> : <span>&#9658;</span>}

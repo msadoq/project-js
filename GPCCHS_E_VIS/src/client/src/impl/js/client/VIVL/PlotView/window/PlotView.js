@@ -11,11 +11,13 @@ import {
 } from 'react-stockcharts';
 
 import debug from '../../../lib/common/debug/windowDebug';
-import { SquareMarker, TriangleMarker } from './markers';
 
 const logger = debug('view:plot');
 
-const { LineSeries, ScatterSeries, CircleMarker } = series;
+const {
+  LineSeries, ScatterSeries, CircleMarker,
+  SquareMarker, TriangleMarker, StraightLine
+} = series;
 const { HoverTooltip } = tooltip;
 const {
   CrossHairCursor, MouseCoordinateX,
@@ -213,7 +215,7 @@ class PlotView extends PureComponent {
 
     const { size, data, visuWindow } = this.props;
     const { columns } = data;
-    const { lower, upper } = visuWindow;
+    const { lower, upper, current } = visuWindow;
     const { width, height } = size;
     const {
       tooltipWidth,
@@ -253,8 +255,8 @@ class PlotView extends PureComponent {
             id={1}
             yExtents={this.yExtents}
           >
-            <XAxis axisAt="bottom" orient="bottom" ticks={5} />
-            <YAxis axisAt="right" orient="right" ticks={5} />
+            <XAxis axisAt="bottom" orient="bottom" ticks={5} zoomEnabled={!disableZoom} />
+            <YAxis axisAt="right" orient="right" ticks={5} zoomEnabled={!disableZoom} />
             <MouseCoordinateX
               at="bottom"
               orient="bottom"
@@ -265,6 +267,13 @@ class PlotView extends PureComponent {
               at="right"
               orient="right"
               displayFormat={format('.2f')}
+            />
+            <StraightLine
+              type="vertical"
+              xValue={current}
+              stroke="#0ee61f"
+              strokeWidth={2}
+              opacity={1}
             />
             {this.renderLines()}
           </Chart>

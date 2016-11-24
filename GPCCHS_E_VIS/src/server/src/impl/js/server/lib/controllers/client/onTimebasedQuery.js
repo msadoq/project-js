@@ -1,18 +1,13 @@
-// eslint-disable-next-line no-underscore-dangle
+/* eslint no-underscore-dangle:0 import/no-extraneous-dependencies:0 */
 const _each = require('lodash/each');
-// eslint-disable-next-line no-underscore-dangle
 const _concat = require('lodash/concat');
-
-// eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const zmq = require('common/zmq');
+const executionMonitor = require('common/execution');
 
 const { add: addToQueue } = require('../../websocket/dataQueue');
 const { createQueryMessage } = require('../../utils/queries');
 const { createAddSubscriptionMessage } = require('../../utils/subscriptions');
-const execution = require('../../utils/execution')('query');
-
 const connectedDataModel = require('../../models/connectedData');
 const { getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const subscriptionsModel = require('../../models/subscriptions');
@@ -43,6 +38,7 @@ const subscriptionsModel = require('../../models/subscriptions');
  */
 
 const timebasedQuery = (payload, messageHandler) => {
+  const execution = executionMonitor('query');
   execution.reset();
   execution.start('global');
   // debug.debug('called', Object.keys(payload).length, 'remoteIds');
@@ -94,7 +90,8 @@ const timebasedQuery = (payload, messageHandler) => {
         remoteId,
         query.dataId,
         missingInterval,
-        queryArguments
+        queryArguments,
+        execution
       );
 
       // queue the message

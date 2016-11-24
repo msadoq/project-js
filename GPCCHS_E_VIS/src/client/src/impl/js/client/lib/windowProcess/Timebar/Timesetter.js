@@ -55,19 +55,19 @@ export default class Timesetter extends Component {
         break;
       case 'slideLower':
         if (timebarMode === 'Fixed') {
-          if (slideUpper < lower || slideUpper > current) {
-            errorMessages.push('Ext left cursor must be between current cursor and upper cursor in Fixed mode');
+          if (slideLower < lower || slideLower > current) {
+            errorMessages.push('Ext lower cursor must be between lower cursor and current cursor in Fixed mode');
           }
         }
         break;
       case 'slideUpper':
         if (timebarMode === 'Extensible') {
           if (slideUpper < upper) {
-            errorMessages.push('Ext right cursor must be after upper cursor in Extensible mode');
+            errorMessages.push('Ext upper cursor must be after upper cursor in Extensible mode');
           }
         } else if (timebarMode === 'Fixed') {
           if (slideUpper < current || slideUpper > upper) {
-            errorMessages.push('Ext right cursor must be between current cursor and upper cursor in Fixed mode');
+            errorMessages.push('Ext upper cursor must be between current cursor and upper cursor in Fixed mode');
           }
         }
         break;
@@ -102,7 +102,7 @@ export default class Timesetter extends Component {
         {errorMessages.map(x => <p className={classnames('text-danger', styles.errorMessage)}>{x}</p>)}
         <button className={classnames('btn-sm', 'btn', 'btn-danger', styles.buttonClose)} onClick={onClose}>x</button>
         {
-          ['lower', 'current', 'upper', 'slideLower', 'slideUpper'].map((x, i) => {
+          ['slideLower', 'lower', 'current', 'upper', 'slideUpper'].map((x, i) => {
             let ms;
             if (visuWindow[x]) {
               ms = visuWindow[x];

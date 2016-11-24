@@ -1,1 +1,0 @@
-/* Empty cpp file generated for cmake build in case of no file is present */

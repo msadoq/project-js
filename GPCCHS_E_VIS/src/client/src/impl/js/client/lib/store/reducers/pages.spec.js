@@ -35,6 +35,7 @@ describe('store:page', () => {
           path: undefined,
           oId: undefined,
           absolutePath: undefined,
+          isModified: false,
         });
       });
       it('add empty', () => {
@@ -55,6 +56,7 @@ describe('store:page', () => {
           path: undefined,
           oId: undefined,
           absolutePath: undefined,
+          isModified: false,
         });
       });
     });

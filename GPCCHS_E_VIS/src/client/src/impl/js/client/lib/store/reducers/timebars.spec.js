@@ -42,16 +42,21 @@ describe('store:timebar', () => {
         );
         state.myTimebarId.should.have.properties({
           id: null,
-          visuWindow: {},
-          slideWindow: {},
-          rulerResolution: 11250,
+          rulerResolution: 2250,
           speed: 1,
           playingState: 'pause',
+          mode: 'Normal',
           masterId: null,
           timelines: []
         });
         state.myTimebarId.should.have.property('extUpperBound');
         state.myTimebarId.should.have.property('rulerStart');
+        state.myTimebarId.should.have.property('visuWindow');
+        state.myTimebarId.should.have.property('slideWindow');
+        state.myTimebarId.visuWindow.lower.should.be.below(state.myTimebarId.slideWindow.lower);
+        state.myTimebarId.slideWindow.lower.should.be.below(state.myTimebarId.visuWindow.current);
+        state.myTimebarId.visuWindow.current.should.be.below(state.myTimebarId.slideWindow.upper);
+        state.myTimebarId.slideWindow.upper.should.be.below(state.myTimebarId.visuWindow.upper);
       });
     });
     describe('remove', () => {

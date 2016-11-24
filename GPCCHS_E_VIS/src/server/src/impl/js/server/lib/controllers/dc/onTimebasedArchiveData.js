@@ -117,7 +117,7 @@ const onTimebasedArchiveData = (
       const noMorePendingRequests = !connectedDataModel
         .getAll()
         .map(data => Object.keys(data.intervals.requested).length)
-        .reduce((acc, l) => acc + l, 0)
+        .reduce((acc, l) => acc + l, 0);
 
       // Send 'updated' to parent process
       if (noMorePendingRequests) {

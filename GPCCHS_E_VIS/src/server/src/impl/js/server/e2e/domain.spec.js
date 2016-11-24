@@ -1,5 +1,5 @@
 const globalConstants = require('common/constants'); // eslint-disable-line import/no-extraneous-dependencies
-const { v4 } = require('node-uuid');
+const { v4 } = require('node-uuid'); // eslint-disable-line import/no-extraneous-dependencies
 const path = require('path');
 
 const {

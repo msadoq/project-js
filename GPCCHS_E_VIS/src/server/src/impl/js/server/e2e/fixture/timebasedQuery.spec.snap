@@ -1,4 +1,56 @@
-exports[`timebased query 1 query 1`] = `
+exports[`timebased query 1 last query 1`] = `
+Object {
+  "event": "timebasedData",
+  "payload": Object {
+    "last@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:monitoringState.!=.nominal": Object {
+      "1479772740000": Object {
+        "convertedValue": 138.6320582855435,
+        "extractedValue": 138.6320582855435,
+        "groundDate": 1479772740020,
+        "isNominal": false,
+        "isObsolete": false,
+        "monitoringState": 0,
+        "onboardDate": 1479772740000,
+        "rawValue": 138.6320582855435,
+        "referenceTimestamp": 1479772740000,
+        "triggerOffCounter": 10,
+        "triggerOnCounter": 6,
+        "validityState": 0
+      },
+      "1479772741000": Object {
+        "convertedValue": 138.79021017903133,
+        "extractedValue": 138.79021017903133,
+        "groundDate": 1479772741020,
+        "isNominal": false,
+        "isObsolete": false,
+        "monitoringState": 0,
+        "onboardDate": 1479772741000,
+        "rawValue": 138.79021017903133,
+        "referenceTimestamp": 1479772741000,
+        "triggerOffCounter": 10,
+        "triggerOnCounter": 6,
+        "validityState": 0
+      },
+      "1479772742000": Object {
+        "convertedValue": 138.9375479947504,
+        "extractedValue": 138.9375479947504,
+        "groundDate": 1479772742020,
+        "isNominal": false,
+        "isObsolete": false,
+        "monitoringState": 0,
+        "onboardDate": 1479772742000,
+        "rawValue": 138.9375479947504,
+        "referenceTimestamp": 1479772742000,
+        "triggerOffCounter": 10,
+        "triggerOnCounter": 6,
+        "validityState": 0
+      }
+    }
+  }
+}
+`;
+
+exports[`timebased query 1 range query 1`] = `
 Object {
   "event": "timebasedData",
   "payload": Object {
@@ -50,7 +102,7 @@ Object {
 }
 `;
 
-exports[`timebased query 2 queries with apart intervals. Second one is after 1`] = `
+exports[`timebased query 2 range queries with apart intervals. Second one is after 1`] = `
 Object {
   "connectedData": Array [
     Object {
@@ -117,7 +169,7 @@ Object {
 }
 `;
 
-exports[`timebased query 2 queries with apart intervals. Second one is after 2`] = `
+exports[`timebased query 2 range queries with apart intervals. Second one is after 2`] = `
 Object {
   "connectedData": Array [
     Object {
@@ -192,7 +244,7 @@ Object {
 }
 `;
 
-exports[`timebased query 2 queries with apart intervals. Second one is before 1`] = `
+exports[`timebased query 2 range queries with apart intervals. Second one is before 1`] = `
 Object {
   "connectedData": Array [
     Object {
@@ -259,7 +311,7 @@ Object {
 }
 `;
 
-exports[`timebased query 2 queries with apart intervals. Second one is before 2`] = `
+exports[`timebased query 2 range queries with apart intervals. Second one is before 2`] = `
 Object {
   "connectedData": Array [
     Object {
@@ -334,7 +386,7 @@ Object {
 }
 `;
 
-exports[`timebased query 2 queries with overlap intervals. First one is inside second one 1`] = `
+exports[`timebased query 2 range queries with overlap intervals. First one is inside second one 1`] = `
 Object {
   "connectedData": Array [
     Object {
@@ -401,7 +453,7 @@ Object {
 }
 `;
 
-exports[`timebased query 2 queries with overlap intervals. First one is inside second one 2`] = `
+exports[`timebased query 2 range queries with overlap intervals. First one is inside second one 2`] = `
 Object {
   "connectedData": Array [
     Object {
@@ -468,7 +520,7 @@ Object {
 }
 `;
 
-exports[`timebased query 2 queries with overlap intervals. Second one is after 1`] = `
+exports[`timebased query 2 range queries with overlap intervals. Second one is after 1`] = `
 Object {
   "connectedData": Array [
     Object {
@@ -535,7 +587,7 @@ Object {
 }
 `;
 
-exports[`timebased query 2 queries with overlap intervals. Second one is after 2`] = `
+exports[`timebased query 2 range queries with overlap intervals. Second one is after 2`] = `
 Object {
   "connectedData": Array [
     Object {
@@ -602,7 +654,7 @@ Object {
 }
 `;
 
-exports[`timebased query 2 queries with overlap intervals. Second one is before 1`] = `
+exports[`timebased query 2 range queries with overlap intervals. Second one is before 1`] = `
 Object {
   "connectedData": Array [
     Object {
@@ -669,7 +721,7 @@ Object {
 }
 `;
 
-exports[`timebased query 2 queries with overlap intervals. Second one is before 2`] = `
+exports[`timebased query 2 range queries with overlap intervals. Second one is before 2`] = `
 Object {
   "connectedData": Array [
     Object {
@@ -736,7 +788,7 @@ Object {
 }
 `;
 
-exports[`timebased query 2 queries with overlap intervals. Second one is inside first one 1`] = `
+exports[`timebased query 2 range queries with overlap intervals. Second one is inside first one 1`] = `
 Object {
   "connectedData": Array [
     Object {
@@ -803,7 +855,7 @@ Object {
 }
 `;
 
-exports[`timebased query 2 queries with overlap intervals. Second one is inside first one 2`] = `
+exports[`timebased query 2 range queries with overlap intervals. Second one is inside first one 2`] = `
 Object {
   "connectedData": Array [
     Object {

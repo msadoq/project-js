@@ -35,10 +35,12 @@ describe('timebased query', function () { // eslint-disable-line func-names
     start = Date.now() - (60 * 1000),
     end = start + (60 * 1000),
     assert = false,
+    structureType,
+    filters,
   } = {}) => {
     const self = this;
     return new Promise((resolve) => {
-      const query = getQuery(parameterName, [[start, end]]);
+      const query = getQuery(parameterName, [[start, end]], structureType, filters);
 
       self.ws.write({
         event: globalConstants.EVENT_TIMEBASED_QUERY,
@@ -54,6 +56,7 @@ describe('timebased query', function () { // eslint-disable-line func-names
       const removeCb = addDataCallback((actual) => {
         if (Object.keys(actual.payload).length) {
           try {
+            // eslint-disable-next-line
             assert && matchSnapshot(actual);
           } finally {
             clearInterval(hwInterval);
@@ -72,14 +75,16 @@ describe('timebased query', function () { // eslint-disable-line func-names
   // Test HSS state
   this.checkHHSState = () => this.getHSSState()
   .then((actual) => {
-    actual.connectedData[0] && delete actual.connectedData[0].meta.created; // eslint-disable-line no-param-reassign
-    actual.subscriptions[0] && delete actual.subscriptions[0].meta.created; // eslint-disable-line no-param-reassign
+    // eslint-disable-next-line
+    actual.connectedData[0] && delete actual.connectedData[0].meta.created;
+    // eslint-disable-next-line
+    actual.subscriptions[0] && delete actual.subscriptions[0].meta.created;
     matchSnapshot(actual);
   });
 
   // Returns a promise resolved when HSS update his cache
-  this.waitHSSUpdate = () => {
-    return new Promise(r => {
+  this.waitHSSUpdate = () =>
+    new Promise((r) => {
       const hw = setInterval(() => {
         if (this.updateCount) {
           this.updateCount -= 1;
@@ -88,13 +93,12 @@ describe('timebased query', function () { // eslint-disable-line func-names
         }
       }, 100);
     });
-  };
 
   before((done) => {
     startHSS().then((hss) => {
       this.hss = hss;
 
-      hss.on('message', msg => {
+      hss.on('message', (msg) => {
         if (msg === 'updated') {
           this.updateCount += 1;
         }
@@ -121,7 +125,25 @@ describe('timebased query', function () { // eslint-disable-line func-names
     stopWS(this.ws).then(() => done());
   });
 
-  it('1 query', () => {
+  it('1 last query', () => {
+    const now = (new Date(2016, 10, 22)).getTime();
+    const start = now - (60 * 1000);
+    const end = start + (2 * 1000);
+
+    return this.testTimeBaseQuery({
+      start,
+      end,
+      assert: true,
+      structureType: 'last',
+      filters: [{
+        fieldName: 'monitoringState',
+        type: 1,
+        fieldValue: 'nominal',
+      }],
+    });
+  });
+
+  it('1 range query', () => {
     const now = (new Date(2016, 10, 22)).getTime();
     const start = now - (60 * 1000);
     const end = start + (2 * 1000);
@@ -129,7 +151,7 @@ describe('timebased query', function () { // eslint-disable-line func-names
     return this.testTimeBaseQuery({ start, end, assert: true });
   });
 
-  it('2 queries with overlap intervals. Second one is after', () => {
+  it('2 range queries with overlap intervals. Second one is after', () => {
     const now = (new Date(2016, 10, 22)).getTime();
     const start = now - (60 * 1000);
     const end = start + (4 * 1000);
@@ -146,7 +168,7 @@ describe('timebased query', function () { // eslint-disable-line func-names
       .then(() => this.checkHHSState());
   });
 
-  it('2 queries with overlap intervals. Second one is before', () => {
+  it('2 range queries with overlap intervals. Second one is before', () => {
     const now = (new Date(2016, 10, 22)).getTime();
     const start = now - (60 * 1000);
     const end = start + (4 * 1000);
@@ -163,7 +185,7 @@ describe('timebased query', function () { // eslint-disable-line func-names
       .then(() => this.checkHHSState());
   });
 
-  it('2 queries with overlap intervals. Second one is inside first one', () => {
+  it('2 range queries with overlap intervals. Second one is inside first one', () => {
     const now = (new Date(2016, 10, 22)).getTime();
     const start = now - (60 * 1000);
     const end = start + (4 * 1000);
@@ -179,7 +201,7 @@ describe('timebased query', function () { // eslint-disable-line func-names
       .then(() => this.checkHHSState());
   });
 
-  it('2 queries with overlap intervals. First one is inside second one', () => {
+  it('2 range queries with overlap intervals. First one is inside second one', () => {
     const now = (new Date(2016, 10, 22)).getTime();
     const start = now - (60 * 1000);
     const end = start + (4 * 1000);
@@ -196,7 +218,7 @@ describe('timebased query', function () { // eslint-disable-line func-names
       .then(() => this.checkHHSState());
   });
 
-  it('2 queries with apart intervals. Second one is after', () => {
+  it('2 range queries with apart intervals. Second one is after', () => {
     const now = (new Date(2016, 10, 22)).getTime();
     const start = now - (60 * 1000);
     const end = start + (4 * 1000);
@@ -213,7 +235,7 @@ describe('timebased query', function () { // eslint-disable-line func-names
       .then(() => this.checkHHSState());
   });
 
-  it('2 queries with apart intervals. Second one is before', () => {
+  it('2 range queries with apart intervals. Second one is before', () => {
     const now = (new Date(2016, 10, 22)).getTime();
     const start = now - (60 * 1000);
     const end = start + (4 * 1000);

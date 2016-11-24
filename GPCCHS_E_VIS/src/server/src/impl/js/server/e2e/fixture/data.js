@@ -1,6 +1,19 @@
-function getQuery(parameterName, intervals) {
+const serializeFilters = filters =>
+  filters.map(f => `${f.fieldName}.!=.${f.fieldValue}`)
+    .reduce((acc, f) => `${acc},${f}`, '').replace(/^,/, '');
+
+function getQuery(
+  parameterName,
+  intervals,
+  structureType = 'range',
+  filters = [{
+    fieldName: 'convertedValue',
+    type: 1,
+    fieldValue: '0',
+  }]
+) {
   return {
-    [`range@Reporting.${parameterName}<ReportingParameter>:0:4:convertedValue.!=.0`]: {
+    [`${structureType}@Reporting.${parameterName}<ReportingParameter>:0:4:${serializeFilters(filters)}`]: {
       type: 'range',
       dataId: {
         catalog: 'Reporting',
@@ -10,13 +23,7 @@ function getQuery(parameterName, intervals) {
         sessionId: 0,
       },
       intervals,
-      filters: [
-        {
-          fieldName: 'convertedValue',
-          type: 1,
-          fieldValue: '0',
-        },
-      ],
+      filters,
     },
   };
 }

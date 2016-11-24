@@ -1,9 +1,7 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import {
   Accordion,
-  Panel,
-  Glyphicon,
-  Button
+  Panel
 } from 'react-bootstrap';
 import {
   PlotAxesContainer,
@@ -21,9 +19,6 @@ import ViewTitleContainer from '../ViewTitleContainer';
     - MARKERS :
 */
 export default class PlotTab extends React.Component {
-  static propTypes = {
-    handleAddPlotAxis: PropTypes.func
-  }
   static contextTypes = {
     viewId: React.PropTypes.string
   };
@@ -34,12 +29,6 @@ export default class PlotTab extends React.Component {
     isGridOpen: false,
     isMarkersOpen: false
   };
-
-  handleAddPlotAxis = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    this.props.handleAddPlotAxis();
-  }
 
   openTitle = () => this.setState({ isTitleOpen: true });
   closeTitle = () => this.setState({ isTitleOpen: false });
@@ -82,37 +71,22 @@ export default class PlotTab extends React.Component {
         >
           {isGridOpen && <PlotGridsContainer viewId={viewId} />}
         </Panel>
-        <Panel
-          header={<span>
-            <Button
-              bsSize="xsmall"
-              className="pull-right btn-link"
-              onClick={this.handleAddPlotAxis}
-            >
-              <Glyphicon
-                className="text-success"
-                glyph="plus"
-                title="Add"
-              />
-            </Button>
-            Axes
-          </span>}
+
+        <PlotAxesContainer
+          viewId={viewId}
           eventKey="3"
           expanded={isAxesOpen}
-          onSelect={this.openAxes}
-          onExited={this.closeAxes}
-        >
-          {isAxesOpen && <PlotAxesContainer viewId={viewId} />}
-        </Panel>
-        <Panel
-          header="Markers"
+          open={this.openAxes}
+          close={this.closeAxes}
+        />
+
+        <PlotMarkersContainer
+          viewId={viewId}
           eventKey="4"
           expanded={isMarkersOpen}
-          onSelect={this.openMarkers}
-          onExited={this.closeMarkers}
-        >
-          {isMarkersOpen && <PlotMarkersContainer viewId={viewId} />}
-        </Panel>
+          open={this.openMarkers}
+          close={this.closeMarkers}
+        />
       </Accordion>
     );
   }

@@ -59,7 +59,6 @@ export default class EntryPointDetails extends React.Component {
             dans le noeud racine.
     L'utilisation de setState est temporaire, pour voir la mise à jour dans l'IHM.
   */
-  handleName = val => this.props.handleEntryPoint(this.props.idPoint, 'name', val);
   handleDataYChange = (label, val) => this.props.handleEntryPoint(this.props.idPoint, `connectedDataY.${label}`, val);
   handleChangeStateColor = color => this.setState({ newStateColor: color });
   handleFilter = (field, operator, operand) => this.setState({ newStateField: field, newStateOperator: operator, newStateOperand: operand });
@@ -74,8 +73,11 @@ export default class EntryPointDetails extends React.Component {
   }
 
   handleSubmit = (values) => {
-    const { updateEntryPoint, viewId, idPoint } = this.props;
-    updateEntryPoint(viewId, idPoint, values);
+    const { entryPoint, updateEntryPoint, viewId, idPoint } = this.props;
+    updateEntryPoint(viewId, idPoint, {
+      ...entryPoint,
+      ...values
+    });
   }
 
   removeStateColor = (key) => {
@@ -122,8 +124,11 @@ export default class EntryPointDetails extends React.Component {
           onExited={this.closePanel.bind('Name')}
         >
           {isPanelNameOpen && <EntryPointName
-            name={entryPoint.name}
-            handleName={this.handleName}
+            onSubmit={this.handleSubmit}
+            form={`entrypoint-title-form-${idPoint}-${viewId}`}
+            initialValues={{
+              name: entryPoint.name
+            }}
           />}
         </Panel>}
         {entryPoint.lineStyle && <Panel

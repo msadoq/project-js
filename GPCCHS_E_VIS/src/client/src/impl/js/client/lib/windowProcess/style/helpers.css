@@ -319,3 +319,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.flex{
+  display: flex;
+  flex: 1;
+}

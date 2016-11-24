@@ -12,11 +12,19 @@ export default class PlotMarkers extends React.Component {
     markers: PropTypes.array.isRequired,
     axes: PropTypes.array.isRequired,
     updateMarker: PropTypes.func.isRequired,
+    expanded: PropTypes.bool.isRequired,
+    open: PropTypes.func.isRequired,
+    close: PropTypes.func.isRequired
   }
-  state = {};
+  state = {
+    isMarkersOpen: false
+  };
 
   openPanel = key => this.setState({ [`isPanel${key}Open`]: true });
   closePanel = key => this.setState({ [`isPanel${key}Open`]: false });
+
+  openMarkers = () => this.setState({ isMarkersOpen: true });
+  closeMarkers = () => this.setState({ isMarkersOpen: false });
 
   handleSubmit = (key, values) => {
     const { updateMarker, viewId } = this.props;
@@ -27,33 +35,45 @@ export default class PlotMarkers extends React.Component {
     const {
       markers,
       axes,
-      viewId
+      viewId,
+      expanded,
+      open,
+      close
     } = this.props;
+    // const { isMarkersOpen } = this.state;
 
     return (
-      <Accordion>
-        {markers.map((marker, key) =>
-          <Panel
-            key={key}
-            header={marker.label}
-            eventKey={key}
-            expanded={this.state[`isPanel${key}Open`]}
-            onSelect={this.openPanel.bind(key)}
-            onExited={this.closePanel.bind(key)}
-          >
-            {this.state[`isPanel${key}Open`] &&
-              <PlotMarker
-                key={key}
-                index={key}
-                axes={axes}
-                initialValues={marker}
-                formName={`axis-form-${key}-${viewId}`}
-                selector={formValueSelector(`axis-form-${key}-${viewId}`)}
-                onSubmit={this.handleSubmit.bind(this, key)}
-                form={`axis-form-${key}-${viewId}`}
-              />}
-          </Panel>)}
-      </Accordion>
+      <Panel
+        header="Markers"
+        expanded={expanded}
+        onSelect={open}
+        onExited={close}
+        {...this.props}
+      >
+        <Accordion>
+          {markers.map((marker, key) =>
+            <Panel
+              key={key}
+              header={marker.label}
+              eventKey={key}
+              expanded={this.state[`isPanel${key}Open`]}
+              onSelect={this.openPanel.bind(key)}
+              onExited={this.closePanel.bind(key)}
+            >
+              {this.state[`isPanel${key}Open`] &&
+                <PlotMarker
+                  key={key}
+                  index={key}
+                  axes={axes}
+                  initialValues={marker}
+                  formName={`axis-form-${key}-${viewId}`}
+                  selector={formValueSelector(`axis-form-${key}-${viewId}`)}
+                  onSubmit={this.handleSubmit.bind(this, key)}
+                  form={`axis-form-${key}-${viewId}`}
+                />}
+            </Panel>)}
+        </Accordion>
+      </Panel>
     );
   }
 }

@@ -43,7 +43,6 @@ export default class PlotEditor extends Component {
     updateEntryPoint: PropTypes.func.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
     removeEntryPoint: PropTypes.func.isRequired,
-    addAxis: PropTypes.func.isRequired,
 
     // rest
     viewId: PropTypes.string.isRequired,
@@ -98,13 +97,6 @@ export default class PlotEditor extends Component {
     const { removeEntryPoint, viewId } = this.props;
     removeEntryPoint(viewId, key);
   }
-  handleAddAxis = () => {
-    const { configuration, addAxis, viewId } = this.props;
-    const currentLength = _get(configuration, 'axes.length', 0);
-    addAxis(viewId, {
-      label: `Axis ${currentLength}`
-    });
-  }
 
   changeSearch = s => this.setState({ search: s });
   /*
@@ -139,7 +131,6 @@ export default class PlotEditor extends Component {
         <div className={styles.content}>
           {currentDisplay === 2 && <Misc />}
           {currentDisplay === 1 && <PlotTab
-            handleAddPlotAxis={this.handleAddAxis}
             axes={axes}
             markers={markers}
             title={title}

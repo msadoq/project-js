@@ -1,10 +1,34 @@
+/* eslint no-underscore-dangle: 0 */
 const fs = require('fs');
 const {
   join
 } = require('path');
 const mkdirpSync = require('mkdirp').sync;
+const _startsWith = require('lodash/startsWith');
+const { getWebsocket } = require('../mainProcess/websocket');
+const globalConstants = require('common/constants');
+const parameters = require('./parameters');
+const { v4 } = require('node-uuid');
+const { set } = require('common/callbacks/register');
+
+const root = parameters.FMD_ROOT;
+
+let resolvedPath;
+
+function requestPathFromOId(oId, callback) {
+  const queryId = v4();
+  set(queryId, callback);
+  getWebsocket().write({
+    event: globalConstants.EVENT_FILEPATH_QUERY,
+    queryId,
+    payload: {
+      oId,
+    }
+  });
+}
 
 const self = module.exports = {
+  getPath: () => resolvedPath,
   resolve: (folder, relativePath) => join(folder, relativePath),
   isExists: (path, callback) => fs.access(path, fs.constants.F_OK, err => callback(!err)),
   isReadable: (path, callback) => fs.access(path, fs.constants.R_OK, err => callback(!err)),
@@ -36,6 +60,7 @@ const self = module.exports = {
     return callback(null, json);
   },
   readJsonFromAbsPath: (absolutePath, callback) => {
+    resolvedPath = absolutePath;
     self.read(absolutePath, (err, content) => {
       if (err) {
         return callback(err);
@@ -43,13 +68,68 @@ const self = module.exports = {
       return self.parse(content, callback);
     });
   },
-  readJsonFromPath: (folder, relativePath, callback) => {
-    self.read(self.resolve(folder, relativePath), (err, content) => {
+  readJsonFromOId: (oId, callback) => {
+    resolvedPath = undefined;
+    requestPathFromOId(oId, (err, payload) => {
+      if (err) {
+        return callback(err);
+      }
+      resolvedPath = payload.filepath;
+      self.read(resolvedPath, (err1, content) => {
+        if (err1) {
+          return callback(err1);
+        }
+        return self.parse(content, callback);
+      });
+    });
+  },
+  readJsonFromRelativePath: (folder, path, callback) => {
+    resolvedPath = undefined;
+    // Relative path from local folder
+    if (!folder || _startsWith(path, '/')) {
+      // relative path from folder
+      return callback(new Error(`Invalid relative path: ${folder}, ${path}`));
+    }
+    resolvedPath = join(folder, path);
+    self.read(resolvedPath, (err, content) => {
       if (err) {
         return callback(err);
       }
       return self.parse(content, callback);
     });
+  },
+  readJsonFromFmdPath: (filepath, callback) => {
+    resolvedPath = undefined;
+    if (!_startsWith(filepath, '/')) {
+      return callback(new Error(`Invalid FMD path ${filepath}`));
+    }
+    // relative path from FMD
+    try {
+      fs.accessSync(join(root, filepath), fs.constants.F_OK);
+      // FMD path
+      resolvedPath = join(root, filepath);
+    } catch (e) {
+      // path is already absolute
+      resolvedPath = filepath;
+    }
+    self.read(resolvedPath, (err, content) => {
+      if (err) {
+        return callback(err);
+      }
+      return self.parse(content, callback);
+    });
+  },
+  readJsonFromPath: (folder, relativePath, oId, absolutePath, callback) => {
+    if (absolutePath) {
+      return self.readJsonFromAbsPath(absolutePath, callback);
+    }
+    if (oId) {
+      return self.readJsonFromOId(oId, callback);
+    }
+    if (folder && !_startsWith(relativePath, '/')) {
+      return self.readJsonFromRelativePath(folder, relativePath, callback);
+    }
+    return self.readJsonFromFmdPath(relativePath, callback);
   },
   /**
    * Checks if folder exists and if not, creates it

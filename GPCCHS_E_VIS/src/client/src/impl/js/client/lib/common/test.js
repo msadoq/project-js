@@ -8,7 +8,8 @@ import reducer from '../store/reducers/index';
 
 process.env.PROFILING = 'off';
 process.env.MONITORING = 'off';
-
+process.env.FMD_ROOT =
+  '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/impl/js/client/lib/documentsManager/examples/';
 require('dotenv-safe').load();
 // import 'babel-polyfill';
 // import { jsdom } from 'jsdom';

@@ -39,8 +39,11 @@ const onTimebasedPubSubData = (
   const execution = executionMonitor('pubSubData');
   execution.start('global');
 
+  debug.debug('received data from pubSub');
+
   execution.start('decode dataId');
   // deprotobufferize dataId
+  debug.debug('decode dataId');
   const dataId = decode('dc.dataControllerUtils.DataId', dataIdBuffer);
   execution.stop('decode dataId');
 
@@ -52,6 +55,7 @@ const onTimebasedPubSubData = (
 
   execution.start('retrieve subscription');
   // if dataId not in subscriptions model, stop logic
+  debug.debug('retrieve subscription');
   const subscription = subscriptionsModel.getByDataId(dataId);
   if (!subscription) {
     return undefined;
@@ -60,6 +64,7 @@ const onTimebasedPubSubData = (
 
   execution.start('retrieve filters');
   // get { remoteId: filters } from subscriptions model
+  debug.debug('retrieve filters');
   const filtersByRemoteId = subscriptionsModel.getFilters(dataId, subscription);
   execution.stop('retrieve filters');
 
@@ -113,6 +118,7 @@ const onTimebasedPubSubData = (
       execution.stop('store in timebasedData model');
 
       execution.start('queue payloads');
+      debug.debug('queue pubSub point to client');
       // queue a ws newData message (sent periodically)
       addToQueue(remoteId, tbd.timestamp, tbd.payload);
       execution.stop('queue payloads');

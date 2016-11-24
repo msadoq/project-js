@@ -24,7 +24,8 @@ module.exports = (intervals, timestamp) => {
   }
   if (_isArray(intervals[0])) {
     return _some(intervals, (interval) => {
-      logger.debug('checking interval', interval);
+      const isIn = includesTimestamp(interval, timestamp);
+      logger.verbose('checking interval', interval, timestamp, !!isIn);
       if (includesTimestamp(interval, timestamp)) {
         return true;
       }

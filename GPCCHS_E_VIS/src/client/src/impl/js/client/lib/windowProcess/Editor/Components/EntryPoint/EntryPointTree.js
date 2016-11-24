@@ -64,7 +64,6 @@ export default class EntryPointTree extends React.Component {
               key={key}
               header={<span>
                 {entryPoint.curveColour && <div
-                  className="pull-left"
                   style={{
                     height: '20px',
                     width: '20px',
@@ -72,9 +71,10 @@ export default class EntryPointTree extends React.Component {
                     backgroundColor: entryPoint.curveColour
                   }}
                 />}
+                <span className="flex">{entryPoint.name}</span>
                 <Button
                   bsSize="xsmall"
-                  className="pull-right btn-link"
+                  className="btn-link"
                   onClick={e => this.handleRemove(e, key)}
                 >
                   <Glyphicon
@@ -83,7 +83,6 @@ export default class EntryPointTree extends React.Component {
                     title="Remove"
                   />
                 </Button>
-                {entryPoint.name}
               </span>}
               eventKey={key}
               expanded={isOpen}

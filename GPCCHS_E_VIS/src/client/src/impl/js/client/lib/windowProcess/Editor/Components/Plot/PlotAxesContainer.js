@@ -4,7 +4,8 @@ import PlotAxes from './PlotAxes';
 import { getView } from '../../../../store/selectors/views';
 import {
   removeAxis,
-  updateAxis
+  updateAxis,
+  addAxis
 } from '../../../../store/actions/views';
 
 const mapStateToProps = (state, { viewId }) => {
@@ -16,7 +17,8 @@ const mapStateToProps = (state, { viewId }) => {
 
 const PlotAxesContainer = connect(mapStateToProps, {
   removeAxis,
-  updateAxis
+  updateAxis,
+  addAxis
 })(PlotAxes);
 
 PlotAxesContainer.propTypes = {

@@ -2,6 +2,16 @@
 	overflow: hidden;
 	white-space: nowrap;
   text-overflow: ellipsis;
+	padding: 0 !important;
+	> h4 {
+		display: flex;
+	}
+	a[role="tab"] {
+		display: flex;
+		flex-direction: row;
+		width: 100%;
+		padding: @panel-heading-padding;
+	}
 }
 .form-horizontal{
 	.control-label {

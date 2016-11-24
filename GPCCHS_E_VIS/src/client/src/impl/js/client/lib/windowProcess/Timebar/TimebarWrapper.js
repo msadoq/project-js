@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import { Col } from 'react-bootstrap';
 import styles from './Timebar.css';
 import Timebar from './Timebar';
-import Lefttab from './Lefttab';
+import LefttabContainer from './LefttabContainer';
 import TimebarControls from './TimebarControls';
 import Timesetter from './Timesetter';
 import debug from '../../../lib/common/debug/windowDebug';
@@ -13,15 +13,9 @@ const logger = debug('Timebar');
 export default class TimebarWrapper extends Component {
 
   static propTypes = {
-    updateTimebarIdAction: React.PropTypes.func.isRequired,
     updateVisuWindowAction: React.PropTypes.func.isRequired,
-    addAndMountTimelineAction: React.PropTypes.func.isRequired,
-    unmountTimelineAction: React.PropTypes.func.isRequired,
     updatePlayingStateAction: React.PropTypes.func.isRequired,
     updateSpeedAction: React.PropTypes.func.isRequired,
-    updateMasterIdAction: React.PropTypes.func.isRequired,
-    updateOffsetAction: React.PropTypes.func.isRequired,
-    updateTimelineIdAction: React.PropTypes.func.isRequired,
     updateModeAction: React.PropTypes.func.isRequired,
     visuWindow: React.PropTypes.object.isRequired,
     slideWindow: React.PropTypes.object.isRequired,
@@ -124,12 +118,19 @@ export default class TimebarWrapper extends Component {
     const { displayTimesetter, timesetterCursor,
       timelinesVerticalScroll, resizingWindow } = this.state;
     let { height } = this.state;
-    const { updateVisuWindowAction, timelines, timebarId,
-      visuWindow, addAndMountTimelineAction, unmountTimelineAction,
-      updatePlayingStateAction, updateSpeedAction, timebar,
-      slideWindow, updateTimelineIdAction, updateMasterIdAction,
-      updateOffsetAction, updateModeAction, sessions,
-      currentSessionOffsetMs, updateTimebarIdAction, focusedPageId } = this.props;
+    const {
+      updateVisuWindowAction,
+      timelines,
+      timebarId,
+      visuWindow,
+      updatePlayingStateAction,
+      updateSpeedAction,
+      timebar,
+      slideWindow,
+      updateModeAction,
+      currentSessionOffsetMs,
+      focusedPageId,
+    } = this.props;
 
     let minHeight;
     if (timelines.length < 3) {
@@ -191,19 +192,12 @@ export default class TimebarWrapper extends Component {
           currentSessionOffsetMs={currentSessionOffsetMs}
         />
         <Col xs={3} style={{ height: '100%' }}>
-          <Lefttab
-            updateTimebarId={updateTimebarIdAction}
-            updateMasterId={updateMasterIdAction}
-            updateOffset={updateOffsetAction}
-            updateTimelineId={updateTimelineIdAction}
+          <LefttabContainer
             timebarId={timebarId}
             focusedPageId={focusedPageId}
             masterId={timebar.masterId}
             timebarName={timebar.id}
             timelines={timelines}
-            sessions={sessions}
-            addAndMountTimeline={addAndMountTimelineAction}
-            unmountTimeline={unmountTimelineAction}
             verticalScroll={timelinesVerticalScroll}
             onVerticalScroll={this.onTimelinesVerticalScroll}
           />

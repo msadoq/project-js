@@ -1,24 +1,31 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import moment from 'moment';
 import styles from './Lefttab.css';
 
 export default class Timeline extends PureComponent {
   static propTypes = {
-    offset: React.PropTypes.number.isRequired,
-    id: React.PropTypes.string.isRequired,
-    timebarId: React.PropTypes.string.isRequired,
-    timelineId: React.PropTypes.string.isRequired,
-    timelinesLength: React.PropTypes.number.isRequired,
-    unmountTimeline: React.PropTypes.func.isRequired,
-    willEditTimeline: React.PropTypes.func.isRequired,
-    color: React.PropTypes.string,
-    masterId: React.PropTypes.string
+    unmountTimeline: PropTypes.func.isRequired,
+    willEditTimeline: PropTypes.func.isRequired,
+    id: PropTypes.string.isRequired,
+    timebarId: PropTypes.string.isRequired,
+    timelineId: PropTypes.string.isRequired,
+    color: PropTypes.string,
+    masterId: PropTypes.string,
+    offset: PropTypes.number.isRequired,
+    timelinesLength: PropTypes.number.isRequired,
   }
 
   willUnmountTimeline = (e) => {
     e.preventDefault();
-    const { masterId, timelineId, id, timelinesLength, unmountTimeline, timebarId } = this.props;
+    const {
+      masterId,
+      timelineId,
+      id,
+      timelinesLength,
+      unmountTimeline,
+      timebarId
+    } = this.props;
     if (id !== masterId || timelinesLength === 1) {
       unmountTimeline(timebarId, timelineId);
     }
@@ -27,9 +34,8 @@ export default class Timeline extends PureComponent {
   fi = (i, l = 2) => i.toString().padStart(l, '0');
 
   formatDuration = () => {
-    const { offset } = this.props;
     const { fi } = this;
-    let ms = moment.duration(offset).asMilliseconds();
+    let ms = moment.duration(this.props.offset).asMilliseconds();
     const neg = ms < 0;
     if (neg) ms = Math.abs(ms);
     const h = Math.floor(ms / 3600000);
@@ -42,19 +48,33 @@ export default class Timeline extends PureComponent {
   }
 
   render() {
-    const { color, willEditTimeline, timelineId,
-      id, masterId, offset } = this.props;
+    const {
+      color,
+      willEditTimeline,
+      timelineId,
+      id,
+      masterId,
+      offset
+    } = this.props;
 
     let formattedOffset;
     if (offset !== 0) {
       formattedOffset = (
-        <span className={styles.offset}>
+        <span
+          className={styles.offset}
+          title="Formatted offset HH:MM:ss:SSS"
+        >
           {this.formatDuration()}
-        </span>);
+        </span>
+      );
     }
     return (
       <li
-        className={classnames(styles.timeline, { [styles.master]: (id === masterId) })}
+        className={classnames(
+          styles.timeline,
+          { [styles.master]: (id === masterId) }
+        )}
+        title="Double-click to edit track"
         onDoubleClick={willEditTimeline.bind(null, timelineId, id)}
       >
         {id}

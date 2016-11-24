@@ -5,8 +5,8 @@ import { Col, FormGroup } from 'react-bootstrap';
 export default class SelectTimebar extends Component {
 
   static propTypes = {
-    updateTimebarIdAction: React.PropTypes.func.isRequired,
-    addTimebarIdAction: React.PropTypes.func.isRequired,
+    updateTimebar: React.PropTypes.func.isRequired,
+    addTimebar: React.PropTypes.func.isRequired,
     timebars: React.PropTypes.object.isRequired,
     focusedPageId: React.PropTypes.string,
   }
@@ -15,13 +15,13 @@ export default class SelectTimebar extends Component {
 
   onSelect = (e) => {
     e.preventDefault();
-    this.props.updateTimebarIdAction(this.props.focusedPageId, this.timebarsSelect.value);
+    this.props.updateTimebar(this.props.focusedPageId, this.timebarsSelect.value);
   }
 
   onCreate = (e) => {
     e.preventDefault();
-    const { addTimebarIdAction } = this.props;
-    addTimebarIdAction(v4(), { id: this.timebarId.value });
+    const { addTimebar } = this.props;
+    addTimebar(v4(), { id: this.timebarId.value });
     this.switchForm();
   }
 

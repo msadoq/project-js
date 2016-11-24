@@ -1,88 +1,73 @@
 import React, { PropTypes } from 'react';
 import {
-  Form,
-  FormGroup,
-  Col,
-  ControlLabel
+  Form
 } from 'react-bootstrap';
-import SelectButton from '../Buttons/SelectButton';
-import ColorPicker from '../ColorPicker';
+import { Field, reduxForm } from 'redux-form';
+import {
+  ColorPickerField
+} from '../Fields/';
+import {
+  HorizontalFormGroup,
+  ClearSubmitButtons
+} from '../Forms/';
+import {
+  FormSectionLineStyle,
+  FormSectionPointStyle
+} from '../FormSections/';
 
-const LineStyles = [
-  { label: 'Continuous', icon: 'continuous' },
-  { label: 'Dashed', icon: 'dashed' },
-  { label: 'Dotted', icon: 'doted' }
-];
-
-const PointsStyles = [
-  { label: 'None', icon: 'none' },
-  { label: 'Triangle', icon: 'triangle' },
-  { label: 'Square', icon: 'square' },
-  { label: 'Dot', icon: 'dot' }
-];
-
-export default class EntryPointStyle extends React.Component {
+class EntryPointStyle extends React.Component {
   static propTypes = {
-    entryPoint: PropTypes.object.isRequired,
-    handleCurveColour: PropTypes.func.isRequired,
-    handleLineStyle: PropTypes.func.isRequired,
-    handlePoints: PropTypes.func.isRequired,
+    /* eslint-disable react/no-unused-prop-types */
+    initialValues: PropTypes.shape({
+      lineStyle: PropTypes.string,
+      pointsStyle: PropTypes.string,
+      curveColour: PropTypes.string
+    }).isRequired,
+    handleSubmit: PropTypes.func,
+    pristine: PropTypes.bool,
+    reset: PropTypes.func,
+    submitting: PropTypes.bool,
+    valid: PropTypes.bool
   }
 
   render() {
     const {
-      entryPoint,
-      handleCurveColour,
-      handleLineStyle,
-      handlePoints
+      handleSubmit,
+      pristine,
+      reset,
+      submitting,
+      valid
     } = this.props;
 
     return (
-      <div>
-        <Form horizontal>
-          <FormGroup controlId="formHorizontalCurve">
-            <Col componentClass={ControlLabel} xs={3} >
-              Line
-            </Col>
-            <Col xs={9}>
-              <SelectButton
-                size="xsmall"
-                active={entryPoint.lineStyle}
-                buttons={LineStyles}
-                onChange={handleLineStyle}
-              />
-            </Col>
-          </FormGroup>
-          <FormGroup
-            controlId="formHorizontalTimeline"
-          >
-            <Col componentClass={ControlLabel} xs={3} >
-              Points
-            </Col>
-            <Col xs={9}>
-              <SelectButton
-                size="xsmall"
-                active={entryPoint.pointsStyle}
-                buttons={PointsStyles}
-                onChange={handlePoints}
-              />
-            </Col>
-          </FormGroup>
-          <FormGroup
-            controlId="formHorizontalTimeline"
-          >
-            <Col componentClass={ControlLabel} xs={3} >
-              Color
-            </Col>
-            <Col xs={9}>
-              <ColorPicker
-                color={entryPoint.curveColour}
-                onChange={handleCurveColour}
-              />
-            </Col>
-          </FormGroup>
-        </Form>
-      </div>
+      <Form horizontal onSubmit={handleSubmit}>
+
+        <HorizontalFormGroup label="Line">
+          <FormSectionLineStyle />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Points">
+          <FormSectionPointStyle />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Color">
+          <Field
+            name="curveColour"
+            component={ColorPickerField}
+          />
+        </HorizontalFormGroup>
+
+        <ClearSubmitButtons
+          pristine={pristine}
+          submitting={submitting}
+          reset={reset}
+          valid={valid}
+        />
+      </Form>
     );
   }
 }
+
+export default reduxForm({
+  enableReinitialize: true
+})(EntryPointStyle);

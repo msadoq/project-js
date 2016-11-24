@@ -21,6 +21,7 @@ const { Addon } = InputGroup;
 
 class PlotMarker extends React.Component {
   static propTypes = {
+    /* eslint-disable react/no-unused-prop-types */
     initialValues: PropTypes.shape({
       kind: PropTypes.string,
       label: PropTypes.string,
@@ -37,13 +38,13 @@ class PlotMarker extends React.Component {
         align: PropTypes.string,
         color: PropTypes.string
       })
-    }),
+    }).isRequired,
     isKindText: PropTypes.bool,
     isKindHorizontal: PropTypes.bool,
     isKindVertical: PropTypes.bool,
-    isKindOnePoint: PropTypes.bool,
-    isKindTwoPoint: PropTypes.bool,
-    axes: PropTypes.array,
+    // isKindOnePoint: PropTypes.bool,
+    // isKindTwoPoint: PropTypes.bool,
+    // axes: PropTypes.array,
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     reset: PropTypes.func,

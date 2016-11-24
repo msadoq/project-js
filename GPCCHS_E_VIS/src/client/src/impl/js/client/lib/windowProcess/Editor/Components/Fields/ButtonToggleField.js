@@ -4,7 +4,6 @@ import { Button } from 'react-bootstrap';
 export default class ButtonToggleField extends React.Component {
   static propTypes = {
     input: PropTypes.object.isRequired,
-    text: PropTypes.string,
     bsSize: PropTypes.string,
     styleOn: PropTypes.string,
     styleOff: PropTypes.string,

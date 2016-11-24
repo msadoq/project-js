@@ -17,6 +17,7 @@ import {
 
 class PlotGrid extends React.Component {
   static propTypes = {
+    /* eslint-disable react/no-unused-prop-types */
     initialValues: PropTypes.shape({
       // label: PropTypes.string,
       xAxisId: PropTypes.string,
@@ -24,7 +25,7 @@ class PlotGrid extends React.Component {
       lineStyle: PropTypes.string,
       width: PropTypes.number,
       showGrid: PropTypes.bool
-    }),
+    }).isRequired,
     axes: PropTypes.array,
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,

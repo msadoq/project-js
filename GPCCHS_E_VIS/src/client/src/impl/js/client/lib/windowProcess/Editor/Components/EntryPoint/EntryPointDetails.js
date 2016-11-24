@@ -15,12 +15,15 @@ import {
   Panel
 } from 'react-bootstrap';
 
-import EntryPointConnectedData from './EntryPointConnectedData';
+import {
+  EntryPointConnectedData,
+  EntryPointStyle,
+  EntryPointName,
+  EntryPointStateColours
+} from './'
+
 import ColorPicker from '../ColorPicker';
 import SelectButton from '../Buttons/SelectButton';
-import EntryPointStyle from './EntryPointStyle';
-import EntryPointName from './EntryPointName';
-import EntryPointStateColours from './EntryPointStateColours';
 
 /*
   EntryPointDetails représente un Point d'entrée,
@@ -28,6 +31,7 @@ import EntryPointStateColours from './EntryPointStateColours';
 */
 export default class EntryPointDetails extends React.Component {
   static propTypes = {
+    viewId: PropTypes.string.isRequired,
     idPoint: PropTypes.number,
     entryPoint: PropTypes.object,
     handleEntryPoint: PropTypes.func
@@ -55,10 +59,7 @@ export default class EntryPointDetails extends React.Component {
             dans le noeud racine.
     L'utilisation de setState est temporaire, pour voir la mise à jour dans l'IHM.
   */
-  handleLineStyle = val => this.props.handleEntryPoint(this.props.idPoint, 'lineStyle', val);
-  handlePoints = val => this.props.handleEntryPoint(this.props.idPoint, 'pointsStyle', val);
   handleName = val => this.props.handleEntryPoint(this.props.idPoint, 'name', val);
-  handleCurveColour = color => this.props.handleEntryPoint(this.props.idPoint, 'curveColour', color);
   handleDataYChange = (label, val) => this.props.handleEntryPoint(this.props.idPoint, `connectedDataY.${label}`, val);
   handleChangeStateColor = color => this.setState({ newStateColor: color });
   handleFilter = (field, operator, operand) => this.setState({ newStateField: field, newStateOperator: operator, newStateOperand: operand });
@@ -71,6 +72,12 @@ export default class EntryPointDetails extends React.Component {
     };
     this.props.handleEntryPoint(this.props.idPoint, 'stateColours', val);
   }
+
+  handleSubmit = (values) => {
+    const { updateEntryPoint, viewId, idPoint } = this.props;
+    updateEntryPoint(viewId, idPoint, values);
+  }
+
   removeStateColor = (key) => {
     const val = { keyToRemove: key };
     this.props.handleEntryPoint(this.props.idPoint, 'stateColours', val);
@@ -89,7 +96,8 @@ export default class EntryPointDetails extends React.Component {
   render() {
     const {
       idPoint,
-      entryPoint
+      entryPoint,
+      viewId
     } = this.props;
 
     const {
@@ -127,10 +135,9 @@ export default class EntryPointDetails extends React.Component {
           onExited={this.closePanel.bind('Style')}
         >
           {isPanelStyleOpen && <EntryPointStyle
-            entryPoint={entryPoint}
-            handleCurveColour={this.handleCurveColour}
-            handleLineStyle={this.handleLineStyle}
-            handlePoints={this.handlePoints}
+            onSubmit={this.handleSubmit}
+            form={`entrypoint-style-form-${idPoint}-${viewId}`}
+            initialValues={entryPoint}
           />}
         </Panel>}
         {entryPoint.connectedData && <Panel

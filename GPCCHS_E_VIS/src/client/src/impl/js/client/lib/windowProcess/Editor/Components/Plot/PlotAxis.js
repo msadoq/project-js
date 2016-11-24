@@ -16,6 +16,7 @@ import {
 
 class PlotAxis extends PureComponent {
   static propTypes = {
+    /* eslint-disable react/no-unused-prop-types */
     initialValues: PropTypes.shape({
       label: PropTypes.string,
       unit: PropTypes.string,
@@ -29,7 +30,7 @@ class PlotAxis extends PureComponent {
       isLogarithmic: PropTypes.bool,
       showAxis: PropTypes.bool,
       style: PropTypes.object
-    }),
+    }).isRequired,
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     reset: PropTypes.func,

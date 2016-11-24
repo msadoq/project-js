@@ -13,8 +13,7 @@ export default class Editor extends Component {
     viewId: PropTypes.string.isRequired,
     viewType: PropTypes.string.isRequired,
     configuration: PropTypes.object,
-    closeEditor: PropTypes.func,
-    focusedPageId: PropTypes.string.isRequired
+    closeEditor: PropTypes.func
   };
 
   static childContextTypes = {
@@ -29,7 +28,12 @@ export default class Editor extends Component {
 
   render() {
     logger.debug('render');
-    const { configuration, viewId } = this.props;
+    const {
+      configuration,
+      viewType,
+      viewId,
+      closeEditor
+    } = this.props;
 
     if (!configuration) {
       return <InvalidConfiguration />;
@@ -37,9 +41,25 @@ export default class Editor extends Component {
 
     switch (configuration.type) { // TODO dynamic type
       case 'PlotView' :
-        return <PlotEditorContainer key={viewId} {...this.props} />;
+        return (
+          <PlotEditorContainer
+            key={viewId}
+            viewId={viewId}
+            viewType={viewType}
+            configuration={configuration}
+            closeEditor={closeEditor}
+          />
+        );
       case 'TextView' :
-        return <TextEditorContainer key={viewId} {...this.props} />;
+        return (
+          <TextEditorContainer
+            key={viewId}
+            viewId={viewId}
+            viewType={viewType}
+            configuration={configuration}
+            closeEditor={closeEditor}
+          />
+        );
       default :
         return <InvalidConfiguration />;
     }

@@ -16,6 +16,7 @@ import {
 
 class ViewTitleForm extends React.Component {
   static propTypes = {
+    /* eslint-disable react/no-unused-prop-types */
     initialValues: PropTypes.shape({
       title: PropTypes.string,
       titleStyle: PropTypes.shape({

@@ -39,7 +39,7 @@ export default class TextView extends Component {
             const value = match.substring(2, match.length - 2);
             nodes.push(React.createElement('span', {
               key: `${index}-${i}`
-            }, _get(this.props, `data.values[${value}]`)));
+            }, _get(this.props.data, `values[${value}]`)));
           }
           return nodes;
         }

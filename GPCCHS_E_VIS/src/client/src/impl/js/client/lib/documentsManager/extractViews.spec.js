@@ -19,8 +19,9 @@ describe('documentsManager/extractViews', () => {
     content.pages[id1] = {
       type: 'Page',
       title: 'simple page1',
-      views: [{ oId: 'plot1.json' }],
-      oId: 'page02.vipg',
+      views: [{ path: 'plot1.json' }],
+      // oId: 'page02.vipg',
+      path: 'page02.vipg',
       timeBarId: 'TB1',
       uuid: id1,
       timebarId: id,
@@ -29,8 +30,9 @@ describe('documentsManager/extractViews', () => {
     content.pages[id2] = {
       type: 'Page',
       title: 'simple page2',
-      views: [{ path: 'text1.json' }, { invalid: 'plot1.json' }],
-      oId: 'page02.vipg',
+      views: [{ path: '/text1.json' }, { invalid: '/plot1.json' }],
+      // oId: 'page02.vipg',
+      path: 'page02.vipg',
       timeBarId: 'TB1',
       uuid: id1,
       timebarId: id,

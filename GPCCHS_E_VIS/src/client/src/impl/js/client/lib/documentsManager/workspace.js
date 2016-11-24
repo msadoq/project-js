@@ -13,7 +13,7 @@ const { extractViews } = require('./extractViews');
 module.exports = function readWorkspace(folder, relativePath, callback) {
   debug.info(`reading workspace ${folder}/${relativePath}`);
   async.waterfall([
-    cb => fs.readJsonFromPath(folder, relativePath, cb),
+    cb => fs.readJsonFromPath(folder, relativePath, undefined, undefined, cb),
     (workspace, cb) => cb(validation('workspace', workspace), workspace),
     (workspace, cb) => cb(null, { __original: workspace, __folder: folder }),
     (content, cb) => extractTimebars(content, cb),

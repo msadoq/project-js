@@ -11,11 +11,13 @@ import {
 } from 'react-stockcharts';
 
 import debug from '../../../lib/common/debug/windowDebug';
-import { SquareMarker, TriangleMarker } from './markers';
 
 const logger = debug('view:plot');
 
-const { LineSeries, ScatterSeries, CircleMarker } = series;
+const {
+  LineSeries, ScatterSeries, CircleMarker,
+  SquareMarker, TriangleMarker
+} = series;
 const { HoverTooltip } = tooltip;
 const {
   CrossHairCursor, MouseCoordinateX,
@@ -253,8 +255,8 @@ class PlotView extends PureComponent {
             id={1}
             yExtents={this.yExtents}
           >
-            <XAxis axisAt="bottom" orient="bottom" ticks={5} />
-            <YAxis axisAt="right" orient="right" ticks={5} />
+            <XAxis axisAt="bottom" orient="bottom" ticks={5} zoomEnabled={!disableZoom} />
+            <YAxis axisAt="right" orient="right" ticks={5} zoomEnabled={!disableZoom} />
             <MouseCoordinateX
               at="bottom"
               orient="bottom"

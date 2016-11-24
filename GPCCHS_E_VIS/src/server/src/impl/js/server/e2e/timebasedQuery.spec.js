@@ -18,7 +18,7 @@ const {
 // HSS specific PORT for tests
 describe('timebased query', function () { // eslint-disable-line func-names
   this.slow(500);
-  this.timeout(10000);
+  this.timeout(3000);
 
   const matchSnapshot = getMatchSnapshot(
     this,
@@ -34,7 +34,7 @@ describe('timebased query', function () { // eslint-disable-line func-names
     parameterName = 'TMMGT_BC_VIRTCHAN3',
     start = Date.now() - (60 * 1000),
     end = start + (60 * 1000),
-    assert = false
+    assert = false,
   } = {}) => {
     const self = this;
     return new Promise((resolve) => {
@@ -80,19 +80,23 @@ describe('timebased query', function () { // eslint-disable-line func-names
   // Returns a promise resolved when HSS update his cache
   this.waitHSSUpdate = () => {
     return new Promise(r => {
-      this.resolveWaitHSSUpdate = r;
+      const hw = setInterval(() => {
+        if (this.updateCount) {
+          this.updateCount -= 1;
+          clearInterval(hw);
+          r();
+        }
+      }, 100);
     });
   };
 
   before((done) => {
-    const self = this;
-
     startHSS().then((hss) => {
       this.hss = hss;
 
       hss.on('message', msg => {
         if (msg === 'updated') {
-          this.resolveWaitHSSUpdate && this.resolveWaitHSSUpdate();
+          this.updateCount += 1;
         }
       });
 
@@ -106,6 +110,7 @@ describe('timebased query', function () { // eslint-disable-line func-names
 
   beforeEach((done) => {
     resetDataCallbacks();
+    this.updateCount = 0;
     startWS().then((ws) => {
       this.ws = ws;
       done();
@@ -115,7 +120,6 @@ describe('timebased query', function () { // eslint-disable-line func-names
   afterEach((done) => {
     stopWS(this.ws).then(() => done());
   });
-
 
   it('1 query', () => {
     const now = (new Date(2016, 10, 22)).getTime();
@@ -131,6 +135,7 @@ describe('timebased query', function () { // eslint-disable-line func-names
     const end = start + (4 * 1000);
 
     return this.testTimeBaseQuery({ start, end })
+      .then(() => this.waitHSSUpdate())
       .then(() => this.checkHHSState())
       .then(() =>
         this.testTimeBaseQuery({
@@ -147,6 +152,7 @@ describe('timebased query', function () { // eslint-disable-line func-names
     const end = start + (4 * 1000);
 
     return this.testTimeBaseQuery({ start, end })
+      .then(() => this.waitHSSUpdate())
       .then(() => this.checkHHSState())
       .then(() =>
         this.testTimeBaseQuery({
@@ -163,6 +169,7 @@ describe('timebased query', function () { // eslint-disable-line func-names
     const end = start + (4 * 1000);
 
     return this.testTimeBaseQuery({ start, end })
+      .then(() => this.waitHSSUpdate())
       .then(() => this.checkHHSState())
       .then(() =>
         this.testTimeBaseQuery({
@@ -178,6 +185,7 @@ describe('timebased query', function () { // eslint-disable-line func-names
     const end = start + (4 * 1000);
 
     return this.testTimeBaseQuery({ start, end })
+      .then(() => this.waitHSSUpdate())
       .then(() => this.checkHHSState())
       .then(() =>
         this.testTimeBaseQuery({
@@ -194,12 +202,14 @@ describe('timebased query', function () { // eslint-disable-line func-names
     const end = start + (4 * 1000);
 
     return this.testTimeBaseQuery({ start, end })
+      .then(() => this.waitHSSUpdate())
       .then(() => this.checkHHSState())
       .then(() =>
         this.testTimeBaseQuery({
           start: end + (2 * 1000),
           end: end + (5 * 1000),
         }))
+      .then(() => this.waitHSSUpdate())
       .then(() => this.checkHHSState());
   });
 
@@ -209,16 +219,16 @@ describe('timebased query', function () { // eslint-disable-line func-names
     const end = start + (4 * 1000);
 
     return this.testTimeBaseQuery({ start, end })
+      .then(() => this.waitHSSUpdate())
       .then(() => this.checkHHSState())
       .then(() =>
         this.testTimeBaseQuery({
           start: start - (5 * 1000),
           end: start - (2 * 1000),
         }))
+      .then(() => this.waitHSSUpdate())
       .then(() => this.checkHHSState());
   });
-
-
 
   it('EVENT_TIMEBASED_QUERY_INVALIDATION (all)', () => {
     const now = (new Date(2016, 10, 22)).getTime();

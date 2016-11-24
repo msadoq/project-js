@@ -113,8 +113,16 @@ const onTimebasedArchiveData = (
 
     // if HSS is a forked process, in e2e tests for example
     if (process.send) {
+      // Check if no pending requests
+      const noMorePendingRequests = !connectedDataModel
+        .getAll()
+        .map(data => Object.keys(data.intervals.requested).length)
+        .reduce((acc, l) => acc + l, 0)
+
       // Send 'updated' to parent process
-      process.send('updated');
+      if (noMorePendingRequests) {
+        process.send('updated');
+      }
     }
 
     execution.stop('global');

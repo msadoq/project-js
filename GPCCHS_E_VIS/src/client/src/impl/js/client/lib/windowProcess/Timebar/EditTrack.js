@@ -10,7 +10,7 @@ export default class EditTrack extends Component {
     hideEditTimeline: PropTypes.func.isRequired,
     editTimeline: PropTypes.func.isRequired,
     timeline: PropTypes.object.isRequired,
-    masterId: PropTypes.string.isRequired,
+    masterId: PropTypes.string,
   }
 
   constructor(...args) {
@@ -40,13 +40,10 @@ export default class EditTrack extends Component {
   }
 
   updateFields = () => {
-    const { masterId, timeline } = this.props;
-    const { duration } = this.state;
-
-    this.editTimelineIdEl.value = timeline.id;
-    this.editTimelineMasterEl.checked = masterId === timeline.id;
+    this.editTimelineIdEl.value = this.props.timeline.id;
+    this.editTimelineMasterEl.checked = this.props.masterId === this.props.timeline.id;
     ['years', 'months', 'days', 'years', 'months', 'days', 'hours', 'minutes', 'seconds', 'milliseconds'].forEach((x) => {
-      this[`${x}El`].value = duration[x]();
+      this[`${x}El`].value = this.state.duration[x]();
     });
   }
 

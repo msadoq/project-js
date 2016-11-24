@@ -38,10 +38,10 @@ export default connect(
       sessions: state.sessions,
     };
   }, {
-    updateModeAction: updateMode,
-    updateVisuWindowAction: updateVisuWindow,
-    updatePlayingStateAction: updatePlayingState,
-    updateSpeedAction: updateSpeed,
+    updateMode,
+    updateVisuWindow,
+    updatePlayingState,
+    updateSpeed,
   }
 
 )(props => (props.timebar ? <TimebarWrapper {...props} /> : <SelectTimebarContainer {...props} />));

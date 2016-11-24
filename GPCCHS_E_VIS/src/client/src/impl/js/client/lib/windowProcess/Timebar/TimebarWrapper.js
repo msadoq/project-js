@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import { Col } from 'react-bootstrap';
 import styles from './Timebar.css';
@@ -13,18 +13,17 @@ const logger = debug('Timebar');
 export default class TimebarWrapper extends Component {
 
   static propTypes = {
-    updateVisuWindowAction: React.PropTypes.func.isRequired,
-    updatePlayingStateAction: React.PropTypes.func.isRequired,
-    updateSpeedAction: React.PropTypes.func.isRequired,
-    updateModeAction: React.PropTypes.func.isRequired,
-    visuWindow: React.PropTypes.object.isRequired,
-    slideWindow: React.PropTypes.object.isRequired,
-    timebar: React.PropTypes.object.isRequired,
-    timebarId: React.PropTypes.string.isRequired,
-    focusedPageId: React.PropTypes.string.isRequired,
-    timelines: React.PropTypes.array.isRequired,
-    sessions: React.PropTypes.array.isRequired,
-    currentSessionOffsetMs: React.PropTypes.number
+    updateVisuWindow: PropTypes.func.isRequired,
+    updatePlayingState: PropTypes.func.isRequired,
+    updateSpeed: PropTypes.func.isRequired,
+    updateMode: PropTypes.func.isRequired,
+    visuWindow: PropTypes.object.isRequired,
+    slideWindow: PropTypes.object.isRequired,
+    timebar: PropTypes.object.isRequired,
+    timebarId: PropTypes.string.isRequired,
+    focusedPageId: PropTypes.string.isRequired,
+    timelines: PropTypes.array.isRequired,
+    currentSessionOffsetMs: PropTypes.number
   }
 
   state = {
@@ -102,7 +101,7 @@ export default class TimebarWrapper extends Component {
   }
 
   willUpdateVisuWindow = (timebarId, values) => {
-    const { updateVisuWindowAction } = this.props;
+    const { updateVisuWindow } = this.props;
     const { viewport } = values;
 
     const newValues = values;
@@ -110,27 +109,31 @@ export default class TimebarWrapper extends Component {
       newValues.rulerStart = Math.trunc(viewport.lower);
       newValues.rulerResolution = (viewport.upper - viewport.lower) / this.timebarEl.clientWidth;
     }
-    updateVisuWindowAction(timebarId, newValues);
+    updateVisuWindow(timebarId, newValues);
   }
 
   render() {
     logger.debug('render');
-    const { displayTimesetter, timesetterCursor,
-      timelinesVerticalScroll, resizingWindow } = this.state;
-    let { height } = this.state;
     const {
-      updateVisuWindowAction,
+      updateVisuWindow,
       timelines,
       timebarId,
       visuWindow,
-      updatePlayingStateAction,
-      updateSpeedAction,
+      updatePlayingState,
+      updateSpeed,
       timebar,
       slideWindow,
-      updateModeAction,
+      updateMode,
       currentSessionOffsetMs,
       focusedPageId,
     } = this.props;
+    const {
+      displayTimesetter,
+      timesetterCursor,
+      timelinesVerticalScroll,
+      resizingWindow,
+    } = this.state;
+    let { height } = this.state;
 
     let minHeight;
     if (timelines.length < 3) {
@@ -147,15 +150,17 @@ export default class TimebarWrapper extends Component {
 
     let timesetter;
     if (displayTimesetter) {
-      timesetter = (<Timesetter
-        visuWindow={visuWindow}
-        slideWindow={slideWindow}
-        timebarMode={timebar.mode}
-        onChange={updateVisuWindowAction}
-        timebarId={timebarId}
-        cursor={timesetterCursor || 'all'}
-        onClose={this.toggleTimesetter}
-      />);
+      timesetter = (
+        <Timesetter
+          visuWindow={visuWindow}
+          slideWindow={slideWindow}
+          timebarMode={timebar.mode}
+          onChange={updateVisuWindow}
+          timebarId={timebarId}
+          cursor={timesetterCursor || 'all'}
+          onClose={this.toggleTimesetter}
+        />
+      );
     }
 
     return (
@@ -171,24 +176,24 @@ export default class TimebarWrapper extends Component {
               className={
                 classnames(
                   styles.resizeTimebarContainer,
-                  (resizingWindow ? styles.resizingTimebarContainer : null))
+                  (resizingWindow ? styles.resizingTimebarContainer : null)
+                )
               }
             />
           </div>
         </Col>
         <TimebarControls
           {...this.mapPropsToTimebarViewport()}
-          extUpperBound={timebar.extUpperBound}
           timebarPlayingState={timebar.playingState}
           timebarMode={timebar.mode}
           timebarSpeed={timebar.speed}
           timebarId={timebarId}
           visuWindow={visuWindow}
           slideWindow={slideWindow}
-          updatePlayingState={updatePlayingStateAction}
-          updateSpeed={updateSpeedAction}
+          updatePlayingState={updatePlayingState}
+          updateSpeed={updateSpeed}
           onChange={this.willUpdateVisuWindow}
-          updateMode={updateModeAction}
+          updateMode={updateMode}
           currentSessionOffsetMs={currentSessionOffsetMs}
         />
         <Col xs={3} style={{ height: '100%' }}>
@@ -207,7 +212,7 @@ export default class TimebarWrapper extends Component {
             <Timebar
               toggleTimebarDidMount={this.toggleTimebarDidMount}
               {...this.mapPropsToTimebarViewport()}
-              updatePlayingState={updatePlayingStateAction}
+              updatePlayingState={updatePlayingState}
               playingState={timebar.playingState}
               timebarId={timebarId}
               timebarMode={timebar.mode}

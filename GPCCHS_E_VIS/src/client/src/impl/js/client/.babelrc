@@ -17,6 +17,10 @@
 				"transform-class-properties"
       ]
     },
+    "jest": {
+      "presets": [
+      ]
+    },
     "development": {
       "presets": [
         "react-hmre"

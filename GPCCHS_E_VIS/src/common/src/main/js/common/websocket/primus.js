@@ -1,3 +1,4 @@
+const WebSocket = require('ws');
 (function UMDish(name, context, definition, plugins) {
   context[name] = definition.call(context);
   for (var i = 0; i < plugins.length; i++) {

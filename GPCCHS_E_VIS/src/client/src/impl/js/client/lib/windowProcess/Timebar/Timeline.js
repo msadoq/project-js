@@ -54,8 +54,11 @@ export default class Timeline extends PureComponent {
       timelineId,
       id,
       masterId,
-      offset
+      offset,
+      timelinesLength,
     } = this.props;
+
+    const isMaster = id === masterId;
 
     let formattedOffset;
     if (offset !== 0) {
@@ -68,11 +71,24 @@ export default class Timeline extends PureComponent {
         </span>
       );
     }
+
+    let removeButton;
+    if (!isMaster || timelinesLength === 1) {
+      removeButton = (
+        <button
+          className={styles.deleteButton}
+          title="Remove this track"
+          onClick={this.willUnmountTimeline}
+        >
+          -
+        </button>
+      );
+    }
     return (
       <li
         className={classnames(
           styles.timeline,
-          { [styles.master]: (id === masterId) }
+          { [styles.master]: isMaster }
         )}
         title="Double-click to edit track"
         onDoubleClick={willEditTimeline.bind(null, timelineId, id)}
@@ -82,16 +98,11 @@ export default class Timeline extends PureComponent {
         <span
           className={styles.square}
           style={{
-            background: color || '#31b0d5'
+            background: color || '#31b0d5',
+            right: (isMaster && timelinesLength !== 1) ? '0px' : '16px',
           }}
         />
-        <button
-          className={styles.deleteButton}
-          title="Remove this track"
-          onClick={this.willUnmountTimeline}
-        >
-          -
-        </button>
+        {removeButton}
       </li>
     );
   }

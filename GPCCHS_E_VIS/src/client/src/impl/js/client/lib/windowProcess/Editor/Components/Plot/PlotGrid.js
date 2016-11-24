@@ -25,6 +25,7 @@ class PlotGrid extends React.Component {
       width: PropTypes.number,
       showGrid: PropTypes.bool
     }),
+    axes: PropTypes.array,
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     reset: PropTypes.func,
@@ -49,7 +50,8 @@ class PlotGrid extends React.Component {
       pristine,
       reset,
       submitting,
-      valid
+      valid,
+      axes
     } = this.props;
 
     return (
@@ -81,9 +83,9 @@ class PlotGrid extends React.Component {
             className="form-control input-sm"
             component="select"
           >
-            <option value="time">Time</option>
-            <option value="frequency">Frequency</option>
-            <option value="temperature">Temperature</option>
+            {axes.map((axis, key) => (
+              <option key={key}>{axis.label}</option>
+            ))}
           </Field>
         </HorizontalFormGroup>
 
@@ -93,9 +95,9 @@ class PlotGrid extends React.Component {
             className="form-control input-sm"
             component="select"
           >
-            <option value="time">Time</option>
-            <option value="frequency">Frequency</option>
-            <option value="temperature">Temperature</option>
+            {axes.map((axis, key) => (
+              <option key={key}>{axis.label}</option>
+            ))}
           </Field>
         </HorizontalFormGroup>
 

@@ -16,7 +16,7 @@ const logger = debug('view:plot');
 
 const {
   LineSeries, ScatterSeries, CircleMarker,
-  SquareMarker, TriangleMarker
+  SquareMarker, TriangleMarker, StraightLine
 } = series;
 const { HoverTooltip } = tooltip;
 const {
@@ -215,7 +215,7 @@ class PlotView extends PureComponent {
 
     const { size, data, visuWindow } = this.props;
     const { columns } = data;
-    const { lower, upper } = visuWindow;
+    const { lower, upper, current } = visuWindow;
     const { width, height } = size;
     const {
       tooltipWidth,
@@ -267,6 +267,13 @@ class PlotView extends PureComponent {
               at="right"
               orient="right"
               displayFormat={format('.2f')}
+            />
+            <StraightLine
+              type="vertical"
+              xValue={current}
+              stroke="#0ee61f"
+              strokeWidth={2}
+              opacity={1}
             />
             {this.renderLines()}
           </Chart>

@@ -19,11 +19,7 @@
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "filter": [{
-          "field": "convertedValue",
-          "operator": "!=",
-          "operand": "0"
-        }],
+        "filter": [],
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
         "axisId": "Time"
@@ -33,11 +29,7 @@
         "unit": "V",
         "digits": 5,
         "format": "decimal",
-        "filter": [{
-          "field": "convertedValue",
-          "operator": "!=",
-          "operand": "0"
-        }],
+        "filter": [],
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
         "axisId": "VBat"

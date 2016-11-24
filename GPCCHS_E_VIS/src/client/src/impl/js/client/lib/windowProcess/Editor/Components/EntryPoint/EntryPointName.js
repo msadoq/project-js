@@ -1,52 +1,73 @@
 import React, { PropTypes } from 'react';
 import {
-  Glyphicon,
-  FormGroup,
-  InputGroup,
-  FormControl,
-  Button
+  Form
 } from 'react-bootstrap';
+import { Field, reduxForm } from 'redux-form';
+import {
+  InputField
+} from '../Fields/';
+import {
+  HorizontalFormGroup,
+  ClearSubmitButtons
+} from '../Forms/';
 
-export default class EntryPointName extends React.Component {
+class EntryPointName extends React.Component {
   static propTypes = {
-    name: PropTypes.string.isRequired,
-    handleName: PropTypes.func.isRequired,
-  }
-
-  state = { name: this.props.name };
-
-  handleNameChange = ({ target: { value: name } }) => {
-    this.setState({ name });
+    /* eslint-disable react/no-unused-prop-types */
+    initialValues: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+    }).isRequired,
+    handleSubmit: PropTypes.func,
+    pristine: PropTypes.bool,
+    reset: PropTypes.func,
+    submitting: PropTypes.bool,
+    valid: PropTypes.bool
   }
 
   render() {
-    const { name } = this.state;
-    const { handleName } = this.props;
+    const {
+      handleSubmit,
+      pristine,
+      reset,
+      submitting,
+      valid
+    } = this.props;
 
     return (
-      <FormGroup>
-        <InputGroup>
-          <FormControl
-            autoFocus
+      <Form horizontal onSubmit={handleSubmit}>
+        <HorizontalFormGroup label="Label">
+          <Field
+            name="name"
+            component={InputField}
+            className="form-control input-sm"
             type="text"
-            className="input-sm"
-            value={name}
-            onChange={this.handleNameChange}
           />
-          <InputGroup.Button>
-            <Button
-              onClick={handleName.bind(null, name)}
-              bsSize="small"
-            >
-              <Glyphicon glyph="ok" />
-            </Button>
-          </InputGroup.Button>
-        </InputGroup>
-      </FormGroup>
+        </HorizontalFormGroup>
+
+        <ClearSubmitButtons
+          pristine={pristine}
+          submitting={submitting}
+          reset={reset}
+          valid={valid}
+        />
+      </Form>
     );
   }
 }
 
-/*
+const requiredFields = ['name'];
+const validate = (values = {}) => {
+  const errors = {};
 
-*/
+  requiredFields.forEach((field) => {
+    if (!values[field]) {
+      errors[field] = 'Required';
+    }
+  });
+  return errors;
+};
+
+export default reduxForm({
+  validate,
+  enableReinitialize: true
+})(EntryPointName);

@@ -195,13 +195,7 @@ const validate = (values = {}) => {
   return errors;
 };
 
-const warn = () => {
-  const warnings = {};
-  return warnings;
-};
-
 export default reduxForm({
   validate,
-  warn,
   enableReinitialize: true
 })(PlotAxis);

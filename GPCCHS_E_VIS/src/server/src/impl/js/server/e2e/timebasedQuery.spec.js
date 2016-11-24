@@ -85,6 +85,11 @@ describe('timebased query', function () { // eslint-disable-line func-names
   // Returns a promise resolved when HSS update his cache
   this.waitHSSUpdate = () =>
     new Promise((r) => {
+
+      if (this.noSpecificHSS) {
+        setTimeout(() => r(), 1000);
+      }
+
       const hw = setInterval(() => {
         if (this.updateCount) {
           this.updateCount -= 1;
@@ -96,13 +101,18 @@ describe('timebased query', function () { // eslint-disable-line func-names
 
   before((done) => {
     startHSS().then((hss) => {
-      this.hss = hss;
+      if (!hss) {
+        this.noSpecificHSS = true;
+      }
+      if (hss) {
+        this.hss = hss;
 
-      hss.on('message', (msg) => {
-        if (msg === 'updated') {
-          this.updateCount += 1;
-        }
-      });
+        hss.on('message', (msg) => {
+          if (msg === 'updated') {
+            this.updateCount += 1;
+          }
+        });
+      }
 
       done();
     });

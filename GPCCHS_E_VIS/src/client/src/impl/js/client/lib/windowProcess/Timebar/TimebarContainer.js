@@ -17,13 +17,13 @@ export default connect(
     const timelines = getTimebarTimelinesSelector(state, timebarId);
     const masterTimeline = (timelines[0] && timelines[0].id === timebar.masterId) ?
       timelines[0] : null;
-    if (!masterTimeline) console.log('NO MASTER TIMELINE');
+    if (!masterTimeline) console.log('NO MASTER TIMELINE');  // TODO dispatch error on page
 
     let currentSession;
     if (masterTimeline) {
       currentSession = state.sessions.find(s => (s.id === masterTimeline.sessionId));
     }
-    if (!currentSession) console.log('NO CURRENT SESSION');
+    if (!currentSession) console.log('NO CURRENT SESSION'); // TODO dispatch error on page
 
     const currentSessionOffsetMs = currentSession ? currentSession.offsetWithmachineTime : null;
 

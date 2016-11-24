@@ -13,7 +13,7 @@
     background: #e0e0e0;
     height: calc(100% - 52px);
 }
-.viewport{
+.visuWindow{
     top: 0px;
     position: absolute;
     background: rgba(200, 126, 249,0.3);

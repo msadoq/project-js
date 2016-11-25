@@ -1,4 +1,11 @@
+.root{
+  position: fixed;
+  overflow: hidden;
+  top: 50px;
+}
+
 .editor {
+  height: 100%;
   padding-top: 5px;
   border: 2px solid #CCC;
   background-color: #FFF;
@@ -25,6 +32,16 @@
   }
 }
 
-.content{
-  padding: 10px;
+.contentWrapper{
+  flex-direction: column;
+  display: flex;
+  height: 100%;
+  .content{
+    padding: 10px;
+    height: 100%;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    overflow-y: auto;
+  }
 }

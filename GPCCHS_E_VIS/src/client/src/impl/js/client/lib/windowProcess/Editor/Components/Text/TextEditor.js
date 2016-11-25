@@ -92,7 +92,7 @@ export default class Editor extends Component {
     } = this.props;
 
     return (
-      <div className={styles.editor}>
+      <div className={styles.contentWrapper}>
         <Navbar
           currentDisplay={currentDisplay}
           items={['Entry Points', 'Text', 'Miscs']}

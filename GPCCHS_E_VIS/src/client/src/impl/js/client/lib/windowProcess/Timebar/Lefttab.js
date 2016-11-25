@@ -12,7 +12,7 @@ export default class Lefttab extends Component {
   static propTypes = {
     addAndMountTimeline: PropTypes.func.isRequired,
     unmountTimeline: PropTypes.func.isRequired,
-    onVerticalScroll: PropTypes.func.isRequired,
+    onTimelinesVerticalScroll: PropTypes.func.isRequired,
     updateId: PropTypes.func.isRequired,
     updateMasterId: PropTypes.func.isRequired,
     updateOffset: PropTypes.func.isRequired,
@@ -41,7 +41,7 @@ export default class Lefttab extends Component {
   }
 
   onWheel = (e) => {
-    this.props.onVerticalScroll(e, e.currentTarget);
+    this.props.onTimelinesVerticalScroll(e, e.currentTarget);
   }
 
   setColor(color) {
@@ -53,9 +53,8 @@ export default class Lefttab extends Component {
   }
 
   willUnmountTimeline = (timebarId, timelineId) => {
-    const { color } = this.state;
     this.props.unmountTimeline(timebarId, timelineId);
-    this.setColor(color);
+    this.setColor(this.state.color);
   }
 
   toggleAddTimeline = (e) => {
@@ -100,7 +99,7 @@ export default class Lefttab extends Component {
       timebarId,
       updateMasterId,
       masterId,
-      timelines
+      timelines,
     } = this.props;
     const { editingId } = this.state;
     const timeline = timelines.find(x => x.timelineId === timelineId);
@@ -177,34 +176,35 @@ export default class Lefttab extends Component {
     }
 
     return (
-
       <div className={styles.leftTab}>
-        <button
-          className={classnames('btn', 'btn-xs', 'btn-control', styles.btnClose)}
-          title="detach timebar and choose another one"
-          onClick={this.detach}
-        >
-          x
-        </button>
-        <h5 className={styles.timebarName}>
-          <b>{timebarName}</b>
-        </h5>
-        {editTrack}
-        {addTrack}
-        <Button
-          bsSize="small"
-          className={styles.addTimelineButton}
-          title="Add track"
-          onClick={this.toggleAddTimeline}
-          bsStyle="info"
-        >
-          +
-        </Button>
+        <div className={styles.leftTabTopPanel}>
+          <button
+            className={classnames('btn', 'btn-xs', 'btn-control', styles.btnClose)}
+            title="detach timebar and choose another one"
+            onClick={this.detach}
+          >
+            x
+          </button>
+          <h5 className={styles.timebarName}>
+            <b>{timebarName}</b>
+          </h5>
+          {editTrack}
+          {addTrack}
+          <Button
+            bsSize="small"
+            className={styles.addTimelineButton}
+            title="Add track"
+            onClick={this.toggleAddTimeline}
+            bsStyle="info"
+          >
+            +
+          </Button>
+        </div>
         {noTrack}
         <ul
           ref={(el) => { this.timelinesEl = el; }}
           className={styles.timelineUl}
-          onScroll={this.props.onVerticalScroll}
+          onScroll={this.props.onTimelinesVerticalScroll}
           onWheel={this.onWheel}
         >
           { timelines.map((v, i) =>

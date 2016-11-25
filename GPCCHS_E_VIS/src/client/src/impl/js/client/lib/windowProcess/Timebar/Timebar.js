@@ -24,7 +24,6 @@ const keys = {
 export default class Timebar extends Component {
 
   static propTypes = {
-    toggleTimebarDidMount: PropTypes.func.isRequired,
     updatePlayingState: PropTypes.func.isRequired,
     displayTimesetter: PropTypes.func.isRequired,
     onVerticalScroll: PropTypes.func.isRequired,
@@ -43,7 +42,6 @@ export default class Timebar extends Component {
 
   componentDidMount() {
     document.addEventListener('keydown', this.onShortcut);
-    this.props.toggleTimebarDidMount();
   }
 
   componentDidUpdate() {
@@ -817,10 +815,6 @@ export default class Timebar extends Component {
       formatedFullDate,
     } = state;
 
-    if (!viewport) {
-      return (<div />);
-    }
-
     const lower = state.lower || visuWindow.lower;
     const upper = state.upper || visuWindow.upper;
     const current = state.current || visuWindow.current;
@@ -889,7 +883,11 @@ export default class Timebar extends Component {
         ref={(el) => { this.el = el; }}
         onMouseMove={this.updateCursorTime}
       >
-        {formatedFullDate ? <span className={styles.formatedFullDate}>{formatedFullDate}</span> : ''}
+        {
+          formatedFullDate ?
+            <span className={styles.formatedFullDate}>{formatedFullDate}</span>
+            : ''
+          }
         <div
           className={styles.viewportContainer}
           onWheel={this.onWheel}
@@ -948,7 +946,7 @@ export default class Timebar extends Component {
 
             {
               /*
-              The 3 main cursors formatted dates
+              The 3 main cursors's formatted dates
               */
             }
             <span

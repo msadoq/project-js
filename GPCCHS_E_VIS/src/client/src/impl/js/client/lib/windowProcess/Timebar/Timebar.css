@@ -1,9 +1,10 @@
 @import '../style/variables.css';
 
 .viewportWrapper{
-    padding-top: 28px;
-    overflow: hidden;
+    padding-top: 16px;
+    position: relative;
     height: 100%;
+    overflow: hidden;
 }
 .viewportContainer{
     min-height: 55px;
@@ -31,7 +32,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: -15px;
+  top: -20px;
 }
 .lower, .upper, .current, .extBound{
     cursor: col-resize;

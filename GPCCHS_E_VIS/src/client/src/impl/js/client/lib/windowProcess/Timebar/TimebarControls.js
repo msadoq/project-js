@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { Col, Row } from 'react-bootstrap';
 import globalConstants from 'common/constants';
 import compute from '../../mainProcess/play';
 import TimebarControlsLeft from './TimebarControlsLeft';
@@ -16,7 +15,6 @@ export default class TimebarControls extends Component {
     timebarSpeed: PropTypes.number.isRequired,
     visuWindow: PropTypes.object.isRequired,
     slideWindow: PropTypes.object.isRequired,
-    viewport: PropTypes.object,
     updatePlayingState: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
   }
@@ -87,28 +85,18 @@ export default class TimebarControls extends Component {
   }
 
   render() {
-    if (!this.props.viewport) {
-      return (<div />);
-    }
-
     return (
       <div>
-        <Col xsOffset={3} xs={9}>
-          <Row>
-            <Col xs={12}>
-              <TimebarControlsLeft
-                {...this.props}
-                tick={this.tick}
-                togglePlayingState={this.togglePlayingState}
-              />
-              <TimebarControlsRight
-                {...this.props}
-                tick={this.tick}
-                togglePlayingState={this.togglePlayingState}
-              />
-            </Col>
-          </Row>
-        </Col>
+        <TimebarControlsLeft
+          {...this.props}
+          tick={this.tick}
+          togglePlayingState={this.togglePlayingState}
+        />
+        <TimebarControlsRight
+          {...this.props}
+          tick={this.tick}
+          togglePlayingState={this.togglePlayingState}
+        />
       </div>
     );
   }

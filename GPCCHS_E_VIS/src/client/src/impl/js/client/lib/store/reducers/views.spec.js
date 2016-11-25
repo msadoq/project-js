@@ -222,7 +222,7 @@ describe('store:views', () => {
           width: 50
         },
         entryPoints: [{ name: 'ATT_BC_REVTCOUNT4' }],
-        axes: [{ axisx: '1' }, { axisx: '2' }],
+        axes: { axis1: { label: '1' }, axis2: { label: '2' } },
         grids: [{ grid: '1' }, { grid: '2' }],
         title: 'Plotview 4 parameters',
         titleStyle: { bold: false },
@@ -255,11 +255,6 @@ describe('store:views', () => {
       };
       const state = reducer(stateViews, actions.updateEntryPoint('plot1', 0, newEp));
       state.plot1.configuration.entryPoints[0].should.deep.equal(newEp);
-    });
-    it('Axis', () => {
-      const axis = { axisx: '3' };
-      const state = reducer(stateViews, actions.updateAxis('plot1', 1, axis));
-      state.plot1.configuration.axes[1].should.deep.equal(axis);
     });
     it('Grid', () => {
       const grid = { grid: '3' };
@@ -335,12 +330,6 @@ describe('store:views', () => {
           },
         }
       });
-    });
-    it('axis', () => {
-      const axis = { axisx: '3' };
-      const state = reducer(stateViews, actions.addAxis('plot1', axis));
-      state.plot1.configuration.axes.should.deep.equal(
-        [{ axisx: '1' }, { axisx: '2' }, { axisx: '3' }]);
     });
     it('entry point', () => {
       const ep = { name: 'new ep' };
@@ -422,10 +411,6 @@ describe('store:views', () => {
       };
       removeElementInArray(stateArray, action, 'oName').should.equal(stateArray);
     });
-    it('axis', () => {
-      const state = reducer(stateViews, actions.removeAxis('plot1', 0));
-      state.plot1.configuration.axes.should.deep.equal([{ axisx: '2' }]);
-    });
     it('entry point', () => {
       const state = reducer(stateViews, actions.removeEntryPoint('plot1', 0));
       state.plot1.configuration.entryPoints.should.deep.equal([]);
@@ -445,6 +430,26 @@ describe('store:views', () => {
     it('procedure', () => {
       const state = reducer(stateViews, actions.removeProcedure('plot1', 0));
       state.plot1.configuration.procedures.should.deep.equal([{ p: '2' }]);
+    });
+  });
+  describe('axis', () => {
+    it('remove axis', () => {
+      const state = reducer(stateViews, actions.removeAxis('plot1', 'axis2'));
+      state.plot1.configuration.axes.should.deep.equal({ axis1: { label: '1' } });
+    });
+    it('add axis', () => {
+      const axis = { label: '3' };
+      const state = reducer(stateViews, actions.addAxis('plot1', axis));
+      const keys = Object.keys(state.plot1.configuration.axes);
+      keys.should.have.length(3);
+      state.plot1.configuration.axes[keys[0]].should.deep.equal({ label: '1' });
+      state.plot1.configuration.axes[keys[1]].should.deep.equal({ label: '2' });
+      state.plot1.configuration.axes[keys[2]].should.deep.equal({ label: '3' });
+    });
+    it('update axis', () => {
+      const axis = { label: '3' };
+      const state = reducer(stateViews, actions.updateAxis('plot1', 'axis1', axis));
+      state.plot1.configuration.axes.axis1.should.deep.equal(axis);
     });
   });
 });

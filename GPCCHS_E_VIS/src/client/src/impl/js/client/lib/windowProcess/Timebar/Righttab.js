@@ -48,6 +48,7 @@ class Righttab extends Component {
       newValues.rulerStart = Math.trunc(viewport.lower);
       newValues.rulerResolution = (viewport.upper - viewport.lower)
         / (size.width - (bootstrapPaddings * 2));
+      delete newValues.viewport;
     }
     updateVisuWindow(timebarId, newValues);
   }
@@ -94,6 +95,7 @@ class Righttab extends Component {
     return (
       <Col xs={9} style={{ height: '100%' }}>
         <TimebarControls
+          viewport={this.formatViewportDimensions()}
           timebarPlayingState={timebar.playingState}
           timebarMode={timebar.mode}
           timebarSpeed={timebar.speed}

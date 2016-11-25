@@ -9,14 +9,15 @@ const currentUpperMargin = 1 / 100;
 export default class TimebarControls extends Component {
 
   static propTypes = {
-    timebarId: PropTypes.string.isRequired,
-    timebarPlayingState: PropTypes.string.isRequired,
-    timebarMode: PropTypes.string.isRequired,
-    timebarSpeed: PropTypes.number.isRequired,
-    visuWindow: PropTypes.object.isRequired,
-    slideWindow: PropTypes.object.isRequired,
     updatePlayingState: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
+    slideWindow: PropTypes.object.isRequired,
+    visuWindow: PropTypes.object.isRequired,
+    viewport: PropTypes.object.isRequired,
+    timebarPlayingState: PropTypes.string.isRequired,
+    timebarMode: PropTypes.string.isRequired,
+    timebarId: PropTypes.string.isRequired,
+    timebarSpeed: PropTypes.number.isRequired,
   }
 
   componentDidUpdate() {
@@ -52,8 +53,9 @@ export default class TimebarControls extends Component {
           timebarSpeed,
           timebarMode,
           slideWindow,
-          visuWindow
+          visuWindow,
         } = this.props;
+        let { viewport } = this.props;
         const { lower, upper, current } = visuWindow;
 
         const newCurrent = current + (globalConstants.HSC_PLAY_FREQUENCY * timebarSpeed);
@@ -66,6 +68,19 @@ export default class TimebarControls extends Component {
           timebarMode,
           currentUpperMargin
         );
+
+        /*
+          Moving viewport if visuWindow is to far right
+        */
+        const msWidth = viewport.upper - viewport.lower;
+        if (cursors.visuWindow.upper > viewport.upper - (msWidth / 10)) {
+          const offsetMs = cursors.visuWindow.upper - (viewport.upper - (msWidth / 10));
+          viewport = {
+            lower: viewport.lower + offsetMs,
+            upper: viewport.upper + offsetMs,
+          };
+        }
+
         onChange(
           timebarId,
           {
@@ -76,6 +91,7 @@ export default class TimebarControls extends Component {
               lower: cursors.slideWindow.lower,
               upper: cursors.slideWindow.upper,
             },
+            viewport,
           }
         );
         this.tick();

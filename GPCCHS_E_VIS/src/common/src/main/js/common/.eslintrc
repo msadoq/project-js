@@ -19,6 +19,10 @@
         "exports": "always-multiline",
         "functions": "never"
       }
-    ]
+    ],
+    "max-statements-per-line": ["off", { "max": 1 }],
+    "complexity": ["off", 11],
+    "max-statements": ["off", 10],
+    "max-depth": ["off", 4]
   }
 }

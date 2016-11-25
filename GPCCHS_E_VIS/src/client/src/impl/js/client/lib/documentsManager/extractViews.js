@@ -9,6 +9,8 @@ const fs = require('../common/fs');
 const validation = require('./validation');
 const vivl = require('../../VIVL/main');
 const { dirname } = require('path');
+const addUuidToAxes = require('../dataManager/structures/range/addUuidToAxes');
+const globalConstants = require('common/constants');
 
 const supportedViewTypes = [
   'PlotView',
@@ -58,6 +60,14 @@ function readViews(viewsToRead, cb) {
         if (validationError) {
           return fn(validationError);
         }
+        // Add uuid on axes
+        const structureType = vivl(viewContent.type, 'structureType')();
+        switch (structureType) { // eslint-disable-line default-case
+          case globalConstants.DATASTRUCTURETYPE_RANGE: {
+            viewContent = addUuidToAxes(viewContent); // eslint-disable-line no-param-reassign
+          }
+        }
+
         // eslint-disable-next-line no-param-reassign
         list = list.concat(Object.assign({
           type: viewContent.type,

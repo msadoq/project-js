@@ -36,7 +36,9 @@ describe('documents/lib', () => {
         }],
       };
       content = Object.assign({}, { __original: content, __folder: '.' });
-      extractTimebars(content, (err, val) => { content = val; });
+      extractTimebars(content, (err, val) => {
+        content = val;
+      });
     });
     it('workspace valid', () => {
       extractTimelines(content, (err, val) => {

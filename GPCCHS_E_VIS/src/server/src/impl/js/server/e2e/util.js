@@ -40,7 +40,9 @@ const addDataCallback = (cb) => {
 };
 
 // Reset onDataCallbacks array
-const resetDataCallbacks = () => { onDataCallbacks = []; };
+const resetDataCallbacks = () => {
+  onDataCallbacks = [];
+};
 
 // Start HSS
 const startHSS = () => { // eslint-disable-line arrow-body-style

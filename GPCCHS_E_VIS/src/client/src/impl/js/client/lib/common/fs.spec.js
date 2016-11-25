@@ -11,11 +11,10 @@ const {
 const { tmpdir } = require('os');
 
 const fs = require('./fs');
-const { join } = require('path');
-const parameters = require('../common/parameters');
+// const { join } = require('path');
+// const parameters = require('../common/parameters');
 
-const root = parameters.FMD_ROOT;
-
+// const root = parameters.FMD_ROOT;
 
 describe('common/fs', () => {
   const folder = fs.resolve(tmpdir(), '/test');

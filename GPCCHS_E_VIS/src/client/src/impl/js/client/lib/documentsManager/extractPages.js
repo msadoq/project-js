@@ -37,7 +37,7 @@ function findWindowPagesAndReplaceWithUuid(window, timebars) {
 }
 
 
-export function readPages(folder, pagesToRead, cb) {
+function readPages(folder, pagesToRead, cb) {
   async.reduce(pagesToRead, [], (list, identity, fn) => {
     fs.readJsonFromPath(folder, identity.path, identity.oId, identity.absolutePath,
       (err, pageContent) => {

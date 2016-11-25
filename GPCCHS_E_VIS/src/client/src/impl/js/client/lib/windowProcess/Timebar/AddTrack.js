@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { FormGroup, Form, Button } from 'react-bootstrap';
 import styles from './Lefttab.css';
 import ColorPicker from '../Editor/Components/ColorPicker';
@@ -7,11 +7,11 @@ import ColorPicker from '../Editor/Components/ColorPicker';
 export default class AddTrack extends Component {
 
   static propTypes = {
-    color: React.PropTypes.string.isRequired,
-    timelines: React.PropTypes.array.isRequired,
-    sessions: React.PropTypes.array.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    toggleAddTimeline: React.PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    toggleAddTimeline: PropTypes.func.isRequired,
+    timelines: PropTypes.array.isRequired,
+    sessions: PropTypes.array.isRequired,
+    color: PropTypes.string.isRequired,
   }
 
   state = {
@@ -28,19 +28,21 @@ export default class AddTrack extends Component {
   }
 
   willUnmount = (e) => {
-    const { toggleAddTimeline } = this.props;
-    if (e.keyCode === 27) toggleAddTimeline();
+    e.preventDefault();
+    // Hit escape
+    if (e && e.keyCode && e.keyCode === 27) {
+      this.props.toggleAddTimeline();
+    }
   }
 
   willAddTimeline = (e) => {
     e.preventDefault();
-    const { timelines, onChange } = this.props;
     if (!this.newTimelineIdEl.value) {
       this.setState({ errorMessage: 'Please enter an id for the new track' });
-    } else if (timelines.find(t => t.id === this.newTimelineIdEl.value)) {
+    } else if (this.props.timelines.find(t => t.id === this.newTimelineIdEl.value)) {
       this.setState({ errorMessage: 'This id is already taken' });
     } else {
-      onChange(
+      this.props.onChange(
         this.newTimelineKindEl.value,
         this.newTimelineIdEl.value,
         this.state.color,
@@ -65,7 +67,11 @@ export default class AddTrack extends Component {
       >
         <b>Add a track :</b>
         <br /><br />
-        {errorMessage ? <p className="text-danger" style={{ fontSize: '1em' }}>{errorMessage}</p> : null}
+        {
+          errorMessage ?
+            <p className="text-danger" style={{ fontSize: '1em' }}>{errorMessage}</p>
+            : null
+        }
         <FormGroup className={styles.formGroup}>
           <b className={styles.labelFormControl}>Kind</b>
           <select
@@ -98,19 +104,20 @@ export default class AddTrack extends Component {
             { sessions.map((v, i) => <option key={i} value={v.id}>{v.name}</option>) }
           </select>
         </FormGroup>
-        <input
-          type="submit"
-          autoFocus
-          value="Add track"
-          className={classnames(styles.addTrackButton, 'btn-sm', 'btn-primary', 'col-md-offset-4')}
-        />
-        <hr />
+        <FormGroup className={styles.formGroup}>
+          <b className={styles.labelFormControl}>&nbsp;</b>
+          <input
+            type="submit"
+            autoFocus
+            value="Add track"
+            className={classnames(styles.addTrackButton, 'btn-md', 'btn-primary')}
+          />
+        </FormGroup>
         <Button
           bsSize="small"
-          className={styles.addTimelineButton}
+          className={styles.hideAddTimelineButton}
           onClick={toggleAddTimeline}
           bsStyle="default"
-          style={{ bottom: '5px', top: 'auto', left: '5px', right: 'auto', padding: '2px 8px' }}
         >
           -
         </Button>

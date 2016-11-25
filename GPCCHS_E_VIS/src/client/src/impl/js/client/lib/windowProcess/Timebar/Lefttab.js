@@ -1,6 +1,6 @@
 import { difference } from 'lodash';
 import classnames from 'classnames';
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
 import { schemeCategory20b } from 'd3-scale';
 import Timeline from './Timeline';
@@ -10,20 +10,20 @@ import styles from './Lefttab.css';
 
 export default class Lefttab extends Component {
   static propTypes = {
-    timelines: React.PropTypes.array.isRequired,
-    sessions: React.PropTypes.array.isRequired,
-    timebarId: React.PropTypes.string.isRequired,
-    timebarName: React.PropTypes.string.isRequired,
-    focusedPageId: React.PropTypes.string.isRequired,
-    masterId: React.PropTypes.string,
-    addAndMountTimeline: React.PropTypes.func.isRequired,
-    unmountTimeline: React.PropTypes.func.isRequired,
-    onVerticalScroll: React.PropTypes.func.isRequired,
-    updateTimelineId: React.PropTypes.func.isRequired,
-    updateMasterId: React.PropTypes.func.isRequired,
-    updateOffset: React.PropTypes.func.isRequired,
-    updateTimebarId: React.PropTypes.func.isRequired,
-    verticalScroll: React.PropTypes.number.isRequired,
+    addAndMountTimeline: PropTypes.func.isRequired,
+    unmountTimeline: PropTypes.func.isRequired,
+    onTimelinesVerticalScroll: PropTypes.func.isRequired,
+    updateId: PropTypes.func.isRequired,
+    updateMasterId: PropTypes.func.isRequired,
+    updateOffset: PropTypes.func.isRequired,
+    updateTimebarId: PropTypes.func.isRequired,
+    timelines: PropTypes.array.isRequired,
+    sessions: PropTypes.array.isRequired,
+    timebarId: PropTypes.string.isRequired,
+    timebarName: PropTypes.string.isRequired,
+    focusedPageId: PropTypes.string.isRequired,
+    masterId: PropTypes.string,
+    verticalScroll: PropTypes.number.isRequired,
   }
 
   constructor(...args) {
@@ -32,7 +32,7 @@ export default class Lefttab extends Component {
       willAdd: false,
       willEdit: false,
       color: schemeCategory20b[this.props.timelines.length % 20],
-      errorMessage: null
+      errorMessage: null,
     };
   }
 
@@ -41,39 +41,35 @@ export default class Lefttab extends Component {
   }
 
   onWheel = (e) => {
-    this.props.onVerticalScroll(e, e.currentTarget);
+    this.props.onTimelinesVerticalScroll(e, e.currentTarget);
   }
 
   setColor(color) {
-    const { timelines } = this.props;
-    const availableColors = difference(schemeCategory20b, timelines
+    const availableColors = difference(schemeCategory20b, this.props.timelines
       .map(x => x.color).concat(color));
     this.setState({
-      color: availableColors[0] || schemeCategory20b[(timelines.length + 1) % 20]
+      color: availableColors[0] || schemeCategory20b[(this.props.timelines.length + 1) % 20]
     });
   }
 
-  unmountTimelineAction = (timebarId, timelineId) => {
-    const { color } = this.state;
+  willUnmountTimeline = (timebarId, timelineId) => {
     this.props.unmountTimeline(timebarId, timelineId);
-    this.setColor(color);
+    this.setColor(this.state.color);
   }
 
   toggleAddTimeline = (e) => {
     if (e) e.preventDefault();
-    const { willAdd } = this.state;
-    this.setState({ willAdd: !willAdd });
+    this.setState({ willAdd: !this.state.willAdd });
   }
 
   willAddTimeline = (kind, id, color, sessionId) => {
-    const { timebarId } = this.props;
     this.props.addAndMountTimeline(
-      timebarId,
+      this.props.timebarId,
       {
         kind,
         id,
         sessionId,
-        color
+        color,
       }
     );
     this.toggleAddTimeline();
@@ -84,7 +80,7 @@ export default class Lefttab extends Component {
     this.setState({
       willAdd: false,
       willEdit: false,
-      editingId: null
+      editingId: null,
     });
   }
 
@@ -92,29 +88,39 @@ export default class Lefttab extends Component {
     this.setState({
       willAdd: false,
       willEdit: true,
-      editingId: id
+      editingId: id,
     });
   }
 
   editTimeline = (timelineId, id, offset, master) => {
-    const { updateOffset, updateTimelineId, timebarId,
-      updateMasterId, masterId, timelines } = this.props;
-    const timeline = timelines.find(x => x.timelineId === timelineId);
+    const {
+      updateOffset,
+      updateId,
+      timebarId,
+      updateMasterId,
+      masterId,
+      timelines,
+    } = this.props;
     const { editingId } = this.state;
+    const timeline = timelines.find(x => x.timelineId === timelineId);
 
-    if (timeline.id !== id) updateTimelineId(timelineId, id);
+    if (timeline.id !== id) updateId(timelineId, id);
 
     if (master && masterId !== id) {
       updateMasterId(timebarId, editingId);
       timelines.forEach((t) => {
-        if (t.timelineId === timelineId) return;
+        if (t.timelineId === timelineId) {
+          return;
+        }
         updateOffset(t.timelineId, t.offset - offset);
       });
       updateOffset(timelineId, 0);
     } else if (timeline.offset !== offset) {
       if ((masterId === timelineId) || (master && masterId !== timelineId)) {
         timelines.forEach((t) => {
-          if (t.timelineId === timelineId) return;
+          if (t.timelineId === timelineId) {
+            return;
+          }
           updateOffset(t.timelineId, t.offset - offset);
         });
         updateOffset(timelineId, 0);
@@ -125,18 +131,17 @@ export default class Lefttab extends Component {
 
     this.setState({
       willAdd: false,
-      willEdit: false
+      willEdit: false,
     });
   }
 
   detach = (e) => {
     e.preventDefault();
-    const { updateTimebarId, focusedPageId } = this.props;
-    updateTimebarId(focusedPageId, null);
+    this.props.updateTimebarId(this.props.focusedPageId, null);
   }
 
   render() {
-    const { timelines, masterId, sessions, timebarName } = this.props;
+    const { timelines, masterId, sessions, timebarName, timebarId } = this.props;
     const { color, willAdd, willEdit, editingId } = this.state;
 
     let noTrack;
@@ -147,53 +152,59 @@ export default class Lefttab extends Component {
     let editTrack;
     const currentlyEditingTimeline = timelines.find(x => x.id === editingId);
     if (willEdit && currentlyEditingTimeline) {
-      editTrack = (<EditTrack
-        timeline={currentlyEditingTimeline}
-        masterId={masterId}
-        hideEditTimeline={this.hideEditTimeline}
-        editTimeline={this.editTimeline}
-      />);
+      editTrack = (
+        <EditTrack
+          timeline={currentlyEditingTimeline}
+          masterId={masterId}
+          hideEditTimeline={this.hideEditTimeline}
+          editTimeline={this.editTimeline}
+        />
+      );
     }
 
     let addTrack;
     if (willAdd) {
-      addTrack = (<AddTrack
-        timelines={timelines}
-        color={color}
-        sessions={sessions}
-        onChange={this.willAddTimeline}
-        toggleAddTimeline={this.toggleAddTimeline}
-      />);
+      addTrack = (
+        <AddTrack
+          timelines={timelines}
+          color={color}
+          sessions={sessions}
+          onChange={this.willAddTimeline}
+          toggleAddTimeline={this.toggleAddTimeline}
+        />
+      );
     }
 
     return (
-
       <div className={styles.leftTab}>
-        <button
-          className={classnames('btn', 'btn-xs', 'btn-control', styles.btnClose)}
-          title="detach timebar and choose another one"
-          onClick={this.detach}
-        >x</button>
-        <h5 className={styles.timebarName}>
-          <b>{timebarName}</b>
-        </h5>
-        {editTrack}
-        {addTrack}
-        <Button
-          bsSize="small"
-          className={styles.addTimelineButton}
-          ref={(el) => { this.toggleAddTimelineButtonEl = el; }}
-          title="Add track"
-          onClick={this.toggleAddTimeline}
-          bsStyle="info"
-        >
-          +
-        </Button>
+        <div className={styles.leftTabTopPanel}>
+          <button
+            className={classnames('btn', 'btn-xs', 'btn-control', styles.btnClose)}
+            title="detach timebar and choose another one"
+            onClick={this.detach}
+          >
+            x
+          </button>
+          <h5 className={styles.timebarName}>
+            <b>{timebarName}</b>
+          </h5>
+          {editTrack}
+          {addTrack}
+          <Button
+            bsSize="small"
+            className={styles.addTimelineButton}
+            title="Add track"
+            onClick={this.toggleAddTimeline}
+            bsStyle="info"
+          >
+            +
+          </Button>
+        </div>
         {noTrack}
         <ul
           ref={(el) => { this.timelinesEl = el; }}
           className={styles.timelineUl}
-          onScroll={this.props.onVerticalScroll}
+          onScroll={this.props.onTimelinesVerticalScroll}
           onWheel={this.onWheel}
         >
           { timelines.map((v, i) =>
@@ -201,13 +212,13 @@ export default class Lefttab extends Component {
               key={i}
               offset={v.offset}
               timelinesLength={timelines.length}
-              timebarId={this.props.timebarId}
+              timebarId={timebarId}
               id={v.id}
               timelineId={v.timelineId}
               color={v.color}
               masterId={masterId}
               willEditTimeline={this.willEditTimeline}
-              unmountTimeline={this.unmountTimelineAction}
+              unmountTimeline={this.willUnmountTimeline}
             />
           )}
         </ul>

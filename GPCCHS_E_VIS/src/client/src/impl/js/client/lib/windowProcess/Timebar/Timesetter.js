@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import styles from './Timesetter.css';
 import TimesetterFields from './TimesetterFields';
@@ -6,13 +6,13 @@ import TimesetterFields from './TimesetterFields';
 export default class Timesetter extends Component {
 
   static propTypes = {
-    visuWindow: React.PropTypes.object.isRequired,
-    slideWindow: React.PropTypes.object.isRequired,
-    timebarMode: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    onClose: React.PropTypes.func.isRequired,
-    cursor: React.PropTypes.string.isRequired,
-    timebarId: React.PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+    visuWindow: PropTypes.object.isRequired,
+    slideWindow: PropTypes.object.isRequired,
+    timebarMode: PropTypes.string.isRequired,
+    cursor: PropTypes.string.isRequired,
+    timebarId: PropTypes.string.isRequired,
   }
 
   state = {
@@ -28,8 +28,7 @@ export default class Timesetter extends Component {
   }
 
   onKeyUp = (e) => {
-    const { onClose } = this.props;
-    if (e.keyCode === 27) onClose();
+    if (e.keyCode === 27) this.props.onClose();
   }
 
   onChangeAction = (lower, upper, current, slideLower, slideUpper, cursor) => {
@@ -76,6 +75,7 @@ export default class Timesetter extends Component {
     }
 
     this.setState({ errorMessages });
+
     if (!errorMessages.length) {
       onChange(
         timebarId,
@@ -98,9 +98,24 @@ export default class Timesetter extends Component {
 
     return (
       <div className={styles.TimesetterContainer}>
-        <h3 className="text-center">Manual setter</h3>
+        <h3 className="text-center">
+          Manual setter
+        </h3>
+
         {errorMessages.map(x => <p className={classnames('text-danger', styles.errorMessage)}>{x}</p>)}
-        <button className={classnames('btn-sm', 'btn', 'btn-danger', styles.buttonClose)} onClick={onClose}>x</button>
+
+        <button
+          className={classnames(
+            'btn-sm',
+            'btn',
+            'btn-danger',
+            styles.buttonClose
+          )}
+          onClick={onClose}
+        >
+          x
+        </button>
+
         {
           ['slideLower', 'lower', 'current', 'upper', 'slideUpper'].map((x, i) => {
             let ms;
@@ -113,17 +128,21 @@ export default class Timesetter extends Component {
             }
 
             let disabled = cursor !== 'all';
-            if (x === cursor) disabled = false;
+            if (x === cursor) {
+              disabled = false;
+            }
 
-            return (<TimesetterFields
-              key={i}
-              value={x}
-              disabled={disabled}
-              ms={ms}
-              visuWindow={visuWindow}
-              slideWindow={slideWindow}
-              onChange={this.onChangeAction}
-            />);
+            return (
+              <TimesetterFields
+                key={i}
+                value={x}
+                disabled={disabled}
+                ms={ms}
+                visuWindow={visuWindow}
+                slideWindow={slideWindow}
+                onChange={this.onChangeAction}
+              />
+            );
           })
         }
       </div>

@@ -117,12 +117,18 @@ describe('controllers/client/onCacheCleanup', () => {
 
   it('not all intervals expired', () => {
     // init test
-    const expiredRequests = {
-      [remoteId11]: { intervals: [interval111] },
-      [remoteId21]: { intervals: [interval212] },
+    const dataMap = {
+      [remoteId11]: { localIds: { localId: { expectedInterval: interval112 } } },
+      [remoteId21]: { localIds: { localId: { expectedInterval: interval211 } } },
+      [remoteId22]: {
+        localIds: {
+          localId: { expectedInterval: interval221 },
+          localId2: { expectedInterval: interval222 },
+        },
+      },
     };
     // launch test
-    cacheCleanup(zmqEmulator, expiredRequests);
+    cacheCleanup(zmqEmulator, dataMap);
     // check connectedData model
     const connectedData = connectedDataModel.find();
     connectedData.should.have.lengthOf(3);
@@ -202,12 +208,17 @@ describe('controllers/client/onCacheCleanup', () => {
 
   it('all intervals expired', () => {
     // init test
-    const expiredRequests = {
-      [remoteId11]: { intervals: [interval111] },
-      [remoteId21]: { intervals: [interval211, interval212] },
+    const dataMap = {
+      [remoteId11]: { localIds: { localId: { expectedInterval: interval112 } } },
+      [remoteId22]: {
+        localIds: {
+          localId: { expectedInterval: interval221 },
+          localId2: { expectedInterval: interval222 },
+        },
+      },
     };
     // launch test
-    cacheCleanup(zmqEmulator, expiredRequests);
+    cacheCleanup(zmqEmulator, dataMap);
     // check connectedData model
     const connectedData = connectedDataModel.find();
     connectedData.should.have.lengthOf(2);
@@ -273,13 +284,11 @@ describe('controllers/client/onCacheCleanup', () => {
 
   it('subscription no longer needed', () => {
     // init test
-    const expiredRequests = {
-      [remoteId11]: { intervals: [interval111] },
-      [remoteId21]: { intervals: [interval211, interval212] },
-      [remoteId22]: { intervals: [interval221, interval222] },
+    const dataMap = {
+      [remoteId11]: { localIds: { localId: { expectedInterval: interval112 } } },
     };
     // launch test
-    cacheCleanup(zmqEmulator, expiredRequests);
+    cacheCleanup(zmqEmulator, dataMap);
     // check connectedData model
     const connectedData = connectedDataModel.find();
     connectedData.should.have.lengthOf(1);

@@ -1,16 +1,19 @@
 import React from 'react';
-import { reduxForm } from 'redux-form';
-import {
-  Button
-} from 'react-bootstrap';
+import { Provider } from 'react-redux';
+import { reduxForm, reducer as form } from 'redux-form';
+import { combineReducers, createStore } from 'redux';
 import renderer from 'react-test-renderer';
 import FormSectionPointStyle from './FormSectionPointStyle';
 
-const formSectionPointStyle = reduxForm()(FormSectionPointStyle);
-
 test('Navigation renders correctly', () => {
+  const store = createStore(
+    combineReducers({ form }),
+    { form: {} }
+  )
+  const Decorated = reduxForm({ form: 'testform', name: 'testname' })(FormSectionPointStyle);
   const tree = renderer.create(
-    <Button>test</Button>
-  ).toJSON();
+    <Provider store={store}>
+      <Decorated />
+    </Provider>).toJSON();
   expect(tree).toMatchSnapshot();
 });

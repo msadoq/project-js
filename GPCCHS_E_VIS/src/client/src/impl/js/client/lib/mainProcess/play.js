@@ -27,7 +27,7 @@ export default function compute(current, lower, upper, slideLower, slideUpper,
   */
 
   const r = {
-    visuWindow: {},
+    visuWindow: { current },
     slideWindow: {},
   };
   switch (mode) {

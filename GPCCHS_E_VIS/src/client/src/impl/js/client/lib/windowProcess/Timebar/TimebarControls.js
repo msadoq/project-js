@@ -79,21 +79,34 @@ export default class TimebarControls extends Component {
             lower: viewport.lower + offsetMs,
             upper: viewport.upper + offsetMs,
           };
+          onChange(
+            timebarId,
+            {
+              lower: cursors.visuWindow.lower,
+              upper: cursors.visuWindow.upper,
+              current: newCurrent,
+              slideWindow: {
+                lower: cursors.slideWindow.lower,
+                upper: cursors.slideWindow.upper,
+              },
+              viewport,
+            }
+          );
+        } else {
+          onChange(
+            timebarId,
+            {
+              lower: cursors.visuWindow.lower,
+              upper: cursors.visuWindow.upper,
+              current: newCurrent,
+              slideWindow: {
+                lower: cursors.slideWindow.lower,
+                upper: cursors.slideWindow.upper,
+              },
+            }
+          );
         }
 
-        onChange(
-          timebarId,
-          {
-            lower: cursors.visuWindow.lower,
-            upper: cursors.visuWindow.upper,
-            current: newCurrent,
-            slideWindow: {
-              lower: cursors.slideWindow.lower,
-              upper: cursors.slideWindow.upper,
-            },
-            viewport,
-          }
-        );
         this.tick();
       },
       globalConstants.HSC_PLAY_FREQUENCY

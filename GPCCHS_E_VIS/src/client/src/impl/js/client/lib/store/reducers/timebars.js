@@ -1,3 +1,4 @@
+import u from 'updeep';
 import _omit from 'lodash/omit';
 import _get from 'lodash/get';
 import _without from 'lodash/without';
@@ -17,7 +18,6 @@ export default function timebars(stateTimebars = {}, action) {
     case types.WS_TIMEBAR_REMOVE:
       return _omit(stateTimebars, [payload.timebarId]);
     case types.WS_TIMEBAR_ID_UPDATE:
-    case types.WS_TIMEBAR_UPDATE_CURSORS:
     case types.WS_TIMEBAR_UPDATE_VIEWPORT:
     case types.WS_TIMEBAR_SPEED_UPDATE:
     case types.WS_TIMEBAR_MODE_UPDATE:
@@ -29,6 +29,47 @@ export default function timebars(stateTimebars = {}, action) {
         ...stateTimebars,
         [payload.timebarId]: timebar(stateTimebars[payload.timebarId], action),
       };
+    case types.WS_TIMEBAR_UPDATE_CURSORS: {
+      const newValues = {};
+      const tb = stateTimebars[payload.timebarId];
+      const vw = payload.visuWindow;
+      const sw = payload.slideWindow;
+      if (vw) {
+        if (
+          vw.lower !== tb.visuWindow.lower ||
+          vw.upper !== tb.visuWindow.upper ||
+          vw.current !== tb.visuWindow.current
+        ) {
+          newValues.visuWindow = {
+            lower: vw.lower || tb.visuWindow.lower,
+            upper: vw.upper || tb.visuWindow.upper,
+            current: vw.current || tb.visuWindow.current,
+          };
+        }
+      }
+
+      if (sw) {
+        if (
+          sw.lower !== tb.slideWindow.lower ||
+          sw.upper !== tb.slideWindow.upper
+        ) {
+          newValues.slideWindow = {
+            lower: sw.lower || tb.slideWindow.lower,
+            upper: sw.upper || tb.slideWindow.upper,
+          };
+        }
+      }
+      if (newValues.slideWindow || newValues.visuWindow) {
+        return u({
+          [payload.timebarId]: {
+            visuWindow: newValues.visuWindow || tb.visuWindow,
+            slideWindow: newValues.slideWindow || tb.slideWindow,
+          }
+        }, stateTimebars);
+      }
+
+      return stateTimebars;
+    }
     case types.HSC_CLOSE_WORKSPACE:
       return {};
     default:
@@ -82,47 +123,7 @@ function timebar(stateTimebar = initialState, action) {
       return { ...stateTimebar, timelines: _without(stateTimebar.timelines, payload.timelineId) };
     case types.WS_TIMEBAR_ID_UPDATE:
       return { ...stateTimebar, id: payload.id };
-    case types.WS_TIMEBAR_UPDATE_CURSORS: {
-      const newState = {};
-      if (payload.visuWindow) {
-        const vw = payload.visuWindow;
-        if (
-          vw.lower !== stateTimebar.visuWindow.lower ||
-          vw.upper !== stateTimebar.visuWindow.upper ||
-          vw.current !== stateTimebar.visuWindow.current
-        ) {
-          newState.visuWindow = {
-            lower: vw.lower || stateTimebar.visuWindow.lower,
-            upper: vw.upper || stateTimebar.visuWindow.upper,
-            current: vw.current || stateTimebar.visuWindow.current,
-          };
-        }
-      }
-
-      if (payload.slideWindow) {
-        const sw = payload.slideWindow;
-        if (
-          sw.lower !== stateTimebar.slideWindow.lower ||
-          sw.upper !== stateTimebar.slideWindow.upper
-        ) {
-          newState.slideWindow = {
-            lower: sw.lower || stateTimebar.slideWindow.lower,
-            upper: sw.upper || stateTimebar.slideWindow.upper
-          };
-        }
-      }
-
-      if (!newState.visuWindow && !newState.slideWindow) {
-        return stateTimebar;
-      }
-      return {
-        ...stateTimebar,
-        ...newState,
-      };
-    }
     case types.WS_TIMEBAR_UPDATE_VIEWPORT:
-      console.log('WS_TIMEBAR_UPDATE_VIEWPORT');
-      console.log(payload);
       return {
         ...stateTimebar,
         rulerStart: payload.rulerStart,

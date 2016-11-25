@@ -7,7 +7,7 @@
     "verbose": true,
     "testRegex": "(snapshot)\\.(js|jsx)$",
     "moduleNameMapper": {
-      "\\.(css)$": "<rootDir>/CSSStub.js"
+      "\\.(less|css)$": "<rootDir>/test/__mocks__/styleMock.js"
     }
   },
   "scripts": {
@@ -21,7 +21,8 @@
     "sh": "HOT=1 electron -r ./lib/common/dotenv -r babel-register -r babel-polyfill ./main.development",
     "start": "NODE_ENV=production electron ./ --PORT=3100 --HSS=http://127.0.0.1:3000 --FMD_ROOT=/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/impl/js/client/data --OPEN=small.workspace.json --PROFILING=off --DEBUG=* --LEVEL=DEBUG",
     "test": "BABEL_DISABLE_CACHE=1 mocha --compilers js:babel-register \"+(lib|VIVL)/**/*.spec.js\"",
-    "testjest": "jest",
+    "snapshot": "NODE_ENV=test BABEL_DISABLE_CACHE=1 jest",
+    "snapshot-watch": "npm run snapshot -- --watch",
     "tw": "npm test -- --watch",
     "wp": "node -r babel-register server.js"
   },

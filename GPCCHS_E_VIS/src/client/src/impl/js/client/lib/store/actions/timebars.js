@@ -13,17 +13,17 @@ import {
 export const add = simple(types.WS_TIMEBAR_ADD, 'timebarId', 'configuration');
 export const remove = simple(types.WS_TIMEBAR_REMOVE, 'timebarId');
 export const updateId = simple(types.WS_TIMEBAR_ID_UPDATE, 'timebarId', 'id');
-export const updateVisuWindow = simple(
-  types.WS_TIMEBAR_VISUWINDOW_UPDATE, 'timebarId', 'visuWindowUpdate'
-);
 export const updateCursors = simple(
   types.WS_TIMEBAR_UPDATE_CURSORS,
   'timebarId',
-  'visuWindowCurrent',
-  'visuWindowLower',
-  'visuWindowUpper',
-  'slideWindowLower',
-  'slideWindowUpper'
+  'visuWindow',
+  'slideWindow'
+);
+export const updateViewport = simple(
+  types.WS_TIMEBAR_UPDATE_VIEWPORT,
+  'timebarId',
+  'rulerStart',
+  'rulerResolution'
 );
 export const updateSpeed = simple(types.WS_TIMEBAR_SPEED_UPDATE, 'timebarId', 'speed');
 export const updatePlayingState = simple(

@@ -485,7 +485,7 @@ export default class Timebar extends Component {
       });
 
       if (!this.debounced1) {
-        this.debounced1 = debounce(this.autoUpdateVisuWindow, 300);
+        this.debounced1 = debounce(this.autoUpdateCursors, 300);
       }
       this.debounced1();
 
@@ -574,7 +574,7 @@ export default class Timebar extends Component {
     });
   }
 
-  autoUpdateVisuWindow = () => {
+  autoUpdateCursors = () => {
     const { timebarId, onChange } = this.props;
     const {
       lower,

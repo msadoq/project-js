@@ -6,7 +6,7 @@ import TimesetterFields from './TimesetterFields';
 export default class Timesetter extends Component {
 
   static propTypes = {
-    onChange: PropTypes.func.isRequired,
+    updateCursors: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     visuWindow: PropTypes.object.isRequired,
     slideWindow: PropTypes.object.isRequired,
@@ -32,7 +32,7 @@ export default class Timesetter extends Component {
   }
 
   onChangeAction = (lower, upper, current, slideLower, slideUpper, cursor) => {
-    const { timebarId, onChange, timebarMode } = this.props;
+    const { timebarId, updateCursors, timebarMode } = this.props;
     const errorMessages = [];
     switch (cursor) {
       case 'lower':
@@ -77,16 +77,16 @@ export default class Timesetter extends Component {
     this.setState({ errorMessages });
 
     if (!errorMessages.length) {
-      onChange(
+      updateCursors(
         timebarId,
         {
           lower,
           upper,
           current,
-          slideWindow: {
-            lower: slideLower,
-            upper: slideUpper
-          }
+        },
+        {
+          lower: slideLower,
+          upper: slideUpper,
         }
       );
     }

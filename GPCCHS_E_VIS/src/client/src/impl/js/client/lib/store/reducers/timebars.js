@@ -17,8 +17,8 @@ export default function timebars(stateTimebars = {}, action) {
     case types.WS_TIMEBAR_REMOVE:
       return _omit(stateTimebars, [payload.timebarId]);
     case types.WS_TIMEBAR_ID_UPDATE:
-    case types.WS_TIMEBAR_VISUWINDOW_UPDATE:
     case types.WS_TIMEBAR_UPDATE_CURSORS:
+    case types.WS_TIMEBAR_UPDATE_VIEWPORT:
     case types.WS_TIMEBAR_SPEED_UPDATE:
     case types.WS_TIMEBAR_MODE_UPDATE:
     case types.WS_TIMEBAR_PLAYINGSTATE_UPDATE:
@@ -82,29 +82,52 @@ function timebar(stateTimebar = initialState, action) {
       return { ...stateTimebar, timelines: _without(stateTimebar.timelines, payload.timelineId) };
     case types.WS_TIMEBAR_ID_UPDATE:
       return { ...stateTimebar, id: payload.id };
-    case types.WS_TIMEBAR_VISUWINDOW_UPDATE: {
-      let update = {};
-      const toUpdate = payload.visuWindowUpdate;
-      if (toUpdate.lower && toUpdate.upper && toUpdate.current) {
-        update = { visuWindow: {
-          lower: toUpdate.lower,
-          upper: toUpdate.upper,
-          current: toUpdate.current,
-        } };
+    case types.WS_TIMEBAR_UPDATE_CURSORS: {
+      const newState = {};
+      if (payload.visuWindow) {
+        const vw = payload.visuWindow;
+        if (
+          vw.lower !== stateTimebar.visuWindow.lower ||
+          vw.upper !== stateTimebar.visuWindow.upper ||
+          vw.current !== stateTimebar.visuWindow.current
+        ) {
+          newState.visuWindow = {
+            lower: vw.lower || stateTimebar.visuWindow.lower,
+            upper: vw.upper || stateTimebar.visuWindow.upper,
+            current: vw.current || stateTimebar.visuWindow.current,
+          };
+        }
       }
 
-      if (toUpdate.slideWindow) update.slideWindow = toUpdate.slideWindow;
-      if (toUpdate.extUpperBound) update.extUpperBound = toUpdate.extUpperBound;
-      if (toUpdate.extUpperBound) update.extUpperBound = toUpdate.extUpperBound;
+      if (payload.slideWindow) {
+        const sw = payload.slideWindow;
+        if (
+          sw.lower !== stateTimebar.slideWindow.lower ||
+          sw.upper !== stateTimebar.slideWindow.upper
+        ) {
+          newState.slideWindow = {
+            lower: sw.lower || stateTimebar.slideWindow.lower,
+            upper: sw.upper || stateTimebar.slideWindow.upper
+          };
+        }
+      }
 
-      if (toUpdate.rulerStart) update.rulerStart = toUpdate.rulerStart;
-      if (toUpdate.rulerResolution) update.rulerResolution = toUpdate.rulerResolution;
-
-      return { ...stateTimebar, ...update };
+      if (!newState.visuWindow && !newState.slideWindow) {
+        return stateTimebar;
+      }
+      return {
+        ...stateTimebar,
+        ...newState,
+      };
     }
-    case types.WS_TIMEBAR_UPDATE_CURSORS:
-      // TODO implement this reducer has subfunction (and replace visuwindow update)
-      return stateTimebar;
+    case types.WS_TIMEBAR_UPDATE_VIEWPORT:
+      console.log('WS_TIMEBAR_UPDATE_VIEWPORT');
+      console.log(payload);
+      return {
+        ...stateTimebar,
+        rulerStart: payload.rulerStart,
+        rulerResolution: payload.rulerResolution,
+      };
     case types.WS_TIMEBAR_SPEED_UPDATE:
       return { ...stateTimebar, speed: payload.speed };
     case types.WS_TIMEBAR_MODE_UPDATE:

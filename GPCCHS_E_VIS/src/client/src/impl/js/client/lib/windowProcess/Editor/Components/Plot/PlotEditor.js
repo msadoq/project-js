@@ -121,7 +121,7 @@ export default class PlotEditor extends Component {
       }
     } = this.props;
     return (
-      <div className={styles.editor}>
+      <div className={styles.contentWrapper}>
         <Navbar
           currentDisplay={currentDisplay}
           items={['Entry Points', 'Plot', 'Miscs']}
@@ -137,18 +137,20 @@ export default class PlotEditor extends Component {
             grids={grids}
             titleStyle={titleStyle}
           />}
-          {currentDisplay === 0 && <div>
+          {currentDisplay === 0 && [
             <EntryPointActions
+              key="EntryPointActions"
               changeSearch={this.changeSearch}
               addEntryPoint={this.handleAddEntryPoint}
-            />
+            />,
             <EntryPointTree
+              key="EntryPointTree"
               entryPoints={entryPoints}
               search={search}
               handleEntryPoint={this.handleEntryPoint}
               remove={this.removeEntryPoint}
             />
-          </div>}
+          ]}
         </div>
       </div>
     );

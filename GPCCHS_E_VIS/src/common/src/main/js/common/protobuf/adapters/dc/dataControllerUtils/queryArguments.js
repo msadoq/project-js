@@ -25,7 +25,7 @@ module.exports = {
     getLastType: data.getLastType,
     getLastFromTime: (data.getLastFromTime !== null)
       ? timestamp.decode(data.getLastFromTime)
-      : undefined,
+      : data.getLastFromTime,
     getLastNumber: data.getLastNumber,
     filters: _map(data.filters, f => filter.decode(f)),
   }),

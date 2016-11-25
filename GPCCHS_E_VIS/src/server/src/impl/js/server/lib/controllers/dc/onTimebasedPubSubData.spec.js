@@ -45,6 +45,8 @@ describe('controllers/dc/onTimebasedPubSubData', () => {
   const rp2 = dataStub.getReportingParameter({ onboardDate: t2 });
   const protoRp = dataStub.getReportingParameterProtobuf(rp);
   const protoRp2 = dataStub.getReportingParameterProtobuf(rp2);
+  const deprotoRp = dataStub.getReportingParameterDeProtobuf(protoRp);
+  const deprotoRp2 = dataStub.getReportingParameterDeProtobuf(protoRp2);
 
   const fullFilter = [
     {
@@ -123,11 +125,11 @@ describe('controllers/dc/onTimebasedPubSubData', () => {
     const tbd = timebasedDataModel.find();
     tbd[0].should.have.properties({
       timestamp: t1,
-      payload: rp,
+      payload: deprotoRp,
     });
     getQueue().should.have.properties({
       [fullRemoteId]: {
-        [t1]: rp,
+        [t1]: deprotoRp,
       },
     });
   });
@@ -155,11 +157,11 @@ describe('controllers/dc/onTimebasedPubSubData', () => {
     const tbd = timebasedDataModel.find();
     tbd[0].should.have.properties({
       timestamp: t2,
-      payload: rp2,
+      payload: deprotoRp2,
     });
     getQueue().should.have.properties({
       [halfRemoteId]: {
-        [t2]: rp2,
+        [t2]: deprotoRp2,
       },
     });
   });

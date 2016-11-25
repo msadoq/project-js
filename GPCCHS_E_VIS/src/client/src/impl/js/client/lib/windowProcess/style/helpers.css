@@ -10,6 +10,19 @@
   display: inline-block;
 }
 
+.flex{
+  display: flex;
+  flex: 1;
+}
+
+.h100{
+  height: 100%;
+}
+
+.w100{
+  width: 100%;
+}
+
 .m0 {
   margin: 0;
 }
@@ -318,9 +331,4 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.flex{
-  display: flex;
-  flex: 1;
 }

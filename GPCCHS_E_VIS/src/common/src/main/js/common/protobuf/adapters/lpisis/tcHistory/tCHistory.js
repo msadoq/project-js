@@ -1,6 +1,8 @@
 const expectedAck = require('./expectedAck');
 const successiveAck = require('./successiveAck');
 
+const sendTypeEnum = require('./sendTypeEnum');
+
 module.exports = {
   encode: data => ({
     sendingDate: { value: data.sendingDate },
@@ -14,14 +16,14 @@ module.exports = {
     tc: { value: data.tc },
   }),
   decode: data => ({
-    sendingDate: data.sendingDate.value.toNumber(),
-    tcInProgress: data.tcInProgress.value,
-    tcId: data.tcId.value.toNumber(),
-    historyName: data.historyName.value,
-    sendType: data.sendType,
-    tcNums: data.tcNums.value,
+    sendingDate: { type: 'time', value: data.sendingDate.value.toNumber() },
+    tcInProgress: { type: 'boolean', value: data.tcInProgress.value },
+    tcId: { type: 'ulong', value: data.tcId.value.toNumber() },
+    historyName: { type: 'string', value: data.historyName.value },
+    sendType: { type: 'enum', value: data.sendType, symbol: sendTypeEnum[data.sendType] },
+    tcNums: { type: 'string', value: data.tcNums.value },
     expectedAck: expectedAck.decode(data.expectedAck),
     successiveAck: successiveAck.decode(data.successiveAck),
-    tc: data.tc.value.toBuffer(),
+    tc: { type: 'blob', value: data.tc.value.toBuffer() },
   }),
 };

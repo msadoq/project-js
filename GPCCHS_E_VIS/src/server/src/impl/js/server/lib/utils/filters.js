@@ -1,3 +1,5 @@
+// eslint-disable-next-line no-underscore-dangle
+const _get = require('lodash/get');
 const debug = require('../io/debug')('utils:filters');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
@@ -15,7 +17,7 @@ function applyFilter(data, filter) {
   debug.debug(`applying filter ${filter} to data ${data[filter.field]}`);
 
   const expected = filter.fieldValue;
-  const value = data[filter.fieldName];
+  const value = _get(data, [filter.fieldName, 'value']);
   switch (filter.type) {
     case globalConstants.FILTERTYPE_EQ:
       return value === expected;

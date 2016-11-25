@@ -78,15 +78,15 @@ export default class PlotAxes extends React.Component {
         {...this.props}
       >
         <Accordion>
-          {axes.map((axis, key) =>
+          {Object.keys(axes).map(id =>
             <Panel
-              key={key}
+              key={id}
               header={<span>
-                <span className="flex">{axis.label}</span>
+                <span className="flex">{axes[id].label}</span>
                 <Button
                   bsSize="xsmall"
                   className="btn-link"
-                  onClick={e => this.handleRemovePlotAxis(e, key)}
+                  onClick={e => this.handleRemovePlotAxis(e, id)}
                 >
                   <Glyphicon
                     className="text-danger"
@@ -95,17 +95,17 @@ export default class PlotAxes extends React.Component {
                   />
                 </Button>
               </span>}
-              eventKey={key}
-              expanded={this.state[`isPanel${key}Open`]}
-              onSelect={this.openPanel.bind(key)}
-              onExited={this.closePanel.bind(key)}
+              eventKey={id}
+              expanded={this.state[`isPanel${id}Open`]}
+              onSelect={this.openPanel.bind(id)}
+              onExited={this.closePanel.bind(id)}
             >
-              {this.state[`isPanel${key}Open`] &&
+              {this.state[`isPanel${id}Open`] &&
                 <PlotAxis
-                  key={key}
-                  initialValues={axis}
-                  onSubmit={this.handleSubmit.bind(this, key)}
-                  form={`axis-form-${key}-${viewId}`}
+                  key={id}
+                  initialValues={axes[id]}
+                  onSubmit={this.handleSubmit.bind(this, id)}
+                  form={`axis-form-${id}-${viewId}`}
                 />}
             </Panel>)}
         </Accordion>

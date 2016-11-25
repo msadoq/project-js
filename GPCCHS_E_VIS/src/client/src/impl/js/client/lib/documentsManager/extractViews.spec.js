@@ -83,11 +83,16 @@ describe('documentsManager/extractViews', () => {
     it('valid', (done) => {
       extractViews(content, (err, val) => {
         should.not.exist(err);
+
         val.views.should.be.an('object');
         Object.getOwnPropertyNames(val.views).should.have.length(2);
         _.each(val.pages[id1].views, (id) => {
           if (id.uuid) {
             should.exist(val.views[id.uuid]);
+            val.views[id.uuid].configuration.entryPoints.forEach((ep) => {
+              should.exist(val.views[id.uuid].configuration.axes[ep.connectedDataX.axisId]);
+              should.exist(val.views[id.uuid].configuration.axes[ep.connectedDataY.axisId]);
+            });
           }
         });
         _.each(val.pages[id2].views, (id) => {

@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
+import { Row, Col } from 'react-bootstrap';
 import { PlotEditorContainer } from './Components/Plot';
 import { TextEditorContainer } from './Components/Text';
+import styles from './Editor.css';
 import debug from '../../../lib/common/debug/windowDebug';
 
 const logger = debug('Editor');
@@ -10,6 +12,8 @@ const InvalidConfiguration = () => <div> unknown view type or invalid configurat
 
 export default class Editor extends Component {
   static propTypes = {
+    timebarHeight: PropTypes.number,
+    editorCols: PropTypes.number,
     viewId: PropTypes.string.isRequired,
     viewType: PropTypes.string.isRequired,
     configuration: PropTypes.object,
@@ -30,38 +34,47 @@ export default class Editor extends Component {
     logger.debug('render');
     const {
       configuration,
+      configuration: { type },
       viewType,
       viewId,
-      closeEditor
+      closeEditor,
+      editorCols,
+      timebarHeight
     } = this.props;
 
-    if (!configuration) {
+    if (!configuration || !configuration.type) {
       return <InvalidConfiguration />;
     }
 
-    switch (configuration.type) { // TODO dynamic type
-      case 'PlotView' :
-        return (
-          <PlotEditorContainer
-            key={viewId}
-            viewId={viewId}
-            viewType={viewType}
-            configuration={configuration}
-            closeEditor={closeEditor}
-          />
-        );
-      case 'TextView' :
-        return (
-          <TextEditorContainer
-            key={viewId}
-            viewId={viewId}
-            viewType={viewType}
-            configuration={configuration}
-            closeEditor={closeEditor}
-          />
-        );
-      default :
-        return <InvalidConfiguration />;
-    }
+    return (
+      <Row>
+        <Col
+          xs={editorCols}
+          className={styles.root}
+          style={{
+            bottom: timebarHeight
+          }}
+        >
+          <div className={styles.editor}>
+            {type === 'PlotView' && <PlotEditorContainer
+              key={viewId}
+              viewId={viewId}
+              viewType={viewType}
+              timebarHeight={timebarHeight}
+              configuration={configuration}
+              closeEditor={closeEditor}
+            />}
+            {type === 'TextView' && <TextEditorContainer
+              key={viewId}
+              viewId={viewId}
+              viewType={viewType}
+              timebarHeight={timebarHeight}
+              configuration={configuration}
+              closeEditor={closeEditor}
+            />}
+          </div>
+        </Col>
+      </Row>
+    );
   }
 }

@@ -1,3 +1,5 @@
+const ackEnum = require('./ackEnum');
+
 module.exports = {
   encode: data => ({
     scdCop1Ack: data.scdCop1Ack,
@@ -16,19 +18,19 @@ module.exports = {
     executionStart: data.executionStart,
   }),
   decode: data => ({
-    scdCop1Ack: data.scdCop1Ack,
-    cop1Ack: data.cop1Ack,
-    stationAck: data.stationAck,
-    missionFailure: data.missionFailure,
-    executionComplete: data.executionComplete,
-    acceptance: data.acceptance,
-    scdCop1AckRcvDate: data.scdCop1AckRcvDate.value.toNumber(),
-    Cop1AckRcvDate: data.Cop1AckRcvDate.value.toNumber(),
-    stationAckRcvDate: data.stationAckRcvDate.value.toNumber(),
-    missionFailureRcvDate: data.missionFailureRcvDate.value.toNumber(),
-    executionCompleteRcvDate: data.executionCompleteRcvDate.value.toNumber(),
-    acceptanceRcvDate: data.acceptanceRcvDate.value.toNumber(),
-    executionStartRcvDate: data.executionStartRcvDate.value.toNumber(),
-    executionStart: data.executionStart,
+    scdCop1Ack: { type: 'enum', value: data.scdCop1Ack, symbol: ackEnum[data.scdCop1Ack] },
+    cop1Ack: { type: 'enum', value: data.cop1Ack, symbol: ackEnum[data.cop1Ack] },
+    stationAck: { type: 'enum', value: data.stationAck, symbol: ackEnum[data.stationAck] },
+    missionFailure: { type: 'enum', value: data.missionFailure, symbol: ackEnum[data.missionFailure] },
+    executionComplete: { type: 'enum', value: data.executionComplete, symbol: ackEnum[data.executionComplete] },
+    acceptance: { type: 'enum', value: data.acceptance, symbol: ackEnum[data.acceptance] },
+    scdCop1AckRcvDate: { type: 'time', value: data.scdCop1AckRcvDate.value.toNumber() },
+    Cop1AckRcvDate: { type: 'time', value: data.Cop1AckRcvDate.value.toNumber() },
+    stationAckRcvDate: { type: 'time', value: data.stationAckRcvDate.value.toNumber() },
+    missionFailureRcvDate: { type: 'time', value: data.missionFailureRcvDate.value.toNumber() },
+    executionCompleteRcvDate: { type: 'time', value: data.executionCompleteRcvDate.value.toNumber() },
+    acceptanceRcvDate: { type: 'time', value: data.acceptanceRcvDate.value.toNumber() },
+    executionStartRcvDate: { type: 'time', value: data.executionStartRcvDate.value.toNumber() },
+    executionStart: { type: 'enum', value: data.executionStart, symbol: ackEnum[data.executionStart] },
   }),
 };

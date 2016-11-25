@@ -68,7 +68,7 @@ describe('documentsManager/saveViews', () => {
                 format: 'decimal',
                 domain: 'fr.cnes.sat1',
                 timeline: 'Session 1',
-                axisId: 'Time'
+                axisId: 'id1'
               },
               connectedDataY: {
                 formula: 'Reporting.ATT_BC_REVTCOUNT4<ReportingParameter>.extractedValue',
@@ -77,7 +77,7 @@ describe('documentsManager/saveViews', () => {
                 format: 'decimal',
                 domain: 'fr.cnes.sat1',
                 timeline: 'Session 1',
-                axisId: 'VBat'
+                axisId: 'id2'
               },
               lineStyle: 'Continuous',
               pointsStyle: 'None',
@@ -85,7 +85,10 @@ describe('documentsManager/saveViews', () => {
               stateColours: []
             }
           ],
-          axes: [],
+          axes: {
+            id1: { label: 'TIME', uuid: 'id1', unit: 'S' },
+            id2: { label: 'VBAT', unit: 'V' },
+          },
           grids: [],
           title: 'Plotview 4 parameters',
           titleStyle: {},

@@ -1,24 +1,28 @@
 {
-    "extends": "airbnb-base",
-    "installedESLint": true,
-    "globals": {
-      "describe": true,
-      "it": true,
-      "before": true,
-      "after": true,
-      "beforeEach": true,
-      "afterEach": true
-    },
-    "rules": {
-      "comma-dangle": [
-        "error",
-        {
-          "arrays": "always-multiline",
-          "objects": "always-multiline",
-          "imports": "always-multiline",
-          "exports": "always-multiline",
-          "functions": "never"
-        }
-      ]
-    }
+  "extends": "airbnb-base",
+  "installedESLint": true,
+  "globals": {
+    "describe": true,
+    "it": true,
+    "before": true,
+    "after": true,
+    "beforeEach": true,
+    "afterEach": true
+  },
+  "rules": {
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "never"
+      }
+    ],
+    "max-statements-per-line": ["off", { "max": 1 }],
+    "complexity": ["off", 11],
+    "max-statements": ["off", 10],
+    "max-depth": ["off", 4]
+  }
 }

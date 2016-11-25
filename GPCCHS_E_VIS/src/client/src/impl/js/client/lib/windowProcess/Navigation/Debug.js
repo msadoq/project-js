@@ -2,7 +2,11 @@ import { remote } from 'electron';
 import React, { PureComponent, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Button } from 'react-bootstrap';
+import {
+  MenuItem,
+  ButtonToolbar,
+  DropdownButton
+} from 'react-bootstrap';
 
 import { switchDebug } from '../../store/actions/windows';
 import { getWindowDebug } from '../../store/selectors/windows';
@@ -10,6 +14,13 @@ import { getPage } from '../../store/selectors/pages';
 import dataMapGenerator from '../../dataManager/map/dataMapGenerator';
 import viewMapGenerator from '../../dataManager/map/viewMapGenerator';
 import { updateCacheInvalidation } from '../../store/actions/hsc';
+
+const style = {
+  position: 'fixed',
+  top: '5px',
+  right: '5px',
+  zIndex: 1
+};
 
 class Debug extends PureComponent {
   static propTypes = {
@@ -66,21 +77,57 @@ class Debug extends PureComponent {
     };
 
     return (
-      <div style={{ display: 'inline' }}>
-        <Button onClick={this.hssState} {...buttonsProps}>HSS</Button>
-        {' '}
-        <Button onClick={toggleWhy} {...buttonsProps}>
-          WDYU {debug.whyDidYouUpdate ? 'ON' : 'OFF'}
-        </Button>
-        {' '}
-        <Button onClick={dummy} {...buttonsProps}>DUMMY</Button>
-        {' '}
-        <Button onClick={this.visibleRemoteIds} {...buttonsProps}>DATA MAP</Button>
-        {' '}
-        <Button onClick={this.visibleViews} {...buttonsProps}>VIEW MAP</Button>
-        {' '}
-        <Button onClick={this.cleanCache} {...buttonsProps}>CLEAN CACHE</Button>
-      </div>
+      <ButtonToolbar style={style}>
+        <DropdownButton
+          bsSize="xsmall"
+          title="debug"
+          id="dropdown-size-large"
+          pullRight
+        >
+          <MenuItem
+            eventKey="1"
+            onClick={this.hssState}
+            {...buttonsProps}
+          >
+            Action
+          </MenuItem>
+          <MenuItem
+            eventKey="2"
+            onClick={toggleWhy}
+            {...buttonsProps}
+          >
+            WDYU {debug.whyDidYouUpdate ? 'ON' : 'OFF'}
+          </MenuItem>
+          <MenuItem
+            eventKey="3"
+            onClick={dummy}
+            {...buttonsProps}
+          >
+            DUMMY
+          </MenuItem>
+          <MenuItem
+            eventKey="4"
+            onClick={this.visibleRemoteIds}
+            {...buttonsProps}
+          >
+            DATA MAP
+          </MenuItem>
+          <MenuItem
+            eventKey="5"
+            onClick={this.visibleViews}
+            {...buttonsProps}
+          >
+            VIEW MAP
+          </MenuItem>
+          <MenuItem
+            eventKey="5"
+            onClick={this.cleanCache}
+            {...buttonsProps}
+          >
+            CLEAN CACHE
+          </MenuItem>
+        </DropdownButton>
+      </ButtonToolbar>
     );
   }
 }

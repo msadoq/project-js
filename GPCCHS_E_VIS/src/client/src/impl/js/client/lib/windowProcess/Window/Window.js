@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import { LIFECYCLE_STARTED } from 'common/constants';
 
-import Navigation from '../Navigation/Navigation';
+import Debug from '../Navigation/Debug';
 import TimebarMasterContainer from '../Timebar/TimebarMasterContainer';
 import PageContainer from '../Page/PageContainer';
 import TabsContainer from '../Navigation/TabsContainer';
@@ -39,7 +39,7 @@ export default class Window extends Component {
 
     return (
       <div className={styles.container}>
-        <Navigation
+        <Debug
           windowId={windowId}
           focusedPageId={focusedPageId}
         />

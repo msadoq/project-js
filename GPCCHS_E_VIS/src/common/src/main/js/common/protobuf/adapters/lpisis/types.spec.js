@@ -127,8 +127,11 @@ describe('protobuf/lpisis/types', () => {
   describe('encode/decodeAttribute', () => {
     const testEncodeDecode = (value, type) => {
       const encoded = encodeAttribute(value);
-      encoded.should.have.properties({ [type]: { value } });
-      decodeAttribute(encoded).should.equal(value);
+      encoded.should.have.properties({ [`_${type}`]: { value } });
+      decodeAttribute(encoded).should.have.properties({
+        type,
+        value,
+      });
     };
 
     it('undefined/null/NaN', () => {
@@ -144,27 +147,27 @@ describe('protobuf/lpisis/types', () => {
       should.not.exist(decodeAttribute(NaN));
     });
     describe('string', () => {
-      it('empty', () => testEncodeDecode('', '_string'));
-      it('ascii', () => testEncodeDecode('my string', '_string'));
-      it('utf-8', () => testEncodeDecode('my rich strîng ☯ with utf-8 \u1F601', '_string'));
+      it('empty', () => testEncodeDecode('', 'string'));
+      it('ascii', () => testEncodeDecode('my string', 'string'));
+      it('utf-8', () => testEncodeDecode('my rich strîng ☯ with utf-8 \u1F601', 'string'));
     });
     describe('number', () => {
-      it('0', () => testEncodeDecode(0, '_ulong'));
-      it('10', () => testEncodeDecode(10, '_ulong'));
-      it('999999999999999', () => testEncodeDecode(999999999999999, '_ulong'));
-      it('9999999999999999999', () => testEncodeDecode(9999999999999999999, '_ulong'));
-      it('10.0', () => testEncodeDecode(10.0, '_ulong'));
-      it('10.999999999999999', () => testEncodeDecode(10.999999999999999, '_double'));
-      it('signed integer', () => testEncodeDecode(-10, '_long'));
-      it('signed float', () => testEncodeDecode(-10.999, '_double'));
+      it('0', () => testEncodeDecode(0, 'ulong'));
+      it('10', () => testEncodeDecode(10, 'ulong'));
+      it('999999999999999', () => testEncodeDecode(999999999999999, 'ulong'));
+      it('9999999999999999999', () => testEncodeDecode(9999999999999999999, 'ulong'));
+      it('10.0', () => testEncodeDecode(10.0, 'ulong'));
+      it('10.999999999999999', () => testEncodeDecode(10.999999999999999, 'double'));
+      it('signed integer', () => testEncodeDecode(-10, 'long'));
+      it('signed float', () => testEncodeDecode(-10.999, 'double'));
 
       // warning: limit of Javascript precision, get integer
-      it('10.9999999999999999', () => testEncodeDecode(10.9999999999999999, '_ulong'));
+      it('10.9999999999999999', () => testEncodeDecode(10.9999999999999999, 'ulong'));
     });
     describe('boolean', () => {
-      it('true', () => testEncodeDecode(true, '_boolean'));
-      it('false', () => testEncodeDecode(false, '_boolean'));
+      it('true', () => testEncodeDecode(true, 'boolean'));
+      it('false', () => testEncodeDecode(false, 'boolean'));
     });
-    it('buffer', () => testEncodeDecode(new Buffer('foo'), '_blob'));
+    it('buffer', () => testEncodeDecode(new Buffer('foo'), 'blob'));
   });
 });

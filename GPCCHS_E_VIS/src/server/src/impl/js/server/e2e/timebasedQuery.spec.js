@@ -85,7 +85,6 @@ describe('timebased query', function () { // eslint-disable-line func-names
   // Returns a promise resolved when HSS update his cache
   this.waitHSSUpdate = () =>
     new Promise((r) => {
-
       if (this.noSpecificHSS) {
         setTimeout(() => r(), 1000);
       }

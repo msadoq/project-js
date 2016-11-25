@@ -1,9 +1,10 @@
 import _omit from 'lodash/omit';
 import _without from 'lodash/without';
+import _cloneDeep from 'lodash/cloneDeep';
 import u from 'updeep';
 import { resolve } from 'path';
+import { v4 } from 'node-uuid';
 import * as types from '../types';
-
 /**
  * Reducer
  */
@@ -44,7 +45,7 @@ export default function views(stateViews = {}, action) {
     case types.WS_VIEW_UPDATE_ENTRYPOINT:
       return updateArray(stateViews, action, 'entryPoints', 'entryPoint');
     case types.WS_VIEW_UPDATE_AXIS:
-      return updateArray(stateViews, action, 'axes', 'axis');
+      return updateAxis(stateViews, action);
     case types.WS_VIEW_UPDATE_GRID:
       return updateArray(stateViews, action, 'grids', 'grid');
     case types.WS_VIEW_UPDATE_LINK:
@@ -66,9 +67,9 @@ export default function views(stateViews = {}, action) {
     case types.WS_VIEW_UPDATE_CONTENT:
       return updateObject(stateViews, action, 'content', 'content', 'TextView');
     case types.WS_VIEW_ADD_AXIS:
-      return addElementInArray(stateViews, action, 'axes', 'axis');
+      return addAxis(stateViews, action);
     case types.WS_VIEW_REMOVE_AXIS:
-      return removeElementInArray(stateViews, action, 'axes');
+      return removeAxis(stateViews, action);
     case types.WS_VIEW_ADD_ENTRYPOINT:
       return addElementInArray(stateViews, action, 'entryPoints', 'entryPoint');
     case types.WS_VIEW_REMOVE_ENTRYPOINT:
@@ -201,4 +202,55 @@ export function removeElementInArray(stateViews, action, arrayName) {
       isModified: true,
     }
   }, stateViews);
+}
+
+export function updateAxis(stateViews, action) {
+  if (!stateViews[action.payload.viewId]) {
+    return stateViews;
+  }
+  // Content only for a type of view if viewType is defined
+  if (stateViews[action.payload.viewId].type !== 'PlotView') {
+    return stateViews;
+  }
+  return u({
+    [action.payload.viewId]: {
+      configuration: {
+        axes: { [action.payload.axisId]: action.payload.axis }
+      },
+      isModified: true,
+    }
+  }, stateViews);
+}
+
+export function addAxis(stateViews, action) {
+  if (!stateViews[action.payload.viewId]) {
+    return stateViews;
+  }
+  // Content only for a type of view if viewType is defined
+  if (stateViews[action.payload.viewId].type !== 'PlotView') {
+    return stateViews;
+  }
+  const uuid = v4();
+  return u({
+    [action.payload.viewId]: {
+      configuration: {
+        axes: { [uuid]: action.payload.axis }
+      },
+      isModified: true,
+    }
+  }, stateViews);
+}
+
+export function removeAxis(stateViews, action) {
+  if (!stateViews[action.payload.viewId]) {
+    return stateViews;
+  }
+  // Content only for a type of view if viewType is defined
+  if (stateViews[action.payload.viewId].type !== 'PlotView') {
+    return stateViews;
+  }
+  const newState = _cloneDeep(stateViews);
+  newState[action.payload.viewId].configuration.axes =
+    _omit(stateViews[action.payload.viewId].configuration.axes, action.payload.axisId);
+  return newState;
 }

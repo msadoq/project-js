@@ -46,6 +46,7 @@ export default class Page extends Component {
             className={styles.editor}
           >
             <EditorContainer
+              editorCols={editorCols}
               focusedPageId={focusedPageId}
             />
           </Col>

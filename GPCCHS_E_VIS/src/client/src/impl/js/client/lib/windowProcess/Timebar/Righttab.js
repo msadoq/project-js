@@ -11,7 +11,8 @@ class Righttab extends Component {
 
   static propTypes = {
     onTimelinesVerticalScroll: PropTypes.func.isRequired,
-    updateVisuWindow: PropTypes.func.isRequired,
+    updateViewport: PropTypes.func.isRequired,
+    updateCursors: PropTypes.func.isRequired,
     updatePlayingState: PropTypes.func.isRequired,
     displayTimesetter: PropTypes.func.isRequired,
     updateSpeed: PropTypes.func.isRequired,
@@ -39,18 +40,30 @@ class Righttab extends Component {
       rulerResolution : ... (px/ms),
     }
   */
-  willUpdateVisuWindow = (timebarId, values) => {
-    const { updateVisuWindow, size } = this.props;
+  willUpdateCursors= (timebarId, values) => {
+    const { updateCursors, updateViewport, size } = this.props;
     const { viewport } = values;
-
-    const newValues = values;
-    if (newValues.viewport) {
-      newValues.rulerStart = Math.trunc(viewport.lower);
-      newValues.rulerResolution = (viewport.upper - viewport.lower)
+    if (viewport) {
+      const rulerStart = Math.trunc(viewport.lower);
+      const rulerResolution = (viewport.upper - viewport.lower)
         / (size.width - (bootstrapPaddings * 2));
-      delete newValues.viewport;
+      updateViewport(
+        timebarId,
+        rulerStart,
+        rulerResolution
+      );
     }
-    updateVisuWindow(timebarId, newValues);
+    if (values.lower || values.upper || values.current || values.slideWindow) {
+      updateCursors(
+        timebarId,
+        {
+          lower: values.lower,
+          upper: values.upper,
+          current: values.current,
+        },
+        values.slideWindow
+      );
+    }
   }
 
   /*
@@ -104,7 +117,7 @@ class Righttab extends Component {
           slideWindow={slideWindow}
           updatePlayingState={updatePlayingState}
           updateSpeed={updateSpeed}
-          onChange={this.willUpdateVisuWindow}
+          onChange={this.willUpdateCursors}
           updateMode={updateMode}
           currentSessionOffsetMs={currentSessionOffsetMs}
         />
@@ -117,7 +130,7 @@ class Righttab extends Component {
           visuWindow={visuWindow}
           slideWindow={slideWindow}
           timelines={timelines}
-          onChange={this.willUpdateVisuWindow}
+          onChange={this.willUpdateCursors}
           verticalScroll={timelinesVerticalScroll}
           onVerticalScroll={onTimelinesVerticalScroll}
           displayTimesetter={displayTimesetter}

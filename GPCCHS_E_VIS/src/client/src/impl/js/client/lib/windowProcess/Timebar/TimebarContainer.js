@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { updateVisuWindow, updatePlayingState, updateSpeed, updateMode } from '../../store/actions/timebars';
+import { updateCursors, updateViewport, updatePlayingState, updateSpeed, updateMode } from '../../store/actions/timebars';
 import { updateTimebarHeight } from '../../store/actions/pages';
 import { getTimebarTimelinesSelector } from '../../store/selectors/timebars';
 import TimebarWrapper from './TimebarWrapper';
@@ -30,7 +30,8 @@ export default connect(
     };
   }, {
     updateMode,
-    updateVisuWindow,
+    updateCursors,
+    updateViewport,
     updatePlayingState,
     updateSpeed,
     updateTimebarHeight,

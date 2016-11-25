@@ -2,14 +2,17 @@ import { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Editor from './Editor';
-import { getEditor } from '../../store/selectors/pages';
+import { getEditor, getPage } from '../../store/selectors/pages';
 import { getView } from '../../store/selectors/views';
 import { closeEditor } from '../../store/actions/pages';
 
 const mapStateToProps = (state, { focusedPageId }) => {
   const editor = getEditor(state, focusedPageId);
+  const page = getPage(state, focusedPageId);
   const view = getView(state, editor.viewId);
+
   return {
+    timebarHeight: page.timebarHeight,
     viewId: editor.viewId,
     viewType: view.type,
     ...view,

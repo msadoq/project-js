@@ -14,7 +14,8 @@ const minTimebarHeight = 135;
 export default class TimebarWrapper extends Component {
 
   static propTypes = {
-    updateVisuWindow: PropTypes.func.isRequired,
+    updateCursors: PropTypes.func.isRequired,
+    updateViewport: PropTypes.func.isRequired,
     updatePlayingState: PropTypes.func.isRequired,
     updateTimebarHeight: PropTypes.func.isRequired,
     updateSpeed: PropTypes.func.isRequired,
@@ -101,7 +102,7 @@ export default class TimebarWrapper extends Component {
   render() {
     logger.debug('render');
     const {
-      updateVisuWindow,
+      updateCursors,
       timelines,
       timebarId,
       visuWindow,
@@ -113,6 +114,7 @@ export default class TimebarWrapper extends Component {
       currentSessionOffsetMs,
       focusedPageId,
       timebarHeight,
+      updateViewport,
     } = this.props;
     const {
       displayTimesetter,
@@ -128,7 +130,7 @@ export default class TimebarWrapper extends Component {
           visuWindow={visuWindow}
           slideWindow={slideWindow}
           timebarMode={timebar.mode}
-          onChange={updateVisuWindow}
+          updateCursors={updateCursors}
           timebarId={timebarId}
           cursor={timesetterCursor || 'all'}
           onClose={this.toggleTimesetter}
@@ -180,7 +182,8 @@ export default class TimebarWrapper extends Component {
           displayTimesetter={this.toggleTimesetter}
           onTimelinesVerticalScroll={this.onTimelinesVerticalScroll}
           timelinesVerticalScroll={timelinesVerticalScroll}
-          updateVisuWindow={updateVisuWindow}
+          updateCursors={updateCursors}
+          updateViewport={updateViewport}
         />
       </div>
     );

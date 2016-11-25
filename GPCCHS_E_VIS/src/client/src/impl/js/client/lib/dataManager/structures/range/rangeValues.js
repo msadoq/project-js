@@ -26,10 +26,10 @@ export function select(remoteIdPayload, ep, epName, viewState, count) {
     if (viewState && viewState[masterTime]) {
       newState[masterTime] = viewState[masterTime];
       newState[masterTime][epName] =
-        { x: value[ep.fieldX], value: value[ep.fieldY] };
+        { x: value[ep.fieldX], value: value[ep.fieldY] }; // TODO #12
     } else {
       _set(newState, [masterTime, epName],
-        { x: value[ep.fieldX], value: value[ep.fieldY] });
+        { x: value[ep.fieldX], value: value[ep.fieldY] }); // TODO #12
     }
 
     count.range += 1; // eslint-disable-line no-param-reassign

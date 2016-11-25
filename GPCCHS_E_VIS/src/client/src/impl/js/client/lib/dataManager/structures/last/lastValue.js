@@ -32,7 +32,7 @@ export function select(remoteIdPayload, ep, epName, viewSubState) {
       return;
     }
     if (timestamp >= previousTime) {
-      newValue = { timestamp, value: p[ep.field] };
+      newValue = { timestamp, value: p[ep.field] }; // TODO #12
       previousTime = timestamp;
     }
   });

@@ -16,6 +16,8 @@ export default class Page extends Component {
     windowId: PropTypes.string.isRequired,
     isEditorOpened: PropTypes.bool,
     openEditor: PropTypes.func,
+    closeEditor: PropTypes.func,
+    editorViewId: PropTypes.string.isRequired,
     focusedPageId: PropTypes.string.isRequired
   };
 
@@ -30,8 +32,8 @@ export default class Page extends Component {
   render() {
     logger.debug('render');
     const {
-      focusedPageId, windowId,
-      openEditor, isEditorOpened
+      focusedPageId, windowId, editorViewId,
+      openEditor, closeEditor, isEditorOpened
     } = this.props;
 
     const pageContentWidth = isEditorOpened ? cols - editorCols : cols;
@@ -52,7 +54,10 @@ export default class Page extends Component {
           <ContentContainer
             windowId={windowId}
             focusedPageId={focusedPageId}
+            editorViewId={editorViewId}
+            isEditorOpened={isEditorOpened}
             openEditor={openEditor}
+            closeEditor={closeEditor}
           />
         </Col>
       </div>

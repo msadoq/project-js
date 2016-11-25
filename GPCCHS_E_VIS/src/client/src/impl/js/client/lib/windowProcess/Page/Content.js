@@ -27,7 +27,7 @@ export default class Content extends Component {
     timebarId: PropTypes.string,
     layouts: PropTypes.object.isRequired,
     views: PropTypes.array,
-    viewOpenedInEditor: PropTypes.string,
+    editorViewId: PropTypes.string,
     unmountAndRemove: PropTypes.func,
     openEditor: PropTypes.func,
     closeEditor: PropTypes.func,
@@ -67,7 +67,8 @@ export default class Content extends Component {
     logger.debug('render');
     const {
       views = [], focusedPageId, timebarId,
-      layouts, viewOpenedInEditor, isEditorOpened
+      layouts, editorViewId, isEditorOpened,
+      openEditor, closeEditor
     } = this.props;
 
     if (!focusedPageId) {
@@ -90,23 +91,25 @@ export default class Content extends Component {
         measureBeforeMount
       >
         {views.map((v) => {
-          const isViewsEditorOpen = viewOpenedInEditor === v.viewId && isEditorOpened;
+          const isViewsEditorOpen = editorViewId === v.viewId && isEditorOpened;
 
           // avoid React reconciliation issue when all Content child components are ViewContainer
           // and sort order with siblings change
           const ViewContainer = makeViewContainer();
 
           return (
-            <div className={isViewsEditorOpen ? styles.blockedited : styles.block} key={v.viewId}>
+            <div
+              className={isViewsEditorOpen ? styles.blockedited : styles.block}
+              key={v.viewId}
+            >
               <ViewContainer
                 timebarId={timebarId}
                 pageId={focusedPageId}
                 viewId={v.viewId}
                 unmountAndRemove={this.props.unmountAndRemove}
-                viewOpenedInEditor={this.props.viewOpenedInEditor}
                 isViewsEditorOpen={isViewsEditorOpen}
-                openEditor={this.props.openEditor}
-                closeEditor={this.props.closeEditor}
+                openEditor={openEditor}
+                closeEditor={closeEditor}
               />
             </div>);
         })}

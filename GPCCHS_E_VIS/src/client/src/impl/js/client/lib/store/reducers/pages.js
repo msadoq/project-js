@@ -58,6 +58,15 @@ export default function pages(statePages = {}, action) {
         isModified: true,
       } },
         statePages);
+    case types.WS_PAGE_UPDATE_TIMEBARHEIGHT:
+      if (!statePages[action.payload.focusedPageId]) {
+        return statePages;
+      }
+      return u({ [action.payload.focusedPageId]: {
+        timebarHeight: action.payload.timebarHeight,
+        isModified: true,
+      } },
+        statePages);
     default:
       return statePages;
   }
@@ -65,6 +74,7 @@ export default function pages(statePages = {}, action) {
 
 const initialState = {
   title: 'Unknown',
+  timebarHeight: null,
   timebarId: null,
   layout: [],
   views: [],
@@ -82,6 +92,7 @@ function page(statePage = initialState, action) {
       return Object.assign({}, statePage, {
         title: action.payload.title || statePage.title,
         timebarId: action.payload.timebarId || statePage.timebarId,
+        timebarHeight: action.payload.timebarHeight || statePage.timebarHeight,
         layout: action.payload.layout || statePage.layout,
         views: action.payload.views || statePage.views,
         path: action.payload.path,

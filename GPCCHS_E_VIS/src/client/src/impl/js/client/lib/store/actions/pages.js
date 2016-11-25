@@ -20,6 +20,7 @@ export const updatePath = simple(types.WS_PAGE_UPDATEPATH, 'pageId', 'newPath');
 export const setModified = simple(types.WS_PAGE_SETMODIFIED, 'pageId', 'flag');
 
 export const updateTimebarId = simple(types.WS_PAGE_UPDATE_TIMEBARID, 'focusedPageId', 'timebarId');
+export const updateTimebarHeight = simple(types.WS_PAGE_UPDATE_TIMEBARHEIGHT, 'focusedPageId', 'timebarHeight');
 
 /**
  * Compound actions

@@ -2,13 +2,14 @@ import { connect } from 'react-redux';
 import React from 'react';
 import _get from 'lodash/get';
 import { updateVisuWindow, updatePlayingState, updateSpeed, updateMode } from '../../store/actions/timebars';
+import { updateTimebarHeight } from '../../store/actions/pages';
 import { getTimebar, getTimebarTimelinesSelector } from '../../store/selectors/timebars';
 import TimebarWrapper from './TimebarWrapper';
 import SelectTimebarContainer from './SelectTimebarContainer';
 
 export default connect(
   (state, { focusedPageId }) => {
-    const { timebarId } = _get(state, ['pages', focusedPageId]);
+    const { timebarId, timebarHeight } = _get(state, ['pages', focusedPageId]);
     const timebar = getTimebar(state, timebarId);
     if (!timebar) {
       return { timebars: state.timebars };
@@ -33,6 +34,7 @@ export default connect(
       timebar,
       focusedPageId,
       timebarId,
+      timebarHeight,
       timelines,
       currentSessionOffsetMs,
       sessions: state.sessions,
@@ -42,6 +44,7 @@ export default connect(
     updateVisuWindow,
     updatePlayingState,
     updateSpeed,
+    updateTimebarHeight,
   }
 
 )(props => (props.timebar ? <TimebarWrapper {...props} /> : <SelectTimebarContainer {...props} />));

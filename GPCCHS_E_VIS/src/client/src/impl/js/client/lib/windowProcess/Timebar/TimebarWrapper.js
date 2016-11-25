@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
+import { debounce } from 'lodash';
 import { Col } from 'react-bootstrap';
 import styles from './Timebar.css';
 import LefttabContainer from './LefttabContainer';
@@ -8,12 +9,14 @@ import Timesetter from './Timesetter';
 import debug from '../../../lib/common/debug/windowDebug';
 
 const logger = debug('Timebar');
+const minTimebarHeight = 135;
 
 export default class TimebarWrapper extends Component {
 
   static propTypes = {
     updateVisuWindow: PropTypes.func.isRequired,
     updatePlayingState: PropTypes.func.isRequired,
+    updateTimebarHeight: PropTypes.func.isRequired,
     updateSpeed: PropTypes.func.isRequired,
     updateMode: PropTypes.func.isRequired,
     visuWindow: PropTypes.object.isRequired,
@@ -22,13 +25,15 @@ export default class TimebarWrapper extends Component {
     timebarId: PropTypes.string.isRequired,
     focusedPageId: PropTypes.string.isRequired,
     timelines: PropTypes.array.isRequired,
-    currentSessionOffsetMs: PropTypes.number
+    currentSessionOffsetMs: PropTypes.number,
+    timebarHeight: PropTypes.number,
   }
 
   state = {
     timelinesVerticalScroll: 0,
     displayTimesetter: false,
     timesetterCursor: null,
+    timebarHeight: minTimebarHeight,
   };
 
   onTimelinesVerticalScroll = (e, el) => {
@@ -56,10 +61,22 @@ export default class TimebarWrapper extends Component {
     e.stopPropagation();
     if (this.state.resizingWindow) {
       const movedPx = this.state.cursorOriginY - e.pageY;
-      this.setState({
-        height: this.state.heightOrigin + movedPx
-      });
+      let newTimebarHeight = this.state.heightOrigin + movedPx;
+      newTimebarHeight = newTimebarHeight < 135 ? 135 : newTimebarHeight;
+      this.el.style.height = `${newTimebarHeight}px`;
+
+      if (!this.updateTimebarHeightdebounce) {
+        this.updateTimebarHeightdebounce = debounce(this.willUpdateTimebarHeight, 300);
+      }
+      this.updateTimebarHeightdebounce(newTimebarHeight);
     }
+  }
+
+  willUpdateTimebarHeight = (timebarHeight) => {
+    this.props.updateTimebarHeight(
+      this.props.focusedPageId,
+      timebarHeight
+    );
   }
 
   resizeWindowMouseUp = (e) => {
@@ -95,6 +112,7 @@ export default class TimebarWrapper extends Component {
       updateMode,
       currentSessionOffsetMs,
       focusedPageId,
+      timebarHeight,
     } = this.props;
     const {
       displayTimesetter,
@@ -102,20 +120,6 @@ export default class TimebarWrapper extends Component {
       timelinesVerticalScroll,
       resizingWindow,
     } = this.state;
-    let { height } = this.state;
-
-    let minHeight;
-    if (timelines.length < 3) {
-      minHeight = 135;
-    } else if (timelines.length < 5) {
-      minHeight = (timelines.length * 20) + 84;
-    } else {
-      minHeight = 165;
-    }
-
-    if (minHeight > height || !height) {
-      height = minHeight;
-    }
 
     let timesetter;
     if (displayTimesetter) {
@@ -135,7 +139,7 @@ export default class TimebarWrapper extends Component {
     return (
       <div
         ref={(el) => { this.el = el; }}
-        style={{ flex: '0 0 auto', height: `${height}px` }}
+        style={{ flex: '0 0 auto', height: `${timebarHeight}px` }}
       >
         {timesetter}
         <Col xs={12} style={{ paddingBottom: 2 }}>

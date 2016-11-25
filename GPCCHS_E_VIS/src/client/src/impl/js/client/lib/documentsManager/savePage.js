@@ -27,7 +27,12 @@ function savePageAs(state, pageId, path, useRelativePath = false) {
     return err;
   }
   const page = state.pages[pageId];
-  const jsonPage = { type: 'Page', title: page.title, views: [] };
+  const jsonPage = {
+    type: 'Page',
+    timebarHeight: page.timebarHeight,
+    title: page.title,
+    views: [],
+  };
   page.views.forEach((id) => {
     // Get view definition in stateViews
     if (!state.views[id]) {

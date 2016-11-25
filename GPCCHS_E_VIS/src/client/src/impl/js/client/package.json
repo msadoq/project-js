@@ -23,6 +23,7 @@
     "test": "BABEL_DISABLE_CACHE=1 mocha --compilers js:babel-register \"+(lib|VIVL)/**/*.spec.js\"",
     "snapshot": "NODE_ENV=test BABEL_DISABLE_CACHE=1 jest",
     "snapshot-watch": "npm run snapshot -- --watch",
+    "snapshot-clean": "jest -u",
     "tw": "npm test -- --watch",
     "wp": "node -r babel-register server.js"
   },

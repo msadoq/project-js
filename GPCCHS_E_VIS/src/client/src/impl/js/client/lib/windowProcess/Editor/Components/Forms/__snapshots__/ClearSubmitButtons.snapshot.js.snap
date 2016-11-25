@@ -1,0 +1,11 @@
+exports[`test Navigation renders correctly 1`] = `
+<div
+  className="pull-right btn-group">
+  <button
+    className="btn btn-success"
+    disabled={true}
+    type="submit">
+    Submit
+  </button>
+</div>
+`;

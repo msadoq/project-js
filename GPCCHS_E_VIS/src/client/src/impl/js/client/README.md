@@ -25,3 +25,12 @@ Run unit tests:
 
 Check the project source code linting:
 > npm run lint
+
+Run Jest snapshot testing:
+>npm run snapshot
+
+Run Jest snapshot watcher:
+>npm run snapshot-watch
+
+Clean out of date snapshots:
+>npm run snapshot-clean

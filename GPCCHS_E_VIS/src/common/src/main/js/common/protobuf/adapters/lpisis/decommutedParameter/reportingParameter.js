@@ -5,6 +5,8 @@ const {
   bytesToUshort,
 } = require('../types');
 
+const validityState = require('./validityState');
+
 module.exports = {
   encode: data => ({
     onboardDate: { value: data.onboardDate },
@@ -20,17 +22,17 @@ module.exports = {
     isNominal: { value: data.isNominal },
   }),
   decode: data => ({
-    onboardDate: data.onboardDate.value.toNumber(),
-    groundDate: data.groundDate.value.toNumber(),
+    onboardDate: { type: 'time', value: data.onboardDate.value.toNumber() },
+    groundDate: { type: 'time', value: data.groundDate.value.toNumber() },
     convertedValue: decodeAttribute(data.convertedValue),
     rawValue: decodeAttribute(data.rawValue),
     extractedValue: decodeAttribute(data.extractedValue),
-    monitoringState: data.monitoringState.value,
-    triggerOnCounter: data.triggerOnCounter ? bytesToUshort(data.triggerOnCounter.value) : null,
-    triggerOffCounter: data.triggerOffCounter ? bytesToUshort(data.triggerOffCounter.value) : null,
-    validityState: data.validityState,
-    isObsolete: data.isObsolete ? data.isObsolete.value : null,
-    isNominal: data.isNominal ? data.isNominal.value : null,
-    referenceTimestamp: data.onboardDate.value.toNumber(),
+    monitoringState: { type: 'string', value: data.monitoringState.value },
+    triggerOffCounter: { type: 'ushort', value: data.triggerOffCounter ? bytesToUshort(data.triggerOffCounter.value) : null },
+    triggerOnCounter: { type: 'ushort', value: data.triggerOnCounter ? bytesToUshort(data.triggerOnCounter.value) : null },
+    validityState: { type: 'enum', value: data.validityState, symbol: validityState[data.validityState] },
+    isObsolete: data.isObsolete ? { type: 'boolean', value: data.isObsolete.value } : null,
+    isNominal: data.isNominal ? { type: 'boolean', value: data.isNominal.value } : null,
+    referenceTimestamp: { type: 'time', value: data.onboardDate.value.toNumber() },
   }),
 };

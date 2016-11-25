@@ -5,8 +5,8 @@ module.exports = {
     executionStart: { value: data.executionStart },
   }),
   decode: data => ({
-    acceptance: data.acceptance.value,
-    executionComplete: data.executionComplete.value,
-    executionStart: data.executionStart.value,
+    acceptance: { type: 'boolean', value: data.acceptance.value },
+    executionComplete: { type: 'boolean', value: data.executionComplete.value },
+    executionStart: { type: 'boolean', value: data.executionStart.value },
   }),
 };

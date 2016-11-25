@@ -27,7 +27,13 @@ const getQueryArgumentsProtobuf = override => protobuf.encode(
   getQueryArguments(override)
 );
 
+const getQueryArgumentsDeProtobuf = (proto) => protobuf.decode(
+  'dc.dataControllerUtils.QueryArguments',
+  proto
+);
+
 module.exports = {
   getQueryArguments,
   getQueryArgumentsProtobuf,
+  getQueryArgumentsDeProtobuf,
 };

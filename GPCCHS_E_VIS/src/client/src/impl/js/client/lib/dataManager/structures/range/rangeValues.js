@@ -1,4 +1,5 @@
 import _each from 'lodash/each';
+import _get from 'lodash/get';
 import _set from 'lodash/set';
 import _has from 'lodash/has';
 
@@ -13,7 +14,7 @@ export function select(remoteIdPayload, ep, epName, viewState, count) {
   const newState = {};
 
   _each(remoteIdPayload, (value) => {
-    const timestamp = value.referenceTimestamp;
+    const timestamp = _get(value, ['referenceTimestamp', 'value']);
     if (typeof timestamp === 'undefined') {
       return logger.warn('get a payload without .referenceTimestamp key');
     }
@@ -23,13 +24,14 @@ export function select(remoteIdPayload, ep, epName, viewState, count) {
       return;
     }
     const masterTime = timestamp + ep.offset;
+
     if (viewState && viewState[masterTime]) {
       newState[masterTime] = viewState[masterTime];
       newState[masterTime][epName] =
-        { x: value[ep.fieldX], value: value[ep.fieldY] }; // TODO #12
+        { x: _get(value, [ep.fieldX, 'value']), value: _get(value, [ep.fieldY, 'value']) };
     } else {
       _set(newState, [masterTime, epName],
-        { x: value[ep.fieldX], value: value[ep.fieldY] }); // TODO #12
+        { x: _get(value, [ep.fieldX, 'value']), value: _get(value, [ep.fieldY, 'value']) });
     }
 
     count.range += 1; // eslint-disable-line no-param-reassign

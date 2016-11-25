@@ -31,6 +31,7 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
   const remoteId = dataStub.getRemoteId(dataId);
   const rp = dataStub.getReportingParameter();
   const protoRp = dataStub.getReportingParameterProtobuf(rp);
+  const deprotoRp = dataStub.getReportingParameterDeProtobuf(protoRp);
   const t1 = 5;
   const t2 = 10;
   const timestamp1 = dataStub.getTimestampProtobuf({ ms: t1 });
@@ -102,17 +103,17 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
     timebasedData.should.have.properties([
       {
         timestamp: t1,
-        payload: rp,
+        payload: deprotoRp,
       }, {
         timestamp: t2,
-        payload: rp,
+        payload: deprotoRp,
       },
     ]);
 
     getQueue().should.have.properties({
       [remoteId]: {
-        [t1]: rp,
-        [t2]: rp,
+        [t1]: deprotoRp,
+        [t2]: deprotoRp,
       },
     });
   });
@@ -152,16 +153,16 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
     timebasedData.should.have.properties([
       {
         timestamp: t1,
-        payload: rp,
+        payload: deprotoRp,
       }, {
         timestamp: t2,
-        payload: rp,
+        payload: deprotoRp,
       },
     ]);
     getQueue().should.have.properties({
       [remoteId]: {
-        [t1]: rp,
-        [t2]: rp,
+        [t1]: deprotoRp,
+        [t2]: deprotoRp,
       },
     });
   });

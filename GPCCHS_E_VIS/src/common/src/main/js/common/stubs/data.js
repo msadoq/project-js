@@ -44,6 +44,11 @@ stubs.getReportingParameterProtobuf = override => protobuf.encode(
   stubs.getReportingParameter(override)
 );
 
+stubs.getReportingParameterDeProtobuf = proto => protobuf.decode(
+  'lpisis.decommutedParameter.ReportingParameter',
+  proto
+);
+
 // TCHistory
 stubs.getTCHistory = override => applyOverride({
   sendingDate: now,
@@ -81,6 +86,10 @@ stubs.getTCHistoryProtobuf = override => protobuf.encode(
   stubs.getTCHistory(override)
 );
 
+stubs.getTCHistoryDeProtobuf = proto => protobuf.decode(
+  'lpisis.tcHistory.TCHistory',
+  proto
+);
 
 /*
  * HSS

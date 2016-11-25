@@ -20,8 +20,8 @@ describe('utils/filters', () => {
           fieldValue: 42,
         },
       ];
-      applyFilters({ intDataValue: 42 }, filter).should.equal(true);
-      applyFilters({ intDataValue: 43 }, filter).should.equal(false);
+      applyFilters({ intDataValue: { type: 'integer', value: 42 } }, filter).should.equal(true);
+      applyFilters({ intDataValue: { type: 'integer', value: 43 } }, filter).should.equal(false);
     });
     it('OP_NE', () => {
       const filter = [
@@ -31,8 +31,8 @@ describe('utils/filters', () => {
           fieldValue: 42,
         },
       ];
-      applyFilters({ intDataValue: 42 }, filter).should.equal(false);
-      applyFilters({ intDataValue: 43 }, filter).should.equal(true);
+      applyFilters({ intDataValue: { type: 'integer', value: 42 } }, filter).should.equal(false);
+      applyFilters({ intDataValue: { type: 'integer', value: 43 } }, filter).should.equal(true);
     });
     it('OP_LT', () => {
       const filter = [
@@ -42,9 +42,9 @@ describe('utils/filters', () => {
           fieldValue: 42,
         },
       ];
-      applyFilters({ intDataValue: 40 }, filter).should.equal(true);
-      applyFilters({ intDataValue: 42 }, filter).should.equal(false);
-      applyFilters({ intDataValue: 50 }, filter).should.equal(false);
+      applyFilters({ intDataValue: { type: 'integer', value: 40 } }, filter).should.equal(true);
+      applyFilters({ intDataValue: { type: 'integer', value: 42 } }, filter).should.equal(false);
+      applyFilters({ intDataValue: { type: 'integer', value: 50 } }, filter).should.equal(false);
     });
     it('OP_GT', () => {
       const filter = [
@@ -54,9 +54,9 @@ describe('utils/filters', () => {
           fieldValue: 42,
         },
       ];
-      applyFilters({ intDataValue: 40 }, filter).should.equal(false);
-      applyFilters({ intDataValue: 42 }, filter).should.equal(false);
-      applyFilters({ intDataValue: 50 }, filter).should.equal(true);
+      applyFilters({ intDataValue: { type: 'integer', value: 40 } }, filter).should.equal(false);
+      applyFilters({ intDataValue: { type: 'integer', value: 42 } }, filter).should.equal(false);
+      applyFilters({ intDataValue: { type: 'integer', value: 50 } }, filter).should.equal(true);
     });
     it('OP_LE', () => {
       const filter = [
@@ -66,9 +66,9 @@ describe('utils/filters', () => {
           fieldValue: 42,
         },
       ];
-      applyFilters({ intDataValue: 40 }, filter).should.equal(true);
-      applyFilters({ intDataValue: 42 }, filter).should.equal(true);
-      applyFilters({ intDataValue: 50 }, filter).should.equal(false);
+      applyFilters({ intDataValue: { type: 'integer', value: 40 } }, filter).should.equal(true);
+      applyFilters({ intDataValue: { type: 'integer', value: 42 } }, filter).should.equal(true);
+      applyFilters({ intDataValue: { type: 'integer', value: 50 } }, filter).should.equal(false);
     });
     it('OP_GE', () => {
       const filter = [
@@ -78,9 +78,9 @@ describe('utils/filters', () => {
           fieldValue: 42,
         },
       ];
-      applyFilters({ intDataValue: 40 }, filter).should.equal(false);
-      applyFilters({ intDataValue: 42 }, filter).should.equal(true);
-      applyFilters({ intDataValue: 50 }, filter).should.equal(true);
+      applyFilters({ intDataValue: { type: 'integer', value: 40 } }, filter).should.equal(false);
+      applyFilters({ intDataValue: { type: 'integer', value: 42 } }, filter).should.equal(true);
+      applyFilters({ intDataValue: { type: 'integer', value: 50 } }, filter).should.equal(true);
     });
     it('OP_CONTAINS', () => {
       const filter = [
@@ -90,9 +90,9 @@ describe('utils/filters', () => {
           fieldValue: 'foo',
         },
       ];
-      applyFilters({ stringDataValue: 'foo' }, filter).should.equal(true);
-      applyFilters({ stringDataValue: 'bar foo bar' }, filter).should.equal(true);
-      applyFilters({ stringDataValue: 'bar' }, filter).should.equal(false);
+      applyFilters({ stringDataValue: { type: 'string', value: 'foo' } }, filter).should.equal(true);
+      applyFilters({ stringDataValue: { type: 'string', value: 'bar foo bar' } }, filter).should.equal(true);
+      applyFilters({ stringDataValue: { type: 'string', value: 'bar' } }, filter).should.equal(false);
     });
     it('OP_ICONTAINS', () => {
       const filter = [
@@ -102,9 +102,9 @@ describe('utils/filters', () => {
           fieldValue: 'foo',
         },
       ];
-      applyFilters({ stringDataValue: 'foo' }, filter).should.equal(false);
-      applyFilters({ stringDataValue: 'bar foo bar' }, filter).should.equal(false);
-      applyFilters({ stringDataValue: 'bar' }, filter).should.equal(true);
+      applyFilters({ stringDataValue: { type: 'string', value: 'foo' } }, filter).should.equal(false);
+      applyFilters({ stringDataValue: { type: 'string', value: 'bar foo bar' } }, filter).should.equal(false);
+      applyFilters({ stringDataValue: { type: 'string', value: 'bar' } }, filter).should.equal(true);
     });
     it('multi', () => {
       const filter = [
@@ -119,11 +119,11 @@ describe('utils/filters', () => {
           fieldValue: 49,
         },
       ];
-      applyFilters({ intDataValue: 30 }, filter).should.equal(false);
-      applyFilters({ intDataValue: 40 }, filter).should.equal(false);
-      applyFilters({ intDataValue: 41 }, filter).should.equal(true);
-      applyFilters({ intDataValue: 49 }, filter).should.equal(true);
-      applyFilters({ intDataValue: 50 }, filter).should.equal(false);
+      applyFilters({ intDataValue: { type: 'integer', value: 30 } }, filter).should.equal(false);
+      applyFilters({ intDataValue: { type: 'integer', value: 40 } }, filter).should.equal(false);
+      applyFilters({ intDataValue: { type: 'integer', value: 41 } }, filter).should.equal(true);
+      applyFilters({ intDataValue: { type: 'integer', value: 49 } }, filter).should.equal(true);
+      applyFilters({ intDataValue: { type: 'integer', value: 50 } }, filter).should.equal(false);
     });
     it('invalid data', () => {
       const filter = [
@@ -133,8 +133,8 @@ describe('utils/filters', () => {
           fieldValue: 42,
         },
       ];
-      applyFilters({ otherField: 42 }, filter).should.equal(true);
-      applyFilters({ otherField: 43 }, filter).should.equal(true);
+      applyFilters({ otherField: { type: 'integer', value: '42' } }, filter).should.equal(true);
+      applyFilters({ otherField: { type: 'integer', value: '43' } }, filter).should.equal(true);
     });
     it('invalid filter', () => {
       const filter = {
@@ -142,11 +142,11 @@ describe('utils/filters', () => {
         type: globalConstants.FILTERTYPE_EQ,
         fieldValue: 42,
       };
-      applyFilters({ intDataValue: 50 }, [_omit(filter, ['fieldName'])]).should.equal(true);
-      applyFilters({ intDataValue: 50 }, [_assign({}, filter, { fieldName: '' })]).should.equal(true);
-      applyFilters({ intDataValue: 50 }, [_omit(filter, ['type'])]).should.equal(true);
-      applyFilters({ intDataValue: 50 }, [_assign({}, filter, { type: '' })]).should.equal(true);
-      applyFilters({ intDataValue: 50 }, [_omit(filter, ['fieldValue'])]).should.equal(true);
+      applyFilters({ intDataValue: { type: 'integer', value: 50 } }, [_omit(filter, ['fieldName'])]).should.equal(true);
+      applyFilters({ intDataValue: { type: 'integer', value: 50 } }, [_assign({}, filter, { fieldName: '' })]).should.equal(true);
+      applyFilters({ intDataValue: { type: 'integer', value: 50 } }, [_omit(filter, ['type'])]).should.equal(true);
+      applyFilters({ intDataValue: { type: 'integer', value: 50 } }, [_assign({}, filter, { type: '' })]).should.equal(true);
+      applyFilters({ intDataValue: { type: 'integer', value: 50 } }, [_omit(filter, ['fieldValue'])]).should.equal(true);
     });
   });
 });

@@ -87,8 +87,8 @@ const removeEmpty = (collection) => {
 };
 
 register({
-  dc: require('./converters/dc'),
-  lpisis: require('./converters/lpisis'),
+  dc: require('./adapters/dc'),
+  lpisis: require('./adapters/lpisis'),
 });
 
 module.exports = {

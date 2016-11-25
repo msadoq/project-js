@@ -755,7 +755,6 @@ export default class Timebar extends Component {
       viewport
     } = this.props;
 
-
     /*
       In the following assignations, the third value should never be reached
       value is always in the state (some user action is going on) or in the props
@@ -887,7 +886,7 @@ export default class Timebar extends Component {
           formatedFullDate ?
             <span className={styles.formatedFullDate}>{formatedFullDate}</span>
             : ''
-          }
+        }
         <div
           className={styles.viewportContainer}
           onWheel={this.onWheel}

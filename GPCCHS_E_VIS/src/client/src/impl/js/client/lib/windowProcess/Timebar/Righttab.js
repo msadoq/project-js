@@ -108,22 +108,20 @@ class Righttab extends Component {
           updateMode={updateMode}
           currentSessionOffsetMs={currentSessionOffsetMs}
         />
-        <div style={{ height: '100%' }} ref={(el) => { this.timebarEl = el; }}>
-          <Timebar
-            viewport={this.formatViewportDimensions()}
-            updatePlayingState={updatePlayingState}
-            playingState={timebar.playingState}
-            timebarId={timebarId}
-            timebarMode={timebar.mode}
-            visuWindow={visuWindow}
-            slideWindow={slideWindow}
-            timelines={timelines}
-            onChange={this.willUpdateVisuWindow}
-            verticalScroll={timelinesVerticalScroll}
-            onVerticalScroll={onTimelinesVerticalScroll}
-            displayTimesetter={displayTimesetter}
-          />
-        </div>
+        <Timebar
+          viewport={this.formatViewportDimensions()}
+          updatePlayingState={updatePlayingState}
+          playingState={timebar.playingState}
+          timebarId={timebarId}
+          timebarMode={timebar.mode}
+          visuWindow={visuWindow}
+          slideWindow={slideWindow}
+          timelines={timelines}
+          onChange={this.willUpdateVisuWindow}
+          verticalScroll={timelinesVerticalScroll}
+          onVerticalScroll={onTimelinesVerticalScroll}
+          displayTimesetter={displayTimesetter}
+        />
       </Col>
     );
   }

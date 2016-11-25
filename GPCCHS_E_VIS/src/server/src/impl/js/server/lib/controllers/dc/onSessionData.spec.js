@@ -16,10 +16,10 @@ describe('controllers/dc/onSessionData', () => {
     // init test
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
-    const mySession = dataStub.getSession({ name: 'Session#666' });
-    const mySessionProto = dataStub.getSessionProtobuf(mySession);
+    const mySessions = dataStub.getSessions();
+    const mySessionsProto = dataStub.getSessionsProtobuf(mySessions);
     // launch test
-    sessionData(testHandler, myQueryIdProto, mySessionProto);
+    sessionData(testHandler, myQueryIdProto, mySessionsProto);
     getTestHandlerArgs().should.have.lengthOf(0);
   });
 

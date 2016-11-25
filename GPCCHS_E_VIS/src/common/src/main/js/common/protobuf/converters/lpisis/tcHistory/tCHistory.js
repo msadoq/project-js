@@ -1,5 +1,5 @@
-const ExpectedAck = require('./ExpectedAck');
-const SuccessiveAck = require('./SuccessiveAck');
+const expectedAck = require('./expectedAck');
+const successiveAck = require('./successiveAck');
 
 module.exports = {
   encode: data => ({
@@ -9,8 +9,8 @@ module.exports = {
     historyName: { value: data.historyName },
     sendType: data.sendType,
     tcNums: { value: data.tcNums },
-    expectedAck: ExpectedAck.encode(data.expectedAck),
-    successiveAck: SuccessiveAck.encode(data.successiveAck),
+    expectedAck: expectedAck.encode(data.expectedAck),
+    successiveAck: successiveAck.encode(data.successiveAck),
     tc: { value: data.tc },
   }),
   decode: data => ({
@@ -20,8 +20,8 @@ module.exports = {
     historyName: data.historyName.value,
     sendType: data.sendType,
     tcNums: data.tcNums.value,
-    expectedAck: ExpectedAck.decode(data.expectedAck),
-    successiveAck: SuccessiveAck.decode(data.successiveAck),
-    tc: data.tc.value,
+    expectedAck: expectedAck.decode(data.expectedAck),
+    successiveAck: successiveAck.decode(data.successiveAck),
+    tc: data.tc.value.toBuffer(),
   }),
 };

@@ -1,29 +1,17 @@
-/* eslint-disable global-require */
+/* eslint-disable global-require, no-underscore-dangle */
 
 const ProtoBuf = require('protobufjs');
-// eslint-disable-next-line no-underscore-dangle
 const _each = require('lodash/each');
-// eslint-disable-next-line no-underscore-dangle
 const _forOwn = require('lodash/forOwn');
-// eslint-disable-next-line no-underscore-dangle
 const _isUndefined = require('lodash/isUndefined');
-// eslint-disable-next-line no-underscore-dangle
 const _isNull = require('lodash/isNull');
-// eslint-disable-next-line no-underscore-dangle
 const _isNaN = require('lodash/isNaN');
-// eslint-disable-next-line no-underscore-dangle
 const _isString = require('lodash/isString');
-// eslint-disable-next-line no-underscore-dangle
 const _isEmpty = require('lodash/isEmpty');
-// eslint-disable-next-line no-underscore-dangle
 const _isObject = require('lodash/isObject');
-// eslint-disable-next-line no-underscore-dangle
 const _isFunction = require('lodash/isFunction');
-// eslint-disable-next-line no-underscore-dangle
 const _isArray = require('lodash/isArray');
-// eslint-disable-next-line no-underscore-dangle
 const _pull = require('lodash/pull');
-// eslint-disable-next-line no-underscore-dangle
 const _get = require('lodash/get');
 const { join } = require('path');
 
@@ -67,7 +55,7 @@ const register = (tree) => {
   });
 };
 
-const getType = (key) => {
+const getProtobufType = (key) => {
   const type = _get(types, key);
 
   if (typeof type === 'undefined') {
@@ -99,37 +87,13 @@ const removeEmpty = (collection) => {
 };
 
 register({
-  dc: {
-    dataControllerUtils: {
-      Action: require('./converters/dc/dataControllerUtils/action'),
-      Boolean: require('./converters/dc/dataControllerUtils/boolean'),
-      DataId: require('./converters/dc/dataControllerUtils/dataId'),
-      Domain: require('./converters/dc/dataControllerUtils/domain'),
-      Domains: require('./converters/dc/dataControllerUtils/domains'),
-      Filter: require('./converters/dc/dataControllerUtils/filter'),
-      Header: require('./converters/dc/dataControllerUtils/header'),
-      QueryArguments: require('./converters/dc/dataControllerUtils/queryArguments'),
-      Session: require('./converters/dc/dataControllerUtils/session'),
-      Sessions: require('./converters/dc/dataControllerUtils/sessions'),
-      Status: require('./converters/dc/dataControllerUtils/status'),
-      String: require('./converters/dc/dataControllerUtils/string'),
-      TimeInterval: require('./converters/dc/dataControllerUtils/timeInterval'),
-      Timestamp: require('./converters/dc/dataControllerUtils/timestamp'),
-    },
-  },
-  lpisis: {
-    decommutedParameter: {
-      ReportingParameter: require('./converters/lpisis/decommutedParameter/ReportingParameter'),
-    },
-    tcHistory: {
-      TCHistory: require('./converters/lpisis/tcHistory/TCHistory'),
-    },
-  },
+  dc: require('./converters/dc'),
+  lpisis: require('./converters/lpisis'),
 });
 
 module.exports = {
   encode: (type, raw) => {
-    const Builder = getType(type);
+    const Builder = getProtobufType(type);
     let payload = Builder.mapper
       ? Builder.mapper.encode(raw)
       : raw;
@@ -137,10 +101,11 @@ module.exports = {
     payload = removeEmpty(payload);
 
     const p = new Builder(payload);
+
     return p.toBuffer();
   },
   decode: (type, buffer) => {
-    const builder = getType(type);
+    const builder = getProtobufType(type);
     const raw = builder.decode(buffer);
     return builder.mapper
       ? builder.mapper.decode(raw)

@@ -6,7 +6,7 @@ import * as types from '../types';
 /**
  * Reducer
  */
-export default function timebars(stateTimebars = {}, action) { // TODO test
+export default function timebars(stateTimebars = {}, action) {
   const { payload } = action;
   switch (action.type) {
     case types.WS_TIMEBAR_ADD:
@@ -18,6 +18,7 @@ export default function timebars(stateTimebars = {}, action) { // TODO test
       return _omit(stateTimebars, [payload.timebarId]);
     case types.WS_TIMEBAR_ID_UPDATE:
     case types.WS_TIMEBAR_VISUWINDOW_UPDATE:
+    case types.WS_TIMEBAR_UPDATE_CURSORS:
     case types.WS_TIMEBAR_SPEED_UPDATE:
     case types.WS_TIMEBAR_MODE_UPDATE:
     case types.WS_TIMEBAR_PLAYINGSTATE_UPDATE:
@@ -101,6 +102,9 @@ function timebar(stateTimebar = initialState, action) {
 
       return { ...stateTimebar, ...update };
     }
+    case types.WS_TIMEBAR_UPDATE_CURSORS:
+      // TODO implement this reducer has subfunction (and replace visuwindow update)
+      return stateTimebar;
     case types.WS_TIMEBAR_SPEED_UPDATE:
       return { ...stateTimebar, speed: payload.speed };
     case types.WS_TIMEBAR_MODE_UPDATE:

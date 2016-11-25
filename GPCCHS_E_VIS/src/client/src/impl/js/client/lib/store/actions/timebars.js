@@ -16,6 +16,15 @@ export const updateId = simple(types.WS_TIMEBAR_ID_UPDATE, 'timebarId', 'id');
 export const updateVisuWindow = simple(
   types.WS_TIMEBAR_VISUWINDOW_UPDATE, 'timebarId', 'visuWindowUpdate'
 );
+export const updateCursors = simple(
+  types.WS_TIMEBAR_UPDATE_CURSORS,
+  'timebarId',
+  'visuWindowCurrent',
+  'visuWindowLower',
+  'visuWindowUpper',
+  'slideWindowLower',
+  'slideWindowUpper'
+);
 export const updateSpeed = simple(types.WS_TIMEBAR_SPEED_UPDATE, 'timebarId', 'speed');
 export const updatePlayingState = simple(
   types.WS_TIMEBAR_PLAYINGSTATE_UPDATE, 'timebarId', 'playingState'

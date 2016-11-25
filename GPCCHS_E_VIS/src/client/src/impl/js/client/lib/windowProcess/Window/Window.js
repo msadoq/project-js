@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import { LIFECYCLE_STARTED } from 'common/constants';
 
 import Navigation from '../Navigation/Navigation';
-import TimebarContainer from '../Timebar/TimebarContainer';
+import TimebarMasterContainer from '../Timebar/TimebarMasterContainer';
 import PageContainer from '../Page/PageContainer';
 import TabsContainer from '../Navigation/TabsContainer';
 import styles from './Window.css';
@@ -55,7 +55,7 @@ export default class Window extends Component {
             focusedPageId={focusedPageId}
           />
         </div>
-        <TimebarContainer
+        <TimebarMasterContainer
           windowId={windowId}
           focusedPageId={focusedPageId}
         />

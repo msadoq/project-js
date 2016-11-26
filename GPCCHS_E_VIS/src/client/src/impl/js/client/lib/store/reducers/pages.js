@@ -1,7 +1,7 @@
 import _without from 'lodash/without';
 import _omit from 'lodash/omit';
 import u from 'updeep';
-import { relative, resolve } from 'path';
+import { resolve } from 'path';
 import * as types from '../types';
 
 /**
@@ -30,18 +30,43 @@ export default function pages(statePages = {}, action) {
           resolve(action.payload.newPath) === resolve(statePages[action.payload.pageId].path)) {
         return statePages;
       }
-      return u({ [action.payload.pageId]: { path: action.payload.newPath } }, statePages);
-    case types.WS_PAGE_UPDATE_RELATIVEPATH: {
-      const newWkFolder = resolve(action.payload.newWkFolder);
-      // workspace folder unchanged
-      if (resolve(action.payload.oldWkFolder) === newWkFolder) {
+      return u({ [action.payload.pageId]: { path: action.payload.newPath, isModified: true } },
+        statePages);
+    case types.WS_PAGE_UPDATE_ABSOLUTEPATH: {
+      if (resolve(action.payload.newPath)
+        === resolve(statePages[action.payload.pageId].absolutePath)) {
         return statePages;
       }
-      // workspace folder updated
-      const oldPath = resolve(action.payload.oldWkFolder, statePages[action.payload.pageId].path);
-      const pathMvt = relative(newWkFolder, oldPath);
-      return u({ [action.payload.pageId]: { path: pathMvt } }, statePages);
+      return u({ [action.payload.pageId]: {
+        absolutePath: action.payload.newPath,
+        isModified: true,
+      } }, statePages);
     }
+    case types.HSC_CLOSE_WORKSPACE:
+      return {};
+    case types.WS_PAGE_SETMODIFIED:
+      if (!statePages[action.payload.pageId]) {
+        return statePages;
+      }
+      return u({ [action.payload.pageId]: { isModified: action.payload.flag } }, statePages);
+    case types.WS_PAGE_UPDATE_TIMEBARID:
+      if (!statePages[action.payload.focusedPageId]) {
+        return statePages;
+      }
+      return u({ [action.payload.focusedPageId]: {
+        timebarId: action.payload.timebarId,
+        isModified: true,
+      } },
+        statePages);
+    case types.WS_PAGE_UPDATE_TIMEBARHEIGHT:
+      if (!statePages[action.payload.focusedPageId]) {
+        return statePages;
+      }
+      return u({ [action.payload.focusedPageId]: {
+        timebarHeight: action.payload.timebarHeight,
+        isModified: true,
+      } },
+        statePages);
     default:
       return statePages;
   }
@@ -49,6 +74,7 @@ export default function pages(statePages = {}, action) {
 
 const initialState = {
   title: 'Unknown',
+  timebarHeight: null,
   timebarId: null,
   layout: [],
   views: [],
@@ -57,6 +83,7 @@ const initialState = {
     viewId: null,
     viewType: null
   },
+  isModified: false,
 };
 
 function page(statePage = initialState, action) {
@@ -65,11 +92,13 @@ function page(statePage = initialState, action) {
       return Object.assign({}, statePage, {
         title: action.payload.title || statePage.title,
         timebarId: action.payload.timebarId || statePage.timebarId,
+        timebarHeight: action.payload.timebarHeight || statePage.timebarHeight,
         layout: action.payload.layout || statePage.layout,
         views: action.payload.views || statePage.views,
         path: action.payload.path,
         oId: action.payload.oId,
         absolutePath: action.payload.absolutePath,
+        isModified: action.payload.isModified || false,
       });
     case types.WS_PAGE_EDITOR_OPEN:
       return u({
@@ -81,17 +110,28 @@ function page(statePage = initialState, action) {
       }, statePage);
     case types.WS_PAGE_EDITOR_CLOSE:
       return u({ editor: { isOpened: false } }, statePage);
-    case types.WS_PAGE_VIEW_MOUNT:
-      return Object.assign({}, statePage, {
+    case types.WS_PAGE_VIEW_MOUNT: {
+      const update = {
         views: [...statePage.views, action.payload.viewId],
-      });
+        isModified: true,
+      };
+      if (action.payload.layout) {
+        update.layout = action.payload.layout;
+      }
+      return Object.assign({}, statePage, update);
+    }
     case types.WS_PAGE_VIEW_UNMOUNT:
       return Object.assign({}, statePage, {
         views: _without(statePage.views, action.payload.viewId),
+        isModified: true,
       });
     case types.WS_PAGE_UPDATE_LAYOUT:
+      if (statePage.layout === action.payload.layout) {
+        return statePage;
+      }
       return Object.assign({}, statePage, {
         layout: action.payload.layout || statePage.layout,
+        isModified: action.payload.layout ? true : statePage.isModified,
       });
     default:
       return statePage;

@@ -1,18 +1,20 @@
 @import '../style/variables.css';
 
 .viewportWrapper{
-    padding-top: 28px;
-    overflow: hidden
+    padding-top: 16px;
+    position: relative;
+    height: 100%;
+    overflow: hidden;
 }
 .viewportContainer{
-    min-height: 100px;
+    min-height: 55px;
     position: relative;
     background: #fff;
     border: 1px solid #ccc;
     background: #e0e0e0;
-    height: 100%;
+    height: calc(100% - 52px);
 }
-.viewport{
+.visuWindow{
     top: 0px;
     position: absolute;
     background: rgba(200, 126, 249,0.3);
@@ -30,9 +32,9 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: -15px;
+  top: -20px;
 }
-.lower, .upper, .current, .extUpperBound{
+.lower, .upper, .current, .extBound{
     cursor: col-resize;
     position: absolute;
     height: 100%;
@@ -49,7 +51,7 @@
     right: 0px;
     border-right: 1px solid var(--boundCursorsColor);
 }
-.extUpperBound{
+.extBound{
     right: 0px;
     border-right: 1px solid var(--extCursorColor);
 }
@@ -178,7 +180,7 @@
   color: #555;
 }
 .timelines{
-  max-height: 150px;
+  height: 100%;
   overflow-y: auto;
 }
 .timeline{

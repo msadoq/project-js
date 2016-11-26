@@ -4,8 +4,7 @@ import webpack from 'webpack';
 import postCssImport from 'postcss-smart-import';
 import postCssUrl from 'postcss-url';
 import postCssProperties from 'postcss-custom-properties';
-import postCssNesting from 'postcss-nesting';
-import postCssNext from 'postcss-cssnext';
+import postCssNesting from 'postcss-nested';
 import postCssReporter from 'postcss-reporter';
 import postCssBrowserReporter from 'postcss-browser-reporter';
 
@@ -52,7 +51,6 @@ export default {
     postCssImport(),
     postCssUrl(),
     postCssProperties(),
-    postCssNext(),
     postCssNesting(),
     postCssReporter(),
     postCssBrowserReporter()

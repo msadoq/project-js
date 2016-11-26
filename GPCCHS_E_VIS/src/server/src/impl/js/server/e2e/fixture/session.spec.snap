@@ -1,0 +1,23 @@
+exports[`session EVENT_SESSION_QUERY 1`] = `
+Object {
+  "event": "sessionData",
+  "payload": Array [
+    Object {
+      "delta": 0,
+      "id": 0,
+      "name": "Master",
+      "timestamp": Object {
+        "ps": null
+      }
+    },
+    Object {
+      "delta": 42,
+      "id": 42,
+      "name": "Session#42",
+      "timestamp": Object {
+        "ps": null
+      }
+    }
+  ]
+}
+`;

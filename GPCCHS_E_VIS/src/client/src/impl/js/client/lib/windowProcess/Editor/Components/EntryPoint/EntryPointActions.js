@@ -1,7 +1,5 @@
 import React, { PropTypes } from 'react';
 import { Glyphicon, FormGroup, InputGroup, FormControl, Button, Col } from 'react-bootstrap';
-import classnames from 'classnames';
-import styles from './EntryPointActions.css';
 
 const { Addon } = InputGroup;
 
@@ -35,20 +33,23 @@ export default class EntryPointActions extends React.Component {
 
   render() {
     return (
-      <div
-        className="row"
-        style={{ backgroundColor: 'white', margin: '10px', borderRadius: '5px' }}
-      >
-        <FormGroup bsSize="small" style={{ display: 'inline' }}>
-          <Col xs={8} className={styles.noPadding}>
+      <div>
+        <FormGroup
+          bsSize="sm"
+          className="row"
+        >
+          <Col xs={8}>
             <InputGroup>
-              <FormControl type="text" onChange={this.searchName} />
+              <FormControl
+                type="text"
+                onChange={this.searchName}
+              />
               <Addon>
                 <Glyphicon glyph="search" />
               </Addon>
             </InputGroup>
           </Col>
-          <Col xs={4} className={classnames(styles.noPadding, 'text-right')}>
+          <Col xs={4} className="text-right">
             <Button bsSize="small" onClick={this.addEntryPoint}>
               <Glyphicon glyph="plus" />
             </Button>

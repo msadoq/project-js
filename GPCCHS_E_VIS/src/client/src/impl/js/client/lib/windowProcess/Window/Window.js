@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import { LIFECYCLE_STARTED } from 'common/constants';
 
-import Navigation from '../Navigation/Navigation';
-import TimebarContainer from '../Timebar/TimebarContainer';
+import Debug from '../Navigation/Debug';
+import TimebarMasterContainer from '../Timebar/TimebarMasterContainer';
 import PageContainer from '../Page/PageContainer';
 import TabsContainer from '../Navigation/TabsContainer';
 import styles from './Window.css';
@@ -39,23 +39,23 @@ export default class Window extends Component {
 
     return (
       <div className={styles.container}>
-        <Navigation
+        <Debug
+          windowId={windowId}
+          focusedPageId={focusedPageId}
+        />
+        <TabsContainer
+          className="col-xs-12"
           windowId={windowId}
           focusedPageId={focusedPageId}
         />
         <div className={classnames('row', styles.content)}>
-          <TabsContainer
-            className="col-xs-12"
-            windowId={windowId}
-            focusedPageId={focusedPageId}
-          />
           <PageContainer
             className="col-xs-12"
             windowId={windowId}
             focusedPageId={focusedPageId}
           />
         </div>
-        <TimebarContainer
+        <TimebarMasterContainer
           windowId={windowId}
           focusedPageId={focusedPageId}
         />

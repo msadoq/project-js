@@ -1,6 +1,6 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-// eslint-disable-next-line import/no-extraneous-dependencies
+/* eslint import/no-extraneous-dependencies:0 no-underscore-dangle:0 */
 const globalConstants = require('common/constants');
+const _isObject = require('lodash/isObject');
 
 const debug = require('../../io/debug')('controllers:onPull');
 const { reset } = require('../../websocket/dataQueue');
@@ -18,5 +18,7 @@ module.exports = (spark) => {
 
   const payload = reset();
 
-  spark.write({ event: globalConstants.EVENT_TIMEBASED_DATA, payload });
+  if (_isObject(payload) && Object.keys(payload).length) {
+    spark.write({ event: globalConstants.EVENT_TIMEBASED_DATA, payload });
+  }
 };

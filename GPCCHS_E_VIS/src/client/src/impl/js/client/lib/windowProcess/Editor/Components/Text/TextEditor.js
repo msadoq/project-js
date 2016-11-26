@@ -2,22 +2,80 @@
 
 import React, { Component, PropTypes } from 'react';
 import styles from '../../Editor.css';
-import Navbar from '../Navbar';
+import Navbar from '../Navbar/Navbar';
 import EntryPointTree from '../EntryPoint/EntryPointTree';
 import EntryPointActions from '../EntryPoint/EntryPointActions';
+import TextTab from './TextTab';
+
+const newEntryPoint = {
+  name: 'NewEntryPoint',
+  connectedData: {}
+};
 
 export default class Editor extends Component {
   static propTypes = {
+    // actions
+    updateEntryPoint: PropTypes.func.isRequired,
+    addEntryPoint: PropTypes.func.isRequired,
+    removeEntryPoint: PropTypes.func.isRequired,
+    updateTitle: PropTypes.func.isRequired,
+    updateTitleStyle: PropTypes.func.isRequired,
+
     closeEditor: PropTypes.func.isRequired,
+    type: PropTypes.string.isRequired,
     configuration: PropTypes.shape({
+      title: PropTypes.string,
+      type: PropTypes.string.isRequired,
       entryPoints: PropTypes.array,
       links: PropTypes.array,
-      defaultRatio: PropTypes.object,
-      content: PropTypes.array
+      defaultRatio: PropTypes.shape({
+        length: PropTypes.number,
+        width: PropTypes.number
+      }),
+      content: PropTypes.array.isRequired,
+      titleStyle: PropTypes.shape({
+        font: PropTypes.string,
+        size: PropTypes.number,
+        bold: PropTypes.bool,
+        italic: PropTypes.bool,
+        underline: PropTypes.bool,
+        strikeOut: PropTypes.bool,
+        align: PropTypes.string,
+        color: PropTypes.string
+      })
     })
   };
 
   state = { currentDisplay: 0, search: '' };
+
+
+  handleEntryPoint = (key, label, newVal) => {
+    const { configuration, updateEntryPoint, viewId } = this.props;
+    const currentEntryPoint = _get(configuration, `entryPoints[${key}]`);
+    updateEntryPoint(viewId, key, {
+      ...currentEntryPoint,
+      [label]: newVal
+    });
+  }
+  addEntryPoint = () => {
+    const { addEntryPoint, viewId } = this.props;
+    addEntryPoint(viewId, { ...newEntryPoint });
+  }
+  removeEntryPoint = (key) => {
+    const { removeEntryPoint, viewId } = this.props;
+    removeEntryPoint(viewId, key);
+  }
+  handlePlotTitle = (newVal) => {
+    const { updateTitle, viewId } = this.props;
+    updateTitle(viewId, newVal);
+  }
+  handlePlotTitleStyle = (label, newVal) => {
+    const { configuration, updateTitleStyle, viewId } = this.props;
+    updateTitleStyle(viewId, {
+      ...configuration.titleStyle,
+      [label]: newVal
+    });
+  }
 
   changeSearch = s => this.setState({ search: s });
   changeCurrentDisplay = id => this.setState({ currentDisplay: id });
@@ -26,29 +84,41 @@ export default class Editor extends Component {
     const { currentDisplay, search } = this.state;
     const {
       closeEditor,
-      configuration: { entryPoints }
+      configuration: {
+        entryPoints,
+        title,
+        titleStyle
+      }
     } = this.props;
 
     return (
-      <div className={styles.editor}>
+      <div className={styles.contentWrapper}>
         <Navbar
           currentDisplay={currentDisplay}
-          items={['Entry Points', 'Text Editor', 'Miscs']}
+          items={['Entry Points', 'Text', 'Miscs']}
           changeCurrentDisplay={this.changeCurrentDisplay}
           closeEditor={closeEditor}
         />
-        {
-          (currentDisplay === 0) ?
-            <div>
-              <EntryPointActions changeSearch={this.changeSearch} />
-              <EntryPointTree
-                entryPoints={entryPoints}
-                search={search}
-              />
-            </div>
-           :
-            null
-        }
+        <div className={styles.content}>
+          {currentDisplay === 0 && <div>
+            <EntryPointActions
+              changeSearch={this.changeSearch}
+              addEntryPoint={this.addEntryPoint}
+            />
+            <EntryPointTree
+              entryPoints={entryPoints}
+              handleEntryPoint={this.handleEntryPoint}
+              search={search}
+              remove={this.removeEntryPoint}
+            />
+          </div>}
+          {currentDisplay === 1 && <TextTab
+            title={title}
+            handlePlotTitle={this.handlePlotTitle}
+            handlePlotTitleStyle={this.handlePlotTitleStyle}
+            titleStyle={titleStyle}
+          />}
+        </div>
       </div>
     );
   }

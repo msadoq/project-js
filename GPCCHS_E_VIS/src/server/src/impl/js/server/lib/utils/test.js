@@ -1,43 +1,13 @@
+/* eslint no-underscore-dangle:0 import/no-extraneous-dependencies:0 */
 require('dotenv-safe').load();
-// eslint-disable-next-line no-underscore-dangle
 const _each = require('lodash/each');
-
-const chai = require('chai'); // eslint-disable-line import/no-extraneous-dependencies
-// eslint-disable-next-line import/no-extraneous-dependencies
+const chai = require('chai');
 const properties = require('chai-properties');
-const request = require('supertest'); // eslint-disable-line import/no-extraneous-dependencies
-
+const utils = require('util');
 const expressApp = require('../express');
-
 const database = require('../io/loki');
 
 chai.use(properties);
-
-const postApiRequest = (route, data) => request(expressApp)
-  .post(route)
-  .set('Content-Type', 'application/vnd.api+json')
-  .set('Accept', 'application/vnd.api+json')
-  .send(JSON.stringify(data));
-const getApiRequest = url => request(expressApp)
-  .get(url)
-  .set('Content-Type', 'application/vnd.api+json')
-  .set('Accept', 'application/vnd.api+json');
-const shouldBeApiError = (status, title, pointer) => (res) => {
-  const body = res.body;
-  body.should.be.an('object')
-    .that.not.have.property('data');
-  body.should.have.a.property('errors')
-    .that.is.an('array')
-    .and.have.lengthOf(1);
-  body.errors[0].should.be.an('object').that.has.properties({
-    status,
-    title,
-    source: {
-      pointer,
-    },
-  });
-};
-
 
 let testHandlerArgs = [];
 
@@ -47,16 +17,19 @@ const testHandler = (...args) => {
   });
 };
 
+// URL used into e2e tests for WS connection with HSS
+const e2eUrl = () => `${process.env.E2E_URL}:${process.env.PORT}?identity=main`;
+
+// eslint-disable-next-line no-console
+const deepLog = obj => console.log(utils.inspect(obj, false, null));
+
 module.exports = {
   should: chai.should(),
-  expect: chai.expect,
-  request,
   expressApp,
-  postApiRequest,
-  getApiRequest,
-  shouldBeApiError,
   database,
   testHandler,
   getTestHandlerArgs: () => testHandlerArgs,
   resetTestHandlerArgs: () => { testHandlerArgs = []; },
+  e2eUrl,
+  deepLog,
 };

@@ -1,103 +1,148 @@
 import React, { PropTypes } from 'react';
+import { Field, reduxForm } from 'redux-form';
 import {
-  Form,
-  FormGroup,
-  FormControl,
-  Col,
-  ControlLabel
+  Form
 } from 'react-bootstrap';
+import {
+  ButtonToggleField,
+  InputField
+} from '../Fields/';
+import {
+  HorizontalFormGroup,
+  ClearSubmitButtons
+} from '../Forms/';
+import {
+  FormSectionLineStyle
+} from '../FormSections';
 
-import styles from './PlotTab.css';
-import select from '../Select.css';
-import SelectButton from '../Buttons/SelectButton';
-import ToggleButton from '../Buttons/ToggleButton';
-
-export default class PlotGrid extends React.Component {
+class PlotGrid extends React.Component {
   static propTypes = {
-    grids: PropTypes.array.isRequired,
-    onShow: PropTypes.func.isRequired,
-    onLineStyleChange: PropTypes.func.isRequired,
-    onWidthChange: PropTypes.func.isRequired,
-    onYAxisChange: PropTypes.func.isRequired
+    /* eslint-disable react/no-unused-prop-types */
+    initialValues: PropTypes.shape({
+      // label: PropTypes.string,
+      xAxisId: PropTypes.string,
+      yAxisId: PropTypes.string,
+      lineStyle: PropTypes.string,
+      width: PropTypes.number,
+      showGrid: PropTypes.bool
+    }).isRequired,
+    axes: PropTypes.array,
+    handleSubmit: PropTypes.func,
+    pristine: PropTypes.bool,
+    reset: PropTypes.func,
+    submitting: PropTypes.bool,
+    valid: PropTypes.bool
+  }
+
+  static defaultProps = {
+    initialValues: {
+      label: 'grid 1',
+      xAxisId: null,
+      yAxisId: null,
+      lineStyle: 'Continuous',
+      width: 1,
+      showGrid: false
+    }
   }
 
   render() {
     const {
-      grids,
-      onShow,
-      onLineStyleChange,
-      onWidthChange,
-      onYAxisChange
+      handleSubmit,
+      pristine,
+      reset,
+      submitting,
+      valid,
+      axes
     } = this.props;
 
     return (
-      <div >
-        <Form horizontal>
-          <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalName">
-            <Col componentClass={ControlLabel} xs={4} className={styles.formLabel}>
-              Show
-            </Col>
-            <Col xs={8}>
-              <ToggleButton
-                on={'ON'}
-                off={'OFF'}
-                default={(grids[0].showGrid === true) ? 'ON' : 'OFF'}
-                size="xsmall"
-                styleOn="primary"
-                styleOff="warning"
-                onChange={onShow}
-              />
-            </Col>
-          </FormGroup>
-          <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalCurve">
-            <Col componentClass={ControlLabel} xs={4} className={styles.formLabel}>
-              Line
-            </Col>
-            <Col xs={8}>
-              <SelectButton
-                size="xsmall"
-                active={grids[0].lineStyle}
-                buttons={[
-                  { label: 'Continuous', icon: 'continuous' },
-                  { label: 'Dashed', icon: 'dashed' },
-                  { label: 'Dotted', icon: 'doted' }
-                ]}
-                onChange={onLineStyleChange}
-              />
-            </Col>
-          </FormGroup>
-          <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalName">
-            <Col componentClass={ControlLabel} xs={4} className={styles.formLabel}>
-              Y Axis
-            </Col>
-            <Col xs={8}>
-              <FormControl
-                value={grids[0].yAxisId}
-                onChange={onYAxisChange}
-                componentClass="select"
-                className={select.xsmall}
-              >
-                <option value="time">Time</option>
-                <option value="frequency">Frequency</option>
-                <option value="temperature">Temperature</option>
-              </FormControl>
-            </Col>
-          </FormGroup>
-          <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalName">
-            <Col componentClass={ControlLabel} xs={4} className={styles.formLabel}>
-              Width
-            </Col>
-            <Col xs={8}>
-              <FormControl
-                type="number"
-                className="input-sm"
-                value={grids[0].width}
-                onChange={onWidthChange}
-              />
-            </Col>
-          </FormGroup>
-        </Form>
-      </div>
+      <Form horizontal onSubmit={handleSubmit}>
+        {/* Keeping in case we need to name grids!
+        <HorizontalFormGroup label="Label">
+          <Field
+            name="label"
+            component={InputField}
+            className="form-control input-sm"
+            type="text"
+          />
+        </HorizontalFormGroup>
+        */}
+        <HorizontalFormGroup label="Show">
+          <Field
+            name="showGrid"
+            component={ButtonToggleField}
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Line">
+          <FormSectionLineStyle />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="X Axis">
+          <Field
+            name="xAxisId"
+            className="form-control input-sm"
+            component="select"
+          >
+            {axes.map((axis, key) => (
+              <option key={key}>{axis.label}</option>
+            ))}
+          </Field>
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Y Axis">
+          <Field
+            name="yAxisId"
+            className="form-control input-sm"
+            component="select"
+          >
+            {axes.map((axis, key) => (
+              <option key={key}>{axis.label}</option>
+            ))}
+          </Field>
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Width">
+          <Field
+            name="width"
+            component={InputField}
+            normalize={value => parseFloat(value)}
+            className="form-control input-sm"
+            type="number"
+          />
+        </HorizontalFormGroup>
+
+        <ClearSubmitButtons
+          pristine={pristine}
+          submitting={submitting}
+          reset={reset}
+          valid={valid}
+        />
+      </Form>
     );
   }
 }
+
+
+const requiredFields = [];
+const validate = (values = {}) => {
+  const errors = {};
+
+  requiredFields.forEach((field) => {
+    if (!values[field]) {
+      errors[field] = 'Required';
+    }
+  });
+  return errors;
+};
+
+const warn = () => {
+  const warnings = {};
+  return warnings;
+};
+
+export default reduxForm({
+  validate,
+  warn,
+  enableReinitialize: true
+})(PlotGrid);

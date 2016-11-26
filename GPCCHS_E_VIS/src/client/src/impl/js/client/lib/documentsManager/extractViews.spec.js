@@ -19,8 +19,9 @@ describe('documentsManager/extractViews', () => {
     content.pages[id1] = {
       type: 'Page',
       title: 'simple page1',
-      views: [{ oId: 'plot1.json' }],
-      oId: 'page02.vipg',
+      views: [{ path: 'plot1.json' }],
+      // oId: 'page02.vipg',
+      path: 'page02.vipg',
       timeBarId: 'TB1',
       uuid: id1,
       timebarId: id,
@@ -29,8 +30,9 @@ describe('documentsManager/extractViews', () => {
     content.pages[id2] = {
       type: 'Page',
       title: 'simple page2',
-      views: [{ path: 'text1.json' }, { invalid: 'plot1.json' }],
-      oId: 'page02.vipg',
+      views: [{ path: '/text1.json' }, { invalid: '/plot1.json' }],
+      // oId: 'page02.vipg',
+      path: 'page02.vipg',
       timeBarId: 'TB1',
       uuid: id1,
       timebarId: id,
@@ -76,23 +78,21 @@ describe('documentsManager/extractViews', () => {
         done();
       });
     });
-    it('with invalid type', (done) => {
-      views.push({ path: path.join(folder, 'plot1.json'), uuid: v4(), type: 'unknownView' });
-      readViews(views, (err) => {
-        should.exist(err);
-        done();
-      });
-    });
   });
   describe('extractViews', () => {
     it('valid', (done) => {
       extractViews(content, (err, val) => {
         should.not.exist(err);
+
         val.views.should.be.an('object');
         Object.getOwnPropertyNames(val.views).should.have.length(2);
         _.each(val.pages[id1].views, (id) => {
           if (id.uuid) {
             should.exist(val.views[id.uuid]);
+            val.views[id.uuid].configuration.entryPoints.forEach((ep) => {
+              should.exist(val.views[id.uuid].configuration.axes[ep.connectedDataX.axisId]);
+              should.exist(val.views[id.uuid].configuration.axes[ep.connectedDataY.axisId]);
+            });
           }
         });
         _.each(val.pages[id2].views, (id) => {

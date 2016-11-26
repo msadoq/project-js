@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
-import styles from './ToggleButton.css';
 
 export default class ToggleButton extends React.Component {
   static propTypes = {
@@ -35,7 +34,6 @@ export default class ToggleButton extends React.Component {
         bsSize="xsmall"
         bsStyle={(this.state.onoff === 'ON') ? this.props.styleOn : this.props.styleOff}
         onClick={this.handleToggle}
-        className={this.state.size === 'xsmall' ? styles.xsmall : null}
       >
         {(this.state.onoff === 'ON') ? this.props.on : this.props.off}
       </Button>

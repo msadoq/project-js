@@ -17,7 +17,8 @@ describe('documents/lib', () => {
         title: 'window example',
         pages: [
           {
-            oId: 'page02.vipg',
+            // oId: 'page02.vipg',
+            path: 'page02.vipg',
             timeBarId: 'TB1'
           },
           {
@@ -25,9 +26,9 @@ describe('documents/lib', () => {
             timeBarId: 'TB1'
           }
         ],
-        geometry: {
-          kind: 'Absolute',
-        },
+        // geometry: {
+        //   kind: 'Absolute',
+        // },
         uuid: id,
       };
       const tbid = v4();
@@ -61,7 +62,7 @@ describe('documents/lib', () => {
         pages.should.be.an('array').with.length(2);
         _.each(pages, (p) => {
           p.should.contains.keys('uuid', 'timebarId');
-          if (p.oId) {
+          if (p.path === 'page02.vipg') {
             should.not.exist(p.timebarId);
           } else {
             should.exist(content.timebars[p.timebarId]);

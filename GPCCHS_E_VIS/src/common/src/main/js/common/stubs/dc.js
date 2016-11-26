@@ -78,13 +78,18 @@ const onHssMessage = (...args) => {
     }
     case globalConstants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION: {
       const dataId = protobuf.decode('dc.dataControllerUtils.DataId', args[2]);
-      const parameter = `${dataId.catalog}.${dataId.parameterName}<${dataId.comObject}>`;
+      let parameter = `${dataId.catalog}.${dataId.parameterName}<${dataId.comObject}>`;
       if (!isParameterSupported(dataId)) {
-        logger.warn('subscription of unsupported parameter sent to DC stub', dataId);
-        return pushError(
-          queryId,
-          `parameter ${dataId.parameterName} not yet supported by stub`
-        );
+        if (!dataId.catalog && !dataId.parameterName && dataId.comObject) {
+          // TODO To improve : Special case, subscription for a whole com object
+          parameter = 'Reporting.GENE_AM_CCSDSAPID<ReportingParameter>';
+        } else {
+          logger.warn('subscription of unsupported parameter sent to DC stub', dataId);
+          return pushError(
+            queryId,
+            `parameter ${dataId.parameterName} not yet supported by stub`
+          );
+        }
       }
       const action = protobuf.decode('dc.dataControllerUtils.Action', args[3]).action;
       if (action === globalConstants.SUBSCRIPTIONACTION_ADD) {

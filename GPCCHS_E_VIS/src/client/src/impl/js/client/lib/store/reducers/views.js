@@ -1,9 +1,10 @@
 import _omit from 'lodash/omit';
 import _without from 'lodash/without';
+import _cloneDeep from 'lodash/cloneDeep';
 import u from 'updeep';
-import { relative, resolve } from 'path';
+import { resolve } from 'path';
+import { v4 } from 'node-uuid';
 import * as types from '../types';
-
 /**
  * Reducer
  */
@@ -27,22 +28,24 @@ export default function views(stateViews = {}, action) {
           resolve(action.payload.newPath) === resolve(stateViews[action.payload.viewId].path)) {
         return stateViews;
       }
-      return u({ [action.payload.viewId]: { path: action.payload.newPath } }, stateViews);
-    case types.WS_VIEW_UPDATE_RELATIVEPATH: {
-      const newWkFolder = resolve(action.payload.newWkFolder);
-      // workspace folder unchanged
-      if (resolve(action.payload.oldWkFolder) === newWkFolder) {
+      return u({ [action.payload.viewId]: {
+        path: action.payload.newPath,
+        isModified: true,
+      } }, stateViews);
+    case types.WS_VIEW_UPDATE_ABSOLUTEPATH:
+      // path unchanged or newPath invalid
+      if (!action.payload.newPath ||
+      resolve(action.payload.newPath) === resolve(stateViews[action.payload.viewId].absolutePath)) {
         return stateViews;
       }
-      // workspace folder updated
-      const oldPath = resolve(action.payload.oldWkFolder, stateViews[action.payload.viewId].path);
-      const pathMvt = relative(newWkFolder, oldPath);
-      return u({ [action.payload.viewId]: { path: pathMvt } }, stateViews);
-    }
+      return u({ [action.payload.viewId]: {
+        absolutePath: action.payload.newPath,
+        isModified: true,
+      } }, stateViews);
     case types.WS_VIEW_UPDATE_ENTRYPOINT:
       return updateArray(stateViews, action, 'entryPoints', 'entryPoint');
     case types.WS_VIEW_UPDATE_AXIS:
-      return updateArray(stateViews, action, 'axes', 'axis');
+      return updateAxis(stateViews, action);
     case types.WS_VIEW_UPDATE_GRID:
       return updateArray(stateViews, action, 'grids', 'grid');
     case types.WS_VIEW_UPDATE_LINK:
@@ -56,7 +59,7 @@ export default function views(stateViews = {}, action) {
     case types.WS_VIEW_UPDATE_TITLE:
       return updateObject(stateViews, action, 'title', 'title');
     case types.WS_VIEW_UPDATE_TITLESTYLE:
-      return updateObject(stateViews, action, 'titleStyle', 'titleStyle', 'PlotView');
+      return updateObject(stateViews, action, 'titleStyle', 'titleStyle');
     case types.WS_VIEW_UPDATE_BGCOLOR:
       return updateObject(stateViews, action, 'plotBackgroundColour', 'bgColor', 'PlotView');
     case types.WS_VIEW_UPDATE_LEGEND:
@@ -64,9 +67,9 @@ export default function views(stateViews = {}, action) {
     case types.WS_VIEW_UPDATE_CONTENT:
       return updateObject(stateViews, action, 'content', 'content', 'TextView');
     case types.WS_VIEW_ADD_AXIS:
-      return addElementInArray(stateViews, action, 'axes', 'axis');
+      return addAxis(stateViews, action);
     case types.WS_VIEW_REMOVE_AXIS:
-      return removeElementInArray(stateViews, action, 'axes');
+      return removeAxis(stateViews, action);
     case types.WS_VIEW_ADD_ENTRYPOINT:
       return addElementInArray(stateViews, action, 'entryPoints', 'entryPoint');
     case types.WS_VIEW_REMOVE_ENTRYPOINT:
@@ -87,6 +90,13 @@ export default function views(stateViews = {}, action) {
       return addElementInArray(stateViews, action, 'procedures', 'procedure');
     case types.WS_VIEW_REMOVE_PROCEDURE:
       return removeElementInArray(stateViews, action, 'procedures');
+    case types.HSC_CLOSE_WORKSPACE:
+      return {};
+    case types.WS_VIEW_SETMODIFIED:
+      if (!stateViews[action.payload.viewId]) {
+        return stateViews;
+      }
+      return u({ [action.payload.viewId]: { isModified: action.payload.flag } }, stateViews);
     default:
       return stateViews;
   }
@@ -106,13 +116,13 @@ function view(stateView = initialState, action) {
         path: action.payload.path,
         oId: action.payload.oId,
         absolutePath: action.payload.absolutePath,
+        isModified: action.payload.isModified || false,
       };
     default:
       return stateView;
   }
 }
 
-// TODO remove and add configuration entry point
 function configuration(state = { title: null }, action) {
   switch (action.type) {
     case types.WS_VIEW_ADD:
@@ -122,7 +132,7 @@ function configuration(state = { title: null }, action) {
   }
 }
 
-function updateObject(stateViews, action, objectName, paramName, viewType) {
+export function updateObject(stateViews, action, objectName, paramName, viewType) {
   if (!stateViews[action.payload.viewId] || !action.payload[paramName]) {
     return stateViews;
   }
@@ -134,12 +144,13 @@ function updateObject(stateViews, action, objectName, paramName, viewType) {
     [action.payload.viewId]: {
       configuration: {
         [objectName]: action.payload[paramName]
-      }
+      },
+      isModified: true,
     }
   }, stateViews);
 }
 
-function updateArray(stateViews, action, arrayName, paramName) {
+export function updateArray(stateViews, action, arrayName, paramName) {
   if (!stateViews[action.payload.viewId] || !action.payload[paramName]) {
     return stateViews;
   }
@@ -154,12 +165,13 @@ function updateArray(stateViews, action, arrayName, paramName) {
         [arrayName]: {
           [index]: action.payload[paramName]
         }
-      }
+      },
+      isModified: true,
     }
   }, stateViews);
 }
 
-function addElementInArray(stateViews, action, arrayName, paramName) {
+export function addElementInArray(stateViews, action, arrayName, paramName) {
   if (!stateViews[action.payload.viewId] || !action.payload[paramName]) {
     return stateViews;
   }
@@ -168,11 +180,12 @@ function addElementInArray(stateViews, action, arrayName, paramName) {
     [action.payload.viewId]: {
       configuration: {
         [arrayName]: [...oldValue, ...[action.payload[paramName]]]
-      }
+      },
+      isModified: true,
     }
   }, stateViews);
 }
-function removeElementInArray(stateViews, action, arrayName) {
+export function removeElementInArray(stateViews, action, arrayName) {
   if (!stateViews[action.payload.viewId] || action.payload.index === undefined) {
     return stateViews;
   }
@@ -185,7 +198,59 @@ function removeElementInArray(stateViews, action, arrayName) {
     [action.payload.viewId]: {
       configuration: {
         [arrayName]: _without(viewConf[arrayName], viewConf[arrayName][index])
-      }
+      },
+      isModified: true,
     }
   }, stateViews);
+}
+
+export function updateAxis(stateViews, action) {
+  if (!stateViews[action.payload.viewId]) {
+    return stateViews;
+  }
+  // Content only for a type of view if viewType is defined
+  if (stateViews[action.payload.viewId].type !== 'PlotView') {
+    return stateViews;
+  }
+  return u({
+    [action.payload.viewId]: {
+      configuration: {
+        axes: { [action.payload.axisId]: action.payload.axis }
+      },
+      isModified: true,
+    }
+  }, stateViews);
+}
+
+export function addAxis(stateViews, action) {
+  if (!stateViews[action.payload.viewId]) {
+    return stateViews;
+  }
+  // Content only for a type of view if viewType is defined
+  if (stateViews[action.payload.viewId].type !== 'PlotView') {
+    return stateViews;
+  }
+  const uuid = v4();
+  return u({
+    [action.payload.viewId]: {
+      configuration: {
+        axes: { [uuid]: action.payload.axis }
+      },
+      isModified: true,
+    }
+  }, stateViews);
+}
+
+export function removeAxis(stateViews, action) {
+  if (!stateViews[action.payload.viewId]) {
+    return stateViews;
+  }
+  // Content only for a type of view if viewType is defined
+  if (stateViews[action.payload.viewId].type !== 'PlotView') {
+    return stateViews;
+  }
+  const newState = _cloneDeep(stateViews);
+  newState[action.payload.viewId].configuration.axes =
+    _omit(stateViews[action.payload.viewId].configuration.axes, action.payload.axisId);
+  return newState;
 }

@@ -8,11 +8,11 @@ export default class TimesetterFields extends Component {
 
   static propTypes = {
     ms: React.PropTypes.number.isRequired,
-    extUpperBound: React.PropTypes.number.isRequired,
     value: React.PropTypes.string.isRequired,
     disabled: React.PropTypes.bool.isRequired,
     onChange: React.PropTypes.func.isRequired,
     visuWindow: React.PropTypes.object.isRequired,
+    slideWindow: React.PropTypes.object.isRequired,
   }
 
   state = {
@@ -20,15 +20,23 @@ export default class TimesetterFields extends Component {
   }
 
   onChangeAction = () => {
-    const { value, onChange, visuWindow } = this.props;
-    let { extUpperBound } = this.props;
+    const { value, onChange, visuWindow, slideWindow } = this.props;
     const { date } = this.state;
     if (visuWindow[value]) {
       visuWindow[value] = date.toDate().getTime();
-    } else {
-      extUpperBound = date.toDate().getTime();
+    } else if (value === 'slideLower') {
+      slideWindow.lower = date.toDate().getTime();
+    } else if (value === 'slideUpper') {
+      slideWindow.upper = date.toDate().getTime();
     }
-    onChange(visuWindow.lower, visuWindow.upper, visuWindow.current, extUpperBound, value);
+    onChange(
+      visuWindow.lower,
+      visuWindow.upper,
+      visuWindow.current,
+      slideWindow.lower,
+      slideWindow.upper,
+      value
+    );
     this.setState({ date: null });
   }
 
@@ -74,10 +82,19 @@ export default class TimesetterFields extends Component {
         onClick={this.onChangeAction}
       />);
     }
+    let valueText;
+    if (value === 'slideLower') {
+      valueText = 'Ext lower cursor';
+    } else if (value === 'slideUpper') {
+      valueText = 'Ext upper cursor';
+    } else {
+      valueText = `${value} cursor`;
+    }
+
     return (
       <Col xs={12} className={styles.fieldsContainer}>
         <div className={classnames('text-capitalize', styles.formLabel, { [styles[`formLabel${value}`]]: !disabled })} style={{ width: '100%' }}>
-          <b>{value === 'extUpperBound' ? 'Exterior cursor' : `${value} cursor`}</b>
+          <b>{valueText}</b>
         </div>
         {
           arr.map((x, i) =>

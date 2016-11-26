@@ -1,9 +1,9 @@
-import React, { PropTypes } from 'react';
+import { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { PlotEditor } from './';
+import PlotEditor from './PlotEditor';
 import * as actions from '../../../../store/actions/views';
 
-const PlotEditorContainer = props => <PlotEditor {...props} />;
+const PlotEditorContainer = connect(null, actions)(PlotEditor);
 
 PlotEditorContainer.propTypes = {
   viewId: PropTypes.string.isRequired,
@@ -12,4 +12,4 @@ PlotEditorContainer.propTypes = {
   closeEditor: PropTypes.func
 };
 
-export default connect(null, actions)(PlotEditorContainer);
+export default PlotEditorContainer;

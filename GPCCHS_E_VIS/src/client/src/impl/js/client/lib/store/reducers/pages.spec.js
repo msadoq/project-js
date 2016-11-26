@@ -22,6 +22,7 @@ describe('store:page', () => {
         );
         state.myPageId.should.deep.eql({
           title: 'Title',
+          timebarHeight: null,
           timebarId: 'myTimebarId',
           views: ['myViewId'],
           layout: [
@@ -35,6 +36,7 @@ describe('store:page', () => {
           path: undefined,
           oId: undefined,
           absolutePath: undefined,
+          isModified: false,
         });
       });
       it('add empty', () => {
@@ -44,6 +46,7 @@ describe('store:page', () => {
         );
         state.myPageId.should.deep.eql({
           title: 'Unknown',
+          timebarHeight: null,
           timebarId: null,
           views: [],
           layout: [],
@@ -55,6 +58,7 @@ describe('store:page', () => {
           path: undefined,
           oId: undefined,
           absolutePath: undefined,
+          isModified: false,
         });
       });
     });

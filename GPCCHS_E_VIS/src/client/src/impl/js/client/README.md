@@ -7,11 +7,8 @@ Desktop visualisation application for ISIS project.
 Clone the project and switch to client folder:
 > cd /data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/impl/js/client
 
-Copy .env file:
-> cd .env.example .env
-
-Install or update dependencies:
-> npm install
+Set .env file and install dependencies:
+> npm run hello
 
 # Launch project for development:
 
@@ -28,3 +25,12 @@ Run unit tests:
 
 Check the project source code linting:
 > npm run lint
+
+Run Jest snapshot testing:
+>npm run snapshot
+
+Run Jest snapshot watcher:
+>npm run snapshot-watch
+
+Clean out of date snapshots:
+>npm run snapshot-clean

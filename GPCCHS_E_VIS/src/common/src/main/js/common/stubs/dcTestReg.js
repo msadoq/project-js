@@ -154,13 +154,17 @@ const pubSubDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =>
         if (header.messageType === constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA) {
           (() => decode('dc.dataControllerUtils.String', argsBuffers[0])).should.not.throw();
           const dataId = decode('dc.dataControllerUtils.DataId', argsBuffers[1]);
-          dataId.should.have.properties(myDataId);
+          if (dataId.catalog) {
+            dataId.should.have.properties(myDataId);
+          } else {
+            dataId.should.have.properties(myComObjectDataId);
+          }
           (_slice(argsBuffers, 2).length % 2).should.equal(0);
           _each(_chunk(_slice(argsBuffers, 2), 2), (argBuffer) => {
             (() => decode('dc.dataControllerUtils.Timestamp', argBuffer[0])).should.not.throw();
             (() => decode(`lpisis.decommutedParameter.${dataId.comObject}`, argBuffer[1])).should.not.throw();
           });
-          sendZmqMessage(tbStopSubMessageArgs);
+          sendZmqMessage(tbStopSubMessageArgs(dataId));
         }
         if (header.messageType === constants.MESSAGETYPE_RESPONSE) {
           step = steps.STOP;
@@ -197,6 +201,14 @@ const myDataId = {   // corresponds to SubscriptionID ?
   comObject: 'ReportingParameter',
   sessionId: sessionIdTest, // TODO type is currently uint32, should be uint16 (bytes)
   domainId: domainIdTest,  // TODO type is currently uint32, should be uint16 (bytes)
+  // url: 'theUrl',  // for FDS params
+  // version: 'theVersion',  //for FDS params
+};
+
+const myComObjectDataId = {   // corresponds to SubscriptionID ?
+  comObject: 'ReportingParameter',
+  sessionId: sessionIdTest,
+  domainId: domainIdTest,
   // url: 'theUrl',  // for FDS params
   // version: 'theVersion',  //for FDS params
 };
@@ -245,11 +257,19 @@ const tbStartSubMessageArgs = [
   encode('dc.dataControllerUtils.Action', { action: constants.SUBSCRIPTIONACTION_ADD }),
 ];
 
+// timebased subscription start
+const tbStartWholeComObjectSubMessageArgs = [
+  encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION }),
+  encode('dc.dataControllerUtils.String', { string: myQueryId }),
+  encode('dc.dataControllerUtils.DataId', myComObjectDataId),
+  encode('dc.dataControllerUtils.Action', { action: constants.SUBSCRIPTIONACTION_ADD }),
+];
+
 // timebased subscription stop
-const tbStopSubMessageArgs = [
+const tbStopSubMessageArgs = (dataId = myDataId) => [
   encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION }),
   encode('dc.dataControllerUtils.String', { string: myOtherQueryId }),
-  encode('dc.dataControllerUtils.DataId', myDataId),
+  encode('dc.dataControllerUtils.DataId', dataId),
   encode('dc.dataControllerUtils.Action', { action: constants.SUBSCRIPTIONACTION_DELETE }),
 ];
 
@@ -282,6 +302,13 @@ const pubSubTest =
     createZmqConnection(callback, pubSubDataPullHandler);
     sendZmqMessage(tbStartSubMessageArgs);
   };
+// PUBSUB WHOLE COM OBJECT TEST
+const pubSubWholeTest =
+  (callback) => {
+    console.log('> Test PubSub Whole Com Object');
+    createZmqConnection(callback, pubSubDataPullHandler);
+    sendZmqMessage(tbStartWholeComObjectSubMessageArgs);
+  };
 // TRASH TEST
 const trashTest =
   (callback) => {
@@ -297,7 +324,7 @@ let testFunctions = [];
 
 const parseArgs = require('minimist');
 const options = {
-  boolean: ['d', 'p', 'a', 's', 'all', 't'],
+  boolean: ['d', 'p', 'a', 's', 'all', 't', 'w'],
   default: {
     all: true,
     d: false,
@@ -305,6 +332,7 @@ const options = {
     a: false,
     t: false,
     s: false,
+    w: false,
   },
   alias: {
     d: 'domains',
@@ -312,6 +340,7 @@ const options = {
     a: 'archive',
     t: 'trash',
     s: 'sessions',
+    w: 'pubsubwhole',
   },
 };
 const argv = parseArgs(process.argv.slice(2), options);
@@ -331,6 +360,10 @@ if (argv.pubsub) {
   argv.all = false;
   testFunctions.push(pubSubTest);
 }
+if (argv.pubsubwhole) {
+  argv.all = false;
+  testFunctions.push(pubSubWholeTest);
+}
 if (argv.trash) {
   argv.all = false;
   testFunctions = [trashTest];
@@ -341,6 +374,7 @@ if (argv.all) {
   testFunctions.push(sessionTest);
   testFunctions.push(archiveTest);
   testFunctions.push(pubSubTest);
+  testFunctions.push(pubSubWholeTest);
 }
 
 

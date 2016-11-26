@@ -1,6 +1,7 @@
 {
   "type": "Page",
   "hideBorders": false,
+  "timebarHeight": null,
   "title": "page Medium workspace",
   "views": [
     {

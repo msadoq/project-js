@@ -46,7 +46,10 @@ export default class Tabs extends Component {
                 onClick={e => this.handleClose(e, page.pageId)}
                 className={styles.close}
               >
-                <Glyphicon glyph="remove-circle" />
+                <Glyphicon
+                  glyph="remove-circle"
+                  className="text-danger"
+                />
               </Button>
             </div>
           </NavItem>

@@ -1,80 +1,66 @@
 import React, { PropTypes } from 'react';
-import { SketchPicker } from 'react-color';
+import { TwitterPicker } from 'react-color';
+import { Button } from 'react-bootstrap';
+import None from './icons/none';
+import styles from './ColorPicker.css';
 
-/*
-  Ce composant affiche un bouton de couleur.
-  onClick : une palette de couleur apparait et permet de selectionner une couleur.
-  un objet color est renvoyé en parametre de la fonction handleChangeComplete.
+const colors = [
+  '#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5',
+  '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50',
+  '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800',
+  '#795548', '#607d8b'
+];
 
-  Composant react-color :
-  https://github.com/casesandberg/react-color/
-
-*/
 export default class ColorPicker extends React.Component {
   static propTypes = {
     color: PropTypes.string,
     onChange: PropTypes.func
   }
-  constructor(...args) {
-    super(...args);
-    this.state = {
-      display: false,
-      color: null
-    };
+
+  state = { display: false, color: this.props.color || '#FFF' };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.color !== this.props.color) {
+      this.setState({
+        color: nextProps.color
+      });
+    }
   }
-  /*
-    Affiche et cache la palette de couleurs lors du click sur le bouton.
-    Parametre e : evenement récupéré.
-  */
+
   handleClick = (e) => {
     e.preventDefault();
     this.setState({ display: !this.state.display });
   }
-  /*
-    Cache la palette.
-  */
+
   handleClose = () => {
     this.setState({
-      display: false,
-      color: null
+      display: false
     });
   }
-  /*
-    Lorsqu'une couleur est selectionnée, cette fonction est appelée.
-    Parametre color : un objet color correspondant à la couleur selectionnée
-  */
+
   handleChangeComplete = (color) => {
-    this.props.onChange(color.hex);
     this.setState({ color: color.hex });
+    this.props.onChange(this.state.color);
   }
   render() {
-    const color = this.state.color || this.props.color || '#FFF';
+    const { color } = this.state;
 
     return (
-      <div>
-        <button
-          style={{
-            backgroundColor: color,
-            borderColor: '#333',
-            borderWidth: '1px',
-            height: '16px',
-            width: '32px'
-          }}
+      <div className={styles.root}>
+        <Button
+          style={{ backgroundColor: color }}
+          bsSize="xsmall"
           onClick={this.handleClick}
-        />
-        {this.state.display ?
-          <div
-            style={{
-              position: 'absolute',
-              zIndex: '3'
-            }}
-          >
-            <SketchPicker
-              onChange={this.handleChangeComplete}
+        ><None /></Button>
+        {this.state.display &&
+          <div className={styles.popover}>
+            <div className={styles.cover} onClick={this.handleClose} />
+            <TwitterPicker
+              onChangeComplete={this.handleChangeComplete}
               color={color}
+              colors={colors}
             />
-          </div> : null
-        }
+          </div>}
       </div>
     );
   }

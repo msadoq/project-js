@@ -23,7 +23,7 @@ export function select(remoteIdPayload, ep, epName, viewSubState) {
   let newValue;
   // search over payloads
   _each(remoteIdPayload, (p) => {
-    const timestamp = p.referenceTimestamp;
+    const timestamp = _get(p, ['referenceTimestamp', 'value']);
     if (typeof timestamp === 'undefined') {
       return logger.warn('get a payload without .referenceTimestamp key');
     }
@@ -32,7 +32,7 @@ export function select(remoteIdPayload, ep, epName, viewSubState) {
       return;
     }
     if (timestamp >= previousTime) {
-      newValue = { timestamp, value: p[ep.field] };
+      newValue = { timestamp, value: _get(p, [ep.field, 'value']) };
       previousTime = timestamp;
     }
   });

@@ -4,17 +4,10 @@ const _isObject = require('lodash/isObject');
 const _reduce = require('lodash/reduce');
 const _get = require('lodash/get');
 const _find = require('lodash/find');
-const _startsWith = require('lodash/startsWith');
 const async = require('async');
 const { v4 } = require('node-uuid');
 const fs = require('../common/fs');
-const fsNode = require('fs');
 const validation = require('./validation');
-const { join } = require('path');
-
-const parameters = require('../common/parameters');
-
-const root = parameters.FMD_ROOT;
 
 
 function findWindowPagesAndReplaceWithUuid(window, timebars) {
@@ -43,36 +36,23 @@ function findWindowPagesAndReplaceWithUuid(window, timebars) {
   }, []);
 }
 
+
 function readPages(folder, pagesToRead, cb) {
   async.reduce(pagesToRead, [], (list, identity, fn) => {
-    let filepath = identity.path || identity.oId;
-    // TODO: if oId defined, ask FMD to get path
-    if (!_startsWith(filepath, '/')) {
-      // relative path from workspace folder
-      filepath = join(folder, filepath);
-    } else {
-      try {
-        fsNode.accessSync(join(root, filepath), fsNode.constants.F_OK);
-        // FMD path
-        filepath = join(root, filepath);
-      } catch (e) {
-        // path is already absolute
-      }
-    }
-    fs.readJsonFromAbsPath(filepath, (err, pageContent) => {
-      if (err) {
-        return fn(err);
-      }
-      const validationError = validation('page', pageContent);
-      if (validationError) {
-        return fn(validationError);
-      }
+    fs.readJsonFromPath(folder, identity.path, identity.oId, identity.absolutePath,
+      (err, pageContent) => {
+        if (err) {
+          return fn(err);
+        }
+        const validationError = validation('page', pageContent);
+        if (validationError) {
+          return fn(validationError);
+        }
 
-      // eslint-disable-next-line no-param-reassign
-      list = list.concat(Object.assign(pageContent, identity, { absolutePath: filepath }));
-
-      return fn(null, list);
-    });
+        // eslint-disable-next-line no-param-reassign
+        list = list.concat(Object.assign(pageContent, identity, { absolutePath: fs.getPath() }));
+        return fn(null, list);
+      });
   }, cb);
 }
 

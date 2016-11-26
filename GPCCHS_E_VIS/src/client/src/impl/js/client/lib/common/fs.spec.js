@@ -11,8 +11,12 @@ const {
 const { tmpdir } = require('os');
 
 const fs = require('./fs');
+// const { join } = require('path');
+// const parameters = require('../common/parameters');
 
-describe('documents/fs', () => {
+// const root = parameters.FMD_ROOT;
+
+describe('common/fs', () => {
   const folder = fs.resolve(tmpdir(), '/test');
   const file = fs.resolve(folder, '/foo.txt');
   const json = fs.resolve(folder, '/foo.json');
@@ -119,18 +123,40 @@ describe('documents/fs', () => {
   });
   describe('readJsonFromPath', () => {
     it('works', (done) => {
-      fs.readJsonFromPath('/tmp/test/', 'foo.json', (err, content) => {
+      fs.readJsonFromPath('/tmp/test/', 'foo.json', undefined, undefined, (err, content) => {
         should.not.exist(err);
         content.should.eql({ foo: 'bar' });
         done();
       });
     });
     it('readJsonFromPath error', (done) => {
-      fs.readJsonFromPath('/tmp/test/', 'not-exists.txt', (err, content) => {
+      fs.readJsonFromPath('/tmp/test/', 'not-exists.txt', undefined, undefined, (err, content) => {
         err.should.be.an('error');
         should.not.exist(content);
         done();
       });
     });
   });
+  // describe('resolvePath', () => {
+  //   it('absolutePath given', () => {
+  //     const element = { absolutePath: '/data/myFile.json' };
+  //     fs.resolvePath(undefined, element).should.deep.equal(element.absolutePath);
+  //   });
+  //   it('oId given', () => {
+  //     const element = { oId: '123abc' };
+  //     // fs.resolvePath(undefined, element).should.deep.equal();
+  //   });
+  //   it('FMD Path given', () => {
+  //     const element = { path: '/page01.json' };
+  //     fs.resolvePath(undefined, element).should.deep.equal(join(root, element.path));
+  //   });
+  //   it('Path given is absolute', () => {
+  //     const element = { path: '/data/pagePBF1.json' };
+  //     fs.resolvePath(undefined, element).should.deep.equal(element.path);
+  //   });
+  //   it('relative path given', () => {
+  //     const element = { path: 'data/pagePBF1.json' };
+  //     fs.resolvePath('/home/', element).should.deep.equal(join('/home', element.path));
+  //   });
+  // });
 });

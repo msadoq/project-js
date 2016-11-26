@@ -3,17 +3,14 @@
 const _get = require('lodash/get');
 const _reduce = require('lodash/reduce');
 const _isObject = require('lodash/isObject');
-const _startsWith = require('lodash/startsWith');
 const async = require('async');
 const { v4 } = require('node-uuid');
 const fs = require('../common/fs');
-const fsNode = require('fs');
 const validation = require('./validation');
 const vivl = require('../../VIVL/main');
-const { join, dirname } = require('path');
-const parameters = require('../common/parameters');
-
-const root = parameters.FMD_ROOT;
+const { dirname } = require('path');
+const addUuidToAxes = require('../dataManager/structures/range/addUuidToAxes');
+const globalConstants = require('common/constants');
 
 const supportedViewTypes = [
   'PlotView',
@@ -45,50 +42,45 @@ function findPageViewsAndReplaceWithUuid(page) {
 
 function readViews(viewsToRead, cb) {
   async.reduce(viewsToRead, [], (list, identity, fn) => {
-    let filepath = identity.path || identity.oId;
-    // TODO when oId defined, ask DC (?) to get path
-    if (!_startsWith(filepath, '/')) {
-      // relative path from page folder
-      filepath = join(identity.pageFolder, filepath);
-    } else {
-      try {
-        fsNode.accessSync(join(root, filepath), fsNode.constants.F_OK);
-        filepath = join(root, filepath);
-      } catch (e) {
-        // already absolute path
-      }
-    }
-    fs.readJsonFromAbsPath(filepath, (err, viewContent) => {
-      if (err) {
-        return fn(err);
-      }
-      if (supportedViewTypes.indexOf(viewContent.type) === -1) {
-        return fn(new Error(`Unsupported view type '${viewContent.type}'`), list);
-      }
-      let schema;
-      try {
-        schema = vivl(viewContent.type, 'getSchemaJson')();
-      } catch (e) {
-        return fn(new Error(`Invalid schema on view type '${viewContent.type}'`), list);
-      }
-      const validationError = validation(viewContent.type, viewContent, schema);
-      if (validationError) {
-        return fn(validationError);
-      }
-      // eslint-disable-next-line no-param-reassign
-      list = list.concat(Object.assign({
-        type: viewContent.type,
-        configuration: viewContent,
-      }, {
-        path: identity.path,
-        oId: identity.oId,
-        uuid: identity.uuid,
-        absolutePath: filepath,
-        // geometry: identity.geometry,
-      }));
+    fs.readJsonFromPath(identity.pageFolder, identity.path, identity.oId, identity.absolutePath,
+      (err, viewContent) => {
+        if (err) {
+          return fn(err);
+        }
+        if (supportedViewTypes.indexOf(viewContent.type) === -1) {
+          return fn(new Error(`Unsupported view type '${viewContent.type}'`), list);
+        }
+        let schema;
+        try {
+          schema = vivl(viewContent.type, 'getSchemaJson')();
+        } catch (e) {
+          return fn(new Error(`Invalid schema on view type '${viewContent.type}'`), list);
+        }
+        const validationError = validation(viewContent.type, viewContent, schema);
+        if (validationError) {
+          return fn(validationError);
+        }
+        // Add uuid on axes
+        const structureType = vivl(viewContent.type, 'structureType')();
+        switch (structureType) { // eslint-disable-line default-case
+          case globalConstants.DATASTRUCTURETYPE_RANGE: {
+            viewContent = addUuidToAxes(viewContent); // eslint-disable-line no-param-reassign
+          }
+        }
 
-      return fn(null, list);
-    });
+        // eslint-disable-next-line no-param-reassign
+        list = list.concat(Object.assign({
+          type: viewContent.type,
+          configuration: viewContent,
+        }, {
+          path: identity.path,
+          oId: identity.oId,
+          uuid: identity.uuid,
+          absolutePath: fs.getPath(),
+          geometry: identity.geometry,
+        }));
+        return fn(null, list);
+      });
   }, cb);
 }
 

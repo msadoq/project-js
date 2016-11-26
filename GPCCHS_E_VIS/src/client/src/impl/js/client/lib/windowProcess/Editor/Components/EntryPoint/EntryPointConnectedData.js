@@ -1,8 +1,10 @@
 import React, { PropTypes } from 'react';
-import { Form, FormGroup, FormControl, Col, ControlLabel } from 'react-bootstrap';
+import {
+  Form, FormGroup, FormControl,
+  Col, ControlLabel, InputGroup,
+  Button, Glyphicon
+} from 'react-bootstrap';
 import Select from 'react-select';
-import styles from './EntryPointDetails.css';
-import select from '../Select.css';
 
 export const unitOptions = [
   { value: 'ns', label: 'ns' },
@@ -41,18 +43,16 @@ export default class EntryPointConnectedData extends React.Component {
     connectedData: PropTypes.object,
     handleChange: PropTypes.func
   }
-  state = {}
-
-  componentWillMount() {
-    const { connectedData } = this.props;
-
-    this.setState({
-      axisID: connectedData.axisId,
-      unitValue: connectedData.unit,
-      formatValue: connectedData.format,
-      axesValue: connectedData.axisId
-    });
+  state = {
+    axisID: this.props.connectedData.axisId,
+    unitValue: this.props.connectedData.unit,
+    formatValue: this.props.connectedData.format,
+    axesValue: this.props.connectedData.axisId,
+    formula: this.props.connectedData.formula,
+    domain: this.props.connectedData.domain,
+    timeline: this.props.connectedData.timeline
   }
+
   /*
     Toutes les fonctions dont le nom commence par handle sont appelées
     par la modification d'une valeur dans un formulaire.
@@ -65,36 +65,52 @@ export default class EntryPointConnectedData extends React.Component {
   handleFormat = val => this.props.handleChange('format', val.value);
   handleAxes = val => this.setState({ axesValue: val.value });
   handleDigits = e => this.props.handleChange('digits', e.target.value);
-  handleDomain = e => this.props.handleChange('domain', e.target.value);
-  handleSession = e => this.props.handleChange('session', e.target.value);
-  handleName = e => this.props.handleChange('fullName', e.target.value);
+  handleDomain = e => this.setState({ domain: e.target.value });
+  validateDomain = () => this.props.handleChange('domain', this.state.domain);
+  handleTimeline = e => this.setState({ timeline: e.target.value });
+  validateTimeline = () => this.props.handleChange('timeline', this.state.timeline);
+  handleFormula = e => this.setState({ formula: e.target.value });
+  validateFormula = () => this.props.handleChange('formula', this.state.formula);
 
   render() {
     const { connectedData } = this.props;
     const {
       format,
       type,
-      axesValue
+      axesValue,
+      formula,
+      domain,
+      timeline
    } = this.state;
 
     return (
       <Form horizontal>
-        <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalConnData">
-          <Col className={styles.formLabel} componentClass={ControlLabel} xs={3}>
-            Conn.data
+        <FormGroup controlId="formHorizontalConnData">
+          <Col componentClass={ControlLabel} xs={3}>
+            Formula
           </Col>
           <Col xs={9}>
-            <FormControl
-              type="text"
-              value={connectedData.fullName}
-              className="input-sm"
-              onChange={this.handleName}
-              placeholder="no value"
-            />
+            <InputGroup>
+              <FormControl
+                type="text"
+                value={formula}
+                className="input-sm"
+                onChange={this.handleFormula}
+                placeholder="no value"
+              />
+              <InputGroup.Button>
+                <Button
+                  onClick={this.validateFormula}
+                  bsSize="small"
+                >
+                  <Glyphicon glyph="ok" />
+                </Button>
+              </InputGroup.Button>
+            </InputGroup>
           </Col>
         </FormGroup>
-        <FormGroup className={styles.formGroupXsmall} controlId="formControlsSelect">
-          <Col className={styles.formLabel} componentClass={ControlLabel} xs={3}>
+        <FormGroup controlId="formControlsSelect">
+          <Col componentClass={ControlLabel} xs={3}>
             Unit
           </Col>
           <Col xs={9}>
@@ -108,8 +124,8 @@ export default class EntryPointConnectedData extends React.Component {
             />
           </Col>
         </FormGroup>
-        <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalFormat">
-          <Col className={styles.formLabel} componentClass={ControlLabel} xs={3}>
+        <FormGroup controlId="formHorizontalFormat">
+          <Col componentClass={ControlLabel} xs={3}>
             Format
           </Col>
           <Col xs={9}>
@@ -124,8 +140,8 @@ export default class EntryPointConnectedData extends React.Component {
           </Col>
         </FormGroup>
         {(format === 'decimal') ?
-          <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalDigits">
-            <Col componentClass={ControlLabel} xs={3} className={styles.formLabel}>
+          <FormGroup controlId="formHorizontalDigits">
+            <Col componentClass={ControlLabel} xs={3} >
               Digits
             </Col>
             <Col xs={9}>
@@ -139,37 +155,57 @@ export default class EntryPointConnectedData extends React.Component {
           </FormGroup>
           : null
         }
-        <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalDomain">
-          <Col className={styles.formLabel} componentClass={ControlLabel} xs={3}>
+        <FormGroup controlId="formHorizontalDomain">
+          <Col componentClass={ControlLabel} xs={3}>
             Domain
           </Col>
           <Col xs={9}>
-            <FormControl
-              type="text"
-              className="input-sm"
-              value={connectedData.domain}
-              onChange={this.handleDomain}
-              placeholder="no value"
-            />
+            <InputGroup>
+              <FormControl
+                type="text"
+                value={domain}
+                className="input-sm"
+                onChange={this.handleDomain}
+                placeholder="no value"
+              />
+              <InputGroup.Button>
+                <Button
+                  onClick={this.validateDomain}
+                  bsSize="small"
+                >
+                  <Glyphicon glyph="ok" />
+                </Button>
+              </InputGroup.Button>
+            </InputGroup>
           </Col>
         </FormGroup>
-        <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalUrl">
-          <Col className={styles.formLabel} componentClass={ControlLabel} xs={3}>
+        <FormGroup controlId="formHorizontalUrl">
+          <Col componentClass={ControlLabel} xs={3}>
             Session
           </Col>
           <Col xs={9}>
-            <FormControl
-              type="text"
-              className="input-sm"
-              value={connectedData.session}
-              onChange={this.handleSession}
-              placeholder="no value"
-            />
+            <InputGroup>
+              <FormControl
+                type="text"
+                value={timeline}
+                className="input-sm"
+                onChange={this.handleTimeline}
+                placeholder="no value"
+              />
+              <InputGroup.Button>
+                <Button
+                  onClick={this.validateTimeline}
+                  bsSize="small"
+                >
+                  <Glyphicon glyph="ok" />
+                </Button>
+              </InputGroup.Button>
+            </InputGroup>
           </Col>
         </FormGroup>
         {(type === 'FDS') ?
-          <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalUrl">
-            <Col className={styles.formLabel} componentClass={ControlLabel} xs={3}>
+          <FormGroup controlId="formHorizontalUrl">
+            <Col componentClass={ControlLabel} xs={3}>
               Url
             </Col>
             <Col xs={9}>
@@ -179,8 +215,8 @@ export default class EntryPointConnectedData extends React.Component {
          : null
         }
         {(type === 'FDS') ?
-          <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalVersion">
-            <Col className={styles.formLabel} componentClass={ControlLabel} xs={3}>
+          <FormGroup controlId="formHorizontalVersion">
+            <Col componentClass={ControlLabel} xs={3}>
               Version
             </Col>
             <Col xs={9}>
@@ -189,8 +225,8 @@ export default class EntryPointConnectedData extends React.Component {
           </FormGroup>
         : null
         }
-        <FormGroup className={styles.formGroupXsmall} controlId="formHorizontalFormat">
-          <Col className={styles.formLabel} componentClass={ControlLabel} xs={3}>
+        <FormGroup controlId="formHorizontalFormat">
+          <Col componentClass={ControlLabel} xs={3}>
             Axis
           </Col>
           <Col xs={9}>
@@ -204,12 +240,12 @@ export default class EntryPointConnectedData extends React.Component {
             />
           </Col>
         </FormGroup>
-        <FormGroup className={styles.formGroupXsmall} controlId="formControlsSelect">
-          <Col className={styles.formLabel} componentClass={ControlLabel} xs={3}>
+        <FormGroup controlId="formControlsSelect">
+          <Col componentClass={ControlLabel} xs={3}>
             Filter
           </Col>
           <Col xs={5}>
-            <FormControl componentClass="select" className={select.xsmall}>
+            <FormControl componentClass="select" >
               <option value="noFilter">No Filter</option>
               <option value="convertedValue">Converted value</option>
               <option value="extractedValue">Extracted value</option>
@@ -225,7 +261,7 @@ export default class EntryPointConnectedData extends React.Component {
             </FormControl>
           </Col>
           <Col xs={2}>
-            <FormControl componentClass="select" className={select.xsmall}>
+            <FormControl componentClass="select" >
               <option value="equals"> = </option>
               <option value="notEquals"> &ne; </option>
               <option value="inf"> &lt; </option>

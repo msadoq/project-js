@@ -37,7 +37,7 @@ const addRecord = (collection, timestamp, payload) => {
   return record;
 };
 
-const findByInterval = (collection, lower, upper) => {
+const searchByInterval = (collection, lower, upper, toRemove) => {
   const query = { $and: [] };
 
   if (lower) {
@@ -47,6 +47,10 @@ const findByInterval = (collection, lower, upper) => {
     query.$and.push({ timestamp: { $lte: upper } });
   }
 
+  if (toRemove) {
+    debug.debug('removing for', query.$and);
+    return collection.chain().find(query).remove();
+  }
   debug.debug('searching for', query.$and);
   return collection.find(query);
 };
@@ -72,7 +76,8 @@ const getOrCreateTimebasedDataModel = (remoteId) => {
   // attach model methods to collection
   collection.addRecords = records => addRecords(collection, records);
   collection.addRecord = (timestamp, payload) => addRecord(collection, timestamp, payload);
-  collection.findByInterval = (lower, upper) => findByInterval(collection, lower, upper);
+  collection.findByInterval = (lower, upper) => searchByInterval(collection, lower, upper, false);
+  collection.removeByInterval = (lower, upper) => searchByInterval(collection, lower, upper, true);
   collection.cleanup = () => cleanup(collection);
 
   return collection;

@@ -6,7 +6,7 @@ const fs = require('../common/fs');
 const validation = require('./validation');
 const exec = require('child_process').exec;
 
-describe('documentsManager/workspace', () => {
+describe('documentsManager/saveWorkspace', () => {
   const state = {
     windows: {
       win1: {
@@ -69,7 +69,7 @@ describe('documentsManager/workspace', () => {
         sessionId: 1
       }
     },
-    workspace:
+    hsc:
     {
       file: 'workspace1.json',
       folder: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/testWk',
@@ -89,7 +89,7 @@ describe('documentsManager/workspace', () => {
     should.not.exist(saveWorkspaceAs(state, path));
   });
   it('check validity of new workspace', (done) => {
-    fs.readJsonFromPath(folder, 'workspace.json', (err, wkContent) => {
+    fs.readJsonFromPath(folder, 'workspace.json', undefined, undefined, (err, wkContent) => {
       should.not.exist(err);
       const validationError = validation('workspace', wkContent);
       should.not.exist(validationError);
@@ -100,11 +100,17 @@ describe('documentsManager/workspace', () => {
     should.not.exist(saveWorkspace(state));
   });
   it('check validity of new workspace', (done) => {
-    fs.readJsonFromPath(state.workspace.folder, state.workspace.file, (err, wkContent) => {
-      should.not.exist(err);
-      const validationError = validation('workspace', wkContent);
-      should.not.exist(validationError);
-      done();
-    });
+    fs.readJsonFromPath(
+      state.hsc.folder,
+      state.hsc.file,
+      undefined,
+      undefined,
+      (err, wkContent) => {
+        should.not.exist(err);
+        const validationError = validation('workspace', wkContent);
+        should.not.exist(validationError);
+        done();
+      }
+    );
   });
 });

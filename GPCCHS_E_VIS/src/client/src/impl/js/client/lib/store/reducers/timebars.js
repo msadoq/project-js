@@ -1,10 +1,13 @@
-import _ from 'lodash';
+import u from 'updeep';
+import _omit from 'lodash/omit';
+import _get from 'lodash/get';
+import _without from 'lodash/without';
 import * as types from '../types';
 
 /**
  * Reducer
  */
-export default function timebars(stateTimebars = {}, action) { // TODO test
+export default function timebars(stateTimebars = {}, action) {
   const { payload } = action;
   switch (action.type) {
     case types.WS_TIMEBAR_ADD:
@@ -13,9 +16,9 @@ export default function timebars(stateTimebars = {}, action) { // TODO test
         [payload.timebarId]: timebar(undefined, action),
       };
     case types.WS_TIMEBAR_REMOVE:
-      return _.omit(stateTimebars, [payload.timebarId]);
+      return _omit(stateTimebars, [payload.timebarId]);
     case types.WS_TIMEBAR_ID_UPDATE:
-    case types.WS_TIMEBAR_VISUWINDOW_UPDATE:
+    case types.WS_TIMEBAR_UPDATE_VIEWPORT:
     case types.WS_TIMEBAR_SPEED_UPDATE:
     case types.WS_TIMEBAR_MODE_UPDATE:
     case types.WS_TIMEBAR_PLAYINGSTATE_UPDATE:
@@ -26,6 +29,49 @@ export default function timebars(stateTimebars = {}, action) { // TODO test
         ...stateTimebars,
         [payload.timebarId]: timebar(stateTimebars[payload.timebarId], action),
       };
+    case types.WS_TIMEBAR_UPDATE_CURSORS: {
+      const newValues = {};
+      const tb = stateTimebars[payload.timebarId];
+      const vw = payload.visuWindow;
+      const sw = payload.slideWindow;
+      if (vw) {
+        if (
+          vw.lower !== tb.visuWindow.lower ||
+          vw.upper !== tb.visuWindow.upper ||
+          vw.current !== tb.visuWindow.current
+        ) {
+          newValues.visuWindow = {
+            lower: vw.lower || tb.visuWindow.lower,
+            upper: vw.upper || tb.visuWindow.upper,
+            current: vw.current || tb.visuWindow.current,
+          };
+        }
+      }
+
+      if (sw) {
+        if (
+          sw.lower !== tb.slideWindow.lower ||
+          sw.upper !== tb.slideWindow.upper
+        ) {
+          newValues.slideWindow = {
+            lower: sw.lower || tb.slideWindow.lower,
+            upper: sw.upper || tb.slideWindow.upper,
+          };
+        }
+      }
+      if (newValues.slideWindow || newValues.visuWindow) {
+        return u({
+          [payload.timebarId]: {
+            visuWindow: newValues.visuWindow || tb.visuWindow,
+            slideWindow: newValues.slideWindow || tb.slideWindow,
+          }
+        }, stateTimebars);
+      }
+
+      return stateTimebars;
+    }
+    case types.HSC_CLOSE_WORKSPACE:
+      return {};
     default:
       return stateTimebars;
   }
@@ -33,11 +79,18 @@ export default function timebars(stateTimebars = {}, action) { // TODO test
 
 const initialState = {
   id: null,
-  visuWindow: {},
-  slideWindow: {},
+  visuWindow: {
+    lower: Date.now() - (12 * 60 * 1000),
+    current: Date.now() - (9 * 60 * 1000),
+    upper: Date.now() - (6 * 60 * 1000),
+  },
+  slideWindow: {
+    lower: Date.now() - (11 * 60 * 1000),
+    upper: Date.now() - (7 * 60 * 1000),
+  },
   extUpperBound: Date.now() - (20 * 60 * 1000),
   rulerStart: Date.now() - (20 * 60 * 1000),
-  rulerResolution: 11250,
+  rulerResolution: 2250,
   speed: 1.0,
   playingState: 'pause',
   masterId: null,
@@ -49,7 +102,7 @@ function timebar(stateTimebar = initialState, action) {
   const { payload } = action;
   switch (action.type) {
     case types.WS_TIMEBAR_ADD: {
-      const configuration = _.get(action, 'payload.configuration', {});
+      const configuration = _get(action, 'payload.configuration', {});
       return Object.assign({}, stateTimebar, {
         id: configuration.id || initialState.id,
         visuWindow: configuration.visuWindow || initialState.visuWindow,
@@ -67,27 +120,15 @@ function timebar(stateTimebar = initialState, action) {
     case types.WS_TIMEBAR_MOUNT_TIMELINE:
       return { ...stateTimebar, timelines: [...stateTimebar.timelines, payload.timelineId] };
     case types.WS_TIMEBAR_UNMOUNT_TIMELINE:
-      return { ...stateTimebar, timelines: _.without(stateTimebar.timelines, payload.timelineId) };
+      return { ...stateTimebar, timelines: _without(stateTimebar.timelines, payload.timelineId) };
     case types.WS_TIMEBAR_ID_UPDATE:
       return { ...stateTimebar, id: payload.id };
-    case types.WS_TIMEBAR_VISUWINDOW_UPDATE: {
-      let update = {};
-      const toUpdate = payload.visuWindowUpdate;
-      if (toUpdate.lower && toUpdate.upper && toUpdate.current) {
-        update = { visuWindow: {
-          lower: toUpdate.lower,
-          upper: toUpdate.upper,
-          current: toUpdate.current,
-        } };
-      }
-      if (toUpdate.slideWindow) {
-        update.slideWindow = toUpdate.slideWindow;
-      }
-      if (toUpdate.extUpperBound) {
-        update.extUpperBound = toUpdate.extUpperBound;
-      }
-      return { ...stateTimebar, ...update };
-    }
+    case types.WS_TIMEBAR_UPDATE_VIEWPORT:
+      return {
+        ...stateTimebar,
+        rulerStart: payload.rulerStart,
+        rulerResolution: payload.rulerResolution,
+      };
     case types.WS_TIMEBAR_SPEED_UPDATE:
       return { ...stateTimebar, speed: payload.speed };
     case types.WS_TIMEBAR_MODE_UPDATE:

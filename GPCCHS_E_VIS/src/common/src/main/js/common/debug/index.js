@@ -13,7 +13,7 @@ module.exports = debug => (namespace) => {
   if (!level && global.env && global.env.LEVEL) {
     level = global.env.LEVEL;
   } else if (!level) {
-    level = ERROR;
+    level = DEBUG;
   }
   if (process.env.NODE_ENV === 'production') {
     return {

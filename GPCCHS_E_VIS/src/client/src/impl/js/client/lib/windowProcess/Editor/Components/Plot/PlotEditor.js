@@ -1,33 +1,30 @@
 import React, { Component, PropTypes } from 'react';
 import _get from 'lodash/get';
-import Navbar from '../Navbar';
+import Navbar from '../Navbar/Navbar';
 import { PlotTab } from './';
-import Misc from '../Misc';
+import { Misc } from '../Misc';
 import EntryPointTree from '../EntryPoint/EntryPointTree';
 import EntryPointActions from '../EntryPoint/EntryPointActions';
 import styles from '../../Editor.css';
-import debug from '../../../../common/debug/windowDebug';
-
-const logger = debug('Editor:Plot');
 
 const newEntryPoint = {
   name: 'NewEntryPoint',
   connectedDataX: {
-    fullName: '',
+    formula: '',
     unit: 'ms',
     digits: 5,
     format: 'decimal',
     domain: '',
-    session: 'Session 1',
+    timeline: 'Session 1',
     axisId: 'time'
   },
   connectedDataY: {
-    fullName: '',
+    formula: '',
     unit: 'ms',
     digits: 5,
     format: 'decimal',
     domain: '',
-    session: 'Session 1',
+    timeline: 'Session 1',
     axisId: 'time'
   },
   lineStyle: 'Continuous',
@@ -40,7 +37,7 @@ const newEntryPoint = {
 /*
   Composant racine de l'éditeur Plot.
 */
-export default class Editor extends Component {
+export default class PlotEditor extends Component {
   static propTypes = {
     // actions
     updateEntryPoint: PropTypes.func.isRequired,
@@ -51,7 +48,7 @@ export default class Editor extends Component {
     viewId: PropTypes.string.isRequired,
     closeEditor: PropTypes.func.isRequired,
     configuration: PropTypes.shape({
-      type: PropTypes.string,
+      type: PropTypes.string.isRequired,
       links: PropTypes.array,
       procedures: PropTypes.array,
       defaultRatio: PropTypes.shape({
@@ -65,10 +62,10 @@ export default class Editor extends Component {
       titleStyle: PropTypes.shape({
         font: PropTypes.string,
         size: PropTypes.number,
-        bold: PropTypes.boolean,
-        italic: PropTypes.boolean,
-        underline: PropTypes.boolean,
-        strikeOut: PropTypes.boolean,
+        bold: PropTypes.bool,
+        italic: PropTypes.bool,
+        underline: PropTypes.bool,
+        strikeOut: PropTypes.bool,
         align: PropTypes.string,
         color: PropTypes.string
       }),
@@ -92,35 +89,13 @@ export default class Editor extends Component {
       [label]: newVal
     });
   }
-  addEntryPoint = () => {
+  handleAddEntryPoint = () => {
     const { addEntryPoint, viewId } = this.props;
     addEntryPoint(viewId, { ...newEntryPoint });
   }
   removeEntryPoint = (key) => {
-    console.log('removeEntryPoint', key);
     const { removeEntryPoint, viewId } = this.props;
     removeEntryPoint(viewId, key);
-  }
-  handleGrid = (label, newVal) => {
-    logger.debug('Grid onChange', label, newVal);
-  }
-  handlePlotTitle = (newVal) => {
-    const currentValue = this.props.configuration.title;
-    logger.debug('Title onChange', `${currentValue} => ${newVal}`);
-  }
-  handlePlotTitleStyle = (label, newVal) => {
-    const currentValue = this.props.configuration.titleStyle;
-    logger.debug('TitleStyle onChange', currentValue, newVal);
-  }
-  handlePlotMarkers = (key, label, newVal) => {
-    const path = `markers[${key}][${label}]`;
-    const currentValue = _get(this.props.configuration, path);
-    logger.debug('Markers onChange', key, label, `${currentValue} => ${newVal}`);
-  }
-  handleAxes = (key, label, newVal) => {
-    const path = `axes[${key}][${label}]`;
-    const currentValue = _get(this.props.configuration, path);
-    logger.debug('Axes onChange', key, label, `${currentValue} => ${newVal}`);
   }
 
   changeSearch = s => this.setState({ search: s });
@@ -142,44 +117,41 @@ export default class Editor extends Component {
         grids,
         title,
         titleStyle,
-        // plotBackGround,
-        // legend,
         markers
       }
     } = this.props;
     return (
-      <div className={styles.editor}>
+      <div className={styles.contentWrapper}>
         <Navbar
           currentDisplay={currentDisplay}
           items={['Entry Points', 'Plot', 'Miscs']}
           changeCurrentDisplay={this.changeCurrentDisplay}
           closeEditor={this.props.closeEditor}
         />
-        {currentDisplay === 2 && <Misc />}
-        {currentDisplay === 1 && <PlotTab
-          handleGrid={this.handleGrid}
-          handlePlotTitle={this.handlePlotTitle}
-          handlePlotTitleStyle={this.handlePlotTitleStyle}
-          handlePlotAxes={this.handleAxes}
-          handlePlotMarkers={this.handlePlotMarkers}
-          axes={axes}
-          markers={markers}
-          title={title}
-          grids={grids}
-          titleStyle={titleStyle}
-        />}
-        {currentDisplay === 0 && <div>
-          <EntryPointActions
-            changeSearch={this.changeSearch}
-            addEntryPoint={this.addEntryPoint}
-          />
-          <EntryPointTree
-            entryPoints={entryPoints}
-            search={search}
-            handleEntryPoint={this.handleEntryPoint}
-            remove={this.removeEntryPoint}
-          />
-        </div>}
+        <div className={styles.content}>
+          {currentDisplay === 2 && <Misc />}
+          {currentDisplay === 1 && <PlotTab
+            axes={axes}
+            markers={markers}
+            title={title}
+            grids={grids}
+            titleStyle={titleStyle}
+          />}
+          {currentDisplay === 0 && [
+            <EntryPointActions
+              key="EntryPointActions"
+              changeSearch={this.changeSearch}
+              addEntryPoint={this.handleAddEntryPoint}
+            />,
+            <EntryPointTree
+              key="EntryPointTree"
+              entryPoints={entryPoints}
+              search={search}
+              handleEntryPoint={this.handleEntryPoint}
+              remove={this.removeEntryPoint}
+            />
+          ]}
+        </div>
       </div>
     );
   }

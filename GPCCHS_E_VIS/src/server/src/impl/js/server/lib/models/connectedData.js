@@ -22,7 +22,6 @@ const intervalManager = require('common/intervals');
 
 const database = require('../io/loki');
 
-
 const createConnectedData = (type, remoteId, dataId) => ({
   type,
   remoteId,
@@ -173,13 +172,23 @@ collection.removeIntervals = (remoteId, intervals, connectedData) => {
       }
       return false;
     });
-    receivedIntervals = intervalManager.remove(receivedIntervals, interval);
   });
+
   switch (cd.type) {
     case globalConstants.DATASTRUCTURETYPE_LAST:
+      _each(intervals, (interval) => {
+        const index = receivedIntervals.indexOf(interval);
+        if (index > -1) {
+          receivedIntervals = [
+            ...receivedIntervals.slice(0, index),
+            ...receivedIntervals.slice(index + 1),
+          ];
+        }
+      });
       cd.intervals.all = _concat(receivedIntervals, _values(requestedIntervals));
       break;
     case globalConstants.DATASTRUCTURETYPE_RANGE:
+      receivedIntervals = intervalManager.remove(receivedIntervals, intervals);
       cd.intervals.all = intervalManager.merge(receivedIntervals, _values(requestedIntervals));
       break;
     default:
@@ -187,7 +196,6 @@ collection.removeIntervals = (remoteId, intervals, connectedData) => {
   }
   cd.intervals.requested = requestedIntervals;
   cd.intervals.received = receivedIntervals;
-
   return queryIds;
 };
 

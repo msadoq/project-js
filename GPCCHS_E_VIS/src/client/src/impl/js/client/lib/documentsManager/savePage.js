@@ -27,7 +27,12 @@ function savePageAs(state, pageId, path, useRelativePath = false) {
     return err;
   }
   const page = state.pages[pageId];
-  const jsonPage = { type: 'Page', title: page.title, views: [] };
+  const jsonPage = {
+    type: 'Page',
+    timebarHeight: page.timebarHeight,
+    title: page.title,
+    views: [],
+  };
   page.views.forEach((id) => {
     // Get view definition in stateViews
     if (!state.views[id]) {
@@ -78,6 +83,9 @@ function savePageAs(state, pageId, path, useRelativePath = false) {
 function savePage(state, pageId, useRelativePath = false) {
   if (!state.pages[pageId]) {
     return new Error('unknown page id');
+  }
+  if (!state.pages[pageId].isModified) {
+    return;
   }
   const path = state.pages[pageId].absolutePath ? state.pages[pageId].absolutePath
                                                 : state.pages[pageId].oId;

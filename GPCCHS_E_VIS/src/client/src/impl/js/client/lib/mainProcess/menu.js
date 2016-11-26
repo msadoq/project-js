@@ -1,8 +1,12 @@
 import { v4 } from 'node-uuid';
-
+import path from 'path';
 import { getStore } from '../store/mainStore';
 import { add, addAndMount as addAndMountPage } from '../store/actions/windows';
-import { addAndMount as addAndMountView } from '../store/actions/pages';
+import { isWorkspaceOpening, closeWorkspace } from '../store/actions/hsc';
+import { openDefaultWorkspace, readWkFile } from './openWorkspace';
+import getPathByFilePicker from './filePicker';
+import { addNewView, openView, openPage, allDocumentsAreSaved } from './fileTreatment';
+
 
 const { Menu, dialog } = require('electron');
 
@@ -33,30 +37,59 @@ template.splice(0, 0,
     label: 'Workspace',
     submenu: [{
       label: 'New ... ',
-      accelerator: '',
+      accelerator: 'Ctrl+N',
       click() {
-        dialog.showMessageBox({
-          type: 'info',
-          title: 'Opening new workspace',
-          message: 'A new workspace is being opened... valid please',
-          buttons: ['ok']
-        });
-        // getStore().dispatch(add(v4(), 'New workspace'));
-        dialog.showMessageBox({
-          title: 'Do not forget !',
-          message: 'New workspace is empty',
-          detail: 'This workspace needs creating a window, in Menu: Window > New',
-          buttons: ['I understood']
-        });
+        if (!allDocumentsAreSaved(getStore().getState(), getStore().dispatch)) {
+          return;   // case of cancel
+        }
+        const folder = getStore().getState().hsc.folder;
+        getStore().dispatch(closeWorkspace());
+        openDefaultWorkspace(getStore().dispatch, folder);
+      }
+    }, {
+      label: 'Open ... ',
+      accelerator: 'Ctrl+O',
+      click() {
+        if (!allDocumentsAreSaved(getStore().getState(), getStore().dispatch)) {
+          return;   // case of cancel
+        }
+        const folder = getStore().getState().hsc.folder;
+        // open the file picker
+        const filePath = getPathByFilePicker(folder, 'workspace');
+        if (filePath) {
+          getStore().dispatch(isWorkspaceOpening(true));
+          getStore().dispatch(closeWorkspace());
+          readWkFile(
+            getStore().dispatch,
+            getStore().getState,
+            path.dirname(filePath),
+            path.basename(filePath),
+            () => {
+              getStore().dispatch(isWorkspaceOpening(false));
+            }
+          );
+        }
       }
     }, {
       label: 'Save ...',
-      accelerator: 'Ctrl+Command+S',
+      accelerator: 'Ctrl+S',
       click: (item, focusedWindow) => {
         if (focusedWindow) {
           dialog.showMessageBox({
             type: 'warning',
             message: 'Do you confirm to save ?',
+            buttons: ['ok', 'cancel'] });
+          // TODO save workspace
+        }
+      }
+    }, {
+      label: 'Save as...',
+      accelerator: 'Ctrl+Shift+S',
+      click: (item, focusedWindow) => {
+        if (focusedWindow) {
+          dialog.showMessageBox({
+            type: 'warning',
+            message: 'Do you confirm to save as?',
             buttons: ['ok', 'cancel'] });
           // TODO save workspace
         }
@@ -120,7 +153,7 @@ template.splice(2, 0,
       accelerator: '',
       click(item, focusedWindow) {
         if (focusedWindow) {
-          getStore().dispatch(addAndMountPage(focusedWindow.windowId, v4(), 'add example'));
+          getStore().dispatch(addAndMountPage(focusedWindow.windowId, v4()));
         }
       }
     }, {
@@ -128,14 +161,8 @@ template.splice(2, 0,
       accelerator: '',
       click(item, focusedWindow) {
         if (focusedWindow) {
-          dialog.showOpenDialog({
-            title: 'Select a page',
-            defaultPath: '',
-            buttonLabel: 'Open a file',
-            filters: [''],
-            properties: ['openFile'],
-            read: ('../app/documents/examples/PG.example.json')
-          });
+          const filepath = getPathByFilePicker(getStore().getState().hsc.folder, 'page');
+          openPage(filepath, focusedWindow.windowId);
         }
       }
     }, {
@@ -151,16 +178,50 @@ template.splice(3, 0,
   {
     label: 'View',
     submenu: [{
-      label: 'Add ...',
+      label: 'Add PlotView...',
       accelerator: '',
-      click() {
-        getStore().dispatch(addAndMountView(v4(), 'TV'));
+      click(item, focusedWindow) {
+        const view = {
+          type: 'PlotView',
+          configuration: {
+            type: 'PlotView',
+            axes: [],
+            grids: [],
+            legend: {},
+            markers: [],
+            plotBackgroundColour: '3FFFFFF',
+            defaultRatio: { length: 5, width: 5 },
+            entryPoints: [],
+            links: [],
+            title: 'New Plot View',
+          } };
+        addNewView(focusedWindow, view);
+      }
+    }, {
+      label: 'Add TextView...',
+      accelerator: '',
+      click(item, focusedWindow) {
+        const view = {
+          type: 'TextView',
+          configuration: {
+            type: 'TextView',
+            content: [],
+            defaultRatio: { length: 5, width: 5 },
+            entryPoints: [],
+            links: [],
+            title: 'New Text View',
+          } };
+        addNewView(focusedWindow, view);
       }
     }, {
       label: 'Open ...',
       accelerator: '',
-      click() {
-        // TODO open view
+      click(item, focusedWindow) {
+        if (focusedWindow) {
+          const state = getStore().getState();
+          const filepath = getPathByFilePicker(state.hsc.folder, 'view');
+          openView(filepath, state.windows[focusedWindow.windowId].focusedPage);
+        }
       }
     }]
   });

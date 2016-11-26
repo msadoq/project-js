@@ -11,8 +11,10 @@ const logger = debug('View');
 export default class View extends PureComponent {
   static propTypes = {
     component: PropTypes.func,
-    isViewsEditorOpen: PropTypes.bool.isRequired,
+    isViewsEditorOpen: PropTypes.bool,
     configuration: PropTypes.object,
+    visuWindow: PropTypes.object,
+    data: PropTypes.object,
     viewId: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     openEditor: PropTypes.func,
@@ -21,6 +23,7 @@ export default class View extends PureComponent {
   };
   render() {
     logger.debug('render');
+
     const ContentComponent = this.props.component || UnknownView;
     return (
       <div className={styles.container}>
@@ -34,7 +37,12 @@ export default class View extends PureComponent {
           unmountAndRemove={this.props.unmountAndRemove}
         />
         <div className={styles.content}>
-          <ContentComponent {...this.props} />
+          <ContentComponent
+            data={this.props.data}
+            type={this.props.type}
+            visuWindow={this.props.visuWindow}
+            configuration={this.props.configuration}
+          />
         </div>
       </div>
     );

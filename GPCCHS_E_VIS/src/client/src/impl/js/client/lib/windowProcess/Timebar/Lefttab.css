@@ -1,12 +1,20 @@
 .leftTab{
   position: relative;
+  height: 100%;
 }
 .timebarName{
   position: absolute;
-  top: -20px;
-  left: 0px;
+  top: 0px;
+  left: 25px;
   margin-top: 0px;
-
+}
+.btnClose{
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 20px;
+  min-width: 20px;
+  height: 20px;
 }
 .form{
   position: absolute;
@@ -17,9 +25,13 @@
   border: 1px solid #ccc;
   border-radius: 1px;
   box-shadow: 0px 0px 9px rgba(0,0,0,0.3);
-  z-index: 2;
+  z-index: 4;
   width: 260px;
   padding: 4px;
+}
+.offset{
+  position: absolute;
+  right: 40px;
 }
 .editForm{
   right: auto;
@@ -28,10 +40,17 @@
   width: 120%;
   transform: translateY(calc(-100% - 10px));
 }
+.leftTabTopPanel{
+  position: relative;
+}
 .timelineUl{
-  margin-top: 28px;
+  margin-top: 0px;
+  position: absolute;
+  top: 38px;
   padding-left: 0px;
-  max-height: 150px;
+  height: 100%;
+  width: 100%;
+  max-height: calc(100% - 69px);
   overflow-y: auto;
 }
 .timeline{
@@ -57,11 +76,14 @@
   margin-bottom: 4px;
 }
 
+.hideAddTimelineButton{
+  padding: 2px 10px;
+}
 .addTimelineButton{
   position: absolute;
-  top: -28px;
+  top: 0px;
   right: 0px;
-  padding: 2px 7px;
+  padding: 2px 8px;
   border-radius: 1px;
 }
 
@@ -91,7 +113,6 @@
 .square{
   position: absolute;
   top: 0px;
-  right: 16px;
   width: 17px;
   height: 17px;
 
@@ -101,6 +122,11 @@
 }
 .addTrackButton{
   border: none;
+  bottom: 5px;
+  top: auto;
+  left: 5px;
+  right: auto;
+  padding: 2px 8px;
 }
 .input{
   padding: 2px 7px;

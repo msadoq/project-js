@@ -59,6 +59,7 @@ export default function viewData(state = {}, action) {
       return retValue;
     }
     case types.DATA_REMOVE_ALL_VIEWDATA:
+    case types.HSC_CLOSE_WORKSPACE:
       return {};
     default:
       return state;

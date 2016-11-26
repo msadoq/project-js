@@ -1,16 +1,16 @@
 import classnames from 'classnames';
 import moment from 'moment';
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { FormGroup } from 'react-bootstrap';
 import styles from './Lefttab.css';
 
 export default class EditTrack extends Component {
 
   static propTypes = {
-    timeline: React.PropTypes.object.isRequired,
-    masterId: React.PropTypes.string.isRequired,
-    hideAddTimeline: React.PropTypes.func.isRequired,
-    editTimeline: React.PropTypes.func.isRequired,
+    hideEditTimeline: PropTypes.func.isRequired,
+    editTimeline: PropTypes.func.isRequired,
+    timeline: PropTypes.object.isRequired,
+    masterId: PropTypes.string,
   }
 
   constructor(...args) {
@@ -23,21 +23,35 @@ export default class EditTrack extends Component {
   }
 
   componentDidMount() {
-    const { masterId, timeline } = this.props;
-    const { duration } = this.state;
-    this.editTimelineIdEl.value = timeline.id;
-    this.editTimelineMasterEl.checked = masterId === timeline.id;
-    ['years', 'months', 'days', 'years', 'months', 'days', 'hours', 'minutes', 'seconds', 'milliseconds'].forEach((x) => {
-      this[`${x}El`].value = duration[x]();
-    });
-    document.addEventListener('click', this.hideAddTimeline);
+    this.updateFields();
+    document.addEventListener('keyup', this.hideAddTimeline);
   }
 
-  hideAddTimeline = () => {
-    const { hideAddTimeline } = this.props;
-    if (this.editTimelineFormEl && !this.editTimelineFormEl.parentElement.querySelector(':hover')) {
-      hideAddTimeline();
-      document.removeEventListener('click', this.hideAddTimeline);
+  componentWillReceiveProps(nextProps) {
+    this.setState({ duration: moment.duration(nextProps.timeline.offset) });
+  }
+
+  componentDidUpdate() {
+    this.updateFields();
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keyup', this.hideAddTimeline);
+  }
+
+  updateFields = () => {
+    this.editTimelineIdEl.value = this.props.timeline.id;
+    this.editTimelineMasterEl.checked = this.props.masterId === this.props.timeline.id;
+    ['years', 'months', 'days', 'years', 'months', 'days', 'hours', 'minutes', 'seconds', 'milliseconds'].forEach((x) => {
+      this[`${x}El`].value = this.state.duration[x]();
+    });
+  }
+
+  hideAddTimeline = (e) => {
+    e.preventDefault();
+    // Hit escape
+    if (e && e.keyCode && e.keyCode === 27) {
+      this.props.hideEditTimeline();
     }
   }
 
@@ -46,6 +60,7 @@ export default class EditTrack extends Component {
     const { editTimeline, timeline } = this.props;
 
     const duration = moment.duration();
+    // Dynamically fullfilling inputs
     ['years', 'months', 'days', 'hours', 'minutes', 'seconds', 'milliseconds'].forEach((x) => {
       const val = parseInt(this[`${x}El`].value, 10) || 0;
       duration.add(val, x);
@@ -74,6 +89,7 @@ export default class EditTrack extends Component {
           <input
             ref={(el) => { this.editTimelineIdEl = el; }}
             className={classnames('form-control', styles.formControl)}
+            disabled={masterId === timeline.id}
           />
         </FormGroup>
         <FormGroup className={styles.formGroup}>
@@ -112,11 +128,14 @@ export default class EditTrack extends Component {
             )
           }
         </FormGroup>
-        <input
-          type="submit"
-          value="Edit track"
-          className={classnames(styles.addTrackButton, 'btn-sm', 'btn-primary', 'col-md-offset-4')}
-        />
+        <FormGroup className={styles.formGroup}>
+          <b className={styles.labelFormControl}>&nbsp;</b>
+          <input
+            type="submit"
+            value="Edit track"
+            className={classnames(styles.addTrackButton, 'btn-md', 'btn-primary')}
+          />
+        </FormGroup>
       </form>
     );
   }

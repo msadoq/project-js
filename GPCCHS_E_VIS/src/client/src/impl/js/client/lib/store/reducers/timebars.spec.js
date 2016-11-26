@@ -42,16 +42,21 @@ describe('store:timebar', () => {
         );
         state.myTimebarId.should.have.properties({
           id: null,
-          visuWindow: {},
-          slideWindow: {},
-          rulerResolution: 11250,
+          rulerResolution: 2250,
           speed: 1,
           playingState: 'pause',
+          mode: 'Normal',
           masterId: null,
           timelines: []
         });
         state.myTimebarId.should.have.property('extUpperBound');
         state.myTimebarId.should.have.property('rulerStart');
+        state.myTimebarId.should.have.property('visuWindow');
+        state.myTimebarId.should.have.property('slideWindow');
+        state.myTimebarId.visuWindow.lower.should.be.below(state.myTimebarId.slideWindow.lower);
+        state.myTimebarId.slideWindow.lower.should.be.below(state.myTimebarId.visuWindow.current);
+        state.myTimebarId.visuWindow.current.should.be.below(state.myTimebarId.slideWindow.upper);
+        state.myTimebarId.slideWindow.upper.should.be.below(state.myTimebarId.visuWindow.upper);
       });
     });
     describe('remove', () => {
@@ -98,8 +103,15 @@ describe('store:timebar', () => {
         newState.myTimebarId.id.should.equal('newId');
       });
       it('visuWindow', () => {
-        const newState = reducer(state.timebars, actions.updateVisuWindow('myTimebarId',
-        { lower: 5, upper: 40, current: 30 }));
+        const newState = reducer(state.timebars, actions.updateCursors(
+          'myTimebarId',
+          {
+            lower: 5,
+            upper: 40,
+            current: 30
+          }
+          )
+        );
         //  5, 40, 30));
         newState.should.have.property('myTimebarId');
         newState.myTimebarId.should.have.property('visuWindow');
@@ -109,6 +121,30 @@ describe('store:timebar', () => {
         newState.myTimebarId.visuWindow.upper.should.equal(40);
         newState.myTimebarId.visuWindow.should.have.property('current');
         newState.myTimebarId.visuWindow.current.should.equal(30);
+      });
+
+      it('should be immutable with same data', () => {
+        const oldState = reducer(state.timebars, actions.updateCursors(
+          'myTimebarId',
+          {
+            lower: 5,
+            upper: 40,
+            current: 30,
+          }
+          )
+        );
+
+        const newState = reducer(oldState, actions.updateCursors(
+          'myTimebarId',
+          {
+            lower: 5,
+            upper: 40,
+            current: 30
+          }
+          )
+        );
+
+        newState.should.equal(oldState);
       });
       it('speed', () => {
         const newState = reducer(state.timebars, actions.updateSpeed('myTimebarId', 20));

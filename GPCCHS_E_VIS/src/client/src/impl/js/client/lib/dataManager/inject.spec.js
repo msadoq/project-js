@@ -5,11 +5,11 @@ describe('common/data/inject', () => {
   const payload = { rId1: {}, rId2: {} };
   for (let j = 10; j < 21; j += 1) {
     payload.rId1[j] = {
-      val1: (j * 10) + 1,
-      val2: (j * 10) + 2,
-      val3: (j * 10) + 3,
-      referenceTimestamp: j,
-      time: j + 0.2
+      val1: { type: 'uinteger', value: (j * 10) + 1 },
+      val2: { type: 'uinteger', value: (j * 10) + 2 },
+      val3: { type: 'uinteger', value: (j * 10) + 3 },
+      referenceTimestamp: { type: 'time', value: j },
+      time: { type: 'time', value: j + 0.2 }
     };
 
     payload.rId2[j] = payload.rId1[j];

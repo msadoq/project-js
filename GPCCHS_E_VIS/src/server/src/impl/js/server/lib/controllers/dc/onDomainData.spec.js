@@ -16,10 +16,10 @@ describe('controllers/dc/onDomainData', () => {
     // init test
     const myQueryId = 'myQueryId';
     const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
-    const myDomain = dataStub.getDomain({ name: 'fr.cnes.sat1.batman' });
-    const myDomainProto = dataStub.getDomainProtobuf(myDomain);
+    const myDomains = dataStub.getDomains();
+    const myDomainsProto = dataStub.getDomainsProtobuf(myDomains);
     // launch test
-    domainData(testHandler, myQueryIdProto, myDomainProto);
+    domainData(testHandler, myQueryIdProto, myDomainsProto);
     getTestHandlerArgs().should.have.lengthOf(0);
   });
 

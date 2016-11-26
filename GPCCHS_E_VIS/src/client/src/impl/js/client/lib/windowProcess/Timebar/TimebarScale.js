@@ -1,20 +1,23 @@
 import moment from 'moment';
-import React, { PureComponent } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import styles from './TimebarScale.css';
 
 const levelsRules = getLevelsRules();
+// 1980-01-01
+const minViewportLower = 315532800000;
+// 2040-01-01
+const maxViewportUpper = 2208988800000;
 
 export default class TimebarScale extends PureComponent {
+
   static propTypes = {
-    slideLower: React.PropTypes.number.isRequired,
-    slideUpper: React.PropTypes.number.isRequired,
-    onChange: React.PropTypes.func.isRequired,
+    viewportLower: PropTypes.number.isRequired,
+    viewportUpper: PropTypes.number.isRequired,
+    onChange: PropTypes.func.isRequired,
   }
 
   onMouseUp = () => {
-    this.setState({ navigating: false });
     setTimeout(this.autoSave, 120);
-
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
   }
@@ -22,12 +25,14 @@ export default class TimebarScale extends PureComponent {
   onMouseDown = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    const { slideLower, slideUpper } = this.props;
+    const { viewportLower, viewportUpper } = this.props;
     const dragOrigin = e.pageX;
     this.setState({
-      slideLower,
-      slideUpper,
-      dragOrigin
+      viewportLower,
+      viewportUpper,
+      originLower: viewportLower,
+      originUpper: viewportUpper,
+      dragOrigin,
     });
 
     document.addEventListener('mousemove', this.onMouseMove);
@@ -35,37 +40,29 @@ export default class TimebarScale extends PureComponent {
   }
 
   onMouseMove = (e) => {
-    const { dragOrigin, navigating } = this.state;
-    const mult = e.pageX > dragOrigin ? -1 : 1;
-    const abs = Math.abs(e.pageX - dragOrigin);
-    let pow = 2;
-    if (abs > 170) {
-      pow = 9;
-    } else if (abs > 140) {
-      pow = 7;
-    } else if (abs > 110) {
-      pow = 6;
-    } else if (abs > 80) {
-      pow = 5;
-    } else if (abs > 60) {
-      pow = 4;
-    } else if (abs > 30) {
-      pow = 3;
-    }
-    const offsetRel = (mult * 20) / Math.pow(abs / 100, pow);
-    this.setState({
-      navigationOffset: offsetRel,
-    });
+    const { viewportLower, viewportUpper, onChange } = this.props;
+    const { dragOrigin, originLower, originUpper } = this.state;
 
-    if (!navigating) {
-      this.setState({ navigating: true });
-      setTimeout(this.navigate, 60);
-    }
+    const abs = e.pageX - dragOrigin;
+    const offsetMs = ((abs / this.el.clientWidth) * (viewportUpper - viewportLower));
+    const newViewportLower = originLower + offsetMs;
+    const newViewportUpper = originUpper + offsetMs;
+    if (newViewportLower < minViewportLower || newViewportUpper > maxViewportUpper) return;
+    onChange(
+      newViewportLower,
+      newViewportUpper,
+      false,
+    );
+
+    this.setState({
+      viewportLower: newViewportLower,
+      viewportUpper: newViewportUpper,
+    });
   }
 
   getRules(viewportMs, zl) {
-    const { slideLower, slideUpper } = this.props;
-    const start = moment(slideLower);
+    const { viewportLower, viewportUpper } = this.props;
+    const start = moment(viewportLower);
     const output = [];
     const levelRule = levelsRules[zl];
 
@@ -81,39 +78,24 @@ export default class TimebarScale extends PureComponent {
       output.push([
         ts,
         start.format(levelRule.format),
-        (100 * (ts - slideLower)) / (slideUpper - slideLower)
+        (100 * (ts - viewportLower)) / (viewportUpper - viewportLower),
       ]);
     }
     return output;
   }
 
   autoSave = () => {
-    const { navigationOffset } = this.state;
-    const { slideLower, slideUpper, onChange } = this.props;
-    const viewportMsWidth = slideUpper - slideLower;
-    const offsetMs = viewportMsWidth / navigationOffset;
+    const { viewportLower, viewportUpper } = this.state;
+    const { onChange } = this.props;
     onChange(
-      slideLower + offsetMs,
-      slideUpper + offsetMs,
+      viewportLower,
+      viewportUpper,
       true
     );
   }
 
-  navigate = () => {
-    const { navigating, navigationOffset } = this.state;
-    const { slideLower, slideUpper, onChange } = this.props;
-    const viewportMsWidth = slideUpper - slideLower;
-    const offsetMs = viewportMsWidth / navigationOffset;
-    onChange(
-      slideLower + offsetMs,
-      slideUpper + offsetMs,
-      false
-    );
-    if (navigating) setTimeout(this.navigate, 60);
-  }
-
   render() {
-    const viewportMs = this.props.slideUpper - this.props.slideLower;
+    const viewportMs = this.props.viewportUpper - this.props.viewportLower;
     const scales = this.getRules(viewportMs, getZoomLevel(viewportMs));
 
     return (
@@ -124,7 +106,11 @@ export default class TimebarScale extends PureComponent {
       >
         {
           scales.map((s, i) =>
-            <div key={i} className={styles.scaleBar} style={{ left: `${s[2]}%` }}>
+            <div
+              key={i}
+              className={styles.scaleBar}
+              style={{ left: `${s[2]}%` }}
+            >
               <span className={styles.scaleTime}>{s[1]}</span>
               <span className={styles.scaleBar} />
             </div>
@@ -150,152 +136,164 @@ function getLevelsRules() {
   const sec = 1000;
   return [
     {
+      duration: day * 365 * 10,
+      startOf: 'year',
+      add: [1, 'year'],
+      format: 'YYYY',
+    },
+    {
+      duration: day * 365 * 2,
+      startOf: 'year',
+      add: [6, 'months'],
+      format: 'YYYY[-]MM',
+    },
+    {
       duration: day * 365,
       startOf: 'year',
       add: [2, 'month'],
-      format: 'YYYY[-]MM[-]DD'
+      format: 'YYYY[-]MM[-]DD',
     },
     {
       duration: day * 120,
       startOf: 'year',
       add: [1, 'month'],
-      format: 'YYYY[-]MM[-]DD'
+      format: 'YYYY[-]MM[-]DD',
     },
     {
       duration: day * 60,
       startOf: 'month',
       add: [15, 'day'],
-      format: 'YYYY[-]MM[-]DD HH[:]mm'
+      format: 'YYYY[-]MM[-]DD HH[:]mm',
     },
     {
       duration: day * 30,
       startOf: 'month',
       add: [8, 'day'],
-      format: 'YYYY[-]MM[-]DD HH[:]mm'
+      format: 'YYYY[-]MM[-]DD HH[:]mm',
     },
     {
       duration: day * 15,
       startOf: 'month',
       add: [4, 'day'],
-      format: 'YYYY[-]MM[-]DD HH[:]mm'
+      format: 'YYYY[-]MM[-]DD HH[:]mm',
     },
     // level 5
     {
       duration: day * 7,
       startOf: 'month',
       add: [2, 'day'],
-      format: 'YYYY[-]MM[-]DD HH[:]mm'
+      format: 'YYYY[-]MM[-]DD HH[:]mm',
     },
     {
       duration: day * 3,
       startOf: 'day',
       add: [12, 'hour'],
-      format: 'MM[-]DD HH[:]mm'
+      format: 'MM[-]DD HH[:]mm',
     },
     {
       duration: day,
       startOf: 'day',
       add: [6, 'hour'],
-      format: 'MM[-]DD HH[:]mm'
+      format: 'MM[-]DD HH[:]mm',
     },
     {
       duration: 12 * hour,
       startOf: 'day',
       add: [2, 'hour'],
-      format: 'MM[-]DD HH[:]mm'
+      format: 'MM[-]DD HH[:]mm',
     },
     {
       duration: 6 * hour,
       startOf: 'hour',
       add: [30, 'minute'],
-      format: 'HH[:]mm'
+      format: 'HH[:]mm',
     },
     // level 10
     {
       duration: 2 * hour,
       startOf: 'hour',
       add: [15, 'minute'],
-      format: 'HH[:]mm'
+      format: 'HH[:]mm',
     },
     {
       duration: min * 40,
       startOf: 'hour',
       add: [5, 'minute'],
-      format: 'HH[:]mm'
+      format: 'HH[:]mm',
     },
     {
       duration: min * 20,
       startOf: 'hour',
       add: [2, 'minute'],
-      format: 'HH[:]mm'
+      format: 'HH[:]mm',
     },
     {
       duration: min * 10,
       startOf: 'minute',
       add: [1, 'minute'],
-      format: 'HH[:]mm'
+      format: 'HH[:]mm',
     },
     {
       duration: min * 5,
       startOf: 'minute',
       add: [30, 'second'],
-      format: 'HH[:]mm[:]ss'
+      format: 'HH[:]mm[:]ss',
     },
     // level 15
     {
       duration: min * 2,
       startOf: 'minute',
       add: [20, 'second'],
-      format: 'HH[:]mm[:]ss'
+      format: 'HH[:]mm[:]ss',
     },
     {
       duration: min,
       startOf: 'minute',
       add: [10, 'second'],
-      format: 'HH[:]mm[:]ss'
+      format: 'HH[:]mm[:]ss',
     },
     {
       duration: sec * 30,
       startOf: 'minute',
       add: [5, 'second'],
-      format: 'mm[:]ss'
+      format: 'mm[:]ss',
     },
     {
       duration: sec * 10,
       startOf: 'minute',
       add: [2, 'second'],
-      format: 'mm[:]ss'
+      format: 'mm[:]ss',
     },
     {
       duration: sec * 5,
       startOf: 'second',
       add: [1, 'second'],
-      format: 'mm[:]ss'
+      format: 'mm[:]ss',
     },
     // level 20
     {
       duration: sec * 2,
       startOf: 'second',
       add: [500, 'ms'],
-      format: 'mm[:]ss[.]SSS'
+      format: 'mm[:]ss[.]SSS',
     },
     {
       duration: sec,
       startOf: 'second',
       add: [200, 'ms'],
-      format: 'mm[:]ss[.]SSS'
+      format: 'mm[:]ss[.]SSS',
     },
     {
       duration: sec / 2,
       startOf: 'second',
       add: [100, 'ms'],
-      format: 'mm[:]ss[.]SSS'
+      format: 'mm[:]ss[.]SSS',
     },
     {
       duration: sec / 4,
       startOf: 'second',
       add: [50, 'ms'],
-      format: 'mm[:]ss[.]SSS'
-    }
+      format: 'mm[:]ss[.]SSS',
+    },
   ];
 }

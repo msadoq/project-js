@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import _omit from 'lodash/omit';
+import _isEqual from 'lodash/isEqual';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import makeViewContainer from '../View/ViewContainer';
 import styles from './Content.css';
@@ -20,13 +21,13 @@ const filterLayoutBlockFields = [
   'static',
 ];
 
-export default class PageContent extends Component {
+export default class Content extends Component {
   static propTypes = {
     focusedPageId: PropTypes.string.isRequired,
-    timebarId: PropTypes.string.isRequired,
+    timebarId: PropTypes.string,
     layouts: PropTypes.object.isRequired,
     views: PropTypes.array,
-    viewOpenedInEditor: PropTypes.string,
+    editorViewId: PropTypes.string,
     unmountAndRemove: PropTypes.func,
     openEditor: PropTypes.func,
     closeEditor: PropTypes.func,
@@ -34,14 +35,30 @@ export default class PageContent extends Component {
     updateLayout: PropTypes.func,
   };
 
+  static childContextTypes = {
+    focusedPageId: React.PropTypes.string
+  }
+
+  getChildContext() {
+    return {
+      focusedPageId: this.props.focusedPageId
+    };
+  }
+
   onLayoutChange = (layout = []) => {
     if (!this.props.updateLayout) {
       return;
     }
 
     const newLayout = layout.map(block => _omit(block, filterLayoutBlockFields));
+
+    if (_isEqual(newLayout, this.previousLayout)) {
+      return;
+    }
+
     this.props.updateLayout(newLayout);
-  }
+    this.previousLayout = newLayout;
+  };
 
   cols = { lg: 12 };
   breakpoints = { lg: 1200 };
@@ -50,7 +67,8 @@ export default class PageContent extends Component {
     logger.debug('render');
     const {
       views = [], focusedPageId, timebarId,
-      layouts, viewOpenedInEditor, isEditorOpened
+      layouts, editorViewId, isEditorOpened,
+      openEditor, closeEditor
     } = this.props;
 
     if (!focusedPageId) {
@@ -73,23 +91,25 @@ export default class PageContent extends Component {
         measureBeforeMount
       >
         {views.map((v) => {
-          const isViewsEditorOpen = viewOpenedInEditor === v.viewId && isEditorOpened;
+          const isViewsEditorOpen = editorViewId === v.viewId && isEditorOpened;
 
           // avoid React reconciliation issue when all Content child components are ViewContainer
           // and sort order with siblings change
           const ViewContainer = makeViewContainer();
 
           return (
-            <div className={isViewsEditorOpen ? styles.blockedited : styles.block} key={v.viewId}>
+            <div
+              className={isViewsEditorOpen ? styles.blockedited : styles.block}
+              key={v.viewId}
+            >
               <ViewContainer
                 timebarId={timebarId}
                 pageId={focusedPageId}
                 viewId={v.viewId}
                 unmountAndRemove={this.props.unmountAndRemove}
-                viewOpenedInEditor={this.props.viewOpenedInEditor}
                 isViewsEditorOpen={isViewsEditorOpen}
-                openEditor={this.props.openEditor}
-                closeEditor={this.props.closeEditor}
+                openEditor={openEditor}
+                closeEditor={closeEditor}
               />
             </div>);
         })}

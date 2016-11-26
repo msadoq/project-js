@@ -58,7 +58,11 @@ export function open(data, windowId, cb) {
 
 export function close(windowId) {
   logger.info('closing window', windowId);
-  windows[windowId].destroy();
+  if (windows[windowId] && !windows[windowId].isDestroyed()) {
+    const window = windows[windowId];
+    delete windows[windowId];
+    setImmediate(() => window.close());
+  }
 }
 
 export default function windowsObserver(state, callback) {

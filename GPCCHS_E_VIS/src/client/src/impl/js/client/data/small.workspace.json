@@ -27,16 +27,16 @@
         "visuWindow": {
           "lower": 1420106400000,
           "upper": 1420106700000,
-          "current": 1420106460000,
+          "current": 1420106500000,
           "defaultWidth": 900000
         },
         "slideWindow": {
-          "lower": 1420106300000,
-          "upper": 1420106800000
+          "lower": 1420106430000,
+          "upper": 1420106670000
         },
         "extUpperBound": 1420106750000,
-        "rulerStart": 1420106400000,
-        "rulerResolution": 11250,
+        "rulerStart": 1420106100000,
+        "rulerResolution": 1125,
         "speed": 1.0,
         "playingState": "pause",
         "timeSpec": "LocalTime",

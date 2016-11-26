@@ -1,4 +1,8 @@
-import _ from 'lodash';
+import _defaults from 'lodash/defaults';
+import _omit from 'lodash/omit';
+import _without from 'lodash/without';
+import _clone from 'lodash/clone';
+import _reduce from 'lodash/reduce';
 import u from 'updeep';
 import * as types from '../types';
 
@@ -19,7 +23,14 @@ export default function windows(stateWindows = {}, action) {
         [action.payload.windowId]: window(undefined, action),
       };
     case types.WS_WINDOW_REMOVE:
-      return _.omit(stateWindows, [action.payload.windowId]);
+      return _omit(stateWindows, [action.payload.windowId]);
+    case types.HSC_CLOSE_WORKSPACE:
+      return {};
+    case types.WS_WINDOW_SETMODIFIED:
+      if (!stateWindows[action.payload.windowId]) {
+        return stateWindows;
+      }
+      return u({ [action.payload.windowId]: { isModified: action.payload.flag } }, stateWindows);
     default:
       return stateWindows;
   }
@@ -39,6 +50,7 @@ const initialState = {
     whyDidYouUpdate: false,
     timebarVisibility: true,
   },
+  isModified: false,
 };
 
 function window(stateWindow = initialState, action) {
@@ -49,10 +61,12 @@ function window(stateWindow = initialState, action) {
         geometry: Object.assign({}, stateWindow.geometry, action.payload.geometry),
         pages: action.payload.pages || stateWindow.pages,
         focusedPage: action.payload.focusedPage || stateWindow.focusedPage,
+        isModified: action.payload.isModified || false,
       });
     case types.WS_WINDOW_UPDATE_GEOMETRY: {
       return Object.assign({}, stateWindow, {
-        geometry: _.defaults({}, _.omit(action.payload, ['windowId']), stateWindow.geometry),
+        geometry: _defaults({}, _omit(action.payload, ['windowId']), stateWindow.geometry),
+        isModified: true,
       });
     }
     case types.WS_WINDOW_PAGE_FOCUS:
@@ -60,12 +74,13 @@ function window(stateWindow = initialState, action) {
         focusedPage: action.payload.pageId,
       });
     case types.WS_WINDOW_PAGE_REORDER: {
-      const { remaining, sorted } = _.reduce(action.payload.pages, (acc, pageId) => ({
-        remaining: _.without(acc.remaining, pageId),
+      const { remaining, sorted } = _reduce(action.payload.pages, (acc, pageId) => ({
+        remaining: _without(acc.remaining, pageId),
         sorted: (stateWindow.pages.indexOf(pageId) !== -1) ? [...acc.sorted, pageId] : acc.sorted,
-      }), { remaining: _.clone(stateWindow.pages), sorted: [] });
+      }), { remaining: _clone(stateWindow.pages), sorted: [] });
       return Object.assign({}, stateWindow, {
         pages: [...sorted, ...remaining],
+        isModified: true,
       });
     }
     case types.WS_WINDOW_DEBUG_SWITCH: { // TODO test
@@ -78,10 +93,12 @@ function window(stateWindow = initialState, action) {
     case types.WS_WINDOW_PAGE_MOUNT:
       return Object.assign({}, stateWindow, {
         pages: [...stateWindow.pages, action.payload.pageId],
+        isModified: true,
       });
     case types.WS_WINDOW_PAGE_UNMOUNT:
       return Object.assign({}, stateWindow, {
-        pages: _.without(stateWindow.pages, action.payload.pageId),
+        pages: _without(stateWindow.pages, action.payload.pageId),
+        isModified: true,
       });
     default:
       return stateWindow;

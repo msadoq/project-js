@@ -17,5 +17,7 @@ if __name__ == '__main__':
         action='store_true',
         help="Activate the traces in /var/log/isis folder"
     )
+    parser.add_argument("--gpccdc_config_file", default="/data/isis/work/gpccdc_dbr.conf")
+
     exit(GPCCHS(parser.parse_args()).run())
     # End of user code

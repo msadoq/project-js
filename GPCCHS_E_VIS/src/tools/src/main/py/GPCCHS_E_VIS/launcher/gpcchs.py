@@ -27,6 +27,9 @@ import sys
 import subprocess
 from time import sleep
 
+from jinja2 import FileSystemLoader
+from jinja2 import Template
+from jinja2 import Environment
 
 class IsisContainerError(Exception):
     """
@@ -191,6 +194,7 @@ class GPCCHS(object):
         self.__container_pid = None
         self._gpccdc_created = False
         self._gpccdc_started = False
+        self._gpccdc_config_file = options.gpccdc_config_file
         if options.workspace.rfind('/') != -1:
             self._workspace = options.workspace[options.workspace.rfind('/')+1:]
             self._fmd_root = os.environ['FMD_ROOT_DIR'] + '/' + options.workspace[:options.workspace.rfind('/')+1]
@@ -461,16 +465,41 @@ class GPCCHS(object):
         :rtype: integer
         """
         rc = 0
+        
+        user = os.environ["USERNAME"]
+        hostname = os.environ["HOSTNAME"]
+        display = os.environ["DISPLAY"]
+        filename = "gpinde-{}-{}-{}-default.ses".format(user, hostname, display)
+        gpindefile = os.path.join(os.environ["ISIS_WORK_DIR"], filename)
+        session = None
+        if os.path.isfile(gpindefile) :
+            fileopen = open(gpindefile)
+            line = fileopen.readline()
+            session = line[:len(line) -1]
+            fileopen.close()
+        else :
+            session = "session-system"
+        
+        session = session.upper()
+        session = session.split("-")[1]
+
+        templatedir = "/usr/share/isis/templates"
+        templatefile = "gpccdc_d_dbr.tpl"
+        destfile = self._gpccdc_config_file
+
+        loader = FileSystemLoader(templatedir)
+        environment = Environment(loader = loader)
+        template = environment.get_template(templatefile)
+
+        config = template.render(session=session, pull=self._dcPullPort, push=self._dcPushPort)
+
         try:
-            writeFile = open('/tmp/gpccdc_d_dbr.conf','w')
+            writeFile = open(destfile,'w')
         except IOError:
-            print("GPCCHS Failed to create GPCCCDC ports configuratin file")
+            print("GPCCHS Failed to create GPCCCDC ports configuratin file {}".format(destfile))
             rc = -1
         else:
-            writeFile.write("tcp://127.0.0.1:{}\n".format(self._dcPullPort))
-            writeFile.write("tcp://127.0.0.1:{}\n".format(self._dcPushPort))
-            writeFile.write("/data/isis/documents/SESSION/INTEGRATION/ESSAIS/SUPSUP/CCC/CONF_COMPONENT/GPCCDC/ParameterAggregations.json\n")
-            writeFile.write("/data/isis/documents/SESSION/INTEGRATION/ESSAIS/SUPSUP/CCC/CONF_COMPONENT/GPCCDC/ParameterAggregations.avsc\n")
+            writeFile.write(config)
             writeFile.close()
         return rc
             
@@ -526,7 +555,7 @@ class GPCCHS(object):
             print("GPCCHS Specified workspace file does not exist: ",self._fmd_root + self._workspace)
             rc = -1
         if rc == 0:
-            rc = self._exec_cmd("localslot --workdir /tmp --type gpvima",stdstreams)
+            rc = self._exec_cmd("localslot --type gpvima",stdstreams)
         if rc == 0:
             self._read_ports_numbers(stdstreams['out'].strip('\n \t'),portsNums)
             if len(portsNums) >= 5:
@@ -600,5 +629,7 @@ if __name__ == '__main__':
         action='store_true',
         help="Activate the traces in /var/log/isis folder"
     )
+    parser.add_argument("--gpccdc_config_file", default="/data/isis/work/gpccdc_dbr.conf")
+
     exit(GPCCHS(parser.parse_args()).run())
     # End of user code

@@ -54,6 +54,7 @@ class GPCCHS(object):
     # Start of user code ProtectedAttrZone
     _container_dir = _ISIS_WORK_DIR
     _gpccdc_feature_name = 'gpccdc_d_dbr-default.xml'
+    _gpccdc_conf_path = '/usr/share/isis/conf/config_gpccdc_d_dbr-default.xml'
     _container_pid_file = '{}gpinde-isis-desktopx.demo-:0-container.pid'
 
     _startContainerCmd = 'gpcctc_l_cnt_isisStartContainer_cmd -p {0} --cd {1}{0}'
@@ -132,9 +133,10 @@ class GPCCHS(object):
         """
         Property holding container activate command-line as list
         """
-        return '{} -- cactivate {}'.format(
+        return '{} -- cactivate {} {}'.format(
             self._container_cmd_base,
-            self._feature_id
+            self._feature_id,
+            self._feature_conf
         ).split()
 
     @property
@@ -195,6 +197,7 @@ class GPCCHS(object):
         else:
             self._workspace = options.workspace
             self._fmd_root = os.environ['FMD_ROOT_DIR'] + '/'
+        self._feature_conf = self._gpccdc_conf_path
         self._debug = options.debug
         self._hscLogFile = None
         self._hssLogFile = None
@@ -221,6 +224,7 @@ class GPCCHS(object):
         self._hscLogFile = None
         self._hssLogFile = None
         self._feature_id = None
+        self._feature_conf = None
         self.__container_pid = None
         self._gpccdc_created = False
         self._gpccdc_started = False
@@ -244,7 +248,8 @@ class GPCCHS(object):
             return matches[0] if matches else None
 
         try:
-            print("GPCCHS launcher execute: ",' '.join(self._ccreate_cmd))
+            if self._debug == True:
+                print("GPCCHS launcher execute: ",' '.join(self._ccreate_cmd))
             proc = subprocess.Popen(
                 self._ccreate_cmd,
                 env=os.environ,
@@ -268,7 +273,8 @@ class GPCCHS(object):
         rc = 0
         try:
             print('GPCCHS Activating feature ID {}...'.format(self._feature_id))
-            print("GPCCHS launcher execute: ",' '.join(self._cactivate_cmd))            
+            if self._debug == True:
+                print("GPCCHS launcher execute: ",' '.join(self._cactivate_cmd))            
             proc = subprocess.Popen(
                 self._cactivate_cmd,
                 env=os.environ,
@@ -295,7 +301,8 @@ class GPCCHS(object):
         rc = 0
         try:
             print('GPCCHS Starting feature ID {}...'.format(self._feature_id))
-            print("GPCCHS launcher execute: ",' '.join(self._cstart_cmd))
+            if self._debug == True:
+                print("GPCCHS launcher execute: ",' '.join(self._cstart_cmd))
             proc = subprocess.Popen(
                 self._cstart_cmd,
                 env=os.environ,
@@ -322,7 +329,8 @@ class GPCCHS(object):
         rc = 0
         try:
             print('GPCCHS Stopping feature ID {}...'.format(self._feature_id))
-            print("GPCCHS launcher execute: ",' '.join(self._cstop_cmd))
+            if self._debug == True:
+                print("GPCCHS launcher execute: ",' '.join(self._cstop_cmd))
             proc = subprocess.Popen(
                 self._cstop_cmd,
                 env=os.environ,
@@ -349,7 +357,8 @@ class GPCCHS(object):
         rc = 0
         try:
             print('GPCCHS Destroying feature ID {}...'.format(self._feature_id))
-            print("GPCCHS launcher execute: ",' '.join(self._cdestroy_cmd))
+            if self._debug == True:
+                print("GPCCHS launcher execute: ",' '.join(self._cdestroy_cmd))
             proc = subprocess.Popen(
                 self._cstop_cmd,
                 env=os.environ,
@@ -378,7 +387,8 @@ class GPCCHS(object):
         :rtype: integer
         """
         try:
-            print('GPCCHS Executing command : {}'.format(cmd))
+            if self._debug == True:
+                print('GPCCHS Executing command : {}'.format(cmd))
             proc = subprocess.Popen(
                 cmd.split(),
                 env=os.environ,
@@ -404,7 +414,8 @@ class GPCCHS(object):
         """
         proc = None
         try:
-            print('GPCCHS Running command : {}'.format(cmd))
+            if self._debug == True:
+                print('GPCCHS Running command : {}'.format(cmd))
             if logFile:
                 proc = subprocess.Popen(
                         cmd.split(),
@@ -441,22 +452,25 @@ class GPCCHS(object):
                 portslist.append(line.strip('\n \t'))
             readFile.close()
 
-    def _create_gpccdc_ports_file(self):
+    def _create_gpccdc_conf_file(self):
         """
-        Create /tmp/gpccdc_d_dbr_ports.txt file to give port numbers to GPCCDC
+        Create /tmp/gpccdc_d_dbr.conf file to give configuration to GPCCDC
+        Patch to correct with FT:#4407
         
         :return: Zero if success, -1 if error
         :rtype: integer
         """
         rc = 0
         try:
-            writeFile = open('/tmp/gpccdc_d_dbr_ports.txt','w')
+            writeFile = open('/tmp/gpccdc_d_dbr.conf','w')
         except IOError:
             print("GPCCHS Failed to create GPCCCDC ports configuratin file")
             rc = -1
         else:
             writeFile.write("tcp://127.0.0.1:{}\n".format(self._dcPullPort))
             writeFile.write("tcp://127.0.0.1:{}\n".format(self._dcPushPort))
+            writeFile.write("/data/isis/documents/SESSION/INTEGRATION/ESSAIS/SUPSUP/CCC/CONF_COMPONENT/GPCCDC/ParameterAggregations.json\n")
+            writeFile.write("/data/isis/documents/SESSION/INTEGRATION/ESSAIS/SUPSUP/CCC/CONF_COMPONENT/GPCCDC/ParameterAggregations.avsc\n")
             writeFile.close()
         return rc
             
@@ -525,7 +539,7 @@ class GPCCHS(object):
                 rc=-1
         if rc == 0:
             if not self._feature_id:
-                rc = self._create_gpccdc_ports_file()
+                rc = self._create_gpccdc_conf_file()
                 if rc == 0:
                     rc = self._create_feature()
             if not self._feature_id:

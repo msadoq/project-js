@@ -25,7 +25,8 @@ export default class Timebar extends Component {
 
   static propTypes = {
     retrieveFormattedFullDateEl: PropTypes.func.isRequired,
-    updatePlayingState: PropTypes.func.isRequired,
+    play: PropTypes.func.isRequired,
+    pause: PropTypes.func.isRequired,
     displayTimesetter: PropTypes.func.isRequired,
     onVerticalScroll: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
@@ -33,7 +34,7 @@ export default class Timebar extends Component {
     visuWindow: PropTypes.object.isRequired,
     viewport: PropTypes.object,
     timelines: PropTypes.array.isRequired,
-    playingState: PropTypes.string.isRequired,
+    isPlaying: PropTypes.bool.isRequired,
     timebarMode: PropTypes.string.isRequired,
     timebarId: PropTypes.string.isRequired,
     verticalScroll: PropTypes.number.isRequired,
@@ -64,8 +65,9 @@ export default class Timebar extends Component {
         timebarId,
         onChange,
         timebarMode,
-        updatePlayingState,
-        playingState,
+        isPlaying,
+        play,
+        pause,
         slideWindow,
       } = this.props;
       const { lower, upper, current } = visuWindow;
@@ -136,7 +138,11 @@ export default class Timebar extends Component {
           );
           break;
         case keys.space:
-          updatePlayingState(timebarId, playingState === 'play' ? 'pause' : 'play');
+          if (isPlaying) {
+            pause();
+          } else {
+            play(timebarId);
+          }
           break;
         default:
           break;

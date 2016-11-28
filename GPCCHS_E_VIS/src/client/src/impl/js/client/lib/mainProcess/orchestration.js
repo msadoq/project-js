@@ -7,10 +7,12 @@ import {
   getWindowsOpened,
   getPlayingTimebarId,
   getLastCacheInvalidation,
+  getLastTick,
 } from '../store/selectors/hsc';
 import {
   setWindowsAsOpened,
   updateCacheInvalidation,
+  updateLastTick,
 } from '../store/actions/hsc';
 import { getWebsocket } from './websocket';
 import dataMapGenerator from '../dataManager/map/dataMapGenerator';
@@ -18,8 +20,11 @@ import viewMapGenerator from '../dataManager/map/viewMapGenerator';
 import request from '../dataManager/request';
 import inject from '../dataManager/inject';
 import windowsObserver from './windows';
+import { updateCursors } from '../store/actions/timebars';
+import { getTimebar } from '../store/selectors/timebars';
+import { nextCurrent, computeCursors } from './play';
 
-// TODO : handle play and pause
+// TODO : on disconnect set to pause
 // TODO : test server restart, new workspace, workspace opening, new window
 
 const logger = debug('main:orchestration');
@@ -82,6 +87,10 @@ export function tick() {
   const { getState, dispatch } = getStore();
   const state = getState();
 
+  // last tick time
+  const lastTickTime = getLastTick(state);
+  dispatch(updateLastTick(Date.now())); // TODO reset on pause/disconnect
+
   // something has changed
   const somethingHasChanged = state !== previous.state;
   const dataMap = somethingHasChanged ? dataMapGenerator(state) : previous.dataMap;
@@ -98,6 +107,40 @@ export function tick() {
   const dataToInject = getAndResetQueue();
 
   if (isWindowsOpened) {
+    // playing
+    if (playingTimebarId) {
+      execution.start('play management');
+      const playingTimebar = getTimebar(state, playingTimebarId) || 'empty';
+
+      // next cursors
+      const newCurrent = nextCurrent(
+        playingTimebar.visuWindow.current,
+        playingTimebar.speed,
+        (Date.now() - lastTickTime)
+      );
+      const currentUpperMargin = 1 / 100; // TODO constants or removing for a real realtime forecast
+      const nextCursors = computeCursors(
+        newCurrent,
+        playingTimebar.visuWindow.lower,
+        playingTimebar.visuWindow.upper,
+        playingTimebar.slideWindow.lower,
+        playingTimebar.slideWindow.upper,
+        playingTimebar.mode,
+        currentUpperMargin
+      );
+
+      // dispatch
+      // TODO : only if different
+      console.log('PLAY jumped of', newCurrent - playingTimebar.visuWindow.current, 'ms');
+      dispatch(updateCursors(
+        playingTimebarId,
+        nextCursors.visuWindow,
+        nextCursors.slideWindow
+      ));
+
+      execution.stop('play management');
+    }
+
     // pulled data
     if (dataToInject.length) {
       execution.start('data injection');

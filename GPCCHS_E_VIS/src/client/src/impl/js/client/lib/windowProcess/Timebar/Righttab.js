@@ -8,13 +8,15 @@ import styles from './Timebar.css';
 
 const bootstrapPaddings = 5;
 
-class Righttab extends Component {
+class RighttabContent extends Component {
 
   static propTypes = {
     onTimelinesVerticalScroll: PropTypes.func.isRequired,
     updateViewport: PropTypes.func.isRequired,
     updateCursors: PropTypes.func.isRequired,
-    updatePlayingState: PropTypes.func.isRequired,
+    isPlaying: PropTypes.bool.isRequired,
+    play: PropTypes.func.isRequired,
+    pause: PropTypes.func.isRequired,
     displayTimesetter: PropTypes.func.isRequired,
     updateSpeed: PropTypes.func.isRequired,
     updateMode: PropTypes.func.isRequired,
@@ -30,7 +32,7 @@ class Righttab extends Component {
 
   /*
     ( does the opposite conversion as formatViewportDimensions before dispatching)
-    Viewport size is recieved in the following form:
+    Viewport size is received in the following form:
     {
       lower(ms) : ... ,
       upper(ms) : ... ,
@@ -97,7 +99,9 @@ class Righttab extends Component {
       timelines,
       timebarId,
       visuWindow,
-      updatePlayingState,
+      isPlaying,
+      play,
+      pause,
       updateSpeed,
       timebar,
       slideWindow,
@@ -117,13 +121,14 @@ class Righttab extends Component {
         />
         <TimebarControls
           viewport={this.formatViewportDimensions()}
-          timebarPlayingState={timebar.playingState}
           timebarMode={timebar.mode}
           timebarSpeed={timebar.speed}
           timebarId={timebarId}
           visuWindow={visuWindow}
           slideWindow={slideWindow}
-          updatePlayingState={updatePlayingState}
+          isPlaying={isPlaying}
+          play={play}
+          pause={pause}
           updateSpeed={updateSpeed}
           onChange={this.willUpdateCursors}
           updateMode={updateMode}
@@ -131,8 +136,9 @@ class Righttab extends Component {
         />
         <Timebar
           viewport={this.formatViewportDimensions()}
-          updatePlayingState={updatePlayingState}
-          playingState={timebar.playingState}
+          isPlaying={isPlaying}
+          play={play}
+          pause={pause}
           timebarId={timebarId}
           timebarMode={timebar.mode}
           visuWindow={visuWindow}
@@ -150,4 +156,4 @@ class Righttab extends Component {
   }
 }
 
-export default SizeMe()(Righttab); // eslint-disable-line new-cap
+export default SizeMe()(RighttabContent); // eslint-disable-line new-cap

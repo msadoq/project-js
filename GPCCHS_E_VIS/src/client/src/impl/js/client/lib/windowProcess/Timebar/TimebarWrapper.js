@@ -65,7 +65,7 @@ export default class TimebarWrapper extends Component {
     if (this.state.resizingWindow) {
       const movedPx = this.state.cursorOriginY - e.pageY;
       let newTimebarHeight = this.state.heightOrigin + movedPx;
-      newTimebarHeight = newTimebarHeight < 135 ? 135 : newTimebarHeight;
+      newTimebarHeight = newTimebarHeight < minTimebarHeight ? minTimebarHeight : newTimebarHeight;
       this.el.style.height = `${newTimebarHeight}px`;
 
       if (!this.updateTimebarHeightdebounce) {
@@ -147,7 +147,7 @@ export default class TimebarWrapper extends Component {
         ref={(el) => { this.el = el; }}
         style={{
           flex: '0 0 auto',
-          height: `${(!timebarHeight || timebarHeight < 135) ? 135 : timebarHeight}px`,
+          height: `${timebarHeight}px`,
           backgroundColor: '#F1F1F1'
         }}
       >

@@ -80,6 +80,14 @@ export default class EntryPointDetails extends React.Component {
     });
   }
 
+  handleObjectStyleSubmit = (values) => {
+    const { entryPoint, updateEntryPoint, viewId, idPoint } = this.props;
+    updateEntryPoint(viewId, idPoint, {
+      ...entryPoint,
+      objectStyle: values
+    });
+  }
+
   handleConnectedDataSubmit = (key, values) => {
     const { entryPoint, updateEntryPoint, viewId, idPoint } = this.props;
     updateEntryPoint(viewId, idPoint, {
@@ -140,7 +148,7 @@ export default class EntryPointDetails extends React.Component {
             }}
           />}
         </Panel>}
-        {entryPoint.lineStyle && <Panel
+        {entryPoint.objectStyle && <Panel
           key={'Style'}
           header="Style"
           eventKey={'Style'}
@@ -149,9 +157,9 @@ export default class EntryPointDetails extends React.Component {
           onExited={this.closePanel.bind('Style')}
         >
           {isPanelStyleOpen && <EntryPointStyle
-            onSubmit={this.handleSubmit}
+            onSubmit={this.handleObjectStyleSubmit}
             form={`entrypoint-style-form-${idPoint}-${viewId}`}
-            initialValues={entryPoint}
+            initialValues={entryPoint.objectStyle}
           />}
         </Panel>}
         {entryPoint.connectedData && <Panel

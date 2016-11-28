@@ -15,8 +15,13 @@ export default class PlotAxes extends React.Component {
     updateAxis: PropTypes.func.isRequired,
     addAxis: PropTypes.func.isRequired,
     expanded: PropTypes.bool.isRequired,
+    onSelect: PropTypes.func.isRequired,
     open: PropTypes.func.isRequired,
-    close: PropTypes.func.isRequired
+    close: PropTypes.func.isRequired,
+    headerRole: PropTypes.string.isRequired,
+    panelRole: PropTypes.string.isRequired,
+    eventKey: PropTypes.string.isRequired,
+    collapsible: PropTypes.bool.isRequired,
   }
   state = { };
 
@@ -47,13 +52,26 @@ export default class PlotAxes extends React.Component {
     updateAxis(viewId, key, values);
   }
 
+  openParentAccordion = (key, e) => {
+    const {
+      open,
+      onSelect
+    } = this.props;
+
+    onSelect(key, e);
+    open();
+  }
+
   render() {
     const {
       axes,
       viewId,
       expanded,
-      open,
-      close
+      close,
+      eventKey,
+      headerRole,
+      panelRole,
+      collapsible
     } = this.props;
 
     return (
@@ -72,10 +90,13 @@ export default class PlotAxes extends React.Component {
             />
           </Button>
         </span>}
-        expanded={expanded}
-        onSelect={open}
+        onSelect={this.openParentAccordion}
         onExited={close}
-        {...this.props}
+        collapsible={collapsible}
+        expanded={expanded}
+        eventKey={eventKey}
+        headerRole={headerRole}
+        panelRole={panelRole}
       >
         <Accordion>
           {Object.keys(axes).map((axisId) => {

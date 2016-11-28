@@ -56,7 +56,7 @@ export default class PlotEditor extends Component {
         width: PropTypes.number
       }),
       entryPoints: PropTypes.array,
-      axes: PropTypes.array,
+      axes: PropTypes.object,
       grids: PropTypes.array,
       title: PropTypes.string,
       titleStyle: PropTypes.shape({

@@ -108,6 +108,7 @@ class EntryPointConnectedData extends React.Component {
           <Field
             name="domain"
             component={InputField}
+            type="text"
             className="form-control input-sm"
           />
         </HorizontalFormGroup>
@@ -116,6 +117,7 @@ class EntryPointConnectedData extends React.Component {
           <Field
             name="timeline"
             component={InputField}
+            type="text"
             className="form-control input-sm"
           />
         </HorizontalFormGroup>

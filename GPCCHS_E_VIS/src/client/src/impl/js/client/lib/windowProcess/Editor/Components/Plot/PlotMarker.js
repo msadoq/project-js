@@ -109,10 +109,10 @@ class PlotMarker extends React.Component {
 
 
         {isKindHorizontal && <HorizontalFormGroup label="Line">
-          <FormSectionLineStyle />
+          <FormSectionLineStyle name="line" />
         </HorizontalFormGroup>}
         {isKindVertical && <HorizontalFormGroup label="Line">
-          <FormSectionLineStyle />
+          <FormSectionLineStyle name="line" />
         </HorizontalFormGroup>}
 
         {isKindText && <FormSectionFontStyle name="style" />}

@@ -4,7 +4,8 @@ import {
 } from 'react-bootstrap';
 import { Field, reduxForm } from 'redux-form';
 import {
-  ColorPickerField
+  ColorPickerField,
+  InputField
 } from '../Fields/';
 import {
   HorizontalFormGroup,
@@ -19,8 +20,14 @@ class EntryPointStyle extends React.Component {
   static propTypes = {
     /* eslint-disable react/no-unused-prop-types */
     initialValues: PropTypes.shape({
-      lineStyle: PropTypes.string,
-      pointsStyle: PropTypes.string,
+      line: PropTypes.shape({
+        style: PropTypes.string,
+        size: PropTypes.number
+      }).isRequired,
+      points: PropTypes.shape({
+        style: PropTypes.string,
+        size: PropTypes.number
+      }).isRequired,
       curveColour: PropTypes.string
     }).isRequired,
     handleSubmit: PropTypes.func,
@@ -43,11 +50,31 @@ class EntryPointStyle extends React.Component {
       <Form horizontal onSubmit={handleSubmit}>
 
         <HorizontalFormGroup label="Line">
-          <FormSectionLineStyle />
+          <FormSectionLineStyle name="line" />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Line size">
+          <Field
+            name="line.size"
+            component={InputField}
+            normalize={value => parseInt(value, 10)}
+            className="form-control input-sm"
+            type="number"
+          />
         </HorizontalFormGroup>
 
         <HorizontalFormGroup label="Points">
-          <FormSectionPointStyle />
+          <FormSectionPointStyle name="points" />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Points size">
+          <Field
+            name="points.size"
+            component={InputField}
+            normalize={value => parseInt(value, 10)}
+            className="form-control input-sm"
+            type="number"
+          />
         </HorizontalFormGroup>
 
         <HorizontalFormGroup label="Color">

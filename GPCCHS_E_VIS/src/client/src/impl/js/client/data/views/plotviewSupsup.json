@@ -34,9 +34,17 @@
         "timeline": "Session 1",
         "axisId": "VBat"
       },
-      "lineStyle": "Continuous",
-      "pointsStyle": "None",
-      "curveColour": "#FFBF00",
+      "objectStyle": {
+        "line": {
+          "style": "Continuous",
+          "size": 2
+        },
+        "points": {
+          "style": "None",
+          "size": 0
+        },
+        "curveColour": "#FFBF00"
+      },
       "stateColours": [
         {
           "colour": "#000000",

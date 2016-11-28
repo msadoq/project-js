@@ -144,15 +144,21 @@
                         }
                     }]
                 },
-                "lineStyle": {
-                    "$ref": "#/definitions/lineStyle"
-                },
-                "pointStyle": {
-                    "type": "string",
-                    "enum": ["None", "Triangle", "Square", "Dot"]
-                },
-                "curveColour": {
-                    "$ref": "#/definitions/colour"
+                "objectStyle": {
+                  "line": {
+                    "style": { "$ref": "#/definitions/lineStyle" },
+                    "size": { "type": "number" }
+                  },
+                  "points": {
+                    "style": {
+                      "type": "string",
+                      "enum": ["None", "Triangle", "Square", "Dot"]
+                    },
+                    "size": { "type": "number" }
+                  },
+                  "curveColour": {
+                      "$ref": "#/definitions/colour"
+                  }
                 },
                 "stateColours": {
                     "type": "array",

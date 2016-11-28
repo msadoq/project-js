@@ -260,7 +260,11 @@ class GPCCHS(object):
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE
             )
-            self._feature_id = extract_eid(proc.stdout.read().decode('utf-8'))
+            proc.wait()
+            stdoutsteam = proc.stdout.read().decode('utf-8')
+            if self._debug == True:
+                print(stdoutsteam)
+            self._feature_id = extract_eid(stdoutsteam)
             print('GPCCHS Feature instance created under ID {}.'.format(self._feature_id))
         except subprocess.CalledProcessError as error:
             print("GPCCHS Launcher Feature creation process error:", error)
@@ -285,9 +289,12 @@ class GPCCHS(object):
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE
             )
+            proc.wait()
             for std in [proc.stdout, proc.stderr]:
                 if std:
                     std = std.read().decode('utf-8')
+                    if self._debug == True:
+                        print(std)
                     if 'Error=1' in std:
                         raise IsisContainerError(std)
         except subprocess.CalledProcessError as error:
@@ -313,9 +320,12 @@ class GPCCHS(object):
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE
             )
+            proc.wait()
             for std in [proc.stdout, proc.stderr]:
                 if std:
                     std = std.read().decode('utf-8')
+                    if self._debug == True:
+                        print(std)
                     if 'Error=1' in std:
                         raise IsisContainerError(std)
         except subprocess.CalledProcessError as error:
@@ -341,9 +351,12 @@ class GPCCHS(object):
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE
             )
+            proc.wait()
             for std in [proc.stdout, proc.stderr]:
                 if std:
                     std = std.read().decode('utf-8')
+                    if self._debug == True:
+                        print(std)
                     if 'Error=1' in std:
                         raise IsisContainerError(std)
         except subprocess.CalledProcessError as error:
@@ -369,9 +382,12 @@ class GPCCHS(object):
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE
             )
+            proc.wait()
             for std in [proc.stdout, proc.stderr]:
                 if std:
                     std = std.read().decode('utf-8')
+                    if self._debug == True:
+                        print(std)
                     if 'Error=1' in std:
                         raise IsisContainerError(std)
         except subprocess.CalledProcessError as error:
@@ -402,6 +418,9 @@ class GPCCHS(object):
             proc.wait()
             stdstreams['out'] = proc.stdout.read().decode('utf-8')
             stdstreams['error'] = proc.stderr.read().decode('utf-8')
+            if self._debug == True:
+                print(stdstreams['out'])
+                print(stdstreams['error'])
         except subprocess.CalledProcessError as error:
             print("GPCCHS Launcher Command execution error:", error)
             return None
@@ -499,6 +518,8 @@ class GPCCHS(object):
             print("GPCCHS Failed to create GPCCCDC ports configuratin file {}".format(destfile))
             rc = -1
         else:
+            if self._debug == True:
+                print("GPCCHS write GPCCDC configuration file with:\n",config)
             writeFile.write(config)
             writeFile.close()
         return rc
@@ -558,6 +579,8 @@ class GPCCHS(object):
             rc = self._exec_cmd("localslot --type gpvima",stdstreams)
         if rc == 0:
             self._read_ports_numbers(stdstreams['out'].strip('\n \t'),portsNums)
+            if self._debug == True:
+                print("GPCCHS gets the following list of available ports:\n",portsNums)
             if len(portsNums) >= 5:
                 self._hssPort = portsNums[0]
                 self._dcPushPort = portsNums[1]
@@ -601,15 +624,27 @@ class GPCCHS(object):
         if rc == 0:
             print("GPCCHS Successfully started")
             try:
-                self._hscProc.wait()
+                while self._hscProc.poll() == None:
+                    if self._hssProc.poll() != None:
+                        print("GPCCHS server crashed, client is closed")
+                        if self._hscProc.poll() != 0:
+                            self._hscProc.terminate()
+                            self._hscProc.wait()
             except KeyboardInterrupt:
                 print("\nGPCCHS and GPCCDC processes aborted by user")
+        if self._hssProc:
+            if self._hssProc.poll() == None:
+                self._hssProc.terminate()
+        if self._hscProc:
+            if self._hscProc.poll() == None:
+                self._hscProc.terminate()
         if self._gpccdc_started:
             rc = self._stop_feature()
             self._gpccdc_started = False
         if self._gpccdc_created:
             rc = self._destroy_feature()
-            self._gpccdc_created = False                        
+            self._gpccdc_created = False
+            print("GPCCHS terminated GPCCDC, but run again this command to be sure: ",' '.join(self._cdestroy_cmd))
         if self._hscLogFile:
             self._hscLogFile.close()
         if self._hssLogFile:

@@ -288,6 +288,8 @@ class PlotView extends PureComponent {
             bgheight={tooltipHeight}
           />
         </ChartCanvas>
+        <span className="pull-left">{this.dateFormat(lower)}</span>
+        <span className="pull-right">{this.dateFormat(upper)}</span>
       </div>
     );
   }

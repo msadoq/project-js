@@ -63,7 +63,7 @@ export default class Timebar extends Component {
     /*
       moving viewport in the future if cursor is to far right
     */
-    if (!isPlaying) {
+    if (!isPlaying || true) {
       return;
     }
     const rightLimitMs = viewport.upper - ((viewport.upper - viewport.lower) / 15);

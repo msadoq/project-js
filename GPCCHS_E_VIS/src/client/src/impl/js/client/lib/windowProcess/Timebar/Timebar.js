@@ -262,7 +262,6 @@ export default class Timebar extends Component {
       dragOriginLower,
       dragNavigating,
       dragOriginUpper,
-      resizeOrigin,
       resizeCursor,
       dragOriginSlideLower,
       navigating,
@@ -341,10 +340,7 @@ export default class Timebar extends Component {
       slideWindow.upper, visuWindow.lower, visuWindow.upper cursors
     */
     } else if (resizing) {
-      const movedPx = (e.pageX - cursorOriginX);
-      const timebarContWidth = widthPx;
-      const movedMs = (movedPx / timebarContWidth) * viewportMsWidth;
-      let cursorPosMs = resizeOrigin + movedMs;
+      let cursorPosMs = this.state.cursorMs;
 
       // visuWindow.lower cursor
       if (resizeCursor === 'lower') {
@@ -389,22 +385,15 @@ export default class Timebar extends Component {
       Moving the current cursor
     */
     } else if (navigating) {
-      const movedPx = (e.pageX - cursorOriginX);
-      const viewportWidthPx = widthPx;
-      const movedMs = (movedPx / viewportWidthPx) * viewportMsWidth;
-      let cursorPosMs = resizeOrigin + movedMs;
-      let newSlideLower = slideLower;
-      let newSlideUpper = slideUpper;
-
-      if (cursorPosMs === current) {
-        return;
-      }
-
+      let cursorPosMs = this.state.cursorMs;
       if (cursorPosMs < visuWindow.lower) {
         cursorPosMs = visuWindow.lower;
       } else if (cursorPosMs > visuWindow.upper) {
         cursorPosMs = visuWindow.upper;
       }
+
+      let newSlideLower = slideLower;
+      let newSlideUpper = slideUpper;
       if (cursorPosMs < slideLower) {
         newSlideLower = cursorPosMs;
       }
@@ -424,23 +413,13 @@ export default class Timebar extends Component {
     slideWindow.upper, visuWindow.lower, visuWindow.upper cursors
   */
   onMouseDownResize = (e) => {
-    const { visuWindow, slideWindow } = this.props;
     const cursor = e.target.getAttribute('cursor');
-    let newResizeOrigin;
-    if (['lower', 'upper'].includes(cursor)) {
-      newResizeOrigin = visuWindow[cursor];
-    } else if (cursor === 'slideLower') {
-      newResizeOrigin = slideWindow.lower;
-    } else if (cursor === 'slideUpper') {
-      newResizeOrigin = slideWindow.upper;
-    }
     this.setState({
       resizing: true,
       dragging: false,
       navigating: false,
       resizeCursor: cursor,
       cursorOriginX: e.pageX,
-      resizeOrigin: newResizeOrigin,
     });
 
     document.addEventListener('mousemove', this.onMouseMove);
@@ -452,13 +431,12 @@ export default class Timebar extends Component {
     Clicked on the current cursor
   */
   onMouseDownNavigate = (e) => {
-    const { visuWindow, viewport } = this.props;
+    const { viewport } = this.props;
     this.setState({
       navigating: true,
       dragging: false,
       resizing: false,
       cursorOriginX: e.pageX,
-      resizeOrigin: visuWindow.current,
       viewportLower: viewport.lower,
       viewportUpper: viewport.upper
     });

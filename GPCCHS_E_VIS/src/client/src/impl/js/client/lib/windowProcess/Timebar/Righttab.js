@@ -2,7 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 import SizeMe from 'react-sizeme';
 import { Col } from 'react-bootstrap';
-import Timebar from './Timebar';
+import TimeBar from './Timebar';
 import TimebarControls from './TimebarControls';
 import styles from './Timebar.css';
 
@@ -134,7 +134,7 @@ class RighttabContent extends Component {
           updateMode={updateMode}
           currentSessionOffsetMs={currentSessionOffsetMs}
         />
-        <Timebar
+        <TimeBar
           viewport={this.formatViewportDimensions()}
           isPlaying={isPlaying}
           play={play}

@@ -38,17 +38,17 @@ const getLineMarker = (pointsStyle) => {
   }
 };
 
-const getLineMarkerProps = (pointsStyle, props) => {
+const getLineMarkerProps = (pointsStyle, pointsSize, props) => {
   let styleProps = {};
   switch (pointsStyle) {
     case 'Square':
-      styleProps = { width: 4 };
+      styleProps = { width: pointsSize || 4 };
       break;
     case 'Triangle':
-      styleProps = { width: 5 };
+      styleProps = { width: pointsSize || 5 };
       break;
     case 'Dot':
-      styleProps = { r: 2 };
+      styleProps = { r: pointsSize || 2 };
       break;
     case 'None':
     default:
@@ -60,9 +60,11 @@ const getLineMarkerProps = (pointsStyle, props) => {
 const getLines = (entryPoints = []) => entryPoints.map(ep => ({
   name: ep.name,
   key: ep.name,
-  color: ep.curveColour,
-  lineStyle: ep.lineStyle, // "Continuous", "Dotted", "Dashed"
-  pointsStyle: ep.pointsStyle // "None", "Triangle", "Square", "Dot"
+  color: ep.objectStyle.curveColour,
+  lineStyle: ep.objectStyle.line.style, // "Continuous", "Dotted", "Dashed"
+  lineSize: ep.objectStyle.line.size,
+  pointsStyle: ep.objectStyle.points.style, // "None", "Triangle", "Square", "Dot"
+  pointsSize: ep.objectStyle.points.size,
 }));
 
 class PlotView extends PureComponent {
@@ -186,7 +188,7 @@ class PlotView extends PureComponent {
     }
   }
 
-  renderLines = () => this.lines.map(({ key, color, pointsStyle }) => (
+  renderLines = () => this.lines.map(({ key, color, pointsStyle, pointsSize }) => (
     <div key={key}>
       <LineSeries
         key={`line${key}`}
@@ -197,7 +199,7 @@ class PlotView extends PureComponent {
         key={`scatter${key}`}
         yAccessor={d => _get(d, [key, 'value'])}
         marker={getLineMarker(pointsStyle)}
-        markerProps={getLineMarkerProps(pointsStyle, {
+        markerProps={getLineMarkerProps(pointsStyle, pointsSize, {
           stroke: color,
           fill: color
         })}

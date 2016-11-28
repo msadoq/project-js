@@ -42,9 +42,17 @@
         "timeline": "Session 1",
         "axisId": "VBat"
       },
-      "lineStyle": "Continuous",
-      "pointsStyle": "None",
-      "curveColour": "#FFBF00",
+      "objectStyle": {
+        "line": {
+          "style": "Continuous",
+          "size": 2
+        },
+        "points": {
+          "style": "None",
+          "size": 0
+        },
+        "curveColour": "#FFBF00"
+      },
       "stateColours": [
         {
           "colour": "#000000",
@@ -109,8 +117,10 @@
     {
       "xAxisId": "Time",
       "yAxisId": "VBat",
-      "lineStyle": "Continuous",
-      "width": 1,
+      "line": {
+        "style": "Continuous",
+        "size": 1
+      },
       "showGrid": true
     }
   ],

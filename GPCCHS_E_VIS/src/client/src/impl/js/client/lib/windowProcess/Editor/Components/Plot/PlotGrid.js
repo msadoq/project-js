@@ -26,7 +26,7 @@ class PlotGrid extends React.Component {
       width: PropTypes.number,
       showGrid: PropTypes.bool
     }).isRequired,
-    axes: PropTypes.array,
+    axes: PropTypes.object,
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     reset: PropTypes.func,
@@ -75,7 +75,7 @@ class PlotGrid extends React.Component {
         </HorizontalFormGroup>
 
         <HorizontalFormGroup label="Line">
-          <FormSectionLineStyle />
+          <FormSectionLineStyle name="lineStyle" />
         </HorizontalFormGroup>
 
         <HorizontalFormGroup label="X Axis">
@@ -84,9 +84,12 @@ class PlotGrid extends React.Component {
             className="form-control input-sm"
             component="select"
           >
-            {axes.map((axis, key) => (
-              <option key={key}>{axis.label}</option>
-            ))}
+            {Object.keys(axes).map((axisId) => {
+              const axis = axes[axisId];
+              return (
+                <option key={axisId}>{axis.label}</option>
+              );
+            })}
           </Field>
         </HorizontalFormGroup>
 
@@ -96,9 +99,12 @@ class PlotGrid extends React.Component {
             className="form-control input-sm"
             component="select"
           >
-            {axes.map((axis, key) => (
-              <option key={key}>{axis.label}</option>
-            ))}
+            {Object.keys(axes).map((axisId) => {
+              const axis = axes[axisId];
+              return (
+                <option key={axisId}>{axis.label}</option>
+              );
+            })}
           </Field>
         </HorizontalFormGroup>
 

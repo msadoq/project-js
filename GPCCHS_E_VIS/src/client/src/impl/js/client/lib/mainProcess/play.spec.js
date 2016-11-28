@@ -1,11 +1,11 @@
 /* eslint no-underscore-dangle: 0 */
 
-import compute from './play';
+import { computeCursors } from './play';
 
 require('../common/test');
 
 describe('mainProcess/play', () => {
-  describe('compute', () => {
+  describe('computeCursors', () => {
     const currentUpperMargin = 0;
     let timebarData;
     let vw;
@@ -32,7 +32,7 @@ describe('mainProcess/play', () => {
     it('(Normal mode) -     should move 377ms', () => {
       const offset = 377;
       const newCurrent = timebarData.visuWindow.current + offset;
-      const res = compute(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
+      const res = computeCursors(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
         'Normal', currentUpperMargin);
 
       res.visuWindow.should.have.property('lower', vw.lower);
@@ -44,7 +44,7 @@ describe('mainProcess/play', () => {
     it('(Normal mode) -     should move 377ms and move slideWindow', () => {
       const offset = 377;
       const newCurrent = vw.upper + offset;
-      const res = compute(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
+      const res = computeCursors(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
         'Normal', currentUpperMargin);
 
       res.visuWindow.should.have.property('lower', vw.lower + offset);
@@ -56,7 +56,7 @@ describe('mainProcess/play', () => {
     it('(Normal mode) -     should move 106100000ms and move slideWindow', () => {
       const offset = 106100000;
       const newCurrent = vw.upper + offset;
-      const res = compute(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
+      const res = computeCursors(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
         'Normal', currentUpperMargin);
 
       res.visuWindow.should.have.property('lower', vw.lower + offset);
@@ -69,7 +69,7 @@ describe('mainProcess/play', () => {
       const offset = 377;
       const secondOffset = 380;
       let newCurrent = vw.upper + offset;
-      let res = compute(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
+      let res = computeCursors(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
         'Extensible', currentUpperMargin);
 
       res.visuWindow.should.have.property('lower', vw.lower);
@@ -78,8 +78,15 @@ describe('mainProcess/play', () => {
       res.slideWindow.should.have.property('upper', sw.upper);
 
       newCurrent += secondOffset;
-      res = compute(newCurrent, res.visuWindow.lower, res.visuWindow.upper, res.slideWindow.lower,
-        res.slideWindow.upper, 'Extensible', currentUpperMargin);
+      res = computeCursors(
+        newCurrent,
+        res.visuWindow.lower,
+        res.visuWindow.upper,
+        res.slideWindow.lower,
+        res.slideWindow.upper,
+        'Extensible',
+        currentUpperMargin
+      );
 
       res.visuWindow.should.have.property('lower', vw.lower + secondOffset);
       res.visuWindow.should.have.property('upper', newCurrent);
@@ -94,7 +101,7 @@ describe('mainProcess/play', () => {
         upper: vw.current + 500,
       };
       let newCurrent = vw.current + offset;
-      let res = compute(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
+      let res = computeCursors(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
         'Fixed', currentUpperMargin);
 
       res.visuWindow.should.have.property('lower', vw.lower);
@@ -103,8 +110,15 @@ describe('mainProcess/play', () => {
       res.slideWindow.should.have.property('upper', sw.upper);
 
       newCurrent += secondOffset;
-      res = compute(newCurrent, res.visuWindow.lower, res.visuWindow.upper, res.slideWindow.lower,
-        res.slideWindow.upper, 'Fixed', currentUpperMargin);
+      res = computeCursors(
+        newCurrent,
+        res.visuWindow.lower,
+        res.visuWindow.upper,
+        res.slideWindow.lower,
+        res.slideWindow.upper,
+        'Fixed',
+        currentUpperMargin
+      );
 
       res.visuWindow.should.have.property('lower', vw.lower + ((offset + secondOffset) - 500));
       res.visuWindow.should.have.property('upper', vw.upper + ((offset + secondOffset) - 500));

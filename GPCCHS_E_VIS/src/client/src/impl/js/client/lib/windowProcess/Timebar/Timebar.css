@@ -1,7 +1,7 @@
 @import '../style/variables.css';
 
 .viewportWrapper{
-    padding-top: 16px;
+    padding-top: 24px;
     position: relative;
     height: 100%;
     overflow: hidden;
@@ -32,7 +32,6 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: -20px;
 }
 .lower, .upper, .current, .extBound{
     cursor: col-resize;
@@ -77,6 +76,10 @@
     top: -14px;
     position: absolute;
     user-select: none;
+    transition: top 0.1s;
+}
+.moved{
+  top: -26px;
 }
 .slideLower, .slideUpper{
     top: -28px;

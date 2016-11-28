@@ -14,7 +14,7 @@ export default class FormSectionLineStyle extends FormSection {
     return (
       <Field
         component={SelectButtonField}
-        name="lineStyle"
+        name="style"
         buttons={[
           { label: 'Continuous', icon: 'continuous' },
           { label: 'Dashed', icon: 'dashed' },

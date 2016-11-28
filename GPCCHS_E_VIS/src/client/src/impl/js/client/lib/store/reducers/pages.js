@@ -63,7 +63,8 @@ export default function pages(statePages = {}, action) {
         return statePages;
       }
       return u({ [action.payload.focusedPageId]: {
-        timebarHeight: action.payload.timebarHeight,
+        timebarHeight: (!action.payload.timebarHeight || action.payload.timebarHeight < 135) ?
+          135 : action.payload.timebarHeight,
         isModified: true,
       } },
         statePages);
@@ -74,7 +75,7 @@ export default function pages(statePages = {}, action) {
 
 const initialState = {
   title: 'Unknown',
-  timebarHeight: null,
+  timebarHeight: 135,
   timebarId: null,
   layout: [],
   views: [],

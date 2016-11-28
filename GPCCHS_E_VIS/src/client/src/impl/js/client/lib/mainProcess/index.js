@@ -3,11 +3,9 @@ import { app } from 'electron';
 import monitoring from 'common/monitoring';
 import debug from '../common/debug/mainDebug';
 import installExtensions from './installExtensions';
-import openWorkspace from './openWorkspace';
 import { initStore, getStore } from '../store/mainStore';
 import storeObserver from './storeObserver';
-import { disconnect } from './websocket';
-import { onWorkspaceLoaded } from './lifecycle';
+import { connect, disconnect } from './websocket';
 import './menu';
 
 const logger = debug('mainProcess:index');
@@ -27,11 +25,8 @@ export async function start() {
     // main process store observer
     storeSubscription = store.subscribe(() => storeObserver(store));
 
-    // read workspace async and on callback connect observers
-    openWorkspace(store.dispatch, store.getState, () => {
-      // workspace is loaded
-      onWorkspaceLoaded(store.dispatch);
-    });
+    // websocket initial connection
+    connect();
   } catch (e) {
     logger.error(e);
   }

@@ -44,7 +44,7 @@ class PlotMarker extends React.Component {
     isKindVertical: PropTypes.bool,
     // isKindOnePoint: PropTypes.bool,
     // isKindTwoPoint: PropTypes.bool,
-    // axes: PropTypes.array,
+    // axes: PropTypes.object,
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     reset: PropTypes.func,
@@ -109,10 +109,10 @@ class PlotMarker extends React.Component {
 
 
         {isKindHorizontal && <HorizontalFormGroup label="Line">
-          <FormSectionLineStyle />
+          <FormSectionLineStyle name="line" />
         </HorizontalFormGroup>}
         {isKindVertical && <HorizontalFormGroup label="Line">
-          <FormSectionLineStyle />
+          <FormSectionLineStyle name="line" />
         </HorizontalFormGroup>}
 
         {isKindText && <FormSectionFontStyle name="style" />}

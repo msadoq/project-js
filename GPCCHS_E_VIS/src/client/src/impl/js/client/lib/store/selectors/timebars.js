@@ -1,7 +1,5 @@
-import { HSC_PLAY_STATE } from 'common/constants';
 import _isNumber from 'lodash/isNumber';
 import _get from 'lodash/get';
-import _find from 'lodash/find';
 import _reduce from 'lodash/reduce';
 import { createSelector } from 'reselect';
 import { getTimelines } from './timelines';
@@ -51,7 +49,3 @@ export function getTimebarTimelines(timebars, timelines, timebarId) {
   }, []);
 }
 
-export const getPlayingTimebar = createSelector(
-  [getTimebars],
-  timebars => _find(timebars, tb => tb.playingState === HSC_PLAY_STATE)
-);

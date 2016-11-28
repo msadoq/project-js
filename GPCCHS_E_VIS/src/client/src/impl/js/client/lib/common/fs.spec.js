@@ -11,10 +11,6 @@ const {
 const { tmpdir } = require('os');
 
 const fs = require('./fs');
-// const { join } = require('path');
-// const parameters = require('../common/parameters');
-
-// const root = parameters.FMD_ROOT;
 
 describe('common/fs', () => {
   const folder = fs.resolve(tmpdir(), '/test');
@@ -137,26 +133,53 @@ describe('common/fs', () => {
       });
     });
   });
-  // describe('resolvePath', () => {
-  //   it('absolutePath given', () => {
-  //     const element = { absolutePath: '/data/myFile.json' };
-  //     fs.resolvePath(undefined, element).should.deep.equal(element.absolutePath);
-  //   });
-  //   it('oId given', () => {
-  //     const element = { oId: '123abc' };
-  //     // fs.resolvePath(undefined, element).should.deep.equal();
-  //   });
-  //   it('FMD Path given', () => {
-  //     const element = { path: '/page01.json' };
-  //     fs.resolvePath(undefined, element).should.deep.equal(join(root, element.path));
-  //   });
-  //   it('Path given is absolute', () => {
-  //     const element = { path: '/data/pagePBF1.json' };
-  //     fs.resolvePath(undefined, element).should.deep.equal(element.path);
-  //   });
-  //   it('relative path given', () => {
-  //     const element = { path: 'data/pagePBF1.json' };
-  //     fs.resolvePath('/home/', element).should.deep.equal(join('/home', element.path));
-  //   });
-  // });
+  describe('readJsonFromAbsPath', () => {
+    it('works', (done) => {
+      fs.readJsonFromAbsPath('/tmp/test/foo.json', (err, content) => {
+        should.not.exist(err);
+        content.should.eql({ foo: 'bar' });
+        done();
+      });
+    });
+    it('readJsonFromAbsPath error', (done) => {
+      fs.readJsonFromAbsPath('/tmp/test/not-exists.txt', (err, content) => {
+        err.should.be.an('error');
+        should.not.exist(content);
+        done();
+      });
+    });
+  });
+  describe('readJsonFromRelativePath', () => {
+    it('works', (done) => {
+      fs.readJsonFromRelativePath('/tmp/test/', 'foo.json', (err, content) => {
+        should.not.exist(err);
+        content.should.eql({ foo: 'bar' });
+        done();
+      });
+    });
+    it('readJsonFromRelativePath error', (done) => { // dc stub send oid as filepath
+      fs.readJsonFromRelativePath('/tmp/test/', 'not-exists.txt', (err, content) => {
+        err.should.be.an('error');
+        should.not.exist(content);
+        done();
+      });
+    });
+  });
+  describe('readJsonFromFmdPath', () => {
+    it('works', (done) => {
+      fs.readJsonFromFmdPath('/tmp/test/foo.json', (err, content) => {
+        should.not.exist(err);
+        content.should.eql({ foo: 'bar' });
+        done();
+      });
+    });
+    it('readJsonFromFmdPath error', (done) => { // dc stub send oid as filepath
+      fs.readJsonFromFmdPath('/tmp/test/not-exists.txt', (err, content) => {
+        err.should.be.an('error');
+        should.not.exist(content);
+        done();
+      });
+    });
+  });
+
 });

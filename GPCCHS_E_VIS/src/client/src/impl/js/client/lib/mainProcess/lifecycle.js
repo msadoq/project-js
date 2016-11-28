@@ -1,17 +1,17 @@
 import { series } from 'async';
 import {
-  LIFECYCLE_WORKSPACE_LOADED,
   LIFECYCLE_CONNECTED_WITH_HSS,
   LIFECYCLE_STARTED,
   LIFECYCLE_LOST_HSS_CONNECTION,
 } from 'common/constants';
 import { clear as clearRegisteredCallbacks } from 'common/callbacks/register';
 import { updateStatus } from '../store/actions/hss';
+import { getWorkspaceOpened } from '../store/selectors/hsc';
 import { updateStatus as updateAppStatus } from '../store/actions/hsc';
-import { connect } from './websocket';
 import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
 import { removeAllData } from '../store/actions/viewData';
+import openWorkspace from './openWorkspace';
 import { start, stop } from './orchestration';
 
 /**
@@ -19,23 +19,22 @@ import { start, stop } from './orchestration';
  *
  * - electron app is starting
  * - LIFECYCLE_NOT_STARTED
- * - open a file picker, read workspace, load in redux
- * - LIFECYCLE_WORKSPACE_LOADED
  * - connect ws
  * - LIFECYCLE_CONNECTED_WITH_HSS
  * - send domains query to HSS
  * - receive domains response from HSS
  * - send sessions query to HSS
  * - receive sessions response from HSS
+ * - if not already opened, read workspace or load default one, load in redux
  * - LIFECYCLE_STARTED
  * - launch data pull
  * - first 'requestData'
  *
  * Server disconnecting
  * - LIFECYCLE_LOST_HSS_CONNECTION
- * - stop data pull
+ * - stop orchestration
+ * - remove all registered callbacks
  * - remove all data
- * - reset previous dataMap
  *
  * Server reconnecting
  * - LIFECYCLE_LOST_HSS_CONNECTION
@@ -43,18 +42,11 @@ import { start, stop } from './orchestration';
  * - LIFECYCLE_STARTED
  */
 
-export function onWorkspaceLoaded(dispatch) {
-  dispatch(updateAppStatus(LIFECYCLE_WORKSPACE_LOADED));
-
-  // open websocket connection
-  connect();
-}
-
-export function onOpen(dispatch, requestDomains, requestSessions) {
+export function onOpen(getState, dispatch, requestDomains, requestSessions) {
   dispatch(updateStatus('main', 'connected'));
   dispatch(updateAppStatus(LIFECYCLE_CONNECTED_WITH_HSS));
 
-  // TODO : update sessions and domains regularly
+  // TODO : retrieve sessions list on-demand and session time on realtime jump
   series([
     // domains
     (callback) => {
@@ -83,6 +75,14 @@ export function onOpen(dispatch, requestDomains, requestSessions) {
         return callback(null);
       });
     },
+    // workspace
+    (callback) => {
+      if (getWorkspaceOpened(getState())) {
+        return callback(null);
+      }
+
+      openWorkspace(dispatch, getState, callback);
+    }
   ], (err) => {
     if (err) {
       // TODO : handle error in an error controller that dispatch to redux (displayed in react) and

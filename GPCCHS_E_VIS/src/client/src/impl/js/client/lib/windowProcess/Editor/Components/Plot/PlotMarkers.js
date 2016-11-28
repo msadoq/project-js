@@ -10,11 +10,16 @@ export default class PlotMarkers extends React.Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
     markers: PropTypes.array.isRequired,
-    axes: PropTypes.array.isRequired,
+    axes: PropTypes.object.isRequired,
     updateMarker: PropTypes.func.isRequired,
     expanded: PropTypes.bool.isRequired,
+    onSelect: PropTypes.func.isRequired,
     open: PropTypes.func.isRequired,
-    close: PropTypes.func.isRequired
+    close: PropTypes.func.isRequired,
+    headerRole: PropTypes.string.isRequired,
+    panelRole: PropTypes.string.isRequired,
+    eventKey: PropTypes.string.isRequired,
+    collapsible: PropTypes.bool.isRequired,
   }
   state = {
     isMarkersOpen: false
@@ -31,24 +36,40 @@ export default class PlotMarkers extends React.Component {
     updateMarker(viewId, key, values);
   }
 
+  openParentAccordion = (key, e) => {
+    const {
+      open,
+      onSelect
+    } = this.props;
+
+    onSelect(key, e);
+    open();
+  }
+
   render() {
     const {
       markers,
       axes,
       viewId,
       expanded,
-      open,
-      close
+      close,
+      eventKey,
+      headerRole,
+      panelRole,
+      collapsible
     } = this.props;
     // const { isMarkersOpen } = this.state;
 
     return (
       <Panel
         header="Markers"
-        expanded={expanded}
-        onSelect={open}
+        onSelect={this.openParentAccordion}
         onExited={close}
-        {...this.props}
+        collapsible={collapsible}
+        expanded={expanded}
+        eventKey={eventKey}
+        headerRole={headerRole}
+        panelRole={panelRole}
       >
         <Accordion>
           {markers.map((marker, key) =>

@@ -33,6 +33,7 @@ export default class EntryPointDetails extends React.Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
     idPoint: PropTypes.number,
+    axes: PropTypes.object,
     entryPoint: PropTypes.object,
     handleEntryPoint: PropTypes.func
   }
@@ -59,7 +60,6 @@ export default class EntryPointDetails extends React.Component {
             dans le noeud racine.
     L'utilisation de setState est temporaire, pour voir la mise à jour dans l'IHM.
   */
-  handleDataYChange = (label, val) => this.props.handleEntryPoint(this.props.idPoint, `connectedDataY.${label}`, val);
   handleChangeStateColor = color => this.setState({ newStateColor: color });
   handleFilter = (field, operator, operand) => this.setState({ newStateField: field, newStateOperator: operator, newStateOperand: operand });
   addStateColor = () => {
@@ -77,6 +77,22 @@ export default class EntryPointDetails extends React.Component {
     updateEntryPoint(viewId, idPoint, {
       ...entryPoint,
       ...values
+    });
+  }
+
+  handleObjectStyleSubmit = (values) => {
+    const { entryPoint, updateEntryPoint, viewId, idPoint } = this.props;
+    updateEntryPoint(viewId, idPoint, {
+      ...entryPoint,
+      objectStyle: values
+    });
+  }
+
+  handleConnectedDataSubmit = (key, values) => {
+    const { entryPoint, updateEntryPoint, viewId, idPoint } = this.props;
+    updateEntryPoint(viewId, idPoint, {
+      ...entryPoint,
+      [key]: values
     });
   }
 
@@ -99,7 +115,8 @@ export default class EntryPointDetails extends React.Component {
     const {
       idPoint,
       entryPoint,
-      viewId
+      viewId,
+      axes
     } = this.props;
 
     const {
@@ -131,7 +148,7 @@ export default class EntryPointDetails extends React.Component {
             }}
           />}
         </Panel>}
-        {entryPoint.lineStyle && <Panel
+        {entryPoint.objectStyle && <Panel
           key={'Style'}
           header="Style"
           eventKey={'Style'}
@@ -140,9 +157,9 @@ export default class EntryPointDetails extends React.Component {
           onExited={this.closePanel.bind('Style')}
         >
           {isPanelStyleOpen && <EntryPointStyle
-            onSubmit={this.handleSubmit}
+            onSubmit={this.handleObjectStyleSubmit}
             form={`entrypoint-style-form-${idPoint}-${viewId}`}
-            initialValues={entryPoint}
+            initialValues={entryPoint.objectStyle}
           />}
         </Panel>}
         {entryPoint.connectedData && <Panel
@@ -154,7 +171,10 @@ export default class EntryPointDetails extends React.Component {
           onExited={this.closePanel.bind('ConnData')}
         >
           {isPanelConnDataOpen && <EntryPointConnectedData
-            connectedData={this.props.entryPoint.connectedData}
+            axes={axes}
+            form={`entrypoint-connectedData-form-${idPoint}-${viewId}`}
+            onSubmit={this.handleConnectedDataSubmit.bind(this, 'connectedData')}
+            initialValues={this.props.entryPoint.connectedData}
           />}
         </Panel>}
         {entryPoint.connectedDataY && <Panel
@@ -166,8 +186,10 @@ export default class EntryPointDetails extends React.Component {
           onExited={this.closePanel.bind('Ordinate')}
         >
           {isPanelOrdinateOpen && <EntryPointConnectedData
-            connectedData={this.props.entryPoint.connectedDataY}
-            handleChange={this.handleDataYChange}
+            axes={axes}
+            form={`entrypoint-connectedDataY-form-${idPoint}-${viewId}`}
+            onSubmit={this.handleConnectedDataSubmit.bind(this, 'connectedDataY')}
+            initialValues={this.props.entryPoint.connectedDataY}
           />}
         </Panel>}
         {entryPoint.connectedDataX && <Panel
@@ -179,7 +201,10 @@ export default class EntryPointDetails extends React.Component {
           onExited={this.closePanel.bind('Absciss')}
         >
           {isPanelAbscissOpen && <EntryPointConnectedData
-            connectedData={this.props.entryPoint.connectedDataX}
+            axes={axes}
+            form={`entrypoint-connectedDataX-form-${idPoint}-${viewId}`}
+            onSubmit={this.handleConnectedDataSubmit.bind(this, 'connectedDataX')}
+            initialValues={this.props.entryPoint.connectedDataX}
           />}
         </Panel>}
         {entryPoint.stateColours && <Panel

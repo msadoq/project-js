@@ -12,6 +12,8 @@ extensions 2 to 102;
         TIMEBASED_PUBSUB_DATA = 6;
         SESSION_QUERY = 7;
         SESSION_DATA = 8;
+        FILEPATH_QUERY = 9;
+        FILEPATH_DATA = 10;
       }
 
     required MESSAGE_TYPE messageType = 1;

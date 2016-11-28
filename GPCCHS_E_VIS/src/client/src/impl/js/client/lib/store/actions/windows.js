@@ -6,7 +6,8 @@ import { add as addPage, remove as removePage } from './pages';
 /**
  * Simple actions
  */
-export const add = simple(types.WS_WINDOW_ADD, 'windowId', 'title', 'geometry', 'pages', 'focusedPage');
+export const add = simple(types.WS_WINDOW_ADD, 'windowId', 'title', 'geometry', 'pages',
+  'focusedPage', 'isModified');
 export const remove = simple(types.WS_WINDOW_REMOVE, 'windowId');
 export const focusPage = simple(types.WS_WINDOW_PAGE_FOCUS, 'windowId', 'pageId');
 export const mountPage = simple(types.WS_WINDOW_PAGE_MOUNT, 'windowId', 'pageId');

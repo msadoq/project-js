@@ -9,13 +9,19 @@ describe('store:hsc', () => {
     r.should.be.an('object').with.property('status', 'LIFECYCLE_NOT_STARTED');
     r.should.has.property('lastCacheInvalidation');
     r.lastCacheInvalidation.should.be.a('number');
+    r.should.have.property('windowsOpened', false);
+    r.should.have.property('workspaceOpened', false);
     r.should.have.property('playingTimebarId', null);
+    r.should.have.property('lastTick', null);
+    r.should.have.property('folder', null);
+    r.should.have.property('file', null);
   });
   it('should ignore unknown action', () => {
     const state = freezeMe({
       status: 'LIFECYCLE_NOT_STARTED',
       lastCacheInvalidation: 10,
       playingTimebarId: 10,
+      lastTick: 10,
     });
     reducer(state, {}).should.equal(state);
   });
@@ -26,6 +32,14 @@ describe('store:hsc', () => {
   it('should update windows state', () => {
     reducer(undefined, actions.setWindowsAsOpened())
       .should.have.property('windowsOpened', true);
+  });
+  it('should update workspace state', () => {
+    reducer(undefined, actions.setWorkspaceAsOpened())
+      .should.have.property('workspaceOpened', true);
+  });
+  it('should update last tick', () => {
+    reducer(undefined, actions.updateLastTick(10))
+      .should.have.property('lastTick', 10);
   });
   describe('play/pause', () => {
     it('should set timebarId as playing', () => {

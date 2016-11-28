@@ -4,7 +4,6 @@ import path from 'path';
 import { dialog } from 'electron';
 import { v4 } from 'node-uuid';
 
-
 import debug from '../common/debug/mainDebug';
 import parameters from '../common/parameters';
 import readWorkspace from '../documentsManager/workspace';
@@ -13,7 +12,7 @@ import { add as addTimebar } from '../store/actions/timebars';
 import { add as addView } from '../store/actions/views';
 import { add as addPage, setModified as setModifiedPage } from '../store/actions/pages';
 import { add as addWindow, setModified as setModifiedWindow } from '../store/actions/windows';
-import { updatePath } from '../store/actions/hsc';
+import { updatePath, setWorkspaceAsOpened } from '../store/actions/hsc';
 
 import { getPathByFilePicker } from './filePicker';
 
@@ -34,6 +33,7 @@ export function loadInStore(workspace, dispatch, root, file, callback) {
     e.path,
     e.oId,
     e.absolutePath,
+    false,
   )));
 
   // add pages
@@ -53,9 +53,8 @@ export function loadInStore(workspace, dispatch, root, file, callback) {
       e.path,
       e.oId,
       e.absolutePath,
+      false,
     ));
-      // set all files unmodified
-    dispatch(setModifiedPage(e.uuid, false));
   });
 
   // add windows
@@ -66,15 +65,13 @@ export function loadInStore(workspace, dispatch, root, file, callback) {
       if (e.pages && e.pages.length) {
         pageId = e.pages[0];
       }
-      dispatch(addWindow(e.uuid, e.title, e.geometry, e.pages, pageId));
-      // set all files unmodified
-      dispatch(setModifiedWindow(e.uuid, false));
+      dispatch(addWindow(e.uuid, e.title, e.geometry, e.pages, pageId, false));
     }
   );
 
   // workspace path
   dispatch(updatePath(root, file));
-
+  dispatch(setWorkspaceAsOpened());
 
   if (typeof callback === 'function') {
     return callback(null);
@@ -86,6 +83,7 @@ export function loadInStore(workspace, dispatch, root, file, callback) {
  *
  * @param dispatch
  * @param getState
+ * @param callback
  */
 export default function openWorkspace(dispatch, getState, callback) {
   const root = parameters.FMD_ROOT;

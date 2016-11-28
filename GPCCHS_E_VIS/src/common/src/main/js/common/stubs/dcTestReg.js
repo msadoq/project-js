@@ -92,6 +92,20 @@ const sessionDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =
   callback(null);
 };
 
+// FILEPATH DATA
+const filepathDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
+  console.log('receiving a message from dc');
+  console.log();
+  const header = decode('dc.dataControllerUtils.Header', headerBuffer);
+  header.messageType.should.equal(constants.MESSAGETYPE_FILEPATH_DATA);
+  const queryId = decode('dc.dataControllerUtils.String', argsBuffers[0]).string;
+  queryId.should.equal(myQueryId);
+  const oid = decode('dc.dataControllerUtils.String', argsBuffers[1]).string;
+  oid.should.equal(myOid);
+  zmq.closeSockets();
+  console.log('...end test');
+  callback(null);
+};
 // ARCHIVE DATA
 const archiveDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
   console.log('receiving a message from dc');
@@ -213,6 +227,7 @@ const myComObjectDataId = {   // corresponds to SubscriptionID ?
   // version: 'theVersion',  //for FDS params
 };
 
+const myOid = 'myOid';
 
 const dataIdWithTypo = {
   parameterName: 'ATT_BC_STR1VOLAGE',      // typo error on parameterName
@@ -247,6 +262,13 @@ const domainQueryMessageArgs = [
 const sessionQueryMessageArgs = [
   encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_SESSION_QUERY }),
   encode('dc.dataControllerUtils.String', { string: myQueryId }),
+];
+
+// filepath query
+const filepathQueryMessageArgs = [
+  encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_FILEPATH_QUERY }),
+  encode('dc.dataControllerUtils.String', { string: myQueryId }),
+  encode('dc.dataControllerUtils.String', { string: myOid }),
 ];
 
 // timebased subscription start
@@ -288,6 +310,13 @@ const sessionTest =
     createZmqConnection(callback, sessionDataPullHandler);
     sendZmqMessage(sessionQueryMessageArgs);
   };
+// FILEPATH TEST
+const filepathTest =
+  (callback) => {
+    console.log('> Test Filepath');
+    createZmqConnection(callback, filepathDataPullHandler);
+    sendZmqMessage(filepathQueryMessageArgs);
+  };
 // ARCHIVE TEST
 const archiveTest =
   (callback) => {
@@ -324,7 +353,7 @@ let testFunctions = [];
 
 const parseArgs = require('minimist');
 const options = {
-  boolean: ['d', 'p', 'a', 's', 'all', 't', 'w'],
+  boolean: ['d', 'p', 'a', 's', 'f', 'all', 't', 'w'],
   default: {
     all: true,
     d: false,
@@ -333,6 +362,7 @@ const options = {
     t: false,
     s: false,
     w: false,
+    f: false,
   },
   alias: {
     d: 'domains',
@@ -341,6 +371,7 @@ const options = {
     t: 'trash',
     s: 'sessions',
     w: 'pubsubwhole',
+    f: 'filepath',
   },
 };
 const argv = parseArgs(process.argv.slice(2), options);
@@ -364,6 +395,10 @@ if (argv.pubsubwhole) {
   argv.all = false;
   testFunctions.push(pubSubWholeTest);
 }
+if (argv.filepath) {
+  argv.all = false;
+  testFunctions.push(filepathTest);
+}
 if (argv.trash) {
   argv.all = false;
   testFunctions = [trashTest];
@@ -375,6 +410,7 @@ if (argv.all) {
   testFunctions.push(archiveTest);
   testFunctions.push(pubSubTest);
   testFunctions.push(pubSubWholeTest);
+  testFunctions.push(filepathTest);
 }
 
 

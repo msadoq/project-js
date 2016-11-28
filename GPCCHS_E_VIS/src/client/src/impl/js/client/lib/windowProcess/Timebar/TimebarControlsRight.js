@@ -7,7 +7,7 @@ const currentUpperMargin = 1 / 100;
 export default class TimebarControlsRight extends Component {
 
   static propTypes = {
-    togglePlayingState: PropTypes.func.isRequired,
+    play: PropTypes.func.isRequired,
     updateMode: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     slideWindow: PropTypes.object.isRequired,
@@ -54,7 +54,7 @@ export default class TimebarControlsRight extends Component {
           },
         }
       );
-      this.props.togglePlayingState('play');
+      this.props.play(timebarId);
     } else {
       if (mode === 'Extensible' && slideWindow.upper < upper) {
         onChange(

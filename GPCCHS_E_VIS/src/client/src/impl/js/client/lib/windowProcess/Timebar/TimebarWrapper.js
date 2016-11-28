@@ -16,7 +16,9 @@ export default class TimebarWrapper extends Component {
   static propTypes = {
     updateCursors: PropTypes.func.isRequired,
     updateViewport: PropTypes.func.isRequired,
-    updatePlayingState: PropTypes.func.isRequired,
+    isPlaying: PropTypes.bool.isRequired,
+    play: PropTypes.func.isRequired,
+    pause: PropTypes.func.isRequired,
     updateTimebarHeight: PropTypes.func.isRequired,
     updateSpeed: PropTypes.func.isRequired,
     updateMode: PropTypes.func.isRequired,
@@ -63,7 +65,7 @@ export default class TimebarWrapper extends Component {
     if (this.state.resizingWindow) {
       const movedPx = this.state.cursorOriginY - e.pageY;
       let newTimebarHeight = this.state.heightOrigin + movedPx;
-      newTimebarHeight = newTimebarHeight < 135 ? 135 : newTimebarHeight;
+      newTimebarHeight = newTimebarHeight < minTimebarHeight ? minTimebarHeight : newTimebarHeight;
       this.el.style.height = `${newTimebarHeight}px`;
 
       if (!this.updateTimebarHeightdebounce) {
@@ -106,7 +108,9 @@ export default class TimebarWrapper extends Component {
       timelines,
       timebarId,
       visuWindow,
-      updatePlayingState,
+      isPlaying,
+      play,
+      pause,
       updateSpeed,
       timebar,
       slideWindow,
@@ -141,7 +145,11 @@ export default class TimebarWrapper extends Component {
     return (
       <div
         ref={(el) => { this.el = el; }}
-        style={{ flex: '0 0 auto', height: `${timebarHeight}px` }}
+        style={{
+          flex: '0 0 auto',
+          height: `${timebarHeight || 135}px`,
+          backgroundColor: '#F1F1F1'
+        }}
       >
         {timesetter}
         <Col xs={12} style={{ paddingBottom: 2 }}>
@@ -173,11 +181,12 @@ export default class TimebarWrapper extends Component {
           timebarId={timebarId}
           visuWindow={visuWindow}
           slideWindow={slideWindow}
-          updatePlayingState={updatePlayingState}
+          play={play}
+          pause={pause}
           updateSpeed={updateSpeed}
           updateMode={updateMode}
           currentSessionOffsetMs={currentSessionOffsetMs}
-          playingState={timebar.playingState}
+          isPlaying={isPlaying}
           timelines={timelines}
           displayTimesetter={this.toggleTimesetter}
           onTimelinesVerticalScroll={this.onTimelinesVerticalScroll}

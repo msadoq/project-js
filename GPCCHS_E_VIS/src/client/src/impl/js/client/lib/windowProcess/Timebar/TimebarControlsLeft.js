@@ -5,12 +5,13 @@ import styles from './TimebarControls.css';
 export default class TimebarControlsLeft extends Component {
 
   static propTypes = {
-    togglePlayingState: PropTypes.func.isRequired,
+    isPlaying: PropTypes.bool.isRequired,
+    play: PropTypes.func.isRequired,
+    pause: PropTypes.func.isRequired,
     updateSpeed: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     slideWindow: PropTypes.object.isRequired,
     visuWindow: PropTypes.object.isRequired,
-    timebarPlayingState: PropTypes.string.isRequired,
     timebarId: PropTypes.string.isRequired,
     timebarSpeed: PropTypes.number.isRequired,
   }
@@ -20,8 +21,8 @@ export default class TimebarControlsLeft extends Component {
       updateSpeed,
       timebarId,
       timebarSpeed,
-      timebarPlayingState,
-      togglePlayingState,
+      isPlaying,
+      play,
     } = this.props;
 
     let newSpeed = dir === 'up' ? 2 * timebarSpeed : timebarSpeed / 2;
@@ -38,8 +39,8 @@ export default class TimebarControlsLeft extends Component {
       newSpeed = 0.1;
     }
     updateSpeed(timebarId, newSpeed);
-    if (newSpeed !== 1 && timebarPlayingState === 'pause') {
-      togglePlayingState();
+    if (newSpeed !== 1 && !isPlaying) {
+      play(timebarId);
     }
   }
 
@@ -65,12 +66,13 @@ export default class TimebarControlsLeft extends Component {
 
   render() {
     const {
-      timebarPlayingState,
+      timebarId,
       timebarSpeed,
-      togglePlayingState,
+      isPlaying,
+      play,
+      pause,
     } = this.props;
 
-    const playing = timebarPlayingState === 'play';
     const allButtonsKlasses = classnames('btn', 'btn-xs', 'btn-control');
 
     return (
@@ -105,15 +107,15 @@ export default class TimebarControlsLeft extends Component {
             className={classnames(
               allButtonsKlasses,
               {
-                [styles.controlButtonPlay]: playing,
-                [styles.controlButtonActive]: playing,
-                [styles.controlButtonPause]: !playing
+                [styles.controlButtonPlay]: isPlaying,
+                [styles.controlButtonActive]: isPlaying,
+                [styles.controlButtonPause]: !isPlaying
               }
             )}
-            onClick={() => togglePlayingState()}
-            title={playing ? 'play' : 'pause'}
+            onClick={() => (isPlaying ? pause() : play(timebarId))}
+            title={isPlaying ? 'play' : 'pause'}
           >
-            {playing ? <span>&#9613;&#9613;</span> : <span>&#9658;</span>}
+            {isPlaying ? <span>&#9613;&#9613;</span> : <span>&#9658;</span>}
           </button>
         </li>
         <li className={styles.controlsLi}>

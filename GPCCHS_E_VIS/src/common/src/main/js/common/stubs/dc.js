@@ -17,6 +17,7 @@ const sendDomainData = require('./dc/sendDomainData');
 const sendPubSubData = require('./dc/sendPubSubData');
 const sendArchiveData = require('./dc/sendArchiveData');
 const sendSessionData = require('./dc/sendSessionData');
+const sendFilepathData = require('./dc/sendFilepathData');
 
 
 let subscriptions = {};
@@ -50,6 +51,11 @@ const onHssMessage = (...args) => {
   const queryId = protobuf.decode('dc.dataControllerUtils.String', args[1]).string;
 
   switch (header.messageType) {
+    case globalConstants.MESSAGETYPE_FILEPATH_QUERY: {
+      logger.info('push filepath data');
+      const oid = protobuf.decode('dc.dataControllerUtils.String', args[2]).string;
+      return sendFilepathData(queryId, oid, zmq);
+    }
     case globalConstants.MESSAGETYPE_DOMAIN_QUERY: {
       logger.info('push domain data');
       return sendDomainData(queryId, zmq);

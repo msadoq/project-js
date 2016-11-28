@@ -63,12 +63,12 @@ export default class EntryPointTree extends React.Component {
             <Panel
               key={key}
               header={<span>
-                {entryPoint.curveColour && <div
+                {entryPoint.objectStyle && entryPoint.objectStyle.curveColour && <div
                   style={{
                     height: '20px',
                     width: '20px',
                     marginRight: '10px',
-                    backgroundColor: entryPoint.curveColour
+                    backgroundColor: entryPoint.objectStyle.curveColour
                   }}
                 />}
                 <span className="flex">{entryPoint.name}</span>

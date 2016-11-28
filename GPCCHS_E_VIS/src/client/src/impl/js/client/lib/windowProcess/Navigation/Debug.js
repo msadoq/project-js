@@ -1,4 +1,4 @@
-import { remote } from 'electron';
+import { remote, clipboard } from 'electron';
 import React, { PureComponent, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -57,6 +57,11 @@ class Debug extends PureComponent {
   cleanCache = () => {
     this.context.store.dispatch(updateCacheInvalidation(Date.now() - 1e10));
     this.props.dummy();
+  };
+
+  copyStateToClipboard = () => {
+    clipboard.writeText(JSON.stringify(this.context.store.getState()));
+    return console.log('store state exported to clipboard'); // eslint-disable-line no-console
   };
 
   render() {
@@ -120,7 +125,14 @@ class Debug extends PureComponent {
             VIEW MAP
           </MenuItem>
           <MenuItem
-            eventKey="5"
+            eventKey="6"
+            onClick={this.copyStateToClipboard}
+            {...buttonsProps}
+          >
+            COPY STATE
+          </MenuItem>
+          <MenuItem
+            eventKey="7"
             onClick={this.cleanCache}
             {...buttonsProps}
           >

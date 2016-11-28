@@ -32,7 +32,7 @@ export function connect() {
 
     instance.on('open', () => {
       logger.info('opened!');
-      onOpen(getStore().dispatch, requestDomains, requestSessions);
+      onOpen(getStore().getState, getStore().dispatch, requestDomains, requestSessions);
     });
     instance.on('close', () => {
       logger.info('closed!');
@@ -56,6 +56,7 @@ export function connect() {
           break;
         case globalConstants.EVENT_DOMAIN_DATA:
         case globalConstants.EVENT_SESSION_DATA:
+        case globalConstants.EVENT_FILEPATH_DATA:
           handleResponse(queryId, payload);
           break;
         case globalConstants.EVENT_ERROR: // TODO implement error handling function

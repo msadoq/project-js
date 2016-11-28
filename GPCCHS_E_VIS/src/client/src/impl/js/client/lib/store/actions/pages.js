@@ -7,7 +7,7 @@ import { getViews, getEditor } from '../reducers/pages';
  * Simple actions
  */
 export const add = simple(types.WS_PAGE_ADD, 'pageId', 'timebarId', 'title', 'views', 'layout',
-  'path', 'oId', 'absolutePath');
+  'path', 'oId', 'absolutePath', 'isModified');
 export const remove = simple(types.WS_PAGE_REMOVE, 'pageId');
 export const mountView = simple(types.WS_PAGE_VIEW_MOUNT, 'pageId', 'viewId', 'layout');
 export const unmountView = simple(types.WS_PAGE_VIEW_UNMOUNT, 'pageId', 'viewId');

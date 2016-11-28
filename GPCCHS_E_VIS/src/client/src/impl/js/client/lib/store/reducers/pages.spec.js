@@ -22,7 +22,7 @@ describe('store:page', () => {
         );
         state.myPageId.should.deep.eql({
           title: 'Title',
-          timebarHeight: null,
+          timebarHeight: 135,
           timebarId: 'myTimebarId',
           views: ['myViewId'],
           layout: [
@@ -46,7 +46,7 @@ describe('store:page', () => {
         );
         state.myPageId.should.deep.eql({
           title: 'Unknown',
-          timebarHeight: null,
+          timebarHeight: 135,
           timebarId: null,
           views: [],
           layout: [],

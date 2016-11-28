@@ -1,6 +1,16 @@
+export function nextCurrent(current, speed, elapsed) { // TODO test
+  return current + (elapsed * speed);
+}
 
-export default function compute(current, lower, upper, slideLower, slideUpper,
-  mode, currentUpperMargin) {
+export function computeCursors(
+  current,
+  lower,
+  upper,
+  slideLower,
+  slideUpper,
+  mode,
+  currentUpperMargin
+) {
   /*
     Current can not equal upper
     there is a mandatory margin between the two cursors

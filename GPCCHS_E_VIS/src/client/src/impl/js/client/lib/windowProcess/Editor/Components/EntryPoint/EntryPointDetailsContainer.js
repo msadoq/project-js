@@ -11,7 +11,8 @@ const mapStateToProps = (state, { viewId }) => {
   const view = getView(state, viewId);
   return {
     title: view.configuration.title,
-    titleStyle: view.configuration.titleStyle
+    titleStyle: view.configuration.titleStyle,
+    axes: view.configuration.axes
   };
 };
 

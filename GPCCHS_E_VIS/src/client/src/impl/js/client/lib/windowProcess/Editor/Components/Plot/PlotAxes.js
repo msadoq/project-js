@@ -10,7 +10,7 @@ import PlotAxis from './PlotAxis';
 export default class PlotAxes extends React.Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
-    axes: PropTypes.array.isRequired,
+    axes: PropTypes.object.isRequired,
     removeAxis: PropTypes.func.isRequired,
     updateAxis: PropTypes.func.isRequired,
     addAxis: PropTypes.func.isRequired,
@@ -78,36 +78,40 @@ export default class PlotAxes extends React.Component {
         {...this.props}
       >
         <Accordion>
-          {Object.keys(axes).map(id =>
-            <Panel
-              key={id}
-              header={<span>
-                <span className="flex">{axes[id].label}</span>
-                <Button
-                  bsSize="xsmall"
-                  className="btn-link"
-                  onClick={e => this.handleRemovePlotAxis(e, id)}
-                >
-                  <Glyphicon
-                    className="text-danger"
-                    glyph="remove"
-                    title="Remove"
-                  />
-                </Button>
-              </span>}
-              eventKey={id}
-              expanded={this.state[`isPanel${id}Open`]}
-              onSelect={this.openPanel.bind(id)}
-              onExited={this.closePanel.bind(id)}
-            >
-              {this.state[`isPanel${id}Open`] &&
-                <PlotAxis
-                  key={id}
-                  initialValues={axes[id]}
-                  onSubmit={this.handleSubmit.bind(this, id)}
-                  form={`axis-form-${id}-${viewId}`}
-                />}
-            </Panel>)}
+          {Object.keys(axes).map((axisId) => {
+            const axis = axes[axisId];
+            return (
+              <Panel
+                key={axisId}
+                header={<span>
+                  <span className="flex">{axis.label}</span>
+                  <Button
+                    bsSize="xsmall"
+                    className="btn-link"
+                    onClick={e => this.handleRemovePlotAxis(e, axisId)}
+                  >
+                    <Glyphicon
+                      className="text-danger"
+                      glyph="remove"
+                      title="Remove"
+                    />
+                  </Button>
+                </span>}
+                eventKey={axisId}
+                expanded={this.state[`isPanel${axisId}Open`]}
+                onSelect={this.openPanel.bind(axisId)}
+                onExited={this.closePanel.bind(axisId)}
+              >
+                {this.state[`isPanel${axisId}Open`] &&
+                  <PlotAxis
+                    key={axisId}
+                    initialValues={axis}
+                    onSubmit={this.handleSubmit.bind(this, axisId)}
+                    form={`axis-form-${axisId}-${viewId}`}
+                  />}
+              </Panel>
+            );
+          })}
         </Accordion>
       </Panel>
     );

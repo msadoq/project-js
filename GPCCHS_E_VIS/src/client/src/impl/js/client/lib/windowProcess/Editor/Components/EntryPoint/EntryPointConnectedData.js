@@ -1,10 +1,17 @@
 import React, { PropTypes } from 'react';
 import {
-  Form, FormGroup, FormControl,
-  Col, ControlLabel, InputGroup,
-  Button, Glyphicon
+  Form
 } from 'react-bootstrap';
-import Select from 'react-select';
+import { Field, reduxForm } from 'redux-form';
+import {
+  InputField,
+  TextareaField,
+  ReactSelectField
+} from '../Fields/';
+import {
+  HorizontalFormGroup,
+  ClearSubmitButtons
+} from '../Forms/';
 
 export const unitOptions = [
   { value: 'ns', label: 'ns' },
@@ -38,107 +45,106 @@ export const axesOptions = [
   Composant react-select :
   https://github.com/JedWatson/react-select
 */
-export default class EntryPointConnectedData extends React.Component {
+class EntryPointConnectedData extends React.Component {
   static propTypes = {
-    connectedData: PropTypes.object,
-    handleChange: PropTypes.func
+    /* eslint-disable react/no-unused-prop-types */
+    initialValues: PropTypes.shape({
+      formula: PropTypes.string,
+      unit: PropTypes.string,
+      digits: PropTypes.number,
+      format: PropTypes.string,
+      domain: PropTypes.string,
+      timeline: PropTypes.string,
+      axisId: PropTypes.string
+    }).isRequired,
+    axes: PropTypes.object,
+    handleSubmit: PropTypes.func,
+    pristine: PropTypes.bool,
+    reset: PropTypes.func,
+    submitting: PropTypes.bool,
+    valid: PropTypes.bool
   }
-  state = {
-    axisID: this.props.connectedData.axisId,
-    unitValue: this.props.connectedData.unit,
-    formatValue: this.props.connectedData.format,
-    axesValue: this.props.connectedData.axisId,
-    formula: this.props.connectedData.formula,
-    domain: this.props.connectedData.domain,
-    timeline: this.props.connectedData.timeline
-  }
-
-  /*
-    Toutes les fonctions dont le nom commence par handle sont appelées
-    par la modification d'une valeur dans un formulaire.
-    @TODO : Ces fonctions doivent vérifier la conformiter de la nouvelle valeur
-            et appeler une fonction passée en props pour mettre à jour cette valeur
-            dans le noeud racine.
-    L'utilisation de setState est temporaire, pour voir la mise à jour dans l'IHM.
-  */
-  handleUnit = val => this.props.handleChange('unit', val.value);
-  handleFormat = val => this.props.handleChange('format', val.value);
-  handleAxes = val => this.setState({ axesValue: val.value });
-  handleDigits = e => this.props.handleChange('digits', e.target.value);
-  handleDomain = e => this.setState({ domain: e.target.value });
-  validateDomain = () => this.props.handleChange('domain', this.state.domain);
-  handleTimeline = e => this.setState({ timeline: e.target.value });
-  validateTimeline = () => this.props.handleChange('timeline', this.state.timeline);
-  handleFormula = e => this.setState({ formula: e.target.value });
-  validateFormula = () => this.props.handleChange('formula', this.state.formula);
 
   render() {
-    const { connectedData } = this.props;
     const {
-      format,
-      type,
-      axesValue,
-      formula,
-      domain,
-      timeline
-   } = this.state;
+      handleSubmit,
+      pristine,
+      reset,
+      submitting,
+      valid,
+      axes
+    } = this.props;
 
     return (
-      <Form horizontal>
-        <FormGroup controlId="formHorizontalConnData">
-          <Col componentClass={ControlLabel} xs={3}>
-            Formula
-          </Col>
-          <Col xs={9}>
-            <InputGroup>
-              <FormControl
-                type="text"
-                value={formula}
-                className="input-sm"
-                onChange={this.handleFormula}
-                placeholder="no value"
-              />
-              <InputGroup.Button>
-                <Button
-                  onClick={this.validateFormula}
-                  bsSize="small"
-                >
-                  <Glyphicon glyph="ok" />
-                </Button>
-              </InputGroup.Button>
-            </InputGroup>
-          </Col>
-        </FormGroup>
-        <FormGroup controlId="formControlsSelect">
-          <Col componentClass={ControlLabel} xs={3}>
-            Unit
-          </Col>
-          <Col xs={9}>
-            <Select
-              name="form-field-unit"
-              clearable={false}
-              options={unitOptions}
-              onChange={this.handleUnit}
-              className="has-value"
-              value={connectedData.unit}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup controlId="formHorizontalFormat">
-          <Col componentClass={ControlLabel} xs={3}>
-            Format
-          </Col>
-          <Col xs={9}>
-            <Select
-              name="form-field-format"
-              clearable={false}
-              value={connectedData.format}
-              options={formatOptions}
-              onChange={this.handleFormat}
-              className="has-value"
-            />
-          </Col>
-        </FormGroup>
+      <Form horizontal onSubmit={handleSubmit}>
+
+        <HorizontalFormGroup label="Formula">
+          <Field
+            name="formula"
+            component={TextareaField}
+            className="form-control input-sm"
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Unit">
+          <Field
+            name="unit"
+            component={ReactSelectField}
+            clearable={false}
+            options={unitOptions}
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Format">
+          <Field
+            name="format"
+            component={ReactSelectField}
+            clearable={false}
+            options={formatOptions}
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Domain">
+          <Field
+            name="domain"
+            component={InputField}
+            className="form-control input-sm"
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Timeline">
+          <Field
+            name="timeline"
+            component={InputField}
+            className="form-control input-sm"
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Axis">
+          <Field
+            name="axisId"
+            className="form-control input-sm"
+            component="select"
+          >
+            {Object.keys(axes).map((axisId) => {
+              const axis = axes[axisId];
+              return (
+                <option key={axisId}>{axis.label}</option>
+              );
+            })}
+          </Field>
+        </HorizontalFormGroup>
+
+        <ClearSubmitButtons
+          pristine={pristine}
+          submitting={submitting}
+          reset={reset}
+          valid={valid}
+        />
+      </Form>
+    );
+        /*
+
         {(format === 'decimal') ?
           <FormGroup controlId="formHorizontalDigits">
             <Col componentClass={ControlLabel} xs={3} >
@@ -155,54 +161,6 @@ export default class EntryPointConnectedData extends React.Component {
           </FormGroup>
           : null
         }
-        <FormGroup controlId="formHorizontalDomain">
-          <Col componentClass={ControlLabel} xs={3}>
-            Domain
-          </Col>
-          <Col xs={9}>
-            <InputGroup>
-              <FormControl
-                type="text"
-                value={domain}
-                className="input-sm"
-                onChange={this.handleDomain}
-                placeholder="no value"
-              />
-              <InputGroup.Button>
-                <Button
-                  onClick={this.validateDomain}
-                  bsSize="small"
-                >
-                  <Glyphicon glyph="ok" />
-                </Button>
-              </InputGroup.Button>
-            </InputGroup>
-          </Col>
-        </FormGroup>
-        <FormGroup controlId="formHorizontalUrl">
-          <Col componentClass={ControlLabel} xs={3}>
-            Session
-          </Col>
-          <Col xs={9}>
-            <InputGroup>
-              <FormControl
-                type="text"
-                value={timeline}
-                className="input-sm"
-                onChange={this.handleTimeline}
-                placeholder="no value"
-              />
-              <InputGroup.Button>
-                <Button
-                  onClick={this.validateTimeline}
-                  bsSize="small"
-                >
-                  <Glyphicon glyph="ok" />
-                </Button>
-              </InputGroup.Button>
-            </InputGroup>
-          </Col>
-        </FormGroup>
         {(type === 'FDS') ?
           <FormGroup controlId="formHorizontalUrl">
             <Col componentClass={ControlLabel} xs={3}>
@@ -225,21 +183,6 @@ export default class EntryPointConnectedData extends React.Component {
           </FormGroup>
         : null
         }
-        <FormGroup controlId="formHorizontalFormat">
-          <Col componentClass={ControlLabel} xs={3}>
-            Axis
-          </Col>
-          <Col xs={9}>
-            <Select
-              name="form-field-axes"
-              clearable={false}
-              value={axesValue}
-              options={axesOptions}
-              onChange={this.handleAxes}
-              className="has-value"
-            />
-          </Col>
-        </FormGroup>
         <FormGroup controlId="formControlsSelect">
           <Col componentClass={ControlLabel} xs={3}>
             Filter
@@ -276,7 +219,23 @@ export default class EntryPointConnectedData extends React.Component {
             <FormControl type="text" className="input-sm" />
           </Col>
         </FormGroup>
-      </Form>
-    );
+        */
   }
 }
+
+const requiredFields = ['formula'];
+const validate = (values = {}) => {
+  const errors = {};
+
+  requiredFields.forEach((field) => {
+    if (!values[field]) {
+      errors[field] = 'Required';
+    }
+  });
+  return errors;
+};
+
+export default reduxForm({
+  validate,
+  enableReinitialize: true
+})(EntryPointConnectedData);

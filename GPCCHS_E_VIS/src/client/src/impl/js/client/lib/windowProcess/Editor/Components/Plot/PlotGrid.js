@@ -96,9 +96,12 @@ class PlotGrid extends React.Component {
             className="form-control input-sm"
             component="select"
           >
-            {axes.map((axis, key) => (
-              <option key={key}>{axis.label}</option>
-            ))}
+            {Object.keys(axes).map((axisId) => {
+              const axis = axes[axisId];
+              return (
+                <option key={axisId}>{axis.label}</option>
+              );
+            })}
           </Field>
         </HorizontalFormGroup>
 

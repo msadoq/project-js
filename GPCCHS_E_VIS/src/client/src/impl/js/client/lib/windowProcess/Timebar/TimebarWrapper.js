@@ -141,7 +141,7 @@ export default class TimebarWrapper extends Component {
     return (
       <div
         ref={(el) => { this.el = el; }}
-        style={{ flex: '0 0 auto', height: `${timebarHeight}px` }}
+        style={{ flex: '0 0 auto', height: `${(!timebarHeight || timebarHeight < 135) ? 135 : timebarHeight}px` }}
       >
         {timesetter}
         <Col xs={12} style={{ paddingBottom: 2 }}>

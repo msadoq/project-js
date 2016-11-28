@@ -42,15 +42,16 @@
 }
 .leftTabTopPanel{
   position: relative;
+  height: 38px;
 }
 .timelineUl{
   margin-top: 0px;
   position: absolute;
   top: 38px;
   padding-left: 0px;
-  height: 100%;
   width: 100%;
-  max-height: calc(100% - 69px);
+  height: 100%;
+  max-height: calc(100% - 68px);
   overflow-y: auto;
 }
 .timeline{

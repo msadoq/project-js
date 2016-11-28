@@ -27,6 +27,7 @@ export default class Timebar extends Component {
     retrieveFormattedFullDateEl: PropTypes.func.isRequired,
     play: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
+    retrieveFormattedFullDateEl: PropTypes.func.isRequired,
     displayTimesetter: PropTypes.func.isRequired,
     onVerticalScroll: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,

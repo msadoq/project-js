@@ -49,7 +49,43 @@ export default class Timebar extends Component {
   }
 
   componentDidUpdate() {
+    const {
+      viewport,
+      timebarMode,
+      visuWindow,
+      slideWindow,
+      onChange,
+      timebarId,
+      isPlaying,
+    } = this.props;
+
     this.timelinesEl.scrollTop = this.props.verticalScroll;
+
+    /*
+      moving viewport in the future if cursor is to far right
+    */
+    if (!isPlaying) {
+      return;
+    }
+    const rightLimitMs = viewport.upper - ((viewport.upper - viewport.lower) / 15);
+    let limitCursorMs;
+    if (timebarMode === 'Normal' || timebarMode === 'Fixed') {
+      limitCursorMs = visuWindow.upper;
+    } else {
+      limitCursorMs = slideWindow.upper;
+    }
+    if (limitCursorMs > rightLimitMs) {
+      const offsetMs = (viewport.upper - viewport.lower) / 5;
+      onChange(
+        timebarId,
+        {
+          viewport: {
+            lower: viewport.lower + offsetMs,
+            upper: viewport.upper + offsetMs,
+          },
+        }
+      );
+    }
   }
 
   componentWillUnmount() {

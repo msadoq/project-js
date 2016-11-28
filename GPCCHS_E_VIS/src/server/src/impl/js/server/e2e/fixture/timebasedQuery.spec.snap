@@ -4,46 +4,157 @@ Object {
   "payload": Object {
     "last@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:monitoringState.!=.nominal": Object {
       "1479772740000": Object {
-        "convertedValue": 138.6320582855435,
-        "extractedValue": 138.6320582855435,
-        "groundDate": 1479772740020,
-        "isNominal": false,
-        "isObsolete": false,
-        "monitoringState": "ok",
-        "onboardDate": 1479772740000,
-        "rawValue": 138.6320582855435,
-        "referenceTimestamp": 1479772740000,
-        "triggerOffCounter": 10,
-        "triggerOnCounter": 6,
-        "validityState": 0
+        "convertedValue": Object {
+          "type": "double",
+          "value": 138.6320582855435
+        },
+        "extractedValue": Object {
+          "type": "double",
+          "value": 138.6320582855435
+        },
+        "groundDate": Object {
+          "type": "time",
+          "value": 1479772740020
+        },
+        "isNominal": Object {
+          "type": "boolean",
+          "value": false
+        },
+        "isObsolete": Object {
+          "type": "boolean",
+          "value": false
+        },
+        "monitoringState": Object {
+          "type": "string",
+          "value": "ok"
+        },
+        "onboardDate": Object {
+          "type": "time",
+          "value": 1479772740000
+        },
+        "rawValue": Object {
+          "type": "double",
+          "value": 138.6320582855435
+        },
+        "referenceTimestamp": Object {
+          "type": "time",
+          "value": 1479772740000
+        },
+        "triggerOffCounter": Object {
+          "type": "ushort",
+          "value": 10
+        },
+        "triggerOnCounter": Object {
+          "type": "ushort",
+          "value": 6
+        },
+        "validityState": Object {
+          "symbol": "INVALID",
+          "type": "enum",
+          "value": 0
+        }
       },
       "1479772741000": Object {
-        "convertedValue": 138.79021017903133,
-        "extractedValue": 138.79021017903133,
-        "groundDate": 1479772741020,
-        "isNominal": false,
-        "isObsolete": false,
-        "monitoringState": "ok",
-        "onboardDate": 1479772741000,
-        "rawValue": 138.79021017903133,
-        "referenceTimestamp": 1479772741000,
-        "triggerOffCounter": 10,
-        "triggerOnCounter": 6,
-        "validityState": 0
+        "convertedValue": Object {
+          "type": "double",
+          "value": 138.79021017903133
+        },
+        "extractedValue": Object {
+          "type": "double",
+          "value": 138.79021017903133
+        },
+        "groundDate": Object {
+          "type": "time",
+          "value": 1479772741020
+        },
+        "isNominal": Object {
+          "type": "boolean",
+          "value": false
+        },
+        "isObsolete": Object {
+          "type": "boolean",
+          "value": false
+        },
+        "monitoringState": Object {
+          "type": "string",
+          "value": "ok"
+        },
+        "onboardDate": Object {
+          "type": "time",
+          "value": 1479772741000
+        },
+        "rawValue": Object {
+          "type": "double",
+          "value": 138.79021017903133
+        },
+        "referenceTimestamp": Object {
+          "type": "time",
+          "value": 1479772741000
+        },
+        "triggerOffCounter": Object {
+          "type": "ushort",
+          "value": 10
+        },
+        "triggerOnCounter": Object {
+          "type": "ushort",
+          "value": 6
+        },
+        "validityState": Object {
+          "symbol": "INVALID",
+          "type": "enum",
+          "value": 0
+        }
       },
       "1479772742000": Object {
-        "convertedValue": 138.9375479947504,
-        "extractedValue": 138.9375479947504,
-        "groundDate": 1479772742020,
-        "isNominal": false,
-        "isObsolete": false,
-        "monitoringState": "ok",
-        "onboardDate": 1479772742000,
-        "rawValue": 138.9375479947504,
-        "referenceTimestamp": 1479772742000,
-        "triggerOffCounter": 10,
-        "triggerOnCounter": 6,
-        "validityState": 0
+        "convertedValue": Object {
+          "type": "double",
+          "value": 138.9375479947504
+        },
+        "extractedValue": Object {
+          "type": "double",
+          "value": 138.9375479947504
+        },
+        "groundDate": Object {
+          "type": "time",
+          "value": 1479772742020
+        },
+        "isNominal": Object {
+          "type": "boolean",
+          "value": false
+        },
+        "isObsolete": Object {
+          "type": "boolean",
+          "value": false
+        },
+        "monitoringState": Object {
+          "type": "string",
+          "value": "ok"
+        },
+        "onboardDate": Object {
+          "type": "time",
+          "value": 1479772742000
+        },
+        "rawValue": Object {
+          "type": "double",
+          "value": 138.9375479947504
+        },
+        "referenceTimestamp": Object {
+          "type": "time",
+          "value": 1479772742000
+        },
+        "triggerOffCounter": Object {
+          "type": "ushort",
+          "value": 10
+        },
+        "triggerOnCounter": Object {
+          "type": "ushort",
+          "value": 6
+        },
+        "validityState": Object {
+          "symbol": "INVALID",
+          "type": "enum",
+          "value": 0
+        }
       }
     }
   }
@@ -56,46 +167,157 @@ Object {
   "payload": Object {
     "range@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:convertedValue.!=.0": Object {
       "1479772740000": Object {
-        "convertedValue": 138.6320582855435,
-        "extractedValue": 138.6320582855435,
-        "groundDate": 1479772740020,
-        "isNominal": false,
-        "isObsolete": false,
-        "monitoringState": "ok",
-        "onboardDate": 1479772740000,
-        "rawValue": 138.6320582855435,
-        "referenceTimestamp": 1479772740000,
-        "triggerOffCounter": 10,
-        "triggerOnCounter": 6,
-        "validityState": 0
+        "convertedValue": Object {
+          "type": "double",
+          "value": 138.6320582855435
+        },
+        "extractedValue": Object {
+          "type": "double",
+          "value": 138.6320582855435
+        },
+        "groundDate": Object {
+          "type": "time",
+          "value": 1479772740020
+        },
+        "isNominal": Object {
+          "type": "boolean",
+          "value": false
+        },
+        "isObsolete": Object {
+          "type": "boolean",
+          "value": false
+        },
+        "monitoringState": Object {
+          "type": "string",
+          "value": "ok"
+        },
+        "onboardDate": Object {
+          "type": "time",
+          "value": 1479772740000
+        },
+        "rawValue": Object {
+          "type": "double",
+          "value": 138.6320582855435
+        },
+        "referenceTimestamp": Object {
+          "type": "time",
+          "value": 1479772740000
+        },
+        "triggerOffCounter": Object {
+          "type": "ushort",
+          "value": 10
+        },
+        "triggerOnCounter": Object {
+          "type": "ushort",
+          "value": 6
+        },
+        "validityState": Object {
+          "symbol": "INVALID",
+          "type": "enum",
+          "value": 0
+        }
       },
       "1479772741000": Object {
-        "convertedValue": 138.79021017903133,
-        "extractedValue": 138.79021017903133,
-        "groundDate": 1479772741020,
-        "isNominal": false,
-        "isObsolete": false,
-        "monitoringState": "ok",
-        "onboardDate": 1479772741000,
-        "rawValue": 138.79021017903133,
-        "referenceTimestamp": 1479772741000,
-        "triggerOffCounter": 10,
-        "triggerOnCounter": 6,
-        "validityState": 0
+        "convertedValue": Object {
+          "type": "double",
+          "value": 138.79021017903133
+        },
+        "extractedValue": Object {
+          "type": "double",
+          "value": 138.79021017903133
+        },
+        "groundDate": Object {
+          "type": "time",
+          "value": 1479772741020
+        },
+        "isNominal": Object {
+          "type": "boolean",
+          "value": false
+        },
+        "isObsolete": Object {
+          "type": "boolean",
+          "value": false
+        },
+        "monitoringState": Object {
+          "type": "string",
+          "value": "ok"
+        },
+        "onboardDate": Object {
+          "type": "time",
+          "value": 1479772741000
+        },
+        "rawValue": Object {
+          "type": "double",
+          "value": 138.79021017903133
+        },
+        "referenceTimestamp": Object {
+          "type": "time",
+          "value": 1479772741000
+        },
+        "triggerOffCounter": Object {
+          "type": "ushort",
+          "value": 10
+        },
+        "triggerOnCounter": Object {
+          "type": "ushort",
+          "value": 6
+        },
+        "validityState": Object {
+          "symbol": "INVALID",
+          "type": "enum",
+          "value": 0
+        }
       },
       "1479772742000": Object {
-        "convertedValue": 138.9375479947504,
-        "extractedValue": 138.9375479947504,
-        "groundDate": 1479772742020,
-        "isNominal": false,
-        "isObsolete": false,
-        "monitoringState": "ok",
-        "onboardDate": 1479772742000,
-        "rawValue": 138.9375479947504,
-        "referenceTimestamp": 1479772742000,
-        "triggerOffCounter": 10,
-        "triggerOnCounter": 6,
-        "validityState": 0
+        "convertedValue": Object {
+          "type": "double",
+          "value": 138.9375479947504
+        },
+        "extractedValue": Object {
+          "type": "double",
+          "value": 138.9375479947504
+        },
+        "groundDate": Object {
+          "type": "time",
+          "value": 1479772742020
+        },
+        "isNominal": Object {
+          "type": "boolean",
+          "value": false
+        },
+        "isObsolete": Object {
+          "type": "boolean",
+          "value": false
+        },
+        "monitoringState": Object {
+          "type": "string",
+          "value": "ok"
+        },
+        "onboardDate": Object {
+          "type": "time",
+          "value": 1479772742000
+        },
+        "rawValue": Object {
+          "type": "double",
+          "value": 138.9375479947504
+        },
+        "referenceTimestamp": Object {
+          "type": "time",
+          "value": 1479772742000
+        },
+        "triggerOffCounter": Object {
+          "type": "ushort",
+          "value": 10
+        },
+        "triggerOnCounter": Object {
+          "type": "ushort",
+          "value": 6
+        },
+        "validityState": Object {
+          "symbol": "INVALID",
+          "type": "enum",
+          "value": 0
+        }
       }
     }
   }

@@ -69,24 +69,4 @@ describe('selectors/timebars', () => {
   //   tls[1].a.should.equal(3);
   //   getTimelines(getState(), 'wrongId').should.have.length(0);
   // });
-  describe('getPlayingTimebar', () => {
-    it('should return the playing timebar', () => {
-      getPlayingTimebar({
-        timebars: {
-          tb1: { id: 'myId', playingState: 'pause' },
-          tb3: { id: 'anotherId' },
-          tb2: { id: 'myOtherId', playingState: 'play' },
-        },
-      }).should.eql({ id: 'myOtherId', playingState: 'play' });
-    });
-    it('should support empty state', () => {
-      should.not.exist(getPlayingTimebar({}));
-      should.not.exist(getPlayingTimebar({ timebars: {} }));
-      should.not.exist(getPlayingTimebar({
-        timebars: {
-          tb1: { id: 'myId', playingState: 'pause' },
-        },
-      }));
-    });
-  });
 });

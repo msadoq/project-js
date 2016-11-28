@@ -147,7 +147,7 @@ export default class TimebarWrapper extends Component {
         ref={(el) => { this.el = el; }}
         style={{
           flex: '0 0 auto',
-          height: `${timebarHeight}px`,
+          height: `${timebarHeight || 135}px`,
           backgroundColor: '#F1F1F1'
         }}
       >

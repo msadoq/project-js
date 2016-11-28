@@ -4,6 +4,7 @@ import SizeMe from 'react-sizeme';
 import { Col } from 'react-bootstrap';
 import Timebar from './Timebar';
 import TimebarControls from './TimebarControls';
+import styles from './Timebar.css';
 
 const bootstrapPaddings = 5;
 
@@ -89,6 +90,8 @@ class Righttab extends Component {
     };
   }
 
+  retrieveFormattedFullDateEl = () => this.formattedFullDateEl;
+
   render() {
     const {
       timelines,
@@ -103,10 +106,15 @@ class Righttab extends Component {
       displayTimesetter,
       onTimelinesVerticalScroll,
       timelinesVerticalScroll,
+      size,
     } = this.props;
 
     return (
       <Col xs={9} style={{ height: '100%' }}>
+        <span
+          ref={(el) => { this.formattedFullDateEl = el; }}
+          className={styles.formatedFullDate}
+        />
         <TimebarControls
           viewport={this.formatViewportDimensions()}
           timebarPlayingState={timebar.playingState}
@@ -134,6 +142,8 @@ class Righttab extends Component {
           verticalScroll={timelinesVerticalScroll}
           onVerticalScroll={onTimelinesVerticalScroll}
           displayTimesetter={displayTimesetter}
+          retrieveFormattedFullDateEl={this.retrieveFormattedFullDateEl}
+          widthPx={size.width - (bootstrapPaddings * 2)}
         />
       </Col>
     );

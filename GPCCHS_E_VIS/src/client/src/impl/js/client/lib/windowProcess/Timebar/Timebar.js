@@ -24,6 +24,7 @@ const keys = {
 export default class Timebar extends Component {
 
   static propTypes = {
+    retrieveFormattedFullDateEl: PropTypes.func.isRequired,
     updatePlayingState: PropTypes.func.isRequired,
     displayTimesetter: PropTypes.func.isRequired,
     onVerticalScroll: PropTypes.func.isRequired,
@@ -36,6 +37,7 @@ export default class Timebar extends Component {
     timebarMode: PropTypes.string.isRequired,
     timebarId: PropTypes.string.isRequired,
     verticalScroll: PropTypes.number.isRequired,
+    widthPx: PropTypes.number.isRequired,
   }
 
   state = {}
@@ -250,6 +252,7 @@ export default class Timebar extends Component {
       viewport,
       timebarMode,
       slideWindow,
+      widthPx,
     } = this.props;
     const { state } = this;
     const {
@@ -317,7 +320,7 @@ export default class Timebar extends Component {
         this.setState({ dragNavigating: false });
       }
 
-      const movedPercent = (e.pageX - cursorOriginX) / this.el.clientWidth;
+      const movedPercent = (e.pageX - cursorOriginX) / widthPx;
       const movedMs = viewportMsWidth * movedPercent;
       const lowerPosMs = dragOriginLower + movedMs;
       const upperPosMs = dragOriginUpper + movedMs;
@@ -339,7 +342,7 @@ export default class Timebar extends Component {
     */
     } else if (resizing) {
       const movedPx = (e.pageX - cursorOriginX);
-      const timebarContWidth = this.el.clientWidth;
+      const timebarContWidth = widthPx;
       const movedMs = (movedPx / timebarContWidth) * viewportMsWidth;
       let cursorPosMs = resizeOrigin + movedMs;
 
@@ -387,7 +390,7 @@ export default class Timebar extends Component {
     */
     } else if (navigating) {
       const movedPx = (e.pageX - cursorOriginX);
-      const viewportWidthPx = this.el.clientWidth;
+      const viewportWidthPx = widthPx;
       const movedMs = (movedPx / viewportWidthPx) * viewportMsWidth;
       let cursorPosMs = resizeOrigin + movedMs;
       let newSlideLower = slideLower;
@@ -621,13 +624,12 @@ export default class Timebar extends Component {
 
   updateCursorTime = (e) => {
     e.stopPropagation();
+    const { retrieveFormattedFullDateEl, widthPx } = this.props;
     const { lower, upper } = this.props.viewport;
     const offsetPx = e.pageX - this.el.getBoundingClientRect().left;
-    const cursorMs = lower + ((upper - lower) * (offsetPx / this.el.offsetWidth));
-    this.setState({
-      cursorMs,
-      formatedFullDate: moment(cursorMs).format('D MMMM YYYY HH[:]mm[:]ss[.]SSS')
-    });
+    const cursorMs = lower + ((upper - lower) * (offsetPx / widthPx));
+    this.setState({ cursorMs });
+    retrieveFormattedFullDateEl().innerHTML = moment(cursorMs).format('D MMMM YYYY HH[:]mm[:]ss[.]SSS');
   }
 
   dragNavigate = () => {
@@ -656,7 +658,7 @@ export default class Timebar extends Component {
       this.setState({
         viewportLower: newViewportLower,
         viewportUpper: newViewportUpper,
-        cursorOriginX: cursorOriginX - (this.el.clientWidth / dragNavigatingOffset),
+        cursorOriginX: cursorOriginX - (this.props.widthPx / dragNavigatingOffset),
         slideLower: slideLower + offsetMs,
         slideUpper: slideUpper + offsetMs,
         lower: lower + offsetMs,
@@ -821,12 +823,12 @@ export default class Timebar extends Component {
       timebarMode,
       viewport,
       slideWindow,
+      widthPx,
     } = this.props;
     const { state } = this;
     const {
       dragging,
       resizing,
-      formatedFullDate,
     } = state;
 
     const lower = state.lower || visuWindow.lower;
@@ -891,17 +893,22 @@ export default class Timebar extends Component {
       );
     }
 
+    /*
+      Moving up the lower / upper cursors when too close to current
+    */
+    const lowerPercent = calc.lowerPercentOffset;
+    const upperPercent = lowerPercent + calc.selectedPercentWidth;
+    const currentPercent = lowerPercent + ((upperPercent - lowerPercent) *
+      (calc.currentPercentOffset * 0.01));
+    const moveLower = (currentPercent - lowerPercent) * (widthPx * 0.01) < 70;
+    const moveUpper = (upperPercent - currentPercent) * (widthPx * 0.01) < 70;
+
     return (
       <div
         className={styles.viewportWrapper}
         ref={(el) => { this.el = el; }}
         onMouseMove={this.updateCursorTime}
       >
-        {
-          formatedFullDate ?
-            <span className={styles.formatedFullDate}>{formatedFullDate}</span>
-            : ''
-        }
         <div
           className={styles.viewportContainer}
           onWheel={this.onWheel}
@@ -964,7 +971,13 @@ export default class Timebar extends Component {
               */
             }
             <span
-              className={styles.lowerFormattedTime}
+              className={classnames(
+                styles.lowerFormattedTime,
+                {
+                  [styles.moved]: moveLower,
+                  hidden: lower === current
+                }
+              )}
             >
               {this.formatDate(lower, true)}
             </span>
@@ -975,7 +988,13 @@ export default class Timebar extends Component {
               {this.formatDate(current, true)}
             </span>
             <span
-              className={styles.upperFormattedTime}
+              className={classnames(
+                styles.upperFormattedTime,
+                {
+                  [styles.moved]: moveUpper,
+                  hidden: upper === current
+                }
+              )}
             >
               {this.formatDate(upper, true)}
             </span>

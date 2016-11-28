@@ -10,12 +10,14 @@ describe('store:hsc', () => {
     r.should.has.property('lastCacheInvalidation');
     r.lastCacheInvalidation.should.be.a('number');
     r.should.have.property('playingTimebarId', null);
+    r.should.have.property('lastTick', null);
   });
   it('should ignore unknown action', () => {
     const state = freezeMe({
       status: 'LIFECYCLE_NOT_STARTED',
       lastCacheInvalidation: 10,
       playingTimebarId: 10,
+      lastTick: 10,
     });
     reducer(state, {}).should.equal(state);
   });
@@ -26,6 +28,10 @@ describe('store:hsc', () => {
   it('should update windows state', () => {
     reducer(undefined, actions.setWindowsAsOpened())
       .should.have.property('windowsOpened', true);
+  });
+  it('should update last tick', () => {
+    reducer(undefined, actions.updateLastTick(10))
+      .should.have.property('lastTick', 10);
   });
   describe('play/pause', () => {
     it('should set timebarId as playing', () => {

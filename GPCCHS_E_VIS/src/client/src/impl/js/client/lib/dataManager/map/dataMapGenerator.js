@@ -84,6 +84,11 @@ export function visibleRemoteIds(domains, timebars, timelines, views) {
 // TODO memoize domains search (redux domains, search)
 // TODO memoize sessions search (redux timebarTimelines, redux timelines, search)
 export default createSelector(
-  [getDomains, getTimebars, getTimelines, getWindowsVisibleViews],
+  [
+    getDomains,
+    getTimebars,
+    getTimelines,
+    getWindowsVisibleViews,
+  ],
   visibleRemoteIds
 );

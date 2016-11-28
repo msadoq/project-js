@@ -233,8 +233,10 @@
     {
       "xAxisId": "Time",
       "yAxisId": "VBat",
-      "lineStyle": "Continuous",
-      "width": 1,
+      "line": {
+        "style": "Continuous",
+        "size": 1
+      },
       "showGrid": true
     }
   ],

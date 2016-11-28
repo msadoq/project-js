@@ -296,17 +296,23 @@
                     "yAxisId": {
                         "type": "string"
                     },
-                    "lineStyle": {
-                        "$ref": "#/definitions/lineStyle"
-                    },
-                    "width": {
-                        "type": "integer"
+                    "line": {
+                      "type": "object",
+                      "properties": {
+                        "style": {
+                          "$ref": "#/definitions/lineStyle"
+                        },
+                        "size": {
+                          "type": "number"
+                        }
+                      },
+                      "required": ["style", "size"]
                     },
                     "showGrid": {
                         "type": "boolean"
                     }
                 },
-                "required": ["yAxisId", "lineStyle", "width"]
+                "required": ["yAxisId", "line"]
             },
             "title": {
                 "type": "string"

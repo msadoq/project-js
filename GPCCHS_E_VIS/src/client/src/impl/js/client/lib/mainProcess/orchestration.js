@@ -13,6 +13,7 @@ import {
   setWindowsAsOpened,
   updateCacheInvalidation,
   updateLastTick,
+  pause,
 } from '../store/actions/hsc';
 import { getWebsocket } from './websocket';
 import dataMapGenerator from '../dataManager/map/dataMapGenerator';
@@ -24,7 +25,6 @@ import { updateCursors } from '../store/actions/timebars';
 import { getTimebar } from '../store/selectors/timebars';
 import { nextCurrent, computeCursors } from './play';
 
-// TODO : on disconnect set to pause
 // TODO : test server restart, new workspace, workspace opening, new window
 
 const logger = debug('main:orchestration');
@@ -74,6 +74,10 @@ export function stop() {
   previous.state = {};
   previous.dataMap = {};
   previous.viewMap = {};
+
+  const { dispatch } = getStore();
+  dispatch(pause());
+  dispatch(updateLastTick(null));
 }
 
 export function tick() {
@@ -89,7 +93,7 @@ export function tick() {
 
   // last tick time
   const lastTickTime = getLastTick(state);
-  dispatch(updateLastTick(Date.now())); // TODO reset on pause/disconnect
+  dispatch(updateLastTick(Date.now()));
 
   // something has changed
   const somethingHasChanged = state !== previous.state;
@@ -130,8 +134,6 @@ export function tick() {
       );
 
       // dispatch
-      // TODO : only if different
-      console.log('PLAY jumped of', newCurrent - playingTimebar.visuWindow.current, 'ms');
       dispatch(updateCursors(
         playingTimebarId,
         nextCursors.visuWindow,

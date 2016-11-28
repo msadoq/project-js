@@ -6,6 +6,7 @@ import * as types from '../types';
  */
 export const updateStatus = simple(types.HSC_UPDATE_STATUS, 'status');
 export const setWindowsAsOpened = simple(types.HSC_SET_WINDOWS_AS_OPENED);
+export const setWorkspaceAsOpened = simple(types.HSC_SET_WORKSPACE_AS_OPENED);
 export const isWorkspaceOpening = simple(types.HSC_ISWORKSPACE_OPENING, 'flag');
 export const closeWorkspace = simple(types.HSC_CLOSE_WORKSPACE);
 

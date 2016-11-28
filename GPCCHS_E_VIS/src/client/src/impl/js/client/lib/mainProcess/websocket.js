@@ -32,7 +32,7 @@ export function connect() {
 
     instance.on('open', () => {
       logger.info('opened!');
-      onOpen(getStore().dispatch, requestDomains, requestSessions);
+      onOpen(getStore().getState, getStore().dispatch, requestDomains, requestSessions);
     });
     instance.on('close', () => {
       logger.info('closed!');

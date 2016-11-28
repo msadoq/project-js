@@ -65,6 +65,11 @@ const primusExports = module.exports = {
             errorHandler('onSessionQuery', () => handlers.onSessionQuery(message.queryId));
             break;
           }
+          case globalConstants.EVENT_FILEPATH_QUERY: {
+            errorHandler('onFilepathQuery', () => handlers.onFilepathQuery(message.queryId,
+                                                                           message.payload));
+            break;
+          }
           default:
             throw new Error(`Websocket incoming message unknown event key: ${message.event}`);
         }

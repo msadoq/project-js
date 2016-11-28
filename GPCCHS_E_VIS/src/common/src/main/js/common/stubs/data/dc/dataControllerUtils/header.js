@@ -28,6 +28,12 @@ const getSessionQueryHeader = () => ({
 const getSessionDataHeader = () => ({
   messageType: globalConstants.MESSAGETYPE_SESSION_DATA,
 });
+const getFilepathQueryHeader = () => ({
+  messageType: globalConstants.MESSAGETYPE_FILEPATH_QUERY,
+});
+const getFilepathDataHeader = () => ({
+  messageType: globalConstants.MESSAGETYPE_FILEPATH_DATA,
+});
 
 const getDomainQueryHeaderProtobuf = () => protobuf.encode(
   'dc.dataControllerUtils.Header',
@@ -68,6 +74,16 @@ const getSessionDataHeaderProtobuf = () => protobuf.encode(
   getSessionDataHeader()
 );
 
+const getFilepathQueryHeaderProtobuf = () => protobuf.encode(
+  'dc.dataControllerUtils.Header',
+  getFilepathQueryHeader()
+);
+
+const getFilepathDataHeaderProtobuf = () => protobuf.encode(
+  'dc.dataControllerUtils.Header',
+  getFilepathDataHeader()
+);
+
 module.exports = {
   getDomainQueryHeader,
   getDomainQueryHeaderProtobuf,
@@ -87,4 +103,8 @@ module.exports = {
   getSessionQueryHeaderProtobuf,
   getSessionDataHeader,
   getSessionDataHeaderProtobuf,
+  getFilepathQueryHeader,
+  getFilepathQueryHeaderProtobuf,
+  getFilepathDataHeader,
+  getFilepathDataHeaderProtobuf,
 };

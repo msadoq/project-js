@@ -15,6 +15,7 @@ const { onDomainData } = require('./onDomainData');
 const { onTimebasedArchiveData } = require('./onTimebasedArchiveData');
 const { onTimebasedPubSubData } = require('./onTimebasedPubSubData');
 const { onSessionData } = require('./onSessionData');
+const { onFilepathData } = require('./onFilepathData');
 
 
 /**
@@ -30,6 +31,7 @@ const message = (
   timebasedArchiveDataHandler,
   timebasedPubSubDataHandler,
   sessionDataHandler,
+  filepathDataHandler,
   headerBuffer,
   ...args
 ) => {
@@ -52,6 +54,9 @@ const message = (
     case globalConstants.MESSAGETYPE_SESSION_DATA:
       errorHandler('onSessionData', () => sessionDataHandler(args[0], args[1]));
       break;
+    case globalConstants.MESSAGETYPE_FILEPATH_DATA:
+      errorHandler('onFilepathData', () => filepathDataHandler(args[0], args[1]));
+      break;
     default:
       debug.debug('message type not recognized');
       break;
@@ -65,6 +70,7 @@ const onMessage = (...args) =>
     onTimebasedArchiveData,
     onTimebasedPubSubData,
     onSessionData,
+    onFilepathData,
     ...args
   );
 

@@ -17,7 +17,6 @@ const lpisisStubs = require('./data/lpisis');
 const now = _now();
 
 
-
 const stubs = module.exports = Object.assign({}, dcStubs, lpisisStubs);
 
 /*

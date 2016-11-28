@@ -17,6 +17,7 @@ describe('controllers/dc/onMessage', () => {
       undefined,
       undefined,
       undefined,
+      undefined,
       header,
       queryId,
       status
@@ -38,6 +39,7 @@ describe('controllers/dc/onMessage', () => {
       undefined,
       undefined,
       testHandler,
+      undefined,
       undefined,
       undefined,
       header,
@@ -71,6 +73,7 @@ describe('controllers/dc/onMessage', () => {
       undefined,
       testHandler,
       undefined,
+      undefined,
       header,
       dataId,
       timestamp,
@@ -97,6 +100,7 @@ describe('controllers/dc/onMessage', () => {
       undefined,
       undefined,
       undefined,
+      undefined,
       header,
       queryId,
       domains
@@ -117,6 +121,7 @@ describe('controllers/dc/onMessage', () => {
       undefined,
       undefined,
       testHandler,
+      undefined,
       header,
       queryId,
       sessions
@@ -125,6 +130,27 @@ describe('controllers/dc/onMessage', () => {
     getTestHandlerArgs().should.have.properties([
       queryId,
       sessions,
+    ]);
+  });
+  it('Filepath Data', () => {
+    const header = dataStub.getFilepathDataHeaderProtobuf();
+    const queryId = dataStub.getDataIdProtobuf();
+    const filepath = dataStub.getStringProtobuf('/views/plotView.json');
+    message(
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      testHandler,
+      header,
+      queryId,
+      filepath
+    );
+    getTestHandlerArgs().should.have.lengthOf(2);
+    getTestHandlerArgs().should.have.properties([
+      queryId,
+      filepath,
     ]);
   });
 });

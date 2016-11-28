@@ -15,14 +15,14 @@ const root = parameters.FMD_ROOT;
 
 let resolvedPath;
 
-function requestPathFromOId(oId, callback) {
+function requestPathFromOId(oid, callback) {
   const queryId = v4();
   set(queryId, callback);
   getWebsocket().write({
     event: globalConstants.EVENT_FILEPATH_QUERY,
     queryId,
     payload: {
-      oId,
+      oid,
     }
   });
 }
@@ -74,13 +74,7 @@ const self = module.exports = {
       if (err) {
         return callback(err);
       }
-      resolvedPath = payload.filepath;
-      self.read(resolvedPath, (err1, content) => {
-        if (err1) {
-          return callback(err1);
-        }
-        return self.parse(content, callback);
-      });
+      return self.readJsonFromFmdPath(payload, callback);
     });
   },
   readJsonFromRelativePath: (folder, path, callback) => {

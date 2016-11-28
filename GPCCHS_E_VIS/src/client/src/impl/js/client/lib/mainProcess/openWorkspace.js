@@ -34,6 +34,7 @@ export function loadInStore(workspace, dispatch, root, file, callback) {
     e.path,
     e.oId,
     e.absolutePath,
+    false,
   )));
 
   // add pages
@@ -53,9 +54,8 @@ export function loadInStore(workspace, dispatch, root, file, callback) {
       e.path,
       e.oId,
       e.absolutePath,
+      false,
     ));
-      // set all files unmodified
-    dispatch(setModifiedPage(e.uuid, false));
   });
 
   // add windows
@@ -66,9 +66,7 @@ export function loadInStore(workspace, dispatch, root, file, callback) {
       if (e.pages && e.pages.length) {
         pageId = e.pages[0];
       }
-      dispatch(addWindow(e.uuid, e.title, e.geometry, e.pages, pageId));
-      // set all files unmodified
-      dispatch(setModifiedWindow(e.uuid, false));
+      dispatch(addWindow(e.uuid, e.title, e.geometry, e.pages, pageId, false));
     }
   );
 

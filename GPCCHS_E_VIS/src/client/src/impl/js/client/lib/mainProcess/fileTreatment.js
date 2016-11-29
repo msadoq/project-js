@@ -17,7 +17,7 @@ import { readPages } from '../documentsManager/extractPages';
 import { getStore } from '../store/mainStore';
 import getPathByFilePicker from './filePicker';
 import { saveAllDocuments } from '../documentsManager/saveAllDocuments';
-
+import { requestPathFromOId } from './websocket';
 
 const WORKSPACE = 'workspace';
 const PAGE = 'page';
@@ -29,7 +29,7 @@ export function openPage(absolutePath, windowId) {
   }
   const uuid = v4();
   const pageToRead = [{ absolutePath }];
-  readPages(undefined, pageToRead, (pageErr, pages) => {
+  readPages(undefined, pageToRead, requestPathFromOId, (pageErr, pages) => {
     if (pageErr) {
       // logger.error(pageErr);
       dialog.showMessageBox(
@@ -49,7 +49,7 @@ export function openPage(absolutePath, windowId) {
 
     const content = { pages: {} };
     content.pages[uuid] = pages[0];
-    extractViews(content, (viewErr, pageAndViews) => {
+    extractViews(content, requestPathFromOId, (viewErr, pageAndViews) => {
       if (viewErr) {
         // logger.error(viewErr);
         dialog.showMessageBox(
@@ -78,7 +78,7 @@ export function openView(absolutePath, pageId) {
   }
   const viewPath = [{ absolutePath }];
 
-  readViews(viewPath, (err, view) => {
+  readViews(viewPath, requestPathFromOId, (err, view) => {
     if (err) {
       dialog.showMessageBox(
         BrowserWindow.getFocusedWindow(),

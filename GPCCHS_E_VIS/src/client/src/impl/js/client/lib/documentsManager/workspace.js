@@ -9,18 +9,19 @@ const extractTimelines = require('./extractTimelines');
 const extractWindows = require('./extractWindows');
 const { extractPages } = require('./extractPages');
 const { extractViews } = require('./extractViews');
+const { requestPathFromOId } = require('../mainProcess/websocket');
 
 module.exports = function readWorkspace(folder, relativePath, callback) {
   debug.info(`reading workspace ${folder}/${relativePath}`);
   async.waterfall([
-    cb => fs.readJsonFromPath(folder, relativePath, undefined, undefined, cb),
+    cb => fs.readJsonFromPath(folder, relativePath, undefined, undefined, requestPathFromOId, cb),
     (workspace, cb) => cb(validation('workspace', workspace), workspace),
     (workspace, cb) => cb(null, { __original: workspace, __folder: folder }),
     (content, cb) => extractTimebars(content, cb),
     (content, cb) => extractTimelines(content, cb),
     (content, cb) => extractWindows(content, cb),
-    (content, cb) => extractPages(content, cb),
-    (content, cb) => extractViews(content, cb),
+    (content, cb) => extractPages(content, requestPathFromOId, cb),
+    (content, cb) => extractViews(content, requestPathFromOId, cb),
     (content, cb) => cb(null, omit(content, ['__folder', '__original'])),
   ], callback);
 };

@@ -6,6 +6,10 @@ const { v4 } = require('node-uuid');
 const _ = require('lodash');
 const path = require('path');
 
+let flag = false;
+function requestPathFromOId() {
+  flag = true;
+}
 describe('documentsManager/extractViews', () => {
   let content;
   const id1 = v4();
@@ -61,7 +65,7 @@ describe('documentsManager/extractViews', () => {
       { path: path.join(folder, 'plot1.json'), uuid: v4(), type: 'PlotView' }];
     });
     it('valid', (done) => {
-      readViews(views, (err, list) => {
+      readViews(views, requestPathFromOId, (err, list) => {
         should.not.exist(err);
         list.should.be.an('array').with.length(2);
         list[0].type.should.equal('TextView');
@@ -73,7 +77,7 @@ describe('documentsManager/extractViews', () => {
     });
     it('with invalid path', (done) => {
       views.push({ path: path.join(folder, 'unknown.json'), uuid: v4(), type: 'TextView' });
-      readViews(views, (err) => {
+      readViews(views, requestPathFromOId, (err) => {
         should.exist(err);
         done();
       });
@@ -81,7 +85,7 @@ describe('documentsManager/extractViews', () => {
   });
   describe('extractViews', () => {
     it('valid', (done) => {
-      extractViews(content, (err, val) => {
+      extractViews(content, requestPathFromOId, (err, val) => {
         should.not.exist(err);
 
         val.views.should.be.an('object');

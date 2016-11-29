@@ -8,6 +8,7 @@ const async = require('async');
 const { v4 } = require('node-uuid');
 const fs = require('../common/fs');
 const validation = require('./validation');
+// const { requestPathFromOId } = require('../mainProcess/websocket');
 
 
 function findWindowPagesAndReplaceWithUuid(window, timebars) {
@@ -37,10 +38,10 @@ function findWindowPagesAndReplaceWithUuid(window, timebars) {
 }
 
 
-function readPages(folder, pagesToRead, cb) {
+function readPages(folder, pagesToRead, requestPathFromOId, cb) {
   async.reduce(pagesToRead, [], (list, identity, fn) => {
     fs.readJsonFromPath(folder, identity.path, identity.oId, identity.absolutePath,
-      (err, pageContent) => {
+      requestPathFromOId, (err, pageContent) => {
         if (err) {
           return fn(err);
         }
@@ -63,7 +64,7 @@ function readPages(folder, pagesToRead, cb) {
  * @param cb
  * @returns {*}
  */
-function extractPages(content, cb) {
+function extractPages(content, requestPathFromOId, cb) {
   let windows = content.windows;
   if (!_isObject(windows)) {
     windows = {};
@@ -72,7 +73,7 @@ function extractPages(content, cb) {
   const pagesToRead = _reduce(windows, (list, w) =>
       list.concat(findWindowPagesAndReplaceWithUuid(w, _get(content, 'timebars', {}))),
   []);
-  return readPages(content.__folder, pagesToRead, (err, pages) => {
+  return readPages(content.__folder, pagesToRead, requestPathFromOId, (err, pages) => {
     if (err) {
       return cb(err);
     }

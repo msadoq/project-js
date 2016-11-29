@@ -119,14 +119,14 @@ describe('common/fs', () => {
   });
   describe('readJsonFromPath', () => {
     it('works', (done) => {
-      fs.readJsonFromPath('/tmp/test/', 'foo.json', undefined, undefined, (err, content) => {
+      fs.readJsonFromPath('/tmp/test/', 'foo.json', undefined, undefined, undefined, (err, content) => {
         should.not.exist(err);
         content.should.eql({ foo: 'bar' });
         done();
       });
     });
     it('readJsonFromPath error', (done) => {
-      fs.readJsonFromPath('/tmp/test/', 'not-exists.txt', undefined, undefined, (err, content) => {
+      fs.readJsonFromPath('/tmp/test/', 'not-exists.txt', undefined, undefined, undefined, (err, content) => {
         err.should.be.an('error');
         should.not.exist(content);
         done();

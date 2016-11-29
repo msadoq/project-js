@@ -5,6 +5,10 @@ const { v4 } = require('node-uuid');
 const _ = require('lodash');
 const path = require('path');
 
+let flag = false;
+function requestPathFromOId() {
+  flag = true;
+}
 
 describe('documents/lib', () => {
   describe('extractPages', () => {
@@ -75,7 +79,7 @@ describe('documents/lib', () => {
         const k = Object.getOwnPropertyNames(content.windows);
         const w = content.windows[k[0]];
         const pages = findWindowPagesAndReplaceWithUuid(w, content.timebars);
-        readPages(content.__folder, pages, (e, list) => {
+        readPages(content.__folder, pages, requestPathFromOId, (e, list) => {
           should.not.exist(e);
           should.exist(list);
           list.should.be.an('array').with.length(2);
@@ -89,7 +93,7 @@ describe('documents/lib', () => {
         const k = Object.getOwnPropertyNames(content.windows);
         const w = content.windows[k[0]];
         const pages = findWindowPagesAndReplaceWithUuid(w, content.timebars);
-        readPages('../examples', pages, (err) => {
+        readPages('../examples', pages, requestPathFromOId, (err) => {
           should.exist(err);
           done();
         });
@@ -99,7 +103,7 @@ describe('documents/lib', () => {
         const w = content.windows[k[0]];
         w.pages.push({ path: 'invalid.json', timeBarId: 'TB1' });
         const pages = findWindowPagesAndReplaceWithUuid(w, content.timebars);
-        readPages('../examples', pages, (err) => {
+        readPages('../examples', pages, requestPathFromOId, (err) => {
           should.exist(err);
           done();
         });
@@ -107,7 +111,7 @@ describe('documents/lib', () => {
     });
     describe('extractPages', () => {
       it('valid', (done) => {
-        extractPages(content, (err, val) => {
+        extractPages(content, requestPathFromOId, (err, val) => {
           should.not.exist(err);
           val.should.have.keys('timebars', 'windows', 'pages', '__folder');
           val.pages.should.be.an('object');
@@ -121,7 +125,7 @@ describe('documents/lib', () => {
       });
       it('windows not object', (done) => {
         content.windows = [];
-        extractPages(content, (err, val) => {
+        extractPages(content, requestPathFromOId, (err, val) => {
           val.should.have.keys('timebars', 'windows', 'pages', '__folder');
           Object.keys(val.pages).should.have.length(0);
           done();

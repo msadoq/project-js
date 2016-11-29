@@ -11,6 +11,7 @@ const vivl = require('../../VIVL/main');
 const { dirname } = require('path');
 const addUuidToAxes = require('../dataManager/structures/range/addUuidToAxes');
 const globalConstants = require('common/constants');
+// const { requestPathFromOId } = require('../mainProcess/websocket');
 
 const supportedViewTypes = [
   'PlotView',
@@ -40,10 +41,10 @@ function findPageViewsAndReplaceWithUuid(page) {
   }, []);
 }
 
-function readViews(viewsToRead, cb) {
+function readViews(viewsToRead, requestPathFromOId, cb) {
   async.reduce(viewsToRead, [], (list, identity, fn) => {
     fs.readJsonFromPath(identity.pageFolder, identity.path, identity.oId, identity.absolutePath,
-      (err, viewContent) => {
+      requestPathFromOId, (err, viewContent) => {
         if (err) {
           return fn(err);
         }
@@ -91,7 +92,7 @@ function readViews(viewsToRead, cb) {
  * @param cb
  * @returns {*}
  */
-function extractViews(content, cb) {
+function extractViews(content, requestPathFromOId, cb) {
   let pages = content.pages;
   if (!_isObject(pages)) {
     pages = {};
@@ -101,7 +102,7 @@ function extractViews(content, cb) {
     list.concat(findPageViewsAndReplaceWithUuid(p)),
   []);
 
-  return readViews(viewsToRead, (err, views) => {
+  return readViews(viewsToRead, requestPathFromOId, (err, views) => {
     if (err) {
       return cb(err);
     }

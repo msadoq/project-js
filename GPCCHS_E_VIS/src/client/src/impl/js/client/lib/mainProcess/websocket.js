@@ -112,6 +112,17 @@ export function requestSessions(callback) {
   });
 }
 
+export function requestPathFromOId(oid, callback) {
+  const queryId = v4();
+  set(queryId, callback);
+  getWebsocket().write({
+    event: globalConstants.EVENT_FILEPATH_QUERY,
+    queryId,
+    payload: {
+      oid,
+    }
+  });
+}
 export function handleResponse(queryId, payload) {
   const callback = get(queryId);
   if (!callback) {

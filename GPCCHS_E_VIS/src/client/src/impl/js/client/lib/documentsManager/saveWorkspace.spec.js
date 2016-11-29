@@ -89,12 +89,13 @@ describe('documentsManager/saveWorkspace', () => {
     should.not.exist(saveWorkspaceAs(state, path));
   });
   it('check validity of new workspace', (done) => {
-    fs.readJsonFromPath(folder, 'workspace.json', undefined, undefined, (err, wkContent) => {
-      should.not.exist(err);
-      const validationError = validation('workspace', wkContent);
-      should.not.exist(validationError);
-      done();
-    });
+    fs.readJsonFromPath(folder, 'workspace.json', undefined, undefined, undefined,
+      (err, wkContent) => {
+        should.not.exist(err);
+        const validationError = validation('workspace', wkContent);
+        should.not.exist(validationError);
+        done();
+      });
   });
   it('save ok', () => {
     should.not.exist(saveWorkspace(state));
@@ -103,6 +104,7 @@ describe('documentsManager/saveWorkspace', () => {
     fs.readJsonFromPath(
       state.hsc.folder,
       state.hsc.file,
+      undefined,
       undefined,
       undefined,
       (err, wkContent) => {

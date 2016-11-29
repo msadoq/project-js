@@ -5,27 +5,12 @@ const {
 } = require('path');
 const mkdirpSync = require('mkdirp').sync;
 const _startsWith = require('lodash/startsWith');
-const { getWebsocket } = require('../mainProcess/websocket');
-const globalConstants = require('common/constants');
 const parameters = require('./parameters');
-const { v4 } = require('node-uuid');
-const { set } = require('common/callbacks/register');
 
 const root = parameters.FMD_ROOT;
 
 let resolvedPath;
 
-function requestPathFromOId(oid, callback) {
-  const queryId = v4();
-  set(queryId, callback);
-  getWebsocket().write({
-    event: globalConstants.EVENT_FILEPATH_QUERY,
-    queryId,
-    payload: {
-      oid,
-    }
-  });
-}
 
 const self = module.exports = {
   getPath: () => resolvedPath,
@@ -68,8 +53,7 @@ const self = module.exports = {
       return self.parse(content, callback);
     });
   },
-  readJsonFromOId: (oId, callback) => {
-    resolvedPath = undefined;
+  readJsonFromOId: (oId, requestPathFromOId, callback) => {
     requestPathFromOId(oId, (err, payload) => {
       if (err) {
         return callback(err);
@@ -113,12 +97,12 @@ const self = module.exports = {
       return self.parse(content, callback);
     });
   },
-  readJsonFromPath: (folder, relativePath, oId, absolutePath, callback) => {
+  readJsonFromPath: (folder, relativePath, oId, absolutePath, requestPathFromOId = null, callback) => {
     if (absolutePath) {
       return self.readJsonFromAbsPath(absolutePath, callback);
     }
     if (oId) {
-      return self.readJsonFromOId(oId, callback);
+      return self.readJsonFromOId(oId, requestPathFromOId, callback);
     }
     if (folder && !_startsWith(relativePath, '/')) {
       return self.readJsonFromRelativePath(folder, relativePath, callback);

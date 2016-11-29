@@ -40,6 +40,13 @@ export default class EditTrack extends Component {
   }
 
   updateFields = () => {
+    /*
+    If refs are absent, it means we are jest-testing the component
+    refs are not compatible with jest testing for now
+    */
+    if (!this.editTimelineIdEl) {
+      return;
+    }
     this.editTimelineIdEl.value = this.props.timeline.id;
     this.editTimelineMasterEl.checked = this.props.masterId === this.props.timeline.id;
     ['years', 'months', 'days', 'years', 'months', 'days', 'hours', 'minutes', 'seconds', 'milliseconds'].forEach((x) => {

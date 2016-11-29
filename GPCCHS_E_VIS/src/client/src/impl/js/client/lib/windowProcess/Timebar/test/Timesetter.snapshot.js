@@ -1,11 +1,12 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import TimebarFixture from 'mocks/Timebar'; // eslint-disable-line import/no-unresolved,import/extensions
 import Timesetter from '../Timesetter';
-import TimebarFixture from '../../../../test/__mocks__/Timebar';
 
 const propsStub = {
   ...TimebarFixture,
-  timebarId: TimebarFixture.keyId,
+  timebarId: TimebarFixture.timebarId,
+  timebarMode: TimebarFixture.mode,
   updateCursors: () => null,
   onClose: () => null,
   cursor: 'lower',

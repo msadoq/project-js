@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import TimebarFixture from 'mocks/Timebar'; // eslint-disable-line import/no-unresolved,import/extensions
 import TimesetterFields from '../TimesetterFields';
-import TimebarFixture from '../../../../test/__mocks__/Timebar';
 
 const propsStub = {
   ms: 1480417090581,

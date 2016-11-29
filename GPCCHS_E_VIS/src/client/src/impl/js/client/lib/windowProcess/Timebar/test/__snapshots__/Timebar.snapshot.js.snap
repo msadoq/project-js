@@ -1,0 +1,812 @@
+exports[`test Timebar renders correctly 1`] = `
+<div
+  className="Timebar__viewportWrapper___3gVA7"
+  onMouseMove={[Function]}>
+  <div
+    className="Timebar__viewportContainer___2vJ28"
+    onDoubleClick={[Function]}
+    onWheel={[Function]}>
+    <div
+      className="Timebar__visuWindow___LjhS5"
+      onMouseDown={[Function]}
+      style={
+        Object {
+          "left": "0.8311791939224177%",
+          "width": "16.05090141383581%",
+        }
+      }>
+      <span
+        className="Timebar__lower___2ACIR"
+        cursor="lower"
+        onDoubleClick={[Function]}
+        onMouseDown={[Function]} />
+      <span
+        className="Timebar__current___2dnsd"
+        cursor="current"
+        onDoubleClick={[Function]}
+        onMouseDown={[Function]}
+        style={
+          Object {
+            "left": "44.90186940085962%",
+          }
+        } />
+      <span
+        className="Timebar__upper___3yNvr"
+        cursor="upper"
+        onDoubleClick={[Function]}
+        onMouseDown={[Function]} />
+      <span
+        className="Timebar__lowerFormattedTime___19g2H Timebar__moved___3JlBL">
+        10:58:05.354
+      </span>
+      <span
+        className="Timebar__currentFormattedTime___GmzPy"
+        style={
+          Object {
+            "left": "44.90186940085962%",
+          }
+        }>
+        10:58:14.025
+      </span>
+      <span
+        className="Timebar__upperFormattedTime___1TPb0">
+        10:58:24.665
+      </span>
+    </div>
+    <span
+      className="Timebar__extBound___252Qs hidden"
+      cursor="slideLower"
+      onDoubleClick={[Function]}
+      onMouseDown={[Function]}
+      style={
+        Object {
+          "left": "4.009608431481743%",
+        }
+      }
+      title="Ext lower cursor" />
+    <span
+      className="Timebar__extBound___252Qs hidden"
+      cursor="slideUpper"
+      onDoubleClick={[Function]}
+      onMouseDown={[Function]}
+      style={
+        Object {
+          "left": "20.894182576821738%",
+        }
+      }
+      title="Ext upper cursor" />
+    <div
+      className="Timebar__timelines___3m3ZW"
+      onScroll={[Function]}>
+      <div
+        className="Timebar__timeline___3fFrT"
+        style={
+          Object {
+            "background": "#fa1289",
+          }
+        }>
+        <div
+          className="Timebar__timelineInfos___2OR3P">
+          Session 1
+        </div>
+      </div>
+      <div
+        className="Timebar__timeline___3fFrT"
+        style={
+          Object {
+            "background": "#31b0d5",
+          }
+        }>
+        <div
+          className="Timebar__timelineInfos___2OR3P">
+          Session 2
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="TimebarScale__timebarRule___Nexmx"
+    onMouseDown={[Function]}>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "-36.86612196723492%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        10:57:20
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "-20.24253808878656%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        10:57:40
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "-3.618954210338207%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        10:58:00
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "13.004629668110148%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        10:58:20
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "29.628213546558502%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        10:58:40
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "46.251797425006856%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        10:59:00
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "62.875381303455214%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        10:59:20
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "79.49896518190357%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        10:59:40
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "96.12254906035191%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:00:00
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "112.74613293880027%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:00:20
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "129.36971681724864%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:00:40
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "145.99330069569697%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:01:00
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "162.61688457414533%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:01:20
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "179.2404684525937%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:01:40
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "195.86405233104205%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:02:00
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "212.4876362094904%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:02:20
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "229.11122008793876%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:02:40
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "245.73480396638712%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:03:00
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "262.3583878448355%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:03:20
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "278.98197172328383%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:03:40
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "295.6055556017322%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:04:00
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "312.22913948018055%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:04:20
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "328.8527233586289%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:04:40
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "345.47630723707726%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:05:00
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "362.0998911155256%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:05:20
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "378.7234749939739%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:05:40
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "395.3470588724223%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:06:00
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "411.97064275087064%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:06:20
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "428.594226629319%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:06:40
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "445.21781050776735%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:07:00
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "461.8413943862157%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:07:20
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "478.46497826466407%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:07:40
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "495.0885621431124%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:08:00
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "511.7121460215608%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:08:20
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "528.3357299000091%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:08:40
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "544.9593137784575%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:09:00
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "561.5828976569059%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:09:20
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "578.2064815353542%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:09:40
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "594.8300654138026%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:10:00
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "611.4536492922509%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:10:20
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "628.0772331706993%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:10:40
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "644.7008170491476%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:11:00
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "661.324400927596%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:11:20
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "677.9479848060444%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:11:40
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "694.5715686844927%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:12:00
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "711.1951525629411%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:12:20
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "727.8187364413894%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:12:40
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "744.4423203198378%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:13:00
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "761.0659041982861%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:13:20
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+    <div
+      className="TimebarScale__scaleBar___2cPp7"
+      style={
+        Object {
+          "left": "777.6894880767345%",
+        }
+      }>
+      <span
+        className="TimebarScale__scaleTime___3O7Rr">
+        11:13:40
+      </span>
+      <span
+        className="TimebarScale__scaleBar___2cPp7" />
+    </div>
+  </div>
+</div>
+`;

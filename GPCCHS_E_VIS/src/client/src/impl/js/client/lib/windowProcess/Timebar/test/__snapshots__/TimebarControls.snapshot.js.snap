@@ -1,0 +1,107 @@
+exports[`test TimebarControls renders correctly 1`] = `
+<div>
+  <ul
+    className="TimebarControls__controlsUl___1r_X0">
+    <li
+      className="TimebarControls__controlsLi___2fPVj">
+      <button
+        className="btn btn-xs btn-control"
+        onClick={[Function]}
+        title="Decrease speed">
+        ◄◄
+      </button>
+    </li>
+    <li
+      className="TimebarControls__controlsLi___2fPVj">
+      <button
+        className="btn btn-xs btn-default">
+        1X
+      </button>
+    </li>
+    <li
+      className="TimebarControls__controlsLi___2fPVj">
+      <button
+        className="btn btn-xs btn-control"
+        onClick={[Function]}
+        title="Increase speed">
+        ►►
+      </button>
+    </li>
+    <li
+      className="TimebarControls__controlsLi___2fPVj">
+      <button
+        className="btn btn-xs btn-control TimebarControls__controlButtonPlay___iGxaZ TimebarControls__controlButtonActive___1v2P0"
+        onClick={[Function]}
+        title="play">
+        <span>
+          ▍▍
+        </span>
+      </button>
+    </li>
+    <li
+      className="TimebarControls__controlsLi___2fPVj">
+      <button
+        className="btn btn-xs btn-control"
+        offset={-10}
+        onClick={[Function]}
+        title="- 10s">
+        - 10s
+      </button>
+    </li>
+    <li
+      className="TimebarControls__controlsLi___2fPVj">
+      <button
+        className="btn btn-xs btn-control"
+        offset={10}
+        onClick={[Function]}
+        title="+ 10s">
+        + 10s
+      </button>
+    </li>
+  </ul>
+  <ul
+    className="TimebarControls__controlsUl___1r_X0 TimebarControls__controlsUlRight___3vO5U">
+    <li
+      className="TimebarControls__controlsLi___2fPVj">
+      <button
+        className="btn btn-xs btn-control TimebarControls__controlButtonActive___1v2P0"
+        mode="Normal"
+        onClick={[Function]}
+        title="Normal mode">
+        Normal
+      </button>
+    </li>
+    <li
+      className="TimebarControls__controlsLi___2fPVj">
+      <button
+        className="btn btn-xs btn-control"
+        mode="Extensible"
+        onClick={[Function]}
+        title="Extensible mode">
+        Extensible
+      </button>
+    </li>
+    <li
+      className="TimebarControls__controlsLi___2fPVj">
+      <button
+        className="btn btn-xs btn-control"
+        mode="Fixed"
+        onClick={[Function]}
+        title="Fixed mode">
+        Fixed
+      </button>
+    </li>
+    <li
+      className="TimebarControls__controlsLi___2fPVj">
+      <button
+        className="btn btn-xs btn-control"
+        disabled={false}
+        mode="Realtime"
+        onClick={[Function]}
+        title="Real time mode">
+        Real time
+      </button>
+    </li>
+  </ul>
+</div>
+`;

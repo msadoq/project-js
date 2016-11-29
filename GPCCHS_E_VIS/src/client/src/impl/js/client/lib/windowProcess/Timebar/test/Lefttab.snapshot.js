@@ -1,9 +1,9 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
+import TimebarFixture from 'mocks/Timebar'; // eslint-disable-line import/no-unresolved,import/extensions
+import TimelinesFixture from 'mocks/Timelines'; // eslint-disable-line import/no-unresolved,import/extensions
+import SessionsFixture from 'mocks/Sessions'; // eslint-disable-line import/no-unresolved,import/extensions
 import Lefttab from '../Lefttab';
-import TimebarFixture from '../../../../test/__mocks__/Timebar';
-import TimelinesFixture from '../../../../test/__mocks__/Timelines';
-import SessionsFixture from '../../../../test/__mocks__/Timelines';
 
 const propsStub = {
   addAndMountTimeline: () => null,
@@ -15,7 +15,7 @@ const propsStub = {
   updateTimebarId: () => null,
   timelines: TimelinesFixture,
   sessions: SessionsFixture,
-  timebarId: TimebarFixture.keyId,
+  timebarId: TimebarFixture.timebarId,
   timebarName: TimebarFixture.id,
   focusedPageId: 'rezter-456789',
   masterId: TimebarFixture.masterId,

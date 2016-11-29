@@ -1,0 +1,82 @@
+exports[`test EditTrack renders correctly 1`] = `
+<form
+  className="form-horizontal Lefttab__form___1_dO8 Lefttab__editForm___3m1Ww"
+  onSubmit={[Function]}>
+  <b>
+    Edit a track :
+  </b>
+  <div
+    className="Lefttab__formGroup___2Kj6_ form-group">
+    <b
+      className="Lefttab__labelFormControl___2UMul">
+      Id
+    </b>
+    <input
+      className="form-control Lefttab__formControl___WYwMa"
+      disabled={true} />
+  </div>
+  <div
+    className="Lefttab__formGroup___2Kj6_ form-group">
+    <b
+      className="Lefttab__labelFormControl___2UMul">
+      Master track
+    </b>
+    <input
+      disabled={true}
+      type="checkbox" />
+  </div>
+  <div
+    className="Lefttab__formGroup___2Kj6_ form-group">
+    <b
+      className="Lefttab__labelFormControl___2UMul">
+      Offset Y M D
+    </b>
+    <input
+      className="Lefttab__input___IuAGR Lefttab__input_years___14onq form-control"
+      placeholder="years"
+      type="number" />
+    <input
+      className="Lefttab__input___IuAGR Lefttab__input_months___3sn8l form-control"
+      placeholder="months"
+      type="number" />
+    <input
+      className="Lefttab__input___IuAGR Lefttab__input_days___1lxUN form-control"
+      placeholder="days"
+      type="number" />
+  </div>
+  <div
+    className="Lefttab__formGroup___2Kj6_ form-group">
+    <b
+      className="Lefttab__labelFormControl___2UMul">
+      Offset H M S MS
+    </b>
+    <input
+      className="Lefttab__input___IuAGR Lefttab__input_hours___2-k8G form-control"
+      placeholder="hours"
+      type="number" />
+    <input
+      className="Lefttab__input___IuAGR Lefttab__input_minutes___3uTCi form-control"
+      placeholder="minutes"
+      type="number" />
+    <input
+      className="Lefttab__input___IuAGR Lefttab__input_seconds___3tuiY form-control"
+      placeholder="seconds"
+      type="number" />
+    <input
+      className="Lefttab__input___IuAGR Lefttab__input_milliseconds___3j4Xa form-control"
+      placeholder="milliseconds"
+      type="number" />
+  </div>
+  <div
+    className="Lefttab__formGroup___2Kj6_ form-group">
+    <b
+      className="Lefttab__labelFormControl___2UMul">
+       
+    </b>
+    <input
+      className="Lefttab__addTrackButton___2HYyH btn-md btn-primary"
+      type="submit"
+      value="Edit track" />
+  </div>
+</form>
+`;

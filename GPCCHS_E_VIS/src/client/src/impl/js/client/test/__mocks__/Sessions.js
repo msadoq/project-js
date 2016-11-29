@@ -1,6 +1,6 @@
 const Sessions = [
   {
-    name: "Master",
+    name: 'Master',
     id: 0,
     timestamp: {
       ms: 1480407326158,

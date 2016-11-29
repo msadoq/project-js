@@ -34,6 +34,11 @@ exports[`test Lefttab renders correctly 1`] = `
       title="Double-click to edit track">
       Session 1
       <span
+        className="Lefttab__offset___bGIUa"
+        title="Formatted offset HH:MM:ss:SSS">
+        00:00:00.200
+      </span>
+      <span
         className="Lefttab__square___F8W_p"
         style={
           Object {

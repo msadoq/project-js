@@ -1,6 +1,6 @@
 const Timebar = {
-  keyId: "123123-azeaze",
-  id: "Timebar 01",
+  timebarId: '123123-azeaze',
+  id: 'Timebar 01',
   visuWindow: {
     lower: 1480417085354,
     upper: 1480417104665,
@@ -14,9 +14,9 @@ const Timebar = {
   rulerStart: 1480417063092,
   rulerResolution: 63.54262205776028,
   speed: 1,
-  playingState: "pause",
-  timebarMode: "Normal",
-  masterId: "Session 1",
+  playingState: 'pause',
+  mode: 'Normal',
+  masterId: 'Session 1',
 };
 
 export default Timebar;

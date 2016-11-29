@@ -2,6 +2,7 @@
 const { eachSeries } = require('async');
 const _chunk = require('lodash/chunk');
 const { decode, encode, getType } = require('common/protobuf');
+const globalConstants = require('common/constants');
 const executionMonitor = require('common/execution');
 
 const debug = require('../../io/debug')('controllers:onTimebasedArchiveData');
@@ -58,7 +59,6 @@ const onTimebasedArchiveData = (
   execution.stop('decode isLast');
 
   // if last chunk of data, set interval as received in connectedData model and unregister queryId
-
   if (isLast) {
     debug.debug('last chunk of queried timebased data', queryId);
     execution.start('set interval as received');
@@ -73,12 +73,12 @@ const onTimebasedArchiveData = (
   execution.stop('decode dataId');
 
   // get payload type
-  execution.start('get com object type');
+  execution.start('get comObject type');
   const payloadProtobufType = getType(dataId.comObject);
   if (typeof payloadProtobufType === 'undefined') {
     throw new Error('unsupported comObject', dataId.comObject);
   }
-  execution.stop('get com object type');
+  execution.stop('get comObject type');
 
   // check payloads parity
   if (payloadBuffers.length % 2 !== 0) {
@@ -90,6 +90,15 @@ const onTimebasedArchiveData = (
   execution.start('retrieve store');
   const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
   execution.stop('retrieve store');
+
+  // prevent receiving more than 1000 payloads at one time (avoid Maximum call stack size exceeded)
+  const payloadNumber = payloadBuffers.length / 2;
+  if (payloadNumber > globalConstants.HSS_MAX_PAYLOADS_PER_MESSAGE) {
+    // TODO send error to client
+    execution.stop('global', `${dataId.parameterName} message ignored, too many payloads: ${payloadNumber}`);
+    execution.print();
+    return debug.warn(`message ignored, too many payloads: ${payloadNumber}`);
+  }
 
   // only one loop to decode, insert in cache, and add to queue
   return eachSeries(_chunk(payloadBuffers, 2), (payloadBuffer, callback) => {
@@ -109,7 +118,7 @@ const onTimebasedArchiveData = (
     execution.stop('queue payloads');
     callback(null);
   }, () => {
-    debug.debug(`inserting ${payloadBuffers.length / 2} data`);
+    debug.debug(`inserted ${payloadNumber} payloads`);
 
     // if HSS is a forked process, in e2e tests for example
     if (process.send) {
@@ -125,7 +134,7 @@ const onTimebasedArchiveData = (
       }
     }
 
-    execution.stop('global');
+    execution.stop('global', `${dataId.parameterName}: ${payloadNumber} payloads`);
     execution.print();
   });
 };

@@ -2,6 +2,8 @@
 const _each = require('lodash/each');
 const _get = require('lodash/get');
 const _random = require('lodash/random');
+const _chunk = require('lodash/chunk');
+const _last = require('lodash/last');
 const debug = require('debug');
 
 const logger = require('../../debug')(debug)('common:stubs:dc');
@@ -11,7 +13,8 @@ const stubData = require('../data');
 const getPayload = require('./getPayload');
 
 const header = stubData.getTimebasedArchiveDataHeaderProtobuf();
-const end = stubData.getBooleanProtobuf(true);
+const thisIsTheEnd = stubData.getBooleanProtobuf(true);
+const thisIsNotTheEnd = stubData.getBooleanProtobuf(false);
 
 const queries = {};
 
@@ -39,7 +42,12 @@ module.exports = function sendArchiveData(
   const from = interval.startTime.ms;
   const to = interval.endTime.ms;
   if (to <= from) {
-    throw new Error('Invalid interval requested to DC stub');
+    throw new Error(
+      'Invalid interval requested to DC stub',
+      dataId.parameterName,
+      interval.startTime.ms,
+      interval.endTime.ms
+    );
   }
 
   const payloads = [];
@@ -60,18 +68,22 @@ module.exports = function sendArchiveData(
     return;
   }
 
-  const buffer = [
-    null,
-    header,
-    stubData.getStringProtobuf(queryId),
-    stubData.getDataIdProtobuf(dataId),
-    end,
-  ];
-  _each(payloads, (payload) => {
-    buffer.push(payload.timestamp);
-    buffer.push(payload.payload);
+  // no more than 1000 payloads per sending
+  _each(_chunk(payloads, globalConstants.HSS_MAX_PAYLOADS_PER_MESSAGE), (thousandPayloads) => {
+    const buffer = [
+      null,
+      header,
+      stubData.getStringProtobuf(queryId),
+      stubData.getDataIdProtobuf(dataId),
+      (_last(payloads) === _last(thousandPayloads)) ? thisIsTheEnd : thisIsNotTheEnd,
+    ];
+    _each(thousandPayloads, (payload) => {
+      buffer.push(payload.timestamp);
+      buffer.push(payload.payload);
+    });
+
+    zmq.push('stubData', buffer);
   });
 
-  zmq.push('stubData', buffer);
   logger.debug(`push ${payloads.length} data from query from: ${new Date(from)} to ${new Date(to)} now`);
 };

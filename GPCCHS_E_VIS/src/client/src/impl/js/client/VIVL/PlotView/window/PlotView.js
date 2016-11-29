@@ -164,7 +164,9 @@ class PlotView extends PureComponent {
   handleTooltipContent = ({ currentItem, xAccessor }) => ({
     x: fullDateFormat(xAccessor(currentItem)),
     y: this.lines
-      .filter(line => _get(currentItem, [line.key, 'value']))
+      .filter(
+        line => typeof _get(currentItem, [line.key, 'value']) !== 'undefined'
+      )
       .map(line => ({
         label: line.name,
         value: _get(currentItem, [line.key, 'value']),

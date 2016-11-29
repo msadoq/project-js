@@ -1,0 +1,72 @@
+exports[`test Lefttab renders correctly 1`] = `
+<div
+  className="Lefttab__leftTab___3aRyi">
+  <div
+    className="Lefttab__leftTabTopPanel___1mbiO">
+    <button
+      className="btn btn-xs btn-control Lefttab__btnClose___Z9fCk"
+      onClick={[Function]}
+      title="detach timebar and choose another one">
+      x
+    </button>
+    <h5
+      className="Lefttab__timebarName___3CGrh">
+      <b>
+        Timebar 01
+      </b>
+    </h5>
+    <button
+      className="Lefttab__addTimelineButton___ijcRR btn btn-sm btn-info"
+      disabled={false}
+      onClick={[Function]}
+      title="Add track"
+      type="button">
+      +
+    </button>
+  </div>
+  <ul
+    className="Lefttab__timelineUl___3pPRg"
+    onScroll={[Function]}
+    onWheel={[Function]}>
+    <li
+      className="Lefttab__timeline___3H18o Lefttab__master___25npc"
+      onDoubleClick={[Function]}
+      title="Double-click to edit track">
+      Session 1
+      <span
+        className="Lefttab__square___F8W_p"
+        style={
+          Object {
+            "background": "#fa1289",
+            "right": "0px",
+          }
+        } />
+    </li>
+    <li
+      className="Lefttab__timeline___3H18o"
+      onDoubleClick={[Function]}
+      title="Double-click to edit track">
+      Session 2
+      <span
+        className="Lefttab__offset___bGIUa"
+        title="Formatted offset HH:MM:ss:SSS">
+        00:00:01.000
+      </span>
+      <span
+        className="Lefttab__square___F8W_p"
+        style={
+          Object {
+            "background": "#31b0d5",
+            "right": "16px",
+          }
+        } />
+      <button
+        className="Lefttab__deleteButton___3kpNj"
+        onClick={[Function]}
+        title="Remove this track">
+        -
+      </button>
+    </li>
+  </ul>
+</div>
+`;

@@ -215,33 +215,36 @@ class PlotView extends PureComponent {
     }
   }
 
-  renderLines = () => this.lines.map(({ key, color, pointsStyle, pointsSize }) => (
-    <div key={key}>
-      <LineSeries
-        key={`line${key}`}
-        yAccessor={d => _get(d, [key, 'value'])}
-        stroke={color}
-      />
-      <ScatterSeries
-        key={`scatter${key}`}
-        yAccessor={d => _get(d, [key, 'value'])}
-        marker={getLineMarker(pointsStyle)}
-        markerProps={getLineMarkerProps(pointsStyle, pointsSize, {
-          stroke: color,
-          fill: color
-        })}
-      />
-      <CurrentCoordinate
-        key={`coordinate${key}`}
-        yAccessor={d => _get(d, [key, 'value'])}
-        fill={color}
-      />
-    </div>
+  renderLines = () => this.lines.map(({
+      key, color, lineSize = 1,
+      pointsStyle, pointsSize
+    }) => (
+      <div key={key}>
+        <LineSeries
+          key={`line${key}`}
+          yAccessor={d => _get(d, [key, 'value'])}
+          stroke={color}
+          strokeWidth={lineSize}
+        />
+        <ScatterSeries
+          key={`scatter${key}`}
+          yAccessor={d => _get(d, [key, 'value'])}
+          marker={getLineMarker(pointsStyle)}
+          markerProps={getLineMarkerProps(pointsStyle, pointsSize, {
+            stroke: color,
+            fill: color
+          })}
+        />
+        <CurrentCoordinate
+          key={`coordinate${key}`}
+          yAccessor={d => _get(d, [key, 'value'])}
+          fill={color}
+        />
+      </div>
   ));
 
   render() {
     logger.debug('render');
-
     const { size, data, visuWindow } = this.props;
     const { columns } = data;
     const { lower, upper, current } = visuWindow;

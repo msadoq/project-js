@@ -29,18 +29,11 @@ export default function hsc(state = initialState, action) {
       return Object.assign({}, state, { workspaceOpened: true });
     case types.HSC_UPDATE_LAST_CACHE_INVALIDATION:
       return Object.assign({}, state, { lastCacheInvalidation: action.payload.timestamp });
-    case types.HSC_ISWORKSPACE_OPENING: // TODO test
+    case types.HSC_ISWORKSPACE_OPENING:
       return Object.assign({}, state, { isWorkspaceOpening: action.payload.flag });
-    case types.HSC_UPDATE_PATH: // TODO test
-      if (state.folder === action.payload.folder) {
-        if (state.file === action.payload.file) {
-          return state;
-        }
-        return { ...state, file: action.payload.file };
-      }
-      // Update all relative path
-      return { ...state, folder: action.payload.folder, file: action.payload.file };
-    case types.HSC_CLOSE_WORKSPACE:  // TODO test
+    case types.HSC_UPDATE_PATH:
+      return Object.assign({}, state, { folder: action.payload.folder, file: action.payload.file });
+    case types.HSC_CLOSE_WORKSPACE:
       return _omit(state, ['folder', 'file']);
     default:
       return state;

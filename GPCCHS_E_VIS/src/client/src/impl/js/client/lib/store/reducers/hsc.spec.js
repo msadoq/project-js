@@ -41,6 +41,21 @@ describe('store:hsc:reducer', () => {
     reducer(undefined, actions.updateLastTick(10))
       .should.have.property('lastTick', 10);
   });
+  it('should update filepath', () => {
+    const state = reducer(undefined, actions.updatePath('myFolder', 'myFile'));
+    state.should.have.property('folder', 'myFolder');
+    state.should.have.property('file', 'myFile');
+  });
+  it('should update isWorkspaceOpening', () => {
+    reducer({ isWorkspaceOpening: false }, actions.isWorkspaceOpening(true))
+      .should.have.property('isWorkspaceOpening', true);
+    reducer({ isWorkspaceOpening: true }, actions.isWorkspaceOpening(false))
+      .should.have.property('isWorkspaceOpening', false);
+  });
+  it('should closeWorkspace', () => {
+    reducer({ isWorkspaceOpening: false, folder: 'myFolder', file: 'myFile' },
+      actions.closeWorkspace()).should.deep.equal({ isWorkspaceOpening: false });
+  });
   describe('play/pause', () => {
     it('should set timebarId as playing', () => {
       reducer(freezeMe({}), actions.play(10)).should.have.property('playingTimebarId', 10);

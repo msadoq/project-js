@@ -3,7 +3,7 @@ import { freezeMe } from '../../common/test';
 import * as actions from '../actions/hsc';
 import reducer from './hsc';
 
-describe('store:hsc', () => {
+describe('store:hsc:reducer', () => {
   it('should returns initial state', () => {
     const r = reducer(undefined, {});
     r.should.be.an('object').with.property('status', 'LIFECYCLE_NOT_STARTED');

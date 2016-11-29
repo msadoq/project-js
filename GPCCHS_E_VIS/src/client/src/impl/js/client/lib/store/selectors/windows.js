@@ -1,17 +1,18 @@
 import _get from 'lodash/get';
 import _reduce from 'lodash/reduce';
 import { createSelector } from 'reselect';
+import { getPages } from './pages';
+import { getViews } from './views';
 
-const getWindows = state => state.windows;
-const getPages = state => state.pages;
-const getViews = state => state.views;
+export const getWindows = state => state.windows;
 
+// TODO test
 export const getWindowPageIds = (state, windowId) =>
   _get(state, ['windows', windowId, 'pages']);
 
 export const getWindow = (state, windowId) => state.windows[windowId];
 
-export const getWindowPages = createSelector(
+export const getWindowPages = createSelector(   // TODO test
   [
     (state, windowId) => getWindowPageIds(state, windowId),
     state => state.pages,
@@ -19,14 +20,17 @@ export const getWindowPages = createSelector(
   (ids = [], pages) => ids.map(id => ({ ...pages[id], pageId: id }))
 );
 
+// TODO test
 export const getWindowFocusedPageId =
   (state, windowId) => _get(state, ['windows', windowId, 'focusedPage']);
 
+// TODO test
 export const getWindowFocusedPageSelector = createSelector([
   getPages,
   (state, windowId) => getWindowFocusedPageId(state, windowId),
 ], (pages, pageId) => pages[pageId]);
 
+// TODO test
 export const getWindowDebug = (state, { windowId }) => _get(state, ['windows', windowId, 'debug']);
 
 export const getWindowsFocusedPageIds = createSelector(
@@ -74,6 +78,6 @@ export const getWindowsVisibleViews = createSelector(
       }
 
       return l.concat({ viewId, timebarId, viewData: views[viewId] });
-    }, []),
+    }, list),
   [])
 );

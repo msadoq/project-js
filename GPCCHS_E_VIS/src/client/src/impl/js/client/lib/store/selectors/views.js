@@ -1,5 +1,7 @@
-// eslint-disable-next-line import/prefer-default-export
+export const getViews = state => state.views;
+
 export const getView = (state, viewId) => state.views[viewId];
+
 export const getEntryPointOnAxis = (state, viewId, axisId) => {
   const epOnAxis = [];
   if (!state.views[viewId] || !state.views[viewId].configuration.axes[axisId]) {

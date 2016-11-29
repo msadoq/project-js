@@ -6,11 +6,24 @@ import { format } from 'd3-format';
 import { scaleTime } from 'd3-scale';
 import { timeFormat } from 'd3-time-format';
 import {
+  timeYear, timeMonth, timeWeek, timeDay,
+  timeHour, timeMinute, timeSecond
+} from 'd3-time';
+import {
   ChartCanvas, Chart, series,
   coordinates, axes, tooltip
 } from 'react-stockcharts';
 
 import debug from '../../../lib/common/debug/windowDebug';
+
+const formatMillisecond = timeFormat('.%L');
+const formatSecond = timeFormat(':%S');
+const formatMinute = timeFormat('%H:%M');
+const formatHour = timeFormat('%H %p');
+const formatDay = timeFormat('%a %d');
+const formatWeek = timeFormat('%b %d');
+const formatMonth = timeFormat('%B');
+const formatYear = timeFormat('%Y');
 
 const logger = debug('view:plot');
 
@@ -66,6 +79,20 @@ const getLines = (entryPoints = []) => entryPoints.map(ep => ({
   pointsStyle: ep.objectStyle.points.style, // "None", "Triangle", "Square", "Dot"
   pointsSize: ep.objectStyle.points.size,
 }));
+
+const margin = { left: 10, right: 60, top: 20, bottom: 20 };
+
+/* eslint-disable no-nested-ternary */
+const zoomDateFormat = date => (timeSecond(date) < date ? formatMillisecond
+    : timeMinute(date) < date ? formatSecond
+    : timeHour(date) < date ? formatMinute
+    : timeDay(date) < date ? formatHour
+    : timeMonth(date) < date ? (timeWeek(date) < date ? formatDay : formatWeek)
+    : timeYear(date) < date ? formatMonth
+    : formatYear)(date);
+
+
+const fullDateFormat = timeFormat('%Y-%m-%d %H:%M:%S.%L');
 
 class PlotView extends PureComponent {
   static propTypes = {
@@ -135,7 +162,7 @@ class PlotView extends PureComponent {
   yExtents = d => _map(this.lines, ({ key }) => _get(d, [key, 'value']));
 
   handleTooltipContent = ({ currentItem, xAccessor }) => ({
-    x: this.dateFormat(xAccessor(currentItem)),
+    x: fullDateFormat(xAccessor(currentItem)),
     y: this.lines
       .filter(line => _get(currentItem, [line.key, 'value']))
       .map(line => ({
@@ -224,7 +251,6 @@ class PlotView extends PureComponent {
       tooltipHeight,
       disableZoom
     } = this.state;
-
     const noRender = this.shouldRender();
     if (noRender) {
       logger.warn('no render due to', noRender);
@@ -244,7 +270,7 @@ class PlotView extends PureComponent {
           ratio={2}
           width={width}
           height={height - 50}
-          margin={{ left: 10, right: 60, top: 20, bottom: 20 }}
+          margin={margin}
           seriesName="PlotView"
           data={columns}
           type="hybrid"
@@ -257,13 +283,24 @@ class PlotView extends PureComponent {
             id={1}
             yExtents={this.yExtents}
           >
-            <XAxis axisAt="bottom" orient="bottom" ticks={5} zoomEnabled={!disableZoom} />
-            <YAxis axisAt="right" orient="right" ticks={5} zoomEnabled={!disableZoom} />
+            <XAxis
+              axisAt="bottom"
+              orient="bottom"
+              ticks={5}
+              tickFormat={zoomDateFormat}
+              zoomEnabled={!disableZoom}
+            />
+            <YAxis
+              axisAt="right"
+              orient="right"
+              ticks={5}
+              zoomEnabled={!disableZoom}
+            />
             <MouseCoordinateX
               at="bottom"
               orient="bottom"
               rectWidth={150}
-              displayFormat={this.dateFormat}
+              displayFormat={fullDateFormat}
             />
             <MouseCoordinateY
               at="right"
@@ -288,8 +325,8 @@ class PlotView extends PureComponent {
             bgheight={tooltipHeight}
           />
         </ChartCanvas>
-        <span className="pull-left">{this.dateFormat(lower)}</span>
-        <span className="pull-right">{this.dateFormat(upper)}</span>
+        <span className="pull-left">{fullDateFormat(lower)}</span>
+        <span className="pull-right">{fullDateFormat(upper)}</span>
       </div>
     );
   }

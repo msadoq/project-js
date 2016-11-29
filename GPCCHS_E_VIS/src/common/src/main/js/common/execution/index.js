@@ -19,13 +19,13 @@ function stop(executionMap, key, message) {
   executionMap[key].traces[lastIndex] = process.hrtime(executionMap[key].traces[lastIndex]);
   if (message) {
     // eslint-disable-next-line no-param-reassign
-    executionMap[key].traces.message = message;
+    executionMap[key].message = message;
   }
 }
 function print(executionMap, namespace) {
   const display = debug(`profiling:${namespace}`).warn;
   display('= execution map ====================');
-  _each(executionMap, ({ traces, m }, k) => {
+  _each(executionMap, ({ traces, message }, k) => {
     let d = 0;
     if (traces.length === 1) {
       d = (traces[0][0] * 1e3) + _round(traces[0][1] / 1e6, 6);
@@ -38,8 +38,8 @@ function print(executionMap, namespace) {
       d = (t[0] * 1e3) + _round(t[1] / 1e6, 6);
     }
     const args = [k, 'ms:', d];
-    if (m) {
-      args.push(m);
+    if (message) {
+      args.push(message);
     }
     display(...args);
   });

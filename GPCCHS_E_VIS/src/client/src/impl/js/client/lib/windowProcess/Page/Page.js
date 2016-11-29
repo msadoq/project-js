@@ -17,7 +17,7 @@ export default class Page extends Component {
     isEditorOpened: PropTypes.bool,
     openEditor: PropTypes.func,
     closeEditor: PropTypes.func,
-    editorViewId: PropTypes.string.isRequired,
+    editorViewId: PropTypes.string,
     focusedPageId: PropTypes.string.isRequired
   };
 

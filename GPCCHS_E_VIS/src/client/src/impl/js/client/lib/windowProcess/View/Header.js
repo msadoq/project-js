@@ -32,15 +32,18 @@ export default class Header extends Component {
     } = this.props;
     switch (key) {
       case 'editor': {
-        if (isViewsEditorOpen === true && closeEditor) {
+        if (isViewsEditorOpen && closeEditor) {
           closeEditor();
-        } else if (isViewsEditorOpen === false && openEditor) {
+        } else if (!isViewsEditorOpen && openEditor) {
           openEditor(viewId, type, configuration);
         }
         break;
       }
       case 'close': {
         unmountAndRemove(viewId);
+        if (isViewsEditorOpen && closeEditor) {
+          closeEditor();
+        }
         break;
       }
       default:

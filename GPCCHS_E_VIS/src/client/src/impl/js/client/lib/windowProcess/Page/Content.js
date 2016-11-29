@@ -77,6 +77,12 @@ export default class Content extends Component {
       );
     }
 
+    if (!views.length) {
+      return (
+        <div className={styles.noPage}>No views yet ...</div>
+      );
+    }
+
     return (
       <Grid
         layouts={layouts}

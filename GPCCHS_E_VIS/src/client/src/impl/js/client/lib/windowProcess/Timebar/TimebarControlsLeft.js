@@ -9,7 +9,7 @@ export default class TimebarControlsLeft extends Component {
     play: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
     updateSpeed: PropTypes.func.isRequired,
-    onChange: PropTypes.func.isRequired,
+    updateCursors: PropTypes.func.isRequired,
     slideWindow: PropTypes.object.isRequired,
     visuWindow: PropTypes.object.isRequired,
     timebarId: PropTypes.string.isRequired,
@@ -46,20 +46,20 @@ export default class TimebarControlsLeft extends Component {
 
   jump = (e) => {
     e.preventDefault();
-    const { onChange, timebarId, slideWindow } = this.props;
+    const { updateCursors, timebarId, slideWindow } = this.props;
     const { lower, upper, current } = this.props.visuWindow;
 
     const movedMs = 1000 * e.currentTarget.getAttribute('offset');
-    onChange(
+    updateCursors(
       timebarId,
       {
         lower: lower + movedMs,
         upper: upper + movedMs,
         current: current + movedMs,
-        slideWindow: {
-          lower: slideWindow.lower + movedMs,
-          upper: slideWindow.upper + movedMs,
-        },
+      },
+      {
+        lower: slideWindow.lower + movedMs,
+        upper: slideWindow.upper + movedMs,
       },
     );
   }

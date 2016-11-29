@@ -9,7 +9,7 @@ export default class TimebarControlsRight extends Component {
   static propTypes = {
     play: PropTypes.func.isRequired,
     updateMode: PropTypes.func.isRequired,
-    onChange: PropTypes.func.isRequired,
+    updateCursors: PropTypes.func.isRequired,
     slideWindow: PropTypes.object.isRequired,
     visuWindow: PropTypes.object.isRequired,
     timebarMode: PropTypes.string.isRequired,
@@ -20,7 +20,7 @@ export default class TimebarControlsRight extends Component {
   switchMode = (e) => {
     e.preventDefault();
     const {
-      onChange,
+      updateCursors,
       timebarId,
       timebarMode,
       updateMode,
@@ -35,45 +35,43 @@ export default class TimebarControlsRight extends Component {
 
     // Realtime is not really a mode, we just go to session realtime and play
     if (mode === 'Realtime') {
-      if (mode !== 'Normal') {
+      if (timebarMode !== 'Normal') {
         updateMode(timebarId, 'Normal');
       }
       const msWidth = upper - lower;
       const realTimeMs = Date.now() + currentSessionOffsetMs;
       const newLower = realTimeMs - ((1 - currentUpperMargin) * msWidth);
       const newUpper = realTimeMs + (currentUpperMargin * msWidth);
-      onChange(
+      updateCursors(
         timebarId,
         {
           lower: newLower,
           upper: newUpper,
           current: realTimeMs,
-          slideWindow: {
-            lower: newLower - ((newUpper - newLower) * 2),
-            upper: newUpper + ((newUpper - newLower) / 5),
-          },
-        }
+        },
+        {
+          lower: newLower - ((newUpper - newLower) * 2),
+          upper: newUpper + ((newUpper - newLower) / 5),
+        },
       );
       this.props.play(timebarId);
     } else {
       if (mode === 'Extensible' && slideWindow.upper < upper) {
-        onChange(
+        updateCursors(
           timebarId,
+          null,
           {
-            slideWindow: {
-              lower: slideWindow.lower,
-              upper: upper + ((upper - lower) / 4),
-            },
+            lower: slideWindow.lower,
+            upper: upper + ((upper - lower) / 4),
           }
         );
       } else if (mode === 'Fixed' && slideWindow.upper > upper) {
-        onChange(
+        updateCursors(
           timebarId,
+          null,
           {
-            slideWindow: {
-              lower: slideWindow.lower,
-              upper: upper - ((upper - current) / 2),
-            },
+            lower: slideWindow.lower,
+            upper: upper - ((upper - current) / 2),
           }
         );
       }

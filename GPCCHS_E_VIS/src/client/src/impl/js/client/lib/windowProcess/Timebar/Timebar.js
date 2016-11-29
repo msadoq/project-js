@@ -29,7 +29,8 @@ export default class Timebar extends Component {
     pause: PropTypes.func.isRequired,
     displayTimesetter: PropTypes.func.isRequired,
     onVerticalScroll: PropTypes.func.isRequired,
-    onChange: PropTypes.func.isRequired,
+    updateViewport: PropTypes.func.isRequired,
+    updateCursors: PropTypes.func.isRequired,
     slideWindow: PropTypes.object.isRequired,
     visuWindow: PropTypes.object.isRequired,
     viewport: PropTypes.object,
@@ -48,43 +49,7 @@ export default class Timebar extends Component {
   }
 
   componentDidUpdate() {
-    const {
-      viewport,
-      timebarMode,
-      visuWindow,
-      slideWindow,
-      onChange,
-      timebarId,
-      isPlaying,
-    } = this.props;
-
     this.timelinesEl.scrollTop = this.props.verticalScroll;
-
-    /*
-      moving viewport in the future if cursor is to far right
-    */
-    if (!isPlaying || true) {
-      return;
-    }
-    const rightLimitMs = viewport.upper - ((viewport.upper - viewport.lower) / 15);
-    let limitCursorMs;
-    if (timebarMode === 'Normal' || timebarMode === 'Fixed') {
-      limitCursorMs = visuWindow.upper;
-    } else {
-      limitCursorMs = slideWindow.upper;
-    }
-    if (limitCursorMs > rightLimitMs) {
-      const offsetMs = (viewport.upper - viewport.lower) / 5;
-      onChange(
-        timebarId,
-        {
-          viewport: {
-            lower: viewport.lower + offsetMs,
-            upper: viewport.upper + offsetMs,
-          },
-        }
-      );
-    }
   }
 
   componentWillUnmount() {
@@ -99,7 +64,7 @@ export default class Timebar extends Component {
       const {
         visuWindow,
         timebarId,
-        onChange,
+        updateCursors,
         timebarMode,
         isPlaying,
         play,
@@ -113,25 +78,23 @@ export default class Timebar extends Component {
         case keys.x:
           if (cursorMs > current) return;
           if (timebarMode === 'Fixed' && cursorMs > slideWindow.lower) return;
-          onChange(
+          updateCursors(
             timebarId,
             {
-              ...visuWindow,
               lower: cursorMs,
-            }
+            },
+            null
           );
           break;
         case keys.c:
           if (timebarMode === 'Normal') return;
           if (timebarMode === 'Extensible') return;
           if (timebarMode === 'Fixed' && (cursorMs < lower || cursorMs > current)) return;
-          onChange(
+          updateCursors(
             timebarId,
+            null,
             {
-              slideWindow: {
-                lower: cursorMs,
-                upper: slideWindow.upper,
-              },
+              lower: cursorMs
             }
           );
           break;
@@ -139,25 +102,24 @@ export default class Timebar extends Component {
           if (cursorMs < lower || cursorMs > upper) return;
           if (timebarMode === 'Fixed' && cursorMs < slideWindow.lower) return;
           if (timebarMode === 'Fixed' && cursorMs > slideWindow.upper) return;
-          onChange(
+          updateCursors(
             timebarId,
             {
-              ...visuWindow,
               current: cursorMs,
-            }
+            },
+            null
           );
           break;
         case keys.b:
           if (timebarMode === 'Normal') return;
           if (timebarMode === 'Extensible' && cursorMs < upper) return;
           if (timebarMode === 'Fixed' && (cursorMs < current || cursorMs > upper)) return;
-          onChange(
+          updateCursors(
             timebarId,
+            null,
             {
-              slideWindow: {
-                lower: slideWindow.lower,
-                upper: cursorMs,
-              },
+              lower: slideWindow.lower,
+              upper: cursorMs,
             }
           );
           break;
@@ -165,12 +127,12 @@ export default class Timebar extends Component {
           if (cursorMs < current) return;
           if (timebarMode === 'Extensible' && cursorMs > slideWindow.upper) return;
           if (timebarMode === 'Fixed' && cursorMs < slideWindow.upper) return;
-          onChange(
+          updateCursors(
             timebarId,
             {
-              ...visuWindow,
               upper: cursorMs,
-            }
+            },
+            null
           );
           break;
         case keys.space:
@@ -219,8 +181,10 @@ export default class Timebar extends Component {
       slideWindow,
       visuWindow,
       viewport,
-      onChange,
+      updateViewport,
+      updateCursors,
       timebarId,
+      widthPx,
     } = this.props;
     const { state } = this;
 
@@ -241,33 +205,34 @@ export default class Timebar extends Component {
     document.removeEventListener('mouseup', this.onMouseUp);
 
     if (state.resizing || state.navigating) {
-      onChange(
+      updateCursors(
         timebarId,
         {
-          lower: Math.trunc(lower),
-          upper: Math.trunc(upper),
-          current: Math.trunc(current),
-          slideWindow: {
-            lower: slideLower,
-            upper: slideUpper,
-          },
+          lower,
+          upper,
+          current,
+        },
+        {
+          lower: slideLower,
+          upper: slideUpper,
         }
       );
     } else {
-      onChange(
+      updateViewport(
+        timebarId,
+        viewportLower,
+        (viewportUpper - viewportLower) / widthPx,
+      );
+      updateCursors(
         timebarId,
         {
-          lower: Math.trunc(lower),
-          upper: Math.trunc(upper),
-          current: Math.trunc(current),
-          viewport: {
-            lower: viewportLower,
-            upper: viewportUpper,
-          },
-          slideWindow: {
-            lower: slideLower,
-            upper: slideUpper,
-          },
+          lower,
+          upper,
+          current,
+        },
+        {
+          lower: slideLower,
+          upper: slideUpper,
         }
       );
     }
@@ -567,19 +532,15 @@ export default class Timebar extends Component {
       End of the navigation (the user dropped the mouse button)
     */
     if (save) {
-      const { timebarId, onChange } = this.props;
+      const { timebarId, updateViewport, widthPx } = this.props;
       this.setState({
         viewportLower: null,
         viewportUpper: null,
       });
-      onChange(
+      updateViewport(
         timebarId,
-        {
-          viewport: {
-            lower: viewportLower,
-            upper: viewportUpper,
-          },
-        }
+        viewportLower,
+        (viewportUpper - viewportLower) / widthPx,
       );
 
     /*
@@ -594,17 +555,13 @@ export default class Timebar extends Component {
   }
 
   autoUpdateViewportWindow = () => {
-    const { timebarId, onChange } = this.props;
+    const { timebarId, updateViewport, widthPx } = this.props;
     const { viewportLower, viewportUpper } = this.state;
 
-    onChange(
+    updateViewport(
       timebarId,
-      {
-        viewport: {
-          lower: viewportLower,
-          upper: viewportUpper
-        }
-      }
+      viewportLower,
+      (viewportUpper - viewportLower) / widthPx
     );
     this.setState({
       viewportLower: null,
@@ -613,7 +570,7 @@ export default class Timebar extends Component {
   }
 
   autoUpdateCursors = () => {
-    const { timebarId, onChange } = this.props;
+    const { timebarId, updateCursors } = this.props;
     const {
       lower,
       upper,
@@ -621,17 +578,17 @@ export default class Timebar extends Component {
       slideLower,
       slideUpper,
     } = this.state;
-    onChange(
+    updateCursors(
       timebarId,
       {
         lower,
         upper,
         current,
-        slideWindow: {
-          lower: slideLower,
-          upper: slideUpper,
-        },
-      }
+      },
+      {
+        lower: slideLower,
+        upper: slideUpper,
+      },
     );
     this.setState({
       lower: null,
@@ -715,7 +672,7 @@ export default class Timebar extends Component {
   }
 
   rePosition = (side) => {
-    const { visuWindow, onChange, timebarId } = this.props;
+    const { visuWindow, updateViewport, timebarId, widthPx } = this.props;
     const lower = this.state.lower || visuWindow.lower;
     const upper = this.state.upper || visuWindow.upper;
 
@@ -728,14 +685,10 @@ export default class Timebar extends Component {
       newViewportLower = lower - ((upper - lower) * 2);
       newViewportUpper = upper + ((upper - lower) / 5);
     }
-    onChange(
+    updateViewport(
       timebarId,
-      {
-        viewport: {
-          lower: newViewportLower,
-          upper: newViewportUpper,
-        },
-      }
+      newViewportLower,
+      (newViewportUpper - newViewportLower) / widthPx
     );
     this.setState({
       slideLower: null,
@@ -745,20 +698,25 @@ export default class Timebar extends Component {
 
   bringCursors = (e) => {
     e.preventDefault();
-    const { visuWindow, viewport, onChange, timebarId, timebarMode } = this.props;
+    const {
+      visuWindow,
+      viewport,
+      timebarId,
+      timebarMode,
+      updateCursors,
+    } = this.props;
 
     /*
       The user clicked the EXT button
     */
     if (e.currentTarget.getAttribute('cursor') === 'extBound') {
       const { lower, upper, current } = visuWindow;
-      onChange(
+      updateCursors(
         timebarId,
+        null,
         {
-          slideWindow: {
-            lower: lower + ((current - lower) / 2),
-            upper: timebarMode === 'Extensible' ? upper + ((upper - lower) / 4) : upper - ((upper - current) / 2),
-          },
+          lower: lower + ((current - lower) / 2),
+          upper: timebarMode === 'Extensible' ? upper + ((upper - lower) / 4) : upper - ((upper - current) / 2),
         }
       );
 
@@ -770,16 +728,16 @@ export default class Timebar extends Component {
       const newLower = viewport.lower + (viewportWindowWidthMs * (5 / 12));
       const newUpper = viewport.lower + (viewportWindowWidthMs * (7 / 12));
       const newCurrent = (newLower + newUpper) / 2;
-      onChange(
+      updateCursors(
         timebarId,
         {
           lower: newLower,
           upper: newUpper,
           current: newCurrent,
-          slideWindow: {
-            lower: newLower + ((newCurrent - newLower) / 2),
-            upper: newUpper - ((newUpper - newCurrent) / 2),
-          },
+        },
+        {
+          lower: newLower + ((newCurrent - newLower) / 2),
+          upper: newUpper - ((newUpper - newCurrent) / 2),
         }
       );
     }
@@ -789,7 +747,7 @@ export default class Timebar extends Component {
     const {
       visuWindow,
       slideWindow,
-      viewport
+      viewport,
     } = this.props;
 
     /*

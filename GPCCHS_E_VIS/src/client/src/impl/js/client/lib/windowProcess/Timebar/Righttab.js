@@ -31,42 +31,43 @@ class RighttabContent extends Component {
   }
 
   /*
-    ( does the opposite conversion as formatViewportDimensions before dispatching)
-    Viewport size is received in the following form:
-    {
-      lower(ms) : ... ,
-      upper(ms) : ... ,
-    }
-    This method converts it to the following form (store formatted):
-    {
-      rulerStart : ... (ms),
-      rulerResolution : ... (px/ms),
-    }
+    Update viewport if current / ext upper is too far right
   */
-  willUpdateCursors= (timebarId, values) => {
-    const { updateCursors, updateViewport, size } = this.props;
-    const { viewport } = values;
-    if (viewport) {
-      const rulerStart = Math.trunc(viewport.lower);
-      const rulerResolution = (viewport.upper - viewport.lower)
-        / (size.width - (bootstrapPaddings * 2));
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.isPlaying) {
+      return;
+    }
+    const { timebarId, updateViewport } = this.props;
+
+    const viewport = {
+      lower: nextProps.timebar.rulerStart,
+      upper: nextProps.timebar.rulerStart +
+        (nextProps.timebar.rulerResolution * (this.props.size.width - (bootstrapPaddings * 2))),
+    };
+
+    const {
+      timebarMode,
+      visuWindow,
+      slideWindow,
+    } = nextProps.timebar;
+    const rightLimitMs = viewport.upper - ((viewport.upper - viewport.lower) / 15);
+    let limitCursorMs;
+    if (timebarMode === 'Normal' || timebarMode === 'Fixed') {
+      limitCursorMs = visuWindow.upper;
+    } else {
+      limitCursorMs = slideWindow.upper;
+    }
+
+    if (limitCursorMs > rightLimitMs) {
+      const offsetMs = (limitCursorMs - rightLimitMs) + (limitCursorMs - visuWindow.lower);
       updateViewport(
         timebarId,
-        rulerStart,
-        rulerResolution
+        viewport.lower + offsetMs,
+        (viewport.upper - viewport.lower) / (this.props.size.width - (bootstrapPaddings * 2))
       );
     }
-    if (values.lower || values.upper || values.current || values.slideWindow) {
-      updateCursors(
-        timebarId,
-        {
-          lower: values.lower,
-          upper: values.upper,
-          current: values.current,
-        },
-        values.slideWindow
-      );
-    }
+
+    return true;
   }
 
   /*
@@ -111,6 +112,8 @@ class RighttabContent extends Component {
       onTimelinesVerticalScroll,
       timelinesVerticalScroll,
       size,
+      updateCursors,
+      updateViewport,
     } = this.props;
 
     return (
@@ -130,7 +133,7 @@ class RighttabContent extends Component {
           play={play}
           pause={pause}
           updateSpeed={updateSpeed}
-          onChange={this.willUpdateCursors}
+          updateCursors={updateCursors}
           updateMode={updateMode}
           currentSessionOffsetMs={currentSessionOffsetMs}
         />
@@ -144,7 +147,8 @@ class RighttabContent extends Component {
           visuWindow={visuWindow}
           slideWindow={slideWindow}
           timelines={timelines}
-          onChange={this.willUpdateCursors}
+          updateCursors={updateCursors}
+          updateViewport={updateViewport}
           verticalScroll={timelinesVerticalScroll}
           onVerticalScroll={onTimelinesVerticalScroll}
           displayTimesetter={displayTimesetter}

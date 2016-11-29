@@ -41,9 +41,9 @@ export default function timebars(stateTimebars = {}, action) {
           vw.current !== tb.visuWindow.current
         ) {
           newValues.visuWindow = {
-            lower: vw.lower || tb.visuWindow.lower,
-            upper: vw.upper || tb.visuWindow.upper,
-            current: vw.current || tb.visuWindow.current,
+            lower: Math.trunc(vw.lower || tb.visuWindow.lower),
+            upper: Math.trunc(vw.upper || tb.visuWindow.upper),
+            current: Math.trunc(vw.current || tb.visuWindow.current),
           };
         }
       }
@@ -54,8 +54,8 @@ export default function timebars(stateTimebars = {}, action) {
           sw.upper !== tb.slideWindow.upper
         ) {
           newValues.slideWindow = {
-            lower: sw.lower || tb.slideWindow.lower,
-            upper: sw.upper || tb.slideWindow.upper,
+            lower: Math.trunc(sw.lower || tb.slideWindow.lower),
+            upper: Math.trunc(sw.upper || tb.slideWindow.upper),
           };
         }
       }
@@ -126,7 +126,7 @@ function timebar(stateTimebar = initialState, action) {
     case types.WS_TIMEBAR_UPDATE_VIEWPORT:
       return {
         ...stateTimebar,
-        rulerStart: payload.rulerStart,
+        rulerStart: Math.trunc(payload.rulerStart),
         rulerResolution: payload.rulerResolution,
       };
     case types.WS_TIMEBAR_SPEED_UPDATE:

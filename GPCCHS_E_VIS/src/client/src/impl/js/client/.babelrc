@@ -5,10 +5,7 @@
     "react"
   ],
   "plugins": [
-    "add-module-exports",
-    ["module-alias", [
-      { "src": "test/__mocks__/", "expose": "mocks" },
-    ]]
+    "add-module-exports"
   ],
   "env": {
     "production": {

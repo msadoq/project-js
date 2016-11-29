@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import TimebarFixture from 'mocks/Timebar'; // eslint-disable-line import/no-unresolved,import/extensions
-import TimelinesFixture from 'mocks/Timelines'; // eslint-disable-line import/no-unresolved,import/extensions
+import TimebarFixture from '../../../../test/__mocks__/Timebar';
+import TimelinesFixture from '../../../../test/__mocks__/Timelines';
 import EditTrack from '../EditTrack';
 
 const propsStub = {

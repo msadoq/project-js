@@ -10,6 +10,8 @@ import TimebarTimeline from './TimebarTimeline';
 const minViewportLower = 315532800000;
 // 2040-01-01
 const maxViewportUpper = 2208988800000;
+// max visuWindow length (ms)
+const maxVisuWindowWidth = 1000 * 60 * 60 * 2;
 
 // Shortcut keyboard : html keycodes (event.keyCode)
 const keys = {
@@ -352,10 +354,15 @@ export default class Timebar extends Component {
       // visuWindow.lower cursor
       if (resizeCursor === 'lower') {
         let newSlideLower = slideLower;
-        if (cursorPosMs > newSlideLower) newSlideLower = cursorPosMs;
+        // Max length
+        if (upper - cursorPosMs > maxVisuWindowWidth) {
+          cursorPosMs = upper - maxVisuWindowWidth;
+        }
         if (cursorPosMs > current) cursorPosMs = current;
         if (cursorPosMs < viewportLower) cursorPosMs = viewportLower;
         if (cursorPosMs > upper) cursorPosMs = upper - 2000;
+        if (cursorPosMs > newSlideLower) newSlideLower = cursorPosMs;
+
         this.setState({
           lower: cursorPosMs,
           slideLower: newSlideLower,
@@ -364,11 +371,15 @@ export default class Timebar extends Component {
       // visuWindow.upper cursor
       } else if (resizeCursor === 'upper') {
         let newSlideUpper = slideUpper;
-        if (timebarMode === 'Extensible' && cursorPosMs > newSlideUpper) newSlideUpper = cursorPosMs;
-        if (timebarMode === 'Fixed' && cursorPosMs < newSlideUpper) newSlideUpper = cursorPosMs;
+        // Max length
+        if (cursorPosMs - lower > maxVisuWindowWidth) {
+          cursorPosMs = lower + maxVisuWindowWidth;
+        }
         if (cursorPosMs < current) cursorPosMs = current;
         if (cursorPosMs > viewportUpper) cursorPosMs = viewportUpper;
         if (cursorPosMs < lower) cursorPosMs = upper + 2000;
+        if (timebarMode === 'Extensible' && cursorPosMs > newSlideUpper) newSlideUpper = cursorPosMs;
+        if (timebarMode === 'Fixed' && cursorPosMs < newSlideUpper) newSlideUpper = cursorPosMs;
         this.setState({
           upper: cursorPosMs,
           slideUpper: newSlideUpper,
@@ -382,6 +393,10 @@ export default class Timebar extends Component {
 
       // slideWindow.upper cursor
       } else if (resizeCursor === 'slideUpper') {
+        // Max length
+        if (cursorPosMs - lower > maxVisuWindowWidth) {
+          cursorPosMs = lower + maxVisuWindowWidth;
+        }
         if (timebarMode === 'Extensible' && cursorPosMs < upper) cursorPosMs = upper;
         if (timebarMode === 'Fixed' && cursorPosMs > upper) cursorPosMs = upper;
         if (cursorPosMs < current) cursorPosMs = current;
@@ -478,6 +493,10 @@ export default class Timebar extends Component {
       current += coeff * ((cursorMs - current) / 5);
       slideLower += coeff * ((cursorMs - slideLower) / 5);
       slideUpper += coeff * ((cursorMs - slideUpper) / 5);
+
+      if (upper - lower > maxVisuWindowWidth) {
+        return;
+      }
 
       this.setState({
         lower,

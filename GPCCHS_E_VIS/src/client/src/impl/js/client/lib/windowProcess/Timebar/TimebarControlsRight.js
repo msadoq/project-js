@@ -4,6 +4,9 @@ import styles from './TimebarControls.css';
 
 const currentUpperMargin = 1 / 100;
 
+// max visuWindow length (ms)
+const maxVisuWindowWidth = 1000 * 60 * 60 * 2;
+
 export default class TimebarControlsRight extends Component {
 
   static propTypes = {
@@ -31,7 +34,9 @@ export default class TimebarControlsRight extends Component {
     const { lower, upper, current } = visuWindow;
     const mode = e.currentTarget.getAttribute('mode');
 
-    if (mode === timebarMode) return;
+    if (mode === timebarMode) {
+      return;
+    }
 
     // Realtime is not really a mode, we just go to session realtime and play
     if (mode === 'Realtime') {
@@ -57,12 +62,16 @@ export default class TimebarControlsRight extends Component {
       this.props.play(timebarId);
     } else {
       if (mode === 'Extensible' && slideWindow.upper < upper) {
+        let newSlideUpper = upper + ((upper - lower) / 4);
+        if (newSlideUpper - lower > maxVisuWindowWidth) {
+          newSlideUpper = lower + maxVisuWindowWidth;
+        }
         updateCursors(
           timebarId,
           null,
           {
             lower: slideWindow.lower,
-            upper: upper + ((upper - lower) / 4),
+            upper: newSlideUpper,
           }
         );
       } else if (mode === 'Fixed' && slideWindow.upper > upper) {

@@ -270,6 +270,7 @@ class PlotView extends PureComponent {
         onMouseLeave={this.handleMouseLeave}
       >
         <ChartCanvas
+          plotFull
           ratio={2}
           width={width}
           height={height - 50}

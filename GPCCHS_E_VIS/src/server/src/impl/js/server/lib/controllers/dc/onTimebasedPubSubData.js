@@ -1,5 +1,6 @@
 /* eslint no-underscore-dangle:0 import/no-extraneous-dependencies:0 */
 const { decode, getType } = require('common/protobuf');
+const globalConstants = require('common/constants');
 const executionMonitor = require('common/execution');
 const _isEmpty = require('lodash/isEmpty');
 const _each = require('lodash/each');
@@ -76,6 +77,18 @@ const onTimebasedPubSubData = (
   if (payloadsBuffers.length % 2 !== 0) {
     debug.debug('payloads should be sent by (timestamp, payloads) peers');
     return undefined;
+  }
+
+  // prevent receiving more than 1000 payloads at one time (avoid Maximum call stack size exceeded)
+  const payloadNumber = payloadsBuffers.length / 2;
+  if (payloadNumber > globalConstants.HSS_MAX_PAYLOADS_PER_MESSAGE) {
+    // TODO send error to client
+    execution.stop(
+      'global',
+      `${dataId.parameterName} message ignored, too many payloads: ${payloadNumber}`
+    );
+    execution.print();
+    return debug.warn(`message ignored, too many payloads: ${payloadNumber}`);
   }
 
   // loop over arguments peers (timestamp, payload)

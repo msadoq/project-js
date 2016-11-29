@@ -86,19 +86,22 @@ const onTimebasedArchiveData = (
     return undefined;
   }
 
-  // retrieve cache collection
-  execution.start('retrieve store');
-  const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
-  execution.stop('retrieve store');
-
   // prevent receiving more than 1000 payloads at one time (avoid Maximum call stack size exceeded)
   const payloadNumber = payloadBuffers.length / 2;
   if (payloadNumber > globalConstants.HSS_MAX_PAYLOADS_PER_MESSAGE) {
     // TODO send error to client
-    execution.stop('global', `${dataId.parameterName} message ignored, too many payloads: ${payloadNumber}`);
+    execution.stop(
+      'global',
+      `${dataId.parameterName} message ignored, too many payloads: ${payloadNumber}`
+    );
     execution.print();
     return debug.warn(`message ignored, too many payloads: ${payloadNumber}`);
   }
+
+  // retrieve cache collection
+  execution.start('retrieve store');
+  const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
+  execution.stop('retrieve store');
 
   // only one loop to decode, insert in cache, and add to queue
   return eachSeries(_chunk(payloadBuffers, 2), (payloadBuffer, callback) => {

@@ -1,10 +1,13 @@
 import _omit from 'lodash/omit';
 import _without from 'lodash/without';
 import _cloneDeep from 'lodash/cloneDeep';
+import _find from 'lodash/find';
 import u from 'updeep';
 import { resolve } from 'path';
 import { v4 } from 'node-uuid';
+import globalConstants from 'common/constants';
 import * as types from '../types';
+import vivl from '../../../VIVL/main';
 /**
  * Reducer
  */
@@ -71,7 +74,7 @@ export default function views(stateViews = {}, action) {
     case types.WS_VIEW_REMOVE_AXIS:
       return removeAxis(stateViews, action);
     case types.WS_VIEW_ADD_ENTRYPOINT:
-      return addElementInArray(stateViews, action, 'entryPoints', 'entryPoint');
+      return addEntryPoint(stateViews, action);
     case types.WS_VIEW_REMOVE_ENTRYPOINT:
       return removeElementInArray(stateViews, action, 'entryPoints');
     case types.WS_VIEW_ADD_GRID:
@@ -231,10 +234,11 @@ export function addAxis(stateViews, action) {
     return stateViews;
   }
   const uuid = v4();
+  const axis = Object.assign({}, action.payload.axis, { uuid });
   return u({
     [action.payload.viewId]: {
       configuration: {
-        axes: { [uuid]: action.payload.axis }
+        axes: { [uuid]: axis }
       },
       isModified: true,
     }
@@ -253,4 +257,130 @@ export function removeAxis(stateViews, action) {
   newState[action.payload.viewId].configuration.axes =
     _omit(stateViews[action.payload.viewId].configuration.axes, action.payload.axisId);
   return newState;
+}
+export function createAxis(label, unit) {
+  const uuid = v4();
+  return {
+    label,
+    unit,
+    uuid,
+  };
+}
+export function addEntryPoint(stateViews, action) {
+  if (!stateViews[action.payload.viewId] || !action.payload.entryPoint) {
+    return stateViews;
+  }
+  const oldValue = stateViews[action.payload.viewId].configuration.entryPoints;
+  const currentView = stateViews[action.payload.viewId];
+  const newValue = action.payload.entryPoint;
+
+  let newState = u({
+    [action.payload.viewId]: {
+      configuration: {
+        entryPoints: [...oldValue, ...newValue],
+      },
+      isModified: true,
+    }
+  }, stateViews);
+  const structureType = vivl(currentView.type, 'structureType')();
+  switch (structureType) { // eslint-disable-line default-case
+    case globalConstants.DATASTRUCTURETYPE_LAST: {
+      // session Id
+      if (!newValue.connectedData.timeline) {
+        newValue.connectedData.timeline = '*';
+      }
+      // domain
+      if (!newValue.connectedData.domain) {
+        newValue.connectedData.domain = '*';
+      }
+      return u({
+        [action.payload.viewId]: {
+          configuration: {
+            entryPoints: [...oldValue, newValue],
+          },
+          isModified: true,
+        }
+      }, stateViews);
+    }
+    case globalConstants.DATASTRUCTURETYPE_RANGE: {
+      // session Id
+      if (!newValue.connectedDataX.timeline) {
+        newValue.connectedDataX.timeline = '*';
+      }
+      if (!newValue.connectedDataY.timeline) {
+        newValue.connectedDataY.timeline = '*';
+      }
+      // domain
+      if (!newValue.connectedDataX.domain) {
+        newValue.connectedDataX.domain = '*';
+      }
+      if (!newValue.connectedDataY.domain) {
+        newValue.connectedDataY.domain = '*';
+      }
+      // axis Id
+      newState = updatePlotAxisId(stateViews, action);
+      return u({
+        [action.payload.viewId]: {
+          configuration: {
+            entryPoints: [...oldValue, newValue],
+          },
+          isModified: true,
+        }
+      }, newState);
+    }
+  }
+  return stateViews;
+}
+
+export function updatePlotAxisId(stateViews, action) {
+  const currentView = stateViews[action.payload.viewId];
+  if (currentView.type !== 'PlotView') {
+    return stateViews;
+  }
+  const newValue = action.payload.entryPoint;
+  let newState = stateViews;
+  // axis Id
+  if (!newValue.connectedDataX.axisId) {
+    let axisId = getAxisId(newValue.name, newValue.connectedDataX, currentView);
+    if (!axisId) {
+      const axis = createAxis(newValue.name, newValue.connectedDataX.unit);
+      newState = addNewAxis(newState, action.payload.viewId, axis);
+      axisId = axis.uuid;
+    }
+    newValue.connectedDataX.axisId = axisId; // eslint-disable-line no-param-reassign
+  }
+  if (!newValue.connectedDataY.axisId) {
+    let axisId = getAxisId(newValue.name, newValue.connectedDataY, currentView);
+    if (!axisId) {
+      const axis = createAxis(newValue.name, newValue.connectedDataY.unit);
+      newState = addNewAxis(newState, action.payload.viewId, axis);
+      axisId = axis.uuid;
+    }
+    newValue.connectedDataY.axisId = axisId; // eslint-disable-line no-param-reassign
+  }
+
+  return newState;
+}
+
+export function addNewAxis(state, viewId, axis) {
+  if (axis) {
+    const val = { [axis.uuid]: axis };
+    return u({ [viewId]: {
+      configuration: {
+        axes: val,
+      } } }, state);
+  }
+  return state;
+}
+
+export function getAxisId(epName, connectedData, currentView) {
+  if (connectedData.axisId) {
+    return connectedData.axisId;
+  }
+  // Choose the axis with the right unit
+  const index = _find(currentView.configuration.axes,
+                      current => current.unit === connectedData.unit);
+  if (index) {
+    return index.uuid;
+  }
 }

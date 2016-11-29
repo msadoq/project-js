@@ -1,12 +1,36 @@
+/*!*******************************************************************
+ * Project : ISIS
+ * Component : TODO declare component
+ * \file views.spec.js
+ * \author isis
+ * \date 28/11/2016
+ * \brief TODO brief description
+ *
+ * TODO complete description
+ ********************************************************************/
+
+/********************************************************************
+ * HISTORY
+ *
+ * END-HISTORY
+ ********************************************************************/
+
+
+
 /* eslint no-unused-expressions: 0 */
+import _find from 'lodash/find';
 import * as actions from '../actions/views';
 import reducer, {
   updateObject,
   updateArray,
   addElementInArray,
-  removeElementInArray
+  removeElementInArray,
+  addNewAxis,
+  getAxisId,
+  updatePlotAxisId,
+  addEntryPoint,
 } from './views';
-import { freezeMe } from '../../common/test';
+import { freezeMe, should } from '../../common/test';
 
 describe('store:views:reducer', () => {
   it('initial state', () => {
@@ -219,7 +243,9 @@ describe('store:views:reducer', () => {
           width: 50
         },
         entryPoints: [{ name: 'ATT_BC_REVTCOUNT4' }],
-        axes: { axis1: { label: '1' }, axis2: { label: '2' } },
+        axes: {
+          axis1: { label: '1', unit: 's', uuid: 'axis1' },
+          axis2: { label: '2', unit: 'w', uuid: 'axis2' } },
         grids: [{ grid: '1' }, { grid: '2' }],
         title: 'Plotview 4 parameters',
         titleStyle: { bold: false },
@@ -235,6 +261,12 @@ describe('store:views:reducer', () => {
       configuration: {
         type: 'TextView',
         content: 'old content',
+        entryPoints: [
+          {
+            name: 'ep1',
+            connectedData: {}
+          }
+        ]
       }
     }
   };
@@ -245,9 +277,11 @@ describe('store:views:reducer', () => {
         name: 'new EP',
         connectedDataX: { formula: 'cdx' },
         connectedDataY: { formula: 'cdY' },
-        lineStyle: 'Continuous',
-        pointsStyle: 'None',
-        curveColour: '#DF013A',
+        objectStyle: {
+          line: { style: 'Continuous', size: 4 },
+          points: { style: 'None', size: 5 },
+          curveColour: '#DF013A',
+        },
         stateColours: [],
       };
       const state = reducer(stateViews, actions.updateEntryPoint('plot1', 0, newEp));
@@ -327,12 +361,6 @@ describe('store:views:reducer', () => {
           },
         }
       });
-    });
-    it('entry point', () => {
-      const ep = { name: 'new ep' };
-      const state = reducer(stateViews, actions.addEntryPoint('plot1', ep));
-      state.plot1.configuration.entryPoints.should.deep.equal(
-        [{ name: 'ATT_BC_REVTCOUNT4' }, { name: 'new ep' }]);
     });
     it('grid', () => {
       const grid = { grid: '3' };
@@ -432,21 +460,146 @@ describe('store:views:reducer', () => {
   describe('axis', () => {
     it('remove axis', () => {
       const state = reducer(stateViews, actions.removeAxis('plot1', 'axis2'));
-      state.plot1.configuration.axes.should.deep.equal({ axis1: { label: '1' } });
+      state.plot1.configuration.axes.should.deep.equal(
+        { axis1: { label: '1', unit: 's', uuid: 'axis1' } });
     });
     it('add axis', () => {
-      const axis = { label: '3' };
+      const axis = { label: '3', unit: 's' };
       const state = reducer(stateViews, actions.addAxis('plot1', axis));
       const keys = Object.keys(state.plot1.configuration.axes);
       keys.should.have.length(3);
-      state.plot1.configuration.axes[keys[0]].should.deep.equal({ label: '1' });
-      state.plot1.configuration.axes[keys[1]].should.deep.equal({ label: '2' });
-      state.plot1.configuration.axes[keys[2]].should.deep.equal({ label: '3' });
+      state.plot1.configuration.axes[keys[0]].should.deep.equal({ label: '1', unit: 's', uuid: 'axis1' });
+      state.plot1.configuration.axes[keys[1]].should.deep.equal({ label: '2', unit: 'w', uuid: 'axis2' });
+      state.plot1.configuration.axes[keys[2]].should.deep.equal({ label: '3', unit: 's', uuid: keys[2] });
     });
     it('update axis', () => {
-      const axis = { label: '3' };
+      const axis = { label: '3', unit: 'z' };
       const state = reducer(stateViews, actions.updateAxis('plot1', 'axis1', axis));
-      state.plot1.configuration.axes.axis1.should.deep.equal(axis);
+      state.plot1.configuration.axes.axis1.should.deep.equal(Object.assign({}, axis, { uuid: 'axis1' }));
+    });
+  });
+  describe('add entry point', () => {
+    it('addNewAxis: valid axis', () => {
+      const state = { plot1: { configuration: { axes: { a1: { label: 'axis1', unit: 's' } } } } };
+      const newState = addNewAxis(state, 'plot1', { label: 'axis2', unit: 'v', uuid: 'a2' });
+      Object.keys(newState.plot1.configuration.axes).should.have.length(2);
+      newState.should.not.equal(state);
+    });
+    it('addNewAxis: invalid axis', () => {
+      const state = { plot1: { configuration: { axes: { a1: { label: 'axis1', unit: 's' } } } } };
+      addNewAxis(state, 'plot1', undefined).should.equal(state);
+    });
+    it('getAxisId: valid id', () => {
+      const connectedData = { axisId: 'axis2' };
+      getAxisId('epName', connectedData, stateViews.plot1).should.equal('axis2');
+    });
+    it('getAxisId by unit', () => {
+      const connectedData = { unit: 's' };
+      getAxisId('epName', connectedData, stateViews.plot1).should.equal('axis1');
+    });
+    it('getAxisId: unknown unit', () => {
+      const connectedData = { unit: 'a' };
+      const index = getAxisId('epName', connectedData, stateViews.plot1);
+      should.not.exist(index);
+    });
+    it('updatePlotAxisId: nothing to do', () => {
+      const newValue = { connectedDataX: { axisId: 'axis1' }, connectedDataY: { axisId: 'axis2' } };
+      const action = { payload: { entryPoint: newValue, viewId: 'plot1' } };
+      updatePlotAxisId(stateViews, action).should.equal(stateViews);
+    });
+    it('updatePlotAxisId: invalid view type', () => {
+      const newValue = { connectedDataX: { axisId: 'axis1' }, connectedDataY: { axisId: 'axis2' } };
+      const action = { payload: { entryPoint: newValue, viewId: 'text1' } };
+      updatePlotAxisId(stateViews, action).should.equal(stateViews);
+    });
+    it('updatePlotAxisId: no axisId on x', () => {
+      const newValue = {
+        connectedDataX: { unit: 's' },
+        connectedDataY: { axisId: 'axis2' } };
+      const action = { payload: { entryPoint: newValue, viewId: 'plot1' } };
+      const newState = updatePlotAxisId(stateViews, action);
+      newValue.connectedDataX.axisId.should.equal('axis1');
+      newState.should.equal(stateViews);
+    });
+    it('updatePlotAxisId: no axisId on y', () => {
+      const newValue = {
+        connectedDataX: { axisId: 'axis2' },
+        connectedDataY: { unit: 's' } };
+      const action = { payload: { entryPoint: newValue, viewId: 'plot1' } };
+      const newState = updatePlotAxisId(stateViews, action);
+      newValue.connectedDataY.axisId.should.equal('axis1');
+      newState.should.equal(stateViews);
+    });
+    it('updatePlotAxisId: unknown unit', () => {
+      const newValue = { name: 'ep1',
+        connectedDataX: { unit: 'f' },
+        connectedDataY: { unit: 'g' } };
+      const action = { payload: { entryPoint: newValue, viewId: 'plot1' } };
+      const newState = updatePlotAxisId(stateViews, action);
+      Object.keys(newState.plot1.configuration.axes).should.have.length(4);
+      newState.plot1.configuration.axes.axis1.should.equal(
+        stateViews.plot1.configuration.axes.axis1);
+      newState.plot1.configuration.axes.axis2.should.equal(
+        stateViews.plot1.configuration.axes.axis2);
+      newState.plot1.configuration.axes[newValue.connectedDataX.axisId].unit.should.equal('f');
+      newState.plot1.configuration.axes[newValue.connectedDataY.axisId].unit.should.equal('g');
+      newState.plot1.configuration.axes[newValue.connectedDataX.axisId].label.should.equal('ep1');
+      newState.plot1.configuration.axes[newValue.connectedDataY.axisId].label.should.equal('ep1');
+    });
+    it('addEntryPoint: invalid viewId', () => {
+      const action = { payload: {
+        viewId: 'plot2',
+        entryPoint: {}
+      } };
+      addEntryPoint(stateViews, action).should.equal(stateViews);
+    });
+    it('addEntryPoint: text view', () => {
+      const action = { payload: {
+        viewId: 'text1',
+        entryPoint: { name: 'ep2', connectedData: {} }
+      } };
+      const state = addEntryPoint(stateViews, action);
+      state.text1.configuration.entryPoints[1].should.deep.equal(
+        { name: 'ep2', connectedData: { timeline: '*', domain: '*' } });
+    });
+    it('addEntryPoint: text view', () => {
+      const action = { payload: {
+        viewId: 'text1',
+        entryPoint: { name: 'ep2', connectedData: { timeline: 't1', domain: 'd1' } }
+      } };
+      const state = addEntryPoint(stateViews, action);
+      state.text1.configuration.entryPoints[1].should.deep.equal(
+        { name: 'ep2', connectedData: { timeline: 't1', domain: 'd1' } });
+    });
+    it('addEntryPoint: plot view', () => {
+      const action = { payload: {
+        viewId: 'plot1',
+        entryPoint: {
+          name: 'ep2',
+          connectedDataX: { timeline: 't1', domain: 'd1', unit: 's', axisId: 'axis1' },
+          connectedDataY: { timeline: 't2', domain: 'd2', unit: 'w' } }
+      } };
+      const state = addEntryPoint(stateViews, action);
+      state.plot1.configuration.entryPoints[1].should.deep.equal({
+        name: 'ep2',
+        connectedDataX: { timeline: 't1', domain: 'd1', unit: 's', axisId: 'axis1' },
+        connectedDataY: { timeline: 't2', domain: 'd2', unit: 'w', axisId: 'axis2' } });
+    });
+    it('addEntryPoint: plot view', () => {
+      const action = { payload: {
+        viewId: 'plot1',
+        entryPoint: {
+          name: 'ep2',
+          connectedDataX: { timeline: 't1', domain: 'd1', unit: 'f' },
+          connectedDataY: { domain: 'd2', unit: 'w' } }
+      } };
+      const state = addEntryPoint(stateViews, action);
+      const axisId = _find(state.plot1.configuration.axes, axis => axis.unit === 'f').uuid;
+      state.plot1.configuration.entryPoints[1].should.deep.equal({
+        name: 'ep2',
+        connectedDataX: { timeline: 't1', domain: 'd1', unit: 'f', axisId },
+        connectedDataY: { timeline: '*', domain: 'd2', unit: 'w', axisId: 'axis2' } });
+      state.plot1.configuration.axes[axisId].label.should.equal('ep2');
     });
   });
 });

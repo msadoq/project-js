@@ -4,7 +4,8 @@ import TimebarFixture from '../../../../test/__mocks__/Timebar';
 import Timesetter from '../Timesetter';
 
 const propsStub = {
-  ...TimebarFixture,
+  visuWindow: TimebarFixture.visuWindow,
+  slideWindow: TimebarFixture.slideWindow,
   timebarId: TimebarFixture.timebarId,
   timebarMode: TimebarFixture.mode,
   updateCursors: () => null,

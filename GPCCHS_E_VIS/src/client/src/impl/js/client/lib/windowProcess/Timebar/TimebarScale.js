@@ -60,27 +60,20 @@ export default class TimebarScale extends PureComponent {
     });
   }
 
-  getRules(viewportMs, zl) {
-    const { viewportLower, viewportUpper } = this.props;
-    const start = moment(viewportLower);
+  getRules(viewportMs, levelRule) {
+    const start = moment(this.props.viewportLower);
     const output = [];
-    const levelRule = levelsRules[zl];
 
+    // security left margin (rule is begginning a few steps before viewport.lower)
     start.subtract(levelRule.add[0] * 3, levelRule.add[1]).startOf(levelRule.startOf);
     for (let i = 0; i < 50; i += 1) {
-      let ts;
-      if (zl > 19) {
-        ts = start.add(levelRule.add[0], levelRule.add[1]).toDate().getTime() + levelRule.add[0];
-      } else {
-        ts = start.add(levelRule.add[0], levelRule.add[1]).unix() * 1000;
-      }
-
-      output.push([
-        ts,
-        start.format(levelRule.format),
-        (100 * (ts - viewportLower)) / (viewportUpper - viewportLower),
-      ]);
+      const ts = start.add(levelRule.add[0], levelRule.add[1]).toDate().getTime();
+      output.push({
+        ms: ts,
+        formatted: start.format(levelRule.format),
+      });
     }
+
     return output;
   }
 
@@ -96,26 +89,48 @@ export default class TimebarScale extends PureComponent {
 
   render() {
     const viewportMs = this.props.viewportUpper - this.props.viewportLower;
-    const scales = this.getRules(viewportMs, getZoomLevel(viewportMs));
+    const zoomLevel = getZoomLevel(viewportMs);
+    const start = moment(this.props.viewportLower);
+    const levelRule = levelsRules[zoomLevel];
+
+    // security left margin (rule is begginning a few steps before viewport.lower)
+    start.subtract(levelRule.add[0] * 3, levelRule.add[1]).startOf(levelRule.startOf);
+
+    const scales = this.getRules(viewportMs, levelRule);
+
+    // First scale defines the offset left of the containing dif
+    const startMs = scales[0].ms;
+    const startPercent = (100 * (startMs - this.props.viewportLower)) /
+      (this.props.viewportUpper - this.props.viewportLower);
+
+    // Offset between each scale
+    const percentBetweenScales = (100 *
+      moment.duration(levelRule.add[0], levelRule.add[1]).asMilliseconds()) /
+      (this.props.viewportUpper - this.props.viewportLower);
 
     return (
       <div
-        className={styles.timebarRule}
-        onMouseDown={this.onMouseDown}
-        ref={(el) => { this.el = el; }}
+        className={styles.timebarRuleContainer}
       >
-        {
-          scales.map((s, i) =>
-            <div
-              key={i}
-              className={styles.scaleBar}
-              style={{ left: `${s[2]}%` }}
-            >
-              <span className={styles.scaleTime}>{s[1]}</span>
-              <span className={styles.scaleBar} />
-            </div>
-          )
-        }
+        <div
+          onMouseDown={this.onMouseDown}
+          className={styles.timebarRule}
+          ref={(el) => { this.el = el; }}
+          style={{ left: `${startPercent}%` }}
+        >
+          {
+            scales.map((s, i) =>
+              <div
+                key={i}
+                className={styles.scaleBar}
+                style={{ left: `${percentBetweenScales * i}%` }}
+              >
+                <span className={styles.scaleTime}>{s.formatted}</span>
+                <span className={styles.scaleBar} />
+              </div>
+            )
+          }
+        </div>
       </div>
     );
   }
@@ -125,7 +140,6 @@ function getZoomLevel(viewportMs) {
   const zoomLevels = levelsRules.map(d => d.duration);
   let zoomLevel = zoomLevels.findIndex(v => viewportMs >= v);
   if (zoomLevel === -1) zoomLevel = zoomLevels.length - 1;
-
   return zoomLevel;
 }
 

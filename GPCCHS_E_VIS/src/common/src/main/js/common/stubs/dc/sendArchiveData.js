@@ -3,9 +3,8 @@ const _each = require('lodash/each');
 const _get = require('lodash/get');
 const _chunk = require('lodash/chunk');
 const _last = require('lodash/last');
-const debug = require('debug');
 
-const logger = require('../../debug')(debug)('common:stubs:dc');
+const logger = require('../../log')('GPCCHS:STUBS:DC');
 
 const globalConstants = require('../../constants');
 const stubData = require('../data');

@@ -3,9 +3,7 @@ const _some = require('lodash/some');
 // eslint-disable-next-line no-underscore-dangle
 const _isArray = require('lodash/isArray');
 
-const debug = require('debug');
-const logger = require('../debug')(debug)('common:intervals');
-
+const logger = require('../log')('GPCCHS:common:intervals');
 
 const includesTimestamp = (interval, timestamp) =>
   (timestamp >= interval[0] && timestamp <= interval[1]);

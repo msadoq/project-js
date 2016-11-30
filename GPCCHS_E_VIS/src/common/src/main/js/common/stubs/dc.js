@@ -1,10 +1,9 @@
-const debug = require('debug');
 // eslint-disable-next-line no-underscore-dangle
 const _each = require('lodash/each');
 // eslint-disable-next-line no-underscore-dangle
 const _omit = require('lodash/omit');
 
-const logger = require('../debug')(debug)('common:stubs:dc');
+const logger = require('../log')('GPCCHS:STUBS:DC');
 
 const zmq = require('../zmq');
 const globalConstants = require('../constants');

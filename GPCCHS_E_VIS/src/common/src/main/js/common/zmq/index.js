@@ -4,10 +4,8 @@ const _each = require('lodash/each');
 const _isFunction = require('lodash/isFunction');
 const async = require('async');
 const zmq = require('zmq');
-const debug = require('debug');
 
-const logger = require('../debug')(debug)('common:zmq');
-
+const logger = require('../log')('GPCCHS:common:zmq');
 
 const lifeCycleEvents = [
   'connect',

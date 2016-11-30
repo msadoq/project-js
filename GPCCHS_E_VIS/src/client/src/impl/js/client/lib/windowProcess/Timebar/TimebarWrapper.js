@@ -148,7 +148,8 @@ export default class TimebarWrapper extends Component {
         style={{
           flex: '0 0 auto',
           height: `${timebarHeight || 135}px`,
-          backgroundColor: '#F1F1F1'
+          backgroundColor: '#F1F1F1',
+          zIndex: '2',
         }}
       >
         {timesetter}

@@ -108,12 +108,12 @@
     }
   }
   &.handleCurrent{
-    top: 22px;
+    top: 20px;
     background: var(--currentCursorColor);
     transform: translateX(-40%);
   }
   &.handleSlideLower, &.handleSlideUpper{
-    top: 34px;
+    top: 36px;
     background: var(--slideCursorColor);
     transform: translateX(-25%);
   }

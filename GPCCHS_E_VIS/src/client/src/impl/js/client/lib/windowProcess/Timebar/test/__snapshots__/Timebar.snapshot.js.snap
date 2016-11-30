@@ -145,10 +145,10 @@ exports[`test Timebar renders correctly 1`] = `
     </div>
   </div>
   <div
-    className="TimebarScale__timebarRuleContainer___3SHix">
+    className="TimebarScale__timebarRuleContainer___3SHix"
+    onMouseDown={[Function]}>
     <div
       className="TimebarScale__timebarRule___Nexmx"
-      onMouseDown={[Function]}
       style={
         Object {
           "left": "-36.86612196723492%",

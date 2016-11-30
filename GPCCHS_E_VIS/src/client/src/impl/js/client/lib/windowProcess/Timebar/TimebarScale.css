@@ -4,12 +4,13 @@
   height: 20px;
   border: 1px solid #aaa;
   border-top: none;
+  cursor: col-resize;
 }
 .timebarRule{
   position: relative;
   border-top: none;
   height: 20px;
-  cursor: col-resize;
+
 }
 .scale{
   position: absolute;

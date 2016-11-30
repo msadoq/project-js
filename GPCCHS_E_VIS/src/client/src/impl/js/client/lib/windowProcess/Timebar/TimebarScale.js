@@ -111,9 +111,9 @@ export default class TimebarScale extends PureComponent {
     return (
       <div
         className={styles.timebarRuleContainer}
+        onMouseDown={this.onMouseDown}
       >
         <div
-          onMouseDown={this.onMouseDown}
           className={styles.timebarRule}
           ref={(el) => { this.el = el; }}
           style={{ left: `${startPercent}%` }}

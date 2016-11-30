@@ -2,6 +2,7 @@ import moment from 'moment';
 import { debounce } from 'lodash';
 import classnames from 'classnames';
 import React, { Component, PropTypes } from 'react';
+import globalConstants from 'common/constants';
 import styles from './Timebar.css';
 import TimebarScale from './TimebarScale';
 import TimebarTimeline from './TimebarTimeline';
@@ -10,8 +11,6 @@ import TimebarTimeline from './TimebarTimeline';
 const minViewportLower = 315532800000;
 // 2040-01-01
 const maxViewportUpper = 2208988800000;
-// max visuWindow length (ms)
-const maxVisuWindowWidth = 1000 * 60 * 60 * 2;
 
 // Shortcut keyboard : html keycodes (event.keyCode)
 const keys = {
@@ -355,8 +354,8 @@ export default class Timebar extends Component {
       if (resizeCursor === 'lower') {
         let newSlideLower = slideLower;
         // Max length
-        if (upper - cursorPosMs > maxVisuWindowWidth) {
-          cursorPosMs = upper - maxVisuWindowWidth;
+        if (upper - cursorPosMs > globalConstants.HSC_VISUWINDOW_MAX_LENGTH) {
+          cursorPosMs = upper - globalConstants.HSC_VISUWINDOW_MAX_LENGTH;
         }
         if (cursorPosMs > current) cursorPosMs = current;
         if (cursorPosMs < viewportLower) cursorPosMs = viewportLower;
@@ -372,8 +371,8 @@ export default class Timebar extends Component {
       } else if (resizeCursor === 'upper') {
         let newSlideUpper = slideUpper;
         // Max length
-        if (cursorPosMs - lower > maxVisuWindowWidth) {
-          cursorPosMs = lower + maxVisuWindowWidth;
+        if (cursorPosMs - lower > globalConstants.HSC_VISUWINDOW_MAX_LENGTH) {
+          cursorPosMs = lower + globalConstants.HSC_VISUWINDOW_MAX_LENGTH;
         }
         if (cursorPosMs < current) cursorPosMs = current;
         if (cursorPosMs > viewportUpper) cursorPosMs = viewportUpper;
@@ -394,8 +393,8 @@ export default class Timebar extends Component {
       // slideWindow.upper cursor
       } else if (resizeCursor === 'slideUpper') {
         // Max length
-        if (cursorPosMs - lower > maxVisuWindowWidth) {
-          cursorPosMs = lower + maxVisuWindowWidth;
+        if (cursorPosMs - lower > globalConstants.HSC_VISUWINDOW_MAX_LENGTH) {
+          cursorPosMs = lower + globalConstants.HSC_VISUWINDOW_MAX_LENGTH;
         }
         if (timebarMode === 'Extensible' && cursorPosMs < upper) cursorPosMs = upper;
         if (timebarMode === 'Fixed' && cursorPosMs > upper) cursorPosMs = upper;
@@ -494,7 +493,7 @@ export default class Timebar extends Component {
       slideLower += coeff * ((cursorMs - slideLower) / 5);
       slideUpper += coeff * ((cursorMs - slideUpper) / 5);
 
-      if (upper - lower > maxVisuWindowWidth) {
+      if (upper - lower > globalConstants.HSC_VISUWINDOW_MAX_LENGTH) {
         return;
       }
 
@@ -897,6 +896,22 @@ export default class Timebar extends Component {
     const upperPercent = lowerPercent + calc.selectedPercentWidth;
     const currentPercent = lowerPercent + ((upperPercent - lowerPercent) *
       (calc.currentPercentOffset * 0.01));
+
+
+    /*
+      Determinate for each cursor if we display a handle to help
+      the user
+    */
+    const lowerCurrentClose = (currentPercent - lowerPercent) * (widthPx * 0.01) < 20;
+    const upperCurrentClose = (upperPercent - currentPercent) * (widthPx * 0.01) < 20;
+    const slideUpperUpperClose = Math.abs((upperPercent - calc.slideUpperPercentOffset)
+      * (widthPx * 0.01)) < 20 && timebarMode !== 'Normal';
+    const slideUpperCurrentClose = (calc.slideUpperPercentOffset - currentPercent)
+      * (widthPx * 0.01) < 20;
+    const slideLowerCurrentClose = (currentPercent - calc.slideLowerPercentOffset)
+      * (widthPx * 0.01) < 20 && timebarMode === 'Fixed';
+    const slideLowerLowerClose = (calc.slideLowerPercentOffset - lowerPercent)
+      * (widthPx * 0.01) < 20 && timebarMode === 'Fixed';
     const moveLower = (currentPercent - lowerPercent) * (widthPx * 0.01) < 70;
     const moveUpper = (upperPercent - currentPercent) * (widthPx * 0.01) < 70;
 
@@ -948,16 +963,51 @@ export default class Timebar extends Component {
               onMouseDown={this.onMouseDownResize}
               onDoubleClick={displayTimesetter}
             />
+            {/* Circle handle for lower cursor */}
+            <span
+              cursor="lower"
+              className={classnames(
+                styles.handle,
+                styles.handleLower,
+                { [styles.undisplayed]: !lowerCurrentClose && !slideLowerLowerClose }
+              )}
+              onMouseDown={this.onMouseDownResize}
+              onDoubleClick={displayTimesetter}
+            />
             <span
               cursor="current"
               className={styles.current}
-              onMouseDown={this.onMouseDownNavigate}
               style={{ left: `${calc.currentPercentOffset}%` }}
+              onMouseDown={this.onMouseDownNavigate}
+              onDoubleClick={displayTimesetter}
+            />
+            {/* Circle handle for current cursor */}
+            <span
+              cursor="current"
+              className={classnames(
+                styles.handle,
+                styles.handleCurrent,
+                { [styles.undisplayed]: !lowerCurrentClose && !upperCurrentClose &&
+                  !slideUpperCurrentClose && !slideLowerCurrentClose }
+              )}
+              style={{ left: `${calc.currentPercentOffset}%` }}
+              onMouseDown={this.onMouseDownNavigate}
               onDoubleClick={displayTimesetter}
             />
             <span
               cursor="upper"
               className={styles.upper}
+              onMouseDown={this.onMouseDownResize}
+              onDoubleClick={displayTimesetter}
+            />
+            {/* Circle handle for upper cursor */}
+            <span
+              cursor="upper"
+              className={classnames(
+                styles.handle,
+                styles.handleUpper,
+                { [styles.undisplayed]: !upperCurrentClose && !slideUpperUpperClose }
+              )}
               onMouseDown={this.onMouseDownResize}
               onDoubleClick={displayTimesetter}
             />
@@ -1008,7 +1058,21 @@ export default class Timebar extends Component {
             style={{
               left: `${calc.slideLowerPercentOffset}%`
             }}
-            className={classnames(styles.extBound, { hidden: timebarMode !== 'Fixed' })}
+            className={classnames(styles.slide, { hidden: timebarMode !== 'Fixed' })}
+            onMouseDown={this.onMouseDownResize}
+            onDoubleClick={displayTimesetter}
+          />
+          {/* Circle handle for slideLower cursor */}
+          <span
+            cursor="slideLower"
+            className={classnames(
+              styles.handle,
+              styles.handleSlideLower,
+              { [styles.undisplayed]: !slideLowerLowerClose && !slideLowerCurrentClose }
+            )}
+            style={{
+              left: `${calc.slideLowerPercentOffset}%`
+            }}
             onMouseDown={this.onMouseDownResize}
             onDoubleClick={displayTimesetter}
           />
@@ -1018,7 +1082,21 @@ export default class Timebar extends Component {
             style={{
               left: `${calc.slideUpperPercentOffset}%`
             }}
-            className={classnames(styles.extBound, { hidden: timebarMode === 'Normal' })}
+            className={classnames(styles.slide, { hidden: timebarMode === 'Normal' })}
+            onMouseDown={this.onMouseDownResize}
+            onDoubleClick={displayTimesetter}
+          />
+          {/* Circle handle for slideUpper cursor */}
+          <span
+            cursor="slideUpper"
+            className={classnames(
+              styles.handle,
+              styles.handleSlideUpper,
+              { [styles.undisplayed]: !slideUpperUpperClose && !slideUpperCurrentClose }
+            )}
+            style={{
+              left: `${calc.slideUpperPercentOffset}%`
+            }}
             onMouseDown={this.onMouseDownResize}
             onDoubleClick={displayTimesetter}
           />

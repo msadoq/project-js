@@ -1,11 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
+import globalConstants from 'common/constants';
 import styles from './TimebarControls.css';
 
 const currentUpperMargin = 1 / 100;
-
-// max visuWindow length (ms)
-const maxVisuWindowWidth = 1000 * 60 * 60 * 2;
 
 export default class TimebarControlsRight extends Component {
 
@@ -63,8 +61,8 @@ export default class TimebarControlsRight extends Component {
     } else {
       if (mode === 'Extensible' && slideWindow.upper < upper) {
         let newSlideUpper = upper + ((upper - lower) / 4);
-        if (newSlideUpper - lower > maxVisuWindowWidth) {
-          newSlideUpper = lower + maxVisuWindowWidth;
+        if (newSlideUpper - lower > globalConstants.HSC_VISUWINDOW_MAX_LENGTH) {
+          newSlideUpper = lower + globalConstants.HSC_VISUWINDOW_MAX_LENGTH;
         }
         updateCursors(
           timebarId,

@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import React, { Component, PropTypes } from 'react';
-import { FormGroup, Form, Button } from 'react-bootstrap';
+import { FormGroup, Form } from 'react-bootstrap';
 import styles from './Lefttab.css';
 import ColorPicker from '../Editor/Components/ColorPicker';
 
@@ -113,14 +113,17 @@ export default class AddTrack extends Component {
             className={classnames(styles.addTrackButton, 'btn-md', 'btn-primary')}
           />
         </FormGroup>
-        <Button
-          bsSize="small"
-          className={styles.hideAddTimelineButton}
+        <button
+          className={classnames(
+            'btn-sm',
+            'btn',
+            'btn-danger',
+            'btn-close'
+          )}
           onClick={toggleAddTimeline}
-          bsStyle="default"
         >
-          -
-        </Button>
+          x
+        </button>
       </Form>
     );
   }

@@ -8,7 +8,7 @@ const propsStub = {
   timebarId: TimebarFixture.timebarId,
   timebarMode: TimebarFixture.mode,
   updateCursors: () => null,
-  onClose: () => null,
+  toggleTimesetter: () => null,
   cursor: 'lower',
 };
 

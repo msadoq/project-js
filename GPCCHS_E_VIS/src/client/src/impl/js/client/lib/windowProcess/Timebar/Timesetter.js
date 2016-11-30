@@ -7,7 +7,7 @@ export default class Timesetter extends Component {
 
   static propTypes = {
     updateCursors: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired,
+    toggleTimesetter: PropTypes.func.isRequired,
     visuWindow: PropTypes.object.isRequired,
     slideWindow: PropTypes.object.isRequired,
     timebarMode: PropTypes.string.isRequired,
@@ -28,7 +28,7 @@ export default class Timesetter extends Component {
   }
 
   onKeyUp = (e) => {
-    if (e.keyCode === 27) this.props.onClose();
+    if (e.keyCode === 27) this.props.toggleTimesetter();
   }
 
   onChangeAction = (visuWindow, slideWindow, cursor) => {
@@ -86,7 +86,7 @@ export default class Timesetter extends Component {
   }
 
   render() {
-    const { visuWindow, cursor, onClose, slideWindow } = this.props;
+    const { visuWindow, cursor, toggleTimesetter, slideWindow } = this.props;
     const { errorMessages } = this.state;
 
     return (
@@ -102,9 +102,9 @@ export default class Timesetter extends Component {
             'btn-sm',
             'btn',
             'btn-danger',
-            styles.buttonClose
+            'btn-close',
           )}
-          onClick={onClose}
+          onClick={toggleTimesetter}
         >
           x
         </button>

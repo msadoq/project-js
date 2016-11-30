@@ -1,6 +1,6 @@
 exports[`test TimesetterFields renders correctly 1`] = `
 <div
-  className="Timesetter__fieldsContainer___24Fbf col-xs-12">
+  className="Timesetter__fieldsContainer___24Fbf">
   <div
     className="text-capitalize Timesetter__formLabel___2eZoL Timesetter__formLabellower___1lP9u"
     style={

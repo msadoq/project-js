@@ -24,7 +24,7 @@ export default class EditTrack extends Component {
 
   componentDidMount() {
     this.updateFields();
-    document.addEventListener('keyup', this.hideAddTimeline);
+    document.addEventListener('keyup', this.willHideEditTimeline);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -36,7 +36,7 @@ export default class EditTrack extends Component {
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keyup', this.hideAddTimeline);
+    document.removeEventListener('keyup', this.willHideEditTimeline);
   }
 
   updateFields = () => {
@@ -54,10 +54,14 @@ export default class EditTrack extends Component {
     });
   }
 
-  hideAddTimeline = (e) => {
-    e.preventDefault();
-    // Hit escape
+  willHideEditTimeline = (e) => {
+    // escape
     if (e && e.keyCode && e.keyCode === 27) {
+      e.preventDefault();
+      this.props.hideEditTimeline();
+    // button click
+    } else if (e) {
+      e.preventDefault();
       this.props.hideEditTimeline();
     }
   }
@@ -143,6 +147,17 @@ export default class EditTrack extends Component {
             className={classnames(styles.addTrackButton, 'btn-md', 'btn-primary')}
           />
         </FormGroup>
+        <button
+          className={classnames(
+            'btn-sm',
+            'btn',
+            'btn-danger',
+            'btn-close'
+          )}
+          onClick={this.willHideEditTimeline}
+        >
+          x
+        </button>
       </form>
     );
   }

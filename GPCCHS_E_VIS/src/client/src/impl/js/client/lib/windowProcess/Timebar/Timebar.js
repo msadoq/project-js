@@ -907,7 +907,7 @@ export default class Timebar extends Component {
     const slideUpperUpperClose = Math.abs((upperPercent - calc.slideUpperPercentOffset)
       * (widthPx * 0.01)) < 20 && timebarMode !== 'Normal';
     const slideUpperCurrentClose = (calc.slideUpperPercentOffset - currentPercent)
-      * (widthPx * 0.01) < 20;
+      * (widthPx * 0.01) < 20 && timebarMode !== 'Normal';
     const slideLowerCurrentClose = (currentPercent - calc.slideLowerPercentOffset)
       * (widthPx * 0.01) < 20 && timebarMode === 'Fixed';
     const slideLowerLowerClose = (calc.slideLowerPercentOffset - lowerPercent)

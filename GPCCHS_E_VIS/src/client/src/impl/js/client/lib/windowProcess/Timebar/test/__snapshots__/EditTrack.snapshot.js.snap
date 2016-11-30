@@ -78,5 +78,10 @@ exports[`test EditTrack renders correctly 1`] = `
       type="submit"
       value="Edit track" />
   </div>
+  <button
+    className="btn-sm btn btn-danger btn-close"
+    onClick={[Function]}>
+    x
+  </button>
 </form>
 `;

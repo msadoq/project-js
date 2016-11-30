@@ -21,6 +21,11 @@ exports[`test Timebar renders correctly 1`] = `
         onDoubleClick={[Function]}
         onMouseDown={[Function]} />
       <span
+        className="Timebar__handle___3vSP_ Timebar__handleLower___2mdzy Timebar__undisplayed___19V6v"
+        cursor="lower"
+        onDoubleClick={[Function]}
+        onMouseDown={[Function]} />
+      <span
         className="Timebar__current___2dnsd"
         cursor="current"
         onDoubleClick={[Function]}
@@ -31,7 +36,22 @@ exports[`test Timebar renders correctly 1`] = `
           }
         } />
       <span
+        className="Timebar__handle___3vSP_ Timebar__handleCurrent___3Me05 Timebar__undisplayed___19V6v"
+        cursor="current"
+        onDoubleClick={[Function]}
+        onMouseDown={[Function]}
+        style={
+          Object {
+            "left": "44.90186940085962%",
+          }
+        } />
+      <span
         className="Timebar__upper___3yNvr"
+        cursor="upper"
+        onDoubleClick={[Function]}
+        onMouseDown={[Function]} />
+      <span
+        className="Timebar__handle___3vSP_ Timebar__handleUpper___onVIW Timebar__undisplayed___19V6v"
         cursor="upper"
         onDoubleClick={[Function]}
         onMouseDown={[Function]} />
@@ -54,7 +74,7 @@ exports[`test Timebar renders correctly 1`] = `
       </span>
     </div>
     <span
-      className="Timebar__extBound___252Qs hidden"
+      className="Timebar__slide___3CAuZ hidden"
       cursor="slideLower"
       onDoubleClick={[Function]}
       onMouseDown={[Function]}
@@ -65,7 +85,17 @@ exports[`test Timebar renders correctly 1`] = `
       }
       title="Ext lower cursor" />
     <span
-      className="Timebar__extBound___252Qs hidden"
+      className="Timebar__handle___3vSP_ Timebar__handleSlideLower___2aCq6 Timebar__undisplayed___19V6v"
+      cursor="slideLower"
+      onDoubleClick={[Function]}
+      onMouseDown={[Function]}
+      style={
+        Object {
+          "left": "4.009608431481743%",
+        }
+      } />
+    <span
+      className="Timebar__slide___3CAuZ hidden"
       cursor="slideUpper"
       onDoubleClick={[Function]}
       onMouseDown={[Function]}
@@ -75,6 +105,16 @@ exports[`test Timebar renders correctly 1`] = `
         }
       }
       title="Ext upper cursor" />
+    <span
+      className="Timebar__handle___3vSP_ Timebar__handleSlideUpper___2OYG8 Timebar__undisplayed___19V6v"
+      cursor="slideUpper"
+      onDoubleClick={[Function]}
+      onMouseDown={[Function]}
+      style={
+        Object {
+          "left": "20.894182576821738%",
+        }
+      } />
     <div
       className="Timebar__timelines___3m3ZW"
       onScroll={[Function]}>

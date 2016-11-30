@@ -32,3 +32,10 @@
     border: 1px solid #337ab7;
   }
 }
+.btn-close{
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 2;
+  font-weight: 600;
+}

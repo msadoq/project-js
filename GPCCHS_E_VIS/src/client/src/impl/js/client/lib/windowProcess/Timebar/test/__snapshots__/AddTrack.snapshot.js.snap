@@ -122,11 +122,9 @@ exports[`test AddTrack renders correctly 1`] = `
       value="Add track" />
   </div>
   <button
-    className="Lefttab__hideAddTimelineButton___374Dn btn btn-sm btn-default"
-    disabled={false}
-    onClick={[Function]}
-    type="button">
-    -
+    className="btn-sm btn btn-danger btn-close"
+    onClick={[Function]}>
+    x
   </button>
 </form>
 `;

@@ -76,10 +76,6 @@
 .formGroup{
   margin-bottom: 4px;
 }
-
-.hideAddTimelineButton{
-  padding: 2px 10px;
-}
 .addTimelineButton{
   position: absolute;
   top: 0px;

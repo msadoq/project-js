@@ -137,7 +137,7 @@ export default class TimebarWrapper extends Component {
           updateCursors={updateCursors}
           timebarId={timebarId}
           cursor={timesetterCursor || 'all'}
-          onClose={this.toggleTimesetter}
+          toggleTimesetter={this.toggleTimesetter}
         />
       );
     }

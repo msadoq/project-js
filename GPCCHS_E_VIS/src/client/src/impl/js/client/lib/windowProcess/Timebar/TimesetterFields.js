@@ -1,7 +1,6 @@
 import moment from 'moment';
 import classnames from 'classnames';
 import React, { Component } from 'react';
-import { Col } from 'react-bootstrap';
 import styles from './Timesetter.css';
 
 export default class TimesetterFields extends Component {
@@ -99,7 +98,7 @@ export default class TimesetterFields extends Component {
     }
 
     return (
-      <Col xs={12} className={styles.fieldsContainer}>
+      <div className={styles.fieldsContainer}>
         <div className={classnames('text-capitalize', styles.formLabel, { [styles[`formLabel${value}`]]: !disabled })} style={{ width: '100%' }}>
           <b>{valueText}</b>
         </div>
@@ -123,7 +122,7 @@ export default class TimesetterFields extends Component {
           )
         }
         {submitButton}
-      </Col>
+      </div>
     );
   }
 }

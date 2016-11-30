@@ -22,9 +22,11 @@ class PlotGrid extends React.Component {
       // label: PropTypes.string,
       xAxisId: PropTypes.string,
       yAxisId: PropTypes.string,
-      lineStyle: PropTypes.string,
-      width: PropTypes.number,
-      showGrid: PropTypes.bool
+      showGrid: PropTypes.bool,
+      line: PropTypes.shape({
+        style: PropTypes.string,
+        size: PropTypes.number,
+      }),
     }).isRequired,
     axes: PropTypes.object,
     handleSubmit: PropTypes.func,
@@ -39,9 +41,11 @@ class PlotGrid extends React.Component {
       label: 'grid 1',
       xAxisId: null,
       yAxisId: null,
-      lineStyle: 'Continuous',
-      width: 1,
-      showGrid: false
+      line: {
+        style: 'Continuous',
+        size: 1,
+      },
+      showGrid: false,
     }
   }
 
@@ -75,7 +79,17 @@ class PlotGrid extends React.Component {
         </HorizontalFormGroup>
 
         <HorizontalFormGroup label="Line">
-          <FormSectionLineStyle name="lineStyle" />
+          <FormSectionLineStyle name="line" />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Width">
+          <Field
+            name="line.size"
+            component={InputField}
+            normalize={value => parseFloat(value)}
+            className="form-control input-sm"
+            type="number"
+          />
         </HorizontalFormGroup>
 
         <HorizontalFormGroup label="X Axis">
@@ -106,16 +120,6 @@ class PlotGrid extends React.Component {
               );
             })}
           </Field>
-        </HorizontalFormGroup>
-
-        <HorizontalFormGroup label="Width">
-          <Field
-            name="width"
-            component={InputField}
-            normalize={value => parseFloat(value)}
-            className="form-control input-sm"
-            type="number"
-          />
         </HorizontalFormGroup>
 
         <ClearSubmitButtons

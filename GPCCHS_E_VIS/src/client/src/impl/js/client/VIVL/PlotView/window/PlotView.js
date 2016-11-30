@@ -31,6 +31,7 @@ const {
 } = coordinates;
 const { XAxis, YAxis } = axes;
 const margin = { left: 10, right: 60, top: 20, bottom: 20 };
+const offsetTop = 50;
 
 class PlotView extends PureComponent {
   static propTypes = {
@@ -81,6 +82,39 @@ class PlotView extends PureComponent {
     if (entryPoints !== nextProps.configuration.entryPoints) {
       this.lines = getLines(nextProps.configuration.entryPoints);
     }
+  }
+
+  getGrid() {
+    const { configuration, size } = this.props;
+    const isDisplayed = _get(configuration, 'grids[0].showGrid', false);
+
+    if (!isDisplayed) {
+      return {
+        x: {},
+        y: {}
+      };
+    }
+    const { width, height } = size;
+    const gridHeight = height - margin.top - margin.bottom - offsetTop;
+    const gridWidth = width - margin.left - margin.right;
+    const lineConf = _get(configuration, 'grids[0].line', {});
+    console.log('lineConf', lineConf);
+    const common = {
+      tickStrokeOpacity: 0.2,
+      strokeWidth: lineConf.size || 1,
+      strokeDasharray: getLineStyle(lineConf.style)
+    };
+
+    return {
+      x: {
+        innerTickSize: -1 * gridHeight,
+        ...common
+      },
+      y: {
+        innerTickSize: -1 * gridWidth,
+        ...common
+      }
+    };
   }
 
   handleMouseEnter = () => {
@@ -185,6 +219,14 @@ class PlotView extends PureComponent {
 
   render() {
     logger.debug('render');
+    const noRender = this.shouldRender();
+
+    if (noRender) {
+      logger.warn('no render due to', noRender);
+      // TODO : clean message component
+      return <div>unable to render plot: {noRender}</div>;
+    }
+
     const { size, data, visuWindow } = this.props;
     const { columns } = data;
     const { lower, upper, current } = visuWindow;
@@ -194,12 +236,7 @@ class PlotView extends PureComponent {
       tooltipHeight,
       disableZoom
     } = this.state;
-    const noRender = this.shouldRender();
-    if (noRender) {
-      logger.warn('no render due to', noRender);
-      // TODO : clean message component
-      return <div>unable to render plot: {noRender}</div>;
-    }
+    const { y: yGrid, x: xGrid } = this.getGrid();
 
     // TODO : display X time for each data value object instead of master timestamp tooltip
     // TODO view.plotBackgroundColour
@@ -213,7 +250,7 @@ class PlotView extends PureComponent {
           plotFull
           ratio={2}
           width={width}
-          height={height - 50}
+          height={height - offsetTop}
           margin={margin}
           seriesName="PlotView"
           data={columns}
@@ -233,12 +270,14 @@ class PlotView extends PureComponent {
               ticks={5}
               tickFormat={zoomDateFormat}
               zoomEnabled={!disableZoom}
+              {...xGrid}
             />
             <YAxis
               axisAt="right"
               orient="right"
               ticks={5}
               zoomEnabled={!disableZoom}
+              {...yGrid}
             />
             <MouseCoordinateX
               at="bottom"

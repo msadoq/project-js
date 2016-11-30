@@ -219,23 +219,33 @@ export default class Timebar extends Component {
         }
       );
     } else {
-      updateViewport(
-        timebarId,
-        viewportLower,
-        (viewportUpper - viewportLower) / widthPx,
-      );
-      updateCursors(
-        timebarId,
-        {
-          lower,
-          upper,
-          current,
-        },
-        {
-          lower: slideLower,
-          upper: slideUpper,
-        }
-      );
+      if (viewportLower !== viewport.lower || viewportUpper !== viewport.upper) {
+        updateViewport(
+          timebarId,
+          viewportLower,
+          (viewportUpper - viewportLower) / widthPx,
+        );
+      }
+      if (
+        lower !== visuWindow.lower ||
+        upper !== visuWindow.upper ||
+        current !== visuWindow.current ||
+        slideLower !== slideWindow.lower ||
+        slideUpper !== slideWindow.upper
+      ) {
+        updateCursors(
+          timebarId,
+          {
+            lower,
+            upper,
+            current,
+          },
+          {
+            lower: slideLower,
+            upper: slideUpper,
+          }
+        );
+      }
     }
     this.setState({
       dragging: false,

@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { Nav, NavItem, Button, Glyphicon } from 'react-bootstrap';
+import getLogger from 'common/log';
 import styles from './Tabs.css';
-import debug from '../../../lib/common/debug/windowDebug';
 
-const logger = debug('Tabs');
+const logger = getLogger('GPCCHS:Tabs');
 
 export default class Tabs extends Component {
   static propTypes = {

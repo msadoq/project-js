@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { Parser, ProcessNodeDefinitions } from 'html-to-react';
 import _get from 'lodash/get';
-import debug from '../../../lib/common/debug/windowDebug';
+import getLogger from 'common/log';
 
-const logger = debug('view:text');
+const logger = getLogger('GPCCHS:view:text');
 
 export default class TextView extends Component {
   static propTypes = {

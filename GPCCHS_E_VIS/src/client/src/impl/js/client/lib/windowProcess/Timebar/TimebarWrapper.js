@@ -2,14 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import { debounce } from 'lodash';
 import { Col } from 'react-bootstrap';
+import getLogger from 'common/log';
 import styles from './Timebar.css';
 import LefttabContainer from './LefttabContainer';
 import RighttabContainer from './RighttabContainer';
 import TimeSetterContainer from './TimeSetterContainer';
 import Modal from '../common/Modal';
-import debug from '../../../lib/common/debug/windowDebug';
 
-const logger = debug('Timebar');
+const logger = getLogger('GPCCHS:Timebar');
 const minTimebarHeight = 135;
 
 export default class TimebarWrapper extends Component {

@@ -2,11 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import _omit from 'lodash/omit';
 import _isEqual from 'lodash/isEqual';
 import { WidthProvider, Responsive } from 'react-grid-layout';
+import getLogger from 'common/log';
 import makeViewContainer from '../View/ViewContainer';
 import styles from './Content.css';
-import debug from '../../../lib/common/debug/windowDebug';
 
-const logger = debug('Content');
+const logger = getLogger('GPCCHS:Content');
 
 const Grid = WidthProvider(Responsive); // eslint-disable-line new-cap
 

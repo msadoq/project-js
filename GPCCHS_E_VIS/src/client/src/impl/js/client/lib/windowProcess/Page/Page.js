@@ -1,13 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
-// import { Col } from 'react-bootstrap';
+import getLogger from 'common/log';
 import ContentContainer from './ContentContainer';
 import EditorContainer from '../Editor/EditorContainer';
-import debug from '../../../lib/common/debug/windowDebug';
-
 import styles from './Page.css';
 
-const logger = debug('Page');
+const logger = getLogger('GPCCHS:Page');
 
 // const cols = 12;
 // const editorCols = 4;

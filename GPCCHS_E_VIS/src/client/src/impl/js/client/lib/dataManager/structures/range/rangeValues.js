@@ -4,9 +4,9 @@ import _set from 'lodash/set';
 import _has from 'lodash/has';
 
 import globalConstants from 'common/constants';
-import debug from '../../../common/debug/mainDebug';
+import getLogger from 'common/log';
 
-const logger = debug('data:rangeValues');
+const logger = getLogger('GPCCHS:data:rangeValues');
 
 export function select(remoteIdPayload, ep, epName, viewState, count) {
   const lower = ep.expectedInterval[0];

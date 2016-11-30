@@ -1,14 +1,15 @@
 import { app } from 'electron';
 
+import getLogger from 'common/log';
+
 import monitoring from 'common/monitoring';
-import debug from '../common/debug/mainDebug';
 import installExtensions from './installExtensions';
 import { initStore, getStore } from '../store/mainStore';
 import storeObserver from './storeObserver';
 import { connect, disconnect } from './websocket';
 import './menu';
 
-const logger = debug('mainProcess:index');
+const logger = getLogger('GPCCHS:mainProcess:index');
 
 let storeSubscription = null;
 

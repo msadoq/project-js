@@ -3,17 +3,16 @@ import _set from 'lodash/set';
 import _reduce from 'lodash/reduce';
 import globalConstants from 'common/constants';
 import executionMonitor from 'common/execution';
+import getLogger from 'common/log';
 
 import vivl from '../../VIVL/main';
-import structures from './structures';
-import debug from '../common/debug/mainDebug';
 import { updateViewData } from '../store/actions/viewData';
 import lastValue from './structures/last/lastValue'; // TODO use structures facade instead of require
 import rangeValues from './structures/range/rangeValues'; // TODO use structures facade instead of require
 import viewDataUpdateRange from './structures/range/viewDataUpdate';
 import viewDataUpdateLast from './structures/last/viewDataUpdate';
 
-const logger = debug('data:inject');
+const logger = getLogger('GPCCHS:data:inject');
 const execution = executionMonitor('data:inject');
 
 export function selectData(state, viewDefinitions, payload, count) {

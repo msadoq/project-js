@@ -5,7 +5,8 @@ import _map from 'lodash/map';
 import u from 'updeep';
 import globalConstants from 'common/constants';
 import executionMonitor from 'common/execution';
-import debug from '../common/debug/mainDebug';
+import getLogger from 'common/log';
+
 import { getStore } from '../store/mainStore';
 import {
   getWindowsOpened,
@@ -31,7 +32,7 @@ import cleanViewData from '../dataManager/cleanViewData';
 
 // TODO : test server restart, new workspace, workspace opening, new window
 
-const logger = debug('main:orchestration');
+const logger = getLogger('GPCCHS:main:orchestration');
 const execution = executionMonitor('orchestration');
 
 let nextTick = null;

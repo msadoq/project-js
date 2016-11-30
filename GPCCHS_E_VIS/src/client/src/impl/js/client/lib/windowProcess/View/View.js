@@ -1,12 +1,12 @@
 import React, { PureComponent, PropTypes } from 'react';
+import getLogger from 'common/log';
 
 import ViewHeader from './Header';
 import UnknownView from './UnknownView';
 import MessagesContainer from './MessagesContainer';
 import styles from './View.css';
-import debug from '../../../lib/common/debug/windowDebug';
 
-const logger = debug('View');
+const logger = getLogger('GPCCHS:View');
 
 export default class View extends PureComponent {
   static propTypes = {

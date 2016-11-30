@@ -2,8 +2,8 @@ import Primus from 'common/websocket';
 import globalConstants from 'common/constants';
 import { set, get, remove } from 'common/callbacks';
 import { v4 } from 'node-uuid';
+import getLogger from 'common/log';
 
-import debug from '../common/debug/mainDebug';
 import { getStore } from '../store/mainStore';
 import { updateStatus } from '../store/actions/hss';
 import { add as addMessage, addOnce as addOnceMessage } from '../store/actions/messages';
@@ -11,7 +11,7 @@ import { onOpen, onClose } from './lifecycle';
 import parameters from '../common/parameters';
 import { addToQueue } from './orchestration';
 
-const logger = debug('main:websocket');
+const logger = getLogger('GPCCHS:main:websocket');
 
 let instance;
 

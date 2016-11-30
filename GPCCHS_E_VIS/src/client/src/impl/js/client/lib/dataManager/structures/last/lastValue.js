@@ -3,10 +3,10 @@ import _has from 'lodash/has';
 import _get from 'lodash/get';
 import _set from 'lodash/set';
 
+import getLogger from 'common/log';
 import globalConstants from 'common/constants';
-import debug from '../../../common/debug/mainDebug';
 
-const logger = debug('data:lastValue');
+const logger = getLogger('GPCCHS:data:lastValue');
 
 // Get the nearest value from the current time
 export function select(remoteIdPayload, ep, epName, viewSubState) {

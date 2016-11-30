@@ -21,9 +21,9 @@ import {
 } from './helper';
 // import PlotMenu from './PlotMenu';
 
-import debug from '../../../lib/common/debug/windowDebug';
+import debug from 'common/log';
 
-const logger = debug('view:plot');
+const logger = debug('GPCCHS:view:plot');
 
 const {
   LineSeries, ScatterSeries, StraightLine

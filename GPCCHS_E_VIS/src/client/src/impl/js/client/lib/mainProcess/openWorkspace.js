@@ -3,8 +3,8 @@ import _map from 'lodash/map';
 import path from 'path';
 import { dialog } from 'electron';
 import { v4 } from 'node-uuid';
+import getLogger from 'common/log';
 
-import debug from '../common/debug/mainDebug';
 import parameters from '../common/parameters';
 import readWorkspace from '../documentsManager/workspace';
 import { add as addTimeline } from '../store/actions/timelines';
@@ -16,7 +16,7 @@ import { updatePath, setWorkspaceAsOpened } from '../store/actions/hsc';
 
 import { getPathByFilePicker } from './filePicker';
 
-const logger = debug('mainProcess:openWorkspace');
+const logger = getLogger('GPCCHS:mainProcess:openWorkspace');
 
 export function loadInStore(workspace, dispatch, root, file, callback) {
   // add timelines

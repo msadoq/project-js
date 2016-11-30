@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
+import getLogger from 'common/log';
 import { PlotEditorContainer } from './Components/Plot';
 import { TextEditorContainer } from './Components/Text';
 import styles from './Editor.css';
-import debug from '../../../lib/common/debug/windowDebug';
 
-const logger = debug('Editor');
+const logger = getLogger('GPCCHS:Editor');
 
 const InvalidConfiguration = () => <div> unknown view type or invalid configuration: </div>;
 // TODO dedicated component

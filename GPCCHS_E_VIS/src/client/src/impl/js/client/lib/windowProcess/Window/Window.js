@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import { LIFECYCLE_STARTED } from 'common/constants';
+import getLogger from 'common/log';
 
 import Debug from '../Navigation/Debug';
 import TimebarMasterContainer from '../Timebar/TimebarMasterContainer';
@@ -8,9 +9,8 @@ import MessagesContainer from './MessagesContainer';
 import PageContainer from '../Page/PageContainer';
 import TabsContainer from '../Navigation/TabsContainer';
 import styles from './Window.css';
-import debug from '../../../lib/common/debug/windowDebug';
 
-const logger = debug('Window');
+const logger = getLogger('GPCCHS:Window');
 
 export default class Window extends Component {
   static propTypes = {

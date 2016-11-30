@@ -1,4 +1,5 @@
-const debug = require('../common/debug/mainDebug')('documents:workspace');
+import getLogger from 'common/log';
+
 const omit = require('lodash/omit');
 const async = require('async');
 const fs = require('../common/fs');
@@ -11,8 +12,10 @@ const { extractPages } = require('./extractPages');
 const { extractViews } = require('./extractViews');
 const { requestPathFromOId } = require('../mainProcess/websocket');
 
+const logger = getLogger('GPCCHS:documents:workspace');
+
 module.exports = function readWorkspace(folder, relativePath, callback) {
-  debug.info(`reading workspace ${folder}/${relativePath}`);
+  logger.info(`reading workspace ${folder}/${relativePath}`);
   async.waterfall([
     cb => fs.readJsonFromPath(folder, relativePath, undefined, undefined, requestPathFromOId, cb),
     (workspace, cb) => cb(validation('workspace', workspace), workspace),

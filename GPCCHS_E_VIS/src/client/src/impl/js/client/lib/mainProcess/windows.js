@@ -1,13 +1,14 @@
 import _ from 'lodash';
 import async from 'async';
 import { BrowserWindow } from 'electron';
+import getLogger from 'common/log';
 
 import parameters from '../common/parameters';
 import debug from '../common/debug/mainDebug';
 import { remove } from '../store/actions/windows';
 import { getStore } from '../store/mainStore';
 
-const logger = debug('store:observers:windows');
+const logger = getLogger('GPCCHS:store:observers:windows');
 
 const windows = {};
 

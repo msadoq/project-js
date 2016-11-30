@@ -1,9 +1,10 @@
 import { LIFECYCLE_STARTED } from 'common/constants';
-import debug from '../common/debug/mainDebug';
+import getLogger from 'common/log';
+
 import { getStatus } from '../store/selectors/hsc';
 import { onStarted } from './lifecycle';
 
-const logger = debug('mainProcess:storeObserver');
+const logger = getLogger('GPCCHS:mainProcess:storeObserver');
 
 let lastKnownAppStatus = null;
 

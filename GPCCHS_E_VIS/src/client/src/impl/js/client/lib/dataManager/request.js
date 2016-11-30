@@ -4,13 +4,13 @@ import _map from 'lodash/map';
 import _get from 'lodash/get';
 import globalConstants from 'common/constants';
 import executionMonitor from 'common/execution';
+import getLogger from 'common/log';
 
-import debug from '../common/debug/mainDebug';
 import { getWebsocket } from '../mainProcess/websocket';
 import operators from '../common/operators';
 import structures from './structures';
 
-const logger = debug('data:requests');
+const logger = getLogger('GPCCHS:data:requests');
 const execution = executionMonitor('data:request');
 
 /**
@@ -83,7 +83,7 @@ export default function request(state, dataMap, lastMap) {
 
   // compute missing data
   const dataQueries = missingRemoteIds(dataMap, lastMap);
-  logger.verbose(dataQueries);
+  logger.verbose(JSON.stringify(dataQueries, null, 2));
 
   if (dataQueries && _isObject(dataQueries) && Object.keys(dataQueries).length) {
     // send to HSS

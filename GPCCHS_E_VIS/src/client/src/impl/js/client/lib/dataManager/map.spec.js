@@ -2737,7 +2737,7 @@ const viewMap = {
   }
 };
 
-describe.only('data:map', () => {
+describe('data:map', () => {
   // it('should compute dataMap by remoteIds', () => {
   //   perRemoteId(state).should.eql(dataMap);
   // });

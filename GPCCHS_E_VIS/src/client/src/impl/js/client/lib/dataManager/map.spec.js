@@ -2741,7 +2741,7 @@ describe.only('data:map', () => {
   it('should compute dataMap by remoteIds', () => {
     perRemoteId(state).should.eql(dataMap);
   });
-  it('should compute viewMap by remoteIds', () => {
+  it('should compute dataMap by views', () => {
     perView(state).should.eql(viewMap);
   });
 });

@@ -12,51 +12,8 @@ import { getWindowsVisibleViews } from '../store/selectors/windows';
 
 const logger = debug('data:map');
 
-/**
- * Return the visible remoteIds data map:
- *
- * Input connectedData:
- * {
-   *   {
-   *     // view
-   *     type: string,
-   *     timebarId: string,
-   *     connectedData: [
-   *       {
-   *          formula: string,
-   *          timeline: string,
-   *          domain: string,
-   *          filter: [{field: string, operator: string, operand: string}],
-   *       },
-   *     ],
-   *   },
-   * }
- *
- * Output:
- * {
-   *   'remoteId': {
-   *     dataId: {...},
-   *     filter: [{field: string, operator: string, operand: string}],
-   *     localIds: {
-   *       'localId': {
-   *         viewId: string,
-   *         field: string,
-   *         timebarId: string,
-   *         offset: number,
-   *         expectedInterval: [number, number],
-   *       },
-   *     },
-   *   },
-   * }
- *
- * @param domains
- * @param timebars
- * @param timelines
- * @param views
- * @return {*}
- */
-export function visibleRemoteIds(domains, timebars, timelines, views) {
-  return _reduce(views, (list, { viewId, timebarId, viewData: view }) => {
+export const walkViews = method => (domains, timebars, timelines, views) =>
+  _reduce(views, (list, { viewId, timebarId, viewData: view }) => {
     const { type, configuration } = view;
     const { entryPoints } = configuration;
     if (!entryPoints || !entryPoints.length) {
@@ -73,14 +30,53 @@ export function visibleRemoteIds(domains, timebars, timelines, views) {
     const viewTimelines = getTimebarTimelines(timebars, timelines, timebarId);
 
     const structureType = vivl(type, 'structureType')();
-    return structures(structureType, 'extractRemoteIds')(
-      list, entryPoints, timebarId, viewTimelines, visuWindow, domains
+
+    // TODO iterate on entryPoints
+    // TODO for each call a getConnectedData
+
+    return structures(structureType, method)(
+      list, viewId, type, entryPoints, timebarId, viewTimelines, visuWindow, domains
     );
-  }, {});
-}
+  },
+{});
+
+// TODO memoize domains search (redux domains, search)
+// TODO memoize sessions search (redux timebarTimelines, redux timelines, search)
 
 /**
- * Return the visible views data map:
+ * Return dataMap organized per remoteId:
+ *
+ * {
+ *   'remoteId': {
+ *     dataId: {...},
+ *     filter: [{field: string, operator: string, operand: string}],
+ *     localIds: {
+ *       'localId': {
+ *         viewId: string,
+ *         field: string,
+ *         timebarId: string,
+ *         offset: number,
+ *         expectedInterval: [number, number],
+ *       },
+ *     },
+ *   },
+ * }
+ *
+ * @param state
+ * @return {*}
+ */
+export const perRemoteId = createSelector(
+  [
+    getDomains,
+    getTimebars,
+    getTimelines,
+    getWindowsVisibleViews,
+  ],
+  walkViews('extractRemoteIds')
+);
+
+/**
+ * Return dataMap organized per view:
  *
  * {
  *   'viewId': {
@@ -91,11 +87,11 @@ export function visibleRemoteIds(domains, timebars, timelines, views) {
  *         field: string,
  *         expectedInterval: [number, number],
  *       },
+ *     },
  *   },
- * },
- * 'viewId': {
- *   type: 'PlotView',
- *   entryPoints: {
+ *   'viewId': {
+ *     type: 'PlotView',
+ *     entryPoints: {
  *       'name': {
  *          remoteId: string,
  *          fieldX: string,
@@ -107,67 +103,15 @@ export function visibleRemoteIds(domains, timebars, timelines, views) {
  *   },
  * }
  *
- * @param domains
- * @param timebars
- * @param timelines
- * @param views
+ * @param state
  * @return {*}
  */
-export function visibleViews(domains, timebars, timelines, views) {
-  return _reduce(views, (list, { viewId, timebarId, viewData: view }) => {
-    const { type, configuration } = view;
-    const { entryPoints } = configuration;
-    if (!entryPoints || !entryPoints.length) {
-      return list;
-    }
-
-    // current visuWindow
-    const visuWindow = _get(timebars, [timebarId, 'visuWindow']);
-    if (!visuWindow) {
-      logger.debug('no valid visuWindow for this view', viewId);
-    }
-
-    // current timelines
-    const viewTimelines = getTimebarTimelines(timebars, timelines, timebarId);
-
-    const structureType = vivl(type, 'structureType')();
-    const viewMap = structures(structureType, 'extractEntryPoints')(
-      entryPoints, timebarId, viewTimelines, visuWindow, domains
-    );
-
-    return viewMap
-      ? Object.assign(list, {
-      [viewId]: {
-        type,
-        structureType,
-        entryPoints: viewMap,
-      },
-    })
-      : list;
-  }, {});
-}
-
-// TODO memoize domains search (redux domains, search)
-// TODO memoize sessions search (redux timebarTimelines, redux timelines, search)
-export const perRemoteId = createSelector(
+export const perView = createSelector(
   [
     getDomains,
     getTimebars,
     getTimelines,
     getWindowsVisibleViews,
   ],
-  visibleRemoteIds
-);
-
-
-// TODO memoize domains search (redux domains, search)
-// TODO memoize sessions search (redux timebarTimelines, redux timelines, search)
-export const perView = createSelector(
-  [
-    getDomains,
-    getTimebars,
-    getTimelines,
-    getWindowsVisibleViews
-  ],
-  visibleViews
+  walkViews('extractEntryPoints')
 );

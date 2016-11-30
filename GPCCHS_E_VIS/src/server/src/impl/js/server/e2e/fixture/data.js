@@ -14,7 +14,7 @@ function getQuery(
 ) {
   return {
     [`${structureType}@Reporting.${parameterName}<ReportingParameter>:0:4:${serializeFilters(filters)}`]: {
-      type: 'range',
+      type: structureType,
       dataId: {
         catalog: 'Reporting',
         parameterName,

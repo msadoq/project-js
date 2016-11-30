@@ -134,7 +134,7 @@ describe('timebased query', function () { // eslint-disable-line func-names
     stopWS(this.ws).then(() => done());
   });
 
-  it('1 last query', () => {
+  it('1 last query : value on current time', () => {
     const now = (new Date(2016, 10, 22)).getTime();
     const start = now - (60 * 1000);
     const end = start + (2 * 1000);
@@ -142,13 +142,41 @@ describe('timebased query', function () { // eslint-disable-line func-names
     return this.testTimeBaseQuery({
       start,
       end,
-      assert: true,
       structureType: 'last',
+      assert: true,
       filters: [{
         fieldName: 'monitoringState',
         type: 1,
         fieldValue: 'nominal',
       }],
+    }).then((r) => {
+      const val = r.payload['last@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:monitoringState.!=.nominal'];
+      const keys = Object.keys(val);
+      keys.should.have.length(1);
+      keys[0].should.deep.equal(''.concat(end));
+    });
+  });
+  it('1 last query: value less than current time', () => {
+    const now = (new Date(2016, 10, 22)).getTime();
+    const start = (now - (60 * 1000)) + 5;
+    const end = start + (2 * 1000) + 50;
+
+    return this.testTimeBaseQuery({
+      start,
+      end,
+      structureType: 'last',
+      assert: true,
+      filters: [{
+        fieldName: 'monitoringState',
+        type: 1,
+        fieldValue: 'nominal',
+      }],
+    }).then((r) => {
+      const val = r.payload['last@Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>:0:4:monitoringState.!=.nominal'];
+      const keys = Object.keys(val);
+      keys.should.have.length(1);
+      const current = start + (2 * 1000);
+      keys[0].should.deep.equal(''.concat(current));
     });
   });
 

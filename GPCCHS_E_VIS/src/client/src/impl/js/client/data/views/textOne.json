@@ -9,11 +9,19 @@
         "unit": "V",
         "digits": 5,
         "format": "decimal",
-        "filter": [{
-          "field": "monitoringState",
-          "operator": "!=",
-          "operand": "nominal"
-        }],
+        "filter": [],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "TMMGT_BC_VIRTCHAN3",
+      "connectedData": {
+        "formula": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
       }
@@ -38,6 +46,7 @@
     "</style>",
     "<div class='myTextView'>",
     "    <div class='myContener'><span class='name'>AGA_AM_PRIORITY</span><span class='value'>{{AGA_AM_PRIORITY}}</span></div>",
+    "    <div class='myContener'><span class='name'>TMMGT_BC_VIRTCHAN3</span><span class='value'>{{TMMGT_BC_VIRTCHAN3}}</span></div>",
     "</div>"
   ]
 }

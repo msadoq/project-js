@@ -1,7 +1,6 @@
 /* eslint no-underscore-dangle:0 */
 const _each = require('lodash/each');
 const _get = require('lodash/get');
-const _random = require('lodash/random');
 const _chunk = require('lodash/chunk');
 const _last = require('lodash/last');
 const debug = require('debug');
@@ -54,8 +53,7 @@ module.exports = function sendArchiveData(
   const now = Date.now();
 
   if (queryArguments.getLastType === globalConstants.GETLASTTYPE_GET_LAST) {
-    const ts = _random(from, to);
-    payloads.push(getPayload(ts, dataId.parameterName));
+    payloads.push(getPayload(to, dataId.parameterName));
   } else {
     for (let i = from; i <= to && i < now; i += globalConstants.DC_STUB_VALUE_TIMESTEP) {
       if (shouldPushANewValue(queryKey, i)) {

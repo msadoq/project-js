@@ -1,4 +1,5 @@
-const debug = require('../../io/debug')('controllers:onSessionQuery');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const logger = require('common/log')('controllers:onSessionQuery');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { encode } = require('common/protobuf');
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -32,7 +33,7 @@ const errorCallback = (err) => {
 };
 
 const sessionQuery = (id, messageHandler) => {
-  debug.debug('new session query');
+  logger.debug('new session query');
 
   // create and register queryId
   const queryId = (typeof id === 'undefined') ? generateSessionId() : id;

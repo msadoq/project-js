@@ -1,4 +1,5 @@
-const debug = require('../io/debug')('utils:registeredQueries');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const logger = require('common/log')('utils:registeredQueries');
 
 // eslint-disable-next-line no-underscore-dangle
 const _isString = require('lodash/isString');
@@ -22,7 +23,7 @@ function set(queryId, remoteId) {
     throw new Error(`setting a new remoteId require a string id '${queryId}'`);
   }
 
-  debug.debug(`query registered for '${queryId}'`);
+  logger.debug(`query registered for '${queryId}'`);
   queries[queryId] = remoteId;
 }
 
@@ -43,7 +44,7 @@ function removeMulti(queryIds) {
 }
 
 function clear() {
-  debug.debug('queries cleared');
+  logger.debug('queries cleared');
   queries = {};
 }
 

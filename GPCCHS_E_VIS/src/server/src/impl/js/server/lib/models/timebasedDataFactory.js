@@ -1,4 +1,5 @@
-const debug = require('../io/debug')('models:timebasedData');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const logger = require('common/log')('models:timebasedData');
 
 // eslint-disable-next-line no-underscore-dangle
 const _each = require('lodash/each');
@@ -18,14 +19,14 @@ const generateCollectionName = _memoize(remoteId => `${constants.COLLECTION_TIME
 
 
 const addRecords = (collection, records) => {
-  debug.debug(`add ${records.length} records`);
+  logger.debug(`add ${records.length} records`);
   _each(records, (record) => {
     collection.addRecord(record.timestamp, record.payload);
   });
 };
 
 const addRecord = (collection, timestamp, payload) => {
-  debug.debug('add record', collection.name);
+  logger.debug('add record', collection.name);
   const record = collection.by('timestamp', timestamp);
   if (typeof record === 'undefined') {
     return collection.insert({
@@ -48,15 +49,15 @@ const searchByInterval = (collection, lower, upper, toRemove) => {
   }
 
   if (toRemove) {
-    debug.debug('removing for', query.$and);
+    logger.debug('removing for', query.$and);
     return collection.chain().find(query).remove();
   }
-  debug.debug('searching for', query.$and);
+  logger.debug('searching for', query.$and);
   return collection.find(query);
 };
 
 const cleanup = (collection) => {
-  debug.debug('timebasedData cleared');
+  logger.debug('timebasedData cleared');
   collection.clear();
 };
 

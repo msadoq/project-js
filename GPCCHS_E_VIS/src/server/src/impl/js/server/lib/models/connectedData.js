@@ -1,4 +1,5 @@
-const debug = require('../io/debug')('models:connectedData');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const logger = require('common/log')('models:connectedData');
 
 // eslint-disable-next-line no-underscore-dangle
 const _concat = require('lodash/concat');
@@ -49,12 +50,12 @@ collection.areTimestampsInKnownIntervals = (remoteId, timestamps, connectedData)
   if (!cd) {
     cd = collection.by('remoteId', remoteId);
     if (!cd) {
-      debug.debug('timestamps not in known intervals');
+      logger.debug('timestamps not in known intervals');
       return [];
     }
   }
 
-  debug.debug('check intervals for these timestamps');
+  logger.debug('check intervals for these timestamps');
   return _filter(
     timestamps,
     timestamp => intervalManager.includesTimestamp(cd.intervals.all, timestamp)
@@ -67,14 +68,14 @@ collection.isTimestampInKnownIntervals = (remoteId, timestamp, connectedData) =>
   if (!cd) {
     cd = collection.by('remoteId', remoteId);
     if (!cd) {
-      debug.debug('timestamp not in known intervals');
+      logger.debug('timestamp not in known intervals');
       return false;
     }
   }
 
-  debug.debug('check intervals');
+  logger.debug('check intervals');
   if (intervalManager.includesTimestamp(cd.intervals.all, timestamp)) {
-    debug.debug('timestamp in intervals');
+    logger.debug('timestamp in intervals');
     return true;
   }
 
@@ -106,7 +107,7 @@ collection.setIntervalAsReceived = (remoteId, queryUuid, connectedData) => {
       throw new Error('Consuming type not valid:', cd.type);
   }
   delete cd.intervals.requested[queryUuid];
-  debug.debug('set interval', interval, 'as received for', remoteId);
+  logger.debug('set interval', interval, 'as received for', remoteId);
   return cd;
 };
 
@@ -236,7 +237,7 @@ collection.retrieveMissingIntervals = (remoteId, interval, connectedData) => {
   if (!cd) {
     cd = collection.by('remoteId', remoteId);
     if (!cd) {
-      debug.debug('no connectedData');
+      logger.debug('no connectedData');
       return [interval];
     }
   }
@@ -275,7 +276,7 @@ collection.removeByRemoteId = (remoteId, connectedData) => {
 collection.getByRemoteId = remoteId => collection.by('remoteId', remoteId);
 
 collection.cleanup = () => {
-  debug.debug('connectedData cleared');
+  logger.debug('connectedData cleared');
   collection.clear();
   collection.getRemoteIdIndex().clear();
 };

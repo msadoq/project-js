@@ -2,7 +2,8 @@
 
 require('dotenv-safe').load();
 
-const debug = require('./lib/io/debug')('startup');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const logger = require('common/log')('startup');
 const exit = require('exit');
 const app = require('./lib/express');
 const http = require('http');
@@ -61,11 +62,11 @@ server.on('error', (error) => {
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      debug.error(`${bind} requires elevated privileges`);
+      logger.error(`${bind} requires elevated privileges`);
       exit(1);
       break;
     case 'EADDRINUSE':
-      debug.error(`${bind} is already in use`);
+      logger.error(`${bind} is already in use`);
       exit(1);
       break;
     default:
@@ -75,7 +76,7 @@ server.on('error', (error) => {
 server.on('listening', () => {
   const addr = server.address();
   const bind = typeof addr === 'string' ? ` pipe ${addr}` : `${addr.port}`;
-  debug.info(`Server listening on http://127.0.0.1:${bind}`);
+  logger.info(`Server listening on http://127.0.0.1:${bind}`);
 });
 
 // Primus
@@ -123,7 +124,7 @@ zmq.open({
   }
 
   // once ZMQ sockets are open, launch express
-  debug.info(`Trying to launch server in '${process.env.NODE_ENV}' env`);
+  logger.info(`Trying to launch server in '${process.env.NODE_ENV}' env`);
   server.listen(port, () => {
     // if HSS is a forked process, in e2e tests for example
     if (process.send) {

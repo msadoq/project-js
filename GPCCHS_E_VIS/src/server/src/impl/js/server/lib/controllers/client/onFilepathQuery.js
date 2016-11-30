@@ -1,4 +1,5 @@
-const debug = require('../../io/debug')('controllers:onFilepathQuery');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const logger = require('common/log')('controllers:onFilepathQuery');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { encode } = require('common/protobuf');
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -32,7 +33,7 @@ const errorCallback = (err) => {
 };
 
 const filepathQuery = (id, payload, messageHandler) => {
-  debug.debug('new filepath query');
+  logger.debug('new filepath query');
   // create and register queryId
   const queryId = (typeof id === 'undefined') ? generateFilepathId() : id;
   registeredCallbacks.set(queryId, errorCallback);

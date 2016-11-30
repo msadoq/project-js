@@ -1,4 +1,5 @@
-const debug = require('../../io/debug')('controllers:onClose');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const logger = require('common/log')('controllers:onClose');
 
 // eslint-disable-next-line no-underscore-dangle
 const _each = require('lodash/each');
@@ -34,7 +35,7 @@ const close = (messageHandler) => {
   // loop on subscriptions and stop subscription
   _each(subscriptionsModel.getAll(), (subscription) => {
     const message = createDeleteSubscriptionMessage(subscription.dataId);
-    debug.debug('sending delete subscription message to DC');
+    logger.debug('sending delete subscription message to DC');
     return messageHandler('dcPush', message.args);
   });
   // cleanup data queue
@@ -50,13 +51,13 @@ const close = (messageHandler) => {
   // cleanup queries
   registeredQueries.clear();
 
-  debug.debug('cleanup done');
+  logger.debug('cleanup done');
 };
 
 module.exports = {
   close,
   onClose: (spark) => {
-    debug.verbose(`called (${spark.id})`);
+    logger.verbose(`called (${spark.id})`);
     close(zmq.push);
   },
 };

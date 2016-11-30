@@ -1,4 +1,5 @@
-const debug = require('../../io/debug')('controllers:onDomainQuery');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const logger = require('common/log')('controllers:onDomainQuery');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { encode } = require('common/protobuf');
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -32,7 +33,7 @@ const errorCallback = (err) => {
 };
 
 const domainQuery = (id, messageHandler) => {
-  debug.debug('new domain query');
+  logger.debug('new domain query');
 
   // create and register queryId
   const queryId = (typeof id === 'undefined') ? generateDomainId() : id;

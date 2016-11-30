@@ -1,4 +1,5 @@
-const debug = require('../../io/debug')('controllers:onOpen');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const logger = require('common/log')('controllers:onOpen');
 
 /**
  * Triggered when HSC main process WebSocket opens
@@ -6,5 +7,5 @@ const debug = require('../../io/debug')('controllers:onOpen');
  * @param spark
  */
 module.exports = (spark) => {
-  debug.verbose(`called (${spark.id})`);
+  logger.verbose(`called (${spark.id})`);
 };

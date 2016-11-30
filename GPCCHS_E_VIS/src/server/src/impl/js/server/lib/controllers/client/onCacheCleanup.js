@@ -5,7 +5,8 @@ const zmq = require('common/zmq');
 const removeIntervals = require('common/intervals/remove');
 const executionMonitor = require('common/execution');
 
-const debug = require('../../io/debug')('controllers:onCacheCleanup');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const logger = require('common/log')('controllers:onCacheCleanup');
 const registeredQueries = require('../../utils/registeredQueries');
 const { createDeleteSubscriptionMessage } = require('../../utils/subscriptions');
 const { getTimebasedDataModel, removeTimebasedDataModel } = require('../../models/timebasedDataFactory');
@@ -34,7 +35,7 @@ const subscriptionsModel = require('../../models/subscriptions');
  */
 
 const cacheCleanup = (messageHandler, dataMap) => {
-  debug.debug('called');
+  logger.debug('called');
   const messageQueue = [];
   const execution = executionMonitor('cacheCleanup');
   execution.start('global');
@@ -66,7 +67,7 @@ const cacheCleanup = (messageHandler, dataMap) => {
 
   // loop over expired requests ('remoteId': [interval])
   _each(expiredRequests, ({ intervals }, remoteId) => {
-    debug.debug('intervals', intervals, 'remoteId', remoteId);
+    logger.debug('intervals', intervals, 'remoteId', remoteId);
     // remove intervals from connectedData model
     execution.start('remove intervals');
     const queryIds = connectedDataModel.removeIntervals(remoteId, intervals);
@@ -74,7 +75,7 @@ const cacheCleanup = (messageHandler, dataMap) => {
     execution.start('remove queries');
     registeredQueries.removeMulti(queryIds);
     execution.stop('remove queries');
-    debug.debug('Query Ids no longer needed', queryIds);
+    logger.debug('Query Ids no longer needed', queryIds);
     // if there are still requested intervals in connectedData model for this remoteId
     execution.start('get remaining intervals');
     const remainingIntervals = connectedDataModel.getIntervals(remoteId);
@@ -83,7 +84,7 @@ const cacheCleanup = (messageHandler, dataMap) => {
       return undefined;
     }
     if (remainingIntervals.length !== 0) {
-      debug.debug('still requested');
+      logger.debug('still requested');
       // remove data corresponding to expired intervals from timebasedData model
       execution.start('get tbd model');
       const timebasedDataModel = getTimebasedDataModel(remoteId);
@@ -98,7 +99,7 @@ const cacheCleanup = (messageHandler, dataMap) => {
         execution.stop('find and remove tbd');
       });
     }
-    debug.debug('no more interval');
+    logger.debug('no more interval');
     // else, no more intervals for this remoteId
     // get corresponding dataId from connectedData model
     execution.start('get dataId');
@@ -123,7 +124,7 @@ const cacheCleanup = (messageHandler, dataMap) => {
       return undefined;
     }
     execution.stop('get remaining remoteIds for this subscription');
-    debug.debug('no more remoteIds');
+    logger.debug('no more remoteIds');
     // else, no more remoteIds for this dataId
     // remove dataId from subscriptions model
     execution.start('remove subscription');
@@ -136,7 +137,7 @@ const cacheCleanup = (messageHandler, dataMap) => {
     execution.stop('create and push sub message');
     return undefined;
   });
-  debug.debug('message queue length', messageQueue.length);
+  logger.debug('message queue length', messageQueue.length);
   // send queued messages to DC
   execution.start('send zmq messages');
   _each(messageQueue, args => messageHandler('dcPush', args));

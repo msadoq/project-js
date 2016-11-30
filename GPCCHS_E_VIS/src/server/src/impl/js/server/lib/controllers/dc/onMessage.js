@@ -1,4 +1,5 @@
-const debug = require('../../io/debug')('controllers:onMessage');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const logger = require('common/log')('controllers:onMessage');
 
 // eslint-disable-next-line no-underscore-dangle
 const _slice = require('lodash/slice');
@@ -35,7 +36,7 @@ const message = (
   headerBuffer,
   ...args
 ) => {
-  debug.debug('decoding message type');
+  logger.debug('decoding message type');
   const header = decode('dc.dataControllerUtils.Header', headerBuffer);
 
   switch (header.messageType) {
@@ -58,7 +59,7 @@ const message = (
       errorHandler('onFilepathData', () => filepathDataHandler(args[0], args[1]));
       break;
     default:
-      debug.debug('message type not recognized');
+      logger.debug('message type not recognized');
       break;
   }
 };

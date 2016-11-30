@@ -2,7 +2,7 @@
 const globalConstants = require('common/constants');
 const _isObject = require('lodash/isObject');
 
-const debug = require('../../io/debug')('controllers:onPull');
+const logger = require('common/log')('controllers:onPull');
 const { reset } = require('../../websocket/dataQueue');
 
 /**
@@ -14,7 +14,7 @@ const { reset } = require('../../websocket/dataQueue');
  * @param spark
  */
 module.exports = (spark) => {
-  debug.verbose(`called (${spark.id})`);
+  logger.verbose(`called (${spark.id})`);
 
   const payload = reset();
 

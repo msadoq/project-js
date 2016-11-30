@@ -6,7 +6,8 @@ const _isEmpty = require('lodash/isEmpty');
 const _each = require('lodash/each');
 const _chunk = require('lodash/chunk');
 
-const debug = require('../../io/debug')('controllers:onTimebasedPubSubData');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const logger = require('common/log')('controllers:onTimebasedPubSubData');
 const { add: addToQueue } = require('../../websocket/dataQueue');
 const { applyFilters } = require('../../utils/filters');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
@@ -36,27 +37,27 @@ const onTimebasedPubSubData = (
   dataIdBuffer,
   ...payloadsBuffers
 ) => {
-  debug.verbose('called');
+  logger.verbose('called');
   const execution = executionMonitor('pubSubData');
   execution.start('global');
 
-  debug.debug('received data from pubSub');
+  logger.debug('received data from pubSub');
 
   execution.start('decode dataId');
   // deprotobufferize dataId
-  debug.debug('decode dataId');
+  logger.debug('decode dataId');
   const dataId = decode('dc.dataControllerUtils.DataId', dataIdBuffer);
   execution.stop('decode dataId');
 
   // get payload type
   const payloadProtobufType = getType(dataId.comObject);
   if (typeof payloadProtobufType === 'undefined') {
-    debug.error('unsupported comObject', dataId.comObject); // TODO send error to client
+    logger.error('unsupported comObject', dataId.comObject); // TODO send error to client
   }
 
   execution.start('retrieve subscription');
   // if dataId not in subscriptions model, stop logic
-  debug.debug('retrieve subscription');
+  logger.debug('retrieve subscription');
   const subscription = subscriptionsModel.getByDataId(dataId);
   if (!subscription) {
     return undefined;
@@ -65,17 +66,17 @@ const onTimebasedPubSubData = (
 
   execution.start('retrieve filters');
   // get { remoteId: filters } from subscriptions model
-  debug.debug('retrieve filters');
+  logger.debug('retrieve filters');
   const filtersByRemoteId = subscriptionsModel.getFilters(dataId, subscription);
   execution.stop('retrieve filters');
 
   // if there is no remoteId for this dataId, stop logic
   if (_isEmpty(filtersByRemoteId)) {
-    debug.debug('no query registered for this dataId', dataId);
+    logger.debug('no query registered for this dataId', dataId);
     return undefined;
   }
   if (payloadsBuffers.length % 2 !== 0) {
-    debug.debug('payloads should be sent by (timestamp, payloads) peers');
+    logger.debug('payloads should be sent by (timestamp, payloads) peers');
     return undefined;
   }
 
@@ -88,7 +89,7 @@ const onTimebasedPubSubData = (
       `${dataId.parameterName} message ignored, too many payloads: ${payloadNumber}`
     );
     execution.print();
-    return debug.warn(`message ignored, too many payloads: ${payloadNumber}`);
+    return logger.warn(`message ignored, too many payloads: ${payloadNumber}`);
   }
 
   // loop over arguments peers (timestamp, payload)
@@ -131,7 +132,7 @@ const onTimebasedPubSubData = (
       execution.stop('store in timebasedData model');
 
       execution.start('queue payloads');
-      debug.debug('queue pubSub point to client');
+      logger.debug('queue pubSub point to client');
       // queue a ws newData message (sent periodically)
       addToQueue(remoteId, tbd.timestamp, tbd.payload);
       execution.stop('queue payloads');

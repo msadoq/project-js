@@ -5,7 +5,8 @@ const { decode, encode, getType } = require('common/protobuf');
 const globalConstants = require('common/constants');
 const executionMonitor = require('common/execution');
 
-const debug = require('../../io/debug')('controllers:onTimebasedArchiveData');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const logger = require('common/log')('controllers:onTimebasedArchiveData');
 const registeredQueries = require('../../utils/registeredQueries');
 const { add: addToQueue } = require('../../websocket/dataQueue');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
@@ -50,7 +51,7 @@ const onTimebasedArchiveData = (
   if (typeof remoteId === 'undefined') {
     return undefined;
   }
-  debug.debug('received data from query', queryId);
+  logger.debug('received data from query', queryId);
   execution.stop('register query');
 
   // deprotobufferize isLast
@@ -60,7 +61,7 @@ const onTimebasedArchiveData = (
 
   // if last chunk of data, set interval as received in connectedData model and unregister queryId
   if (isLast) {
-    debug.debug('last chunk of queried timebased data', queryId);
+    logger.debug('last chunk of queried timebased data', queryId);
     execution.start('set interval as received');
     connectedDataModel.setIntervalAsReceived(remoteId, queryId);
     registeredQueries.remove(queryId);
@@ -82,7 +83,7 @@ const onTimebasedArchiveData = (
 
   // check payloads parity
   if (payloadBuffers.length % 2 !== 0) {
-    debug.debug('payloads should be sent by (timestamp, payloads) peers');
+    logger.debug('payloads should be sent by (timestamp, payloads) peers');
     return undefined;
   }
 
@@ -95,7 +96,7 @@ const onTimebasedArchiveData = (
       `${dataId.parameterName} message ignored, too many payloads: ${payloadNumber}`
     );
     execution.print();
-    return debug.warn(`message ignored, too many payloads: ${payloadNumber}`);
+    return logger.warn(`message ignored, too many payloads: ${payloadNumber}`);
   }
 
   // retrieve cache collection
@@ -121,7 +122,7 @@ const onTimebasedArchiveData = (
     execution.stop('queue payloads');
     callback(null);
   }, () => {
-    debug.debug(`inserted ${payloadNumber} payloads`);
+    logger.debug(`inserted ${payloadNumber} payloads`);
 
     // if HSS is a forked process, in e2e tests for example
     if (process.send) {

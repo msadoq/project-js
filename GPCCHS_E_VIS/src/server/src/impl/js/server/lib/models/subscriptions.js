@@ -1,4 +1,5 @@
-const debug = require('../io/debug')('models:subscriptions');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const logger = require('common/log')('models:subscriptions');
 
 // eslint-disable-next-line no-underscore-dangle
 const _remove = require('lodash/remove');
@@ -34,9 +35,9 @@ collection.addFilters = (dataId, filters, subscription) => {
       return undefined;
     }
   }
-  debug.debug('before update', sub);
+  logger.debug('before update', sub);
   sub.filters = _assign({}, sub.filters, filters);
-  debug.debug('update', sub);
+  logger.debug('update', sub);
   return sub;
 };
 
@@ -70,7 +71,7 @@ collection.addRecord = (dataId) => {
   if (typeof subscription !== 'undefined') {
     return subscription;
   }
-  debug.debug('insert', dataId);
+  logger.debug('insert', dataId);
   return collection.insert({
     flatDataId,
     dataId,
@@ -113,7 +114,7 @@ collection.removeRemoteId = (dataId, remoteId, subscription) => {
 };
 
 collection.cleanup = () => {
-  debug.debug('subscription cleared');
+  logger.debug('subscription cleared');
   collection.clear();
   collection.getFlatDataIdIndex().clear();
 };

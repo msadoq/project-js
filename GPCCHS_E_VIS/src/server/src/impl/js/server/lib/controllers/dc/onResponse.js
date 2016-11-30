@@ -1,10 +1,13 @@
 /* eslint no-underscore-dangle:0 import/no-extraneous-dependencies:0 */
 const _isBuffer = require('lodash/isBuffer');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const logger = require('common/log')('controllers:onResponse');
+
+// eslint-disable-next-line no-underscore-dangle
 const _isEqual = require('lodash/isEqual');
 const globalConstants = require('common/constants');
 const { encode, decode } = require('common/protobuf');
 const registeredCallbacks = require('common/callbacks');
-const debug = require('../../io/debug')('controllers:onResponse');
 const { sendToMain } = require('../../websocket/sendToMain');
 
 /**
@@ -24,7 +27,7 @@ const { sendToMain } = require('../../websocket/sendToMain');
 const protobufSuccess = encode('dc.dataControllerUtils.Status', { status: globalConstants.STATUS_SUCCESS });
 
 const response = (websocketHandler, queryIdBuffer, statusBuffer, reasonBuffer) => {
-  debug.verbose('called');
+  logger.verbose('called');
 
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
   // check if queryId exists in registeredCallbacks singleton, if no stop logic

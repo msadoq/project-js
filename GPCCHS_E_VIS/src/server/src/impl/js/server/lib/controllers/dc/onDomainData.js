@@ -1,4 +1,5 @@
-const debug = require('../../io/debug')('controllers:onDomainData');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const logger = require('common/log')('controllers:onDomainData');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -22,11 +23,11 @@ const { sendToMain } = require('../../websocket/sendToMain');
  * @param domainsBuffer
  */
 const domainData = (websocketHandler, queryIdBuffer, domainsBuffer) => {
-  debug.verbose('called');
+  logger.verbose('called');
 
   // deprotobufferize queryId
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
-  debug.debug('decoded queryId', queryId);
+  logger.debug('decoded queryId', queryId);
 
   // check if queryId exists in registeredCallbacks singleton, if no stop logic
   const callback = registeredCallbacks.get(queryId);

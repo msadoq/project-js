@@ -1,4 +1,5 @@
-const debug = require('../io/debug')('utils:errorHandler');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const logger = require('common/log')('utils:errorHandler');
 const profiling = require('./profiling');
 
 module.exports = (name, thunk, profile = true) => {
@@ -10,7 +11,7 @@ module.exports = (name, thunk, profile = true) => {
   try {
     thunk();
   } catch (e) {
-    debug.error(e);
+    logger.error(e);
   }
 
   if (profile && process.env.PROFILING === 'on') {

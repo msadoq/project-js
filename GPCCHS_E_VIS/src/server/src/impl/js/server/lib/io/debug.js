@@ -1,5 +1,6 @@
-const debug = require('debug');
+const deprecated = require('depd')('io/debug');
 // eslint-disable-next-line import/no-extraneous-dependencies
-const debugHelper = require('common/debug');
+const getLogger = require('common/log');
 
-module.exports = debugHelper(debug);
+// TODO deprecated
+module.exports = deprecated.function(getLogger);

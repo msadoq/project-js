@@ -4,8 +4,8 @@ const _get = require('lodash/get');
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
-
-const debug = require('../io/debug')('websocket');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const logger = require('common/log')('websocket');
 
 const errorHandler = require('../utils/errorHandler');
 
@@ -26,10 +26,10 @@ const primusExports = module.exports = {
     primus = primusExports.getNewInstance(server);
 
     primus.on('connection', (spark) => {
-      debug.info('new websocket connection', spark.address);
+      logger.info('new websocket connection', spark.address);
 
       if (_get(spark, ['query', 'identity']) !== 'main') {
-        debug.warn('unknown websocket client tried to connect to HSS');
+        logger.warn('unknown websocket client tried to connect to HSS');
         return spark.end();
       }
 
@@ -38,7 +38,7 @@ const primusExports = module.exports = {
       spark.on('end', () => errorHandler('onClose', () => handlers.onClose(spark)));
 
       return spark.on('data', (message) => {
-        debug.debug('data', message);
+        logger.debug('data', message);
 
         if (!message.event) {
           throw new Error('Websocket incoming message without event key');

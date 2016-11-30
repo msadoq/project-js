@@ -4,32 +4,25 @@ import _map from 'lodash/map';
 import SizeMe from 'react-sizeme';
 import { format } from 'd3-format';
 import { scaleTime } from 'd3-scale';
-import { timeFormat } from 'd3-time-format';
-import {
-  timeYear, timeMonth, timeWeek, timeDay,
-  timeHour, timeMinute, timeSecond
-} from 'd3-time';
 import {
   ChartCanvas, Chart, series,
   coordinates, axes, tooltip
 } from 'react-stockcharts';
+import {
+  getLineMarker,
+  getLineMarkerProps,
+  getLines,
+  zoomDateFormat,
+  fullDateFormat,
+  getLineStyle
+} from './helper';
 
 import debug from '../../../lib/common/debug/windowDebug';
-
-const formatMillisecond = timeFormat('.%L');
-const formatSecond = timeFormat(':%S');
-const formatMinute = timeFormat('%H:%M');
-const formatHour = timeFormat('%H %p');
-const formatDay = timeFormat('%a %d');
-const formatWeek = timeFormat('%b %d');
-const formatMonth = timeFormat('%B');
-const formatYear = timeFormat('%Y');
 
 const logger = debug('view:plot');
 
 const {
-  LineSeries, ScatterSeries, CircleMarker,
-  SquareMarker, TriangleMarker, StraightLine
+  LineSeries, ScatterSeries, StraightLine
 } = series;
 const { HoverTooltip } = tooltip;
 const {
@@ -37,62 +30,7 @@ const {
   MouseCoordinateY, CurrentCoordinate
 } = coordinates;
 const { XAxis, YAxis } = axes;
-
-const getLineMarker = (pointsStyle) => {
-  switch (pointsStyle) {
-    case 'Square':
-      return SquareMarker;
-    case 'Triangle':
-      return TriangleMarker;
-    case 'Dot':
-    case 'None':
-    default:
-      return CircleMarker;
-  }
-};
-
-const getLineMarkerProps = (pointsStyle, pointsSize, props) => {
-  let styleProps = {};
-  switch (pointsStyle) {
-    case 'Square':
-      styleProps = { width: pointsSize || 4 };
-      break;
-    case 'Triangle':
-      styleProps = { width: pointsSize || 5 };
-      break;
-    case 'Dot':
-      styleProps = { r: pointsSize || 2 };
-      break;
-    case 'None':
-    default:
-      styleProps = { r: 0 };
-  }
-  return { ...styleProps, ...props };
-};
-
-const getLines = (entryPoints = []) => entryPoints.map(ep => ({
-  name: ep.name,
-  key: ep.name,
-  color: ep.objectStyle.curveColour,
-  lineStyle: ep.objectStyle.line.style, // "Continuous", "Dotted", "Dashed"
-  lineSize: ep.objectStyle.line.size,
-  pointsStyle: ep.objectStyle.points.style, // "None", "Triangle", "Square", "Dot"
-  pointsSize: ep.objectStyle.points.size,
-}));
-
 const margin = { left: 10, right: 60, top: 20, bottom: 20 };
-
-/* eslint-disable no-nested-ternary */
-const zoomDateFormat = date => (timeSecond(date) < date ? formatMillisecond
-    : timeMinute(date) < date ? formatSecond
-    : timeHour(date) < date ? formatMinute
-    : timeDay(date) < date ? formatHour
-    : timeMonth(date) < date ? (timeWeek(date) < date ? formatDay : formatWeek)
-    : timeYear(date) < date ? formatMonth
-    : formatYear)(date);
-
-
-const fullDateFormat = timeFormat('%Y-%m-%d %H:%M:%S.%L');
 
 class PlotView extends PureComponent {
   static propTypes = {
@@ -157,8 +95,6 @@ class PlotView extends PureComponent {
 
   lines = [];
 
-  dateFormat = timeFormat('%Y-%m-%d %H:%M:%S.%L');
-
   yExtents = d => _map(this.lines, ({ key }) => _get(d, [key, 'value']));
 
   handleTooltipContent = ({ currentItem, xAccessor }) => ({
@@ -219,14 +155,16 @@ class PlotView extends PureComponent {
 
   renderLines = () => this.lines.map(({
       key, color, lineSize = 1,
-      pointsStyle, pointsSize
+      pointsStyle, pointsSize, lineStyle
     }) => (
       <div key={key}>
         <LineSeries
           key={`line${key}`}
           yAccessor={d => _get(d, [key, 'value'])}
+          connectNulls
           stroke={color}
           strokeWidth={lineSize}
+          strokeDasharray={getLineStyle(lineStyle)}
         />
         <ScatterSeries
           key={`scatter${key}`}

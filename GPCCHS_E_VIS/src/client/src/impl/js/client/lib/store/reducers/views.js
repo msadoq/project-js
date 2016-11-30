@@ -1,6 +1,5 @@
 import _omit from 'lodash/omit';
 import _without from 'lodash/without';
-import _cloneDeep from 'lodash/cloneDeep';
 import _find from 'lodash/find';
 import u from 'updeep';
 import { resolve } from 'path';
@@ -75,8 +74,23 @@ export default function views(stateViews = {}, action) {
       return removeAxis(stateViews, action);
     case types.WS_VIEW_ADD_ENTRYPOINT:
       return addEntryPoint(stateViews, action);
-    case types.WS_VIEW_REMOVE_ENTRYPOINT:
-      return removeElementInArray(stateViews, action, 'entryPoints');
+    case types.WS_VIEW_REMOVE_ENTRYPOINT: {
+      let axisIdX;
+      let axisIdY;
+      if (stateViews[action.payload.viewId] &&
+          stateViews[action.payload.viewId].type === 'PlotView') {
+        const ep = stateViews[action.payload.viewId].configuration
+                  .entryPoints[action.payload.index];
+        axisIdX = ep.connectedDataX.axisId;
+        axisIdY = ep.connectedDataY.axisId;
+      }
+      let newState = removeElementInArray(stateViews, action, 'entryPoints');
+      if (stateViews[action.payload.viewId] &&
+          stateViews[action.payload.viewId].type === 'PlotView') {
+        newState = removeUnreferencedAxis(newState, action.payload.viewId, axisIdX, axisIdY);
+      }
+      return newState;
+    }
     case types.WS_VIEW_ADD_GRID:
       return addElementInArray(stateViews, action, 'grids', 'grid');
     case types.WS_VIEW_REMOVE_GRID:
@@ -253,11 +267,16 @@ export function removeAxis(stateViews, action) {
   if (stateViews[action.payload.viewId].type !== 'PlotView') {
     return stateViews;
   }
-  const newState = _cloneDeep(stateViews);
-  newState[action.payload.viewId].configuration.axes =
-    _omit(stateViews[action.payload.viewId].configuration.axes, action.payload.axisId);
-  return newState;
+  return u({
+    [action.payload.viewId]: {
+      configuration: {
+        axes: u.omit(action.payload.axisId),
+      },
+      isModified: true,
+    }
+  }, stateViews);
 }
+
 export function createAxis(label, unit) {
   const uuid = v4();
   return {
@@ -274,14 +293,6 @@ export function addEntryPoint(stateViews, action) {
   const currentView = stateViews[action.payload.viewId];
   const newValue = action.payload.entryPoint;
 
-  let newState = u({
-    [action.payload.viewId]: {
-      configuration: {
-        entryPoints: [...oldValue, ...newValue],
-      },
-      isModified: true,
-    }
-  }, stateViews);
   const structureType = vivl(currentView.type, 'structureType')();
   switch (structureType) { // eslint-disable-line default-case
     case globalConstants.DATASTRUCTURETYPE_LAST: {
@@ -318,7 +329,7 @@ export function addEntryPoint(stateViews, action) {
         newValue.connectedDataY.domain = '*';
       }
       // axis Id
-      newState = updatePlotAxisId(stateViews, action);
+      const newState = updatePlotAxisId(stateViews, action);
       return u({
         [action.payload.viewId]: {
           configuration: {
@@ -383,4 +394,43 @@ export function getAxisId(epName, connectedData, currentView) {
   if (index) {
     return index.uuid;
   }
+}
+
+export function removeUnreferencedAxis(stateViews, viewId, axisIdX, axisIdY) {
+  const epOnAxisX = [];
+  const epOnAxisY = [];
+  stateViews[viewId].configuration.entryPoints.forEach((ep) => {
+    if (ep.connectedDataX.axisId === axisIdX || ep.connectedDataY.axisId === axisIdX) {
+      epOnAxisX.push(ep.name);
+    }
+    if (ep.connectedDataX.axisId === axisIdY || ep.connectedDataY.axisId === axisIdY) {
+      epOnAxisY.push(ep.name);
+    }
+  });
+  // No axis to delete
+  if (epOnAxisX.length && epOnAxisY.length) {
+    return stateViews;
+  }
+  let newState = stateViews;
+  if (!epOnAxisX.length) {
+    newState = u({
+      [viewId]: {
+        configuration: {
+          axes: u.omit(axisIdX),
+        },
+        isModified: true,
+      }
+    }, stateViews);
+  }
+  if (!epOnAxisY.length) {
+    newState = u({
+      [viewId]: {
+        configuration: {
+          axes: u.omit(axisIdY),
+        },
+        isModified: true,
+      }
+    }, newState);
+  }
+  return newState;
 }

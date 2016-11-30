@@ -27,9 +27,17 @@ const newEntryPoint = {
     timeline: 'Session 1',
     axisId: 'time'
   },
-  lineStyle: 'Continuous',
-  pointsStyle: 'None',
-  curveColour: '#222222',
+  objectStyle: {
+    line: {
+      style: 'Continuous',
+      size: 3,
+    },
+    points: {
+      style: 'None',
+      size: 3,
+    },
+    curveColour: '#222222',
+  },
   stateColours: [
 
   ]

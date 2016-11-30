@@ -43,15 +43,22 @@ export const getLineMarkerProps = (pointsStyle, pointsSize, props) => {
   return { ...styleProps, ...props };
 };
 
-export const getLines = (entryPoints = []) => entryPoints.map(ep => ({
-  name: ep.name,
-  key: ep.name,
-  color: ep.objectStyle.curveColour,
-  lineStyle: ep.objectStyle.line.style, // "Continuous", "Dotted", "Dashed"
-  lineSize: ep.objectStyle.line.size,
-  pointsStyle: ep.objectStyle.points.style, // "None", "Triangle", "Square", "Dot"
-  pointsSize: ep.objectStyle.points.size,
-}));
+export const getLines = (entryPoints = []) => entryPoints.reduce((lines, ep) => {
+  if (!ep.connectedDataX.formula || ep.connectedDataX.formula === '' ||
+      !ep.connectedDataY.formula || ep.connectedDataY.formula === '') {
+    return lines;
+  }
+  lines.push(({
+    name: ep.name,
+    key: ep.name,
+    color: ep.objectStyle.curveColour || '#000000',
+    lineStyle: ep.objectStyle.line.style || 'Continuous', // "Continuous", "Dotted", "Dashed"
+    lineSize: ep.objectStyle.line.size,
+    pointsStyle: ep.objectStyle.points.style || 'None', // "None", "Triangle", "Square", "Dot"
+    pointsSize: ep.objectStyle.points.size,
+  }));
+  return lines;
+}, []);
 
 export const getLineStyle = (lineStyle) => {
   switch (lineStyle) {

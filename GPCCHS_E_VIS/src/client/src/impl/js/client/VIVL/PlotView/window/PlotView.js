@@ -98,7 +98,6 @@ class PlotView extends PureComponent {
     const gridHeight = height - margin.top - margin.bottom - offsetTop;
     const gridWidth = width - margin.left - margin.right;
     const lineConf = _get(configuration, 'grids[0].line', {});
-    console.log('lineConf', lineConf);
     const common = {
       tickStrokeOpacity: 0.2,
       strokeWidth: lineConf.size || 1,
@@ -190,7 +189,11 @@ class PlotView extends PureComponent {
   renderLines = () => this.lines.map(({
       key, color, lineSize = 1,
       pointsStyle, pointsSize, lineStyle
-    }) => (
+    }) => {
+    if (!key) {
+      return ({});
+    }
+    return (
       <div key={key}>
         <LineSeries
           key={`line${key}`}
@@ -215,7 +218,8 @@ class PlotView extends PureComponent {
           fill={color}
         />
       </div>
-  ));
+    );
+  });
 
   render() {
     logger.debug('render');

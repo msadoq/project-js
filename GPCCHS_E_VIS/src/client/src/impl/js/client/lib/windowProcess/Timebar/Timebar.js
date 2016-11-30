@@ -477,7 +477,7 @@ export default class Timebar extends Component {
     /*
       Will reposition only the cursors, the viewport does'nt change
     */
-    if (e.ctrlKey) {
+    if (e.ctrlKey && e.altKey) {
       let { lower, upper, current, slideLower, slideUpper } = this.state;
       lower = lower || visuWindow.lower;
       upper = upper || visuWindow.upper;
@@ -513,7 +513,7 @@ export default class Timebar extends Component {
     /*
       Will reposition the viewportn cursors's position does'nt change
     */
-    } else {
+    } else if (e.ctrlKey) {
       const viewportOffsetLeft = e.currentTarget.getBoundingClientRect().left;
       const viewportOffsetRight = e.currentTarget.getBoundingClientRect().right;
       const percentOffsetWithLeft = (viewportOffsetLeft - e.pageX) / e.currentTarget.clientWidth;

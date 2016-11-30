@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
-import styles from './TimebarControls.css';
+import styles from './Controls.css';
 
 export default class TimebarControlsLeft extends Component {
 

@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import SizeMe from 'react-sizeme';
 import { Col } from 'react-bootstrap';
 import TimeBar from './Timebar';
-import TimebarControls from './TimebarControls';
+import Controls from './Controls';
 import styles from './Timebar.css';
 
 const bootstrapPaddings = 5;
@@ -122,7 +122,7 @@ class RighttabContent extends Component {
           ref={(el) => { this.formattedFullDateEl = el; }}
           className={styles.formatedFullDate}
         />
-        <TimebarControls
+        <Controls
           viewport={this.formatViewportDimensions()}
           timebarMode={timebar.mode}
           timebarSpeed={timebar.speed}

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import globalConstants from 'common/constants';
-import styles from './TimebarControls.css';
+import styles from './Controls.css';
 
 const currentUpperMargin = 1 / 100;
 

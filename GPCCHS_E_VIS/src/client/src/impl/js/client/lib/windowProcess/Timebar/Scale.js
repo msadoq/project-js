@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React, { PureComponent, PropTypes } from 'react';
-import styles from './TimebarScale.css';
+import styles from './Scale.css';
 
 const levelsRules = getLevelsRules();
 // 1980-01-01

@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import TimebarFixture from '../../../../test/__mocks__/Timebar';
-import TimebarControls from '../TimebarControls';
+import Controls from '../Controls';
 
 const propsStub = {
   updateSpeed: () => null,
@@ -18,9 +18,9 @@ const propsStub = {
   currentSessionOffsetMs: 800,
 };
 
-test('TimebarControls renders correctly', () => {
+test('Controls renders correctly', () => {
   const tree = renderer.create(
-    <TimebarControls {...propsStub} />
+    <Controls {...propsStub} />
   ).toJSON();
   expect(tree).toMatchSnapshot();
 });

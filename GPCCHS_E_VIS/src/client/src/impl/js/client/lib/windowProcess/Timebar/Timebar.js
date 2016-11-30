@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import React, { Component, PropTypes } from 'react';
 import globalConstants from 'common/constants';
 import styles from './Timebar.css';
-import TimebarScale from './TimebarScale';
+import Scale from './Scale';
 import TimebarTimeline from './TimebarTimeline';
 
 // 1980-01-01
@@ -916,12 +916,12 @@ export default class Timebar extends Component {
     const upperCurrentClose = (upperPercent - currentPercent) * (widthPx * 0.01) < 20;
     const slideUpperUpperClose = Math.abs((upperPercent - calc.slideUpperPercentOffset)
       * (widthPx * 0.01)) < 20 && timebarMode !== 'Normal';
-    const slideUpperCurrentClose = (calc.slideUpperPercentOffset - currentPercent)
-      * (widthPx * 0.01) < 20 && timebarMode !== 'Normal';
-    const slideLowerCurrentClose = (currentPercent - calc.slideLowerPercentOffset)
-      * (widthPx * 0.01) < 20 && timebarMode === 'Fixed';
-    const slideLowerLowerClose = (calc.slideLowerPercentOffset - lowerPercent)
-      * (widthPx * 0.01) < 20 && timebarMode === 'Fixed';
+    const slideUpperCurrentClose = Math.abs((calc.slideUpperPercentOffset - currentPercent)
+      * (widthPx * 0.01)) < 20 && timebarMode !== 'Normal';
+    const slideLowerCurrentClose = Math.abs((currentPercent - calc.slideLowerPercentOffset)
+      * (widthPx * 0.01)) < 20 && timebarMode === 'Fixed';
+    const slideLowerLowerClose = Math.abs((calc.slideLowerPercentOffset - lowerPercent)
+      * (widthPx * 0.01)) < 20 && timebarMode === 'Fixed';
     const moveLower = (currentPercent - lowerPercent) * (widthPx * 0.01) < 70;
     const moveUpper = (upperPercent - currentPercent) * (widthPx * 0.01) < 70;
 
@@ -1137,7 +1137,7 @@ export default class Timebar extends Component {
             Timescale on the bottom
           */
         }
-        <TimebarScale
+        <Scale
           viewportLower={viewportLower}
           viewportUpper={viewportUpper}
           onChange={this.onTimescaleNavigate}

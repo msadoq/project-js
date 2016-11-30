@@ -1,13 +1,11 @@
 // eslint-disable-next-line no-underscore-dangle
 const _round = require('lodash/round');
-const debug = require('debug');
 
 const bytesToString = require('../utils/bytesConverter');
 
-const debugHelper = require('../debug');
+const getLogger = require('../log');
 
-
-const display = debugHelper(debug)('monitoring').warn;
+const display = getLogger('monitoring').warn;
 
 let ticks = 0;
 let currentTime;
@@ -41,7 +39,7 @@ const monitor = () => {
   display('  rss', bytesToString(memUsage.rss));
   display('  heapTotal', bytesToString(memUsage.heapTotal));
   display('  heapUsed', bytesToString(memUsage.heapUsed));
-  display('---------------------');
+  display('---------------------\n');
 
   currentTime = process.hrtime();
   monitorTimeout = setTimeout(monitor, TIMESTEP);

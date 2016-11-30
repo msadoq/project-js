@@ -1,5 +1,6 @@
-const debug = require('debug');
-const logger = require('../debug')(debug)('common:registeredCallbacks');
+const getLogger = require('../log');
+
+const logger = getLogger('GPCCHS:common:registeredCallbacks');
 
 // eslint-disable-next-line no-underscore-dangle
 const _isString = require('lodash/isString');

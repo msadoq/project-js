@@ -4,7 +4,7 @@ const _round = require('lodash/round');
 const _reduce = require('lodash/reduce');
 const _noop = require('lodash/noop');
 
-const debug = require('../debug')(require('debug'));
+const getLogger = require('../log');
 
 function start(executionMap, key) {
   if (!executionMap[key]) {
@@ -23,8 +23,8 @@ function stop(executionMap, key, message) {
   }
 }
 function print(executionMap, namespace) {
-  const display = debug(`profiling:${namespace}`).warn;
-  display('= execution map ====================');
+  const display = getLogger(`GPCCHS:profiling:${namespace}`).warn;
+  display('= execution map -~=] START [=~-');
   _each(executionMap, ({ traces, message }, k) => {
     let d = 0;
     if (traces.length === 1) {
@@ -43,7 +43,7 @@ function print(executionMap, namespace) {
     }
     display(...args);
   });
-  display('- execution map --------------------');
+  display('- execution map -~=]  END  [=~-\n');
 }
 
 const noOp = {

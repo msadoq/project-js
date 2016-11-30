@@ -1,3 +1,5 @@
+/* eslint no-console:0 */
+
 // eslint-disable-next-line import/no-unresolved, import/no-extraneous-dependencies
 const { ipcRenderer } = require('electron');
 const {
@@ -44,7 +46,7 @@ const getConsoleTime = getTimer();
 
 function sendToConsole(category, level) {
   return function sendWithContext(msg) {
-    // eslint-disable-next-line no-console, prefer-rest-params
+    // eslint-disable-next-line prefer-rest-params
     console[level].apply(null, [`[${category}] ${msg} +${getConsoleTime()}ms`].concat(rest(arguments, 1)));
   };
 }

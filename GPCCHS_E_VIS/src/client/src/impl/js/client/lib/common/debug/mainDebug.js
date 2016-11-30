@@ -1,5 +1,5 @@
-import debug from 'debug';
-import debugHelper from 'common/debug';
+import deprecate from 'depd';
+import getLogger from 'common/log';
 
-// return debug helper with node implementation
-module.exports = debugHelper(debug);
+// TODO deprecated
+module.exports = deprecate('common/debug/mainDebug').function(getLogger);

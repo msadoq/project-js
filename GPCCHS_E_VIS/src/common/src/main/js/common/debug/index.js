@@ -1,4 +1,5 @@
 /* eslint no-console:0 */
+const deprecate = require('depd')('common/debug');
 
 const ERROR = 'ERROR';
 const WARN = 'WARN';
@@ -6,7 +7,8 @@ const INFO = 'INFO';
 const DEBUG = 'DEBUG';
 const VERBOSE = 'VERBOSE';
 
-module.exports = debug => (namespace) => {
+// TODO deprecated
+module.exports = deprecate.function(debug => (namespace) => {
   const debugNamespace = `GPCCHS:${namespace}`;
   const logger = debug(debugNamespace);
   let level = process.env.LEVEL;
@@ -72,4 +74,4 @@ module.exports = debug => (namespace) => {
       }
     },
   };
-};
+});

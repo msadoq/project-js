@@ -4,9 +4,7 @@ import _map from 'lodash/map';
 import SizeMe from 'react-sizeme';
 import { format } from 'd3-format';
 import { scaleTime } from 'd3-scale';
-// import {
-//   MenuItem
-// } from 'react-bootstrap';
+import getLogger from 'common/log';
 import {
   ChartCanvas, Chart, series,
   coordinates, axes, tooltip, interactive
@@ -21,9 +19,7 @@ import {
 } from './helper';
 // import PlotMenu from './PlotMenu';
 
-import debug from 'common/log';
-
-const logger = debug('GPCCHS:view:plot');
+const logger = getLogger('GPCCHS:view:plot');
 
 const {
   LineSeries, ScatterSeries, StraightLine

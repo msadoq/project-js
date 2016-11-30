@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
-import { updateCursors, updateViewport, updateSpeed, updateMode } from '../../store/actions/timebars';
+import { updateCursors } from '../../store/actions/timebars';
 import { updateTimebarHeight } from '../../store/actions/pages';
-import { play, pause } from '../../store/actions/hsc';
 import { getTimebarTimelinesSelector } from '../../store/selectors/timebars';
 import { getPlayingTimebarId } from '../../store/selectors/hsc';
 import TimebarWrapper from './TimebarWrapper';
@@ -41,12 +40,7 @@ export default connect(
       sessions: state.sessions,
     };
   }, {
-    updateMode,
     updateCursors,
-    updateViewport,
-    play,
-    pause,
-    updateSpeed,
     updateTimebarHeight,
   }
 )(TimebarWrapper);

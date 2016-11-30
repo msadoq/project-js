@@ -4,7 +4,7 @@ import { debounce } from 'lodash';
 import { Col } from 'react-bootstrap';
 import styles from './Timebar.css';
 import LefttabContainer from './LefttabContainer';
-import Righttab from './Righttab';
+import RighttabContainer from './RighttabContainer';
 import Timesetter from './Timesetter';
 import debug from '../../../lib/common/debug/windowDebug';
 
@@ -15,13 +15,8 @@ export default class TimebarWrapper extends Component {
 
   static propTypes = {
     updateCursors: PropTypes.func.isRequired,
-    updateViewport: PropTypes.func.isRequired,
     isPlaying: PropTypes.bool.isRequired,
-    play: PropTypes.func.isRequired,
-    pause: PropTypes.func.isRequired,
     updateTimebarHeight: PropTypes.func.isRequired,
-    updateSpeed: PropTypes.func.isRequired,
-    updateMode: PropTypes.func.isRequired,
     visuWindow: PropTypes.object.isRequired,
     slideWindow: PropTypes.object.isRequired,
     timebar: PropTypes.object.isRequired,
@@ -109,16 +104,11 @@ export default class TimebarWrapper extends Component {
       timebarId,
       visuWindow,
       isPlaying,
-      play,
-      pause,
-      updateSpeed,
       timebar,
       slideWindow,
-      updateMode,
       currentSessionOffsetMs,
       focusedPageId,
       timebarHeight,
-      updateViewport,
     } = this.props;
     const {
       displayTimesetter,
@@ -177,15 +167,11 @@ export default class TimebarWrapper extends Component {
             onTimelinesVerticalScroll={this.onTimelinesVerticalScroll}
           />
         </Col>
-        <Righttab
+        <RighttabContainer
           timebar={timebar}
           timebarId={timebarId}
           visuWindow={visuWindow}
           slideWindow={slideWindow}
-          play={play}
-          pause={pause}
-          updateSpeed={updateSpeed}
-          updateMode={updateMode}
           currentSessionOffsetMs={currentSessionOffsetMs}
           isPlaying={isPlaying}
           timelines={timelines}
@@ -193,7 +179,6 @@ export default class TimebarWrapper extends Component {
           onTimelinesVerticalScroll={this.onTimelinesVerticalScroll}
           timelinesVerticalScroll={timelinesVerticalScroll}
           updateCursors={updateCursors}
-          updateViewport={updateViewport}
         />
       </div>
     );

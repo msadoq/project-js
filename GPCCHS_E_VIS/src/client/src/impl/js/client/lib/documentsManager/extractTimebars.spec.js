@@ -26,7 +26,6 @@ describe('documents', () => {
           rulerStart: 1420106400000,
           rulerResolution: 11250,
           speed: 1.0,
-          playingState: 'pause',
           timeSpec: 'LocalTime',
           offsetFromUTC: 0,
           timelines: [

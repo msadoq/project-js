@@ -20,7 +20,6 @@ describe('store:timebars:reducer', () => {
         slideWindow: { lower: 20 },
         rulerResolution: 100,
         speed: 10,
-        playingState: 'play',
         masterId: 'OtherId',
         timelines: ['myTimelineId']
       };
@@ -43,7 +42,6 @@ describe('store:timebars:reducer', () => {
         id: null,
         rulerResolution: 2250,
         speed: 1,
-        playingState: 'pause',
         mode: 'Normal',
         masterId: null,
         timelines: []
@@ -85,7 +83,6 @@ describe('store:timebars:reducer', () => {
             slideWindow: { lower: 20, upper: 30 },
             rulerResolution: 100,
             speed: 10,
-            playingState: 'play',
             masterId: 'OtherId',
             timelines: ['myTimelineId', 'myTimelineId3']
           } },
@@ -150,12 +147,6 @@ describe('store:timebars:reducer', () => {
       newState.should.have.property('myTimebarId');
       newState.myTimebarId.speed.should.equal(20);
     });
-    it('playing state', () => {
-      const newState = reducer(state.timebars, actions.updatePlayingState('myTimebarId', 'pause'));
-      newState.should.have.property('myTimebarId');
-      newState.myTimebarId.should.have.property('playingState');
-      newState.myTimebarId.playingState.should.equal('pause');
-    });
     it('masterId', () => {
       const newState = reducer(state.timebars, actions.updateMasterId('myTimebarId', 'myTlId'));
       newState.should.have.property('myTimebarId');
@@ -187,7 +178,6 @@ describe('store:timebars:reducer', () => {
             slideWindow: { lower: 20, upper: 30 },
             rulerResolution: 100,
             speed: 10,
-            playingState: 'play',
             masterId: 'OtherId',
             timelines: ['myTimelineId', 'myTimelineId3']
           } },
@@ -218,7 +208,6 @@ describe('store:timebars:reducer', () => {
             slideWindow: { lower: 20, upper: 30 },
             rulerResolution: 100,
             speed: 10,
-            playingState: 'play',
             masterId: 'OtherId',
             timelines: ['myTimelineId', 'myTimelineId3']
           } },

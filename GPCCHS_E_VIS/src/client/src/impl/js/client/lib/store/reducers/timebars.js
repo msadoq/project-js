@@ -21,7 +21,6 @@ export default function timebars(stateTimebars = {}, action) {
     case types.WS_TIMEBAR_UPDATE_VIEWPORT:
     case types.WS_TIMEBAR_SPEED_UPDATE:
     case types.WS_TIMEBAR_MODE_UPDATE:
-    case types.WS_TIMEBAR_PLAYINGSTATE_UPDATE:
     case types.WS_TIMEBAR_MASTERID_UPDATE:
     case types.WS_TIMEBAR_MOUNT_TIMELINE:
     case types.WS_TIMEBAR_UNMOUNT_TIMELINE:
@@ -92,7 +91,6 @@ const initialState = {
   rulerStart: Date.now() - (20 * 60 * 1000),
   rulerResolution: 2250,
   speed: 1.0,
-  playingState: 'pause',
   masterId: null,
   timelines: [],
   mode: 'Normal',
@@ -111,7 +109,6 @@ function timebar(stateTimebar = initialState, action) {
         rulerStart: configuration.rulerStart || initialState.rulerStart,
         rulerResolution: configuration.rulerResolution || initialState.rulerResolution,
         speed: configuration.speed || initialState.speed,
-        playingState: configuration.playingState || initialState.playingState,
         masterId: configuration.masterId || initialState.masterId,
         timelines: configuration.timelines || initialState.timelines,
         mode: configuration.mode || initialState.mode,
@@ -133,8 +130,6 @@ function timebar(stateTimebar = initialState, action) {
       return { ...stateTimebar, speed: payload.speed };
     case types.WS_TIMEBAR_MODE_UPDATE:
       return { ...stateTimebar, mode: payload.mode };
-    case types.WS_TIMEBAR_PLAYINGSTATE_UPDATE:
-      return { ...stateTimebar, playingState: payload.playingState };
     case types.WS_TIMEBAR_MASTERID_UPDATE:
       return { ...stateTimebar, masterId: payload.masterId };
     default:

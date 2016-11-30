@@ -154,7 +154,6 @@ export function openDefaultWorkspace(dispatch, root, callback) {
     rulerStart: Date.now() - (10 * 60 * 1000),
     rulerResolution: 11250,
     speed: 1.0,
-    playingState: 'pause',
     offsetFromUTC: 0,
     timelines: [],
   };

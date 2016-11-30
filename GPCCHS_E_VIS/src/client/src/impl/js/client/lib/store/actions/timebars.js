@@ -26,9 +26,6 @@ export const updateViewport = simple(
   'rulerResolution'
 );
 export const updateSpeed = simple(types.WS_TIMEBAR_SPEED_UPDATE, 'timebarId', 'speed');
-export const updatePlayingState = simple(
-  types.WS_TIMEBAR_PLAYINGSTATE_UPDATE, 'timebarId', 'playingState'
-);
 export const updateMode = simple(
   types.WS_TIMEBAR_MODE_UPDATE, 'timebarId', 'mode'
 );

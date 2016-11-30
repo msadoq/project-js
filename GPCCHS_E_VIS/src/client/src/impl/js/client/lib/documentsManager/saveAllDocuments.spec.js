@@ -83,7 +83,6 @@ describe('mainProcess/documents/saveAllDocuments', () => {
         extUpperBound: 1420107500000,
         id: 'tb1',
         masterId: 'Session 1',
-        playingState: 'pause',
         rulerResolution: 11250,
         rulerStart: 1420106400000,
         slideWindow: {

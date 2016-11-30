@@ -122,7 +122,7 @@ class EntryPointConnectedData extends React.Component {
           />
         </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Axis">
+        {axes && <HorizontalFormGroup label="Axis">
           <Field
             name="axisId"
             className="form-control input-sm"
@@ -135,7 +135,7 @@ class EntryPointConnectedData extends React.Component {
               );
             })}
           </Field>
-        </HorizontalFormGroup>
+        </HorizontalFormGroup>}
 
         <ClearSubmitButtons
           pristine={pristine}

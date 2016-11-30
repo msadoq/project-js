@@ -20,21 +20,28 @@ export default class TimesetterFields extends Component {
   }
 
   onChangeAction = () => {
-    const { value, onChange, visuWindow, slideWindow } = this.props;
+    const { value, onChange } = this.props;
+    let { visuWindow, slideWindow } = this.props;
     const { date } = this.state;
     if (visuWindow[value]) {
-      visuWindow[value] = date.toDate().getTime();
+      visuWindow = {
+        ...visuWindow,
+        [value]: date.toDate().getTime(),
+      };
     } else if (value === 'slideLower') {
-      slideWindow.lower = date.toDate().getTime();
+      slideWindow = {
+        ...slideWindow,
+        lower: date.toDate().getTime(),
+      };
     } else if (value === 'slideUpper') {
-      slideWindow.upper = date.toDate().getTime();
+      slideWindow = {
+        ...slideWindow,
+        upper: date.toDate().getTime(),
+      };
     }
     onChange(
-      visuWindow.lower,
-      visuWindow.upper,
-      visuWindow.current,
-      slideWindow.lower,
-      slideWindow.upper,
+      visuWindow,
+      slideWindow,
       value
     );
     this.setState({ date: null });

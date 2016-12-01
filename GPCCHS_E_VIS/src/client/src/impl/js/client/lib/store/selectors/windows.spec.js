@@ -9,7 +9,7 @@ import {
   getWindowsVisibleViews,
 } from './windows';
 
-describe('store:window:selectors', () => {
+describe.only('store:window:selectors', () => {
   describe('getWindow', () => {
     const state = {
       windows: {
@@ -46,19 +46,20 @@ describe('store:window:selectors', () => {
       },
     };
     const { getState } = getStore(state);
-    let r;
     it('should returns focused pages ids', () => {
-      r = getWindowsFocusedPageIds(getState());
-      r.should.eql([10, 20]);
-      getWindowsFocusedPageIds.recomputations().should.equal(1);
+      getWindowsFocusedPageIds(getState()).should.eql([10, 20]);
     });
     it('should memoize', () => {
+      getWindowsFocusedPageIds.resetRecomputations();
+      const r = getWindowsFocusedPageIds(getState());
+      getWindowsFocusedPageIds.recomputations().should.equal(0);
       getWindowsFocusedPageIds(getState()).should.eql(r);
+      getWindowsFocusedPageIds.recomputations().should.equal(0);
+      getWindowsFocusedPageIds({}).should.not.eql(r);
       getWindowsFocusedPageIds.recomputations().should.equal(1);
     });
     it('should support empty windows list', () => {
       getWindowsFocusedPageIds({ windows: {} }).should.eql([]);
-      getWindowsFocusedPageIds.recomputations().should.equal(2);
     });
   });
   describe('getWindowsFocusedPage', () => {
@@ -75,17 +76,19 @@ describe('store:window:selectors', () => {
       },
     };
     const { getState } = getStore(state);
-    let r;
     it('should returns focused pages', () => {
-      r = getWindowsFocusedPage(getState());
-      r.should.eql([
+      getWindowsFocusedPage(getState()).should.eql([
         { title: 'Page 10' },
         { title: 'Page 20' },
       ]);
-      getWindowsFocusedPage.recomputations().should.equal(1);
     });
     it('should memoize', () => {
+      getWindowsFocusedPage.resetRecomputations();
+      const r = getWindowsFocusedPage(getState());
+      getWindowsFocusedPage.recomputations().should.equal(0);
       getWindowsFocusedPage(getState()).should.eql(r);
+      getWindowsFocusedPage.recomputations().should.equal(0);
+      getWindowsFocusedPage({}).should.not.eql(r);
       getWindowsFocusedPage.recomputations().should.equal(1);
     });
     it('should support empty pages list', () => {
@@ -95,7 +98,6 @@ describe('store:window:selectors', () => {
         },
         pages: {},
       }).should.eql([]);
-      getWindowsFocusedPage.recomputations().should.equal(2);
     });
   });
   describe('getWindowsVisibleViewIds', () => {
@@ -108,17 +110,19 @@ describe('store:window:selectors', () => {
       },
     };
     const { getState } = getStore(state);
-    let r;
     it('should returns focused views ids', () => {
-      r = getWindowsVisibleViewIds(getState());
-      r.should.eql([{
+      getWindowsVisibleViewIds(getState()).should.eql([{
         timebarId: 1000,
         viewIds: [100, 200],
       }]);
-      getWindowsVisibleViewIds.recomputations().should.equal(1);
     });
     it('should memoize', () => {
+      getWindowsVisibleViewIds.resetRecomputations();
+      const r = getWindowsVisibleViewIds(getState());
+      getWindowsVisibleViewIds.recomputations().should.equal(0);
       getWindowsVisibleViewIds(getState()).should.eql(r);
+      getWindowsVisibleViewIds.recomputations().should.equal(0);
+      getWindowsVisibleViewIds({}).should.not.eql(r);
       getWindowsVisibleViewIds.recomputations().should.equal(1);
     });
   });
@@ -143,18 +147,20 @@ describe('store:window:selectors', () => {
       },
     };
     const { getState } = getStore(state);
-    let r;
     it('should returns focused views', () => {
-      r = getWindowsVisibleViews(getState());
-      r.should.eql([
+      getWindowsVisibleViews(getState()).should.eql([
         { timebarId: 1000, viewData: { title: 'Title 100' }, viewId: 100 },
         { timebarId: 1000, viewData: { title: 'Title 200' }, viewId: 200 },
         { timebarId: 2000, viewData: { title: 'Title 500' }, viewId: 500 },
       ]);
-      getWindowsVisibleViews.recomputations().should.equal(1);
     });
     it('should memoize', () => {
+      getWindowsVisibleViews.resetRecomputations();
+      const r = getWindowsVisibleViews(getState());
+      getWindowsVisibleViews.recomputations().should.equal(0);
       getWindowsVisibleViews(getState()).should.eql(r);
+      getWindowsVisibleViews.recomputations().should.equal(0);
+      getWindowsVisibleViews({}).should.not.eql(r);
       getWindowsVisibleViews.recomputations().should.equal(1);
     });
     it('should support empty views list', () => {
@@ -167,7 +173,6 @@ describe('store:window:selectors', () => {
         },
         views: {},
       }).should.eql([]);
-      getWindowsVisibleViews.recomputations().should.equal(2);
     });
   });
 });

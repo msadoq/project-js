@@ -25,7 +25,7 @@ const subscriptionsModel = require('../../models/subscriptions');
  *    - remove remoteId for corresponding dataId from subscriptions model
  *    - if there are still remoteIds in subscriptions model for this dataId, stop logic
  *    - remove dataId from subscriptions model
- *    - create a queryId and register a queryid/callbakc association
+ *    - create a queryId and register a queryid/callback association
  *    - queue a zmq timebasedSubscription message (with 'DELETE' action)
  * - send queued messages to DC
  *

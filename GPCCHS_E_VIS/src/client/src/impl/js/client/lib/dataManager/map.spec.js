@@ -1,5 +1,5 @@
 import '../common/test';
-import { perRemoteId, perView } from './map';
+import map from './map';
 
 const state = {
   timebars: {
@@ -648,81 +648,81 @@ const state = {
             }
           },
           {
-            name: 'STAT_SU_END_DATA',
+            name: 'STAT_WILDCARD_TIMELINE',
             connectedData: {
-              formula: 'Reporting.STAT_SU_END_DATA<ReportingParameter>.extractedValue',
+              formula: 'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>.extractedValue',
               unit: 'V',
               digits: 2,
               format: 'scientific',
               filter: [],
               domain: 'fr.cnes.isis.simupus',
-              timeline: 'Session 1'
+              timeline: '*'
             }
           },
           {
-            name: 'STAT_SU_START_BRK',
+            name: 'STAT_UNKNOW_DOMAIN',
             connectedData: {
-              formula: 'Reporting.STAT_SU_START_BRK<ReportingParameter>.extractedValue',
+              formula: 'Reporting.STAT_UNKNOW_DOMAIN<ReportingParameter>.extractedValue',
               unit: 'V',
               digits: 8,
               format: '',
               filter: [],
-              domain: 'fr.cnes.isis.simupus',
+              domain: 'fr',
               timeline: 'Session 1'
             }
           },
           {
-            name: 'STAT_SU_ARG_START',
+            name: 'STAT_WILDCARD_DOMAIN',
             connectedData: {
-              formula: 'Reporting.STAT_SU_ARG_START<ReportingParameter>.extractedValue',
+              formula: 'Reporting.STAT_WILDCARD_DOMAIN<ReportingParameter>.extractedValue',
               unit: 'V',
               digits: 2,
               format: 'scientific',
               filter: [],
-              domain: 'fr.cnes.isis.simupus',
+              domain: '*',
               timeline: 'Session 1'
             }
           },
           {
-            name: 'STAT_SU_ARG_END',
+            name: 'STAT_EMPTY_DOMAIN',
             connectedData: {
-              formula: 'Reporting.STAT_SU_ARG_END<ReportingParameter>.extractedValue',
+              formula: 'Reporting.STAT_EMPTY_DOMAIN<ReportingParameter>.extractedValue',
               unit: 'V',
               digits: 8,
               format: '',
               filter: [],
-              domain: 'fr.cnes.isis.simupus',
+              domain: '',
               timeline: 'Session 1'
             }
           },
           {
-            name: 'STAT_SU_ENV_START',
+            name: 'STAT_UNKNOW_TIMELINE',
             connectedData: {
-              formula: 'Reporting.STAT_SU_ENV_START<ReportingParameter>.extractedValue',
+              formula: 'Reporting.STAT_UNKNOW_TIMELINE<ReportingParameter>.extractedValue',
               unit: 'V',
               digits: 2,
               format: 'scientific',
               filter: [],
               domain: 'fr.cnes.isis.simupus',
-              timeline: 'Session 1'
+              timeline: 'Session X'
             }
           },
           {
-            name: 'STAT_SU_ENV_END',
+            name: 'STAT_EMPTY_TIMELINE',
             connectedData: {
-              formula: 'Reporting.STAT_SU_ENV_END<ReportingParameter>.extractedValue',
+              formula: 'Reporting.STAT_EMPTY_TIMELINE<ReportingParameter>.extractedValue',
               unit: 'V',
               digits: 5,
               format: 'decimal',
               filter: [],
               domain: 'fr.cnes.isis.simupus',
-              timeline: 'Session 1'
+              timeline: ''
             }
           },
           {
-            name: 'STAT_SU_EXIT_CODE',
+            name: 'STAT_INVALID_FORMULA',
             connectedData: {
-              formula: 'Reporting.STAT_SU_EXIT_CODE<ReportingParameter>.extractedValue',
+              formula: 'Reporting.STAT_INVALID_FORMULA',
               unit: 'V',
               digits: 5,
               format: 'decimal',
@@ -889,25 +889,25 @@ const state = {
           '<th>STAT_SU_START_DATA</th><td>{{STAT_SU_START_DATA}}</td>',
           '</tr>',
           "<tr class='smallFrame'>",
-          '<th>STAT_SU_END_DATA</th><td>{{STAT_SU_END_DATA}}</td>',
+          '<th>STAT_WILDCARD_TIMELINE</th><td>{{STAT_WILDCARD_TIMELINE}}</td>',
           '</tr>',
           "<tr class='smallFrame'>",
-          '<th>STAT_SU_START_BRK</th><td>{{STAT_SU_START_BRK}}</td>',
+          '<th>STAT_UNKNOW_DOMAIN</th><td>{{STAT_UNKNOW_DOMAIN}}</td>',
           '</tr>',
           "<tr class='smallFrame'>",
-          '<th>STAT_SU_ARG_START</th><td>{{STAT_SU_ARG_START}}</td>',
+          '<th>STAT_WILDCARD_DOMAIN</th><td>{{STAT_WILDCARD_DOMAIN}}</td>',
           '</tr>',
           "<tr class='smallFrame'>",
-          '<th>STAT_SU_ARG_END</th><td>{{STAT_SU_ARG_END}}</td>',
+          '<th>STAT_EMPTY_DOMAIN</th><td>{{STAT_EMPTY_DOMAIN}}</td>',
           '</tr>',
           "<tr class='smallFrame'>",
-          '<th>STAT_SU_ENV_START</th><td>{{STAT_SU_ENV_START}}</td>',
+          '<th>STAT_UNKNOW_TIMELINE</th><td>{{STAT_UNKNOW_TIMELINE}}</td>',
           '</tr>',
           "<tr class='smallFrame'>",
-          '<th>STAT_SU_ENV_END</th><td>{{STAT_SU_ENV_END}}</td>',
+          '<th>STAT_EMPTY_TIMELINE</th><td>{{STAT_EMPTY_TIMELINE}}</td>',
           '</tr>',
           "<tr class='smallFrame'>",
-          '<th>STAT_SU_EXIT_CODE</th><td>{{STAT_SU_EXIT_CODE}}</td>',
+          '<th>STAT_INVALID_FORMULA</th><td>{{STAT_INVALID_FORMULA}}</td>',
           '</tr>',
           '</tr>',
           '</tbody>',
@@ -953,6 +953,50 @@ const state = {
               format: 'decimal',
               filter: [],
               domain: 'fr.cnes.isis.simupus',
+              timeline: 'Session 1',
+              axisId: 'ac88f9b0-4413-4070-b937-240eb0aa354d'
+            },
+            objectStyle: {
+              line: {
+                style: 'Continuous',
+                size: 2
+              },
+              points: {
+                style: 'None',
+                size: 0
+              },
+              curveColour: '#FFBF00'
+            },
+            stateColours: [
+              {
+                colour: '#000000',
+                condition: {
+                  field: 'monitoringState',
+                  operator: '==',
+                  operand: 'waiting'
+                }
+              }
+            ]
+          },
+          {
+            name: 'STAT_PARAMETRIC',
+            connectedDataX: {
+              formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+              unit: 's',
+              digits: 5,
+              format: 'decimal',
+              filter: [],
+              domain: 'fr.cnes.isis.simupus',
+              timeline: 'Session 1',
+              axisId: 'db37ee81-b263-4472-9b58-71eb36f63c5b'
+            },
+            connectedDataY: {
+              formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+              unit: 'V',
+              digits: 5,
+              format: 'decimal',
+              filter: [],
+              domain: 'fr.cnes.isis',
               timeline: 'Session 1',
               axisId: 'ac88f9b0-4413-4070-b937-240eb0aa354d'
             },
@@ -2119,160 +2163,6 @@ const dataMap = {
       }
     }
   },
-  'last@Reporting.STAT_SU_END_DATA<ReportingParameter>:181:4': {
-    structureType: 'last',
-    dataId: {
-      catalog: 'Reporting',
-      parameterName: 'STAT_SU_END_DATA',
-      comObject: 'ReportingParameter',
-      domainId: 4,
-      sessionId: 181
-    },
-    filter: [],
-    localIds: {
-      'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
-        field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
-        offset: 0,
-        expectedInterval: [
-          1420106790818,
-          1420106843902
-        ]
-      }
-    }
-  },
-  'last@Reporting.STAT_SU_START_BRK<ReportingParameter>:181:4': {
-    structureType: 'last',
-    dataId: {
-      catalog: 'Reporting',
-      parameterName: 'STAT_SU_START_BRK',
-      comObject: 'ReportingParameter',
-      domainId: 4,
-      sessionId: 181
-    },
-    filter: [],
-    localIds: {
-      'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
-        field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
-        offset: 0,
-        expectedInterval: [
-          1420106790818,
-          1420106843902
-        ]
-      }
-    }
-  },
-  'last@Reporting.STAT_SU_ARG_START<ReportingParameter>:181:4': {
-    structureType: 'last',
-    dataId: {
-      catalog: 'Reporting',
-      parameterName: 'STAT_SU_ARG_START',
-      comObject: 'ReportingParameter',
-      domainId: 4,
-      sessionId: 181
-    },
-    filter: [],
-    localIds: {
-      'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
-        field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
-        offset: 0,
-        expectedInterval: [
-          1420106790818,
-          1420106843902
-        ]
-      }
-    }
-  },
-  'last@Reporting.STAT_SU_ARG_END<ReportingParameter>:181:4': {
-    structureType: 'last',
-    dataId: {
-      catalog: 'Reporting',
-      parameterName: 'STAT_SU_ARG_END',
-      comObject: 'ReportingParameter',
-      domainId: 4,
-      sessionId: 181
-    },
-    filter: [],
-    localIds: {
-      'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
-        field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
-        offset: 0,
-        expectedInterval: [
-          1420106790818,
-          1420106843902
-        ]
-      }
-    }
-  },
-  'last@Reporting.STAT_SU_ENV_START<ReportingParameter>:181:4': {
-    structureType: 'last',
-    dataId: {
-      catalog: 'Reporting',
-      parameterName: 'STAT_SU_ENV_START',
-      comObject: 'ReportingParameter',
-      domainId: 4,
-      sessionId: 181
-    },
-    filter: [],
-    localIds: {
-      'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
-        field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
-        offset: 0,
-        expectedInterval: [
-          1420106790818,
-          1420106843902
-        ]
-      }
-    }
-  },
-  'last@Reporting.STAT_SU_ENV_END<ReportingParameter>:181:4': {
-    structureType: 'last',
-    dataId: {
-      catalog: 'Reporting',
-      parameterName: 'STAT_SU_ENV_END',
-      comObject: 'ReportingParameter',
-      domainId: 4,
-      sessionId: 181
-    },
-    filter: [],
-    localIds: {
-      'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
-        field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
-        offset: 0,
-        expectedInterval: [
-          1420106790818,
-          1420106843902
-        ]
-      }
-    }
-  },
-  'last@Reporting.STAT_SU_EXIT_CODE<ReportingParameter>:181:4': {
-    structureType: 'last',
-    dataId: {
-      catalog: 'Reporting',
-      parameterName: 'STAT_SU_EXIT_CODE',
-      comObject: 'ReportingParameter',
-      domainId: 4,
-      sessionId: 181
-    },
-    filter: [],
-    localIds: {
-      'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
-        field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
-        offset: 0,
-        expectedInterval: [
-          1420106790818,
-          1420106843902
-        ]
-      }
-    }
-  },
   'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
     structureType: 'range',
     dataId: {
@@ -2661,61 +2551,26 @@ const viewMap = {
           1420106843902
         ]
       },
-      STAT_SU_END_DATA: {
-        remoteId: 'last@Reporting.STAT_SU_END_DATA<ReportingParameter>:181:4',
-        field: 'extractedValue',
-        expectedInterval: [
-          1420106790818,
-          1420106843902
-        ]
+      STAT_WILDCARD_TIMELINE: {
+        error: 'invalid entry point, wildcard used but no master timeline found'
       },
-      STAT_SU_START_BRK: {
-        remoteId: 'last@Reporting.STAT_SU_START_BRK<ReportingParameter>:181:4',
-        field: 'extractedValue',
-        expectedInterval: [
-          1420106790818,
-          1420106843902
-        ]
+      STAT_UNKNOW_DOMAIN: {
+        error: 'invalid entry point, no domain matches'
       },
-      STAT_SU_ARG_START: {
-        remoteId: 'last@Reporting.STAT_SU_ARG_START<ReportingParameter>:181:4',
-        field: 'extractedValue',
-        expectedInterval: [
-          1420106790818,
-          1420106843902
-        ]
+      STAT_WILDCARD_DOMAIN: {
+        error: 'invalid entry point, no domain matches'
       },
-      STAT_SU_ARG_END: {
-        remoteId: 'last@Reporting.STAT_SU_ARG_END<ReportingParameter>:181:4',
-        field: 'extractedValue',
-        expectedInterval: [
-          1420106790818,
-          1420106843902
-        ]
+      STAT_EMPTY_DOMAIN: {
+        error: 'invalid entry point, no domain matches'
       },
-      STAT_SU_ENV_START: {
-        remoteId: 'last@Reporting.STAT_SU_ENV_START<ReportingParameter>:181:4',
-        field: 'extractedValue',
-        expectedInterval: [
-          1420106790818,
-          1420106843902
-        ]
+      STAT_UNKNOW_TIMELINE: {
+        error: 'invalid entry point, no timeline matches'
       },
-      STAT_SU_ENV_END: {
-        remoteId: 'last@Reporting.STAT_SU_ENV_END<ReportingParameter>:181:4',
-        field: 'extractedValue',
-        expectedInterval: [
-          1420106790818,
-          1420106843902
-        ]
+      STAT_EMPTY_TIMELINE: {
+        error: 'invalid entry point, invalid timeline field'
       },
-      STAT_SU_EXIT_CODE: {
-        remoteId: 'last@Reporting.STAT_SU_EXIT_CODE<ReportingParameter>:181:4',
-        field: 'extractedValue',
-        expectedInterval: [
-          1420106790818,
-          1420106843902
-        ]
+      STAT_INVALID_FORMULA: {
+        error: 'unable to parse this connectedData formula Reporting.STAT_INVALID_FORMULA'
       }
     }
   },
@@ -2732,16 +2587,18 @@ const viewMap = {
           1420106790818,
           1420107056239
         ]
+      },
+      STAT_PARAMETRIC: {
+        error: 'parametric entryPoint detected for this view'
       }
     }
   }
 };
 
 describe('data:map', () => {
-  // it('should compute dataMap by remoteIds', () => {
-  //   perRemoteId(state).should.eql(dataMap);
-  // });
-  // it('should compute dataMap by views', () => {
-  //   perView(state).should.eql(viewMap);
-  // });
+  it('should compute dataMap', () => {
+    const r = map(state);
+    r.perRemoteId.should.eql(dataMap);
+    r.perView.should.eql(viewMap);
+  });
 });

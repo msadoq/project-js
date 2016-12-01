@@ -12,8 +12,7 @@ import {
 import { switchDebug } from '../../store/actions/windows';
 import { getWindowDebug } from '../../store/selectors/windows';
 import { getPage } from '../../store/selectors/pages';
-import dataMapGenerator from '../../dataManager/map/dataMapGenerator';
-import viewMapGenerator from '../../dataManager/map/viewMapGenerator';
+import dataMapGenerator from '../../dataManager/map';
 import { updateCacheInvalidation } from '../../store/actions/hsc';
 
 const style = {
@@ -45,14 +44,9 @@ class Debug extends PureComponent {
       .then(json => console.log(json)); // eslint-disable-line no-console
   };
 
-  visibleRemoteIds = () => {
+  dataMap = () => {
     const state = this.context.store.getState();
     return console.log(dataMapGenerator(state)); // eslint-disable-line no-console
-  };
-
-  visibleViews = () => {
-    const state = this.context.store.getState();
-    return console.log(viewMapGenerator(state)); // eslint-disable-line no-console
   };
 
   cleanCache = () => {
@@ -115,17 +109,10 @@ class Debug extends PureComponent {
           </MenuItem>
           <MenuItem
             eventKey="4"
-            onClick={this.visibleRemoteIds}
+            onClick={this.dataMap}
             {...buttonsProps}
           >
             DATA MAP
-          </MenuItem>
-          <MenuItem
-            eventKey="5"
-            onClick={this.visibleViews}
-            {...buttonsProps}
-          >
-            VIEW MAP
           </MenuItem>
           <MenuItem
             eventKey="6"

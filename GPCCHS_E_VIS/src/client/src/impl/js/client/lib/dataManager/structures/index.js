@@ -1,20 +1,28 @@
+/* eslint global-require:0 */
 import _get from 'lodash/get';
 import _isFunction from 'lodash/isFunction';
-
 import globalConstants from 'common/constants';
-import last from './last';
-import range from './range';
 
-const supportedStructure = {
-  [globalConstants.DATASTRUCTURETYPE_RANGE]: range,
-  [globalConstants.DATASTRUCTURETYPE_LAST]: last,
+const structures = {
+  [globalConstants.DATASTRUCTURETYPE_LAST]: {
+    getExpectedInterval: require('./last/getExpectedInterval'),
+    retrieveNeededIntervals: require('./last/retrieveNeededIntervals'),
+    addInterval: require('./last/addInterval'),
+    parseEntryPoint: require('./last/parseEntryPoint'),
+  },
+  [globalConstants.DATASTRUCTURETYPE_RANGE]: {
+    getExpectedInterval: require('./range/getExpectedInterval'),
+    retrieveNeededIntervals: require('./range/retrieveNeededIntervals'),
+    addInterval: require('./range/addInterval'),
+    parseEntryPoint: require('./range/parseEntryPoint'),
+  },
 };
 
-export default (structureType, functionName) => {
-  const f = _get(supportedStructure, [structureType, functionName]);
-  if (!f || !_isFunction(f)) {
-    throw new Error(`invalid function ${functionName} for structure type ${structureType}`);
+export default (type, name) => {
+  const method = _get(structures, [type, name]);
+  if (!_isFunction(method)) {
+    throw new Error(`invalid function ${name} for structure type ${type}`);
   }
 
-  return f;
+  return method;
 };

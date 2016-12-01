@@ -16,8 +16,7 @@ import {
   pause,
 } from '../store/actions/hsc';
 import { getWebsocket } from './websocket';
-import dataMapGenerator from '../dataManager/map/dataMapGenerator';
-import viewMapGenerator from '../dataManager/map/viewMapGenerator';
+import dataMapGenerator from '../dataManager/map';
 import request from '../dataManager/request';
 import inject from '../dataManager/inject';
 import windowsObserver from './windows';
@@ -97,8 +96,16 @@ export function tick() {
 
   // something has changed
   const somethingHasChanged = state !== previous.state;
-  const dataMap = somethingHasChanged ? dataMapGenerator(state) : previous.dataMap;
-  const viewMap = somethingHasChanged ? viewMapGenerator(state) : previous.viewMap;
+  let dataMap;
+  let viewMap;
+  if (somethingHasChanged) {
+    const map = dataMapGenerator(state);
+    dataMap = map.perRemoteId;
+    viewMap = map.perView;
+  } else {
+    dataMap = previous.dataMap;
+    viewMap = previous.viewMap;
+  }
 
   // play or pause
   const playingTimebarId = getPlayingTimebarId(state);
@@ -148,7 +155,7 @@ export function tick() {
       execution.start('data injection');
       // TODO : in play mode inject + visuwindow
       dataToInject.forEach(payload => inject(state, dispatch, viewMap, payload));
-      execution.stop('data injection');
+      execution.stop('data injection', dataToInject.length);
     }
 
     if (dataMap !== previous.dataMap) {
@@ -197,9 +204,9 @@ export function tick() {
     execution.stop(
       'global',
       `somethingHasChanged:${somethingHasChanged}`
-      + `isWindowsOpened:${isWindowsOpened}`
-      + `playingTimebarId:${playingTimebarId}`
-      + `dataToInject:${dataToInject.length}`
+      + ` isWindowsOpened:${isWindowsOpened}`
+      + ` playingTimebarId:${playingTimebarId}`
+      + ` dataToInject:${dataToInject.length}`
     );
     execution.print();
     execution.reset();

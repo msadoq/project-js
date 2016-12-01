@@ -49,3 +49,21 @@ export function getTimebarTimelines(timebars, timelines, timebarId) {
   }, []);
 }
 
+/**
+ * A selector to get master timeline from timebarId.
+ * No direct usage of state but receives timebars and timelines due to dataMaps execution context.
+ *
+ * @param timebars
+ * @param timelines
+ * @param timebarId
+ * @return {*}
+ */
+// TODO test
+export function getMasterTimeline(timebars, timelines, timebarId) {
+  const masterTimelineId = _get(timebars, [timebarId, 'masterId']);
+  if (!masterTimelineId) {
+    return undefined;
+  }
+
+  return timelines[masterTimelineId];
+}

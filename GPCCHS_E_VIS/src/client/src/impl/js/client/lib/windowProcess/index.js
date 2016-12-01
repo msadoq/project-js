@@ -11,6 +11,8 @@ import { initStore, getStore } from '../store/windowStore';
 const search = global.location.search;
 const windowId = search.replace('?windowId=', '');
 
+process.title = 'HSC_WINDOW';
+
 initStore();
 
 if (process.env.NODE_ENV === 'development') {

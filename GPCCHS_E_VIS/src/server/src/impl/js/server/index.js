@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+process.title = "HSS";
+
 require('dotenv-safe').load();
 
 // eslint-disable-next-line import/no-extraneous-dependencies

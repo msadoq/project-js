@@ -25,17 +25,17 @@
         "id": "TB1",
         "mode": "Normal",
         "visuWindow": {
-          "lower": 1420106400000,
-          "upper": 1420106700000,
-          "current": 1420106460000,
+          "lower": 1480578427000,
+          "upper": 1480582027000,
+          "current": 1480580227000,
           "defaultWidth": 900000
         },
         "slideWindow": {
-          "lower": 1420106300000,
-          "upper": 1420106800000
+          "lower": 1480578417000,
+          "upper": 1480582037000
         },
-        "extUpperBound": 1420107500000,
-        "rulerStart": 1420106400000,
+        "extUpperBound": 1480582047000,
+        "rulerStart": 1480577807000,
         "rulerResolution": 11250,
         "speed": 1.0,
         "timeSpec": "LocalTime",

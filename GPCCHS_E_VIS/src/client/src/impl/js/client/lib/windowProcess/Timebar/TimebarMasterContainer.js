@@ -7,7 +7,7 @@ import SelectTimebarContainer from './SelectTimebarContainer';
 
 export default connect(
   (state, { focusedPageId }) => {
-    const { timebarId } = _get(state, ['pages', focusedPageId]);
+    const { timebarId, timebarHeight } = _get(state, ['pages', focusedPageId]);
     const timebar = getTimebar(state, timebarId);
 
     // Will render SelectTimebarContainer
@@ -21,6 +21,7 @@ export default connect(
     return {
       timebar,
       timebarId,
+      timebarHeight,
     };
   }
 )(props => (props.timebar ?

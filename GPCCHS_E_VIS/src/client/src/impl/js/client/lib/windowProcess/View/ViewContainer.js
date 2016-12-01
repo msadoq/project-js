@@ -1,6 +1,6 @@
 import _get from 'lodash/get';
 import { connect } from 'react-redux';
-
+import { add, remove } from '../../store/actions/messages';
 import { getComponent } from '../../../VIVL/window';
 import { getView } from '../../store/selectors/views';
 
@@ -13,14 +13,23 @@ const mapStateToProps = (state, { viewId, timebarId }) => {
   const data = _get(state, ['viewData', viewId], {});
   const visuWindow = _get(state, ['timebars', timebarId, 'visuWindow']);
 
+  const messages = _get(state, ['messages', 'views', viewId]);
+
   return {
     type,
     configuration,
     component: ViewTypeComponent,
     data,
     visuWindow,
+    messages
   };
 };
 
 // return function to avoid page grid layout and React DOM re-conciliation issue
-export default () => connect(mapStateToProps)(View);
+export default () => connect(
+  mapStateToProps,
+  {
+    addMessage: add,
+    removeMessage: remove,
+  }
+)(View);

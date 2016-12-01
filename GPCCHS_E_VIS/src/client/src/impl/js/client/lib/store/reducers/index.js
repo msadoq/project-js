@@ -3,6 +3,7 @@ import { reducer as form } from 'redux-form';
 import hss from './hss';
 import hsc from './hsc';
 import timebars from './timebars';
+import messages from './messages';
 import timelines from './timelines';
 import windows from './windows';
 import pages from './pages';
@@ -16,6 +17,7 @@ const reducer = combineReducers({
   hss,
   hsc,
   timebars,
+  messages,
   timelines,
   windows,
   pages,

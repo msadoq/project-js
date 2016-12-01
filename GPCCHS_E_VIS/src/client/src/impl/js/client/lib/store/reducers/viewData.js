@@ -7,6 +7,7 @@ import _get from 'lodash/get';
 import _reduce from 'lodash/reduce';
 import _last from 'lodash/last';
 import _keys from 'lodash/keys';
+import _omit from 'lodash/omit';
 import * as types from '../types';
 
 export default function viewData(state = {}, action) {
@@ -61,6 +62,11 @@ export default function viewData(state = {}, action) {
     case types.DATA_REMOVE_ALL_VIEWDATA:
     case types.HSC_CLOSE_WORKSPACE:
       return {};
+    case types.DATA_REMOVE_VIEWDATA_VIEW:
+      if (!state[action.payload.viewId]) {
+        return state;
+      }
+      return _omit(state, action.payload.viewId);
     default:
       return state;
   }
@@ -159,7 +165,17 @@ export function viewRangeAdd(state = {}, payloads) {
   // TODO: use reduce and improve code understanding
   _each(keys, (key) => {
     const timestamp = parseInt(key, 10); // TODO : avoid by passing .index[] in payload
-    const value = payloads[key];
+    let noNumber = true;
+    const value = _reduce(payloads[key], (list, p, key1) => {
+      if (typeof p.value === 'number') {
+        list[key1] = p; // eslint-disable-line no-param-reassign
+        noNumber = false;
+      }
+      return list;
+    }, {});
+    if (noNumber) {
+      return;
+    }
 
     // if new value should be pushed at end (most common case in play mode)
     if (lastIndex === -1 && timestamp > lastTime) {

@@ -1,8 +1,8 @@
 import { freezeMe } from '../../common/test';
 import reducer, { viewRangeRemove, viewRangeAdd, viewLast } from './viewData';
-import { importPayload } from '../actions/viewData';
+import { importPayload, removeAllData } from '../actions/viewData';
 
-describe('store:viewData:reducer', () => {
+describe.only('store:viewData:reducer', () => {
   const payload = { rId1: {}, rId2: {} };
   for (let j = 10; j < 21; j += 1) {
     payload.rId1[j] = {
@@ -94,7 +94,13 @@ describe('store:viewData:reducer', () => {
     });
   });
   describe('DATA_REMOVE_ALL_VIEWDATA', () => {
-    // TODO DATA_REMOVE_ALL_VIEWDATA
+    const state = Object.freeze({
+      myViewId: {
+        index: { myEntryPoint: 10 },
+        values: { myEntryPoint: 150 },
+      }
+    });
+    reducer(Object.freeze(state), removeAllData()).should.deep.equal({});
   });
 
   describe('viewLast', () => {

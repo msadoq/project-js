@@ -14,7 +14,12 @@ const colors = [
 export default class ColorPicker extends React.Component {
   static propTypes = {
     color: PropTypes.string,
+    width: PropTypes.number,
     onChange: PropTypes.func
+  }
+
+  static defaultProps = {
+    width: 276
   }
 
   state = { display: false, color: this.props.color || '#FFF' };
@@ -44,6 +49,7 @@ export default class ColorPicker extends React.Component {
   }
   render() {
     const { color } = this.state;
+    const { width } = this.props;
 
     return (
       <div className={styles.root}>
@@ -59,6 +65,7 @@ export default class ColorPicker extends React.Component {
               onChangeComplete={this.handleChangeComplete}
               color={color}
               colors={colors}
+              width={width}
             />
           </div>}
       </div>

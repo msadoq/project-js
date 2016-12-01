@@ -15,6 +15,7 @@ export default class ColorPickerField extends React.Component {
       <ColorPicker
         color={value}
         onChange={onChange}
+        width={195}
       />
     );
   }

@@ -5,8 +5,11 @@ import SizeMe from 'react-sizeme';
 import { format } from 'd3-format';
 import { scaleTime } from 'd3-scale';
 import {
+  MenuItem
+} from 'react-bootstrap';
+import {
   ChartCanvas, Chart, series,
-  coordinates, axes, tooltip
+  coordinates, axes, tooltip, interactive
 } from 'react-stockcharts';
 import {
   getLineMarker,
@@ -16,6 +19,7 @@ import {
   fullDateFormat,
   getLineStyle
 } from './helper';
+import PlotMenu from './PlotMenu';
 
 import debug from '../../../lib/common/debug/windowDebug';
 
@@ -29,6 +33,7 @@ const {
   CrossHairCursor, MouseCoordinateX,
   MouseCoordinateY, CurrentCoordinate
 } = coordinates;
+const { ClickCallback } = interactive;
 const { XAxis, YAxis } = axes;
 const margin = { left: 10, right: 60, top: 20, bottom: 20 };
 const offsetTop = 50;
@@ -70,7 +75,12 @@ class PlotView extends PureComponent {
   state = {
     tooltipWidth: 300,
     tooltipHeight: 100,
-    disableZoom: true
+    disableZoom: true,
+    isMenuOpened: false,
+    menuPosition: {
+      x: 0,
+      y: 0
+    }
   };
 
   componentWillMount() {
@@ -186,6 +196,23 @@ class PlotView extends PureComponent {
     }
   }
 
+  handleChartClick = (e) => {
+    const { isMenuOpened } = this.state;
+
+    if (isMenuOpened) {
+      this.setState({ isMenuOpened: false });
+      return;
+    }
+
+    this.setState({
+      isMenuOpened: true,
+      menuPosition: {
+        x: e.mouseXY[0] + margin.left,
+        y: e.mouseXY[1] + margin.top
+      }
+    });
+  }
+
   renderLines = () => this.lines.map(({
       key, color, lineSize = 1,
       pointsStyle, pointsSize, lineStyle
@@ -238,12 +265,14 @@ class PlotView extends PureComponent {
     const {
       tooltipWidth,
       tooltipHeight,
-      disableZoom
+      disableZoom,
+      isMenuOpened,
+      menuPosition
     } = this.state;
+    const menuOpenOnTop = menuPosition.y >= (height / 2);
+    const menuOpenOnLeft = menuPosition.x >= (width / 2);
     const { y: yGrid, x: xGrid } = this.getGrid();
 
-    // TODO : display X time for each data value object instead of master timestamp tooltip
-    // TODO view.plotBackgroundColour
     return (
       <div
         style={{ height: '100%' }}
@@ -301,6 +330,10 @@ class PlotView extends PureComponent {
               strokeWidth={2}
               opacity={1}
             />
+            <ClickCallback
+              enabled
+              onClick={this.handleChartClick}
+            />
             {this.renderLines()}
           </Chart>
           <CrossHairCursor />
@@ -314,6 +347,19 @@ class PlotView extends PureComponent {
         </ChartCanvas>
         <span className="pull-left">{fullDateFormat(lower)}</span>
         <span className="pull-right">{fullDateFormat(upper)}</span>
+
+        <PlotMenu
+          isOpened={isMenuOpened}
+          openOnLeft={menuOpenOnLeft}
+          openOnTop={menuOpenOnTop}
+          mousePosition={menuPosition}
+        >
+          <MenuItem header>Markers</MenuItem>
+          <MenuItem divider />
+          <MenuItem>Add a Text</MenuItem>
+          <MenuItem>Add an horizontal line</MenuItem>
+          <MenuItem>Add an Vertical line</MenuItem>
+        </PlotMenu>
       </div>
     );
   }

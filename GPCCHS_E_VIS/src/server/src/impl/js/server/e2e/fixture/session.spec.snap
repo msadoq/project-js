@@ -17,6 +17,14 @@ Object {
       "timestamp": Object {
         "ps": null
       }
+    },
+    Object {
+      "delta": 0,
+      "id": 181,
+      "name": "Session#181",
+      "timestamp": Object {
+        "ps": null
+      }
     }
   ]
 }

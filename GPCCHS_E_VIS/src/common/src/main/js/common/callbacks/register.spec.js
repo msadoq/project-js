@@ -1,5 +1,5 @@
-const { should } = require('./test');
-const registeredCallbacks = require('./registeredCallbacks');
+const { should } = require('../utils/test');
+const registeredCallbacks = require('./register');
 
 describe('utils/registeredCallbacks', () => {
   beforeEach(() => registeredCallbacks.clear());

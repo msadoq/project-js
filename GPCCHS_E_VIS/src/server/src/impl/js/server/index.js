@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-process.title = "HSS";
-
 require('dotenv-safe').load();
 
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -29,6 +27,8 @@ const zmq = require('common/zmq');
 const monitoring = require('common/monitoring');
 
 monitoring.start();
+
+process.title = 'HSS';
 
 // port
 function normalizePort(val) {

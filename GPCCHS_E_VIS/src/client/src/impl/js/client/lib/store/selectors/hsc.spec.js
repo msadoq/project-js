@@ -3,7 +3,6 @@ import {
   getStatus,
   getWindowsOpened,
   getWorkspaceOpened,
-  getLastTick,
   getLastCacheInvalidation,
   getPlayingTimebarId,
 } from './hsc';
@@ -37,16 +36,6 @@ describe('store:hsc:selectors', () => {
     it('should support empty state', () => {
       const { getState } = getStore({ hsc: {} });
       should.not.exist(getWorkspaceOpened(getState()));
-    });
-  });
-  describe('getLastTick', () => {
-    it('should return status', () => {
-      const { getState } = getStore({ hsc: { lastTick: 10 } });
-      getLastTick(getState()).should.eql(10);
-    });
-    it('should support empty state', () => {
-      const { getState } = getStore({ hsc: {} });
-      should.not.exist(getLastTick(getState()));
     });
   });
   describe('getPlayingTimebarId', () => {

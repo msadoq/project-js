@@ -12,7 +12,6 @@ describe('store:hsc:reducer', () => {
     r.should.have.property('windowsOpened', false);
     r.should.have.property('workspaceOpened', false);
     r.should.have.property('playingTimebarId', null);
-    r.should.have.property('lastTick', null);
     r.should.have.property('folder', null);
     r.should.have.property('file', null);
   });
@@ -21,7 +20,6 @@ describe('store:hsc:reducer', () => {
       status: 'LIFECYCLE_NOT_STARTED',
       lastCacheInvalidation: 10,
       playingTimebarId: 10,
-      lastTick: 10,
     });
     reducer(state, {}).should.equal(state);
   });
@@ -36,10 +34,6 @@ describe('store:hsc:reducer', () => {
   it('should update workspace state', () => {
     reducer(undefined, actions.setWorkspaceAsOpened())
       .should.have.property('workspaceOpened', true);
-  });
-  it('should update last tick', () => {
-    reducer(undefined, actions.updateLastTick(10))
-      .should.have.property('lastTick', 10);
   });
   it('should update filepath', () => {
     const state = reducer(undefined, actions.updatePath('myFolder', 'myFile'));

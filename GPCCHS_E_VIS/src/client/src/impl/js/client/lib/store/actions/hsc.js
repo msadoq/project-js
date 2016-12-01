@@ -15,7 +15,6 @@ export const closeWorkspace = simple(types.HSC_CLOSE_WORKSPACE);
  */
 export const play = simple(types.HSC_PLAY, 'timebarId');
 export const pause = simple(types.HSC_PAUSE);
-export const updateLastTick = simple(types.HSC_UPDATE_LAST_TICK, 'time');
 
 /**
  * Cache invalidation

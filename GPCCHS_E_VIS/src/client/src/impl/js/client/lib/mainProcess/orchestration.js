@@ -7,12 +7,10 @@ import {
   getWindowsOpened,
   getPlayingTimebarId,
   getLastCacheInvalidation,
-  getLastTick,
 } from '../store/selectors/hsc';
 import {
   setWindowsAsOpened,
   updateCacheInvalidation,
-  updateLastTick,
   pause,
 } from '../store/actions/hsc';
 import { getWebsocket } from './websocket';
@@ -30,6 +28,7 @@ const logger = debug('main:orchestration');
 const execution = executionMonitor('orchestration');
 
 let nextTick = null;
+let lastTick = null;
 let tickStart = null;
 const previous = {
   state: {},
@@ -76,7 +75,7 @@ export function stop() {
 
   const { dispatch } = getStore();
   dispatch(pause());
-  dispatch(updateLastTick(null));
+  lastTick = null;
 }
 
 export function tick() {
@@ -91,8 +90,8 @@ export function tick() {
   const state = getState();
 
   // last tick time
-  const lastTickTime = getLastTick(state);
-  dispatch(updateLastTick(Date.now()));
+  const lastTickTime = lastTick;
+  lastTick = Date.now();
 
   // something has changed
   const somethingHasChanged = state !== previous.state;

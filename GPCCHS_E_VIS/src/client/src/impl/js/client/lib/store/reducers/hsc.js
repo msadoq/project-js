@@ -7,7 +7,6 @@ const initialState = {
   windowsOpened: false,
   workspaceOpened: false,
   playingTimebarId: null,
-  lastTick: null,
   lastCacheInvalidation: Date.now(),
   folder: null,
   file: null,
@@ -19,8 +18,6 @@ export default function hsc(state = initialState, action) {
       return Object.assign({}, state, { playingTimebarId: action.payload.timebarId });
     case types.HSC_PAUSE:
       return Object.assign({}, state, { playingTimebarId: null });
-    case types.HSC_UPDATE_LAST_TICK:
-      return Object.assign({}, state, { lastTick: action.payload.time });
     case types.HSC_UPDATE_STATUS:
       return Object.assign({}, state, { status: action.payload.status });
     case types.HSC_SET_WINDOWS_AS_OPENED:

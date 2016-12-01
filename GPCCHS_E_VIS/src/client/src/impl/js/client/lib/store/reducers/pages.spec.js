@@ -91,16 +91,11 @@ describe('store:page:reducer', () => {
       state.myPageId.views.should.eql(['myViewId', 'another']);
     });
     it('unmount', () => {
-      let state = reducer(
-        { myPageId: { views: ['myViewId', 'another'] } },
-        actions.unmountView('myPageId', 'myViewId')
-      );
-      state.myPageId.views.should.eql(['another']);
-      state = reducer(
-        state,
-        actions.unmountView('myPageId', 'another')
-      );
-      state.myPageId.views.should.eql([]);
+      const { dispatch, getState } = getStore({ pages: { myPageId: { views: ['myViewId', 'another'] } } });
+      dispatch(actions.unmountView('myPageId', 'myViewId'));
+      getState().pages.myPageId.views.should.eql(['another']);
+      dispatch(actions.unmountView('myPageId', 'another'));
+      getState().pages.myPageId.views.should.eql([]);
     });
   });
   describe('open/close editor', () => {

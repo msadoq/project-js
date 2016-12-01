@@ -44,14 +44,15 @@ export function unmountAndRemove(pageId, viewId) {
     dispatch(removeView(viewId));
   };
 }
+
 export function unmountView(pageId, viewId) {
   return (dispatch) => {
     dispatch(unmountViewId(pageId, viewId));
     // remove data in viewData
     dispatch(removeViewData(viewId));
-    dispatch(removeView(viewId));
   };
 }
+
 export function openViewInEditor(pageId, viewId) { // TODO
   return (dispatch, state) => {
         // TODO : check if view exist

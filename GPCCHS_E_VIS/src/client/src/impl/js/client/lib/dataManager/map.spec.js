@@ -1001,7 +1001,7 @@ const state = {
           align: 'center',
           colour: '#000000'
         },
-        plotBackgroundColour: '#FFFFFF',
+        backgroundColour: '#FFFFFF',
         legend: {
           style: {
             font: 'Arial',

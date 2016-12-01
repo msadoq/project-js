@@ -258,7 +258,7 @@ describe('store:views:reducer', () => {
         grids: [{ grid: '1' }, { grid: '2' }],
         title: 'Plotview 4 parameters',
         titleStyle: { bold: false },
-        plotBackgroundColour: '#FFFFFF',
+        backgroundColour: '#FFFFFF',
         legend: 'old Legend',
         markers: [{ m: '1' }, { m: '2' }],
       },
@@ -332,7 +332,7 @@ describe('store:views:reducer', () => {
     });
     it('bg colour', () => {
       const state = reducer(stateViews, actions.updateBgColor('plot1', '#FFFFAA'));
-      state.plot1.configuration.plotBackgroundColour.should.deep.equal('#FFFFAA');
+      state.plot1.configuration.backgroundColour.should.deep.equal('#FFFFAA');
     });
     it('Legend', () => {
       const state = reducer(stateViews, actions.updateLegend('plot1', 'new Legend'));

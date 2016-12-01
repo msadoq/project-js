@@ -1,10 +1,18 @@
 :root{
-  --mainColor: green;
+  /* Bootstrap variables */
+  --brand-primary: #337ab7;
+  --brand-success: #5cb85c;
+  --brand-info: #5bc0de;
+  --brand-warning: #f0ad4e;
+  --brand-danger: #d9534f;
+  /* Editor variables */
+  --editor-width: 350px;
+  /* Timeline variables */
   --currentCursorColor: #1E2;
   --boundCursorsColor: #E45;
   --slideCursorColor: #45E;
 }
 
 /*
-Use variables in your files that way: var(--mainColor)
+Use variables in your files that way: var(--brand-primary)
 */

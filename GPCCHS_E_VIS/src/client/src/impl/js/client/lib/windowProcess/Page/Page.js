@@ -1,15 +1,16 @@
 import React, { Component, PropTypes } from 'react';
-import { Col } from 'react-bootstrap';
 import classnames from 'classnames';
+// import { Col } from 'react-bootstrap';
 import ContentContainer from './ContentContainer';
 import EditorContainer from '../Editor/EditorContainer';
 import debug from '../../../lib/common/debug/windowDebug';
+
 import styles from './Page.css';
 
 const logger = debug('Page');
 
-const cols = 12;
-const editorCols = 4;
+// const cols = 12;
+// const editorCols = 4;
 
 export default class Page extends Component {
   static propTypes = {
@@ -36,22 +37,18 @@ export default class Page extends Component {
       openEditor, closeEditor, isEditorOpened
     } = this.props;
 
-    const pageContentWidth = isEditorOpened ? cols - editorCols : cols;
+    // const pageContentWidth = isEditorOpened ? cols - editorCols : cols;
 
     return (
-      <div className={classnames('row', styles.root)}>
-        {(isEditorOpened
-          ? <Col
-            xs={editorCols}
-            className={styles.editor}
-          >
-            <EditorContainer
-              editorCols={editorCols}
-              focusedPageId={focusedPageId}
-            />
-          </Col>
-          : '')}
-        <Col xs={pageContentWidth}>
+      <div className={styles.root}>
+        {isEditorOpened && <EditorContainer
+          focusedPageId={focusedPageId}
+        />}
+        <div
+          className={classnames({
+            [styles.contentWithEditor]: isEditorOpened
+          })}
+        >
           <ContentContainer
             windowId={windowId}
             focusedPageId={focusedPageId}
@@ -60,7 +57,7 @@ export default class Page extends Component {
             openEditor={openEditor}
             closeEditor={closeEditor}
           />
-        </Col>
+        </div>
       </div>
     );
   }

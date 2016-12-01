@@ -77,7 +77,7 @@ export default class PlotEditor extends Component {
         align: PropTypes.string,
         color: PropTypes.string
       }),
-      plotBackgroundColour: PropTypes.string,
+      backgroundColour: PropTypes.string,
       legend: PropTypes.object,
       markers: PropTypes.array,
     })

@@ -1,8 +1,9 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import ViewTitle from './ViewTitle';
+import ViewParams from './ViewParams';
 import { getView } from '../../../store/selectors/views';
 import {
+  updateBgColor,
   updateTitle,
   updateTitleStyle
 } from '../../../store/actions/views';
@@ -10,18 +11,20 @@ import {
 const mapStateToProps = (state, { viewId }) => {
   const view = getView(state, viewId);
   return {
+    backgroundColour: view.configuration.backgroundColour,
     title: view.configuration.title,
     titleStyle: view.configuration.titleStyle
   };
 };
 
-const ViewTitleContainer = connect(mapStateToProps, {
+const ViewParamsContainer = connect(mapStateToProps, {
+  updateBgColor,
   updateTitle,
   updateTitleStyle,
-})(ViewTitle);
+})(ViewParams);
 
-ViewTitleContainer.propTypes = {
+ViewParamsContainer.propTypes = {
   viewId: PropTypes.string.isRequired
 };
 
-export default ViewTitleContainer;
+export default ViewParamsContainer;

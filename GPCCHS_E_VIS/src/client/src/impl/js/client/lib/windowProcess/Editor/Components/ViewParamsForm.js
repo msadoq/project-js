@@ -4,7 +4,8 @@ import {
   Form
 } from 'react-bootstrap';
 import {
-  InputField
+  InputField,
+  ColorPickerField
 } from './Fields/';
 import {
   HorizontalFormGroup,
@@ -14,10 +15,19 @@ import {
   FormSectionFontStyle
 } from './FormSections/';
 
-class ViewTitleForm extends React.Component {
+const bgColors = [
+  '#FFFFFF', '#eceff1', '#fafafa', '#efebe9',
+  '#fbe9e7', '#fff3e0', '#fff8e1', '#fffde7',
+  '#f9fbe7', '#f1f8e9', '#e8f5e9', '#e0f2f1',
+  '#e0f7fa', '#e1f5fe', '#e3f2fd', '#e8eaf6',
+  '#ede7f6', '#f3e5f5', '#fce4ec', '#ffebee'
+];
+
+class ViewParamsForm extends React.Component {
   static propTypes = {
     /* eslint-disable react/no-unused-prop-types */
     initialValues: PropTypes.shape({
+      backgroundColour: PropTypes.string,
       title: PropTypes.string,
       titleStyle: PropTypes.shape({
         font: PropTypes.string,
@@ -47,11 +57,15 @@ class ViewTitleForm extends React.Component {
       pristine,
       reset,
       submitting,
-      valid
+      valid,
+      initialValues: { backgroundColour }
     } = this.props;
 
     return (
       <Form horizontal onSubmit={handleSubmit}>
+        <div className="page-header">
+          <h4>Title</h4>
+        </div>
         <HorizontalFormGroup label="Title">
           <Field
             name="title"
@@ -62,6 +76,18 @@ class ViewTitleForm extends React.Component {
         </HorizontalFormGroup>
 
         <FormSectionFontStyle name="titleStyle" />
+
+        {backgroundColour && <div className="page-header">
+          <h4>Content</h4>
+        </div>}
+
+        {backgroundColour && <HorizontalFormGroup label="Bg Color">
+          <Field
+            name="backgroundColour"
+            component={ColorPickerField}
+            colors={bgColors}
+          />
+        </HorizontalFormGroup>}
 
         <ClearSubmitButtons
           pristine={pristine}
@@ -97,4 +123,4 @@ export default reduxForm({
   validate,
   warn,
   enableReinitialize: true
-})(ViewTitleForm);
+})(ViewParamsForm);

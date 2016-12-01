@@ -92,7 +92,7 @@ describe('documentsManager/saveViews', () => {
           grids: [],
           title: 'Plotview 4 parameters',
           titleStyle: {},
-          plotBackgroundColour: '#FFFFFF',
+          backgroundColour: '#FFFFFF',
           legend: {},
           markers: [],
         },

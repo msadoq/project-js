@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import {
   MenuItem,
   ButtonToolbar,
-  DropdownButton
+  DropdownButton,
+  Glyphicon
 } from 'react-bootstrap';
 
 import { switchDebug } from '../../store/actions/windows';
@@ -85,7 +86,9 @@ class Debug extends PureComponent {
       <ButtonToolbar style={style}>
         <DropdownButton
           bsSize="xsmall"
-          title="debug"
+          title={<Glyphicon
+            glyph="cog"
+          />}
           id="dropdown-size-large"
           pullRight
         >

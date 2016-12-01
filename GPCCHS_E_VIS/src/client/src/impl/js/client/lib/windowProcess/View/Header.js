@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import classnames from 'classnames';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 import styles from './Header.css';
 
@@ -82,14 +83,18 @@ export default class Header extends Component {
     const titleStyle = this.getTitleStyle();
 
     return (
-      <div className={styles.container}>
+      <div
+        className={classnames(styles.container, {
+          [styles.containerActive]: isViewsEditorOpen
+        })}
+      >
         <div
           style={titleStyle}
           className={`${styles.title} moveHandler ellipsis`}
         >
           {title}
         </div>
-        <div className={styles.menu}>
+        <div>
           <DropdownButton
             pullRight
             bsStyle="link"

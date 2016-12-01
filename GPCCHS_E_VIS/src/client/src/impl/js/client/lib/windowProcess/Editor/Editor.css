@@ -1,7 +1,12 @@
+@import '../style/variables';
+
 .root{
-  position: fixed;
+  position: absolute;
   overflow: hidden;
-  top: 50px;
+  top: 0;
+  bottom: 0;
+  width: var(--editor-width);
+  padding: 10px 5px 10px 0;
 }
 
 .editor {
@@ -29,7 +34,16 @@
         }
       }
     }
+    .page-header{
+      margin: 10px 0 10px;
+      padding-bottom: 5px;
+      & > * {
+        margin: 0;
+        padding: 0;
+      }
+    }
   }
+
 }
 
 .contentWrapper{

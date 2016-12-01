@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { Row, Col } from 'react-bootstrap';
 import { PlotEditorContainer } from './Components/Plot';
 import { TextEditorContainer } from './Components/Text';
 import styles from './Editor.css';
@@ -12,8 +11,6 @@ const InvalidConfiguration = () => <div> unknown view type or invalid configurat
 
 export default class Editor extends Component {
   static propTypes = {
-    timebarHeight: PropTypes.number,
-    editorCols: PropTypes.number,
     viewId: PropTypes.string.isRequired,
     viewType: PropTypes.string.isRequired,
     configuration: PropTypes.object,
@@ -37,9 +34,7 @@ export default class Editor extends Component {
       configuration: { type },
       viewType,
       viewId,
-      closeEditor,
-      editorCols,
-      timebarHeight
+      closeEditor
     } = this.props;
 
     if (!configuration || !configuration.type) {
@@ -47,34 +42,26 @@ export default class Editor extends Component {
     }
 
     return (
-      <Row>
-        <Col
-          xs={editorCols}
-          className={styles.root}
-          style={{
-            bottom: timebarHeight
-          }}
-        >
-          <div className={styles.editor}>
-            {type === 'PlotView' && <PlotEditorContainer
-              key={viewId}
-              viewId={viewId}
-              viewType={viewType}
-              timebarHeight={timebarHeight}
-              configuration={configuration}
-              closeEditor={closeEditor}
-            />}
-            {type === 'TextView' && <TextEditorContainer
-              key={viewId}
-              viewId={viewId}
-              viewType={viewType}
-              timebarHeight={timebarHeight}
-              configuration={configuration}
-              closeEditor={closeEditor}
-            />}
-          </div>
-        </Col>
-      </Row>
+      <div
+        className={styles.root}
+      >
+        <div className={styles.editor}>
+          {type === 'PlotView' && <PlotEditorContainer
+            key={viewId}
+            viewId={viewId}
+            viewType={viewType}
+            configuration={configuration}
+            closeEditor={closeEditor}
+          />}
+          {type === 'TextView' && <TextEditorContainer
+            key={viewId}
+            viewId={viewId}
+            viewType={viewType}
+            configuration={configuration}
+            closeEditor={closeEditor}
+          />}
+        </div>
+      </div>
     );
   }
 }

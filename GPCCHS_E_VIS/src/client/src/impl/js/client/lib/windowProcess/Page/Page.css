@@ -1,7 +1,9 @@
+@import '../style/variables';
+
 .root{
-  margin-top: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
-
-.editor{
-
+.contentWithEditor{
+  margin-left: var(--editor-width)
 }

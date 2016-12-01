@@ -48,9 +48,8 @@ export default class Window extends Component {
           windowId={windowId}
           focusedPageId={focusedPageId}
         />
-        <div className={classnames('row', styles.content)}>
+        <div className={classnames(styles.content)}>
           <PageContainer
-            className="col-xs-12"
             windowId={windowId}
             focusedPageId={focusedPageId}
           />

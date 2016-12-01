@@ -320,7 +320,7 @@
             "titleStyle": {
                 "$ref": "#/definitions/textStyle"
             },
-            "plotBackgroundColour": {
+            "backgroundColour": {
                 "$ref": "#/definitions/colour"
             },
             "legend": {

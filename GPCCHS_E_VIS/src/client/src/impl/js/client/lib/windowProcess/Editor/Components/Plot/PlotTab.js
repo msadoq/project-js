@@ -8,7 +8,7 @@ import {
   PlotGridsContainer,
   // PlotMarkersContainer
 } from './';
-import ViewTitleContainer from '../ViewTitleContainer';
+import ViewParamsContainer from '../ViewParamsContainer';
 
 /*
   PlotTab représente l'onglet "Plot" de l'éditeur Plot.
@@ -54,13 +54,13 @@ export default class PlotTab extends React.Component {
     return (
       <Accordion>
         <Panel
-          header="Title"
+          header="Parameters"
           eventKey="1"
           expanded={isTitleOpen}
           onSelect={this.openTitle}
           onExited={this.closeTitle}
         >
-          {isTitleOpen && <ViewTitleContainer viewId={viewId} />}
+          {isTitleOpen && <ViewParamsContainer viewId={viewId} />}
         </Panel>
         <Panel
           header="Grid"

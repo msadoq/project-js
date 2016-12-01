@@ -44,7 +44,7 @@ export default class Tabs extends Component {
               <Button
                 bsStyle="link"
                 onClick={e => this.handleClose(e, page.pageId)}
-                className={styles.close}
+                className={styles.button}
               >
                 <Glyphicon
                   glyph="remove-circle"
@@ -54,7 +54,15 @@ export default class Tabs extends Component {
             </div>
           </NavItem>
         )}
-        <NavItem eventKey="new">New page +</NavItem>
+        <NavItem eventKey="new">
+          New page
+          <Button bsStyle="link" className={styles.button}>
+            <Glyphicon
+              glyph="plus-sign"
+              className="text-primary"
+            />
+          </Button>
+        </NavItem>
       </Nav>
     );
   }

@@ -345,8 +345,6 @@ class PlotView extends PureComponent {
             bgheight={tooltipHeight}
           />
         </ChartCanvas>
-        <span className="pull-left">{fullDateFormat(lower)}</span>
-        <span className="pull-right">{fullDateFormat(upper)}</span>
 
         { /* @TODO Uncomment when implementing markers!
           do the same for the Editor PlotTab part.

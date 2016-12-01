@@ -23,25 +23,40 @@ export default class View extends PureComponent {
   };
   render() {
     logger.debug('render');
-
+    const {
+      configuration,
+      configuration: { backgroundColour = '#FFFFFF' },
+      isViewsEditorOpen,
+      viewId,
+      type,
+      openEditor,
+      closeEditor,
+      unmountAndRemove,
+      data,
+      visuWindow
+    } = this.props;
     const ContentComponent = this.props.component || UnknownView;
+
     return (
       <div className={styles.container}>
         <ViewHeader
-          isViewsEditorOpen={this.props.isViewsEditorOpen}
-          configuration={this.props.configuration}
-          viewId={this.props.viewId}
-          type={this.props.type}
-          openEditor={this.props.openEditor}
-          closeEditor={this.props.closeEditor}
-          unmountAndRemove={this.props.unmountAndRemove}
+          isViewsEditorOpen={isViewsEditorOpen}
+          configuration={configuration}
+          viewId={viewId}
+          type={type}
+          openEditor={openEditor}
+          closeEditor={closeEditor}
+          unmountAndRemove={unmountAndRemove}
         />
-        <div className={styles.content}>
+        <div
+          className={styles.content}
+          style={{ backgroundColor: backgroundColour }}
+        >
           <ContentComponent
-            data={this.props.data}
-            type={this.props.type}
-            visuWindow={this.props.visuWindow}
-            configuration={this.props.configuration}
+            data={data}
+            type={type}
+            visuWindow={visuWindow}
+            configuration={configuration}
           />
         </div>
       </div>

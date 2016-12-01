@@ -2,7 +2,7 @@ import { freezeMe } from '../../common/test';
 import reducer, { viewRangeRemove, viewRangeAdd, viewLast } from './viewData';
 import { importPayload, removeAllData } from '../actions/viewData';
 
-describe.only('store:viewData:reducer', () => {
+describe('store:viewData:reducer', () => {
   const payload = { rId1: {}, rId2: {} };
   for (let j = 10; j < 21; j += 1) {
     payload.rId1[j] = {

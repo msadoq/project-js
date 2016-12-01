@@ -1,6 +1,6 @@
 import _get from 'lodash/get';
 import { connect } from 'react-redux';
-import { add, remove } from '../../store/actions/messages';
+import { remove } from '../../store/actions/messages';
 import { getComponent } from '../../../VIVL/window';
 import { getView } from '../../store/selectors/views';
 
@@ -29,7 +29,6 @@ const mapStateToProps = (state, { viewId, timebarId }) => {
 export default () => connect(
   mapStateToProps,
   {
-    addMessage: add,
     removeMessage: remove,
   }
 )(View);

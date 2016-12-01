@@ -14,17 +14,12 @@ const logger = debug('Window');
 
 export default class Window extends Component {
   static propTypes = {
-    addMessage: PropTypes.func.isRequired,
     removeMessage: PropTypes.func.isRequired,
     windowId: PropTypes.string.isRequired,
     focusedPageId: PropTypes.string.isRequired,
     appStatus: PropTypes.string,
     messages: PropTypes.array,
   };
-
-  componentDidMount() {
-    this.props.addMessage('global', 'info', 'pas cool');
-  }
 
   render() {
     logger.debug('render', this.props);

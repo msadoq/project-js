@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { getStatus } from '../../store/selectors/hsc';
-import { remove, add } from '../../store/actions/messages';
+import { remove } from '../../store/actions/messages';
 
 import {
   getWindowFocusedPageId,
@@ -19,6 +19,5 @@ export default connect(
   mapStateToProps,
   {
     removeMessage: remove,
-    addMessage: add,
   }
 )(Window);

@@ -11,7 +11,6 @@ const logger = debug('View');
 export default class View extends PureComponent {
   static propTypes = {
     component: PropTypes.func,
-    addMessage: PropTypes.func.isRequired,
     removeMessage: PropTypes.func.isRequired,
     isViewsEditorOpen: PropTypes.bool,
     configuration: PropTypes.object,

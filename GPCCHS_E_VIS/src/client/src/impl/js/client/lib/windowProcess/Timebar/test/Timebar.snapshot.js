@@ -6,7 +6,7 @@ import Timebar from '../Timebar';
 
 const propsStub = {
   retrieveFormattedFullDateEl: () => null,
-  displayTimesetter: () => null,
+  toggleTimesetter: () => null,
   onVerticalScroll: () => null,
   updateCursors: () => null,
   updateViewport: () => null,

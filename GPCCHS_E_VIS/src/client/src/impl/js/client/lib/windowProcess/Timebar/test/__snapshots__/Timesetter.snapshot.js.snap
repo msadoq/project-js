@@ -1,15 +1,5 @@
 exports[`test Timesetter renders correctly 1`] = `
-<div
-  className="Timesetter__TimesetterContainer___dL0mo">
-  <h3
-    className="text-center">
-    Manual setter
-  </h3>
-  <button
-    className="btn-sm btn btn-danger btn-close"
-    onClick={[Function]}>
-    x
-  </button>
+<div>
   <div
     className="Timesetter__fieldsContainer___24Fbf">
     <div

@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { Modal } from 'react-bootstrap';
 import classnames from 'classnames';
 import styles from './Timesetter.css';
 import TimesetterFields from './TimesetterFields';
@@ -8,7 +7,6 @@ export default class Timesetter extends Component {
 
   static propTypes = {
     updateCursors: PropTypes.func.isRequired,
-    toggleTimesetter: PropTypes.func.isRequired,
     visuWindow: PropTypes.object.isRequired,
     slideWindow: PropTypes.object.isRequired,
     timebarMode: PropTypes.string.isRequired,
@@ -17,20 +15,7 @@ export default class Timesetter extends Component {
   }
 
   state = {
-    errorMessages: [],
-    showModal: true,
-  }
-
-  componentDidMount() {
-    document.addEventListener('keyup', this.onKeyUp);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keyup', this.onKeyUp);
-  }
-
-  onKeyUp = (e) => {
-    if (e.keyCode === 27) this.props.toggleTimesetter();
+    errorMessages: []
   }
 
   onChangeAction = (visuWindow, slideWindow, cursor) => {
@@ -87,63 +72,42 @@ export default class Timesetter extends Component {
     }
   }
 
-  onClose = () => {
-    this.setState({ showModal: false });
-    setTimeout(() => this.props.toggleTimesetter(), 500);
-  }
-
   render() {
     const { visuWindow, cursor, slideWindow } = this.props;
     const { errorMessages } = this.state;
 
     return (
-      <div className="modal-container">
-        <Modal show={this.state.showModal} onHide={this.onClose}>
-          <Modal.Header>
-            <Modal.Title>Manual setter</Modal.Title>
-            <button
-              className={classnames(
-                'btn-sm',
-                'btn',
-                'btn-danger',
-                'btn-close'
-              )}
-              onClick={this.onClose}
-            >x</button>
-          </Modal.Header>
-          <Modal.Body>
-            {errorMessages.map(x => <p className={classnames('text-danger', styles.errorMessage)}>{x}</p>)}
-            {
-              ['slideLower', 'lower', 'current', 'upper', 'slideUpper'].map((x, i) => {
-                let ms;
-                if (visuWindow[x]) {
-                  ms = visuWindow[x];
-                } else if (x === 'slideLower') {
-                  ms = slideWindow.lower;
-                } else if (x === 'slideUpper') {
-                  ms = slideWindow.upper;
-                }
-
-                let disabled = cursor !== 'all';
-                if (x === cursor) {
-                  disabled = false;
-                }
-
-                return (
-                  <TimesetterFields
-                    key={i}
-                    value={x}
-                    disabled={disabled}
-                    ms={ms}
-                    visuWindow={visuWindow}
-                    slideWindow={slideWindow}
-                    onChange={this.onChangeAction}
-                  />
-                );
-              })
+      <div>
+        {errorMessages.map(x => <p className={classnames('text-danger', styles.errorMessage)}>{x}</p>)}
+        {
+          ['slideLower', 'lower', 'current', 'upper', 'slideUpper'].map((x, i) => {
+            let ms;
+            if (visuWindow[x]) {
+              ms = visuWindow[x];
+            } else if (x === 'slideLower') {
+              ms = slideWindow.lower;
+            } else if (x === 'slideUpper') {
+              ms = slideWindow.upper;
             }
-          </Modal.Body>
-        </Modal>
+
+            let disabled = cursor !== 'all';
+            if (x === cursor) {
+              disabled = false;
+            }
+
+            return (
+              <TimesetterFields
+                key={i}
+                value={x}
+                disabled={disabled}
+                ms={ms}
+                visuWindow={visuWindow}
+                slideWindow={slideWindow}
+                onChange={this.onChangeAction}
+              />
+            );
+          })
+        }
       </div>
     );
   }

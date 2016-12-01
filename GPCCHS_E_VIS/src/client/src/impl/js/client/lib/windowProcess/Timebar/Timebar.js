@@ -28,7 +28,7 @@ export default class Timebar extends Component {
     retrieveFormattedFullDateEl: PropTypes.func.isRequired,
     play: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
-    displayTimesetter: PropTypes.func.isRequired,
+    toggleTimesetter: PropTypes.func.isRequired,
     onVerticalScroll: PropTypes.func.isRequired,
     updateViewport: PropTypes.func.isRequired,
     updateCursors: PropTypes.func.isRequired,
@@ -825,7 +825,7 @@ export default class Timebar extends Component {
     const {
       visuWindow,
       timelines,
-      displayTimesetter,
+      toggleTimesetter,
       timebarMode,
       viewport,
       slideWindow,
@@ -934,7 +934,7 @@ export default class Timebar extends Component {
         <div
           className={styles.viewportContainer}
           onWheel={this.onWheel}
-          onDoubleClick={displayTimesetter}
+          onDoubleClick={toggleTimesetter}
         >
           { arrowsLeft }
           { arrowsRight }
@@ -971,7 +971,7 @@ export default class Timebar extends Component {
               cursor="lower"
               className={styles.lower}
               onMouseDown={this.onMouseDownResize}
-              onDoubleClick={displayTimesetter}
+              onDoubleClick={toggleTimesetter}
             />
             {/* Circle handle for lower cursor */}
             <span
@@ -982,14 +982,14 @@ export default class Timebar extends Component {
                 { [styles.undisplayed]: !lowerCurrentClose && !slideLowerLowerClose }
               )}
               onMouseDown={this.onMouseDownResize}
-              onDoubleClick={displayTimesetter}
+              onDoubleClick={toggleTimesetter}
             />
             <span
               cursor="current"
               className={styles.current}
               style={{ left: `${calc.currentPercentOffset}%` }}
               onMouseDown={this.onMouseDownNavigate}
-              onDoubleClick={displayTimesetter}
+              onDoubleClick={toggleTimesetter}
             />
             {/* Circle handle for current cursor */}
             <span
@@ -1002,13 +1002,13 @@ export default class Timebar extends Component {
               )}
               style={{ left: `${calc.currentPercentOffset}%` }}
               onMouseDown={this.onMouseDownNavigate}
-              onDoubleClick={displayTimesetter}
+              onDoubleClick={toggleTimesetter}
             />
             <span
               cursor="upper"
               className={styles.upper}
               onMouseDown={this.onMouseDownResize}
-              onDoubleClick={displayTimesetter}
+              onDoubleClick={toggleTimesetter}
             />
             {/* Circle handle for upper cursor */}
             <span
@@ -1019,7 +1019,7 @@ export default class Timebar extends Component {
                 { [styles.undisplayed]: !upperCurrentClose && !slideUpperUpperClose }
               )}
               onMouseDown={this.onMouseDownResize}
-              onDoubleClick={displayTimesetter}
+              onDoubleClick={toggleTimesetter}
             />
 
             {
@@ -1070,7 +1070,7 @@ export default class Timebar extends Component {
             }}
             className={classnames(styles.slide, { hidden: timebarMode !== 'Fixed' })}
             onMouseDown={this.onMouseDownResize}
-            onDoubleClick={displayTimesetter}
+            onDoubleClick={toggleTimesetter}
           />
           {/* Circle handle for slideLower cursor */}
           <span
@@ -1084,7 +1084,7 @@ export default class Timebar extends Component {
               left: `${calc.slideLowerPercentOffset}%`
             }}
             onMouseDown={this.onMouseDownResize}
-            onDoubleClick={displayTimesetter}
+            onDoubleClick={toggleTimesetter}
           />
           <span
             cursor="slideUpper"
@@ -1094,7 +1094,7 @@ export default class Timebar extends Component {
             }}
             className={classnames(styles.slide, { hidden: timebarMode === 'Normal' })}
             onMouseDown={this.onMouseDownResize}
-            onDoubleClick={displayTimesetter}
+            onDoubleClick={toggleTimesetter}
           />
           {/* Circle handle for slideUpper cursor */}
           <span
@@ -1108,7 +1108,7 @@ export default class Timebar extends Component {
               left: `${calc.slideUpperPercentOffset}%`
             }}
             onMouseDown={this.onMouseDownResize}
-            onDoubleClick={displayTimesetter}
+            onDoubleClick={toggleTimesetter}
           />
 
           {

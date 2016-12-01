@@ -17,7 +17,7 @@ class RighttabContent extends Component {
     isPlaying: PropTypes.bool.isRequired,
     play: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
-    displayTimesetter: PropTypes.func.isRequired,
+    toggleTimesetter: PropTypes.func.isRequired,
     updateSpeed: PropTypes.func.isRequired,
     updateMode: PropTypes.func.isRequired,
     visuWindow: PropTypes.object.isRequired,
@@ -108,7 +108,7 @@ class RighttabContent extends Component {
       slideWindow,
       updateMode,
       currentSessionOffsetMs,
-      displayTimesetter,
+      toggleTimesetter,
       onTimelinesVerticalScroll,
       timelinesVerticalScroll,
       size,
@@ -151,7 +151,7 @@ class RighttabContent extends Component {
           updateViewport={updateViewport}
           verticalScroll={timelinesVerticalScroll}
           onVerticalScroll={onTimelinesVerticalScroll}
-          displayTimesetter={displayTimesetter}
+          toggleTimesetter={toggleTimesetter}
           retrieveFormattedFullDateEl={this.retrieveFormattedFullDateEl}
           widthPx={size.width - (bootstrapPaddings * 2)}
         />

@@ -6,6 +6,7 @@ import styles from './Timebar.css';
 import LefttabContainer from './LefttabContainer';
 import RighttabContainer from './RighttabContainer';
 import Timesetter from './Timesetter';
+import Modale from './Modale';
 import debug from '../../../lib/common/debug/windowDebug';
 
 const logger = debug('Timebar');
@@ -89,9 +90,8 @@ export default class TimebarWrapper extends Component {
       e.preventDefault();
       if (e.currentTarget.tagName !== e.target.tagName) return;
     }
-    const { displayTimesetter } = this.state;
     this.setState({
-      displayTimesetter: !displayTimesetter,
+      displayTimesetter: !this.state.displayTimesetter,
       timesetterCursor: (e && e.currentTarget) ? e.currentTarget.getAttribute('cursor') : null
     });
   }
@@ -120,14 +120,16 @@ export default class TimebarWrapper extends Component {
     let timesetter;
     if (displayTimesetter) {
       timesetter = (
-        <Timesetter
+        <Modale
+          title="Manual time setter"
           visuWindow={visuWindow}
           slideWindow={slideWindow}
           timebarMode={timebar.mode}
           updateCursors={updateCursors}
           timebarId={timebarId}
           cursor={timesetterCursor || 'all'}
-          toggleTimesetter={this.toggleTimesetter}
+          onClose={this.toggleTimesetter}
+          bodyComponent={Timesetter}
         />
       );
     }
@@ -175,7 +177,7 @@ export default class TimebarWrapper extends Component {
           currentSessionOffsetMs={currentSessionOffsetMs}
           isPlaying={isPlaying}
           timelines={timelines}
-          displayTimesetter={this.toggleTimesetter}
+          toggleTimesetter={this.toggleTimesetter}
           onTimelinesVerticalScroll={this.onTimelinesVerticalScroll}
           timelinesVerticalScroll={timelinesVerticalScroll}
           updateCursors={updateCursors}

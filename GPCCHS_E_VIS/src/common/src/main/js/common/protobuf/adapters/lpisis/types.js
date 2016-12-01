@@ -66,11 +66,11 @@ const uintToBytes = (number) => {
 };
 const bytesToUint = (buffer) => {
   if (!buffer || !buffer.buffer) {
-    return undefined;
+    return buffer;
   }
   // Buffer is associated with key buffer
   if (!_isBuffer(buffer.buffer)) {
-    return undefined;
+    return buffer.buffer;
   }
   return buffer.buffer.readUInt32LE(buffer.offset);
 };
@@ -87,11 +87,11 @@ const intToBytes = (number) => {
 };
 const bytesToInt = (buffer) => {
   if (!buffer || !buffer.buffer) {
-    return undefined;
+    return buffer;
   }
   // Buffer is associated with key buffer
   if (!_isBuffer(buffer.buffer)) {
-    return undefined;
+    return buffer.buffer;
   }
   return buffer.buffer.readInt32LE(buffer.offset);
 };

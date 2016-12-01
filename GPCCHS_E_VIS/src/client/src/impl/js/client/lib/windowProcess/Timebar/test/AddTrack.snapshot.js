@@ -6,6 +6,7 @@ import AddTrack from '../AddTrack';
 
 const propsStub = {
   onChange: () => null,
+  onClose: () => null,
   toggleAddTimeline: () => null,
   timelines: TimelinesFixture,
   sessions: SessionsFixture,

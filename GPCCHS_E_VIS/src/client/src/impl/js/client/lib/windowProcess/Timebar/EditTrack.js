@@ -7,7 +7,7 @@ import styles from './Lefttab.css';
 export default class EditTrack extends Component {
 
   static propTypes = {
-    hideEditTimeline: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
     editTimeline: PropTypes.func.isRequired,
     timeline: PropTypes.object.isRequired,
     masterId: PropTypes.string,
@@ -24,7 +24,6 @@ export default class EditTrack extends Component {
 
   componentDidMount() {
     this.updateFields();
-    document.addEventListener('keyup', this.willHideEditTimeline);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -33,10 +32,6 @@ export default class EditTrack extends Component {
 
   componentDidUpdate() {
     this.updateFields();
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keyup', this.willHideEditTimeline);
   }
 
   updateFields = () => {
@@ -52,18 +47,6 @@ export default class EditTrack extends Component {
     ['years', 'months', 'days', 'years', 'months', 'days', 'hours', 'minutes', 'seconds', 'milliseconds'].forEach((x) => {
       this[`${x}El`].value = this.state.duration[x]();
     });
-  }
-
-  willHideEditTimeline = (e) => {
-    // escape
-    if (e && e.keyCode && e.keyCode === 27) {
-      e.preventDefault();
-      this.props.hideEditTimeline();
-    // button click
-    } else if (e) {
-      e.preventDefault();
-      this.props.hideEditTimeline();
-    }
   }
 
   willEditTimeline = (e) => {
@@ -83,6 +66,7 @@ export default class EditTrack extends Component {
       duration.asMilliseconds(),
       this.editTimelineMasterEl.checked
     );
+    setTimeout(this.props.onClose, 300);
   }
 
   render() {
@@ -90,11 +74,10 @@ export default class EditTrack extends Component {
 
     return (
       <form
-        className={classnames('form-horizontal', styles.form, styles.editForm)}
+        className="form-horizontal"
         onSubmit={this.willEditTimeline}
         ref={(el) => { this.editTimelineFormEl = el; }}
       >
-        <b>Edit a track :</b>
         <FormGroup className={styles.formGroup}>
           <b className={styles.labelFormControl}>Id</b>
           <input
@@ -147,17 +130,6 @@ export default class EditTrack extends Component {
             className={classnames(styles.addTrackButton, 'btn-md', 'btn-primary')}
           />
         </FormGroup>
-        <button
-          className={classnames(
-            'btn-sm',
-            'btn',
-            'btn-danger',
-            'btn-close'
-          )}
-          onClick={this.willHideEditTimeline}
-        >
-          x
-        </button>
       </form>
     );
   }

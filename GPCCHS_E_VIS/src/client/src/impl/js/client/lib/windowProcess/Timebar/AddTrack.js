@@ -7,8 +7,8 @@ import ColorPicker from '../Editor/Components/ColorPicker';
 export default class AddTrack extends Component {
 
   static propTypes = {
+    onClose: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
-    toggleAddTimeline: PropTypes.func.isRequired,
     timelines: PropTypes.array.isRequired,
     sessions: PropTypes.array.isRequired,
     color: PropTypes.string.isRequired,
@@ -17,22 +17,6 @@ export default class AddTrack extends Component {
   state = {
     errorMessage: null,
     color: this.props.color,
-  }
-
-  componentDidMount() {
-    document.addEventListener('keyup', this.willUnmount);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keyup', this.willUnmount);
-  }
-
-  willUnmount = (e) => {
-    e.preventDefault();
-    // Hit escape
-    if (e && e.keyCode && e.keyCode === 27) {
-      this.props.toggleAddTimeline();
-    }
   }
 
   willAddTimeline = (e) => {
@@ -48,6 +32,7 @@ export default class AddTrack extends Component {
         this.state.color,
         parseInt(this.newTimelineSessionEl.value, 10)
       );
+      setTimeout(this.props.onClose, 300);
     }
   }
 
@@ -56,17 +41,14 @@ export default class AddTrack extends Component {
   }
 
   render() {
-    const { color, sessions, toggleAddTimeline } = this.props;
+    const { color, sessions } = this.props;
     const { errorMessage } = this.state;
 
     return (
       <Form
         horizontal
-        className={classnames(styles.form)}
         onSubmit={this.willAddTimeline}
       >
-        <b>Add a track :</b>
-        <br /><br />
         {
           errorMessage ?
             <p className="text-danger" style={{ fontSize: '1em' }}>{errorMessage}</p>
@@ -113,17 +95,6 @@ export default class AddTrack extends Component {
             className={classnames(styles.addTrackButton, 'btn-md', 'btn-primary')}
           />
         </FormGroup>
-        <button
-          className={classnames(
-            'btn-sm',
-            'btn',
-            'btn-danger',
-            'btn-close'
-          )}
-          onClick={toggleAddTimeline}
-        >
-          x
-        </button>
       </Form>
     );
   }

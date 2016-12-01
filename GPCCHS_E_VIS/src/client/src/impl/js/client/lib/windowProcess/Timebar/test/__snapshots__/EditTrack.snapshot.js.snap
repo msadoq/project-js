@@ -1,10 +1,7 @@
 exports[`test EditTrack renders correctly 1`] = `
 <form
-  className="form-horizontal Lefttab__form___1_dO8 Lefttab__editForm___3m1Ww"
+  className="form-horizontal"
   onSubmit={[Function]}>
-  <b>
-    Edit a track :
-  </b>
   <div
     className="Lefttab__formGroup___2Kj6_ form-group">
     <b
@@ -78,10 +75,5 @@ exports[`test EditTrack renders correctly 1`] = `
       type="submit"
       value="Edit track" />
   </div>
-  <button
-    className="btn-sm btn btn-danger btn-close"
-    onClick={[Function]}>
-    x
-  </button>
 </form>
 `;

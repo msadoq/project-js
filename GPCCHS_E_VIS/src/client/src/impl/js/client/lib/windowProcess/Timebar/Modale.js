@@ -15,8 +15,9 @@ export default class Modale extends Component {
   }
 
   onClose = () => {
+    // hide timeline (animation) and then call the onClose
     this.setState({ showModal: false });
-    setTimeout(() => this.props.onClose(), 500);
+    setTimeout(() => this.props.onClose(), 300);
   }
 
   render() {
@@ -36,7 +37,7 @@ export default class Modale extends Component {
             >x</button>
           </Modal.Header>
           <Modal.Body>
-            <this.props.bodyComponent {...this.props} />
+            <this.props.bodyComponent {...this.props} onClose={this.onClose} />
           </Modal.Body>
         </Modal>
       </div>

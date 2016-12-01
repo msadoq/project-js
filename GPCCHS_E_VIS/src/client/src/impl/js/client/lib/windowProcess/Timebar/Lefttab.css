@@ -16,29 +16,9 @@
   min-width: 20px;
   height: 20px;
 }
-.form{
-  position: absolute;
-  right: -4px;
-  top: -32px;
-  transform: translate(calc(100% - 32px), calc(-100% + 34px));
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 1px;
-  box-shadow: 0px 0px 9px rgba(0,0,0,0.3);
-  z-index: 4;
-  width: 260px;
-  padding: 4px;
-}
 .offset{
   position: absolute;
   right: 40px;
-}
-.editForm{
-  right: auto;
-  left: 0px;
-  top: 0px;
-  width: 120%;
-  transform: translateY(calc(-100% - 10px));
 }
 .leftTabTopPanel{
   position: relative;

@@ -6,6 +6,7 @@ import EditTrack from '../EditTrack';
 
 const propsStub = {
   hideEditTimeline: () => null,
+  onClose: () => null,
   editTimeline: () => null,
   timeline: TimelinesFixture[0],
   masterId: TimebarFixture.masterId,

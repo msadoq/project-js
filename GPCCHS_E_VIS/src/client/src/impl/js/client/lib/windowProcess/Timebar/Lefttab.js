@@ -4,6 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
 import { schemeCategory20b } from 'd3-scale';
 import Timeline from './Timeline';
+import Modale from './Modale';
 import EditTrack from './EditTrack';
 import AddTrack from './AddTrack';
 import styles from './Lefttab.css';
@@ -44,6 +45,7 @@ export default class Lefttab extends Component {
     this.props.onTimelinesVerticalScroll(e, e.currentTarget);
   }
 
+  // Set auto color for the next track to be added
   setColor(color) {
     const availableColors = difference(schemeCategory20b, this.props.timelines
       .map(x => x.color).concat(color));
@@ -72,7 +74,6 @@ export default class Lefttab extends Component {
         color,
       }
     );
-    this.toggleAddTimeline();
     this.setColor(color);
   }
 
@@ -128,11 +129,6 @@ export default class Lefttab extends Component {
         updateOffset(timelineId, offset);
       }
     }
-
-    this.setState({
-      willAdd: false,
-      willEdit: false,
-    });
   }
 
   detach = (e) => {
@@ -153,11 +149,13 @@ export default class Lefttab extends Component {
     const currentlyEditingTimeline = timelines.find(x => x.id === editingId);
     if (willEdit && currentlyEditingTimeline) {
       editTrack = (
-        <EditTrack
+        <Modale
+          title="Edit track"
           timeline={currentlyEditingTimeline}
           masterId={masterId}
-          hideEditTimeline={this.hideEditTimeline}
+          onClose={this.hideEditTimeline}
           editTimeline={this.editTimeline}
+          bodyComponent={EditTrack}
         />
       );
     }
@@ -165,12 +163,14 @@ export default class Lefttab extends Component {
     let addTrack;
     if (willAdd) {
       addTrack = (
-        <AddTrack
+        <Modale
+          title="Add track"
           timelines={timelines}
           color={color}
           sessions={sessions}
           onChange={this.willAddTimeline}
-          toggleAddTimeline={this.toggleAddTimeline}
+          onClose={this.toggleAddTimeline}
+          bodyComponent={AddTrack}
         />
       );
     }

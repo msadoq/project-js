@@ -9,7 +9,7 @@ import {
   getWindowsVisibleViews,
 } from './windows';
 
-describe.only('store:window:selectors', () => {
+describe('store:window:selectors', () => {
   describe('getWindow', () => {
     const state = {
       windows: {

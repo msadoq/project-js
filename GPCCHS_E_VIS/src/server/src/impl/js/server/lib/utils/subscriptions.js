@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-const registeredCallbacks = require('common/callbacks/register');
+const registeredCallbacks = require('common/callbacks');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { encode } = require('common/protobuf');
 // eslint-disable-next-line import/no-extraneous-dependencies

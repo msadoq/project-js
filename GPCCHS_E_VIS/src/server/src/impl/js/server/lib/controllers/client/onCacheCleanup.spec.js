@@ -8,7 +8,7 @@ const dataStub = require('common/stubs/data');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { decode } = require('common/protobuf');
 // eslint-disable-next-line import/no-extraneous-dependencies
-const registeredCallbacks = require('common/callbacks/register');
+const registeredCallbacks = require('common/callbacks');
 
 const { should } = require('../../utils/test');
 const registeredQueries = require('../../utils/registeredQueries');

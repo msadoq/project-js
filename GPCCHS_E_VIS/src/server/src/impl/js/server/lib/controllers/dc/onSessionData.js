@@ -5,7 +5,7 @@ const { sendToMain } = require('../../websocket/sendToMain');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { decode } = require('common/protobuf');
 // eslint-disable-next-line import/no-extraneous-dependencies
-const registeredCallbacks = require('common/callbacks/register');
+const registeredCallbacks = require('common/callbacks');
 
 /**
  * Triggered on DC session request response.
@@ -13,7 +13,9 @@ const registeredCallbacks = require('common/callbacks/register');
  * - deprotobufferize sessions
  * - forward to client
  *
- * @param buffer
+ * @param websocketHandler
+ * @param queryIdBuffer
+ * @param sessionsBuffer
  */
 
 const sessionData = (websocketHandler, queryIdBuffer, sessionsBuffer) => {

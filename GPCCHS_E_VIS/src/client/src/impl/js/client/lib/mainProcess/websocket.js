@@ -1,6 +1,6 @@
 import Primus from 'common/websocket';
 import globalConstants from 'common/constants';
-import { set, get, remove } from 'common/callbacks/register';
+import { set, get, remove } from 'common/callbacks';
 import { v4 } from 'node-uuid';
 
 import debug from '../common/debug/mainDebug';

@@ -11,7 +11,7 @@ const { should } = require('../../utils/test');
 const { get: getQueue, reset: resetQueue } = require('../../websocket/dataQueue');
 const flattenDataId = require('../../utils/flattenDataId');
 const registeredQueries = require('../../utils/registeredQueries');
-const registeredCallbacks = require('common/callbacks/register');
+const registeredCallbacks = require('common/callbacks');
 
 const connectedDataModel = require('../../models/connectedData');
 const { clearFactory, getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');

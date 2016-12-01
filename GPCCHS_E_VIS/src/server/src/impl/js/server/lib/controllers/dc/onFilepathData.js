@@ -4,7 +4,7 @@ const globalConstants = require('common/constants');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { decode } = require('common/protobuf');
 // eslint-disable-next-line import/no-extraneous-dependencies
-const registeredCallbacks = require('common/callbacks/register');
+const registeredCallbacks = require('common/callbacks');
 
 const { sendToMain } = require('../../websocket/sendToMain');
 
@@ -16,9 +16,10 @@ const { sendToMain } = require('../../websocket/sendToMain');
  * - store filepath
  * - forward to client
  *
- * @param buffer
+ * @param websocketHandler
+ * @param queryIdBuffer
+ * @param filepathBuffer
  */
-
 const filepathData = (websocketHandler, queryIdBuffer, filepathBuffer) => {
   debug.verbose('called');
 

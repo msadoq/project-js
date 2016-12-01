@@ -5,7 +5,7 @@ const dataStub = require('common/stubs/data');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
 // eslint-disable-next-line import/no-extraneous-dependencies
-const registeredCallbacks = require('common/callbacks/register');
+const registeredCallbacks = require('common/callbacks');
 
 describe('controllers/dc/onDomainData', () => {
   beforeEach(() => {

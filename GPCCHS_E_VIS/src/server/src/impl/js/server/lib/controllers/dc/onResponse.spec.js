@@ -3,7 +3,7 @@ const { should, testHandler, getTestHandlerArgs, resetTestHandlerArgs } = requir
 const dataStub = require('common/stubs/data');
 const { response } = require('./onResponse');
 // eslint-disable-next-line import/no-extraneous-dependencies
-const registeredCallbacks = require('common/callbacks/register');
+const registeredCallbacks = require('common/callbacks');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
 

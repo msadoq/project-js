@@ -1,38 +1,38 @@
 const { should } = require('../utils/test');
-const registeredCallbacks = require('./register');
+const callbacks = require('./index');
 
-describe('utils/registeredCallbacks', () => {
-  beforeEach(() => registeredCallbacks.clear());
+describe('utils/callbacks', () => {
+  beforeEach(() => callbacks.clear());
   it('get/set', () => {
-    registeredCallbacks.set('myId', () => true);
-    registeredCallbacks.get('myId')().should.equal(true);
+    callbacks.set('myId', () => true);
+    callbacks.get('myId')().should.equal(true);
   });
   it('remove', () => {
     const myFunc = () => true;
-    registeredCallbacks.set('myId', myFunc);
-    const myFuncBackup = registeredCallbacks.get('myId');
-    registeredCallbacks.remove('myId');
-    should.not.exist(registeredCallbacks.get('myId'));
+    callbacks.set('myId', myFunc);
+    const myFuncBackup = callbacks.get('myId');
+    callbacks.remove('myId');
+    should.not.exist(callbacks.get('myId'));
     myFuncBackup().should.equal(true);
   });
   it('set required parameters', () => {
-    (() => registeredCallbacks.set()).should.throw(Error);
-    (() => registeredCallbacks.set(true)).should.throw(Error);
-    (() => registeredCallbacks.set('myId', true)).should.throw(Error);
+    (() => callbacks.set()).should.throw(Error);
+    (() => callbacks.set(true)).should.throw(Error);
+    (() => callbacks.set('myId', true)).should.throw(Error);
   });
   it('get unknown', () => {
-    should.not.exist(registeredCallbacks.get('myId'));
+    should.not.exist(callbacks.get('myId'));
   });
   it('getAll', () => {
-    registeredCallbacks.set('f1', () => 1);
-    registeredCallbacks.set('f2', () => 2);
-    const cbs = registeredCallbacks.getAll();
+    callbacks.set('f1', () => 1);
+    callbacks.set('f2', () => 2);
+    const cbs = callbacks.getAll();
     cbs.f1().should.equal(1);
     cbs.f2().should.equal(2);
   });
   it('clear', () => {
-    registeredCallbacks.set('myId', () => true);
-    registeredCallbacks.clear();
-    registeredCallbacks.getAll().should.eql({});
+    callbacks.set('myId', () => true);
+    callbacks.clear();
+    callbacks.getAll().should.eql({});
   });
 });

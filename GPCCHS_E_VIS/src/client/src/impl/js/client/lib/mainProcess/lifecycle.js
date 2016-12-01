@@ -4,7 +4,7 @@ import {
   LIFECYCLE_STARTED,
   LIFECYCLE_LOST_HSS_CONNECTION,
 } from 'common/constants';
-import { clear as clearRegisteredCallbacks } from 'common/callbacks/register';
+import { clear as clearRegisteredCallbacks } from 'common/callbacks';
 import { updateStatus } from '../store/actions/hss';
 import { getWorkspaceOpened } from '../store/selectors/hsc';
 import { updateStatus as updateAppStatus } from '../store/actions/hsc';

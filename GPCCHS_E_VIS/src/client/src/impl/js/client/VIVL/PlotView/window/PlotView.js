@@ -4,9 +4,9 @@ import _map from 'lodash/map';
 import SizeMe from 'react-sizeme';
 import { format } from 'd3-format';
 import { scaleTime } from 'd3-scale';
-import {
-  MenuItem
-} from 'react-bootstrap';
+// import {
+//   MenuItem
+// } from 'react-bootstrap';
 import {
   ChartCanvas, Chart, series,
   coordinates, axes, tooltip, interactive
@@ -19,7 +19,7 @@ import {
   fullDateFormat,
   getLineStyle
 } from './helper';
-import PlotMenu from './PlotMenu';
+// import PlotMenu from './PlotMenu';
 
 import debug from '../../../lib/common/debug/windowDebug';
 
@@ -266,11 +266,11 @@ class PlotView extends PureComponent {
       tooltipWidth,
       tooltipHeight,
       disableZoom,
-      isMenuOpened,
-      menuPosition
+      // isMenuOpened,
+      // menuPosition
     } = this.state;
-    const menuOpenOnTop = menuPosition.y >= (height / 2);
-    const menuOpenOnLeft = menuPosition.x >= (width / 2);
+    // const menuOpenOnTop = menuPosition.y >= (height / 2);
+    // const menuOpenOnLeft = menuPosition.x >= (width / 2);
     const { y: yGrid, x: xGrid } = this.getGrid();
 
     return (
@@ -348,6 +348,8 @@ class PlotView extends PureComponent {
         <span className="pull-left">{fullDateFormat(lower)}</span>
         <span className="pull-right">{fullDateFormat(upper)}</span>
 
+        { /* @TODO Uncomment when implementing markers!
+          do the same for the Editor PlotTab part.
         <PlotMenu
           isOpened={isMenuOpened}
           openOnLeft={menuOpenOnLeft}
@@ -360,6 +362,7 @@ class PlotView extends PureComponent {
           <MenuItem>Add an horizontal line</MenuItem>
           <MenuItem>Add an Vertical line</MenuItem>
         </PlotMenu>
+        */}
       </div>
     );
   }

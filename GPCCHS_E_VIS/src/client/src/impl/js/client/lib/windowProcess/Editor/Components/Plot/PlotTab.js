@@ -6,7 +6,7 @@ import {
 import {
   PlotAxesContainer,
   PlotGridsContainer,
-  PlotMarkersContainer
+  // PlotMarkersContainer
 } from './';
 import ViewTitleContainer from '../ViewTitleContainer';
 
@@ -48,7 +48,7 @@ export default class PlotTab extends React.Component {
       isTitleOpen,
       isAxesOpen,
       isGridOpen,
-      isMarkersOpen
+      // isMarkersOpen
     } = this.state;
 
     return (
@@ -80,13 +80,16 @@ export default class PlotTab extends React.Component {
           close={this.closeAxes}
         />
 
+        { /* @TODO v2, to be uncommented soon.
+          to add a marker you need to use the plot menu
+          to be uncommented too!
         <PlotMarkersContainer
           viewId={viewId}
           eventKey="4"
           expanded={isMarkersOpen}
           open={this.openMarkers}
           close={this.closeMarkers}
-        />
+        />*/}
       </Accordion>
     );
   }

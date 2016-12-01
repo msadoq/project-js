@@ -4,7 +4,6 @@
 const { ipcRenderer } = require('electron');
 const {
   getTimer,
-  rest,
 } = require('./util');
 
 const DEFAULT_TRANSPORTS = ['console', 'electronIPC'];
@@ -16,20 +15,21 @@ const apis = transportAPis;
 const getIPCTime = getTimer();
 
 function sendOverIPC(category, level) {
-  function sendToMaster(msg) {
+  function sendToMaster(msg, ...rest) {
     ipcRenderer.send('log', {
       category,
       level,
       msg,
-      rest: rest(arguments, 3).concat([{ // eslint-disable-line prefer-rest-params
+      rest: rest.concat([{ // eslint-disable-line prefer-rest-params
         time: `${getIPCTime()}ms`,
+        pid: process.pid,
+        pname: process.title,
       }]),
     });
   }
 
-  return function sendWithContext(msg) {
-    // eslint-disable-next-line prefer-spread, prefer-rest-params
-    sendToMaster.apply(null, [category, level, msg].concat(rest(arguments, 1)));
+  return function sendWithContext(msg, ...other) {
+    sendToMaster(msg, ...other);
   };
 }
 
@@ -45,9 +45,9 @@ transportAPis.electronIPC = category => ({
 const getConsoleTime = getTimer();
 
 function sendToConsole(category, level) {
-  return function sendWithContext(msg) {
+  return function sendWithContext(msg, ...rest) {
     // eslint-disable-next-line prefer-rest-params
-    console[level].apply(null, [`[${category}] ${msg} +${getConsoleTime()}ms`].concat(rest(arguments, 1)));
+    console[level].apply(null, [`[${category}] ${msg} +${getConsoleTime()}ms`].concat(rest));
   };
 }
 
@@ -72,11 +72,9 @@ function getLogger(category, transports = DEFAULT_TRANSPORTS, levels = DEFAULT_L
   return levels.reduce((acc, l) => {
     // eslint-disable-next-line no-param-reassign
     acc[l] = transports.reduce((fn, t) =>
-      function compose() {
-        // eslint-disable-next-line prefer-rest-params
-        fn.apply(this, rest(arguments));
-        // eslint-disable-next-line prefer-rest-params
-        transportsWithCategory[t][l].apply(this, rest(arguments));
+      function compose(...args) {
+        fn(...args);
+        transportsWithCategory[t][l](...args);
       }, () => {});
     return acc;
   }, {});

@@ -10,9 +10,6 @@ const getTimer = () => {
   };
 };
 
-const rest = (args, nb) => Array.prototype.slice.call(args, nb);
-
 module.exports = {
   getTimer,
-  rest,
 };

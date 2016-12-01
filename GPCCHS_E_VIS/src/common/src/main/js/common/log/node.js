@@ -15,6 +15,20 @@ const parseValue = value => (
     (value === 'false' ? false :
       (Number(value) || value)));
 
+// Deserialize param string to object
+// param string format: <param1>=<value1>,<param2>=<value2>
+const parseParams = paramStr =>
+  Object.assign({ // Default parameter values
+    time: true,
+    process: true,
+  }, (paramStr || '')
+    .split(',')
+    .map(p => p.split('='))
+    .map(p => ({
+      [p[0]]: parseValue(p[1]),
+    })
+  ).reduce((acc, p) => Object.assign(acc, p), {}));
+
 // Deserialize string to object
 // String format: <logger1>?<param1>=<value1>,<param2>=<value2>:<logger2>?<param1>=<value1>,...:...
 const parseConfig = config =>
@@ -22,13 +36,7 @@ const parseConfig = config =>
     .map(t => t.split('?'))
     .map(t => ({
       type: t[0],
-      params: (t[1] || '')
-        .split(',')
-        .map(p => p.split('='))
-        .map(p => ({
-          [p[0]]: parseValue(p[1]),
-        })
-      ).reduce((acc, p) => Object.assign(acc, p), {}),
+      params: parseParams(t[1]),
     }));
 
 let cpt = 0;
@@ -72,6 +80,8 @@ const availableTransports = {
 const getTime = getTimer();
 
 const config = parseConfig(configStr);
+
+// Create and returns list of wanted transports
 const getTransports = cfg =>
   cfg.map(t => availableTransports[t.type](t.params));
 
@@ -91,27 +101,37 @@ function getLogger(category) {
   });
   const logger = loggers[category] = winston.loggers.get(category);
 
-  logger.rewriters.push((level, msg, meta) => {
-    if (!meta.time) {
-      // eslint-disable-next-line no-param-reassign
-      meta.time = ` ${getTime()}ms`;
-    }
-    return meta;
-  });
-  logger.filters.push((level, msg) => `\t[${category}] ${msg}`);
+  logger.filters.push((level, msg) => `[${category}] ${msg}`);
 
   // Monkey patch each transport to provide filter logic.
   // If filter is defined, category must match filter regular expression
   transports.forEach((t) => {
     const transportConfig = config.filter(c => c.type === t.constructor.prototype.name)[0];
     const filter = transportConfig.params.filter;
+    const params = transportConfig.params;
     const log = t.constructor.prototype.log;
 
     // eslint-disable-next-line no-param-reassign
-    t.log = function logWithFilter() {
+    t.log = function logWithFilter(...args) {
       if ((new RegExp(filter, 'g')).test(category)) {
-        // eslint-disable-next-line prefer-rest-params
-        log.apply(this, Array.prototype.slice.call(arguments));
+        const meta = args[2];
+
+        if (params.time) {
+          // eslint-disable-next-line no-param-reassign
+          meta.time = meta.time || `${getTime()}ms`;
+        } else {
+          delete meta.time;
+        }
+
+        if (params.process) {
+          meta.pname = meta.pname || (/node$/g.test(process.title) ? 'NONAME' : process.title);
+          meta.pid = meta.pid || process.pid;
+        } else {
+          delete meta.pname;
+          delete meta.pid;
+        }
+
+        log.apply(this, args);
       }
     };
   });

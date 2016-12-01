@@ -1,3 +1,4 @@
+import _get from 'lodash/get';
 import {
   series
 } from 'react-stockcharts';
@@ -48,15 +49,15 @@ export const getLines = (entryPoints = []) => entryPoints.reduce((lines, ep) => 
       !ep.connectedDataY.formula || ep.connectedDataY.formula === '') {
     return lines;
   }
-  lines.push(({
+  lines.push({
     name: ep.name,
     key: ep.name,
-    color: ep.objectStyle.curveColour || '#000000',
-    lineStyle: ep.objectStyle.line.style || 'Continuous', // "Continuous", "Dotted", "Dashed"
-    lineSize: ep.objectStyle.line.size,
-    pointsStyle: ep.objectStyle.points.style || 'None', // "None", "Triangle", "Square", "Dot"
-    pointsSize: ep.objectStyle.points.size,
-  }));
+    color: _get(ep, 'objectStyle.curveColour', '#000000'),
+    lineStyle: _get(ep, 'objectStyle.line.style', 'Continuous'), // "Continuous", "Dotted", "Dashed"
+    lineSize: _get(ep, 'objectStyle.line.size'),
+    pointsStyle: _get(ep, 'objectStyle.points.style', 'None'), // "None", "Triangle", "Square", "Dot"
+    pointsSize: _get(ep, 'objectStyle.points.size'),
+  });
   return lines;
 }, []);
 

@@ -20,7 +20,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cnes.isis.simupus",
+        "domain": "fr",
         "timeline": "Session 1",
         "axisId": "Time"
       },
@@ -30,7 +30,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cnes.isis.simupus",
+        "domain": "fr",
         "timeline": "Session 1",
         "axisId": "STAT_SU_UTIME"
       },
@@ -64,7 +64,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cnes.isis.simupus",
+        "domain": "fr",
         "timeline": "Session 1",
         "axisId": "Time"
       },
@@ -74,7 +74,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cnes.isis.simupus",
+        "domain": "fr",
         "timeline": "Session 1",
         "axisId": "STAT_SU_UTIME"
       },
@@ -108,7 +108,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cnes.isis.simupus",
+        "domain": "fr",
         "timeline": "Session 1",
         "axisId": "Time"
       },
@@ -118,7 +118,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cnes.isis.simupus",
+        "domain": "fr",
         "timeline": "Session 1",
         "axisId": "STAT_SU_UTIME"
       },

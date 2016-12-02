@@ -43,7 +43,7 @@ export default class TimebarScale extends PureComponent {
     const { viewportLower, viewportUpper, onChange } = this.props;
     const { dragOrigin, originLower, originUpper } = this.state;
 
-    const abs = e.pageX - dragOrigin;
+    const abs = dragOrigin - e.pageX;
     const offsetMs = ((abs / this.el.clientWidth) * (viewportUpper - viewportLower));
     const newViewportLower = originLower + offsetMs;
     const newViewportUpper = originUpper + offsetMs;
@@ -51,7 +51,7 @@ export default class TimebarScale extends PureComponent {
     onChange(
       newViewportLower,
       newViewportUpper,
-      false,
+      false
     );
 
     this.setState({

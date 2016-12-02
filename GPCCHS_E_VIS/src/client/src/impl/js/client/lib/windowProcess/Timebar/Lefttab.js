@@ -4,7 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
 import { schemeCategory20b } from 'd3-scale';
 import Timeline from './Timeline';
-import Modale from './Modale';
+import Modal from '../common/Modal';
 import EditTrack from './EditTrack';
 import AddTrack from './AddTrack';
 import styles from './Lefttab.css';
@@ -149,7 +149,7 @@ export default class Lefttab extends Component {
     const currentlyEditingTimeline = timelines.find(x => x.id === editingId);
     if (willEdit && currentlyEditingTimeline) {
       editTrack = (
-        <Modale
+        <Modal
           title="Edit track"
           timeline={currentlyEditingTimeline}
           masterId={masterId}
@@ -163,7 +163,7 @@ export default class Lefttab extends Component {
     let addTrack;
     if (willAdd) {
       addTrack = (
-        <Modale
+        <Modal
           title="Add track"
           timelines={timelines}
           color={color}

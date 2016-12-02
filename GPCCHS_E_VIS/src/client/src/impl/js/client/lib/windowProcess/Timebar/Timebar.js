@@ -855,12 +855,12 @@ export default class Timebar extends Component {
             title="Navigate to current cursor"
             className={classnames('btn', 'btn-sm', 'btn-primary', styles.arrowLeft)}
             onClick={this.rePosition.bind(null, 'left')}
-          />
+          >←</button>
           <button
             title="Bring cursors in the viewport"
             className={classnames('btn', 'btn-sm', 'btn-primary', styles.arrowLeft, styles.arrowLeftBring)}
             onClick={this.bringCursors}
-          />
+          >→</button>
         </div>
       );
     }
@@ -872,12 +872,12 @@ export default class Timebar extends Component {
             title="Navigate to current cursor"
             className={classnames('btn', 'btn-sm', 'btn-primary', styles.arrowRight)}
             onClick={this.rePosition.bind(null, 'right')}
-          />
+          >→</button>
           <button
             title="Bring cursors in the viewport"
             className={classnames('btn', 'btn-sm', 'btn-primary', styles.arrowRight, styles.arrowRightBring)}
             onClick={this.bringCursors}
-          />
+          >←</button>
         </div>
       );
     }
@@ -900,7 +900,7 @@ export default class Timebar extends Component {
     }
 
     /*
-      Moving up the lower / upper cursors when too close to current
+      Moving up the lower / upper cursors formatted dates when too close to current
     */
     const lowerPercent = calc.lowerPercentOffset;
     const upperPercent = lowerPercent + calc.selectedPercentWidth;

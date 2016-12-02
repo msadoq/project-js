@@ -13,9 +13,9 @@
   },
   "entryPoints": [
     {
-      "name": "STAT_SU_PID",
+      "name": "STAT_SU_UTIME_EV",
       "connectedDataX": {
-        "formula": "Reporting.STAT_SU_PID<ReportingParameter>.extractedValue",
+        "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.groundDate",
         "unit": "s",
         "digits": 5,
         "format": "decimal",
@@ -25,25 +25,113 @@
         "axisId": "Time"
       },
       "connectedDataY": {
-        "formula": "Reporting.STAT_SU_PID<ReportingParameter>.extractedValue",
+        "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.extractedValue",
         "unit": "V",
         "digits": 5,
         "format": "decimal",
         "filter": [],
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "STAT_SU_UTIME"
       },
       "objectStyle": {
         "line": {
-          "style": "Continuous",
-          "size": 2
-        },
+	  "style": "Dotted",
+	  "size": 10
+	},
         "points": {
-          "style": "None",
-          "size": 0
-        },
-        "curveColour": "#FFBF00"
+	  "style": "None",
+	  "size": 3
+	},
+      	"curveColour": "#CC0066"
+      },
+      "stateColours": [
+        {
+          "colour": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ]
+    },
+    {
+      "name": "STAT_SU_UTIME_CV",
+      "connectedDataX": {
+        "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.groundDate",
+        "unit": "s",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1",
+        "axisId": "Time"
+      },
+      "connectedDataY": {
+        "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.convertedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1",
+        "axisId": "STAT_SU_UTIME"
+      },
+      "objectStyle": {
+        "line": {
+	  "style": "Continuous",
+	  "size": 5
+	},
+        "points": {
+	  "style": "None",
+	  "size": 3
+	},
+      	"curveColour": "#FFFF00"
+      },
+      "stateColours": [
+        {
+          "colour": "#000000",
+          "condition": {
+            "field": "monitoringState",
+            "operator": "==",
+            "operand": "waiting"
+          }
+        }
+      ]
+    },
+{
+      "name": "STAT_SU_UTIME_RV",
+      "connectedDataX": {
+        "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.groundDate",
+        "unit": "s",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1",
+        "axisId": "Time"
+      },
+      "connectedDataY": {
+        "formula": "Reporting.STAT_SU_UTIME<ReportingParameter>.rawValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1",
+        "axisId": "STAT_SU_UTIME"
+      },
+      "objectStyle": {
+        "line": {
+	  "style": "Continuous",
+	  "size": 2
+	},
+        "points": {
+	  "style": "None",
+	  "size": 3
+	},
+      	"curveColour": "#00CC33"
       },
       "stateColours": [
         {
@@ -127,7 +215,7 @@
     "align": "center",
     "colour": "#000000"
   },
-  "backgroundColour": "#FFFFFF",
+  "plotBackgroundColour": "#FFFFFF",
   "legend": {
     "style": {
       "font": "Arial",

@@ -31,6 +31,7 @@ import SelectButton from '../Buttons/SelectButton';
 */
 export default class EntryPointDetails extends React.Component {
   static propTypes = {
+    type: PropTypes.string.isRequired,
     viewId: PropTypes.string.isRequired,
     idPoint: PropTypes.number,
     axes: PropTypes.object,
@@ -116,7 +117,8 @@ export default class EntryPointDetails extends React.Component {
       idPoint,
       entryPoint,
       viewId,
-      axes
+      axes,
+      type
     } = this.props;
 
     const {
@@ -130,9 +132,12 @@ export default class EntryPointDetails extends React.Component {
       nameEditable
      } = this.state;
 
+    const isTextView = type === 'TextView';
+    const isPlotView = type === 'PlotView';
+
     return (
       <Accordion>
-        {entryPoint.name && <Panel
+        <Panel
           key={'Name'}
           header="Name"
           eventKey={'Name'}
@@ -147,8 +152,8 @@ export default class EntryPointDetails extends React.Component {
               name: entryPoint.name
             }}
           />}
-        </Panel>}
-        {entryPoint.objectStyle && <Panel
+        </Panel>
+        {isPlotView && <Panel
           key={'Style'}
           header="Style"
           eventKey={'Style'}
@@ -162,7 +167,7 @@ export default class EntryPointDetails extends React.Component {
             initialValues={entryPoint.objectStyle}
           />}
         </Panel>}
-        {entryPoint.connectedData && <Panel
+        {isTextView && <Panel
           key={'ConnData'}
           header="Conn Data"
           eventKey={'ConnData'}
@@ -177,7 +182,7 @@ export default class EntryPointDetails extends React.Component {
             initialValues={this.props.entryPoint.connectedData}
           />}
         </Panel>}
-        {entryPoint.connectedDataY && <Panel
+        {isPlotView && <Panel
           key={'Ordinate'}
           header="Ordinate"
           eventKey={'Ordinate'}
@@ -192,7 +197,7 @@ export default class EntryPointDetails extends React.Component {
             initialValues={this.props.entryPoint.connectedDataY}
           />}
         </Panel>}
-        {entryPoint.connectedDataX && <Panel
+        {isPlotView && <Panel
           key={'Absciss'}
           header="Absciss"
           eventKey={'Absciss'}
@@ -207,7 +212,7 @@ export default class EntryPointDetails extends React.Component {
             initialValues={this.props.entryPoint.connectedDataX}
           />}
         </Panel>}
-        {entryPoint.stateColours && <Panel
+        {isPlotView && <Panel
           key={'StateColours'}
           header="State colours"
           eventKey={'StateColours'}

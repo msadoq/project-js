@@ -57,8 +57,7 @@ class ViewParamsForm extends React.Component {
       pristine,
       reset,
       submitting,
-      valid,
-      initialValues: { backgroundColour }
+      valid
     } = this.props;
 
     return (
@@ -77,17 +76,17 @@ class ViewParamsForm extends React.Component {
 
         <FormSectionFontStyle name="titleStyle" />
 
-        {backgroundColour && <div className="page-header">
+        <div className="page-header">
           <h4>Content</h4>
-        </div>}
+        </div>
 
-        {backgroundColour && <HorizontalFormGroup label="Bg Color">
+        <HorizontalFormGroup label="Bg Color">
           <Field
             name="backgroundColour"
             component={ColorPickerField}
             colors={bgColors}
           />
-        </HorizontalFormGroup>}
+        </HorizontalFormGroup>
 
         <ClearSubmitButtons
           pristine={pristine}

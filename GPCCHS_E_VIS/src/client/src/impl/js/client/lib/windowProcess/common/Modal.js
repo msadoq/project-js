@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Modal } from 'react-bootstrap';
 import classnames from 'classnames';
 
-export default class Modale extends Component {
+export default class ModalComponent extends Component {
 
   static propTypes = {
     onClose: PropTypes.func.isRequired,

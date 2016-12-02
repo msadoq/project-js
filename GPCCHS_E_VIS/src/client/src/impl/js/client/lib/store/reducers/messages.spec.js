@@ -8,31 +8,23 @@ describe('store:message:reducer', () => {
     it('add view message', () => {
       const state = reducer(
         undefined,
-        actions.add('views', 'error', 'gros bug', '123123-azeaze')
+        actions.add('views', 'error', 'my message', 'myId')
       );
       state.should.deep.eql({
         views: {
-          '123123-azeaze': [
+          myId: [
             {
               type: 'danger',
-              message: 'gros bug',
+              message: 'my message',
             }
           ]
         }
       });
     });
     it('add global message', () => {
-      const state = reducer(
-        undefined,
-        actions.add('global', 'success', 'gros bug')
-      );
+      const state = reducer(undefined, actions.add('global', 'success', 'my message'));
       state.should.deep.eql({
-        global: [
-          {
-            type: 'success',
-            message: 'gros bug',
-          }
-        ]
+        global: [{ type: 'success', message: 'my message' }]
       });
     });
   });

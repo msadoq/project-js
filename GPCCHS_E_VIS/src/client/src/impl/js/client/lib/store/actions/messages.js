@@ -1,13 +1,10 @@
 import simple from '../simpleActionCreator';
 import * as types from '../types';
 
-/**
- * Simple actions
- */
 export const add = simple(
   types.WS_MESSAGE_ADD,
-  'instanceType',
-  'type',
+  'instanceType', // global, views
+  'type', // danger, success, info, warning
   'message',
   'instanceId'
 );

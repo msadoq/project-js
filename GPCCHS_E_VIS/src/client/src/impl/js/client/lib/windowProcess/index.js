@@ -2,6 +2,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
+import monitoring from 'common/monitoring';
 import '!style!css!react-grid-layout/css/styles.css';
 import '!style!css!react-resizable/css/styles.css';
 
@@ -13,6 +14,7 @@ const windowId = search.replace('?windowId=', '');
 
 process.title = 'HSC_WINDOW';
 
+monitoring.start();
 initStore();
 
 if (process.env.NODE_ENV === 'development') {

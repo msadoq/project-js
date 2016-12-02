@@ -20,11 +20,12 @@ function sendOverIPC(category, level) {
       category,
       level,
       msg,
-      rest: rest.concat([{ // eslint-disable-line prefer-rest-params
+      rest: { // eslint-disable-line prefer-rest-params
+        ...rest.reduce((acc, arg) => ({ ...acc, ...arg }), {}),
         time: `${getIPCTime()}ms`,
         pid: process.pid,
         pname: process.title,
-      }]),
+      },
     });
   }
 

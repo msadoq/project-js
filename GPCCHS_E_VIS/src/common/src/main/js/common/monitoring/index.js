@@ -1,63 +1,83 @@
 // eslint-disable-next-line no-underscore-dangle
-const _round = require('lodash/round');
-
-const bytesToString = require('../utils/bytesConverter');
-
+const deprecate = require('depd')('common/monitoring');
 const getLogger = require('../log');
 
-const display = getLogger('monitoring').warn;
+const logger = getLogger('monitoring');
 
-let ticks = 0;
-let currentTime;
-let avgTime;
 let memUsage;
-let monitorTimeout;
-const TIMESTEP = 5000;
+let reportLoop;
+let latencyLoop;
+let avgTime;
 
-const leftPad = number => ((number < 10) ? `0${number}` : number);
-const getTime = () => {
-  const now = new Date();
-  let time = `${now.getFullYear()}-${leftPad(now.getMonth() + 1)}-${leftPad(now.getDate())}`;
-  time += ` ${leftPad(now.getHours())}:${leftPad(now.getMinutes())}:${leftPad(now.getSeconds())}`;
-  return time;
+const latencyData = {
+  count: 0,
+  min: 1 * 60 * 1000,
+  max: 0,
+  total: 0,
+};
+const REPORT_INTERVAL = 5000;
+const CHECK_LATENCY_INTERVAL = 500;
+
+const checkLatency = () => {
+  const start = process.hrtime();
+  setImmediate((_start) => {
+    const delta = process.hrtime(_start);
+    const latency = (delta[0] * 1000) + (delta[1] / 1000000);
+    latencyData.count += 1;
+    latencyData.min = Math.min(latencyData.min, latency);
+    latencyData.max = Math.max(latencyData.max, latency);
+    latencyData.total += latency;
+  }, start);
 };
 
-const countTicks = () => setImmediate(() => {
-  ticks += 1;
-  countTicks();
-});
+const latencyReport = () => {
+  if (latencyData.count === 0) {
+    return {
+      min: 0,
+      max: 0,
+      avg: 0,
+    };
+  }
+  const latency = {
+    min: latencyData.min,
+    max: latencyData.max,
+    avg: latencyData.total / latencyData.count,
+  };
 
-const monitor = () => {
-  const time = getTime();
-  const diffTime = process.hrtime(currentTime);
-  avgTime = _round((diffTime[0] / (ticks * 1e-3)) + (diffTime[1] / (ticks * 1e6)), 6);
-  ticks = 0;
+  avgTime = latency.avg;
+
+  latencyData.count = 0;
+  latencyData.min = 1 * 60 * 1000;
+  latencyData.max = 0;
+  latencyData.total = 0;
+
+  return latency;
+};
+
+const report = () => {
   memUsage = process.memoryUsage();
-  display(`= monitoring ======== (${time})`);
-  display('average time consumption by loop', avgTime, 'ms');
-  display('memory consumption');
-  display('  rss', bytesToString(memUsage.rss));
-  display('  heapTotal', bytesToString(memUsage.heapTotal));
-  display('  heapUsed', bytesToString(memUsage.heapUsed));
-  display('---------------------\n');
 
-  currentTime = process.hrtime();
-  monitorTimeout = setTimeout(monitor, TIMESTEP);
+  logger.info('data', {
+    memUsage: Object.assign({}, memUsage, {
+      time: Date.now(),
+    }),
+    latency: Object.assign({}, latencyReport(), {
+      time: Date.now(),
+    }),
+  });
 };
 
 const start = () => {
   if (process.env.MONITORING === 'on') {
-    currentTime = process.hrtime();
-    countTicks();
-    monitorTimeout = setTimeout(monitor, TIMESTEP);
+    reportLoop = setInterval(report, REPORT_INTERVAL);
+    latencyLoop = setInterval(checkLatency, CHECK_LATENCY_INTERVAL);
   }
 };
 
 const stop = () => {
   if (process.env.MONITORING === 'on') {
-    clearTimeout(monitorTimeout);
-    clearImmediate(countTicks);
-    ticks = 0;
+    clearInterval(reportLoop);
+    clearInterval(latencyLoop);
   }
 };
 
@@ -65,5 +85,6 @@ module.exports = {
   start,
   stop,
   getMemoryUsage: () => memUsage,
-  getAverageTime: () => avgTime,
+  getLatency: () => latencyData,
+  getAverageTime: deprecate.function(() => avgTime),
 };

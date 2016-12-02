@@ -21,6 +21,7 @@ const parseParams = paramStr =>
   Object.assign({ // Default parameter values
     time: true,
     process: true,
+    category: false,
   }, (paramStr || '')
     .split(',')
     .map(p => p.split('='))
@@ -129,6 +130,12 @@ function getLogger(category) {
         } else {
           delete meta.pname;
           delete meta.pid;
+        }
+
+        if (params.category) {
+          meta.category = category;
+        } else {
+          delete meta.category;
         }
 
         log.apply(this, args);

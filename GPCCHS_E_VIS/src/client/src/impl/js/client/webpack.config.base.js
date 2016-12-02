@@ -44,7 +44,8 @@ export default {
     new webpack.ContextReplacementPlugin(/moment\/locale$/, new RegExp('fr.js')),
     new webpack.DefinePlugin({
       'process.env': {
-        APP_ENV: JSON.stringify('browser')
+        MONITORING: JSON.stringify(process.env.MONITORING),
+        APP_ENV: JSON.stringify('browser'),
       }
     })
   ],

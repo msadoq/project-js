@@ -25,17 +25,17 @@
         "id": "TB1",
         "mode": "Normal",
         "visuWindow": {
-          "lower": 1480590055000,
-          "upper": 1480593655000,
-          "current": 1480590295000,
+          "lower": 1480600800000,
+          "upper": 1480600920000,
+          "current": 1480600860000,
           "defaultWidth": 900000
         },
         "slideWindow": {
-          "lower": 1480588255000,
-          "upper": 1480600855000
+          "lower": 1480600555000,
+          "upper": 1480601455000
         },
-        "extUpperBound": 1480600855000,
-        "rulerStart": 1480588255000,
+        "extUpperBound": 148060145000,
+        "rulerStart": 1480600555000,
         "rulerResolution": 11250,
         "speed": 1.0,
         "playingState": "pause",

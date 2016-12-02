@@ -3,16 +3,16 @@ import _get from 'lodash/get';
 import _set from 'lodash/set';
 import _has from 'lodash/has';
 import { createSelector } from 'reselect';
+import getLogger from 'common/log';
 
 import vivl from '../../VIVL/main';
 import structures from './structures';
-import debug from '../common/debug/mainDebug';
 import { getDomains } from '../store/selectors/domains';
 import { getTimebars, getTimebarTimelines, getMasterTimeline } from '../store/selectors/timebars';
 import { getTimelines } from '../store/selectors/timelines';
 import { getWindowsVisibleViews } from '../store/selectors/windows';
 
-const logger = debug('data:map');
+const logger = getLogger('GPCCHS:data:map');
 
 export const walk = (domains, timebars, timelines, views) =>
   _reduce(views, (map, { viewId, timebarId, viewData: view }) => {

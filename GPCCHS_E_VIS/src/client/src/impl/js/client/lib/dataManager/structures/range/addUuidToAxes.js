@@ -8,34 +8,13 @@ export default function addUuidToAxes(viewConf) {
   }
   const viewConfWithId = _omit(viewConf, 'axes');
   viewConfWithId.axes = {};
-  const tableIdLabel = {};
   // Id affectation
   viewConf.axes.forEach((axis) => {
-    let uuid = axis.uuid;
-    if (!uuid) {
-      uuid = v4();
+    let id = axis.id || axis.label;
+    if (!id) {
+      id = v4();
     }
-    viewConfWithId.axes[uuid] = Object.assign({}, axis, { uuid });
-    tableIdLabel[axis.label] = uuid;
-  });
-  // Update in entry point
-  /* eslint no-param-reassign: 0 */
-  viewConfWithId.entryPoints.forEach((ep) => {
-    if (ep.connectedDataX.axisId) {
-      ep.connectedDataX.axisId = tableIdLabel[ep.connectedDataX.axisId];
-    }
-    if (ep.connectedDataY.axisId) {
-      ep.connectedDataY.axisId = tableIdLabel[ep.connectedDataY.axisId];
-    }
-  });
-  // update grids axis id
-  viewConfWithId.grids.forEach((grid) => {
-    if (grid.xAxisId) {
-      grid.xAxisId = tableIdLabel[grid.xAxisId];
-    }
-    if (grid.yAxisId) {
-      grid.yAxisId = tableIdLabel[grid.yAxisId];
-    }
+    viewConfWithId.axes[id] = Object.assign({}, axis, { id });
   });
 
   return viewConfWithId;

@@ -3,7 +3,7 @@ const { writeFile } = require('fs');
 const { dirname } = require('path');
 const { checkPath } = require('../common/fs');
 const _omit = require('lodash/omit');
-const _reduce = require('lodash/reduce');
+const _values = require('lodash/values');
 const globalConstants = require('common/constants');
 const vivl = require('../../VIVL/main');
 
@@ -30,34 +30,7 @@ function saveViewAs(state, viewId, path) {
   switch (structureType) { // eslint-disable-line default-case
     case globalConstants.DATASTRUCTURETYPE_RANGE: {
       view = _omit(conf, 'axes');
-      // Replace axes Id by label in entry point
-      view.entryPoints.forEach((ep) => {
-        if (ep.connectedDataX.axisId) {
-          // eslint-disable-next-line no-param-reassign
-          ep.connectedDataX.axisId = conf.axes[ep.connectedDataX.axisId].label;
-        }
-        if (ep.connectedDataY.axisId) {
-          // eslint-disable-next-line no-param-reassign
-          ep.connectedDataY.axisId = conf.axes[ep.connectedDataY.axisId].label;
-        }
-      });
-      // Replace axes Id by label in grids
-      view.grids.forEach((grid) => {
-        if (grid.xAxisId) {
-          // eslint-disable-next-line no-param-reassign
-          grid.xAxisId = conf.axes[grid.xAxisId].label;
-        }
-        if (grid.yAxisId) {
-          // eslint-disable-next-line no-param-reassign
-          grid.yAxisId = conf.axes[grid.yAxisId].label;
-        }
-      });
-      // Convert axes to array
-      const axes = _reduce(conf.axes, (list, value) => {
-        list.push(_omit(value, 'uuid'));
-        return list;
-      }, []);
-      view.axes = axes;
+      view.axes = _values(conf.axes);
       break;
     }
     default:

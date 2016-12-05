@@ -86,8 +86,8 @@ describe('documentsManager/saveViews', () => {
             }
           ],
           axes: {
-            id1: { label: 'TIME', uuid: 'id1', unit: 'S' },
-            id2: { label: 'VBAT', unit: 'V' },
+            id1: { label: 'TIME', id: 'id1', unit: 'S' },
+            id2: { label: 'VBAT', id: 'id2', unit: 'V' },
           },
           grids: [],
           title: 'Plotview 4 parameters',

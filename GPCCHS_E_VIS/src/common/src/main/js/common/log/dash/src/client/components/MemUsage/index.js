@@ -48,7 +48,7 @@ export default class MemUsageContainer extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{clear:'both'}}>
         <h2>Memory Usage</h2>
         {Object.keys(this.state.processes).map((p,i) => (
           <MemUsageChart key={i} process={this.state.processes[p]} />

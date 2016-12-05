@@ -23,10 +23,14 @@ function stop(executionMap, key, message) {
   }
 }
 function print(executionMap, namespace) {
-  const display = getLogger(`GPCCHS:profiling:${namespace}`).warn;
-  display('= execution map -~=] START [=~-');
+  const logger = getLogger(`GPCCHS:profiling:${namespace}`);
+//  display('= execution map -~=] START [=~-');
+  const timers = [];
   _each(executionMap, ({ traces, message }, k) => {
     let d = 0;
+    const timer = {
+      name: k,
+    };
     if (traces.length === 1) {
       d = (traces[0][0] * 1e3) + _round(traces[0][1] / 1e6, 6);
     } else {
@@ -37,13 +41,19 @@ function print(executionMap, namespace) {
       );
       d = (t[0] * 1e3) + _round(t[1] / 1e6, 6);
     }
-    const args = [k, 'ms:', d];
+    timer.duration = d;
     if (message) {
-      args.push(message);
+      timer.message = message;
     }
-    display(...args);
+    timers.push(timer);
   });
-  display('- execution map -~=]  END  [=~-\n');
+
+  logger.info('profiling', {
+    profiling: {
+      timers,
+      time: Date.now(),
+    },
+  });
 }
 
 const noOp = {

@@ -16,7 +16,7 @@ export default ({process}) => (
       margin={{top: 5, right: 30, left: 20, bottom: 5}}>
       <XAxis dataKey="time"/>
       <YAxis/>
-      <CartesianGrid strokeDasharray="3 3"/>
+      <CartesianGrid strokeDasharray="5 5"/>
       <Tooltip/>
       <Legend />
       <Line type="monotone" dataKey="avg" name='avg' unit='ms' stroke="#8884d8" isAnimationActive={false} />

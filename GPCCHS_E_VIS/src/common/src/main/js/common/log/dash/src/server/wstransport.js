@@ -37,6 +37,14 @@ WSTransport.prototype.log = function log(level, msg, meta, callback) {
       pid: meta.pid,
     }));
   }
+  if (meta.profiling) {
+    io.emit('profiling', {
+      timers: meta.profiling.timers,
+      time: meta.profiling.time,
+      pname: meta.pname,
+      pid: meta.pid,
+    });
+  }
   io.emit('log', {
     level,
     msg,

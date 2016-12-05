@@ -1,4 +1,8 @@
 import _round from 'lodash/round';
+import _reduce from 'lodash/reduce';
+import _each from 'lodash/each';
+import _map from 'lodash/map';
+import u from 'updeep';
 import globalConstants from 'common/constants';
 import executionMonitor from 'common/execution';
 import debug from '../common/debug/mainDebug';
@@ -21,6 +25,10 @@ import windowsObserver from './windows';
 import { updateCursors } from '../store/actions/timebars';
 import { getTimebar } from '../store/selectors/timebars';
 import { nextCurrent, computeCursors } from './play';
+
+import structures from '../dataManager/structures';
+import vivl from '../../VIVL/main';
+import { updateViewData } from '../store/actions/viewData';
 
 // TODO : test server restart, new workspace, workspace opening, new window
 
@@ -149,11 +157,94 @@ export function tick() {
       execution.stop('play management');
     }
 
+    // update of viewData
+    if (viewMap !== previous.viewMap) {
+      // check missing views
+      let newState;
+  // viewMap =
+  // { viewId:
+  //  { type: 'TextView || PlotView',
+  //    structureType: 'last || range',
+  //    entryPoints:
+  //     { epName: [Object],
+  //       epName: [Object], } },}
+      const missingViewId = _reduce(previous.viewMap, (list, view, viewId) => {
+        if (!viewMap[viewId]) {
+          list.push(viewId);
+        }
+        return list;
+      }, []);
+      // remove view id from viewData
+      missingViewId.forEach((id) => {
+        newState = u({ viewData: u.omit(id) }, newState || state);
+      });
+      // check missing or updated entry points
+      _each(viewMap, (view, id) => {
+        const structureType = vivl(view.type, 'structureType')();
+        const previousView = previous.viewMap[id];
+        if (!previousView) {
+          return;
+        }
+
+        _each(previousView.entryPoints, (ep, epName) => {
+          // removed entry point
+          if (!view.entryPoints[epName]) {
+            try {
+              newState = structures(structureType, 'removeEpData')(newState || state, id, epName);
+            } catch (e) {
+              logger.warn(`No removeEpData for ${structureType} view`);
+            }
+            return;
+          }
+
+          const newEp = view.entryPoints[epName];
+          // no update on entry points
+          if (ep === newEp) {
+            return;
+          }
+          let isUpdated = false;
+          switch (structureType) { // eslint-disable-line default-case
+            case globalConstants.DATASTRUCTURETYPE_LAST:
+              if (ep.field !== newEp.field) {
+                isUpdated = true;
+              }
+              break;
+            case globalConstants.DATASTRUCTURETYPE_RANGE:
+              if (ep.fieldX !== newEp.fieldX || ep.fieldY !== newEp.fieldY) {
+                isUpdated = true;
+              }
+          }
+          // EP definition modified: remove entry point from viewData
+          if (ep.remoteId !== newEp.remoteId || isUpdated) {
+            try {
+              newState = structures(structureType, 'removeEpData')(newState || state, id, epName);
+            } catch (e) {
+              logger.warn(`No removeEpData for ${structureType} view`);
+            }
+            return;
+          }
+          // update on expected interval
+          if (ep.expectedInterval[0] !== newEp.expectedInterval[0]
+           || ep.expectedInterval[1] !== newEp.expectedInterval[1]) {
+            try {
+              newState = structures(structureType, 'cleanData')(newState || state, id, epName,
+                                    _map(newEp.expectedInterval, bound => bound + newEp.offset));
+            } catch (e) {
+              logger.warn(`No cleanData for ${structureType} view`);
+            }
+          }
+        });
+      });
+      if (newState) {
+        dispatch(updateViewData(newState.viewData));
+      }
+    }
+
     // pulled data
     if (dataToInject.length) {
       execution.start('data injection');
       // TODO : in play mode inject + visuwindow
-      dataToInject.forEach(payload => inject(state, dispatch, viewMap, payload));
+      dataToInject.forEach(payload => inject(getState(), dispatch, viewMap, payload));
       execution.stop('data injection', dataToInject.length);
     }
 

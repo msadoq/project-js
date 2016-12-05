@@ -44,7 +44,6 @@ export function missingRemoteIds(dataMap, lastMap) {
 
     _each(localIds, ({ expectedInterval }, localId) => {
       const knownInterval = _get(lastMap, [remoteId, 'localIds', localId, 'expectedInterval']);
-
       const needed = retrieveNeededIntervals(knownInterval, expectedInterval);
       if (!needed.length) {
         return;

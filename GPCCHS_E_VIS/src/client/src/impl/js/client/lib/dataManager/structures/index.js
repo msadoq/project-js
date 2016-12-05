@@ -9,12 +9,18 @@ const structures = {
     retrieveNeededIntervals: require('./last/retrieveNeededIntervals'),
     addInterval: require('./last/addInterval'),
     parseEntryPoint: require('./last/parseEntryPoint'),
+    viewDataUpdate: require('./last/viewDataUpdate'),
+    cleanData: require('./last/cleanData'),
+    removeEpData: require('./last/removeEpData'),
   },
   [globalConstants.DATASTRUCTURETYPE_RANGE]: {
     getExpectedInterval: require('./range/getExpectedInterval'),
     retrieveNeededIntervals: require('./range/retrieveNeededIntervals'),
     addInterval: require('./range/addInterval'),
     parseEntryPoint: require('./range/parseEntryPoint'),
+    viewDataUpdate: require('./range/viewDataUpdate'),
+    cleanData: require('./range/cleanData'),
+    removeEpData: require('./range/removeEpData'),
   },
 };
 

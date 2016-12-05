@@ -40,14 +40,16 @@ export default function parseEntryPoint(
     return { error: 'parametric entryPoint detected for this view' };
   }
 
-  const { remoteId, field, expectedInterval, offset } = cdX;
-  cdX.inViewMap = {
+  // TODO: for the moment, the modification might be on the Y field. should be updated to take
+  // care of all modification (localId defined by view structure type)
+  const { remoteId, field, expectedInterval, offset } = cdY;
+  cdY.inViewMap = {
     remoteId,
-    fieldX: field,
-    fieldY: cdY.field,
+    fieldX: cdX.field,
+    fieldY: field,
     expectedInterval,
     offset,
   };
 
-  return cdX;
+  return cdY;
 }

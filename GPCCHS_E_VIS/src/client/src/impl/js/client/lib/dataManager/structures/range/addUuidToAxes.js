@@ -28,6 +28,15 @@ export default function addUuidToAxes(viewConf) {
       ep.connectedDataY.axisId = tableIdLabel[ep.connectedDataY.axisId];
     }
   });
+  // update grids axis id
+  viewConfWithId.grids.forEach((grid) => {
+    if (grid.xAxisId) {
+      grid.xAxisId = tableIdLabel[grid.xAxisId];
+    }
+    if (grid.yAxisId) {
+      grid.yAxisId = tableIdLabel[grid.yAxisId];
+    }
+  });
 
   return viewConfWithId;
 }

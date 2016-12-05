@@ -30,7 +30,7 @@ function saveViewAs(state, viewId, path) {
   switch (structureType) { // eslint-disable-line default-case
     case globalConstants.DATASTRUCTURETYPE_RANGE: {
       view = _omit(conf, 'axes');
-      // Replace timebarId by label
+      // Replace axes Id by label in entry point
       view.entryPoints.forEach((ep) => {
         if (ep.connectedDataX.axisId) {
           // eslint-disable-next-line no-param-reassign
@@ -39,6 +39,17 @@ function saveViewAs(state, viewId, path) {
         if (ep.connectedDataY.axisId) {
           // eslint-disable-next-line no-param-reassign
           ep.connectedDataY.axisId = conf.axes[ep.connectedDataY.axisId].label;
+        }
+      });
+      // Replace axes Id by label in grids
+      view.grids.forEach((grid) => {
+        if (grid.xAxisId) {
+          // eslint-disable-next-line no-param-reassign
+          grid.xAxisId = conf.axes[grid.xAxisId].label;
+        }
+        if (grid.yAxisId) {
+          // eslint-disable-next-line no-param-reassign
+          grid.yAxisId = conf.axes[grid.yAxisId].label;
         }
       });
       // Convert axes to array

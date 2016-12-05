@@ -1,17 +1,11 @@
-const debug = require('../../io/debug')('controllers:onResponse');
-
-// eslint-disable-next-line no-underscore-dangle
+/* eslint no-underscore-dangle:0 import/no-extraneous-dependencies:0 */
+const _isBuffer = require('lodash/isBuffer');
 const _isEqual = require('lodash/isEqual');
-
-// eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const { encode, decode } = require('common/protobuf');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const registeredCallbacks = require('common/callbacks');
-
+const debug = require('../../io/debug')('controllers:onResponse');
 const { sendToMain } = require('../../websocket/sendToMain');
-
 
 /**
  * Triggered on incoming DcResponse message from DC.
@@ -32,8 +26,6 @@ const protobufSuccess = encode('dc.dataControllerUtils.Status', { status: global
 const response = (websocketHandler, queryIdBuffer, statusBuffer, reasonBuffer) => {
   debug.verbose('called');
 
-  debug.debug('decode queryId');
-  // deprotobufferize queryId
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
   // check if queryId exists in registeredCallbacks singleton, if no stop logic
   const callback = registeredCallbacks.get(queryId);
@@ -49,9 +41,10 @@ const response = (websocketHandler, queryIdBuffer, statusBuffer, reasonBuffer) =
     return callback(null);
   }
 
-  debug.debug('decode reason');
   // deprotobufferize reason
-  const reason = (typeof reasonBuffer !== 'undefined') ? decode('dc.dataControllerUtils.String', reasonBuffer).string : reasonBuffer;
+  const reason = _isBuffer(reasonBuffer)
+    ? decode('dc.dataControllerUtils.String', reasonBuffer).string
+    : reasonBuffer;
 
   // send error message to client and execute callback
   websocketHandler(

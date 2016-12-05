@@ -26,7 +26,7 @@ export default function messages(stateMessages = {}, action) {
     case types.WS_MESSAGE_REMOVE: {
       if (action.payload.instanceType === 'global') {
         const arr = stateMessages.global.filter((v, i) => action.payload.index !== i);
-        return u({ global: arr }, stateMessages);
+        return { ...stateMessages, global: arr };
       }
       const arr = stateMessages[action.payload.instanceType][action.payload.instanceId].filter(
         (v, i) => action.payload.index !== i
@@ -35,6 +35,14 @@ export default function messages(stateMessages = {}, action) {
         [action.payload.instanceType]: {
           [action.payload.instanceId]: arr
         }
+      }, stateMessages);
+    }
+    case types.WS_MESSAGES_EMPTY: {
+      if (action.payload.instanceType === 'global') {
+        return { ...stateMessages, global: [] };
+      }
+      return u({
+        [action.payload.instanceType]: u.omit(action.payload.instanceId)
       }, stateMessages);
     }
     default:

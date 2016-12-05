@@ -61,7 +61,10 @@ export default class View extends PureComponent {
               key={i}
               type={v.type}
               message={v.message}
-              onClose={this.props.removeMessage.bind(null, 'views', i, viewId)}
+              instanceType="views"
+              instanceId={this.props.viewId}
+              messageIndex={i}
+              onClose={this.props.removeMessage}
             />
           )}
           <ContentComponent

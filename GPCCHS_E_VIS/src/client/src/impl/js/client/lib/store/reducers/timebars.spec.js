@@ -74,23 +74,26 @@ describe('store:timebars:reducer', () => {
   });
   describe('update', () => {
     let state;
+    let dispatch;
+    let getState;
     before(() => {
-      state = getStore({
+      const store = getStore({
         timebars: {
           myTimebarId: {
             id: 'Id',
             visuWindow: { lower: 10, upper: 20, current: 15 },
-            slideWindow: { lower: 20, upper: 30 },
+            slideWindow: { lower: 11, upper: 19 },
             rulerResolution: 100,
             speed: 10,
+            mode: 'Normal',
             masterId: 'OtherId',
             timelines: ['myTimelineId', 'myTimelineId3']
-          } },
-        timelines: {
-          myTimelineId: { id: 'tl1' },
-          myTimelineId2: { id: 'tl2' },
-          myTimelineId3: { id: 'tl3' },
-        } }).getState();
+          }
+        },
+      });
+      getState = store.getState;
+      state = getState();
+      dispatch = store.dispatch;
     });
     it('id', () => {
       const newState = reducer(state.timebars, actions.updateId('myTimebarId', 'newId'));
@@ -99,26 +102,44 @@ describe('store:timebars:reducer', () => {
       newState.myTimebarId.id.should.equal('newId');
     });
     it('visuWindow', () => {
-      const newState = reducer(state.timebars, actions.updateCursors(
+      dispatch(actions.updateCursors(
         'myTimebarId',
         {
           lower: 5,
           upper: 40,
-          current: 30
-        }
-        )
-      );
+          current: 18,
+        },
+        null
+      ));
+      const timebars = getState().timebars;
       //  5, 40, 30));
-      newState.should.have.property('myTimebarId');
-      newState.myTimebarId.should.have.property('visuWindow');
-      newState.myTimebarId.visuWindow.should.have.property('lower');
-      newState.myTimebarId.visuWindow.lower.should.equal(5);
-      newState.myTimebarId.visuWindow.should.have.property('upper');
-      newState.myTimebarId.visuWindow.upper.should.equal(40);
-      newState.myTimebarId.visuWindow.should.have.property('current');
-      newState.myTimebarId.visuWindow.current.should.equal(30);
+      timebars.should.have.property('myTimebarId');
+      timebars.myTimebarId.should.have.property('visuWindow');
+      timebars.myTimebarId.visuWindow.should.have.property('lower');
+      timebars.myTimebarId.visuWindow.lower.should.equal(5);
+      timebars.myTimebarId.visuWindow.should.have.property('upper');
+      timebars.myTimebarId.visuWindow.upper.should.equal(40);
+      timebars.myTimebarId.visuWindow.should.have.property('current');
+      timebars.myTimebarId.visuWindow.current.should.equal(18);
     });
-
+    it('visuWindow should fail', () => {
+      dispatch(actions.updateCursors('myTimebarId', { lower: 12 }, null));
+      const timebars = getState().timebars;
+      timebars.should.have.property('myTimebarId');
+      timebars.myTimebarId.should.have.property('visuWindow');
+      timebars.myTimebarId.visuWindow.should.have.property('lower');
+      timebars.myTimebarId.visuWindow.lower.should.equal(5);
+      getState().messages.timeSetters.myTimebarId.length.should.equal(1);
+    });
+    it('slideWindow should fail', () => {
+      dispatch(actions.updateCursors('myTimebarId', null, { upper: 50 }));
+      const timebars = getState().timebars;
+      timebars.should.have.property('myTimebarId');
+      timebars.myTimebarId.should.have.property('slideWindow');
+      timebars.myTimebarId.slideWindow.should.have.property('upper');
+      timebars.myTimebarId.slideWindow.upper.should.equal(19);
+      getState().messages.timeSetters.myTimebarId.length.should.equal(2);
+    });
     it('should be immutable with same data', () => {
       const oldState = reducer(state.timebars, actions.updateCursors(
         'myTimebarId',

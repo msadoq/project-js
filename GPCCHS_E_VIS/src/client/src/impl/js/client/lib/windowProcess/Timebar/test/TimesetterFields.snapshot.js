@@ -5,7 +5,7 @@ import TimesetterFields from '../TimesetterFields';
 
 const propsStub = {
   ms: 1480417090581,
-  value: 'lower',
+  cursor: 'lower',
   disabled: false,
   onChange: () => null,
   visuWindow: TimebarFixture.visuWindow,

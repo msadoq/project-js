@@ -59,6 +59,7 @@ export default class TimebarControlsRight extends Component {
       );
       this.props.play(timebarId);
     } else {
+      updateMode(timebarId, mode);
       if (mode === 'Extensible' && slideWindow.upper < upper) {
         let newSlideUpper = upper + ((upper - lower) / 4);
         if (newSlideUpper - lower > globalConstants.HSC_VISUWINDOW_MAX_LENGTH) {
@@ -82,7 +83,6 @@ export default class TimebarControlsRight extends Component {
           }
         );
       }
-      updateMode(timebarId, mode);
     }
   }
 

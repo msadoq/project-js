@@ -6,7 +6,7 @@ import Timesetter from './Timesetter';
 export default connect(
   (state, { timebarId }) =>
     ({
-      messages: _get(state, ['messages', 'timeSetters', timebarId], []),
+      messages: _get(state, ['messages', `timeSetter-${timebarId}`], []),
     })
   ,
   {

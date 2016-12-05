@@ -1,6 +1,6 @@
 exports[`test Lefttab renders correctly 1`] = `
 <div
-  className="Lefttab__leftTab___3aRyi">
+  className="Lefttab__leftTab___3aRyi col-xs-3">
   <div
     className="Lefttab__leftTabTopPanel___1mbiO">
     <button

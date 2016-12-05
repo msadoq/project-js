@@ -44,7 +44,7 @@ export function computeCursors(
     case 'Normal':
       r.visuWindow.lower = newLower;
       r.visuWindow.upper = newUpper;
-      r.slideWindow.lower = (newLower + current) / 2; // not used - invisible
+      r.slideWindow.lower = slideLower + offsetMs; // not used - invisible
       r.slideWindow.upper = (current + newUpper) / 2; // not used - invisible
       break;
     case 'Extensible':

@@ -63,8 +63,7 @@ export default class Timesetter extends Component {
               key={i}
               type={v.type}
               message={v.message}
-              instanceType="timeSetters"
-              instanceId={this.props.timebarId}
+              containerId={`timeSetter-${this.props.timebarId}`}
               messageIndex={i}
               onClose={this.props.removeMessage}
             />

@@ -38,7 +38,7 @@ describe('mainProcess/play', () => {
       res.visuWindow.should.have.property('lower', vw.lower);
       res.visuWindow.should.have.property('upper', vw.upper);
       res.slideWindow.should.have.property('lower', sw.lower);
-      res.slideWindow.should.have.property('upper', sw.upper);
+      res.slideWindow.should.have.property('upper', (vw.current + vw.upper + offset) / 2);
     });
 
     it('(Normal mode) -     should move 377ms and move slideWindow', () => {
@@ -50,10 +50,10 @@ describe('mainProcess/play', () => {
       res.visuWindow.should.have.property('lower', vw.lower + offset);
       res.visuWindow.should.have.property('upper', newCurrent);
       res.slideWindow.should.have.property('lower', sw.lower + offset);
-      res.slideWindow.should.have.property('upper', sw.upper + offset);
+      res.slideWindow.should.have.property('upper', (newCurrent + vw.upper + offset) / 2);
     });
 
-    it('(Normal mode) -     should move 106100000ms and move slideWindow', () => {
+    it('(Normal mode) -     should move 106,100,000ms and move slideWindow', () => {
       const offset = 106100000;
       const newCurrent = vw.upper + offset;
       const res = computeCursors(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
@@ -62,7 +62,7 @@ describe('mainProcess/play', () => {
       res.visuWindow.should.have.property('lower', vw.lower + offset);
       res.visuWindow.should.have.property('upper', newCurrent);
       res.slideWindow.should.have.property('lower', sw.lower + offset);
-      res.slideWindow.should.have.property('upper', sw.upper + offset);
+      res.slideWindow.should.have.property('upper', (newCurrent + vw.upper + offset) / 2);
     });
 
     it('(Extensible mode) - should move 377ms and then 380ms', () => {

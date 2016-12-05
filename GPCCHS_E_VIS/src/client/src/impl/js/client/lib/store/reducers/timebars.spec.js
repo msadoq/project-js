@@ -129,7 +129,7 @@ describe('store:timebars:reducer', () => {
       timebars.myTimebarId.should.have.property('visuWindow');
       timebars.myTimebarId.visuWindow.should.have.property('lower');
       timebars.myTimebarId.visuWindow.lower.should.equal(5);
-      getState().messages.timeSetters.myTimebarId.length.should.equal(1);
+      getState().messages['timeSetter-myTimebarId'].length.should.equal(1);
     });
     it('slideWindow should fail', () => {
       dispatch(actions.updateCursors('myTimebarId', null, { upper: 50 }));
@@ -138,7 +138,7 @@ describe('store:timebars:reducer', () => {
       timebars.myTimebarId.should.have.property('slideWindow');
       timebars.myTimebarId.slideWindow.should.have.property('upper');
       timebars.myTimebarId.slideWindow.upper.should.equal(19);
-      getState().messages.timeSetters.myTimebarId.length.should.equal(2);
+      getState().messages['timeSetter-myTimebarId'].length.should.equal(2);
     });
     it('should be immutable with same data', () => {
       const oldState = reducer(state.timebars, actions.updateCursors(

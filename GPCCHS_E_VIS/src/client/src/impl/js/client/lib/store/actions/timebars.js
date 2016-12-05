@@ -3,8 +3,8 @@ import _get from 'lodash/get';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
 import {
-  add as addMessage,
-  empty as emptyMessages
+  addOnce as addMessage,
+  reset as resetMessages
 } from './messages';
 import {
   add as addTimeline,
@@ -48,10 +48,10 @@ export const updateCursors = (timebarId, visuWindow, slideWindow) =>
     }
     if (messages.length) {
       messages.forEach((v) => {
-        dispatch(addMessage('timeSetters', 'error', v, timebarId));
+        dispatch(addMessage(`timeSetter-${timebarId}`, 'error', v));
       });
     } else {
-      dispatch(emptyMessages('timeSetters', timebarId));
+      dispatch(resetMessages(`timeSetter-${timebarId}`));
       dispatch({
         type: types.WS_TIMEBAR_UPDATE_CURSORS,
         payload: {

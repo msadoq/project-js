@@ -9,8 +9,7 @@ export default class Message extends PureComponent {
     onClose: PropTypes.func.isRequired,
     type: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired,
-    instanceType: PropTypes.string.isRequired,
-    instanceId: PropTypes.string,
+    containerId: PropTypes.string.isRequired,
     messageIndex: PropTypes.number.isRequired,
   };
 
@@ -24,18 +23,10 @@ export default class Message extends PureComponent {
       removing: true,
     });
     setTimeout(() => {
-      if (this.props.instanceId) {
-        this.props.onClose(
-          this.props.instanceType,
-          this.props.messageIndex,
-          this.props.instanceId
-        );
-      } else {
-        this.props.onClose(
-          this.props.instanceType,
-          this.props.messageIndex
-        );
-      }
+      this.props.onClose(
+        this.props.containerId,
+        this.props.messageIndex
+      );
     }, 600);
   }
   render() {

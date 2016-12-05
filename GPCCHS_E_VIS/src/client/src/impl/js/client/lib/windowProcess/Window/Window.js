@@ -4,7 +4,7 @@ import { LIFECYCLE_STARTED } from 'common/constants';
 
 import Debug from '../Navigation/Debug';
 import TimebarMasterContainer from '../Timebar/TimebarMasterContainer';
-import GlobalMessagesWrapper from './GlobalMessagesWrapper';
+import MessagesContainer from './MessagesContainer';
 import PageContainer from '../Page/PageContainer';
 import TabsContainer from '../Navigation/TabsContainer';
 import styles from './Window.css';
@@ -14,11 +14,9 @@ const logger = debug('Window');
 
 export default class Window extends Component {
   static propTypes = {
-    removeMessage: PropTypes.func.isRequired,
     windowId: PropTypes.string.isRequired,
     focusedPageId: PropTypes.string.isRequired,
     appStatus: PropTypes.string,
-    messages: PropTypes.array,
   };
 
   render() {
@@ -40,22 +38,13 @@ export default class Window extends Component {
       );
     }
 
-    let globalMessagesWrapper;
-    if (this.props.messages && this.props.messages.length) {
-      globalMessagesWrapper =
-        (<GlobalMessagesWrapper
-          messages={this.props.messages}
-          removeMessage={this.props.removeMessage}
-        />);
-    }
-
     return (
       <div className={styles.container}>
         <Debug
           windowId={windowId}
           focusedPageId={focusedPageId}
         />
-        {globalMessagesWrapper}
+        <MessagesContainer />
         <TabsContainer
           className="col-xs-12"
           windowId={windowId}

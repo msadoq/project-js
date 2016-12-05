@@ -1,61 +1,50 @@
-import u from 'updeep';
 import _get from 'lodash/get';
+import _has from 'lodash/has';
 import * as types from '../types';
 
-/**
- * Reducer
- */
-export default function messages(stateMessages = {}, action) {
+export default function messages(state = {}, action) {
   switch (action.type) {
     case types.WS_MESSAGE_ADD: {
-      if (action.payload.instanceType === 'global') {
-        const arr = (stateMessages.global || []).concat(message(undefined, action));
-        return u({ global: arr }, stateMessages);
-      }
-      const arr = _get(
-        stateMessages,
-        [action.payload.instanceType, action.payload.instanceId],
-        []
-      ).concat(message(undefined, action));
-      return u({
-        [action.payload.instanceType]: {
-          [action.payload.instanceId]: arr
-        }
-      }, stateMessages);
+      const { containerId } = action.payload;
+      const list = _get(state, [containerId], [])
+        .concat(message(undefined, action));
+      return Object.assign({}, state, { [containerId]: list });
     }
     case types.WS_MESSAGE_REMOVE: {
-      if (action.payload.instanceType === 'global') {
-        const arr = stateMessages.global.filter((v, i) => action.payload.index !== i);
-        return u({ global: arr }, stateMessages);
+      const { containerId, index } = action.payload;
+      const list = _get(state, [containerId]);
+      if (!list || !_has(list, index)) {
+        return state;
       }
-      const arr = stateMessages[action.payload.instanceType][action.payload.instanceId].filter(
-        (v, i) => action.payload.index !== i
-      );
-      return u({
-        [action.payload.instanceType]: {
-          [action.payload.instanceId]: arr
-        }
-      }, stateMessages);
+      return Object.assign({}, state, {
+        [containerId]: [].concat(list.slice(0, index), list.slice(index + 1)),
+      });
+    }
+    case types.WS_MESSAGE_RESET: {
+      const { containerId } = action.payload;
+      if (!_has(state, containerId)) {
+        return state;
+      }
+      return Object.assign({}, state, { [containerId]: [] });
     }
     default:
-      return stateMessages;
+      return state;
   }
 }
 
-const initialState = {
-  message: 'Erreur',
-  type: 'danger',
-};
-
-function message(stateMessage = initialState, action) {
+function message(state = {
+  message: null,
+  type: 'danger', // success, warning, danger, info
+}, action) {
   switch (action.type) {
     case types.WS_MESSAGE_ADD:
-      return Object.assign({}, stateMessage, {
-        message: action.payload.message || stateMessage.message,
-        // authorized : success, warning, danger, info
-        type: (action.payload.type === 'error' ? 'danger' : action.payload.type) || stateMessage.type,
+      return Object.assign({}, state, {
+        message: action.payload.message || state.message,
+        type: (action.payload.type === 'error'
+          ? 'danger'
+          : action.payload.type) || state.type,
       });
     default:
-      return stateMessage;
+      return state;
   }
 }

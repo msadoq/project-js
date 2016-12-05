@@ -1,6 +1,7 @@
 import _get from 'lodash/get';
 import { connect } from 'react-redux';
 import { remove } from '../../store/actions/messages';
+import { getMessages } from '../../store/selectors/messages';
 import { getComponent } from '../../../VIVL/window';
 import { getView } from '../../store/selectors/views';
 
@@ -13,15 +14,13 @@ const mapStateToProps = (state, { viewId, timebarId }) => {
   const data = _get(state, ['viewData', viewId], {});
   const visuWindow = _get(state, ['timebars', timebarId, 'visuWindow']);
 
-  const messages = _get(state, ['messages', 'views', viewId]);
-
   return {
     type,
     configuration,
     component: ViewTypeComponent,
     data,
     visuWindow,
-    messages
+    messages: getMessages(state, viewId),
   };
 };
 

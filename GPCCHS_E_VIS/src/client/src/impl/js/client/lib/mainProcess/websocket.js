@@ -6,6 +6,7 @@ import { v4 } from 'node-uuid';
 import debug from '../common/debug/mainDebug';
 import { getStore } from '../store/mainStore';
 import { updateStatus } from '../store/actions/hss';
+import { add as addMessage, addOnce as addOnceMessage } from '../store/actions/messages';
 import { onOpen, onClose } from './lifecycle';
 import parameters from '../common/parameters';
 import { addToQueue } from './orchestration';
@@ -52,25 +53,20 @@ export function connect() {
 
       switch (event) {
         case globalConstants.EVENT_TIMEBASED_DATA:
-          addToQueue(payload);
-          break;
+          return addToQueue(payload);
         case globalConstants.EVENT_DOMAIN_DATA:
         case globalConstants.EVENT_SESSION_DATA:
         case globalConstants.EVENT_FILEPATH_DATA:
-          handleResponse(queryId, payload);
-          break;
-        case globalConstants.EVENT_ERROR: // TODO implement error handling function
-          switch (payload.type) {
-            case globalConstants.ERRORTYPE_RESPONSE:
-              logger.error('DC Response Error', payload.reason);
-              break;
-            default:
-              logger.error('Unrecognized Error type');
-              break;
-          }
-          break;
-        default:
-          logger.error('Received not yet implemented event', event);
+          return handleResponse(queryId, payload);
+        case globalConstants.EVENT_ERROR: {
+          const err = `Error from server: ${payload.reason}`;
+          return getStore().dispatch(addOnceMessage('global', 'danger', err));
+        }
+        default: {
+          const err = `Received not yet implemented event ${event}`;
+          logger.error(err);
+          return getStore().dispatch(addMessage('global', 'danger', err));
+        }
       }
     });
   }

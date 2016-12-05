@@ -1,10 +1,6 @@
 import { connect } from 'react-redux';
 import { getStatus } from '../../store/selectors/hsc';
-import { remove } from '../../store/actions/messages';
-
-import {
-  getWindowFocusedPageId,
-} from '../../store/selectors/windows';
+import { getWindowFocusedPageId } from '../../store/selectors/windows';
 
 import Window from './Window';
 
@@ -12,12 +8,6 @@ const mapStateToProps = (state, { windowId }) => ({
   appStatus: getStatus(state),
   focusedPageId: getWindowFocusedPageId(state, windowId),
   timelines: state.timelines,
-  messages: state.messages.global
 });
 
-export default connect(
-  mapStateToProps,
-  {
-    removeMessage: remove,
-  }
-)(Window);
+export default connect(mapStateToProps)(Window);

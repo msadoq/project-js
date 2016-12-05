@@ -3,10 +3,10 @@ import classnames from 'classnames';
 import Message from '../common/Message';
 import styles from './Window.css';
 
-export default class GlobalMessagesWrapper extends Component {
+export default class Messages extends Component {
 
   static propTypes = {
-    removeMessage: PropTypes.func.isRequired,
+    remove: PropTypes.func.isRequired,
     messages: PropTypes.array,
   };
 
@@ -31,15 +31,30 @@ export default class GlobalMessagesWrapper extends Component {
   }
 
   render() {
-    let messages = this.props.messages.map((m, i) => ({ ...m, index: i }));
-    messages = this.state.filter === 'all' ?
-      messages
-      :
-      messages.filter(v => v.type === this.state.filter);
-
-    if (this.state.collapsed) {
-      messages = [];
+    const { messages, remove } = this.props;
+    if (!messages || !messages.length) {
+      return null;
     }
+
+    const { collapsed, filter } = this.state;
+
+    const children = [];
+    if (!collapsed) {
+      messages.forEach((v, i) => {
+        if (filter !== 'all' && v.type !== filter) {
+          return;
+        }
+        children.push((
+          <Message
+            key={i}
+            type={v.type}
+            message={v.message}
+            onClose={() => remove('global', i)}
+          />
+        ));
+      });
+    }
+
     return (
       <div
         className={styles.globalMessages}
@@ -81,10 +96,14 @@ export default class GlobalMessagesWrapper extends Component {
           </span>
           {
             ['danger', 'warning', 'info', 'success'].map((v) => {
-              let nb = this.props.messages.filter(w => w.type === v).length;
-              if (nb > 10) nb = '10+';
-              if (nb > 50) nb = '50+';
-              if (nb > 100) nb = '100+';
+              let nb = messages.filter(w => w.type === v).length;
+              if (nb > 100) {
+                nb = '100+';
+              } else if (nb > 50) {
+                nb = '50+';
+              } else if (nb > 10) {
+                nb = '10+';
+              }
               const cssClasses = classnames(
                 'badge',
                 styles.badge,
@@ -99,16 +118,7 @@ export default class GlobalMessagesWrapper extends Component {
             })
           }
         </div>
-        {
-          messages.map((v, i) =>
-            <Message
-              key={i}
-              type={v.type}
-              message={v.message}
-              onClose={this.props.removeMessage.bind(null, 'global', v.index)}
-            />
-          )
-        }
+        {children}
       </div>
     );
   }

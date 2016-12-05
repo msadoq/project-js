@@ -65,9 +65,6 @@ const timebasedQuery = (payload, messageHandler) => {
     const connectedData = connectedDataModel.addRecord(query.type, remoteId, query.dataId);
     execution.stop('add loki connectedData');
 
-    // debug.debug(
-    //   'retrieve missing intervals for remoteId', remoteId, 'and interval', query.intervals
-    // );
     // loop over intervals
     execution.start('finding missing intervals');
     _each(query.intervals, (interval) => {

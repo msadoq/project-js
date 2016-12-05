@@ -6,7 +6,7 @@ import styles from './Timebar.css';
 import LefttabContainer from './LefttabContainer';
 import RighttabContainer from './RighttabContainer';
 import Timesetter from './Timesetter';
-import Modal from '../common/Modal';
+import Modale from './Modale';
 import debug from '../../../lib/common/debug/windowDebug';
 
 const logger = debug('Timebar');
@@ -120,7 +120,7 @@ export default class TimebarWrapper extends Component {
     let timesetter;
     if (displayTimesetter) {
       timesetter = (
-        <Modal
+        <Modale
           title="Manual time setter"
           visuWindow={visuWindow}
           slideWindow={slideWindow}

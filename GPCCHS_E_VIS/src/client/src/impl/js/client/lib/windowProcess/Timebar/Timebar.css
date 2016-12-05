@@ -169,12 +169,16 @@
     height: 15px;
     cursor: pointer;
     box-shadow: 0px 0px 5px #666;
-    padding: 0;
-    line-height: 4px;
-    font-size: 1.1em;
 }
 .arrowLeft{
     left: 7px;
+}
+.arrowLeft:before{
+    content: '➜';
+    position: absolute;
+    transform: scale(-1);
+    top: -2px;
+    left: 4px;
 }
 .arrowRight, .arrowExt{
     right: 7px;
@@ -186,15 +190,26 @@
   line-height: 0.70em;
   font-weight: 600;
 }
+.arrowRight:before{
+    content: '➜';
+    position: absolute;
+    top: -3px;
+    right: 4px;
+}
 .arrowLeftBring, .arrowRightBring{
   background: #444;
   top: 25px;
-  padding: 0;
-  line-height: 4px;
-  font-size: 1.1em;
 }
 .arrowLeftBring:hover, .arrowRightBring:hover{
   background: #111;
+}
+.arrowLeftBring:before{
+    content: '➜';
+    transform: scale(1);
+}
+.arrowRightBring:before{
+    content: '➜';
+    transform: scale(-1);
 }
 .resizeTimebarContainer{
   margin: 0;

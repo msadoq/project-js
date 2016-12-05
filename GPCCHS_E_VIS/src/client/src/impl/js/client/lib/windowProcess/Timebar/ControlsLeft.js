@@ -113,7 +113,7 @@ export default class TimebarControlsLeft extends Component {
               }
             )}
             onClick={() => (isPlaying ? pause() : play(timebarId))}
-            title={isPlaying ? 'pause' : 'play'}
+            title={isPlaying ? 'play' : 'pause'}
           >
             {isPlaying ? <span>&#9613;&#9613;</span> : <span>&#9658;</span>}
           </button>

@@ -5,7 +5,7 @@ import { Col } from 'react-bootstrap';
 import styles from './Timebar.css';
 import LefttabContainer from './LefttabContainer';
 import RighttabContainer from './RighttabContainer';
-import Timesetter from './Timesetter';
+import TimeSetterContainer from './TimeSetterContainer';
 import Modal from '../common/Modal';
 import debug from '../../../lib/common/debug/windowDebug';
 
@@ -124,12 +124,11 @@ export default class TimebarWrapper extends Component {
           title="Manual time setter"
           visuWindow={visuWindow}
           slideWindow={slideWindow}
-          timebarMode={timebar.mode}
           updateCursors={updateCursors}
           timebarId={timebarId}
           cursor={timesetterCursor || 'all'}
           onClose={this.toggleTimesetter}
-          bodyComponent={Timesetter}
+          bodyComponent={TimeSetterContainer}
         />
       );
     }

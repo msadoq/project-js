@@ -36,7 +36,8 @@ export default class View extends PureComponent {
       closeEditor,
       unmountAndRemove,
       data,
-      visuWindow
+      visuWindow,
+      messages
     } = this.props;
     const ContentComponent = this.props.component || UnknownView;
 
@@ -55,16 +56,14 @@ export default class View extends PureComponent {
           className={styles.content}
           style={{ backgroundColor: backgroundColour }}
         >
-          { this.props.messages ?
-            (this.props.messages.map((v, i) =>
-              <Message
-                key={i}
-                type={v.type}
-                message={v.message}
-                onClose={this.props.removeMessage.bind(null, 'views', i, this.props.viewId)}
-              />
-            )) : null
-          }
+          {messages && messages.map((v, i) =>
+            <Message
+              key={i}
+              type={v.type}
+              message={v.message}
+              onClose={this.props.removeMessage.bind(null, 'views', i, viewId)}
+            />
+          )}
           <ContentComponent
             data={data}
             type={type}

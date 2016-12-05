@@ -26,17 +26,17 @@
       "mode": "Normal",
       "visuWindow": {
         "lower": 1480578427000,
-        "upper": 1480582027000,
+        "upper": 1480582087000,
         "current": 1480580227000,
         "defaultWidth": 900000
       },
       "slideWindow": {
-        "lower": 1480578417000,
+        "lower": 1480578437000,
         "upper": 1480582037000
       },
       "extUpperBound": 1480582047000,
       "rulerStart": 1480577807000,
-      "rulerResolution": 1125,
+      "rulerResolution": 11630,
       "speed": 1.0,
       "timeSpec": "LocalTime",
       "offsetFromUTC": 0,

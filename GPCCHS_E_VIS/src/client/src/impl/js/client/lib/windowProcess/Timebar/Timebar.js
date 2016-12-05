@@ -197,14 +197,6 @@ export default class Timebar extends Component {
     const viewportLower = state.viewportLower || viewport.lower;
     const viewportUpper = state.viewportUpper || viewport.upper;
 
-    /*
-      Resetting every state to null, so newly received props will
-      be used to render components positions (cursors etc...)
-    */
-
-    document.removeEventListener('mousemove', this.onMouseMove);
-    document.removeEventListener('mouseup', this.onMouseUp);
-
     if (state.resizing || state.navigating) {
       updateCursors(
         timebarId,
@@ -247,6 +239,14 @@ export default class Timebar extends Component {
         );
       }
     }
+
+    document.removeEventListener('mousemove', this.onMouseMove);
+    document.removeEventListener('mouseup', this.onMouseUp);
+
+    /*
+      Resetting every state to null, so newly received props will
+      be used to render components positions (cursors etc...)
+    */
     this.setState({
       dragging: false,
       resizing: false,
@@ -428,7 +428,7 @@ export default class Timebar extends Component {
       if (cursorPosMs < slideLower) {
         newSlideLower = cursorPosMs;
       }
-      if (timebarMode === 'Fixed' && cursorPosMs > slideUpper) {
+      if (['Fixed', 'Normal'].includes(timebarMode) && cursorPosMs > slideUpper) {
         newSlideUpper = cursorPosMs;
       }
       this.setState({

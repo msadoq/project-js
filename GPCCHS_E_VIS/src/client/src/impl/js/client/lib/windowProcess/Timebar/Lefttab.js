@@ -1,7 +1,7 @@
 import { difference } from 'lodash';
 import classnames from 'classnames';
 import React, { Component, PropTypes } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Col } from 'react-bootstrap';
 import { schemeCategory20b } from 'd3-scale';
 import Timeline from './Timeline';
 import Modal from '../common/Modal';
@@ -176,7 +176,7 @@ export default class Lefttab extends Component {
     }
 
     return (
-      <div className={styles.leftTab}>
+      <Col xs={3} className={styles.leftTab}>
         <div className={styles.leftTabTopPanel}>
           <button
             className={classnames('btn', 'btn-xs', 'btn-control', styles.btnClose)}
@@ -222,7 +222,7 @@ export default class Lefttab extends Component {
             />
           )}
         </ul>
-      </div>
+      </Col>
     );
   }
 }

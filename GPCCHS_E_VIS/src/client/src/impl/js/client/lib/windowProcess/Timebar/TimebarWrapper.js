@@ -157,17 +157,15 @@ export default class TimebarWrapper extends Component {
             />
           </div>
         </Col>
-        <Col xs={3} style={{ height: '100%' }}>
-          <LefttabContainer
-            timebarId={timebarId}
-            focusedPageId={focusedPageId}
-            masterId={timebar.masterId}
-            timebarName={timebar.id}
-            timelines={timelines}
-            verticalScroll={timelinesVerticalScroll}
-            onTimelinesVerticalScroll={this.onTimelinesVerticalScroll}
-          />
-        </Col>
+        <LefttabContainer
+          timebarId={timebarId}
+          focusedPageId={focusedPageId}
+          masterId={timebar.masterId}
+          timebarName={timebar.id}
+          timelines={timelines}
+          verticalScroll={timelinesVerticalScroll}
+          onTimelinesVerticalScroll={this.onTimelinesVerticalScroll}
+        />
         <RighttabContainer
           timebar={timebar}
           timebarId={timebarId}

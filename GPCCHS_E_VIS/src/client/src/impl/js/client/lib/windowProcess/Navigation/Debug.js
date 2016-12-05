@@ -91,7 +91,7 @@ class Debug extends PureComponent {
             onClick={this.hssState}
             {...buttonsProps}
           >
-            Action
+            HSS
           </MenuItem>
           <MenuItem
             eventKey="2"

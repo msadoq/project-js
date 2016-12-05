@@ -101,7 +101,7 @@ class PlotGrid extends React.Component {
             {Object.keys(axes).map((axisId) => {
               const axis = axes[axisId];
               return (
-                <option key={axisId}>{axis.label}</option>
+                <option key={axisId} value={axisId}>{axis.label}</option>
               );
             })}
           </Field>
@@ -116,7 +116,7 @@ class PlotGrid extends React.Component {
             {Object.keys(axes).map((axisId) => {
               const axis = axes[axisId];
               return (
-                <option key={axisId}>{axis.label}</option>
+                <option key={axisId} value={axisId}>{axis.label}</option>
               );
             })}
           </Field>

@@ -5,6 +5,12 @@
   --brand-info: #5bc0de;
   --brand-warning: #f0ad4e;
   --brand-danger: #d9534f;
+  --gray-darker: #222;
+  --gray-dark: #333;
+  --gray: #555;
+  --gray-light: #777;
+  --gray-lighter: #CCC;
+  --gray-lighter-2: #eee;
   /* Editor variables */
   --editor-width: 350px;
   /* Timeline variables */

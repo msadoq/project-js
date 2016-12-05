@@ -4,13 +4,10 @@
   width: 100%;
   height: 28px;
   display: flex;
-  background-color: #CCC;
+  background-color: var(--gray-lighter);
 }
 .containerActive {
-  background-color: var(--brand-primary);
-  > *, button {
-    color: white !important;
-  }
+  background-color: var(--gray-lighter-2);
 }
 .title {
   display: inline-block;

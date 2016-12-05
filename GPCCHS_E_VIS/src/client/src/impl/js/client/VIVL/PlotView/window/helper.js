@@ -44,22 +44,53 @@ export const getLineMarkerProps = (pointsStyle, pointsSize, props) => {
   return { ...styleProps, ...props };
 };
 
-export const getLines = (entryPoints = []) => entryPoints.reduce((lines, ep) => {
-  if (!ep.connectedDataX.formula || ep.connectedDataX.formula === '' ||
-      !ep.connectedDataY.formula || ep.connectedDataY.formula === '') {
-    return lines;
-  }
-  lines.push({
-    name: ep.name,
-    key: ep.name,
-    color: _get(ep, 'objectStyle.curveColour', '#000000'),
-    lineStyle: _get(ep, 'objectStyle.line.style', 'Continuous'), // "Continuous", "Dotted", "Dashed"
-    lineSize: _get(ep, 'objectStyle.line.size'),
-    pointsStyle: _get(ep, 'objectStyle.points.style', 'None'), // "None", "Triangle", "Square", "Dot"
-    pointsSize: _get(ep, 'objectStyle.points.size'),
+export const getFilteredEntryPoints = (entryPoints = []) => entryPoints
+  .filter(ep =>
+    ep.name &&
+    ep.connectedDataX.formula &&
+    ep.connectedDataY.formula
+  );
+
+export const getEntryPointsCharts = (config) => {
+  const { entryPoints, axes, grids = [] } = config;
+  const grid = grids[0];
+  const charts = {};
+
+  getFilteredEntryPoints(entryPoints).forEach((ep) => {
+    const xId = _get(ep, 'connectedDataX.axisId');
+    const yId = _get(ep, 'connectedDataY.axisId');
+
+    const refChart = charts[`${xId}${yId}`];
+    if (refChart) {
+      refChart.lines.push(getLine(ep));
+    } else {
+      charts[`${xId}${yId}`] = {
+        xAxis: axes[xId],
+        yAxis: axes[yId],
+        lines: [getLine(ep)]
+      };
+      // Associate the grid if x and y match
+      if (grid && grid.xAxisId === xId && grid.yAxisId === yId) {
+        charts[`${xId}${yId}`].grid = grid;
+      }
+    }
   });
-  return lines;
-}, []);
+  console.log('charts', charts);
+  return Object.values(charts);
+};
+
+export const getLine = ep => ({
+  name: ep.name,
+  key: ep.name,
+  color: _get(ep, 'objectStyle.curveColour', '#000000'),
+  lineStyle: _get(ep, 'objectStyle.line.style', 'Continuous'), // "Continuous", "Dotted", "Dashed"
+  lineSize: _get(ep, 'objectStyle.line.size'),
+  pointsStyle: _get(ep, 'objectStyle.points.style', 'None'), // "None", "Triangle", "Square", "Dot"
+  pointsSize: _get(ep, 'objectStyle.points.size'),
+});
+
+export const getLines = entryPoints => getFilteredEntryPoints(entryPoints)
+  .map(ep => getLine(ep));
 
 export const getLineStyle = (lineStyle) => {
   switch (lineStyle) {

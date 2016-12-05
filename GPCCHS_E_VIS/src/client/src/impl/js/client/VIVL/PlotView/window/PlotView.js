@@ -6,16 +6,18 @@ import { format } from 'd3-format';
 import { scaleTime } from 'd3-scale';
 import getLogger from 'common/log';
 import {
-  ChartCanvas, Chart, series,
-  coordinates, axes, tooltip, interactive
+  ChartCanvas, Chart, series, annotation,
+  coordinates, axes as StockchartsAxes, tooltip,
+  // interactive
 } from 'react-stockcharts';
 import {
+  getLines,
   getLineMarker,
   getLineMarkerProps,
-  getLines,
   zoomDateFormat,
   fullDateFormat,
-  getLineStyle
+  getLineStyle,
+  getEntryPointsCharts
 } from './helper';
 // import PlotMenu from './PlotMenu';
 
@@ -24,15 +26,16 @@ const logger = getLogger('GPCCHS:view:plot');
 const {
   LineSeries, ScatterSeries, StraightLine
 } = series;
+const { Label } = annotation;
 const { HoverTooltip } = tooltip;
 const {
   CrossHairCursor, MouseCoordinateX,
   MouseCoordinateY, CurrentCoordinate
 } = coordinates;
-const { ClickCallback } = interactive;
-const { XAxis, YAxis } = axes;
-const margin = { left: 10, right: 60, top: 20, bottom: 20 };
-const offsetTop = 50;
+// const { ClickCallback } = interactive;
+const { XAxis, YAxis } = StockchartsAxes;
+const margin = { left: 10, right: 30, top: 20, bottom: 40 };
+const yAxisWidth = 50;
 
 class PlotView extends PureComponent {
   static propTypes = {
@@ -81,13 +84,22 @@ class PlotView extends PureComponent {
 
   componentWillMount() {
     this.lines = getLines(this.props.configuration.entryPoints);
+    this.epCharts = getEntryPointsCharts(this.props.configuration);
   }
 
   componentWillReceiveProps(nextProps) {
-    const { configuration: { entryPoints } } = this.props;
+    const { configuration: { entryPoints, axes } } = this.props;
+
     if (entryPoints !== nextProps.configuration.entryPoints) {
-      this.lines = getLines(nextProps.configuration.entryPoints);
+      this.lines = getLines(this.props.configuration.entryPoints);
     }
+    if (axes !== nextProps.configuration.axes) {
+      this.epCharts = getEntryPointsCharts(nextProps.configuration);
+    }
+  }
+
+  componentWillUnmount() {
+    this.handleMouseLeave();
   }
 
   getGrid() {
@@ -101,13 +113,13 @@ class PlotView extends PureComponent {
       };
     }
     const { width, height } = size;
-    const gridHeight = height - margin.top - margin.bottom - offsetTop;
+    const gridHeight = height - margin.top - margin.bottom;
     const gridWidth = width - margin.left - margin.right;
     const lineConf = _get(configuration, 'grids[0].line', {});
     const common = {
       tickStrokeOpacity: 0.2,
-      strokeWidth: lineConf.size || 1,
-      strokeDasharray: getLineStyle(lineConf.style)
+      tickStrokeWidth: lineConf.size || 1,
+      tickStrokeDasharray: getLineStyle(lineConf.style)
     };
 
     return {
@@ -121,6 +133,135 @@ class PlotView extends PureComponent {
       }
     };
   }
+
+  getCharts() {
+    const {
+      visuWindow: { current },
+      size: { width, height }
+    } = this.props;
+    const { disableZoom } = this.state;
+    const { y: yGrid, x: xGrid } = this.getGrid();
+    const xAxisWidth = width - margin.left - margin.right - (this.epCharts.length * yAxisWidth);
+    const xLabelPosition = [
+      xAxisWidth / 2,
+      height - 30
+    ];
+    const charts = [
+      <Chart
+        id={0}
+        key={0}
+        yExtents={this.yExtents}
+      >
+        <XAxis
+          axisAt="bottom"
+          orient="bottom"
+          ticks={5}
+          tickFormat={zoomDateFormat}
+          zoomEnabled={!disableZoom}
+          {...xGrid}
+        />
+        <Label
+          x={xLabelPosition[0]}
+          y={xLabelPosition[1]}
+          text="Time"
+        />
+        <MouseCoordinateX
+          at="bottom"
+          orient="bottom"
+          rectWidth={150}
+          displayFormat={fullDateFormat}
+        />
+        <MouseCoordinateY
+          at="right"
+          orient="right"
+          displayFormat={format('.2f')}
+        />
+        <StraightLine
+          type="vertical"
+          xValue={current}
+          stroke="#0ee61f"
+          strokeWidth={2}
+          opacity={1}
+        />
+        {/* <ClickCallback
+          enabled
+          onClick={this.handleChartClick}
+        /> */}
+      </Chart>
+    ];
+
+    this.epCharts.forEach((chart, i) => {
+      const index = i + 1;
+      const axisAt = width - margin.right - (index * yAxisWidth);
+      const yRange = [
+        _get(chart, 'yAxis.min', 0),
+        _get(chart, 'yAxis.max')
+      ];
+      const label = _get(chart, 'yAxis.label');
+      const hasGrid = typeof chart.grid !== 'undefined';
+      charts.push(
+        <Chart
+          id={index}
+          key={index}
+          yExtents={this.yExtents}
+        >
+          <Label
+            x={axisAt + yAxisWidth}
+            y={(height - margin.top - margin.bottom) / 2}
+            rotate={-90}
+            text={label}
+          />
+          <YAxis
+            axisAt={axisAt}
+            orient="right"
+            ticks={5}
+            range={yRange}
+            zoomEnabled={!disableZoom}
+            {...hasGrid ? yGrid : {}}
+          />
+          {this.getLineComponents(chart.lines)}
+        </Chart>
+      );
+    });
+
+    return charts;
+  }
+
+  getLineComponents = (lines = []) => lines.map(({
+      key, color, lineSize = 1,
+      pointsStyle, pointsSize, lineStyle
+    }) => (
+      <div key={key}>
+        <LineSeries
+          key={`line${key}`}
+          yAccessor={d => _get(d, [key, 'value'])}
+          connectNulls
+          highlightOnHover
+          onClick={this.handleLineClick}
+          onDoubleClick={this.handleLineDoubleClick}
+          onContextMenu={this.handleLineRightClick}
+          stroke={color}
+          strokeWidth={lineSize}
+          strokeDasharray={getLineStyle(lineStyle)}
+        />
+        <ScatterSeries
+          key={`scatter${key}`}
+          yAccessor={d => _get(d, [key, 'value'])}
+          marker={getLineMarker(pointsStyle)}
+          markerProps={getLineMarkerProps(pointsStyle, pointsSize, {
+            stroke: color,
+            fill: color
+          })}
+        />
+        <CurrentCoordinate
+          key={`coordinate${key}`}
+          yAccessor={d => _get(d, [key, 'value'])}
+          fill={color}
+        />
+      </div>
+    ));
+
+  epCharts = [];
 
   handleMouseEnter = () => {
     document.body.addEventListener('keydown', this.handleOnKeyDown);
@@ -192,6 +333,18 @@ class PlotView extends PureComponent {
     }
   }
 
+  handleLineRightClick = (e) => {
+    console.log('handleLineRightClick', e);
+  }
+
+  handleLineClick = (e) => {
+    console.log('handleLineClick', e);
+  }
+
+  handleLineDoubleClick = (e) => {
+    console.log('handleLineDoubleClick', e);
+  }
+
   handleChartClick = (e) => {
     const { isMenuOpened } = this.state;
 
@@ -209,41 +362,6 @@ class PlotView extends PureComponent {
     });
   }
 
-  renderLines = () => this.lines.map(({
-      key, color, lineSize = 1,
-      pointsStyle, pointsSize, lineStyle
-    }) => {
-    if (!key) {
-      return ({});
-    }
-    return (
-      <div key={key}>
-        <LineSeries
-          key={`line${key}`}
-          yAccessor={d => _get(d, [key, 'value'])}
-          connectNulls
-          stroke={color}
-          strokeWidth={lineSize}
-          strokeDasharray={getLineStyle(lineStyle)}
-        />
-        <ScatterSeries
-          key={`scatter${key}`}
-          yAccessor={d => _get(d, [key, 'value'])}
-          marker={getLineMarker(pointsStyle)}
-          markerProps={getLineMarkerProps(pointsStyle, pointsSize, {
-            stroke: color,
-            fill: color
-          })}
-        />
-        <CurrentCoordinate
-          key={`coordinate${key}`}
-          yAccessor={d => _get(d, [key, 'value'])}
-          fill={color}
-        />
-      </div>
-    );
-  });
-
   render() {
     logger.debug('render');
     const noRender = this.shouldRender();
@@ -253,10 +371,9 @@ class PlotView extends PureComponent {
       // TODO : clean message component
       return <div>unable to render plot: {noRender}</div>;
     }
-
     const { size, data, visuWindow } = this.props;
     const { columns } = data;
-    const { lower, upper, current } = visuWindow;
+    const { lower, upper } = visuWindow;
     const { width, height } = size;
     const {
       tooltipWidth,
@@ -267,7 +384,7 @@ class PlotView extends PureComponent {
     } = this.state;
     // const menuOpenOnTop = menuPosition.y >= (height / 2);
     // const menuOpenOnLeft = menuPosition.x >= (width / 2);
-    const { y: yGrid, x: xGrid } = this.getGrid();
+    const marginRight = margin.right + (this.epCharts.length * yAxisWidth);
 
     return (
       <div
@@ -279,8 +396,8 @@ class PlotView extends PureComponent {
           plotFull
           ratio={2}
           width={width}
-          height={height - offsetTop}
-          margin={margin}
+          height={height}
+          margin={{ ...margin, right: marginRight }}
           seriesName="PlotView"
           data={columns}
           type="hybrid"
@@ -289,50 +406,8 @@ class PlotView extends PureComponent {
           disableZoomEvent={disableZoom}
           xExtents={[new Date(lower), new Date(upper)]}
         >
-          <Chart
-            id={1}
-            yExtents={this.yExtents}
-          >
-            <XAxis
-              axisAt="bottom"
-              orient="bottom"
-              ticks={5}
-              tickFormat={zoomDateFormat}
-              zoomEnabled={!disableZoom}
-              {...xGrid}
-            />
-            <YAxis
-              axisAt="right"
-              orient="right"
-              ticks={5}
-              zoomEnabled={!disableZoom}
-              {...yGrid}
-            />
-            <MouseCoordinateX
-              at="bottom"
-              orient="bottom"
-              rectWidth={150}
-              displayFormat={fullDateFormat}
-            />
-            <MouseCoordinateY
-              at="right"
-              orient="right"
-              displayFormat={format('.2f')}
-            />
-            <StraightLine
-              type="vertical"
-              xValue={current}
-              stroke="#0ee61f"
-              strokeWidth={2}
-              opacity={1}
-            />
-            <ClickCallback
-              enabled
-              onClick={this.handleChartClick}
-            />
-            {this.renderLines()}
-          </Chart>
-          <CrossHairCursor />
+          {this.getCharts()}
+          <CrossHairCursor opacity={0.8} />
           <HoverTooltip
             tooltipContent={this.handleTooltipContent}
             opacity={1}

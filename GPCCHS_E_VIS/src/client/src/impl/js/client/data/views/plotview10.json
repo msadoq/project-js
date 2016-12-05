@@ -30,18 +30,18 @@
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "VBat"
+        "axisId": "VBat 2"
       },
       "objectStyle": {
         "line": {
-          "style": "Continuous",
+          "style": "Dotted",
           "size": 2
         },
         "points": {
-          "style": "None",
-          "size": 0
+          "style": "Dot",
+          "size": 4
         },
-        "curveColour": "#000000"
+        "curveColour": "#4caf50"
       },
       "stateColours": [
         {
@@ -122,10 +122,10 @@
           "size": 2
         },
         "points": {
-          "style": "None",
-          "size": 0
+          "style": "Square",
+          "size": 8
         },
-        "curveColour": "#000000"
+        "curveColour": "#ff9800"
       },
       "stateColours": [
         {
@@ -328,14 +328,14 @@
     },
     "objectStyle": {
       "line": {
-        "style": "Continuous",
+        "style": "Dashed",
         "size": 2
       },
       "points": {
-        "style": "None",
-        "size": 0
+        "style": "Triangle",
+        "size": 10
       },
-      "curveColour": "#000000"
+      "curveColour": "#e91e63"
     },
     "stateColours": [
       {
@@ -422,7 +422,7 @@
     },
     "objectStyle": {
       "line": {
-        "style": "Continuous",
+        "style": "Dotted",
         "size": 2
       },
       "points": {
@@ -489,6 +489,75 @@
       "showTickLabels": true,
       "isLogarithmic": false,
       "showAxis": true
+    },
+    {
+      "label": "VBat 2",
+      "unit": "V",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikeOut": false,
+        "align": "left",
+        "colour": "#000000"
+      },
+      "min": -600,
+      "max": 600,
+      "autoLimits": false,
+      "tickStep": 50,
+      "autoTick": false,
+      "showTicks": true,
+      "showTickLabels": true,
+      "isLogarithmic": false,
+      "showAxis": true
+    },
+    {
+      "label": "VBat 3",
+      "unit": "V",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikeOut": false,
+        "align": "left",
+        "colour": "#000000"
+      },
+      "min": -600,
+      "max": 600,
+      "autoLimits": false,
+      "tickStep": 50,
+      "autoTick": false,
+      "showTicks": true,
+      "showTickLabels": true,
+      "isLogarithmic": false,
+      "showAxis": true
+    },
+    {
+      "label": "VBat 4",
+      "unit": "V",
+      "style": {
+        "font": "Arial",
+        "size": 12,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikeOut": false,
+        "align": "left",
+        "colour": "#000000"
+      },
+      "min": -600,
+      "max": 600,
+      "autoLimits": false,
+      "tickStep": 50,
+      "autoTick": false,
+      "showTicks": true,
+      "showTickLabels": true,
+      "isLogarithmic": false,
+      "showAxis": true
     }
   ],
   "grids": [
@@ -496,8 +565,8 @@
       "xAxisId": "Time",
       "yAxisId": "VBat",
       "line": {
-        "style": "Continuous",
-        "size": 1
+        "style": "Dashed",
+        "size": 2
       },
       "showGrid": true
     }

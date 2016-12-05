@@ -5,6 +5,7 @@ import {
    fixDecimals
 } from '../../util';
 import ProfilingChart from './Chart';
+import Dashboard from './Dashboard';
 
 export default class ProfilingContainer extends React.Component {
   constructor(props) {
@@ -67,7 +68,11 @@ export default class ProfilingContainer extends React.Component {
       <div style={{clear:'both'}}>
         <h2>Profiling</h2>
         {Object.keys(this.state.processes).map((p,i) => (
-          <ProfilingChart key={i} process={this.state.processes[p]} />
+          <div>
+            <h3>{this.state.processes[p].pname} PID={this.state.processes[p].pid}</h3>
+            <Dashboard key={`dash-${i}`} process={this.state.processes[p]} />
+            <ProfilingChart key={`chart-${i}`} process={this.state.processes[p]} />
+          </div>
         ))}
       </div>
     );

@@ -14,7 +14,6 @@ import {
 
 export default ({process}) => (
   <div style={{float:'left'}}>
-    <h3>{process.pname} PID={process.pid}</h3>
     <BarChart width={1000} height={400} data={process.data}
       margin={{top: 5, right: 30, left: 20, bottom: 5}}>
       <XAxis dataKey="time"/>

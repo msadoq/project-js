@@ -37,8 +37,8 @@ export default class Timesetter extends Component {
       current: this.state.current || this.props.visuWindow.current,
     };
     const slideWindow = {
-      lower: this.state.slideLower || this.props.slideWindow.lower,
-      upper: this.state.slideUpper || this.props.slideWindow.upper,
+      lower: this.state.slideLower || this.props.visuWindow.lower,
+      upper: this.state.slideUpper || this.props.visuWindow.upper,
     };
     this.props.updateCursors(this.props.timebarId, visuWindow, slideWindow);
   }

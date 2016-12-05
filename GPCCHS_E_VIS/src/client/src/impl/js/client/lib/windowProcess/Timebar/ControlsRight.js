@@ -60,16 +60,7 @@ export default class TimebarControlsRight extends Component {
       this.props.play(timebarId);
     } else {
       updateMode(timebarId, mode);
-      if (mode === 'Normal' && slideWindow.upper > upper) {
-        updateCursors(
-          timebarId,
-          null,
-          {
-            lower: slideWindow.lower,
-            upper: upper - ((upper - current) / 2),
-          }
-        );
-      } else if (mode === 'Extensible' && slideWindow.upper < upper) {
+      if (mode === 'Extensible' && slideWindow.upper < upper) {
         let newSlideUpper = upper + ((upper - lower) / 4);
         if (newSlideUpper - lower > globalConstants.HSC_VISUWINDOW_MAX_LENGTH) {
           newSlideUpper = lower + globalConstants.HSC_VISUWINDOW_MAX_LENGTH;

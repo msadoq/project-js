@@ -31,10 +31,7 @@ export default class GlobalMessagesWrapper extends Component {
   }
 
   render() {
-    let messages = this.props.messages.map((m, i) => {
-      const n = { ...m, index: i };
-      return n;
-    });
+    let messages = this.props.messages.map((m, i) => ({ ...m, index: i }));
     messages = this.state.filter === 'all' ?
       messages
       :
@@ -88,13 +85,17 @@ export default class GlobalMessagesWrapper extends Component {
               if (nb > 10) nb = '10+';
               if (nb > 50) nb = '50+';
               if (nb > 100) nb = '100+';
-              return (<span
-                className={classnames('badge', styles.badge, v, { [styles.active]: this.state.filter === v })}
-                onClick={this.updateFilter}
-                type={v}
-              >
-                {nb}
-              </span>);
+              const cssClasses = classnames(
+                'badge',
+                styles.badge,
+                v,
+                { [styles.active]: this.state.filter === v }
+              );
+              return (
+                <span key={v} className={cssClasses} onClick={this.updateFilter} type={v}>
+                  {nb}
+                </span>
+              );
             })
           }
         </div>

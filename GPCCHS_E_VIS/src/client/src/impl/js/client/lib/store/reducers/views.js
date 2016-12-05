@@ -1,9 +1,11 @@
 import _omit from 'lodash/omit';
 import _without from 'lodash/without';
 import _find from 'lodash/find';
+import _trim from 'lodash/trim';
+import _deburr from 'lodash/deburr';
+import _snakeCase from 'lodash/snakeCase';
 import u from 'updeep';
 import { resolve } from 'path';
-import { v4 } from 'node-uuid';
 import globalConstants from 'common/constants';
 import * as types from '../types';
 import vivl from '../../../VIVL/main';
@@ -247,12 +249,20 @@ export function addAxis(stateViews, action) {
   if (stateViews[action.payload.viewId].type !== 'PlotView') {
     return stateViews;
   }
-  const uuid = v4();
-  const axis = Object.assign({}, action.payload.axis, { uuid });
+  if (!action.payload.axis.label) {
+    return stateViews;
+  }
+  let id = action.payload.axis.id;
+  console.log('id', id, action.payload.axis);
+  let axis;
+  if (!id) {
+    id = getUniqueAxisId(stateViews[action.payload.viewId], action.payload.axis.label);
+    axis = Object.assign({}, action.payload.axis, { id });
+  }
   return u({
     [action.payload.viewId]: {
       configuration: {
-        axes: { [uuid]: axis }
+        axes: { [id]: axis || action.payload.axis }
       },
       isModified: true,
     }
@@ -277,12 +287,28 @@ export function removeAxis(stateViews, action) {
   }, stateViews);
 }
 
-export function createAxis(label, unit) {
-  const uuid = v4();
+export function getUniqueAxisId(stateView, label) {
+  const id = _snakeCase(_trim(_deburr(label)));
+  // check id isn't already defined
+  let isUnique = false;
+  let index = 1;
+  let finalId = id;
+  const axes = Object.keys(stateView.configuration.axes);
+  while (!isUnique) {
+    if (axes.indexOf(finalId) === -1) {
+      isUnique = true;
+    } else {
+      finalId = id.concat('_', index);
+      index += 1;
+    }
+  }
+  return finalId;
+}
+export function createAxis(stateView, label, unit) {
   return {
     label,
     unit,
-    uuid,
+    id: getUniqueAxisId(stateView, label),
   };
 }
 export function addEntryPoint(stateViews, action) {
@@ -354,18 +380,19 @@ export function updatePlotAxisId(stateViews, action) {
   if (!newValue.connectedDataX.axisId) {
     let axisId = getAxisId(newValue.name, newValue.connectedDataX, currentView);
     if (!axisId) {
-      const axis = createAxis(newValue.name, newValue.connectedDataX.unit);
+      const axis = createAxis(currentView, newValue.name, newValue.connectedDataX.unit);
       newState = addNewAxis(newState, action.payload.viewId, axis);
-      axisId = axis.uuid;
+      axisId = axis.id;
     }
     newValue.connectedDataX.axisId = axisId; // eslint-disable-line no-param-reassign
   }
   if (!newValue.connectedDataY.axisId) {
     let axisId = getAxisId(newValue.name, newValue.connectedDataY, currentView);
     if (!axisId) {
-      const axis = createAxis(newValue.name, newValue.connectedDataY.unit);
+      const axis = createAxis(newState[action.payload.viewId], newValue.name,
+        newValue.connectedDataY.unit);
       newState = addNewAxis(newState, action.payload.viewId, axis);
-      axisId = axis.uuid;
+      axisId = axis.id;
     }
     newValue.connectedDataY.axisId = axisId; // eslint-disable-line no-param-reassign
   }
@@ -375,7 +402,7 @@ export function updatePlotAxisId(stateViews, action) {
 
 export function addNewAxis(state, viewId, axis) {
   if (axis) {
-    const val = { [axis.uuid]: axis };
+    const val = { [axis.id]: axis };
     return u({ [viewId]: {
       configuration: {
         axes: val,
@@ -392,7 +419,7 @@ export function getAxisId(epName, connectedData, currentView) {
   const index = _find(currentView.configuration.axes,
                       current => current.unit === connectedData.unit);
   if (index) {
-    return index.uuid;
+    return index.id;
   }
 }
 

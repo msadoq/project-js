@@ -252,9 +252,9 @@ describe('store:views:reducer', () => {
           connectedDataY: { axisId: 'axis3' },
         }],
         axes: {
-          axis1: { label: '1', unit: 's', uuid: 'axis1' },
-          axis2: { label: '2', unit: 'w', uuid: 'axis2' },
-          axis3: { label: '3', unit: 'p', uuid: 'axis3' } },
+          axis1: { label: '1', unit: 's', id: 'axis1' },
+          axis2: { label: '2', unit: 'w', id: 'axis2' },
+          axis3: { label: '3', unit: 'p', id: 'axis3' } },
         grids: [{ grid: '1' }, { grid: '2' }],
         title: 'Plotview 4 parameters',
         titleStyle: { bold: false },
@@ -453,8 +453,8 @@ describe('store:views:reducer', () => {
         connectedDataY: { axisId: 'axis3' },
       }]);
       state.plot1.configuration.axes.should.deep.equal({
-        axis1: { label: '1', unit: 's', uuid: 'axis1' },
-        axis3: { label: '3', unit: 'p', uuid: 'axis3' },
+        axis1: { label: '1', unit: 's', id: 'axis1' },
+        axis3: { label: '3', unit: 'p', id: 'axis3' },
       });
     });
     it('grid', () => {
@@ -478,29 +478,30 @@ describe('store:views:reducer', () => {
     it('remove axis', () => {
       const state = reducer(stateViews, actions.removeAxis('plot1', 'axis2'));
       state.plot1.configuration.axes.should.deep.equal(
-        { axis1: { label: '1', unit: 's', uuid: 'axis1' },
-          axis3: { label: '3', unit: 'p', uuid: 'axis3' } });
+        { axis1: { label: '1', unit: 's', id: 'axis1' },
+          axis3: { label: '3', unit: 'p', id: 'axis3' } });
     });
     it('add axis', () => {
-      const axis = { label: '4', unit: 's' };
+      const axis = { label: 'axis4', unit: 's' };
       const state = reducer(stateViews, actions.addAxis('plot1', axis));
       const keys = Object.keys(state.plot1.configuration.axes);
+      console.log('keys', keys);
       keys.should.have.length(4);
-      state.plot1.configuration.axes[keys[0]].should.deep.equal({ label: '1', unit: 's', uuid: 'axis1' });
-      state.plot1.configuration.axes[keys[1]].should.deep.equal({ label: '2', unit: 'w', uuid: 'axis2' });
-      state.plot1.configuration.axes[keys[2]].should.deep.equal({ label: '3', unit: 'p', uuid: 'axis3' });
-      state.plot1.configuration.axes[keys[3]].should.deep.equal({ label: '4', unit: 's', uuid: keys[3] });
+      state.plot1.configuration.axes[keys[0]].should.deep.equal({ label: '1', unit: 's', id: 'axis1' });
+      state.plot1.configuration.axes[keys[1]].should.deep.equal({ label: '2', unit: 'w', id: 'axis2' });
+      state.plot1.configuration.axes[keys[2]].should.deep.equal({ label: '3', unit: 'p', id: 'axis3' });
+      state.plot1.configuration.axes[keys[3]].should.deep.equal({ label: 'axis4', unit: 's', id: keys[3] });
     });
     it('update axis', () => {
       const axis = { label: '3', unit: 'z' };
       const state = reducer(stateViews, actions.updateAxis('plot1', 'axis1', axis));
-      state.plot1.configuration.axes.axis1.should.deep.equal(Object.assign({}, axis, { uuid: 'axis1' }));
+      state.plot1.configuration.axes.axis1.should.deep.equal(Object.assign({}, axis, { id: 'axis1' }));
     });
   });
   describe('add entry point', () => {
     it('addNewAxis: valid axis', () => {
       const state = { plot1: { configuration: { axes: { a1: { label: 'axis1', unit: 's' } } } } };
-      const newState = addNewAxis(state, 'plot1', { label: 'axis2', unit: 'v', uuid: 'a2' });
+      const newState = addNewAxis(state, 'plot1', { label: 'axis2', unit: 'v', id: 'a2' });
       Object.keys(newState.plot1.configuration.axes).should.have.length(2);
       newState.should.not.equal(state);
     });
@@ -615,7 +616,7 @@ describe('store:views:reducer', () => {
           connectedDataY: { domain: 'd2', unit: 'w' } }
       } };
       const state = addEntryPoint(stateViews, action);
-      const axisId = _find(state.plot1.configuration.axes, axis => axis.unit === 'f').uuid;
+      const axisId = _find(state.plot1.configuration.axes, axis => axis.unit === 'f').id;
       state.plot1.configuration.entryPoints[2].should.deep.equal({
         name: 'ep2',
         connectedDataX: { timeline: 't1', domain: 'd1', unit: 'f', axisId },

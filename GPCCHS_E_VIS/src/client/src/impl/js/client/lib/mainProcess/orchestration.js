@@ -224,13 +224,15 @@ export function tick() {
             return;
           }
           // update on expected interval
-          if (ep.expectedInterval[0] !== newEp.expectedInterval[0]
-           || ep.expectedInterval[1] !== newEp.expectedInterval[1]) {
-            try {
-              newState = structures(structureType, 'cleanData')(newState || state, id, epName,
-                                    _map(newEp.expectedInterval, bound => bound + newEp.offset));
-            } catch (e) {
-              logger.warn(`No cleanData for ${structureType} view`);
+          if (ep.expectedInterval && newEp.expectedInterval) {
+            if (ep.expectedInterval[0] !== newEp.expectedInterval[0]
+             || ep.expectedInterval[1] !== newEp.expectedInterval[1]) {
+              try {
+                newState = structures(structureType, 'cleanData')(newState || state, id, epName,
+                                      _map(newEp.expectedInterval, bound => bound + newEp.offset));
+              } catch (e) {
+                logger.warn(`No cleanData for ${structureType} view`);
+              }
             }
           }
         });

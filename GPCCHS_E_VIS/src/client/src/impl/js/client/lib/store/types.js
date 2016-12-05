@@ -17,7 +17,6 @@ export const HSC_PAUSE = 'HSC_PAUSE';
 
 export const WS_MESSAGE_ADD = 'WS_MESSAGE_ADD';
 export const WS_MESSAGE_REMOVE = 'WS_MESSAGE_REMOVE';
-export const WS_MESSAGES_EMPTY = 'WS_MESSAGES_EMPTY';
 
 export const WS_TIMEBAR_ADD = 'WS_TIMEBAR_ADD';
 export const WS_TIMEBAR_REMOVE = 'WS_TIMEBAR_REMOVE';

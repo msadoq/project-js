@@ -1,6 +1,5 @@
 exports[`test Timesetter renders correctly 1`] = `
-<form
-  onSubmit={[Function]}>
+<div>
   <div
     className="Timesetter__fieldsContainer___24Fbf">
     <div
@@ -18,12 +17,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_year___3Bqew"
+        defaultValue="2016"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="2016" />
+        type="number" />
       <span>
         -
       </span>
@@ -34,12 +32,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_months___2pmb9"
+        defaultValue="11"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="11" />
+        type="number" />
       <span>
         -
       </span>
@@ -50,12 +47,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_date___fOWIW"
+        defaultValue="29"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="29" />
+        type="number" />
       
       
       
@@ -64,12 +60,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_hours___vTXPu"
+        defaultValue="10"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="10" />
+        type="number" />
       
       <span>
         :
@@ -80,12 +75,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_minutes___vvWf-"
+        defaultValue="58"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="58" />
+        type="number" />
       
       <span>
         :
@@ -96,12 +90,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_seconds___3SasE"
+        defaultValue="09"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="09" />
+        type="number" />
       
       
       <span>
@@ -112,12 +105,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_milliseconds___1otkI"
+        defaultValue="178"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="178" />
+        type="number" />
       
       
       
@@ -140,12 +132,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_year___3Bqew"
+        defaultValue="2016"
         disabled={false}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="2016" />
+        type="number" />
       <span>
         -
       </span>
@@ -156,12 +147,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_months___2pmb9"
+        defaultValue="11"
         disabled={false}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="11" />
+        type="number" />
       <span>
         -
       </span>
@@ -172,12 +162,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_date___fOWIW"
+        defaultValue="29"
         disabled={false}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="29" />
+        type="number" />
       
       
       
@@ -186,12 +175,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_hours___vTXPu"
+        defaultValue="10"
         disabled={false}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="10" />
+        type="number" />
       
       <span>
         :
@@ -202,12 +190,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_minutes___vvWf-"
+        defaultValue="58"
         disabled={false}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="58" />
+        type="number" />
       
       <span>
         :
@@ -218,12 +205,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_seconds___3SasE"
+        defaultValue="05"
         disabled={false}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="05" />
+        type="number" />
       
       
       <span>
@@ -234,16 +220,20 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_milliseconds___1otkI"
+        defaultValue="354"
         disabled={false}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="354" />
+        type="number" />
       
       
       
     </div>
+    <input
+      className="Timesetter__submitButton___3mo_t btn btn-sm btn-primary"
+      disabled={true}
+      onClick={[Function]}
+      type="submit" />
   </div>
   <div
     className="Timesetter__fieldsContainer___24Fbf">
@@ -262,12 +252,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_year___3Bqew"
+        defaultValue="2016"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="2016" />
+        type="number" />
       <span>
         -
       </span>
@@ -278,12 +267,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_months___2pmb9"
+        defaultValue="11"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="11" />
+        type="number" />
       <span>
         -
       </span>
@@ -294,12 +282,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_date___fOWIW"
+        defaultValue="29"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="29" />
+        type="number" />
       
       
       
@@ -308,12 +295,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_hours___vTXPu"
+        defaultValue="10"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="10" />
+        type="number" />
       
       <span>
         :
@@ -324,12 +310,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_minutes___vvWf-"
+        defaultValue="58"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="58" />
+        type="number" />
       
       <span>
         :
@@ -340,12 +325,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_seconds___3SasE"
+        defaultValue="14"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="14" />
+        type="number" />
       
       
       <span>
@@ -356,12 +340,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_milliseconds___1otkI"
+        defaultValue="025"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="025" />
+        type="number" />
       
       
       
@@ -384,12 +367,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_year___3Bqew"
+        defaultValue="2016"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="2016" />
+        type="number" />
       <span>
         -
       </span>
@@ -400,12 +382,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_months___2pmb9"
+        defaultValue="11"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="11" />
+        type="number" />
       <span>
         -
       </span>
@@ -416,12 +397,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_date___fOWIW"
+        defaultValue="29"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="29" />
+        type="number" />
       
       
       
@@ -430,12 +410,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_hours___vTXPu"
+        defaultValue="10"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="10" />
+        type="number" />
       
       <span>
         :
@@ -446,12 +425,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_minutes___vvWf-"
+        defaultValue="58"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="58" />
+        type="number" />
       
       <span>
         :
@@ -462,12 +440,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_seconds___3SasE"
+        defaultValue="24"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="24" />
+        type="number" />
       
       
       <span>
@@ -478,12 +455,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_milliseconds___1otkI"
+        defaultValue="665"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="665" />
+        type="number" />
       
       
       
@@ -506,12 +482,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_year___3Bqew"
+        defaultValue="2016"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="2016" />
+        type="number" />
       <span>
         -
       </span>
@@ -522,12 +497,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_months___2pmb9"
+        defaultValue="11"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="11" />
+        type="number" />
       <span>
         -
       </span>
@@ -538,12 +512,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_date___fOWIW"
+        defaultValue="29"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="29" />
+        type="number" />
       
       
       
@@ -552,12 +525,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_hours___vTXPu"
+        defaultValue="10"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="10" />
+        type="number" />
       
       <span>
         :
@@ -568,12 +540,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_minutes___vvWf-"
+        defaultValue="58"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="58" />
+        type="number" />
       
       <span>
         :
@@ -584,12 +555,11 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_seconds___3SasE"
+        defaultValue="29"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="29" />
+        type="number" />
       
       
       <span>
@@ -600,29 +570,15 @@ exports[`test Timesetter renders correctly 1`] = `
       className="Timesetter__inputDiv___2_jkV">
       <input
         className="form-control Timesetter__input___1kEVn Timesetter__input_milliseconds___1otkI"
+        defaultValue="492"
         disabled={true}
         onBlur={[Function]}
-        onChange={[Function]}
         onClick={[Function]}
-        type="number"
-        value="492" />
+        type="number" />
       
       
       
     </div>
   </div>
-  <div
-    className="text-center">
-    <input
-      className="btn btn-primary"
-      type="submit"
-      value="Save" />
-     
-    <button
-      className="btn btn-info"
-      onClick={[Function]}>
-      Cancel changes
-    </button>
-  </div>
-</form>
+</div>
 `;

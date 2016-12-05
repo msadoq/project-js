@@ -1,23 +1,61 @@
 import moment from 'moment';
 import classnames from 'classnames';
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import styles from './Timesetter.css';
 
-export default class TimesetterFields extends PureComponent {
+export default class TimesetterFields extends Component {
 
   static propTypes = {
     ms: React.PropTypes.number.isRequired,
-    cursor: React.PropTypes.string.isRequired,
+    value: React.PropTypes.string.isRequired,
     disabled: React.PropTypes.bool.isRequired,
     onChange: React.PropTypes.func.isRequired,
+    visuWindow: React.PropTypes.object.isRequired,
+    slideWindow: React.PropTypes.object.isRequired,
+  }
+
+  state = {
+    date: null
+  }
+
+  onChangeAction = () => {
+    const { value, onChange } = this.props;
+    let { visuWindow, slideWindow } = this.props;
+    const { date } = this.state;
+    if (visuWindow[value]) {
+      visuWindow = {
+        ...visuWindow,
+        [value]: date.toDate().getTime(),
+      };
+    } else if (value === 'slideLower') {
+      slideWindow = {
+        ...slideWindow,
+        lower: date.toDate().getTime(),
+      };
+    } else if (value === 'slideUpper') {
+      slideWindow = {
+        ...slideWindow,
+        upper: date.toDate().getTime(),
+      };
+    }
+    onChange(
+      visuWindow,
+      slideWindow,
+      value
+    );
+    this.setState({ date: null });
   }
 
   changeAttr = (a, e) => {
     const el = e.currentTarget;
     const { ms } = this.props;
+    let { date } = this.state;
     let attrVal = parseInt(el.value, 10);
 
-    const date = moment(ms);
+    if (!date) {
+      date = moment(ms);
+      this.setState({ date });
+    }
 
     // UI month 1 equals moment month 0
     if (a === 'months') attrVal -= 1;
@@ -33,31 +71,35 @@ export default class TimesetterFields extends PureComponent {
       this[`${key}El`].value = date.format(formats[key].format);
     });
 
-    this.props.onChange(date.toDate().getTime(), this.props.cursor);
+    this.setState({ date });
   }
 
   render() {
-    const { ms, cursor, disabled } = this.props;
-    const arr = dateToArray(moment(ms));
+    const { ms, value, disabled } = this.props;
+    const { date } = this.state;
+    const arr = date ? dateToArray(date) : dateToArray(moment(ms));
+
+    let submitButton;
+    if (!disabled) {
+      submitButton = (<input
+        className={classnames(styles.submitButton, 'btn', 'btn-sm', 'btn-primary')}
+        type="submit"
+        disabled={!date}
+        onClick={this.onChangeAction}
+      />);
+    }
     let valueText;
-    if (cursor === 'slideLower') {
+    if (value === 'slideLower') {
       valueText = 'Ext lower cursor';
-    } else if (cursor === 'slideUpper') {
+    } else if (value === 'slideUpper') {
       valueText = 'Ext upper cursor';
     } else {
-      valueText = `${cursor} cursor`;
+      valueText = `${value} cursor`;
     }
 
     return (
       <div className={styles.fieldsContainer}>
-        <div
-          className={classnames(
-            'text-capitalize',
-            styles.formLabel,
-            { [styles[`formLabel${cursor}`]]: !disabled }
-          )}
-          style={{ width: '100%' }}
-        >
+        <div className={classnames('text-capitalize', styles.formLabel, { [styles[`formLabel${value}`]]: !disabled })} style={{ width: '100%' }}>
           <b>{valueText}</b>
         </div>
         {
@@ -68,11 +110,10 @@ export default class TimesetterFields extends PureComponent {
                 ref={(el) => { this[`${x[0]}El`] = el; }}
                 key={i}
                 className={classnames('form-control', styles.input, styles[`input_${x[0]}`])}
-                value={x[1]}
+                defaultValue={x[1]}
                 disabled={disabled}
                 onClick={this.changeAttr.bind(null, x[0])}
                 onBlur={this.changeAttr.bind(null, x[0])}
-                onChange={this.changeAttr.bind(null, x[0])}
               />
               {['year', 'months'].find(a => a === x[0]) ? <span>-</span> : ''}
               {['hours', 'minutes'].find(a => a === x[0]) ? <span>:</span> : ''}
@@ -80,6 +121,7 @@ export default class TimesetterFields extends PureComponent {
             </div>
           )
         }
+        {submitButton}
       </div>
     );
   }

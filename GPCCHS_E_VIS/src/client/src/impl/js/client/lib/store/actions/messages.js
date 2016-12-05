@@ -14,8 +14,3 @@ export const remove = simple(
   'index',
   'instanceId'
 );
-export const empty = simple(
-  types.WS_MESSAGES_EMPTY,
-  'instanceType',
-  'instanceId'
-);

@@ -1,15 +1,15 @@
 import React, { Component, PropTypes } from 'react';
+import classnames from 'classnames';
+import styles from './Timesetter.css';
 import TimesetterFields from './TimesetterFields';
-import Message from '../common/Message';
 
 export default class Timesetter extends Component {
 
   static propTypes = {
     updateCursors: PropTypes.func.isRequired,
-    removeMessage: PropTypes.func.isRequired,
     visuWindow: PropTypes.object.isRequired,
     slideWindow: PropTypes.object.isRequired,
-    messages: PropTypes.array.isRequired,
+    timebarMode: PropTypes.string.isRequired,
     cursor: PropTypes.string.isRequired,
     timebarId: PropTypes.string.isRequired,
   }
@@ -18,90 +18,97 @@ export default class Timesetter extends Component {
     errorMessages: []
   }
 
-  componentWillReceiveProps(nextProps) {
-    // If no error message, clean states
-    if (!nextProps.messages.length) {
-      this.cancel();
+  onChangeAction = (visuWindow, slideWindow, cursor) => {
+    const { timebarId, updateCursors, timebarMode } = this.props;
+    const errorMessages = [];
+    switch (cursor) {
+      case 'lower':
+        if (visuWindow.lower > visuWindow.current) {
+          errorMessages.push('Lower cursor must be before current cursor');
+        }
+        break;
+      case 'upper':
+        if (visuWindow.upper < visuWindow.current) {
+          errorMessages.push('Upper cursor must be after current cursor');
+        }
+        break;
+      case 'current':
+        if (visuWindow.current < visuWindow.lower) {
+          errorMessages.push('Current cursor must be after lower cursor');
+        } else if (visuWindow.current > visuWindow.upper) {
+          errorMessages.push('Current cursor must be before upper cursor');
+        }
+        break;
+      case 'slideLower':
+        if (timebarMode === 'Fixed') {
+          if (slideWindow.lower < visuWindow.lower || slideWindow.lower > visuWindow.current) {
+            errorMessages.push('Ext lower cursor must be between lower cursor and current cursor in Fixed mode');
+          }
+        }
+        break;
+      case 'slideUpper':
+        if (timebarMode === 'Extensible') {
+          if (slideWindow.upper < visuWindow.upper) {
+            errorMessages.push('Ext upper cursor must be after upper cursor in Extensible mode');
+          }
+        } else if (timebarMode === 'Fixed') {
+          if (slideWindow.upper < visuWindow.current || slideWindow.upper > visuWindow.upper) {
+            errorMessages.push('Ext upper cursor must be between current cursor and upper cursor in Fixed mode');
+          }
+        }
+        break;
+      default:
+        break;
+    }
+
+    this.setState({ errorMessages });
+
+    if (!errorMessages.length) {
+      updateCursors(
+        timebarId,
+        visuWindow,
+        slideWindow
+      );
     }
   }
 
-  onChangeAction = (value, cursor) => {
-    this.setState({ [cursor]: value });
-  }
-
-  willUpdateCursors = (e) => {
-    e.preventDefault();
-    const visuWindow = {
-      lower: this.state.lower || this.props.visuWindow.lower,
-      upper: this.state.upper || this.props.visuWindow.upper,
-      current: this.state.current || this.props.visuWindow.current,
-    };
-    const slideWindow = {
-      lower: this.state.slideLower || this.props.visuWindow.lower,
-      upper: this.state.slideUpper || this.props.visuWindow.upper,
-    };
-    this.props.updateCursors(this.props.timebarId, visuWindow, slideWindow);
-  }
-
-  cancel = (e) => {
-    if (e) e.preventDefault();
-    this.setState({
-      lower: null,
-      upper: null,
-      current: null,
-      slideLower: null,
-      slideUpper: null,
-    });
-  }
-
   render() {
+    const { visuWindow, cursor, slideWindow } = this.props;
+    const { errorMessages } = this.state;
+
     return (
-      <form onSubmit={this.willUpdateCursors} >
-        { this.props.messages.length ?
-          (this.props.messages.map((v, i) =>
-            <Message
-              key={i}
-              type={v.type}
-              message={v.message}
-              instanceType="timeSetters"
-              instanceId={this.props.timebarId}
-              messageIndex={i}
-              onClose={this.props.removeMessage}
-            />
-          )) : null
-        }
+      <div>
+        {errorMessages.map(x => <p className={classnames('text-danger', styles.errorMessage)}>{x}</p>)}
         {
           ['slideLower', 'lower', 'current', 'upper', 'slideUpper'].map((x, i) => {
             let ms;
-            if (this.props.visuWindow[x]) {
-              ms = this.state[x] || this.props.visuWindow[x];
+            if (visuWindow[x]) {
+              ms = visuWindow[x];
             } else if (x === 'slideLower') {
-              ms = this.state[x] || this.props.slideWindow.lower;
+              ms = slideWindow.lower;
             } else if (x === 'slideUpper') {
-              ms = this.state[x] || this.props.slideWindow.upper;
+              ms = slideWindow.upper;
             }
 
-            let disabled = this.props.cursor !== 'all';
-            if (x === this.props.cursor) {
+            let disabled = cursor !== 'all';
+            if (x === cursor) {
               disabled = false;
             }
+
             return (
               <TimesetterFields
                 key={i}
-                cursor={x}
+                value={x}
                 disabled={disabled}
                 ms={ms}
+                visuWindow={visuWindow}
+                slideWindow={slideWindow}
                 onChange={this.onChangeAction}
               />
             );
           })
         }
-        <div className="text-center">
-          <input type="submit" value="Save" className="btn btn-primary" />
-          {' '}
-          <button className="btn btn-info" onClick={this.cancel}>Cancel changes</button>
-        </div>
-      </form>
+      </div>
     );
   }
 }

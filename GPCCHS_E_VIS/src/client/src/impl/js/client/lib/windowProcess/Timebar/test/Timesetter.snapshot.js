@@ -9,8 +9,6 @@ const propsStub = {
   timebarId: TimebarFixture.timebarId,
   timebarMode: TimebarFixture.mode,
   updateCursors: () => null,
-  removeMessage: () => null,
-  messages: [],
   cursor: 'lower',
 };
 

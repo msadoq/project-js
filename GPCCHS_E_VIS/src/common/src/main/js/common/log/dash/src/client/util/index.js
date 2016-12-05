@@ -1,3 +1,5 @@
+import Rx from 'rx';
+
 export const fixDecimals = (num, nb = 2) => Number(num.toFixed(nb));
 
 export const bytesToMB = bytes => fixDecimals(bytes / (1 * 1000 * 1000), 2);
@@ -17,3 +19,15 @@ export const getRandomColor = () => {
   }
   return color;
 };
+
+export const lastValues = (arr, nb = 1) => arr.slice(Math.max(arr.length - nb));
+
+export const RxfromIO = (io, eventName) =>
+  Rx.Observable.create((observer) => {
+    io.on(eventName, (data) => {
+      observer.onNext(data);
+    });
+    return {
+      dispose: io.close,
+    };
+  });

@@ -2,7 +2,9 @@ import React from 'react';
 import {
    formatDate,
    bytesToMB,
-   fixDecimals
+   fixDecimals,
+   lastValues,
+   RxfromIO,
 } from '../../util';
 import ProfilingChart from './Chart';
 import Dashboard from './Dashboard';
@@ -39,42 +41,53 @@ export default class ProfilingContainer extends React.Component {
     }, {});
   }
 
-  componentDidMount() {
-    this.socket.on('profiling', (d) => {
-      const processes = this.state.processes;
+  appendData(processes, data) {
+    return [
+      ...lastValues(((processes[data.pid] || {}).data) || [], 5),
+      {
+        ...this.convertData(data.timers),
+        time: formatDate(data.time),
+      },
+    ];
+  }
 
-      this.setState({
-        processes: {
+  componentDidMount() {
+    const ws$ = RxfromIO(this.socket, 'profiling')
+      .scan((processes, data) => ({
           ...processes,
-          [d.pid]: {
-            ...processes[d.pid],
-            pname: d.pname,
-            pid: d.pid,
-            data: [
-              ...((processes[d.pid] || {}).data) || [],
-              {
-                ...this.convertData(d.timers),
-                time: formatDate(d.time),
-              },
-            ]
+          [data.pid]: {
+            ...processes[data.pid],
+            pname: data.pname,
+            pid: data.pid,
+            data: this.appendData(processes, data)
           }
-        }
+        }), {})
+      .throttle(2000);
+
+    ws$.subscribe((processes) => {
+      this.setState({
+        processes,
       });
     });
   }
 
   render() {
-    return (
-      <div style={{clear:'both'}}>
-        <h2>Profiling</h2>
-        {Object.keys(this.state.processes).map((p,i) => (
-          <div>
-            <h3>{this.state.processes[p].pname} PID={this.state.processes[p].pid}</h3>
-            <Dashboard key={`dash-${i}`} process={this.state.processes[p]} />
-            <ProfilingChart key={`chart-${i}`} process={this.state.processes[p]} />
-          </div>
-        ))}
-      </div>
-    );
+    let processes = this.state.processes;
+
+    if (Object.keys(processes).length) {
+      return (
+        <div style={{clear:'both'}}>
+          <h2>Profiling</h2>
+          {Object.keys(this.state.processes).map((p,i) => (
+            <div>
+              <h3 key={`t=${i}`}>{this.state.processes[p].pname} PID={this.state.processes[p].pid}</h3>
+              <Dashboard key={`dash-${i}`} process={this.state.processes[p]} />
+              <ProfilingChart key={`chart-${i}`} process={this.state.processes[p]} />
+            </div>
+          ))}
+        </div>
+      );
+    }
+    return null;
   }
 }

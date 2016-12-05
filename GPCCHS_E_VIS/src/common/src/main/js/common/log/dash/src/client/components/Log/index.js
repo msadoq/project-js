@@ -1,4 +1,7 @@
 import React from 'react';
+import {
+   RxfromIO,
+} from '../../util';
 
 import Logs from './Logs';
 
@@ -10,18 +13,21 @@ export default class LogsContainer extends React.Component {
     this.state = {
       logs: []
     };
+
   }
 
   componentDidMount() {
-    this.socket.on('log', (data) => {
-      const logs = [
-        data,
-        ...this.state.logs.slice(0, 49),
-      ];
-      this.setState({
-        logs
-      });
-    });
+    const ws$ = RxfromIO(this.socket, 'log')
+      .scan((acc, log) => ([
+        log,
+        ...acc.slice(0,49),
+      ]), [])
+      .throttle(2000);
+
+    ws$.subscribe((logs) => this.setState({
+        logs,
+      })
+    );
   }
 
   clearLogs() {

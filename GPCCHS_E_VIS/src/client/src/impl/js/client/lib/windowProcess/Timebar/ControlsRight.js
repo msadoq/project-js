@@ -53,8 +53,8 @@ export default class TimebarControlsRight extends Component {
           current: realTimeMs,
         },
         {
-          lower: newLower - ((newUpper - newLower) * 2),
-          upper: newUpper + ((newUpper - newLower) / 5),
+          lower: newLower,
+          upper: newUpper,
         },
       );
       this.props.play(timebarId);

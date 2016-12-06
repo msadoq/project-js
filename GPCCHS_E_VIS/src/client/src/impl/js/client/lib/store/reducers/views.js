@@ -6,6 +6,8 @@ import _deburr from 'lodash/deburr';
 import _snakeCase from 'lodash/snakeCase';
 import u from 'updeep';
 import { resolve } from 'path';
+import { v4 } from 'node-uuid';
+
 import globalConstants from 'common/constants';
 import * as types from '../types';
 import vivl from '../../../VIVL/main';
@@ -144,8 +146,22 @@ function view(stateView = initialState, action) {
 
 function configuration(state = { title: null }, action) {
   switch (action.type) {
-    case types.WS_VIEW_ADD:
-      return Object.assign({}, action.payload.configuration || state);
+    case types.WS_VIEW_ADD: {
+      if (!action.payload.configuration) {
+        return Object.assign({}, state);
+      }
+
+      // Add an id on entry points
+      const config = action.payload.configuration;
+      if (!config.entryPoints) {
+        return Object.assign({}, config);
+      }
+      config.entryPoints.forEach((ep, index, entryPoints) => {
+        // eslint-disable-next-line no-param-reassign
+        entryPoints[index] = Object.assign({}, ep, { id: v4() });
+      });
+      return Object.assign({}, config);
+    }
     default:
       return state;
   }
@@ -253,7 +269,6 @@ export function addAxis(stateViews, action) {
     return stateViews;
   }
   let id = action.payload.axis.id;
-  console.log('id', id, action.payload.axis);
   let axis;
   if (!id) {
     id = getUniqueAxisId(stateViews[action.payload.viewId], action.payload.axis.label);

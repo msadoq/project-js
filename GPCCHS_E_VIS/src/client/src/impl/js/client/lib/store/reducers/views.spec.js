@@ -485,7 +485,6 @@ describe('store:views:reducer', () => {
       const axis = { label: 'axis4', unit: 's' };
       const state = reducer(stateViews, actions.addAxis('plot1', axis));
       const keys = Object.keys(state.plot1.configuration.axes);
-      console.log('keys', keys);
       keys.should.have.length(4);
       state.plot1.configuration.axes[keys[0]].should.deep.equal({ label: '1', unit: 's', id: 'axis1' });
       state.plot1.configuration.axes[keys[1]].should.deep.equal({ label: '2', unit: 'w', id: 'axis2' });

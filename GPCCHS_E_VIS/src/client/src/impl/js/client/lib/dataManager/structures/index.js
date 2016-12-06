@@ -12,6 +12,8 @@ const structures = {
     viewDataUpdate: require('./last/viewDataUpdate'),
     cleanData: require('./last/cleanData'),
     removeEpData: require('./last/removeEpData'),
+    isEpDifferent: require('./last/isEpDifferent'),
+    updateEpLabel: require('./last/updateEpLabel'),
   },
   [globalConstants.DATASTRUCTURETYPE_RANGE]: {
     getExpectedInterval: require('./range/getExpectedInterval'),
@@ -21,6 +23,8 @@ const structures = {
     viewDataUpdate: require('./range/viewDataUpdate'),
     cleanData: require('./range/cleanData'),
     removeEpData: require('./range/removeEpData'),
+    isEpDifferent: require('./range/isEpDifferent'),
+    updateEpLabel: require('./range/updateEpLabel'),
   },
 };
 

@@ -10,8 +10,8 @@ import readWorkspace from '../documentsManager/workspace';
 import { add as addTimeline } from '../store/actions/timelines';
 import { add as addTimebar } from '../store/actions/timebars';
 import { add as addView } from '../store/actions/views';
-import { add as addPage, setModified as setModifiedPage } from '../store/actions/pages';
-import { add as addWindow, setModified as setModifiedWindow } from '../store/actions/windows';
+import { add as addPage } from '../store/actions/pages';
+import { add as addWindow } from '../store/actions/windows';
 import { updatePath, setWorkspaceAsOpened } from '../store/actions/hsc';
 
 import { getPathByFilePicker } from './filePicker';

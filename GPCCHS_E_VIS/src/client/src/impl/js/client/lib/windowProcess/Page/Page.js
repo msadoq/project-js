@@ -20,6 +20,16 @@ export default class Page extends Component {
     focusedPageId: PropTypes.string.isRequired
   };
 
+  static childContextTypes = {
+    focusedPageId: React.PropTypes.string
+  }
+
+  getChildContext() {
+    return {
+      focusedPageId: this.props.focusedPageId
+    };
+  }
+
   componentWillReceiveProps(nextProps) {
     // Easier way to resize the responsive grid
     // https://github.com/STRML/react-grid-layout/issues/81

@@ -33,6 +33,7 @@ export default class EntryPointDetails extends React.Component {
   static propTypes = {
     type: PropTypes.string.isRequired,
     viewId: PropTypes.string.isRequired,
+    timelines: PropTypes.array.isRequired,
     idPoint: PropTypes.number,
     axes: PropTypes.object,
     entryPoint: PropTypes.object,
@@ -118,7 +119,8 @@ export default class EntryPointDetails extends React.Component {
       entryPoint,
       viewId,
       axes,
-      type
+      type,
+      timelines,
     } = this.props;
 
     const {
@@ -177,6 +179,7 @@ export default class EntryPointDetails extends React.Component {
         >
           {isPanelConnDataOpen && <EntryPointConnectedData
             axes={axes}
+            timelines={timelines}
             form={`entrypoint-connectedData-form-${idPoint}-${viewId}`}
             onSubmit={this.handleConnectedDataSubmit.bind(this, 'connectedData')}
             initialValues={this.props.entryPoint.connectedData}
@@ -192,6 +195,7 @@ export default class EntryPointDetails extends React.Component {
         >
           {isPanelOrdinateOpen && <EntryPointConnectedData
             axes={axes}
+            timelines={timelines}
             form={`entrypoint-connectedDataY-form-${idPoint}-${viewId}`}
             onSubmit={this.handleConnectedDataSubmit.bind(this, 'connectedDataY')}
             initialValues={this.props.entryPoint.connectedDataY}
@@ -207,6 +211,7 @@ export default class EntryPointDetails extends React.Component {
         >
           {isPanelAbscissOpen && <EntryPointConnectedData
             axes={axes}
+            timelines={timelines}
             form={`entrypoint-connectedDataX-form-${idPoint}-${viewId}`}
             onSubmit={this.handleConnectedDataSubmit.bind(this, 'connectedDataX')}
             initialValues={this.props.entryPoint.connectedDataX}

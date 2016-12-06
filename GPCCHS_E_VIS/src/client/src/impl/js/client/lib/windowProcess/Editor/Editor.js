@@ -12,6 +12,7 @@ const InvalidConfiguration = () => <div> unknown view type or invalid configurat
 export default class Editor extends Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
+    focusedPageId: PropTypes.string.isRequired,
     viewType: PropTypes.string.isRequired,
     configuration: PropTypes.object,
     closeEditor: PropTypes.func
@@ -34,7 +35,8 @@ export default class Editor extends Component {
       configuration: { type },
       viewType,
       viewId,
-      closeEditor
+      closeEditor,
+      focusedPageId,
     } = this.props;
 
     if (!configuration || !configuration.type) {
@@ -49,6 +51,7 @@ export default class Editor extends Component {
           {type === 'PlotView' && <PlotEditorContainer
             key={viewId}
             viewId={viewId}
+            focusedPageId={focusedPageId}
             viewType={viewType}
             configuration={configuration}
             closeEditor={closeEditor}

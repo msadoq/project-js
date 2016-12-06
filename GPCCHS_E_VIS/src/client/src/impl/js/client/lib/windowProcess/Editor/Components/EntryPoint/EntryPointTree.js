@@ -28,8 +28,9 @@ export default class EntryPointTree extends React.Component {
   };
 
   static contextTypes = {
-    viewId: React.PropTypes.string
-  };
+    viewId: React.PropTypes.string,
+    focusedPageId: React.PropTypes.string,
+  }
 
   state = {};
 
@@ -43,7 +44,7 @@ export default class EntryPointTree extends React.Component {
   closePanel = key => this.setState({ [`panel${key}IsOpen`]: false });
 
   render() {
-    const { viewId } = this.context;
+    const { viewId, focusedPageId } = this.context;
     const mask = `${this.props.search}.*`;
     const { entryPoints, handleEntryPoint } = this.props;
     const list = entryPoints
@@ -93,6 +94,7 @@ export default class EntryPointTree extends React.Component {
                 key={key}
                 idPoint={key}
                 viewId={viewId}
+                focusedPageId={focusedPageId}
                 entryPoint={entryPoint}
                 handleEntryPoint={handleEntryPoint}
               />}

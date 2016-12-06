@@ -58,6 +58,7 @@ class EntryPointConnectedData extends React.Component {
       axisId: PropTypes.string
     }).isRequired,
     axes: PropTypes.object,
+    timelines: PropTypes.array,
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     reset: PropTypes.func,
@@ -72,7 +73,8 @@ class EntryPointConnectedData extends React.Component {
       reset,
       submitting,
       valid,
-      axes
+      axes,
+      timelines,
     } = this.props;
 
     return (
@@ -116,10 +118,13 @@ class EntryPointConnectedData extends React.Component {
         <HorizontalFormGroup label="Timeline">
           <Field
             name="timeline"
-            component={InputField}
-            type="text"
+            component="select"
             className="form-control input-sm"
-          />
+          >
+            {timelines.map((timeline, i) =>
+              <option key={i} value={timeline.timelineId}>{timeline.id}</option>
+            )}
+          </Field>
         </HorizontalFormGroup>
 
         {axes && <HorizontalFormGroup label="Axis">
@@ -225,7 +230,7 @@ class EntryPointConnectedData extends React.Component {
   }
 }
 
-const requiredFields = ['formula'];
+const requiredFields = ['formula', 'domain', 'timeline'];
 const validate = (values = {}) => {
   const errors = {};
 

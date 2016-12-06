@@ -30,12 +30,13 @@ const { Label } = annotation;
 const { HoverTooltip } = tooltip;
 const {
   CrossHairCursor, MouseCoordinateX,
-  MouseCoordinateY, CurrentCoordinate
+  MouseCoordinateY, CurrentCoordinate,
+  EdgeIndicator
 } = coordinates;
 // const { ClickCallback } = interactive;
 const { XAxis, YAxis } = StockchartsAxes;
 const margin = { left: 10, right: 30, top: 20, bottom: 40 };
-const yAxisWidth = 50;
+const yAxisWidth = 55;
 
 class PlotView extends PureComponent {
   static propTypes = {
@@ -114,7 +115,7 @@ class PlotView extends PureComponent {
     }
     const { width, height } = size;
     const gridHeight = height - margin.top - margin.bottom;
-    const gridWidth = width - margin.left - margin.right;
+    const gridWidth = width - margin.left - margin.right - (this.epCharts.length * yAxisWidth);
     const lineConf = _get(configuration, 'grids[0].line', {});
     const common = {
       tickStrokeOpacity: 0.2,
@@ -192,21 +193,24 @@ class PlotView extends PureComponent {
 
     this.epCharts.forEach((chart, i) => {
       const index = i + 1;
-      const axisAt = width - margin.right - (index * yAxisWidth);
+      const edgeRight = width - margin.right;
+      const axisAt = edgeRight - (index * yAxisWidth);
+      const edgeIndicatorDx = (i * -yAxisWidth) + ((this.epCharts.length - 1) * yAxisWidth);
       const yRange = [
         _get(chart, 'yAxis.min', 0),
         _get(chart, 'yAxis.max')
       ];
       const label = _get(chart, 'yAxis.label');
       const hasGrid = typeof chart.grid !== 'undefined';
+      const dx = axisAt + (yAxisWidth - 5);
       charts.push(
         <Chart
           id={index}
           key={index}
-          yExtents={this.yExtents}
+          yExtents={d => _map(chart.yKeys, key => _get(d, [key, 'value']))}
         >
           <Label
-            x={axisAt + yAxisWidth}
+            x={dx}
             y={(height - margin.top - margin.bottom) / 2}
             rotate={-90}
             text={label}
@@ -215,11 +219,13 @@ class PlotView extends PureComponent {
             axisAt={axisAt}
             orient="right"
             ticks={5}
+            stroke="#000000"
             range={yRange}
+            displayFormat={format('.2f')}
             zoomEnabled={!disableZoom}
             {...hasGrid ? yGrid : {}}
           />
-          {this.getLineComponents(chart.lines)}
+          {this.getLineComponents(chart.lines, edgeIndicatorDx)}
         </Chart>
       );
     });
@@ -227,7 +233,7 @@ class PlotView extends PureComponent {
     return charts;
   }
 
-  getLineComponents = (lines = []) => lines.map(({
+  getLineComponents = (lines = [], dx) => lines.map(({
       key, color, lineSize = 1,
       pointsStyle, pointsSize, lineStyle
     }) => (
@@ -255,6 +261,15 @@ class PlotView extends PureComponent {
         />
         <CurrentCoordinate
           key={`coordinate${key}`}
+          yAccessor={d => _get(d, [key, 'value'])}
+          fill={color}
+        />
+        <EdgeIndicator
+          itemType="last"
+          orient="right"
+          edgeAt="right"
+          dx={dx}
+          displayFormat={format('.2f')}
           yAccessor={d => _get(d, [key, 'value'])}
           fill={color}
         />
@@ -393,7 +408,7 @@ class PlotView extends PureComponent {
         onMouseLeave={this.handleMouseLeave}
       >
         <ChartCanvas
-          plotFull
+          plotFull={false}
           ratio={2}
           width={width}
           height={height}
@@ -407,7 +422,7 @@ class PlotView extends PureComponent {
           xExtents={[new Date(lower), new Date(upper)]}
         >
           {this.getCharts()}
-          <CrossHairCursor opacity={0.8} />
+          <CrossHairCursor opacity={1} />
           <HoverTooltip
             tooltipContent={this.handleTooltipContent}
             opacity={1}

@@ -55,28 +55,37 @@ export const getEntryPointsCharts = (config) => {
   const { entryPoints, axes, grids = [] } = config;
   const grid = grids[0];
   const charts = {};
+  let mainChart;
 
   getFilteredEntryPoints(entryPoints).forEach((ep) => {
     const xId = _get(ep, 'connectedDataX.axisId');
     const yId = _get(ep, 'connectedDataY.axisId');
+    const isMainChart = grid && grid.xAxisId === xId && grid.yAxisId === yId;
 
-    const refChart = charts[`${xId}${yId}`];
+    const refChart = isMainChart ? mainChart : charts[`${xId}${yId}`];
+    const line = getLine(ep);
     if (refChart) {
-      refChart.lines.push(getLine(ep));
+      refChart.yKeys.push(line.key);
+      refChart.lines.push(line);
     } else {
-      charts[`${xId}${yId}`] = {
+      const newChart = {
         xAxis: axes[xId],
         yAxis: axes[yId],
-        lines: [getLine(ep)]
+        yKeys: [line.key],
+        lines: [line]
       };
       // Associate the grid if x and y match
-      if (grid && grid.xAxisId === xId && grid.yAxisId === yId) {
-        charts[`${xId}${yId}`].grid = grid;
+      if (isMainChart) {
+        mainChart = {
+          ...newChart,
+          grid
+        };
+      } else {
+        charts[`${xId}${yId}`] = newChart;
       }
     }
   });
-  console.log('charts', charts);
-  return Object.values(charts);
+  return Object.values(charts).concat([mainChart]);
 };
 
 export const getLine = ep => ({

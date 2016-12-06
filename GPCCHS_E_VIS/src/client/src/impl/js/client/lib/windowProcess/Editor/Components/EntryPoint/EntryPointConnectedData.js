@@ -122,7 +122,7 @@ class EntryPointConnectedData extends React.Component {
             className="form-control input-sm"
           >
             {timelines.map((timeline, i) =>
-              <option key={i} value={timeline.timelineId}>{timeline.id}</option>
+              <option key={i} value={timeline.id}>{timeline.id}</option>
             )}
           </Field>
         </HorizontalFormGroup>

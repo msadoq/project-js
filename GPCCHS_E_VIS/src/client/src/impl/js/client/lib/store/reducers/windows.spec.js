@@ -86,17 +86,41 @@ describe('store:windows:reducer', () => {
       });
     });
   });
-  it('focus page', () => {
-    let state = reducer(
-      { myWindowId: { focusedPage: null } },
-      actions.focusPage('myWindowId', 'myPageId')
-    );
-    state.myWindowId.focusedPage.should.equal('myPageId');
-    state = reducer(
-      state,
-      actions.focusPage('myWindowId')
-    );
-    should.not.exist(state.myWindowId.focusedPage);
+  describe('focus page', () => {
+    it('should focus page corresponding to arg', () => {
+      const { dispatch, getState } = getStore({
+        windows: {
+          myWindowId: { focusedPage: null },
+        },
+      });
+      dispatch(actions.focusPage('myWindowId', 'myPageId'));
+      getState().windows.myWindowId.focusedPage.should.equal('myPageId');
+      dispatch(actions.focusPage('myWindowId'));
+      should.not.exist(getState().windows.myWindowId.focusedPage);
+    });
+    it('should switch to pause if new focused page timebarId is different', () => {
+      const { dispatch, getState } = getStore({
+        windows: {
+          myWindowId: { focusedPage: 'myPage' },
+        },
+        pages: {
+          myPage: { timebarId: 10 },
+          myOtherPage: { timebarId: 10 },
+          anotherPage: { timebarId: 20 },
+        },
+        hsc: {
+          playingTimebarId: 10,
+        },
+      });
+      // same timebarId
+      dispatch(actions.focusPage('myWindowId', 'myOtherPage'));
+      getState().hsc.playingTimebarId.should.equal(10);
+      getState().windows.myWindowId.focusedPage.should.equal('myOtherPage');
+      // different timebarId
+      dispatch(actions.focusPage('myWindowId', 'anotherPage'));
+      should.not.exist(getState().hsc.playingTimebarId);
+      getState().windows.myWindowId.focusedPage.should.equal('anotherPage');
+    });
   });
   describe('un/mount page', () => {
     it('mount', () => {

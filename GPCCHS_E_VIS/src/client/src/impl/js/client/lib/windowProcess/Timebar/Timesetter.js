@@ -7,6 +7,8 @@ export default class Timesetter extends Component {
   static propTypes = {
     updateCursors: PropTypes.func.isRequired,
     removeMessage: PropTypes.func.isRequired,
+    pause: PropTypes.func.isRequired,
+    isPlaying: PropTypes.bool.isRequired,
     visuWindow: PropTypes.object.isRequired,
     slideWindow: PropTypes.object.isRequired,
     messages: PropTypes.array.isRequired,
@@ -18,6 +20,10 @@ export default class Timesetter extends Component {
     errorMessages: []
   }
 
+  componentDidMount() {
+    this.pauseIfPlaying();
+  }
+
   componentWillReceiveProps(nextProps) {
     // If no error message, clean states
     if (!nextProps.messages.length) {
@@ -25,8 +31,18 @@ export default class Timesetter extends Component {
     }
   }
 
+  componentDidUpdate() {
+    this.pauseIfPlaying();
+  }
+
   onChangeAction = (value, cursor) => {
     this.setState({ [cursor]: value });
+  }
+
+  pauseIfPlaying = () => {
+    if (this.props.isPlaying) {
+      this.props.pause();
+    }
   }
 
   willUpdateCursors = (e) => {

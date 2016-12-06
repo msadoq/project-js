@@ -124,6 +124,7 @@ export default class TimebarWrapper extends Component {
           title="Manual time setter"
           visuWindow={visuWindow}
           slideWindow={slideWindow}
+          isPlaying={isPlaying}
           updateCursors={updateCursors}
           timebarId={timebarId}
           cursor={timesetterCursor || 'all'}

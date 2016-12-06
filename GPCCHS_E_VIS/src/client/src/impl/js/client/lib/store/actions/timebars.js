@@ -6,11 +6,13 @@ import {
   addOnce as addMessage,
   reset as resetMessages
 } from './messages';
+import { getMessages } from '../selectors/messages';
 import {
   add as addTimeline,
   remove as removeTimeline,
   update as updateTL,
 } from './timelines';
+import { pause } from './hsc';
 import { getTimebar } from '../selectors/timebars';
 
 /**
@@ -21,7 +23,8 @@ export const remove = simple(types.WS_TIMEBAR_REMOVE, 'timebarId');
 export const updateId = simple(types.WS_TIMEBAR_ID_UPDATE, 'timebarId', 'id');
 export const updateCursors = (timebarId, visuWindow, slideWindow) =>
   (dispatch, getState) => {
-    const timebar = getTimebar(getState(), timebarId);
+    const state = getState();
+    const timebar = getTimebar(state, timebarId);
     const messages = [];
     const lower = _get(visuWindow, 'lower') || timebar.visuWindow.lower;
     const upper = _get(visuWindow, 'upper') || timebar.visuWindow.upper;
@@ -46,12 +49,17 @@ export const updateCursors = (timebarId, visuWindow, slideWindow) =>
         messages.push('Ext upper cursor must be between current and upper cursor in Fixed and Normal mode');
       }
     }
+
     if (messages.length) {
+      dispatch(pause());
       messages.forEach((v) => {
         dispatch(addMessage(`timeSetter-${timebarId}`, 'error', v));
       });
     } else {
-      dispatch(resetMessages(`timeSetter-${timebarId}`));
+      const timeSetterMessages = getMessages(state, `timeSetter-${timebarId}`);
+      if (timeSetterMessages && timeSetterMessages.length) {
+        dispatch(resetMessages(`timeSetter-${timebarId}`));
+      }
       dispatch({
         type: types.WS_TIMEBAR_UPDATE_CURSORS,
         payload: {

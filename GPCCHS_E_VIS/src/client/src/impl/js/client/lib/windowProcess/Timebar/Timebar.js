@@ -388,7 +388,7 @@ export default class Timebar extends Component {
         if (cursorPosMs > viewportUpper) cursorPosMs = viewportUpper;
         if (cursorPosMs < lower) cursorPosMs = upper + 2000;
         if (timebarMode === 'Extensible' && cursorPosMs > newSlideUpper) newSlideUpper = cursorPosMs;
-        if (timebarMode === 'Fixed' && cursorPosMs < newSlideUpper) newSlideUpper = cursorPosMs;
+        if (['Fixed', 'Normal'].includes(timebarMode) && cursorPosMs < newSlideUpper) newSlideUpper = cursorPosMs;
         this.setState({
           upper: cursorPosMs,
           slideUpper: newSlideUpper,

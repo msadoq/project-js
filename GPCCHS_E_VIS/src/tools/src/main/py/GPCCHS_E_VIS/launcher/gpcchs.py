@@ -627,9 +627,10 @@ class GPCCHS(object):
                 while self._hscProc.poll() == None:
                     if self._hssProc.poll() != None:
                         print("GPCCHS server crashed, client is closed")
-                        if self._hscProc.poll() != 0:
+                        if self._hscProc.poll() == None:
                             self._hscProc.terminate()
                             self._hscProc.wait()
+                    sleep(1)
             except KeyboardInterrupt:
                 print("\nGPCCHS and GPCCDC processes aborted by user")
         if self._hssProc:

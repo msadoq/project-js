@@ -2,7 +2,7 @@ import React, { PureComponent, PropTypes } from 'react';
 
 import ViewHeader from './Header';
 import UnknownView from './UnknownView';
-import Message from '../common/Message';
+import MessagesContainer from './MessagesContainer';
 import styles from './View.css';
 import debug from '../../../lib/common/debug/windowDebug';
 
@@ -11,7 +11,6 @@ const logger = debug('View');
 export default class View extends PureComponent {
   static propTypes = {
     component: PropTypes.func,
-    removeMessage: PropTypes.func.isRequired,
     isViewsEditorOpen: PropTypes.bool,
     configuration: PropTypes.object,
     visuWindow: PropTypes.object,
@@ -21,7 +20,6 @@ export default class View extends PureComponent {
     openEditor: PropTypes.func,
     closeEditor: PropTypes.func,
     unmountAndRemove: PropTypes.func,
-    messages: PropTypes.array,
   };
 
   render() {
@@ -37,7 +35,6 @@ export default class View extends PureComponent {
       unmountAndRemove,
       data,
       visuWindow,
-      messages
     } = this.props;
     const ContentComponent = this.props.component || UnknownView;
 
@@ -56,17 +53,7 @@ export default class View extends PureComponent {
           className={styles.content}
           style={{ backgroundColor: backgroundColour }}
         >
-          {messages && messages.map((v, i) =>
-            <Message
-              key={i}
-              type={v.type}
-              message={v.message}
-              instanceType="views"
-              instanceId={this.props.viewId}
-              messageIndex={i}
-              onClose={this.props.removeMessage}
-            />
-          )}
+          <MessagesContainer viewId={viewId} />
           <ContentComponent
             data={data}
             type={type}

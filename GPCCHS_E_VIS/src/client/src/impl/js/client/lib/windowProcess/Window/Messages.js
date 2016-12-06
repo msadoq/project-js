@@ -46,6 +46,7 @@ export default class Messages extends Component {
         }
         children.push((
           <Message
+            containerId="global"
             key={i}
             type={v.type}
             message={v.message}

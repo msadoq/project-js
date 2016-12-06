@@ -1,5 +1,6 @@
 import React, { PropTypes, PureComponent } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, formValueSelector } from 'redux-form';
+import { connect } from 'react-redux';
 import {
   Form
 } from 'react-bootstrap';
@@ -26,11 +27,13 @@ class PlotAxis extends PureComponent {
       tickStep: PropTypes.number,
       autoTick: PropTypes.bool,
       showTicks: PropTypes.bool,
-      showTickLabels: PropTypes.bool,
       isLogarithmic: PropTypes.bool,
       showAxis: PropTypes.bool,
       style: PropTypes.object
     }).isRequired,
+    showTicks: PropTypes.bool,
+    autoTick: PropTypes.bool,
+    autoLimits: PropTypes.bool,
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     reset: PropTypes.func,
@@ -47,7 +50,6 @@ class PlotAxis extends PureComponent {
       tickStep: 1,
       autoTick: true,
       showTicks: true,
-      showTickLabels: true,
       isLogarithmic: false,
       showAxis: true,
       style: {
@@ -69,7 +71,10 @@ class PlotAxis extends PureComponent {
       pristine,
       reset,
       submitting,
-      valid
+      valid,
+      showTicks,
+      autoTick,
+      autoLimits,
     } = this.props;
 
     return (
@@ -92,35 +97,6 @@ class PlotAxis extends PureComponent {
           />
         </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Min">
-          <Field
-            name="min"
-            component={InputField}
-            normalize={value => parseFloat(value)}
-            className="form-control input-sm"
-            type="number"
-          />
-        </HorizontalFormGroup>
-
-        <HorizontalFormGroup label="Max">
-          <Field
-            name="max"
-            component={InputField}
-            normalize={value => parseFloat(value)}
-            className="form-control input-sm"
-            type="number"
-          />
-        </HorizontalFormGroup>
-
-        <HorizontalFormGroup label="Unit">
-          <Field
-            name="unit"
-            component={InputField}
-            className="form-control input-sm"
-            type="text"
-          />
-        </HorizontalFormGroup>
-
         <HorizontalFormGroup label="Auto Limit">
           <Field
             name="autoLimits"
@@ -129,22 +105,35 @@ class PlotAxis extends PureComponent {
           />
         </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Auto Tick">
-          <Field
-            name="autoTick"
-            component={ButtonToggleField}
-            styleOff="warning"
-          />
-        </HorizontalFormGroup>
+        { autoLimits &&
+          <HorizontalFormGroup label="Min">
+            <Field
+              name="min"
+              component={InputField}
+              normalize={value => parseFloat(value)}
+              className="form-control input-sm"
+              type="number"
+            />
+          </HorizontalFormGroup>
+        }
+        { autoLimits &&
+          <HorizontalFormGroup label="Max">
+            <Field
+              name="max"
+              component={InputField}
+              normalize={value => parseFloat(value)}
+              className="form-control input-sm"
+              type="number"
+            />
+          </HorizontalFormGroup>
+        }
 
-        <HorizontalFormGroup label="Tick step">
+        <HorizontalFormGroup label="Unit">
           <Field
-            name="tickStep"
+            name="unit"
             component={InputField}
-            normalize={value => parseFloat(value)}
             className="form-control input-sm"
-            type="number"
-            step="any"
+            type="text"
           />
         </HorizontalFormGroup>
 
@@ -156,13 +145,27 @@ class PlotAxis extends PureComponent {
           />
         </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Ticks label">
-          <Field
-            name="showTickLabels"
-            component={ButtonToggleField}
-            styleOff="warning"
-          />
-        </HorizontalFormGroup>
+        { showTicks &&
+          <HorizontalFormGroup label="Auto Tick">
+            <Field
+              name="autoTick"
+              component={ButtonToggleField}
+              styleOff="warning"
+            />
+          </HorizontalFormGroup>
+        }
+        { showTicks && autoTick &&
+          <HorizontalFormGroup label="Tick step">
+            <Field
+              name="tickStep"
+              component={InputField}
+              normalize={value => parseFloat(value)}
+              className="form-control input-sm"
+              type="number"
+              step="any"
+            />
+          </HorizontalFormGroup>
+        }
 
         <HorizontalFormGroup label="Logarithmic">
           <Field
@@ -195,7 +198,18 @@ const validate = (values = {}) => {
   return errors;
 };
 
-export default reduxForm({
-  validate,
-  enableReinitialize: true
-})(PlotAxis);
+export default connect((state, { form }) => {
+  const showTicks = formValueSelector(form)(state, 'showTicks');
+  const autoTick = formValueSelector(form)(state, 'autoTick');
+  const autoLimits = formValueSelector(form)(state, 'autoLimits');
+  return {
+    showTicks,
+    autoTick,
+    autoLimits,
+  };
+})(
+  reduxForm({
+    validate,
+    enableReinitialize: true
+  })(PlotAxis)
+);

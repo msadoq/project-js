@@ -21,6 +21,7 @@ export default class ModalComponent extends Component {
   }
 
   render() {
+    const BodyComponent = this.props.bodyComponent;
     return (
       <div className="modal-container">
         <Modal show={this.state.showModal} onHide={this.onClose}>
@@ -37,7 +38,7 @@ export default class ModalComponent extends Component {
             >x</button>
           </Modal.Header>
           <Modal.Body>
-            <this.props.bodyComponent {...this.props} onClose={this.onClose} />
+            <BodyComponent {...this.props} onClose={this.onClose} />
           </Modal.Body>
         </Modal>
       </div>

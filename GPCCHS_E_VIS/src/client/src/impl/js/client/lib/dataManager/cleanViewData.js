@@ -3,12 +3,12 @@ import _each from 'lodash/each';
 import _map from 'lodash/map';
 import _find from 'lodash/find';
 import u from 'updeep';
+import getLogger from 'common/log';
 
 import structures from './structures';
 import vivl from '../../VIVL/main';
-import debug from '../common/debug/mainDebug';
 
-const logger = debug('dataManager:cleanViewData');
+const logger = getLogger('GPCCHS:dataManager:cleanViewData');
 
 
 // viewMap =

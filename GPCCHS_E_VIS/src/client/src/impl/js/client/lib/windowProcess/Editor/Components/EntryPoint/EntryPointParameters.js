@@ -16,7 +16,7 @@ import {
   FormSectionPointStyle
 } from '../FormSections/';
 
-class EntryPointStyle extends React.Component {
+class EntryPointParameters extends React.Component {
   static propTypes = {
     /* eslint-disable react/no-unused-prop-types */
     initialValues: PropTypes.shape({
@@ -48,7 +48,20 @@ class EntryPointStyle extends React.Component {
 
     return (
       <Form horizontal onSubmit={handleSubmit}>
-
+        <div className="page-header">
+          <h4>Name</h4>
+        </div>
+        <HorizontalFormGroup label="Label">
+          <Field
+            name="name"
+            component={InputField}
+            className="form-control input-sm"
+            type="text"
+          />
+        </HorizontalFormGroup>
+        <div className="page-header">
+          <h4>Style</h4>
+        </div>
         <HorizontalFormGroup label="Line">
           <FormSectionLineStyle name="line" />
         </HorizontalFormGroup>
@@ -95,6 +108,19 @@ class EntryPointStyle extends React.Component {
   }
 }
 
+const requiredFields = ['name'];
+const validate = (values = {}) => {
+  const errors = {};
+
+  requiredFields.forEach((field) => {
+    if (!values[field]) {
+      errors[field] = 'Required';
+    }
+  });
+  return errors;
+};
+
 export default reduxForm({
+  validate,
   enableReinitialize: true
-})(EntryPointStyle);
+})(EntryPointParameters);

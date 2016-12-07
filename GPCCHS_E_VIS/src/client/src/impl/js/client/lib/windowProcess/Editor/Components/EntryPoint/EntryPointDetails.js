@@ -17,7 +17,7 @@ import {
 
 import {
   EntryPointConnectedData,
-  EntryPointStyle,
+  EntryPointParameters,
   EntryPointName,
   EntryPointStateColours
 } from './'
@@ -42,11 +42,11 @@ export default class EntryPointDetails extends React.Component {
 
   state = {
     isPanelNameOpen: false,
-    isPanelStyleOpen: false,
     isPanelConnDataOpen: false,
     isPanelOrdinateOpen: false,
     isPanelAbscissOpen: false,
     isPanelStateColoursOpen: false,
+    isPanelParametersOpen: false,
     nameEditable: false,
     newStateColor: '#FFFFFF',
     newStateField: '',
@@ -82,11 +82,12 @@ export default class EntryPointDetails extends React.Component {
     });
   }
 
-  handleObjectStyleSubmit = (values) => {
+  handleObjectParametersSubmit = (values) => {
     const { entryPoint, updateEntryPoint, viewId, idPoint } = this.props;
     updateEntryPoint(viewId, idPoint, {
       ...entryPoint,
-      objectStyle: values
+      objectStyle: values,
+      name: values.name,
     });
   }
 
@@ -125,11 +126,11 @@ export default class EntryPointDetails extends React.Component {
 
     const {
       isPanelNameOpen,
-      isPanelStyleOpen,
       isPanelConnDataOpen,
       isPanelOrdinateOpen,
       isPanelAbscissOpen,
       isPanelStateColoursOpen,
+      isPanelParametersOpen,
       newStateColor,
       nameEditable
      } = this.state;
@@ -139,7 +140,7 @@ export default class EntryPointDetails extends React.Component {
 
     return (
       <Accordion>
-        <Panel
+        {isTextView && <Panel
           key={'Name'}
           header="Name"
           eventKey={'Name'}
@@ -154,21 +155,22 @@ export default class EntryPointDetails extends React.Component {
               name: entryPoint.name
             }}
           />}
-        </Panel>
+        </Panel>}
         {isPlotView && <Panel
-          key={'Style'}
-          header="Style"
-          eventKey={'Style'}
-          expanded={isPanelStyleOpen}
-          onSelect={this.openPanel.bind('Style')}
-          onExited={this.closePanel.bind('Style')}
+          key={'Parameters'}
+          header="Parameters"
+          eventKey={'Parameters'}
+          expanded={isPanelParametersOpen}
+          onSelect={this.openPanel.bind('Parameters')}
+          onExited={this.closePanel.bind('Parameters')}
         >
-          {isPanelStyleOpen && <EntryPointStyle
-            onSubmit={this.handleObjectStyleSubmit}
-            form={`entrypoint-style-form-${idPoint}-${viewId}`}
-            initialValues={entryPoint.objectStyle}
+          {isPanelParametersOpen && <EntryPointParameters
+            onSubmit={this.handleObjectParametersSubmit}
+            form={`entrypoint-parameters-form-${idPoint}-${viewId}`}
+            initialValues={{...entryPoint.objectStyle, name: entryPoint.name }}
           />}
         </Panel>}
+
         {isTextView && <Panel
           key={'ConnData'}
           header="Conn Data"

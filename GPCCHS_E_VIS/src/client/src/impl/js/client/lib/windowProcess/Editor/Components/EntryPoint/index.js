@@ -5,4 +5,4 @@ export EntryPointName from './EntryPointName';
 export EntryPointStateColours from './EntryPointStateColours';
 export EntryPointDetailsContainer from './EntryPointDetailsContainer';
 export EntryPointTree from './EntryPointTree';
-export EntryPointStyle from './EntryPointStyle';
+export EntryPointParameters from './EntryPointParameters';

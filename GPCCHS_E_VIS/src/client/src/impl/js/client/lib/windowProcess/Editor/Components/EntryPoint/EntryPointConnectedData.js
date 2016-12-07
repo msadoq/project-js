@@ -121,6 +121,7 @@ class EntryPointConnectedData extends React.Component {
             component="select"
             className="form-control input-sm"
           >
+            <option value="*">*</option>
             {timelines.map((timeline, i) =>
               <option key={i} value={timeline.id}>{timeline.id}</option>
             )}

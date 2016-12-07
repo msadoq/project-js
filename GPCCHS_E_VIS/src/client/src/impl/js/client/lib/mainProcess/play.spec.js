@@ -37,7 +37,7 @@ describe('mainProcess/play', () => {
 
       res.visuWindow.should.have.property('lower', vw.lower);
       res.visuWindow.should.have.property('upper', vw.upper);
-      res.slideWindow.should.have.property('lower', sw.lower);
+      res.slideWindow.should.have.property('lower', (vw.lower + newCurrent) / 2);
       res.slideWindow.should.have.property('upper', (vw.current + vw.upper + offset) / 2);
     });
 
@@ -49,7 +49,7 @@ describe('mainProcess/play', () => {
 
       res.visuWindow.should.have.property('lower', vw.lower + offset);
       res.visuWindow.should.have.property('upper', newCurrent);
-      res.slideWindow.should.have.property('lower', sw.lower + offset);
+      res.slideWindow.should.have.property('lower', (vw.lower + offset + newCurrent) / 2);
       res.slideWindow.should.have.property('upper', (newCurrent + vw.upper + offset) / 2);
     });
 
@@ -61,7 +61,7 @@ describe('mainProcess/play', () => {
 
       res.visuWindow.should.have.property('lower', vw.lower + offset);
       res.visuWindow.should.have.property('upper', newCurrent);
-      res.slideWindow.should.have.property('lower', sw.lower + offset);
+      res.slideWindow.should.have.property('lower', (vw.lower + offset + newCurrent) / 2);
       res.slideWindow.should.have.property('upper', (newCurrent + vw.upper + offset) / 2);
     });
 
@@ -74,7 +74,7 @@ describe('mainProcess/play', () => {
 
       res.visuWindow.should.have.property('lower', vw.lower);
       res.visuWindow.should.have.property('upper', newCurrent);
-      res.slideWindow.should.have.property('lower', sw.lower + offset);
+      res.slideWindow.should.have.property('lower', (vw.lower + newCurrent) / 2);
       res.slideWindow.should.have.property('upper', sw.upper);
 
       newCurrent += secondOffset;
@@ -90,7 +90,7 @@ describe('mainProcess/play', () => {
 
       res.visuWindow.should.have.property('lower', vw.lower + secondOffset);
       res.visuWindow.should.have.property('upper', newCurrent);
-      res.slideWindow.should.have.property('lower', sw.lower + offset + secondOffset);
+      res.slideWindow.should.have.property('lower', (vw.lower + secondOffset + newCurrent) / 2);
       res.slideWindow.should.have.property('upper', newCurrent);
     });
     it('(Fixed mode) -      should move 377ms and then 380ms', () => {

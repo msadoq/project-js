@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import _get from 'lodash/get';
 import { remove } from '../../store/actions/messages';
-import Timesetter from './Timesetter';
+import TimeSetter from './TimeSetter';
 import { pause } from '../../store/actions/hsc';
 
 export default connect(
@@ -14,4 +14,4 @@ export default connect(
     removeMessage: remove,
     pause
   }
-)(Timesetter);
+)(TimeSetter);

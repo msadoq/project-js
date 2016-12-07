@@ -14,6 +14,7 @@ const Timebar = {
   rulerStart: 1480417063092,
   rulerResolution: 63.54262205776028,
   speed: 1,
+  isPlaying: false,
   playingState: 'pause',
   mode: 'Normal',
   masterId: 'Session 1',

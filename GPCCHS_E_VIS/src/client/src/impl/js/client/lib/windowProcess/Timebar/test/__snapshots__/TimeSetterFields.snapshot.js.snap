@@ -1,8 +1,8 @@
 exports[`test TimesetterFields renders correctly 1`] = `
 <div
-  className="Timesetter__fieldsContainer___24Fbf">
+  className="TimeSetter__fieldsContainer___3HvQ_">
   <div
-    className="text-capitalize Timesetter__formLabel___2eZoL Timesetter__formLabellower___1lP9u"
+    className="text-capitalize TimeSetter__formLabel___3d4_- TimeSetter__formLabellower___9aj_D"
     style={
       Object {
         "width": "100%",
@@ -13,9 +13,9 @@ exports[`test TimesetterFields renders correctly 1`] = `
     </b>
   </div>
   <div
-    className="Timesetter__inputDiv___2_jkV">
+    className="TimeSetter__inputDiv___zot7Q">
     <input
-      className="form-control Timesetter__input___1kEVn Timesetter__input_year___3Bqew"
+      className="form-control TimeSetter__input___3-vNx TimeSetter__input_year___1VOE1"
       disabled={false}
       onBlur={[Function]}
       onChange={[Function]}
@@ -29,9 +29,9 @@ exports[`test TimesetterFields renders correctly 1`] = `
     
   </div>
   <div
-    className="Timesetter__inputDiv___2_jkV">
+    className="TimeSetter__inputDiv___zot7Q">
     <input
-      className="form-control Timesetter__input___1kEVn Timesetter__input_months___2pmb9"
+      className="form-control TimeSetter__input___3-vNx TimeSetter__input_months___Iiv0z"
       disabled={false}
       onBlur={[Function]}
       onChange={[Function]}
@@ -45,9 +45,9 @@ exports[`test TimesetterFields renders correctly 1`] = `
     
   </div>
   <div
-    className="Timesetter__inputDiv___2_jkV">
+    className="TimeSetter__inputDiv___zot7Q">
     <input
-      className="form-control Timesetter__input___1kEVn Timesetter__input_date___fOWIW"
+      className="form-control TimeSetter__input___3-vNx TimeSetter__input_date___sxzsH"
       disabled={false}
       onBlur={[Function]}
       onChange={[Function]}
@@ -59,9 +59,9 @@ exports[`test TimesetterFields renders correctly 1`] = `
     
   </div>
   <div
-    className="Timesetter__inputDiv___2_jkV">
+    className="TimeSetter__inputDiv___zot7Q">
     <input
-      className="form-control Timesetter__input___1kEVn Timesetter__input_hours___vTXPu"
+      className="form-control TimeSetter__input___3-vNx TimeSetter__input_hours___3eYNY"
       disabled={false}
       onBlur={[Function]}
       onChange={[Function]}
@@ -75,9 +75,9 @@ exports[`test TimesetterFields renders correctly 1`] = `
     
   </div>
   <div
-    className="Timesetter__inputDiv___2_jkV">
+    className="TimeSetter__inputDiv___zot7Q">
     <input
-      className="form-control Timesetter__input___1kEVn Timesetter__input_minutes___vvWf-"
+      className="form-control TimeSetter__input___3-vNx TimeSetter__input_minutes___1o4Hs"
       disabled={false}
       onBlur={[Function]}
       onChange={[Function]}
@@ -91,9 +91,9 @@ exports[`test TimesetterFields renders correctly 1`] = `
     
   </div>
   <div
-    className="Timesetter__inputDiv___2_jkV">
+    className="TimeSetter__inputDiv___zot7Q">
     <input
-      className="form-control Timesetter__input___1kEVn Timesetter__input_seconds___3SasE"
+      className="form-control TimeSetter__input___3-vNx TimeSetter__input_seconds___1VgKG"
       disabled={false}
       onBlur={[Function]}
       onChange={[Function]}
@@ -107,9 +107,9 @@ exports[`test TimesetterFields renders correctly 1`] = `
     </span>
   </div>
   <div
-    className="Timesetter__inputDiv___2_jkV">
+    className="TimeSetter__inputDiv___zot7Q">
     <input
-      className="form-control Timesetter__input___1kEVn Timesetter__input_milliseconds___1otkI"
+      className="form-control TimeSetter__input___3-vNx TimeSetter__input_milliseconds___3f2uU"
       disabled={false}
       onBlur={[Function]}
       onChange={[Function]}

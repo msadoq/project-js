@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import TimesetterFields from './TimesetterFields';
+import TimeSetterFields from './TimeSetterFields';
 import Message from '../common/Message';
 
-export default class Timesetter extends Component {
+export default class TimeSetter extends Component {
 
   static propTypes = {
     updateCursors: PropTypes.func.isRequired,
@@ -101,7 +101,7 @@ export default class Timesetter extends Component {
               disabled = false;
             }
             return (
-              <TimesetterFields
+              <TimeSetterFields
                 key={i}
                 cursor={x}
                 disabled={disabled}

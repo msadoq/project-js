@@ -1,9 +1,9 @@
 import moment from 'moment';
 import classnames from 'classnames';
 import React, { PureComponent } from 'react';
-import styles from './Timesetter.css';
+import styles from './TimeSetter.css';
 
-export default class TimesetterFields extends PureComponent {
+export default class TimeSetterFields extends PureComponent {
 
   static propTypes = {
     ms: React.PropTypes.number.isRequired,

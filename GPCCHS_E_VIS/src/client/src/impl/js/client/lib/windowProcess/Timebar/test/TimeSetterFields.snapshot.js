@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import TimebarFixture from '../../../../test/__mocks__/Timebar';
-import TimesetterFields from '../TimesetterFields';
+import TimeSetterFields from '../TimeSetterFields';
 
 const propsStub = {
   ms: 1480417090581,
@@ -14,7 +14,7 @@ const propsStub = {
 
 test('TimesetterFields renders correctly', () => {
   const tree = renderer.create(
-    <TimesetterFields
+    <TimeSetterFields
       {...propsStub}
     />
   ).toJSON();

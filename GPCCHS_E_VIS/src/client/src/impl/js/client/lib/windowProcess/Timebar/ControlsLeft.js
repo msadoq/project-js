@@ -1,6 +1,9 @@
 import React, { Component, PropTypes } from 'react';
+import { Glyphicon } from 'react-bootstrap';
 import classnames from 'classnames';
 import styles from './Controls.css';
+
+const currentUpperMargin = 1 / 100;
 
 export default class TimebarControlsLeft extends Component {
 
@@ -9,11 +12,13 @@ export default class TimebarControlsLeft extends Component {
     play: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
     updateSpeed: PropTypes.func.isRequired,
+    toggleTimesetter: PropTypes.func.isRequired,
     updateCursors: PropTypes.func.isRequired,
     slideWindow: PropTypes.object.isRequired,
     visuWindow: PropTypes.object.isRequired,
     timebarId: PropTypes.string.isRequired,
     timebarSpeed: PropTypes.number.isRequired,
+    currentSessionOffsetMs: PropTypes.number,
   }
 
   changeSpeed = (dir) => {
@@ -44,6 +49,28 @@ export default class TimebarControlsLeft extends Component {
     }
   }
 
+  goNow = (e) => {
+    e.preventDefault();
+    const { currentSessionOffsetMs, updateCursors, timebarId } = this.props;
+    const { lower, upper } = this.props.visuWindow;
+    const msWidth = upper - lower;
+    const realTimeMs = Date.now() + currentSessionOffsetMs;
+    const newLower = realTimeMs - ((1 - currentUpperMargin) * msWidth);
+    const newUpper = realTimeMs + (currentUpperMargin * msWidth);
+    updateCursors(
+      timebarId,
+      {
+        lower: newLower,
+        upper: newUpper,
+        current: realTimeMs,
+      },
+      {
+        lower: newLower,
+        upper: newUpper,
+      },
+    );
+  }
+
   jump = (e) => {
     e.preventDefault();
     const { updateCursors, timebarId, slideWindow } = this.props;
@@ -71,6 +98,7 @@ export default class TimebarControlsLeft extends Component {
       isPlaying,
       play,
       pause,
+      toggleTimesetter,
     } = this.props;
 
     const allButtonsKlasses = classnames('btn', 'btn-xs', 'btn-control');
@@ -136,6 +164,24 @@ export default class TimebarControlsLeft extends Component {
             title="+ 10s"
           >
             + 10s
+          </button>
+        </li>
+        <li className={styles.controlsLi}>
+          <button
+            className={allButtonsKlasses}
+            onClick={this.goNow}
+            title="Go now"
+          >
+            NOW
+          </button>
+        </li>
+        <li className={styles.controlsLi}>
+          <button
+            className={allButtonsKlasses}
+            onClick={() => toggleTimesetter()}
+            title="Display time setter"
+          >
+            <Glyphicon glyph="align-justify" />
           </button>
         </li>
       </ul>

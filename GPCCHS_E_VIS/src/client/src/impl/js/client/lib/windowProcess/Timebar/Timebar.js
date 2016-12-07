@@ -934,7 +934,6 @@ export default class Timebar extends Component {
         <div
           className={styles.viewportContainer}
           onWheel={this.onWheel}
-          onDoubleClick={toggleTimesetter}
         >
           { arrowsLeft }
           { arrowsRight }

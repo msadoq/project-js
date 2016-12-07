@@ -133,6 +133,7 @@ class RighttabContent extends Component {
           play={play}
           pause={pause}
           updateSpeed={updateSpeed}
+          toggleTimesetter={toggleTimesetter}
           updateCursors={updateCursors}
           updateMode={updateMode}
           currentSessionOffsetMs={currentSessionOffsetMs}

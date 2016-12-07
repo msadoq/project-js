@@ -20,6 +20,7 @@
     background: rgba(200, 126, 249,0.3);
     height: 100%;
     cursor: pointer;
+    z-index: 1;
 }
 .viewportDragging{
     background-color: rgba(200, 126, 209, 0.6);
@@ -57,7 +58,7 @@
         right: 0px;
         border-right: 1px solid var(--slideCursorColor);
     }
-    &.lower:before, .upper:before{
+    &.lower:before, &.upper:before{
         width: 10px;
         height: 10px;
         content: '≡';
@@ -228,6 +229,7 @@
   width: 100%;
   margin-bottom: 2px;
   height: 18px;
+  position: relative;
 }
 .timelineInfos{
   width: 90%;
@@ -236,4 +238,10 @@
   height: 100%;
   margin: 0px auto;
   padding-left: 6px;
+}
+.timelineOffset{
+  position: absolute;
+  height: 2px;
+  bottom: 0px;
+  background-color: #F45;
 }

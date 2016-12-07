@@ -5,16 +5,34 @@ export default class TimebarTimeline extends PureComponent {
 
   static propTypes = {
     name: PropTypes.string.isRequired,
-    color: PropTypes.string
+    color: PropTypes.string,
+    offset: PropTypes.number,
+    viewportMsWidth: PropTypes.number,
   }
 
   render() {
+    const {
+      offset,
+      viewportMsWidth,
+      color,
+      name,
+    } = this.props;
     return (
       <div
         className={styles.timeline}
-        style={{ background: this.props.color || '#31b0d5' }}
+        style={{ background: color || '#31b0d5' }}
       >
-        <div className={styles.timelineInfos}>{this.props.name}</div>
+        <div className={styles.timelineInfos}>{name}</div>
+        { offset !== 0 &&
+          <span
+            className={styles.timelineOffset}
+            style={{
+              width: `${(100 * Math.abs(offset)) / viewportMsWidth}%`,
+              left: offset < 0 ? '50%' : 'auto',
+              right: offset > 0 ? '50%' : 'auto',
+            }}
+          />
+        }
       </div>
     );
   }

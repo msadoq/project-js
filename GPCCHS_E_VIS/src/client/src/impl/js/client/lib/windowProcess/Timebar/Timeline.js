@@ -44,7 +44,7 @@ export default class Timeline extends PureComponent {
     ms -= m * 60000;
     const s = Math.floor(ms / 1000);
     ms -= s * 1000;
-    return `${neg ? '-' : ''}${fi(h)}:${fi(m)}:${fi(s)}.${fi(ms, 3)}`;
+    return `${neg ? '- ' : '+ '}${fi(h)}:${fi(m)}:${fi(s)}.${fi(ms, 3)}`;
   }
 
   render() {

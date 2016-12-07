@@ -111,10 +111,10 @@
   display: inline-block;
   margin-right: 4px;
 }
-.input_years{ width: 69px; }
-.input_months{ width: 69px; }
-.input_days{ width: 69px; }
-.input_hours{ width: 50px; }
-.input_minutes{ width: 50px; }
-.input_seconds{ width: 50px; }
-.input_milliseconds{ width: 54px; }
+.input_years{ width: 83px; }
+.input_months{ width: 83px; }
+.input_days{ width: 83px; }
+.input_hours{ width: 60px; }
+.input_minutes{ width: 60px; }
+.input_seconds{ width: 60px; }
+.input_milliseconds{ width: 65px; }

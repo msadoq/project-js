@@ -1126,6 +1126,7 @@ export default class Timebar extends Component {
                 name={v.id}
                 color={v.color}
                 offset={v.offset}
+                viewportMsWidth={viewport.upper - viewport.lower}
               />
             )}
           </div>

@@ -117,25 +117,24 @@ export default class TimebarWrapper extends Component {
       resizingWindow,
     } = this.state;
 
-    let timesetter;
-    if (displayTimesetter) {
-      timesetter = (
-        <Modal
-          title="Manual time setter"
+    const timesetter = (
+      <Modal
+        title="Manual time setter"
+        onClose={this.toggleTimesetter}
+        isOpened={displayTimesetter}
+      >
+        <TimeSetterContainer
+          visuWindow={visuWindow}
           onClose={this.toggleTimesetter}
-        >
-          <TimeSetterContainer
-            visuWindow={visuWindow}
-            slideWindow={slideWindow}
-            isPlaying={isPlaying}
-            updateCursors={updateCursors}
-            timebarId={timebarId}
-            timebarMode={timebar.mode}
-            cursor={timesetterCursor || 'all'}
-          />
-        </Modal>
-      );
-    }
+          slideWindow={slideWindow}
+          isPlaying={isPlaying}
+          updateCursors={updateCursors}
+          timebarId={timebarId}
+          timebarMode={timebar.mode}
+          cursor={timesetterCursor || 'all'}
+        />
+      </Modal>
+    );
 
     return (
       <div

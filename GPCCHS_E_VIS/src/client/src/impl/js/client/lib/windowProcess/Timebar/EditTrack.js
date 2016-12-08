@@ -7,7 +7,7 @@ import styles from './Lefttab.css';
 export default class EditTrack extends Component {
 
   static propTypes = {
-    onClose: PropTypes.func.isRequired,
+    onClose: PropTypes.func,
     editTimeline: PropTypes.func.isRequired,
     timeline: PropTypes.object.isRequired,
     masterId: PropTypes.string,
@@ -66,7 +66,10 @@ export default class EditTrack extends Component {
       duration.asMilliseconds(),
       this.editTimelineMasterEl.checked
     );
-    setTimeout(this.props.onClose, 300);
+
+    if (this.props.onClose) {
+      this.props.onClose();
+    }
   }
 
   render() {

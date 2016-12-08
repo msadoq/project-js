@@ -1,4 +1,4 @@
-import React, { Component, PropTypes, cloneElement } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Modal } from 'react-bootstrap';
 import classnames from 'classnames';
 
@@ -6,24 +6,15 @@ export default class ModalComponent extends Component {
 
   static propTypes = {
     onClose: PropTypes.func.isRequired,
+    isOpened: PropTypes.bool,
     title: PropTypes.string.isRequired,
     children: PropTypes.node,
-  }
-
-  state = {
-    showModal: true,
-  }
-
-  onClose = () => {
-    // hide timeline (animation) and then call the onClose
-    this.setState({ showModal: false });
-    setTimeout(() => this.props.onClose(), 300);
   }
 
   render() {
     return (
       <div className="modal-container">
-        <Modal show={this.state.showModal} onHide={this.onClose}>
+        <Modal show={this.props.isOpened} onHide={this.props.onClose}>
           <Modal.Header>
             <Modal.Title>{this.props.title}</Modal.Title>
             <button
@@ -33,11 +24,11 @@ export default class ModalComponent extends Component {
                 'btn-danger',
                 'btn-close'
               )}
-              onClick={this.onClose}
+              onClick={this.props.onClose}
             >x</button>
           </Modal.Header>
           <Modal.Body>
-            { cloneElement(this.props.children, { onClose: this.onClose }) }
+            { this.props.children }
           </Modal.Body>
         </Modal>
       </div>

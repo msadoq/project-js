@@ -32,7 +32,9 @@ export default class AddTrack extends Component {
         this.state.color,
         parseInt(this.newTimelineSessionEl.value, 10)
       );
-      setTimeout(this.props.onClose, 300);
+      if (this.props.onClose) {
+        this.props.onClose();
+      }
     }
   }
 

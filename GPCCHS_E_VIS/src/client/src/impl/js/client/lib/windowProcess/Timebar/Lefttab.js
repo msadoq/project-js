@@ -81,7 +81,6 @@ export default class Lefttab extends Component {
     this.setState({
       willAdd: false,
       willEdit: false,
-      editingId: null,
     });
   }
 
@@ -145,40 +144,38 @@ export default class Lefttab extends Component {
       noTrack = <h5 className="text-center"><br /><b>No track to display</b></h5>;
     }
 
-    let editTrack;
     const currentlyEditingTimeline = timelines.find(x => x.id === editingId);
-    if (willEdit && currentlyEditingTimeline) {
-      editTrack = (
-        <Modal
-          title="Edit track"
+    const editTrack = (
+      <Modal
+        title="Edit track"
+        isOpened={currentlyEditingTimeline && willEdit}
+        onClose={this.hideEditTimeline}
+      >
+        <EditTrack
+          timeline={currentlyEditingTimeline}
+          masterId={masterId}
+          editTimeline={this.editTimeline}
           onClose={this.hideEditTimeline}
-        >
-          <EditTrack
-            timeline={currentlyEditingTimeline}
-            masterId={masterId}
-            editTimeline={this.editTimeline}
-          />
-        </Modal>
-      );
-    }
+        />
+      </Modal>
+    );
 
-    let addTrack;
-    if (willAdd) {
-      addTrack = (
-        <Modal
-          title="Add track"
+    const addTrack = (
+      <Modal
+        title="Add track"
+        isOpened={willAdd}
+        onClose={this.toggleAddTimeline}
+      >
+        <AddTrack
+          timelines={timelines}
+          color={color}
+          sessions={sessions}
+          onChange={this.willAddTimeline}
           onClose={this.toggleAddTimeline}
-        >
-          <AddTrack
-            timelines={timelines}
-            color={color}
-            sessions={sessions}
-            onChange={this.willAddTimeline}
-            bodyComponent={AddTrack}
-          />
-        </Modal>
-      );
-    }
+          bodyComponent={AddTrack}
+        />
+      </Modal>
+    );
 
     return (
       <Col xs={3} className={styles.leftTab}>

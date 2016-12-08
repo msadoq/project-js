@@ -118,14 +118,19 @@ class EntryPointConnectedData extends React.Component {
         <HorizontalFormGroup label="Timeline">
           <Field
             name="timeline"
-            component="select"
-            className="form-control input-sm"
-          >
-            <option value="*">*</option>
-            {timelines.map((timeline, i) =>
-              <option key={i} value={timeline.id}>{timeline.id}</option>
-            )}
-          </Field>
+            clearable={false}
+            component={ReactSelectField}
+            free
+            options={timelines.map(t =>
+              ({
+                label: t.id,
+                value: t.id,
+              })
+            ).concat({
+              label: '*',
+              value: '*',
+            })}
+          />
         </HorizontalFormGroup>
 
         {axes && <HorizontalFormGroup label="Axis">

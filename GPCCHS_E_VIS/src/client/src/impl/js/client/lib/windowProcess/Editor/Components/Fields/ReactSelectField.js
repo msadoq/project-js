@@ -7,12 +7,20 @@ export default class ReactSelectField extends React.Component {
   static propTypes = {
     input: PropTypes.object.isRequired,
     placeholder: PropTypes.string,
-    className: PropTypes.string
+    className: PropTypes.string,
+    free: PropTypes.bool,
+    options: PropTypes.array,
   }
 
   onChange = (event) => {
     if (this.props.input.onChange) {
       this.props.input.onChange(event.value);
+    }
+  }
+
+  onInputChange = (val) => {
+    if (this.props.free) {
+      this.props.input.onChange(val);
     }
   }
 
@@ -27,15 +35,26 @@ export default class ReactSelectField extends React.Component {
       input,
       placeholder,
       className,
-      ...rest
+      free,
+      ...rest,
     } = this.props;
+    let { options } = this.props;
+
+    if (!options.find(e => e.value === input.value) && free) {
+      options = options.concat({
+        label: input.value,
+        value: input.value
+      });
+    }
 
     return (
       <Select
         {...input}
         {...rest}
         onBlur={this.onBlur}
+        options={options}
         onChange={this.onChange}
+        onInputChange={this.onInputChange}
         className={className}
         placeholder={placeholder}
       />

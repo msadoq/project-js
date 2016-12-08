@@ -3,13 +3,12 @@ import express from 'express';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
+import { get } from 'common/parameters';
 import config from './webpack.config.development';
-
-require('./lib/common/dotenv');
 
 const app = express();
 const compiler = webpack(config);
-const PORT = process.env.PORT || 3000;
+const PORT = get('PORT');
 
 const wdm = webpackDevMiddleware(compiler, {
   publicPath: config.output.publicPath,

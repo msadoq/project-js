@@ -18,7 +18,7 @@ process.title = 'HSC_WINDOW';
 monitoring.start();
 initStore();
 
-if (process.env.NODE_ENV === 'development') {
+if (global.parameters.get('DEBUG') === 'on') {
   // Enable why-did-you-update when necessary only
   window.whyDidYouUpdate = () => {
     // eslint-disable-next-line global-require
@@ -38,11 +38,6 @@ if (process.env.NODE_ENV === 'development') {
     window.whyDidYouUpdate.loaded = true;
   };
 }
-
-// window.addEventListener('beforeunload', () => {
-//   logger.info('onbeforeunload called');
-//   // could implement before close logic here
-// });
 
 const store = getStore();
 CircuitBreaker({

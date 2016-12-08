@@ -1,12 +1,14 @@
 import { app } from 'electron';
+import { init, get } from 'common/parameters';
 import { start, stop, onWindowsClose } from './lib/mainProcess';
-import './lib/common/parameters';
 
 process.title = 'HSC_MAIN';
 
 app.commandLine.appendSwitch('no-proxy-server'); // TODO dbrugne : analysis
 
-if (process.env.NODE_ENV === 'development') {
+init(__dirname);
+
+if (get('DEBUG') === 'on') {
   require('electron-debug')(); // eslint-disable-line global-require
 }
 

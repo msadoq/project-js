@@ -4,15 +4,15 @@ const _startsWith = require('lodash/startsWith');
 const { writeFile } = require('fs');
 const { dirname, relative } = require('path');
 const { checkPath } = require('../common/fs');
-const parameters = require('../common/parameters');
+const parameters = require('common/parameters');
 
-const root = parameters.FMD_ROOT;
+const root = parameters.get('FMD_ROOT_DIR');
 
 /**
  * Save plot view from state to file
  *
  * @param state
- * @param viewId
+ * @param pageId
  * @param path
  * @returns Error or undefined
  */

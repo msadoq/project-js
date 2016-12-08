@@ -1,8 +1,8 @@
 import { app } from 'electron';
-
 import getLogger from 'common/log';
-
 import monitoring from 'common/monitoring';
+import parameters from 'common/parameters';
+
 import installExtensions from './installExtensions';
 import { initStore, getStore } from '../store/mainStore';
 import storeObserver from './storeObserver';
@@ -27,7 +27,7 @@ export async function start() {
     storeSubscription = store.subscribe(() => storeObserver(store));
 
     // websocket initial connection
-    connect();
+    connect(parameters.get('HSS'));
   } catch (e) {
     logger.error(e);
   }

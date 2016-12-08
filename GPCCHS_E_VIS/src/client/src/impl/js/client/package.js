@@ -2,7 +2,7 @@
 
 'use strict';
 
-require('babel-polyfill');
+require('babel-polyfill'); // TODO also loaded by cli
 const os = require('os');
 const webpack = require('webpack');
 const electronCfg = require('./webpack.config.electron');

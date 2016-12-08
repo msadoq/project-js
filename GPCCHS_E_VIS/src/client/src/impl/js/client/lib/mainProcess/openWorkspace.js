@@ -4,8 +4,8 @@ import path from 'path';
 import { dialog } from 'electron';
 import { v4 } from 'node-uuid';
 import getLogger from 'common/log';
+import parameters from 'common/parameters';
 
-import parameters from '../common/parameters';
 import readWorkspace from '../documentsManager/workspace';
 import { add as addTimeline } from '../store/actions/timelines';
 import { add as addTimebar } from '../store/actions/timebars';
@@ -86,9 +86,9 @@ export function loadInStore(workspace, dispatch, root, file, callback) {
  * @param callback
  */
 export default function openWorkspace(dispatch, getState, callback) {
-  const root = parameters.FMD_ROOT;
-  if (parameters.OPEN) {
-    const file = parameters.OPEN;
+  const root = parameters.get('FMD_ROOT_DIR');
+  if (parameters.get('OPEN')) {
+    const file = parameters.get('OPEN');
     readWkFile(dispatch, getState, root, file, callback);
   } else {
     openDefaultWorkspace(dispatch, root, callback);
@@ -100,7 +100,7 @@ export function readWkFile(dispatch, getState, root, file, callback) {
   readWorkspace(root, file, (err, workspace) => {
     if (err) {
       logger.error(err);
-      dialog.showErrorBox('ERROR', err);
+      dialog.showErrorBox('ERROR', err); // TODO don't use dialog documentManager code !!!! inform callback of error
       const filePath = getPathByFilePicker(root, 'workspace');
       if (filePath) {
         readWkFile(dispatch, getState, path.dirname(filePath), path.basename(filePath));

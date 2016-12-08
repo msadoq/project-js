@@ -8,7 +8,6 @@ import { getStore } from '../store/mainStore';
 import { updateStatus } from '../store/actions/hss';
 import { add as addMessage, addOnce as addOnceMessage } from '../store/actions/messages';
 import { onOpen, onClose } from './lifecycle';
-import parameters from '../common/parameters';
 import { addToQueue } from './orchestration';
 
 const logger = getLogger('GPCCHS:main:websocket');
@@ -25,9 +24,9 @@ const options = {
   },
 };
 
-export function connect() {
+export function connect(serverUrl) {
   if (!instance) {
-    const url = `${parameters.HSS}?identity=main`;
+    const url = `${serverUrl}?identity=main`;
     logger.info('trying open connection to', url);
     instance = new Primus(url, options);
 

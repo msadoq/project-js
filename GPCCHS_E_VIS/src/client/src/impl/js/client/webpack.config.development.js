@@ -3,8 +3,6 @@ import webpack from 'webpack';
 import merge from 'webpack-merge';
 import baseConfig from './webpack.config.base';
 
-require('./lib/common/dotenv');
-
 const port = process.env.PORT || 3000;
 
 export default merge(baseConfig, {

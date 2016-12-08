@@ -14,7 +14,7 @@
       ],
       "plugins": [
         "babel-plugin-dev-expression",
-				"transform-class-properties"
+		"transform-class-properties"
       ]
     },
     "development": {

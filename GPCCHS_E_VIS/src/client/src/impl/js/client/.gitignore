@@ -30,8 +30,8 @@ node_modules
 # OSX
 .DS_Store
 
-# dotenv
-.env
+# configuration
+config.local.json
 
 # IDE
 .idea

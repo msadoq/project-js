@@ -2,8 +2,8 @@ import _ from 'lodash';
 import async from 'async';
 import { BrowserWindow } from 'electron';
 import getLogger from 'common/log';
+import parameters from 'common/parameters';
 
-import parameters from '../common/parameters';
 import {
   remove,
   updateGeometry,
@@ -20,6 +20,12 @@ const logger = getLogger('GPCCHS:store:observers:windows');
 
 const windows = {};
 
+function getWindowHtmlPath() {
+  return parameters.get('IS_BUNDLED') === 'on'
+    ? `file://${__dirname}/index.html`
+    : `file://${__dirname}/../../index.html`;
+}
+
 export function open(data, windowId, cb) {
   logger.info(`opening window ${windowId}`);
   const window = new BrowserWindow({
@@ -31,6 +37,7 @@ export function open(data, windowId, cb) {
     title: `${data.title} - VIMA`,
   });
 
+  // mount module(s) to allow access from renderer process
   window.parameters = parameters;
 
   // persist windowId on BrowserWindow instance
@@ -44,6 +51,10 @@ export function open(data, windowId, cb) {
   } else {
     window.loadURL(`file://${__dirname}/../windowProcess/index.html?windowId=${windowId}`);
   }
+
+  const htmlPath = getWindowHtmlPath();
+  logger.debug('opening', htmlPath);
+  window.loadURL(`${htmlPath}?windowId=${windowId}`);
 
   // ready-to-show is the right element to subscribe to trigger logic only once by window
   window.on('ready-to-show', () => {

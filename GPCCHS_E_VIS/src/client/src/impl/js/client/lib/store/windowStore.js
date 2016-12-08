@@ -10,27 +10,37 @@ const logger = debug('WindowStore');
 
 let store;
 
-const reduxLogger = createLogger({
-  level: 'info',
-  collapsed: true,
-});
+const isDebugOn = global.parameters.get('DEBUG') === 'on';
 
-const enhancer = compose(
-  applyMiddleware(thunk, reduxLogger),
-  electronEnhancer({
-    dispatchProxy(...args) {
-      logger.debug('receive action from main process', ...args);
-      store.dispatch(...args);
-    }
-  }),
-  window.devToolsExtension
-    ? window.devToolsExtension()
-    : noop => noop
-);
+const dispatchProxy = (...args) => {
+  logger.debug('receive action from main process', ...args);
+  store.dispatch(...args);
+};
+
+let enhancer;
+if (isDebugOn) {
+  const logger = createLogger({
+    level: 'info',
+    collapsed: true,
+  });
+
+  enhancer = compose(
+    applyMiddleware(thunk, logger),
+    electronEnhancer({ dispatchProxy }),
+    window.devToolsExtension
+      ? window.devToolsExtension()
+      : noop => noop
+  );
+} else {
+  enhancer = compose(
+    applyMiddleware(thunk),
+    electronEnhancer({ dispatchProxy }),
+  );
+}
 
 export function initStore(initialState) {
   store = createStore(reducers, initialState, enhancer);
-  if (window.devToolsExtension) {
+  if (isDebugOn && window.devToolsExtension) {
     window.devToolsExtension.updateStore(store);
   }
 

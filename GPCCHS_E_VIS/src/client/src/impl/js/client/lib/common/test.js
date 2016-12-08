@@ -10,7 +10,7 @@ process.env.DEBUG = '';
 process.env.LEVEL = 'ERROR';
 process.env.PROFILING = 'off';
 process.env.MONITORING = 'off';
-process.env.FMD_ROOT =
+process.env.FMD_ROOT_DIR =
   '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/impl/js/client/lib/documentsManager/examples/';
 
 chai.use(properties);

@@ -112,8 +112,7 @@ zmq.open({
   }
 
   if (process.env.STUB_DC_ON === 'on') {
-    const dc = cp.fork(
-      `${__dirname}/node_modules/common/stubs/dc.js`);
+    const dc = cp.fork(`${__dirname}/node_modules/common/stubs/dc.js`);
 
     // if HSS is forked by Mocha, kill dc child process explicitly
     if (process.env.RUN_BY_MOCHA === 'true' && process.send) {
@@ -126,7 +125,7 @@ zmq.open({
   }
 
   // once ZMQ sockets are open, launch express
-  logger.info(`Trying to launch server in '${process.env.NODE_ENV}' env`);
+  logger.info('Trying to launch server');
   server.listen(port, () => {
     // if HSS is a forked process, in e2e tests for example
     if (process.send) {

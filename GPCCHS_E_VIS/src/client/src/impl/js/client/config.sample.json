@@ -1,0 +1,9 @@
+{
+  "PROFILING": "on",
+  "MONITORING": "on",
+  "DEBUG": "on",
+  "FMD_ROOT_DIR": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/impl/js/client/data",
+  "HSS": "http://127.0.0.1:3000",
+  "PORT": 3100,
+  "OPEN": "small.workspace.json"
+}

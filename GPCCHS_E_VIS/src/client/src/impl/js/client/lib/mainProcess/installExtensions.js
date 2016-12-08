@@ -1,5 +1,7 @@
+import { get } from 'common/parameters';
+
 export default async () => {
-  if (process.env.NODE_ENV === 'development') {
+  if (get('DEBUG') === 'on') {
     const installer = require('electron-devtools-installer'); // eslint-disable-line global-require
 
     const extensions = [

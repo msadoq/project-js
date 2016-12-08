@@ -11,9 +11,10 @@ export default merge(baseConfig, {
     path: __dirname,
     filename: './main.js'
   },
-  externals: {
-    common: 'common'
-  },
+  externals: [
+    'source-map-support',
+    'common',
+  ],
 
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
@@ -25,11 +26,6 @@ export default merge(baseConfig, {
       'require("source-map-support").install();',
       { raw: true, entryOnly: false }
     ),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production')
-      }
-    })
   ],
 
   target: 'electron-main',

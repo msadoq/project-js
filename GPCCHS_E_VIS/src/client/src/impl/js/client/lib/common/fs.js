@@ -5,12 +5,9 @@ const {
 } = require('path');
 const mkdirpSync = require('mkdirp').sync;
 const _startsWith = require('lodash/startsWith');
-const parameters = require('./parameters');
-
-const root = parameters.FMD_ROOT;
+const parameters = require('common/parameters');
 
 let resolvedPath;
-
 
 const self = module.exports = {
   getPath: () => resolvedPath,
@@ -83,9 +80,9 @@ const self = module.exports = {
     }
     // relative path from FMD
     try {
-      fs.accessSync(join(root, filepath), fs.constants.F_OK);
+      fs.accessSync(join(parameters.get('FMD_ROOT_DIR'), filepath), fs.constants.F_OK);
       // FMD path
-      resolvedPath = join(root, filepath);
+      resolvedPath = join(parameters.get('FMD_ROOT_DIR'), filepath);
     } catch (e) {
       // path is already absolute
       resolvedPath = filepath;
@@ -97,7 +94,9 @@ const self = module.exports = {
       return self.parse(content, callback);
     });
   },
-  readJsonFromPath: (folder, relativePath, oId, absolutePath, requestPathFromOId = null, callback) => {
+  readJsonFromPath: (
+    folder, relativePath, oId, absolutePath, requestPathFromOId = null, callback
+  ) => {
     if (absolutePath) {
       return self.readJsonFromAbsPath(absolutePath, callback);
     }

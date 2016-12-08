@@ -105,7 +105,7 @@ class PlotAxis extends PureComponent {
           />
         </HorizontalFormGroup>
 
-        { autoLimits &&
+        { !autoLimits &&
           <HorizontalFormGroup label="Min">
             <Field
               name="min"
@@ -116,7 +116,7 @@ class PlotAxis extends PureComponent {
             />
           </HorizontalFormGroup>
         }
-        { autoLimits &&
+        { !autoLimits &&
           <HorizontalFormGroup label="Max">
             <Field
               name="max"

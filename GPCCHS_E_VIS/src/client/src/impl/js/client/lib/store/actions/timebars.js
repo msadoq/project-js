@@ -81,6 +81,7 @@ export const updateSpeed = simple(types.WS_TIMEBAR_SPEED_UPDATE, 'timebarId', 's
 export const updateMode = simple(
   types.WS_TIMEBAR_MODE_UPDATE, 'timebarId', 'mode'
 );
+export const updateDefaultWidth = simple(types.WS_TIMEBAR_DEFAULTWIDTH_UPDATE, 'timebarId', 'defaultWidth');
 export const updateMasterId = simple(types.WS_TIMEBAR_MASTERID_UPDATE, 'timebarId', 'masterId');
 export const mountTimeline = simple(types.WS_TIMEBAR_MOUNT_TIMELINE, 'timebarId', 'timelineId');
 export const unmountTimeline = simple(types.WS_TIMEBAR_UNMOUNT_TIMELINE, 'timebarId', 'timelineId');

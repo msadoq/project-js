@@ -17,6 +17,7 @@ export default class TimebarControlsLeft extends Component {
     slideWindow: PropTypes.object.isRequired,
     visuWindow: PropTypes.object.isRequired,
     timebarId: PropTypes.string.isRequired,
+    timebarMode: PropTypes.string.isRequired,
     timebarSpeed: PropTypes.number.isRequired,
     currentSessionOffsetMs: PropTypes.number,
   }
@@ -47,6 +48,32 @@ export default class TimebarControlsLeft extends Component {
     if (newSpeed !== 1 && !isPlaying) {
       play(timebarId);
     }
+  }
+
+  restoreWidth = (e) => {
+    e.preventDefault();
+    const {
+      visuWindow,
+      timebarMode,
+      timebarId,
+      updateCursors,
+    } = this.props;
+
+    const newSlideUpper = timebarMode === 'Extensible' ?
+      visuWindow.current + (visuWindow.defaultWidth) :
+      visuWindow.current + (visuWindow.defaultWidth / 4);
+
+    updateCursors(
+      timebarId,
+      {
+        lower: visuWindow.current - (visuWindow.defaultWidth / 2),
+        upper: visuWindow.current + (visuWindow.defaultWidth / 2),
+      },
+      {
+        lower: visuWindow.current - (visuWindow.defaultWidth / 4),
+        upper: newSlideUpper,
+      },
+    );
   }
 
   goNow = (e) => {
@@ -173,6 +200,15 @@ export default class TimebarControlsLeft extends Component {
             title="Go now"
           >
             NOW
+          </button>
+        </li>
+        <li className={styles.controlsLi}>
+          <button
+            className={allButtonsKlasses}
+            onClick={this.restoreWidth}
+            title="Restore visu window's default width"
+          >
+            _
           </button>
         </li>
         <li className={styles.controlsLi}>

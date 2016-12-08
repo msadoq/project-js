@@ -1,10 +1,14 @@
 import React, { Component, PropTypes } from 'react';
+import moment from 'moment';
+import classnames from 'classnames';
 import TimeSetterFields from './TimeSetterFields';
 import Message from '../common/Message';
+import styles from './TimeSetter.css';
 
 export default class TimeSetter extends Component {
 
   static propTypes = {
+    updateDefaultWidth: PropTypes.func.isRequired,
     updateCursors: PropTypes.func.isRequired,
     removeMessage: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
@@ -22,6 +26,7 @@ export default class TimeSetter extends Component {
 
   componentDidMount() {
     this.pauseIfPlaying();
+    this.updateFields();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -33,6 +38,7 @@ export default class TimeSetter extends Component {
 
   componentDidUpdate() {
     this.pauseIfPlaying();
+    this.updateFields();
   }
 
   onChangeAction = (value, cursor) => {
@@ -47,16 +53,39 @@ export default class TimeSetter extends Component {
 
   willUpdateCursors = (e) => {
     e.preventDefault();
-    const visuWindow = {
-      lower: this.state.lower || this.props.visuWindow.lower,
-      upper: this.state.upper || this.props.visuWindow.upper,
-      current: this.state.current || this.props.visuWindow.current,
+    const {
+      visuWindow,
+      slideWindow,
+      timebarId,
+      updateCursors,
+      updateDefaultWidth,
+    } = this.props;
+
+    const newVisuWindow = {
+      lower: this.state.lower || visuWindow.lower,
+      upper: this.state.upper || visuWindow.upper,
+      current: this.state.current || visuWindow.current,
     };
-    const slideWindow = {
-      lower: this.state.slideLower || this.props.slideWindow.lower,
-      upper: this.state.slideUpper || this.props.slideWindow.upper,
+    const newSlideWindow = {
+      lower: this.state.slideLower || slideWindow.lower,
+      upper: this.state.slideUpper || slideWindow.upper,
     };
-    this.props.updateCursors(this.props.timebarId, visuWindow, slideWindow);
+    updateCursors(
+      timebarId,
+      newVisuWindow,
+      newSlideWindow
+    );
+
+    const duration = moment.duration();
+    // Dynamically fullfilling inputs
+    ['hours', 'minutes', 'seconds', 'milliseconds'].forEach((x) => {
+      const val = parseInt(this[`defaultWidth${x}El`].value, 10) || 0;
+      duration.add(val, x);
+    });
+    const ms = duration.asMilliseconds();
+    if (ms !== parseInt(visuWindow.defaultWidth, 10)) {
+      updateDefaultWidth(timebarId, ms);
+    }
   }
 
   cancel = (e) => {
@@ -70,21 +99,36 @@ export default class TimeSetter extends Component {
     });
   }
 
+  updateFields = () => {
+    console.log('updateFields');
+    const { visuWindow } = this.props;
+    /*
+    If refs are absent, it means we are jest-testing the component
+    refs are not compatible with jest testing for now
+    */
+    if (!this.defaultWidthhoursEl) {
+      return;
+    }
+
+    const duration = moment.duration(visuWindow.defaultWidth);
+    ['hours', 'minutes', 'seconds', 'milliseconds'].forEach((x) => {
+      this[`defaultWidth${x}El`].value = duration[x]();
+    });
+  }
+
   render() {
     return (
       <form onSubmit={this.willUpdateCursors} >
-        { this.props.messages.length ?
-          (this.props.messages.map((v, i) =>
-            <Message
-              key={i}
-              type={v.type}
-              message={v.message}
-              containerId={`timeSetter-${this.props.timebarId}`}
-              messageIndex={i}
-              onClose={this.props.removeMessage}
-            />
-          )) : null
-        }
+        { this.props.messages.length && this.props.messages.map((v, i) =>
+          <Message
+            key={i}
+            type={v.type}
+            message={v.message}
+            containerId={`timeSetter-${this.props.timebarId}`}
+            messageIndex={i}
+            onClose={this.props.removeMessage}
+          />
+        )}
         {
           ['slideLower', 'lower', 'current', 'upper', 'slideUpper'].map((x, i) => {
             let ms;
@@ -111,6 +155,33 @@ export default class TimeSetter extends Component {
             );
           })
         }
+        <div className={styles.fieldsContainer}>
+          <div
+            className="text-capitalize"
+            style={{ width: '100%' }}
+          >
+            <b>Default Width</b>
+          </div>
+          <div className={styles.inputDiv}>
+            {
+              ['hours', 'minutes', 'seconds', 'milliseconds'].map((x, i) =>
+                (
+                  <div className={styles.inputDiv} key={i}>
+                    <input
+                      key={i}
+                      type="number"
+                      ref={(el) => { this[`defaultWidth${x}El`] = el; }}
+                      placeholder={x}
+                      className={classnames(styles.input, styles[`input_${x}`], 'form-control')}
+                    />
+                    {(x === 'hours' || x === 'minutes') && <span>:</span>}
+                    {x === 'seconds' && <span>.</span>}
+                  </div>
+                )
+              )
+            }
+          </div>
+        </div>
         <div className="text-center">
           <input type="submit" value="Save" className="btn btn-primary" />
           {' '}

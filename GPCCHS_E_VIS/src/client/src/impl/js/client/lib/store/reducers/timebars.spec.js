@@ -168,6 +168,13 @@ describe('store:timebars:reducer', () => {
       newState.should.have.property('myTimebarId');
       newState.myTimebarId.speed.should.equal(20);
     });
+    it('defaultWidth', () => {
+      const newState = reducer(state.timebars, actions.updateDefaultWidth('myTimebarId', 10005));
+      newState.should.have.property('myTimebarId');
+      newState.myTimebarId.should.have.property('visuWindow');
+      newState.myTimebarId.visuWindow.should.have.property('defaultWidth');
+      newState.myTimebarId.visuWindow.defaultWidth.should.equal(10005);
+    });
     it('masterId', () => {
       const newState = reducer(state.timebars, actions.updateMasterId('myTimebarId', 'myTlId'));
       newState.should.have.property('myTimebarId');

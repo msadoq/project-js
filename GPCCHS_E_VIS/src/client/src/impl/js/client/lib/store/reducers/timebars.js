@@ -21,6 +21,7 @@ export default function timebars(stateTimebars = {}, action) {
     case types.WS_TIMEBAR_UPDATE_VIEWPORT:
     case types.WS_TIMEBAR_SPEED_UPDATE:
     case types.WS_TIMEBAR_MODE_UPDATE:
+    case types.WS_TIMEBAR_DEFAULTWIDTH_UPDATE:
     case types.WS_TIMEBAR_MASTERID_UPDATE:
     case types.WS_TIMEBAR_MOUNT_TIMELINE:
     case types.WS_TIMEBAR_UNMOUNT_TIMELINE:
@@ -132,6 +133,12 @@ function timebar(stateTimebar = initialState, action) {
       return { ...stateTimebar, mode: payload.mode };
     case types.WS_TIMEBAR_MASTERID_UPDATE:
       return { ...stateTimebar, masterId: payload.masterId };
+    case types.WS_TIMEBAR_DEFAULTWIDTH_UPDATE:
+      return u({
+        visuWindow: {
+          defaultWidth: parseInt(payload.defaultWidth, 10)
+        },
+      }, stateTimebar);
     default:
       return stateTimebar;
   }

@@ -7,6 +7,7 @@ const propsStub = {
   updateSpeed: () => null,
   updateCursors: () => null,
   updateMode: () => null,
+  toggleTimesetter: () => null,
   pause: () => null,
   play: () => null,
   isPlaying: true,

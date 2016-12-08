@@ -39,6 +39,7 @@
   Cursors
 */
 .lower, .upper, .current, .slide{
+    z-index: 4;
     cursor: col-resize;
     position: absolute;
     height: 100%;

@@ -74,9 +74,9 @@ export default class TimeSetterFields extends PureComponent {
                 onBlur={this.changeAttr.bind(null, x[0])}
                 onChange={this.changeAttr.bind(null, x[0])}
               />
-              {['year', 'months'].find(a => a === x[0]) ? <span>-</span> : ''}
-              {['hours', 'minutes'].find(a => a === x[0]) ? <span>:</span> : ''}
-              {x[0] === 'seconds' ? <span>.</span> : ''}
+              {['year', 'months'].find(a => a === x[0]) && <span>-</span>}
+              {['hours', 'minutes'].find(a => a === x[0]) && <span>:</span>}
+              {x[0] === 'seconds' && <span>.</span>}
             </div>
           )
         }

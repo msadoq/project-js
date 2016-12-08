@@ -44,7 +44,7 @@ export default class EditTrack extends Component {
     }
     this.editTimelineIdEl.value = this.props.timeline.id;
     this.editTimelineMasterEl.checked = this.props.masterId === this.props.timeline.id;
-    ['years', 'months', 'days', 'years', 'months', 'days', 'hours', 'minutes', 'seconds', 'milliseconds'].forEach((x) => {
+    ['years', 'months', 'days', 'hours', 'minutes', 'seconds', 'milliseconds'].forEach((x) => {
       this[`${x}El`].value = this.state.duration[x]();
     });
   }

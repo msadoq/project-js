@@ -2,18 +2,27 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { electronEnhancer } from 'redux-electron-store';
 import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
+
 import reducers from './reducers';
+import debug from '../../lib/common/debug/windowDebug';
+
+const logger = debug('WindowStore');
 
 let store;
 
-const logger = createLogger({
+const reduxLogger = createLogger({
   level: 'info',
   collapsed: true,
 });
 
 const enhancer = compose(
-  applyMiddleware(thunk, logger),
-  electronEnhancer(),
+  applyMiddleware(thunk, reduxLogger),
+  electronEnhancer({
+    dispatchProxy(...args) {
+      logger.debug('receive action from main process', ...args);
+      store.dispatch(...args);
+    }
+  }),
   window.devToolsExtension
     ? window.devToolsExtension()
     : noop => noop

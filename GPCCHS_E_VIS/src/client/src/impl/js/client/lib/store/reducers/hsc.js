@@ -10,6 +10,7 @@ const initialState = {
   lastCacheInvalidation: Date.now(),
   folder: null,
   file: null,
+  slowRenderers: [],
 };
 
 export default function hsc(state = initialState, action) {
@@ -32,6 +33,17 @@ export default function hsc(state = initialState, action) {
       return Object.assign({}, state, { folder: action.payload.folder, file: action.payload.file });
     case types.HSC_CLOSE_WORKSPACE:
       return _omit(state, ['folder', 'file']);
+    case types.HSC_ADD_SLOW_RENDERER:
+      return Object.assign({}, state, {
+        slowRenderers: {
+          ...state.slowRenderers,
+          [action.payload.windowId]: action.payload.interval,
+        },
+      });
+    case types.HSC_REMOVE_SLOW_RENDERER:
+      return Object.assign({}, state, {
+        slowRenderers: _omit(state.slowRenderers, [action.payload.windowId]),
+      });
     default:
       return state;
   }

@@ -8,6 +8,7 @@ import '!style!css!react-resizable/css/styles.css';
 
 import WindowContainer from './Window/WindowContainer';
 import { initStore, getStore } from '../store/windowStore';
+import CircuitBreaker from './CircuitBreaker';
 
 const search = global.location.search;
 const windowId = search.replace('?windowId=', '');
@@ -43,8 +44,14 @@ if (process.env.NODE_ENV === 'development') {
 //   // could implement before close logic here
 // });
 
+const store = getStore();
+CircuitBreaker({
+  store,
+  windowId,
+});
+
 render(
-  <Provider store={getStore()}>
+  <Provider store={store}>
     <WindowContainer windowId={windowId} />
   </Provider>,
   document.getElementById('root')

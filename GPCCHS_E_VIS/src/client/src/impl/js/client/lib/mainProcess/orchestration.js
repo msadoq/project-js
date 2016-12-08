@@ -12,6 +12,7 @@ import {
   getWindowsOpened,
   getPlayingTimebarId,
   getLastCacheInvalidation,
+  getSlowRenderers,
 } from '../store/selectors/hsc';
 import {
   setWindowsAsOpened,
@@ -42,6 +43,7 @@ const previous = {
   state: {},
   dataMap: {}, // only modified when running request logic (should compare current and previous)
   viewMap: {},
+  slowRenderers: [],
 };
 let dataQueue = [];
 
@@ -53,6 +55,29 @@ export function getAndResetQueue() {
   const data = dataQueue;
   dataQueue = [];
   return data;
+}
+
+// If at least 1 renderer slow down, bypass current tick
+// It avoid renderer processes to be stuned.
+export function circuitBreakerForRenderers(state, previousSlowRenderers) {
+  const slowRenderers = getSlowRenderers(state);
+
+  if (Object.keys(slowRenderers).length > 0) {
+    if (slowRenderers !== previousSlowRenderers) {
+      const renderers = Object
+        .keys(slowRenderers)
+        .map(k => `${k} (${slowRenderers[k]}ms)`).join(', ');
+
+      logger.warn(`Slow renderers detected ${renderers}`);
+    }
+  } else if (Object.keys(previousSlowRenderers).length > 0) {
+    logger.warn('No more slow renderers');
+  }
+
+  return {
+    skip: Object.keys(slowRenderers).length > 0,
+    slowRenderers,
+  };
 }
 
 export function schedule() {
@@ -80,6 +105,7 @@ export function stop() {
   previous.state = {};
   previous.dataMap = {};
   previous.viewMap = {};
+  previous.slowRenderers = {};
 
   const { dispatch } = getStore();
   dispatch(pause());
@@ -88,14 +114,28 @@ export function stop() {
 
 export function tick() {
   execution.start('global');
-  tickStart = process.hrtime();
 
-  // websocket
-  const websocket = getWebsocket();
+  tickStart = process.hrtime();
 
   // store
   const { getState, dispatch } = getStore();
   const state = getState();
+
+  // Bypass current tick if renderers are too busy
+  const {
+    skip,
+    slowRenderers,
+  } = circuitBreakerForRenderers(getState(), previous.slowRenderers);
+  previous.slowRenderers = slowRenderers;
+  // Bypass only if circuit breaker is activated
+  if (process.env.RENDERER_CIRCUIT_BREAKER === 'on' && skip) {
+    logger.debug('Slow renderer detected, bypass current tick');
+    done();
+    return;
+  }
+
+  // websocket
+  const websocket = getWebsocket();
 
   // last tick time
   const lastTickTime = lastTick;
@@ -223,7 +263,7 @@ export function tick() {
       `somethingHasChanged:${somethingHasChanged}`
       + ` isWindowsOpened:${isWindowsOpened}`
       + ` playingTimebarId:${playingTimebarId}`
-      + ` dataToInject:${dataToInject.length}`
+      + ` dataToInject:${(dataToInject || []).length}`
     );
     execution.print();
     execution.reset();

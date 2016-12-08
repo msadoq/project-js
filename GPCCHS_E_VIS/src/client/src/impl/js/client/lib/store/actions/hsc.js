@@ -26,3 +26,9 @@ export const updateCacheInvalidation
  * workspace path
  */
 export const updatePath = simple(types.HSC_UPDATE_PATH, 'folder', 'file');
+
+/**
+ * Identify slow renderers to ignore some ticks in orchestration
+ */
+export const removeSlowRenderer = simple(types.HSC_REMOVE_SLOW_RENDERER, 'windowId');
+export const addSlowRenderer = simple(types.HSC_ADD_SLOW_RENDERER, 'windowId', 'interval');

@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
-import _difference from 'lodash/difference';
 import classnames from 'classnames';
 import TimeSetterFields from './TimeSetterFields';
 import Message from '../common/Message';
@@ -132,13 +131,6 @@ export default class TimeSetter extends Component {
       orderedCursors = orderedCursors.concat('slideUpper', 'upper');
     }
 
-    if (timebarMode !== 'Fixed') {
-      orderedCursors = _difference(orderedCursors, ['slideLower']);
-    }
-    if (timebarMode === 'Normal') {
-      orderedCursors = _difference(orderedCursors, ['slideUpper']);
-    }
-
     return (
       <form onSubmit={this.willUpdateCursors} >
         { this.props.messages.length ? this.props.messages.map((v, i) =>
@@ -153,6 +145,13 @@ export default class TimeSetter extends Component {
         ) : null}
         {
           orderedCursors.map((x, i) => {
+            let undisplayed = false;
+            if (timebarMode !== 'Fixed' && x === 'slideLower') {
+              undisplayed = true;
+            }
+            if (timebarMode === 'Normal' && x === 'slideUpper') {
+              undisplayed = true;
+            }
             let ms;
             if (this.props.visuWindow[x]) {
               ms = this.state[x] || visuWindow[x];
@@ -170,7 +169,7 @@ export default class TimeSetter extends Component {
               <TimeSetterFields
                 key={i}
                 cursor={x}
-                disabled={disabled}
+                disabled={undisplayed || disabled}
                 ms={ms}
                 onChange={this.onChangeAction}
               />

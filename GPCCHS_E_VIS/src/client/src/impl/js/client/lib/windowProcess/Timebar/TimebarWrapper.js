@@ -122,16 +122,18 @@ export default class TimebarWrapper extends Component {
       timesetter = (
         <Modal
           title="Manual time setter"
-          visuWindow={visuWindow}
-          slideWindow={slideWindow}
-          isPlaying={isPlaying}
-          updateCursors={updateCursors}
-          timebarId={timebarId}
-          timebarMode={timebar.mode}
-          cursor={timesetterCursor || 'all'}
           onClose={this.toggleTimesetter}
-          bodyComponent={TimeSetterContainer}
-        />
+        >
+          <TimeSetterContainer
+            visuWindow={visuWindow}
+            slideWindow={slideWindow}
+            isPlaying={isPlaying}
+            updateCursors={updateCursors}
+            timebarId={timebarId}
+            timebarMode={timebar.mode}
+            cursor={timesetterCursor || 'all'}
+          />
+        </Modal>
       );
     }
 

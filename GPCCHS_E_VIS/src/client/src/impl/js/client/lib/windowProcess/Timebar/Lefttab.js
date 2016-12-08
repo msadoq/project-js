@@ -151,12 +151,14 @@ export default class Lefttab extends Component {
       editTrack = (
         <Modal
           title="Edit track"
-          timeline={currentlyEditingTimeline}
-          masterId={masterId}
           onClose={this.hideEditTimeline}
-          editTimeline={this.editTimeline}
-          bodyComponent={EditTrack}
-        />
+        >
+          <EditTrack
+            timeline={currentlyEditingTimeline}
+            masterId={masterId}
+            editTimeline={this.editTimeline}
+          />
+        </Modal>
       );
     }
 
@@ -165,13 +167,16 @@ export default class Lefttab extends Component {
       addTrack = (
         <Modal
           title="Add track"
-          timelines={timelines}
-          color={color}
-          sessions={sessions}
-          onChange={this.willAddTimeline}
           onClose={this.toggleAddTimeline}
-          bodyComponent={AddTrack}
-        />
+        >
+          <AddTrack
+            timelines={timelines}
+            color={color}
+            sessions={sessions}
+            onChange={this.willAddTimeline}
+            bodyComponent={AddTrack}
+          />
+        </Modal>
       );
     }
 

@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component, PropTypes, cloneElement } from 'react';
 import { Modal } from 'react-bootstrap';
 import classnames from 'classnames';
 
@@ -7,7 +7,7 @@ export default class ModalComponent extends Component {
   static propTypes = {
     onClose: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
-    bodyComponent: PropTypes.func,
+    children: PropTypes.node,
   }
 
   state = {
@@ -21,7 +21,6 @@ export default class ModalComponent extends Component {
   }
 
   render() {
-    const BodyComponent = this.props.bodyComponent;
     return (
       <div className="modal-container">
         <Modal show={this.state.showModal} onHide={this.onClose}>
@@ -38,7 +37,7 @@ export default class ModalComponent extends Component {
             >x</button>
           </Modal.Header>
           <Modal.Body>
-            <BodyComponent {...this.props} onClose={this.onClose} />
+            { cloneElement(this.props.children, { onClose: this.onClose }) }
           </Modal.Body>
         </Modal>
       </div>

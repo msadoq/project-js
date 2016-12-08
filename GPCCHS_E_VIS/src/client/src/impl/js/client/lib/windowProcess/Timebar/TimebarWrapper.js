@@ -127,6 +127,7 @@ export default class TimebarWrapper extends Component {
           isPlaying={isPlaying}
           updateCursors={updateCursors}
           timebarId={timebarId}
+          timebarMode={timebar.mode}
           cursor={timesetterCursor || 'all'}
           onClose={this.toggleTimesetter}
           bodyComponent={TimeSetterContainer}

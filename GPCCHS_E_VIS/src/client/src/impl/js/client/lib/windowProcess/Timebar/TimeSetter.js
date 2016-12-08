@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
+import _difference from 'lodash/difference';
 import classnames from 'classnames';
 import TimeSetterFields from './TimeSetterFields';
 import Message from '../common/Message';
@@ -18,6 +19,7 @@ export default class TimeSetter extends Component {
     messages: PropTypes.array.isRequired,
     cursor: PropTypes.string.isRequired,
     timebarId: PropTypes.string.isRequired,
+    timebarMode: PropTypes.string.isRequired,
   }
 
   state = {
@@ -100,7 +102,6 @@ export default class TimeSetter extends Component {
   }
 
   updateFields = () => {
-    console.log('updateFields');
     const { visuWindow } = this.props;
     /*
     If refs are absent, it means we are jest-testing the component
@@ -117,9 +118,30 @@ export default class TimeSetter extends Component {
   }
 
   render() {
+    const {
+      timebarMode,
+      visuWindow,
+      slideWindow,
+      cursor,
+    } = this.props;
+
+    let orderedCursors = ['lower', 'slideLower', 'current'];
+    if (timebarMode === 'Extensible') {
+      orderedCursors = orderedCursors.concat('upper', 'slideUpper');
+    } else {
+      orderedCursors = orderedCursors.concat('slideUpper', 'upper');
+    }
+
+    if (timebarMode !== 'Fixed') {
+      orderedCursors = _difference(orderedCursors, ['slideLower']);
+    }
+    if (timebarMode === 'Normal') {
+      orderedCursors = _difference(orderedCursors, ['slideUpper']);
+    }
+
     return (
       <form onSubmit={this.willUpdateCursors} >
-        { this.props.messages.length && this.props.messages.map((v, i) =>
+        { this.props.messages.length ? this.props.messages.map((v, i) =>
           <Message
             key={i}
             type={v.type}
@@ -128,20 +150,20 @@ export default class TimeSetter extends Component {
             messageIndex={i}
             onClose={this.props.removeMessage}
           />
-        )}
+        ) : null}
         {
-          ['slideLower', 'lower', 'current', 'upper', 'slideUpper'].map((x, i) => {
+          orderedCursors.map((x, i) => {
             let ms;
             if (this.props.visuWindow[x]) {
-              ms = this.state[x] || this.props.visuWindow[x];
+              ms = this.state[x] || visuWindow[x];
             } else if (x === 'slideLower') {
-              ms = this.state[x] || this.props.slideWindow.lower;
+              ms = this.state[x] || slideWindow.lower;
             } else if (x === 'slideUpper') {
-              ms = this.state[x] || this.props.slideWindow.upper;
+              ms = this.state[x] || slideWindow.upper;
             }
 
-            let disabled = this.props.cursor !== 'all';
-            if (x === this.props.cursor) {
+            let disabled = cursor !== 'all';
+            if (x === cursor) {
               disabled = false;
             }
             return (

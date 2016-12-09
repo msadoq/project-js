@@ -28,7 +28,7 @@ export default class Window extends Component {
   }
 
   render() {
-    logger.debug('render', this.props);
+    logger.debug('render');
     const {
       appStatus, focusedPageId,
       windowId

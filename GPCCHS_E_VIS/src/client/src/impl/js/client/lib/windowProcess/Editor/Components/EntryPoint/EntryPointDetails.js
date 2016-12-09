@@ -43,8 +43,7 @@ export default class EntryPointDetails extends React.Component {
   state = {
     isPanelNameOpen: false,
     isPanelConnDataOpen: false,
-    isPanelOrdinateOpen: false,
-    isPanelAbscissOpen: false,
+    isPanelCoordinatesOpen: false,
     isPanelStateColoursOpen: false,
     isPanelParametersOpen: false,
     nameEditable: false,
@@ -127,8 +126,7 @@ export default class EntryPointDetails extends React.Component {
     const {
       isPanelNameOpen,
       isPanelConnDataOpen,
-      isPanelOrdinateOpen,
-      isPanelAbscissOpen,
+      isPanelCoordinatesOpen,
       isPanelStateColoursOpen,
       isPanelParametersOpen,
       newStateColor,
@@ -188,30 +186,29 @@ export default class EntryPointDetails extends React.Component {
           />}
         </Panel>}
         {isPlotView && <Panel
-          key={'Ordinate'}
-          header="Ordinate"
-          eventKey={'Ordinate'}
-          expanded={isPanelOrdinateOpen}
-          onSelect={this.openPanel.bind('Ordinate')}
-          onExited={this.closePanel.bind('Ordinate')}
+          key={'Coordinates'}
+          header="Coordinates"
+          eventKey={'Coordinates'}
+          expanded={isPanelCoordinatesOpen}
+          onSelect={this.openPanel.bind('Coordinates')}
+          onExited={this.closePanel.bind('Coordinates')}
         >
-          {isPanelOrdinateOpen && <EntryPointConnectedData
+          <div className="page-header">
+            <h4>Ordinate</h4>
+          </div>
+          {isPanelCoordinatesOpen && <EntryPointConnectedData
             axes={axes}
             timelines={timelines}
             form={`entrypoint-connectedDataY-form-${idPoint}-${viewId}`}
             onSubmit={this.handleConnectedDataSubmit.bind(this, 'connectedDataY')}
             initialValues={this.props.entryPoint.connectedDataY}
           />}
-        </Panel>}
-        {isPlotView && <Panel
-          key={'Absciss'}
-          header="Absciss"
-          eventKey={'Absciss'}
-          expanded={isPanelAbscissOpen}
-          onSelect={this.openPanel.bind('Absciss')}
-          onExited={this.closePanel.bind('Absciss')}
-        >
-          {isPanelAbscissOpen && <EntryPointConnectedData
+          <br />
+          <br />
+          <div className="page-header">
+            <h4>Absciss</h4>
+          </div>
+          {isPanelCoordinatesOpen && <EntryPointConnectedData
             axes={axes}
             timelines={timelines}
             form={`entrypoint-connectedDataX-form-${idPoint}-${viewId}`}

@@ -15,7 +15,7 @@ const newEntryPoint = {
     digits: 5,
     format: 'decimal',
     domain: '',
-    timeline: 'Session 1',
+    timeline: '',
     axisId: 'time'
   },
   connectedDataY: {
@@ -24,7 +24,7 @@ const newEntryPoint = {
     digits: 5,
     format: 'decimal',
     domain: '',
-    timeline: 'Session 1',
+    timeline: '',
     axisId: 'time'
   },
   objectStyle: {

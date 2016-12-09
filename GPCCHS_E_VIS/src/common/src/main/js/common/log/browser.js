@@ -29,8 +29,11 @@ function sendOverIPC(category, level) {
     });
   }
 
-  return function sendWithContext(msg, ...other) {
-    sendToMaster(msg, ...other);
+  return function sendWithContext(msg, ...rest) {
+    const args = rest.reduce((acc, el) => (
+      acc.concat(typeof el === 'string' ? { info: el } : el)
+    ), []);
+    sendToMaster(msg, ...args);
   };
 }
 

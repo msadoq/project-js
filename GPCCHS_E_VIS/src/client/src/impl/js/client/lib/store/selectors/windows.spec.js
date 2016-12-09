@@ -7,6 +7,7 @@ import {
   getWindowsFocusedPage,
   getWindowsVisibleViewIds,
   getWindowsVisibleViews,
+  getWindowMinimized,
 } from './windows';
 
 describe('store:window:selectors', () => {
@@ -60,6 +61,17 @@ describe('store:window:selectors', () => {
     });
     it('should support empty windows list', () => {
       getWindowsFocusedPageIds({ windows: {} }).should.eql([]);
+    });
+  });
+  describe('getWindowMinimized', () => {
+    it('should returns minimized window state', () => {
+      const state = {
+        windows: {
+          myWindowId: { minimized: true },
+        },
+      };
+      const { getState } = getStore(state);
+      getWindowMinimized(getState(), 'myWindowId').should.equal(true);
     });
   });
   describe('getWindowsFocusedPage', () => {

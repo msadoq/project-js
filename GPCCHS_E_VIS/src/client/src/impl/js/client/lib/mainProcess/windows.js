@@ -7,6 +7,8 @@ import parameters from '../common/parameters';
 import {
   remove,
   updateGeometry,
+  minimize,
+  restore,
 } from '../store/actions/windows';
 import {
   focusWindow,
@@ -64,6 +66,13 @@ export function open(data, windowId, cb) {
 
   window.on('blur', () => {
     getStore().dispatch(blurWindow(windowId));
+  });
+
+  window.on('minimize', () => {
+    getStore().dispatch(minimize(windowId));
+  });
+  window.on('restore', () => {
+    getStore().dispatch(restore(windowId));
   });
 
   const saveGeometry = _.debounce((ev) => {

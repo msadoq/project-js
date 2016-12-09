@@ -33,6 +33,9 @@ export const getWindowFocusedPageSelector = createSelector([
 // TODO test
 export const getWindowDebug = (state, { windowId }) => _get(state, ['windows', windowId, 'debug']);
 
+export const getWindowMinimized =
+  (state, windowId) => _get(state, ['windows', windowId, 'minimized']);
+
 export const getWindowsFocusedPageIds = createSelector(
   [getWindows],
   windows => _reduce(windows, (list, w) => {

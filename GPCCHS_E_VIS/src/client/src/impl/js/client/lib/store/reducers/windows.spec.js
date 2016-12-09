@@ -23,6 +23,7 @@ describe('store:windows:reducer', () => {
         pages: ['myPageId'],
         geometry: { w: 800, h: 600, x: 110, y: 10 },
         debug: { whyDidYouUpdate: false, timebarVisibility: true },
+        minimized: false,
         isModified: false,
       });
     });
@@ -35,6 +36,7 @@ describe('store:windows:reducer', () => {
         title: 'Unknown',
         focusedPage: null,
         pages: [],
+        minimized: false,
         geometry: { x: 10, y: 10, w: 800, h: 600 },
         debug: { whyDidYouUpdate: false, timebarVisibility: true },
         isModified: false,
@@ -182,6 +184,26 @@ describe('store:windows:reducer', () => {
       dispatch(actions.unmountAndRemove('myWindowId', getState().windows.myWindowId.pages[1]));
       getState().windows.myWindowId.pages.should.be.an('array').with.lengthOf(1);
       should.not.exist(getState().pages[getState().windows.myWindowId.pages[1]]);
+    });
+  });
+  describe('minimize/restore window', () => {
+    it('should minimize window', () => {
+      const { dispatch, getState } = getStore({
+        windows: {
+          myWindowId: { minimized: false },
+        },
+      });
+      dispatch(actions.minimize('myWindowId'));
+      getState().windows.myWindowId.minimized.should.be.true;
+    });
+    it('should restore window', () => {
+      const { dispatch, getState } = getStore({
+        windows: {
+          myWindowId: { minimized: true },
+        },
+      });
+      dispatch(actions.restore('myWindowId'));
+      getState().windows.myWindowId.minimized.should.not.be.true;
     });
   });
 });

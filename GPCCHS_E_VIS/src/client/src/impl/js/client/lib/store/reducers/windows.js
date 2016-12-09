@@ -14,6 +14,8 @@ export default function windows(stateWindows = {}, action) {
     case types.WS_WINDOW_PAGE_MOUNT:
     case types.WS_WINDOW_PAGE_UNMOUNT:
     case types.WS_WINDOW_DEBUG_SWITCH:
+    case types.WS_WINDOW_MINIMIZE:
+    case types.WS_WINDOW_RESTORE:
       return Object.assign({}, stateWindows, {
         [action.payload.windowId]: window(stateWindows[action.payload.windowId], action)
       });
@@ -51,6 +53,7 @@ const initialState = {
     timebarVisibility: true,
   },
   isModified: false,
+  minimized: false,
 };
 
 function window(stateWindow = initialState, action) {
@@ -99,6 +102,14 @@ function window(stateWindow = initialState, action) {
       return Object.assign({}, stateWindow, {
         pages: _without(stateWindow.pages, action.payload.pageId),
         isModified: true,
+      });
+    case types.WS_WINDOW_MINIMIZE:
+      return Object.assign({}, stateWindow, {
+        minimized: true,
+      });
+    case types.WS_WINDOW_RESTORE:
+      return Object.assign({}, stateWindow, {
+        minimized: false,
       });
     default:
       return stateWindow;

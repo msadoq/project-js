@@ -20,6 +20,8 @@ export const updateGeometry = simple(types.WS_WINDOW_UPDATE_GEOMETRY,
 );
 export const switchDebug = simple(types.WS_WINDOW_DEBUG_SWITCH, 'windowId', 'which', 'status');
 export const setModified = simple(types.WS_WINDOW_SETMODIFIED, 'windowId', 'flag');
+export const minimize = simple(types.WS_WINDOW_MINIMIZE, 'windowId');
+export const restore = simple(types.WS_WINDOW_RESTORE, 'windowId');
 
 /**
  * Compound actions

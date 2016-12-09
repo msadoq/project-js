@@ -14,6 +14,7 @@ const structures = {
     removeEpData: require('./last/removeEpData'),
     isEpDifferent: require('./last/isEpDifferent'),
     updateEpLabel: require('./last/updateEpLabel'),
+    addTimelineId: require('./last/addTimelineId'),
   },
   [globalConstants.DATASTRUCTURETYPE_RANGE]: {
     getExpectedInterval: require('./range/getExpectedInterval'),
@@ -25,6 +26,7 @@ const structures = {
     removeEpData: require('./range/removeEpData'),
     isEpDifferent: require('./range/isEpDifferent'),
     updateEpLabel: require('./range/updateEpLabel'),
+    addTimelineId: require('./range/addTimelineId'),
   },
 };
 

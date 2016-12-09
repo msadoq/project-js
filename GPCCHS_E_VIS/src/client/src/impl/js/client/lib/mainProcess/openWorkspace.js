@@ -1,5 +1,6 @@
 import _each from 'lodash/each';
 import _map from 'lodash/map';
+import _reduce from 'lodash/reduce';
 import path from 'path';
 import { dialog } from 'electron';
 import { v4 } from 'node-uuid';
@@ -13,8 +14,9 @@ import { add as addView } from '../store/actions/views';
 import { add as addPage } from '../store/actions/pages';
 import { add as addWindow } from '../store/actions/windows';
 import { updatePath, setWorkspaceAsOpened } from '../store/actions/hsc';
-
 import { getPathByFilePicker } from './filePicker';
+import vivl from '../../VIVL/main';
+import structures from '../dataManager/structures';
 
 const logger = getLogger('GPCCHS:mainProcess:openWorkspace');
 
@@ -25,6 +27,29 @@ export function loadInStore(workspace, dispatch, root, file, callback) {
   // add timebars
   _each(workspace.timebars, e => dispatch(addTimebar(e.uuid, e)));
 
+  // Convert timeline label to ID for each entry points
+  const pageOfViews = {};
+  _each(workspace.pages, (page, pageId) => {
+    const viewIds = _reduce(page.views, (list, view) => {
+      list.push(view.uuid);
+      return list;
+    }, []);
+    viewIds.forEach((id) => {
+      pageOfViews[id] = pageId;
+    });
+  });
+  _each(workspace.views, (view, viewId) => {
+    const structureType = vivl(view.type, 'structureType')();
+    const tbId = workspace.pages[pageOfViews[viewId]].timebarId;
+    const timelineIds = workspace.timebars[tbId].timelines;
+    try {
+      // eslint-disable-next-line no-param-reassign
+      view.configuration = structures(structureType, 'addTimelineId')(view.configuration,
+        timelineIds, workspace.timelines);
+    } catch (e) {
+      logger.warn(`no addTimelineId for view ${structureType}`);
+    }
+  });
   // add views
   _each(workspace.views, e => dispatch(addView(
     e.uuid,

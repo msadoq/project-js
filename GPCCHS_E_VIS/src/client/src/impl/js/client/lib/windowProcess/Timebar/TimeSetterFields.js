@@ -12,26 +12,30 @@ export default class TimeSetterFields extends PureComponent {
     onChange: React.PropTypes.func.isRequired,
   }
 
-  changeAttr = (a, e) => {
-    const el = e.currentTarget;
-    const { ms } = this.props;
-    let attrVal = parseInt(el.value, 10);
+  constructor(...args) {
+    super(...args);
+    const state = {};
+    dateToArray(moment(this.props.ms)).forEach((v) => {
+      state[v[0]] = v[1];
+    });
+    this.state = state;
+  }
 
-    const date = moment(ms);
+  componentWillReceiveProps = (nextProps) => {
+    const arr = dateToArray(moment(nextProps.ms));
+    arr.forEach(v => this.setState({
+      [v[0]]: v[1]
+    }));
+  }
+
+  changeAttr = (a, e) => {
+    const { ms } = this.props;
+    let attrVal = parseInt(e.currentTarget.value, 10);
 
     // UI month 1 equals moment month 0
     if (a === 'months') attrVal -= 1;
-
+    const date = moment(ms);
     date.set(a, attrVal);
-
-    /*
-      Replacing values of the inputs for each date proprety with their moment formatted equivalents.
-      Very important because increases can fire other increases values on upper scopes
-      ex: + 1 hour can sometimes switch to the next day / month / year
-    */
-    Object.keys(formats).forEach((key) => {
-      this[`${key}El`].value = date.format(formats[key].format);
-    });
 
     this.props.onChange(date.toDate().getTime(), this.props.cursor);
   }
@@ -64,11 +68,9 @@ export default class TimeSetterFields extends PureComponent {
           arr.map((x, i) =>
             <div key={i} className={styles.inputDiv}>
               <input
-                type="number"
-                ref={(el) => { this[`${x[0]}El`] = el; }}
                 key={i}
                 className={classnames('form-control', styles.input, styles[`input_${x[0]}`])}
-                value={x[1]}
+                defaultValue={x[1]}
                 disabled={disabled}
                 onClick={this.changeAttr.bind(null, x[0])}
                 onBlur={this.changeAttr.bind(null, x[0])}

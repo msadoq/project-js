@@ -22,12 +22,12 @@ export default class TimeSetter extends Component {
   }
 
   state = {
-    errorMessages: []
+    errorMessages: [],
+    defaultWidth: null,
   }
 
   componentDidMount() {
     this.pauseIfPlaying();
-    this.updateFields();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -39,17 +39,20 @@ export default class TimeSetter extends Component {
 
   componentDidUpdate() {
     this.pauseIfPlaying();
-    this.updateFields();
   }
 
   onChangeAction = (value, cursor) => {
     this.setState({ [cursor]: value });
   }
 
-  pauseIfPlaying = () => {
-    if (this.props.isPlaying) {
-      this.props.pause();
-    }
+  onDefaultWidthChange = () => {
+    const defaultWidth = moment.duration(0);
+    ['hours', 'minutes', 'seconds', 'milliseconds'].forEach((v) => {
+      defaultWidth.add(parseInt(this[`defaultWidth${v}El`].value, 10), v);
+    });
+    this.setState({
+      defaultWidth: defaultWidth.asMilliseconds()
+    });
   }
 
   willUpdateCursors = (e) => {
@@ -77,15 +80,11 @@ export default class TimeSetter extends Component {
       newSlideWindow
     );
 
-    const duration = moment.duration();
-    // Dynamically fullfilling inputs
-    ['hours', 'minutes', 'seconds', 'milliseconds'].forEach((x) => {
-      const val = parseInt(this[`defaultWidth${x}El`].value, 10) || 0;
-      duration.add(val, x);
-    });
-    const ms = duration.asMilliseconds();
-    if (ms !== parseInt(visuWindow.defaultWidth, 10)) {
-      updateDefaultWidth(timebarId, ms);
+    const defaultWidth = this.state.defaultWidth === null ?
+      visuWindow.defaultWidth : this.state.defaultWidth;
+
+    if (defaultWidth !== parseInt(visuWindow.defaultWidth, 10)) {
+      updateDefaultWidth(timebarId, defaultWidth);
     }
   }
 
@@ -100,20 +99,10 @@ export default class TimeSetter extends Component {
     });
   }
 
-  updateFields = () => {
-    const { visuWindow } = this.props;
-    /*
-    If refs are absent, it means we are jest-testing the component
-    refs are not compatible with jest testing for now
-    */
-    if (!this.defaultWidthhoursEl) {
-      return;
+  pauseIfPlaying = () => {
+    if (this.props.isPlaying) {
+      this.props.pause();
     }
-
-    const duration = moment.duration(visuWindow.defaultWidth);
-    ['hours', 'minutes', 'seconds', 'milliseconds'].forEach((x) => {
-      this[`defaultWidth${x}El`].value = duration[x]();
-    });
   }
 
   render() {
@@ -154,11 +143,11 @@ export default class TimeSetter extends Component {
             }
             let ms;
             if (this.props.visuWindow[x]) {
-              ms = this.state[x] || visuWindow[x];
+              ms = visuWindow[x];
             } else if (x === 'slideLower') {
-              ms = this.state[x] || slideWindow.lower;
+              ms = slideWindow.lower;
             } else if (x === 'slideUpper') {
-              ms = this.state[x] || slideWindow.upper;
+              ms = slideWindow.upper;
             }
 
             let disabled = cursor !== 'all';
@@ -185,20 +174,19 @@ export default class TimeSetter extends Component {
           </div>
           <div className={styles.inputDiv}>
             {
-              ['hours', 'minutes', 'seconds', 'milliseconds'].map((x, i) =>
-                (
-                  <div className={styles.inputDiv} key={i}>
-                    <input
-                      key={i}
-                      type="number"
-                      ref={(el) => { this[`defaultWidth${x}El`] = el; }}
-                      placeholder={x}
-                      className={classnames(styles.input, styles[`input_${x}`], 'form-control')}
-                    />
-                    {(x === 'hours' || x === 'minutes') && <span>:</span>}
-                    {x === 'seconds' && <span>.</span>}
-                  </div>
-                )
+              dateToArray(moment.duration(visuWindow.defaultWidth)).map((x, i) =>
+                (<div className={styles.inputDiv} key={i}>
+                  <input
+                    key={i}
+                    defaultValue={x[1]}
+                    placeholder={x[0]}
+                    ref={(el) => { this[`defaultWidth${x[0]}El`] = el; }}
+                    onChange={this.onDefaultWidthChange}
+                    className={classnames(styles.input, styles[`input_${x[0]}`], 'form-control')}
+                  />
+                  {(x === 'hours' || x === 'minutes') && <span>:</span>}
+                  {x === 'seconds' && <span>.</span>}
+                </div>)
               )
             }
           </div>
@@ -211,4 +199,13 @@ export default class TimeSetter extends Component {
       </form>
     );
   }
+}
+
+function dateToArray(m) {
+  return [
+    ['hours', m.hours()],
+    ['minutes', m.minutes()],
+    ['seconds', m.seconds()],
+    ['milliseconds', m.milliseconds()]
+  ];
 }

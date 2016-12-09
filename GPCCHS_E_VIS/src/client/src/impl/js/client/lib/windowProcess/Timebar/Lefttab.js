@@ -151,12 +151,12 @@ export default class Lefttab extends Component {
         isOpened={currentlyEditingTimeline && willEdit}
         onClose={this.hideEditTimeline}
       >
-        <EditTrack
+        {currentlyEditingTimeline && <EditTrack
           timeline={currentlyEditingTimeline}
           masterId={masterId}
           editTimeline={this.editTimeline}
           onClose={this.hideEditTimeline}
-        />
+        />}
       </Modal>
     );
 

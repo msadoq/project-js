@@ -85,7 +85,8 @@ export const getEntryPointsCharts = (config) => {
       }
     }
   });
-  return Object.values(charts).concat([mainChart]);
+  const chartArray = Object.values(charts);
+  return mainChart ? chartArray.concat([mainChart]) : chartArray;
 };
 
 export const getLine = ep => ({

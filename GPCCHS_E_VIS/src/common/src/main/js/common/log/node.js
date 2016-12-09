@@ -1,7 +1,5 @@
 const winston = require('winston');
-const {
-  getTimer,
- } = require('./util');
+const { getTimer } = require('./util');
 
 winston.cli();
 

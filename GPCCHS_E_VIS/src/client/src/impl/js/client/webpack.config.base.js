@@ -8,6 +8,10 @@ import postCssNesting from 'postcss-nested';
 import postCssReporter from 'postcss-reporter';
 import postCssBrowserReporter from 'postcss-browser-reporter';
 
+import { init } from 'common/parameters';
+
+init(__dirname);
+
 export default {
   debug: true,
   module: {
@@ -28,7 +32,7 @@ export default {
       },
       {
         test: /\.json$/,
-        loader: 'json',
+        loader: require.resolve('json-loader'),
       },
       {
         test: /\.less$/,
@@ -43,16 +47,10 @@ export default {
   },
   resolve: {
     extensions: ['', '.js', '.jsx', '.json', '.less', '.css'],
-    packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main']
+    packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main'],
   },
   plugins: [
     new webpack.ContextReplacementPlugin(/moment\/locale$/, new RegExp('fr.js')),
-    new webpack.DefinePlugin({
-      'process.env': {
-        MONITORING: JSON.stringify(process.env.MONITORING),
-        APP_ENV: JSON.stringify('browser'),
-      }
-    })
   ],
   externals: [
     // put your node 3rd party libraries which can't be built with webpack here

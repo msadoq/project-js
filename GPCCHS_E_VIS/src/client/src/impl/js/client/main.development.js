@@ -1,22 +1,20 @@
 import { app } from 'electron';
-import { init, get } from 'common/parameters';
+import { init } from 'common/parameters';
 import { start, stop, onWindowsClose } from './lib/mainProcess';
 
-process.title = 'HSC_MAIN';
+process.title = 'gpcchs_main';
 
-app.commandLine.appendSwitch('no-proxy-server'); // TODO dbrugne : analysis
+// avoid using host proxy configuration and perturbing local HTTP access (e.g.: index.html)
+app.commandLine.appendSwitch('no-proxy-server');
 
+// init parameters
 init(__dirname);
-
-if (get('DEBUG') === 'on') {
-  require('electron-debug')(); // eslint-disable-line global-require
-}
 
 app.on('ready', start);
 
 app.on('window-all-closed', () => onWindowsClose());
 
-app.on('quit', () => stop);
+app.on('quit', stop);
 
 process.on('uncaughtException', (err) => {
   console.error(err); // eslint-disable-line no-console

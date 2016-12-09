@@ -1,9 +1,14 @@
 {
+  "LOG": "console",
   "PROFILING": "on",
-  "MONITORING": "on",
+  "MONITORING": "off",
   "DEBUG": "on",
   "FMD_ROOT_DIR": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/impl/js/client/data",
   "HSS": "http://127.0.0.1:3000",
-  "PORT": 3100,
-  "OPEN": "small.workspace.json"
+  "SERVER_PORT": 3000,
+  "WEBPACK_PORT": 3100,
+  "ZMQ_GPCCDC_PUSH": "tcp://127.0.0.1:5042",
+  "ZMQ_GPCCDC_PULL": "tcp://127.0.0.1:49165",
+  "OPEN": "small.workspace.json",
+  "STUB_DC_ON": "on"
 }

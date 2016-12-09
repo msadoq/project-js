@@ -1,9 +1,9 @@
-/* eslint max-len: 0 */
+import { get } from 'common/parameters';
 import webpack from 'webpack';
 import merge from 'webpack-merge';
 import baseConfig from './webpack.config.base';
 
-const port = process.env.PORT || 3000;
+const port = get('WEBPACK_PORT');
 
 export default merge(baseConfig, {
   debug: true,
@@ -37,6 +37,11 @@ export default merge(baseConfig, {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        APP_ENV: JSON.stringify('browser'),
+      }
+    }),
   ],
 
   target: 'electron-renderer'

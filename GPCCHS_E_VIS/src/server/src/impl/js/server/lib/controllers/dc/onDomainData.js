@@ -1,15 +1,10 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
+/* eslint import/no-extraneous-dependencies:0 */
 const logger = require('common/log')('controllers:onDomainData');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const { decode } = require('common/protobuf');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const registeredCallbacks = require('common/callbacks');
 
-const { setDomains } = require('../../utils/domains');
 const { sendToMain } = require('../../websocket/sendToMain');
-
 
 /**
  * Triggered on DC domain request response.
@@ -37,8 +32,6 @@ const domainData = (websocketHandler, queryIdBuffer, domainsBuffer) => {
   // deprotobufferize domains
   const domains = decode('dc.dataControllerUtils.Domains', domainsBuffer).domains;
 
-  // store domains
-  setDomains(domains);
   // forward to client
   return websocketHandler(globalConstants.EVENT_DOMAIN_DATA, domains, queryId);
 };

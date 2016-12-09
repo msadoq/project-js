@@ -8,7 +8,7 @@ import config from './webpack.config.development';
 
 const app = express();
 const compiler = webpack(config);
-const PORT = get('PORT');
+const PORT = get('WEBPACK_PORT');
 
 const wdm = webpackDevMiddleware(compiler, {
   publicPath: config.output.publicPath,

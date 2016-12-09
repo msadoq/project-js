@@ -1,17 +1,9 @@
-/* eslint prefer-template:0 */
+/** eslint prefer-template:0 no-underscore-dangle:0 import/no-extraneous-dependencies:0 **/
 
 const { Router } = require('express');
-// eslint-disable-next-line no-underscore-dangle
-const _each = require('lodash/each');
-// eslint-disable-next-line no-underscore-dangle
 const _floor = require('lodash/floor');
-// eslint-disable-next-line no-underscore-dangle
 const _round = require('lodash/round');
-
-// eslint-disable-next-line import/no-extraneous-dependencies
 const monitoring = require('common/monitoring');
-
-const { getDomains } = require('../../utils/domains');
 
 const subscriptionsModel = require('../../models/subscriptions');
 const connectedDataModel = require('../../models/connectedData');
@@ -42,17 +34,11 @@ const convertBytes = (value) => {
 
 router.get('/',
   (req, res) => {
-    const domains = getDomains();
     const cdNb = connectedDataModel.count();
     const tbModels = getAllTimebasedDataModelRemoteIds();
     const subNb = subscriptionsModel.count();
     const avgTime = monitoring.getAverageTime();
     const memUsage = monitoring.getMemoryUsage();
-
-    let htmlDomains = '';
-    _each(domains, (domain) => {
-      htmlDomains += `       <li>${domain.name}</li>`;
-    });
 
     const profilingOff = (typeof avgTime === 'undefined' || typeof memUsage === 'undefined');
 
@@ -78,10 +64,6 @@ router.get('/',
           `       <li>Heap Total: ${convertBytes(memUsage.heapTotal)}</li>` +
           `       <li>Heap Used: ${convertBytes(memUsage.heapUsed)}</li>` +
           '     </ul>')) +
-      '   <h2>Domains</h2>' +
-      '     <ul>' +
-      ((htmlDomains === '') ? 'no domains retrieved' : htmlDomains) +
-      '     </ul>' +
       '   <h2>Models</h2>' +
       '     <ul>' +
       `       <li><a href="/debug/timebasedData/">timebasedData</a>: ${tbModels.length} model(s)</li>` +

@@ -12,20 +12,23 @@
   },
   "scripts": {
     "build": "npm run build-main && npm run build-renderer",
-    "build-main": "node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.electron.js --progress --profile --colors",
-    "build-renderer": "NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.production.js --progress --profile --colors",
-    "hello": "npm install && npm link ../../../../../common/src/main/js/common && [ -f config.local.json ] && echo || cp config.sample.json config.local.json",
+    "build-main": "node -r babel-register ./node_modules/.bin/webpack --config webpack.config.electron.js --progress --profile --colors",
+    "build-renderer": "NODE_ENV=production node -r babel-register ./node_modules/.bin/webpack --config webpack.config.production.js --progress --profile --colors",
+    "hello": "npm run link && npm install && [ -f config.local.json ] && echo || cp config.sample.json config.local.json",
+    "link": "npm link ../../../../../common/src/main/js/common && npm link ../../../../../server/src/impl/js/server",
     "lint": "eslint lib test *.js",
     "package": "node -r babel-register -r babel-polyfill package.js",
-    "sh": "HOT=1 electron -r babel-register -r babel-polyfill ./main.development",
+    "sh": "npm run start-hot",
     "start": "electron ./",
+    "start-hot": "HOT=1 electron -r babel-register -r babel-polyfill ./main.development",
     "test": "BABEL_DISABLE_CACHE=1 mocha --compilers js:babel-register \"+(lib|VIVL)/**/*.spec.js\"",
     "test:watch": "npm test -- --watch",
     "snapshot": "NODE_ENV=test BABEL_DISABLE_CACHE=1 jest",
     "snapshot-watch": "npm run snapshot -- --watch",
     "snapshot-clean": "jest -u",
     "tw": "npm test -- --watch",
-    "wp": "node -r babel-register server.js --PORT=3100"
+    "wp": "npm run webpack",
+    "webpack": "node -r babel-register server.js --PORT=3100"
   },
   "bin": {
     "electron": "./node_modules/.bin/electron"

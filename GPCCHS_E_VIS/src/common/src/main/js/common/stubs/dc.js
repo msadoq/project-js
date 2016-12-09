@@ -1,10 +1,8 @@
-// eslint-disable-next-line no-underscore-dangle
+/* eslint no-underscore-dangle:0 */
 const _each = require('lodash/each');
-// eslint-disable-next-line no-underscore-dangle
 const _omit = require('lodash/omit');
 
 const logger = require('../log')('GPCCHS:STUBS:DC');
-
 const zmq = require('../zmq');
 const globalConstants = require('../constants');
 const protobuf = require('../protobuf/index');
@@ -18,6 +16,7 @@ const sendArchiveData = require('./dc/sendArchiveData');
 const sendSessionData = require('./dc/sendSessionData');
 const sendFilepathData = require('./dc/sendFilepathData');
 
+process.title = 'gpcchs_dc_stub';
 
 let subscriptions = {};
 let queries = [];

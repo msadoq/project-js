@@ -20,7 +20,7 @@ function init(path) {
     const localPath = join(path, LOCAL);
     fs.accessSync(localPath, fs.constants.F_OK);
     fs.accessSync(localPath, fs.constants.R_OK);
-    localConfig = JSON.parse(fs.readFileSync(localPath, 'utf8'));
+    localConfig = Object.assign(JSON.parse(fs.readFileSync(localPath, 'utf8')), { path });
     logger.info(`local configuration file loaded: ${localConfig}`);
   } catch (e) {
     logger.info('no local configuration file found');

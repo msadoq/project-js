@@ -1,8 +1,8 @@
 {
+  "LOG": "file",
   "LEVEL": "INFO",
   "PROFILING": "off",
   "MONITORING": "off",
   "DEBUG": "off",
-  "FMD_ROOT_DIR": "/data/isis/documents",
-  "LOG": "file"
+  "FMD_ROOT_DIR": "/data/isis/documents"
 }

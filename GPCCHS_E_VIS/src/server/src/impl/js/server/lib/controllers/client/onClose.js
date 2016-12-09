@@ -1,16 +1,11 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
+/* eslint import/no-extraneous-dependencies:0 no-underscore-dangle:0 */
 const logger = require('common/log')('controllers:onClose');
-
-// eslint-disable-next-line no-underscore-dangle
 const _each = require('lodash/each');
-
-// eslint-disable-next-line import/no-extraneous-dependencies
 const zmq = require('common/zmq');
 
 const { reset: resetDataQueue } = require('../../websocket/dataQueue');
 const registeredQueries = require('../../utils/registeredQueries');
 const { createDeleteSubscriptionMessage } = require('../../utils/subscriptions');
-const { resetDomains } = require('../../utils/domains');
 
 const { clearFactory } = require('../../models/timebasedDataFactory');
 const subscriptionsModel = require('../../models/subscriptions');
@@ -25,7 +20,6 @@ const connectedDataModel = require('../../models/connectedData');
  *    - subscriptions
  *    - timebasedData
  * - reset all singletons
- *    - domains
  *    - registeredQueries
  *
  * @param messageHandler
@@ -46,8 +40,6 @@ const close = (messageHandler) => {
   connectedDataModel.cleanup();
   // cleanup subscriptions model
   subscriptionsModel.cleanup();
-  // cleanup domains singleton
-  resetDomains();
   // cleanup queries
   registeredQueries.clear();
 

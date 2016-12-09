@@ -17,7 +17,6 @@ const {
 require('../../utils/test');
 const registeredQueries = require('../../utils/registeredQueries');
 const { add, get } = require('../../websocket/dataQueue');
-const { setDomains, getDomains } = require('../../utils/domains');
 
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
@@ -51,7 +50,6 @@ describe('controllers/client/onClose', () => {
     const timebasedDataModel = getOrCreateTimebasedDataModel(myRemoteId);
     timebasedDataModel.addRecord(_now(), proto);
     connectedDataModel.addRequestedInterval(myRemoteId, 'queryId', [42, 42]);
-    setDomains([1]);
     registeredQueries.set('queryId', myRemoteId);
 
     // call it
@@ -78,8 +76,6 @@ describe('controllers/client/onClose', () => {
     const timebasedData = timebasedDataModel.find();
     timebasedData.should.be.an('array')
       .that.have.lengthOf(0);
-    getDomains().should.be.an('array')
-      .that.has.lengthOf(0);
     Object.keys(registeredQueries.getAll()).should.have.lengthOf(0);
   });
 });

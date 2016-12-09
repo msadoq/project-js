@@ -14,7 +14,7 @@ const config = merge(baseConfig, {
   ],
 
   output: {
-    publicPath: '../app/dist/'
+    publicPath: 'dist/'
   },
   externals: {
     common: 'common'
@@ -23,23 +23,26 @@ const config = merge(baseConfig, {
   module: {
     loaders: [{
       test: [/.+\.svg/, /.+\.eot/, /.+\.ttf/, /.+\.woff/, /.+\.woff2/],
-      loader: 'file?name=dist/fonts/[name].[ext]'
+      loader: 'file?name=fonts/[name].[ext]'
     }]
   },
 
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production'),
-      'process.env.IS_BUNDLED': 'on',
-    }),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
         screw_ie8: true,
         warnings: false
       }
     }),
-    new ExtractTextPlugin('style.css', { allChunks: true })
+    new ExtractTextPlugin('style.css', { allChunks: true }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production'),
+        IS_BUNDLED: JSON.stringify('on'),
+        APP_ENV: JSON.stringify('browser'),
+      }
+    }),
   ],
 
   target: 'electron-renderer'

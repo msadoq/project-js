@@ -14,6 +14,7 @@ export default merge(baseConfig, {
   externals: [
     'source-map-support',
     'common',
+    'package.json',
   ],
 
   plugins: [
@@ -26,6 +27,11 @@ export default merge(baseConfig, {
       'require("source-map-support").install();',
       { raw: true, entryOnly: false }
     ),
+    new webpack.DefinePlugin({
+      'process.env': {
+        IS_BUNDLED: JSON.stringify('on'),
+      }
+    }),
   ],
 
   target: 'electron-main',

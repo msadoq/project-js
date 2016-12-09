@@ -1,14 +1,16 @@
 #!/usr/bin/env node
 
-require('dotenv-safe').load();
+/* eslint import/no-extraneous-dependencies:0 */
 
-// eslint-disable-next-line import/no-extraneous-dependencies
-const logger = require('common/log')('startup');
+const logger = require('common/log')('main');
+const zmq = require('common/zmq');
+const monitoring = require('common/monitoring');
 const exit = require('exit');
-const app = require('./lib/express');
-const http = require('http');
-const primus = require('./lib/websocket/primus');
-const onOpen = require('./lib/controllers/client/onOpen');
+const app = require('./lib/express'); // TODO deprecate
+const primus = require('./lib/websocket/primus'); // TODO deprecate
+const onOpen = require('./lib/controllers/client/onOpen'); // TODO deprecate
+const http = require('http'); // TODO deprecate
+const errorHandler = require('./lib/utils/errorHandler');
 const { onClose } = require('./lib/controllers/client/onClose');
 const { onMessage } = require('./lib/controllers/dc/onMessage');
 const { onDomainQuery } = require('./lib/controllers/client/onDomainQuery');
@@ -18,17 +20,9 @@ const { onTimebasedQuery } = require('./lib/controllers/client/onTimebasedQuery'
 const { onSessionQuery } = require('./lib/controllers/client/onSessionQuery');
 const { onFilepathQuery } = require('./lib/controllers/client/onFilepathQuery');
 
-const cp = require('child_process');
-const errorHandler = require('./lib/utils/errorHandler');
-
-// eslint-disable-next-line import/no-extraneous-dependencies
-const zmq = require('common/zmq');
-// eslint-disable-next-line import/no-extraneous-dependencies
-const monitoring = require('common/monitoring');
+process.title = 'gpcchs_main';
 
 monitoring.start();
-
-process.title = 'HSS';
 
 // port
 function normalizePort(val) {
@@ -47,7 +41,7 @@ function normalizePort(val) {
   return false;
 }
 
-const port = normalizePort(process.env.PORT);
+const port = normalizePort(process.env.SERVER_PORT);
 app.set('port', port);
 
 // HTTP server
@@ -109,19 +103,6 @@ zmq.open({
 }, (err) => {
   if (err) {
     throw err;
-  }
-
-  if (process.env.STUB_DC_ON === 'on') {
-    const dc = cp.fork(`${__dirname}/node_modules/common/stubs/dc.js`);
-
-    // if HSS is forked by Mocha, kill dc child process explicitly
-    if (process.env.RUN_BY_MOCHA === 'true' && process.send) {
-      const exitHandler = () => dc.kill() && process.kill();
-      process.on('exit', exitHandler);
-      process.on('SIGTERM', exitHandler);
-      process.on('SIGINT', exitHandler);
-      process.on('uncaughtException', exitHandler);
-    }
   }
 
   // once ZMQ sockets are open, launch express

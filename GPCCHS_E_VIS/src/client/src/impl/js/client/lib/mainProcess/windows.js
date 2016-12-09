@@ -21,9 +21,7 @@ const logger = getLogger('GPCCHS:store:observers:windows');
 const windows = {};
 
 function getWindowHtmlPath() {
-  return parameters.get('IS_BUNDLED') === 'on'
-    ? `file://${__dirname}/index.html`
-    : `file://${__dirname}/../../index.html`;
+  return `file://${parameters.get('path')}/index.html`;
 }
 
 export function open(data, windowId, cb) {
@@ -45,12 +43,6 @@ export function open(data, windowId, cb) {
 
   // prevent garbage collection
   windows[windowId] = window;
-
-  if (process.env.NODE_ENV === 'production') {
-    window.loadURL(`file://${__dirname}/index.html?windowId=${windowId}`);
-  } else {
-    window.loadURL(`file://${__dirname}/../windowProcess/index.html?windowId=${windowId}`);
-  }
 
   const htmlPath = getWindowHtmlPath();
   logger.debug('opening', htmlPath);

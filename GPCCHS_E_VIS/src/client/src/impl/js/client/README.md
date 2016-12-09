@@ -7,16 +7,24 @@ Desktop visualisation application for ISIS project.
 Clone the project and switch to client folder:
 > cd /data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/impl/js/client
 
-Set .env file and install dependencies:
+Set configuration files and install dependencies:
 > npm run hello
 
 # Launch project for development:
 
 Launch webpack server (in a separate terminal):
-> npm run wp
+> npm run webpack
 
 Launch client with hot reload:
-> npm run sh
+> npm run start-hot
+
+## Build and run bundled version
+
+Build both main and renderer process bundles:
+> npm run build
+
+Launch bundled client:
+> npm start
 
 ## Other procedures
 

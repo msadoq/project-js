@@ -409,7 +409,7 @@ class PlotView extends PureComponent {
       >
         <ChartCanvas
           plotFull={false}
-          ratio={2}
+          ratio={1}
           width={width}
           height={height}
           margin={{ ...margin, right: marginRight }}

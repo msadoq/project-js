@@ -4,6 +4,8 @@ import {
   Button
 } from 'react-bootstrap';
 
+import styles from './ClearSubmitButtons.css';
+
 export default class ClearSubmitButtons extends PureComponent {
   static propTypes = {
     submitting: PropTypes.bool.isRequired,
@@ -21,22 +23,24 @@ export default class ClearSubmitButtons extends PureComponent {
     } = this.props;
 
     return (
-      <ButtonGroup className="pull-right">
-        {reset && <Button
-          type="button"
-          disabled={pristine || submitting}
-          onClick={reset}
-        >
-          Clear
-        </Button>}
-        <Button
-          bsStyle="success"
-          type="submit"
-          disabled={pristine || submitting || !valid}
-        >
-          Submit
-        </Button>
-      </ButtonGroup>
+      <div className={styles.root}>
+        <ButtonGroup>
+          {reset && <Button
+            type="button"
+            disabled={pristine || submitting}
+            onClick={reset}
+          >
+            Clear
+          </Button>}
+          <Button
+            bsStyle="success"
+            type="submit"
+            disabled={pristine || submitting || !valid}
+          >
+            Submit
+          </Button>
+        </ButtonGroup>
+      </div>
     );
   }
 }

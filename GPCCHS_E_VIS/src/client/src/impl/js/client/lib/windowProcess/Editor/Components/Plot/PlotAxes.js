@@ -6,6 +6,7 @@ import {
   Glyphicon
 } from 'react-bootstrap';
 import PlotAxis from './PlotAxis';
+import Modal from '../../../common/Modal';
 
 export default class PlotAxes extends React.Component {
   static propTypes = {
@@ -23,7 +24,7 @@ export default class PlotAxes extends React.Component {
     eventKey: PropTypes.string.isRequired,
     collapsible: PropTypes.bool.isRequired,
   }
-  state = { };
+  state = { isCreationModalOpen: false };
 
   openPanel = key => this.setState({ [`isPanel${key}Open`]: true });
   closePanel = key => this.setState({ [`isPanel${key}Open`]: false });
@@ -36,16 +37,19 @@ export default class PlotAxes extends React.Component {
   }
 
   handleAddPlotAxis = (e) => {
-    const { addAxis, viewId } = this.props;
     e.preventDefault();
     e.stopPropagation();
-    const person = prompt('Please enter your name', 'Harry Potter');
-    if (person != null) {
-      addAxis(viewId, {
-        label: person
-      });
-    }
+    this.openCreationModal();
   }
+
+  handleCreateAxis = (values) => {
+    const { addAxis, viewId } = this.props;
+    addAxis(viewId, values);
+    this.closeCreationModal();
+  }
+
+  openCreationModal = () => this.setState({ isCreationModalOpen: true })
+  closeCreationModal = () => this.setState({ isCreationModalOpen: false })
 
   handleSubmit = (key, values) => {
     const { updateAxis, viewId } = this.props;
@@ -73,6 +77,7 @@ export default class PlotAxes extends React.Component {
       panelRole,
       collapsible
     } = this.props;
+    const { isCreationModalOpen } = this.state;
 
     return (
       <Panel
@@ -134,6 +139,16 @@ export default class PlotAxes extends React.Component {
             );
           })}
         </Accordion>
+        <Modal
+          title="Add a new Axis"
+          isOpened={isCreationModalOpen}
+          onClose={this.closeCreationModal}
+        >
+          <PlotAxis
+            onSubmit={this.handleCreateAxis}
+            form="axis-form-new"
+          />
+        </Modal>
       </Panel>
     );
   }

@@ -30,7 +30,7 @@ class PlotAxis extends PureComponent {
       isLogarithmic: PropTypes.bool,
       showAxis: PropTypes.bool,
       style: PropTypes.object
-    }).isRequired,
+    }),
     showTicks: PropTypes.bool,
     autoTick: PropTypes.bool,
     autoLimits: PropTypes.bool,
@@ -38,11 +38,19 @@ class PlotAxis extends PureComponent {
     pristine: PropTypes.bool,
     reset: PropTypes.func,
     submitting: PropTypes.bool,
-    valid: PropTypes.bool
+    valid: PropTypes.bool,
+    initialize: PropTypes.func,
   }
 
-  static defaultProps = {
-    initialValues: {
+  componentDidMount() {
+    if (!this.props.initialValues) {
+      this.handleInitialize();
+    }
+  }
+
+  handleInitialize() {
+    const initData = {
+      label: '',
       unit: '',
       min: 0,
       max: 0,
@@ -62,7 +70,9 @@ class PlotAxis extends PureComponent {
         align: 'left',
         colour: '#000000'
       }
-    }
+    };
+
+    this.props.initialize(initData);
   }
 
   render() {
@@ -210,6 +220,7 @@ export default connect((state, { form }) => {
 })(
   reduxForm({
     validate,
-    enableReinitialize: true
+    enableReinitialize: true,
+    keepDirtyOnReinitialize: true
   })(PlotAxis)
 );

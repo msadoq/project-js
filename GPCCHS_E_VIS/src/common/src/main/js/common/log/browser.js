@@ -14,18 +14,18 @@ const apis = transportAPis;
 
 const getIPCTime = getTimer();
 
-function sendOverIPC(category, level) {
-  function sendToMaster(msg, ...rest) {
+const sendOverIPC = (category, level) => {
+  function sendToMaster(msg, ...args) {
+    const rest = args.reduce((acc, arg) => Object.assign({}, acc, arg), {});
     ipcRenderer.send('log', {
       category,
       level,
       msg,
-      rest: { // eslint-disable-line prefer-rest-params
-        ...rest.reduce((acc, arg) => ({ ...acc, ...arg }), {}),
+      rest: Object.assign(rest, {
         time: `${getIPCTime()}ms`,
         pid: process.pid,
         pname: process.title,
-      },
+      }),
     });
   }
 
@@ -35,7 +35,7 @@ function sendOverIPC(category, level) {
     ), []);
     sendToMaster(msg, ...args);
   };
-}
+};
 
 transportAPis.electronIPC = category => ({
   error: sendOverIPC(category, 'error'),
@@ -48,12 +48,9 @@ transportAPis.electronIPC = category => ({
 
 const getConsoleTime = getTimer();
 
-function sendToConsole(category, level) {
-  return function sendWithContext(msg, ...rest) {
-    // eslint-disable-next-line prefer-rest-params
-    console[level].apply(null, [`[${category}] ${msg} +${getConsoleTime()}ms`].concat(rest));
-  };
-}
+const sendToConsole = (category, level) => (msg, ...rest) => {
+  console[level].apply(null, [`[${category}] ${msg} +${getConsoleTime()}ms`].concat(rest));
+};
 
 transportAPis.console = category => ({
   error: sendToConsole(category, 'error'),

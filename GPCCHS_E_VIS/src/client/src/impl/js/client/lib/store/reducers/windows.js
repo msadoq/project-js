@@ -74,7 +74,7 @@ const initialState = {
 };
 
 function window(stateWindow = initialState, action) {
-  const newTitle = (!stateWindow.isModified) ?
+  const newTitle = (stateWindow && !stateWindow.isModified) ?
     '* '.concat(stateWindow.title)
     : stateWindow.title;
   switch (action.type) {

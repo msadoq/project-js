@@ -1,7 +1,7 @@
 import { should, getStore } from '../common/test';
 import { showSelectedView } from './fileTreatment';
 
-describe.only('mainProcess/fileTreatment', () => {
+describe('mainProcess/fileTreatment', () => {
   const { getState } = getStore({
     windows: {
       win1: {

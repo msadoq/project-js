@@ -122,7 +122,7 @@ const initialState = {
 };
 
 function page(statePage = initialState, action) {
-  const newTitle = (!statePage.isModified) ?
+  const newTitle = (statePage && !statePage.isModified) ?
     '* '.concat(statePage.title)
     : statePage.title;
   switch (action.type) {

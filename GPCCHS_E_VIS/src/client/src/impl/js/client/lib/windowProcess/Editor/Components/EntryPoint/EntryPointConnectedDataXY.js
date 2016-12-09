@@ -1,4 +1,6 @@
 import React, { PropTypes } from 'react';
+import _get from 'lodash/get';
+import _set from 'lodash/set';
 import {
   Form
 } from 'react-bootstrap';
@@ -17,17 +19,12 @@ import {
   Composant react-select :
   https://github.com/JedWatson/react-select
 */
-class EntryPointConnectedData extends React.Component {
+class EntryPointConnectedDataXY extends React.Component {
   static propTypes = {
     /* eslint-disable react/no-unused-prop-types */
     initialValues: PropTypes.shape({
-      formula: PropTypes.string,
-      unit: PropTypes.string,
-      digits: PropTypes.number,
-      format: PropTypes.string,
-      domain: PropTypes.string,
-      timeline: PropTypes.string,
-      axisId: PropTypes.string
+      x: PropTypes.object,
+      y: PropTypes.object,
     }).isRequired,
     axes: PropTypes.object,
     timelines: PropTypes.array,
@@ -51,11 +48,18 @@ class EntryPointConnectedData extends React.Component {
 
     return (
       <Form horizontal onSubmit={handleSubmit}>
-        <EntryPointConnectedDataFields
-          prefix=""
-          timelines={timelines}
-          axes={axes}
-        />
+        {['x', 'y'].map(coor =>
+          <div key={coor}>
+            <div className="page-header">
+              <h4>{coor === 'x' ? 'Abciss' : 'Ordinate'}</h4>
+            </div>
+            <EntryPointConnectedDataFields
+              prefix={`${coor}.`}
+              timelines={timelines}
+              axes={axes}
+            />
+          </div>
+        )}
         <ClearSubmitButtons
           pristine={pristine}
           submitting={submitting}
@@ -144,13 +148,16 @@ class EntryPointConnectedData extends React.Component {
   }
 }
 
-const requiredFields = ['formula', 'domain', 'timeline'];
+const requiredFields = [
+  'x.formula', 'x.domain', 'x.timeline',
+  'y.formula', 'y.domain', 'y.timeline',
+];
+
 const validate = (values = {}) => {
   const errors = {};
-
-  requiredFields.forEach((field) => {
-    if (!values[field]) {
-      errors[field] = 'Required';
+  requiredFields.forEach((fieldPath) => {
+    if (!_get(values, fieldPath)) {
+      _set(errors, fieldPath, 'Required');
     }
   });
   return errors;
@@ -159,4 +166,4 @@ const validate = (values = {}) => {
 export default reduxForm({
   validate,
   enableReinitialize: true
-})(EntryPointConnectedData);
+})(EntryPointConnectedDataXY);

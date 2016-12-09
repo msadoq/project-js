@@ -17,6 +17,7 @@ import {
 
 import {
   EntryPointConnectedData,
+  EntryPointConnectedDataXY,
   EntryPointParameters,
   EntryPointName,
   EntryPointStateColours
@@ -87,6 +88,15 @@ export default class EntryPointDetails extends React.Component {
       ...entryPoint,
       objectStyle: values,
       name: values.name,
+    });
+  }
+
+  handleConnectedDataXYSubmit = (values) => {
+    const { entryPoint, updateEntryPoint, viewId, idPoint } = this.props;
+    updateEntryPoint(viewId, idPoint, {
+      ...entryPoint,
+      connectedDataX: values.x,
+      connectedDataY: values.y,
     });
   }
 
@@ -193,27 +203,17 @@ export default class EntryPointDetails extends React.Component {
           onSelect={this.openPanel.bind('Coordinates')}
           onExited={this.closePanel.bind('Coordinates')}
         >
-          <div className="page-header">
-            <h4>Ordinate</h4>
-          </div>
-          {isPanelCoordinatesOpen && <EntryPointConnectedData
+          {isPanelCoordinatesOpen && <EntryPointConnectedDataXY
             axes={axes}
             timelines={timelines}
-            form={`entrypoint-connectedDataY-form-${idPoint}-${viewId}`}
-            onSubmit={this.handleConnectedDataSubmit.bind(this, 'connectedDataY')}
-            initialValues={this.props.entryPoint.connectedDataY}
-          />}
-          <br />
-          <br />
-          <div className="page-header">
-            <h4>Absciss</h4>
-          </div>
-          {isPanelCoordinatesOpen && <EntryPointConnectedData
-            axes={axes}
-            timelines={timelines}
-            form={`entrypoint-connectedDataX-form-${idPoint}-${viewId}`}
-            onSubmit={this.handleConnectedDataSubmit.bind(this, 'connectedDataX')}
-            initialValues={this.props.entryPoint.connectedDataX}
+            idPoint={idPoint}
+            viewId={viewId}
+            form={`entrypoint-connectedDataXY-form-${idPoint}-${viewId}`}
+            onSubmit={this.handleConnectedDataXYSubmit}
+            initialValues={{
+              x: this.props.entryPoint.connectedDataX,
+              y: this.props.entryPoint.connectedDataY,
+            }}
           />}
         </Panel>}
         {isPlotView && <Panel

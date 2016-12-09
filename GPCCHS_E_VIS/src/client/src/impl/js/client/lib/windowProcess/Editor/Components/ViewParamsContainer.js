@@ -11,7 +11,7 @@ import {
 const mapStateToProps = (state, { viewId }) => {
   const view = getView(state, viewId);
   return {
-    backgroundColour: view.configuration.backgroundColour,
+    backgroundColor: view.configuration.backgroundColor,
     title: view.configuration.title,
     titleStyle: view.configuration.titleStyle
   };

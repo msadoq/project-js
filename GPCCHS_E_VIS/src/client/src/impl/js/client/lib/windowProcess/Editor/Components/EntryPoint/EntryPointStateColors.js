@@ -15,7 +15,7 @@ const filters = [
 
 export default class EntryPointStyle extends React.Component {
   static propTypes = {
-    stateColours: PropTypes.array.isRequired,
+    stateColors: PropTypes.array.isRequired,
     newStateColor: PropTypes.string.isRequired,
     removeStateColor: PropTypes.func.isRequired,
     handleFilter: PropTypes.func.isRequired,
@@ -25,7 +25,7 @@ export default class EntryPointStyle extends React.Component {
 
   render() {
     const {
-      stateColours = [],
+      stateColors = [],
       newStateColor,
       removeStateColor,
       handleFilter,
@@ -45,16 +45,16 @@ export default class EntryPointStyle extends React.Component {
           </tr>
         </thead>
         <tbody>
-          {stateColours.length
-            ? stateColours.map((stateColour, key) => (
+          {stateColors.length
+            ? stateColors.map((stateColor, key) => (
               <tr key={key}>
                 <td className="col-xs-2">
-                  <ColorPicker color={stateColour.colour} />
+                  <ColorPicker color={stateColor.color} />
                 </td>
                 <td className="col-xs-9">
-                  {stateColour.condition.field}{' '}
-                  {stateColour.condition.operator}{' '}
-                  {stateColour.condition.operand}
+                  {stateColor.condition.field}{' '}
+                  {stateColor.condition.operator}{' '}
+                  {stateColor.condition.operand}
                 </td>
                 <td className="col-xs-1">
                   <Glyphicon glyph="trash" onClick={() => removeStateColor(key)} />

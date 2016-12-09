@@ -5,7 +5,7 @@
             "type": "string",
             "enum": ["Continuous", "Dotted", "Dashed"]
         },
-        "colour": {
+        "color": {
             "type": "string",
             "pattern": "^#[0-9a-fA-F]+$"
         },
@@ -39,8 +39,8 @@
                     "default": "left",
                     "enum": ["left", "center", "right"]
                 },
-                "colour": {
-                    "$ref": "#/definitions/colour"
+                "color": {
+                    "$ref": "#/definitions/color"
                 }
             }
         },
@@ -103,14 +103,14 @@
                     "items": {
                         "type": "object",
                         "properties": {
-                            "colour": {
+                            "color": {
                                 "type": "integer"
                             },
                             "condition": {
                                 "$ref": "#/definitions/condition"
                             }
                         },
-                        "required": ["colour", "condition"]
+                        "required": ["color", "condition"]
                     }
                 }
             },
@@ -157,7 +157,7 @@
                     "size": { "type": "number" }
                   },
                   "curveColour": {
-                      "$ref": "#/definitions/colour"
+                      "$ref": "#/definitions/color"
                   }
                 },
                 "stateColours": {
@@ -165,14 +165,14 @@
                     "items": {
                         "type": "object",
                         "properties": {
-                            "colour": {
-                                "$ref": "#/definitions/colour"
+                            "color": {
+                                "$ref": "#/definitions/color"
                             },
                             "condition": {
                                 "$ref": "#/definitions/condition"
                             }
                         },
-                        "required": ["colour", "condition"]
+                        "required": ["color", "condition"]
                     }
                 }
             },
@@ -321,7 +321,7 @@
                 "$ref": "#/definitions/textStyle"
             },
             "backgroundColour": {
-                "$ref": "#/definitions/colour"
+                "$ref": "#/definitions/color"
             },
             "legend": {
                 "type": "object",

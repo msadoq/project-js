@@ -3,7 +3,7 @@ export EntryPointConnectedData from './EntryPointConnectedData';
 export EntryPointConnectedDataXY from './EntryPointConnectedDataXY';
 export EntryPointDetails from './EntryPointDetails';
 export EntryPointName from './EntryPointName';
-export EntryPointStateColours from './EntryPointStateColours';
+export EntryPointStateColors from './EntryPointStateColors';
 export EntryPointDetailsContainer from './EntryPointDetailsContainer';
 export EntryPointTree from './EntryPointTree';
 export EntryPointParameters from './EntryPointParameters';

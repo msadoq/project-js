@@ -91,7 +91,7 @@ export const getEntryPointsCharts = (config) => {
 export const getLine = ep => ({
   name: ep.name,
   key: ep.name,
-  color: _get(ep, 'objectStyle.curveColour', '#000000'),
+  color: _get(ep, 'objectStyle.curveColor', '#000000'),
   lineStyle: _get(ep, 'objectStyle.line.style', 'Continuous'), // "Continuous", "Dotted", "Dashed"
   lineSize: _get(ep, 'objectStyle.line.size'),
   pointsStyle: _get(ep, 'objectStyle.points.style', 'None'), // "None", "Triangle", "Square", "Dot"

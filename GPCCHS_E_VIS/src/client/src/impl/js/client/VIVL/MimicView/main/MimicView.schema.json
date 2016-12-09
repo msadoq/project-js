@@ -76,14 +76,14 @@
                     "items": {
                         "type": "object",
                         "properties": {
-                            "colour": {
+                            "color": {
                                 "type": "integer"
                             },
                             "condition": {
                                 "$ref": "#/definitions/condition"
                             }
                         },
-                        "required": ["colour", "condition"]
+                        "required": ["color", "condition"]
                     }
                 }
             },

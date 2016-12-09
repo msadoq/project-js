@@ -41,11 +41,11 @@
           "style": "Dot",
           "size": 4
         },
-        "curveColour": "#4caf50"
+        "curveColor": "#4caf50"
       },
-      "stateColours": [
+      "stateColors": [
         {
-          "colour": "#000000",
+          "color": "#000000",
           "condition": {
             "field": "monitoringState",
             "operator": "==",
@@ -83,11 +83,11 @@
           "style": "None",
           "size": 0
         },
-        "curveColour": "#000000"
+        "curveColor": "#000000"
       },
-      "stateColours": [
+      "stateColors": [
         {
-          "colour": "#000000",
+          "color": "#000000",
           "condition": {
             "field": "monitoringState",
             "operator": "==",
@@ -125,11 +125,11 @@
           "style": "Square",
           "size": 8
         },
-        "curveColour": "#ff9800"
+        "curveColor": "#ff9800"
       },
-      "stateColours": [
+      "stateColors": [
         {
-          "colour": "#000000",
+          "color": "#000000",
           "condition": {
             "field": "monitoringState",
             "operator": "==",
@@ -167,11 +167,11 @@
           "style": "None",
           "size": 0
         },
-        "curveColour": "#000000"
+        "curveColor": "#000000"
       },
-      "stateColours": [
+      "stateColors": [
         {
-          "colour": "#000000",
+          "color": "#000000",
           "condition": {
             "field": "monitoringState",
             "operator": "==",
@@ -209,11 +209,11 @@
           "style": "None",
           "size": 0
         },
-        "curveColour": "#000000"
+        "curveColor": "#000000"
       },
-      "stateColours": [
+      "stateColors": [
         {
-          "colour": "#000000",
+          "color": "#000000",
           "condition": {
             "field": "monitoringState",
             "operator": "==",
@@ -251,11 +251,11 @@
           "style": "None",
           "size": 0
         },
-        "curveColour": "#000000"
+        "curveColor": "#000000"
       },
-      "stateColours": [
+      "stateColors": [
         {
-          "colour": "#000000",
+          "color": "#000000",
           "condition": {
             "field": "monitoringState",
             "operator": "==",
@@ -293,11 +293,11 @@
         "style": "None",
         "size": 0
       },
-      "curveColour": "#21610B"
+      "curveColor": "#21610B"
     },
-    "stateColours": [
+    "stateColors": [
       {
-        "colour": "#000000",
+        "color": "#000000",
         "condition": {
           "field": "monitoringState",
           "operator": "==",
@@ -335,11 +335,11 @@
         "style": "Triangle",
         "size": 10
       },
-      "curveColour": "#e91e63"
+      "curveColor": "#e91e63"
     },
-    "stateColours": [
+    "stateColors": [
       {
-        "colour": "#000000",
+        "color": "#000000",
         "condition": {
           "field": "monitoringState",
           "operator": "==",
@@ -377,11 +377,11 @@
         "style": "None",
         "size": 0
       },
-      "curveColour": "#000000"
+      "curveColor": "#000000"
     },
-    "stateColours": [
+    "stateColors": [
       {
-        "colour": "#000000",
+        "color": "#000000",
         "condition": {
           "field": "monitoringState",
           "operator": "==",
@@ -429,11 +429,11 @@
         "style": "None",
         "size": 0
       },
-      "curveColour": "#4000FF"
+      "curveColor": "#4000FF"
     },
-    "stateColours": [
+    "stateColors": [
       {
-        "colour": "#000000",
+        "color": "#000000",
         "condition": {
           "field": "monitoringState",
           "operator": "==",
@@ -455,7 +455,7 @@
         "underline": false,
         "strikeOut": false,
         "align": "left",
-        "colour": "#000000"
+        "color": "#000000"
       },
       "min": 0,
       "max": 10,
@@ -478,7 +478,7 @@
         "underline": false,
         "strikeOut": false,
         "align": "left",
-        "colour": "#000000"
+        "color": "#000000"
       },
       "min": -300,
       "max": 300,
@@ -501,7 +501,7 @@
         "underline": false,
         "strikeOut": false,
         "align": "left",
-        "colour": "#000000"
+        "color": "#000000"
       },
       "min": -600,
       "max": 600,
@@ -524,7 +524,7 @@
         "underline": false,
         "strikeOut": false,
         "align": "left",
-        "colour": "#000000"
+        "color": "#000000"
       },
       "min": -600,
       "max": 600,
@@ -547,7 +547,7 @@
         "underline": false,
         "strikeOut": false,
         "align": "left",
-        "colour": "#000000"
+        "color": "#000000"
       },
       "min": -600,
       "max": 600,
@@ -580,9 +580,9 @@
     "underline": true,
     "strikeOut": false,
     "align": "center",
-    "colour": "#000000"
+    "color": "#000000"
   },
-  "backgroundColour": "#FFFFFF",
+  "backgroundColor": "#FFFFFF",
   "legend": {
     "style": {
       "font": "Arial",
@@ -592,7 +592,7 @@
       "underline": false,
       "strikeOut": false,
       "align": "left",
-      "colour": "#000000"
+      "color": "#000000"
     },
     "location": "Top"
   },
@@ -608,7 +608,7 @@
         "underline": true,
         "strikeOut": false,
         "align": "left",
-        "colour": "#000000"
+        "color": "#000000"
       },
       "relativePosX": 5.6,
       "relativePosY": 8.9

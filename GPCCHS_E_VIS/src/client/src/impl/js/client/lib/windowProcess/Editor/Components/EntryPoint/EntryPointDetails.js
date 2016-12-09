@@ -20,7 +20,7 @@ import {
   EntryPointConnectedDataXY,
   EntryPointParameters,
   EntryPointName,
-  EntryPointStateColours
+  EntryPointStateColors
 } from './'
 
 import ColorPicker from '../ColorPicker';
@@ -45,7 +45,7 @@ export default class EntryPointDetails extends React.Component {
     isPanelNameOpen: false,
     isPanelConnDataOpen: false,
     isPanelCoordinatesOpen: false,
-    isPanelStateColoursOpen: false,
+    isPanelStateColorsOpen: false,
     isPanelParametersOpen: false,
     nameEditable: false,
     newStateColor: '#FFFFFF',
@@ -71,7 +71,7 @@ export default class EntryPointDetails extends React.Component {
       operand: this.state.newStateOperand,
       color: this.state.newStateColor
     };
-    this.props.handleEntryPoint(this.props.idPoint, 'stateColours', val);
+    this.props.handleEntryPoint(this.props.idPoint, 'stateColors', val);
   }
 
   handleSubmit = (values) => {
@@ -110,7 +110,7 @@ export default class EntryPointDetails extends React.Component {
 
   removeStateColor = (key) => {
     const val = { keyToRemove: key };
-    this.props.handleEntryPoint(this.props.idPoint, 'stateColours', val);
+    this.props.handleEntryPoint(this.props.idPoint, 'stateColors', val);
   }
   /*
     RightClick on Name : cette fonction permet de rendre le nom de l'entrypoint éditable
@@ -137,7 +137,7 @@ export default class EntryPointDetails extends React.Component {
       isPanelNameOpen,
       isPanelConnDataOpen,
       isPanelCoordinatesOpen,
-      isPanelStateColoursOpen,
+      isPanelStateColorsOpen,
       isPanelParametersOpen,
       newStateColor,
       nameEditable
@@ -217,15 +217,15 @@ export default class EntryPointDetails extends React.Component {
           />}
         </Panel>}
         {isPlotView && <Panel
-          key={'StateColours'}
-          header="State colours"
-          eventKey={'StateColours'}
-          expanded={isPanelStateColoursOpen}
-          onSelect={this.openPanel.bind('StateColours')}
-          onExited={this.closePanel.bind('StateColours')}
+          key={'StateColors'}
+          header="State colors"
+          eventKey={'StateColors'}
+          expanded={isPanelStateColorsOpen}
+          onSelect={this.openPanel.bind('StateColors')}
+          onExited={this.closePanel.bind('StateColors')}
         >
-          {isPanelStateColoursOpen && <EntryPointStateColours
-            stateColours={entryPoint.stateColours}
+          {isPanelStateColorsOpen && <EntryPointStateColors
+            stateColors={entryPoint.stateColors}
             newStateColor={newStateColor}
             removeStateColor={this.removeStateColor}
             handleFilter={this.handleFilter}

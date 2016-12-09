@@ -36,9 +36,9 @@ const newEntryPoint = {
       style: 'None',
       size: 3,
     },
-    curveColour: '#222222',
+    curveColor: '#222222',
   },
-  stateColours: [
+  stateColors: [
 
   ]
 };
@@ -77,7 +77,7 @@ export default class PlotEditor extends Component {
         align: PropTypes.string,
         color: PropTypes.string
       }),
-      backgroundColour: PropTypes.string,
+      backgroundColor: PropTypes.string,
       legend: PropTypes.object,
       markers: PropTypes.array,
     })

@@ -7,7 +7,7 @@ export default class ViewParams extends React.Component {
     updateTitle: PropTypes.func.isRequired,
     updateTitleStyle: PropTypes.func.isRequired,
     updateBgColor: PropTypes.func.isRequired,
-    backgroundColour: PropTypes.string,
+    backgroundColor: PropTypes.string,
     title: PropTypes.string,
     titleStyle: PropTypes.shape({
       font: PropTypes.string,
@@ -31,7 +31,7 @@ export default class ViewParams extends React.Component {
       underline: false,
       strikeOut: false,
       align: 'left',
-      colour: '#000000'
+      color: '#000000'
     }
   }
 
@@ -41,8 +41,8 @@ export default class ViewParams extends React.Component {
       updateBgColor, viewId
     } = this.props;
 
-    if (this.props.backgroundColour !== values.backgroundColour) {
-      updateBgColor(viewId, values.backgroundColour);
+    if (this.props.backgroundColor !== values.backgroundColor) {
+      updateBgColor(viewId, values.backgroundColor);
     }
     if (this.props.title !== values.title) {
       updateTitle(viewId, values.title);
@@ -54,7 +54,7 @@ export default class ViewParams extends React.Component {
 
   render() {
     const {
-      backgroundColour,
+      backgroundColor,
       title,
       titleStyle,
       viewId
@@ -63,7 +63,7 @@ export default class ViewParams extends React.Component {
     return (
       <ViewParamsForm
         initialValues={{
-          backgroundColour,
+          backgroundColor,
           title,
           titleStyle
         }}

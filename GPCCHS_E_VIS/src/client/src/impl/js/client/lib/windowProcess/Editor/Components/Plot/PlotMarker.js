@@ -67,7 +67,7 @@ class PlotMarker extends React.Component {
         underline: false,
         strikeOut: false,
         align: 'left',
-        colour: '#000000'
+        color: '#000000'
       }
     }
   }

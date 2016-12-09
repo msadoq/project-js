@@ -30,7 +30,7 @@ export default class View extends PureComponent {
     logger.debug('render');
     const {
       configuration,
-      configuration: { backgroundColour = '#FFFFFF' },
+      configuration: { backgroundColor = '#FFFFFF' },
       isViewsEditorOpen,
       viewId,
       type,
@@ -61,7 +61,7 @@ export default class View extends PureComponent {
         />
         <div
           className={styles.content}
-          style={{ backgroundColor: backgroundColour }}
+          style={{ backgroundColor }}
         >
           <MessagesContainer viewId={viewId} />
           <ContentComponent

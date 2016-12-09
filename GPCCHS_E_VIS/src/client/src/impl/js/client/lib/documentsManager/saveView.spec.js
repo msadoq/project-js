@@ -81,8 +81,8 @@ describe('documentsManager/saveViews', () => {
               },
               lineStyle: 'Continuous',
               pointsStyle: 'None',
-              curveColour: '#DF013A',
-              stateColours: []
+              curveColor: '#DF013A',
+              stateColors: []
             }
           ],
           axes: {
@@ -92,7 +92,7 @@ describe('documentsManager/saveViews', () => {
           grids: [],
           title: 'Plotview 4 parameters',
           titleStyle: {},
-          backgroundColour: '#FFFFFF',
+          backgroundColor: '#FFFFFF',
           legend: {},
           markers: [],
         },

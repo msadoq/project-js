@@ -41,11 +41,11 @@
           "style": "Square",
           "size": 8
         },
-        "curveColour": "#424242"
+        "curveColor": "#424242"
       },
-      "stateColours": [
+      "stateColors": [
         {
-          "colour": "#000000",
+          "color": "#000000",
           "condition": {
             "field": "monitoringState",
             "operator": "==",
@@ -83,11 +83,11 @@
           "style": "None",
           "size": 0
         },
-        "curveColour": "#58FA58"
+        "curveColor": "#58FA58"
       },
-      "stateColours": [
+      "stateColors": [
         {
-          "colour": "#000000",
+          "color": "#000000",
           "condition": {
             "field": "monitoringState",
             "operator": "==",
@@ -125,11 +125,11 @@
           "style": "None",
           "size": 0
         },
-        "curveColour": "#F7BE81"
+        "curveColor": "#F7BE81"
       },
-      "stateColours": [
+      "stateColors": [
         {
-          "colour": "#000000",
+          "color": "#000000",
           "condition": {
             "field": "monitoringState",
             "operator": "==",
@@ -167,11 +167,11 @@
           "style": "None",
           "size": 0
         },
-        "curveColour": "#DF013A"
+        "curveColor": "#DF013A"
       },
-      "stateColours": [
+      "stateColors": [
         {
-          "colour": "#000000",
+          "color": "#000000",
           "condition": {
             "field": "monitoringState",
             "operator": "==",
@@ -193,7 +193,7 @@
         "underline": false,
         "strikeOut": false,
         "align": "left",
-        "colour": "#000000"
+        "color": "#000000"
       },
       "min": 0,
       "max": 10,
@@ -216,7 +216,7 @@
         "underline": false,
         "strikeOut": false,
         "align": "left",
-        "colour": "#000000"
+        "color": "#000000"
       },
       "min": -300,
       "max": 300,
@@ -249,9 +249,9 @@
     "underline": true,
     "strikeOut": false,
     "align": "center",
-    "colour": "#000000"
+    "color": "#000000"
   },
-  "backgroundColour": "#FFFFFF",
+  "backgroundColor": "#FFFFFF",
   "legend": {
     "style": {
       "font": "Arial",
@@ -261,7 +261,7 @@
       "underline": false,
       "strikeOut": false,
       "align": "left",
-      "colour": "#000000"
+      "color": "#000000"
     },
     "location": "Top"
   },
@@ -277,7 +277,7 @@
         "underline": true,
         "strikeOut": false,
         "align": "left",
-        "colour": "#000000"
+        "color": "#000000"
       },
       "relativePosX": 5.6,
       "relativePosY": 8.9

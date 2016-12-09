@@ -86,7 +86,7 @@ export default class Header extends Component {
       fontFamily: titleStyle.font ? titleStyle.font : null,
       fontSize: titleStyle.size ? titleStyle.size : null,
       textAlign: titleStyle.align ? titleStyle.align : null,
-      color: titleStyle.colour ? titleStyle.colour : null,
+      color: titleStyle.color ? titleStyle.color : null,
       fontWeight: 'normal',
       fontStyle: 'normal',
       textDecoration: 'none'

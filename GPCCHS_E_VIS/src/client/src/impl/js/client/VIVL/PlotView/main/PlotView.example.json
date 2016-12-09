@@ -46,7 +46,7 @@
           "curveColour": "#FFBF00"
         },
         "stateColours": [{
-            "colour": "#000000",
+            "color": "#000000",
             "condition": {
                 "field": "monitoringState",
                 "operator": "==",
@@ -65,7 +65,7 @@
             "underline": false,
             "strikeOut": false,
             "align": "left",
-            "colour": "#000000"
+            "color": "#000000"
         },
         "min": 0,
         "max": 10,
@@ -87,7 +87,7 @@
             "underline": false,
             "strikeOut": false,
             "align": "left",
-            "colour": "#000000"
+            "color": "#000000"
         },
         "min": -300,
         "max": 300,
@@ -115,7 +115,7 @@
         "underline": false,
         "strikeOut": false,
         "align": "center",
-        "colour": "#000000"
+        "color": "#000000"
     },
     "backgroundColour": "#FFFFFF",
     "legend": {
@@ -127,7 +127,7 @@
             "underline": false,
             "strikeOut": false,
             "align": "left",
-            "colour": "#000000"
+            "color": "#000000"
         },
         "location": "Top"
     },
@@ -142,7 +142,7 @@
             "underline": true,
             "strikeOut": false,
             "alignLeft": false,
-            "colour": "#000000"
+            "color": "#000000"
         },
         "relativePosX": 5.6,
         "relativePosY": 8.9

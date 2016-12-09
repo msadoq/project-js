@@ -71,7 +71,7 @@ class PlotAxis extends PureComponent {
         underline: false,
         strikeOut: false,
         align: 'left',
-        colour: '#000000'
+        color: '#000000'
       }
     };
 

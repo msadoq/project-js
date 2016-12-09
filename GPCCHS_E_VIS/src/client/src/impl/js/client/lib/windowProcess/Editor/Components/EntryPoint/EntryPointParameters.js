@@ -28,7 +28,7 @@ class EntryPointParameters extends React.Component {
         style: PropTypes.string,
         size: PropTypes.number
       }).isRequired,
-      curveColour: PropTypes.string
+      curveColor: PropTypes.string
     }).isRequired,
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
@@ -92,7 +92,7 @@ class EntryPointParameters extends React.Component {
 
         <HorizontalFormGroup label="Color">
           <Field
-            name="curveColour"
+            name="curveColor"
             component={ColorPickerField}
           />
         </HorizontalFormGroup>

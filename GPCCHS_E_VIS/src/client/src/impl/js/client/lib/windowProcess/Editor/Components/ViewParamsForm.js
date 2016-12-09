@@ -27,7 +27,7 @@ class ViewParamsForm extends React.Component {
   static propTypes = {
     /* eslint-disable react/no-unused-prop-types */
     initialValues: PropTypes.shape({
-      backgroundColour: PropTypes.string,
+      backgroundColor: PropTypes.string,
       title: PropTypes.string,
       titleStyle: PropTypes.shape({
         font: PropTypes.string,
@@ -82,7 +82,7 @@ class ViewParamsForm extends React.Component {
 
         <HorizontalFormGroup label="Bg Color">
           <Field
-            name="backgroundColour"
+            name="backgroundColor"
             component={ColorPickerField}
             colors={bgColors}
           />

@@ -1018,11 +1018,11 @@ const state = {
                 style: 'None',
                 size: 0
               },
-              curveColour: '#FFBF00'
+              curveColor: '#FFBF00'
             },
-            stateColours: [
+            stateColors: [
               {
-                colour: '#000000',
+                color: '#000000',
                 condition: {
                   field: 'monitoringState',
                   operator: '==',
@@ -1062,11 +1062,11 @@ const state = {
                 style: 'None',
                 size: 0
               },
-              curveColour: '#FFBF00'
+              curveColor: '#FFBF00'
             },
-            stateColours: [
+            stateColors: [
               {
-                colour: '#000000',
+                color: '#000000',
                 condition: {
                   field: 'monitoringState',
                   operator: '==',
@@ -1096,9 +1096,9 @@ const state = {
           underline: true,
           strikeOut: false,
           align: 'center',
-          colour: '#000000'
+          color: '#000000'
         },
-        backgroundColour: '#FFFFFF',
+        backgroundColor: '#FFFFFF',
         legend: {
           style: {
             font: 'Arial',
@@ -1108,7 +1108,7 @@ const state = {
             underline: false,
             strikeOut: false,
             align: 'left',
-            colour: '#000000'
+            color: '#000000'
           },
           location: 'Top'
         },
@@ -1124,7 +1124,7 @@ const state = {
               underline: true,
               strikeOut: false,
               align: 'left',
-              colour: '#000000'
+              color: '#000000'
             },
             relativePosX: 5.6,
             relativePosY: 8.9
@@ -1142,7 +1142,7 @@ const state = {
               underline: false,
               strikeOut: false,
               align: 'left',
-              colour: '#000000'
+              color: '#000000'
             },
             min: 0,
             max: 10,
@@ -1166,7 +1166,7 @@ const state = {
               underline: false,
               strikeOut: false,
               align: 'left',
-              colour: '#000000'
+              color: '#000000'
             },
             min: -300,
             max: 300,

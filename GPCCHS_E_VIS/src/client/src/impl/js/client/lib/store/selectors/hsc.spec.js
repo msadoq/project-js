@@ -5,6 +5,7 @@ import {
   getWorkspaceOpened,
   getLastCacheInvalidation,
   getPlayingTimebarId,
+  getSlowRenderers,
 } from './hsc';
 
 describe('store:hsc:selectors', () => {
@@ -46,6 +47,16 @@ describe('store:hsc:selectors', () => {
     it('should support empty state', () => {
       const { getState } = getStore({ hsc: {} });
       should.not.exist(getPlayingTimebarId(getState()));
+    });
+  });
+  describe('getSlowRenderers', () => {
+    it('should return getSlowRenderers', () => {
+      const { getState } = getStore({ hsc: { slowRenderers: [{ 'some window id': 100 }] } });
+      getSlowRenderers(getState()).should.eql([{ 'some window id': 100 }]);
+    });
+    it('should support empty state', () => {
+      const { getState } = getStore({ hsc: {} });
+      should.not.exist(getSlowRenderers(getState()));
     });
   });
   describe('getLastCacheInvalidation', () => {

@@ -1,6 +1,7 @@
+import { join } from 'path';
 import webpack from 'webpack';
 import merge from 'webpack-merge';
-import baseConfig from './webpack.config.base';
+import baseConfig from './config.base';
 
 export default merge(baseConfig, {
   devtool: 'source-map',
@@ -8,7 +9,7 @@ export default merge(baseConfig, {
   entry: ['babel-polyfill', './main.development'],
 
   output: {
-    path: __dirname,
+    path: join(__dirname, '..'),
     filename: './main.js'
   },
   externals: [

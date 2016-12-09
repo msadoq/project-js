@@ -1,13 +1,11 @@
 import { get } from 'common/parameters';
 import webpack from 'webpack';
 import merge from 'webpack-merge';
-import baseConfig from './webpack.config.base';
+import baseConfig from './config.base';
 
 const port = get('WEBPACK_PORT');
 
 export default merge(baseConfig, {
-  debug: true,
-
   devtool: 'eval-source-map',
 
   entry: [

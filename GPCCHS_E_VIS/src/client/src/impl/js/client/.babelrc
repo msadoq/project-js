@@ -27,7 +27,7 @@
         [
           "webpack-loaders",
           {
-            "config": "webpack.config.node.js",
+            "config": "webpack/config.babel.js",
             "verbose": false
           }
         ]

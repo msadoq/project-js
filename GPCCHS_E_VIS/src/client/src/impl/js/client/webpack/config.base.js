@@ -8,10 +8,6 @@ import postCssNesting from 'postcss-nested';
 import postCssReporter from 'postcss-reporter';
 import postCssBrowserReporter from 'postcss-browser-reporter';
 
-import { init } from 'common/parameters';
-
-init(__dirname);
-
 export default {
   debug: true,
   module: {

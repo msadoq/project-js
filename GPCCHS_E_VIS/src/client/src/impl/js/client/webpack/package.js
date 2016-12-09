@@ -2,11 +2,11 @@
 
 'use strict';
 
-require('babel-polyfill'); // TODO also loaded by cli
+require('babel-polyfill');
 const os = require('os');
 const webpack = require('webpack');
-const electronCfg = require('./webpack.config.electron');
-const cfg = require('./webpack.config.production');
+const electronCfg = require('./config.main.js');
+const cfg = require('./config.renderer.production.js');
 const packager = require('electron-packager');
 const del = require('del');
 const exec = require('child_process').exec;

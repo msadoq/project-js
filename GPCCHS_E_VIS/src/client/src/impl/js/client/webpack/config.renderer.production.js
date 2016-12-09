@@ -1,7 +1,8 @@
+import { join } from 'path';
 import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import merge from 'webpack-merge';
-import baseConfig from './webpack.config.base';
+import baseConfig from './config.base';
 
 const config = merge(baseConfig, {
   devtool: 'cheap-module-source-map',
@@ -14,10 +15,12 @@ const config = merge(baseConfig, {
   ],
 
   output: {
-    publicPath: 'dist/'
+    path: join(__dirname, '../dist'),
+    publicPath: 'dist/',
   },
+
   externals: {
-    common: 'common'
+    common: 'common',
   },
 
   module: {

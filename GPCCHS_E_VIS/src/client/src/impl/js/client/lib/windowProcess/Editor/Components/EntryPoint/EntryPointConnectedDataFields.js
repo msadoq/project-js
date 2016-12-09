@@ -89,16 +89,15 @@ export default class EntryPointConnectedDataFields extends React.Component {
         {axes && <HorizontalFormGroup label="Axis">
           <Field
             name={`${prefix}axisId`}
-            className="form-control input-sm"
-            component="select"
-          >
-            {Object.keys(axes).map((axisId) => {
-              const axis = axes[axisId];
-              return (
-                <option key={axisId} value={axisId}>{axis.label}</option>
-              );
-            })}
-          </Field>
+            clearable={false}
+            component={ReactSelectField}
+            options={
+              Object.keys(axes).map(axisId => ({
+                label: axes[axisId].label,
+                value: axisId,
+              }))
+            }
+          />
         </HorizontalFormGroup>}
       </div>
     );

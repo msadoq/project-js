@@ -14,6 +14,9 @@ import {
 import {
   FormSectionFontStyle
 } from '../FormSections/';
+import {
+  unitOptions,
+} from '../EntryPoint/connectedDataOptions';
 
 class PlotAxis extends PureComponent {
   static propTypes = {
@@ -141,10 +144,14 @@ class PlotAxis extends PureComponent {
         <HorizontalFormGroup label="Unit">
           <Field
             name="unit"
-            component={InputField}
+            component="select"
             className="form-control input-sm"
-            type="text"
-          />
+            options={unitOptions}
+          >
+            {unitOptions.map(u =>
+              <option value={u.value}>{u.label}</option>
+            )}
+          </Field>
         </HorizontalFormGroup>
 
         <HorizontalFormGroup label="Show ticks">

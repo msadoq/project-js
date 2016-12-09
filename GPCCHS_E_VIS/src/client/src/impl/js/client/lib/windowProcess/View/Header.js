@@ -1,7 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
+import { v4 } from 'node-uuid';
 import styles from './Header.css';
+import Modal from '../common/Modal';
+import ChoosePage from './ChoosePage';
 
 export default class Header extends Component {
   static propTypes = {
@@ -15,12 +18,27 @@ export default class Header extends Component {
     openEditor: PropTypes.func,
     closeEditor: PropTypes.func,
     unmountAndRemove: PropTypes.func,
+    moveViewToPage: PropTypes.func,
+    getWindowPages: PropTypes.func,
   };
   static defaultProps = {
     configuration: {
       title: 'Untitled',
     }
   };
+  static contextTypes = {
+    windowId: PropTypes.string,
+  };
+
+  constructor(...args) {
+    super(...args);
+    this.state = {
+      choosePage: false,
+      pageTitles: []
+      // errorMessage: null,
+    };
+  }
+
   onDropDownClick = (key) => {
     const {
       viewId,
@@ -30,7 +48,9 @@ export default class Header extends Component {
       openEditor,
       closeEditor,
       unmountAndRemove,
+      getWindowPages,
     } = this.props;
+    const { windowId } = this.context;
     switch (key) {
       case 'editor': {
         if (isViewsEditorOpen && closeEditor) {
@@ -38,6 +58,18 @@ export default class Header extends Component {
         } else if (!isViewsEditorOpen && openEditor) {
           openEditor(viewId, type, configuration);
         }
+        break;
+      }
+      case 'move': {
+        if (isViewsEditorOpen) {
+          closeEditor();
+        }
+        const pageTitles = getWindowPages(windowId).reduce((list, page) => {
+          list.push({ title: page.title, id: page.pageId }); // eslint-disable-line noparam-reassign
+          return list;
+        }, []);
+        pageTitles.push({ title: 'New page', id: v4() });
+        this.setState({ pageTitles, choosePage: true });
         break;
       }
       case 'close': {
@@ -77,10 +109,31 @@ export default class Header extends Component {
     return style;
   }
 
+  moveView = (toPage) => {
+    const { viewId, moveViewToPage } = this.props;
+    const { windowId } = this.context;
+    moveViewToPage(windowId, toPage, viewId);
+  }
+
+
   render() {
     const { configuration, isViewsEditorOpen } = this.props;
     const { title } = configuration;
     const titleStyle = this.getTitleStyle();
+
+
+    const choosePageDlg = (
+      <Modal
+        title="Choose Page to move to"
+        isOpened={this.state.choosePage}
+        onClose={() => this.setState({ choosePage: false })}
+      >
+        <ChoosePage
+          onClose={this.moveView}
+          pageTitles={this.state.pageTitles}
+        />
+      </Modal>
+    );
 
     return (
       <div
@@ -94,6 +147,7 @@ export default class Header extends Component {
         >
           {title}
         </div>
+        {choosePageDlg}
         <div>
           <DropdownButton
             pullRight
@@ -104,6 +158,8 @@ export default class Header extends Component {
             id={`menu${this.props.viewId}`}
           >
             <MenuItem eventKey="editor" active>{isViewsEditorOpen ? 'Close' : 'Open'} editor</MenuItem>
+            <MenuItem eventKey="move">Move to another page</MenuItem>
+            {/* <MenuItem eventKey="reload">Reload view</MenuItem>*/}
             <MenuItem divider />
             <MenuItem eventKey="close">Close view</MenuItem>
           </DropdownButton>

@@ -1,0 +1,24 @@
+.formGroup{
+  margin-bottom: 4px;
+}
+
+
+.labelFormControl{
+  text-align: right;
+  width: 30% !important;
+  margin: 0px 7px;
+  float: left;
+}
+
+.formControl{
+  width: 55% !important;
+}
+
+.addTrackButton{
+  border: none;
+  bottom: 5px;
+  top: auto;
+  left: 5px;
+  right: auto;
+  padding: 2px 8px;
+}

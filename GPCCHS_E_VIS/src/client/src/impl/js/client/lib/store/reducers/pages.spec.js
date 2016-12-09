@@ -143,4 +143,41 @@ describe('store:page:reducer', () => {
   describe('openViewInEditor', () => {
     // TODO actions.unmountAndRemove
   });
+  describe('moveViewToPage', () => {
+    let dispatch;
+    let getState;
+    beforeEach(() => {
+      const store = getStore({
+        pages: {
+          myPageId: { views: ['v1'], layout: [] },
+          myOtherPage: { views: ['v2'], layout: [] },
+        }
+      });
+      dispatch = store.dispatch;
+      getState = store.getState;
+    });
+    it('existing toPage ok', () => {
+      dispatch(actions.moveViewToPage('myWindowId', 'myPageId', 'myOtherPage', 'v1'));
+      getState().pages.should.deep.equal({
+        myPageId: { views: [], isModified: true, layout: [] },
+        myOtherPage: { views: ['v2', 'v1'],
+          isModified: true,
+          layout: [{ h: 5, i: 'v1', w: 5, x: 0, y: 0 }]
+        },
+      });
+    });
+    it('toPage is a new page', () => {
+      dispatch(actions.moveViewToPage('myWindowId', 'myPageId', 'newId', 'v1'));
+      getState().pages.myPageId.should.deep.equal({ views: [], isModified: true, layout: [] });
+      getState().pages.myOtherPage.should.deep.equal({ views: ['v2'], layout: [] });
+      const pageId = Object.keys(getState().pages)[2];
+      getState().pages[pageId].views.should.deep.equal(['v1']);
+      getState().pages[pageId].isModified.should.deep.equal(true);
+    });
+    it('move to the same page', () => {
+      const oldState = getState();
+      dispatch(actions.moveViewToPage('myWindowId', 'myPageId', 'myPageId', 'v1'));
+      getState().should.equal(oldState);
+    });
+  });
 });

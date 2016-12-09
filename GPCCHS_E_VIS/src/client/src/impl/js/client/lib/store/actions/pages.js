@@ -1,8 +1,9 @@
 import { v4 } from 'node-uuid';
+// import _findIndex from 'lodash/findIndex';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
 import { add as addView, remove as removeView } from './views';
-import { getViews, getEditor } from '../reducers/pages';
+import { addAndMount as addAndMountPage, focusPage } from './windows';
 /**
  * Simple actions
  */
@@ -44,18 +45,17 @@ export function unmountAndRemove(pageId, viewId) {
   };
 }
 
-export function openViewInEditor(pageId, viewId) { // TODO
-  return (dispatch, state) => {
-        // TODO : check if view exist
-    if (pageId) {
-      dispatch(getViews(state, pageId));
-      // TODO : check if view is displayed on page
-      addAndMount(pageId, viewId);
-    } else {
-      // TODO : display error in react via redux
-      throw new Error('ERROR, do not find existing view');
+export function moveViewToPage(windowId, fromPageId, toPageId, viewId) {
+  return (dispatch, getState) => {
+    if (fromPageId !== toPageId) {
+      // Add page if not existing
+      if (!getState().pages[toPageId]) {
+        dispatch(addAndMountPage(windowId, toPageId));
+      }
+      dispatch(unmountView(fromPageId, viewId));
+      dispatch(focusPage(windowId, toPageId));
+      dispatch(mountView(toPageId, viewId,
+        getState().pages[toPageId].layout.concat({ i: viewId, w: 5, h: 5, x: 0, y: 0 })));
     }
-      // TODO : dispatch openEditor
-    return dispatch(getEditor(state, pageId));
   };
 }

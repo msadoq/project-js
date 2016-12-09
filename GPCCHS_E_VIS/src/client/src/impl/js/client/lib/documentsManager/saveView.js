@@ -4,6 +4,7 @@ const { dirname } = require('path');
 const { checkPath } = require('../common/fs');
 const _omit = require('lodash/omit');
 const _values = require('lodash/values');
+const _each = require('lodash/each');
 const globalConstants = require('common/constants');
 const vivl = require('../../VIVL/main');
 
@@ -36,6 +37,10 @@ function saveViewAs(state, viewId, path) {
     default:
       view = conf;
   }
+  // Remove entry point id
+  _each(view.entryPoints, (value, index, entryPoints) => {
+    entryPoints[index] = _omit(value, 'id'); // eslint-disable-line no-param-reassign
+  });
 
   writeFile(path, JSON.stringify(view, null, '  '), (errWrite) => {
     if (errWrite) {

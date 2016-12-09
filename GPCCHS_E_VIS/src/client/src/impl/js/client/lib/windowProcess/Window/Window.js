@@ -18,6 +18,14 @@ export default class Window extends Component {
     focusedPageId: PropTypes.string.isRequired,
     appStatus: PropTypes.string,
   };
+  static childContextTypes = {
+    windowId: PropTypes.string
+  };
+  getChildContext() {
+    return {
+      windowId: this.props.windowId,
+    };
+  }
 
   render() {
     logger.debug('render', this.props);

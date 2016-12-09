@@ -7,6 +7,7 @@ import u from 'updeep';
 import * as types from '../types';
 
 export default function windows(stateWindows = {}, action) {
+  let winTitle;
   switch (action.type) {
     case types.WS_WINDOW_UPDATE_GEOMETRY:
     case types.WS_WINDOW_PAGE_FOCUS:
@@ -32,7 +33,23 @@ export default function windows(stateWindows = {}, action) {
       if (!stateWindows[action.payload.windowId]) {
         return stateWindows;
       }
-      return u({ [action.payload.windowId]: { isModified: action.payload.flag } }, stateWindows);
+      winTitle = stateWindows[action.payload.windowId].title;
+      if (stateWindows[action.payload.windowId].isModified && !action.payload.flag) {
+        if (winTitle.substring(0, 1) === '*') {
+          winTitle = winTitle.substring(2);
+        }
+      }
+      if (!stateWindows[action.payload.windowId].isModified && action.payload.flag) {
+        if (winTitle.substring(0, 1) !== '*') {
+          winTitle = '* '.concat(winTitle);
+        }
+      }
+      return u({
+        [action.payload.windowId]: {
+          isModified: action.payload.flag,
+          title: winTitle
+        }
+      }, stateWindows);
     default:
       return stateWindows;
   }
@@ -57,6 +74,9 @@ const initialState = {
 };
 
 function window(stateWindow = initialState, action) {
+  const newTitle = (!stateWindow.isModified) ?
+    '* '.concat(stateWindow.title)
+    : stateWindow.title;
   switch (action.type) {
     case types.WS_WINDOW_ADD:
       return Object.assign({}, stateWindow, {
@@ -70,6 +90,7 @@ function window(stateWindow = initialState, action) {
       return Object.assign({}, stateWindow, {
         geometry: _defaults({}, _omit(action.payload, ['windowId']), stateWindow.geometry),
         isModified: true,
+        title: newTitle
       });
     }
     case types.WS_WINDOW_PAGE_FOCUS:
@@ -84,6 +105,7 @@ function window(stateWindow = initialState, action) {
       return Object.assign({}, stateWindow, {
         pages: [...sorted, ...remaining],
         isModified: true,
+        title: newTitle
       });
     }
     case types.WS_WINDOW_DEBUG_SWITCH: { // TODO test
@@ -97,11 +119,13 @@ function window(stateWindow = initialState, action) {
       return Object.assign({}, stateWindow, {
         pages: [...stateWindow.pages, action.payload.pageId],
         isModified: true,
+        title: newTitle
       });
     case types.WS_WINDOW_PAGE_UNMOUNT:
       return Object.assign({}, stateWindow, {
         pages: _without(stateWindow.pages, action.payload.pageId),
         isModified: true,
+        title: newTitle
       });
     case types.WS_WINDOW_MINIMIZE:
       return Object.assign({}, stateWindow, {

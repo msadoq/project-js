@@ -8,6 +8,7 @@ import * as types from '../types';
  * Reducer
  */
 export default function pages(statePages = {}, action) {
+  let newTitle;
   switch (action.type) {
     case types.WS_PAGE_EDITOR_OPEN:
     case types.WS_PAGE_EDITOR_CLOSE:
@@ -30,16 +31,24 @@ export default function pages(statePages = {}, action) {
           resolve(action.payload.newPath) === resolve(statePages[action.payload.pageId].path)) {
         return statePages;
       }
-      return u({ [action.payload.pageId]: { path: action.payload.newPath, isModified: true } },
+      newTitle = (!statePages[action.payload.pageId].isModified) ?
+        '* '.concat(statePages[action.payload.pageId].title)
+        : statePages[action.payload.pageId].title;
+      return u({ [action.payload.pageId]:
+        { path: action.payload.newPath, isModified: true, title: newTitle } },
         statePages);
     case types.WS_PAGE_UPDATE_ABSOLUTEPATH: {
-      if (resolve(action.payload.newPath)
+      if (statePages[action.payload.pageId].absolutePath && resolve(action.payload.newPath)
         === resolve(statePages[action.payload.pageId].absolutePath)) {
         return statePages;
       }
+      newTitle = (!statePages[action.payload.pageId].isModified) ?
+        '* '.concat(statePages[action.payload.pageId].title)
+        : statePages[action.payload.pageId].title;
       return u({ [action.payload.pageId]: {
         absolutePath: action.payload.newPath,
         isModified: true,
+        title: newTitle
       } }, statePages);
     }
     case types.HSC_CLOSE_WORKSPACE:
@@ -48,24 +57,49 @@ export default function pages(statePages = {}, action) {
       if (!statePages[action.payload.pageId]) {
         return statePages;
       }
-      return u({ [action.payload.pageId]: { isModified: action.payload.flag } }, statePages);
+      newTitle = statePages[action.payload.pageId].title;
+      if (statePages[action.payload.pageId].isModified && !action.payload.flag) {
+        if (newTitle.substring(0, 1) === '*') {
+          newTitle = newTitle.substring(2);
+        }
+      }
+      if (!statePages[action.payload.pageId].isModified && action.payload.flag) {
+        if (newTitle.substring(0, 1) !== '*') {
+          newTitle = '* '.concat(newTitle);
+        }
+      }
+      return u({
+        [action.payload.pageId]: {
+          isModified: action.payload.flag,
+          title: newTitle
+        }
+      },
+      statePages);
     case types.WS_PAGE_UPDATE_TIMEBARID:
       if (!statePages[action.payload.focusedPageId]) {
         return statePages;
       }
+      newTitle = (!statePages[action.payload.pageId].isModified) ?
+        '* '.concat(statePages[action.payload.pageId].title)
+        : statePages[action.payload.pageId].title;
       return u({ [action.payload.focusedPageId]: {
         timebarId: action.payload.timebarId,
         isModified: true,
+        title: newTitle
       } },
         statePages);
     case types.WS_PAGE_UPDATE_TIMEBARHEIGHT:
       if (!statePages[action.payload.focusedPageId]) {
         return statePages;
       }
+      newTitle = (!statePages[action.payload.pageId].isModified) ?
+        '* '.concat(statePages[action.payload.pageId].title)
+        : statePages[action.payload.pageId].title;
       return u({ [action.payload.focusedPageId]: {
         timebarHeight: (!action.payload.timebarHeight || action.payload.timebarHeight < 135) ?
           135 : action.payload.timebarHeight,
         isModified: true,
+        title: newTitle
       } },
         statePages);
     default:
@@ -88,6 +122,9 @@ const initialState = {
 };
 
 function page(statePage = initialState, action) {
+  const newTitle = (!statePage.isModified) ?
+    '* '.concat(statePage.title)
+    : statePage.title;
   switch (action.type) {
     case types.WS_PAGE_ADD:
       return Object.assign({}, statePage, {
@@ -115,6 +152,7 @@ function page(statePage = initialState, action) {
       const update = {
         views: [...statePage.views, action.payload.viewId],
         isModified: true,
+        title: newTitle
       };
       if (action.payload.layout) {
         update.layout = action.payload.layout;
@@ -125,6 +163,7 @@ function page(statePage = initialState, action) {
       return Object.assign({}, statePage, {
         views: _without(statePage.views, action.payload.viewId),
         isModified: true,
+        title: newTitle
       });
     case types.WS_PAGE_UPDATE_LAYOUT:
       if (statePage.layout === action.payload.layout) {
@@ -132,7 +171,9 @@ function page(statePage = initialState, action) {
       }
       return Object.assign({}, statePage, {
         layout: action.payload.layout || statePage.layout,
-        isModified: action.payload.layout ? true : statePage.isModified,
+        // TODO : Bug: decommenter et debugger
+        // isModified: action.payload.layout ? true : statePage.isModified,
+        // title: action.payload.layout ? newTitle : statePage.title,
       });
     default:
       return statePage;

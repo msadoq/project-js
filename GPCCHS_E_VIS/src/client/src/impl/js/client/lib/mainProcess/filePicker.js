@@ -1,13 +1,7 @@
 import { dialog, BrowserWindow } from 'electron';
 
-/**
- * show a file picker
- * @param folder : base folder of file picker
- * @param type of component to open : 'workspace', 'page' or 'view'
- * @return filepath or undefined si cancel
- */
-function openFileDialog(folder, type) {
-  return dialog.showOpenDialog(
+function openFileDialog(folder, type, callback) {
+  dialog.showOpenDialog(
     BrowserWindow.getFocusedWindow(),
     {
       title: `Select a ${type}`,
@@ -15,29 +9,39 @@ function openFileDialog(folder, type) {
       buttonLabel: 'Open',
       filters: [{ name: 'data files', extensions: ['json'] }],
       properties: ['openFile']
-    });
-}
-
-export default function getPathByFilePicker(folder, type, action = 'open') {
-  let filePath;
-  if (action === 'open') {
-    filePath = openFileDialog(folder, type);
-    if (filePath) {
-      return filePath[0];
+    }, (selected) => {
+      const filePath = (selected) ? selected[0] : undefined;
+      if (!filePath) {
+        callback('No path selected', filePath);
+      } else {
+        callback(null, filePath);
+      }
     }
-  } else {
-    return saveFileDialog(folder, type);
-  }
-  return undefined;
+  );
 }
 
-function saveFileDialog(folder, type) {
-  return dialog.showSaveDialog(
+function saveFileDialog(folder, type, callback) {
+  dialog.showSaveDialog(
     BrowserWindow.getFocusedWindow(),
     {
-      title: `Select a ${type}`,
+      title: `Save a ${type} as`,
       defaultPath: folder,
       buttonLabel: 'Save',
       filters: [{ name: 'data files', extensions: ['json'] }],
+    }, (selected) => {
+      if (!selected) {
+        callback('No path selected', selected);
+      } else {
+        callback(null, selected);
+      }
     });
+}
+
+// le callback c'est ce qu on veut faire une fois le path est selectionné
+export default function getPathByFilePicker(folder, type, action, callback) {
+  if (action === 'open') {
+    openFileDialog(folder, type, callback);
+  } else {
+    saveFileDialog(folder, type, callback);
+  }
 }

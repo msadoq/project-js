@@ -1,11 +1,17 @@
 import { v4 } from 'node-uuid';
 import path from 'path';
 import { getStore } from '../store/mainStore';
-import { add, addAndMount as addAndMountPage } from '../store/actions/windows';
+import { add, addAndMount as addAndMountPage, setModified as setModifiedWindow } from '../store/actions/windows';
 import { isWorkspaceOpening, closeWorkspace } from '../store/actions/hsc';
+import { setModified as setModifiedPage } from '../store/actions/pages';
 import { openDefaultWorkspace, readWkFile } from './openWorkspace';
 import getPathByFilePicker from './filePicker';
-import { addNewView, openView, openPage, allDocumentsAreSaved } from './fileTreatment';
+import { addNewView, openView, openPage, allDocumentsAreSaved,
+  ungivenPaths, updateWorkspacePath, updatePagePath } from './fileTreatment';
+import { savePage } from '../documentsManager/savePage';
+import { saveWorkspace, updateSavedWinTitle } from '../documentsManager/saveWorkspace';
+import { getModifiedViewsIds } from '../store/selectors/views';
+import { getPageModifiedViewsIds, getModifiedPagesIds } from '../store/selectors/pages';
 
 
 const { Menu, dialog } = require('electron');
@@ -39,47 +45,76 @@ template.splice(0, 0,
       label: 'New ... ',
       accelerator: 'Ctrl+N',
       click() {
-        if (!allDocumentsAreSaved(getStore().getState(), getStore().dispatch)) {
-          return;   // case of cancel
-        }
-        const folder = getStore().getState().hsc.folder;
-        getStore().dispatch(closeWorkspace());
-        openDefaultWorkspace(getStore().dispatch, folder);
+        allDocumentsAreSaved(getStore(), getStore().dispatch, (err) => {
+          if (err) {
+            return;
+          }
+          const folder = getStore().getState().hsc.folder;
+          getStore().dispatch(closeWorkspace());
+          openDefaultWorkspace(getStore().dispatch, folder);
+        });
       }
     }, {
       label: 'Open ... ',
       accelerator: 'Ctrl+O',
       click() {
-        if (!allDocumentsAreSaved(getStore().getState(), getStore().dispatch)) {
-          return;   // case of cancel
-        }
-        const folder = getStore().getState().hsc.folder;
-        // open the file picker
-        const filePath = getPathByFilePicker(folder, 'workspace');
-        if (filePath) {
-          getStore().dispatch(isWorkspaceOpening(true));
-          getStore().dispatch(closeWorkspace());
-          readWkFile(
-            getStore().dispatch,
-            getStore().getState,
-            path.dirname(filePath),
-            path.basename(filePath),
-            () => {
-              getStore().dispatch(isWorkspaceOpening(false));
+        allDocumentsAreSaved(getStore(), getStore().dispatch, (err) => {
+          if (err) {
+            return;
+          }
+          const folder = getStore().getState().hsc.folder;
+          // open the file picker
+          getPathByFilePicker(folder, 'workspace', 'open', (errFile, filePath) => {
+            if (filePath) {
+              getStore().dispatch(isWorkspaceOpening(true));
+              getStore().dispatch(closeWorkspace());
+              readWkFile(
+                getStore().dispatch,
+                getStore().getState,
+                path.dirname(filePath),
+                path.basename(filePath),
+                () => {
+                  getStore().dispatch(isWorkspaceOpening(false));
+                }
+              );
             }
-          );
-        }
+          });
+        });
       }
     }, {
       label: 'Save ...',
       accelerator: 'Ctrl+S',
       click: (item, focusedWindow) => {
         if (focusedWindow) {
-          dialog.showMessageBox({
-            type: 'warning',
-            message: 'Do you confirm to save ?',
-            buttons: ['ok', 'cancel'] });
-          // TODO save workspace
+          if (getModifiedPagesIds(getStore().getState()).length > 0
+            || getModifiedViewsIds(getStore().getState()).length > 0) {
+            dialog.showErrorBox('Error', 'Please, save the pages and views of this workspace');
+          } else {
+            const idsToSave = ungivenPaths();
+            const store = getStore();
+            if (idsToSave.workspace) {
+              updateWorkspacePath(idsToSave.workspace, store, store.dispatch, (err) => {
+                if (err) {
+                  return;
+                }
+                saveWorkspace(getStore().getState(), true, (errWin, winId) => {
+                  if (errWin) {
+                    return;
+                  }
+                  getStore().dispatch(setModifiedWindow(winId, false));
+                });
+                updateSavedWinTitle('save');
+              });
+            } else {
+              saveWorkspace(getStore().getState(), true, (errWin, winId) => {
+                if (errWin) {
+                  return;
+                }
+                getStore().dispatch(setModifiedWindow(winId, false));
+              });
+              updateSavedWinTitle('save');
+            }
+          }
         }
       }
     }, {
@@ -87,11 +122,25 @@ template.splice(0, 0,
       accelerator: 'Ctrl+Shift+S',
       click: (item, focusedWindow) => {
         if (focusedWindow) {
-          dialog.showMessageBox({
-            type: 'warning',
-            message: 'Do you confirm to save as?',
-            buttons: ['ok', 'cancel'] });
-          // TODO save workspace
+          if (getModifiedPagesIds(getStore().getState()).length > 0
+            || getModifiedViewsIds(getStore().getState()).length > 0) {
+            dialog.showErrorBox('Error', 'Please, save the pages and views of this workspace');
+          } else {
+            const idsToSave = ungivenPaths(true);
+            const store = getStore();
+            updateWorkspacePath(idsToSave.workspace, store, store.dispatch, (err) => {
+              if (err) {
+                return;
+              }
+              saveWorkspace(getStore().getState(), true, (errWin, winId) => {
+                if (errWin) {
+                  return;
+                }
+                getStore().dispatch(setModifiedWindow(winId, false));
+              });
+              updateSavedWinTitle('save');
+            });
+          }
         }
       }
     }, {
@@ -149,11 +198,13 @@ template.splice(2, 0,
   {
     label: 'Page',
     submenu: [{
-      label: 'Add',
+      label: 'Add ...',
       accelerator: '',
       click(item, focusedWindow) {
         if (focusedWindow) {
-          getStore().dispatch(addAndMountPage(focusedWindow.windowId, v4()));
+          const uuid = v4();
+          getStore().dispatch(addAndMountPage(focusedWindow.windowId, uuid));
+          getStore().dispatch(setModifiedPage(uuid, true));
         }
       }
     }, {
@@ -161,15 +212,69 @@ template.splice(2, 0,
       accelerator: '',
       click(item, focusedWindow) {
         if (focusedWindow) {
-          const filepath = getPathByFilePicker(getStore().getState().hsc.folder, 'page');
-          openPage(filepath, focusedWindow.windowId);
+          getPathByFilePicker(getStore().getState().hsc.folder, 'page', 'open', (err, filePath) => {
+            if (err) {
+              return;
+            }
+            openPage(filePath, focusedWindow.windowId);
+          });
         }
       }
     }, {
       label: 'Save ...',
       accelerator: '',
-      click() {
-        // TODO save page
+      click(item, focusedWindow) {
+        if (focusedWindow) {
+          const store = getStore();
+          const pageId = store.getState().windows[focusedWindow.windowId].focusedPage;
+          if (getPageModifiedViewsIds(store.getState(), pageId).length > 0) {
+            dialog.showErrorBox('Error', 'Please, save the views of this page');
+          } else {
+            const page = store.getState().pages[pageId];
+            if (!page.oId && !page.absolutePath) {
+              updatePagePath(pageId, store, store.dispatch, (errUp, pId) => {
+                if (errUp) {
+                  return;
+                }
+                savePage(store.getState(), pId, true, (err) => {
+                  if (err) {
+                    return;
+                  }
+                  store.dispatch(setModifiedPage(pId, false));
+                });
+              });
+            } else {
+              savePage(store.getState(), pageId, true, (err) => {
+                if (err) {
+                  return;
+                }
+                store.dispatch(setModifiedPage(pageId, false));
+              });
+            }
+          }
+        }
+      }
+    }, {
+      label: 'Save As ...',
+      accelerator: '',
+      click(item, focusedWindow) {
+        const store = getStore();
+        const pageId = store.getState().windows[focusedWindow.windowId].focusedPage;
+        if (getPageModifiedViewsIds(store.getState(), pageId).length) {
+          dialog.showErrorBox('Error', 'Please, save the views of this page');
+        } else {
+          updatePagePath(pageId, store, store.dispatch, (errUp, pId) => {
+            if (errUp) {
+              return;
+            }
+            savePage(store.getState(), pId, true, (err) => {
+              if (err) {
+                return;
+              }
+              store.dispatch(setModifiedPage(pId, false));
+            });
+          });
+        }
       }
     }]
   });
@@ -219,8 +324,27 @@ template.splice(3, 0,
       click(item, focusedWindow) {
         if (focusedWindow) {
           const state = getStore().getState();
-          const filepath = getPathByFilePicker(state.hsc.folder, 'view');
-          openView(filepath, state.windows[focusedWindow.windowId].focusedPage);
+          getPathByFilePicker(state.hsc.folder, 'view', 'open', (err, filePath) => {
+            openView(filePath, state.windows[focusedWindow.windowId].focusedPage);
+          });
+        }
+      }
+    }, {
+      label: 'Save',
+      accelerator: '',
+      click(item, focusedWindow) {
+        if (focusedWindow) {
+          // TODO : ajouter une entrée redux 'focusedView' pour les pages
+          // TODO : pour pouvoir utiliser le menu electron pour les save des views
+        }
+      }
+    }, {
+      label: 'Save as',
+      accelerator: '',
+      click(item, focusedWindow) {
+        if (focusedWindow) {
+          // TODO : ajouter une entrée redux 'focusedView' pour les pages
+          // TODO : pour pouvoir utiliser le menu electron pour les save des views
         }
       }
     }]

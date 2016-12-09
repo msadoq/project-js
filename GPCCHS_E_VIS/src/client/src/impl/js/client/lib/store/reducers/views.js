@@ -15,6 +15,7 @@ import vivl from '../../../VIVL/main';
  * Reducer
  */
 export default function views(stateViews = {}, action) {
+  let newTitle;
   switch (action.type) {
     case types.WS_VIEW_CD_MOUNT:
     case types.WS_VIEW_CD_UNMOUNT:
@@ -31,22 +32,37 @@ export default function views(stateViews = {}, action) {
     case types.WS_VIEW_UPDATEPATH:
       // path unchanged or newPath invalid
       if (!action.payload.newPath ||
-          resolve(action.payload.newPath) === resolve(stateViews[action.payload.viewId].path)) {
+        resolve(action.payload.newPath) === resolve(stateViews[action.payload.viewId].path)) {
         return stateViews;
       }
-      return u({ [action.payload.viewId]: {
-        path: action.payload.newPath,
-        isModified: true,
-      } }, stateViews);
+      newTitle = (!stateViews[action.payload.viewId].isModified) ?
+        '* '.concat(stateViews[action.payload.viewId].configuration.title)
+        : stateViews[action.payload.viewId].configuration.title;
+      return u({
+        [action.payload.viewId]: {
+          path: action.payload.newPath,
+          isModified: true,
+          configuration: {
+            title: newTitle
+          }
+        }
+      }, stateViews);
     case types.WS_VIEW_UPDATE_ABSOLUTEPATH:
       // path unchanged or newPath invalid
-      if (!action.payload.newPath ||
-      resolve(action.payload.newPath) === resolve(stateViews[action.payload.viewId].absolutePath)) {
+      if (stateViews[action.payload.viewId].absolutePath
+        && (!action.payload.newPath || resolve(action.payload.newPath)
+        === resolve(stateViews[action.payload.viewId].absolutePath))) {
         return stateViews;
       }
+      newTitle = (!stateViews[action.payload.viewId].isModified) ?
+        '* '.concat(stateViews[action.payload.viewId].configuration.title)
+        : stateViews[action.payload.viewId].configuration.title;
       return u({ [action.payload.viewId]: {
         absolutePath: action.payload.newPath,
         isModified: true,
+        configuration: {
+          title: newTitle
+        },
       } }, stateViews);
     case types.WS_VIEW_UPDATE_ENTRYPOINT:
       return updateArray(stateViews, action, 'entryPoints', 'entryPoint');
@@ -117,7 +133,22 @@ export default function views(stateViews = {}, action) {
       if (!stateViews[action.payload.viewId]) {
         return stateViews;
       }
-      return u({ [action.payload.viewId]: { isModified: action.payload.flag } }, stateViews);
+      newTitle = stateViews[action.payload.viewId].configuration.title;
+      if (stateViews[action.payload.viewId].isModified
+        && !action.payload.flag && newTitle.substring(0, 1) === '*') {
+        newTitle = newTitle.substring(2);
+      } else if (!stateViews[action.payload.viewId].isModified
+        && action.payload.flag && newTitle.substring(0, 1) !== '*') {
+        newTitle = '* '.concat(newTitle);
+      }
+      return u({
+        [action.payload.viewId]: {
+          configuration: {
+            title: newTitle
+          },
+          isModified: true,
+        }
+      }, stateViews);
     default:
       return stateViews;
   }
@@ -137,7 +168,7 @@ function view(stateView = initialState, action) {
         path: action.payload.path,
         oId: action.payload.oId,
         absolutePath: action.payload.absolutePath,
-        isModified: action.payload.isModified || false,
+        isModified: action.payload.isModified || false
       };
     default:
       return stateView;
@@ -175,10 +206,14 @@ export function updateObject(stateViews, action, objectName, paramName, viewType
   if (viewType && stateViews[action.payload.viewId].type !== viewType) {
     return stateViews;
   }
+  const updatedView = stateViews[action.payload.viewId];
+  let newTitle = (objectName === 'title') ? action.payload[paramName] : updatedView.configuration.title;
+  newTitle = (!updatedView.isModified) ? '* '.concat(newTitle) : newTitle;
   return u({
     [action.payload.viewId]: {
       configuration: {
-        [objectName]: action.payload[paramName]
+        [objectName]: action.payload[paramName],
+        title: newTitle
       },
       isModified: true,
     }
@@ -194,12 +229,16 @@ export function updateArray(stateViews, action, arrayName, paramName) {
   if (index < 0 || index >= viewConf[arrayName].length) {
     return stateViews;
   }
+  const newTitle = (!stateViews[action.payload.viewId].isModified) ?
+    '* '.concat(stateViews[action.payload.viewId].configuration.title)
+    : stateViews[action.payload.viewId].configuration.title;
   return u({
     [action.payload.viewId]: {
       configuration: {
         [arrayName]: {
           [index]: action.payload[paramName]
-        }
+        },
+        title: newTitle
       },
       isModified: true,
     }
@@ -211,10 +250,14 @@ export function addElementInArray(stateViews, action, arrayName, paramName) {
     return stateViews;
   }
   const oldValue = stateViews[action.payload.viewId].configuration[arrayName];
+  const newTitle = (!stateViews[action.payload.viewId].isModified) ?
+    '* '.concat(stateViews[action.payload.viewId].configuration.title)
+    : stateViews[action.payload.viewId].configuration.title;
   return u({
     [action.payload.viewId]: {
       configuration: {
-        [arrayName]: [...oldValue, ...[action.payload[paramName]]]
+        [arrayName]: [...oldValue, ...[action.payload[paramName]]],
+        title: newTitle
       },
       isModified: true,
     }
@@ -229,10 +272,14 @@ export function removeElementInArray(stateViews, action, arrayName) {
   if (index < 0 || index >= viewConf[arrayName].length) {
     return stateViews;
   }
+  const newTitle = (!stateViews[action.payload.viewId].isModified) ?
+    '* '.concat(stateViews[action.payload.viewId].configuration.title)
+    : stateViews[action.payload.viewId].configuration.title;
   return u({
     [action.payload.viewId]: {
       configuration: {
-        [arrayName]: _without(viewConf[arrayName], viewConf[arrayName][index])
+        [arrayName]: _without(viewConf[arrayName], viewConf[arrayName][index]),
+        title: newTitle
       },
       isModified: true,
     }
@@ -247,10 +294,14 @@ export function updateAxis(stateViews, action) {
   if (stateViews[action.payload.viewId].type !== 'PlotView') {
     return stateViews;
   }
+  const newTitle = (!stateViews[action.payload.viewId].isModified) ?
+    '* '.concat(stateViews[action.payload.viewId].configuration.title)
+    : stateViews[action.payload.viewId].configuration.title;
   return u({
     [action.payload.viewId]: {
       configuration: {
-        axes: { [action.payload.axisId]: action.payload.axis }
+        axes: { [action.payload.axisId]: action.payload.axis },
+        title: newTitle
       },
       isModified: true,
     }
@@ -274,10 +325,14 @@ export function addAxis(stateViews, action) {
     id = getUniqueAxisId(stateViews[action.payload.viewId], action.payload.axis.label);
     axis = Object.assign({}, action.payload.axis, { id });
   }
+  const newTitle = (!stateViews[action.payload.viewId].isModified) ?
+    '* '.concat(stateViews[action.payload.viewId].configuration.title)
+    : stateViews[action.payload.viewId].configuration.title;
   return u({
     [action.payload.viewId]: {
       configuration: {
-        axes: { [id]: axis || action.payload.axis }
+        axes: { [id]: axis || action.payload.axis },
+        title: newTitle
       },
       isModified: true,
     }
@@ -292,10 +347,14 @@ export function removeAxis(stateViews, action) {
   if (stateViews[action.payload.viewId].type !== 'PlotView') {
     return stateViews;
   }
+  const newTitle = (!stateViews[action.payload.viewId].isModified) ?
+    '* '.concat(stateViews[action.payload.viewId].configuration.title)
+    : stateViews[action.payload.viewId].configuration.title;
   return u({
     [action.payload.viewId]: {
       configuration: {
         axes: u.omit(action.payload.axisId),
+        title: newTitle
       },
       isModified: true,
     }
@@ -333,7 +392,9 @@ export function addEntryPoint(stateViews, action) {
   const oldValue = stateViews[action.payload.viewId].configuration.entryPoints;
   const currentView = stateViews[action.payload.viewId];
   const newValue = action.payload.entryPoint;
-
+  const newTitle = (!currentView.isModified) ?
+    '* '.concat(currentView.configuration.title)
+    : currentView.configuration.title;
   const structureType = vivl(currentView.type, 'structureType')();
   switch (structureType) { // eslint-disable-line default-case
     case globalConstants.DATASTRUCTURETYPE_LAST: {
@@ -349,6 +410,7 @@ export function addEntryPoint(stateViews, action) {
         [action.payload.viewId]: {
           configuration: {
             entryPoints: [...oldValue, newValue],
+            title: newTitle
           },
           isModified: true,
         }
@@ -375,6 +437,7 @@ export function addEntryPoint(stateViews, action) {
         [action.payload.viewId]: {
           configuration: {
             entryPoints: [...oldValue, newValue],
+            title: newTitle
           },
           isModified: true,
         }
@@ -441,6 +504,9 @@ export function getAxisId(epName, connectedData, currentView) {
 export function removeUnreferencedAxis(stateViews, viewId, axisIdX, axisIdY) {
   const epOnAxisX = [];
   const epOnAxisY = [];
+  const newTitle = (!stateViews[viewId].configuration.isModified) ?
+    '* '.concat(stateViews[viewId].configuration.configuration.title)
+    : stateViews[viewId].configuration.configuration.title;
   stateViews[viewId].configuration.entryPoints.forEach((ep) => {
     if (ep.connectedDataX.axisId === axisIdX || ep.connectedDataY.axisId === axisIdX) {
       epOnAxisX.push(ep.name);
@@ -459,6 +525,7 @@ export function removeUnreferencedAxis(stateViews, viewId, axisIdX, axisIdY) {
       [viewId]: {
         configuration: {
           axes: u.omit(axisIdX),
+          title: newTitle
         },
         isModified: true,
       }
@@ -469,6 +536,7 @@ export function removeUnreferencedAxis(stateViews, viewId, axisIdX, axisIdY) {
       [viewId]: {
         configuration: {
           axes: u.omit(axisIdY),
+          title: newTitle
         },
         isModified: true,
       }

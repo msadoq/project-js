@@ -1,5 +1,6 @@
 import _get from 'lodash/get';
 import _map from 'lodash/map';
+import _filter from 'lodash/filter';
 import { createSelector } from 'reselect';
 
 export const getPages = state => state.pages;
@@ -35,4 +36,12 @@ export function makeGetLayouts() { // TODO : test
       }, e)),
     })
   );
+}
+
+export function getModifiedPagesIds(state) {
+  return _filter(Object.keys(state.pages), pId => state.pages[pId].isModified);
+}
+
+export function getPageModifiedViewsIds(state, pageId) {
+  return _filter(state.pages[pageId].views, vId => state.views[vId].isModified);
 }

@@ -2,7 +2,6 @@ import _each from 'lodash/each';
 import _map from 'lodash/map';
 import _reduce from 'lodash/reduce';
 import path from 'path';
-import { dialog } from 'electron';
 import { v4 } from 'node-uuid';
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
@@ -10,17 +9,18 @@ import parameters from 'common/parameters';
 import readWorkspace from '../documentsManager/workspace';
 import { add as addTimeline } from '../store/actions/timelines';
 import { add as addTimebar } from '../store/actions/timebars';
-import { add as addView } from '../store/actions/views';
-import { add as addPage } from '../store/actions/pages';
-import { add as addWindow } from '../store/actions/windows';
-import { updatePath, setWorkspaceAsOpened } from '../store/actions/hsc';
-import { getPathByFilePicker } from './filePicker';
 import vivl from '../../VIVL/main';
 import structures from '../dataManager/structures';
+import { add as addView, setModified as setModifiedView } from '../store/actions/views';
+import { add as addPage, setModified as setModifiedPage } from '../store/actions/pages';
+import { add as addWindow, setModified as setModifiedWindow } from '../store/actions/windows';
+import { updatePath, setWorkspaceAsOpened } from '../store/actions/hsc';
+
+import getPathByFilePicker from './filePicker';
 
 const logger = getLogger('GPCCHS:mainProcess:openWorkspace');
 
-export function loadInStore(workspace, dispatch, root, file, callback) {
+export function loadInStore(workspace, dispatch, root, file, callback, isDefault = false) {
   // add timelines
   _each(workspace.timelines, e => dispatch(addTimeline(e.uuid, e)));
 
@@ -51,15 +51,20 @@ export function loadInStore(workspace, dispatch, root, file, callback) {
     }
   });
   // add views
-  _each(workspace.views, e => dispatch(addView(
-    e.uuid,
-    e.type,
-    e.configuration,
-    e.path,
-    e.oId,
-    e.absolutePath,
-    false,
-  )));
+  _each(workspace.views, (e) => {
+    dispatch(addView(
+      e.uuid,
+      e.type,
+      e.configuration,
+      e.path,
+      e.oId,
+      e.absolutePath,
+      false,
+    ));
+    if (isDefault) {
+      dispatch(setModifiedView(e.uuid, true));
+    }
+  });
 
   // add pages
   _each(workspace.pages, (e) => {
@@ -80,6 +85,9 @@ export function loadInStore(workspace, dispatch, root, file, callback) {
       e.absolutePath,
       false,
     ));
+    if (isDefault) {
+      dispatch(setModifiedPage(e.uuid, true));
+    }
   });
 
   // add windows
@@ -91,6 +99,9 @@ export function loadInStore(workspace, dispatch, root, file, callback) {
         pageId = e.pages[0];
       }
       dispatch(addWindow(e.uuid, e.title, e.geometry, e.pages, pageId, false));
+      if (isDefault) {
+        dispatch(setModifiedWindow(e.uuid, true));
+      }
     }
   );
 
@@ -125,14 +136,12 @@ export function readWkFile(dispatch, getState, root, file, callback) {
   readWorkspace(root, file, (err, workspace) => {
     if (err) {
       logger.error(err);
-      dialog.showErrorBox('ERROR', err); // TODO don't use dialog documentManager code !!!! inform callback of error
-      const filePath = getPathByFilePicker(root, 'workspace');
-      if (filePath) {
+      getPathByFilePicker(root, 'workspace', (errWk, filePath) => {
+        if (errWk) {
+          return;
+        }
         readWkFile(dispatch, getState, path.dirname(filePath), path.basename(filePath));
-        return;
-      }
-      openDefaultWorkspace(dispatch, root);
-      return;
+      });
     }
     loadInStore(workspace, dispatch, root, file, callback);
 
@@ -193,5 +202,5 @@ export function openDefaultWorkspace(dispatch, root, callback) {
     timebars: { [tbUuid]: Object.assign(timebar, { uuid: tbUuid }) },
     pages: { [pgUuid]: Object.assign(page, { uuid: pgUuid }) },
   };
-  loadInStore(workspace, dispatch, root, undefined, callback);
+  loadInStore(workspace, dispatch, root, undefined, callback, true);
 }

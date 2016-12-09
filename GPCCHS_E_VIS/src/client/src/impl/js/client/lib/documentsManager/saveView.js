@@ -14,18 +14,20 @@ const vivl = require('../../VIVL/main');
  * @param state
  * @param viewId
  * @param path
+ * @param callback
  * @returns Error or undefined
  */
-function saveViewAs(state, viewId, path) {
+function saveViewAs(state, viewId, path, callback) {
   if (!state.views[viewId]) {
-    return new Error('Unknown view id');
+    return callback('Unknown view id');
   }
   // TODO add case with new FMD path -> createDocument par DC
   const err = checkPath(dirname(path));
   if (err) {
-    return err;
+    return callback(err);
   }
   const conf = state.views[viewId].configuration;
+  conf.title = (conf.title.substring(0, 1)) ? conf.title.substring(2) : conf.title;
   let view;
   const structureType = vivl(state.views[viewId].type, 'structureType')();
   switch (structureType) { // eslint-disable-line default-case
@@ -60,8 +62,9 @@ function saveViewAs(state, viewId, path) {
 
   writeFile(path, JSON.stringify(view, null, '  '), (errWrite) => {
     if (errWrite) {
-      return new Error(`Unable to save view ${view.title} in file ${path}`);
+      return callback(`Unable to save view ${view.title} in file ${path}`);
     }
+    return callback(null);
   });
 }
 
@@ -70,20 +73,21 @@ function saveViewAs(state, viewId, path) {
  *
  * @param state
  * @param viewId
+ * @param callback
  * @returns Error or undefined
  */
-function saveView(state, viewId) {
+function saveView(state, viewId, callback) {
   if (!state.views[viewId]) {
-    return new Error('Unknown view id');
+    return callback('Unknown view id');
   }
   if (!state.views[viewId].isModified) {
-    return;
+    return callback('view is not modified');
   }
   const absPath = state.views[viewId].absolutePath;
   if (!absPath) {
-    return new Error('Unknown path for saving text view');
+    return callback('Unknown path for saving text view');
   }
-  return saveViewAs(state, viewId, absPath);
+  return saveViewAs(state, viewId, absPath, callback);
 }
 
 module.exports = { saveViewAs, saveView };

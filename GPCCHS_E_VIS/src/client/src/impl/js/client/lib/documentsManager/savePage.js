@@ -14,34 +14,36 @@ const root = parameters.get('FMD_ROOT_DIR');
  * @param state
  * @param pageId
  * @param path
+ * @param useRelativePath
+ * @param callback
  * @returns Error or undefined
  */
-function savePageAs(state, pageId, path, useRelativePath = false) {
+function savePageAs(state, pageId, path, useRelativePath, callback) {
   if (!state.pages[pageId]) {
-    return new Error('unknown page id');
+    callback('unknown page id');
   }
 
   // TODO add case with new FMD path -> createDocument par DC
   const err = checkPath(dirname(path));
   if (err) {
-    return err;
+    callback(err);
   }
   const page = state.pages[pageId];
   const jsonPage = {
     type: 'Page',
     timebarHeight: page.timebarHeight,
-    title: page.title,
+    title: (page.title.substring(0, 1)) ? page.title.substring(2) : page.title,
     views: [],
   };
   page.views.forEach((id) => {
     // Get view definition in stateViews
     if (!state.views[id]) {
-      return new Error(`Invalid view in page ${page.title}`);
+      return callback(`Invalid view in page ${page.title}`);
     }
     const view = state.views[id];
     const current = {};
     if (useRelativePath) {
-      current.path = relative(path, view.absolutePath);
+      current.path = relative(dirname(path), view.absolutePath);
     } else {
       current.path = view.absolutePath;
       if (_startsWith(current.path, root)) {
@@ -51,7 +53,7 @@ function savePageAs(state, pageId, path, useRelativePath = false) {
     current.oId = view.oId;
     const index = _findIndex(page.layout, item => item.i === id);
     if (index === -1) {
-      return;
+      return callback('not fount page layout');
     }
     const layout = page.layout[index];
     current.geometry = {
@@ -68,31 +70,33 @@ function savePageAs(state, pageId, path, useRelativePath = false) {
   // save file
   writeFile(path, JSON.stringify(jsonPage, null, '  '), (errfs) => {
     if (errfs) {
-      return new Error(`Unable to save view ${page.title} in file ${path}`);
+      return callback(`Unable to save view ${page.title} in file ${path}`);
     }
+    return callback(null);
   });
 }
 /**
  * Save page from state to file
  *
  * @param state
- * @param viewId
- * @param path
+ * @param pageId
+ * @param useRelativePath
+ * @param callback
  * @returns Error or undefined
  */
-function savePage(state, pageId, useRelativePath = false) {
+function savePage(state, pageId, useRelativePath, callback) {
   if (!state.pages[pageId]) {
-    return new Error('unknown page id');
+    callback('unknown page id');
   }
   if (!state.pages[pageId].isModified) {
-    return;
+    callback('page is not to save');
   }
   const path = state.pages[pageId].absolutePath ? state.pages[pageId].absolutePath
                                                 : state.pages[pageId].oId;
   if (!path) {
-    return new Error('Unknown path for saving the page');
+    return callback('Unknown path for saving the page');
   }
-  return savePageAs(state, pageId, path, useRelativePath);
+  return savePageAs(state, pageId, path, useRelativePath, callback);
 }
 
 

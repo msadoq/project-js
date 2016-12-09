@@ -76,6 +76,14 @@ export default class Header extends Component {
         }
         break;
       }
+      case 'save': {
+        // TODO call a saveView function
+        break;
+      }
+      case 'saveAs': {
+        // TODO call a saveView function
+        break;
+      }
       default:
     }
   };
@@ -161,6 +169,9 @@ export default class Header extends Component {
             <MenuItem eventKey="editor" active>{isViewsEditorOpen ? 'Close' : 'Open'} editor</MenuItem>
             <MenuItem eventKey="move">Move to another page</MenuItem>
             {/* <MenuItem eventKey="reload">Reload view</MenuItem>*/}
+            <MenuItem divider />
+            <MenuItem eventKey="save">Save</MenuItem>
+            <MenuItem eventKey="saveAs">Save as</MenuItem>
             <MenuItem divider />
             <MenuItem eventKey="close">Close view</MenuItem>
           </DropdownButton>

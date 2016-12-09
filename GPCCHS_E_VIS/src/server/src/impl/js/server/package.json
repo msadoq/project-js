@@ -1,5 +1,5 @@
 {
-  "name": "gpcchs_d_svr",
+  "name": "server",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -7,7 +7,7 @@
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha \"lib/**/*.spec.js\" -- -R spec",
     "hello": "npm install && npm link ../../../../../common/src/main/js/common && [ -f .env ] && echo || cp .env.example .env",
     "lint": "eslint lib e2e *.js",
-    "start": "node --max_old_space_size=8000 index",
+    "start": "node index",
     "test": "mocha \"lib/**/*.spec.js\"",
     "e2e": "mocha \"e2e/**/*.spec.js\"",
     "e2e:updateSnapshots": "CHAI_JEST_SNAPSHOT_UPDATE_ALL=1 npm run e2e",
@@ -17,7 +17,6 @@
     "async": "^2.1.4",
     "debug": "^2.3.3",
     "depd": "^1.1.0",
-    "dotenv-safe": "^3.0.0",
     "exit": "^0.1.2",
     "express": "4.14.0",
     "lodash": "^4.16.2",
@@ -29,7 +28,6 @@
     "chai": "^3.5.0",
     "chai-jest-snapshot": "^0.2.1",
     "chai-properties": "^1.2.1",
-    "dotenv": "^2.0.0",
     "eslint": "^3.10.2",
     "eslint-config-airbnb-base": "^10.0.1",
     "eslint-plugin-import": "^2.2.0",

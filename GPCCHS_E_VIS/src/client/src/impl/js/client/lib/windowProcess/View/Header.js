@@ -61,9 +61,6 @@ export default class Header extends Component {
         break;
       }
       case 'move': {
-        if (isViewsEditorOpen) {
-          closeEditor();
-        }
         const pageTitles = getWindowPages(windowId).reduce((list, page) => {
           list.push({ title: page.title, id: page.pageId }); // eslint-disable-line noparam-reassign
           return list;
@@ -110,6 +107,10 @@ export default class Header extends Component {
   }
 
   moveView = (toPage) => {
+    const { isViewsEditorOpen, closeEditor } = this.props;
+    if (isViewsEditorOpen && closeEditor) {
+      closeEditor();
+    }
     const { viewId, moveViewToPage } = this.props;
     const { windowId } = this.context;
     moveViewToPage(windowId, toPage, viewId);

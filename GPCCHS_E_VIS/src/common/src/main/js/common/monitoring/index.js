@@ -1,5 +1,4 @@
 // eslint-disable-next-line no-underscore-dangle
-const deprecate = require('depd')('common/monitoring');
 const getLogger = require('../log');
 
 const logger = getLogger('monitoring');
@@ -11,7 +10,7 @@ let avgTime;
 
 const latencyData = {
   count: 0,
-  min: 1 * 60 * 1000,
+  min: 60 * 1000,
   max: 0,
   total: 0,
 };
@@ -47,7 +46,7 @@ const latencyReport = () => {
   avgTime = latency.avg;
 
   latencyData.count = 0;
-  latencyData.min = 1 * 60 * 1000;
+  latencyData.min = 60 * 1000;
   latencyData.max = 0;
   latencyData.total = 0;
 
@@ -86,5 +85,5 @@ module.exports = {
   stop,
   getMemoryUsage: () => memUsage,
   getLatency: () => latencyData,
-  getAverageTime: deprecate.function(() => avgTime),
+  getAverageTime: () => avgTime,
 };

@@ -14,7 +14,6 @@
     "async": "^2.1.4",
     "bytebuffer": "^5.0.1",
     "debug": "^2.3.3",
-    "depd": "^1.1.0",
     "lodash": "^4.17.2",
     "minimist": "^1.2.0",
     "protobufjs": "^5.0.1",

@@ -83,4 +83,26 @@ describe('store:hsc:reducer', () => {
       slowRenderers: { }
     });
   });
+  it('should save current focused window', () => {
+    reducer(undefined, actions.focusWindow('some window id'))
+    .should.have.properties({
+      focusWindow: 'some window id',
+    });
+  });
+  it('should blur current focused window', () => {
+    reducer(freezeMe({
+      focusWindow: 'some window id',
+    }), actions.blurWindow('some window id'))
+    .should.eql({
+      focusWindow: null,
+    });
+  });
+  it('should not blur current focused window', () => {
+    reducer(freezeMe({
+      focusWindow: 'some window id',
+    }), actions.blurWindow('some window id 2'))
+    .should.eql({
+      focusWindow: 'some window id',
+    });
+  });
 });

@@ -6,6 +6,7 @@ import {
   getLastCacheInvalidation,
   getPlayingTimebarId,
   getSlowRenderers,
+  getFocusedWindowId,
 } from './hsc';
 
 describe('store:hsc:selectors', () => {
@@ -57,6 +58,16 @@ describe('store:hsc:selectors', () => {
     it('should support empty state', () => {
       const { getState } = getStore({ hsc: {} });
       should.not.exist(getSlowRenderers(getState()));
+    });
+  });
+  describe('getFocusedWindowId', () => {
+    it('should return getFocusedWindowId', () => {
+      const { getState } = getStore({ hsc: { focusWindow: 'some window id' } });
+      getFocusedWindowId(getState()).should.eql('some window id');
+    });
+    it('should support empty state', () => {
+      const { getState } = getStore({ hsc: {} });
+      should.not.exist(getFocusedWindowId(getState()));
     });
   });
   describe('getLastCacheInvalidation', () => {

@@ -4,7 +4,14 @@ import { BrowserWindow } from 'electron';
 import getLogger from 'common/log';
 
 import parameters from '../common/parameters';
-import { remove } from '../store/actions/windows';
+import {
+  remove,
+  updateGeometry,
+} from '../store/actions/windows';
+import {
+  focusWindow,
+  blurWindow,
+} from '../store/actions/hsc';
 import { getStore } from '../store/mainStore';
 
 const logger = getLogger('GPCCHS:store:observers:windows');
@@ -50,6 +57,22 @@ export function open(data, windowId, cb) {
     // update redux store
     getStore().dispatch(remove(windowId));
   });
+
+  window.on('focus', () => {
+    getStore().dispatch(focusWindow(windowId));
+  });
+
+  window.on('blur', () => {
+    getStore().dispatch(blurWindow(windowId));
+  });
+
+  const saveGeometry = _.debounce((ev) => {
+    const b = ev.sender.getBounds();
+    getStore().dispatch(updateGeometry(windowId, b.x, b.y, b.width, b.height))
+  }, 500);
+
+  window.on('move', saveGeometry);
+  window.on('resize', saveGeometry);
 
   if (process.env.NODE_ENV === 'development') {
     window.openDevTools();

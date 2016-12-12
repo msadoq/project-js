@@ -1,7 +1,4 @@
-/* eslint strict: 0, no-shadow: 0, no-unused-vars: 0, no-console: 0 */
-
-'use strict';
-
+/* eslint no-shadow: 0, no-unused-vars: 0, no-console: 0 */
 require('babel-polyfill');
 const os = require('os');
 const webpack = require('webpack');
@@ -11,7 +8,7 @@ const packager = require('electron-packager');
 const del = require('del');
 const exec = require('child_process').exec;
 const argv = require('minimist')(process.argv.slice(2));
-const pkg = require('./package.json');
+const pkg = require('../package.json');
 
 const deps = Object.keys(pkg.dependencies);
 const devDeps = Object.keys(pkg.devDependencies);
@@ -127,7 +124,10 @@ function pack(plat, arch, cb) {
 
 function log(plat, arch) {
   return (err, filepath) => {
-    if (err) return console.error(err);
-    console.log(`${plat}-${arch} finished!`);
+    if (err) {
+      return console.error(err);
+    }
+
+    return console.log(`${plat}-${arch} finished!`);
   };
 }

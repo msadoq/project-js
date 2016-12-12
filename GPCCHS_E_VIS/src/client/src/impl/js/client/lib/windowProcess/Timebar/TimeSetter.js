@@ -24,6 +24,8 @@ export default class TimeSetter extends Component {
   state = {
     errorMessages: [],
     defaultWidth: null,
+    changed: false,
+    defaultWidthChanged: false,
   }
 
   componentDidMount() {
@@ -42,7 +44,10 @@ export default class TimeSetter extends Component {
   }
 
   onChangeAction = (value, cursor) => {
-    this.setState({ [cursor]: value });
+    this.setState({
+      [cursor]: value,
+      changed: true,
+    });
   }
 
   onDefaultWidthChange = () => {
@@ -51,7 +56,8 @@ export default class TimeSetter extends Component {
       defaultWidth.add(parseInt(this[`defaultWidth${v}El`].value, 10), v);
     });
     this.setState({
-      defaultWidth: defaultWidth.asMilliseconds()
+      defaultWidth: defaultWidth.asMilliseconds(),
+      defaultWidthChanged: true,
     });
   }
 
@@ -96,6 +102,8 @@ export default class TimeSetter extends Component {
       current: null,
       slideLower: null,
       slideUpper: null,
+      changed: false,
+      defaultWidthChanged: false,
     });
   }
 
@@ -112,6 +120,11 @@ export default class TimeSetter extends Component {
       slideWindow,
       cursor,
     } = this.props;
+
+    const {
+      defaultWidthChanged,
+      changed,
+    } = this.state;
 
     let orderedCursors = ['lower', 'slideLower', 'current'];
     if (timebarMode === 'Extensible') {
@@ -143,11 +156,11 @@ export default class TimeSetter extends Component {
             }
             let ms;
             if (this.props.visuWindow[x]) {
-              ms = visuWindow[x];
+              ms = this.state[x] || visuWindow[x];
             } else if (x === 'slideLower') {
-              ms = slideWindow.lower;
+              ms = this.state.slideLower || slideWindow.lower;
             } else if (x === 'slideUpper') {
-              ms = slideWindow.upper;
+              ms = this.state.slideUpper || slideWindow.upper;
             }
 
             let disabled = cursor !== 'all';
@@ -181,7 +194,7 @@ export default class TimeSetter extends Component {
                     defaultValue={x[1]}
                     placeholder={x[0]}
                     ref={(el) => { this[`defaultWidth${x[0]}El`] = el; }}
-                    onChange={this.onDefaultWidthChange}
+                    onBlur={this.onDefaultWidthChange}
                     className={classnames(styles.input, styles[`input_${x[0]}`], 'form-control')}
                   />
                   {(x === 'hours' || x === 'minutes') && <span>:</span>}
@@ -192,9 +205,9 @@ export default class TimeSetter extends Component {
           </div>
         </div>
         <div className="text-center">
-          <input type="submit" value="Save" className="btn btn-primary" />
+          <input type="submit" value="Save" className={`btn btn-primary ${(defaultWidthChanged || changed) ? '' : 'disabled'}`} />
           {' '}
-          <button className="btn btn-info" onClick={this.cancel}>Cancel changes</button>
+          <button className={`btn btn-info ${(defaultWidthChanged || changed) ? '' : 'disabled'}`} onClick={this.cancel}>Cancel changes</button>
         </div>
       </form>
     );

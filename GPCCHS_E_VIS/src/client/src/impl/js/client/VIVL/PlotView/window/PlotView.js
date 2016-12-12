@@ -1,6 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import _get from 'lodash/get';
 import _map from 'lodash/map';
+// import _remove from 'lodash/remove';
 import SizeMe from 'react-sizeme';
 import { format } from 'd3-format';
 import { scaleTime } from 'd3-scale';
@@ -19,7 +20,7 @@ import {
   getLineStyle,
   getEntryPointsCharts
 } from './helper';
-// import PlotMenu from './PlotMenu';
+// import PlotMenu from './PlotMenu';(i * -yAxisWidth)
 
 const logger = getLogger('GPCCHS:view:plot');
 
@@ -35,8 +36,10 @@ const {
 } = coordinates;
 // const { ClickCallback } = interactive;
 const { XAxis, YAxis } = StockchartsAxes;
-const margin = { left: 10, right: 30, top: 20, bottom: 40 };
+const margin = { left: 20, right: 20, top: 20, bottom: 40 };
 const yAxisWidth = 55;
+const edgeIndicatorArrowWidth = 10;
+const axesYSideDefault = 'right';
 
 class PlotView extends PureComponent {
   static propTypes = {
@@ -53,16 +56,33 @@ class PlotView extends PureComponent {
       current: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
       upper: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
     }).isRequired,
-    configuration: PropTypes.object.isRequired,
-    // entryPoints: PropTypes.array.isRequired,
-    // axes: PropTypes.array,
-    // grids: PropTypes.array,
-    // titleStyle: PropTypes.object,
-    // links: PropTypes.array,
-    // procedures: PropTypes.array,
-    // defaultRatio: PropTypes.object,
-    // legend: PropTypes.object,
-    // markers: PropTypes.array,
+    configuration: PropTypes.shape({
+      type: PropTypes.string.isRequired,
+      links: PropTypes.array,
+      procedures: PropTypes.array,
+      defaultRatio: PropTypes.shape({
+        length: PropTypes.number,
+        width: PropTypes.number
+      }),
+      entryPoints: PropTypes.array,
+      axes: PropTypes.object,
+      axesYSide: PropTypes.number,
+      grids: PropTypes.array,
+      title: PropTypes.string,
+      titleStyle: PropTypes.shape({
+        font: PropTypes.string,
+        size: PropTypes.number,
+        bold: PropTypes.bool,
+        italic: PropTypes.bool,
+        underline: PropTypes.bool,
+        strikeOut: PropTypes.bool,
+        align: PropTypes.string,
+        color: PropTypes.string
+      }),
+      backgroundColor: PropTypes.string,
+      legend: PropTypes.object,
+      markers: PropTypes.array,
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -104,7 +124,10 @@ class PlotView extends PureComponent {
   }
 
   getGrid() {
-    const { configuration, size } = this.props;
+    const {
+      configuration,
+      size
+    } = this.props;
     const isDisplayed = _get(configuration, 'grids[0].showGrid', false);
 
     if (!isDisplayed) {
@@ -138,11 +161,18 @@ class PlotView extends PureComponent {
   getCharts() {
     const {
       visuWindow: { current },
-      size: { width, height }
+      size: { width, height },
+      configuration: { axesYSide = axesYSideDefault }
     } = this.props;
+
     const { disableZoom } = this.state;
     const { y: yGrid, x: xGrid } = this.getGrid();
-    const xAxisWidth = width - margin.left - margin.right - (this.epCharts.length * yAxisWidth);
+    let xAxisWidth;
+    if (axesYSide === 'left') {
+      xAxisWidth = (margin.left - margin.right) + (this.epCharts.length * yAxisWidth);
+    } else {
+      xAxisWidth = width - margin.left - margin.right - (this.epCharts.length * yAxisWidth);
+    }
     const xLabelPosition = [
       xAxisWidth / 2,
       height - 30
@@ -193,20 +223,46 @@ class PlotView extends PureComponent {
 
     this.epCharts.forEach((chart, i) => {
       const index = i + 1;
-      const edgeRight = width - margin.right;
-      const axisAt = edgeRight - (index * yAxisWidth);
-      const edgeIndicatorDx = (i * -yAxisWidth) + ((this.epCharts.length - 1) * yAxisWidth);
+      const chartWidth = width - margin.right - margin.left;
+      const AxesWidth = (this.epCharts.length) * yAxisWidth;
+      let dx;
+      let axisAt;
+      let edgeIndicatorDx;
+      let edgeIndicatorType;
+      let edgeIndicatorOrient;
+      let edgeIndicatorEdgeAt;
+
+      if (axesYSide === 'left') {
+        axisAt = (index * yAxisWidth) - AxesWidth;
+        edgeIndicatorType = 'first';
+        edgeIndicatorOrient = 'left';
+        edgeIndicatorEdgeAt = 'left';
+        edgeIndicatorDx = (index * yAxisWidth) - (AxesWidth - edgeIndicatorArrowWidth);
+        dx = axisAt - (yAxisWidth - 10);
+      } else {
+        axisAt = chartWidth - (index * yAxisWidth);
+        edgeIndicatorType = 'last';
+        edgeIndicatorOrient = 'right';
+        edgeIndicatorEdgeAt = 'right';
+        edgeIndicatorDx = (index * -yAxisWidth) + (AxesWidth - edgeIndicatorArrowWidth);
+        dx = axisAt + (yAxisWidth - 5);
+      }
+
+      const hasGrid = typeof chart.grid !== 'undefined';
+
       const yRange = [
         _get(chart, 'yAxis.min', 0),
         _get(chart, 'yAxis.max')
       ];
+      const showTicks = _get(chart, 'yAxis.showTicks', true);
+      // const autoTick = _get(chart, 'yAxis.autoTick', true);
       const label = _get(chart, 'yAxis.label');
-      const hasGrid = typeof chart.grid !== 'undefined';
-      const dx = axisAt + (yAxisWidth - 5);
+
       charts.push(
         <Chart
           id={index}
           key={index}
+          yScale={chart.yScale}
           yExtents={d => _map(chart.yKeys, key => _get(d, [key, 'value']))}
         >
           <Label
@@ -217,15 +273,22 @@ class PlotView extends PureComponent {
           />
           <YAxis
             axisAt={axisAt}
-            orient="right"
+            orient={axesYSide}
             ticks={5}
             stroke="#000000"
             range={yRange}
+            showTicks={showTicks}
+            showDomain
             displayFormat={format('.2f')}
             zoomEnabled={!disableZoom}
             {...hasGrid ? yGrid : {}}
           />
-          {this.getLineComponents(chart.lines, edgeIndicatorDx)}
+          {this.getLineComponents(chart.lines, {
+            edgeIndicatorDx,
+            edgeIndicatorType,
+            edgeIndicatorOrient,
+            edgeIndicatorEdgeAt
+          })}
         </Chart>
       );
     });
@@ -233,7 +296,9 @@ class PlotView extends PureComponent {
     return charts;
   }
 
-  getLineComponents = (lines = [], dx) => lines.map(({
+  getLineComponents = (lines = [], {
+    edgeIndicatorDx, edgeIndicatorType, edgeIndicatorOrient, edgeIndicatorEdgeAt
+  }) => lines.map(({
       key, color, lineSize = 1,
       pointsStyle, pointsSize, lineStyle
     }) => (
@@ -265,10 +330,11 @@ class PlotView extends PureComponent {
           fill={color}
         />
         <EdgeIndicator
-          itemType="last"
-          orient="right"
-          edgeAt="right"
-          dx={dx}
+          itemType={edgeIndicatorType}
+          orient={edgeIndicatorOrient}
+          edgeAt={edgeIndicatorEdgeAt}
+          dx={edgeIndicatorDx}
+          rectWidth={yAxisWidth}
           displayFormat={format('.2f')}
           yAccessor={d => _get(d, [key, 'value'])}
           fill={color}
@@ -386,10 +452,12 @@ class PlotView extends PureComponent {
       // TODO : clean message component
       return <div>unable to render plot: {noRender}</div>;
     }
-    const { size, data, visuWindow } = this.props;
-    const { columns } = data;
-    const { lower, upper } = visuWindow;
-    const { width, height } = size;
+    const {
+      size: { width, height },
+      data: { columns },
+      visuWindow: { lower, upper },
+      configuration: { axesYSide = axesYSideDefault }
+    } = this.props;
     const {
       tooltipWidth,
       tooltipHeight,
@@ -399,7 +467,14 @@ class PlotView extends PureComponent {
     } = this.state;
     // const menuOpenOnTop = menuPosition.y >= (height / 2);
     // const menuOpenOnLeft = menuPosition.x >= (width / 2);
-    const marginRight = margin.right + (this.epCharts.length * yAxisWidth);
+    let marginChart;
+    if (axesYSide === 'left') {
+      const marginLeft = margin.left + (this.epCharts.length * yAxisWidth);
+      marginChart = { ...margin, left: marginLeft };
+    } else {
+      const marginRight = margin.right + (this.epCharts.length * yAxisWidth);
+      marginChart = { ...margin, right: marginRight };
+    }
 
     return (
       <div
@@ -412,7 +487,7 @@ class PlotView extends PureComponent {
           ratio={1}
           width={width}
           height={height}
-          margin={{ ...margin, right: marginRight }}
+          margin={marginChart}
           seriesName="PlotView"
           data={columns}
           type="hybrid"

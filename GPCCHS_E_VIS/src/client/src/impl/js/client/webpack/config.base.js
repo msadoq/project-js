@@ -9,32 +9,27 @@ import postCssReporter from 'postcss-reporter';
 import postCssBrowserReporter from 'postcss-browser-reporter';
 
 export default {
-  debug: true,
   module: {
-    loaders: [
-      {
-        test: /\.css$/,
-        loaders: [
-          'style',
-          'css?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
-          'postcss'
-        ],
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.jsx?$/,
-        loaders: ['babel-loader'].map(require.resolve),
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.json$/,
-        loader: require.resolve('json-loader'),
-      },
-      {
-        test: /\.less$/,
-        loader: 'style!css!less',
-      },
-    ],
+    loaders: [{
+      test: /\.css$/,
+      loaders: [
+        'style',
+        'css?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+        'postcss'
+      ],
+      exclude: /node_modules/
+    },
+    {
+      test: /\.jsx?$/,
+      loaders: ['babel-loader'].map(require.resolve),
+      exclude: /node_modules/
+    }, {
+      test: /\.json$/,
+      loader: 'json'
+    }, {
+      test: /\.less$/,
+      loader: 'style!css!less'
+    }]
   },
   output: {
     path: path.join(__dirname, 'dist'),
@@ -43,7 +38,7 @@ export default {
   },
   resolve: {
     extensions: ['', '.js', '.jsx', '.json', '.less', '.css'],
-    packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main'],
+    packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main']
   },
   plugins: [
     new webpack.ContextReplacementPlugin(/moment\/locale$/, new RegExp('fr.js')),

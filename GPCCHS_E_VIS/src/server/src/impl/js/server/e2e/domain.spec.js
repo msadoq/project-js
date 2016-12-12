@@ -6,8 +6,8 @@ const {
   startWS,
   stopWS,
   resetDataCallbacks,
-  startHSS,
-  stopHSS,
+  startHSSAndDC,
+  stopHSSAndDC,
   getMatchSnapshot,
   addDataCallback,
 } = require('./util');
@@ -26,22 +26,17 @@ describe('domain', function () { // eslint-disable-line func-names
     )
   );
 
-  before((done) => {
-    startHSS().then((hss) => {
-      this.hss = hss;
-      done();
-    });
-  });
+  before(() => startHSSAndDC().then((processes) => {
+    this.processes = processes;
+  }));
 
-  after((done) => {
-    stopHSS(this.hss).then(done);
-  });
+  after(() => stopHSSAndDC(this.processes));
 
-  beforeEach((done) => {
+  beforeEach(() => {
     resetDataCallbacks();
-    startWS().then((ws) => {
+
+    return startWS().then((ws) => {
       this.ws = ws;
-      done();
     });
   });
 

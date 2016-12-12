@@ -12,6 +12,10 @@ const PORT = mustStartHSS ? 3001 : process.env.PORT;
 
 process.env.E2E_URL = process.env.E2E_URL || 'http://localhost';
 process.env.PORT = PORT;
+process.env.SERVER_PORT = PORT;
+
+const ZMQ_GPCCDC_PUSH_PORT = 5043;
+const ZMQ_GPCCDC_PULL_PORT = 49166;
 
 // Array of callbacks triggered on ws.on('data')
 let onDataCallbacks = [];
@@ -44,34 +48,62 @@ const resetDataCallbacks = () => {
   onDataCallbacks = [];
 };
 
-// Start HSS
-const startHSS = () => { // eslint-disable-line arrow-body-style
-  if (!mustStartHSS) {
-    return Promise.resolve();
-  }
+const startDCProcess = () => new Promise((resolve) => {
+  const dc = cp.fork('../../../../../common/src/main/js/common/stubs/dc.js', [], {
+    silent: true, // disable stdin, stdout, stderr
+    env: {
+      ZMQ_GPCCDC_PUSH: `tcp://127.0.0.1:${ZMQ_GPCCDC_PUSH_PORT}`, // use different port from standard HSS
+      ZMQ_GPCCDC_PULL: `tcp://127.0.0.1:${ZMQ_GPCCDC_PULL_PORT}`, // use different port from standard HSS
+    },
+  });
+  resolve(dc);
+});
 
-  return new Promise((resolve) => {
+// Start HSS
+const startHSSProcess = () =>
+  new Promise((resolve) => {
     const hss = cp.fork('index.js', [], {
       silent: true, // disable stdin, stdout, stderr
       env: {
-        PORT,
-        RUN_BY_MOCHA: 'true',
-        ZMQ_GPCCDC_PUSH: 'tcp://127.0.0.1:5043', // use different port from standard HSS
-        ZMQ_GPCCDC_PULL: 'tcp://127.0.0.1:49166', // use different port from standard HSS
+        SERVER_PORT: PORT,
+        ZMQ_GPCCDC_PUSH: `tcp://127.0.0.1:${ZMQ_GPCCDC_PUSH_PORT}`, // use different port from standard HSS
+        ZMQ_GPCCDC_PULL: `tcp://127.0.0.1:${ZMQ_GPCCDC_PULL_PORT}`, // use different port from standard HSS
       },
     });
     hss.on('message', () => resolve(hss));
   });
+
+const startHSSAndDC = () => {
+  if (!mustStartHSS) {
+    return Promise.resolve();
+  }
+
+  const processes = [];
+
+  return startDCProcess().then((dc) => {
+    processes.push(dc);
+    return startHSSProcess();
+  }).then((hss) => {
+    processes.push(hss);
+    return processes;
+  });
 };
 
-// Stop HSS
-const stopHSS = (hss) => { // eslint-disable-line arrow-body-style
+const getHSSProcess = processes => processes[1];
+
+const stopProcess = (process) => { // eslint-disable-line arrow-body-style
   return new Promise((resolve) => {
-    if (hss) {
-      hss.kill();
+    if (process) {
+      process.kill();
     }
     resolve();
   });
+};
+
+
+// Stop HSS and DC
+const stopHSSAndDC = (processes) => { // eslint-disable-line arrow-body-style
+  return Promise.all(processes.map(p => stopProcess(p))).then(() => null);
 };
 
 // Snapshot testing
@@ -97,7 +129,9 @@ module.exports = {
   stopWS,
   addDataCallback,
   resetDataCallbacks,
-  startHSS,
-  stopHSS,
+  startHSSAndDC,
+  stopHSSAndDC,
+  stopProcess,
+  getHSSProcess,
   getMatchSnapshot,
 };

@@ -1,5 +1,4 @@
 /* eslint no-underscore-dangle:0 import/no-extraneous-dependencies:0 */
-require('dotenv-safe').load();
 const _each = require('lodash/each');
 const chai = require('chai');
 const properties = require('chai-properties');
@@ -18,7 +17,7 @@ const testHandler = (...args) => {
 };
 
 // URL used into e2e tests for WS connection with HSS
-const e2eUrl = () => `${process.env.E2E_URL}:${process.env.PORT}?identity=main`;
+const e2eUrl = () => `${process.env.E2E_URL}:${process.env.SERVER_PORT}?identity=main`;
 
 // eslint-disable-next-line no-console
 const deepLog = obj => console.log(utils.inspect(obj, false, null));

@@ -10,9 +10,10 @@ const {
   stopWS,
   addDataCallback,
   resetDataCallbacks,
-  startHSS,
-  stopHSS,
+  startHSSAndDC,
+  stopHSSAndDC,
   getMatchSnapshot,
+  getHSSProcess,
 } = require('./util');
 
 // HSS specific PORT for tests
@@ -99,12 +100,13 @@ describe('timebased query', function () { // eslint-disable-line func-names
     });
 
   before((done) => {
-    startHSS().then((hss) => {
-      if (!hss) {
+    startHSSAndDC().then((processes) => {
+      if (!processes) {
         this.noSpecificHSS = true;
       }
-      if (hss) {
-        this.hss = hss;
+      if (processes) {
+        this.processes = processes;
+        const hss = getHSSProcess(processes);
 
         hss.on('message', (msg) => {
           if (msg === 'updated') {
@@ -118,15 +120,14 @@ describe('timebased query', function () { // eslint-disable-line func-names
   });
 
   after((done) => {
-    stopHSS(this.hss).then(done);
+    stopHSSAndDC(this.processes).then(done);
   });
 
-  beforeEach((done) => {
+  beforeEach(() => {
     resetDataCallbacks();
     this.updateCount = 0;
-    startWS().then((ws) => {
+    return startWS().then((ws) => {
       this.ws = ws;
-      done();
     });
   });
 

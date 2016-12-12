@@ -6,7 +6,7 @@ import createLogger from 'redux-logger';
 
 import reducers from './reducers';
 
-const logger = getLogger('store:window');
+const logger = getLogger('GPCCHS:WindowStore');
 
 let store;
 
@@ -19,13 +19,13 @@ const dispatchProxy = (...args) => {
 
 let enhancer;
 if (isDebugOn) {
-  const storeLogger = createLogger({
+  const reduxLogger = createLogger({
     level: 'info',
     collapsed: true,
   });
 
   enhancer = compose(
-    applyMiddleware(thunk, storeLogger),
+    applyMiddleware(thunk, reduxLogger),
     electronEnhancer({ dispatchProxy }),
     window.devToolsExtension
       ? window.devToolsExtension()

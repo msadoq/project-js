@@ -4,6 +4,7 @@ const _round = require('lodash/round');
 const _reduce = require('lodash/reduce');
 const _noop = require('lodash/noop');
 
+const { get } = require('../parameters');
 const getLogger = require('../log');
 
 function start(executionMap, key) {
@@ -64,7 +65,7 @@ const noOp = {
 };
 
 module.exports = function init(namespace) {
-  if (process.env.PROFILING !== 'on') {
+  if (get('PROFILING') === 'on') {
     return noOp;
   }
 

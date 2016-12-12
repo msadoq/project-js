@@ -43,7 +43,7 @@ const config = merge(baseConfig, {
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
         IS_BUNDLED: JSON.stringify('on'),
-        APP_ENV: JSON.stringify('browser'),
+        APP_ENV: JSON.stringify('renderer'),
       }
     }),
   ],

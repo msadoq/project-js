@@ -20,7 +20,7 @@ const { onTimebasedQuery } = require('./lib/controllers/client/onTimebasedQuery'
 const { onSessionQuery } = require('./lib/controllers/client/onSessionQuery');
 const { onFilepathQuery } = require('./lib/controllers/client/onFilepathQuery');
 
-process.title = 'gpcchs_main';
+process.title = 'gpcchs_hss';
 
 monitoring.start();
 

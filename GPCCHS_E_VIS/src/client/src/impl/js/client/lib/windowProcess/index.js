@@ -10,7 +10,7 @@ import CircuitBreaker from './CircuitBreaker';
 const search = global.location.search;
 const windowId = search.replace('?windowId=', '');
 
-process.title = 'HSC_WINDOW';
+process.title = 'gpcchs_renderer';
 
 monitoring.start();
 initStore();

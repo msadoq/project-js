@@ -3,9 +3,23 @@ const { getTimer } = require('./util');
 
 winston.cli();
 
-const DEFAULT_TRANSPORTS = 'file';
+let DEFAULT_TRANSPORTS = 'file';
+if (process.env.NODE_ENV === 'development') {
+  DEFAULT_TRANSPORTS = 'console:http';
+}
 
-const configStr = process.env.LOG || DEFAULT_TRANSPORTS;
+let configTransports;
+
+// Define transports, less priority than env variable LOG
+function setTransports(t) {
+  configTransports = t;
+}
+
+function getConfig() {
+  return (process.env.LOG !== 'undefined' && process.env.LOG)
+    || configTransports
+    || DEFAULT_TRANSPORTS;
+}
 
 // Convert value to boolean or number if possible
 const parseValue = value => (
@@ -78,8 +92,6 @@ const availableTransports = {
 
 const getTime = getTimer();
 
-const config = parseConfig(configStr);
-
 // Create and returns list of wanted transports
 const getTransports = cfg =>
   cfg.map(t => availableTransports[t.type](t.params));
@@ -94,6 +106,7 @@ function getLogger(category) {
     return loggers[category];
   }
 
+  const config = parseConfig(getConfig());
   const transports = getTransports(config);
   winston.loggers.add(category, {
     transports,
@@ -163,4 +176,5 @@ module.exports = {
   parseValue,
   availableTransports,
   getLogger,
+  setTransports,
 };

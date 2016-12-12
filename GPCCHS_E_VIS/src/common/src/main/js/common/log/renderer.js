@@ -6,7 +6,11 @@ const {
   getTimer,
 } = require('./util');
 
-const DEFAULT_TRANSPORTS = ['console', 'electronIPC'];
+let DEFAULT_TRANSPORTS = ['electronIPC'];
+if (process.env.NODE_ENV === 'developpement') {
+  DEFAULT_TRANSPORTS = ['console', 'electronIPC'];
+}
+
 const DEFAULT_LEVELS = ['silly', 'debug', 'verbose', 'info', 'warn', 'error'];
 
 const transportAPis = {};

@@ -1,4 +1,6 @@
 // eslint-disable-next-line no-underscore-dangle
+const { get } = require('../parameters');
+
 const getLogger = require('../log');
 
 const logger = getLogger('monitoring');
@@ -67,14 +69,14 @@ const report = () => {
 };
 
 const start = () => {
-  if (process.env.MONITORING === 'on') {
+  if (get('MONITORING') === 'on') {
     reportLoop = setInterval(report, REPORT_INTERVAL);
     latencyLoop = setInterval(checkLatency, CHECK_LATENCY_INTERVAL);
   }
 };
 
 const stop = () => {
-  if (process.env.MONITORING === 'on') {
+  if (get('MONITORING') === 'on') {
     clearInterval(reportLoop);
     clearInterval(latencyLoop);
   }

@@ -3,14 +3,25 @@ const { join } = require('path');
 const minimist = require('minimist');
 const getLogger = require('../log');
 
-const logger = getLogger('parameters');
-
 const DEFAULT = 'config.default.json'; // mandatory
 const LOCAL = 'config.local.json'; // optional
 
 let argv;
 let defaultConfig;
 let localConfig;
+let logger;
+
+// Useful to give transport configuration to future loggers
+function initDefaultLogTransports() {
+  if (process.env.APP_ENV !== 'renderer') {
+    // eslint-disable-next-line global-require
+    const { setTransports } = require('../log/node');
+    const config = defaultConfig.LOG || localConfig.LOG;
+    if (config) {
+      setTransports(defaultConfig.LOG);
+    }
+  }
+}
 
 function init(path) {
   defaultConfig = JSON.parse(fs.readFileSync(join(path, DEFAULT), 'utf8'));
@@ -21,6 +32,8 @@ function init(path) {
     fs.accessSync(localPath, fs.constants.F_OK);
     fs.accessSync(localPath, fs.constants.R_OK);
     localConfig = Object.assign(JSON.parse(fs.readFileSync(localPath, 'utf8')), { path });
+    initDefaultLogTransports();
+    logger = getLogger('parameters');
     logger.info(`local configuration file loaded: ${localConfig}`);
   } catch (e) {
     logger.info('no local configuration file found');
@@ -84,4 +97,9 @@ function get(name) {
   return undefined;
 }
 
-module.exports = { init, get };
+const universalGet = (...args) => {
+  const fn = (global.parameters && global.parameters.get) || get;
+  return fn(...args);
+};
+
+module.exports = { init, get: universalGet };

@@ -16,6 +16,10 @@ const sendArchiveData = require('./dc/sendArchiveData');
 const sendSessionData = require('./dc/sendSessionData');
 const sendFilepathData = require('./dc/sendFilepathData');
 
+const monitoring = require('../monitoring');
+
+monitoring.start();
+
 process.title = 'gpcchs_dc_stub';
 
 let subscriptions = {};

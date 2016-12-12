@@ -37,7 +37,7 @@ export default merge(baseConfig, {
     new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
-        APP_ENV: JSON.stringify('browser'),
+        APP_ENV: JSON.stringify('renderer'),
       }
     }),
   ],

@@ -1,6 +1,5 @@
 import _each from 'lodash/each';
 import _map from 'lodash/map';
-import _reduce from 'lodash/reduce';
 import path from 'path';
 import { v4 } from 'node-uuid';
 import getLogger from 'common/log';
@@ -9,8 +8,6 @@ import parameters from 'common/parameters';
 import readWorkspace from '../documentsManager/workspace';
 import { add as addTimeline } from '../store/actions/timelines';
 import { add as addTimebar } from '../store/actions/timebars';
-import vivl from '../../VIVL/main';
-import structures from '../dataManager/structures';
 import { add as addView, setModified as setModifiedView } from '../store/actions/views';
 import { add as addPage, setModified as setModifiedPage } from '../store/actions/pages';
 import { add as addWindow, setModified as setModifiedWindow } from '../store/actions/windows';
@@ -27,29 +24,6 @@ export function loadInStore(workspace, dispatch, root, file, callback, isDefault
   // add timebars
   _each(workspace.timebars, e => dispatch(addTimebar(e.uuid, e)));
 
-  // Convert timeline label to ID for each entry points
-  const pageOfViews = {};
-  _each(workspace.pages, (page, pageId) => {
-    const viewIds = _reduce(page.views, (list, view) => {
-      list.push(view.uuid);
-      return list;
-    }, []);
-    viewIds.forEach((id) => {
-      pageOfViews[id] = pageId;
-    });
-  });
-  _each(workspace.views, (view, viewId) => {
-    const structureType = vivl(view.type, 'structureType')();
-    const tbId = workspace.pages[pageOfViews[viewId]].timebarId;
-    const timelineIds = workspace.timebars[tbId].timelines;
-    try {
-      // eslint-disable-next-line no-param-reassign
-      view.configuration = structures(structureType, 'addTimelineId')(view.configuration,
-        timelineIds, workspace.timelines);
-    } catch (e) {
-      logger.warn(`no addTimelineId for view ${structureType}`);
-    }
-  });
   // add views
   _each(workspace.views, (e) => {
     dispatch(addView(
@@ -136,22 +110,25 @@ export function readWkFile(dispatch, getState, root, file, callback) {
   readWorkspace(root, file, (err, workspace) => {
     if (err) {
       logger.error(err);
-      getPathByFilePicker(root, 'workspace', (errWk, filePath) => {
-        if (errWk) {
-          return;
-        }
-        readWkFile(dispatch, getState, path.dirname(filePath), path.basename(filePath));
-      });
-    }
-    loadInStore(workspace, dispatch, root, file, callback);
+      // console.log('****err', err);
+      openDefaultWorkspace(dispatch, root, callback);
+    //   getPathByFilePicker(root, 'workspace', (errWk, filePath) => {
+    //     if (errWk) {
+    //       return;
+    //     }
+    //     readWkFile(dispatch, getState, path.dirname(filePath), path.basename(filePath));
+    //   });
+    // }
+    // console.log(workspace);
+    // loadInStore(workspace, dispatch, root, file, callback);
 
-    const state = getState();
-    const count = {
-      w: Object.keys(state.windows).length,
-      p: Object.keys(state.pages).length,
-      v: Object.keys(state.views).length,
+    // const state = getState();
+    // const count = {
+    //   w: Object.keys(state.windows).length,
+    //   p: Object.keys(state.pages).length,
+    //   v: Object.keys(state.views).length,
     };
-    logger.info(`${count.w} windows, ${count.p} pages, ${count.v} views`);
+    // logger.info(`${count.w} windows, ${count.p} pages, ${count.v} views`);
   });
 }
 

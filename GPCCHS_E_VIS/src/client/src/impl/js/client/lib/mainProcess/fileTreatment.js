@@ -18,9 +18,6 @@ import { requestPathFromOId } from './websocket';
 import { getModifiedPagesIds } from '../store/selectors/pages';
 import { getModifiedViewsIds } from '../store/selectors/views';
 
-import structures from '../dataManager/structures';
-import vivl from '../../VIVL/main';
-
 function showErrorMessage(focusedWindow, errTitle, errMsg, callback) {
   dialog.showMessageBox(
     focusedWindow,
@@ -116,19 +113,6 @@ function showSelectedPage(pageAndViews, pageId, windowId) {
 
 function showSelectedView(view, pageId) {
   const viewId = v4();
-  // Add timeline Id
-  const state = getStore().getState();
-  const tbId = state.pages[pageId].timebarId;
-  const timelineIds = state.timebars[tbId].timelines;
-  const structureType = vivl(view.type, 'structureType')();
-
-  try {
-    // eslint-disable-next-line no-param-reassign
-    view.configuration = structures(structureType, 'addTimelineId')(view.configuration,
-      timelineIds, state.timelines);
-  } catch (e) {
-    // nothing to do
-  }
   getStore().dispatch(addAndMountView(pageId, viewId, view, addViewInLayout(pageId, viewId)));
 }
 

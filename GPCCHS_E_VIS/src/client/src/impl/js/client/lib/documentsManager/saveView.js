@@ -43,22 +43,6 @@ function saveViewAs(state, viewId, path, callback) {
   _each(view.entryPoints, (value, index, entryPoints) => {
     entryPoints[index] = _omit(value, 'id'); // eslint-disable-line no-param-reassign
   });
-  // Remove entry point timeline Id
-  switch (structureType) { // eslint-disable-line default-case
-    case globalConstants.DATASTRUCTURETYPE_LAST: {
-      _each(view.entryPoints, (value, index, entryPoints) => {
-        entryPoints[index].connectedData = _omit(value.connectedData, 'timelineId'); // eslint-disable-line no-param-reassign
-      });
-      break;
-    }
-    case globalConstants.DATASTRUCTURETYPE_RANGE: {
-      _each(view.entryPoints, (value, index, entryPoints) => {
-        entryPoints[index].connectedDataX = _omit(value.connectedDataX, 'timelineId'); // eslint-disable-line no-param-reassign
-        entryPoints[index].connectedDataY = _omit(value.connectedDataY, 'timelineId'); // eslint-disable-line no-param-reassign
-      });
-      break;
-    }
-  }
 
   writeFile(path, JSON.stringify(view, null, '  '), (errWrite) => {
     if (errWrite) {

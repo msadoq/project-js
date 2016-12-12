@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Glyphicon } from 'react-bootstrap';
+import { Glyphicon, Popover, OverlayTrigger, Form } from 'react-bootstrap';
 import classnames from 'classnames';
 import styles from './Controls.css';
 
@@ -48,6 +48,21 @@ export default class TimebarControlsLeft extends Component {
     if (newSpeed !== 1 && !isPlaying) {
       play(timebarId);
     }
+  }
+
+  updatePlayingSpeed = (e) => {
+    e.preventDefault();
+    const {
+      updateSpeed,
+      timebarId,
+    } = this.props;
+    let newSpeed = parseFloat(this.speedInputEl.value) || 1;
+    if (newSpeed < 0.1) {
+      newSpeed = 0.1;
+    } else if (newSpeed > 10) {
+      newSpeed = 10;
+    }
+    updateSpeed(timebarId, newSpeed);
   }
 
   restoreWidth = (e) => {
@@ -130,6 +145,35 @@ export default class TimebarControlsLeft extends Component {
 
     const allButtonsKlasses = classnames('btn', 'btn-xs', 'btn-control');
 
+    const speedPopover =
+      (<Popover
+        title="Playing speed"
+        placement="top"
+        id="playingSpeedPopover"
+        style={{ width: '200px' }}
+      >
+        <Form horizontal>
+          <input
+            className={classnames(
+              'form-control',
+              styles.speedInputEl
+            )}
+            ref={(el) => { this.speedInputEl = el; }}
+            type="number"
+            step="0.1"
+            min="0.1"
+            defaultValue={timebarSpeed}
+            max="10"
+          />
+          <input
+            type="submit"
+            value="save"
+            className="btn btn-primary"
+            onClick={this.updatePlayingSpeed}
+          />
+        </Form>
+      </Popover>);
+
     return (
       <ul className={styles.controlsUl}>
         <li className={styles.controlsLi}>
@@ -142,11 +186,19 @@ export default class TimebarControlsLeft extends Component {
           </button>
         </li>
         <li className={styles.controlsLi}>
-          <button
-            className={classnames('btn', 'btn-xs', 'btn-default')}
+
+          <OverlayTrigger
+            trigger="click"
+            placement="top"
+            overlay={speedPopover}
+            container={this}
           >
-            {`${timebarSpeed}X`}
-          </button>
+            <button
+              className={classnames('btn', 'btn-xs', 'btn-default')}
+            >
+              {`${timebarSpeed}X`}
+            </button>
+          </OverlayTrigger>
         </li>
         <li className={styles.controlsLi}>
           <button

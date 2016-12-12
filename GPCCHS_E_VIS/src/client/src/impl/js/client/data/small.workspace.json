@@ -3,31 +3,29 @@
   "windows": [
     {
       "type": "documentWindow",
-      "title": "Small workspace",
       "pages": [
         {
-          "path": "./pages/pageSmall.json",
+          "path": "pages/pageSmall.json",
           "timeBarId": "TB1"
         }
       ],
+      "title": "Small workspace",
       "geometry": {
-        "kind": "Absolute",
-        "x": 110,
-        "y": 10,
+        "x": 112,
+        "y": 51,
         "w": 1310,
-        "h": 800
+        "h": 800,
+        "kind": "Absolute"
       }
     }
   ],
   "timebars": [
     {
-      "type": "timeBarConfiguration",
       "id": "TB1",
-      "mode": "Normal",
       "visuWindow": {
         "lower": 1480578427000,
-        "upper": 1480582087000,
-        "current": 1480580227000,
+        "upper": 1480578527000,
+        "current": 1480578457000,
         "defaultWidth": 900000
       },
       "slideWindow": {
@@ -37,18 +35,19 @@
       "extUpperBound": 1480582047000,
       "rulerStart": 1480577807000,
       "rulerResolution": 11630,
-      "speed": 1.0,
-      "timeSpec": "LocalTime",
-      "offsetFromUTC": 0,
+      "speed": 1,
+      "masterId": "Session 1",
+      "mode": "Normal",
+      "type": "timeBarConfiguration",
       "timelines": [
         {
           "id": "Session 1",
           "offset": 0,
           "kind": "Session",
-          "sessionId": 0
+          "sessionId": 0,
+          "color": null
         }
-      ],
-      "masterId": "Session 1"
+      ]
     }
   ]
 }

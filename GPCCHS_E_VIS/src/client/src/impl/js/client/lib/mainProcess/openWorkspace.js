@@ -1,6 +1,5 @@
 import _each from 'lodash/each';
 import _map from 'lodash/map';
-import path from 'path';
 import { v4 } from 'node-uuid';
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
@@ -11,9 +10,8 @@ import { add as addTimebar } from '../store/actions/timebars';
 import { add as addView, setModified as setModifiedView } from '../store/actions/views';
 import { add as addPage, setModified as setModifiedPage } from '../store/actions/pages';
 import { add as addWindow, setModified as setModifiedWindow } from '../store/actions/windows';
-import { updatePath, setWorkspaceAsOpened } from '../store/actions/hsc';
+import { updatePath, setWorkspaceAsOpened, closeWorkspace } from '../store/actions/hsc';
 
-import getPathByFilePicker from './filePicker';
 
 const logger = getLogger('GPCCHS:mainProcess:openWorkspace');
 
@@ -99,10 +97,9 @@ export default function openWorkspace(dispatch, getState, callback) {
   const root = parameters.get('FMD_ROOT_DIR');
   if (parameters.get('OPEN')) {
     const file = parameters.get('OPEN');
-    readWkFile(dispatch, getState, root, file, callback);
-  } else {
-    openDefaultWorkspace(dispatch, root, callback);
+    return readWkFile(dispatch, getState, root, file, callback);
   }
+  return openDefaultWorkspace(dispatch, root, callback);
 }
 
 export function readWkFile(dispatch, getState, root, file, callback) {
@@ -110,26 +107,24 @@ export function readWkFile(dispatch, getState, root, file, callback) {
   readWorkspace(root, file, (err, workspace) => {
     if (err) {
       logger.error(err);
-      getPathByFilePicker(root, 'workspace', 'open', (errWk, filePath) => {
-        if (errWk) {
-          return callback(errWk);
-        }
-        return readWkFile(dispatch, getState, path.dirname(filePath), path.basename(filePath),
-                          callback);
-      });
-    } else {
-      loadInStore(workspace, dispatch, root, file);
-
-      const state = getState();
-      const count = {
-        w: Object.keys(state.windows).length,
-        p: Object.keys(state.pages).length,
-        v: Object.keys(state.views).length,
-      };
-      logger.info(`${count.w} windows, ${count.p} pages, ${count.v} views`);
       if (typeof callback === 'function') {
-        return callback(null);
+        return callback(err);
       }
+      return err;
+    }
+    // close old workspace
+    dispatch(closeWorkspace());
+    loadInStore(workspace, dispatch, root, file);
+
+    const state = getState();
+    const count = {
+      w: Object.keys(state.windows).length,
+      p: Object.keys(state.pages).length,
+      v: Object.keys(state.views).length,
+    };
+    logger.info(`${count.w} windows, ${count.p} pages, ${count.v} views`);
+    if (typeof callback === 'function') {
+      return callback(null);
     }
   });
 }

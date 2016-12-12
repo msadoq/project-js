@@ -11,7 +11,7 @@ import { updateStatus as updateAppStatus } from '../store/actions/hsc';
 import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
 import { removeAllData } from '../store/actions/viewData';
-import openWorkspace from './openWorkspace';
+import openWorkspace, { openDefaultWorkspace } from './openWorkspace';
 import { start, stop } from './orchestration';
 
 /**
@@ -87,7 +87,9 @@ export function onOpen(getState, dispatch, requestDomains, requestSessions) {
     if (err) {
       // TODO : handle error in an error controller that dispatch to redux (displayed in react) and
       // output in console
-      throw err;
+      // throw err;
+      // TODO: add a dialog to explain why selected workspace is not opened
+      openDefaultWorkspace(dispatch);
     }
 
     dispatch(updateAppStatus(LIFECYCLE_STARTED));

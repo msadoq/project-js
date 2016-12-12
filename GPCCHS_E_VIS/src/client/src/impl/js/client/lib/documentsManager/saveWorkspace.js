@@ -1,6 +1,4 @@
 /* eslint no-underscore-dangle: 0 */
-import { BrowserWindow } from 'electron';
-
 const _each = require('lodash/each');
 const _omit = require('lodash/omit');
 const _startsWith = require('lodash/startsWith');
@@ -94,28 +92,4 @@ function saveWorkspace(state, useRelativePath, callback) {
                          join(state.hsc.folder, state.hsc.file), useRelativePath, callback);
 }
 
-
-function updateSavedWinTitle() {
-  const windows = BrowserWindow.getAllWindows();
-  _each(windows, (window) => {
-    let title = window.getTitle();
-    if (title.startsWith('* ')) {
-      title = title.substring(2);
-    }
-    window.setTitle(title);
-  });
-}
-
-
-function updateModifiedWinTitle() {
-  const window = BrowserWindow.getFocusedWindow();
-  if (!window) {
-    return;
-  }
-  let title = window.getTitle();
-  if (!title.startsWith('* ')) {
-    title = '* '.concat(title);
-    window.setTitle(title);
-  }
-}
-module.exports = { saveWorkspace, saveWorkspaceAs, updateSavedWinTitle, updateModifiedWinTitle };
+module.exports = { saveWorkspace, saveWorkspaceAs };

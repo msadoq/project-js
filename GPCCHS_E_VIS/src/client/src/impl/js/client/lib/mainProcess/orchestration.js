@@ -1,5 +1,4 @@
 import _round from 'lodash/round';
-import _find from 'lodash/find';
 import globalConstants from 'common/constants';
 import executionMonitor from 'common/execution';
 import getLogger from 'common/log';
@@ -25,7 +24,7 @@ import windowsObserver from './windows';
 import { updateCursors } from '../store/actions/timebars';
 import { getTimebar } from '../store/selectors/timebars';
 import { nextCurrent, computeCursors } from './play';
-import { updateModifiedWinTitle } from '../documentsManager/saveWorkspace';
+// import { updateModifiedWinTitle } from '../documentsManager/saveWorkspace';
 
 import { updateViewData } from '../store/actions/viewData';
 import cleanViewData from '../dataManager/cleanViewData';
@@ -159,11 +158,9 @@ export function tick() {
   // windows
   const isWindowsOpened = getWindowsOpened(state);
   const windowsHasChanged = state.windows !== previous.state.windows;
-  const windowsIsModified = _find(state.windows, (window, winId) => {
-    return (previous.state.windows
-    && previous.state.windows[winId]
-    && window.isModified && !previous.state.windows[winId].isModified);
-  });
+  // const windowsIsModified = _find(state.windows, (window, winId) =>
+  //   (previous.state.windows && previous.state.windows[winId]
+  //   && window.isModified && !previous.state.windows[winId].isModified));
   // queued data to inject
   const dataToInject = getAndResetQueue();
 
@@ -284,9 +281,9 @@ export function tick() {
       }
 
       logger.verbose('windows synchronized');
-      if (windowsIsModified) {
-        updateModifiedWinTitle();
-      }
+      // if (windowsIsModified) {
+      //   updateModifiedWinTitle();
+      // }
 
       // only one time to avoid recursion
       if (isWindowsOpened === false) {

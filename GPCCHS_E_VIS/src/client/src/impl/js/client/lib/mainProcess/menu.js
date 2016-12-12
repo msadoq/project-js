@@ -7,14 +7,14 @@ import { setModified as setModifiedPage } from '../store/actions/pages';
 import { openDefaultWorkspace, readWkFile } from './openWorkspace';
 import getPathByFilePicker from './filePicker';
 import { addNewView, openView, openPage, allDocumentsAreSaved,
-  ungivenPaths, updateWorkspacePath, updatePagePath } from './fileTreatment';
+  ungivenPaths, updateWorkspacePath, updatePagePath, showErrorMessage } from './fileTreatment';
 import { savePage } from '../documentsManager/savePage';
 import { saveWorkspace, updateSavedWinTitle } from '../documentsManager/saveWorkspace';
 import { getModifiedViewsIds } from '../store/selectors/views';
 import { getPageModifiedViewsIds, getModifiedPagesIds } from '../store/selectors/pages';
 
 
-const { Menu, dialog } = require('electron');
+const { Menu, dialog, BrowserWindow } = require('electron');
 
 const template = [{
   label: 'Edit',
@@ -67,13 +67,17 @@ template.splice(0, 0,
           getPathByFilePicker(folder, 'workspace', 'open', (errFile, filePath) => {
             if (filePath) {
               getStore().dispatch(isWorkspaceOpening(true));
-              getStore().dispatch(closeWorkspace());
               readWkFile(
                 getStore().dispatch,
                 getStore().getState,
                 path.dirname(filePath),
                 path.basename(filePath),
-                () => {
+                (errWk) => {
+                  if (errWk) {
+                    showErrorMessage(BrowserWindow.getFocusedWindow(),
+                      'Error on selected workspace',
+                      'Invalid Workspace file selected');
+                  }
                   getStore().dispatch(isWorkspaceOpening(false));
                 }
               );
@@ -325,6 +329,9 @@ template.splice(3, 0,
         if (focusedWindow) {
           const state = getStore().getState();
           getPathByFilePicker(state.hsc.folder, 'view', 'open', (err, filePath) => {
+            if (err) {
+              return;
+            }
             openView(filePath, state.windows[focusedWindow.windowId].focusedPage);
           });
         }

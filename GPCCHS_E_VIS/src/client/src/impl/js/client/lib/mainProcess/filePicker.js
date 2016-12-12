@@ -12,7 +12,7 @@ function openFileDialog(folder, type, callback) {
     }, (selected) => {
       const filePath = (selected) ? selected[0] : undefined;
       if (!filePath) {
-        callback('No path selected', filePath);
+        callback(null, undefined); // cancel
       } else {
         callback(null, filePath);
       }
@@ -30,14 +30,14 @@ function saveFileDialog(folder, type, callback) {
       filters: [{ name: 'data files', extensions: ['json'] }],
     }, (selected) => {
       if (!selected) {
-        callback('No path selected', selected);
+        callback(null, undefined);
       } else {
         callback(null, selected);
       }
     });
 }
 
-// le callback c'est ce qu on veut faire une fois le path est selectionné
+// le callback c'est ce qu on veut faire une fois que le path est selectionné
 export default function getPathByFilePicker(folder, type, action, callback) {
   if (action === 'open') {
     openFileDialog(folder, type, callback);

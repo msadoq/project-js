@@ -76,14 +76,14 @@ export default class Header extends Component {
         }
         break;
       }
-      case 'save': {
-        // TODO call a saveView function
-        break;
-      }
-      case 'saveAs': {
-        // TODO call a saveView function
-        break;
-      }
+      // case 'save': {
+      //   // TODO call a saveView function
+      //   break;
+      // }
+      // case 'saveAs': {
+      //   // TODO call a saveView function
+      //   break;
+      // }
       default:
     }
   };

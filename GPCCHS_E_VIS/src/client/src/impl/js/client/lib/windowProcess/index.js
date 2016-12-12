@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import monitoring from 'common/monitoring';
 
+import '../ipc/window';
 import WindowContainer from './Window/WindowContainer';
 import { initStore, getStore } from '../store/windowStore';
 import CircuitBreaker from './CircuitBreaker';

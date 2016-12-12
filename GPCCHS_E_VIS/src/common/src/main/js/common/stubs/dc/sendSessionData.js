@@ -1,13 +1,11 @@
 const stubData = require('../data');
 
-const buffer = [
-  null,
-  stubData.getSessionDataHeaderProtobuf(),
-  null,
-  stubData.getSessionsProtobuf(stubData.getSessions()),
-];
-
 module.exports = function sendSessionData(queryId, zmq) {
-  buffer[2] = stubData.getStringProtobuf(queryId);
+  const buffer = [
+    null,
+    stubData.getSessionDataHeaderProtobuf(),
+    stubData.getStringProtobuf(queryId),
+    stubData.getSessionsProtobuf(stubData.getSessions()),
+  ];
   zmq.push('stubData', buffer);
 };

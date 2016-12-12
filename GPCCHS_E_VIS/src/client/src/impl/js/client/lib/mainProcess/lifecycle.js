@@ -69,7 +69,7 @@ export function onOpen(getState, dispatch, requestDomains, requestSessions) {
         // TODO : remove following loop and offsetWithmachineTime key and implement an on-the-fly
         //        getSessionTime() call to DC
         const now = Date.now();
-        payload.map(s => Object.assign(s, { offsetWithmachineTime: now - s.timestamp.ms }));
+        payload.map(s => Object.assign(s, { offsetWithmachineTime: s.timestamp.ms - now }));
 
         dispatch(updateSessions(payload));
         return callback(null);

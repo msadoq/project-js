@@ -7,6 +7,7 @@ const getSession = override => applyOverride({
   id: 0,
   timestamp: getTimestamp(),
   delta: 0,
+  missionEpoch: 110,
 }, override);
 
 module.exports = {

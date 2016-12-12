@@ -3,6 +3,7 @@ import _find from 'lodash/find';
 import globalConstants from 'common/constants';
 import executionMonitor from 'common/execution';
 import getLogger from 'common/log';
+import { get } from 'common/parameters';
 
 import { getStore } from '../store/mainStore';
 import {
@@ -126,8 +127,8 @@ export function tick() {
   } = circuitBreakerForRenderers(getState(), previous.slowRenderers);
   previous.slowRenderers = slowRenderers;
   // Bypass only if circuit breaker is activated
-  if (process.env.RENDERER_CIRCUIT_BREAKER === 'on' && skip) {
-    logger.debug('Slow renderer detected, bypass current tick');
+  if (get('RENDERER_CIRCUIT_BREAKER') === 'on' && skip) {
+    logger.info('Slow renderer detected, bypass current tick');
     done();
     return;
   }

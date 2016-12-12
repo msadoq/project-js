@@ -1,6 +1,6 @@
 {
-  "LOG": "console",
-  "PROFILING": "on",
+  "LOG": "console:http",
+  "PROFILING": "off",
   "MONITORING": "off",
   "DEBUG": "on",
   "FMD_ROOT_DIR": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/impl/js/client/data",
@@ -10,5 +10,6 @@
   "ZMQ_GPCCDC_PUSH": "tcp://127.0.0.1:5042",
   "ZMQ_GPCCDC_PULL": "tcp://127.0.0.1:49165",
   "OPEN": "small.workspace.json",
-  "STUB_DC_ON": "on"
+  "STUB_DC_ON": "on",
+  "RENDERER_CIRCUIT_BREAKER": "off"
 }

@@ -110,25 +110,27 @@ export function readWkFile(dispatch, getState, root, file, callback) {
   readWorkspace(root, file, (err, workspace) => {
     if (err) {
       logger.error(err);
-      // console.log('****err', err);
-      openDefaultWorkspace(dispatch, root, callback);
-    //   getPathByFilePicker(root, 'workspace', (errWk, filePath) => {
-    //     if (errWk) {
-    //       return;
-    //     }
-    //     readWkFile(dispatch, getState, path.dirname(filePath), path.basename(filePath));
-    //   });
-    // }
-    // console.log(workspace);
-    // loadInStore(workspace, dispatch, root, file, callback);
+      getPathByFilePicker(root, 'workspace', 'open', (errWk, filePath) => {
+        if (errWk) {
+          return callback(errWk);
+        }
+        return readWkFile(dispatch, getState, path.dirname(filePath), path.basename(filePath),
+                          callback);
+      });
+    } else {
+      loadInStore(workspace, dispatch, root, file);
 
-    // const state = getState();
-    // const count = {
-    //   w: Object.keys(state.windows).length,
-    //   p: Object.keys(state.pages).length,
-    //   v: Object.keys(state.views).length,
-    };
-    // logger.info(`${count.w} windows, ${count.p} pages, ${count.v} views`);
+      const state = getState();
+      const count = {
+        w: Object.keys(state.windows).length,
+        p: Object.keys(state.pages).length,
+        v: Object.keys(state.views).length,
+      };
+      logger.info(`${count.w} windows, ${count.p} pages, ${count.v} views`);
+      if (typeof callback === 'function') {
+        return callback(null);
+      }
+    }
   });
 }
 

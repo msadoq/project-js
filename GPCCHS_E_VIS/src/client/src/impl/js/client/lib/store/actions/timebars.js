@@ -1,4 +1,5 @@
 import { v4 } from 'node-uuid';
+import globalConstants from 'common/constants';
 import _get from 'lodash/get';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
@@ -13,7 +14,16 @@ import {
   update as updateTL,
 } from './timelines';
 import { pause } from './hsc';
-import { getTimebar } from '../selectors/timebars';
+import {
+  getTimebar,
+  getMasterTimeline,
+  getTimebarTimelinesSelector,
+} from '../selectors/timebars';
+import {
+  getSession,
+} from '../selectors/sessions';
+
+const currentUpperMargin = 1 / 100;
 
 /**
  * Simple actions
@@ -78,9 +88,84 @@ export const updateViewport = simple(
   'rulerResolution'
 );
 export const updateSpeed = simple(types.WS_TIMEBAR_SPEED_UPDATE, 'timebarId', 'speed');
-export const updateMode = simple(
-  types.WS_TIMEBAR_MODE_UPDATE, 'timebarId', 'mode'
-);
+export function updateMode(timebarId, mode) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: types.WS_TIMEBAR_MODE_UPDATE,
+      payload: {
+        timebarId,
+        mode: mode === 'Realtime' ? 'Normal' : mode,
+      }
+    });
+    const state = getState();
+    const timebar = getTimebar(state, timebarId);
+    const { visuWindow, slideWindow } = timebar;
+
+    if (mode === 'Realtime') {
+      const timelines = getTimebarTimelinesSelector(state, timebarId);
+      const masterTimeline = getMasterTimeline(state.timebars, timelines, timebarId);
+      const currentSession = getSession(state.sessions, masterTimeline.sessionId);
+      const sessionOffset = currentSession ? currentSession.offsetWithmachineTime : 0;
+
+      const msWidth = visuWindow.upper - visuWindow.lower;
+      const realTimeMs = Date.now() + sessionOffset;
+      const newLower = realTimeMs - ((1 - currentUpperMargin) * msWidth);
+      const newUpper = realTimeMs + (currentUpperMargin * msWidth);
+      dispatch(
+        updateCursors(
+          timebarId,
+          {
+            lower: newLower,
+            upper: newUpper,
+            current: realTimeMs,
+          },
+          {
+            lower: newLower,
+            upper: newUpper,
+          },
+        )
+      );
+    } else if (mode === 'Normal' && slideWindow.upper > visuWindow.upper) {
+      dispatch(
+        updateCursors(
+          timebarId,
+          null,
+          {
+            lower: slideWindow.lower,
+            upper: visuWindow.upper - ((visuWindow.upper - visuWindow.current) / 2),
+          }
+        )
+      );
+    } else if (mode === 'Extensible' && slideWindow.upper < visuWindow.upper) {
+      let newSlideUpper = visuWindow.upper + ((visuWindow.upper - visuWindow.lower) / 4);
+      if (newSlideUpper - visuWindow.lower > globalConstants.HSC_VISUWINDOW_MAX_LENGTH) {
+        newSlideUpper = visuWindow.lower + globalConstants.HSC_VISUWINDOW_MAX_LENGTH;
+      }
+      dispatch(
+        updateCursors(
+          timebarId,
+          null,
+          {
+            lower: slideWindow.lower,
+            upper: newSlideUpper,
+          }
+        )
+      );
+    } else if (mode === 'Fixed' && slideWindow.upper > visuWindow.upper) {
+      dispatch(
+        updateCursors(
+          timebarId,
+          null,
+          {
+            lower: slideWindow.lower,
+            upper: visuWindow.upper - ((visuWindow.upper - visuWindow.current) / 2),
+          }
+        )
+      );
+    }
+  };
+}
+
 export const updateDefaultWidth = simple(types.WS_TIMEBAR_DEFAULTWIDTH_UPDATE, 'timebarId', 'defaultWidth');
 export const updateMasterId = simple(types.WS_TIMEBAR_MASTERID_UPDATE, 'timebarId', 'masterId');
 export const mountTimeline = simple(types.WS_TIMEBAR_MOUNT_TIMELINE, 'timebarId', 'timelineId');

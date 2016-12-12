@@ -65,5 +65,5 @@ export function getMasterTimeline(timebars, timelines, timebarId) {
     return undefined;
   }
 
-  return timelines[masterTimelineId];
+  return Object.values(timelines).find(t => t.id === masterTimelineId);
 }

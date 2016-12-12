@@ -1,9 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
-import globalConstants from 'common/constants';
 import styles from './Controls.css';
-
-const currentUpperMargin = 1 / 100;
 
 export default class TimebarControlsRight extends Component {
 
@@ -21,77 +18,21 @@ export default class TimebarControlsRight extends Component {
   switchMode = (e) => {
     e.preventDefault();
     const {
-      updateCursors,
       timebarId,
       timebarMode,
       updateMode,
-      visuWindow,
-      currentSessionOffsetMs,
-      slideWindow,
+      play,
     } = this.props;
-    const { lower, upper, current } = visuWindow;
+
     const mode = e.currentTarget.getAttribute('mode');
 
     if (mode === timebarMode) {
       return;
     }
 
-    // Realtime is not really a mode, we just go to session realtime and play
+    updateMode(timebarId, mode);
     if (mode === 'Realtime') {
-      if (timebarMode !== 'Normal') {
-        updateMode(timebarId, 'Normal');
-      }
-      const msWidth = upper - lower;
-      const realTimeMs = Date.now() + currentSessionOffsetMs;
-      const newLower = realTimeMs - ((1 - currentUpperMargin) * msWidth);
-      const newUpper = realTimeMs + (currentUpperMargin * msWidth);
-      updateCursors(
-        timebarId,
-        {
-          lower: newLower,
-          upper: newUpper,
-          current: realTimeMs,
-        },
-        {
-          lower: newLower,
-          upper: newUpper,
-        },
-      );
-      this.props.play(timebarId);
-    } else {
-      updateMode(timebarId, mode);
-      if (mode === 'Normal' && slideWindow.upper > upper) {
-        updateCursors(
-          timebarId,
-          null,
-          {
-            lower: slideWindow.lower,
-            upper: upper - ((upper - current) / 2),
-          }
-        );
-      } else if (mode === 'Extensible' && slideWindow.upper < upper) {
-        let newSlideUpper = upper + ((upper - lower) / 4);
-        if (newSlideUpper - lower > globalConstants.HSC_VISUWINDOW_MAX_LENGTH) {
-          newSlideUpper = lower + globalConstants.HSC_VISUWINDOW_MAX_LENGTH;
-        }
-        updateCursors(
-          timebarId,
-          null,
-          {
-            lower: slideWindow.lower,
-            upper: newSlideUpper,
-          }
-        );
-      } else if (mode === 'Fixed' && slideWindow.upper > upper) {
-        updateCursors(
-          timebarId,
-          null,
-          {
-            lower: slideWindow.lower,
-            upper: upper - ((upper - current) / 2),
-          }
-        );
-      }
+      play(timebarId);
     }
   }
 

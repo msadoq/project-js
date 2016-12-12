@@ -7,12 +7,9 @@ export default class TimebarControlsRight extends Component {
   static propTypes = {
     play: PropTypes.func.isRequired,
     updateMode: PropTypes.func.isRequired,
-    updateCursors: PropTypes.func.isRequired,
-    slideWindow: PropTypes.object.isRequired,
-    visuWindow: PropTypes.object.isRequired,
     timebarMode: PropTypes.string.isRequired,
     timebarId: PropTypes.string.isRequired,
-    currentSessionOffsetMs: PropTypes.number,
+    currentSession: PropTypes.object,
   }
 
   switchMode = (e) => {
@@ -39,7 +36,7 @@ export default class TimebarControlsRight extends Component {
   render() {
     const {
       timebarMode,
-      currentSessionOffsetMs
+      currentSession
     } = this.props;
 
     const allButtonsKlasses = classnames('btn', 'btn-xs', 'btn-control');
@@ -101,8 +98,8 @@ export default class TimebarControlsRight extends Component {
               }
             )}
             onClick={this.switchMode}
-            title={currentSessionOffsetMs ? 'Real time mode' : "No master track is set, can't go realtime"}
-            disabled={!currentSessionOffsetMs}
+            title={currentSession ? 'Real time mode' : "No master track is set, can't go realtime"}
+            disabled={!currentSession}
           >
             Real time
           </button>

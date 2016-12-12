@@ -3,6 +3,7 @@ import { updateCursors } from '../../store/actions/timebars';
 import { updateTimebarHeight } from '../../store/actions/pages';
 import { getTimebarTimelinesSelector } from '../../store/selectors/timebars';
 import { getPlayingTimebarId } from '../../store/selectors/hsc';
+import { getSession } from '../../store/selectors/sessions';
 import TimebarWrapper from './TimebarWrapper';
 
 export default connect(
@@ -11,8 +12,8 @@ export default connect(
     const isPlaying = playingTimebarId === timebarId;
 
     const timelines = getTimebarTimelinesSelector(state, timebarId);
-    const masterTimeline = (timelines[0] && timelines[0].id === timebar.masterId) ?
-      timelines[0] : null;
+    const masterTimeline = Object.values(timelines).find(t => t.id === timebar.masterId);
+
     if (!masterTimeline) {
       // TODO dispatch error on page
       console.log('NO MASTER TIMELINE'); // eslint-disable-line no-console
@@ -20,14 +21,12 @@ export default connect(
 
     let currentSession;
     if (masterTimeline) {
-      currentSession = state.sessions.find(s => (s.id === masterTimeline.sessionId));
+      currentSession = getSession(state.sessions, masterTimeline.sessionId);
     }
     if (!currentSession) {
       // TODO dispatch error on page
       console.log('NO CURRENT SESSION'); // eslint-disable-line no-console
     }
-
-    const currentSessionOffsetMs = currentSession ? currentSession.offsetWithmachineTime : null;
 
     return {
       isPlaying,
@@ -35,7 +34,7 @@ export default connect(
       slideWindow: timebar.slideWindow,
       focusedPageId,
       timelines,
-      currentSessionOffsetMs,
+      currentSession,
       sessions: state.sessions,
     };
   }, {

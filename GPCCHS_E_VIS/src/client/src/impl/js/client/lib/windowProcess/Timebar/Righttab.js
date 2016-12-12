@@ -26,7 +26,7 @@ class RighttabContent extends Component {
     size: PropTypes.object.isRequired,
     timebarId: PropTypes.string.isRequired,
     timelines: PropTypes.array.isRequired,
-    currentSessionOffsetMs: PropTypes.number,
+    currentSession: PropTypes.object,
     timelinesVerticalScroll: PropTypes.number,
   }
 
@@ -107,7 +107,7 @@ class RighttabContent extends Component {
       timebar,
       slideWindow,
       updateMode,
-      currentSessionOffsetMs,
+      currentSession,
       toggleTimesetter,
       onTimelinesVerticalScroll,
       timelinesVerticalScroll,
@@ -136,7 +136,7 @@ class RighttabContent extends Component {
           toggleTimesetter={toggleTimesetter}
           updateCursors={updateCursors}
           updateMode={updateMode}
-          currentSessionOffsetMs={currentSessionOffsetMs}
+          currentSession={currentSession}
         />
         <TimeBar
           viewport={this.formatViewportDimensions()}

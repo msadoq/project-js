@@ -132,7 +132,7 @@ export default class PlotEditor extends Component {
       <div className={styles.contentWrapper}>
         <Navbar
           currentDisplay={currentDisplay}
-          items={['Entry Points', 'Plot', 'Miscs']}
+          items={['Entry Points', 'Plot']}
           changeCurrentDisplay={this.changeCurrentDisplay}
           closeEditor={this.props.closeEditor}
         />

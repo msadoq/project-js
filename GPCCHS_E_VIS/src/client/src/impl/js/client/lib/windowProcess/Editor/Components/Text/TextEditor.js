@@ -95,7 +95,7 @@ export default class Editor extends Component {
       <div className={styles.contentWrapper}>
         <Navbar
           currentDisplay={currentDisplay}
-          items={['Entry Points', 'Text', 'Miscs']}
+          items={['Entry Points', 'Text']}
           changeCurrentDisplay={this.changeCurrentDisplay}
           closeEditor={closeEditor}
         />

@@ -171,7 +171,7 @@ class PlotAxis extends PureComponent {
             />
           </HorizontalFormGroup>
         }
-        { showTicks && autoTick &&
+        { showTicks && !autoTick &&
           <HorizontalFormGroup label="Tick step">
             <Field
               name="tickStep"

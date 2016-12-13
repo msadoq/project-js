@@ -253,21 +253,24 @@ class PlotView extends PureComponent {
       }
 
       const hasGrid = typeof chart.grid !== 'undefined';
-
-      const yRange = [
-        _get(chart, 'yAxis.min', 0),
-        _get(chart, 'yAxis.max')
-      ];
+      const autoLimits = _get(chart, 'yAxis.autoLimits');
       const showTicks = _get(chart, 'yAxis.showTicks', true);
-      // const autoTick = _get(chart, 'yAxis.autoTick', true);
+      const autoTick = _get(chart, 'yAxis.autoTick', true);
+      const tickStep = _get(chart, 'yAxis.tickStep');
       const label = _get(chart, 'yAxis.label');
+      const yExtents = autoLimits
+        ? d => _map(chart.yKeys, key => _get(d, [key, 'value']))
+        : [
+          _get(chart, 'yAxis.min', 0),
+          _get(chart, 'yAxis.max')
+        ];
 
       charts.push(
         <Chart
           id={index}
           key={index}
           yScale={chart.yScale}
-          yExtents={d => _map(chart.yKeys, key => _get(d, [key, 'value']))}
+          yExtents={yExtents}
         >
           {showYAxes && <Label
             x={dx}
@@ -280,8 +283,8 @@ class PlotView extends PureComponent {
             orient={showYAxes}
             ticks={5}
             stroke="#000000"
-            range={yRange}
             showTicks={showTicks}
+            tickInterval={autoTick ? undefined : tickStep}
             showDomain
             displayFormat={format('.2f')}
             zoomEnabled={!disableZoom}
@@ -496,11 +499,13 @@ class PlotView extends PureComponent {
           width={width}
           height={height}
           margin={marginChart}
+          pointsPerPxThreshold={4}
           seriesName="PlotView"
           data={columns}
           type="hybrid"
           xAccessor={this.xAccessor}
           xScale={scaleTime()}
+          yAxisZoom={(id, domain) => console.log('zoom', id, domain)}
           disableZoomEvent={disableZoom}
           xExtents={[new Date(lower), new Date(upper)]}
         >

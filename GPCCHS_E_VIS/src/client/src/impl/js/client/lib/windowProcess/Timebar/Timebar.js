@@ -627,6 +627,10 @@ export default class Timebar extends Component {
     });
   }
 
+  hideCursorTime = () => {
+    this.props.retrieveFormattedFullDateEl().innerHTML = '';
+  }
+
   updateCursorTime = (e) => {
     e.stopPropagation();
     const { retrieveFormattedFullDateEl, widthPx } = this.props;
@@ -930,6 +934,7 @@ export default class Timebar extends Component {
         className={styles.viewportWrapper}
         ref={(el) => { this.el = el; }}
         onMouseMove={this.updateCursorTime}
+        onMouseLeave={this.hideCursorTime}
       >
         <div
           className={styles.viewportContainer}

@@ -1,5 +1,6 @@
 import _isNumber from 'lodash/isNumber';
 import _get from 'lodash/get';
+import _values from 'lodash/values';
 import _reduce from 'lodash/reduce';
 import { createSelector } from 'reselect';
 import { getTimelines } from './timelines';
@@ -65,5 +66,14 @@ export function getMasterTimeline(timebars, timelines, timebarId) {
     return undefined;
   }
 
-  return Object.values(timelines).find(t => t.id === masterTimelineId);
+  return timelines[masterTimelineId];
+}
+
+export function getMasterTimelineById(timebars, timelines, timebarId) {
+  const masterTimelineId = _get(timebars, [timebarId, 'masterId']);
+  if (!masterTimelineId) {
+    return undefined;
+  }
+
+  return _values(timelines).find(t => t.id === masterTimelineId);
 }

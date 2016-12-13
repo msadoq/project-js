@@ -16,7 +16,7 @@ import {
 import { pause } from './hsc';
 import {
   getTimebar,
-  getMasterTimeline,
+  getMasterTimelineById,
   getTimebarTimelinesSelector,
 } from '../selectors/timebars';
 import {
@@ -103,7 +103,7 @@ export function updateMode(timebarId, mode) {
 
     if (mode === 'Realtime') {
       const timelines = getTimebarTimelinesSelector(state, timebarId);
-      const masterTimeline = getMasterTimeline(state.timebars, timelines, timebarId);
+      const masterTimeline = getMasterTimelineById(state.timebars, timelines, timebarId);
       const currentSession = getSession(state.sessions, masterTimeline.sessionId);
       const sessionOffset = currentSession ? currentSession.offsetWithmachineTime : 0;
 

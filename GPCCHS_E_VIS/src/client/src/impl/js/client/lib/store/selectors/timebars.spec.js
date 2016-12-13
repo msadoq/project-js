@@ -1,6 +1,11 @@
 /* eslint no-unused-expressions: 0 */
+import { expect } from 'chai';
 import { should, getStore } from '../../common/test';
-import { getTimebar, getTimebarTimelines } from './timebars';
+import {
+  getTimebar,
+  getTimebarTimelines,
+  getMasterTimelineById,
+} from './timebars';
 
 describe('store:timebars:selectors', () => {
   it('getTimebar', () => {
@@ -33,6 +38,34 @@ describe('store:timebars:selectors', () => {
         { id: 'myTimelineId', sessionId: 1 },
         { id: 'myOtherTimelineId', sessionId: 2 },
       ]);
+    });
+    it('should return master timeline', () => {
+      getMasterTimelineById(
+        {
+          myId: { masterId: 'timeline01' },
+        },
+        {
+          azeazerze: { id: 'timeline01' },
+          vqhrzefds: { id: 'timeline02' },
+          ghsdrtrrr: { id: 'timeline03' },
+        },
+        'myId'
+      ).should.eql(
+        { id: 'timeline01' }
+      );
+    });
+    it('should not find master timeline', () => {
+      expect(getMasterTimelineById(
+        {
+          myId: { masterId: 'timeline04' },
+        },
+        {
+          azeazerze: { id: 'timeline01' },
+          vqhrzefds: { id: 'timeline02' },
+          ghsdrtrrr: { id: 'timeline03' },
+        },
+        'myId'
+      )).to.equal(undefined);
     });
     it('should not return timeline', () => {
       getTimebarTimelines({}, {}, 'myId').should.eql([]);

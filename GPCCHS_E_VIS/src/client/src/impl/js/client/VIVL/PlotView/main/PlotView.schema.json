@@ -323,6 +323,11 @@
             "backgroundColour": {
                 "$ref": "#/definitions/color"
             },
+            "showYAxes": {
+              "type": "string",
+              "default": "left",
+              "enum": ["", "left", "right", "no", "false"]
+            },
             "legend": {
                 "type": "object",
                 "properties": {
@@ -331,7 +336,7 @@
                     },
                     "location": {
                         "type": "string",
-                        "enum": ["Top", "Left", "Right", "Bottom"]
+                        "enum": ["top", "left", "right", "bottom"]
                     }
                 }
             },

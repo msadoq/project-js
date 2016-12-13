@@ -23,6 +23,7 @@ export const updateTitleStyle = simple(types.WS_VIEW_UPDATE_TITLESTYLE, 'viewId'
 export const updateBgColor = simple(types.WS_VIEW_UPDATE_BGCOLOR, 'viewId', 'bgColor');
 export const updateLegend = simple(types.WS_VIEW_UPDATE_LEGEND, 'viewId', 'legend');
 export const updateContent = simple(types.WS_VIEW_UPDATE_CONTENT, 'viewId', 'content');
+export const updateShowYAxes = simple(types.WS_VIEW_UPDATE_SHOWYAXES, 'viewId', 'showYAxes');
 
 // ***************
 export const addAxis = simple(types.WS_VIEW_ADD_AXIS, 'viewId', 'axis');

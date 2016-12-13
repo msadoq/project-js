@@ -83,6 +83,8 @@ export default function views(stateViews = {}, action) {
       return updateObject(stateViews, action, 'legend', 'legend', 'PlotView');
     case types.WS_VIEW_UPDATE_CONTENT:
       return updateObject(stateViews, action, 'content', 'content', 'TextView');
+    case types.WS_VIEW_UPDATE_SHOWYAXES:
+      return updateObject(stateViews, action, 'showYAxes', 'showYAxes', 'PlotView');
     case types.WS_VIEW_ADD_AXIS:
       return addAxis(stateViews, action);
     case types.WS_VIEW_REMOVE_AXIS:

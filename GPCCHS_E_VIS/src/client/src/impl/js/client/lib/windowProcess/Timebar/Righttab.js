@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import SizeMe from 'react-sizeme';
 import { Col } from 'react-bootstrap';
 import TimeBar from './Timebar';
-import Controls from './Controls';
+import ControlsContainer from './ControlsContainer';
 import styles from './Timebar.css';
 
 const bootstrapPaddings = 5;
@@ -18,8 +18,6 @@ class RighttabContent extends Component {
     play: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
     toggleTimesetter: PropTypes.func.isRequired,
-    updateSpeed: PropTypes.func.isRequired,
-    updateMode: PropTypes.func.isRequired,
     visuWindow: PropTypes.object.isRequired,
     slideWindow: PropTypes.object.isRequired,
     timebar: PropTypes.object.isRequired,
@@ -103,10 +101,8 @@ class RighttabContent extends Component {
       isPlaying,
       play,
       pause,
-      updateSpeed,
       timebar,
       slideWindow,
-      updateMode,
       currentSession,
       toggleTimesetter,
       onTimelinesVerticalScroll,
@@ -122,7 +118,7 @@ class RighttabContent extends Component {
           ref={(el) => { this.formattedFullDateEl = el; }}
           className={styles.formatedFullDate}
         />
-        <Controls
+        <ControlsContainer
           viewport={this.formatViewportDimensions()}
           timebarMode={timebar.mode}
           timebarSpeed={timebar.speed}
@@ -132,10 +128,8 @@ class RighttabContent extends Component {
           isPlaying={isPlaying}
           play={play}
           pause={pause}
-          updateSpeed={updateSpeed}
           toggleTimesetter={toggleTimesetter}
           updateCursors={updateCursors}
-          updateMode={updateMode}
           currentSession={currentSession}
         />
         <TimeBar

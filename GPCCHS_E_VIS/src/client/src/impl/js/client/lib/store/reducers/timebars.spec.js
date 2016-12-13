@@ -182,7 +182,7 @@ describe('store:timebars:reducer', () => {
       newState.myTimebarId.masterId.should.equal('myTlId');
     });
     it('mode to Extensible', () => {
-      dispatch(actions.updateMode('myTimebarId', 'Extensible'));
+      dispatch(actions.switchToExtensibleMode('myTimebarId'));
       const timebars = getState().timebars;
       timebars.should.have.property('myTimebarId');
       timebars.myTimebarId.mode.should.equal('Extensible');
@@ -191,13 +191,22 @@ describe('store:timebars:reducer', () => {
       );
     });
     it('mode to Fixed', () => {
-      dispatch(actions.updateMode('myTimebarId', 'Fixed'));
+      dispatch(actions.switchToFixedMode('myTimebarId'));
       const timebars = getState().timebars;
       timebars.should.have.property('myTimebarId');
       timebars.myTimebarId.mode.should.equal('Fixed');
       timebars.myTimebarId.slideWindow.upper.should.be.below(
         timebars.myTimebarId.visuWindow.upper
       );
+    });
+    it('mode to Normal', () => {
+      let timebars = getState().timebars;
+      const slideUpper = timebars.myTimebarId.slideWindow.upper;
+      dispatch(actions.switchToNormalMode('myTimebarId'));
+      timebars = getState().timebars;
+      timebars.should.have.property('myTimebarId');
+      timebars.myTimebarId.mode.should.equal('Normal');
+      timebars.myTimebarId.slideWindow.upper.should.equal(slideUpper);
     });
     it('mount timeline', () => {
       const newState = reducer(state.timebars, actions.mountTimeline('myTimebarId', 'myTimelineId2'));

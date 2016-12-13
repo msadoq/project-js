@@ -88,44 +88,20 @@ export const updateViewport = simple(
   'rulerResolution'
 );
 export const updateSpeed = simple(types.WS_TIMEBAR_SPEED_UPDATE, 'timebarId', 'speed');
-export function updateMode(timebarId, mode) {
+
+export function switchToNormalMode(timebarId) {
   return (dispatch, getState) => {
     dispatch({
       type: types.WS_TIMEBAR_MODE_UPDATE,
       payload: {
         timebarId,
-        mode: mode === 'Realtime' ? 'Normal' : mode,
+        mode: 'Normal',
       }
     });
     const state = getState();
     const timebar = getTimebar(state, timebarId);
     const { visuWindow, slideWindow } = timebar;
-
-    if (mode === 'Realtime') {
-      const timelines = getTimebarTimelinesSelector(state, timebarId);
-      const masterTimeline = getMasterTimelineById(state.timebars, timelines, timebarId);
-      const currentSession = getSession(state.sessions, masterTimeline.sessionId);
-      const sessionOffset = currentSession ? currentSession.offsetWithmachineTime : 0;
-
-      const msWidth = visuWindow.upper - visuWindow.lower;
-      const realTimeMs = Date.now() + sessionOffset;
-      const newLower = realTimeMs - ((1 - currentUpperMargin) * msWidth);
-      const newUpper = realTimeMs + (currentUpperMargin * msWidth);
-      dispatch(
-        updateCursors(
-          timebarId,
-          {
-            lower: newLower,
-            upper: newUpper,
-            current: realTimeMs,
-          },
-          {
-            lower: newLower,
-            upper: newUpper,
-          },
-        )
-      );
-    } else if (mode === 'Normal' && slideWindow.upper > visuWindow.upper) {
+    if (slideWindow.upper > visuWindow.upper) {
       dispatch(
         updateCursors(
           timebarId,
@@ -136,7 +112,61 @@ export function updateMode(timebarId, mode) {
           }
         )
       );
-    } else if (mode === 'Extensible' && slideWindow.upper < visuWindow.upper) {
+    }
+  };
+}
+
+export function switchToRealtimeMode(timebarId) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: types.WS_TIMEBAR_MODE_UPDATE,
+      payload: {
+        timebarId,
+        mode: 'Normal',
+      }
+    });
+    const state = getState();
+    const timebar = getTimebar(state, timebarId);
+    const { visuWindow } = timebar;
+    const timelines = getTimebarTimelinesSelector(state, timebarId);
+    const masterTimeline = getMasterTimelineById(state.timebars, timelines, timebarId);
+    const currentSession = getSession(state.sessions, masterTimeline.sessionId);
+    const sessionOffset = currentSession ? currentSession.offsetWithmachineTime : 0;
+
+    const msWidth = visuWindow.upper - visuWindow.lower;
+    const realTimeMs = Date.now() + sessionOffset;
+    const newLower = realTimeMs - ((1 - currentUpperMargin) * msWidth);
+    const newUpper = realTimeMs + (currentUpperMargin * msWidth);
+    dispatch(
+      updateCursors(
+        timebarId,
+        {
+          lower: newLower,
+          upper: newUpper,
+          current: realTimeMs,
+        },
+        {
+          lower: newLower,
+          upper: newUpper,
+        },
+      )
+    );
+  };
+}
+
+export function switchToExtensibleMode(timebarId) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: types.WS_TIMEBAR_MODE_UPDATE,
+      payload: {
+        timebarId,
+        mode: 'Extensible',
+      }
+    });
+    const state = getState();
+    const timebar = getTimebar(state, timebarId);
+    const { visuWindow, slideWindow } = timebar;
+    if (slideWindow.upper < visuWindow.upper) {
       let newSlideUpper = visuWindow.upper + ((visuWindow.upper - visuWindow.lower) / 4);
       if (newSlideUpper - visuWindow.lower > globalConstants.HSC_VISUWINDOW_MAX_LENGTH) {
         newSlideUpper = visuWindow.lower + globalConstants.HSC_VISUWINDOW_MAX_LENGTH;
@@ -151,7 +181,23 @@ export function updateMode(timebarId, mode) {
           }
         )
       );
-    } else if (mode === 'Fixed' && slideWindow.upper > visuWindow.upper) {
+    }
+  };
+}
+
+export function switchToFixedMode(timebarId) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: types.WS_TIMEBAR_MODE_UPDATE,
+      payload: {
+        timebarId,
+        mode: 'Fixed',
+      }
+    });
+    const state = getState();
+    const timebar = getTimebar(state, timebarId);
+    const { visuWindow, slideWindow } = timebar;
+    if (slideWindow.upper > visuWindow.upper) {
       dispatch(
         updateCursors(
           timebarId,

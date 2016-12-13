@@ -10,7 +10,6 @@ const propsStub = {
   onVerticalScroll: () => null,
   updateCursors: () => null,
   updateViewport: () => null,
-  updateMode: () => null,
   pause: () => null,
   play: () => null,
   isPlaying: true,

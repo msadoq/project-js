@@ -6,7 +6,10 @@ export default class TimebarControlsRight extends Component {
 
   static propTypes = {
     play: PropTypes.func.isRequired,
-    updateMode: PropTypes.func.isRequired,
+    switchToNormalMode: PropTypes.func.isRequired,
+    switchToRealtimeMode: PropTypes.func.isRequired,
+    switchToExtensibleMode: PropTypes.func.isRequired,
+    switchToFixedMode: PropTypes.func.isRequired,
     timebarMode: PropTypes.string.isRequired,
     timebarId: PropTypes.string.isRequired,
     currentSession: PropTypes.object,
@@ -17,7 +20,10 @@ export default class TimebarControlsRight extends Component {
     const {
       timebarId,
       timebarMode,
-      updateMode,
+      switchToNormalMode,
+      switchToRealtimeMode,
+      switchToExtensibleMode,
+      switchToFixedMode,
       play,
     } = this.props;
 
@@ -26,9 +32,14 @@ export default class TimebarControlsRight extends Component {
     if (mode === timebarMode) {
       return;
     }
-
-    updateMode(timebarId, mode);
-    if (mode === 'Realtime') {
+    if (mode === 'Normal') {
+      switchToNormalMode(timebarId);
+    } else if (mode === 'Extensible') {
+      switchToExtensibleMode(timebarId);
+    } else if (mode === 'Fixed') {
+      switchToFixedMode(timebarId);
+    } else if (mode === 'Realtime') {
+      switchToRealtimeMode(timebarId);
       play(timebarId);
     }
   }

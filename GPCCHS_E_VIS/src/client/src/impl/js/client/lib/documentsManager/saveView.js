@@ -65,7 +65,7 @@ function saveView(state, viewId, callback) {
     return callback('Unknown view id');
   }
   if (!state.views[viewId].isModified) {
-    return callback('view is not modified');
+    return callback(null);
   }
   const absPath = state.views[viewId].absolutePath;
   if (!absPath) {

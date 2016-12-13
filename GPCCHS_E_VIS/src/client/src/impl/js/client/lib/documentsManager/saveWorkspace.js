@@ -44,6 +44,8 @@ function saveWorkspaceAs(state, path, useRelativePath, callback) {
         }
       } else if (currentPage.oId) {
         page.oId = currentPage.oId;
+      } else if (useRelativePath && currentPage.path) {
+        page.path = currentPage.path;
       } else {
         err[pageId] = 'Unsaved page: no path or oId';
         return callback('Unsaved page: no path or oId');
@@ -78,9 +80,7 @@ function saveWorkspaceAs(state, path, useRelativePath, callback) {
     if (err) {
       return callback(`Unable to save workspace in file ${path}`);
     }
-    _each(savedWindowsIds, (win) => {
-      callback(null, win);
-    });
+    callback(null, savedWindowsIds);
   });
 }
 

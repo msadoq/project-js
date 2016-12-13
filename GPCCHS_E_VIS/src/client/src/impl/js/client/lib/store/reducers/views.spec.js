@@ -19,6 +19,7 @@
 
 /* eslint no-unused-expressions: 0 */
 import _find from 'lodash/find';
+import u from 'updeep';
 import * as actions from '../actions/views';
 import reducer, {
   updateObject,
@@ -94,6 +95,7 @@ describe('store:views:reducer', () => {
         type: 'plot',
         configuration: {
           oName: 'oldValue',
+          title: 'my plot',
         },
         absolutePath: '/data/oldPath',
         isModified: false,
@@ -104,9 +106,11 @@ describe('store:views:reducer', () => {
       const s = reducer(state, actions.updateAbsolutePath('view1', '/data/newPath'));
       s.view1.absolutePath.should.equal('/data/newPath');
       s.view1.isModified.should.equal(true);
+      s.view1.configuration.title.should.equal('* my plot');
     });
     it('absolute Path: no change', () => {
-      reducer(state, actions.updateAbsolutePath('view1', '/data/oldPath')).should.equal(state);
+      reducer(state, actions.updateAbsolutePath('view1', '/data/oldPath'))
+      .should.equal(state);
     });
     it('object ok', () => {
       const action = {
@@ -122,6 +126,7 @@ describe('store:views:reducer', () => {
           absolutePath: '/data/oldPath',
           configuration: {
             oName: 'newValue',
+            title: '* my plot'
           },
         }
       });
@@ -158,6 +163,7 @@ describe('store:views:reducer', () => {
           absolutePath: '/data/oldPath',
           configuration: {
             oName: 'newValue',
+            title: '* my plot',
           },
         }
       });
@@ -175,7 +181,8 @@ describe('store:views:reducer', () => {
       view1: {
         type: 'plot',
         configuration: {
-          oName: ['oldValue1', 'oldValue2']
+          oName: ['oldValue1', 'oldValue2'],
+          title: 'my plot',
         },
       }
     };
@@ -194,7 +201,8 @@ describe('store:views:reducer', () => {
           type: 'plot',
           isModified: true,
           configuration: {
-            oName: ['newValue', 'oldValue2']
+            oName: ['newValue', 'oldValue2'],
+            title: '* my plot',
           },
         }
       });
@@ -269,6 +277,7 @@ describe('store:views:reducer', () => {
       type: 'TextView',
       configuration: {
         type: 'TextView',
+        title: 'my view',
         content: 'old content',
         entryPoints: [
           {
@@ -323,7 +332,7 @@ describe('store:views:reducer', () => {
     });
     it('title', () => {
       const state = reducer(stateViews, actions.updateTitle('plot1', 'new Title'));
-      state.plot1.configuration.title.should.deep.equal('new Title');
+      state.plot1.configuration.title.should.deep.equal('* new Title');
     });
     it('title style', () => {
       const style = { bold: true };
@@ -349,7 +358,8 @@ describe('store:views:reducer', () => {
         view1: {
           type: 'plot',
           configuration: {
-            oName: ['oldValue1', 'oldValue2']
+            oName: ['oldValue1', 'oldValue2'],
+            title: 'my view',
           },
         }
       };
@@ -367,6 +377,7 @@ describe('store:views:reducer', () => {
           isModified: true,
           configuration: {
             oName: ['oldValue1', 'oldValue2', 'newValue'],
+            title: '* my view',
           },
         }
       });
@@ -401,7 +412,8 @@ describe('store:views:reducer', () => {
       view1: {
         type: 'plot',
         configuration: {
-          oName: ['oldValue1', 'oldValue2']
+          oName: ['oldValue1', 'oldValue2'],
+          title: 'my view',
         },
       }
     };
@@ -421,6 +433,7 @@ describe('store:views:reducer', () => {
           isModified: true,
           configuration: {
             oName: ['oldValue2'],
+            title: '* my view',
           },
         }
       });

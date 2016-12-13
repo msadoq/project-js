@@ -80,7 +80,7 @@ describe('store:page:reducer', () => {
   describe('un/mount view', () => {
     it('mount', () => {
       let state = reducer(
-        { myPageId: { views: [] } },
+        { myPageId: { views: [], title: 'aa' } },
         actions.mountView('myPageId', 'myViewId')
       );
       state.myPageId.views.should.eql(['myViewId']);
@@ -91,7 +91,7 @@ describe('store:page:reducer', () => {
       state.myPageId.views.should.eql(['myViewId', 'another']);
     });
     it('unmount', () => {
-      const { dispatch, getState } = getStore({ pages: { myPageId: { views: ['myViewId', 'another'] } } });
+      const { dispatch, getState } = getStore({ pages: { myPageId: { views: ['myViewId', 'another'], title: 'aa' } } });
       dispatch(actions.unmountView('myPageId', 'myViewId'));
       getState().pages.myPageId.views.should.eql(['another']);
       dispatch(actions.unmountView('myPageId', 'another'));
@@ -121,13 +121,13 @@ describe('store:page:reducer', () => {
   });
   it('update layout', () => {
     const state = reducer(
-      { myPageId: { layout: [{ key: '1' }, { key: '2' }] } },
+      { myPageId: { layout: [{ key: '1' }, { key: '2' }], title: 'aa' } },
       actions.updateLayout('myPageId', [{ key: '2' }, { key: '1' }])
     );
     state.myPageId.layout.should.eql([{ key: '2' }, { key: '1' }]);
   });
   describe('addAndMount/unmountAndRemove', () => {
-    const { dispatch, getState } = getStore({ pages: { myPageId: { views: ['v1'] } } });
+    const { dispatch, getState } = getStore({ pages: { myPageId: { views: ['v1'], title: 'aa' } } });
     let newViewId;
     it('addAndMount', () => {
       dispatch(actions.addAndMount('myPageId'));
@@ -149,8 +149,8 @@ describe('store:page:reducer', () => {
     beforeEach(() => {
       const store = getStore({
         pages: {
-          myPageId: { views: ['v1'], layout: [] },
-          myOtherPage: { views: ['v2'], layout: [] },
+          myPageId: { views: ['v1'], layout: [], title: 'aa' },
+          myOtherPage: { views: ['v2'], layout: [], title: 'bb' },
         }
       });
       dispatch = store.dispatch;
@@ -159,17 +159,18 @@ describe('store:page:reducer', () => {
     it('existing toPage ok', () => {
       dispatch(actions.moveViewToPage('myWindowId', 'myPageId', 'myOtherPage', 'v1'));
       getState().pages.should.deep.equal({
-        myPageId: { views: [], isModified: true, layout: [] },
+        myPageId: { views: [], isModified: true, layout: [], title: '* aa' },
         myOtherPage: { views: ['v2', 'v1'],
           isModified: true,
-          layout: [{ h: 5, i: 'v1', w: 5, x: 0, y: 0 }]
+          layout: [{ h: 5, i: 'v1', w: 5, x: 0, y: 0 }],
+          title: '* bb',
         },
       });
     });
     it('toPage is a new page', () => {
       dispatch(actions.moveViewToPage('myWindowId', 'myPageId', 'newId', 'v1'));
-      getState().pages.myPageId.should.deep.equal({ views: [], isModified: true, layout: [] });
-      getState().pages.myOtherPage.should.deep.equal({ views: ['v2'], layout: [] });
+      getState().pages.myPageId.should.deep.equal({ views: [], isModified: true, layout: [], title: '* aa' });
+      getState().pages.myOtherPage.should.deep.equal({ views: ['v2'], layout: [], title: 'bb' });
       const pageId = Object.keys(getState().pages)[2];
       getState().pages[pageId].views.should.deep.equal(['v1']);
       getState().pages[pageId].isModified.should.deep.equal(true);

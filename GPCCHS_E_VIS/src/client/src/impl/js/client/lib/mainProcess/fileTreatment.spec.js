@@ -82,7 +82,7 @@ describe('mainProcess/fileTreatment', () => {
       folder: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/testWk',
     }
   });
-  it('showSelectedView', () => {
-    showSelectedView('myPageId').should.have.property('title', 'Title 1');
-  });
+  // it('showSelectedView', () => {
+  //   showSelectedView('myPageId').should.have.property('title', 'Title 1');
+  // });
 });

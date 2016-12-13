@@ -113,8 +113,11 @@ describe('documentsManager/saveViews', () => {
     });
   });
   describe('PlotView', () => {
-    it('saveAs ok', () => {
-      should.not.exist(saveViewAs(state, 'plot1', state.views.plot1.absolutePath));
+    it('saveAs ok', (done) => {
+      saveViewAs(state, 'plot1', state.views.plot1.absolutePath, (err) => {
+        should.not.exist(err);
+        done();
+      });
     });
     it('check new plot view validity', (done) => {
       fs.readJsonFromAbsPath(state.views.plot1.absolutePath, (err, viewContent) => {
@@ -125,8 +128,11 @@ describe('documentsManager/saveViews', () => {
         done();
       });
     });
-    it('save ok', () => {
-      should.not.exist(saveView(state, 'plot1'));
+    it('save ok', (done) => {
+      saveView(state, 'plot1', (err) => {
+        should.not.exist(err);
+        done();
+      });
     });
     it('check new plot view validity', (done) => {
       fs.readJsonFromAbsPath(state.views.plot1.absolutePath, (err, viewContent) => {
@@ -139,8 +145,11 @@ describe('documentsManager/saveViews', () => {
     });
   });
   describe('TextView', () => {
-    it('saveAs ok', () => {
-      should.not.exist(saveViewAs(state, 'text1', state.views.text1.absolutePath));
+    it('saveAs ok', (done) => {
+      saveViewAs(state, 'text1', state.views.text1.absolutePath, (err) => {
+        should.not.exist(err);
+        done();
+      });
     });
     it('check new text view validity', (done) => {
       fs.readJsonFromAbsPath(state.views.text1.absolutePath, (err, viewContent) => {
@@ -151,8 +160,11 @@ describe('documentsManager/saveViews', () => {
         done();
       });
     });
-    it('save ok', () => {
-      should.not.exist(saveView(state, 'text1'));
+    it('save ok', (done) => {
+      saveView(state, 'text1', (err) => {
+        should.not.exist(err);
+        done();
+      });
     });
     it('check new text view validity', (done) => {
       fs.readJsonFromAbsPath(state.views.text1.absolutePath, (err, viewContent) => {

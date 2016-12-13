@@ -83,9 +83,13 @@ describe('documentsManager/saveWorkspace', () => {
       done();
     });
   });
-  it('saveAs ok', () => {
+  it('saveAs ok', (done) => {
     const path = join(folder, 'workspace.json');
-    should.not.exist(saveWorkspaceAs(state, path));
+    saveWorkspaceAs(state, path, true, (err, windows) => {
+      should.not.exist(err);
+      windows.should.have.length(1);
+      done();
+    });
   });
   it('check validity of new workspace', (done) => {
     fs.readJsonFromPath(folder, 'workspace.json', undefined, undefined, undefined,
@@ -96,8 +100,12 @@ describe('documentsManager/saveWorkspace', () => {
         done();
       });
   });
-  it('save ok', () => {
-    should.not.exist(saveWorkspace(state));
+  it('save ok', (done) => {
+    should.not.exist(saveWorkspace(state, true, (err, windows) => {
+      should.not.exist(err);
+      windows.should.have.length(1);
+      done();
+    }));
   });
   it('check validity of new workspace', (done) => {
     fs.readJsonFromPath(

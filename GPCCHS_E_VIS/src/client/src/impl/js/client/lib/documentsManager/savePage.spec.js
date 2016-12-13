@@ -78,8 +78,11 @@ describe('mainProcess/documents/savePage', () => {
       done();
     });
   });
-  it('saveAs ok', () => {
-    should.not.exist(savePageAs(state, 'page1', state.pages.page1.absolutePath));
+  it('saveAs ok', (done) => {
+    savePageAs(state, 'page1', state.pages.page1.absolutePath, false, (err) => {
+      should.not.exist(err);
+      done();
+    });
   });
   it('check validity of saved as page', (done) => {
     fs.readJsonFromAbsPath(state.pages.page1.absolutePath, (err, pageContent) => {
@@ -89,8 +92,12 @@ describe('mainProcess/documents/savePage', () => {
       done();
     });
   });
-  it('save ok', () => {
-    should.not.exist(savePage(state, 'page1'));
+  it('save ok', (done) => {
+    state.pages.page1.isModified = true;
+    savePage(state, 'page1', false, (err) => {
+      should.not.exist(err);
+      done();
+    });
   });
   it('check validity of saved page', (done) => {
     fs.readJsonFromAbsPath(state.pages.page1.absolutePath, (err, pageContent) => {

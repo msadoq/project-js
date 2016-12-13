@@ -184,11 +184,13 @@ export function allDocumentsAreSaved(store, dispatch, cb) {
               cb(errWk);
             }
             dispatch(updatePath(path.dirname(pathWk), path.basename(pathWk)));
-            saveWorkspace(store.getState(), true, (err, winId) => {
+            saveWorkspace(store.getState(), true, (err, winIds) => {
               if (err) {
                 cb(err);
               }
-              dispatch(setModifiedWindow(winId, false));
+              winIds.forEach((id) => {
+                dispatch(setModifiedWindow(id, false));
+              });
               updateSavedWinTitle();
               cb(null);
             });

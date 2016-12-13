@@ -6,24 +6,27 @@ const { saveView } = require('./saveView');
 const { saveWorkspaceAs } = require('./saveWorkspace');
 
 function saveAllDocumentsAs(state, folder, file) {
-  let err = saveWorkspaceAs(state, join(folder, file), true);
-  if (err) {
-    return err;
-  }
+  saveWorkspaceAs(state, join(folder, file), true, (err) => {
+    if (err) {
+      return err;
+    }
+  });
   _each(state.pages, (page, id) => {
     if (page.isModified) {
-      err = savePage(state, id, true);
-      if (err) {
-        return err;
-      }
+      savePage(state, id, true, (errPage) => {
+        if (errPage) {
+          return errPage;
+        }
+      });
     }
   });
   _each(state.views, (view, id) => {
     if (view.isModified) {
-      err = saveView(state, id);
-      if (err) {
-        return err;
-      }
+      saveView(state, id, (errView) => {
+        if (errView) {
+          return errView;
+        }
+      });
     }
   });
 }

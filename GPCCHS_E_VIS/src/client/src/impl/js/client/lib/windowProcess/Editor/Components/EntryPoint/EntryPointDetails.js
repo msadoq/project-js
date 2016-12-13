@@ -48,31 +48,7 @@ export default class EntryPointDetails extends React.Component {
     isPanelStateColorsOpen: false,
     isPanelParametersOpen: false,
     nameEditable: false,
-    newStateColor: '#FFFFFF',
-    newStateField: '',
-    newStateOperator: '',
-    newStateOperand: '',
   };
-
-  /*
-    Toutes les fonctions dont le nom commence par handle sont appelées
-    par la modification d'une valeur dans un formulaire.
-    @TODO : Ces fonctions doivent vérifier la conformiter de la nouvelle valeur
-            et appeler une fonction passée en props pour mettre à jour cette valeur
-            dans le noeud racine.
-    L'utilisation de setState est temporaire, pour voir la mise à jour dans l'IHM.
-  */
-  handleChangeStateColor = color => this.setState({ newStateColor: color });
-  handleFilter = (field, operator, operand) => this.setState({ newStateField: field, newStateOperator: operator, newStateOperand: operand });
-  addStateColor = () => {
-    const val = {
-      field: this.state.newStateField,
-      operator: this.state.newStateOperator,
-      operand: this.state.newStateOperand,
-      color: this.state.newStateColor
-    };
-    this.props.handleEntryPoint(this.props.idPoint, 'stateColors', val);
-  }
 
   handleSubmit = (values) => {
     const { entryPoint, updateEntryPoint, viewId, idPoint } = this.props;
@@ -109,9 +85,34 @@ export default class EntryPointDetails extends React.Component {
   }
 
   removeStateColor = (key) => {
-    const val = { keyToRemove: key };
-    this.props.handleEntryPoint(this.props.idPoint, 'stateColors', val);
+    const {
+      entryPoint,
+      handleEntryPoint,
+      idPoint,
+    } = this.props;
+    const newStateColors = entryPoint.stateColors.slice();
+    newStateColors.splice(key, 1);
+    handleEntryPoint(
+      idPoint,
+      'stateColors',
+      newStateColors
+    );
   }
+
+  handleStateColorSubmit = (values) => {
+    const {
+      entryPoint,
+      handleEntryPoint,
+      idPoint,
+    } = this.props;
+
+    handleEntryPoint(
+      idPoint,
+      'stateColors',
+      entryPoint.stateColors.concat(values)
+    );
+  }
+
   /*
     RightClick on Name : cette fonction permet de rendre le nom de l'entrypoint éditable
   */
@@ -216,7 +217,7 @@ export default class EntryPointDetails extends React.Component {
             }}
           />}
         </Panel>}
-        {isPlotView && <Panel
+        <Panel
           key={'StateColors'}
           header="State colors"
           eventKey={'StateColors'}
@@ -225,14 +226,16 @@ export default class EntryPointDetails extends React.Component {
           onExited={this.closePanel.bind('StateColors')}
         >
           {isPanelStateColorsOpen && <EntryPointStateColors
-            stateColors={entryPoint.stateColors}
-            newStateColor={newStateColor}
+            data={entryPoint.stateColors}
+            initialValues={{
+              color: '#FFFFFF',
+              condition: {},
+            }}
+            form={`entrypoint-stateColors-form-${idPoint}-${viewId}`}
+            onSubmit={this.handleStateColorSubmit}
             removeStateColor={this.removeStateColor}
-            handleFilter={this.handleFilter}
-            handleChangeStateColor={this.handleChangeStateColor}
-            addStateColor
           />}
-        </Panel>}
+        </Panel>
       </Accordion>
     )
   }

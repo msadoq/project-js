@@ -1,5 +1,4 @@
 /* eslint no-unused-expressions: 0 */
-import { expect } from 'chai';
 import { should, getStore } from '../../common/test';
 import {
   getTimebar,
@@ -8,7 +7,7 @@ import {
   getMasterTimelineById,
 } from './timebars';
 
-describe.only('store:timebars:selectors', () => {
+describe('store:timebars:selectors', () => {
   it('getTimebar', () => {
     const { getState } = getStore({
       timebars: {
@@ -67,7 +66,7 @@ describe.only('store:timebars:selectors', () => {
       );
     });
     it('should not find master timeline', () => {
-      expect(getMasterTimelineById(
+      should.not.exist(getMasterTimelineById(
         {
           myId: { masterId: 'timeline04' },
         },
@@ -77,7 +76,7 @@ describe.only('store:timebars:selectors', () => {
           ghsdrtrrr: { id: 'timeline03' },
         },
         'myId'
-      )).to.equal(undefined);
+      ));
     });
   });
   describe('getMasterTimeline', () => {

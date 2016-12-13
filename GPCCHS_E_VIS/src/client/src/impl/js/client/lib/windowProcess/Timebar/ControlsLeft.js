@@ -16,6 +16,7 @@ export default class TimebarControlsLeft extends Component {
     updateCursors: PropTypes.func.isRequired,
     slideWindow: PropTypes.object.isRequired,
     visuWindow: PropTypes.object.isRequired,
+    messages: PropTypes.array.isRequired,
     timebarId: PropTypes.string.isRequired,
     timebarMode: PropTypes.string.isRequired,
     timebarSpeed: PropTypes.number.isRequired,
@@ -141,6 +142,7 @@ export default class TimebarControlsLeft extends Component {
       play,
       pause,
       toggleTimesetter,
+      messages,
     } = this.props;
 
     const allButtonsKlasses = classnames('btn', 'btn-xs', 'btn-control');
@@ -176,6 +178,19 @@ export default class TimebarControlsLeft extends Component {
 
     return (
       <ul className={styles.controlsUl}>
+        {messages.length ?
+          <li className={styles.controlsLi}>
+            <button
+              className={classnames('btn', 'btn-xs', 'btn-danger')}
+              onClick={() => toggleTimesetter()}
+              title="Display time setter"
+              style={{ fontSize: '1.1em' }}
+            >
+              { messages.length }
+            </button>
+          </li>
+          : ''
+        }
         <li className={styles.controlsLi}>
           <button
             className={allButtonsKlasses}

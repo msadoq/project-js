@@ -1,7 +1,6 @@
 import globalConstants from 'common/constants';
 import formulaParser from './formula';
 import remoteIdGenerator from '../../common/remoteId';
-import localIdGenerator from '../../common/localId';
 import domainsFilter from './domains';
 import timelinesFilter from './timelines';
 import structures from '../structures';
@@ -42,9 +41,6 @@ export default function applyDomainsAndTimebar(
   const dataId = { catalog, parameterName, comObject, domainId, sessionId };
   const remoteId = remoteIdGenerator(structureType, dataId, filter);
 
-  // localId
-  const localId = localIdGenerator(expectedField, timebarId, offset);
-
   // expectedInterval
   const selector = structures(structureType, 'getExpectedInterval');
   const expectedInterval = selector(
@@ -56,7 +52,6 @@ export default function applyDomainsAndTimebar(
 
   return {
     remoteId,
-    localId,
     dataId,
     filter, // TODO : filter"s"
     field: expectedField,

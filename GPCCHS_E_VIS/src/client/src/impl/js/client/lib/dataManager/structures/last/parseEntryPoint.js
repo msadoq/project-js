@@ -22,7 +22,12 @@ export default function parseEntryPoint(
     return cd;
   }
 
-  const { remoteId, field, expectedInterval } = cd;
+  const { remoteId, field, offset, expectedInterval } = cd;
+
+  // localId
+  cd.localId = `${field}.${timebarId}:${offset}`;
+
+  // inViewMap
   cd.inViewMap = { remoteId, field, expectedInterval };
 
   return cd;

@@ -7,6 +7,7 @@ const executionMonitor = require('common/execution');
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 const logger = require('common/log')('controllers:onTimebasedArchiveData');
+const loggerData = require('common/log')('controllers:incomingData');
 const registeredQueries = require('../../utils/registeredQueries');
 const { add: addToQueue } = require('../../websocket/dataQueue');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
@@ -110,6 +111,14 @@ const onTimebasedArchiveData = (
     const timestamp = decode('dc.dataControllerUtils.Timestamp', payloadBuffer[0]).ms;
     const payload = decode(payloadProtobufType, payloadBuffer[1]);
     execution.stop('decode payloads');
+
+    loggerData.debug({
+      controller: 'onTimebasedArchiveData',
+      remoteId,
+      rawValue: payload.rawValue,
+      extractedValue: payload.extractedValue,
+      convertedValue: payload.convertedValue,
+    });
 
     // store in cache
     execution.start('store payloads');

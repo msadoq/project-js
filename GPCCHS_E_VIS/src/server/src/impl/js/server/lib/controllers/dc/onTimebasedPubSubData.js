@@ -8,6 +8,7 @@ const _chunk = require('lodash/chunk');
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 const logger = require('common/log')('controllers:onTimebasedPubSubData');
+const loggerData = require('common/log')('controllers:incomingData');
 const { add: addToQueue } = require('../../websocket/dataQueue');
 const { applyFilters } = require('../../utils/filters');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
@@ -101,7 +102,14 @@ const onTimebasedPubSubData = (
 
       execution.start('control interval');
       // if timestamp not in interval in connectedData model, continue to next iteration
-      if (!connectedDataModel.isTimestampInKnownIntervals(remoteId, timestamp.ms)) {
+      const isKnownInterval = connectedDataModel.isTimestampInKnownIntervals(remoteId, timestamp.ms);
+
+      if (!isKnownInterval) {
+        loggerData.debug({
+          controller: 'onTimebasedPubSubData',
+          remoteId,
+          isKnownInterval,
+        });
         return;
       }
       execution.stop('control interval');
@@ -110,6 +118,14 @@ const onTimebasedPubSubData = (
       // deprotobufferize payload
       const decodedPayload = decode(payloadProtobufType, payloadBuffer[1]);
       execution.stop('decode payload');
+
+      loggerData.debug({
+        controller: 'onTimebasedPubSubData',
+        remoteId,
+        rawValue: decodedPayload.rawValue,
+        extractedValue: decodedPayload.extractedValue,
+        convertedValue: decodedPayload.convertedValue,
+      });
 
       execution.start('apply filters');
       // apply filters on decoded payload

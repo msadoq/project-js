@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Page from './Page';
 import { getEditor } from '../../store/selectors/pages';
-import { openEditor, closeEditor, /* moveViewToPage */ } from '../../store/actions/pages';
+import { openEditor, closeEditor } from '../../store/actions/pages';
 
 const mapStateToProps = (state, ownProps) => {
   const editor = getEditor(state, ownProps.focusedPageId);

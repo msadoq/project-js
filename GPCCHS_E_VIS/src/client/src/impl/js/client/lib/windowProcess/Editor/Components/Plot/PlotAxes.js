@@ -3,8 +3,13 @@ import {
   Accordion,
   Panel,
   Button,
-  Glyphicon
+  Glyphicon,
+  Form
 } from 'react-bootstrap';
+import {
+  HorizontalFormGroup
+} from '../Forms/';
+import SelectButton from '../Buttons/SelectButton';
 import PlotAxis from './PlotAxis';
 import Modal from '../../../common/Modal';
 
@@ -12,6 +17,8 @@ export default class PlotAxes extends React.Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
     axes: PropTypes.object.isRequired,
+    showYAxes: PropTypes.string,
+    updateShowYAxes: PropTypes.func.isRequired,
     removeAxis: PropTypes.func.isRequired,
     updateAxis: PropTypes.func.isRequired,
     addAxis: PropTypes.func.isRequired,
@@ -56,6 +63,11 @@ export default class PlotAxes extends React.Component {
     updateAxis(viewId, key, values);
   }
 
+  handleShowYAxes = (value) => {
+    const { updateShowYAxes, viewId } = this.props;
+    updateShowYAxes(viewId, value);
+  }
+
   openParentAccordion = (key, e) => {
     const {
       open,
@@ -68,7 +80,8 @@ export default class PlotAxes extends React.Component {
 
   render() {
     const {
-      axes,
+      axes = [],
+      showYAxes,
       viewId,
       expanded,
       close,
@@ -103,6 +116,19 @@ export default class PlotAxes extends React.Component {
         headerRole={headerRole}
         panelRole={panelRole}
       >
+        {Object.keys(axes).length && <Form horizontal>
+          <HorizontalFormGroup label="Align">
+            <SelectButton
+              active={showYAxes}
+              onChange={this.handleShowYAxes}
+              buttons={[
+                { label: '', icon: 'none' },
+                { label: 'left', icon: 'alignLeft' },
+                { label: 'right', icon: 'alignRight' }
+              ]}
+            />
+          </HorizontalFormGroup>
+        </Form>}
         <Accordion>
           {Object.keys(axes).map((axisId) => {
             const axis = axes[axisId];

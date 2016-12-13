@@ -5,12 +5,14 @@ import { getView } from '../../../../store/selectors/views';
 import {
   removeAxis,
   updateAxis,
-  addAxis
+  addAxis,
+  updateShowYAxes
 } from '../../../../store/actions/views';
 
 const mapStateToProps = (state, { viewId }) => {
   const view = getView(state, viewId);
   return {
+    showYAxes: view.configuration.showYAxes,
     axes: view.configuration.axes
   };
 };
@@ -18,7 +20,8 @@ const mapStateToProps = (state, { viewId }) => {
 const PlotAxesContainer = connect(mapStateToProps, {
   removeAxis,
   updateAxis,
-  addAxis
+  addAxis,
+  updateShowYAxes
 })(PlotAxes);
 
 PlotAxesContainer.propTypes = {

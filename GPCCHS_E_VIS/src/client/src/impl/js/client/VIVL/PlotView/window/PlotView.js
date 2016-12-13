@@ -39,7 +39,6 @@ const { XAxis, YAxis } = StockchartsAxes;
 const margin = { left: 20, right: 20, top: 20, bottom: 40 };
 const yAxisWidth = 55;
 const edgeIndicatorArrowWidth = 10;
-const showYAxesDefault = 'right';
 
 class PlotView extends PureComponent {
   static propTypes = {
@@ -162,7 +161,7 @@ class PlotView extends PureComponent {
     const {
       visuWindow: { current },
       size: { width, height },
-      configuration: { showYAxes = showYAxesDefault }
+      configuration: { showYAxes }
     } = this.props;
 
     const { disableZoom } = this.state;
@@ -465,7 +464,7 @@ class PlotView extends PureComponent {
       size: { width, height },
       data: { columns },
       visuWindow: { lower, upper },
-      configuration: { showYAxes = showYAxesDefault }
+      configuration: { showYAxes }
     } = this.props;
     const {
       tooltipWidth,

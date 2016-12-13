@@ -1,0 +1,37 @@
+{
+  "presets": [
+    "es2015",
+    "stage-0",
+    "react"
+  ],
+  "plugins": [
+    "add-module-exports"
+  ],
+  "env": {
+    "production": {
+      "presets": [
+        "react-optimize"
+      ],
+      "plugins": [
+        "babel-plugin-dev-expression",
+		"transform-class-properties"
+      ]
+    },
+    "development": {
+      "presets": [
+        "react-hmre"
+      ]
+    },
+    "test": {
+      "plugins": [
+        [
+          "webpack-loaders",
+          {
+            "config": "webpack/config.babel.js",
+            "verbose": false
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -59,14 +59,13 @@ export function getTimebarTimelines(timebars, timelines, timebarId) {
  * @param timebarId
  * @return {*}
  */
-// TODO test
 export function getMasterTimeline(timebars, timelines, timebarId) {
   const masterTimelineId = _get(timebars, [timebarId, 'masterId']);
   if (!masterTimelineId) {
     return undefined;
   }
 
-  return timelines[masterTimelineId];
+  return _values(timelines).find(t => t.id === masterTimelineId);
 }
 
 export function getMasterTimelineById(timebars, timelines, timebarId) {

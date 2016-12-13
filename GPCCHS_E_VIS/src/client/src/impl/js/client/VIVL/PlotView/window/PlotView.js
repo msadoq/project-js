@@ -39,7 +39,7 @@ const { XAxis, YAxis } = StockchartsAxes;
 const margin = { left: 20, right: 20, top: 20, bottom: 40 };
 const yAxisWidth = 55;
 const edgeIndicatorArrowWidth = 10;
-const axesYSideDefault = 'right';
+const showYAxesDefault = 'right';
 
 class PlotView extends PureComponent {
   static propTypes = {
@@ -66,7 +66,7 @@ class PlotView extends PureComponent {
       }),
       entryPoints: PropTypes.array,
       axes: PropTypes.object,
-      axesYSide: PropTypes.number,
+      showYAxes: PropTypes.string,
       grids: PropTypes.array,
       title: PropTypes.string,
       titleStyle: PropTypes.shape({
@@ -162,16 +162,18 @@ class PlotView extends PureComponent {
     const {
       visuWindow: { current },
       size: { width, height },
-      configuration: { axesYSide = axesYSideDefault }
+      configuration: { showYAxes = showYAxesDefault }
     } = this.props;
 
     const { disableZoom } = this.state;
     const { y: yGrid, x: xGrid } = this.getGrid();
     let xAxisWidth;
-    if (axesYSide === 'left') {
+    if (showYAxes === 'left') {
       xAxisWidth = (margin.left - margin.right) + (this.epCharts.length * yAxisWidth);
-    } else {
+    } else if (showYAxes === 'right') {
       xAxisWidth = width - margin.left - margin.right - (this.epCharts.length * yAxisWidth);
+    } else {
+      xAxisWidth = width - margin.left - margin.right;
     }
     const xLabelPosition = [
       xAxisWidth / 2,
@@ -202,11 +204,13 @@ class PlotView extends PureComponent {
           rectWidth={150}
           displayFormat={fullDateFormat}
         />
-        <MouseCoordinateY
-          at="right"
-          orient="right"
+        {showYAxes && <MouseCoordinateY
+          at={showYAxes}
+          orient={showYAxes}
+          dx={showYAxes === 'left' ? 10 : -10}
+          rectWidth={yAxisWidth}
           displayFormat={format('.2f')}
-        />
+        />}
         <StraightLine
           type="vertical"
           xValue={current}
@@ -232,14 +236,14 @@ class PlotView extends PureComponent {
       let edgeIndicatorOrient;
       let edgeIndicatorEdgeAt;
 
-      if (axesYSide === 'left') {
+      if (showYAxes === 'left') {
         axisAt = (index * yAxisWidth) - AxesWidth;
         edgeIndicatorType = 'first';
         edgeIndicatorOrient = 'left';
         edgeIndicatorEdgeAt = 'left';
         edgeIndicatorDx = (index * yAxisWidth) - (AxesWidth - edgeIndicatorArrowWidth);
         dx = axisAt - (yAxisWidth - 10);
-      } else {
+      } else if (showYAxes === 'right') {
         axisAt = chartWidth - (index * yAxisWidth);
         edgeIndicatorType = 'last';
         edgeIndicatorOrient = 'right';
@@ -265,15 +269,15 @@ class PlotView extends PureComponent {
           yScale={chart.yScale}
           yExtents={d => _map(chart.yKeys, key => _get(d, [key, 'value']))}
         >
-          <Label
+          {showYAxes && <Label
             x={dx}
             y={(height - margin.top - margin.bottom) / 2}
             rotate={-90}
             text={label}
-          />
-          <YAxis
+          />}
+          {showYAxes && <YAxis
             axisAt={axisAt}
-            orient={axesYSide}
+            orient={showYAxes}
             ticks={5}
             stroke="#000000"
             range={yRange}
@@ -282,8 +286,9 @@ class PlotView extends PureComponent {
             displayFormat={format('.2f')}
             zoomEnabled={!disableZoom}
             {...hasGrid ? yGrid : {}}
-          />
+          />}
           {this.getLineComponents(chart.lines, {
+            showYAxes,
             edgeIndicatorDx,
             edgeIndicatorType,
             edgeIndicatorOrient,
@@ -297,7 +302,8 @@ class PlotView extends PureComponent {
   }
 
   getLineComponents = (lines = [], {
-    edgeIndicatorDx, edgeIndicatorType, edgeIndicatorOrient, edgeIndicatorEdgeAt
+    showYAxes, edgeIndicatorDx, edgeIndicatorType,
+    edgeIndicatorOrient, edgeIndicatorEdgeAt
   }) => lines.map(({
       key, color, lineSize = 1,
       pointsStyle, pointsSize, lineStyle
@@ -324,12 +330,12 @@ class PlotView extends PureComponent {
             fill: color
           })}
         />
-        <CurrentCoordinate
+        {showYAxes && <CurrentCoordinate
           key={`coordinate${key}`}
           yAccessor={d => _get(d, [key, 'value'])}
           fill={color}
-        />
-        <EdgeIndicator
+        />}
+        {showYAxes && <EdgeIndicator
           itemType={edgeIndicatorType}
           orient={edgeIndicatorOrient}
           edgeAt={edgeIndicatorEdgeAt}
@@ -338,7 +344,7 @@ class PlotView extends PureComponent {
           displayFormat={format('.2f')}
           yAccessor={d => _get(d, [key, 'value'])}
           fill={color}
-        />
+        />}
       </div>
     ));
 
@@ -456,7 +462,7 @@ class PlotView extends PureComponent {
       size: { width, height },
       data: { columns },
       visuWindow: { lower, upper },
-      configuration: { axesYSide = axesYSideDefault }
+      configuration: { showYAxes = showYAxesDefault }
     } = this.props;
     const {
       tooltipWidth,
@@ -468,12 +474,14 @@ class PlotView extends PureComponent {
     // const menuOpenOnTop = menuPosition.y >= (height / 2);
     // const menuOpenOnLeft = menuPosition.x >= (width / 2);
     let marginChart;
-    if (axesYSide === 'left') {
+    if (showYAxes === 'left') {
       const marginLeft = margin.left + (this.epCharts.length * yAxisWidth);
       marginChart = { ...margin, left: marginLeft };
-    } else {
+    } else if (showYAxes === 'right') {
       const marginRight = margin.right + (this.epCharts.length * yAxisWidth);
       marginChart = { ...margin, right: marginRight };
+    } else {
+      marginChart = { ...margin };
     }
 
     return (

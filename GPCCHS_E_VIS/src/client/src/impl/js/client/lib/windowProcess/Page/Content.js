@@ -100,7 +100,6 @@ export default class Content extends Component {
             >
               <ViewContainer
                 timebarId={timebarId}
-                pageId={focusedPageId}
                 viewId={v.viewId}
                 unmountAndRemove={this.props.unmountAndRemove}
                 isViewsEditorOpen={isViewsEditorOpen}

@@ -20,8 +20,6 @@ export default class View extends PureComponent {
     openEditor: PropTypes.func,
     closeEditor: PropTypes.func,
     unmountAndRemove: PropTypes.func,
-
-    focusedPageId: PropTypes.string.isRequired,
     moveViewToPage: PropTypes.func,
     getWindowPages: PropTypes.func,
   };
@@ -39,7 +37,6 @@ export default class View extends PureComponent {
       unmountAndRemove,
       data,
       visuWindow,
-      focusedPageId,
       moveViewToPage,
       getWindowPages,
     } = this.props;
@@ -55,7 +52,6 @@ export default class View extends PureComponent {
           openEditor={openEditor}
           closeEditor={closeEditor}
           unmountAndRemove={unmountAndRemove}
-          focusedPageId={focusedPageId}
           getWindowPages={getWindowPages}
           moveViewToPage={moveViewToPage}
         />

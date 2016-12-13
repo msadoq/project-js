@@ -181,6 +181,24 @@ describe('store:timebars:reducer', () => {
       newState.myTimebarId.should.have.property('masterId');
       newState.myTimebarId.masterId.should.equal('myTlId');
     });
+    it('mode to Extensible', () => {
+      dispatch(actions.updateMode('myTimebarId', 'Extensible'));
+      const timebars = getState().timebars;
+      timebars.should.have.property('myTimebarId');
+      timebars.myTimebarId.mode.should.equal('Extensible');
+      timebars.myTimebarId.slideWindow.upper.should.be.above(
+        timebars.myTimebarId.visuWindow.upper
+      );
+    });
+    it('mode to Fixed', () => {
+      dispatch(actions.updateMode('myTimebarId', 'Fixed'));
+      const timebars = getState().timebars;
+      timebars.should.have.property('myTimebarId');
+      timebars.myTimebarId.mode.should.equal('Fixed');
+      timebars.myTimebarId.slideWindow.upper.should.be.below(
+        timebars.myTimebarId.visuWindow.upper
+      );
+    });
     it('mount timeline', () => {
       const newState = reducer(state.timebars, actions.mountTimeline('myTimebarId', 'myTimelineId2'));
       newState.should.have.property('myTimebarId');

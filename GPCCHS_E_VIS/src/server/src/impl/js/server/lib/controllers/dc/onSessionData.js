@@ -1,11 +1,7 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const logger = require('common/log')('controllers:onSessionData');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
 const { sendToMain } = require('../../websocket/sendToMain');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const { decode } = require('common/protobuf');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const registeredCallbacks = require('common/callbacks');
 
 /**

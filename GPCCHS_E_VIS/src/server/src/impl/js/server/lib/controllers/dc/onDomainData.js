@@ -1,4 +1,3 @@
-/* eslint import/no-extraneous-dependencies:0 */
 const logger = require('common/log')('controllers:onDomainData');
 const globalConstants = require('common/constants');
 const { decode } = require('common/protobuf');

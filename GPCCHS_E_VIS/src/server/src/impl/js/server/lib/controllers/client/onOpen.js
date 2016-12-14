@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const logger = require('common/log')('controllers:onOpen');
 
 /**

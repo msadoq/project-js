@@ -1,7 +1,6 @@
 // TODO : deprecate
 
 const _round = require('lodash/round');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const logger = require('common/log')('profiling');
 
 const start = () => process.hrtime();

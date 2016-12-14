@@ -1,4 +1,3 @@
-/* eslint import/no-extraneous-dependencies:0 */
 const _isEmpty = require('lodash/isEmpty');
 const _keys = require('lodash/keys');
 const _pull = require('lodash/pull');

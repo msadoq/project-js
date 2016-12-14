@@ -1,4 +1,3 @@
-/* eslint import/no-extraneous-dependencies:0 */
 const _each = require('lodash/each');
 const _concat = require('lodash/concat');
 const globalConstants = require('common/constants');

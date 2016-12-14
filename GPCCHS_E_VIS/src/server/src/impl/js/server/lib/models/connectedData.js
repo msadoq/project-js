@@ -1,4 +1,3 @@
-/* eslint import/no-extraneous-dependencies:0 */
 const _concat = require('lodash/concat');
 const _remove = require('lodash/remove');
 const _values = require('lodash/values');

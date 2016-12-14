@@ -1,8 +1,5 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const registeredCallbacks = require('common/callbacks');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const { encode } = require('common/protobuf');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
 const flattenDataId = require('./flattenDataId');
 

@@ -1,7 +1,5 @@
 const _get = require('lodash/get');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const logger = require('common/log')('utils:filters');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
 
 function applyFilter(data, filter) {

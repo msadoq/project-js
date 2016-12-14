@@ -1,6 +1,5 @@
 require('../utils/test');
 const flattenDataId = require('./flattenDataId');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const { getDataId } = require('common/stubs/data');
 
 describe('models/getLocalId', () => {

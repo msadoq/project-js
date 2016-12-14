@@ -1,12 +1,9 @@
-/* eslint import/no-extraneous-dependencies:0 */
 const { decode, getType } = require('common/protobuf');
 const globalConstants = require('common/constants');
 const executionMonitor = require('common/execution');
 const _isEmpty = require('lodash/isEmpty');
 const _each = require('lodash/each');
 const _chunk = require('lodash/chunk');
-
-// eslint-disable-next-line import/no-extraneous-dependencies
 const logger = require('common/log')('controllers:onTimebasedPubSubData');
 const loggerData = require('common/log')('controllers:incomingData');
 const { add: addToQueue } = require('../../websocket/dataQueue');

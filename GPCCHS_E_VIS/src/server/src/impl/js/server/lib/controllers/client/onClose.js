@@ -1,4 +1,3 @@
-/* eslint import/no-extraneous-dependencies:0 */
 const logger = require('common/log')('controllers:onClose');
 const _each = require('lodash/each');
 const zmq = require('common/zmq');

@@ -1,11 +1,8 @@
-/* eslint import/no-extraneous-dependencies:0 */
 const { eachSeries } = require('async');
 const _chunk = require('lodash/chunk');
 const { decode, encode, getType } = require('common/protobuf');
 const globalConstants = require('common/constants');
 const executionMonitor = require('common/execution');
-
-// eslint-disable-next-line import/no-extraneous-dependencies
 const logger = require('common/log')('controllers:onTimebasedArchiveData');
 const loggerData = require('common/log')('controllers:incomingData');
 const registeredQueries = require('../../utils/registeredQueries');

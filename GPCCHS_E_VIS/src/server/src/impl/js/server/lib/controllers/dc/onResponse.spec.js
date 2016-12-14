@@ -1,10 +1,7 @@
 const { should, testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('../../utils/test');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const dataStub = require('common/stubs/data');
 const { response } = require('./onResponse');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const registeredCallbacks = require('common/callbacks');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
 
 describe('controllers/dc/onResponse', () => {

@@ -1,15 +1,15 @@
-/* eslint import/no-extraneous-dependencies:0 */
 const _each = require('lodash/each');
 const _get = require('lodash/get');
 const zmq = require('common/zmq');
 const removeIntervals = require('common/intervals/remove');
 const executionMonitor = require('common/execution');
-
-// eslint-disable-next-line import/no-extraneous-dependencies
 const logger = require('common/log')('controllers:onCacheCleanup');
 const registeredQueries = require('../../utils/registeredQueries');
 const { createDeleteSubscriptionMessage } = require('../../utils/subscriptions');
-const { getTimebasedDataModel, removeTimebasedDataModel } = require('../../models/timebasedDataFactory');
+const {
+  getTimebasedDataModel,
+  removeTimebasedDataModel,
+} = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
 

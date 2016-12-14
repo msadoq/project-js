@@ -1,10 +1,7 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const logger = require('common/log')('controllers:onMessage');
 const _slice = require('lodash/slice');
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const { decode } = require('common/protobuf');
 
 const errorHandler = require('../../utils/errorHandler');

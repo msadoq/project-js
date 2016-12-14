@@ -1,16 +1,13 @@
 const _concat = require('lodash/concat');
 const _now = require('lodash/now');
-
-// eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const { decode } = require('common/protobuf');
 const {
   getDataId,
   getRemoteId,
   getReportingParameter,
   getReportingParameterProtobuf,
-} = require('common/stubs/data'); // eslint-disable-line import/no-extraneous-dependencies
+} = require('common/stubs/data');
 
 require('../../utils/test');
 const registeredQueries = require('../../utils/registeredQueries');

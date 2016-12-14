@@ -38,17 +38,18 @@ function flatten(o) {
 }
 
 module.exports = (req, res, next) => {
-  // eslint-disable-next-line no-param-reassign
-  res.linker = (route = '', params) => {
-    const port = (req.app.get('port'))
-      ? `:${req.app.get('port')}`
-      : '';
-    const query = (params && typeof params === 'object' && Object.keys(params).length)
-      ? `?${stringify(flatten(params))}`
-      : '';
+  Object.assign(res, {
+    linker: (route = '', params) => {
+      const port = (req.app.get('port'))
+        ? `:${req.app.get('port')}`
+        : '';
+      const query = (params && typeof params === 'object' && Object.keys(params).length)
+        ? `?${stringify(flatten(params))}`
+        : '';
 
-    return `${req.protocol}://${req.hostname}${port}/${route}${query}`;
-  };
+      return `${req.protocol}://${req.hostname}${port}/${route}${query}`;
+    },
+  });
 
   next();
 };

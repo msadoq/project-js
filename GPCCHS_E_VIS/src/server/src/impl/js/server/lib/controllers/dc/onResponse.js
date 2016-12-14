@@ -1,4 +1,3 @@
-/* eslint import/no-extraneous-dependencies:0 */
 const _isBuffer = require('lodash/isBuffer');
 const _isEqual = require('lodash/isEqual');
 const logger = require('common/log')('controllers:onResponse');

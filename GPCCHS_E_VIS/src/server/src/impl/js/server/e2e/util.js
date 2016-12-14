@@ -1,8 +1,8 @@
 const testUtils = require('../lib/utils/test');
-const Primus = require('common/websocket'); // eslint-disable-line import/no-extraneous-dependencies
+const Primus = require('common/websocket');
 const cp = require('child_process');
-const chai = require('chai'); // eslint-disable-line import/no-extraneous-dependencies
-const chaiJestSnapshot = require('chai-jest-snapshot'); // eslint-disable-line import/no-extraneous-dependencies
+const chai = require('chai');
+const chaiJestSnapshot = require('chai-jest-snapshot');
 
 chai.use(chaiJestSnapshot);
 

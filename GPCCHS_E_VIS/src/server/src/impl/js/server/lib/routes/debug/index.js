@@ -1,4 +1,4 @@
-/* eslint prefer-template:0, import/no-extraneous-dependencies:0, no-restricted-properties:0 */
+/* eslint prefer-template:0, no-restricted-properties:0 */
 
 const { Router } = require('express');
 const _floor = require('lodash/floor');

@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const logger = require('common/log')('models:timebasedData');
 
 const _each = require('lodash/each');

@@ -1,7 +1,6 @@
 const _omit = require('lodash/omit');
 const _assign = require('lodash/assign');
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
 
 require('./test');

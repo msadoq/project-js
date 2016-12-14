@@ -1,8 +1,6 @@
-/* eslint import/no-extraneous-dependencies:0 */
 const _each = require('lodash/each');
 const chai = require('chai');
 const properties = require('chai-properties');
-const utils = require('util');
 const expressApp = require('../express');
 const database = require('../io/loki');
 
@@ -19,9 +17,6 @@ const testHandler = (...args) => {
 // URL used into e2e tests for WS connection with HSS
 const e2eUrl = () => `${process.env.E2E_URL}:${process.env.SERVER_PORT}?identity=main`;
 
-// eslint-disable-next-line no-console
-const deepLog = obj => console.log(utils.inspect(obj, false, null));
-
 module.exports = {
   should: chai.should(),
   expressApp,
@@ -30,5 +25,4 @@ module.exports = {
   getTestHandlerArgs: () => testHandlerArgs,
   resetTestHandlerArgs: () => { testHandlerArgs = []; },
   e2eUrl,
-  deepLog,
 };

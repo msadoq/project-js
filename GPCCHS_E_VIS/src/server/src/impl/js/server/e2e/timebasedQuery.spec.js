@@ -1,5 +1,5 @@
-const fetch = require('node-fetch'); // eslint-disable-line import/no-extraneous-dependencies
-const globalConstants = require('common/constants'); // eslint-disable-line import/no-extraneous-dependencies
+const fetch = require('node-fetch');
+const globalConstants = require('common/constants');
 const path = require('path');
 const {
   getQuery,

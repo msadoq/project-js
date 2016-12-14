@@ -3,7 +3,6 @@
 // const subscriptions = require('./subscriptions');
 // const connectedDataModel = require('../models/connectedData');
 // const timebasedDataModel = require('../models/timebasedDataFactory');
-// // eslint-disable-next-line import/no-extraneous-dependencies
 // const { getDataId } = require('common/stubs/data');
 //
 // describe('subscriptions', () => {

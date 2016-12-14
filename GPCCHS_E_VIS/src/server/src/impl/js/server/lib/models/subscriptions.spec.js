@@ -1,6 +1,5 @@
 const { should } = require('../utils/test');
 const model = require('./subscriptions');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const { getDataId, getFilter, getRemoteId } = require('common/stubs/data');
 const flattenDataId = require('../utils/flattenDataId');
 

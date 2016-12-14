@@ -1,6 +1,5 @@
 const { getTestHandlerArgs, resetTestHandlerArgs, testHandler } = require('../../utils/test');
 const { message } = require('./onMessage');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const dataStub = require('common/stubs/data');
 
 describe('controllers/dc/onMessage', () => {

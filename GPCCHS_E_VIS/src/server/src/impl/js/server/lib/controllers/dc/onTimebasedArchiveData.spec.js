@@ -3,10 +3,8 @@ const { onTimebasedArchiveData } = require('./onTimebasedArchiveData');
 const registeredQueries = require('../../utils/registeredQueries');
 const connectedDataModel = require('../../models/connectedData');
 const { clearFactory, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const dataStub = require('common/stubs/data');
 const { get: getQueue, reset: resetQueue } = require('../../websocket/dataQueue');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const globalConstants = require('common/constants');
 
 /*

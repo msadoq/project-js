@@ -6,7 +6,6 @@ const {
   removeTimebasedDataModel,
   getAllTimebasedDataModelRemoteIds,
 } = require('./timebasedDataFactory');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const { getReportingParameter } = require('common/stubs/data');
 
 describe('models/timebasedDataFactory', () => {

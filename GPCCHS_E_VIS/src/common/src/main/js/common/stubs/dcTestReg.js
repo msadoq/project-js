@@ -1,9 +1,6 @@
 const async = require('async');
-// eslint-disable-next-line no-underscore-dangle
 const _each = require('lodash/each');
-// eslint-disable-next-line no-underscore-dangle
 const _chunk = require('lodash/chunk');
-// eslint-disable-next-line no-underscore-dangle
 const _slice = require('lodash/slice');
 
 require('../utils/test');

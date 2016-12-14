@@ -1,4 +1,3 @@
-/* eslint no-underscore-dangle:0 */
 const _each = require('lodash/each');
 const _round = require('lodash/round');
 const _reduce = require('lodash/reduce');

@@ -1,6 +1,5 @@
-// eslint-disable-next-line no-underscore-dangle
+/* eslint no-restricted-properties:0 */
 const _floor = require('lodash/floor');
-// eslint-disable-next-line no-underscore-dangle
 const _round = require('lodash/round');
 
 const GIGA_BYTES = Math.pow(2, 30);

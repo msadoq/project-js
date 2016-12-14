@@ -1,4 +1,4 @@
-/* eslint-disable global-require, no-underscore-dangle */
+/* eslint global-require:0 */
 
 const ProtoBuf = require('protobufjs');
 const _each = require('lodash/each');

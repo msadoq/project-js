@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-
 const _isInteger = require('lodash/isInteger');
 const _isBuffer = require('lodash/isBuffer');
 const _isNumber = require('lodash/isNumber');

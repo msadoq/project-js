@@ -1,8 +1,5 @@
-// eslint-disable-next-line no-underscore-dangle
 const _isArray = require('lodash/isArray');
-// eslint-disable-next-line no-underscore-dangle
 const _reduce = require('lodash/reduce');
-// eslint-disable-next-line no-underscore-dangle
 const _sortedIndexBy = require('lodash/sortedIndexBy');
 
 const notIncluded = (knownIntervals, interval) => {

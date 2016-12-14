@@ -1,15 +1,11 @@
+const _isString = require('lodash/isString');
+const _isEmpty = require('lodash/isEmpty');
+const _has = require('lodash/has');
+const _isFunction = require('lodash/isFunction');
+
 const getLogger = require('../log');
 
 const logger = getLogger('GPCCHS:common:registeredCallbacks');
-
-// eslint-disable-next-line no-underscore-dangle
-const _isString = require('lodash/isString');
-// eslint-disable-next-line no-underscore-dangle
-const _isEmpty = require('lodash/isEmpty');
-// eslint-disable-next-line no-underscore-dangle
-const _has = require('lodash/has');
-// eslint-disable-next-line no-underscore-dangle
-const _isFunction = require('lodash/isFunction');
 
 let callbacks = {};
 

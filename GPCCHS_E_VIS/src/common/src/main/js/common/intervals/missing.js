@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-underscore-dangle
 const _some = require('lodash/some');
 
 /**

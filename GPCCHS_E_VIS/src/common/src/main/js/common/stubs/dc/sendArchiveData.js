@@ -1,4 +1,3 @@
-/* eslint no-underscore-dangle:0 */
 const _each = require('lodash/each');
 const _get = require('lodash/get');
 const _chunk = require('lodash/chunk');

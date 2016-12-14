@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-underscore-dangle
 const _map = require('lodash/map');
 
 const domain = require('./domain');

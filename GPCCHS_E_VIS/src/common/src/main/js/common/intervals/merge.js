@@ -1,16 +1,9 @@
- // eslint-disable-next-line no-underscore-dangle
 const _head = require('lodash/head');
- // eslint-disable-next-line no-underscore-dangle
 const _last = require('lodash/last');
- // eslint-disable-next-line no-underscore-dangle
 const _sortedIndexBy = require('lodash/sortedIndexBy');
- // eslint-disable-next-line no-underscore-dangle
 const _slice = require('lodash/slice');
- // eslint-disable-next-line no-underscore-dangle
 const _reduce = require('lodash/reduce');
- // eslint-disable-next-line no-underscore-dangle
 const _isArray = require('lodash/isArray');
-
 
 const merge = (knownIntervals, interval) => {
   if (interval.length !== 2) {

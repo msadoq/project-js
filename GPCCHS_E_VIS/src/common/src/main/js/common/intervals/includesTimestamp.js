@@ -1,6 +1,4 @@
-// eslint-disable-next-line no-underscore-dangle
 const _some = require('lodash/some');
-// eslint-disable-next-line no-underscore-dangle
 const _isArray = require('lodash/isArray');
 
 const logger = require('../log')('GPCCHS:common:intervals');

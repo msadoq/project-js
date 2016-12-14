@@ -1,12 +1,7 @@
-// eslint-disable-next-line no-underscore-dangle
 const _now = require('lodash/now');
-// eslint-disable-next-line no-underscore-dangle
 const _random = require('lodash/random');
-// eslint-disable-next-line no-underscore-dangle
 const _sortBy = require('lodash/sortBy');
-// eslint-disable-next-line no-underscore-dangle
 const _map = require('lodash/map');
-
 
 const protobuf = require('../protobuf');
 const applyOverride = require('./data/applyOverride');
@@ -15,7 +10,6 @@ const dcStubs = require('./data/dc');
 const lpisisStubs = require('./data/lpisis');
 
 const now = _now();
-
 
 const stubs = module.exports = Object.assign({}, dcStubs, lpisisStubs);
 

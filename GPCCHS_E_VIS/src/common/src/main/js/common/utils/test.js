@@ -1,14 +1,11 @@
-// eslint-disable-next-line no-underscore-dangle
+/* eslint import/no-extraneous-dependencies:0 */
 const _each = require('lodash/each');
 
 // disable HTTP server logs for test run
 process.env.HTTP_LOGS = 0;
 
-const chai = require('chai'); // eslint-disable-line import/no-extraneous-dependencies
-// eslint-disable-next-line import/no-extraneous-dependencies
+const chai = require('chai');
 const properties = require('chai-properties');
-// const request = require('supertest'); // eslint-disable-line import/no-extraneous-dependencies
-
 
 chai.use(properties);
 

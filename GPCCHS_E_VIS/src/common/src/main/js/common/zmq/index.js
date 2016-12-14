@@ -1,6 +1,4 @@
-// eslint-disable-next-line no-underscore-dangle
 const _each = require('lodash/each');
-// eslint-disable-next-line no-underscore-dangle
 const _isFunction = require('lodash/isFunction');
 const async = require('async');
 const zmq = require('zmq');

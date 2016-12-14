@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-underscore-dangle
 const _now = require('lodash/now');
 
 const protobuf = require('../../../../protobuf');

@@ -1,4 +1,3 @@
-require('dotenv-safe').load();
 const { writeFileSync } = require('fs');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const logger = require('common/log')('buildPrimusClient');

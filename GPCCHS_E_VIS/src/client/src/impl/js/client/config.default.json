@@ -1,6 +1,5 @@
 {
   "LOG": "file",
-  "LEVEL": "INFO",
   "PROFILING": "off",
   "MONITORING": "off",
   "DEBUG": "off",

@@ -39,7 +39,7 @@ export function select(remoteIdPayload, ep, epName, viewState, count) {
   return newState;
 }
 
-export default function rangeValues(payload, entryPoints, count) {
+export default function extractValues(state, payload, viewId, entryPoints, count) {
   let isFirstEp = true;
   // Get current state for update
   let epSubState = {};

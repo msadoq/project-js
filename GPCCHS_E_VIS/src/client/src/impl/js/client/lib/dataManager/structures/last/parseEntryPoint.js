@@ -1,5 +1,5 @@
 import globalConstants from 'common/constants';
-import parseConnectedData from '../parseConnectedData';
+import parseConnectedData from '../common/parseConnectedData';
 
 export default function parseEntryPoint(
   entryPoint,

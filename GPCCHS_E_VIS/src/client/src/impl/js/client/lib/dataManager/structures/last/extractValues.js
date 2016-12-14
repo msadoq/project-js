@@ -39,7 +39,7 @@ export function select(remoteIdPayload, ep, epName, viewSubState) {
   return newValue;
 }
 
-export default function lastValue(state, payload, viewId, entryPoints, count) {
+export default function extractValues(state, payload, viewId, entryPoints, count) {
   let viewData;
   // Entry points
   _each(entryPoints, (ep, epName) => {

@@ -1,8 +1,8 @@
 import globalConstants from 'common/constants';
 
-import rangeValues, { select } from './rangeValues';
+import extractValues, { select } from './extractValues';
 
-describe('data/map/rangeValues', () => {
+describe('data/map/extractValues', () => {
   const payload = { rId1: {}, rId2: {} };
   for (let j = 10; j < 21; j += 1) {
     payload.rId1[j] = {
@@ -94,7 +94,7 @@ describe('data/map/rangeValues', () => {
   describe('selectRangeValue', () => {
     it('unique entry point', () => {
       const count = { last: 0, range: 0 };
-      const viewData = rangeValues(payload, viewDataMap.plot1.entryPoints, count);
+      const viewData = extractValues({}, payload, 'myId', viewDataMap.plot1.entryPoints, count);
       viewData.should.have.all.keys(['remove', 'add', 'structureType']);
       const ep = viewDataMap.plot1.entryPoints.ep1;
       viewData.remove.lower.should.equal(ep.expectedInterval[0] + ep.offset);
@@ -106,7 +106,7 @@ describe('data/map/rangeValues', () => {
     });
     it('multiple entry point', () => {
       const count = { last: 0, range: 0 };
-      const viewData = rangeValues(payload, viewDataMap.plot2.entryPoints, count);
+      const viewData = extractValues({}, payload, 'myId', viewDataMap.plot2.entryPoints, count);
       viewData.should.have.all.keys(['remove', 'add', 'structureType']);
       const ep = viewDataMap.plot2.entryPoints.ep2;
       viewData.remove.lower.should.equal(ep.expectedInterval[0] + ep.offset);

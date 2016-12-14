@@ -10,15 +10,6 @@ import vivl from '../../VIVL/main';
 
 const logger = getLogger('GPCCHS:dataManager:cleanViewData');
 
-
-// viewMap =
-// { viewId:
-//  { type: 'TextView || PlotView',
-//    structureType: 'last || range',
-//    entryPoints:
-//     { epName: [Object],
-//       epName: [Object], } },}
-
 export default function cleanViewData(state, oldViewMap, viewMap) {
   let newState;
   // unmounted views

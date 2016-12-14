@@ -1,9 +1,9 @@
 import globalConstants from 'common/constants';
 import formulaParser from './formula';
-import remoteIdGenerator from '../../common/remoteId';
+import remoteIdGenerator from './remoteId';
 import domainsFilter from './domains';
 import timelinesFilter from './timelines';
-import structures from '../structures';
+import structures from '..';
 
 export default function applyDomainsAndTimebar(
   connectedData, structureType, timebarId, viewMasterTimeline, visuWindow, timelines, domains

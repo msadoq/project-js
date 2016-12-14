@@ -14,17 +14,19 @@ const structures = {
     removeEpData: require('./last/removeEpData'),
     isEpDifferent: require('./last/isEpDifferent'),
     updateEpLabel: require('./last/updateEpLabel'),
+    extractValues: require('./last/extractValues').default,
   },
   [globalConstants.DATASTRUCTURETYPE_RANGE]: {
     getExpectedInterval: require('./range/getExpectedInterval'),
     retrieveNeededIntervals: require('./range/retrieveNeededIntervals'),
     addInterval: require('./range/addInterval'),
     parseEntryPoint: require('./range/parseEntryPoint'),
-    viewDataUpdate: require('./range/viewDataUpdate'),
+    viewDataUpdate: require('./range/viewDataUpdate').default,
     cleanData: require('./range/cleanData'),
     removeEpData: require('./range/removeEpData'),
     isEpDifferent: require('./range/isEpDifferent'),
     updateEpLabel: require('./range/updateEpLabel'),
+    extractValues: require('./range/extractValues').default,
   },
 };
 

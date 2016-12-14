@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-expressions */
-const { should } = require('./../../common/test');
+const { should } = require('./../../../common/test');
 const formula = require('./formula');
 
 describe('connectedData/formula', () => {

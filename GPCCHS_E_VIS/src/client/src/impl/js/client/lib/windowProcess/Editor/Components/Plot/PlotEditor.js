@@ -97,9 +97,15 @@ export default class PlotEditor extends Component {
       [label]: newVal
     });
   }
-  handleAddEntryPoint = () => {
+  handleAddEntryPoint = (values) => {
     const { addEntryPoint, viewId } = this.props;
-    addEntryPoint(viewId, { ...newEntryPoint });
+    addEntryPoint(
+      viewId,
+      {
+        ...newEntryPoint,
+        ...values,
+      }
+    );
   }
   removeEntryPoint = (key) => {
     const { removeEntryPoint, viewId } = this.props;

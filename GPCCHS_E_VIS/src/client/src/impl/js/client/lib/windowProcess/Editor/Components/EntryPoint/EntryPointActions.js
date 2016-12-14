@@ -1,5 +1,9 @@
 import React, { PropTypes } from 'react';
 import { Glyphicon, FormGroup, InputGroup, FormControl, Button, Col } from 'react-bootstrap';
+import Modal from '../../../common/Modal';
+import {
+  EntryPointName
+} from './';
 
 const { Addon } = InputGroup;
 
@@ -18,6 +22,10 @@ export default class EntryPointActions extends React.Component {
     addEntryPoint: PropTypes.func
   }
 
+  state = {
+    isCreationModalOpened: false,
+  };
+
   /*
     Fonction appelée lorsque la valeur du filtre de recherche est modifiée.
     Parametre e : évenement detecté (click)
@@ -29,9 +37,19 @@ export default class EntryPointActions extends React.Component {
             qui contient dans ses states la liste des entryPoints
             Cela necessite d'ajouter une fonction de callback aux props de ce composant
   */
-  addEntryPoint = () => this.props.addEntryPoint();
+  openCreationModal = () => this.setState({ isCreationModalOpened: true });
+  closeCreationModal = () => this.setState({ isCreationModalOpened: false });
+
+  handleAddEntryPoint = (values) => {
+    this.props.addEntryPoint(values);
+    this.closeCreationModal();
+  }
 
   render() {
+    const {
+      isCreationModalOpened,
+    } = this.state;
+
     return (
       <div>
         <FormGroup
@@ -50,7 +68,7 @@ export default class EntryPointActions extends React.Component {
             </InputGroup>
           </Col>
           <Col xs={4} className="text-right">
-            <Button bsSize="small" onClick={this.addEntryPoint}>
+            <Button bsSize="small" onClick={this.openCreationModal}>
               <Glyphicon glyph="plus" />
             </Button>
             <Button bsSize="small" style={{ marginLeft: '6px' }}>
@@ -58,6 +76,16 @@ export default class EntryPointActions extends React.Component {
             </Button>
           </Col>
         </FormGroup>
+        <Modal
+          title="Add a new Entry point"
+          isOpened={isCreationModalOpened}
+          onClose={this.closeCreationModal}
+        >
+          <EntryPointName
+            onSubmit={this.handleAddEntryPoint}
+            form="new-entrypoint-parameters-form"
+          />
+        </Modal>
       </div>
     );
   }

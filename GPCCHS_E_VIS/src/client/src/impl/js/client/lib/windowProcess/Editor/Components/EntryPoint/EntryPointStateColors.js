@@ -78,10 +78,12 @@ class EntryPointStateColors extends React.Component {
           </tbody>
         </Table>
         <Form horizontal onSubmit={handleSubmit}>
+          <div className="page-header">
+            <h4>New state color</h4>
+          </div>
           <HorizontalFormGroup label="Color">
             <Field
               name="color"
-              color="#FFFFFF"
               component={ColorPickerField}
             />
           </HorizontalFormGroup>

@@ -57,9 +57,15 @@ export default class Editor extends Component {
       [label]: newVal
     });
   }
-  addEntryPoint = () => {
+  addEntryPoint = (values) => {
     const { addEntryPoint, viewId } = this.props;
-    addEntryPoint(viewId, { ...newEntryPoint });
+    addEntryPoint(
+      viewId,
+      {
+        ...newEntryPoint,
+        ...values,
+      }
+    );
   }
   removeEntryPoint = (key) => {
     const { removeEntryPoint, viewId } = this.props;

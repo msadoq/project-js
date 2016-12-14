@@ -16,7 +16,7 @@ class EntryPointName extends React.Component {
     /* eslint-disable react/no-unused-prop-types */
     initialValues: PropTypes.shape({
       name: PropTypes.string.isRequired,
-    }).isRequired,
+    }),
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     reset: PropTypes.func,

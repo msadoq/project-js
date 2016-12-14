@@ -1,5 +1,5 @@
 import reducer from './viewData';
-import { importPayload, removeAllData, updateViewData } from '../actions/viewData';
+import { /* importPayload, */ removeAllData, updateViewData } from '../actions/viewData';
 
 describe('store:viewData:reducer', () => {
   const payload = { rId1: {}, rId2: {} };

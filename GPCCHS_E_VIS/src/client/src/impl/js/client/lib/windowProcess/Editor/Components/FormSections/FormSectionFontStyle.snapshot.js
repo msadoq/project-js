@@ -9,7 +9,7 @@ test('Navigation renders correctly', () => {
   const store = createStore(
     combineReducers({ form }),
     { form: {} }
-  )
+  );
   const Decorated = reduxForm({ form: 'testform', name: 'testname' })(FormSectionLineStyle);
   const tree = renderer.create(
     <Provider store={store}>

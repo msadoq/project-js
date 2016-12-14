@@ -1,25 +1,5 @@
-/*!*******************************************************************
- * Project : ISIS
- * Component : TODO declare component
- * \file views.spec.js
- * \author isis
- * \date 28/11/2016
- * \brief TODO brief description
- *
- * TODO complete description
- ********************************************************************/
-
-/********************************************************************
- * HISTORY
- *
- * END-HISTORY
- ********************************************************************/
-
-
-
 /* eslint no-unused-expressions: 0 */
 import _find from 'lodash/find';
-import u from 'updeep';
 import * as actions from '../actions/views';
 import reducer, {
   updateObject,

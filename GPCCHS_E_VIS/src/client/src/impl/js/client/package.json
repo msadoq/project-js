@@ -140,6 +140,10 @@
     "webpack-merge": "^1.0.2",
     "why-did-you-update": "0.0.8"
   },
+  "peerDependencies": {
+    "common": "../../../../../common/src/main/js/common",
+    "d3-time": "^1.0.4"
+  },
   "devEngines": {
     "node": "6.x",
     "npm": "3.x"

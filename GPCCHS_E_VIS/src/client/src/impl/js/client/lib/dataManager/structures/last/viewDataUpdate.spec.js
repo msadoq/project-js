@@ -4,7 +4,7 @@ describe('dataManager/structures/last', () => {
   describe('viewDataUpdate', () => {
     it('should ignore payloads', () => {
       const frozen = Object.freeze({ viewData: {} });
-      viewDataUpdate(frozen, 'myViewId', { index: {}, values: {}}).should.equal(frozen);
+      viewDataUpdate(frozen, 'myViewId', { index: {}, values: {} }).should.equal(frozen);
     });
     it('should add', () => {
       const frozen = Object.freeze({ viewData: {} });

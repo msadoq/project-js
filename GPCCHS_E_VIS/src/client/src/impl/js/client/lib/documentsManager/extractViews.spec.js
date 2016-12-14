@@ -6,6 +6,8 @@ const { v4 } = require('node-uuid');
 const _ = require('lodash');
 const path = require('path');
 
+// TODO aleal : flag is never tested, and with a global var you can have side effect through your
+// tests
 let flag = false;
 function requestPathFromOId() {
   flag = true;

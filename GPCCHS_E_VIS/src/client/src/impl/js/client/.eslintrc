@@ -1,6 +1,6 @@
 {
-  "parser": "babel-eslint",
   "extends": "airbnb",
+  "parser": "babel-eslint",
   "env": {
     "browser": true,
     "mocha": true,
@@ -10,23 +10,27 @@
     "expect": true
   },
   "rules": {
+    "max-statements-per-line": ["warn", { "max": 1 }],
+    "complexity": ["warn", 50],
+    "max-statements": ["warn", 100],
+    "max-depth": ["warn", 7],
+    "no-underscore-dangle": 0,
+    "import/no-extraneous-dependencies": [
+      "error",
+      { "devDependencies": true, "peerDependencies": true }
+    ],
     "consistent-return": 0,
     "no-restricted-syntax": 0,
     "comma-dangle": 0,
     "no-use-before-define": 0,
-    "import/no-unresolved": [2, { "ignore": ["electron"] }],
-    "import/no-extraneous-dependencies": 0,
+    "import/no-unresolved": [2, { "ignore": ["electron", "common"] }],
     "react/jsx-no-bind": 0,
     "jsx-a11y/no-static-element-interactions": 0,
     "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx"] }],
     "react/prefer-stateless-function": 0,
     "generator-star-spacing": 0,
     "react/forbid-prop-types": 0,
-    "react/no-unused-prop-types": ["warn", { "customValidators": [], "skipShapeProps": true }],
-    "max-statements-per-line": ["warn", { "max": 1 }],
-    "complexity": ["warn", 50],
-    "max-statements": ["warn", 100],
-    "max-depth": ["warn", 7]
+    "react/no-unused-prop-types": ["warn", { "customValidators": [], "skipShapeProps": true }]
   },
   "plugins": [
     "import",

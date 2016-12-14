@@ -80,7 +80,7 @@ export function open(data, windowId, cb) {
 
   const saveGeometry = _.debounce((ev) => {
     const b = ev.sender.getBounds();
-    getStore().dispatch(updateGeometry(windowId, b.x, b.y, b.width, b.height))
+    getStore().dispatch(updateGeometry(windowId, b.x, b.y, b.width, b.height));
   }, 500);
 
   window.on('move', saveGeometry);

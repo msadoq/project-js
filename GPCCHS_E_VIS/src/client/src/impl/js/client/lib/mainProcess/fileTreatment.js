@@ -132,10 +132,7 @@ export function isSaveNeeded(type, state) {
   const win = _find(state.windows, ['isModified', true]);
   const page = _find(state.pages, ['isModified', true]);
   const view = _find(state.views, ['isModified', true]);
-  if (!win && !page && !view) {
-    return false;
-  }
-  return true;
+  return !(!win && !page && !view);
 }
 
 // returns if all documents have a path or an oId given
@@ -269,17 +266,4 @@ function updateSavedWinTitle() {
     }
     window.setTitle(title);
   });
-}
-
-
-function updateModifiedWinTitle() {
-  const window = BrowserWindow.getFocusedWindow();
-  if (!window) {
-    return;
-  }
-  let title = window.getTitle();
-  if (!title.startsWith('* ')) {
-    title = '* '.concat(title);
-    window.setTitle(title);
-  }
 }

@@ -10,6 +10,10 @@
     "afterEach": true
   },
   "rules": {
+    "max-statements-per-line": ["warn", { "max": 1 }],
+    "complexity": ["warn", 15],
+    "max-statements": ["warn", 100],
+    "max-depth": ["warn", 7],
     "no-underscore-dangle": 0,
     "comma-dangle": [
       "error",
@@ -20,10 +24,6 @@
         "exports": "always-multiline",
         "functions": "never"
       }
-    ],
-    "max-statements-per-line": ["warn", { "max": 1 }],
-    "complexity": ["warn", 15],
-    "max-statements": ["warn", 100],
-    "max-depth": ["warn", 7]
+    ]
   }
 }

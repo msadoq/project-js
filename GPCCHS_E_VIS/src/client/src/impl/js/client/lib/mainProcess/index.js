@@ -9,6 +9,7 @@ import { initStore, getStore } from '../store/mainStore';
 import storeObserver from './storeObserver';
 import { connect, disconnect } from './websocket';
 import './menu';
+import '../ipc/main';
 
 const logger = getLogger('GPCCHS:mainProcess:index');
 

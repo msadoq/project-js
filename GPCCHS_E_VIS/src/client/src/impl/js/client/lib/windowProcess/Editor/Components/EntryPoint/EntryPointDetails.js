@@ -109,7 +109,7 @@ export default class EntryPointDetails extends React.Component {
     handleEntryPoint(
       idPoint,
       'stateColors',
-      entryPoint.stateColors.concat(values)
+      (entryPoint.stateColors || []).concat(values)
     );
   }
 
@@ -226,7 +226,7 @@ export default class EntryPointDetails extends React.Component {
           onExited={this.closePanel.bind('StateColors')}
         >
           {isPanelStateColorsOpen && <EntryPointStateColors
-            data={entryPoint.stateColors}
+            data={entryPoint.stateColors || []}
             initialValues={{
               color: '#FFFFFF',
               condition: {},

@@ -30,6 +30,7 @@ export default class PlotAxes extends React.Component {
     panelRole: PropTypes.string.isRequired,
     eventKey: PropTypes.string.isRequired,
     collapsible: PropTypes.bool.isRequired,
+    entryPoints: PropTypes.array,
   }
   state = { isCreationModalOpen: false };
 
@@ -88,7 +89,8 @@ export default class PlotAxes extends React.Component {
       eventKey,
       headerRole,
       panelRole,
-      collapsible
+      collapsible,
+      entryPoints,
     } = this.props;
     const { isCreationModalOpen } = this.state;
 
@@ -158,6 +160,7 @@ export default class PlotAxes extends React.Component {
                   <PlotAxis
                     key={axisId}
                     initialValues={axis}
+                    entryPoints={entryPoints}
                     onSubmit={this.handleSubmit.bind(this, axisId)}
                     form={`axis-form-${axisId}-${viewId}`}
                   />}

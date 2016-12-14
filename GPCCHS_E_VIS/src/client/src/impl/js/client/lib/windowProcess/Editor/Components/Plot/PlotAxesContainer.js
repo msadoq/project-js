@@ -13,7 +13,8 @@ const mapStateToProps = (state, { viewId }) => {
   const view = getView(state, viewId);
   return {
     showYAxes: view.configuration.showYAxes,
-    axes: view.configuration.axes
+    axes: view.configuration.axes,
+    entryPoints: view.configuration.entryPoints,
   };
 };
 

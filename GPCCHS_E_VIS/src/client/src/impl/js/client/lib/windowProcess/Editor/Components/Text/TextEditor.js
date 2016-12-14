@@ -51,7 +51,7 @@ export default class Editor extends Component {
 
   handleEntryPoint = (key, label, newVal) => {
     const { configuration, updateEntryPoint, viewId } = this.props;
-    const currentEntryPoint = _get(configuration, `entryPoints[${key}]`);
+    const currentEntryPoint = configuration[`entryPoints[${key}]`];
     updateEntryPoint(viewId, key, {
       ...currentEntryPoint,
       [label]: newVal

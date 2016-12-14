@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import _get from 'lodash/get';
 import Navbar from '../Navbar/Navbar';
 import { PlotTab } from './';
 import { Misc } from '../Misc';
@@ -91,7 +90,7 @@ export default class PlotEditor extends Component {
   }
   handleEntryPoint = (key, label, newVal) => {
     const { configuration, updateEntryPoint, viewId } = this.props;
-    const currentEntryPoint = _get(configuration, `entryPoints[${key}]`);
+    const currentEntryPoint = configuration[`entryPoints[${key}]`];
     updateEntryPoint(viewId, key, {
       ...currentEntryPoint,
       [label]: newVal

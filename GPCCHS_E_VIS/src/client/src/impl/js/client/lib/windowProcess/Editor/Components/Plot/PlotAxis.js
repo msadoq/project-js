@@ -1,6 +1,7 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
+import _get from 'lodash/get';
 import {
   Form
 } from 'react-bootstrap';
@@ -43,6 +44,8 @@ class PlotAxis extends PureComponent {
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
     initialize: PropTypes.func,
+    entryPoints: PropTypes.array,
+    values: PropTypes.object,
   }
 
   componentDidMount() {
@@ -88,10 +91,33 @@ class PlotAxis extends PureComponent {
       showTicks,
       autoTick,
       autoLimits,
+      entryPoints,
+      values,
+      initialValues,
     } = this.props;
+
+    const relatedEntryPoints = [];
+    const vals = values || initialValues;
+    entryPoints.forEach((ep) => {
+      if (_get(ep, ['connectedDataX', 'axisId']) === vals.label) {
+        relatedEntryPoints.push(<h6>{`${ep.name} X`}<br /></h6>);
+      }
+      if (_get(ep, ['connectedDataY', 'axisId']) === vals.label) {
+        relatedEntryPoints.push(<h6>{`${ep.name} Y`}<br /></h6>);
+      }
+      if (_get(ep, ['connectedData', 'axisId']) === vals.label) {
+        relatedEntryPoints.push(<h6>ep.name<br /></h6>);
+      }
+    });
 
     return (
       <Form horizontal onSubmit={handleSubmit}>
+        {
+          relatedEntryPoints &&
+          <HorizontalFormGroup label="Entry Points">
+            {relatedEntryPoints}
+          </HorizontalFormGroup>
+        }
         <HorizontalFormGroup label="Label">
           <Field
             name="label"

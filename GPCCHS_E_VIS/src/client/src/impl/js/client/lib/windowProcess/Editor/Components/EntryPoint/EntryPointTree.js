@@ -48,7 +48,7 @@ export default class EntryPointTree extends React.Component {
     const mask = `${this.props.search}.*`;
     const { entryPoints, handleEntryPoint } = this.props;
     const list = entryPoints
-      .filter(entryPoint => entryPoint.name.match(mask));
+      .filter(entryPoint => entryPoint.name.toLowerCase().match(mask.toLowerCase()));
 
     if (!list.length) {
       return (<Alert bsStyle="info" className="m0">

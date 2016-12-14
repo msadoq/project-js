@@ -102,7 +102,9 @@ const onTimebasedPubSubData = (
 
       execution.start('control interval');
       // if timestamp not in interval in connectedData model, continue to next iteration
-      const isKnownInterval = connectedDataModel.isTimestampInKnownIntervals(remoteId, timestamp.ms);
+      const isKnownInterval = connectedDataModel.isTimestampInKnownIntervals(
+        remoteId, timestamp.ms
+      );
 
       if (!isKnownInterval) {
         loggerData.debug({

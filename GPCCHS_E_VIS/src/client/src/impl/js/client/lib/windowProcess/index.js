@@ -2,8 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import monitoring from 'common/monitoring';
-
-import '../ipc/window';
+import { init } from '../ipc/window';
 import WindowContainer from './Window/WindowContainer';
 import { initStore, getStore } from '../store/windowStore';
 import CircuitBreaker from './CircuitBreaker';
@@ -14,7 +13,12 @@ const windowId = search.replace('?windowId=', '');
 process.title = 'gpcchs_renderer';
 
 monitoring.start();
+
+// store
 initStore();
+
+// ipc
+init();
 
 if (global.parameters.get('DEBUG') === 'on') {
   // Enable why-did-you-update when necessary only

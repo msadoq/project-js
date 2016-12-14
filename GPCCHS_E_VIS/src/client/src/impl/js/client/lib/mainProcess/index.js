@@ -9,7 +9,7 @@ import { initStore, getStore } from '../store/mainStore';
 import storeObserver from './storeObserver';
 import { connect, disconnect } from './websocket';
 import './menu';
-import '../ipc/main';
+import { init } from '../ipc/main';
 
 const logger = getLogger('GPCCHS:mainProcess:index');
 
@@ -40,6 +40,9 @@ export async function start() {
   logger.info('app start');
   try {
     await enableDebug();
+
+    // ipc
+    init();
 
     // spawn server
     serverProcess = spawnChildProcess(`${parameters.get('path')}/node_modules/server/index.js`);

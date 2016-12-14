@@ -1,13 +1,9 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const logger = require('common/log')('models:subscriptions');
 
-// eslint-disable-next-line no-underscore-dangle
 const _remove = require('lodash/remove');
-// eslint-disable-next-line no-underscore-dangle
 const _values = require('lodash/values');
-// eslint-disable-next-line no-underscore-dangle
 const _assign = require('lodash/assign');
-// eslint-disable-next-line no-underscore-dangle
 const _keys = require('lodash/keys');
 
 const flattenDataId = require('../utils/flattenDataId');

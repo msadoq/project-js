@@ -1,11 +1,8 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const logger = require('common/log')('models:timebasedData');
 
-// eslint-disable-next-line no-underscore-dangle
 const _each = require('lodash/each');
-// eslint-disable-next-line no-underscore-dangle
 const _without = require('lodash/without');
-// eslint-disable-next-line no-underscore-dangle
 const _memoize = require('lodash/memoize');
 
 const constants = require('../constants');

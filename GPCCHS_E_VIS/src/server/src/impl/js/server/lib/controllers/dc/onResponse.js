@@ -1,10 +1,7 @@
-/* eslint no-underscore-dangle:0 import/no-extraneous-dependencies:0 */
+/* eslint import/no-extraneous-dependencies:0 */
 const _isBuffer = require('lodash/isBuffer');
-// eslint-disable-next-line import/no-extraneous-dependencies
-const logger = require('common/log')('controllers:onResponse');
-
-// eslint-disable-next-line no-underscore-dangle
 const _isEqual = require('lodash/isEqual');
+const logger = require('common/log')('controllers:onResponse');
 const globalConstants = require('common/constants');
 const { encode, decode } = require('common/protobuf');
 const registeredCallbacks = require('common/callbacks');

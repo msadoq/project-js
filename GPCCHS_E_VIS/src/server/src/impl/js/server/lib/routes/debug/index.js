@@ -1,4 +1,4 @@
-/** eslint prefer-template:0 no-underscore-dangle:0 import/no-extraneous-dependencies:0 **/
+/* eslint prefer-template:0, import/no-extraneous-dependencies:0, no-restricted-properties:0 */
 
 const { Router } = require('express');
 const _floor = require('lodash/floor');
@@ -12,9 +12,9 @@ const { getAllTimebasedDataModelRemoteIds } = require('../../models/timebasedDat
 
 const router = new Router();
 
-const GIGA_BYTES = Math.pow(2, 30); // eslint-disable-line no-restricted-properties
-const MEGA_BYTES = Math.pow(2, 20); // eslint-disable-line no-restricted-properties
-const KILO_BYTES = Math.pow(2, 10); // eslint-disable-line no-restricted-properties
+const GIGA_BYTES = Math.pow(2, 30);
+const MEGA_BYTES = Math.pow(2, 20);
+const KILO_BYTES = Math.pow(2, 10);
 
 const convertBytes = (value) => {
   const gigaValue = value / GIGA_BYTES;

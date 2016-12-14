@@ -1,24 +1,13 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-const logger = require('common/log')('models:connectedData');
-
-// eslint-disable-next-line no-underscore-dangle
+/* eslint import/no-extraneous-dependencies:0 */
 const _concat = require('lodash/concat');
-// eslint-disable-next-line no-underscore-dangle
 const _remove = require('lodash/remove');
-// eslint-disable-next-line no-underscore-dangle
 const _values = require('lodash/values');
-// eslint-disable-next-line no-underscore-dangle
 const _filter = require('lodash/filter');
-// eslint-disable-next-line no-underscore-dangle
 const _each = require('lodash/each');
-// eslint-disable-next-line no-underscore-dangle
 const _some = require('lodash/some');
-// eslint-disable-next-line no-underscore-dangle
 const _has = require('lodash/has');
-
-// eslint-disable-next-line import/no-extraneous-dependencies
+const logger = require('common/log')('models:connectedData');
 const globalConstants = require('common/constants');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const intervalManager = require('common/intervals');
 
 const database = require('../io/loki');

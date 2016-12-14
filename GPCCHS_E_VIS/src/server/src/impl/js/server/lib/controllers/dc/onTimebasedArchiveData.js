@@ -1,4 +1,4 @@
-/* eslint no-underscore-dangle:0 import/no-extraneous-dependencies:0 */
+/* eslint import/no-extraneous-dependencies:0 */
 const { eachSeries } = require('async');
 const _chunk = require('lodash/chunk');
 const { decode, encode, getType } = require('common/protobuf');

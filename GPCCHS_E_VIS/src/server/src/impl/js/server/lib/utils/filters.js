@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-underscore-dangle
 const _get = require('lodash/get');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const logger = require('common/log')('utils:filters');

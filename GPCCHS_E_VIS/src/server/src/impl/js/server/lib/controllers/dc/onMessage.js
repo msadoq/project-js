@@ -1,7 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const logger = require('common/log')('controllers:onMessage');
-
-// eslint-disable-next-line no-underscore-dangle
 const _slice = require('lodash/slice');
 
 // eslint-disable-next-line import/no-extraneous-dependencies

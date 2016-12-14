@@ -1,4 +1,4 @@
-/* eslint no-underscore-dangle:0 import/no-extraneous-dependencies:0 */
+/* eslint import/no-extraneous-dependencies:0 */
 const { decode, getType } = require('common/protobuf');
 const globalConstants = require('common/constants');
 const executionMonitor = require('common/execution');

@@ -10,6 +10,7 @@
     "afterEach": true
   },
   "rules": {
+    "no-underscore-dangle": 0,
     "comma-dangle": [
       "error",
       {

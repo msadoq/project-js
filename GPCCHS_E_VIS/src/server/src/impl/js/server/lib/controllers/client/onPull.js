@@ -1,4 +1,4 @@
-/* eslint import/no-extraneous-dependencies:0 no-underscore-dangle:0 */
+/* eslint import/no-extraneous-dependencies:0 */
 const globalConstants = require('common/constants');
 const _isObject = require('lodash/isObject');
 

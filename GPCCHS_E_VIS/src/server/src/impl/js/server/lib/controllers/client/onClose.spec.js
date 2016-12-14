@@ -1,6 +1,4 @@
-// eslint-disable-next-line no-underscore-dangle
 const _concat = require('lodash/concat');
-// eslint-disable-next-line no-underscore-dangle
 const _now = require('lodash/now');
 
 // eslint-disable-next-line import/no-extraneous-dependencies

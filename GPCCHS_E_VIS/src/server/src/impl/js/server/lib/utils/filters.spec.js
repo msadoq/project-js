@@ -1,6 +1,4 @@
-// eslint-disable-next-line no-underscore-dangle
 const _omit = require('lodash/omit');
-// eslint-disable-next-line no-underscore-dangle
 const _assign = require('lodash/assign');
 
 // eslint-disable-next-line import/no-extraneous-dependencies

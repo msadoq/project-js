@@ -1,4 +1,4 @@
-/* eslint no-underscore-dangle:0 import/no-extraneous-dependencies:0 */
+/* eslint import/no-extraneous-dependencies:0 */
 const _each = require('lodash/each');
 const chai = require('chai');
 const properties = require('chai-properties');

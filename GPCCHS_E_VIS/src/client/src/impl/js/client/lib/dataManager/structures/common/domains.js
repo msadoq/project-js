@@ -15,6 +15,31 @@ export function reset(domains) {
   memoizedSearchs = {};
 }
 
+export function save(search, result) {
+  _set(memoizedSearchs, [search], result);
+}
+
+export function find(search, domains) {
+  if (search === globalConstants.WILDCARD_CHARACTER) {
+    return { error: 'invalid entry point, domain wildcard not already supported' };
+  }
+  if (!domains || !domains.length) {
+    return { error: 'invalid entry point, no domain available' };
+  }
+  if (search === '' || _isNull(search) || _isUndefined(search)) {
+    return { error: 'invalid entry point, invalid domain field' };
+  }
+
+  const domainIds = _map(_filter(domains, d => d.name === search), d => d.domainId);
+  if (domainIds.length < 1) {
+    return { error: 'invalid entry point, no domain matches' };
+  } else if (domainIds.length > 1) {
+    return { error: 'invalid entry point, more than one domains match' };
+  }
+
+  return { domainId: domainIds[0] };
+}
+
 /**
  * Apply search on domains and return corresponding domainId.
  *
@@ -32,28 +57,7 @@ export default function findDomain(domains, search) {
 
   // perform new search
   if (!_has(memoizedSearchs, [search])) {
-    let error = null;
-    if (!memoizedDomains || !memoizedDomains.length) {
-      error = 'invalid entry point, no domain available';
-    }
-    if (search === globalConstants.WILDCARD_CHARACTER) {
-      error = 'invalid entry point, domain wildcard not already supported';
-    }
-    if (search === '' || _isNull(search) || _isUndefined(search)) {
-      error = 'invalid entry point, invalid domain field';
-    }
-    const domainIds = _map(_filter(domains, d => d.name === search), d => d.domainId);
-    if (domainIds.length < 1) {
-      error = 'invalid entry point, no domain matches';
-    } else if (domainIds.length > 1) {
-      error = 'invalid entry point, more than one domains match';
-    }
-
-    _set(
-      memoizedSearchs,
-      [search],
-      error ? { error } : { domainId: domainIds[0] }
-    );
+    save(search, find(search, memoizedDomains));
   }
 
   return _get(memoizedSearchs, [search]);

@@ -3,7 +3,8 @@ import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 import _get from 'lodash/get';
 import {
-  Form
+  Form,
+  Label,
 } from 'react-bootstrap';
 import {
   ButtonToggleField, InputField
@@ -98,10 +99,28 @@ class PlotAxis extends PureComponent {
     const relatedEntryPoints = [];
     (entryPoints || []).forEach((ep) => {
       if (_get(ep, ['connectedDataX', 'axisId']) === label) {
-        relatedEntryPoints.push(<h6>{`${ep.name} X`}<br /></h6>);
+        relatedEntryPoints.push(
+          <Label
+            style={{
+              backgroundColor: _get(ep, ['objectStyle', 'curveColor'], '#333'),
+              textShadow: '0 0 1px rgba(0,0,0,0.3)'
+            }}
+          >
+            {`${ep.name} X`}<br />
+          </Label>
+        );
       }
       if (_get(ep, ['connectedDataY', 'axisId']) === label) {
-        relatedEntryPoints.push(<h6>{`${ep.name} Y`}<br /></h6>);
+        relatedEntryPoints.push(
+          <Label
+            style={{
+              backgroundColor: _get(ep, ['objectStyle', 'curveColor'], '#333'),
+              textShadow: '0 0 1px rgba(0,0,0,0.3)'
+            }}
+          >
+            {`${ep.name} Y`}<br />
+          </Label>
+        );
       }
     });
 

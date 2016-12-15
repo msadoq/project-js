@@ -11,18 +11,13 @@
 .controlsLi{
   display: table-cell;
 }
-.controlButtonPause{
-  font-weight: 600;
-}
-.controlButtonPlay{
-  font-weight: 600;
-  font-size: 8px;
-  padding-left: 9px;
-}
 .controlButtonPlay:hover{
   background: #549edd;
   box-shadow: 0px 0px 6px #337ab7 inset;
   border: 1px solid #337ab7;
+}
+.glyphIcon{
+  top: 0px;
 }
 .controlButtonActive, .controlButtonActive:hover{
   background: #60a7e5;

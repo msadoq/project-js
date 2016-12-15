@@ -1,5 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { Glyphicon, Popover, OverlayTrigger, Form } from 'react-bootstrap';
+import {
+  Glyphicon,
+  Popover,
+  OverlayTrigger,
+  Form,
+} from 'react-bootstrap';
 import classnames from 'classnames';
 import styles from './Controls.css';
 
@@ -197,7 +202,7 @@ export default class TimebarControlsLeft extends Component {
             onClick={this.changeSpeed.bind(null, 'down')}
             title="Decrease speed"
           >
-            &#9668;&#9668;
+            <Glyphicon className={styles.glyphIcon} glyph="backward" />
           </button>
         </li>
         <li className={styles.controlsLi}>
@@ -221,7 +226,7 @@ export default class TimebarControlsLeft extends Component {
             onClick={this.changeSpeed.bind(null, 'up')}
             title="Increase speed"
           >
-            &#9658;&#9658;
+            <Glyphicon className={styles.glyphIcon} glyph="forward" />
           </button>
         </li>
         <li className={styles.controlsLi}>
@@ -237,7 +242,10 @@ export default class TimebarControlsLeft extends Component {
             onClick={() => (isPlaying ? pause() : play(timebarId))}
             title={isPlaying ? 'pause' : 'play'}
           >
-            {isPlaying ? <span>&#9613;&#9613;</span> : <span>&#9658;</span>}
+            {isPlaying ?
+              <Glyphicon className={styles.glyphIcon} glyph="pause" /> :
+              <Glyphicon className={styles.glyphIcon} glyph="play" />
+            }
           </button>
         </li>
         <li className={styles.controlsLi}>

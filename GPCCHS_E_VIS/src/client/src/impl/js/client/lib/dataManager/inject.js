@@ -25,6 +25,8 @@ export const selectData = (state, viewDefinitions, payload, count) =>
   }, {});
 
 /**
+ * viewMap description:
+ *
  * {
  *   viewId: {
  *     // last structure type
@@ -51,6 +53,13 @@ export const selectData = (state, viewDefinitions, payload, count) =>
  *         GENE_AM_S23RTSWD: { x: 1420106464000, value: 0.25454618986513 },
  *       },
  *     },
+ *    }
+ *  }
+ *
+ *  payload description:
+ *  {
+ *    'remoteId': {
+ *      'timestamp': {ReportingParameter},
  *    }
  *  }
  */

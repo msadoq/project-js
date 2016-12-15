@@ -193,7 +193,7 @@ export default class EntryPointDetails extends React.Component {
             timelines={timelines}
             form={`entrypoint-connectedData-form-${idPoint}-${viewId}`}
             onSubmit={this.handleConnectedDataSubmit.bind(this, 'connectedData')}
-            initialValues={this.props.entryPoint.connectedData}
+            initialValues={entryPoint.connectedData}
           />}
         </Panel>}
         {isPlotView && <Panel
@@ -212,8 +212,8 @@ export default class EntryPointDetails extends React.Component {
             form={`entrypoint-connectedDataXY-form-${idPoint}-${viewId}`}
             onSubmit={this.handleConnectedDataXYSubmit}
             initialValues={{
-              x: this.props.entryPoint.connectedDataX,
-              y: this.props.entryPoint.connectedDataY,
+              x: entryPoint.connectedDataX,
+              y: entryPoint.connectedDataY,
             }}
           />}
         </Panel>}

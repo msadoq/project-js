@@ -44,8 +44,8 @@ class PlotAxis extends PureComponent {
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
     initialize: PropTypes.func,
-    entryPoints: PropTypes.array,
-    values: PropTypes.object,
+    entryPoints: PropTypes.array.isRequired,
+    label: PropTypes.string,
   }
 
   componentDidMount() {
@@ -92,31 +92,27 @@ class PlotAxis extends PureComponent {
       autoTick,
       autoLimits,
       entryPoints,
-      values,
-      initialValues,
+      label,
     } = this.props;
 
     const relatedEntryPoints = [];
-    const vals = values || initialValues;
-    entryPoints.forEach((ep) => {
-      if (_get(ep, ['connectedDataX', 'axisId']) === vals.label) {
+    (entryPoints || []).forEach((ep) => {
+      if (_get(ep, ['connectedDataX', 'axisId']) === label) {
         relatedEntryPoints.push(<h6>{`${ep.name} X`}<br /></h6>);
       }
-      if (_get(ep, ['connectedDataY', 'axisId']) === vals.label) {
+      if (_get(ep, ['connectedDataY', 'axisId']) === label) {
         relatedEntryPoints.push(<h6>{`${ep.name} Y`}<br /></h6>);
-      }
-      if (_get(ep, ['connectedData', 'axisId']) === vals.label) {
-        relatedEntryPoints.push(<h6>ep.name<br /></h6>);
       }
     });
 
     return (
       <Form horizontal onSubmit={handleSubmit}>
         {
-          relatedEntryPoints &&
-          <HorizontalFormGroup label="Entry Points">
-            {relatedEntryPoints}
-          </HorizontalFormGroup>
+          relatedEntryPoints.length ?
+            <HorizontalFormGroup label="Entry Points">
+              {relatedEntryPoints}
+            </HorizontalFormGroup>
+            : null
         }
         <HorizontalFormGroup label="Label">
           <Field
@@ -172,10 +168,9 @@ class PlotAxis extends PureComponent {
             name="unit"
             component="select"
             className="form-control input-sm"
-            options={unitOptions}
           >
             {unitOptions.map(u =>
-              <option value={u.value}>{u.label}</option>
+              <option key={u.value} value={u.value}>{u.label}</option>
             )}
           </Field>
         </HorizontalFormGroup>
@@ -245,10 +240,12 @@ export default connect((state, { form }) => {
   const showTicks = formValueSelector(form)(state, 'showTicks');
   const autoTick = formValueSelector(form)(state, 'autoTick');
   const autoLimits = formValueSelector(form)(state, 'autoLimits');
+  const label = formValueSelector(form)(state, 'label');
   return {
     showTicks,
     autoTick,
     autoLimits,
+    label,
   };
 })(
   reduxForm({

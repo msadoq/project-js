@@ -1,10 +1,14 @@
 import React, { PropTypes } from 'react';
 import _get from 'lodash/get';
 import _set from 'lodash/set';
+import { connect } from 'react-redux';
 import {
   Form
 } from 'react-bootstrap';
-import { reduxForm } from 'redux-form';
+import {
+  reduxForm,
+  formValueSelector
+} from 'redux-form';
 import {
   ClearSubmitButtons
 } from '../Forms/';
@@ -32,7 +36,9 @@ class EntryPointConnectedDataXY extends React.Component {
     pristine: PropTypes.bool,
     reset: PropTypes.func,
     submitting: PropTypes.bool,
-    valid: PropTypes.bool
+    valid: PropTypes.bool,
+    xUnit: PropTypes.string,
+    yUnit: PropTypes.string,
   }
 
   render() {
@@ -55,6 +61,7 @@ class EntryPointConnectedDataXY extends React.Component {
             </div>
             <EntryPointConnectedDataFields
               prefix={`${coor}.`}
+              unit={this.props[`${coor}Unit`]}
               timelines={timelines}
               axes={axes}
             />
@@ -163,7 +170,16 @@ const validate = (values = {}) => {
   return errors;
 };
 
-export default reduxForm({
-  validate,
-  enableReinitialize: true
-})(EntryPointConnectedDataXY);
+export default connect((state, { form }) => {
+  const x = formValueSelector(form)(state, 'x');
+  const y = formValueSelector(form)(state, 'y');
+  return {
+    xUnit: x ? x.unit : '',
+    yUnit: y ? y.unit : '',
+  };
+})(
+  reduxForm({
+    validate,
+    enableReinitialize: true
+  })(EntryPointConnectedDataXY)
+);

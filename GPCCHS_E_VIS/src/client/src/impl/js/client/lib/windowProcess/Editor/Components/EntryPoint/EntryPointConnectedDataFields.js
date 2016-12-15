@@ -22,6 +22,7 @@ export default class EntryPointConnectedDataFields extends React.Component {
     axes: PropTypes.object,
     timelines: PropTypes.array,
     prefix: PropTypes.string,
+    unit: PropTypes.string,
   }
 
   render() {
@@ -29,7 +30,15 @@ export default class EntryPointConnectedDataFields extends React.Component {
       axes,
       timelines,
       prefix,
+      unit,
     } = this.props;
+
+    let filteredAxes;
+    if (axes && unit) {
+      filteredAxes = Object.values(axes).filter(a => a.unit === unit);
+    } else {
+      filteredAxes = [];
+    }
 
     return (
       <div>
@@ -92,9 +101,9 @@ export default class EntryPointConnectedDataFields extends React.Component {
             clearable={false}
             component={ReactSelectField}
             options={
-              Object.keys(axes).map(axisId => ({
-                label: axes[axisId].label,
-                value: axisId,
+              filteredAxes.map(axe => ({
+                label: axe.label,
+                value: axe.id,
               }))
             }
           />

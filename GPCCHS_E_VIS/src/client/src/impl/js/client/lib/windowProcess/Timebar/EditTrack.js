@@ -10,6 +10,7 @@ export default class EditTrack extends Component {
     onClose: PropTypes.func,
     editTimeline: PropTypes.func.isRequired,
     timeline: PropTypes.object.isRequired,
+    sessions: PropTypes.array.isRequired,
     masterId: PropTypes.string,
   }
 
@@ -64,7 +65,8 @@ export default class EditTrack extends Component {
       timeline.timelineId,
       this.editTimelineIdEl.value,
       duration.asMilliseconds(),
-      this.editTimelineMasterEl.checked
+      this.editTimelineMasterEl.checked,
+      parseInt(this.editTimelineSessionEl.value, 10)
     );
 
     if (this.props.onClose) {
@@ -73,7 +75,11 @@ export default class EditTrack extends Component {
   }
 
   render() {
-    const { timeline, masterId } = this.props;
+    const {
+      timeline,
+      masterId,
+      sessions,
+    } = this.props;
 
     return (
       <form
@@ -96,6 +102,23 @@ export default class EditTrack extends Component {
             type="checkbox"
             disabled={masterId === timeline.id}
           />
+        </FormGroup>
+        <FormGroup className={styles.formGroup}>
+          <b className={styles.labelFormControl}>Session</b>
+          <select
+            ref={(el) => { this.editTimelineSessionEl = el; }}
+            className={classnames('form-control', styles.formControl)}
+            defaultValue={timeline.sessionId}
+          >
+            { sessions.map((v, i) =>
+              <option
+                key={i}
+                value={v.id}
+              >
+                {v.name}
+              </option>
+            )}
+          </select>
         </FormGroup>
         <FormGroup className={styles.formGroup}>
           <b className={styles.labelFormControl}>Offset Y M D</b>

@@ -1,7 +1,11 @@
 import { connect } from 'react-redux';
 import { addAndMountTimeline, unmountTimeline, updateMasterId } from '../../store/actions/timebars';
 import { updateTimebarId } from '../../store/actions/pages';
-import { updateId, updateOffset } from '../../store/actions/timelines';
+import {
+  updateId,
+  updateOffset,
+  updateSessionId,
+} from '../../store/actions/timelines';
 import Lefttab from './Lefttab';
 
 export default connect(
@@ -9,6 +13,7 @@ export default connect(
   {
     updateMasterId,
     updateOffset,
+    updateSessionId,
     addAndMountTimeline,
     updateId,
     unmountTimeline,

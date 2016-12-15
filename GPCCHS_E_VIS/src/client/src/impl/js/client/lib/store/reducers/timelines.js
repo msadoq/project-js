@@ -20,6 +20,11 @@ export default function timelines(stateTimelines = {}, action) {
         ...stateTimelines,
         [action.payload.timelineId]: timeline(stateTimelines[action.payload.timelineId], action),
       };
+    case types.WS_TIMELINE_UPDATE_SESSIONID:
+      return {
+        ...stateTimelines,
+        [action.payload.timelineId]: timeline(stateTimelines[action.payload.timelineId], action),
+      };
     case types.WS_TIMELINE_REMOVE:
       return _omit(stateTimelines, [action.payload.timelineId]);
     case types.HSC_CLOSE_WORKSPACE:
@@ -55,6 +60,8 @@ function timeline(stateTimeline = initialState, action) {
       return { ...stateTimeline, id: action.payload.id };
     case types.WS_TIMELINE_UPDATE_OFFSET:
       return { ...stateTimeline, offset: action.payload.offset };
+    case types.WS_TIMELINE_UPDATE_SESSIONID:
+      return { ...stateTimeline, sessionId: action.payload.sessionId };
     default:
       return stateTimeline;
   }

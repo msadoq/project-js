@@ -17,6 +17,7 @@ export default class Lefttab extends Component {
     updateId: PropTypes.func.isRequired,
     updateMasterId: PropTypes.func.isRequired,
     updateOffset: PropTypes.func.isRequired,
+    updateSessionId: PropTypes.func.isRequired,
     updateTimebarId: PropTypes.func.isRequired,
     timelines: PropTypes.array.isRequired,
     sessions: PropTypes.array.isRequired,
@@ -92,7 +93,7 @@ export default class Lefttab extends Component {
     });
   }
 
-  editTimeline = (timelineId, id, offset, master) => {
+  editTimeline = (timelineId, id, offset, master, sessionId) => {
     const {
       updateOffset,
       updateId,
@@ -100,12 +101,13 @@ export default class Lefttab extends Component {
       updateMasterId,
       masterId,
       timelines,
+      updateSessionId,
     } = this.props;
     const { editingId } = this.state;
     const timeline = timelines.find(x => x.timelineId === timelineId);
 
     if (timeline.id !== id) updateId(timelineId, id);
-
+    if (timeline.sessionId !== sessionId) updateSessionId(timelineId, sessionId);
     if (master && masterId !== id) {
       updateMasterId(timebarId, editingId);
       timelines.forEach((t) => {
@@ -136,8 +138,19 @@ export default class Lefttab extends Component {
   }
 
   render() {
-    const { timelines, masterId, sessions, timebarName, timebarId } = this.props;
-    const { color, willAdd, willEdit, editingId } = this.state;
+    const {
+      timelines,
+      masterId,
+      sessions,
+      timebarName,
+      timebarId,
+    } = this.props;
+    const {
+      color,
+      willAdd,
+      willEdit,
+      editingId,
+    } = this.state;
 
     let noTrack;
     if (timelines.length === 0) {
@@ -154,6 +167,7 @@ export default class Lefttab extends Component {
         {currentlyEditingTimeline && <EditTrack
           timeline={currentlyEditingTimeline}
           masterId={masterId}
+          sessions={sessions}
           editTimeline={this.editTimeline}
           onClose={this.hideEditTimeline}
         />}

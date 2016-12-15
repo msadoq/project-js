@@ -104,7 +104,10 @@ export default class EntryPointConnectedDataFields extends React.Component {
               filteredAxes.map(axe => ({
                 label: axe.label,
                 value: axe.id,
-              }))
+              })).concat({
+                label: '-',
+                value: '',
+              })
             }
           />
         </HorizontalFormGroup>}

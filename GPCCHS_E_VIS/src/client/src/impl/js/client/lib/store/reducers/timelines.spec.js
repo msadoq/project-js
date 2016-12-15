@@ -39,6 +39,32 @@ describe('store:timelines:reducer', () => {
       });
     });
   });
+  describe('update ', () => {
+    it('sessionId', () => {
+      const state = reducer(
+        { myTimelineId: { sessionId: 1 } },
+        actions.updateSessionId('myTimelineId', 2)
+      );
+      state.should.have.property('myTimelineId');
+      state.myTimelineId.sessionId.should.equal(2);
+    });
+    it('offset', () => {
+      const state = reducer(
+        { myTimelineId: { offset: 0 } },
+        actions.updateOffset('myTimelineId', 1000)
+      );
+      state.should.have.property('myTimelineId');
+      state.myTimelineId.offset.should.equal(1000);
+    });
+    it('id', () => {
+      const state = reducer(
+        { myTimelineId: { id: 'Timeline 01' } },
+        actions.updateId('myTimelineId', 'Timeline 02')
+      );
+      state.should.have.property('myTimelineId');
+      state.myTimelineId.id.should.equal('Timeline 02');
+    });
+  });
   describe('remove', () => {
     it('remove', () => {
       const state = reducer(

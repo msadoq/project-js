@@ -1,99 +1,119 @@
 import { app } from 'electron';
-import { fork } from 'child_process';
+import { series } from 'async';
 import getLogger from 'common/log';
+import { LIFECYCLE_STARTED } from 'common/constants'; // TODO deprecated
 import monitoring from 'common/monitoring';
 import parameters from 'common/parameters';
+import { clear } from 'common/callbacks';
 
 import enableDebug from './debug';
 import { initStore, getStore } from '../store/mainStore';
-import storeObserver from './storeObserver';
-import { connect, disconnect } from './websocket';
 import './menu';
 import { init } from '../ipc/main';
+import { fork, kill, rpc } from './childProcess';
+import { updateDomains } from '../store/actions/domains';
+import { updateSessions } from '../store/actions/sessions';
 
-const logger = getLogger('GPCCHS:mainProcess:index');
+import { readWkFile, openDefaultWorkspace } from './openWorkspace';
 
-let storeSubscription = null;
-let serverProcess = null;
-let dcStubProcess = null;
+import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
 
-function spawnChildProcess(path) {
-  const forkOptions = {
-    execPath: '/usr/share/isis/node-v6.3.0-linux-x64/bin/node',
-    env: {
-      DEBUG: parameters.get('DEBUG'),
-      LEVEL: parameters.get('LEVEL'),
-      SERVER_PORT: parameters.get('SERVER_PORT'),
-      ZMQ_GPCCDC_PUSH: parameters.get('ZMQ_GPCCDC_PUSH'),
-      ZMQ_GPCCDC_PULL: parameters.get('ZMQ_GPCCDC_PULL'),
-      STUB_DC_ON: parameters.get('STUB_DC_ON'),
-      MONITORING: parameters.get('MONITORING'),
-      PROFILING: parameters.get('PROFILING'),
-      LOG: parameters.get('LOG'),
+import { updateStatus } from '../store/actions/hss'; // TODO deprecated
+import { updateStatus as updateAppStatus } from '../store/actions/hsc'; // TODO deprecated
+
+const logger = getLogger('main:index');
+
+const PROCESS_ID_SERVER = 1; // TODO constant
+const PROCESS_ID_DC = 2; // TODO constant
+
+export function start() {
+  series([
+    callback => enableDebug(callback),
+    (callback) => {
+      // monitoring
+      monitoring.start();
+
+      // redux store
+      const store = initStore();
+      logger.verbose('initial state', store.getState());
+
+      // ipc with renderer
+      init();
+
+      callback(null);
     },
-  };
-  return fork(path, forkOptions);
-}
+    (callback) => {
+      if (parameters.get('STUB_DC_ON') !== 'on') {
+        return callback(null);
+      }
 
-export async function start() {
-  monitoring.start();
-  logger.info('app start');
-  try {
-    await enableDebug();
+      fork(
+        PROCESS_ID_DC,
+        `${parameters.get('path')}/node_modules/common/stubs/dc.js`,
+        callback
+      );
+    },
+    (callback) => {
+      fork(
+        PROCESS_ID_SERVER,
+        `${parameters.get('path')}/node_modules/server/index.js`,
+        callback
+      );
+    },
+    // should have sessions in store at start
+    (callback) => {
+      rpc(PROCESS_ID_SERVER, 'getSessions', null, (sessions) => {
+        logger.debug('received sessions from server');
+        getStore().dispatch(updateSessions(sessions));
+        callback(null);
+      });
+    },
+    // should have domains in store at start
+    (callback) => {
+      rpc(PROCESS_ID_SERVER, 'getDomains', null, (domains) => {
+        logger.debug('received domains from server');
+        getStore().dispatch(updateDomains(domains));
+        callback(null);
+      });
+    },
+    (callback) => {
+      const { dispatch, getState } = getStore();
+      const root = parameters.get('FMD_ROOT_DIR');
+      const file = parameters.get('OPEN');
 
-    // ipc
-    init();
-
-    // spawn server
-    serverProcess = spawnChildProcess(`${parameters.get('path')}/node_modules/server/index.js`);
-
-    // spawn dc stub
-    if (parameters.get('STUB_DC_ON') === 'on') {
-      dcStubProcess = spawnChildProcess(`${parameters.get('path')}/node_modules/common/stubs/dc.js`);
+      return (file)
+        ? readWkFile(dispatch, getState, root, file, callback)
+        : openDefaultWorkspace(dispatch, root, callback);
+    }
+  ], (err) => {
+    if (err) {
+      throw err;
     }
 
-    // redux store
-    const store = initStore();
-    logger.verbose('initial state', store.getState());
+    const { dispatch } = getStore();
+    dispatch(updateStatus('main', 'connected'));
+    dispatch(updateAppStatus(LIFECYCLE_STARTED));
 
-    // main process store observer
-    storeSubscription = store.subscribe(() => storeObserver(store));
-
-    // websocket initial connection
-    connect(parameters.get('HSS'));
-  } catch (e) {
-    logger.error(e);
-  }
+    startOrchestration();
+  });
 }
 
 export function stop() {
-  logger.info('app stop');
-  try {
-    // stop monitoring
-    monitoring.stop();
+  // stop monitoring
+  monitoring.stop();
 
-    // remove store subscription
-    if (storeSubscription) {
-      storeSubscription();
-    }
+  // stop orchestration
+  stopOrchestration();
 
-    // close websocket
-    disconnect();
+  // stop child processes
+  kill(PROCESS_ID_SERVER);
+  kill(PROCESS_ID_DC);
 
-    // stop child processes
-    if (serverProcess) {
-      serverProcess.kill();
-    }
-    if (dcStubProcess) {
-      dcStubProcess.kill();
-    }
-  } catch (e) {
-    logger.error(e);
-  }
+  // registered callbacks
+  clear();
 }
 
 export function onWindowsClose() {
-  logger.info('windows close');
   const state = getStore().getState();
   if (!state.hsc.isWorkspaceOpening) { // TODO implement selector
     app.quit();

@@ -7,10 +7,10 @@ import getLogger from 'common/log';
 import { getStore } from '../store/mainStore';
 import { updateStatus } from '../store/actions/hss';
 import { add as addMessage, addOnce as addOnceMessage } from '../store/actions/messages';
-import { onOpen, onClose } from './lifecycle';
+// import { onOpen, onClose } from './lifecycle';
 import { addToQueue } from './orchestration';
 
-const logger = getLogger('GPCCHS:main:websocket');
+const logger = getLogger('main:websocket');
 
 let instance;
 
@@ -32,11 +32,11 @@ export function connect(serverUrl) {
 
     instance.on('open', () => {
       logger.info('opened!');
-      onOpen(getStore().getState, getStore().dispatch, requestDomains, requestSessions);
+      // onOpen(getStore().getState, getStore().dispatch, requestDomains, requestSessions);
     });
     instance.on('close', () => {
       logger.info('closed!');
-      onClose(getStore().dispatch);
+      // onClose(getStore().dispatch);
     });
     instance.on('error', (err) => {
       logger.error('error', err.stack);

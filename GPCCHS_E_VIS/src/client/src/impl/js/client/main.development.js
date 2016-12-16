@@ -1,22 +1,40 @@
 import { app } from 'electron';
+import getLogger from 'common/log';
 import { init } from 'common/parameters';
 import { start, stop, onWindowsClose } from './lib/mainProcess';
 
 process.title = 'gpcchs_main';
 
+const logger = getLogger('main');
+
 // avoid using host proxy configuration and perturbing local HTTP access (e.g.: index.html)
 app.commandLine.appendSwitch('no-proxy-server');
 
-// init parameters
+// load configuration
 init(__dirname);
 
-app.on('ready', start);
-
-app.on('window-all-closed', () => onWindowsClose());
-
-app.on('quit', stop);
-
-process.on('uncaughtException', (err) => {
+const errorHandler = (err) => {
   console.error(err); // eslint-disable-line no-console
   app.exit(1);
+};
+
+app.on('ready', () => {
+  logger.info('app start');
+  try {
+    start();
+  } catch (e) {
+    errorHandler(e);
+  }
 });
+
+app.on('window-all-closed', () => {
+  logger.info('windows close');
+  onWindowsClose();
+});
+
+app.on('quit', () => {
+  logger.info('app stop');
+  stop();
+});
+
+process.on('uncaughtException', errorHandler);

@@ -16,7 +16,7 @@ import {
 } from '../store/actions/hsc';
 import { getStore } from '../store/mainStore';
 
-const logger = getLogger('GPCCHS:store:observers:windows');
+const logger = getLogger('main:windows');
 
 const windows = {};
 

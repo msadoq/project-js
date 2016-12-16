@@ -16,7 +16,7 @@ import {
   updateCacheInvalidation,
   pause,
 } from '../store/actions/hsc';
-import { getWebsocket } from './websocket';
+import { rpc, send } from './childProcess';
 import dataMapGenerator from '../dataManager/map';
 import request from '../dataManager/request';
 import inject from '../dataManager/inject';
@@ -24,14 +24,13 @@ import windowsObserver from './windows';
 import { updateCursors } from '../store/actions/timebars';
 import { getTimebar } from '../store/selectors/timebars';
 import { nextCurrent, computeCursors } from './play';
-// import { updateModifiedWinTitle } from '../documentsManager/saveWorkspace';
 
 import { updateViewData } from '../store/actions/viewData';
 import cleanViewData from '../dataManager/cleanViewData';
 
 // TODO : test server restart, new workspace, workspace opening, new window
 
-const logger = getLogger('GPCCHS:main:orchestration');
+const logger = getLogger('main:orchestration');
 const execution = executionMonitor('orchestration');
 
 let nextTick = null;
@@ -132,9 +131,6 @@ export function tick() {
     return;
   }
 
-  // websocket
-  const websocket = getWebsocket();
-
   // last tick time
   const lastTickTime = lastTick;
   lastTick = Date.now();
@@ -158,11 +154,11 @@ export function tick() {
   // windows
   const isWindowsOpened = getWindowsOpened(state);
   const windowsHasChanged = state.windows !== previous.state.windows;
-  // const windowsIsModified = _find(state.windows, (window, winId) =>
-  //   (previous.state.windows && previous.state.windows[winId]
-  //   && window.isModified && !previous.state.windows[winId].isModified));
-  // queued data to inject
-  const dataToInject = getAndResetQueue();
+  // // const windowsIsModified = _find(state.windows, (window, winId) =>
+  // //   (previous.state.windows && previous.state.windows[winId]
+  // //   && window.isModified && !previous.state.windows[winId].isModified));
+  // // queued data to inject
+  // const dataToInject = getAndResetQueue();
 
   if (isWindowsOpened) {
     // playing
@@ -208,19 +204,23 @@ export function tick() {
     }
 
     // pulled data
-    if (dataToInject.length) {
-      execution.start('data injection');
-      // TODO : in play mode inject + visuwindow
-      dataToInject.forEach(payload => inject(getState(), dispatch, viewMap, payload));
-      execution.stop('data injection', dataToInject.length);
-    }
+    rpc(1, 'getData', null, (dataToInject) => {
+      if (Object.keys(dataToInject).length) {
+        execution.start('data injection');
+        // TODO : in play mode inject + visuwindow
+        inject(getState(), dispatch, viewMap, dataToInject);
+        execution.stop('data injection', Object.keys(dataToInject).length);
+      }
+
+      // TODO continue orchestration in this callback
+    });
 
     if (dataMap !== previous.dataMap) {
       execution.start('requests');
       // request data
       // TODO : in play mode hack the state visuWindow OR pass play configuration to reducer, ask
       //        for next tick data only
-      request(state, dataMap, previous.dataMap);
+      request(state, dataMap, previous.dataMap, send);
 
       // should be done here due to request specificity (works on map and last)
       previous.dataMap = dataMap;
@@ -233,15 +233,9 @@ export function tick() {
     if (Date.now() - lastCacheInvalidation >= globalConstants.CACHE_INVALIDATION_FREQUENCY) {
       execution.start('cacheInvalidation');
       dispatch(updateCacheInvalidation(Date.now())); // schedule next run
-      websocket.write({
-        event: globalConstants.EVENT_TIMEBASED_QUERY_INVALIDATION,
-        payload: dataMap,
-      });
+      send(1, 'cleanupCache', dataMap);
       execution.stop('cacheInvalidation');
     }
-
-    // ask for next data chunk from server
-    websocket.write({ event: globalConstants.EVENT_PULL });
   }
 
   function done() {
@@ -263,7 +257,7 @@ export function tick() {
       `somethingHasChanged:${somethingHasChanged}`
       + ` isWindowsOpened:${isWindowsOpened}`
       + ` playingTimebarId:${playingTimebarId}`
-      + ` dataToInject:${(dataToInject || []).length}`
+      // + ` dataToInject:${(dataToInject || []).length}`
     );
     execution.print();
     execution.reset();

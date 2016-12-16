@@ -2,11 +2,9 @@ import _isObject from 'lodash/isObject';
 import _each from 'lodash/each';
 import _map from 'lodash/map';
 import _get from 'lodash/get';
-import globalConstants from 'common/constants';
 import executionMonitor from 'common/execution';
 import getLogger from 'common/log';
 
-import { getWebsocket } from '../mainProcess/websocket';
 import operators from '../common/operators';
 import structures from './structures';
 
@@ -78,7 +76,7 @@ export function missingRemoteIds(dataMap, lastMap) {
   return queries;
 }
 
-export default function request(state, dataMap, lastMap) {
+export default function request(state, dataMap, lastMap, send) {
   execution.start('global');
 
   // compute missing data
@@ -86,8 +84,7 @@ export default function request(state, dataMap, lastMap) {
   logger.verbose(JSON.stringify(dataQueries, null, 2));
 
   if (dataQueries && _isObject(dataQueries) && Object.keys(dataQueries).length) {
-    // send to HSS
-    getWebsocket().write({ event: globalConstants.EVENT_TIMEBASED_QUERY, payload: dataQueries });
+    send(1, 'timebasedQuery', dataQueries);
   }
 
   execution.stop('global', `dataRequests (${Object.keys(dataQueries).length} remoteId)`);

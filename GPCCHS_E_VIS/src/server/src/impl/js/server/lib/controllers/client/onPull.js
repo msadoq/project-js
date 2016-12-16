@@ -1,23 +1,22 @@
-const globalConstants = require('common/constants');
-const _isObject = require('lodash/isObject');
-
+const { pop } = require('common/callbacks');
 const logger = require('common/log')('controllers:onPull');
 const { reset } = require('../../websocket/dataQueue');
 
 /**
  * Triggered when HSC main process pull data spooled by HSC
  *
- * - return current spooled data
- * - empty spool
+ * - empty and returns current spooled data
  *
- * @param spark
+ * @param queryId
  */
-module.exports = (spark) => {
-  logger.verbose(`called (${spark.id})`);
+module.exports = (queryId) => {
+  logger.verbose('called');
+
+  const callback = pop(queryId);
+  if (!callback) {
+    return logger.warn(`unknown queryId ${queryId}`);
+  }
 
   const payload = reset();
-
-  if (_isObject(payload) && Object.keys(payload).length) {
-    spark.write({ event: globalConstants.EVENT_TIMEBASED_DATA, payload });
-  }
+  return callback(payload);
 };

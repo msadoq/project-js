@@ -1,5 +1,7 @@
 import simple from '../simpleActionCreator';
 import * as types from '../types';
+import { updateLayout } from './pages';
+import { makeGetLayouts } from '../selectors/pages';
 
 export const add = simple(types.WS_VIEW_ADD, 'viewId', 'type', 'configuration', 'path', 'oId',
   'absolutePath', 'isModified');
@@ -7,6 +9,44 @@ export const remove = simple(types.WS_VIEW_REMOVE, 'viewId');
 export const updatePath = simple(types.WS_VIEW_UPDATEPATH, 'newPath');
 export const updateAbsolutePath = simple(types.WS_VIEW_UPDATE_ABSOLUTEPATH, 'viewId', 'newPath');
 export const setModified = simple(types.WS_VIEW_SETMODIFIED, 'viewId', 'flag');
+export const setCollapsed = simple(types.WS_VIEW_SETCOLLAPSED, 'viewId', 'flag');
+export const setCollapsedAndUpdateLayout = (pageId, viewId, flag) =>
+  (dispatch, getState) => {
+    const state = getState();
+    const layout = makeGetLayouts()(state, { pageId });
+    if (flag) {
+      const newLayout = layout.lg.map((l) => {
+        if (l.i === viewId) {
+          return {
+            ...l,
+            maxH: l.h,
+            h: 1,
+          };
+        }
+        return l;
+      });
+      dispatch(updateLayout(pageId, newLayout));
+    } else {
+      const newLayout = layout.lg.map((l) => {
+        if (l.i === viewId) {
+          return {
+            ...l,
+            h: l.maxH,
+            maxH: undefined,
+          };
+        }
+        return l;
+      });
+      dispatch(updateLayout(pageId, newLayout));
+    }
+    dispatch({
+      type: types.WS_VIEW_SETCOLLAPSED,
+      payload: {
+        viewId,
+        flag,
+      }
+    });
+  };
 
 export const updateEntryPoint = simple(types.WS_VIEW_UPDATE_ENTRYPOINT, 'viewId', 'index',
  'entryPoint');

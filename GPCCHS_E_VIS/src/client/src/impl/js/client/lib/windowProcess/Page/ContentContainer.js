@@ -18,10 +18,13 @@ const mapStateToProps = (state, { windowId, focusedPageId }) => {
   }
   const focusedPage = getWindowFocusedPageSelector(state, windowId);
   const p = { pageId: focusedPageId };
+  const views = getViews(state, p);
+  const layouts = getLayouts(state, p);
+
   return {
     timebarId: focusedPage.timebarId,
-    layouts: getLayouts(state, p),
-    views: getViews(state, p),
+    layouts,
+    views,
   };
 };
 

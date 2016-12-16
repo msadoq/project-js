@@ -14,7 +14,6 @@ const filterLayoutBlockFields = [
   'minW',
   'minH',
   'maxW',
-  'maxH',
   'isDraggable',
   'isResizable',
   'moved',
@@ -97,6 +96,7 @@ export default class Content extends Component {
             <div
               className={isViewsEditorOpen ? styles.blockedited : styles.block}
               key={v.viewId}
+              i={v.viewId}
             >
               <ViewContainer
                 timebarId={timebarId}

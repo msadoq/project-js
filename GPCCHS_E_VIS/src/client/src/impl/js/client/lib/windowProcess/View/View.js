@@ -22,12 +22,15 @@ export default class View extends PureComponent {
     unmountAndRemove: PropTypes.func,
     moveViewToPage: PropTypes.func,
     getWindowPages: PropTypes.func,
+    collapseView: PropTypes.func,
+    isCollapsed: PropTypes.bool,
   };
 
   render() {
     logger.debug('render');
     const {
       configuration,
+      isCollapsed,
       configuration: { backgroundColor = '#FFFFFF' },
       isViewsEditorOpen,
       viewId,
@@ -39,8 +42,10 @@ export default class View extends PureComponent {
       visuWindow,
       moveViewToPage,
       getWindowPages,
+      collapseView,
+      component,
     } = this.props;
-    const ContentComponent = this.props.component || UnknownView;
+    const ContentComponent = component || UnknownView;
 
     return (
       <div className={styles.container}>
@@ -54,21 +59,25 @@ export default class View extends PureComponent {
           unmountAndRemove={unmountAndRemove}
           getWindowPages={getWindowPages}
           moveViewToPage={moveViewToPage}
+          collapseView={collapseView}
+          isCollapsed={isCollapsed}
         />
-        <div
-          className={styles.content}
-          style={{ backgroundColor }}
-        >
-          <MessagesContainer viewId={viewId} />
-          <ContentComponent
-            data={data}
-            type={type}
-            viewId={viewId}
-            isViewsEditorOpen={isViewsEditorOpen}
-            visuWindow={visuWindow}
-            configuration={configuration}
-          />
-        </div>
+        {!isCollapsed &&
+          <div
+            className={styles.content}
+            style={{ backgroundColor }}
+          >
+            <MessagesContainer viewId={viewId} />
+            <ContentComponent
+              data={data}
+              type={type}
+              viewId={viewId}
+              isViewsEditorOpen={isViewsEditorOpen}
+              visuWindow={visuWindow}
+              configuration={configuration}
+            />
+          </div>
+        }
       </div>
     );
   }

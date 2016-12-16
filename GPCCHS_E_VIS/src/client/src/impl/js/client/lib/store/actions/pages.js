@@ -2,7 +2,12 @@ import { v4 } from 'node-uuid';
 // import _findIndex from 'lodash/findIndex';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
-import { add as addView, remove as removeView } from './views';
+import { getView } from '../selectors/views';
+import {
+  add as addView,
+  remove as removeView,
+  setCollapsed as setCollapsedView,
+} from './views';
 import { addAndMount as addAndMountPage, focusPage } from './windows';
 /**
  * Simple actions
@@ -15,7 +20,19 @@ export const unmountView = simple(types.WS_PAGE_VIEW_UNMOUNT, 'pageId', 'viewId'
 export const openEditor = simple(types.WS_PAGE_EDITOR_OPEN,
   'pageId', 'viewId', 'viewType', 'configuration');
 export const closeEditor = simple(types.WS_PAGE_EDITOR_CLOSE, 'pageId');
-export const updateLayout = simple(types.WS_PAGE_UPDATE_LAYOUT, 'pageId', 'layout');
+export const updateLayoutSimple = simple(types.WS_PAGE_UPDATE_LAYOUT, 'pageId', 'layout');
+export const updateLayout = (pageId, layout) =>
+  (dispatch, getState) => {
+    layout.forEach((l) => {
+      if (l.h > 1) {
+        const view = getView(getState(), l.i);
+        if (view && view.isCollapsed) {
+          dispatch(setCollapsedView(l.i, false));
+        }
+      }
+      dispatch(updateLayoutSimple(pageId, layout));
+    });
+  };
 export const updateAbsolutePath = simple(types.WS_PAGE_UPDATE_ABSOLUTEPATH, 'pageId', 'newPath');
 export const updatePath = simple(types.WS_PAGE_UPDATEPATH, 'pageId', 'newPath');
 export const setModified = simple(types.WS_PAGE_SETMODIFIED, 'pageId', 'flag');

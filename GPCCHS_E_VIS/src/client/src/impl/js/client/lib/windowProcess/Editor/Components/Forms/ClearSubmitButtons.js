@@ -3,6 +3,7 @@ import {
   ButtonGroup,
   Button
 } from 'react-bootstrap';
+import classnames from 'classnames';
 
 import styles from './ClearSubmitButtons.css';
 
@@ -23,7 +24,7 @@ export default class ClearSubmitButtons extends PureComponent {
     } = this.props;
 
     return (
-      <div className={styles.root}>
+      <div className={classnames('ClearSubmitButtons', styles.root)}>
         <ButtonGroup>
           {reset && <Button
             type="button"

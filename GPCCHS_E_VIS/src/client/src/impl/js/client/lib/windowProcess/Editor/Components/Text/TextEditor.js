@@ -22,7 +22,6 @@ export default class Editor extends Component {
     updateTitleStyle: PropTypes.func.isRequired,
 
     closeEditor: PropTypes.func.isRequired,
-    type: PropTypes.string.isRequired,
     configuration: PropTypes.shape({
       title: PropTypes.string,
       type: PropTypes.string.isRequired,
@@ -32,7 +31,7 @@ export default class Editor extends Component {
         length: PropTypes.number,
         width: PropTypes.number
       }),
-      content: PropTypes.array.isRequired,
+      content: PropTypes.string.isRequired,
       titleStyle: PropTypes.shape({
         font: PropTypes.string,
         size: PropTypes.number,

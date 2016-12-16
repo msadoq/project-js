@@ -55,19 +55,5 @@
     "length": 5,
     "width": 3
   },
-  "content": [
-    "<!DOCTYPE html>",
-    "<html>",
-    " <head>",
-    "  <title>TV example</title>",
-    " </head>",
-    " <body>",
-    "  <table border=\"2\">",
-    "   <tr><td>ATT_BC_STR1VOLTAGE_MS</td><td><span class=\"EntryPoint\" id=\"ATT_BC_STR1VOLTAGE_MS\"/></td></tr>",
-    "   <tr><td>ATT_BC_STR1VOLTAGE_EV</td><td><span class=\"EntryPoint\" id=\"ATT_BC_STR1VOLTAGE_EV\"/></td></tr>",
-    "   <tr><td>ATT_BC_STR1VOLTAGE_CV</td><td><span class=\"EntryPoint\" id=\"ATT_BC_STR1VOLTAGE_CV\"/></td></tr>",
-    "  </table>",
-    " </body>",
-    "</html>"
-  ]
+  "content": "<!DOCTYPE html><html> <head>  <title>TV example</title> </head> <body>  <table border="2">   <tr><td>ATT_BC_STR1VOLTAGE_MS</td><td><span class="EntryPoint" id="ATT_BC_STR1VOLTAGE_MS"/></td></tr>   <tr><td>ATT_BC_STR1VOLTAGE_EV</td><td><span class="EntryPoint" id="ATT_BC_STR1VOLTAGE_EV"/></td></tr>   <tr><td>ATT_BC_STR1VOLTAGE_CV</td><td><span class="EntryPoint" id="ATT_BC_STR1VOLTAGE_CV"/></td></tr>  </table> </body></html>"
 }

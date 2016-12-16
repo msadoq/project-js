@@ -3,6 +3,7 @@ import getLogger from 'common/log';
 import { requestSessions } from '../mainProcess/websocket';
 import { getStore } from '../store/mainStore';
 import { updateSessions } from '../store/actions/sessions';
+import { lint } from '../common/htmllint';
 
 const logger = getLogger('ipc:main');
 
@@ -24,10 +25,18 @@ export function init() {
         });
         break;
       }
+      case 'htmlLint': {
+        const promise = lint(payload.html, payload.options)
+        .then(issues => {
+          e.sender.send('mainResponse', { queryId, event: 'runCallback', payload: {
+            issues
+          }});
+        });
+      break;
+    }
       default:
         logger.error(`unsupported event received: ${event}`); // eslint-disable-line no-console
     }
-
     // HOW TO ANSWER
     // e.sender.send('asynchronous-reply', 'pong');
   });

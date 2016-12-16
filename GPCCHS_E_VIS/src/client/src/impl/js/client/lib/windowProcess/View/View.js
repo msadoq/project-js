@@ -63,6 +63,8 @@ export default class View extends PureComponent {
           <ContentComponent
             data={data}
             type={type}
+            viewId={viewId}
+            isViewsEditorOpen={isViewsEditorOpen}
             visuWindow={visuWindow}
             configuration={configuration}
           />

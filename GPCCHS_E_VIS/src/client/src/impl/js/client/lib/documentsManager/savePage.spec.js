@@ -59,7 +59,7 @@ describe('mainProcess/documents/savePage', () => {
           title: 'TextView One parameter',
           type: 'TextView',
           entryPoints: [],
-          content: []
+          content: ''
         },
         path: 'textOne.json',
         absolutePath: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/testAs/views/textOne.json',

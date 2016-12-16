@@ -1,9 +1,7 @@
 /* eslint-disable global-require */
 import _memoize from 'lodash/memoize';
-
-const PlotView = require('./PlotView/window');
-const TextView = require('./TextView/window');
-// const Primus = require('./primus');
+import PlotView from './PlotView/window/PlotView';
+import TextView from './TextView/window/TextViewContainer';
 
 const supportedView = { PlotView, TextView };
 
@@ -12,6 +10,6 @@ module.exports = {
     if (!supportedView[viewType]) {
       return undefined;
     }
-    return supportedView[viewType].component;
+    return supportedView[viewType];
   }),
 };

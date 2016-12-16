@@ -2,16 +2,21 @@ import React, { Component, PropTypes } from 'react';
 import { Parser, ProcessNodeDefinitions } from 'html-to-react';
 import _get from 'lodash/get';
 import getLogger from 'common/log';
+import { html as beautifyHtml } from 'js-beautify';
+
+import WYSIWYG from './WYSIWYG';
 
 const logger = getLogger('GPCCHS:view:text');
 
 export default class TextView extends Component {
   static propTypes = {
-    // viewId: PropTypes.string.isRequired,
+    viewId: PropTypes.string.isRequired,
     data: PropTypes.shape({
       values: PropTypes.object,
     }),
     configuration: PropTypes.object.isRequired,
+    isViewsEditorOpen: PropTypes.bool,
+    updateContent: PropTypes.func,
     // entryPoints: PropTypes.array.isRequired,
     // links: PropTypes.array,
     // defaultRatio: PropTypes.object,
@@ -23,7 +28,7 @@ export default class TextView extends Component {
   };
 
   componentWillMount() {
-    this.template = this.props.configuration.content.join('');
+    this.template = beautifyHtml(this.props.configuration.content, { indent_size: 2 });
   }
 
   getComponent() {
@@ -58,18 +63,30 @@ export default class TextView extends Component {
     return component;
   }
 
+  handleSubmit = (values) => {
+    const { viewId, updateContent } = this.props;
+    updateContent(viewId, values.html);
+  }
+
   htmlToReactParser = new Parser();
   processNodeDefinitions = new ProcessNodeDefinitions(React);
 
   render() {
-    const { configuration: { title } } = this.props;
+    const {
+      viewId,
+      isViewsEditorOpen,
+      configuration: { title, entryPoints }
+    } = this.props;
     const component = this.getComponent();
     logger.debug(`render ${title}`);
 
-    return (
-      <div>
-        {component}
-      </div>
-    );
+    return isViewsEditorOpen
+      ? <WYSIWYG
+        initialValues={{ html: this.template }}
+        entryPoints={entryPoints.map(ep => ep.name)}
+        onSubmit={this.handleSubmit}
+        form={`textView-form-${viewId}`}
+      />
+      : component;
   }
 }

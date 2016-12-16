@@ -73,7 +73,7 @@ describe('mainProcess/documents/saveAllDocuments', () => {
           title: 'TextView One parameter',
           type: 'TextView',
           entryPoints: [],
-          content: []
+          content: ''
         },
         path: './views/text1.json',
       }

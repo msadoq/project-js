@@ -105,6 +105,8 @@ class PlotView extends PureComponent {
   componentWillMount() {
     this.lines = getLines(this.props.configuration.entryPoints);
     this.epCharts = getEntryPointsCharts(this.props.configuration);
+    console.log('this.lines', this.lines);
+    console.log('this.epCharts', this.epCharts);
   }
 
   componentWillReceiveProps(nextProps) {

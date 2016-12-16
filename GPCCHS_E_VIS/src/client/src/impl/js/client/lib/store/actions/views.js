@@ -1,7 +1,11 @@
+import _ from 'lodash';
+import globalConstants from 'common/constants';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
 import { updateLayout } from './pages';
 import { makeGetLayouts } from '../selectors/pages';
+import vivl from '../../../VIVL/main';
+import { openEditor } from './pages';
 
 export const add = simple(types.WS_VIEW_ADD, 'viewId', 'type', 'configuration', 'path', 'oId',
   'absolutePath', 'isModified');
@@ -69,7 +73,6 @@ export const updateShowYAxes = simple(types.WS_VIEW_UPDATE_SHOWYAXES, 'viewId', 
 export const addAxis = simple(types.WS_VIEW_ADD_AXIS, 'viewId', 'axis');
 export const removeAxis = simple(types.WS_VIEW_REMOVE_AXIS, 'viewId', 'axisId');
 
-export const addEntryPoint = simple(types.WS_VIEW_ADD_ENTRYPOINT, 'viewId', 'entryPoint');
 export const removeEntryPoint = simple(types.WS_VIEW_REMOVE_ENTRYPOINT, 'viewId', 'index');
 
 export const addGrid = simple(types.WS_VIEW_ADD_GRID, 'viewId', 'grid');
@@ -83,3 +86,37 @@ export const removeMarker = simple(types.WS_VIEW_REMOVE_MARKER, 'viewId', 'index
 
 export const addProcedure = simple(types.WS_VIEW_ADD_PROCEDURE, 'viewId', 'procedure');
 export const removeProcedure = simple(types.WS_VIEW_REMOVE_PROCEDURE, 'viewId', 'index');
+
+const addEntryPointInternal = simple(types.WS_VIEW_ADD_ENTRYPOINT, 'viewId', 'entryPoint');
+
+export function addEntryPoint(viewId, entryPoint) { // TODO add test
+  return (dispatch, getState) => {
+    const ep = _.clone(entryPoint);
+    const state = getState();
+    const currentView = state.views[viewId];
+    const structureType = vivl(currentView.type, 'structureType')();
+    const currentPageId = Object.keys(state.pages)
+      .map(k => ({ k, viewIds: state.pages[k].views }))
+      .filter(p => p.viewIds.filter(id => id === viewId).length)
+      .map(p => p.k)[0];
+    const currentPage = state.pages[currentPageId];
+    const timeline = state.timebars[currentPage.timebarId].masterId;
+    const domain = state.domains[0].name;
+
+    switch (structureType) { // eslint-disable-line default-case
+      case globalConstants.DATASTRUCTURETYPE_LAST:
+        ep.connectedData.timeline = ep.connectedData.timeline || timeline;
+        ep.connectedData.domain = ep.connectedData.domain || domain;
+        break;
+      case globalConstants.DATASTRUCTURETYPE_RANGE:
+        ep.connectedDataX.timeline = ep.connectedDataX.timeline || timeline;
+        ep.connectedDataY.timeline = ep.connectedDataY.timeline || timeline;
+        ep.connectedDataX.domain = ep.connectedDataX.domain || domain;
+        ep.connectedDataY.domain = ep.connectedDataY.domain || domain;
+        break;
+    }
+    // 'pageId', 'viewId', 'viewType'
+    dispatch(openEditor(currentPageId, viewId, currentView.type));
+    dispatch(addEntryPointInternal(viewId, ep));
+  };
+}

@@ -3,6 +3,7 @@ import _without from 'lodash/without';
 import _find from 'lodash/find';
 import _trim from 'lodash/trim';
 import _deburr from 'lodash/deburr';
+import _merge from 'lodash/merge';
 import _snakeCase from 'lodash/snakeCase';
 import u from 'updeep';
 import { resolve } from 'path';
@@ -11,6 +12,11 @@ import { v4 } from 'node-uuid';
 import globalConstants from 'common/constants';
 import * as types from '../types';
 import vivl from '../../../VIVL/main';
+import {
+  getNewPlotEntryPoint,
+  getNewTextEntryPoint,
+} from '../../common/entryPoint';
+
 /**
  * Reducer
  */
@@ -383,18 +389,15 @@ export function addEntryPoint(stateViews, action) {
   const structureType = vivl(currentView.type, 'structureType')();
   switch (structureType) { // eslint-disable-line default-case
     case globalConstants.DATASTRUCTURETYPE_LAST: {
-      // session Id
-      if (!newValue.connectedData.timeline) {
-        newValue.connectedData.timeline = '*';
-      }
-      // domain
-      if (!newValue.connectedData.domain) {
-        newValue.connectedData.domain = '*';
-      }
+      const newLastValue = u(
+        newValue,
+        getNewTextEntryPoint(),
+      );
+
       return u({
         [action.payload.viewId]: {
           configuration: {
-            entryPoints: [...oldValue, newValue],
+            entryPoints: [...oldValue, newLastValue],
             title: addStarOnTitle(currentView),
           },
           isModified: true,
@@ -402,26 +405,20 @@ export function addEntryPoint(stateViews, action) {
       }, stateViews);
     }
     case globalConstants.DATASTRUCTURETYPE_RANGE: {
-      // session Id
-      if (!newValue.connectedDataX.timeline) {
-        newValue.connectedDataX.timeline = '*';
-      }
-      if (!newValue.connectedDataY.timeline) {
-        newValue.connectedDataY.timeline = '*';
-      }
-      // domain
-      if (!newValue.connectedDataX.domain) {
-        newValue.connectedDataX.domain = '*';
-      }
-      if (!newValue.connectedDataY.domain) {
-        newValue.connectedDataY.domain = '*';
-      }
+      const newRangeValue = _merge(
+        getNewPlotEntryPoint(),
+        newValue);
+
       // axis Id
-      const newState = updatePlotAxisId(stateViews, action);
+      const newState = updatePlotAxisId(
+        stateViews,
+        action.payload.viewId,
+        newRangeValue);
+
       return u({
         [action.payload.viewId]: {
           configuration: {
-            entryPoints: [...oldValue, newValue],
+            entryPoints: [...oldValue, newRangeValue],
             title: addStarOnTitle(currentView),
           },
           isModified: true,
@@ -432,19 +429,19 @@ export function addEntryPoint(stateViews, action) {
   return stateViews;
 }
 
-export function updatePlotAxisId(stateViews, action) {
-  const currentView = stateViews[action.payload.viewId];
+export function updatePlotAxisId(stateViews, viewId, entryPoint) {
+  const currentView = stateViews[viewId];
   if (currentView.type !== 'PlotView') {
     return stateViews;
   }
-  const newValue = action.payload.entryPoint;
+  const newValue = entryPoint;
   let newState = stateViews;
   // axis Id
   if (!newValue.connectedDataX.axisId) {
     let axisId = getAxisId(newValue.name, newValue.connectedDataX, currentView);
     if (!axisId) {
       const axis = createAxis(currentView, newValue.name, newValue.connectedDataX.unit);
-      newState = addNewAxis(newState, action.payload.viewId, axis);
+      newState = addNewAxis(newState, viewId, axis);
       axisId = axis.id;
     }
     newValue.connectedDataX.axisId = axisId; // eslint-disable-line no-param-reassign
@@ -452,9 +449,9 @@ export function updatePlotAxisId(stateViews, action) {
   if (!newValue.connectedDataY.axisId) {
     let axisId = getAxisId(newValue.name, newValue.connectedDataY, currentView);
     if (!axisId) {
-      const axis = createAxis(newState[action.payload.viewId], newValue.name,
+      const axis = createAxis(newState[viewId], newValue.name,
         newValue.connectedDataY.unit);
-      newState = addNewAxis(newState, action.payload.viewId, axis);
+      newState = addNewAxis(newState, viewId, axis);
       axisId = axis.id;
     }
     newValue.connectedDataY.axisId = axisId; // eslint-disable-line no-param-reassign

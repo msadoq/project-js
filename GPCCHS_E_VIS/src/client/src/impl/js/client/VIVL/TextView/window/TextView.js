@@ -1,19 +1,36 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Parser, ProcessNodeDefinitions } from 'html-to-react';
 import _get from 'lodash/get';
 import getLogger from 'common/log';
 import { html as beautifyHtml } from 'js-beautify';
+import { DEFAULT_FIELD } from 'common/constants';
 
 import WYSIWYG from './WYSIWYG';
 
+import { addEntryPoint } from '../../../lib/store/actions/views';
+import DroppableContainer from '../../../lib/windowProcess/View/DroppableContainer';
+
 const logger = getLogger('GPCCHS:view:text');
 
-export default class TextView extends Component {
+// parse clipboard data to create partial entry point
+function parseDragData(data) {
+  return {
+    name: data.item.match(/(.+)</)[1],
+    connectedData: {
+      formula: `${data.catalogName}.${data.item}.${DEFAULT_FIELD}`,
+    },
+  };
+}
+
+class TextView extends Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
     data: PropTypes.shape({
       values: PropTypes.object,
     }),
+    addEP: PropTypes.func,
     configuration: PropTypes.object.isRequired,
     isViewsEditorOpen: PropTypes.bool,
     updateContent: PropTypes.func,
@@ -29,6 +46,16 @@ export default class TextView extends Component {
 
   componentWillMount() {
     this.template = beautifyHtml(this.props.configuration.content, { indent_size: 2 });
+  }
+
+  onDrop(e) {
+    const content = JSON.parse(e.dataTransfer.getData('application/json'));
+
+    // eslint-disable-next-line no-console
+    this.props.addEP(
+      this.props.viewId,
+      parseDragData(content)
+    );
   }
 
   getComponent() {
@@ -87,6 +114,18 @@ export default class TextView extends Component {
         onSubmit={this.handleSubmit}
         form={`textView-form-${viewId}`}
       />
-      : component;
+      : <DroppableContainer
+        onDrop={this.onDrop.bind(this)}
+        text={'add entry point'}
+      >
+        {component}
+      </DroppableContainer>;
   }
 }
+
+export default connect(
+  s => s,
+  dispatch => bindActionCreators({
+    addEP: addEntryPoint
+  }, dispatch),
+)(TextView);

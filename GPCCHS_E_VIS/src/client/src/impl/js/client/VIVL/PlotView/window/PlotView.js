@@ -1,4 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import _get from 'lodash/get';
 import _map from 'lodash/map';
 // import _remove from 'lodash/remove';
@@ -6,6 +8,7 @@ import SizeMe from 'react-sizeme';
 import { format } from 'd3-format';
 import { scaleTime } from 'd3-scale';
 import getLogger from 'common/log';
+import { DEFAULT_FIELD } from 'common/constants';
 import {
   ChartCanvas, Chart, series, annotation,
   coordinates, axes as StockchartsAxes, tooltip,
@@ -20,7 +23,8 @@ import {
   getLineStyle,
   getEntryPointsCharts
 } from './helper';
-// import PlotMenu from './PlotMenu';(i * -yAxisWidth)
+import { addEntryPoint } from '../../../lib/store/actions/views';
+import DroppableContainer from '../../../lib/windowProcess/View/DroppableContainer';
 
 const logger = getLogger('GPCCHS:view:plot');
 
@@ -40,6 +44,19 @@ const margin = { left: 20, right: 20, top: 20, bottom: 40 };
 const yAxisWidth = 55;
 const edgeIndicatorArrowWidth = 10;
 
+// parse clipboard data to create partial entry point
+function parseDragData(data) {
+  return {
+    name: data.item.match(/(.+)</)[1],
+    connectedDataX: {
+      formula: `${data.catalogName}.${data.item}.groundDate`,
+    },
+    connectedDataY: {
+      formula: `${data.catalogName}.${data.item}.${DEFAULT_FIELD}`,
+    },
+  };
+}
+
 class PlotView extends PureComponent {
   static propTypes = {
     size: PropTypes.shape({
@@ -55,6 +72,8 @@ class PlotView extends PureComponent {
       current: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
       upper: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
     }).isRequired,
+    viewId: PropTypes.string,
+    addEP: PropTypes.func,
     configuration: PropTypes.shape({
       type: PropTypes.string.isRequired,
       links: PropTypes.array,
@@ -122,6 +141,17 @@ class PlotView extends PureComponent {
 
   componentWillUnmount() {
     this.handleMouseLeave();
+  }
+
+  onDrop(e) {
+    const data = e.dataTransfer.getData('application/json');
+    const content = JSON.parse(data);
+
+    // eslint-disable-next-line no-console
+    this.props.addEP(
+      this.props.viewId,
+      parseDragData(content)
+    );
   }
 
   getGrid() {
@@ -460,7 +490,13 @@ class PlotView extends PureComponent {
     if (noRender) {
       logger.warn('no render due to', noRender);
       // TODO : clean message component
-      return <div>unable to render plot: {noRender}</div>;
+      return (
+        <DroppableContainer
+          onDrop={this.onDrop.bind(this)}
+        >
+          unable to render plot: {noRender}
+        </DroppableContainer>
+      );
     }
     const {
       size: { width, height },
@@ -489,10 +525,12 @@ class PlotView extends PureComponent {
     }
 
     return (
-      <div
+      <DroppableContainer
         style={{ height: '100%' }}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
+        onDrop={this.onDrop.bind(this)}
+        text={'add entry point'}
       >
         <ChartCanvas
           plotFull={false}
@@ -536,9 +574,16 @@ class PlotView extends PureComponent {
           <MenuItem>Add an Vertical line</MenuItem>
         </PlotMenu>
         */}
-      </div>
+      </DroppableContainer>
     );
   }
 }
 
-export default SizeMe({ monitorHeight: true })(PlotView); // eslint-disable-line new-cap
+const SizeablePlotView = SizeMe({ monitorHeight: true })(PlotView);
+
+export default connect(
+  state => state,
+  dispatch => bindActionCreators({
+    addEP: addEntryPoint
+  }, dispatch)
+)(SizeablePlotView); // eslint-disable-line new-cap

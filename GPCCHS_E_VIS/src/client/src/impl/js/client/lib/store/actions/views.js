@@ -6,6 +6,7 @@ import { updateLayout } from './pages';
 import { makeGetLayouts } from '../selectors/pages';
 import vivl from '../../../VIVL/main';
 import { openEditor } from './pages';
+import { getCurrentPageIdByViewId } from '../selectors/pages';
 
 export const add = simple(types.WS_VIEW_ADD, 'viewId', 'type', 'configuration', 'path', 'oId',
   'absolutePath', 'isModified');
@@ -95,27 +96,23 @@ export function addEntryPoint(viewId, entryPoint) { // TODO add test
     const state = getState();
     const currentView = state.views[viewId];
     const structureType = vivl(currentView.type, 'structureType')();
-    const currentPageId = Object.keys(state.pages)
-      .map(k => ({ k, viewIds: state.pages[k].views }))
-      .filter(p => p.viewIds.filter(id => id === viewId).length)
-      .map(p => p.k)[0];
-    const currentPage = state.pages[currentPageId];
-    const timeline = state.timebars[currentPage.timebarId].masterId;
-    const domain = state.domains[0].name;
+    const currentPageId = getCurrentPageIdByViewId(state, { viewId });
+
+    const domain = state.domains[0].name; // TODO must be replaced by *, but for dev it's ok
+    // const domain = '*';
 
     switch (structureType) { // eslint-disable-line default-case
       case globalConstants.DATASTRUCTURETYPE_LAST:
-        ep.connectedData.timeline = ep.connectedData.timeline || timeline;
+        ep.connectedData.timeline = ep.connectedData.timeline || '*';
         ep.connectedData.domain = ep.connectedData.domain || domain;
         break;
       case globalConstants.DATASTRUCTURETYPE_RANGE:
-        ep.connectedDataX.timeline = ep.connectedDataX.timeline || timeline;
-        ep.connectedDataY.timeline = ep.connectedDataY.timeline || timeline;
+        ep.connectedDataX.timeline = ep.connectedDataX.timeline || '*';
+        ep.connectedDataY.timeline = ep.connectedDataY.timeline || '*';
         ep.connectedDataX.domain = ep.connectedDataX.domain || domain;
         ep.connectedDataY.domain = ep.connectedDataY.domain || domain;
         break;
     }
-    // 'pageId', 'viewId', 'viewType'
     dispatch(openEditor(currentPageId, viewId, currentView.type));
     dispatch(addEntryPointInternal(viewId, ep));
   };

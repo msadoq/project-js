@@ -409,11 +409,17 @@ export function addEntryPoint(stateViews, action) {
         getNewPlotEntryPoint(),
         newValue);
 
+
       // axis Id
       const newState = updatePlotAxisId(
         stateViews,
-        action.payload.viewId,
-        newRangeValue);
+        {
+          payload: {
+            viewId: action.payload.viewId,
+            entryPoint: newRangeValue
+          }
+        }
+      );
 
       return u({
         [action.payload.viewId]: {
@@ -429,7 +435,7 @@ export function addEntryPoint(stateViews, action) {
   return stateViews;
 }
 
-export function updatePlotAxisId(stateViews, viewId, entryPoint) {
+export function updatePlotAxisId(stateViews, { payload: { viewId, entryPoint } }) {
   const currentView = stateViews[viewId];
   if (currentView.type !== 'PlotView') {
     return stateViews;

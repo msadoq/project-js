@@ -45,3 +45,9 @@ export function getModifiedPagesIds(state) {
 export function getPageModifiedViewsIds(state, pageId) {
   return _filter(state.pages[pageId].views, vId => state.views[vId].isModified);
 }
+
+export const getCurrentPageIdByViewId = (state, { viewId }) =>
+  Object.keys(getPages(state))
+    .map(k => ({ k, viewIds: getPageViewsIds(state, { pageId: k }) }))
+    .filter(p => p.viewIds.filter(id => id === viewId).length)
+    .map(p => p.k)[0];

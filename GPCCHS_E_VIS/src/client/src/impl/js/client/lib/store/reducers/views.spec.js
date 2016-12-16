@@ -573,7 +573,7 @@ describe('store:views:reducer', () => {
         entryPoint: { name: 'ep2', connectedData: {} }
       } };
       const state = addEntryPoint(stateViews, action);
-      state.text1.configuration.entryPoints[1].should.deep.equal(
+      state.text1.configuration.entryPoints[1].should.have.properties(
         { name: 'ep2', connectedData: { timeline: '*', domain: '*' } });
     });
     it('addEntryPoint: text view', () => {
@@ -582,7 +582,7 @@ describe('store:views:reducer', () => {
         entryPoint: { name: 'ep2', connectedData: { timeline: 't1', domain: 'd1' } }
       } };
       const state = addEntryPoint(stateViews, action);
-      state.text1.configuration.entryPoints[1].should.deep.equal(
+      state.text1.configuration.entryPoints[1].should.have.properties(
         { name: 'ep2', connectedData: { timeline: 't1', domain: 'd1' } });
     });
     it('addEntryPoint: plot view', () => {
@@ -594,7 +594,7 @@ describe('store:views:reducer', () => {
           connectedDataY: { timeline: 't2', domain: 'd2', unit: 'w' } }
       } };
       const state = addEntryPoint(stateViews, action);
-      state.plot1.configuration.entryPoints[2].should.deep.equal({
+      state.plot1.configuration.entryPoints[2].should.have.properties({
         name: 'ep2',
         connectedDataX: { timeline: 't1', domain: 'd1', unit: 's', axisId: 'axis1' },
         connectedDataY: { timeline: 't2', domain: 'd2', unit: 'w', axisId: 'axis2' } });
@@ -609,7 +609,7 @@ describe('store:views:reducer', () => {
       } };
       const state = addEntryPoint(stateViews, action);
       const axisId = _find(state.plot1.configuration.axes, axis => axis.unit === 'f').id;
-      state.plot1.configuration.entryPoints[2].should.deep.equal({
+      state.plot1.configuration.entryPoints[2].should.have.properties({
         name: 'ep2',
         connectedDataX: { timeline: 't1', domain: 'd1', unit: 'f', axisId },
         connectedDataY: { timeline: '*', domain: 'd2', unit: 'w', axisId: 'axis2' } });

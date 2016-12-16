@@ -7,8 +7,8 @@ export const getNewTextEntryPoint = () => ({
     unit: 's',
     digits: 5,
     format: 'decimal',
-    domain: '',
-    timeline: '',
+    domain: '*',
+    timeline: '*',
   },
 });
 
@@ -20,16 +20,16 @@ export const getNewPlotEntryPoint = () => ({
     unit: 's',
     digits: 5,
     format: 'decimal',
-    domain: '',
-    timeline: '',
+    domain: '*',
+    timeline: '*',
   },
   connectedDataY: {
     formula: '',
     unit: 'V',
     digits: 5,
     format: 'decimal',
-    domain: '',
-    timeline: '',
+    domain: '*',
+    timeline: '*',
   },
   objectStyle: {
     line: {

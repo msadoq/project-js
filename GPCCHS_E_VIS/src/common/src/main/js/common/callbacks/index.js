@@ -36,6 +36,13 @@ function remove(id) {
   delete callbacks[id];
 }
 
+// TODO test
+function pop(id) {
+  const callback = get(id);
+  remove(id);
+  return callback;
+}
+
 function clear() {
   logger.debug('callbacks cleared');
   callbacks = {};
@@ -44,6 +51,7 @@ function clear() {
 module.exports = {
   set,
   get,
+  pop,
   getAll,
   remove,
   clear,

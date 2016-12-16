@@ -33,10 +33,10 @@ const subscriptionsModel = require('../../models/subscriptions');
  * - send queued messages to DC
  *
  * @param payload
- * @param messageHandler
+ * @param sendMessageToDc
  */
 
-const timebasedQuery = (payload, messageHandler) => {
+const timebasedQuery = (payload, sendMessageToDc) => {
   const execution = executionMonitor('query');
   execution.reset();
   execution.start('global');
@@ -161,7 +161,7 @@ const timebasedQuery = (payload, messageHandler) => {
   // send queued zmq messages to DC
   if (messageQueue.length) {
     execution.start('send to dc');
-    _each(messageQueue, args => messageHandler('dcPush', args));
+    _each(messageQueue, args => sendMessageToDc(args));
     execution.stop('send to dc');
   }
   execution.stop('global');
@@ -171,6 +171,9 @@ const timebasedQuery = (payload, messageHandler) => {
 module.exports = {
   timebasedQuery,
   onTimebasedQuery: (payload) => {
-    timebasedQuery(payload, zmq.push);
+    timebasedQuery(
+      payload,
+      args => zmq.push('dcPush', args)
+    );
   },
 };

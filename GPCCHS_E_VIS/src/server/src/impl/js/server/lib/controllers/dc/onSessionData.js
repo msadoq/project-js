@@ -1,44 +1,26 @@
 const logger = require('common/log')('controllers:onSessionData');
-const globalConstants = require('common/constants');
-const { sendToMain } = require('../../websocket/sendToMain');
 const { decode } = require('common/protobuf');
 const registeredCallbacks = require('common/callbacks');
 
 /**
  * Triggered on DC session request response.
  *
- * - deprotobufferize sessions
- * - forward to client
+ * - decode and pass to registered callback
  *
- * @param websocketHandler
  * @param queryIdBuffer
- * @param sessionsBuffer
+ * @param buffer
  */
-
-const sessionData = (websocketHandler, queryIdBuffer, sessionsBuffer) => {
+module.exports.onSessionData = (queryIdBuffer, buffer) => {
   logger.verbose('called');
 
-  // deprotobufferize queryId
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
   logger.debug('decoded queryId', queryId);
 
-  // check if queryId exists in registeredCallbacks singleton, if no stop logic
   const callback = registeredCallbacks.get(queryId);
   if (!callback) {
-    return undefined;
+    return logger.warn(`unknown queryId ${queryId}`);
   }
-  // deprotobufferize sessions
-  const sessions = decode('dc.dataControllerUtils.Sessions', sessionsBuffer).sessions;
 
-  // forward to client
-  return websocketHandler(globalConstants.EVENT_SESSION_DATA, sessions, queryId);
+  return callback(decode('dc.dataControllerUtils.Sessions', buffer).sessions);
 };
 
-const onSessionData = (queryIdBuffer, sessionsBuffer) => {
-  sessionData(sendToMain, queryIdBuffer, sessionsBuffer);
-};
-
-module.exports = {
-  onSessionData,
-  sessionData,
-};

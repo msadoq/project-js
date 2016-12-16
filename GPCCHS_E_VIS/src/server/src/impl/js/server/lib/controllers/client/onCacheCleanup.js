@@ -30,11 +30,11 @@ const subscriptionsModel = require('../../models/subscriptions');
  *    - queue a zmq timebasedSubscription message (with 'DELETE' action)
  * - send queued messages to DC
  *
- * @param messageHandler
+ * @param sendMessageToDc
  * @param dataMap
  */
 
-const cacheCleanup = (messageHandler, dataMap) => {
+const cacheCleanup = (sendMessageToDc, dataMap) => {
   logger.debug('called');
   const messageQueue = [];
   const execution = executionMonitor('cacheCleanup');
@@ -140,7 +140,7 @@ const cacheCleanup = (messageHandler, dataMap) => {
   logger.debug('message queue length', messageQueue.length);
   // send queued messages to DC
   execution.start('send zmq messages');
-  _each(messageQueue, args => messageHandler('dcPush', args));
+  _each(messageQueue, args => sendMessageToDc(args));
   execution.stop('send zmq messages');
   execution.stop('global');
   execution.print();
@@ -148,5 +148,8 @@ const cacheCleanup = (messageHandler, dataMap) => {
 
 module.exports = {
   cacheCleanup,
-  onCacheCleanup: dataMap => cacheCleanup(zmq.push, dataMap),
+  onCacheCleanup: dataMap => cacheCleanup(
+    args => zmq.push('dcPush', args),
+    dataMap
+  ),
 };

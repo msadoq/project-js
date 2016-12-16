@@ -1,5 +1,16 @@
-import simple from '../simpleActionCreator';
 import * as types from '../types';
 
-// eslint-disable-next-line import/prefer-default-export
-export const updateSessions = simple(types.HSS_UPDATE_SESSIONS, 'sessions');
+// TODO : retrieve sessions list on-demand and session time on realtime jump
+export function updateSessions(sessions) { // eslint-disable-line import/prefer-default-export
+  // TODO : remove following loop and offsetWithmachineTime key and implement an on-the-fly
+  //        getSessionTime() call to DC
+  const now = Date.now();
+  sessions.map(s => Object.assign(s, { offsetWithmachineTime: s.timestamp.ms - now }));
+
+  return {
+    type: types.HSS_UPDATE_SESSIONS,
+    payload: {
+      sessions,
+    }
+  };
+}

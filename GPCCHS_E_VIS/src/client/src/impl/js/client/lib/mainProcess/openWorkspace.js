@@ -13,7 +13,7 @@ import { add as addWindow, setModified as setModifiedWindow } from '../store/act
 import { updatePath, setWorkspaceAsOpened, closeWorkspace } from '../store/actions/hsc';
 
 
-const logger = getLogger('GPCCHS:mainProcess:openWorkspace');
+const logger = getLogger('main:openWorkspace');
 
 export function loadInStore(workspace, dispatch, root, file, callback, isDefault = false) {
   // add timelines

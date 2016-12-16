@@ -2,11 +2,9 @@ import _ from 'lodash';
 import globalConstants from 'common/constants';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
-import { updateLayout } from './pages';
-import { makeGetLayouts } from '../selectors/pages';
 import vivl from '../../../VIVL/main';
-import { openEditor } from './pages';
-import { getCurrentPageIdByViewId } from '../selectors/pages';
+import { openEditor, updateLayout } from './pages';
+import { getCurrentPageIdByViewId, makeGetLayouts } from '../selectors/pages';
 
 export const add = simple(types.WS_VIEW_ADD, 'viewId', 'type', 'configuration', 'path', 'oId',
   'absolutePath', 'isModified');

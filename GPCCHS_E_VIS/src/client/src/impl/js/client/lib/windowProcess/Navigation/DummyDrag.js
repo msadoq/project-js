@@ -1,4 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
+import { getRandomColor } from '../Editor/Components/Colors';
 
 const s = {
   container: {
@@ -12,21 +13,6 @@ const s = {
     display: 'inline-block',
     marginRight: '1em',
   },
-};
-
-s.red = {
-  ...s.box,
-  backgroundColor: 'red',
-};
-
-s.blue = {
-  ...s.box,
-  backgroundColor: 'blue',
-};
-
-s.green = {
-  ...s.box,
-  backgroundColor: 'green',
 };
 
 const EntryPoints = [
@@ -65,27 +51,17 @@ export default class DummyDrag extends PureComponent {
   render() {
     return (
       <div style={s.container} >
-        <div
-          style={s.red}
-          draggable
-          onDragStart={this.dragStart.bind(this, EntryPoints[0])}
-        >
-          Propriété 1
-        </div>
-        <div
-          style={s.green}
-          draggable
-          onDragStart={this.dragStart.bind(this, EntryPoints[1])}
-        >
-          Propriété 2
-        </div>
-        <div
-          style={s.blue}
-          draggable
-          onDragStart={this.dragStart.bind(this, EntryPoints[2])}
-        >
-          Propriété 3
-        </div>
+        <span style={{ marginRight: '1em' }}>Drag-moi</span>
+        {EntryPoints.map((ep, i) =>
+          <div
+            key={i}
+            style={{ ...s.box, backgroundColor: getRandomColor() }}
+            draggable
+            onDragStart={this.dragStart.bind(this, EntryPoints[i])}
+          >
+            {ep.item.replace(/<.*/, '')}
+          </div>
+        )}
       </div>
     );
   }

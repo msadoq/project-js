@@ -4,7 +4,6 @@ import { LIFECYCLE_STARTED } from 'common/constants';
 import getLogger from 'common/log';
 
 import Debug from '../Navigation/Debug';
-import DummyDrag from '../Navigation/DummyDrag';
 import TimebarMasterContainer from '../Timebar/TimebarMasterContainer';
 import MessagesContainer from './MessagesContainer';
 import PageContainer from '../Page/PageContainer';
@@ -49,7 +48,6 @@ export default class Window extends Component {
 
     return (
       <div className={styles.container}>
-        <DummyDrag />
         <Debug
           windowId={windowId}
           focusedPageId={focusedPageId}

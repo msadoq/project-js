@@ -1,4 +1,4 @@
-import colors from '../windowProcess/Editor/Components/Colors';
+import { getRandomColor } from '../windowProcess/Editor/Components/Colors';
 
 export const getNewTextEntryPoint = () => ({
   name: 'NewEntryPoint',
@@ -40,7 +40,7 @@ export const getNewPlotEntryPoint = () => ({
       style: 'None',
       size: 3,
     },
-    curveColor: colors[Math.floor(Math.random() * colors.length)]
+    curveColor: getRandomColor()
   },
   stateColors: [
   ]

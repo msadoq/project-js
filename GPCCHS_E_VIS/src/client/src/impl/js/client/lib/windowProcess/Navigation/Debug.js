@@ -8,7 +8,7 @@ import {
   DropdownButton,
   Glyphicon
 } from 'react-bootstrap';
-
+import DummyDrag from './DummyDrag';
 import { switchDebug } from '../../store/actions/windows';
 import { getWindowDebug } from '../../store/selectors/windows';
 import { getPage } from '../../store/selectors/pages';
@@ -76,7 +76,7 @@ class Debug extends PureComponent {
       bsStyle: 'link',
     };
 
-    return (
+    const bar = (
       <ButtonToolbar style={style}>
         <DropdownButton
           bsSize="xsmall"
@@ -130,6 +130,13 @@ class Debug extends PureComponent {
           </MenuItem>
         </DropdownButton>
       </ButtonToolbar>
+    );
+
+    return (
+      <div>
+        <DummyDrag />
+        {bar}
+      </div>
     );
   }
 }

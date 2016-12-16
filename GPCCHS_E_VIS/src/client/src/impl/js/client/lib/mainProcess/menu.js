@@ -294,7 +294,7 @@ template.splice(3, 0,
           type: 'PlotView',
           configuration: {
             type: 'PlotView',
-            axes: [],
+            axes: {},
             grids: [],
             legend: {},
             markers: [],

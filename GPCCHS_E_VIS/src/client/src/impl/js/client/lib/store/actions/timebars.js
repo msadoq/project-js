@@ -1,6 +1,6 @@
 import { v4 } from 'node-uuid';
-import globalConstants from 'common/constants';
 import _get from 'lodash/get';
+import globalConstants from 'common/constants';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
 import {
@@ -21,8 +21,6 @@ import {
 import {
   getSession,
 } from '../selectors/sessions';
-
-const currentUpperMargin = 1 / 100;
 
 /**
  * Simple actions
@@ -133,8 +131,10 @@ export function switchToRealtimeMode(timebarId) {
 
     const msWidth = visuWindow.upper - visuWindow.lower;
     const realTimeMs = Date.now() + sessionOffset;
-    const newLower = realTimeMs - ((1 - currentUpperMargin) * msWidth);
-    const newUpper = realTimeMs + (currentUpperMargin * msWidth);
+    const newLower = realTimeMs -
+      ((1 - globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN) * msWidth);
+    const newUpper = realTimeMs +
+      (globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN * msWidth);
     dispatch(
       updateCursors(
         timebarId,

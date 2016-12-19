@@ -176,7 +176,6 @@ export function tick() {
         playingTimebar.speed,
         (Date.now() - lastTickTime)
       );
-      const currentUpperMargin = 1 / 100; // TODO constants or removing for a real realtime forecast
       const nextCursors = computeCursors(
         newCurrent,
         playingTimebar.visuWindow.lower,
@@ -184,7 +183,7 @@ export function tick() {
         playingTimebar.slideWindow.lower,
         playingTimebar.slideWindow.upper,
         playingTimebar.mode,
-        currentUpperMargin
+        globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN,
       );
 
       // dispatch

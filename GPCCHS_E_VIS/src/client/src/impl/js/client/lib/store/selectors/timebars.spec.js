@@ -53,12 +53,14 @@ describe('store:timebars:selectors', () => {
     it('should return master timeline', () => {
       getMasterTimelineById(
         {
-          myId: { masterId: 'timeline01' },
-        },
-        {
-          azeazerze: { id: 'timeline01' },
-          vqhrzefds: { id: 'timeline02' },
-          ghsdrtrrr: { id: 'timeline03' },
+          timebars: {
+            myId: { masterId: 'timeline01' },
+          },
+          timelines: {
+            azeazerze: { id: 'timeline01' },
+            vqhrzefds: { id: 'timeline02' },
+            ghsdrtrrr: { id: 'timeline03' },
+          },
         },
         'myId'
       ).should.eql(

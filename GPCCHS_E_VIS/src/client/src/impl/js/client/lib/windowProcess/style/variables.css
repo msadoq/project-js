@@ -18,7 +18,11 @@
   --boundCursorsColor: #E45;
   --slideCursorColor: #45E;
 }
-
+.collapsed{
+  .react-resizable-handle{
+    display: none;
+  }
+}
 /*
 Use variables in your files that way: var(--brand-primary)
 */

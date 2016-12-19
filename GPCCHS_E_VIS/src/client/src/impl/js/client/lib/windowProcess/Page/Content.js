@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import _omit from 'lodash/omit';
+import classnames from 'classnames';
 import _isEqual from 'lodash/isEqual';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import getLogger from 'common/log';
@@ -94,7 +95,11 @@ export default class Content extends Component {
 
           return (
             <div
-              className={isViewsEditorOpen ? styles.blockedited : styles.block}
+              className={classnames({
+                [styles.blockedited]: isViewsEditorOpen,
+                [styles.block]: !isViewsEditorOpen,
+                collapsed: v.isCollapsed,
+              })}
               key={v.viewId}
               i={v.viewId}
             >

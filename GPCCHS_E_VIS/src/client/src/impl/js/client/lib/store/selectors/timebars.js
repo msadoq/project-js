@@ -68,8 +68,9 @@ export function getMasterTimeline(timebars, timelines, timebarId) {
   return _values(timelines).find(t => t.id === masterTimelineId);
 }
 
-export function getMasterTimelineById(timebars, timelines, timebarId) {
-  const masterTimelineId = _get(timebars, [timebarId, 'masterId']);
+export function getMasterTimelineById(state, timebarId) {
+  const timelines = getTimebarTimelinesSelector(state, timebarId);
+  const masterTimelineId = _get(state.timebars, [timebarId, 'masterId']);
   if (!masterTimelineId) {
     return undefined;
   }

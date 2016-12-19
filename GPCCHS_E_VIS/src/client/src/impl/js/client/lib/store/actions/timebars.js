@@ -17,7 +17,6 @@ import { pause } from './hsc';
 import {
   getTimebar,
   getMasterTimelineById,
-  getTimebarTimelinesSelector,
 } from '../selectors/timebars';
 import {
   getSession,
@@ -128,8 +127,7 @@ export function switchToRealtimeMode(timebarId) {
     const state = getState();
     const timebar = getTimebar(state, timebarId);
     const { visuWindow } = timebar;
-    const timelines = getTimebarTimelinesSelector(state, timebarId);
-    const masterTimeline = getMasterTimelineById(state.timebars, timelines, timebarId);
+    const masterTimeline = getMasterTimelineById(state, timebarId);
     const currentSession = getSession(state.sessions, masterTimeline.sessionId);
     const sessionOffset = currentSession ? currentSession.offsetWithmachineTime : 0;
 

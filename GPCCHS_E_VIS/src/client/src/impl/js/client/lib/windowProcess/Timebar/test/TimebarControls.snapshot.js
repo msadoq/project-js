@@ -10,6 +10,10 @@ const propsStub = {
   toggleTimesetter: () => null,
   pause: () => null,
   play: () => null,
+  switchToFixedMode: () => null,
+  switchToExtensibleMode: () => null,
+  switchToRealtimeMode: () => null,
+  switchToNormalMode: () => null,
   isPlaying: true,
   visuWindow: TimebarFixture.visuWindow,
   slideWindow: TimebarFixture.slideWindow,
@@ -17,6 +21,7 @@ const propsStub = {
   timebarMode: TimebarFixture.mode,
   timebarId: TimebarFixture.timebarId,
   currentSessionOffsetMs: 800,
+  messages: [],
 };
 
 test('Controls renders correctly', () => {

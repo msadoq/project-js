@@ -13,6 +13,7 @@ const propsStub = {
   updateMasterId: () => null,
   updateOffset: () => null,
   updateTimebarId: () => null,
+  updateSessionId: () => null,
   timelines: TimelinesFixture,
   sessions: SessionsFixture,
   timebarId: TimebarFixture.timebarId,

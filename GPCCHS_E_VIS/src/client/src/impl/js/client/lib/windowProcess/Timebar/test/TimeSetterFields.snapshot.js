@@ -10,6 +10,7 @@ const propsStub = {
   onChange: () => null,
   visuWindow: TimebarFixture.visuWindow,
   slideWindow: TimebarFixture.slideWindow,
+  undisplayed: false,
 };
 
 test('TimesetterFields renders correctly', () => {

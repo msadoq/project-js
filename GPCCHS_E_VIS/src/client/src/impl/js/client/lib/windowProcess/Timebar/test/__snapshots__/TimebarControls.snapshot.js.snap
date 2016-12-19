@@ -1,45 +1,49 @@
 exports[`test Controls renders correctly 1`] = `
 <div>
   <ul
-    className="Controls__controlsUl___3Mg-C">
+    className="controlsUl">
+    
     <li
-      className="Controls__controlsLi___1tMEr">
+      className="controlsLi">
       <button
         className="btn btn-xs btn-control"
         onClick={[Function]}
         title="Decrease speed">
-        ◄◄
+        <span
+          className="glyphIcon glyphicon glyphicon-backward" />
       </button>
     </li>
     <li
-      className="Controls__controlsLi___1tMEr">
+      className="controlsLi">
       <button
-        className="btn btn-xs btn-default">
+        aria-describedby="playingSpeedPopover"
+        className="btn btn-xs btn-default"
+        onClick={[Function]}>
         1X
       </button>
     </li>
     <li
-      className="Controls__controlsLi___1tMEr">
+      className="controlsLi">
       <button
         className="btn btn-xs btn-control"
         onClick={[Function]}
         title="Increase speed">
-        ►►
+        <span
+          className="glyphIcon glyphicon glyphicon-forward" />
       </button>
     </li>
     <li
-      className="Controls__controlsLi___1tMEr">
+      className="controlsLi">
       <button
-        className="btn btn-xs btn-control Controls__controlButtonPlay___1jKAG Controls__controlButtonActive___2yw2M"
+        className="btn btn-xs btn-control controlButtonPlay controlButtonActive"
         onClick={[Function]}
         title="pause">
-        <span>
-          ▍▍
-        </span>
+        <span
+          className="glyphIcon glyphicon glyphicon-pause" />
       </button>
     </li>
     <li
-      className="Controls__controlsLi___1tMEr">
+      className="controlsLi">
       <button
         className="btn btn-xs btn-control"
         offset={-10}
@@ -49,7 +53,7 @@ exports[`test Controls renders correctly 1`] = `
       </button>
     </li>
     <li
-      className="Controls__controlsLi___1tMEr">
+      className="controlsLi">
       <button
         className="btn btn-xs btn-control"
         offset={10}
@@ -58,50 +62,91 @@ exports[`test Controls renders correctly 1`] = `
         + 10s
       </button>
     </li>
-  </ul>
-  <ul
-    className="Controls__controlsUl___3Mg-C Controls__controlsUlRight___d15G1">
     <li
-      className="Controls__controlsLi___1tMEr">
+      className="controlsLi">
       <button
-        className="btn btn-xs btn-control Controls__controlButtonActive___2yw2M"
-        mode="Normal"
+        className="btn btn-xs btn-control"
         onClick={[Function]}
-        title="Normal mode">
-        Normal
+        title="Go now">
+        NOW
       </button>
     </li>
     <li
-      className="Controls__controlsLi___1tMEr">
+      className="controlsLi">
       <button
         className="btn btn-xs btn-control"
-        mode="Extensible"
         onClick={[Function]}
-        title="Extensible mode">
-        Extensible
+        title="Restore visu window\'s default width">
+        _
       </button>
     </li>
     <li
-      className="Controls__controlsLi___1tMEr">
+      className="controlsLi">
       <button
         className="btn btn-xs btn-control"
-        mode="Fixed"
         onClick={[Function]}
-        title="Fixed mode">
-        Fixed
-      </button>
-    </li>
-    <li
-      className="Controls__controlsLi___1tMEr">
-      <button
-        className="btn btn-xs btn-control"
-        disabled={false}
-        mode="Realtime"
-        onClick={[Function]}
-        title="Real time mode">
-        Real time
+        title="Display time setter">
+        <span
+          className="glyphicon glyphicon-align-justify" />
       </button>
     </li>
   </ul>
+  <div>
+    <ul
+      className="controlsUl controlsUlRight">
+      <li
+        className="controlsLi">
+        <button
+          className="btn btn-xs btn-control controlButtonActive"
+          mode="Normal"
+          onClick={[Function]}
+          title="Normal mode">
+          Normal
+        </button>
+      </li>
+      <li
+        className="controlsLi">
+        <button
+          className="btn btn-xs btn-control"
+          mode="Extensible"
+          onClick={[Function]}
+          title="Extensible mode">
+          Extensible
+        </button>
+      </li>
+      <li
+        className="controlsLi">
+        <button
+          className="btn btn-xs btn-control"
+          mode="Fixed"
+          onClick={[Function]}
+          title="Fixed mode">
+          Fixed
+        </button>
+      </li>
+      <li
+        className="controlsLi">
+        <button
+          className="btn btn-xs btn-control"
+          disabled={true}
+          mode="Realtime"
+          onClick={[Function]}
+          title="No master track is set, can\'t go realtime">
+          Real time
+        </button>
+      </li>
+      <li
+        className="controlsLi">
+        <button
+          className="btn btn-xs btn-control"
+          onClick={[Function]}
+          title="Help modal">
+          ?
+        </button>
+      </li>
+    </ul>
+    <div
+      className="modal-container" />
+  </div>
 </div>
 `;

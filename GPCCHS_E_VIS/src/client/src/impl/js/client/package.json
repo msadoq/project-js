@@ -7,7 +7,7 @@
     "verbose": true,
     "testRegex": "(snapshot)\\.(js|jsx)$",
     "moduleNameMapper": {
-      "\\.(less|css)$": "<rootDir>/test/__mocks__/styleMock.js"
+      "\\.(less|css)$": "identity-obj-proxy"
     }
   },
   "scripts": {
@@ -117,6 +117,7 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "fbjs-scripts": "^0.7.1",
     "file-loader": "^0.9.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^17.0.3",
     "jsdom": "^9.5.0",
     "json-loader": "^0.5.4",

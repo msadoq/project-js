@@ -1,124 +1,97 @@
 exports[`test TimesetterFields renders correctly 1`] = `
 <div
-  className="TimeSetter__fieldsContainer___3HvQ_">
+  className="fieldsContainer">
   <div
-    className="text-capitalize TimeSetter__formLabel___3d4_- TimeSetter__formLabellower___9aj_D"
     style={
       Object {
         "width": "100%",
       }
     }>
-    <b>
+    <b
+      className="text-capitalize formLabel formLabellower">
       lower cursor
+    </b>
+    <b>
+      
     </b>
   </div>
   <div
-    className="TimeSetter__inputDiv___zot7Q">
+    className="inputDiv">
     <input
-      className="form-control TimeSetter__input___3-vNx TimeSetter__input_year___1VOE1"
+      className="form-control input input_year"
+      defaultValue="2016"
       disabled={false}
       onBlur={[Function]}
-      onChange={[Function]}
-      onClick={[Function]}
-      type="number"
-      value="2016" />
+      onClick={[Function]} />
     <span>
       -
     </span>
-    
-    
   </div>
   <div
-    className="TimeSetter__inputDiv___zot7Q">
+    className="inputDiv">
     <input
-      className="form-control TimeSetter__input___3-vNx TimeSetter__input_months___Iiv0z"
+      className="form-control input input_months"
+      defaultValue="11"
       disabled={false}
       onBlur={[Function]}
-      onChange={[Function]}
-      onClick={[Function]}
-      type="number"
-      value="11" />
+      onClick={[Function]} />
     <span>
       -
     </span>
-    
-    
   </div>
   <div
-    className="TimeSetter__inputDiv___zot7Q">
+    className="inputDiv">
     <input
-      className="form-control TimeSetter__input___3-vNx TimeSetter__input_date___sxzsH"
+      className="form-control input input_date"
+      defaultValue="29"
       disabled={false}
       onBlur={[Function]}
-      onChange={[Function]}
-      onClick={[Function]}
-      type="number"
-      value="29" />
-    
-    
-    
+      onClick={[Function]} />
   </div>
   <div
-    className="TimeSetter__inputDiv___zot7Q">
+    className="inputDiv">
     <input
-      className="form-control TimeSetter__input___3-vNx TimeSetter__input_hours___3eYNY"
+      className="form-control input input_hours"
+      defaultValue="10"
       disabled={false}
       onBlur={[Function]}
-      onChange={[Function]}
-      onClick={[Function]}
-      type="number"
-      value="10" />
-    
+      onClick={[Function]} />
     <span>
       :
     </span>
-    
   </div>
   <div
-    className="TimeSetter__inputDiv___zot7Q">
+    className="inputDiv">
     <input
-      className="form-control TimeSetter__input___3-vNx TimeSetter__input_minutes___1o4Hs"
+      className="form-control input input_minutes"
+      defaultValue="58"
       disabled={false}
       onBlur={[Function]}
-      onChange={[Function]}
-      onClick={[Function]}
-      type="number"
-      value="58" />
-    
+      onClick={[Function]} />
     <span>
       :
     </span>
-    
   </div>
   <div
-    className="TimeSetter__inputDiv___zot7Q">
+    className="inputDiv">
     <input
-      className="form-control TimeSetter__input___3-vNx TimeSetter__input_seconds___1VgKG"
+      className="form-control input input_seconds"
+      defaultValue="10"
       disabled={false}
       onBlur={[Function]}
-      onChange={[Function]}
-      onClick={[Function]}
-      type="number"
-      value="10" />
-    
-    
+      onClick={[Function]} />
     <span>
       .
     </span>
   </div>
   <div
-    className="TimeSetter__inputDiv___zot7Q">
+    className="inputDiv">
     <input
-      className="form-control TimeSetter__input___3-vNx TimeSetter__input_milliseconds___3f2uU"
+      className="form-control input input_milliseconds"
+      defaultValue="581"
       disabled={false}
       onBlur={[Function]}
-      onChange={[Function]}
-      onClick={[Function]}
-      type="number"
-      value="581" />
-    
-    
-    
+      onClick={[Function]} />
   </div>
 </div>
 `;

@@ -10,6 +10,7 @@ const propsStub = {
   editTimeline: () => null,
   timeline: TimelinesFixture[0],
   masterId: TimebarFixture.masterId,
+  sessions: [],
 };
 
 test('EditTrack renders correctly', () => {

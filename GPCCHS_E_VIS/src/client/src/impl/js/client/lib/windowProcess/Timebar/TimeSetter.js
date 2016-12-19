@@ -171,7 +171,8 @@ export default class TimeSetter extends Component {
               <TimeSetterFields
                 key={i}
                 cursor={x}
-                disabled={undisplayed || disabled}
+                undisplayed={undisplayed}
+                disabled={disabled}
                 ms={ms}
                 onChange={this.onChangeAction}
               />

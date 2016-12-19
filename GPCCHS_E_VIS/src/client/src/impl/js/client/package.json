@@ -56,7 +56,7 @@
     "dotenv-safe": "^3.0.0",
     "electron-debug": "^1.0.1",
     "html-to-react": "^1.2.2",
-    "htmllint": "^0.4.0",
+    "htmlhint": "^0.9.13",
     "js-beautify": "^1.6.4",
     "lodash": "^4.16.2",
     "mkdirp": "^0.5.1",

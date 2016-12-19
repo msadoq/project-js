@@ -17,9 +17,22 @@ deploy_cots() {
 
   cp -RT ${basedir}/src/impl/js/client ${api.work.dir}/js/${artifactId}
 
-  mkdir -p ${api.work.dir}/js/${artifactId}/toPackage/node_modules
-
   cd ${api.work.dir}/js/${artifactId}
+
+  python3 << EOF
+import json
+import collections
+
+with open("package.json") as package_file:
+    package_json=json.load(package_file, object_pairs_hook=collections.OrderedDict)
+    if "peerDependencies" in package_json:
+         if "common" in package_json["peerDependencies"]:
+             del package_json["peerDependencies"]["common"]
+
+with open("package.json", "w") as package_file:
+    package_file.write(json.dumps(package_json, indent=2))
+
+EOF
 
 
   # Handling of COTS such as zmq
@@ -45,25 +58,27 @@ deploy_cots() {
   npm ${NPM_OPTS2} install .
   npm ${NPM_OPTS2} install ${find.dependencies.dir}/lib/js/common -S
 
- 
-  NODE_ENV=production node -r babel-register ${api.work.dir}/js/${artifactId}/node_modules/webpack/bin/webpack --config webpack.config.electron.js --progress --profile --colors
+  # Webpacking ? 
+  #mkdir -p ${api.work.dir}/js/${artifactId}/toPackage/node_modules
 
-  NODE_ENV=production node -r babel-register ${api.work.dir}/js/${artifactId}/node_modules/webpack/bin/webpack --config webpack.config.production.js --progress --profile --colors
+  #NODE_ENV=production node -r babel-register ${api.work.dir}/js/${artifactId}/node_modules/webpack/bin/webpack --config webpack.config.electron.js --progress --profile --colors
 
-  cp -R ./node_modules/common ./toPackage/node_modules/
-  cp -R ./node_modules/source-map-support ./toPackage/node_modules/
-  cp -R ./node_modules/source-map ./toPackage/node_modules/
+  #NODE_ENV=production node -r babel-register ${api.work.dir}/js/${artifactId}/node_modules/webpack/bin/webpack --config webpack.config.production.js --progress --profile --colors
 
-  cp -R ${api.work.dir}/js/${artifactId}/dist ${api.work.dir}/js/${artifactId}/toPackage/
+  #cp -R ./node_modules/common ./toPackage/node_modules/
+  #cp -R ./node_modules/source-map-support ./toPackage/node_modules/
+  #cp -R ./node_modules/source-map ./toPackage/node_modules/
 
-  cp ${api.work.dir}/js/${artifactId}/main.js ${api.work.dir}/js/${artifactId}/toPackage/
-  cp ${api.work.dir}/js/${artifactId}/lib/windowProcess/index.html ${api.work.dir}/js/${artifactId}/toPackage/
-  cp ${api.work.dir}/js/${artifactId}/main.js.map ${api.work.dir}/js/${artifactId}/toPackage/
-  cp ${api.work.dir}/js/${artifactId}/package.json ${api.work.dir}/js/${artifactId}/toPackage/
+  #cp -R ${api.work.dir}/js/${artifactId}/dist ${api.work.dir}/js/${artifactId}/toPackage/
 
-  ${api.work.dir}/js/${artifactId}/node_modules/.bin/electron-packager ./toPackage --out=${api.lib.dir}/js/${artifactId} --overwrite --download.cache=${find.dependencies.dir}/.electron/
+  #cp ${api.work.dir}/js/${artifactId}/main.js ${api.work.dir}/js/${artifactId}/toPackage/
+  #cp ${api.work.dir}/js/${artifactId}/lib/windowProcess/index.html ${api.work.dir}/js/${artifactId}/toPackage/
+  #cp ${api.work.dir}/js/${artifactId}/main.js.map ${api.work.dir}/js/${artifactId}/toPackage/
+  #cp ${api.work.dir}/js/${artifactId}/package.json ${api.work.dir}/js/${artifactId}/toPackage/
 
-  cp -R ./toPackage/node_modules/common ${api.lib.dir}/js/${artifactId}/lpisis_gpcchs_e_clt-linux-x64/resources/app/node_modules
+  ${api.work.dir}/js/${artifactId}/node_modules/.bin/electron-packager . --out=${api.lib.dir}/js/${artifactId} --overwrite --download.cache=${find.dependencies.dir}/.electron/
+
+  #cp -R ./toPackage/node_modules/common ${api.lib.dir}/js/${artifactId}/lpisis_gpcchs_e_clt-linux-x64/resources/app/node_modules
 }
 
 Log "generate" "generate all" ${INFO}

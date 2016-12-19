@@ -65,6 +65,8 @@ export function unmountAndRemove(windowId, pageId) {
     if (getState().windows[windowId].pages.length > 0
         && pageId === getState().windows[windowId].focusedPage) {
       dispatch(focusPage(windowId, getState().windows[windowId].pages[0]));
+    } else if (!getState().windows[windowId].pages.length) {
+      dispatch(addAndMount(windowId));
     }
   };
 }

@@ -314,7 +314,7 @@ template.splice(3, 0,
           type: 'TextView',
           configuration: {
             type: 'TextView',
-            content: [],
+            content: '',
             defaultRatio: { length: 5, width: 5 },
             entryPoints: [],
             links: [],

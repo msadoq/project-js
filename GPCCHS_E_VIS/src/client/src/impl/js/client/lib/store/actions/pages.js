@@ -14,7 +14,7 @@ import { addAndMount as addAndMountPage, focusPage } from './windows';
  */
 export const add = simple(types.WS_PAGE_ADD, 'pageId', 'timebarId', 'title', 'views', 'layout',
   'path', 'oId', 'absolutePath', 'isModified');
-export const remove = simple(types.WS_PAGE_REMOVE, 'pageId');
+export const removePage = simple(types.WS_PAGE_REMOVE, 'pageId');
 export const mountView = simple(types.WS_PAGE_VIEW_MOUNT, 'pageId', 'viewId', 'layout');
 export const unmountView = simple(types.WS_PAGE_VIEW_UNMOUNT, 'pageId', 'viewId');
 export const openEditor = simple(types.WS_PAGE_EDITOR_OPEN,
@@ -74,5 +74,16 @@ export function moveViewToPage(windowId, fromPageId, toPageId, viewId) {
       dispatch(mountView(toPageId, viewId,
         getState().pages[toPageId].layout.concat({ i: viewId, w: 5, h: 5, x: 0, y: 0 })));
     }
+  };
+}
+
+export function remove(pageId) {
+  return (dispatch, getState) => {
+    const state = getState();
+    const views = state.pages[pageId].views; // tableau
+    views.forEach((viewId) => {
+      dispatch(unmountAndRemove(pageId, viewId));
+    });
+    dispatch(removePage(pageId));
   };
 }

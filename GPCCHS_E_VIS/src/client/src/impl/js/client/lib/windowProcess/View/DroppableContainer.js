@@ -59,6 +59,15 @@ export default class DroppableContainer extends React.Component {
     }
   }
 
+  onDrop(e) {
+    try {
+      this.props.onDrop(e);
+    } finally {
+      this.setState({
+        over: false
+      });
+    }
+  }
   render() {
     const otherProps = _omit(this.props, [
       'children',
@@ -75,7 +84,7 @@ export default class DroppableContainer extends React.Component {
         }}
         onDragOver={this.onDragOver.bind(this)}
         onDragLeave={this.onDragLeave.bind(this)}
-        onDrop={this.props.onDrop.bind(this)}
+        onDrop={this.onDrop.bind(this)}
         {...otherProps}
       >
         {this.props.children}

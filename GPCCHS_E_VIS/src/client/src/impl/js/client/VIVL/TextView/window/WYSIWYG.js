@@ -42,7 +42,7 @@ class WYSIWYG extends Component {
       asyncValidating,
       asyncValidate,
     } = this.props;
-    console.log('this.props', this.props);
+
     return (
       <div className={styles.root}>
         <Form className={styles.form} onSubmit={handleSubmit}>

@@ -23,7 +23,9 @@ export const setCollapsedAndUpdateLayout = (pageId, viewId, flag) =>
           return {
             ...l,
             maxH: l.h,
+            maxW: l.w,
             h: 1,
+            w: 3,
           };
         }
         return l;
@@ -35,7 +37,9 @@ export const setCollapsedAndUpdateLayout = (pageId, viewId, flag) =>
           return {
             ...l,
             h: l.maxH,
+            w: l.maxW,
             maxH: undefined,
+            maxW: undefined,
           };
         }
         return l;

@@ -28,6 +28,30 @@ export default class View extends PureComponent {
     isCollapsed: PropTypes.bool,
   };
 
+  static contextTypes = {
+    focusedPageId: PropTypes.string,
+  };
+
+  componentDidMount() {
+    document.addEventListener('keypress', this.toggleCollapse);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keypress', this.toggleCollapse);
+  }
+
+  toggleCollapse = (e) => {
+    if (e.keyCode === 101 && this.el.querySelector(':hover')) {
+      const {
+        collapseView,
+        viewId,
+        isCollapsed,
+      } = this.props;
+      const { focusedPageId } = this.context;
+      collapseView(focusedPageId, viewId, !isCollapsed);
+    }
+  }
+
   render() {
     logger.debug('render');
     const {
@@ -52,7 +76,10 @@ export default class View extends PureComponent {
     const ContentComponent = component || UnknownView;
 
     return (
-      <div className={styles.container}>
+      <div
+        className={styles.container}
+        ref={(e) => { this.el = e; }}
+      >
         <ViewHeader
           isViewsEditorOpen={isViewsEditorOpen}
           configuration={configuration}

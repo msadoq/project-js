@@ -14,7 +14,6 @@ const Grid = WidthProvider(Responsive); // eslint-disable-line new-cap
 const filterLayoutBlockFields = [
   'minW',
   'minH',
-  'maxW',
   'isDraggable',
   'isResizable',
   'moved',

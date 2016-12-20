@@ -27,6 +27,8 @@ export default class Header extends Component {
     moveViewToPage: PropTypes.func,
     getWindowPages: PropTypes.func,
     collapseView: PropTypes.func,
+    updateAbsolutePath: PropTypes.func,
+    setModified: PropTypes.func,
   };
   static defaultProps = {
     configuration: {
@@ -61,6 +63,8 @@ export default class Header extends Component {
       isCollapsed,
       // oId,
       absolutePath,
+      updateAbsolutePath,
+      setModified,
     } = this.props;
 
     const {
@@ -98,13 +102,20 @@ export default class Header extends Component {
         break;
       }
       case 'save':
-        sendToMain('saveView', { configuration, type, absolutePath }, (err) => {
-          console.log('error saving file:', err);
+        sendToMain('saveView', { configuration, type, absolutePath }, (error) => {
+          if (!error) {
+            // update View title
+            setModified(viewId, false);
+          }
         });
         break;
       case 'saveAs': {
-        sendToMain('saveViewAs', { configuration, type, absolutePath }, (response) => {
-          console.log('response:', response);
+        sendToMain('saveViewAs', { configuration, type, absolutePath }, (payload) => {
+          if (!payload.error) {
+            // update View path
+            updateAbsolutePath(viewId, payload.viewPath);
+            setModified(viewId, false);
+          }
         });
         break;
       }

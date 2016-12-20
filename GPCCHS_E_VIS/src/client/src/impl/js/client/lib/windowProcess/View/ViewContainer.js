@@ -5,7 +5,9 @@ import { getComponent } from '../../../VIVL/window';
 import { getView } from '../../store/selectors/views';
 import { getWindowPages } from '../../store/selectors/windows';
 import { moveViewToPage } from '../../store/actions/pages';
-import { setCollapsedAndUpdateLayout } from '../../store/actions/views';
+import { setCollapsedAndUpdateLayout,
+         updateAbsolutePath,
+         setModified } from '../../store/actions/views';
 
 import View from './View';
 
@@ -33,6 +35,8 @@ const mapDispatchToProps = (dispatch, { pageId }) => bindActionCreators({
     moveViewToPage(windowId, pageId, toPageId, viewId),
   collapseView: (focusedPageId, viewId, flag) =>
     setCollapsedAndUpdateLayout(focusedPageId, viewId, flag),
+  updateAbsolutePath: (viewId, viewPath) => updateAbsolutePath(viewId, viewPath),
+  setModified: (viewId, flag) => setModified(viewId, flag),
 }, dispatch);
 
 // return function to avoid page grid layout and React DOM re-conciliation issue

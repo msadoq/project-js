@@ -34,10 +34,10 @@ export function init() {
         // TODO: case of oid : check rights
         if (absPath) {
           saveViewAs(payload.configuration, payload.type, absPath, (error) => {
-            e.sender.send('mainResponse', { event: 'saveView', payload: { error } });
+            e.sender.send('mainResponse', { event: 'runCallback', payload: { error }, queryId });
           });
         } else {
-          e.sender.send('mainResponse', { event: 'saveView', payload: { error: 'Invalid path' } });
+          e.sender.send('mainResponse', { event: 'runCallback', payload: 'Invalid path', queryId });
         }
         break;
       }
@@ -46,7 +46,8 @@ export function init() {
         getPathByFilePicker(folder, 'view', 'save', (err, viewPath) => {
           if (!err && viewPath) {
             saveViewAs(payload.configuration, payload.type, viewPath, (error) => {
-              e.sender.send('mainResponse', { event: 'saveView', payload: { error } });
+              e.sender.send('mainResponse', { event: 'runCallback',
+              payload: { error, viewPath }, queryId });
             });
           }
         });

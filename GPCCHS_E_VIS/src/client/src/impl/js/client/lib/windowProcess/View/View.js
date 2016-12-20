@@ -26,6 +26,8 @@ export default class View extends PureComponent {
     getWindowPages: PropTypes.func,
     collapseView: PropTypes.func,
     isCollapsed: PropTypes.bool,
+    updateAbsolutePath: PropTypes.func,
+    setModified: PropTypes.func,
   };
 
   static contextTypes = {
@@ -72,6 +74,8 @@ export default class View extends PureComponent {
       component,
       oId,
       absolutePath,
+      updateAbsolutePath,
+      setModified,
     } = this.props;
     const ContentComponent = component || UnknownView;
 
@@ -94,6 +98,8 @@ export default class View extends PureComponent {
           isCollapsed={isCollapsed}
           oId={oId}
           absolutePath={absolutePath}
+          updateAbsolutePath={updateAbsolutePath}
+          setModified={setModified}
         />
         {!isCollapsed &&
           <div

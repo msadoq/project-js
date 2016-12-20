@@ -11,7 +11,7 @@ import reducer, {
   updatePlotAxisId,
   addEntryPoint,
 } from './views';
-import { freezeMe, should } from '../../common/test';
+import { freezeMe, should, getStore } from '../../common/test';
 
 describe('store:views:reducer', () => {
   it('initial state', () => {
@@ -67,6 +67,71 @@ describe('store:views:reducer', () => {
         actions.remove('foo')
       );
       state.should.have.property('myViewId');
+    });
+  });
+  describe('collapse', () => {
+    const state = {
+      myView: {
+        isCollapsed: false
+      }
+    };
+    const s = reducer(state, actions.setCollapsed('myView', true));
+    s.myView.isCollapsed.should.equal(true);
+  });
+  describe('collapse and updateLayout', () => {
+    let dispatch;
+    let getState;
+    before(() => {
+      const store = getStore({
+        pages: {
+          myPage: {
+            layout: [
+              {
+                h: 5,
+                w: 5,
+                maxH: undefined,
+                maxW: undefined,
+                minW: 3,
+                minH: 3,
+                i: 'myView',
+              }
+            ]
+          }
+        },
+        views: {
+          myView: {
+            isCollapsed: false
+          }
+        }
+      });
+      getState = store.getState;
+      dispatch = store.dispatch;
+    });
+    it('collapses / expands and updates layout', () => {
+      dispatch(actions.setCollapsedAndUpdateLayout('myPage', 'myView', true));
+      let newState = getState();
+      newState.pages.myPage.layout[0].should.deep.equal({
+        h: 1,
+        w: 3,
+        maxH: 5,
+        maxW: 5,
+        minW: 3,
+        minH: 3,
+        i: 'myView',
+      });
+      newState.views.myView.isCollapsed.should.equal(true);
+      dispatch(actions.setCollapsedAndUpdateLayout('myPage', 'myView', false));
+      newState = getState();
+      newState.pages.myPage.layout[0].should.deep.equal({
+        h: 5,
+        w: 5,
+        maxH: undefined,
+        maxW: undefined,
+        minW: 3,
+        minH: 3,
+        i: 'myView',
+      });
+      newState.views.myView.isCollapsed.should.equal(false);
     });
   });
   describe('update', () => {

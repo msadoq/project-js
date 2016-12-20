@@ -12,6 +12,8 @@ import WYSIWYG from './WYSIWYG';
 import { addEntryPoint } from '../../../lib/store/actions/views';
 import DroppableContainer from '../../../lib/windowProcess/View/DroppableContainer';
 
+import styles from './TextView.css';
+
 const logger = getLogger('GPCCHS:view:text');
 
 // parse clipboard data to create partial entry point
@@ -70,9 +72,11 @@ class TextView extends Component {
           for (let i = 0, len = matches.length; i < len; i += 1) {
             const match = matches[i];
             const value = match.substring(2, match.length - 2);
+            const valueObj = _get(this.props.data, `values[${value}]`);
             nodes.push(React.createElement('span', {
-              key: `${index}-${i}`
-            }, _get(this.props.data, `values[${value}]`)));
+              key: `${index}-${i}`,
+              className: styles[`monit-${_get(valueObj, 'monit')}`] || styles['monit-ok'],
+            }, _get(valueObj, 'value')));
           }
           return nodes;
         }

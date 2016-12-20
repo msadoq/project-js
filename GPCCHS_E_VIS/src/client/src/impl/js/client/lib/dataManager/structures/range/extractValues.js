@@ -27,11 +27,17 @@ export function select(remoteIdPayload, ep, epName, viewState, count) {
 
     if (viewState && viewState[masterTime]) {
       newState[masterTime] = viewState[masterTime];
-      newState[masterTime][epName] =
-        { x: _get(value, [ep.fieldX, 'value']), value: _get(value, [ep.fieldY, 'value']) };
+      newState[masterTime][epName] = {
+        x: _get(value, [ep.fieldX, 'value']),
+        value: _get(value, [ep.fieldY, 'value']),
+        monit: _get(value, ['monitoringState', 'value']),
+      };
     } else {
-      _set(newState, [masterTime, epName],
-        { x: _get(value, [ep.fieldX, 'value']), value: _get(value, [ep.fieldY, 'value']) });
+      _set(newState, [masterTime, epName], {
+        x: _get(value, [ep.fieldX, 'value']),
+        value: _get(value, [ep.fieldY, 'value']),
+        monit: _get(value, ['monitoringState', 'value']),
+      });
     }
 
     count.range += 1; // eslint-disable-line no-param-reassign

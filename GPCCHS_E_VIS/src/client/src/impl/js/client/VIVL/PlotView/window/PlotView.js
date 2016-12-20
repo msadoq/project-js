@@ -21,7 +21,8 @@ import {
   zoomDateFormat,
   fullDateFormat,
   getLineStyle,
-  getEntryPointsCharts
+  getEntryPointsCharts,
+  monitoringStateColors,
 } from './helper';
 import { addEntryPoint } from '../../../lib/store/actions/views';
 import DroppableContainer from '../../../lib/windowProcess/View/DroppableContainer';
@@ -405,6 +406,7 @@ class PlotView extends PureComponent {
       .map(line => ({
         label: line.name,
         value: _get(currentItem, [line.key, 'value']),
+        fillValue: _get(monitoringStateColors, _get(currentItem, [line.key, 'monit'])),
         stroke: line.color,
       })),
   });
@@ -481,6 +483,25 @@ class PlotView extends PureComponent {
     });
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  tooltipCanvas({ fontFamily, fontSize, fontFill }, content, ctx) {
+    const startY = 10 + (fontSize * 0.9);
+
+    ctx.font = `${fontSize}px ${fontFamily}`; // eslint-disable-line no-param-reassign
+    ctx.fillStyle = fontFill; // eslint-disable-line no-param-reassign
+    ctx.textAlign = 'left'; // eslint-disable-line no-param-reassign
+    ctx.fillText(content.x, 10, startY);
+
+    for (let i = 0; i < content.y.length; i += 1) {
+      const y = content.y[i];
+      const textY = startY + (fontSize * (i + 1));
+      ctx.fillStyle = y.stroke || fontFill; // eslint-disable-line no-param-reassign
+      ctx.fillText(y.label, 10, textY); // eslint-disable-line no-param-reassign
+      ctx.fillStyle = y.fillValue || fontFill; // eslint-disable-line no-param-reassign
+      ctx.fillText(`: ${y.value}`, 10 + ctx.measureText(y.label).width, textY);
+    }
+  }
+
   render() {
     logger.debug('render');
     const noRender = this.shouldRender();
@@ -552,6 +573,7 @@ class PlotView extends PureComponent {
             tooltipContent={this.handleTooltipContent}
             opacity={1}
             fill="#FFFFFF"
+            tooltipCanvas={this.tooltipCanvas}
             bgwidth={tooltipWidth}
             bgheight={tooltipHeight}
           />

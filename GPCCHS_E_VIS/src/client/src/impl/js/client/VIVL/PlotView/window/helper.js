@@ -134,3 +134,12 @@ export const zoomDateFormat = date => (timeSecond(date) < date ? formatMilliseco
     : formatYear)(date);
 
 export const fullDateFormat = timeFormat('%Y-%m-%d %H:%M:%S.%L');
+
+export const monitoringStateColors = {
+  info: '#FFFF33',        /* jaune */
+  warning: '#FF6600',       /* orange */
+  alarm: '#FD1C03',       /* rouge orangé */
+  severe: '#9900FF',      /* violet */
+  critical: '#DD0000',    /* rouge */
+  outOfRange: '#999999',  /* gris */
+};

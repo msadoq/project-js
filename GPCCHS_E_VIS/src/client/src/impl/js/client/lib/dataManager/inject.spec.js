@@ -141,13 +141,13 @@ describe('common/data/inject', () => {
       bag.text1.should.have.all.keys(['index', 'values', 'structureType']);
       bag.text1.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
       bag.text1.index.ep4.should.equal(20);
-      bag.text1.values.ep4.should.equal(203);
+      bag.text1.values.ep4.value.should.equal(203);
       bag.text2.should.have.all.keys(['index', 'values', 'structureType']);
       bag.text2.index.should.have.all.keys(['ep5', 'ep6']);
       bag.text2.index.ep5.should.equal(20);
-      bag.text2.values.ep5.should.equal(203);
+      bag.text2.values.ep5.value.should.equal(203);
       bag.text2.index.ep6.should.equal(20);
-      bag.text2.values.ep6.should.equal(203);
+      bag.text2.values.ep6.value.should.equal(203);
     });
     it('old state not empty', () => {
       const newState = selectData(state, viewDataMap, payload, count);

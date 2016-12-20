@@ -24,7 +24,7 @@ describe('store:page:selectors', () => {
       getPages(getState()).should.equal(state.pages);
     });
   });
-  it.only('getCurrentPageIdByViewId', () => {
+  it('getCurrentPageIdByViewId', () => {
     const state = {
       pages: {
         myId: { title: 'Title', views: ['view1', 'view2'] },

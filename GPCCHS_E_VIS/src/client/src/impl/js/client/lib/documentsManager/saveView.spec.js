@@ -104,7 +104,8 @@ describe('documentsManager/saveViews', () => {
   });
   describe('PlotView', () => {
     it('saveAs ok', (done) => {
-      saveViewAs(state, 'plot1', state.views.plot1.absolutePath, (err) => {
+      const view = state.views.plot1;
+      saveViewAs(view.configuration, view.type, view.absolutePath, (err) => {
         should.not.exist(err);
         done();
       });
@@ -136,7 +137,8 @@ describe('documentsManager/saveViews', () => {
   });
   describe('TextView', () => {
     it('saveAs ok', (done) => {
-      saveViewAs(state, 'text1', state.views.text1.absolutePath, (err) => {
+      const view = state.views.text1;
+      saveViewAs(view.configuration, view.type, view.absolutePath, (err) => {
         should.not.exist(err);
         done();
       });

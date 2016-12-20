@@ -2,9 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 import { v4 } from 'node-uuid';
+
 import styles from './Header.css';
 import Modal from '../common/Modal';
 import ChoosePage from './ChoosePage';
+import { sendToMain } from '../../ipc/window';
+
 
 export default class Header extends Component {
   static propTypes = {
@@ -16,6 +19,8 @@ export default class Header extends Component {
     viewId: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     isCollapsed: PropTypes.bool,
+    oId: PropTypes.string,
+    absolutePath: PropTypes.string,
     openEditor: PropTypes.func,
     closeEditor: PropTypes.func,
     unmountAndRemove: PropTypes.func,
@@ -54,6 +59,8 @@ export default class Header extends Component {
       getWindowPages,
       collapseView,
       isCollapsed,
+      // oId,
+      absolutePath,
     } = this.props;
 
     const {
@@ -90,14 +97,17 @@ export default class Header extends Component {
         collapseView(focusedPageId, viewId, !isCollapsed);
         break;
       }
-      // case 'save': {
-      //   // TODO call a saveView function
-      //   break;
-      // }
-      // case 'saveAs': {
-      //   // TODO call a saveView function
-      //   break;
-      // }
+      case 'save':
+        sendToMain('saveView', { configuration, type, absolutePath }, (err) => {
+          console.log('error saving file:', err);
+        });
+        break;
+      case 'saveAs': {
+        sendToMain('saveViewAs', { configuration, type, absolutePath }, (response) => {
+          console.log('response:', response);
+        });
+        break;
+      }
       default:
     }
   };
@@ -154,10 +164,12 @@ export default class Header extends Component {
       configuration,
       isViewsEditorOpen,
       isCollapsed,
+      oId,
+      absolutePath,
     } = this.props;
     const { title } = configuration;
     const titleStyle = this.getTitleStyle();
-
+    const isPathDefined = oId || absolutePath;
 
     const choosePageDlg = (
       <Modal
@@ -199,7 +211,8 @@ export default class Header extends Component {
             <MenuItem eventKey="collapse">Collapse</MenuItem>
             {/* <MenuItem eventKey="reload">Reload view</MenuItem>*/}
             <MenuItem divider />
-            <MenuItem eventKey="save">Save</MenuItem>
+            {isPathDefined ? <MenuItem eventKey="save">Save</MenuItem>
+                           : <MenuItem eventKey="save" disabled>Save</MenuItem>}
             <MenuItem eventKey="saveAs">Save as</MenuItem>
             <MenuItem divider />
             <MenuItem eventKey="close">Close view</MenuItem>

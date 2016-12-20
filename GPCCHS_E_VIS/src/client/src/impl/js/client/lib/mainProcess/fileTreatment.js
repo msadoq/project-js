@@ -215,8 +215,7 @@ export function updateViewPath(viewId, store, dispatch, callback) {
 
 export function updatePagePath(pageId, store, dispatch, callback) {
   const state = store.getState();
-  const page = state.pages[pageId];
-  getPathByFilePicker(state.hsc.folder, `Page '${page.title}'`, 'save', (err, newPagePath) => {
+  getPathByFilePicker(state.hsc.folder, 'Page', 'save', (err, newPagePath) => {
     if (err) {
       callback(err, null);
     }

@@ -17,6 +17,8 @@ export default class View extends PureComponent {
     data: PropTypes.object,
     viewId: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
+    oId: PropTypes.string,
+    absolutePath: PropTypes.string,
     openEditor: PropTypes.func,
     closeEditor: PropTypes.func,
     unmountAndRemove: PropTypes.func,
@@ -44,6 +46,8 @@ export default class View extends PureComponent {
       getWindowPages,
       collapseView,
       component,
+      oId,
+      absolutePath,
     } = this.props;
     const ContentComponent = component || UnknownView;
 
@@ -61,6 +65,8 @@ export default class View extends PureComponent {
           moveViewToPage={moveViewToPage}
           collapseView={collapseView}
           isCollapsed={isCollapsed}
+          oId={oId}
+          absolutePath={absolutePath}
         />
         {!isCollapsed &&
           <div

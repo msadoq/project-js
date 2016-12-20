@@ -25,14 +25,21 @@ export default class CodeMirrorField extends React.Component {
     className: PropTypes.string,
     type: PropTypes.string.isRequired,
     meta: PropTypes.object,
-    options: PropTypes.object
+    options: PropTypes.object,
+    checkHtmlLintBeforeChange: PropTypes.bool,
   }
 
   static defaultProps = {
-    autocompleteList: []
+    autocompleteList: [],
+    checkHtmlLintBeforeChange: false,
   }
 
   componentDidMount() {
+    const {
+      input: { onChange },
+      checkHtmlLintBeforeChange,
+    } = this.props;
+
     this.codeMirrorInstance = this.element.getCodeMirrorInstance();
     this.codeMirror = this.element.getCodeMirror();
 
@@ -52,6 +59,9 @@ export default class CodeMirrorField extends React.Component {
           severity: message.type
         });
       }
+      if (checkHtmlLintBeforeChange && !found.length) {
+        onChange(text);
+      }
       return found;
     });
   }
@@ -69,8 +79,13 @@ export default class CodeMirrorField extends React.Component {
   }
 
   handleOnChange = _debounce((value) => {
-    const { input: { onChange } } = this.props;
-    onChange(value);
+    const {
+      input: { onChange },
+      checkHtmlLintBeforeChange,
+    } = this.props;
+    if (!checkHtmlLintBeforeChange) {
+      onChange(value);
+    }
     // asyncValidate();
   }, 500)
 

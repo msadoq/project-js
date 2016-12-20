@@ -53,6 +53,7 @@ class WYSIWYG extends Component {
             autocompleteList={entryPoints}
             asyncValidate={asyncValidate}
             type="test"
+            checkHtmlLintBeforeChange
           />
 
           <ClearSubmitButtons

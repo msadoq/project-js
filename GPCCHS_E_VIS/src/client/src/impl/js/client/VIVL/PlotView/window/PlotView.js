@@ -288,6 +288,7 @@ class PlotView extends PureComponent {
       const autoTick = _get(chart, 'yAxis.autoTick', true);
       const tickStep = _get(chart, 'yAxis.tickStep');
       const label = _get(chart, 'yAxis.label');
+      const unit = _get(chart, 'yAxis.unit');
       const yExtents = autoLimits
         ? d => _map(chart.yKeys, key => _get(d, [key, 'value']))
         : [
@@ -306,7 +307,9 @@ class PlotView extends PureComponent {
             x={dx}
             y={(height - margin.top - margin.bottom) / 2}
             rotate={-90}
-            text={label}
+            text={
+              [label, ((unit && unit.length ? `(${unit})` : ''))].join(' ')
+            }
           />}
           {showYAxes && <YAxis
             axisAt={axisAt}

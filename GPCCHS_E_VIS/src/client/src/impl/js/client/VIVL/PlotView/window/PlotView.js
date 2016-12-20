@@ -14,6 +14,7 @@ import {
   coordinates, axes as StockchartsAxes, tooltip,
   // interactive
 } from 'react-stockcharts';
+import { hexToRGBA } from 'react-stockcharts/lib/utils';
 import {
   getLines,
   getLineMarker,
@@ -23,6 +24,7 @@ import {
   getLineStyle,
   getEntryPointsCharts,
   monitoringStateColors,
+  drawBadge,
 } from './helper';
 import { addEntryPoint } from '../../../lib/store/actions/views';
 import DroppableContainer from '../../../lib/windowProcess/View/DroppableContainer';
@@ -112,8 +114,6 @@ class PlotView extends PureComponent {
   };
 
   state = {
-    tooltipWidth: 300,
-    tooltipHeight: 100,
     disableZoom: true,
     isMenuOpened: false,
     menuPosition: {
@@ -407,6 +407,7 @@ class PlotView extends PureComponent {
         label: line.name,
         value: _get(currentItem, [line.key, 'value']),
         fillValue: _get(monitoringStateColors, _get(currentItem, [line.key, 'monit'])),
+        monitValue: _get(currentItem, [line.key, 'monit']),
         stroke: line.color,
       })),
   });
@@ -483,23 +484,50 @@ class PlotView extends PureComponent {
     });
   }
 
+  /* eslint-disable no-param-reassign */
   // eslint-disable-next-line class-methods-use-this
   tooltipCanvas({ fontFamily, fontSize, fontFill }, content, ctx) {
     const startY = 10 + (fontSize * 0.9);
 
-    ctx.font = `${fontSize}px ${fontFamily}`; // eslint-disable-line no-param-reassign
-    ctx.fillStyle = fontFill; // eslint-disable-line no-param-reassign
-    ctx.textAlign = 'left'; // eslint-disable-line no-param-reassign
+    ctx.font = `${fontSize}px ${fontFamily}`;
+    ctx.fillStyle = fontFill;
+    ctx.textAlign = 'left';
     ctx.fillText(content.x, 10, startY);
 
     for (let i = 0; i < content.y.length; i += 1) {
       const y = content.y[i];
       const textY = startY + (fontSize * (i + 1));
-      ctx.fillStyle = y.stroke || fontFill; // eslint-disable-line no-param-reassign
-      ctx.fillText(y.label, 10, textY); // eslint-disable-line no-param-reassign
-      ctx.fillStyle = y.fillValue || fontFill; // eslint-disable-line no-param-reassign
-      ctx.fillText(`: ${y.value}`, 10 + ctx.measureText(y.label).width, textY);
+      ctx.fillStyle = y.stroke || fontFill;
+      ctx.fillText(y.label, 10, textY);
+
+      ctx.fillStyle = fontFill;
+      const value = `: ${y.value}`;
+      ctx.fillText(value, 10 + ctx.measureText(y.label).width, textY);
+
+      drawBadge({
+        ctx,
+        text: '',
+        radius: 5,
+        fillColor: y.fillValue,
+        x: 10 + ctx.measureText(y.label).width + ctx.measureText(value).width + 5,
+        y: textY - fontSize,
+        margin: 0,
+        width: 14,
+        height: 14,
+      });
     }
+  }
+  /* eslint-enable-next-line no-param-reassign */
+
+  // eslint-disable-next-line class-methods-use-this
+  backgroundShapeCanvas(props, { width, height }, ctx) {
+    const { fill, stroke, opacity } = props;
+    ctx.fillStyle = hexToRGBA(fill, opacity);
+    ctx.strokeStyle = stroke;
+    ctx.beginPath();
+    ctx.rect(0, 0, width + 20, height);
+    ctx.fill();
+    ctx.stroke();
   }
 
   render() {
@@ -524,8 +552,6 @@ class PlotView extends PureComponent {
       configuration: { showYAxes }
     } = this.props;
     const {
-      tooltipWidth,
-      tooltipHeight,
       disableZoom,
       // isMenuOpened,
       // menuPosition
@@ -573,9 +599,9 @@ class PlotView extends PureComponent {
             tooltipContent={this.handleTooltipContent}
             opacity={1}
             fill="#FFFFFF"
+            stroke="#F0F0F0"
             tooltipCanvas={this.tooltipCanvas}
-            bgwidth={tooltipWidth}
-            bgheight={tooltipHeight}
+            backgroundShapeCanvas={this.backgroundShapeCanvas}
           />
         </ChartCanvas>
 

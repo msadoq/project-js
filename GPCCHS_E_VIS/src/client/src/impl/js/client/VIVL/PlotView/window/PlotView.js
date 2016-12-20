@@ -46,6 +46,8 @@ const { XAxis, YAxis } = StockchartsAxes;
 const margin = { left: 20, right: 20, top: 20, bottom: 40 };
 const yAxisWidth = 55;
 const edgeIndicatorArrowWidth = 10;
+const tooltipYMargin = 5;
+const badgeWidth = 30;
 
 // parse clipboard data to create partial entry point
 function parseDragData(data) {
@@ -499,7 +501,7 @@ class PlotView extends PureComponent {
 
     for (let i = 0; i < content.y.length; i += 1) {
       const y = content.y[i];
-      const textY = startY + (fontSize * (i + 1));
+      const textY = startY + ((fontSize + tooltipYMargin) * (i + 1));
       ctx.fillStyle = y.stroke || fontFill;
       ctx.fillText(y.label, 10, textY);
 
@@ -528,7 +530,7 @@ class PlotView extends PureComponent {
     ctx.fillStyle = hexToRGBA(fill, opacity);
     ctx.strokeStyle = stroke;
     ctx.beginPath();
-    ctx.rect(0, 0, width + 20, height);
+    ctx.rect(0, 0, width + badgeWidth, height + (this.lines.length * tooltipYMargin));
     ctx.fill();
     ctx.stroke();
   }
@@ -604,7 +606,7 @@ class PlotView extends PureComponent {
             fill="#FFFFFF"
             stroke="#F0F0F0"
             tooltipCanvas={this.tooltipCanvas}
-            backgroundShapeCanvas={this.backgroundShapeCanvas}
+            backgroundShapeCanvas={this.backgroundShapeCanvas.bind(this)}
           />
         </ChartCanvas>
 

@@ -61,11 +61,11 @@ describe('store:page:reducer', () => {
       });
     });
   });
-  describe('remove', () => {
-    it('remove', () => {
+  describe('remove', () => { // TODO changer car thunk
+    it('removePage', () => {
       const state = reducer(
         { myPageId: { title: 'Title' } },
-        actions.remove('myPageId')
+        actions.removePage('myPageId')
       );
       state.should.not.have.property('myPageId');
     });

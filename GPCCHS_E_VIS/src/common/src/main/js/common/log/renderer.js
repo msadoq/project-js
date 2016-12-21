@@ -7,7 +7,7 @@ const {
 } = require('./util');
 
 let DEFAULT_TRANSPORTS = ['electronIPC'];
-if (process.env.NODE_ENV === 'developpement') {
+if (global.parameters.get('DEBUG') === 'on') {
   DEFAULT_TRANSPORTS = ['console', 'electronIPC'];
 }
 

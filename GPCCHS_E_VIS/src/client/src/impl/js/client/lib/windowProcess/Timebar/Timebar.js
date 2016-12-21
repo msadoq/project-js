@@ -101,8 +101,9 @@ export default class Timebar extends Component {
           break;
         case keys.v:
           if (cursorMs < lower || cursorMs > upper) return;
-          if (timebarMode === 'Fixed' && cursorMs < slideWindow.lower) return;
-          if (timebarMode === 'Fixed' && cursorMs > slideWindow.upper) return;
+          if (['Normal', 'Fixed'].includes(timebarMode) &&
+            (cursorMs < slideWindow.lower || cursorMs > slideWindow.upper)) return;
+          if (timebarMode === 'Extensible' && cursorMs < slideWindow.lower) return;
           updateCursors(
             timebarId,
             {

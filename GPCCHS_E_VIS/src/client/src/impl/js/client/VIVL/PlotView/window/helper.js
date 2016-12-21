@@ -61,7 +61,9 @@ export const getEntryPointsCharts = (config) => {
     const xId = _get(ep, 'connectedDataX.axisId');
     const yId = _get(ep, 'connectedDataY.axisId');
     const isMainChart = grid && grid.xAxisId === xId && grid.yAxisId === yId;
-
+    if (!axes[yId].showAxis) {
+      return;
+    }
     const refChart = isMainChart ? mainChart : charts[`${xId}${yId}`];
     const line = getLine(ep);
     if (refChart) {

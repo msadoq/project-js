@@ -35,15 +35,15 @@ export default class View extends PureComponent {
   };
 
   componentDidMount() {
-    document.addEventListener('keypress', this.toggleCollapse);
+    document.addEventListener('keydown', this.toggleCollapse);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keypress', this.toggleCollapse);
+    document.removeEventListener('keydown', this.toggleCollapse);
   }
 
   toggleCollapse = (e) => {
-    if (e.keyCode === 101 && this.el.querySelector(':hover')) {
+    if (e.keyCode === 69 && e.ctrlKey && this.el.querySelector(':hover')) {
       const {
         collapseView,
         viewId,

@@ -9,6 +9,7 @@ import { getCurrentPageIdByViewId, makeGetLayouts } from '../selectors/pages';
 export const add = simple(types.WS_VIEW_ADD, 'viewId', 'type', 'configuration', 'path', 'oId',
   'absolutePath', 'isModified');
 export const remove = simple(types.WS_VIEW_REMOVE, 'viewId');
+export const reloadView = simple(types.WS_VIEW_RELOAD, 'viewId', 'configuration');
 export const updatePath = simple(types.WS_VIEW_UPDATEPATH, 'newPath');
 export const updateAbsolutePath = simple(types.WS_VIEW_UPDATE_ABSOLUTEPATH, 'viewId', 'newPath');
 export const setModified = simple(types.WS_VIEW_SETMODIFIED, 'viewId', 'flag');

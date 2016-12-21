@@ -34,6 +34,16 @@ export default function views(stateViews = {}, action) {
       };
     case types.WS_VIEW_REMOVE:
       return _omit(stateViews, [action.payload.viewId]);
+    case types.WS_VIEW_RELOAD: {
+      return {
+        ...stateViews,
+        [action.payload.viewId]: {
+          ...stateViews[action.payload.viewId],
+          isModified: false,
+          configuration: configuration(stateViews[action.payload.viewId], action),
+        }
+      };
+    }
     case types.WS_VIEW_UPDATEPATH: {
       // path unchanged or newPath invalid
       if (!action.payload.newPath ||
@@ -189,6 +199,7 @@ function view(stateView = initialState, action) {
 
 function configuration(state = { title: null }, action) {
   switch (action.type) {
+    case types.WS_VIEW_RELOAD:
     case types.WS_VIEW_ADD: {
       if (!action.payload.configuration) {
         return Object.assign({}, state);

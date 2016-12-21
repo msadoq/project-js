@@ -2,6 +2,7 @@ import _map from 'lodash/map';
 import _find from 'lodash/find';
 import _reduce from 'lodash/reduce';
 import _each from 'lodash/each';
+import _isFunction from 'lodash/isFunction';
 import { v4 } from 'node-uuid';
 import path from 'path';
 import { dialog, BrowserWindow } from 'electron';
@@ -26,7 +27,7 @@ import { requestPathFromOId } from './websocket';
 import { getModifiedPagesIds } from '../store/selectors/pages';
 import { getModifiedViewsIds } from '../store/selectors/views';
 
-export function showErrorMessage(focusedWindow, errTitle, errMsg) {
+export function showErrorMessage(focusedWindow, errTitle, errMsg, callback) {
   dialog.showMessageBox(
     focusedWindow,
     {
@@ -34,9 +35,22 @@ export function showErrorMessage(focusedWindow, errTitle, errMsg) {
       title: errTitle,
       message: errMsg,
       buttons: ['ok'],
-    });
+    },
+    _isFunction(callback) ? callback : undefined
+  );
 }
-
+export function showMessageDialog(focusedWindow, title, msg, buttons, callback) {
+  return dialog.showMessageBox(
+    focusedWindow,
+    {
+      type: 'warning',
+      title,
+      message: msg,
+      buttons,
+    },
+    _isFunction(callback) ? callback : undefined
+  );
+}
 export function openPage(absolutePath, windowId) {
   if (!absolutePath) {
     //  callback(new Error('No filepath'));
@@ -47,7 +61,7 @@ export function openPage(absolutePath, windowId) {
     if (pageErr) {
       return showErrorMessage(focusedWindow,
         'Error on selected page',
-        'Invalid Page file selected');
+        'Invalid Page file selected', () => {});
     }
     const content = { pages: {} };
     const uuid = v4();
@@ -56,7 +70,7 @@ export function openPage(absolutePath, windowId) {
       if (viewErr) {
         return showErrorMessage(focusedWindow,
           'Error on selected page',
-          'Invalid Page file selected');
+          'Invalid Page file selected', () => {});
       }
       showSelectedPage(pageAndViews, uuid, windowId);
     });
@@ -72,7 +86,7 @@ export function openView(absolutePath, pageId) {
     if (errView) {
       showErrorMessage(BrowserWindow.getFocusedWindow(),
         'Error on selected view',
-        'Invalid View file selected');
+        'Invalid View file selected', () => {});
       return;
     }
     const current = view[0];

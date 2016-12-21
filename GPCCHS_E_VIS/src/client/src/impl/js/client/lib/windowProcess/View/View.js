@@ -19,6 +19,7 @@ export default class View extends PureComponent {
     type: PropTypes.string.isRequired,
     oId: PropTypes.string,
     absolutePath: PropTypes.string,
+    isModified: PropTypes.bool,
     openEditor: PropTypes.func,
     closeEditor: PropTypes.func,
     unmountAndRemove: PropTypes.func,
@@ -28,6 +29,7 @@ export default class View extends PureComponent {
     isCollapsed: PropTypes.bool,
     updateAbsolutePath: PropTypes.func,
     setModified: PropTypes.func,
+    reloadView: PropTypes.func,
   };
 
   static contextTypes = {
@@ -74,8 +76,10 @@ export default class View extends PureComponent {
       component,
       oId,
       absolutePath,
+      isModified,
       updateAbsolutePath,
       setModified,
+      reloadView,
     } = this.props;
     const ContentComponent = component || UnknownView;
 
@@ -98,8 +102,10 @@ export default class View extends PureComponent {
           isCollapsed={isCollapsed}
           oId={oId}
           absolutePath={absolutePath}
+          isModified={isModified}
           updateAbsolutePath={updateAbsolutePath}
           setModified={setModified}
+          reloadView={reloadView}
         />
         {!isCollapsed &&
           <div

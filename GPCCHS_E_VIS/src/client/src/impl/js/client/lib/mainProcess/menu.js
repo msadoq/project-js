@@ -336,25 +336,8 @@ template.splice(3, 0,
           });
         }
       }
-    }, {
-      label: 'Save',
-      accelerator: '',
-      click(item, focusedWindow) {
-        if (focusedWindow) {
-          // TODO : ajouter une entrée redux 'focusedView' pour les pages
-          // TODO : pour pouvoir utiliser le menu electron pour les save des views
-        }
-      }
-    }, {
-      label: 'Save as',
-      accelerator: '',
-      click(item, focusedWindow) {
-        if (focusedWindow) {
-          // TODO : ajouter une entrée redux 'focusedView' pour les pages
-          // TODO : pour pouvoir utiliser le menu electron pour les save des views
-        }
-      }
-    }]
+    },
+  ]
   });
 
 const menu = Menu.buildFromTemplate(template);

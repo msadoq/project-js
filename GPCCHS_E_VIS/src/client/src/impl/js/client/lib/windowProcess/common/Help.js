@@ -29,8 +29,8 @@ export default class HelpComponent extends Component {
             <br />
             <b>Time navigation</b><br /><br />
             Two ways to navigate through time:<br />
-            - By dragging the visu window out of the viewport<br />
-            - By dragging on the time scale (bellow the timebar)<br />
+            - By dragging the visu window out of the viewport.<br />
+            - By dragging on the time scale (bellow the timebar).<br />
           </p>
         </Col>
         <Col xs={4} xsOffset={1}>
@@ -38,7 +38,7 @@ export default class HelpComponent extends Component {
           <p className={styles.para}>
             <br />
             <b>Views</b><br /><br />
-            <kbd>(ctrl/cmd)</kbd> + <kbd>e</kbd> Collapse / expand hovered view<br />
+            <kbd>(ctrl/cmd)</kbd> + <kbd>e</kbd> Collapse / expand hovered view.<br />
           </p>
         </Col>
       </div>

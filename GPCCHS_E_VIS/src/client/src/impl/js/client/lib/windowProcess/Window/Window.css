@@ -1,5 +1,3 @@
-@import '../style/animations.css';
-
 .container{
   flex-direction: column;
   display: flex;
@@ -36,12 +34,6 @@
 }
 
 .globalMessages{
-  :global {
-    .removing {
-      animation-name: fadeOutRight;
-      animation-duration: 0.5s;
-    }
-  }
 }
 
 .badge{

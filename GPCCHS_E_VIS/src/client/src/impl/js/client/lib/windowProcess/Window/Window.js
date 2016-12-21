@@ -81,6 +81,7 @@ export default class Window extends Component {
           windowId={windowId}
           focusedPageId={focusedPageId}
         />
+        {this.state.displayHelp && <Help />}
         <div className={classnames(styles.content)}>
           <PageContainer
             windowId={windowId}
@@ -91,7 +92,6 @@ export default class Window extends Component {
           windowId={windowId}
           focusedPageId={focusedPageId}
         />
-        { this.state.displayHelp && <Help />}
       </div>
     );
   }

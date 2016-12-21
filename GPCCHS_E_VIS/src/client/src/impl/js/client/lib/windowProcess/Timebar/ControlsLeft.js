@@ -10,7 +10,7 @@ import styles from './Controls.css';
 
 const currentUpperMargin = 1 / 100;
 
-export default class TimebarControlsLeft extends Component {
+export default class ControlsLeft extends Component {
 
   static propTypes = {
     isPlaying: PropTypes.bool.isRequired,
@@ -21,7 +21,7 @@ export default class TimebarControlsLeft extends Component {
     updateCursors: PropTypes.func.isRequired,
     slideWindow: PropTypes.object.isRequired,
     visuWindow: PropTypes.object.isRequired,
-    messages: PropTypes.array.isRequired,
+    messages: PropTypes.array,
     timebarId: PropTypes.string.isRequired,
     timebarMode: PropTypes.string.isRequired,
     timebarSpeed: PropTypes.number.isRequired,

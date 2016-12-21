@@ -9,7 +9,7 @@ import EditTrack from './EditTrack';
 import AddTrack from './AddTrack';
 import styles from './Lefttab.css';
 
-export default class Lefttab extends Component {
+export default class LeftTab extends Component {
   static propTypes = {
     addAndMountTimeline: PropTypes.func.isRequired,
     unmountTimeline: PropTypes.func.isRequired,

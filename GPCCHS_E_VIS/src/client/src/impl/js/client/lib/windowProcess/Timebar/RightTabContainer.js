@@ -8,7 +8,7 @@ import {
   switchToFixedMode,
 } from '../../store/actions/timebars';
 import { play, pause } from '../../store/actions/hsc';
-import Righttab from './Righttab';
+import RightTab from './RightTab';
 
 export default connect(
   () => ({}),
@@ -21,4 +21,4 @@ export default connect(
     play,
     pause,
   }
-)(Righttab);
+)(RightTab);

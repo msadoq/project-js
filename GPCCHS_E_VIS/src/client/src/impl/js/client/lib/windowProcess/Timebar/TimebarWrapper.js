@@ -4,8 +4,8 @@ import { debounce } from 'lodash';
 import { Col } from 'react-bootstrap';
 import getLogger from 'common/log';
 import styles from './Timebar.css';
-import LefttabContainer from './LefttabContainer';
-import RighttabContainer from './RighttabContainer';
+import LeftTabContainer from './LeftTabContainer';
+import RightTabContainer from './RightTabContainer';
 import TimeSetterContainer from './TimeSetterContainer';
 import Modal from '../common/Modal';
 
@@ -161,7 +161,7 @@ export default class TimebarWrapper extends Component {
             />
           </div>
         </Col>
-        <LefttabContainer
+        <LeftTabContainer
           timebarId={timebarId}
           focusedPageId={focusedPageId}
           masterId={timebar.masterId}
@@ -170,7 +170,7 @@ export default class TimebarWrapper extends Component {
           verticalScroll={timelinesVerticalScroll}
           onTimelinesVerticalScroll={this.onTimelinesVerticalScroll}
         />
-        <RighttabContainer
+        <RightTabContainer
           timebar={timebar}
           timebarId={timebarId}
           visuWindow={visuWindow}

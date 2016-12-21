@@ -6,7 +6,7 @@ import {
   updateOffset,
   updateSessionId,
 } from '../../store/actions/timelines';
-import Lefttab from './Lefttab';
+import LeftTab from './LeftTab';
 
 export default connect(
   state => ({ sessions: state.sessions }),
@@ -20,4 +20,4 @@ export default connect(
     updateTimebarId,
   }
 
-)(Lefttab);
+)(LeftTab);

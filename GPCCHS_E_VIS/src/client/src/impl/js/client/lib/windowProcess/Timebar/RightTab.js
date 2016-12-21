@@ -8,7 +8,7 @@ import styles from './Timebar.css';
 
 const bootstrapPaddings = 5;
 
-class RighttabContent extends Component {
+class RightTabContent extends Component {
 
   static propTypes = {
     onTimelinesVerticalScroll: PropTypes.func.isRequired,
@@ -155,4 +155,4 @@ class RighttabContent extends Component {
   }
 }
 
-export default SizeMe()(RighttabContent); // eslint-disable-line new-cap
+export default SizeMe()(RightTabContent); // eslint-disable-line new-cap

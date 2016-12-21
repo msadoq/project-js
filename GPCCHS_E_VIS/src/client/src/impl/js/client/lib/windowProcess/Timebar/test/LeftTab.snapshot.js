@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import TimebarFixture from '../../../../test/__mocks__/Timebar';
 import TimelinesFixture from '../../../../test/__mocks__/Timelines';
 import SessionsFixture from '../../../../test/__mocks__/Sessions';
-import Lefttab from '../Lefttab';
+import LeftTab from '../LeftTab';
 
 const propsStub = {
   addAndMountTimeline: () => null,
@@ -25,7 +25,7 @@ const propsStub = {
 
 test('Lefttab renders correctly', () => {
   const tree = renderer.create(
-    <Lefttab
+    <LeftTab
       {...propsStub}
     />
   ).toJSON();

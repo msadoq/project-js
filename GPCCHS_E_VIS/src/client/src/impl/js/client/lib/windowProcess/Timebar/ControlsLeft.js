@@ -183,7 +183,7 @@ export default class TimebarControlsLeft extends Component {
 
     return (
       <ul className={styles.controlsUl}>
-        {messages.length ?
+        {(messages && messages.length) ?
           <li className={styles.controlsLi}>
             <button
               className={classnames('btn', 'btn-xs', 'btn-danger')}

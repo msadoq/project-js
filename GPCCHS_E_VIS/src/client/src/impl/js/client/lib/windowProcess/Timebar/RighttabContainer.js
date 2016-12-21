@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import _get from 'lodash/get';
 
 import {
   updateViewport,
@@ -12,9 +11,7 @@ import { play, pause } from '../../store/actions/hsc';
 import Righttab from './Righttab';
 
 export default connect(
-  (state, { timebarId }) => ({
-    messages: _get(state, ['messages', `timeSetter-${timebarId}`], []),
-  }),
+  () => ({}),
   {
     switchToNormalMode,
     switchToRealtimeMode,

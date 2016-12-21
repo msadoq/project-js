@@ -24,7 +24,6 @@ class RighttabContent extends Component {
     size: PropTypes.object.isRequired,
     timebarId: PropTypes.string.isRequired,
     timelines: PropTypes.array.isRequired,
-    messages: PropTypes.array.isRequired,
     currentSession: PropTypes.object,
     timelinesVerticalScroll: PropTypes.number,
   }
@@ -102,7 +101,6 @@ class RighttabContent extends Component {
       isPlaying,
       play,
       pause,
-      messages,
       timebar,
       slideWindow,
       currentSession,
@@ -128,7 +126,6 @@ class RighttabContent extends Component {
           visuWindow={visuWindow}
           slideWindow={slideWindow}
           isPlaying={isPlaying}
-          messages={messages}
           play={play}
           pause={pause}
           toggleTimesetter={toggleTimesetter}

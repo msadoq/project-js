@@ -1,6 +1,5 @@
-// import SizeMe from 'react-sizeme';
 import React, { Component, PropTypes } from 'react';
-import SizeMe from 'react-sizeme';
+import Dimensions from 'react-dimensions';
 import { Col } from 'react-bootstrap';
 import TimeBar from './Timebar';
 import ControlsContainer from './ControlsContainer';
@@ -25,6 +24,7 @@ class RightTabContent extends Component {
     timebarId: PropTypes.string.isRequired,
     timelines: PropTypes.array.isRequired,
     currentSession: PropTypes.object,
+    containerWidth: PropTypes.number,
     timelinesVerticalScroll: PropTypes.number,
   }
 
@@ -35,8 +35,11 @@ class RightTabContent extends Component {
     if (!nextProps.isPlaying) {
       return;
     }
-    const { timebarId, updateViewport } = this.props;
-
+    const {
+      timebarId,
+      updateViewport,
+      containerWidth
+    } = this.props;
     const viewport = {
       lower: nextProps.timebar.rulerStart,
       upper: nextProps.timebar.rulerStart +
@@ -61,7 +64,7 @@ class RightTabContent extends Component {
       updateViewport(
         timebarId,
         viewport.lower + offsetMs,
-        (viewport.upper - viewport.lower) / (this.props.size.width - (bootstrapPaddings * 2))
+        (viewport.upper - viewport.lower) / (containerWidth - (bootstrapPaddings * 2))
       );
     }
 
@@ -83,11 +86,11 @@ class RightTabContent extends Component {
     wich is much easier to work with int the subcomponents
   */
   formatViewportDimensions() {
-    const { timebar } = this.props;
+    const { timebar, containerWidth } = this.props;
     return {
       lower: timebar.rulerStart,
       upper: timebar.rulerStart +
-        (timebar.rulerResolution * (this.props.size.width - (bootstrapPaddings * 2))),
+        (timebar.rulerResolution * (containerWidth - (bootstrapPaddings * 2))),
     };
   }
 
@@ -107,7 +110,7 @@ class RightTabContent extends Component {
       toggleTimesetter,
       onTimelinesVerticalScroll,
       timelinesVerticalScroll,
-      size,
+      containerWidth,
       updateCursors,
       updateViewport,
     } = this.props;
@@ -148,11 +151,11 @@ class RightTabContent extends Component {
           onVerticalScroll={onTimelinesVerticalScroll}
           toggleTimesetter={toggleTimesetter}
           retrieveFormattedFullDateEl={this.retrieveFormattedFullDateEl}
-          widthPx={size.width - (bootstrapPaddings * 2)}
+          widthPx={containerWidth - (bootstrapPaddings * 2)}
         />
       </Col>
     );
   }
 }
 
-export default SizeMe()(RightTabContent); // eslint-disable-line new-cap
+export default Dimensions()(RightTabContent);

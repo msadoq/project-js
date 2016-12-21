@@ -102,8 +102,8 @@ export default class Header extends Component {
         break;
       }
       case 'save':
-        sendToMain('saveView', { configuration, type, absolutePath }, (error) => {
-          if (!error) {
+        sendToMain('saveView', { configuration, type, absolutePath }, (payload) => {
+          if (!payload.error) {
             // update View title
             setModified(viewId, false);
           }

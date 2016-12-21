@@ -37,7 +37,8 @@ export function init() {
             e.sender.send('mainResponse', { event: 'runCallback', payload: { error }, queryId });
           });
         } else {
-          e.sender.send('mainResponse', { event: 'runCallback', payload: 'Invalid path', queryId });
+          e.sender.send('mainResponse', { event: 'runCallback',
+                                          payload: { error: 'Invalid path'}, queryId });
         }
         break;
       }

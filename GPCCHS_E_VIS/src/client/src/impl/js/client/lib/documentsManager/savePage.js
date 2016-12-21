@@ -32,7 +32,7 @@ function savePageAs(state, pageId, path, useRelativePath, callback) {
   const jsonPage = {
     type: 'Page',
     timebarHeight: page.timebarHeight,
-    title: (page.title.substring(0, 1)) ? page.title.substring(2) : page.title,
+    title: page.title,
     views: [],
   };
   page.views.forEach((id) => {

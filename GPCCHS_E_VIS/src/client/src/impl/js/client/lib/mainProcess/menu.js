@@ -9,7 +9,7 @@ import getPathByFilePicker from './filePicker';
 import { addNewView, openView, openPage, allDocumentsAreSaved,
   ungivenPaths, updateWorkspacePath, updatePagePath, showErrorMessage } from './fileTreatment';
 import { savePage } from '../documentsManager/savePage';
-import { saveWorkspace, updateSavedWinTitle } from '../documentsManager/saveWorkspace';
+import { saveWorkspace } from '../documentsManager/saveWorkspace';
 import { getModifiedViewsIds } from '../store/selectors/views';
 import { getPageModifiedViewsIds, getModifiedPagesIds } from '../store/selectors/pages';
 
@@ -74,7 +74,7 @@ template.splice(0, 0,
                 path.basename(filePath),
                 (errWk) => {
                   if (errWk) {
-                    showErrorMessage(BrowserWindow.getFocusedWindow(),
+                    showErrorMessage(focusedWindow,
                       'Error on selected workspace',
                       'Invalid Workspace file selected');
                   }
@@ -101,22 +101,28 @@ template.splice(0, 0,
                 if (err) {
                   return;
                 }
-                saveWorkspace(getStore().getState(), true, (errWin, winId) => {
+                saveWorkspace(getStore().getState(), true, (errWin, winIds) => {
                   if (errWin) {
                     return;
                   }
-                  getStore().dispatch(setModifiedWindow(winId, false));
+                  winIds.forEach((winId) => {
+                    getStore().dispatch(setModifiedWindow(winId, false));
+                  });
+                  const title = getStore().getState().windows[focusedWindow.windowId].title;
+                  focusedWindow.setTitle(title.concat(' - VIMA'));
                 });
-                updateSavedWinTitle('save');
               });
             } else {
-              saveWorkspace(getStore().getState(), true, (errWin, winId) => {
+              saveWorkspace(getStore().getState(), true, (errWin, winIds) => {
                 if (errWin) {
                   return;
                 }
-                getStore().dispatch(setModifiedWindow(winId, false));
+                winIds.forEach((winId) => {
+                  getStore().dispatch(setModifiedWindow(winId, false));
+                });
+                const title = getStore().getState().windows[focusedWindow.windowId].title;
+                focusedWindow.setTitle(title.concat(' - VIMA'));
               });
-              updateSavedWinTitle('save');
             }
           }
         }
@@ -136,13 +142,16 @@ template.splice(0, 0,
               if (err) {
                 return;
               }
-              saveWorkspace(getStore().getState(), true, (errWin, winId) => {
+              saveWorkspace(getStore().getState(), true, (errWin, winIds) => {
                 if (errWin) {
                   return;
                 }
-                getStore().dispatch(setModifiedWindow(winId, false));
+                winIds.forEach((winId) => {
+                  getStore().dispatch(setModifiedWindow(winId, false));
+                });
+                const title = getStore().getState().windows[focusedWindow.windowId].title;
+                focusedWindow.setTitle(title.concat(' - VIMA'));
               });
-              updateSavedWinTitle('save');
             });
           }
         }
@@ -209,6 +218,8 @@ template.splice(2, 0,
           const uuid = v4();
           getStore().dispatch(addAndMountPage(focusedWindow.windowId, uuid));
           getStore().dispatch(setModifiedPage(uuid, true));
+          const title = getStore().getState().windows[focusedWindow.windowId].title;
+          focusedWindow.setTitle(title.concat(' * - VIMA'));
         }
       }
     }, {
@@ -221,6 +232,8 @@ template.splice(2, 0,
               return;
             }
             openPage(filePath, focusedWindow.windowId);
+            const title = getStore().getState().windows[focusedWindow.windowId].title;
+            focusedWindow.setTitle(title.concat(' * - VIMA'));
           });
         }
       }
@@ -337,7 +350,7 @@ template.splice(3, 0,
         }
       }
     },
-  ]
+    ]
   });
 
 const menu = Menu.buildFromTemplate(template);

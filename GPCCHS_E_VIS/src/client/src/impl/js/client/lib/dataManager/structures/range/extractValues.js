@@ -25,22 +25,25 @@ export function select(remoteIdPayload, ep, epName, viewState, count) {
     }
     const masterTime = timestamp + ep.offset;
 
-    if (viewState && viewState[masterTime]) {
-      newState[masterTime] = viewState[masterTime];
-      newState[masterTime][epName] = {
-        x: _get(value, [ep.fieldX, 'value']),
-        value: _get(value, [ep.fieldY, 'value']),
-        monit: _get(value, ['monitoringState', 'value']),
-      };
-    } else {
-      _set(newState, [masterTime, epName], {
-        x: _get(value, [ep.fieldX, 'value']),
-        value: _get(value, [ep.fieldY, 'value']),
-        monit: _get(value, ['monitoringState', 'value']),
-      });
+    const valX = _get(value, [ep.fieldX, 'value']);
+    const valY = _get(value, [ep.fieldY, 'value']);
+    if (valX && valY) {
+      if (viewState && viewState[masterTime]) {
+        newState[masterTime] = viewState[masterTime];
+        newState[masterTime][epName] = {
+          x: valX,
+          value: valY,
+          monit: _get(value, ['monitoringState', 'value']),
+        };
+      } else {
+        _set(newState, [masterTime, epName], {
+          x: valX,
+          value: valY,
+          monit: _get(value, ['monitoringState', 'value']),
+        });
+      }
+      count.range += 1; // eslint-disable-line no-param-reassign
     }
-
-    count.range += 1; // eslint-disable-line no-param-reassign
   });
   return newState;
 }

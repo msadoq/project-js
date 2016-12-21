@@ -28,18 +28,16 @@ function saveViewAs(viewConfiguration, viewType, path, callback) {
   if (err) {
     return callback(err);
   }
-  const conf = _cloneDeep(viewConfiguration);
-  conf.title = _startsWith(conf.title, '*') ? conf.title.substring(2) : conf.title;
   let view;
   const structureType = vivl(viewType, 'structureType')();
   switch (structureType) { // eslint-disable-line default-case
     case globalConstants.DATASTRUCTURETYPE_RANGE: {
-      view = _omit(conf, 'axes');
-      view.axes = _values(conf.axes);
+      view = _omit(viewConfiguration, 'axes');
+      view.axes = _values(viewConfiguration.axes);
       break;
     }
     default:
-      view = conf;
+      view = viewConfiguration;
   }
   // Remove entry point id
   _each(view.entryPoints, (value, index, entryPoints) => {

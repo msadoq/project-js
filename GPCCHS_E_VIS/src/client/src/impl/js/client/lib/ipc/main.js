@@ -77,6 +77,10 @@ export function init() {
         }
         break;
       }
+      case 'updateTitle': {
+        BrowserWindow.getFocusedWindow().setTitle(payload.title);
+        break;
+      }
       default:
         logger.error(`unsupported event received: ${event}`); // eslint-disable-line no-console
     }

@@ -22,7 +22,7 @@ function saveWorkspaceAs(state, path, useRelativePath, callback) {
     const current = {
       type: 'documentWindow',
       pages: [],
-      title: (win.title.substring(0, 1)) ? win.title.substring(2) : win.title,
+      title: win.title,
       geometry: win.geometry,
     };
     const err = {};

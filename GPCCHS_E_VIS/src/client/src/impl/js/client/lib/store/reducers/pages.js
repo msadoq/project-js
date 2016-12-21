@@ -33,7 +33,6 @@ export default function pages(statePages = {}, action) {
       return u({ [action.payload.pageId]: {
         path: action.payload.newPath,
         isModified: true,
-        title: addStarOnTitle(statePages[action.payload.pageId])
       } },
         statePages);
     case types.WS_PAGE_UPDATE_ABSOLUTEPATH: {
@@ -44,7 +43,6 @@ export default function pages(statePages = {}, action) {
       return u({ [action.payload.pageId]: {
         absolutePath: action.payload.newPath,
         isModified: true,
-        title: addStarOnTitle(statePages[action.payload.pageId])
       } }, statePages);
     }
     case types.HSC_CLOSE_WORKSPACE:
@@ -67,7 +65,6 @@ export default function pages(statePages = {}, action) {
       return u({
         [action.payload.pageId]: {
           isModified: action.payload.flag,
-          title: newTitle
         }
       },
       statePages);
@@ -79,7 +76,6 @@ export default function pages(statePages = {}, action) {
       return u({ [action.payload.focusedPageId]: {
         timebarId: action.payload.timebarId,
         isModified: true,
-        title: addStarOnTitle(statePages[action.payload.focusedPageId])
       } },
         statePages);
     case types.WS_PAGE_UPDATE_TIMEBARHEIGHT:
@@ -90,7 +86,6 @@ export default function pages(statePages = {}, action) {
         timebarHeight: (!action.payload.timebarHeight || action.payload.timebarHeight < 135) ?
           135 : action.payload.timebarHeight,
         isModified: true,
-        title: addStarOnTitle(statePages[action.payload.focusedPageId])
       } },
         statePages);
     default:
@@ -140,7 +135,6 @@ function page(statePage = initialState, action) {
       const update = {
         views: [...statePage.views, action.payload.viewId],
         isModified: true,
-        title: addStarOnTitle(statePage)
       };
       if (action.payload.layout) {
         update.layout = action.payload.layout;
@@ -151,7 +145,6 @@ function page(statePage = initialState, action) {
       return Object.assign({}, statePage, {
         views: _without(statePage.views, action.payload.viewId),
         isModified: true,
-        title: addStarOnTitle(statePage)
       });
     }
     case types.WS_PAGE_UPDATE_LAYOUT:
@@ -160,18 +153,9 @@ function page(statePage = initialState, action) {
       }
       return Object.assign({}, statePage, {
         layout: action.payload.layout || statePage.layout,
-        // TODO : Bug: decommenter et debugger
-        // isModified: action.payload.layout ? true : statePage.isModified,
-        // title: action.payload.layout ? newTitle : statePage.title,
+        isModified: action.payload.layout ? true : statePage.isModified,
       });
     default:
       return statePage;
   }
-}
-
-function addStarOnTitle(statePage) {
-  if (!statePage) {
-    return '';
-  }
-  return statePage.title.startsWith('*') ? statePage.title : '* '.concat(statePage.title);
 }

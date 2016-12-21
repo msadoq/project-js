@@ -187,8 +187,13 @@ export default class Header extends Component {
       isCollapsed,
       oId,
       absolutePath,
+      isModified,
     } = this.props;
-    const { title } = configuration;
+    let title = configuration.title;
+    if (isModified) {
+      title = title.concat(' *');
+    }
+
     const titleStyle = this.getTitleStyle();
     const isPathDefined = oId || absolutePath;
 

@@ -13,11 +13,13 @@ import styles from './Window.css';
 
 const logger = getLogger('GPCCHS:Window');
 
+
 export default class Window extends Component {
   static propTypes = {
     windowId: PropTypes.string.isRequired,
     focusedPageId: PropTypes.string.isRequired,
     appStatus: PropTypes.string,
+    title: PropTypes.string,
   };
 
   static childContextTypes = {
@@ -54,9 +56,8 @@ export default class Window extends Component {
     logger.debug('render');
     const {
       appStatus, focusedPageId,
-      windowId
+      windowId, title
     } = this.props;
-
     if (appStatus !== LIFECYCLE_STARTED) {
       return (
         <div className={styles.box}>
@@ -80,6 +81,7 @@ export default class Window extends Component {
           className="col-xs-12"
           windowId={windowId}
           focusedPageId={focusedPageId}
+          title={title}
         />
         {this.state.displayHelp && <Help />}
         <div className={classnames(styles.content)}>

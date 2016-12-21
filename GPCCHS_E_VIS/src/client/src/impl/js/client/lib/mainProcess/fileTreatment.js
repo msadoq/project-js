@@ -1,7 +1,6 @@
 import _map from 'lodash/map';
 import _find from 'lodash/find';
 import _reduce from 'lodash/reduce';
-import _each from 'lodash/each';
 import _isFunction from 'lodash/isFunction';
 import { v4 } from 'node-uuid';
 import path from 'path';
@@ -202,7 +201,7 @@ export function allDocumentsAreSaved(store, dispatch, cb) {
               winIds.forEach((id) => {
                 dispatch(setModifiedWindow(id, false));
               });
-              updateSavedWinTitle();
+              // updateSavedWinTitle();
               cb(null);
             });
           });
@@ -268,15 +267,4 @@ export function saveOneView(viewId, as = false) {
       });
     });
   }
-}
-
-function updateSavedWinTitle() {
-  const windows = BrowserWindow.getAllWindows();
-  _each(windows, (window) => {
-    let title = window.getTitle();
-    if (title.startsWith('* ')) {
-      title = title.substring(2);
-    }
-    window.setTitle(title);
-  });
 }

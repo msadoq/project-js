@@ -72,7 +72,10 @@ describe('store:views:reducer', () => {
   describe('set modified', () => {
     const state = {
       myView: {
-        isModified: false
+        isModified: false,
+        configuration: {
+          title: 'myView'
+        }
       }
     };
     const s = reducer(state, actions.setModified('myView', true));
@@ -221,15 +224,6 @@ describe('store:views:reducer', () => {
           },
         }
       });
-    });
-    it('object: invalid paramName', () => {
-      const action = {
-        payload: {
-          viewId: 'view1',
-          pName: 'newValue',
-        }
-      };
-      updateObject(state, action, 'oName', 'paramName').should.equal(state);
     });
     const stateArray = {
       view1: {

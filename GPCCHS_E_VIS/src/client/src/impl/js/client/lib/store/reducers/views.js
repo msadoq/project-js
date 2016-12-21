@@ -211,7 +211,7 @@ function configuration(state = { title: null }, action) {
 }
 
 export function updateObject(stateViews, action, objectName, paramName, viewType) {
-  if (!stateViews[action.payload.viewId] || !action.payload[paramName]) {
+  if (!stateViews[action.payload.viewId]) {
     return stateViews;
   }
   // Content only for a type of view if viewType is defined

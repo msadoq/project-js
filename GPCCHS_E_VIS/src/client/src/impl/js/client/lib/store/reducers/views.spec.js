@@ -69,7 +69,16 @@ describe('store:views:reducer', () => {
       state.should.have.property('myViewId');
     });
   });
-  describe('collapse', () => {
+  describe('set modified', () => {
+    const state = {
+      myView: {
+        isModified: false
+      }
+    };
+    const s = reducer(state, actions.setModified('myView', true));
+    s.myView.isModified.should.equal(true);
+  });
+  describe('set collapsed', () => {
     const state = {
       myView: {
         isCollapsed: false
@@ -78,7 +87,7 @@ describe('store:views:reducer', () => {
     const s = reducer(state, actions.setCollapsed('myView', true));
     s.myView.isCollapsed.should.equal(true);
   });
-  describe('collapse and updateLayout', () => {
+  describe('set collapsed and updateLayout', () => {
     let dispatch;
     let getState;
     before(() => {

@@ -25,21 +25,14 @@ export default class CodeMirrorField extends React.Component {
     className: PropTypes.string,
     type: PropTypes.string.isRequired,
     meta: PropTypes.object,
-    options: PropTypes.object,
-    checkHtmlLintBeforeChange: PropTypes.bool,
+    options: PropTypes.object
   }
 
   static defaultProps = {
-    autocompleteList: [],
-    checkHtmlLintBeforeChange: false,
+    autocompleteList: []
   }
 
   componentDidMount() {
-    const {
-      input: { onChange },
-      checkHtmlLintBeforeChange,
-    } = this.props;
-
     this.codeMirrorInstance = this.element.getCodeMirrorInstance();
     this.codeMirror = this.element.getCodeMirror();
 
@@ -59,11 +52,21 @@ export default class CodeMirrorField extends React.Component {
           severity: message.type
         });
       }
-      if (checkHtmlLintBeforeChange && !found.length) {
-        onChange(text);
-      }
       return found;
     });
+    /*
+      linting is disabled by default, and will be activated only if
+      component receives eror(s) from redux-form (componentWillReceiveProps)
+    */
+    this.codeMirror.setOption('lint', false);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.meta.error && nextProps.meta.error.length) {
+      this.codeMirror.setOption('lint', true);
+    } else {
+      this.codeMirror.setOption('lint', false);
+    }
   }
 
   element;
@@ -79,13 +82,8 @@ export default class CodeMirrorField extends React.Component {
   }
 
   handleOnChange = _debounce((value) => {
-    const {
-      input: { onChange },
-      checkHtmlLintBeforeChange,
-    } = this.props;
-    if (!checkHtmlLintBeforeChange) {
-      onChange(value);
-    }
+    const { input: { onChange } } = this.props;
+    onChange(value);
     // asyncValidate();
   }, 500)
 

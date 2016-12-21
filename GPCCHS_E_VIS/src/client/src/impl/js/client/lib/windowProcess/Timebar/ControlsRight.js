@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
+import Help from './Help';
+import Modal from '../common/Modal';
 import styles from './Controls.css';
 
 export default class TimebarControlsRight extends Component {
@@ -13,6 +15,17 @@ export default class TimebarControlsRight extends Component {
     timebarMode: PropTypes.string.isRequired,
     timebarId: PropTypes.string.isRequired,
     currentSession: PropTypes.object,
+  }
+
+  state = {
+    showHelpModal: false,
+  }
+
+  toggleHelpModal = (e) => {
+    e.preventDefault();
+    this.setState({
+      showHelpModal: !this.state.showHelpModal,
+    });
   }
 
   switchMode = (e) => {
@@ -49,6 +62,10 @@ export default class TimebarControlsRight extends Component {
       timebarMode,
       currentSession
     } = this.props;
+
+    const {
+      showHelpModal,
+    } = this.state;
 
     const allButtonsKlasses = classnames('btn', 'btn-xs', 'btn-control');
 
@@ -116,7 +133,23 @@ export default class TimebarControlsRight extends Component {
               Real time
             </button>
           </li>
+          <li className={styles.controlsLi}>
+            <button
+              className={allButtonsKlasses}
+              onClick={this.toggleHelpModal}
+              title="Help modal"
+            >
+              ?
+            </button>
+          </li>
         </ul>
+        <Modal
+          title="Timebar main commands"
+          onClose={this.toggleHelpModal}
+          isOpened={showHelpModal}
+        >
+          <Help />
+        </Modal>
       </div>
     );
   }

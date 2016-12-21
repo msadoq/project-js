@@ -8,7 +8,6 @@ import TimebarMasterContainer from '../Timebar/TimebarMasterContainer';
 import MessagesContainer from './MessagesContainer';
 import PageContainer from '../Page/PageContainer';
 import TabsContainer from '../Navigation/TabsContainer';
-import Help from '../common/Help';
 import styles from './Window.css';
 
 const logger = getLogger('GPCCHS:Window');
@@ -19,35 +18,13 @@ export default class Window extends Component {
     focusedPageId: PropTypes.string.isRequired,
     appStatus: PropTypes.string,
   };
-
   static childContextTypes = {
     windowId: PropTypes.string
   };
-
-  state = {
-    displayHelp: false,
-  }
-
   getChildContext() {
     return {
       windowId: this.props.windowId,
     };
-  }
-
-  componentDidMount() {
-    document.addEventListener('keydown', this.toggleHelp);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.toggleHelp);
-  }
-
-  toggleHelp = (e) => {
-    if (e.keyCode === 72 && e.ctrlKey) {
-      this.setState({
-        displayHelp: !this.state.displayHelp,
-      });
-    }
   }
 
   render() {
@@ -91,7 +68,6 @@ export default class Window extends Component {
           windowId={windowId}
           focusedPageId={focusedPageId}
         />
-        { this.state.displayHelp && <Help />}
       </div>
     );
   }

@@ -153,7 +153,7 @@ export default class EditTrack extends Component {
           <input
             type="submit"
             value="Edit track"
-            className={classnames(styles.addTrackButton, 'btn-md', 'btn-primary')}
+            className={classnames('btn', 'btn-md', 'btn-primary')}
           />
         </FormGroup>
       </form>

@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import classnames from 'classnames';
 import { LIFECYCLE_STARTED } from 'common/constants';
 import getLogger from 'common/log';
 
@@ -84,7 +83,7 @@ export default class Window extends Component {
           title={title}
         />
         {this.state.displayHelp && <Help />}
-        <div className={classnames(styles.content)}>
+        <div className={styles.content}>
           <PageContainer
             windowId={windowId}
             focusedPageId={focusedPageId}

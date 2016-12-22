@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import Dimensions from 'react-dimensions';
-import { Col } from 'react-bootstrap';
 import TimeBar from './Timebar';
 import ControlsContainer from './ControlsContainer';
 import styles from './Timebar.css';
@@ -20,7 +19,6 @@ class RightTabContent extends Component {
     visuWindow: PropTypes.object.isRequired,
     slideWindow: PropTypes.object.isRequired,
     timebar: PropTypes.object.isRequired,
-    size: PropTypes.object.isRequired,
     timebarId: PropTypes.string.isRequired,
     timelines: PropTypes.array.isRequired,
     currentSession: PropTypes.object,
@@ -38,12 +36,12 @@ class RightTabContent extends Component {
     const {
       timebarId,
       updateViewport,
-      containerWidth
+      containerWidth,
     } = this.props;
     const viewport = {
       lower: nextProps.timebar.rulerStart,
       upper: nextProps.timebar.rulerStart +
-        (nextProps.timebar.rulerResolution * (this.props.size.width - (bootstrapPaddings * 2))),
+        (nextProps.timebar.rulerResolution * (containerWidth - (bootstrapPaddings * 2))),
     };
 
     const {
@@ -116,7 +114,11 @@ class RightTabContent extends Component {
     } = this.props;
 
     return (
-      <Col xs={9} style={{ height: '100%' }}>
+      <div
+        style={{
+          height: '100%',
+        }}
+      >
         <span
           ref={(el) => { this.formattedFullDateEl = el; }}
           className={styles.formatedFullDate}
@@ -153,7 +155,7 @@ class RightTabContent extends Component {
           retrieveFormattedFullDateEl={this.retrieveFormattedFullDateEl}
           widthPx={containerWidth - (bootstrapPaddings * 2)}
         />
-      </Col>
+      </div>
     );
   }
 }

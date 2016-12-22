@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import _get from 'lodash/get';
 import _map from 'lodash/map';
 // import _remove from 'lodash/remove';
-import SizeMe from 'react-sizeme';
+import Dimensions from 'react-dimensions';
 import { format } from 'd3-format';
 import { scaleTime } from 'd3-scale';
 import getLogger from 'common/log';
@@ -64,10 +64,8 @@ function parseDragData(data) {
 
 class PlotView extends PureComponent {
   static propTypes = {
-    size: PropTypes.shape({
-      width: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
-      height: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
-    }),
+    containerWidth: PropTypes.number.isRequired,
+    containerHeight: PropTypes.number.isRequired,
     data: PropTypes.shape({
       lines: PropTypes.array, // eslint-disable-line react/no-unused-prop-types
       columns: PropTypes.array, // eslint-disable-line react/no-unused-prop-types
@@ -158,7 +156,8 @@ class PlotView extends PureComponent {
   getGrid() {
     const {
       configuration,
-      size
+      containerWidth,
+      containerHeight,
     } = this.props;
     const isDisplayed = _get(configuration, 'grids[0].showGrid', false);
 
@@ -168,9 +167,9 @@ class PlotView extends PureComponent {
         y: {}
       };
     }
-    const { width, height } = size;
-    const gridHeight = height - margin.top - margin.bottom;
-    const gridWidth = width - margin.left - margin.right - (this.epCharts.length * yAxisWidth);
+    const gridHeight = containerHeight - margin.top - margin.bottom;
+    const gridWidth = containerWidth - margin.left - margin.right
+      - (this.epCharts.length * yAxisWidth);
     const lineConf = _get(configuration, 'grids[0].line', {});
     const common = {
       tickStrokeOpacity: 0.2,
@@ -193,7 +192,8 @@ class PlotView extends PureComponent {
   getCharts() {
     const {
       visuWindow: { current },
-      size: { width, height },
+      containerWidth,
+      containerHeight,
       configuration: { showYAxes }
     } = this.props;
 
@@ -203,13 +203,14 @@ class PlotView extends PureComponent {
     if (showYAxes === 'left') {
       xAxisWidth = (margin.left - margin.right) + (this.epCharts.length * yAxisWidth);
     } else if (showYAxes === 'right') {
-      xAxisWidth = width - margin.left - margin.right - (this.epCharts.length * yAxisWidth);
+      xAxisWidth = containerWidth - margin.left - margin.right
+        - (this.epCharts.length * yAxisWidth);
     } else {
-      xAxisWidth = width - margin.left - margin.right;
+      xAxisWidth = containerWidth - margin.left - margin.right;
     }
     const xLabelPosition = [
       xAxisWidth / 2,
-      height - 30
+      containerHeight - 30
     ];
     const charts = [
       <Chart
@@ -259,15 +260,14 @@ class PlotView extends PureComponent {
 
     this.epCharts.forEach((chart, i) => {
       const index = i + 1;
-      const chartWidth = width - margin.right - margin.left;
-      const AxesWidth = (this.epCharts.length) * yAxisWidth;
+      const chartWidth = containerWidth - margin.right - margin.left;
+      const AxesWidth = this.epCharts.length * yAxisWidth;
       let dx;
       let axisAt;
       let edgeIndicatorDx;
       let edgeIndicatorType;
       let edgeIndicatorOrient;
       let edgeIndicatorEdgeAt;
-
       if (showYAxes === 'left') {
         axisAt = (index * yAxisWidth) - AxesWidth;
         edgeIndicatorType = 'first';
@@ -307,7 +307,7 @@ class PlotView extends PureComponent {
         >
           {showYAxes && <Label
             x={dx}
-            y={(height - margin.top - margin.bottom) / 2}
+            y={(containerHeight - margin.top - margin.bottom) / 2}
             rotate={-90}
             text={
               [label, ((unit && unit.length ? `(${unit})` : ''))].join(' ')
@@ -418,10 +418,14 @@ class PlotView extends PureComponent {
   });
 
   shouldRender() {
-    const { size, data } = this.props;
+    const {
+      containerWidth,
+      containerHeight,
+      data,
+    } = this.props;
 
-    if (size.width <= 0 || size.height <= 0) {
-      return `invisible size received ${size.width}x${size.height}`;
+    if (containerWidth <= 0 || containerHeight <= 0) {
+      return `invisible size received ${containerWidth}x${containerHeight}`;
     }
     if (!data.columns || !data.columns.length || data.columns.length < 2) {
       return 'no point';
@@ -551,7 +555,8 @@ class PlotView extends PureComponent {
       );
     }
     const {
-      size: { width, height },
+      containerWidth,
+      containerHeight,
       data: { columns },
       visuWindow: { lower, upper },
       configuration: { showYAxes }
@@ -585,8 +590,8 @@ class PlotView extends PureComponent {
         <ChartCanvas
           plotFull={false}
           ratio={1}
-          width={width}
-          height={height}
+          width={containerWidth}
+          height={containerHeight}
           margin={marginChart}
           pointsPerPxThreshold={4}
           seriesName="PlotView"
@@ -630,7 +635,7 @@ class PlotView extends PureComponent {
   }
 }
 
-const SizeablePlotView = SizeMe({ monitorHeight: true })(PlotView);
+const SizeablePlotView = Dimensions()(PlotView);
 
 export default connect(
   state => state,

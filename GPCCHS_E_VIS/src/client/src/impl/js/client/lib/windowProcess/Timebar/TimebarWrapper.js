@@ -170,19 +170,21 @@ export default class TimebarWrapper extends Component {
           verticalScroll={timelinesVerticalScroll}
           onTimelinesVerticalScroll={this.onTimelinesVerticalScroll}
         />
-        <RightTabContainer
-          timebar={timebar}
-          timebarId={timebarId}
-          visuWindow={visuWindow}
-          slideWindow={slideWindow}
-          currentSession={currentSession}
-          isPlaying={isPlaying}
-          timelines={timelines}
-          toggleTimesetter={this.toggleTimesetter}
-          onTimelinesVerticalScroll={this.onTimelinesVerticalScroll}
-          timelinesVerticalScroll={timelinesVerticalScroll}
-          updateCursors={updateCursors}
-        />
+        <Col xs={9} style={{ height: '100%' }}>
+          <RightTabContainer
+            timebar={timebar}
+            timebarId={timebarId}
+            visuWindow={visuWindow}
+            slideWindow={slideWindow}
+            currentSession={currentSession}
+            isPlaying={isPlaying}
+            timelines={timelines}
+            toggleTimesetter={this.toggleTimesetter}
+            onTimelinesVerticalScroll={this.onTimelinesVerticalScroll}
+            timelinesVerticalScroll={timelinesVerticalScroll}
+            updateCursors={updateCursors}
+          />
+        </Col>
       </div>
     );
   }

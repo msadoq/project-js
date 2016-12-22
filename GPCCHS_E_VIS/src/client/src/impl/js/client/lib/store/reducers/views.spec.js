@@ -71,7 +71,7 @@ describe('store:views:reducer', () => {
   });
   describe('set modified', () => {
     const state = {
-      myView:
+      myView: {
         isModified: false,
         configuration: {
           title: 'myView'

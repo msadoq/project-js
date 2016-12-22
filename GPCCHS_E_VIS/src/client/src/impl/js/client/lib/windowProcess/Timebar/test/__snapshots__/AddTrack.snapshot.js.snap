@@ -3,13 +3,13 @@ exports[`test AddTrack renders correctly 1`] = `
   className="form-horizontal"
   onSubmit={[Function]}>
   <div
-    className="formGroup form-group">
+    className="Lefttab__formGroup___2Kj6_ form-group">
     <b
-      className="labelFormControl">
+      className="Lefttab__labelFormControl___2UMul">
       Kind
     </b>
     <select
-      className="form-control formControl">
+      className="form-control Lefttab__formControl___WYwMa">
       <option
         value="session">
         session
@@ -27,9 +27,9 @@ exports[`test AddTrack renders correctly 1`] = `
     </select>
   </div>
   <div
-    className="formGroup form-group">
+    className="Lefttab__formGroup___2Kj6_ form-group">
     <b
-      className="labelFormControl">
+      className="Lefttab__labelFormControl___2UMul">
       Color
     </b>
     <div
@@ -81,23 +81,23 @@ exports[`test AddTrack renders correctly 1`] = `
     </div>
   </div>
   <div
-    className="formGroup form-group">
+    className="Lefttab__formGroup___2Kj6_ form-group">
     <b
-      className="labelFormControl">
+      className="Lefttab__labelFormControl___2UMul">
       Id
     </b>
     <input
-      className="form-control formControl"
+      className="form-control Lefttab__formControl___WYwMa"
       placeholder="Parameter n" />
   </div>
   <div
-    className="formGroup form-group">
+    className="Lefttab__formGroup___2Kj6_ form-group">
     <b
-      className="labelFormControl">
+      className="Lefttab__labelFormControl___2UMul">
       Session
     </b>
     <select
-      className="form-control formControl">
+      className="form-control Lefttab__formControl___WYwMa">
       <option
         value={0}>
         Master
@@ -105,14 +105,14 @@ exports[`test AddTrack renders correctly 1`] = `
     </select>
   </div>
   <div
-    className="formGroup form-group">
+    className="Lefttab__formGroup___2Kj6_ form-group">
     <b
-      className="labelFormControl">
+      className="Lefttab__labelFormControl___2UMul">
        
     </b>
     <input
       autoFocus={true}
-      className="addTrackButton btn-md btn-primary"
+      className="btn btn-md btn-primary"
       type="submit"
       value="Add track" />
   </div>

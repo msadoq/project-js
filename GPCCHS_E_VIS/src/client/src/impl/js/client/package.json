@@ -25,7 +25,7 @@
     "test:watch": "npm test -- --watch",
     "test:coverage": "(time nyc --require babel-register npm test || true) && npm run open:coverage",
     "open:coverage": "firefox coverage/lcov-report/index.html",
-    "snapshot": "NODE_ENV=test BABEL_DISABLE_CACHE=1 jest",
+    "snapshot": "NODE_ENV=jest BABEL_DISABLE_CACHE=1 jest",
     "snapshot-watch": "npm run snapshot -- --watch",
     "snapshot-clean": "jest -u",
     "tw": "npm test -- --watch",

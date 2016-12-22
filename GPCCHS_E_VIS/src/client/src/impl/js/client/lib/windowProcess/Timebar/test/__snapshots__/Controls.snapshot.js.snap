@@ -128,10 +128,10 @@ exports[`test Controls renders correctly 1`] = `
         className="controlsLi">
         <button
           className="btn btn-xs btn-control"
-          disabled={true}
+          disabled={false}
           mode="Realtime"
           onClick={[Function]}
-          title="No master track is set, can\'t go realtime">
+          title="Real time mode">
           Real time
         </button>
       </li>

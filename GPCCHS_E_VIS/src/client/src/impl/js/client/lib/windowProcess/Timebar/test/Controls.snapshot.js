@@ -14,13 +14,14 @@ const propsStub = {
   switchToExtensibleMode: () => null,
   switchToRealtimeMode: () => null,
   switchToNormalMode: () => null,
+  restoreWidth: () => null,
+  goNow: () => null,
+  jump: () => null,
   isPlaying: true,
-  visuWindow: TimebarFixture.visuWindow,
-  slideWindow: TimebarFixture.slideWindow,
+  currentSessionExists: true,
   timebarSpeed: TimebarFixture.speed,
   timebarMode: TimebarFixture.mode,
   timebarId: TimebarFixture.timebarId,
-  currentSessionOffsetMs: 800,
   messages: [],
 };
 

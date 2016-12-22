@@ -1,8 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import styles from './Controls.css';
 
-export default class TimebarControlsRight extends Component {
+export default class ControlsRight extends PureComponent {
 
   static propTypes = {
     play: PropTypes.func.isRequired,
@@ -12,7 +12,7 @@ export default class TimebarControlsRight extends Component {
     switchToFixedMode: PropTypes.func.isRequired,
     timebarMode: PropTypes.string.isRequired,
     timebarId: PropTypes.string.isRequired,
-    currentSession: PropTypes.object,
+    currentSessionExists: PropTypes.bool.isRequired,
   }
 
   switchMode = (e) => {
@@ -47,7 +47,7 @@ export default class TimebarControlsRight extends Component {
   render() {
     const {
       timebarMode,
-      currentSession
+      currentSessionExists,
     } = this.props;
 
     const allButtonsKlasses = classnames('btn', 'btn-xs', 'btn-control');
@@ -110,8 +110,8 @@ export default class TimebarControlsRight extends Component {
                 }
               )}
               onClick={this.switchMode}
-              title={currentSession ? 'Real time mode' : "No master track is set, can't go realtime"}
-              disabled={!currentSession}
+              title={currentSessionExists ? 'Real time mode' : "No master track is set, can't go realtime"}
+              disabled={!currentSessionExists}
             >
               Real time
             </button>

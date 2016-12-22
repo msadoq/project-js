@@ -24,7 +24,6 @@ export default class TimebarWrapper extends Component {
     timebarId: PropTypes.string.isRequired,
     focusedPageId: PropTypes.string.isRequired,
     timelines: PropTypes.array.isRequired,
-    currentSession: PropTypes.object,
     timebarHeight: PropTypes.number,
   }
 
@@ -106,7 +105,6 @@ export default class TimebarWrapper extends Component {
       isPlaying,
       timebar,
       slideWindow,
-      currentSession,
       focusedPageId,
       timebarHeight,
     } = this.props;
@@ -176,7 +174,6 @@ export default class TimebarWrapper extends Component {
             timebarId={timebarId}
             visuWindow={visuWindow}
             slideWindow={slideWindow}
-            currentSession={currentSession}
             isPlaying={isPlaying}
             timelines={timelines}
             toggleTimesetter={this.toggleTimesetter}

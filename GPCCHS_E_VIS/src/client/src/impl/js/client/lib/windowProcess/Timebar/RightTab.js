@@ -4,8 +4,6 @@ import TimeBar from './Timebar';
 import ControlsContainer from './ControlsContainer';
 import styles from './Timebar.css';
 
-const bootstrapPaddings = 5;
-
 class RightTabContent extends Component {
 
   static propTypes = {
@@ -21,9 +19,9 @@ class RightTabContent extends Component {
     timebar: PropTypes.object.isRequired,
     timebarId: PropTypes.string.isRequired,
     timelines: PropTypes.array.isRequired,
-    currentSession: PropTypes.object,
     containerWidth: PropTypes.number,
     timelinesVerticalScroll: PropTypes.number,
+    currentSessionExists: PropTypes.bool.isRequired,
   }
 
   /*
@@ -41,7 +39,7 @@ class RightTabContent extends Component {
     const viewport = {
       lower: nextProps.timebar.rulerStart,
       upper: nextProps.timebar.rulerStart +
-        (nextProps.timebar.rulerResolution * (containerWidth - (bootstrapPaddings * 2))),
+        (nextProps.timebar.rulerResolution * containerWidth),
     };
 
     const {
@@ -62,7 +60,7 @@ class RightTabContent extends Component {
       updateViewport(
         timebarId,
         viewport.lower + offsetMs,
-        (viewport.upper - viewport.lower) / (containerWidth - (bootstrapPaddings * 2))
+        (viewport.upper - viewport.lower) / containerWidth
       );
     }
 
@@ -84,11 +82,12 @@ class RightTabContent extends Component {
     wich is much easier to work with int the subcomponents
   */
   formatViewportDimensions() {
+    console.log(this.props.containerWidth);
     const { timebar, containerWidth } = this.props;
     return {
       lower: timebar.rulerStart,
       upper: timebar.rulerStart +
-        (timebar.rulerResolution * (containerWidth - (bootstrapPaddings * 2))),
+        (timebar.rulerResolution * containerWidth),
     };
   }
 
@@ -104,13 +103,13 @@ class RightTabContent extends Component {
       pause,
       timebar,
       slideWindow,
-      currentSession,
       toggleTimesetter,
       onTimelinesVerticalScroll,
       timelinesVerticalScroll,
       containerWidth,
       updateCursors,
       updateViewport,
+      currentSessionExists,
     } = this.props;
 
     return (
@@ -124,18 +123,15 @@ class RightTabContent extends Component {
           className={styles.formatedFullDate}
         />
         <ControlsContainer
-          viewport={this.formatViewportDimensions()}
           timebarMode={timebar.mode}
           timebarSpeed={timebar.speed}
           timebarId={timebarId}
-          visuWindow={visuWindow}
-          slideWindow={slideWindow}
           isPlaying={isPlaying}
           play={play}
           pause={pause}
           toggleTimesetter={toggleTimesetter}
           updateCursors={updateCursors}
-          currentSession={currentSession}
+          currentSessionExists={currentSessionExists}
         />
         <TimeBar
           viewport={this.formatViewportDimensions()}
@@ -153,7 +149,7 @@ class RightTabContent extends Component {
           onVerticalScroll={onTimelinesVerticalScroll}
           toggleTimesetter={toggleTimesetter}
           retrieveFormattedFullDateEl={this.retrieveFormattedFullDateEl}
-          widthPx={containerWidth - (bootstrapPaddings * 2)}
+          widthPx={containerWidth}
         />
       </div>
     );

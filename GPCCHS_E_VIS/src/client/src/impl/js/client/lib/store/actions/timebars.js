@@ -86,6 +86,86 @@ export const updateViewport = simple(
 );
 export const updateSpeed = simple(types.WS_TIMEBAR_SPEED_UPDATE, 'timebarId', 'speed');
 
+export function restoreWidth(timebarId) {
+  return (dispatch, getState) => {
+    const timebar = getTimebar(getState(), timebarId);
+    const vw = timebar.visuWindow;
+    const newSlideUpper = timebar.mode === 'Extensible' ?
+      vw.current + (vw.defaultWidth) :
+      vw.current + (vw.defaultWidth / 4);
+    dispatch(
+      updateCursors(
+        timebarId,
+        {
+          lower: vw.current - (vw.defaultWidth / 2),
+          upper: vw.current + (vw.defaultWidth / 2),
+        },
+        {
+          lower: vw.current - (vw.defaultWidth / 4),
+          upper: newSlideUpper,
+        },
+      )
+    );
+  };
+}
+
+export function jump(timebarId, offsetMs) {
+  return (dispatch, getState) => {
+    const timebar = getTimebar(getState(), timebarId);
+    const vw = timebar.visuWindow;
+    const sw = timebar.visuWindow;
+    dispatch(
+      updateCursors(
+        timebarId,
+        {
+          lower: vw.lower + offsetMs,
+          upper: vw.upper + offsetMs,
+          current: vw.current + offsetMs,
+        },
+        {
+          lower: sw.lower + offsetMs,
+          upper: sw.upper + offsetMs,
+        },
+      )
+    );
+  };
+}
+
+export function goNow(timebarId) {
+  return (dispatch, getState) => {
+    const state = getState();
+    const timebar = getTimebar(state, timebarId);
+    const masterTimeline = getMasterTimelineById(state, timebarId);
+    if (!masterTimeline) {
+      return;
+    }
+    const currentSession = getSession(state.sessions, masterTimeline.sessionId);
+    if (!currentSession) {
+      return;
+    }
+    const vw = timebar.visuWindow;
+    const msWidth = vw.upper - vw.lower;
+    const realTimeMs = Date.now() + currentSession.offsetWithmachineTime;
+    const newLower = realTimeMs -
+      ((1 - globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN) * msWidth);
+    const newUpper = realTimeMs +
+      (globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN * msWidth);
+    dispatch(
+      updateCursors(
+        timebarId,
+        {
+          lower: newLower,
+          upper: newUpper,
+          current: realTimeMs,
+        },
+        {
+          lower: newLower,
+          upper: newUpper,
+        },
+      )
+    );
+  };
+}
 export function switchToNormalMode(timebarId) {
   return (dispatch, getState) => {
     dispatch({

@@ -21,8 +21,10 @@
     "sh": "npm run start-hot",
     "start": "electron ./",
     "start-hot": "HOT=1 electron -r babel-register -r babel-polyfill ./main.development",
-    "test": "BABEL_DISABLE_CACHE=1 mocha --compilers js:babel-register \"+(lib|VIVL)/**/*.spec.js\"",
+    "test": "NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --compilers js:babel-register \"+(lib|VIVL)/**/*.spec.js\"",
     "test:watch": "npm test -- --watch",
+    "test:coverage": "(time nyc --require babel-register npm test || true) && npm run open:coverage",
+    "open:coverage": "firefox coverage/lcov-report/index.html",
     "snapshot": "NODE_ENV=test BABEL_DISABLE_CACHE=1 jest",
     "snapshot-watch": "npm run snapshot -- --watch",
     "snapshot-clean": "jest -u",
@@ -124,6 +126,7 @@
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "mocha": "^3.2.0",
+    "nyc": "^10.0.0",
     "postcss": "^5.2.5",
     "postcss-browser-reporter": "^0.5.0",
     "postcss-custom-properties": "^5.0.1",
@@ -152,6 +155,21 @@
   "devEngines": {
     "node": "6.x",
     "npm": "3.x"
+  },
+  "nyc": {
+    "all": true,
+    "cache": true,
+    "exclude": [
+      "**/*.spec.js"
+    ],
+    "include": [
+      "lib/**/*.js",
+      "VIVL/**/*.js"
+    ],
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ]
   },
   "style": "./lib/app.global.css"
 }

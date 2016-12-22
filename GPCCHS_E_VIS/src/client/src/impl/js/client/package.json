@@ -8,12 +8,13 @@
     "testRegex": "(snapshot)\\.(js|jsx)$",
     "moduleNameMapper": {
       "\\.(less|css)$": "identity-obj-proxy"
-    }
+    },
+    "coverageDirectory": "coverage/snapshot"
   },
   "scripts": {
-    "build": "npm run build-main && npm run build-renderer",
-    "build-main": "node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.main.js --progress --profile --colors",
-    "build-renderer": "NODE_ENV=production node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.renderer.production.js --progress --profile --colors",
+    "build": "npm run build:main && npm run build:renderer",
+    "build:main": "node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.main.js --progress --profile --colors",
+    "build:renderer": "NODE_ENV=production node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.renderer.production.js --progress --profile --colors",
     "hello": "npm run link && npm install && [ -f config.local.json ] && echo || cp config.sample.json config.local.json",
     "link": "npm link ../../../../../common/src/main/js/common && npm link ../../../../../server/src/impl/js/server",
     "lint": "eslint lib test *.js",
@@ -23,11 +24,13 @@
     "start-hot": "HOT=1 electron -r babel-register -r babel-polyfill ./main.development",
     "test": "NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --compilers js:babel-register \"+(lib|VIVL)/**/*.spec.js\"",
     "test:watch": "npm test -- --watch",
-    "test:coverage": "(time nyc --require babel-register npm test || true) && npm run open:coverage",
-    "open:coverage": "firefox coverage/lcov-report/index.html",
-    "snapshot": "NODE_ENV=jest BABEL_DISABLE_CACHE=1 jest",
-    "snapshot-watch": "npm run snapshot -- --watch",
-    "snapshot-clean": "jest -u",
+    "test:coverage": "(time nyc --require babel-register npm test || true) && npm run open:test-coverage",
+    "open:test-coverage": "firefox coverage/test/lcov-report/index.html",
+    "snapshot": "NODE_ENV=snapshot BABEL_DISABLE_CACHE=1 jest",
+    "snapshot:coverage": "(npm run snapshot -- --coverage || true) && npm run open:snapshot-coverage",
+    "open:snapshot-coverage": "firefox coverage/snapshot/lcov-report/index.html",
+    "snapshot:watch": "npm run snapshot -- --watch",
+    "snapshot:clean": "jest -u",
     "tw": "npm test -- --watch",
     "wp": "npm run webpack",
     "webpack": "node -r babel-register -r ./lib/common/initParameters.js webpack/server.js"
@@ -160,7 +163,8 @@
     "all": true,
     "cache": true,
     "exclude": [
-      "**/*.spec.js"
+      "**/*.spec.js",
+      "lib/windowProcess/**"
     ],
     "include": [
       "lib/**/*.js",
@@ -169,7 +173,8 @@
     "reporter": [
       "lcov",
       "text-summary"
-    ]
+    ],
+    "report-dir": "./coverage/test"
   },
   "style": "./lib/app.global.css"
 }

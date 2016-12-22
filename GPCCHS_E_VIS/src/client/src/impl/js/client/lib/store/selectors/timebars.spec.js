@@ -54,30 +54,41 @@ describe('store:timebars:selectors', () => {
       getMasterTimelineById(
         {
           timebars: {
-            myId: { masterId: 'timeline01' },
+            myId: {
+              masterId: 'timeline01',
+              timelines: ['timeline_01', 'timeline_02'],
+            },
           },
           timelines: {
-            azeazerze: { id: 'timeline01' },
-            vqhrzefds: { id: 'timeline02' },
-            ghsdrtrrr: { id: 'timeline03' },
+            timeline_01: { id: 'timeline01' },
+            timeline_02: { id: 'timeline02' },
+            timeline_03: { id: 'timeline03' },
           },
         },
         'myId'
       ).should.eql(
-        { id: 'timeline01' }
+        {
+          id: 'timeline01',
+          timelineId: 'timeline_01',
+        }
       );
     });
     it('should not find master timeline', () => {
       should.not.exist(getMasterTimelineById(
         {
-          myId: { masterId: 'timeline04' },
+          timebars: {
+            myId: {
+              masterId: 'timeline04',
+              timelines: ['timeline_01', 'timeline_02'],
+            },
+          },
+          timelines: {
+            timeline_01: { id: 'timeline01' },
+            timeline_02: { id: 'timeline02' },
+            timeline_03: { id: 'timeline03' },
+          },
         },
-        {
-          azeazerze: { id: 'timeline01' },
-          vqhrzefds: { id: 'timeline02' },
-          ghsdrtrrr: { id: 'timeline03' },
-        },
-        'myId'
+        'myId',
       ));
     });
   });

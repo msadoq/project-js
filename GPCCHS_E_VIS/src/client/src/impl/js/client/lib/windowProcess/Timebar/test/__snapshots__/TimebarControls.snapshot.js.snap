@@ -135,18 +135,7 @@ exports[`test Controls renders correctly 1`] = `
           Real time
         </button>
       </li>
-      <li
-        className="controlsLi">
-        <button
-          className="btn btn-xs btn-control"
-          onClick={[Function]}
-          title="Help modal">
-          ?
-        </button>
-      </li>
     </ul>
-    <div
-      className="modal-container" />
   </div>
 </div>
 `;

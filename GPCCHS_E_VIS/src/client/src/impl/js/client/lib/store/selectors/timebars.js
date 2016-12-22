@@ -2,6 +2,7 @@ import _isNumber from 'lodash/isNumber';
 import _get from 'lodash/get';
 import _values from 'lodash/values';
 import _reduce from 'lodash/reduce';
+import _toPairs from 'lodash/toPairs';
 import { createSelector } from 'reselect';
 import { getTimelines } from './timelines';
 
@@ -15,7 +16,7 @@ export const getTimebarTimelinesSelector = createSelector( // TODO TEST
   ],
   (timebar, timelines) => {
     const timebarTimelines = [];
-    Object.entries(timelines).forEach((v) => {
+    _toPairs(timelines).forEach((v) => {
       if (timebar.timelines.includes(v[0])) {
         const newTimeline = { ...v[1], timelineId: v[0] };
         if (timebar.masterId === v[1].id) {

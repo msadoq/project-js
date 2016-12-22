@@ -1,7 +1,8 @@
 /* eslint no-unused-expressions: 0 */
-import { should, getStore } from '../../common/test';
+import { should, getStore, freezeMe } from '../../common/test';
 import * as actions from '../actions/pages';
 import reducer from './pages';
+import * as types from '../types';
 
 describe('store:page:reducer', () => {
   it('initial state', () => {
@@ -72,9 +73,25 @@ describe('store:page:reducer', () => {
     it('remove unknown', () => {
       const state = reducer(
         { myPageId: { title: 'Title' } },
-        actions.remove('foo')
+        actions.removePage('foo')
       );
       state.should.have.property('myPageId');
+    });
+    it('remove', () => {
+      const { dispatch, getState } = getStore({ pages:
+        { myPageId: { title: 'Title', views: ['view1'] } },
+        views: { view1: {} } });
+      dispatch(actions.remove('myPageId'));
+      getState().pages.should.not.have.property('myPageId');
+      getState().views.should.not.have.property('view1');
+    });
+    it('remove unknown', () => {
+      const { dispatch, getState } = getStore({ pages:
+        { myPageId: { title: 'Title', views: ['view1'] } },
+        views: { view1: {} } });
+      dispatch(actions.remove('wrongPageId'));
+      getState().pages.should.have.property('myPageId');
+      getState().views.should.have.property('view1');
     });
   });
   describe('un/mount view', () => {
@@ -119,12 +136,27 @@ describe('store:page:reducer', () => {
       state.myPageId.editor.should.eql(Object.assign({}, editor, { isOpened: false }));
     });
   });
-  it('update layout', () => {
-    const state = reducer(
-      { myPageId: { layout: [{ key: '1' }, { key: '2' }], title: 'aa' } },
-      actions.updateLayout('myPageId', [{ key: '2' }, { key: '1' }])
-    );
-    state.myPageId.layout.should.eql([{ key: '2' }, { key: '1' }]);
+  describe('update layout', () => {
+    it('update layout simple', () => {
+      const state = reducer(
+        { myPageId: { layout: [{ key: '1' }, { key: '2' }], title: 'aa' } },
+        actions.updateLayoutSimple('myPageId', [{ key: '3' }, { key: '4' }])
+      );
+      state.myPageId.layout.should.eql([{ key: '3' }, { key: '4' }]);
+    });
+    it('update layout', () => {
+      const { dispatch, getState } = getStore({
+        pages:
+        { myPageId: { layout: [{ h: 2, i: 'v1' }, { h: 2, i: 'v2' }], title: 'aa' } },
+        views:
+        { v1: { isCollapsed: true }, v2: { isCollapsed: false } }
+      });
+      dispatch(actions.updateLayout('myPageId', [{ h: 3, i: 'v1' }, { h: 4, i: 'v2' }]));
+      getState().pages.should.eql(
+        { myPageId: { layout: [{ h: 3, i: 'v1' }, { h: 4, i: 'v2' }], title: 'aa', isModified: true } });
+      getState().views.should.eql(
+        { v1: { isCollapsed: false }, v2: { isCollapsed: false } });
+    });
   });
   describe('addAndMount/unmountAndRemove', () => {
     const { dispatch, getState } = getStore({ pages: { myPageId: { views: ['v1'], title: 'aa' } } });
@@ -139,9 +171,6 @@ describe('store:page:reducer', () => {
       getState().pages.myPageId.views.should.be.an('array').with.lengthOf(1);
       should.not.exist(getState().views[newViewId]);
     });
-  });
-  describe('openViewInEditor', () => {
-    // TODO actions.unmountAndRemove
   });
   describe('moveViewToPage', () => {
     let dispatch;
@@ -159,17 +188,17 @@ describe('store:page:reducer', () => {
     it('existing toPage ok', () => {
       dispatch(actions.moveViewToPage('myWindowId', 'myPageId', 'myOtherPage', 'v1'));
       getState().pages.should.deep.equal({
-        myPageId: { views: [], isModified: true, layout: [], title: '* aa' },
+        myPageId: { views: [], isModified: true, layout: [], title: 'aa' },
         myOtherPage: { views: ['v2', 'v1'],
           isModified: true,
           layout: [{ h: 5, i: 'v1', w: 5, x: 0, y: 0 }],
-          title: '* bb',
+          title: 'bb',
         },
       });
     });
     it('toPage is a new page', () => {
       dispatch(actions.moveViewToPage('myWindowId', 'myPageId', 'newId', 'v1'));
-      getState().pages.myPageId.should.deep.equal({ views: [], isModified: true, layout: [], title: '* aa' });
+      getState().pages.myPageId.should.deep.equal({ views: [], isModified: true, layout: [], title: 'aa' });
       getState().pages.myOtherPage.should.deep.equal({ views: ['v2'], layout: [], title: 'bb' });
       const pageId = Object.keys(getState().pages)[2];
       getState().pages[pageId].views.should.deep.equal(['v1']);
@@ -179,6 +208,90 @@ describe('store:page:reducer', () => {
       const oldState = getState();
       dispatch(actions.moveViewToPage('myWindowId', 'myPageId', 'myPageId', 'v1'));
       getState().should.equal(oldState);
+    });
+  });
+  describe('updateAbsolutePath', () => {
+    it('empty state', () => {
+      reducer({}, actions.updateAbsolutePath('myPage', 'myPath'))
+      .should.be.an('object').that.is.empty;
+    });
+    it('invalid page id', () => {
+      const state = { page1: {} };
+      reducer(freezeMe(state), actions.updateAbsolutePath('myPage', 'myPath'))
+      .should.eql(state);
+    });
+    it('valid page id', () => {
+      const state = { page1: { absolutePath: 'path1' } };
+      reducer(freezeMe(state), actions.updateAbsolutePath('page1', 'newPath'))
+      .should.eql({ page1: { absolutePath: 'newPath', isModified: true } });
+    });
+  });
+  describe('updatePath', () => {
+    it('empty state', () => {
+      reducer({}, actions.updatePath('myPage', 'myPath'))
+      .should.be.an('object').that.is.empty;
+    });
+    it('invalid page id', () => {
+      const state = { page1: {} };
+      reducer(freezeMe(state), actions.updatePath('myPage', 'myPath'))
+      .should.eql(state);
+    });
+    it('valid page id', () => {
+      const state = { page1: { path: 'path1' } };
+      reducer(freezeMe(state), actions.updatePath('page1', 'newPath'))
+      .should.eql({ page1: { path: 'newPath', isModified: true } });
+    });
+  });
+  describe('setModified', () => {
+    // export const setModified = simple(types.WS_PAGE_SETMODIFIED, 'pageId', 'flag');
+    it('no change', () => {
+      reducer({ myPage: { isModified: false } }, actions.setModified('myPage', false))
+      .should.eql({ myPage: { isModified: false } });
+      reducer({ myPage: { isModified: true } }, actions.setModified('myPage', true))
+      .should.eql({ myPage: { isModified: true } });
+    });
+    it('flase -> true', () => {
+      reducer({ myPage: { isModified: false } }, actions.setModified('myPage', true))
+      .should.eql({ myPage: { isModified: true } });
+    });
+    it('true -> false', () => {
+      reducer({ myPage: { isModified: true } }, actions.setModified('myPage', false))
+      .should.eql({ myPage: { isModified: false } });
+    });
+    it('invalid view id', () => {
+      const state = { myPage: { isModified: true } };
+      reducer(freezeMe(state), actions.setModified('noPage', false))
+      .should.eql(state);
+    });
+  });
+  describe('updateTimebarId', () => {
+    it('ok', () => {
+      reducer({ myPage: { timebarId: 't1' } }, actions.updateTimebarId('myPage', 'time1'))
+      .should.eql({ myPage: { timebarId: 'time1', isModified: true } });
+    });
+    it('invalid view id', () => {
+      reducer({ myPage: { timebarId: 't1' } }, actions.updateTimebarId('noPage', 'time1'))
+      .should.eql({ myPage: { timebarId: 't1' } });
+    });
+  });
+  describe('updateTimebarHeight', () => {
+    it('ok', () => {
+      reducer({ myPage: { timebarHeight: 5 } }, actions.updateTimebarHeight('myPage', 210))
+      .should.eql({ myPage: { timebarHeight: 210, isModified: true } });
+    });
+    it('height to small', () => {
+      reducer({ myPage: { timebarHeight: 5 } }, actions.updateTimebarHeight('myPage', 20))
+      .should.eql({ myPage: { timebarHeight: 135, isModified: true } });
+    });
+    it('invalid view id', () => {
+      reducer({ myPage: { timebarHeight: 5 } }, actions.updateTimebarHeight('noPage', 10))
+      .should.eql({ myPage: { timebarHeight: 5 } });
+    });
+  });
+  describe('close workspace', () => {
+    it('close', () => {
+      reducer(freezeMe({ myPage: { timebarHeight: 5 } }), { type: types.HSC_CLOSE_WORKSPACE })
+      .should.be.an('object').that.is.empty;
     });
   });
 });

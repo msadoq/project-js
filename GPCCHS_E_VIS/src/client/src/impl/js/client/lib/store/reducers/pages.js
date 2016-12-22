@@ -26,7 +26,7 @@ export default function pages(statePages = {}, action) {
       return _omit(statePages, [action.payload.pageId]);
     case types.WS_PAGE_UPDATEPATH:
       // path unchanged or newPath invalid
-      if (!action.payload.newPath ||
+      if (!action.payload.newPath || !statePages[action.payload.pageId] ||
           resolve(action.payload.newPath) === resolve(statePages[action.payload.pageId].path)) {
         return statePages;
       }
@@ -36,8 +36,9 @@ export default function pages(statePages = {}, action) {
       } },
         statePages);
     case types.WS_PAGE_UPDATE_ABSOLUTEPATH: {
-      if (statePages[action.payload.pageId].absolutePath && resolve(action.payload.newPath)
-        === resolve(statePages[action.payload.pageId].absolutePath)) {
+      if (!statePages[action.payload.pageId] || !action.payload.newPath ||
+        resolve(action.payload.newPath)
+          === resolve(statePages[action.payload.pageId].absolutePath)) {
         return statePages;
       }
       return u({ [action.payload.pageId]: {
@@ -50,17 +51,6 @@ export default function pages(statePages = {}, action) {
     case types.WS_PAGE_SETMODIFIED: {
       if (!statePages[action.payload.pageId]) {
         return statePages;
-      }
-      let newTitle = statePages[action.payload.pageId].title;
-      if (statePages[action.payload.pageId].isModified && !action.payload.flag) {
-        if (newTitle.substring(0, 1) === '*') {
-          newTitle = newTitle.substring(2);
-        }
-      }
-      if (!statePages[action.payload.pageId].isModified && action.payload.flag) {
-        if (newTitle.substring(0, 1) !== '*') {
-          newTitle = '* '.concat(newTitle);
-        }
       }
       return u({
         [action.payload.pageId]: {
@@ -148,9 +138,6 @@ function page(statePage = initialState, action) {
       });
     }
     case types.WS_PAGE_UPDATE_LAYOUT:
-      if (statePage.layout === action.payload.layout) {
-        return statePage;
-      }
       return Object.assign({}, statePage, {
         layout: action.payload.layout || statePage.layout,
         isModified: action.payload.layout ? true : statePage.isModified,

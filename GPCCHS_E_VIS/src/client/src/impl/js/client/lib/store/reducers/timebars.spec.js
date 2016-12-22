@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { should, getStore } from '../../common/test';
 import * as actions from '../actions/timebars';
 import reducer from './timebars';
+import * as types from '../types';
 
 describe('store:timebars:reducer', () => {
   it('initial state', () => {
@@ -146,7 +147,7 @@ describe('store:timebars:reducer', () => {
       getState().messages['timeSetter-myTimebarId'].length.should.equal(2);
     });
     it('should be immutable with same data', () => {
-      const oldState = reducer(state.timebars, actions.updateCursors(
+      dispatch(actions.updateCursors(
         'myTimebarId',
         {
           lower: 5,
@@ -155,8 +156,8 @@ describe('store:timebars:reducer', () => {
         }
         )
       );
-
-      const newState = reducer(oldState, actions.updateCursors(
+      const oldState = getState().timebars;
+      dispatch(actions.updateCursors(
         'myTimebarId',
         {
           lower: 5,
@@ -165,7 +166,7 @@ describe('store:timebars:reducer', () => {
         }
         )
       );
-
+      const newState = getState().timebars;
       newState.should.equal(oldState);
     });
     it('speed', () => {
@@ -270,6 +271,10 @@ describe('store:timebars:reducer', () => {
       timebars.should.have.property('myTimebarId');
       timebars.myTimebarId.mode.should.equal('Normal');
       timebars.myTimebarId.slideWindow.upper.should.equal(slideUpper);
+    });
+    it('close_workspace', () => {
+      const newState = reducer(state.timebars, { type: types.HSC_CLOSE_WORKSPACE });
+      newState.should.be.an('object').that.is.empty;
     });
   });
   describe('Compound actions', () => {

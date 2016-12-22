@@ -1,5 +1,7 @@
 import reducer from './viewData';
 import { /* importPayload, */ removeAllData, updateViewData } from '../actions/viewData';
+import * as types from '../types';
+
 
 describe('store:viewData:reducer', () => {
   const payload = { rId1: {}, rId2: {} };
@@ -96,6 +98,16 @@ describe('store:viewData:reducer', () => {
       }
     });
     reducer(Object.freeze(state), removeAllData()).should.deep.equal({});
+  });
+  describe('HSC_CLOSE_WORKSPACE', () => {
+    const state = Object.freeze({
+      myViewId: {
+        index: { myEntryPoint: 10 },
+        values: { myEntryPoint: 150 },
+      }
+    });
+    reducer(Object.freeze(state), { type: types.HSC_CLOSE_WORKSPACE })
+    .should.be.an('object').that.is.empty;
   });
 
 

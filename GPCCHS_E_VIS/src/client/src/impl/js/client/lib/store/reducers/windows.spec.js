@@ -2,6 +2,7 @@
 import { should, getStore } from '../../common/test';
 import * as actions from '../actions/windows';
 import reducer from './windows';
+import * as types from '../types';
 
 describe('store:windows:reducer', () => {
   it('initial state', () => {
@@ -205,5 +206,28 @@ describe('store:windows:reducer', () => {
       dispatch(actions.restore('myWindowId'));
       getState().windows.myWindowId.minimized.should.not.be.true;
     });
+  });
+  describe('close_workspace', () => {
+    const newState = reducer({ myTimelineId: { id: 'Id' } }, { type: types.HSC_CLOSE_WORKSPACE });
+    newState.should.be.an('object').that.is.empty;
+  });
+  describe('setModified', () => {
+    reducer({ myWindowId: { title: 'Title', isModified: false } },
+    actions.setModified('myWindowId', true))
+      .should.eql({ myWindowId: { title: 'Title', isModified: true } });
+  });
+  describe('switchDebug', () => {
+    const state = { myWindowId: {
+      title: 'Title',
+      focusedPage: null,
+      pages: ['myPageId'],
+      geometry: { w: 800, h: 600, x: 110, y: 10 },
+      debug: { whyDidYouUpdate: false, timebarVisibility: true },
+      minimized: false,
+      isModified: false,
+    } };
+
+    const newState = reducer(state, actions.switchDebug('myWindowId', 'whyDidYouUpdate', true));
+    newState.myWindowId.debug.whyDidYouUpdate.should.eql(true);
   });
 });

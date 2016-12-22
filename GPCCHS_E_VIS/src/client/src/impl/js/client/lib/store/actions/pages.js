@@ -1,5 +1,4 @@
 import { v4 } from 'node-uuid';
-// import _findIndex from 'lodash/findIndex';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
 import { getView } from '../selectors/views';
@@ -30,8 +29,8 @@ export const updateLayout = (pageId, layout) =>
           dispatch(setCollapsedView(l.i, false));
         }
       }
-      dispatch(updateLayoutSimple(pageId, layout));
     });
+    dispatch(updateLayoutSimple(pageId, layout));
   };
 export const updateAbsolutePath = simple(types.WS_PAGE_UPDATE_ABSOLUTEPATH, 'pageId', 'newPath');
 export const updatePath = simple(types.WS_PAGE_UPDATEPATH, 'pageId', 'newPath');
@@ -80,6 +79,9 @@ export function moveViewToPage(windowId, fromPageId, toPageId, viewId) {
 export function remove(pageId) {
   return (dispatch, getState) => {
     const state = getState();
+    if (!state.pages[pageId]) {
+      return state;
+    }
     const views = state.pages[pageId].views; // tableau
     views.forEach((viewId) => {
       dispatch(unmountAndRemove(pageId, viewId));

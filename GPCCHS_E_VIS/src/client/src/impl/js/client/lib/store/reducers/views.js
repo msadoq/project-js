@@ -22,11 +22,6 @@ import {
  */
 export default function views(stateViews = {}, action) {
   switch (action.type) {
-    case types.WS_VIEW_CD_MOUNT:
-    case types.WS_VIEW_CD_UNMOUNT:
-      return Object.assign({}, stateViews, {
-        [action.payload.viewId]: view(stateViews[action.payload.viewId], action)
-      });
     case types.WS_VIEW_ADD:
       return {
         ...stateViews,

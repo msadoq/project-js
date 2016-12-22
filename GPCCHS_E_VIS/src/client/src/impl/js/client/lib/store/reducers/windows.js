@@ -90,7 +90,7 @@ function window(stateWindow = initialState, action) {
         isModified: true,
       });
     }
-    case types.WS_WINDOW_DEBUG_SWITCH: { // TODO test
+    case types.WS_WINDOW_DEBUG_SWITCH: {
       return u({
         debug: {
           [action.payload.which]: action.payload.status,

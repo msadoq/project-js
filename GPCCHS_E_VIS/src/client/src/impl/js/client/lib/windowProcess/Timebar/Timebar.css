@@ -69,10 +69,10 @@
         top: 48%;
     }
     &.lower:before{
-        left: 5px;
+        left: 2px;
     }
     &.upper:before{
-        left: -5px;
+        left: -8px;
     }
 }
 

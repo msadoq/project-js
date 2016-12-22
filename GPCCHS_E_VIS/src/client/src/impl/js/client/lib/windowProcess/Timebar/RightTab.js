@@ -130,7 +130,6 @@ class RightTabContent extends Component {
           play={play}
           pause={pause}
           toggleTimesetter={toggleTimesetter}
-          updateCursors={updateCursors}
           currentSessionExists={currentSessionExists}
         />
         <TimeBar

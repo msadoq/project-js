@@ -4,7 +4,7 @@ import simple from '../simpleActionCreator';
 import * as types from '../types';
 import vivl from '../../../VIVL/main';
 import { openEditor, updateLayout } from './pages';
-import { getCurrentPageIdByViewId, makeGetLayouts } from '../selectors/pages';
+import { getPageIdByViewId, makeGetLayouts } from '../selectors/pages';
 
 export const add = simple(types.WS_VIEW_ADD, 'viewId', 'type', 'configuration', 'path', 'oId',
   'absolutePath', 'isModified');
@@ -99,7 +99,7 @@ export function addEntryPoint(viewId, entryPoint) { // TODO add test
     const state = getState();
     const currentView = state.views[viewId];
     const structureType = vivl(currentView.type, 'structureType')();
-    const currentPageId = getCurrentPageIdByViewId(state, { viewId });
+    const currentPageId = getPageIdByViewId(state, { viewId });
 
     const domain = state.domains[0].name; // TODO must be replaced by *, but for dev it's ok
     // const domain = '*';

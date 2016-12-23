@@ -39,14 +39,14 @@ export function makeGetLayouts() { // TODO : test
 }
 
 export function getModifiedPagesIds(state) {
-  return _filter(Object.keys(state.pages), pId => state.pages[pId].isModified);
+  return _filter(Object.keys(getPages(state)), pId => state.pages[pId].isModified);
 }
 
 export function getPageModifiedViewsIds(state, pageId) {
-  return _filter(state.pages[pageId].views, vId => state.views[vId].isModified);
+  return _filter(getPageViewsIds(state, { pageId }), vId => state.views[vId].isModified);
 }
 
-export const getCurrentPageIdByViewId = (state, { viewId }) =>
+export const getPageIdByViewId = (state, { viewId }) =>
   Object.keys(getPages(state))
     .map(k => ({ k, viewIds: getPageViewsIds(state, { pageId: k }) }))
     .filter(p => p.viewIds.filter(id => id === viewId).length)

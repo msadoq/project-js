@@ -3,6 +3,7 @@ import { should, getStore } from '../../common/test';
 import {
   getWindow,
   getWindows,
+  getWindowsArray,
   getWindowPages,
   getWindowPageIds,
   getWindowFocusedPageId,
@@ -39,6 +40,18 @@ describe('store:window:selectors', () => {
     };
     const { getState } = getStore(state);
     getWindows(getState()).should.equal(state.windows);
+  });
+  it('getWindowsArray', () => {
+    const state = {
+      windows: {
+        window1: { title: 'foo' },
+        window2: { title: 'bar' }
+      }
+    };
+    getWindowsArray(state).should.eql([
+      { id: 'window1', title: 'foo' },
+      { id: 'window2', title: 'bar' }
+    ]);
   });
   it('getWindowPageIds', () => {
     const state = {

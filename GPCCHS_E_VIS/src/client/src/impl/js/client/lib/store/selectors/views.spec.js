@@ -4,6 +4,7 @@ import {
   getViews,
   getView,
   getEntryPointOnAxis,
+  getModifiedViewsIds,
 } from './views';
 
 describe('store:views:selectors', () => {
@@ -56,5 +57,15 @@ describe('store:views:selectors', () => {
     getEntryPointOnAxis(state, 'myViewId', 'axis2').should.be.an('array').with.length(1);
     getEntryPointOnAxis(state, 'myViewId', 'invalidAxis').should.be.an('array').with.length(0);
     getEntryPointOnAxis(state, 'unknown', 'axis1').should.be.an('array').with.length(0);
+  });
+  it('getModifiedViewsIds', () => {
+    const state = {
+      views: {
+        view1: { isModified: true },
+        view2: { isModified: false },
+        view3: { isModified: true },
+      }
+    };
+    getModifiedViewsIds(state).should.eql(['view1', 'view3']);
   });
 });

@@ -91,6 +91,23 @@ describe('store:timebars:selectors', () => {
         'myId',
       ));
     });
+    it('no master timeline', () => {
+      should.not.exist(getMasterTimelineById(
+        {
+          timebars: {
+            myId: {
+              timelines: ['timeline_01', 'timeline_02'],
+            },
+          },
+          timelines: {
+            timeline_01: { id: 'timeline01' },
+            timeline_02: { id: 'timeline02' },
+            timeline_03: { id: 'timeline03' },
+          },
+        },
+        'myId',
+      ));
+    });
   });
   describe('getMasterTimeline', () => {
     it('should return master timeline', () => {

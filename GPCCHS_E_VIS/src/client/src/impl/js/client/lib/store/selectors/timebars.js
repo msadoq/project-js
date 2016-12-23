@@ -9,7 +9,7 @@ import { getTimelines } from './timelines';
 export const getTimebars = state => state.timebars;
 export const getTimebar = (state, timebarId) => state.timebars[timebarId];
 
-export const getTimebarTimelinesSelector = createSelector( // TODO TEST
+export const getTimebarTimelinesSelector = createSelector(
   [
     (state, timebarId) => getTimebar(state, timebarId),
     getTimelines,

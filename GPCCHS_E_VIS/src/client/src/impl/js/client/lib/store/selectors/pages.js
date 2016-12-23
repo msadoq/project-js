@@ -12,11 +12,11 @@ export const getPageViewsIds = (state, { pageId }) =>
 export const getPageLayout =
   (state, { pageId }) => _get(state, ['pages', pageId, 'layout']);
 
-export function getEditor(state, pageId) { // TODO : test
+export function getEditor(state, pageId) {
   return _get(state, `pages.${pageId}.editor`);
 }
 
-export function makeGetViews() { // TODO : test
+export function makeGetViews() {
   return createSelector(
     [
       getPageViewsIds,
@@ -26,7 +26,7 @@ export function makeGetViews() { // TODO : test
   );
 }
 
-export function makeGetLayouts() { // TODO : test
+export function makeGetLayouts() {
   return createSelector(
     [getPageLayout],
     layout => ({

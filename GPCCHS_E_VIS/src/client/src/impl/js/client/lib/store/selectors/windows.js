@@ -6,13 +6,13 @@ import { getViews } from './views';
 
 export const getWindows = state => state.windows;
 
-// TODO test
+export const getWindow = (state, windowId) =>
+  _get(getWindows(state), [windowId]);
+
 export const getWindowPageIds = (state, windowId) =>
-  _get(state, ['windows', windowId, 'pages']);
+  _get(getWindow(state, windowId), ['pages']);
 
-export const getWindow = (state, windowId) => state.windows[windowId];
-
-export const getWindowPages = createSelector(   // TODO test
+export const getWindowPages = createSelector(
   [
     (state, windowId) => getWindowPageIds(state, windowId),
     state => state.pages,
@@ -20,21 +20,20 @@ export const getWindowPages = createSelector(   // TODO test
   (ids = [], pages) => ids.map(id => ({ ...pages[id], pageId: id }))
 );
 
-// TODO test
-export const getWindowFocusedPageId =
-  (state, windowId) => _get(state, ['windows', windowId, 'focusedPage']);
+export const getWindowFocusedPageId = (state, windowId) =>
+  _get(getWindow(state, windowId), ['focusedPage']);
 
-// TODO test
 export const getWindowFocusedPageSelector = createSelector([
   getPages,
   (state, windowId) => getWindowFocusedPageId(state, windowId),
-], (pages, pageId) => pages[pageId]);
+], (pages, pageId) => _get(pages, [pageId]));
 
-// TODO deprecate
-export const getWindowDebug = (state, { windowId }) => _get(state, ['windows', windowId, 'debug']);
+// TODO deprecated
+export const getWindowDebug = (state, { windowId }) =>
+  _get(getWindow(state, windowId), ['debug']);
 
-export const getWindowMinimized =
-  (state, windowId) => _get(state, ['windows', windowId, 'minimized']);
+export const getWindowMinimized = (state, windowId) =>
+  _get(getWindow(state, windowId), ['minimized']);
 
 export const getWindowsFocusedPageIds = createSelector(
   [getWindows],

@@ -1,0 +1,48 @@
+exports[`test Controls renders correctly 1`] = `
+<div>
+  <ul
+    className="controlsUl controlsUlRight">
+    <li
+      className="controlsLi">
+      <button
+        className="btn btn-xs btn-control controlButtonActive"
+        mode="Normal"
+        onClick={[Function]}
+        title="Normal mode">
+        Normal
+      </button>
+    </li>
+    <li
+      className="controlsLi">
+      <button
+        className="btn btn-xs btn-control"
+        mode="Extensible"
+        onClick={[Function]}
+        title="Extensible mode">
+        Extensible
+      </button>
+    </li>
+    <li
+      className="controlsLi">
+      <button
+        className="btn btn-xs btn-control"
+        mode="Fixed"
+        onClick={[Function]}
+        title="Fixed mode">
+        Fixed
+      </button>
+    </li>
+    <li
+      className="controlsLi">
+      <button
+        className="btn btn-xs btn-control"
+        disabled={false}
+        mode="Realtime"
+        onClick={[Function]}
+        title="Real time mode">
+        Real time
+      </button>
+    </li>
+  </ul>
+</div>
+`;

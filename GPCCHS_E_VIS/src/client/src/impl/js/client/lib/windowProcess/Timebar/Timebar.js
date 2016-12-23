@@ -495,9 +495,9 @@ export default class Timebar extends Component {
       current = current || visuWindow.current;
       slideLower = slideLower || slideWindow.lower;
       slideUpper = slideUpper || slideWindow.upper;
-      const { cursorMs } = this.state;
-      const coeff = e.deltaY > 0 ? -1 : 1;
 
+      const coeff = e.deltaY > 0 ? -1 : 1;
+      const { cursorMs } = this.state;
       lower += coeff * ((cursorMs - lower) / 5);
       upper += coeff * ((cursorMs - upper) / 5);
       current += coeff * ((cursorMs - current) / 5);
@@ -513,7 +513,7 @@ export default class Timebar extends Component {
         upper,
         current,
         slideLower,
-        slideUpper
+        slideUpper,
       });
 
       if (!this.debounced1) {
@@ -705,7 +705,12 @@ export default class Timebar extends Component {
   }
 
   rePosition = (side) => {
-    const { visuWindow, updateViewport, timebarId, widthPx } = this.props;
+    const {
+      visuWindow,
+      updateViewport,
+      timebarId,
+      widthPx,
+    } = this.props;
     const lower = this.state.lower || visuWindow.lower;
     const upper = this.state.upper || visuWindow.upper;
 
@@ -791,7 +796,7 @@ export default class Timebar extends Component {
     let {
       lower,
       upper,
-      current
+      current,
     } = this.state;
     lower = lower || visuWindow.lower || ((new Date().getTime()) - (1000 * 60 * 48));
     upper = upper || visuWindow.upper || ((new Date().getTime()) + (1000 * 60 * 48));
@@ -801,7 +806,7 @@ export default class Timebar extends Component {
       viewportLower,
       viewportUpper,
       slideLower,
-      slideUpper
+      slideUpper,
     } = this.state;
     viewportLower = viewportLower || viewport.lower || lower - ((upper - lower) * 2);
     viewportUpper = viewportUpper || viewport.upper || upper + ((upper - lower) * 2);
@@ -912,7 +917,6 @@ export default class Timebar extends Component {
     const currentPercent = lowerPercent + ((upperPercent - lowerPercent) *
       (calc.currentPercentOffset * 0.01));
 
-
     /*
       Determinate for each cursor if we display a handle to help
       the user
@@ -945,13 +949,11 @@ export default class Timebar extends Component {
           { arrowsRight }
           { bringExtBound }
 
-          {
-            /*
-              The red div that contains the lower, current and upper cursors
-              lower and upper are absolutely positionned on the right and left of
-              this div
-            */
-          }
+          { /*
+            The red div that contains the lower, current and upper cursors
+            lower and upper are absolutely positionned on the right and left of
+            this div
+          */ }
           <div
             className={
               classnames(
@@ -962,23 +964,24 @@ export default class Timebar extends Component {
             }
             style={{
               left: `${calc.lowerPercentOffset}%`,
-              width: `${calc.selectedPercentWidth}%`
+              width: `${calc.selectedPercentWidth}%`,
             }}
             onMouseDown={this.onMouseDown}
           >
 
-            {
-              /*
-                The 3 main cursors
-              */
-            }
+            { /*
+              The 3 main cursors
+            */ }
             <span
               cursor="lower"
               className={styles.lower}
               onMouseDown={this.onMouseDownResize}
               onDoubleClick={toggleTimesetter}
             />
-            {/* Circle handle for lower cursor */}
+
+            { /*
+              Circle handle for lower cursor
+            */ }
             <span
               cursor="lower"
               className={classnames(
@@ -996,7 +999,10 @@ export default class Timebar extends Component {
               onMouseDown={this.onMouseDownNavigate}
               onDoubleClick={toggleTimesetter}
             />
-            {/* Circle handle for current cursor */}
+
+            { /*
+              Circle handle for current cursor
+            */ }
             <span
               cursor="current"
               className={classnames(
@@ -1015,7 +1021,10 @@ export default class Timebar extends Component {
               onMouseDown={this.onMouseDownResize}
               onDoubleClick={toggleTimesetter}
             />
-            {/* Circle handle for upper cursor */}
+
+            { /*
+              Circle handle for upper cursor
+            */ }
             <span
               cursor="upper"
               className={classnames(
@@ -1027,17 +1036,15 @@ export default class Timebar extends Component {
               onDoubleClick={toggleTimesetter}
             />
 
-            {
-              /*
+            { /*
               The 3 main cursors's formatted dates
-              */
-            }
+            */ }
             <span
               className={classnames(
                 styles.lowerFormattedTime,
                 {
                   [styles.moved]: moveLower,
-                  hidden: lower === current
+                  hidden: lower === current,
                 }
               )}
             >
@@ -1054,7 +1061,7 @@ export default class Timebar extends Component {
                 styles.upperFormattedTime,
                 {
                   [styles.moved]: moveUpper,
-                  hidden: upper === current
+                  hidden: upper === current,
                 }
               )}
             >
@@ -1062,11 +1069,9 @@ export default class Timebar extends Component {
             </span>
           </div>
 
-          {
-            /*
-              The 2 blue sildeWindow cursors
-            */
-          }
+          { /*
+            The 2 blue sildeWindow cursors
+          */ }
           <span
             cursor="slideLower"
             title="Ext lower cursor"
@@ -1077,7 +1082,10 @@ export default class Timebar extends Component {
             onMouseDown={this.onMouseDownResize}
             onDoubleClick={toggleTimesetter}
           />
-          {/* Circle handle for slideLower cursor */}
+
+          { /*
+            Circle handle for slideLower cursor
+          */ }
           <span
             cursor="slideLower"
             className={classnames(
@@ -1101,7 +1109,10 @@ export default class Timebar extends Component {
             onMouseDown={this.onMouseDownResize}
             onDoubleClick={toggleTimesetter}
           />
-          {/* Circle handle for slideUpper cursor */}
+
+          { /*
+            Circle handle for slideUpper cursor
+          */ }
           <span
             cursor="slideUpper"
             className={classnames(
@@ -1116,11 +1127,9 @@ export default class Timebar extends Component {
             onDoubleClick={toggleTimesetter}
           />
 
-          {
-            /*
+          { /*
               Timeline list in the background
-            */
-          }
+          */ }
           <div
             ref={(el) => { this.timelinesEl = el; }}
             className={styles.timelines}
@@ -1138,11 +1147,9 @@ export default class Timebar extends Component {
           </div>
         </div>
 
-        {
-          /*
+        { /*
             Timescale on the bottom
-          */
-        }
+        */ }
         <Scale
           viewportLower={viewportLower}
           viewportUpper={viewportUpper}

@@ -82,7 +82,6 @@ class RightTabContent extends Component {
     wich is much easier to work with int the subcomponents
   */
   formatViewportDimensions() {
-    console.log(this.props.containerWidth);
     const { timebar, containerWidth } = this.props;
     return {
       lower: timebar.rulerStart,

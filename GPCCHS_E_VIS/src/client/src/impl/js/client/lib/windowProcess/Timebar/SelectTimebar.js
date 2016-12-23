@@ -52,7 +52,7 @@ export default class SelectTimebar extends Component {
               <FormGroup>
                 <select
                   ref={(el) => { this.timebarsSelect = el; }}
-                  className={'form-control'}
+                  className="form-control"
                 >
                   {
                     Object.entries(timebars).map(
@@ -78,7 +78,7 @@ export default class SelectTimebar extends Component {
               <FormGroup>
                 <input
                   ref={(el) => { this.timebarId = el; }}
-                  className={'form-control'}
+                  className="form-control"
                   placeholder="Timebar id"
                 />
               </FormGroup>

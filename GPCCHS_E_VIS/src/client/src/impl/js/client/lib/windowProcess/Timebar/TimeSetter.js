@@ -155,7 +155,7 @@ export default class TimeSetter extends Component {
               undisplayed = true;
             }
             let ms;
-            if (this.props.visuWindow[x]) {
+            if (visuWindow[x]) {
               ms = this.state[x] || visuWindow[x];
             } else if (x === 'slideLower') {
               ms = this.state.slideLower || slideWindow.lower;
@@ -196,7 +196,11 @@ export default class TimeSetter extends Component {
                     placeholder={x[0]}
                     ref={(el) => { this[`defaultWidth${x[0]}El`] = el; }}
                     onBlur={this.onDefaultWidthChange}
-                    className={classnames(styles.input, styles[`input_${x[0]}`], 'form-control')}
+                    className={classnames(
+                      styles.input,
+                      styles[`input_${x[0]}`],
+                      'form-control'
+                    )}
                   />
                   {(x === 'hours' || x === 'minutes') && <span>:</span>}
                   {x === 'seconds' && <span>.</span>}
@@ -206,7 +210,17 @@ export default class TimeSetter extends Component {
           </div>
         </div>
         <div className="text-center">
-          <input type="submit" value="Save" className={`btn btn-primary ${(defaultWidthChanged || changed) ? '' : 'disabled'}`} />
+          <input
+            type="submit"
+            value="Save"
+            className={classnames(
+              'btn',
+              'btn-primary',
+              {
+                disabled: !defaultWidthChanged && !changed,
+              }
+            )}
+          />
           {' '}
           <button className={`btn btn-info ${(defaultWidthChanged || changed) ? '' : 'disabled'}`} onClick={this.cancel}>Cancel changes</button>
         </div>

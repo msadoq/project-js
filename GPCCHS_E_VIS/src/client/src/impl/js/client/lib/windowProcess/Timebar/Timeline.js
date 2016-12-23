@@ -24,7 +24,7 @@ export default class Timeline extends PureComponent {
       id,
       timelinesLength,
       unmountTimeline,
-      timebarId
+      timebarId,
     } = this.props;
     if (id !== masterId || timelinesLength === 1) {
       unmountTimeline(timebarId, timelineId);

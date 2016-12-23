@@ -45,7 +45,7 @@ export default class View extends PureComponent {
   }
 
   toggleCollapse = (e) => {
-    if (e.keyCode === 69 && e.ctrlKey && this.el.querySelector(':hover')) {
+    if (e.keyCode === 67 && e.ctrlKey && this.el.querySelector(':hover')) {
       const {
         collapseView,
         viewId,

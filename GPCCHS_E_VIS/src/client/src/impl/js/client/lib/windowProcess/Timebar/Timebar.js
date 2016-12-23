@@ -78,7 +78,7 @@ export default class Timebar extends Component {
       switch (e.keyCode) {
         case keys.x:
           if (cursorMs > current) return;
-          if (timebarMode === 'Fixed' && cursorMs > slideWindow.lower) return;
+          if (['Normal', 'Fixed'].includes(timebarMode) && cursorMs > slideWindow.lower) return;
           updateCursors(
             timebarId,
             {
@@ -128,7 +128,7 @@ export default class Timebar extends Component {
         case keys.n:
           if (cursorMs < current) return;
           if (timebarMode === 'Extensible' && cursorMs > slideWindow.upper) return;
-          if (timebarMode === 'Fixed' && cursorMs < slideWindow.upper) return;
+          if (['Normal', 'Fixed'].includes(timebarMode) && cursorMs < slideWindow.upper) return;
           updateCursors(
             timebarId,
             {

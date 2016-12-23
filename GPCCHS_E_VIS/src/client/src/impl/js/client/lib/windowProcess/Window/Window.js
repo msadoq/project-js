@@ -48,6 +48,10 @@ export default class Window extends Component {
       this.setState({
         displayHelp: !this.state.displayHelp,
       });
+    } else if (e.keyCode === 27 && this.state.displayHelp) {
+      this.setState({
+        displayHelp: false,
+      });
     }
   }
 

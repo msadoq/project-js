@@ -38,7 +38,7 @@ export default class HelpComponent extends Component {
           <p className={styles.para}>
             <br />
             <b>Views</b><br /><br />
-            <kbd>(ctrl/cmd)</kbd> + <kbd>e</kbd> Collapse / expand hovered view.<br />
+            <kbd>(ctrl/cmd)</kbd> + <kbd>c</kbd> Collapse / expand hovered view.<br />
           </p>
         </Col>
       </div>

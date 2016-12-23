@@ -167,8 +167,7 @@
       "lib/windowProcess/**"
     ],
     "include": [
-      "lib/**/*.js",
-      "VIVL/**/*.js"
+      "lib/**/*.js"
     ],
     "reporter": [
       "lcov",

@@ -1,16 +1,14 @@
 #!/usr/bin/env node
 
-// const logger = require('common/log')('main');
+const exit = require('exit');
+const logger = require('common/log')('main');
 const zmq = require('common/zmq');
 const monitoring = require('common/monitoring');
 const { bind: bindMainIpc } = require('common/ipc');
-// const exit = require('exit');
 // const app = require('./lib/express'); // TODO deprecate
 // const primus = require('./lib/websocket/primus'); // TODO deprecate
-// const onOpen = require('./lib/controllers/client/onOpen'); // TODO deprecate
 // const http = require('http'); // TODO deprecate
 const errorHandler = require('./lib/utils/errorHandler');
-// const { onClose } = require('./lib/controllers/client/onClose');
 const { onMessage } = require('./lib/controllers/dc/onMessage');
 const { onDomainQuery } = require('./lib/controllers/client/onDomainQuery');
 const onPull = require('./lib/controllers/client/onPull');
@@ -18,6 +16,7 @@ const { onCacheCleanup } = require('./lib/controllers/client/onCacheCleanup');
 const { onTimebasedQuery } = require('./lib/controllers/client/onTimebasedQuery');
 const { onSessionQuery } = require('./lib/controllers/client/onSessionQuery');
 const { onFilepathQuery } = require('./lib/controllers/client/onFilepathQuery');
+const { unsubscribeAll } = require('./lib/utils/subscriptions');
 
 process.title = 'gpcchs_hss';
 
@@ -57,4 +56,17 @@ zmq.open(zmqConfiguration, (err) => {
   // once ZMQ sockets are open, launch express
   // logger.info('Trying to launch server');
   // server.listen(port);
+});
+
+// handle gracefull shutdown
+process.once('SIGINT', () => { // binding SIGINT prevent SIGTERM event avoiding
+  logger.info('get quit signal from commande line (SIGINT)');
+});
+process.once('SIGTERM', () => {
+  logger.info('gracefully close server (SIGTERM)');
+
+  unsubscribeAll(zmq.push);
+
+  logger.info('good bye!');
+  exit(0);
 });

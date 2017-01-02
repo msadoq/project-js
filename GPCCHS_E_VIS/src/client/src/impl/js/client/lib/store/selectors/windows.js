@@ -1,5 +1,4 @@
 import _get from 'lodash/get';
-// import _reduce from 'lodash/reduce';
 import { createSelector } from 'reselect';
 import { getPages } from './pages';
 import { getViews } from './views';
@@ -61,9 +60,7 @@ export const getWindowsVisibleViewIds = createSelector(
   getWindowsFocusedPage,
   pages =>
     pages
-      .filter(p => p.views)
-      .filter(p => p.views.length)
-      .filter(p => p.timebarId)
+      .filter(p => p.views && p.views.length && p.timebarId)
       .map(p => ({
         timebarId: p.timebarId,
         viewIds: p.views

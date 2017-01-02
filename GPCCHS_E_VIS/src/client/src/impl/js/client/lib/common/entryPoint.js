@@ -1,4 +1,4 @@
-import { getRandomColor } from '../windowProcess/Editor/Components/Colors';
+import { getRandomColor } from '../windowProcess/common/colors';
 
 export const getNewTextEntryPoint = () => ({
   name: 'NewEntryPoint',

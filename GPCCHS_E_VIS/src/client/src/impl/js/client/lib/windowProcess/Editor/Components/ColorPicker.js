@@ -3,7 +3,7 @@ import { TwitterPicker } from 'react-color';
 import { Button } from 'react-bootstrap';
 import None from './icons/none';
 import styles from './ColorPicker.css';
-import initialColors from './Colors';
+import { colors as initialColors } from '../../common/colors';
 
 export default class ColorPicker extends React.Component {
   static propTypes = {

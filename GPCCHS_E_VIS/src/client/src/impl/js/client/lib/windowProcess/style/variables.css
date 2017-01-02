@@ -18,13 +18,6 @@
   --boundCursorsColor: #E45;
   --slideCursorColor: #45E;
   /* monitoring state colors, http://www.fashiontrendsetter.com/content/color_trends/color-decoder/Color-Code-Neon.html */
-  --monit-ok: #00FF33;          /* vert */
-  --monit-info: #FFFF33;        /* jaune */
-  --monit-warning: #FF6600;     /* orange */
-  --monit-alarm: #FD1C03;       /* rouge orangé */
-  --monit-severe: #9900FF;      /* violet */
-  --monit-critical: #DD0000;    /* rouge */
-  --monit-outOfRange: #999999;  /* gris */
 }
 .collapsed{
   .react-resizable-handle{

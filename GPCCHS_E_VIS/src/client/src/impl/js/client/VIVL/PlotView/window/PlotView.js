@@ -23,9 +23,9 @@ import {
   fullDateFormat,
   getLineStyle,
   getEntryPointsCharts,
-  monitoringStateColors,
   drawBadge,
 } from './helper';
+import { monitoringStateColors } from '../../../lib/windowProcess/common/colors';
 import { addEntryPoint } from '../../../lib/store/actions/views';
 import DroppableContainer from '../../../lib/windowProcess/View/DroppableContainer';
 

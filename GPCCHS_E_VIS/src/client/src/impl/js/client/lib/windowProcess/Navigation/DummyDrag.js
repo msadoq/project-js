@@ -1,5 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
-import { getRandomColor } from '../Editor/Components/Colors';
+import { getRandomColor } from '../common/colors';
 
 const s = {
   container: {

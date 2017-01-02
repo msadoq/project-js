@@ -8,6 +8,11 @@ import postCssNesting from 'postcss-nested';
 import postCssReporter from 'postcss-reporter';
 import postCssBrowserReporter from 'postcss-browser-reporter';
 
+import { getMonitoringStateColorsCSSVars } from '../lib/windowProcess/common/colors';
+
+const propertiesPlugin = postCssProperties();
+propertiesPlugin.setVariables(getMonitoringStateColorsCSSVars());
+
 export default {
   module: {
     loaders: [{
@@ -50,7 +55,7 @@ export default {
   postcss: () => [
     postCssImport(),
     postCssUrl(),
-    postCssProperties(),
+    propertiesPlugin,
     postCssNesting(),
     postCssReporter(),
     postCssBrowserReporter()

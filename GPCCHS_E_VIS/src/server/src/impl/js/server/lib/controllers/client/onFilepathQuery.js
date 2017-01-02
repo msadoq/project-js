@@ -1,51 +1,33 @@
-const logger = require('common/log')('controllers:onFilepathQuery');
 const { encode } = require('common/protobuf');
 const zmq = require('common/zmq');
-const registeredCallbacks = require('common/callbacks');
 const globalConstants = require('common/constants');
 
+const protobufHeader = encode('dc.dataControllerUtils.Header', {
+  messageType: globalConstants.MESSAGETYPE_FILEPATH_QUERY,
+});
+
 /**
- * Triggered when there is a new domain query on HSC
+ * Triggered when request a file path from its oId
  *
  * - send a DomainQuery message to DC
  *
- * @param spark
+ * @param queryId
+ * @param payload
+ * @param sendDcMessage
  */
-
-const protobufFilepathHeader = encode('dc.dataControllerUtils.Header', {
-  messageType: globalConstants.MESSAGETYPE_FILEPATH_QUERY,
-});
-let idIndex = 0;
-const generateFilepathId = () => {
-  idIndex += 1;
-  return `oId${idIndex}`;
-};
-
-const errorCallback = (err) => {
-  if (err) {
-    throw err;
-  }
-};
-
-const filepathQuery = (id, payload, messageHandler) => {
-  logger.debug('new filepath query');
-  // create and register queryId
-  const queryId = (typeof id === 'undefined') ? generateFilepathId() : id;
-  registeredCallbacks.set(queryId, errorCallback);
-  // protobufferize queryId
-  const protobufQueryId = encode('dc.dataControllerUtils.String', {
-    string: queryId,
-  });
-  const protobufOid = encode('dc.dataControllerUtils.String', {
-    string: payload.oid,
-  });
-
-  const queryArgs = [protobufFilepathHeader, protobufQueryId, protobufOid];
-
-  messageHandler('dcPush', queryArgs);
+const filepathQuery = (queryId, payload, sendDcMessage) => {
+  sendDcMessage([
+    protobufHeader,
+    encode('dc.dataControllerUtils.String', { string: queryId }),
+    encode('dc.dataControllerUtils.String', { string: payload.oid }),
+  ]);
 };
 
 module.exports = {
   filepathQuery,
-  onFilepathQuery: (queryId, payload) => filepathQuery(queryId, payload, zmq.push),
+  onFilepathQuery: (queryId, payload) => filepathQuery(
+    queryId,
+    payload,
+    args => zmq.push('dcPush', args)
+  ),
 };

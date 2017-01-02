@@ -10,7 +10,7 @@ const extractTimelines = require('./extractTimelines');
 const extractWindows = require('./extractWindows');
 const { extractPages } = require('./extractPages');
 const { extractViews } = require('./extractViews');
-const { requestPathFromOId } = require('../mainProcess/websocket');
+const { requestPathFromOId } = require('../ipc/server');
 
 const logger = getLogger('GPCCHS:documents:workspace');
 

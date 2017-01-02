@@ -10,7 +10,8 @@ import enableDebug from './debug';
 import { initStore, getStore } from '../store/mainStore';
 import './menu';
 import { init } from '../ipc/main';
-import { fork, kill, rpc } from './childProcess';
+import { fork, kill } from './childProcess';
+import { requestDomains, requestSessions } from '../ipc/server';
 import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
 
@@ -62,7 +63,11 @@ export function start() {
     },
     // should have sessions in store at start
     (callback) => {
-      rpc(PROCESS_ID_SERVER, 'getSessions', null, (sessions) => {
+      requestSessions(({ err, sessions }) => {
+        if (err) {
+          return callback(err);
+        }
+
         logger.debug('received sessions from server');
         getStore().dispatch(updateSessions(sessions));
         callback(null);
@@ -70,7 +75,11 @@ export function start() {
     },
     // should have domains in store at start
     (callback) => {
-      rpc(PROCESS_ID_SERVER, 'getDomains', null, (domains) => {
+      requestDomains(({ err, domains }) => {
+        if (err) {
+          return callback(err);
+        }
+
         logger.debug('received domains from server');
         getStore().dispatch(updateDomains(domains));
         callback(null);

@@ -22,7 +22,7 @@ import { getStore } from '../store/mainStore';
 import getPathByFilePicker from './filePicker';
 import { saveWorkspace } from '../documentsManager/saveWorkspace';
 import { saveView } from '../documentsManager/saveView';
-import { requestPathFromOId } from './websocket';
+import { requestPathFromOId } from '../ipc/server';
 import { getModifiedPagesIds } from '../store/selectors/pages';
 import { getModifiedViewsIds } from '../store/selectors/views';
 

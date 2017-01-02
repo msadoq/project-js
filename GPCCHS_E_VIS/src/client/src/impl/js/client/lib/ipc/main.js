@@ -2,7 +2,7 @@ import { ipcMain, BrowserWindow  } from 'electron';
 import { dirname } from 'path';
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
-import { requestSessions, requestPathFromOId } from '../mainProcess/websocket';
+import { requestSessions, requestPathFromOId } from './server';
 import { getStore } from '../store/mainStore';
 import { updateSessions } from '../store/actions/sessions';
 import { saveViewAs } from '../documentsManager/saveView';

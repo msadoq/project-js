@@ -1,8 +1,0 @@
-module.exports = {
-  TIMELINETYPE_SESSION: 'session',
-  TIMELINETYPE_DATASET: 'dataSet',
-  TIMELINETYPE_RECORDSET: 'recordSet',
-  COLLECTION_TIMEBASED_DATA_PREFIX: 'timebasedData',
-  COLLECTION_CONNECTED_DATA_PREFIX: 'connectedData',
-  COLLECTION_SUBSCRIPTIONS_PREFIX: 'subscriptions',
-};

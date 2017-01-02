@@ -1,6 +1,6 @@
 const { pop } = require('common/callbacks');
 const logger = require('common/log')('controllers:onPull');
-const { reset } = require('../../websocket/dataQueue');
+const { reset } = require('../../utils/dataQueue');
 
 /**
  * Triggered when HSC main process pull data spooled by HSC

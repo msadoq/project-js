@@ -2,6 +2,7 @@ import { pop } from 'common/callbacks';
 import getLogger from 'common/log';
 import globalConstants from 'common/constants';
 
+import { rpc } from '../mainProcess/childProcess';
 import { add as addMessage, addOnce as addOnceMessage } from '../store/actions/messages';
 
 const logger = getLogger('ipc:server');
@@ -51,7 +52,6 @@ export function handleMessage(event, payload, store) {
  * @param store
  */
 export function bind(subProcess, store) {
-  serverProcess = subProcess;
   subProcess.on('response', (data) => {
     logger.debug('incoming message', data);
     const { queryId, event, payload } = data;
@@ -64,4 +64,14 @@ export function bind(subProcess, store) {
 
     return logger.warn('invalid message received (no payload)');
   });
+}
+
+export function requestDomains(callback) {
+  rpc(1, 'getDomains', null, callback); // TODO constant
+}
+export function requestSessions(callback) {
+  rpc(1, 'getSessions', null, callback); // TODO constant
+}
+export function requestPathFromOId(oId, callback) {
+  rpc(1, 'requestPathFromOId', { oId }, callback); // TODO constant
 }

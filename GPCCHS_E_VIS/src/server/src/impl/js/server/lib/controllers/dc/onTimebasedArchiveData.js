@@ -6,7 +6,7 @@ const executionMonitor = require('common/execution');
 const logger = require('common/log')('controllers:onTimebasedArchiveData');
 const loggerData = require('common/log')('controllers:incomingData');
 const registeredQueries = require('../../utils/registeredQueries');
-const { add: addToQueue } = require('../../websocket/dataQueue');
+const { add: addToQueue } = require('../../utils/dataQueue');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 
@@ -29,7 +29,7 @@ const protobufTrue = encode('dc.dataControllerUtils.Boolean', { boolean: true })
  * @param payloadBuffers
  * @return {undefined}
  */
-const onTimebasedArchiveData = (
+module.exports.onTimebasedArchiveData = (
   queryIdBuffer,
   dataIdBuffer,
   isLastBuffer,
@@ -147,8 +147,4 @@ const onTimebasedArchiveData = (
     execution.stop('global', `${dataId.parameterName}: ${payloadNumber} payloads`);
     execution.print();
   });
-};
-
-module.exports = {
-  onTimebasedArchiveData,
 };

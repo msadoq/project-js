@@ -1,18 +1,17 @@
 const logger = require('common/log')('models:timebasedData');
+const globalConstants = require('common/constants');
 
 const _each = require('lodash/each');
 const _without = require('lodash/without');
 const _memoize = require('lodash/memoize');
 
-const constants = require('../constants');
-
 const database = require('./loki');
-
 
 let remoteIds = [];
 
-const generateCollectionName = _memoize(remoteId => `${constants.COLLECTION_TIMEBASED_DATA_PREFIX}.${remoteId}`);
-
+const generateCollectionName = _memoize(
+  remoteId => `${globalConstants.COLLECTION_TIMEBASED_DATA_PREFIX}.${remoteId}`
+);
 
 const addRecords = (collection, records) => {
   logger.debug(`add ${records.length} records`);

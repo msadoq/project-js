@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build-primus-client": "node ./bin/buildPrimusClient",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha \"lib/**/*.spec.js\" -- -R spec",
     "hello": "npm install && npm link ../../../../../common/src/main/js/common && [ -f .env ] && echo || cp .env.example .env",
     "lint": "eslint lib e2e *.js",
@@ -16,11 +15,8 @@
   "dependencies": {
     "async": "^2.1.4",
     "exit": "^0.1.2",
-    "express": "4.14.0",
     "lodash": "^4.16.2",
-    "lokijs": "^1.4.1",
-    "primus": "^6.0.6",
-    "uws": "^0.12.0"
+    "lokijs": "^1.4.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",

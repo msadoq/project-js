@@ -1,5 +1,5 @@
 require('../../utils/test');
-const { add, reset, get } = require('../../websocket/dataQueue');
+const { add, reset, get } = require('../../utils/dataQueue');
 const onPull = require('./onPull');
 
 describe('controllers/client/onPull', () => {

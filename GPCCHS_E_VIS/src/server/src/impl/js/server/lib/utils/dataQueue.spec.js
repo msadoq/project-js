@@ -1,4 +1,4 @@
-require('../utils/test');
+require('./test');
 
 const { add, get, reset } = require('./dataQueue');
 

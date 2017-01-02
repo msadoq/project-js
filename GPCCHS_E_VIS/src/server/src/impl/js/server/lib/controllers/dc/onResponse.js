@@ -4,7 +4,10 @@ const logger = require('common/log')('controllers:onResponse');
 const globalConstants = require('common/constants');
 const { encode, decode } = require('common/protobuf');
 const registeredCallbacks = require('common/callbacks');
-const { sendToMain } = require('../../websocket/sendToMain');
+
+const protobufSuccess = encode('dc.dataControllerUtils.Status', {
+  status: globalConstants.STATUS_SUCCESS,
+});
 
 /**
  * Triggered on incoming DcResponse message from DC.
@@ -17,12 +20,11 @@ const { sendToMain } = require('../../websocket/sendToMain');
  * - deprotobufferize reason
  * - send error message to client and execute callback
  *
- * @param buffer
+ * @param queryIdBuffer
+ * @param statusBuffer
+ * @param reasonBuffer
  */
-
-const protobufSuccess = encode('dc.dataControllerUtils.Status', { status: globalConstants.STATUS_SUCCESS });
-
-const response = (websocketHandler, queryIdBuffer, statusBuffer, reasonBuffer) => {
+module.exports.onResponse = (queryIdBuffer, statusBuffer, reasonBuffer) => {
   logger.verbose('called');
 
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
@@ -51,10 +53,4 @@ const response = (websocketHandler, queryIdBuffer, statusBuffer, reasonBuffer) =
     { type: globalConstants.ERRORTYPE_RESPONSE, reason }
   );
   return callback(new Error((typeof reason !== 'undefined') ? reason : 'unknown reason'));
-};
-
-module.exports = {
-  onResponse: (queryIdBuffer, statusBuffer, reasonBuffer) =>
-    response(sendToMain, queryIdBuffer, statusBuffer, reasonBuffer),
-  response,
 };

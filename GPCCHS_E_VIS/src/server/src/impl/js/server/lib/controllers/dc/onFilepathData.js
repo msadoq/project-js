@@ -8,9 +8,9 @@ const registeredCallbacks = require('common/callbacks');
  * - decode and pass to registered callback
  *
  * @param queryIdBuffer
- * @param filepathBuffer
+ * @param buffer
  */
-module.exports.onFilepathData = (queryIdBuffer, filepathBuffer) => {
+module.exports.onFilepathData = (queryIdBuffer, buffer) => {
   logger.verbose('called');
 
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
@@ -18,8 +18,8 @@ module.exports.onFilepathData = (queryIdBuffer, filepathBuffer) => {
 
   const callback = registeredCallbacks.get(queryId);
   if (!callback) {
-    return logger.warn(`unknown queryId ${queryId}`);
+    return callback({ err: `unknown queryId ${queryId}` });
   }
 
-  return callback(decode('dc.dataControllerUtils.String', filepathBuffer).string);
+  return callback({ path: decode('dc.dataControllerUtils.String', buffer).string });
 };

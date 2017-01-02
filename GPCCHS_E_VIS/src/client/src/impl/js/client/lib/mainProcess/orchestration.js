@@ -211,7 +211,7 @@ export function tick() {
         execution.stop('data injection', Object.keys(dataToInject).length);
       }
 
-      // TODO continue orchestration in this callback
+      // TODO continue orchestration in this callback (VERY IMPORTANT FOR PERF)
     });
 
     if (dataMap !== previous.dataMap) {

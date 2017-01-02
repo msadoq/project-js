@@ -1,5 +1,5 @@
 import _get from 'lodash/get';
-import _reduce from 'lodash/reduce';
+// import _reduce from 'lodash/reduce';
 import { createSelector } from 'reselect';
 import { getPages } from './pages';
 import { getViews } from './views';
@@ -72,26 +72,15 @@ export const getWindowsVisibleViewIds = createSelector(
 export const getWindowsVisibleViews = createSelector(
   getWindowsVisibleViewIds,
   getViews,
-  (pages, views) => _reduce(pages, (list, { timebarId, viewIds }) =>
-    _reduce(viewIds, (l, viewId) => {
-      if (!views[viewId]) {
-        return l;
-      }
-
-      return l.concat({ viewId, timebarId, viewData: views[viewId] });
-    }, list),
-  [])
+  (pages, views) => pages
+    .map(p => p.viewIds.map(vId => ({
+      timebarId: p.timebarId,
+      viewId: vId
+    })))
+    .reduce((acc, ids) => acc.concat(ids), [])
+    .filter(v => !!views[v.viewId])
+    .map(v => ({
+      ...v,
+      viewData: views[v.viewId]
+    }))
 );
-//   getWindowsVisibleViewIds,
-//   getViews,
-//   (pages, views) =>
-//     pages.reduce((acc, page) =>
-//       acc.concat(Object.keys(views)
-//         .filter(vId => page.viewIds.indexOf(Number(vId)) >= 0)
-//         .map(vId => ({
-//           viewId: Number(vId),
-//           timebarId: page.timebarId,
-//           viewData: views[vId],
-//         })))
-//     , [])
-// );

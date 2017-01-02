@@ -27,8 +27,8 @@ const protobufSuccess = encode('dc.dataControllerUtils.Status', {
 module.exports.onResponse = (queryIdBuffer, statusBuffer, reasonBuffer) => {
   logger.verbose('called');
 
+  // check if queryId exists in registeredCallbacks singleton, if not stop logic
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
-  // check if queryId exists in registeredCallbacks singleton, if no stop logic
   const callback = registeredCallbacks.get(queryId);
   if (typeof callback === 'undefined') {
     return undefined;
@@ -48,9 +48,11 @@ module.exports.onResponse = (queryIdBuffer, statusBuffer, reasonBuffer) => {
     : reasonBuffer;
 
   // send error message to client and execute callback
-  websocketHandler(
-    globalConstants.EVENT_ERROR,
-    { type: globalConstants.ERRORTYPE_RESPONSE, reason }
-  );
+  // websocketHandler(
+  //   globalConstants.EVENT_ERROR,
+  //   { type: globalConstants.ERRORTYPE_RESPONSE, reason }
+  // );
+  // TODO SEND TO CLIENT!
+
   return callback(new Error((typeof reason !== 'undefined') ? reason : 'unknown reason'));
 };

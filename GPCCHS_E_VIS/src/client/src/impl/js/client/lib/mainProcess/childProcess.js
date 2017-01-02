@@ -8,16 +8,6 @@ const logger = getLogger('main:childProcess');
 
 const processes = {};
 
-/**
- * TODO aprés les vacances:
- * - finir de migrer les controllers clients : onFilepathQuery
- * - supprimer les controllers clients : onOpen, onClose
- * - tracker et supprimer tous les usages du websocket côté server
- * - tracker et supprimer tous les usages du websocket côté client
- * - supprimer la génération du client primus
- * - implémenter la communication main/renderer
- */
-
 export function fork(id, path, callback) {
   const forkOptions = {
     execPath: '/usr/share/isis/node-v6.3.0-linux-x64/bin/node',

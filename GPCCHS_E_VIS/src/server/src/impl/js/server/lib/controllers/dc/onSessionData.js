@@ -18,7 +18,7 @@ module.exports.onSessionData = (queryIdBuffer, buffer) => {
 
   const callback = registeredCallbacks.get(queryId);
   if (!callback) {
-    return callback({ err: `unknown queryId ${queryId}` });
+    return logger.warn(`unknown queryId ${queryId}`); // TODO SEND TO CLIENT!
   }
 
   return callback({ sessions: decode('dc.dataControllerUtils.Sessions', buffer).sessions });

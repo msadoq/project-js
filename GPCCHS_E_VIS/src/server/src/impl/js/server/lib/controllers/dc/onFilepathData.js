@@ -18,7 +18,7 @@ module.exports.onFilepathData = (queryIdBuffer, buffer) => {
 
   const callback = registeredCallbacks.get(queryId);
   if (!callback) {
-    return callback({ err: `unknown queryId ${queryId}` });
+    return logger.warn(`unknown queryId ${queryId}`); // TODO SEND TO CLIENT!
   }
 
   return callback({ path: decode('dc.dataControllerUtils.String', buffer).string });

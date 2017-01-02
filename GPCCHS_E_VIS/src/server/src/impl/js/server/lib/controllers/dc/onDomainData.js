@@ -18,7 +18,7 @@ module.exports.onDomainData = (queryIdBuffer, buffer) => {
 
   const callback = registeredCallbacks.get(queryId);
   if (!callback) {
-    return callback({ err: `unknown queryId ${queryId}` });
+    return logger.warn(`unknown queryId ${queryId}`); // TODO SEND TO CLIENT!
   }
 
   return callback({ domains: decode('dc.dataControllerUtils.Domains', buffer).domains });

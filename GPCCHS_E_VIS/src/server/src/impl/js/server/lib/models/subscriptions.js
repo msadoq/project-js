@@ -7,7 +7,7 @@ const _keys = require('lodash/keys');
 
 const flattenDataId = require('../utils/flattenDataId');
 
-const database = require('../io/loki');
+const database = require('./loki');
 
 const collection = database.addCollection('subscriptions',
   {
@@ -89,10 +89,7 @@ collection.removeByDataId = (dataId, subscription) => {
 
 collection.exists = (dataId) => {
   const flatDataId = flattenDataId(dataId);
-  if (!collection.by('flatDataId', flatDataId)) {
-    return false;
-  }
-  return true;
+  return !collection.by('flatDataId', flatDataId);
 };
 
 collection.removeRemoteId = (dataId, remoteId, subscription) => {

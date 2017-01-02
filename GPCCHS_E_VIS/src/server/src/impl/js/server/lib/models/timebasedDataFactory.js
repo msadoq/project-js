@@ -6,7 +6,7 @@ const _memoize = require('lodash/memoize');
 
 const constants = require('../constants');
 
-const database = require('../io/loki');
+const database = require('./loki');
 
 
 let remoteIds = [];

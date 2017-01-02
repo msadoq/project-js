@@ -9,6 +9,7 @@ export default class TimeSetterFields extends PureComponent {
     ms: React.PropTypes.number.isRequired,
     cursor: React.PropTypes.string.isRequired,
     disabled: React.PropTypes.bool.isRequired,
+    undisplayed: React.PropTypes.bool.isRequired,
     onChange: React.PropTypes.func.isRequired,
   }
 
@@ -45,7 +46,12 @@ export default class TimeSetterFields extends PureComponent {
   }
 
   render() {
-    const { ms, cursor, disabled } = this.props;
+    const {
+      ms,
+      cursor,
+      disabled,
+      undisplayed,
+    } = this.props;
     const arr = dateToArray(moment(ms));
     let valueText;
     if (cursor === 'slideLower') {
@@ -59,14 +65,18 @@ export default class TimeSetterFields extends PureComponent {
     return (
       <div className={styles.fieldsContainer}>
         <div
-          className={classnames(
-            'text-capitalize',
-            styles.formLabel,
-            { [styles[`formLabel${cursor}`]]: !disabled }
-          )}
           style={{ width: '100%' }}
         >
-          <b>{valueText}</b>
+          <b
+            className={classnames(
+              'text-capitalize',
+              styles.formLabel,
+              { [styles[`formLabel${cursor}`]]: !disabled }
+            )}
+          >
+            {valueText}
+          </b>
+          <b>{undisplayed ? ' - hidden' : ''}</b>
         </div>
         {
           arr.map((x, i) =>

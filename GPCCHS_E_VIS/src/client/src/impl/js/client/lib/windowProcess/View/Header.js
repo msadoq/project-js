@@ -2,9 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 import { v4 } from 'node-uuid';
+
 import styles from './Header.css';
 import Modal from '../common/Modal';
 import ChoosePage from './ChoosePage';
+import { sendToMain } from '../../ipc/window';
+
 
 export default class Header extends Component {
   static propTypes = {
@@ -16,12 +19,18 @@ export default class Header extends Component {
     viewId: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     isCollapsed: PropTypes.bool,
+    oId: PropTypes.string,
+    absolutePath: PropTypes.string,
+    isModified: PropTypes.bool,
     openEditor: PropTypes.func,
     closeEditor: PropTypes.func,
     unmountAndRemove: PropTypes.func,
     moveViewToPage: PropTypes.func,
     getWindowPages: PropTypes.func,
     collapseView: PropTypes.func,
+    updateAbsolutePath: PropTypes.func,
+    setModified: PropTypes.func,
+    reloadView: PropTypes.func,
   };
   static defaultProps = {
     configuration: {
@@ -48,12 +57,18 @@ export default class Header extends Component {
       type,
       configuration,
       isViewsEditorOpen,
+      isModified,
       openEditor,
       closeEditor,
       unmountAndRemove,
       getWindowPages,
       collapseView,
       isCollapsed,
+      // oId,
+      absolutePath,
+      updateAbsolutePath,
+      setModified,
+      reloadView,
     } = this.props;
 
     const {
@@ -90,14 +105,30 @@ export default class Header extends Component {
         collapseView(focusedPageId, viewId, !isCollapsed);
         break;
       }
-      // case 'save': {
-      //   // TODO call a saveView function
-      //   break;
-      // }
-      // case 'saveAs': {
-      //   // TODO call a saveView function
-      //   break;
-      // }
+      case 'save':
+        sendToMain('saveView', { configuration, type, absolutePath }, (payload) => {
+          if (!payload.error) {
+            // update View title
+            setModified(viewId, false);
+          }
+        });
+        break;
+      case 'saveAs':
+        sendToMain('saveViewAs', { configuration, type, absolutePath }, (payload) => {
+          if (!payload.error) {
+            // update View path
+            updateAbsolutePath(viewId, payload.viewPath);
+            setModified(viewId, false);
+          }
+        });
+        break;
+      case 'reload':
+        sendToMain('reloadView', { absolutePath, isModified }, (payload) => {
+          if (!payload.error) {
+            reloadView(viewId, payload.configuration);
+          }
+        });
+        break;
       default:
     }
   };
@@ -154,10 +185,17 @@ export default class Header extends Component {
       configuration,
       isViewsEditorOpen,
       isCollapsed,
+      oId,
+      absolutePath,
+      isModified,
     } = this.props;
-    const { title } = configuration;
-    const titleStyle = this.getTitleStyle();
+    let title = configuration.title;
+    if (isModified) {
+      title = title.concat(' *');
+    }
 
+    const titleStyle = this.getTitleStyle();
+    const isPathDefined = oId || absolutePath;
 
     const choosePageDlg = (
       <Modal
@@ -197,9 +235,11 @@ export default class Header extends Component {
             <MenuItem eventKey="editor" active>{isViewsEditorOpen ? 'Close' : 'Open'} editor</MenuItem>
             <MenuItem eventKey="move">Move to another page</MenuItem>
             <MenuItem eventKey="collapse">Collapse</MenuItem>
-            {/* <MenuItem eventKey="reload">Reload view</MenuItem>*/}
+            {isPathDefined ? <MenuItem eventKey="reload">Reload view</MenuItem>
+                           : <MenuItem eventKey="reload" disabled>Reload view</MenuItem>}
             <MenuItem divider />
-            <MenuItem eventKey="save">Save</MenuItem>
+            {isPathDefined ? <MenuItem eventKey="save">Save</MenuItem>
+                           : <MenuItem eventKey="save" disabled>Save</MenuItem>}
             <MenuItem eventKey="saveAs">Save as</MenuItem>
             <MenuItem divider />
             <MenuItem eventKey="close">Close view</MenuItem>

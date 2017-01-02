@@ -1,13 +1,13 @@
 exports[`test Timebar renders correctly 1`] = `
 <div
-  className="Timebar__viewportWrapper___3gVA7"
+  className="viewportWrapper"
+  onMouseLeave={[Function]}
   onMouseMove={[Function]}>
   <div
-    className="Timebar__viewportContainer___2vJ28"
-    onDoubleClick={[Function]}
+    className="viewportContainer"
     onWheel={[Function]}>
     <div
-      className="Timebar__visuWindow___LjhS5"
+      className="visuWindow"
       onMouseDown={[Function]}
       style={
         Object {
@@ -16,17 +16,17 @@ exports[`test Timebar renders correctly 1`] = `
         }
       }>
       <span
-        className="Timebar__lower___2ACIR"
+        className="lower"
         cursor="lower"
         onDoubleClick={[Function]}
         onMouseDown={[Function]} />
       <span
-        className="Timebar__handle___3vSP_ Timebar__handleLower___2mdzy Timebar__undisplayed___19V6v"
+        className="handle handleLower undisplayed"
         cursor="lower"
         onDoubleClick={[Function]}
         onMouseDown={[Function]} />
       <span
-        className="Timebar__current___2dnsd"
+        className="current"
         cursor="current"
         onDoubleClick={[Function]}
         onMouseDown={[Function]}
@@ -36,7 +36,7 @@ exports[`test Timebar renders correctly 1`] = `
           }
         } />
       <span
-        className="Timebar__handle___3vSP_ Timebar__handleCurrent___3Me05 Timebar__undisplayed___19V6v"
+        className="handle handleCurrent undisplayed"
         cursor="current"
         onDoubleClick={[Function]}
         onMouseDown={[Function]}
@@ -46,21 +46,21 @@ exports[`test Timebar renders correctly 1`] = `
           }
         } />
       <span
-        className="Timebar__upper___3yNvr"
+        className="upper"
         cursor="upper"
         onDoubleClick={[Function]}
         onMouseDown={[Function]} />
       <span
-        className="Timebar__handle___3vSP_ Timebar__handleUpper___onVIW Timebar__undisplayed___19V6v"
+        className="handle handleUpper undisplayed"
         cursor="upper"
         onDoubleClick={[Function]}
         onMouseDown={[Function]} />
       <span
-        className="Timebar__lowerFormattedTime___19g2H Timebar__moved___3JlBL">
+        className="lowerFormattedTime">
         10:58:05.354
       </span>
       <span
-        className="Timebar__currentFormattedTime___GmzPy"
+        className="currentFormattedTime"
         style={
           Object {
             "left": "44.90186940085962%",
@@ -69,12 +69,12 @@ exports[`test Timebar renders correctly 1`] = `
         10:58:14.025
       </span>
       <span
-        className="Timebar__upperFormattedTime___1TPb0">
+        className="upperFormattedTime">
         10:58:24.665
       </span>
     </div>
     <span
-      className="Timebar__slide___3CAuZ hidden"
+      className="slide hidden"
       cursor="slideLower"
       onDoubleClick={[Function]}
       onMouseDown={[Function]}
@@ -85,7 +85,7 @@ exports[`test Timebar renders correctly 1`] = `
       }
       title="Ext lower cursor" />
     <span
-      className="Timebar__handle___3vSP_ Timebar__handleSlideLower___2aCq6 Timebar__undisplayed___19V6v"
+      className="handle handleSlideLower undisplayed"
       cursor="slideLower"
       onDoubleClick={[Function]}
       onMouseDown={[Function]}
@@ -95,7 +95,7 @@ exports[`test Timebar renders correctly 1`] = `
         }
       } />
     <span
-      className="Timebar__slide___3CAuZ hidden"
+      className="slide hidden"
       cursor="slideUpper"
       onDoubleClick={[Function]}
       onMouseDown={[Function]}
@@ -106,7 +106,7 @@ exports[`test Timebar renders correctly 1`] = `
       }
       title="Ext upper cursor" />
     <span
-      className="Timebar__handle___3vSP_ Timebar__handleSlideUpper___2OYG8 Timebar__undisplayed___19V6v"
+      className="handle handleSlideUpper undisplayed"
       cursor="slideUpper"
       onDoubleClick={[Function]}
       onMouseDown={[Function]}
@@ -116,743 +116,761 @@ exports[`test Timebar renders correctly 1`] = `
         }
       } />
     <div
-      className="Timebar__timelines___3m3ZW"
+      className="timelines"
       onScroll={[Function]}>
       <div
-        className="Timebar__timeline___3fFrT"
+        className="timeline"
         style={
           Object {
             "background": "#fa1289",
           }
         }>
         <div
-          className="Timebar__timelineInfos___2OR3P">
+          className="timelineInfos">
           Session 1
         </div>
+        <span
+          className="timelineOffset"
+          style={
+            Object {
+              "left": "auto",
+              "right": "50%",
+              "width": "0.16623583878448356%",
+            }
+          } />
       </div>
       <div
-        className="Timebar__timeline___3fFrT"
+        className="timeline"
         style={
           Object {
             "background": "#31b0d5",
           }
         }>
         <div
-          className="Timebar__timelineInfos___2OR3P">
+          className="timelineInfos">
           Session 2
         </div>
+        <span
+          className="timelineOffset"
+          style={
+            Object {
+              "left": "auto",
+              "right": "50%",
+              "width": "0.8311791939224177%",
+            }
+          } />
       </div>
     </div>
   </div>
   <div
-    className="Scale__timebarRuleContainer___3p2eL"
+    className="timebarRuleContainer"
     onMouseDown={[Function]}>
     <div
-      className="Scale__timebarRule___1Jhiy"
+      className="timebarRule"
       style={
         Object {
           "left": "-36.86612196723492%",
         }
       }>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "0%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           10:57:20
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "16.623583878448354%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           10:57:40
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "33.24716775689671%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           10:58:00
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "49.87075163534506%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           10:58:20
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "66.49433551379342%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           10:58:40
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "83.11791939224177%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           10:59:00
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "99.74150327069012%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           10:59:20
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "116.36508714913847%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           10:59:40
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "132.98867102758683%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:00:00
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "149.6122549060352%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:00:20
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "166.23583878448355%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:00:40
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "182.8594226629319%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:01:00
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "199.48300654138023%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:01:20
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "216.1065904198286%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:01:40
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "232.73017429827695%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:02:00
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "249.3537581767253%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:02:20
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "265.97734205517366%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:02:40
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "282.600925933622%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:03:00
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "299.2245098120704%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:03:20
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "315.84809369051874%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:03:40
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "332.4716775689671%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:04:00
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "349.09526144741545%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:04:20
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "365.7188453258638%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:04:40
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "382.34242920431217%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:05:00
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "398.96601308276047%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:05:20
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "415.5895969612088%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:05:40
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "432.2131808396572%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:06:00
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "448.83676471810554%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:06:20
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "465.4603485965539%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:06:40
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "482.08393247500226%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:07:00
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "498.7075163534506%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:07:20
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "515.331100231899%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:07:40
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "531.9546841103473%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:08:00
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "548.5782679887957%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:08:20
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "565.201851867244%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:08:40
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "581.8254357456924%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:09:00
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "598.4490196241408%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:09:20
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "615.0726035025891%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:09:40
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "631.6961873810375%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:10:00
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "648.3197712594858%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:10:20
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "664.9433551379342%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:10:40
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "681.5669390163825%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:11:00
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "698.1905228948309%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:11:20
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "714.8141067732793%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:11:40
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "731.4376906517276%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:12:00
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "748.061274530176%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:12:20
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "764.6848584086243%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:12:40
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "781.3084422870727%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:13:00
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "797.9320261655209%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:13:20
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
       <div
-        className="Scale__scaleBar___2K9vy"
+        className="scaleBar"
         style={
           Object {
             "left": "814.5556100439693%",
           }
         }>
         <span
-          className="Scale__scaleTime___31YQP">
+          className="scaleTime">
           11:13:40
         </span>
         <span
-          className="Scale__scaleBar___2K9vy" />
+          className="scaleBar" />
       </div>
     </div>
   </div>

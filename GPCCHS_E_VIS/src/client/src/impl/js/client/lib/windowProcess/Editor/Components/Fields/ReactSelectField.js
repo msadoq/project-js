@@ -15,15 +15,6 @@ export default class ReactSelectField extends React.Component {
     meta: PropTypes.object,
   }
 
-
-  componentDidMount() {
-    this.defaultField();
-  }
-
-  componentDidUpdate() {
-    this.defaultField();
-  }
-
   onChange = (event) => {
     if (this.props.input.onChange) {
       this.props.input.onChange(event.value);
@@ -39,21 +30,6 @@ export default class ReactSelectField extends React.Component {
   onBlur = () => {
     if (this.props.input.onBlur) {
       this.props.input.onBlur(this.props.input.value);
-    }
-  }
-
-  /*
-    If value in not in available options for any reason,
-    set to empty string
-  */
-  defaultField = () => {
-    const {
-      options,
-      input,
-    } = this.props;
-
-    if (!options.find(e => e.value === input.value) && input.value !== '') {
-      input.onChange('');
     }
   }
 

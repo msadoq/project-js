@@ -22,7 +22,7 @@ const mapStateToProps = (state, { windowId, focusedPageId }) => {
   const layouts = getLayouts(state, p);
 
   return {
-    timebarId: focusedPage.timebarId,
+    timebarId: focusedPage ? focusedPage.timebarId : undefined,
     layouts,
     views,
   };

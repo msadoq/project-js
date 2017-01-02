@@ -28,7 +28,6 @@ class EntryPointName extends React.Component {
     const {
       handleSubmit,
       pristine,
-      reset,
       submitting,
       valid
     } = this.props;
@@ -47,7 +46,6 @@ class EntryPointName extends React.Component {
         <ClearSubmitButtons
           pristine={pristine}
           submitting={submitting}
-          reset={reset}
           valid={valid}
         />
       </Form>

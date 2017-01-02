@@ -17,6 +17,9 @@ export default class View extends PureComponent {
     data: PropTypes.object,
     viewId: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
+    oId: PropTypes.string,
+    absolutePath: PropTypes.string,
+    isModified: PropTypes.bool,
     openEditor: PropTypes.func,
     closeEditor: PropTypes.func,
     unmountAndRemove: PropTypes.func,
@@ -24,7 +27,34 @@ export default class View extends PureComponent {
     getWindowPages: PropTypes.func,
     collapseView: PropTypes.func,
     isCollapsed: PropTypes.bool,
+    updateAbsolutePath: PropTypes.func,
+    setModified: PropTypes.func,
+    reloadView: PropTypes.func,
   };
+
+  static contextTypes = {
+    focusedPageId: PropTypes.string,
+  };
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.toggleCollapse);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.toggleCollapse);
+  }
+
+  toggleCollapse = (e) => {
+    if (e.keyCode === 67 && e.ctrlKey && this.el.querySelector(':hover')) {
+      const {
+        collapseView,
+        viewId,
+        isCollapsed,
+      } = this.props;
+      const { focusedPageId } = this.context;
+      collapseView(focusedPageId, viewId, !isCollapsed);
+    }
+  }
 
   render() {
     logger.debug('render');
@@ -44,11 +74,20 @@ export default class View extends PureComponent {
       getWindowPages,
       collapseView,
       component,
+      oId,
+      absolutePath,
+      isModified,
+      updateAbsolutePath,
+      setModified,
+      reloadView,
     } = this.props;
     const ContentComponent = component || UnknownView;
 
     return (
-      <div className={styles.container}>
+      <div
+        className={styles.container}
+        ref={(e) => { this.el = e; }}
+      >
         <ViewHeader
           isViewsEditorOpen={isViewsEditorOpen}
           configuration={configuration}
@@ -61,6 +100,12 @@ export default class View extends PureComponent {
           moveViewToPage={moveViewToPage}
           collapseView={collapseView}
           isCollapsed={isCollapsed}
+          oId={oId}
+          absolutePath={absolutePath}
+          isModified={isModified}
+          updateAbsolutePath={updateAbsolutePath}
+          setModified={setModified}
+          reloadView={reloadView}
         />
         {!isCollapsed &&
           <div

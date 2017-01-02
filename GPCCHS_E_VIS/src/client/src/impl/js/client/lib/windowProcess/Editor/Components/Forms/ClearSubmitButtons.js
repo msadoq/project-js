@@ -12,6 +12,7 @@ export default class ClearSubmitButtons extends PureComponent {
     submitting: PropTypes.bool.isRequired,
     valid: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
+    asyncValidating: PropTypes.bool,
     reset: PropTypes.func
   }
 
@@ -20,7 +21,8 @@ export default class ClearSubmitButtons extends PureComponent {
       pristine,
       submitting,
       reset,
-      valid
+      valid,
+      asyncValidating = false
     } = this.props;
 
     return (
@@ -36,7 +38,7 @@ export default class ClearSubmitButtons extends PureComponent {
           <Button
             bsStyle="success"
             type="submit"
-            disabled={pristine || submitting || !valid}
+            disabled={asyncValidating || pristine || submitting || !valid}
           >
             Submit
           </Button>

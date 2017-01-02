@@ -20,6 +20,21 @@ deploy_cots() {
 
   cd ${api.lib.dir}/js/${artifactId}
 
+  python3 << EOF
+import json
+import collections
+
+with open("package.json") as package_file:
+    package_json=json.load(package_file, object_pairs_hook=collections.OrderedDict)
+    if "peerDependencies" in package_json:
+         if "common" in package_json["peerDependencies"]:
+             del package_json["peerDependencies"]["common"]
+
+with open("package.json", "w") as package_file:
+    package_file.write(json.dumps(package_json, indent=2))
+
+EOF
+
   # Handling of COTS such as zmq
   export PKG_CONFIG_PATH=${find.dependencies.dir}/lib/pkgconfig
   sed -i "s@^prefix=.*\$@prefix=${find.dependencies.dir}@" ${PKG_CONFIG_PATH}/*.pc

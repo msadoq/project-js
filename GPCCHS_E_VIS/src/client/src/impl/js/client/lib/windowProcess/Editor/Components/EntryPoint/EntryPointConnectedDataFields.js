@@ -23,6 +23,7 @@ export default class EntryPointConnectedDataFields extends React.Component {
     timelines: PropTypes.array,
     prefix: PropTypes.string,
     unit: PropTypes.string,
+    axisId: PropTypes.string,
   }
 
   render() {
@@ -31,11 +32,14 @@ export default class EntryPointConnectedDataFields extends React.Component {
       timelines,
       prefix,
       unit,
+      axisId,
     } = this.props;
 
     let filteredAxes;
     if (axes && unit) {
-      filteredAxes = Object.values(axes).filter(a => a.unit === unit);
+      filteredAxes = Object.values(axes).filter(a =>
+        a.unit === unit || a.id === axisId
+      );
     } else {
       filteredAxes = [];
     }

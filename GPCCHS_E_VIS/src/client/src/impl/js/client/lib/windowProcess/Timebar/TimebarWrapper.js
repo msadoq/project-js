@@ -4,8 +4,8 @@ import { debounce } from 'lodash';
 import { Col } from 'react-bootstrap';
 import getLogger from 'common/log';
 import styles from './Timebar.css';
-import LefttabContainer from './LefttabContainer';
-import RighttabContainer from './RighttabContainer';
+import LeftTabContainer from './LeftTabContainer';
+import RightTabContainer from './RightTabContainer';
 import TimeSetterContainer from './TimeSetterContainer';
 import Modal from '../common/Modal';
 
@@ -24,7 +24,6 @@ export default class TimebarWrapper extends Component {
     timebarId: PropTypes.string.isRequired,
     focusedPageId: PropTypes.string.isRequired,
     timelines: PropTypes.array.isRequired,
-    currentSession: PropTypes.object,
     timebarHeight: PropTypes.number,
   }
 
@@ -106,7 +105,6 @@ export default class TimebarWrapper extends Component {
       isPlaying,
       timebar,
       slideWindow,
-      currentSession,
       focusedPageId,
       timebarHeight,
     } = this.props;
@@ -161,7 +159,7 @@ export default class TimebarWrapper extends Component {
             />
           </div>
         </Col>
-        <LefttabContainer
+        <LeftTabContainer
           timebarId={timebarId}
           focusedPageId={focusedPageId}
           masterId={timebar.masterId}
@@ -170,19 +168,20 @@ export default class TimebarWrapper extends Component {
           verticalScroll={timelinesVerticalScroll}
           onTimelinesVerticalScroll={this.onTimelinesVerticalScroll}
         />
-        <RighttabContainer
-          timebar={timebar}
-          timebarId={timebarId}
-          visuWindow={visuWindow}
-          slideWindow={slideWindow}
-          currentSession={currentSession}
-          isPlaying={isPlaying}
-          timelines={timelines}
-          toggleTimesetter={this.toggleTimesetter}
-          onTimelinesVerticalScroll={this.onTimelinesVerticalScroll}
-          timelinesVerticalScroll={timelinesVerticalScroll}
-          updateCursors={updateCursors}
-        />
+        <Col xs={9} style={{ height: '100%' }}>
+          <RightTabContainer
+            timebar={timebar}
+            timebarId={timebarId}
+            visuWindow={visuWindow}
+            slideWindow={slideWindow}
+            isPlaying={isPlaying}
+            timelines={timelines}
+            toggleTimesetter={this.toggleTimesetter}
+            onTimelinesVerticalScroll={this.onTimelinesVerticalScroll}
+            timelinesVerticalScroll={timelinesVerticalScroll}
+            updateCursors={updateCursors}
+          />
+        </Col>
       </div>
     );
   }

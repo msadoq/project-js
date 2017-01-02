@@ -3,13 +3,13 @@ import { Field, reduxForm } from 'redux-form';
 import {
   Form
 } from 'react-bootstrap';
+import { lint } from '../../../lib/common/htmllint';
 import {
   CodeMirrorField
 } from '../../../lib/windowProcess/Editor/Components/Fields';
 import {
   ClearSubmitButtons
 } from '../../../lib/windowProcess/Editor/Components/Forms/';
-// import { sendToMain } from '../../../lib/ipc/window';
 import styles from './WYSIWYG.css';
 
 class WYSIWYG extends Component {
@@ -25,28 +25,9 @@ class WYSIWYG extends Component {
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
     initialize: PropTypes.func,
+    asyncValidating: PropTypes.bool,
+    asyncValidate: PropTypes.func,
   }
-
-  // componentWillMount() {
-  //   sendToMain('htmlLint', {
-  //     html: this.props.initialValues.html,
-  //     // html: '<div>test</div>',
-  //     options: {
-  //       'attr-bans': ['src', 'dynsrc', 'lowsrc', 'onclick'],
-  //       'attr-no-dup': true,
-  //       'attr-no-unsafe-char': true,
-  //       'attr-quote-style': 'quoted',
-  //       'doctype-first': false,
-  //       'id-class-style': false,
-  //       'indent-style': 'spaces',
-  //       'indent-width': 0,
-  //       'tag-bans': [],
-  //       'tag-name-lowercase': true,
-  //       'tag-name-match': true,
-  //       'line-end-style': false
-  //     }
-  //   }, response => this.setState({ issues: response.issues }));
-  // }
 
   onChange = editorState => this.setState({ editorState });
 
@@ -57,7 +38,9 @@ class WYSIWYG extends Component {
       reset,
       submitting,
       valid,
-      entryPoints
+      entryPoints,
+      asyncValidating,
+      asyncValidate,
     } = this.props;
 
     return (
@@ -68,10 +51,12 @@ class WYSIWYG extends Component {
             className={styles.CodeMirrorField}
             component={CodeMirrorField}
             autocompleteList={entryPoints}
+            asyncValidate={asyncValidate}
             type="test"
           />
 
           <ClearSubmitButtons
+            asyncValidating={asyncValidating}
             pristine={pristine}
             submitting={submitting}
             reset={reset}
@@ -83,38 +68,25 @@ class WYSIWYG extends Component {
   }
 }
 
+const requiredFields = ['html'];
+const validate = (values = {}) => {
+  const errors = {};
 
-// const asyncValidate = values => new Promise((resolve, reject) => {
-//   console.log('asyncValidate');
-//   sendToMain('htmlLint', {
-//     html: values.html,
-//     options: {
-//       // 'attr-bans': ['src', 'dynsrc', 'lowsrc', 'onclick'],
-//       // 'attr-no-dup': true,
-//       // 'attr-no-unsafe-char': true,
-//       // 'attr-quote-style': 'quoted',
-//       'doctype-first': false,
-//       // 'id-class-style': false,
-//       // 'indent-style': 'spaces',
-//       // 'indent-width': 0,
-//       // 'tag-bans': [],
-//       // 'tag-name-lowercase': true,
-//       // 'tag-name-match': true,
-//       'line-end-style': false
-//     }
-//   }, (response) => {
-//     if (response.issues && response.issues.length > 0) {
-//       /* eslint no-throw-literal: 0 */
-//       reject({ html: response.issues });
-//     } else {
-//       resolve();
-//     }
-//   });
-// });
+  requiredFields.forEach((field) => {
+    if (!values[field]) {
+      errors[field] = 'Required';
+    }
+  });
 
+  const htmlErrors = lint(values.html);
+  if (htmlErrors.length) {
+    errors.html = `You have ${htmlErrors.length} errors`;
+  }
+  return errors;
+};
 
 export default reduxForm({
-  // asyncValidate,
-  enableReinitialize: true,
-  keepDirtyOnReinitialize: true
+  validate,
+  enableReinitialize: false,
+  asyncBlurFields: ['html']
 })(WYSIWYG);

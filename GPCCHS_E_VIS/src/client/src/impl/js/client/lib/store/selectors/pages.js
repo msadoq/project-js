@@ -12,11 +12,11 @@ export const getPageViewsIds = (state, { pageId }) =>
 export const getPageLayout =
   (state, { pageId }) => _get(state, ['pages', pageId, 'layout']);
 
-export function getEditor(state, pageId) { // TODO : test
+export function getEditor(state, pageId) {
   return _get(state, `pages.${pageId}.editor`);
 }
 
-export function makeGetViews() { // TODO : test
+export function makeGetViews() {
   return createSelector(
     [
       getPageViewsIds,
@@ -26,7 +26,7 @@ export function makeGetViews() { // TODO : test
   );
 }
 
-export function makeGetLayouts() { // TODO : test
+export function makeGetLayouts() {
   return createSelector(
     [getPageLayout],
     layout => ({
@@ -39,14 +39,14 @@ export function makeGetLayouts() { // TODO : test
 }
 
 export function getModifiedPagesIds(state) {
-  return _filter(Object.keys(state.pages), pId => state.pages[pId].isModified);
+  return _filter(Object.keys(getPages(state)), pId => state.pages[pId].isModified);
 }
 
 export function getPageModifiedViewsIds(state, pageId) {
-  return _filter(state.pages[pageId].views, vId => state.views[vId].isModified);
+  return _filter(getPageViewsIds(state, { pageId }), vId => state.views[vId].isModified);
 }
 
-export const getCurrentPageIdByViewId = (state, { viewId }) =>
+export const getPageIdByViewId = (state, { viewId }) =>
   Object.keys(getPages(state))
     .map(k => ({ k, viewIds: getPageViewsIds(state, { pageId: k }) }))
     .filter(p => p.viewIds.filter(id => id === viewId).length)

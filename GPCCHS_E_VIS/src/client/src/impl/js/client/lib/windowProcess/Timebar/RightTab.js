@@ -1,14 +1,10 @@
-// import SizeMe from 'react-sizeme';
 import React, { Component, PropTypes } from 'react';
-import SizeMe from 'react-sizeme';
-import { Col } from 'react-bootstrap';
+import Dimensions from 'react-dimensions';
 import TimeBar from './Timebar';
 import ControlsContainer from './ControlsContainer';
 import styles from './Timebar.css';
 
-const bootstrapPaddings = 5;
-
-class RighttabContent extends Component {
+class RightTabContent extends Component {
 
   static propTypes = {
     onTimelinesVerticalScroll: PropTypes.func.isRequired,
@@ -21,12 +17,11 @@ class RighttabContent extends Component {
     visuWindow: PropTypes.object.isRequired,
     slideWindow: PropTypes.object.isRequired,
     timebar: PropTypes.object.isRequired,
-    size: PropTypes.object.isRequired,
     timebarId: PropTypes.string.isRequired,
     timelines: PropTypes.array.isRequired,
-    messages: PropTypes.array.isRequired,
-    currentSession: PropTypes.object,
+    containerWidth: PropTypes.number,
     timelinesVerticalScroll: PropTypes.number,
+    currentSessionExists: PropTypes.bool.isRequired,
   }
 
   /*
@@ -36,12 +31,15 @@ class RighttabContent extends Component {
     if (!nextProps.isPlaying) {
       return;
     }
-    const { timebarId, updateViewport } = this.props;
-
+    const {
+      timebarId,
+      updateViewport,
+      containerWidth,
+    } = this.props;
     const viewport = {
       lower: nextProps.timebar.rulerStart,
       upper: nextProps.timebar.rulerStart +
-        (nextProps.timebar.rulerResolution * (this.props.size.width - (bootstrapPaddings * 2))),
+        (nextProps.timebar.rulerResolution * containerWidth),
     };
 
     const {
@@ -62,7 +60,7 @@ class RighttabContent extends Component {
       updateViewport(
         timebarId,
         viewport.lower + offsetMs,
-        (viewport.upper - viewport.lower) / (this.props.size.width - (bootstrapPaddings * 2))
+        (viewport.upper - viewport.lower) / containerWidth
       );
     }
 
@@ -84,11 +82,11 @@ class RighttabContent extends Component {
     wich is much easier to work with int the subcomponents
   */
   formatViewportDimensions() {
-    const { timebar } = this.props;
+    const { timebar, containerWidth } = this.props;
     return {
       lower: timebar.rulerStart,
       upper: timebar.rulerStart +
-        (timebar.rulerResolution * (this.props.size.width - (bootstrapPaddings * 2))),
+        (timebar.rulerResolution * containerWidth),
     };
   }
 
@@ -102,38 +100,36 @@ class RighttabContent extends Component {
       isPlaying,
       play,
       pause,
-      messages,
       timebar,
       slideWindow,
-      currentSession,
       toggleTimesetter,
       onTimelinesVerticalScroll,
       timelinesVerticalScroll,
-      size,
+      containerWidth,
       updateCursors,
       updateViewport,
+      currentSessionExists,
     } = this.props;
 
     return (
-      <Col xs={9} style={{ height: '100%' }}>
+      <div
+        style={{
+          height: '100%',
+        }}
+      >
         <span
           ref={(el) => { this.formattedFullDateEl = el; }}
           className={styles.formatedFullDate}
         />
         <ControlsContainer
-          viewport={this.formatViewportDimensions()}
           timebarMode={timebar.mode}
           timebarSpeed={timebar.speed}
           timebarId={timebarId}
-          visuWindow={visuWindow}
-          slideWindow={slideWindow}
           isPlaying={isPlaying}
-          messages={messages}
           play={play}
           pause={pause}
           toggleTimesetter={toggleTimesetter}
-          updateCursors={updateCursors}
-          currentSession={currentSession}
+          currentSessionExists={currentSessionExists}
         />
         <TimeBar
           viewport={this.formatViewportDimensions()}
@@ -151,11 +147,11 @@ class RighttabContent extends Component {
           onVerticalScroll={onTimelinesVerticalScroll}
           toggleTimesetter={toggleTimesetter}
           retrieveFormattedFullDateEl={this.retrieveFormattedFullDateEl}
-          widthPx={size.width - (bootstrapPaddings * 2)}
+          widthPx={containerWidth}
         />
-      </Col>
+      </div>
     );
   }
 }
 
-export default SizeMe()(RighttabContent); // eslint-disable-line new-cap
+export default Dimensions()(RightTabContent);

@@ -21,7 +21,7 @@ export const selectData = (state, viewDefinitions, payload, count) =>
 
     return viewBag
       ? _set(bag, [viewId], viewBag)
-      : viewBag;
+      : bag;
   }, {});
 
 /**

@@ -1,6 +1,6 @@
 import { v4 } from 'node-uuid';
-import globalConstants from 'common/constants';
 import _get from 'lodash/get';
+import globalConstants from 'common/constants';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
 import {
@@ -17,13 +17,10 @@ import { pause } from './hsc';
 import {
   getTimebar,
   getMasterTimelineById,
-  getTimebarTimelinesSelector,
 } from '../selectors/timebars';
 import {
   getSession,
 } from '../selectors/sessions';
-
-const currentUpperMargin = 1 / 100;
 
 /**
  * Simple actions
@@ -89,6 +86,86 @@ export const updateViewport = simple(
 );
 export const updateSpeed = simple(types.WS_TIMEBAR_SPEED_UPDATE, 'timebarId', 'speed');
 
+export function restoreWidth(timebarId) {
+  return (dispatch, getState) => {
+    const timebar = getTimebar(getState(), timebarId);
+    const vw = timebar.visuWindow;
+    const newSlideUpper = timebar.mode === 'Extensible' ?
+      vw.current + (vw.defaultWidth) :
+      vw.current + (vw.defaultWidth / 4);
+    dispatch(
+      updateCursors(
+        timebarId,
+        {
+          lower: vw.current - (vw.defaultWidth / 2),
+          upper: vw.current + (vw.defaultWidth / 2),
+        },
+        {
+          lower: vw.current - (vw.defaultWidth / 4),
+          upper: newSlideUpper,
+        },
+      )
+    );
+  };
+}
+
+export function jump(timebarId, offsetMs) {
+  return (dispatch, getState) => {
+    const timebar = getTimebar(getState(), timebarId);
+    const vw = timebar.visuWindow;
+    const sw = timebar.visuWindow;
+    dispatch(
+      updateCursors(
+        timebarId,
+        {
+          lower: vw.lower + offsetMs,
+          upper: vw.upper + offsetMs,
+          current: vw.current + offsetMs,
+        },
+        {
+          lower: sw.lower + offsetMs,
+          upper: sw.upper + offsetMs,
+        },
+      )
+    );
+  };
+}
+
+export function goNow(timebarId) {
+  return (dispatch, getState) => {
+    const state = getState();
+    const timebar = getTimebar(state, timebarId);
+    const masterTimeline = getMasterTimelineById(state, timebarId);
+    if (!masterTimeline) {
+      return;
+    }
+    const currentSession = getSession(state.sessions, masterTimeline.sessionId);
+    if (!currentSession) {
+      return;
+    }
+    const vw = timebar.visuWindow;
+    const msWidth = vw.upper - vw.lower;
+    const realTimeMs = Date.now() + currentSession.offsetWithmachineTime;
+    const newLower = realTimeMs -
+      ((1 - globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN) * msWidth);
+    const newUpper = realTimeMs +
+      (globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN * msWidth);
+    dispatch(
+      updateCursors(
+        timebarId,
+        {
+          lower: newLower,
+          upper: newUpper,
+          current: realTimeMs,
+        },
+        {
+          lower: newLower,
+          upper: newUpper,
+        },
+      )
+    );
+  };
+}
 export function switchToNormalMode(timebarId) {
   return (dispatch, getState) => {
     dispatch({
@@ -128,15 +205,16 @@ export function switchToRealtimeMode(timebarId) {
     const state = getState();
     const timebar = getTimebar(state, timebarId);
     const { visuWindow } = timebar;
-    const timelines = getTimebarTimelinesSelector(state, timebarId);
-    const masterTimeline = getMasterTimelineById(state.timebars, timelines, timebarId);
+    const masterTimeline = getMasterTimelineById(state, timebarId);
     const currentSession = getSession(state.sessions, masterTimeline.sessionId);
     const sessionOffset = currentSession ? currentSession.offsetWithmachineTime : 0;
 
     const msWidth = visuWindow.upper - visuWindow.lower;
     const realTimeMs = Date.now() + sessionOffset;
-    const newLower = realTimeMs - ((1 - currentUpperMargin) * msWidth);
-    const newUpper = realTimeMs + (currentUpperMargin * msWidth);
+    const newLower = realTimeMs -
+      ((1 - globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN) * msWidth);
+    const newUpper = realTimeMs +
+      (globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN * msWidth);
     dispatch(
       updateCursors(
         timebarId,

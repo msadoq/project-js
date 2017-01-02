@@ -1,6 +1,7 @@
 /* eslint no-unused-expressions: 0 */
 import _find from 'lodash/find';
 import * as actions from '../actions/views';
+import * as types from '../types';
 import reducer, {
   updateObject,
   updateArray,
@@ -10,8 +11,8 @@ import reducer, {
   getAxisId,
   updatePlotAxisId,
   addEntryPoint,
-} from './views';
-import { freezeMe, should } from '../../common/test';
+  } from './views';
+import { freezeMe, should, getStore } from '../../common/test';
 
 describe('store:views:reducer', () => {
   it('initial state', () => {
@@ -69,6 +70,83 @@ describe('store:views:reducer', () => {
       state.should.have.property('myViewId');
     });
   });
+  describe('set modified', () => {
+    const state = {
+      myView: {
+        isModified: false,
+        configuration: {
+          title: 'myView'
+        },
+      }
+    };
+    const s = reducer(state, actions.setModified('myView', true));
+    s.myView.isModified.should.equal(true);
+  });
+  describe('set collapsed', () => {
+    const state = {
+      myView: {
+        isCollapsed: false
+      }
+    };
+    const s = reducer(state, actions.setCollapsed('myView', true));
+    s.myView.isCollapsed.should.equal(true);
+  });
+  describe('set collapsed and updateLayout', () => {
+    let dispatch;
+    let getState;
+    before(() => {
+      const store = getStore({
+        pages: {
+          myPage: {
+            layout: [
+              {
+                h: 5,
+                w: 5,
+                maxH: undefined,
+                maxW: undefined,
+                minW: 3,
+                minH: 3,
+                i: 'myView',
+              }
+            ]
+          }
+        },
+        views: {
+          myView: {
+            isCollapsed: false
+          }
+        }
+      });
+      getState = store.getState;
+      dispatch = store.dispatch;
+    });
+    it('collapses / expands and updates layout', () => {
+      dispatch(actions.setCollapsedAndUpdateLayout('myPage', 'myView', true));
+      let newState = getState();
+      newState.pages.myPage.layout[0].should.deep.equal({
+        h: 1,
+        w: 3,
+        maxH: 5,
+        maxW: 5,
+        minW: 3,
+        minH: 3,
+        i: 'myView',
+      });
+      newState.views.myView.isCollapsed.should.equal(true);
+      dispatch(actions.setCollapsedAndUpdateLayout('myPage', 'myView', false));
+      newState = getState();
+      newState.pages.myPage.layout[0].should.deep.equal({
+        h: 5,
+        w: 5,
+        maxH: undefined,
+        maxW: undefined,
+        minW: 3,
+        minH: 3,
+        i: 'myView',
+      });
+      newState.views.myView.isCollapsed.should.equal(false);
+    });
+  });
   describe('update', () => {
     const state = {
       view1: {
@@ -86,7 +164,7 @@ describe('store:views:reducer', () => {
       const s = reducer(state, actions.updateAbsolutePath('view1', '/data/newPath'));
       s.view1.absolutePath.should.equal('/data/newPath');
       s.view1.isModified.should.equal(true);
-      s.view1.configuration.title.should.equal('* my plot');
+      s.view1.configuration.title.should.equal('my plot');
     });
     it('absolute Path: no change', () => {
       reducer(state, actions.updateAbsolutePath('view1', '/data/oldPath'))
@@ -106,7 +184,7 @@ describe('store:views:reducer', () => {
           absolutePath: '/data/oldPath',
           configuration: {
             oName: 'newValue',
-            title: '* my plot'
+            title: 'my plot'
           },
         }
       });
@@ -143,19 +221,10 @@ describe('store:views:reducer', () => {
           absolutePath: '/data/oldPath',
           configuration: {
             oName: 'newValue',
-            title: '* my plot',
+            title: 'my plot',
           },
         }
       });
-    });
-    it('object: invalid paramName', () => {
-      const action = {
-        payload: {
-          viewId: 'view1',
-          pName: 'newValue',
-        }
-      };
-      updateObject(state, action, 'oName', 'paramName').should.equal(state);
     });
     const stateArray = {
       view1: {
@@ -182,7 +251,7 @@ describe('store:views:reducer', () => {
           isModified: true,
           configuration: {
             oName: ['newValue', 'oldValue2'],
-            title: '* my plot',
+            title: 'my plot',
           },
         }
       });
@@ -249,6 +318,7 @@ describe('store:views:reducer', () => {
         backgroundColor: '#FFFFFF',
         legend: 'old Legend',
         markers: [{ m: '1' }, { m: '2' }],
+        showYAxes: 'left',
       },
       // path: 'views/plot1.json',
       // absolutePath: '/data/work/views/plot1.json',
@@ -312,7 +382,7 @@ describe('store:views:reducer', () => {
     });
     it('title', () => {
       const state = reducer(stateViews, actions.updateTitle('plot1', 'new Title'));
-      state.plot1.configuration.title.should.deep.equal('* new Title');
+      state.plot1.configuration.title.should.deep.equal('new Title');
     });
     it('title style', () => {
       const style = { bold: true };
@@ -357,7 +427,7 @@ describe('store:views:reducer', () => {
           isModified: true,
           configuration: {
             oName: ['oldValue1', 'oldValue2', 'newValue'],
-            title: '* my view',
+            title: 'my view',
           },
         }
       });
@@ -413,7 +483,7 @@ describe('store:views:reducer', () => {
           isModified: true,
           configuration: {
             oName: ['oldValue2'],
-            title: '* my view',
+            title: 'my view',
           },
         }
       });
@@ -615,5 +685,18 @@ describe('store:views:reducer', () => {
         connectedDataY: { timeline: '*', domain: 'd2', unit: 'w', axisId: 'axis2' } });
       state.plot1.configuration.axes[axisId].label.should.equal('ep2');
     });
+  });
+  describe('reload view', () => {
+    const conf = { axes: { a1: { label: 'axis1', unit: 's' } } };
+    const state = reducer(stateViews, actions.reloadView('plot1', conf));
+    state.plot1.configuration.should.deep.equal(conf);
+  });
+  describe('updateShowYAxes', () => {
+    const state = reducer(stateViews, actions.updateShowYAxes('plot1', 'right'));
+    state.plot1.configuration.showYAxes.should.eql('right');
+  });
+  describe('close_workspace', () => {
+    const newState = reducer({ myView: { id: 'Id' } }, { type: types.HSC_CLOSE_WORKSPACE });
+    newState.should.be.an('object').that.is.empty;
   });
 });

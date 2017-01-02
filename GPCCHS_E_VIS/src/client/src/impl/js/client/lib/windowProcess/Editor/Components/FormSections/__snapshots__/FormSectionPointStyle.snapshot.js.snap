@@ -1,8 +1,8 @@
 exports[`test Navigation renders correctly 1`] = `
 <div
-  className="SelectButton__root___1Aorp btn-group">
+  className="root btn-group">
   <button
-    className="SelectButton__button___2SN_b btn btn-xs btn-default"
+    className="button btn btn-xs btn-default"
     disabled={false}
     onClick={[Function]}
     type="button">
@@ -41,7 +41,7 @@ exports[`test Navigation renders correctly 1`] = `
     </svg>
   </button>
   <button
-    className="SelectButton__button___2SN_b btn btn-xs btn-default"
+    className="button btn btn-xs btn-default"
     disabled={false}
     onClick={[Function]}
     type="button">
@@ -93,7 +93,7 @@ exports[`test Navigation renders correctly 1`] = `
     </svg>
   </button>
   <button
-    className="SelectButton__button___2SN_b btn btn-xs btn-default"
+    className="button btn btn-xs btn-default"
     disabled={false}
     onClick={[Function]}
     type="button">
@@ -146,7 +146,7 @@ exports[`test Navigation renders correctly 1`] = `
     </svg>
   </button>
   <button
-    className="SelectButton__button___2SN_b btn btn-xs btn-default"
+    className="button btn btn-xs btn-default"
     disabled={false}
     onClick={[Function]}
     type="button">

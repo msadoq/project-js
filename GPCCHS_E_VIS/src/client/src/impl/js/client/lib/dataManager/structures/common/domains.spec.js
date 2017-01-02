@@ -1,7 +1,7 @@
 import '../../../common/test';
 import filter, { reset } from './domains';
 
-describe.only('dataManager:domains', () => {
+describe('dataManager:domains', () => {
   beforeEach(() => {
     reset();
   });

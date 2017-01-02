@@ -50,6 +50,7 @@ class EntryPointConnectedDataXY extends React.Component {
       valid,
       axes,
       timelines,
+      initialValues,
     } = this.props;
 
     return (
@@ -64,6 +65,7 @@ class EntryPointConnectedDataXY extends React.Component {
               unit={this.props[`${coor}Unit`]}
               timelines={timelines}
               axes={axes}
+              axisId={initialValues[coor].axisId}
             />
           </div>
         )}

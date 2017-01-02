@@ -2,17 +2,20 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import CodeMirror from 'react-codemirror';
-// import 'codemirror/addon/lint/lint';
+import 'codemirror/addon/lint/lint';
 import 'codemirror/addon/hint/show-hint';
+import 'codemirror/addon/hint/html-hint';
 import 'codemirror/mode/htmlmixed/htmlmixed';
 import _debounce from 'lodash/debounce';
 import '!style!css!codemirror/lib/codemirror.css';
 import '!style!css!codemirror/addon/lint/lint.css';
 import '!style!css!codemirror/addon/hint/show-hint.css';
+import {
+  Alert
+} from 'react-bootstrap';
 
-// import { HtmlLint } from './CodeMirror/htmlLint';
-// import { Lint } from './CodeMirror/lint';
-// import { ShowHint } from './CodeMirror/showHint';
+import { lint } from '../../../../../lib/common/htmllint';
+import './CodeMirrorField.css';
 
 export default class CodeMirrorField extends React.Component {
   static propTypes = {
@@ -29,53 +32,46 @@ export default class CodeMirrorField extends React.Component {
     autocompleteList: []
   }
 
-  // componentDidMount() {
-  //   const CodeMirrorStatic = this.element.getCodeMirrorInstance();
-  //   const instance = this.element.getCodeMirror();
-  //   // ShowHint(CodeMirrorStatic);
-  //   // Lint(CodeMirrorStatic);
-  //   // HtmlLint(CodeMirrorStatic);
-  //   // CodeMirrorStatic.hint.html = (cm) => {
-  //   //   console.log('eee');
-  //   //   // var inner = orig(cm) || {from: cm.getCursor(), to: cm.getCursor(), list: []};
-  //   //   // inner.list.push("bozo");
-  //   //   // return inner;
-  //   //   return ;
-  //   // };
-  //   console.log('HtmlLint', CodeMirrorStatic.registerHelper,
-  // instance.registerHelper, instance.getHelpers());
-  //   // this.componentWillReceiveProps();
-  // }
+  componentDidMount() {
+    this.codeMirrorInstance = this.element.getCodeMirrorInstance();
+    this.codeMirror = this.element.getCodeMirror();
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (!nextProps || nextProps.meta.error !== this.props.meta.error) {
-  //     console.log('componentWillReceiveProps');
-  //     const CodeMirrorStatic = this.element.getCodeMirrorInstance();
-  //     const instance = this.element.getCodeMirror();
-  //     CodeMirrorStatic.registerHelper('lint', 'html', (/* text, options */) => {
-  //       console.log('registerHelper');
-  //       const found = [];
-  //       if (!this.props.meta.error || !this.props.meta.error.length) return found;
-  //       for (let i = 0; i < this.props.meta.error.length; i += 1) {
-  //         const message = this.props.meta.error[i];
-  //         const startLine = message.line - 1;
-  //         const endLine = message.line - 1;
-  //         const startCol = message.column - 1;
-  //         const endCol = message.column;
+    this.codeMirrorInstance.registerHelper('lint', 'html', (text) => {
+      const found = [];
+      const errors = lint(text);
+      for (let i = 0; i < errors.length; i += 1) {
+        const message = errors[i];
+        const startLine = message.line - 1;
+        const endLine = message.line - 1;
+        const startCol = message.col - 1;
+        const endCol = message.col;
+        found.push({
+          from: this.codeMirrorInstance.Pos(startLine, startCol),
+          to: this.codeMirrorInstance.Pos(endLine, endCol),
+          message: message.message,
+          severity: message.type
+        });
+      }
+      return found;
+    });
+    /*
+      linting is disabled by default, and will be activated only if
+      component receives eror(s) from redux-form (componentWillReceiveProps)
+    */
+    this.codeMirror.setOption('lint', false);
+  }
 
-  //         found.push({
-  //           from: instance.Pos(startLine, startCol),
-  //           to: instance.Pos(endLine, endCol),
-  //           message: message.rule,
-  //           severity: 'error'
-  //         });
-  //       }
-  //       return found;
-  //     });
-  //   }
-  // }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.meta.error && nextProps.meta.error.length) {
+      this.codeMirror.setOption('lint', true);
+    } else {
+      this.codeMirror.setOption('lint', false);
+    }
+  }
 
   element;
+  codeMirrorInstance;
+  codeMirror;
 
   autocomplete = (cm) => {
     const { autocompleteList } = this.props;
@@ -85,15 +81,19 @@ export default class CodeMirrorField extends React.Component {
     }));
   }
 
+  handleOnChange = _debounce((value) => {
+    const { input: { onChange } } = this.props;
+    onChange(value);
+    // asyncValidate();
+  }, 500)
+
   render() {
     const {
       input,
       options,
       className,
       meta: {
-        touched,
-        error,
-        warning
+        error
       }
     } = this.props;
 
@@ -101,26 +101,29 @@ export default class CodeMirrorField extends React.Component {
       lineNumbers: true,
       lineWrapping: true,
       mode: 'htmlmixed',
+      gutters: ['CodeMirror-lint-markers'],
       extraKeys: {
         Tab: this.autocomplete
       },
+      lint: true,
       ...options
     };
 
     return (
       <div
         className={classnames({
-          'has-error': touched && error,
-          'has-warning': touched && warning,
-          'has-success': touched && !(error || warning),
+          'has-error': error,
         }, 'CodeMirrorField', className)}
       >
         <CodeMirror
           ref={(el) => { this.element = el; }}
           {...input}
           options={codeMirrorOptions}
-          onChange={_debounce(value => input.onChange(value), 500)}
+          onChange={this.handleOnChange}
         />
+        {error && <Alert bsStyle="danger" className="m0">
+          {error}
+        </Alert>}
       </div>
     );
   }

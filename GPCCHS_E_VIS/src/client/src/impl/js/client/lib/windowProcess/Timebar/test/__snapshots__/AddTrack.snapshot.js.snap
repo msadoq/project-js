@@ -3,13 +3,13 @@ exports[`test AddTrack renders correctly 1`] = `
   className="form-horizontal"
   onSubmit={[Function]}>
   <div
-    className="Lefttab__formGroup___2Kj6_ form-group">
+    className="formGroup form-group">
     <b
-      className="Lefttab__labelFormControl___2UMul">
+      className="labelFormControl">
       Kind
     </b>
     <select
-      className="form-control Lefttab__formControl___WYwMa">
+      className="form-control formControl">
       <option
         value="session">
         session
@@ -27,13 +27,13 @@ exports[`test AddTrack renders correctly 1`] = `
     </select>
   </div>
   <div
-    className="Lefttab__formGroup___2Kj6_ form-group">
+    className="formGroup form-group">
     <b
-      className="Lefttab__labelFormControl___2UMul">
+      className="labelFormControl">
       Color
     </b>
     <div
-      className="ColorPicker__root___qtwwR">
+      className="root">
       <button
         className="btn btn-xs btn-default"
         disabled={false}
@@ -81,23 +81,23 @@ exports[`test AddTrack renders correctly 1`] = `
     </div>
   </div>
   <div
-    className="Lefttab__formGroup___2Kj6_ form-group">
+    className="formGroup form-group">
     <b
-      className="Lefttab__labelFormControl___2UMul">
+      className="labelFormControl">
       Id
     </b>
     <input
-      className="form-control Lefttab__formControl___WYwMa"
+      className="form-control formControl"
       placeholder="Parameter n" />
   </div>
   <div
-    className="Lefttab__formGroup___2Kj6_ form-group">
+    className="formGroup form-group">
     <b
-      className="Lefttab__labelFormControl___2UMul">
+      className="labelFormControl">
       Session
     </b>
     <select
-      className="form-control Lefttab__formControl___WYwMa">
+      className="form-control formControl">
       <option
         value={0}>
         Master
@@ -105,14 +105,14 @@ exports[`test AddTrack renders correctly 1`] = `
     </select>
   </div>
   <div
-    className="Lefttab__formGroup___2Kj6_ form-group">
+    className="formGroup form-group">
     <b
-      className="Lefttab__labelFormControl___2UMul">
+      className="labelFormControl">
        
     </b>
     <input
       autoFocus={true}
-      className="Lefttab__addTrackButton___2HYyH btn-md btn-primary"
+      className="btn btn-md btn-primary"
       type="submit"
       value="Add track" />
   </div>

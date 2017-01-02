@@ -34,6 +34,7 @@ const parseParams = paramStr =>
     time: true,
     process: true,
     category: false,
+    filter: '.*',
   }, (paramStr || '')
     .split(',')
     .map(p => p.split('='))

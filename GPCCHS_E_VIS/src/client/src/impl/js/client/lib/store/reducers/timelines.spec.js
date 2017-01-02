@@ -2,6 +2,7 @@
 import '../../common/test';
 import * as actions from '../actions/timelines';
 import reducer from './timelines';
+import * as types from '../types';
 
 describe('store:timelines:reducer', () => {
   it('initial state', () => {
@@ -80,5 +81,9 @@ describe('store:timelines:reducer', () => {
       );
       state.should.have.property('myTimelineId');
     });
+  });
+  describe('close_workspace', () => {
+    const newState = reducer({ myTimelineId: { id: 'Id' } }, { type: types.HSC_CLOSE_WORKSPACE });
+    newState.should.be.an('object').that.is.empty;
   });
 });

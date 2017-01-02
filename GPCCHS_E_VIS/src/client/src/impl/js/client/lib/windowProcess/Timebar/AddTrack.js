@@ -94,7 +94,7 @@ export default class AddTrack extends Component {
             type="submit"
             autoFocus
             value="Add track"
-            className={classnames(styles.addTrackButton, 'btn-md', 'btn-primary')}
+            className={classnames('btn', 'btn-md', 'btn-primary')}
           />
         </FormGroup>
       </Form>

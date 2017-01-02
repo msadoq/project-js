@@ -1,0 +1,93 @@
+exports[`test Controls renders correctly 1`] = `
+<ul
+  className="controlsUl">
+  
+  <li
+    className="controlsLi">
+    <button
+      className="btn btn-xs btn-control"
+      onClick={[Function]}
+      title="Decrease speed">
+      <span
+        className="glyphIcon glyphicon glyphicon-backward" />
+    </button>
+  </li>
+  <li
+    className="controlsLi">
+    <button
+      aria-describedby="playingSpeedPopover"
+      className="btn btn-xs btn-default"
+      onClick={[Function]}>
+      1X
+    </button>
+  </li>
+  <li
+    className="controlsLi">
+    <button
+      className="btn btn-xs btn-control"
+      onClick={[Function]}
+      title="Increase speed">
+      <span
+        className="glyphIcon glyphicon glyphicon-forward" />
+    </button>
+  </li>
+  <li
+    className="controlsLi">
+    <button
+      className="btn btn-xs btn-control controlButtonPlay controlButtonActive"
+      onClick={[Function]}
+      title="pause">
+      <span
+        className="glyphIcon glyphicon glyphicon-pause" />
+    </button>
+  </li>
+  <li
+    className="controlsLi">
+    <button
+      className="btn btn-xs btn-control"
+      offset={-10}
+      onClick={[Function]}
+      title="- 10s">
+      - 10s
+    </button>
+  </li>
+  <li
+    className="controlsLi">
+    <button
+      className="btn btn-xs btn-control"
+      offset={10}
+      onClick={[Function]}
+      title="+ 10s">
+      + 10s
+    </button>
+  </li>
+  <li
+    className="controlsLi">
+    <button
+      className="btn btn-xs btn-control"
+      onClick={[Function]}
+      title="Go now">
+      NOW
+    </button>
+  </li>
+  <li
+    className="controlsLi">
+    <button
+      className="btn btn-xs btn-control"
+      onClick={[Function]}
+      title="Restore visu window\'s default width">
+      _
+    </button>
+  </li>
+  <li
+    className="controlsLi">
+    <button
+      className="btn btn-xs btn-control"
+      onClick={[Function]}
+      title="Display time setter">
+      <span
+        className="glyphicon glyphicon-align-justify" />
+    </button>
+  </li>
+</ul>
+`;

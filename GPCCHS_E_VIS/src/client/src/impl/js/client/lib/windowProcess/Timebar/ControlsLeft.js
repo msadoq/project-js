@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import {
   Glyphicon,
   Popover,
@@ -8,9 +8,7 @@ import {
 import classnames from 'classnames';
 import styles from './Controls.css';
 
-const currentUpperMargin = 1 / 100;
-
-export default class TimebarControlsLeft extends Component {
+export default class ControlsLeft extends PureComponent {
 
   static propTypes = {
     isPlaying: PropTypes.bool.isRequired,
@@ -18,14 +16,12 @@ export default class TimebarControlsLeft extends Component {
     pause: PropTypes.func.isRequired,
     updateSpeed: PropTypes.func.isRequired,
     toggleTimesetter: PropTypes.func.isRequired,
-    updateCursors: PropTypes.func.isRequired,
-    slideWindow: PropTypes.object.isRequired,
-    visuWindow: PropTypes.object.isRequired,
-    messages: PropTypes.array.isRequired,
+    restoreWidth: PropTypes.func.isRequired,
+    goNow: PropTypes.func.isRequired,
+    jump: PropTypes.func.isRequired,
+    messages: PropTypes.array,
     timebarId: PropTypes.string.isRequired,
-    timebarMode: PropTypes.string.isRequired,
     timebarSpeed: PropTypes.number.isRequired,
-    currentSessionOffsetMs: PropTypes.number,
   }
 
   changeSpeed = (dir) => {
@@ -73,69 +69,22 @@ export default class TimebarControlsLeft extends Component {
 
   restoreWidth = (e) => {
     e.preventDefault();
-    const {
-      visuWindow,
-      timebarMode,
-      timebarId,
-      updateCursors,
-    } = this.props;
-
-    const newSlideUpper = timebarMode === 'Extensible' ?
-      visuWindow.current + (visuWindow.defaultWidth) :
-      visuWindow.current + (visuWindow.defaultWidth / 4);
-
-    updateCursors(
-      timebarId,
-      {
-        lower: visuWindow.current - (visuWindow.defaultWidth / 2),
-        upper: visuWindow.current + (visuWindow.defaultWidth / 2),
-      },
-      {
-        lower: visuWindow.current - (visuWindow.defaultWidth / 4),
-        upper: newSlideUpper,
-      },
-    );
+    const { timebarId, restoreWidth } = this.props;
+    restoreWidth(timebarId);
   }
 
   goNow = (e) => {
     e.preventDefault();
-    const { currentSessionOffsetMs, updateCursors, timebarId } = this.props;
-    const { lower, upper } = this.props.visuWindow;
-    const msWidth = upper - lower;
-    const realTimeMs = Date.now() + currentSessionOffsetMs;
-    const newLower = realTimeMs - ((1 - currentUpperMargin) * msWidth);
-    const newUpper = realTimeMs + (currentUpperMargin * msWidth);
-    updateCursors(
-      timebarId,
-      {
-        lower: newLower,
-        upper: newUpper,
-        current: realTimeMs,
-      },
-      {
-        lower: newLower,
-        upper: newUpper,
-      },
-    );
+    const { timebarId, goNow } = this.props;
+    goNow(timebarId);
   }
 
   jump = (e) => {
     e.preventDefault();
-    const { updateCursors, timebarId, slideWindow } = this.props;
-    const { lower, upper, current } = this.props.visuWindow;
-
-    const movedMs = 1000 * e.currentTarget.getAttribute('offset');
-    updateCursors(
+    const { jump, timebarId } = this.props;
+    jump(
       timebarId,
-      {
-        lower: lower + movedMs,
-        upper: upper + movedMs,
-        current: current + movedMs,
-      },
-      {
-        lower: slideWindow.lower + movedMs,
-        upper: slideWindow.upper + movedMs,
-      },
+      1000 * e.currentTarget.getAttribute('offset')
     );
   }
 
@@ -183,7 +132,7 @@ export default class TimebarControlsLeft extends Component {
 
     return (
       <ul className={styles.controlsUl}>
-        {messages.length ?
+        {(messages && messages.length) ?
           <li className={styles.controlsLi}>
             <button
               className={classnames('btn', 'btn-xs', 'btn-danger')}

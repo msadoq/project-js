@@ -10,7 +10,8 @@ describe('data/map/extractValues', () => {
       val2: { type: 'uinteger', value: (j * 10) + 2 },
       val3: { type: 'uinteger', value: (j * 10) + 3 },
       referenceTimestamp: { type: 'time', value: j },
-      time: { type: 'time', value: j + 0.2 }
+      time: { type: 'time', value: j + 0.2 },
+      monitoringState: { type: 'uinteger', value: 'ok' },
     };
 
     payload.rId2[j] = payload.rId1[j];
@@ -67,22 +68,22 @@ describe('data/map/extractValues', () => {
     it('state undefined', () => {
       const newState = select(payload.rId1, viewDataMap.plot1.entryPoints.ep1,
         'ep1', undefined, count);
-      newState['10'].ep1.should.deep.equal({ x: 10.2, value: 101 });
-      newState['15'].ep1.should.deep.equal({ x: 15.2, value: 151 });
+      newState['10'].ep1.should.deep.equal({ x: 10.2, value: 101, monit: 'ok' });
+      newState['15'].ep1.should.deep.equal({ x: 15.2, value: 151, monit: 'ok' });
     });
     it('state empty', () => {
       const newState = select(payload.rId1, viewDataMap.plot1.entryPoints.ep1,
         'ep1', {}, count);
-      newState['10'].should.deep.equal({ ep1: { x: 10.2, value: 101 } });
-      newState['15'].should.deep.equal({ ep1: { x: 15.2, value: 151 } });
+      newState['10'].should.deep.equal({ ep1: { x: 10.2, value: 101, monit: 'ok' } });
+      newState['15'].should.deep.equal({ ep1: { x: 15.2, value: 151, monit: 'ok' } });
     });
     it('state not empty', () => {
       const oldState = { 10: { ep10: { x: 11.5, col1: 101 } },
         12.5: { ep10: { x: 12.5, value: 102 } } };
       const newState = select(payload.rId1, viewDataMap.plot1.entryPoints.ep1,
         'ep1', oldState, count);
-      newState['10'].should.deep.equal({ ep1: { x: 10.2, value: 101 }, ep10: { x: 11.5, col1: 101 } });
-      newState['15'].should.deep.equal({ ep1: { x: 15.2, value: 151 } });
+      newState['10'].should.deep.equal({ ep1: { x: 10.2, value: 101, monit: 'ok' }, ep10: { x: 11.5, col1: 101 } });
+      newState['15'].should.deep.equal({ ep1: { x: 15.2, value: 151, monit: 'ok' } });
     });
     it('no change', () => {
       const oldState = { 10: { ep1: [{ x: 1001.5, col1: 101 }, { x: 1002.5, value: 102 }] } };
@@ -100,8 +101,8 @@ describe('data/map/extractValues', () => {
       viewData.remove.lower.should.equal(ep.expectedInterval[0] + ep.offset);
       viewData.remove.upper.should.equal(ep.expectedInterval[1] + ep.offset);
       viewData.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_RANGE);
-      viewData.add['10'].should.deep.equal({ ep1: { x: 10.2, value: 101 } });
-      viewData.add['15'].should.deep.equal({ ep1: { x: 15.2, value: 151 } });
+      viewData.add['10'].should.deep.equal({ ep1: { x: 10.2, value: 101, monit: 'ok' } });
+      viewData.add['15'].should.deep.equal({ ep1: { x: 15.2, value: 151, monit: 'ok' } });
       Object.keys(viewData.add).should.have.length(6);
     });
     it('multiple entry point', () => {
@@ -112,8 +113,8 @@ describe('data/map/extractValues', () => {
       viewData.remove.lower.should.equal(ep.expectedInterval[0] + ep.offset);
       viewData.remove.upper.should.equal(ep.expectedInterval[1] + ep.offset);
       viewData.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_RANGE);
-      viewData.add['14'].should.deep.equal({ ep2: { x: 12.2, value: 122 }, ep3: { x: 14.2, value: 142 } });
-      viewData.add['18'].should.deep.equal({ ep2: { x: 16.2, value: 162 }, ep3: { x: 18.2, value: 182 } });
+      viewData.add['14'].should.deep.equal({ ep2: { x: 12.2, value: 122, monit: 'ok' }, ep3: { x: 14.2, value: 142, monit: 'ok' } });
+      viewData.add['18'].should.deep.equal({ ep2: { x: 16.2, value: 162, monit: 'ok' }, ep3: { x: 18.2, value: 182, monit: 'ok' } });
       Object.keys(viewData.add).should.have.length(5);
     });
   });

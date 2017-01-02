@@ -32,7 +32,11 @@ export function select(remoteIdPayload, ep, epName, viewSubState) {
       return;
     }
     if (timestamp >= previousTime) {
-      newValue = { timestamp, value: _get(p, [ep.field, 'value']) };
+      newValue = {
+        timestamp,
+        value: _get(p, [ep.field, 'value']),
+        monit: _get(p, ['monitoringState', 'value']),
+      };
       previousTime = timestamp;
     }
   });
@@ -59,7 +63,10 @@ export default function extractValues(state, payload, viewId, entryPoints, count
     }
 
     _set(viewData, ['index', epName], newData.timestamp);
-    _set(viewData, ['values', epName], newData.value);
+    _set(viewData, ['values', epName], {
+      value: newData.value,
+      monit: newData.monit,
+    });
     _set(viewData, ['structureType'], globalConstants.DATASTRUCTURETYPE_LAST);
     count.last += 1; // eslint-disable-line no-param-reassign
   });

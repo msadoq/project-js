@@ -61,7 +61,9 @@ export const getEntryPointsCharts = (config) => {
     const xId = _get(ep, 'connectedDataX.axisId');
     const yId = _get(ep, 'connectedDataY.axisId');
     const isMainChart = grid && grid.xAxisId === xId && grid.yAxisId === yId;
-
+    if (!axes[yId].showAxis) {
+      return;
+    }
     const refChart = isMainChart ? mainChart : charts[`${xId}${yId}`];
     const line = getLine(ep);
     if (refChart) {
@@ -134,3 +136,47 @@ export const zoomDateFormat = date => (timeSecond(date) < date ? formatMilliseco
     : formatYear)(date);
 
 export const fullDateFormat = timeFormat('%Y-%m-%d %H:%M:%S.%L');
+
+export const monitoringStateColors = {
+  info: '#FFFF33',        /* jaune */
+  warning: '#FF6600',       /* orange */
+  alarm: '#FD1C03',       /* rouge orangé */
+  severe: '#9900FF',      /* violet */
+  critical: '#DD0000',    /* rouge */
+  outOfRange: '#999999',  /* gris */
+};
+
+/* eslint-disable no-param-reassign */
+export const drawBadge = ({
+  text,
+  font = 'Arial',
+  fontHeight = 10,
+  margin = 10,
+  textColor = '#FFF',
+  x = 0,
+  y = 0,
+  width,
+  height,
+  radius = 8,
+  fillColor = '#F00',
+  ctx
+}) => {
+  ctx.fillStyle = fillColor;
+  ctx.strokeStyle = fillColor;
+
+  const w = width || (ctx.measureText(text).width + (margin * 2));
+  const h = height || (fontHeight + margin);
+  // Set faux rounded corners
+  ctx.lineJoin = 'round';
+  ctx.lineWidth = radius;
+
+  // Change origin and dimensions to match true size (a stroke makes the shape a bit larger)
+  ctx.strokeRect(x + (radius / 2), y + (radius / 2), w - radius, h - radius);
+  ctx.fillRect(x + (radius / 2), y + (radius / 2), w - radius, h - radius);
+
+  // ctx.fillRect(0,0,ctx.measureText(str).width+20,30)
+  ctx.fillStyle = textColor;
+  ctx.font = `${fontHeight}pt ${font}`;
+  ctx.fillText(text, x + (margin * 0.9), y + (margin * 1.4));
+};
+/* eslint-enable no-param-reassign */

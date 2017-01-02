@@ -63,7 +63,6 @@
   padding: 2px 8px;
   border-radius: 1px;
 }
-
 .labelFormControl{
   text-align: right;
   width: 30% !important;
@@ -86,6 +85,7 @@
   right: 0px;
   text-align: center;
   border: none;
+  height: 100%;
 }
 .square{
   position: absolute;
@@ -96,14 +96,6 @@
 }
 .deleteButton:hover{
   background: #222;
-}
-.addTrackButton{
-  border: none;
-  bottom: 5px;
-  top: auto;
-  left: 5px;
-  right: auto;
-  padding: 2px 8px;
 }
 .input{
   padding: 2px 7px;

@@ -1,7 +1,7 @@
 import _map from 'lodash/map';
 import _find from 'lodash/find';
 import _reduce from 'lodash/reduce';
-import _each from 'lodash/each';
+import _isFunction from 'lodash/isFunction';
 import { v4 } from 'node-uuid';
 import path from 'path';
 import { dialog, BrowserWindow } from 'electron';
@@ -26,7 +26,7 @@ import { requestPathFromOId } from './websocket';
 import { getModifiedPagesIds } from '../store/selectors/pages';
 import { getModifiedViewsIds } from '../store/selectors/views';
 
-export function showErrorMessage(focusedWindow, errTitle, errMsg) {
+export function showErrorMessage(focusedWindow, errTitle, errMsg, callback) {
   dialog.showMessageBox(
     focusedWindow,
     {
@@ -34,9 +34,22 @@ export function showErrorMessage(focusedWindow, errTitle, errMsg) {
       title: errTitle,
       message: errMsg,
       buttons: ['ok'],
-    });
+    },
+    _isFunction(callback) ? callback : undefined
+  );
 }
-
+export function showMessageDialog(focusedWindow, title, msg, buttons, callback) {
+  return dialog.showMessageBox(
+    focusedWindow,
+    {
+      type: 'warning',
+      title,
+      message: msg,
+      buttons,
+    },
+    _isFunction(callback) ? callback : undefined
+  );
+}
 export function openPage(absolutePath, windowId) {
   if (!absolutePath) {
     //  callback(new Error('No filepath'));
@@ -47,7 +60,7 @@ export function openPage(absolutePath, windowId) {
     if (pageErr) {
       return showErrorMessage(focusedWindow,
         'Error on selected page',
-        'Invalid Page file selected');
+        'Invalid Page file selected', () => {});
     }
     const content = { pages: {} };
     const uuid = v4();
@@ -56,7 +69,7 @@ export function openPage(absolutePath, windowId) {
       if (viewErr) {
         return showErrorMessage(focusedWindow,
           'Error on selected page',
-          'Invalid Page file selected');
+          'Invalid Page file selected', () => {});
       }
       showSelectedPage(pageAndViews, uuid, windowId);
     });
@@ -72,7 +85,7 @@ export function openView(absolutePath, pageId) {
     if (errView) {
       showErrorMessage(BrowserWindow.getFocusedWindow(),
         'Error on selected view',
-        'Invalid View file selected');
+        'Invalid View file selected', () => {});
       return;
     }
     const current = view[0];
@@ -188,7 +201,7 @@ export function allDocumentsAreSaved(store, dispatch, cb) {
               winIds.forEach((id) => {
                 dispatch(setModifiedWindow(id, false));
               });
-              updateSavedWinTitle();
+              // updateSavedWinTitle();
               cb(null);
             });
           });
@@ -215,8 +228,7 @@ export function updateViewPath(viewId, store, dispatch, callback) {
 
 export function updatePagePath(pageId, store, dispatch, callback) {
   const state = store.getState();
-  const page = state.pages[pageId];
-  getPathByFilePicker(state.hsc.folder, `Page '${page.title}'`, 'save', (err, newPagePath) => {
+  getPathByFilePicker(state.hsc.folder, 'Page', 'save', (err, newPagePath) => {
     if (err) {
       callback(err, null);
     }
@@ -255,15 +267,4 @@ export function saveOneView(viewId, as = false) {
       });
     });
   }
-}
-
-function updateSavedWinTitle() {
-  const windows = BrowserWindow.getAllWindows();
-  _each(windows, (window) => {
-    let title = window.getTitle();
-    if (title.startsWith('* ')) {
-      title = title.substring(2);
-    }
-    window.setTitle(title);
-  });
 }

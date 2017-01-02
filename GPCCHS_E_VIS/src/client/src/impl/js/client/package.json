@@ -7,13 +7,14 @@
     "verbose": true,
     "testRegex": "(snapshot)\\.(js|jsx)$",
     "moduleNameMapper": {
-      "\\.(less|css)$": "<rootDir>/test/__mocks__/styleMock.js"
-    }
+      "\\.(less|css)$": "identity-obj-proxy"
+    },
+    "coverageDirectory": "coverage/snapshot"
   },
   "scripts": {
-    "build": "npm run build-main && npm run build-renderer",
-    "build-main": "node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.main.js --progress --profile --colors",
-    "build-renderer": "NODE_ENV=production node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.renderer.production.js --progress --profile --colors",
+    "build": "npm run build:main && npm run build:renderer",
+    "build:main": "node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.main.js --progress --profile --colors",
+    "build:renderer": "NODE_ENV=production node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.renderer.production.js --progress --profile --colors",
     "hello": "npm run link && npm install && [ -f config.local.json ] && echo || cp config.sample.json config.local.json",
     "link": "npm link ../../../../../common/src/main/js/common && npm link ../../../../../server/src/impl/js/server",
     "lint": "eslint lib test *.js",
@@ -21,11 +22,15 @@
     "sh": "npm run start-hot",
     "start": "electron ./",
     "start-hot": "HOT=1 electron -r babel-register -r babel-polyfill ./main.development",
-    "test": "BABEL_DISABLE_CACHE=1 mocha --compilers js:babel-register \"+(lib|VIVL)/**/*.spec.js\"",
+    "test": "NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --compilers js:babel-register \"+(lib|VIVL)/**/*.spec.js\"",
     "test:watch": "npm test -- --watch",
-    "snapshot": "NODE_ENV=test BABEL_DISABLE_CACHE=1 jest",
-    "snapshot-watch": "npm run snapshot -- --watch",
-    "snapshot-clean": "jest -u",
+    "test:coverage": "(time nyc --require babel-register npm test || true) && npm run open:test-coverage",
+    "open:test-coverage": "firefox coverage/test/lcov-report/index.html",
+    "snapshot": "NODE_ENV=snapshot BABEL_DISABLE_CACHE=1 jest",
+    "snapshot:coverage": "(npm run snapshot -- --coverage || true) && npm run open:snapshot-coverage",
+    "open:snapshot-coverage": "firefox coverage/snapshot/lcov-report/index.html",
+    "snapshot:watch": "npm run snapshot -- --watch",
+    "snapshot:clean": "jest -u",
     "tw": "npm test -- --watch",
     "wp": "npm run webpack",
     "webpack": "node -r babel-register -r ./lib/common/initParameters.js webpack/server.js"
@@ -56,7 +61,7 @@
     "dotenv-safe": "^3.0.0",
     "electron-debug": "^1.0.1",
     "html-to-react": "^1.2.2",
-    "htmllint": "^0.4.0",
+    "htmlhint": "^0.9.13",
     "js-beautify": "^1.6.4",
     "lodash": "^4.16.2",
     "mkdirp": "^0.5.1",
@@ -66,11 +71,11 @@
     "react-bootstrap": "^0.30.5",
     "react-codemirror": "^0.3.0",
     "react-color": "^2.10.0",
+    "react-dimensions": "^1.3.0",
     "react-dom": "^15.3.2",
     "react-grid-layout": "^0.13.8",
     "react-redux": "^4.4.5",
     "react-select": "^1.0.0-rc.2",
-    "react-sizeme": "^2.2.0",
     "react-stockcharts": "^0.6.0-beta.11",
     "redux": "^3.6.0",
     "redux-electron-store": "^0.4.1",
@@ -117,12 +122,14 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "fbjs-scripts": "^0.7.1",
     "file-loader": "^0.9.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^17.0.3",
     "jsdom": "^9.5.0",
     "json-loader": "^0.5.4",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "mocha": "^3.2.0",
+    "nyc": "^10.0.0",
     "postcss": "^5.2.5",
     "postcss-browser-reporter": "^0.5.0",
     "postcss-custom-properties": "^5.0.1",
@@ -151,6 +158,22 @@
   "devEngines": {
     "node": "6.x",
     "npm": "3.x"
+  },
+  "nyc": {
+    "all": true,
+    "cache": true,
+    "exclude": [
+      "**/*.spec.js",
+      "lib/windowProcess/**"
+    ],
+    "include": [
+      "lib/**/*.js"
+    ],
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ],
+    "report-dir": "./coverage/test"
   },
   "style": "./lib/app.global.css"
 }

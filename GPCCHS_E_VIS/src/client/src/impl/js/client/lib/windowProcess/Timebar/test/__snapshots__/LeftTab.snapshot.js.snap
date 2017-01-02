@@ -1,22 +1,26 @@
 exports[`test Lefttab renders correctly 1`] = `
 <div
-  className="Lefttab__leftTab___3aRyi col-xs-3">
+  className="leftTab col-xs-3">
   <div
-    className="Lefttab__leftTabTopPanel___1mbiO">
+    className="leftTabTopPanel">
     <button
-      className="btn btn-xs btn-control Lefttab__btnClose___Z9fCk"
+      className="btn btn-xs btn-control btnClose"
       onClick={[Function]}
       title="detach timebar and choose another one">
       x
     </button>
     <h5
-      className="Lefttab__timebarName___3CGrh">
+      className="timebarName">
       <b>
         Timebar 01
       </b>
     </h5>
+    <div
+      className="modal-container" />
+    <div
+      className="modal-container" />
     <button
-      className="Lefttab__addTimelineButton___ijcRR btn btn-sm btn-info"
+      className="addTimelineButton btn btn-sm btn-info"
       disabled={false}
       onClick={[Function]}
       title="Add track"
@@ -25,21 +29,21 @@ exports[`test Lefttab renders correctly 1`] = `
     </button>
   </div>
   <ul
-    className="Lefttab__timelineUl___3pPRg"
+    className="timelineUl"
     onScroll={[Function]}
     onWheel={[Function]}>
     <li
-      className="Lefttab__timeline___3H18o Lefttab__master___25npc"
+      className="timeline master"
       onDoubleClick={[Function]}
       title="Double-click to edit track">
       Session 1
       <span
-        className="Lefttab__offset___bGIUa"
+        className="offset"
         title="Formatted offset HH:MM:ss:SSS">
-        00:00:00.200
+        + 00:00:00.200
       </span>
       <span
-        className="Lefttab__square___F8W_p"
+        className="square"
         style={
           Object {
             "background": "#fa1289",
@@ -48,17 +52,17 @@ exports[`test Lefttab renders correctly 1`] = `
         } />
     </li>
     <li
-      className="Lefttab__timeline___3H18o"
+      className="timeline"
       onDoubleClick={[Function]}
       title="Double-click to edit track">
       Session 2
       <span
-        className="Lefttab__offset___bGIUa"
+        className="offset"
         title="Formatted offset HH:MM:ss:SSS">
-        00:00:01.000
+        + 00:00:01.000
       </span>
       <span
-        className="Lefttab__square___F8W_p"
+        className="square"
         style={
           Object {
             "background": "#31b0d5",
@@ -66,7 +70,7 @@ exports[`test Lefttab renders correctly 1`] = `
           }
         } />
       <button
-        className="Lefttab__deleteButton___3kpNj"
+        className="deleteButton"
         onClick={[Function]}
         title="Remove this track">
         -

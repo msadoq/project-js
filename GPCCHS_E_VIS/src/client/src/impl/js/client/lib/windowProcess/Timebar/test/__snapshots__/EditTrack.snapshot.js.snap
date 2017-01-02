@@ -3,19 +3,19 @@ exports[`test EditTrack renders correctly 1`] = `
   className="form-horizontal"
   onSubmit={[Function]}>
   <div
-    className="Lefttab__formGroup___2Kj6_ form-group">
+    className="formGroup form-group">
     <b
-      className="Lefttab__labelFormControl___2UMul">
+      className="labelFormControl">
       Id
     </b>
     <input
-      className="form-control Lefttab__formControl___WYwMa"
+      className="form-control formControl"
       disabled={true} />
   </div>
   <div
-    className="Lefttab__formGroup___2Kj6_ form-group">
+    className="formGroup form-group">
     <b
-      className="Lefttab__labelFormControl___2UMul">
+      className="labelFormControl">
       Master track
     </b>
     <input
@@ -23,55 +23,65 @@ exports[`test EditTrack renders correctly 1`] = `
       type="checkbox" />
   </div>
   <div
-    className="Lefttab__formGroup___2Kj6_ form-group">
+    className="formGroup form-group">
     <b
-      className="Lefttab__labelFormControl___2UMul">
+      className="labelFormControl">
+      Session
+    </b>
+    <select
+      className="form-control formControl"
+      defaultValue={0} />
+  </div>
+  <div
+    className="formGroup form-group">
+    <b
+      className="labelFormControl">
       Offset Y M D
     </b>
     <input
-      className="Lefttab__input___IuAGR Lefttab__input_years___14onq form-control"
+      className="input input_years form-control"
       placeholder="years"
       type="number" />
     <input
-      className="Lefttab__input___IuAGR Lefttab__input_months___3sn8l form-control"
+      className="input input_months form-control"
       placeholder="months"
       type="number" />
     <input
-      className="Lefttab__input___IuAGR Lefttab__input_days___1lxUN form-control"
+      className="input input_days form-control"
       placeholder="days"
       type="number" />
   </div>
   <div
-    className="Lefttab__formGroup___2Kj6_ form-group">
+    className="formGroup form-group">
     <b
-      className="Lefttab__labelFormControl___2UMul">
+      className="labelFormControl">
       Offset H M S MS
     </b>
     <input
-      className="Lefttab__input___IuAGR Lefttab__input_hours___2-k8G form-control"
+      className="input input_hours form-control"
       placeholder="hours"
       type="number" />
     <input
-      className="Lefttab__input___IuAGR Lefttab__input_minutes___3uTCi form-control"
+      className="input input_minutes form-control"
       placeholder="minutes"
       type="number" />
     <input
-      className="Lefttab__input___IuAGR Lefttab__input_seconds___3tuiY form-control"
+      className="input input_seconds form-control"
       placeholder="seconds"
       type="number" />
     <input
-      className="Lefttab__input___IuAGR Lefttab__input_milliseconds___3j4Xa form-control"
+      className="input input_milliseconds form-control"
       placeholder="milliseconds"
       type="number" />
   </div>
   <div
-    className="Lefttab__formGroup___2Kj6_ form-group">
+    className="formGroup form-group">
     <b
-      className="Lefttab__labelFormControl___2UMul">
+      className="labelFormControl">
        
     </b>
     <input
-      className="Lefttab__addTrackButton___2HYyH btn-md btn-primary"
+      className="btn btn-md btn-primary"
       type="submit"
       value="Edit track" />
   </div>

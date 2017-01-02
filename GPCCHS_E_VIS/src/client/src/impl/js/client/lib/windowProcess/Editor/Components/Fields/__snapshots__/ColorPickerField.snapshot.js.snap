@@ -1,6 +1,6 @@
 exports[`test Navigation renders correctly 1`] = `
 <div
-  className="ColorPicker__root___qtwwR">
+  className="root">
   <button
     className="btn btn-xs btn-default"
     disabled={false}

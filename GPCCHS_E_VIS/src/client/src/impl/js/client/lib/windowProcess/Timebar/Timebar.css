@@ -69,10 +69,10 @@
         top: 48%;
     }
     &.lower:before{
-        left: 5px;
+        left: 2px;
     }
     &.upper:before{
-        left: -5px;
+        left: -8px;
     }
 }
 
@@ -148,11 +148,11 @@
 }
 
 .lowerFormattedTime{
-    transform: translateX(-50%);
+    transform: translateX(-100%);
 }
 .upperFormattedTime{
     right: 0;
-    transform: translateX(50%);
+    transform: translateX(100%);
 }
 .currentFormattedTime{
     color: #1A2;

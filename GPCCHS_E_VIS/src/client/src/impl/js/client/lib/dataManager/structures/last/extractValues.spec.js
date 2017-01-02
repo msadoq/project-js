@@ -9,7 +9,8 @@ describe('data/map/lastValue', () => {
       val2: { type: 'uinteger', value: (j * 10) + 2 },
       val3: { type: 'uinteger', value: (j * 10) + 3 },
       referenceTimestamp: { type: 'time', value: j },
-      time: { type: 'time', value: j + 0.2 }
+      time: { type: 'time', value: j + 0.2 },
+      monitoringState: { type: 'uinteger', value: 'ok' },
     };
 
     payload.rId2[j] = payload.rId1[j];
@@ -81,23 +82,23 @@ describe('data/map/lastValue', () => {
       const count = { last: 0, range: 0 };
       const newState = lastValue({}, payload, 'text1', viewDataMap.text1.entryPoints, count);
       newState.index.ep4.should.equal(20);
-      newState.values.ep4.should.equal(203);
+      newState.values.ep4.should.eql({ value: 203, monit: 'ok' });
       newState.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
     });
     it('state undefined', () => {
       const count = { last: 0, range: 0 };
       const newState = lastValue(undefined, payload, 'text1', viewDataMap.text1.entryPoints, count);
       newState.index.ep4.should.equal(20);
-      newState.values.ep4.should.equal(203);
+      newState.values.ep4.should.eql({ value: 203, monit: 'ok' });
       newState.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
     });
     it('multiple entry points', () => {
       const count = { last: 0, range: 0 };
       const newState = lastValue({}, payload, 'text2', viewDataMap.text2.entryPoints, count);
       newState.index.ep6.should.equal(20);
-      newState.values.ep6.should.equal(203);
+      newState.values.ep6.should.eql({ value: 203, monit: 'ok' });
       newState.index.ep5.should.equal(20);
-      newState.values.ep5.should.equal(203);
+      newState.values.ep5.should.eql({ value: 203, monit: 'ok' });
       newState.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
     });
   });

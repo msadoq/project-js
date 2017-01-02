@@ -26,25 +26,24 @@ export default function pages(statePages = {}, action) {
       return _omit(statePages, [action.payload.pageId]);
     case types.WS_PAGE_UPDATEPATH:
       // path unchanged or newPath invalid
-      if (!action.payload.newPath ||
+      if (!action.payload.newPath || !statePages[action.payload.pageId] ||
           resolve(action.payload.newPath) === resolve(statePages[action.payload.pageId].path)) {
         return statePages;
       }
       return u({ [action.payload.pageId]: {
         path: action.payload.newPath,
         isModified: true,
-        title: addStarOnTitle(statePages[action.payload.pageId])
       } },
         statePages);
     case types.WS_PAGE_UPDATE_ABSOLUTEPATH: {
-      if (statePages[action.payload.pageId].absolutePath && resolve(action.payload.newPath)
-        === resolve(statePages[action.payload.pageId].absolutePath)) {
+      if (!statePages[action.payload.pageId] || !action.payload.newPath ||
+        resolve(action.payload.newPath)
+          === resolve(statePages[action.payload.pageId].absolutePath)) {
         return statePages;
       }
       return u({ [action.payload.pageId]: {
         absolutePath: action.payload.newPath,
         isModified: true,
-        title: addStarOnTitle(statePages[action.payload.pageId])
       } }, statePages);
     }
     case types.HSC_CLOSE_WORKSPACE:
@@ -53,21 +52,9 @@ export default function pages(statePages = {}, action) {
       if (!statePages[action.payload.pageId]) {
         return statePages;
       }
-      let newTitle = statePages[action.payload.pageId].title;
-      if (statePages[action.payload.pageId].isModified && !action.payload.flag) {
-        if (newTitle.substring(0, 1) === '*') {
-          newTitle = newTitle.substring(2);
-        }
-      }
-      if (!statePages[action.payload.pageId].isModified && action.payload.flag) {
-        if (newTitle.substring(0, 1) !== '*') {
-          newTitle = '* '.concat(newTitle);
-        }
-      }
       return u({
         [action.payload.pageId]: {
           isModified: action.payload.flag,
-          title: newTitle
         }
       },
       statePages);
@@ -79,7 +66,6 @@ export default function pages(statePages = {}, action) {
       return u({ [action.payload.focusedPageId]: {
         timebarId: action.payload.timebarId,
         isModified: true,
-        title: addStarOnTitle(statePages[action.payload.focusedPageId])
       } },
         statePages);
     case types.WS_PAGE_UPDATE_TIMEBARHEIGHT:
@@ -90,7 +76,6 @@ export default function pages(statePages = {}, action) {
         timebarHeight: (!action.payload.timebarHeight || action.payload.timebarHeight < 135) ?
           135 : action.payload.timebarHeight,
         isModified: true,
-        title: addStarOnTitle(statePages[action.payload.focusedPageId])
       } },
         statePages);
     default:
@@ -140,7 +125,6 @@ function page(statePage = initialState, action) {
       const update = {
         views: [...statePage.views, action.payload.viewId],
         isModified: true,
-        title: addStarOnTitle(statePage)
       };
       if (action.payload.layout) {
         update.layout = action.payload.layout;
@@ -151,27 +135,14 @@ function page(statePage = initialState, action) {
       return Object.assign({}, statePage, {
         views: _without(statePage.views, action.payload.viewId),
         isModified: true,
-        title: addStarOnTitle(statePage)
       });
     }
     case types.WS_PAGE_UPDATE_LAYOUT:
-      if (statePage.layout === action.payload.layout) {
-        return statePage;
-      }
       return Object.assign({}, statePage, {
         layout: action.payload.layout || statePage.layout,
-        // TODO : Bug: decommenter et debugger
-        // isModified: action.payload.layout ? true : statePage.isModified,
-        // title: action.payload.layout ? newTitle : statePage.title,
+        isModified: action.payload.layout ? true : statePage.isModified,
       });
     default:
       return statePage;
   }
-}
-
-function addStarOnTitle(statePage) {
-  if (!statePage) {
-    return '';
-  }
-  return statePage.title.startsWith('*') ? statePage.title : '* '.concat(statePage.title);
 }

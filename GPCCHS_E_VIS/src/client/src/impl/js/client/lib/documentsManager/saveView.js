@@ -5,6 +5,8 @@ const { checkPath } = require('../common/fs');
 const _omit = require('lodash/omit');
 const _values = require('lodash/values');
 const _each = require('lodash/each');
+const _cloneDeep = require('lodash/cloneDeep');
+const _startsWith = require('lodash/startsWith');
 const globalConstants = require('common/constants');
 const vivl = require('../../VIVL/main');
 
@@ -17,27 +19,25 @@ const vivl = require('../../VIVL/main');
  * @param callback
  * @returns Error or undefined
  */
-function saveViewAs(state, viewId, path, callback) {
-  if (!state.views[viewId]) {
-    return callback('Unknown view id');
+function saveViewAs(viewConfiguration, viewType, path, callback) {
+  if (!viewConfiguration) {
+    return callback('Unknown view');
   }
   // TODO add case with new FMD path -> createDocument par DC
   const err = checkPath(dirname(path));
   if (err) {
     return callback(err);
   }
-  const conf = state.views[viewId].configuration;
-  conf.title = (conf.title.substring(0, 1)) ? conf.title.substring(2) : conf.title;
   let view;
-  const structureType = vivl(state.views[viewId].type, 'structureType')();
+  const structureType = vivl(viewType, 'structureType')();
   switch (structureType) { // eslint-disable-line default-case
     case globalConstants.DATASTRUCTURETYPE_RANGE: {
-      view = _omit(conf, 'axes');
-      view.axes = _values(conf.axes);
+      view = _omit(viewConfiguration, 'axes');
+      view.axes = _values(viewConfiguration.axes);
       break;
     }
     default:
-      view = conf;
+      view = viewConfiguration;
   }
   // Remove entry point id
   _each(view.entryPoints, (value, index, entryPoints) => {
@@ -67,11 +67,12 @@ function saveView(state, viewId, callback) {
   if (!state.views[viewId].isModified) {
     return callback(null);
   }
-  const absPath = state.views[viewId].absolutePath;
+  const absPath = state.views[viewId].absolutePath ? state.views[viewId].absolutePath
+                                                   : state.views[viewId].oId;
   if (!absPath) {
     return callback('Unknown path for saving text view');
   }
-  return saveViewAs(state, viewId, absPath, callback);
+  return saveViewAs(state.views[viewId].configuration, state.views[viewId].type, absPath, callback);
 }
 
 module.exports = { saveViewAs, saveView };

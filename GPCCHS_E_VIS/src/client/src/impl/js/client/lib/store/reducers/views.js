@@ -22,11 +22,6 @@ import {
  */
 export default function views(stateViews = {}, action) {
   switch (action.type) {
-    case types.WS_VIEW_CD_MOUNT:
-    case types.WS_VIEW_CD_UNMOUNT:
-      return Object.assign({}, stateViews, {
-        [action.payload.viewId]: view(stateViews[action.payload.viewId], action)
-      });
     case types.WS_VIEW_ADD:
       return {
         ...stateViews,
@@ -34,6 +29,16 @@ export default function views(stateViews = {}, action) {
       };
     case types.WS_VIEW_REMOVE:
       return _omit(stateViews, [action.payload.viewId]);
+    case types.WS_VIEW_RELOAD: {
+      return {
+        ...stateViews,
+        [action.payload.viewId]: {
+          ...stateViews[action.payload.viewId],
+          isModified: false,
+          configuration: configuration(stateViews[action.payload.viewId], action),
+        }
+      };
+    }
     case types.WS_VIEW_UPDATEPATH: {
       // path unchanged or newPath invalid
       if (!action.payload.newPath ||
@@ -44,9 +49,6 @@ export default function views(stateViews = {}, action) {
         [action.payload.viewId]: {
           path: action.payload.newPath,
           isModified: true,
-          configuration: {
-            title: addStarOnTitle(stateViews[action.payload.viewId]),
-          }
         }
       }, stateViews);
     }
@@ -60,9 +62,6 @@ export default function views(stateViews = {}, action) {
       return u({ [action.payload.viewId]: {
         absolutePath: action.payload.newPath,
         isModified: true,
-        configuration: {
-          title: addStarOnTitle(stateViews[action.payload.viewId]),
-        },
       } }, stateViews);
     }
     case types.WS_VIEW_UPDATE_ENTRYPOINT:
@@ -146,18 +145,9 @@ export default function views(stateViews = {}, action) {
       if (!stateViews[action.payload.viewId]) {
         return stateViews;
       }
-      let newTitle = stateViews[action.payload.viewId].configuration.title;
-      if (!action.payload.flag && newTitle.startsWith('*')) {
-        newTitle = newTitle.substring(2);
-      } else if (action.payload.flag && !newTitle.startsWith('*')) {
-        newTitle = '* '.concat(newTitle);
-      }
       return u({
         [action.payload.viewId]: {
-          configuration: {
-            title: newTitle
-          },
-          isModified: true,
+          isModified: action.payload.flag,
         }
       }, stateViews);
     }
@@ -189,6 +179,7 @@ function view(stateView = initialState, action) {
 
 function configuration(state = { title: null }, action) {
   switch (action.type) {
+    case types.WS_VIEW_RELOAD:
     case types.WS_VIEW_ADD: {
       if (!action.payload.configuration) {
         return Object.assign({}, state);
@@ -211,21 +202,17 @@ function configuration(state = { title: null }, action) {
 }
 
 export function updateObject(stateViews, action, objectName, paramName, viewType) {
-  if (!stateViews[action.payload.viewId] || !action.payload[paramName]) {
+  if (!stateViews[action.payload.viewId]) {
     return stateViews;
   }
   // Content only for a type of view if viewType is defined
   if (viewType && stateViews[action.payload.viewId].type !== viewType) {
     return stateViews;
   }
-  const title = stateViews[action.payload.viewId].configuration.title;
-  let newTitle = (objectName === 'title') ? action.payload[paramName] : title;
-  newTitle = newTitle.startsWith('*') ? newTitle : '* '.concat(newTitle);
   return u({
     [action.payload.viewId]: {
       configuration: {
         [objectName]: action.payload[paramName],
-        title: newTitle
       },
       isModified: true,
     }
@@ -247,7 +234,6 @@ export function updateArray(stateViews, action, arrayName, paramName) {
         [arrayName]: {
           [index]: action.payload[paramName]
         },
-        title: addStarOnTitle(stateViews[action.payload.viewId]),
       },
       isModified: true,
     }
@@ -263,7 +249,6 @@ export function addElementInArray(stateViews, action, arrayName, paramName) {
     [action.payload.viewId]: {
       configuration: {
         [arrayName]: [...oldValue, ...[action.payload[paramName]]],
-        title: addStarOnTitle(stateViews[action.payload.viewId]),
       },
       isModified: true,
     }
@@ -282,7 +267,6 @@ export function removeElementInArray(stateViews, action, arrayName) {
     [action.payload.viewId]: {
       configuration: {
         [arrayName]: _without(viewConf[arrayName], viewConf[arrayName][index]),
-        title: addStarOnTitle(stateViews[action.payload.viewId]),
       },
       isModified: true,
     }
@@ -301,7 +285,6 @@ export function updateAxis(stateViews, action) {
     [action.payload.viewId]: {
       configuration: {
         axes: { [action.payload.axisId]: action.payload.axis },
-        title: addStarOnTitle(stateViews[action.payload.viewId]),
       },
       isModified: true,
     }
@@ -329,7 +312,6 @@ export function addAxis(stateViews, action) {
     [action.payload.viewId]: {
       configuration: {
         axes: { [id]: axis || action.payload.axis },
-        title: addStarOnTitle(stateViews[action.payload.viewId]),
       },
       isModified: true,
     }
@@ -348,7 +330,6 @@ export function removeAxis(stateViews, action) {
     [action.payload.viewId]: {
       configuration: {
         axes: u.omit(action.payload.axisId),
-        title: addStarOnTitle(stateViews[action.payload.viewId]),
       },
       isModified: true,
     }
@@ -398,7 +379,6 @@ export function addEntryPoint(stateViews, action) {
         [action.payload.viewId]: {
           configuration: {
             entryPoints: [...oldValue, newLastValue],
-            title: addStarOnTitle(currentView),
           },
           isModified: true,
         }
@@ -425,7 +405,6 @@ export function addEntryPoint(stateViews, action) {
         [action.payload.viewId]: {
           configuration: {
             entryPoints: [...oldValue, newRangeValue],
-            title: addStarOnTitle(currentView),
           },
           isModified: true,
         }
@@ -510,7 +489,6 @@ export function removeUnreferencedAxis(stateViews, viewId, axisIdX, axisIdY) {
       [viewId]: {
         configuration: {
           axes: u.omit(axisIdX),
-          title: addStarOnTitle(stateViews[viewId]),
         },
         isModified: true,
       }
@@ -521,19 +499,10 @@ export function removeUnreferencedAxis(stateViews, viewId, axisIdX, axisIdY) {
       [viewId]: {
         configuration: {
           axes: u.omit(axisIdY),
-          title: addStarOnTitle(stateViews[viewId]),
         },
         isModified: true,
       }
     }, newState);
   }
   return newState;
-}
-
-function addStarOnTitle(stateView) {
-  if (!stateView) {
-    return '';
-  }
-  const title = stateView.configuration.title;
-  return title.startsWith('*') ? title : '* '.concat(title);
 }

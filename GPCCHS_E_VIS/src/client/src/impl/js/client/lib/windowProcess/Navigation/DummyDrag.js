@@ -44,7 +44,6 @@ export default class DummyDrag extends PureComponent {
 
   // eslint-disable-next-line
   dragStart(entryPoint, e) {
-    console.log('DRAG START', entryPoint, e.type); // eslint-disable-line no-console
     e.dataTransfer.setData('application/json', JSON.stringify(entryPoint));
   }
 

@@ -2,20 +2,21 @@ import _isNumber from 'lodash/isNumber';
 import _get from 'lodash/get';
 import _values from 'lodash/values';
 import _reduce from 'lodash/reduce';
+import _toPairs from 'lodash/toPairs';
 import { createSelector } from 'reselect';
 import { getTimelines } from './timelines';
 
 export const getTimebars = state => state.timebars;
 export const getTimebar = (state, timebarId) => state.timebars[timebarId];
 
-export const getTimebarTimelinesSelector = createSelector( // TODO TEST
+export const getTimebarTimelinesSelector = createSelector(
   [
     (state, timebarId) => getTimebar(state, timebarId),
     getTimelines,
   ],
   (timebar, timelines) => {
     const timebarTimelines = [];
-    Object.entries(timelines).forEach((v) => {
+    _toPairs(timelines).forEach((v) => {
       if (timebar.timelines.includes(v[0])) {
         const newTimeline = { ...v[1], timelineId: v[0] };
         if (timebar.masterId === v[1].id) {
@@ -68,8 +69,9 @@ export function getMasterTimeline(timebars, timelines, timebarId) {
   return _values(timelines).find(t => t.id === masterTimelineId);
 }
 
-export function getMasterTimelineById(timebars, timelines, timebarId) {
-  const masterTimelineId = _get(timebars, [timebarId, 'masterId']);
+export function getMasterTimelineById(state, timebarId) {
+  const timelines = getTimebarTimelinesSelector(state, timebarId);
+  const masterTimelineId = _get(state.timebars, [timebarId, 'masterId']);
   if (!masterTimelineId) {
     return undefined;
   }

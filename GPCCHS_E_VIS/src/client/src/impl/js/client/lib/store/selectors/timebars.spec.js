@@ -53,29 +53,59 @@ describe('store:timebars:selectors', () => {
     it('should return master timeline', () => {
       getMasterTimelineById(
         {
-          myId: { masterId: 'timeline01' },
-        },
-        {
-          azeazerze: { id: 'timeline01' },
-          vqhrzefds: { id: 'timeline02' },
-          ghsdrtrrr: { id: 'timeline03' },
+          timebars: {
+            myId: {
+              masterId: 'timeline01',
+              timelines: ['timeline_01', 'timeline_02'],
+            },
+          },
+          timelines: {
+            timeline_01: { id: 'timeline01' },
+            timeline_02: { id: 'timeline02' },
+            timeline_03: { id: 'timeline03' },
+          },
         },
         'myId'
       ).should.eql(
-        { id: 'timeline01' }
+        {
+          id: 'timeline01',
+          timelineId: 'timeline_01',
+        }
       );
     });
     it('should not find master timeline', () => {
       should.not.exist(getMasterTimelineById(
         {
-          myId: { masterId: 'timeline04' },
+          timebars: {
+            myId: {
+              masterId: 'timeline04',
+              timelines: ['timeline_01', 'timeline_02'],
+            },
+          },
+          timelines: {
+            timeline_01: { id: 'timeline01' },
+            timeline_02: { id: 'timeline02' },
+            timeline_03: { id: 'timeline03' },
+          },
         },
+        'myId',
+      ));
+    });
+    it('no master timeline', () => {
+      should.not.exist(getMasterTimelineById(
         {
-          azeazerze: { id: 'timeline01' },
-          vqhrzefds: { id: 'timeline02' },
-          ghsdrtrrr: { id: 'timeline03' },
+          timebars: {
+            myId: {
+              timelines: ['timeline_01', 'timeline_02'],
+            },
+          },
+          timelines: {
+            timeline_01: { id: 'timeline01' },
+            timeline_02: { id: 'timeline02' },
+            timeline_03: { id: 'timeline03' },
+          },
         },
-        'myId'
+        'myId',
       ));
     });
   });

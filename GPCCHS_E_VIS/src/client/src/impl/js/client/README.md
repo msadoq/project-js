@@ -28,8 +28,18 @@ Launch bundled client:
 
 ## Other procedures
 
-Run unit tests:
+Run unit tests on business logic (store and computing logic):
 > npm test
+
+Run unit tests on graphical components:
+> npm run snapshot
+
+Run unit tests on graphical components with watch mode:
+> npm run snapshot:watch
+
+If you have an ENOSPC error, maybe due to too much watched files, execute this command to
+enlarge number of watchers on your system
+> echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 
 Check the project source code linting:
 > npm run lint

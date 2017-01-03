@@ -60,7 +60,7 @@ export const MonitoringStateColors = ({ visible, setVisible }) => (
 
 MonitoringStateColors.propTypes = {
   visible: PropTypes.bool.isRequired,
-  setVisible: PropTypes.bool.isRequired,
+  setVisible: PropTypes.func.isRequired,
 };
 
 export default withState('visible', 'setVisible', false)(MonitoringStateColors);

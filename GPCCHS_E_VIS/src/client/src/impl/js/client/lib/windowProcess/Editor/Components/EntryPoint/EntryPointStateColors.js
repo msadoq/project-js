@@ -13,7 +13,7 @@ import {
   InputField,
   ReactSelectField
 } from '../Fields/';
-import getMonitoringStateColors from './EntryPointMonitoringStateColors';
+import EntryPointMonitoringStateColors from './EntryPointMonitoringStateColors';
 import {
   ClearSubmitButtons,
   HorizontalFormGroup,
@@ -58,7 +58,6 @@ class EntryPointStateColors extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {getMonitoringStateColors()}
             {data.length
               ? data.map((stateColor, key) => (
                 <tr key={key}>
@@ -75,7 +74,7 @@ class EntryPointStateColors extends React.Component {
                   </td>
                 </tr>
                   ))
-              : undefined
+              : <tr><td colSpan={2} >no marker</td></tr>
             }
           </tbody>
         </Table>
@@ -131,6 +130,7 @@ class EntryPointStateColors extends React.Component {
             valid={valid}
           />
         </Form>
+        <EntryPointMonitoringStateColors />
       </div>
     );
   }

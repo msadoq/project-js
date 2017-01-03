@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import {
+  Table,
+  Glyphicon,
+} from 'react-bootstrap';
+import { withState } from 'recompose';
+
 import { monitoringStateColors as mColors } from '../../../common/colors';
 
 const s = {
+  title: {
+    overflow: 'hidden',
+  },
   colorBox: {
     width: '30px',
     height: '19px',
@@ -13,21 +22,45 @@ const s = {
   },
 };
 
-export default () => (
-  Object.keys(mColors).map((c, i) => (
-    <tr key={`color-${i}`}>
-      <td className="col-xs-2">
-        <div
-          style={{
-            ...s.colorBox,
-            backgroundColor: mColors[c],
-          }}
-        />
-      </td>
-      <td className="col-xs-9" style={s.condition}>
-        monitoringState equals {c}
-      </td>
-      <td className="col-xs-1" />
-    </tr>
-  ))
+export const MonitoringStateColors = ({ visible, setVisible }) => (
+  <div className="mt10">
+    <h4 className="mb10" style={s.title}>
+      <a onClick={() => setVisible(!visible)}>
+        <span className="col-xs-11">Monitoring state colors</span>
+        <Glyphicon className="col-xs-1" glyph={visible ? 'triangle-top' : 'triangle-bottom'} />
+      </a>
+    </h4>
+    {visible && <Table condensed striped style={{ fontSize: '12px' }}>
+      <thead>
+        <tr>
+          <th>Color</th>
+          <th>Condition</th>
+        </tr>
+      </thead>
+      <tbody>
+        {Object.keys(mColors).map((c, i) => (
+          <tr key={`color-${i}`}>
+            <td className="col-xs-2">
+              <div
+                style={{
+                  ...s.colorBox,
+                  backgroundColor: mColors[c],
+                }}
+              />
+            </td>
+            <td className="col-xs-10" style={s.condition}>
+              monitoring state equals {c}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>}
+  </div>
 );
+
+MonitoringStateColors.propTypes = {
+  visible: PropTypes.bool.isRequired,
+  setVisible: PropTypes.bool.isRequired,
+};
+
+export default withState('visible', 'setVisible', false)(MonitoringStateColors);

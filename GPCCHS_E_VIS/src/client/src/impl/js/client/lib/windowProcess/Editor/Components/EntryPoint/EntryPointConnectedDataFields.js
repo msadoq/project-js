@@ -1,9 +1,10 @@
 import React, { PropTypes } from 'react';
-import { Field } from 'redux-form';
+import { Field, FieldArray } from 'redux-form';
 import {
   InputField,
   TextareaField,
-  ReactSelectField
+  ReactSelectField,
+  FilterFields,
 } from '../Fields/';
 import {
   HorizontalFormGroup,
@@ -34,7 +35,6 @@ export default class EntryPointConnectedDataFields extends React.Component {
       unit,
       axisId,
     } = this.props;
-
     let filteredAxes;
     if (axes && unit) {
       filteredAxes = Object.values(axes).filter(a =>
@@ -115,6 +115,11 @@ export default class EntryPointConnectedDataFields extends React.Component {
             }
           />
         </HorizontalFormGroup>}
+
+        <FieldArray
+          name={`${prefix}filter`}
+          component={FilterFields}
+        />
       </div>
     );
   }

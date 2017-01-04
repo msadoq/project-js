@@ -7,7 +7,7 @@ import {
 } from 'react-bootstrap';
 import {
   reduxForm,
-  formValueSelector
+  formValueSelector,
 } from 'redux-form';
 import {
   ClearSubmitButtons
@@ -169,6 +169,7 @@ const validate = (values = {}) => {
       _set(errors, fieldPath, 'Required');
     }
   });
+
   return errors;
 };
 

@@ -1,0 +1,11 @@
+package dataControllerUtils.protobuf;
+
+import "dataControllerUtils/DocumentProperty.proto";
+
+message DocumentCreate {
+extensions 5 to 106;
+    required string name = 1;
+    required string path = 2;
+    required string mimeType = 3;
+    repeated DocumentProperty properties = 4;
+}

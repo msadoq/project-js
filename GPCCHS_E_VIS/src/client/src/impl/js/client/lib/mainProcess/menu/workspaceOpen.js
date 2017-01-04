@@ -1,0 +1,129 @@
+import { BrowserWindow } from 'electron';
+import path from 'path';
+import _find from 'lodash/find';
+import _reduce from 'lodash/reduce';
+
+import { getModifiedPagesIds } from '../../store/selectors/pages';
+import { getModifiedViewsIds } from '../../store/selectors/views';
+import { setModified as setModifiedWindow } from '../../store/actions/windows';
+import { updatePath, closeWorkspace, isWorkspaceOpening } from '../../store/actions/hsc';
+import { saveWorkspace } from '../../documentsManager/saveWorkspace';
+import { showQuestionMessage, showErrorMessage } from '../dialog';
+import getPathByFilePicker from '../filePicker';
+import { getStore } from '../../store/mainStore';
+import { openDefaultWorkspace, readWkFile } from '../openWorkspace';
+
+module.exports = { workspaceOpenNew, workspaceOpen };
+
+function workspaceOpenNew() {
+  allDocumentsAreSaved(getStore(), getStore().dispatch, (err) => {
+    if (err) {
+      return;
+    }
+    const folder = getStore().getState().hsc.folder;
+    getStore().dispatch(closeWorkspace());
+    openDefaultWorkspace(getStore().dispatch, folder);
+  });
+}
+
+function workspaceOpen(focusedWindow) {
+  allDocumentsAreSaved(getStore(), getStore().dispatch, (err) => {
+    if (err) {
+      return;
+    }
+    const folder = getStore().getState().hsc.folder;
+    // open the file picker
+    getPathByFilePicker(folder, 'workspace', 'open', (errFile, filePath) => {
+      if (filePath) {
+        getStore().dispatch(isWorkspaceOpening(true));
+        readWkFile(
+          getStore().dispatch,
+          getStore().getState,
+          path.dirname(filePath),
+          path.basename(filePath),
+          (errWk) => {
+            if (errWk) {
+              showErrorMessage(focusedWindow,
+                'Error on selected workspace',
+                'Invalid Workspace file selected');
+            }
+            getStore().dispatch(isWorkspaceOpening(false));
+          }
+        );
+      }
+    });
+  });
+}
+
+function allDocumentsAreSaved(store, dispatch, cb) {
+  if (!isSaveNeeded(store.getState())) {
+    return cb(null);
+  }
+  return showQuestionMessage(
+    BrowserWindow.getFocusedWindow(),
+    'Opening new workspace',
+    'Workspace is modified. Do you want to save before closing ?',
+    ['yes', 'no', 'cancel'],
+    (button) => {
+      if (button === 2) { // cancel
+        return cb('canceled');
+      } else if (button === 0) { // yes
+        const state = store.getState();
+        if (getModifiedPagesIds(state).length > 0
+          || getModifiedViewsIds(state).length > 0) {
+          cb('Please, save the pages and views of this workspace');
+        } else if (!state.hsc.file) {
+          getPathByFilePicker(state.hsc.folder, 'workspace', 'save', (errWk, pathWk) => {
+            if (errWk) {
+              cb(errWk);
+            }
+            dispatch(updatePath(path.dirname(pathWk), path.basename(pathWk)));
+            saveWorkspace(store.getState(), true, (err, winIds) => {
+              if (err) {
+                cb(err);
+              }
+              winIds.forEach((id) => {
+                dispatch(setModifiedWindow(id, false));
+              });
+              // updateSavedWinTitle();
+              cb(null);
+            });
+          });
+        } else {
+          cb(null);
+        }
+      } else {
+        cb(null);
+      }
+    });
+}
+
+// Returns if at least one file is modified
+function isSaveNeeded(state) {
+  const win = _find(state.windows, ['isModified', true]);
+  const page = _find(state.pages, ['isModified', true]);
+  const view = _find(state.views, ['isModified', true]);
+  return !(!win && !page && !view);
+}
+
+// // returns if all documents have a path or an oId given
+// function ungivenPaths(all = false) {
+//   const state = getStore().getState();
+//   const ungivenPath = { workspace: false };
+//   ungivenPath.views = _reduce(state.views, (list, view, key) => {
+//     if ((!view.oId && !view.absolutePath) || all) {
+//       list.push(key);
+//     }
+//     return list;
+//   }, []);
+//   ungivenPath.pages = _reduce(state.pages, (list, page, key) => {
+//     if ((!page.oId && !page.absolutePath) || all) {
+//       list.push(key);
+//     }
+//     return list;
+//   }, []);
+//   if (!state.hsc.file || all) {
+//     ungivenPath.workspace = true;
+//   }
+//   return ungivenPath;
+// }

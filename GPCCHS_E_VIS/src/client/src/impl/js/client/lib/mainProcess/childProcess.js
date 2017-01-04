@@ -10,7 +10,7 @@ const processes = {};
 
 export function fork(id, path, callback) {
   const forkOptions = {
-    execPath: '/usr/share/isis/node-v6.3.0-linux-x64/bin/node',
+    execPath: parameters.get('NODE_PATH'),
     env: {
       DEBUG: parameters.get('DEBUG'),
       SERVER_PORT: parameters.get('SERVER_PORT'),
@@ -51,7 +51,8 @@ export function fork(id, path, callback) {
         : logger.warn('invalid message received (unknown queryId)');
     }
 
-    // TODO simple message
+    // TODO simple message handling (add a method to register a controller that will receive event
+    // and payload)
   });
 }
 

@@ -1,7 +1,6 @@
 import { BrowserWindow } from 'electron';
 import path from 'path';
 import _find from 'lodash/find';
-import _reduce from 'lodash/reduce';
 
 import { getModifiedPagesIds } from '../../store/selectors/pages';
 import { getModifiedViewsIds } from '../../store/selectors/views';
@@ -105,25 +104,3 @@ function isSaveNeeded(state) {
   const view = _find(state.views, ['isModified', true]);
   return !(!win && !page && !view);
 }
-
-// // returns if all documents have a path or an oId given
-// function ungivenPaths(all = false) {
-//   const state = getStore().getState();
-//   const ungivenPath = { workspace: false };
-//   ungivenPath.views = _reduce(state.views, (list, view, key) => {
-//     if ((!view.oId && !view.absolutePath) || all) {
-//       list.push(key);
-//     }
-//     return list;
-//   }, []);
-//   ungivenPath.pages = _reduce(state.pages, (list, page, key) => {
-//     if ((!page.oId && !page.absolutePath) || all) {
-//       list.push(key);
-//     }
-//     return list;
-//   }, []);
-//   if (!state.hsc.file || all) {
-//     ungivenPath.workspace = true;
-//   }
-//   return ungivenPath;
-// }

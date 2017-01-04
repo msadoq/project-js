@@ -1,3 +1,22 @@
+/*!*******************************************************************
+ * Project : ISIS
+ * Component : TODO declare component
+ * \file fileTreatment.js
+ * \author isis
+ * \date 21/12/2016
+ * \brief TODO brief description
+ *
+ * TODO complete description
+ ********************************************************************/
+
+/********************************************************************
+ * HISTORY
+ *
+ * END-HISTORY
+ ********************************************************************/
+
+
+
 import _map from 'lodash/map';
 import _find from 'lodash/find';
 import _reduce from 'lodash/reduce';
@@ -113,7 +132,6 @@ function showSelectedPage(pageAndViews, pageId, windowId) {
   page.layout = layout;
   page.views = viewIds;
   store.dispatch(addAndMountPage(windowId, pageId, page));
-  // TODO set isModified to false
 }
 
 function showSelectedView(view, pageId) {

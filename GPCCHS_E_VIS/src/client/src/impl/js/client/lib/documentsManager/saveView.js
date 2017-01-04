@@ -5,8 +5,6 @@ const { checkPath } = require('../common/fs');
 const _omit = require('lodash/omit');
 const _values = require('lodash/values');
 const _each = require('lodash/each');
-const _cloneDeep = require('lodash/cloneDeep');
-const _startsWith = require('lodash/startsWith');
 const globalConstants = require('common/constants');
 const vivl = require('../../VIVL/main');
 

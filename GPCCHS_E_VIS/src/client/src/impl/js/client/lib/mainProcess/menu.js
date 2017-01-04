@@ -57,7 +57,7 @@ template.splice(0, 0,
     }, {
       label: 'Open ... ',
       accelerator: 'Ctrl+O',
-      click() {
+      click(item, focusedWindow) {
         allDocumentsAreSaved(getStore(), getStore().dispatch, (err) => {
           if (err) {
             return;
@@ -101,7 +101,7 @@ template.splice(0, 0,
                 if (err) {
                   return;
                 }
-                saveWorkspace(getStore().getState(), true, (errWin, winIds) => {
+                saveWorkspace(getStore().getState(), false, (errWin, winIds) => {
                   if (errWin) {
                     return;
                   }
@@ -113,7 +113,7 @@ template.splice(0, 0,
                 });
               });
             } else {
-              saveWorkspace(getStore().getState(), true, (errWin, winIds) => {
+              saveWorkspace(getStore().getState(), false, (errWin, winIds) => {
                 if (errWin) {
                   return;
                 }
@@ -142,7 +142,7 @@ template.splice(0, 0,
               if (err) {
                 return;
               }
-              saveWorkspace(getStore().getState(), true, (errWin, winIds) => {
+              saveWorkspace(getStore().getState(), false, (errWin, winIds) => {
                 if (errWin) {
                   return;
                 }
@@ -253,7 +253,7 @@ template.splice(2, 0,
                 if (errUp) {
                   return;
                 }
-                savePage(store.getState(), pId, true, (err) => {
+                savePage(store.getState(), pId, false, (err) => {
                   if (err) {
                     return;
                   }
@@ -261,7 +261,7 @@ template.splice(2, 0,
                 });
               });
             } else {
-              savePage(store.getState(), pageId, true, (err) => {
+              savePage(store.getState(), pageId, false, (err) => {
                 if (err) {
                   return;
                 }
@@ -284,7 +284,7 @@ template.splice(2, 0,
             if (errUp) {
               return;
             }
-            savePage(store.getState(), pId, true, (err) => {
+            savePage(store.getState(), pId, false, (err) => {
               if (err) {
                 return;
               }

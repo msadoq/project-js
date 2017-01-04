@@ -266,12 +266,14 @@ describe('store:page:reducer', () => {
   });
   describe('updateTimebarId', () => {
     it('ok', () => {
-      reducer({ myPage: { timebarId: 't1' } }, actions.updateTimebarId('myPage', 'time1'))
-      .should.eql({ myPage: { timebarId: 'time1', isModified: true } });
+      const { dispatch, getState } = getStore({ pages: { myPage: { timebarId: 't1' } } });
+      dispatch(actions.updateTimebarId('myPage', 'time1'));
+      getState().pages.myPage.should.deep.equal({ timebarId: 'time1' });
     });
     it('invalid view id', () => {
-      reducer({ myPage: { timebarId: 't1' } }, actions.updateTimebarId('noPage', 'time1'))
-      .should.eql({ myPage: { timebarId: 't1' } });
+      const { dispatch, getState } = getStore({ pages: { myPage: { timebarId: 't1' } } });
+      dispatch(actions.updateTimebarId('noPage', 'time1'));
+      getState().pages.myPage.should.deep.equal({ timebarId: 't1' });
     });
   });
   describe('updateTimebarHeight', () => {

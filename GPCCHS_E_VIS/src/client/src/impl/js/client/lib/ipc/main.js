@@ -7,7 +7,7 @@ import { getStore } from '../store/mainStore';
 import { updateSessions } from '../store/actions/sessions';
 import { saveViewAs } from '../documentsManager/saveView';
 import getPathByFilePicker from '../mainProcess/filePicker';
-import { showErrorMessage, showMessageDialog } from '../mainProcess/fileTreatment';
+import { showErrorMessage, showWarningMessage } from '../mainProcess/dialog';
 import { readViews } from  '../documentsManager/extractViews';
 
 const logger = getLogger('ipc:main');

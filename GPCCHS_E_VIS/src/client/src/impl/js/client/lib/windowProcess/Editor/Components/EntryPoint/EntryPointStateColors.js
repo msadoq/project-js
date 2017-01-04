@@ -18,13 +18,16 @@ import {
   ClearSubmitButtons,
   HorizontalFormGroup,
 } from '../Forms/';
+import operators from '../../../../common/operators';
 
+/*
 const filters = [
   'convertedValue', 'extractedValue', 'groundDate',
   'isNominal', 'isObsolete', 'monitoringState',
   'onBoardDate', 'rawValue', 'triggerOffCounter',
   'triggerOnCounter', 'validityState'
 ];
+*/
 
 class EntryPointStateColors extends React.Component {
   static propTypes = {
@@ -58,23 +61,31 @@ class EntryPointStateColors extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {data.length
-              ? data.map((stateColor, key) => (
-                <tr key={key}>
-                  <td className="col-xs-2">
-                    <ColorPicker color={stateColor.color} />
-                  </td>
-                  <td className="col-xs-9" style={{ verticalAlign: 'middle' }}>
-                    {stateColor.condition.field}{' '}
-                    {stateColor.condition.operator}{' '}
-                    {stateColor.condition.operand}
-                  </td>
-                  <td className="col-xs-1">
-                    <Glyphicon glyph="trash" onClick={() => removeStateColor(key)} />
-                  </td>
-                </tr>
-                  ))
-              : <tr><td colSpan={2} >no marker</td></tr>
+            {
+              data.length ? data.map(
+                (stateColor, key) => {
+                  const foundOperator = Object.entries(operators).find(
+                    o => o[1] === stateColor.condition.operator
+                  );
+                  return (
+                    <tr key={key}>
+                      <td className="col-xs-2">
+                        <ColorPicker color={stateColor.color} />
+                      </td>
+                      <td className="col-xs-9" style={{ verticalAlign: 'middle' }}>
+                        {stateColor.condition.field}{' '}
+                        {
+                            foundOperator ? foundOperator[0] : '?'
+                        }{' '}
+                        {stateColor.condition.operand}
+                      </td>
+                      <td className="col-xs-1">
+                        <Glyphicon glyph="trash" onClick={() => removeStateColor(key)} />
+                      </td>
+                    </tr>
+                  );
+                }
+              ) : (<tr><td colSpan={2} >no marker</td></tr>)
             }
           </tbody>
         </Table>
@@ -91,11 +102,9 @@ class EntryPointStateColors extends React.Component {
           <HorizontalFormGroup label="Field">
             <Field
               name="condition.field"
-              clearable={false}
-              component={ReactSelectField}
-              options={
-                filters.map(v => ({ label: v, value: v }))
-              }
+              component={InputField}
+              className="form-control input-sm"
+              type="text"
             />
           </HorizontalFormGroup>
           <HorizontalFormGroup label="Operator">
@@ -103,16 +112,7 @@ class EntryPointStateColors extends React.Component {
               name="condition.operator"
               clearable={false}
               component={ReactSelectField}
-              options={[
-                { label: '=', value: 'equals' },
-                { label: '≠', value: 'notEquals' },
-                { label: '<', value: 'inf' },
-                { label: '≤', value: 'infOrEq' },
-                { label: '>', value: 'sup' },
-                { label: '≥', value: 'supOrEq' },
-                { label: 'CONTAINS', value: 'contains' },
-                { label: '!CONTAINS', value: 'notContains' },
-              ]}
+              options={Object.entries(operators).map(v => ({ label: v[0], value: v[1] }))}
             />
           </HorizontalFormGroup>
           <HorizontalFormGroup label="Operand">

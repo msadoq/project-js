@@ -6,3 +6,4 @@ export SelectButtonField from './SelectButtonField';
 export SelectFontField from './SelectFontField';
 export ReactSelectField from './ReactSelectField';
 export CodeMirrorField from './CodeMirrorField';
+export FilterFields from './FilterFields';

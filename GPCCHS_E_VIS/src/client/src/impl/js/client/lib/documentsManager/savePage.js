@@ -6,8 +6,6 @@ const { dirname, relative } = require('path');
 const { checkPath } = require('../common/fs');
 const parameters = require('common/parameters');
 
-const root = parameters.get('FMD_ROOT_DIR');
-
 /**
  * Save plot view from state to file
  *
@@ -28,6 +26,7 @@ function savePageAs(state, pageId, path, useRelativePath, callback) {
   if (err) {
     callback(err);
   }
+  const root = parameters.get('FMD_ROOT_DIR');
   const page = state.pages[pageId];
   const jsonPage = {
     type: 'Page',

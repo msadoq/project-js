@@ -11,9 +11,10 @@ import { showErrorMessage, showMessageDialog } from '../mainProcess/fileTreatmen
 import { readViews } from  '../documentsManager/extractViews';
 
 const logger = getLogger('ipc:main');
-const root = parameters.get('FMD_ROOT_DIR');
+
 
 export function init() {
+  const root = parameters.get('FMD_ROOT_DIR');
   ipcMain.on('windowRequest', (e, { event, payload, queryId }) => {
     logger.debug('ipc:window:onWindowRequest', event, payload); // eslint-disable-line no-console
     switch (event) {

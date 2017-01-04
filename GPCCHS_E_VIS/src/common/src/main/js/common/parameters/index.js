@@ -18,7 +18,7 @@ function initDefaultLogTransports() {
     const { setTransports } = require('../log/node');
     const config = defaultConfig.LOG || localConfig.LOG;
     if (config) {
-      setTransports(defaultConfig.LOG);
+      setTransports(config.LOG);
     }
   }
 }
@@ -56,7 +56,6 @@ function getLocal(name) {
   if (!localConfig) {
     return undefined;
   }
-
   return localConfig[name];
 }
 

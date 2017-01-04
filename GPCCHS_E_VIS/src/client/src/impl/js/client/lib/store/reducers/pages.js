@@ -65,7 +65,7 @@ export default function pages(statePages = {}, action) {
       }
       return u({ [action.payload.focusedPageId]: {
         timebarId: action.payload.timebarId,
-        isModified: true,
+        // when timebarId is modified, it's the window which is modified, not the page
       } },
         statePages);
     case types.WS_PAGE_UPDATE_TIMEBARHEIGHT:

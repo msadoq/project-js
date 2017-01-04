@@ -2,7 +2,7 @@ import { v4 } from 'node-uuid';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
 import { pause } from './hsc';
-import { add as addPage, remove as removePage } from './pages';
+import { add as addPage, remove as removePage, setModified as setModifiedPage } from './pages';
 import { getPage } from '../selectors/pages';
 import { getPlayingTimebarId } from '../selectors/hsc';
 
@@ -54,6 +54,7 @@ export function addAndMount(windowId, pageId = v4(), page) {
     }
     dispatch(mountPage(windowId, pageId));
     dispatch(focusPage(windowId, pageId));
+    dispatch(setModifiedPage(pageId, false));
     // No need to mount views here, this is already done
   };
 }

@@ -7,7 +7,10 @@ import {
   remove as removeView,
   setCollapsed as setCollapsedView,
 } from './views';
-import { addAndMount as addAndMountPage, focusPage } from './windows';
+import { addAndMount as addAndMountPage,
+         focusPage,
+         setModified as setModifiedWindow } from './windows';
+import { getFocusedWindowId } from '../selectors/hsc';
 /**
  * Simple actions
  */
@@ -36,7 +39,6 @@ export const updateAbsolutePath = simple(types.WS_PAGE_UPDATE_ABSOLUTEPATH, 'pag
 export const updatePath = simple(types.WS_PAGE_UPDATEPATH, 'pageId', 'newPath');
 export const setModified = simple(types.WS_PAGE_SETMODIFIED, 'pageId', 'flag');
 
-export const updateTimebarId = simple(types.WS_PAGE_UPDATE_TIMEBARID, 'focusedPageId', 'timebarId');
 export const updateTimebarHeight = simple(types.WS_PAGE_UPDATE_TIMEBARHEIGHT, 'focusedPageId', 'timebarHeight');
 
 /**
@@ -87,5 +89,14 @@ export function remove(pageId) {
       dispatch(unmountAndRemove(pageId, viewId));
     });
     dispatch(removePage(pageId));
+  };
+}
+
+export function updateTimebarId(focusedPageId, timebarId) {
+  return (dispatch, getState) => {
+    dispatch({ type: 'WS_PAGE_UPDATE_TIMEBARID', payload: { focusedPageId, timebarId } });
+    const state = getState();
+    const windowId = getFocusedWindowId(state);
+    dispatch(setModifiedWindow(windowId, true));
   };
 }

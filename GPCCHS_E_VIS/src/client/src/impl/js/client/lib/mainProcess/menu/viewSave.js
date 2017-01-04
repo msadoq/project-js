@@ -9,7 +9,7 @@ module.exports = { saveOneView };
 
 function saveOneView(viewId, as = false) {
   const state = getStore().getState();
-  if (as || (!state[viewId].oId && !state[viewId].path && state[viewId].absolutePath)) {
+  if (!as && (state[viewId].oId || state[viewId].path || state[viewId].absolutePath)) {
     saveView(state, viewId);
   } else {
     updateViewPath(viewId, getStore(), getStore().dispatch, (err, vId) => {

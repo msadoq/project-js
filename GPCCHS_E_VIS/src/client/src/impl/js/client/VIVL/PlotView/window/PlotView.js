@@ -76,7 +76,7 @@ class PlotView extends PureComponent {
       upper: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
     }).isRequired,
     viewId: PropTypes.string,
-    addEP: PropTypes.func,
+    addEntryPoint: PropTypes.func,
     configuration: PropTypes.shape({
       type: PropTypes.string.isRequired,
       links: PropTypes.array,
@@ -147,7 +147,7 @@ class PlotView extends PureComponent {
     const content = JSON.parse(data);
 
     // eslint-disable-next-line no-console
-    this.props.addEP(
+    this.props.addEntryPoint(
       this.props.viewId,
       parseDragData(content)
     );
@@ -638,8 +638,8 @@ class PlotView extends PureComponent {
 const SizeablePlotView = Dimensions()(PlotView);
 
 export default connect(
-  state => state,
+  null,
   dispatch => bindActionCreators({
-    addEP: addEntryPoint
+    addEntryPoint
   }, dispatch)
 )(SizeablePlotView); // eslint-disable-line new-cap

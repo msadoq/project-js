@@ -1,0 +1,13 @@
+package dataControllerUtils.protobuf;
+   
+enum FILE_TYPE {
+    COLLECTION = 0;
+    COLLECTION_DOCUMENT = 1;
+    DOCUMENT = 2;
+    FOLDER = 3;
+}
+      
+message FMDFileType {
+extensions 2 to 106;
+    required FILE_TYPE type = 1;
+}

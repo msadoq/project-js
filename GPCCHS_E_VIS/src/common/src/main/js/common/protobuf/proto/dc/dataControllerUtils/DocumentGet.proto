@@ -1,8 +1,0 @@
-package dataControllerUtils.protobuf;
-
-message DocumentGet {
-extensions 4 to 106;
-    required string type = 1; // Collection, Folder, Document, (... others?)
-    required uint32 domainId = 2;
-    required string serializedOid = 3;
-}

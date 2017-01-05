@@ -1,0 +1,12 @@
+package dataControllerUtils.protobuf;
+
+import "dataControllerUtils/FMDDocumentProperty.proto";
+
+message FMDCreateDocument {
+extensions 6 to 106;
+    required string name = 1;
+    required string path = 2;
+    required string mimeType = 3;
+    optional uint32 domainId = 4;
+    repeated FMDDocumentProperty properties = 5;
+}

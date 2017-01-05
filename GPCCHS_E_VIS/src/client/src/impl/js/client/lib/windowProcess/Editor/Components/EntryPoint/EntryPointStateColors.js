@@ -112,7 +112,7 @@ class EntryPointStateColors extends React.Component {
               name="condition.operator"
               clearable={false}
               component={ReactSelectField}
-              options={Object.entries(operators).map(v => ({ label: v[0], value: v[1] }))}
+              options={Object.keys(operators).map(o => ({ label: o, value: o }))}
             />
           </HorizontalFormGroup>
           <HorizontalFormGroup label="Operand">

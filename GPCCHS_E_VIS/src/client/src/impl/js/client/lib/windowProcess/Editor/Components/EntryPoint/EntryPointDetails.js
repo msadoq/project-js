@@ -78,6 +78,7 @@ export default class EntryPointDetails extends React.Component {
 
   handleConnectedDataSubmit = (key, values) => {
     const { entryPoint, updateEntryPoint, viewId, idPoint } = this.props;
+
     updateEntryPoint(viewId, idPoint, {
       ...entryPoint,
       [key]: values

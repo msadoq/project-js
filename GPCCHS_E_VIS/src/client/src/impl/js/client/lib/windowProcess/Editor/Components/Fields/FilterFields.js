@@ -45,7 +45,7 @@ export default class FilterFields extends React.Component {
     this.props.fields.push(
       {
         field: this.fieldField.value,
-        operator: parseInt(this.operatorField.value, 10),
+        operator: this.operatorField.value,
         operand: this.operandField.value,
       }
     );
@@ -66,28 +66,23 @@ export default class FilterFields extends React.Component {
           <tbody>
             {
               filters.length ? filters.map(
-                (filter, index) => {
-                  const foundOperator = Object.entries(operators).find(
-                    o => o[1] === filter.operator
-                  );
-                  return (
-                    <tr key={index}>
-                      <td className="col-xs-9" style={{ verticalAlign: 'middle' }}>
-                        {filter.field}{' '}
-                        <b>{ foundOperator ? foundOperator[0] : '?' }{' '}</b>
-                        {filter.operand}
-                      </td>
-                      <td className="col-xs-3">
-                        <Glyphicon
-                          glyph="trash"
-                          onClick={() => fields.remove(index)}
-                          title="remove filter"
-                          style={{ cursor: 'pointer' }}
-                        />
-                      </td>
-                    </tr>
-                  );
-                }
+                (filter, index) => (
+                  <tr key={index}>
+                    <td className="col-xs-9" style={{ verticalAlign: 'middle' }}>
+                      {filter.field}{' '}
+                      <b>{ filter.operator }{' '}</b>
+                      {filter.operand}
+                    </td>
+                    <td className="col-xs-3">
+                      <Glyphicon
+                        glyph="trash"
+                        onClick={() => fields.remove(index)}
+                        title="remove filter"
+                        style={{ cursor: 'pointer' }}
+                      />
+                    </td>
+                  </tr>
+                )
               ) : (<tr><td colSpan={2} >no filter</td></tr>)
             }
           </tbody>
@@ -108,7 +103,7 @@ export default class FilterFields extends React.Component {
             ref={(el) => { this.operatorField = el; }}
           >
             {
-              Object.entries(operators).map((o, i) => <option key={i} value={o[1]}>{o[0]}</option>)
+              Object.keys(operators).map((o, i) => <option key={i} value={o}>{o}</option>)
             }
           </select>
         </HorizontalFormGroup>

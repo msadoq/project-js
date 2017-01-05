@@ -1,6 +1,5 @@
 import { should, getStore } from '../../common/test';
 import {
-  getStatus,
   getWindowsOpened,
   getWorkspaceOpened,
   getLastCacheInvalidation,
@@ -10,16 +9,6 @@ import {
 } from './hsc';
 
 describe('store:hsc:selectors', () => {
-  describe('getStatus', () => {
-    it('should return status', () => {
-      const { getState } = getStore({ hsc: { status: 'myStatus' } });
-      getStatus(getState()).should.eql('myStatus');
-    });
-    it('should support empty state', () => {
-      const { getState } = getStore({ hsc: {} });
-      should.not.exist(getStatus(getState()));
-    });
-  });
   describe('getWindowsOpened', () => {
     it('should return status', () => {
       const { getState } = getStore({ hsc: { windowsOpened: false } });

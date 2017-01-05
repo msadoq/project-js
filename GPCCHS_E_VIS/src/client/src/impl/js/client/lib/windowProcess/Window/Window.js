@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { LIFECYCLE_STARTED } from 'common/constants';
 import getLogger from 'common/log';
 
 import Debug from '../Navigation/Debug';
@@ -17,7 +16,6 @@ export default class Window extends Component {
   static propTypes = {
     windowId: PropTypes.string.isRequired,
     focusedPageId: PropTypes.string.isRequired,
-    appStatus: PropTypes.string,
     title: PropTypes.string,
   };
 
@@ -57,21 +55,7 @@ export default class Window extends Component {
 
   render() {
     logger.debug('render');
-    const {
-      appStatus, focusedPageId,
-      windowId, title
-    } = this.props;
-    if (appStatus !== LIFECYCLE_STARTED) {
-      return (
-        <div className={styles.box}>
-          Connection in progress
-          <div>...</div>
-          <div className={styles.message}>
-            ({appStatus})
-          </div>
-        </div>
-      );
-    }
+    const { focusedPageId, windowId, title } = this.props;
 
     return (
       <div className={styles.container}>

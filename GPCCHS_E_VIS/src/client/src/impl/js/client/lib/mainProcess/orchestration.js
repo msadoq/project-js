@@ -190,6 +190,7 @@ export function tick() {
       ));
 
       execution.stop('play management');
+      // TODO dbrugne analyse 1 tick leak on play
     }
 
     // update of viewData

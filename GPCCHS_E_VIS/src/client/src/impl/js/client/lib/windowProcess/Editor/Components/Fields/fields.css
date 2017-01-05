@@ -1,0 +1,13 @@
+.editingFilter{
+  background: #eee !important;
+}
+.filterFields{
+  padding: 5px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+}
+.colorSquare{
+  width: 18px;
+  height: 18px;
+  display: block;
+}

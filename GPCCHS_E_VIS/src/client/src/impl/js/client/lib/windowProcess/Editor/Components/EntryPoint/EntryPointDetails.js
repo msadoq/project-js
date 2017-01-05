@@ -38,7 +38,6 @@ export default class EntryPointDetails extends React.Component {
     idPoint: PropTypes.number,
     axes: PropTypes.object,
     entryPoint: PropTypes.object,
-    handleEntryPoint: PropTypes.func
   }
 
   state = {
@@ -83,35 +82,6 @@ export default class EntryPointDetails extends React.Component {
       ...entryPoint,
       [key]: values
     });
-  }
-
-  removeStateColor = (key) => {
-    const {
-      entryPoint,
-      handleEntryPoint,
-      idPoint,
-    } = this.props;
-    const newStateColors = entryPoint.stateColors.slice();
-    newStateColors.splice(key, 1);
-    handleEntryPoint(
-      idPoint,
-      'stateColors',
-      newStateColors
-    );
-  }
-
-  handleStateColorSubmit = (values) => {
-    const {
-      entryPoint,
-      handleEntryPoint,
-      idPoint,
-    } = this.props;
-
-    handleEntryPoint(
-      idPoint,
-      'stateColors',
-      (entryPoint.stateColors || []).concat(values)
-    );
   }
 
   /*
@@ -227,14 +197,11 @@ export default class EntryPointDetails extends React.Component {
           onExited={this.closePanel.bind('StateColors')}
         >
           {isPanelStateColorsOpen && <EntryPointStateColors
-            data={entryPoint.stateColors || []}
             initialValues={{
-              color: '#FFFFFF',
-              condition: {},
+              stateColors: entryPoint.stateColors || []
             }}
             form={`entrypoint-stateColors-form-${idPoint}-${viewId}`}
-            onSubmit={this.handleStateColorSubmit}
-            removeStateColor={this.removeStateColor}
+            onSubmit={this.handleSubmit}
           />}
         </Panel>
       </Accordion>

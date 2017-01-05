@@ -8,9 +8,10 @@ import {
 import classnames from 'classnames';
 import { HorizontalFormGroup } from '../Forms/';
 import styles from './fields.css';
+import ColorPicker from '../ColorPicker';
 import operators from '../../../../common/operators';
 
-export default class FilterFields extends React.Component {
+export default class StateColorsFields extends React.Component {
 
   static propTypes = {
     fields: PropTypes.shape({
@@ -23,6 +24,7 @@ export default class FilterFields extends React.Component {
   state = {
     error: null,
     editingIndex: null,
+    currentColor: null,
   }
 
   onInputChange = () => {
@@ -43,16 +45,21 @@ export default class FilterFields extends React.Component {
     }
   }
 
-  addFilter = (e) => {
+  addStateColor = (e) => {
     e.preventDefault();
+    const { currentColor } = this.state;
     const { fields } = this.props;
     fields.push(
       {
-        field: this.fieldField.value,
-        operator: this.operatorField.value,
-        operand: this.operandField.value,
+        color: currentColor || '#ffffff',
+        condition: {
+          field: this.fieldField.value,
+          operator: this.operatorField.value,
+          operand: this.operandField.value,
+        },
       }
     );
+    this.setState({ currentColor: null });
     this.resetFields();
   }
 
@@ -69,48 +76,67 @@ export default class FilterFields extends React.Component {
     this.operandField.value = opd;
   }
 
-  editFilter = (index) => {
+  editStateColor = (index) => {
     const { fields } = this.props;
     const { editingIndex } = this.state;
     if (editingIndex === index) {
       this.resetFields();
       return this.setState({ editingIndex: null });
     }
-    const filter = fields.get(index);
+    const stateColor = fields.get(index);
     this.resetFields(
-      filter.field,
-      filter.operator,
-      filter.operand
+      stateColor.condition.field,
+      stateColor.condition.operator,
+      stateColor.condition.operand
     );
-    this.setState({ editingIndex: index });
+    this.setState({
+      editingIndex: index,
+      currentColor: stateColor.color,
+    });
   }
 
-  removeFilter = (index) => {
+  updateColor = (color) => {
+    this.setState({ currentColor: color });
+  }
+
+  removeStateColor = (index) => {
     const { fields } = this.props;
     const { editingIndex } = this.state;
     fields.remove(index);
     if (editingIndex !== null) {
-      this.setState({ editingIndex: null });
+      this.setState({
+        editingIndex: null,
+        currentColor: null,
+      });
       this.resetFields();
     }
   }
 
-  updateFilter = (e) => {
+  updateStateColor = (e) => {
     e.preventDefault();
     const { fields } = this.props;
-    const { editingIndex } = this.state;
+    const {
+      editingIndex,
+      currentColor,
+    } = this.state;
     fields.remove(editingIndex);
     setTimeout(() => {
       fields.insert(
         editingIndex,
         {
-          field: this.fieldField.value,
-          operator: this.operatorField.value,
-          operand: this.operandField.value,
+          color: currentColor || '#ffffff',
+          condition: {
+            field: this.fieldField.value,
+            operator: this.operatorField.value,
+            operand: this.operandField.value,
+          },
         }
       );
       this.resetFields();
-      this.setState({ editingIndex: null });
+      this.setState({
+        editingIndex: null,
+        currentColor: null,
+      });
     }, 100);
   }
 
@@ -118,47 +144,54 @@ export default class FilterFields extends React.Component {
     const { fields } = this.props;
     const { editingIndex } = this.state;
     const { error } = this.state;
-    const filters = fields.getAll();
+    const stateColors = fields.getAll();
     const canEdit = editingIndex !== null;
     const canAdd = this.operandField && this.fieldField &&
       this.operandField.value.length && this.fieldField.value.length;
     return (
-      <div
-        className={styles.filterFields}
-      >
+      <div>
         <Table condensed striped style={{ fontSize: '12px' }}>
           <thead>
             <tr>
-              <th colSpan={1}>Filters</th>
+              <th colSpan={1}>Color</th>
+              <th colSpan={1}>Expression</th>
               <th colSpan={2}>Actions</th>
             </tr>
           </thead>
           <tbody>
             {
-              filters.length ? filters.map(
-                (filter, index) => (
+              stateColors.length ? stateColors.map(
+                (stateColor, index) => (
                   <tr
                     key={index}
                     className={editingIndex === index ? styles.editingFilter : ''}
                   >
-                    <td className="col-xs-10" style={{ verticalAlign: 'middle' }}>
-                      {filter.field}{' '}
-                      <b>{ filter.operator }{' '}</b>
-                      {filter.operand}
+                    <td className="col-xs-1">
+                      <span
+                        className={styles.colorSquare}
+                        style={{
+                          backgroundColor: stateColor.color
+                        }}
+                      />
+                    </td>
+                    <td className="col-xs-9" style={{ verticalAlign: 'middle' }}>
+                      {stateColor.condition.field}{' '}
+                      <b>{ stateColor.condition.operator }{' '}</b>
+                      {stateColor.condition.operand}
                     </td>
                     <td className="col-xs-1">
                       <Glyphicon
                         glyph="trash"
-                        onClick={() => this.removeFilter(index)}
-                        title="remove filter"
+                        onClick={() => this.removeStateColor(null, index)}
+                        title="remove state color"
                         style={{ cursor: 'pointer' }}
                       />
                     </td>
                     <td className="col-xs-1">
                       <Glyphicon
                         glyph="pencil"
-                        onClick={() => this.editFilter(index)}
-                        title="edit filter"
+                        onClick={() => this.editStateColor(index)}
+                        title="edit state color"
                         style={{
                           cursor: 'pointer',
                           color: (editingIndex === index) ? '#0275D8' : 'inherit'
@@ -174,6 +207,14 @@ export default class FilterFields extends React.Component {
         {error && (<div><br /><Alert bsStyle="danger" className="m0">
           {error}
         </Alert><br /></div>)}
+        <HorizontalFormGroup label="color">
+          <ColorPicker
+            color={(editingIndex !== null && stateColors[editingIndex]) ?
+              stateColors[editingIndex].color : '#ffffff'
+            }
+            onChange={this.updateColor}
+          />
+        </HorizontalFormGroup>
         <HorizontalFormGroup label="field">
           <input
             className="form-control"
@@ -202,19 +243,19 @@ export default class FilterFields extends React.Component {
           { canEdit ?
             <input
               className={classnames('btn', 'btn-success')}
-              style={{ width: '90px' }}
+              style={{ width: '110px' }}
               type="submit"
-              value="Edit filter"
-              onClick={this.updateFilter}
+              value="Edit state color"
+              onClick={this.updateStateColor}
               disabled={error}
             />
             :
             <input
               className={classnames('btn', 'btn-success')}
-              style={{ width: '90px' }}
+              style={{ width: '110px' }}
               type="submit"
-              value="Add filter"
-              onClick={this.addFilter}
+              value="Add state color"
+              onClick={this.addStateColor}
               disabled={!canAdd || error}
             />
           }

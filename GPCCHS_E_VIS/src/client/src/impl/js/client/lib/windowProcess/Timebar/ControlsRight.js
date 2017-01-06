@@ -1,4 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import classnames from 'classnames';
 import styles from './Controls.css';
 
@@ -13,10 +14,15 @@ export default class ControlsRight extends PureComponent {
     timebarMode: PropTypes.string.isRequired,
     timebarId: PropTypes.string.isRequired,
     currentSessionExists: PropTypes.bool.isRequired,
+    masterTimelineExists: PropTypes.bool.isRequired,
   }
 
   switchMode = (e) => {
     e.preventDefault();
+    if (e.currentTarget.getAttribute('realTimeDisabled')) {
+      return;
+    }
+
     const {
       timebarId,
       timebarMode,
@@ -48,9 +54,25 @@ export default class ControlsRight extends PureComponent {
     const {
       timebarMode,
       currentSessionExists,
+      masterTimelineExists,
     } = this.props;
 
     const allButtonsKlasses = classnames('btn', 'btn-xs', 'btn-control');
+
+    const realTimeDisabled = !masterTimelineExists || !currentSessionExists;
+    let disabledTooltip;
+    if (realTimeDisabled) {
+      disabledTooltip = (
+        <Tooltip
+          id="RTTooltip"
+          style={{ width: '200px' }}
+        >
+          <b>Cannot go realtime</b><br />
+          { !masterTimelineExists && 'No master timeline'}<br />
+          { !currentSessionExists && 'No master session'}
+        </Tooltip>
+      );
+    }
 
     return (
       <div>
@@ -101,20 +123,34 @@ export default class ControlsRight extends PureComponent {
             </button>
           </li>
           <li className={styles.controlsLi}>
-            <button
+            { realTimeDisabled && <OverlayTrigger
+              trigger={['hover', 'focus']}
+              placement="top"
+              overlay={disabledTooltip}
+              container={this}
+            >
+              <span
+                mode="Realtime"
+                className={classnames(
+                  allButtonsKlasses,
+                  styles.controlButtonDisabled
+                )}
+              >
+                Real time
+              </span>
+            </OverlayTrigger> }
+            { !realTimeDisabled && <button
               mode="Realtime"
               className={classnames(
                 allButtonsKlasses,
                 {
-                  [styles.controlButtonActive]: (timebarMode === 'Realtime')
+                  [styles.controlButtonActive]: (timebarMode === 'Realtime'),
                 }
               )}
               onClick={this.switchMode}
-              title={currentSessionExists ? 'Real time mode' : "No master track is set, can't go realtime"}
-              disabled={!currentSessionExists}
             >
               Real time
-            </button>
+            </button> }
           </li>
         </ul>
       </div>

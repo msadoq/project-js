@@ -18,6 +18,7 @@ export default class Controls extends PureComponent {
     timebarMode: PropTypes.string.isRequired,
     timebarSpeed: PropTypes.number.isRequired,
     currentSessionExists: PropTypes.bool.isRequired,
+    masterTimelineExists: PropTypes.bool.isRequired,
     switchToNormalMode: PropTypes.func.isRequired,
     switchToRealtimeMode: PropTypes.func.isRequired,
     switchToExtensibleMode: PropTypes.func.isRequired,
@@ -49,6 +50,7 @@ export default class Controls extends PureComponent {
           timebarMode={this.props.timebarMode}
           timebarId={this.props.timebarId}
           currentSessionExists={this.props.currentSessionExists}
+          masterTimelineExists={this.props.masterTimelineExists}
         />
       </div>
     );

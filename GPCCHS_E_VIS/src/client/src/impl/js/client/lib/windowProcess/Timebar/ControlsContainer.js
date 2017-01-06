@@ -17,24 +17,20 @@ import Controls from './Controls';
 
 export default connect(
   (state, { timebarId }) => {
-    const masterTimeline = getMasterTimelineById(state, timebarId);
     let currentSessionExists = false;
-    let currentSession;
+    let masterTimelineExists = false;
+    const masterTimeline = getMasterTimelineById(state, timebarId);
     if (masterTimeline) {
-      currentSession = getSession(state.sessions, masterTimeline.sessionId);
-    } else {
-      // TODO dispatch error on page
-      console.log('NO MASTER TIMELINE'); // eslint-disable-line no-console
+      masterTimelineExists = true;
+      if (getSession(state, masterTimeline.sessionId)) {
+        currentSessionExists = true;
+      }
     }
-    if (currentSession) {
-      currentSessionExists = true;
-    } else {
-      // TODO dispatch error on page
-      console.log('NO CURRENT SESSION'); // eslint-disable-line no-console
-    }
+
     return {
       messages: _get(state, ['messages', `timeSetter-${timebarId}`], null),
       currentSessionExists,
+      masterTimelineExists,
     };
   },
   {

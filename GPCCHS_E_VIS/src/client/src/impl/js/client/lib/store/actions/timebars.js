@@ -139,7 +139,7 @@ export function goNow(timebarId) {
     if (!masterTimeline) {
       return;
     }
-    const currentSession = getSession(state.sessions, masterTimeline.sessionId);
+    const currentSession = getSession(state, masterTimeline.sessionId);
     if (!currentSession) {
       return;
     }
@@ -206,7 +206,7 @@ export function switchToRealtimeMode(timebarId) {
     const timebar = getTimebar(state, timebarId);
     const { visuWindow } = timebar;
     const masterTimeline = getMasterTimelineById(state, timebarId);
-    const currentSession = getSession(state.sessions, masterTimeline.sessionId);
+    const currentSession = getSession(state, masterTimeline.sessionId);
     const sessionOffset = currentSession ? currentSession.offsetWithmachineTime : 0;
 
     const msWidth = visuWindow.upper - visuWindow.lower;

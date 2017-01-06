@@ -24,7 +24,6 @@ const filters = [
 
 class EntryPointStateColors extends React.Component {
   static propTypes = {
-    data: PropTypes.array.isRequired,
     pristine: PropTypes.bool,
     handleSubmit: PropTypes.func,
     reset: PropTypes.func,

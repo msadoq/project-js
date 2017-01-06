@@ -4,6 +4,8 @@ import TextEditor from './TextEditor';
 import {
   addEntryPoint,
   removeEntryPoint,
+  updateTitle,
+  updateTitleStyle,
 } from '../../../../store/actions/views';
 
 const TextEditorContainer = connect(
@@ -11,6 +13,8 @@ const TextEditorContainer = connect(
   {
     addEntryPoint,
     removeEntryPoint,
+    updateTitle,
+    updateTitleStyle,
   }
 )(TextEditor);
 

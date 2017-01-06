@@ -20,19 +20,19 @@ const EntryPoints = [
     sessionName: '',
     catalogName: 'Reporting',
     nameSpace: '',
-    item: 'ATT_BC_REVTCOUNT1<ReportingParameter>',
+    item: 'ATT_BC_REVTCOUNT1',
   },
   {
     sessionName: '',
     catalogName: 'Reporting',
     nameSpace: '',
-    item: 'AGA_AM_QP1<ReportingParameter>',
+    item: 'AGA_AM_QP1',
   },
   {
     sessionName: '',
     catalogName: 'Reporting',
     nameSpace: '',
-    item: 'MIS_BC_DALMVOLTAGE<ReportingParameter>',
+    item: 'MIS_BC_DALMVOLTAGE',
   },
 ];
 

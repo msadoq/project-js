@@ -84,7 +84,7 @@
     "recompose": "^0.21.2",
     "redux": "^3.6.0",
     "redux-electron-store": "^0.4.1",
-    "redux-form": "^6.2.1",
+    "redux-form": "^6.4.3",
     "redux-thunk": "^2.1.0",
     "reselect": "^2.5.4",
     "source-map-support": "^0.4.2",

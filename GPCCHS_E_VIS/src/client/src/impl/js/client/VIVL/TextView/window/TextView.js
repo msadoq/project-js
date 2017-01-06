@@ -6,7 +6,10 @@ import _get from 'lodash/get';
 import _omit from 'lodash/omit';
 import getLogger from 'common/log';
 import { html as beautifyHtml } from 'js-beautify';
-import { DEFAULT_FIELD } from 'common/constants';
+import {
+  DEFAULT_FIELD,
+  DEFAULT_COM_OBJECT,
+} from 'common/constants';
 
 import WYSIWYG from './WYSIWYG';
 
@@ -21,9 +24,9 @@ const logger = getLogger('GPCCHS:view:text');
 // parse clipboard data to create partial entry point
 function parseDragData(data) {
   return {
-    name: data.item.match(/(.+)</)[1],
+    name: data.item,
     connectedData: {
-      formula: `${data.catalogName}.${data.item}.${DEFAULT_FIELD}`,
+      formula: `${data.catalogName}.${data.item}<${DEFAULT_COM_OBJECT}>.${DEFAULT_FIELD}`,
     },
   };
 }

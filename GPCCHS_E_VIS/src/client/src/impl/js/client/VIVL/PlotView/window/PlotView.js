@@ -8,7 +8,10 @@ import Dimensions from 'react-dimensions';
 import { format } from 'd3-format';
 import { scaleTime } from 'd3-scale';
 import getLogger from 'common/log';
-import { DEFAULT_FIELD } from 'common/constants';
+import {
+  DEFAULT_FIELD,
+  DEFAULT_COM_OBJECT,
+} from 'common/constants';
 import {
   ChartCanvas, Chart, series, annotation,
   coordinates, axes as StockchartsAxes, tooltip,
@@ -54,12 +57,12 @@ const badgeWidth = 30;
 // parse clipboard data to create partial entry point
 function parseDragData(data) {
   return {
-    name: data.item.match(/(.+)</)[1],
+    name: data.item,
     connectedDataX: {
-      formula: `${data.catalogName}.${data.item}.groundDate`,
+      formula: `${data.catalogName}.${data.item}<${DEFAULT_COM_OBJECT}>.groundDate`,
     },
     connectedDataY: {
-      formula: `${data.catalogName}.${data.item}.${DEFAULT_FIELD}`,
+      formula: `${data.catalogName}.${data.item}<${DEFAULT_COM_OBJECT}>.${DEFAULT_FIELD}`,
     },
   };
 }

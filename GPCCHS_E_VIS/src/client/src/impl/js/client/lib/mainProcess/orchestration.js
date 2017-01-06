@@ -192,26 +192,10 @@ export function tick() {
       execution.stop('play management');
     }
 
-    // update of viewData
-    if (viewMap !== previous.viewMap) {
-      execution.start('viewData cleaning');
-      const newState = cleanViewData(state, previous.viewMap, viewMap);
-      if (newState) {
-        dispatch(updateViewData(newState.viewData));
-      }
-      execution.stop('viewData cleaning');
-    }
-
     // pulled data
     rpc(1, 'getData', null, (dataToInject) => {
-      if (Object.keys(dataToInject).length) {
-        execution.start('data injection');
-        // TODO : in play mode inject + visuwindow
-        inject(getState(), dispatch, viewMap, dataToInject);
-        execution.stop('data injection', Object.keys(dataToInject).length);
-      }
-
       // TODO continue orchestration in this callback
+      dispatch(updateViewData(previous.viewMap, viewMap, dataToInject));
     });
 
     if (dataMap !== previous.dataMap) {

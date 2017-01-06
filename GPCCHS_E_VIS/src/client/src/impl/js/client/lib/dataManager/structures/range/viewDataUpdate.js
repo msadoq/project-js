@@ -3,26 +3,24 @@ import _findIndex from 'lodash/findIndex';
 import _findLastIndex from 'lodash/findLastIndex';
 import _keys from 'lodash/keys';
 import _each from 'lodash/each';
-import _reduce from 'lodash/reduce';
 import _concat from 'lodash/concat';
+import _reduce from 'lodash/reduce';
 
-export default function viewDataUpdate(state, viewId, view) {
+export default function viewDataUpdate(viewDataState, viewId, view) {
   const remove = view.remove;
   const add = view.add;
-  let viewState = state.viewData[viewId];
+  let viewState = viewDataState[viewId];
 
   if (remove && remove.lower && remove.upper) {
     viewState = viewRangeRemove(viewState, remove.lower, remove.upper);
   }
   viewState = viewRangeAdd(viewState, add);
 
-  return (viewState === state.viewData[viewId])
-  ? state
-  : { ...state,
-    viewData: {
-      ...state.viewData,
-      [viewId]: viewState
-    } };
+  return (viewState === viewDataState[viewId])
+  ? viewDataState
+  : { ...viewDataState,
+    [viewId]: viewState
+  };
 }
 
 
@@ -69,7 +67,7 @@ export function viewRangeRemove(state, lower, upper) {
 export function viewRangeAdd(state = {}, payloads) {
   const keys = _keys(payloads);
   if (!keys.length) {
-    // nothing to import contains no data
+    // no data
     return state;
   }
 
@@ -85,19 +83,18 @@ export function viewRangeAdd(state = {}, payloads) {
   //   { x: value.payload[ep.fieldX], value: value.payload[ep.fieldY] };
   // TODO: use reduce and improve code understanding
   _each(keys, (key) => {
-    const timestamp = parseInt(key, 10); // TODO : avoid by passing .index[] in payload
-    let noNumber = true;
+    // don't use payload if it's not a number
     const value = _reduce(payloads[key], (list, p, key1) => {
       if (typeof p.value === 'number') {
         list[key1] = p; // eslint-disable-line no-param-reassign
-        noNumber = false;
       }
       return list;
     }, {});
-    if (noNumber) {
+    if (!Object.keys(value).length) {
       return;
     }
 
+    const timestamp = parseInt(key, 10); // TODO : avoid by passing .index[] in payload
     // if new value should be pushed at end (most common case in play mode)
     if (lastIndex === -1 && timestamp > lastTime) {
       newState.columns = newState.columns.concat({ ...value, x: timestamp });

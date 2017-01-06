@@ -8,7 +8,7 @@ import {
 import classnames from 'classnames';
 import { HorizontalFormGroup } from '../Forms/';
 import styles from './fields.css';
-import operators from '../../../../common/operators';
+import { operators } from '../../../../common/operators';
 
 export default class FilterFields extends React.Component {
 
@@ -209,14 +209,14 @@ export default class FilterFields extends React.Component {
               disabled={error}
             />
             :
-              <input
-                className={classnames('btn', 'btn-success')}
-                style={{ width: '90px' }}
-                type="submit"
-                value="Add filter"
-                onClick={this.addFilter}
-                disabled={!canAdd || error}
-              />
+            <input
+              className={classnames('btn', 'btn-success')}
+              style={{ width: '90px' }}
+              type="submit"
+              value="Add filter"
+              onClick={this.addFilter}
+              disabled={!canAdd || error}
+            />
           }
         </HorizontalFormGroup>
       </div>

@@ -82,6 +82,8 @@ export default class Editor extends Component {
     const { currentDisplay, search } = this.state;
     const {
       closeEditor,
+      updateTitleStyle,
+      updateTitle,
       configuration: {
         entryPoints,
         title,

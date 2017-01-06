@@ -248,8 +248,7 @@ export default class StateColorsFields extends React.Component {
               value="Edit state color"
               onClick={this.updateStateColor}
               disabled={error}
-            />
-            :
+            /> :
               <input
                 className={classnames('btn', 'btn-success')}
                 style={{ width: '110px' }}

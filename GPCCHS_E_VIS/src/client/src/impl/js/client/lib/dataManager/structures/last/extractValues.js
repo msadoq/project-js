@@ -43,7 +43,7 @@ export function select(remoteIdPayload, ep, epName, viewSubState) {
   return newValue;
 }
 
-export default function extractValues(state, payload, viewId, entryPoints, count) {
+export default function extractValues(viewDataState, payload, viewId, entryPoints, count) {
   let viewData;
   // Entry points
   _each(entryPoints, (ep, epName) => {
@@ -52,7 +52,7 @@ export default function extractValues(state, payload, viewId, entryPoints, count
       return;
     }
     // Get current state for update
-    const currentSubState = _get(state, ['viewData', viewId]);
+    const currentSubState = _get(viewDataState, [viewId]);
     // compute new data
     const newData = select(payload[ep.remoteId], ep, epName, currentSubState);
     if (!newData) {

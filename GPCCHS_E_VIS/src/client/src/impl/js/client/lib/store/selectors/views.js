@@ -3,7 +3,7 @@ import _get from 'lodash/get';
 import u from 'updeep';
 
 import { getViewData } from './viewData';
-import { compile } from '../../common/conditions';
+import { compile } from '../../common/operators';
 
 export const getViews = state => _get(state, ['views']);
 
@@ -83,17 +83,19 @@ export const getPlotViewData = createSelector(
     getViewData,
     (entryPoints, data) => u({
       columns: columns =>
-        columns.map(col =>
-          Object.keys(col).reduce((acc, epName) => ({
-            ...acc,
-            ...u({
-              [epName]: ({ value, ...args }) => ({
-                value,
-                ...args,
-                ...getEntryPointColorObj({ entryPoints, epName, value, dataProp: 'connectedDataY' })
-              })
-            }, col)
-          }), {})
+        (columns || []).map(col =>
+          Object.keys(col)
+            .filter(k => k !== 'x')
+            .reduce((acc, epName) => ({
+              ...acc,
+              ...u({
+                [epName]: ({ value, ...args }) => ({
+                  value,
+                  ...args,
+                  ...getEntryPointColorObj({ entryPoints, epName, value, dataProp: 'connectedDataY' })
+                })
+              }, col)
+            }), {})
         )
     }, data)
 );

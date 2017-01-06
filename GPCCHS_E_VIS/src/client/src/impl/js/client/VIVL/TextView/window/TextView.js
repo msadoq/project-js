@@ -28,6 +28,19 @@ function parseDragData(data) {
   };
 }
 
+const getTextStyle = color => ({
+  textShadow: `
+    0 0 5px rgba(255, 255, 255, 0.1),
+    0 0 10px rgba(255, 255, 255, 0.1),
+    0 0 20px ${color},
+    0 0 30px ${color},
+    0 0 40px ${color},
+    0 0 55px ${color},
+    0 0 75px ${color}
+  `,
+  color
+});
+
 class TextView extends Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
@@ -78,9 +91,7 @@ class TextView extends Component {
 
             nodes.push(React.createElement('span', {
               key: `${index}-${i}`,
-              style: {
-                backgroundColor: _get(valueObj, ['color'])
-              },
+              style: getTextStyle(_get(valueObj, ['color'])),
               className: styles[`monit-${_get(valueObj, 'monit')}`] || styles['monit-ok'],
             }, _get(valueObj, 'value')));
           }
@@ -143,7 +154,6 @@ export default connect(
   }, dispatch),
   (stateProps, dispatchProps, ownProps) => {
     const data = getTextViewData(stateProps.state, ownProps.viewId);
-    console.log('DATA', data);
     return _omit({
       ...stateProps,
       ...dispatchProps,

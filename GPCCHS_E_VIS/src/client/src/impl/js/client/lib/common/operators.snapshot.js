@@ -1,10 +1,10 @@
-import { compile } from './conditions';
+import { compile } from './operators';
 
 describe('state colors conditions', () => {
   it('equals', () => {
     const condition = {
       field: 'convertedValue',
-      operator: 'equals',
+      operator: '=',
       operand: '1'
     };
 
@@ -14,7 +14,7 @@ describe('state colors conditions', () => {
   it('notEquals', () => {
     const condition = {
       field: 'convertedValue',
-      operator: 'notEquals',
+      operator: '!=',
       operand: '1'
     };
 
@@ -24,7 +24,7 @@ describe('state colors conditions', () => {
   it('inf', () => {
     const condition = {
       field: 'convertedValue',
-      operator: 'inf',
+      operator: '<',
       operand: '1'
     };
 
@@ -35,7 +35,7 @@ describe('state colors conditions', () => {
   it('infOrEq', () => {
     const condition = {
       field: 'convertedValue',
-      operator: 'infOrEq',
+      operator: '<=',
       operand: '1'
     };
 
@@ -46,7 +46,7 @@ describe('state colors conditions', () => {
   it('sup', () => {
     const condition = {
       field: 'convertedValue',
-      operator: 'sup',
+      operator: '>',
       operand: '1'
     };
 
@@ -57,7 +57,7 @@ describe('state colors conditions', () => {
   it('supOrEq', () => {
     const condition = {
       field: 'convertedValue',
-      operator: 'supOrEq',
+      operator: '>=',
       operand: '1'
     };
 
@@ -68,7 +68,7 @@ describe('state colors conditions', () => {
   it('CONTAINS', () => {
     const condition = {
       field: 'convertedValue',
-      operator: 'CONTAINS',
+      operator: 'contains',
       operand: 'abc'
     };
 
@@ -78,7 +78,7 @@ describe('state colors conditions', () => {
   it('!CONTAINS', () => {
     const condition = {
       field: 'convertedValue',
-      operator: '!CONTAINS',
+      operator: 'icontains',
       operand: 'abc'
     };
 

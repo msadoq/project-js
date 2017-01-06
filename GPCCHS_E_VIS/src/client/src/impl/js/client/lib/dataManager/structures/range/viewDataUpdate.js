@@ -9,13 +9,16 @@ import _reduce from 'lodash/reduce';
 export default function viewDataUpdate(viewDataState, viewId, view) {
   const remove = view.remove;
   const add = view.add;
-  let viewState = viewDataState[viewId];
+  let viewState = viewDataState ? viewDataState[viewId] : {};
 
   if (remove && remove.lower && remove.upper) {
     viewState = viewRangeRemove(viewState, remove.lower, remove.upper);
   }
   viewState = viewRangeAdd(viewState, add);
 
+  if (!viewDataState) {
+    return { [viewId]: viewState };
+  }
   return (viewState === viewDataState[viewId])
   ? viewDataState
   : { ...viewDataState,

@@ -9,7 +9,7 @@ import { getPlayingTimebarId } from '../selectors/hsc';
 /**
  * Simple actions
  */
-export const add = simple(types.WS_WINDOW_ADD, 'windowId', 'title', 'geometry', 'pages',
+export const addWindow = simple(types.WS_WINDOW_ADD, 'windowId', 'title', 'geometry', 'pages',
   'focusedPage', 'isModified');
 export const remove = simple(types.WS_WINDOW_REMOVE, 'windowId');
 export const mountPage = simple(types.WS_WINDOW_PAGE_MOUNT, 'windowId', 'pageId');
@@ -26,6 +26,16 @@ export const restore = simple(types.WS_WINDOW_RESTORE, 'windowId');
 /**
  * Compound actions
  */
+export function add(windowId, title, geometry, pages, focusedPage, isModified) {
+  return (dispatch) => {
+    dispatch(addWindow(windowId, title, geometry, pages, focusedPage, isModified));
+    // Mount the first page if no page
+    if (!pages) {
+      dispatch(addAndMount(windowId));
+    }
+  };
+}
+
 export function focusPage(windowId, pageId) {
   return (dispatch, getState) => {
     const playingTimebarId = getPlayingTimebarId(getState());

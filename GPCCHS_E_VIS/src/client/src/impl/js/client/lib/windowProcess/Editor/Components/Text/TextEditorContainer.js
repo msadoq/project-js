@@ -1,9 +1,18 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import TextEditor from './TextEditor';
-import * as actions from '../../../../store/actions/views';
+import {
+  addEntryPoint,
+  removeEntryPoint,
+} from '../../../../store/actions/views';
 
-const TextEditorContainer = connect(null, actions)(TextEditor);
+const TextEditorContainer = connect(
+  null,
+  {
+    addEntryPoint,
+    removeEntryPoint,
+  }
+)(TextEditor);
 
 TextEditorContainer.propTypes = {
   viewId: PropTypes.string.isRequired,

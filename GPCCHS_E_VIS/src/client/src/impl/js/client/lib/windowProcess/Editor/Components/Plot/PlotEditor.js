@@ -47,7 +47,6 @@ const newEntryPoint = {
 export default class PlotEditor extends Component {
   static propTypes = {
     // actions
-    updateEntryPoint: PropTypes.func.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
     removeEntryPoint: PropTypes.func.isRequired,
 
@@ -88,14 +87,7 @@ export default class PlotEditor extends Component {
       search: ''
     });
   }
-  handleEntryPoint = (key, label, newVal) => {
-    const { configuration, updateEntryPoint, viewId } = this.props;
-    const currentEntryPoint = configuration[`entryPoints[${key}]`];
-    updateEntryPoint(viewId, key, {
-      ...currentEntryPoint,
-      [label]: newVal
-    });
-  }
+
   handleAddEntryPoint = (values) => {
     const { addEntryPoint, viewId } = this.props;
     addEntryPoint(
@@ -106,6 +98,7 @@ export default class PlotEditor extends Component {
       }
     );
   }
+
   removeEntryPoint = (key) => {
     const { removeEntryPoint, viewId } = this.props;
     removeEntryPoint(viewId, key);
@@ -160,7 +153,6 @@ export default class PlotEditor extends Component {
               key="EntryPointTree"
               entryPoints={entryPoints}
               search={search}
-              handleEntryPoint={this.handleEntryPoint}
               remove={this.removeEntryPoint}
             />
           ]}

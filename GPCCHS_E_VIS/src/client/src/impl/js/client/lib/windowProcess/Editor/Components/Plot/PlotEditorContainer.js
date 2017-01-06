@@ -1,9 +1,18 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import PlotEditor from './PlotEditor';
-import * as actions from '../../../../store/actions/views';
+import {
+  addEntryPoint,
+  removeEntryPoint,
+} from '../../../../store/actions/views';
 
-const PlotEditorContainer = connect(null, actions)(PlotEditor);
+const PlotEditorContainer = connect(
+  null,
+  {
+    addEntryPoint,
+    removeEntryPoint,
+  }
+)(PlotEditor);
 
 PlotEditorContainer.propTypes = {
   viewId: PropTypes.string.isRequired,

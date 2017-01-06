@@ -5,6 +5,12 @@ import {
   getView,
   getEntryPointOnAxis,
   getModifiedViewsIds,
+  getViewConfiguration,
+  getViewEntryPoints,
+  getViewEntryPoint,
+  getViewEntryPointStateColors,
+  getTextViewData,
+  getPlotViewData,
 } from './views';
 
 describe('store:views:selectors', () => {
@@ -67,5 +73,262 @@ describe('store:views:selectors', () => {
       }
     };
     getModifiedViewsIds(state).should.eql(['view1', 'view3']);
+  });
+  it('getViewConfiguration', () => {
+    const state = {
+      views: {
+        myViewId: {
+          configuration: {
+            title: 'Title 1',
+          }
+        },
+      },
+    };
+    getViewConfiguration(state, 'myViewId').should.eql({
+      title: 'Title 1'
+    });
+  });
+  it('getViewEntryPoints', () => {
+    const state = {
+      views: {
+        myViewId: {
+          configuration: {
+            title: 'Title 1',
+            entryPoints: [
+              { name: 'AGA_AM_PRIORITY' },
+              { name: 'TMMGT_BC_VIRTCHAN3' },
+            ]
+          }
+        },
+      },
+    };
+    getViewEntryPoints(state, 'myViewId').should.eql([
+      { name: 'AGA_AM_PRIORITY' },
+      { name: 'TMMGT_BC_VIRTCHAN3' },
+    ]);
+  });
+  it('getViewEntryPoint', () => {
+    const state = {
+      views: {
+        myViewId: {
+          configuration: {
+            title: 'Title 1',
+            entryPoints: [
+              { name: 'AGA_AM_PRIORITY' },
+              { name: 'TMMGT_BC_VIRTCHAN3' },
+            ]
+          }
+        },
+      },
+    };
+    getViewEntryPoint(state, 'myViewId', 'TMMGT_BC_VIRTCHAN3').should.eql({
+      name: 'TMMGT_BC_VIRTCHAN3'
+    });
+  });
+  it('getViewEntryPointStateColors', () => {
+    const state = {
+      views: {
+        myViewId: {
+          configuration: {
+            title: 'Title 1',
+            entryPoints: [{
+              name: 'ep1',
+              stateColors: [
+                {
+                  color: '#f44336',
+                  condition: {
+                    field: 'extractedValue',
+                    operator: 'sup',
+                    operand: '1'
+                  }
+                }
+              ]
+            }]
+          }
+        },
+      },
+    };
+    getViewEntryPointStateColors(state, 'myViewId', 'ep1').should.eql([
+      {
+        color: '#f44336',
+        condition: {
+          field: 'extractedValue',
+          operator: 'sup',
+          operand: '1'
+        }
+      }]);
+  });
+  describe('getViewEntryPointColors', () => {
+    it('For TextView', () => {
+      const state = {
+        views: {
+          myViewId: {
+            configuration: {
+              title: 'Title 1',
+              entryPoints: [{
+                name: 'ep1',
+                connectedData: {
+                  formula: 'Reporting.ep1<ReportingParameter>.extractedValue'
+                },
+                stateColors: [
+                  {
+                    color: '#FF0000',
+                    condition: {
+                      field: 'extractedValue',
+                      operator: 'inf',
+                      operand: '1'
+                    }
+                  },
+                  {
+                    color: '#00FF00',
+                    condition: {
+                      field: 'extractedValue',
+                      operator: 'sup',
+                      operand: '1'
+                    }
+                  }
+                ]
+              }, {
+                name: 'ep2',
+                connectedData: {
+                  formula: 'Reporting.ep2<ReportingParameter>.extractedValue'
+                },
+                stateColors: [
+                  {
+                    color: '#0000FF',
+                    condition: {
+                      field: 'extractedValue',
+                      operator: 'infOrEq',
+                      operand: '1'
+                    }
+                  },
+                  {
+                    color: '#F0F0F0',
+                    condition: {
+                      field: 'extractedValue',
+                      operator: 'sup',
+                      operand: '1'
+                    }
+                  }
+                ]
+              }, {
+                name: 'ep3',
+                connectedData: {
+                  formula: 'Reporting.ep2<ReportingParameter>.extractedValue'
+                },
+                stateColors: [
+                  {
+                    color: '#FFFFFF',
+                    condition: {
+                      field: 'groundDate',
+                      operator: 'infOrEq',
+                      operand: '1'
+                    }
+                  },
+                ]
+              }]
+            }
+          },
+        },
+        viewData: {
+          myViewId: {
+            index: {
+              ep1: 1480578457000,
+              ep2: 1480578457000,
+              ep3: 1480578457000,
+            },
+            values: {
+              ep1: { value: 2 },
+              ep2: { value: 1 },
+              ep3: { value: 1 }
+            }
+          }
+        }
+      };
+      getTextViewData(state, 'myViewId').should.eql({
+        index: {
+          ep1: 1480578457000,
+          ep2: 1480578457000,
+          ep3: 1480578457000,
+        },
+        values: {
+          ep1: {
+            value: 2,
+            color: '#00FF00'
+          },
+          ep2: {
+            value: 1,
+            color: '#0000FF'
+          },
+          ep3: {
+            value: 1,
+          }
+        }
+      });
+    });
+    it('For PlotView', () => {
+      const state = {
+        views: {
+          myViewId: {
+            configuration: {
+              title: 'Title 1',
+              entryPoints: [{
+                name: 'ep1',
+                connectedDataX: {
+                  formula: 'Reporting.ep1<ReportingParameter>.groundDate'
+                },
+                connectedDataY: {
+                  formula: 'Reporting.ep1<ReportingParameter>.extractedValue'
+                },
+                stateColors: [
+                  {
+                    color: '#FF0000',
+                    condition: {
+                      field: 'extractedValue',
+                      operator: 'inf',
+                      operand: '1'
+                    }
+                  },
+                  {
+                    color: '#00FF00',
+                    condition: {
+                      field: 'extractedValue',
+                      operator: 'sup',
+                      operand: '1'
+                    }
+                  }
+                ]
+              }]
+            }
+          },
+        },
+        viewData: {
+          myViewId: {
+            index: [
+              1480578427000,
+              1480578428000,
+              1480578429000
+            ],
+            columns: [
+              { ep1: { value: 0.5 } },
+              { ep1: { value: 1 } },
+              { ep1: { value: 2 } },
+            ]
+          }
+        }
+      };
+      getPlotViewData(state, 'myViewId').should.eql({
+        index: [
+          1480578427000,
+          1480578428000,
+          1480578429000
+        ],
+        columns: [
+          { ep1: { value: 0.5, color: '#FF0000' } },
+          { ep1: { value: 1 } },
+          { ep1: { value: 2, color: '#00FF00' } },
+        ]
+      });
+    });
   });
 });

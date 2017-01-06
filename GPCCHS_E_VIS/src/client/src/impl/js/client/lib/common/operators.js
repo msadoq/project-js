@@ -1,7 +1,6 @@
-
 import globalConstants from 'common/constants';
 
-export default {
+const operators = {
   '=': globalConstants.FILTERTYPE_EQ,
   '!=': globalConstants.FILTERTYPE_NE,
   '<': globalConstants.FILTERTYPE_LT,
@@ -10,4 +9,27 @@ export default {
   '>=': globalConstants.FILTERTYPE_GE,
   contains: globalConstants.FILTERTYPE_CONTAINS,
   icontains: globalConstants.FILTERTYPE_ICONTAINS,
+};
+
+const operatorFns = {
+  '=': (f, o) => f === o,
+  '!=': (f, o) => f !== o,
+  '<': (f, o) => f < o,
+  '<=': (f, o) => f <= o,
+  '>': (f, o) => f > o,
+  '>=': (f, o) => f >= o,
+  contains: (f, o) => (new RegExp(o, 'i')).test(f),
+  icontains: (f, o) => !(new RegExp(o, 'i')).test(f)
+};
+
+const tryParseNumber = n => (isNaN(Number(n)) ? n : Number(n));
+
+const compile = ({
+  operator,
+  operand
+}) => f => operatorFns[operator](f, tryParseNumber(operand));
+
+export default {
+  operators,
+  compile
 };

@@ -13,7 +13,7 @@ import {
   getPlotViewData,
 } from './views';
 
-describe('store:views:selectors', () => {
+describe.only('store:views:selectors', () => {
   it('getView', () => {
     const { getState } = getStore({
       views: {
@@ -138,7 +138,7 @@ describe('store:views:selectors', () => {
                   color: '#f44336',
                   condition: {
                     field: 'extractedValue',
-                    operator: 'sup',
+                    operator: '>',
                     operand: '1'
                   }
                 }
@@ -153,7 +153,7 @@ describe('store:views:selectors', () => {
         color: '#f44336',
         condition: {
           field: 'extractedValue',
-          operator: 'sup',
+          operator: '>',
           operand: '1'
         }
       }]);
@@ -175,7 +175,7 @@ describe('store:views:selectors', () => {
                     color: '#FF0000',
                     condition: {
                       field: 'extractedValue',
-                      operator: 'inf',
+                      operator: '<',
                       operand: '1'
                     }
                   },
@@ -183,7 +183,7 @@ describe('store:views:selectors', () => {
                     color: '#00FF00',
                     condition: {
                       field: 'extractedValue',
-                      operator: 'sup',
+                      operator: '>',
                       operand: '1'
                     }
                   }
@@ -198,7 +198,7 @@ describe('store:views:selectors', () => {
                     color: '#0000FF',
                     condition: {
                       field: 'extractedValue',
-                      operator: 'infOrEq',
+                      operator: '<=',
                       operand: '1'
                     }
                   },
@@ -206,7 +206,7 @@ describe('store:views:selectors', () => {
                     color: '#F0F0F0',
                     condition: {
                       field: 'extractedValue',
-                      operator: 'sup',
+                      operator: '>',
                       operand: '1'
                     }
                   }
@@ -221,7 +221,7 @@ describe('store:views:selectors', () => {
                     color: '#FFFFFF',
                     condition: {
                       field: 'groundDate',
-                      operator: 'infOrEq',
+                      operator: '<=',
                       operand: '1'
                     }
                   },
@@ -285,7 +285,7 @@ describe('store:views:selectors', () => {
                     color: '#FF0000',
                     condition: {
                       field: 'extractedValue',
-                      operator: 'inf',
+                      operator: '<',
                       operand: '1'
                     }
                   },
@@ -293,7 +293,7 @@ describe('store:views:selectors', () => {
                     color: '#00FF00',
                     condition: {
                       field: 'extractedValue',
-                      operator: 'sup',
+                      operator: '>',
                       operand: '1'
                     }
                   }
@@ -310,9 +310,9 @@ describe('store:views:selectors', () => {
               1480578429000
             ],
             columns: [
-              { ep1: { value: 0.5 } },
-              { ep1: { value: 1 } },
-              { ep1: { value: 2 } },
+              { ep1: { value: 0.5 }, x: 1480578427000 },
+              { ep1: { value: 1 }, x: 1480578428000 },
+              { ep1: { value: 2 }, x: 1480578429000 },
             ]
           }
         }
@@ -324,9 +324,9 @@ describe('store:views:selectors', () => {
           1480578429000
         ],
         columns: [
-          { ep1: { value: 0.5, color: '#FF0000' } },
-          { ep1: { value: 1 } },
-          { ep1: { value: 2, color: '#00FF00' } },
+          { ep1: { value: 0.5, color: '#FF0000' }, x: 1480578427000 },
+          { ep1: { value: 1 }, x: 1480578428000 },
+          { ep1: { value: 2, color: '#00FF00' }, x: 1480578429000 },
         ]
       });
     });

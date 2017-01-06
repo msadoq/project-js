@@ -15,6 +15,7 @@ import {
   // interactive
 } from 'react-stockcharts';
 import { hexToRGBA } from 'react-stockcharts/lib/utils';
+import _omit from 'lodash/omit';
 import {
   getLines,
   getLineMarker,
@@ -28,6 +29,7 @@ import {
 import { monitoringStateColors } from '../../../lib/windowProcess/common/colors';
 import { addEntryPoint } from '../../../lib/store/actions/views';
 import DroppableContainer from '../../../lib/windowProcess/View/DroppableContainer';
+import { getPlotViewData } from '../../../lib/store/selectors/views';
 
 const logger = getLogger('GPCCHS:view:plot');
 
@@ -411,8 +413,11 @@ class PlotView extends PureComponent {
       .map(line => ({
         label: line.name,
         value: _get(currentItem, [line.key, 'value']),
-        fillValue: _get(monitoringStateColors, _get(currentItem, [line.key, 'monit'])),
-        monitValue: _get(currentItem, [line.key, 'monit']),
+        fillValue: _get(
+          currentItem,
+          [line.key, 'color'],
+          _get(monitoringStateColors, _get(currentItem, [line.key, 'monit']))
+        ),
         stroke: line.color,
       })),
   });
@@ -638,8 +643,19 @@ class PlotView extends PureComponent {
 const SizeablePlotView = Dimensions()(PlotView);
 
 export default connect(
-  null,
+  state => ({
+    state
+  }),
   dispatch => bindActionCreators({
     addEntryPoint
-  }, dispatch)
+  }, dispatch),
+  (stateProps, dispatchProps, ownProps) => {
+    const data = getPlotViewData(stateProps.state, ownProps.viewId); // eslint-disable-line
+    return _omit({
+      ...stateProps,
+      ...dispatchProps,
+      ...ownProps,
+      data
+    }, ['state']);
+  }
 )(SizeablePlotView); // eslint-disable-line new-cap

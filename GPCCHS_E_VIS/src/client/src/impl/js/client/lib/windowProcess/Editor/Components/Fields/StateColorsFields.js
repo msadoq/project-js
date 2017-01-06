@@ -9,7 +9,7 @@ import classnames from 'classnames';
 import { HorizontalFormGroup } from '../Forms/';
 import styles from './fields.css';
 import ColorPicker from '../ColorPicker';
-import operators from '../../../../common/operators';
+import { operators } from '../../../../common/operators';
 
 export default class StateColorsFields extends React.Component {
 

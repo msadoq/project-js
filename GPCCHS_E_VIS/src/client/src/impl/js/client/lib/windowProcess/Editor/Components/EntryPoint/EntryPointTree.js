@@ -19,7 +19,6 @@ export default class EntryPointTree extends React.Component {
   static propTypes = {
     entryPoints: PropTypes.array,
     search: PropTypes.string,
-    handleEntryPoint: PropTypes.func,
     remove: PropTypes.func
   }
 
@@ -46,7 +45,7 @@ export default class EntryPointTree extends React.Component {
   render() {
     const { viewId, focusedPageId } = this.context;
     const mask = `${this.props.search}.*`;
-    const { entryPoints, handleEntryPoint } = this.props;
+    const { entryPoints } = this.props;
     const list = entryPoints
       .filter(entryPoint => entryPoint.name.toLowerCase().match(mask.toLowerCase()));
 
@@ -96,7 +95,6 @@ export default class EntryPointTree extends React.Component {
                 viewId={viewId}
                 focusedPageId={focusedPageId}
                 entryPoint={entryPoint}
-                handleEntryPoint={handleEntryPoint}
               />}
             </Panel>
           );

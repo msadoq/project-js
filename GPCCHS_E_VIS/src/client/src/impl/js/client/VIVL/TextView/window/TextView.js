@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Parser, ProcessNodeDefinitions } from 'html-to-react';
 import _get from 'lodash/get';
+import _omit from 'lodash/omit';
 import getLogger from 'common/log';
 import { html as beautifyHtml } from 'js-beautify';
 import { DEFAULT_FIELD } from 'common/constants';
@@ -10,6 +11,7 @@ import { DEFAULT_FIELD } from 'common/constants';
 import WYSIWYG from './WYSIWYG';
 
 import { addEntryPoint } from '../../../lib/store/actions/views';
+import { getTextViewData } from '../../../lib/store/selectors/views';
 import DroppableContainer from '../../../lib/windowProcess/View/DroppableContainer';
 
 import styles from './TextView.css';
@@ -32,7 +34,7 @@ class TextView extends Component {
     data: PropTypes.shape({
       values: PropTypes.object,
     }),
-    addEP: PropTypes.func,
+    addEntryPoint: PropTypes.func,
     configuration: PropTypes.object.isRequired,
     isViewsEditorOpen: PropTypes.bool,
     updateContent: PropTypes.func,
@@ -55,7 +57,7 @@ class TextView extends Component {
     const content = JSON.parse(data);
 
     // eslint-disable-next-line no-console
-    this.props.addEP(
+    this.props.addEntryPoint(
       this.props.viewId,
       parseDragData(content)
     );
@@ -71,10 +73,14 @@ class TextView extends Component {
           const nodes = [];
           for (let i = 0, len = matches.length; i < len; i += 1) {
             const match = matches[i];
-            const value = match.substring(2, match.length - 2);
-            const valueObj = _get(this.props.data, `values[${value}]`);
+            const epName = match.substring(2, match.length - 2);
+            const valueObj = _get(this.props.data, `values[${epName}]`);
+
             nodes.push(React.createElement('span', {
               key: `${index}-${i}`,
+              style: {
+                backgroundColor: _get(valueObj, ['color'])
+              },
               className: styles[`monit-${_get(valueObj, 'monit')}`] || styles['monit-ok'],
             }, _get(valueObj, 'value')));
           }
@@ -129,8 +135,20 @@ class TextView extends Component {
 }
 
 export default connect(
-  s => s,
+  state => ({
+    state
+  }),
   dispatch => bindActionCreators({
-    addEP: addEntryPoint
+    addEntryPoint
   }, dispatch),
+  (stateProps, dispatchProps, ownProps) => {
+    const data = getTextViewData(stateProps.state, ownProps.viewId);
+    console.log('DATA', data);
+    return _omit({
+      ...stateProps,
+      ...dispatchProps,
+      ...ownProps,
+      data
+    }, ['state']);
+  }
 )(TextView);

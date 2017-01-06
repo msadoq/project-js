@@ -101,7 +101,7 @@ export function addEntryPoint(viewId, entryPoint) { // TODO add test
     const structureType = vivl(currentView.type, 'structureType')();
     const currentPageId = getPageIdByViewId(state, { viewId });
 
-    const domain = state.domains[0].name; // TODO must be replaced by *, but for dev it's ok
+    const domain = state.domains[0].name; // TODO should be replaced by *, but for dev it's ok
     // const domain = '*';
 
     switch (structureType) { // eslint-disable-line default-case

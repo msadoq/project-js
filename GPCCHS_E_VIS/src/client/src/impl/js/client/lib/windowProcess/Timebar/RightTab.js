@@ -21,7 +21,6 @@ class RightTabContent extends Component {
     timelines: PropTypes.array.isRequired,
     containerWidth: PropTypes.number,
     timelinesVerticalScroll: PropTypes.number,
-    currentSessionExists: PropTypes.bool.isRequired,
   }
 
   /*
@@ -108,7 +107,6 @@ class RightTabContent extends Component {
       containerWidth,
       updateCursors,
       updateViewport,
-      currentSessionExists,
     } = this.props;
 
     return (
@@ -129,7 +127,6 @@ class RightTabContent extends Component {
           play={play}
           pause={pause}
           toggleTimesetter={toggleTimesetter}
-          currentSessionExists={currentSessionExists}
         />
         <TimeBar
           viewport={this.formatViewportDimensions()}

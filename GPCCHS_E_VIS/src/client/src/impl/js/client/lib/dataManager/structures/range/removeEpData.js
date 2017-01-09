@@ -3,10 +3,10 @@ import _find from 'lodash/find';
 import _reduce from 'lodash/reduce';
 import u from 'updeep';
 
-export default function removeEpData(state, viewId, epName) {
-  const currentViewData = state.viewData[viewId];
+export default function removeEpData(stateViewData, viewId, epName) {
+  const currentViewData = stateViewData[viewId];
   if (!currentViewData) {
-    return state;
+    return stateViewData;
   }
   // looking over columns
   const newIndex = [];
@@ -32,12 +32,11 @@ export default function removeEpData(state, viewId, epName) {
 
   // No data, remove viewId
   if (newColumns.length === 0) {
-    return u({ viewData: u.omit(viewId) }, state);
+    return u(u.omit(viewId), stateViewData);
   }
   // Return updated state
-  return u({ viewData: {
-    [viewId]: {
-      index: newIndex,
-      columns: newColumns,
-    } } }, state);
+  return u({ [viewId]: {
+    index: newIndex,
+    columns: newColumns,
+  } }, stateViewData);
 }

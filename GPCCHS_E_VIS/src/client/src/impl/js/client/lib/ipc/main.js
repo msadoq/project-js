@@ -64,7 +64,7 @@ export function init() {
       case 'reloadView': {
         if (payload.isModified) {
           // Ask confirmation
-          showMessageDialog(BrowserWindow.getFocusedWindow(), 'Unsaved view',
+          showWarningMessage(BrowserWindow.getFocusedWindow(), 'Unsaved view',
           'If you continue, view modifications will be lost.', ['cancel', 'continue'], (button) => {
             if (button === 0) {
               e.sender.send('mainResponse', { event: 'runCallback',

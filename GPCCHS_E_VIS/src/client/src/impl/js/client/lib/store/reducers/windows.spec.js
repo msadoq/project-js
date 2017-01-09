@@ -14,11 +14,11 @@ describe('store:windows:reducer', () => {
   });
   describe('add', () => {
     it('add', () => {
-      const state = reducer(
-        undefined,
-        actions.add('myWindowId', 'Title', { x: 110 }, ['myPageId'])
-      );
-      state.myWindowId.should.deep.eql({
+      const { dispatch, getState } = getStore({});
+      // const state = reducer(
+      //   undefined,
+      dispatch(actions.add('myWindowId', 'Title', { x: 110 }, ['myPageId']));
+      getState().windows.myWindowId.should.deep.eql({
         title: 'Title',
         focusedPage: null,
         pages: ['myPageId'],
@@ -29,19 +29,15 @@ describe('store:windows:reducer', () => {
       });
     });
     it('add empty', () => {
-      const state = reducer(
-        undefined,
-        actions.add('myWindowId')
-      );
-      state.myWindowId.should.deep.eql({
-        title: 'Unknown',
-        focusedPage: null,
-        pages: [],
-        minimized: false,
-        geometry: { x: 10, y: 10, w: 800, h: 600 },
-        debug: { whyDidYouUpdate: false, timebarVisibility: true },
-        isModified: false,
-      });
+      const { dispatch, getState } = getStore({});
+      dispatch(actions.add('myWindowId'));
+      const win = getState().windows.myWindowId;
+      win.title.should.eql('Unknown');
+      win.isModified.should.eql(true);
+      win.pages.should.have.length(1);
+      win.focusedPage.should.eql(win.pages[0]);
+      win.minimized.should.eql(false);
+      win.geometry.should.deep.eql({ x: 10, y: 10, w: 800, h: 600 });
     });
   });
   describe('remove', () => {

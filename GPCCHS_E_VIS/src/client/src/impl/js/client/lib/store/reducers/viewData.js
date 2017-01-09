@@ -28,7 +28,7 @@ export default function viewData(state = {}, action) {
       if (dataKeys.length) {
         newState = inject(newState || state, newViewMap, action.payload.dataToInject);
       }
-      return newState || state;
+      return newState || {};
     }
     default:
       return state;

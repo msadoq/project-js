@@ -1,9 +1,9 @@
 import u from 'updeep';
 
-export default function updateEpLabel(state, viewId, oldLabel, newLabel) {
-  const viewData = state.viewData[viewId];
+export default function updateEpLabel(stateViewData, viewId, oldLabel, newLabel) {
+  const viewData = stateViewData[viewId];
   if (!oldLabel || !newLabel || oldLabel === newLabel || !viewData) {
-    return state;
+    return stateViewData;
   }
 
   const newColumns = viewData.columns.reduce((list, column) => {
@@ -13,14 +13,5 @@ export default function updateEpLabel(state, viewId, oldLabel, newLabel) {
     return list;
   }, []);
 
-  return {
-    ...state,
-    viewData: {
-      ...state.viewData,
-      [viewId]: {
-        ...state.viewData[viewId],
-        columns: newColumns
-      }
-    }
-  };
+  return u({ [viewId]: { columns: newColumns } }, stateViewData);
 }

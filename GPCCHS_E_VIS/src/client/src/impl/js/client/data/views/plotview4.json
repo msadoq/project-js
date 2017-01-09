@@ -252,6 +252,7 @@
     "color": "#000000"
   },
   "backgroundColor": "#FFFFFF",
+  "showYAxes": "left",
   "legend": {
     "style": {
       "font": "Arial",

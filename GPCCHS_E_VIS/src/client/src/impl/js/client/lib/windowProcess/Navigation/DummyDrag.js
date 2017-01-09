@@ -21,18 +21,21 @@ const EntryPoints = [
     catalogName: 'Reporting',
     nameSpace: '',
     item: 'ATT_BC_REVTCOUNT1',
+    comObjects: ['ReportingParameter']
   },
   {
     sessionName: '',
     catalogName: 'Reporting',
     nameSpace: '',
     item: 'AGA_AM_QP1',
+    comObjects: []
   },
   {
     sessionName: '',
     catalogName: 'Reporting',
     nameSpace: '',
     item: 'MIS_BC_DALMVOLTAGE',
+    comObjects: ['ReportingParameter', 'OtherParameter']
   },
 ];
 

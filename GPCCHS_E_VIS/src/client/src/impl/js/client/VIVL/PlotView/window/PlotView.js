@@ -10,7 +10,6 @@ import { scaleTime } from 'd3-scale';
 import getLogger from 'common/log';
 import {
   DEFAULT_FIELD,
-  DEFAULT_COM_OBJECT,
 } from 'common/constants';
 import {
   ChartCanvas, Chart, series, annotation,
@@ -19,6 +18,7 @@ import {
 } from 'react-stockcharts';
 import { hexToRGBA } from 'react-stockcharts/lib/utils';
 import _omit from 'lodash/omit';
+import R from 'ramda';
 import {
   getLines,
   getLineMarker,
@@ -54,15 +54,25 @@ const edgeIndicatorArrowWidth = 10;
 const tooltipYMargin = 5;
 const badgeWidth = 30;
 
+const getComObject = comObjects =>
+  R.pipe(
+    R.defaultTo([]),
+    R.ifElse(
+      a => a.length === 1,
+      R.nth(0),
+      () => 'UNKNOWN_COM_OBJECT'
+    ),
+  )(comObjects);
+
 // parse clipboard data to create partial entry point
 function parseDragData(data) {
   return {
     name: data.item,
     connectedDataX: {
-      formula: `${data.catalogName}.${data.item}<${DEFAULT_COM_OBJECT}>.groundDate`,
+      formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.groundDate`,
     },
     connectedDataY: {
-      formula: `${data.catalogName}.${data.item}<${DEFAULT_COM_OBJECT}>.${DEFAULT_FIELD}`,
+      formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.${DEFAULT_FIELD}`,
     },
   };
 }

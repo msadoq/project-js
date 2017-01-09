@@ -5,7 +5,6 @@ module.exports = {
   // EDITOR
   WILDCARD_CHARACTER: '*',
   DEFAULT_FIELD: 'extractedValue',
-  DEFAULT_COM_OBJECT: 'ReportingParameter',
   // MESSAGE TYPES
   MESSAGETYPE_DOMAIN_QUERY: 0,
   MESSAGETYPE_TIMEBASED_QUERY: 1,

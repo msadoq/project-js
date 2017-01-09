@@ -4,11 +4,12 @@ import { bindActionCreators } from 'redux';
 import { Parser, ProcessNodeDefinitions } from 'html-to-react';
 import _get from 'lodash/get';
 import _omit from 'lodash/omit';
+import R from 'ramda';
 import getLogger from 'common/log';
 import { html as beautifyHtml } from 'js-beautify';
+
 import {
   DEFAULT_FIELD,
-  DEFAULT_COM_OBJECT,
 } from 'common/constants';
 
 import WYSIWYG from './WYSIWYG';
@@ -21,12 +22,22 @@ import styles from './TextView.css';
 
 const logger = getLogger('GPCCHS:view:text');
 
+const getComObject = comObjects =>
+  R.pipe(
+    R.defaultTo([]),
+    R.ifElse(
+      a => a.length === 1,
+      R.nth(0),
+      () => 'UNKNOWN_COM_OBJECT'
+    ),
+  )(comObjects);
+
 // parse clipboard data to create partial entry point
 function parseDragData(data) {
   return {
     name: data.item,
     connectedData: {
-      formula: `${data.catalogName}.${data.item}<${DEFAULT_COM_OBJECT}>.${DEFAULT_FIELD}`,
+      formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.${DEFAULT_FIELD}`,
     },
   };
 }

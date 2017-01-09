@@ -15,7 +15,7 @@ const logger = getLogger('GPCCHS:Window');
 export default class Window extends Component {
   static propTypes = {
     windowId: PropTypes.string.isRequired,
-    focusedPageId: PropTypes.string.isRequired,
+    focusedPageId: PropTypes.string,
     title: PropTypes.string,
   };
 

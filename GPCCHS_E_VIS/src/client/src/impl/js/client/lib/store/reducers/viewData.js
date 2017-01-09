@@ -15,13 +15,14 @@ export default function viewData(state = {}, action) {
       const oldViewMap = action.payload.oldViewMap;
       const dataKeys = Object.keys(action.payload.dataToInject);
       // If nothing changed and no data to import, return state
-      if (_isEqual(newViewMap, oldViewMap) && !dataKeys.length) {
+      const viewMapIsEqual = _isEqual(newViewMap, oldViewMap);
+      if (viewMapIsEqual && !dataKeys.length) {
         return state;
       }
       // since now, state will changed
       let newState;
       // view definitions have changed => cleaning
-      if (newViewMap !== oldViewMap) {
+      if (!viewMapIsEqual) {
         newState = cleanViewData(state, oldViewMap, newViewMap);
       }
       // Add payloads

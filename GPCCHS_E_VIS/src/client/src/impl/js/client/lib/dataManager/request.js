@@ -5,7 +5,7 @@ import _get from 'lodash/get';
 import executionMonitor from 'common/execution';
 import getLogger from 'common/log';
 
-import operators from '../common/operators';
+import { operators } from '../common/operators';
 import structures from './structures';
 
 const logger = getLogger('GPCCHS:data:requests');

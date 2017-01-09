@@ -75,15 +75,6 @@ export default class EntryPointDetails extends React.Component {
     });
   }
 
-  handleConnectedDataSubmit = (key, values) => {
-    const { entryPoint, updateEntryPoint, viewId, idPoint } = this.props;
-
-    updateEntryPoint(viewId, idPoint, {
-      ...entryPoint,
-      [key]: values
-    });
-  }
-
   /*
     RightClick on Name : cette fonction permet de rendre le nom de l'entrypoint éditable
   */
@@ -163,7 +154,7 @@ export default class EntryPointDetails extends React.Component {
             axes={axes}
             timelines={timelines}
             form={`entrypoint-connectedData-form-${idPoint}-${viewId}`}
-            onSubmit={this.handleConnectedDataSubmit.bind(this, 'connectedData')}
+            onSubmit={values => this.handleSubmit({ connectedData: values })}
             initialValues={entryPoint.connectedData}
           />}
         </Panel>}

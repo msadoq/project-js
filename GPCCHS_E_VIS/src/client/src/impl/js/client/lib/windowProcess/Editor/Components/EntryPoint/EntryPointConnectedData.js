@@ -27,7 +27,8 @@ class EntryPointConnectedData extends React.Component {
       format: PropTypes.string,
       domain: PropTypes.string,
       timeline: PropTypes.string,
-      axisId: PropTypes.string
+      axisId: PropTypes.string,
+      filter: PropTypes.array,
     }).isRequired,
     axes: PropTypes.object,
     timelines: PropTypes.array,

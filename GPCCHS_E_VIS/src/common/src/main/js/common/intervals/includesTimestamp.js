@@ -1,7 +1,7 @@
 const _some = require('lodash/some');
 const _isArray = require('lodash/isArray');
 
-const logger = require('../log')('GPCCHS:common:intervals');
+const logger = require('../log')('common:intervals');
 
 const includesTimestamp = (interval, timestamp) =>
   (timestamp >= interval[0] && timestamp <= interval[1]);
@@ -22,10 +22,7 @@ module.exports = (intervals, timestamp) => {
     return _some(intervals, (interval) => {
       const isIn = includesTimestamp(interval, timestamp);
       logger.verbose('checking interval', interval, timestamp, !!isIn);
-      if (includesTimestamp(interval, timestamp)) {
-        return true;
-      }
-      return false;
+      return includesTimestamp(interval, timestamp);
     });
   }
   return includesTimestamp(intervals, timestamp);

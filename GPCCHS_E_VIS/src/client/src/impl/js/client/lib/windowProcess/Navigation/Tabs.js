@@ -4,7 +4,7 @@ import getLogger from 'common/log';
 import styles from './Tabs.css';
 import { sendToMain } from '../../ipc/window';
 
-const logger = getLogger('GPCCHS:Tabs');
+const logger = getLogger('Tabs');
 
 export default class Tabs extends Component {
   static propTypes = {

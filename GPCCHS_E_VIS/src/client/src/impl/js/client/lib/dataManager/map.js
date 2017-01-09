@@ -12,7 +12,7 @@ import { getTimebars, getTimebarTimelines, getMasterTimeline } from '../store/se
 import { getTimelines } from '../store/selectors/timelines';
 import { getWindowsVisibleViews } from '../store/selectors/windows';
 
-const logger = getLogger('GPCCHS:data:map');
+const logger = getLogger('data:map');
 
 export const walk = (domains, timebars, timelines, views) =>
   _reduce(views, (map, { viewId, timebarId, viewData: view }) => {

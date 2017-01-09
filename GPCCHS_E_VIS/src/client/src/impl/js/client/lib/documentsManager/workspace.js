@@ -12,7 +12,7 @@ const { extractPages } = require('./extractPages');
 const { extractViews } = require('./extractViews');
 const { requestPathFromOId } = require('../ipc/server');
 
-const logger = getLogger('GPCCHS:documents:workspace');
+const logger = getLogger('documents:workspace');
 
 module.exports = function readWorkspace(folder, relativePath, callback) {
   logger.info(`reading workspace ${folder}/${relativePath}`);

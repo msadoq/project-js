@@ -8,8 +8,8 @@ import getLogger from 'common/log';
 import { operators } from '../common/operators';
 import structures from './structures';
 
-const logger = getLogger('GPCCHS:data:requests');
-const execution = executionMonitor('data:request');
+const logger = getLogger('data:requests');
+const execution = executionMonitor('data:requests');
 
 /**
  * Return the current missing intervals requests list

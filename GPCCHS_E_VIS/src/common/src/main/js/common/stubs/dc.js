@@ -1,7 +1,7 @@
 const _each = require('lodash/each');
 const _omit = require('lodash/omit');
 const { bind: bindMainIpc } = require('../ipc');
-const logger = require('../log')('GPCCHS:STUBS:DC');
+const logger = require('../log')('stubs:dc');
 const zmq = require('../zmq');
 const globalConstants = require('../constants');
 const protobuf = require('../protobuf/index');

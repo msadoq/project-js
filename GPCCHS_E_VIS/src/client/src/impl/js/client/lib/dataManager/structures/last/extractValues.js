@@ -7,7 +7,7 @@ import moment from 'moment';
 import getLogger from 'common/log';
 import globalConstants from 'common/constants';
 
-const logger = getLogger('GPCCHS:data:lastValue');
+const logger = getLogger('data:lastValue');
 
 // Get the nearest value from the current time
 export function select(remoteIdPayload, ep, epName, viewSubState) {

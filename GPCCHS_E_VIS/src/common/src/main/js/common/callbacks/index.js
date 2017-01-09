@@ -5,7 +5,7 @@ const _isFunction = require('lodash/isFunction');
 
 const getLogger = require('../log');
 
-const logger = getLogger('GPCCHS:common:registeredCallbacks');
+const logger = getLogger('common:registeredCallbacks');
 
 let callbacks = {};
 

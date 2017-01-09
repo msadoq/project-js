@@ -3,7 +3,7 @@ const _get = require('lodash/get');
 const _chunk = require('lodash/chunk');
 const _last = require('lodash/last');
 
-const logger = require('../../log')('GPCCHS:STUBS:DC');
+const logger = require('../../log')('stubs:dc');
 
 const globalConstants = require('../../constants');
 const stubData = require('../data');

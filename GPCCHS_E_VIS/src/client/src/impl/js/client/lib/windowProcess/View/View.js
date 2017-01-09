@@ -6,7 +6,7 @@ import UnknownView from './UnknownView';
 import MessagesContainer from './MessagesContainer';
 import styles from './View.css';
 
-const logger = getLogger('GPCCHS:View');
+const logger = getLogger('View');
 
 export default class View extends PureComponent {
   static propTypes = {

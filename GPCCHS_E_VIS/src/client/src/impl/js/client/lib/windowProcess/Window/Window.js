@@ -9,7 +9,7 @@ import TabsContainer from '../Navigation/TabsContainer';
 import Help from '../common/Help';
 import styles from './Window.css';
 
-const logger = getLogger('GPCCHS:Window');
+const logger = getLogger('Window');
 
 
 export default class Window extends Component {

@@ -9,7 +9,7 @@ import RightTabContainer from './RightTabContainer';
 import TimeSetterContainer from './TimeSetterContainer';
 import Modal from '../common/Modal';
 
-const logger = getLogger('GPCCHS:Timebar');
+const logger = getLogger('Timebar');
 const minTimebarHeight = 135;
 
 export default class TimebarWrapper extends Component {

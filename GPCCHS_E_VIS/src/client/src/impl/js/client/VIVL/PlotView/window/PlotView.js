@@ -34,7 +34,7 @@ import { addEntryPoint } from '../../../lib/store/actions/views';
 import DroppableContainer from '../../../lib/windowProcess/View/DroppableContainer';
 import { getPlotViewData } from '../../../lib/store/selectors/views';
 
-const logger = getLogger('GPCCHS:view:plot');
+const logger = getLogger('view:plot');
 
 const {
   LineSeries, ScatterSeries, StraightLine

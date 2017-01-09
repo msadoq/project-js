@@ -250,14 +250,14 @@ export default class StateColorsFields extends React.Component {
               disabled={error}
             />
             :
-              <input
-                className={classnames('btn', 'btn-success')}
-                style={{ width: '110px' }}
-                type="submit"
-                value="Add state color"
-                onClick={this.addStateColor}
-                disabled={!canAdd || error}
-              />
+            <input
+              className={classnames('btn', 'btn-success')}
+              style={{ width: '110px' }}
+              type="submit"
+              value="Add state color"
+              onClick={this.addStateColor}
+              disabled={!canAdd || error}
+            />
           }
         </HorizontalFormGroup>
       </div>

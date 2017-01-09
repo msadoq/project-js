@@ -1,17 +1,18 @@
-import { app } from 'electron';
+import { app, ipcMain } from 'electron';
 import { series } from 'async';
 import getLogger from 'common/log';
-import { LIFECYCLE_STARTED } from 'common/constants'; // TODO deprecated
 import monitoring from 'common/monitoring';
+import { CHILD_PROCESS_SERVER, CHILD_PROCESS_DC } from 'common/constants';
 import parameters from 'common/parameters';
 import { clear } from 'common/callbacks';
 
 import enableDebug from './debug';
 import { initStore, getStore } from '../store/mainStore';
 import './menu';
-import { init } from '../ipc/main';
-import { fork, kill } from './childProcess';
-import { requestDomains, requestSessions } from '../ipc/server';
+import rendererController from './controllers/renderer';
+import serverController from './controllers/server';
+import { fork, get, kill } from './childProcess';
+import { server } from './ipc';
 import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
 
@@ -19,13 +20,7 @@ import { readWkFile, openDefaultWorkspace } from './openWorkspace';
 
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
 
-import { updateStatus } from '../store/actions/hss'; // TODO deprecated
-import { updateStatus as updateAppStatus } from '../store/actions/hsc'; // TODO deprecated
-
 const logger = getLogger('main:index');
-
-const PROCESS_ID_SERVER = 1; // TODO constant
-const PROCESS_ID_DC = 2; // TODO constant
 
 export function start() {
   series([
@@ -35,11 +30,8 @@ export function start() {
       monitoring.start();
 
       // redux store
-      const store = initStore();
-      logger.verbose('initial state', store.getState());
-
-      // ipc with renderer
-      init();
+      initStore();
+      logger.debug('store initialized');
 
       callback(null);
     },
@@ -49,21 +41,33 @@ export function start() {
       }
 
       fork(
-        PROCESS_ID_DC,
+        CHILD_PROCESS_DC,
         `${parameters.get('path')}/node_modules/common/stubs/dc.js`,
         callback
       );
     },
     (callback) => {
       fork(
-        PROCESS_ID_SERVER,
+        CHILD_PROCESS_SERVER,
         `${parameters.get('path')}/node_modules/server/index.js`,
         callback
       );
     },
+    (callback) => {
+      // ipc with renderer
+      ipcMain.on('windowRequest', rendererController);
+
+      // ipc with server
+      get(CHILD_PROCESS_SERVER).on(
+        'message',
+        data => serverController(get(CHILD_PROCESS_SERVER), data)
+      );
+
+      return callback(null);
+    },
     // should have sessions in store at start
     (callback) => {
-      requestSessions(({ err, sessions }) => {
+      server.requestSessions(({ err, sessions }) => {
         if (err) {
           return callback(err);
         }
@@ -75,7 +79,7 @@ export function start() {
     },
     // should have domains in store at start
     (callback) => {
-      requestDomains(({ err, domains }) => {
+      server.requestDomains(({ err, domains }) => {
         if (err) {
           return callback(err);
         }
@@ -99,10 +103,6 @@ export function start() {
       throw err;
     }
 
-    const { dispatch } = getStore();
-    dispatch(updateStatus('main', 'connected'));
-    dispatch(updateAppStatus(LIFECYCLE_STARTED));
-
     startOrchestration();
   });
 }
@@ -115,8 +115,8 @@ export function stop() {
   stopOrchestration();
 
   // stop child processes
-  kill(PROCESS_ID_SERVER);
-  kill(PROCESS_ID_DC);
+  kill(CHILD_PROCESS_SERVER);
+  kill(CHILD_PROCESS_DC);
 
   // registered callbacks
   clear();

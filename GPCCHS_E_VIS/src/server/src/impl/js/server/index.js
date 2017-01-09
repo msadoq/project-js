@@ -4,7 +4,6 @@ const exit = require('exit');
 const logger = require('common/log')('main');
 const zmq = require('common/zmq');
 const monitoring = require('common/monitoring');
-const { bind: bindMainIpc } = require('common/ipc');
 const clientController = require('./lib/controllers/client');
 const dcController = require('./lib/controllers/dc');
 const { unsubscribeAll } = require('./lib/utils/subscriptions');
@@ -34,11 +33,12 @@ zmq.open(zmqConfiguration, (err) => {
     throw err;
   }
 
-  // bind IPC channel with main process
-  bindMainIpc(clientController);
+  // ipc with main
+  process.on('message', clientController);
+  process.send('ready');
 });
 
-// handle gracefull shutdown
+// handle graceful shutdown
 process.once('SIGINT', () => {
   // warning! binding SIGINT prevent SIGTERM handler non-execution when stopping process from CLI
   logger.info('get quit signal from cli (SIGINT)');

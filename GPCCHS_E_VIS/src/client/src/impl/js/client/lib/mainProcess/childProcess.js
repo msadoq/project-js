@@ -1,8 +1,6 @@
 import { fork as forkChildProcess } from 'child_process';
-import { v4 } from 'node-uuid';
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
-import { set, pop } from 'common/callbacks';
 
 const logger = getLogger('main:childProcess');
 
@@ -34,25 +32,15 @@ export function fork(id, path, callback) {
   processes[id].on('exit', (code, signal) => {
     logger.verbose(`child process ${id} exited with code ${code} (${signal})`);
   });
+
+  // only for ready message
   processes[id].on('message', (data) => {
-    logger.debug(`child process ${id} incoming message`, data);
-
-    if (data === 'ready') {
-      logger.debug(`child process ${id} is ready`, data);
-      return callback(null);
+    if (data !== 'ready') {
+      return;
     }
 
-    const { event, payload, queryId } = data;
-    if (queryId) {
-      logger.debug(`rpc response received for ${queryId}`);
-      const cb = pop(queryId);
-      return cb
-        ? cb(data)
-        : logger.warn('invalid message received (unknown queryId)');
-    }
-
-    // TODO simple message handling (add a method to register a controller that will receive event
-    // and payload)
+    logger.debug(`child process ${id} is ready`, data);
+    return callback(null);
   });
 }
 
@@ -67,40 +55,4 @@ export function kill(id) {
 
   logger.info(`killing process ${id}`);
   get(id).kill();
-}
-
-/**
- * RPC request
- *
- * @param id
- * @param method
- * @param payload
- * @param callback
- */
-export function rpc(id, method, payload, callback) {
-  if (!get(id)) {
-    return logger.warn(`rpc call on unknown process ${id}`);
-  }
-
-  logger.debug(`sending rpc call ${method} to ${id}`);
-  const queryId = v4();
-  set(queryId, data => callback(data.payload));
-  get(id).send({ queryId, method, payload });
-}
-
-/**
- * Simple message
- *
- * @param id
- * @param method
- * @param payload
- * @return {*}
- */
-export function send(id, method, payload) {
-  if (!get(id)) {
-    return logger.warn(`sending on unknown process ${id}`);
-  }
-
-  logger.debug(`sending message ${method} to ${id}`);
-  get(id).send({ method, payload });
 }

@@ -14,12 +14,10 @@ const protobufHeader = encode('dc.dataControllerUtils.Header', {
  * @param queryId
  * @param sendDcMessage
  */
-const sessionQuery = (queryId, sendDcMessage) => {
-  sendDcMessage([
-    protobufHeader,
-    encode('dc.dataControllerUtils.String', { string: queryId }),
-  ]);
-};
+const sessionQuery = (queryId, sendDcMessage) => sendDcMessage([
+  protobufHeader,
+  encode('dc.dataControllerUtils.String', { string: queryId }),
+]);
 
 module.exports = {
   sessionQuery,

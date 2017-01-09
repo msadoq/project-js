@@ -4,6 +4,7 @@ import _map from 'lodash/map';
 import _get from 'lodash/get';
 import executionMonitor from 'common/execution';
 import getLogger from 'common/log';
+import globalConstants from 'common/constants';
 
 import { operators } from '../common/operators';
 import structures from './structures';
@@ -84,7 +85,7 @@ export default function request(state, dataMap, lastMap, send) {
   logger.verbose(JSON.stringify(dataQueries, null, 2));
 
   if (dataQueries && _isObject(dataQueries) && Object.keys(dataQueries).length) {
-    send(1, 'timebasedQuery', dataQueries);
+    send(globalConstants.IPC_METHOD_TIMEBASED_QUERY, dataQueries);
   }
 
   execution.stop('global', `dataRequests (${Object.keys(dataQueries).length} remoteId)`);

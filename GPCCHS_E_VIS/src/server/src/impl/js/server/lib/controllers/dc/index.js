@@ -1,15 +1,21 @@
-/* eslint global-require:0 */
 const logger = require('common/log')('controllers/dc');
 const globalConstants = require('common/constants');
 const { decode } = require('common/protobuf');
 
+const { onResponse } = require('./onResponse');
+const { onDomainData } = require('./onDomainData');
+const { onTimebasedArchiveData } = require('./onTimebasedArchiveData');
+const { onTimebasedPubSubData } = require('./onTimebasedPubSubData');
+const { onSessionData } = require('./onSessionData');
+const { onFilepathData } = require('./onFilepathData');
+
 const controllers = {
-  [globalConstants.MESSAGETYPE_RESPONSE]: require('./onResponse').onResponse,
-  [globalConstants.MESSAGETYPE_DOMAIN_DATA]: require('./onDomainData').onDomainData,
-  [globalConstants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA]: require('./onTimebasedArchiveData').onTimebasedArchiveData,
-  [globalConstants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA]: require('./onTimebasedPubSubData').onTimebasedPubSubData,
-  [globalConstants.MESSAGETYPE_SESSION_DATA]: require('./onSessionData').onSessionData,
-  [globalConstants.MESSAGETYPE_FILEPATH_DATA]: require('./onFilepathData').onFilepathData,
+  [globalConstants.MESSAGETYPE_RESPONSE]: onResponse,
+  [globalConstants.MESSAGETYPE_DOMAIN_DATA]: onDomainData,
+  [globalConstants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA]: onTimebasedArchiveData,
+  [globalConstants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA]: onTimebasedPubSubData,
+  [globalConstants.MESSAGETYPE_SESSION_DATA]: onSessionData,
+  [globalConstants.MESSAGETYPE_FILEPATH_DATA]: onFilepathData,
 };
 
 module.exports = (trash, headerBuffer, ...args) => {

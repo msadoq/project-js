@@ -17,7 +17,7 @@ import {
   updateCacheInvalidation,
   pause,
 } from '../store/actions/hsc';
-import { rpc, send } from './childProcess';
+import { server } from './ipc';
 import dataMapGenerator from '../dataManager/map';
 import request from '../dataManager/request';
 import windowsObserver from './windows';
@@ -26,8 +26,6 @@ import { getTimebar } from '../store/selectors/timebars';
 import { nextCurrent, computeCursors } from './play';
 
 import { updateViewData } from '../store/actions/viewData';
-
-// TODO : test server restart, new workspace, workspace opening, new window
 
 const logger = getLogger('main:orchestration');
 const execution = executionMonitor('orchestration');
@@ -199,9 +197,7 @@ export function tick() {
     if (dataMap !== previous.dataMap) {
       execution.start('requests');
       // request data
-      // TODO : in play mode hack the state visuWindow OR pass play configuration to reducer, ask
-      //        for next tick data only
-      request(state, dataMap, previous.dataMap, send);
+      request(state, dataMap, previous.dataMap, server.message);
 
       // should be done here due to request specificity (works on map and last)
       previous.dataMap = dataMap;
@@ -210,11 +206,15 @@ export function tick() {
     }
 
     // pulled data
-    rpc(1, 'getData', null, (dataToInject) => {
-      // TODO continue orchestration in this callback
-      execution.start('data injection');
-      dispatch(updateViewData(oldViewMap, newViewMap, dataToInject));
-      execution.stop('data injection', Object.keys(dataToInject).length);
+    server.requestData((dataToInject) => {
+      if (Object.keys(dataToInject).length) {
+        execution.start('data injection');
+        // TODO : in play mode inject + visuwindow
+        dispatch(updateViewData(oldViewMap, newViewMap, dataToInject));
+        execution.stop('data injection', Object.keys(dataToInject).length);
+      }
+
+      // TODO continue orchestration in this callback (VERY IMPORTANT FOR PERF)
     });
 
     // cache invalidation (only at a certain frequency)
@@ -222,7 +222,7 @@ export function tick() {
     if (Date.now() - lastCacheInvalidation >= globalConstants.CACHE_INVALIDATION_FREQUENCY) {
       execution.start('cacheInvalidation');
       dispatch(updateCacheInvalidation(Date.now())); // schedule next run
-      send(1, 'cleanupCache', dataMap);
+      server.message(globalConstants.IPC_METHOD_CACHE_CLEANUP, dataMap);
       execution.stop('cacheInvalidation');
     }
   }

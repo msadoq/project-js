@@ -1,9 +1,9 @@
 const logger = require('common/log')('controllers:onFilepathData');
 const { decode } = require('common/protobuf');
-const registeredCallbacks = require('common/callbacks');
+const reply = require('common/ipc/reply');
 
 /**
- * Triggered on DC filepath from oId request response
+ * Handle FMD filepath request response from DC
  *
  * - decode and pass to registered callback
  *
@@ -16,10 +16,6 @@ module.exports.onFilepathData = (queryIdBuffer, buffer) => {
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
   logger.debug('decoded queryId', queryId);
 
-  const callback = registeredCallbacks.get(queryId);
-  if (!callback) {
-    return logger.warn(`unknown queryId ${queryId}`); // TODO SEND TO CLIENT!
-  }
-
-  return callback({ path: decode('dc.dataControllerUtils.String', buffer).string });
+  const { string } = decode('dc.dataControllerUtils.String', buffer);
+  reply(queryId, { path: string });
 };

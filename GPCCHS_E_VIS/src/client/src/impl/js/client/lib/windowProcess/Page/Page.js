@@ -17,7 +17,7 @@ export default class Page extends Component {
     openEditor: PropTypes.func,
     closeEditor: PropTypes.func,
     editorViewId: PropTypes.string,
-    focusedPageId: PropTypes.string.isRequired,
+    focusedPageId: PropTypes.string,
   };
 
   static childContextTypes = {

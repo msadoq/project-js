@@ -22,9 +22,9 @@ const filterLayoutBlockFields = [
 
 export default class Content extends Component {
   static propTypes = {
-    focusedPageId: PropTypes.string.isRequired,
+    focusedPageId: PropTypes.string,
     timebarId: PropTypes.string,
-    layouts: PropTypes.object.isRequired,
+    layouts: PropTypes.object,
     views: PropTypes.array,
     editorViewId: PropTypes.string,
     unmountAndRemove: PropTypes.func,

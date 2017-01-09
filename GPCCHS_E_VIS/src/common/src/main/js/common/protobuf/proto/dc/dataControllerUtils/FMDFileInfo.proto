@@ -4,6 +4,6 @@ import "dataControllerUtils/FMDFileType.proto";
 
 message FMDFileInfo {
 extensions 3 to 106;
-    required FILE_TYPE type = 1;
+    required FMDFileType.FILE_TYPE type = 1;
     required string serializedOid = 2;
 }

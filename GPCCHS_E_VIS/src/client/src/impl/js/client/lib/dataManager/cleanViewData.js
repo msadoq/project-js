@@ -8,12 +8,12 @@ import u from 'updeep';
 import structures from './structures';
 import vivl from '../../VIVL/main';
 
-export default function cleanViewData(state, oldViewMap, viewMap) {
+export default function cleanViewData(viewDataState, oldViewMap, viewMap) {
   let newState;
   // unmounted views
   const removedViews = _difference(Object.keys(oldViewMap), Object.keys(viewMap));
   if (removedViews.length) {
-    newState = u({ viewData: u.omit(removedViews) }, state);
+    newState = u(u.omit(removedViews), viewDataState);
   }
 
   // check missing or updated entry points
@@ -37,14 +37,14 @@ export default function cleanViewData(state, oldViewMap, viewMap) {
         });
         if (newLabel) {
           // Update label in viewData
-          newState = structures(structureType, 'updateEpLabel')(newState || state,
+          newState = structures(structureType, 'updateEpLabel')(newState || viewDataState,
                         id, epName, newLabel);
           return;
         }
       }
       // removed entry point if missing or invalid
       if (!view.entryPoints[epName] || ep.error) {
-        newState = structures(structureType, 'removeEpData')(newState || state, id, epName);
+        newState = structures(structureType, 'removeEpData')(newState || viewDataState, id, epName);
         return;
       }
 
@@ -57,13 +57,13 @@ export default function cleanViewData(state, oldViewMap, viewMap) {
       const isUpdated = structures(structureType, 'isEpDifferent')(ep, newEp);
       // EP definition modified: remove entry point from viewData
       if (isUpdated) {
-        newState = structures(structureType, 'removeEpData')(newState || state, id, epName);
+        newState = structures(structureType, 'removeEpData')(newState || viewDataState, id, epName);
         return;
       }
       // update on expected interval
       if (ep.expectedInterval[0] !== newEp.expectedInterval[0]
        || ep.expectedInterval[1] !== newEp.expectedInterval[1]) {
-        newState = structures(structureType, 'cleanData')(newState || state, id, epName,
+        newState = structures(structureType, 'cleanData')(newState || viewDataState, id, epName,
                               _map(newEp.expectedInterval, bound => bound + newEp.offset));
       }
     });

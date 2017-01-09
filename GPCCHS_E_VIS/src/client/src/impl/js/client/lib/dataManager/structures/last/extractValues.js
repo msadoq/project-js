@@ -2,6 +2,7 @@ import _each from 'lodash/each';
 import _has from 'lodash/has';
 import _get from 'lodash/get';
 import _set from 'lodash/set';
+import moment from 'moment';
 
 import getLogger from 'common/log';
 import globalConstants from 'common/constants';
@@ -32,9 +33,17 @@ export function select(remoteIdPayload, ep, epName, viewSubState) {
       return;
     }
     if (timestamp >= previousTime) {
+      // Write value depending on its typeof
+      const type = _get(p, [ep.field, 'type']);
+      let val;
+      if (type === 'time') {
+        val = moment(_get(p, [ep.field, 'value'])).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS');
+      } else {
+        val = _get(p, [ep.field, 'value']);
+      }
       newValue = {
         timestamp,
-        value: _get(p, [ep.field, 'value']),
+        value: val,
         monit: _get(p, ['monitoringState', 'value']),
       };
       previousTime = timestamp;
@@ -61,7 +70,6 @@ export default function extractValues(viewDataState, payload, viewId, entryPoint
     if (!viewData) {
       viewData = {};
     }
-
     _set(viewData, ['index', epName], newData.timestamp);
     _set(viewData, ['values', epName], {
       value: newData.value,

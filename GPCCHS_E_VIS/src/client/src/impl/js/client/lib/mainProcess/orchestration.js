@@ -1,4 +1,5 @@
 import _round from 'lodash/round';
+import _cloneDeep from 'lodash/cloneDeep';
 import globalConstants from 'common/constants';
 import executionMonitor from 'common/execution';
 import getLogger from 'common/log';
@@ -19,14 +20,12 @@ import {
 import { rpc, send } from './childProcess';
 import dataMapGenerator from '../dataManager/map';
 import request from '../dataManager/request';
-import inject from '../dataManager/inject';
 import windowsObserver from './windows';
 import { updateCursors } from '../store/actions/timebars';
 import { getTimebar } from '../store/selectors/timebars';
 import { nextCurrent, computeCursors } from './play';
 
 import { updateViewData } from '../store/actions/viewData';
-import cleanViewData from '../dataManager/cleanViewData';
 
 // TODO : test server restart, new workspace, workspace opening, new window
 
@@ -150,7 +149,6 @@ export function tick() {
 
   // play or pause
   const playingTimebarId = getPlayingTimebarId(state);
-
   // windows
   const isWindowsOpened = getWindowsOpened(state);
   const windowsHasChanged = state.windows !== previous.state.windows;
@@ -192,12 +190,15 @@ export function tick() {
       execution.stop('play management');
       // TODO dbrugne analyse 1 tick leak on play
     }
-
+    // TODO: remove copies when viewMap update is done after dispatch
+    // do a deep copy to use the real oldViewMap for updateViewData
+    const oldViewMap = _cloneDeep(previous.viewMap);
+    const newViewMap = _cloneDeep(viewMap);
     // pulled data
     rpc(1, 'getData', null, (dataToInject) => {
       // TODO continue orchestration in this callback
       execution.start('data injection');
-      dispatch(updateViewData(previous.viewMap, viewMap, dataToInject));
+      dispatch(updateViewData(oldViewMap, newViewMap, dataToInject));
       execution.stop('data injection', Object.keys(dataToInject).length);
     });
 

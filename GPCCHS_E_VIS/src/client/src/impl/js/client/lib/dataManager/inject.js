@@ -17,7 +17,6 @@ export const selectData = (viewDataState, viewDefinitions, payload, count) =>
       view.entryPoints,
       count
     );
-
     return viewBag ? _set(bag, [viewId], viewBag) : bag;
   }, {});
 
@@ -73,7 +72,9 @@ export default function inject(viewDataState, viewMap, payload) {
       ),
       viewDataState
     );
+    execution.stop('global', `dataInjection (${count.last} last and ${count.range} range values)`);
     return newViewData;
   }
   execution.stop('global', `dataInjection (${count.last} last and ${count.range} range values)`);
+  return viewDataState;
 }

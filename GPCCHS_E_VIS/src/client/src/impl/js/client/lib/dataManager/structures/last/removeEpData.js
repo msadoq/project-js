@@ -1,13 +1,12 @@
 import u from 'updeep';
 
-export default function removeEpData(state, viewId, epName) {
-  if (!state.viewData[viewId]) {
-    return state;
+export default function removeEpData(stateViewData, viewId, epName) {
+  if (!stateViewData[viewId]) {
+    return stateViewData;
   }
 
-  return u({ viewData: {
-    [viewId]: {
-      index: u.omit(epName),
-      values: u.omit(epName)
-    } } }, state);
+  return u({ [viewId]: {
+    index: u.omit(epName),
+    values: u.omit(epName)
+  } }, stateViewData);
 }

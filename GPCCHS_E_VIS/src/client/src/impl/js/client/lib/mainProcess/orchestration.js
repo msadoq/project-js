@@ -1,7 +1,7 @@
 import _round from 'lodash/round';
 import _cloneDeep from 'lodash/cloneDeep';
 import globalConstants from 'common/constants';
-import executionMonitor from 'common/execution';
+import executionMonitor from 'common/log/execution';
 import getLogger from 'common/log';
 import { get } from 'common/parameters';
 
@@ -193,7 +193,7 @@ export function tick() {
     // do a deep copy to use the real oldViewMap for updateViewData
     const oldViewMap = _cloneDeep(previous.viewMap);
     const newViewMap = _cloneDeep(viewMap);
-    
+
     // Move requests before viewData update to avoid delay for display
     if (dataMap !== previous.dataMap) {
       execution.start('requests');

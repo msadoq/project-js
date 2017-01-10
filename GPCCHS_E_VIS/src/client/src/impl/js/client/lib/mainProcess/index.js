@@ -2,7 +2,7 @@ import { app } from 'electron';
 import { series } from 'async';
 import getLogger from 'common/log';
 import { LIFECYCLE_STARTED } from 'common/constants'; // TODO deprecated
-import monitoring from 'common/monitoring';
+import monitoring from 'common/log/monitoring';
 import parameters from 'common/parameters';
 import { clear } from 'common/callbacks';
 

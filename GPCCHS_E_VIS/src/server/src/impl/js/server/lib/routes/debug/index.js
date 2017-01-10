@@ -3,7 +3,7 @@
 const { Router } = require('express');
 const _floor = require('lodash/floor');
 const _round = require('lodash/round');
-const monitoring = require('common/monitoring');
+const monitoring = require('common/log/monitoring');
 
 const subscriptionsModel = require('../../models/subscriptions');
 const connectedDataModel = require('../../models/connectedData');

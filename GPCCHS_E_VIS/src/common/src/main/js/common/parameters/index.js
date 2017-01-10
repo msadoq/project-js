@@ -1,7 +1,6 @@
 const fs = require('fs');
 const { join } = require('path');
 const minimist = require('minimist');
-const getLogger = require('../log');
 
 const DEFAULT = 'config.default.json'; // mandatory
 const LOCAL = 'config.local.json'; // optional
@@ -9,21 +8,12 @@ const LOCAL = 'config.local.json'; // optional
 let argv;
 let defaultConfig;
 let localConfig;
-let logger;
-
-// Useful to give transport configuration to future loggers
-function initDefaultLogTransports() {
-  if (process.env.APP_ENV !== 'renderer') {
-    // eslint-disable-next-line global-require
-    const { setTransports } = require('../log/node');
-    const config = defaultConfig.LOG || localConfig.LOG;
-    if (config) {
-      setTransports(config.LOG);
-    }
-  }
-}
 
 function init(path) {
+  if (localConfig) {
+    return;
+  }
+
   defaultConfig = JSON.parse(fs.readFileSync(join(path, DEFAULT), 'utf8'));
 
   // optional local config file
@@ -32,13 +22,15 @@ function init(path) {
     fs.accessSync(localPath, fs.constants.F_OK);
     fs.accessSync(localPath, fs.constants.R_OK);
     localConfig = Object.assign(JSON.parse(fs.readFileSync(localPath, 'utf8')), { path });
-    initDefaultLogTransports();
-    logger = getLogger('parameters');
-    logger.info(`local configuration file loaded: ${localConfig}`);
+    // eslint-disable-next-line no-console
+    console.log(`[pid=${process.pid}] local configuration file loaded`, localConfig);
   } catch (e) {
-    logger.info('no local configuration file found');
+    // eslint-disable-next-line no-console
+    console.log('no local configuration file found');
   }
 }
+// Initiliaze parameters ASAP
+init(process.cwd());
 
 function getArgv(name) {
   if (!argv) {

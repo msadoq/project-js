@@ -2,7 +2,7 @@
 
 // const logger = require('common/log')('main');
 const zmq = require('common/zmq');
-const monitoring = require('common/monitoring');
+const monitoring = require('common/log/monitoring');
 const { bind: bindMainIpc } = require('common/ipc');
 // const exit = require('exit');
 // const app = require('./lib/express'); // TODO deprecate

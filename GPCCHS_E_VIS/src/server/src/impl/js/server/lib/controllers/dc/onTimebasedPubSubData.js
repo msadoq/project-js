@@ -1,6 +1,6 @@
 const { decode, getType } = require('common/protobuf');
 const globalConstants = require('common/constants');
-const executionMonitor = require('common/execution');
+const executionMonitor = require('common/log/execution');
 const _isEmpty = require('lodash/isEmpty');
 const _each = require('lodash/each');
 const _chunk = require('lodash/chunk');

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import monitoring from 'common/monitoring';
+import monitoring from 'common/log/monitoring';
 import { init } from '../ipc/window';
 import WindowContainer from './Window/WindowContainer';
 import { initStore, getStore } from '../store/windowStore';

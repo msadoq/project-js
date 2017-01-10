@@ -22,6 +22,8 @@ import {
  */
 export default function views(stateViews = {}, action) {
   switch (action.type) {
+
+    // VIEW MAIN OPERATIONS
     case types.WS_VIEW_ADD:
       return {
         ...stateViews,
@@ -39,6 +41,8 @@ export default function views(stateViews = {}, action) {
         }
       };
     }
+
+    // VIEW CONFIGURATION
     case types.WS_VIEW_UPDATEPATH: {
       // path unchanged or newPath invalid
       if (!action.payload.newPath ||
@@ -64,10 +68,6 @@ export default function views(stateViews = {}, action) {
         isModified: true,
       } }, stateViews);
     }
-    case types.WS_VIEW_UPDATE_ENTRYPOINT:
-      return updateArray(stateViews, action, 'entryPoints', 'entryPoint');
-    case types.WS_VIEW_UPDATE_AXIS:
-      return updateAxis(stateViews, action);
     case types.WS_VIEW_UPDATE_GRID:
       return updateArray(stateViews, action, 'grids', 'grid');
     case types.WS_VIEW_UPDATE_LINK:
@@ -90,29 +90,6 @@ export default function views(stateViews = {}, action) {
       return updateObject(stateViews, action, 'content', 'content', 'TextView');
     case types.WS_VIEW_UPDATE_SHOWYAXES:
       return updateObject(stateViews, action, 'showYAxes', 'showYAxes', 'PlotView');
-    case types.WS_VIEW_ADD_AXIS:
-      return addAxis(stateViews, action);
-    case types.WS_VIEW_REMOVE_AXIS:
-      return removeAxis(stateViews, action);
-    case types.WS_VIEW_ADD_ENTRYPOINT:
-      return addEntryPoint(stateViews, action);
-    case types.WS_VIEW_REMOVE_ENTRYPOINT: {
-      let axisIdX;
-      let axisIdY;
-      if (stateViews[action.payload.viewId] &&
-          stateViews[action.payload.viewId].type === 'PlotView') {
-        const ep = stateViews[action.payload.viewId].configuration
-                  .entryPoints[action.payload.index];
-        axisIdX = ep.connectedDataX.axisId;
-        axisIdY = ep.connectedDataY.axisId;
-      }
-      let newState = removeElementInArray(stateViews, action, 'entryPoints');
-      if (stateViews[action.payload.viewId] &&
-          stateViews[action.payload.viewId].type === 'PlotView') {
-        newState = removeUnreferencedAxis(newState, action.payload.viewId, axisIdX, axisIdY);
-      }
-      return newState;
-    }
     case types.WS_VIEW_ADD_GRID:
       return addElementInArray(stateViews, action, 'grids', 'grid');
     case types.WS_VIEW_REMOVE_GRID:
@@ -151,6 +128,39 @@ export default function views(stateViews = {}, action) {
         }
       }, stateViews);
     }
+
+
+    // VIEW AXIS
+    case types.WS_VIEW_UPDATE_AXIS:
+      return updateAxis(stateViews, action);
+    case types.WS_VIEW_ADD_AXIS:
+      return addAxis(stateViews, action);
+    case types.WS_VIEW_REMOVE_AXIS:
+      return removeAxis(stateViews, action);
+
+    // VIEW ENTRY POINT
+    case types.WS_VIEW_UPDATE_ENTRYPOINT:
+      return updateArray(stateViews, action, 'entryPoints', 'entryPoint');
+    case types.WS_VIEW_ADD_ENTRYPOINT:
+      return addEntryPoint(stateViews, action);
+    case types.WS_VIEW_REMOVE_ENTRYPOINT: {
+      let axisIdX;
+      let axisIdY;
+      if (stateViews[action.payload.viewId] &&
+          stateViews[action.payload.viewId].type === 'PlotView') {
+        const ep = stateViews[action.payload.viewId].configuration
+                  .entryPoints[action.payload.index];
+        axisIdX = ep.connectedDataX.axisId;
+        axisIdY = ep.connectedDataY.axisId;
+      }
+      let newState = removeElementInArray(stateViews, action, 'entryPoints');
+      if (stateViews[action.payload.viewId] &&
+          stateViews[action.payload.viewId].type === 'PlotView') {
+        newState = removeUnreferencedAxis(newState, action.payload.viewId, axisIdX, axisIdY);
+      }
+      return newState;
+    }
+
     default:
       return stateViews;
   }

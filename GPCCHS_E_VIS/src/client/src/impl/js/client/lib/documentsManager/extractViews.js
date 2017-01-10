@@ -11,7 +11,6 @@ const vivl = require('../../VIVL/main');
 const { dirname } = require('path');
 const addUuidToAxes = require('../dataManager/structures/range/addUuidToAxes');
 const globalConstants = require('common/constants');
-// const { requestPathFromOId } = require('../mainProcess/websocket');
 
 const supportedViewTypes = [
   'PlotView',

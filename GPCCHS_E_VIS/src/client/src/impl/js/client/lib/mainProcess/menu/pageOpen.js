@@ -3,12 +3,14 @@ import { v4 } from 'node-uuid';
 import { readPages } from '../../documentsManager/extractPages';
 import { showErrorMessage } from '../dialog';
 import { extractViews } from '../../documentsManager/extractViews';
-import { requestPathFromOId } from '../websocket';
+import { server } from '../ipc';
 import { getStore } from '../../store/mainStore';
 import { add as addView } from '../../store/actions/views';
 import { addAndMount as addAndMountPage } from '../../store/actions/windows';
 import { setModified as setModifiedPage } from '../../store/actions/pages';
 import getPathByFilePicker from '../filePicker';
+
+const { requestPathFromOId } = server;
 
 module.exports = { pageOpen, pageAddNew };
 

@@ -8,8 +8,6 @@ const async = require('async');
 const { v4 } = require('node-uuid');
 const fs = require('../common/fs');
 const validation = require('./validation');
-// const { requestPathFromOId } = require('../mainProcess/websocket');
-
 
 function findWindowPagesAndReplaceWithUuid(window, timebars) {
   const pages = _get(window, 'pages');

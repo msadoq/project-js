@@ -80,7 +80,7 @@ class TextView extends Component {
   }
 
   onDrop(e) {
-    const data = e.dataTransfer.getData('application/json');
+    const data = e.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);
 
     // eslint-disable-next-line no-console

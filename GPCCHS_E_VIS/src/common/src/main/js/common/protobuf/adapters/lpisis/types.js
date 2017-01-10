@@ -51,7 +51,7 @@ const bytesToShort = (buffer) => {
   }
   return buffer.buffer.readInt16LE(buffer.offset);
 };
-const uintToBytes = (number) => {
+const uoctetToBytes = (number) => {
   if (_isUndefined(number) || _isNull(number)) {
     return undefined;
   }
@@ -60,19 +60,19 @@ const uintToBytes = (number) => {
     throw new Error(`Unable to convert '${number}' to int buffer`);
   }
 
-  return new ByteBuffer(null, true).writeUint32(number).flip();
+  return new ByteBuffer(null, true).writeUint8(number).flip();
 };
-const bytesToUint = (buffer) => {
+const bytesToUoctet = (buffer) => {
   if (!buffer || !buffer.buffer) {
-    return buffer;
+    return undefined;
   }
   // Buffer is associated with key buffer
   if (!_isBuffer(buffer.buffer)) {
     return buffer.buffer;
   }
-  return buffer.buffer.readUInt32LE(buffer.offset);
+  return buffer.buffer.readUInt8(buffer.offset);
 };
-const intToBytes = (number) => {
+const octetToBytes = (number) => {
   if (_isUndefined(number) || _isNull(number)) {
     return undefined;
   }
@@ -81,17 +81,17 @@ const intToBytes = (number) => {
     throw new Error(`Unable to convert '${number}' to int buffer`);
   }
 
-  return new ByteBuffer(null, true).writeInt32(number).flip();
+  return new ByteBuffer(null, true).writeInt8(number).flip();
 };
-const bytesToInt = (buffer) => {
+const bytesToOctet = (buffer) => {
   if (!buffer || !buffer.buffer) {
-    return buffer;
+    return undefined;
   }
   // Buffer is associated with key buffer
   if (!_isBuffer(buffer.buffer)) {
     return buffer.buffer;
   }
-  return buffer.buffer.readInt32LE(buffer.offset);
+  return buffer.buffer.readInt8(buffer.offset);
 };
 const stringToBytes = (string) => {
   if (_isUndefined(string) || _isNull(string)) {
@@ -184,10 +184,10 @@ module.exports = {
       value = attribute._identifier.value;
       type = 'identifier';
     } else if (attribute._octet != null) {
-      value = attribute._octet.value;
+      value = bytesToOctet(attribute._octet.value);
       type = 'octet';
     } else if (attribute._uoctet != null) {
-      value = attribute._uoctet.value;
+      value = bytesToUoctet(attribute._uoctet.value);
       type = 'uoctet';
     } else if (attribute._short != null) {
       value = bytesToShort(attribute._short.value);
@@ -196,10 +196,10 @@ module.exports = {
       value = bytesToUshort(attribute._ushort.value);
       type = 'ushort';
     } else if (attribute._integer != null) {
-      value = bytesToInt(attribute._integer.value);
+      value = attribute._integer.value;
       type = 'integer';
     } else if (attribute._uinteger != null) {
-      value = bytesToUint(attribute._uinteger.value);
+      value = attribute._uinteger.value;
       type = 'uinteger';
     } else if (attribute._long != null) {
       value = (attribute._long.value.constructor === Long)
@@ -235,10 +235,10 @@ module.exports = {
   bytesToUshort,
   shortToBytes,
   bytesToShort,
-  uintToBytes,
-  bytesToUint,
-  intToBytes,
-  bytesToInt,
+  uoctetToBytes,
+  bytesToUoctet,
+  octetToBytes,
+  bytesToOctet,
   stringToBytes,
   bytesToString,
 };

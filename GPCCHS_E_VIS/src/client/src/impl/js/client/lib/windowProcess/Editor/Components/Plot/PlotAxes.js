@@ -81,7 +81,7 @@ export default class PlotAxes extends React.Component {
 
   render() {
     const {
-      axes = [],
+      axes = {},
       showYAxes,
       viewId,
       expanded,

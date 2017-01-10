@@ -135,7 +135,7 @@ export default class FilterFields extends React.Component {
           </thead>
           <tbody>
             {
-              filters.length ? filters.map(
+              (filters && filters.length) ? filters.map(
                 (filter, index) => (
                   <tr
                     key={index}

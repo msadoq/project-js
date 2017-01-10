@@ -89,7 +89,7 @@ class PlotView extends PureComponent {
       lower: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
       current: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
       upper: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
-    }).isRequired,
+    }),
     viewId: PropTypes.string,
     addEntryPoint: PropTypes.func,
     configuration: PropTypes.shape({
@@ -206,7 +206,7 @@ class PlotView extends PureComponent {
 
   getCharts() {
     const {
-      visuWindow: { current },
+      visuWindow,
       containerWidth,
       containerHeight,
       configuration: { showYAxes }
@@ -261,7 +261,7 @@ class PlotView extends PureComponent {
         />}
         <StraightLine
           type="vertical"
-          xValue={current}
+          xValue={visuWindow ? visuWindow.current : undefined}
           stroke="#0ee61f"
           strokeWidth={2}
           opacity={1}

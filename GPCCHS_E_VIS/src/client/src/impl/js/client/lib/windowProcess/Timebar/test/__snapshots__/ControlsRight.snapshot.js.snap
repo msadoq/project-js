@@ -36,10 +36,8 @@ exports[`test Controls renders correctly 1`] = `
       className="controlsLi">
       <button
         className="btn btn-xs btn-control"
-        disabled={false}
         mode="Realtime"
-        onClick={[Function]}
-        title="Real time mode">
+        onClick={[Function]}>
         Real time
       </button>
     </li>

@@ -7,7 +7,7 @@ import messages from './messages';
 import timelines from './timelines';
 import windows from './windows';
 import pages from './pages';
-import views from './views';
+import views from './views/index';
 import domains from './domains';
 import sessions from './sessions';
 import viewData from './viewData';

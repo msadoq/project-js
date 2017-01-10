@@ -1,25 +1,29 @@
 import _omit from 'lodash/omit';
 import _without from 'lodash/without';
-import _find from 'lodash/find';
-import _trim from 'lodash/trim';
-import _deburr from 'lodash/deburr';
 import _merge from 'lodash/merge';
-import _snakeCase from 'lodash/snakeCase';
 import u from 'updeep';
 import { resolve } from 'path';
 import { v4 } from 'node-uuid';
-
 import globalConstants from 'common/constants';
-import * as types from '../types';
-import vivl from '../../../VIVL/main';
+import * as types from '../../types';
+import vivl from '../../../../VIVL/main';
 import {
   getNewPlotEntryPoint,
   getNewTextEntryPoint,
-} from '../../common/entryPoint';
+} from '../../../common/entryPoint';
+import {
+  updateAxis,
+  addAxis,
+  removeAxis,
+  createAxis,
+  addNewAxis,
+  getAxisId,
+} from './axis';
 
 /**
  * Reducer
  */
+
 export default function views(stateViews = {}, action) {
   switch (action.type) {
 
@@ -69,43 +73,43 @@ export default function views(stateViews = {}, action) {
       } }, stateViews);
     }
     case types.WS_VIEW_UPDATE_GRID:
-      return updateArray(stateViews, action, 'grids', 'grid');
+      return updateConfigurationArray(stateViews, action, 'grids', 'grid');
     case types.WS_VIEW_UPDATE_LINK:
-      return updateArray(stateViews, action, 'links', 'link');
+      return updateConfigurationArray(stateViews, action, 'links', 'link');
     case types.WS_VIEW_UPDATE_MARKER:
-      return updateArray(stateViews, action, 'markers', 'marker');
+      return updateConfigurationArray(stateViews, action, 'markers', 'marker');
     case types.WS_VIEW_UPDATE_PROCEDURE:
-      return updateArray(stateViews, action, 'procedures', 'procedure');
+      return updateConfigurationArray(stateViews, action, 'procedures', 'procedure');
     case types.WS_VIEW_UPDATE_RATIO:
-      return updateObject(stateViews, action, 'defaultRatio', 'ratio');
+      return updateConfiguration(stateViews, action, 'defaultRatio', 'ratio');
     case types.WS_VIEW_UPDATE_TITLE:
-      return updateObject(stateViews, action, 'title', 'title');
+      return updateConfiguration(stateViews, action, 'title', 'title');
     case types.WS_VIEW_UPDATE_TITLESTYLE:
-      return updateObject(stateViews, action, 'titleStyle', 'titleStyle');
+      return updateConfiguration(stateViews, action, 'titleStyle', 'titleStyle');
     case types.WS_VIEW_UPDATE_BGCOLOR:
-      return updateObject(stateViews, action, 'backgroundColor', 'bgColor');
+      return updateConfiguration(stateViews, action, 'backgroundColor', 'bgColor');
     case types.WS_VIEW_UPDATE_LEGEND:
-      return updateObject(stateViews, action, 'legend', 'legend', 'PlotView');
+      return updateConfiguration(stateViews, action, 'legend', 'legend', 'PlotView');
     case types.WS_VIEW_UPDATE_CONTENT:
-      return updateObject(stateViews, action, 'content', 'content', 'TextView');
+      return updateConfiguration(stateViews, action, 'content', 'content', 'TextView');
     case types.WS_VIEW_UPDATE_SHOWYAXES:
-      return updateObject(stateViews, action, 'showYAxes', 'showYAxes', 'PlotView');
+      return updateConfiguration(stateViews, action, 'showYAxes', 'showYAxes', 'PlotView');
     case types.WS_VIEW_ADD_GRID:
-      return addElementInArray(stateViews, action, 'grids', 'grid');
+      return addElementInConfigurationArray(stateViews, action, 'grids', 'grid');
     case types.WS_VIEW_REMOVE_GRID:
-      return removeElementInArray(stateViews, action, 'grids');
+      return removeElementInConfigurationArray(stateViews, action, 'grids');
     case types.WS_VIEW_ADD_LINK:
-      return addElementInArray(stateViews, action, 'links', 'link');
+      return addElementInConfigurationArray(stateViews, action, 'links', 'link');
     case types.WS_VIEW_REMOVE_LINK:
-      return removeElementInArray(stateViews, action, 'links');
+      return removeElementInConfigurationArray(stateViews, action, 'links');
     case types.WS_VIEW_ADD_MARKER:
-      return addElementInArray(stateViews, action, 'markers', 'marker');
+      return addElementInConfigurationArray(stateViews, action, 'markers', 'marker');
     case types.WS_VIEW_REMOVE_MARKER:
-      return removeElementInArray(stateViews, action, 'markers');
+      return removeElementInConfigurationArray(stateViews, action, 'markers');
     case types.WS_VIEW_ADD_PROCEDURE:
-      return addElementInArray(stateViews, action, 'procedures', 'procedure');
+      return addElementInConfigurationArray(stateViews, action, 'procedures', 'procedure');
     case types.WS_VIEW_REMOVE_PROCEDURE:
-      return removeElementInArray(stateViews, action, 'procedures');
+      return removeElementInConfigurationArray(stateViews, action, 'procedures');
     case types.HSC_CLOSE_WORKSPACE:
       return {};
     case types.WS_VIEW_SETCOLLAPSED: {
@@ -140,7 +144,7 @@ export default function views(stateViews = {}, action) {
 
     // VIEW ENTRY POINT
     case types.WS_VIEW_UPDATE_ENTRYPOINT:
-      return updateArray(stateViews, action, 'entryPoints', 'entryPoint');
+      return updateConfigurationArray(stateViews, action, 'entryPoints', 'entryPoint');
     case types.WS_VIEW_ADD_ENTRYPOINT:
       return addEntryPoint(stateViews, action);
     case types.WS_VIEW_REMOVE_ENTRYPOINT: {
@@ -153,7 +157,7 @@ export default function views(stateViews = {}, action) {
         axisIdX = ep.connectedDataX.axisId;
         axisIdY = ep.connectedDataY.axisId;
       }
-      let newState = removeElementInArray(stateViews, action, 'entryPoints');
+      let newState = removeElementInConfigurationArray(stateViews, action, 'entryPoints');
       if (stateViews[action.payload.viewId] &&
           stateViews[action.payload.viewId].type === 'PlotView') {
         newState = removeUnreferencedAxis(newState, action.payload.viewId, axisIdX, axisIdY);
@@ -211,7 +215,7 @@ function configuration(state = { title: null }, action) {
   }
 }
 
-export function updateObject(stateViews, action, objectName, paramName, viewType) {
+export function updateConfiguration(stateViews, action, objectName, paramName, viewType) {
   if (!stateViews[action.payload.viewId]) {
     return stateViews;
   }
@@ -229,7 +233,7 @@ export function updateObject(stateViews, action, objectName, paramName, viewType
   }, stateViews);
 }
 
-export function updateArray(stateViews, action, arrayName, paramName) {
+export function updateConfigurationArray(stateViews, action, arrayName, paramName) {
   if (!stateViews[action.payload.viewId] || !action.payload[paramName]) {
     return stateViews;
   }
@@ -250,7 +254,7 @@ export function updateArray(stateViews, action, arrayName, paramName) {
   }, stateViews);
 }
 
-export function addElementInArray(stateViews, action, arrayName, paramName) {
+export function addElementInConfigurationArray(stateViews, action, arrayName, paramName) {
   if (!stateViews[action.payload.viewId] || !action.payload[paramName]) {
     return stateViews;
   }
@@ -264,7 +268,7 @@ export function addElementInArray(stateViews, action, arrayName, paramName) {
     }
   }, stateViews);
 }
-export function removeElementInArray(stateViews, action, arrayName) {
+export function removeElementInConfigurationArray(stateViews, action, arrayName) {
   if (!stateViews[action.payload.viewId] || action.payload.index === undefined) {
     return stateViews;
   }
@@ -283,93 +287,6 @@ export function removeElementInArray(stateViews, action, arrayName) {
   }, stateViews);
 }
 
-export function updateAxis(stateViews, action) {
-  if (!stateViews[action.payload.viewId]) {
-    return stateViews;
-  }
-  // Content only for a type of view if viewType is defined
-  if (stateViews[action.payload.viewId].type !== 'PlotView') {
-    return stateViews;
-  }
-  return u({
-    [action.payload.viewId]: {
-      configuration: {
-        axes: { [action.payload.axisId]: action.payload.axis },
-      },
-      isModified: true,
-    }
-  }, stateViews);
-}
-
-export function addAxis(stateViews, action) {
-  if (!stateViews[action.payload.viewId]) {
-    return stateViews;
-  }
-  // Content only for a type of view if viewType is defined
-  if (stateViews[action.payload.viewId].type !== 'PlotView') {
-    return stateViews;
-  }
-  if (!action.payload.axis.label) {
-    return stateViews;
-  }
-  let id = action.payload.axis.id;
-  let axis;
-  if (!id) {
-    id = getUniqueAxisId(stateViews[action.payload.viewId], action.payload.axis.label);
-    axis = Object.assign({}, action.payload.axis, { id });
-  }
-  return u({
-    [action.payload.viewId]: {
-      configuration: {
-        axes: { [id]: axis || action.payload.axis },
-      },
-      isModified: true,
-    }
-  }, stateViews);
-}
-
-export function removeAxis(stateViews, action) {
-  if (!stateViews[action.payload.viewId]) {
-    return stateViews;
-  }
-  // Content only for a type of view if viewType is defined
-  if (stateViews[action.payload.viewId].type !== 'PlotView') {
-    return stateViews;
-  }
-  return u({
-    [action.payload.viewId]: {
-      configuration: {
-        axes: u.omit(action.payload.axisId),
-      },
-      isModified: true,
-    }
-  }, stateViews);
-}
-
-export function getUniqueAxisId(stateView, label) {
-  const id = _snakeCase(_trim(_deburr(label)));
-  // check id isn't already defined
-  let isUnique = false;
-  let index = 1;
-  let finalId = id;
-  const axes = Object.keys(stateView.configuration.axes);
-  while (!isUnique) {
-    if (axes.indexOf(finalId) === -1) {
-      isUnique = true;
-    } else {
-      finalId = id.concat('_', index);
-      index += 1;
-    }
-  }
-  return finalId;
-}
-export function createAxis(stateView, label, unit) {
-  return {
-    label,
-    unit,
-    id: getUniqueAxisId(stateView, label),
-  };
-}
 export function addEntryPoint(stateViews, action) {
   if (!stateViews[action.payload.viewId] || !action.payload.entryPoint) {
     return stateViews;
@@ -453,29 +370,6 @@ export function updatePlotAxisId(stateViews, { payload: { viewId, entryPoint } }
   }
 
   return newState;
-}
-
-export function addNewAxis(state, viewId, axis) {
-  if (axis) {
-    const val = { [axis.id]: axis };
-    return u({ [viewId]: {
-      configuration: {
-        axes: val,
-      } } }, state);
-  }
-  return state;
-}
-
-export function getAxisId(epName, connectedData, currentView) {
-  if (connectedData.axisId) {
-    return connectedData.axisId;
-  }
-  // Choose the axis with the right unit
-  const index = _find(currentView.configuration.axes,
-                      current => current.unit === connectedData.unit);
-  if (index) {
-    return index.id;
-  }
 }
 
 export function removeUnreferencedAxis(stateViews, viewId, axisIdX, axisIdY) {

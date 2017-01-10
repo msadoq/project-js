@@ -6,65 +6,64 @@ const {
   bytesToUshort,
   shortToBytes,
   bytesToShort,
-  uintToBytes,
-  bytesToUint,
-  intToBytes,
-  bytesToInt,
+  uoctetToBytes,
+  bytesToUoctet,
+  octetToBytes,
+  bytesToOctet,
 } = require('./types');
 const ByteBuffer = require('bytebuffer');
 
 describe('protobuf/lpisis/types', () => {
-  describe('uintToBytes/bytesToUint', () => {
+  describe('uoctetToBytes/bytesToUoctet', () => {
     const number = 21;
     let buffer;
-    describe('uintToBytes', () => {
+    describe('uoctetToBytes', () => {
       it('works', () => {
-        buffer = uintToBytes(number);
+        buffer = uoctetToBytes(number);
         (ByteBuffer.isByteBuffer(buffer)).should.equal(true);
       });
       it('invalid input', () => {
-        (() => uintToBytes('string')).should.throw(Error);
-        (() => uintToBytes(NaN)).should.throw(Error);
-        (() => uintToBytes(null)).should.not.throw(Error);
-        (() => uintToBytes()).should.not.throw(Error);
+        (() => uoctetToBytes('string')).should.throw(Error);
+        (() => uoctetToBytes(NaN)).should.throw(Error);
+        (() => uoctetToBytes(null)).should.not.throw(Error);
+        (() => uoctetToBytes()).should.not.throw(Error);
       });
     });
-    describe('bytesToUint', () => {
+    describe('bytesToUoctet', () => {
       it('works', () => {
-        bytesToUint(buffer).should.equal(number);
+        bytesToUoctet(buffer).should.equal(number);
       });
       it('invalid input', () => {
-        should.not.exist(bytesToUint('string'));
-        should.not.exist(bytesToUint(NaN));
-        should.not.exist(bytesToUint(null));
-        should.not.exist(bytesToUint());
+        should.not.exist(bytesToUoctet(NaN));
+        should.not.exist(bytesToUoctet(null));
+        should.not.exist(bytesToUoctet());
       });
     });
   });
-  describe('intToBytes/bytesToInt', () => {
+  describe('octetToBytes/bytesToOctet', () => {
     const number = 21;
     let buffer;
-    describe('intToBytes', () => {
+    describe('octetToBytes', () => {
       it('works', () => {
-        buffer = intToBytes(number);
+        buffer = octetToBytes(number);
         (ByteBuffer.isByteBuffer(buffer)).should.equal(true);
       });
       it('invalid input', () => {
-        (() => intToBytes('string')).should.throw(Error);
-        (() => intToBytes(NaN)).should.throw(Error);
-        (() => intToBytes(null)).should.not.throw(Error);
-        (() => intToBytes()).should.not.throw(Error);
+        (() => octetToBytes('string')).should.throw(Error);
+        (() => octetToBytes(NaN)).should.throw(Error);
+        (() => octetToBytes(null)).should.not.throw(Error);
+        (() => octetToBytes()).should.not.throw(Error);
       });
     });
-    describe('bytesToInt', () => {
+    describe('bytesToOctet', () => {
       it('works', () => {
-        bytesToInt(buffer).should.equal(number);
+        bytesToOctet(buffer).should.equal(number);
       });
       it('invalid input', () => {
-        should.not.exist(bytesToInt('string'));
-        should.not.exist(bytesToInt(NaN));
-        should.not.exist(bytesToInt(null));
-        should.not.exist(bytesToInt());
+        should.not.exist(bytesToOctet('string'));
+        should.not.exist(bytesToOctet(NaN));
+        should.not.exist(bytesToOctet(null));
+        should.not.exist(bytesToOctet());
       });
     });
   });
@@ -158,10 +157,10 @@ describe('protobuf/lpisis/types', () => {
       it('9999999999999999999', () => testEncodeDecode(9999999999999999999, 'ulong'));
       it('10.0', () => testEncodeDecode(10.0, 'ulong'));
       it('10.999999999999999', () => testEncodeDecode(10.999999999999999, 'double'));
-      it('signed integer', () => testEncodeDecode(-10, 'long'));
+      it('signed octeteger', () => testEncodeDecode(-10, 'long'));
       it('signed float', () => testEncodeDecode(-10.999, 'double'));
 
-      // warning: limit of Javascript precision, get integer
+      // warning: limit of Javascript precision, get octeteger
       it('10.9999999999999999', () => testEncodeDecode(10.9999999999999999, 'ulong'));
     });
     describe('boolean', () => {

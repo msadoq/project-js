@@ -27,6 +27,8 @@ import { nextCurrent, computeCursors } from './play';
 
 import { updateViewData } from '../store/actions/viewData';
 
+// TODO : test server restart, new workspace, workspace opening, new window
+
 const logger = getLogger('main:orchestration');
 const execution = executionMonitor('orchestration');
 

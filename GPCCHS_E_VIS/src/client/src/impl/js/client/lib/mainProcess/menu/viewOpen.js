@@ -12,6 +12,7 @@ const { requestPathFromOId } = server;
 
 module.exports = { viewOpen, addPlotView, addTextView };
 
+
 function viewOpen(focusedWindow) { // absolutePath, pageId) {
   if (!focusedWindow) {
     return;

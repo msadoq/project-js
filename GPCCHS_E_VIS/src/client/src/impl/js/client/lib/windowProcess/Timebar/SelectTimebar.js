@@ -42,6 +42,10 @@ export default class SelectTimebar extends Component {
   render() {
     const { timebars } = this.props;
     const { form } = this.state;
+    const { focusedPageId } = this.props;
+    if (!focusedPageId) {
+      return null;
+    }
 
     return (
       <div>

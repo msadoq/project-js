@@ -26,7 +26,7 @@ const mapDispatchToProps = (dispatch, { focusedPageId }) => bindActionCreators({
 const PageContainer = connect(mapStateToProps, mapDispatchToProps)(Page);
 
 PageContainer.propTypes = {
-  focusedPageId: PropTypes.string.isRequired,
+  focusedPageId: PropTypes.string,
 };
 
 export default PageContainer;

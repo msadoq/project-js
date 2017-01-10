@@ -193,12 +193,8 @@ export function tick() {
     // do a deep copy to use the real oldViewMap for updateViewData
     const oldViewMap = _cloneDeep(previous.viewMap);
     const newViewMap = _cloneDeep(viewMap);
-    // pulled data
-    rpc(1, 'getData', null, (dataToInject) => {
-      // TODO continue orchestration in this callback
-      dispatch(updateViewData(oldViewMap, newViewMap, dataToInject));
-    });
-
+    
+    // Move requests before viewData update to avoid delay for display
     if (dataMap !== previous.dataMap) {
       execution.start('requests');
       // request data
@@ -211,6 +207,11 @@ export function tick() {
 
       execution.stop('requests');
     }
+    // pulled data
+    rpc(1, 'getData', null, (dataToInject) => {
+      // TODO continue orchestration in this callback
+      dispatch(updateViewData(oldViewMap, newViewMap, dataToInject));
+    });
 
     // cache invalidation (only at a certain frequency)
     const lastCacheInvalidation = getLastCacheInvalidation(state);

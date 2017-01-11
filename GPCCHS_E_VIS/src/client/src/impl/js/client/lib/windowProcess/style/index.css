@@ -5,3 +5,6 @@
 
 @import 'react-grid-layout/css/styles.css';
 @import 'react-resizable/css/styles.css';
+@import './flatpickr/flatpickr.css';
+@import './flatpickr/flatpickr-airbnb-theme.css';
+@import './flatpickr/additional.css';

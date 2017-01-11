@@ -1,5 +1,16 @@
 @import '../style/variables.css';
 
+.formControl{
+  height: 26px;
+  padding: 6px 12px;
+  font-size: 12px;
+  line-height: 1.05;
+  color: #555555;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  margin-left: 4px;
+}
 .TimesetterContainer{
   position: absolute;
   top: 50%;
@@ -15,11 +26,13 @@
   z-index: 15;
 }
 .fieldsContainer{
-  padding: 4px 6px;
+  padding: 4px 0px;
   margin-bottom: 10px;
 }
 .formLabel{
   width: 60px;
+  padding-left: 2px;
+  font-size: 13px;
 }
 [class*="formLabel"]{
   filter: brightness(0.5);

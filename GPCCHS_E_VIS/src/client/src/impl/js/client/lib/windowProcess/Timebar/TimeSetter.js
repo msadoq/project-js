@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import { Button } from 'react-bootstrap';
 import moment from 'moment';
+import Flatpickr from 'react-flatpickr';
 import classnames from 'classnames';
 import TimeSetterFields from './TimeSetterFields';
 import Message from '../common/Message';
@@ -10,6 +12,8 @@ export default class TimeSetter extends Component {
   static propTypes = {
     updateDefaultWidth: PropTypes.func.isRequired,
     updateCursors: PropTypes.func.isRequired,
+    jump: PropTypes.func.isRequired,
+    updateViewport: PropTypes.func.isRequired,
     removeMessage: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
     isPlaying: PropTypes.bool.isRequired,
@@ -19,6 +23,7 @@ export default class TimeSetter extends Component {
     cursor: PropTypes.string.isRequired,
     timebarId: PropTypes.string.isRequired,
     timebarMode: PropTypes.string.isRequired,
+    timebarRulerResolution: PropTypes.string.isRequired,
   }
 
   state = {
@@ -26,6 +31,7 @@ export default class TimeSetter extends Component {
     defaultWidth: null,
     changed: false,
     defaultWidthChanged: false,
+    dayToJump: null,
   }
 
   componentDidMount() {
@@ -61,36 +67,48 @@ export default class TimeSetter extends Component {
     });
   }
 
-  willUpdateCursors = (e) => {
+
+  setDayToJump = (arr, date) => {
+    this.setState({
+      dayToJump: date,
+    });
+  }
+
+  jumpToDay = (e) => {
     e.preventDefault();
     const {
+      timebarId,
       visuWindow,
-      slideWindow,
-      timebarId,
-      updateCursors,
-      updateDefaultWidth,
+      jump,
+      updateViewport,
+      timebarRulerResolution,
     } = this.props;
-
-    const newVisuWindow = {
-      lower: this.state.lower || visuWindow.lower,
-      upper: this.state.upper || visuWindow.upper,
-      current: this.state.current || visuWindow.current,
-    };
-    const newSlideWindow = {
-      lower: this.state.slideLower || slideWindow.lower,
-      upper: this.state.slideUpper || slideWindow.upper,
-    };
-    updateCursors(
+    const {
+      dayToJump,
+    } = this.state;
+    const midDayMs = moment(dayToJump)
+      .hours(12)
+      .minutes(0)
+      .seconds(0)
+      .milliseconds(0)
+      .toDate()
+      .getTime();
+    const diffMs = midDayMs - visuWindow.current;
+    jump(
       timebarId,
-      newVisuWindow,
-      newSlideWindow
+      diffMs
     );
+    updateViewport(
+      timebarId,
+      midDayMs - (visuWindow.upper - visuWindow.lower),
+      timebarRulerResolution
+    );
+    this.setState({ dayToJump: null });
+  }
 
-    const defaultWidth = this.state.defaultWidth === null ?
-      visuWindow.defaultWidth : this.state.defaultWidth;
-
-    if (defaultWidth !== parseInt(visuWindow.defaultWidth, 10)) {
-      updateDefaultWidth(timebarId, defaultWidth);
+  pauseIfPlaying = () => {
+    if (this.props.isPlaying) {
+      this.props.pause();
     }
   }
 
@@ -107,10 +125,45 @@ export default class TimeSetter extends Component {
     });
   }
 
-  pauseIfPlaying = () => {
-    if (this.props.isPlaying) {
-      this.props.pause();
+  willSetDefaultWidth = (e) => {
+    e.preventDefault();
+    const {
+      timebarId,
+      updateDefaultWidth,
+      visuWindow,
+    } = this.props;
+
+    const defaultWidth = this.state.defaultWidth === null ?
+    visuWindow.defaultWidth : this.state.defaultWidth;
+
+    if (defaultWidth !== parseInt(visuWindow.defaultWidth, 10)) {
+      updateDefaultWidth(timebarId, defaultWidth);
     }
+  }
+
+  willUpdateCursors = (e) => {
+    e.preventDefault();
+    const {
+      visuWindow,
+      slideWindow,
+      timebarId,
+      updateCursors,
+    } = this.props;
+
+    const newVisuWindow = {
+      lower: this.state.lower || visuWindow.lower,
+      upper: this.state.upper || visuWindow.upper,
+      current: this.state.current || visuWindow.current,
+    };
+    const newSlideWindow = {
+      lower: this.state.slideLower || slideWindow.lower,
+      upper: this.state.slideUpper || slideWindow.upper,
+    };
+    updateCursors(
+      timebarId,
+      newVisuWindow,
+      newSlideWindow
+    );
   }
 
   render() {
@@ -124,6 +177,7 @@ export default class TimeSetter extends Component {
     const {
       defaultWidthChanged,
       changed,
+      dayToJump,
     } = this.state;
 
     let orderedCursors = ['lower', 'slideLower', 'current'];
@@ -134,61 +188,35 @@ export default class TimeSetter extends Component {
     }
 
     return (
-      <form onSubmit={this.willUpdateCursors} >
-        {
-          this.props.messages.length ?
-            this.props.messages.map((v, i) =>
-              <Message
-                key={i}
-                type={v.type}
-                message={v.message}
-                containerId={`timeSetter-${this.props.timebarId}`}
-                messageIndex={i}
-                onClose={this.props.removeMessage}
-              />
-            ) : null
-          }
-        {
-          orderedCursors.map((x, i) => {
-            let undisplayed = false;
-            if (timebarMode !== 'Fixed' && x === 'slideLower') {
-              undisplayed = true;
-            }
-            if (timebarMode === 'Normal' && x === 'slideUpper') {
-              undisplayed = true;
-            }
-            let ms;
-            if (visuWindow[x]) {
-              ms = this.state[x] || visuWindow[x];
-            } else if (x === 'slideLower') {
-              ms = this.state.slideLower || slideWindow.lower;
-            } else if (x === 'slideUpper') {
-              ms = this.state.slideUpper || slideWindow.upper;
-            }
-
-            let disabled = cursor !== 'all';
-            if (x === cursor) {
-              disabled = false;
-            }
-            return (
-              <TimeSetterFields
-                key={i}
-                cursor={x}
-                undisplayed={undisplayed}
-                disabled={disabled}
-                ms={ms}
-                onChange={this.onChangeAction}
-              />
-            );
-          })
-        }
-        <div className={styles.fieldsContainer}>
-          <div
-            className="text-capitalize"
-            style={{ width: '100%' }}
-          >
-            <b>Default Width</b>
+      <div>
+        <div>
+          <h4>Jump to specific day</h4>
+          <div className={styles.fieldsContainer}>
+            <Flatpickr
+              options={{
+                minDate: '1990-01-01',
+                maxDate: moment().add(1, 'year').format('YYYY-MM-DD'),
+                value: moment(visuWindow.current).format('YYYY-MM-DD'),
+                format: 'Y-m-d',
+              }}
+              defaultValue={moment(visuWindow.current).format('YYYY-MM-DD')}
+              onChange={this.setDayToJump}
+              className={styles.formControl}
+            />
+            {' '}
+            <Button
+              bsSize="small"
+              bsStyle="primary"
+              disabled={!dayToJump}
+              onClick={this.jumpToDay}
+            >
+              Jump
+            </Button>
           </div>
+        </div>
+        <br />
+        <h4>Visu window default width</h4>
+        <div className={styles.fieldsContainer}>
           <div className={styles.inputDiv}>
             {
               dateToArray(moment.duration(visuWindow.defaultWidth)).map((x, i) =>
@@ -211,28 +239,91 @@ export default class TimeSetter extends Component {
               )
             }
           </div>
-        </div>
-        <div className="text-center">
-          <input
-            type="submit"
-            value="Save"
-            className={classnames(
-              'btn',
-              'btn-primary',
-              {
-                disabled: !defaultWidthChanged && !changed,
-              }
-            )}
-          />
-          {' '}
-          <button
-            className={`btn btn-info ${(defaultWidthChanged || changed) ? '' : 'disabled'}`}
-            onClick={this.cancel}
+          <Button
+            bsSize="small"
+            bsStyle="primary"
+            disabled={!defaultWidthChanged}
+            onClick={this.willSetDefaultWidth}
           >
-            Cancel changes
-          </button>
+            Set default width
+          </Button>
         </div>
-      </form>
+        <form onSubmit={this.willUpdateCursors} >
+          <br />
+          <h4>Cursor timestamps</h4>
+          {
+            this.props.messages.length ?
+              this.props.messages.map((v, i) =>
+                <Message
+                  key={i}
+                  type={v.type}
+                  message={v.message}
+                  containerId={`timeSetter-${this.props.timebarId}`}
+                  messageIndex={i}
+                  onClose={this.props.removeMessage}
+                />
+              ) : null
+            }
+          {
+            orderedCursors.map((x, i) => {
+              let undisplayed = false;
+              if (timebarMode !== 'Fixed' && x === 'slideLower') {
+                undisplayed = true;
+              }
+              if (timebarMode === 'Normal' && x === 'slideUpper') {
+                undisplayed = true;
+              }
+              let ms;
+              if (visuWindow[x]) {
+                ms = this.state[x] || visuWindow[x];
+              } else if (x === 'slideLower') {
+                ms = this.state.slideLower || slideWindow.lower;
+              } else if (x === 'slideUpper') {
+                ms = this.state.slideUpper || slideWindow.upper;
+              }
+
+              let disabled = cursor !== 'all';
+              if (x === cursor) {
+                disabled = false;
+              }
+              return (
+                <TimeSetterFields
+                  key={i}
+                  cursor={x}
+                  undisplayed={undisplayed}
+                  disabled={disabled}
+                  ms={ms}
+                  onChange={this.onChangeAction}
+                />
+              );
+            })
+          }
+          <div className="text-center">
+            <input
+              type="submit"
+              value="Save"
+              className={classnames(
+                'btn',
+                'btn-primary',
+                {
+                  disabled: !changed,
+                }
+              )}
+            />
+            {' '}
+            <button
+              className={classnames(
+                'btn',
+                'btn-info',
+                { disabled: changed }
+              )}
+              onClick={this.cancel}
+            >
+              Cancel changes
+            </button>
+          </div>
+        </form>
+      </div>
     );
   }
 }

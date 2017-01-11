@@ -1,8 +1,9 @@
 import { app, ipcMain } from 'electron';
 import { series } from 'async';
+import { CHILD_PROCESS_SERVER, CHILD_PROCESS_DC } from 'common/constants';
 import getLogger from 'common/log';
 import monitoring from 'common/log/monitoring';
-import { CHILD_PROCESS_SERVER, CHILD_PROCESS_DC } from 'common/constants';
+import { fork, get, kill } from 'common/childProcess';
 import parameters from 'common/parameters';
 import { clear } from 'common/callbacks';
 
@@ -11,7 +12,6 @@ import { initStore, getStore } from '../store/mainStore';
 import './menu';
 import rendererController from './controllers/renderer';
 import serverController from './controllers/server';
-import { fork, get, kill } from './childProcess';
 import { server } from './ipc';
 import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
@@ -23,6 +23,20 @@ import { start as startOrchestration, stop as stopOrchestration } from './orches
 const logger = getLogger('main:index');
 
 export function start() {
+  const forkOptions = {
+    execPath: parameters.get('NODE_PATH'),
+    env: {
+      DEBUG: parameters.get('DEBUG'),
+      SERVER_PORT: parameters.get('SERVER_PORT'),
+      ZMQ_GPCCDC_PUSH: parameters.get('ZMQ_GPCCDC_PUSH'),
+      ZMQ_GPCCDC_PULL: parameters.get('ZMQ_GPCCDC_PULL'),
+      STUB_DC_ON: parameters.get('STUB_DC_ON'),
+      MONITORING: parameters.get('MONITORING'),
+      PROFILING: parameters.get('PROFILING'),
+      LOG: parameters.get('LOG'),
+    },
+  };
+
   series([
     callback => enableDebug(callback),
     (callback) => {
@@ -43,6 +57,7 @@ export function start() {
       fork(
         CHILD_PROCESS_DC,
         `${parameters.get('path')}/node_modules/common/stubs/dc.js`,
+        forkOptions,
         callback
       );
     },
@@ -50,6 +65,7 @@ export function start() {
       fork(
         CHILD_PROCESS_SERVER,
         `${parameters.get('path')}/node_modules/server/index.js`,
+        forkOptions,
         callback
       );
     },

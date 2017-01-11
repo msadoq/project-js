@@ -1,8 +1,8 @@
 import { v4 } from 'node-uuid';
 import globalConstants from 'common/constants';
 import getLogger from 'common/log';
-import { set } from 'common/callbacks';
-import { get } from './childProcess';
+import { set as setCallback } from 'common/callbacks';
+import { get as getChildProcess } from 'common/childProcess';
 
 const logger = getLogger('main:ipc');
 
@@ -12,14 +12,14 @@ const commands = {
   },
   server: {
     rpc: (method, payload, callback) => {
-      const proc = get(globalConstants.CHILD_PROCESS_SERVER);
+      const proc = getChildProcess(globalConstants.CHILD_PROCESS_SERVER);
       if (!proc) {
         return logger.warn('server process is not inited yet for rpc');
       }
 
       logger.debug(`sending rpc call ${method} to server`);
       const queryId = v4();
-      set(queryId, callback);
+      setCallback(queryId, callback);
       proc.send({
         type: globalConstants.IPC_RPC_REQUEST,
         queryId,
@@ -28,7 +28,7 @@ const commands = {
       });
     },
     message: (method, payload) => {
-      const proc = get(globalConstants.CHILD_PROCESS_SERVER);
+      const proc = getChildProcess(globalConstants.CHILD_PROCESS_SERVER);
       if (!proc) {
         return logger.warn('server process is not yet inited for message');
       }

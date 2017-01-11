@@ -23,7 +23,7 @@ export default class TimeSetter extends Component {
     cursor: PropTypes.string.isRequired,
     timebarId: PropTypes.string.isRequired,
     timebarMode: PropTypes.string.isRequired,
-    timebarRulerResolution: PropTypes.string.isRequired,
+    timebarRulerResolution: PropTypes.number.isRequired,
   }
 
   state = {

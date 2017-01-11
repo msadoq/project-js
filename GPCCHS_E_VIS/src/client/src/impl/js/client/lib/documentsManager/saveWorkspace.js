@@ -7,81 +7,80 @@ const { join, dirname, relative } = require('path');
 const { checkPath } = require('../common/fs');
 
 function saveWorkspaceAs(state, path, useRelativePath, callback) {
-  const errPath = checkPath(dirname(path));
-  if (errPath) {
-    return callback(`Unable to save workspace in folder ${dirname(path)}`);
-  }
-  const savedWindowsIds = [];
-  const workspace = {
-    type: 'WorkSpace',
-    windows: [],
-    timebars: [],
-  };
-  // windows
-  _each(state.windows, (win, winIds) => {
-    const current = {
-      type: 'documentWindow',
-      pages: [],
-      title: win.title,
-      geometry: win.geometry,
+  checkPath(dirname(path)).then(() => {
+    const savedWindowsIds = [];
+    const workspace = {
+      type: 'WorkSpace',
+      windows: [],
+      timebars: [],
     };
-    const err = {};
-    // pages
-    win.pages.forEach((pageId) => {
-      if (!state.pages[pageId]) {
-        return callback('Page Id is missing');
-      }
-      const page = {};
-      const currentPage = state.pages[pageId];
-      if (currentPage.absolutePath) {
-        if (useRelativePath) {
-          page.path = relative(dirname(path), currentPage.absolutePath);
-        } else {
-          page.path = currentPage.absolutePath;
-          if (_startsWith(current.path, root)) {
-            current.path = '/'.concat(relative(root, currentPage.absolutePath));
-          }
+    // windows
+    _each(state.windows, (win, winIds) => {
+      const current = {
+        type: 'documentWindow',
+        pages: [],
+        title: win.title,
+        geometry: win.geometry,
+      };
+      const err = {};
+      // pages
+      win.pages.forEach((pageId) => {
+        if (!state.pages[pageId]) {
+          return callback('Page Id is missing');
         }
-      } else if (currentPage.oId) {
-        page.oId = currentPage.oId;
-      } else if (useRelativePath && currentPage.path) {
-        page.path = currentPage.path;
-      } else {
-        err[pageId] = 'Unsaved page: no path or oId';
-        return callback('Unsaved page: no path or oId');
-      }
-      if (!state.timebars[currentPage.timebarId]) {
-        err[pageId] = 'Unsaved page: unknown timebar';
-        return callback('timelines missing');
-      }
-      page.timeBarId = state.timebars[currentPage.timebarId].id;
-      current.pages.push(page);
+        const page = {};
+        const currentPage = state.pages[pageId];
+        if (currentPage.absolutePath) {
+          if (useRelativePath) {
+            page.path = relative(dirname(path), currentPage.absolutePath);
+          } else {
+            page.path = currentPage.absolutePath;
+            if (_startsWith(current.path, root)) {
+              current.path = '/'.concat(relative(root, currentPage.absolutePath));
+            }
+          }
+        } else if (currentPage.oId) {
+          page.oId = currentPage.oId;
+        } else if (useRelativePath && currentPage.path) {
+          page.path = currentPage.path;
+        } else {
+          err[pageId] = 'Unsaved page: no path or oId';
+          return callback('Unsaved page: no path or oId');
+        }
+        if (!state.timebars[currentPage.timebarId]) {
+          err[pageId] = 'Unsaved page: unknown timebar';
+          return callback('timebars missing');
+        }
+        page.timeBarId = state.timebars[currentPage.timebarId].id;
+        current.pages.push(page);
+      });
+      workspace.windows.push(current);
+      savedWindowsIds.push(winIds);
     });
-    workspace.windows.push(current);
-    savedWindowsIds.push(winIds);
-  });
-  // timebars
-  _each(state.timebars, (timebar) => {
-    const tb = Object.assign({}, _omit(timebar, 'timelines'), { type: 'timeBarConfiguration' });
-    tb.timelines = [];
-    _each(timebar.timelines, (timelineId) => {
-      if (!state.timelines[timelineId]) {
-        return callback('timelines missing');
+    // timebars
+    _each(state.timebars, (timebar) => {
+      const tb = Object.assign({}, _omit(timebar, 'timelines'), { type: 'timeBarConfiguration' });
+      tb.timelines = [];
+      _each(timebar.timelines, (timelineId) => {
+        if (!state.timelines[timelineId]) {
+          return callback('timelines missing');
+        }
+        tb.timelines.push(state.timelines[timelineId]);
+      });
+      if (tb.masterId === null) {
+        delete tb.masterId;
       }
-      tb.timelines.push(state.timelines[timelineId]);
+      workspace.timebars.push(tb);
     });
-    if (tb.masterId === null) {
-      delete tb.masterId;
-    }
-    workspace.timebars.push(tb);
-  });
-  // save file
-  writeFile(path, JSON.stringify(workspace, null, '  '), (err) => {
-    if (err) {
-      return callback(`Unable to save workspace in file ${path}`);
-    }
-    callback(null, savedWindowsIds);
-  });
+    // save file
+    writeFile(path, JSON.stringify(workspace, null, '  '), (err) => {
+      if (err) {
+        return callback(`Unable to save workspace in file ${path}`);
+      }
+      callback(null, savedWindowsIds);
+    });
+  })
+  .catch(err => callback(err));
 }
 
 function saveWorkspace(state, useRelativePath, callback) {

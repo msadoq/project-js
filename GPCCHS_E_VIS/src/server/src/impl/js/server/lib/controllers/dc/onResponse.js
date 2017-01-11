@@ -3,7 +3,7 @@ const _isEqual = require('lodash/isEqual');
 const logger = require('common/log')('controllers:onResponse');
 const globalConstants = require('common/constants');
 const { encode, decode } = require('common/protobuf');
-const registeredCallbacks = require('common/callbacks');
+const { pop } = require('common/callbacks');
 
 const protobufSuccess = encode('dc.dataControllerUtils.Status', {
   status: globalConstants.STATUS_SUCCESS,
@@ -27,15 +27,11 @@ const protobufSuccess = encode('dc.dataControllerUtils.Status', {
 module.exports.onResponse = (queryIdBuffer, statusBuffer, reasonBuffer) => {
   logger.verbose('called');
 
-  // check if queryId exists in registeredCallbacks singleton, if not stop logic
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
-  const callback = registeredCallbacks.get(queryId);
+  const callback = pop(queryId);
   if (typeof callback === 'undefined') {
     return undefined;
   }
-
-  // unregister queryId
-  registeredCallbacks.remove(queryId);
 
   // if status is SUCCESS, execute callback and stop logic
   if (_isEqual(statusBuffer, protobufSuccess)) {

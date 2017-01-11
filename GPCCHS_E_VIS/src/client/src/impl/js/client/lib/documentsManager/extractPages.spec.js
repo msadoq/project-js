@@ -44,7 +44,7 @@ describe('documents/lib', () => {
         id: 'TB1',
         uuid: tbid,
       };
-      content.__folder = path.join(__dirname, 'examples');
+      content.__folder = path.join(__dirname, 'fixtures');
     });
     it('valid', (done) => {
       extractPages(content, requestPathFromOId, (err, val) => {

@@ -1,4 +1,5 @@
 import _without from 'lodash/without';
+import _isEqual from 'lodash/isEqual';
 import _omit from 'lodash/omit';
 import u from 'updeep';
 import { resolve } from 'path';
@@ -27,7 +28,8 @@ export default function pages(statePages = {}, action) {
     case types.WS_PAGE_UPDATEPATH:
       // path unchanged or newPath invalid
       if (!action.payload.newPath || !statePages[action.payload.pageId] ||
-          resolve(action.payload.newPath) === resolve(statePages[action.payload.pageId].path)) {
+        (statePages[action.payload.pageId].path &&
+        resolve(action.payload.newPath) === resolve(statePages[action.payload.pageId].path))) {
         return statePages;
       }
       return u({ [action.payload.pageId]: {
@@ -37,8 +39,9 @@ export default function pages(statePages = {}, action) {
         statePages);
     case types.WS_PAGE_UPDATE_ABSOLUTEPATH: {
       if (!statePages[action.payload.pageId] || !action.payload.newPath ||
+        (statePages[action.payload.pageId].absolutePath &&
         resolve(action.payload.newPath)
-          === resolve(statePages[action.payload.pageId].absolutePath)) {
+          === resolve(statePages[action.payload.pageId].absolutePath))) {
         return statePages;
       }
       return u({ [action.payload.pageId]: {
@@ -94,7 +97,7 @@ const initialState = {
     viewId: null,
     viewType: null
   },
-  isModified: false,
+  isModified: true,
 };
 
 function page(statePage = initialState, action) {
@@ -109,7 +112,8 @@ function page(statePage = initialState, action) {
         path: action.payload.path,
         oId: action.payload.oId,
         absolutePath: action.payload.absolutePath,
-        isModified: action.payload.isModified || false,
+        isModified: (action.payload.isModified !== undefined) ?
+          action.payload.isModified : statePage.isModified,
       });
     case types.WS_PAGE_EDITOR_OPEN:
       return u({
@@ -137,11 +141,15 @@ function page(statePage = initialState, action) {
         isModified: true,
       });
     }
-    case types.WS_PAGE_UPDATE_LAYOUT:
+    case types.WS_PAGE_UPDATE_LAYOUT: {
+      if (!action.payload.layout || _isEqual(action.payload.layout, statePage.layout)) {
+        return statePage;
+      }
       return Object.assign({}, statePage, {
-        layout: action.payload.layout || statePage.layout,
-        isModified: action.payload.layout ? true : statePage.isModified,
+        layout: action.payload.layout,
+        isModified: true
       });
+    }
     default:
       return statePage;
   }

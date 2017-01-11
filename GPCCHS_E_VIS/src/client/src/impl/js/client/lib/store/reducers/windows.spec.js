@@ -25,7 +25,7 @@ describe('store:windows:reducer', () => {
         geometry: { w: 800, h: 600, x: 110, y: 10 },
         debug: { whyDidYouUpdate: false, timebarVisibility: true },
         minimized: false,
-        isModified: false,
+        isModified: true,
       });
     });
     it('add empty', () => {

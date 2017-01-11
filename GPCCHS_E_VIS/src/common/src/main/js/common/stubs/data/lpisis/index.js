@@ -2,6 +2,15 @@
 const protobuf = require('../../../protobuf');
 
 module.exports = {
+  getDecommutedPacket: require('./decommutedPacket/decommutedPacket'),
+  getDecommutedPacketProtobuf: override => protobuf.encode(
+    'lpisis.decommutedPacket.DecommutedPacket',
+    require('./decommutedPacket/decommutedPacket')(override)
+  ),
+  getDecommutedPacketDeProtobuf: proto => protobuf.decode(
+    'lpisis.decommutedPacket.DecommutedPacket',
+    proto
+  ),
   getDocument: require('./file/document'),
   getDocumentProtobuf: override => protobuf.encode(
     'lpisis.file.Document',

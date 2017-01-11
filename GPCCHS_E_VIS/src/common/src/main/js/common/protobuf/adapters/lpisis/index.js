@@ -6,6 +6,9 @@ module.exports = {
   ccsds_mal: {
     NamedValue: require('./ccsds_mal/namedValue'),
   },
+  decommutedPacket: {
+    DecommutedPacket: require('./decommutedPacket/decommutedPacket'),
+  },
   decommutedParameter: {
     ReportingParameter: require('./decommutedParameter/reportingParameter'),
   },

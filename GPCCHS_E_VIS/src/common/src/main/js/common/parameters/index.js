@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { join } = require('path');
 const minimist = require('minimist');
+const R = require('ramda');
 
 const DEFAULT = 'config.default.json'; // mandatory
 const LOCAL = 'config.local.json'; // optional
@@ -11,6 +12,10 @@ let localConfig;
 
 function init(path) {
   if (localConfig) {
+    return;
+  }
+
+  if (!fs.existsSync(join(path, DEFAULT))) {
     return;
   }
 
@@ -29,8 +34,7 @@ function init(path) {
     console.log('no local configuration file found');
   }
 }
-// Initiliaze parameters ASAP
-init(process.cwd());
+
 
 function getArgv(name) {
   if (!argv) {
@@ -84,13 +88,12 @@ function get(name) {
   if (typeof value !== 'undefined') {
     return value;
   }
-
   return undefined;
 }
 
-const universalGet = (...args) => {
-  const fn = (global.parameters && global.parameters.get) || get;
-  return fn(...args);
-};
+const universalGet = R.pipe(
+  path => (module.exports.init(process.cwd()), path),
+  R.pathOr(get, ['parameters','get'], global)
+);
 
 module.exports = { init, get: universalGet };

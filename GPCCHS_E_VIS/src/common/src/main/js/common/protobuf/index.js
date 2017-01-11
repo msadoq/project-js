@@ -86,11 +86,6 @@ const removeEmpty = (collection) => {
   return collection;
 };
 
-register({
-  dc: require('./adapters/dc'),
-  lpisis: require('./adapters/lpisis'),
-});
-
 module.exports = {
   encode: (type, raw) => {
     const Builder = getProtobufType(type);
@@ -113,3 +108,8 @@ module.exports = {
   },
   getType: comObject => comObjectProtobufTypes[comObject],
 };
+
+register({
+  dc: require('./adapters/dc'),
+  lpisis: require('./adapters/lpisis'),
+});

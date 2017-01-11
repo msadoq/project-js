@@ -9,7 +9,7 @@ const logger = getLogger('common:registeredCallbacks');
 
 let callbacks = {};
 
-function set(id, callback) {
+const set = (id, callback) => {
   if (!_isString(id) || _isEmpty(id)) {
     throw new Error(`setting a new callback required a string id '${id}'`);
   }
@@ -22,31 +22,27 @@ function set(id, callback) {
 
   logger.debug(`callback registered for '${id}'`);
   callbacks[id] = callback;
-}
+};
 
-function get(id) {
-  return callbacks[id];
-}
+const get = id => callbacks[id];
 
-function getAll() {
-  return callbacks;
-}
+const getAll = () => callbacks;
 
-function remove(id) {
+const remove = (id) => {
   delete callbacks[id];
-}
+};
 
 // TODO test
-function pop(id) {
+const pop = (id) => {
   const callback = get(id);
   remove(id);
   return callback;
-}
+};
 
-function clear() {
+const clear = () => {
   logger.debug('callbacks cleared');
   callbacks = {};
-}
+};
 
 module.exports = {
   set,

@@ -8,7 +8,7 @@ const header = stubData.getTimebasedPubSubDataHeaderProtobuf();
 
 function getPayloads(parameterName) {
   const payloads = [];
-  for (let i = 0; i < _random(0, globalConstants.DC_STUB_MAX_SUBSCRIPTION_VALUES); i += 1) {
+  for (let i = 0; i < _random(1, globalConstants.DC_STUB_MAX_SUBSCRIPTION_VALUES); i += 1) {
     payloads.push(getPayload(Date.now(), parameterName));
   }
 

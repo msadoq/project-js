@@ -2513,10 +2513,10 @@ const viewMap = {
         error: 'invalid entry point, no domain matches'
       },
       STAT_WILDCARD_DOMAIN: {
-        error: 'invalid entry point, no domain matches'
+        error: 'invalid entry point, domain wildcard not already supported'
       },
       STAT_EMPTY_DOMAIN: {
-        error: 'invalid entry point, no domain matches'
+        error: 'invalid entry point, invalid domain field'
       },
       STAT_UNKNOW_TIMELINE: {
         error: 'invalid entry point, no timeline matches'

@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 import _get from 'lodash/get';
 import u from 'updeep';
 
+import parseFormula from '../../dataManager/structures/common/formula';
 import { getViewData } from './viewData';
 import { compile } from '../../common/operators';
 
@@ -59,6 +60,29 @@ const getEntryPointColorObj = ({ entryPoints, epName, value, dataProp }) => {
   }
 };
 
+const validateFormula = (entryPoints, epName) => {
+  const formula = _get(getEntryPoint(epName, entryPoints), ['connectedData', 'formula']);
+  return parseFormula(formula);
+};
+
+// Return value obj for TextView with color and check if entryPoint is valid
+const getTextValueFn = (entryPoints, epName) => ({ value, ...args }) => {
+  const isFormulaValid = validateFormula(entryPoints, epName);
+  return {
+    value: isFormulaValid ? value : 'INVALID FORMULA',
+    ...args,
+    ...(() => (
+      isFormulaValid ?
+        getEntryPointColorObj({
+          entryPoints,
+          epName,
+          value,
+          dataProp: 'connectedData'
+        }) : {}
+    ))()
+  };
+};
+
 // Apply state colors on entry points value and return view data with state colors
 export const getTextViewData = createSelector(
     getViewEntryPoints,
@@ -67,11 +91,7 @@ export const getTextViewData = createSelector(
       values: {
         ...Object.keys(_get(data, ['values'], {})).reduce((acc, epName) => ({
           ...acc,
-          [epName]: ({ value, ...args }) => ({
-            value,
-            ...args,
-            ...getEntryPointColorObj({ entryPoints, epName, value, dataProp: 'connectedData' })
-          })
+          [epName]: getTextValueFn(entryPoints, epName)
         }), {})
       }
     }, data)

@@ -13,7 +13,7 @@ import {
   getPlotViewData,
 } from './views';
 
-describe('store:views:selectors', () => {
+describe.only('store:views:selectors', () => {
   it('getView', () => {
     const { getState } = getStore({
       views: {
@@ -262,6 +262,53 @@ describe('store:views:selectors', () => {
           },
           ep3: {
             value: 1,
+          }
+        }
+      });
+    });
+    it('For TextView (invalid formula)', () => {
+      const state = {
+        views: {
+          myViewId: {
+            configuration: {
+              title: 'Title 1',
+              entryPoints: [{
+                name: 'ep1',
+                connectedData: {
+                  formula: 'Reporting.ep1<>.extractedValue'
+                },
+                stateColors: [
+                  {
+                    color: '#FF0000',
+                    condition: {
+                      field: 'extractedValue',
+                      operator: '<',
+                      operand: '1'
+                    }
+                  }
+                ]
+              }]
+            }
+          },
+        },
+        viewData: {
+          myViewId: {
+            index: {
+              ep1: 1480578457000,
+            },
+            values: {
+              ep1: { value: 0.5 },
+            }
+          }
+        }
+      };
+      getTextViewData(state, 'myViewId').should.eql({
+        index: {
+          ep1: 1480578457000,
+        },
+        values: {
+          ep1: {
+            value: 'INVALID FORMULA',
           }
         }
       });

@@ -56,7 +56,7 @@ const initialState = {
     whyDidYouUpdate: false,
     timebarVisibility: true,
   },
-  isModified: false,
+  isModified: true,
   minimized: false,
 };
 
@@ -68,7 +68,8 @@ function window(stateWindow = initialState, action) {
         geometry: Object.assign({}, stateWindow.geometry, action.payload.geometry),
         pages: action.payload.pages || stateWindow.pages,
         focusedPage: action.payload.focusedPage || stateWindow.focusedPage,
-        isModified: action.payload.isModified || false,
+        isModified: (action.payload.isModified === undefined) ?
+          stateWindow.isModified : action.payload.isModified,
       });
     case types.WS_WINDOW_UPDATE_GEOMETRY: {
       return Object.assign({}, stateWindow, {

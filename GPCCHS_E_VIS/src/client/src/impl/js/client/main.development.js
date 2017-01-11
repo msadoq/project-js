@@ -1,15 +1,12 @@
 import { app } from 'electron';
+import 'common/parameters';
 import getLogger from 'common/log';
-import { init } from 'common/parameters';
-import { start, stop, onWindowsClose } from './lib/mainProcess';
+import { start, stop, onWindowsClose } from './lib/mainProcess'; // eslint-disable-line import/first
 
 const logger = getLogger('main');
 
 // avoid using host proxy configuration and perturbing local HTTP access (e.g.: index.html)
 app.commandLine.appendSwitch('no-proxy-server');
-
-// load configuration
-init(__dirname);
 
 const errorHandler = (err) => {
   console.error(err); // eslint-disable-line no-console

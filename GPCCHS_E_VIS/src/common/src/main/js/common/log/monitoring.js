@@ -1,6 +1,6 @@
 const { get } = require('../parameters');
 
-const getLogger = require('../log');
+const getLogger = require('./');
 
 const logger = getLogger('monitoring');
 
@@ -56,7 +56,6 @@ const latencyReport = () => {
 
 const report = () => {
   memUsage = process.memoryUsage();
-
   logger.info('data', {
     memUsage: Object.assign({}, memUsage, {
       time: Date.now(),

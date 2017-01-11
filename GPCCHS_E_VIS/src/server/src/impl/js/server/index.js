@@ -3,7 +3,7 @@
 const exit = require('exit');
 const logger = require('common/log')('main');
 const zmq = require('common/zmq');
-const monitoring = require('common/monitoring');
+const monitoring = require('common/log/monitoring');
 const clientController = require('./lib/controllers/client');
 const dcController = require('./lib/controllers/dc');
 const { unsubscribeAll } = require('./lib/utils/subscriptions');

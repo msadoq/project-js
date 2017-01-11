@@ -1,7 +1,7 @@
 import _round from 'lodash/round';
 import _cloneDeep from 'lodash/cloneDeep';
 import globalConstants from 'common/constants';
-import executionMonitor from 'common/execution';
+import executionMonitor from 'common/log/execution';
 import getLogger from 'common/log';
 import { get } from 'common/parameters';
 

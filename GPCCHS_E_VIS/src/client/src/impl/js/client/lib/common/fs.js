@@ -3,7 +3,7 @@ const fs = require('fs');
 const {
   join
 } = require('path');
-const mkdirpSync = require('mkdirp').sync;
+const mkdirp = require('mkdirp');
 const _startsWith = require('lodash/startsWith');
 const parameters = require('common/parameters');
 
@@ -112,19 +112,22 @@ const self = module.exports = {
    * Checks if folder exists and if not, creates it
    *
    * @param folder
-   * @return {Error}
+   * @return {Promise}
    */
-  checkPath: (folder) => {
-    try {
-      fs.accessSync(folder, fs.constants.F_OK);
-    } catch (e) {
-      // TODO check if folder is on FMD
-      mkdirpSync(folder);
-      try {
-        fs.accessSync(folder, fs.constants.F_OK);
-      } catch (err) {
-        return new Error(`Unable to create folder ${folder}`);
+  checkPath: folder => new Promise((resolve, reject) => {
+    fs.access(folder, fs.constants.F_OK, (noAccess) => {
+      if (noAccess) {
+        // TODO check if folder is on FMD
+        mkdirp(folder, (err) => {
+          if (err) {
+            reject(new Error(`Unable to create folder ${folder} : ${err}`));
+          } else {
+            resolve(true);
+          }
+        });
+      } else {
+        resolve(true);
       }
-    }
-  },
+    });
+  }),
 };

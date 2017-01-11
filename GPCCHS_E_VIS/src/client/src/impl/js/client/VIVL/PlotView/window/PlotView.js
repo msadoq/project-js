@@ -10,7 +10,6 @@ import { scaleTime } from 'd3-scale';
 import getLogger from 'common/log';
 import {
   DEFAULT_FIELD,
-  DEFAULT_COM_OBJECT,
 } from 'common/constants';
 import {
   ChartCanvas, Chart, series, annotation,
@@ -19,6 +18,7 @@ import {
 } from 'react-stockcharts';
 import { hexToRGBA } from 'react-stockcharts/lib/utils';
 import _omit from 'lodash/omit';
+import R from 'ramda';
 import {
   getLines,
   getLineMarker,
@@ -54,15 +54,25 @@ const edgeIndicatorArrowWidth = 10;
 const tooltipYMargin = 5;
 const badgeWidth = 30;
 
+const getComObject = comObjects =>
+  R.pipe(
+    R.defaultTo([]),
+    R.ifElse(
+      a => a.length === 1,
+      R.nth(0),
+      () => 'UNKNOWN_COM_OBJECT'
+    ),
+  )(comObjects);
+
 // parse clipboard data to create partial entry point
 function parseDragData(data) {
   return {
     name: data.item,
     connectedDataX: {
-      formula: `${data.catalogName}.${data.item}<${DEFAULT_COM_OBJECT}>.groundDate`,
+      formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.groundDate`,
     },
     connectedDataY: {
-      formula: `${data.catalogName}.${data.item}<${DEFAULT_COM_OBJECT}>.${DEFAULT_FIELD}`,
+      formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.${DEFAULT_FIELD}`,
     },
   };
 }
@@ -79,7 +89,7 @@ class PlotView extends PureComponent {
       lower: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
       current: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
       upper: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
-    }).isRequired,
+    }),
     viewId: PropTypes.string,
     addEntryPoint: PropTypes.func,
     configuration: PropTypes.shape({
@@ -148,7 +158,7 @@ class PlotView extends PureComponent {
   }
 
   onDrop(e) {
-    const data = e.dataTransfer.getData('application/json');
+    const data = e.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);
 
     // eslint-disable-next-line no-console
@@ -196,7 +206,7 @@ class PlotView extends PureComponent {
 
   getCharts() {
     const {
-      visuWindow: { current },
+      visuWindow,
       containerWidth,
       containerHeight,
       configuration: { showYAxes }
@@ -251,7 +261,7 @@ class PlotView extends PureComponent {
         />}
         <StraightLine
           type="vertical"
-          xValue={current}
+          xValue={visuWindow ? visuWindow.current : undefined}
           stroke="#0ee61f"
           strokeWidth={2}
           opacity={1}

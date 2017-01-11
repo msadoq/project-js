@@ -2,7 +2,7 @@ const _each = require('lodash/each');
 const _concat = require('lodash/concat');
 const globalConstants = require('common/constants');
 const zmq = require('common/zmq');
-const executionMonitor = require('common/execution');
+const executionMonitor = require('common/log/execution');
 
 const { add: addToQueue } = require('../../utils/dataQueue');
 const { createQueryMessage } = require('../../utils/queries');

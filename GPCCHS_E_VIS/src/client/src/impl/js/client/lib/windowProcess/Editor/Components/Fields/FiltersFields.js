@@ -10,13 +10,14 @@ import { HorizontalFormGroup } from '../Forms/';
 import styles from './fields.css';
 import { operators } from '../../../../common/operators';
 
-export default class FilterFields extends React.Component {
+export default class FiltersFields extends React.Component {
 
   static propTypes = {
     fields: PropTypes.shape({
       push: PropTypes.func,
       remove: PropTypes.func,
       insert: PropTypes.func,
+      getAll: PropTypes.func,
     }).isRequired,
   }
 
@@ -135,7 +136,7 @@ export default class FilterFields extends React.Component {
           </thead>
           <tbody>
             {
-              filters.length ? filters.map(
+              (filters && filters.length) ? filters.map(
                 (filter, index) => (
                   <tr
                     key={index}

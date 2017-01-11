@@ -34,27 +34,16 @@ const validate = (id, data, schema) => {
  *
  * validate('myType', myContent);
  * // or ...
- * validate('myType', mySchema, myContent);
+ * validate('myType', myContent, mySchema);
  *
  * @param id
- * @param schema {Object}
  * @param content {Object}
+ * @param schema {Object}
  * @returns {Error}
  */
 module.exports = (...args) => {
-  let id;
-  let data;
-  let schema;
-  if (args.length === 2) {
-    id = args[0];
-    data = args[1];
-  } else if (args.length === 3) {
-    id = args[0];
-    data = args[1];
-    schema = args[2];
-  } else {
+  if (args.length !== 2 && args.length !== 3) {
     return new Error('Error validate(): 2 or 3 arguments expected');
   }
-
-  return validate(id, data, schema);
+  return validate(...args);
 };

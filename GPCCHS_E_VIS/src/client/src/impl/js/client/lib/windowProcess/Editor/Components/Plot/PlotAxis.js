@@ -115,7 +115,10 @@ class PlotAxis extends PureComponent {
           <Label
             style={{
               backgroundColor: _get(ep, ['objectStyle', 'curveColor'], '#333'),
-              textShadow: '0 0 1px rgba(0,0,0,0.3)'
+              textShadow: '0 0 1px rgba(0,0,0,0.3)',
+              margin: '3px',
+              display: 'inline-block',
+              fontSize: '1em'
             }}
           >
             {`${ep.name} Y`}<br />
@@ -128,11 +131,17 @@ class PlotAxis extends PureComponent {
       <Form horizontal onSubmit={handleSubmit}>
         {
           relatedEntryPoints.length ?
-            <HorizontalFormGroup label="Entry Points">
+            <div>
+              <div className="page-header">
+                <h4>Linked entry points</h4>
+              </div>
               {relatedEntryPoints}
-            </HorizontalFormGroup>
+            </div>
             : null
         }
+        <div className="page-header">
+          <h4>Name and Unit</h4>
+        </div>
         <HorizontalFormGroup label="Label">
           <Field
             name="label"
@@ -141,9 +150,25 @@ class PlotAxis extends PureComponent {
             type="text"
           />
         </HorizontalFormGroup>
-
+        <HorizontalFormGroup label="Unit">
+          <Field
+            name="unit"
+            component="select"
+            className="form-control input-sm"
+          >
+            {unitOptions.map(u =>
+              <option key={u.value} value={u.value}>{u.label}</option>
+            )}
+          </Field>
+        </HorizontalFormGroup>
+        <div className="page-header">
+          <h4>Style</h4>
+        </div>
         <FormSectionFontStyle name="style" />
 
+        <div className="page-header">
+          <h4>Parameters</h4>
+        </div>
         <HorizontalFormGroup label="Show">
           <Field
             name="showAxis"
@@ -181,18 +206,6 @@ class PlotAxis extends PureComponent {
             />
           </HorizontalFormGroup>
         }
-
-        <HorizontalFormGroup label="Unit">
-          <Field
-            name="unit"
-            component="select"
-            className="form-control input-sm"
-          >
-            {unitOptions.map(u =>
-              <option key={u.value} value={u.value}>{u.label}</option>
-            )}
-          </Field>
-        </HorizontalFormGroup>
 
         <HorizontalFormGroup label="Show ticks">
           <Field

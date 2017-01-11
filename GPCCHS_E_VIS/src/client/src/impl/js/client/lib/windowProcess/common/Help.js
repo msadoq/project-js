@@ -19,6 +19,7 @@ export default class HelpComponent extends Component {
           <p className={styles.para}>
             <br />
             <b>Timebar Shortcuts</b><br /><br />
+            <kbd>w</kbd> Move current on cursor positionand all the other cursors.<br />
             <kbd>x</kbd> Move lower cursor on cursor position.<br />
             <kbd>c</kbd> Move ext lower cursor on cursor position.<br />
             <kbd>v</kbd> Move current cursor on cursor position.<br />

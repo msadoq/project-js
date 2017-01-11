@@ -14,6 +14,7 @@ const maxViewportUpper = 2208988800000;
 
 // Shortcut keyboard : html keycodes (event.keyCode)
 const keys = {
+  w: 87,
   x: 88,
   c: 67,
   v: 86,
@@ -32,6 +33,7 @@ export default class Timebar extends Component {
     onVerticalScroll: PropTypes.func.isRequired,
     updateViewport: PropTypes.func.isRequired,
     updateCursors: PropTypes.func.isRequired,
+    jump: PropTypes.func.isRequired,
     slideWindow: PropTypes.object.isRequired,
     visuWindow: PropTypes.object.isRequired,
     viewport: PropTypes.object,
@@ -66,6 +68,7 @@ export default class Timebar extends Component {
         visuWindow,
         timebarId,
         updateCursors,
+        jump,
         timebarMode,
         isPlaying,
         play,
@@ -76,6 +79,9 @@ export default class Timebar extends Component {
       const { cursorMs } = this.state;
 
       switch (e.keyCode) {
+        case keys.w:
+          jump(timebarId, cursorMs - current);
+          break;
         case keys.x:
           if (cursorMs > current) return;
           if (['Normal', 'Fixed'].includes(timebarMode) && cursorMs > slideWindow.lower) return;

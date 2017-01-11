@@ -15,7 +15,7 @@ const sendArchiveData = require('./dc/sendArchiveData');
 const sendSessionData = require('./dc/sendSessionData');
 const sendFilepathData = require('./dc/sendFilepathData');
 
-const monitoring = require('../monitoring');
+const monitoring = require('../log/monitoring');
 
 monitoring.start();
 

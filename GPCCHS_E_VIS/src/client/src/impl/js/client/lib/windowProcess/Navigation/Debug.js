@@ -8,7 +8,6 @@ import {
   DropdownButton,
   Glyphicon
 } from 'react-bootstrap';
-import DummyDrag from './DummyDrag';
 import { switchDebug } from '../../store/actions/windows';
 import { getWindowDebug } from '../../store/selectors/windows';
 import { getPage } from '../../store/selectors/pages';
@@ -134,7 +133,6 @@ class Debug extends PureComponent {
 
     return (
       <div>
-        <DummyDrag />
         {bar}
       </div>
     );

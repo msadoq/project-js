@@ -1,18 +1,20 @@
 /* eslint no-unused-expressions: 0 */
 import _find from 'lodash/find';
-import * as actions from '../actions/views';
-import * as types from '../types';
+import * as actions from '../../actions/views';
+import * as types from '../../types';
 import reducer, {
-  updateObject,
-  updateArray,
-  addElementInArray,
-  removeElementInArray,
-  addNewAxis,
-  getAxisId,
+  updateConfiguration,
+  updateConfigurationArray,
+  addElementInConfigurationArray,
+  removeElementInConfigurationArray,
   updatePlotAxisId,
   addEntryPoint,
-  } from './views';
-import { freezeMe, should, getStore } from '../../common/test';
+} from './index';
+import {
+  addNewAxis,
+  getAxisId,
+} from './axis';
+import { freezeMe, should, getStore } from '../../../common/test';
 
 describe('store:views:reducer', () => {
   it('initial state', () => {
@@ -177,7 +179,7 @@ describe('store:views:reducer', () => {
           pName: 'newValue',
         }
       };
-      updateObject(state, action, 'oName', 'pName').should.deep.equal({
+      updateConfiguration(state, action, 'oName', 'pName').should.deep.equal({
         view1: {
           type: 'plot',
           isModified: true,
@@ -196,7 +198,7 @@ describe('store:views:reducer', () => {
           pName: 'newValue',
         }
       };
-      updateObject(state, action, 'oName', 'pName').should.equal(state);
+      updateConfiguration(state, action, 'oName', 'pName').should.equal(state);
     });
     it('object: invalid view type', () => {
       const action = {
@@ -205,7 +207,7 @@ describe('store:views:reducer', () => {
           pName: 'newValue',
         }
       };
-      updateObject(state, action, 'oName', 'pName', 'text').should.equal(state);
+      updateConfiguration(state, action, 'oName', 'pName', 'text').should.equal(state);
     });
     it('object: valid view type', () => {
       const action = {
@@ -214,7 +216,7 @@ describe('store:views:reducer', () => {
           pName: 'newValue',
         }
       };
-      updateObject(state, action, 'oName', 'pName', 'plot').should.deep.equal({
+      updateConfiguration(state, action, 'oName', 'pName', 'plot').should.deep.equal({
         view1: {
           type: 'plot',
           isModified: true,
@@ -245,7 +247,7 @@ describe('store:views:reducer', () => {
           index: 0,
         }
       };
-      updateArray(stateArray, action, 'oName', 'pName').should.deep.equal({
+      updateConfigurationArray(stateArray, action, 'oName', 'pName').should.deep.equal({
         view1: {
           type: 'plot',
           isModified: true,
@@ -264,7 +266,7 @@ describe('store:views:reducer', () => {
           index: 0,
         }
       };
-      updateArray(stateArray, action, 'oName', 'pName').should.equal(stateArray);
+      updateConfigurationArray(stateArray, action, 'oName', 'pName').should.equal(stateArray);
     });
     it('array: invalid index', () => {
       const action = {
@@ -274,7 +276,7 @@ describe('store:views:reducer', () => {
           index: 2,
         }
       };
-      updateArray(stateArray, action, 'oName', 'pName').should.equal(stateArray);
+      updateConfigurationArray(stateArray, action, 'oName', 'pName').should.equal(stateArray);
     });
     it('array: invalid paramName', () => {
       const action = {
@@ -284,7 +286,7 @@ describe('store:views:reducer', () => {
           index: 0,
         }
       };
-      updateArray(stateArray, action, 'oName', 'paramName').should.equal(stateArray);
+      updateConfigurationArray(stateArray, action, 'oName', 'paramName').should.equal(stateArray);
     });
   });
 
@@ -421,7 +423,7 @@ describe('store:views:reducer', () => {
           pName: 'newValue',
         }
       };
-      addElementInArray(stateArray, action, 'oName', 'pName').should.deep.equal({
+      addElementInConfigurationArray(stateArray, action, 'oName', 'pName').should.deep.equal({
         view1: {
           type: 'plot',
           isModified: true,
@@ -477,7 +479,7 @@ describe('store:views:reducer', () => {
           index: 0,
         }
       };
-      removeElementInArray(stateArray, action, 'oName').should.deep.equal({
+      removeElementInConfigurationArray(stateArray, action, 'oName').should.deep.equal({
         view1: {
           type: 'plot',
           isModified: true,
@@ -496,7 +498,7 @@ describe('store:views:reducer', () => {
           index: 3,
         }
       };
-      removeElementInArray(stateArray, action, 'oName').should.equal(stateArray);
+      removeElementInConfigurationArray(stateArray, action, 'oName').should.equal(stateArray);
     });
     it('general - invalid view ID', () => {
       const action = {
@@ -506,7 +508,7 @@ describe('store:views:reducer', () => {
           index: 0,
         }
       };
-      removeElementInArray(stateArray, action, 'oName').should.equal(stateArray);
+      removeElementInConfigurationArray(stateArray, action, 'oName').should.equal(stateArray);
     });
     it('entry point', () => {
       const state = reducer(stateViews, actions.removeEntryPoint('plot1', 0));

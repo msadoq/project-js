@@ -1,4 +1,4 @@
-const { should } = require('../common/test');
+const { should, getTmpPath } = require('../common/test');
 const {
   mkdirSync,
   writeFileSync,
@@ -8,12 +8,11 @@ const {
   constants,
   chmodSync
 } = require('fs');
-const { tmpdir } = require('os');
 
 const fs = require('./fs');
 
 describe('common/fs', () => {
-  const folder = fs.resolve(tmpdir(), '/test');
+  const folder = getTmpPath();
   const file = fs.resolve(folder, '/foo.txt');
   const json = fs.resolve(folder, '/foo.json');
   const unreadable = fs.resolve(folder, '/unreadable.txt');
@@ -119,14 +118,14 @@ describe('common/fs', () => {
   });
   describe('readJsonFromPath', () => {
     it('works', (done) => {
-      fs.readJsonFromPath('/tmp/test/', 'foo.json', undefined, undefined, undefined, (err, content) => {
+      fs.readJsonFromPath(getTmpPath(), 'foo.json', undefined, undefined, undefined, (err, content) => {
         should.not.exist(err);
         content.should.eql({ foo: 'bar' });
         done();
       });
     });
     it('readJsonFromPath error', (done) => {
-      fs.readJsonFromPath('/tmp/test/', 'not-exists.txt', undefined, undefined, undefined, (err, content) => {
+      fs.readJsonFromPath(getTmpPath(), 'not-exists.txt', undefined, undefined, undefined, (err, content) => {
         err.should.be.an('error');
         should.not.exist(content);
         done();
@@ -135,14 +134,14 @@ describe('common/fs', () => {
   });
   describe('readJsonFromAbsPath', () => {
     it('works', (done) => {
-      fs.readJsonFromAbsPath('/tmp/test/foo.json', (err, content) => {
+      fs.readJsonFromAbsPath(getTmpPath('foo.json'), (err, content) => {
         should.not.exist(err);
         content.should.eql({ foo: 'bar' });
         done();
       });
     });
     it('readJsonFromAbsPath error', (done) => {
-      fs.readJsonFromAbsPath('/tmp/test/not-exists.txt', (err, content) => {
+      fs.readJsonFromAbsPath(getTmpPath('not-exists.txt'), (err, content) => {
         err.should.be.an('error');
         should.not.exist(content);
         done();
@@ -151,14 +150,14 @@ describe('common/fs', () => {
   });
   describe('readJsonFromRelativePath', () => {
     it('works', (done) => {
-      fs.readJsonFromRelativePath('/tmp/test/', 'foo.json', (err, content) => {
+      fs.readJsonFromRelativePath(getTmpPath(), 'foo.json', (err, content) => {
         should.not.exist(err);
         content.should.eql({ foo: 'bar' });
         done();
       });
     });
     it('readJsonFromRelativePath error', (done) => { // dc stub send oid as filepath
-      fs.readJsonFromRelativePath('/tmp/test/', 'not-exists.txt', (err, content) => {
+      fs.readJsonFromRelativePath(getTmpPath(), 'not-exists.txt', (err, content) => {
         err.should.be.an('error');
         should.not.exist(content);
         done();
@@ -167,14 +166,14 @@ describe('common/fs', () => {
   });
   describe('readJsonFromFmdPath', () => {
     it('works', (done) => {
-      fs.readJsonFromFmdPath('/tmp/test/foo.json', (err, content) => {
+      fs.readJsonFromFmdPath(getTmpPath('foo.json'), (err, content) => {
         should.not.exist(err);
         content.should.eql({ foo: 'bar' });
         done();
       });
     });
     it('readJsonFromFmdPath error', (done) => { // dc stub send oid as filepath
-      fs.readJsonFromFmdPath('/tmp/test/not-exists.txt', (err, content) => {
+      fs.readJsonFromFmdPath(getTmpPath('not-exists.txt'), (err, content) => {
         err.should.be.an('error');
         should.not.exist(content);
         done();

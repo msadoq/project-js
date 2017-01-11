@@ -4,7 +4,7 @@ const stubData = require('../../../../stubs/data');
 
 const protobuf = require('../../../index');
 
-const validityState = require('./validityState');
+const validityState = require('../ccsds_mc/validityState');
 
 describe('protobuf/lpisis/decommutedParameter/reportingParameter', () => {
   const fixture = stubData.getReportingParameter();

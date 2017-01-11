@@ -1,34 +1,36 @@
-/* eslint no-underscore-dangle: 0 */
-const _get = require('lodash/get');
-const _filter = require('lodash/filter');
-const _reduce = require('lodash/reduce');
-const _map = require('lodash/map');
-const _isArray = require('lodash/isArray');
+const {
+  __, compose, always, ifElse,
+  view, lensPath,
+  prop, assoc, is,
+  contains,
+  map, filter, indexBy,
+} = require('ramda');
 const { v4 } = require('node-uuid');
+
+// not pure (due to uuid generation)
+const setUUID = obj => assoc('uuid', v4(), obj);
+const indexWindows = ifElse(
+  is(Array),
+  compose(indexBy(prop('uuid')), map(setUUID)),
+  always({})
+);
+const originalWindows = lensPath(['__original', 'windows']);
 
 const supportedWindowTypes = [
   'documentWindow',
 ];
+const filterByTypes = filter(compose(contains(__, supportedWindowTypes), prop('type')));
+
+const getWindows = compose(indexWindows, filterByTypes, view(originalWindows));
 
 /**
- * Find windows in document JSON and store each with a uuid in .windows
+ * Add indexed windows with freshly generated uuid
  *
  * @param content
  * @param cb
  * @returns {*}
  */
-module.exports = (content, cb) => {
-  let windows = _get(content, '__original.windows');
-  if (!_isArray(windows)) {
-    windows = [];
-  }
-
-  windows = _map(
-    _filter(windows, w => supportedWindowTypes.indexOf(w.type) !== -1),
-    w => Object.assign(w, { uuid: v4() })
-  );
-
-  return cb(null, Object.assign(content, {
-    windows: _reduce(windows, (l, v) => Object.assign(l, { [v.uuid]: v }), {}),
-  }));
-};
+module.exports = (content, cb) => cb(null, {
+  ...content,
+  windows: getWindows(content),
+});

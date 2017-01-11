@@ -1,4 +1,4 @@
-import { should } from '../common/test';
+import { should, getTmpPath } from '../common/test';
 
 const exec = require('child_process').exec;
 const { savePage, savePageAs } = require('./savePage');
@@ -30,7 +30,7 @@ describe('mainProcess/documents/savePage', () => {
         timebarId: 'TB1',
         views: ['plot1', 'text1'],
         path: './pages/page1.json',
-        absolutePath: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/testAs/pages/page1.json',
+        absolutePath: getTmpPath('testAs/pages/page1.json'),
       }
     },
     views: {
@@ -51,7 +51,7 @@ describe('mainProcess/documents/savePage', () => {
           titleStyle: {},
         },
         path: 'plotview4.json',
-        absolutePath: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/testAs/views/plotview4.json',
+        absolutePath: getTmpPath('testAs/views/plotview4.json')
       },
       text1: {
         type: 'TextView',
@@ -62,18 +62,17 @@ describe('mainProcess/documents/savePage', () => {
           content: ''
         },
         path: 'textOne.json',
-        absolutePath: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/testAs/views/textOne.json',
+        absolutePath: getTmpPath('testAs/views/textOne.json'),
       }
     },
     workspace: {
-      folder: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/testPage',
+      folder: getTmpPath('testPage'),
       file: './pages/page1.json',
     }
   };
 
   after((done) => {
-    const path = '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/';
-    exec('rm -r '.concat(path), () => {
+    exec('rm -r '.concat(getTmpPath()), () => {
       // your callback goes here
       done();
     });

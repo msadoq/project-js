@@ -20,59 +20,57 @@ function savePageAs(state, pageId, path, useRelativePath, callback) {
   if (!state.pages[pageId]) {
     callback('unknown page id');
   }
-
-  // TODO add case with new FMD path -> createDocument par DC
-  const err = checkPath(dirname(path));
-  if (err) {
-    callback(err);
-  }
-  const root = parameters.get('FMD_ROOT_DIR');
-  const page = state.pages[pageId];
-  const jsonPage = {
-    type: 'Page',
-    timebarHeight: page.timebarHeight,
-    title: page.title,
-    views: [],
-  };
-  page.views.forEach((id) => {
-    // Get view definition in stateViews
-    if (!state.views[id]) {
-      return callback(`Invalid view in page ${page.title}`);
-    }
-    const view = state.views[id];
-    const current = {};
-    if (useRelativePath) {
-      current.path = relative(dirname(path), view.absolutePath);
-    } else {
-      current.path = view.absolutePath;
-      if (_startsWith(current.path, root)) {
-        current.path = '/'.concat(relative(root, view.absolutePath));
-      }
-    }
-    current.oId = view.oId;
-    const index = _findIndex(page.layout, item => item.i === id);
-    if (index === -1) {
-      return callback('not fount page layout');
-    }
-    const layout = page.layout[index];
-    current.geometry = {
-      x: layout.x,
-      y: layout.y,
-      w: layout.w,
-      h: layout.h,
+  checkPath(dirname(path)).then(() => {
+    // TODO add case with new FMD path -> createDocument par DC
+    const root = parameters.get('FMD_ROOT_DIR');
+    const page = state.pages[pageId];
+    const jsonPage = {
+      type: 'Page',
+      timebarHeight: page.timebarHeight,
+      title: page.title,
+      views: [],
     };
-    current.hideBorders = (page.hideBorders ? page.hideBorders : false);
-    current.windowState = (page.windowState ? page.windowState : 'Normalized');
+    page.views.forEach((id) => {
+      // Get view definition in stateViews
+      if (!state.views[id]) {
+        return callback(`Invalid view in page ${page.title}`);
+      }
+      const view = state.views[id];
+      const current = {};
+      if (useRelativePath) {
+        current.path = relative(dirname(path), view.absolutePath);
+      } else {
+        current.path = view.absolutePath;
+        if (_startsWith(current.path, root)) {
+          current.path = '/'.concat(relative(root, view.absolutePath));
+        }
+      }
+      current.oId = view.oId;
+      const index = _findIndex(page.layout, item => item.i === id);
+      if (index === -1) {
+        return callback('not fount page layout');
+      }
+      const layout = page.layout[index];
+      current.geometry = {
+        x: layout.x,
+        y: layout.y,
+        w: layout.w,
+        h: layout.h,
+      };
+      current.hideBorders = (page.hideBorders ? page.hideBorders : false);
+      current.windowState = (page.windowState ? page.windowState : 'Normalized');
 
-    jsonPage.views.push(current);
-  });
-  // save file
-  writeFile(path, JSON.stringify(jsonPage, null, '  '), (errfs) => {
-    if (errfs) {
-      return callback(`Unable to save view ${page.title} in file ${path}`);
-    }
-    return callback(null);
-  });
+      jsonPage.views.push(current);
+    });
+    // save file
+    writeFile(path, JSON.stringify(jsonPage, null, '  '), (errfs) => {
+      if (errfs) {
+        return callback(`Unable to save view ${page.title} in file ${path}`);
+      }
+      return callback(null);
+    });
+  })
+  .catch(err => callback(err));
 }
 /**
  * Save page from state to file

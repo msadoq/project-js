@@ -1,7 +1,7 @@
-import { difference } from 'lodash';
 import classnames from 'classnames';
+import _difference from 'lodash/difference';
 import React, { Component, PropTypes } from 'react';
-import { Button, Col } from 'react-bootstrap';
+import { Button, Col, Glyphicon } from 'react-bootstrap';
 import { schemeCategory20b } from 'd3-scale';
 import Timeline from './Timeline';
 import Modal from '../common/Modal';
@@ -49,7 +49,7 @@ export default class LeftTab extends Component {
 
   // Set auto color for the next track to be added
   setColor(color) {
-    const availableColors = difference(schemeCategory20b, this.props.timelines
+    const availableColors = _difference(schemeCategory20b, this.props.timelines
       .map(x => x.color).concat(color));
     this.setState({
       color: availableColors[0] || schemeCategory20b[(this.props.timelines.length + 1) % 20]
@@ -206,15 +206,17 @@ export default class LeftTab extends Component {
     return (
       <Col xs={3} className={styles.leftTab}>
         <div className={styles.leftTabTopPanel}>
-          <button
-            className={classnames('btn', 'btn-xs', 'btn-control', styles.btnClose)}
+          <Button
+            bsSize="small"
+            className={classnames(styles.btnClose, 'btn-control')}
             title="detach timebar and choose another one"
             onClick={this.detach}
+            bsStyle="default"
           >
-            x
-          </button>
+            <Glyphicon glyph="remove" />
+          </Button>
           <h5 className={styles.timebarName}>
-            <b>{timebarName}</b>
+            <u><b>{timebarName}</b></u>
           </h5>
           {editTrack}
           {addTrack}
@@ -225,7 +227,7 @@ export default class LeftTab extends Component {
             onClick={this.toggleAddTimeline}
             bsStyle="info"
           >
-            +
+            <Glyphicon glyph="plus" />
           </Button>
         </div>
         {noTrack}

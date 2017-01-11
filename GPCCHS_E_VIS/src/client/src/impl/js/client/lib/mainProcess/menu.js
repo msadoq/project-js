@@ -1,7 +1,6 @@
 import { v4 } from 'node-uuid';
 import { getStore } from '../store/mainStore';
 import { add } from '../store/actions/windows';
-
 import { viewOpen, addPlotView, addTextView } from './menu/viewOpen';
 import { pageOpen, pageAddNew } from './menu/pageOpen';
 import { pageSave, pageSaveAs } from './menu/pageSave';

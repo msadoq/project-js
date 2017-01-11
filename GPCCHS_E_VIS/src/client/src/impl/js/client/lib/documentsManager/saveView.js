@@ -22,32 +22,31 @@ function saveViewAs(viewConfiguration, viewType, path, callback) {
     return callback('Unknown view');
   }
   // TODO add case with new FMD path -> createDocument par DC
-  const err = checkPath(dirname(path));
-  if (err) {
-    return callback(err);
-  }
-  let view;
-  const structureType = vivl(viewType, 'structureType')();
-  switch (structureType) { // eslint-disable-line default-case
-    case globalConstants.DATASTRUCTURETYPE_RANGE: {
-      view = _omit(viewConfiguration, 'axes');
-      view.axes = _values(viewConfiguration.axes);
-      break;
+  checkPath(dirname(path)).then(() => {
+    let view;
+    const structureType = vivl(viewType, 'structureType')();
+    switch (structureType) { // eslint-disable-line default-case
+      case globalConstants.DATASTRUCTURETYPE_RANGE: {
+        view = _omit(viewConfiguration, 'axes');
+        view.axes = _values(viewConfiguration.axes);
+        break;
+      }
+      default:
+        view = viewConfiguration;
     }
-    default:
-      view = viewConfiguration;
-  }
-  // Remove entry point id
-  _each(view.entryPoints, (value, index, entryPoints) => {
-    entryPoints[index] = _omit(value, 'id'); // eslint-disable-line no-param-reassign
-  });
+    // Remove entry point id
+    _each(view.entryPoints, (value, index, entryPoints) => {
+      entryPoints[index] = _omit(value, 'id'); // eslint-disable-line no-param-reassign
+    });
 
-  writeFile(path, JSON.stringify(view, null, '  '), (errWrite) => {
-    if (errWrite) {
-      return callback(`Unable to save view ${view.title} in file ${path}`);
-    }
-    return callback(null);
-  });
+    writeFile(path, JSON.stringify(view, null, '  '), (errWrite) => {
+      if (errWrite) {
+        return callback(`Unable to save view ${view.title} in file ${path}`);
+      }
+      return callback(null);
+    });
+  })
+  .catch(err => callback(err));
 }
 
 /**

@@ -442,6 +442,7 @@
     "color": "#000000"
   },
   "plotBackgroundColor": "#FFFFFF",
+  "showYAxes": "left",
   "legend": {
     "style": {
       "font": "Arial",

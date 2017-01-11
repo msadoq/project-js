@@ -1,7 +1,7 @@
 import { app, ipcMain } from 'electron';
 import { series } from 'async';
 import getLogger from 'common/log';
-import monitoring from 'common/monitoring';
+import monitoring from 'common/log/monitoring';
 import { CHILD_PROCESS_SERVER, CHILD_PROCESS_DC } from 'common/constants';
 import parameters from 'common/parameters';
 import { clear } from 'common/callbacks';

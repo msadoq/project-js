@@ -15,7 +15,6 @@ const minTimebarHeight = 135;
 export default class TimebarWrapper extends Component {
 
   static propTypes = {
-    updateCursors: PropTypes.func.isRequired,
     isPlaying: PropTypes.bool.isRequired,
     updateTimebarHeight: PropTypes.func.isRequired,
     visuWindow: PropTypes.object.isRequired,
@@ -98,7 +97,6 @@ export default class TimebarWrapper extends Component {
   render() {
     logger.debug('render');
     const {
-      updateCursors,
       timelines,
       timebarId,
       visuWindow,
@@ -126,7 +124,6 @@ export default class TimebarWrapper extends Component {
           onClose={this.toggleTimesetter}
           slideWindow={slideWindow}
           isPlaying={isPlaying}
-          updateCursors={updateCursors}
           timebarId={timebarId}
           timebarMode={timebar.mode}
           cursor={timesetterCursor || 'all'}
@@ -139,14 +136,14 @@ export default class TimebarWrapper extends Component {
         ref={(el) => { this.el = el; }}
         style={{
           flex: '0 0 auto',
-          height: `${timebarHeight || 135}px`,
+          height: `${timebarHeight || minTimebarHeight}px`,
           backgroundColor: '#F1F1F1',
           borderTop: '1px solid #aaa',
           zIndex: '2',
         }}
       >
         {timesetter}
-        <Col xs={9} xsOffset={3} style={{ paddingBottom: 2 }}>
+        <Col xs={9} xsOffset={3} style={{ paddingBottom: 5 }}>
           <div>
             <hr
               onMouseDown={this.resizeWindow}
@@ -179,7 +176,6 @@ export default class TimebarWrapper extends Component {
             toggleTimesetter={this.toggleTimesetter}
             onTimelinesVerticalScroll={this.onTimelinesVerticalScroll}
             timelinesVerticalScroll={timelinesVerticalScroll}
-            updateCursors={updateCursors}
           />
         </Col>
       </div>

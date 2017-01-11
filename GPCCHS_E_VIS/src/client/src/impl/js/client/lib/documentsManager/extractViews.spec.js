@@ -1,4 +1,5 @@
 /* eslint no-underscore-dangle: 0 */
+import { get } from 'common/parameters';
 
 const { extractViews, readViews, findPageViewsAndReplaceWithUuid } = require('./extractViews');
 const { should } = require('../common/test');
@@ -16,7 +17,7 @@ describe('documentsManager/extractViews', () => {
   let content;
   const id1 = v4();
   const id2 = v4();
-  const folder = '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/impl/js/client/lib/documentsManager/examples/';
+  const folder = get('FMD_ROOT_DIR');
 
   before(() => {
     const id = v4();

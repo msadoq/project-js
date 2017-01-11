@@ -90,8 +90,8 @@ export default class Timeline extends PureComponent {
           styles.timeline,
           { [styles.master]: isMaster }
         )}
-        title="Double-click to edit track"
-        onDoubleClick={willEditTimeline.bind(null, timelineId, id)}
+        title="Click to edit track"
+        onClick={willEditTimeline.bind(null, timelineId, id)}
       >
         {id}
         {formattedOffset}

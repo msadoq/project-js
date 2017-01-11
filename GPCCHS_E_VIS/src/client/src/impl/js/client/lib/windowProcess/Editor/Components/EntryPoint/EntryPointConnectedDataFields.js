@@ -4,7 +4,7 @@ import {
   InputField,
   TextareaField,
   ReactSelectField,
-  FilterFields,
+  FiltersFields,
 } from '../Fields/';
 import {
   HorizontalFormGroup,
@@ -118,7 +118,7 @@ export default class EntryPointConnectedDataFields extends React.Component {
 
         <FieldArray
           name={`${prefix}filter`}
-          component={FilterFields}
+          component={FiltersFields}
         />
       </div>
     );

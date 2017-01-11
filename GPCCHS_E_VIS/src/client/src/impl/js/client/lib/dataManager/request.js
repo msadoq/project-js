@@ -2,7 +2,7 @@ import _isObject from 'lodash/isObject';
 import _each from 'lodash/each';
 import _map from 'lodash/map';
 import _get from 'lodash/get';
-import executionMonitor from 'common/execution';
+import executionMonitor from 'common/log/execution';
 import getLogger from 'common/log';
 import globalConstants from 'common/constants';
 

@@ -1,3 +1,5 @@
+import { tmpdir } from 'os';
+import path from 'path';
 import chai from 'chai';
 import properties from 'chai-properties';
 import { createStore, applyMiddleware } from 'redux';
@@ -10,8 +12,8 @@ process.env.DEBUG = '';
 process.env.LEVEL = 'ERROR';
 process.env.PROFILING = 'off';
 process.env.MONITORING = 'off';
-process.env.FMD_ROOT_DIR =
-  '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/impl/js/client/lib/documentsManager/examples/';
+
+process.env.FMD_ROOT_DIR = path.resolve(__dirname, '../documentsManager/fixtures');
 
 chai.use(properties);
 
@@ -28,4 +30,5 @@ module.exports = {
   expect: chai.expect,
   getStore,
   freezeMe: o => deepFreeze(_cloneDeep(o)),
+  getTmpPath: (...args) => path.resolve(tmpdir(), 'test', ...args),
 };

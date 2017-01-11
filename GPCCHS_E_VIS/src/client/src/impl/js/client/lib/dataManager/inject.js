@@ -1,6 +1,6 @@
 import _set from 'lodash/set';
 import _reduce from 'lodash/reduce';
-import executionMonitor from 'common/execution';
+import executionMonitor from 'common/log/execution';
 
 import vivl from '../../VIVL/main';
 import structures from './structures';

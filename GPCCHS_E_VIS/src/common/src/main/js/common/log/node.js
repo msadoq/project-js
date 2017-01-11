@@ -1,5 +1,9 @@
 const winston = require('winston');
+const wCommon = require('winston/lib/winston/common');
+const R = require('ramda');
 const { getTimer } = require('./util');
+const { get } = require('../parameters');
+const bytesToString = require('../utils/bytesConverter');
 
 winston.cli();
 
@@ -8,17 +12,8 @@ if (process.env.NODE_ENV === 'development') {
   DEFAULT_TRANSPORTS = 'console:http';
 }
 
-let configTransports;
-
-// Define transports, less priority than env variable LOG
-function setTransports(t) {
-  configTransports = t;
-}
-
 function getConfig() {
-  return (process.env.LOG !== 'undefined' && process.env.LOG)
-    || configTransports
-    || DEFAULT_TRANSPORTS;
+  return get('LOG') || DEFAULT_TRANSPORTS;
 }
 
 // Convert value to boolean or number if possible
@@ -53,6 +48,39 @@ const parseConfig = config =>
       params: parseParams(t[1]),
     }));
 
+// Remove process data info to pretty log into stdout
+const getStdOptions = options => (R.pipe(
+  R.evolve({
+    message: message => `${message} +${options.meta.time}`,
+  }),
+  R.dissoc('formatter'),
+  R.over(R.lensPath(['meta']), R.omit(['pname', 'pid', 'time']))
+)(options));
+
+const leftPad = number => ((number < 10) ? `0${number}` : number);
+const formatTime = (now) => {
+  let time = `${now.getFullYear()}-${leftPad(now.getMonth() + 1)}-${leftPad(now.getDate())}`;
+  time += ` ${leftPad(now.getHours())}:${leftPad(now.getMinutes())}:${leftPad(now.getSeconds())}`;
+  return time;
+};
+
+const getMonitoringOptions = options => (R.pipe(
+  R.evolve({
+    message: () =>
+`[${options.meta.pname}(pid=${options.meta.pid})]
+= monitoring ======== (${formatTime(new Date(options.meta.latency.time))})
+average time consumption by loop ${options.meta.latency.avg}
+memory consumption
+  rss=${bytesToString(options.meta.memUsage.rss)}
+  heapTotal=${bytesToString(options.meta.memUsage.heapTotal)}
+  heapUsed=${bytesToString(options.meta.memUsage.heapUsed)}
+=====================`,
+  }),
+  R.dissoc('formatter'),
+  R.over(R.lensPath(['meta']), R.omit(['memUsage', 'latency', 'pname', 'pid', 'time']))
+)(options));
+
+
 let cpt = 0;
 const availableTransports = {
   // eslint-disable-next-line no-return-assign
@@ -62,6 +90,12 @@ const availableTransports = {
       level: 'info',
       colorize: true,
       name: `console ${cpt += 1}`,
+      formatter: (options) => {
+        if (R.path(['meta', 'memUsage'], options)) {
+          return wCommon.log(getMonitoringOptions(options));
+        }
+        return wCommon.log(getStdOptions(options));
+      },
     }, args)),
   // eslint-disable-next-line no-return-assign
   file: args => new winston.transports.File(
@@ -99,6 +133,10 @@ const getTransports = cfg =>
 
 const loggers = {};
 
+const getProcessName = ({ pname }) => pname || (/node$/g.test(process.title) ? 'NONAME' : process.title);
+const getProcessId = ({ pid }) => pid || process.pid;
+const getProcessLabel = meta => `[${getProcessName(meta)}(${getProcessId(meta)})]`;
+
 // Create a Winston logger, that contains their own transports (console, http, file, ...)
 // Each message is prefixed by category.
 // Messages can be filtered by category using a regular expression
@@ -114,7 +152,7 @@ function getLogger(category) {
   });
   const logger = loggers[category] = winston.loggers.get(category);
 
-  logger.filters.push((level, msg) => `[${category}] ${msg}`);
+  logger.filters.push((level, msg, meta) => `${getProcessLabel(meta)}[${category}] ${msg}`);
 
   // Monkey patch each transport to provide filter logic.
   // If filter is defined, category must match filter regular expression
@@ -137,8 +175,8 @@ function getLogger(category) {
         }
 
         if (params.process) {
-          meta.pname = meta.pname || (/node$/g.test(process.title) ? 'NONAME' : process.title);
-          meta.pid = meta.pid || process.pid;
+          meta.pname = getProcessName(meta);
+          meta.pid = getProcessId(meta);
         } else {
           delete meta.pname;
           delete meta.pid;
@@ -177,5 +215,4 @@ module.exports = {
   parseValue,
   availableTransports,
   getLogger,
-  setTransports,
 };

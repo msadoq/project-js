@@ -2,7 +2,7 @@ import React from 'react';
 import { ipcRenderer } from 'electron';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import monitoring from 'common/monitoring';
+import monitoring from 'common/log/monitoring';
 import WindowContainer from './Window/WindowContainer';
 import { initStore, getStore } from '../store/windowStore';
 import CircuitBreaker from './CircuitBreaker';

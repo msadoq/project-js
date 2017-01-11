@@ -18,6 +18,7 @@ export default class StateColorsFields extends React.Component {
       push: PropTypes.func,
       remove: PropTypes.func,
       insert: PropTypes.func,
+      getAll: PropTypes.func,
     }).isRequired,
   }
 

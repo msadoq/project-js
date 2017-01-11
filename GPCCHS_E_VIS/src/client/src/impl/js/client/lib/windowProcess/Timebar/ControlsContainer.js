@@ -10,7 +10,6 @@ import {
   updateSpeed,
   restoreWidth,
   goNow,
-  jump,
 } from '../../store/actions/timebars';
 
 import Controls from './Controls';
@@ -41,6 +40,5 @@ export default connect(
     updateSpeed,
     restoreWidth,
     goNow,
-    jump,
   }
 )(Controls);

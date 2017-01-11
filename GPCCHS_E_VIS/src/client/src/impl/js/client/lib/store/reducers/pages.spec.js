@@ -36,7 +36,7 @@ describe('store:page:reducer', () => {
         path: undefined,
         oId: undefined,
         absolutePath: undefined,
-        isModified: false,
+        isModified: true,
       });
     });
     it('add empty', () => {
@@ -58,7 +58,7 @@ describe('store:page:reducer', () => {
         path: undefined,
         oId: undefined,
         absolutePath: undefined,
-        isModified: false,
+        isModified: true,
       });
     });
   });
@@ -224,6 +224,11 @@ describe('store:page:reducer', () => {
       const state = { page1: { absolutePath: 'path1' } };
       reducer(freezeMe(state), actions.updateAbsolutePath('page1', 'newPath'))
       .should.eql({ page1: { absolutePath: 'newPath', isModified: true } });
+    });
+    it('update absolutePath for new page', () => {
+      const state = { page1: { pageId: 'page1' } };
+      reducer(freezeMe(state), actions.updateAbsolutePath('page1', 'newPath'))
+        .should.eql({ page1: { pageId: 'page1', absolutePath: 'newPath', isModified: true } });
     });
   });
   describe('updatePath', () => {

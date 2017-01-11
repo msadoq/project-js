@@ -5,7 +5,7 @@ const _noop = require('lodash/noop');
 
 const { get } = require('../parameters');
 
-const getLogger = require('../log');
+const getLogger = require('./');
 
 function start(executionMap, key) {
   if (!executionMap[key]) {

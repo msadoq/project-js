@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { join } = require('path');
 const minimist = require('minimist');
-const getLogger = require('../log');
+const R = require('ramda');
 
 const DEFAULT = 'config.default.json'; // mandatory
 const LOCAL = 'config.local.json'; // optional
@@ -9,21 +9,16 @@ const LOCAL = 'config.local.json'; // optional
 let argv;
 let defaultConfig;
 let localConfig;
-let logger;
-
-// Useful to give transport configuration to future loggers
-function initDefaultLogTransports() {
-  if (process.env.APP_ENV !== 'renderer') {
-    // eslint-disable-next-line global-require
-    const { setTransports } = require('../log/node');
-    const config = defaultConfig.LOG || localConfig.LOG;
-    if (config) {
-      setTransports(config.LOG);
-    }
-  }
-}
 
 function init(path) {
+  if (localConfig) {
+    return;
+  }
+
+  if (!fs.existsSync(join(path, DEFAULT))) {
+    return;
+  }
+
   defaultConfig = JSON.parse(fs.readFileSync(join(path, DEFAULT), 'utf8'));
 
   // optional local config file
@@ -32,13 +27,11 @@ function init(path) {
     fs.accessSync(localPath, fs.constants.F_OK);
     fs.accessSync(localPath, fs.constants.R_OK);
     localConfig = Object.assign(JSON.parse(fs.readFileSync(localPath, 'utf8')), { path });
-    initDefaultLogTransports();
-    logger = getLogger('parameters');
-    logger.info(`local configuration file loaded: ${localConfig}`);
-  } catch (e) {
-    logger.info('no local configuration file found');
-  }
+    // eslint-disable-next-line no-console
+    console.log(`[pid=${process.pid}] local configuration file loaded`, localConfig);
+  } catch (e) {} // eslint-disable-line no-empty
 }
+
 
 function getArgv(name) {
   if (!argv) {
@@ -92,13 +85,12 @@ function get(name) {
   if (typeof value !== 'undefined') {
     return value;
   }
-
   return undefined;
 }
 
-const universalGet = (...args) => {
-  const fn = (global.parameters && global.parameters.get) || get;
-  return fn(...args);
-};
+const universalGet = R.pipe(
+  path => (module.exports.init(process.cwd()), path),
+  R.pathOr(get, ['parameters','get'], global)
+);
 
 module.exports = { init, get: universalGet };

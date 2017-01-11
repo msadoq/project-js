@@ -4,12 +4,12 @@ import { v4 } from 'node-uuid';
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
 
-import readWorkspace from '../documentsManager/workspace';
+import { readWorkspace } from '../documentsManager';
 import { add as addTimeline } from '../store/actions/timelines';
 import { add as addTimebar } from '../store/actions/timebars';
-import { add as addView, setModified as setModifiedView } from '../store/actions/views';
-import { add as addPage, setModified as setModifiedPage } from '../store/actions/pages';
-import { add as addWindow, setModified as setModifiedWindow } from '../store/actions/windows';
+import { add as addView } from '../store/actions/views';
+import { add as addPage } from '../store/actions/pages';
+import { add as addWindow } from '../store/actions/windows';
 import { updatePath, setWorkspaceAsOpened, closeWorkspace } from '../store/actions/hsc';
 
 
@@ -31,11 +31,8 @@ export function loadInStore(workspace, dispatch, root, file, callback, isDefault
       e.path,
       e.oId,
       e.absolutePath,
-      false,
+      isDefault,
     ));
-    if (isDefault) {
-      dispatch(setModifiedView(e.uuid, true));
-    }
   });
 
   // add pages
@@ -55,11 +52,8 @@ export function loadInStore(workspace, dispatch, root, file, callback, isDefault
       e.path,
       e.oId,
       e.absolutePath,
-      false,
+      isDefault
     ));
-    if (isDefault) {
-      dispatch(setModifiedPage(e.uuid, true));
-    }
   });
 
   // add windows
@@ -70,10 +64,7 @@ export function loadInStore(workspace, dispatch, root, file, callback, isDefault
       if (e.pages && e.pages.length) {
         pageId = e.pages[0];
       }
-      dispatch(addWindow(e.uuid, e.title, e.geometry, e.pages, pageId, false));
-      if (isDefault) {
-        dispatch(setModifiedWindow(e.uuid, true));
-      }
+      dispatch(addWindow(e.uuid, e.title, e.geometry, e.pages, pageId, isDefault));
     }
   );
 

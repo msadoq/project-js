@@ -34,7 +34,7 @@ module.exports = (controller, data, replyMethod) => {
     case IPC_MESSAGE: {
       const fn = getMethodFromController(controller, method);
       if (fn) {
-        logger.warn(`running ${method}[${type}]`);
+        logger.debug(`running ${method}[${type}]`);
         fn(payload);
       }
       break;

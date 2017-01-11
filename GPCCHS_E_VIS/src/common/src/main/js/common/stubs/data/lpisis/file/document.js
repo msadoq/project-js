@@ -7,7 +7,7 @@ const getProfileRight = require('./profileRight');
 
 module.exports = override => applyOverride({
   lockedBy: getUser(),
-  dirname: Buffer('myDirname'),
+  dirname: 'myURI',
   properties: [getNamedValue(), getNamedValue()],
   usersAccess: [getUserRight(), getUserRight()],
   profilesAccess: [getProfileRight(), getProfileRight()],

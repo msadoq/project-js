@@ -5,7 +5,7 @@ const {
   bytesToUshort,
 } = require('../types');
 
-const validityState = require('./validityState');
+const validityState = require('../ccsds_mc/validityState');
 
 module.exports = {
   encode: data => ({

@@ -5,6 +5,8 @@ const protobuf = require('../../../');
 const {
   uoctetToBytes,
   bytesToUoctet,
+  stringToBytes,
+  bytesToString,
 } = require('../../lpisis/types');
 
 const userRight = require('./userRight');
@@ -14,7 +16,7 @@ const namedValue = require('../ccsds_mal/namedValue');
 module.exports = {
   encode: data => ({
     lockedBy: { value: protobuf.encode('lpisis.ccsds_cs.User', data.lockedBy) },
-    dirname: { value: data.dirname },
+    dirname: { value: stringToBytes(data.dirname) },
     properties: _map(data.properties, p => namedValue.encode(p)),
     usersAccess: _map(data.usersAccess, a => userRight.encode(a)),
     profilesAccess: _map(data.profilesAccess, a => profileRight.encode(a)),
@@ -23,7 +25,7 @@ module.exports = {
   }),
   decode: data => ({
     lockedBy: protobuf.decode('lpisis.ccsds_cs.User', data.lockedBy.value),
-    dirname: { type: 'uri', value: data.dirname.value.toBuffer() },
+    dirname: { type: 'uri', value: bytesToString(data.dirname.value) },
     properties: _map(data.properties, p => namedValue.decode(p)),
     usersAccess: _map(data.usersAccess, a => userRight.decode(a)),
     profilesAccess: _map(data.profilesAccess, a => profileRight.decode(a)),

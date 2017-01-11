@@ -1,20 +1,17 @@
-const {
-  pipe, ifElse, has, either,
-  indexBy, map, filter, flatten, values,
-  is, always, prop, propOr, assoc,
-} = require('ramda');
+/* eslint no-underscore-dangle: 0 */
 
-const { dirname } = require('path');
+const _get = require('lodash/get');
+const _reduce = require('lodash/reduce');
+const _isObject = require('lodash/isObject');
 const async = require('async');
 const { v4 } = require('node-uuid');
 const fs = require('../common/fs');
 const validation = require('./validation');
 const vivl = require('../../VIVL/main');
+const { dirname } = require('path');
 const addUuidToAxes = require('../dataManager/structures/range/addUuidToAxes');
 const globalConstants = require('common/constants');
 // const { requestPathFromOId } = require('../mainProcess/websocket');
-
-const indexByUUID = indexBy(prop('uuid'));
 
 const supportedViewTypes = [
   'PlotView',
@@ -22,98 +19,98 @@ const supportedViewTypes = [
   'MimicView',
 ];
 
-function prepareViews(page) {
-  const injectUUIDAndPageFolder = pipe(
-    prop('views'),
-    filter(either(has('oId'), has('path'))),
-    map(view => ({
-      ...view,
-      pageFolder: dirname(page.absolutePath), // extract page folder
-      uuid: v4(),
-    })),
-  );
-  return injectUUIDAndPageFolder(page);
+function findPageViewsAndReplaceWithUuid(page) {
+  const views = _get(page, 'views');
+  // extract page folder
+  const pageFolder = dirname(page.absolutePath);
+  return _reduce(views, (list, view, index) => {
+    if (!view.oId && !view.path) {
+      return list;
+    }
+
+    const uuid = v4();
+
+    // replace page.views.item with uuid
+    views[index].uuid = uuid;
+
+    // add page to read in list
+    // eslint-disable-line no-param-reassign
+    list.push(Object.assign({}, view, { uuid }, { pageFolder }));
+
+    return list;
+  }, []);
 }
 
-function readViews(viewsToRead, requestPathFromOId, done) {
-  async.reduce(viewsToRead, [], (views, view, next) => {
-    fs.readJsonFromPath(view.pageFolder, view.path, view.oId, view.absolutePath,
+function readViews(viewsToRead, requestPathFromOId, cb) {
+  async.reduce(viewsToRead, [], (list, identity, fn) => {
+    fs.readJsonFromPath(identity.pageFolder, identity.path, identity.oId, identity.absolutePath,
       requestPathFromOId, (err, viewContent) => {
         if (err) {
-          return next(err);
+          return fn(err);
         }
         if (supportedViewTypes.indexOf(viewContent.type) === -1) {
-          return next(new Error(`Unsupported view type '${viewContent.type}'`), viewsToRead);
+          return fn(new Error(`Unsupported view type '${viewContent.type}'`), list);
         }
         let schema;
         try {
           schema = vivl(viewContent.type, 'getSchemaJson')();
         } catch (e) {
-          return next(new Error(`Invalid schema on view type '${viewContent.type}'`), viewsToRead);
+          return fn(new Error(`Invalid schema on view type '${viewContent.type}'`), list);
         }
         const validationError = validation(viewContent.type, viewContent, schema);
         if (validationError) {
-          return next(validationError);
+          return fn(validationError);
         }
         // Add uuid on axes
         const structureType = vivl(viewContent.type, 'structureType')();
-
-        let viewContentWithIndexedAxes;
-        switch (structureType) {
+        switch (structureType) { // eslint-disable-line default-case
           case globalConstants.DATASTRUCTURETYPE_RANGE: {
-            viewContentWithIndexedAxes = addUuidToAxes(viewContent);
-            break;
+            viewContent = addUuidToAxes(viewContent); // eslint-disable-line no-param-reassign
           }
-          default:
-            viewContentWithIndexedAxes = viewContent;
-            break;
         }
 
-        return next(null, views.concat({
+        // eslint-disable-next-line no-param-reassign
+        list = list.concat(Object.assign({
           type: viewContent.type,
-          configuration: viewContentWithIndexedAxes,
-          path: view.path,
-          oId: view.oId,
-          uuid: view.uuid,
+          configuration: viewContent,
+        }, {
+          path: identity.path,
+          oId: identity.oId,
+          uuid: identity.uuid,
           absolutePath: fs.getPath(),
-          geometry: view.geometry,
+          geometry: identity.geometry,
         }));
+        return fn(null, list);
       });
-  }, done);
+  }, cb);
 }
 
 /**
  * Find views in .pages, read files and store each with a uuid in .views
  *
  * @param content
- * @param requestPathFromOId
- * @param done
+ * @param cb
  * @returns {*}
  */
-function extractViews(content, requestPathFromOId, done) {
-  const getViews = pipe(
-    propOr({}, 'pages'),
-    ifElse(
-      is(Object),
-      pipe(
-        values,
-        map(prepareViews),
-        flatten,
-      ),
-      always([]),
-    ),
-  );
+function extractViews(content, requestPathFromOId, cb) {
+  let pages = content.pages;
+  if (!_isObject(pages)) {
+    pages = {};
+  }
 
-  const viewsToRead = getViews(content);
+  const viewsToRead = _reduce(pages, (list, p) =>
+    list.concat(findPageViewsAndReplaceWithUuid(p)),
+  []);
 
   return readViews(viewsToRead, requestPathFromOId, (err, views) => {
     if (err) {
-      done(err);
+      return cb(err);
     }
-    const indexedViews = indexByUUID(views);
-    const setViews = assoc('views', indexedViews);
-    return done(null, setViews(content));
+
+    return cb(null, Object.assign(content, {
+      views: _reduce(views, (l, v) => Object.assign(l, { [v.uuid]: v }), {}),
+    }));
   });
 }
 
-module.exports = { extractViews, readViews };
+module.exports = { extractViews, readViews, findPageViewsAndReplaceWithUuid };

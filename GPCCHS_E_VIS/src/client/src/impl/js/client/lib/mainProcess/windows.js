@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import _debounce from 'lodash/debounce';
+import _difference from 'lodash/difference';
 import async from 'async';
 import { BrowserWindow } from 'electron';
 import getLogger from 'common/log';
@@ -78,7 +79,7 @@ export function open(data, windowId, cb) {
     getStore().dispatch(restore(windowId));
   });
 
-  const saveGeometry = _.debounce((ev) => {
+  const saveGeometry = _debounce((ev) => {
     const b = ev.sender.getBounds();
     getStore().dispatch(updateGeometry(windowId, b.x, b.y, b.width, b.height));
   }, 500);
@@ -104,8 +105,8 @@ export default function windowsObserver(state, callback) {
   const list = state.windows;
   const inStore = Object.keys(list);
   const opened = Object.keys(windows);
-  const toOpen = _.difference(inStore, opened);
-  const toClose = _.difference(opened, inStore);
+  const toOpen = _difference(inStore, opened);
+  const toClose = _difference(opened, inStore);
   toClose.forEach(windowId => close(windowId));
 
   if (!toOpen.length) {
@@ -113,4 +114,8 @@ export default function windowsObserver(state, callback) {
   }
 
   async.each(toOpen, (windowId, cb) => open(list[windowId], windowId, cb), callback);
+
+  // TODO dbrugne : implement title update in window observation logic (add getWindowTitle selector)
+  // win.setTitle({ title: title.concat(' * - VIMA') });
+  // win.getTitle();
 }

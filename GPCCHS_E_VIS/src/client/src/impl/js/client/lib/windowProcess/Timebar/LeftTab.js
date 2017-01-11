@@ -8,6 +8,7 @@ import Modal from '../common/Modal';
 import EditTrack from './EditTrack';
 import AddTrack from './AddTrack';
 import styles from './Lefttab.css';
+import { main } from '../ipc';
 
 export default class LeftTab extends Component {
   static propTypes = {
@@ -61,8 +62,19 @@ export default class LeftTab extends Component {
   }
 
   toggleAddTimeline = (e) => {
-    if (e) e.preventDefault();
-    this.setState({ willAdd: !this.state.willAdd });
+    if (e) {
+      e.preventDefault();
+    }
+
+    if (!this.state.willAdd) {
+      // TODO send reload sessions request to main and on callback
+      // refresh session list from DC before displaying form
+      main.reloadSessions(() => {
+        this.setState({ willAdd: true });
+      });
+    } else {
+      this.setState({ willAdd: false });
+    }
   }
 
   willAddTimeline = (kind, id, color, sessionId) => {

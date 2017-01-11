@@ -8,8 +8,7 @@ const logger = getLogger('main:ipc');
 
 const commands = {
   renderer: {
-    rpc: (event, payload, callback) => {},
-    message: (event, payload) => {},
+    // not implemented yet
   },
   server: {
     rpc: (method, payload, callback) => {
@@ -42,6 +41,9 @@ const commands = {
     },
     requestSessions: (callback) => {
       commands.server.rpc(globalConstants.IPC_METHOD_SESSIONS_REQUEST, null, callback);
+    },
+    requestSessionTime: (callback) => {
+      commands.server.rpc(globalConstants.IPC_METHOD_GET_SESSION_TIME, null, callback);
     },
     requestPathFromOId: (oId, callback) => {
       commands.server.rpc(globalConstants.IPC_METHOD_FILEPATH_REQUEST, { oId }, callback);

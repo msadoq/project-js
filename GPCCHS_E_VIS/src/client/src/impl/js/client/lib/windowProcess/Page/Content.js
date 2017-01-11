@@ -100,7 +100,6 @@ export default class Content extends Component {
                 collapsed: v.isCollapsed,
               })}
               key={v.viewId}
-              i={v.viewId}
             >
               <ViewContainer
                 timebarId={timebarId}

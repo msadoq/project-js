@@ -20,7 +20,7 @@ export default class Window extends Component {
   };
 
   static childContextTypes = {
-    windowId: PropTypes.string
+    windowId: PropTypes.string,
   };
 
   state = {

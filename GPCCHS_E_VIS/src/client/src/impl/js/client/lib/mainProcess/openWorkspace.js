@@ -4,7 +4,7 @@ import { v4 } from 'node-uuid';
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
 
-import readWorkspace from '../documentsManager/workspace';
+import { readWorkspace } from '../documentsManager';
 import { add as addTimeline } from '../store/actions/timelines';
 import { add as addTimebar } from '../store/actions/timebars';
 import { add as addView } from '../store/actions/views';

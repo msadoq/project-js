@@ -5,13 +5,11 @@ import parameters from 'common/parameters';
 import { requestSessions, requestPathFromOId } from '../mainProcess/websocket';
 import { getStore } from '../store/mainStore';
 import { updateSessions } from '../store/actions/sessions';
-import { saveViewAs } from '../documentsManager/saveView';
+import { saveViewAs, readViews } from '../documentsManager';
 import getPathByFilePicker from '../mainProcess/filePicker';
 import { showErrorMessage, showWarningMessage } from '../mainProcess/dialog';
-import { readViews } from  '../documentsManager/extractViews';
 
 const logger = getLogger('ipc:main');
-
 
 export function init() {
   const root = parameters.get('FMD_ROOT_DIR');

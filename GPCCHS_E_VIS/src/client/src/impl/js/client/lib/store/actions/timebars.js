@@ -113,7 +113,7 @@ export function jump(timebarId, offsetMs) {
   return (dispatch, getState) => {
     const timebar = getTimebar(getState(), timebarId);
     const vw = timebar.visuWindow;
-    const sw = timebar.visuWindow;
+    const sw = timebar.slideWindow;
     dispatch(
       updateCursors(
         timebarId,

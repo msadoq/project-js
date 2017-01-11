@@ -10,6 +10,7 @@ class RightTabContent extends Component {
     onTimelinesVerticalScroll: PropTypes.func.isRequired,
     updateViewport: PropTypes.func.isRequired,
     updateCursors: PropTypes.func.isRequired,
+    jump: PropTypes.func.isRequired,
     isPlaying: PropTypes.bool.isRequired,
     play: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
@@ -106,6 +107,7 @@ class RightTabContent extends Component {
       timelinesVerticalScroll,
       containerWidth,
       updateCursors,
+      jump,
       updateViewport,
     } = this.props;
 
@@ -127,6 +129,7 @@ class RightTabContent extends Component {
           play={play}
           pause={pause}
           toggleTimesetter={toggleTimesetter}
+          jump={jump}
         />
         <TimeBar
           viewport={this.formatViewportDimensions()}
@@ -139,6 +142,7 @@ class RightTabContent extends Component {
           slideWindow={slideWindow}
           timelines={timelines}
           updateCursors={updateCursors}
+          jump={jump}
           updateViewport={updateViewport}
           verticalScroll={timelinesVerticalScroll}
           onVerticalScroll={onTimelinesVerticalScroll}

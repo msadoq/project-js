@@ -5,6 +5,7 @@ import {
   switchToRealtimeMode,
   switchToExtensibleMode,
   switchToFixedMode,
+  updateCursors,
 } from '../../store/actions/timebars';
 import { play, pause } from '../../store/actions/hsc';
 import RightTab from './RightTab';
@@ -19,5 +20,6 @@ export default connect(
     updateViewport,
     play,
     pause,
+    updateCursors,
   }
 )(RightTab);

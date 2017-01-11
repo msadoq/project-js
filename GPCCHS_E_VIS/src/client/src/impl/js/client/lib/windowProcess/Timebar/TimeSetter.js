@@ -135,16 +135,19 @@ export default class TimeSetter extends Component {
 
     return (
       <form onSubmit={this.willUpdateCursors} >
-        { this.props.messages.length ? this.props.messages.map((v, i) =>
-          <Message
-            key={i}
-            type={v.type}
-            message={v.message}
-            containerId={`timeSetter-${this.props.timebarId}`}
-            messageIndex={i}
-            onClose={this.props.removeMessage}
-          />
-        ) : null}
+        {
+          this.props.messages.length ?
+            this.props.messages.map((v, i) =>
+              <Message
+                key={i}
+                type={v.type}
+                message={v.message}
+                containerId={`timeSetter-${this.props.timebarId}`}
+                messageIndex={i}
+                onClose={this.props.removeMessage}
+              />
+            ) : null
+          }
         {
           orderedCursors.map((x, i) => {
             let undisplayed = false;
@@ -222,7 +225,12 @@ export default class TimeSetter extends Component {
             )}
           />
           {' '}
-          <button className={`btn btn-info ${(defaultWidthChanged || changed) ? '' : 'disabled'}`} onClick={this.cancel}>Cancel changes</button>
+          <button
+            className={`btn btn-info ${(defaultWidthChanged || changed) ? '' : 'disabled'}`}
+            onClick={this.cancel}
+          >
+            Cancel changes
+          </button>
         </div>
       </form>
     );

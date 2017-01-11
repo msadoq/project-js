@@ -33,6 +33,7 @@
   position: absolute;
   left: 50%;
   transform: translate(-50%, 30%);
+  color: #222;
 }
 
 /*
@@ -133,7 +134,7 @@
     transition: top 0.1s;
 }
 .moved{
-  top: -26px;
+  top: -24px;
 }
 .slideLower, .slideUpper{
     top: -28px;
@@ -149,9 +150,11 @@
 
 .lowerFormattedTime{
     transform: translateX(-100%);
+    color: #d34;
 }
 .upperFormattedTime{
     right: 0;
+    color: #d34;
     transform: translateX(100%);
 }
 .currentFormattedTime{
@@ -211,7 +214,7 @@
     content: '≡';
     color: #888;
     position: absolute;
-    top: 3px;
+    top: 0px;
     left: 50%;
     font-size: 1.2em;
     background-color: #F1F1F1;
@@ -238,6 +241,7 @@
   height: 100%;
   margin: 0px auto;
   padding-left: 6px;
+  line-height: 20px;
 }
 .timelineOffset{
   position: absolute;

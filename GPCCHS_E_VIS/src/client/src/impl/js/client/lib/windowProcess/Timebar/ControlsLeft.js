@@ -164,6 +164,7 @@ export default class ControlsLeft extends PureComponent {
           >
             <button
               className={classnames('btn', 'btn-xs', 'btn-default')}
+              title="Timebar playing speed"
             >
               {`${timebarSpeed}X`}
             </button>

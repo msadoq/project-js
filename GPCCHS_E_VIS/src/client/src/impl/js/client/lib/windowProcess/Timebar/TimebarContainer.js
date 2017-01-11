@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { updateCursors } from '../../store/actions/timebars';
 import { updateTimebarHeight } from '../../store/actions/pages';
 import { getTimebarTimelinesSelector } from '../../store/selectors/timebars';
 import { getPlayingTimebarId } from '../../store/selectors/hsc';
@@ -19,7 +18,6 @@ export default connect(
       timelines,
     };
   }, {
-    updateCursors,
     updateTimebarHeight,
   }
 )(TimebarWrapper);

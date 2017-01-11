@@ -92,11 +92,12 @@ const onTimebasedPubSubData = (
 
   // loop over arguments peers (timestamp, payload)
   return _each(_chunk(payloadsBuffers, 2), (payloadBuffer) => {
-    _each(filtersByRemoteId, (filters, remoteId) => {
-      execution.start('decode timestamp');
-      const timestamp = decode('dc.dataControllerUtils.Timestamp', payloadBuffer[0]);
-      execution.stop('decode timestamp');
+    execution.start('decode timestamp');
+    const timestamp = decode('dc.dataControllerUtils.Timestamp', payloadBuffer[0]);
+    execution.stop('decode timestamp');
 
+    let decodedPayload;
+    _each(filtersByRemoteId, (filters, remoteId) => {
       execution.start('control interval');
       // if timestamp not in interval in connectedData model, continue to next iteration
       const isKnownInterval = connectedDataModel.isTimestampInKnownIntervals(
@@ -113,10 +114,13 @@ const onTimebasedPubSubData = (
       }
       execution.stop('control interval');
 
-      execution.start('decode payload');
-      // deprotobufferize payload
-      const decodedPayload = decode(payloadProtobufType, payloadBuffer[1]);
-      execution.stop('decode payload');
+      // decode Payload only once by payloadBuffer loop to avoid resource-consuming
+      if (!decodedPayload) {
+        execution.start('decode payload');
+        // deprotobufferize payload
+        decodedPayload = decode(payloadProtobufType, payloadBuffer[1]);
+        execution.stop('decode payload');
+      }
 
       loggerData.debug({
         controller: 'onTimebasedPubSubData',

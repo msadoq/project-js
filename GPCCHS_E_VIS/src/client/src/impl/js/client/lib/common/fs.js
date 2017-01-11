@@ -1,3 +1,4 @@
+/* eslint no-underscore-dangle: 0 */
 const fs = require('fs');
 const {
   join
@@ -60,7 +61,7 @@ const self = module.exports = {
   readJsonFromRelativePath: (folder, path, callback) => {
     resolvedPath = undefined;
     // Relative path from local folder
-    if (!folder) {
+    if (!folder || _startsWith(path, '/')) {
       // relative path from folder
       return callback(new Error(`Invalid relative path: ${folder}, ${path}`));
     }
@@ -96,16 +97,13 @@ const self = module.exports = {
   readJsonFromPath: (
     folder, relativePath, oId, absolutePath, requestPathFromOId = null, callback
   ) => {
-    // if (relativePath === '/text1.json') {
-    //   console.warn('--------------', folder);
-    // }
     if (absolutePath) {
       return self.readJsonFromAbsPath(absolutePath, callback);
     }
     if (oId) {
       return self.readJsonFromOId(oId, requestPathFromOId, callback);
     }
-    if (folder) {
+    if (folder && !_startsWith(relativePath, '/')) {
       return self.readJsonFromRelativePath(folder, relativePath, callback);
     }
     return self.readJsonFromFmdPath(relativePath, callback);

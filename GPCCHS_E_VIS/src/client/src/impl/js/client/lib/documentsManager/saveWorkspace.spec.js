@@ -1,4 +1,4 @@
-import { should } from '../common/test';
+import { should, getTmpPath } from '../common/test';
 
 const { saveWorkspace, saveWorkspaceAs } = require('./saveWorkspace');
 const { join } = require('path');
@@ -71,14 +71,13 @@ describe('documentsManager/saveWorkspace', () => {
     hsc:
     {
       file: 'workspace1.json',
-      folder: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/testWk',
+      folder: getTmpPath('testWk'),
     }
   };
-  const folder = '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/testAs';
+  const folder = getTmpPath('testAs');
 
   after((done) => {
-    const path = '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/test/';
-    exec('rm -r '.concat(path), () => {
+    exec('rm -r '.concat(getTmpPath()), () => {
       // your callback goes here
       done();
     });

@@ -1,3 +1,5 @@
+import path from 'path';
+
 import '../common/test';
 import map from './map';
 
@@ -97,7 +99,7 @@ const state = {
       },
       isModified: false,
       path: './pages/pageSupsup.json',
-      absolutePath: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/impl/js/client/data/pages/pageSupsup.json'
+      absolutePath: path.resolve(__dirname, '../../data/pages/pageSupsup.json'),
     }
   },
   views: {
@@ -797,7 +799,7 @@ const state = {
         content: ''
       },
       path: '/views/textviewSupsup.json',
-      absolutePath: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/impl/js/client/data/views/textviewSupsup.json',
+      absolutePath: path.resolve(__dirname, '../../data/views/textviewSupsup.json'),
       isModified: false
     },
     'aa77e24f-78e6-4e73-a486-fac1e4c058f9': {
@@ -1012,7 +1014,7 @@ const state = {
         }
       },
       path: '/views/plotviewSupsup.json',
-      absolutePath: '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/impl/js/client/data/views/plotviewSupsup.json',
+      absolutePath: path.resolve(__dirname, '../../data/views/plotviewSupsup.json'),
       isModified: false
     }
   },

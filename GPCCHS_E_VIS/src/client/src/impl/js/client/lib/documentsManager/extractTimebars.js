@@ -1,22 +1,26 @@
-const _ = require('lodash');
+const {
+  compose, pipe, always, ifElse,
+  prop, path, assoc, is,
+  map, indexBy,
+} = require('ramda');
 const { v4 } = require('node-uuid');
 
+// not pure (due to uuid generation)
+const setUUID = obj => assoc('uuid', v4(), obj);
+const indexByUUID = compose(indexBy(prop('uuid')), map(setUUID));
+const getTimebarsWithUUID = pipe(
+  path(['__original', 'timebars']),
+  ifElse(is(Array), indexByUUID, always({})),
+);
+
 /**
- * Find timebars in document JSON and store each with a uuid in .timebars
+ * Add indexed timebars with freshly generated uuid
  *
  * @param content
  * @param cb
  * @returns {*}
  */
-module.exports = (content, cb) => {
-  let timebars = _.get(content, '__original.timebars');
-  if (!_.isArray(timebars)) {
-    timebars = [];
-  }
-
-  timebars = _.map(timebars, w => Object.assign(w, { uuid: v4() }));
-
-  return cb(null, Object.assign(content, {
-    timebars: _.reduce(timebars, (l, v) => Object.assign(l, { [v.uuid]: v }), {}),
-  }));
-};
+module.exports = (content, cb) => cb(null, {
+  ...content,
+  timebars: getTimebarsWithUUID(content)
+});

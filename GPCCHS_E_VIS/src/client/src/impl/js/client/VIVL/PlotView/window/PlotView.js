@@ -32,7 +32,11 @@ import {
 import { monitoringStateColors } from '../../../lib/windowProcess/common/colors';
 import { addEntryPoint } from '../../../lib/store/actions/views';
 import DroppableContainer from '../../../lib/windowProcess/View/DroppableContainer';
-import { getPlotViewData } from '../../../lib/store/selectors/views';
+import {
+  getPlotViewData,
+  getViewEntryPoints,
+} from '../../../lib/store/selectors/views';
+import { Danger } from '../../../lib/windowProcess/View/Alert';
 
 const logger = getLogger('view:plot');
 
@@ -92,6 +96,7 @@ class PlotView extends PureComponent {
     }),
     viewId: PropTypes.string,
     addEntryPoint: PropTypes.func,
+    entryPoints: PropTypes.array,
     configuration: PropTypes.shape({
       type: PropTypes.string.isRequired,
       links: PropTypes.array,
@@ -202,6 +207,28 @@ class PlotView extends PureComponent {
         ...common
       }
     };
+  }
+
+  getEntryPointErrors() {
+    const epWithErrors = this.props.entryPoints
+      .filter(ep => ep.error);
+
+    return epWithErrors.length ?
+      <Danger
+        className="mb10"
+        style={{
+          width: '100%',
+        }}
+      >
+        <div>
+          {epWithErrors
+            .map(ep => (
+              <div style={{ lineHeight: '1.5em' }}>
+                Entry point {ep.name} is invalid
+              </div>
+            ))}
+        </div>
+      </Danger> : undefined;
   }
 
   getCharts() {
@@ -557,6 +584,7 @@ class PlotView extends PureComponent {
     ctx.stroke();
   }
 
+
   render() {
     logger.debug('render');
     const noRender = this.shouldRender();
@@ -567,7 +595,9 @@ class PlotView extends PureComponent {
       return (
         <DroppableContainer
           onDrop={this.onDrop.bind(this)}
+          style={{ padding: '1em' }}
         >
+          {this.getEntryPointErrors()}
           unable to render plot: {noRender}
         </DroppableContainer>
       );
@@ -656,9 +686,7 @@ class PlotView extends PureComponent {
 const SizeablePlotView = Dimensions()(PlotView);
 
 export default connect(
-  state => ({
-    state
-  }),
+  state => ({ state }),
   dispatch => bindActionCreators({
     addEntryPoint
   }, dispatch),
@@ -668,6 +696,7 @@ export default connect(
       ...stateProps,
       ...dispatchProps,
       ...ownProps,
+      entryPoints: getViewEntryPoints(stateProps.state, ownProps.viewId),
       data
     }, ['state']);
   }

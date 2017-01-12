@@ -15,7 +15,7 @@ import {
   getPlotViewData,
 } from './views';
 
-describe('store:views:selectors', () => {
+describe.only('store:views:selectors', () => {
   it('getView', () => {
     const { getState } = getStore({
       views: {
@@ -105,20 +105,35 @@ describe('store:views:selectors', () => {
     getViewContent(state, 'myViewId').should.eql('<h1>content</h1>');
   });
 
-  it('decorateEntryPoint', () => {
-    const ep = {
-      name: 'ep1',
-      connectedData: {
-        formula: 'Reporting.ep1<>.extractedValue'
-      }
-    };
-    decorateEntryPoint(ep).should.eql({
-      name: 'ep1',
-      error: 'INVALID FORMULA',
-      connectedData: {
-        formula: 'Reporting.ep1<>.extractedValue'
-      }
+  describe('decorateEntryPoint', () => {
+    it('for TextView', () => {
+      const ep = {
+        name: 'ep1',
+        connectedData: {
+          formula: 'Reporting.ep1<>.extractedValue'
+        }
+      };
+      decorateEntryPoint(ep).should.eql({
+        ...ep,
+        error: 'INVALID FORMULA',
+      });
     });
+    it('for PlotView', () => {
+      const ep = {
+        name: 'ep1',
+        connectedDataX: {
+          formula: 'Reporting.ep1<ReportingParameter>.extractedValue'
+        },
+        connectedDataY: {
+          formula: 'Reporting.ep1<>.extractedValue'
+        }
+      };
+      decorateEntryPoint(ep).should.eql({
+        ...ep,
+        error: 'INVALID FORMULA'
+      });
+    });
+
   });
   it('getViewEntryPoints', () => {
     const state = {

@@ -44,7 +44,13 @@ export const getViewContent = createSelector(
 
 export const decorateEntryPoint =
   R.ifElse(
-    R.pathSatisfies(f => parseFormula(f), ['connectedData', 'formula']),
+    R.either(
+      R.both(
+        R.pathSatisfies(f => parseFormula(f), ['connectedDataX', 'formula']),
+        R.pathSatisfies(f => parseFormula(f), ['connectedDataY', 'formula']),
+      ),
+      R.pathSatisfies(f => parseFormula(f), ['connectedData', 'formula'])
+    ),
     R.identity,
     R.assoc('error', 'INVALID FORMULA'),
   );

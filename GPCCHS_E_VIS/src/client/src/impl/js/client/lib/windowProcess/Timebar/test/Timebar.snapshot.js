@@ -12,6 +12,7 @@ const propsStub = {
   updateViewport: () => null,
   pause: () => null,
   play: () => null,
+  jump: () => null,
   isPlaying: true,
   visuWindow: TimebarFixture.visuWindow,
   slideWindow: TimebarFixture.slideWindow,

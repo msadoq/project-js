@@ -17,7 +17,8 @@ exports[`test Controls renders correctly 1`] = `
     <button
       aria-describedby="playingSpeedPopover"
       className="btn btn-xs btn-default"
-      onClick={[Function]}>
+      onClick={[Function]}
+      title="Timebar playing speed">
       1X
     </button>
   </li>

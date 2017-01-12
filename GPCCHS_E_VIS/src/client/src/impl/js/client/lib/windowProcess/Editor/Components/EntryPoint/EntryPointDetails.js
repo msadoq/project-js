@@ -68,10 +68,19 @@ export default class EntryPointDetails extends React.Component {
 
   handleConnectedDataXYSubmit = (values) => {
     const { entryPoint, updateEntryPoint, viewId, idPoint } = this.props;
+    /*
+      If EP is timeBasedData, x values must equal y values
+    */
     updateEntryPoint(viewId, idPoint, {
       ...entryPoint,
-      connectedDataX: values.x,
       connectedDataY: values.y,
+      connectedDataX: {
+        ...values.x,
+        formula: values.timeBasedData ? values.y.formula : values.x.formula,
+        domain: values.timeBasedData ? values.y.domain : values.x.domain,
+        timeline: values.timeBasedData ? values.y.timeline : values.x.timeline,
+      },
+      timeBasedData: values.timeBasedData,
     });
   }
 
@@ -176,6 +185,7 @@ export default class EntryPointDetails extends React.Component {
             initialValues={{
               x: entryPoint.connectedDataX,
               y: entryPoint.connectedDataY,
+              timeBasedData: entryPoint.timeBasedData,
             }}
           />}
         </Panel>}

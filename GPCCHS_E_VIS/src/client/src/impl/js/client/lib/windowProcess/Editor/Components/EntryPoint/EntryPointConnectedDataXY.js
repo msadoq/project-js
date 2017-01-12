@@ -8,10 +8,14 @@ import {
 import {
   reduxForm,
   formValueSelector,
+  Field,
 } from 'redux-form';
 import {
-  ClearSubmitButtons
+  ClearSubmitButtons,
 } from '../Forms/';
+import {
+  ButtonToggleField,
+} from '../Fields/';
 import {
   EntryPointConnectedDataFields
 } from './';
@@ -29,6 +33,7 @@ class EntryPointConnectedDataXY extends React.Component {
     initialValues: PropTypes.shape({
       x: PropTypes.object,
       y: PropTypes.object,
+      timeBasedData: PropTypes.bool,
     }).isRequired,
     axes: PropTypes.object,
     timelines: PropTypes.array,
@@ -39,6 +44,7 @@ class EntryPointConnectedDataXY extends React.Component {
     valid: PropTypes.bool,
     xUnit: PropTypes.string,
     yUnit: PropTypes.string,
+    timeBasedData: PropTypes.bool,
   }
 
   render() {
@@ -51,24 +57,51 @@ class EntryPointConnectedDataXY extends React.Component {
       axes,
       timelines,
       initialValues,
+      timeBasedData,
     } = this.props;
 
     return (
       <Form horizontal onSubmit={handleSubmit}>
-        {['x', 'y'].map(coor =>
-          <div key={coor}>
+        <h4
+          style={{
+            display: 'inline-block'
+          }}
+        >
+          Time based data&nbsp;&nbsp;
+        </h4>
+        <Field
+          name="timeBasedData"
+          component={ButtonToggleField}
+          textOn="YES"
+          textOff="NO"
+        />
+
+        {!timeBasedData &&
+          (<div>
             <div className="page-header">
-              <h4>{coor === 'x' ? 'Abciss' : 'Ordinate'}</h4>
+              <h4>Abciss</h4>
             </div>
             <EntryPointConnectedDataFields
-              prefix={`${coor}.`}
-              unit={this.props[`${coor}Unit`]}
+              prefix="x."
+              unit={this.props.xUnit}
               timelines={timelines}
               axes={axes}
-              axisId={initialValues[coor].axisId}
+              axisId={initialValues.x.axisId}
             />
-          </div>
-        )}
+          </div>)
+        }
+
+        <div className="page-header">
+          <h4>Ordinate</h4>
+        </div>
+        <EntryPointConnectedDataFields
+          prefix="y."
+          unit={this.props.yUnit}
+          timelines={timelines}
+          axes={axes}
+          axisId={initialValues.y.axisId}
+        />
+
         <ClearSubmitButtons
           pristine={pristine}
           submitting={submitting}
@@ -177,6 +210,7 @@ export default connect((state, { form }) => {
   const x = formValueSelector(form)(state, 'x');
   const y = formValueSelector(form)(state, 'y');
   return {
+    timeBasedData: formValueSelector(form)(state, 'timeBasedData') === true,
     xUnit: x ? x.unit : '',
     yUnit: y ? y.unit : '',
   };

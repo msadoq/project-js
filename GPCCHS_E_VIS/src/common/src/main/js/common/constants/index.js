@@ -101,4 +101,5 @@ module.exports = {
   IPC_METHOD_RELOAD_VIEW: 8,
   IPC_METHOD_SAVE_VIEW: 9,
   IPC_METHOD_ERROR: 10,
+  IPC_METHOD_SERVER_DEBUG: 11, // warn! used for two message in two different IPC
 };

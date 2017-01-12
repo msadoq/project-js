@@ -6,6 +6,7 @@ const { onCacheCleanup } = require('./onCacheCleanup');
 const { onTimebasedQuery } = require('./onTimebasedQuery');
 const { onSessionQuery } = require('./onSessionQuery');
 const { onFilepathQuery } = require('./onFilepathQuery');
+const onServerDebug = require('./onServerDebug');
 
 const controller = {
   [globalConstants.IPC_METHOD_DOMAINS_REQUEST]: onDomainQuery,
@@ -14,6 +15,7 @@ const controller = {
   [globalConstants.IPC_METHOD_TIMEBASED_PULL]: onPull,
   [globalConstants.IPC_METHOD_TIMEBASED_QUERY]: onTimebasedQuery,
   [globalConstants.IPC_METHOD_FILEPATH_REQUEST]: onFilepathQuery,
+  [globalConstants.IPC_METHOD_SERVER_DEBUG]: onServerDebug,
 };
 
 module.exports = data => handle(

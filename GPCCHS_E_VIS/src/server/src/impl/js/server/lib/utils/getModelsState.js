@@ -1,9 +1,9 @@
-const connectedDataModel = require('./connectedData');
-const subscriptionsModel = require('./subscriptions');
+const connectedDataModel = require('./../models/connectedData');
+const subscriptionsModel = require('./../models/subscriptions');
 const {
   getAllTimebasedDataModelRemoteIds,
   getTimebasedDataModel,
-} = require('./timebasedDataFactory');
+} = require('./../models/timebasedDataFactory');
 
 /**
  * Return object that represents current server models state

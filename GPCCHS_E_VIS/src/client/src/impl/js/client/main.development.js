@@ -1,5 +1,4 @@
 import { app } from 'electron';
-import 'common/parameters';
 import getLogger from 'common/log';
 import { start, stop, onWindowsClose } from './lib/mainProcess'; // eslint-disable-line import/first
 

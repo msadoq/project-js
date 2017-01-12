@@ -14,6 +14,7 @@ import { getWindowDebug } from '../../store/selectors/windows';
 import { getPage } from '../../store/selectors/pages';
 import dataMapGenerator from '../../dataManager/map';
 import { updateCacheInvalidation } from '../../store/actions/hsc';
+import { main } from '../ipc';
 
 const style = {
   position: 'fixed',
@@ -39,10 +40,8 @@ class Debug extends PureComponent {
     }
   }
 
-  hssState = () => {
-    fetch('http://127.0.0.1:3000/debug/all')
-      .then(r => r.json())
-      .then(json => console.log(json)); // eslint-disable-line no-console
+  serverDebug = () => {
+    main.serverDebug(debug => console.log(debug)); // eslint-disable-line no-console
   };
 
   dataMap = () => {
@@ -94,10 +93,10 @@ class Debug extends PureComponent {
         >
           <MenuItem
             eventKey="1"
-            onClick={this.hssState}
+            onClick={this.serverDebug}
             {...buttonsProps}
           >
-            HSS
+            SERVER INFO
           </MenuItem>
           <MenuItem
             eventKey="2"

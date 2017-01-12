@@ -7,7 +7,7 @@ const globalConstants = require('common/constants');
 const dataStub = require('common/stubs/data');
 
 const { should } = require('../../utils/test');
-const { get: getQueue, reset: resetQueue } = require('../../websocket/dataQueue');
+const { get: getQueue, reset: resetQueue } = require('../../utils/dataQueue');
 const flattenDataId = require('../../utils/flattenDataId');
 const registeredQueries = require('../../utils/registeredQueries');
 const registeredCallbacks = require('common/callbacks');

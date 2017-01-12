@@ -1,8 +1,7 @@
 const _each = require('lodash/each');
 const chai = require('chai');
 const properties = require('chai-properties');
-const expressApp = require('../express');
-const database = require('../io/loki');
+const database = require('../models/loki');
 
 chai.use(properties);
 
@@ -19,7 +18,6 @@ const e2eUrl = () => `${process.env.E2E_URL}:${process.env.SERVER_PORT}?identity
 
 module.exports = {
   should: chai.should(),
-  expressApp,
   database,
   testHandler,
   getTestHandlerArgs: () => testHandlerArgs,

@@ -1,12 +1,14 @@
 import { v4 } from 'node-uuid';
 
-import { requestPathFromOId } from '../websocket';
+import { server } from '../ipc';
 import { readViews } from '../../documentsManager/extractViews';
 import { showErrorMessage } from '../dialog';
 import { addAndMount as addAndMountView } from '../../store/actions/pages';
 import { getStore } from '../../store/mainStore';
 import { setModified as setModifiedView } from '../../store/actions/views';
 import getPathByFilePicker from '../filePicker';
+
+const { requestPathFromOId } = server;
 
 module.exports = { viewOpen, addPlotView, addTextView };
 

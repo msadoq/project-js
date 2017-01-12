@@ -14,13 +14,14 @@ extensions 2 to 102;
         SESSION_DATA = 8;
         SESSION_TIME_QUERY = 9;
         SESSION_TIME_DATA = 10;
-        SESSION_GET_MASTER = 11;
         LOG_SEND = 12;
         FMD_GET_QUERY = 13;
         FMD_GET_DATA = 14;
         FMD_CREATE_QUERY = 15;
         FMD_CREATE_DOCUMENT_QUERY = 16;
         FMD_CREATE_DATA = 17;
+        SESSION_MASTER_DATA = 18;
+        SESSION_MASTER_QUERY = 19;
       }
 
     required MESSAGE_TYPE messageType = 1;

@@ -1,6 +1,5 @@
-const { pop } = require('common/callbacks');
-const logger = require('common/log')('controllers:onPull');
-const { reset } = require('../../websocket/dataQueue');
+const { reset } = require('../../utils/dataQueue');
+const reply = require('common/ipc/reply');
 
 /**
  * Triggered when HSC main process pull data spooled by HSC
@@ -9,14 +8,4 @@ const { reset } = require('../../websocket/dataQueue');
  *
  * @param queryId
  */
-module.exports = (queryId) => {
-  logger.verbose('called');
-
-  const callback = pop(queryId);
-  if (!callback) {
-    return logger.warn(`unknown queryId ${queryId}`);
-  }
-
-  const payload = reset();
-  return callback(payload);
-};
+module.exports = queryId => reply(queryId, reset());

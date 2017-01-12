@@ -6,7 +6,7 @@ import createLogger from 'redux-logger';
 
 import reducers from './reducers';
 
-const logger = getLogger('GPCCHS:WindowStore');
+const logger = getLogger('WindowStore');
 
 let store;
 

@@ -5,7 +5,7 @@ import ContentContainer from './ContentContainer';
 import EditorContainer from '../Editor/EditorContainer';
 import styles from './Page.css';
 
-const logger = getLogger('GPCCHS:Page');
+const logger = getLogger('Page');
 
 // const cols = 12;
 // const editorCols = 4;

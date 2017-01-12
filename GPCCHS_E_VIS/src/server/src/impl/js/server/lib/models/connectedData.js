@@ -9,7 +9,7 @@ const logger = require('common/log')('models:connectedData');
 const globalConstants = require('common/constants');
 const intervalManager = require('common/intervals');
 
-const database = require('../io/loki');
+const database = require('./loki');
 
 const createConnectedData = (type, remoteId, dataId) => ({
   type,
@@ -247,12 +247,7 @@ collection.retrieveMissingIntervals = (remoteId, interval, connectedData) => {
   }
 };
 
-collection.exists = (remoteId) => {
-  if (typeof collection.by('remoteId', remoteId) === 'undefined') {
-    return false;
-  }
-  return true;
-};
+collection.exists = remoteId => typeof collection.by('remoteId', remoteId) !== 'undefined';
 
 collection.removeByRemoteId = (remoteId, connectedData) => {
   let cd = connectedData;

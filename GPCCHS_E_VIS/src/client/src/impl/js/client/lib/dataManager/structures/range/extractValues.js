@@ -6,7 +6,7 @@ import _has from 'lodash/has';
 import globalConstants from 'common/constants';
 import getLogger from 'common/log';
 
-const logger = getLogger('GPCCHS:data:rangeValues');
+const logger = getLogger('data:rangeValues');
 
 export function select(remoteIdPayload, ep, epName, viewState, count) {
   const lower = ep.expectedInterval[0];

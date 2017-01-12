@@ -6,7 +6,6 @@ import reducer from './hsc';
 describe('store:hsc:reducer', () => {
   it('should returns initial state', () => {
     const r = reducer(undefined, {});
-    r.should.be.an('object').with.property('status', 'LIFECYCLE_NOT_STARTED');
     r.should.has.property('lastCacheInvalidation');
     r.lastCacheInvalidation.should.be.a('number');
     r.should.have.property('windowsOpened', false);
@@ -17,15 +16,10 @@ describe('store:hsc:reducer', () => {
   });
   it('should ignore unknown action', () => {
     const state = freezeMe({
-      status: 'LIFECYCLE_NOT_STARTED',
       lastCacheInvalidation: 10,
       playingTimebarId: 10,
     });
     reducer(state, {}).should.equal(state);
-  });
-  it('should update status', () => {
-    reducer(undefined, actions.updateStatus('myStatus'))
-      .should.have.property('status', 'myStatus');
   });
   it('should update windows state', () => {
     reducer(undefined, actions.setWindowsAsOpened())

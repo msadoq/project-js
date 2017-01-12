@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import { reducer as form } from 'redux-form';
-import hss from './hss';
 import hsc from './hsc';
 import timebars from './timebars';
 import messages from './messages';
@@ -14,7 +13,6 @@ import viewData from './viewData';
 
 const reducer = combineReducers({
   form,
-  hss,
   hsc,
   timebars,
   messages,

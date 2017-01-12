@@ -1,7 +1,6 @@
 const _each = require('lodash/each');
 const _omit = require('lodash/omit');
-const { bind: bindMainIpc } = require('../ipc');
-const logger = require('../log')('GPCCHS:STUBS:DC');
+const logger = require('../log')('stubs:dc');
 const zmq = require('../zmq');
 const globalConstants = require('../constants');
 const protobuf = require('../protobuf/index');
@@ -166,10 +165,9 @@ zmq.open(
       return;
     }
 
-    // bind IPC channel with main process
-    bindMainIpc();
-
     logger.info('sockets opened');
+    process.send('ready');
+
     nextDcCall();
   }
 );

@@ -1,6 +1,6 @@
 const logger = require('common/log')('controllers:onSessionData');
 const { decode } = require('common/protobuf');
-const registeredCallbacks = require('common/callbacks');
+const reply = require('common/ipc/reply');
 
 /**
  * Triggered on DC session request response.
@@ -16,11 +16,7 @@ module.exports.onSessionData = (queryIdBuffer, buffer) => {
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
   logger.debug('decoded queryId', queryId);
 
-  const callback = registeredCallbacks.get(queryId);
-  if (!callback) {
-    return logger.warn(`unknown queryId ${queryId}`);
-  }
-
-  return callback(decode('dc.dataControllerUtils.Sessions', buffer).sessions);
+  const { sessions } = decode('dc.dataControllerUtils.Sessions', buffer);
+  reply(queryId, { sessions });
 };
 

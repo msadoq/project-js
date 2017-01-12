@@ -3,7 +3,7 @@ const _isFunction = require('lodash/isFunction');
 const async = require('async');
 const zmq = require('zmq');
 
-const logger = require('../log')('GPCCHS:common:zmq');
+const logger = require('../log')('common:zmq');
 
 const lifeCycleEvents = [
   'connect',

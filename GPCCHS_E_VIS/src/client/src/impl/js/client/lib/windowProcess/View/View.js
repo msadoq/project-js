@@ -6,7 +6,7 @@ import UnknownView from './UnknownView';
 import MessagesContainer from './MessagesContainer';
 import styles from './View.css';
 
-const logger = getLogger('GPCCHS:View');
+const logger = getLogger('View');
 
 // Shortcut keyboard : html keycodes (event.keyCode)
 const keys = {
@@ -34,9 +34,6 @@ export default class View extends PureComponent {
     getWindowPages: PropTypes.func,
     collapseView: PropTypes.func,
     isCollapsed: PropTypes.bool,
-    updateAbsolutePath: PropTypes.func,
-    setModified: PropTypes.func,
-    reloadView: PropTypes.func,
   };
 
   static contextTypes = {
@@ -102,9 +99,6 @@ export default class View extends PureComponent {
       oId,
       absolutePath,
       isModified,
-      updateAbsolutePath,
-      setModified,
-      reloadView,
     } = this.props;
     const ContentComponent = component || UnknownView;
 
@@ -128,9 +122,6 @@ export default class View extends PureComponent {
           oId={oId}
           absolutePath={absolutePath}
           isModified={isModified}
-          updateAbsolutePath={updateAbsolutePath}
-          setModified={setModified}
-          reloadView={reloadView}
         />
         {!isCollapsed &&
           <div

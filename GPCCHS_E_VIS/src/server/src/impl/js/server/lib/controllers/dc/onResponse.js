@@ -3,8 +3,11 @@ const _isEqual = require('lodash/isEqual');
 const logger = require('common/log')('controllers:onResponse');
 const globalConstants = require('common/constants');
 const { encode, decode } = require('common/protobuf');
-const registeredCallbacks = require('common/callbacks');
-const { sendToMain } = require('../../websocket/sendToMain');
+const { pop } = require('common/callbacks');
+
+const protobufSuccess = encode('dc.dataControllerUtils.Status', {
+  status: globalConstants.STATUS_SUCCESS,
+});
 
 /**
  * Triggered on incoming DcResponse message from DC.
@@ -17,23 +20,18 @@ const { sendToMain } = require('../../websocket/sendToMain');
  * - deprotobufferize reason
  * - send error message to client and execute callback
  *
- * @param buffer
+ * @param queryIdBuffer
+ * @param statusBuffer
+ * @param reasonBuffer
  */
-
-const protobufSuccess = encode('dc.dataControllerUtils.Status', { status: globalConstants.STATUS_SUCCESS });
-
-const response = (websocketHandler, queryIdBuffer, statusBuffer, reasonBuffer) => {
+module.exports.onResponse = (queryIdBuffer, statusBuffer, reasonBuffer) => {
   logger.verbose('called');
 
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
-  // check if queryId exists in registeredCallbacks singleton, if no stop logic
-  const callback = registeredCallbacks.get(queryId);
+  const callback = pop(queryId);
   if (typeof callback === 'undefined') {
     return undefined;
   }
-
-  // unregister queryId
-  registeredCallbacks.remove(queryId);
 
   // if status is SUCCESS, execute callback and stop logic
   if (_isEqual(statusBuffer, protobufSuccess)) {
@@ -45,16 +43,6 @@ const response = (websocketHandler, queryIdBuffer, statusBuffer, reasonBuffer) =
     ? decode('dc.dataControllerUtils.String', reasonBuffer).string
     : reasonBuffer;
 
-  // send error message to client and execute callback
-  websocketHandler(
-    globalConstants.EVENT_ERROR,
-    { type: globalConstants.ERRORTYPE_RESPONSE, reason }
-  );
-  return callback(new Error((typeof reason !== 'undefined') ? reason : 'unknown reason'));
-};
-
-module.exports = {
-  onResponse: (queryIdBuffer, statusBuffer, reasonBuffer) =>
-    response(sendToMain, queryIdBuffer, statusBuffer, reasonBuffer),
-  response,
+  // run callback
+  return callback(typeof reason !== 'undefined' ? reason : 'no reason provided by DC');
 };

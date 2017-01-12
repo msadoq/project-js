@@ -9,7 +9,7 @@ const {
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
 const dataStub = require('common/stubs/data');
-const { get: getQueue, reset: resetQueue } = require('../../websocket/dataQueue');
+const { get: getQueue, reset: resetQueue } = require('../../utils/dataQueue');
 const globalConstants = require('common/constants');
 
 /* onTimebasedPubSubData Test

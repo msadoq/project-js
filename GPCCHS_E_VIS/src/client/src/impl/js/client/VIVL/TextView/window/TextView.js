@@ -24,7 +24,7 @@ import DroppableContainer from '../../../lib/windowProcess/View/DroppableContain
 
 import styles from './TextView.css';
 
-const logger = getLogger('GPCCHS:view:text');
+const logger = getLogger('view:text');
 
 const getComObject = comObjects =>
   R.pipe(
@@ -133,13 +133,12 @@ class TextView extends Component {
         processNode: this.processNodeDefinitions.processDefaultNode,
       },
     ];
-    const component = this.htmlToReactParser.parseWithInstructions(
+
+    return this.htmlToReactParser.parseWithInstructions(
       `<div>${this.template}</div>`,
       () => true,
       processingInstructions
     );
-    // console.timeEnd('view:text parse template');
-    return component;
   }
 
   handleSubmit = (values) => {

@@ -13,7 +13,6 @@ const validation = require('./validation');
 const vivl = require('../../VIVL/main');
 const addUuidToAxes = require('../dataManager/structures/range/addUuidToAxes');
 const globalConstants = require('common/constants');
-// const { requestPathFromOId } = require('../mainProcess/websocket');
 
 const indexByUUID = indexBy(prop('uuid'));
 

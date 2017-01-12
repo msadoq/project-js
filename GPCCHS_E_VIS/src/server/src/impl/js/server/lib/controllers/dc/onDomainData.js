@@ -1,6 +1,6 @@
 const logger = require('common/log')('controllers:onDomainData');
 const { decode } = require('common/protobuf');
-const registeredCallbacks = require('common/callbacks');
+const reply = require('common/ipc/reply');
 
 /**
  * Triggered on DC domain request response.
@@ -16,10 +16,6 @@ module.exports.onDomainData = (queryIdBuffer, buffer) => {
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
   logger.debug('decoded queryId', queryId);
 
-  const callback = registeredCallbacks.get(queryId);
-  if (!callback) {
-    return logger.warn(`unknown queryId ${queryId}`);
-  }
-
-  return callback(decode('dc.dataControllerUtils.Domains', buffer).domains);
+  const { domains } = decode('dc.dataControllerUtils.Domains', buffer);
+  reply(queryId, { domains });
 };

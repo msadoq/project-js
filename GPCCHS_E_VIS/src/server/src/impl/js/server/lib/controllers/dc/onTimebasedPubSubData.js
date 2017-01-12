@@ -6,7 +6,7 @@ const _each = require('lodash/each');
 const _chunk = require('lodash/chunk');
 const logger = require('common/log')('controllers:onTimebasedPubSubData');
 const loggerData = require('common/log')('controllers:incomingData');
-const { add: addToQueue } = require('../../websocket/dataQueue');
+const { add: addToQueue } = require('../../utils/dataQueue');
 const { applyFilters } = require('../../utils/filters');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
@@ -30,7 +30,7 @@ const subscriptionsModel = require('../../models/subscriptions');
  * @param dataIdBuffer
  * @param payloadsBuffers
  */
-const onTimebasedPubSubData = (
+module.exports.onTimebasedPubSubData = (
   queryIdBuffer,
   dataIdBuffer,
   ...payloadsBuffers
@@ -160,8 +160,4 @@ const onTimebasedPubSubData = (
       execution.print();
     });
   });
-};
-
-module.exports = {
-  onTimebasedPubSubData,
 };

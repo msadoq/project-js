@@ -4,7 +4,7 @@ import { PlotEditorContainer } from './Components/Plot';
 import { TextEditorContainer } from './Components/Text';
 import styles from './Editor.css';
 
-const logger = getLogger('GPCCHS:Editor');
+const logger = getLogger('Editor');
 
 const InvalidConfiguration = () => <div> unknown view type or invalid configuration: </div>;
 // TODO dedicated component

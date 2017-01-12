@@ -10,9 +10,11 @@ const extractTimelines = require('./extractTimelines');
 const extractWindows = require('./extractWindows');
 const { extractPages } = require('./extractPages');
 const { extractViews } = require('./extractViews');
-const { requestPathFromOId } = require('../mainProcess/websocket');
+const { server } = require('../mainProcess/ipc');
 
-const logger = getLogger('GPCCHS:documents:workspace');
+const { requestPathFromOId } = server;
+
+const logger = getLogger('documents:workspace');
 
 module.exports = {
   readWorkspace: (folder, relativePath, callback) => {

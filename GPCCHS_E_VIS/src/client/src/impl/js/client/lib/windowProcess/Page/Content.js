@@ -7,7 +7,7 @@ import getLogger from 'common/log';
 import makeViewContainer from '../View/ViewContainer';
 import styles from './Content.css';
 
-const logger = getLogger('GPCCHS:Content');
+const logger = getLogger('Content');
 
 const Grid = WidthProvider(Responsive); // eslint-disable-line new-cap
 

@@ -1,46 +1,21 @@
 const logger = require('common/log')('controllers:onFilepathData');
-const globalConstants = require('common/constants');
 const { decode } = require('common/protobuf');
-const registeredCallbacks = require('common/callbacks');
-
-const { sendToMain } = require('../../websocket/sendToMain');
-
+const reply = require('common/ipc/reply');
 
 /**
- * Triggered on DC filepath from oId request response.
+ * Handle FMD filepath request response from DC
  *
- * - deprotobufferize filepath
- * - store filepath
- * - forward to client
+ * - decode and pass to registered callback
  *
- * @param websocketHandler
  * @param queryIdBuffer
- * @param filepathBuffer
+ * @param buffer
  */
-const filepathData = (websocketHandler, queryIdBuffer, filepathBuffer) => {
+module.exports.onFilepathData = (queryIdBuffer, buffer) => {
   logger.verbose('called');
 
-  // deprotobufferize queryId
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
   logger.debug('decoded queryId', queryId);
 
-  // check if queryId exists in registeredCallbacks singleton, if no stop logic
-  const callback = registeredCallbacks.get(queryId);
-  if (!callback) {
-    return undefined;
-  }
-  // deprotobufferize domains
-  const filepath = decode('dc.dataControllerUtils.String', filepathBuffer).string;
-
-  // forward to client
-  return websocketHandler(globalConstants.EVENT_FILEPATH_DATA, filepath, queryId);
-};
-
-const onFilepathData = (queryIdBuffer, filepathBuffer) => {
-  filepathData(sendToMain, queryIdBuffer, filepathBuffer);
-};
-
-module.exports = {
-  onFilepathData,
-  filepathData,
+  const { string } = decode('dc.dataControllerUtils.String', buffer);
+  reply(queryId, { path: string });
 };

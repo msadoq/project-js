@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { LIFECYCLE_STARTED } from 'common/constants';
 import getLogger from 'common/log';
 
 import Debug from '../Navigation/Debug';
@@ -10,19 +9,18 @@ import TabsContainer from '../Navigation/TabsContainer';
 import Help from '../common/Help';
 import styles from './Window.css';
 
-const logger = getLogger('GPCCHS:Window');
+const logger = getLogger('Window');
 
 
 export default class Window extends Component {
   static propTypes = {
     windowId: PropTypes.string.isRequired,
     focusedPageId: PropTypes.string,
-    appStatus: PropTypes.string,
     title: PropTypes.string,
   };
 
   static childContextTypes = {
-    windowId: PropTypes.string
+    windowId: PropTypes.string,
   };
 
   state = {
@@ -60,21 +58,7 @@ export default class Window extends Component {
 
   render() {
     logger.debug('render');
-    const {
-      appStatus, focusedPageId,
-      windowId, title
-    } = this.props;
-    if (appStatus !== LIFECYCLE_STARTED) {
-      return (
-        <div className={styles.box}>
-          Connection in progress
-          <div>...</div>
-          <div className={styles.message}>
-            ({appStatus})
-          </div>
-        </div>
-      );
-    }
+    const { focusedPageId, windowId, title } = this.props;
 
     return (
       <div className={styles.container}>

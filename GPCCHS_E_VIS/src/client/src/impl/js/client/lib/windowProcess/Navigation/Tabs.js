@@ -2,15 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import { Nav, NavItem, Button, Glyphicon } from 'react-bootstrap';
 import getLogger from 'common/log';
 import styles from './Tabs.css';
-import { sendToMain } from '../../ipc/window';
 
-const logger = getLogger('GPCCHS:Tabs');
+const logger = getLogger('Tabs');
 
 export default class Tabs extends Component {
   static propTypes = {
     pages: PropTypes.array.isRequired,
     focusedPageId: PropTypes.string,
-    title: PropTypes.string,
     focusPage: PropTypes.func,
     addAndMount: PropTypes.func,
     removeAndUnmountPage: PropTypes.func,
@@ -18,8 +16,6 @@ export default class Tabs extends Component {
 
   handleSelect = (eventKey) => {
     if (eventKey === 'new') {
-      const { title } = this.props;
-      sendToMain('updateTitle', { title: title.concat(' * - VIMA') });
       return this.props.addAndMount();
     }
 
@@ -30,8 +26,6 @@ export default class Tabs extends Component {
     e.preventDefault();
     e.stopPropagation();
     this.props.removeAndUnmountPage(pageId);
-    const { title } = this.props;
-    sendToMain('updateTitle', { title: title.concat(' * - VIMA') });
     e.stopPropagation();
   }
 

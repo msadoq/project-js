@@ -19,7 +19,6 @@
     "protobufjs": "^5.0.1",
     "ramda": "^0.22.0",
     "winston": "^2.3.0",
-    "ws": "^1.1.1",
     "zmq": "^2.15.3"
   },
   "devDependencies": {

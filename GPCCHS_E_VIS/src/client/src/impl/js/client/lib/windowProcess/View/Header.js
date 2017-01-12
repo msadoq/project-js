@@ -2,12 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 import { v4 } from 'node-uuid';
+import globalConstants from 'common/constants';
 
 import styles from './Header.css';
 import Modal from '../common/Modal';
 import ChoosePage from './ChoosePage';
-import { sendToMain } from '../../ipc/window';
-
+import { main } from '../ipc';
 
 export default class Header extends Component {
   static propTypes = {
@@ -28,9 +28,6 @@ export default class Header extends Component {
     moveViewToPage: PropTypes.func,
     getWindowPages: PropTypes.func,
     collapseView: PropTypes.func,
-    updateAbsolutePath: PropTypes.func,
-    setModified: PropTypes.func,
-    reloadView: PropTypes.func,
   };
   static defaultProps = {
     configuration: {
@@ -57,18 +54,13 @@ export default class Header extends Component {
       type,
       configuration,
       isViewsEditorOpen,
-      isModified,
       openEditor,
       closeEditor,
       unmountAndRemove,
       getWindowPages,
       collapseView,
       isCollapsed,
-      // oId,
       absolutePath,
-      updateAbsolutePath,
-      setModified,
-      reloadView,
     } = this.props;
 
     const {
@@ -106,28 +98,13 @@ export default class Header extends Component {
         break;
       }
       case 'save':
-        sendToMain('saveView', { configuration, type, absolutePath }, (payload) => {
-          if (!payload.error) {
-            // update View title
-            setModified(viewId, false);
-          }
-        });
+        main.message(globalConstants.IPC_METHOD_SAVE_VIEW, { saveAs: absolutePath, viewId });
         break;
       case 'saveAs':
-        sendToMain('saveViewAs', { configuration, type, absolutePath }, (payload) => {
-          if (!payload.error) {
-            // update View path
-            updateAbsolutePath(viewId, payload.viewPath);
-            setModified(viewId, false);
-          }
-        });
+        main.message(globalConstants.IPC_METHOD_SAVE_VIEW, { viewId });
         break;
       case 'reload':
-        sendToMain('reloadView', { absolutePath, isModified }, (payload) => {
-          if (!payload.error) {
-            reloadView(viewId, payload.configuration);
-          }
-        });
+        main.message(globalConstants.IPC_METHOD_RELOAD_VIEW, { viewId });
         break;
       default:
     }

@@ -9,18 +9,14 @@ describe('models/subscriptions', () => {
   });
 
   describe('exists', () => {
-    it('yes', () => {
+    it('should returns true if subscription exists', () => {
       const myDataId = getDataId();
       model.addRecord(myDataId);
-      model.exists(myDataId)
-        .should.be.an('boolean')
-        .that.equal(true);
+      model.exists(myDataId).should.equal(true);
     });
-    it('no', () => {
+    it('should returns false if subscription doesn\'t exist', () => {
       const myDataId = getDataId();
-      model.exists(myDataId)
-        .should.be.an('boolean')
-        .that.equal(false);
+      model.exists(myDataId).should.equal(false);
     });
   });
 

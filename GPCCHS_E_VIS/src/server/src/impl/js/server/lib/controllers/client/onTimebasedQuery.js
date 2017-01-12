@@ -4,7 +4,7 @@ const globalConstants = require('common/constants');
 const zmq = require('common/zmq');
 const executionMonitor = require('common/log/execution');
 
-const { add: addToQueue } = require('../../websocket/dataQueue');
+const { add: addToQueue } = require('../../utils/dataQueue');
 const { createQueryMessage } = require('../../utils/queries');
 const { createAddSubscriptionMessage } = require('../../utils/subscriptions');
 const connectedDataModel = require('../../models/connectedData');

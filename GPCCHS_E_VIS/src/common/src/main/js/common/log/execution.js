@@ -24,7 +24,7 @@ function stop(executionMap, key, message) {
   }
 }
 function print(executionMap, namespace) {
-  const logger = getLogger(`GPCCHS:profiling:${namespace}`);
+  const logger = getLogger(`profiling:${namespace}`);
 //  display('= execution map -~=] START [=~-');
   const timers = [];
   _each(executionMap, ({ traces, message }, k) => {

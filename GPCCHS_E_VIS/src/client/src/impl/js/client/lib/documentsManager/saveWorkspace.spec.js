@@ -1,4 +1,4 @@
-import { should, getTmpPath } from '../common/test';
+import { should, getTmpPath, freezeMe } from '../common/test';
 
 const { saveWorkspace, saveWorkspaceAs } = require('./saveWorkspace');
 const { join } = require('path');
@@ -84,7 +84,7 @@ describe('documentsManager/saveWorkspace', () => {
   });
   it('saveAs ok', (done) => {
     const path = join(folder, 'workspace.json');
-    saveWorkspaceAs(state, path, true, (err, windows) => {
+    saveWorkspaceAs(freezeMe(state), path, true, (err, windows) => {
       should.not.exist(err);
       windows.should.have.length(1);
       done();
@@ -100,7 +100,7 @@ describe('documentsManager/saveWorkspace', () => {
       });
   });
   it('save ok', (done) => {
-    should.not.exist(saveWorkspace(state, true, (err, windows) => {
+    should.not.exist(saveWorkspace(freezeMe(state), true, (err, windows) => {
       should.not.exist(err);
       windows.should.have.length(1);
       done();

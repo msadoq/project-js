@@ -1,6 +1,7 @@
 /* eslint no-underscore-dangle: 0 */
 const { writeFile } = require('fs');
 const { dirname } = require('path');
+const _cloneDeep = require('lodash/cloneDeep');
 const { checkPath } = require('../common/fs');
 const _omit = require('lodash/omit');
 const _values = require('lodash/values');
@@ -23,16 +24,13 @@ function saveViewAs(viewConfiguration, viewType, path, callback) {
   }
   // TODO add case with new FMD path -> createDocument par DC
   checkPath(dirname(path)).then(() => {
-    let view;
+    const view = _cloneDeep(viewConfiguration);
     const structureType = vivl(viewType, 'structureType')();
     switch (structureType) { // eslint-disable-line default-case
       case globalConstants.DATASTRUCTURETYPE_RANGE: {
-        view = _omit(viewConfiguration, 'axes');
-        view.axes = _values(viewConfiguration.axes);
+        view.axes = _values(view.axes);
         break;
       }
-      default:
-        view = viewConfiguration;
     }
     // Remove entry point id
     _each(view.entryPoints, (value, index, entryPoints) => {

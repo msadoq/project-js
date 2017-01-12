@@ -1,4 +1,4 @@
-import { should, getTmpPath } from '../common/test';
+import { should, getTmpPath, freezeMe } from '../common/test';
 
 const { saveViewAs, saveView } = require('./saveView');
 const fs = require('../common/fs');
@@ -104,7 +104,7 @@ describe('documentsManager/saveViews', () => {
   describe('PlotView', () => {
     it('saveAs ok', (done) => {
       const view = state.views.plot1;
-      saveViewAs(view.configuration, view.type, view.absolutePath, (err) => {
+      saveViewAs(freezeMe(view.configuration), view.type, view.absolutePath, (err) => {
         should.not.exist(err);
         done();
       });
@@ -119,7 +119,7 @@ describe('documentsManager/saveViews', () => {
       });
     });
     it('save ok', (done) => {
-      saveView(state, 'plot1', (err) => {
+      saveView(freezeMe(state), 'plot1', (err) => {
         should.not.exist(err);
         done();
       });
@@ -137,7 +137,7 @@ describe('documentsManager/saveViews', () => {
   describe('TextView', () => {
     it('saveAs ok', (done) => {
       const view = state.views.text1;
-      saveViewAs(view.configuration, view.type, view.absolutePath, (err) => {
+      saveViewAs(freezeMe(view.configuration), view.type, view.absolutePath, (err) => {
         should.not.exist(err);
         done();
       });
@@ -152,7 +152,7 @@ describe('documentsManager/saveViews', () => {
       });
     });
     it('save ok', (done) => {
-      saveView(state, 'text1', (err) => {
+      saveView(freezeMe(state), 'text1', (err) => {
         should.not.exist(err);
         done();
       });

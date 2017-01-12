@@ -109,7 +109,7 @@ function extractViews(content, requestPathFromOId, done) {
 
   return readViews(getAllViews(nextContent), requestPathFromOId, (err, views) => {
     if (err) {
-      done(err);
+      return done(err);
     }
     const setViews = assoc('views', indexByUUID(views));
     return done(null, setViews(nextContent));

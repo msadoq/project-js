@@ -1,9 +1,10 @@
-import { setModified as setModifiedView,
-         updateAbsolutePath as updateAbsViewPath } from '../../store/actions/views';
+import {
+  setModified as setModifiedView,
+  updateAbsolutePath as updateAbsViewPath,
+} from '../../store/actions/views';
 import { saveView } from '../../documentsManager/saveView';
 import { getStore } from '../../store/mainStore';
-import getPathByFilePicker from '../filePicker';
-
+import { getPathByFilePicker } from '../dialog';
 
 module.exports = { saveOneView };
 

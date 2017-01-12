@@ -4,8 +4,7 @@ import { getModifiedViewsIds } from '../../store/selectors/views';
 import { getStore } from '../../store/mainStore';
 import { updatePath } from '../../store/actions/hsc';
 import { setModified as setModifiedWindow } from '../../store/actions/windows';
-import getPathByFilePicker from '../filePicker';
-import { showErrorMessage } from '../dialog';
+import { showErrorMessage, getPathByFilePicker } from '../dialog';
 import { saveWorkspace } from '../../documentsManager/saveWorkspace';
 
 module.exports = { workspaceSave, workspaceSaveAs };

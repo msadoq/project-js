@@ -1,10 +1,8 @@
 import { getStore } from '../../store/mainStore';
 import { getPageModifiedViewsIds } from '../../store/selectors/pages';
 import { updateAbsolutePath, setModified } from '../../store/actions/pages';
-import { showErrorMessage } from '../dialog';
+import { showErrorMessage, getPathByFilePicker } from '../dialog';
 import { savePage } from '../../documentsManager/savePage';
-import getPathByFilePicker from '../filePicker';
-
 
 module.exports = { pageSave, pageSaveAs };
 

@@ -1,5 +1,5 @@
 import _isFunction from 'lodash/isFunction';
-import { dialog } from 'electron';
+import { dialog, BrowserWindow } from 'electron';
 
 export function showErrorMessage(focusedWindow, errTitle, errMsg, callback) {
   dialog.showMessageBox(
@@ -21,7 +21,7 @@ export function showQuestionMessage(focusedWindow, title, msg, buttons, callback
   return showMessageDialog('question', focusedWindow, title, msg, buttons, callback);
 }
 
-function showMessageDialog(type, focusedWindow, title, msg, buttons, callback) {
+export function showMessageDialog(type, focusedWindow, title, msg, buttons, callback) {
   return dialog.showMessageBox(
     focusedWindow,
     {
@@ -32,4 +32,39 @@ function showMessageDialog(type, focusedWindow, title, msg, buttons, callback) {
     },
     _isFunction(callback) ? callback : undefined
   );
+}
+
+export function openFileDialog(folder, type, callback) {
+  dialog.showOpenDialog(
+    BrowserWindow.getFocusedWindow(),
+    {
+      title: `Select a ${type}`,
+      defaultPath: folder,
+      buttonLabel: 'Open',
+      filters: [{ name: 'data files', extensions: ['json'] }],
+      properties: ['openFile']
+    },
+    selected => ((selected && selected[0]) ? callback(null, selected[0]) : callback(null))
+  );
+}
+
+export function saveFileDialog(folder, type, callback) {
+  dialog.showSaveDialog(
+    BrowserWindow.getFocusedWindow(),
+    {
+      title: `Save a ${type} as`,
+      defaultPath: folder,
+      buttonLabel: 'Save',
+      filters: [{
+        name: 'data files',
+        extensions: ['json'],
+      }],
+    },
+    selected => callback(null, selected));
+}
+
+export function getPathByFilePicker(folder, type, action, callback) {
+  return (action === 'open')
+    ? openFileDialog(folder, type, callback)
+    : saveFileDialog(folder, type, callback);
 }

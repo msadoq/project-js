@@ -1,14 +1,13 @@
 import _map from 'lodash/map';
 import { v4 } from 'node-uuid';
 import { readPages } from '../../documentsManager/extractPages';
-import { showErrorMessage } from '../dialog';
+import { showErrorMessage, getPathByFilePicker } from '../dialog';
 import { extractViews } from '../../documentsManager/extractViews';
 import { server } from '../ipc';
 import { getStore } from '../../store/mainStore';
 import { add as addView } from '../../store/actions/views';
 import { addAndMount as addAndMountPage } from '../../store/actions/windows';
 import { setModified as setModifiedPage } from '../../store/actions/pages';
-import getPathByFilePicker from '../filePicker';
 
 const { requestPathFromOId } = server;
 

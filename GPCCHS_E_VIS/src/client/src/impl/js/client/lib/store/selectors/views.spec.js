@@ -15,7 +15,7 @@ import {
   getPlotViewData,
 } from './views';
 
-describe.only('store:views:selectors', () => {
+describe('store:views:selectors', () => {
   it('getView', () => {
     const { getState } = getStore({
       views: {

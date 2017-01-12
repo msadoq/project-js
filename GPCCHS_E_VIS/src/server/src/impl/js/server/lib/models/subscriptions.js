@@ -89,7 +89,7 @@ collection.removeByDataId = (dataId, subscription) => {
 
 collection.exists = (dataId) => {
   const flatDataId = flattenDataId(dataId);
-  return !collection.by('flatDataId', flatDataId);
+  return !!collection.by('flatDataId', flatDataId);
 };
 
 collection.removeRemoteId = (dataId, remoteId, subscription) => {

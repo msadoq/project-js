@@ -112,8 +112,8 @@ function page(statePage = initialState, action) {
         path: action.payload.path,
         oId: action.payload.oId,
         absolutePath: action.payload.absolutePath,
-        isModified: (action.payload.isModified !== undefined) ?
-          action.payload.isModified : statePage.isModified,
+        isModified: (action.payload.isModified === undefined) ?
+          statePage.isModified : action.payload.isModified,
       });
     case types.WS_PAGE_EDITOR_OPEN:
       return u({

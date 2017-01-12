@@ -60,7 +60,7 @@ export function addAndMount(windowId, pageId = v4(), page) {
       dispatch(addPage(pageId));
     } else {
       dispatch(addPage(pageId, page.timebarId, page.title, page.views, page.layout, page.path,
-        page.oId, page.absolutePath));
+        page.oId, page.absolutePath, page.isModified));
     }
     dispatch(mountPage(windowId, pageId));
     dispatch(focusPage(windowId, pageId));

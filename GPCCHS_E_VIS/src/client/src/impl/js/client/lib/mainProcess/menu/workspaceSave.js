@@ -43,7 +43,7 @@ function workspaceSaveAs(focusedWindow) {
       'Error', 'Please, save the pages and views of this workspace', () => {});
   } else {
     getPathByFilePicker(state.hsc.folder, 'Workspace', 'save', (err, newWsPath) => {
-      if (!err) {
+      if (!err && newWsPath) {
         getStore().dispatch(updatePath(path.dirname(newWsPath), path.basename(newWsPath)));
         saveFile(focusedWindow);
       }
@@ -52,7 +52,7 @@ function workspaceSaveAs(focusedWindow) {
 }
 
 function saveFile(focusedWindow) {
-  saveWorkspace(getStore().getState(), false, (errWin, winIds) => {
+  saveWorkspace(getStore().getState(), true, (errWin, winIds) => {
     if (errWin) {
       return;
     }

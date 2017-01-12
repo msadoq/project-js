@@ -73,5 +73,6 @@ function showSelectedPage(pageAndViews, pageId, windowId) {
   const page = pageAndViews.pages[pageId];
   page.layout = layout;
   page.views = viewIds;
+  page.isModified = false;
   store.dispatch(addAndMountPage(windowId, pageId, page));
 }

@@ -37,8 +37,8 @@ template.splice(0, 0,
     submenu: [{
       label: 'New ... ',
       accelerator: 'Ctrl+N',
-      click() {
-        workspaceOpenNew();
+      click(item, focusedWindow) {
+        workspaceOpenNew(focusedWindow);
       }
     }, {
       label: 'Open ... ',

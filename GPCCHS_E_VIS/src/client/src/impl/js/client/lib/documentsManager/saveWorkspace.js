@@ -36,8 +36,8 @@ function saveWorkspaceAs(state, path, useRelativePath, callback) {
             page.path = relative(dirname(path), currentPage.absolutePath);
           } else {
             page.path = currentPage.absolutePath;
-            if (_startsWith(current.path, root)) {
-              current.path = '/'.concat(relative(root, currentPage.absolutePath));
+            if (_startsWith(current.path, '/')) {
+              current.path = '/'.concat(relative('/', currentPage.absolutePath));
             }
           }
         } else if (currentPage.oId) {
@@ -46,13 +46,11 @@ function saveWorkspaceAs(state, path, useRelativePath, callback) {
           page.path = currentPage.path;
         } else {
           err[pageId] = 'Unsaved page: no path or oId';
-          return callback('Unsaved page: no path or oId');
+          return callback('Unsaved page: no path or oId', null);
         }
-        if (!state.timebars[currentPage.timebarId]) {
-          err[pageId] = 'Unsaved page: unknown timebar';
-          return callback('timebars missing');
-        }
-        page.timeBarId = state.timebars[currentPage.timebarId].id;
+        page.timebarId = (state.timebars[currentPage.timebarId])
+          ? state.timebars[currentPage.timebarId].id
+          : 'TB1';
         current.pages.push(page);
       });
       workspace.windows.push(current);
@@ -65,7 +63,7 @@ function saveWorkspaceAs(state, path, useRelativePath, callback) {
       tb.timelines = [];
       _each(timebar.timelines, (timelineId) => {
         if (!state.timelines[timelineId]) {
-          return callback('timelines missing');
+          return callback('timelines missing', null);
         }
         tb.timelines.push(_cloneDeep(state.timelines[timelineId]));
       });

@@ -172,6 +172,7 @@ export default function views(stateViews = {}, action) {
 
 const initialState = {
   type: null,
+  isModified: true,
 };
 
 function view(stateView = initialState, action) {
@@ -184,7 +185,9 @@ function view(stateView = initialState, action) {
         path: action.payload.path,
         oId: action.payload.oId,
         absolutePath: action.payload.absolutePath,
-        isModified: action.payload.isModified || false
+        isModified: (action.payload.isModified === undefined)
+          ? stateView.isModified
+          : action.payload.isModified,
       };
     default:
       return stateView;

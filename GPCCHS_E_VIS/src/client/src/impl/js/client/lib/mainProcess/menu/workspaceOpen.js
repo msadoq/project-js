@@ -14,10 +14,11 @@ import { openDefaultWorkspace, readWkFile } from '../openWorkspace';
 
 module.exports = { workspaceOpenNew, workspaceOpen };
 
-function workspaceOpenNew() {
+function workspaceOpenNew(focusedWindow) {
   allDocumentsAreSaved(getStore(), getStore().dispatch, (err) => {
     if (err) {
-      return;
+      return showErrorMessage(focusedWindow, 'Error', err, () => {
+      });
     }
     const folder = getStore().getState().hsc.folder;
     getStore().dispatch(closeWorkspace());
@@ -28,7 +29,8 @@ function workspaceOpenNew() {
 function workspaceOpen(focusedWindow) {
   allDocumentsAreSaved(getStore(), getStore().dispatch, (err) => {
     if (err) {
-      return;
+      return showErrorMessage(focusedWindow, 'Error', err, () => {
+      });
     }
     const folder = getStore().getState().hsc.folder;
     // open the file picker

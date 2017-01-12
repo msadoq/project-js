@@ -4,6 +4,8 @@ const _isEmpty = require('lodash/isEmpty');
 const _has = require('lodash/has');
 const _omit = require('lodash/omit');
 
+// TODO migrate to Loki model tu uniformize data persistence
+
 let queries = {};
 
 function set(queryId, remoteId) {

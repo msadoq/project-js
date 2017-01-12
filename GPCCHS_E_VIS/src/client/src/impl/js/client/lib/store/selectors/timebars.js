@@ -15,6 +15,9 @@ export const getTimebarTimelinesSelector = createSelector(
     getTimelines,
   ],
   (timebar, timelines) => {
+    if (!timebar) {
+      return [];
+    }
     const timebarTimelines = [];
     _toPairs(timelines).forEach((v) => {
       if (timebar.timelines.includes(v[0])) {

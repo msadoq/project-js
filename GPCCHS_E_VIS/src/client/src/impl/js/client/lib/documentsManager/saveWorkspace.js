@@ -2,6 +2,7 @@
 const _each = require('lodash/each');
 const _omit = require('lodash/omit');
 const _startsWith = require('lodash/startsWith');
+const _cloneDeep = require('lodash/cloneDeep');
 const { writeFile } = require('fs');
 const { join, dirname, relative } = require('path');
 const { checkPath } = require('../common/fs');
@@ -59,13 +60,14 @@ function saveWorkspaceAs(state, path, useRelativePath, callback) {
     });
     // timebars
     _each(state.timebars, (timebar) => {
-      const tb = Object.assign({}, _omit(timebar, 'timelines'), { type: 'timeBarConfiguration' });
+      let tb = _cloneDeep(timebar);
+      tb = Object.assign({}, _omit(tb, 'timelines'), { type: 'timeBarConfiguration' });
       tb.timelines = [];
       _each(timebar.timelines, (timelineId) => {
         if (!state.timelines[timelineId]) {
           return callback('timelines missing');
         }
-        tb.timelines.push(state.timelines[timelineId]);
+        tb.timelines.push(_cloneDeep(state.timelines[timelineId]));
       });
       if (tb.masterId === null) {
         delete tb.masterId;

@@ -1,4 +1,4 @@
-import { should, getTmpPath } from '../common/test';
+import { should, getTmpPath, freezeMe } from '../common/test';
 
 const exec = require('child_process').exec;
 const { savePage, savePageAs } = require('./savePage');
@@ -78,7 +78,7 @@ describe('mainProcess/documents/savePage', () => {
     });
   });
   it('saveAs ok', (done) => {
-    savePageAs(state, 'page1', state.pages.page1.absolutePath, false, (err) => {
+    savePageAs(freezeMe(state), 'page1', state.pages.page1.absolutePath, false, (err) => {
       should.not.exist(err);
       done();
     });
@@ -93,7 +93,7 @@ describe('mainProcess/documents/savePage', () => {
   });
   it('save ok', (done) => {
     state.pages.page1.isModified = true;
-    savePage(state, 'page1', false, (err) => {
+    savePage(freezeMe(state), 'page1', false, (err) => {
       should.not.exist(err);
       done();
     });

@@ -3,6 +3,7 @@ const globalConstants = require('common/constants');
 const registeredCallbacks = require('common/callbacks');
 
 const registeredQueries = require('./registeredQueries');
+const { main } = require('../ipc');
 
 let idIndex = 0;
 function generateQueryId() {
@@ -10,9 +11,10 @@ function generateQueryId() {
   return `query${idIndex}`;
 }
 
-function errorCallback(respErr) {
-  if (respErr) {
-    throw new Error(respErr);
+function errorCallback(err) {
+  if (err) {
+    // forward error to main
+    main.message(globalConstants.IPC_METHOD_ERROR, { err });
   }
 }
 
@@ -23,7 +25,8 @@ const protobufQueryHeader = encode('dc.dataControllerUtils.Header', {
   messageType: globalConstants.MESSAGETYPE_TIMEBASED_QUERY,
 });
 
-const dataIdProtobufs = {}; // TODO envisage cache cleaning by adding timestamp on creation
+// TODO envisage memory cleaning by adding timestamp on each protobuf on creation
+const dataIdProtobufs = {};
 function getDataIdProtobuf(remoteId, dataId) {
   if (typeof dataIdProtobufs[remoteId] === 'undefined') {
     dataIdProtobufs[remoteId] = encode('dc.dataControllerUtils.DataId', dataId);

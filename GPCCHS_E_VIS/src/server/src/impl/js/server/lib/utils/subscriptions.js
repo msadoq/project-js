@@ -2,8 +2,17 @@ const logger = require('common/log')('utils/subscriptions');
 const registeredCallbacks = require('common/callbacks');
 const { encode } = require('common/protobuf');
 const globalConstants = require('common/constants');
+
 const flattenDataId = require('./flattenDataId');
 const subscriptionsModel = require('../models/subscriptions');
+const { main } = require('../ipc');
+
+function errorCallback(err) {
+  if (err) {
+    // forward error to main
+    main.message(globalConstants.IPC_METHOD_ERROR, { err });
+  }
+}
 
 const protobufSubscriptionHeader = encode('dc.dataControllerUtils.Header', {
   messageType: globalConstants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION,
@@ -34,11 +43,7 @@ function getDataIdProtobuf(dataId) {
 const createAddSubscriptionMessage = (dataId) => {
   const subId = generateSubId();
 
-  registeredCallbacks.set(subId, (respErr) => {
-    if (respErr) {
-      throw respErr;
-    }
-  });
+  registeredCallbacks.set(subId, errorCallback);
 
   const args = [
     protobufSubscriptionHeader,
@@ -53,11 +58,7 @@ const createAddSubscriptionMessage = (dataId) => {
 const createDeleteSubscriptionMessage = (dataId) => {
   const subId = generateSubId();
 
-  registeredCallbacks.set(subId, (respErr) => {
-    if (respErr) {
-      throw respErr;
-    }
-  });
+  registeredCallbacks.set(subId, errorCallback);
 
   const args = [
     protobufSubscriptionHeader,

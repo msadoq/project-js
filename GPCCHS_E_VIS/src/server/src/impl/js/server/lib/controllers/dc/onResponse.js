@@ -43,12 +43,6 @@ module.exports.onResponse = (queryIdBuffer, statusBuffer, reasonBuffer) => {
     ? decode('dc.dataControllerUtils.String', reasonBuffer).string
     : reasonBuffer;
 
-  // send error message to client and execute callback
-  // websocketHandler(
-  //   globalConstants.EVENT_ERROR,
-  //   { type: globalConstants.ERRORTYPE_RESPONSE, reason }
-  // );
-  // TODO SEND TO CLIENT!
-
-  return callback(new Error((typeof reason !== 'undefined') ? reason : 'unknown reason'));
+  // run callback
+  return callback(typeof reason !== 'undefined' ? reason : 'no reason provided by DC');
 };

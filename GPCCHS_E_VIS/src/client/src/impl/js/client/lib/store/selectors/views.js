@@ -1,14 +1,18 @@
 import { createSelector } from 'reselect';
 import _get from 'lodash/get';
 import u from 'updeep';
+import R from 'ramda';
 
 import parseFormula from '../../dataManager/structures/common/formula';
 import { getViewData } from './viewData';
 import { compile } from '../../common/operators';
 
-export const getViews = state => _get(state, ['views']);
+export const getViews =
+  R.prop('views');
 
-export const getView = (state, viewId) => _get(getViews(state), [viewId]);
+export const getView =
+  (state, viewId) =>
+    R.prop(viewId, getViews(state));
 
 export const getEntryPointOnAxis = (state, viewId, axisId) => {
   const epOnAxis = [];
@@ -30,20 +34,38 @@ export const getModifiedViewsIds = state =>
 
 export const getViewConfiguration = createSelector(
   getView,
-  view => _get(view, ['configuration'])
+  R.prop('configuration')
 );
+
+export const getViewContent = createSelector(
+  getViewConfiguration,
+  R.prop('content')
+);
+
+export const decorateEntryPoint =
+  R.ifElse(
+    R.pathSatisfies(f => parseFormula(f), ['connectedData', 'formula']),
+    R.identity,
+    R.assoc('error', 'INVALID FORMULA'),
+  );
 
 export const getViewEntryPoints = createSelector(
   getView,
-  view => _get(view, ['configuration', 'entryPoints'], [])
+  R.pipe(
+    R.pathOr([], ['configuration', 'entryPoints']),
+    R.map(decorateEntryPoint)
+  )
 );
 
 export const getViewEntryPoint = (state, viewId, epName) =>
-  getViewEntryPoints(state, viewId).find(ep => ep.name === epName);
+  R.pipe(
+    () => getViewEntryPoints(state, viewId).find(ep => ep.name === epName),
+    decorateEntryPoint,
+  )();
 
 export const getViewEntryPointStateColors = createSelector(
   getViewEntryPoint,
-  ep => _get(ep, ['stateColors'], [])
+  R.propOr([], 'stateColors')
 );
 
 const getEntryPoint = (epName, entryPoints) => entryPoints.find(ep => ep.name === epName);
@@ -60,28 +82,17 @@ const getEntryPointColorObj = ({ entryPoints, epName, value, dataProp }) => {
   }
 };
 
-const validateFormula = (entryPoints, epName) => {
-  const formula = _get(getEntryPoint(epName, entryPoints), ['connectedData', 'formula']);
-  return parseFormula(formula);
-};
-
 // Return value obj for TextView with color and check if entryPoint is valid
-const getTextValueFn = (entryPoints, epName) => ({ value, ...args }) => {
-  const isFormulaValid = validateFormula(entryPoints, epName);
-  return {
-    value: isFormulaValid ? value : 'INVALID FORMULA',
-    ...args,
-    ...(() => (
-      isFormulaValid ?
-        getEntryPointColorObj({
-          entryPoints,
-          epName,
-          value,
-          dataProp: 'connectedData'
-        }) : {}
-    ))()
-  };
-};
+const getTextValueFn = (entryPoints, epName) => ({ value, ...args }) => ({
+  value,
+  ...args,
+  ...getEntryPointColorObj({
+    entryPoints,
+    epName,
+    value,
+    dataProp: 'connectedData'
+  })
+});
 
 // Apply state colors on entry points value and return view data with state colors
 export const getTextViewData = createSelector(

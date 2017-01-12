@@ -8,6 +8,13 @@ import styles from './View.css';
 
 const logger = getLogger('View');
 
+// Shortcut keyboard : html keycodes (event.keyCode)
+const keys = {
+  w: 87,
+  x: 88,
+  c: 67,
+};
+
 export default class View extends PureComponent {
   static propTypes = {
     component: PropTypes.func,
@@ -42,14 +49,32 @@ export default class View extends PureComponent {
   }
 
   toggleCollapse = (e) => {
-    if (e.keyCode === 69 && e.ctrlKey && this.el.querySelector(':hover')) {
-      const {
-        collapseView,
-        viewId,
-        isCollapsed,
-      } = this.props;
-      const { focusedPageId } = this.context;
+    const {
+      collapseView,
+      viewId,
+      isCollapsed,
+      closeEditor,
+      isViewsEditorOpen,
+      unmountAndRemove,
+      openEditor,
+      type,
+      configuration,
+    } = this.props;
+    const { focusedPageId } = this.context;
+
+    if (e.keyCode === keys.w && e.altKey && this.el.querySelector(':hover')) {
       collapseView(focusedPageId, viewId, !isCollapsed);
+    } else if (e.keyCode === keys.x && e.altKey && this.el.querySelector(':hover')) {
+      unmountAndRemove(viewId);
+      if (isViewsEditorOpen && closeEditor) {
+        closeEditor();
+      }
+    } else if (e.keyCode === keys.c && e.altKey && this.el.querySelector(':hover')) {
+      if (isViewsEditorOpen && closeEditor) {
+        closeEditor();
+      } else if (!isViewsEditorOpen && openEditor) {
+        openEditor(viewId, type, configuration);
+      }
     }
   }
 

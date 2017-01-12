@@ -26,6 +26,12 @@ Build both main and renderer process bundles:
 Launch bundled client:
 > npm start
 
+## Problem you might encounter
+
+If you encounter a npm dependency / node module problem with common, use this temporary solution:
+> ln -s ../../../../../common/src/main/js/common common
+
+
 ## Other procedures
 
 Run unit tests on business logic (store and computing logic):

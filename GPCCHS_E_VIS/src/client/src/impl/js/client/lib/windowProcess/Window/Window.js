@@ -34,24 +34,27 @@ export default class Window extends Component {
   }
 
   componentDidMount() {
-    document.addEventListener('keydown', this.toggleHelp);
+    document.addEventListener('keydown', this.toggleHelpShortCut);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keydown', this.toggleHelp);
+    document.removeEventListener('keydown', this.toggleHelpShortCut);
   }
 
-  toggleHelp = (e) => {
+  toggleHelpShortCut = (e) => {
     if (e.keyCode === 72 && e.ctrlKey) {
-      this.setState({
-        displayHelp: !this.state.displayHelp,
-      });
+      this.toggleHelp();
     } else if (e.keyCode === 27 && this.state.displayHelp) {
-      this.setState({
-        displayHelp: false,
-      });
+      this.toggleHelp();
     }
   }
+
+  toggleHelp = () => {
+    this.setState({
+      displayHelp: !this.state.displayHelp,
+    });
+  }
+
 
   render() {
     logger.debug('render');
@@ -62,6 +65,7 @@ export default class Window extends Component {
         <Debug
           windowId={windowId}
           focusedPageId={focusedPageId}
+          toggleHelp={this.toggleHelp}
         />
         <MessagesContainer />
         <TabsContainer

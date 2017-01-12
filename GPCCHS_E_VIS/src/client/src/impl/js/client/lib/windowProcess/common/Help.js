@@ -19,7 +19,7 @@ export default class HelpComponent extends Component {
           <p className={styles.para}>
             <br />
             <b>Timebar Shortcuts</b><br /><br />
-            <kbd>w</kbd> Move current on cursor positionand all the other cursors.<br />
+            <kbd>w</kbd> Move current and all the other cursors on cursor position.<br />
             <kbd>x</kbd> Move lower cursor on cursor position.<br />
             <kbd>c</kbd> Move ext lower cursor on cursor position.<br />
             <kbd>v</kbd> Move current cursor on cursor position.<br />
@@ -39,7 +39,9 @@ export default class HelpComponent extends Component {
           <p className={styles.para}>
             <br />
             <b>Views</b><br /><br />
-            <kbd>(ctrl/cmd)</kbd> + <kbd>e</kbd> Collapse / expand hovered view.<br />
+            <kbd>alt</kbd> + <kbd>w</kbd> Collapse / expand hovered view.<br />
+            <kbd>alt</kbd> + <kbd>x</kbd> Close hovered view.<br />
+            <kbd>alt</kbd> + <kbd>c</kbd> Open editor for hovered view.<br />
           </p>
         </Col>
       </div>

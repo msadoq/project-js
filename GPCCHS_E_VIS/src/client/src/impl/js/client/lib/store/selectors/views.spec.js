@@ -6,6 +6,8 @@ import {
   getEntryPointOnAxis,
   getModifiedViewsIds,
   getViewConfiguration,
+  getViewContent,
+  decorateEntryPoint,
   getViewEntryPoints,
   getViewEntryPoint,
   getViewEntryPointStateColors,
@@ -88,6 +90,36 @@ describe('store:views:selectors', () => {
       title: 'Title 1'
     });
   });
+
+  it('getViewContent', () => {
+    const state = {
+      views: {
+        myViewId: {
+          configuration: {
+            title: 'Title 1',
+            content: '<h1>content</h1>'
+          }
+        },
+      },
+    };
+    getViewContent(state, 'myViewId').should.eql('<h1>content</h1>');
+  });
+
+  it('decorateEntryPoint', () => {
+    const ep = {
+      name: 'ep1',
+      connectedData: {
+        formula: 'Reporting.ep1<>.extractedValue'
+      }
+    };
+    decorateEntryPoint(ep).should.eql({
+      name: 'ep1',
+      error: 'INVALID FORMULA',
+      connectedData: {
+        formula: 'Reporting.ep1<>.extractedValue'
+      }
+    });
+  });
   it('getViewEntryPoints', () => {
     const state = {
       views: {
@@ -95,7 +127,7 @@ describe('store:views:selectors', () => {
           configuration: {
             title: 'Title 1',
             entryPoints: [
-              { name: 'AGA_AM_PRIORITY' },
+              { name: 'AGA_AM_PRIORITY', connectedData: { formula: 'Reporting.ep1<ReportingParameter>.extractedValue' } },
               { name: 'TMMGT_BC_VIRTCHAN3' },
             ]
           }
@@ -103,8 +135,8 @@ describe('store:views:selectors', () => {
       },
     };
     getViewEntryPoints(state, 'myViewId').should.eql([
-      { name: 'AGA_AM_PRIORITY' },
-      { name: 'TMMGT_BC_VIRTCHAN3' },
+      { name: 'AGA_AM_PRIORITY', connectedData: { formula: 'Reporting.ep1<ReportingParameter>.extractedValue' } },
+      { name: 'TMMGT_BC_VIRTCHAN3', error: 'INVALID FORMULA' },
     ]);
   });
   it('getViewEntryPoint', () => {
@@ -115,14 +147,17 @@ describe('store:views:selectors', () => {
             title: 'Title 1',
             entryPoints: [
               { name: 'AGA_AM_PRIORITY' },
-              { name: 'TMMGT_BC_VIRTCHAN3' },
+              { name: 'TMMGT_BC_VIRTCHAN3', connectedData: { formula: 'Reporting.ep1<ReportingParameter>.extractedValue' } },
             ]
           }
         },
       },
     };
     getViewEntryPoint(state, 'myViewId', 'TMMGT_BC_VIRTCHAN3').should.eql({
-      name: 'TMMGT_BC_VIRTCHAN3'
+      name: 'TMMGT_BC_VIRTCHAN3',
+      connectedData: {
+        formula: 'Reporting.ep1<ReportingParameter>.extractedValue'
+      }
     });
   });
   it('getViewEntryPointStateColors', () => {
@@ -262,6 +297,54 @@ describe('store:views:selectors', () => {
           },
           ep3: {
             value: 1,
+          }
+        }
+      });
+    });
+    it('For TextView (invalid formula)', () => {
+      const state = {
+        views: {
+          myViewId: {
+            configuration: {
+              title: 'Title 1',
+              entryPoints: [{
+                name: 'ep1',
+                connectedData: {
+                  formula: 'Reporting.ep1<>.extractedValue'
+                },
+                stateColors: [
+                  {
+                    color: '#FF0000',
+                    condition: {
+                      field: 'extractedValue',
+                      operator: '<',
+                      operand: '1'
+                    }
+                  }
+                ]
+              }]
+            }
+          },
+        },
+        viewData: {
+          myViewId: {
+            index: {
+              ep1: 1480578457000,
+            },
+            values: {
+              ep1: { value: 0.5 },
+            }
+          }
+        }
+      };
+      getTextViewData(state, 'myViewId').should.eql({
+        index: {
+          ep1: 1480578457000,
+        },
+        values: {
+          ep1: {
+            color: '#FF0000',
+            value: 0.5,
           }
         }
       });

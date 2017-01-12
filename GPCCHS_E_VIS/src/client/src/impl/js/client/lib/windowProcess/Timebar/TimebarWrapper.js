@@ -125,6 +125,7 @@ export default class TimebarWrapper extends Component {
           slideWindow={slideWindow}
           isPlaying={isPlaying}
           timebarId={timebarId}
+          timebarRulerResolution={timebar.rulerResolution}
           timebarMode={timebar.mode}
           cursor={timesetterCursor || 'all'}
         />

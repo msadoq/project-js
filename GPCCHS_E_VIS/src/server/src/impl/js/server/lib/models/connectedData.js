@@ -158,6 +158,11 @@ collection.removeIntervals = (remoteId, intervals, connectedData) => {
         queryIds.push(key);
         delete requestedIntervals[key];
         return true;
+      } else if (value[0] >= interval[0] && value[1] <= interval[1]) {
+        // in real time, requested intervals are included in other intervals
+        // so deletion must be done for each requestedInterval
+        queryIds.push(key);
+        delete requestedIntervals[key];
       }
       return false;
     });

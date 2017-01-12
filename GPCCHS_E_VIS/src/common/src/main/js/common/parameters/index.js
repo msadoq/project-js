@@ -69,28 +69,28 @@ function getDefault(name) {
  */
 function get(name) {
   let value;
+  const hasValue = () => typeof value !== 'undefined';
+
   value = getArgv(name);
-  if (typeof value !== 'undefined') {
+  if (hasValue()) {
     return value;
   }
   value = getLocal(name);
-  if (typeof value !== 'undefined') {
+  if (hasValue()) {
     return value;
   }
   value = getEnv(name);
-  if (typeof value !== 'undefined') {
+  if (hasValue()) {
     return value;
   }
   value = getDefault(name);
-  if (typeof value !== 'undefined') {
+  if (hasValue()) {
     return value;
   }
   return undefined;
 }
 
-const universalGet = R.pipe(
-  path => (module.exports.init(process.cwd()), path),
-  R.pathOr(get, ['parameters','get'], global)
-);
+const universalGet = R.pathOr(get, ['parameters', 'get'], global);
+
 
 module.exports = { init, get: universalGet };

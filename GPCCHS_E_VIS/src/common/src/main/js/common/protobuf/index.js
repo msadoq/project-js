@@ -39,7 +39,7 @@ const register = (tree) => {
         }
 
         // store builder and mapper pour further linking
-        attach[proto] = {
+        attach[proto.charAt(0).toUpperCase() + proto.slice(1)] = {
           builder,
           mapper,
         };
@@ -89,6 +89,7 @@ const removeEmpty = (collection) => {
 module.exports = {
   encode: (type, raw) => {
     const Builder = getProtobufType(type);
+
     let payload = Builder.mapper
       ? Builder.mapper.encode(raw)
       : raw;

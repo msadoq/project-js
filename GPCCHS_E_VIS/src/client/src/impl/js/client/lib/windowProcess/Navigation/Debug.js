@@ -6,7 +6,8 @@ import {
   MenuItem,
   ButtonToolbar,
   DropdownButton,
-  Glyphicon
+  Glyphicon,
+  Button,
 } from 'react-bootstrap';
 import { switchDebug } from '../../store/actions/windows';
 import { getWindowDebug } from '../../store/selectors/windows';
@@ -26,6 +27,7 @@ class Debug extends PureComponent {
     debug: PropTypes.object,
     toggleDebug: PropTypes.func,
     dummy: PropTypes.func,
+    toggleHelp: PropTypes.func,
   };
   static contextTypes = {
     store: React.PropTypes.object.isRequired,
@@ -57,6 +59,11 @@ class Debug extends PureComponent {
     clipboard.writeText(JSON.stringify(this.context.store.getState()));
     return console.log('store state exported to clipboard'); // eslint-disable-line no-console
   };
+
+  toggleHelp = (e) => {
+    e.preventDefault();
+    this.props.toggleHelp();
+  }
 
   render() {
     const { debug, toggleDebug, dummy } = this.props;
@@ -133,6 +140,18 @@ class Debug extends PureComponent {
 
     return (
       <div>
+        <Button
+          bsSize="sm"
+          bsStyle="default"
+          style={{
+            position: 'absolute',
+            top: '4px',
+            right: '55px',
+          }}
+          onClick={this.toggleHelp}
+        >
+          Help
+        </Button>
         {bar}
       </div>
     );

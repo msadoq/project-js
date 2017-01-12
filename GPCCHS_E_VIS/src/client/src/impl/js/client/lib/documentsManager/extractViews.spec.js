@@ -1,7 +1,5 @@
-/* eslint no-underscore-dangle: 0 */
-import { get } from 'common/parameters';
-
-const { extractViews, readViews, findPageViewsAndReplaceWithUuid } = require('./extractViews');
+const { get } = require('common/parameters');
+const { extractViews, readViews } = require('./extractViews');
 const { should } = require('../common/test');
 const { v4 } = require('node-uuid');
 const _ = require('lodash');
@@ -9,6 +7,7 @@ const path = require('path');
 
 // TODO aleal : flag is never tested, and with a global var you can have side effect through your
 // tests
+// eslint-disable-next-line no-unused-vars
 let flag = false;
 function requestPathFromOId() {
   flag = true;
@@ -45,21 +44,7 @@ describe('documentsManager/extractViews', () => {
       timebarId: id,
       absolutePath: path.join(folder, 'page2.json'),
     };
-    content.__folder = path.join(__dirname, 'examples');
-  });
-  describe('findPageViewsAndReplaceWithUuid', () => {
-    it('valid', () => {
-      const views = findPageViewsAndReplaceWithUuid(content.pages[id1]);
-      views.should.be.an('array').with.length(1);
-      const vId = Object.getOwnPropertyNames(content.pages[id1].views);
-      should.exist(views[vId[0]]);
-    });
-    it('invalid view', () => {
-      const views = findPageViewsAndReplaceWithUuid(content.pages[id2]);
-      views.should.be.an('array').with.length(1);
-      const vId = Object.getOwnPropertyNames(content.pages[id2].views);
-      should.exist(views[vId[0]]);
-    });
+    content.__folder = path.join(__dirname, 'fixtures');
   });
   describe('readViews', () => {
     let views;

@@ -15,7 +15,11 @@ import {
 import WYSIWYG from './WYSIWYG';
 
 import { addEntryPoint } from '../../../lib/store/actions/views';
-import { getTextViewData } from '../../../lib/store/selectors/views';
+import {
+  getViewContent,
+  getTextViewData,
+  getViewEntryPoints,
+} from '../../../lib/store/selectors/views';
 import DroppableContainer from '../../../lib/windowProcess/View/DroppableContainer';
 
 import styles from './TextView.css';
@@ -62,12 +66,10 @@ class TextView extends Component {
       values: PropTypes.object,
     }),
     addEntryPoint: PropTypes.func,
-    configuration: PropTypes.object.isRequired,
+    content: PropTypes.string,
     isViewsEditorOpen: PropTypes.bool,
     updateContent: PropTypes.func,
-    // entryPoints: PropTypes.array.isRequired,
-    // links: PropTypes.array,
-    // defaultRatio: PropTypes.object,
+    entryPoints: PropTypes.array.isRequired,
   };
   static defaultProps = {
     data: {
@@ -76,7 +78,7 @@ class TextView extends Component {
   };
 
   componentWillMount() {
-    this.template = beautifyHtml(this.props.configuration.content, { indent_size: 2 });
+    this.template = beautifyHtml(this.props.content, { indent_size: 2 });
   }
 
   onDrop(e) {
@@ -91,7 +93,6 @@ class TextView extends Component {
   }
 
   getComponent() {
-    // console.time('view:text parse template');
     const processingInstructions = [
       {
         shouldProcessNode: node => node.data && node.data.match(/{{\s*([^}]+)\s*}}/g),
@@ -101,13 +102,28 @@ class TextView extends Component {
           for (let i = 0, len = matches.length; i < len; i += 1) {
             const match = matches[i];
             const epName = match.substring(2, match.length - 2);
-            const valueObj = _get(this.props.data, `values[${epName}]`);
+            const valueObj = _get(this.props.data, `values[${epName}]`, {});
+
+            const ep = R.prop(
+              epName,
+              R.indexBy(
+                R.prop('name'),
+                this.props.entryPoints)
+            );
+            const s = ep.error ? {
+              style: getTextStyle('#FF0000')
+            } : {
+              style: getTextStyle(_get(valueObj, ['color'])),
+              className: styles[`monit-${_get(valueObj, 'monit')}`] || styles['monit-ok'],
+            };
+            const value = R.propOr(
+              R.prop('value', valueObj),
+              'error', ep);
 
             nodes.push(React.createElement('span', {
               key: `${index}-${i}`,
-              style: getTextStyle(_get(valueObj, ['color'])),
-              className: styles[`monit-${_get(valueObj, 'monit')}`] || styles['monit-ok'],
-            }, _get(valueObj, 'value')));
+              ...s
+            }, value));
           }
           return nodes;
         }
@@ -137,10 +153,10 @@ class TextView extends Component {
     const {
       viewId,
       isViewsEditorOpen,
-      configuration: { title, entryPoints }
+      entryPoints,
     } = this.props;
     const component = this.getComponent();
-    logger.debug(`render ${title}`);
+    logger.debug(`render ${viewId}`);
 
     return isViewsEditorOpen
       ? <WYSIWYG
@@ -171,6 +187,8 @@ export default connect(
       ...stateProps,
       ...dispatchProps,
       ...ownProps,
+      entryPoints: getViewEntryPoints(stateProps.state, ownProps.viewId),
+      content: getViewContent(stateProps.state, ownProps.viewId),
       data
     }, ['state']);
   }

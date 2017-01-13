@@ -72,7 +72,7 @@ function allDocumentsAreSaved(store, dispatch, cb) {
         if (getModifiedPagesIds(state).length > 0
           || getModifiedViewsIds(state).length > 0) {
           cb('Please, save the pages and views of this workspace');
-        } else if (!state.hsc.file) {
+        } else {
           getPathByFilePicker(state.hsc.folder, 'workspace', 'save', (errWk, pathWk) => {
             if (errWk) {
               cb(errWk);
@@ -89,8 +89,6 @@ function allDocumentsAreSaved(store, dispatch, cb) {
               cb(null);
             });
           });
-        } else {
-          cb(null);
         }
       } else {
         cb(null);

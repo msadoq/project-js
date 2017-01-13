@@ -73,8 +73,7 @@ function window(stateWindow = initialState, action) {
       });
     case types.WS_WINDOW_UPDATE_GEOMETRY: {
       return Object.assign({}, stateWindow, {
-        geometry: _defaults({}, _omit(action.payload, ['windowId']), stateWindow.geometry),
-        isModified: true,
+        geometry: _defaults({}, _omit(action.payload, ['windowId']), stateWindow.geometry)
       });
     }
     case types.WS_WINDOW_PAGE_FOCUS:

@@ -25,10 +25,12 @@ export function showMessageDialog(type, focusedWindow, title, msg, buttons, call
   return dialog.showMessageBox(
     focusedWindow,
     {
-      type,
-      title,
+      type: type,
+      title: title,
       message: msg,
-      buttons,
+      buttons: buttons,
+      defaultId: 0 , // the fist index
+      cancelId: (buttons.length -1) // the last index of buttons
     },
     _isFunction(callback) ? callback : undefined
   );

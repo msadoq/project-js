@@ -58,3 +58,11 @@ Run Jest snapshot watcher:
 
 Clean out of date snapshots:
 >npm run snapshot-clean
+
+## Troubleshoot
+
+In case of error "module mismatch" on launch, run following command in client folder:
+
+```
+npm rebuild --runtime=electron --target=$(npm view electron version) --disturl=https://atom.io/download/atom-shell --build-from-source
+```

@@ -6,7 +6,7 @@ const _slice = require('lodash/slice');
 require('../utils/test');
 
 const zmq = require('../zmq');
-const { encode, decode } = require('../protobuf');
+const { getType, encode, decode } = require('../protobuf');
 const constants = require('../constants');
 
 
@@ -123,8 +123,13 @@ const archiveDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =
         const header = decode('dc.dataControllerUtils.Header', headerBuffer);
         header.messageType.should.equal(constants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA);
         (() => decode('dc.dataControllerUtils.String', argsBuffers[0])).should.not.throw();
-        (() => decode('dc.dataControllerUtils.DataId', argsBuffers[1])).should.not.throw();
+        const dataId = decode('dc.dataControllerUtils.DataId', argsBuffers[1]);
         const isLast = decode('dc.dataControllerUtils.Boolean', argsBuffers[2]).boolean;
+        (_slice(argsBuffers, 3).length % 2).should.equal(0);
+        _each(_chunk(_slice(argsBuffers, 3), 2), (argBuffer) => {
+          (() => decode('dc.dataControllerUtils.Timestamp', argBuffer[0])).should.not.throw();
+          (() => decode(getType(dataId.comObject), argBuffer[1])).should.not.throw();
+        });
         step = (isLast === true) ? steps.STOP : step;
         break;
       }
@@ -173,7 +178,7 @@ const pubSubDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =>
           (_slice(argsBuffers, 2).length % 2).should.equal(0);
           _each(_chunk(_slice(argsBuffers, 2), 2), (argBuffer) => {
             (() => decode('dc.dataControllerUtils.Timestamp', argBuffer[0])).should.not.throw();
-            (() => decode(`lpisis.decommutedParameter.${dataId.comObject}`, argBuffer[1])).should.not.throw();
+            (() => decode(getType(dataId.comObject), argBuffer[1])).should.not.throw();
           });
           sendZmqMessage(tbStopSubMessageArgs(dataId));
         }
@@ -207,6 +212,9 @@ const sessionIdTest = 65535;
 const domainIdTest = 1;
 
 const myDataId = {   // corresponds to SubscriptionID ?
+  // parameterName: 'TOTO',
+  // catalog: 'TelemetryPacket',
+  // comObject: 'DecommutedPacket',
   parameterName: 'ATT_BC_STR1VOLTAGE',
   catalog: 'Reporting',
   comObject: 'ReportingParameter',

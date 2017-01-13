@@ -53,12 +53,17 @@ module.exports = function sendArchiveData(
   if (queryArguments.getLastType === globalConstants.GETLASTTYPE_GET_LAST) {
     // compute number of steps from lower time to current
     const n = Math.floor((to - from) / globalConstants.DC_STUB_VALUE_TIMESTEP);
-    payloads.push(getPayload(from + (n * globalConstants.DC_STUB_VALUE_TIMESTEP),
-      dataId.parameterName));
+    payloads.push(
+      getPayload(
+        from + (n * globalConstants.DC_STUB_VALUE_TIMESTEP),
+        dataId.comObject,
+        dataId.parameterName
+      )
+    );
   } else {
     for (let i = from; i <= to && i < now; i += globalConstants.DC_STUB_VALUE_TIMESTEP) {
       if (shouldPushANewValue(queryKey, i)) {
-        payloads.push(getPayload(i, dataId.parameterName));
+        payloads.push(getPayload(i, dataId.comObject, dataId.parameterName));
       }
     }
   }

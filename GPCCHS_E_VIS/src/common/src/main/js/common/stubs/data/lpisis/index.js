@@ -2,6 +2,7 @@
 const protobuf = require('../../../protobuf');
 
 module.exports = {
+  getDecommutedValue: require('./decommutedPacket/decommutedValue'),
   getDecommutedPacket: require('./decommutedPacket/decommutedPacket'),
   getDecommutedPacketProtobuf: override => protobuf.encode(
     'lpisis.decommutedPacket.DecommutedPacket',

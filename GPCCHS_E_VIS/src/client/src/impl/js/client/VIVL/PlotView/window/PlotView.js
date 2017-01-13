@@ -1,9 +1,11 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Button } from 'react-bootstrap';
 import { bindActionCreators } from 'redux';
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _map from 'lodash/map';
+import classnames from 'classnames';
 // import _remove from 'lodash/remove';
 import Dimensions from 'react-dimensions';
 import { format } from 'd3-format';
@@ -135,6 +137,7 @@ class PlotView extends PureComponent {
   state = {
     disableZoom: true,
     isMenuOpened: false,
+    disconnected: false,
     menuPosition: {
       x: 0,
       y: 0
@@ -144,6 +147,13 @@ class PlotView extends PureComponent {
   componentWillMount() {
     this.lines = getLines(this.props.configuration.entryPoints);
     this.epCharts = getEntryPointsCharts(this.props.configuration);
+  }
+
+  componentDidMount() {
+    document.body.addEventListener('keydown', this.handleOnKeyDown);
+    document.body.addEventListener('keyup', this.handleOnKeyUp);
+    document.body.addEventListener('wheel', this.handleOnWheel);
+    document.body.addEventListener('mousedown', this.handleOnMouseDown);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -157,8 +167,15 @@ class PlotView extends PureComponent {
     }
   }
 
+  shouldComponentUpdate() {
+    return !this.state.disconnected;
+  }
+
   componentWillUnmount() {
-    this.handleMouseLeave();
+    document.body.removeEventListener('keydown', this.handleOnKeyDown);
+    document.body.removeEventListener('keyup', this.handleOnKeyUp);
+    document.body.removeEventListener('wheel', this.handleOnWheel);
+    document.body.removeEventListener('mousedown', this.handleOnMouseDown);
   }
 
   onDrop(e) {
@@ -430,16 +447,6 @@ class PlotView extends PureComponent {
 
   epCharts = [];
 
-  handleMouseEnter = () => {
-    document.body.addEventListener('keydown', this.handleOnKeyDown);
-    document.body.addEventListener('keyup', this.handleOnKeyUp);
-  }
-
-  handleMouseLeave = () => {
-    document.body.removeEventListener('keydown', this.handleOnKeyDown);
-    document.body.removeEventListener('keyup', this.handleOnKeyUp);
-  }
-
   lines = [];
 
   yExtents = d => _map(this.lines, ({ key }) => _get(d, [key, 'value']));
@@ -493,19 +500,48 @@ class PlotView extends PureComponent {
     return new Date(d.x);
   };
 
+  reconnect = () => {
+    this.setState({
+      disconnected: false
+    });
+    this.forceUpdate();
+  }
+
+  disconnect = () => {
+    this.setState({
+      disconnected: true
+    });
+  }
+
+  handleOnMouseDown = () => {
+    if (!this.state.disconnected
+      && this.el.parentElement.querySelector(':hover')) {
+      this.disconnect();
+    }
+  }
+
+  handleOnWheel = () => {
+    if (!this.state.disconnected
+      && this.el.parentElement.querySelector(':hover')) {
+      this.disconnect();
+    }
+  }
+
   handleOnKeyUp = (e) => {
     const { disableZoom } = this.state;
-    if (e.keyCode === 17 && !disableZoom) {
-      logger.debug('disable zoom');
+    if (e.keyCode === 17 && !disableZoom
+      && this.el.parentElement.querySelector(':hover')) {
       this.setState({ disableZoom: true });
+      this.forceUpdate();
     }
   }
 
   handleOnKeyDown = (e) => {
     const { disableZoom } = this.state;
-    if (e.keyCode === 17 && disableZoom) {
-      logger.debug('enable zoom');
+    if (e.keyCode === 17 && disableZoom
+      && this.el.parentElement.querySelector(':hover')) {
       this.setState({ disableZoom: false });
+      this.forceUpdate();
     }
   }
 
@@ -615,6 +651,7 @@ class PlotView extends PureComponent {
     } = this.props;
     const {
       disableZoom,
+      disconnected,
       // isMenuOpened,
       // menuPosition
     } = this.state;
@@ -633,12 +670,17 @@ class PlotView extends PureComponent {
 
     return (
       <DroppableContainer
-        style={{ height: '100%' }}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
+        style={{
+          height: '100%',
+          position: 'relative',
+        }}
         onDrop={this.onDrop.bind(this)}
         text={'add entry point'}
+        className={classnames({
+          [styles.disconnected]: disconnected,
+        })}
       >
+<<<<<<< HEAD
         {this.getEntryPointErrors({ style: {
           padding: '1em',
           position: 'absolute',
@@ -682,13 +724,60 @@ class PlotView extends PureComponent {
           openOnTop={menuOpenOnTop}
           mousePosition={menuPosition}
         >
-          <MenuItem header>Markers</MenuItem>
-          <MenuItem divider />
-          <MenuItem>Add a Text</MenuItem>
-          <MenuItem>Add an horizontal line</MenuItem>
-          <MenuItem>Add an Vertical line</MenuItem>
-        </PlotMenu>
-        */}
+          {disconnected &&
+            <Button
+              bsStyle="danger"
+              bsSize="xs"
+              className={styles.disconnectedButton}
+              onClick={this.reconnect}
+            >Reconnect</Button>
+          }
+          <ChartCanvas
+            plotFull={false}
+            ratio={1}
+            width={containerWidth}
+            height={containerHeight}
+            margin={marginChart}
+            pointsPerPxThreshold={4}
+            seriesName="PlotView"
+            data={columns}
+            type="hybrid"
+            xAccessor={this.xAccessor}
+            xScale={scaleTime()}
+            yAxisZoom={(id, domain) => console.log('zoom', id, domain)}
+            zoomEvent={!disableZoom}
+            xExtents={[new Date(lower), new Date(upper)]}
+          >
+            {this.getCharts()}
+            <CrossHairCursor opacity={1} />
+            <HoverTooltip
+              tooltipContent={this.handleTooltipContent}
+              opacity={1}
+              fill="#FFFFFF"
+              stroke="#F0F0F0"
+              bgwidth={160}
+              bgheight={50}
+              tooltipCanvas={this.tooltipCanvas}
+              backgroundShapeCanvas={this.backgroundShapeCanvas.bind(this)}
+            />
+          </ChartCanvas>
+
+          { /* @TODO Uncomment when implementing markers!
+            do the same for the Editor PlotTab part.
+          <PlotMenu
+            isOpened={isMenuOpened}
+            openOnLeft={menuOpenOnLeft}
+            openOnTop={menuOpenOnTop}
+            mousePosition={menuPosition}
+          >
+            <MenuItem header>Markers</MenuItem>
+            <MenuItem divider />
+            <MenuItem>Add a Text</MenuItem>
+            <MenuItem>Add an horizontal line</MenuItem>
+            <MenuItem>Add an Vertical line</MenuItem>
+          </PlotMenu>
+          */}
+        </div>
       </DroppableContainer>
     );
   }

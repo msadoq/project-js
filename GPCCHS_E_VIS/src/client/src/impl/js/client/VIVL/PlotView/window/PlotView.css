@@ -1,14 +1,9 @@
-.errorContent {
-  padding: 1em;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+.disconnected {
+  border: 2px solid #E45;
 }
-
-.renderErrorText {
-  margin: auto;
-  font-size: 3em;
-  color: #CCC;
-  text-align: center;
-  font-weight: 600;
+.disconnectedButton{
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  z-index: 10;
 }

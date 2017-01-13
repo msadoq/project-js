@@ -24,7 +24,7 @@
     "lint": "eslint lib test *.js",
     "sh": "npm run start-hot",
     "start": "electron ./",
-    "start-hot": "HOT=1 electron -r babel-register -r babel-polyfill -r ./lib/common/initParameters.js ./main.development",
+    "start-hot": "HOT=1 electron -r babel-register -r babel-polyfill ./main.development",
     "test": "NODE_ENV=test BABEL_DISABLE_CACHE=1 mocha --compilers js:babel-register \"+(lib|VIVL)/**/*.spec.js\"",
     "test:watch": "npm test -- --watch",
     "test:coverage": "(time nyc --require babel-register npm test || true) && npm run open:test-coverage",

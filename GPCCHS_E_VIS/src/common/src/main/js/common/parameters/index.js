@@ -3,6 +3,7 @@ const { join } = require('path');
 const minimist = require('minimist');
 const R = require('ramda');
 
+const REQUIRED = 'config.required.json'; // required
 const DEFAULT = 'config.default.json'; // mandatory
 const LOCAL = 'config.local.json'; // optional
 
@@ -10,31 +11,6 @@ let argv;
 let defaultConfig;
 let localConfig;
 let appRoot;
-
-function init(path) {
-  // persist app root dir as 'path'
-  appRoot = path;
-
-  if (defaultConfig) {
-    // was already inited
-    return;
-  }
-
-  if (!fs.existsSync(join(path, DEFAULT))) {
-    return;
-  }
-
-  defaultConfig = JSON.parse(fs.readFileSync(join(path, DEFAULT), 'utf8'));
-
-  // optional local config file
-  try {
-    const localPath = join(path, LOCAL);
-    fs.accessSync(localPath, fs.constants.F_OK);
-    fs.accessSync(localPath, fs.constants.R_OK);
-    localConfig = JSON.parse(fs.readFileSync(localPath, 'utf8'));
-  } catch (e) {} // eslint-disable-line no-empty
-}
-
 
 function getArgv(name) {
   if (!argv) {
@@ -99,7 +75,45 @@ function get(name) {
   return undefined;
 }
 
-const universalGet = R.pathOr(get, ['parameters', 'get'], global);
+function checkRequired(names) {
+  names.map((name) => {
+    const value = get(name);
+    if (typeof value !== 'undefined') {
+      return undefined;
+    }
 
+    throw new Error(`A required config parameter is missing: ${name}`);
+  });
+}
+
+function init(path) {
+  // persist app root dir as 'path'
+  appRoot = path;
+
+  if (defaultConfig) {
+    // was already inited
+    return;
+  }
+
+  if (!fs.existsSync(join(path, DEFAULT))) {
+    return;
+  }
+
+  defaultConfig = JSON.parse(fs.readFileSync(join(path, DEFAULT), 'utf8'));
+
+  // optional local config file
+  try {
+    const localPath = join(path, LOCAL);
+    fs.accessSync(localPath, fs.constants.F_OK);
+    fs.accessSync(localPath, fs.constants.R_OK);
+    localConfig = JSON.parse(fs.readFileSync(localPath, 'utf8'));
+  } catch (e) {} // eslint-disable-line no-empty
+
+  // check for required parameters
+  const requiredConfig = JSON.parse(fs.readFileSync(join(path, REQUIRED), 'utf8')) || [];
+  checkRequired(requiredConfig);
+}
+
+const universalGet = R.pathOr(get, ['parameters', 'get'], global);
 
 module.exports = { init, get: universalGet };

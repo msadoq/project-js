@@ -26,14 +26,11 @@ export function start() {
   const forkOptions = {
     execPath: parameters.get('NODE_PATH'),
     env: {
-      DEBUG: parameters.get('DEBUG'),
-      SERVER_PORT: parameters.get('SERVER_PORT'),
-      ZMQ_GPCCDC_PUSH: parameters.get('ZMQ_GPCCDC_PUSH'),
-      ZMQ_GPCCDC_PULL: parameters.get('ZMQ_GPCCDC_PULL'),
-      STUB_DC_ON: parameters.get('STUB_DC_ON'),
+      LOG: parameters.get('LOG'),
       MONITORING: parameters.get('MONITORING'),
       PROFILING: parameters.get('PROFILING'),
-      LOG: parameters.get('LOG'),
+      ZMQ_GPCCDC_PUSH: parameters.get('ZMQ_GPCCDC_PUSH'),
+      ZMQ_GPCCDC_PULL: parameters.get('ZMQ_GPCCDC_PULL'),
     },
   };
 

@@ -22,8 +22,6 @@
     "hello": "npm run link && npm install && [ -f config.local.json ] && echo || cp config.sample.json config.local.json",
     "link": "npm link ../../../../../common/src/main/js/common && npm link ../../../../../server/src/impl/js/server && cd ../../../../../server/src/impl/js/server && npm run hello",
     "lint": "eslint lib test *.js",
-
-
     "sh": "npm run start-hot",
     "start": "electron ./",
     "start-hot": "HOT=1 electron -r babel-register -r babel-polyfill -r ./lib/common/initParameters.js ./main.development",

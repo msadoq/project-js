@@ -73,22 +73,23 @@ function allDocumentsAreSaved(store, dispatch, cb) {
           || getModifiedViewsIds(state).length > 0) {
           cb('Please, save the pages and views of this workspace');
         } else {
-          getPathByFilePicker(state.hsc.folder, 'workspace', 'save', (errWk, pathWk) => {
-            if (errWk) {
-              cb(errWk);
-            }
-            dispatch(updatePath(path.dirname(pathWk), path.basename(pathWk)));
-            saveWorkspace(store.getState(), true, (err, winIds) => {
-              if (err) {
-                cb(err);
+          if (!state.hsc.file) {
+            getPathByFilePicker(state.hsc.folder, 'workspace', 'save', (errWk, pathWk) => {
+              if (errWk) {
+                cb(errWk);
               }
-              winIds.forEach((id) => {
-                dispatch(setModifiedWindow(id, false));
+              dispatch(updatePath(path.dirname(pathWk), path.basename(pathWk)));
+              saveWorkspace(store.getState(), true, (err, winIds) => {
+                if (err) {
+                  cb(err);
+                }
+                winIds.forEach((id) => {
+                  dispatch(setModifiedWindow(id, false));
+                });
               });
-              // updateSavedWinTitle();
-              cb(null);
             });
-          });
+          }
+          cb(null);
         }
       } else {
         cb(null);

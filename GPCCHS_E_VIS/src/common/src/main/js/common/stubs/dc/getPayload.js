@@ -4,6 +4,11 @@ function getValue(timestamp) {
   return (1 + Math.sin(timestamp / 6000));
 }
 
+function getMonitoringState(timestamp) {
+  const states = ['ok', 'info', 'warning', 'alarm', 'severe', 'critical', 'outOfRange'];
+  return states[timestamp % states.length];
+}
+
 const getComObject = (comObject, timestamp, value) => {
   switch (comObject) {
     case 'ReportingParameter': {
@@ -13,6 +18,7 @@ const getComObject = (comObject, timestamp, value) => {
         convertedValue: value,
         rawValue: value,
         extractedValue: value,
+        monitoringState: getMonitoringState(timestamp),
       });
     }
     case 'DecommutedPacket': {

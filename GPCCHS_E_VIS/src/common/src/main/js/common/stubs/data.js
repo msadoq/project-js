@@ -17,9 +17,6 @@ const stubs = module.exports = Object.assign({}, dcStubs, lpisisStubs);
  * LPISIS
  */
 
-const getRandomMonitoringState = () =>
-  (['ok', 'info', 'warning', 'alarm', 'severe', 'critical', 'outOfRange'])[_random(0, 6)];
-
 // ReportingParameter
 stubs.getReportingParameter = override => applyOverride({
   onboardDate: now,
@@ -29,7 +26,7 @@ stubs.getReportingParameter = override => applyOverride({
   extractedValue: _random(1, 100, true),
   triggerOnCounter: 6,
   triggerOffCounter: 10,
-  monitoringState: getRandomMonitoringState(),
+  monitoringState: 'ok',
   validityState: 0,
   isObsolete: false,
   isNominal: false,

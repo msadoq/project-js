@@ -14,8 +14,8 @@
   </parent>
   <modules>
     <module>common</module>
-    <module>client</module>
     <module>server</module>
+    <module>client</module>
     <module>launcher</module>
     <module>tools</module>
   </modules>

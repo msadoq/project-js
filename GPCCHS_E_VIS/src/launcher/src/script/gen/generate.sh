@@ -15,7 +15,6 @@ deploy_cots() {
   mkdir -p ${api.lib.dir}/js/${artifactId}/server
 
   cp -RT ${find.dependencies.dir}/lib/js/gpcchs_e_vis_client/lpisis_gpcchs_e_clt-linux-x64 ${api.lib.dir}/js/${artifactId}/client
-  cp -RT ${find.dependencies.dir}/lib/js/gpcchs_e_vis_server ${api.lib.dir}/js/${artifactId}/server
 
 }
 

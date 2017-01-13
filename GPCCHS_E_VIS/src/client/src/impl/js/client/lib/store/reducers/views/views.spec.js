@@ -28,14 +28,14 @@ describe('store:views:reducer', () => {
     it('add', () => {
       const state = reducer(
         undefined,
-        actions.add('myViewId', 'plot', { setting: 'value' })
+        actions.add('myViewId', 'plot', { setting: 'value' }, 'path', 'old', 'absolutePath', false)
       );
       state.myViewId.should.eql({
         type: 'plot',
         configuration: { setting: 'value' },
-        absolutePath: undefined,
-        path: undefined,
-        oId: undefined,
+        absolutePath: 'absolutePath',
+        path: 'path',
+        oId: 'old',
         isModified: false,
       });
     });
@@ -52,7 +52,7 @@ describe('store:views:reducer', () => {
         absolutePath: undefined,
         path: undefined,
         oId: undefined,
-        isModified: false,
+        isModified: true,
       });
     });
   });

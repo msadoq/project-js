@@ -22,7 +22,7 @@
                     "type": "number"
                 }
             },
-            "required": ["kind", "x", "y", "w", "h"],
+            "required": ["x", "y", "w", "h"],
             "additionalProperties": false
         },
         "docLocation": {

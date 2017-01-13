@@ -17,7 +17,7 @@ describe('store:windows:reducer', () => {
       const { dispatch, getState } = getStore({});
       // const state = reducer(
       //   undefined,
-      dispatch(actions.add('myWindowId', 'Title', { x: 110 }, ['myPageId']));
+      dispatch(actions.add('myWindowId', 'Title', { x: 110 }, ['myPageId'], null, true));
       getState().windows.myWindowId.should.deep.eql({
         title: 'Title',
         focusedPage: null,

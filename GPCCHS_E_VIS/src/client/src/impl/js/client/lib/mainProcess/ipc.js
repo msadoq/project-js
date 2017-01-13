@@ -1,4 +1,7 @@
+import path from 'path';
+import { isString } from 'lodash';
 import { v4 } from 'node-uuid';
+import { get } from 'common/parameters';
 import globalConstants from 'common/constants';
 import getLogger from 'common/log';
 import { set as setCallback } from 'common/callbacks';
@@ -46,7 +49,18 @@ const commands = {
       commands.server.rpc(globalConstants.IPC_METHOD_GET_SESSION_TIME, null, callback);
     },
     requestPathFromOId: (oId, callback) => {
-      commands.server.rpc(globalConstants.IPC_METHOD_FILEPATH_REQUEST, { oId }, callback);
+      if (!isString(oId)) {
+        callback('requestPathFromOId error : oId should be a string');
+      }
+      const resolve = payload => callback(null, payload);
+      const getPath = relativePath => resolve(path.resolve(get('FMD_ROOT_DIR'), relativePath));
+      switch (oId) {
+        case 'page_small': return getPath('pages/pageSmall_with_oid.json');
+        case 'view_text_1': return getPath('views/textOne.json');
+        case 'view_plot_1': return getPath('views/plotviewOne.json');
+        default: return callback('requestPathFromOId not fully implemented yet');
+      }
+      // commands.server.rpc(globalConstants.IPC_METHOD_FILEPATH_REQUEST, { oId }, callback);
     },
     requestData: (callback) => {
       commands.server.rpc(globalConstants.IPC_METHOD_TIMEBASED_PULL, null, callback);

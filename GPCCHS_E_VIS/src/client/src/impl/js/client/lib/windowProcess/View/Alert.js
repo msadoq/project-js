@@ -37,7 +37,7 @@ const Alert = ({
 );
 
 Alert.propTypes = {
-  bsStyle: PropTypes.object,
+  bsStyle: PropTypes.string,
   children: PropTypes.any.isRequired,
   className: PropTypes.string,
   style: PropTypes.object,

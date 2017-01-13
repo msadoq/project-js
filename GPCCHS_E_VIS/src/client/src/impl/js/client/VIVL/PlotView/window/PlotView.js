@@ -37,6 +37,7 @@ import {
   getViewEntryPoints,
 } from '../../../lib/store/selectors/views';
 import { Danger } from '../../../lib/windowProcess/View/Alert';
+import styles from './PlotView.css';
 
 const logger = getLogger('view:plot');
 
@@ -209,7 +210,7 @@ class PlotView extends PureComponent {
     };
   }
 
-  getEntryPointErrors() {
+  getEntryPointErrors({ style } = {}) {
     const epWithErrors = this.props.entryPoints
       .filter(ep => ep.error);
 
@@ -217,6 +218,7 @@ class PlotView extends PureComponent {
       <Danger
         className="mb10"
         style={{
+          ...style,
           width: '100%',
         }}
       >
@@ -224,7 +226,7 @@ class PlotView extends PureComponent {
           {epWithErrors
             .map(ep => (
               <div style={{ lineHeight: '1.5em' }}>
-                Entry point {ep.name} is invalid
+                Invalid formula in {ep.name} entry point
               </div>
             ))}
         </div>
@@ -595,10 +597,20 @@ class PlotView extends PureComponent {
       return (
         <DroppableContainer
           onDrop={this.onDrop.bind(this)}
-          style={{ padding: '1em' }}
+          style={{
+            padding: '1em',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
         >
           {this.getEntryPointErrors()}
-          unable to render plot: {noRender}
+          <div className="flex">
+            <div className={styles.renderErrorText}>
+              Unable to render view <br />
+              {noRender}
+            </div>
+          </div>
         </DroppableContainer>
       );
     }
@@ -635,6 +647,11 @@ class PlotView extends PureComponent {
         onDrop={this.onDrop.bind(this)}
         text={'add entry point'}
       >
+        {this.getEntryPointErrors({ style: {
+          padding: '1em',
+          position: 'absolute',
+          zIndex: 100,
+        } })}
         <ChartCanvas
           plotFull={false}
           ratio={1}
@@ -660,6 +677,8 @@ class PlotView extends PureComponent {
             stroke="#F0F0F0"
             tooltipCanvas={this.tooltipCanvas}
             backgroundShapeCanvas={this.backgroundShapeCanvas.bind(this)}
+            bgwidth={0}
+            bgheight={0}
           />
         </ChartCanvas>
 

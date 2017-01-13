@@ -1,5 +1,5 @@
 {
-  "LOG": "console:http",
+  "LOG": "console?level=debug",
   "PROFILING": "off",
   "MONITORING": "off",
   "DEBUG": "on",

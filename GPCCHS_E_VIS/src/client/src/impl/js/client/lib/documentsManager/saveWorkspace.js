@@ -31,7 +31,11 @@ function saveWorkspaceAs(state, path, useRelativePath, callback) {
         }
         const page = {};
         const currentPage = state.pages[pageId];
-        if (currentPage.absolutePath) {
+        if (currentPage.oId) {
+          page.oId = currentPage.oId;
+        } else if (useRelativePath && currentPage.path) {
+          page.path = currentPage.path;
+        } else if (currentPage.absolutePath) {
           if (useRelativePath) {
             page.path = relative(dirname(path), currentPage.absolutePath);
           } else {
@@ -40,10 +44,6 @@ function saveWorkspaceAs(state, path, useRelativePath, callback) {
               current.path = '/'.concat(relative('/', currentPage.absolutePath));
             }
           }
-        } else if (currentPage.oId) {
-          page.oId = currentPage.oId;
-        } else if (useRelativePath && currentPage.path) {
-          page.path = currentPage.path;
         } else {
           err[pageId] = 'Unsaved page: no path or oId';
           return callback('Unsaved page: no path or oId', null);

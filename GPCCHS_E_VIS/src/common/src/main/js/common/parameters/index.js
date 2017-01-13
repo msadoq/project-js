@@ -27,8 +27,6 @@ function init(path) {
     fs.accessSync(localPath, fs.constants.F_OK);
     fs.accessSync(localPath, fs.constants.R_OK);
     localConfig = Object.assign(JSON.parse(fs.readFileSync(localPath, 'utf8')), { path });
-    // eslint-disable-next-line no-console
-    console.log(`[pid=${process.pid}] local configuration file loaded`, localConfig);
   } catch (e) {} // eslint-disable-line no-empty
 }
 

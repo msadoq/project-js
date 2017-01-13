@@ -36,9 +36,13 @@ export default class EntryPointConnectedDataFields extends React.Component {
     } = this.props;
     let filteredAxes;
     if (axes && unit) {
-      filteredAxes = Object.values(axes).filter(a =>
-        a.unit === unit || a.id === axisId
-      );
+      filteredAxes = Object.entries(axes)
+        .map(a => ({
+          ...a[1],
+          axeId: a[0],
+        })).filter(axe =>
+          axe.unit === unit || axe.id === axisId
+        );
     } else {
       filteredAxes = [];
     }
@@ -106,7 +110,7 @@ export default class EntryPointConnectedDataFields extends React.Component {
             options={
               filteredAxes.map(axe => ({
                 label: axe.label,
-                value: axe.id,
+                value: axe.axeId,
               })).concat({
                 label: '-',
                 value: '',

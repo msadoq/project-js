@@ -10,7 +10,6 @@ import {
   HorizontalFormGroup,
 } from '../Forms/';
 import {
-  unitOptions,
   formatOptions,
 } from './connectedDataOptions';
 
@@ -57,9 +56,9 @@ export default class EntryPointConnectedDataFields extends React.Component {
         <HorizontalFormGroup label="Unit">
           <Field
             name={`${prefix}unit`}
-            component={ReactSelectField}
-            clearable={false}
-            options={unitOptions}
+            component={InputField}
+            type="text"
+            className="form-control input-sm"
           />
         </HorizontalFormGroup>
 

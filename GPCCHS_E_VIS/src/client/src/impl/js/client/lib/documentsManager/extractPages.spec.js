@@ -5,14 +5,6 @@ const { v4 } = require('node-uuid');
 const _ = require('lodash');
 const path = require('path');
 
-// TODO aleal : flag is never tested, and with a global var you can have side effect through your
-// tests
-// eslint-disable-next-line no-unused-vars
-let flag = false;
-function requestPathFromOId() {
-  flag = true;
-}
-
 describe('documents/lib', () => {
   describe('extractPages', () => {
     let content;
@@ -47,7 +39,7 @@ describe('documents/lib', () => {
       content.__folder = path.join(__dirname, 'fixtures');
     });
     it('valid', (done) => {
-      extractPages(content, requestPathFromOId, (err, val) => {
+      extractPages(content, (err, val) => {
         should.not.exist(err);
         val.should.have.keys('timebars', 'windows', 'pages', '__folder');
         val.pages.should.be.an('object');
@@ -61,7 +53,7 @@ describe('documents/lib', () => {
     });
     it('windows not object', (done) => {
       content.windows = [];
-      extractPages(content, requestPathFromOId, (err, val) => {
+      extractPages(content, (err, val) => {
         val.should.have.keys('timebars', 'windows', 'pages', '__folder');
         Object.keys(val.pages).should.have.length(0);
         done();
@@ -71,7 +63,7 @@ describe('documents/lib', () => {
       const k = Object.getOwnPropertyNames(content.windows);
       const win = content.windows[k[0]];
       win.pages[0].timeBarId = 'unknow';
-      extractPages(content, requestPathFromOId, (err, contentWithPages) => {
+      extractPages(content, (err, contentWithPages) => {
         const keys = Object.keys(contentWithPages.pages);
         keys.should.be.an('array').of.length(2);
         expect(contentWithPages.pages[keys[0]].timebarId).to.be.an('undefined');
@@ -80,7 +72,7 @@ describe('documents/lib', () => {
     });
     it('invalid folder', (done) => {
       content.__folder = 'unknow';
-      extractPages(content, requestPathFromOId, (err) => {
+      extractPages(content, (err) => {
         should.exist(err);
         done();
       });

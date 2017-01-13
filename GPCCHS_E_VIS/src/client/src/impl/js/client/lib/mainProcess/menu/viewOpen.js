@@ -1,13 +1,10 @@
 import { v4 } from 'node-uuid';
 
-import { server } from '../ipc';
 import { readViews } from '../../documentsManager/extractViews';
 import { showErrorMessage, getPathByFilePicker } from '../dialog';
 import { addAndMount as addAndMountView } from '../../store/actions/pages';
 import { getStore } from '../../store/mainStore';
 import { setModified as setModifiedView } from '../../store/actions/views';
-
-const { requestPathFromOId } = server;
 
 module.exports = { viewOpen, addPlotView, addTextView };
 
@@ -23,7 +20,7 @@ function viewOpen(focusedWindow) { // absolutePath, pageId) {
       return;
     }
     const viewPath = [{ absolutePath: filePath }];
-    readViews(viewPath, requestPathFromOId, (errView, view) => {
+    readViews(viewPath, (errView, view) => {
       if (errView) {
         showErrorMessage(focusedWindow,
           'Error on selected view',

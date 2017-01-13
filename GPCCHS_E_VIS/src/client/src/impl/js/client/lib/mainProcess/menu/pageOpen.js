@@ -3,13 +3,10 @@ import { v4 } from 'node-uuid';
 import { readPages } from '../../documentsManager/extractPages';
 import { showErrorMessage, getPathByFilePicker } from '../dialog';
 import { extractViews } from '../../documentsManager/extractViews';
-import { server } from '../ipc';
 import { getStore } from '../../store/mainStore';
 import { add as addView } from '../../store/actions/views';
 import { addAndMount as addAndMountPage } from '../../store/actions/windows';
 import { setModified as setModifiedPage } from '../../store/actions/pages';
-
-const { requestPathFromOId } = server;
 
 module.exports = { pageOpen, pageAddNew };
 
@@ -22,7 +19,7 @@ function pageOpen(focusedWindow) {
       return;
     }
 
-    readPages(undefined, [{ absolutePath: filePath }], requestPathFromOId, (pageErr, pages) => {
+    readPages(undefined, [{ absolutePath: filePath }], (pageErr, pages) => {
       if (pageErr) {
         return showErrorMessage(focusedWindow,
           'Error on selected page',
@@ -31,7 +28,7 @@ function pageOpen(focusedWindow) {
       const content = { pages: {} };
       const uuid = v4();
       content.pages[uuid] = pages[0];
-      extractViews(content, requestPathFromOId, (viewErr, pageAndViews) => {
+      extractViews(content, (viewErr, pageAndViews) => {
         if (viewErr) {
           return showErrorMessage(focusedWindow,
             'Error on selected page',

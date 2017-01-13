@@ -1,4 +1,5 @@
-/* eslint no-underscore-dangle: 0 */
+import ipc from '../mainProcess/ipc';
+
 const fs = require('fs');
 const {
   join
@@ -50,8 +51,8 @@ const self = module.exports = {
       return self.parse(content, callback);
     });
   },
-  readJsonFromOId: (oId, requestPathFromOId, callback) => {
-    requestPathFromOId(oId, (err, payload) => {
+  readJsonFromOId: (oId, callback) => {
+    ipc.server.requestPathFromOId(oId, (err, payload) => {
       if (err) {
         return callback(err);
       }
@@ -95,13 +96,13 @@ const self = module.exports = {
     });
   },
   readJsonFromPath: (
-    folder, relativePath, oId, absolutePath, requestPathFromOId = null, callback
+    folder, relativePath, oId, absolutePath, callback
   ) => {
     if (absolutePath) {
       return self.readJsonFromAbsPath(absolutePath, callback);
     }
     if (oId) {
-      return self.readJsonFromOId(oId, requestPathFromOId, callback);
+      return self.readJsonFromOId(oId, callback);
     }
     if (folder && !_startsWith(relativePath, '/')) {
       return self.readJsonFromRelativePath(folder, relativePath, callback);

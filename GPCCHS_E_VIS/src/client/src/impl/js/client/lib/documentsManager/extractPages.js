@@ -9,24 +9,23 @@ const async = require('async');
 const fs = require('../common/fs');
 const validation = require('./validation');
 
-function readPages(folder, pagesToRead, requestPathFromOId, done) {
+function readPages(folder, pagesToRead, done) {
   async.map(pagesToRead, (page, next) => {
-    fs.readJsonFromPath(folder, page.path, page.oId, page.absolutePath,
-      requestPathFromOId, (err, pageContent) => {
-        if (err) {
-          return next(err);
-        }
-        const validationError = validation('page', pageContent);
-        if (validationError) {
-          return next(validationError);
-        }
+    fs.readJsonFromPath(folder, page.path, page.oId, page.absolutePath, (err, pageContent) => {
+      if (err) {
+        return next(err);
+      }
+      const validationError = validation('page', pageContent);
+      if (validationError) {
+        return next(validationError);
+      }
 
-        return next(null, {
-          ...pageContent,
-          ...page,
-          absolutePath: fs.getPath(),
-        });
+      return next(null, {
+        ...pageContent,
+        ...page,
+        absolutePath: fs.getPath(),
       });
+    });
   }, (err, pages = []) => done(err, reject(isNil, pages)));
 }
 
@@ -53,16 +52,15 @@ const keepOnlyUUID = editPages(prop('uuid'));
  * Find timebars in .windows, read files and store each with a uuid in .pages
  *
  * @param content
- * @param requestPathFromOId
  * @param cb
  * @returns {*}
  */
-function extractPages(content, requestPathFromOId, cb) {
+function extractPages(content, cb) {
   const getWindows = propOr({}, 'windows');
   const getTimebars = propOr({}, 'timebars');
   const newWindows = injectIds(getTimebars(content), getWindows(content));
   const pagesToRead = getPages(newWindows);
-  return readPages(content.__folder, pagesToRead, requestPathFromOId, (err, pages) => {
+  return readPages(content.__folder, pagesToRead, (err, pages) => {
     const next = obj => (err ? cb(err) : cb(null, obj));
     return next({
       ...content,

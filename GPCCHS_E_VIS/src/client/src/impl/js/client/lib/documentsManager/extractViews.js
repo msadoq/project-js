@@ -22,50 +22,50 @@ const supportedViewTypes = [
   'MimicView',
 ];
 
-function readViews(viewsToRead, requestPathFromOId, done) {
+function readViews(viewsToRead, done) {
   async.reduce(viewsToRead, [], (views, view, next) => {
-    fs.readJsonFromPath(view.pageFolder, view.path, view.oId, view.absolutePath,
-      requestPathFromOId, (err, viewContent) => {
-        if (err) {
-          return next(err);
-        }
-        if (supportedViewTypes.indexOf(viewContent.type) === -1) {
-          return next(new Error(`Unsupported view type '${viewContent.type}'`), viewsToRead);
-        }
-        let schema;
-        try {
-          schema = vivl(viewContent.type, 'getSchemaJson')();
-        } catch (e) {
-          return next(new Error(`Invalid schema on view type '${viewContent.type}'`), viewsToRead);
-        }
-        const validationError = validation(viewContent.type, viewContent, schema);
-        if (validationError) {
-          return next(validationError);
-        }
-        // Add uuid on axes
-        const structureType = vivl(viewContent.type, 'structureType')();
+    const { pageFolder, path, oId } = view;
+    fs.readJsonFromPath(pageFolder, path, oId, view.absolutePath, (err, viewContent) => {
+      if (err) {
+        return next(err);
+      }
+      if (supportedViewTypes.indexOf(viewContent.type) === -1) {
+        return next(new Error(`Unsupported view type '${viewContent.type}'`), viewsToRead);
+      }
+      let schema;
+      try {
+        schema = vivl(viewContent.type, 'getSchemaJson')();
+      } catch (e) {
+        return next(new Error(`Invalid schema on view type '${viewContent.type}'`), viewsToRead);
+      }
+      const validationError = validation(viewContent.type, viewContent, schema);
+      if (validationError) {
+        return next(validationError);
+      }
+      // Add uuid on axes
+      const structureType = vivl(viewContent.type, 'structureType')();
 
-        let viewContentWithIndexedAxes;
-        switch (structureType) {
-          case globalConstants.DATASTRUCTURETYPE_RANGE: {
-            viewContentWithIndexedAxes = addUuidToAxes(viewContent);
-            break;
-          }
-          default:
-            viewContentWithIndexedAxes = viewContent;
-            break;
+      let viewContentWithIndexedAxes;
+      switch (structureType) {
+        case globalConstants.DATASTRUCTURETYPE_RANGE: {
+          viewContentWithIndexedAxes = addUuidToAxes(viewContent);
+          break;
         }
+        default:
+          viewContentWithIndexedAxes = viewContent;
+          break;
+      }
 
-        return next(null, views.concat({
-          type: viewContent.type,
-          configuration: viewContentWithIndexedAxes,
-          path: view.path,
-          oId: view.oId,
-          uuid: view.uuid,
-          absolutePath: fs.getPath(),
-          geometry: view.geometry,
-        }));
-      });
+      return next(null, views.concat({
+        type: viewContent.type,
+        configuration: viewContentWithIndexedAxes,
+        path: view.path,
+        oId: view.oId,
+        uuid: view.uuid,
+        absolutePath: fs.getPath(),
+        geometry: view.geometry,
+      }));
+    });
   }, done);
 }
 
@@ -90,11 +90,10 @@ function preparePageViews(page) {
  * Find views in .pages, read files and store each with a uuid in .views
  *
  * @param content
- * @param requestPathFromOId
  * @param done
  * @returns {*}
  */
-function extractViews(content, requestPathFromOId, done) {
+function extractViews(content, done) {
   const getAllViews = pipe(
     propOr({}, 'pages'),
     ifElse(
@@ -107,7 +106,7 @@ function extractViews(content, requestPathFromOId, done) {
   const prepareAllPagesViews = over(lensProp('pages'), map(preparePageViews));
   const nextContent = prepareAllPagesViews(content);
 
-  return readViews(getAllViews(nextContent), requestPathFromOId, (err, views) => {
+  return readViews(getAllViews(nextContent), (err, views) => {
     if (err) {
       return done(err);
     }

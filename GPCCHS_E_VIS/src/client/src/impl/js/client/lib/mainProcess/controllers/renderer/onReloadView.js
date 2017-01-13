@@ -6,13 +6,10 @@ import { reloadView } from '../../../store/actions/views';
 import { add } from '../../../store/actions/messages';
 import { readViews } from '../../../documentsManager/extractViews';
 import { showWarningMessage } from '../../dialog';
-import { server } from '../../ipc';
-
-const { requestPathFromOId } = server;
 
 function reload(viewId, absolutePath) {
   const { dispatch } = getStore();
-  readViews([{ absolutePath }], requestPathFromOId, (err, views) => {
+  readViews([{ absolutePath }], (err, views) => {
     if (err) {
       return getStore().dispatch(add(
         viewId,

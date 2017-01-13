@@ -9,9 +9,14 @@ const LOCAL = 'config.local.json'; // optional
 let argv;
 let defaultConfig;
 let localConfig;
+let appRoot;
 
 function init(path) {
-  if (localConfig) {
+  // persist app root dir as 'path'
+  appRoot = path;
+
+  if (defaultConfig) {
+    // was already inited
     return;
   }
 
@@ -26,7 +31,7 @@ function init(path) {
     const localPath = join(path, LOCAL);
     fs.accessSync(localPath, fs.constants.F_OK);
     fs.accessSync(localPath, fs.constants.R_OK);
-    localConfig = Object.assign(JSON.parse(fs.readFileSync(localPath, 'utf8')), { path });
+    localConfig = JSON.parse(fs.readFileSync(localPath, 'utf8'));
   } catch (e) {} // eslint-disable-line no-empty
 }
 
@@ -85,6 +90,12 @@ function get(name) {
   if (hasValue()) {
     return value;
   }
+
+  // return appRoot as path if not already found in previous configs
+  if (name === 'path') {
+    return appRoot;
+  }
+
   return undefined;
 }
 

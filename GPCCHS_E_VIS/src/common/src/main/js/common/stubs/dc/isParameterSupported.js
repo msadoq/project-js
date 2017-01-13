@@ -1,5 +1,6 @@
 const supported = [
-  'TelemetryPacket.TOTO<DecommutedPacket>',
+  'TelemetryPacket.MY_CUSTOM_PACKET<DecommutedPacket>',
+  'TelemetryPacket.MY_OTHER_PACKET<DecommutedPacket>',
   'Reporting.GENE_AM_CCSDSAPID<ReportingParameter>',
   'Reporting.GENE_AM_CCSDSCOUNT<ReportingParameter>',
   'Reporting.GENE_AM_CCSDSGFLAG<ReportingParameter>',

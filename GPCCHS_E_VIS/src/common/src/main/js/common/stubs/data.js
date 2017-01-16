@@ -13,10 +13,6 @@ const now = _now();
 
 const stubs = module.exports = Object.assign({}, dcStubs, lpisisStubs);
 
-/*
- * LPISIS
- */
-
 // ReportingParameter
 stubs.getReportingParameter = override => applyOverride({
   onboardDate: now,
@@ -83,10 +79,6 @@ stubs.getTCHistoryDeProtobuf = proto => protobuf.decode(
   'lpisis.tcHistory.TCHistory',
   proto
 );
-
-/*
- * HSS
- */
 
 // RemoteId
 stubs.getRemoteId = (override) => {

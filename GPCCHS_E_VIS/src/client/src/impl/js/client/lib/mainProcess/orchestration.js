@@ -209,12 +209,10 @@ export function tick() {
 
     // pulled data
     server.requestData((dataToInject) => {
-      if (Object.keys(dataToInject).length) {
-        execution.start('data injection');
-        // TODO : in play mode inject + visuwindow
-        dispatch(updateViewData(oldViewMap, newViewMap, dataToInject));
-        execution.stop('data injection', Object.keys(dataToInject).length);
-      }
+      execution.start('data injection');
+      // TODO : in play mode inject + visuwindow
+      dispatch(updateViewData(oldViewMap, newViewMap, dataToInject));
+      execution.stop('data injection', Object.keys(dataToInject).length);
 
       // TODO continue orchestration in this callback (VERY IMPORTANT FOR PERF)
     });

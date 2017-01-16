@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { Parser, ProcessNodeDefinitions } from 'html-to-react';
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
-import _omit from 'lodash/omit';
 import getLogger from 'common/log';
 import { html as beautifyHtml } from 'js-beautify';
 
@@ -168,21 +167,12 @@ class TextView extends Component {
 }
 
 export default connect(
-  state => ({
-    state
+  (state, { viewId }) => ({
+    entryPoints: getViewEntryPoints(state, viewId),
+    content: getViewContent(state, viewId),
+    data: getTextViewData(state, viewId),
   }),
   dispatch => bindActionCreators({
     addEntryPoint
-  }, dispatch),
-  (stateProps, dispatchProps, ownProps) => {
-    const data = getTextViewData(stateProps.state, ownProps.viewId);
-    return _omit({
-      ...stateProps,
-      ...dispatchProps,
-      ...ownProps,
-      entryPoints: getViewEntryPoints(stateProps.state, ownProps.viewId),
-      content: getViewContent(stateProps.state, ownProps.viewId),
-      data
-    }, ['state']);
-  }
+  }, dispatch)
 )(TextView);

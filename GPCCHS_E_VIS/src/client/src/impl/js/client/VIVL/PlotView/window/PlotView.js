@@ -20,7 +20,6 @@ import {
   // interactive
 } from 'react-stockcharts';
 import { hexToRGBA } from 'react-stockcharts/lib/utils';
-import _omit from 'lodash/omit';
 import {
   getLines,
   getLineMarker,
@@ -798,18 +797,11 @@ class PlotView extends PureComponent {
 const SizeablePlotView = Dimensions()(PlotView);
 
 export default connect(
-  state => ({ state }),
+  (state, { viewId }) => ({
+    entryPoints: getViewEntryPoints(state, viewId),
+    data: getPlotViewData(state, viewId),
+  }),
   dispatch => bindActionCreators({
     addEntryPoint
-  }, dispatch),
-  (stateProps, dispatchProps, ownProps) => {
-    const data = getPlotViewData(stateProps.state, ownProps.viewId); // eslint-disable-line
-    return _omit({
-      ...stateProps,
-      ...dispatchProps,
-      ...ownProps,
-      entryPoints: getViewEntryPoints(stateProps.state, ownProps.viewId),
-      data
-    }, ['state']);
-  }
+  }, dispatch)
 )(SizeablePlotView); // eslint-disable-line new-cap

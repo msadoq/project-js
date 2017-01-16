@@ -9,9 +9,6 @@ import {
 import {
   HorizontalFormGroup,
 } from '../Forms/';
-import {
-  formatOptions,
-} from './connectedDataOptions';
 
 /*
   All the fields used in Connected data form
@@ -66,14 +63,14 @@ export default class EntryPointConnectedDataFields extends React.Component {
           />
         </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Format">
+        {/* <HorizontalFormGroup label="Format">
           <Field
             name={`${prefix}format`}
             component={ReactSelectField}
             clearable={false}
             options={formatOptions}
           />
-        </HorizontalFormGroup>
+        </HorizontalFormGroup> */}
 
         <HorizontalFormGroup label="Domain">
           <Field

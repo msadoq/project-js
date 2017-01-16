@@ -48,8 +48,8 @@ function saveWorkspaceAs(state, path, useRelativePath, callback) {
           err[pageId] = 'Unsaved page: no path or oId';
           return callback('Unsaved page: no path or oId', null);
         }
-        page.timeBarId = (state.timebars[currentPage.timebarId])
-          ? state.timebars[currentPage.timebarId].id
+        page.timebarId = (state.timebars[currentPage.timebarUuid])
+          ? state.timebars[currentPage.timebarUuid].id
           : 'TB1';
         current.pages.push(page);
       });

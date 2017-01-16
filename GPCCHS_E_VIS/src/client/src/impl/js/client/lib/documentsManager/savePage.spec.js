@@ -27,7 +27,7 @@ describe('mainProcess/documents/savePage', () => {
         ],
         title: 'page1',
         hideBorders: false,
-        timebarId: 'TB1',
+        timebarUuid: 'TB1',
         views: ['plot1', 'text1'],
         path: './pages/page1.json',
         absolutePath: getTmpPath('testAs/pages/page1.json'),

@@ -26,7 +26,7 @@ export default class SelectTimebar extends Component {
     this.props.addTimebar(
       v4(),
       {
-        id: this.timebarId.value
+        id: this.timebarUuid.value
       }
     );
     this.switchForm();
@@ -81,7 +81,7 @@ export default class SelectTimebar extends Component {
             <form onSubmit={this.onCreate} className="form-horizontal" style={{ maxWidth: '200px', width: '95%' }}>
               <FormGroup>
                 <input
-                  ref={(el) => { this.timebarId = el; }}
+                  ref={(el) => { this.timebarUuid = el; }}
                   className="form-control"
                   placeholder="Timebar id"
                 />

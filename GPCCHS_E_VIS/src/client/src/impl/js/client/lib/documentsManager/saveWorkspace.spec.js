@@ -27,8 +27,8 @@ describe('documentsManager/saveWorkspace', () => {
       },
     },
     pages: {
-      page1: { timebarId: 1234, path: 'testPlot.json' },
-      page2: { timebarId: 1234, path: 'testText.json' }
+      page1: { timebarUuid: 1234, path: 'testPlot.json' },
+      page2: { timebarUuid: 1234, path: 'testText.json' }
     },
     timebars: {
       1234: {

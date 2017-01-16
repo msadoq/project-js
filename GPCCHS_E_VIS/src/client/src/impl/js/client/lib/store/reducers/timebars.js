@@ -13,10 +13,10 @@ export default function timebars(stateTimebars = {}, action) {
     case types.WS_TIMEBAR_ADD:
       return {
         ...stateTimebars,
-        [payload.timebarId]: timebar(undefined, action),
+        [payload.timebarUuid]: timebar(undefined, action),
       };
     case types.WS_TIMEBAR_REMOVE:
-      return _omit(stateTimebars, [payload.timebarId]);
+      return _omit(stateTimebars, [payload.timebarUuid]);
     case types.WS_TIMEBAR_ID_UPDATE:
     case types.WS_TIMEBAR_UPDATE_VIEWPORT:
     case types.WS_TIMEBAR_SPEED_UPDATE:
@@ -27,11 +27,11 @@ export default function timebars(stateTimebars = {}, action) {
     case types.WS_TIMEBAR_UNMOUNT_TIMELINE:
       return {
         ...stateTimebars,
-        [payload.timebarId]: timebar(stateTimebars[payload.timebarId], action),
+        [payload.timebarUuid]: timebar(stateTimebars[payload.timebarUuid], action),
       };
     case types.WS_TIMEBAR_UPDATE_CURSORS: {
       const newValues = {};
-      const tb = stateTimebars[payload.timebarId];
+      const tb = stateTimebars[payload.timebarUuid];
       const vw = payload.visuWindow;
       const sw = payload.slideWindow;
       if (vw) {
@@ -61,7 +61,7 @@ export default function timebars(stateTimebars = {}, action) {
       }
       if (newValues.slideWindow || newValues.visuWindow) {
         return u({
-          [payload.timebarId]: {
+          [payload.timebarUuid]: {
             visuWindow: newValues.visuWindow || tb.visuWindow,
             slideWindow: newValues.slideWindow || tb.slideWindow,
           }

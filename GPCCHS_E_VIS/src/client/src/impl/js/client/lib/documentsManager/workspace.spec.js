@@ -87,8 +87,8 @@
 //           elem.should.be.an('array').with.length(0);
 //         } else {
 //           elem.should.be.an('array').with.length(2);
-//           elem[0].should.have.keys(['uuid', 'path', 'timeBarId']);
-//           elem[1].should.have.keys(['uuid', 'oId', 'timeBarId']);
+//           elem[0].should.have.keys(['uuid', 'path', 'timebarId']);
+//           elem[1].should.have.keys(['uuid', 'oId', 'timebarId']);
 //           list.push(elem[0]);
 //           list.push(elem[1]);
 //         }
@@ -166,7 +166,7 @@
 //         should.not.exist(err);
 //         contentPages.should.contains.keys('pages');
 //         _.forEach(contentPages.pages, page => {
-//           page.should.contains.keys(['uuid', 'type', 'views', 'timeBarId']);
+//           page.should.contains.keys(['uuid', 'type', 'views', 'timebarId']);
 //           page.should.have.any.keys(['path', 'oId']);
 //           page.views.should.be.an('array');
 //         });

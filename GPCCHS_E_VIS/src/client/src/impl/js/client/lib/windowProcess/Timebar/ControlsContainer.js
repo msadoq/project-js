@@ -15,10 +15,10 @@ import {
 import Controls from './Controls';
 
 export default connect(
-  (state, { timebarId }) => {
+  (state, { timebarUuid }) => {
     let currentSessionExists = false;
     let masterTimelineExists = false;
-    const masterTimeline = getMasterTimelineById(state, timebarId);
+    const masterTimeline = getMasterTimelineById(state, timebarUuid);
     if (masterTimeline) {
       masterTimelineExists = true;
       if (getSession(state, masterTimeline.sessionId)) {
@@ -27,7 +27,7 @@ export default connect(
     }
 
     return {
-      messages: _get(state, ['messages', `timeSetter-${timebarId}`], null),
+      messages: _get(state, ['messages', `timeSetter-${timebarUuid}`], null),
       currentSessionExists,
       masterTimelineExists,
     };

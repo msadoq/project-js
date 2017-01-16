@@ -15,7 +15,7 @@ const initialState = {
 export default function hsc(state = initialState, action) {
   switch (action.type) {
     case types.HSC_PLAY:
-      return Object.assign({}, state, { playingTimebarId: action.payload.timebarId });
+      return Object.assign({}, state, { playingTimebarId: action.payload.timebarUuid });
     case types.HSC_PAUSE:
       return Object.assign({}, state, { playingTimebarId: null });
     case types.HSC_SET_WINDOWS_AS_OPENED:

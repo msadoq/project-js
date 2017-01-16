@@ -23,7 +23,7 @@ const filterLayoutBlockFields = [
 export default class Content extends Component {
   static propTypes = {
     focusedPageId: PropTypes.string,
-    timebarId: PropTypes.string,
+    timebarUuid: PropTypes.string,
     layouts: PropTypes.object,
     views: PropTypes.array,
     editorViewId: PropTypes.string,
@@ -55,7 +55,7 @@ export default class Content extends Component {
   render() {
     logger.debug('render');
     const {
-      views = [], focusedPageId, timebarId,
+      views = [], focusedPageId, timebarUuid,
       layouts, editorViewId, isEditorOpened,
       openEditor, closeEditor
     } = this.props;
@@ -102,7 +102,7 @@ export default class Content extends Component {
               key={v.viewId}
             >
               <ViewContainer
-                timebarId={timebarId}
+                timebarUuid={timebarUuid}
                 pageId={focusedPageId}
                 viewId={v.viewId}
                 unmountAndRemove={this.props.unmountAndRemove}

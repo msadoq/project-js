@@ -20,14 +20,14 @@ export default class ControlsLeft extends PureComponent {
     goNow: PropTypes.func.isRequired,
     jump: PropTypes.func.isRequired,
     messages: PropTypes.array,
-    timebarId: PropTypes.string.isRequired,
+    timebarUuid: PropTypes.string.isRequired,
     timebarSpeed: PropTypes.number.isRequired,
   }
 
   changeSpeed = (dir) => {
     const {
       updateSpeed,
-      timebarId,
+      timebarUuid,
       timebarSpeed,
       isPlaying,
       play,
@@ -46,9 +46,9 @@ export default class ControlsLeft extends PureComponent {
     if (newSpeed < 0.1) {
       newSpeed = 0.1;
     }
-    updateSpeed(timebarId, newSpeed);
+    updateSpeed(timebarUuid, newSpeed);
     if (newSpeed !== 1 && !isPlaying) {
-      play(timebarId);
+      play(timebarUuid);
     }
   }
 
@@ -56,7 +56,7 @@ export default class ControlsLeft extends PureComponent {
     e.preventDefault();
     const {
       updateSpeed,
-      timebarId,
+      timebarUuid,
     } = this.props;
     let newSpeed = parseFloat(this.speedInputEl.value) || 1;
     if (newSpeed < 0.1) {
@@ -64,33 +64,33 @@ export default class ControlsLeft extends PureComponent {
     } else if (newSpeed > 10) {
       newSpeed = 10;
     }
-    updateSpeed(timebarId, newSpeed);
+    updateSpeed(timebarUuid, newSpeed);
   }
 
   restoreWidth = (e) => {
     e.preventDefault();
-    const { timebarId, restoreWidth } = this.props;
-    restoreWidth(timebarId);
+    const { timebarUuid, restoreWidth } = this.props;
+    restoreWidth(timebarUuid);
   }
 
   goNow = (e) => {
     e.preventDefault();
-    const { timebarId, goNow } = this.props;
-    goNow(timebarId);
+    const { timebarUuid, goNow } = this.props;
+    goNow(timebarUuid);
   }
 
   jump = (e) => {
     e.preventDefault();
-    const { jump, timebarId } = this.props;
+    const { jump, timebarUuid } = this.props;
     jump(
-      timebarId,
+      timebarUuid,
       1000 * e.currentTarget.getAttribute('offset')
     );
   }
 
   render() {
     const {
-      timebarId,
+      timebarUuid,
       timebarSpeed,
       isPlaying,
       play,
@@ -189,7 +189,7 @@ export default class ControlsLeft extends PureComponent {
                 [styles.controlButtonPause]: !isPlaying
               }
             )}
-            onClick={() => (isPlaying ? pause() : play(timebarId))}
+            onClick={() => (isPlaying ? pause() : play(timebarUuid))}
             title={isPlaying ? 'pause' : 'play'}
           >
             {isPlaying ?

@@ -14,7 +14,7 @@ import { getFocusedWindowId } from '../selectors/hsc';
 /**
  * Simple actions
  */
-export const add = simple(types.WS_PAGE_ADD, 'pageId', 'timebarId', 'title', 'views', 'layout',
+export const add = simple(types.WS_PAGE_ADD, 'pageId', 'timebarUuid', 'title', 'views', 'layout',
   'path', 'oId', 'absolutePath', 'isModified');
 export const removePage = simple(types.WS_PAGE_REMOVE, 'pageId');
 export const mountView = simple(types.WS_PAGE_VIEW_MOUNT, 'pageId', 'viewId', 'layout');
@@ -92,9 +92,9 @@ export function remove(pageId) {
   };
 }
 
-export function updateTimebarId(focusedPageId, timebarId) {
+export function updateTimebarId(focusedPageId, timebarUuid) {
   return (dispatch, getState) => {
-    dispatch({ type: 'WS_PAGE_UPDATE_TIMEBARID', payload: { focusedPageId, timebarId } });
+    dispatch({ type: 'WS_PAGE_UPDATE_TIMEBARID', payload: { focusedPageId, timebarUuid } });
     const state = getState();
     const windowId = getFocusedWindowId(state);
     dispatch(setModifiedWindow(windowId, true));

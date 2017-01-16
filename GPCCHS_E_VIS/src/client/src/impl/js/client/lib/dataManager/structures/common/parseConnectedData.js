@@ -6,7 +6,7 @@ import timelinesFilter from './timelines';
 import structures from '..';
 
 export default function applyDomainsAndTimebar(
-  connectedData, structureType, timebarId, viewMasterTimeline, visuWindow, timelines, domains
+  connectedData, structureType, timebarUuid, viewMasterTimeline, visuWindow, timelines, domains
 ) {
   const { formula, domain, timeline, filter } = connectedData;
 

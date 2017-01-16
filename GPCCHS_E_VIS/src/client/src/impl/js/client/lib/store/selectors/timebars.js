@@ -7,11 +7,11 @@ import { createSelector } from 'reselect';
 import { getTimelines } from './timelines';
 
 export const getTimebars = state => state.timebars;
-export const getTimebar = (state, timebarId) => state.timebars[timebarId];
+export const getTimebar = (state, timebarUuid) => state.timebars[timebarUuid];
 
 export const getTimebarTimelinesSelector = createSelector(
   [
-    (state, timebarId) => getTimebar(state, timebarId),
+    (state, timebarUuid) => getTimebar(state, timebarUuid),
     getTimelines,
   ],
   (timebar, timelines) => {
@@ -31,16 +31,16 @@ export const getTimebarTimelinesSelector = createSelector(
 );
 
 /**
- * A selector to get timelines from timebarId.
+ * A selector to get timelines from timebarUuid.
  * No direct usage of state but receives timebars and timelines due to dataMaps execution context.
  *
  * @param timebars
  * @param timelines
- * @param timebarId
+ * @param timebarUuid
  * @return {*}
  */
-export function getTimebarTimelines(timebars, timelines, timebarId) {
-  const timebarTimelines = _get(timebars, [timebarId, 'timelines']);
+export function getTimebarTimelines(timebars, timelines, timebarUuid) {
+  const timebarTimelines = _get(timebars, [timebarUuid, 'timelines']);
   return _reduce(timebarTimelines, (list, timelineId) => {
     const timeline = _get(timelines, timelineId);
     if (!timeline || !timeline.id || !_isNumber(timeline.sessionId)) {
@@ -52,16 +52,16 @@ export function getTimebarTimelines(timebars, timelines, timebarId) {
 }
 
 /**
- * A selector to get master timeline from timebarId.
+ * A selector to get master timeline from timebarUuid.
  * No direct usage of state but receives timebars and timelines due to dataMaps execution context.
  *
  * @param timebars
  * @param timelines
- * @param timebarId
+ * @param timebarUuid
  * @return {*}
  */
-export function getMasterTimeline(timebars, timelines, timebarId) {
-  const masterTimelineId = _get(timebars, [timebarId, 'masterId']);
+export function getMasterTimeline(timebars, timelines, timebarUuid) {
+  const masterTimelineId = _get(timebars, [timebarUuid, 'masterId']);
   if (!masterTimelineId) {
     return undefined;
   }
@@ -69,9 +69,9 @@ export function getMasterTimeline(timebars, timelines, timebarId) {
   return _values(timelines).find(t => t.id === masterTimelineId);
 }
 
-export function getMasterTimelineById(state, timebarId) {
-  const timelines = getTimebarTimelinesSelector(state, timebarId);
-  const masterTimelineId = _get(state.timebars, [timebarId, 'masterId']);
+export function getMasterTimelineById(state, timebarUuid) {
+  const timelines = getTimebarTimelinesSelector(state, timebarUuid);
+  const masterTimelineId = _get(state.timebars, [timebarUuid, 'masterId']);
   if (!masterTimelineId) {
     return undefined;
   }

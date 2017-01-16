@@ -8,7 +8,7 @@ export default class Timeline extends PureComponent {
     unmountTimeline: PropTypes.func.isRequired,
     willEditTimeline: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired,
-    timebarId: PropTypes.string.isRequired,
+    timebarUuid: PropTypes.string.isRequired,
     timelineId: PropTypes.string.isRequired,
     color: PropTypes.string,
     masterId: PropTypes.string,
@@ -24,10 +24,10 @@ export default class Timeline extends PureComponent {
       id,
       timelinesLength,
       unmountTimeline,
-      timebarId,
+      timebarUuid,
     } = this.props;
     if (id !== masterId || timelinesLength === 1) {
-      unmountTimeline(timebarId, timelineId);
+      unmountTimeline(timebarUuid, timelineId);
     }
   }
 

@@ -11,8 +11,8 @@ import {
 
 const mapStateToProps = (state, { viewId, focusedPageId }) => {
   const view = getView(state, viewId);
-  const { timebarId } = getPage(state, focusedPageId);
-  const timelines = getTimebarTimelinesSelector(state, timebarId);
+  const { timebarUuid } = getPage(state, focusedPageId);
+  const timelines = getTimebarTimelinesSelector(state, timebarUuid);
   return {
     title: view.configuration.title,
     type: view.configuration.type,

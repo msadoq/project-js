@@ -6,7 +6,7 @@
       "pages": [
         {
           "oId": "page_small",
-          "timeBarId": "TB1"
+          "timebarId": "TB1"
         }
       ],
       "title": "Small workspace",

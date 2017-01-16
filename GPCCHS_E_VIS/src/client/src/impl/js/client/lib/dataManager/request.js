@@ -23,7 +23,7 @@ const execution = executionMonitor('data:requests');
  *       'localId': {
  *          viewType: string,
  *          field: string,
- *          timebarId: string,
+ *          timebarUuid: string,
  *          offset: number,
  *          expectedInterval: [number, number],
  *        }

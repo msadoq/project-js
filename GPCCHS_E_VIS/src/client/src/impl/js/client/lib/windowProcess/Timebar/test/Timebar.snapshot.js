@@ -22,7 +22,7 @@ const propsStub = {
   timelines: TimelinesFixture,
   timebarSpeed: TimebarFixture.speed,
   timebarMode: TimebarFixture.mode,
-  timebarId: TimebarFixture.timebarId,
+  timebarUuid: TimebarFixture.timebarUuid,
   verticalScroll: 0,
   widthPx: 900,
 };

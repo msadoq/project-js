@@ -23,7 +23,7 @@ describe('store:page:reducer', () => {
       state.myPageId.should.deep.eql({
         title: 'Title',
         timebarHeight: 135,
-        timebarId: 'myTimebarId',
+        timebarUuid: 'myTimebarId',
         views: ['myViewId'],
         layout: [
           { viewId: 'myViewId', x: 10, y: 10, w: 10, h: 10 },
@@ -47,7 +47,7 @@ describe('store:page:reducer', () => {
       state.myPageId.should.deep.eql({
         title: 'Unknown',
         timebarHeight: 135,
-        timebarId: null,
+        timebarUuid: null,
         views: [],
         layout: [],
         editor: {
@@ -271,14 +271,14 @@ describe('store:page:reducer', () => {
   });
   describe('updateTimebarId', () => {
     it('ok', () => {
-      const { dispatch, getState } = getStore({ pages: { myPage: { timebarId: 't1' } } });
+      const { dispatch, getState } = getStore({ pages: { myPage: { timebarUuid: 't1' } } });
       dispatch(actions.updateTimebarId('myPage', 'time1'));
-      getState().pages.myPage.should.deep.equal({ timebarId: 'time1' });
+      getState().pages.myPage.should.deep.equal({ timebarUuid: 'time1' });
     });
     it('invalid view id', () => {
-      const { dispatch, getState } = getStore({ pages: { myPage: { timebarId: 't1' } } });
+      const { dispatch, getState } = getStore({ pages: { myPage: { timebarUuid: 't1' } } });
       dispatch(actions.updateTimebarId('noPage', 'time1'));
-      getState().pages.myPage.should.deep.equal({ timebarId: 't1' });
+      getState().pages.myPage.should.deep.equal({ timebarUuid: 't1' });
     });
   });
   describe('updateTimebarHeight', () => {

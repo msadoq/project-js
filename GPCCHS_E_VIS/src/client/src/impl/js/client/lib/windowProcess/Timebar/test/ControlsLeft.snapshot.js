@@ -14,7 +14,7 @@ const propsStub = {
   isPlaying: true,
   timebarSpeed: TimebarFixture.speed,
   timebarMode: TimebarFixture.mode,
-  timebarId: TimebarFixture.timebarId,
+  timebarUuid: TimebarFixture.timebarUuid,
   messages: [],
 };
 

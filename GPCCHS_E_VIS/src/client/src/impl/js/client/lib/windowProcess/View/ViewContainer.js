@@ -9,13 +9,13 @@ import { setCollapsedAndUpdateLayout } from '../../store/actions/views';
 
 import View from './View';
 
-const mapStateToProps = (state, { viewId, timebarId }) => {
+const mapStateToProps = (state, { viewId, timebarUuid }) => {
   const { type, configuration, isCollapsed, oId, absolutePath, isModified }
       = getView(state, viewId);
   const ViewTypeComponent = getComponent(type);
 
   const data = _get(state, ['viewData', viewId], {});
-  const visuWindow = _get(state, ['timebars', timebarId, 'visuWindow']);
+  const visuWindow = _get(state, ['timebars', timebarUuid, 'visuWindow']);
   return {
     type,
     configuration,

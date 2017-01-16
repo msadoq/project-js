@@ -36,10 +36,10 @@ const editPages = compose(safeMap, overPages, safeMap);
 const newUUID = v4;
 const injectUUID = obj => assoc('uuid', newUUID(), obj);
 const setTimebarId = timebars => (page) => {
-  const timebar = _find(timebars, tb => tb.id === page.timeBarId) || {};
+  const timebar = _find(timebars, tb => tb.id === page.timebarId) || {};
   return {
     ...page,
-    timebarId: timebar.uuid,
+    timebarUuid: timebar.uuid,
   };
 };
 const injectIds = uncurryN(2)(timebars => (

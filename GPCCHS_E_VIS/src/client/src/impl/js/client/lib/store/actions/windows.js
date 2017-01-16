@@ -40,7 +40,7 @@ export function focusPage(windowId, pageId) {
   return (dispatch, getState) => {
     const playingTimebarId = getPlayingTimebarId(getState());
     const newPage = getPage(getState(), pageId);
-    if (playingTimebarId && playingTimebarId !== newPage.timebarId) {
+    if (playingTimebarId && playingTimebarId !== newPage.timebarUuid) {
       // switch to pause when changing for another timebar
       dispatch(pause());
     }
@@ -59,7 +59,7 @@ export function addAndMount(windowId, pageId = v4(), page) {
     if (!page) {
       dispatch(addPage(pageId));
     } else {
-      dispatch(addPage(pageId, page.timebarId, page.title, page.views, page.layout, page.path,
+      dispatch(addPage(pageId, page.timebarUuid, page.title, page.views, page.layout, page.path,
         page.oId, page.absolutePath, page.isModified));
     }
     dispatch(mountPage(windowId, pageId));

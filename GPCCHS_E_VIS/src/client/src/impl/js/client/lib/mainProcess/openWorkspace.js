@@ -39,7 +39,7 @@ export function loadInStore(workspace, dispatch, root, file, callback, isDefault
   _each(workspace.pages, (e) => {
     dispatch(addPage(
       e.uuid,
-      e.timebarId,
+      e.timebarUuid,
       e.title,
       _map(e.views, v => v.uuid),
       _map(e.views, v => ({
@@ -159,8 +159,8 @@ export function openDefaultWorkspace(dispatch, root, callback) {
   const page = { type: 'Page',
     title: 'Unknown',
     hideBorders: false,
-    timebarId: tbUuid,
-    timeBarId: 'TB1',
+    timebarUuid: tbUuid,
+    timebarId: 'TB1',
   };
   const workspace = {
     windows: { [wsUuid]: Object.assign(window, { uuid: wsUuid }) },

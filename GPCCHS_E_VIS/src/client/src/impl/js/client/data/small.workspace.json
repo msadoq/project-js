@@ -6,7 +6,7 @@
       "pages": [
         {
           "path": "pages/pageSmall.json",
-          "timeBarId": "TB1"
+          "timebarId": "TB1"
         }
       ],
       "title": "Small workspace",

@@ -67,8 +67,8 @@ export default function pages(statePages = {}, action) {
         return statePages;
       }
       return u({ [action.payload.focusedPageId]: {
-        timebarId: action.payload.timebarId,
-        // when timebarId is modified, it's the window which is modified, not the page
+        timebarUuid: action.payload.timebarUuid,
+        // when timebarUuid is modified, it's the window which is modified, not the page
       } },
         statePages);
     case types.WS_PAGE_UPDATE_TIMEBARHEIGHT:
@@ -89,7 +89,7 @@ export default function pages(statePages = {}, action) {
 const initialState = {
   title: 'Unknown',
   timebarHeight: 135,
-  timebarId: null,
+  timebarUuid: null,
   layout: [],
   views: [],
   editor: {
@@ -105,7 +105,7 @@ function page(statePage = initialState, action) {
     case types.WS_PAGE_ADD:
       return Object.assign({}, statePage, {
         title: action.payload.title || statePage.title,
-        timebarId: action.payload.timebarId || statePage.timebarId,
+        timebarUuid: action.payload.timebarUuid || statePage.timebarUuid,
         timebarHeight: action.payload.timebarHeight || statePage.timebarHeight,
         layout: action.payload.layout || statePage.layout,
         views: action.payload.views || statePage.views,

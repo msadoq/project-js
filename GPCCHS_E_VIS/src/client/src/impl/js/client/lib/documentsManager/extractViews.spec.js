@@ -24,9 +24,9 @@ describe('documentsManager/extractViews', () => {
       }],
       oId: 'page_small',
       // path: 'page02.vipg',
-      timeBarId: 'TB1',
+      timebarId: 'TB1',
       uuid: id1,
-      timebarId: id,
+      timebarUuid: id,
       absolutePath: path.join(folder, 'page1.json'),
     };
     content.pages[id2] = {
@@ -35,9 +35,9 @@ describe('documentsManager/extractViews', () => {
       views: [{ path: '/text1.json' }, { invalid: '/plot1.json' }],
       // oId: 'page02.vipg',
       path: 'page02.vipg',
-      timeBarId: 'TB1',
+      timebarId: 'TB1',
       uuid: id1,
-      timebarId: id,
+      timebarUuid: id,
       absolutePath: path.join(folder, 'page2.json'),
     };
     content.__folder = path.join(__dirname, 'fixtures');

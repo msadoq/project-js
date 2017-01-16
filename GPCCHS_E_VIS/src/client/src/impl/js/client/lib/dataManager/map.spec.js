@@ -71,7 +71,7 @@ const state = {
     '876639ec-4511-4c6a-a059-c392f7da0afd': {
       title: 'page Sup/Sup workspace',
       timebarHeight: 135,
-      timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+      timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
       layout: [
         {
           i: '58ada40b-29a0-4ab3-b326-11d46e1db450',
@@ -1071,7 +1071,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1093,7 +1093,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1115,7 +1115,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1137,7 +1137,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1159,7 +1159,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1181,7 +1181,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1203,7 +1203,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1225,7 +1225,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1247,7 +1247,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1269,7 +1269,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1291,7 +1291,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1313,7 +1313,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1335,7 +1335,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1357,7 +1357,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1379,7 +1379,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1401,7 +1401,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1423,7 +1423,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1445,7 +1445,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1467,7 +1467,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1489,7 +1489,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1511,7 +1511,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1533,7 +1533,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1555,7 +1555,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1577,7 +1577,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1599,7 +1599,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1621,7 +1621,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1643,7 +1643,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1665,7 +1665,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1687,7 +1687,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1709,7 +1709,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1731,7 +1731,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1753,7 +1753,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1775,7 +1775,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1797,7 +1797,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1819,7 +1819,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1841,7 +1841,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1863,7 +1863,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1885,7 +1885,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1907,7 +1907,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1929,7 +1929,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1951,7 +1951,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1973,7 +1973,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -1995,7 +1995,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -2017,7 +2017,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -2039,7 +2039,7 @@ const dataMap = {
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -2061,7 +2061,7 @@ const dataMap = {
     localIds: {
       'extractedValue/extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0/0': {
         field: 'extractedValue',
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
         offset: 0,
         expectedInterval: [
           1420106790818,
@@ -2087,7 +2087,7 @@ const dataMap = {
         ],
         field: 'extractedValue',
         offset: 0,
-        timebarId: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
       },
     },
     structureType: 'last',

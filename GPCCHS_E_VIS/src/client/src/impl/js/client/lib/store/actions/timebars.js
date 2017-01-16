@@ -25,13 +25,13 @@ import {
 /**
  * Simple actions
  */
-export const add = simple(types.WS_TIMEBAR_ADD, 'timebarId', 'configuration');
-export const remove = simple(types.WS_TIMEBAR_REMOVE, 'timebarId');
-export const updateId = simple(types.WS_TIMEBAR_ID_UPDATE, 'timebarId', 'id');
-export const updateCursors = (timebarId, visuWindow, slideWindow) =>
+export const add = simple(types.WS_TIMEBAR_ADD, 'timebarUuid', 'configuration');
+export const remove = simple(types.WS_TIMEBAR_REMOVE, 'timebarUuid');
+export const updateId = simple(types.WS_TIMEBAR_ID_UPDATE, 'timebarUuid', 'id');
+export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
   (dispatch, getState) => {
     const state = getState();
-    const timebar = getTimebar(state, timebarId);
+    const timebar = getTimebar(state, timebarUuid);
     const messages = [];
     const lower = _get(visuWindow, 'lower') || timebar.visuWindow.lower;
     const upper = _get(visuWindow, 'upper') || timebar.visuWindow.upper;
@@ -60,19 +60,19 @@ export const updateCursors = (timebarId, visuWindow, slideWindow) =>
     if (messages.length) {
       dispatch(pause());
       messages.forEach((v) => {
-        dispatch(addMessage(`timeSetter-${timebarId}`, 'error', v));
+        dispatch(addMessage(`timeSetter-${timebarUuid}`, 'error', v));
       });
     } else {
-      const timeSetterMessages = getMessages(state, `timeSetter-${timebarId}`);
+      const timeSetterMessages = getMessages(state, `timeSetter-${timebarUuid}`);
       if (timeSetterMessages && timeSetterMessages.length) {
-        dispatch(resetMessages(`timeSetter-${timebarId}`));
+        dispatch(resetMessages(`timeSetter-${timebarUuid}`));
       }
       dispatch({
         type: types.WS_TIMEBAR_UPDATE_CURSORS,
         payload: {
           visuWindow,
           slideWindow,
-          timebarId,
+          timebarUuid,
         }
       });
     }
@@ -80,22 +80,22 @@ export const updateCursors = (timebarId, visuWindow, slideWindow) =>
 
 export const updateViewport = simple(
   types.WS_TIMEBAR_UPDATE_VIEWPORT,
-  'timebarId',
+  'timebarUuid',
   'rulerStart',
   'rulerResolution'
 );
-export const updateSpeed = simple(types.WS_TIMEBAR_SPEED_UPDATE, 'timebarId', 'speed');
+export const updateSpeed = simple(types.WS_TIMEBAR_SPEED_UPDATE, 'timebarUuid', 'speed');
 
-export function restoreWidth(timebarId) {
+export function restoreWidth(timebarUuid) {
   return (dispatch, getState) => {
-    const timebar = getTimebar(getState(), timebarId);
+    const timebar = getTimebar(getState(), timebarUuid);
     const vw = timebar.visuWindow;
     const newSlideUpper = timebar.mode === 'Extensible' ?
       vw.current + (vw.defaultWidth) :
       vw.current + (vw.defaultWidth / 4);
     dispatch(
       updateCursors(
-        timebarId,
+        timebarUuid,
         {
           lower: vw.current - (vw.defaultWidth / 2),
           upper: vw.current + (vw.defaultWidth / 2),
@@ -109,14 +109,14 @@ export function restoreWidth(timebarId) {
   };
 }
 
-export function jump(timebarId, offsetMs) {
+export function jump(timebarUuid, offsetMs) {
   return (dispatch, getState) => {
-    const timebar = getTimebar(getState(), timebarId);
+    const timebar = getTimebar(getState(), timebarUuid);
     const vw = timebar.visuWindow;
     const sw = timebar.slideWindow;
     dispatch(
       updateCursors(
-        timebarId,
+        timebarUuid,
         {
           lower: vw.lower + offsetMs,
           upper: vw.upper + offsetMs,
@@ -131,11 +131,11 @@ export function jump(timebarId, offsetMs) {
   };
 }
 
-export function goNow(timebarId) {
+export function goNow(timebarUuid) {
   return (dispatch, getState) => {
     const state = getState();
-    const timebar = getTimebar(state, timebarId);
-    const masterTimeline = getMasterTimelineById(state, timebarId);
+    const timebar = getTimebar(state, timebarUuid);
+    const masterTimeline = getMasterTimelineById(state, timebarUuid);
     if (!masterTimeline) {
       return;
     }
@@ -152,7 +152,7 @@ export function goNow(timebarId) {
       (globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN * msWidth);
     dispatch(
       updateCursors(
-        timebarId,
+        timebarUuid,
         {
           lower: newLower,
           upper: newUpper,
@@ -166,22 +166,22 @@ export function goNow(timebarId) {
     );
   };
 }
-export function switchToNormalMode(timebarId) {
+export function switchToNormalMode(timebarUuid) {
   return (dispatch, getState) => {
     dispatch({
       type: types.WS_TIMEBAR_MODE_UPDATE,
       payload: {
-        timebarId,
+        timebarUuid,
         mode: 'Normal',
       }
     });
     const state = getState();
-    const timebar = getTimebar(state, timebarId);
+    const timebar = getTimebar(state, timebarUuid);
     const { visuWindow, slideWindow } = timebar;
     if (slideWindow.upper > visuWindow.upper) {
       dispatch(
         updateCursors(
-          timebarId,
+          timebarUuid,
           null,
           {
             lower: slideWindow.lower,
@@ -193,19 +193,19 @@ export function switchToNormalMode(timebarId) {
   };
 }
 
-export function switchToRealtimeMode(timebarId) {
+export function switchToRealtimeMode(timebarUuid) {
   return (dispatch, getState) => {
     dispatch({
       type: types.WS_TIMEBAR_MODE_UPDATE,
       payload: {
-        timebarId,
+        timebarUuid,
         mode: 'Normal',
       }
     });
     const state = getState();
-    const timebar = getTimebar(state, timebarId);
+    const timebar = getTimebar(state, timebarUuid);
     const { visuWindow } = timebar;
-    const masterTimeline = getMasterTimelineById(state, timebarId);
+    const masterTimeline = getMasterTimelineById(state, timebarUuid);
     const currentSession = getSession(state, masterTimeline.sessionId);
     const sessionOffset = currentSession ? currentSession.offsetWithmachineTime : 0;
 
@@ -217,7 +217,7 @@ export function switchToRealtimeMode(timebarId) {
       (globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN * msWidth);
     dispatch(
       updateCursors(
-        timebarId,
+        timebarUuid,
         {
           lower: newLower,
           upper: newUpper,
@@ -232,17 +232,17 @@ export function switchToRealtimeMode(timebarId) {
   };
 }
 
-export function switchToExtensibleMode(timebarId) {
+export function switchToExtensibleMode(timebarUuid) {
   return (dispatch, getState) => {
     dispatch({
       type: types.WS_TIMEBAR_MODE_UPDATE,
       payload: {
-        timebarId,
+        timebarUuid,
         mode: 'Extensible',
       }
     });
     const state = getState();
-    const timebar = getTimebar(state, timebarId);
+    const timebar = getTimebar(state, timebarUuid);
     const { visuWindow, slideWindow } = timebar;
     if (slideWindow.upper < visuWindow.upper) {
       let newSlideUpper = visuWindow.upper + ((visuWindow.upper - visuWindow.lower) / 4);
@@ -251,7 +251,7 @@ export function switchToExtensibleMode(timebarId) {
       }
       dispatch(
         updateCursors(
-          timebarId,
+          timebarUuid,
           null,
           {
             lower: slideWindow.lower,
@@ -263,22 +263,22 @@ export function switchToExtensibleMode(timebarId) {
   };
 }
 
-export function switchToFixedMode(timebarId) {
+export function switchToFixedMode(timebarUuid) {
   return (dispatch, getState) => {
     dispatch({
       type: types.WS_TIMEBAR_MODE_UPDATE,
       payload: {
-        timebarId,
+        timebarUuid,
         mode: 'Fixed',
       }
     });
     const state = getState();
-    const timebar = getTimebar(state, timebarId);
+    const timebar = getTimebar(state, timebarUuid);
     const { visuWindow, slideWindow } = timebar;
     if (slideWindow.upper > visuWindow.upper) {
       dispatch(
         updateCursors(
-          timebarId,
+          timebarUuid,
           null,
           {
             lower: slideWindow.lower,
@@ -290,25 +290,25 @@ export function switchToFixedMode(timebarId) {
   };
 }
 
-export const updateDefaultWidth = simple(types.WS_TIMEBAR_DEFAULTWIDTH_UPDATE, 'timebarId', 'defaultWidth');
-export const updateMasterId = simple(types.WS_TIMEBAR_MASTERID_UPDATE, 'timebarId', 'masterId');
-export const mountTimeline = simple(types.WS_TIMEBAR_MOUNT_TIMELINE, 'timebarId', 'timelineId');
-export const unmountTimeline = simple(types.WS_TIMEBAR_UNMOUNT_TIMELINE, 'timebarId', 'timelineId');
+export const updateDefaultWidth = simple(types.WS_TIMEBAR_DEFAULTWIDTH_UPDATE, 'timebarUuid', 'defaultWidth');
+export const updateMasterId = simple(types.WS_TIMEBAR_MASTERID_UPDATE, 'timebarUuid', 'masterId');
+export const mountTimeline = simple(types.WS_TIMEBAR_MOUNT_TIMELINE, 'timebarUuid', 'timelineId');
+export const unmountTimeline = simple(types.WS_TIMEBAR_UNMOUNT_TIMELINE, 'timebarUuid', 'timelineId');
 
 /**
  * Compound actions
  */
-export function addAndMountTimeline(timebarId, configuration) {
+export function addAndMountTimeline(timebarUuid, configuration) {
   return (dispatch) => {
     const timelineId = v4();
     dispatch(addTimeline(timelineId, configuration));
-    dispatch(mountTimeline(timebarId, timelineId));
+    dispatch(mountTimeline(timebarUuid, timelineId));
   };
 }
 
-export function unmountAndRemoveTimeline(timebarId, timelineId) {
+export function unmountAndRemoveTimeline(timebarUuid, timelineId) {
   return (dispatch) => {
-    dispatch(unmountTimeline(timebarId, timelineId));
+    dispatch(unmountTimeline(timebarUuid, timelineId));
     dispatch(removeTimeline(timelineId));
   };
 }

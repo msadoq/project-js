@@ -60,9 +60,9 @@ export const getWindowsVisibleViewIds = createSelector(
   getWindowsFocusedPage,
   pages =>
     pages
-      .filter(p => p.views && p.views.length && p.timebarId)
+      .filter(p => p.views && p.views.length && p.timebarUuid)
       .map(p => ({
-        timebarId: p.timebarId,
+        timebarUuid: p.timebarUuid,
         viewIds: p.views
       })));
 
@@ -71,7 +71,7 @@ export const getWindowsVisibleViews = createSelector(
   getViews,
   (pages, views) => pages
     .map(p => p.viewIds.map(vId => ({
-      timebarId: p.timebarId,
+      timebarUuid: p.timebarUuid,
       viewId: vId
     })))
     .reduce((acc, ids) => acc.concat(ids), [])

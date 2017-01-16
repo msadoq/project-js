@@ -6,7 +6,7 @@ import TimeSetter from '../TimeSetter';
 const propsStub = {
   visuWindow: TimebarFixture.visuWindow,
   slideWindow: TimebarFixture.slideWindow,
-  timebarId: TimebarFixture.timebarId,
+  timebarUuid: TimebarFixture.timebarUuid,
   timebarMode: TimebarFixture.mode,
   isPlaying: TimebarFixture.isPlaying,
   updateCursors: () => null,

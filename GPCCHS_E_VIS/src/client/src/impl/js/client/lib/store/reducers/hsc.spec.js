@@ -45,10 +45,10 @@ describe('store:hsc:reducer', () => {
       actions.closeWorkspace()).should.deep.equal({ isWorkspaceOpening: false });
   });
   describe('play/pause', () => {
-    it('should set timebarId as playing', () => {
+    it('should set timebarUuid as playing', () => {
       reducer(freezeMe({}), actions.play(10)).should.have.property('playingTimebarId', 10);
     });
-    it('should replace playing timebarId', () => {
+    it('should replace playing timebarUuid', () => {
       reducer(freezeMe({
         playingTimebarId: 10,
       }), actions.play(20)).should.have.property('playingTimebarId', 20);

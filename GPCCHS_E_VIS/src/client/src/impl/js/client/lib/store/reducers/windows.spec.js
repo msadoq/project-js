@@ -97,25 +97,25 @@ describe('store:windows:reducer', () => {
       dispatch(actions.focusPage('myWindowId'));
       should.not.exist(getState().windows.myWindowId.focusedPage);
     });
-    it('should switch to pause if new focused page timebarId is different', () => {
+    it('should switch to pause if new focused page timebarUuid is different', () => {
       const { dispatch, getState } = getStore({
         windows: {
           myWindowId: { focusedPage: 'myPage' },
         },
         pages: {
-          myPage: { timebarId: 10 },
-          myOtherPage: { timebarId: 10 },
-          anotherPage: { timebarId: 20 },
+          myPage: { timebarUuid: 10 },
+          myOtherPage: { timebarUuid: 10 },
+          anotherPage: { timebarUuid: 20 },
         },
         hsc: {
           playingTimebarId: 10,
         },
       });
-      // same timebarId
+      // same timebarUuid
       dispatch(actions.focusPage('myWindowId', 'myOtherPage'));
       getState().hsc.playingTimebarId.should.equal(10);
       getState().windows.myWindowId.focusedPage.should.equal('myOtherPage');
-      // different timebarId
+      // different timebarUuid
       dispatch(actions.focusPage('myWindowId', 'anotherPage'));
       should.not.exist(getState().hsc.playingTimebarId);
       getState().windows.myWindowId.focusedPage.should.equal('anotherPage');

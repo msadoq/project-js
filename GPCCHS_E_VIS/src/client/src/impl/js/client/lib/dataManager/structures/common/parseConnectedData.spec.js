@@ -28,7 +28,7 @@
 //       { domainId: 'invalid', name: undefined },
 //     ];
 //   });
-//   // connectedData, structureType, timebarId, visuWindow, timelines, domains, allowMultiple
+//   // connectedData, structureType, timebarUuid, visuWindow, timelines, domains, allowMultiple
 //   it('no domains', () => {
 //     applyDomainsAndTimebar(connectedData, 'range', 'tb1', visuWindow, timelines, [], false)
 //     .should.deep.equal({});
@@ -74,7 +74,7 @@
 //             expectedInterval: [2, 10],
 //             field: 'extractedValue',
 //             offset: 0,
-//             timebarId: 'tb1',
+//             timebarUuid: 'tb1',
 //           }
 //         }
 //       });

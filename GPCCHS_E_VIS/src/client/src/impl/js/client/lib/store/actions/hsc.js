@@ -12,7 +12,7 @@ export const closeWorkspace = simple(types.HSC_CLOSE_WORKSPACE);
 /**
  * Play mode
  */
-export const play = simple(types.HSC_PLAY, 'timebarId');
+export const play = simple(types.HSC_PLAY, 'timebarUuid');
 export const pause = simple(types.HSC_PAUSE);
 
 /**

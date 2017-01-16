@@ -3,7 +3,7 @@ import parseConnectedData from '../common/parseConnectedData';
 
 export default function parseEntryPoint(
   entryPoint,
-  timebarId,
+  timebarUuid,
   timelines,
   viewMasterTimeline,
   visuWindow,
@@ -12,7 +12,7 @@ export default function parseEntryPoint(
   const cdX = parseConnectedData(
     entryPoint.connectedDataX,
     globalConstants.DATASTRUCTURETYPE_RANGE,
-    timebarId,
+    timebarUuid,
     viewMasterTimeline,
     visuWindow,
     timelines,
@@ -25,7 +25,7 @@ export default function parseEntryPoint(
   const cdY = parseConnectedData(
     entryPoint.connectedDataY,
     globalConstants.DATASTRUCTURETYPE_RANGE,
-    timebarId,
+    timebarUuid,
     viewMasterTimeline,
     visuWindow,
     timelines,
@@ -43,7 +43,7 @@ export default function parseEntryPoint(
   const { remoteId, field, expectedInterval, offset } = cdY;
 
   // localId
-  cdY.localId = `${cdX.field}/${field}.${timebarId}:${cdX.offset}/${offset}`;
+  cdY.localId = `${cdX.field}/${field}.${timebarUuid}:${cdX.offset}/${offset}`;
 
   // inViewMap
   cdY.inViewMap = {

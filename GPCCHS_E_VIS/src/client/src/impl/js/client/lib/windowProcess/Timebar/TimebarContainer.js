@@ -5,10 +5,10 @@ import { getPlayingTimebarId } from '../../store/selectors/hsc';
 import TimebarWrapper from './TimebarWrapper';
 
 export default connect(
-  (state, { focusedPageId, timebar, timebarId }) => {
-    const playingTimebarId = getPlayingTimebarId(state, timebarId);
-    const isPlaying = playingTimebarId === timebarId;
-    const timelines = getTimebarTimelinesSelector(state, timebarId);
+  (state, { focusedPageId, timebar, timebarUuid }) => {
+    const playingTimebarId = getPlayingTimebarId(state, timebarUuid);
+    const isPlaying = playingTimebarId === timebarUuid;
+    const timelines = getTimebarTimelinesSelector(state, timebarUuid);
 
     return {
       isPlaying,

@@ -202,13 +202,13 @@ describe('store:window:selectors', () => {
         myWindowId: { title: 'Title', focusedPage: 10 },
       },
       pages: {
-        10: { title: 'Page 10', views: [100, 200], timebarId: 1000 },
+        10: { title: 'Page 10', views: [100, 200], timebarUuid: 1000 },
       },
     };
     const { getState } = getStore(state);
     it('should returns focused views ids', () => {
       getWindowsVisibleViewIds(getState()).should.eql([{
-        timebarId: 1000,
+        timebarUuid: 1000,
         viewIds: [100, 200],
       }]);
     });
@@ -241,8 +241,8 @@ describe('store:window:selectors', () => {
         anotherWindow: { title: 'Title', focusedPage: 30 },
       },
       pages: {
-        10: { title: 'Page 10', views: [100, 200, 300], timebarId: 1000 },
-        20: { title: 'Page 20', views: [500], timebarId: 2000 },
+        10: { title: 'Page 10', views: [100, 200, 300], timebarUuid: 1000 },
+        20: { title: 'Page 20', views: [500], timebarUuid: 2000 },
         30: { title: 'Page 30', views: [600] },
       },
       views: {
@@ -256,9 +256,9 @@ describe('store:window:selectors', () => {
     const { getState } = getStore(state);
     it('should returns focused views', () => {
       getWindowsVisibleViews(getState()).should.eql([
-        { timebarId: 1000, viewData: { title: 'Title 100' }, viewId: 100 },
-        { timebarId: 1000, viewData: { title: 'Title 200' }, viewId: 200 },
-        { timebarId: 2000, viewData: { title: 'Title 500' }, viewId: 500 },
+        { timebarUuid: 1000, viewData: { title: 'Title 100' }, viewId: 100 },
+        { timebarUuid: 1000, viewData: { title: 'Title 200' }, viewId: 200 },
+        { timebarUuid: 2000, viewData: { title: 'Title 500' }, viewId: 500 },
       ]);
     });
     it('should memoize', () => {
@@ -276,7 +276,7 @@ describe('store:window:selectors', () => {
           myWindowId: { title: 'Title', focusedPage: 10 },
         },
         pages: {
-          10: { title: 'Page 10', views: [100], timebarId: 1000 },
+          10: { title: 'Page 10', views: [100], timebarUuid: 1000 },
         },
         views: {},
       }).should.eql([]);

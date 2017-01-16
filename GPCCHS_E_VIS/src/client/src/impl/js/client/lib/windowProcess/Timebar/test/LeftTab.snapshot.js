@@ -16,7 +16,7 @@ const propsStub = {
   updateSessionId: () => null,
   timelines: TimelinesFixture,
   sessions: SessionsFixture,
-  timebarId: TimebarFixture.timebarId,
+  timebarUuid: TimebarFixture.timebarUuid,
   timebarName: TimebarFixture.id,
   focusedPageId: 'rezter-456789',
   masterId: TimebarFixture.masterId,

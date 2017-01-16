@@ -7,11 +7,11 @@
     "pages": [
       {
         "path": "./pages/pageLarge1.json",
-        "timeBarId": "TB1"
+        "timebarId": "TB1"
       },
       {
         "path": "./pages/pageLarge2.json",
-        "timeBarId": "TB1"
+        "timebarId": "TB1"
       }
     ],
       "geometry": {

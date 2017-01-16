@@ -1,5 +1,5 @@
 const Timebar = {
-  timebarId: '123123-azeaze',
+  timebarUuid: '123123-azeaze',
   id: 'Timebar 01',
   visuWindow: {
     lower: 1480417085354,

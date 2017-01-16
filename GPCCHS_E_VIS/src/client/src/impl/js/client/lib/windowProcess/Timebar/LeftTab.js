@@ -22,7 +22,7 @@ export default class LeftTab extends Component {
     updateTimebarId: PropTypes.func.isRequired,
     timelines: PropTypes.array.isRequired,
     sessions: PropTypes.array.isRequired,
-    timebarId: PropTypes.string.isRequired,
+    timebarUuid: PropTypes.string.isRequired,
     timebarName: PropTypes.string.isRequired,
     focusedPageId: PropTypes.string.isRequired,
     masterId: PropTypes.string,
@@ -56,8 +56,8 @@ export default class LeftTab extends Component {
     });
   }
 
-  willUnmountTimeline = (timebarId, timelineId) => {
-    this.props.unmountTimeline(timebarId, timelineId);
+  willUnmountTimeline = (timebarUuid, timelineId) => {
+    this.props.unmountTimeline(timebarUuid, timelineId);
     this.setColor(this.state.color);
   }
 
@@ -79,7 +79,7 @@ export default class LeftTab extends Component {
 
   willAddTimeline = (kind, id, color, sessionId) => {
     this.props.addAndMountTimeline(
-      this.props.timebarId,
+      this.props.timebarUuid,
       {
         kind,
         id,
@@ -109,7 +109,7 @@ export default class LeftTab extends Component {
     const {
       updateOffset,
       updateId,
-      timebarId,
+      timebarUuid,
       updateMasterId,
       masterId,
       timelines,
@@ -121,7 +121,7 @@ export default class LeftTab extends Component {
     if (timeline.id !== id) updateId(timelineId, id);
     if (timeline.sessionId !== sessionId) updateSessionId(timelineId, sessionId);
     if (master && masterId !== id) {
-      updateMasterId(timebarId, editingId);
+      updateMasterId(timebarUuid, editingId);
       timelines.forEach((t) => {
         if (t.timelineId === timelineId) {
           return;
@@ -155,7 +155,7 @@ export default class LeftTab extends Component {
       masterId,
       sessions,
       timebarName,
-      timebarId,
+      timebarUuid,
     } = this.props;
     const {
       color,
@@ -242,7 +242,7 @@ export default class LeftTab extends Component {
               key={i}
               offset={v.offset}
               timelinesLength={timelines.length}
-              timebarId={timebarId}
+              timebarUuid={timebarUuid}
               id={v.id}
               timelineId={v.timelineId}
               color={v.color}

@@ -21,7 +21,7 @@ export default class TimeSetter extends Component {
     slideWindow: PropTypes.object.isRequired,
     messages: PropTypes.array.isRequired,
     cursor: PropTypes.string.isRequired,
-    timebarId: PropTypes.string.isRequired,
+    timebarUuid: PropTypes.string.isRequired,
     timebarMode: PropTypes.string.isRequired,
     timebarRulerResolution: PropTypes.number.isRequired,
   }
@@ -77,7 +77,7 @@ export default class TimeSetter extends Component {
   jumpToDay = (e) => {
     e.preventDefault();
     const {
-      timebarId,
+      timebarUuid,
       visuWindow,
       jump,
       updateViewport,
@@ -95,11 +95,11 @@ export default class TimeSetter extends Component {
       .getTime();
     const diffMs = midDayMs - visuWindow.current;
     jump(
-      timebarId,
+      timebarUuid,
       diffMs
     );
     updateViewport(
-      timebarId,
+      timebarUuid,
       midDayMs - (visuWindow.upper - visuWindow.lower),
       timebarRulerResolution
     );
@@ -128,7 +128,7 @@ export default class TimeSetter extends Component {
   willSetDefaultWidth = (e) => {
     e.preventDefault();
     const {
-      timebarId,
+      timebarUuid,
       updateDefaultWidth,
       visuWindow,
     } = this.props;
@@ -137,7 +137,7 @@ export default class TimeSetter extends Component {
     visuWindow.defaultWidth : this.state.defaultWidth;
 
     if (defaultWidth !== parseInt(visuWindow.defaultWidth, 10)) {
-      updateDefaultWidth(timebarId, defaultWidth);
+      updateDefaultWidth(timebarUuid, defaultWidth);
     }
   }
 
@@ -146,7 +146,7 @@ export default class TimeSetter extends Component {
     const {
       visuWindow,
       slideWindow,
-      timebarId,
+      timebarUuid,
       updateCursors,
     } = this.props;
 
@@ -160,7 +160,7 @@ export default class TimeSetter extends Component {
       upper: this.state.slideUpper || slideWindow.upper,
     };
     updateCursors(
-      timebarId,
+      timebarUuid,
       newVisuWindow,
       newSlideWindow
     );
@@ -258,7 +258,7 @@ export default class TimeSetter extends Component {
                   key={i}
                   type={v.type}
                   message={v.message}
-                  containerId={`timeSetter-${this.props.timebarId}`}
+                  containerId={`timeSetter-${this.props.timebarUuid}`}
                   messageIndex={i}
                   onClose={this.props.removeMessage}
                 />

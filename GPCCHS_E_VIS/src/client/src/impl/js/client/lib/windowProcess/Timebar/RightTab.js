@@ -18,7 +18,7 @@ class RightTabContent extends Component {
     visuWindow: PropTypes.object.isRequired,
     slideWindow: PropTypes.object.isRequired,
     timebar: PropTypes.object.isRequired,
-    timebarId: PropTypes.string.isRequired,
+    timebarUuid: PropTypes.string.isRequired,
     timelines: PropTypes.array.isRequired,
     containerWidth: PropTypes.number,
     timelinesVerticalScroll: PropTypes.number,
@@ -32,7 +32,7 @@ class RightTabContent extends Component {
       return;
     }
     const {
-      timebarId,
+      timebarUuid,
       updateViewport,
       containerWidth,
     } = this.props;
@@ -58,7 +58,7 @@ class RightTabContent extends Component {
     if (limitCursorMs > rightLimitMs) {
       const offsetMs = (limitCursorMs - rightLimitMs) + (limitCursorMs - visuWindow.lower);
       updateViewport(
-        timebarId,
+        timebarUuid,
         viewport.lower + offsetMs,
         (viewport.upper - viewport.lower) / containerWidth
       );
@@ -95,7 +95,7 @@ class RightTabContent extends Component {
   render() {
     const {
       timelines,
-      timebarId,
+      timebarUuid,
       visuWindow,
       isPlaying,
       play,
@@ -124,7 +124,7 @@ class RightTabContent extends Component {
         <ControlsContainer
           timebarMode={timebar.mode}
           timebarSpeed={timebar.speed}
-          timebarId={timebarId}
+          timebarUuid={timebarUuid}
           isPlaying={isPlaying}
           play={play}
           pause={pause}
@@ -136,7 +136,7 @@ class RightTabContent extends Component {
           isPlaying={isPlaying}
           play={play}
           pause={pause}
-          timebarId={timebarId}
+          timebarUuid={timebarUuid}
           timebarMode={timebar.mode}
           visuWindow={visuWindow}
           slideWindow={slideWindow}

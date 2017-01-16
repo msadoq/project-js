@@ -11,9 +11,9 @@ import TimeSetter from './TimeSetter';
 import { pause } from '../../store/actions/hsc';
 
 export default connect(
-  (state, { timebarId }) =>
+  (state, { timebarUuid }) =>
     ({
-      messages: _get(state, ['messages', `timeSetter-${timebarId}`], []),
+      messages: _get(state, ['messages', `timeSetter-${timebarUuid}`], []),
     })
   ,
   {

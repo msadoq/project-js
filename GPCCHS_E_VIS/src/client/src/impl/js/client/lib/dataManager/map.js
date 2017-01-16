@@ -15,7 +15,7 @@ import { getWindowsVisibleViews } from '../store/selectors/windows';
 const logger = getLogger('data:map');
 
 export const walk = (domains, timebars, timelines, views) =>
-  _reduce(views, (map, { viewId, timebarId, viewData: view }) => {
+  _reduce(views, (map, { viewId, timebarUuid, viewData: view }) => {
     const { type, configuration } = view;
     const { entryPoints } = configuration;
     if (!entryPoints || !entryPoints.length) {
@@ -23,14 +23,14 @@ export const walk = (domains, timebars, timelines, views) =>
     }
 
     // current visuWindow
-    const visuWindow = _get(timebars, [timebarId, 'visuWindow']);
+    const visuWindow = _get(timebars, [timebarUuid, 'visuWindow']);
     if (!visuWindow) {
       logger.debug('no valid visuWindow for this view', viewId);
     }
 
     // current timelines
-    const viewTimelines = getTimebarTimelines(timebars, timelines, timebarId);
-    const viewMasterTimeline = getMasterTimeline(timebars, timelines, timebarId);
+    const viewTimelines = getTimebarTimelines(timebars, timelines, timebarUuid);
+    const viewMasterTimeline = getMasterTimeline(timebars, timelines, timebarUuid);
 
     const structureType = vivl(type, 'structureType')();
     const extract = structures(structureType, 'parseEntryPoint');
@@ -49,7 +49,7 @@ export const walk = (domains, timebars, timelines, views) =>
 
       const ep = extract(
         entryPoint,
-        timebarId,
+        timebarUuid,
         viewTimelines,
         viewMasterTimeline,
         visuWindow,
@@ -83,7 +83,7 @@ export const walk = (domains, timebars, timelines, views) =>
         // insert (perRemoteId)
         _set(map, ['perRemoteId', remoteId, 'localIds', localId], {
           field,
-          timebarId,
+          timebarUuid,
           offset,
           expectedInterval,
         });
@@ -106,7 +106,7 @@ export const walk = (domains, timebars, timelines, views) =>
  *       localIds: {
  *         'localId': {
  *           field: string,
- *           timebarId: string,
+ *           timebarUuid: string,
  *           offset: number,
  *           expectedInterval: [number, number],
  *         },

@@ -20,7 +20,7 @@ export default class TimebarWrapper extends Component {
     visuWindow: PropTypes.object.isRequired,
     slideWindow: PropTypes.object.isRequired,
     timebar: PropTypes.object.isRequired,
-    timebarId: PropTypes.string.isRequired,
+    timebarUuid: PropTypes.string.isRequired,
     focusedPageId: PropTypes.string.isRequired,
     timelines: PropTypes.array.isRequired,
     timebarHeight: PropTypes.number,
@@ -98,7 +98,7 @@ export default class TimebarWrapper extends Component {
     logger.debug('render');
     const {
       timelines,
-      timebarId,
+      timebarUuid,
       visuWindow,
       isPlaying,
       timebar,
@@ -124,7 +124,7 @@ export default class TimebarWrapper extends Component {
           onClose={this.toggleTimesetter}
           slideWindow={slideWindow}
           isPlaying={isPlaying}
-          timebarId={timebarId}
+          timebarUuid={timebarUuid}
           timebarRulerResolution={timebar.rulerResolution}
           timebarMode={timebar.mode}
           cursor={timesetterCursor || 'all'}
@@ -158,7 +158,7 @@ export default class TimebarWrapper extends Component {
           </div>
         </Col>
         <LeftTabContainer
-          timebarId={timebarId}
+          timebarUuid={timebarUuid}
           focusedPageId={focusedPageId}
           masterId={timebar.masterId}
           timebarName={timebar.id}
@@ -169,7 +169,7 @@ export default class TimebarWrapper extends Component {
         <Col xs={9} style={{ height: '100%' }}>
           <RightTabContainer
             timebar={timebar}
-            timebarId={timebarId}
+            timebarUuid={timebarUuid}
             visuWindow={visuWindow}
             slideWindow={slideWindow}
             isPlaying={isPlaying}

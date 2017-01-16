@@ -7,7 +7,7 @@
       "pages": [
         {
           "path": "./pages/pageSupsup.json",
-          "timeBarId": "TB1"
+          "timebarId": "TB1"
         }
       ],
       "geometry": {

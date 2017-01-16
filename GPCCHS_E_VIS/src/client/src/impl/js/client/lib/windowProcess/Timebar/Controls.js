@@ -14,7 +14,7 @@ export default class Controls extends PureComponent {
     goNow: PropTypes.func.isRequired,
     jump: PropTypes.func.isRequired,
     messages: PropTypes.array,
-    timebarId: PropTypes.string.isRequired,
+    timebarUuid: PropTypes.string.isRequired,
     timebarMode: PropTypes.string.isRequired,
     timebarSpeed: PropTypes.number.isRequired,
     currentSessionExists: PropTypes.bool.isRequired,
@@ -38,7 +38,7 @@ export default class Controls extends PureComponent {
           goNow={this.props.goNow}
           jump={this.props.jump}
           messages={this.props.messages}
-          timebarId={this.props.timebarId}
+          timebarUuid={this.props.timebarUuid}
           timebarSpeed={this.props.timebarSpeed}
         />
         <ControlsRight
@@ -48,7 +48,7 @@ export default class Controls extends PureComponent {
           switchToExtensibleMode={this.props.switchToExtensibleMode}
           switchToFixedMode={this.props.switchToFixedMode}
           timebarMode={this.props.timebarMode}
-          timebarId={this.props.timebarId}
+          timebarUuid={this.props.timebarUuid}
           currentSessionExists={this.props.currentSessionExists}
           masterTimelineExists={this.props.masterTimelineExists}
         />

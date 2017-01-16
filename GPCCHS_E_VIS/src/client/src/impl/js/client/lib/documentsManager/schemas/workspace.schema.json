@@ -204,11 +204,11 @@
                         "$ref": "#/definitions/docLocation"
                       }, {
                         "properties": {
-                          "timeBarId": {
+                          "timebarId": {
                               "type": "string"
                           }
                         },
-                        "required": ["timeBarId"]
+                        "required": ["timebarId"]
                       }]
                     }
                 },
@@ -230,14 +230,14 @@
                     "type": "string",
                     "enum": ["GMAView", "OBAView"]
                 },
-                "timeBarId": {
+                "timebarId": {
                     "type": "string"
                 },
                 "geometry": {
                     "$ref": "#/definitions/geometry"
                 }
             },
-            "required": ["type", "kind", "timeBarId", "geometry"],
+            "required": ["type", "kind", "timebarId", "geometry"],
             "additionalProperties": false
         },
         "sideWindow": {

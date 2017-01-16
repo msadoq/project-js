@@ -18,11 +18,11 @@ describe('documents/lib', () => {
           {
             // path: 'pages/pageSmall_with_oid.json',
             oId: 'page_small',
-            timeBarId: 'TB1'
+            timebarId: 'TB1'
           },
           {
             path: 'page01.json',
-            timeBarId: 'TB1'
+            timebarId: 'TB1'
           }
         ],
         geometry: {
@@ -62,11 +62,11 @@ describe('documents/lib', () => {
     it('unknow timebar on page', (done) => {
       const k = Object.getOwnPropertyNames(content.windows);
       const win = content.windows[k[0]];
-      win.pages[0].timeBarId = 'unknow';
+      win.pages[0].timebarId = 'unknow';
       extractPages(content, (err, contentWithPages) => {
         const keys = Object.keys(contentWithPages.pages);
         keys.should.be.an('array').of.length(2);
-        expect(contentWithPages.pages[keys[0]].timebarId).to.be.an('undefined');
+        expect(contentWithPages.pages[keys[0]].timebarUuid).to.be.an('undefined');
         done();
       });
     });

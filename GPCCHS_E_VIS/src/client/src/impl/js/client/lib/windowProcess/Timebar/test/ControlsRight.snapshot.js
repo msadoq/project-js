@@ -12,7 +12,7 @@ const propsStub = {
   currentSessionExists: true,
   masterTimelineExists: true,
   timebarMode: TimebarFixture.mode,
-  timebarId: TimebarFixture.timebarId,
+  timebarUuid: TimebarFixture.timebarUuid,
 };
 
 test('Controls renders correctly', () => {

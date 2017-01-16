@@ -11,8 +11,8 @@ export default connect(
     if (!focusedPage) {
       return { timebars: state.timebars };
     }
-    const { timebarId, timebarHeight } = focusedPage;
-    const timebar = getTimebar(state, timebarId);
+    const { timebarUuid, timebarHeight } = focusedPage;
+    const timebar = getTimebar(state, timebarUuid);
 
     // Will render SelectTimebarContainer
     if (!timebar) {
@@ -24,7 +24,7 @@ export default connect(
     // Will render TimebarContainer
     return {
       timebar,
-      timebarId,
+      timebarUuid,
       timebarHeight,
     };
   }

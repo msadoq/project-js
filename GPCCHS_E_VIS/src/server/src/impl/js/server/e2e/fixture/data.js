@@ -49,7 +49,7 @@ function getDataMap(parameterName, intervals) {
       localIds: {
         'groundDate.455e6651-42e2-421f-bcb2-8f07929dd9f7:0': {
           field: 'groundDate',
-          timebarId: '455e6651-42e2-421f-bcb2-8f07929dd9f7',
+          timebarUuid: '455e6651-42e2-421f-bcb2-8f07929dd9f7',
           offset: 0,
           expectedInterval: intervals,
         },

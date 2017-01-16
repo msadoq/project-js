@@ -9,7 +9,7 @@ const Timelines = [
     sessionId: SessionsFixture[0].id,
     color: '#fa1289',
     timelineId: 'gfdqsd-456788',
-    timebarId: TimebarFixture.timebarId,
+    timebarUuid: TimebarFixture.timebarUuid,
   },
   {
     id: 'Session 2',
@@ -18,7 +18,7 @@ const Timelines = [
     sessionId: SessionsFixture[0].id,
     color: null,
     timelineId: 'gfdqsd-456789',
-    timebarId: TimebarFixture.timebarId,
+    timebarUuid: TimebarFixture.timebarUuid,
   },
 ];
 

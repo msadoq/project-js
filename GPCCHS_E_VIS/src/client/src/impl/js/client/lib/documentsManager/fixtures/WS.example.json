@@ -37,7 +37,7 @@
     {
       "type": "globalViewWindow",
       "kind": "GMAView",
-      "timeBarId": "TB1",
+      "timebarId": "TB1",
       "geometry": {
         "kind": "Absolute",
         "x": 1420,
@@ -52,11 +52,11 @@
       "pages": [
         {
           "oId": "/VIMA_Demos/Page01.vipg",
-          "timeBarId": "TB1"
+          "timebarId": "TB1"
         },
         {
           "path": "Page02.xml",
-          "timeBarId": "TB1"
+          "timebarId": "TB1"
         }
       ],
       "geometry": {

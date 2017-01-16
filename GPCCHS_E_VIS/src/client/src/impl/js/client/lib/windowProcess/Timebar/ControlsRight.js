@@ -12,7 +12,7 @@ export default class ControlsRight extends PureComponent {
     switchToExtensibleMode: PropTypes.func.isRequired,
     switchToFixedMode: PropTypes.func.isRequired,
     timebarMode: PropTypes.string.isRequired,
-    timebarId: PropTypes.string.isRequired,
+    timebarUuid: PropTypes.string.isRequired,
     currentSessionExists: PropTypes.bool.isRequired,
     masterTimelineExists: PropTypes.bool.isRequired,
   }
@@ -24,7 +24,7 @@ export default class ControlsRight extends PureComponent {
     }
 
     const {
-      timebarId,
+      timebarUuid,
       timebarMode,
       switchToNormalMode,
       switchToRealtimeMode,
@@ -39,14 +39,14 @@ export default class ControlsRight extends PureComponent {
       return;
     }
     if (mode === 'Normal') {
-      switchToNormalMode(timebarId);
+      switchToNormalMode(timebarUuid);
     } else if (mode === 'Extensible') {
-      switchToExtensibleMode(timebarId);
+      switchToExtensibleMode(timebarUuid);
     } else if (mode === 'Fixed') {
-      switchToFixedMode(timebarId);
+      switchToFixedMode(timebarUuid);
     } else if (mode === 'Realtime') {
-      switchToRealtimeMode(timebarId);
-      play(timebarId);
+      switchToRealtimeMode(timebarUuid);
+      play(timebarUuid);
     }
   }
 

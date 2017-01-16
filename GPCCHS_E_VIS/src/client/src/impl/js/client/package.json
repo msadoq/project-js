@@ -20,7 +20,7 @@
     "build:main": "node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.main.js --progress --profile --colors",
     "build:renderer": "NODE_ENV=production node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.renderer.production.js --progress --profile --colors",
     "hello": "npm run link && npm install && [ -f config.local.json ] && echo || cp config.sample.json config.local.json",
-    "link": "npm link ../../../../../common/src/main/js/common && npm link ../../../../../server/src/impl/js/server && cd ../../../../../server/src/impl/js/server && npm run hello",
+    "link": "npm link ../../../../../common/src/main/js/common && npm link ../../../../../server/src/impl/js/server && cd ../../../../../server/src/impl/js/server && (npm run hello ; cd -)",
     "lint": "eslint lib test *.js",
     "sh": "npm run start-hot",
     "start": "electron ./",

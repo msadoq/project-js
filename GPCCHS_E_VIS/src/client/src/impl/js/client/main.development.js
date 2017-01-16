@@ -4,7 +4,7 @@ import getLogger from 'common/log';
 import { start, stop, onWindowsClose } from './lib/mainProcess'; // eslint-disable-line import/first
 
 const logger = getLogger('main');
-init(__dirname);
+init(__dirname, true);
 
 // avoid using host proxy configuration and perturbing local HTTP access (e.g.: index.html)
 app.commandLine.appendSwitch('no-proxy-server');

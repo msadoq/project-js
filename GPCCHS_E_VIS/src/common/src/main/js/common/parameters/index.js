@@ -76,7 +76,7 @@ function get(name) {
 }
 
 function checkRequired(names) {
-  names.map((name) => {
+  names.forEach((name) => {
     const value = get(name);
     if (typeof value !== 'undefined') {
       return undefined;
@@ -86,7 +86,7 @@ function checkRequired(names) {
   });
 }
 
-function init(path) {
+function init(path, checkForRequired = false) {
   // persist app root dir as 'path'
   appRoot = path;
 
@@ -110,6 +110,9 @@ function init(path) {
   } catch (e) {} // eslint-disable-line no-empty
 
   // check for required parameters
+  if (!checkForRequired) {
+    return;
+  }
   const requiredConfig = JSON.parse(fs.readFileSync(join(path, REQUIRED), 'utf8')) || [];
   checkRequired(requiredConfig);
 }

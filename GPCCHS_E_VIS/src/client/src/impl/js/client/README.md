@@ -58,5 +58,6 @@ Clean out of date snapshots:
 In case of error "Error: Module version mismatch expected 50, got 48." on launch, run following command in client folder:
 
 ```
-npm rebuild --runtime=electron --target=$(npm view electron version) --disturl=https://atom.io/download/atom-shell --build-from-source
+hsc && cd node_modules/server/node_modules/common && rm -Rf node_modules && npm i
+hsc && npm run start-hot
 ```

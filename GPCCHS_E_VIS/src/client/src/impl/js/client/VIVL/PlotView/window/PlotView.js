@@ -1,6 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'react-bootstrap';
+import { Button, Label as BsLabel } from 'react-bootstrap';
 import { bindActionCreators } from 'redux';
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
@@ -137,6 +137,7 @@ class PlotView extends PureComponent {
     disableZoom: true,
     isMenuOpened: false,
     disconnected: false,
+    zoomedOrPanned: false,
     menuPosition: {
       x: 0,
       y: 0
@@ -164,6 +165,9 @@ class PlotView extends PureComponent {
     if (axes !== nextProps.configuration.axes) {
       this.epCharts = getEntryPointsCharts(nextProps.configuration);
     }
+    this.setState({
+      zoomedOrPanned: false
+    });
   }
 
   shouldComponentUpdate() {
@@ -507,6 +511,9 @@ class PlotView extends PureComponent {
   }
 
   disconnect = () => {
+    this.setState({
+      zoomedOrPanned: true
+    });
     /*
     this.setState({
       disconnected: true
@@ -653,6 +660,7 @@ class PlotView extends PureComponent {
     const {
       disableZoom,
       disconnected,
+      zoomedOrPanned,
       // isMenuOpened,
       // menuPosition
     } = this.state;
@@ -678,12 +686,19 @@ class PlotView extends PureComponent {
         onDrop={this.onDrop.bind(this)}
         text={'add entry point'}
         className={classnames({
-          [styles.disconnected]: disconnected,
+          [styles.disconnected]: disconnected || zoomedOrPanned,
         })}
       >
         <div
           ref={(el) => { this.el = el; }}
         >
+          {zoomedOrPanned &&
+            <BsLabel
+              bsStyle="danger"
+              bsSize="xs"
+              className={styles.disconnectedButton}
+            >Zoomed / moved</BsLabel>
+          }
           {disconnected &&
             <Button
               bsStyle="danger"

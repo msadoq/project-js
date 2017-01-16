@@ -35,7 +35,7 @@ const getSessionTimeDataHeader = () => ({
   messageType: globalConstants.MESSAGETYPE_SESSION_TIME_DATA,
 });
 const getLogSendHeader = () => ({
-  messageType: globalConstants.LOG_SEND,
+  messageType: globalConstants.MESSAGETYPE_LOG_SEND,
 });
 const getFmdGetQueryHeader = () => ({
   messageType: globalConstants.MESSAGETYPE_FMD_GET_QUERY,

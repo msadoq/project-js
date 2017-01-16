@@ -70,7 +70,7 @@ const onHssMessage = (...args) => {
         zmq
       );
     }
-    case globalConstants.LOG_SEND: {
+    case globalConstants.MESSAGETYPE_LOG_SEND: {
       logger.info('handle log');
       const { uid, arguments: a } = protobuf.decode('dc.dataControllerUtils.SendLog', args[2]);
       return console.log(`DC EMULATE LOG MANAGER: ${uid}`, a); // eslint-disable-line no-console

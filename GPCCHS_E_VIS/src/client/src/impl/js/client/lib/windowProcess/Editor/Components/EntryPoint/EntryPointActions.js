@@ -68,7 +68,11 @@ export default class EntryPointActions extends React.Component {
             </InputGroup>
           </Col>
           <Col xs={4} className="text-right">
-            <Button bsSize="small" onClick={this.openCreationModal}>
+            <Button
+              bsSize="small"
+              onClick={this.openCreationModal}
+              title="Add entry point"
+            >
               <Glyphicon glyph="plus" />
             </Button>
             <Button bsSize="small" style={{ marginLeft: '6px' }}>

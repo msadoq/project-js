@@ -1,0 +1,30 @@
+{
+  "type": "Page",
+  "hideBorders": false,
+  "timebarHeight": null,
+  "title": "page Small workspace",
+  "views": [
+    {
+      "oId": "view_text_1",
+      "geometry": {
+      "kind": "Relative",
+      "x": 0,
+      "y": 0,
+      "w": 6,
+      "h": 14
+      },
+      "windowState": "Normalized"
+    },
+    {
+      "oId": "view_plot_1",
+      "geometry": {
+        "kind": "Relative",
+        "x": 6,
+        "y": 0,
+        "w": 6,
+        "h": 14
+      },
+      "windowState": "Normalized"
+    }
+  ]
+}

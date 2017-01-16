@@ -18,9 +18,12 @@ describe('documentsManager/extractViews', () => {
     content.pages[id1] = {
       type: 'Page',
       title: 'simple page1',
-      views: [{ path: 'plot1.json' }],
-      // oId: 'page02.vipg',
-      path: 'page02.vipg',
+      views: [{
+        oId: 'view_plot_1',
+        // path: 'plot1.json',
+      }],
+      oId: 'page_small',
+      // path: 'page02.vipg',
       timeBarId: 'TB1',
       uuid: id1,
       timebarId: id,

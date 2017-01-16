@@ -16,8 +16,8 @@ describe('documents/lib', () => {
         title: 'window example',
         pages: [
           {
-            // oId: 'page02.vipg',
-            path: 'page02.vipg',
+            // path: 'pages/pageSmall_with_oid.json',
+            oId: 'page_small',
             timeBarId: 'TB1'
           },
           {
@@ -25,9 +25,9 @@ describe('documents/lib', () => {
             timeBarId: 'TB1'
           }
         ],
-        // geometry: {
-        //   kind: 'Absolute',
-        // },
+        geometry: {
+          kind: 'Absolute',
+        },
         uuid: id,
       };
       const tbid = v4();

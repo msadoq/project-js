@@ -1,18 +1,17 @@
 import { createSelector } from 'reselect';
-import _get from 'lodash/get';
+import _ from 'lodash/fp';
 import u from 'updeep';
-import R from 'ramda';
 
 import parseFormula from '../../dataManager/structures/common/formula';
 import { getViewData } from './viewData';
 import { compile } from '../../common/operators';
 
 export const getViews =
-  R.prop('views');
+  _.prop('views');
 
 export const getView =
   (state, viewId) =>
-    R.prop(viewId, getViews(state));
+    _.prop(viewId, getViews(state));
 
 export const getEntryPointOnAxis = (state, viewId, axisId) => {
   const epOnAxis = [];
@@ -34,56 +33,55 @@ export const getModifiedViewsIds = state =>
 
 export const getViewConfiguration = createSelector(
   getView,
-  R.prop('configuration')
+  _.prop('configuration')
 );
 
 export const getViewContent = createSelector(
   getViewConfiguration,
-  R.prop('content')
+  _.prop('content')
 );
 
 export const decorateEntryPoint =
-  R.ifElse(
-    R.either(
-      R.both(
-        R.pathSatisfies(f => parseFormula(f), ['connectedDataX', 'formula']),
-        R.pathSatisfies(f => parseFormula(f), ['connectedDataY', 'formula']),
-      ),
-      R.pathSatisfies(f => parseFormula(f), ['connectedData', 'formula'])
-    ),
-    R.identity,
-    R.assoc('error', 'INVALID FORMULA'),
-  );
+  _.cond([
+    [_.anyPass([
+      _.allPass([
+        _.compose(parseFormula, _.path(['connectedDataX', 'formula'])),
+        _.compose(parseFormula, _.path(['connectedDataY', 'formula']))
+      ]),
+      _.compose(parseFormula, _.path(['connectedData', 'formula']))
+    ]), _.identity],
+    [_.stubTrue, _.assoc('error', 'INVALID FORMULA')]
+  ]);
 
 export const getViewEntryPoints = createSelector(
   getView,
-  R.pipe(
-    R.pathOr([], ['configuration', 'entryPoints']),
-    R.map(decorateEntryPoint)
+  _.pipe(
+      _.pathOr([], ['configuration', 'entryPoints']),
+      _.map(decorateEntryPoint)
   )
 );
 
 export const getViewEntryPoint = (state, viewId, epName) =>
-  R.pipe(
+  _.pipe(
     () => getViewEntryPoints(state, viewId).find(ep => ep.name === epName),
     decorateEntryPoint,
   )();
 
 export const getViewEntryPointStateColors = createSelector(
   getViewEntryPoint,
-  R.propOr([], 'stateColors')
+  _.propOr([], 'stateColors')
 );
 
 const getEntryPoint = (epName, entryPoints) => entryPoints.find(ep => ep.name === epName);
 const getEntryPointColorObj = ({ entryPoints, epName, value, dataProp }) => {
-  const stateColor = _get(getEntryPoint(epName, entryPoints), ['stateColors'], [])
+  const stateColor = _.propOr([], 'stateColors', getEntryPoint(epName, entryPoints))
     .filter(c =>
-      (new RegExp(`${_get(c, ['condition', 'field'], '')}$`, 'g'))
-        .test(_get(getEntryPoint(epName, entryPoints), [dataProp, 'formula'], '')))
+      (new RegExp(`${_.pathOr('', ['condition', 'field'], c)}$`, 'g'))
+        .test(_.pathOr('', [dataProp, 'formula'], getEntryPoint(epName, entryPoints))))
     .find(c => compile(c.condition)(value));
-  if (_get(stateColor, ['color'])) {
+  if (_.prop('color', stateColor)) {
     return {
-      color: _get(stateColor, ['color'])
+      color: _.prop('color', stateColor)
     };
   }
 };
@@ -106,7 +104,7 @@ export const getTextViewData = createSelector(
     getViewData,
     (entryPoints, data) => u({
       values: {
-        ...Object.keys(_get(data, ['values'], {})).reduce((acc, epName) => ({
+        ...Object.keys(_.getOr({}, ['values'], data)).reduce((acc, epName) => ({
           ...acc,
           [epName]: getTextValueFn(entryPoints, epName)
         }), {})

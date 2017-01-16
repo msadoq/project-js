@@ -14,17 +14,12 @@ import styles from './WYSIWYG.css';
 
 class WYSIWYG extends Component {
   static propTypes = {
-    initialValues: PropTypes.shape({
-      html: PropTypes.string
-    }),
     entryPoints: PropTypes.array,
-    onChange: PropTypes.func,
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     reset: PropTypes.func,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
-    initialize: PropTypes.func,
     asyncValidating: PropTypes.bool,
     asyncValidate: PropTypes.func,
   }

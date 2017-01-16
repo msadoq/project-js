@@ -15,7 +15,7 @@ import {
   getPlotViewData,
 } from './views';
 
-describe('store:views:selectors', () => {
+describe.only('store:views:selectors', () => {
   it('getView', () => {
     const { getState } = getStore({
       views: {
@@ -133,7 +133,6 @@ describe('store:views:selectors', () => {
         error: 'INVALID FORMULA'
       });
     });
-
   });
   it('getViewEntryPoints', () => {
     const state = {

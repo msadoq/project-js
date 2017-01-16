@@ -1,5 +1,6 @@
 import React from 'react';
-import R from 'ramda';
+// import R from 'ramda';
+import _ from 'lodash/fp';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import {
@@ -9,7 +10,7 @@ import {
 
 describe('Alert', () => {
   it('not closeable', () => {
-    const tree = R.pipe(
+    const tree = _.pipe(
       shallow,
       toJson
     )(
@@ -19,7 +20,7 @@ describe('Alert', () => {
     expect(tree).toMatchSnapshot();
   });
   it('not visible', () => {
-    const tree = R.pipe(
+    const tree = _.pipe(
       shallow,
       toJson
     )(
@@ -32,7 +33,7 @@ describe('Alert', () => {
     expect(tree).toMatchSnapshot();
   });
   it('visible', () => {
-    const tree = R.pipe(
+    const tree = _.pipe(
       shallow,
       toJson
     )(
@@ -47,7 +48,7 @@ describe('Alert', () => {
   it('click on title', () => {
     let visible = false;
 
-    const getComponent = R.compose(
+    const getComponent = _.compose(
       shallow,
       () => (<Alert
         visible={visible}
@@ -66,7 +67,7 @@ describe('Alert', () => {
     expect(toJson(getComponent())).toMatchSnapshot();
   });
   it('Danger', () => {
-    const tree = R.pipe(
+    const tree = _.pipe(
       shallow,
       toJson
     )(

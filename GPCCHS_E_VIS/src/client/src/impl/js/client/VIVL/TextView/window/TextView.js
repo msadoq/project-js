@@ -2,9 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Parser, ProcessNodeDefinitions } from 'html-to-react';
+import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _omit from 'lodash/omit';
-import R from 'ramda';
 import getLogger from 'common/log';
 import { html as beautifyHtml } from 'js-beautify';
 
@@ -26,15 +26,14 @@ import styles from './TextView.css';
 
 const logger = getLogger('view:text');
 
-const getComObject = comObjects =>
-  R.pipe(
-    R.defaultTo([]),
-    R.ifElse(
-      a => a.length === 1,
-      R.nth(0),
-      () => 'UNKNOWN_COM_OBJECT'
-    ),
-  )(comObjects);
+const getComObject =
+  _.pipe(
+    _.defaultTo([]),
+    _.cond([
+      [_.equals(1, _.prop('length')), _.nth(0)],
+      [_.stubTrue, _.constant('UNKNOWN_COM_OBJECT')]
+    ])
+  );
 
 // parse clipboard data to create partial entry point
 function parseDragData(data) {
@@ -104,10 +103,10 @@ class TextView extends Component {
             const epName = match.substring(2, match.length - 2);
             const valueObj = _get(this.props.data, `values[${epName}]`, {});
 
-            const ep = R.prop(
+            const ep = _.prop(
               epName,
-              R.indexBy(
-                R.prop('name'),
+              _.indexBy(
+                _.prop('name'),
                 this.props.entryPoints)
             );
             const s = ep.error ? {
@@ -116,8 +115,8 @@ class TextView extends Component {
               style: getTextStyle(_get(valueObj, ['color'])),
               className: styles[`monit-${_get(valueObj, 'monit')}`] || styles['monit-ok'],
             };
-            const value = R.propOr(
-              R.prop('value', valueObj),
+            const value = _.propOr(
+              _.prop('value', valueObj),
               'error', ep);
 
             nodes.push(React.createElement('span', {

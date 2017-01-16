@@ -20,10 +20,8 @@ import './CodeMirrorField.css';
 export default class CodeMirrorField extends React.Component {
   static propTypes = {
     input: PropTypes.object.isRequired,
-    placeholder: PropTypes.string,
     autocompleteList: PropTypes.array,
     className: PropTypes.string,
-    type: PropTypes.string.isRequired,
     meta: PropTypes.object,
     options: PropTypes.object
   }

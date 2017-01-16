@@ -1,6 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _map from 'lodash/map';
 // import _remove from 'lodash/remove';
@@ -18,7 +19,6 @@ import {
 } from 'react-stockcharts';
 import { hexToRGBA } from 'react-stockcharts/lib/utils';
 import _omit from 'lodash/omit';
-import R from 'ramda';
 import {
   getLines,
   getLineMarker,
@@ -59,15 +59,14 @@ const edgeIndicatorArrowWidth = 10;
 const tooltipYMargin = 5;
 const badgeWidth = 30;
 
-const getComObject = comObjects =>
-  R.pipe(
-    R.defaultTo([]),
-    R.ifElse(
-      a => a.length === 1,
-      R.nth(0),
-      () => 'UNKNOWN_COM_OBJECT'
-    ),
-  )(comObjects);
+const getComObject =
+  _.pipe(
+    _.defaultTo([]),
+    _.cond([
+      [_.equals(1, _.prop('length')), _.nth(0)],
+      [_.stubTrue, _.constant('UNKNOWN_COM_OBJECT')]
+    ])
+  );
 
 // parse clipboard data to create partial entry point
 function parseDragData(data) {
@@ -80,6 +79,11 @@ function parseDragData(data) {
       formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.${DEFAULT_FIELD}`,
     },
   };
+}
+
+function onYAxisZoom(id, domain) {
+  // eslint-disable-next-line no-console
+  console.log('zoom', id, domain);
 }
 
 class PlotView extends PureComponent {
@@ -512,15 +516,15 @@ class PlotView extends PureComponent {
   }
 
   handleLineRightClick = (e) => {
-    console.log('handleLineRightClick', e);
+    console.log('handleLineRightClick', e); // eslint-disable-line no-console
   }
 
   handleLineClick = (e) => {
-    console.log('handleLineClick', e);
+    console.log('handleLineClick', e); // eslint-disable-line no-console
   }
 
   handleLineDoubleClick = (e) => {
-    console.log('handleLineDoubleClick', e);
+    console.log('handleLineDoubleClick', e); // eslint-disable-line no-console
   }
 
   handleChartClick = (e) => {
@@ -586,7 +590,6 @@ class PlotView extends PureComponent {
     ctx.stroke();
   }
 
-
   render() {
     logger.debug('render');
     const noRender = this.shouldRender();
@@ -597,12 +600,7 @@ class PlotView extends PureComponent {
       return (
         <DroppableContainer
           onDrop={this.onDrop.bind(this)}
-          style={{
-            padding: '1em',
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-          }}
+          className={styles.errorContent}
         >
           {this.getEntryPointErrors()}
           <div className="flex">
@@ -664,7 +662,7 @@ class PlotView extends PureComponent {
           type="hybrid"
           xAccessor={this.xAccessor}
           xScale={scaleTime()}
-          yAxisZoom={(id, domain) => console.log('zoom', id, domain)}
+          yAxisZoom={onYAxisZoom}
           disableZoomEvent={disableZoom}
           xExtents={[new Date(lower), new Date(upper)]}
         >

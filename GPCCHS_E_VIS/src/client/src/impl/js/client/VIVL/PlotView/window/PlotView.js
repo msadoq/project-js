@@ -508,9 +508,11 @@ class PlotView extends PureComponent {
   }
 
   disconnect = () => {
+    /*
     this.setState({
       disconnected: true
     });
+    */
   }
 
   handleOnMouseDown = () => {
@@ -680,49 +682,8 @@ class PlotView extends PureComponent {
           [styles.disconnected]: disconnected,
         })}
       >
-<<<<<<< HEAD
-        {this.getEntryPointErrors({ style: {
-          padding: '1em',
-          position: 'absolute',
-          zIndex: 100,
-        } })}
-        <ChartCanvas
-          plotFull={false}
-          ratio={1}
-          width={containerWidth}
-          height={containerHeight}
-          margin={marginChart}
-          pointsPerPxThreshold={4}
-          seriesName="PlotView"
-          data={columns}
-          type="hybrid"
-          xAccessor={this.xAccessor}
-          xScale={scaleTime()}
-          yAxisZoom={onYAxisZoom}
-          disableZoomEvent={disableZoom}
-          xExtents={[new Date(lower), new Date(upper)]}
-        >
-          {this.getCharts()}
-          <CrossHairCursor opacity={1} />
-          <HoverTooltip
-            tooltipContent={this.handleTooltipContent}
-            opacity={1}
-            fill="#FFFFFF"
-            stroke="#F0F0F0"
-            tooltipCanvas={this.tooltipCanvas}
-            backgroundShapeCanvas={this.backgroundShapeCanvas.bind(this)}
-            bgwidth={0}
-            bgheight={0}
-          />
-        </ChartCanvas>
-
-        { /* @TODO Uncomment when implementing markers!
-          do the same for the Editor PlotTab part.
-        <PlotMenu
-          isOpened={isMenuOpened}
-          openOnLeft={menuOpenOnLeft}
-          openOnTop={menuOpenOnTop}
-          mousePosition={menuPosition}
+        <div
+          ref={(el) => { this.el = el; }}
         >
           {disconnected &&
             <Button
@@ -732,6 +693,11 @@ class PlotView extends PureComponent {
               onClick={this.reconnect}
             >Reconnect</Button>
           }
+          {this.getEntryPointErrors({ style: {
+            padding: '1em',
+            position: 'absolute',
+            zIndex: 100,
+          } })}
           <ChartCanvas
             plotFull={false}
             ratio={1}
@@ -744,7 +710,7 @@ class PlotView extends PureComponent {
             type="hybrid"
             xAccessor={this.xAccessor}
             xScale={scaleTime()}
-            yAxisZoom={(id, domain) => console.log('zoom', id, domain)}
+            yAxisZoom={onYAxisZoom}
             zoomEvent={!disableZoom}
             xExtents={[new Date(lower), new Date(upper)]}
           >
@@ -755,13 +721,12 @@ class PlotView extends PureComponent {
               opacity={1}
               fill="#FFFFFF"
               stroke="#F0F0F0"
-              bgwidth={160}
-              bgheight={50}
               tooltipCanvas={this.tooltipCanvas}
               backgroundShapeCanvas={this.backgroundShapeCanvas.bind(this)}
+              bgwidth={160}
+              bgheight={50}
             />
           </ChartCanvas>
-
           { /* @TODO Uncomment when implementing markers!
             do the same for the Editor PlotTab part.
           <PlotMenu
@@ -770,13 +735,60 @@ class PlotView extends PureComponent {
             openOnTop={menuOpenOnTop}
             mousePosition={menuPosition}
           >
-            <MenuItem header>Markers</MenuItem>
-            <MenuItem divider />
-            <MenuItem>Add a Text</MenuItem>
-            <MenuItem>Add an horizontal line</MenuItem>
-            <MenuItem>Add an Vertical line</MenuItem>
-          </PlotMenu>
-          */}
+            {disconnected &&
+              <Button
+                bsStyle="danger"
+                bsSize="xs"
+                className={styles.disconnectedButton}
+                onClick={this.reconnect}
+              >Reconnect</Button>
+            }
+            <ChartCanvas
+              plotFull={false}
+              ratio={1}
+              width={containerWidth}
+              height={containerHeight}
+              margin={marginChart}
+              pointsPerPxThreshold={4}
+              seriesName="PlotView"
+              data={columns}
+              type="hybrid"
+              xAccessor={this.xAccessor}
+              xScale={scaleTime()}
+              yAxisZoom={(id, domain) => console.log('zoom', id, domain)}
+              zoomEvent={!disableZoom}
+              xExtents={[new Date(lower), new Date(upper)]}
+            >
+              {this.getCharts()}
+              <CrossHairCursor opacity={1} />
+              <HoverTooltip
+                tooltipContent={this.handleTooltipContent}
+                opacity={1}
+                fill="#FFFFFF"
+                stroke="#F0F0F0"
+                bgwidth={160}
+                bgheight={50}
+                tooltipCanvas={this.tooltipCanvas}
+                backgroundShapeCanvas={this.backgroundShapeCanvas.bind(this)}
+              />
+            </ChartCanvas>
+
+            { /* @TODO Uncomment when implementing markers!
+              do the same for the Editor PlotTab part.
+            <PlotMenu
+              isOpened={isMenuOpened}
+              openOnLeft={menuOpenOnLeft}
+              openOnTop={menuOpenOnTop}
+              mousePosition={menuPosition}
+            >
+              <MenuItem header>Markers</MenuItem>
+              <MenuItem divider />
+              <MenuItem>Add a Text</MenuItem>
+              <MenuItem>Add an horizontal line</MenuItem>
+              <MenuItem>Add an Vertical line</MenuItem>
+            </PlotMenu>
+            */
+          }
         </div>
       </DroppableContainer>
     );

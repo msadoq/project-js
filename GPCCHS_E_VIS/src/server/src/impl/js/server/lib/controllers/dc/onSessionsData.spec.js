@@ -1,5 +1,5 @@
 const { testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('../../utils/test');
-const { sessionData } = require('./onSessionData');
+const { sessionData } = require('./onSessionsData');
 const dataStub = require('common/stubs/data');
 const globalConstants = require('common/constants');
 const registeredCallbacks = require('common/callbacks');

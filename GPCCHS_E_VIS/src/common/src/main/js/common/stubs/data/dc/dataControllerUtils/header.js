@@ -28,11 +28,35 @@ const getSessionQueryHeader = () => ({
 const getSessionDataHeader = () => ({
   messageType: globalConstants.MESSAGETYPE_SESSION_DATA,
 });
-const getFilepathQueryHeader = () => ({
-  messageType: globalConstants.MESSAGETYPE_FILEPATH_QUERY,
+const getSessionTimeQueryHeader = () => ({
+  messageType: globalConstants.MESSAGETYPE_SESSION_TIME_QUERY,
 });
-const getFilepathDataHeader = () => ({
-  messageType: globalConstants.MESSAGETYPE_FILEPATH_DATA,
+const getSessionTimeDataHeader = () => ({
+  messageType: globalConstants.MESSAGETYPE_SESSION_TIME_DATA,
+});
+const getLogSendHeader = () => ({
+  messageType: globalConstants.LOG_SEND,
+});
+const getFmdGetQueryHeader = () => ({
+  messageType: globalConstants.MESSAGETYPE_FMD_GET_QUERY,
+});
+const getFmdGetDataHeader = () => ({
+  messageType: globalConstants.MESSAGETYPE_FMD_GET_DATA,
+});
+const getFmdCreateQueryHeader = () => ({
+  messageType: globalConstants.MESSAGETYPE_FMD_CREATE_QUERY,
+});
+const getFmdCreateDocumentQueryHeader = () => ({
+  messageType: globalConstants.MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY,
+});
+const getFmdCreateDataHeader = () => ({
+  messageType: globalConstants.MESSAGETYPE_FMD_CREATE_DATA,
+});
+const getSessionMasterQueryHeader = () => ({
+  messageType: globalConstants.MESSAGETYPE_SESSION_MASTER_QUERY,
+});
+const getSessionMasterDataHeader = () => ({
+  messageType: globalConstants.MESSAGETYPE_SESSION_MASTER_DATA,
 });
 
 const getDomainQueryHeaderProtobuf = () => protobuf.encode(
@@ -63,25 +87,53 @@ const getTimebasedPubSubDataHeaderProtobuf = () => protobuf.encode(
   'dc.dataControllerUtils.Header',
   getTimebasedPubSubDataHeader()
 );
-
 const getSessionQueryHeaderProtobuf = () => protobuf.encode(
   'dc.dataControllerUtils.Header',
   getSessionQueryHeader()
 );
-
 const getSessionDataHeaderProtobuf = () => protobuf.encode(
   'dc.dataControllerUtils.Header',
   getSessionDataHeader()
 );
-
-const getFilepathQueryHeaderProtobuf = () => protobuf.encode(
+const getSessionTimeQueryHeaderProtobuf = () => protobuf.encode(
   'dc.dataControllerUtils.Header',
-  getFilepathQueryHeader()
+  getSessionTimeQueryHeader()
 );
-
-const getFilepathDataHeaderProtobuf = () => protobuf.encode(
+const getSessionTimeDataHeaderProtobuf = () => protobuf.encode(
   'dc.dataControllerUtils.Header',
-  getFilepathDataHeader()
+  getSessionTimeDataHeader()
+);
+const getLogSendHeaderProtobuf = () => protobuf.encode(
+  'dc.dataControllerUtils.Header',
+  getLogSendHeader()
+);
+const getFmdGetQueryHeaderProtobuf = () => protobuf.encode(
+  'dc.dataControllerUtils.Header',
+  getFmdGetQueryHeader()
+);
+const getFmdGetDataHeaderProtobuf = () => protobuf.encode(
+  'dc.dataControllerUtils.Header',
+  getFmdGetDataHeader()
+);
+const getFmdCreateQueryHeaderProtobuf = () => protobuf.encode(
+  'dc.dataControllerUtils.Header',
+  getFmdCreateQueryHeader()
+);
+const getFmdCreateDocumentQueryHeaderProtobuf = () => protobuf.encode(
+  'dc.dataControllerUtils.Header',
+  getFmdCreateDocumentQueryHeader()
+);
+const getFmdCreateDataHeaderProtobuf = () => protobuf.encode(
+  'dc.dataControllerUtils.Header',
+  getFmdCreateDataHeader()
+);
+const getSessionMasterQueryHeaderProtobuf = () => protobuf.encode(
+  'dc.dataControllerUtils.Header',
+  getSessionMasterQueryHeader()
+);
+const getSessionMasterDataHeaderProtobuf = () => protobuf.encode(
+  'dc.dataControllerUtils.Header',
+  getSessionMasterDataHeader()
 );
 
 module.exports = {
@@ -103,8 +155,24 @@ module.exports = {
   getSessionQueryHeaderProtobuf,
   getSessionDataHeader,
   getSessionDataHeaderProtobuf,
-  getFilepathQueryHeader,
-  getFilepathQueryHeaderProtobuf,
-  getFilepathDataHeader,
-  getFilepathDataHeaderProtobuf,
+  getSessionTimeQueryHeader,
+  getSessionTimeQueryHeaderProtobuf,
+  getSessionTimeDataHeader,
+  getSessionTimeDataHeaderProtobuf,
+  getLogSendHeader,
+  getLogSendHeaderProtobuf,
+  getFmdGetQueryHeader,
+  getFmdGetQueryHeaderProtobuf,
+  getFmdGetDataHeader,
+  getFmdGetDataHeaderProtobuf,
+  getFmdCreateQueryHeader,
+  getFmdCreateQueryHeaderProtobuf,
+  getFmdCreateDocumentQueryHeader,
+  getFmdCreateDocumentQueryHeaderProtobuf,
+  getFmdCreateDataHeader,
+  getFmdCreateDataHeaderProtobuf,
+  getSessionMasterQueryHeader,
+  getSessionMasterQueryHeaderProtobuf,
+  getSessionMasterDataHeader,
+  getSessionMasterDataHeaderProtobuf,
 };

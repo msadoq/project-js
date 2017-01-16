@@ -12,7 +12,10 @@ const sendDomainData = require('./dc/sendDomainData');
 const sendPubSubData = require('./dc/sendPubSubData');
 const sendArchiveData = require('./dc/sendArchiveData');
 const sendSessionData = require('./dc/sendSessionData');
-const sendFilepathData = require('./dc/sendFilepathData');
+const sendFmdGet = require('./dc/sendFmdGet');
+const sendFmdCreate = require('./dc/sendFmdCreate');
+const sendSessionTime = require('./dc/sendSessionTime');
+const sendMasterSession = require('./dc/sendMasterSession');
 
 const monitoring = require('../log/monitoring');
 
@@ -51,17 +54,45 @@ const onHssMessage = (...args) => {
   const queryId = protobuf.decode('dc.dataControllerUtils.String', args[1]).string;
 
   switch (header.messageType) {
-    case globalConstants.MESSAGETYPE_FILEPATH_QUERY: {
-      logger.info('push filepath data');
-      const oid = protobuf.decode('dc.dataControllerUtils.String', args[2]).string;
-      return sendFilepathData(queryId, oid, zmq);
+    case globalConstants.MESSAGETYPE_FMD_GET_QUERY: {
+      logger.info('push fmd get data');
+      return sendFmdGet(
+        queryId,
+        protobuf.decode('dc.dataControllerUtils.FMDGet', args[2]).serializedOid,
+        zmq
+      );
+    }
+    case globalConstants.MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY: {
+      logger.info('handle create document');
+      return sendFmdCreate(
+        queryId,
+        protobuf.decode('dc.dataControllerUtils.FMDCreateDocument', args[2]),
+        zmq
+      );
+    }
+    case globalConstants.LOG_SEND: {
+      logger.info('handle log');
+      const { uid, arguments: a } = protobuf.decode('dc.dataControllerUtils.SendLog', args[2]);
+      return console.log(`DC EMULATE LOG MANAGER: ${uid}`, a); // eslint-disable-line no-console
+    }
+    case globalConstants.MESSAGETYPE_SESSION_TIME_QUERY: {
+      logger.info('push session time');
+      return sendSessionTime(
+        queryId,
+        protobuf.decode('dc.dataControllerUtils.SessionGetTime', args[2]).id,
+        zmq
+      );
+    }
+    case globalConstants.MESSAGETYPE_SESSION_MASTER_QUERY: {
+      logger.info('push master session');
+      return sendMasterSession(queryId, zmq);
     }
     case globalConstants.MESSAGETYPE_DOMAIN_QUERY: {
-      logger.info('push domain data');
+      logger.info('push domains data');
       return sendDomainData(queryId, zmq);
     }
     case globalConstants.MESSAGETYPE_SESSION_QUERY: {
-      logger.info('push session data');
+      logger.info('push sessions data');
       return sendSessionData(queryId, zmq);
     }
     case globalConstants.MESSAGETYPE_TIMEBASED_QUERY: {

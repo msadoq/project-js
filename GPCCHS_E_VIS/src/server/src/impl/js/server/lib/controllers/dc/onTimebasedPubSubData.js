@@ -30,7 +30,7 @@ const subscriptionsModel = require('../../models/subscriptions');
  * @param dataIdBuffer
  * @param payloadsBuffers
  */
-module.exports.onTimebasedPubSubData = (
+module.exports = (
   queryIdBuffer,
   dataIdBuffer,
   ...payloadsBuffers

@@ -52,11 +52,19 @@ const self = module.exports = {
     });
   },
   readJsonFromOId: (oId, callback) => {
-    ipc.server.requestPathFromOId(oId, (err, payload) => {
+    /**
+     * TODO garm : remove from here, fs should only work on local file, FMD file resolution should
+     * be done elsewhere and before fs call
+     */
+    ipc.server.requestFmdGet(oId, ({ err, detail }) => {
       if (err) {
         return callback(err);
       }
-      return self.readJsonFromFmdPath(payload, callback);
+      const { dirname, basename } = detail;
+      return self.readJsonFromFmdPath(
+        join(parameters.get('FMD_ROOT_DIR'), dirname, basename),
+        callback
+       );
     });
   },
   readJsonFromRelativePath: (folder, path, callback) => {

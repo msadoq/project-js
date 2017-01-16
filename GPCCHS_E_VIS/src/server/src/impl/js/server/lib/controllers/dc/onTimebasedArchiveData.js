@@ -29,7 +29,7 @@ const protobufTrue = encode('dc.dataControllerUtils.Boolean', { boolean: true })
  * @param payloadBuffers
  * @return {undefined}
  */
-module.exports.onTimebasedArchiveData = (
+module.exports = (
   queryIdBuffer,
   dataIdBuffer,
   isLastBuffer,

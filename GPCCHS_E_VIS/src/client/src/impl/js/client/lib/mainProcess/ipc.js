@@ -1,7 +1,4 @@
-import path from 'path';
-import { isString } from 'lodash';
 import { v4 } from 'node-uuid';
-import { get } from 'common/parameters';
 import globalConstants from 'common/constants';
 import getLogger from 'common/log';
 import { set as setCallback } from 'common/callbacks';
@@ -45,22 +42,21 @@ const commands = {
     requestSessions: (callback) => {
       commands.server.rpc(globalConstants.IPC_METHOD_SESSIONS_REQUEST, null, callback);
     },
-    requestSessionTime: (callback) => {
-      commands.server.rpc(globalConstants.IPC_METHOD_GET_SESSION_TIME, null, callback);
+    requestSessionTime: (sessionId, callback) => {
+      commands.server.rpc(globalConstants.IPC_METHOD_SESSION_TIME, { sessionId }, callback);
     },
-    requestPathFromOId: (oId, callback) => {
-      if (!isString(oId)) {
-        callback('requestPathFromOId error : oId should be a string');
-      }
-      const resolve = payload => callback(null, payload);
-      const getPath = relativePath => resolve(path.resolve(get('FMD_ROOT_DIR'), relativePath));
-      switch (oId) {
-        case 'page_small': return getPath('pages/pageSmall_with_oid.json');
-        case 'view_text_1': return getPath('views/textOne.json');
-        case 'view_plot_1': return getPath('views/plotviewOne.json');
-        default: return callback('requestPathFromOId not fully implemented yet');
-      }
-      // commands.server.rpc(globalConstants.IPC_METHOD_FILEPATH_REQUEST, { oId }, callback);
+    requestMasterSession: (callback) => {
+      commands.server.rpc(globalConstants.IPC_METHOD_MASTER_SESSION, null, callback);
+    },
+    requestFmdGet: (oid, callback) => {
+      commands.server.rpc(globalConstants.IPC_METHOD_FMD_GET, { oid }, callback);
+    },
+    requestFmdCreate: (fileFolder, fileName, mimeType, callback) => {
+      commands.server.rpc(globalConstants.IPC_METHOD_FMD_CREATE, {
+        path: fileFolder,
+        name: fileName,
+        mimeType,
+      }, callback);
     },
     requestData: (callback) => {
       commands.server.rpc(globalConstants.IPC_METHOD_TIMEBASED_PULL, null, callback);

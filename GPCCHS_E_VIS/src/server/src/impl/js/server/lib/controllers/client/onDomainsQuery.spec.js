@@ -7,7 +7,7 @@ const registeredCallbacks = require('common/callbacks');
 require('../../utils/test');
 
 
-const { domainQuery } = require('./onDomainQuery');
+const { domainsQuery } = require('./onDomainsQuery');
 
 
 let calls = [];
@@ -25,7 +25,7 @@ describe('controllers/client/onDomainQuery', () => {
   it('with queryId', () => {
     const myQueryId = 'totolasticot';
     // launch test
-    domainQuery(myQueryId, zmqEmulator);
+    domainsQuery(myQueryId, zmqEmulator);
     // check data
     const cbs = _keys(registeredCallbacks.getAll());
     cbs.length.should.equal(1);
@@ -40,7 +40,7 @@ describe('controllers/client/onDomainQuery', () => {
   });
   it('without queryId', () => {
     // launch test
-    domainQuery(undefined, zmqEmulator);
+    domainsQuery(undefined, zmqEmulator);
     // check data
     const cbs = _keys(registeredCallbacks.getAll());
     cbs.length.should.equal(1);

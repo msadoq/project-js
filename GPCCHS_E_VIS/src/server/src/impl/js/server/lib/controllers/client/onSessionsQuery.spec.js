@@ -8,7 +8,7 @@ const registeredCallbacks = require('common/callbacks');
 require('../../utils/test');
 
 
-const { sessionQuery } = require('./onSessionQuery');
+const { sessionsQuery } = require('./onSessionsQuery');
 
 
 let calls = [];
@@ -26,7 +26,7 @@ describe('controllers/client/onSessionQuery', () => {
   it('with queryId', () => {
     const myQueryId = 'totolasticot';
     // launch test
-    sessionQuery(myQueryId, zmqEmulator);
+    sessionsQuery(myQueryId, zmqEmulator);
     // check data
     const cbs = _keys(registeredCallbacks.getAll());
     cbs.length.should.equal(1);
@@ -41,7 +41,7 @@ describe('controllers/client/onSessionQuery', () => {
   });
   it('without queryId', () => {
     // launch test
-    sessionQuery(undefined, zmqEmulator);
+    sessionsQuery(undefined, zmqEmulator);
     // check data
     const cbs = _keys(registeredCallbacks.getAll());
     cbs.length.should.equal(1);

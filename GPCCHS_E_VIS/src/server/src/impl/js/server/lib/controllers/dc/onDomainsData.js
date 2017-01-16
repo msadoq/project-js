@@ -10,7 +10,7 @@ const reply = require('common/ipc/reply');
  * @param queryIdBuffer
  * @param buffer
  */
-module.exports.onDomainData = (queryIdBuffer, buffer) => {
+module.exports = (queryIdBuffer, buffer) => {
   logger.verbose('called');
 
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;

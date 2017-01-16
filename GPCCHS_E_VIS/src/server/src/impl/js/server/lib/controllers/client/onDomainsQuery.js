@@ -3,25 +3,25 @@ const zmq = require('common/zmq');
 const globalConstants = require('common/constants');
 
 const protobufHeader = encode('dc.dataControllerUtils.Header', {
-  messageType: globalConstants.MESSAGETYPE_SESSION_QUERY,
+  messageType: globalConstants.MESSAGETYPE_DOMAIN_QUERY,
 });
 
 /**
- * Triggered when there is a new session query on HSC
+ * Triggered on domain list query
  *
- * - send a SessionQuery message to DC
+ * - forward to DC
  *
  * @param queryId
  * @param sendDcMessage
  */
-const sessionQuery = (queryId, sendDcMessage) => sendDcMessage([
+const domainsQuery = (queryId, sendDcMessage) => sendDcMessage([
   protobufHeader,
   encode('dc.dataControllerUtils.String', { string: queryId }),
 ]);
 
 module.exports = {
-  sessionQuery,
-  onSessionQuery: queryId => sessionQuery(
+  domainsQuery,
+  onDomainsQuery: queryId => domainsQuery(
     queryId,
     args => zmq.push('dcPush', args)
   ),

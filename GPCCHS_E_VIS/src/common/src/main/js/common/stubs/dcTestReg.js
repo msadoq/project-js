@@ -1,7 +1,9 @@
+/* eslint no-console:0 no-use-before-define:0 */
 const async = require('async');
 const _each = require('lodash/each');
 const _chunk = require('lodash/chunk');
 const _slice = require('lodash/slice');
+const parseArgs = require('minimist');
 
 require('../utils/test');
 
@@ -9,9 +11,35 @@ const zmq = require('../zmq');
 const { getType, encode, decode } = require('../protobuf');
 const constants = require('../constants');
 
-
+const sessionIdTest = 65535;
+const domainIdTest = 1;
 const myQueryId = 'myQueryId';
 const myOtherQueryId = 'myOtherQueryId';
+const myComObjectDataId = {   // corresponds to SubscriptionID ?
+  comObject: 'ReportingParameter',
+  sessionId: sessionIdTest,
+  domainId: domainIdTest,
+  // url: 'theUrl',  // for FDS params
+  // version: 'theVersion',  //for FDS params
+};
+
+const myOid = 'myOid';
+
+const queryArguments = {
+  filters: [],
+};
+const myDataId = {   // corresponds to SubscriptionID ?
+  // parameterName: 'TOTO',
+  // catalog: 'TelemetryPacket',
+  // comObject: 'DecommutedPacket',
+  parameterName: 'ATT_BC_STR1VOLTAGE',
+  catalog: 'Reporting',
+  comObject: 'ReportingParameter',
+  sessionId: sessionIdTest, // TODO type is currently uint32, should be uint16 (bytes)
+  domainId: domainIdTest,  // TODO type is currently uint32, should be uint16 (bytes)
+  // url: 'theUrl',  // for FDS params
+  // version: 'theVersion',  //for FDS params
+};
 
 const steps = {
   RESPONSE: 'Response',
@@ -51,7 +79,7 @@ const sendZmqMessage = (args) => {
 
 let trashFlag = true;
 // TRASH DATA
-const trashPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
+const trashPullHandler = (callback) => {
   console.log('receiving trash from dc');
   console.log();
   if (trashFlag) {
@@ -94,7 +122,7 @@ const filepathDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) 
   console.log('receiving a message from dc');
   console.log();
   const header = decode('dc.dataControllerUtils.Header', headerBuffer);
-  header.messageType.should.equal(constants.MESSAGETYPE_FILEPATH_DATA);
+  header.messageType.should.equal(constants.MESSAGETYPE_FMD_GET_DATA);
   const queryId = decode('dc.dataControllerUtils.String', argsBuffers[0]).string;
   queryId.should.equal(myQueryId);
   const oid = decode('dc.dataControllerUtils.String', argsBuffers[1]).string;
@@ -200,52 +228,11 @@ const pubSubDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =>
 };
 
 const now = Date.now();
-const ts1 = { ms: now/*1430810001000*/ };
-const ts2 = { ms: now + 1000/*1430820001000*/ };
-//const ts2 = { ms: 1431920001000 };
+const ts1 = { ms: now }; /* 1430810001000 */
+const ts2 = { ms: now + 1000 }; /* 1430820001000 */
 const timeInterval = {
   startTime: ts1,
   endTime: ts2,
-};
-
-const sessionIdTest = 65535;
-const domainIdTest = 1;
-
-const myDataId = {   // corresponds to SubscriptionID ?
-  // parameterName: 'TOTO',
-  // catalog: 'TelemetryPacket',
-  // comObject: 'DecommutedPacket',
-  parameterName: 'ATT_BC_STR1VOLTAGE',
-  catalog: 'Reporting',
-  comObject: 'ReportingParameter',
-  sessionId: sessionIdTest, // TODO type is currently uint32, should be uint16 (bytes)
-  domainId: domainIdTest,  // TODO type is currently uint32, should be uint16 (bytes)
-  // url: 'theUrl',  // for FDS params
-  // version: 'theVersion',  //for FDS params
-};
-
-const myComObjectDataId = {   // corresponds to SubscriptionID ?
-  comObject: 'ReportingParameter',
-  sessionId: sessionIdTest,
-  domainId: domainIdTest,
-  // url: 'theUrl',  // for FDS params
-  // version: 'theVersion',  //for FDS params
-};
-
-const myOid = 'myOid';
-
-const dataIdWithTypo = {
-  parameterName: 'ATT_BC_STR1VOLAGE',      // typo error on parameterName
-  catalog: 'Reporting',
-  comObject: 'ReportingParameter',
-  sessionId: sessionIdTest,
-  domainId: 1,
-  url: 'theUrl',
-  version: 'theVersion',
-};
-
-const queryArguments = {
-  filters: [],
 };
 
 // timebased query
@@ -271,7 +258,7 @@ const sessionQueryMessageArgs = [
 
 // filepath query
 const filepathQueryMessageArgs = [
-  encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_FILEPATH_QUERY }),
+  encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_FMD_GET_QUERY }),
   encode('dc.dataControllerUtils.String', { string: myQueryId }),
   encode('dc.dataControllerUtils.String', { string: myOid }),
 ];
@@ -356,7 +343,6 @@ const trashTest =
 
 let testFunctions = [];
 
-const parseArgs = require('minimist');
 const options = {
   boolean: ['d', 'p', 'a', 's', 'f', 'all', 't', 'w'],
   default: {

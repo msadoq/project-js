@@ -24,7 +24,7 @@ const protobufSuccess = encode('dc.dataControllerUtils.Status', {
  * @param statusBuffer
  * @param reasonBuffer
  */
-module.exports.onResponse = (queryIdBuffer, statusBuffer, reasonBuffer) => {
+module.exports = (queryIdBuffer, statusBuffer, reasonBuffer) => {
   logger.verbose('called');
 
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;

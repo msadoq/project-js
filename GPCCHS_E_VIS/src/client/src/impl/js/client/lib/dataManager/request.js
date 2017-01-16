@@ -77,16 +77,18 @@ export function missingRemoteIds(dataMap, lastMap) {
   return queries;
 }
 
-export default function request(state, dataMap, lastMap, send) {
+export default function request(dataMap, lastMap, send) {
   execution.start('global');
 
   // compute missing data
   const dataQueries = missingRemoteIds(dataMap, lastMap);
-  logger.verbose(JSON.stringify(dataQueries, null, 2));
+
+  const n = Object.keys(dataQueries).length;
+  logger.debug(`dataQueries was generated for ${n}`, dataQueries);
 
   if (dataQueries && _isObject(dataQueries) && Object.keys(dataQueries).length) {
     send(globalConstants.IPC_METHOD_TIMEBASED_QUERY, dataQueries);
   }
 
-  execution.stop('global', `dataRequests (${Object.keys(dataQueries).length} remoteId)`);
+  execution.stop('global', `dataRequests (${n} remoteId)`);
 }

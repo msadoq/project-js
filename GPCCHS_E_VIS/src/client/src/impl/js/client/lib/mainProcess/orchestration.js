@@ -1,16 +1,16 @@
 import _round from 'lodash/round';
-import _cloneDeep from 'lodash/cloneDeep';
+import { series } from 'async';
 import globalConstants from 'common/constants';
 import executionMonitor from 'common/log/execution';
 import getLogger from 'common/log';
-import { get } from 'common/parameters';
+// import { get } from 'common/parameters';
 
 import { getStore } from '../store/mainStore';
 import {
   getWindowsOpened,
   getPlayingTimebarId,
   getLastCacheInvalidation,
-  getSlowRenderers,
+  // getSlowRenderers,
 } from '../store/selectors/hsc';
 import {
   setWindowsAsOpened,
@@ -27,8 +27,6 @@ import { nextCurrent, computeCursors } from './play';
 
 import { updateViewData } from '../store/actions/viewData';
 
-// TODO : test server restart, new workspace, workspace opening, new window
-
 const logger = getLogger('main:orchestration');
 const execution = executionMonitor('orchestration');
 
@@ -37,44 +35,34 @@ let lastTick = null;
 let tickStart = null;
 const previous = {
   state: {},
-  dataMap: {}, // only modified when running request logic (should compare current and previous)
-  viewMap: {},
+  dataMap: { perRemoteId: {}, perView: {} },
+  lastRequestedDataMap: {},
   slowRenderers: [],
 };
-let dataQueue = [];
 
-export function addToQueue(data) {
-  dataQueue.push(data);
-}
-
-export function getAndResetQueue() {
-  const data = dataQueue;
-  dataQueue = [];
-  return data;
-}
-
-// If at least 1 renderer slow down, bypass current tick
-// It avoid renderer processes to be stuned.
-export function circuitBreakerForRenderers(state, previousSlowRenderers) {
-  const slowRenderers = getSlowRenderers(state);
-
-  if (Object.keys(slowRenderers).length > 0) {
-    if (slowRenderers !== previousSlowRenderers) {
-      const renderers = Object
-        .keys(slowRenderers)
-        .map(k => `${k} (${slowRenderers[k]}ms)`).join(', ');
-
-      logger.warn(`Slow renderers detected ${renderers}`);
-    }
-  } else if (Object.keys(previousSlowRenderers).length > 0) {
-    logger.warn('No more slow renderers');
-  }
-
-  return {
-    skip: Object.keys(slowRenderers).length > 0,
-    slowRenderers,
-  };
-}
+// TODO dbrugne
+// // If at least 1 renderer slow down, bypass current tick
+// // It avoid renderer processes to be stuned.
+// export function circuitBreakerForRenderers(state, previousSlowRenderers) {
+//   const slowRenderers = getSlowRenderers(state);
+//
+//   if (Object.keys(slowRenderers).length > 0) {
+//     if (slowRenderers !== previousSlowRenderers) {
+//       const renderers = Object
+//         .keys(slowRenderers)
+//         .map(k => `${k} (${slowRenderers[k]}ms)`).join(', ');
+//
+//       logger.warn(`Slow renderers detected ${renderers}`);
+//     }
+//   } else if (Object.keys(previousSlowRenderers).length > 0) {
+//     logger.warn('No more slow renderers');
+//   }
+//
+//   return {
+//     skip: Object.keys(slowRenderers).length > 0,
+//     slowRenderers,
+//   };
+// }
 
 export function schedule() {
   clear(); // avoid concurrency
@@ -97,11 +85,10 @@ export function start() {
 
 export function stop() {
   clear();
-  getAndResetQueue();
   previous.state = {};
-  previous.dataMap = {};
-  previous.viewMap = {};
-  previous.slowRenderers = {};
+  previous.dataMap = { perRemoteId: {}, perView: {} };
+  previous.lastRequestedDataMap = {};
+  previous.slowRenderers = [];
 
   const { dispatch } = getStore();
   dispatch(pause());
@@ -109,136 +96,131 @@ export function stop() {
 }
 
 export function tick() {
+  logger.debug('running tick');
   execution.start('global');
-
   tickStart = process.hrtime();
 
-  // store
-  const { getState, dispatch } = getStore();
-  const state = getState();
-
-  // Bypass current tick if renderers are too busy
-  const {
-    skip,
-    slowRenderers,
-  } = circuitBreakerForRenderers(getState(), previous.slowRenderers);
-  previous.slowRenderers = slowRenderers;
-  // Bypass only if circuit breaker is activated
-  if (get('RENDERER_CIRCUIT_BREAKER') === 'on' && skip) {
-    logger.info('Slow renderer detected, bypass current tick');
-    done();
-    return;
-  }
+  // TODO : dbrugne
+  // // Bypass current tick if renderers are too busy
+  // const {
+  //   skip,
+  //   slowRenderers,
+  // } = circuitBreakerForRenderers(getState(), previous.slowRenderers);
+  // previous.slowRenderers = slowRenderers;
+  // // Bypass only if circuit breaker is activated
+  // if (get('RENDERER_CIRCUIT_BREAKER') === 'on' && skip) {
+  //   logger.info('Slow renderer detected, bypass current tick');
+  //   done();
+  //   return;
+  // }
 
   // last tick time
   const lastTickTime = lastTick;
   lastTick = Date.now();
 
+  // store
+  const { getState, dispatch } = getStore();
+  const playingTimebarId = getPlayingTimebarId(getState());
+  const isWindowsOpened = getWindowsOpened(getState());
+  const windowsHasChanged = getState().windows !== previous.state.windows;
+
+  // play management (before dataMap generation, allow tick to work on a up to date state)
+  if (isWindowsOpened && playingTimebarId) {
+    execution.start('play management');
+    const playingTimebar = getTimebar(getState(), playingTimebarId);
+    handlePlay(dispatch, playingTimebarId, playingTimebar, lastTickTime);
+    execution.stop('play management');
+  }
+
   // something has changed
+  const state = getState(); // works on updated state (with play handling)
   const somethingHasChanged = state !== previous.state;
   let dataMap;
-  let viewMap;
   if (somethingHasChanged) {
-    const map = dataMapGenerator(state);
-    dataMap = map.perRemoteId;
-    viewMap = map.perView;
+    dataMap = dataMapGenerator(state);
   } else {
     dataMap = previous.dataMap;
-    viewMap = previous.viewMap;
   }
 
-  // play or pause
-  const playingTimebarId = getPlayingTimebarId(state);
-  // windows
-  const isWindowsOpened = getWindowsOpened(state);
-  const windowsHasChanged = state.windows !== previous.state.windows;
-  // // const windowsIsModified = _find(state.windows, (window, winId) =>
-  // //   (previous.state.windows && previous.state.windows[winId]
-  // //   && window.isModified && !previous.state.windows[winId].isModified));
-  // // queued data to inject
-  // const dataToInject = getAndResetQueue();
+  series([
+    // request data
+    (callback) => {
+      if (dataMap.perRemoteId === previous.lastRequestedDataMap) {
+        return callback(null);
+      }
 
-  if (isWindowsOpened) {
-    // playing
-    if (playingTimebarId) {
-      execution.start('play management');
-      const playingTimebar = getTimebar(state, playingTimebarId) || 'empty';
-
-      // next cursors
-      const newCurrent = nextCurrent(
-        playingTimebar.visuWindow.current,
-        playingTimebar.speed,
-        (Date.now() - lastTickTime)
-      );
-      const nextCursors = computeCursors(
-        newCurrent,
-        playingTimebar.visuWindow.lower,
-        playingTimebar.visuWindow.upper,
-        playingTimebar.slideWindow.lower,
-        playingTimebar.slideWindow.upper,
-        playingTimebar.mode,
-        globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN,
-      );
-
-      // dispatch
-      dispatch(updateCursors(
-        playingTimebarId,
-        nextCursors.visuWindow,
-        nextCursors.slideWindow
-      ));
-
-      execution.stop('play management');
-      // TODO dbrugne analyse 1 tick leak on play
-    }
-    // TODO: remove copies when viewMap update is done after dispatch
-    // do a deep copy to use the real oldViewMap for updateViewData
-    const oldViewMap = _cloneDeep(previous.viewMap);
-    const newViewMap = _cloneDeep(viewMap);
-
-    // Move requests before viewData update to avoid delay for display
-    if (dataMap !== previous.dataMap) {
       execution.start('requests');
-      // request data
-      request(state, dataMap, previous.dataMap, server.message);
+      request(dataMap.perRemoteId, previous.lastRequestedDataMap, server.message);
 
-      // should be done here due to request specificity (works on map and last)
-      previous.dataMap = dataMap;
+      // request module should receive only the last 'analysed' map
+      previous.lastRequestedDataMap = dataMap.perRemoteId;
 
       execution.stop('requests');
+      return callback(null);
+    },
+    // pull data
+    (callback) => {
+      server.requestData((dataToInject) => {
+        execution.start('data injection');
+        dispatch(updateViewData(previous.dataMap.perView, dataMap.perView, dataToInject));
+        execution.stop('data injection', Object.keys(dataToInject).length);
+        return callback(null);
+      });
+    },
+    // cache invalidation
+    (callback) => {
+      const lastCacheInvalidation = getLastCacheInvalidation(state);
+      if (Date.now() - lastCacheInvalidation >= globalConstants.CACHE_INVALIDATION_FREQUENCY) {
+        execution.start('cacheInvalidation');
+        dispatch(updateCacheInvalidation(Date.now())); // schedule next run
+        server.message(globalConstants.IPC_METHOD_CACHE_CLEANUP, dataMap.perRemoteId);
+        execution.stop('cacheInvalidation');
+      }
+      return callback(null);
+    },
+    // sync windows
+    (callback) => {
+      if (!windowsHasChanged) {
+        return callback(null);
+      }
+
+      execution.start('windows');
+      windowsObserver(state, (err) => {
+        if (err) {
+          execution.stop('windows');
+          return callback(err);
+        }
+
+        // only one time to avoid recursion
+        if (isWindowsOpened === false) {
+          dispatch(setWindowsAsOpened());
+        }
+
+        logger.debug('windows synchronized');
+        execution.stop('windows');
+        return callback(null);
+      });
+    },
+    (callback) => {
+      // too long tick
+      const duration = process.hrtime(tickStart);
+      if (duration[0] > 0 || duration[1] > globalConstants.HSC_ORCHESTRATION_WARNING) {
+        // TODO : protect against blocking (by increasing HSC_ORCHESTRATION_FREQUENCY?)
+        logger.warn(
+          `orchestration done in ${(duration[0] * 1e3) + _round(duration[1] / 1e6, 6)}ms`
+        );
+      }
+      return callback(null);
+    }
+  ], (err) => {
+    if (err) {
+      logger.error(err);
     }
 
-    // pulled data
-    server.requestData((dataToInject) => {
-      execution.start('data injection');
-      // TODO : in play mode inject + visuwindow
-      dispatch(updateViewData(oldViewMap, newViewMap, dataToInject));
-      execution.stop('data injection', Object.keys(dataToInject).length);
-
-      // TODO continue orchestration in this callback (VERY IMPORTANT FOR PERF)
-    });
-
-    // cache invalidation (only at a certain frequency)
-    const lastCacheInvalidation = getLastCacheInvalidation(state);
-    if (Date.now() - lastCacheInvalidation >= globalConstants.CACHE_INVALIDATION_FREQUENCY) {
-      execution.start('cacheInvalidation');
-      dispatch(updateCacheInvalidation(Date.now())); // schedule next run
-      server.message(globalConstants.IPC_METHOD_CACHE_CLEANUP, dataMap);
-      execution.stop('cacheInvalidation');
-    }
-  }
-
-  function done() {
     // persist state for next tick
     if (somethingHasChanged) {
       previous.state = state;
-      previous.viewMap = viewMap;
-    }
-
-    // too long tick shortcut
-    const duration = process.hrtime(tickStart);
-    if (duration[0] > 0 || duration[1] > globalConstants.HSC_ORCHESTRATION_WARNING) {
-      // TODO : protect against blocking (by increasing HSC_ORCHESTRATION_FREQUENCY?)
-      logger.warn(`orchestration done in ${(duration[0] * 1e3) + _round(duration[1] / 1e6, 6)}ms`);
+      previous.dataMap = dataMap;
     }
 
     execution.stop(
@@ -246,36 +228,34 @@ export function tick() {
       `somethingHasChanged:${somethingHasChanged}`
       + ` isWindowsOpened:${isWindowsOpened}`
       + ` playingTimebarId:${playingTimebarId}`
-      // + ` dataToInject:${(dataToInject || []).length}`
     );
     execution.print();
     execution.reset();
 
     // schedule next tick
     schedule();
-  }
+  });
+}
 
-  // sync windows
-  if (windowsHasChanged) {
-    execution.start('windows');
-    windowsObserver(state, (err) => {
-      if (err) {
-        logger.error(err);
-      }
-
-      logger.verbose('windows synchronized');
-      // if (windowsIsModified) {
-      //   updateModifiedWinTitle();
-      // }
-
-      // only one time to avoid recursion
-      if (isWindowsOpened === false) {
-        dispatch(setWindowsAsOpened());
-      }
-      execution.stop('windows');
-      done();
-    });
-  } else {
-    done();
-  }
+// TODO : factorize in an unique action creator (thunk)
+function handlePlay(dispatch, playingTimebarId, playingTimebar, lastTickTime) {
+  const newCurrent = nextCurrent(
+    playingTimebar.visuWindow.current,
+    playingTimebar.speed,
+    (Date.now() - lastTickTime)
+  );
+  const nextCursors = computeCursors(
+    newCurrent,
+    playingTimebar.visuWindow.lower,
+    playingTimebar.visuWindow.upper,
+    playingTimebar.slideWindow.lower,
+    playingTimebar.slideWindow.upper,
+    playingTimebar.mode,
+    globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN,
+  );
+  dispatch(updateCursors(
+    playingTimebarId,
+    nextCursors.visuWindow,
+    nextCursors.slideWindow
+  ));
 }

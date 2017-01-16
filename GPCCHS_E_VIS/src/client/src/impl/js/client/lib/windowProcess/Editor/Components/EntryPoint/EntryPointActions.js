@@ -75,9 +75,9 @@ export default class EntryPointActions extends React.Component {
             >
               <Glyphicon glyph="plus" />
             </Button>
-            <Button bsSize="small" style={{ marginLeft: '6px' }}>
+            {/* <Button bsSize="small" style={{ marginLeft: '6px' }}>
               <Glyphicon glyph="link" />
-            </Button>
+            </Button> */}
           </Col>
         </FormGroup>
         <Modal

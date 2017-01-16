@@ -56,12 +56,8 @@ EOF
   HOME=${find.dependencies.dir}
 
   npm ${NPM_OPTS2} install .
-  cd ${find.dependencies.dir}/lib/js/common
-  npm ${NPM_OPTS2} install .
-  cd ${api.work.dir}/js/${artifactId}
-  cp -R ${find.dependencies.dir}/lib/js/common ./node_modules/
-  #npm ${NPM_OPTS2} install ${find.dependencies.dir}/lib/js/common -S
-  #npm ${NPM_OPTS2} install ${find.dependencies.dir}/lib/js/gpcchs_e_vis_server -S
+  npm ${NPM_OPTS2} install ${find.dependencies.dir}/lib/js/common -S
+  npm ${NPM_OPTS2} install ${find.dependencies.dir}/lib/js/gpcchs_e_vis_server -S
 
   # Webpacking ? 
   mkdir -p ${api.work.dir}/js/${artifactId}/toPackage/node_modules
@@ -92,6 +88,10 @@ EOF
 
   cp -R ./toPackage/node_modules/common ${api.lib.dir}/js/${artifactId}/lpisis_gpcchs_e_clt-linux-x64/resources/app/node_modules
   cp -R ./toPackage/node_modules/server ${api.lib.dir}/js/${artifactId}/lpisis_gpcchs_e_clt-linux-x64/resources/app/node_modules
+
+  cd ${api.lib.dir}/js/${artifactId}/lpisis_gpcchs_e_clt-linux-x64/resources/app/node_modules/common
+  
+  npm ${NPM_OPTS2} install .
 }
 
 Log "generate" "generate all" ${INFO}

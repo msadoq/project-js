@@ -24,12 +24,11 @@ if (isDebugOn) {
     collapsed: true,
   });
 
-  enhancer = compose(
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+  enhancer = composeEnhancers(
     applyMiddleware(thunk, reduxLogger),
-    electronEnhancer({ dispatchProxy }),
-    window.devToolsExtension
-      ? window.devToolsExtension()
-      : noop => noop
+    electronEnhancer({ dispatchProxy })
   );
 } else {
   enhancer = compose(
@@ -40,9 +39,6 @@ if (isDebugOn) {
 
 export function initStore(initialState) {
   store = createStore(reducers, initialState, enhancer);
-  if (isDebugOn && window.devToolsExtension) {
-    window.devToolsExtension.updateStore(store);
-  }
 
   if (module.hot) {
     module.hot.accept('./reducers', () =>

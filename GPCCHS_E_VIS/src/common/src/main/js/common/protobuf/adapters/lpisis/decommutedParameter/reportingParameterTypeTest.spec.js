@@ -28,7 +28,7 @@ else console.log(result);
 }
 
 
-describe.only('protobuf/lpisis/decommutedParameter/reportingParameter', () => {
+describe('protobuf/lpisis/decommutedParameter/reportingParameter', () => {
   const bufferInt = ['INTEGER -2147483648', 'INTEGER 22', 'INTEGER 2147483647'];
   const bufferFloat = ['FLOAT -0.000000', 'FLOAT 22.299999', 'FLOAT 0.000000'];
   const bufferUInt = ['UINTEGER 0', 'UINTEGER 2147483647', 'UINTEGER 2147483648', 'UINTEGER 4294967295'];
@@ -157,7 +157,7 @@ describe.only('protobuf/lpisis/decommutedParameter/reportingParameter', () => {
     });
   }
   for(let i = 0; i < 3; i++){
-    it.only(bufferOctet[i], (done) => {
+    it(bufferOctet[i], (done) => {
       fs.readFile(rootpath.concat(bufferOctet[i]), function (err, data) {
         res = null;
         if (err) throw err;

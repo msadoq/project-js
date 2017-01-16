@@ -60,13 +60,7 @@ const tooltipYMargin = 5;
 const badgeWidth = 30;
 
 const getComObject =
-  _.pipe(
-    _.defaultTo([]),
-    _.cond([
-      [_.equals(1, _.prop('length')), _.nth(0)],
-      [_.stubTrue, _.constant('UNKNOWN_COM_OBJECT')]
-    ])
-  );
+  _.propOr('UNKNOWN_COM_OBJECT', 0);
 
 // parse clipboard data to create partial entry point
 function parseDragData(data) {

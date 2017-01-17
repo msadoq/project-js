@@ -1,0 +1,13 @@
+// Generated file
+import "ccsds_mal/types.proto";
+import "connection/UCPParameter.proto";
+
+
+package connection.protobuf;
+
+message UCPReport {
+extensions 3 to 103;
+
+  optional ccsds_mal.protobuf.TIME date = 1;
+  repeated connection.protobuf.UCPParameter parameters = 2;
+}

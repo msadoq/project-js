@@ -1,0 +1,29 @@
+// Generated file
+import "ccsds_mal/types.proto";
+
+
+
+package cop1.protobuf;
+
+message COP1InternalState {
+extensions 19 to 119;
+
+  optional ccsds_mal.protobuf.UOCTET stored_lockout_flag = 1;
+  optional ccsds_mal.protobuf.UOCTET stored_wait_flag = 2;
+  optional ccsds_mal.protobuf.UOCTET stored_restransmit_flag = 3;
+  optional ccsds_mal.protobuf.UOCTET AD_out_flag = 4;
+  optional ccsds_mal.protobuf.UINTEGER V_S_nbmod = 5;
+  optional ccsds_mal.protobuf.UOCTET BC_out_flag = 6;
+  optional ccsds_mal.protobuf.UOCTET BD_out_flag = 7;
+  optional ccsds_mal.protobuf.UINTEGER NN_R_nbmod = 8;
+  optional ccsds_mal.protobuf.UINTEGER transmission_limit = 9;
+  optional ccsds_mal.protobuf.UINTEGER timeout_type = 10;
+  optional ccsds_mal.protobuf.UINTEGER transmission_count = 11;
+  optional ccsds_mal.protobuf.UINTEGER sliding_window_width = 12;
+  optional ccsds_mal.protobuf.FLOAT T1_initial = 13;
+  optional ccsds_mal.protobuf.FLOAT regulation_tc_delay = 14;
+  optional ccsds_mal.protobuf.UOCTET suspend_state = 15;
+  optional ccsds_mal.protobuf.UINTEGER V_S = 16;
+  optional ccsds_mal.protobuf.UINTEGER state = 17;
+  optional ccsds_mal.protobuf.INTEGER NN_R = 18;
+}

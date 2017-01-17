@@ -1,3 +1,4 @@
+// Generated file
 const _now = require('lodash/now');
 const applyOverride = require('../../applyOverride');
 const getDecommutedValue = require('./decommutedValue');
@@ -10,3 +11,4 @@ module.exports = override => applyOverride({
   isNominal: true,
   decommutedValues: [getDecommutedValue(), getDecommutedValue()],
 }, override);
+

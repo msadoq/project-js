@@ -1,22 +1,22 @@
-// Produced by Acceleo Cpp Generator 0.0.7-R5S1
-
+// Generated file
 import "ccsds_mal/types.proto";
+
+
 
 package packet.protobuf;
 
 message ClcwPacket {
 extensions 12 to 112;
-    optional ccsds_mal.protobuf.TIME groundDate = 1;
-    optional ccsds_mal.protobuf.TIME onboardDate = 2;
-    optional ccsds_mal.protobuf.USHORT apid = 3;
-    optional ccsds_mal.protobuf.UOCTET service = 4;
-    optional ccsds_mal.protobuf.UOCTET subService = 5;
-    optional ccsds_mal.protobuf.UOCTET destinationId = 6;
-    optional ccsds_mal.protobuf.BOOLEAN isDecommuted = 7;
-    optional ccsds_mal.protobuf.UOCTET primaryHeaderSize = 8;
-    optional ccsds_mal.protobuf.UOCTET secondaryHeaderSize = 9;
-    optional ccsds_mal.protobuf.BOOLEAN isNominal = 10;
-    optional ccsds_mal.protobuf.BLOB rawData = 11;
 
-
+  optional ccsds_mal.protobuf.TIME groundDate = 1;
+  optional ccsds_mal.protobuf.TIME onboardDate = 2;
+  optional ccsds_mal.protobuf.USHORT apid = 3;
+  optional ccsds_mal.protobuf.UOCTET service = 4;
+  optional ccsds_mal.protobuf.UOCTET subService = 5;
+  optional ccsds_mal.protobuf.UOCTET destinationId = 6;
+  optional ccsds_mal.protobuf.BOOLEAN isDecommuted = 7;
+  optional ccsds_mal.protobuf.UOCTET primaryHeaderSize = 8;
+  optional ccsds_mal.protobuf.UOCTET secondaryHeaderSize = 9;
+  optional ccsds_mal.protobuf.BOOLEAN isNominal = 10;
+  optional ccsds_mal.protobuf.BLOB rawData = 11;
 }

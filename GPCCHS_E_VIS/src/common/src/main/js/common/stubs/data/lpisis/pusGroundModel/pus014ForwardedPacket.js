@@ -1,0 +1,10 @@
+// Generated file
+const applyOverride = require('../../applyOverride');
+const getPusElement = require('./pusElement');
+
+module.exports = override => applyOverride({
+  apid: 100,
+  forwardingStatus: true,
+  pusElement: getPusElement(),
+}, override);
+

@@ -1,5 +1,5 @@
+// Generated file
 const applyOverride = require('../../applyOverride');
-
 const getUser = require('../ccsds_cs/user');
 
 module.exports = override => applyOverride({
@@ -8,3 +8,4 @@ module.exports = override => applyOverride({
   write: true,
   user: getUser(),
 }, override);
+

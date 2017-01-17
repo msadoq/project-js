@@ -1,0 +1,13 @@
+// Generated file
+import "ccsds_mal/types.proto";
+
+
+
+package lifeCycle.protobuf;
+
+message LifeCycleStatus {
+extensions 3 to 103;
+
+  optional ccsds_mal.protobuf.ULONG status = 1;
+  optional ccsds_mal.protobuf.TIME statusTime = 2;
+}

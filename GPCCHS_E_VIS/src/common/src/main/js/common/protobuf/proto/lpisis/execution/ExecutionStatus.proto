@@ -1,0 +1,13 @@
+// Generated file
+import "ccsds_mal/types.proto";
+
+
+
+package execution.protobuf;
+
+message ExecutionStatus {
+extensions 3 to 103;
+
+  optional ccsds_mal.protobuf.INTEGER status = 1;
+  optional ccsds_mal.protobuf.TIME statusTime = 2;
+}

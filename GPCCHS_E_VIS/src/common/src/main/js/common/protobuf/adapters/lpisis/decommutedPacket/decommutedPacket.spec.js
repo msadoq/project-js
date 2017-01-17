@@ -1,10 +1,12 @@
+// Generated file
 require('../../../../utils/test');
-const protobuf = require('../../../index');
 const stubData = require('../../../../stubs/data');
+
+const protobuf = require('../../../index');
 
 const validityState = require('../ccsds_mc/validityState');
 
-describe('protobuf/lpisis/decommutedPacket/decommutedPacket', () => {
+describe('protobuf/lpisis/decommutedPacket/DecommutedPacket', () => {
   const fixture = stubData.getDecommutedPacket();
   let buffer;
   it('encode', () => {
@@ -18,8 +20,8 @@ describe('protobuf/lpisis/decommutedPacket/decommutedPacket', () => {
       groundDate: { type: 'time', value: fixture.groundDate },
       isNominal: { type: 'boolean', value: fixture.isNominal },
     });
-    json.should.have.a.property('decommutedValues').that.is.an('array');
-    for (let i = 0; i < json.decommutedValues.length; i += 1) {
+    json.decommutedValues.should.be.an('array').that.have.lengthOf(fixture.decommutedValues.length);
+    for (let i = 0; i < fixture.decommutedValues.length; i += 1) {
       json.decommutedValues[i].should.be.an('object').that.have.properties({
         name: { type: 'identifier', value: fixture.decommutedValues[i].name },
         extractedValue: { type: 'double', value: fixture.decommutedValues[i].extractedValue },
@@ -27,6 +29,8 @@ describe('protobuf/lpisis/decommutedPacket/decommutedPacket', () => {
         convertedValue: { type: 'double', value: fixture.decommutedValues[i].convertedValue },
         validityState: { type: 'enum', value: fixture.decommutedValues[i].validityState, symbol: validityState[fixture.decommutedValues[i].validityState] },
       });
+      
     }
   });
 });
+

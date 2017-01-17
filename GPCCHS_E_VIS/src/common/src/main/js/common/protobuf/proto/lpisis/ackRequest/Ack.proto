@@ -1,6 +1,7 @@
-// Produced by Acceleo Cpp Generator 1.1.0-R7S1-20151214
-
+// Generated file
 import "ccsds_mal/types.proto";
+import "ccsds_cs/User.proto";
+
 
 package ackRequest.protobuf;
 

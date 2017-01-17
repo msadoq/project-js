@@ -1,14 +1,15 @@
-// Produced by Acceleo Cpp Generator 0.0.6-R4S2
-
+// Generated file
 import "ccsds_mal/types.proto";
+
 
 
 package ccsds_cs.protobuf;
 
 message User {
 extensions 5 to 105;
-    optional ccsds_mal.protobuf.STRING login = 1;
-    optional ccsds_mal.protobuf.STRING password = 2;
-    optional ccsds_mal.protobuf.STRING profile = 3;
-    optional ccsds_mal.protobuf.TIME userTime = 4;
+
+  optional ccsds_mal.protobuf.STRING login = 1;
+  optional ccsds_mal.protobuf.STRING password = 2;
+  optional ccsds_mal.protobuf.STRING profile = 3;
+  optional ccsds_mal.protobuf.TIME userTime = 4;
 }

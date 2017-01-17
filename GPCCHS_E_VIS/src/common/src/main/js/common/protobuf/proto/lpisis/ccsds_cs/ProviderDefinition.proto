@@ -1,0 +1,13 @@
+// Generated file
+import "ccsds_mal/types.proto";
+
+
+
+package ccsds_cs.protobuf;
+
+message ProviderDefinition {
+extensions 3 to 103;
+
+  optional ccsds_mal.protobuf.IDENTIFIER providerDefinitionName = 1;
+  optional ccsds_mal.protobuf.TIME providerDefinitionTime = 2;
+}

@@ -1,0 +1,12 @@
+// Generated file
+import "ccsds_mal/types.proto";
+import "cop1/ProccessedTC.proto";
+
+
+package cop1.protobuf;
+
+message GPMCC1State {
+extensions 2 to 102;
+
+  repeated cop1.protobuf.ProccessedTC proccessedTC = 1;
+}

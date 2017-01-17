@@ -1,11 +1,12 @@
+// Generated file
 package tcHistory.protobuf;
 
 enum SendTypeEnum {
-  FILE = 0;
-  TIME_TAGGED_TC = 1;
-  TC = 2;
-  RC = 3;
-  TC_LONG = 4;
-  TC_11 = 5;
-  TC_13 = 6;
+  SENDTYPE_FILE = 0;
+  SENDTYPE_TIME_TAGGED_TC = 1;
+  SENDTYPE_TCIMMEDIATE = 2;
+  SENDTYPE_RC = 3;
+  SENDTYPE_TC_LONG = 4;
+  SENDTYPE_TC_11 = 5;
+  SENDTYPE_TC_13 = 6;
 }

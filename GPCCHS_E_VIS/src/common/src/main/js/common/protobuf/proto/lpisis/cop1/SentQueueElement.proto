@@ -1,0 +1,17 @@
+// Generated file
+import "ccsds_mal/types.proto";
+
+
+
+package cop1.protobuf;
+
+message SentQueueElement {
+extensions 7 to 107;
+
+  optional ccsds_mal.protobuf.UOCTET retransmit_flag = 1;
+  optional ccsds_mal.protobuf.UINTEGER internal_id = 2;
+  optional ccsds_mal.protobuf.UINTEGER num_farm = 3;
+  optional ccsds_mal.protobuf.STRING date = 4;
+  optional ccsds_mal.protobuf.BLOB frame_data = 5;
+  optional ccsds_mal.protobuf.FLOAT reemission_delay = 6;
+}

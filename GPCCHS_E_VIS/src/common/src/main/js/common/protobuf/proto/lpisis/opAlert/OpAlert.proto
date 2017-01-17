@@ -1,0 +1,24 @@
+// Generated file
+import "ccsds_mal/types.proto";
+import "ccsds_mal/NamedValue.proto";
+import "opAlert/OpAlertClosingData.proto";
+import "opAlert/OpAlertConfiguration.proto";
+import "opAlert/Status.proto";
+
+package opAlert.protobuf;
+
+message OpAlert {
+extensions 12 to 112;
+
+  optional ccsds_mal.protobuf.TIME alertDate = 1;
+  optional ccsds_mal.protobuf.NamedValue specificAttributes = 2;
+  optional ccsds_mal.protobuf.BOOLEAN closingNeeded = 3;
+  optional ccsds_mal.protobuf.ULONG answerID = 4;
+  optional ccsds_mal.protobuf.TIME systemDate = 5;
+  optional ccsds_mal.protobuf.STRING mission = 6;
+  optional ccsds_mal.protobuf.ULONG satellite = 7;
+  repeated opAlert.protobuf.OpAlertConfiguration opAlertConfiguration = 8;
+  optional opAlert.protobuf.Status status = 9;
+  optional ccsds_mal.protobuf.TIME lastCallDate = 10;
+  optional opAlert.protobuf.OpAlertClosingData opAlertClosingData = 11;
+}

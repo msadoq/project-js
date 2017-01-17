@@ -1,0 +1,13 @@
+// Generated file
+import "ccsds_mal/types.proto";
+
+
+
+package lifeCycle.protobuf;
+
+message LifeCycle {
+extensions 3 to 103;
+
+  optional ccsds_mal.protobuf.ATTRIBUTE launchingParameters = 1;
+  optional ccsds_mal.protobuf.TIME launchingTime = 2;
+}

@@ -1,0 +1,7 @@
+// Generated file
+package cop1.protobuf;
+
+enum ModeType {
+  AD = 1;
+  BD = 2;
+}

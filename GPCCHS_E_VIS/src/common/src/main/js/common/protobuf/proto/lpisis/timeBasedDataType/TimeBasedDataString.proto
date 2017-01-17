@@ -1,0 +1,14 @@
+// Generated file
+import "ccsds_mal/types.proto";
+
+
+
+package timeBasedDataType.protobuf;
+
+message TimeBasedDataString {
+extensions 4 to 104;
+
+  optional ccsds_mal.protobuf.FINETIME timeStamp = 1;
+  optional ccsds_mal.protobuf.STRING name = 2;
+  optional ccsds_mal.protobuf.STRING value = 3;
+}

@@ -1,0 +1,13 @@
+// Generated file
+import "ccsds_mal/types.proto";
+
+
+
+package connection.protobuf;
+
+message UCPParameter {
+extensions 3 to 103;
+
+  optional ccsds_mal.protobuf.STRING name = 1;
+  optional ccsds_mal.protobuf.ATTRIBUTE value = 2;
+}

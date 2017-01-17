@@ -1,7 +1,7 @@
-// Produced by Acceleo Cpp Generator 1.1.0-R7S1-20151214
-
+// Generated file
 import "ccsds_mal/types.proto";
-import "ccsds_mc/MonitoringState.proto";
+
+
 
 package groundAlarm.protobuf;
 
@@ -13,5 +13,5 @@ extensions 7 to 107;
   optional ccsds_mal.protobuf.ATTRIBUTE convertedValue = 3;
   optional ccsds_mal.protobuf.ATTRIBUTE extractedValue = 4;
   optional ccsds_mal.protobuf.ATTRIBUTE rawValue = 5;
-  optional ccsds_mc.protobuf.MonitoringState monitoringState = 6;
+  optional ccsds_mal.protobuf.STRING monitoringState = 6;
 }

@@ -1,35 +1,48 @@
+// Generated file
 const _map = require('lodash/map');
-
+const namedValue = require('../ccsds_mal/namedValue');
+const profileRight = require('./profileRight');
 const protobuf = require('../../../');
-
+const userRight = require('./userRight');
 const {
   uoctetToBytes,
   bytesToUoctet,
-  stringToBytes,
-  bytesToString,
-} = require('../../lpisis/types');
-
-const userRight = require('./userRight');
-const profileRight = require('./profileRight');
-const namedValue = require('../ccsds_mal/namedValue');
+} = require('../types');
 
 module.exports = {
   encode: data => ({
-    lockedBy: { value: protobuf.encode('lpisis.ccsds_cs.User', data.lockedBy) },
-    dirname: { value: stringToBytes(data.dirname) },
-    properties: _map(data.properties, p => namedValue.encode(p)),
-    usersAccess: _map(data.usersAccess, a => userRight.encode(a)),
-    profilesAccess: _map(data.profilesAccess, a => profileRight.encode(a)),
-    basename: { value: data.basename },
-    confidentiality: { value: uoctetToBytes(data.confidentiality) },
+    lockedBy: (data.lockedBy !== null && typeof data.lockedBy !== 'undefined')
+      ? { value: protobuf.encode('lpisis.ccsds_cs.User', data.lockedBy) }
+      : null,
+    dirname: (data.dirname !== null && typeof data.dirname !== 'undefined')
+      ? { value: data.dirname }
+      : null,
+    properties: _map(data.properties, d => (namedValue.encode(d))),
+    usersAccess: _map(data.usersAccess, d => (userRight.encode(d))),
+    profilesAccess: _map(data.profilesAccess, d => (profileRight.encode(d))),
+    basename: (data.basename !== null && typeof data.basename !== 'undefined')
+      ? { value: data.basename }
+      : null,
+    confidentiality: (data.confidentiality !== null && typeof data.confidentiality !== 'undefined')
+      ? { value: uoctetToBytes(data.confidentiality) }
+      : null,
   }),
   decode: data => ({
-    lockedBy: protobuf.decode('lpisis.ccsds_cs.User', data.lockedBy.value),
-    dirname: { type: 'uri', value: bytesToString(data.dirname.value) },
-    properties: _map(data.properties, p => namedValue.decode(p)),
-    usersAccess: _map(data.usersAccess, a => userRight.decode(a)),
-    profilesAccess: _map(data.profilesAccess, a => profileRight.decode(a)),
-    basename: { type: 'string', value: data.basename.value },
-    confidentiality: { type: 'uoctet', value: bytesToUoctet(data.confidentiality.value) },
+    lockedBy: (data.lockedBy !== null && typeof data.lockedBy !== 'undefined')
+      ? protobuf.decode('lpisis.ccsds_cs.User', data.lockedBy.value)
+      : undefined,
+    dirname: (data.dirname !== null && typeof data.dirname !== 'undefined')
+      ? { type: 'uri', value: data.dirname.value.toBuffer() }
+      : undefined,
+    properties: _map(data.properties, d => (namedValue.decode(d))),
+    usersAccess: _map(data.usersAccess, d => (userRight.decode(d))),
+    profilesAccess: _map(data.profilesAccess, d => (profileRight.decode(d))),
+    basename: (data.basename !== null && typeof data.basename !== 'undefined')
+      ? { type: 'string', value: data.basename.value }
+      : undefined,
+    confidentiality: (data.confidentiality !== null && typeof data.confidentiality !== 'undefined')
+      ? { type: 'uoctet', value: bytesToUoctet(data.confidentiality.value) }
+      : undefined,
   }),
 };
+

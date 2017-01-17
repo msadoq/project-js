@@ -1,9 +1,9 @@
-// Produced by Acceleo Cpp Generator 1.1.0-R7S1-20151214
-
+// Generated file
 import "ccsds_mal/types.proto";
+import "pusGroundModel/Pus018ConfiguredObcp.proto";
 import "pusGroundModel/Pus018Obcp.proto";
 import "pusGroundModel/PusElement.proto";
-import "pusGroundModel/Pus018ConfiguredObcp.proto";
+
 
 package pusGroundModel.protobuf;
 
@@ -18,4 +18,3 @@ extensions 8 to 108;
   optional pusGroundModel.protobuf.PusElement pusElement = 6;
   repeated pusGroundModel.protobuf.Pus018ConfiguredObcp pus018ConfiguredObcp = 7;
 }
-

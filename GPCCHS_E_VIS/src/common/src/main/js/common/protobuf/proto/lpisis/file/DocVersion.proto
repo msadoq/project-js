@@ -1,7 +1,7 @@
-// Produced by Acceleo Cpp Generator 0.0.8-R6-20150710
-
+// Generated file
 import "ccsds_mal/types.proto";
 import "ccsds_mal/NamedValue.proto";
+
 
 package file.protobuf;
 

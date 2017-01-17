@@ -1,6 +1,6 @@
-// Produced by Acceleo Cpp Generator 1.1.0-R7S2-20160930
-
+// Generated file
 import "ccsds_mal/types.proto";
+
 import "ccsds_mc/ValidityState.proto";
 
 package decommutedParameter.protobuf;

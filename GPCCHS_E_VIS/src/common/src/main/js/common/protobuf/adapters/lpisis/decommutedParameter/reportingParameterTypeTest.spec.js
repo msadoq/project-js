@@ -56,7 +56,7 @@ describe('protobuf/lpisis/decommutedParameter/reportingParameter', () => {
   const valsTime = [0, 1234567890, 2147483647];
 
 
-  const rootpath = '/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/common/src/main/js/common/protobuf/adapters/lpisis/decommutedParameter/testFiles/';
+  const rootpath = `${__dirname}/testFiles/`;
   let res;
 
 

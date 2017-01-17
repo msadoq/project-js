@@ -1,17 +1,26 @@
+// Generated file
+
 const {
   encodeAttribute,
   decodeAttribute,
-  stringToBytes,
-  bytesToString,
-} = require('../../lpisis/types');
+} = require('../types');
 
 module.exports = {
   encode: data => ({
-    name: { value: stringToBytes(data.name) },
-    value: encodeAttribute(data.value),
+    name: (data.name !== null && typeof data.name !== 'undefined')
+      ? { value: data.name }
+      : null,
+    value: (data.value !== null && typeof data.value !== 'undefined')
+      ? encodeAttribute(data.value)
+      : null,
   }),
   decode: data => ({
-    name: { type: 'identifier', value: bytesToString(data.name.value) },
-    value: decodeAttribute(data.value),
+    name: (data.name !== null && typeof data.name !== 'undefined')
+      ? { type: 'identifier', value: data.name.value.toBuffer() }
+      : undefined,
+    value: (data.value !== null && typeof data.value !== 'undefined')
+      ? decodeAttribute(data.value)
+      : undefined,
   }),
 };
+

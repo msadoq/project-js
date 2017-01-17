@@ -1,0 +1,8 @@
+// Generated file
+package ccsds_mc_aggregation.protobuf;
+
+enum GenerationMode {
+  ADHOC = 1;
+  PERIODIC = 2;
+  FILTERED_TIMEOUT = 3;
+}

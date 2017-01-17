@@ -1,0 +1,13 @@
+// Generated file
+import "ccsds_mal/types.proto";
+
+
+
+package ackRequest.protobuf;
+
+message AckSMS {
+extensions 3 to 103;
+
+  optional ccsds_mal.protobuf.TIME SystemCreationDate = 1;
+  optional ccsds_mal.protobuf.TIME ApplicationCreationDate = 2;
+}

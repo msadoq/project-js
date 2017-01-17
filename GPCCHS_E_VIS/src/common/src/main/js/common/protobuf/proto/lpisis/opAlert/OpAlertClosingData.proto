@@ -1,0 +1,13 @@
+// Generated file
+import "ccsds_mal/types.proto";
+
+import "opAlert/AlertingWay.proto";
+
+package opAlert.protobuf;
+
+message OpAlertClosingData {
+extensions 3 to 103;
+
+  optional opAlert.protobuf.AlertingWay closingWay = 1;
+  optional ccsds_mal.protobuf.TIME closingDate = 2;
+}

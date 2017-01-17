@@ -112,5 +112,5 @@ module.exports = {
 
 register({
   dc: require('./adapters/dc'),
-  lpisis: require('./adapters/lpisis'),
+  lpisis: Object.assign(require('./adapters/lpisis'), { ccsds_mal: { types: null } }),
 });

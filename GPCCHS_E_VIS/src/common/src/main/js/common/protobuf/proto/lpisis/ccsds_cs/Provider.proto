@@ -1,0 +1,20 @@
+// Generated file
+import "ccsds_mal/types.proto";
+import "ccsds_cs/ServiceAddress.proto";
+
+
+package ccsds_cs.protobuf;
+
+message Provider {
+extensions 10 to 110;
+
+  optional ccsds_mal.protobuf.USHORT slotID = 1;
+  optional ccsds_mal.protobuf.USHORT factoryID = 2;
+  optional ccsds_mal.protobuf.STRING providerName = 3;
+  optional ccsds_mal.protobuf.UOCTET network = 4;
+  optional ccsds_mal.protobuf.ULONG session = 5;
+  optional ccsds_mal.protobuf.UINTEGER serviceProperties = 6;
+  optional ccsds_cs.protobuf.ServiceAddress serviceAddress = 7;
+  optional ccsds_mal.protobuf.STRING providerProperties = 8;
+  optional ccsds_mal.protobuf.TIME providerTime = 9;
+}

@@ -1,0 +1,14 @@
+// Generated file
+import "ccsds_mal/types.proto";
+
+
+
+package ccsds_cs.protobuf;
+
+message UserContext {
+extensions 4 to 104;
+
+  optional ccsds_mal.protobuf.LONG userId = 1;
+  optional ccsds_mal.protobuf.LONG currentProfileId = 2;
+  optional ccsds_mal.protobuf.TIME userContextTime = 3;
+}

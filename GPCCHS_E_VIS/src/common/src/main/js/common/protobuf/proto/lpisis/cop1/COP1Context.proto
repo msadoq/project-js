@@ -1,0 +1,26 @@
+// Generated file
+import "ccsds_mal/types.proto";
+import "cop1/COP1IfAutoState.proto";
+import "cop1/COP1InternalState.proto";
+import "cop1/COP1SentQueue.proto";
+import "cop1/COP1Status.proto";
+import "cop1/COP1WaitQueue.proto";
+import "cop1/GPMCC1State.proto";
+import "cop1/DecoderType.proto";
+
+package cop1.protobuf;
+
+message COP1Context {
+extensions 11 to 111;
+
+  optional cop1.protobuf.COP1Status cop1Status = 1;
+  optional cop1.protobuf.COP1IfAutoState cop1IfAutoState = 2;
+  optional cop1.protobuf.COP1SentQueue cop1SentQueue = 3;
+  optional cop1.protobuf.COP1WaitQueue cop1WaitQueue = 4;
+  optional cop1.protobuf.GPMCC1State gpmcc1State = 5;
+  optional cop1.protobuf.COP1InternalState cOP1InternalState = 6;
+  optional cop1.protobuf.DecoderType CLCW_decoder = 7;
+  optional ccsds_mal.protobuf.BOOLEAN retrans_mode = 8;
+  optional ccsds_mal.protobuf.BOOLEAN initvr_mode = 9;
+  optional ccsds_mal.protobuf.TIME entityKeyTime = 10;
+}

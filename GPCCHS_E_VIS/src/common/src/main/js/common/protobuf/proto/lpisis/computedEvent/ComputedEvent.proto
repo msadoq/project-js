@@ -1,6 +1,6 @@
-// Produced by Acceleo Cpp Generator 1.1.0-R7S1-20151207
-
+// Generated file
 import "ccsds_mal/types.proto";
+import "ccsds_cs/Provider.proto";
 import "ccsds_mal/NamedValue.proto";
 import "computedEvent/EventClass.proto";
 
@@ -15,6 +15,6 @@ extensions 9 to 109;
   optional ccsds_mal.protobuf.ULONG satellite = 4;
   optional ccsds_mal.protobuf.BLOB producer = 5;
   optional computedEvent.protobuf.EventClass eventClass = 6;
-  optional ccsds_mal.protobuf.STRING source = 7;
+  optional ccsds_mal.protobuf.STRING origin = 7;
   repeated ccsds_mal.protobuf.NamedValue specificAttributes = 8;
 }

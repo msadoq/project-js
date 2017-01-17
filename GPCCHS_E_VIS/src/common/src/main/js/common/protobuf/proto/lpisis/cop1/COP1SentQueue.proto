@@ -1,0 +1,12 @@
+// Generated file
+import "ccsds_mal/types.proto";
+import "cop1/SentQueueElement.proto";
+
+
+package cop1.protobuf;
+
+message COP1SentQueue {
+extensions 2 to 102;
+
+  repeated cop1.protobuf.SentQueueElement sentQueueElements = 1;
+}

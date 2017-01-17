@@ -4,10 +4,10 @@ const stubData = require('../../../../stubs/data');
 
 const protobuf = require('../../../index');
 
-const sendTypeEnum = require('./sendTypeEnum');
 const ackEnum = require('./ackEnum');
+const sendTypeEnum = require('./sendTypeEnum');
 
-describe('protobuf/lpisis/tcHistory/tCHistory', () => {
+describe('protobuf/lpisis/tcHistory/TCHistory', () => {
   const fixture = stubData.getTCHistory();
   let buffer;
   it('encode', () => {
@@ -19,10 +19,11 @@ describe('protobuf/lpisis/tcHistory/tCHistory', () => {
     json.should.be.an('object').that.have.properties({
       sendingDate: { type: 'time', value: fixture.sendingDate },
       tcInProgress: { type: 'boolean', value: fixture.tcInProgress },
-      tcId: { type: 'ulong', value: fixture.tcId },
+      tcId: { type: 'integer', value: fixture.tcId },
+      tcSourceId: { type: 'uinteger', value: fixture.tcSourceId },
       historyName: { type: 'string', value: fixture.historyName },
       sendType: { type: 'enum', value: fixture.sendType, symbol: sendTypeEnum[fixture.sendType] },
-      tcNums: { type: 'string', value: fixture.tcNums },
+      tcNums: { type: 'uinteger', value: fixture.tcNums },
       expectedAck: {
         acceptance: { type: 'boolean', value: fixture.expectedAck.acceptance },
         executionComplete: { type: 'boolean', value: fixture.expectedAck.executionComplete },
@@ -44,7 +45,8 @@ describe('protobuf/lpisis/tcHistory/tCHistory', () => {
         executionStartRcvDate: { type: 'time', value: fixture.successiveAck.executionStartRcvDate },
         executionStart: { type: 'enum', value: fixture.successiveAck.executionStart, symbol: ackEnum[fixture.successiveAck.executionStart] },
       },
-      tc: { type: 'blob', value: fixture.tc },
     });
+    
   });
 });
+

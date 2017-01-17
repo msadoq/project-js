@@ -1,16 +1,11 @@
+// Generated file
+
 module.exports = {
-  0: 'FILE',
-  1: 'TIME_TAGGED_TC',
-  2: 'TC',
-  3: 'RC',
-  4: 'TC_LONG',
-  5: 'TC_11',
-  6: 'TC_13',
-  FILE: 0,
-  TIME_TAGGED_TC: 1,
-  TC: 2,
-  RC: 3,
-  TC_LONG: 4,
-  TC_11: 5,
-  TC_13: 6,
+  0: 'SENDTYPE_FILE',
+  1: 'SENDTYPE_TIME_TAGGED_TC',
+  2: 'SENDTYPE_TCIMMEDIATE',
+  3: 'SENDTYPE_RC',
+  4: 'SENDTYPE_TC_LONG',
+  5: 'SENDTYPE_TC_11',
+  6: 'SENDTYPE_TC_13',
 };

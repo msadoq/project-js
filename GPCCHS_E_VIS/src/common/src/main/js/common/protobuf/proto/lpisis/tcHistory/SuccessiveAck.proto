@@ -1,6 +1,6 @@
-// Produced by Acceleo Python Generator 1.1.0-R7S2-20160930
-
+// Generated file
 import "ccsds_mal/types.proto";
+
 import "tcHistory/AckEnum.proto";
 
 package tcHistory.protobuf;

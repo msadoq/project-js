@@ -1,0 +1,13 @@
+// Generated file
+import "ccsds_mal/types.proto";
+
+
+
+package cop1.protobuf;
+
+message FlagVal {
+extensions 3 to 103;
+
+  optional ccsds_mal.protobuf.INTEGER val = 1;
+  optional ccsds_mal.protobuf.BOOLEAN flag = 2;
+}

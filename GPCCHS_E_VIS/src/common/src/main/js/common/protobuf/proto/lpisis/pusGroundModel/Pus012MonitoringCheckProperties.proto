@@ -1,15 +1,17 @@
-// Produced by Acceleo Cpp Generator 1.1.0-R7S1-20151214
-
+// Generated file
 import "ccsds_mal/types.proto";
+
+
 
 package pusGroundModel.protobuf;
 
 message Pus012MonitoringCheckProperties {
-extensions 6 to 107;
+extensions 7 to 107;
 
   optional ccsds_mal.protobuf.UINTEGER ridStatus = 1;
   optional ccsds_mal.protobuf.UINTEGER actionStatus = 2;
   optional ccsds_mal.protobuf.ATTRIBUTE value = 3;
   optional ccsds_mal.protobuf.UINTEGER rid = 4;
   optional ccsds_mal.protobuf.STRING mask = 5;
+  optional ccsds_mal.protobuf.STRING actionName = 6;
 }

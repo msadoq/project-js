@@ -1,0 +1,22 @@
+// Generated file
+import "ccsds_mal/types.proto";
+import "tcHistory/PusHeader.proto";
+import "tcHistory/TC13.proto";
+
+
+package tcHistory.protobuf;
+
+message TCFile {
+extensions 11 to 111;
+
+  optional ccsds_mal.protobuf.TIME encodingDate = 1;
+  optional tcHistory.protobuf.PusHeader pusHeader = 2;
+  optional ccsds_mal.protobuf.BLOB rawPacket = 3;
+  optional ccsds_mal.protobuf.INTEGER tcId = 4;
+  optional ccsds_mal.protobuf.UINTEGER tcSourceId = 5;
+  optional ccsds_mal.protobuf.ULONG sequenceCount = 6;
+  repeated ccsds_mal.protobuf.STRING parameterPhysicalValue = 7;
+  optional ccsds_mal.protobuf.STRING fileReference = 8;
+  optional ccsds_mal.protobuf.STRING partition = 9;
+  repeated ccsds_mal.protobuf.BLOB tc13 = 10;
+}

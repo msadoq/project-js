@@ -1,0 +1,16 @@
+// Generated file
+import "ccsds_mal/types.proto";
+
+
+
+package cop1.protobuf;
+
+message ProccessedTC {
+extensions 6 to 106;
+
+  optional ccsds_mal.protobuf.IDENTIFIER TCID = 1;
+  optional ccsds_mal.protobuf.TIME receivedDate = 2;
+  optional ccsds_mal.protobuf.UOCTET mnemo = 3;
+  repeated ccsds_mal.protobuf.UINTEGER segment_id = 4;
+  optional ccsds_mal.protobuf.BLOB rawtc_data = 5;
+}

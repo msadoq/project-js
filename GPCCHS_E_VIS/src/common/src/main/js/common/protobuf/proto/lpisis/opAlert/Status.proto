@@ -1,0 +1,9 @@
+// Generated file
+package opAlert.protobuf;
+
+enum Status {
+  OPEN = 0;
+  CLOSED_OK = 1;
+  CLOSED_NOK = 2;
+  ERROR = 3;
+}

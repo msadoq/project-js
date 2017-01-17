@@ -1,12 +1,14 @@
-// Produced by Acceleo Cpp Generator 0.0.9-R7-20150914
-
+// Generated file
 import "ccsds_mal/types.proto";
+import "ccsds_cs/Provider.proto";
+import "ccsds_cs/User.proto";
 import "ccsds_mal/NamedValue.proto";
+
 
 package logbookEvent.protobuf;
 
 message LogbookEvent {
-extensions 9 to 109;
+extensions 8 to 108;
 
   optional ccsds_mal.protobuf.TIME eventDate = 1;
   optional ccsds_mal.protobuf.TIME systemDate = 2;
@@ -14,6 +16,5 @@ extensions 9 to 109;
   optional ccsds_mal.protobuf.ULONG satellite = 4;
   optional ccsds_mal.protobuf.BLOB producer = 5;
   optional ccsds_mal.protobuf.BLOB user = 6;
-  optional ccsds_mal.protobuf.BLOB userProfile = 7;
-  repeated ccsds_mal.protobuf.NamedValue specificAttributes = 8;
+  repeated ccsds_mal.protobuf.NamedValue specificAttributes = 7;
 }

@@ -16,8 +16,8 @@ describe('documents/lib', () => {
         title: 'window example',
         pages: [
           {
-            // path: 'pages/pageSmall_with_oid.json',
-            oId: 'page_small',
+            path: 'pages/pageSmall_with_oid.json',
+            // oId: 'page_small',
             timebarId: 'TB1'
           },
           {

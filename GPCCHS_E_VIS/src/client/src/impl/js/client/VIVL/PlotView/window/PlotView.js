@@ -157,7 +157,10 @@ class PlotView extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { configuration: { entryPoints, axes } } = this.props;
+    const {
+      configuration: { entryPoints, axes },
+      visuWindow: { lower, upper },
+    } = this.props;
 
     if (entryPoints !== nextProps.configuration.entryPoints) {
       this.lines = getLines(this.props.configuration.entryPoints);
@@ -166,7 +169,9 @@ class PlotView extends PureComponent {
       this.epCharts = getEntryPointsCharts(nextProps.configuration);
     }
     this.setState({
-      zoomedOrPanned: false
+      zoomedOrPanned: false,
+      randomizedLower: new Date(lower - Math.round(Math.random() * 20)),
+      randomizedUpper: new Date(upper + Math.round(Math.random() * 20)),
     });
   }
 
@@ -661,6 +666,8 @@ class PlotView extends PureComponent {
       disableZoom,
       disconnected,
       zoomedOrPanned,
+      randomizedLower,
+      randomizedUpper,
       // isMenuOpened,
       // menuPosition
     } = this.state;
@@ -726,7 +733,10 @@ class PlotView extends PureComponent {
             xScale={scaleTime()}
             yAxisZoom={onYAxisZoom}
             zoomEvent={!disableZoom}
-            xExtents={[new Date(lower), new Date(upper)]}
+            xExtents={[
+              randomizedLower || new Date(lower),
+              randomizedUpper || new Date(upper)
+            ]}
           >
             {this.getCharts()}
             <CrossHairCursor opacity={1} />

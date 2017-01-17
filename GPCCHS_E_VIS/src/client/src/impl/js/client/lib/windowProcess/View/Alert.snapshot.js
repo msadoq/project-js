@@ -1,5 +1,4 @@
 import React from 'react';
-// import R from 'ramda';
 import _ from 'lodash/fp';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';

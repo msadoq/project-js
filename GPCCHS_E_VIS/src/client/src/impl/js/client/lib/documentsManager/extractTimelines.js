@@ -1,21 +1,28 @@
-const { v4 } = require('node-uuid');
-const {
-  ifElse, isNil, identity, map, over, lensProp, compose,
-  assoc, prop, mergeAll, values, always, is, indexBy,
-} = require('ramda');
+import { v4 } from 'node-uuid';
 
-const safeMap = f => ifElse(isNil, identity, map(f));
-const overTimelines = over(lensProp('timelines'));
-const editTimelines = compose(safeMap, overTimelines, safeMap);
+import update from 'lodash/fp/update';
+import isArray from 'lodash/fp/isArray';
+import indexBy from 'lodash/fp/indexBy';
+import mergeAll from 'lodash/fp/mergeAll';
+import map from 'lodash/fp/map';
+import mapValues from 'lodash/fp/mapValues';
+import compose from 'lodash/fp/compose';
+import assoc from 'lodash/fp/assoc';
+import prop from 'lodash/fp/prop';
+import values from 'lodash/fp/values';
+
+import validation from './validation';
+
+const editTimelines = compose(mapValues, update('timelines'), map);
 
 const newUUID = v4;
 const injectTimelinesUUID = timeline => assoc('uuid', newUUID(), timeline);
 const injectAllTimelinesUUID = editTimelines(injectTimelinesUUID);
 const keepOnlyUUID = editTimelines(prop('uuid'));
 
-const indexByUUID = ifElse(is(Array), indexBy(prop('uuid')), always({}));
+const indexByUUID = tls => (isArray(tls) ? indexBy('uuid', tls) : {});
 const indexTimelines = compose(indexByUUID, prop('timelines'));
-const indexAllTimelines = compose(mergeAll, values, safeMap(indexTimelines));
+const indexAllTimelines = compose(mergeAll, values, map(indexTimelines));
 
 /**
  * Find timelines in each .timebars
@@ -29,6 +36,11 @@ const indexAllTimelines = compose(mergeAll, values, safeMap(indexTimelines));
 module.exports = (content, cb) => {
   const timebars = prop('timebars', content);
   const timebarsWithUUID = injectAllTimelinesUUID(timebars);
+
+  const validationError = validation('timebars', values(timebars));
+  if (validationError) {
+    return cb(validationError);
+  }
 
   return cb(null, {
     ...content,

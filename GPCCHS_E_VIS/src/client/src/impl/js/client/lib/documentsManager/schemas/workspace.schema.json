@@ -170,16 +170,7 @@
                     "default": 0
                 },
                 "timelines": {
-                    "type": "array",
-                    "items": {
-                        "oneOf": [{
-                            "$ref": "#/definitions/sessionLine"
-                        }, {
-                            "$ref": "#/definitions/datasetLine"
-                        }, {
-                            "$ref": "#/definitions/recordsetLine"
-                        }]
-                    }
+                    "type": "array"
                 },
                 "masterId": {
                     "type": "string"

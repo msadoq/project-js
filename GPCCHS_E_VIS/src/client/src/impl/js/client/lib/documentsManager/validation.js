@@ -2,11 +2,13 @@ const Ajv = require('ajv');
 
 const pathWorkspace = require('./schemas/workspace.schema.json');
 const pathPage = require('./schemas/page.schema.json');
+const timebarsSchema = require('./schemas/timebars.schema.js');
 
 const ajv = new Ajv({ allErrors: true });
 const knownValidators = {
   workspace: ajv.compile(pathWorkspace),
   page: ajv.compile(pathPage),
+  timebars: ajv.compile(timebarsSchema),
 };
 
 const validate = (id, data, schema) => {

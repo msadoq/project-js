@@ -1,8 +1,8 @@
-const { indexBy, over, lensProp } = require('ramda');
-const { v4 } = require('node-uuid');
+import { v4 } from 'node-uuid';
+import update from 'lodash/fp/update';
+import indexBy from 'lodash/fp/indexBy';
 
-const overAxes = over(lensProp('axes'));
-const indexAxes = overAxes(indexBy(axis => axis.id || axis.label || v4()));
+const indexAxes = update('axes', indexBy(axis => axis.id || axis.label || v4()));
 
 export default function addUuidToAxes(viewConf) {
   if (!viewConf.axes || !viewConf.axes.length) {

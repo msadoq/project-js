@@ -20,6 +20,21 @@ describe('documents/lib', () => {
             }
           ],
           masterId: 'Session 1',
+          "visuWindow": {
+            "lower": 1480578427000,
+            "upper": 1480578527000,
+            "current": 1480578457000,
+            "defaultWidth": 900000
+          },
+          "slideWindow": {
+            "lower": 1480578437000,
+            "upper": 1480582037000
+          },
+          "extUpperBound": 1480582047000,
+          "rulerStart": 1480577807000,
+          "rulerResolution": 11630,
+          "speed": 1,
+          "mode": "Normal",
         },
         {
           type: 'timeBarConfiguration',
@@ -33,6 +48,21 @@ describe('documents/lib', () => {
             },
           ],
           masterId: 'Session 2',
+          "visuWindow": {
+            "lower": 1480578427000,
+            "upper": 1480578527000,
+            "current": 1480578457000,
+            "defaultWidth": 900000
+          },
+          "slideWindow": {
+            "lower": 1480578437000,
+            "upper": 1480582037000
+          },
+          "extUpperBound": 1480582047000,
+          "rulerStart": 1480577807000,
+          "rulerResolution": 11630,
+          "speed": 1,
+          "mode": "Normal",
         }],
       };
       content = Object.assign({}, { __original: content, __folder: '.' });
@@ -58,10 +88,7 @@ describe('documents/lib', () => {
       const uuid = Object.getOwnPropertyNames(content.timebars);
       content.timebars[uuid[0]].timelines = { val: 'wrong' };
       extractTimelines(content, (err, val) => {
-        should.not.exist(err);
-        val.should.be.an('object').with.keys('__original', '__folder', 'timebars', 'timelines');
-        val.timebars.should.be.an('object');
-        Object.keys(val.timelines).should.have.length(1);
+        should.exist(err);
       });
     });
     it('no timelines', () => {

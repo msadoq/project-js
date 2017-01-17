@@ -1,10 +1,20 @@
 const { v4 } = require('node-uuid');
-const {
-  ifElse, isNil, identity, map, over, lensProp, compose, flatten, uncurryN,
-  assoc, prop, values, indexBy, pluck, propOr, reject,
-} = require('ramda');
-const _find = require('lodash/find');
 const async = require('async');
+
+const map = require('lodash/fp/map');
+const find = require('lodash/fp/find');
+const update = require('lodash/fp/update');
+
+const isNil = require('lodash/fp/isNil');
+const compose = require('lodash/fp/compose');
+const flatten = require('lodash/fp/flatten');
+const assoc = require('lodash/fp/assoc');
+const prop = require('lodash/fp/prop');
+const values = require('lodash/fp/values');
+const indexBy = require('lodash/fp/indexBy');
+const pluck = require('lodash/fp/pluck');
+const propOr = require('lodash/fp/propOr');
+const reject = require('lodash/fp/reject');
 
 const fs = require('../common/fs');
 const validation = require('./validation');
@@ -29,22 +39,20 @@ function readPages(folder, pagesToRead, done) {
   }, (err, pages = []) => done(err, reject(isNil, pages)));
 }
 
-const safeMap = f => ifElse(isNil, identity, map(f));
-const overPages = over(lensProp('pages'));
-const editPages = compose(safeMap, overPages, safeMap);
+const editPages = compose(map, update('pages'), map);
 
 const newUUID = v4;
 const injectUUID = obj => assoc('uuid', newUUID(), obj);
 const setTimebarId = timebars => (page) => {
-  const timebar = _find(timebars, tb => tb.id === page.timebarId) || {};
+  const timebar = find(tb => tb.id === page.timebarId, timebars) || {};
   return {
     ...page,
     timebarUuid: timebar.uuid,
   };
 };
-const injectIds = uncurryN(2)(timebars => (
-  editPages(compose(setTimebarId(timebars), injectUUID))
-));
+const injectIds = (timebars, windows) => (
+  editPages(compose(setTimebarId(timebars), injectUUID))(windows)
+);
 const getPages = compose(flatten, pluck('pages'), values);
 const keepOnlyUUID = editPages(prop('uuid'));
 

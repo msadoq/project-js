@@ -1,9 +1,21 @@
-const {
-  pipe, compose, ifElse, has, either,
-  indexBy, map, filter, flatten, values, pluck,
-  is, always, prop, propOr, assoc, over, lensProp,
-} = require('ramda');
-
+const pipe = require('lodash/fp/pipe');
+const compose = require('lodash/fp/compose');
+const has = require('lodash/fp/has');
+const indexBy = require('lodash/fp/indexBy');
+const filter = require('lodash/fp/filter');
+const flatten = require('lodash/fp/flatten');
+const values = require('lodash/fp/values');
+const pluck = require('lodash/fp/pluck');
+const map = require('lodash/fp/map');
+const mapValues = require('lodash/fp/mapValues');
+const always = require('lodash/fp/always');
+const prop = require('lodash/fp/prop');
+const propOr = require('lodash/fp/propOr');
+const assoc = require('lodash/fp/assoc');
+const cond = require('lodash/fp/cond');
+const anyPass = require('lodash/fp/anyPass');
+const update = require('lodash/fp/update');
+const isObject = require('lodash/fp/isObject');
 
 const { dirname } = require('path');
 const async = require('async');
@@ -72,10 +84,9 @@ function readViews(viewsToRead, done) {
 // side effects due to uuid generation (v4)
 function preparePageViews(page) {
   const pageFolder = dirname(page.absolutePath);
-  const inViews = over(lensProp('views'));
-  const injectUUIDAndPageFolder = inViews(
+  const injectUUIDAndPageFolder = update('views',
       pipe(
-        filter(either(has('oId'), has('path'))),
+        filter(anyPass([has('oId'), has('path')])),
         map(view => ({
           ...view,
           pageFolder,
@@ -94,16 +105,16 @@ function preparePageViews(page) {
  * @returns {*}
  */
 function extractViews(content, done) {
+  const otherwise = () => true;
   const getAllViews = pipe(
     propOr({}, 'pages'),
-    ifElse(
-      is(Object),
-      compose(flatten, values, pluck('views')),
-      always([]),
-    ),
+    cond([
+      [isObject, compose(flatten, values, pluck('views'))],
+      [otherwise, always([])],
+    ]),
   );
 
-  const prepareAllPagesViews = over(lensProp('pages'), map(preparePageViews));
+  const prepareAllPagesViews = update('pages', mapValues(preparePageViews));
   const nextContent = prepareAllPagesViews(content);
 
   return readViews(getAllViews(nextContent), (err, views) => {

@@ -330,4 +330,233 @@ describe('store:timebars:reducer', () => {
       getState().timelines.should.not.keys('myTimelineId');
     });
   });
+  describe('play action', () => {
+    let store;
+    let dispatch;
+    let getState;
+    const initStore = (
+      mode = 'Normal',
+      slideWindow,
+      playingTimebarId = 'myTimebarId',
+    ) => {
+      store = getStore({
+        hsc: {
+          playingTimebarId: 'myTimebarId'
+        },
+        timebars: {
+          myTimebarId: {
+            id: 'Id',
+            mode: mode,
+            visuWindow: {
+              lower: 1420106400000,
+              upper: 1420106700000,
+              current: 1420106500000,
+            },
+            slideWindow:
+              (
+                slideWindow ||
+                {
+                  lower: 1420106430000,
+                  upper: 1420106700500 // visuWindow.upper + 500
+                }
+              ),
+            speed: 1,
+          }
+        },
+      });
+      getState = store.getState;
+      dispatch = store.dispatch;
+    }
+
+    it('(Normal mode) - should move 377ms', () => {
+      initStore();
+      const state = getState();
+      const offset = 377;
+      const vw = state.timebars.myTimebarId.visuWindow;
+      const sw = state.timebars.myTimebarId.slideWindow;
+      const newCurrent = vw.current + offset;
+      dispatch(actions.handlePlay(
+        vw.current,
+        newCurrent,
+        0
+      ));
+
+      const newState = getState();
+      newState.timebars.myTimebarId.visuWindow.should.eql({
+        lower: vw.lower,
+        upper: vw.upper,
+        current: newCurrent,
+      });
+      newState.timebars.myTimebarId.slideWindow.should.eql({
+        lower: Math.trunc((vw.lower + newCurrent) / 2),
+        upper: Math.trunc((vw.current + vw.upper + offset) / 2),
+      });
+    });
+    it('(Normal mode) - should fail moving 377ms because timebar not found', () => {
+      initStore(null, null, 'myTimebarId02');
+      const state = getState();
+      const offset = 377;
+      const vw = state.timebars.myTimebarId.visuWindow;
+      const sw = state.timebars.myTimebarId.slideWindow;
+      const newCurrent = vw.current + offset;
+      dispatch(actions.handlePlay(
+        vw.current,
+        newCurrent,
+        0
+      ));
+
+      const newState = getState();
+      newState.timebars.myTimebarId.visuWindow.should.eql({
+        lower: vw.lower,
+        upper: vw.upper,
+        current: newCurrent,
+      });
+      newState.timebars.myTimebarId.slideWindow.should.eql({
+        lower: sw.lower,
+        upper: sw.upper,
+      });
+    });
+    /*
+    it('(Normal mode) -     should move 377ms and move slideWindow', () => {
+      initStore();
+      const state = getState();
+      const offset = 377;
+      const vw = state.timebars.myTimebarId.visuWindow;
+      const sw = state.timebars.myTimebarId.slideWindow;
+      const newCurrent = vw.upper + offset;
+      dispatch(actions.handlePlay(
+        vw.current,
+        newCurrent,
+        0
+      ));
+
+      const newState = getState();
+      newState.timebars.myTimebarId.visuWindow.should.have.property('lower', vw.lower + offset);
+      newState.timebars.myTimebarId.visuWindow.should.have.property('upper', newCurrent);
+      newState.timebars.myTimebarId.slideWindow.should.have.property(
+        'lower',
+        Math.trunc((vw.lower + offset + newCurrent) / 2)
+      );
+      newState.timebars.myTimebarId.slideWindow.should.have.property(
+        'upper',
+        Math.trunc((newCurrent + vw.upper + offset) / 2)
+      );
+    });
+    it('(Normal mode) -     should move 106,100,000ms and move slideWindow', () => {
+      initStore();
+      const state = getState();
+      const offset = 106100000;
+      const vw = state.timebars.myTimebarId.visuWindow;
+      const sw = state.timebars.myTimebarId.slideWindow;
+      const newCurrent = vw.upper + offset;
+      dispatch(actions.handlePlay(
+        vw.current,
+        newCurrent,
+        0
+      ));
+
+      const newState = getState();
+      newState.timebars.myTimebarId.visuWindow.should.have.property('lower', vw.lower + offset);
+      newState.timebars.myTimebarId.visuWindow.should.have.property('upper', newCurrent);
+      newState.timebars.myTimebarId.slideWindow.should.have.property(
+        'lower',
+        Math.trunc((vw.lower + offset + newCurrent) / 2)
+      );
+      newState.timebars.myTimebarId.slideWindow.should.have.property(
+        'upper',
+        Math.trunc((newCurrent + vw.upper + offset) / 2)
+      );
+    });
+    it('(Extensible mode) - should move 377ms and then 380ms', () => {
+      initStore('Extensible');
+      const state = getState();
+      const offset = 377;
+      const secondOffset = 380;
+      const vw = state.timebars.myTimebarId.visuWindow;
+      const sw = state.timebars.myTimebarId.slideWindow;
+      let newCurrent = vw.upper + offset;
+      dispatch(actions.handlePlay(
+        vw.current,
+        newCurrent,
+        0
+      ));
+
+      let newState = getState();
+      newState.timebars.myTimebarId.visuWindow.should.have.property('lower', vw.lower);
+      newState.timebars.myTimebarId.visuWindow.should.have.property('upper', newCurrent);
+      newState.timebars.myTimebarId.slideWindow.should.have.property(
+        'lower',
+        Math.trunc((vw.lower + newCurrent) / 2)
+      );
+      newState.timebars.myTimebarId.slideWindow.should.have.property('upper', sw.upper);
+
+      dispatch(actions.handlePlay(
+        newCurrent,
+        newCurrent + secondOffset,
+        0
+      ));
+
+      newCurrent += secondOffset;
+
+      newState = getState();
+      newState.timebars.myTimebarId.visuWindow.should.have.property('lower', vw.lower + secondOffset);
+      newState.timebars.myTimebarId.visuWindow.should.have.property('upper', newCurrent);
+      newState.timebars.myTimebarId.slideWindow.should.have.property(
+        'lower',
+        Math.trunc((vw.lower + secondOffset + newCurrent) / 2)
+      );
+      newState.timebars.myTimebarId.slideWindow.should.have.property('upper', newCurrent);
+    });
+    it('(Fixed mode) -      should move 377ms and then 380ms', () => {
+      initStore(
+        'Fixed',
+        {
+          lower: 1420106500000 - 500,
+          upper: 1420106500000 + 500,
+        }
+      );
+      const state = getState();
+      const offset = 377;
+      const secondOffset = 380;
+      const vw = state.timebars.myTimebarId.visuWindow;
+      const sw = state.timebars.myTimebarId.slideWindow;
+      let newCurrent = vw.current + offset;
+      dispatch(actions.handlePlay(
+        vw.current,
+        newCurrent,
+        0
+      ));
+
+      let newState = getState();
+      newState.timebars.myTimebarId.visuWindow.should.have.property('lower', vw.lower);
+      newState.timebars.myTimebarId.visuWindow.should.have.property('upper', vw.upper);
+      newState.timebars.myTimebarId.slideWindow.should.have.property('lower', sw.lower);
+      newState.timebars.myTimebarId.slideWindow.should.have.property('upper', sw.upper);
+
+      dispatch(actions.handlePlay(
+        newCurrent,
+        newCurrent + secondOffset,
+        0
+      ));
+
+      newState = getState();
+      newState.timebars.myTimebarId.visuWindow.should.have.property(
+        'lower',
+        Math.trunc(vw.lower + ((offset + secondOffset) - 500))
+      );
+      newState.timebars.myTimebarId.visuWindow.should.have.property(
+        'upper',
+        Math.trunc(vw.upper + ((offset + secondOffset) - 500))
+      );
+      newState.timebars.myTimebarId.slideWindow.should.have.property(
+        'lower',
+        Math.trunc(sw.lower + ((offset + secondOffset) - 500))
+      );
+      newState.timebars.myTimebarId.slideWindow.should.have.property(
+        'upper',
+        Math.trunc(sw.upper + ((offset + secondOffset) - 500))
+      );
+    });
+    */
+  });
 });

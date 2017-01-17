@@ -3,6 +3,7 @@ import _get from 'lodash/get';
 import globalConstants from 'common/constants';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
+import { nextCurrent, computeCursors } from '../../mainProcess/play';
 import {
   addOnce as addMessage,
   reset as resetMessages
@@ -19,6 +20,9 @@ import {
   getMasterTimelineById,
 } from '../selectors/timebars';
 import {
+  getPlayingTimebarId
+} from '../selectors/hsc';
+import {
   getSession,
 } from '../selectors/sessions';
 
@@ -28,6 +32,47 @@ import {
 export const add = simple(types.WS_TIMEBAR_ADD, 'timebarUuid', 'configuration');
 export const remove = simple(types.WS_TIMEBAR_REMOVE, 'timebarUuid');
 export const updateId = simple(types.WS_TIMEBAR_ID_UPDATE, 'timebarUuid', 'id');
+
+/*
+  Only the first argument must be provided
+  the two others are defaultly assigned for tests only
+*/
+export const handlePlay = (
+  lastTickTime = Date.now(),
+  dateNow = Date.now(),
+  currentUpperMargin = globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN,
+) =>
+  (dispatch, getState) => {
+    const state = getState();
+    const playingTimebarUuid = getPlayingTimebarId(state);
+    if (!playingTimebarUuid) {
+      return;
+    }
+    const playingTimebar = getTimebar(state, playingTimebarUuid);
+    if (!playingTimebar) {
+      return;
+    }
+    const newCurrent = nextCurrent(
+      playingTimebar.visuWindow.current,
+      playingTimebar.speed,
+      (dateNow - lastTickTime)
+    );
+    const nextCursors = computeCursors(
+      newCurrent,
+      playingTimebar.visuWindow.lower,
+      playingTimebar.visuWindow.upper,
+      playingTimebar.slideWindow.lower,
+      playingTimebar.slideWindow.upper,
+      playingTimebar.mode,
+      currentUpperMargin,
+    );
+    dispatch(updateCursors(
+      playingTimebarUuid,
+      nextCursors.visuWindow,
+      nextCursors.slideWindow
+    ));
+  };
+
 export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
   (dispatch, getState) => {
     const state = getState();

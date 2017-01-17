@@ -61,39 +61,18 @@ class GPCCHS(object):
     _container_pid_file = '{}gpinde-isis-desktopx.demo-:0-container.pid'
 
     _startContainerCmd = 'gpcctc_l_cnt_isisStartContainer_cmd -p {0} --cd {1}{0}'
-    _hssPath = '/usr/share/isis/lib/js/gpcchs_e_vis_launcher/server'
-    _hssRunCmd = 'node --max_old_space_size=8000 index'
-    _hssLogPath = '/var/log/isis/GPCCHS_E_VIS_server.log'
     _hscPath = '/usr/share/isis/lib/js/gpcchs_e_vis_launcher/client'
-    _hscRunCmd = './lpisis_gpcchs_e_clt --HSS=http://127.0.0.1:{} --FMD_ROOT={} --OPEN={} --PROFILING=off {}'
+    _hscRunCmd = './lpisis_gpcchs_e_clt --FMD_ROOT={} --OPEN={}'
     _hscLogPath = '/var/log/isis/GPCCHS_E_VIS_client.log'
-
-    @property
-    def _hss_run_cmd(self):
-        """
-        Property holding HSS run command-line as list
-        """
-        return self._hssRunCmd.format(
-            self._hssPort,
-            self._dcPushPort,
-            self._dcPullPort,
-            self._tbPullPort,            
-            self._tbPushPort
-        ).split()
 
     @property
     def _hsc_run_cmd(self):
         """
         Property holding HSC run command-line as list
         """
-        debug=""
-        if self._debug == True:
-            debug = "--LEVEL=DEBUG"
         return self._hscRunCmd.format(
-            self._hssPort,
             self._fmd_root,
-            self._workspace,
-            debug
+            self._workspace
         ).split()
 
     @property
@@ -181,14 +160,9 @@ class GPCCHS(object):
         # generated
         # Start of user code __init__
         self._context = {}
-        self._timebarName = 'TB1'
-        self._hssPort = None
-        self._hssProc = None
         self._hscProc = None
         self._dcPushPort = None
         self._dcPullPort = None
-        self._tbPushPort = None
-        self._tbPullPort = None
         self._fmdRoot = None
         self._feature_id = None
         self.__container_pid = None
@@ -204,7 +178,6 @@ class GPCCHS(object):
         self._feature_conf = self._gpccdc_conf_path
         self._debug = options.debug
         self._hscLogFile = None
-        self._hssLogFile = None
         # End of user code
 
     def __del__(self):
@@ -215,18 +188,13 @@ class GPCCHS(object):
         # Start of user code __del__
         self._context = None
         self._timebarName = None
-        self._hssPort = None
-        self._hssProc = None
         self._hscProc = None
         self._dcPushPort = None
         self._dcPullPort = None
-        self._tbPushPort = None
-        self._tbPullPort = None
-        self._fmdRoot = None        
+        self._fmdRoot = None
         self._workspace = None
         self._debug = None
         self._hscLogFile = None
-        self._hssLogFile = None
         self._feature_id = None
         self._feature_conf = None
         self.__container_pid = None
@@ -538,28 +506,6 @@ class GPCCHS(object):
             print("GPCCHS Log file opening fail:",filepath)
         return readFile
 
-    def _create_hss_env_vars(self):
-        """
-        Set the necessary variables in os.environ for HSS
-        """
-        level="INFO"
-        if self._debug == True:
-            level = "DEBUG"        
-        os.environ["NODE_ENV"] = "production"
-        os.environ["DEBUG"] = "GPCCHS:*"
-        os.environ["LEVEL"] = level
-        os.environ["HTTP_LOGS"] = "0"
-        os.environ["PORT"] = "{}".format(self._hssPort)
-        os.environ["ZMQ_GPCCDC_PUSH"] = "tcp://127.0.0.1:{}".format(self._dcPushPort)
-        os.environ["ZMQ_GPCCDC_PULL"] = "tcp://127.0.0.1:{}".format(self._dcPullPort)
-        os.environ["ZMQ_VIMA_TIMEBAR"] = "tcp://127.0.0.1:{}".format(self._tbPullPort)
-        os.environ["ZMQ_VIMA_TIMEBAR_INIT"] = "tcp://127.0.0.1:{}".format(self._tbPushPort)
-        os.environ["ZMQ_VIMA_STUB_TIMEBAR"] = " "
-        os.environ["STUB_DC_ON"] = "off"
-        os.environ["STUB_TB_ON"] = "off"
-        os.environ["MONITORING"] = "off"
-        os.environ["PROFILING"] = "off"
-
     def run(self):
         """
         Main function
@@ -572,8 +518,9 @@ class GPCCHS(object):
         rc = 0
         stdstreams = dict(out=None,error=None)
         portsNums = []
+        print("Considering FMD ROOT as", self._fmd_root)
         if not os.path.isfile(self._fmd_root + self._workspace):
-            print("GPCCHS Specified workspace file does not exist: ",self._fmd_root + self._workspace)
+            print("GPCCHS Specified workspace file does not exist: ", self._fmd_root + self._workspace)
             rc = -1
         if rc == 0:
             rc = self._exec_cmd("localslot --type gpvima",stdstreams)
@@ -582,11 +529,8 @@ class GPCCHS(object):
             if self._debug == True:
                 print("GPCCHS gets the following list of available ports:\n",portsNums)
             if len(portsNums) >= 5:
-                self._hssPort = portsNums[0]
                 self._dcPushPort = portsNums[1]
                 self._dcPullPort = portsNums[2]
-                self._tbPushPort = portsNums[3]
-                self._tbPullPort = portsNums[4]
             else:
                 rc=-1
         if rc == 0:
@@ -607,14 +551,6 @@ class GPCCHS(object):
             self._gpccdc_started = True
         if self._debug == True:
             self._hscLogFile = self._open_log_file(self._hscLogPath)
-            self._hssLogFile = self._open_log_file(self._hssLogPath)
-        if rc == 0:
-            os.chdir(self._hssPath)
-            self._create_hss_env_vars()
-            self._hssProc = self._run_process(' '.join(self._hss_run_cmd),self._hssLogFile)
-            if self._hssProc == None:
-                print("GPCCHS Failed to create server, launch aborted")
-                rc = -1
         if rc == 0:
             os.chdir(self._hscPath)
             self._hscProc = self._run_process(' '.join(self._hsc_run_cmd),self._hscLogFile)
@@ -625,17 +561,12 @@ class GPCCHS(object):
             print("GPCCHS Successfully started")
             try:
                 while self._hscProc.poll() == None:
-                    if self._hssProc.poll() != None:
-                        print("GPCCHS server crashed, client is closed")
-                        if self._hscProc.poll() == None:
-                            self._hscProc.terminate()
-                            self._hscProc.wait()
+                    if self._hscProc.poll() == None:
+                        self._hscProc.terminate()
+                        self._hscProc.wait()
                     sleep(1)
             except KeyboardInterrupt:
                 print("\nGPCCHS and GPCCDC processes aborted by user")
-        if self._hssProc:
-            if self._hssProc.poll() == None:
-                self._hssProc.terminate()
         if self._hscProc:
             if self._hscProc.poll() == None:
                 self._hscProc.terminate()
@@ -648,8 +579,6 @@ class GPCCHS(object):
             print("GPCCHS terminated GPCCDC, but run again this command to be sure: ",' '.join(self._cdestroy_cmd))
         if self._hscLogFile:
             self._hscLogFile.close()
-        if self._hssLogFile:
-            self._hssLogFile.close()
         return rc
 
 if __name__ == '__main__':

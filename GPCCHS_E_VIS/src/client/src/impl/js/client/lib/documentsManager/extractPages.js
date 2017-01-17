@@ -16,12 +16,13 @@ const pluck = require('lodash/fp/pluck');
 const propOr = require('lodash/fp/propOr');
 const reject = require('lodash/fp/reject');
 
+const fmd = require('../common/fmd');
 const fs = require('../common/fs');
 const validation = require('./validation');
 
 function readPages(folder, pagesToRead, done) {
   async.map(pagesToRead, (page, next) => {
-    fs.readJsonFromPath(folder, page.path, page.oId, page.absolutePath, (err, pageContent) => {
+    fmd.readJson(folder, page.path, page.oId, page.absolutePath, (err, pageContent) => {
       if (err) {
         return next(err);
       }

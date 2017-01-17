@@ -1,5 +1,3 @@
-import ipc from '../mainProcess/ipc';
-
 const fs = require('fs');
 const {
   join
@@ -51,22 +49,6 @@ const self = module.exports = {
       return self.parse(content, callback);
     });
   },
-  readJsonFromOId: (oId, callback) => {
-    /**
-     * TODO garm : remove from here, fs should only work on local file, FMD file resolution should
-     * be done elsewhere and before fs call
-     */
-    ipc.server.requestFmdGet(oId, ({ err, detail }) => {
-      if (err) {
-        return callback(err);
-      }
-      const { dirname, basename } = detail;
-      return self.readJsonFromFmdPath(
-        join(parameters.get('FMD_ROOT_DIR'), dirname, basename),
-        callback
-       );
-    });
-  },
   readJsonFromRelativePath: (folder, path, callback) => {
     resolvedPath = undefined;
     // Relative path from local folder
@@ -102,20 +84,6 @@ const self = module.exports = {
       }
       return self.parse(content, callback);
     });
-  },
-  readJsonFromPath: (
-    folder, relativePath, oId, absolutePath, callback
-  ) => {
-    if (absolutePath) {
-      return self.readJsonFromAbsPath(absolutePath, callback);
-    }
-    if (oId) {
-      return self.readJsonFromOId(oId, callback);
-    }
-    if (folder && !_startsWith(relativePath, '/')) {
-      return self.readJsonFromRelativePath(folder, relativePath, callback);
-    }
-    return self.readJsonFromFmdPath(relativePath, callback);
   },
   /**
    * Checks if folder exists and if not, creates it

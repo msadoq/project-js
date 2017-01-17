@@ -2,7 +2,7 @@ import { should, getTmpPath, freezeMe } from '../common/test';
 
 const { saveWorkspace, saveWorkspaceAs } = require('./saveWorkspace');
 const { join } = require('path');
-const fs = require('../common/fs');
+const fmd = require('../common/fmd');
 const validation = require('./validation');
 const exec = require('child_process').exec;
 
@@ -91,7 +91,7 @@ describe('documentsManager/saveWorkspace', () => {
     });
   });
   it('check validity of new workspace', (done) => {
-    fs.readJsonFromPath(folder, 'workspace.json', undefined, undefined,
+    fmd.readJson(folder, 'workspace.json', undefined, undefined,
       (err, wkContent) => {
         should.not.exist(err);
         const validationError = validation('workspace', wkContent);
@@ -107,7 +107,7 @@ describe('documentsManager/saveWorkspace', () => {
     }));
   });
   it('check validity of new workspace', (done) => {
-    fs.readJsonFromPath(
+    fmd.readJson(
       state.hsc.folder,
       state.hsc.file,
       undefined,

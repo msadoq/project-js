@@ -116,22 +116,6 @@ describe('common/fs', () => {
       });
     });
   });
-  describe('readJsonFromPath', () => {
-    it('works', (done) => {
-      fs.readJsonFromPath(getTmpPath(), 'foo.json', undefined, undefined, (err, content) => {
-        should.not.exist(err);
-        content.should.eql({ foo: 'bar' });
-        done();
-      });
-    });
-    it('readJsonFromPath error', (done) => {
-      fs.readJsonFromPath(getTmpPath(), 'not-exists.txt', undefined, undefined, (err, content) => {
-        err.should.be.an('error');
-        should.not.exist(content);
-        done();
-      });
-    });
-  });
   describe('readJsonFromAbsPath', () => {
     it('works', (done) => {
       fs.readJsonFromAbsPath(getTmpPath('foo.json'), (err, content) => {

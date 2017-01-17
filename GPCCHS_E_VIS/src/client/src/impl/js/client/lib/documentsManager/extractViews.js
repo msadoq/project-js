@@ -20,6 +20,7 @@ const isObject = require('lodash/fp/isObject');
 const { dirname } = require('path');
 const async = require('async');
 const { v4 } = require('node-uuid');
+const fmd = require('../common/fmd');
 const fs = require('../common/fs');
 const validation = require('./validation');
 const vivl = require('../../VIVL/main');
@@ -37,7 +38,7 @@ const supportedViewTypes = [
 function readViews(viewsToRead, done) {
   async.reduce(viewsToRead, [], (views, view, next) => {
     const { pageFolder, path, oId } = view;
-    fs.readJsonFromPath(pageFolder, path, oId, view.absolutePath, (err, viewContent) => {
+    fmd.readJson(pageFolder, path, oId, view.absolutePath, (err, viewContent) => {
       if (err) {
         return next(err);
       }

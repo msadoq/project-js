@@ -2,7 +2,7 @@ import getLogger from 'common/log';
 
 const omit = require('lodash/omit');
 const async = require('async');
-const fs = require('../common/fs');
+const fmd = require('../common/fmd');
 const validation = require('./validation');
 
 const extractTimebars = require('./extractTimebars');
@@ -17,7 +17,7 @@ module.exports = {
   readWorkspace: (folder, relativePath, callback) => {
     logger.info(`reading workspace ${folder}/${relativePath}`);
     async.waterfall([
-      cb => fs.readJsonFromPath(folder, relativePath, undefined, undefined, cb),
+      cb => fmd.readJson(folder, relativePath, undefined, undefined, cb),
       (workspace, cb) => cb(validation('workspace', workspace), workspace),
       (workspace, cb) => cb(null, { __original: workspace, __folder: folder }),
       (content, cb) => extractTimebars(content, cb),

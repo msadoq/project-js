@@ -657,6 +657,7 @@ module.exports = {
     'lpisis.decommutedPacket.DecommutedPacket',
     proto
   ),
+  getDecommutedValue: require('./decommutedPacket/decommutedValue'),
   getReportingParameter: require('./decommutedParameter/reportingParameter'),
   getReportingParameterProtobuf: override => protobuf.encode(
     'lpisis.decommutedParameter.ReportingParameter',

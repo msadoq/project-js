@@ -3,8 +3,8 @@ const _each = require('lodash/each');
 const _omit = require('lodash/omit');
 const _startsWith = require('lodash/startsWith');
 const _cloneDeep = require('lodash/cloneDeep');
-const { writeFile } = require('fs');
 const { join, dirname, relative } = require('path');
+const { writeJson } = require('../common/fmd');
 const { checkPath } = require('../common/fs');
 
 function saveWorkspaceAs(state, path, useRelativePath, callback) {
@@ -73,7 +73,7 @@ function saveWorkspaceAs(state, path, useRelativePath, callback) {
       workspace.timebars.push(tb);
     });
     // save file
-    writeFile(path, JSON.stringify(workspace, null, '  '), (err) => {
+    writeJson(path, workspace, (err) => {
       if (err) {
         return callback(`Unable to save workspace in file ${path}`);
       }

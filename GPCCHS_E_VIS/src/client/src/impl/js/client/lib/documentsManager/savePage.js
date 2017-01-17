@@ -1,8 +1,8 @@
 /* eslint no-underscore-dangle: 0 */
 const _findIndex = require('lodash/findIndex');
 const _startsWith = require('lodash/startsWith');
-const { writeFile } = require('fs');
 const { dirname, relative } = require('path');
+const { writeJson } = require('../common/fmd');
 const { checkPath } = require('../common/fs');
 const parameters = require('common/parameters');
 
@@ -63,7 +63,7 @@ function savePageAs(state, pageId, path, useRelativePath, callback) {
       jsonPage.views.push(current);
     });
     // save file
-    writeFile(path, JSON.stringify(jsonPage, null, '  '), (errfs) => {
+    writeJson(path, jsonPage, (errfs) => {
       if (errfs) {
         return callback(`Unable to save view ${page.title} in file ${path}`);
       }

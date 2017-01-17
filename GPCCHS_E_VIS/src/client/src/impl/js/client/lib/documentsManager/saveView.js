@@ -1,5 +1,4 @@
 /* eslint no-underscore-dangle: 0 */
-const { writeFile } = require('fs');
 const { dirname } = require('path');
 const _cloneDeep = require('lodash/cloneDeep');
 const { checkPath } = require('../common/fs');
@@ -7,6 +6,7 @@ const _omit = require('lodash/omit');
 const _values = require('lodash/values');
 const _each = require('lodash/each');
 const globalConstants = require('common/constants');
+const { writeJson } = require('../common/fmd');
 const vivl = require('../../VIVL/main');
 
 /**
@@ -37,7 +37,7 @@ function saveViewAs(viewConfiguration, viewType, path, callback) {
       entryPoints[index] = _omit(value, 'id'); // eslint-disable-line no-param-reassign
     });
 
-    writeFile(path, JSON.stringify(view, null, '  '), (errWrite) => {
+    writeJson(path, view, (errWrite) => {
       if (errWrite) {
         return callback(`Unable to save view ${view.title} in file ${path}`);
       }

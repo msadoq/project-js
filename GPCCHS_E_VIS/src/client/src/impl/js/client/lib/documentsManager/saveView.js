@@ -24,7 +24,7 @@ function saveViewAs(viewConfiguration, viewType, path, callback) {
   }
   // TODO add case with new FMD path -> createDocument par DC
   checkPath(dirname(path)).then(() => {
-    const view = _cloneDeep(viewConfiguration);
+    let view = _cloneDeep(viewConfiguration);
     const structureType = vivl(viewType, 'structureType')();
     switch (structureType) { // eslint-disable-line default-case
       case globalConstants.DATASTRUCTURETYPE_RANGE: {
@@ -36,6 +36,12 @@ function saveViewAs(viewConfiguration, viewType, path, callback) {
     _each(view.entryPoints, (value, index, entryPoints) => {
       entryPoints[index] = _omit(value, 'id'); // eslint-disable-line no-param-reassign
     });
+
+    // Case of DynamicView
+    if (view.type === 'DynamicView' && view.entryPoints.length) {
+      view.entryPoint = _omit(view.entryPoints[0], 'name');
+      view = _omit(view, 'entryPoints');
+    }
 
     writeJson(path, view, (errWrite) => {
       if (errWrite) {

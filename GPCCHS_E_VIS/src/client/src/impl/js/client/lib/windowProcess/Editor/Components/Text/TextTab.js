@@ -5,12 +5,12 @@ import {
 } from 'react-bootstrap';
 import ViewParamsContainer from '../ViewParamsContainer';
 
-export default class PlotTab extends React.Component {
+export default class TextTab extends React.Component {
   static propTypes = {
     title: PropTypes.string,
-    handlePlotTitle: PropTypes.func,
+    handleTextTitle: PropTypes.func,
     titleStyle: PropTypes.object,
-    handlePlotTitleStyle: PropTypes.func
+    handleTextTitleStyle: PropTypes.func
   }
   static contextTypes = {
     viewId: React.PropTypes.string

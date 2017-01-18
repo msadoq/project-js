@@ -62,12 +62,12 @@ export default class Editor extends Component {
     removeEntryPoint(viewId, key);
   }
 
-  handlePlotTitle = (newVal) => {
+  handleTextTitle = (newVal) => {
     const { updateTitle, viewId } = this.props;
     updateTitle(viewId, newVal);
   }
 
-  handlePlotTitleStyle = (label, newVal) => {
+  handleTextTitleStyle = (label, newVal) => {
     const { configuration, updateTitleStyle, viewId } = this.props;
     updateTitleStyle(viewId, {
       ...configuration.titleStyle,
@@ -113,8 +113,8 @@ export default class Editor extends Component {
           </div>}
           {currentDisplay === 1 && <TextTab
             title={title}
-            handlePlotTitle={this.handlePlotTitle}
-            handlePlotTitleStyle={this.handlePlotTitleStyle}
+            handleTextTitle={this.handleTextTitle}
+            handleTextTitleStyle={this.handleTextTitleStyle}
             titleStyle={titleStyle}
           />}
         </div>

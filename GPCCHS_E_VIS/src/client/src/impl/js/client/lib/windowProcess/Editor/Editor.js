@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import getLogger from 'common/log';
 import { PlotEditorContainer } from './Components/Plot';
 import { TextEditorContainer } from './Components/Text';
+import DynamicEditorContainer from './Components/Dynamic/DynamicEditorContainer';
 import styles from './Editor.css';
 
 const logger = getLogger('Editor');
@@ -59,6 +60,14 @@ export default class Editor extends Component {
           {type === 'TextView' && <TextEditorContainer
             key={viewId}
             viewId={viewId}
+            viewType={viewType}
+            configuration={configuration}
+            closeEditor={closeEditor}
+          />}
+          {type === 'DynamicView' && <DynamicEditorContainer
+            key={viewId}
+            viewId={viewId}
+            focusedPageId={focusedPageId}
             viewType={viewType}
             configuration={configuration}
             closeEditor={closeEditor}

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha \"lib/**/*.spec.js\" -- -R spec",
-    "hello": "npm install && npm link ../../../../../common/src/main/js/common && [ -f .env ] && echo || cp .env.example .env",
+    "hello": "npm install && npm link ../../../../../common/src/main/js/common",
     "lint": "eslint lib e2e *.js",
     "start": "node index",
     "test": "mocha \"lib/**/*.spec.js\"",

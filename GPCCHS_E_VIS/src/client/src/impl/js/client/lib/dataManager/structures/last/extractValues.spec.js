@@ -59,7 +59,7 @@ describe('data/map/lastValue', () => {
   };
   describe('select', () => {
     it('state undefined', () => {
-      const newState = select(payload.rId1, viewDataMap.text1.entryPoints.ep4, 'ep4', undefined);
+      const newState = select(payload.rId1, viewDataMap.text1.entryPoints.ep4, 'ep4', undefined, 'TextView');
       newState.timestamp.should.equal(20);
       newState.value.should.equal(203);
     });
@@ -67,7 +67,7 @@ describe('data/map/lastValue', () => {
       const oldState = { index: {}, values: {} };
       oldState.index.ep4 = 22;
       oldState.values.ep4 = 22;
-      const newState = select(payload.rId1, viewDataMap.text1.entryPoints.ep4, 'ep4', oldState);
+      const newState = select(payload.rId1, viewDataMap.text1.entryPoints.ep4, 'ep4', oldState, 'TextView');
       newState.timestamp.should.equal(20);
       newState.value.should.equal(203);
     });
@@ -75,7 +75,7 @@ describe('data/map/lastValue', () => {
       const oldState = { index: {}, values: {} };
       oldState.index.ep4 = 18.5;
       oldState.values.ep4 = 22;
-      const newState = select(payload.rId1, viewDataMap.text1.entryPoints.ep4, 'ep4', oldState);
+      const newState = select(payload.rId1, viewDataMap.text1.entryPoints.ep4, 'ep4', oldState, 'TextView');
       newState.timestamp.should.equal(20);
       newState.value.should.equal(203);
     });
@@ -83,7 +83,7 @@ describe('data/map/lastValue', () => {
       const oldState = { index: {}, values: {} };
       oldState.index.ep4 = 20;
       oldState.values.ep4 = 22;
-      const newState = select(payload.rId1, viewDataMap.text1.entryPoints.ep4, 'ep4', oldState);
+      const newState = select(payload.rId1, viewDataMap.text1.entryPoints.ep4, 'ep4', oldState, 'TextView');
       newState.timestamp.should.equal(20);
       newState.value.should.equal(203);
     });
@@ -91,21 +91,21 @@ describe('data/map/lastValue', () => {
   describe('lastValue', () => {
     it('state empty', () => {
       const count = { last: 0, range: 0 };
-      const newState = lastValue({}, payload, 'text1', viewDataMap.text1.entryPoints, count);
+      const newState = lastValue({}, payload, 'text1', viewDataMap.text1.entryPoints, count, 'TextView');
       newState.index.ep4.should.equal(20);
       newState.values.ep4.should.eql({ value: 203, monit: 'ok' });
       newState.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
     });
     it('state undefined', () => {
       const count = { last: 0, range: 0 };
-      const newState = lastValue(undefined, payload, 'text1', viewDataMap.text1.entryPoints, count);
+      const newState = lastValue(undefined, payload, 'text1', viewDataMap.text1.entryPoints, count, 'TextView');
       newState.index.ep4.should.equal(20);
       newState.values.ep4.should.eql({ value: 203, monit: 'ok' });
       newState.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
     });
     it('multiple entry points', () => {
       const count = { last: 0, range: 0 };
-      const newState = lastValue({}, payload, 'text2', viewDataMap.text2.entryPoints, count);
+      const newState = lastValue({}, payload, 'text2', viewDataMap.text2.entryPoints, count, 'TextView');
       newState.index.ep6.should.equal(20);
       newState.values.ep6.should.eql({ value: 203, monit: 'ok' });
       newState.index.ep5.should.equal(20);
@@ -114,14 +114,15 @@ describe('data/map/lastValue', () => {
     });
     it('dynamic view', () => {
       const count = { last: 0, range: 0 };
-      const newState = lastValue({}, payload, 'dynamic', viewDataMap.dynamic.entryPoints, count);
+      const newState = lastValue({}, payload, 'dynamic', viewDataMap.dynamic.entryPoints, count, 'DynamicView');
       newState.index.dynamicEP.should.equal(20);
-      newState.values.dynamicEP.should.eql({
-        remoteId: 'rId1',
-        expectedInterval: [18, 20],
-        decommutedValues: [{ name: 'val1' }, { name: 'val2' }],
-        offset: 0,
-      });
+      newState.values.dynamicEP.value.should.eql({
+        val1: { type: 'uinteger', value: 201 },
+        val2: { type: 'uinteger', value: 202 },
+        val3: { type: 'uinteger', value: 203 },
+        referenceTimestamp: { type: 'time', value: 20 },
+        time: { type: 'time', value: 20.2 },
+        monitoringState: { type: 'uinteger', value: 'ok' } });
       newState.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
     });
   });

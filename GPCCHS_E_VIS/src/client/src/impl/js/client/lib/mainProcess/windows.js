@@ -1,6 +1,7 @@
 import _debounce from 'lodash/debounce';
 import _difference from 'lodash/difference';
-import async from 'async';
+import _each from 'lodash/each';
+import { each, series } from 'async';
 import { BrowserWindow } from 'electron';
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
@@ -15,6 +16,10 @@ import {
   focusWindow,
   blurWindow,
 } from '../store/actions/hsc';
+import {
+  getWindows,
+  getWindowsTitle,
+} from '../store/selectors/windows';
 import { getStore } from '../store/mainStore';
 
 const logger = getLogger('main:windows');
@@ -25,7 +30,7 @@ function getWindowHtmlPath() {
   return `file://${parameters.get('path')}/index.html`;
 }
 
-export function open(data, windowId, cb) {
+export function open(windowId, title, data, cb) {
   logger.info(`opening window ${windowId}`);
   const window = new BrowserWindow({
     show: false,
@@ -102,20 +107,29 @@ export function close(windowId) {
 }
 
 export default function windowsObserver(state, callback) {
-  const list = state.windows;
+  const list = getWindows(state);
   const inStore = Object.keys(list);
   const opened = Object.keys(windows);
   const toOpen = _difference(inStore, opened);
   const toClose = _difference(opened, inStore);
-  toClose.forEach(windowId => close(windowId));
+  const titles = getWindowsTitle(state);
 
-  if (!toOpen.length) {
-    return callback(null);
-  }
+  series([
+    // close
+    fn => fn(toClose.forEach(windowId => close(windowId))),
+    // open
+    fn => each(toOpen, (windowId, cb) => open(windowId, titles[windowId], list[windowId], cb), fn),
+    // update titles
+    (fn) => {
+      _each(windows, (w, windowId) => {
+        if (w.isDestroyed() || w.getTitle() === titles[windowId]) {
+          return;
+        }
 
-  async.each(toOpen, (windowId, cb) => open(list[windowId], windowId, cb), callback);
+        w.setTitle(titles[windowId]);
+      });
 
-  // TODO dbrugne : implement title update in window observation logic (add getWindowTitle selector)
-  // win.setTitle({ title: title.concat(' * - VIMA') });
-  // win.getTitle();
+      return fn(null);
+    },
+  ], callback);
 }

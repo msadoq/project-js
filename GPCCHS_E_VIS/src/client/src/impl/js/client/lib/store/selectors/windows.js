@@ -1,4 +1,5 @@
 import _get from 'lodash/get';
+import _reduce from 'lodash/reduce';
 import { createSelector } from 'reselect';
 import { getPages } from './pages';
 import { getViews } from './views';
@@ -80,4 +81,13 @@ export const getWindowsVisibleViews = createSelector(
       ...v,
       viewData: views[v.viewId]
     }))
+);
+
+export const getWindowsTitle = createSelector(
+  getWindows,
+  windows => _reduce(
+    windows,
+    (titles, window, windowId) => Object.assign(titles, {
+      [windowId]: `${window.title}${(window.isModified === true) ? ' *' : ''} - VIMA`
+    }), {})
 );

@@ -186,8 +186,8 @@ export function tick() {
 
       execution.start('windows');
       windowsObserver(state, (err) => {
+        execution.stop('windows');
         if (err) {
-          execution.stop('windows');
           return callback(err);
         }
 
@@ -197,7 +197,6 @@ export function tick() {
         }
 
         logger.debug('windows synchronized');
-        execution.stop('windows');
         return callback(null);
       });
     },

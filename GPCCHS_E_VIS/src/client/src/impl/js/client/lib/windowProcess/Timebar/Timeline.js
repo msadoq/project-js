@@ -1,5 +1,4 @@
 import React, { PureComponent, PropTypes } from 'react';
-import classnames from 'classnames';
 import moment from 'moment';
 import styles from './Lefttab.css';
 
@@ -86,14 +85,16 @@ export default class Timeline extends PureComponent {
     }
     return (
       <li
-        className={classnames(
-          styles.timeline,
-          { [styles.master]: isMaster }
-        )}
+        className={styles.timeline}
         title="Click to edit track"
         onClick={willEditTimeline.bind(null, timelineId, id)}
       >
-        {id}
+        { isMaster ? <span className={styles.master} title="Master timeline">M</span> : null}
+        <span
+          style={{
+            paddingLeft: isMaster ? '20px' : '0px'
+          }}
+        >{id}</span>
         {formattedOffset}
         <span
           className={styles.square}

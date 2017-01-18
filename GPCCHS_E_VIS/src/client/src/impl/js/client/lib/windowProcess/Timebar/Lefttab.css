@@ -56,8 +56,15 @@
 }
 
 .master{
-  background: #efefef;
-  border: 1px solid #111;
+  background: #222;
+  color: #FFF;
+  line-height: 18px;
+  text-align: center;
+  height: 17px;
+  width: 17px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
 }
 .formGroup{
   margin-bottom: 4px;

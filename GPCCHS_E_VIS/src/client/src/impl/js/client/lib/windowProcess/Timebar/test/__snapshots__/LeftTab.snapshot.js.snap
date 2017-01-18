@@ -39,10 +39,22 @@ exports[`test Lefttab renders correctly 1`] = `
     onScroll={[Function]}
     onWheel={[Function]}>
     <li
-      className="timeline master"
+      className="timeline"
       onClick={[Function]}
       title="Click to edit track">
-      Session 1
+      <span
+        className="master"
+        title="Master timeline">
+        M
+      </span>
+      <span
+        style={
+          Object {
+            "paddingLeft": "20px",
+          }
+        }>
+        Session 1
+      </span>
       <span
         className="offset"
         title="Formatted offset HH:MM:ss:SSS">
@@ -61,7 +73,14 @@ exports[`test Lefttab renders correctly 1`] = `
       className="timeline"
       onClick={[Function]}
       title="Click to edit track">
-      Session 2
+      <span
+        style={
+          Object {
+            "paddingLeft": "0px",
+          }
+        }>
+        Session 2
+      </span>
       <span
         className="offset"
         title="Formatted offset HH:MM:ss:SSS">

@@ -5,6 +5,7 @@ import {
   updateId,
   updateOffset,
   updateSessionId,
+  updateColor,
 } from '../../store/actions/timelines';
 import LeftTab from './LeftTab';
 
@@ -14,6 +15,7 @@ export default connect(
     updateMasterId,
     updateOffset,
     updateSessionId,
+    updateColor,
     addAndMountTimeline,
     updateId,
     unmountTimeline,

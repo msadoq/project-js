@@ -1,12 +1,11 @@
 import classnames from 'classnames';
-import _difference from 'lodash/difference';
 import React, { Component, PropTypes } from 'react';
 import { Button, Col, Glyphicon } from 'react-bootstrap';
 import { schemeCategory20b } from 'd3-scale';
 import Timeline from './Timeline';
 import Modal from '../common/Modal';
-import EditTrack from './EditTrack';
-import AddTrack from './AddTrack';
+import EditTimeline from './timeline/EditTimeline';
+import AddTimeline from './timeline/AddTimeline';
 import styles from './Lefttab.css';
 import { main } from '../ipc';
 
@@ -16,6 +15,7 @@ export default class LeftTab extends Component {
     unmountTimeline: PropTypes.func.isRequired,
     onTimelinesVerticalScroll: PropTypes.func.isRequired,
     updateId: PropTypes.func.isRequired,
+    updateColor: PropTypes.func.isRequired,
     updateMasterId: PropTypes.func.isRequired,
     updateOffset: PropTypes.func.isRequired,
     updateSessionId: PropTypes.func.isRequired,
@@ -34,8 +34,6 @@ export default class LeftTab extends Component {
     this.state = {
       willAdd: false,
       willEdit: false,
-      color: schemeCategory20b[this.props.timelines.length % 20],
-      errorMessage: null,
     };
   }
 
@@ -47,18 +45,8 @@ export default class LeftTab extends Component {
     this.props.onTimelinesVerticalScroll(e, e.currentTarget);
   }
 
-  // Set auto color for the next track to be added
-  setColor(color) {
-    const availableColors = _difference(schemeCategory20b, this.props.timelines
-      .map(x => x.color).concat(color));
-    this.setState({
-      color: availableColors[0] || schemeCategory20b[(this.props.timelines.length + 1) % 20]
-    });
-  }
-
   willUnmountTimeline = (timebarUuid, timelineId) => {
     this.props.unmountTimeline(timebarUuid, timelineId);
-    this.setColor(this.state.color);
   }
 
   toggleAddTimeline = (e) => {
@@ -77,20 +65,40 @@ export default class LeftTab extends Component {
     }
   }
 
-  willAddTimeline = (kind, id, color, sessionId) => {
-    this.props.addAndMountTimeline(
-      this.props.timebarUuid,
+  willAddTimeline = (values) => {
+    const {
+      timebarUuid,
+      timelines,
+      updateMasterId,
+      addAndMountTimeline,
+      updateOffset,
+    } = this.props;
+
+    const timelinesBeforeAdd = [].concat(timelines);
+
+    addAndMountTimeline(
+      timebarUuid,
       {
-        kind,
-        id,
-        sessionId,
-        color,
+        kind: values.kind,
+        id: values.id,
+        sessionId: parseInt(values.sessionId, 10),
+        color: values.color,
+        offset: values.master ? 0 : parseInt(values.offset, 10),
       }
     );
-    this.setColor(color);
+    this.setState({
+      willAdd: false,
+    });
+
+    if (values.master) {
+      timelinesBeforeAdd.forEach(t =>
+        updateOffset(t.timelineId, t.offset - values.offset)
+      );
+      updateMasterId(timebarUuid, values.id);
+    }
   }
 
-  hideEditTimeline = () => {
+  hideModals = () => {
     this.setState({
       willAdd: false,
       willEdit: false,
@@ -105,43 +113,54 @@ export default class LeftTab extends Component {
     });
   }
 
-  editTimeline = (timelineId, id, offset, master, sessionId) => {
+  editTimeline = (values) => {
     const {
       updateOffset,
       updateId,
+      updateColor,
       timebarUuid,
       updateMasterId,
       masterId,
       timelines,
       updateSessionId,
     } = this.props;
-    const { editingId } = this.state;
-    const timeline = timelines.find(x => x.timelineId === timelineId);
 
-    if (timeline.id !== id) updateId(timelineId, id);
-    if (timeline.sessionId !== sessionId) updateSessionId(timelineId, sessionId);
-    if (master && masterId !== id) {
-      updateMasterId(timebarUuid, editingId);
+    const timeline = timelines.find(x => x.timelineId === values.timelineId);
+    const offset = parseInt(values.offset, 10);
+
+    if (timeline.id !== values.id) {
+      updateId(values.timelineId, values.id);
+    }
+    if (timeline.color !== values.color) {
+      updateColor(values.timelineId, values.color);
+    }
+    if (timeline.sessionId !== parseInt(values.sessionId, 10)) {
+      updateSessionId(values.timelineId, parseInt(values.sessionId, 10));
+    }
+
+    if (values.master && masterId !== values.id) {
+      updateMasterId(timebarUuid, values.id);
       timelines.forEach((t) => {
-        if (t.timelineId === timelineId) {
+        if (t.timelineId === values.timelineId) {
           return;
         }
         updateOffset(t.timelineId, t.offset - offset);
       });
-      updateOffset(timelineId, 0);
+      updateOffset(values.timelineId, 0);
     } else if (timeline.offset !== offset) {
-      if ((masterId === timelineId) || (master && masterId !== timelineId)) {
+      if ((masterId === values.id) || (values.master && masterId !== values.id)) {
         timelines.forEach((t) => {
-          if (t.timelineId === timelineId) {
+          if (t.timelineId === values.timelineId) {
             return;
           }
           updateOffset(t.timelineId, t.offset - offset);
         });
-        updateOffset(timelineId, 0);
+        updateOffset(values.timelineId, 0);
       } else {
-        updateOffset(timelineId, offset);
+        updateOffset(values.timelineId, offset);
       }
     }
+    this.setState({ editingId: null });
   }
 
   detach = (e) => {
@@ -158,7 +177,6 @@ export default class LeftTab extends Component {
       timebarUuid,
     } = this.props;
     const {
-      color,
       willAdd,
       willEdit,
       editingId,
@@ -168,37 +186,56 @@ export default class LeftTab extends Component {
     if (timelines.length === 0) {
       noTrack = <h5 className="text-center"><br /><b>No track to display</b></h5>;
     }
-
     const currentlyEditingTimeline = timelines.find(x => x.id === editingId);
+
     const editTrack = (
       <Modal
-        title="Edit track"
+        title="Edit timeline"
         isOpened={currentlyEditingTimeline && willEdit}
-        onClose={this.hideEditTimeline}
+        onClose={this.hideModals}
       >
-        {currentlyEditingTimeline && <EditTrack
-          timeline={currentlyEditingTimeline}
-          masterId={masterId}
+        {currentlyEditingTimeline && <EditTimeline
+          form={`timebar-${timebarUuid}-editTrack`}
+          onSubmit={this.editTimeline}
           sessions={sessions}
-          editTimeline={this.editTimeline}
-          onClose={this.hideEditTimeline}
+          timelines={timelines}
+          masterId={masterId}
+          id={currentlyEditingTimeline.id}
+          timelineId={currentlyEditingTimeline.timelineId}
+          initialValues={{
+            master: masterId === currentlyEditingTimeline.id,
+            id: currentlyEditingTimeline.id,
+            color: currentlyEditingTimeline.color,
+            kind: currentlyEditingTimeline.kind,
+            sessionId: typeof currentlyEditingTimeline.sessionId === 'number' ?
+              currentlyEditingTimeline.sessionId.toString() : '',
+            timelineId: currentlyEditingTimeline.timelineId,
+            offset: currentlyEditingTimeline.offset,
+          }}
         />}
       </Modal>
     );
 
     const addTrack = (
       <Modal
-        title="Add track"
+        title="Add timeline"
         isOpened={willAdd}
         onClose={this.toggleAddTimeline}
       >
-        <AddTrack
-          timelines={timelines}
-          color={color}
+        <AddTimeline
+          form={`timebar-${timebarUuid}-addTrack`}
           sessions={sessions}
-          onChange={this.willAddTimeline}
-          onClose={this.toggleAddTimeline}
-          bodyComponent={AddTrack}
+          timelines={timelines}
+          onSubmit={this.willAddTimeline}
+          initialValues={{
+            id: '',
+            color: schemeCategory20b[timelines.length % 20],
+            kind: 'session',
+            sessionId: typeof sessions[0].id === 'number' ?
+              sessions[0].id.toString() : '',
+            offset: 0,
+            master: false,
+          }}
         />
       </Modal>
     );

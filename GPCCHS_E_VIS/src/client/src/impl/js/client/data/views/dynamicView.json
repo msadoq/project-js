@@ -6,15 +6,13 @@
     "length": 5,
     "width": 3
   },
-  "entryPoints": [
+  "entryPoint":
     {
       "connectedData": {
         "formula": "TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>",
         "filter": [],
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1"
-      },
-      "name": "dynamicEP"
+      }
     }
-  ]
 }

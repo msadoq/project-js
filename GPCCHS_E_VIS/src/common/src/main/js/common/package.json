@@ -6,6 +6,7 @@
     "lint": "eslint lib test *.js",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha \"!(node_modules)/**/*.spec.js\"",
     "test": "mocha \"!(node_modules)/**/*.spec.js\"",
+    "test:watch": "npm run test -- --watch",
     "tw": "npm test -- --watch",
     "dc-stub": "DEBUG=GPCCHS:* LEVEL=INFO ZMQ_GPCCDC_PUSH=tcp://127.0.0.1:5042 ZMQ_GPCCDC_PULL=tcp://127.0.0.1:49165 node stubs/dc.js",
     "dc-reg": "DEBUG=GPCCHS:* LEVEL=INFO ZMQ_GPCCDC_PUSH=tcp://127.0.0.1:5042 ZMQ_GPCCDC_PULL=tcp://127.0.0.1:49165 node stubs/dcTestReg.js"
@@ -19,7 +20,8 @@
     "protobufjs": "^5.0.1",
     "ramda": "^0.22.0",
     "winston": "^2.3.0",
-    "zmq": "^2.15.3"
+    "zmq": "^2.15.3",
+    "mkdirp": "^0.5.1"
   },
   "devDependencies": {
     "babel-core": "^6.14.0",

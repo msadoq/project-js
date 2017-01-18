@@ -1,6 +1,16 @@
 import { app } from 'electron';
 import { init } from 'common/parameters';
-import getLogger from 'common/log';
+import {
+  getLogger,
+  productLog,
+  productLogSync,
+} from 'common/log';
+import {
+  LOG_APPLICATION_START,
+  LOG_APPLICATION_STOP,
+  LOG_APPLICATION_ERROR,
+} from 'common/constants';
+import { logAppCrash } from 'common/log/node';
 import { start, stop, onWindowsClose } from './lib/mainProcess'; // eslint-disable-line import/first
 
 const logger = getLogger('main');
@@ -9,7 +19,10 @@ init(__dirname, true);
 // avoid using host proxy configuration and perturbing local HTTP access (e.g.: index.html)
 app.commandLine.appendSwitch('no-proxy-server');
 
+// const distLogger = getLogger('Application', ['dist']);
+
 const errorHandler = (err) => {
+  productLogSync(LOG_APPLICATION_ERROR, err.message)
   console.error(err); // eslint-disable-line no-console
   app.exit(1);
 };
@@ -18,6 +31,7 @@ app.on('ready', () => {
   // https://github.com/electron/electron/issues/1412
   process.title = 'gpcchs_main';
 
+  productLog(LOG_APPLICATION_START);
   logger.info('app start');
   try {
     start();
@@ -32,6 +46,7 @@ app.on('window-all-closed', () => {
 });
 
 app.on('quit', () => {
+  productLogSync(LOG_APPLICATION_STOP);
   logger.info('app stop');
   stop();
 });

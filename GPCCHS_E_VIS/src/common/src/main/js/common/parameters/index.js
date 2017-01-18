@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { join } = require('path');
 const minimist = require('minimist');
-const R = require('ramda');
+const _ = require('lodash/fp');
 
 const REQUIRED = 'config.required.json'; // required
 const DEFAULT = 'config.default.json'; // mandatory
@@ -117,6 +117,6 @@ function init(path, checkForRequired = false) {
   checkRequired(requiredConfig);
 }
 
-const universalGet = R.pathOr(get, ['parameters', 'get'], global);
+const universalGet = _.pathOr(get, ['parameters', 'get'], global);
 
 module.exports = { init, get: universalGet };

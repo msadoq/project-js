@@ -11,8 +11,6 @@ import { showQuestionMessage, showErrorMessage, getPathByFilePicker } from '../d
 import { getStore } from '../../store/mainStore';
 import { openDefaultWorkspace, readWkFile } from '../openWorkspace';
 
-module.exports = { workspaceOpenNew, workspaceOpen };
-
 function workspaceOpenNew(focusedWindow) {
   allDocumentsAreSaved(getStore(), getStore().dispatch, (err) => {
     if (err) {
@@ -104,3 +102,8 @@ function isSaveNeeded(state) {
   const view = _find(state.views, ['isModified', true]);
   return !(!win && !page && !view);
 }
+
+export default {
+  workspaceOpenNew,
+  workspaceOpen
+};

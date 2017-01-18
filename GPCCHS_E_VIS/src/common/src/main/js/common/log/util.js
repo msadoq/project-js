@@ -10,6 +10,13 @@ const getTimer = () => {
   };
 };
 
+const formatArgs = (...args) =>
+  JSON.stringify(args);
+
+const formatProductLog = (uid, ...args) =>
+  `${uid}${args.length ? [' ', formatArgs(...args)].join('') : ''}\n`;
+
 module.exports = {
   getTimer,
+  formatProductLog,
 };

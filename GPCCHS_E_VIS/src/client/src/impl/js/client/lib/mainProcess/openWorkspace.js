@@ -1,8 +1,14 @@
 import _each from 'lodash/each';
 import _map from 'lodash/map';
 import { v4 } from 'node-uuid';
-import getLogger from 'common/log';
+import {
+  getLogger,
+  productLog,
+} from 'common/log';
 import parameters from 'common/parameters';
+import {
+  LOG_DOCUMENT_OPEN
+} from 'common/constants';
 
 import { readWorkspace } from '../documentsManager';
 import { add as addTimeline } from '../store/actions/timelines';
@@ -114,6 +120,8 @@ export function readWkFile(dispatch, getState, root, file, callback) {
       v: Object.keys(state.views).length,
     };
     logger.info(`${count.w} windows, ${count.p} pages, ${count.v} views`);
+    productLog(LOG_DOCUMENT_OPEN, 'workspace', file);
+
     if (typeof callback === 'function') {
       return callback(null);
     }

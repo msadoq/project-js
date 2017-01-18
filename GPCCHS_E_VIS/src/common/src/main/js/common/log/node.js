@@ -1,9 +1,21 @@
 const winston = require('winston');
 const wCommon = require('winston/lib/winston/common');
-const R = require('ramda');
-const { getTimer } = require('./util');
+const fs = require('fs');
+const path = require('path');
+const _ = require('lodash/fp');
+const mkdirp = require('mkdirp');
+
+const {
+  getTimer,
+  formatProductLog,
+} = require('./util');
 const { get } = require('../parameters');
 const bytesToString = require('../utils/bytesConverter');
+
+const {
+  LOG_LOCAL_FILENAME,
+  LOG_DIST_FILENAME,
+} = require('../constants');
 
 winston.cli();
 
@@ -24,37 +36,37 @@ const parseValue = value => (
 
 // Deserialize param string to object
 // param string format: <param1>=<value1>,<param2>=<value2>
-const parseParams = paramStr =>
-  Object.assign({ // Default parameter values
+const parseParams = _.pipe(
+  _.defaultTo(''),
+  _.split(','),
+  _.map(_.split('=')),
+  _.map(p => ({
+    [p[0]]: parseValue(p[1]),
+  })),
+  _.reduce((acc, p) => _.assign(acc, p), {
     time: true,
     process: true,
     category: false,
     filter: '.*',
-  }, (paramStr || '')
-    .split(',')
-    .map(p => p.split('='))
-    .map(p => ({
-      [p[0]]: parseValue(p[1]),
-    })
-  ).reduce((acc, p) => Object.assign(acc, p), {}));
+  })
+);
 
 // Deserialize string to object
 // String format: <logger1>?<param1>=<value1>,<param2>=<value2>:<logger2>?<param1>=<value1>,...:...
-const parseConfig = config =>
-  config.split(':')
-    .map(t => t.split('?'))
-    .map(t => ({
-      type: t[0],
-      params: parseParams(t[1]),
-    }));
+const parseConfig = _.pipe(
+  _.split(':'),
+  _.map(_.split('?')),
+  _.map(t => ({
+    type: t[0],
+    params: parseParams(t[1]),
+  }))
+);
 
 // Remove process data info to pretty log into stdout
-const getStdOptions = options => (R.pipe(
-  R.evolve({
-    message: message => `${message} +${options.meta.time}`,
-  }),
-  R.dissoc('formatter'),
-  R.over(R.lensPath(['meta']), R.omit(['pname', 'pid', 'time']))
+const getStdOptions = options => (_.pipe(
+  _.update('message', m => `${m} +${options.meta.time}`),
+  _.dissoc('formatter'),
+  _.update('meta', _.omit(['pname', 'pid', 'time']))
 )(options));
 
 const leftPad = number => ((number < 10) ? `0${number}` : number);
@@ -64,9 +76,8 @@ const formatTime = (now) => {
   return time;
 };
 
-const getMonitoringOptions = options => (R.pipe(
-  R.evolve({
-    message: () =>
+const getMonitoringOptions = options => (_.pipe(
+  _.update('message', () =>
 `[${options.meta.pname}(pid=${options.meta.pid})]
 = monitoring ======== (${formatTime(new Date(options.meta.latency.time))})
 average time consumption by loop ${options.meta.latency.avg}
@@ -74,12 +85,13 @@ memory consumption
   rss=${bytesToString(options.meta.memUsage.rss)}
   heapTotal=${bytesToString(options.meta.memUsage.heapTotal)}
   heapUsed=${bytesToString(options.meta.memUsage.heapUsed)}
-=====================`,
-  }),
-  R.dissoc('formatter'),
-  R.over(R.lensPath(['meta']), R.omit(['memUsage', 'latency', 'pname', 'pid', 'time']))
+=====================`
+  ),
+  _.dissoc('formatter'),
+  _.update('meta', _.omit(['memUsage', 'latency', 'pname', 'pid', 'time']))
 )(options));
 
+const distFormatter = ({ message }) => message.replace(/^\[.+\]\[.+\]\s?/g, '');
 
 let cpt = 0;
 const availableTransports = {
@@ -91,16 +103,23 @@ const availableTransports = {
       colorize: true,
       name: `console ${cpt += 1}`,
       formatter: (options) => {
-        if (R.path(['meta', 'memUsage'], options)) {
+        if (_.path(['meta', 'memUsage'], options)) {
           return wCommon.log(getMonitoringOptions(options));
         }
         return wCommon.log(getStdOptions(options));
       },
     }, args)),
+  dist: args => new winston.transports.File(
+    Object.assign({
+      filename: LOG_DIST_FILENAME,
+      level: 'info',
+      json: false,
+      formatter: distFormatter,
+    }, args)),
   // eslint-disable-next-line no-return-assign
   file: args => new winston.transports.File(
     Object.assign({
-      filename: 'logs',
+      filename: LOG_LOCAL_FILENAME,
       timestamp: true,
       level: 'info',
       json: false,
@@ -140,13 +159,20 @@ const getProcessLabel = meta => `[${getProcessName(meta)}(${getProcessId(meta)})
 // Create a Winston logger, that contains their own transports (console, http, file, ...)
 // Each message is prefixed by category.
 // Messages can be filtered by category using a regular expression
-function getLogger(category) {
+function getLogger(category, enabledTransports) {
   if (loggers[category]) {
     return loggers[category];
   }
 
   const config = parseConfig(getConfig());
-  const transports = getTransports(config);
+
+  const transports = getTransports(
+    _.cond([
+      [_.isArray, _.map(k => ({ type: k }))],
+      [_.stubTrue, _.constant(config)],
+    ])(enabledTransports)
+  );
+
   winston.loggers.add(category, {
     transports,
   });
@@ -158,8 +184,11 @@ function getLogger(category) {
   // If filter is defined, category must match filter regular expression
   transports.forEach((t) => {
     const transportConfig = config.filter(c => c.type === t.constructor.prototype.name)[0];
-    const filter = transportConfig.params.filter;
-    const params = transportConfig.params;
+    const params = _.prop('params', transportConfig);
+    if (!params) {
+      return;
+    }
+    const filter = _.prop('filter', params);
     const log = t.constructor.prototype.log;
 
     // eslint-disable-next-line no-param-reassign
@@ -210,9 +239,34 @@ if (process.versions.electron) {
   });
 }
 
+const productLog = (uid, ...args) => {
+  mkdirp(get('LOG_FOLDER'), (err) => {
+    if (err) {
+      console.log(err); // eslint-disable-line no-console
+    } else {
+      fs.appendFile(
+        path.join(get('LOG_FOLDER'), LOG_DIST_FILENAME),
+        formatProductLog(uid, ...args));
+    }
+  });
+};
+
+const productLogSync = (uid, ...args) => {
+  mkdirp.sync(get('LOG_FOLDER'));
+  fs.appendFileSync(
+    path.join(get('LOG_FOLDER'), LOG_DIST_FILENAME),
+    formatProductLog(uid, ...args));
+};
+
+
 module.exports = {
+  parseParams,
   parseConfig,
   parseValue,
+  getStdOptions,
+  getMonitoringOptions,
   availableTransports,
   getLogger,
+  productLog,
+  productLogSync,
 };

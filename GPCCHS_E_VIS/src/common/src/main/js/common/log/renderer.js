@@ -2,14 +2,27 @@
 
 // eslint-disable-next-line import/no-unresolved, import/no-extraneous-dependencies
 const { ipcRenderer } = require('electron');
+// eslint-disable-next-line import/no-unresolved, import/no-extraneous-dependencies
+const fs = require('electron').remote.require('fs');
+// eslint-disable-next-line import/no-unresolved, import/no-extraneous-dependencies
+const mkdirp = require('electron').remote.require('mkdirp');
+// eslint-disable-next-line import/no-unresolved, import/no-extraneous-dependencies
+const path = require('electron').remote.require('path');
+
+const {
+  LOG_DIST_FILENAME,
+} = require('../constants');
 const {
   getTimer,
+  formatProductLog,
 } = require('./util');
 
 let DEFAULT_TRANSPORTS = ['electronIPC'];
 if (global.parameters.get('DEBUG') === 'on') {
   DEFAULT_TRANSPORTS = ['console', 'electronIPC'];
 }
+
+const LOG_FOLDER = global.parameters.get('LOG_FOLDER');
 
 const DEFAULT_LEVELS = ['silly', 'debug', 'verbose', 'info', 'warn', 'error'];
 
@@ -49,6 +62,25 @@ transportAPis.electronIPC = category => ({
   debug: sendOverIPC(category, 'debug'),
   silly: sendOverIPC(category, 'silly'),
 });
+
+const productLog = (uid, ...args) => {
+  mkdirp(LOG_FOLDER, (err) => {
+    if (err) {
+      console.log(err); // eslint-disable-line no-console
+    } else {
+      fs.appendFile(
+        path.join(LOG_FOLDER, LOG_DIST_FILENAME),
+        formatProductLog(uid, ...args));
+    }
+  });
+};
+
+const productLogSync = (uid, ...args) => {
+  mkdirp.sync(LOG_FOLDER);
+  fs.appendFileSync(
+    path.join(LOG_FOLDER, LOG_DIST_FILENAME),
+    formatProductLog(uid, ...args));
+};
 
 const getConsoleTime = getTimer();
 
@@ -90,4 +122,6 @@ module.exports = {
   transportAPis,
   sendOverIPC,
   sendToConsole,
+  productLog,
+  productLogSync,
 };

@@ -1,9 +1,0 @@
-package pusGroundModel.protobuf;
-
-enum ValueType {
-  PUSVT_INT64 = 1;
-  PUSVT_UINT64 = 2;
-  PUSVT_DOUBLE = 4;
-  PUSVT_STRING = 7;
-  PUSVT_BOOL = 8;
-}

@@ -1,10 +1,15 @@
 // Generated file
 
+const {
+  stringToBytes,
+  bytesToString,
+
+} = require('../types');
 
 module.exports = {
   encode: data => ({
     providerDefinitionName: (data.providerDefinitionName !== null && typeof data.providerDefinitionName !== 'undefined')
-      ? { value: data.providerDefinitionName }
+      ? { value: stringToBytes(data.providerDefinitionName) }
       : null,
     providerDefinitionTime: (data.providerDefinitionTime !== null && typeof data.providerDefinitionTime !== 'undefined')
       ? { value: data.providerDefinitionTime }
@@ -12,7 +17,7 @@ module.exports = {
   }),
   decode: data => ({
     providerDefinitionName: (data.providerDefinitionName !== null && typeof data.providerDefinitionName !== 'undefined')
-      ? { type: 'identifier', value: data.providerDefinitionName.value.toBuffer() }
+      ? { type: 'identifier', value: bytesToString(data.providerDefinitionName.value) }
       : undefined,
     providerDefinitionTime: (data.providerDefinitionTime !== null && typeof data.providerDefinitionTime !== 'undefined')
       ? { type: 'time', value: data.providerDefinitionTime.value.toNumber() }

@@ -4,7 +4,7 @@ const applyOverride = require('../../applyOverride');
 
 
 module.exports = override => applyOverride({
-  name: Buffer('myIDENTIFIER'),
+  name: 'myIDENTIFIER',
   value: _random(1, 100, true),
 }, override);
 

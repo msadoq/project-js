@@ -17,8 +17,8 @@ describe('protobuf/lpisis/computedEvent/ComputedEvent', () => {
     const json = protobuf.decode('lpisis.computedEvent.ComputedEvent', buffer);
     json.should.be.an('object').that.have.properties({
       eventDate: { type: 'time', value: fixture.eventDate },
-      systemDate: { type: 'time', value: fixture.systemDate },
       eventClass: { type: 'enum', value: fixture.eventClass, symbol: eventClass[fixture.eventClass] },
+      systemDate: { type: 'time', value: fixture.systemDate },
       mission: { type: 'string', value: fixture.mission },
       origin: { type: 'string', value: fixture.origin },
       satellite: { type: 'ulong', value: fixture.satellite },

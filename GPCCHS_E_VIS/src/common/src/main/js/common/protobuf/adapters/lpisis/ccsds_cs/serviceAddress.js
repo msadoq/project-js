@@ -1,5 +1,10 @@
 // Generated file
 
+const {
+  stringToBytes,
+  bytesToString,
+
+} = require('../types');
 
 module.exports = {
   encode: data => ({
@@ -16,10 +21,10 @@ module.exports = {
       ? { value: data.priorityLevels }
       : null,
     serviceURI: (data.serviceURI !== null && typeof data.serviceURI !== 'undefined')
-      ? { value: data.serviceURI }
+      ? { value: stringToBytes(data.serviceURI) }
       : null,
     dataURI: (data.dataURI !== null && typeof data.dataURI !== 'undefined')
-      ? { value: data.dataURI }
+      ? { value: stringToBytes(data.dataURI) }
       : null,
     dataName: (data.dataName !== null && typeof data.dataName !== 'undefined')
       ? { value: data.dataName }
@@ -39,10 +44,10 @@ module.exports = {
       ? { type: 'uinteger', value: data.priorityLevels.value }
       : undefined,
     serviceURI: (data.serviceURI !== null && typeof data.serviceURI !== 'undefined')
-      ? { type: 'uri', value: data.serviceURI.value.toBuffer() }
+      ? { type: 'uri', value: bytesToString(data.serviceURI.value) }
       : undefined,
     dataURI: (data.dataURI !== null && typeof data.dataURI !== 'undefined')
-      ? { type: 'uri', value: data.dataURI.value.toBuffer() }
+      ? { type: 'uri', value: bytesToString(data.dataURI.value) }
       : undefined,
     dataName: (data.dataName !== null && typeof data.dataName !== 'undefined')
       ? { type: 'string', value: data.dataName.value }

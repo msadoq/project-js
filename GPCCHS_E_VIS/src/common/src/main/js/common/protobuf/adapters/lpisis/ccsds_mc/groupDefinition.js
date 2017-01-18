@@ -4,12 +4,15 @@ const objectType = require('../ccsds_com/objectType');
 const {
   ushortToBytes,
   bytesToUshort,
+  stringToBytes,
+  bytesToString,
+
 } = require('../types');
 
 module.exports = {
   encode: data => ({
     name: (data.name !== null && typeof data.name !== 'undefined')
-      ? { value: data.name }
+      ? { value: stringToBytes(data.name) }
       : null,
     description: (data.description !== null && typeof data.description !== 'undefined')
       ? { value: data.description }
@@ -24,7 +27,7 @@ module.exports = {
   }),
   decode: data => ({
     name: (data.name !== null && typeof data.name !== 'undefined')
-      ? { type: 'identifier', value: data.name.value.toBuffer() }
+      ? { type: 'identifier', value: bytesToString(data.name.value) }
       : undefined,
     description: (data.description !== null && typeof data.description !== 'undefined')
       ? { type: 'string', value: data.description.value }

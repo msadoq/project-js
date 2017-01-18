@@ -5,7 +5,7 @@ const applyOverride = require('../../applyOverride');
 module.exports = override => applyOverride({
   name: 'mySTRING',
   version: 'mySTRING',
-  uri: Buffer('myURI'),
+  uri: 'myURI',
   brokenLink: true,
 }, override);
 

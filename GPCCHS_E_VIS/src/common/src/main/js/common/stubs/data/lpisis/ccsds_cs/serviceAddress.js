@@ -7,8 +7,8 @@ module.exports = override => applyOverride({
   supportedLevels: 100,
   qoSproperties: 100,
   priorityLevels: 100,
-  serviceURI: Buffer('myURI'),
-  dataURI: Buffer('myURI'),
+  serviceURI: 'myURI',
+  dataURI: 'myURI',
   dataName: 'mySTRING',
 }, override);
 

@@ -7,11 +7,11 @@ module.exports = {
     encodingDate: (data.encodingDate !== null && typeof data.encodingDate !== 'undefined')
       ? { value: data.encodingDate }
       : null,
-    date: (data.date !== null && typeof data.date !== 'undefined')
-      ? { value: data.date }
-      : null,
     pusHeader: (data.pusHeader !== null && typeof data.pusHeader !== 'undefined')
       ? pusHeader.encode(data.pusHeader)
+      : null,
+    date: (data.date !== null && typeof data.date !== 'undefined')
+      ? { value: data.date }
       : null,
     rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
       ? { value: data.rawPacket }
@@ -31,11 +31,11 @@ module.exports = {
     encodingDate: (data.encodingDate !== null && typeof data.encodingDate !== 'undefined')
       ? { type: 'time', value: data.encodingDate.value.toNumber() }
       : undefined,
-    date: (data.date !== null && typeof data.date !== 'undefined')
-      ? { type: 'time', value: data.date.value.toNumber() }
-      : undefined,
     pusHeader: (data.pusHeader !== null && typeof data.pusHeader !== 'undefined')
       ? pusHeader.decode(data.pusHeader)
+      : undefined,
+    date: (data.date !== null && typeof data.date !== 'undefined')
+      ? { type: 'time', value: data.date.value.toNumber() }
       : undefined,
     rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
       ? { type: 'blob', value: data.rawPacket.value.toBuffer() }

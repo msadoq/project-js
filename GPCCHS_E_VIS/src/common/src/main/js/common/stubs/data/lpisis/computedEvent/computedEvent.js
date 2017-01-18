@@ -8,8 +8,8 @@ const now = _now();
 
 module.exports = override => applyOverride({
   eventDate: now,
-  systemDate: now,
   eventClass: 0,
+  systemDate: now,
   mission: 'mySTRING',
   origin: 'mySTRING',
   specificAttributes: [getNamedValue(), getNamedValue()],

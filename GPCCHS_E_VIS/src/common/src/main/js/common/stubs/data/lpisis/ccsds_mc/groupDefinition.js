@@ -3,7 +3,7 @@ const applyOverride = require('../../applyOverride');
 const getObjectType = require('../ccsds_com/objectType');
 
 module.exports = override => applyOverride({
-  name: Buffer('myIDENTIFIER'),
+  name: 'myIDENTIFIER',
   description: 'mySTRING',
   objectType: getObjectType(),
   domain: 10,

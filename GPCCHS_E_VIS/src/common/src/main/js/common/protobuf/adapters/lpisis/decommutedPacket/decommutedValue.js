@@ -3,8 +3,9 @@ const validityState = require('../ccsds_mc/validityState');
 const {
   encodeAttribute,
   decodeAttribute,
-  bytesToString,
   stringToBytes,
+  bytesToString,
+
 } = require('../types');
 
 module.exports = {
@@ -43,3 +44,4 @@ module.exports = {
       : undefined,
   }),
 };
+

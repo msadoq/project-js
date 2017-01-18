@@ -4,12 +4,15 @@ const _map = require('lodash/map');
 const {
   uoctetToBytes,
   bytesToUoctet,
+  stringToBytes,
+  bytesToString,
+
 } = require('../types');
 
 module.exports = {
   encode: data => ({
     TCID: (data.TCID !== null && typeof data.TCID !== 'undefined')
-      ? { value: data.TCID }
+      ? { value: stringToBytes(data.TCID) }
       : null,
     receivedDate: (data.receivedDate !== null && typeof data.receivedDate !== 'undefined')
       ? { value: data.receivedDate }
@@ -24,7 +27,7 @@ module.exports = {
   }),
   decode: data => ({
     TCID: (data.TCID !== null && typeof data.TCID !== 'undefined')
-      ? { type: 'identifier', value: data.TCID.value.toBuffer() }
+      ? { type: 'identifier', value: bytesToString(data.TCID.value) }
       : undefined,
     receivedDate: (data.receivedDate !== null && typeof data.receivedDate !== 'undefined')
       ? { type: 'time', value: data.receivedDate.value.toNumber() }

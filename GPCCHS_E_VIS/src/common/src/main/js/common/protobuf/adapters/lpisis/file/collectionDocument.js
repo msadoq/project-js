@@ -1,5 +1,10 @@
 // Generated file
 
+const {
+  stringToBytes,
+  bytesToString,
+
+} = require('../types');
 
 module.exports = {
   encode: data => ({
@@ -10,7 +15,7 @@ module.exports = {
       ? { value: data.version }
       : null,
     uri: (data.uri !== null && typeof data.uri !== 'undefined')
-      ? { value: data.uri }
+      ? { value: stringToBytes(data.uri) }
       : null,
     brokenLink: (data.brokenLink !== null && typeof data.brokenLink !== 'undefined')
       ? { value: data.brokenLink }
@@ -24,7 +29,7 @@ module.exports = {
       ? { type: 'string', value: data.version.value }
       : undefined,
     uri: (data.uri !== null && typeof data.uri !== 'undefined')
-      ? { type: 'uri', value: data.uri.value.toBuffer() }
+      ? { type: 'uri', value: bytesToString(data.uri.value) }
       : undefined,
     brokenLink: (data.brokenLink !== null && typeof data.brokenLink !== 'undefined')
       ? { type: 'boolean', value: data.brokenLink.value }

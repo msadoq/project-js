@@ -6,6 +6,6 @@ const getUserRight = require('./userRight');
 module.exports = override => applyOverride({
   profilesAccess: [getProfileRight(), getProfileRight()],
   usersAccess: [getUserRight(), getUserRight()],
-  path: Buffer('myURI'),
+  path: 'myURI',
 }, override);
 

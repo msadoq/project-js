@@ -12,11 +12,11 @@ module.exports = {
       ? { value: data.systemDate }
       : null,
     specificAttributes: _map(data.specificAttributes, d => (namedValue.encode(d))),
-    userProfile: (data.userProfile !== null && typeof data.userProfile !== 'undefined')
-      ? { value: protobuf.encode('lpisis.ccsds_cs.User', data.userProfile) }
-      : null,
     mission: (data.mission !== null && typeof data.mission !== 'undefined')
       ? { value: data.mission }
+      : null,
+    userProfile: (data.userProfile !== null && typeof data.userProfile !== 'undefined')
+      ? { value: protobuf.encode('lpisis.ccsds_cs.User', data.userProfile) }
       : null,
     satellite: (data.satellite !== null && typeof data.satellite !== 'undefined')
       ? { value: data.satellite }
@@ -33,11 +33,11 @@ module.exports = {
       ? { type: 'time', value: data.systemDate.value.toNumber() }
       : undefined,
     specificAttributes: _map(data.specificAttributes, d => (namedValue.decode(d))),
-    userProfile: (data.userProfile !== null && typeof data.userProfile !== 'undefined')
-      ? protobuf.decode('lpisis.ccsds_cs.User', data.userProfile.value)
-      : undefined,
     mission: (data.mission !== null && typeof data.mission !== 'undefined')
       ? { type: 'string', value: data.mission.value }
+      : undefined,
+    userProfile: (data.userProfile !== null && typeof data.userProfile !== 'undefined')
+      ? protobuf.decode('lpisis.ccsds_cs.User', data.userProfile.value)
       : undefined,
     satellite: (data.satellite !== null && typeof data.satellite !== 'undefined')
       ? { type: 'ulong', value: data.satellite.value.toNumber() }

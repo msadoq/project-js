@@ -1,7 +1,0 @@
-package logbookEvent.protobuf;
-
-enum LogChannel {
-  LOCAL = 0;
-  SECURITY = 1;
-  EVENT = 2;
-}

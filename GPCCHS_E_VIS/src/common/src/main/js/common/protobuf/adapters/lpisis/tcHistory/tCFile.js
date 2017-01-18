@@ -20,10 +20,10 @@ module.exports = {
     rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
       ? { value: data.rawPacket }
       : null,
-    tc13: _map(data.tc13, d => ({ value: protobuf.encode('lpisis.tcHistory.TC13', d) })),
     tcId: (data.tcId !== null && typeof data.tcId !== 'undefined')
       ? { value: data.tcId }
       : null,
+    tc13: _map(data.tc13, d => ({ value: protobuf.encode('lpisis.tcHistory.TC13', d) })),
     tcSourceId: (data.tcSourceId !== null && typeof data.tcSourceId !== 'undefined')
       ? { value: data.tcSourceId }
       : null,
@@ -48,10 +48,10 @@ module.exports = {
     rawPacket: (data.rawPacket !== null && typeof data.rawPacket !== 'undefined')
       ? { type: 'blob', value: data.rawPacket.value.toBuffer() }
       : undefined,
-    tc13: _map(data.tc13, d => (protobuf.decode('lpisis.tcHistory.TC13', d.value))),
     tcId: (data.tcId !== null && typeof data.tcId !== 'undefined')
       ? { type: 'integer', value: data.tcId.value }
       : undefined,
+    tc13: _map(data.tc13, d => (protobuf.decode('lpisis.tcHistory.TC13', d.value))),
     tcSourceId: (data.tcSourceId !== null && typeof data.tcSourceId !== 'undefined')
       ? { type: 'uinteger', value: data.tcSourceId.value }
       : undefined,

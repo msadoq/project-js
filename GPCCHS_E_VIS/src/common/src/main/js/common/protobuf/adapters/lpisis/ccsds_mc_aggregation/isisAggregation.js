@@ -8,6 +8,7 @@ const {
   bytesToUshort,
   uoctetToBytes,
   bytesToUoctet,
+
 } = require('../types');
 
 module.exports = {

@@ -3,12 +3,15 @@
 const {
   encodeAttribute,
   decodeAttribute,
+  stringToBytes,
+  bytesToString,
+
 } = require('../types');
 
 module.exports = {
   encode: data => ({
     name: (data.name !== null && typeof data.name !== 'undefined')
-      ? { value: data.name }
+      ? { value: stringToBytes(data.name) }
       : null,
     value: (data.value !== null && typeof data.value !== 'undefined')
       ? encodeAttribute(data.value)
@@ -16,7 +19,7 @@ module.exports = {
   }),
   decode: data => ({
     name: (data.name !== null && typeof data.name !== 'undefined')
-      ? { type: 'identifier', value: data.name.value.toBuffer() }
+      ? { type: 'identifier', value: bytesToString(data.name.value) }
       : undefined,
     value: (data.value !== null && typeof data.value !== 'undefined')
       ? decodeAttribute(data.value)

@@ -1,9 +1,0 @@
-package computedEvent.protobuf;
-
-enum RefFrame {
-  ITRF = 0;
-  CIRF = 1;
-  TIRF = 2;
-  GCRF = 3;
-  ITRF_GCRF = 4;
-}

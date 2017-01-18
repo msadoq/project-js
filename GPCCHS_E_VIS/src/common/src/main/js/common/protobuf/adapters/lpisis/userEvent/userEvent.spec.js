@@ -18,13 +18,13 @@ describe('protobuf/lpisis/userEvent/UserEvent', () => {
     json.should.be.an('object').that.have.properties({
       eventDate: { type: 'time', value: fixture.eventDate },
       systemDate: { type: 'time', value: fixture.systemDate },
+      mission: { type: 'string', value: fixture.mission },
       userProfile: {
         login: { type: 'string', value: fixture.userProfile.login },
         password: { type: 'string', value: fixture.userProfile.password },
         profile: { type: 'string', value: fixture.userProfile.profile },
         userTime: { type: 'time', value: fixture.userProfile.userTime },
       },
-      mission: { type: 'string', value: fixture.mission },
       satellite: { type: 'ulong', value: fixture.satellite },
       producer: {
         slotID: { type: 'ushort', value: fixture.producer.slotID },

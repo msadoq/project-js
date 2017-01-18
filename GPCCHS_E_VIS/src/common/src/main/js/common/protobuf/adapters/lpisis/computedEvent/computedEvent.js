@@ -9,11 +9,11 @@ module.exports = {
     eventDate: (data.eventDate !== null && typeof data.eventDate !== 'undefined')
       ? { value: data.eventDate }
       : null,
-    systemDate: (data.systemDate !== null && typeof data.systemDate !== 'undefined')
-      ? { value: data.systemDate }
-      : null,
     eventClass: (data.eventClass !== null && typeof data.eventClass !== 'undefined')
       ? data.eventClass
+      : null,
+    systemDate: (data.systemDate !== null && typeof data.systemDate !== 'undefined')
+      ? { value: data.systemDate }
       : null,
     mission: (data.mission !== null && typeof data.mission !== 'undefined')
       ? { value: data.mission }
@@ -33,11 +33,11 @@ module.exports = {
     eventDate: (data.eventDate !== null && typeof data.eventDate !== 'undefined')
       ? { type: 'time', value: data.eventDate.value.toNumber() }
       : undefined,
-    systemDate: (data.systemDate !== null && typeof data.systemDate !== 'undefined')
-      ? { type: 'time', value: data.systemDate.value.toNumber() }
-      : undefined,
     eventClass: (data.eventClass !== null && typeof data.eventClass !== 'undefined')
       ? { type: 'enum', value: data.eventClass, symbol: eventClass[data.eventClass] }
+      : undefined,
+    systemDate: (data.systemDate !== null && typeof data.systemDate !== 'undefined')
+      ? { type: 'time', value: data.systemDate.value.toNumber() }
       : undefined,
     mission: (data.mission !== null && typeof data.mission !== 'undefined')
       ? { type: 'string', value: data.mission.value }

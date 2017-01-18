@@ -49,7 +49,6 @@ describe('protobuf/lpisis/tcHistory/TC11', () => {
         encodingDate: (typeof fixture.timeTaggedTC[i].encodingDate === 'undefined') 
           ? null 
           : { type: 'time', value: fixture.timeTaggedTC[i].encodingDate },
-        date: { type: 'time', value: fixture.timeTaggedTC[i].date },
         pusHeader: (typeof fixture.timeTaggedTC[i].pusHeader === 'undefined') 
           ? null 
           : {
@@ -60,6 +59,7 @@ describe('protobuf/lpisis/tcHistory/TC11', () => {
             destinationId: { type: 'uoctet', value: fixture.timeTaggedTC[i].pusHeader.destinationId },
             time: { type: 'finetime', value: fixture.timeTaggedTC[i].pusHeader.time },
           },
+        date: { type: 'time', value: fixture.timeTaggedTC[i].date },
         rawPacket: (typeof fixture.timeTaggedTC[i].rawPacket === 'undefined') 
           ? null 
           : { type: 'blob', value: fixture.timeTaggedTC[i].rawPacket },

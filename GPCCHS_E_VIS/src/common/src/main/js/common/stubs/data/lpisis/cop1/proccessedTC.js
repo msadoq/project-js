@@ -6,7 +6,7 @@ const applyOverride = require('../../applyOverride');
 const now = _now();
 
 module.exports = override => applyOverride({
-  TCID: Buffer('myIDENTIFIER'),
+  TCID: 'myIDENTIFIER',
   receivedDate: now,
   mnemo: 1,
   segment_id: [100, 100],

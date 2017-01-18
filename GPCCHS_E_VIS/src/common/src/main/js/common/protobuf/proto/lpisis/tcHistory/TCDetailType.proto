@@ -1,6 +1,0 @@
-package tcHistory.protobuf;
-
-enum TCDetailType {
-  _TC = 0;
-  VALUE = 1;
-}

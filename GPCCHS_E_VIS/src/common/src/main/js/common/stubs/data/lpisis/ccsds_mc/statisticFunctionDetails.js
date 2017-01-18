@@ -6,7 +6,7 @@ const applyOverride = require('../../applyOverride');
 const now = _now();
 
 module.exports = override => applyOverride({
-  name: Buffer('myIDENTIFIER'),
+  name: 'myIDENTIFIER',
   description: 'mySTRING',
   timestamp: now,
 }, override);

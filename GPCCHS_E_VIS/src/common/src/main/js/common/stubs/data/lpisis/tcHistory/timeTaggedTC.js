@@ -7,8 +7,8 @@ const now = _now();
 
 module.exports = override => applyOverride({
   encodingDate: now,
-  date: now,
   pusHeader: getPusHeader(),
+  date: now,
   rawPacket: Buffer.alloc(10, 1),
   tcId: -100,
   tcSourceId: 100,

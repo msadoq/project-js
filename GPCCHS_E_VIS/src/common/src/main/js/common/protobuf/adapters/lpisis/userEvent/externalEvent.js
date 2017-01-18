@@ -8,10 +8,10 @@ module.exports = {
     eventDate: (data.eventDate !== null && typeof data.eventDate !== 'undefined')
       ? { value: data.eventDate }
       : null,
+    specificAttributes: _map(data.specificAttributes, d => (namedValue.encode(d))),
     systemDate: (data.systemDate !== null && typeof data.systemDate !== 'undefined')
       ? { value: data.systemDate }
       : null,
-    specificAttributes: _map(data.specificAttributes, d => (namedValue.encode(d))),
     mission: (data.mission !== null && typeof data.mission !== 'undefined')
       ? { value: data.mission }
       : null,
@@ -26,10 +26,10 @@ module.exports = {
     eventDate: (data.eventDate !== null && typeof data.eventDate !== 'undefined')
       ? { type: 'time', value: data.eventDate.value.toNumber() }
       : undefined,
+    specificAttributes: _map(data.specificAttributes, d => (namedValue.decode(d))),
     systemDate: (data.systemDate !== null && typeof data.systemDate !== 'undefined')
       ? { type: 'time', value: data.systemDate.value.toNumber() }
       : undefined,
-    specificAttributes: _map(data.specificAttributes, d => (namedValue.decode(d))),
     mission: (data.mission !== null && typeof data.mission !== 'undefined')
       ? { type: 'string', value: data.mission.value }
       : undefined,

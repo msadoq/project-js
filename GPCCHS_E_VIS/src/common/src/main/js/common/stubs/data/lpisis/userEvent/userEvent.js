@@ -11,8 +11,8 @@ module.exports = override => applyOverride({
   eventDate: now,
   systemDate: now,
   specificAttributes: [getNamedValue(), getNamedValue()],
-  userProfile: getUser(),
   mission: 'mySTRING',
+  userProfile: getUser(),
   satellite: 1000,
   producer: getProvider(),
 }, override);

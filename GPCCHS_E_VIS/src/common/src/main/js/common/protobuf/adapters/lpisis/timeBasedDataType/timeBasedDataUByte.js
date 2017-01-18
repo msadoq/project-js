@@ -3,6 +3,7 @@
 const {
   uoctetToBytes,
   bytesToUoctet,
+
 } = require('../types');
 
 module.exports = {

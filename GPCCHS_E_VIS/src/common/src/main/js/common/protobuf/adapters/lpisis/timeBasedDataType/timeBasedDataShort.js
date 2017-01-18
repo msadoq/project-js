@@ -3,6 +3,7 @@
 const {
   shortToBytes,
   bytesToShort,
+
 } = require('../types');
 
 module.exports = {

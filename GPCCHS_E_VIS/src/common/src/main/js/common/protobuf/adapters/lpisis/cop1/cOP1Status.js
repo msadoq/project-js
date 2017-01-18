@@ -4,6 +4,7 @@ const modeType = require('./modeType');
 const {
   uoctetToBytes,
   bytesToUoctet,
+
 } = require('../types');
 
 module.exports = {

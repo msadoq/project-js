@@ -6,7 +6,7 @@ const applyOverride = require('../../applyOverride');
 const now = _now();
 
 module.exports = override => applyOverride({
-  providerDefinitionName: Buffer('myIDENTIFIER'),
+  providerDefinitionName: 'myIDENTIFIER',
   providerDefinitionTime: now,
 }, override);
 

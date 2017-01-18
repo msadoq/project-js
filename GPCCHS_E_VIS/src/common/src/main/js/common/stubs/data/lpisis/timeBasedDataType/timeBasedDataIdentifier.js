@@ -8,6 +8,6 @@ const now = _now();
 module.exports = override => applyOverride({
   timeStamp: now + 1,
   name: 'mySTRING',
-  value: Buffer('myIDENTIFIER'),
+  value: 'myIDENTIFIER',
 }, override);
 

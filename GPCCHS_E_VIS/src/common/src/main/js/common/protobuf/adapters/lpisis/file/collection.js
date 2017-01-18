@@ -5,6 +5,11 @@ const collectionVirtualFolder = require('./collectionVirtualFolder');
 const profileRight = require('./profileRight');
 const protobuf = require('../../../');
 const userRight = require('./userRight');
+const {
+  stringToBytes,
+  bytesToString,
+
+} = require('../types');
 
 module.exports = {
   encode: data => ({
@@ -12,7 +17,7 @@ module.exports = {
       ? { value: data.collectionName }
       : null,
     collectionDirname: (data.collectionDirname !== null && typeof data.collectionDirname !== 'undefined')
-      ? { value: data.collectionDirname }
+      ? { value: stringToBytes(data.collectionDirname) }
       : null,
     virtualName: (data.virtualName !== null && typeof data.virtualName !== 'undefined')
       ? { value: data.virtualName }
@@ -39,7 +44,7 @@ module.exports = {
       ? { type: 'string', value: data.collectionName.value }
       : undefined,
     collectionDirname: (data.collectionDirname !== null && typeof data.collectionDirname !== 'undefined')
-      ? { type: 'uri', value: data.collectionDirname.value.toBuffer() }
+      ? { type: 'uri', value: bytesToString(data.collectionDirname.value) }
       : undefined,
     virtualName: (data.virtualName !== null && typeof data.virtualName !== 'undefined')
       ? { type: 'string', value: data.virtualName.value }

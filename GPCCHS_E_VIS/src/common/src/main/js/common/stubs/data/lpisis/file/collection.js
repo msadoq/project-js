@@ -8,7 +8,7 @@ const getUserRight = require('./userRight');
 
 module.exports = override => applyOverride({
   collectionName: 'mySTRING',
-  collectionDirname: Buffer('myURI'),
+  collectionDirname: 'myURI',
   virtualName: 'mySTRING',
   isVirtualFolder: true,
   collectionRefForVf: -1000,

@@ -7,6 +7,9 @@ const userRight = require('./userRight');
 const {
   uoctetToBytes,
   bytesToUoctet,
+  stringToBytes,
+  bytesToString,
+
 } = require('../types');
 
 module.exports = {
@@ -15,7 +18,7 @@ module.exports = {
       ? { value: protobuf.encode('lpisis.ccsds_cs.User', data.lockedBy) }
       : null,
     dirname: (data.dirname !== null && typeof data.dirname !== 'undefined')
-      ? { value: data.dirname }
+      ? { value: stringToBytes(data.dirname) }
       : null,
     properties: _map(data.properties, d => (namedValue.encode(d))),
     usersAccess: _map(data.usersAccess, d => (userRight.encode(d))),
@@ -32,7 +35,7 @@ module.exports = {
       ? protobuf.decode('lpisis.ccsds_cs.User', data.lockedBy.value)
       : undefined,
     dirname: (data.dirname !== null && typeof data.dirname !== 'undefined')
-      ? { type: 'uri', value: data.dirname.value.toBuffer() }
+      ? { type: 'uri', value: bytesToString(data.dirname.value) }
       : undefined,
     properties: _map(data.properties, d => (namedValue.decode(d))),
     usersAccess: _map(data.usersAccess, d => (userRight.decode(d))),

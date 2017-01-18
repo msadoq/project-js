@@ -3,6 +3,7 @@
 const {
   encodeAttribute,
   decodeAttribute,
+
 } = require('../types');
 
 module.exports = {

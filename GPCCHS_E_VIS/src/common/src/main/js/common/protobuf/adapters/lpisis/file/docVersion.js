@@ -6,6 +6,7 @@ const {
   decodeAttribute,
   ushortToBytes,
   bytesToUshort,
+
 } = require('../types');
 
 module.exports = {

@@ -6,7 +6,7 @@ const {
   getMonitoringOptions,
 } = require('./node');
 
-describe.only('log/node', () => {
+describe('log/node', () => {
   it('parseParams', () => {
     const params = 'param1=value1,param2=value2';
     parseParams(params).should.have.properties({

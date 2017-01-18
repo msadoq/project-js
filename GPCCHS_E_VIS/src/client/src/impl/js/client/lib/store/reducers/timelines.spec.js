@@ -57,6 +57,14 @@ describe('store:timelines:reducer', () => {
       state.should.have.property('myTimelineId');
       state.myTimelineId.offset.should.equal(1000);
     });
+    it('color', () => {
+      const state = reducer(
+        { myTimelineId: { color: '#ffaaff' } },
+        actions.updateColor('myTimelineId', '#ffaaaa')
+      );
+      state.should.have.property('myTimelineId');
+      state.myTimelineId.color.should.equal('#ffaaaa');
+    });
     it('id', () => {
       const state = reducer(
         { myTimelineId: { id: 'Timeline 01' } },

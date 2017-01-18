@@ -204,6 +204,19 @@ function configuration(state = { title: null }, action) {
 
       // Add an id on entry points
       const config = action.payload.configuration;
+      const viewType = action.payload.type;
+      // For dynamic view, format entry point to be used as in other view
+      if (viewType === 'DynamicView') {
+        if (!config.entryPoint) {
+          return Object.assign({}, config);
+        }
+        const formattedConfig = _omit(config, 'entryPoint');
+        formattedConfig.entryPoints = [];
+        formattedConfig.entryPoints.push(Object.assign({}, config.entryPoint, {
+          name: 'dynamicEP',
+          id: v4() }));
+        return Object.assign({}, formattedConfig);
+      }
       if (!config.entryPoints) {
         return Object.assign({}, config);
       }

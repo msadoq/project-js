@@ -19,6 +19,7 @@ describe('protobuf/lpisis/decommutedPacket/DecommutedPacket', () => {
       onboardDate: { type: 'time', value: fixture.onboardDate },
       groundDate: { type: 'time', value: fixture.groundDate },
       isNominal: { type: 'boolean', value: fixture.isNominal },
+      referenceTimestamp: { type: 'time', value: fixture.onboardDate },
     });
     json.decommutedValues.should.be.an('array').that.have.lengthOf(fixture.decommutedValues.length);
     for (let i = 0; i < fixture.decommutedValues.length; i += 1) {

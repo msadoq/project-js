@@ -45,6 +45,17 @@ describe('data/map/lastValue', () => {
         }
       },
     },
+    dynamic: {
+      type: 'DynamicView',
+      entryPoints: {
+        dynamicEP: {
+          remoteId: 'rId1',
+          expectedInterval: [18, 20],
+          decommutedValues: [{ name: 'val1' }, { name: 'val2' }],
+          offset: 0,
+        },
+      },
+    },
   };
   describe('select', () => {
     it('state undefined', () => {
@@ -99,6 +110,18 @@ describe('data/map/lastValue', () => {
       newState.values.ep6.should.eql({ value: 203, monit: 'ok' });
       newState.index.ep5.should.equal(20);
       newState.values.ep5.should.eql({ value: 203, monit: 'ok' });
+      newState.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
+    });
+    it('dynamic view', () => {
+      const count = { last: 0, range: 0 };
+      const newState = lastValue({}, payload, 'dynamic', viewDataMap.dynamic.entryPoints, count);
+      newState.index.dynamicEP.should.equal(20);
+      newState.values.dynamicEP.should.eql({
+        remoteId: 'rId1',
+        expectedInterval: [18, 20],
+        decommutedValues: [{ name: 'val1' }, { name: 'val2' }],
+        offset: 0,
+      });
       newState.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
     });
   });

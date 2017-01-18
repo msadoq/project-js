@@ -32,6 +32,7 @@ const indexByUUID = indexBy(prop('uuid'));
 const supportedViewTypes = [
   'PlotView',
   'TextView',
+  'DynamicView',
   'MimicView',
 ];
 

@@ -34,10 +34,8 @@ export const walk = (domains, timebars, timelines, views) =>
 
     const structureType = vivl(type, 'structureType')();
     const extract = structures(structureType, 'parseEntryPoint');
-
     return _reduce(entryPoints, (subMap, entryPoint) => {
       const { name } = entryPoint;
-
       // create remoteId node (perView)
       if (!_has(map, ['perView', viewId])) {
         _set(map, ['perView', viewId], {
@@ -116,6 +114,7 @@ export const walk = (domains, timebars, timelines, views) =>
  *   perView: {
  *     'viewId': {
  *       type: 'TextView',
+ *       structureType: 'last',
  *       entryPoints: {
  *         'name': {
  *           remoteId: string,
@@ -126,6 +125,7 @@ export const walk = (domains, timebars, timelines, views) =>
  *     },
  *     'viewId': {
  *       type: 'PlotView',
+ *       structureType: 'range',
  *       entryPoints: {
  *         'name': {
  *            remoteId: string,
@@ -136,6 +136,17 @@ export const walk = (domains, timebars, timelines, views) =>
  *          },
  *        },
  *     },
+ *     'viewId': {
+ *       type: 'DynamicView',
+ *       structureType: 'last',
+ *       entryPoints: {
+ *         dynamicEP: {
+ *            remoteId: string,
+ *            expectedInterval: [number, number],
+ *          },
+ *        },
+ *     },
+
  *   },
  * }
  *

@@ -10,7 +10,7 @@ import globalConstants from 'common/constants';
 const logger = getLogger('data:lastValue');
 
 // Get the nearest value from the current time
-export function select(remoteIdPayload, ep, epName, viewSubState) {
+export function select(remoteIdPayload, ep, epName, viewSubState, viewType) {
   // Entry points on this remoteId
   const lower = ep.expectedInterval[0];
   const current = ep.expectedInterval[1];
@@ -33,26 +33,38 @@ export function select(remoteIdPayload, ep, epName, viewSubState) {
       return;
     }
     if (timestamp >= previousTime) {
-      // Write value depending on its typeof
-      const type = _get(p, [ep.field, 'type']);
-      let val;
-      if (type === 'time') {
-        val = moment(_get(p, [ep.field, 'value'])).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS');
-      } else {
-        val = _get(p, [ep.field, 'value']);
+      if (viewType === 'TextView') {
+        // Write value depending on its typeof
+        const type = _get(p, [ep.field, 'type']);
+        let val;
+        if (type === 'time') {
+          val = moment(_get(p, [ep.field, 'value'])).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS');
+        } else {
+          val = _get(p, [ep.field, 'value']);
+        }
+        newValue = {
+          timestamp,
+          value: val,
+          monit: _get(p, ['monitoringState', 'value']),
+        };
+      } else { // Case of Dynamic View
+        newValue = {
+          timestamp,
+          value: p,
+        };
       }
-      newValue = {
-        timestamp,
-        value: val,
-        monit: _get(p, ['monitoringState', 'value']),
-      };
       previousTime = timestamp;
     }
   });
   return newValue;
 }
 
-export default function extractValues(viewDataState, payload, viewId, entryPoints, count) {
+export default function extractValues(viewDataState,
+                                      payload,         // eslint-disable-line indent
+                                      viewId,          // eslint-disable-line indent
+                                      entryPoints,     // eslint-disable-line indent
+                                      count,           // eslint-disable-line indent
+                                      viewType) {      // eslint-disable-line indent
   let viewData;
   // Entry points
   _each(entryPoints, (ep, epName) => {
@@ -63,7 +75,7 @@ export default function extractValues(viewDataState, payload, viewId, entryPoint
     // Get current state for update
     const currentSubState = _get(viewDataState, [viewId]);
     // compute new data
-    const newData = select(payload[ep.remoteId], ep, epName, currentSubState);
+    const newData = select(payload[ep.remoteId], ep, epName, currentSubState, viewType);
     if (!newData) {
       return;
     }

@@ -2,6 +2,7 @@
 
 export default function isEpDifferent(oldEp, newEp) {
   let isUpdated = false;
+  // in case of dynamic view, both field are undefined
   if (oldEp.field !== newEp.field) {
     isUpdated = true;
   }

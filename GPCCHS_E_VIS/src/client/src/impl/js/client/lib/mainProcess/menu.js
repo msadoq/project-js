@@ -1,7 +1,7 @@
 import { v4 } from 'node-uuid';
 import { getStore } from '../store/mainStore';
 import { add } from '../store/actions/windows';
-import { viewOpen, addPlotView, addTextView } from './menu/viewOpen';
+import { viewOpen, addPlotView, addTextView, addDynamicView } from './menu/viewOpen';
 import { pageOpen, pageAddNew } from './menu/pageOpen';
 import { pageSave, pageSaveAs } from './menu/pageSave';
 import { workspaceSave, workspaceSaveAs } from './menu/workspaceSave';
@@ -153,6 +153,12 @@ template.splice(3, 0,
       accelerator: '',
       click(item, focusedWindow) {
         addTextView(focusedWindow);
+      }
+    }, {
+      label: 'Add DynamicView...',
+      accelerator: '',
+      click(item, focusedWindow) {
+        addDynamicView(focusedWindow);
       }
     }, {
       label: 'Open ...',

@@ -6,7 +6,7 @@ import { addAndMount as addAndMountView } from '../../store/actions/pages';
 import { getStore } from '../../store/mainStore';
 import { setModified as setModifiedView } from '../../store/actions/views';
 
-module.exports = { viewOpen, addPlotView, addTextView };
+module.exports = { viewOpen, addPlotView, addTextView, addDynamicView };
 
 
 function viewOpen(focusedWindow) { // absolutePath, pageId) {
@@ -65,7 +65,18 @@ function addTextView(focusedWindow) {
     } };
   viewAddNew(focusedWindow, view);
 }
-
+function addDynamicView(focusedWindow) {
+  const view = {
+    type: 'DynamicView',
+    configuration: {
+      type: 'DynamicView',
+      defaultRatio: { length: 5, width: 5 },
+      entryPoint: undefined,
+      links: [],
+      title: 'New Dynamic View',
+    } };
+  viewAddNew(focusedWindow, view);
+}
 function viewAddNew(focusedWindow, view) {
   const pageId = getStore().getState().windows[focusedWindow.windowId].focusedPage;
   const viewId = v4();

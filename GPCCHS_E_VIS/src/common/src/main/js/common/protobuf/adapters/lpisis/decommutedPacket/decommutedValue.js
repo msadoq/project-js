@@ -3,12 +3,14 @@ const validityState = require('../ccsds_mc/validityState');
 const {
   encodeAttribute,
   decodeAttribute,
+  bytesToString,
+  stringToBytes,
 } = require('../types');
 
 module.exports = {
   encode: data => ({
     name: (data.name !== null && typeof data.name !== 'undefined')
-      ? { value: data.name }
+      ? { value: stringToBytes(data.name) }
       : null,
     extractedValue: (data.extractedValue !== null && typeof data.extractedValue !== 'undefined')
       ? encodeAttribute(data.extractedValue)
@@ -25,7 +27,7 @@ module.exports = {
   }),
   decode: data => ({
     name: (data.name !== null && typeof data.name !== 'undefined')
-      ? { type: 'identifier', value: data.name.value.toBuffer() }
+      ? { type: 'identifier', value: bytesToString(data.name.value) }
       : undefined,
     extractedValue: (data.extractedValue !== null && typeof data.extractedValue !== 'undefined')
       ? decodeAttribute(data.extractedValue)
@@ -41,4 +43,3 @@ module.exports = {
       : undefined,
   }),
 };
-

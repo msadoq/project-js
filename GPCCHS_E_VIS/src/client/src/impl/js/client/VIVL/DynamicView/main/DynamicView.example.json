@@ -1,0 +1,20 @@
+{
+  "title": "Dynamic view",
+  "type": "DynamicView",
+  "entryPoint": {
+    "connectedData": {
+      "formula": "TelemetryPacket.MY_CUSTOM_PACKET<DecommutedPacket>",
+      "filter": [],
+      "domain": "fr.cnes.isis.simupus",
+      "timeline": "Session 1"
+    }
+  },
+  "links": [{
+    "name": "Page01",
+    "path": "../Page01.vipg"
+  }],
+  "defaultRatio": {
+    "length": 5,
+    "width": 3
+  }
+}

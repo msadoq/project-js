@@ -27,4 +27,5 @@ const documentManagerApi = {
 
 const createDocumentManager = applyDependencyToApi(documentManagerApi);
 
+// documentManager api is available in lib/common/documentManager
 export default createDocumentManager;

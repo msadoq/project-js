@@ -179,7 +179,11 @@ class PlotView extends PureComponent {
   }
 
   shouldComponentUpdate() {
-    return !this.state.disconnected;
+    const { disconnected, currentDisplay } = this.state;
+    if (disconnected || currentDisplay) {
+      return false;
+    }
+    return true;
   }
 
   componentWillUnmount() {

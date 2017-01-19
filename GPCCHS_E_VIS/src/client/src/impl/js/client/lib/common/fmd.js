@@ -22,8 +22,8 @@ const readJsonFromOId = (oId, callback) => {
 };
 
 /*
-* readJson and writeJson are top level functions to read/write documents
-* filesystem primitives are in lib/common/fs.js
+* readJson and writeJson are top level functions to read/write documents.
+* the filesystem primitives are in lib/common/fs.js
 */
 const readJson = (folder, relativePath, oId, absolutePath, callback) => {
   if (absolutePath) {

@@ -1,10 +1,10 @@
 import { should, getTmpPath, freezeMe } from '../common/test';
 
-const { saveViewAs, saveView } = require('./saveView');
-const fs = require('../common/fs');
-const validation = require('./validation');
-const vivl = require('../../VIVL/main');
-const exec = require('child_process').exec;
+import { saveViewAs, saveView } from './saveView';
+import fs from '../common/fs';
+import validation from './validation';
+import vivl from '../../VIVL/main';
+import { exec } from'child_process';
 
 describe('documentsManager/saveViews', () => {
   const state = {

@@ -1,7 +1,7 @@
-const extractTimelines = require('./extractTimelines');
-const extractTimebars = require('./extractTimebars');
-const { should } = require('../common/test');
-const _ = require('lodash');
+import extractTimelines from './extractTimelines';
+import extractTimebars from './extractTimebars';
+import { should } from '../common/test';
+import _ from 'lodash';
 
 describe('documents/lib', () => {
   describe('extractTimelines', () => {

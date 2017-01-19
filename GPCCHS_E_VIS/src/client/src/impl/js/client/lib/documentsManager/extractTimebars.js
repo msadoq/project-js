@@ -24,7 +24,7 @@ const getTimebarsWithUUID = pipe(
  * @param cb
  * @returns {*}
  */
-module.exports = (content, cb) => cb(null, {
+export default (content, cb) => cb(null, {
   ...content,
   timebars: getTimebarsWithUUID(content)
 });

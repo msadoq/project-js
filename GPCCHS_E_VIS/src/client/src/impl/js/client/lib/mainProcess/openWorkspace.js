@@ -175,5 +175,8 @@ export function openDefaultWorkspace(dispatch, root, callback) {
     timebars: { [tbUuid]: Object.assign(timebar, { uuid: tbUuid }) },
     pages: { [pgUuid]: Object.assign(page, { uuid: pgUuid }) },
   };
+
+  productLog(LOG_DOCUMENT_OPEN, 'workspace', 'new workspace');
+
   loadInStore(workspace, dispatch, root, undefined, callback, true);
 }

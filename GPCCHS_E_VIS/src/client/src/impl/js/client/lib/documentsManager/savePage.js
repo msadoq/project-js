@@ -1,10 +1,15 @@
 /* eslint no-underscore-dangle: 0 */
-const _findIndex = require('lodash/findIndex');
-const _startsWith = require('lodash/startsWith');
-const { dirname, relative } = require('path');
-const { writeJson } = require('../common/fmd');
-const { checkPath } = require('../common/fs');
-const parameters = require('common/parameters');
+import _findIndex from 'lodash/findIndex';
+import _startsWith from 'lodash/startsWith';
+import { dirname, relative } from 'path';
+import { productLog } from 'common/log';
+import {
+  LOG_DOCUMENT_SAVE
+} from 'common/constants';
+
+import { writeJson } from '../common/fmd';
+import { checkPath } from '../common/fs';
+import parameters from 'common/parameters';
 
 /**
  * Save plot view from state to file
@@ -67,6 +72,9 @@ function savePageAs(state, pageId, path, useRelativePath, callback) {
       if (errfs) {
         return callback(`Unable to save view ${page.title} in file ${path}`);
       }
+
+      productLog(LOG_DOCUMENT_SAVE, 'page', path);
+
       return callback(null);
     });
   })
@@ -97,4 +105,7 @@ function savePage(state, pageId, useRelativePath, callback) {
 }
 
 
-module.exports = { savePage, savePageAs };
+export default {
+  savePage,
+  savePageAs,
+};

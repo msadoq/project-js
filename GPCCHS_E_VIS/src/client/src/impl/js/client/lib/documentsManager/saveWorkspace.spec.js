@@ -1,10 +1,10 @@
 import { should, getTmpPath, freezeMe } from '../common/test';
 
-const { saveWorkspace, saveWorkspaceAs } = require('./saveWorkspace');
-const { join } = require('path');
-const fmd = require('../common/fmd');
-const validation = require('./validation');
-const exec = require('child_process').exec;
+import { saveWorkspace, saveWorkspaceAs } from './saveWorkspace';
+import { join } from 'path';
+import fmd from '../common/fmd';
+import validation from './validation';
+import { exec } from 'child_process';
 
 describe('documentsManager/saveWorkspace', () => {
   const state = {

@@ -1,9 +1,7 @@
 /* eslint-disable no-unused-expressions */
-const { should } = require('../common/test');
-
-const validate = require('./validation');
-
-const schema = require('./schemas/page.schema.json');
+import { should } from '../common/test';
+import validate from './validation';
+import schema from './schemas/page.schema.json';
 
 const page = { type: 'Page', hideBorders: false, title: 'Page example', views: [] };
 const pageInvalid = { type: 'View', foo: 'bar' };

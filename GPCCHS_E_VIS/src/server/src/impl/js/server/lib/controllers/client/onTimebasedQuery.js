@@ -1,6 +1,10 @@
 const _each = require('lodash/each');
 const _concat = require('lodash/concat');
-const globalConstants = require('common/constants');
+const {
+  DATASTRUCTURETYPE_LAST,
+  DATASTRUCTURETYPE_RANGE,
+  GETLASTTYPE_GET_LAST,
+} = require('common/constants');
 const executionMonitor = require('common/log/execution');
 
 const { add: addToQueue } = require('../../utils/dataQueue');
@@ -48,11 +52,11 @@ module.exports = (sendMessageToDc, payload) => {
 
     // add query arguments depending on the type
     switch (query.type) {
-      case globalConstants.DATASTRUCTURETYPE_LAST:
-        queryArguments.getLastType = globalConstants.GETLASTTYPE_GET_LAST;
+      case DATASTRUCTURETYPE_LAST:
+        queryArguments.getLastType = GETLASTTYPE_GET_LAST;
         queryArguments.filters = query.filters;
         break;
-      case globalConstants.DATASTRUCTURETYPE_RANGE:
+      case DATASTRUCTURETYPE_RANGE:
         queryArguments.filters = query.filters;
         break;
       default:

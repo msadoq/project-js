@@ -1,7 +1,9 @@
 const { eachSeries } = require('async');
 const _chunk = require('lodash/chunk');
 const { decode, encode, getType } = require('common/protobuf');
-const globalConstants = require('common/constants');
+const {
+  HSS_MAX_PAYLOADS_PER_MESSAGE,
+} = require('common/constants');
 const executionMonitor = require('common/log/execution');
 const logger = require('common/log')('controllers:onTimebasedArchiveData');
 const loggerData = require('common/log')('controllers:incomingData');
@@ -87,7 +89,7 @@ module.exports = (
 
   // prevent receiving more than 1000 payloads at one time (avoid Maximum call stack size exceeded)
   const payloadNumber = payloadBuffers.length / 2;
-  if (payloadNumber > globalConstants.HSS_MAX_PAYLOADS_PER_MESSAGE) {
+  if (payloadNumber > HSS_MAX_PAYLOADS_PER_MESSAGE) {
     // TODO send error to client
     execution.stop(
       'global',

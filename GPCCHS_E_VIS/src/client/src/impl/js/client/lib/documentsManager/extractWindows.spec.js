@@ -1,6 +1,6 @@
-const extractWindows = require('./extractWindows');
-const { should } = require('../common/test');
-const _ = require('lodash');
+import extractWindows from './extractWindows';
+import { should } from '../common/test';
+import _ from 'lodash';
 
 describe('documents/lib', () => {
   describe('extractWindows ', () => {

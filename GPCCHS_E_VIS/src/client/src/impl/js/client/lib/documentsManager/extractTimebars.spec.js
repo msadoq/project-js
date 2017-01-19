@@ -1,7 +1,7 @@
 /* eslint no-underscore-dangle: 0 */
 
-const extractTimebars = require('./extractTimebars');
-const { should } = require('../common/test');
+import extractTimebars from './extractTimebars';
+import { should } from '../common/test';
 
 describe('documents', () => {
   describe('extractTimebars', () => {

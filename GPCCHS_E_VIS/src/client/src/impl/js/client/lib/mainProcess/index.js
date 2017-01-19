@@ -1,5 +1,6 @@
 import { app, ipcMain } from 'electron';
 import { series } from 'async';
+import path from 'path';
 import { CHILD_PROCESS_SERVER, CHILD_PROCESS_DC } from 'common/constants';
 import getLogger from 'common/log';
 import monitoring from 'common/log/monitoring';
@@ -27,6 +28,7 @@ export function start() {
     execPath: parameters.get('NODE_PATH'),
     env: {
       LOG: parameters.get('LOG'),
+      LOG_FOLDER: path.join(process.cwd(), parameters.get('LOG_FOLDER')),
       MONITORING: parameters.get('MONITORING'),
       PROFILING: parameters.get('PROFILING'),
       ZMQ_GPCCDC_PUSH: parameters.get('ZMQ_GPCCDC_PUSH'),

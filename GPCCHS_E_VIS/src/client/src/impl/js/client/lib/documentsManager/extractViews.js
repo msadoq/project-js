@@ -1,31 +1,31 @@
-const pipe = require('lodash/fp/pipe');
-const compose = require('lodash/fp/compose');
-const has = require('lodash/fp/has');
-const indexBy = require('lodash/fp/indexBy');
-const filter = require('lodash/fp/filter');
-const flatten = require('lodash/fp/flatten');
-const values = require('lodash/fp/values');
-const pluck = require('lodash/fp/pluck');
-const map = require('lodash/fp/map');
-const mapValues = require('lodash/fp/mapValues');
-const always = require('lodash/fp/always');
-const prop = require('lodash/fp/prop');
-const propOr = require('lodash/fp/propOr');
-const assoc = require('lodash/fp/assoc');
-const cond = require('lodash/fp/cond');
-const anyPass = require('lodash/fp/anyPass');
-const update = require('lodash/fp/update');
-const isObject = require('lodash/fp/isObject');
+import pipe from 'lodash/fp/pipe';
+import compose from 'lodash/fp/compose';
+import has from 'lodash/fp/has';
+import indexBy from 'lodash/fp/indexBy';
+import filter from 'lodash/fp/filter';
+import flatten from 'lodash/fp/flatten';
+import values from 'lodash/fp/values';
+import pluck from 'lodash/fp/pluck';
+import map from 'lodash/fp/map';
+import mapValues from 'lodash/fp/mapValues';
+import always from 'lodash/fp/always';
+import prop from 'lodash/fp/prop';
+import propOr from 'lodash/fp/propOr';
+import assoc from 'lodash/fp/assoc';
+import cond from 'lodash/fp/cond';
+import anyPass from 'lodash/fp/anyPass';
+import update from 'lodash/fp/update';
+import isObject from 'lodash/fp/isObject';
 
-const { dirname } = require('path');
-const async = require('async');
-const { v4 } = require('node-uuid');
-const fmd = require('../common/fmd');
-const fs = require('../common/fs');
-const validation = require('./validation');
-const vivl = require('../../VIVL/main');
-const addUuidToAxes = require('../dataManager/structures/range/addUuidToAxes');
-const globalConstants = require('common/constants');
+import { dirname } from 'path';
+import async from 'async';
+import { v4 } from 'node-uuid';
+import fmd from '../common/fmd';
+import fs from '../common/fs';
+import validation from './validation';
+import vivl from '../../VIVL/main';
+import addUuidToAxes from '../dataManager/structures/range/addUuidToAxes';
+import globalConstants from 'common/constants';
 
 const indexByUUID = indexBy(prop('uuid'));
 
@@ -128,4 +128,7 @@ function extractViews(content, done) {
   });
 }
 
-module.exports = { extractViews, readViews };
+export default {
+  extractViews,
+  readViews,
+};

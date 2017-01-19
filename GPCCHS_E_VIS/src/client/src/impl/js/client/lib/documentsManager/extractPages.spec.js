@@ -1,9 +1,9 @@
 /* eslint no-underscore-dangle: 0 */
-const { extractPages } = require('./extractPages');
-const { should, expect } = require('../common/test');
-const { v4 } = require('node-uuid');
-const _ = require('lodash');
-const path = require('path');
+import { extractPages } from './extractPages';
+import { should, expect } from '../common/test';
+import { v4 } from 'node-uuid';
+import _ from 'lodash';
+import path from 'path';
 
 describe('documents/lib', () => {
   describe('extractPages', () => {

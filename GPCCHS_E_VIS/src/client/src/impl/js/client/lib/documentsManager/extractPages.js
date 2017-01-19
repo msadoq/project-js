@@ -1,24 +1,24 @@
-const { v4 } = require('node-uuid');
-const async = require('async');
+import { v4 } from 'node-uuid';
+import async from 'async';
 
-const map = require('lodash/fp/map');
-const find = require('lodash/fp/find');
-const update = require('lodash/fp/update');
+import map from 'lodash/fp/map';
+import find from 'lodash/fp/find';
+import update from 'lodash/fp/update';
 
-const isNil = require('lodash/fp/isNil');
-const compose = require('lodash/fp/compose');
-const flatten = require('lodash/fp/flatten');
-const assoc = require('lodash/fp/assoc');
-const prop = require('lodash/fp/prop');
-const values = require('lodash/fp/values');
-const indexBy = require('lodash/fp/indexBy');
-const pluck = require('lodash/fp/pluck');
-const propOr = require('lodash/fp/propOr');
-const reject = require('lodash/fp/reject');
+import isNil from 'lodash/fp/isNil';
+import compose from 'lodash/fp/compose';
+import flatten from 'lodash/fp/flatten';
+import assoc from 'lodash/fp/assoc';
+import prop from 'lodash/fp/prop';
+import values from 'lodash/fp/values';
+import indexBy from 'lodash/fp/indexBy';
+import pluck from 'lodash/fp/pluck';
+import propOr from 'lodash/fp/propOr';
+import reject from 'lodash/fp/reject';
 
-const fmd = require('../common/fmd');
-const fs = require('../common/fs');
-const validation = require('./validation');
+import fmd from '../common/fmd';
+import fs from '../common/fs';
+import validation from './validation';
 
 function readPages(folder, pagesToRead, done) {
   async.map(pagesToRead, (page, next) => {
@@ -79,4 +79,7 @@ function extractPages(content, cb) {
   });
 }
 
-module.exports = { extractPages, readPages };
+export default {
+  extractPages,
+  readPages
+};

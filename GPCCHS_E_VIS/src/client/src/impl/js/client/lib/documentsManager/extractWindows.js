@@ -1,17 +1,17 @@
-const __ = require('lodash/fp/__');
-const contains = require('lodash/fp/contains');
-const map = require('lodash/fp/map');
-const isArray = require('lodash/fp/isArray');
-const path = require('lodash/fp/path');
-const cond = require('lodash/fp/cond');
-const compose = require('lodash/fp/compose');
-const always = require('lodash/fp/always');
-const prop = require('lodash/fp/prop');
-const assoc = require('lodash/fp/assoc');
-const filter = require('lodash/fp/filter');
-const indexBy = require('lodash/fp/indexBy');
+import __ from 'lodash/fp/__';
+import contains from 'lodash/fp/contains';
+import map from 'lodash/fp/map';
+import isArray from 'lodash/fp/isArray';
+import path from 'lodash/fp/path';
+import cond from 'lodash/fp/cond';
+import compose from 'lodash/fp/compose';
+import always from 'lodash/fp/always';
+import prop from 'lodash/fp/prop';
+import assoc from 'lodash/fp/assoc';
+import filter from 'lodash/fp/filter';
+import indexBy from 'lodash/fp/indexBy';
 
-const { v4 } = require('node-uuid');
+import { v4 } from 'node-uuid';
 
 // not pure (due to uuid generation)
 const setUUID = obj => assoc('uuid', v4(), obj);
@@ -34,7 +34,7 @@ const getWindows = compose(indexWindows, filterByTypes, path('__original.windows
  * @param cb
  * @returns {*}
  */
-module.exports = (content, cb) => cb(null, {
+export default (content, cb) => cb(null, {
   ...content,
   windows: getWindows(content),
 });

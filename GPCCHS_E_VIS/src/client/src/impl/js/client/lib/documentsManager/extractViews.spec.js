@@ -1,9 +1,9 @@
-const { get } = require('common/parameters');
-const { extractViews, readViews } = require('./extractViews');
-const { should } = require('../common/test');
-const { v4 } = require('node-uuid');
-const _ = require('lodash');
-const path = require('path');
+import { get } from 'common/parameters';
+import { extractViews, readViews } from './extractViews';
+import { should } from '../common/test';
+import { v4 } from 'node-uuid';
+import _ from 'lodash';
+import path from 'path';
 
 describe('documentsManager/extractViews', () => {
   let content;

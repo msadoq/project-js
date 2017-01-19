@@ -33,7 +33,7 @@ const indexAllTimelines = compose(mergeAll, values, map(indexTimelines));
  * @param cb
  * @returns {*}
  */
-module.exports = (content, cb) => {
+export default (content, cb) => {
   const timebars = prop('timebars', content);
   const timebarsWithUUID = injectAllTimelinesUUID(timebars);
 

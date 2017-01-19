@@ -1,8 +1,8 @@
-const Ajv = require('ajv');
+import Ajv from 'ajv';
 
-const pathWorkspace = require('./schemas/workspace.schema.json');
-const pathPage = require('./schemas/page.schema.json');
-const timebarsSchema = require('./schemas/timebars.schema.js');
+import pathWorkspace from './schemas/workspace.schema.json';
+import pathPage from './schemas/page.schema.json';
+import timebarsSchema from './schemas/timebars.schema.js';
 
 const ajv = new Ajv({ allErrors: true });
 const knownValidators = {
@@ -43,7 +43,7 @@ const validate = (id, data, schema) => {
  * @param schema {Object}
  * @returns {Error}
  */
-module.exports = (...args) => {
+export default (...args) => {
   if (args.length !== 2 && args.length !== 3) {
     return new Error('Error validate(): 2 or 3 arguments expected');
   }

@@ -1,9 +1,9 @@
 import { should, getTmpPath, freezeMe } from '../common/test';
 
-const exec = require('child_process').exec;
-const { savePage, savePageAs } = require('./savePage');
-const fs = require('../common/fs');
-const validation = require('./validation');
+import { exec } from 'child_process';
+import { savePage, savePageAs } from './savePage';
+import fs from '../common/fs';
+import validation from './validation';
 
 describe('mainProcess/documents/savePage', () => {
   const state = {

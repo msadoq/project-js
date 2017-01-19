@@ -1,13 +1,17 @@
 /* eslint no-underscore-dangle: 0 */
-const { dirname } = require('path');
-const _cloneDeep = require('lodash/cloneDeep');
-const { checkPath } = require('../common/fs');
-const _omit = require('lodash/omit');
-const _values = require('lodash/values');
-const _each = require('lodash/each');
-const globalConstants = require('common/constants');
-const { writeJson } = require('../common/fmd');
-const vivl = require('../../VIVL/main');
+import { dirname } from 'path';
+import _cloneDeep from 'lodash/cloneDeep';
+import { checkPath } from '../common/fs';
+import _omit from 'lodash/omit';
+import _values from 'lodash/values';
+import _each from 'lodash/each';
+import { productLog } from 'common/log';
+import {
+  DATASTRUCTURETYPE_RANGE,
+  LOG_DOCUMENT_SAVE
+} from 'common/constants';
+import { writeJson } from '../common/fmd';
+import vivl from '../../VIVL/main';
 
 /**
  * Save view from state to file
@@ -27,7 +31,7 @@ function saveViewAs(viewConfiguration, viewType, path, callback) {
     let view = _cloneDeep(viewConfiguration);
     const structureType = vivl(viewType, 'structureType')();
     switch (structureType) { // eslint-disable-line default-case
-      case globalConstants.DATASTRUCTURETYPE_RANGE: {
+      case DATASTRUCTURETYPE_RANGE: {
         view.axes = _values(view.axes);
         break;
       }
@@ -47,6 +51,7 @@ function saveViewAs(viewConfiguration, viewType, path, callback) {
       if (errWrite) {
         return callback(`Unable to save view ${view.title} in file ${path}`);
       }
+      productLog(LOG_DOCUMENT_SAVE, 'view', path);
       return callback(null);
     });
   })
@@ -76,4 +81,7 @@ function saveView(state, viewId, callback) {
   return saveViewAs(state.views[viewId].configuration, state.views[viewId].type, absPath, callback);
 }
 
-module.exports = { saveViewAs, saveView };
+export default {
+  saveViewAs,
+  saveView
+};

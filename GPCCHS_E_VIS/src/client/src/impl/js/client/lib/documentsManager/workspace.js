@@ -1,19 +1,19 @@
 import getLogger from 'common/log';
 
-const omit = require('lodash/omit');
-const async = require('async');
-const fmd = require('../common/fmd');
-const validation = require('./validation');
+import omit from 'lodash/omit';
+import async from 'async';
+import fmd from '../common/fmd';
+import validation from './validation';
 
-const extractTimebars = require('./extractTimebars');
-const extractTimelines = require('./extractTimelines');
-const extractWindows = require('./extractWindows');
-const { extractPages } = require('./extractPages');
-const { extractViews } = require('./extractViews');
+import extractTimebars from './extractTimebars';
+import extractTimelines from './extractTimelines';
+import extractWindows from './extractWindows';
+import { extractPages } from './extractPages';
+import { extractViews } from './extractViews';
 
 const logger = getLogger('documents:workspace');
 
-module.exports = {
+export default {
   readWorkspace: (folder, relativePath, callback) => {
     logger.info(`reading workspace ${folder}/${relativePath}`);
     async.waterfall([

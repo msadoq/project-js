@@ -1,11 +1,16 @@
 /* eslint no-underscore-dangle: 0 */
-const _each = require('lodash/each');
-const _omit = require('lodash/omit');
-const _startsWith = require('lodash/startsWith');
-const _cloneDeep = require('lodash/cloneDeep');
-const { join, dirname, relative } = require('path');
-const { writeJson } = require('../common/fmd');
-const { checkPath } = require('../common/fs');
+import _each from 'lodash/each';
+import _omit from 'lodash/omit';
+import _startsWith from 'lodash/startsWith';
+import _cloneDeep from 'lodash/cloneDeep';
+import { join, dirname, relative } from 'path';
+import { productLog } from 'common/log';
+import {
+  LOG_DOCUMENT_SAVE
+} from 'common/constants';
+
+import { writeJson } from '../common/fmd';
+import { checkPath } from '../common/fs';
 
 function saveWorkspaceAs(state, path, useRelativePath, callback) {
   checkPath(dirname(path)).then(() => {
@@ -77,6 +82,7 @@ function saveWorkspaceAs(state, path, useRelativePath, callback) {
       if (err) {
         return callback(`Unable to save workspace in file ${path}`);
       }
+      productLog(LOG_DOCUMENT_SAVE, 'workspace', path);
       callback(null, savedWindowsIds);
     });
   })
@@ -91,4 +97,7 @@ function saveWorkspace(state, useRelativePath, callback) {
                          join(state.hsc.folder, state.hsc.file), useRelativePath, callback);
 }
 
-module.exports = { saveWorkspace, saveWorkspaceAs };
+export default {
+  saveWorkspace,
+  saveWorkspaceAs
+};

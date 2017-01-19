@@ -1,5 +1,7 @@
 const { decode, getType } = require('common/protobuf');
-const globalConstants = require('common/constants');
+const {
+  HSS_MAX_PAYLOADS_PER_MESSAGE,
+} = require('common/constants');
 const executionMonitor = require('common/log/execution');
 const _isEmpty = require('lodash/isEmpty');
 const _each = require('lodash/each');
@@ -80,7 +82,7 @@ module.exports = (
 
   // prevent receiving more than 1000 payloads at one time (avoid Maximum call stack size exceeded)
   const payloadNumber = payloadsBuffers.length / 2;
-  if (payloadNumber > globalConstants.HSS_MAX_PAYLOADS_PER_MESSAGE) {
+  if (payloadNumber > HSS_MAX_PAYLOADS_PER_MESSAGE) {
     // TODO send error to client
     execution.stop(
       'global',

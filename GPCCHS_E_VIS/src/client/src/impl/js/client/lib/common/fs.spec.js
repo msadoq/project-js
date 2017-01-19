@@ -1,5 +1,4 @@
-const { should, getTmpPath } = require('../common/test');
-const {
+import {
   mkdirSync,
   writeFileSync,
   rmdirSync,
@@ -7,9 +6,10 @@ const {
   accessSync,
   constants,
   chmodSync
-} = require('fs');
+} from 'fs';
 
-const fs = require('./fs');
+import { should, getTmpPath } from '../common/test';
+import fs from './fs';
 
 describe('common/fs', () => {
   const folder = getTmpPath();

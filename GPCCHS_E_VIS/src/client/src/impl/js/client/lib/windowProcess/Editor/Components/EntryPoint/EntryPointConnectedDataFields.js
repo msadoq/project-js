@@ -64,11 +64,13 @@ export default class EntryPointConnectedDataFields extends React.Component {
               type="text"
               className="form-control input-sm"
             />
-            <p
-              style={{ fontSize: '0.9em', paddingTop: '2px' }}
-            >
-              { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
-            </p>
+            {axes &&
+              <p
+                style={{ fontSize: '0.9em', paddingTop: '2px' }}
+              >
+                { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
+              </p>
+            }
           </HorizontalFormGroup>
         </div>
       );
@@ -92,11 +94,13 @@ export default class EntryPointConnectedDataFields extends React.Component {
             type="text"
             className="form-control input-sm"
           />
-          <p
-            style={{ fontSize: '0.9em', paddingTop: '2px' }}
-          >
-            { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
-          </p>
+          {axes &&
+            <p
+              style={{ fontSize: '0.9em', paddingTop: '2px' }}
+            >
+              { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
+            </p>
+          }
         </HorizontalFormGroup>
 
         {/* <HorizontalFormGroup label="Format">

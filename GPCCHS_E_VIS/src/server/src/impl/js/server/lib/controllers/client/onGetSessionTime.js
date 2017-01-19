@@ -1,5 +1,4 @@
 const { encode } = require('common/protobuf');
-const zmq = require('common/zmq');
 const globalConstants = require('common/constants');
 
 const protobufHeader = encode('dc.dataControllerUtils.Header', {
@@ -11,21 +10,12 @@ const protobufHeader = encode('dc.dataControllerUtils.Header', {
  *
  * - forward to DC
  *
+ * @param sendDcMessage
  * @param queryId
  * @param sessionId
- * @param sendDcMessage
  */
-const sessionTimeQuery = (queryId, sessionId, sendDcMessage) => sendDcMessage([
+module.exports = (sendDcMessage, queryId, sessionId) => sendDcMessage([
   protobufHeader,
   encode('dc.dataControllerUtils.String', { string: queryId }),
   encode('dc.dataControllerUtils.SessionGetTime', { id: sessionId }),
 ]);
-
-module.exports = {
-  sessionTimeQuery,
-  onGetSessionTime: (queryId, { sessionId }) => sessionTimeQuery(
-    queryId,
-    sessionId,
-    args => zmq.push('dcPush', args)
-  ),
-};

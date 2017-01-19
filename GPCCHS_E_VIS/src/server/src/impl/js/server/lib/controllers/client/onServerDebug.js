@@ -1,5 +1,4 @@
 const getModelState = require('../../utils/getModelsState');
-const reply = require('common/ipc/reply');
 
 /**
  * Triggered when developer request Loki models states
@@ -8,4 +7,4 @@ const reply = require('common/ipc/reply');
  *
  * @param queryId
  */
-module.exports = queryId => reply(queryId, { debug: getModelState() });
+module.exports = (reply, queryId) => reply(queryId, { debug: getModelState() });

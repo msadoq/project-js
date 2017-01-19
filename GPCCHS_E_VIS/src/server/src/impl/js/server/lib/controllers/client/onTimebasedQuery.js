@@ -1,7 +1,6 @@
 const _each = require('lodash/each');
 const _concat = require('lodash/concat');
 const globalConstants = require('common/constants');
-const zmq = require('common/zmq');
 const executionMonitor = require('common/log/execution');
 
 const { add: addToQueue } = require('../../utils/dataQueue');
@@ -36,7 +35,7 @@ const subscriptionsModel = require('../../models/subscriptions');
  * @param sendMessageToDc
  */
 
-const timebasedQuery = (payload, sendMessageToDc) => {
+module.exports = (sendMessageToDc, payload) => {
   const execution = executionMonitor('query');
   execution.reset();
   execution.start('global');
@@ -166,14 +165,4 @@ const timebasedQuery = (payload, sendMessageToDc) => {
   }
   execution.stop('global');
   execution.print();
-};
-
-module.exports = {
-  timebasedQuery,
-  onTimebasedQuery: (payload) => {
-    timebasedQuery(
-      payload,
-      args => zmq.push('dcPush', args)
-    );
-  },
 };

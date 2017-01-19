@@ -16,12 +16,10 @@ const connectedDataModel = require('../../models/connectedData');
 const { clearFactory, getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const subscriptionsModel = require('../../models/subscriptions');
 
-const { timebasedQuery } = require('./onTimebasedQuery');
+const onTimebasedQuery = require('./onTimebasedQuery');
 
 let calls = [];
-const zmqEmulator = (key, payload) => {
-  key.should.be.a('string')
-    .that.equal('dcPush');
+const zmqEmulator = (payload) => {
   calls = _concat(calls, payload);
 };
 
@@ -106,7 +104,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
       timebasedDataModel.addRecords(payloads);
       // launch test
-      timebasedQuery(lastQuery, zmqEmulator);
+      onTimebasedQuery(zmqEmulator, lastQuery);
       // check registeredQueries
       _isEmpty(registeredQueries.getAll()).should.equal(true);
       // check registeredCallbacks
@@ -152,7 +150,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
       timebasedDataModel.addRecords(payloads);
       // launch test
-      timebasedQuery(lastQuery, zmqEmulator);
+      onTimebasedQuery(zmqEmulator, lastQuery);
       // check registeredQueries
       const queryIds = _keys(registeredQueries.getAll());
       queryIds.length.should.equal(1);
@@ -196,7 +194,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
       timebasedDataModel.addRecords(payloads);
       // launch test
-      timebasedQuery(lastQuery, zmqEmulator);
+      onTimebasedQuery(zmqEmulator, lastQuery);
       // check registeredQueries
       const queryIds = _keys(registeredQueries.getAll());
       queryIds.length.should.equal(1);
@@ -253,7 +251,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
       timebasedDataModel.addRecords(payloads);
       // launch test
-      timebasedQuery(rangeQuery, zmqEmulator);
+      onTimebasedQuery(zmqEmulator, rangeQuery);
       // check registeredQueries
       _isEmpty(registeredQueries.getAll()).should.equal(true);
       // check registeredCallbacks
@@ -299,7 +297,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
       timebasedDataModel.addRecords(payloads);
       // launch test
-      timebasedQuery(rangeQuery, zmqEmulator);
+      onTimebasedQuery(zmqEmulator, rangeQuery);
       // check registeredQueries
       const queryIds = _keys(registeredQueries.getAll());
       queryIds.length.should.equal(1);
@@ -346,7 +344,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
       timebasedDataModel.addRecord(payloads[1].timestamp, payloads[1].payload);
       // launch test
-      timebasedQuery(rangeQuery, zmqEmulator);
+      onTimebasedQuery(zmqEmulator, rangeQuery);
       // check registeredQueries
       const queryIds = _keys(registeredQueries.getAll());
       queryIds.length.should.equal(1);
@@ -394,7 +392,7 @@ describe('controllers/client/onTimebasedQuery', () => {
       const timebasedDataModel = getOrCreateTimebasedDataModel(remoteId);
       timebasedDataModel.addRecords(payloads);
       // launch test
-      timebasedQuery(rangeQuery, zmqEmulator);
+      onTimebasedQuery(zmqEmulator, rangeQuery);
       // check registeredQueries
       const queryIds = _keys(registeredQueries.getAll());
       queryIds.length.should.equal(1);

@@ -16,12 +16,10 @@ const {
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
 
-const { cacheCleanup } = require('./onCacheCleanup');
+const onCacheCleanup = require('./onCacheCleanup');
 
 let calls = [];
-const zmqEmulator = (key, payload) => {
-  key.should.be.a('string')
-    .that.equal('dcPush');
+const zmqEmulator = (payload) => {
   calls = _concat(calls, payload);
 };
 
@@ -122,7 +120,7 @@ describe('controllers/client/onCacheCleanup', () => {
       },
     };
     // launch test
-    cacheCleanup(zmqEmulator, dataMap);
+    onCacheCleanup(zmqEmulator, dataMap);
     // check connectedData model
     const connectedData = connectedDataModel.find();
     connectedData.should.have.lengthOf(3);
@@ -212,7 +210,7 @@ describe('controllers/client/onCacheCleanup', () => {
       },
     };
     // launch test
-    cacheCleanup(zmqEmulator, dataMap);
+    onCacheCleanup(zmqEmulator, dataMap);
     // check connectedData model
     const connectedData = connectedDataModel.find();
     connectedData.should.have.lengthOf(2);
@@ -282,7 +280,7 @@ describe('controllers/client/onCacheCleanup', () => {
       [remoteId11]: { localIds: { localId: { expectedInterval: interval112 } } },
     };
     // launch test
-    cacheCleanup(zmqEmulator, dataMap);
+    onCacheCleanup(zmqEmulator, dataMap);
     // check connectedData model
     const connectedData = connectedDataModel.find();
     connectedData.should.have.lengthOf(1);

@@ -1,5 +1,5 @@
 const { should } = require('../../utils/test');
-const { onTimebasedArchiveData } = require('./onTimebasedArchiveData');
+const onTimebasedArchiveData = require('./onTimebasedArchiveData');
 const registeredQueries = require('../../utils/registeredQueries');
 const connectedDataModel = require('../../models/connectedData');
 const { clearFactory, getTimebasedDataModel } = require('../../models/timebasedDataFactory');

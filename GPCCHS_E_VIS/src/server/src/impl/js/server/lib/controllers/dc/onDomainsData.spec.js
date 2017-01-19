@@ -1,23 +1,11 @@
 const { testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('../../utils/test');
-const { domainData } = require('./onDomainsData');
+const onDomainsData = require('./onDomainsData');
 const dataStub = require('common/stubs/data');
-const globalConstants = require('common/constants');
 const registeredCallbacks = require('common/callbacks');
 
-describe('controllers/dc/onDomainData', () => {
+describe('controllers/dc/onDomainsData', () => {
   beforeEach(() => {
     resetTestHandlerArgs();
-  });
-
-  it('not queried', () => {
-    // init test
-    const myQueryId = 'myQueryId';
-    const myQueryIdProto = dataStub.getStringProtobuf(myQueryId);
-    const myDomains = dataStub.getDomains();
-    const myDomainsProto = dataStub.getDomainsProtobuf(myDomains);
-    // launch test
-    domainData(testHandler, myQueryIdProto, myDomainsProto);
-    getTestHandlerArgs().should.have.lengthOf(0);
   });
 
   it('works', () => {
@@ -28,13 +16,13 @@ describe('controllers/dc/onDomainData', () => {
     const myDomainsProto = dataStub.getDomainsProtobuf(myDomains);
     registeredCallbacks.set(myQueryId, () => {});
     // launch test
-    domainData(testHandler, myQueryIdProto, myDomainsProto);
+    onDomainsData(testHandler, myQueryIdProto, myDomainsProto);
     // check data
     const wsArgs = getTestHandlerArgs();
-    wsArgs.should.have.lengthOf(3);
-    wsArgs[0].should.equal(globalConstants.EVENT_DOMAIN_DATA);
-    wsArgs[1].should.be.an('array')
-      .that.have.properties(myDomains.domains);
-    wsArgs[2].should.equal(myQueryId);
+    wsArgs.should.have.lengthOf(2);
+    wsArgs[0].should.equal(myQueryId);
+    wsArgs[1].should.be.an('object').that.has.properties({
+      domains: myDomains.domains,
+    });
   });
 });

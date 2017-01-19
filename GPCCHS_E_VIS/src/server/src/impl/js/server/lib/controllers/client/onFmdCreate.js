@@ -1,5 +1,4 @@
 const { encode } = require('common/protobuf');
-const zmq = require('common/zmq');
 const globalConstants = require('common/constants');
 
 const protobufHeader = encode('dc.dataControllerUtils.Header', {
@@ -10,12 +9,11 @@ const protobufHeader = encode('dc.dataControllerUtils.Header', {
  * Triggered on FMD create query
  *
  * - forward to DC
- *
+ * @param sendDcMessage
  * @param queryId
  * @param payload
- * @param sendDcMessage
  */
-const fmdCreate = (queryId, payload, sendDcMessage) => sendDcMessage([
+module.exports = (sendDcMessage, queryId, payload) => sendDcMessage([
   protobufHeader,
   encode('dc.dataControllerUtils.String', { string: queryId }),
   encode('dc.dataControllerUtils.FMDCreateDocument', {
@@ -24,12 +22,3 @@ const fmdCreate = (queryId, payload, sendDcMessage) => sendDcMessage([
     mimeType: payload.mimeType,
   }),
 ]);
-
-module.exports = {
-  fmdCreate,
-  onFmdCreate: (queryId, payload) => fmdCreate(
-    queryId,
-    payload,
-    args => zmq.push('dcPush', args)
-  ),
-};

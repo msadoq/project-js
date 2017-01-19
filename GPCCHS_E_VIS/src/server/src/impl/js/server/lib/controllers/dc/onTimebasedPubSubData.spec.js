@@ -1,6 +1,6 @@
 const { should } = require('../../utils/test');
 
-const { onTimebasedPubSubData } = require('./onTimebasedPubSubData');
+const onTimebasedPubSubData = require('./onTimebasedPubSubData');
 const {
   clearFactory,
   getTimebasedDataModel,

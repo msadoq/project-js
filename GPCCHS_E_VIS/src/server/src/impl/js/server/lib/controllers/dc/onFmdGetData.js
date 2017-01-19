@@ -1,7 +1,6 @@
 const logger = require('common/log')('controllers:onFmdGetData');
 const globalConstants = require('common/constants');
 const { decode } = require('common/protobuf');
-const reply = require('common/ipc/reply');
 
 /**
  * Triggered on retrieve FMD document path response
@@ -13,7 +12,7 @@ const reply = require('common/ipc/reply');
  * @param buffer
  * @param secondBuffer
  */
-module.exports = (queryIdBuffer, statusBuffer, buffer, secondBuffer) => {
+module.exports = (reply, queryIdBuffer, statusBuffer, buffer, secondBuffer) => {
   logger.verbose('called');
 
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
@@ -54,4 +53,3 @@ module.exports = (queryIdBuffer, statusBuffer, buffer, secondBuffer) => {
     });
   }
 };
-

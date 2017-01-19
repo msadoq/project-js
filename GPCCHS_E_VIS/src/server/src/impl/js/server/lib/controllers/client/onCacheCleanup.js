@@ -1,6 +1,5 @@
 const _each = require('lodash/each');
 const _get = require('lodash/get');
-const zmq = require('common/zmq');
 const removeIntervals = require('common/intervals/remove');
 const executionMonitor = require('common/log/execution');
 const logger = require('common/log')('controllers:onCacheCleanup');
@@ -34,7 +33,7 @@ const subscriptionsModel = require('../../models/subscriptions');
  * @param dataMap
  */
 
-const cacheCleanup = (sendMessageToDc, dataMap) => {
+module.exports = (sendMessageToDc, dataMap) => {
   logger.debug('called');
   const messageQueue = [];
   const execution = executionMonitor('cacheCleanup');
@@ -144,12 +143,4 @@ const cacheCleanup = (sendMessageToDc, dataMap) => {
   execution.stop('send zmq messages');
   execution.stop('global');
   execution.print();
-};
-
-module.exports = {
-  cacheCleanup,
-  onCacheCleanup: dataMap => cacheCleanup(
-    args => zmq.push('dcPush', args),
-    dataMap
-  ),
 };

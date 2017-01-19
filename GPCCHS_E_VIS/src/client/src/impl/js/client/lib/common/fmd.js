@@ -8,6 +8,8 @@ import {
   readJsonFromAbsPath, readJsonFromRelativePath, readJsonFromFmdPath,
 } from './fs';
 
+const getRootDir = () => parameters.get('FMD_ROOT_DIR');
+
 const readJsonFromOId = (oId, callback) => {
   ipc.server.requestFmdGet(oId, ({ err, detail }) => {
     if (err) {
@@ -15,7 +17,7 @@ const readJsonFromOId = (oId, callback) => {
     }
     const { dirname, basename } = detail;
     return readJsonFromFmdPath(
-      join(parameters.get('FMD_ROOT_DIR'), dirname.value, basename.value),
+      join(getRootDir(), dirname.value, basename.value),
       callback
      );
   });
@@ -46,6 +48,7 @@ const writeJson = (path, json, callback) => {
 };
 
 const fmdApi = {
+  getRootDir,
   writeJson,
   readJson,
 };

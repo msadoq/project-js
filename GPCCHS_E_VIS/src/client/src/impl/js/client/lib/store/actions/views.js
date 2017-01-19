@@ -3,8 +3,12 @@ import globalConstants from 'common/constants';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
 import vivl from '../../../VIVL/main';
-import { openEditor, updateLayout } from './pages';
+import {
+  openEditor,
+  updateLayout,
+} from './pages';
 import { getPageIdByViewId, makeGetLayouts } from '../selectors/pages';
+import { getTimebarByPageId } from '../selectors/timebars';
 
 export const add = simple(types.WS_VIEW_ADD, 'viewId', 'type', 'configuration', 'path', 'oId',
   'absolutePath', 'isModified');
@@ -99,19 +103,21 @@ export function addEntryPoint(viewId, entryPoint) { // TODO add test
     const state = getState();
     const currentView = state.views[viewId];
     const structureType = vivl(currentView.type, 'structureType')();
-    const currentPageId = getPageIdByViewId(state, { viewId });
 
+    const currentPageId = getPageIdByViewId(state, { viewId });
+    const timebar = getTimebarByPageId(state, currentPageId);
+    const defaultTimeline = timebar ? timebar.masterId : '*';
     const domain = state.domains[0].name; // TODO should be replaced by *, but for dev it's ok
     // const domain = '*';
 
     switch (structureType) { // eslint-disable-line default-case
       case globalConstants.DATASTRUCTURETYPE_LAST:
-        ep.connectedData.timeline = ep.connectedData.timeline || '*';
+        ep.connectedData.timeline = ep.connectedData.timeline || defaultTimeline;
         ep.connectedData.domain = ep.connectedData.domain || domain;
         break;
       case globalConstants.DATASTRUCTURETYPE_RANGE:
-        ep.connectedDataX.timeline = ep.connectedDataX.timeline || '*';
-        ep.connectedDataY.timeline = ep.connectedDataY.timeline || '*';
+        ep.connectedDataX.timeline = ep.connectedDataX.timeline || defaultTimeline;
+        ep.connectedDataY.timeline = ep.connectedDataY.timeline || defaultTimeline;
         ep.connectedDataX.domain = ep.connectedDataX.domain || domain;
         ep.connectedDataY.domain = ep.connectedDataY.domain || domain;
         break;

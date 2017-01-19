@@ -159,7 +159,7 @@ class PlotView extends PureComponent {
   componentWillReceiveProps(nextProps) {
     const {
       configuration: { entryPoints, axes },
-      visuWindow: { lower, upper },
+      visuWindow,
     } = this.props;
 
     if (entryPoints !== nextProps.configuration.entryPoints) {
@@ -168,11 +168,14 @@ class PlotView extends PureComponent {
     if (axes !== nextProps.configuration.axes) {
       this.epCharts = getEntryPointsCharts(nextProps.configuration);
     }
-    this.setState({
-      zoomedOrPanned: false,
-      randomizedLower: new Date(lower - Math.round(Math.random() * 20)),
-      randomizedUpper: new Date(upper + Math.round(Math.random() * 20)),
-    });
+
+    this.setState({ zoomedOrPanned: false });
+    if (visuWindow) {
+      this.setState({
+        randomizedLower: new Date(visuWindow.lower - Math.round(Math.random() * 20)),
+        randomizedUpper: new Date(visuWindow.upper + Math.round(Math.random() * 20)),
+      });
+    }
   }
 
   shouldComponentUpdate() {
@@ -505,10 +508,14 @@ class PlotView extends PureComponent {
       containerWidth,
       containerHeight,
       data,
+      visuWindow,
     } = this.props;
 
     if (containerWidth <= 0 || containerHeight <= 0) {
       return `invisible size received ${containerWidth}x${containerHeight}`;
+    }
+    if (!visuWindow) {
+      return 'No vizualisation window';
     }
     if (!data.columns || !data.columns.length || data.columns.length < 2) {
       return 'no point';
@@ -550,8 +557,8 @@ class PlotView extends PureComponent {
   }
 
   handleOnMouseDown = () => {
-    if (!this.state.disconnected
-      && this.el.parentElement.querySelector(':hover')) {
+    if (!this.state.disconnected && this.el &&
+      this.el.parentElement.querySelector(':hover')) {
       this.disconnect();
     }
   }

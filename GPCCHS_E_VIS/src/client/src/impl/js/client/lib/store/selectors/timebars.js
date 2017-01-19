@@ -5,9 +5,16 @@ import _reduce from 'lodash/reduce';
 import _toPairs from 'lodash/toPairs';
 import { createSelector } from 'reselect';
 import { getTimelines } from './timelines';
+import { getPage } from './pages';
 
 export const getTimebars = state => state.timebars;
 export const getTimebar = (state, timebarUuid) => state.timebars[timebarUuid];
+
+export const getTimebarByPageId = (state, pageId) => {
+  const page = getPage(state, pageId);
+  if (!page) return;
+  return getTimebar(state, page.timebarUuid);
+};
 
 export const getTimebarTimelinesSelector = createSelector(
   [

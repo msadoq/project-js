@@ -3,13 +3,12 @@ import _findIndex from 'lodash/findIndex';
 import _startsWith from 'lodash/startsWith';
 import { dirname, relative } from 'path';
 import { productLog } from 'common/log';
+import parameters from 'common/parameters';
 import {
   LOG_DOCUMENT_SAVE
 } from 'common/constants';
 
-import { writeJson } from '../common/fmd';
 import { checkPath } from '../common/fs';
-import parameters from 'common/parameters';
 
 /**
  * Save plot view from state to file
@@ -21,7 +20,8 @@ import parameters from 'common/parameters';
  * @param callback
  * @returns Error or undefined
  */
-function savePageAs(state, pageId, path, useRelativePath, callback) {
+ // eslint-disable-next-line no-unused-vars
+const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) => {
   if (!state.pages[pageId]) {
     callback('unknown page id');
   }
@@ -68,7 +68,7 @@ function savePageAs(state, pageId, path, useRelativePath, callback) {
       jsonPage.views.push(current);
     });
     // save file
-    writeJson(path, jsonPage, (errfs) => {
+    fmdApi.writeJson(path, jsonPage, (errfs) => {
       if (errfs) {
         return callback(`Unable to save view ${page.title} in file ${path}`);
       }
@@ -79,7 +79,7 @@ function savePageAs(state, pageId, path, useRelativePath, callback) {
     });
   })
   .catch(err => callback(err));
-}
+};
 /**
  * Save page from state to file
  *
@@ -89,7 +89,7 @@ function savePageAs(state, pageId, path, useRelativePath, callback) {
  * @param callback
  * @returns Error or undefined
  */
-function savePage(state, pageId, useRelativePath, callback) {
+const savePage = fmdApi => (state, pageId, useRelativePath, callback) => {
   if (!state.pages[pageId]) {
     callback('unknown page id');
   }
@@ -101,8 +101,8 @@ function savePage(state, pageId, useRelativePath, callback) {
   if (!path) {
     return callback('Unknown path for saving the page');
   }
-  return savePageAs(state, pageId, path, useRelativePath, callback);
-}
+  return savePageAs(fmdApi)(state, pageId, path, useRelativePath, callback);
+};
 
 
 export default {

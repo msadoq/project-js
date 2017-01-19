@@ -1,9 +1,12 @@
 /* eslint no-underscore-dangle: 0 */
-import { extractPages } from './extractPages';
-import { should, expect } from '../common/test';
 import { v4 } from 'node-uuid';
 import _ from 'lodash';
 import path from 'path';
+import fmdApi from '../common/fmd';
+import ExtractPages from './extractPages';
+import { should, expect, applyDependencyToApi } from '../common/test';
+
+const { extractPages } = applyDependencyToApi(ExtractPages, fmdApi);
 
 describe('documents/lib', () => {
   describe('extractPages', () => {

@@ -1,10 +1,14 @@
-import { should, getTmpPath, freezeMe } from '../common/test';
+import { exec } from 'child_process';
 
-import { saveViewAs, saveView } from './saveView';
+import { should, getTmpPath, freezeMe, applyDependencyToApi } from '../common/test';
+
 import fs from '../common/fs';
 import validation from './validation';
 import vivl from '../../VIVL/main';
-import { exec } from'child_process';
+import fmdApi from '../common/fmd';
+import SaveView from './saveView';
+
+const { saveView, saveViewAs } = applyDependencyToApi(SaveView, fmdApi);
 
 describe('documentManager/saveViews', () => {
   const state = {

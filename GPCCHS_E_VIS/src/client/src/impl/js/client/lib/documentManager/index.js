@@ -1,4 +1,4 @@
-import mapValues from 'lodash/fp/mapValues';
+import { applyDependencyToApi } from 'common/utils';
 
 // views
 import { extractViews, readViews } from './extractViews';
@@ -25,9 +25,6 @@ const documentManagerApi = {
   saveWorkspace,
 };
 
-const createDocumentManager = (fmdApi) => {
-  const injectFmdApi = mapValues(f => f.bind({ fmdApi }));
-  return injectFmdApi(documentManagerApi);
-};
+const createDocumentManager = applyDependencyToApi(documentManagerApi);
 
 export default createDocumentManager;

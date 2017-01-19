@@ -16,13 +16,12 @@ import pluck from 'lodash/fp/pluck';
 import propOr from 'lodash/fp/propOr';
 import reject from 'lodash/fp/reject';
 
-import fmd from '../common/fmd';
 import fs from '../common/fs';
 import validation from './validation';
 
-function readPages(folder, pagesToRead, done) {
+const readPages = fmdApi => (folder, pagesToRead, done) => {
   async.map(pagesToRead, (page, next) => {
-    fmd.readJson(folder, page.path, page.oId, page.absolutePath, (err, pageContent) => {
+    fmdApi.readJson(folder, page.path, page.oId, page.absolutePath, (err, pageContent) => {
       if (err) {
         return next(err);
       }
@@ -38,7 +37,7 @@ function readPages(folder, pagesToRead, done) {
       });
     });
   }, (err, pages = []) => done(err, reject(isNil, pages)));
-}
+};
 
 const editPages = compose(map, update('pages'), map);
 
@@ -64,12 +63,12 @@ const keepOnlyUUID = editPages(prop('uuid'));
  * @param cb
  * @returns {*}
  */
-function extractPages(content, cb) {
+const extractPages = fmdApi => (content, cb) => {
   const getWindows = propOr({}, 'windows');
   const getTimebars = propOr({}, 'timebars');
   const newWindows = injectIds(getTimebars(content), getWindows(content));
   const pagesToRead = getPages(newWindows);
-  return readPages(content.__folder, pagesToRead, (err, pages) => {
+  return readPages(fmdApi)(content.__folder, pagesToRead, (err, pages) => {
     const next = obj => (err ? cb(err) : cb(null, obj));
     return next({
       ...content,
@@ -77,7 +76,7 @@ function extractPages(content, cb) {
       pages: indexBy(prop('uuid'))(pages),
     });
   });
-}
+};
 
 export default {
   extractPages,

@@ -1,9 +1,13 @@
-import { should, getTmpPath, freezeMe } from '../common/test';
-
 import { exec } from 'child_process';
-import { savePage, savePageAs } from './savePage';
-import fs from '../common/fs';
+
+import { should, getTmpPath, freezeMe, applyDependencyToApi } from '../common/test';
+
 import validation from './validation';
+import fmdApi from '../common/fmd';
+import fs from '../common/fs';
+import SavePage from './savePage';
+
+const { savePage, savePageAs } = applyDependencyToApi(SavePage, fmdApi);
 
 describe('mainProcess/documents/savePage', () => {
   const state = {

@@ -9,10 +9,9 @@ import {
   LOG_DOCUMENT_SAVE
 } from 'common/constants';
 
-import { writeJson } from '../common/fmd';
 import { checkPath } from '../common/fs';
 
-function saveWorkspaceAs(state, path, useRelativePath, callback) {
+const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
   checkPath(dirname(path)).then(() => {
     const savedWindowsIds = [];
     const workspace = {
@@ -78,7 +77,7 @@ function saveWorkspaceAs(state, path, useRelativePath, callback) {
       workspace.timebars.push(tb);
     });
     // save file
-    writeJson(path, workspace, (err) => {
+    fmdApi.writeJson(path, workspace, (err) => {
       if (err) {
         return callback(`Unable to save workspace in file ${path}`);
       }
@@ -87,15 +86,19 @@ function saveWorkspaceAs(state, path, useRelativePath, callback) {
     });
   })
   .catch(err => callback(err));
-}
+};
 
-function saveWorkspace(state, useRelativePath, callback) {
+const saveWorkspace = fmdApi => (state, useRelativePath, callback) => {
   if (!state.hsc || !state.hsc.folder || !state.hsc.file) {
     return new Error('Unable to get path for saving workspace');
   }
-  return saveWorkspaceAs(state,
-                         join(state.hsc.folder, state.hsc.file), useRelativePath, callback);
-}
+  return saveWorkspaceAs(fmdApi)(
+    state,
+    join(state.hsc.folder, state.hsc.file),
+    useRelativePath,
+    callback
+  );
+};
 
 export default {
   saveWorkspace,

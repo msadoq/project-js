@@ -1,15 +1,18 @@
-import { get } from 'common/parameters';
-import { extractViews, readViews } from './extractViews';
-import { should } from '../common/test';
+// <<<<<<< Updated upstream
 import { v4 } from 'node-uuid';
 import _ from 'lodash';
 import path from 'path';
+import fmdApi from '../common/fmd';
+import ExtractViews from './extractViews';
+import { should, applyDependencyToApi } from '../common/test';
+
+const { extractViews, readViews } = applyDependencyToApi(ExtractViews, fmdApi);
 
 describe('documentManager/extractViews', () => {
   let content;
   const id1 = v4();
   const id2 = v4();
-  const folder = get('FMD_ROOT_DIR');
+  const folder = fmdApi.getRootDir();
 
   before(() => {
     const id = v4();

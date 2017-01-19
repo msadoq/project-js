@@ -20,12 +20,11 @@ import isObject from 'lodash/fp/isObject';
 import { dirname } from 'path';
 import async from 'async';
 import { v4 } from 'node-uuid';
-import fmd from '../common/fmd';
+import globalConstants from 'common/constants';
 import fs from '../common/fs';
 import validation from './validation';
 import vivl from '../../VIVL/main';
 import addUuidToAxes from '../dataManager/structures/range/addUuidToAxes';
-import globalConstants from 'common/constants';
 
 const indexByUUID = indexBy(prop('uuid'));
 
@@ -36,10 +35,10 @@ const supportedViewTypes = [
   'MimicView',
 ];
 
-function readViews(viewsToRead, done) {
+const readViews = fmdApi => (viewsToRead, done) => {
   async.reduce(viewsToRead, [], (views, view, next) => {
     const { pageFolder, path, oId } = view;
-    fmd.readJson(pageFolder, path, oId, view.absolutePath, (err, viewContent) => {
+    fmdApi.readJson(pageFolder, path, oId, view.absolutePath, (err, viewContent) => {
       if (err) {
         return next(err);
       }
@@ -81,7 +80,7 @@ function readViews(viewsToRead, done) {
       }));
     });
   }, done);
-}
+};
 
 // side effects due to uuid generation (v4)
 function preparePageViews(page) {
@@ -106,7 +105,7 @@ function preparePageViews(page) {
  * @param done
  * @returns {*}
  */
-function extractViews(content, done) {
+const extractViews = fmdApi => (content, done) => {
   const otherwise = () => true;
   const getAllViews = pipe(
     propOr({}, 'pages'),
@@ -119,14 +118,14 @@ function extractViews(content, done) {
   const prepareAllPagesViews = update('pages', mapValues(preparePageViews));
   const nextContent = prepareAllPagesViews(content);
 
-  return readViews(getAllViews(nextContent), (err, views) => {
+  return readViews(fmdApi)(getAllViews(nextContent), (err, views) => {
     if (err) {
       return done(err);
     }
     const setViews = assoc('views', indexByUUID(views));
     return done(null, setViews(nextContent));
   });
-}
+};
 
 export default {
   extractViews,

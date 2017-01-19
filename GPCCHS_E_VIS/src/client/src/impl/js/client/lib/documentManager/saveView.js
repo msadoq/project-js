@@ -1,7 +1,6 @@
 /* eslint no-underscore-dangle: 0 */
 import { dirname } from 'path';
 import _cloneDeep from 'lodash/cloneDeep';
-import { checkPath } from '../common/fs';
 import _omit from 'lodash/omit';
 import _values from 'lodash/values';
 import _each from 'lodash/each';
@@ -10,7 +9,7 @@ import {
   DATASTRUCTURETYPE_RANGE,
   LOG_DOCUMENT_SAVE
 } from 'common/constants';
-import { writeJson } from '../common/fmd';
+import { checkPath } from '../common/fs';
 import vivl from '../../VIVL/main';
 
 /**
@@ -22,7 +21,8 @@ import vivl from '../../VIVL/main';
  * @param callback
  * @returns Error or undefined
  */
-function saveViewAs(viewConfiguration, viewType, path, callback) {
+ // eslint-disable-next-line no-unused-vars
+const saveViewAs = fmdApi => (viewConfiguration, viewType, path, callback) => {
   if (!viewConfiguration) {
     return callback('Unknown view');
   }
@@ -47,7 +47,7 @@ function saveViewAs(viewConfiguration, viewType, path, callback) {
       view = _omit(view, 'entryPoints');
     }
 
-    writeJson(path, view, (errWrite) => {
+    fmdApi.writeJson(path, view, (errWrite) => {
       if (errWrite) {
         return callback(`Unable to save view ${view.title} in file ${path}`);
       }
@@ -56,7 +56,7 @@ function saveViewAs(viewConfiguration, viewType, path, callback) {
     });
   })
   .catch(err => callback(err));
-}
+};
 
 /**
  * Save view from state to file
@@ -66,7 +66,7 @@ function saveViewAs(viewConfiguration, viewType, path, callback) {
  * @param callback
  * @returns Error or undefined
  */
-function saveView(state, viewId, callback) {
+const saveView = fmdApi => (state, viewId, callback) => {
   if (!state.views[viewId]) {
     return callback('Unknown view id');
   }
@@ -78,8 +78,10 @@ function saveView(state, viewId, callback) {
   if (!absPath) {
     return callback('Unknown path for saving text view');
   }
-  return saveViewAs(state.views[viewId].configuration, state.views[viewId].type, absPath, callback);
-}
+  return saveViewAs(fmdApi)(
+    state.views[viewId].configuration, state.views[viewId].type, absPath, callback
+  );
+};
 
 export default {
   saveViewAs,

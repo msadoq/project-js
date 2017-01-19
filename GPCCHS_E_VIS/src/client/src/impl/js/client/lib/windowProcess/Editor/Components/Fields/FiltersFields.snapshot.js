@@ -1,6 +1,5 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { reduxForm } from 'redux-form';
 import FiltersFields from './FiltersFields';
 
 const propsStub = {

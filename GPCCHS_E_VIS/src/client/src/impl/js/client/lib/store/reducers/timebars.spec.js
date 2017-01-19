@@ -337,7 +337,7 @@ describe('store:timebars:reducer', () => {
     const initStore = (playingTimebarId) => {
       store = getStore({
         hsc: {
-          playingTimebarId: playingTimebarId
+          playingTimebarId,
         },
         timebars: {
           myTimebarId: {
@@ -358,14 +358,13 @@ describe('store:timebars:reducer', () => {
       });
       getState = store.getState;
       dispatch = store.dispatch;
-    }
+    };
 
     it('(Normal mode) - should move 377ms', () => {
       initStore('myTimebarId');
       const state = getState();
       const offset = 377;
       const vw = state.timebars.myTimebarId.visuWindow;
-      const sw = state.timebars.myTimebarId.slideWindow;
       const newCurrent = vw.current + offset;
       dispatch(actions.handlePlay(
         vw.current,

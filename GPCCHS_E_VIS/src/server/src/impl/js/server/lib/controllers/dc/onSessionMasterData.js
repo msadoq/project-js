@@ -16,6 +16,6 @@ module.exports = (reply, queryIdBuffer, buffer) => {
   logger.debug('decoded queryId', queryId);
 
   reply(queryId, {
-    masterSessionOid: decode(getType('UINTEGER'), buffer),
+    masterSessionId: decode(getType('UINTEGER'), buffer).value,
   });
 };

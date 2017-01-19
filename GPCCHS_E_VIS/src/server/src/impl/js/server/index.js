@@ -46,7 +46,7 @@ process.once('SIGINT', () => {
 process.once('SIGTERM', () => {
   logger.info('gracefully close server (SIGTERM)');
 
-  unsubscribeAll(zmq.push);
+  unsubscribeAll(args => zmq.push('dcPush', args));
 
   logger.info('good bye!');
   exit(0);

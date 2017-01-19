@@ -21,7 +21,8 @@ const controllers = {
   [globalConstants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA]: onTimebasedPubSubData,
   [globalConstants.MESSAGETYPE_FMD_CREATE_DATA]: (...args) => onFmdCreateData(reply, ...args),
   [globalConstants.MESSAGETYPE_FMD_GET_DATA]: (...args) => onFmdGetData(reply, ...args),
-  [globalConstants.MESSAGETYPE_SESSION_MASTER_DATA]: (...args) => onSessionMasterData(reply, ...args),
+  [globalConstants.MESSAGETYPE_SESSION_MASTER_DATA]: (...args) =>
+    onSessionMasterData(reply, ...args),
   [globalConstants.MESSAGETYPE_SESSION_TIME_DATA]: (...args) => onSessionTimeData(reply, ...args),
 };
 

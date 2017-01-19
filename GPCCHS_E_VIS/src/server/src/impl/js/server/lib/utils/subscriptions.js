@@ -30,6 +30,10 @@ function generateSubId() {
   return `sub${subIdIndex}`;
 }
 
+const resetSubId = () => {
+  subIdIndex = 0;
+};
+
 const dataIdProtobufs = {};
 function getDataIdProtobuf(dataId) {
   const flatDataId = flattenDataId(dataId);
@@ -83,12 +87,13 @@ const unsubscribeAll = (sendMessageToDc) => {
     subscriptions.forEach((subscription) => {
       const message = createDeleteSubscriptionMessage(subscription.dataId);
       logger.debug('sending subscription deletion to DC');
-      return sendMessageToDc('dcPush', message.args);
+      return sendMessageToDc(message.args);
     });
   }
 };
 
 module.exports = {
+  resetSubId,
   createAddSubscriptionMessage,
   createDeleteSubscriptionMessage,
   unsubscribeAll,

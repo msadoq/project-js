@@ -4,7 +4,7 @@ import { productLog } from 'common/log';
 import {
   LOG_DOCUMENT_OPEN
 } from 'common/constants';
-import { readPages, extractViews } from '../../documentManager/extractPages';
+import { readPages, extractViews } from '../../common/documentManager';
 import { showErrorMessage, getPathByFilePicker } from '../dialog';
 import { getStore } from '../../store/mainStore';
 import { add as addView } from '../../store/actions/views';

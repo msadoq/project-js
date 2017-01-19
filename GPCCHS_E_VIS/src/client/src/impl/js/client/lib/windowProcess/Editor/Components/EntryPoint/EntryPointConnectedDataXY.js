@@ -76,20 +76,20 @@ class EntryPointConnectedDataXY extends React.Component {
           textOff="NO"
         />
 
-        {!timeBasedData &&
-          (<div>
-            <div className="page-header">
-              <h4>Abciss</h4>
-            </div>
-            <EntryPointConnectedDataFields
-              prefix="x."
-              unit={this.props.xUnit}
-              timelines={timelines}
-              axes={axes}
-              axisId={initialValues.x.axisId}
-            />
-          </div>)
-        }
+        <div>
+          <div className="page-header">
+            <h4>Abciss</h4>
+          </div>
+          <EntryPointConnectedDataFields
+            prefix="x."
+            unit={this.props.xUnit}
+            timelines={timelines}
+            axes={axes}
+            axisId={initialValues.x.axisId}
+            timeBasedData={timeBasedData}
+          />
+        </div>
+
 
         <div className="page-header">
           <h4>Ordinate</h4>

@@ -148,7 +148,7 @@
   "axes": [
     {
       "label": "Time",
-      "unit": "<DATE>",
+      "unit": "s",
       "style": {
         "font": "Arial",
         "size": 12,

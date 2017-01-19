@@ -261,24 +261,30 @@ class PlotView extends PureComponent {
       visuWindow,
       containerWidth,
       containerHeight,
+      configuration,
       configuration: { showYAxes }
     } = this.props;
 
     const { disableZoom } = this.state;
     const { y: yGrid, x: xGrid } = this.getGrid();
-    let xAxisWidth;
-    if (showYAxes === 'left') {
-      xAxisWidth = (margin.left - margin.right) + (this.epCharts.length * yAxisWidth);
-    } else if (showYAxes === 'right') {
-      xAxisWidth = containerWidth - margin.left - margin.right
+
+    let xAxisWidth = containerWidth - margin.left - margin.right;
+    if (showYAxes === 'left' || showYAxes === 'right') {
+      xAxisWidth = (containerWidth - margin.left - margin.right)
         - (this.epCharts.length * yAxisWidth);
-    } else {
-      xAxisWidth = containerWidth - margin.left - margin.right;
     }
-    const xLabelPosition = [
-      xAxisWidth / 2,
-      containerHeight - 30
-    ];
+
+    const xLabelAlign = _get(configuration, 'axes.Time.style.align', 'center');
+    const xLabelColor = _get(configuration, 'axes.Time.style.color', '#000000');
+    const xLabelFontSize = _get(configuration, 'axes.Time.style.size', 12);
+    const xLabelFontFamily = _get(configuration, 'axes.Time.style.font', 'Arial');
+    let xLabelPosition = [xAxisWidth / 2, containerHeight - 30];
+    if (xLabelAlign === 'left') {
+      xLabelPosition = [margin.left, containerHeight - 30];
+    } else if (xLabelAlign === 'right') {
+      xLabelPosition = [xAxisWidth - margin.left, containerHeight - 30];
+    }
+
     const charts = [
       <Chart
         id={0}
@@ -296,6 +302,9 @@ class PlotView extends PureComponent {
         <Label
           x={xLabelPosition[0]}
           y={xLabelPosition[1]}
+          fill={xLabelColor}
+          fontSize={xLabelFontSize}
+          fontFamily={xLabelFontFamily}
           text="Time"
         />
         <MouseCoordinateX
@@ -358,6 +367,19 @@ class PlotView extends PureComponent {
       const tickStep = _get(chart, 'yAxis.tickStep');
       const label = _get(chart, 'yAxis.label');
       const unit = _get(chart, 'yAxis.unit');
+      const align = _get(chart, 'yAxis.style.align', 'center');
+      const fontSize = _get(chart, 'yAxis.style.size', 12);
+      const color = _get(chart, 'yAxis.style.color', '#000000');
+      const fontFamily = _get(chart, 'yAxis.style.font', 'Arial');
+
+      const pxHeight = containerHeight - margin.top - margin.bottom;
+      let labelYPosition = pxHeight / 2;
+      if (align === 'left') {
+        labelYPosition = pxHeight - margin.top;
+      } else if (align === 'right') {
+        labelYPosition = margin.top;
+      }
+
       const yExtents = autoLimits
         ? d => _map(chart.yKeys, key => _get(d, [key, 'value']))
         : [
@@ -374,11 +396,12 @@ class PlotView extends PureComponent {
         >
           {showYAxes && <Label
             x={dx}
-            y={(containerHeight - margin.top - margin.bottom) / 2}
+            y={labelYPosition}
             rotate={-90}
-            text={
-              [label, ((unit && unit.length ? `(${unit})` : ''))].join(' ')
-            }
+            fill={color}
+            text={[label, ((unit && unit.length ? `(${unit})` : ''))].join(' ')}
+            fontSize={fontSize}
+            fontFamily={fontFamily}
           />}
           {showYAxes && <YAxis
             axisAt={axisAt}

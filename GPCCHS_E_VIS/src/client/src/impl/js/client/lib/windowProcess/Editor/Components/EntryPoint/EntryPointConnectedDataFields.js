@@ -21,6 +21,7 @@ export default class EntryPointConnectedDataFields extends React.Component {
     prefix: PropTypes.string,
     unit: PropTypes.string,
     axisId: PropTypes.string,
+    timeBasedData: PropTypes.bool,
   }
 
   render() {
@@ -30,6 +31,7 @@ export default class EntryPointConnectedDataFields extends React.Component {
       prefix,
       unit,
       axisId,
+      timeBasedData,
     } = this.props;
     let filteredAxes;
     if (axes && unit) {
@@ -44,12 +46,41 @@ export default class EntryPointConnectedDataFields extends React.Component {
       filteredAxes = [];
     }
 
+    if (timeBasedData) {
+      return (
+        <div>
+          <HorizontalFormGroup label="Formula">
+            <Field
+              name={`${prefix}formula`}
+              component={TextareaField}
+              rows="4"
+              className="form-control input-sm"
+            />
+          </HorizontalFormGroup>
+          <HorizontalFormGroup label="Unit">
+            <Field
+              name={`${prefix}unit`}
+              component={InputField}
+              type="text"
+              className="form-control input-sm"
+            />
+            <p
+              style={{ fontSize: '0.9em', paddingTop: '2px' }}
+            >
+              { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
+            </p>
+          </HorizontalFormGroup>
+        </div>
+      );
+    }
+
     return (
       <div>
         <HorizontalFormGroup label="Formula">
           <Field
             name={`${prefix}formula`}
             component={TextareaField}
+            rows="4"
             className="form-control input-sm"
           />
         </HorizontalFormGroup>
@@ -61,6 +92,11 @@ export default class EntryPointConnectedDataFields extends React.Component {
             type="text"
             className="form-control input-sm"
           />
+          <p
+            style={{ fontSize: '0.9em', paddingTop: '2px' }}
+          >
+            { Object.values(axes).map(a => `${a.label}: ${a.unit}`).join(', ') }
+          </p>
         </HorizontalFormGroup>
 
         {/* <HorizontalFormGroup label="Format">

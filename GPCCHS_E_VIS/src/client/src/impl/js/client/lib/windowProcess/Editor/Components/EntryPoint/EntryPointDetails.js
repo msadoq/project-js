@@ -76,9 +76,9 @@ export default class EntryPointDetails extends React.Component {
       connectedDataY: values.y,
       connectedDataX: {
         ...values.x,
-        formula: values.timeBasedData ? values.y.formula : values.x.formula,
         domain: values.timeBasedData ? values.y.domain : values.x.domain,
         timeline: values.timeBasedData ? values.y.timeline : values.x.timeline,
+        axisId: 'Time',
       },
       timeBasedData: values.timeBasedData,
     });

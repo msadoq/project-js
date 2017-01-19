@@ -227,6 +227,7 @@
 .timelines{
   height: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 .timeline{
   width: 100%;

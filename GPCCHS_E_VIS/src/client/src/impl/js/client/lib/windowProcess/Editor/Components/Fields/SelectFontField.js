@@ -18,8 +18,8 @@ export default class SelectFontField extends React.PureComponent {
         onChange={onChange}
         value={value}
       >
-        <option value="arial">Arial</option>
-        <option value="tahoma">Tahoma</option>
+        <option value="Arial">Arial</option>
+        <option value="Helvetica">Helvetica</option>
       </FormControl>
     );
   }

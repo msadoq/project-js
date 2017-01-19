@@ -9,6 +9,7 @@ export default class InputTextareaField extends React.Component {
     input: PropTypes.object.isRequired,
     placeholder: PropTypes.string,
     className: PropTypes.string,
+    rows: PropTypes.string,
     meta: PropTypes.object
   }
 
@@ -17,6 +18,7 @@ export default class InputTextareaField extends React.Component {
       input,
       placeholder,
       className,
+      rows,
       meta: {
         touched,
         error,
@@ -36,6 +38,7 @@ export default class InputTextareaField extends React.Component {
           {...input}
           className={classnames('form-control', className)}
           placeholder={placeholder}
+          rows={rows || '3'}
         />
         {touched && error && <Alert bsStyle="danger" className="m0">
           {error}

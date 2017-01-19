@@ -100,7 +100,10 @@ class PlotAxis extends PureComponent {
           <Label
             style={{
               backgroundColor: _get(ep, ['objectStyle', 'curveColor'], '#333'),
-              textShadow: '0 0 1px rgba(0,0,0,0.3)'
+              textShadow: '0 0 1px rgba(0,0,0,0.3)',
+              margin: '3px',
+              display: 'inline-block',
+              fontSize: '0.9em'
             }}
           >
             {`${ep.name} X`}<br />
@@ -115,7 +118,7 @@ class PlotAxis extends PureComponent {
               textShadow: '0 0 1px rgba(0,0,0,0.3)',
               margin: '3px',
               display: 'inline-block',
-              fontSize: '1em'
+              fontSize: '0.9em'
             }}
           >
             {`${ep.name} Y`}<br />

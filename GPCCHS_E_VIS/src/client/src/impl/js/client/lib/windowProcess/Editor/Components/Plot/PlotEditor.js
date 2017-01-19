@@ -10,12 +10,12 @@ const newEntryPoint = {
   name: 'NewEntryPoint',
   connectedDataX: {
     formula: '',
-    unit: 'ms',
+    unit: 's',
     digits: 5,
     format: 'decimal',
     domain: '',
     timeline: '',
-    axisId: 'time'
+    axisId: 'Time'
   },
   connectedDataY: {
     formula: '',
@@ -24,7 +24,7 @@ const newEntryPoint = {
     format: 'decimal',
     domain: '',
     timeline: '',
-    axisId: 'time'
+    axisId: 'Time'
   },
   objectStyle: {
     line: {

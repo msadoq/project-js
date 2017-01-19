@@ -38,9 +38,13 @@ module.exports = {
   },
   file: {
     Collection: require('./file/collection'),
+    CollectionDocument: require('./file/collectionDocument'),
+    CollectionVirtualFolder: require('./file/collectionVirtualFolder'),
     DocVersion: require('./file/docVersion'),
     Document: require('./file/document'),
     Folder: require('./file/folder'),
+    ProfileRight: require('./file/profileRight'),
+    UserRight: require('./file/userRight'),
   },
   lifeCycle: {
     LifeCycle: require('./lifeCycle/lifeCycle'),

@@ -8,7 +8,6 @@ import getLogger from 'common/log';
 import { getStore } from '../store/mainStore';
 import {
   getWindowsOpened,
-  getPlayingTimebarId,
   getLastCacheInvalidation,
   // getSlowRenderers,
 } from '../store/selectors/hsc';
@@ -21,11 +20,9 @@ import { server } from './ipc';
 import dataMapGenerator from '../dataManager/map';
 import request from '../dataManager/request';
 import windowsObserver from './windows';
-import { updateCursors } from '../store/actions/timebars';
-import { getTimebar } from '../store/selectors/timebars';
-import { nextCurrent, computeCursors } from './play';
 
 import { updateViewData } from '../store/actions/viewData';
+import { handlePlay } from '../store/actions/timebars';
 
 const logger = getLogger('main:orchestration');
 const execution = executionMonitor('orchestration');
@@ -120,15 +117,14 @@ export function tick() {
 
   // store
   const { getState, dispatch } = getStore();
-  const playingTimebarId = getPlayingTimebarId(getState());
+
   const isWindowsOpened = getWindowsOpened(getState());
   const windowsHasChanged = getState().windows !== previous.state.windows;
 
   // play management (before dataMap generation, allow tick to work on a up to date state)
-  if (isWindowsOpened && playingTimebarId) {
+  if (isWindowsOpened) {
     execution.start('play management');
-    const playingTimebar = getTimebar(getState(), playingTimebarId);
-    handlePlay(dispatch, playingTimebarId, playingTimebar, lastTickTime);
+    dispatch(handlePlay(lastTickTime));
     execution.stop('play management');
   }
 
@@ -226,7 +222,6 @@ export function tick() {
       'global',
       `somethingHasChanged:${somethingHasChanged}`
       + ` isWindowsOpened:${isWindowsOpened}`
-      + ` playingTimebarId:${playingTimebarId}`
     );
     execution.print();
     execution.reset();
@@ -234,27 +229,4 @@ export function tick() {
     // schedule next tick
     schedule();
   });
-}
-
-// TODO : factorize in an unique action creator (thunk)
-function handlePlay(dispatch, playingTimebarId, playingTimebar, lastTickTime) {
-  const newCurrent = nextCurrent(
-    playingTimebar.visuWindow.current,
-    playingTimebar.speed,
-    (Date.now() - lastTickTime)
-  );
-  const nextCursors = computeCursors(
-    newCurrent,
-    playingTimebar.visuWindow.lower,
-    playingTimebar.visuWindow.upper,
-    playingTimebar.slideWindow.lower,
-    playingTimebar.slideWindow.upper,
-    playingTimebar.mode,
-    globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN,
-  );
-  dispatch(updateCursors(
-    playingTimebarId,
-    nextCursors.visuWindow,
-    nextCursors.slideWindow
-  ));
 }

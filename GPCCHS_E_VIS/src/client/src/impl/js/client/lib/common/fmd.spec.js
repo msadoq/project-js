@@ -9,6 +9,8 @@ import {
   chmodSync
 } from 'fs';
 
+import { get } from 'common/parameters';
+
 import { should, expect, getTmpPath } from '../common/test';
 import fmd from './fmd';
 
@@ -51,6 +53,12 @@ describe('common/fmd', () => {
     } catch (e) {
       console.warn(e); // eslint-disable-line no-console
     }
+  });
+
+  describe('getRootDir', () => {
+    it('should return same thing than parameters.get', () => {
+      fmd.getRootDir().should.eql(get('FMD_ROOT_DIR'));
+    });
   });
 
   describe('readJson', () => {

@@ -5,7 +5,7 @@
       "type": "documentWindow",
       "pages": [
         {
-          "oId": "page_small",
+          "oId": "oid:pages/pageSmall_with_oid.json",
           "timebarId": "TB1"
         }
       ],

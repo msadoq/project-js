@@ -6,7 +6,7 @@ import fmd from '../common/fmd';
 import validation from './validation';
 import { exec } from 'child_process';
 
-describe('documentsManager/saveWorkspace', () => {
+describe('documentManager/saveWorkspace', () => {
   const state = {
     windows: {
       win1: {

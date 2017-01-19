@@ -13,7 +13,7 @@ process.env.LEVEL = 'ERROR';
 process.env.PROFILING = 'off';
 process.env.MONITORING = 'off';
 
-process.env.FMD_ROOT_DIR = path.resolve(__dirname, '../documentsManager/fixtures');
+process.env.FMD_ROOT_DIR = path.resolve(__dirname, '../documentManager/fixtures');
 
 chai.use(properties);
 

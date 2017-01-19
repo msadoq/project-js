@@ -6,7 +6,7 @@ import { getModifiedPagesIds } from '../../store/selectors/pages';
 import { getModifiedViewsIds } from '../../store/selectors/views';
 import { setModified as setModifiedWindow } from '../../store/actions/windows';
 import { updatePath, closeWorkspace, isWorkspaceOpening } from '../../store/actions/hsc';
-import { saveWorkspace } from '../../documentsManager/saveWorkspace';
+import { saveWorkspace } from '../../documentManager/saveWorkspace';
 import { showQuestionMessage, showErrorMessage, getPathByFilePicker } from '../dialog';
 import { getStore } from '../../store/mainStore';
 import { openDefaultWorkspace, readWkFile } from '../openWorkspace';

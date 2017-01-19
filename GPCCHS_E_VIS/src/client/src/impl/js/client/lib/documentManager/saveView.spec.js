@@ -6,7 +6,7 @@ import validation from './validation';
 import vivl from '../../VIVL/main';
 import { exec } from'child_process';
 
-describe('documentsManager/saveViews', () => {
+describe('documentManager/saveViews', () => {
   const state = {
     views: {
       text1: {

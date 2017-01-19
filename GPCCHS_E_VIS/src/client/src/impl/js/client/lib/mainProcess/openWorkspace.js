@@ -10,7 +10,7 @@ import {
   LOG_DOCUMENT_OPEN
 } from 'common/constants';
 
-import { readWorkspace } from '../documentsManager';
+import { readWorkspace } from '../documentManager';
 import { add as addTimeline } from '../store/actions/timelines';
 import { add as addTimebar } from '../store/actions/timebars';
 import { add as addView } from '../store/actions/views';

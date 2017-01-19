@@ -5,7 +5,7 @@ import { getStore } from '../../store/mainStore';
 import { updatePath } from '../../store/actions/hsc';
 import { setModified as setModifiedWindow } from '../../store/actions/windows';
 import { showErrorMessage, getPathByFilePicker } from '../dialog';
-import { saveWorkspace } from '../../documentsManager/saveWorkspace';
+import { saveWorkspace } from '../../documentManager/saveWorkspace';
 
 module.exports = { workspaceSave, workspaceSaveAs };
 

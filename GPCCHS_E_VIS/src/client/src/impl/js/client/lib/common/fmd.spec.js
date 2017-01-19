@@ -62,7 +62,7 @@ describe('common/fmd', () => {
       });
     });
     it('works with only relativePath', (done) => {
-      // you can found '/text1.json' in lib/documentsManager/fixtures
+      // you can found '/text1.json' in lib/documentManager/fixtures
       fmd.readJson(undefined, '/text1.json', undefined, undefined, (err, content) => {
         should.exist(content);
         should.not.exist(err);

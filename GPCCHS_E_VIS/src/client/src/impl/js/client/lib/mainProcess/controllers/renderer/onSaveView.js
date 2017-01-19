@@ -5,7 +5,7 @@ import { getView } from '../../../store/selectors/views';
 import { setModified, updateAbsolutePath } from '../../../store/actions/views';
 import { add } from '../../../store/actions/messages';
 import { getPathByFilePicker } from '../../dialog';
-import { saveViewAs } from '../../../documentsManager/saveView';
+import { saveViewAs } from '../../../documentManager/saveView';
 
 const root = parameters.get('FMD_ROOT_DIR');
 

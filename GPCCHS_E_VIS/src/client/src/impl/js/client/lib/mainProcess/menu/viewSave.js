@@ -2,7 +2,7 @@ import {
   setModified as setModifiedView,
   updateAbsolutePath as updateAbsViewPath,
 } from '../../store/actions/views';
-import { saveView } from '../../documentsManager/saveView';
+import { saveView } from '../../documentManager/saveView';
 import { getStore } from '../../store/mainStore';
 import { getPathByFilePicker } from '../dialog';
 

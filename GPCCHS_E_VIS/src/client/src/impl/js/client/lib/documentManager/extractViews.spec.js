@@ -5,7 +5,7 @@ import { v4 } from 'node-uuid';
 import _ from 'lodash';
 import path from 'path';
 
-describe('documentsManager/extractViews', () => {
+describe('documentManager/extractViews', () => {
   let content;
   const id1 = v4();
   const id2 = v4();

@@ -5,6 +5,7 @@ import React, { PropTypes, Component } from 'react';
 import DynamicEditorForm from './DynamicEditorForm';
 import styles from '../../Editor.css';
 import Navbar from '../Navbar/Navbar';
+import DynamicTab from './DynamicTab';
 
 export default class DynamicEditor extends Component {
   static propTypes = {
@@ -12,6 +13,8 @@ export default class DynamicEditor extends Component {
     configuration: PropTypes.shape({
       entryPoints: PropTypes.array,
     }),
+    title: PropTypes.string,
+    titleStyle: PropTypes.object,
     timelines: PropTypes.array,
     updateEntryPoint: PropTypes.func.isRequired,
     closeEditor: PropTypes.func.isRequired,
@@ -19,11 +22,26 @@ export default class DynamicEditor extends Component {
     pristine: PropTypes.bool,
     reset: PropTypes.func,
     submitting: PropTypes.bool,
-    valid: PropTypes.bool
-
+    valid: PropTypes.bool,
+    updateTitle: PropTypes.func,
+    updateTitleStyle: PropTypes.func,
   }
+  state = { currentDisplay: 0 };
 
   changeCurrentDisplay = id => this.setState({ currentDisplay: id });
+
+  handleTextTitle = (newVal) => {
+    const { updateTitle, viewId } = this.props;
+    updateTitle(viewId, newVal);
+  }
+
+  handleTextTitleStyle = (label, newVal) => {
+    const { configuration, updateTitleStyle, viewId } = this.props;
+    updateTitleStyle(viewId, {
+      ...configuration.titleStyle,
+      [label]: newVal
+    });
+  }
 
   handleSubmit = (values) => {
     const { configuration, updateEntryPoint, viewId } = this.props;
@@ -37,25 +55,31 @@ export default class DynamicEditor extends Component {
 
   render() {
     const { entryPoints } = this.props.configuration;
-    const { timelines, viewId } = this.props;
-    const currentDisplay = 0;
+    const { timelines, viewId, title, titleStyle } = this.props;
+    const { currentDisplay } = this.state;
 
     return (
       <div className={styles.contentWrapper}>
         <Navbar
           currentDisplay={currentDisplay}
           changeCurrentDisplay={this.changeCurrentDisplay}
-          items={['Connected Data']}
+          items={['Connected Data', 'View']}
           closeEditor={this.props.closeEditor}
         />
-        <div className={styles.content}>
+        {currentDisplay === 0 && <div className={styles.content}>
           <DynamicEditorForm
             timelines={timelines}
             form={`entrypoint-connectedData-form-${viewId}`}
             onSubmit={values => this.handleSubmit({ connectedData: values })}
             initialValues={entryPoints.length ? entryPoints[0].connectedData : {}}
           />
-        </div>
+        </div>}
+        {currentDisplay === 1 && <DynamicTab
+          title={title}
+          handleTextTitle={this.handleTextTitle}
+          handleTextTitleStyle={this.handleTextTitleStyle}
+          titleStyle={titleStyle}
+        />}
       </div>
     );
   }

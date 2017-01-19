@@ -4,9 +4,8 @@ import { productLog } from 'common/log';
 import {
   LOG_DOCUMENT_OPEN
 } from 'common/constants';
-import { readPages } from '../../documentManager/extractPages';
+import { readPages, extractViews } from '../../documentManager/extractPages';
 import { showErrorMessage, getPathByFilePicker } from '../dialog';
-import { extractViews } from '../../documentManager/extractViews';
 import { getStore } from '../../store/mainStore';
 import { add as addView } from '../../store/actions/views';
 import { addAndMount as addAndMountPage } from '../../store/actions/windows';

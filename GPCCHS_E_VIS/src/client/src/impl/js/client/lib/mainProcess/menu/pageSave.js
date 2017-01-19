@@ -2,7 +2,7 @@ import { getStore } from '../../store/mainStore';
 import { getPageModifiedViewsIds } from '../../store/selectors/pages';
 import { updateAbsolutePath, setModified } from '../../store/actions/pages';
 import { showErrorMessage, getPathByFilePicker } from '../dialog';
-import { savePage } from '../../documentManager/savePage';
+import { savePage } from '../../common/documentManager';
 
 module.exports = { pageSave, pageSaveAs };
 

@@ -5,7 +5,7 @@ import {
   LOG_DOCUMENT_OPEN
 } from 'common/constants';
 
-import { readViews } from '../../documentManager/extractViews';
+import { readViews } from '../../common/documentManager';
 import { showErrorMessage, getPathByFilePicker } from '../dialog';
 import { addAndMount as addAndMountView } from '../../store/actions/pages';
 import { getStore } from '../../store/mainStore';

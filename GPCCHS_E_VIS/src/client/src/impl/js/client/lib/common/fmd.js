@@ -15,7 +15,7 @@ const readJsonFromOId = (oId, callback) => {
     }
     const { dirname, basename } = detail;
     return readJsonFromFmdPath(
-      join(parameters.get('FMD_ROOT_DIR'), dirname, basename),
+      join(parameters.get('FMD_ROOT_DIR'), dirname.value, basename.value),
       callback
      );
   });

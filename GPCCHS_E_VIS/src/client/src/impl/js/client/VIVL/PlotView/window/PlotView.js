@@ -179,8 +179,8 @@ class PlotView extends PureComponent {
   }
 
   shouldComponentUpdate() {
-    const { disconnected, currentDisplay } = this.state;
-    if (disconnected || currentDisplay) {
+    const { disconnected, zoomedOrPanned } = this.state;
+    if (disconnected || zoomedOrPanned) {
       return false;
     }
     return true;

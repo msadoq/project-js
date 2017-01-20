@@ -10,16 +10,22 @@ import {
 
 const getRootDir = () => parameters.get('FMD_ROOT_DIR');
 
-const readJsonFromOId = (oId, callback) => {
+const resolveDocument = (oId, callback) => {
   ipc.server.requestFmdGet(oId, ({ err, detail }) => {
     if (err) {
       return callback(err);
     }
     const { dirname, basename } = detail;
-    return readJsonFromFmdPath(
-      join(getRootDir(), dirname.value, basename.value),
-      callback
-     );
+    callback(null, join(getRootDir(), dirname.value, basename.value));
+  });
+};
+
+const readJsonFromOId = (oId, callback) => {
+  resolveDocument(oId, (err, path) => {
+    if (err) {
+      return callback(err);
+    }
+    readJsonFromFmdPath(path, callback);
   });
 };
 
@@ -48,6 +54,7 @@ const writeJson = (path, json, callback) => {
 };
 
 const fmdApi = {
+  resolveDocument,
   getRootDir,
   writeJson,
   readJson,

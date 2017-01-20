@@ -85,6 +85,23 @@ const self = module.exports = {
       return self.parse(content, callback);
     });
   },
+
+  /**
+   * Checks if a path exists
+   *
+   * @param folder
+   * @return {Promise}
+   */
+  checkPath: path => new Promise((resolve, reject) => {
+    fs.exists(path, (pathExist) => {
+      if (pathExist) {
+        resolve(true);
+      } else {
+        reject(false);
+      }
+    });
+  }),
+
   /**
    * Checks if folder exists and if not, creates it
    *

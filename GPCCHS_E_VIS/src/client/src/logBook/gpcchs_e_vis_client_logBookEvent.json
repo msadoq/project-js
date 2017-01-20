@@ -1,0 +1,178 @@
+{
+  "Catalog": {
+    "Name": "LogbookEventDefinition",
+    "Version": "1.0",
+    "Items": [
+      {
+        "ItemNamespace": "GPCCHS_E_VIS_CLIENT",
+        "Name": "LOG_APPLICATION_START",
+        "Oid": "0002000101003c00010000000000001772",
+        "Service": "UNUSED",
+        "Channels": [
+          "LOCAL"
+        ],
+        "Criticity": "INFO",
+        "Level": 5,
+        "ObjectTypeArea" : 2,
+        "ObjectTypeService" : 1,
+        "ObjectTypeVersion" : 1,
+        "ObjectTypeNumber": 6002,
+        "Pattern": [
+            {"Language" : "En", "Value" : "Application started"},
+            {"Language" : "Fr", "Value" : "Application demarree"}
+        ],
+        "SpecificAttributes": [
+
+        ]
+      },
+      {
+        "ItemNamespace": "GPCCHS_E_VIS_CLIENT",
+        "Name": "LOG_APPLICATION_STOP",
+        "Oid": "0002000101003c00010000000000001773",
+        "Service": "UNUSED",
+        "Channels": [
+          "LOCAL"
+        ],
+        "Criticity": "INFO",
+        "Level": 5,
+        "ObjectTypeArea" : 2,
+        "ObjectTypeService" : 1,
+        "ObjectTypeVersion" : 1,
+        "ObjectTypeNumber": 6003,
+        "Pattern": [
+            {"Language" : "En", "Value" : "Application stopped"},
+            {"Language" : "Fr", "Value" : "Application arretee"}
+        ],
+        "SpecificAttributes": [
+
+        ]
+      },
+      {
+        "ItemNamespace": "GPCCHS_E_VIS_CLIENT",
+        "Name": "LOG_APPLICATION_ERROR",
+        "Oid": "0002000101003c00010000000000001774",
+        "Service": "UNUSED",
+        "Channels": [
+          "LOCAL"
+        ],
+        "Criticity": "WARNING",
+        "Level": 1,
+        "ObjectTypeArea" : 2,
+        "ObjectTypeService" : 1,
+        "ObjectTypeVersion" : 1,
+        "ObjectTypeNumber": 6004,
+        "Pattern": [
+            {"Language" : "En", "Value" : "Application error: $(message)"},
+            {"Language" : "Fr", "Value" : "Application arretee: $(message)"}
+        ],
+        "SpecificAttributes": [
+          {
+            "Name": "message",
+            "Type": "STRING",
+            "WorkingUnit": "NONE",
+            "DisplayUnit": "NONE",
+            "Format": "%s"
+          }
+        ]
+      },
+      {
+        "ItemNamespace": "GPCCHS_E_VIS_CLIENT",
+        "Name": "LOG_DOCUMENT_OPEN",
+        "Oid": "0002000101003c00010000000000001775",
+        "Service": "UNUSED",
+        "Channels": [
+          "LOCAL"
+        ],
+        "Criticity": "INFO",
+        "Level": 5,
+        "ObjectTypeArea" : 2,
+        "ObjectTypeService" : 1,
+        "ObjectTypeVersion" : 1,
+        "ObjectTypeNumber": 6005,
+        "Pattern": [
+            {"Language" : "En", "Value" : "Document opened type: $(type) path: $(path)"},
+            {"Language" : "Fr", "Value" : "Document ouvert type: $(type) chemin: $(path)"}
+        ],
+        "SpecificAttributes": [
+          {
+            "Name": "type",
+            "Type": "STRING",
+            "WorkingUnit": "NONE",
+            "DisplayUnit": "NONE",
+            "Format": "%s"
+          },
+          {
+            "Name": "path",
+            "Type": "STRING",
+            "WorkingUnit": "NONE",
+            "DisplayUnit": "NONE",
+            "Format": "%s"
+          }
+        ]
+      },
+      {
+        "ItemNamespace": "GPCCHS_E_VIS_CLIENT",
+        "Name": "LOG_DOCUMENT_SAVE",
+        "Oid": "0002000101003c00010000000000001776",
+        "Service": "UNUSED",
+        "Channels": [
+          "LOCAL"
+        ],
+        "Criticity": "DEBUG",
+        "Level": 5,
+        "ObjectTypeArea" : 2,
+        "ObjectTypeService" : 1,
+        "ObjectTypeVersion" : 1,
+        "ObjectTypeNumber": 6006,
+        "Pattern": [
+            {"Language" : "En", "Value" : "Document saved type: $(type) path: $(path)"},
+            {"Language" : "Fr", "Value" : "Document sauvegarde type: $(type) path: $(path)"}
+        ],
+        "SpecificAttributes": [
+          {
+            "Name": "type",
+            "Type": "STRING",
+            "WorkingUnit": "NONE",
+            "DisplayUnit": "NONE",
+            "Format": "%s"
+          },
+          {
+            "Name": "path",
+            "Type": "STRING",
+            "WorkingUnit": "NONE",
+            "DisplayUnit": "NONE",
+            "Format": "%s"
+          }
+        ]
+      },
+      {
+        "ItemNamespace": "GPCCHS_E_VIS_CLIENT",
+        "Name": "LOG_APPLICATION_OVERLOADED",
+        "Oid": "0002000101003c00010000000000001777",
+        "Service": "UNUSED",
+        "Channels": [
+          "LOCAL"
+        ],
+        "Criticity": "WARNING",
+        "Level": 7,
+        "ObjectTypeArea" : 2,
+        "ObjectTypeService" : 1,
+        "ObjectTypeVersion" : 1,
+        "ObjectTypeNumber": 6007,
+        "Pattern": [
+            {"Language" : "En", "Value" : "Application overloaded reason: $(reason)"},
+            {"Language" : "Fr", "Value" : "Application surchargee reason: $(reason)"}
+        ],
+        "SpecificAttributes": [
+          {
+            "Name": "reason",
+            "Type": "STRING",
+            "WorkingUnit": "NONE",
+            "DisplayUnit": "NONE",
+            "Format": "%s"
+          }
+        ]
+      }
+    ]
+  }
+}

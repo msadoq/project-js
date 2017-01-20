@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<isismodel:ISISService xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:isismodel="http://isis/isismodel" aire="2" service="1" version="1">
+  <logs itemNamespace="GPCCHS_E_VIS_CLIENT" name="LOG_APPLICATION_START" uid="6002" domainId="1" levelVerbose="5" objectTypeNumber="6002">
+    <channels>LOCAL</channels>
+    <patterns langage="En" message="Application started"/>
+    <patterns langage="Fr" message="Application demarree"/>
+  </logs>
+  <logs itemNamespace="GPCCHS_E_VIS_CLIENT" name="LOG_APPLICATION_STOP" uid="6003" domainId="1" levelVerbose="5" objectTypeNumber="6003">
+    <channels>LOCAL</channels>
+    <patterns langage="En" message="Application stopped"/>
+    <patterns langage="Fr" message="Application arretee"/>
+  </logs>
+  <logs itemNamespace="GPCCHS_E_VIS_CLIENT" name="LOG_APPLICATION_ERROR" uid="6004" domainId="1" criticity="WARNING" levelVerbose="1" objectTypeNumber="6004">
+    <channels>LOCAL</channels>
+    <patterns langage="En" message="Application error: $(message)"/>
+    <patterns langage="Fr" message="Application arretee: $(message)"/>
+    <specificAttributes name="message" type="STRING" workingUnit="NONE" displayUnit="NONE" format="%s"/>
+  </logs>
+  <logs itemNamespace="GPCCHS_E_VIS_CLIENT" name="LOG_DOCUMENT_OPEN" uid="6005" domainId="1" levelVerbose="5" objectTypeNumber="6005">
+    <channels>LOCAL</channels>
+    <patterns langage="En" message="Document opened type: $(type) path: $(path)"/>
+    <patterns langage="Fr" message="Document ouvert type: $(type) chemin: $(path)"/>
+    <specificAttributes name="type" type="STRING" workingUnit="NONE" displayUnit="NONE" format="%s"/>
+    <specificAttributes name="path" type="STRING" workingUnit="NONE" displayUnit="NONE" format="%s"/>
+  </logs>
+  <logs itemNamespace="GPCCHS_E_VIS_CLIENT" name="LOG_DOCUMENT_SAVE" uid="6006" domainId="1" criticity="DEBUG" levelVerbose="5" objectTypeNumber="6006">
+    <channels>LOCAL</channels>
+    <patterns langage="En" message="Document saved type: $(type) path: $(path)"/>
+    <patterns langage="Fr" message="Document sauvegarde type: $(type) path: $(path)"/>
+    <specificAttributes name="type" type="STRING" workingUnit="NONE" displayUnit="NONE" format="%s"/>
+    <specificAttributes name="path" type="STRING" workingUnit="NONE" displayUnit="NONE" format="%s"/>
+  </logs>
+  <logs itemNamespace="GPCCHS_E_VIS_CLIENT" name="LOG_APPLICATION_OVERLOADED" uid="6007" domainId="1" criticity="WARNING" levelVerbose="7" objectTypeNumber="6007">
+    <channels>LOCAL</channels>
+    <patterns langage="En" message="Application overloaded reason: $(reason)"/>
+    <patterns langage="Fr" message="Application surchargee reason: $(reason)"/>
+    <specificAttributes name="reason" type="STRING" workingUnit="NONE" displayUnit="NONE" format="%s"/>
+  </logs>
+</isismodel:ISISService>

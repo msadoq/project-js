@@ -1,6 +1,6 @@
 import { getStore } from '../../store/mainStore';
 import { getPageModifiedViewsIds } from '../../store/selectors/pages';
-import { updateAbsolutePath, setModified } from '../../store/actions/pages';
+import { updateAbsolutePath, setModified, setPageOid } from '../../store/actions/pages';
 import { showErrorMessage, getPathByFilePicker } from '../dialog';
 import { savePage } from '../../common/documentManager';
 
@@ -50,9 +50,12 @@ function pageSaveAs(focusedWindow) {
 }
 
 function saveFile(pageId, store) {
-  savePage(store.getState(), pageId, false, (err) => {
+  savePage(store.getState(), pageId, false, (err, oid) => {
     if (err) {
       return;
+    }
+    if (oid) {
+      store.dispatch(setPageOid(pageId, oid));
     }
     store.dispatch(setModified(pageId, false));
   });

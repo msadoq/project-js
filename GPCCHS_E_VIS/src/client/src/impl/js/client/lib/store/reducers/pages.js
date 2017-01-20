@@ -49,6 +49,13 @@ export default function pages(statePages = {}, action) {
         isModified: true,
       } }, statePages);
     }
+    case types.WS_PAGE_SET_OID: {
+      return u({
+        [action.payload.pageId]: {
+          oId: action.payload.oid,
+        }
+      }, statePages);
+    }
     case types.HSC_CLOSE_WORKSPACE:
       return {};
     case types.WS_PAGE_SETMODIFIED: {

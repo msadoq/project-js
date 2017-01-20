@@ -1,7 +1,7 @@
 /**
  * Namespaces: HSC, HSS, WS
  * Domains: WINDOW, PAGE, VIEW, CD, EDITOR
- * Verbs: ADD, REMOVE, UN/MOUNT, UPDATE, OPEN, CLOSE
+ * Verbs: ADD, REMOVE, UN/MOUNT, SET, UPDATE, OPEN, CLOSE
  */
 
 export const HSC_UPDATE_STATUS = 'HSC_UPDATE_STATUS';
@@ -22,6 +22,9 @@ export const HSC_BLUR_WINDOW = 'HSC_BLUR_WINDOW';
 export const WS_MESSAGE_ADD = 'WS_MESSAGE_ADD';
 export const WS_MESSAGE_REMOVE = 'WS_MESSAGE_REMOVE';
 export const WS_MESSAGE_RESET = 'WS_MESSAGE_RESET';
+
+export const WS_VIEW_SET_OID = 'WS_VIEW_SET_OID';
+export const WS_PAGE_SET_OID = 'WS_PAGE_SET_OID';
 
 export const WS_TIMEBAR_ADD = 'WS_TIMEBAR_ADD';
 export const WS_TIMEBAR_REMOVE = 'WS_TIMEBAR_REMOVE';

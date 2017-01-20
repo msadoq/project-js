@@ -49,7 +49,7 @@ export default function views(stateViews = {}, action) {
     // VIEW CONFIGURATION
     case types.WS_VIEW_UPDATEPATH: {
       // path unchanged or newPath invalid
-      if (!action.payload.newPath ||
+      if (action.payload.newPath && stateViews[action.payload.viewId].path &&
         resolve(action.payload.newPath) === resolve(stateViews[action.payload.viewId].path)) {
         return stateViews;
       }
@@ -71,6 +71,13 @@ export default function views(stateViews = {}, action) {
         absolutePath: action.payload.newPath,
         isModified: true,
       } }, stateViews);
+    }
+    case types.WS_VIEW_SET_OID: {
+      return u({
+        [action.payload.viewId]: {
+          oId: action.payload.oid,
+        }
+      }, stateViews);
     }
     case types.WS_VIEW_UPDATE_GRID:
       return updateConfigurationArray(stateViews, action, 'grids', 'grid');

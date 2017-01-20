@@ -1,7 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
-import { connect } from 'react-redux';
 import { Button, Label as BsLabel } from 'react-bootstrap';
-import { bindActionCreators } from 'redux';
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _map from 'lodash/map';
@@ -31,12 +29,7 @@ import {
   drawBadge,
 } from './helper';
 import { monitoringStateColors } from '../../../lib/windowProcess/common/colors';
-import { addEntryPoint } from '../../../lib/store/actions/views';
 import DroppableContainer from '../../../lib/windowProcess/View/DroppableContainer';
-import {
-  getPlotViewData,
-  getViewEntryPoints,
-} from '../../../lib/store/selectors/views';
 import { Danger } from '../../../lib/windowProcess/View/Alert';
 import styles from './PlotView.css';
 
@@ -81,7 +74,7 @@ function onYAxisZoom(id, domain) {
   console.log('zoom', id, domain);
 }
 
-class PlotView extends PureComponent {
+export class PlotView extends PureComponent {
   static propTypes = {
     containerWidth: PropTypes.number.isRequired,
     containerHeight: PropTypes.number.isRequired,
@@ -855,12 +848,4 @@ class PlotView extends PureComponent {
 
 const SizeablePlotView = Dimensions()(PlotView);
 
-export default connect(
-  (state, { viewId }) => ({
-    entryPoints: getViewEntryPoints(state, viewId),
-    data: getPlotViewData(state, viewId),
-  }),
-  dispatch => bindActionCreators({
-    addEntryPoint
-  }, dispatch)
-)(SizeablePlotView); // eslint-disable-line new-cap
+export default SizeablePlotView;

@@ -8,7 +8,7 @@ import {
   LOG_DOCUMENT_SAVE
 } from 'common/constants';
 
-import { checkPath } from '../common/fs';
+import { createFolder } from '../common/fs';
 
 /**
  * Save plot view from state to file
@@ -25,7 +25,7 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
   if (!state.pages[pageId]) {
     callback('unknown page id');
   }
-  checkPath(dirname(path)).then(() => {
+  createFolder(dirname(path)).then(() => {
     // TODO add case with new FMD path -> createDocument par DC
     const root = parameters.get('FMD_ROOT_DIR');
     const page = state.pages[pageId];

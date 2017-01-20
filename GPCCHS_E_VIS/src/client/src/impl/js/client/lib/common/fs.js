@@ -91,7 +91,7 @@ const self = module.exports = {
    * @param folder
    * @return {Promise}
    */
-  checkPath: folder => new Promise((resolve, reject) => {
+  createFolder: folder => new Promise((resolve, reject) => {
     fs.access(folder, fs.constants.F_OK, (noAccess) => {
       if (noAccess) {
         // TODO check if folder is on FMD

@@ -1,6 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { Parser, ProcessNodeDefinitions } from 'html-to-react';
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
@@ -13,12 +11,6 @@ import {
 
 import WYSIWYG from './WYSIWYG';
 
-import { addEntryPoint } from '../../../lib/store/actions/views';
-import {
-  getViewContent,
-  getTextViewData,
-  getViewEntryPoints,
-} from '../../../lib/store/selectors/views';
 import DroppableContainer from '../../../lib/windowProcess/View/DroppableContainer';
 
 import styles from './TextView.css';
@@ -51,7 +43,7 @@ const getTextStyle = color => ({
   color
 });
 
-class TextView extends Component {
+export default class TextView extends Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
     data: PropTypes.shape({
@@ -167,14 +159,3 @@ class TextView extends Component {
       </DroppableContainer>;
   }
 }
-
-export default connect(
-  (state, { viewId }) => ({
-    entryPoints: getViewEntryPoints(state, viewId),
-    content: getViewContent(state, viewId),
-    data: getTextViewData(state, viewId),
-  }),
-  dispatch => bindActionCreators({
-    addEntryPoint
-  }, dispatch)
-)(TextView);

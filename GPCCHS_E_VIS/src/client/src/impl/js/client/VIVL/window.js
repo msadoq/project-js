@@ -1,6 +1,6 @@
 /* eslint-disable global-require */
 import _memoize from 'lodash/memoize';
-import PlotView from './PlotView/window/PlotView';
+import PlotView from './PlotView/window/PlotViewContainer';
 import TextView from './TextView/window/TextViewContainer';
 import DynamicView from './DynamicView/window/DynamicViewContainer';
 

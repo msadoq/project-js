@@ -1,4 +1,4 @@
-import { applyDependencyToApi } from 'common/utils';
+import { applyDependencyToApi } from '../common/utils';
 
 // views
 import { extractViews, readViews } from './extractViews';

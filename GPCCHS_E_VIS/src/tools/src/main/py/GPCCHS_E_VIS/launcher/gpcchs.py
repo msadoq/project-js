@@ -561,9 +561,6 @@ class GPCCHS(object):
             print("GPCCHS Successfully started")
             try:
                 while self._hscProc.poll() == None:
-                    if self._hscProc.poll() == None:
-                        self._hscProc.terminate()
-                        self._hscProc.wait()
                     sleep(1)
             except KeyboardInterrupt:
                 print("\nGPCCHS and GPCCDC processes aborted by user")

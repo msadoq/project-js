@@ -62,7 +62,7 @@ class GPCCHS(object):
 
     _startContainerCmd = 'gpcctc_l_cnt_isisStartContainer_cmd -p {0} --cd {1}{0}'
     _hscPath = '/usr/share/isis/lib/js/gpcchs_e_vis_launcher/client'
-    _hscRunCmd = './lpisis_gpcchs_e_clt --FMD_ROOT={} --OPEN={} --LOG=console --NODE_PATH=/usr/share/isis/node-v6.3.0-linux-x64/bin/node {}'
+    _hscRunCmd = './lpisis_gpcchs_e_clt --FMD_ROOT={} --OPEN={} --NODE_PATH=/usr/share/isis/node-v6.3.0-linux-x64/bin/node --LOG_FOLDER=/var/log/isis'
     _hscLogPath = '/var/log/isis/GPCCHS_E_VIS_client.log'
 
     @property

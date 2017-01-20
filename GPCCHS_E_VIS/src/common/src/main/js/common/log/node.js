@@ -12,9 +12,9 @@ const {
   formatProductLog,
   pruneCb,
   triggerCb,
+  bytesConverter,
 } = require('./util');
 const { get } = require('../parameters');
-const bytesToString = require('../utils/bytesConverter');
 
 const {
   LOG_LOCAL_FILENAME,

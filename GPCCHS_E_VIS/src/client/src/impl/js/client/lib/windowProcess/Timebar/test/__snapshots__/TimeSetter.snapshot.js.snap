@@ -1,494 +1,27 @@
 exports[`test Timesetter renders correctly 1`] = `
-<form
-  onSubmit={[Function]}>
-  <div
-    className="fieldsContainer">
+<div>
+  <div>
+    <h4>
+      Jump to specific day
+    </h4>
     <div
-      style={
-        Object {
-          "width": "100%",
-        }
-      }>
-      <b
-        className="text-capitalize formLabel formLabellower">
-        lower cursor
-      </b>
-      <b>
-        
-      </b>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_year"
-        defaultValue="2016"
-        disabled={false}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        -
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_months"
-        defaultValue="11"
-        disabled={false}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        -
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_date"
-        defaultValue="29"
-        disabled={false}
-        onBlur={[Function]}
-        onClick={[Function]} />
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_hours"
-        defaultValue="10"
-        disabled={false}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        :
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_minutes"
-        defaultValue="58"
-        disabled={false}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        :
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_seconds"
-        defaultValue="05"
-        disabled={false}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        .
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_milliseconds"
-        defaultValue="354"
-        disabled={false}
-        onBlur={[Function]}
-        onClick={[Function]} />
+      className="fieldsContainer">
+       
+      <button
+        className="btn btn-sm btn-primary"
+        disabled={true}
+        onClick={[Function]}
+        type="button">
+        Jump
+      </button>
     </div>
   </div>
+  <br />
+  <h4>
+    Visu window default width
+  </h4>
   <div
     className="fieldsContainer">
-    <div
-      style={
-        Object {
-          "width": "100%",
-        }
-      }>
-      <b
-        className="text-capitalize formLabel">
-        Ext lower cursor
-      </b>
-      <b>
-         - hidden
-      </b>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_year"
-        defaultValue="2016"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        -
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_months"
-        defaultValue="11"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        -
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_date"
-        defaultValue="29"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_hours"
-        defaultValue="10"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        :
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_minutes"
-        defaultValue="58"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        :
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_seconds"
-        defaultValue="09"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        .
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_milliseconds"
-        defaultValue="178"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-    </div>
-  </div>
-  <div
-    className="fieldsContainer">
-    <div
-      style={
-        Object {
-          "width": "100%",
-        }
-      }>
-      <b
-        className="text-capitalize formLabel">
-        current cursor
-      </b>
-      <b>
-        
-      </b>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_year"
-        defaultValue="2016"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        -
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_months"
-        defaultValue="11"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        -
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_date"
-        defaultValue="29"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_hours"
-        defaultValue="10"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        :
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_minutes"
-        defaultValue="58"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        :
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_seconds"
-        defaultValue="14"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        .
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_milliseconds"
-        defaultValue="025"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-    </div>
-  </div>
-  <div
-    className="fieldsContainer">
-    <div
-      style={
-        Object {
-          "width": "100%",
-        }
-      }>
-      <b
-        className="text-capitalize formLabel">
-        Ext upper cursor
-      </b>
-      <b>
-         - hidden
-      </b>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_year"
-        defaultValue="2016"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        -
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_months"
-        defaultValue="11"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        -
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_date"
-        defaultValue="29"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_hours"
-        defaultValue="10"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        :
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_minutes"
-        defaultValue="58"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        :
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_seconds"
-        defaultValue="29"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        .
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_milliseconds"
-        defaultValue="492"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-    </div>
-  </div>
-  <div
-    className="fieldsContainer">
-    <div
-      style={
-        Object {
-          "width": "100%",
-        }
-      }>
-      <b
-        className="text-capitalize formLabel">
-        upper cursor
-      </b>
-      <b>
-        
-      </b>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_year"
-        defaultValue="2016"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        -
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_months"
-        defaultValue="11"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        -
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_date"
-        defaultValue="29"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_hours"
-        defaultValue="10"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        :
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_minutes"
-        defaultValue="58"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        :
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_seconds"
-        defaultValue="24"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-      <span>
-        .
-      </span>
-    </div>
-    <div
-      className="inputDiv">
-      <input
-        className="form-control input input_milliseconds"
-        defaultValue="665"
-        disabled={true}
-        onBlur={[Function]}
-        onClick={[Function]} />
-    </div>
-  </div>
-  <div
-    className="fieldsContainer">
-    <div
-      className="text-capitalize"
-      style={
-        Object {
-          "width": "100%",
-        }
-      }>
-      <b>
-        Default Width
-      </b>
-    </div>
     <div
       className="inputDiv">
       <div
@@ -524,19 +57,508 @@ exports[`test Timesetter renders correctly 1`] = `
           placeholder="milliseconds" />
       </div>
     </div>
-  </div>
-  <div
-    className="text-center">
-    <input
-      className="btn btn-primary disabled"
-      type="submit"
-      value="Save" />
-     
     <button
-      className="btn btn-info disabled"
-      onClick={[Function]}>
-      Cancel changes
+      className="btn btn-sm btn-primary"
+      disabled={true}
+      onClick={[Function]}
+      type="button">
+      Set default width
     </button>
   </div>
-</form>
+  <form
+    onSubmit={[Function]}>
+    <br />
+    <h4>
+      Cursor timestamps
+    </h4>
+    <div
+      className="fieldsContainer">
+      <div
+        style={
+          Object {
+            "width": "100%",
+          }
+        }>
+        <b
+          className="text-capitalize formLabel formLabellower">
+          lower cursor
+        </b>
+        <b>
+          
+        </b>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_year"
+          defaultValue="2016"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          -
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_months"
+          defaultValue="11"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          -
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_date"
+          defaultValue="29"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]} />
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_hours"
+          defaultValue="10"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          :
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_minutes"
+          defaultValue="58"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          :
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_seconds"
+          defaultValue="05"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          .
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_milliseconds"
+          defaultValue="354"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]} />
+      </div>
+    </div>
+    <div
+      className="fieldsContainer">
+      <div
+        style={
+          Object {
+            "width": "100%",
+          }
+        }>
+        <b
+          className="text-capitalize formLabel">
+          Ext lower cursor
+        </b>
+        <b>
+           - hidden
+        </b>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_year"
+          defaultValue="2016"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          -
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_months"
+          defaultValue="11"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          -
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_date"
+          defaultValue="29"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_hours"
+          defaultValue="10"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          :
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_minutes"
+          defaultValue="58"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          :
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_seconds"
+          defaultValue="09"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          .
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_milliseconds"
+          defaultValue="178"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+      </div>
+    </div>
+    <div
+      className="fieldsContainer">
+      <div
+        style={
+          Object {
+            "width": "100%",
+          }
+        }>
+        <b
+          className="text-capitalize formLabel">
+          current cursor
+        </b>
+        <b>
+          
+        </b>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_year"
+          defaultValue="2016"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          -
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_months"
+          defaultValue="11"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          -
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_date"
+          defaultValue="29"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_hours"
+          defaultValue="10"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          :
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_minutes"
+          defaultValue="58"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          :
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_seconds"
+          defaultValue="14"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          .
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_milliseconds"
+          defaultValue="025"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+      </div>
+    </div>
+    <div
+      className="fieldsContainer">
+      <div
+        style={
+          Object {
+            "width": "100%",
+          }
+        }>
+        <b
+          className="text-capitalize formLabel">
+          Ext upper cursor
+        </b>
+        <b>
+           - hidden
+        </b>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_year"
+          defaultValue="2016"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          -
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_months"
+          defaultValue="11"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          -
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_date"
+          defaultValue="29"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_hours"
+          defaultValue="10"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          :
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_minutes"
+          defaultValue="58"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          :
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_seconds"
+          defaultValue="29"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          .
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_milliseconds"
+          defaultValue="492"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+      </div>
+    </div>
+    <div
+      className="fieldsContainer">
+      <div
+        style={
+          Object {
+            "width": "100%",
+          }
+        }>
+        <b
+          className="text-capitalize formLabel">
+          upper cursor
+        </b>
+        <b>
+          
+        </b>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_year"
+          defaultValue="2016"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          -
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_months"
+          defaultValue="11"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          -
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_date"
+          defaultValue="29"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_hours"
+          defaultValue="10"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          :
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_minutes"
+          defaultValue="58"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          :
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_seconds"
+          defaultValue="24"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+        <span>
+          .
+        </span>
+      </div>
+      <div
+        className="inputDiv">
+        <input
+          className="form-control input input_milliseconds"
+          defaultValue="665"
+          disabled={true}
+          onBlur={[Function]}
+          onClick={[Function]} />
+      </div>
+    </div>
+    <div
+      className="text-center">
+      <input
+        className="btn btn-primary disabled"
+        type="submit"
+        value="Save" />
+       
+      <button
+        className="btn btn-info"
+        onClick={[Function]}>
+        Cancel changes
+      </button>
+    </div>
+  </form>
+</div>
 `;

@@ -84,7 +84,7 @@ export default class TimelineFields extends React.Component {
           />
         </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Offset">
+        <HorizontalFormGroup label="Offset h-m-s-ms">
           <Field
             name="offset"
             component={OffsetFields}

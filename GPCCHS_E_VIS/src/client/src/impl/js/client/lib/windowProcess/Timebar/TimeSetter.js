@@ -192,17 +192,21 @@ export default class TimeSetter extends Component {
         <div>
           <h4>Jump to specific day</h4>
           <div className={styles.fieldsContainer}>
-            <Flatpickr
-              options={{
-                minDate: '1990-01-01',
-                maxDate: moment().add(1, 'year').format('YYYY-MM-DD'),
-                value: moment(visuWindow.current).format('YYYY-MM-DD'),
-                format: 'Y-m-d',
-              }}
-              defaultValue={moment(visuWindow.current).format('YYYY-MM-DD')}
-              onChange={this.setDayToJump}
-              className={styles.formControl}
-            />
+            {
+              /* flatpickr fails on jest test */
+              process.env.NODE_ENV !== 'snapshot' &&
+              <Flatpickr
+                options={{
+                  minDate: '1990-01-01',
+                  maxDate: moment().add(1, 'year').format('YYYY-MM-DD'),
+                  value: moment(visuWindow.current).format('YYYY-MM-DD'),
+                  format: 'Y-m-d',
+                }}
+                defaultValue={moment(visuWindow.current).format('YYYY-MM-DD')}
+                onChange={this.setDayToJump}
+                className={styles.formControl}
+              />
+            }
             {' '}
             <Button
               bsSize="small"

@@ -47,12 +47,12 @@ const saveViewAs = fmdApi => (viewConfiguration, viewType, path, callback) => {
       view = _omit(view, 'entryPoints');
     }
 
-    fmdApi.writeJson(path, view, (errWrite) => {
+    fmdApi.writeJson(path, view, (errWrite, oId) => {
       if (errWrite) {
         return callback(`Unable to save view ${view.title} in file ${path}`);
       }
       productLog(LOG_DOCUMENT_SAVE, 'view', path);
-      return callback(null);
+      return callback(null, oId);
     });
   })
   .catch(err => callback(err));

@@ -26,9 +26,9 @@ function objectHeader(ep) {
   const objectKeys = Object.keys(ep).filter(key => !_isArray(ep[key]));
 
   const staticHeader = [];
-  objectKeys.forEach((key) => {
+  objectKeys.forEach((key, idx) => {
     staticHeader.push(
-      <FormGroup controlId="formHorizontal">
+      <FormGroup controlId="formHorizontal" key={'group'.concat(idx)}>
         <Col componentClass={ControlLabel} sm={3}>
           <strong>{_lowerCase(key)}</strong>
         </Col>
@@ -113,7 +113,7 @@ export default class DynamicView extends PureComponent {
         <Grid fluid className="ml10 mr10">
           <Row><Panel>{objectHeader(ep)}</Panel></Row>
           <Row>
-            <Col sm="12">
+            <Col sm={12}>
               <Table striped bordered condensed hover>
                 {arrayHeader(ep.decommutedValues)}
                 <tbody>

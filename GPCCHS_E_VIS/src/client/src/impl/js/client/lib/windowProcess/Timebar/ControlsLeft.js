@@ -157,8 +157,9 @@ export default class ControlsLeft extends PureComponent {
         <li className={styles.controlsLi}>
 
           <OverlayTrigger
-            trigger="click"
             placement="top"
+            trigger="click"
+            rootClose
             overlay={speedPopover}
             container={this}
           >

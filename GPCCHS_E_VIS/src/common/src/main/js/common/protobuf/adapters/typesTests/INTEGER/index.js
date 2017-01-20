@@ -1,0 +1,5 @@
+module.exports = {
+  INTEGER_1: -2147483648,
+  INTEGER_2: 22,
+  INTEGER_3: 2147483647,
+};

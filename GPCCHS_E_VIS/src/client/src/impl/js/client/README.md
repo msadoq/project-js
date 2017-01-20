@@ -53,6 +53,46 @@ Run Jest snapshot watcher:
 Clean out of date snapshots:
 >npm run snapshot-clean
 
+## Git prepare commit hook
+
+It's may be useful to have some additional git local hooks.
+
+- here is a little script to add automatically prefix in the commit message :
+
+```bash
+#!/bin/sh
+
+# keep the original commit content
+FILE_CONTENT="$(cat $1)"
+
+# erase commit content
+echo -n > $1
+
+if [[ "$HL" -eq "" ]]; then
+        echo -n "[FT:#$TICKET] " >> $1
+else
+        echo -n "[HL] " >> $1
+fi
+
+# rewrite original commit content
+echo "$FILE_CONTENT" >> $1
+
+```
+
+#### Installation
+copy this script in `/data/work/gitRepositories/LPISIS/GPCCHS/.git/hooks/prepare-commit-msg`
+
+#### Usage
+```bash
+# [FT:#xxxx] <msg>
+export TICKET=3622 # to set the task number.
+git c -m 'Your message'
+
+# [HL] <msg>
+HL=1 git c -m 'Hors Livraison'
+```
+
+
 ## Troubleshoot
 
 In case of error "Error: Module version mismatch expected 50, got 48." on launch, run following command in client folder:

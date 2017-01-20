@@ -111,7 +111,7 @@ const bytesToString = (buffer) => {
   if (!_isBuffer(buffer.buffer)) {
     return undefined;
   }
-  return buffer.readString(buffer.limit - buffer.offset);
+  return buffer.readString(buffer.limit - buffer.offset, ByteBuffer.METRICS_BYTES);
 };
 
 module.exports = {
@@ -181,7 +181,7 @@ module.exports = {
       value = attribute._double.value;
       type = 'double';
     } else if (attribute._identifier != null) {
-      value = attribute._identifier.value;
+      value = bytesToString(attribute._identifier.value);
       type = 'identifier';
     } else if (attribute._octet != null) {
       value = bytesToOctet(attribute._octet.value);
@@ -225,7 +225,7 @@ module.exports = {
         : attribute._finetime.value.ms;
       type = 'finetime';
     } else if (attribute._uri != null) {
-      value = attribute._uri.value;
+      value = bytesToString(attribute._uri.value);
       type = 'uri';
     }
 

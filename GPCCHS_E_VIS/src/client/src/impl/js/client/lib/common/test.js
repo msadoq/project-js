@@ -6,7 +6,7 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import _cloneDeep from 'lodash/cloneDeep';
 import deepFreeze from 'deep-freeze';
-import { applyDependencyToApi } from 'common/utils';
+import { applyDependencyToApi } from './utils';
 import reducer from '../store/reducers/index';
 
 process.env.DEBUG = '';

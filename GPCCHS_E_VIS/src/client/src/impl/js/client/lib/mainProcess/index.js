@@ -4,11 +4,11 @@ import path from 'path';
 import { CHILD_PROCESS_SERVER, CHILD_PROCESS_DC } from 'common/constants';
 import getLogger from 'common/log';
 import monitoring from 'common/log/monitoring';
-import { fork, get, kill } from 'common/childProcess';
 import parameters from 'common/parameters';
 import { clear } from 'common/callbacks';
 
 import enableDebug from './debug';
+import { fork, get, kill } from './childProcess';
 import { initStore, getStore } from '../store/mainStore';
 import './menu';
 import rendererController from './controllers/renderer';

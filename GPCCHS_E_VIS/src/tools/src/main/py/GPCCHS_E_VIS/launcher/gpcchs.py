@@ -62,7 +62,7 @@ class GPCCHS(object):
 
     _startContainerCmd = 'gpcctc_l_cnt_isisStartContainer_cmd -p {0} --cd {1}{0}'
     _hscPath = '/usr/share/isis/lib/js/gpcchs_e_vis_launcher/client'
-    _hscRunCmd = './lpisis_gpcchs_e_clt --FMD_ROOT={} --OPEN={}'
+    _hscRunCmd = './lpisis_gpcchs_e_clt --FMD_ROOT={} --OPEN={} --LOG=console --NODE_PATH=/usr/share/isis/node-v6.3.0-linux-x64/bin/node {}'
     _hscLogPath = '/var/log/isis/GPCCHS_E_VIS_client.log'
 
     @property
@@ -72,7 +72,9 @@ class GPCCHS(object):
         """
         return self._hscRunCmd.format(
             self._fmd_root,
-            self._workspace
+            self._workspace,
+            self._dcPushPort,
+            self._dcPullPort
         ).split()
 
     @property
@@ -506,6 +508,28 @@ class GPCCHS(object):
             print("GPCCHS Log file opening fail:",filepath)
         return readFile
 
+    def _create_hss_env_vars(self):
+        """
+        Set the necessary variables in os.environ for HSS
+        """
+        level="INFO"
+        if self._debug == True:
+            level = "DEBUG"
+        os.environ["NODE_ENV"] = "production"
+        os.environ["DEBUG"] = "GPCCHS:*"
+        os.environ["LEVEL"] = level
+        os.environ["HTTP_LOGS"] = "0"
+        os.environ["PORT"] = "{}".format(self._hssPort)
+        os.environ["ZMQ_GPCCDC_PUSH"] = "tcp://127.0.0.1:{}".format(self._dcPushPort)
+        os.environ["ZMQ_GPCCDC_PULL"] = "tcp://127.0.0.1:{}".format(self._dcPullPort)
+        os.environ["ZMQ_VIMA_TIMEBAR"] = "tcp://127.0.0.1:{}".format(self._tbPullPort)
+        os.environ["ZMQ_VIMA_TIMEBAR_INIT"] = "tcp://127.0.0.1:{}".format(self._tbPushPort)
+        os.environ["ZMQ_VIMA_STUB_TIMEBAR"] = " "
+        os.environ["STUB_DC_ON"] = "off"
+        os.environ["STUB_TB_ON"] = "off"
+        os.environ["MONITORING"] = "off"
+        os.environ["PROFILING"] = "off"
+
     def run(self):
         """
         Main function
@@ -553,6 +577,7 @@ class GPCCHS(object):
             self._hscLogFile = self._open_log_file(self._hscLogPath)
         if rc == 0:
             os.chdir(self._hscPath)
+            self._create_hss_env_vars()
             self._hscProc = self._run_process(' '.join(self._hsc_run_cmd),self._hscLogFile)
             if self._hscProc == None:
                 print("GPCCHS Failed to create client, launch aborted")

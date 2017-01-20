@@ -3,7 +3,7 @@ const wCommon = require('winston/lib/winston/common');
 const fs = require('fs');
 const path = require('path');
 const _ = require('lodash/fp');
-const mkdirp = require('mkdirp');
+//const mkdirp = require('mkdirp');
 
 const {
   getTimer,
@@ -240,7 +240,7 @@ if (process.versions.electron) {
 }
 
 const productLog = (uid, ...args) => {
-  mkdirp(get('LOG_FOLDER'), (err) => {
+  /* mkdirp(get('LOG_FOLDER'), (err) => {
     if (err) {
       console.log(err); // eslint-disable-line no-console
     } else {
@@ -248,14 +248,14 @@ const productLog = (uid, ...args) => {
         path.join(get('LOG_FOLDER'), LOG_DIST_FILENAME),
         formatProductLog(uid, ...args));
     }
-  });
+  }); */
 };
 
 const productLogSync = (uid, ...args) => {
-  mkdirp.sync(get('LOG_FOLDER'));
+  /* mkdirp.sync(get('LOG_FOLDER'));
   fs.appendFileSync(
     path.join(get('LOG_FOLDER'), LOG_DIST_FILENAME),
-    formatProductLog(uid, ...args));
+    formatProductLog(uid, ...args)); */
 };
 
 

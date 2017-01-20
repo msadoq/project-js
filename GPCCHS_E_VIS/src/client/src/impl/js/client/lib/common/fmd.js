@@ -1,23 +1,45 @@
 import { writeFile } from 'fs';
-import { join } from 'path';
+import { relative, join, basename, dirname } from 'path';
 
+import startsWith from 'lodash/fp/startsWith';
+
+import mimeTypes from 'common/constants/mimeTypes';
 import parameters from 'common/parameters';
-import startsWith from 'lodash/startsWith';
+
 import ipc from '../mainProcess/ipc';
 import {
-  readJsonFromAbsPath, readJsonFromRelativePath, readJsonFromFmdPath,
+  readJsonFromAbsPath, readJsonFromRelativePath, readJsonFromFmdPath, checkPath
 } from './fs';
 
 const getRootDir = () => parameters.get('FMD_ROOT_DIR');
+const isFmd = path => startsWith(getRootDir(), path);
+const getRelativeFmdPath = path => relative(getRootDir(), path);
 
 const resolveDocument = (oId, callback) => {
   ipc.server.requestFmdGet(oId, ({ err, detail }) => {
     if (err) {
       return callback(err);
     }
-    const { dirname, basename } = detail;
-    callback(null, join(getRootDir(), dirname.value, basename.value));
+    callback(null, join(getRootDir(), detail.dirname.value, detail.basename.value));
   });
+};
+
+const createDocument = (path, documentType, callback) => {
+  const mimeType = mimeTypes[documentType];
+  if (!mimeType) {
+    return callback(`Unknown documentType : ${documentType}`);
+  }
+  const fileName = basename(path);
+  const folder = dirname(getRelativeFmdPath(path));
+  checkPath(path).then(() => callback(null))
+    .catch(() => {
+      ipc.server.requestFmdCreate(folder, fileName, mimeType, ({ err, serializedOid }) => {
+        if (err) {
+          return callback(err);
+        }
+        callback(null, serializedOid);
+      });
+    });
 };
 
 const readJsonFromOId = (oId, callback) => {
@@ -40,7 +62,7 @@ const readJson = (folder, relativePath, oId, absolutePath, callback) => {
   if (oId) {
     return readJsonFromOId(oId, callback);
   }
-  if (folder && !startsWith(relativePath, '/')) {
+  if (folder && !startsWith('/', relativePath)) {
     return readJsonFromRelativePath(folder, relativePath, callback);
   }
   return readJsonFromFmdPath(relativePath, callback);
@@ -50,12 +72,28 @@ const readJson = (folder, relativePath, oId, absolutePath, callback) => {
 const writeJson = (path, json, callback) => {
   const spaces = 2; // beautify json with 2 spaces indentations
   const data = JSON.stringify(json, null, spaces);
-  return writeFile(path, data, callback);
+  if (isFmd(path)) {
+    return createDocument(path, json.type, (err, oid) => {
+      if (err) {
+        return callback(err);
+      }
+      writeFile(path, data, (errWriting) => {
+        if (errWriting) {
+          return callback(err);
+        }
+        callback(null, oid);
+      });
+    });
+  }
+  writeFile(path, data, callback);
 };
 
 const fmdApi = {
-  resolveDocument,
   getRootDir,
+  isFmd,
+  getRelativeFmdPath,
+  createDocument,
+  resolveDocument,
   writeJson,
   readJson,
 };

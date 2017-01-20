@@ -16,7 +16,6 @@
     <module>src/impl/system</module>
     <module>src/impl/resources</module>
     <module>src/impl/parent</module>
-    <module>GPCCHS_L_TBR/pom_parents.xml</module>
     <module>GPCCHS_E_VIS/pom_parents.xml</module>
   </modules>
   <build>

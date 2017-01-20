@@ -1,7 +1,7 @@
 require('../../utils/test');
 const { deserializeLog } = require('./productLog');
 
-describe.only('controllers/scheduler/productLog', () => {
+describe('controllers/scheduler/productLog', () => {
   it('deserializeLog', () => {
     deserializeLog('6005 ["workspace","small.workspace.json"]')
       .should.eql({

@@ -14,8 +14,11 @@ export const add = simple(types.WS_VIEW_ADD, 'viewId', 'type', 'configuration', 
   'absolutePath', 'isModified');
 export const remove = simple(types.WS_VIEW_REMOVE, 'viewId');
 export const reloadView = simple(types.WS_VIEW_RELOAD, 'viewId', 'configuration');
-export const updatePath = simple(types.WS_VIEW_UPDATEPATH, 'newPath');
+export const updatePath = simple(types.WS_VIEW_UPDATEPATH, 'viewId', 'newPath');
 export const updateAbsolutePath = simple(types.WS_VIEW_UPDATE_ABSOLUTEPATH, 'viewId', 'newPath');
+
+export const setViewOid = simple(types.WS_VIEW_SET_OID, 'viewId', 'oid');
+
 export const setModified = simple(types.WS_VIEW_SETMODIFIED, 'viewId', 'flag');
 export const setCollapsed = simple(types.WS_VIEW_SETCOLLAPSED, 'viewId', 'flag');
 export const setCollapsedAndUpdateLayout = (pageId, viewId, flag) =>

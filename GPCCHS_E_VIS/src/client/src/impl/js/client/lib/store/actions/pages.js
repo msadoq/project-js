@@ -23,6 +23,9 @@ export const openEditor = simple(types.WS_PAGE_EDITOR_OPEN,
   'pageId', 'viewId', 'viewType', 'configuration');
 export const closeEditor = simple(types.WS_PAGE_EDITOR_CLOSE, 'pageId');
 export const updateLayoutSimple = simple(types.WS_PAGE_UPDATE_LAYOUT, 'pageId', 'layout');
+
+export const setPageOid = simple(types.WS_PAGE_SET_OID, 'pageId', 'oid');
+
 export const updateLayout = (pageId, layout) =>
   (dispatch, getState) => {
     layout.forEach((l) => {

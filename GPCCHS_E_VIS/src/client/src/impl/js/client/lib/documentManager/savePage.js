@@ -69,14 +69,14 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
       jsonPage.views.push(current);
     });
     // save file
-    fmdApi.writeJson(path, jsonPage, (errfs) => {
+    fmdApi.writeJson(path, jsonPage, (errfs, oid) => {
       if (errfs) {
         return callback(`Unable to save view ${page.title} in file ${path}`);
       }
 
       productLog(LOG_DOCUMENT_SAVE, 'page', path);
 
-      return callback(null);
+      return callback(null, oid);
     });
   })
   .catch(err => callback(err));

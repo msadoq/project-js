@@ -36,10 +36,14 @@ export default function parseEntryPoint(
   }
 
   // ignore parametric entryPoints
-  if (cdX.remoteId !== cdY.remoteId || cdX.offset !== cdY.offset) {
+  // split remoteId to omit filter definitions
+  const splitY = cdY.remoteId.split(':', 3);
+  const splitX = cdX.remoteId.split(':', 3);
+
+  if (splitX[0] !== splitY[0] || splitX[1] !== splitY[1] || splitX[2] !== splitY[2]
+    || cdX.offset !== cdY.offset) {
     return { error: 'parametric entryPoint detected for this view' };
   }
-
   const { remoteId, field, expectedInterval, offset } = cdY;
 
   // localId

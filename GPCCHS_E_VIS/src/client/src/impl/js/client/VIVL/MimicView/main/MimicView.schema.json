@@ -112,7 +112,7 @@
                         "name": {
                             "type": "string"
                         },
-                        "url": {
+                        "path": {
                             "type": "string"
                         }
                     }

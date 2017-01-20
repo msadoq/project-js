@@ -102,20 +102,22 @@ class TextView extends Component {
                 _.prop('name'),
                 this.props.entryPoints)
             );
-            const s = ep.error ? {
-              style: getTextStyle('#FF0000')
-            } : {
-              style: getTextStyle(_get(valueObj, ['color'])),
-              className: styles[`monit-${_get(valueObj, 'monit')}`] || styles['monit-ok'],
-            };
-            const value = _.propOr(
-              _.prop('value', valueObj),
-              'error', ep);
+            if (ep) {
+              const s = ep.error ? {
+                style: getTextStyle('#FF0000')
+              } : {
+                style: getTextStyle(_get(valueObj, ['color'])),
+                className: styles[`monit-${_get(valueObj, 'monit')}`] || styles['monit-ok'],
+              };
+              const value = _.propOr(
+                _.prop('value', valueObj),
+                'error', ep);
 
-            nodes.push(React.createElement('span', {
-              key: `${index}-${i}`,
-              ...s
-            }, value));
+              nodes.push(React.createElement('span', {
+                key: `${index}-${i}`,
+                ...s
+              }, value));
+            }
           }
           return nodes;
         }

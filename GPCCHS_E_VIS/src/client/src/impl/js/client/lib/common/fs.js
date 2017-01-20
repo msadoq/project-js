@@ -85,13 +85,30 @@ const self = module.exports = {
       return self.parse(content, callback);
     });
   },
+
+  /**
+   * Checks if a path exists
+   *
+   * @param folder
+   * @return {Promise}
+   */
+  checkPath: path => new Promise((resolve, reject) => {
+    fs.exists(path, (pathExist) => {
+      if (pathExist) {
+        resolve(true);
+      } else {
+        reject(false);
+      }
+    });
+  }),
+
   /**
    * Checks if folder exists and if not, creates it
    *
    * @param folder
    * @return {Promise}
    */
-  checkPath: folder => new Promise((resolve, reject) => {
+  createFolder: folder => new Promise((resolve, reject) => {
     fs.access(folder, fs.constants.F_OK, (noAccess) => {
       if (noAccess) {
         // TODO check if folder is on FMD

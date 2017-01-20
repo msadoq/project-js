@@ -9,7 +9,7 @@ import {
   DATASTRUCTURETYPE_RANGE,
   LOG_DOCUMENT_SAVE
 } from 'common/constants';
-import { checkPath } from '../common/fs';
+import { createFolder } from '../common/fs';
 import vivl from '../../VIVL/main';
 
 /**
@@ -27,7 +27,7 @@ const saveViewAs = fmdApi => (viewConfiguration, viewType, path, callback) => {
     return callback('Unknown view');
   }
   // TODO add case with new FMD path -> createDocument par DC
-  checkPath(dirname(path)).then(() => {
+  createFolder(dirname(path)).then(() => {
     let view = _cloneDeep(viewConfiguration);
     const structureType = vivl(viewType, 'structureType')();
     switch (structureType) { // eslint-disable-line default-case

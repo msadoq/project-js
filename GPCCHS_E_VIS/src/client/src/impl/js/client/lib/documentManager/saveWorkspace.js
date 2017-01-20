@@ -9,10 +9,10 @@ import {
   LOG_DOCUMENT_SAVE
 } from 'common/constants';
 
-import { checkPath } from '../common/fs';
+import { createFolder } from '../common/fs';
 
 const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
-  checkPath(dirname(path)).then(() => {
+  createFolder(dirname(path)).then(() => {
     const savedWindowsIds = [];
     const workspace = {
       type: 'WorkSpace',

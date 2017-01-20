@@ -8,7 +8,7 @@ import {
   LOG_DOCUMENT_SAVE
 } from 'common/constants';
 
-import { checkPath } from '../common/fs';
+import { createFolder } from '../common/fs';
 
 /**
  * Save plot view from state to file
@@ -25,7 +25,7 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
   if (!state.pages[pageId]) {
     callback('unknown page id');
   }
-  checkPath(dirname(path)).then(() => {
+  createFolder(dirname(path)).then(() => {
     // TODO add case with new FMD path -> createDocument par DC
     const root = parameters.get('FMD_ROOT_DIR');
     const page = state.pages[pageId];
@@ -42,7 +42,9 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
       }
       const view = state.views[id];
       const current = {};
-      if (useRelativePath) {
+      if (view.oId) {
+        current.oId = view.oId;
+      } else if (useRelativePath) {
         current.path = relative(dirname(path), view.absolutePath);
       } else {
         current.path = view.absolutePath;
@@ -50,7 +52,6 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
           current.path = '/'.concat(relative(root, view.absolutePath));
         }
       }
-      current.oId = view.oId;
       const index = _findIndex(page.layout, item => item.i === id);
       if (index === -1) {
         return callback('not fount page layout');

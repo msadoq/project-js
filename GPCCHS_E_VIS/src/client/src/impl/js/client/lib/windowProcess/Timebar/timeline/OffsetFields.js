@@ -41,6 +41,10 @@ export default class OffsetFields extends React.Component {
   }
 
   fillFields = () => {
+    // Refs not handled in jest tests
+    if (process.env.NODE_ENV === 'snapshot') {
+      return;
+    }
     const { input } = this.props;
     const duration = moment.duration(input.value);
     ['hours', 'minutes', 'seconds', 'milliseconds'].forEach((x) => {

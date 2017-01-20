@@ -47,13 +47,9 @@ const getComObject = (comObject, timestamp, value) => {
   }
 };
 
-module.exports = function getPayload(timestamp, comObject, epName) {
-  let localEpName = epName;
-  if (!localEpName) {
-    localEpName = 'todo';
-  }
+module.exports = function getPayload(timestamp, comObject, epName = 'todo') {
   let epNumber = 0;
-  Buffer.from(localEpName).forEach((val) => { epNumber += val; });
+  Buffer.from(epName).forEach((val) => { epNumber += val; });
   const value = getValue(timestamp) + (epNumber / 10);
   return {
     timestamp: stubData.getTimestampProtobuf({ ms: timestamp }),

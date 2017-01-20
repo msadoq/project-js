@@ -11,9 +11,7 @@ function applyFilter(data, filter) {
     || typeof data[filter.fieldName] === 'undefined') {
     return true;
   }
-
-  logger.debug(`applying filter ${filter} to data ${data[filter.field]}`);
-
+  logger.debug(`applying filter ${filter} to data ${data[filter.fieldName]}`);
   const expected = filter.fieldValue;
   const value = _get(data, [filter.fieldName, 'value']);
   switch (filter.type) {

@@ -13,7 +13,7 @@ process.env.DEBUG = '';
 process.env.LEVEL = 'ERROR';
 process.env.PROFILING = 'off';
 process.env.MONITORING = 'off';
-process.env.LOG_FOLDER = 'log';
+process.env.LOG_DIR = 'log';
 
 process.env.FMD_ROOT_DIR = path.resolve(__dirname, '../documentManager/fixtures');
 

@@ -1,6 +1,6 @@
 {
   "LOG": "console",
-  "LOG_FOLDER": "log",
+  "LOG_DIR": "log",
   "PROFILING": "off",
   "MONITORING": "off",
   "DEBUG": "off",

@@ -10,7 +10,6 @@ import {
   LOG_APPLICATION_STOP,
   LOG_APPLICATION_ERROR,
 } from 'common/constants';
-import { logAppCrash } from 'common/log/node';
 import { start, stop, onWindowsClose } from './lib/mainProcess'; // eslint-disable-line import/first
 
 const logger = getLogger('main');
@@ -22,8 +21,8 @@ app.commandLine.appendSwitch('no-proxy-server');
 // const distLogger = getLogger('Application', ['dist']);
 
 const errorHandler = (err) => {
-  productLogSync(LOG_APPLICATION_ERROR, err.message)
   console.error(err); // eslint-disable-line no-console
+  productLogSync(LOG_APPLICATION_ERROR, err.message);
   app.exit(1);
 };
 

@@ -1,20 +1,24 @@
 /* eslint no-console:0 */
 
-// eslint-disable-next-line import/no-unresolved, import/no-extraneous-dependencies
+/* eslint-disable import/no-unresolved, import/no-extraneous-dependencies */
 const { ipcRenderer } = require('electron');
-// eslint-disable-next-line import/no-unresolved, import/no-extraneous-dependencies
 const fs = require('electron').remote.require('fs');
-// eslint-disable-next-line import/no-unresolved, import/no-extraneous-dependencies
 const mkdirp = require('electron').remote.require('mkdirp');
-// eslint-disable-next-line import/no-unresolved, import/no-extraneous-dependencies
 const path = require('electron').remote.require('path');
+const lockfile = require('electron').remote.require('lockfile');
+/* eslint-enable import/no-unresolved, import/no-extraneous-dependencies */
+const _ = require('lodash/fp');
+const _async = require('async');
 
 const {
   LOG_DIST_FILENAME,
+  LOG_DIST_LOCK_STALE,
 } = require('../constants');
 const {
   getTimer,
   formatProductLog,
+  pruneCb,
+  triggerCb,
 } = require('./util');
 
 let DEFAULT_TRANSPORTS = ['electronIPC'];
@@ -22,7 +26,9 @@ if (global.parameters.get('DEBUG') === 'on') {
   DEFAULT_TRANSPORTS = ['console', 'electronIPC'];
 }
 
-const LOG_FOLDER = global.parameters.get('LOG_FOLDER');
+const LOG_DIR = global.parameters.get('LOG_DIR');
+const LOG_PATH = path.join(LOG_DIR, LOG_DIST_FILENAME);
+const LOCK_PATH = path.join(LOG_DIR, LOG_DIST_FILENAME, '.lock');
 
 const DEFAULT_LEVELS = ['silly', 'debug', 'verbose', 'info', 'warn', 'error'];
 
@@ -64,21 +70,25 @@ transportAPis.electronIPC = category => ({
 });
 
 const productLog = (uid, ...args) => {
-  mkdirp(LOG_FOLDER, (err) => {
+  _async.waterfall([
+    cb => lockfile.lock(LOCK_PATH, { stale: LOG_DIST_LOCK_STALE }, cb),
+    cb => mkdirp(LOG_DIR, cb),
+    cb => fs.appendFile(
+            path.join(LOG_DIR, LOG_DIST_FILENAME),
+            formatProductLog(uid, ...pruneCb(args)), cb),
+    cb => lockfile.unlock(LOCK_PATH, cb),
+  ], (err) => {
     if (err) {
       console.log(err); // eslint-disable-line no-console
-    } else {
-      fs.appendFile(
-        path.join(LOG_FOLDER, LOG_DIST_FILENAME),
-        formatProductLog(uid, ...args));
     }
+    triggerCb(args);
   });
 };
 
 const productLogSync = (uid, ...args) => {
-  mkdirp.sync(LOG_FOLDER);
+  mkdirp.sync(LOG_DIR);
   fs.appendFileSync(
-    path.join(LOG_FOLDER, LOG_DIST_FILENAME),
+    LOG_PATH,
     formatProductLog(uid, ...args));
 };
 

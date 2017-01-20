@@ -13,7 +13,7 @@ import {
 
 const getRootDir = () => parameters.get('FMD_ROOT_DIR');
 const isFmd = path => startsWith(getRootDir(), path);
-const getRelativeFmdPath = path => relative(getRootDir(), path);
+const getRelativeFmdPath = path => `/${relative(getRootDir(), path)}`;
 
 const resolveDocument = (oId, callback) => {
   ipc.server.requestFmdGet(oId, ({ err, detail }) => {

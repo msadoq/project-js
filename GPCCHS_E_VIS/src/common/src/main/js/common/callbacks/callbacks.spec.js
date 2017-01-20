@@ -30,6 +30,14 @@ describe('utils/callbacks', () => {
     cbs.f1().should.equal(1);
     cbs.f2().should.equal(2);
   });
+  it('pop', () => {
+    callbacks.set('myId', () => true);
+    callbacks.set('myOtherId', () => true);
+    callbacks.pop('myId')().should.equal(true);
+    callbacks.getAll().should.be.an('object');
+    callbacks.getAll().should.has.not.property('myId');
+    callbacks.getAll().should.has.property('myOtherId');
+  });
   it('clear', () => {
     callbacks.set('myId', () => true);
     callbacks.clear();

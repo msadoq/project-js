@@ -32,7 +32,6 @@ const remove = (id) => {
   delete callbacks[id];
 };
 
-// TODO test
 const pop = (id) => {
   const callback = get(id);
   remove(id);

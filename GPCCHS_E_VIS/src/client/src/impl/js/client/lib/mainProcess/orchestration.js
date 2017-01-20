@@ -2,7 +2,7 @@ import _round from 'lodash/round';
 import { series } from 'async';
 import globalConstants from 'common/constants';
 import executionMonitor from 'common/log/execution';
-import getLogger from 'common/log';
+import { productLog, getLogger } from 'common/log';
 // import { get } from 'common/parameters';
 
 import { getStore } from '../store/mainStore';
@@ -204,6 +204,7 @@ export function tick() {
         logger.warn(
           `orchestration done in ${(duration[0] * 1e3) + _round(duration[1] / 1e6, 6)}ms`
         );
+        productLog(globalConstants.LOG_APPLICATION_OVERLOADED, 'orchestration');
       }
       return callback(null);
     }

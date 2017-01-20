@@ -4,10 +4,14 @@ const fs = require('fs');
 const path = require('path');
 const _ = require('lodash/fp');
 const mkdirp = require('mkdirp');
+const lockfile = require('lockfile');
+const _async = require('async');
 
 const {
   getTimer,
   formatProductLog,
+  pruneCb,
+  triggerCb,
 } = require('./util');
 const { get } = require('../parameters');
 const bytesToString = require('../utils/bytesConverter');
@@ -15,6 +19,7 @@ const bytesToString = require('../utils/bytesConverter');
 const {
   LOG_LOCAL_FILENAME,
   LOG_DIST_FILENAME,
+  LOG_DIST_LOCK_STALE,
 } = require('../constants');
 
 winston.cli();
@@ -239,25 +244,33 @@ if (process.versions.electron) {
   });
 }
 
+const getLockPath = logDir => `${path.join(logDir, LOG_DIST_FILENAME)}.lock`
+
 const productLog = (uid, ...args) => {
-  mkdirp(get('LOG_FOLDER'), (err) => {
+  const LOG_DIR = get('LOG_DIR');
+  const LOCK_PATH = getLockPath(LOG_DIR);
+  _async.waterfall([
+    cb => lockfile.lock(LOCK_PATH, { stale: LOG_DIST_LOCK_STALE }, cb),
+    cb => mkdirp(LOG_DIR, () => cb()),
+    cb => fs.appendFile(
+            path.join(LOG_DIR, LOG_DIST_FILENAME),
+            formatProductLog(uid, ...pruneCb(args)), cb),
+    cb => lockfile.unlock(LOCK_PATH, cb),
+  ], (err) => {
     if (err) {
       console.log(err); // eslint-disable-line no-console
-    } else {
-      fs.appendFile(
-        path.join(get('LOG_FOLDER'), LOG_DIST_FILENAME),
-        formatProductLog(uid, ...args));
     }
+    triggerCb(args);
   });
 };
 
 const productLogSync = (uid, ...args) => {
-  mkdirp.sync(get('LOG_FOLDER'));
+  const LOG_DIR = get('LOG_DIR');
+  mkdirp.sync(get('LOG_DIR'));
   fs.appendFileSync(
-    path.join(get('LOG_FOLDER'), LOG_DIST_FILENAME),
+    path.join(get('LOG_DIR'), LOG_DIST_FILENAME),
     formatProductLog(uid, ...args));
 };
-
 
 module.exports = {
   parseParams,

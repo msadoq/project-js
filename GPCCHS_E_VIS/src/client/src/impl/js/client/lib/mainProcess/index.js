@@ -28,7 +28,7 @@ export function start() {
     execPath: parameters.get('NODE_PATH'),
     env: {
       LOG: parameters.get('LOG'),
-      LOG_FOLDER: path.join(process.cwd(), parameters.get('LOG_FOLDER')),
+      LOG_DIR: path.join(process.cwd(), parameters.get('LOG_DIR')),
       MONITORING: parameters.get('MONITORING'),
       PROFILING: parameters.get('PROFILING'),
       ZMQ_GPCCDC_PUSH: parameters.get('ZMQ_GPCCDC_PUSH'),

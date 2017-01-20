@@ -7,6 +7,7 @@ const monitoring = require('common/log/monitoring');
 const clientController = require('./lib/controllers/client');
 const dcController = require('./lib/controllers/dc');
 const { unsubscribeAll } = require('./lib/utils/subscriptions');
+const schedulerController = require('./lib/controllers/scheduler');
 
 process.title = 'gpcchs_hss';
 
@@ -33,8 +34,12 @@ zmq.open(zmqConfiguration, (err) => {
     throw err;
   }
 
+  // Start Job Scheduler
+  schedulerController.start();
+
   // ipc with main
   process.on('message', clientController);
+
   process.send('ready');
 });
 
@@ -47,6 +52,7 @@ process.once('SIGTERM', () => {
   logger.info('gracefully close server (SIGTERM)');
 
   unsubscribeAll(args => zmq.push('dcPush', args));
+  schedulerController.stop();
 
   logger.info('good bye!');
   exit(0);

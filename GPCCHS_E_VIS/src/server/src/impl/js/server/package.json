@@ -8,6 +8,7 @@
     "lint": "eslint lib e2e *.js",
     "start": "node index",
     "test": "mocha \"lib/**/*.spec.js\"",
+    "test:watch": "npm run test -- --watch",
     "e2e": "mocha \"e2e/**/*.spec.js\"",
     "e2e:updateSnapshots": "CHAI_JEST_SNAPSHOT_UPDATE_ALL=1 npm run e2e",
     "tw": "npm test -- --watch"
@@ -15,6 +16,7 @@
   "dependencies": {
     "async": "^2.1.4",
     "exit": "^0.1.2",
+    "lockfile": "^1.0.3",
     "lodash": "^4.16.2",
     "lokijs": "^1.4.1",
     "node-uuid": "^1.4.7"

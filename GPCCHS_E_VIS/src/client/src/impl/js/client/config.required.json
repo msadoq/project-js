@@ -1,4 +1,5 @@
 [
+  "LOG_DIR",
   "FMD_ROOT_DIR",
   "ZMQ_GPCCDC_PUSH",
   "ZMQ_GPCCDC_PULL",

@@ -15,13 +15,14 @@
     "async": "^2.1.4",
     "bytebuffer": "^5.0.1",
     "debug": "^2.3.3",
+    "lockfile": "^1.0.3",
     "lodash": "^4.17.2",
     "minimist": "^1.2.0",
+    "mkdirp": "^0.5.1",
     "protobufjs": "^5.0.1",
     "ramda": "^0.22.0",
     "winston": "^2.3.0",
-    "zmq": "^2.15.3",
-    "mkdirp": "^0.5.1"
+    "zmq": "^2.15.3"
   },
   "devDependencies": {
     "babel-core": "^6.14.0",

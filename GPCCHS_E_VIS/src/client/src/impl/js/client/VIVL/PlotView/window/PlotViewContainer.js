@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+// eslint-disable-next-line import/no-named-as-default
 import PlotView from './PlotView';
 import { addEntryPoint } from '../../../lib/store/actions/views';
 import {

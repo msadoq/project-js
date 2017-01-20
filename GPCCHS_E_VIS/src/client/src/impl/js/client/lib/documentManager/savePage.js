@@ -42,7 +42,9 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
       }
       const view = state.views[id];
       const current = {};
-      if (useRelativePath) {
+      if (view.oId) {
+        current.oId = view.oId;
+      } else if (useRelativePath) {
         current.path = relative(dirname(path), view.absolutePath);
       } else {
         current.path = view.absolutePath;
@@ -50,7 +52,6 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
           current.path = '/'.concat(relative(root, view.absolutePath));
         }
       }
-      current.oId = view.oId;
       const index = _findIndex(page.layout, item => item.i === id);
       if (index === -1) {
         return callback('not fount page layout');

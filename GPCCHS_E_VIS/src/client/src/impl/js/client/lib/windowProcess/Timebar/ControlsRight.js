@@ -13,16 +13,13 @@ export default class ControlsRight extends PureComponent {
     switchToFixedMode: PropTypes.func.isRequired,
     timebarMode: PropTypes.string.isRequired,
     timebarUuid: PropTypes.string.isRequired,
+    timebarRealTime: PropTypes.bool.isRequired,
     currentSessionExists: PropTypes.bool.isRequired,
     masterTimelineExists: PropTypes.bool.isRequired,
   }
 
   switchMode = (e) => {
     e.preventDefault();
-    if (e.currentTarget.getAttribute('realTimeDisabled')) {
-      return;
-    }
-
     const {
       timebarUuid,
       timebarMode,
@@ -55,6 +52,7 @@ export default class ControlsRight extends PureComponent {
       timebarMode,
       currentSessionExists,
       masterTimelineExists,
+      timebarRealTime,
     } = this.props;
 
     const allButtonsKlasses = classnames('btn', 'btn-xs', 'btn-control');
@@ -144,7 +142,7 @@ export default class ControlsRight extends PureComponent {
               className={classnames(
                 allButtonsKlasses,
                 {
-                  [styles.controlButtonActive]: (timebarMode === 'Realtime'),
+                  [styles.controlButtonActive]: timebarRealTime,
                 }
               )}
               onClick={this.switchMode}

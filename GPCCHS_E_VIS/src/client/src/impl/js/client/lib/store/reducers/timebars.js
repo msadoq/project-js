@@ -24,6 +24,7 @@ export default function timebars(stateTimebars = {}, action) {
     case types.WS_TIMEBAR_DEFAULTWIDTH_UPDATE:
     case types.WS_TIMEBAR_MASTERID_UPDATE:
     case types.WS_TIMEBAR_MOUNT_TIMELINE:
+    case types.WS_TIMEBAR_SET_REALTIME:
     case types.WS_TIMEBAR_UNMOUNT_TIMELINE:
       return {
         ...stateTimebars,
@@ -95,6 +96,7 @@ const initialState = {
   masterId: null,
   timelines: [],
   mode: 'Normal',
+  realTime: true,
 };
 
 function timebar(stateTimebar = initialState, action) {
@@ -139,6 +141,8 @@ function timebar(stateTimebar = initialState, action) {
           defaultWidth: parseInt(payload.defaultWidth, 10)
         },
       }, stateTimebar);
+    case types.WS_TIMEBAR_SET_REALTIME:
+      return { ...stateTimebar, realTime: payload.flag };
     default:
       return stateTimebar;
   }

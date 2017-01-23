@@ -6,6 +6,7 @@ export default class Controls extends PureComponent {
 
   static propTypes = {
     isPlaying: PropTypes.bool.isRequired,
+    timebarRealTime: PropTypes.bool.isRequired,
     play: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
     updateSpeed: PropTypes.func.isRequired,
@@ -49,6 +50,7 @@ export default class Controls extends PureComponent {
           switchToFixedMode={this.props.switchToFixedMode}
           timebarMode={this.props.timebarMode}
           timebarUuid={this.props.timebarUuid}
+          timebarRealTime={this.props.timebarRealTime}
           currentSessionExists={this.props.currentSessionExists}
           masterTimelineExists={this.props.masterTimelineExists}
         />

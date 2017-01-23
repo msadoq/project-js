@@ -10,7 +10,9 @@
 // } from 'fs';
 
 import { get } from 'common/parameters';
-import { getRootDir, isFmd } from './fmd';
+import {
+  getRootDir, isFmd, getRelativeFmdPath,
+} from './fmd';
 
 describe.only('common/fmd', () => {
   describe('getRootDir', () => {
@@ -27,6 +29,15 @@ describe.only('common/fmd', () => {
     });
     it('should be false', () => {
       isFmd('/').should.be.eql(false);
+    });
+  });
+
+  describe('getRelativeFmdPath', () => {
+    it('should return relative fmd path (starting with \'/\')', () => {
+      getRelativeFmdPath(getRootDir()).should.be.eql('/');
+      getRelativeFmdPath(`${getRootDir()}/..`).should.be.eql('/..');
+      getRelativeFmdPath(`${getRootDir()}/yolo`).should.be.eql('/yolo');
+      getRelativeFmdPath(`${getRootDir()}/../fixtures/yolo`).should.be.eql('/yolo');
     });
   });
 });

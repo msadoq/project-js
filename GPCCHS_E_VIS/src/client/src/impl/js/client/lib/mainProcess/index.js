@@ -108,7 +108,7 @@ export function start() {
     (callback) => {
       const { dispatch, getState } = getStore();
       const root = parameters.get('FMD_ROOT_DIR');
-      const file = parameters.get('OPEN');
+      const file = parameters.get('WORKSPACE');
 
       return (file)
         ? readWkFile(dispatch, getState, root, file, callback)

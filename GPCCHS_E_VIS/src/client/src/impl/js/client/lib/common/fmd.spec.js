@@ -1,20 +1,9 @@
-// import { join } from 'path';
-// import {
-//   mkdirSync,
-//   writeFileSync,
-//   rmdirSync,
-//   unlinkSync,
-//   accessSync,
-//   constants,
-//   chmodSync
-// } from 'fs';
-
 import { get } from 'common/parameters';
 import {
   getRootDir, isFmd, getRelativeFmdPath,
 } from './fmd';
 
-describe.only('common/fmd', () => {
+describe('common/fmd', () => {
   describe('getRootDir', () => {
     it('should return same thing than parameters.get', () => {
       getRootDir().should.eql(get('FMD_ROOT_DIR'));

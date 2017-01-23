@@ -27,7 +27,6 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
     callback('unknown page id');
   }
   createFolder(dirname(path)).then(() => {
-    // TODO add case with new FMD path -> createDocument par DC
     const root = parameters.get('FMD_ROOT_DIR');
     const page = state.pages[pageId];
     const jsonPage = {

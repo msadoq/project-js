@@ -20,3 +20,8 @@ To build the final RPM bundle:
 > mvn install
 > mvn antrun:run
 > mvn lpisis:clean-all
+
+Or quicker:
+
+> cd /data/work/gitRepositories/LPISIS/GPCCHS
+> mvn lpisis:clean-all install antrun:run lpisis:clean-all

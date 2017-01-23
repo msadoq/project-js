@@ -1,12 +1,20 @@
 // <<<<<<< Updated upstream
 import { v4 } from 'node-uuid';
 import _ from 'lodash';
+import { compose, prop, split } from 'lodash/fp';
 import path from 'path';
 import fmdApi from '../common/fmd';
 import ExtractViews from './extractViews';
 import { should, applyDependencyToApi } from '../common/test';
 
-const { extractViews, readViews } = applyDependencyToApi(ExtractViews, fmdApi);
+
+const getPathFromOid = compose(prop(1), split(':'));
+const mockFmdApi = fmd => ({
+  ...fmd,
+  resolveDocument: (oid, cb) => cb(null, getPathFromOid(oid)),
+});
+
+const { extractViews, readViews } = applyDependencyToApi(ExtractViews, mockFmdApi(fmdApi));
 
 describe('documentManager/extractViews', () => {
   let content;
@@ -22,10 +30,9 @@ describe('documentManager/extractViews', () => {
       type: 'Page',
       title: 'simple page1',
       views: [{
-        // oId: 'view_plot_1',
-        path: 'plot1.json',
+        oId: 'oid:/plot1.json',
+        // path: 'plot1.json',
       }],
-      // oId: 'page_small',
       path: 'page02.vipg',
       timebarId: 'TB1',
       uuid: id1,

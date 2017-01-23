@@ -2,6 +2,7 @@
 import { freezeMe } from '../../common/test';
 import * as actions from '../actions/hsc';
 import reducer from './hsc';
+import { HSC_PAUSE } from '../types';
 
 describe('store:hsc:reducer', () => {
   it('should returns initial state', () => {
@@ -56,7 +57,7 @@ describe('store:hsc:reducer', () => {
     it('should set all timebar as paused', () => {
       reducer(freezeMe({
         playingTimebarId: 10,
-      }), actions.pause()).should.have.property('playingTimebarId', null);
+      }), { type: HSC_PAUSE }).should.have.property('playingTimebarId', null);
     });
   });
   it('should update lastCacheInvalidation', () => {

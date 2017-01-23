@@ -96,7 +96,7 @@ const initialState = {
   masterId: null,
   timelines: [],
   mode: 'Normal',
-  realTime: true,
+  realTime: false,
 };
 
 function timebar(stateTimebar = initialState, action) {

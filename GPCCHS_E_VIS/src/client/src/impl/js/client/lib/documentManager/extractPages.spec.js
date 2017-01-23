@@ -1,12 +1,19 @@
 /* eslint no-underscore-dangle: 0 */
 import { v4 } from 'node-uuid';
 import _ from 'lodash';
+import { compose, prop, split } from 'lodash/fp';
 import path from 'path';
 import fmdApi from '../common/fmd';
 import ExtractPages from './extractPages';
 import { should, expect, applyDependencyToApi } from '../common/test';
 
-const { extractPages } = applyDependencyToApi(ExtractPages, fmdApi);
+const getPathFromOid = compose(prop(1), split(':'));
+const mockFmdApi = fmd => ({
+  ...fmd,
+  resolveDocument: (oid, cb) => cb(null, getPathFromOid(oid)),
+});
+
+const { extractPages } = applyDependencyToApi(ExtractPages, mockFmdApi(fmdApi));
 
 describe('documents/lib', () => {
   describe('extractPages', () => {
@@ -19,8 +26,8 @@ describe('documents/lib', () => {
         title: 'window example',
         pages: [
           {
-            path: 'pages/pageSmall_with_oid.json',
-            // oId: 'page_small',
+            // path: 'pages/pageSmall_with_oid.json',
+            oId: 'oid:/pages/pageSmall_with_oid.json',
             timebarId: 'TB1'
           },
           {

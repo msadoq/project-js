@@ -106,6 +106,9 @@ export default class Header extends Component {
       case 'reload':
         main.message(globalConstants.IPC_METHOD_RELOAD_VIEW, { viewId });
         break;
+      case 'createModel':
+        main.message(globalConstants.IPC_METHOD_CREATE_MODEL, { viewId });
+        break;
       default:
     }
   };
@@ -212,12 +215,13 @@ export default class Header extends Component {
             <MenuItem eventKey="editor" active>{isViewsEditorOpen ? 'Close' : 'Open'} editor</MenuItem>
             <MenuItem eventKey="move">Move to another page</MenuItem>
             <MenuItem eventKey="collapse">Collapse</MenuItem>
-            {isPathDefined ? <MenuItem eventKey="reload">Reload view</MenuItem>
+            {isPathDefined && isModified ? <MenuItem eventKey="reload">Reload view</MenuItem>
                            : <MenuItem eventKey="reload" disabled>Reload view</MenuItem>}
             <MenuItem divider />
             {isPathDefined ? <MenuItem eventKey="save">Save</MenuItem>
                            : <MenuItem eventKey="save" disabled>Save</MenuItem>}
             <MenuItem eventKey="saveAs">Save as</MenuItem>
+            <MenuItem eventKey="createModel">Create a model from view</MenuItem>
             <MenuItem divider />
             <MenuItem eventKey="close">Close view</MenuItem>
           </DropdownButton>}

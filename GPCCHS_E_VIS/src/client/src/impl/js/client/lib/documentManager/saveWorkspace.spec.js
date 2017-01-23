@@ -6,6 +6,7 @@ import { should, getTmpPath, freezeMe, applyDependencyToApi } from '../common/te
 import SaveWorkspace from './saveWorkspace';
 import fmdApi from '../common/fmd';
 import validation from './validation';
+import { readDocument } from './io';
 
 const { saveWorkspace, saveWorkspaceAs } = applyDependencyToApi(SaveWorkspace, fmdApi);
 
@@ -94,7 +95,7 @@ describe('documentManager/saveWorkspace', () => {
     });
   });
   it('check validity of new workspace', (done) => {
-    fmdApi.readJson(folder, 'workspace.json', undefined, undefined,
+    readDocument(fmdApi)(folder, 'workspace.json', undefined, undefined,
       (err, wkContent) => {
         should.not.exist(err);
         const validationError = validation('workspace', wkContent);
@@ -110,7 +111,7 @@ describe('documentManager/saveWorkspace', () => {
     }));
   });
   it('check validity of new workspace', (done) => {
-    fmdApi.readJson(
+    readDocument(fmdApi)(
       state.hsc.folder,
       state.hsc.file,
       undefined,

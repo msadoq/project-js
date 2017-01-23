@@ -9,6 +9,7 @@ import {
 } from 'common/constants';
 
 import { createFolder } from '../common/fs';
+import { writeDocument } from './io';
 
 /**
  * Save plot view from state to file
@@ -69,7 +70,7 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
       jsonPage.views.push(current);
     });
     // save file
-    fmdApi.writeJson(path, jsonPage, (errfs, oid) => {
+    writeDocument(fmdApi)(path, jsonPage, (errfs, oid) => {
       if (errfs) {
         return callback(`Unable to save view ${page.title} in file ${path}`);
       }

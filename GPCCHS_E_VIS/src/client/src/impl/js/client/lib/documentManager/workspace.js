@@ -10,13 +10,15 @@ import extractWindows from './extractWindows';
 import { extractPages } from './extractPages';
 import { extractViews } from './extractViews';
 
+import { readDocument } from './io';
+
 const logger = getLogger('documents:workspace');
 
 export default {
   readWorkspace: fmdApi => (folder, relativePath, callback) => {
     logger.info(`reading workspace ${folder}/${relativePath}`);
     async.waterfall([
-      cb => fmdApi.readJson(folder, relativePath, undefined, undefined, cb),
+      cb => readDocument(fmdApi)(folder, relativePath, undefined, undefined, cb),
       (workspace, cb) => cb(validation('workspace', workspace), workspace),
       (workspace, cb) => cb(null, { __original: workspace, __folder: folder }),
       (content, cb) => extractTimebars(content, cb),

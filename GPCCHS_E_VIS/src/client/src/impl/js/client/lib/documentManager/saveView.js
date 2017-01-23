@@ -9,8 +9,10 @@ import {
   DATASTRUCTURETYPE_RANGE,
   LOG_DOCUMENT_SAVE
 } from 'common/constants';
-import { createFolder } from '../common/fs';
+
 import vivl from '../../VIVL/main';
+import { createFolder } from '../common/fs';
+import { writeDocument } from './io';
 
 /**
  * Save view from state to file
@@ -47,7 +49,7 @@ const saveViewAs = fmdApi => (viewConfiguration, viewType, path, callback) => {
       view = _omit(view, 'entryPoints');
     }
 
-    fmdApi.writeJson(path, view, (errWrite, oId) => {
+    writeDocument(fmdApi)(path, view, (errWrite, oId) => {
       if (errWrite) {
         return callback(`Unable to save view ${view.title} in file ${path}`);
       }

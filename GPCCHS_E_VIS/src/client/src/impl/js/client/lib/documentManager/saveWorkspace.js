@@ -10,6 +10,7 @@ import {
 } from 'common/constants';
 
 import { createFolder } from '../common/fs';
+import { writeDocument } from './io';
 
 const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
   createFolder(dirname(path)).then(() => {
@@ -77,7 +78,7 @@ const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
       workspace.timebars.push(tb);
     });
     // save file
-    fmdApi.writeJson(path, workspace, (err) => {
+    writeDocument(fmdApi)(path, workspace, (err) => {
       if (err) {
         return callback(`Unable to save workspace in file ${path}`);
       }

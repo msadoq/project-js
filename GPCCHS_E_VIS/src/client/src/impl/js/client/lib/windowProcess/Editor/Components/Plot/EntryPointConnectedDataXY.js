@@ -2,23 +2,15 @@ import React, { PropTypes } from 'react';
 import _get from 'lodash/get';
 import _set from 'lodash/set';
 import { connect } from 'react-redux';
-import {
-  Form
-} from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import {
   reduxForm,
   formValueSelector,
   Field,
 } from 'redux-form';
-import {
-  ClearSubmitButtons,
-} from '../Forms/';
-import {
-  ButtonToggleField,
-} from '../Fields/';
-import {
-  EntryPointConnectedDataFields
-} from './';
+import { ClearSubmitButtons } from '../Forms/';
+import { ButtonToggleField } from '../Fields/';
+import EntryPointConnectedDataFields from './EntryPointConnectedDataFields';
 
 /*
   EntryPointConnectedData représente une donnée connectée à un entryPoint.

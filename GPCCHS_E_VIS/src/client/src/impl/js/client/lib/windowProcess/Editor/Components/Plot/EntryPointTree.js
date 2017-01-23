@@ -7,9 +7,7 @@ import {
   Button
 } from 'react-bootstrap';
 
-import {
-  EntryPointDetailsContainer
-} from './';
+import EntryPointDetailsContainer from './EntryPointDetailsContainer';
 /*
   EntryPointTree liste les EntryPoints à afficher.
   Permet également d'appliquer un filtre sur le nom
@@ -51,7 +49,7 @@ export default class EntryPointTree extends React.Component {
 
     if (!list.length) {
       return (<Alert bsStyle="info" className="m0">
-        <strong>Holy guacamole!</strong> Nothing to display.
+        Nothing to display.
       </Alert>);
     }
 

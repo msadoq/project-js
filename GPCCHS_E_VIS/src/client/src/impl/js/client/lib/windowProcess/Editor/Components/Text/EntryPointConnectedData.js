@@ -6,9 +6,7 @@ import { reduxForm } from 'redux-form';
 import {
   ClearSubmitButtons
 } from '../Forms/';
-import {
-  EntryPointConnectedDataFields
-} from './';
+import EntryPointConnectedDataFields from './EntryPointConnectedDataFields';
 
 /*
   EntryPointConnectedData représente une donnée connectée à un entryPoint.
@@ -19,7 +17,6 @@ import {
 */
 class EntryPointConnectedData extends React.Component {
   static propTypes = {
-    /* eslint-disable react/no-unused-prop-types */
     initialValues: PropTypes.shape({
       formula: PropTypes.string,
       unit: PropTypes.string,
@@ -27,10 +24,8 @@ class EntryPointConnectedData extends React.Component {
       format: PropTypes.string,
       domain: PropTypes.string,
       timeline: PropTypes.string,
-      axisId: PropTypes.string,
       filter: PropTypes.array,
     }).isRequired,
-    axes: PropTypes.object,
     timelines: PropTypes.array,
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
@@ -46,16 +41,13 @@ class EntryPointConnectedData extends React.Component {
       reset,
       submitting,
       valid,
-      axes,
       timelines,
     } = this.props;
 
     return (
       <Form horizontal onSubmit={handleSubmit}>
         <EntryPointConnectedDataFields
-          prefix=""
           timelines={timelines}
-          axes={axes}
         />
         <ClearSubmitButtons
           pristine={pristine}

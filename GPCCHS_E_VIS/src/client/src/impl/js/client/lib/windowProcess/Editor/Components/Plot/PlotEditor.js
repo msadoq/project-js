@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Navbar from '../Navbar/Navbar';
 import { PlotTab } from './';
 import { Misc } from '../Misc';
-import EntryPointTree from '../EntryPoint/EntryPointTree';
+import EntryPointTree from './EntryPointTree';
 import EntryPointActions from '../EntryPoint/EntryPointActions';
 import styles from '../../Editor.css';
 

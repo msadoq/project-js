@@ -1,30 +1,13 @@
-/* eslint-disable */
-
 import React, { PropTypes } from 'react';
-import classnames from 'classnames';
+
 import {
-  Glyphicon,
-  Collapse,
-  Form,
-  FormGroup,
-  FormControl,
-  Col,
-  ControlLabel,
-  Table,
   Accordion,
   Panel
 } from 'react-bootstrap';
 
-import {
-  EntryPointConnectedData,
-  EntryPointConnectedDataXY,
-  EntryPointParameters,
-  EntryPointName,
-  EntryPointStateColors
-} from './'
-
-import ColorPicker from '../ColorPicker';
-import SelectButton from '../Buttons/SelectButton';
+import EntryPointParameters from './EntryPointParameters';
+import EntryPointConnectedDataXY from './EntryPointConnectedDataXY';
+import EntryPointStateColors from '../EntryPoint/EntryPointStateColors';
 
 /*
   EntryPointDetails représente un Point d'entrée,
@@ -32,21 +15,18 @@ import SelectButton from '../Buttons/SelectButton';
 */
 export default class EntryPointDetails extends React.Component {
   static propTypes = {
-    type: PropTypes.string.isRequired,
     viewId: PropTypes.string.isRequired,
     timelines: PropTypes.array.isRequired,
     idPoint: PropTypes.number,
     axes: PropTypes.object,
     entryPoint: PropTypes.object,
+    updateEntryPoint: PropTypes.func.isRequired,
   }
 
   state = {
-    isPanelNameOpen: false,
-    isPanelConnDataOpen: false,
     isPanelCoordinatesOpen: false,
     isPanelStateColorsOpen: false,
     isPanelParametersOpen: false,
-    nameEditable: false,
   };
 
   handleSubmit = (values) => {
@@ -84,14 +64,6 @@ export default class EntryPointDetails extends React.Component {
     });
   }
 
-  /*
-    RightClick on Name : cette fonction permet de rendre le nom de l'entrypoint éditable
-  */
-  rcOnName(e) {
-    e.preventDefault();
-    this.setState({ nameEditable: !this.state.Editable });
-  }
-
   openPanel = key => this.setState({ [`isPanel${key}Open`]: true });
   closePanel = key => this.setState({ [`isPanel${key}Open`]: false });
 
@@ -101,42 +73,18 @@ export default class EntryPointDetails extends React.Component {
       entryPoint,
       viewId,
       axes,
-      type,
       timelines,
     } = this.props;
 
     const {
-      isPanelNameOpen,
-      isPanelConnDataOpen,
       isPanelCoordinatesOpen,
       isPanelStateColorsOpen,
       isPanelParametersOpen,
-      newStateColor,
-      nameEditable
-     } = this.state;
-
-    const isTextView = type === 'TextView';
-    const isPlotView = type === 'PlotView';
+    } = this.state;
 
     return (
       <Accordion>
-        {isTextView && <Panel
-          key={'Name'}
-          header="Name"
-          eventKey={'Name'}
-          expanded={isPanelNameOpen}
-          onSelect={this.openPanel.bind('Name')}
-          onExited={this.closePanel.bind('Name')}
-        >
-          {isPanelNameOpen && <EntryPointName
-            onSubmit={this.handleSubmit}
-            form={`entrypoint-title-form-${idPoint}-${viewId}`}
-            initialValues={{
-              name: entryPoint.name
-            }}
-          />}
-        </Panel>}
-        {isPlotView && <Panel
+        <Panel
           key={'Parameters'}
           header="Parameters"
           eventKey={'Parameters'}
@@ -147,27 +95,11 @@ export default class EntryPointDetails extends React.Component {
           {isPanelParametersOpen && <EntryPointParameters
             onSubmit={this.handleObjectParametersSubmit}
             form={`entrypoint-parameters-form-${idPoint}-${viewId}`}
-            initialValues={{...entryPoint.objectStyle, name: entryPoint.name }}
+            initialValues={{ ...entryPoint.objectStyle, name: entryPoint.name }}
           />}
-        </Panel>}
+        </Panel>
 
-        {isTextView && <Panel
-          key={'ConnData'}
-          header="Conn Data"
-          eventKey={'ConnData'}
-          expanded={isPanelConnDataOpen}
-          onSelect={this.openPanel.bind('ConnData')}
-          onExited={this.closePanel.bind('ConnData')}
-        >
-          {isPanelConnDataOpen && <EntryPointConnectedData
-            axes={axes}
-            timelines={timelines}
-            form={`entrypoint-connectedData-form-${idPoint}-${viewId}`}
-            onSubmit={values => this.handleSubmit({ connectedData: values })}
-            initialValues={entryPoint.connectedData}
-          />}
-        </Panel>}
-        {isPlotView && <Panel
+        <Panel
           key={'Coordinates'}
           header="Coordinates"
           eventKey={'Coordinates'}
@@ -188,7 +120,7 @@ export default class EntryPointDetails extends React.Component {
               timeBasedData: entryPoint.timeBasedData,
             }}
           />}
-        </Panel>}
+        </Panel>
         <Panel
           key={'StateColors'}
           header="State colors"
@@ -206,6 +138,6 @@ export default class EntryPointDetails extends React.Component {
           />}
         </Panel>
       </Accordion>
-    )
+    );
   }
 }

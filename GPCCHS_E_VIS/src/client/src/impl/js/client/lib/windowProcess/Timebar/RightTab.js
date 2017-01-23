@@ -102,6 +102,8 @@ class RightTabContent extends Component {
         return '#ccff66';
       } else if (timebar.speed < 1) {
         return '#0dbf1c';
+      } else if (timebar.realTime) {
+        return '#60a7e5';
       }
       return '#1E2';
     }

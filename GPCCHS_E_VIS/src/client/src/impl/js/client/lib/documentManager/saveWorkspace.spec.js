@@ -1,6 +1,7 @@
 import { exec } from 'child_process';
 import { join } from 'path';
 
+import mimeTypes from 'common/constants/mimeTypes';
 import { should, getTmpPath, freezeMe, applyDependencyToApi } from '../common/test';
 
 import SaveWorkspace from './saveWorkspace';
@@ -8,7 +9,21 @@ import fmdApi from '../common/fmd';
 import validation from './validation';
 import { readDocument } from './io';
 
-const { saveWorkspace, saveWorkspaceAs } = applyDependencyToApi(SaveWorkspace, fmdApi);
+const mockFmdApi = fmd => ({
+  ...fmd,
+  createDocument: (path, documentType, cb) => {
+    const mimeType = mimeTypes[documentType];
+    if (!mimeType) {
+      return cb(`Unknown documentType : ${documentType}`);
+    }
+    const oid = `oid:${fmd.getRelativeFmdPath(path)}`;
+    return cb(null, oid);
+  },
+});
+
+const mockedFmdApi = mockFmdApi(fmdApi);
+
+const { saveWorkspace, saveWorkspaceAs } = applyDependencyToApi(SaveWorkspace, mockedFmdApi);
 
 describe('documentManager/saveWorkspace', () => {
   const state = {
@@ -31,7 +46,7 @@ describe('documentManager/saveWorkspace', () => {
       },
     },
     pages: {
-      page1: { timebarUuid: 1234, path: 'testPlot.json' },
+      page1: { timebarUuid: 1234, oId: 'oid:/testPlot.json' },
       page2: { timebarUuid: 1234, path: 'testText.json' }
     },
     timebars: {
@@ -95,7 +110,7 @@ describe('documentManager/saveWorkspace', () => {
     });
   });
   it('check validity of new workspace', (done) => {
-    readDocument(fmdApi)(folder, 'workspace.json', undefined, undefined,
+    readDocument(mockedFmdApi)(folder, 'workspace.json', undefined, undefined,
       (err, wkContent) => {
         should.not.exist(err);
         const validationError = validation('workspace', wkContent);
@@ -111,7 +126,7 @@ describe('documentManager/saveWorkspace', () => {
     }));
   });
   it('check validity of new workspace', (done) => {
-    readDocument(fmdApi)(
+    readDocument(mockedFmdApi)(
       state.hsc.folder,
       state.hsc.file,
       undefined,

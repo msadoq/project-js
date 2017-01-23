@@ -1,5 +1,8 @@
+import _toPairs from 'lodash/toPairs';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
+import { getTimebars } from '../selectors/timebars';
+import { setRealTime } from './timebars';
 
 /**
  * App lifecycle
@@ -13,7 +16,15 @@ export const closeWorkspace = simple(types.HSC_CLOSE_WORKSPACE);
  * Play mode
  */
 export const play = simple(types.HSC_PLAY, 'timebarUuid');
-export const pause = simple(types.HSC_PAUSE);
+export const pause = () =>
+  (dispatch, getState) => {
+    dispatch({ type: types.HSC_PAUSE });
+    _toPairs(getTimebars(getState())).forEach((timebar) => {
+      if (timebar[1].realTime) {
+        dispatch(setRealTime(timebar[0], false));
+      }
+    });
+  };
 
 /**
  * Cache invalidation

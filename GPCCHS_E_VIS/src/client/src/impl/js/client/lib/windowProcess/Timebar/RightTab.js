@@ -92,6 +92,22 @@ class RightTabContent extends Component {
 
   retrieveFormattedFullDateEl = () => this.formattedFullDateEl;
 
+  borderColor = () => {
+    const {
+      isPlaying,
+      timebar,
+    } = this.props;
+    if (isPlaying) {
+      if (timebar.speed > 1) {
+        return '#ccff66';
+      } else if (timebar.speed < 1) {
+        return '#0dbf1c';
+      }
+      return '#1E2';
+    }
+    return 'transparent';
+  }
+
   render() {
     const {
       timelines,
@@ -115,6 +131,7 @@ class RightTabContent extends Component {
       <div
         style={{
           height: '100%',
+          border: `2px solid ${this.borderColor()}`
         }}
       >
         <span
@@ -122,6 +139,7 @@ class RightTabContent extends Component {
           className={styles.formatedFullDate}
         />
         <ControlsContainer
+          timebarRealTime={timebar.realTime}
           timebarMode={timebar.mode}
           timebarSpeed={timebar.speed}
           timebarUuid={timebarUuid}

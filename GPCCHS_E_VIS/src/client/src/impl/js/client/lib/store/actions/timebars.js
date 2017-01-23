@@ -32,6 +32,7 @@ import {
 export const add = simple(types.WS_TIMEBAR_ADD, 'timebarUuid', 'configuration');
 export const remove = simple(types.WS_TIMEBAR_REMOVE, 'timebarUuid');
 export const updateId = simple(types.WS_TIMEBAR_ID_UPDATE, 'timebarUuid', 'id');
+export const setRealTime = simple(types.WS_TIMEBAR_SET_REALTIME, 'timebarUuid', 'flag');
 
 /*
   Only the first argument must be provided
@@ -129,11 +130,29 @@ export const updateViewport = simple(
   'rulerStart',
   'rulerResolution'
 );
-export const updateSpeed = simple(types.WS_TIMEBAR_SPEED_UPDATE, 'timebarUuid', 'speed');
+
+export const updateSpeed = (timebarUuid, speed) =>
+  (dispatch, getState) => {
+    const timebar = getTimebar(getState(), timebarUuid);
+    if (timebar.realTime) {
+      dispatch(setRealTime(timebarUuid, false));
+    }
+    dispatch({
+      type: types.WS_TIMEBAR_SPEED_UPDATE,
+      payload: {
+        timebarUuid,
+        speed,
+      }
+    });
+  };
+
 
 export function restoreWidth(timebarUuid) {
   return (dispatch, getState) => {
     const timebar = getTimebar(getState(), timebarUuid);
+    if (timebar.realTime) {
+      dispatch(setRealTime(timebarUuid, false));
+    }
     const vw = timebar.visuWindow;
     const newSlideUpper = timebar.mode === 'Extensible' ?
       vw.current + (vw.defaultWidth) :
@@ -157,6 +176,9 @@ export function restoreWidth(timebarUuid) {
 export function jump(timebarUuid, offsetMs) {
   return (dispatch, getState) => {
     const timebar = getTimebar(getState(), timebarUuid);
+    if (timebar.realTime) {
+      dispatch(setRealTime(timebarUuid, false));
+    }
     const vw = timebar.visuWindow;
     const sw = timebar.slideWindow;
     dispatch(
@@ -180,6 +202,9 @@ export function goNow(timebarUuid) {
   return (dispatch, getState) => {
     const state = getState();
     const timebar = getTimebar(state, timebarUuid);
+    if (timebar.realTime) {
+      dispatch(setRealTime(timebarUuid, false));
+    }
     const masterTimeline = getMasterTimelineById(state, timebarUuid);
     if (!masterTimeline) {
       return;
@@ -240,15 +265,27 @@ export function switchToNormalMode(timebarUuid) {
 
 export function switchToRealtimeMode(timebarUuid) {
   return (dispatch, getState) => {
-    dispatch({
-      type: types.WS_TIMEBAR_MODE_UPDATE,
-      payload: {
-        timebarUuid,
-        mode: 'Normal',
-      }
-    });
+    dispatch(setRealTime(timebarUuid, true));
     const state = getState();
     const timebar = getTimebar(state, timebarUuid);
+    if (timebar.speed !== 1) {
+      dispatch({
+        type: types.WS_TIMEBAR_SPEED_UPDATE,
+        payload: {
+          timebarUuid,
+          speed: 1
+        }
+      });
+    }
+    if (timebar.mode !== 'Normal') {
+      dispatch({
+        type: types.WS_TIMEBAR_MODE_UPDATE,
+        payload: {
+          timebarUuid,
+          mode: 'Normal',
+        }
+      });
+    }
     const { visuWindow } = timebar;
     const masterTimeline = getMasterTimelineById(state, timebarUuid);
     const currentSession = getSession(state, masterTimeline.sessionId);
@@ -288,6 +325,9 @@ export function switchToExtensibleMode(timebarUuid) {
     });
     const state = getState();
     const timebar = getTimebar(state, timebarUuid);
+    if (timebar.realTime) {
+      dispatch(setRealTime(timebarUuid, false));
+    }
     const { visuWindow, slideWindow } = timebar;
     if (slideWindow.upper < visuWindow.upper) {
       let newSlideUpper = visuWindow.upper + ((visuWindow.upper - visuWindow.lower) / 4);
@@ -319,6 +359,9 @@ export function switchToFixedMode(timebarUuid) {
     });
     const state = getState();
     const timebar = getTimebar(state, timebarUuid);
+    if (timebar.realTime) {
+      dispatch(setRealTime(timebarUuid, false));
+    }
     const { visuWindow, slideWindow } = timebar;
     if (slideWindow.upper > visuWindow.upper) {
       dispatch(

@@ -144,7 +144,7 @@ export default class TimebarWrapper extends Component {
         }}
       >
         {timesetter}
-        <Col xs={9} xsOffset={3} style={{ paddingBottom: 5 }}>
+        <Col xs={9} xsOffset={3} style={{ paddingBottom: 8 }}>
           <div>
             <hr
               onMouseDown={this.resizeWindow}

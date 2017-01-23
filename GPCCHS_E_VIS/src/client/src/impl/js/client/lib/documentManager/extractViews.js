@@ -21,6 +21,8 @@ import { dirname } from 'path';
 import async from 'async';
 import { v4 } from 'node-uuid';
 import globalConstants from 'common/constants';
+
+import { readDocument } from './io';
 import fs from '../common/fs';
 import validation from './validation';
 import vivl from '../../VIVL/main';
@@ -38,7 +40,7 @@ const supportedViewTypes = [
 const readViews = fmdApi => (viewsToRead, done) => {
   async.reduce(viewsToRead, [], (views, view, next) => {
     const { pageFolder, path, oId } = view;
-    fmdApi.readJson(pageFolder, path, oId, view.absolutePath, (err, viewContent) => {
+    readDocument(fmdApi)(pageFolder, path, oId, view.absolutePath, (err, viewContent) => {
       if (err) {
         return next(err);
       }

@@ -61,60 +61,59 @@ describe('common/fmd', () => {
     });
   });
 
-  describe('readJson', () => {
-    it('works with relativePath and folder', (done) => {
-      fmd.readJson(folder, 'foo.json', undefined, undefined, (err, content) => {
-        should.not.exist(err);
-        content.should.eql({ foo: 'bar' });
-        done();
-      });
-    });
-    it('works with only relativePath', (done) => {
-      // you can found '/text1.json' in lib/documentManager/fixtures
-      fmd.readJson(undefined, '/text1.json', undefined, undefined, (err, content) => {
-        should.exist(content);
-        should.not.exist(err);
-        done();
-      });
-    });
-    it('works with absolutePath', (done) => {
-      fmd.readJson(undefined, undefined, undefined, json, (err, content) => {
-        should.not.exist(err);
-        content.should.eql({ foo: 'bar' });
-        done();
-      });
-    });
-    // it('works with oid', (done) => {
-    //   const oid = `oid:${json}`;
-    //   fmd.readJson(undefined, undefined, oid, undefined, (err, content) => {
-    //     should.not.exist(err);
-    //     content.should.eql({ foo: 'bar' });
-    //     done();
-    //   });
-    // });
-    it('fail with bad file format', (done) => {
-      fmd.readJson(undefined, undefined, undefined, txtFile, (err, content) => {
-        expect(content).to.be.an('undefined');
-        should.exist(err);
-        done();
-      });
-    });
-    it('fail with unreadable file', (done) => {
-      fmd.readJson(undefined, undefined, undefined, unreadable, (err, content) => {
-        expect(content).to.be.an('undefined');
-        should.exist(err);
-        done();
-      });
-    });
-    it('fail with absent file', (done) => {
-      fmd.readJson(undefined, undefined, undefined, notExists, (err, content) => {
-        expect(content).to.be.an('undefined');
-        should.exist(err);
-        done();
-      });
-    });
-  });
-
+  // describe('readJson', () => {
+  //   it('works with relativePath and folder', (done) => {
+  //     fmd.readJson(folder, 'foo.json', undefined, undefined, (err, content) => {
+  //       should.not.exist(err);
+  //       content.should.eql({ foo: 'bar' });
+  //       done();
+  //     });
+  //   });
+  //   it('works with only relativePath', (done) => {
+  //     // you can found '/text1.json' in lib/documentManager/fixtures
+  //     fmd.readJson(undefined, '/text1.json', undefined, undefined, (err, content) => {
+  //       should.exist(content);
+  //       should.not.exist(err);
+  //       done();
+  //     });
+  //   });
+  //   it('works with absolutePath', (done) => {
+  //     fmd.readJson(undefined, undefined, undefined, json, (err, content) => {
+  //       should.not.exist(err);
+  //       content.should.eql({ foo: 'bar' });
+  //       done();
+  //     });
+  //   });
+  //   it('works with oid', (done) => {
+  //     const oid = `oid:${json}`;
+  //     fmd.readJson(undefined, undefined, oid, undefined, (err, content) => {
+  //       should.not.exist(err);
+  //       content.should.eql({ foo: 'bar' });
+  //       done();
+  //     });
+  //   });
+  //   it('fail with bad file format', (done) => {
+  //     fmd.readJson(undefined, undefined, undefined, txtFile, (err, content) => {
+  //       expect(content).to.be.an('undefined');
+  //       should.exist(err);
+  //       done();
+  //     });
+  //   });
+  //   it('fail with unreadable file', (done) => {
+  //     fmd.readJson(undefined, undefined, undefined, unreadable, (err, content) => {
+  //       expect(content).to.be.an('undefined');
+  //       should.exist(err);
+  //       done();
+  //     });
+  //   });
+  //   it('fail with absent file', (done) => {
+  //     fmd.readJson(undefined, undefined, undefined, notExists, (err, content) => {
+  //       expect(content).to.be.an('undefined');
+  //       should.exist(err);
+  //       done();
+  //     });
+  //   });
+  // });
   // describe('writeJson', (done) => {
   //   done();
   // });

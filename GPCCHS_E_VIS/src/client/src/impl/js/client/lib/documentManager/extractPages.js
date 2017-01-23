@@ -18,10 +18,11 @@ import reject from 'lodash/fp/reject';
 
 import fs from '../common/fs';
 import validation from './validation';
+import { readDocument } from './io';
 
 const readPages = fmdApi => (folder, pagesToRead, done) => {
   async.map(pagesToRead, (page, next) => {
-    fmdApi.readJson(folder, page.path, page.oId, page.absolutePath, (err, pageContent) => {
+    readDocument(fmdApi)(folder, page.path, page.oId, page.absolutePath, (err, pageContent) => {
       if (err) {
         return next(err);
       }

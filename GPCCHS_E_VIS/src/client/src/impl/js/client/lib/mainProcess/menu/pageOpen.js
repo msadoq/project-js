@@ -1,6 +1,6 @@
 import _map from 'lodash/map';
 import { v4 } from 'node-uuid';
-import { productLog } from 'common/log';
+import { server } from '../ipc';
 import {
   LOG_DOCUMENT_OPEN
 } from 'common/constants';
@@ -40,7 +40,7 @@ function pageOpen(focusedWindow) {
         showSelectedPage(pageAndViews, uuid, focusedWindow.windowId);
         const title = getStore().getState().windows[focusedWindow.windowId].title;
         focusedWindow.setTitle(title.concat(' * - VIMA'));
-        productLog(LOG_DOCUMENT_OPEN, 'page', filePath);
+        server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', filePath);
       });
     });
   });
@@ -55,7 +55,7 @@ function pageAddNew(focusedWindow) {
   getStore().dispatch(setModifiedPage(uuid, true));
   const title = getStore().getState().windows[focusedWindow.windowId].title;
   focusedWindow.setTitle(title.concat(' * - VIMA'));
-  productLog(LOG_DOCUMENT_OPEN, 'page', 'new page');
+  server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', 'new page');
 }
 
 function showSelectedPage(pageAndViews, pageId, windowId) {

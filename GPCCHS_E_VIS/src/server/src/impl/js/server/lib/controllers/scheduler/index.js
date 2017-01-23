@@ -1,9 +1,5 @@
 const zmq = require('common/zmq');
 const logger = require('common/log')('controllers:scheduler');
-const {
-  HSC_LOG_FREQUENCY,
-} = require('common/constants');
-const productLog = require('./productLog');
 
 const pushToDc = args => zmq.push('dcPush', args);
 
@@ -11,7 +7,7 @@ let jobsRunning = false;
 
 // List of scheduled jobs
 const jobs = [
-  { name: 'PRODUCT_LOG', job: productLog, frequency: HSC_LOG_FREQUENCY },
+  // { name: 'PRODUCT_LOG', job: productLog, frequency: HSC_LOG_FREQUENCY },
 ];
 
 const runJob = (job, scheduleJob, name) => () => {

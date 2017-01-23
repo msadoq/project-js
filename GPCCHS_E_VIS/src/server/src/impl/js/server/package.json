@@ -16,7 +16,6 @@
   "dependencies": {
     "async": "^2.1.4",
     "exit": "^0.1.2",
-    "lockfile": "^1.0.3",
     "lodash": "^4.16.2",
     "lokijs": "^1.4.1",
     "node-uuid": "^1.4.7"

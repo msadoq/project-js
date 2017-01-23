@@ -11,7 +11,5 @@ if (process.env.APP_ENV === 'renderer') {
 module.exports = lib.getLogger;
 
 Object.assign(module.exports, {
-  productLog: lib.productLog,
-  productLogSync: lib.productLogSync,
   getLogger: lib.getLogger,
 });

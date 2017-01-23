@@ -1,10 +1,8 @@
 import _each from 'lodash/each';
 import _map from 'lodash/map';
 import { v4 } from 'node-uuid';
-import {
-  getLogger,
-  productLog,
-} from 'common/log';
+import getLogger from 'common/log';
+import { server } from './ipc';
 import parameters from 'common/parameters';
 import {
   LOG_DOCUMENT_OPEN
@@ -120,7 +118,7 @@ export function readWkFile(dispatch, getState, root, file, callback) {
       v: Object.keys(state.views).length,
     };
     logger.info(`${count.w} windows, ${count.p} pages, ${count.v} views`);
-    productLog(LOG_DOCUMENT_OPEN, 'workspace', file);
+    server.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', file);
 
     if (typeof callback === 'function') {
       return callback(null);
@@ -176,7 +174,7 @@ export function openDefaultWorkspace(dispatch, root, callback) {
     pages: { [pgUuid]: Object.assign(page, { uuid: pgUuid }) },
   };
 
-  productLog(LOG_DOCUMENT_OPEN, 'workspace', 'new workspace');
+  server.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', 'new workspace');
 
   loadInStore(workspace, dispatch, root, undefined, callback, true);
 }

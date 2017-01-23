@@ -87,9 +87,9 @@ const getMonitoringOptions = options => (_.pipe(
 = monitoring ======== (${formatTime(new Date(options.meta.latency.time))})
 average time consumption by loop ${options.meta.latency.avg}
 memory consumption
-  rss=${bytesToString(options.meta.memUsage.rss)}
-  heapTotal=${bytesToString(options.meta.memUsage.heapTotal)}
-  heapUsed=${bytesToString(options.meta.memUsage.heapUsed)}
+  rss=${bytesConverter(options.meta.memUsage.rss)}
+  heapTotal=${bytesConverter(options.meta.memUsage.heapTotal)}
+  heapUsed=${bytesConverter(options.meta.memUsage.heapUsed)}
 =====================`
   ),
   _.dissoc('formatter'),

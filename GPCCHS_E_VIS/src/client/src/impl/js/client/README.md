@@ -1,4 +1,4 @@
-# GPCCHS CLIENT
+# GPCCHS (VIMA)
 
 Desktop visualisation application for ISIS project.
 
@@ -10,7 +10,7 @@ Clone the project and switch to client folder:
 Set configuration files and install dependencies:
 > npm run hello
 
-# Launch project for development:
+# Launch project for development
 
 Launch webpack server (in a separate terminal):
 > npm run webpack
@@ -18,13 +18,9 @@ Launch webpack server (in a separate terminal):
 Launch client with hot reload:
 > npm run start-hot
 
-## Build and run bundled version
+# Package and run bundled project
 
-Build both main and renderer process bundles:
-> npm run build
-
-Launch bundled client:
-> npm start
+See PACKAGE.md.
 
 ## Other procedures
 
@@ -92,8 +88,7 @@ git c -m 'Your message'
 HL=1 git c -m 'Hors Livraison'
 ```
 
-
-## Troubleshoot
+# Troubleshoot
 
 In case of error "Error: Module version mismatch expected 50, got 48." on launch, run following command in client folder:
 

@@ -21,6 +21,7 @@ describe('store:timebars:reducer', () => {
         slideWindow: { lower: 20 },
         rulerResolution: 100,
         speed: 10,
+        realTime: false,
         masterId: 'OtherId',
         timelines: ['myTimelineId']
       };
@@ -91,6 +92,7 @@ describe('store:timebars:reducer', () => {
             slideWindow: { lower: 250, upper: 350 },
             rulerResolution: 100,
             speed: 10,
+            realTime: false,
             mode: 'Normal',
             masterId: 'OtherId',
             timelines: ['myTimelineId', 'myTimelineId3']
@@ -170,7 +172,8 @@ describe('store:timebars:reducer', () => {
       newState.should.equal(oldState);
     });
     it('speed', () => {
-      const newState = reducer(state.timebars, actions.updateSpeed('myTimebarId', 20));
+      dispatch(actions.updateSpeed('myTimebarId', 20));
+      const newState = getState().timebars;
       newState.should.have.property('myTimebarId');
       newState.myTimebarId.speed.should.equal(20);
     });
@@ -186,6 +189,12 @@ describe('store:timebars:reducer', () => {
       newState.should.have.property('myTimebarId');
       newState.myTimebarId.should.have.property('masterId');
       newState.myTimebarId.masterId.should.equal('myTlId');
+    });
+    it('realTime', () => {
+      const newState = reducer(state.timebars, actions.setRealTime('myTimebarId', true));
+      newState.should.have.property('myTimebarId');
+      newState.myTimebarId.should.have.property('realTime');
+      newState.myTimebarId.realTime.should.equal(true);
     });
     it('jump', () => {
       const visuWindow = getState().timebars.myTimebarId.visuWindow;

@@ -518,13 +518,8 @@ class GPCCHS(object):
         os.environ["NODE_ENV"] = "production"
         os.environ["DEBUG"] = "GPCCHS:*"
         os.environ["LEVEL"] = level
-        os.environ["HTTP_LOGS"] = "0"
-        os.environ["PORT"] = "{}".format(self._hssPort)
         os.environ["ZMQ_GPCCDC_PUSH"] = "tcp://127.0.0.1:{}".format(self._dcPushPort)
         os.environ["ZMQ_GPCCDC_PULL"] = "tcp://127.0.0.1:{}".format(self._dcPullPort)
-        os.environ["ZMQ_VIMA_TIMEBAR"] = "tcp://127.0.0.1:{}".format(self._tbPullPort)
-        os.environ["ZMQ_VIMA_TIMEBAR_INIT"] = "tcp://127.0.0.1:{}".format(self._tbPushPort)
-        os.environ["ZMQ_VIMA_STUB_TIMEBAR"] = " "
         os.environ["STUB_DC_ON"] = "off"
         os.environ["STUB_TB_ON"] = "off"
         os.environ["MONITORING"] = "off"

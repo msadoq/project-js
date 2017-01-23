@@ -2,33 +2,14 @@
 
 /* eslint-disable import/no-unresolved, import/no-extraneous-dependencies */
 const { ipcRenderer } = require('electron');
-const fs = require('electron').remote.require('fs');
-const mkdirp = require('electron').remote.require('mkdirp');
-const path = require('electron').remote.require('path');
-const lockfile = require('electron').remote.require('lockfile');
-/* eslint-enable import/no-unresolved, import/no-extraneous-dependencies */
-const _ = require('lodash/fp');
-const _async = require('async');
-
-const {
-  LOG_DIST_FILENAME,
-  LOG_DIST_LOCK_STALE,
-} = require('../constants');
 const {
   getTimer,
-  formatProductLog,
-  pruneCb,
-  triggerCb,
 } = require('./util');
 
 let DEFAULT_TRANSPORTS = ['electronIPC'];
 if (global.parameters.get('DEBUG') === 'on') {
   DEFAULT_TRANSPORTS = ['console', 'electronIPC'];
 }
-
-const LOG_DIR = global.parameters.get('LOG_DIR');
-const LOG_PATH = path.join(LOG_DIR, LOG_DIST_FILENAME);
-const LOCK_PATH = path.join(LOG_DIR, LOG_DIST_FILENAME, '.lock');
 
 const DEFAULT_LEVELS = ['silly', 'debug', 'verbose', 'info', 'warn', 'error'];
 
@@ -68,29 +49,6 @@ transportAPis.electronIPC = category => ({
   debug: sendOverIPC(category, 'debug'),
   silly: sendOverIPC(category, 'silly'),
 });
-
-const productLog = (uid, ...args) => {
-  _async.waterfall([
-    cb => lockfile.lock(LOCK_PATH, { stale: LOG_DIST_LOCK_STALE }, cb),
-    cb => mkdirp(LOG_DIR, cb),
-    cb => fs.appendFile(
-            path.join(LOG_DIR, LOG_DIST_FILENAME),
-            formatProductLog(uid, ...pruneCb(args)), cb),
-    cb => lockfile.unlock(LOCK_PATH, cb),
-  ], (err) => {
-    if (err) {
-      console.log(err); // eslint-disable-line no-console
-    }
-    triggerCb(args);
-  });
-};
-
-const productLogSync = (uid, ...args) => {
-  mkdirp.sync(LOG_DIR);
-  fs.appendFileSync(
-    LOG_PATH,
-    formatProductLog(uid, ...args));
-};
 
 const getConsoleTime = getTimer();
 
@@ -132,6 +90,4 @@ module.exports = {
   transportAPis,
   sendOverIPC,
   sendToConsole,
-  productLog,
-  productLogSync,
 };

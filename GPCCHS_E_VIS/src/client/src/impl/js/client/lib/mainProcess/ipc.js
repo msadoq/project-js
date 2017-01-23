@@ -64,6 +64,12 @@ const commands = {
     requestServerDebug: (callback) => {
       commands.server.rpc(globalConstants.IPC_METHOD_SERVER_DEBUG, null, callback);
     },
+    sendProductLog: (uid, ...args) => {
+      commands.server.message(globalConstants.IPC_METHOD_PRODUCT_LOG, {
+        uid,
+        args
+      });
+    }
   },
 };
 

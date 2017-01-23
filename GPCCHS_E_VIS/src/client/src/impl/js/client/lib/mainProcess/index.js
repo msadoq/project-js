@@ -1,7 +1,10 @@
 import { app, ipcMain } from 'electron';
 import { series } from 'async';
-import path from 'path';
-import { CHILD_PROCESS_SERVER, CHILD_PROCESS_DC } from 'common/constants';
+import {
+  CHILD_PROCESS_SERVER,
+  CHILD_PROCESS_DC,
+  LOG_APPLICATION_START,
+} from 'common/constants';
 import getLogger from 'common/log';
 import monitoring from 'common/log/monitoring';
 import parameters from 'common/parameters';
@@ -69,6 +72,8 @@ export function start() {
       );
     },
     (callback) => {
+      server.sendProductLog(LOG_APPLICATION_START);
+
       // ipc with renderer
       ipcMain.on('windowRequest', rendererController);
 

@@ -4,7 +4,7 @@ import _cloneDeep from 'lodash/cloneDeep';
 import _omit from 'lodash/omit';
 import _values from 'lodash/values';
 import _each from 'lodash/each';
-import { productLog } from 'common/log';
+import { server } from '../mainProcess/ipc';
 import {
   DATASTRUCTURETYPE_RANGE,
   LOG_DOCUMENT_SAVE
@@ -52,7 +52,7 @@ const saveViewAs = fmdApi => (viewConfiguration, viewType, path, callback) => {
       if (errWrite) {
         return callback(`Unable to save view ${view.title} in file ${path}`);
       }
-      productLog(LOG_DOCUMENT_SAVE, 'view', path);
+      server.sendProductLog(LOG_DOCUMENT_SAVE, 'view', path);
       return callback(null, oId);
     });
   })

@@ -1,26 +1,21 @@
 const winston = require('winston');
 const wCommon = require('winston/lib/winston/common');
-const fs = require('fs');
-const path = require('path');
 const _ = require('lodash/fp');
-const mkdirp = require('mkdirp');
-const lockfile = require('lockfile');
-const _async = require('async');
 
 const {
   getTimer,
-  formatProductLog,
-  pruneCb,
-  triggerCb,
   bytesConverter,
 } = require('./util');
 const { get } = require('../parameters');
 
 const {
   LOG_LOCAL_FILENAME,
-  LOG_DIST_FILENAME,
-  LOG_DIST_LOCK_STALE,
 } = require('../constants');
+
+const TRANSPORT_SEPARATOR = ':';
+const TRANSPORT_ARGS_ASSIGNMENT = '?';
+const PARAM_SEPARATOR = ',';
+const PARAM_ASSIGNMENT = '=';
 
 winston.cli();
 
@@ -43,8 +38,8 @@ const parseValue = value => (
 // param string format: <param1>=<value1>,<param2>=<value2>
 const parseParams = _.pipe(
   _.defaultTo(''),
-  _.split(','),
-  _.map(_.split('=')),
+  _.split(PARAM_SEPARATOR),
+  _.map(_.split(PARAM_ASSIGNMENT)),
   _.map(p => ({
     [p[0]]: parseValue(p[1]),
   })),
@@ -59,8 +54,8 @@ const parseParams = _.pipe(
 // Deserialize string to object
 // String format: <logger1>?<param1>=<value1>,<param2>=<value2>:<logger2>?<param1>=<value1>,...:...
 const parseConfig = _.pipe(
-  _.split(':'),
-  _.map(_.split('?')),
+  _.split(TRANSPORT_SEPARATOR),
+  _.map(_.split(TRANSPORT_ARGS_ASSIGNMENT)),
   _.map(t => ({
     type: t[0],
     params: parseParams(t[1]),
@@ -96,8 +91,6 @@ memory consumption
   _.update('meta', _.omit(['memUsage', 'latency', 'pname', 'pid', 'time']))
 )(options));
 
-const distFormatter = ({ message }) => message.replace(/^\[.+\]\[.+\]\s?/g, '');
-
 let cpt = 0;
 const availableTransports = {
   // eslint-disable-next-line no-return-assign
@@ -114,13 +107,6 @@ const availableTransports = {
         return wCommon.log(getStdOptions(options));
       },
     }, args)),
-  dist: args => new winston.transports.File(
-    Object.assign({
-      filename: LOG_DIST_FILENAME,
-      level: 'info',
-      json: false,
-      formatter: distFormatter,
-    }, args)),
   // eslint-disable-next-line no-return-assign
   file: args => new winston.transports.File(
     Object.assign({
@@ -133,14 +119,6 @@ const availableTransports = {
       maxFiles: 100,
       tailable: true, // most recent file is always named `filename`
     }, args)),
-  // zmq: (args) => new Zmq(
-  //   Object.assign({
-  //     level: 'info',
-  //     transport: 'tcp',
-  //     address: '127.0.0.1',
-  //     port: 5042,
-  //     name: `zmq ${cpt++}`,
-  //   }, args)),
   // eslint-disable-next-line no-return-assign
   http: args => new winston.transports.Http(
     Object.assign({
@@ -244,34 +222,6 @@ if (process.versions.electron) {
   });
 }
 
-const getLockPath = logDir => `${path.join(logDir, LOG_DIST_FILENAME)}.lock`
-
-const productLog = (uid, ...args) => {
-  const LOG_DIR = get('LOG_DIR');
-  const LOCK_PATH = getLockPath(LOG_DIR);
-  _async.waterfall([
-    cb => lockfile.lock(LOCK_PATH, { stale: LOG_DIST_LOCK_STALE }, cb),
-    cb => mkdirp(LOG_DIR, () => cb()),
-    cb => fs.appendFile(
-            path.join(LOG_DIR, LOG_DIST_FILENAME),
-            formatProductLog(uid, ...pruneCb(args)), cb),
-    cb => lockfile.unlock(LOCK_PATH, cb),
-  ], (err) => {
-    if (err) {
-      console.log(err); // eslint-disable-line no-console
-    }
-    triggerCb(args);
-  });
-};
-
-const productLogSync = (uid, ...args) => {
-  const LOG_DIR = get('LOG_DIR');
-  mkdirp.sync(get('LOG_DIR'));
-  fs.appendFileSync(
-    path.join(get('LOG_DIR'), LOG_DIST_FILENAME),
-    formatProductLog(uid, ...args));
-};
-
 module.exports = {
   parseParams,
   parseConfig,
@@ -280,6 +230,4 @@ module.exports = {
   getMonitoringOptions,
   availableTransports,
   getLogger,
-  productLog,
-  productLogSync,
 };

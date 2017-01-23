@@ -2,7 +2,7 @@
 import _findIndex from 'lodash/findIndex';
 import _startsWith from 'lodash/startsWith';
 import { dirname, relative } from 'path';
-import { productLog } from 'common/log';
+import { server } from '../mainProcess/ipc';
 import parameters from 'common/parameters';
 import {
   LOG_DOCUMENT_SAVE
@@ -74,7 +74,7 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
         return callback(`Unable to save view ${page.title} in file ${path}`);
       }
 
-      productLog(LOG_DOCUMENT_SAVE, 'page', path);
+      server.sendProductLog(LOG_DOCUMENT_SAVE, 'page', path);
 
       return callback(null, oid);
     });

@@ -1,15 +1,11 @@
 import { app } from 'electron';
 import { init } from 'common/parameters';
+import getLogger from 'common/log';
 import {
-  getLogger,
-  productLog,
-  productLogSync,
-} from 'common/log';
-import {
-  LOG_APPLICATION_START,
   LOG_APPLICATION_STOP,
   LOG_APPLICATION_ERROR,
 } from 'common/constants';
+import { server } from './lib/mainProcess/ipc';
 import { start, stop, onWindowsClose } from './lib/mainProcess'; // eslint-disable-line import/first
 
 const logger = getLogger('main');
@@ -22,7 +18,7 @@ app.commandLine.appendSwitch('no-proxy-server');
 
 const errorHandler = (err) => {
   console.error(err); // eslint-disable-line no-console
-  productLogSync(LOG_APPLICATION_ERROR, err.message);
+  server.sendProductLog(LOG_APPLICATION_ERROR, err.message);
   app.exit(1);
 };
 
@@ -30,7 +26,6 @@ app.on('ready', () => {
   // https://github.com/electron/electron/issues/1412
   process.title = 'gpcchs_main';
 
-  productLog(LOG_APPLICATION_START);
   logger.info('app start');
   try {
     start();
@@ -45,7 +40,7 @@ app.on('window-all-closed', () => {
 });
 
 app.on('quit', () => {
-  productLogSync(LOG_APPLICATION_STOP);
+  server.sendProductLog(LOG_APPLICATION_STOP);
   logger.info('app stop');
   stop();
 });

@@ -2,7 +2,8 @@ import _round from 'lodash/round';
 import { series } from 'async';
 import globalConstants from 'common/constants';
 import executionMonitor from 'common/log/execution';
-import { productLog, getLogger } from 'common/log';
+import getLogger from 'common/log';
+import { server } from './ipc';
 // import { get } from 'common/parameters';
 
 import { getStore } from '../store/mainStore';
@@ -16,7 +17,6 @@ import {
   updateCacheInvalidation,
   pause,
 } from '../store/actions/hsc';
-import { server } from './ipc';
 import dataMapGenerator from '../dataManager/map';
 import request from '../dataManager/request';
 import windowsObserver from './windows';
@@ -204,7 +204,7 @@ export function tick() {
         logger.warn(
           `orchestration done in ${(duration[0] * 1e3) + _round(duration[1] / 1e6, 6)}ms`
         );
-        productLog(globalConstants.LOG_APPLICATION_OVERLOADED, 'orchestration');
+        server.sendProductLog(globalConstants.LOG_APPLICATION_OVERLOADED, 'orchestration');
       }
       return callback(null);
     }

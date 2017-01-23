@@ -28,7 +28,6 @@ const saveViewAs = fmdApi => (viewConfiguration, viewType, path, callback) => {
   if (!viewConfiguration) {
     return callback('Unknown view');
   }
-  // TODO add case with new FMD path -> createDocument par DC
   createFolder(dirname(path)).then(() => {
     let view = _cloneDeep(viewConfiguration);
     const structureType = vivl(viewType, 'structureType')();

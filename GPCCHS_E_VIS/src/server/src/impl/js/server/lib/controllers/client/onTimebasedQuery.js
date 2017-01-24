@@ -6,6 +6,7 @@ const {
   GETLASTTYPE_GET_LAST,
 } = require('common/constants');
 const executionMonitor = require('common/log/execution');
+const logger = require('common/log')('controllers:client:onTimebasedQuery');
 
 const { add: addToQueue } = require('../../utils/dataQueue');
 const { createQueryMessage } = require('../../utils/queries');
@@ -39,10 +40,18 @@ const subscriptionsModel = require('../../models/subscriptions');
  * @param sendMessageToDc
  */
 
+// eslint-disable-next-line consistent-return
 module.exports = (sendMessageToDc, payload) => {
   const execution = executionMonitor('query');
   execution.reset();
   execution.start('global');
+
+  // TODO : temporary fixes
+  if (typeof payload.time !== 'undefined') {
+    return logger.warn('received invalid query message from client', payload);
+  }
+  // end of temporary fixes
+
   // debug.debug('called', Object.keys(payload).length, 'remoteIds');
   const messageQueue = [];
   // loop over remoteIds
@@ -60,7 +69,7 @@ module.exports = (sendMessageToDc, payload) => {
         queryArguments.filters = query.filters;
         break;
       default:
-        throw new Error('Consuming type not valid', query.type);
+        throw new Error(`Consuming type not valid ${query.type}`);
     }
 
     execution.start('add loki connectedData');

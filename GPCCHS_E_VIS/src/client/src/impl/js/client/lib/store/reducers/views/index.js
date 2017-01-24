@@ -119,16 +119,8 @@ export default function views(stateViews = {}, action) {
       return removeElementInConfigurationArray(stateViews, action, 'procedures');
     case types.HSC_CLOSE_WORKSPACE:
       return {};
-    case types.WS_VIEW_SETCOLLAPSED: {
-      if (!stateViews[action.payload.viewId]) {
-        return stateViews;
-      }
-      return u({
-        [action.payload.viewId]: {
-          isCollapsed: action.payload.flag,
-        }
-      }, stateViews);
-    }
+    case types.WS_VIEW_SETCOLLAPSED:
+      return updateConfiguration(stateViews, action, 'collapsed', 'flag');
     case types.WS_VIEW_SETMODIFIED: {
       if (!stateViews[action.payload.viewId]) {
         return stateViews;

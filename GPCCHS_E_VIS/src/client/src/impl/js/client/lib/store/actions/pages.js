@@ -31,7 +31,7 @@ export const updateLayout = (pageId, layout) =>
     layout.forEach((l) => {
       if (l.h > 1) {
         const view = getView(getState(), l.i);
-        if (view && view.isCollapsed) {
+        if (view && view.configuration.collapsed) {
           dispatch(setCollapsedView(l.i, false));
         }
       }

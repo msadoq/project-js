@@ -87,11 +87,13 @@ describe('store:views:reducer', () => {
   describe('set collapsed', () => {
     const state = {
       myView: {
-        isCollapsed: false
+        configuration: {
+          collapsed: false
+        }
       }
     };
     const s = reducer(state, actions.setCollapsed('myView', true));
-    s.myView.isCollapsed.should.equal(true);
+    s.myView.configuration.collapsed.should.equal(true);
   });
   describe('set collapsed and updateLayout', () => {
     let dispatch;
@@ -115,7 +117,9 @@ describe('store:views:reducer', () => {
         },
         views: {
           myView: {
-            isCollapsed: false
+            configuration: {
+              collapsed: false
+            }
           }
         }
       });
@@ -134,7 +138,7 @@ describe('store:views:reducer', () => {
         minH: 3,
         i: 'myView',
       });
-      newState.views.myView.isCollapsed.should.equal(true);
+      newState.views.myView.configuration.collapsed.should.equal(true);
       dispatch(actions.setCollapsedAndUpdateLayout('myPage', 'myView', false));
       newState = getState();
       newState.pages.myPage.layout[0].should.deep.equal({
@@ -146,7 +150,7 @@ describe('store:views:reducer', () => {
         minH: 3,
         i: 'myView',
       });
-      newState.views.myView.isCollapsed.should.equal(false);
+      newState.views.myView.configuration.collapsed.should.equal(false);
     });
   });
   describe('update', () => {

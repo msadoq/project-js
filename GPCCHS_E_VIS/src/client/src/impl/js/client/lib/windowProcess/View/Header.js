@@ -18,7 +18,7 @@ export default class Header extends Component {
     }),
     viewId: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    isCollapsed: PropTypes.bool,
+    collapsed: PropTypes.bool,
     oId: PropTypes.string,
     absolutePath: PropTypes.string,
     isModified: PropTypes.bool,
@@ -59,8 +59,7 @@ export default class Header extends Component {
       unmountAndRemove,
       getWindowPages,
       collapseView,
-      isCollapsed,
-      absolutePath,
+      collapsed,
     } = this.props;
 
     const {
@@ -94,11 +93,11 @@ export default class Header extends Component {
         break;
       }
       case 'collapse': {
-        collapseView(focusedPageId, viewId, !isCollapsed);
+        collapseView(focusedPageId, viewId, !collapsed);
         break;
       }
       case 'save':
-        main.message(globalConstants.IPC_METHOD_SAVE_VIEW, { saveAs: absolutePath, viewId });
+        this.save();
         break;
       case 'saveAs':
         main.message(globalConstants.IPC_METHOD_SAVE_VIEW, { viewId });
@@ -139,6 +138,18 @@ export default class Header extends Component {
     return style;
   }
 
+  save = (e) => {
+    if (e) e.preventDefault();
+    const {
+      viewId,
+      absolutePath,
+    } = this.props;
+    main.message(
+      globalConstants.IPC_METHOD_SAVE_VIEW,
+      { saveAs: absolutePath, viewId }
+    );
+  }
+
   moveView = (toPage) => {
     const { isViewsEditorOpen, closeEditor } = this.props;
     if (isViewsEditorOpen && closeEditor) {
@@ -153,18 +164,18 @@ export default class Header extends Component {
     const {
       viewId,
       collapseView,
-      isCollapsed,
+      collapsed,
     } = this.props;
     const { focusedPageId } = this.context;
 
-    collapseView(focusedPageId, viewId, !isCollapsed);
+    collapseView(focusedPageId, viewId, !collapsed);
   }
 
   render() {
     const {
       configuration,
       isViewsEditorOpen,
-      isCollapsed,
+      collapsed,
       oId,
       absolutePath,
       isModified,
@@ -204,7 +215,7 @@ export default class Header extends Component {
         </div>
         {choosePageDlg}
         <div>
-          {!isCollapsed && <DropdownButton
+          {!collapsed && <DropdownButton
             pullRight
             bsStyle="link"
             title="menu"
@@ -225,8 +236,11 @@ export default class Header extends Component {
             <MenuItem divider />
             <MenuItem eventKey="close">Close view</MenuItem>
           </DropdownButton>}
-          {isCollapsed &&
-            <a className={classnames('btn', 'btn-sm', 'btn-default')} onClick={this.expand}>Expand</a>
+          {collapsed &&
+            [
+              <a key={1} className={classnames('btn', 'btn-sm', 'btn-default')} onClick={this.expand}>Expand</a>,
+              <a key={2} className={classnames('btn', 'btn-sm', 'btn-default')} onClick={this.save}>Save</a>
+            ]
           }
         </div>
       </div>

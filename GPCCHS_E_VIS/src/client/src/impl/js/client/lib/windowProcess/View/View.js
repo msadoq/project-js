@@ -33,7 +33,6 @@ export default class View extends PureComponent {
     moveViewToPage: PropTypes.func,
     getWindowPages: PropTypes.func,
     collapseView: PropTypes.func,
-    isCollapsed: PropTypes.bool,
   };
 
   static contextTypes = {
@@ -52,7 +51,6 @@ export default class View extends PureComponent {
     const {
       collapseView,
       viewId,
-      isCollapsed,
       closeEditor,
       isViewsEditorOpen,
       unmountAndRemove,
@@ -63,7 +61,7 @@ export default class View extends PureComponent {
     const { focusedPageId } = this.context;
 
     if (e.keyCode === keys.w && e.altKey && this.el.querySelector(':hover')) {
-      collapseView(focusedPageId, viewId, !isCollapsed);
+      collapseView(focusedPageId, viewId, !configuration.collapsed);
     } else if (e.keyCode === keys.x && e.altKey && this.el.querySelector(':hover')) {
       unmountAndRemove(viewId);
       if (isViewsEditorOpen && closeEditor) {
@@ -82,7 +80,6 @@ export default class View extends PureComponent {
     logger.debug('render');
     const {
       configuration,
-      isCollapsed,
       configuration: { backgroundColor = '#FFFFFF' },
       isViewsEditorOpen,
       viewId,
@@ -118,12 +115,12 @@ export default class View extends PureComponent {
           getWindowPages={getWindowPages}
           moveViewToPage={moveViewToPage}
           collapseView={collapseView}
-          isCollapsed={isCollapsed}
+          collapsed={configuration.collapsed}
           oId={oId}
           absolutePath={absolutePath}
           isModified={isModified}
         />
-        {!isCollapsed &&
+        {!configuration.collapsed &&
           <div
             className={styles.content}
             style={{ backgroundColor }}

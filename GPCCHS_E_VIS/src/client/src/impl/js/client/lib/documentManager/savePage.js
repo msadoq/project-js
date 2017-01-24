@@ -62,6 +62,8 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
         y: layout.y,
         w: layout.w,
         h: layout.h,
+        maxH: layout.maxH,
+        maxW: layout.maxW,
       };
       current.hideBorders = (page.hideBorders ? page.hideBorders : false);
       current.windowState = (page.windowState ? page.windowState : 'Normalized');

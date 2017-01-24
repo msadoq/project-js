@@ -97,7 +97,7 @@ export default class Content extends Component {
               className={classnames({
                 [styles.blockedited]: isViewsEditorOpen,
                 [styles.block]: !isViewsEditorOpen,
-                collapsed: v.isCollapsed,
+                collapsed: v.configuration.collapsed,
               })}
               key={v.viewId}
             >

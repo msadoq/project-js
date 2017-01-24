@@ -61,6 +61,7 @@ export const setCollapsedAndUpdateLayout = (pageId, viewId, flag) =>
         flag,
       }
     });
+    dispatch(setModified(viewId, true));
   };
 
 export const updateEntryPoint = simple(types.WS_VIEW_UPDATE_ENTRYPOINT, 'viewId', 'index',

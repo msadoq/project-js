@@ -13,7 +13,18 @@ Launch bundled client:
 
 ## Build a RPM bundle
 
-To build the final RPM bundle:
+As prerequisites you need the COTS/npm_repository repository built on your desktopx instance:
+
+> cd /data/work/gitRepositories/LPISIS
+> mkdir -p COTS && cd COTS
+> git clone gitolite@isis.cnes-isis.toulouse.atos.net:cots/LPISIS/COTS/npm_repository.git
+> cd npm_repository
+> git fetch
+> git checkout R7S4
+> git pull
+> mvn install
+
+To build the final RPM bundle, check that COTS repository is up to date and built (see above). Then:
 
 > cd /data/work/gitRepositories/LPISIS/GPCCHS
 > mvn lpisis:clean-all

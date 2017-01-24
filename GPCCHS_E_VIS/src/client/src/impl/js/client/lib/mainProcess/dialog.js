@@ -21,16 +21,16 @@ export function showQuestionMessage(focusedWindow, title, msg, buttons, callback
   return showMessageDialog('question', focusedWindow, title, msg, buttons, callback);
 }
 
-export function showMessageDialog(type, focusedWindow, title, msg, buttons, callback) {
+export function showMessageDialog(type, focusedWindow, title, message, buttons, callback) {
   return dialog.showMessageBox(
     focusedWindow,
     {
-      type: type,
-      title: title,
-      message: msg,
-      buttons: buttons,
-      defaultId: 0 , // the fist index
-      cancelId: (buttons.length -1) // the last index of buttons
+      type,
+      title,
+      message,
+      buttons,
+      defaultId: 0, // the fist index
+      cancelId: (buttons.length - 1) // the last index of buttons
     },
     _isFunction(callback) ? callback : undefined
   );

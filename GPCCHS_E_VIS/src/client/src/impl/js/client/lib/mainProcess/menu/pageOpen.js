@@ -1,9 +1,9 @@
 import _map from 'lodash/map';
 import { v4 } from 'node-uuid';
-import { server } from '../ipc';
 import {
   LOG_DOCUMENT_OPEN
 } from 'common/constants';
+import { server } from '../ipc';
 import { readPages, extractViews } from '../../common/documentManager';
 import { showErrorMessage, getPathByFilePicker } from '../dialog';
 import { getStore } from '../../store/mainStore';

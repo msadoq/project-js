@@ -19,13 +19,10 @@ const PARAM_ASSIGNMENT = '=';
 
 winston.cli();
 
-let DEFAULT_TRANSPORTS = 'file';
-if (process.env.NODE_ENV === 'development') {
-  DEFAULT_TRANSPORTS = 'console:http';
-}
+const DEFAULT_TRANSPORTS = '';
 
 function getConfig() {
-  return get('LOG') || DEFAULT_TRANSPORTS;
+  return _.isEmpty(get('LOG')) ? DEFAULT_TRANSPORTS : get('LOG');
 }
 
 // Convert value to boolean or number if possible
@@ -53,14 +50,18 @@ const parseParams = _.pipe(
 
 // Deserialize string to object
 // String format: <logger1>?<param1>=<value1>,<param2>=<value2>:<logger2>?<param1>=<value1>,...:...
-const parseConfig = _.pipe(
-  _.split(TRANSPORT_SEPARATOR),
-  _.map(_.split(TRANSPORT_ARGS_ASSIGNMENT)),
-  _.map(t => ({
-    type: t[0],
-    params: parseParams(t[1]),
-  }))
-);
+const parseConfig =
+  _.cond([
+    [_.anyPass([_.isEmpty, str => str === 'undefined']), () => []],
+    [_.stubTrue, _.pipe(
+      _.split(TRANSPORT_SEPARATOR),
+      _.map(_.split(TRANSPORT_ARGS_ASSIGNMENT)),
+      _.map(t => ({
+        type: t[0],
+        params: parseParams(t[1]),
+      }))
+    )],
+  ]);
 
 // Remove process data info to pretty log into stdout
 const getStdOptions = options => (_.pipe(
@@ -139,6 +140,15 @@ const getProcessName = ({ pname }) => pname || (/node$/g.test(process.title) ? '
 const getProcessId = ({ pid }) => pid || process.pid;
 const getProcessLabel = meta => `[${getProcessName(meta)}(${getProcessId(meta)})]`;
 
+const getNoOpTransport = () => ({
+  error: _.noop,
+  warn: _.noop,
+  info: _.noop,
+  verbose: _.noop,
+  debug: _.noop,
+  silly: _.noop,
+});
+
 // Create a Winston logger, that contains their own transports (console, http, file, ...)
 // Each message is prefixed by category.
 // Messages can be filtered by category using a regular expression
@@ -155,6 +165,10 @@ function getLogger(category, enabledTransports) {
       [_.stubTrue, _.constant(config)],
     ])(enabledTransports)
   );
+
+  if (transports.length === 0) {
+    return getNoOpTransport();
+  }
 
   winston.loggers.add(category, {
     transports,

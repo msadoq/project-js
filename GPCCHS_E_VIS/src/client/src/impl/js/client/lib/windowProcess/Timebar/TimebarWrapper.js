@@ -10,7 +10,7 @@ import TimeSetterContainer from './TimeSetterContainer';
 import Modal from '../common/Modal';
 
 const logger = getLogger('Timebar');
-const minTimebarHeight = 135;
+const minTimebarHeight = 140;
 
 export default class TimebarWrapper extends Component {
 

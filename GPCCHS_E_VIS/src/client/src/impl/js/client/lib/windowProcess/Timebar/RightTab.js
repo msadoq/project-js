@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import classnames from 'classnames';
 import Dimensions from 'react-dimensions';
 import TimeBar from './Timebar';
 import ControlsContainer from './ControlsContainer';
@@ -92,22 +93,22 @@ class RightTabContent extends Component {
 
   retrieveFormattedFullDateEl = () => this.formattedFullDateEl;
 
-  borderColor = () => {
+  borderColorKlass = () => {
     const {
       isPlaying,
       timebar,
     } = this.props;
     if (isPlaying) {
       if (timebar.speed > 1) {
-        return '#ccff66';
+        return 'acc';
       } else if (timebar.speed < 1) {
-        return '#0dbf1c';
+        return 'desc';
       } else if (timebar.realTime) {
-        return '#60a7e5';
+        return 'realtime';
       }
-      return '#1E2';
+      return 'play';
     }
-    return 'transparent';
+    return 'pause';
   }
 
   render() {
@@ -131,10 +132,10 @@ class RightTabContent extends Component {
 
     return (
       <div
-        style={{
-          height: '100%',
-          border: `2px solid ${this.borderColor()}`
-        }}
+        className={classnames(
+          styles[this.borderColorKlass()],
+          styles.rightTab
+        )}
       >
         <span
           ref={(el) => { this.formattedFullDateEl = el; }}

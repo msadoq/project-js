@@ -18,6 +18,12 @@
   --boundCursorsColor: #E45;
   --slideCursorColor: #45E;
   /* monitoring state colors, http://www.fashiontrendsetter.com/content/color_trends/color-decoder/Color-Code-Neon.html */
+
+  --borderPlay: darkblue;
+  --borderPause: black;
+  --borderRealtime: lightgreen;
+  --borderAcc: yellow;
+  --borderDesc: lightblue;
 }
 .collapsed{
   .react-resizable-handle{

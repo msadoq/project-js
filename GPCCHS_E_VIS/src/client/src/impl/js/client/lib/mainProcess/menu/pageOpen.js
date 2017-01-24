@@ -66,8 +66,8 @@ function showSelectedPage(pageAndViews, pageId, windowId) {
     y: v.geometry.y,
     w: v.geometry.w,
     h: v.geometry.h,
-    maxH: v.geometry.maxH || null,
-    maxW: v.geometry.maxW || null,
+    maxH: v.geometry.maxH,
+    maxW: v.geometry.maxW,
   }));
   const viewIds = Object.keys(pageAndViews.views);
   viewIds.forEach((index) => {

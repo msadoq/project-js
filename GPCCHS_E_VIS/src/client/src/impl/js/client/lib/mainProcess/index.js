@@ -27,6 +27,18 @@ import { start as startOrchestration, stop as stopOrchestration } from './orches
 const logger = getLogger('main:index');
 
 export function start() {
+  logger.debug('starting application with configuration', {
+    DEBUG: parameters.get('DEBUG'),
+    LOG: parameters.get('LOG'),
+    MONITORING: parameters.get('MONITORING'),
+    PROFILING: parameters.get('PROFILING'),
+    ZMQ_GPCCDC_PUSH: parameters.get('ZMQ_GPCCDC_PUSH'),
+    ZMQ_GPCCDC_PULL: parameters.get('ZMQ_GPCCDC_PULL'),
+    FMD_ROOT_DIR: parameters.get('FMD_ROOT_DIR'),
+    WORKSPACE: parameters.get('WORKSPACE'),
+    NODE_PATH: parameters.get('NODE_PATH'),
+  });
+
   const forkOptions = {
     execPath: parameters.get('NODE_PATH'),
     env: {
@@ -46,8 +58,9 @@ export function start() {
       monitoring.start();
 
       // redux store
+      logger.info('initializing store');
       initStore();
-      logger.debug('store initialized');
+      logger.info('store initialized');
 
       callback(null);
     },
@@ -56,6 +69,7 @@ export function start() {
         return callback(null);
       }
 
+      logger.info('initializing dc stub');
       fork(
         CHILD_PROCESS_DC,
         `${parameters.get('path')}/node_modules/common/stubs/dc.js`,
@@ -64,6 +78,7 @@ export function start() {
       );
     },
     (callback) => {
+      logger.info('initializing server');
       fork(
         CHILD_PROCESS_SERVER,
         `${parameters.get('path')}/node_modules/server/index.js`,
@@ -72,7 +87,7 @@ export function start() {
       );
     },
     (callback) => {
-      server.sendProductLog(LOG_APPLICATION_START);
+      logger.info('registering main controllers');
 
       // ipc with renderer
       ipcMain.on('windowRequest', rendererController);
@@ -87,29 +102,32 @@ export function start() {
     },
     // should have sessions in store at start
     (callback) => {
+      logger.info('requesting sessions');
       server.requestSessions(({ err, sessions }) => {
         if (err) {
           return callback(err);
         }
 
-        logger.debug('received sessions from server');
+        logger.info('received sessions from server');
         getStore().dispatch(updateSessions(sessions));
         callback(null);
       });
     },
     // should have domains in store at start
     (callback) => {
+      logger.info('requesting domains');
       server.requestDomains(({ err, domains }) => {
         if (err) {
           return callback(err);
         }
 
-        logger.debug('received domains from server');
+        logger.info('received domains from server');
         getStore().dispatch(updateDomains(domains));
         callback(null);
       });
     },
     (callback) => {
+      logger.info('opening workspace');
       const { dispatch, getState } = getStore();
       const root = parameters.get('FMD_ROOT_DIR');
       const file = parameters.get('WORKSPACE');
@@ -123,6 +141,9 @@ export function start() {
       throw err;
     }
 
+    logger.info('workspace opened');
+    logger.info('application started');
+    server.sendProductLog(LOG_APPLICATION_START);
     startOrchestration();
   });
 }
@@ -140,6 +161,8 @@ export function stop() {
 
   // registered callbacks
   clear();
+
+  logger.info('application stopped');
 }
 
 export function onWindowsClose() {

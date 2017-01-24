@@ -34,12 +34,16 @@ export function select(remoteIdPayload, ep, epName, viewState, count) {
           x: valX,
           value: valY,
           monit: _get(value, ['monitoringState', 'value']),
+          // Case of enum : add symbol to show it in tooltip
+          symbol: _get(value, [ep.fieldY, 'symbol']),
         };
       } else {
         _set(newState, [masterTime, epName], {
           x: valX,
           value: valY,
           monit: _get(value, ['monitoringState', 'value']),
+          // Case of enum : add symbol to show it in tooltip
+          symbol: _get(value, [ep.fieldY, 'symbol']),
         });
       }
       count.range += 1; // eslint-disable-line no-param-reassign

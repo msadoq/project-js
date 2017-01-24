@@ -490,7 +490,8 @@ export class PlotView extends PureComponent {
       )
       .map(line => ({
         label: line.name,
-        value: _get(currentItem, [line.key, 'value']),
+        value: _get(currentItem, [line.key, 'symbol']) ? _get(currentItem, [line.key, 'symbol'])
+                                                       : _get(currentItem, [line.key, 'value']),
         fillValue: _get(
           currentItem,
           [line.key, 'color'],

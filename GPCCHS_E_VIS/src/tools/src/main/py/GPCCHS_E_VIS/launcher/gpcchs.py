@@ -62,8 +62,7 @@ class GPCCHS(object):
 
     _startContainerCmd = 'gpcctc_l_cnt_isisStartContainer_cmd -p {0} --cd {1}{0}'
     _hscPath = '/usr/share/isis/lib/js/gpcchs_e_vis_launcher/client'
-    _hscRunCmd = './lpisis_gpcchs_e_clt --FMD_ROOT={} --OPEN={} --NODE_PATH=/usr/share/isis/node-v6.3.0-linux-x64/bin/node --LOG_FOLDER=/var/log/isis'
-    _hscLogPath = '/var/log/isis/GPCCHS_E_VIS_client.log'
+    _hscRunCmd = './lpisis_gpcchs_e_clt --FMD_ROOT_DIR={} --LOG_DIR=/var/log/isis --NODE_PATH=/usr/share/isis/node-v6.3.0-linux-x64/bin/node --ZMQ_GPCCDC_PUSH=tcp://127.0.0.1:{} --ZMQ_GPCCDC_PULL=tcp://127.0.0.1:{}'
 
     @property
     def _hsc_run_cmd(self):
@@ -72,7 +71,6 @@ class GPCCHS(object):
         """
         return self._hscRunCmd.format(
             self._fmd_root,
-            self._workspace,
             self._dcPushPort,
             self._dcPullPort
         ).split()
@@ -155,7 +153,7 @@ class GPCCHS(object):
 
     # End of user code
 
-    def __init__(self, options):
+    def __init__(self, options, unknown_args):
         """!
         @brief : Constructor
         """
@@ -165,21 +163,16 @@ class GPCCHS(object):
         self._hscProc = None
         self._dcPushPort = None
         self._dcPullPort = None
-        self._fmdRoot = None
         self._feature_id = None
         self.__container_pid = None
         self._gpccdc_created = False
         self._gpccdc_started = False
         self._gpccdc_config_file = options.gpccdc_config_file
-        if options.workspace.rfind('/') != -1:
-            self._workspace = options.workspace[options.workspace.rfind('/')+1:]
-            self._fmd_root = os.environ['FMD_ROOT_DIR'] + '/' + options.workspace[:options.workspace.rfind('/')+1]
-        else:
-            self._workspace = options.workspace
-            self._fmd_root = os.environ['FMD_ROOT_DIR'] + '/'
+        self._fmd_root = os.environ['FMD_ROOT_DIR'] + '/'
         self._feature_conf = self._gpccdc_conf_path
+        self._hsc_args = unknown_args
         self._debug = options.debug
-        self._hscLogFile = None
+        self._hscLogOutput = None
         # End of user code
 
     def __del__(self):
@@ -189,19 +182,19 @@ class GPCCHS(object):
         # generated
         # Start of user code __del__
         self._context = None
-        self._timebarName = None
         self._hscProc = None
         self._dcPushPort = None
         self._dcPullPort = None
         self._fmdRoot = None
-        self._workspace = None
         self._debug = None
-        self._hscLogFile = None
         self._feature_id = None
         self._feature_conf = None
+        self._hsc_args = None
+        self._gpccdc_config_file = None
         self.__container_pid = None
         self._gpccdc_created = False
         self._gpccdc_started = False
+        self._hscLogOutput = None
         # End of user code
 
     # Start of user code ProtectedOperZone
@@ -448,7 +441,7 @@ class GPCCHS(object):
     def _create_gpccdc_conf_file(self):
         """
         Create /tmp/gpccdc_d_dbr.conf file to give configuration to GPCCDC
-        Patch to correct with FT:#4407
+        Patch to correct with FA4407
         
         :return: Zero if success, -1 if error
         :rtype: integer
@@ -460,71 +453,47 @@ class GPCCHS(object):
         display = os.environ["DISPLAY"]
         filename = "gpinde-{}-{}-{}-default.ses".format(user, hostname, display)
         gpindefile = os.path.join(os.environ["ISIS_WORK_DIR"], filename)
-        session = None
+        session = ""
         if os.path.isfile(gpindefile) :
-            fileopen = open(gpindefile)
-            line = fileopen.readline()
-            session = line[:len(line) -1]
-            fileopen.close()
+            try:
+                fileopen = open(gpindefile)
+            except IOError:
+                print("GPCCHS Failed to read GPINDE configuratin file {}".format(gpindefile))
+                rc = -1
+            else:
+                line = fileopen.readline()
+                session = line[:len(line) -1]
+                fileopen.close()
         else :
             session = "session-system"
         
-        session = session.upper()
-        session = session.split("-")[1]
+        if rc ==0:
+            session = session.upper()
+            if "-" in session:
+                session = session.split("-")[1]
 
-        templatedir = "/usr/share/isis/templates"
-        templatefile = "gpccdc_d_dbr.tpl"
-        destfile = self._gpccdc_config_file
+            templatedir = "/usr/share/isis/templates"
+            templatefile = "gpccdc_d_dbr.tpl"
+            destfile = self._gpccdc_config_file
 
-        loader = FileSystemLoader(templatedir)
-        environment = Environment(loader = loader)
-        template = environment.get_template(templatefile)
+            loader = FileSystemLoader(templatedir)
+            environment = Environment(loader = loader)
+            template = environment.get_template(templatefile)
 
-        config = template.render(session=session, pull=self._dcPullPort, push=self._dcPushPort)
+            config = template.render(session=session, pull=self._dcPullPort, push=self._dcPushPort)
 
-        try:
-            writeFile = open(destfile,'w')
-        except IOError:
-            print("GPCCHS Failed to create GPCCCDC ports configuratin file {}".format(destfile))
-            rc = -1
-        else:
-            if self._debug == True:
-                print("GPCCHS write GPCCDC configuration file with:\n",config)
-            writeFile.write(config)
-            writeFile.close()
+            try:
+                writeFile = open(destfile,'w')
+            except IOError:
+                print("GPCCHS Failed to create GPCCCDC ports configuratin file {}".format(destfile))
+                rc = -1
+            else:
+                if self._debug == True:
+                    print("GPCCHS write GPCCDC configuration file with:\n",config)
+                writeFile.write(config)
+                writeFile.close()
         return rc
             
-    def _open_log_file(self,filepath):
-        """
-        Open a log file to append process output in it
-        
-        :return: Opened file object or None if opening fail
-        :rtype: file object
-        """
-        readFile = None
-        try:
-            readFile = open(filepath,'a')
-        except IOError:
-            print("GPCCHS Log file opening fail:",filepath)
-        return readFile
-
-    def _create_hss_env_vars(self):
-        """
-        Set the necessary variables in os.environ for HSS
-        """
-        level="INFO"
-        if self._debug == True:
-            level = "DEBUG"
-        os.environ["NODE_ENV"] = "production"
-        os.environ["DEBUG"] = "GPCCHS:*"
-        os.environ["LEVEL"] = level
-        os.environ["ZMQ_GPCCDC_PUSH"] = "tcp://127.0.0.1:{}".format(self._dcPushPort)
-        os.environ["ZMQ_GPCCDC_PULL"] = "tcp://127.0.0.1:{}".format(self._dcPullPort)
-        os.environ["STUB_DC_ON"] = "off"
-        os.environ["STUB_TB_ON"] = "off"
-        os.environ["MONITORING"] = "off"
-        os.environ["PROFILING"] = "off"
-
     def run(self):
         """
         Main function
@@ -537,20 +506,17 @@ class GPCCHS(object):
         rc = 0
         stdstreams = dict(out=None,error=None)
         portsNums = []
-        print("Considering FMD ROOT as", self._fmd_root)
-        if not os.path.isfile(self._fmd_root + self._workspace):
-            print("GPCCHS Specified workspace file does not exist: ", self._fmd_root + self._workspace)
-            rc = -1
         if rc == 0:
             rc = self._exec_cmd("localslot --type gpvima",stdstreams)
         if rc == 0:
             self._read_ports_numbers(stdstreams['out'].strip('\n \t'),portsNums)
             if self._debug == True:
                 print("GPCCHS gets the following list of available ports:\n",portsNums)
-            if len(portsNums) >= 5:
+            try:
                 self._dcPushPort = portsNums[1]
                 self._dcPullPort = portsNums[2]
-            else:
+            except IndexError:
+                print("GPCCHS not enought UDP allocated to let the application work")
                 rc=-1
         if rc == 0:
             if not self._feature_id:
@@ -569,11 +535,10 @@ class GPCCHS(object):
         if rc == 0:
             self._gpccdc_started = True
         if self._debug == True:
-            self._hscLogFile = self._open_log_file(self._hscLogPath)
+            self._hscLogOutput = sys.stdout
         if rc == 0:
             os.chdir(self._hscPath)
-            self._create_hss_env_vars()
-            self._hscProc = self._run_process(' '.join(self._hsc_run_cmd),self._hscLogFile)
+            self._hscProc = self._run_process(' '.join(self._hsc_run_cmd) + ' ' + ' '.join(self._hsc_args),self._hscLogOutput)
             if self._hscProc == None:
                 print("GPCCHS Failed to create client, launch aborted")
                 rc = -1
@@ -593,9 +558,10 @@ class GPCCHS(object):
         if self._gpccdc_created:
             rc = self._destroy_feature()
             self._gpccdc_created = False
-            print("GPCCHS terminated GPCCDC, but run again this command to be sure: ",' '.join(self._cdestroy_cmd))
-        if self._hscLogFile:
-            self._hscLogFile.close()
+            # Patch before FA4576 taking into account
+            print("GPCCHS cannot terminate GPCCDC due to FA4576, run again this command :",' '.join(self._cdestroy_cmd))
+        if self._hscLogOutput:
+            self._hscLogOutput = None
         return rc
 
 if __name__ == '__main__':
@@ -603,15 +569,18 @@ if __name__ == '__main__':
     import argparse
 
     parser = argparse.ArgumentParser(description='Run visualization application')
-    parser.add_argument(
-        "workspace",
-        help="The FMD path of the workspace to open"
-    )
     parser.add_argument("--debug","-d",
         action='store_true',
-        help="Activate the traces in /var/log/isis folder"
+        help="Activate the traces"
     )
-    parser.add_argument("--gpccdc_config_file", default="/data/isis/work/gpccdc_dbr.conf")
+    #Patch before FA4407 taking into account
+    parser.add_argument("--gpccdc_config_file",
+        default="/tmp/gpccdc_d_dbr.conf",
+        help="File to use to write the configuration sent at launch to GPCCDC")
+    #Parse known and unknown arguments
+    known_args = None
+    unknown_args = None
+    known_args, unknown_args = parser.parse_known_args()
 
-    exit(GPCCHS(parser.parse_args()).run())
+    exit(GPCCHS(known_args, unknown_args).run())
     # End of user code

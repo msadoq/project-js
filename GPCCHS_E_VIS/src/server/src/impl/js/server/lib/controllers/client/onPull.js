@@ -1,4 +1,5 @@
-const { reset } = require('../../utils/dataQueue');
+const { reset: resetDataQueue } = require('../../utils/dataQueue');
+const { get: getDcStatus } = require('../../utils/dcStatus');
 
 /**
  * Triggered when HSC main process pull data spooled by HSC
@@ -7,4 +8,12 @@ const { reset } = require('../../utils/dataQueue');
  *
  * @param queryId
  */
-module.exports = (reply, queryId) => reply(queryId, reset());
+module.exports = (reply, queryId) => {
+  reply(
+    queryId,
+    {
+      dcStatus: getDcStatus(),
+      data: resetDataQueue(),
+    }
+  );
+};

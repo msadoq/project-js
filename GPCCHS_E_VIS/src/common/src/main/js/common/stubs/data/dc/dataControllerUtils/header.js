@@ -1,6 +1,9 @@
 const protobuf = require('../../../../protobuf');
 const globalConstants = require('../../../../constants');
 
+const getDcStatusHeader = () => ({
+  messageType: globalConstants.MESSAGETYPE_DC_STATUS,
+});
 const getDomainQueryHeader = () => ({
   messageType: globalConstants.MESSAGETYPE_DOMAIN_QUERY,
 });
@@ -59,6 +62,10 @@ const getSessionMasterDataHeader = () => ({
   messageType: globalConstants.MESSAGETYPE_SESSION_MASTER_DATA,
 });
 
+const getDcStatusHeaderProtobuf = () => protobuf.encode(
+  'dc.dataControllerUtils.Header',
+  getDcStatusHeader()
+);
 const getDomainQueryHeaderProtobuf = () => protobuf.encode(
   'dc.dataControllerUtils.Header',
   getDomainQueryHeader()
@@ -137,6 +144,8 @@ const getSessionMasterDataHeaderProtobuf = () => protobuf.encode(
 );
 
 module.exports = {
+  getDcStatusHeader,
+  getDcStatusHeaderProtobuf,
   getDomainQueryHeader,
   getDomainQueryHeaderProtobuf,
   getTimebasedQueryHeader,

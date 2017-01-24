@@ -4,6 +4,7 @@ module.exports = {
     Action: require('./dataControllerUtils/action'),
     Boolean: require('./dataControllerUtils/boolean'),
     DataId: require('./dataControllerUtils/dataId'),
+    DcStatus: require('./dataControllerUtils/dcStatus'),
     Domains: require('./dataControllerUtils/domains'),
     FMDCreateDocument: require('./dataControllerUtils/fMDCreateDocument'),
     FMDDocumentProperty: require('./dataControllerUtils/fMDDocumentProperty'),

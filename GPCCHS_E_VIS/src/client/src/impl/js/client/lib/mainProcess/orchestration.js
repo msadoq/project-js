@@ -158,8 +158,8 @@ export function tick() {
     (callback) => {
       server.requestData((dataToInject) => {
         execution.start('data injection');
-        dispatch(updateViewData(previous.dataMap.perView, dataMap.perView, dataToInject));
-        execution.stop('data injection', Object.keys(dataToInject).length);
+        dispatch(updateViewData(previous.dataMap.perView, dataMap.perView, dataToInject.data));
+        execution.stop('data injection', Object.keys(dataToInject.data).length);
         return callback(null);
       });
     },

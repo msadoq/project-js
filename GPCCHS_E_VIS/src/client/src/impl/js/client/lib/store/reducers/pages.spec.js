@@ -149,13 +149,23 @@ describe('store:page:reducer', () => {
         pages:
         { myPageId: { layout: [{ h: 2, i: 'v1' }, { h: 2, i: 'v2' }], title: 'aa' } },
         views:
-        { v1: { isCollapsed: true }, v2: { isCollapsed: false } }
+        {
+          v1: { configuration: { collapsed: true } },
+          v2: { configuration: { collapsed: false } }
+        }
       });
       dispatch(actions.updateLayout('myPageId', [{ h: 3, i: 'v1' }, { h: 4, i: 'v2' }]));
       getState().pages.should.eql(
         { myPageId: { layout: [{ h: 3, i: 'v1' }, { h: 4, i: 'v2' }], title: 'aa', isModified: true } });
       getState().views.should.eql(
-        { v1: { isCollapsed: false }, v2: { isCollapsed: false } });
+        {
+          v1: {
+            configuration: { collapsed: false },
+            isModified: true,
+          },
+          v2: { configuration: { collapsed: false } }
+        }
+      );
     });
   });
   describe('addAndMount/unmountAndRemove', () => {

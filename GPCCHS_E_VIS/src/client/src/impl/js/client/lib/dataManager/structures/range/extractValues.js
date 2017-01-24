@@ -27,7 +27,7 @@ export function select(remoteIdPayload, ep, epName, viewState, count) {
 
     const valX = _get(value, [ep.fieldX, 'value']);
     const valY = _get(value, [ep.fieldY, 'value']);
-    if (valX && valY) {
+    if (valX !== undefined && valY !== undefined) {
       if (viewState && viewState[masterTime]) {
         newState[masterTime] = viewState[masterTime];
         newState[masterTime][epName] = {

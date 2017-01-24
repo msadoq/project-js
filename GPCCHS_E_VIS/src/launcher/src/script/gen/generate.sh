@@ -62,6 +62,8 @@ deploy_cots() {
   cp ${api.work.dir}/js/client/index.html ${api.work.dir}/js/client/toPackage/
   cp ${api.work.dir}/js/client/main.js.map ${api.work.dir}/js/client/toPackage/
   cp ${api.work.dir}/js/client/package.json ${api.work.dir}/js/client/toPackage/
+  cp ${api.work.dir}/js/client/config.default.json ${api.work.dir}/js/client/toPackage/
+  cp ${api.work.dir}/js/client/config.required.json ${api.work.dir}/js/client/toPackage/
 
   ${api.work.dir}/js/client/node_modules/.bin/electron-packager ./toPackage --out=${api.lib.dir}/js/${artifactId} --overwrite --download.cache=${find.dependencies.dir}/.electron/
   mv ${api.lib.dir}/js/${artifactId}/lpisis_gpcchs_e_clt-linux-x64 ${api.lib.dir}/js/${artifactId}/client

@@ -105,6 +105,7 @@ const initialState = {
     viewType: null
   },
   isModified: true,
+  properties: [],
 };
 
 function page(statePage = initialState, action) {
@@ -121,6 +122,7 @@ function page(statePage = initialState, action) {
         absolutePath: action.payload.absolutePath,
         isModified: (action.payload.isModified === undefined) ?
           statePage.isModified : action.payload.isModified,
+        properties: action.payload.properties ? action.payload.properties : [],
       });
     case types.WS_PAGE_EDITOR_OPEN:
       return u({

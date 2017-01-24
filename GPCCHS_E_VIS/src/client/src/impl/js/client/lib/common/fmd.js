@@ -3,6 +3,7 @@ import { relative, join, basename, dirname } from 'path';
 
 import mimeTypes from 'common/constants/mimeTypes';
 import parameters from 'common/parameters';
+import globalConstants from 'common/constants';
 
 import ipc from '../mainProcess/ipc';
 import { checkPath } from './fs';
@@ -13,11 +14,17 @@ const getRelativeFmdPath = path => `/${relative(getRootDir(), path)}`;
 
 // TODO: write tests
 const resolveDocument = (oId, callback) => {
-  ipc.server.requestFmdGet(oId, ({ err, detail }) => {
+  ipc.server.requestFmdGet(oId, ({ err, type, detail }) => {
     if (err) {
       return callback(err);
     }
-    callback(null, join(getRootDir(), detail.dirname.value, detail.basename.value));
+    if (type !== globalConstants.FMDFILETYPE_DOCUMENT) {
+      return callback('document is not a file');
+    }
+    callback(null,
+             join(getRootDir(), detail.dirname.value, detail.basename.value),
+             detail.properties,
+          );
   });
 };
 

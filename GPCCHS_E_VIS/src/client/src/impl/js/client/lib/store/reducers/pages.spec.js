@@ -37,6 +37,7 @@ describe('store:page:reducer', () => {
         oId: undefined,
         absolutePath: undefined,
         isModified: true,
+        properties: [],
       });
     });
     it('add empty', () => {
@@ -59,6 +60,7 @@ describe('store:page:reducer', () => {
         oId: undefined,
         absolutePath: undefined,
         isModified: true,
+        properties: [],
       });
     });
   });

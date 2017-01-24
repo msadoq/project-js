@@ -1,27 +1,20 @@
 import React, { Component, PropTypes } from 'react';
-import { Nav, NavItem, Button, Glyphicon, Popover, OverlayTrigger, Table } from 'react-bootstrap';
+import { Nav, NavItem, Button, Glyphicon, OverlayTrigger, Table, Popover } from 'react-bootstrap';
 import getLogger from 'common/log';
 import styles from './Tabs.css';
 
 const logger = getLogger('Tabs');
 
 function popoverHoverFocus(page) {
-  // TODO to be completed with document information
   return (
     <Popover id="popover-trigger-hover-focus" title="Document properties">
       <Table>
         <tbody>
-          <tr><td>Version</td><td>Unknown</td></tr>
-          {page.oId
-            ? <tr>
-              <td>OId</td>
-              <td>{page.oId}</td>
-            </tr>
-            : <tr>
-              <td>Path</td>
-              <td>{page.path}</td>
-            </tr>
-          }
+          {page.properties.length ?
+            // eslint-disable-next-line no-unused-vars
+            page.properties.map(
+              (prop, i) => <tr key={i}><td>{prop.name.value}</td><td>{prop.value.value}</td></tr>)
+            : <tr>No data</tr>}
         </tbody>
       </Table>
     </Popover>
@@ -59,34 +52,29 @@ export default class Tabs extends Component {
     return (
       <Nav bsStyle="tabs" activeKey={focusedPageId} onSelect={this.handleSelect}>
         {pages.map(page =>
-          <OverlayTrigger
-            trigger={['hover', 'focus']}
-            placement="bottom"
-            overlay={popoverHoverFocus(page)}
+          <NavItem
             key={page.pageId}
+            eventKey={page.pageId}
           >
-            <NavItem
-              key={page.pageId}
-              eventKey={page.pageId}
-            >
-              <div className={styles.title}>
-                {page.isModified ? page.title.concat(' *') : page.title}
-                <Button
-                  bsStyle="link"
-                  onClick={e => this.handleClose(e, page.pageId)}
-                  className={styles.button}
-                >
-                  <Glyphicon
-                    glyph="remove-circle"
-                    className="text-danger"
-                  />
-                </Button>
-              </div>
-            </NavItem>
-          </OverlayTrigger>
+            <div className={styles.title}>
+              <OverlayTrigger overlay={popoverHoverFocus(page)}>
+                <a>{page.isModified ? page.title.concat(' *') : page.title}</a>
+              </OverlayTrigger>
+              <Button
+                bsStyle="link"
+                onClick={e => this.handleClose(e, page.pageId)}
+                className={styles.button}
+              >
+                <Glyphicon
+                  glyph="remove-circle"
+                  className="text-danger"
+                />
+              </Button>
+            </div>
+          </NavItem>
         )}
         <NavItem eventKey="new">
-          New page
+          New Page
           <Button bsStyle="link" className={styles.button}>
             <Glyphicon
               glyph="plus-sign"

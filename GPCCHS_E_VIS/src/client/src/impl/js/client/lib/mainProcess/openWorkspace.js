@@ -58,7 +58,8 @@ export function loadInStore(workspace, dispatch, root, file, callback, isDefault
       e.path,
       e.oId,
       e.absolutePath,
-      isDefault
+      false,
+      e.properties
     ));
   });
 

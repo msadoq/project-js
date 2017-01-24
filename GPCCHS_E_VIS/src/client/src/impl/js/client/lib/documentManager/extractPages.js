@@ -22,21 +22,23 @@ import { readDocument } from './io';
 
 const readPages = fmdApi => (folder, pagesToRead, done) => {
   async.map(pagesToRead, (page, next) => {
-    readDocument(fmdApi)(folder, page.path, page.oId, page.absolutePath, (err, pageContent) => {
-      if (err) {
-        return next(err);
-      }
-      const validationError = validation('page', pageContent);
-      if (validationError) {
-        return next(validationError);
-      }
+    readDocument(fmdApi)(folder, page.path, page.oId, page.absolutePath,
+      (err, pageContent, properties) => {
+        if (err) {
+          return next(err);
+        }
+        const validationError = validation('page', pageContent);
+        if (validationError) {
+          return next(validationError);
+        }
 
-      return next(null, {
-        ...pageContent,
-        ...page,
-        absolutePath: fs.getPath(),
+        return next(null, {
+          ...pageContent,
+          ...page,
+          absolutePath: fs.getPath(),
+          properties, // Table with document props from FMD
+        });
       });
-    });
   }, (err, pages = []) => done(err, reject(isNil, pages)));
 };
 

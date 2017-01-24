@@ -4,11 +4,9 @@ import _omit from 'lodash/omit';
 import _startsWith from 'lodash/startsWith';
 import _cloneDeep from 'lodash/cloneDeep';
 import { join, dirname, relative } from 'path';
-import { server } from '../mainProcess/ipc';
-import {
-  LOG_DOCUMENT_SAVE
-} from 'common/constants';
+import { LOG_DOCUMENT_SAVE } from 'common/constants';
 
+import { server } from '../mainProcess/ipc';
 import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
 
@@ -82,7 +80,7 @@ const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
       if (err) {
         return callback(`Unable to save workspace in file ${path}`);
       }
-      sendProductLog(LOG_DOCUMENT_SAVE, 'workspace', path);
+      server.sendProductLog(LOG_DOCUMENT_SAVE, 'workspace', path);
       callback(null, savedWindowsIds);
     });
   })

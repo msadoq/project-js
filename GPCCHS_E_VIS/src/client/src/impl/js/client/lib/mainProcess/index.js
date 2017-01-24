@@ -19,6 +19,7 @@ import serverController from './controllers/server';
 import { server } from './ipc';
 import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
+import { updateMasterSession } from '../store/actions/masterSession';
 
 import { readWkFile, openDefaultWorkspace } from './openWorkspace';
 
@@ -85,6 +86,18 @@ export function start() {
 
       return callback(null);
     },
+    // should have master sessionId in store at start
+    (callback) => {
+      server.requestMasterSession(({ err, masterSessionId }) => {
+        if (err) {
+          return callback(err);
+        }
+
+        logger.debug('received master sessionId from server');
+        getStore().dispatch(updateMasterSession(masterSessionId));
+        callback(null);
+      });
+    },
     // should have sessions in store at start
     (callback) => {
       server.requestSessions(({ err, sessions }) => {
@@ -112,7 +125,7 @@ export function start() {
     (callback) => {
       const { dispatch, getState } = getStore();
       const root = parameters.get('FMD_ROOT_DIR');
-      const file = parameters.get('OPEN');
+      const file = parameters.get('WORKSPACE');
 
       return (file)
         ? readWkFile(dispatch, getState, root, file, callback)

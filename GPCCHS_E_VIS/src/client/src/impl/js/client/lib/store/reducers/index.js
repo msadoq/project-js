@@ -9,6 +9,7 @@ import pages from './pages';
 import views from './views/index';
 import domains from './domains';
 import sessions from './sessions';
+import masterSession from './masterSession';
 import viewData from './viewData';
 
 const reducer = combineReducers({
@@ -22,6 +23,7 @@ const reducer = combineReducers({
   views,
   domains,
   sessions,
+  masterSession,
   viewData,
 });
 

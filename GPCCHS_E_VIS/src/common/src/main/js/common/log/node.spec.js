@@ -14,6 +14,9 @@ describe('log/node', () => {
       param2: 'value2',
     });
   });
+  it('parseConfig (empty)', () => {
+    parseConfig('').should.have.lengthOf(0);
+  });
   it('parseConfig', () => {
     const cfg = 'logger1?param1=value1,param2=value2:logger2?param1=value1';
     parseConfig(cfg).should.have.lengthOf(2);

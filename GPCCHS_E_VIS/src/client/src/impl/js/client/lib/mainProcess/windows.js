@@ -122,7 +122,7 @@ export default function windowsObserver(state, callback) {
     // update titles
     (fn) => {
       _each(windows, (w, windowId) => {
-        if (w.isDestroyed() || w.getTitle() === titles[windowId]) {
+        if (w.isDestroyed() || w.getTitle() === titles[windowId]) {
           return;
         }
 

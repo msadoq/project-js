@@ -4,6 +4,7 @@ import getLogger from 'common/log';
 import ContentContainer from './ContentContainer';
 import EditorContainer from '../Editor/EditorContainer';
 import styles from './Page.css';
+import MessagesContainer from './MessagesContainer';
 
 const logger = getLogger('Page');
 
@@ -57,6 +58,7 @@ export default class Page extends Component {
             [styles.contentWithEditor]: isEditorOpened
           })}
         >
+          <MessagesContainer pageId={focusedPageId} />
           <ContentContainer
             windowId={windowId}
             focusedPageId={focusedPageId}

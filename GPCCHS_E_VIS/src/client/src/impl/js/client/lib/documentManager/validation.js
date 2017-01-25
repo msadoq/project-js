@@ -17,14 +17,14 @@ const knownValidators = {
 const validate = (id, data, schema) => {
   if (!knownValidators[id]) {
     if (!schema) {
-      return new Error('Unknown validator');
+      return ['Unknown validator'];
     }
 
     knownValidators[id] = ajv.compile(schema);
   }
 
   if (typeof data !== 'object' || !Object.keys(data).length) {
-    return new Error('Empty file');
+    return ['Empty file'];
   }
 
   if (!knownValidators[id](data)) {
@@ -48,7 +48,7 @@ const validate = (id, data, schema) => {
  */
 export default (...args) => {
   if (args.length !== 2 && args.length !== 3) {
-    return new Error('Error validate(): 2 or 3 arguments expected');
+    return ['Error validate(): 2 or 3 arguments expected'];
   }
   return validate(...args);
 };

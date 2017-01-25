@@ -94,7 +94,7 @@ describe('common/fs', () => {
     });
     it('error', (done) => {
       fs.read(unreadable, (err, content) => {
-        err.should.be.an('error');
+        err.should.be.a('string');
         should.not.exist(content);
         done();
       });
@@ -126,7 +126,7 @@ describe('common/fs', () => {
     });
     it('readJsonFromAbsPath error', (done) => {
       fs.readJsonFromAbsPath(getTmpPath('not-exists.txt'), (err, content) => {
-        err.should.be.an('error');
+        err.should.be.a('string');
         should.not.exist(content);
         done();
       });
@@ -142,7 +142,7 @@ describe('common/fs', () => {
     });
     it('readJsonFromRelativePath error', (done) => { // dc stub send oid as filepath
       fs.readJsonFromRelativePath(getTmpPath(), 'not-exists.txt', (err, content) => {
-        err.should.be.an('error');
+        err.should.be.an('string');
         should.not.exist(content);
         done();
       });
@@ -158,7 +158,7 @@ describe('common/fs', () => {
     });
     it('readJsonFromFmdPath error', (done) => { // dc stub send oid as filepath
       fs.readJsonFromFmdPath(getTmpPath('not-exists.txt'), (err, content) => {
-        err.should.be.an('error');
+        err.should.be.an('string');
         should.not.exist(content);
         done();
       });

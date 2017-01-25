@@ -45,7 +45,30 @@ export default class Timebar extends Component {
     widthPx: PropTypes.number.isRequired,
   }
 
-  state = {}
+  state = {
+    dragging: false,
+    resizing: false,
+    navigating: false,
+    dragNavigating: false,
+    resizeCursor: null,
+
+    cursorOriginX: null,
+    dragOriginLower: null,
+    dragOriginUpper: null,
+    dragOriginCurrent: null,
+    dragOriginSlideLower: null,
+    dragOriginSlideUpper: null,
+    dragNavigatingOffset: null,
+
+    cursorMs: null,
+    viewportLower: null,
+    viewportUpper: null,
+    slideLower: null,
+    slideUpper: null,
+    lower: null,
+    upper: null,
+    current: null,
+  }
 
   componentDidMount() {
     document.addEventListener('keydown', this.onShortcut);
@@ -710,7 +733,8 @@ export default class Timebar extends Component {
     return date.format('MM[-]DD HH[:]mm[:]ss.SSS');
   }
 
-  rePosition = (side) => {
+  rePosition = (e, side) => {
+    e.preventDefault();
     const {
       visuWindow,
       updateViewport,
@@ -870,7 +894,7 @@ export default class Timebar extends Component {
           <button
             title="Navigate to current cursor"
             className={classnames('btn', 'btn-sm', 'btn-primary', styles.arrowLeft)}
-            onClick={this.rePosition.bind(null, 'left')}
+            onClick={e => this.rePosition(e, 'left')}
           >←</button>
           <button
             title="Bring cursors in the viewport"
@@ -887,7 +911,7 @@ export default class Timebar extends Component {
           <button
             title="Navigate to current cursor"
             className={classnames('btn', 'btn-sm', 'btn-primary', styles.arrowRight)}
-            onClick={this.rePosition.bind(null, 'right')}
+            onClick={e => this.rePosition(e, 'right')}
           >→</button>
           <button
             title="Bring cursors in the viewport"

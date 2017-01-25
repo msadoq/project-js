@@ -1,9 +1,11 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import TextView from './TextView';
-import { addEntryPoint } from '../../../lib/store/actions/views';
 import {
+  addEntryPoint,
   updateContent,
+} from '../../../lib/store/actions/views';
+import {
   getViewContent,
   getTextViewData,
   getViewEntryPoints,

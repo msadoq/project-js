@@ -35,6 +35,15 @@ export default class TimelineFields extends React.Component {
 
     return (
       <div>
+        {(!masterId || (masterId !== id)) && <HorizontalFormGroup label="Master timeline">
+          <Field
+            name="master"
+            component={ButtonToggleField}
+            textOn="YES"
+            textOff="NO"
+          />
+        </HorizontalFormGroup>}
+
         <HorizontalFormGroup label="Kind">
           <Field
             name="kind"
@@ -48,14 +57,6 @@ export default class TimelineFields extends React.Component {
           </Field>
         </HorizontalFormGroup>
 
-        {(!masterId || (masterId !== id)) && <HorizontalFormGroup label="Master timeline">
-          <Field
-            name="master"
-            component={ButtonToggleField}
-            textOn="YES"
-            textOff="NO"
-          />
-        </HorizontalFormGroup>}
 
         <HorizontalFormGroup label="Session id">
           <Field
@@ -70,7 +71,7 @@ export default class TimelineFields extends React.Component {
           </Field>
         </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Id">
+        <HorizontalFormGroup label="Name">
           <Field
             name="id"
             component={InputField}

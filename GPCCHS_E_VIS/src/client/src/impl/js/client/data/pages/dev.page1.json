@@ -1,0 +1,44 @@
+{
+  "type": "Page",
+  "timebarHeight": 135,
+  "title": "Local page",
+  "views": [
+    {
+      "path": "/views/text.json",
+      "geometry": {
+        "x": 0,
+        "y": 0,
+        "w": 5,
+        "h": 3,
+        "maxH": 100,
+        "maxW": 100
+      },
+      "hideBorders": false,
+      "windowState": "Normalized"
+    },
+    {
+      "path": "/views/plot.json",
+      "geometry": {
+        "x": 5,
+        "y": 0,
+        "w": 7,
+        "h": 15,
+        "maxH": 100,
+        "maxW": 100
+      },
+      "hideBorders": false,
+      "windowState": "Normalized"
+    },
+    {
+      "path": "/views/dynamicView.json",
+      "geometry": {
+        "x": 0,
+        "y": 3,
+        "w": 5,
+        "h": 12
+      },
+      "hideBorders": false,
+      "windowState": "Normalized"
+    }
+  ]
+}

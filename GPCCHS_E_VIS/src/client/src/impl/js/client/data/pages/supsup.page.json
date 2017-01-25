@@ -1,38 +1,38 @@
 {
   "type": "Page",
   "hideBorders": false,
-  "title": "page Sup/Sup workspace",
+  "title": "Sup/Sup page",
   "views": [
     {
-      "path": "/views/plotviewSupsup_Test10.json",
+      "path": "/views/supsup.plot10.json",
       "geometry": {
         "kind": "Relative",
         "x": 4,
         "y": 0,
         "w": 4,
-        "h": 14	
+        "h": 14
       },
       "windowState": "Normalized"
     },
 {
-      "path": "/views/plotviewSupsup.json",
+      "path": "/views/supsup.plot.json",
       "geometry": {
         "kind": "Relative",
         "x": 0,
         "y": 0,
         "w": 4,
-        "h": 14	
+        "h": 14
       },
       "windowState": "Normalized"
     },
     {
-      "path": "/views/textviewSupsup.json",
+      "path": "/views/supsup.text.json",
       "geometry": {
         "kind": "Relative",
         "x": 8,
         "y": 0,
         "w": 4,
-        "h": 14	
+        "h": 14
       },
       "windowState": "Normalized"
     }

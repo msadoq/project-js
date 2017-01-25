@@ -2,10 +2,10 @@
   "type": "Page",
   "hideBorders": false,
   "timebarHeight": null,
-  "title": "page Test workspace",
+  "title": "PBF page",
   "views": [
     {
-      "path": "/views/textviewTest.json",
+      "path": "/views/pbf.text.json",
       "geometry": {
       "kind": "Relative",
       "x": 0,
@@ -16,7 +16,7 @@
       "windowState": "Normalized"
     },
     {
-      "path": "/views/plotviewTest.json",
+      "path": "/views/pbf.plot.json",
       "geometry": {
         "kind": "Relative",
         "x": 6,

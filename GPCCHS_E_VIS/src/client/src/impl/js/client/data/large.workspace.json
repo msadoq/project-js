@@ -8,10 +8,6 @@
       {
         "path": "./pages/pageLarge1.json",
         "timebarId": "TB1"
-      },
-      {
-        "path": "./pages/pageLarge2.json",
-        "timebarId": "TB1"
       }
     ],
       "geometry": {

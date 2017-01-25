@@ -2,10 +2,10 @@
   "type": "Page",
   "hideBorders": false,
   "timebarHeight": null,
-  "title": "page Small workspace",
+  "title": "FMD page",
   "views": [
     {
-      "path": "/views/textOne.json",
+      "oId": "oid:views/text30.json",
       "geometry": {
       "kind": "Relative",
       "x": 0,
@@ -16,7 +16,7 @@
       "windowState": "Normalized"
     },
     {
-      "path": "/views/plotviewOne.json",
+      "oId": "oid:views/plotview4.json",
       "geometry": {
         "kind": "Relative",
         "x": 6,

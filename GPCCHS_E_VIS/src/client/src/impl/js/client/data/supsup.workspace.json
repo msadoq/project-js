@@ -6,7 +6,7 @@
       "title": "Sup/Sup workspace",
       "pages": [
         {
-          "path": "./pages/pageSupsup.json",
+          "path": "./pages/supsup.page.json",
           "timebarId": "TB1"
         }
       ],

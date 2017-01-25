@@ -3,51 +3,52 @@
   "windows": [
     {
       "type": "documentWindow",
+      "title": "PBF workspace",
       "pages": [
         {
-          "oId": "oid:pages/pageSmall_with_oid.json",
+          "path": "./pages/pbf.page.json",
           "timebarId": "TB1"
         }
       ],
-      "title": "Small workspace",
       "geometry": {
-        "x": 112,
-        "y": 51,
+        "kind": "Absolute",
+        "x": 110,
+        "y": 10,
         "w": 1310,
-        "h": 800,
-        "kind": "Absolute"
+        "h": 800
       }
     }
   ],
   "timebars": [
     {
+      "type": "timeBarConfiguration",
       "id": "TB1",
+      "mode": "Normal",
       "visuWindow": {
         "lower": 1480578427000,
-        "upper": 1480578527000,
-        "current": 1480578457000,
+        "upper": 1480582027000,
+        "current": 1480580227000,
         "defaultWidth": 900000
       },
       "slideWindow": {
-        "lower": 1480578437000,
-        "upper": 1480582037000
+        "lower": 1480578487000,
+        "upper": 1480582020000
       },
       "extUpperBound": 1480582047000,
       "rulerStart": 1480577807000,
-      "rulerResolution": 11630,
-      "speed": 1,
-      "masterId": "Session 1",
-      "mode": "Normal",
-      "type": "timeBarConfiguration",
+      "rulerResolution": 11250,
+      "speed": 1.0,
+      "timeSpec": "LocalTime",
+      "offsetFromUTC": 0,
       "timelines": [
         {
           "id": "Session 1",
           "offset": 0,
           "kind": "Session",
-          "sessionId": 0,
-          "color": null
+          "sessionId": 0
         }
-      ]
+      ],
+      "masterId": "Session 1"
     }
   ]
 }

@@ -5,40 +5,44 @@ import {
 } from 'common/constants';
 import { server } from '../ipc';
 import { readPages, extractViews } from '../../common/documentManager';
-import { showErrorMessage, getPathByFilePicker } from '../dialog';
+import { getPathByFilePicker } from '../dialog';
 import { getStore } from '../../store/mainStore';
 import { add as addView } from '../../store/actions/views';
+import { add as addMessage } from '../../store/actions/messages';
 import { addAndMount as addAndMountPage } from '../../store/actions/windows';
 import { setModified as setModifiedPage } from '../../store/actions/pages';
+
+const addGlobalError = msg => addMessage('global', 'danger', msg);
 
 module.exports = { pageOpen, pageAddNew };
 
 function pageOpen(focusedWindow) {
+  const store = getStore();
   if (!focusedWindow) {
     return;
   }
-  getPathByFilePicker(getStore().getState().hsc.folder, 'page', 'open', (err, filePath) => {
+  getPathByFilePicker(store.getState().hsc.folder, 'page', 'open', (err, filePath) => {
     if (err || !filePath) { // error or cancel
       return;
     }
 
     readPages(undefined, [{ absolutePath: filePath }], (pageErr, pages) => {
       if (pageErr) {
-        return showErrorMessage(focusedWindow,
-          'Error on selected page',
-          'Invalid Page file selected', () => {});
+        store.dispatch(addGlobalError('Unable to load page'));
+        store.dispatch(addGlobalError(pageErr));
+        return;
       }
       const content = { pages: {} };
       const uuid = v4();
       content.pages[uuid] = pages[0];
       extractViews(content, (viewErr, pageAndViews) => {
         if (viewErr) {
-          return showErrorMessage(focusedWindow,
-            'Error on selected page',
-            'Invalid view in selected page file', () => {});
+          store.dispatch(addGlobalError('Unable to load page : invalid view'));
+          store.dispatch(addGlobalError(viewErr));
+          return;
         }
         showSelectedPage(pageAndViews, uuid, focusedWindow.windowId);
-        const title = getStore().getState().windows[focusedWindow.windowId].title;
+        const title = store.getState().windows[focusedWindow.windowId].title;
         focusedWindow.setTitle(title.concat(' * - VIMA'));
         server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', filePath);
       });
@@ -50,10 +54,11 @@ function pageAddNew(focusedWindow) {
   if (!focusedWindow) {
     return;
   }
+  const { dispatch, getState } = getStore();
   const uuid = v4();
-  getStore().dispatch(addAndMountPage(focusedWindow.windowId, uuid));
-  getStore().dispatch(setModifiedPage(uuid, true));
-  const title = getStore().getState().windows[focusedWindow.windowId].title;
+  dispatch(addAndMountPage(focusedWindow.windowId, uuid));
+  dispatch(setModifiedPage(uuid, true));
+  const title = getState().windows[focusedWindow.windowId].title;
   focusedWindow.setTitle(title.concat(' * - VIMA'));
   server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', 'new page');
 }

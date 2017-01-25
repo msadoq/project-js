@@ -47,7 +47,7 @@ template.splice(0, 0,
         workspaceOpen(focusedWindow);
       }
     }, {
-      label: 'Save ...',
+      label: 'Save',
       accelerator: 'Ctrl+S',
       click: (item, focusedWindow) => {
         workspaceSave(focusedWindow);
@@ -125,7 +125,7 @@ template.splice(2, 0,
         pageOpen(focusedWindow);
       }
     }, {
-      label: 'Save ...',
+      label: 'Save',
       accelerator: '',
       click(item, focusedWindow) {
         pageSave(focusedWindow);

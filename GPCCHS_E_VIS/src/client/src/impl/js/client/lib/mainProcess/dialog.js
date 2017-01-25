@@ -46,7 +46,7 @@ export function openFileDialog(folder, type, callback) {
       filters: [{ name: 'data files', extensions: ['json'] }],
       properties: ['openFile']
     },
-    selected => ((selected && selected[0]) ? callback(null, selected[0]) : callback(null))
+    selected => ((selected && selected[0]) ? callback(null, selected[0]) : callback('Canceled', null))
   );
 }
 
@@ -62,7 +62,7 @@ export function saveFileDialog(folder, type, callback) {
         extensions: ['json'],
       }],
     },
-    selected => callback(null, selected));
+    selected => ((selected) ? callback(null, selected) : callback('Canceled', null)));
 }
 
 export function getPathByFilePicker(folder, type, action, callback) {

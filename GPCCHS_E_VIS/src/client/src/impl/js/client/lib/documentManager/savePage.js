@@ -24,7 +24,7 @@ import { writeDocument } from './io';
  // eslint-disable-next-line no-unused-vars
 const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) => {
   if (!state.pages[pageId]) {
-    callback('unknown page id');
+    return callback('unknown page id');
   }
   createFolder(dirname(path)).then(() => {
     const root = parameters.get('FMD_ROOT_DIR');
@@ -97,7 +97,7 @@ const savePage = fmdApi => (state, pageId, useRelativePath, callback) => {
     callback('unknown page id');
   }
   if (!state.pages[pageId].isModified) {
-    callback('page is not to save');
+    return callback('page already saved');
   }
   const path = state.pages[pageId].absolutePath ? state.pages[pageId].absolutePath
                                                 : state.pages[pageId].oId;

@@ -8,7 +8,7 @@ import {
   getFocusedWindowId,
 } from './hsc';
 
-describe.only('store:hsc:selectors', () => {
+describe('store:hsc:selectors', () => {
   const emptyState = {};
 
   describe('getWindowsOpened', () => {

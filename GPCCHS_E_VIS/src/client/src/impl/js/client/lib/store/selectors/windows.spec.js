@@ -1,9 +1,10 @@
 /* eslint no-unused-expressions: 0 */
-import { should, getStore } from '../../common/test';
+import { expect, should, getStore } from '../../common/test';
 import {
   getWindow,
   getWindows,
   getWindowsArray,
+  getFocusedWindow,
   getWindowPages,
   getWindowPageIds,
   getWindowFocusedPageId,
@@ -18,6 +19,7 @@ import {
 } from './windows';
 
 describe('store:window:selectors', () => {
+  const emptyState = {};
   describe('getWindow', () => {
     const state = {
       windows: {
@@ -53,6 +55,32 @@ describe('store:window:selectors', () => {
       { id: 'window1', title: 'foo' },
       { id: 'window2', title: 'bar' }
     ]);
+  });
+  describe('getFocusedWindow', () => {
+    it('should return focused window', () => {
+      const state = {
+        hsc: {
+          focusWindow: 'window1',
+        },
+        windows: {
+          window1: { title: 'foo' },
+          window2: { title: 'bar' }
+        }
+      };
+      getFocusedWindow(state).should.eql({ title: 'foo' });
+    });
+    it('should return undefined with no focusWindow', () => {
+      const state = {
+        windows: {
+          window1: { title: 'foo' },
+          window2: { title: 'bar' }
+        },
+      };
+      expect(getFocusedWindow(state)).to.be.undefined;
+    });
+    it('should return undefined with empty state', () => {
+      expect(getFocusedWindow(emptyState)).to.be.undefined;
+    });
   });
   it('getWindowPageIds', () => {
     const state = {

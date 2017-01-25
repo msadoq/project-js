@@ -2,6 +2,7 @@ import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _reduce from 'lodash/reduce';
 import { createSelector } from 'reselect';
+import { getFocusedWindowId } from './hsc';
 import { getPages } from './pages';
 // import { getViews } from './views';
 
@@ -17,6 +18,12 @@ export const getWindowsArray = createSelector(
       id,
       ...windows[id]
     }))
+);
+
+export const getFocusedWindow = createSelector(
+  getWindows,
+  getFocusedWindowId,
+  _get,
 );
 
 export const getWindow = (state, windowId) =>

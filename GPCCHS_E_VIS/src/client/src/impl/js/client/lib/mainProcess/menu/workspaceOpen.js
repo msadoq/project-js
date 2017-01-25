@@ -59,7 +59,8 @@ function workspaceOpen(focusedWindow) {
           (errWk) => {
             dispatch(isWorkspaceOpening(false));
             if (errWk) {
-              dispatch(addGlobalError(`Unable to load workspace : ${errWk}`));
+              dispatch(addGlobalError(`Unable to load workspace : ${filePath}`));
+              dispatch(addGlobalError(errWk));
             }
           }
         );

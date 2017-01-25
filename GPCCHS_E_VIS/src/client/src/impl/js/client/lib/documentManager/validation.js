@@ -5,7 +5,7 @@ import _join from 'lodash/join';
 import _isArray from 'lodash/isArray';
 import pathWorkspace from './schemas/workspace.schema.json';
 import pathPage from './schemas/page.schema.json';
-import timebarsSchema from './schemas/timebars.schema.js';
+import timebarsSchema from './schemas/timebars.schema';
 
 const ajv = new Ajv({ allErrors: true });
 const knownValidators = {

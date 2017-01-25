@@ -1,6 +1,7 @@
 import classnames from 'classnames';
 import React, { PropTypes, PureComponent } from 'react';
 import { Alert } from 'react-bootstrap';
+import split from 'lodash/fp/split';
 import styles from './Message.css';
 
 export default class Message extends PureComponent {
@@ -39,7 +40,9 @@ export default class Message extends PureComponent {
         )}
         onDismiss={this.willClose}
       >
-        {this.props.message}
+        {split('\n', this.props.message).map((x, i) => (
+          <div key={i}>{x}</div>
+        ))}
       </Alert>
     );
   }

@@ -1,51 +1,66 @@
 import { BrowserWindow } from 'electron';
 import path from 'path';
-import _find from 'lodash/find';
+import find from 'lodash/fp/find';
+import equals from 'lodash/fp/equals';
 
+import { add as addMessage } from '../../store/actions/messages';
 import { getModifiedPagesIds } from '../../store/selectors/pages';
 import { getModifiedViewsIds } from '../../store/selectors/views';
 import { setModified as setModifiedWindow } from '../../store/actions/windows';
 import { updatePath, closeWorkspace, isWorkspaceOpening } from '../../store/actions/hsc';
 import { saveWorkspace } from '../../common/documentManager';
-import { showQuestionMessage, showErrorMessage, getPathByFilePicker } from '../dialog';
+import { showQuestionMessage, getPathByFilePicker } from '../dialog';
 import { getStore } from '../../store/mainStore';
 import { openDefaultWorkspace, openWorkspaceDocument } from '../openWorkspace';
 
+const isYes = equals(0);
+const isNo = equals(1);
+const isCancel = equals(2);
+const addGlobalError = msg => addMessage('global', 'danger', msg);
+
+// eslint-disable-next-line no-unused-vars
 function workspaceOpenNew(focusedWindow) {
-  allDocumentsAreSaved(getStore(), getStore().dispatch, (err) => {
-    if (err) {
-      return showErrorMessage(focusedWindow, 'Error', err, () => {
-      });
+  const store = getStore();
+  const { dispatch, getState } = store;
+  allDocumentsAreSaved(store, (err, { cancel } = {}) => {
+    if (cancel) {
+      return;
     }
-    const folder = getStore().getState().hsc.folder;
-    getStore().dispatch(closeWorkspace());
-    openDefaultWorkspace(getStore().dispatch, folder);
+    if (err) {
+      return dispatch(addGlobalError(err));
+    }
+    const folder = getState().hsc.folder;
+    dispatch(closeWorkspace());
+    openDefaultWorkspace(dispatch, folder);
   });
 }
 
+// eslint-disable-next-line no-unused-vars
 function workspaceOpen(focusedWindow) {
-  allDocumentsAreSaved(getStore(), getStore().dispatch, (err) => {
-    if (err) {
-      return showErrorMessage(focusedWindow, 'Error', err, () => {
-      });
+  const store = getStore();
+  const { dispatch, getState } = store;
+  allDocumentsAreSaved(store, (err, { cancel } = {}) => {
+    if (cancel) {
+      return;
     }
-    const folder = getStore().getState().hsc.folder;
+    if (err) {
+      return dispatch(addGlobalError(err));
+    }
+    const folder = getState().hsc.folder;
     // open the file picker
     getPathByFilePicker(folder, 'workspace', 'open', (errFile, filePath) => {
       if (filePath) {
-        getStore().dispatch(isWorkspaceOpening(true));
+        dispatch(isWorkspaceOpening(true));
         openWorkspaceDocument(
-          getStore().dispatch,
-          getStore().getState,
+          dispatch,
+          getState,
           path.dirname(filePath),
           path.basename(filePath),
           (errWk) => {
+            dispatch(isWorkspaceOpening(false));
             if (errWk) {
-              showErrorMessage(focusedWindow,
-                'Error on selected workspace',
-                'Invalid Workspace file selected');
+              dispatch(addGlobalError(`Unable to load workspace : ${errWk}`));
             }
-            getStore().dispatch(isWorkspaceOpening(false));
           }
         );
       }
@@ -53,7 +68,10 @@ function workspaceOpen(focusedWindow) {
   });
 }
 
-function allDocumentsAreSaved(store, dispatch, cb) {
+const isPagesSaved = state => getModifiedPagesIds(state).length === 0;
+const isViewsSaved = state => getModifiedViewsIds(state).length === 0;
+
+function allDocumentsAreSaved(store, cb) {
   if (!isSaveNeeded(store.getState())) {
     return cb(null);
   }
@@ -62,44 +80,45 @@ function allDocumentsAreSaved(store, dispatch, cb) {
     'Opening new workspace',
     'Workspace is modified. Do you want to save before closing ?',
     ['yes', 'no', 'cancel'],
-    (button) => {
-      if (button === 2) { // cancel
-        return cb('canceled');
-      } else if (button === 0) { // yes
-        const state = store.getState();
-        if (getModifiedPagesIds(state).length > 0
-          || getModifiedViewsIds(state).length > 0) {
-          cb('Please, save the pages and views of this workspace');
-        } else {
-          if (!state.hsc.file) {
-            getPathByFilePicker(state.hsc.folder, 'workspace', 'save', (errWk, pathWk) => {
-              if (errWk) {
-                cb(errWk);
-              }
-              dispatch(updatePath(path.dirname(pathWk), path.basename(pathWk)));
-              saveWorkspace(store.getState(), true, (err, winIds) => {
-                if (err) {
-                  cb(err);
-                }
-                winIds.forEach((id) => {
-                  dispatch(setModifiedWindow(id, false));
-                });
-              });
-            });
+    (clickedButton) => {
+      const state = store.getState();
+      const viewsAndPagesAreSaved = isPagesSaved(state) && isViewsSaved(state);
+      if (isCancel(clickedButton)) { // cancel
+        return cb(null, { cancel: true });
+      } else if (isNo(clickedButton)) { // no
+        return cb(null);
+      } else if (isYes(clickedButton) && !viewsAndPagesAreSaved) {
+        return cb('Please, save the pages and views of this workspace');
+      } else if (isYes(clickedButton) && !state.hsc.file) { // yes
+        return getPathByFilePicker(state.hsc.folder, 'workspace', 'save', (errWk, pathWk) => {
+          if (!pathWk) {
+            return;
           }
-          cb(null);
-        }
-      } else {
-        cb(null);
+          if (errWk) {
+            return cb(errWk);
+          }
+          store.dispatch(updatePath(path.dirname(pathWk), path.basename(pathWk)));
+          saveWorkspace(store.getState(), true, (err, winIds) => {
+            if (err) {
+              return cb(err);
+            }
+            winIds.forEach((id) => {
+              store.dispatch(setModifiedWindow(id, false));
+            });
+            cb(null);
+          });
+        });
       }
+      return cb(null);
     });
 }
 
 // Returns if at least one file is modified
 function isSaveNeeded(state) {
-  const win = _find(state.windows, ['isModified', true]);
-  const page = _find(state.pages, ['isModified', true]);
-  const view = _find(state.views, ['isModified', true]);
+  const findIsModified = find(['isModified', true]);
+  const win = findIsModified(state.windows);
+  const page = findIsModified(state.pages);
+  const view = findIsModified(state.views);
   return !(!win && !page && !view);
 }
 

@@ -44,7 +44,7 @@ export default class TimelineFields extends React.Component {
           />
         </HorizontalFormGroup>}
 
-        <HorizontalFormGroup label="Kind">
+        <HorizontalFormGroup label="Type">
           <Field
             name="kind"
             component="select"
@@ -54,20 +54,6 @@ export default class TimelineFields extends React.Component {
             <option value="session">session</option>
             <option disabled value="dataSet">dataSet</option>
             <option disabled value="recordSet">recordSet</option>
-          </Field>
-        </HorizontalFormGroup>
-
-
-        <HorizontalFormGroup label="Session id">
-          <Field
-            name="sessionId"
-            component="select"
-            type="text"
-            className="form-control input-sm"
-          >
-            {sessions.map(session =>
-              <option key={session.id} value={session.id}>{session.name}</option>
-            )}
           </Field>
         </HorizontalFormGroup>
 
@@ -85,7 +71,22 @@ export default class TimelineFields extends React.Component {
           />
         </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Offset h-m-s-ms">
+        <HorizontalFormGroup label="Session">
+          <Field
+            name="sessionId"
+            component="select"
+            type="text"
+            className="form-control input-sm"
+          >
+            {sessions.map(session =>
+              <option key={session.id} value={session.id}>{session.name}</option>
+            )}
+          </Field>
+        </HorizontalFormGroup>
+
+        <hr />
+
+        <HorizontalFormGroup label="Offset (h-m-s-ms)">
           <Field
             name="offset"
             component={OffsetFields}

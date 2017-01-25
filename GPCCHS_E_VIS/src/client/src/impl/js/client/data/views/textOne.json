@@ -22,7 +22,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cnes.isis.simupus",
+        "domain": "invalid domain",
         "timeline": "Session 1"
       }
     }

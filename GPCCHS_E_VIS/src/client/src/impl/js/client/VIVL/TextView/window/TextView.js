@@ -4,6 +4,10 @@ import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import getLogger from 'common/log';
 import { html as beautifyHtml } from 'js-beautify';
+import {
+  OverlayTrigger,
+  Tooltip,
+} from 'react-bootstrap';
 
 import {
   DEFAULT_FIELD,
@@ -105,10 +109,29 @@ export default class TextView extends Component {
                 _.prop('value', valueObj),
                 'error', ep);
 
-              nodes.push(React.createElement('span', {
-                key: `${index}-${i}`,
-                ...s
-              }, value));
+              if (ep.error) {
+                nodes.push(
+                  <OverlayTrigger
+                    key={`${index}-${i}`}
+                    overlay={<Tooltip id="tooltip">{value}</Tooltip>}
+                  >
+                    <span
+                      style={s.style}
+                    >
+                      Invalid entry point
+                    </span>
+                  </OverlayTrigger>
+                );
+              } else {
+                nodes.push(
+                  <span
+                    key={`${index}-${i}`}
+                    style={s.style}
+                  >
+                    {value}
+                  </span>
+                );
+              }
             }
           }
           return nodes;

@@ -47,12 +47,6 @@ export const getViewContent = createSelector(
   _.prop('content')
 );
 
-export const decorateEntryPoint = condition =>
-  _.cond([
-    [condition, _.assoc('error', 'INVALID ENTRYPOINT')],
-    [_.stubTrue, _.identity],
-  ]);
-
 export const getViewEntryPoints = createSelector(
   getView,
   getMasterSessionId,
@@ -72,9 +66,12 @@ export const getViewEntryPoints = createSelector(
     return _.pipe(
       _.pathOr([], ['configuration', 'entryPoints']),
       entryPoints => entryPoints.map(
-        (ep, i) => decorateEntryPoint(
-          () => 'error' in _.getOr({}, ['epsData', i], data)
-        )(ep)
+        (ep, i) => {
+          const error = _.get(['epsData', i, 'error'], data);
+          return error ?
+            _.assoc('error', error, ep) :
+            ep;
+        }
       )
     )(view);
   }

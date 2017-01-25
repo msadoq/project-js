@@ -2,12 +2,9 @@ import _each from 'lodash/each';
 import _map from 'lodash/map';
 import { v4 } from 'node-uuid';
 import getLogger from 'common/log';
-import { server } from './ipc';
-import parameters from 'common/parameters';
-import {
-  LOG_DOCUMENT_OPEN
-} from 'common/constants';
+import { LOG_DOCUMENT_OPEN } from 'common/constants';
 
+import { server } from './ipc';
 import { readWorkspace } from '../common/documentManager';
 import { add as addTimeline } from '../store/actions/timelines';
 import { add as addTimebar } from '../store/actions/timebars';
@@ -84,23 +81,7 @@ export function loadInStore(workspace, dispatch, root, file, callback, isDefault
   }
 }
 
-/**
- * Open 'file' relative to 'root' folder, 'dispatch' corresponding actions and call 'callback'
- *
- * @param dispatch
- * @param getState
- * @param callback
- */
-export default function openWorkspace(dispatch, getState, callback) {
-  const root = parameters.get('FMD_ROOT_DIR');
-  if (parameters.get('OPEN')) {
-    const file = parameters.get('OPEN');
-    return readWkFile(dispatch, getState, root, file, callback);
-  }
-  return openDefaultWorkspace(dispatch, root, callback);
-}
-
-export function readWkFile(dispatch, getState, root, file, callback) {
+export function openWorkspaceDocument(dispatch, getState, root, file, callback) {
   // we receive a file to open from the command line
   readWorkspace(root, file, (err, workspace) => {
     if (err) {

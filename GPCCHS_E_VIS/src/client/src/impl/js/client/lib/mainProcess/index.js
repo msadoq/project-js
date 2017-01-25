@@ -21,7 +21,7 @@ import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
 import { updateMasterSession } from '../store/actions/masterSession';
 
-import { readWkFile, openDefaultWorkspace } from './openWorkspace';
+import { openDefaultWorkspace, openWorkspaceDocument } from './openWorkspace';
 
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
 
@@ -127,8 +127,8 @@ export function start() {
       const root = parameters.get('FMD_ROOT_DIR');
       const file = parameters.get('WORKSPACE');
 
-      return (file)
-        ? readWkFile(dispatch, getState, root, file, callback)
+      return file
+        ? openWorkspaceDocument(dispatch, getState, root, file, callback)
         : openDefaultWorkspace(dispatch, root, callback);
     }
   ], (err) => {

@@ -9,7 +9,7 @@ import { updatePath, closeWorkspace, isWorkspaceOpening } from '../../store/acti
 import { saveWorkspace } from '../../common/documentManager';
 import { showQuestionMessage, showErrorMessage, getPathByFilePicker } from '../dialog';
 import { getStore } from '../../store/mainStore';
-import { openDefaultWorkspace, readWkFile } from '../openWorkspace';
+import { openDefaultWorkspace, openWorkspaceDocument } from '../openWorkspace';
 
 function workspaceOpenNew(focusedWindow) {
   allDocumentsAreSaved(getStore(), getStore().dispatch, (err) => {
@@ -34,7 +34,7 @@ function workspaceOpen(focusedWindow) {
     getPathByFilePicker(folder, 'workspace', 'open', (errFile, filePath) => {
       if (filePath) {
         getStore().dispatch(isWorkspaceOpening(true));
-        readWkFile(
+        openWorkspaceDocument(
           getStore().dispatch,
           getStore().getState,
           path.dirname(filePath),

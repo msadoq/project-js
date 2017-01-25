@@ -1,5 +1,5 @@
 {
-  "LOG": "console?level=debug",
+  "LOG": "console",
   "PROFILING": "off",
   "MONITORING": "off",
   "DEBUG": "on",
@@ -7,8 +7,7 @@
   "WEBPACK_PORT": 3100,
   "NODE_PATH": "/usr/share/isis/node-v6.3.0-linux-x64/bin/node",
   "ZMQ_GPCCDC_PUSH": "tcp://127.0.0.1:5042",
-  "ZMQ_GPCCDC_PULL": "tcp://127.0.0.1:49165",
-  "OPEN": "small.workspace.json",
-  "STUB_DC_ON": "on",
-  "RENDERER_CIRCUIT_BREAKER": "off"
+  "ZMQ_GPCCDC_PULL": "tcp://127.0.0.1:5043",
+  "WORKSPACE": "small.workspace.json",
+  "STUB_DC_ON": "on"
 }

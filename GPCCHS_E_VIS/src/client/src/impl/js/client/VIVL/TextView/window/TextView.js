@@ -24,6 +24,9 @@ const logger = getLogger('view:text');
 const getComObject =
   _.propOr('UNKNOWN_COM_OBJECT', 0);
 
+const renderMethod = 1; // html-to-react
+// const renderMethod = 2; // raw html injection
+
 // parse clipboard data to create partial entry point
 function parseDragData(data) {
   return {
@@ -80,6 +83,31 @@ export default class TextView extends PureComponent {
     );
   }
 
+  getComponent2 = () => {
+    const matches = this.template.match(/{{\s*([^}]+)\s*}}/g);
+    let templated = this.template;
+    matches.forEach((match) => {
+      const epName = match.substring(2, match.length - 2);
+      const valueObj = _get(this.props.data, `values[${epName}]`, {});
+      const ep = this.props.entryPoints.find(e => e.name === epName);
+      if (ep) {
+        let tag = '';
+        const value = valueObj.value || ep.error;
+        if (ep.error) {
+          tag = `<span style="${getTextStyle('#FF0000')}">${value}</span>`;
+        } else {
+          tag = `<span
+            class="${styles[`monit-${_get(valueObj, 'monit')}`] || styles['monit-ok']}"
+            style="${getTextStyle(valueObj.color)}">
+              ${value}
+            </span>`;
+        }
+        templated = templated.replace(match, tag);
+      }
+    });
+    return templated;
+  }
+
   getComponent() {
     const processingInstructions = [
       {
@@ -91,7 +119,6 @@ export default class TextView extends PureComponent {
             const match = matches[i];
             const epName = match.substring(2, match.length - 2);
             const valueObj = _get(this.props.data, `values[${epName}]`, {});
-
             const ep = _.prop(
               epName,
               _.indexBy(
@@ -99,9 +126,10 @@ export default class TextView extends PureComponent {
                 this.props.entryPoints)
             );
             if (ep) {
-              const s = ep.error ? {
-                style: getTextStyle('#FF0000')
-              } : {
+              const s = ep.error ?
+              { style: getTextStyle('#FF0000') }
+              :
+              {
                 style: getTextStyle(_get(valueObj, ['color'])),
                 className: styles[`monit-${_get(valueObj, 'monit')}`] || styles['monit-ok'],
               };
@@ -164,21 +192,41 @@ export default class TextView extends PureComponent {
       isViewsEditorOpen,
       entryPoints,
     } = this.props;
-    const component = this.getComponent();
     logger.debug(`render ${viewId}`);
 
-    return isViewsEditorOpen
-      ? <WYSIWYG
-        initialValues={{ html: this.template }}
-        entryPoints={entryPoints.map(ep => ep.name)}
-        onSubmit={this.handleSubmit}
-        form={`textView-form-${viewId}`}
-      />
-      : <DroppableContainer
-        onDrop={this.onDrop.bind(this)}
-        text={'add entry point'}
-      >
-        {component}
-      </DroppableContainer>;
+    if (renderMethod === 1) {
+      return (isViewsEditorOpen
+        ? <WYSIWYG
+          initialValues={{ html: this.template }}
+          entryPoints={entryPoints.map(ep => ep.name)}
+          onSubmit={this.handleSubmit}
+          form={`textView-form-${viewId}`}
+        />
+        : <DroppableContainer
+          onDrop={this.onDrop.bind(this)}
+          text={'add entry point'}
+        >
+          {this.getComponent()}
+        </DroppableContainer>);
+    }
+
+    if (renderMethod === 2) {
+      return (isViewsEditorOpen
+        ? <WYSIWYG
+          initialValues={{ html: this.template }}
+          entryPoints={entryPoints.map(ep => ep.name)}
+          onSubmit={this.handleSubmit}
+          form={`textView-form-${viewId}`}
+        />
+        : <DroppableContainer
+          onDrop={this.onDrop.bind(this)}
+          text={'add entry point'}
+        >
+          <div
+            dangerouslySetInnerHTML={{ __html: this.getComponent2() }}
+          />
+        </DroppableContainer>
+      );
+    }
   }
 }

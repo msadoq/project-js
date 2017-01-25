@@ -207,7 +207,9 @@ function configuration(state = { title: null }, action) {
       // For dynamic view, format entry point to be used as in other view
       if (viewType === 'DynamicView') {
         if (!config.entryPoint) {
-          return Object.assign({}, config);
+          const formattedConfig = Object.assign({}, config);
+          formattedConfig.entryPoints = [];
+          return formattedConfig;
         }
         const formattedConfig = _omit(config, 'entryPoint');
         formattedConfig.entryPoints = [];

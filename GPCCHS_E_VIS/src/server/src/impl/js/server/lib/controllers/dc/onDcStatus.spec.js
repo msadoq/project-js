@@ -1,9 +1,12 @@
 const onDcStatus = require('./onDcStatus');
 const dataStub = require('common/stubs/data');
 const globalConstants = require('common/constants');
-const { get: getDcStatus } = require('../../utils/dcStatus');
+const { get: getDcStatus, reset: resetDcStatus } = require('../../utils/dcStatus');
 
 describe('controllers/dc/onDcStatus', () => {
+  beforeEach(() => {
+    resetDcStatus();
+  });
   it('healthy', () => {
     const healthy = dataStub.getHealthyDcStatusProtobuf();
 

@@ -23,6 +23,7 @@ import windowsObserver from './windows';
 
 import { updateViewData } from '../store/actions/viewData';
 import { handlePlay } from '../store/actions/timebars';
+import { updateMonitoring } from '../store/actions/monitoring';
 
 const logger = getLogger('main:orchestration');
 const execution = executionMonitor('orchestration');
@@ -158,6 +159,13 @@ export function tick() {
     (callback) => {
       server.requestData((dataToInject) => {
         execution.start('data injection');
+        dispatch(
+          updateMonitoring(
+            dataToInject.dcStatus,
+            dataToInject.hssStatus,
+            dataToInject.lastPubSubTimestamp
+          )
+        );
         dispatch(updateViewData(previous.dataMap.perView, dataMap.perView, dataToInject.data));
         execution.stop('data injection', Object.keys(dataToInject.data).length);
         return callback(null);

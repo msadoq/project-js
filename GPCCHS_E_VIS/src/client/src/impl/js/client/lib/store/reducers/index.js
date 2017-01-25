@@ -11,6 +11,7 @@ import domains from './domains';
 import sessions from './sessions';
 import masterSession from './masterSession';
 import viewData from './viewData';
+import monitoring from './monitoring';
 
 const reducer = combineReducers({
   form,
@@ -25,6 +26,7 @@ const reducer = combineReducers({
   sessions,
   masterSession,
   viewData,
+  monitoring,
 });
 
 export default reducer;

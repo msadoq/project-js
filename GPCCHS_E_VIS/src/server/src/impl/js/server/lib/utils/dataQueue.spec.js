@@ -2,7 +2,7 @@ require('./test');
 
 const { add, get, reset } = require('./dataQueue');
 
-describe('websocket/dataQueue', () => {
+describe('utils/dataQueue', () => {
   beforeEach(() => {
     reset();
   });

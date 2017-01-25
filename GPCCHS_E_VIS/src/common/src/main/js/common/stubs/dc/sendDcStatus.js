@@ -10,13 +10,16 @@ const congestion = stubData.getCongestionDcStatusProtobuf();
 let i = 0;
 
 const itIsTimeToCongest =
-  (globalConstants.DC_STUB_CONGESTION_TIMESTEP * globalConstants.DC_STUB_FREQUENCY) / 1000;
+  globalConstants.DC_STUB_CONGESTION_FREQUENCY / globalConstants.DC_STUB_FREQUENCY;
+
+const durationToCongest =
+  itIsTimeToCongest / 5;
 
 module.exports = function sendDcStatus(zmq) {
   const buffer = [
     null,
     header,
-    (i % itIsTimeToCongest === 0) ? congestion : healthy,
+    (i % itIsTimeToCongest < durationToCongest) ? congestion : healthy,
   ];
   i += 1;
   zmq.push('stubData', buffer);

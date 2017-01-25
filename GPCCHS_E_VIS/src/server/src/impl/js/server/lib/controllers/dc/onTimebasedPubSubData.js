@@ -13,6 +13,7 @@ const { applyFilters } = require('../../utils/filters');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
+const { set: setLastPubSubTimestamp } = require('../../utils/lastPubSubTimestamp');
 
 /**
  * Trigger on new incoming message NewDataMessage from DC.
@@ -97,6 +98,8 @@ module.exports = (
     execution.start('decode timestamp');
     const timestamp = decode('dc.dataControllerUtils.Timestamp', payloadBuffer[0]);
     execution.stop('decode timestamp');
+
+    setLastPubSubTimestamp(timestamp.ms);
 
     let decodedPayload;
     _each(filtersByRemoteId, (filters, remoteId) => {

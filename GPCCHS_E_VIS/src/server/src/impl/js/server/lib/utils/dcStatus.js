@@ -7,4 +7,7 @@ module.exports = {
     dcStatus = status;
   },
   get: () => dcStatus,
+  reset: () => {
+    dcStatus = globalConstants.DC_STATUS_HEALTHY;
+  },
 };

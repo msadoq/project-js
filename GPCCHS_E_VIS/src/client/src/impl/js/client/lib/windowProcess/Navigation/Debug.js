@@ -15,6 +15,7 @@ import { getPage } from '../../store/selectors/pages';
 import dataMapGenerator from '../../dataManager/map';
 import { updateCacheInvalidation } from '../../store/actions/hsc';
 import { main } from '../ipc';
+import MonitoringContainer from '../Monitoring/MonitoringContainer';
 
 const style = {
   position: 'fixed',
@@ -138,19 +139,23 @@ class Debug extends PureComponent {
     );
 
     return (
-      <div>
+      <div
+        style={{
+          height: '55px',
+          paddingRight: '45px',
+        }}
+      >
         <Button
           bsSize="sm"
           bsStyle="default"
           style={{
-            position: 'absolute',
-            top: '4px',
-            right: '55px',
+            float: 'right',
           }}
           onClick={this.toggleHelp}
         >
           Help
         </Button>
+        <MonitoringContainer />
         {bar}
       </div>
     );

@@ -1,8 +1,12 @@
+import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _reduce from 'lodash/reduce';
 import { createSelector } from 'reselect';
 import { getPages } from './pages';
-import { getViews } from './views';
+// import { getViews } from './views';
+
+export const getViews =
+  _.prop('views');
 
 export const getWindows = state => _get(state, ['windows'], {});
 export const getWindowsArray = createSelector(
@@ -82,6 +86,9 @@ export const getWindowsVisibleViews = createSelector(
       viewData: views[v.viewId]
     }))
 );
+
+export const getWindowsVisibleView = (state, viewId) =>
+  (getWindowsVisibleViews(state) || []).find(v => v.viewId === viewId);
 
 export const getWindowsTitle = createSelector(
   getWindows,

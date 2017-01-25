@@ -105,33 +105,16 @@ describe('store:views:selectors', () => {
     getViewContent(state, 'myViewId').should.eql('<h1>content</h1>');
   });
 
-  describe('decorateEntryPoint', () => {
-    it('for TextView', () => {
-      const ep = {
-        name: 'ep1',
-        connectedData: {
-          formula: 'Reporting.ep1<>.extractedValue'
-        }
-      };
-      decorateEntryPoint(ep).should.eql({
-        ...ep,
-        error: 'INVALID FORMULA',
-      });
-    });
-    it('for PlotView', () => {
-      const ep = {
-        name: 'ep1',
-        connectedDataX: {
-          formula: 'Reporting.ep1<ReportingParameter>.extractedValue'
-        },
-        connectedDataY: {
-          formula: 'Reporting.ep1<>.extractedValue'
-        }
-      };
-      decorateEntryPoint(ep).should.eql({
-        ...ep,
-        error: 'INVALID FORMULA'
-      });
+  it('decorateEntryPoint', () => {
+    const ep = {
+      name: 'ep1',
+      connectedData: {
+        formula: 'Reporting.ep1<>.extractedValue'
+      }
+    };
+    decorateEntryPoint(() => true)(ep).should.eql({
+      ...ep,
+      error: 'INVALID ENTRYPOINT',
     });
   });
   it('getViewEntryPoints', () => {
@@ -150,7 +133,7 @@ describe('store:views:selectors', () => {
     };
     getViewEntryPoints(state, 'myViewId').should.eql([
       { name: 'AGA_AM_PRIORITY', connectedData: { formula: 'Reporting.ep1<ReportingParameter>.extractedValue' } },
-      { name: 'TMMGT_BC_VIRTCHAN3', error: 'INVALID FORMULA' },
+      { name: 'TMMGT_BC_VIRTCHAN3' },
     ]);
   });
   it('getViewEntryPoint', () => {

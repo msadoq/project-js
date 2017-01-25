@@ -249,7 +249,7 @@ export class PlotView extends PureComponent {
           {epWithErrors
             .map(ep => (
               <div style={{ lineHeight: '1.5em' }}>
-                Invalid formula in {ep.name} entry point
+                Invalid entrypoint {ep.name}
               </div>
             ))}
         </div>

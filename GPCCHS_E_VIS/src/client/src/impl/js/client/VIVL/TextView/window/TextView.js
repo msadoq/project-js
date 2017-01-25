@@ -72,6 +72,19 @@ export default class TextView extends PureComponent {
     this.template = beautifyHtml(this.props.content, { indent_size: 2 });
   }
 
+  shouldComponentUpdate(nextProps) {
+    if (
+      nextProps.viewId === this.props.viewId &&
+      nextProps.data === this.props.data &&
+      nextProps.content === this.props.content &&
+      nextProps.isViewsEditorOpen === this.props.isViewsEditorOpen &&
+      nextProps.entryPoints === this.props.entryPoints
+    ) {
+      return false;
+    }
+    return true;
+  }
+
   onDrop(e) {
     const data = e.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);

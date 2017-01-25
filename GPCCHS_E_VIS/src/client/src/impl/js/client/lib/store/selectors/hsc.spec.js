@@ -1,4 +1,4 @@
-import { should, getStore } from '../../common/test';
+import { should } from '../../common/test';
 import {
   getWindowsOpened,
   getWorkspaceOpened,
@@ -8,65 +8,61 @@ import {
   getFocusedWindowId,
 } from './hsc';
 
-describe('store:hsc:selectors', () => {
+describe.only('store:hsc:selectors', () => {
+  const emptyState = {};
+
   describe('getWindowsOpened', () => {
     it('should return status', () => {
-      const { getState } = getStore({ hsc: { windowsOpened: false } });
-      getWindowsOpened(getState()).should.eql(false);
+      const state = { hsc: { windowsOpened: false } };
+      getWindowsOpened(state).should.eql(false);
     });
     it('should support empty state', () => {
-      const { getState } = getStore({ hsc: {} });
-      should.not.exist(getWindowsOpened(getState()));
+      should.not.exist(getWindowsOpened(emptyState));
     });
   });
   describe('getWorkspaceOpened', () => {
     it('should return status', () => {
-      const { getState } = getStore({ hsc: { workspaceOpened: false } });
-      getWorkspaceOpened(getState()).should.eql(false);
+      const state = { hsc: { workspaceOpened: false } };
+      getWorkspaceOpened(state).should.eql(false);
     });
     it('should support empty state', () => {
-      const { getState } = getStore({ hsc: {} });
-      should.not.exist(getWorkspaceOpened(getState()));
+      should.not.exist(getWorkspaceOpened(emptyState));
     });
   });
   describe('getPlayingTimebarId', () => {
     it('should return playingTimebarId', () => {
-      const { getState } = getStore({ hsc: { playingTimebarId: 10 } });
-      getPlayingTimebarId(getState()).should.eql(10);
+      const state = { hsc: { playingTimebarId: 10 } };
+      getPlayingTimebarId(state).should.eql(10);
     });
     it('should support empty state', () => {
-      const { getState } = getStore({ hsc: {} });
-      should.not.exist(getPlayingTimebarId(getState()));
+      should.not.exist(getPlayingTimebarId(emptyState));
     });
   });
   describe('getSlowRenderers', () => {
     it('should return getSlowRenderers', () => {
-      const { getState } = getStore({ hsc: { slowRenderers: [{ 'some window id': 100 }] } });
-      getSlowRenderers(getState()).should.eql([{ 'some window id': 100 }]);
+      const state = { hsc: { slowRenderers: [{ 'some window id': 100 }] } };
+      getSlowRenderers(state).should.eql([{ 'some window id': 100 }]);
     });
     it('should support empty state', () => {
-      const { getState } = getStore({ hsc: {} });
-      should.not.exist(getSlowRenderers(getState()));
+      should.not.exist(getSlowRenderers(emptyState));
     });
   });
   describe('getFocusedWindowId', () => {
     it('should return getFocusedWindowId', () => {
-      const { getState } = getStore({ hsc: { focusWindow: 'some window id' } });
-      getFocusedWindowId(getState()).should.eql('some window id');
+      const state = { hsc: { focusWindow: 'some window id' } };
+      getFocusedWindowId(state).should.eql('some window id');
     });
     it('should support empty state', () => {
-      const { getState } = getStore({ hsc: {} });
-      should.not.exist(getFocusedWindowId(getState()));
+      should.not.exist(getFocusedWindowId(emptyState));
     });
   });
   describe('getLastCacheInvalidation', () => {
     it('should return lastCacheInvalidation', () => {
-      const { getState } = getStore({ hsc: { lastCacheInvalidation: 10 } });
-      getLastCacheInvalidation(getState()).should.eql(10);
+      const state = { hsc: { lastCacheInvalidation: 10 } };
+      getLastCacheInvalidation(state).should.eql(10);
     });
     it('should support empty state', () => {
-      const { getState } = getStore({ hsc: {} });
-      should.not.exist(getLastCacheInvalidation(getState()));
+      should.not.exist(getLastCacheInvalidation(emptyState));
     });
   });
 });

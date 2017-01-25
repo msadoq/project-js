@@ -1,6 +1,10 @@
-export const getWindowsOpened = state => state.hsc.windowsOpened;
-export const getWorkspaceOpened = state => state.hsc.workspaceOpened;
-export const getLastCacheInvalidation = state => state.hsc.lastCacheInvalidation;
-export const getPlayingTimebarId = state => state.hsc.playingTimebarId;
-export const getSlowRenderers = state => state.hsc.slowRenderers;
-export const getFocusedWindowId = state => state.hsc.focusWindow;
+import path from 'lodash/fp/path';
+
+const getInHsc = key => path(['hsc', key]);
+
+export const getWindowsOpened = getInHsc('windowsOpened');
+export const getWorkspaceOpened = getInHsc('workspaceOpened');
+export const getLastCacheInvalidation = getInHsc('lastCacheInvalidation');
+export const getPlayingTimebarId = getInHsc('playingTimebarId');
+export const getSlowRenderers = getInHsc('slowRenderers');
+export const getFocusedWindowId = getInHsc('focusWindow');

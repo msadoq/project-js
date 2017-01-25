@@ -8,24 +8,28 @@ import globalConstants from 'common/constants';
  * Apply search on timelines and return corresponding sessionId.
  *
  * @param timelines
- * @param defaultTimeline
+ * @param masterSessionId
  * @param search
  * @returns {*}
  */
-export default function findTimelines(timelines, defaultTimeline, search) {
+export default function findTimelines(timelines, masterSessionId, search) {
   if (!timelines || !timelines.length) {
     return { error: 'invalid entry point, no timeline available' };
   }
   if (search === '' || _isNull(search) || _isUndefined(search)) {
     return { error: 'invalid entry point, invalid timeline field' };
   }
-  if (search === globalConstants.WILDCARD_CHARACTER) {
-    if (!defaultTimeline) {
-      return { error: 'invalid entry point, wildcard used but no master timeline found' };
+  if (search === globalConstants.WILDCARD_CHARACTER
+    || search === ''
+    || _isNull(search)
+    || _isUndefined(search)
+  ) {
+    if (!masterSessionId) {
+      return { error: 'invalid entry point, no timeline set and no master session found' };
     }
     return {
-      sessionId: defaultTimeline.sessionId,
-      offset: defaultTimeline.offset
+      sessionId: masterSessionId,
+      offset: 0
     };
   }
 

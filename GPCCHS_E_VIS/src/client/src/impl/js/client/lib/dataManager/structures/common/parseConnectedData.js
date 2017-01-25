@@ -3,10 +3,10 @@ import formulaParser from './formula';
 import remoteIdGenerator from './remoteId';
 import domainsFilter from './domains';
 import timelinesFilter from './timelines';
-import structures from '..';
+import structures from '../';
 
 export default function applyDomainsAndTimebar(
-  connectedData, structureType, timebarUuid, viewMasterTimeline, visuWindow, timelines, domains
+  connectedData, structureType, timebarUuid, masterSessionId, visuWindow, timelines, domains
 ) {
   const { formula, domain, timeline, filter } = connectedData;
 
@@ -31,7 +31,7 @@ export default function applyDomainsAndTimebar(
   const domainId = domainSearch.domainId;
 
   // timeline
-  const timelineSearch = timelinesFilter(timelines, viewMasterTimeline, timeline);
+  const timelineSearch = timelinesFilter(timelines, masterSessionId, timeline);
   if (timelineSearch.error) {
     return timelineSearch;
   }

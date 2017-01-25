@@ -7,7 +7,6 @@ import {
   getModifiedViewsIds,
   getViewConfiguration,
   getViewContent,
-  decorateEntryPoint,
   getViewEntryPoints,
   getViewEntryPoint,
   getViewEntryPointStateColors,
@@ -105,18 +104,6 @@ describe('store:views:selectors', () => {
     getViewContent(state, 'myViewId').should.eql('<h1>content</h1>');
   });
 
-  it('decorateEntryPoint', () => {
-    const ep = {
-      name: 'ep1',
-      connectedData: {
-        formula: 'Reporting.ep1<>.extractedValue'
-      }
-    };
-    decorateEntryPoint(() => true)(ep).should.eql({
-      ...ep,
-      error: 'INVALID ENTRYPOINT',
-    });
-  });
   it('getViewEntryPoints', () => {
     const state = {
       views: {

@@ -80,11 +80,9 @@ export default class TextView extends PureComponent {
     this.template = beautifyHtml(this.props.content, { indent_size: 2 });
   }
 
-  /*
   componentDidMount() {
     if (renderMethod === 2) this.getComponent2();
   }
-  */
 
   shouldComponentUpdate(nextProps) {
     if (
@@ -99,11 +97,9 @@ export default class TextView extends PureComponent {
     return true;
   }
 
-  /*
   componentWillUpdate() {
     if (renderMethod === 2) this.getComponent2();
   }
-  */
 
   onDrop(e) {
     const data = e.dataTransfer.getData('text/plain');
@@ -340,6 +336,7 @@ export default class TextView extends PureComponent {
     if (renderMethod === 1) {
       return (isViewsEditorOpen
         ? <WYSIWYG
+          // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
           initialValues={{ html: this.template }}
           entryPoints={entryPoints.map(ep => ep.name)}
           onSubmit={this.handleSubmit}
@@ -355,6 +352,7 @@ export default class TextView extends PureComponent {
     if (renderMethod === 2) {
       return (isViewsEditorOpen
         ? <WYSIWYG
+          // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
           initialValues={{ html: this.template }}
           entryPoints={entryPoints.map(ep => ep.name)}
           onSubmit={this.handleSubmit}

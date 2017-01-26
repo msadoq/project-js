@@ -15,6 +15,10 @@
   flex: 1;
 }
 
+.posRelative{
+  position: relative;
+}
+
 .h100{
   height: 100%;
 }

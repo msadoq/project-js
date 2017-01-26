@@ -1,10 +1,10 @@
 import _ from 'lodash/fp';
 import { v4 } from 'node-uuid';
-import { server } from '../ipc';
 import {
   LOG_DOCUMENT_OPEN
 } from 'common/constants';
 
+import { server } from '../ipc';
 import { readViews } from '../../common/documentManager';
 import { showErrorMessage, getPathByFilePicker } from '../dialog';
 import { addAndMount as addAndMountView } from '../../store/actions/pages';
@@ -35,7 +35,7 @@ function viewOpen(focusedWindow) { // absolutePath, pageId) {
       const current = view[0];
       current.absolutePath = filePath;
       showSelectedView(current, state.windows[focusedWindow.windowId].focusedPage);
-      server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', filePath)
+      server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', filePath);
     });
   });
 }
@@ -88,7 +88,7 @@ function viewAddNew(focusedWindow, view) {
   const viewId = v4();
   getStore().dispatch(addAndMountView(pageId, viewId, view, addViewInLayout(pageId, viewId)));
   getStore().dispatch(setModifiedView(viewId, true));
-  server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', `new ${_.getOr('view', 'type', view)}`)
+  server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', `new ${_.getOr('view', 'type', view)}`);
 }
 
 

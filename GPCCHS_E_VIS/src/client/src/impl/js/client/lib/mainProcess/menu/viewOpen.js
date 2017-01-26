@@ -6,30 +6,38 @@ import {
 
 import { server } from '../ipc';
 import { readViews } from '../../common/documentManager';
-import { showErrorMessage, getPathByFilePicker } from '../dialog';
+import { getPathByFilePicker } from '../dialog';
+import { add as addMessage } from '../../store/actions/messages';
 import { addAndMount as addAndMountView } from '../../store/actions/pages';
+import { getWindowFocusedPageId } from '../../store/selectors/windows';
 import { getStore } from '../../store/mainStore';
 import { setModified as setModifiedView } from '../../store/actions/views';
 
 module.exports = { viewOpen, addPlotView, addTextView, addDynamicView };
-
 
 function viewOpen(focusedWindow) { // absolutePath, pageId) {
   if (!focusedWindow) {
     return;
   }
 
-  const state = getStore().getState();
+  const { getState, dispatch } = getStore();
+  const state = getState();
+
+  const focusedPageId = getWindowFocusedPageId(state, focusedWindow.windowId);
+  const addDangerMessage = msg => dispatch(addMessage(focusedPageId, 'danger', msg));
+
   getPathByFilePicker(state.hsc.folder, 'view', 'open', (err, filePath) => {
-    if (err || !filePath) { // error or cancel
-      return;
+    if (err) { // error
+      return addDangerMessage(err);
     }
+    if (!filePath) {
+      return;
+    } // cancel
     const viewPath = [{ absolutePath: filePath }];
     readViews(viewPath, (errView, view) => {
       if (errView) {
-        showErrorMessage(focusedWindow,
-          'Error on selected view',
-          'Invalid View file selected'.concat(errView), () => {});
+        addDangerMessage('Unable to load View');
+        addDangerMessage(errView);
         return;
       }
       const current = view[0];

@@ -8,6 +8,10 @@ import {
 import classnames from 'classnames';
 import styles from './Controls.css';
 
+const inlineStyles = {
+  width200: { width: '200px' }
+};
+
 export default class ControlsLeft extends PureComponent {
 
   static propTypes = {
@@ -24,7 +28,8 @@ export default class ControlsLeft extends PureComponent {
     timebarSpeed: PropTypes.number.isRequired,
   }
 
-  changeSpeed = (dir) => {
+  changeSpeed = (e) => {
+    e.preventDefault();
     const {
       updateSpeed,
       timebarUuid,
@@ -32,6 +37,7 @@ export default class ControlsLeft extends PureComponent {
       isPlaying,
       play,
     } = this.props;
+    const dir = e.currentTarget.getAttribute('direction');
 
     let newSpeed = dir === 'up' ? 2 * timebarSpeed : timebarSpeed / 2;
 
@@ -106,7 +112,7 @@ export default class ControlsLeft extends PureComponent {
         title="Playing speed"
         placement="top"
         id="playingSpeedPopover"
-        style={{ width: '200px' }}
+        style={inlineStyles.width200}
       >
         <Form horizontal>
           <input
@@ -148,7 +154,8 @@ export default class ControlsLeft extends PureComponent {
         <li className={styles.controlsLi}>
           <button
             className={allButtonsKlasses}
-            onClick={this.changeSpeed.bind(null, 'down')}
+            direction="down"
+            onClick={this.changeSpeed}
             title="Decrease speed"
           >
             <Glyphicon className={styles.glyphIcon} glyph="backward" />
@@ -174,7 +181,8 @@ export default class ControlsLeft extends PureComponent {
         <li className={styles.controlsLi}>
           <button
             className={allButtonsKlasses}
-            onClick={this.changeSpeed.bind(null, 'up')}
+            direction="up"
+            onClick={this.changeSpeed}
             title="Increase speed"
           >
             <Glyphicon className={styles.glyphIcon} glyph="forward" />

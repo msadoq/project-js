@@ -148,9 +148,7 @@ class Debug extends PureComponent {
         <Button
           bsSize="sm"
           bsStyle="default"
-          style={{
-            float: 'right',
-          }}
+          className="pull-right"
           onClick={this.toggleHelp}
         >
           Help

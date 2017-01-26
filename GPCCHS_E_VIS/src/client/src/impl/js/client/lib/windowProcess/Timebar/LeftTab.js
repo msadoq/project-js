@@ -202,6 +202,7 @@ export default class LeftTab extends Component {
           masterId={masterId}
           id={currentlyEditingTimeline.id}
           timelineId={currentlyEditingTimeline.timelineId}
+          // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
           initialValues={{
             master: masterId === currentlyEditingTimeline.id,
             id: currentlyEditingTimeline.id,
@@ -227,6 +228,7 @@ export default class LeftTab extends Component {
           sessions={sessions}
           timelines={timelines}
           onSubmit={this.willAddTimeline}
+          // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
           initialValues={{
             id: '',
             color: schemeCategory20b[timelines.length % 20],

@@ -196,6 +196,7 @@ export default class TimeSetter extends Component {
               /* flatpickr fails on jest test */
               process.env.NODE_ENV !== 'snapshot' &&
               <Flatpickr
+                // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
                 options={{
                   minDate: '1990-01-01',
                   maxDate: moment().add(1, 'year').format('YYYY-MM-DD'),

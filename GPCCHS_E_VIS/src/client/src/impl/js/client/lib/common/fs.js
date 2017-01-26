@@ -16,15 +16,15 @@ const self = module.exports = {
   read: (path, callback) => {
     self.isExists(path, (exists) => {
       if (!exists) {
-        return callback(`File '${path}' doesn't exist`);
+        return callback(new Error(`File '${path}' doesn't exist`));
       }
       return self.isReadable(path, (readable) => {
         if (!readable) {
-          return callback(`File '${path}' isn't readable`);
+          return callback(new Error(`File '${path}' isn't readable`));
         }
         return fs.readFile(path, 'utf8', (err, content) => {
           if (err) {
-            return callback(err);
+            return callback(new Error(err));
           }
           return callback(null, content);
         });
@@ -54,7 +54,7 @@ const self = module.exports = {
     // Relative path from local folder
     if (!folder || _startsWith(path, '/')) {
       // relative path from folder
-      return callback(`Invalid relative path: ${folder}, ${path}`);
+      return callback(new Error(`Invalid relative path: ${folder}, ${path}`));
     }
     resolvedPath = join(folder, path);
     self.read(resolvedPath, (err, content) => {
@@ -67,7 +67,7 @@ const self = module.exports = {
   readJsonFromFmdPath: (filepath, callback) => {
     resolvedPath = undefined;
     if (!_startsWith(filepath, '/')) {
-      return callback(`Invalid FMD path ${filepath}`);
+      return callback(new Error(`Invalid FMD path ${filepath}`));
     }
     // relative path from FMD
     try {
@@ -114,7 +114,7 @@ const self = module.exports = {
         // TODO check if folder is on FMD
         mkdirp(folder, (err) => {
           if (err) {
-            reject(`Unable to create folder ${folder} : ${err}`);
+            reject(new Error(`Unable to create folder ${folder} : ${err}`));
           } else {
             resolve(true);
           }

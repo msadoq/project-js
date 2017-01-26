@@ -26,8 +26,8 @@ describe('documents/validation', () => {
     validate.should.be.a('function');
   });
   it('accepts 2 or 3 params', () => {
-    validate('page').should.be.an('array').with.lengthOf(1);
-    validate('page', page, pageSchema, 'foo').should.be.an('array').with.lengthOf(1);
+    validate('page').should.be.an('error');
+    validate('page', page, pageSchema, 'foo').should.be.an('error');
   });
   it('pre-existing schema', () => {
     should.not.exist(validate('page', page));
@@ -37,6 +37,6 @@ describe('documents/validation', () => {
   });
   it('errors', () => {
     validate('page', pageInvalid).should.be.an('array').with.lengthOf(3);
-    validate('unknown', pageInvalid).should.be.an('array').with.lengthOf(1);
+    validate('unknown', pageInvalid).should.be.an('error');
   });
 });

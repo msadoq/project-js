@@ -47,13 +47,13 @@ const readViews = fmdApi => (viewsToRead, done) => {
         return next(err);
       }
       if (supportedViewTypes.indexOf(viewContent.type) === -1) {
-        return next(`Unsupported view type '${viewContent.type}'`, viewsToRead);
+        return next(new Error(`Unsupported view type '${viewContent.type}'`), viewsToRead);
       }
       let schema;
       try {
         schema = vivl(viewContent.type, 'getSchemaJson')();
       } catch (e) {
-        return next(`Invalid schema on view type '${viewContent.type}'`, viewsToRead);
+        return next(new Error(`Invalid schema on view type '${viewContent.type}'`), viewsToRead);
       }
       const validationError = formattedValidation(viewContent.type, viewContent, schema);
       if (validationError) {

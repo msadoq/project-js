@@ -89,7 +89,7 @@ const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
 
 const saveWorkspace = fmdApi => (state, useRelativePath, callback) => {
   if (!state.hsc || !state.hsc.folder || !state.hsc.file) {
-    return 'Unable to get path for saving workspace';
+    return new Error('Unable to get path for saving workspace');
   }
   return saveWorkspaceAs(fmdApi)(
     state,

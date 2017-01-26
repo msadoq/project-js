@@ -162,10 +162,21 @@ describe('store:views:reducer', () => {
           title: 'my plot',
         },
         absolutePath: '/data/oldPath',
+        path: '/data/oldPath',
         isModified: false,
       }
     };
     freezeMe(state);
+    it('Path', () => {
+      const s = reducer(state, actions.updatePath('view1', '/data/newPath'));
+      s.view1.path.should.equal('/data/newPath');
+      s.view1.isModified.should.equal(true);
+      s.view1.configuration.title.should.equal('my plot');
+    });
+    it('Path: no change', () => {
+      reducer(state, actions.updatePath('view1', '../../../../../../../../../../../../../../../data/oldPath'))
+      .should.equal(state);
+    });
     it('absolute Path', () => {
       const s = reducer(state, actions.updateAbsolutePath('view1', '/data/newPath'));
       s.view1.absolutePath.should.equal('/data/newPath');
@@ -173,7 +184,7 @@ describe('store:views:reducer', () => {
       s.view1.configuration.title.should.equal('my plot');
     });
     it('absolute Path: no change', () => {
-      reducer(state, actions.updateAbsolutePath('view1', '/data/oldPath'))
+      reducer(state, actions.updateAbsolutePath('view1', '../../../../../../../../../../../../../../../data/oldPath'))
       .should.equal(state);
     });
     it('object ok', () => {
@@ -188,6 +199,7 @@ describe('store:views:reducer', () => {
           type: 'plot',
           isModified: true,
           absolutePath: '/data/oldPath',
+          path: '/data/oldPath',
           configuration: {
             oName: 'newValue',
             title: 'my plot'
@@ -225,6 +237,7 @@ describe('store:views:reducer', () => {
           type: 'plot',
           isModified: true,
           absolutePath: '/data/oldPath',
+          path: '/data/oldPath',
           configuration: {
             oName: 'newValue',
             title: 'my plot',

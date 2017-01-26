@@ -50,7 +50,7 @@ const saveViewAs = fmdApi => (viewConfiguration, viewType, path, callback) => {
 
     writeDocument(fmdApi)(path, view, (errWrite, oId) => {
       if (errWrite) {
-        return callback(`Unable to save view ${view.title} in file ${path}`);
+        return callback(errWrite);
       }
       server.sendProductLog(LOG_DOCUMENT_SAVE, 'view', path);
       return callback(null, oId);

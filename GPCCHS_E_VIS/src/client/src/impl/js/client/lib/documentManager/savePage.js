@@ -73,7 +73,7 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
     // save file
     writeDocument(fmdApi)(path, jsonPage, (errfs, oid) => {
       if (errfs) {
-        return callback(`Unable to save view ${page.title} in file ${path}`);
+        return callback(errfs);
       }
 
       server.sendProductLog(LOG_DOCUMENT_SAVE, 'page', path);

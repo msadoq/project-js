@@ -78,7 +78,7 @@ const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
     // save file
     writeDocument(fmdApi)(path, workspace, (err) => {
       if (err) {
-        return callback(`Unable to save workspace in file ${path}`);
+        return callback(err);
       }
       server.sendProductLog(LOG_DOCUMENT_SAVE, 'workspace', path);
       callback(null, savedWindowsIds);

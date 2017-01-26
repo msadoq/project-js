@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import _get from 'lodash/get';
 import { getMasterTimelineById } from '../../store/selectors/timebars';
 import { getSession } from '../../store/selectors/sessions';
+import { getMasterSessionId } from '../../store/selectors/masterSession';
 import {
   switchToNormalMode,
   switchToRealtimeMode,
@@ -30,6 +31,8 @@ export default connect(
       messages: _get(state, ['messages', `timeSetter-${timebarUuid}`], null),
       currentSessionExists,
       masterTimelineExists,
+      masterTimeline,
+      masterSessionId: getMasterSessionId(state),
     };
   },
   {

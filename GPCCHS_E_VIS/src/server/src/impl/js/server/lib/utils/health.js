@@ -19,6 +19,5 @@ module.exports = () => {
   iterationTime = (iterationNb) ? totalTime / iterationNb : 0;
   iterationNb = 0;
   start = process.hrtime();
-  console.log('HOUBA HOUBA? HOUBA', iterationTime)
   return (iterationTime < globalConstants.HSS_EVENTLOOP_WARNING);
 };

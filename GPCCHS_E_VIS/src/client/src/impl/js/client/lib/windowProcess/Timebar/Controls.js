@@ -43,6 +43,9 @@ export default class Controls extends PureComponent {
           messages={this.props.messages}
           timebarUuid={this.props.timebarUuid}
           timebarSpeed={this.props.timebarSpeed}
+          currentSessionExists={this.props.currentSessionExists}
+          masterTimeline={this.props.masterTimeline}
+          masterSessionId={this.props.masterSessionId}
         />
         <ControlsRight
           play={this.props.play}

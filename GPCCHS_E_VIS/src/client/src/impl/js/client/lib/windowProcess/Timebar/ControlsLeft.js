@@ -7,6 +7,7 @@ import {
 } from 'react-bootstrap';
 import classnames from 'classnames';
 import styles from './Controls.css';
+import { main } from '../ipc';
 
 const inlineStyles = {
   width200: { width: '200px' }
@@ -26,6 +27,9 @@ export default class ControlsLeft extends PureComponent {
     messages: PropTypes.array,
     timebarUuid: PropTypes.string.isRequired,
     timebarSpeed: PropTypes.number.isRequired,
+    currentSessionExists: PropTypes.bool.isRequired,
+    masterTimeline: PropTypes.object,
+    masterSessionId: PropTypes.number.isRequired,
   }
 
   changeSpeed = (e) => {
@@ -81,8 +85,27 @@ export default class ControlsLeft extends PureComponent {
 
   goNow = (e) => {
     e.preventDefault();
-    const { timebarUuid, goNow } = this.props;
-    goNow(timebarUuid);
+    const {
+      timebarUuid,
+      goNow,
+      currentSessionExists,
+      masterTimeline,
+      masterSessionId,
+    } = this.props;
+    // IPC request to get master session current time
+    let sessionId;
+    if (currentSessionExists) {
+      sessionId = masterTimeline.sessionId;
+    } else {
+      sessionId = masterSessionId;
+    }
+    main.getSessionTime(sessionId, ({ err, timestamp }) => {
+      if (err) {
+        // TODO Show message
+        return;
+      }
+      goNow(timebarUuid, timestamp);
+    });
   }
 
   jump = (e) => {

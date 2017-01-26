@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import path from 'path';
 import { Nav, NavItem, Button, Glyphicon, OverlayTrigger, Table, Popover } from 'react-bootstrap';
 import getLogger from 'common/log';
 import styles from './Tabs.css';
@@ -11,10 +12,15 @@ function popoverHoverFocus(page) {
       <Table>
         <tbody>
           {page.properties.length ?
-            // eslint-disable-next-line no-unused-vars
             page.properties.map(
               (prop, i) => <tr key={i}><td>{prop.name.value}</td><td>{prop.value.value}</td></tr>)
-            : <tr>No data</tr>}
+            : <tr><td>No FMD data</td></tr>}
+          {page.oId && <tr><td>OID</td><td>{page.oId}</td></tr>}
+          {page.absolutePath &&
+            <tr><td>File name</td><td>{path.basename(page.absolutePath)}</td></tr>}
+          {!page.absolutePath && page.path &&
+            <tr><td>File name</td><td>{path.basename(page.path)}</td></tr>}
+          {!page.absolutePath && !page.path && <tr><td>Unsaved file</td></tr>}
         </tbody>
       </Table>
     </Popover>

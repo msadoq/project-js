@@ -16,6 +16,7 @@ import { initStore, getStore } from '../store/mainStore';
 import rendererController from './controllers/renderer';
 import serverController from './controllers/server';
 import { server } from './ipc';
+import { add as addMessage } from '../store/actions/messages';
 import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
 import { updateMasterSession } from '../store/actions/masterSession';
@@ -127,9 +128,18 @@ export function start() {
       const root = parameters.get('FMD_ROOT_DIR');
       const file = parameters.get('WORKSPACE');
 
-      return file
-        ? openWorkspaceDocument(dispatch, getState, root, file, callback)
-        : openDefaultWorkspace(dispatch, root, callback);
+      if (!file) {
+        dispatch(addMessage('global', 'info', 'No WORKSPACE found'));
+        return openDefaultWorkspace(dispatch, root, callback);
+      }
+
+      openWorkspaceDocument(dispatch, getState, root, file, (err, value) => {
+        if (err) {
+          dispatch(addMessage('global', 'danger', err));
+          return openDefaultWorkspace(dispatch, root, callback);
+        }
+        callback(null, value);
+      });
     }
   ], (err) => {
     if (err) {

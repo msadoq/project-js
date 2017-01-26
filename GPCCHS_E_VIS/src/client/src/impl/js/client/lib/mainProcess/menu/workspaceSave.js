@@ -13,7 +13,7 @@ const addGlobalError = msg => addMessage('global', 'danger', msg);
 
 function workspaceSave(focusedWindow) {
   if (!focusedWindow) {
-    return getStore().dispatch(addGlobalError('Saving failed : any window focused'));
+    return getStore().dispatch(addGlobalError('Saving failed : no window focused'));
   }
   const state = getStore().getState();
   if (getModifiedPagesIds(state).length > 0 || getModifiedViewsIds(state).length > 0) {
@@ -21,9 +21,6 @@ function workspaceSave(focusedWindow) {
   }
   if (!state.hsc.file) {
     getPathByFilePicker(state.hsc.folder, 'Workspace', 'save', (err, newWsPath) => {
-      if (err) {
-        return getStore().dispatch(addGlobalError(err));
-      }
       getStore().dispatch(updatePath(path.dirname(newWsPath), path.basename(newWsPath)));
       saveFile(focusedWindow);
     });
@@ -34,20 +31,15 @@ function workspaceSave(focusedWindow) {
 
 function workspaceSaveAs(focusedWindow) {
   if (!focusedWindow) {
-    return;
+    return getStore().dispatch(addGlobalError('Saving failed : no window focused'));
   }
   const state = getStore().getState();
   if (getModifiedPagesIds(state).length > 0 || getModifiedViewsIds(state).length > 0) {
     getStore().dispatch(addGlobalError('Please, save the pages and views of this workspace'));
   } else {
     getPathByFilePicker(state.hsc.folder, 'Workspace', 'save', (err, newWsPath) => {
-      if (err) {
-        return getStore().dispatch(addGlobalError(err));
-      }
-      if (!err && newWsPath) {
-        getStore().dispatch(updatePath(path.dirname(newWsPath), path.basename(newWsPath)));
-        saveFile(focusedWindow);
-      }
+      getStore().dispatch(updatePath(path.dirname(newWsPath), path.basename(newWsPath)));
+      saveFile(focusedWindow);
     });
   }
 }

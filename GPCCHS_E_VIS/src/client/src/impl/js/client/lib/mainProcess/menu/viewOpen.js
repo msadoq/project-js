@@ -27,12 +27,6 @@ function viewOpen(focusedWindow) { // absolutePath, pageId) {
   const addDangerMessage = msg => dispatch(addMessage(focusedPageId, 'danger', msg));
 
   getPathByFilePicker(state.hsc.folder, 'view', 'open', (err, filePath) => {
-    if (err) { // error
-      return addDangerMessage(err);
-    }
-    if (!filePath) {
-      return;
-    } // cancel
     const viewPath = [{ absolutePath: filePath }];
     readViews(viewPath, (errView, view) => {
       if (errView) {

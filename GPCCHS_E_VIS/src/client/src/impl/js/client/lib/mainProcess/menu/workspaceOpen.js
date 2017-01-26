@@ -22,10 +22,7 @@ const addGlobalError = msg => addMessage('global', 'danger', msg);
 function workspaceOpenNew(focusedWindow) {
   const store = getStore();
   const { dispatch, getState } = store;
-  allDocumentsAreSaved(store, (err, { cancel } = {}) => {
-    if (cancel) {
-      return;
-    }
+  allDocumentsAreSaved(store, (err) => {
     if (err) {
       return dispatch(addGlobalError(err));
     }
@@ -39,32 +36,27 @@ function workspaceOpenNew(focusedWindow) {
 function workspaceOpen(focusedWindow) {
   const store = getStore();
   const { dispatch, getState } = store;
-  allDocumentsAreSaved(store, (err, { cancel } = {}) => {
-    if (cancel) {
-      return;
-    }
+  allDocumentsAreSaved(store, (err) => {
     if (err) {
       return dispatch(addGlobalError(err));
     }
     const folder = getState().hsc.folder;
     // open the file picker
     getPathByFilePicker(folder, 'workspace', 'open', (errFile, filePath) => {
-      if (filePath) {
-        dispatch(isWorkspaceOpening(true));
-        openWorkspaceDocument(
-          dispatch,
-          getState,
-          path.dirname(filePath),
-          path.basename(filePath),
-          (errWk) => {
-            dispatch(isWorkspaceOpening(false));
-            if (errWk) {
-              dispatch(addGlobalError(`Unable to load workspace : ${filePath}`));
-              dispatch(addGlobalError(errWk));
-            }
+      dispatch(isWorkspaceOpening(true));
+      openWorkspaceDocument(
+        dispatch,
+        getState,
+        path.dirname(filePath),
+        path.basename(filePath),
+        (errWk) => {
+          dispatch(isWorkspaceOpening(false));
+          if (errWk) {
+            dispatch(addGlobalError(`Unable to load workspace : ${filePath}`));
+            dispatch(addGlobalError(errWk));
           }
-        );
-      }
+        }
+      );
     });
   });
 }
@@ -85,16 +77,13 @@ function allDocumentsAreSaved(store, cb) {
       const state = store.getState();
       const viewsAndPagesAreSaved = isPagesSaved(state) && isViewsSaved(state);
       if (isCancel(clickedButton)) { // cancel
-        return cb(null, { cancel: true });
+        return;
       } else if (isNo(clickedButton)) { // no
         return cb(null);
       } else if (isYes(clickedButton) && !viewsAndPagesAreSaved) {
         return cb('Please, save the pages and views of this workspace');
       } else if (isYes(clickedButton) && !state.hsc.file) { // yes
         return getPathByFilePicker(state.hsc.folder, 'workspace', 'save', (errWk, pathWk) => {
-          if (!pathWk) {
-            return;
-          }
           if (errWk) {
             return cb(errWk);
           }

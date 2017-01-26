@@ -41,9 +41,5 @@ export default function ({ viewId, saveAs }) {
   }
 
   const folder = absolutePath ? dirname(absolutePath) : root;
-  return getPathByFilePicker(folder, 'view', 'save', (err, path) => {
-    if (path) {
-      oncePath(path);
-    }
-  });
+  return getPathByFilePicker(folder, 'view', 'save', (err, path) => oncePath(path));
 }

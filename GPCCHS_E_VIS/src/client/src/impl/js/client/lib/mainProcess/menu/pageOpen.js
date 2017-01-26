@@ -3,6 +3,7 @@ import { v4 } from 'node-uuid';
 import {
   LOG_DOCUMENT_OPEN
 } from 'common/constants';
+import { getLogger } from 'common/log';
 import { server } from '../ipc';
 import { readPages, extractViews } from '../../common/documentManager';
 import { getPathByFilePicker } from '../dialog';
@@ -11,6 +12,8 @@ import { add as addView } from '../../store/actions/views';
 import { add as addMessage } from '../../store/actions/messages';
 import { addAndMount as addAndMountPage } from '../../store/actions/windows';
 import { setModified as setModifiedPage } from '../../store/actions/pages';
+
+const logger = getLogger('menu:pageOpen');
 
 const addGlobalError = msg => addMessage('global', 'danger', msg);
 
@@ -22,10 +25,6 @@ function pageOpen(focusedWindow) {
     return;
   }
   getPathByFilePicker(store.getState().hsc.folder, 'page', 'open', (err, filePath) => {
-    if (err || !filePath) { // error or cancel
-      return;
-    }
-
     readPages(undefined, [{ absolutePath: filePath }], (pageErr, pages) => {
       if (pageErr) {
         store.dispatch(addGlobalError('Unable to load page'));
@@ -52,7 +51,7 @@ function pageOpen(focusedWindow) {
 
 function pageAddNew(focusedWindow) {
   if (!focusedWindow) {
-    return;
+    return getStore().dispatch(addGlobalError('Saving failed : no window focused'));
   }
   const { dispatch, getState } = getStore();
   const uuid = v4();

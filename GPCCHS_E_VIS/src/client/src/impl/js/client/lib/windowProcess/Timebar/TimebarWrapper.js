@@ -12,10 +12,8 @@ const logger = getLogger('Timebar');
 const minTimebarHeight = 140;
 
 const inlineStyles = {
-  padding8: {
-    paddingBottom8: {
-      paddingBottom: 8,
-    }
+  paddingBottom8: {
+    paddingBottom: 8,
   }
 };
 

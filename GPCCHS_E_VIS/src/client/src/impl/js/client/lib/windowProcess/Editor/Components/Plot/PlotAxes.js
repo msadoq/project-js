@@ -13,6 +13,12 @@ import SelectButton from '../Buttons/SelectButton';
 import PlotAxis from './PlotAxis';
 import Modal from '../../../common/Modal';
 
+const alignButtons = [
+  { label: '', icon: 'none' },
+  { label: 'left', icon: 'alignLeft' },
+  { label: 'right', icon: 'alignRight' }
+];
+
 export default class PlotAxes extends React.Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
@@ -123,11 +129,7 @@ export default class PlotAxes extends React.Component {
             <SelectButton
               active={showYAxes}
               onChange={this.handleShowYAxes}
-              buttons={[
-                { label: '', icon: 'none' },
-                { label: 'left', icon: 'alignLeft' },
-                { label: 'right', icon: 'alignRight' }
-              ]}
+              buttons={alignButtons}
             />
           </HorizontalFormGroup>
         </Form>}

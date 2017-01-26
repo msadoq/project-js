@@ -95,6 +95,7 @@ export default class EntryPointDetails extends React.Component {
           {isPanelParametersOpen && <EntryPointParameters
             onSubmit={this.handleObjectParametersSubmit}
             form={`entrypoint-parameters-form-${idPoint}-${viewId}`}
+            // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
             initialValues={{ ...entryPoint.objectStyle, name: entryPoint.name }}
           />}
         </Panel>
@@ -114,6 +115,7 @@ export default class EntryPointDetails extends React.Component {
             viewId={viewId}
             form={`entrypoint-connectedDataXY-form-${idPoint}-${viewId}`}
             onSubmit={this.handleConnectedDataXYSubmit}
+            // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
             initialValues={{
               x: entryPoint.connectedDataX,
               y: entryPoint.connectedDataY,
@@ -130,6 +132,7 @@ export default class EntryPointDetails extends React.Component {
           onExited={this.closePanel.bind('StateColors')}
         >
           {isPanelStateColorsOpen && <EntryPointStateColors
+            // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
             initialValues={{
               stateColors: entryPoint.stateColors || []
             }}

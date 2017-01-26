@@ -11,6 +11,10 @@ const logger = getLogger('Content');
 
 const Grid = WidthProvider(Responsive); // eslint-disable-line new-cap
 
+const gridStyles = {
+  containerPadding: [0, 0],
+};
+
 const filterLayoutBlockFields = [
   'minW',
   'minH',
@@ -78,7 +82,7 @@ export default class Content extends PureComponent {
         className="layout"
         rowHeight={30}
         width={1200}
-        containerPadding={[0, 0]}
+        containerPadding={gridStyles.containerPadding}
         breakpoints={this.breakpoints}
         cols={this.cols}
         draggableHandle=".moveHandler"

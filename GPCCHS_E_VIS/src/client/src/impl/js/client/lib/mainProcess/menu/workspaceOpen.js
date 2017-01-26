@@ -43,22 +43,30 @@ function workspaceOpen(focusedWindow) {
     const folder = getState().hsc.folder;
     // open the file picker
     getPathByFilePicker(folder, 'workspace', 'open', (errFile, filePath) => {
-      dispatch(isWorkspaceOpening(true));
-      openWorkspaceDocument(
-        dispatch,
-        getState,
-        path.dirname(filePath),
-        path.basename(filePath),
-        (errWk) => {
-          dispatch(isWorkspaceOpening(false));
-          if (errWk) {
-            dispatch(addGlobalError(`Unable to load workspace : ${filePath}`));
-            dispatch(addGlobalError(errWk));
-          }
-        }
-      );
+      if (filePath) {
+        workspaceOpenWithPath({ filePath });
+      }
     });
   });
+}
+
+function workspaceOpenWithPath({ filePath }) {
+  const store = getStore();
+  const { dispatch, getState } = store;
+  dispatch(isWorkspaceOpening(true));
+  openWorkspaceDocument(
+    dispatch,
+    getState,
+    path.dirname(filePath),
+    path.basename(filePath),
+    (errWk) => {
+      dispatch(isWorkspaceOpening(false));
+      if (errWk) {
+        dispatch(addGlobalError(`Unable to load workspace : ${filePath}`));
+        dispatch(addGlobalError(errWk));
+      }
+    }
+  );
 }
 
 const isPagesSaved = state => getModifiedPagesIds(state).length === 0;
@@ -114,5 +122,6 @@ function isSaveNeeded(state) {
 
 export default {
   workspaceOpenNew,
-  workspaceOpen
+  workspaceOpen,
+  workspaceOpenWithPath,
 };

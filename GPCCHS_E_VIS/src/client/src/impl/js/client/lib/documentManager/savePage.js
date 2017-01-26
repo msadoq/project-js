@@ -2,12 +2,12 @@
 import _findIndex from 'lodash/findIndex';
 import _startsWith from 'lodash/startsWith';
 import { dirname, relative } from 'path';
-import { server } from '../mainProcess/ipc';
-import parameters from 'common/parameters';
 import {
   LOG_DOCUMENT_SAVE
 } from 'common/constants';
+import parameters from 'common/parameters';
 
+import { server } from '../mainProcess/ipc';
 import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
 

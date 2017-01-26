@@ -29,7 +29,7 @@ import {
   drawBadge,
 } from './helper';
 import { monitoringStateColors } from '../../../lib/windowProcess/common/colors';
-import DroppableContainer from '../../../lib/windowProcess/View/DroppableContainer';
+import DroppableContainer from '../../../lib/windowProcess/common/DroppableContainer';
 import { Danger } from '../../../lib/windowProcess/View/Alert';
 import styles from './PlotView.css';
 
@@ -190,11 +190,17 @@ export class PlotView extends PureComponent {
     const data = e.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);
 
+    if (!_get(content, 'catalogName')) {
+      return;
+    }
+
     // eslint-disable-next-line no-console
     this.props.addEntryPoint(
       this.props.viewId,
       parseDragData(content)
     );
+
+    e.stopPropagation();
   }
 
   getGrid() {
@@ -719,7 +725,6 @@ export class PlotView extends PureComponent {
           position: 'relative',
         }}
         onDrop={this.onDrop.bind(this)}
-        text={'add entry point'}
         className={classnames({
           [styles.disconnected]: disconnected || zoomedOrPanned,
         })}

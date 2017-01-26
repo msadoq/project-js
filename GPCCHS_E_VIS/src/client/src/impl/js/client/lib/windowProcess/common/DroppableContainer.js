@@ -1,5 +1,8 @@
 import React, { PropTypes } from 'react';
 import _omit from 'lodash/omit';
+import getLogger from 'common/log';
+
+const logger = getLogger('drag and drop');
 
 const s = {
   overlay: {
@@ -34,6 +37,10 @@ export default class DroppableContainer extends React.Component {
     text: PropTypes.string,
   }
 
+  static defaultProps = {
+    text: 'Drop here',
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -43,7 +50,7 @@ export default class DroppableContainer extends React.Component {
 
   onDragOver(e) {
     e.preventDefault();
-
+    e.stopPropagation();
     if (!this.state.over) {
       this.setState({
         over: true
@@ -62,10 +69,14 @@ export default class DroppableContainer extends React.Component {
   onDrop(e) {
     try {
       this.props.onDrop(e);
+    } catch (err) {
+      console.error(err);
+      logger.info('unable to parse dropped data');
     } finally {
       this.setState({
         over: false
       });
+      e.preventDefault();
     }
   }
   render() {

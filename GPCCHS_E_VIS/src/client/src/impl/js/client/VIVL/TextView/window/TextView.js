@@ -20,7 +20,7 @@ import {
 import WYSIWYG from './WYSIWYG';
 // import TextViewSpan from './TextViewSpan';
 
-import DroppableContainer from '../../../lib/windowProcess/View/DroppableContainer';
+import DroppableContainer from '../../../lib/windowProcess/common/DroppableContainer';
 
 import styles from './TextView.css';
 
@@ -109,11 +109,17 @@ export default class TextView extends PureComponent {
     const data = e.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);
 
+    if (!_get(content, 'catalogName')) {
+      return;
+    }
+
     // eslint-disable-next-line no-console
     this.props.addEntryPoint(
       this.props.viewId,
       parseDragData(content)
     );
+
+    e.stopPropagation();
   }
 
   getComponent2 = () => {
@@ -341,7 +347,6 @@ export default class TextView extends PureComponent {
         />
         : <DroppableContainer
           onDrop={this.onDrop.bind(this)}
-          text={'add entry point'}
         >
           {this.getComponent()}
         </DroppableContainer>);
@@ -357,7 +362,6 @@ export default class TextView extends PureComponent {
         />
         : <DroppableContainer
           onDrop={this.onDrop.bind(this)}
-          text={'add entry point'}
         >
           <div
             ref={(el) => { this.textViewBodyEl = el; }}

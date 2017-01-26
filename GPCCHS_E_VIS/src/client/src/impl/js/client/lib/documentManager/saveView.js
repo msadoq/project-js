@@ -4,11 +4,12 @@ import _cloneDeep from 'lodash/cloneDeep';
 import _omit from 'lodash/omit';
 import _values from 'lodash/values';
 import _each from 'lodash/each';
-import { server } from '../mainProcess/ipc';
 import {
   DATASTRUCTURETYPE_RANGE,
   LOG_DOCUMENT_SAVE
 } from 'common/constants';
+
+import { server } from '../mainProcess/ipc';
 
 import vivl from '../../VIVL/main';
 import { createFolder } from '../common/fs';

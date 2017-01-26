@@ -12,7 +12,7 @@ export default class Messages extends PureComponent {
 
   state = {
     filter: 'all',
-    collapsed: true,
+    collapsed: false,
   }
 
   updateFilter = (e) => {

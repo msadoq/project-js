@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { Field } from 'redux-form';
 import { schemeCategory20b } from 'd3-scale';
 import {
@@ -15,7 +15,7 @@ import {
   All the fields used in Connected data form
   It can be used with a prefix to map exactly form's initialValues'ss tructure
 */
-export default class TimelineFields extends React.Component {
+export default class TimelineFields extends PureComponent {
   static propTypes = {
     sessions: PropTypes.array,
     timelines: PropTypes.array,

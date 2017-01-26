@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { Button, Col, Glyphicon } from 'react-bootstrap';
 import { schemeCategory20b } from 'd3-scale';
 import Timeline from './Timeline';
@@ -9,7 +9,7 @@ import AddTimeline from './timeline/AddTimeline';
 import styles from './Lefttab.css';
 import { main } from '../ipc';
 
-export default class LeftTab extends Component {
+export default class LeftTab extends PureComponent {
   static propTypes = {
     addAndMountTimeline: PropTypes.func.isRequired,
     unmountTimeline: PropTypes.func.isRequired,

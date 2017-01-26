@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import { debounce } from 'lodash';
 import getLogger from 'common/log';
@@ -17,7 +17,7 @@ const inlineStyles = {
   }
 };
 
-export default class TimebarWrapper extends Component {
+export default class TimebarWrapper extends PureComponent {
 
   static propTypes = {
     isPlaying: PropTypes.bool.isRequired,

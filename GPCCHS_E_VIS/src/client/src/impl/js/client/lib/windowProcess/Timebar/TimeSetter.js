@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
 import moment from 'moment';
 import Flatpickr from 'react-flatpickr';
@@ -7,7 +7,7 @@ import TimeSetterFields from './TimeSetterFields';
 import Message from '../common/Message';
 import styles from './TimeSetter.css';
 
-export default class TimeSetter extends Component {
+export default class TimeSetter extends PureComponent {
 
   static propTypes = {
     updateDefaultWidth: PropTypes.func.isRequired,

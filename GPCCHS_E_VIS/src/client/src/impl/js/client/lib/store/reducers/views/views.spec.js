@@ -154,7 +154,7 @@ describe('store:views:reducer', () => {
     });
   });
   describe('update', () => {
-    const state = {
+    const state = freezeMe({
       view1: {
         type: 'plot',
         configuration: {
@@ -165,8 +165,7 @@ describe('store:views:reducer', () => {
         path: '/data/oldPath',
         isModified: false,
       }
-    };
-    freezeMe(state);
+    });
     it('Path', () => {
       const s = reducer(state, actions.updatePath('view1', '/data/newPath'));
       s.view1.path.should.equal('/data/newPath');
@@ -245,7 +244,7 @@ describe('store:views:reducer', () => {
         }
       });
     });
-    const stateArray = {
+    const stateArray = freezeMe({
       view1: {
         type: 'plot',
         configuration: {
@@ -253,8 +252,7 @@ describe('store:views:reducer', () => {
           title: 'my plot',
         },
       }
-    };
-    freezeMe(stateArray);
+    });
 
     it('array element ok', () => {
       const action = {
@@ -307,7 +305,7 @@ describe('store:views:reducer', () => {
     });
   });
 
-  const stateViews = {
+  const stateViews = freezeMe({
     plot1: {
       type: 'PlotView',
       configuration: {
@@ -356,8 +354,7 @@ describe('store:views:reducer', () => {
         ]
       }
     }
-  };
-  freezeMe(stateViews);
+  });
   describe('update action', () => {
     it('Entry Point', () => {
       const newEp = {
@@ -423,7 +420,7 @@ describe('store:views:reducer', () => {
   });
   describe('Add element in array', () => {
     it('general', () => {
-      const stateArray = {
+      const stateArray = freezeMe({
         view1: {
           type: 'plot',
           configuration: {
@@ -431,8 +428,7 @@ describe('store:views:reducer', () => {
             title: 'my view',
           },
         }
-      };
-      freezeMe(stateArray);
+      });
 
       const action = {
         payload: {
@@ -477,7 +473,7 @@ describe('store:views:reducer', () => {
     });
   });
   describe('Remove element in array', () => {
-    const stateArray = {
+    const stateArray = freezeMe({
       view1: {
         type: 'plot',
         configuration: {
@@ -485,8 +481,7 @@ describe('store:views:reducer', () => {
           title: 'my view',
         },
       }
-    };
-    freezeMe(stateArray);
+    });
 
     it('general ok', () => {
       const action = {

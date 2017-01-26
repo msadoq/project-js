@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import {
   Form
@@ -12,7 +12,7 @@ import {
 } from '../../../lib/windowProcess/Editor/Components/Forms/';
 import styles from './WYSIWYG.css';
 
-class WYSIWYG extends Component {
+class WYSIWYG extends PureComponent {
   static propTypes = {
     entryPoints: PropTypes.array,
     handleSubmit: PropTypes.func,

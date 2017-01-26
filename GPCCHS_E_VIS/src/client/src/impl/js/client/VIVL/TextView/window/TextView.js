@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { Parser, ProcessNodeDefinitions } from 'html-to-react';
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
@@ -47,7 +47,7 @@ const getTextStyle = color => ({
   color
 });
 
-export default class TextView extends Component {
+export default class TextView extends PureComponent {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
     data: PropTypes.shape({

@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import getLogger from 'common/log';
 import ContentContainer from './ContentContainer';
@@ -11,7 +11,7 @@ const logger = getLogger('Page');
 // const cols = 12;
 // const editorCols = 4;
 
-export default class Page extends Component {
+export default class Page extends PureComponent {
   static propTypes = {
     windowId: PropTypes.string.isRequired,
     isEditorOpened: PropTypes.bool,

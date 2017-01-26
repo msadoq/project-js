@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import _omit from 'lodash/omit';
 import classnames from 'classnames';
 import _isEqual from 'lodash/isEqual';
@@ -20,7 +20,7 @@ const filterLayoutBlockFields = [
   'static',
 ];
 
-export default class Content extends Component {
+export default class Content extends PureComponent {
   static propTypes = {
     focusedPageId: PropTypes.string,
     timebarUuid: PropTypes.string,

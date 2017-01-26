@@ -36,25 +36,25 @@ template.splice(0, 0,
     label: 'Workspace',
     submenu: [{
       label: 'New ... ',
-      accelerator: 'Ctrl+N',
+      accelerator: 'CmdOrCtrl+N',
       click(item, focusedWindow) {
         workspaceOpenNew(focusedWindow);
       }
     }, {
       label: 'Open ... ',
-      accelerator: 'Ctrl+O',
+      accelerator: 'CmdOrCtrl+O',
       click(item, focusedWindow) {
         workspaceOpen(focusedWindow);
       }
     }, {
       label: 'Save',
-      accelerator: 'Ctrl+S',
+      accelerator: 'CmdOrCtrl+S',
       click: (item, focusedWindow) => {
         workspaceSave(focusedWindow);
       }
     }, {
       label: 'Save as...',
-      accelerator: 'Ctrl+Shift+S',
+      accelerator: 'CmdOrCtrl+Shift+S',
       click: (item, focusedWindow) => {
         workspaceSaveAs(focusedWindow);
       }
@@ -171,4 +171,4 @@ template.splice(3, 0,
   });
 
 const menu = Menu.buildFromTemplate(template);
-Menu.setApplicationMenu(menu);
+export default () => Menu.setApplicationMenu(menu);

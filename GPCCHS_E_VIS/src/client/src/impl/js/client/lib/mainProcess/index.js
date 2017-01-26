@@ -13,7 +13,6 @@ import { clear } from 'common/callbacks';
 import enableDebug from './debug';
 import { fork, get, kill } from './childProcess';
 import { initStore, getStore } from '../store/mainStore';
-import './menu';
 import rendererController from './controllers/renderer';
 import serverController from './controllers/server';
 import { server } from './ipc';
@@ -21,13 +20,14 @@ import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
 import { updateMasterSession } from '../store/actions/masterSession';
 
+import setMenu from './menu';
 import { openDefaultWorkspace, openWorkspaceDocument } from './openWorkspace';
-
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
 
 const logger = getLogger('main:index');
 
 export function start() {
+  setMenu();
   const forkOptions = {
     execPath: parameters.get('NODE_PATH'),
     env: {

@@ -126,16 +126,23 @@ export class PlotView extends PureComponent {
     }
   };
 
-  state = {
-    disableZoom: true,
-    isMenuOpened: false,
-    disconnected: false,
-    zoomedOrPanned: false,
-    menuPosition: {
-      x: 0,
-      y: 0
-    }
-  };
+  constructor(...args) {
+    super(...args);
+    this.state = {
+      xExtents: [
+        new Date(this.props.visuWindow.lower),
+        new Date(this.props.visuWindow.upper),
+      ],
+      disableZoom: true,
+      isMenuOpened: false,
+      disconnected: false,
+      zoomedOrPanned: false,
+      menuPosition: {
+        x: 0,
+        y: 0
+      }
+    };
+  }
 
   componentWillMount() {
     this.lines = getLines(this.props.configuration.entryPoints);
@@ -151,9 +158,12 @@ export class PlotView extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     const {
-      configuration: { entryPoints, axes },
+      configuration: { entryPoints, axes, showYAxes },
       visuWindow,
     } = this.props;
+
+    const newShowYAxes = nextProps.configuration.showYAxes;
+    const nextVisuWindow = nextProps.visuWindow;
 
     if (entryPoints !== nextProps.configuration.entryPoints) {
       this.lines = getLines(this.props.configuration.entryPoints);
@@ -162,13 +172,42 @@ export class PlotView extends PureComponent {
       this.epCharts = getEntryPointsCharts(nextProps.configuration);
     }
 
-    this.setState({ zoomedOrPanned: false });
-    if (visuWindow) {
-      this.setState({
-        randomizedLower: new Date(visuWindow.lower - Math.round(Math.random() * 20)),
-        randomizedUpper: new Date(visuWindow.upper + Math.round(Math.random() * 20)),
-      });
+    const willSetState = {};
+    if (newShowYAxes !== showYAxes) {
+      if (newShowYAxes === 'left') {
+        const marginLeft = margin.left + (this.epCharts.length * yAxisWidth);
+        willSetState.marginChart = { ...margin, left: marginLeft };
+      } else if (newShowYAxes === 'right') {
+        const marginRight = margin.right + (this.epCharts.length * yAxisWidth);
+        willSetState.marginChart = { ...margin, right: marginRight };
+      } else {
+        willSetState.marginChart = { ...margin };
+      }
     }
+
+    if (this.state.zoomedOrPanned) {
+      // We have to set new lower / upper so zoom mode is quit
+      willSetState.zoomedOrPanned = false;
+      willSetState.xExtents = [
+        new Date(nextVisuWindow.lower - Math.round(Math.random() * 20)),
+        new Date(nextVisuWindow.upper + Math.round(Math.random() * 20))
+      ];
+
+    // reset xExtents only if new lower / upper
+    } else if (
+      !this.state.xExtents ||
+      (
+        visuWindow.lower !== nextVisuWindow.lower ||
+        visuWindow.upper !== nextVisuWindow.upper
+      )
+    ) {
+      willSetState.xExtents = [
+        new Date(nextVisuWindow.lower),
+        new Date(nextVisuWindow.upper),
+      ];
+    }
+
+    this.setState(willSetState);
   }
 
   shouldComponentUpdate() {
@@ -239,22 +278,18 @@ export class PlotView extends PureComponent {
     };
   }
 
-  getEntryPointErrors({ style } = {}) {
+  getEntryPointErrors(supClass = '') {
     const epWithErrors = this.props.entryPoints
       .filter(ep => ep.error);
 
     return epWithErrors.length ?
       <Danger
-        className="mb10"
-        style={{
-          ...style,
-          width: '100%',
-        }}
+        className={classnames('mb10', 'w100', supClass)}
       >
         <div>
           {epWithErrors
             .map(ep => (
-              <div style={{ lineHeight: '1.5em' }}>
+              <div className={styles.entryPointErrorSubDiv}>
                 {ep.name}: {ep.error}
               </div>
             ))}
@@ -693,41 +728,28 @@ export class PlotView extends PureComponent {
       containerWidth,
       containerHeight,
       data: { columns },
-      visuWindow: { lower, upper },
-      configuration: { showYAxes }
     } = this.props;
     const {
       disableZoom,
       disconnected,
       zoomedOrPanned,
-      randomizedLower,
-      randomizedUpper,
+      xExtents,
+      marginChart,
       // isMenuOpened,
       // menuPosition
     } = this.state;
     // const menuOpenOnTop = menuPosition.y >= (height / 2);
     // const menuOpenOnLeft = menuPosition.x >= (width / 2);
-    let marginChart;
-    if (showYAxes === 'left') {
-      const marginLeft = margin.left + (this.epCharts.length * yAxisWidth);
-      marginChart = { ...margin, left: marginLeft };
-    } else if (showYAxes === 'right') {
-      const marginRight = margin.right + (this.epCharts.length * yAxisWidth);
-      marginChart = { ...margin, right: marginRight };
-    } else {
-      marginChart = { ...margin };
-    }
 
     return (
       <DroppableContainer
-        style={{
-          height: '100%',
-          position: 'relative',
-        }}
         onDrop={this.onDrop.bind(this)}
-        className={classnames({
-          [styles.disconnected]: disconnected || zoomedOrPanned,
-        })}
+        text="add entry point"
+        className={classnames(
+          { [styles.disconnected]: disconnected || zoomedOrPanned },
+          'h100',
+          'posRelative',
+        )}
       >
         <div
           ref={(el) => { this.el = el; }}
@@ -747,11 +769,7 @@ export class PlotView extends PureComponent {
               onClick={this.reconnect}
             >Reconnect</Button>
           }
-          {this.getEntryPointErrors({ style: {
-            padding: '1em',
-            position: 'absolute',
-            zIndex: 100,
-          } })}
+          {this.getEntryPointErrors(styles.entryPointError)}
           <ChartCanvas
             plotFull={false}
             ratio={1}
@@ -766,10 +784,7 @@ export class PlotView extends PureComponent {
             xScale={scaleTime()}
             yAxisZoom={onYAxisZoom}
             zoomEvent={!disableZoom}
-            xExtents={[
-              randomizedLower || new Date(lower),
-              randomizedUpper || new Date(upper)
-            ]}
+            xExtents={xExtents}
           >
             {this.getCharts()}
             <CrossHairCursor opacity={1} />

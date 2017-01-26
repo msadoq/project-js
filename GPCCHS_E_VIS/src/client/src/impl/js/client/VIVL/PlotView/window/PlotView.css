@@ -20,3 +20,11 @@
   text-align: center;
   font-weight: 600;
 }
+.entryPointError{
+  padding: 1em;
+  position: absolute;
+  z-index: 100;
+}
+.entryPointErrorSubDiv{
+  line-height: 1.5em;
+}

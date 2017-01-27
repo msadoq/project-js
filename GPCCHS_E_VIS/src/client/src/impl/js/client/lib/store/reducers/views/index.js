@@ -3,7 +3,6 @@ import _without from 'lodash/without';
 import _merge from 'lodash/merge';
 import u from 'updeep';
 // import { resolve } from 'path';
-import { v4 } from 'node-uuid';
 import globalConstants from 'common/constants';
 import * as types from '../../types';
 import vivl from '../../../../VIVL/main';
@@ -189,6 +188,7 @@ function configuration(state = { title: null }, action) {
       if (!action.payload.configuration) {
         return Object.assign({}, state);
       }
+      const uuids = (action.meta && action.meta.uuids) || [];
 
       // Add an id on entry points
       const config = action.payload.configuration;
@@ -204,7 +204,7 @@ function configuration(state = { title: null }, action) {
         formattedConfig.entryPoints = [];
         formattedConfig.entryPoints.push(Object.assign({}, config.entryPoint, {
           name: 'dynamicEP',
-          id: v4() }));
+          id: uuids[0] }));
         return Object.assign({}, formattedConfig);
       }
       if (!config.entryPoints) {
@@ -212,7 +212,7 @@ function configuration(state = { title: null }, action) {
       }
       config.entryPoints.forEach((ep, index, entryPoints) => {
         // eslint-disable-next-line no-param-reassign
-        entryPoints[index] = Object.assign({}, ep, { id: v4() });
+        entryPoints[index] = Object.assign({}, ep, { id: uuids[index] });
       });
       return Object.assign({}, config);
     }

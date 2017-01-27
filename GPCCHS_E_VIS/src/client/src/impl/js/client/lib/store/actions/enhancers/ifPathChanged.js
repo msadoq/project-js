@@ -18,6 +18,4 @@ const ifPathChanged = (actionCreator, [key = 'views', keyPath = 'path', id = 'vi
   }
 );
 
-export default {
-  ifPathChanged,
-};
+export default ifPathChanged;

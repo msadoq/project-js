@@ -8,7 +8,7 @@ const withProfiling = (msg, actionCreator, options = {}) => (...args) => {
   const {
     predicate = constant(true),
     namespace = action.type,
-    key = 'global',
+    key = action.type,
   } = options;
 
   return {

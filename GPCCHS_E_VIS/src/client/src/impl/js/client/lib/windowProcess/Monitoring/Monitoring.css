@@ -22,17 +22,32 @@
 
 .dateLabel{
   position: relative;
-  padding-right: 20px;
   color: #333;
   background-color: #fff;
   border-color: #adadad;
   border: 1px solid;
   top: -1px;
-  min-width: 180px;
+  min-width: 131px;
   display: inline-block;
 }
 
 .parentLabel{
   position: relative;
   font-size: 100%;
+}
+
+.healthy {
+  color: green;
+}
+
+.warning {
+  color: orange;
+}
+
+.alert {
+  color: red;
+}
+
+.idle {
+  color: grey;
 }

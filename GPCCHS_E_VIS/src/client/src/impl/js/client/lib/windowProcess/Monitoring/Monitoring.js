@@ -1,5 +1,6 @@
 import moment from 'moment';
 import React, { Component, PropTypes } from 'react';
+import classnames from 'classnames';
 import { Label } from 'react-bootstrap';
 import getLogger from 'common/log';
 import globalConstants from 'common/constants';
@@ -16,94 +17,46 @@ export default class Monitoring extends Component {
 
   render() {
     logger.debug('render');
-    // const { pages, focusedPageId } = this.props;
+    const { hssStatus, dcStatus, lastPubSubTimestamp } = this.props;
 
     let timestamp;
 
-    const dcStyle = {
-      color: 'green',
-    };
-    const hssStyle = {
-      color: 'green',
-    };
-    const pubSubStyle = {
-      color: 'grey',
-    };
+    const dcStyle = dcStatus !== globalConstants.DC_STATUS_HEALTHY
+      ? classnames(styles.bull, styles.alert)
+      : classnames(styles.bull, styles.healthy);
 
-    if (!this.props.hssStatus) {
-      hssStyle.color = 'red';
-    }
-    if (this.props.dcStatus !== globalConstants.DC_STATUS_HEALTHY) {
-      dcStyle.color = 'red';
-    }
-    if (this.props.lastPubSubTimestamp) {
-      pubSubStyle.color = 'green';
-      timestamp = moment(this.props.lastPubSubTimestamp).format('D MMMM YYYY HH[:]mm[:]ss[.]SSS');
-    }
+    const hssStyle = hssStatus === false
+      ? classnames(styles.bull, styles.alert)
+      : classnames(styles.bull, styles.healthy);
 
+    const pubSubStyle = lastPubSubTimestamp
+      ? classnames(styles.bull, styles.healthy)
+      : classnames(styles.bull, styles.idle);
+
+    if (lastPubSubTimestamp) {
+      timestamp = moment(lastPubSubTimestamp).format('D MMMM YYYY HH[:]mm');
+    }
 
     return (
       <div className={styles.content}>
-        <Label
-          bsSize="sm"
-          bsStyle="default"
-          className={styles.parentLabel}
-        >
+        <Label className={styles.parentLabel}>
           STATUS
-          &nbsp;
-          <Label
-            bsSize="sm"
-            bsStyle="default"
-            className={styles.label}
-          >
-            DC:
-            <span
-              className={styles.bull}
-              style={dcStyle}
-            >
-              &bull;
-            </span>
+          {' '}
+          <Label className={styles.label}>
+            DC: <span className={dcStyle}>•</span>
           </Label>
-          &nbsp;
-          <Label
-            bsSize="sm"
-            bsStyle="default"
-            className={styles.label}
-          >
-            HSS:
-            <span
-              className={styles.bull}
-              style={hssStyle}
-            >
-              &bull;
-            </span>
+          {' '}
+          <Label className={styles.label}>
+            HSS: <span className={hssStyle}>•</span>
           </Label>
         </Label>
-        &nbsp;
-        <Label
-          bsSize="sm"
-          bsStyle="default"
-          className={styles.parentLabel}
-        >
-          <Label
-            bsSize="sm"
-            bsStyle="default"
-            className={styles.label}
-          >
-            PUB/SUB:
-            <span
-              className={styles.bull}
-              style={pubSubStyle}
-            >
-              &bull;
-            </span>
+        {'   '}
+        <Label className={styles.parentLabel}>
+          <Label className={styles.label}>
+            PUB/SUB: <span className={pubSubStyle}>•</span>
           </Label>
-          &nbsp;
-          <Label
-            bsSize="sm"
-            bsStyle="default"
-            className={styles.dateLabel}
-          >
+          {' '}
+          <Label className={styles.dateLabel}>
             {timestamp}
           </Label>
         </Label>

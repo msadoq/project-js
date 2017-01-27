@@ -1,3 +1,4 @@
+const logger = require('common/log')('controllers:client:onTimebasedQuery');
 const _each = require('lodash/each');
 const _concat = require('lodash/concat');
 const {
@@ -35,18 +36,22 @@ const subscriptionsModel = require('../../models/subscriptions');
  *        - queue a ws newData message (sent periodically)
  * - send queued messages to DC
  *
- * @param payload
+ * @param queries
  * @param sendMessageToDc
  */
 
-module.exports = (sendMessageToDc, payload) => {
+module.exports = (sendMessageToDc, { queries }) => {
+  if (!queries || !Object.keys(queries).length) {
+    return logger.debug('called without any query');
+  }
+
+  logger.debug('called', Object.keys(queries).length, 'remoteIds');
   const execution = executionMonitor('query');
   execution.reset();
   execution.start('global');
-  // debug.debug('called', Object.keys(payload).length, 'remoteIds');
   const messageQueue = [];
   // loop over remoteIds
-  _each(payload, (query, remoteId) => {
+  _each(queries, (query, remoteId) => {
     let missingIntervals = [];
     const queryArguments = {};
 
@@ -60,7 +65,7 @@ module.exports = (sendMessageToDc, payload) => {
         queryArguments.filters = query.filters;
         break;
       default:
-        throw new Error('Consuming type not valid', query.type);
+        return logger.warn(`Invalid query type not valid ${query.type}`);
     }
 
     execution.start('add loki connectedData');
@@ -134,7 +139,7 @@ module.exports = (sendMessageToDc, payload) => {
     const timebasedDataModel = getTimebasedDataModel(remoteId);
     execution.stop('finding cache model');
     if (!timebasedDataModel) {
-      return;
+      return undefined;
     }
 
     execution.start('finding cache data');
@@ -158,7 +163,7 @@ module.exports = (sendMessageToDc, payload) => {
       });
       execution.stop('queue cache for sending');
     });
-    execution.stop('finding cache data');
+    return execution.stop('finding cache data');
   });
 
   // send queued zmq messages to DC
@@ -169,4 +174,5 @@ module.exports = (sendMessageToDc, payload) => {
   }
   execution.stop('global');
   execution.print();
+  return undefined;
 };

@@ -87,7 +87,7 @@ export default function request(dataMap, lastMap, send) {
   logger.debug(`dataQueries was generated for ${n}`, dataQueries);
 
   if (dataQueries && _isObject(dataQueries) && Object.keys(dataQueries).length) {
-    send(globalConstants.IPC_METHOD_TIMEBASED_QUERY, dataQueries);
+    send(globalConstants.IPC_METHOD_TIMEBASED_QUERY, { queries: dataQueries });
   }
 
   execution.stop('global', `dataRequests (${n} remoteId)`);

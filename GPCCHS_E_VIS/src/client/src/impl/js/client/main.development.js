@@ -1,16 +1,17 @@
-import { app } from 'electron';
-import { init } from 'common/parameters';
-import getLogger from 'common/log';
+import './boot';
+
+import { app } from 'electron'; // eslint-disable-line import/first
+// import { init } from 'common/parameters';
+import getLogger from 'common/log'; // eslint-disable-line import/first
 import {
   LOG_APPLICATION_STOP,
   LOG_APPLICATION_ERROR,
-} from 'common/constants';
-import { start, stop, onWindowsClose } from './lib/mainProcess'; // eslint-disable-line import/first
+} from 'common/constants'; // eslint-disable-line import/first
+
+import { start, stop, onWindowsClose } from './lib/mainProcess';
 import { server } from './lib/mainProcess/ipc';
 
 const logger = getLogger('main');
-
-init(__dirname, true);
 
 // avoid using host proxy configuration and perturbing local HTTP access (e.g.: index.html)
 app.commandLine.appendSwitch('no-proxy-server');

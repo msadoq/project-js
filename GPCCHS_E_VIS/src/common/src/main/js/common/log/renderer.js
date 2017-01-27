@@ -68,10 +68,10 @@ const getDefaultTransportConfig = transport =>
   _.getOr({}, transport, defaultTransportConfigs);
 
 const getTransportConfig = transport =>
-  _.pipe(
-    _.find(_.compose(_.eq(transport), _.get('type'))),
+  _.compose(
+    _.merge(getDefaultTransportConfig(transport)),
     _.get('params'),
-    _.merge(getDefaultTransportConfig(transport))
+    _.find(_.compose(_.eq(transport), _.get('type')))
   )(parseConfig(global.parameters.get('LOG')));
 
 const filterLevel = (levels, cfg) => ctx =>

@@ -74,11 +74,35 @@ const getTransportConfig = transport =>
     _.merge(getDefaultTransportConfig(transport))
   )(parseConfig(global.parameters.get('LOG')));
 
-const sendToConsole = (category, levels) => level => (msg, ...rest) => {
+const filterLevel = (levels, cfg) => ctx =>
+  levels.indexOf(ctx.level) >= levels.indexOf(cfg.level);
+
+const filterInclude = cfg => ctx =>
+  (new RegExp(
+    _.get('include', cfg), 'g')).test(ctx.category);
+
+const filterExclude = cfg => ctx =>
+  !(new RegExp(
+    _.getOr('(?=a)b', 'exclude', cfg), 'g')).test(ctx.category);
+
+const sendToConsole = (category, levels) => {
   const cfg = getTransportConfig('console');
-  if (levels.indexOf(level) >= levels.indexOf(cfg.level)) {
-    console[level].apply(null, [`[${category}] ${msg} +${getConsoleTime()}ms`].concat(rest));
-  }
+  return level => (msg, ...rest) => {
+    _.cond([
+      [_.allPass([
+        filterLevel(levels, cfg),
+        filterInclude(cfg),
+        filterExclude(cfg),
+      ]),
+        () => console[level].apply(null,
+          [`[${category}] ${msg} +${getConsoleTime()}ms`].concat(rest)
+        ),
+      ],
+    ])({
+      level,
+      category,
+    });
+  };
 };
 
 transportAPis.console = (category, levels) => {

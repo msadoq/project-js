@@ -59,7 +59,6 @@ const parseParams = _.pipe(
     time: true,
     process: true,
     category: false,
-    filter: '.*',
   })
 );
 

@@ -143,12 +143,14 @@ function getLogger(category, enabledTransports) {
     if (!params) {
       return;
     }
-    const filter = _.prop('filter', params);
+    const include = _.prop('include', params);
+    const exclude = _.propOr('(?=a)b', 'exclude', params);
     const log = t.constructor.prototype.log;
 
     // eslint-disable-next-line no-param-reassign
     t.log = function logWithFilter(...args) {
-      if ((new RegExp(filter, 'g')).test(category)) {
+      if ((new RegExp(include, 'g')).test(category) &&
+          !(new RegExp(exclude, 'g')).test(category)) {
         const meta = args[2];
 
         if (params.time) {

@@ -70,7 +70,7 @@ export default class DroppableContainer extends React.Component {
     try {
       this.props.onDrop(e);
     } catch (err) {
-      console.error(err);
+      console.error(err); // eslint-disable-line no-console
       logger.info('unable to parse dropped data');
     } finally {
       this.setState({

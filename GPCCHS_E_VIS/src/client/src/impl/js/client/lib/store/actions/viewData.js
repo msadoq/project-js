@@ -10,7 +10,7 @@ import { withProfiling } from './enhancers';
 export const importPayload = simple(types.DATA_IMPORT_VIEWDATA, 'viewData');
 export const removeAllData = simple(types.DATA_REMOVE_ALL_VIEWDATA);
 
-const isInjectingData = negate(pipe(get('payload.dataToInject'), isEmpty));
+const isInjectingData = pipe(get('payload.dataToInject'), negate(isEmpty));
 
 export const updateViewData = withProfiling(
   'data injection',

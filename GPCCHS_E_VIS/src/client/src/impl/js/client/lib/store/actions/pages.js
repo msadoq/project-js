@@ -1,5 +1,6 @@
 import { v4 } from 'node-uuid';
 import simple from '../simpleActionCreator';
+import { ifPathChanged } from './enhancers';
 import * as types from '../types';
 import { getView } from '../selectors/views';
 import {
@@ -38,8 +39,18 @@ export const updateLayout = (pageId, layout) =>
     });
     dispatch(updateLayoutSimple(pageId, layout));
   };
-export const updateAbsolutePath = simple(types.WS_PAGE_UPDATE_ABSOLUTEPATH, 'pageId', 'newPath');
-export const updatePath = simple(types.WS_PAGE_UPDATEPATH, 'pageId', 'newPath');
+
+/* Update path/absolutePath */
+const simpleUpdatePath = simple(types.WS_PAGE_UPDATEPATH, 'pageId', 'newPath');
+const simpleUpdateAbsolutePath = simple(types.WS_PAGE_UPDATE_ABSOLUTEPATH, 'pageId', 'newPath');
+
+export const updatePath = ifPathChanged(simpleUpdatePath, ['pages', 'path', 'pageId']);
+export const updateAbsolutePath = ifPathChanged(simpleUpdateAbsolutePath, ['pages', 'absolutePath', 'pageId']);
+/* ------------------------ */
+
+// export const updatePath = simple(types.WS_PAGE_UPDATEPATH, 'pageId', 'newPath');
+// export const updateAbsolutePath = simple(types.WS_PAGE_UPDATE_ABSOLUTEPATH, 'pageId', 'newPath');
+
 export const setModified = simple(types.WS_PAGE_SETMODIFIED, 'pageId', 'flag');
 
 export const updateTimebarHeight = simple(types.WS_PAGE_UPDATE_TIMEBARHEIGHT, 'focusedPageId', 'timebarHeight');

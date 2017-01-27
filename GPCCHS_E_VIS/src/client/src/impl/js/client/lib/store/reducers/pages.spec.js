@@ -272,17 +272,6 @@ describe('store:page:reducer', () => {
       });
       newState.should.be.an('object').that.is.empty;
     });
-    it('invalid page id', () => {
-      const state = { page1: {} };
-      const newState = reducer(freezeMe(state), {
-        type: types.WS_PAGE_UPDATEPATH,
-        payload: {
-          pageId: 'unknow_page',
-          newPath: 'myPath',
-        }
-      });
-      newState.should.eql(state);
-    });
     it('valid page id', () => {
       const state = { page1: { path: 'path1' } };
       const newState = reducer(freezeMe(state), {

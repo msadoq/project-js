@@ -2,7 +2,6 @@ import _without from 'lodash/without';
 import _isEqual from 'lodash/isEqual';
 import _omit from 'lodash/omit';
 import u from 'updeep';
-import { resolve } from 'path';
 import * as types from '../types';
 
 /**
@@ -26,28 +25,25 @@ export default function pages(statePages = {}, action) {
     case types.WS_PAGE_REMOVE:
       return _omit(statePages, [action.payload.pageId]);
     case types.WS_PAGE_UPDATEPATH:
-      // path unchanged or newPath invalid
-      if (!action.payload.newPath || !statePages[action.payload.pageId] ||
-        (statePages[action.payload.pageId].path &&
-        resolve(action.payload.newPath) === resolve(statePages[action.payload.pageId].path))) {
+      if (!statePages[action.payload.pageId]) {
         return statePages;
       }
-      return u({ [action.payload.pageId]: {
-        path: action.payload.newPath,
-        isModified: true,
-      } },
-        statePages);
+      return u({
+        [action.payload.pageId]: {
+          path: action.payload.newPath,
+          isModified: true,
+        }
+      }, statePages);
     case types.WS_PAGE_UPDATE_ABSOLUTEPATH: {
-      if (!statePages[action.payload.pageId] || !action.payload.newPath ||
-        (statePages[action.payload.pageId].absolutePath &&
-        resolve(action.payload.newPath)
-          === resolve(statePages[action.payload.pageId].absolutePath))) {
+      if (!statePages[action.payload.pageId]) {
         return statePages;
       }
-      return u({ [action.payload.pageId]: {
-        absolutePath: action.payload.newPath,
-        isModified: true,
-      } }, statePages);
+      return u({
+        [action.payload.pageId]: {
+          absolutePath: action.payload.newPath,
+          isModified: true,
+        }
+      }, statePages);
     }
     case types.WS_PAGE_SET_OID: {
       return u({

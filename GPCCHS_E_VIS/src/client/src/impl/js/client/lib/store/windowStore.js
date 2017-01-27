@@ -1,8 +1,10 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { electronEnhancer } from 'redux-electron-store';
 import thunk from 'redux-thunk';
+import { get } from 'common/parameters';
 import getLogger from 'common/log';
 import createLogger from 'redux-logger';
+import * as types from './types';
 
 import reducers from './reducers';
 
@@ -19,9 +21,13 @@ const dispatchProxy = (...args) => {
 
 let enhancer;
 if (isDebugOn) {
+  const hideTimestampActions = get('HIDE_TIMESTAMP_ACTIONS');
   const reduxLogger = createLogger({
     level: 'info',
     collapsed: true,
+    predicate: (state, action) => (
+      !(hideTimestampActions && action.type === types.HSS_UPDATE_LAST_PUBSUB_TIMESTAMP)
+    ),
   });
 
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

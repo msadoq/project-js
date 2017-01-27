@@ -1,9 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import Message from '../common/Message';
 import styles from './Window.css';
 
-export default class Messages extends Component {
+export default class Messages extends PureComponent {
 
   static propTypes = {
     remove: PropTypes.func.isRequired,
@@ -12,7 +12,7 @@ export default class Messages extends Component {
 
   state = {
     filter: 'all',
-    collapsed: true,
+    collapsed: false,
   }
 
   updateFilter = (e) => {

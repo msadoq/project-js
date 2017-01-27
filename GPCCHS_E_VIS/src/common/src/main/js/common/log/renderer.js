@@ -1,9 +1,12 @@
+import _ from 'lodash/fp';
+
 /* eslint no-console:0 */
 
 /* eslint-disable import/no-unresolved, import/no-extraneous-dependencies */
 const { ipcRenderer } = require('electron');
 const {
   getTimer,
+  parseConfig,
 } = require('./util');
 
 let DEFAULT_TRANSPORTS = ['electronIPC'];
@@ -50,27 +53,76 @@ transportAPis.electronIPC = category => ({
   silly: sendOverIPC(category, 'silly'),
 });
 
-const getConsoleTime = getTimer();
-
-const sendToConsole = (category, level) => (msg, ...rest) => {
-  console[level].apply(null, [`[${category}] ${msg} +${getConsoleTime()}ms`].concat(rest));
+const defaultTransportConfigs = {
+  console: {
+    level: 'info',
+  },
+  electronIPC: {
+    level: 'info',
+  },
 };
 
-transportAPis.console = category => ({
-  error: sendToConsole(category, 'error'),
-  warn: sendToConsole(category, 'warn'),
-  info: sendToConsole(category, 'info'),
-  verbose: sendToConsole(category, 'log'),
-  debug: sendToConsole(category, 'debug'),
-  silly: sendToConsole(category, 'debug'),
-});
+const getConsoleTime = getTimer();
+
+const getDefaultTransportConfig = transport =>
+  _.getOr({}, transport, defaultTransportConfigs);
+
+const getTransportConfig = transport =>
+  _.pipe(
+    _.find(_.compose(_.eq(transport), _.get('type'))),
+    _.get('params'),
+    _.merge(getDefaultTransportConfig(transport))
+  )(parseConfig(global.parameters.get('LOG')));
+
+const filterLevel = (levels, cfg) => ctx =>
+  levels.indexOf(ctx.level) >= levels.indexOf(cfg.level);
+
+const filterInclude = cfg => ctx =>
+  (new RegExp(
+    _.get('include', cfg), 'g')).test(ctx.category);
+
+const filterExclude = cfg => ctx =>
+  !(new RegExp(
+    _.getOr('(?=a)b', 'exclude', cfg), 'g')).test(ctx.category);
+
+const sendToConsole = (category, levels) => {
+  const cfg = getTransportConfig('console');
+  return level => (msg, ...rest) => {
+    _.cond([
+      [_.allPass([
+        filterLevel(levels, cfg),
+        filterInclude(cfg),
+        filterExclude(cfg),
+      ]),
+        () => console[level].apply(null,
+          [`[${category}] ${msg} +${getConsoleTime()}ms`].concat(rest)
+        ),
+      ],
+    ])({
+      level,
+      category,
+    });
+  };
+};
+
+transportAPis.console = (category, levels) => {
+  const _getLogger = sendToConsole(category, levels);
+  return {
+    error: _getLogger('error'),
+    warn: _getLogger('warn'),
+    info: _getLogger('info'),
+    verbose: _getLogger('log'),
+    debug: _getLogger('debug'),
+    silly: _getLogger('debug'),
+  };
+};
 
 // Returns a object with one method per level (silly, debug, verbose, ...)
 // All messages are prefixed by category.
 function getLogger(category, transports = DEFAULT_TRANSPORTS, levels = DEFAULT_LEVELS) {
   // Initialise transports with category
   const transportsWithCategory = transports
-    .map(t => ({ [t]: apis[t](category) }))
+    .map(t => ({ [t]: apis[t](category, levels) }))
     .reduce((acc, t) => Object.assign(acc, t), {});
 
   // For each enabled level, create a function that call each enabled transport

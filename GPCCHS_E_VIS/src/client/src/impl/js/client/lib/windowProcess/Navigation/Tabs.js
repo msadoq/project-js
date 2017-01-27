@@ -1,5 +1,5 @@
-import React, { Component, PropTypes } from 'react';
-import path from 'path';
+import React, { PureComponent, PropTypes } from 'react';
+import { basename } from 'path';
 import { Nav, NavItem, Button, Glyphicon, OverlayTrigger, Table, Popover } from 'react-bootstrap';
 import getLogger from 'common/log';
 import styles from './Tabs.css';
@@ -17,9 +17,9 @@ function popoverHoverFocus(page) {
             : <tr><td>No FMD data</td></tr>}
           {page.oId && <tr><td>OID</td><td>{page.oId}</td></tr>}
           {page.absolutePath &&
-            <tr><td>File name</td><td>{path.basename(page.absolutePath)}</td></tr>}
+            <tr><td>File name</td><td>{basename(page.absolutePath)}</td></tr>}
           {!page.absolutePath && page.path &&
-            <tr><td>File name</td><td>{path.basename(page.path)}</td></tr>}
+            <tr><td>File name</td><td>{basename(page.path)}</td></tr>}
           {!page.absolutePath && !page.path && <tr><td>Unsaved file</td></tr>}
         </tbody>
       </Table>
@@ -27,7 +27,7 @@ function popoverHoverFocus(page) {
   );
 }
 
-export default class Tabs extends Component {
+export default class Tabs extends PureComponent {
   static propTypes = {
     pages: PropTypes.array.isRequired,
     focusedPageId: PropTypes.string,

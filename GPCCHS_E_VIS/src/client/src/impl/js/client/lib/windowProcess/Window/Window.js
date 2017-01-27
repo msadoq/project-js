@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import getLogger from 'common/log';
 
 import Debug from '../Navigation/Debug';
@@ -12,7 +12,7 @@ import styles from './Window.css';
 const logger = getLogger('Window');
 
 
-export default class Window extends Component {
+export default class Window extends PureComponent {
   static propTypes = {
     windowId: PropTypes.string.isRequired,
     focusedPageId: PropTypes.string,

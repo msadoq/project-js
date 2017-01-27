@@ -2,12 +2,12 @@
 import _findIndex from 'lodash/findIndex';
 import _startsWith from 'lodash/startsWith';
 import { dirname, relative } from 'path';
-import { server } from '../mainProcess/ipc';
-import parameters from 'common/parameters';
 import {
   LOG_DOCUMENT_SAVE
 } from 'common/constants';
+import parameters from 'common/parameters';
 
+import { server } from '../mainProcess/ipc';
 import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
 
@@ -73,7 +73,7 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
     // save file
     writeDocument(fmdApi)(path, jsonPage, (errfs, oid) => {
       if (errfs) {
-        return callback(`Unable to save view ${page.title} in file ${path}`);
+        return callback(errfs);
       }
 
       server.sendProductLog(LOG_DOCUMENT_SAVE, 'page', path);
@@ -95,9 +95,6 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
 const savePage = fmdApi => (state, pageId, useRelativePath, callback) => {
   if (!state.pages[pageId]) {
     callback('unknown page id');
-  }
-  if (!state.pages[pageId].isModified) {
-    return callback('page already saved');
   }
   const path = state.pages[pageId].absolutePath ? state.pages[pageId].absolutePath
                                                 : state.pages[pageId].oId;

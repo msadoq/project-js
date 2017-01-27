@@ -32,7 +32,8 @@ if (global.parameters.get('DEBUG') === 'on') {
     const dependencies = [
       'Glyphicon', 'NavItem', 'SafeAnchor', 'DraggableCore', 'Resizable', 'ReactGridLayout',
       'ResponsiveReactGridLayout', 'Button', 'Tabs', 'GridItem',
-      'Grid', 'Row', 'Col', 'DropdownMenu', 'DropdownToggle', 'MenuItem'
+      'Grid', 'Row', 'Col', 'DropdownMenu', 'DropdownToggle', 'MenuItem', 'Tooltip',
+      'Modal'
     ];
     const excludeList = internal.concat(dependencies).join('|');
     whyDidYouUpdate(React, {

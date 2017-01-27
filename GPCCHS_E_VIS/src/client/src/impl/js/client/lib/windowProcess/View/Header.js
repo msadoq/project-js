@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 import { v4 } from 'node-uuid';
@@ -9,7 +9,7 @@ import Modal from '../common/Modal';
 import ChoosePage from './ChoosePage';
 import { main } from '../ipc';
 
-export default class Header extends Component {
+export default class Header extends PureComponent {
   static propTypes = {
     isViewsEditorOpen: PropTypes.bool.isRequired,
     configuration: PropTypes.shape({
@@ -146,7 +146,7 @@ export default class Header extends Component {
     } = this.props;
     main.message(
       globalConstants.IPC_METHOD_SAVE_VIEW,
-      { saveAs: absolutePath, viewId }
+      { saveMode: absolutePath, viewId }
     );
   }
 

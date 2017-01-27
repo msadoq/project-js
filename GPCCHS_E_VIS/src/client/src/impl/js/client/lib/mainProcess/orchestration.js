@@ -2,6 +2,7 @@ import _round from 'lodash/round';
 import { series } from 'async';
 import globalConstants from 'common/constants';
 import executionMonitor from 'common/log/execution';
+import { get } from 'common/parameters';
 import getLogger from 'common/log';
 import { server } from './ipc';
 // import { get } from 'common/parameters';
@@ -232,7 +233,9 @@ export function tick() {
       `somethingHasChanged:${somethingHasChanged}`
       + ` isWindowsOpened:${isWindowsOpened}`
     );
-    execution.print();
+    if (!get('DISABLE_ORCHESTRATION_PROFILING')) {
+      execution.print();
+    }
     execution.reset();
 
     // schedule next tick

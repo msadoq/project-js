@@ -41,6 +41,9 @@ const newEntryPoint = {
 
   ]
 };
+
+const navbarItems = ['Entry Points', 'Plot'];
+
 /*
   Composant racine de l'éditeur Plot.
 */
@@ -130,7 +133,7 @@ export default class PlotEditor extends Component {
       <div className={styles.contentWrapper}>
         <Navbar
           currentDisplay={currentDisplay}
-          items={['Entry Points', 'Plot']}
+          items={navbarItems}
           changeCurrentDisplay={this.changeCurrentDisplay}
           closeEditor={this.props.closeEditor}
         />

@@ -13,16 +13,19 @@ const getPath = path => (isFmd(path) ? getRelativeFmdPath(path) : path);
 const root = getRootDir();
 const addViewError = (viewId, msg) => addMessage(viewId, 'danger', msg);
 
-export default function ({ viewId, saveAs }) {
+export default function ({ viewId, saveMode }) {
   const { getState, dispatch } = getStore();
-  const { type, configuration, absolutePath } = getView(getState(), viewId);
+  const { type, configuration, absolutePath, isModified } = getView(getState(), viewId);
 
   function oncePath(savingAbsolutePath) {
+    if (!isModified && saveMode === savingAbsolutePath) {
+      return getStore().dispatch(addMessage(viewId, 'info', 'View already saved'));
+    }
     saveViewAs(configuration, type, savingAbsolutePath, (err, oid) => {
       if (err) {
         return getStore().dispatch(addViewError(viewId, err));
       }
-      if (saveAs !== savingAbsolutePath) {
+      if (saveMode !== savingAbsolutePath) {
         // only for 'Save as...' action
         dispatch(updatePath(viewId, getPath(savingAbsolutePath)));
         dispatch(updateAbsolutePath(viewId, savingAbsolutePath));
@@ -36,8 +39,8 @@ export default function ({ viewId, saveAs }) {
     });
   }
 
-  if (saveAs) {
-    return oncePath(saveAs);
+  if (saveMode) {
+    return oncePath(saveMode);
   }
 
   const folder = absolutePath ? dirname(absolutePath) : root;

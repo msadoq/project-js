@@ -2,8 +2,7 @@ import _omit from 'lodash/omit';
 import _without from 'lodash/without';
 import _merge from 'lodash/merge';
 import u from 'updeep';
-import { resolve } from 'path';
-import { v4 } from 'node-uuid';
+// import { resolve } from 'path';
 import globalConstants from 'common/constants';
 import * as types from '../../types';
 import vivl from '../../../../VIVL/main';
@@ -48,11 +47,6 @@ export default function views(stateViews = {}, action) {
 
     // VIEW CONFIGURATION
     case types.WS_VIEW_UPDATEPATH: {
-      // path unchanged or newPath invalid
-      if (action.payload.newPath && stateViews[action.payload.viewId].path &&
-        resolve(action.payload.newPath) === resolve(stateViews[action.payload.viewId].path)) {
-        return stateViews;
-      }
       return u({
         [action.payload.viewId]: {
           path: action.payload.newPath,
@@ -61,12 +55,6 @@ export default function views(stateViews = {}, action) {
       }, stateViews);
     }
     case types.WS_VIEW_UPDATE_ABSOLUTEPATH: {
-      // path unchanged or newPath invalid
-      if (stateViews[action.payload.viewId].absolutePath
-        && (!action.payload.newPath || resolve(action.payload.newPath)
-        === resolve(stateViews[action.payload.viewId].absolutePath))) {
-        return stateViews;
-      }
       return u({ [action.payload.viewId]: {
         absolutePath: action.payload.newPath,
         isModified: true,
@@ -200,6 +188,7 @@ function configuration(state = { title: null }, action) {
       if (!action.payload.configuration) {
         return Object.assign({}, state);
       }
+      const uuids = (action.meta && action.meta.uuids) || [];
 
       // Add an id on entry points
       const config = action.payload.configuration;
@@ -215,7 +204,7 @@ function configuration(state = { title: null }, action) {
         formattedConfig.entryPoints = [];
         formattedConfig.entryPoints.push(Object.assign({}, config.entryPoint, {
           name: 'dynamicEP',
-          id: v4() }));
+          id: uuids[0] }));
         return Object.assign({}, formattedConfig);
       }
       if (!config.entryPoints) {
@@ -223,7 +212,7 @@ function configuration(state = { title: null }, action) {
       }
       config.entryPoints.forEach((ep, index, entryPoints) => {
         // eslint-disable-next-line no-param-reassign
-        entryPoints[index] = Object.assign({}, ep, { id: v4() });
+        entryPoints[index] = Object.assign({}, ep, { id: uuids[index] });
       });
       return Object.assign({}, config);
     }

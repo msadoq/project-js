@@ -1,11 +1,11 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import Dimensions from 'react-dimensions';
 import TimeBar from './Timebar';
 import ControlsContainer from './ControlsContainer';
 import styles from './Timebar.css';
 
-class RightTabContent extends Component {
+class RightTabContent extends PureComponent {
 
   static propTypes = {
     onTimelinesVerticalScroll: PropTypes.func.isRequired,

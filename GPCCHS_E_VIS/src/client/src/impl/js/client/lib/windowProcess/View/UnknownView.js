@@ -1,6 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 
-export default class UnknownView extends Component {
+export default class UnknownView extends PureComponent {
   static propTypes = {
     type: React.PropTypes.string,
     viewId: PropTypes.string.isRequired,

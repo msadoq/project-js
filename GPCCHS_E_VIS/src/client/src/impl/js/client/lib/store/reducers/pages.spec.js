@@ -229,34 +229,59 @@ describe('store:page:reducer', () => {
     });
     it('invalid page id', () => {
       const state = { page1: {} };
-      reducer(freezeMe(state), actions.updateAbsolutePath('myPage', 'myPath'))
-      .should.eql(state);
+      const newState = reducer(freezeMe(state), {
+        type: types.WS_PAGE_UPDATE_ABSOLUTEPATH,
+        payload: {
+          pageId: 'myPage',
+          newPath: 'myPath',
+        }
+      });
+      newState.should.eql(state);
     });
     it('valid page id', () => {
       const state = { page1: { absolutePath: 'path1' } };
-      reducer(freezeMe(state), actions.updateAbsolutePath('page1', 'newPath'))
-      .should.eql({ page1: { absolutePath: 'newPath', isModified: true } });
+      const newState = reducer(freezeMe(state), {
+        type: types.WS_PAGE_UPDATE_ABSOLUTEPATH,
+        payload: {
+          pageId: 'page1',
+          newPath: 'newPath',
+        }
+      });
+      newState.should.eql({ page1: { absolutePath: 'newPath', isModified: true } });
     });
     it('update absolutePath for new page', () => {
       const state = { page1: { pageId: 'page1' } };
-      reducer(freezeMe(state), actions.updateAbsolutePath('page1', 'newPath'))
-        .should.eql({ page1: { pageId: 'page1', absolutePath: 'newPath', isModified: true } });
+      const newState = reducer(freezeMe(state), {
+        type: types.WS_PAGE_UPDATE_ABSOLUTEPATH,
+        payload: {
+          pageId: 'page1',
+          newPath: 'newPath',
+        }
+      });
+      newState.should.eql({ page1: { pageId: 'page1', absolutePath: 'newPath', isModified: true } });
     });
   });
   describe('updatePath', () => {
     it('empty state', () => {
-      reducer({}, actions.updatePath('myPage', 'myPath'))
-      .should.be.an('object').that.is.empty;
-    });
-    it('invalid page id', () => {
-      const state = { page1: {} };
-      reducer(freezeMe(state), actions.updatePath('myPage', 'myPath'))
-      .should.eql(state);
+      const newState = reducer({}, {
+        type: types.WS_PAGE_UPDATEPATH,
+        payload: {
+          pageId: 'myPage',
+          newPath: 'myPath',
+        }
+      });
+      newState.should.be.an('object').that.is.empty;
     });
     it('valid page id', () => {
       const state = { page1: { path: 'path1' } };
-      reducer(freezeMe(state), actions.updatePath('page1', 'newPath'))
-      .should.eql({ page1: { path: 'newPath', isModified: true } });
+      const newState = reducer(freezeMe(state), {
+        type: types.WS_PAGE_UPDATEPATH,
+        payload: {
+          pageId: 'page1',
+          newPath: 'newPath',
+        }
+      });
+      newState.should.eql({ page1: { path: 'newPath', isModified: true } });
     });
   });
   describe('setModified', () => {

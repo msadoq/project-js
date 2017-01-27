@@ -1,6 +1,7 @@
 const winston = require('winston');
 const wCommon = require('winston/lib/winston/common');
 const _ = require('lodash/fp');
+const { parseConfig } = require('./util');
 
 const {
   getTimer,
@@ -12,11 +13,6 @@ const {
   LOG_LOCAL_FILENAME,
 } = require('../constants');
 
-const TRANSPORT_SEPARATOR = ':';
-const TRANSPORT_ARGS_ASSIGNMENT = '?';
-const PARAM_SEPARATOR = ',';
-const PARAM_ASSIGNMENT = '=';
-
 winston.cli();
 
 const DEFAULT_TRANSPORTS = '';
@@ -24,44 +20,6 @@ const DEFAULT_TRANSPORTS = '';
 function getConfig() {
   return _.isEmpty(get('LOG')) ? DEFAULT_TRANSPORTS : get('LOG');
 }
-
-// Convert value to boolean or number if possible
-const parseValue = value => (
-  value === 'true' ? true : // eslint-disable-line no-nested-ternary
-    (value === 'false' ? false :
-      (Number(value) || value)));
-
-// Deserialize param string to object
-// param string format: <param1>=<value1>,<param2>=<value2>
-const parseParams = _.pipe(
-  _.defaultTo(''),
-  _.split(PARAM_SEPARATOR),
-  _.map(_.split(PARAM_ASSIGNMENT)),
-  _.map(p => ({
-    [p[0]]: parseValue(p[1]),
-  })),
-  _.reduce((acc, p) => _.assign(acc, p), {
-    time: true,
-    process: true,
-    category: false,
-    filter: '.*',
-  })
-);
-
-// Deserialize string to object
-// String format: <logger1>?<param1>=<value1>,<param2>=<value2>:<logger2>?<param1>=<value1>,...:...
-const parseConfig =
-  _.cond([
-    [_.anyPass([_.isEmpty, str => str === 'undefined']), () => []],
-    [_.stubTrue, _.pipe(
-      _.split(TRANSPORT_SEPARATOR),
-      _.map(_.split(TRANSPORT_ARGS_ASSIGNMENT)),
-      _.map(t => ({
-        type: t[0],
-        params: parseParams(t[1]),
-      }))
-    )],
-  ]);
 
 // Remove process data info to pretty log into stdout
 const getStdOptions = options => (_.pipe(
@@ -185,12 +143,14 @@ function getLogger(category, enabledTransports) {
     if (!params) {
       return;
     }
-    const filter = _.prop('filter', params);
+    const include = _.prop('include', params);
+    const exclude = _.propOr('(?=a)b', 'exclude', params);
     const log = t.constructor.prototype.log;
 
     // eslint-disable-next-line no-param-reassign
     t.log = function logWithFilter(...args) {
-      if ((new RegExp(filter, 'g')).test(category)) {
+      if ((new RegExp(include, 'g')).test(category) &&
+          !(new RegExp(exclude, 'g')).test(category)) {
         const meta = args[2];
 
         if (params.time) {
@@ -237,9 +197,6 @@ if (process.versions.electron) {
 }
 
 module.exports = {
-  parseParams,
-  parseConfig,
-  parseValue,
   getStdOptions,
   getMonitoringOptions,
   availableTransports,

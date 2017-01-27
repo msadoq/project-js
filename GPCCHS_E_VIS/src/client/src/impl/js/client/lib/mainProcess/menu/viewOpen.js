@@ -13,32 +13,38 @@ import { getWindowFocusedPageId } from '../../store/selectors/windows';
 import { getStore } from '../../store/mainStore';
 import { setModified as setModifiedView } from '../../store/actions/views';
 
-module.exports = { viewOpen, addPlotView, addTextView, addDynamicView };
+const addDangerMessage = (focusedPageId, msg) => addMessage(focusedPageId, 'danger', msg);
 
-function viewOpen(focusedWindow) { // absolutePath, pageId) {
+function viewOpen(focusedWindow) {
   if (!focusedWindow) {
     return;
   }
-
-  const { getState, dispatch } = getStore();
+  const { getState } = getStore();
   const state = getState();
-
-  const focusedPageId = getWindowFocusedPageId(state, focusedWindow.windowId);
-  const addDangerMessage = msg => dispatch(addMessage(focusedPageId, 'danger', msg));
 
   getPathByFilePicker(state.hsc.folder, 'view', 'open', (err, filePath) => {
     const viewPath = [{ absolutePath: filePath }];
-    readViews(viewPath, (errView, view) => {
-      if (errView) {
-        addDangerMessage('Unable to load View');
-        addDangerMessage(errView);
-        return;
-      }
-      const current = view[0];
-      current.absolutePath = filePath;
-      showSelectedView(current, state.windows[focusedWindow.windowId].focusedPage);
-      server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', filePath);
-    });
+    viewOpenWithPath({ windowId: focusedWindow.windowId, viewPath });
+  });
+}
+
+function viewOpenWithPath({ windowId, viewPath }) {
+  const { getState, dispatch } = getStore();
+  const state = getState();
+  const filePath = _.get([0, 'absolutePath'], viewPath);
+  const focusedPage = state.windows[windowId].focusedPage;
+  const focusedPageId = getWindowFocusedPageId(state, windowId);
+
+  readViews(viewPath, (errView, view) => {
+    if (errView) {
+      dispatch(addDangerMessage(focusedPageId, 'Unable to load View'));
+      dispatch(addDangerMessage(focusedPageId, errView));
+      return;
+    }
+    const current = view[0];
+    current.absolutePath = filePath;
+    showSelectedView(current, focusedPage);
+    server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', filePath);
   });
 }
 
@@ -110,3 +116,11 @@ function addViewInLayout(pageId, viewId) {
     i: viewId, w: 5, h: 5, x: 0, y: 0
   });
 }
+
+export default {
+  viewOpen,
+  viewOpenWithPath,
+  addPlotView,
+  addTextView,
+  addDynamicView,
+};

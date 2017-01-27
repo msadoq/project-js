@@ -7,6 +7,11 @@ import {
 } from 'react-bootstrap';
 import classnames from 'classnames';
 import styles from './Controls.css';
+import { main } from '../ipc';
+
+const inlineStyles = {
+  width200: { width: '200px' }
+};
 
 export default class ControlsLeft extends PureComponent {
 
@@ -22,9 +27,13 @@ export default class ControlsLeft extends PureComponent {
     messages: PropTypes.array,
     timebarUuid: PropTypes.string.isRequired,
     timebarSpeed: PropTypes.number.isRequired,
+    currentSessionExists: PropTypes.bool.isRequired,
+    masterTimeline: PropTypes.object,
+    masterSessionId: PropTypes.number.isRequired,
   }
 
-  changeSpeed = (dir) => {
+  changeSpeed = (e) => {
+    e.preventDefault();
     const {
       updateSpeed,
       timebarUuid,
@@ -32,6 +41,7 @@ export default class ControlsLeft extends PureComponent {
       isPlaying,
       play,
     } = this.props;
+    const dir = e.currentTarget.getAttribute('direction');
 
     let newSpeed = dir === 'up' ? 2 * timebarSpeed : timebarSpeed / 2;
 
@@ -75,8 +85,27 @@ export default class ControlsLeft extends PureComponent {
 
   goNow = (e) => {
     e.preventDefault();
-    const { timebarUuid, goNow } = this.props;
-    goNow(timebarUuid);
+    const {
+      timebarUuid,
+      goNow,
+      currentSessionExists,
+      masterTimeline,
+      masterSessionId,
+    } = this.props;
+    // IPC request to get master session current time
+    let sessionId;
+    if (currentSessionExists) {
+      sessionId = masterTimeline.sessionId;
+    } else {
+      sessionId = masterSessionId;
+    }
+    main.getSessionTime(sessionId, ({ err, timestamp }) => {
+      if (err) {
+        // TODO Show message
+        return;
+      }
+      goNow(timebarUuid, timestamp);
+    });
   }
 
   jump = (e) => {
@@ -106,7 +135,7 @@ export default class ControlsLeft extends PureComponent {
         title="Playing speed"
         placement="top"
         id="playingSpeedPopover"
-        style={{ width: '200px' }}
+        style={inlineStyles.width200}
       >
         <Form horizontal>
           <input
@@ -148,7 +177,8 @@ export default class ControlsLeft extends PureComponent {
         <li className={styles.controlsLi}>
           <button
             className={allButtonsKlasses}
-            onClick={this.changeSpeed.bind(null, 'down')}
+            direction="down"
+            onClick={this.changeSpeed}
             title="Decrease speed"
           >
             <Glyphicon className={styles.glyphIcon} glyph="backward" />
@@ -174,7 +204,8 @@ export default class ControlsLeft extends PureComponent {
         <li className={styles.controlsLi}>
           <button
             className={allButtonsKlasses}
-            onClick={this.changeSpeed.bind(null, 'up')}
+            direction="up"
+            onClick={this.changeSpeed}
             title="Increase speed"
           >
             <Glyphicon className={styles.glyphIcon} glyph="forward" />

@@ -4,6 +4,14 @@ import classnames from 'classnames';
 import styles from './Controls.css';
 import { main } from '../ipc';
 
+const OverlayTriggerTrigger = ['hover', 'focus'];
+
+const inlineStyles = {
+  width200: {
+    width: '200px',
+  }
+};
+
 export default class ControlsRight extends PureComponent {
 
   static propTypes = {
@@ -79,7 +87,7 @@ export default class ControlsRight extends PureComponent {
       disabledTooltip = (
         <Tooltip
           id="RTTooltip"
-          style={{ width: '200px' }}
+          style={inlineStyles.width200}
         >
           <b>Cannot go realtime</b><br />
           { !masterTimelineExists && 'No master timeline'}<br />
@@ -138,7 +146,7 @@ export default class ControlsRight extends PureComponent {
           </li>
           <li className={styles.controlsLi}>
             { realTimeDisabled && <OverlayTrigger
-              trigger={['hover', 'focus']}
+              trigger={OverlayTriggerTrigger}
               placement="top"
               overlay={disabledTooltip}
               container={this}

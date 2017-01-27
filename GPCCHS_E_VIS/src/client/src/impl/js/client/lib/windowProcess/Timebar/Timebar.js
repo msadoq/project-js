@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { debounce } from 'lodash';
 import classnames from 'classnames';
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import globalConstants from 'common/constants';
 import styles from './Timebar.css';
 import Scale from './Scale';
@@ -23,7 +23,7 @@ const keys = {
   space: 32
 };
 
-export default class Timebar extends Component {
+export default class Timebar extends PureComponent {
 
   static propTypes = {
     retrieveFormattedFullDateEl: PropTypes.func.isRequired,

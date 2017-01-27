@@ -1,7 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import { debounce } from 'lodash';
-import { Col } from 'react-bootstrap';
 import getLogger from 'common/log';
 import styles from './Timebar.css';
 import LeftTabContainer from './LeftTabContainer';
@@ -12,7 +11,13 @@ import Modal from '../common/Modal';
 const logger = getLogger('Timebar');
 const minTimebarHeight = 140;
 
-export default class TimebarWrapper extends Component {
+const inlineStyles = {
+  paddingBottom8: {
+    paddingBottom: 8,
+  }
+};
+
+export default class TimebarWrapper extends PureComponent {
 
   static propTypes = {
     isPlaying: PropTypes.bool.isRequired,
@@ -144,7 +149,7 @@ export default class TimebarWrapper extends Component {
         }}
       >
         {timesetter}
-        <Col xs={9} xsOffset={3} style={{ paddingBottom: 8 }}>
+        <div className="col-xs-9 col-xs-offset-3" style={inlineStyles.paddingBottom8}>
           <div>
             <hr
               onMouseDown={this.resizeWindow}
@@ -156,7 +161,7 @@ export default class TimebarWrapper extends Component {
               }
             />
           </div>
-        </Col>
+        </div>
         <LeftTabContainer
           timebarUuid={timebarUuid}
           focusedPageId={focusedPageId}
@@ -166,7 +171,7 @@ export default class TimebarWrapper extends Component {
           verticalScroll={timelinesVerticalScroll}
           onTimelinesVerticalScroll={this.onTimelinesVerticalScroll}
         />
-        <Col xs={9} style={{ height: '100%' }}>
+        <div className="col-xs-9 h100">
           <RightTabContainer
             timebar={timebar}
             timebarUuid={timebarUuid}
@@ -178,7 +183,7 @@ export default class TimebarWrapper extends Component {
             onTimelinesVerticalScroll={this.onTimelinesVerticalScroll}
             timelinesVerticalScroll={timelinesVerticalScroll}
           />
-        </Col>
+        </div>
       </div>
     );
   }

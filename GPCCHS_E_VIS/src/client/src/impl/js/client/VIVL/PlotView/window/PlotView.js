@@ -18,18 +18,19 @@ import {
   // interactive
 } from 'react-stockcharts';
 import { hexToRGBA } from 'react-stockcharts/lib/utils';
+import getDynamicObject from '../../../lib/windowProcess/common/getDynamicObject';
 import {
   getLines,
   getLineMarker,
   getLineMarkerProps,
-  zoomDateFormat,
   fullDateFormat,
   getLineStyle,
   getEntryPointsCharts,
   drawBadge,
+  zoomDateFormat,
 } from './helper';
 import { monitoringStateColors } from '../../../lib/windowProcess/common/colors';
-import DroppableContainer from '../../../lib/windowProcess/View/DroppableContainer';
+import DroppableContainer from '../../../lib/windowProcess/common/DroppableContainer';
 import { Danger } from '../../../lib/windowProcess/View/Alert';
 import styles from './PlotView.css';
 
@@ -41,8 +42,10 @@ const {
 const { Label } = annotation;
 const { HoverTooltip } = tooltip;
 const {
-  CrossHairCursor, MouseCoordinateX,
-  MouseCoordinateY, CurrentCoordinate,
+  MouseCoordinateX,
+  MouseCoordinateY,
+  CrossHairCursor,
+  CurrentCoordinate,
   EdgeIndicator
 } = coordinates;
 // const { ClickCallback } = interactive;
@@ -126,16 +129,23 @@ export class PlotView extends PureComponent {
     }
   };
 
-  state = {
-    disableZoom: true,
-    isMenuOpened: false,
-    disconnected: false,
-    zoomedOrPanned: false,
-    menuPosition: {
-      x: 0,
-      y: 0
-    }
-  };
+  constructor(...args) {
+    super(...args);
+    this.state = {
+      xExtents: [
+        new Date(this.props.visuWindow.lower),
+        new Date(this.props.visuWindow.upper),
+      ],
+      disableZoom: true,
+      isMenuOpened: false,
+      disconnected: false,
+      zoomedOrPanned: false,
+      menuPosition: {
+        x: 0,
+        y: 0
+      }
+    };
+  }
 
   componentWillMount() {
     this.lines = getLines(this.props.configuration.entryPoints);
@@ -155,6 +165,8 @@ export class PlotView extends PureComponent {
       visuWindow,
     } = this.props;
 
+    const nextVisuWindow = nextProps.visuWindow;
+
     if (entryPoints !== nextProps.configuration.entryPoints) {
       this.lines = getLines(this.props.configuration.entryPoints);
     }
@@ -162,13 +174,31 @@ export class PlotView extends PureComponent {
       this.epCharts = getEntryPointsCharts(nextProps.configuration);
     }
 
-    this.setState({ zoomedOrPanned: false });
-    if (visuWindow) {
-      this.setState({
-        randomizedLower: new Date(visuWindow.lower - Math.round(Math.random() * 20)),
-        randomizedUpper: new Date(visuWindow.upper + Math.round(Math.random() * 20)),
-      });
+    const willSetState = {};
+
+    if (this.state.zoomedOrPanned) {
+      // We have to set new lower / upper so zoom mode is quit
+      willSetState.zoomedOrPanned = false;
+      willSetState.xExtents = [
+        new Date(nextVisuWindow.lower - Math.round(Math.random() * 20)),
+        new Date(nextVisuWindow.upper + Math.round(Math.random() * 20))
+      ];
+
+    // reset xExtents only if new lower / upper
+    } else if (
+      !this.state.xExtents ||
+      (
+        visuWindow.lower !== nextVisuWindow.lower ||
+        visuWindow.upper !== nextVisuWindow.upper
+      )
+    ) {
+      willSetState.xExtents = [
+        new Date(nextVisuWindow.lower),
+        new Date(nextVisuWindow.upper),
+      ];
     }
+
+    this.setState(willSetState);
   }
 
   shouldComponentUpdate() {
@@ -190,11 +220,17 @@ export class PlotView extends PureComponent {
     const data = e.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);
 
+    if (!_get(content, 'catalogName')) {
+      return;
+    }
+
     // eslint-disable-next-line no-console
     this.props.addEntryPoint(
       this.props.viewId,
       parseDragData(content)
     );
+
+    e.stopPropagation();
   }
 
   getGrid() {
@@ -233,22 +269,27 @@ export class PlotView extends PureComponent {
     };
   }
 
-  getEntryPointErrors({ style } = {}) {
+  getEntryPointErrors(supClass = '') {
     const epWithErrors = this.props.entryPoints
       .filter(ep => ep.error);
 
     return epWithErrors.length ?
       <Danger
-        className="mb10"
-        style={{
-          ...style,
-          width: '100%',
-        }}
+        className={classnames(
+          'z100',
+          'mb10',
+          'w100',
+          'posAbsolute',
+          supClass
+        )}
       >
         <div>
           {epWithErrors
-            .map(ep => (
-              <div style={{ lineHeight: '1.5em' }}>
+            .map((ep, i) => (
+              <div
+                className={styles.entryPointErrorSubDiv}
+                key={i}
+              >
                 {ep.name}: {ep.error}
               </div>
             ))}
@@ -256,22 +297,108 @@ export class PlotView extends PureComponent {
       </Danger> : undefined;
   }
 
-  getCharts() {
+  getYCharts = () => {
     const {
-      visuWindow,
+      containerWidth,
+      containerHeight,
+      configuration: { showYAxes }
+    } = this.props;
+    const { disableZoom } = this.state;
+    const { y: yGrid } = this.getGrid();
+
+    return this.epCharts.map((chart, i) => {
+      const index = i + 1;
+      const chartWidth = containerWidth - margin.right - margin.left;
+      const AxesWidth = this.epCharts.length * yAxisWidth;
+      let axisAt;
+      let edgeIndicatorDx;
+      if (showYAxes === 'left') {
+        axisAt = (index * yAxisWidth) - AxesWidth;
+        edgeIndicatorDx = (index * yAxisWidth) - (AxesWidth - edgeIndicatorArrowWidth);
+      } else if (showYAxes === 'right') {
+        axisAt = chartWidth - (index * yAxisWidth);
+        edgeIndicatorDx = (index * -yAxisWidth) + (AxesWidth - edgeIndicatorArrowWidth);
+      }
+
+      const align = _get(chart, 'yAxis.style.align', 'center');
+      const pxHeight = containerHeight - margin.top - margin.bottom;
+      const yExtents =
+        _get(chart, 'yAxis.autoLimits') ?
+        d => _map(chart.yKeys, key => _get(d, [key, 'value']))
+        :
+        [
+          _get(chart, 'yAxis.min', 0),
+          _get(chart, 'yAxis.max')
+        ];
+
+      return (<Chart
+        id={index}
+        key={index}
+        yScale={chart.yScale}
+        yExtents={yExtents}
+      >
+        {showYAxes && <Label
+          x={{
+            left: axisAt - (yAxisWidth - 10),
+            right: axisAt + (yAxisWidth - 5),
+          }[showYAxes]}
+          y={{
+            left: pxHeight - margin.top,
+            right: margin.top,
+          }[align] || pxHeight / 2}
+          rotate={-90}
+          fill={_get(chart, 'yAxis.style.color', '#000000')}
+          text={
+            [
+              _get(chart, 'yAxis.label'),
+              (_get(chart, 'yAxis.unit') ? `(${_get(chart, 'yAxis.unit')})` : '')
+            ].join(' ')
+          }
+          fontSize={_get(chart, 'yAxis.style.size', 12)}
+          fontFamily={_get(chart, 'yAxis.style.font', 'Arial')}
+        />}
+        {showYAxes && <YAxis
+          axisAt={axisAt}
+          orient={showYAxes}
+          ticks={5}
+          stroke="#000000"
+          showTicks={_get(chart, 'yAxis.showTicks', true)}
+          tickInterval={_get(chart, 'yAxis.autoTick', true) ? undefined : _get(chart, 'yAxis.tickStep')}
+          showDomain
+          displayFormat={format('.2f')}
+          zoomEnabled={!disableZoom}
+          {...(typeof chart.grid !== 'undefined' ? yGrid : {})}
+        />}
+        {this.getLineComponents(chart.lines, {
+          showYAxes,
+          edgeIndicatorDx,
+          edgeIndicatorType: { left: 'first', right: 'last' }[showYAxes],
+          edgeIndicatorOrient: ['left', 'right'].includes(showYAxes) ? showYAxes : undefined,
+          edgeIndicatorEdgeAt: ['left', 'right'].includes(showYAxes) ? showYAxes : undefined,
+        })}
+      </Chart>
+      );
+    });
+  }
+
+  getXChart = () => {
+    const {
+      visuWindow: { current },
       containerWidth,
       containerHeight,
       configuration,
-      configuration: { showYAxes }
+      configuration: { showYAxes },
     } = this.props;
 
-    const { disableZoom } = this.state;
-    const { y: yGrid, x: xGrid } = this.getGrid();
+    const {
+      disableZoom,
+    } = this.state;
+    const { x: xGrid } = this.getGrid();
 
     let xAxisWidth = containerWidth - margin.left - margin.right;
     if (showYAxes === 'left' || showYAxes === 'right') {
       xAxisWidth = (containerWidth - margin.left - margin.right)
-        - (this.epCharts.length * yAxisWidth);
+        - (this.epCharts.langth * yAxisWidth);
     }
 
     const xLabelAlign = _get(configuration, 'axes.Time.style.align', 'center');
@@ -285,148 +412,48 @@ export class PlotView extends PureComponent {
       xLabelPosition = [xAxisWidth - margin.left, containerHeight - 30];
     }
 
-    const charts = [
-      <Chart
-        id={0}
-        key={0}
-        yExtents={this.yExtents}
-      >
-        <XAxis
-          axisAt="bottom"
-          orient="bottom"
-          ticks={5}
-          tickFormat={zoomDateFormat}
-          zoomEnabled={!disableZoom}
-          {...xGrid}
-        />
-        <Label
-          x={xLabelPosition[0]}
-          y={xLabelPosition[1]}
-          fill={xLabelColor}
-          fontSize={xLabelFontSize}
-          fontFamily={xLabelFontFamily}
-          text="Time"
-        />
-        <MouseCoordinateX
-          at="bottom"
-          orient="bottom"
-          rectWidth={150}
-          displayFormat={fullDateFormat}
-        />
-        {showYAxes && <MouseCoordinateY
-          at={showYAxes}
-          orient={showYAxes}
-          dx={showYAxes === 'left' ? 10 : -10}
-          rectWidth={yAxisWidth}
-          displayFormat={format('.2f')}
-        />}
-        <StraightLine
-          type="vertical"
-          xValue={visuWindow ? visuWindow.current : undefined}
-          stroke="#0ee61f"
-          strokeWidth={2}
-          opacity={1}
-        />
-        {/* <ClickCallback
-          enabled
-          onClick={this.handleChartClick}
-        /> */}
-      </Chart>
-    ];
-
-    this.epCharts.forEach((chart, i) => {
-      const index = i + 1;
-      const chartWidth = containerWidth - margin.right - margin.left;
-      const AxesWidth = this.epCharts.length * yAxisWidth;
-      let dx;
-      let axisAt;
-      let edgeIndicatorDx;
-      let edgeIndicatorType;
-      let edgeIndicatorOrient;
-      let edgeIndicatorEdgeAt;
-      if (showYAxes === 'left') {
-        axisAt = (index * yAxisWidth) - AxesWidth;
-        edgeIndicatorType = 'first';
-        edgeIndicatorOrient = 'left';
-        edgeIndicatorEdgeAt = 'left';
-        edgeIndicatorDx = (index * yAxisWidth) - (AxesWidth - edgeIndicatorArrowWidth);
-        dx = axisAt - (yAxisWidth - 10);
-      } else if (showYAxes === 'right') {
-        axisAt = chartWidth - (index * yAxisWidth);
-        edgeIndicatorType = 'last';
-        edgeIndicatorOrient = 'right';
-        edgeIndicatorEdgeAt = 'right';
-        edgeIndicatorDx = (index * -yAxisWidth) + (AxesWidth - edgeIndicatorArrowWidth);
-        dx = axisAt + (yAxisWidth - 5);
-      }
-
-      const hasGrid = typeof chart.grid !== 'undefined';
-      const autoLimits = _get(chart, 'yAxis.autoLimits');
-      const showTicks = _get(chart, 'yAxis.showTicks', true);
-      const autoTick = _get(chart, 'yAxis.autoTick', true);
-      const tickStep = _get(chart, 'yAxis.tickStep');
-      const label = _get(chart, 'yAxis.label');
-      const unit = _get(chart, 'yAxis.unit');
-      const align = _get(chart, 'yAxis.style.align', 'center');
-      const fontSize = _get(chart, 'yAxis.style.size', 12);
-      const color = _get(chart, 'yAxis.style.color', '#000000');
-      const fontFamily = _get(chart, 'yAxis.style.font', 'Arial');
-
-      const pxHeight = containerHeight - margin.top - margin.bottom;
-      let labelYPosition = pxHeight / 2;
-      if (align === 'left') {
-        labelYPosition = pxHeight - margin.top;
-      } else if (align === 'right') {
-        labelYPosition = margin.top;
-      }
-
-      const yExtents = autoLimits
-        ? d => _map(chart.yKeys, key => _get(d, [key, 'value']))
-        : [
-          _get(chart, 'yAxis.min', 0),
-          _get(chart, 'yAxis.max')
-        ];
-
-      charts.push(
-        <Chart
-          id={index}
-          key={index}
-          yScale={chart.yScale}
-          yExtents={yExtents}
-        >
-          {showYAxes && <Label
-            x={dx}
-            y={labelYPosition}
-            rotate={-90}
-            fill={color}
-            text={[label, ((unit && unit.length ? `(${unit})` : ''))].join(' ')}
-            fontSize={fontSize}
-            fontFamily={fontFamily}
-          />}
-          {showYAxes && <YAxis
-            axisAt={axisAt}
-            orient={showYAxes}
-            ticks={5}
-            stroke="#000000"
-            showTicks={showTicks}
-            tickInterval={autoTick ? undefined : tickStep}
-            showDomain
-            displayFormat={format('.2f')}
-            zoomEnabled={!disableZoom}
-            {...hasGrid ? yGrid : {}}
-          />}
-          {this.getLineComponents(chart.lines, {
-            showYAxes,
-            edgeIndicatorDx,
-            edgeIndicatorType,
-            edgeIndicatorOrient,
-            edgeIndicatorEdgeAt
-          })}
-        </Chart>
-      );
-    });
-
-    return charts;
+    return (<Chart
+      id={0}
+      key={0}
+      yExtents={this.yExtents}
+    >
+      <XAxis
+        axisAt="bottom"
+        orient="bottom"
+        ticks={5}
+        tickFormat={zoomDateFormat}
+        zoomEnabled={!disableZoom}
+        {...xGrid}
+      />
+      <Label
+        x={xLabelPosition[0]}
+        y={xLabelPosition[1]}
+        fill={xLabelColor}
+        fontSize={xLabelFontSize}
+        fontFamily={xLabelFontFamily}
+        text="Time"
+      />
+      <MouseCoordinateX
+        at="bottom"
+        orient="bottom"
+        rectWidth={150}
+        displayFormat={fullDateFormat}
+      />
+      {showYAxes && <MouseCoordinateY
+        at={showYAxes}
+        orient={showYAxes}
+        dx={showYAxes === 'left' ? 10 : -10}
+        rectWidth={yAxisWidth}
+        displayFormat={format('.2f')}
+      />}
+      <StraightLine
+        type="vertical"
+        xValue={current}
+        stroke="#0ee61f"
+        strokeWidth={2}
+        opacity={1}
+      />
+    </Chart>);
   }
 
   getLineComponents = (lines = [], {
@@ -687,18 +714,17 @@ export class PlotView extends PureComponent {
       containerWidth,
       containerHeight,
       data: { columns },
-      visuWindow: { lower, upper },
-      configuration: { showYAxes }
+      configuration: { showYAxes },
     } = this.props;
     const {
       disableZoom,
       disconnected,
       zoomedOrPanned,
-      randomizedLower,
-      randomizedUpper,
+      xExtents,
       // isMenuOpened,
       // menuPosition
     } = this.state;
+
     // const menuOpenOnTop = menuPosition.y >= (height / 2);
     // const menuOpenOnLeft = menuPosition.x >= (width / 2);
     let marginChart;
@@ -711,18 +737,17 @@ export class PlotView extends PureComponent {
     } else {
       marginChart = { ...margin };
     }
+    marginChart = getDynamicObject()(marginChart);
 
     return (
       <DroppableContainer
-        style={{
-          height: '100%',
-          position: 'relative',
-        }}
         onDrop={this.onDrop.bind(this)}
-        text={'add entry point'}
-        className={classnames({
-          [styles.disconnected]: disconnected || zoomedOrPanned,
-        })}
+        text="add entry point"
+        className={classnames(
+          { [styles.disconnected]: disconnected || zoomedOrPanned },
+          'h100',
+          'posRelative',
+        )}
       >
         <div
           ref={(el) => { this.el = el; }}
@@ -742,11 +767,7 @@ export class PlotView extends PureComponent {
               onClick={this.reconnect}
             >Reconnect</Button>
           }
-          {this.getEntryPointErrors({ style: {
-            padding: '1em',
-            position: 'absolute',
-            zIndex: 100,
-          } })}
+          {this.getEntryPointErrors(styles.entryPointError)}
           <ChartCanvas
             plotFull={false}
             ratio={1}
@@ -761,12 +782,12 @@ export class PlotView extends PureComponent {
             xScale={scaleTime()}
             yAxisZoom={onYAxisZoom}
             zoomEvent={!disableZoom}
-            xExtents={[
-              randomizedLower || new Date(lower),
-              randomizedUpper || new Date(upper)
-            ]}
+            xExtents={xExtents}
           >
-            {this.getCharts()}
+            {
+              [this.getXChart()]
+                .concat(this.getYCharts())
+            }
             <CrossHairCursor opacity={1} />
             <HoverTooltip
               tooltipContent={this.handleTooltipContent}
@@ -779,68 +800,6 @@ export class PlotView extends PureComponent {
               bgheight={50}
             />
           </ChartCanvas>
-          { /* @TODO Uncomment when implementing markers!
-            do the same for the Editor PlotTab part.
-          <PlotMenu
-            isOpened={isMenuOpened}
-            openOnLeft={menuOpenOnLeft}
-            openOnTop={menuOpenOnTop}
-            mousePosition={menuPosition}
-          >
-            {disconnected &&
-              <Button
-                bsStyle="danger"
-                bsSize="xs"
-                className={styles.disconnectedButton}
-                onClick={this.reconnect}
-              >Reconnect</Button>
-            }
-            <ChartCanvas
-              plotFull={false}
-              ratio={1}
-              width={containerWidth}
-              height={containerHeight}
-              margin={marginChart}
-              pointsPerPxThreshold={4}
-              seriesName="PlotView"
-              data={columns}
-              type="hybrid"
-              xAccessor={this.xAccessor}
-              xScale={scaleTime()}
-              yAxisZoom={(id, domain) => console.log('zoom', id, domain)}
-              zoomEvent={!disableZoom}
-              xExtents={[new Date(lower), new Date(upper)]}
-            >
-              {this.getCharts()}
-              <CrossHairCursor opacity={1} />
-              <HoverTooltip
-                tooltipContent={this.handleTooltipContent}
-                opacity={1}
-                fill="#FFFFFF"
-                stroke="#F0F0F0"
-                bgwidth={160}
-                bgheight={50}
-                tooltipCanvas={this.tooltipCanvas}
-                backgroundShapeCanvas={this.backgroundShapeCanvas.bind(this)}
-              />
-            </ChartCanvas>
-
-            { /* @TODO Uncomment when implementing markers!
-              do the same for the Editor PlotTab part.
-            <PlotMenu
-              isOpened={isMenuOpened}
-              openOnLeft={menuOpenOnLeft}
-              openOnTop={menuOpenOnTop}
-              mousePosition={menuPosition}
-            >
-              <MenuItem header>Markers</MenuItem>
-              <MenuItem divider />
-              <MenuItem>Add a Text</MenuItem>
-              <MenuItem>Add an horizontal line</MenuItem>
-              <MenuItem>Add an Vertical line</MenuItem>
-            </PlotMenu>
-            */
-          }
         </div>
       </DroppableContainer>
     );
@@ -850,3 +809,62 @@ export class PlotView extends PureComponent {
 const SizeablePlotView = Dimensions()(PlotView);
 
 export default SizeablePlotView;
+
+/** @TODO Uncomment when implementing markers! do the same for the Editor PlotTab part.
+ <PlotMenu
+ isOpened={isMenuOpened}
+ openOnLeft={menuOpenOnLeft}
+ openOnTop={menuOpenOnTop}
+ mousePosition={menuPosition}
+ >
+ {disconnected &&
+ <Button
+ bsStyle="danger"
+ bsSize="xs"
+ className={styles.disconnectedButton}
+ onClick={this.reconnect}
+ >Reconnect</Button>
+ }
+ <ChartCanvas
+ plotFull={false}
+ ratio={1}
+ width={containerWidth}
+ height={containerHeight}
+ margin={marginChart}
+ pointsPerPxThreshold={4}
+ seriesName="PlotView"
+ data={columns}
+ type="hybrid"
+ xAccessor={this.xAccessor}
+ xScale={scaleTime()}
+ yAxisZoom={(id, domain) => console.log('zoom', id, domain)}
+ zoomEvent={!disableZoom}
+ xExtents={[new Date(lower), new Date(upper)]}
+ >
+ {this.getCharts()}
+ <CrossHairCursor opacity={1} />
+ <HoverTooltip
+ tooltipContent={this.handleTooltipContent}
+ opacity={1}
+ fill="#FFFFFF"
+ stroke="#F0F0F0"
+ bgwidth={160}
+ bgheight={50}
+ tooltipCanvas={this.tooltipCanvas}
+ backgroundShapeCanvas={this.backgroundShapeCanvas.bind(this)}
+ />
+ </ChartCanvas>
+ do the same for the Editor PlotTab part.
+ <PlotMenu
+ isOpened={isMenuOpened}
+ openOnLeft={menuOpenOnLeft}
+ openOnTop={menuOpenOnTop}
+ mousePosition={menuPosition}
+ >
+ <MenuItem header>Markers</MenuItem>
+ <MenuItem divider />
+ <MenuItem>Add a Text</MenuItem>
+ <MenuItem>Add an horizontal line</MenuItem>
+ <MenuItem>Add an Vertical line</MenuItem>
+ </PlotMenu>
+*/

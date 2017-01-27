@@ -110,7 +110,7 @@ export function openWorkspaceDocument(dispatch, getState, root, file, callback) 
   });
 }
 
-export function openDefaultWorkspace(dispatch, root, callback) {
+const createBlankWorkspace = () => {
   const wsUuid = v4();
   const tbUuid = v4();
   const pgUuid = v4();
@@ -157,8 +157,10 @@ export function openDefaultWorkspace(dispatch, root, callback) {
     timebars: { [tbUuid]: Object.assign(timebar, { uuid: tbUuid }) },
     pages: { [pgUuid]: Object.assign(page, { uuid: pgUuid }) },
   };
+  return workspace;
+};
 
+export function openDefaultWorkspace(dispatch, root, callback) {
   server.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', 'new workspace');
-
-  loadInStore(workspace, dispatch, root, undefined, callback, true);
+  loadInStore(createBlankWorkspace(), dispatch, root, undefined, callback, true);
 }

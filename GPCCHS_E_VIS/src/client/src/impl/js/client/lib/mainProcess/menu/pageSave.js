@@ -15,6 +15,9 @@ function pageSave(focusedWindow) {
   }
   const state = getStore().getState();
   const pageId = state.windows[focusedWindow.windowId].focusedPage;
+  if (!state.pages[pageId].isModified) {
+    return getStore().dispatch(addMessage(pageId, 'info', 'Page already saved'));
+  }
   if (getPageModifiedViewsIds(state, pageId).length > 0) {
     return getStore().dispatch(
       addMessage(getWindowFocusedPageId(getStore().getState(), focusedWindow.windowId),
@@ -26,59 +29,61 @@ function pageSave(focusedWindow) {
   const page = state.pages[pageId];
   const store = getStore();
   if (!page.oId && !page.absolutePath) {
-    updatePagePath(pageId, store, store.dispatch, (errUp, pId) => {
-      if (errUp) {
-        return getStore().dispatch(
-          addMessage(getWindowFocusedPageId(getStore().getState(), focusedWindow.windowId),
-            'danger',
-            'Saving Failed')
-          );
-      }
-      saveFile(pId, store);
+    getPathByFilePicker(state.hsc.folder, 'Page', 'save', (err, newPagePath) => {
+      getStore().dispatch(updateAbsolutePath(pageId, newPagePath));
+      return saveFile(pageId, store, (errSaving) => {
+        if (errSaving) {
+          getStore().dispatch(updateAbsolutePath(pageId, page.absolutePath));
+          getStore().dispatch(setModified(pageId, page.isModified));
+          return store.dispatch(addMessage(pageId, 'danger', errSaving));
+        }
+        return store.dispatch(addMessage(pageId, 'success', 'Page successfully saved'));
+      });
     });
   } else {
-    saveFile(pageId, store);
+    return saveFile(pageId, getStore(), (errSaving) => {
+      if (errSaving) {
+        return store.dispatch(addMessage(pageId, 'danger', errSaving));
+      }
+      return getStore().dispatch(addMessage(pageId, 'success', 'Page successfully saved'));
+    });
   }
 }
 
 function pageSaveAs(focusedWindow) {
-  const store = getStore();
-  const pageId = store.getState().windows[focusedWindow.windowId].focusedPage;
-  if (getPageModifiedViewsIds(store.getState(), pageId).length) {
+  const pageId = getStore().getState().windows[focusedWindow.windowId].focusedPage;
+  if (getPageModifiedViewsIds(getStore().getState(), pageId).length) {
     return getStore().dispatch(
       addMessage(getWindowFocusedPageId(getStore().getState(), focusedWindow.windowId,
         'danger',
         'Please, save the views of this page')
       ));
   }
-  updatePagePath(pageId, store, store.dispatch, (errUp, pId) => {
-    if (errUp) {
-      return store.dispatch(addMessage(pageId, 'danger', errUp));
-    }
-    saveFile(pId, store);
+  const state = getStore().getState();
+  const page = state.pages[pageId];
+  getPathByFilePicker(state.hsc.folder, 'Page', 'save', (err, newPagePath) => {
+    getStore().dispatch(updateAbsolutePath(pageId, newPagePath));
+    return saveFile(pageId, getStore(), (errSaving) => {
+      if (errSaving) {
+        getStore().dispatch(updateAbsolutePath(pageId, page.absolutePath));
+        getStore().dispatch(setModified(pageId, page.isModified));
+        getStore().dispatch(addMessage(pageId, 'danger', errSaving));
+        return;
+      }
+      return getStore().dispatch(addMessage(pageId, 'success', 'Page successfully saved'));
+    });
   });
 }
 
-function saveFile(pageId, store) {
+function saveFile(pageId, store, callback) {
   savePage(store.getState(), pageId, false, (err, oid) => {
     if (err) {
-      return store.dispatch(addMessage(pageId, 'danger', err));
+      return callback(err);
     }
     if (oid) {
       store.dispatch(setPageOid(pageId, oid));
     }
-    store.dispatch(addMessage(pageId, 'success', 'View saved'));
     store.dispatch(setModified(pageId, false));
-  });
-}
-
-function updatePagePath(pageId, store, dispatch, callback) {
-  const state = store.getState();
-  getPathByFilePicker(state.hsc.folder, 'Page', 'save', (err, newPagePath) => {
-    if (err) {
-      return callback(err, null);
-    }
-    dispatch(updateAbsolutePath(pageId, newPagePath));
-    callback(null, pageId);
+    callback(null);
   });
 }

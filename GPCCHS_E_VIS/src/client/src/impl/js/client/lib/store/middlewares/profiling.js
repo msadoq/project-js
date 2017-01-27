@@ -16,6 +16,7 @@ const profilingMiddleware = ({ getState }) => next => (action) => {
   execution.start(key); // start profiling
   const returnedAction = next(action); // action pass in reducer
   execution.stop(key, msg); // stop profiling
+  execution.print();
 
   return returnedAction;
 };

@@ -59,6 +59,7 @@ const badgeWidth = 30;
 const getComObject =
   _.propOr('UNKNOWN_COM_OBJECT', 0);
 
+const format2f = format('.2f');
 // parse clipboard data to create partial entry point
 function parseDragData(data) {
   return {
@@ -365,7 +366,7 @@ export class PlotView extends PureComponent {
           showTicks={_get(chart, 'yAxis.showTicks', true)}
           tickInterval={_get(chart, 'yAxis.autoTick', true) ? undefined : _get(chart, 'yAxis.tickStep')}
           showDomain
-          displayFormat={format('.2f')}
+          displayFormat={format2f}
           zoomEnabled={!disableZoom}
           {...(typeof chart.grid !== 'undefined' ? yGrid : {})}
         />}
@@ -444,7 +445,7 @@ export class PlotView extends PureComponent {
         orient={showYAxes}
         dx={showYAxes === 'left' ? 10 : -10}
         rectWidth={yAxisWidth}
-        displayFormat={format('.2f')}
+        displayFormat={format2f}
       />}
       <StraightLine
         type="vertical"
@@ -496,7 +497,7 @@ export class PlotView extends PureComponent {
           edgeAt={edgeIndicatorEdgeAt}
           dx={edgeIndicatorDx}
           rectWidth={yAxisWidth}
-          displayFormat={format('.2f')}
+          displayFormat={format2f}
           yAccessor={d => _get(d, [key, 'value'])}
           fill={color}
         />}

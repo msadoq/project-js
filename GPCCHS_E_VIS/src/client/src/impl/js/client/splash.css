@@ -156,10 +156,10 @@
 }
 .splashing .splash.circular{
   display:inline-block;
-  width:4pc;
-  height:4pc;
-  margin-left:-2pc;
-  margin-top:-2pc;
+  width:8pc;
+  height:8pc;
+  margin-left:-4pc;
+  margin-top:0pc;
   -webkit-animation:splash-container-rotate 1568ms linear infinite;
   animation:splash-container-rotate 1568ms linear infinite
 }

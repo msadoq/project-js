@@ -36,8 +36,8 @@ function getWindowHtmlPath() {
 export function openSplashScreen(callback) {
   logger.info('Opening splashScreen');
   splashScreen = new BrowserWindow({
-    width: 200,
-    height: 200,
+    width: 500,
+    height: 500,
     frame: false, // Open a window without toolbars, borders, or other graphical "chrome".
     alwaysOnTop: true,
   });

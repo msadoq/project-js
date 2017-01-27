@@ -14,7 +14,7 @@ module.exports = () => {
   if (!start) {
     start = process.hrtime();
     setImmediate(iterate);
-    return undefined;
+    return true;
   }
 
   const delta = process.hrtime(start);

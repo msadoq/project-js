@@ -1,6 +1,7 @@
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _reduce from 'lodash/reduce';
+import _filter from 'lodash/filter';
 import { createSelector } from 'reselect';
 import { getFocusedWindowId } from './hsc';
 import { getPages } from './pages';
@@ -105,3 +106,7 @@ export const getWindowsTitle = createSelector(
       [windowId]: `${window.title}${(window.isModified === true) ? ' *' : ''} - VIMA`
     }), {})
 );
+
+export function getModifiedWindowsIds(state) {
+  return _filter(Object.keys(getWindows(state)), wId => state.windows[wId].isModified);
+}

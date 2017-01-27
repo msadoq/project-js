@@ -15,6 +15,9 @@ function pageSave(focusedWindow) {
   }
   const state = getStore().getState();
   const pageId = state.windows[focusedWindow.windowId].focusedPage;
+  if (!state.pages[pageId].isModified) {
+    return getStore().dispatch(addMessage(pageId, 'info', 'Page already saved'));
+  }
   if (getPageModifiedViewsIds(state, pageId).length > 0) {
     return getStore().dispatch(
       addMessage(getWindowFocusedPageId(getStore().getState(), focusedWindow.windowId),
@@ -30,9 +33,11 @@ function pageSave(focusedWindow) {
       getStore().dispatch(updateAbsolutePath(pageId, newPagePath));
       return saveFile(pageId, store, (errSaving) => {
         if (errSaving) {
+          getStore().dispatch(updateAbsolutePath(pageId, page.absolutePath));
+          getStore().dispatch(setModified(pageId, page.isModified));
           return store.dispatch(addMessage(pageId, 'danger', errSaving));
         }
-        return store.dispatch(addMessage(pageId, 'success', 'Page saved'));
+        return store.dispatch(addMessage(pageId, 'success', 'Page successfully saved'));
       });
     });
   } else {
@@ -40,7 +45,7 @@ function pageSave(focusedWindow) {
       if (errSaving) {
         return store.dispatch(addMessage(pageId, 'danger', errSaving));
       }
-      return getStore().dispatch(addMessage(pageId, 'success', 'Page saved'));
+      return getStore().dispatch(addMessage(pageId, 'success', 'Page successfully saved'));
     });
   }
 }
@@ -65,7 +70,7 @@ function pageSaveAs(focusedWindow) {
         getStore().dispatch(addMessage(pageId, 'danger', errSaving));
         return;
       }
-      return getStore().dispatch(addMessage(pageId, 'success', 'Page saved'));
+      return getStore().dispatch(addMessage(pageId, 'success', 'Page successfully saved'));
     });
   });
 }

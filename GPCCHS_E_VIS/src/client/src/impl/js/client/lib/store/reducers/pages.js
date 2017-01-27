@@ -2,6 +2,7 @@ import _without from 'lodash/without';
 import _isEqual from 'lodash/isEqual';
 import _omit from 'lodash/omit';
 import u from 'updeep';
+import { resolve } from 'path';
 import * as types from '../types';
 
 /**
@@ -35,7 +36,9 @@ export default function pages(statePages = {}, action) {
         }
       }, statePages);
     case types.WS_PAGE_UPDATE_ABSOLUTEPATH: {
-      if (!statePages[action.payload.pageId]) {
+      const statePage = statePages[action.payload.pageId];
+      if (!statePage || (statePage.absolutePath && action.payload.newPath &&
+        resolve(action.payload.newPath) === resolve(statePage.absolutePath))) {
         return statePages;
       }
       return u({

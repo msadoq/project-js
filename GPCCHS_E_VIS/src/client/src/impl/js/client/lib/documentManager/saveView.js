@@ -72,9 +72,6 @@ const saveView = fmdApi => (state, viewId, callback) => {
   if (!state.views[viewId]) {
     return callback('Unknown view id');
   }
-  if (!state.views[viewId].isModified) {
-    return callback(null);
-  }
   const absPath = state.views[viewId].absolutePath ? state.views[viewId].absolutePath
                                                    : state.views[viewId].oId;
   if (!absPath) {

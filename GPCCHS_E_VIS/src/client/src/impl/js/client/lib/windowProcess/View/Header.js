@@ -146,7 +146,7 @@ export default class Header extends PureComponent {
     } = this.props;
     main.message(
       globalConstants.IPC_METHOD_SAVE_VIEW,
-      { saveAs: absolutePath, viewId }
+      { saveMode: absolutePath, viewId }
     );
   }
 

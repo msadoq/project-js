@@ -96,9 +96,6 @@ const savePage = fmdApi => (state, pageId, useRelativePath, callback) => {
   if (!state.pages[pageId]) {
     callback('unknown page id');
   }
-  if (!state.pages[pageId].isModified) {
-    return callback('page already saved');
-  }
   const path = state.pages[pageId].absolutePath ? state.pages[pageId].absolutePath
                                                 : state.pages[pageId].oId;
   if (!path) {

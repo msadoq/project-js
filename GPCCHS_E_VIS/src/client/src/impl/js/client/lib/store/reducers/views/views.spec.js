@@ -178,15 +178,6 @@ describe('store:views:reducer', () => {
       s.view1.isModified.should.equal(true);
       s.view1.configuration.title.should.equal('my plot');
     });
-    it('Path: no change', () => {
-      reducer(state, {
-        type: types.WS_VIEW_UPDATEPATH,
-        payload: {
-          viewId: 'view1',
-          newPath: '/data/oldPath',
-        },
-      }).should.equal(state);
-    });
     it('absolute Path', () => {
       const s = reducer(state, {
         type: types.WS_VIEW_UPDATE_ABSOLUTEPATH,
@@ -198,15 +189,6 @@ describe('store:views:reducer', () => {
       s.view1.absolutePath.should.equal('/data/newPath');
       s.view1.isModified.should.equal(true);
       s.view1.configuration.title.should.equal('my plot');
-    });
-    it('absolute Path: no change', () => {
-      reducer(state, {
-        type: types.WS_VIEW_UPDATE_ABSOLUTEPATH,
-        payload: {
-          viewId: 'view1',
-          newPath: '/data/oldPath',
-        },
-      }).should.equal(state);
     });
     it('object ok', () => {
       const action = {

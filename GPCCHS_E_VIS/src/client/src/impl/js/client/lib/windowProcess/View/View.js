@@ -1,6 +1,8 @@
 import React, { PureComponent, PropTypes } from 'react';
 import getLogger from 'common/log';
-
+import PlotViewComp from '../../../VIVL/PlotView/window/PlotViewContainer';
+import TextViewComp from '../../../VIVL/TextView/window/TextViewContainer';
+import DynamicViewComp from '../../../VIVL/DynamicView/window/DynamicViewContainer';
 import ViewHeader from './Header';
 import UnknownView from './UnknownView';
 import MessagesContainer from './MessagesContainer';
@@ -17,7 +19,6 @@ const keys = {
 
 export default class View extends PureComponent {
   static propTypes = {
-    component: PropTypes.func,
     isViewsEditorOpen: PropTypes.bool,
     configuration: PropTypes.object,
     visuWindow: PropTypes.object,
@@ -93,13 +94,26 @@ export default class View extends PureComponent {
       moveViewToPage,
       getWindowPages,
       collapseView,
-      component,
       oId,
       absolutePath,
       isModified,
       entryPoints,
     } = this.props;
-    const ContentComponent = component || UnknownView;
+
+    let ContentComponent;
+    switch (type) {
+      case 'PlotView':
+        ContentComponent = PlotViewComp;
+        break;
+      case 'TextView':
+        ContentComponent = TextViewComp;
+        break;
+      case 'DynamicView':
+        ContentComponent = DynamicViewComp;
+        break;
+      default:
+        ContentComponent = UnknownView;
+    }
 
     return (
       <div

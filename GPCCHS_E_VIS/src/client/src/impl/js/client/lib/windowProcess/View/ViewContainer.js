@@ -1,7 +1,6 @@
 import _get from 'lodash/get';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getComponent } from '../../../VIVL/window';
 import {
   getView,
   makeGetViewEntryPoints,
@@ -12,12 +11,12 @@ import { setCollapsedAndUpdateLayout } from '../../store/actions/views';
 
 import View from './View';
 
+
 const makeMapStateToProps = () => {
   const getViewEntryPoints = makeGetViewEntryPoints();
   const mapStateToProps = (state, { viewId, timebarUuid }) => {
     const { type, configuration, oId, absolutePath, isModified }
         = getView(state, viewId);
-    const ViewTypeComponent = getComponent(type);
 
     const data = _get(state, ['viewData', viewId], {});
     const visuWindow = _get(state, ['timebars', timebarUuid, 'visuWindow']);
@@ -25,7 +24,6 @@ const makeMapStateToProps = () => {
       entryPoints: getViewEntryPoints(state, viewId),
       type,
       configuration,
-      component: ViewTypeComponent,
       data,
       visuWindow,
       getWindowPages: windowId => getWindowPages(state, windowId),

@@ -12,8 +12,11 @@ const iterate = () => {
 
 module.exports = () => {
   if (!start) {
+    start = process.hrtime();
     setImmediate(iterate);
+    return undefined;
   }
+
   const delta = process.hrtime(start);
   const totalTime = (delta[0] * 1000) + (delta[1] / 1000000);
   iterationTime = (iterationNb) ? totalTime / iterationNb : 0;

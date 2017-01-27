@@ -92,6 +92,7 @@ const bytesToOctet = (buffer) => {
     return buffer.buffer;
   }
   return buffer.buffer.readInt8(buffer.offset);
+  // return buffer.buffer.toString('ascii');
 };
 const stringToBytes = (string) => {
   if (_isUndefined(string) || _isNull(string)) {

@@ -33,6 +33,7 @@ export default class View extends PureComponent {
     moveViewToPage: PropTypes.func,
     getWindowPages: PropTypes.func,
     collapseView: PropTypes.func,
+    entryPoints: PropTypes.array,
   };
 
   static contextTypes = {
@@ -96,6 +97,7 @@ export default class View extends PureComponent {
       oId,
       absolutePath,
       isModified,
+      entryPoints,
     } = this.props;
     const ContentComponent = component || UnknownView;
 
@@ -133,6 +135,7 @@ export default class View extends PureComponent {
               isViewsEditorOpen={isViewsEditorOpen}
               visuWindow={visuWindow}
               configuration={configuration}
+              entryPoints={entryPoints}
             />
           </div>
         }

@@ -2,7 +2,10 @@ import _get from 'lodash/get';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getComponent } from '../../../VIVL/window';
-import { getView } from '../../store/selectors/views';
+import {
+  getView,
+  getViewEntryPoints,
+} from '../../store/selectors/views';
 import { getWindowPages } from '../../store/selectors/windows';
 import { moveViewToPage } from '../../store/actions/pages';
 import { setCollapsedAndUpdateLayout } from '../../store/actions/views';
@@ -17,6 +20,7 @@ const mapStateToProps = (state, { viewId, timebarUuid }) => {
   const data = _get(state, ['viewData', viewId], {});
   const visuWindow = _get(state, ['timebars', timebarUuid, 'visuWindow']);
   return {
+    entryPoints: getViewEntryPoints(state, viewId),
     type,
     configuration,
     component: ViewTypeComponent,

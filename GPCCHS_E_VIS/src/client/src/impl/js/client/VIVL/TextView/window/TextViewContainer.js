@@ -8,12 +8,10 @@ import {
 import {
   getViewContent,
   getTextViewData,
-  getViewEntryPoints,
 } from '../../../lib/store/selectors/views';
 
 export const TextViewContainer = connect(
   (state, { viewId }) => ({
-    entryPoints: getViewEntryPoints(state, viewId),
     content: getViewContent(state, viewId),
     data: getTextViewData(state, viewId),
   }), {

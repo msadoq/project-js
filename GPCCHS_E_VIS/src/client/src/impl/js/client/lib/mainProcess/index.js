@@ -25,6 +25,8 @@ import setMenu from './menu';
 import { openDefaultWorkspace, openWorkspaceDocument } from './openWorkspace';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
 
+import { openSplashScreen } from './windows';
+
 const logger = getLogger('main:index');
 
 export function start() {
@@ -43,6 +45,7 @@ export function start() {
 
   series([
     callback => enableDebug(callback),
+    callback => openSplashScreen(callback),
     (callback) => {
       // monitoring
       monitoring.start();

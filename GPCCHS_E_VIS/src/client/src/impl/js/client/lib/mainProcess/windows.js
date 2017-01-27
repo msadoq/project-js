@@ -25,9 +25,40 @@ import { getStore } from '../store/mainStore';
 const logger = getLogger('main:windows');
 
 const windows = {};
+let splashScreen;
 
 function getWindowHtmlPath() {
   return `file://${parameters.get('path')}/index.html`;
+}
+
+// SplashScreen shown when all windows are closed
+// It is opened once and hidden when unusable
+export function openSplashScreen(callback) {
+  logger.info('Opening splashScreen');
+  splashScreen = new BrowserWindow({
+    width: 200,
+    height: 200,
+    frame: false, // Open a window without toolbars, borders, or other graphical "chrome".
+    alwaysOnTop: true,
+  });
+  splashScreen.setMenuBarVisibility(false);
+  splashScreen.loadURL(`file://${parameters.get('path')}/splash.html`);
+  splashScreen.focus();
+
+  return callback(null);
+}
+
+export function showSplashScreen() {
+  splashScreen.show();
+  splashScreen.focus();
+}
+
+export function hideSplashScreen() {
+  splashScreen.hide();
+}
+
+export function closeSplashScreen() {
+  setImmediate(() => splashScreen.close());
 }
 
 export function open(windowId, title, data, cb) {
@@ -117,6 +148,17 @@ export default function windowsObserver(state, callback) {
   series([
     // close
     fn => fn(toClose.forEach(windowId => close(windowId))),
+    // splashScreen
+    (fn) => {
+      if (opened.length === toClose.length) {
+        if (toOpen.length) {
+          showSplashScreen();
+        } else {
+          closeSplashScreen();
+        }
+      }
+      return fn(null);
+    },
     // open
     fn => each(toOpen, (windowId, cb) => open(windowId, titles[windowId], list[windowId], cb), fn),
     // update titles
@@ -131,5 +173,13 @@ export default function windowsObserver(state, callback) {
 
       return fn(null);
     },
+    (fn) => {
+      if (opened.length !== toClose.length) {
+        if (splashScreen) {
+          hideSplashScreen();
+        }
+      }
+      return fn(null);
+    }
   ], callback);
 }

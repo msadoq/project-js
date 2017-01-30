@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, PureComponent } from 'react';
 import _omit from 'lodash/omit';
 import getLogger from 'common/log';
 
@@ -30,7 +30,7 @@ const s = {
   },
 };
 
-export default class DroppableContainer extends React.Component {
+export default class DroppableContainer extends PureComponent {
   static propTypes = {
     children: PropTypes.node,
     onDrop: PropTypes.func,
@@ -48,7 +48,11 @@ export default class DroppableContainer extends React.Component {
     };
   }
 
-  onDragOver(e) {
+  onDragOver = this.dragOver.bind(this);
+  onDragLeave = this.dragLeave.bind(this);
+  onDrop = this.drop.bind(this);
+
+  dragOver(e) {
     e.preventDefault();
     e.stopPropagation();
     if (!this.state.over) {
@@ -58,7 +62,7 @@ export default class DroppableContainer extends React.Component {
     }
   }
 
-  onDragLeave() {
+  dragLeave() {
     if (this.state.over) {
       this.setState({
         over: false
@@ -66,7 +70,7 @@ export default class DroppableContainer extends React.Component {
     }
   }
 
-  onDrop(e) {
+  drop(e) {
     try {
       this.props.onDrop(e);
     } catch (err) {
@@ -79,6 +83,7 @@ export default class DroppableContainer extends React.Component {
       e.preventDefault();
     }
   }
+
   render() {
     const otherProps = _omit(this.props, [
       'children',
@@ -93,9 +98,9 @@ export default class DroppableContainer extends React.Component {
           position: 'relative',
           width: '100%',
         }}
-        onDragOver={this.onDragOver.bind(this)}
-        onDragLeave={this.onDragLeave.bind(this)}
-        onDrop={this.onDrop.bind(this)}
+        onDragOver={this.onDragOver}
+        onDragLeave={this.onDragLeave}
+        onDrop={this.onDrop}
         {...otherProps}
       >
         {this.props.children}

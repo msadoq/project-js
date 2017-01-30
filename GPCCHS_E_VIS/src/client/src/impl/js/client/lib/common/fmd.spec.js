@@ -2,6 +2,7 @@ import { get } from 'common/parameters';
 import {
   getRootDir, isFmd, getRelativeFmdPath,
 } from './fmd';
+import { } from './test';
 
 describe('common/fmd', () => {
   describe('getRootDir', () => {
@@ -11,7 +12,8 @@ describe('common/fmd', () => {
   });
 
   describe('isFmd', () => {
-    // isFmd do not check fs for existing path, it's just a pure function
+    // isFmd do not check fs for existing path,
+    // it's just function that check if path start with fmd root dir.
     it('should be true', () => {
       isFmd(`${getRootDir()}/missing`).should.be.eql(true);
       isFmd(getRootDir()).should.be.eql(true);

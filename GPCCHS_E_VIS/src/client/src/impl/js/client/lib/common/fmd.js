@@ -21,10 +21,11 @@ const resolveDocument = (oId, callback) => {
     if (type !== globalConstants.FMDFILETYPE_DOCUMENT) {
       return callback('document is not a file');
     }
-    callback(null,
-             join(getRootDir(), detail.dirname.value, detail.basename.value),
-             detail.properties,
-          );
+    callback(
+      null,
+      join(getRootDir(), detail.dirname.value, detail.basename.value),
+      detail.properties,
+    );
   });
 };
 

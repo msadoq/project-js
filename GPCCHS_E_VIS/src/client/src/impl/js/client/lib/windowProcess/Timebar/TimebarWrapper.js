@@ -99,6 +99,8 @@ export default class TimebarWrapper extends PureComponent {
     });
   }
 
+  assignEl = (el) => { this.el = el; }
+
   render() {
     logger.debug('render');
     const {
@@ -139,7 +141,7 @@ export default class TimebarWrapper extends PureComponent {
 
     return (
       <div
-        ref={(el) => { this.el = el; }}
+        ref={this.assignEl}
         style={{
           flex: '0 0 auto',
           height: `${timebarHeight || minTimebarHeight}px`,

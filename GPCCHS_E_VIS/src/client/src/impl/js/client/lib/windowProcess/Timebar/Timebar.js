@@ -861,6 +861,9 @@ export default class Timebar extends PureComponent {
     };
   }
 
+  assignTimelinesEl = (el) => { this.timelinesEl = el; }
+  assignEl = (el) => { this.el = el; }
+
   render() {
     const {
       visuWindow,
@@ -967,7 +970,7 @@ export default class Timebar extends PureComponent {
     return (
       <div
         className={styles.viewportWrapper}
-        ref={(el) => { this.el = el; }}
+        ref={this.assignEl}
         onMouseMove={this.updateCursorTime}
         onMouseLeave={this.hideCursorTime}
       >
@@ -1161,7 +1164,7 @@ export default class Timebar extends PureComponent {
               Timeline list in the background
           */ }
           <div
-            ref={(el) => { this.timelinesEl = el; }}
+            ref={this.assignTimelinesEl}
             className={styles.timelines}
             onScroll={this.props.onVerticalScroll}
           >

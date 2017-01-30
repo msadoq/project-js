@@ -24,7 +24,7 @@ import windowsObserver from './windows';
 
 import { updateViewData } from '../store/actions/viewData';
 import { handlePlay } from '../store/actions/timebars';
-import { updateMonitoring } from '../store/actions/monitoring';
+import { updateHealth } from '../store/actions/health';
 
 const logger = getLogger('main:orchestration');
 const execution = executionMonitor('orchestration');
@@ -161,7 +161,7 @@ export function tick() {
       server.requestData((dataToInject) => {
         execution.start('data injection');
         dispatch(
-          updateMonitoring(
+          updateHealth(
             dataToInject.dcStatus,
             dataToInject.hssStatus,
             dataToInject.lastPubSubTimestamp

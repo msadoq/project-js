@@ -57,7 +57,8 @@ class GPCCHS(object):
     # Start of user code ProtectedAttrZone
     _container_dir = _ISIS_WORK_DIR
     _gpccdc_feature_name = 'gpccdc_d_dbr-default.xml'
-    _gpccdc_conf_path = '/usr/share/isis/conf/config_gpccdc_d_dbr-default.xml'
+    _gpccdc_conf_filename = 'config_gpccdc_d_dbr-default.xml'
+    _gpccdc_url = 'tcp://127.0.0.1:{}'
     _container_pid_file = '{}gpinde-isis-desktopx.demo-:0-container.pid'
 
     _startContainerCmd = 'gpcctc_l_cnt_isisStartContainer_cmd -p {0} --cd {1}{0}'
@@ -169,7 +170,7 @@ class GPCCHS(object):
         self._gpccdc_started = False
         self._gpccdc_config_file = options.gpccdc_config_file
         self._fmd_root = os.environ['FMD_ROOT_DIR'] + '/'
-        self._feature_conf = self._gpccdc_conf_path
+        self._feature_conf = self._ISIS_WORK_DIR + self._gpccdc_conf_filename
         self._hsc_args = unknown_args
         self._debug = options.debug
         self._hscLogOutput = None
@@ -438,60 +439,171 @@ class GPCCHS(object):
                 portslist.append(line.strip('\n \t'))
             readFile.close()
 
-    def _create_gpccdc_conf_file(self):
+    def readXmlFile(self, outParams, filepath):
+        '''
+        Read an xml file and return its content
+        
+        :param outParams: Read content of the file as a single string in the 'content' element
+        :type outParams: dictionary
+        :param filepath: Absolute parth of the file to read
+        :type filepath: string
+        :return: String describing the error, None if no error occured
+        :rtype: string
+        '''
+        retErr = None
+        filecontent = ""
+        try:
+            readfile = open(filepath,'r')
+        except IOError:
+            retErr = "Error while opening for reading the file : " + filepath
+        else:
+            filecontent = readfile.read()
+            readfile.close()
+
+        outParams['content'] = filecontent
+        return retErr
+
+    def writeXmlFile(self, content, filepath):
+        '''
+        Write an xml file with content
+        
+        :param content: Content to write in the file in unicode
+        :type content: string
+        :param filepath: Absolute parth of the file to write
+        :type filepath: string
+        :return: String describing the error, None if no error occured
+        :rtype: string
+        '''
+        retErr = None
+
+        try:
+            writtenfile = open(filepath,'w')
+        except IOError:
+            retErr = "Error while opening for writing the file : " + filepath
+        else:
+            filecontent = writtenfile.write(content)
+            writtenfile.close()
+
+        return retErr        
+
+    def setXmlConfValueInFileContent(self,inOutParams,baliseTree,baliseValue):
+        '''
+        Replace the value of a given balise value
+        Balise is defined as the list. For exemple, baliseTree set with ['CONFIG', 'DataControllerConfig', 'fromDcToClient']
+        will makes this function to look for
+        (...)<CONFIG (...)
+            <DataControllerConfig (...)
+                <fromDcToClient(...)>VALUE</fromDcToClient (...)
+        and replace VALUE with the content of baliseValue
+        
+        :param inOutParams: Content of the xml file for replacement in the 'content' element
+        :type inOutParams: dictionary
+        :param baliseTree: List of the xml elements defining the balise to set the value
+        :type baliseTree: list
+        :param baliseValue: Value to set in the balise defined by the baliseTree parameter
+        :type baliseValue: string
+        :return: String describing the error, None if no error occured
+        :rtype: string
+        '''
+        retErr = None
+        xmlBalise_pattern = re.compile(r"<[/]*[A-Za-z_][A-Za-z0-9_-]*",re.MULTILINE|re.UNICODE)
+        contentToWrite = ""
+        currentPosAmongBalises = []
+        isBaliseFound = False
+
+        contentToRead = inOutParams['content']
+
+        while retErr == None and isBaliseFound == False:
+            matchObject = xmlBalise_pattern.search(contentToRead)
+            # Check if a balise has been found
+            if matchObject :
+                # Update the content to write with the read part of the content
+                contentToWrite = contentToWrite + contentToRead[:matchObject.end(0)]
+                # Update the content to read to remove the balise name
+                contentToRead = contentToRead[matchObject.end(0):]
+                # Check if the found balise is a start one
+                if matchObject.group(0)[1] != '/':
+                    # Robustness test in case the balise we look for is not correctly formed
+                    if len(currentPosAmongBalises) == len(baliseTree):
+                        retErr = "End of configuration balise " + repr(baliseTree) + " not found"
+                    baliseName = matchObject.group(0)[1:]
+                    # Check if the balise is the one we are currently looking for
+                    if retErr == None and baliseName == baliseTree[len(currentPosAmongBalises)]:
+                        currentPosAmongBalises.append(baliseName)
+                        # Check if the balise is the lower we are looking for (inner most)
+                        if len(currentPosAmongBalises) == len(baliseTree):
+                            if contentToRead.find(">") == -1:
+                                retErr = "End of configuration balise " + baliseTree + " not found"
+                            if retErr == None:
+                                # Read the rest of the balise
+                                restOfBalise = contentToRead[:contentToRead.find(">")+1]
+                                # Robustness check in case of missing ">" at the end of the balise
+                                if restOfBalise.find("<") != -1:
+                                    retErr = "Incorrect format of configuration start balise " + repr(baliseTree)
+                                # Put in output content the rest of the balise and the requested content for it
+                                contentToWrite = contentToWrite + restOfBalise + baliseValue
+                                # Update the content to read to not parse the content of this balise
+                                if contentToRead.find("<") == -1:
+                                    retErr = "End of configuration balise " + repr(baliseTree) + " not found"
+                                if retErr == None:
+                                    contentToRead = contentToRead[contentToRead.find("<"):]
+                else:
+                    # Found balise is an end one
+                    baliseEndName = matchObject.group(0)[2:]
+                    # Check if the balise we are current reading if the one of the specified ones
+                    if baliseEndName == baliseTree[len(currentPosAmongBalises)-1]:
+                        if len(currentPosAmongBalises) == len(baliseTree):
+                            isBaliseFound = True
+                            # Nothing more to do, the balise content has already been written
+                        # Remove the balise from the current position list (with robustness check)
+                        if baliseEndName in currentPosAmongBalises:
+                            currentPosAmongBalises.remove(baliseEndName)
+            else:
+                if isBaliseFound == False:
+                    retErr = "Configuration balise " + repr(baliseTree) + " not found"
+        # Write the rest of the file
+        contentToWrite = contentToWrite + contentToRead
+        # Return result
+        inOutParams['content'] = contentToWrite
+        return retErr
+
+    def _write_gpccdc_conf_file(self):
         """
-        Create /tmp/gpccdc_d_dbr.conf file to give configuration to GPCCDC
-        Patch to correct with FA4407
+        Create in self._feature_conf the xml configuration file from specified self._gpccdc_config_file
+        Use self._dcPushPort and self._dcPullPort to fill in ports numbers in this file base on self._gpccdc_url
         
         :return: Zero if success, -1 if error
         :rtype: integer
         """
         rc = 0
+        xmlErr = None
+
+        fileContent = dict()
+        xmlErr = self.readXmlFile(fileContent,self._gpccdc_config_file)
         
-        user = os.environ["USERNAME"]
-        hostname = os.environ["HOSTNAME"]
-        display = os.environ["DISPLAY"]
-        filename = "gpinde-{}-{}-{}-default.ses".format(user, hostname, display)
-        gpindefile = os.path.join(os.environ["ISIS_WORK_DIR"], filename)
-        session = ""
-        if os.path.isfile(gpindefile) :
-            try:
-                fileopen = open(gpindefile)
-            except IOError:
-                print("GPCCHS Failed to read GPINDE configuratin file {}".format(gpindefile))
-                rc = -1
+        if xmlErr == None:
+            searchedBalise = ['CONFIG','DataControllerConfig','fromDcToClient']
+            searchedBaliseContent = self._gpccdc_url.format(self._dcPullPort)
+            xmlErr = self.setXmlConfValueInFileContent(fileContent,searchedBalise,searchedBaliseContent)
+            if xmlErr == None:
+                searchedBalise = ['CONFIG','DataControllerConfig','fromClientToDc']
+                searchedBaliseContent = self._gpccdc_url.format(self._dcPushPort)
+                xmlErr = self.setXmlConfValueInFileContent(fileContent,searchedBalise,searchedBaliseContent)
+                if xmlErr == None:    
+                    xmlErr = self.writeXmlFile(fileContent['content'],self._feature_conf)
+                    if xmlErr != None:
+                        print("GPCCHS error when writing GPCCDC configuration file {} : {}".format(self._feature_conf,xmlErr))
+                        rc = -1
+                else:
+                    print("GPCCHS error when generating the content of GPCCDC configuration file from {} template : {}".format(self._gpccdc_config_file,xmlErr))
+                    rc = -1
             else:
-                line = fileopen.readline()
-                session = line[:len(line) -1]
-                fileopen.close()
-        else :
-            session = "session-system"
-        
-        if rc ==0:
-            session = session.upper()
-            if "-" in session:
-                session = session.split("-")[1]
-
-            templatedir = "/usr/share/isis/templates"
-            templatefile = "gpccdc_d_dbr.tpl"
-            destfile = self._gpccdc_config_file
-
-            loader = FileSystemLoader(templatedir)
-            environment = Environment(loader = loader)
-            template = environment.get_template(templatefile)
-
-            config = template.render(session=session, pull=self._dcPullPort, push=self._dcPushPort)
-
-            try:
-                writeFile = open(destfile,'w')
-            except IOError:
-                print("GPCCHS Failed to create GPCCCDC ports configuratin file {}".format(destfile))
+                print("GPCCHS error when generating the content of GPCCDC configuration file from {} template : {}".format(self._gpccdc_config_file,xmlErr))
                 rc = -1
-            else:
-                if self._debug == True:
-                    print("GPCCHS write GPCCDC configuration file with:\n",config)
-                writeFile.write(config)
-                writeFile.close()
+        else:
+            print("GPCCHS error when reading GPCCDC configuration template file {} : {}".format(self._gpccdc_config_file,xmlErr))
+            rc = -1
+
         return rc
             
     def run(self):
@@ -519,14 +631,14 @@ class GPCCHS(object):
                 print("GPCCHS not enought UDP allocated to let the application work")
                 rc=-1
         if rc == 0:
-            if not self._feature_id:
-                rc = self._create_gpccdc_conf_file()
+            if self._feature_id == None:
+                rc = self._write_gpccdc_conf_file()
                 if rc == 0:
                     rc = self._create_feature()
-            if not self._feature_id:
-                print("GPCCHS Feature cannot be created, check if session and desktop are running")
-                rc = -1
-            else:
+                    if self._feature_id == None:
+                        print("GPCCHS Feature cannot be created, check if session and desktop are running")
+                        rc = -1
+            if self._feature_id != None:
                 self._gpccdc_created = True
         if rc == 0:
             rc = self._activate_feature()
@@ -555,6 +667,7 @@ class GPCCHS(object):
         if self._gpccdc_started:
             rc = self._stop_feature()
             self._gpccdc_started = False
+        print("GPCCHS : feature created", self._gpccdc_created)
         if self._gpccdc_created:
             rc = self._destroy_feature()
             self._gpccdc_created = False
@@ -573,10 +686,8 @@ if __name__ == '__main__':
         action='store_true',
         help="Activate the traces"
     )
-    #Patch before FA4407 taking into account
     parser.add_argument("--gpccdc_config_file",
-        default="/tmp/gpccdc_d_dbr.conf",
-        help="File to use to write the configuration sent at launch to GPCCDC")
+        help="GPCCDC xml configuration file")
     #Parse known and unknown arguments
     known_args = None
     unknown_args = None

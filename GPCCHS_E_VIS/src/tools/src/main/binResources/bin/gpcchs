@@ -13,10 +13,8 @@ if __name__ == '__main__':
         action='store_true',
         help="Activate the traces"
     )
-    #Patch before FA4407 taking into account
     parser.add_argument("--gpccdc_config_file",
-        default="/tmp/gpccdc_d_dbr.conf",
-        help="File to use to write the configuration sent at launch to GPCCDC")
+        help="GPCCDC xml configuration file")
     #Parse known and unknown arguments
     known_args = None
     unknown_args = None

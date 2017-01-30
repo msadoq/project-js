@@ -77,6 +77,8 @@ export const getViewEntryPoints = createSelector(
   }
 );
 
+export const makeGetViewEntryPoints = () => getViewEntryPoints;
+
 export const getViewEntryPoint = (state, viewId, epName) =>
   getViewEntryPoints(state, viewId)
     .find(ep => ep.name === epName);

@@ -237,6 +237,8 @@ export class PlotView extends PureComponent {
 
   onDrop = this.drop.bind(this);
 
+  onBackgroundShapeCanvas = this.backgroundShapeCanvas.bind(this);
+
   getGrid() {
     const {
       configuration,
@@ -816,7 +818,7 @@ export class PlotView extends PureComponent {
               fill="#FFFFFF"
               stroke="#F0F0F0"
               tooltipCanvas={this.tooltipCanvas}
-              backgroundShapeCanvas={this.backgroundShapeCanvas.bind(this)}
+              backgroundShapeCanvas={this.onBackgroundShapeCanvas}
               bgwidth={160}
               bgheight={50}
             />

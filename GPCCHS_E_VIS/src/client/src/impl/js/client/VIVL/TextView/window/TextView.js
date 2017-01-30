@@ -101,22 +101,7 @@ export default class TextView extends PureComponent {
     if (renderMethod === 2) this.getComponent2();
   }
 
-  onDrop(e) {
-    const data = e.dataTransfer.getData('text/plain');
-    const content = JSON.parse(data);
-
-    if (!_get(content, 'catalogName')) {
-      return;
-    }
-
-    // eslint-disable-next-line no-console
-    this.props.addEntryPoint(
-      this.props.viewId,
-      parseDragData(content)
-    );
-
-    e.stopPropagation();
-  }
+  onDrop = this.drop.bind(this);
 
   getComponent2 = () => {
     const matches = this.template.match(/{{\s*([^}]+)\s*}}/g);
@@ -279,6 +264,23 @@ export default class TextView extends PureComponent {
     );
   }
 
+  drop(e) {
+    const data = e.dataTransfer.getData('text/plain');
+    const content = JSON.parse(data);
+
+    if (!_get(content, 'catalogName')) {
+      return;
+    }
+
+    // eslint-disable-next-line no-console
+    this.props.addEntryPoint(
+      this.props.viewId,
+      parseDragData(content)
+    );
+
+    e.stopPropagation();
+  }
+
   /*
   process3 = () => {
     const {
@@ -343,7 +345,7 @@ export default class TextView extends PureComponent {
           form={`textView-form-${viewId}`}
         />
         : <DroppableContainer
-          onDrop={this.onDrop.bind(this)}
+          onDrop={this.onDrop}
         >
           {this.getComponent()}
         </DroppableContainer>);
@@ -359,7 +361,7 @@ export default class TextView extends PureComponent {
           form={`textView-form-${viewId}`}
         />
         : <DroppableContainer
-          onDrop={this.onDrop.bind(this)}
+          onDrop={this.onDrop}
         >
           <div
             ref={(el) => { this.textViewBodyEl = el; }}

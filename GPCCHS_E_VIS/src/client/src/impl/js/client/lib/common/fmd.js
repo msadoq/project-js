@@ -12,7 +12,7 @@ const getRootDir = () => parameters.get('FMD_ROOT_DIR');
 const isFmd = path => startsWith(getRootDir(), path);
 const getRelativeFmdPath = path => `/${relative(getRootDir(), path)}`;
 
-// TODO: write tests
+// TODO garm: write tests
 const resolveDocument = ipcApi => (oId, callback) => {
   ipcApi.server.requestFmdGet(oId, ({ err, type, detail }) => {
     if (err) {
@@ -29,7 +29,7 @@ const resolveDocument = ipcApi => (oId, callback) => {
   });
 };
 
-// TODO: write tests
+// TODO garm: write tests
 const createDocument = ipcApi => (path, documentType, callback) => {
   const mimeType = mimeTypes[documentType];
   if (!mimeType) {
@@ -48,16 +48,10 @@ const createDocument = ipcApi => (path, documentType, callback) => {
     });
 };
 
-const fmdApi = {
+const createFmdApi = (dep = ipc) => ({
   getRootDir,
   isFmd,
   getRelativeFmdPath,
-  createDocument,
-  resolveDocument,
-};
-
-const createFmdApi = (dep = ipc) => ({
-  ...fmdApi,
   createDocument: createDocument(dep),
   resolveDocument: resolveDocument(dep),
 });

@@ -6,31 +6,25 @@ const initialState = {
   hssStatus: null,
 };
 
-export default function monitoring(state = initialState, action) {
+export default function health(state = initialState, action) {
   switch (action.type) {
     case types.HSS_UPDATE_DC_STATUS:
       return Object.assign(
         {},
         state,
-        {
-          dcStatus: action.payload.dcStatus,
-        }
+        { dcStatus: action.payload.dcStatus }
       );
     case types.HSS_UPDATE_HSS_STATUS:
       return Object.assign(
         {},
         state,
-        {
-          hssStatus: action.payload.hssStatus,
-        }
+        { hssStatus: action.payload.hssStatus }
       );
     case types.HSS_UPDATE_LAST_PUBSUB_TIMESTAMP:
       return Object.assign(
         {},
         state,
-        {
-          lastPubSubTimestamp: action.payload.lastPubSubTimestamp,
-        }
+        { lastPubSubTimestamp: action.payload.lastPubSubTimestamp }
       );
     default:
       return state;

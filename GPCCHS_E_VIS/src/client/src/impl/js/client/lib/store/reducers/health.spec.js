@@ -1,9 +1,9 @@
 import globalConstants from 'common/constants';
 import { freezeMe } from '../../common/test';
-import * as actions from '../actions/monitoring';
-import reducer from './monitoring';
+import * as actions from '../actions/health';
+import reducer from './health';
 
-describe('store:monitoring:reducer', () => {
+describe('store:health:reducer', () => {
   it('should returns initial state', () => {
     const r = reducer(undefined, {});
     r.should.have.a.property('dcStatus', null);

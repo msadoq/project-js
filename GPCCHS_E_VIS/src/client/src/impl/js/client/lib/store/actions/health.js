@@ -6,7 +6,7 @@ import {
   getDcStatus,
   getHssStatus,
   getLastPubSubTimestamp
-} from '../selectors/monitoring';
+} from '../selectors/health';
 
 // eslint-disable-next-line import/prefer-default-export
 export const updateDcStatus = simple(types.HSS_UPDATE_DC_STATUS, 'dcStatus');
@@ -19,7 +19,9 @@ const updateLastPubSubTimestampThrottled = _throttle(
   (dispatch, timestamp) => dispatch(updateLastPubSubTimestamp(timestamp)),
   HSC_PUBSUB_MONITORING_FREQUENCY
 );
-export const updateMonitoring = (dcStatus, hssStatus, timestamp) =>
+
+// TODO rperrot test
+export const updateHealth = (dcStatus, hssStatus, timestamp) =>
   (dispatch, getState) => {
     if (getDcStatus(getState()) !== dcStatus) {
       dispatch(updateDcStatus(dcStatus));

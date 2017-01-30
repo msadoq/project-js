@@ -2,7 +2,7 @@ import _debounce from 'lodash/debounce';
 import _difference from 'lodash/difference';
 import _each from 'lodash/each';
 import { each, series } from 'async';
-import { BrowserWindow } from 'electron';
+import { BrowserWindow, screen } from 'electron';
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
 
@@ -35,9 +35,16 @@ function getWindowHtmlPath() {
 // It is opened once and hidden when unusable
 export function openSplashScreen(callback) {
   logger.info('Opening splashScreen');
+  const splashWidth = 500;
+  const splashHeight = 500;
+  const bounds = screen.getPrimaryDisplay().bounds;
+  const x = bounds.x + ((bounds.width - splashWidth) / 2);
+  const y = bounds.y + ((bounds.height - splashHeight) / 2);
   splashScreen = new BrowserWindow({
-    width: 500,
-    height: 500,
+    x,
+    y,
+    width: splashWidth,
+    height: splashHeight,
     frame: false, // Open a window without toolbars, borders, or other graphical "chrome".
     alwaysOnTop: true,
   });

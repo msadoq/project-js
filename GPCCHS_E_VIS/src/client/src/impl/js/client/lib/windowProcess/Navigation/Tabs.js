@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { PureComponent, PropTypes } from 'react';
 import { basename } from 'path';
 import { Nav, NavItem, Button, Glyphicon, OverlayTrigger, Table, Popover } from 'react-bootstrap';
@@ -62,21 +63,21 @@ export default class Tabs extends PureComponent {
             key={page.pageId}
             eventKey={page.pageId}
           >
-            <div className={styles.title}>
-              <OverlayTrigger overlay={popoverHoverFocus(page)}>
-                <a>{page.isModified ? page.title.concat(' *') : page.title}</a>
-              </OverlayTrigger>
-              <Button
-                bsStyle="link"
-                onClick={e => this.handleClose(e, page.pageId)}
-                className={styles.button}
-              >
-                <Glyphicon
-                  glyph="remove-circle"
-                  className="text-danger"
-                />
-              </Button>
-            </div>
+            <OverlayTrigger className={styles.title} overlay={popoverHoverFocus(page)}>
+              <div>
+                <span>{page.isModified ? page.title.concat(' *') : page.title}</span>
+                <Button
+                  bsStyle="link"
+                  onClick={e => this.handleClose(e, page.pageId)}
+                  className={styles.button}
+                >
+                  <Glyphicon
+                    glyph="remove-circle"
+                    className="text-danger"
+                  />
+                </Button>
+              </div>
+            </OverlayTrigger>
           </NavItem>
         )}
         <NavItem eventKey="new">

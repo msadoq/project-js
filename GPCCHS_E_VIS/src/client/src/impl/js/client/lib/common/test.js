@@ -2,6 +2,7 @@ import { tmpdir } from 'os';
 import path from 'path';
 import chai from 'chai';
 import properties from 'chai-properties';
+import sinon from 'sinon';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import _cloneDeep from 'lodash/cloneDeep';
@@ -29,6 +30,7 @@ function getStore(initialState) {
 module.exports = {
   should: chai.should(),
   expect: chai.expect,
+  sinon,
   getStore,
   freezeMe: o => deepFreeze(_cloneDeep(o)),
   getTmpPath: (...args) => path.resolve(tmpdir(), 'test', ...args),

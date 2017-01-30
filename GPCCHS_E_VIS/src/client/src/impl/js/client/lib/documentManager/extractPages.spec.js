@@ -5,7 +5,8 @@ import { compose, prop, split } from 'lodash/fp';
 import path from 'path';
 import fmdApi from '../common/fmd';
 import ExtractPages from './extractPages';
-import { should, expect, applyDependencyToApi } from '../common/test';
+import { should, expect } from '../common/test';
+import { applyDependencyToApi } from '../common/utils';
 
 const getPathFromOid = compose(prop(1), split(':'));
 const mockFmdApi = fmd => ({

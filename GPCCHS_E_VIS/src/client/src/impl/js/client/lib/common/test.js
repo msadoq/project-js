@@ -7,7 +7,6 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import _cloneDeep from 'lodash/cloneDeep';
 import deepFreeze from 'deep-freeze';
-import { applyDependencyToApi } from './utils';
 import reducer from '../store/reducers/index';
 
 process.env.DEBUG = '';
@@ -34,5 +33,4 @@ module.exports = {
   getStore,
   freezeMe: o => deepFreeze(_cloneDeep(o)),
   getTmpPath: (...args) => path.resolve(tmpdir(), 'test', ...args),
-  applyDependencyToApi,
 };

@@ -13,7 +13,6 @@ export default function windows(stateWindows = {}, action) {
     case types.WS_WINDOW_PAGE_REORDER:
     case types.WS_WINDOW_PAGE_MOUNT:
     case types.WS_WINDOW_PAGE_UNMOUNT:
-    case types.WS_WINDOW_DEBUG_SWITCH:
     case types.WS_WINDOW_MINIMIZE:
     case types.WS_WINDOW_RESTORE:
       return Object.assign({}, stateWindows, {
@@ -89,13 +88,6 @@ function window(stateWindow = initialState, action) {
         pages: [...sorted, ...remaining],
         isModified: true,
       });
-    }
-    case types.WS_WINDOW_DEBUG_SWITCH: {
-      return u({
-        debug: {
-          [action.payload.which]: action.payload.status,
-        },
-      }, stateWindow);
     }
     case types.WS_WINDOW_PAGE_MOUNT:
       return Object.assign({}, stateWindow, {

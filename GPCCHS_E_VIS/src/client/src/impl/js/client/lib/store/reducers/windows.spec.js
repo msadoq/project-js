@@ -212,18 +212,4 @@ describe('store:windows:reducer', () => {
     actions.setModified('myWindowId', true))
       .should.eql({ myWindowId: { title: 'Title', isModified: true } });
   });
-  describe('switchDebug', () => {
-    const state = { myWindowId: {
-      title: 'Title',
-      focusedPage: null,
-      pages: ['myPageId'],
-      geometry: { w: 800, h: 600, x: 110, y: 10 },
-      debug: { whyDidYouUpdate: false, timebarVisibility: true },
-      minimized: false,
-      isModified: false,
-    } };
-
-    const newState = reducer(state, actions.switchDebug('myWindowId', 'whyDidYouUpdate', true));
-    newState.myWindowId.debug.whyDidYouUpdate.should.eql(true);
-  });
 });

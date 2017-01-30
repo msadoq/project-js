@@ -9,7 +9,6 @@ import {
   getWindowPageIds,
   getWindowFocusedPageId,
   getWindowFocusedPageSelector,
-  getWindowDebug,
   getWindowsFocusedPageIds,
   getWindowsFocusedPage,
   getWindowsVisibleViewIds,
@@ -139,16 +138,6 @@ describe('store:window:selectors', () => {
     getWindowFocusedPageSelector(state, 'window1').should.eql({
       title: 'foo'
     });
-  });
-  it('getWindowDebug', () => {
-    const state = {
-      windows: {
-        window1: {
-          debug: false
-        }
-      }
-    };
-    getWindowDebug(state, { windowId: 'window1' }).should.eql(false);
   });
   describe('getWindowsFocusedPageIds', () => {
     const state = {

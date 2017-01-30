@@ -416,7 +416,6 @@ export default class Timebar extends PureComponent {
         }
         if (cursorPosMs < current) cursorPosMs = current;
         if (cursorPosMs > viewportUpper) cursorPosMs = viewportUpper;
-        if (cursorPosMs < lower) cursorPosMs = upper + 2000;
         if (timebarMode === 'Extensible' && cursorPosMs > newSlideUpper) newSlideUpper = cursorPosMs;
         if (['Fixed', 'Normal'].includes(timebarMode) && cursorPosMs < newSlideUpper) newSlideUpper = cursorPosMs;
         this.setState({
@@ -446,26 +445,60 @@ export default class Timebar extends PureComponent {
       Moving the current cursor
     */
     } else if (navigating) {
-      let cursorPosMs = this.state.cursorMs;
-      if (cursorPosMs < visuWindow.lower) {
-        cursorPosMs = visuWindow.lower;
-      } else if (cursorPosMs > visuWindow.upper) {
-        cursorPosMs = visuWindow.upper;
+      const cursorPosMs = this.state.cursorMs;
+      if (timebarMode === 'Normal') {
+        if (cursorPosMs < lower || cursorPosMs > upper) {
+          let diff = 0;
+          if (cursorPosMs < lower) diff = cursorPosMs - lower;
+          if (cursorPosMs > upper) diff = cursorPosMs - upper;
+          this.setState({
+            current: cursorPosMs,
+            lower: lower + diff,
+            upper: upper + diff,
+            slideLower: lower + diff,
+            slideUpper: upper + diff,
+          });
+        } else {
+          this.setState({
+            current: cursorPosMs,
+            slideLower: lower,
+            slideUpper: upper,
+          });
+        }
+      } else if (timebarMode === 'Fixed') {
+        if (cursorPosMs < slideLower || cursorPosMs > slideUpper) {
+          let diff = 0;
+          if (cursorPosMs < slideLower) diff = cursorPosMs - slideLower;
+          if (cursorPosMs > slideUpper) diff = cursorPosMs - slideUpper;
+          this.setState({
+            current: cursorPosMs,
+            lower: lower + diff,
+            upper: upper + diff,
+            slideLower: slideLower + diff,
+            slideUpper: slideUpper + diff,
+          });
+        } else {
+          this.setState({ current: cursorPosMs });
+        }
+      } else if (timebarMode === 'Extensible') {
+        if (cursorPosMs < lower || cursorPosMs > upper) {
+          let diff = 0;
+          if (cursorPosMs < lower) diff = cursorPosMs - lower;
+          if (cursorPosMs > upper) diff = cursorPosMs - upper;
+          this.setState({
+            current: cursorPosMs,
+            lower: lower + diff,
+            upper: upper + diff,
+            slideLower: lower + diff,
+            slideUpper: slideUpper + diff,
+          });
+        } else {
+          this.setState({
+            current: cursorPosMs,
+            slideLower: lower,
+          });
+        }
       }
-
-      let newSlideLower = slideLower;
-      let newSlideUpper = slideUpper;
-      if (cursorPosMs < slideLower) {
-        newSlideLower = cursorPosMs;
-      }
-      if (['Fixed', 'Normal'].includes(timebarMode) && cursorPosMs > slideUpper) {
-        newSlideUpper = cursorPosMs;
-      }
-      this.setState({
-        current: cursorPosMs,
-        slideLower: newSlideLower,
-        slideUpper: newSlideUpper,
-      });
     }
   }
 
@@ -733,8 +766,9 @@ export default class Timebar extends PureComponent {
     return date.format('MM[-]DD HH[:]mm[:]ss.SSS');
   }
 
-  rePosition = (e, side) => {
+  rePosition = (e) => {
     e.preventDefault();
+    const side = e.currenttarget.getAttribute('side');
     const {
       visuWindow,
       updateViewport,
@@ -778,36 +812,42 @@ export default class Timebar extends PureComponent {
       The user clicked the EXT button
     */
     if (e.currentTarget.getAttribute('cursor') === 'extBound') {
-      const { lower, upper, current } = visuWindow;
-      updateCursors(
-        timebarUuid,
-        null,
-        {
-          lower: lower + ((current - lower) / 2),
-          upper: timebarMode === 'Extensible' ? upper + ((upper - lower) / 4) : upper - ((upper - current) / 2),
-        }
-      );
+      const { lower, upper } = visuWindow;
+      updateCursors(timebarUuid, null, { lower, upper });
 
     /*
       The user clicked the arrow grey button
     */
     } else {
+      const center = viewport.lower + ((viewport.upper - viewport.lower) / 2);
       const viewportWindowWidthMs = viewport.upper - viewport.lower;
-      const newLower = viewport.lower + (viewportWindowWidthMs * (5 / 12));
-      const newUpper = viewport.lower + (viewportWindowWidthMs * (7 / 12));
-      const newCurrent = (newLower + newUpper) / 2;
-      updateCursors(
-        timebarUuid,
-        {
-          lower: newLower,
-          upper: newUpper,
-          current: newCurrent,
-        },
-        {
-          lower: newLower + ((newCurrent - newLower) / 2),
-          upper: newUpper - ((newUpper - newCurrent) / 2),
-        }
-      );
+      if (['Normal', 'Fixed'].includes(timebarMode)) {
+        updateCursors(
+          timebarUuid,
+          {
+            lower: center - (viewportWindowWidthMs / 4),
+            upper: center + (viewportWindowWidthMs / 4),
+            current: center,
+          },
+          {
+            lower: center - (viewportWindowWidthMs / 6),
+            upper: center + (viewportWindowWidthMs / 6),
+          }
+        );
+      } else if (timebarMode === 'Extensible') {
+        updateCursors(
+          timebarUuid,
+          {
+            lower: center - (viewportWindowWidthMs / 4),
+            upper: center + (viewportWindowWidthMs / 4),
+            current: center,
+          },
+          {
+            lower: center - (viewportWindowWidthMs / 6),
+            upper: center + (viewportWindowWidthMs / 3),
+          }
+        );
+      }
     }
   }
 
@@ -897,7 +937,8 @@ export default class Timebar extends PureComponent {
           <button
             title="Navigate to current cursor"
             className={classnames('btn', 'btn-sm', 'btn-primary', styles.arrowLeft)}
-            onClick={e => this.rePosition(e, 'left')}
+            side="left"
+            onClick={this.rePosition}
           >←</button>
           <button
             title="Bring cursors in the viewport"
@@ -914,7 +955,8 @@ export default class Timebar extends PureComponent {
           <button
             title="Navigate to current cursor"
             className={classnames('btn', 'btn-sm', 'btn-primary', styles.arrowRight)}
-            onClick={e => this.rePosition(e, 'right')}
+            side="right"
+            onClick={this.rePosition}
           >→</button>
           <button
             title="Bring cursors in the viewport"

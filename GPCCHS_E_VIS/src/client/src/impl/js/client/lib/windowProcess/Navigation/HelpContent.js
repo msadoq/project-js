@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Col } from 'react-bootstrap';
-import styles from './Help.css';
+import styles from './HelpContent.css';
 
-export default class HelpComponent extends Component {
-
+export default class HelpComponent extends PureComponent {
   render() {
     return (
       <div className={styles.help}>

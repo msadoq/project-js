@@ -3,8 +3,8 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.75);
   position: absolute;
-  top: 0px;
-  bottom: 0px;
+  top: 0;
+  bottom: 0;
   padding: 20px;
   z-index: 5;
 }

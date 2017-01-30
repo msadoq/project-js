@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { PureComponent, PropTypes } from 'react';
 import { basename } from 'path';
 import { Nav, NavItem, Button, Glyphicon, OverlayTrigger, Table, Popover } from 'react-bootstrap';

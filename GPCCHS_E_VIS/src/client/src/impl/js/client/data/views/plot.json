@@ -55,6 +55,41 @@
           }
         }
       ]
+    },
+    {
+      "name": "ATT_BC_REVTCOUNT1",
+      "connectedDataX": {
+        "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.groundDate",
+        "unit": "s",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cne",
+        "timeline": "Session 1",
+        "axisId": "Time"
+      },
+      "connectedDataY": {
+        "formula": "Reporting.ATT_BC_REVTCOUNT1<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.isis",
+        "timeline": "Session 1",
+        "axisId": "att_bc_revtcount_1_1"
+      },
+      "objectStyle": {
+        "line": {
+          "style": "Continuous",
+          "size": 3
+        },
+        "points": {
+          "style": "None",
+          "size": 3
+        },
+        "curveColor": "#ff9800"
+      },
+      "stateColors": []
     }
   ],
   "axes": [
@@ -103,6 +138,16 @@
       "showTickLabels": true,
       "isLogarithmic": false,
       "showAxis": true
+    },
+    {
+      "label": "ATT_BC_REVTCOUNT1",
+      "unit": "s",
+      "id": "att_bc_revtcount_1"
+    },
+    {
+      "label": "ATT_BC_REVTCOUNT1",
+      "unit": "V",
+      "id": "att_bc_revtcount_1_1"
     }
   ],
   "grids": [
@@ -160,4 +205,4 @@
       "relativePosY": 8.9
     }
   ]
-  }
+}

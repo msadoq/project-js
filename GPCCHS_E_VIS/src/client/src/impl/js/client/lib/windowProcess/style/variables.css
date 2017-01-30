@@ -25,7 +25,7 @@
   --borderAcc: yellow;
   --borderDesc: lightblue;
 }
-.collapsed{
+.collapsed {
   .react-resizable-handle{
     display: none;
   }

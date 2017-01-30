@@ -13,8 +13,8 @@ const isFmd = path => startsWith(getRootDir(), path);
 const getRelativeFmdPath = path => `/${relative(getRootDir(), path)}`;
 
 // TODO: write tests
-const resolveDocument = (oId, callback) => {
-  ipc.server.requestFmdGet(oId, ({ err, type, detail }) => {
+const resolveDocument = ipcApi => (oId, callback) => {
+  ipcApi.server.requestFmdGet(oId, ({ err, type, detail }) => {
     if (err) {
       return callback(err);
     }
@@ -30,7 +30,7 @@ const resolveDocument = (oId, callback) => {
 };
 
 // TODO: write tests
-const createDocument = (path, documentType, callback) => {
+const createDocument = ipcApi => (path, documentType, callback) => {
   const mimeType = mimeTypes[documentType];
   if (!mimeType) {
     return callback(`Unknown documentType : ${documentType}`);
@@ -39,7 +39,7 @@ const createDocument = (path, documentType, callback) => {
   const folder = dirname(getRelativeFmdPath(path));
   checkPath(path).then(() => callback(null))
     .catch(() => {
-      ipc.server.requestFmdCreate(folder, fileName, mimeType, ({ err, serializedOid }) => {
+      ipcApi.server.requestFmdCreate(folder, fileName, mimeType, ({ err, serializedOid }) => {
         if (err) {
           return callback(err);
         }
@@ -56,4 +56,10 @@ const fmdApi = {
   resolveDocument,
 };
 
-module.exports = fmdApi;
+const createFmdApi = (dep = ipc) => ({
+  ...fmdApi,
+  createDocument: createDocument(dep),
+  resolveDocument: resolveDocument(dep),
+});
+
+export default { createFmdApi, ...createFmdApi() };

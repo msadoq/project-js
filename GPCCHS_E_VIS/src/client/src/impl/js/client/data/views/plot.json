@@ -64,7 +64,7 @@
         "digits": 5,
         "format": "decimal",
         "filter": [],
-        "domain": "fr.cne",
+        "domain": "fr.cnes.isis",
         "timeline": "Session 1",
         "axisId": "Time"
       },

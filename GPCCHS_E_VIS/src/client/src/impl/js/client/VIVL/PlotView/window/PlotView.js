@@ -202,9 +202,27 @@ export class PlotView extends PureComponent {
     this.setState(willSetState);
   }
 
-  shouldComponentUpdate() {
+  shouldComponentUpdate(nextProps) {
     const { disconnected, zoomedOrPanned } = this.state;
+    const {
+      data,
+      entryPoints,
+      visuWindow,
+      configuration,
+      containerWidth,
+      containerHeight,
+    } = this.props;
     if (disconnected || zoomedOrPanned) {
+      return false;
+    }
+    if (
+      data === nextProps.data &&
+      entryPoints === nextProps.entryPoints &&
+      visuWindow === nextProps.visuWindow &&
+      configuration === nextProps.configuration &&
+      containerWidth === nextProps.containerWidth &&
+      containerHeight === nextProps.containerHeight
+    ) {
       return false;
     }
     return true;
@@ -217,22 +235,7 @@ export class PlotView extends PureComponent {
     document.body.removeEventListener('mousedown', this.handleOnMouseDown);
   }
 
-  onDrop(e) {
-    const data = e.dataTransfer.getData('text/plain');
-    const content = JSON.parse(data);
-
-    if (!_get(content, 'catalogName')) {
-      return;
-    }
-
-    // eslint-disable-next-line no-console
-    this.props.addEntryPoint(
-      this.props.viewId,
-      parseDragData(content)
-    );
-
-    e.stopPropagation();
-  }
+  onDrop = this.drop.bind(this);
 
   getGrid() {
     const {
@@ -504,6 +507,23 @@ export class PlotView extends PureComponent {
       </div>
     ));
 
+  drop(e) {
+    const data = e.dataTransfer.getData('text/plain');
+    const content = JSON.parse(data);
+
+    if (!_get(content, 'catalogName')) {
+      return;
+    }
+
+    // eslint-disable-next-line no-console
+    this.props.addEntryPoint(
+      this.props.viewId,
+      parseDragData(content)
+    );
+
+    e.stopPropagation();
+  }
+
   epCharts = [];
 
   lines = [];
@@ -698,7 +718,7 @@ export class PlotView extends PureComponent {
       // TODO : clean message component
       return (
         <DroppableContainer
-          onDrop={this.onDrop.bind(this)}
+          onDrop={this.onDrop}
           className={styles.errorContent}
         >
           {this.getEntryPointErrors()}
@@ -742,7 +762,7 @@ export class PlotView extends PureComponent {
 
     return (
       <DroppableContainer
-        onDrop={this.onDrop.bind(this)}
+        onDrop={this.onDrop}
         text="add entry point"
         className={classnames(
           { [styles.disconnected]: disconnected || zoomedOrPanned },

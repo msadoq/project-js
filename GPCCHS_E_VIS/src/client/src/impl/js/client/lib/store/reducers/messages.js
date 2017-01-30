@@ -2,14 +2,7 @@ import _get from 'lodash/get';
 import _has from 'lodash/has';
 import * as types from '../types';
 
-export default function messages(state = { global: [
-  { message: 'Hello', type: 'danger' },
-  { message: 'Roger', type: 'danger' },
-  { message: 'Hello', type: 'danger' },
-  { message: 'Machin', type: 'warning' },
-  { message: 'bien', type: 'info' },
-  { message: 'OK', type: 'success' },
-] }, action) {
+export default function messages(state = {}, action) {
   switch (action.type) {
     case types.WS_MESSAGE_ADD: {
       const { containerId } = action.payload;

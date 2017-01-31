@@ -1,15 +1,15 @@
 /* eslint-disable no-unused-expressions */
+import { join } from 'path';
+import rimraf from 'rimraf';
 import {
   mkdirSync,
   writeFileSync,
-  rmdirSync,
-  unlinkSync,
   accessSync,
   constants,
   chmodSync,
 } from 'fs';
 
-import { should, expect, getTmpPath } from '../common/test';
+import { should, getTmpPath } from '../common/test';
 import fs from './fs';
 
 describe('common/fs', () => {
@@ -48,15 +48,9 @@ describe('common/fs', () => {
       chmodSync(unavailableFolder, 0);
     }
   });
-  after(() => {
+  after((done) => {
     try {
-      unlinkSync(file);
-      unlinkSync(json);
-      chmodSync(unreadable, 777);
-      unlinkSync(unreadable);
-      chmodSync(unavailableFolder, 777);
-      rmdirSync(unavailableFolder);
-      rmdirSync(tmpFolder);
+      rimraf(tmpFolder, done);
     } catch (e) {
       console.warn(e); // eslint-disable-line no-console
     }
@@ -185,31 +179,48 @@ describe('common/fs', () => {
   describe('checkPath', () => {
     it('path exists', () => (
       fs.checkPath('/')
-        .then((val) => {
-          expect(val).to.be.true;
+        .then((res) => {
+          res.should.be.true;
         })
     ));
     it('path does not exists', () => (
       fs.checkPath('/unknownPath')
         .then(() => { throw new Error('This path is not supposed to exist'); })
-        .catch((val) => {
-          if (val instanceof Error) {
-            throw val;
+        .catch((res) => {
+          if (res instanceof Error) {
+            throw res;
           }
-          expect(val).to.be.false;
+          res.should.be.false;
         })
     ));
   });
 
   describe('createFolder', () => {
-    it('folder exists', () => (
-      null
+    it('folder already exists', () => (
+      fs.createFolder('/')
+        .then((res) => {
+          res.should.be.true;
+        })
     ));
-    it('folder does not exists', () => (
-      null
-    ));
-    it('fails when cannot mkdirp folder', () => (
-      null
-    ));
+    it('folder does not exists', () => {
+      const path = join(tmpFolder, 'a/b/c/d');
+      return fs.createFolder(path)
+        .then((res) => {
+          res.should.be.true;
+          fs.isExists(path, (exist) => {
+            exist.should.be.true;
+          });
+        });
+    });
+    it('fails when cannot mkdirp', () => {
+      const path = join(unavailableFolder, 'a/b/c/d');
+      return fs.createFolder(path)
+        .catch((err) => {
+          err.should.be.an('error');
+          fs.isExists(path, (exist) => {
+            exist.should.be.false;
+          });
+        });
+    });
   });
 });

@@ -13,7 +13,7 @@ deploy_cots() {
   rm -rf ${api.lib.dir}
   mkdir -p ${api.lib.dir}/js
 
-  cp -RT ${basedir}/src/impl/js/client ${api.lib.dir}/js/${artifactId}
+  cp -RT ${basedir}/src/main/js/client ${api.lib.dir}/js/${artifactId}
   rm -rf ${api.lib.dir}/js/${artifactId}/node_modules
 
   cd ${api.lib.dir}/js/${artifactId}

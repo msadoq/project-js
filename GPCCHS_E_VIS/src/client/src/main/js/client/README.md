@@ -5,7 +5,7 @@ Desktop visualisation application for ISIS project.
 ## Installation
 
 Clone the project and switch to client folder:
-> cd /data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/impl/js/client
+> cd /data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client
 
 Set configuration files and install dependencies:
 > npm run hello

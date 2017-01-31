@@ -75,8 +75,10 @@ const extractPages = fmdApi => (content, cb) => {
   const newWindows = injectIds(getTimebars(content), getWindows(content));
   const pagesToRead = getPages(newWindows);
   return readPages(fmdApi)(content.__folder, pagesToRead, (err, pages) => {
-    const next = obj => (err ? cb(err) : cb(null, obj));
-    return next({
+    if (err) {
+      return cb(err);
+    }
+    return cb(null, {
       ...content,
       windows: keepOnlyUUID(newWindows),
       pages: indexBy(prop('uuid'))(pages),

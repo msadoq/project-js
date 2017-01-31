@@ -1,5 +1,5 @@
 // import moment from 'moment';
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import _get from 'lodash/get';
 import _set from 'lodash/set';
 import { Form } from 'react-bootstrap';
@@ -9,7 +9,7 @@ import {
   ClearSubmitButtons
 } from '../../Editor/Components/Forms/';
 
-class EditTimeline extends Component {
+class EditTimeline extends PureComponent {
 
   static propTypes = {
     initialValues: PropTypes.shape({

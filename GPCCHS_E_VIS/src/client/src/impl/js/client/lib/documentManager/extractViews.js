@@ -1,5 +1,6 @@
 import pipe from 'lodash/fp/pipe';
 import compose from 'lodash/fp/compose';
+import join from 'lodash/fp/join';
 import has from 'lodash/fp/has';
 import indexBy from 'lodash/fp/indexBy';
 import filter from 'lodash/fp/filter';
@@ -28,6 +29,7 @@ import validation from './validation';
 import vivl from '../../VIVL/main';
 import addUuidToAxes from '../dataManager/structures/range/addUuidToAxes';
 
+const formattedValidation = compose(join('\n'), validation);
 const indexByUUID = indexBy(prop('uuid'));
 
 const supportedViewTypes = [
@@ -53,7 +55,7 @@ const readViews = fmdApi => (viewsToRead, done) => {
       } catch (e) {
         return next(new Error(`Invalid schema on view type '${viewContent.type}'`), viewsToRead);
       }
-      const validationError = validation(viewContent.type, viewContent, schema);
+      const validationError = formattedValidation(viewContent.type, viewContent, schema);
       if (validationError) {
         return next(validationError);
       }

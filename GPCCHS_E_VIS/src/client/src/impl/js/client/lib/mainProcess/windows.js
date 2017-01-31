@@ -2,7 +2,7 @@ import _debounce from 'lodash/debounce';
 import _difference from 'lodash/difference';
 import _each from 'lodash/each';
 import { each, series } from 'async';
-import { BrowserWindow } from 'electron';
+import { BrowserWindow, screen } from 'electron';
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
 
@@ -25,9 +25,47 @@ import { getStore } from '../store/mainStore';
 const logger = getLogger('main:windows');
 
 const windows = {};
+let splashScreen;
 
 function getWindowHtmlPath() {
   return `file://${parameters.get('path')}/index.html`;
+}
+
+// SplashScreen shown when all windows are closed
+// It is opened once and hidden when unusable
+export function openSplashScreen(callback) {
+  logger.info('Opening splashScreen');
+  const splashWidth = 500;
+  const splashHeight = 500;
+  const bounds = screen.getPrimaryDisplay().bounds;
+  const x = bounds.x + ((bounds.width - splashWidth) / 2);
+  const y = bounds.y + ((bounds.height - splashHeight) / 2);
+  splashScreen = new BrowserWindow({
+    x,
+    y,
+    width: splashWidth,
+    height: splashHeight,
+    frame: false, // Open a window without toolbars, borders, or other graphical "chrome".
+    alwaysOnTop: true,
+  });
+  splashScreen.setMenuBarVisibility(false);
+  splashScreen.loadURL(`file://${parameters.get('path')}/splash.html`);
+  splashScreen.focus();
+
+  return callback(null);
+}
+
+export function showSplashScreen() {
+  splashScreen.show();
+  splashScreen.focus();
+}
+
+export function hideSplashScreen() {
+  splashScreen.hide();
+}
+
+export function closeSplashScreen() {
+  setImmediate(() => splashScreen.close());
 }
 
 export function open(windowId, title, data, cb) {
@@ -117,12 +155,23 @@ export default function windowsObserver(state, callback) {
   series([
     // close
     fn => fn(toClose.forEach(windowId => close(windowId))),
+    // splashScreen
+    (fn) => {
+      if (opened.length === toClose.length) {
+        if (toOpen.length) {
+          showSplashScreen();
+        } else {
+          closeSplashScreen();
+        }
+      }
+      return fn(null);
+    },
     // open
     fn => each(toOpen, (windowId, cb) => open(windowId, titles[windowId], list[windowId], cb), fn),
     // update titles
     (fn) => {
       _each(windows, (w, windowId) => {
-        if (w.isDestroyed() || w.getTitle() === titles[windowId]) {
+        if (w.isDestroyed() || w.getTitle() === titles[windowId]) {
           return;
         }
 
@@ -131,5 +180,13 @@ export default function windowsObserver(state, callback) {
 
       return fn(null);
     },
+    (fn) => {
+      if (opened.length !== toClose.length) {
+        if (splashScreen) {
+          hideSplashScreen();
+        }
+      }
+      return fn(null);
+    }
   ], callback);
 }

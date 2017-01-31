@@ -9,7 +9,9 @@ import pages from './pages';
 import views from './views/index';
 import domains from './domains';
 import sessions from './sessions';
+import masterSession from './masterSession';
 import viewData from './viewData';
+import health from './health';
 
 const reducer = combineReducers({
   form,
@@ -22,7 +24,9 @@ const reducer = combineReducers({
   views,
   domains,
   sessions,
+  masterSession,
   viewData,
+  health,
 });
 
 export default reducer;

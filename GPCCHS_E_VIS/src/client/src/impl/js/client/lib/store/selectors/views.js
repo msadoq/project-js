@@ -2,9 +2,15 @@ import { createSelector } from 'reselect';
 import _ from 'lodash/fp';
 import u from 'updeep';
 
-import parseFormula from '../../dataManager/structures/common/formula';
+// import parseFormula from '../../dataManager/structures/common/formula';
 import { getViewData } from './viewData';
 import { compile } from '../../common/operators';
+import { getDomains } from './domains';
+import { getTimebars } from './timebars';
+import { getTimelines } from './timelines';
+import { getWindowsVisibleView } from './windows';
+import { getViewData as viewData } from '../../dataManager/map';
+import { getMasterSessionId } from './masterSession';
 
 export const getViews =
   _.prop('views');
@@ -41,31 +47,41 @@ export const getViewContent = createSelector(
   _.prop('content')
 );
 
-export const decorateEntryPoint =
-  _.cond([
-    [_.anyPass([
-      _.allPass([
-        _.compose(parseFormula, _.path(['connectedDataX', 'formula'])),
-        _.compose(parseFormula, _.path(['connectedDataY', 'formula']))
-      ]),
-      _.compose(parseFormula, _.path(['connectedData', 'formula']))
-    ]), _.identity],
-    [_.stubTrue, _.assoc('error', 'INVALID FORMULA')]
-  ]);
-
 export const getViewEntryPoints = createSelector(
   getView,
-  _.pipe(
+  getMasterSessionId,
+  getWindowsVisibleView,
+  getDomains,
+  getTimebars,
+  getTimelines,
+  (view, masterSessionId, visibleView, domains, timebars, timelines) => {
+    const data = viewData({
+      domains,
+      timebars,
+      timelines,
+      view: _.get('viewData', visibleView),
+      timebarUuid: _.get('timebarUuid', visibleView),
+      masterSessionId,
+    });
+    return _.pipe(
       _.pathOr([], ['configuration', 'entryPoints']),
-      _.map(decorateEntryPoint)
-  )
+      entryPoints => entryPoints.map(
+        (ep, i) => {
+          const error = _.get(['epsData', i, 'error'], data);
+          return error ?
+            _.assoc('error', error, ep) :
+            ep;
+        }
+      )
+    )(view);
+  }
 );
 
+export const makeGetViewEntryPoints = () => getViewEntryPoints;
+
 export const getViewEntryPoint = (state, viewId, epName) =>
-  _.pipe(
-    () => getViewEntryPoints(state, viewId).find(ep => ep.name === epName),
-    decorateEntryPoint,
-  )();
+  getViewEntryPoints(state, viewId)
+    .find(ep => ep.name === epName);
 
 export const getViewEntryPointStateColors = createSelector(
   getViewEntryPoint,

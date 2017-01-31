@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { Form } from 'react-bootstrap';
 import _get from 'lodash/get';
 import _set from 'lodash/set';
@@ -8,7 +8,7 @@ import {
   ClearSubmitButtons
 } from '../../Editor/Components/Forms/';
 
-class AddTimeline extends Component {
+class AddTimeline extends PureComponent {
 
   static propTypes = {
     initialValues: PropTypes.shape({

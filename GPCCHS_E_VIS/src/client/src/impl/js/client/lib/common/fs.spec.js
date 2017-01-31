@@ -1,27 +1,29 @@
+/* eslint-disable no-unused-expressions */
+import { join } from 'path';
+import rimraf from 'rimraf';
 import {
   mkdirSync,
   writeFileSync,
-  rmdirSync,
-  unlinkSync,
   accessSync,
   constants,
-  chmodSync
+  chmodSync,
 } from 'fs';
 
 import { should, getTmpPath } from '../common/test';
 import fs from './fs';
 
 describe('common/fs', () => {
-  const folder = getTmpPath();
-  const file = fs.resolve(folder, '/foo.txt');
-  const json = fs.resolve(folder, '/foo.json');
-  const unreadable = fs.resolve(folder, '/unreadable.txt');
-  const notExists = fs.resolve(folder, '/not-exists.txt');
+  const tmpFolder = getTmpPath();
+  const file = fs.resolve(tmpFolder, '/foo.txt');
+  const json = fs.resolve(tmpFolder, '/foo.json');
+  const unreadable = fs.resolve(tmpFolder, '/unreadable.txt');
+  const notExists = fs.resolve(tmpFolder, '/not-exists.txt');
+  const unavailableFolder = fs.resolve(tmpFolder, '/unavailableFolder');
   before(() => {
     try {
-      accessSync(folder, constants.F_OK);
+      accessSync(tmpFolder, constants.F_OK);
     } catch (e) {
-      mkdirSync(folder);
+      mkdirSync(tmpFolder);
     }
     try {
       accessSync(file, constants.F_OK);
@@ -39,14 +41,16 @@ describe('common/fs', () => {
       writeFileSync(unreadable, 'my content');
       chmodSync(unreadable, 0);
     }
-  });
-  after(() => {
     try {
-      unlinkSync(file);
-      unlinkSync(json);
-      chmodSync(unreadable, 777);
-      unlinkSync(unreadable);
-      rmdirSync(folder);
+      accessSync(unavailableFolder, constants.F_OK);
+    } catch (e) {
+      mkdirSync(unavailableFolder);
+      chmodSync(unavailableFolder, 0);
+    }
+  });
+  after((done) => {
+    try {
+      rimraf(tmpFolder, done);
     } catch (e) {
       console.warn(e); // eslint-disable-line no-console
     }
@@ -56,6 +60,7 @@ describe('common/fs', () => {
     fs.resolve('/foo/bar', '/baz/file.json').should.equal('/foo/bar/baz/file.json');
     fs.resolve('/foo/bar', 'file.json').should.equal('/foo/bar/file.json');
   });
+
   describe('isExists', () => {
     it('file exists', (done) => {
       fs.isExists(file, (exists) => {
@@ -70,6 +75,7 @@ describe('common/fs', () => {
       });
     });
   });
+
   describe('isReadable', () => {
     it('readable', (done) => {
       fs.isReadable(file, (readable) => {
@@ -84,6 +90,7 @@ describe('common/fs', () => {
       });
     });
   });
+
   describe('read', () => {
     it('works', (done) => {
       fs.read(file, (err, content) => {
@@ -100,6 +107,7 @@ describe('common/fs', () => {
       });
     });
   });
+
   describe('parse', () => {
     it('valid', (done) => {
       fs.parse('{"foo":"bar"}', (err, content) => {
@@ -116,6 +124,7 @@ describe('common/fs', () => {
       });
     });
   });
+
   describe('readJsonFromAbsPath', () => {
     it('works', (done) => {
       fs.readJsonFromAbsPath(getTmpPath('foo.json'), (err, content) => {
@@ -132,6 +141,7 @@ describe('common/fs', () => {
       });
     });
   });
+
   describe('readJsonFromRelativePath', () => {
     it('works', (done) => {
       fs.readJsonFromRelativePath(getTmpPath(), 'foo.json', (err, content) => {
@@ -148,6 +158,7 @@ describe('common/fs', () => {
       });
     });
   });
+
   describe('readJsonFromFmdPath', () => {
     it('works', (done) => {
       fs.readJsonFromFmdPath(getTmpPath('foo.json'), (err, content) => {
@@ -162,6 +173,54 @@ describe('common/fs', () => {
         should.not.exist(content);
         done();
       });
+    });
+  });
+
+  describe('checkPath', () => {
+    it('path exists', () => (
+      fs.checkPath('/')
+        .then((res) => {
+          res.should.be.true;
+        })
+    ));
+    it('path does not exists', () => (
+      fs.checkPath('/unknownPath')
+        .then(() => { throw new Error('This path is not supposed to exist'); })
+        .catch((res) => {
+          if (res instanceof Error) {
+            throw res;
+          }
+          res.should.be.false;
+        })
+    ));
+  });
+
+  describe('createFolder', () => {
+    it('folder already exists', () => (
+      fs.createFolder('/')
+        .then((res) => {
+          res.should.be.true;
+        })
+    ));
+    it('folder does not exists', () => {
+      const path = join(tmpFolder, 'a/b/c/d');
+      return fs.createFolder(path)
+        .then((res) => {
+          res.should.be.true;
+          fs.isExists(path, (exist) => {
+            exist.should.be.true;
+          });
+        });
+    });
+    it('fails when cannot mkdirp', () => {
+      const path = join(unavailableFolder, 'a/b/c/d');
+      return fs.createFolder(path)
+        .catch((err) => {
+          err.should.be.an('error');
+          fs.isExists(path, (exist) => {
+            exist.should.be.false;
+          });
+        });
     });
   });
 });

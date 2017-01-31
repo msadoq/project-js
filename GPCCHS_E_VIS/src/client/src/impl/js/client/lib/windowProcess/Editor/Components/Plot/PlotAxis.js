@@ -1,11 +1,12 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
+import classnames from 'classnames';
 import _get from 'lodash/get';
 import {
   Form,
-  Label,
 } from 'react-bootstrap';
+import getDynamicObject from '../../../common/getDynamicObject';
 import {
   ButtonToggleField, InputField
 } from '../Fields/';
@@ -16,6 +17,7 @@ import {
 import {
   FormSectionFontStyle
 } from '../FormSections/';
+import styles from './Plot.css';
 
 class PlotAxis extends PureComponent {
   static propTypes = {
@@ -96,33 +98,29 @@ class PlotAxis extends PureComponent {
     const relatedEntryPoints = [];
     (entryPoints || []).forEach((ep) => {
       if (_get(ep, ['connectedDataX', 'axisId']) === label) {
+        // _.upd
+        // spanInlineStyle[i]
         relatedEntryPoints.push(
-          <Label
-            style={{
-              backgroundColor: _get(ep, ['objectStyle', 'curveColor'], '#333'),
-              textShadow: '0 0 1px rgba(0,0,0,0.3)',
-              margin: '3px',
-              display: 'inline-block',
-              fontSize: '0.9em'
-            }}
+          <span
+            className={classnames('label', 'label-default', styles.relatedEntryPoint)}
+            style={getDynamicObject()(
+              { backgroundColor: _get(ep, ['objectStyle', 'curveColor'], '#333') }
+            )}
           >
             {`${ep.name} X`}<br />
-          </Label>
+          </span>
         );
       }
       if (_get(ep, ['connectedDataY', 'axisId']) === label) {
         relatedEntryPoints.push(
-          <Label
-            style={{
-              backgroundColor: _get(ep, ['objectStyle', 'curveColor'], '#333'),
-              textShadow: '0 0 1px rgba(0,0,0,0.3)',
-              margin: '3px',
-              display: 'inline-block',
-              fontSize: '0.9em'
-            }}
+          <span
+            className={classnames('label', 'label-default', styles.relatedEntryPoint)}
+            style={getDynamicObject()(
+              { backgroundColor: _get(ep, ['objectStyle', 'curveColor'], '#333') }
+            )}
           >
             {`${ep.name} Y`}<br />
-          </Label>
+          </span>
         );
       }
     });

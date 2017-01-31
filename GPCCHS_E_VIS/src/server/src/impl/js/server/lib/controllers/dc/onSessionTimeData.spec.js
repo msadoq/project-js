@@ -24,7 +24,7 @@ describe('controllers/client/onSessionTimeData', () => {
     message[0].should.equal(myQueryId);
     message[1].should.be.an('object')
       .that.have.properties({
-        timestamp: { ms: myTimestamp },
+        timestamp: myTimestamp,
       });
   });
 });

@@ -12,6 +12,7 @@ const onFmdCreateData = require('./onFmdCreateData');
 const onFmdGetData = require('./onFmdGetData');
 const onSessionMasterData = require('./onSessionMasterData');
 const onSessionTimeData = require('./onSessionTimeData');
+const onDcStatus = require('./onDcStatus');
 
 const controllers = {
   [globalConstants.MESSAGETYPE_DOMAIN_DATA]: (...args) => onDomainsData(reply, ...args),
@@ -24,6 +25,7 @@ const controllers = {
   [globalConstants.MESSAGETYPE_SESSION_MASTER_DATA]: (...args) =>
     onSessionMasterData(reply, ...args),
   [globalConstants.MESSAGETYPE_SESSION_TIME_DATA]: (...args) => onSessionTimeData(reply, ...args),
+  [globalConstants.MESSAGETYPE_DC_STATUS]: onDcStatus,
 };
 
 module.exports = (trash, headerBuffer, ...args) => {

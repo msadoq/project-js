@@ -9,7 +9,8 @@ const {
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
 const dataStub = require('common/stubs/data');
-const { get: getQueue, reset: resetQueue } = require('../../utils/dataQueue');
+const { get: getQueue, reset: resetQueue } = require('../../models/dataQueue');
+const { get: getLastPubSubTimestamp, reset: resetLastPubSubTimestamp } = require('../../models/lastPubSubTimestamp');
 const globalConstants = require('common/constants');
 
 /* onTimebasedPubSubData Test
@@ -25,6 +26,7 @@ describe('controllers/dc/onTimebasedPubSubData', () => {
     connectedDataModel.cleanup();
     clearFactory();
     resetQueue();
+    resetLastPubSubTimestamp();
   });
 
   const queryId = 'queryId';
@@ -81,6 +83,7 @@ describe('controllers/dc/onTimebasedPubSubData', () => {
     // check data
     getAllTimebasedDataModelRemoteIds().should.have.lengthOf(0);
     getQueue().should.have.properties({});
+    should.not.exist(getLastPubSubTimestamp());
   });
 
   it('no query for this dataId', () => {
@@ -98,6 +101,7 @@ describe('controllers/dc/onTimebasedPubSubData', () => {
     // check data
     getAllTimebasedDataModelRemoteIds().should.have.lengthOf(0);
     getQueue().should.have.properties({});
+    should.not.exist(getLastPubSubTimestamp());
   });
 
   it('one in interval, all in filters', () => {
@@ -130,6 +134,7 @@ describe('controllers/dc/onTimebasedPubSubData', () => {
         [t1]: deprotoRp,
       },
     });
+    getLastPubSubTimestamp().should.equal(t2);
   });
 
   it('all in interval, one in filter', () => {
@@ -162,5 +167,6 @@ describe('controllers/dc/onTimebasedPubSubData', () => {
         [t2]: deprotoRp2,
       },
     });
+    getLastPubSubTimestamp().should.equal(t2);
   });
 });

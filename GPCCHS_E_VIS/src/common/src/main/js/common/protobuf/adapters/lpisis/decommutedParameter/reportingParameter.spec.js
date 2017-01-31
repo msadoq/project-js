@@ -28,7 +28,5 @@ describe('protobuf/lpisis/decommutedParameter/ReportingParameter', () => {
       isObsolete: { type: 'boolean', value: fixture.isObsolete },
       isNominal: { type: 'boolean', value: fixture.isNominal },
     });
-    
   });
 });
-

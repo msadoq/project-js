@@ -10,7 +10,7 @@
         "timebarId": "TB1"
       },
       {
-        "path": "./pages/pageLarge2.json",
+        "oId": "oid:/pages/dev.page2.json",
         "timebarId": "TB1"
       }
     ],
@@ -29,18 +29,18 @@
       "id": "TB1",
       "mode": "Normal",
       "visuWindow": {
-        "lower": 1480580209235,
-        "upper": 1480580236802,
-        "current": 1480580222965,
+        "lower": 1485648000000,
+        "upper": 1485648900000,
+        "current": 1485648450000,
         "defaultWidth": 900000
       },
       "slideWindow": {
-        "lower": 1480578417000,
-        "upper": 1480582037000
+        "lower": 1485647940000,
+        "upper": 1485648960000
       },
-      "extUpperBound": 1480582047000,
-      "rulerStart": 1480580202986,
-      "rulerResolution": 42.341395242873524,
+      "extUpperBound": 1485648960000,
+      "rulerStart": 1485647940000,
+      "rulerResolution": 1500,
       "speed": 1.0,
       "timeSpec": "LocalTime",
       "offsetFromUTC": 0,

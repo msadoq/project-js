@@ -87,11 +87,13 @@ describe('store:views:reducer', () => {
   describe('set collapsed', () => {
     const state = {
       myView: {
-        isCollapsed: false
+        configuration: {
+          collapsed: false
+        }
       }
     };
     const s = reducer(state, actions.setCollapsed('myView', true));
-    s.myView.isCollapsed.should.equal(true);
+    s.myView.configuration.collapsed.should.equal(true);
   });
   describe('set collapsed and updateLayout', () => {
     let dispatch;
@@ -115,7 +117,9 @@ describe('store:views:reducer', () => {
         },
         views: {
           myView: {
-            isCollapsed: false
+            configuration: {
+              collapsed: false
+            }
           }
         }
       });
@@ -134,7 +138,7 @@ describe('store:views:reducer', () => {
         minH: 3,
         i: 'myView',
       });
-      newState.views.myView.isCollapsed.should.equal(true);
+      newState.views.myView.configuration.collapsed.should.equal(true);
       dispatch(actions.setCollapsedAndUpdateLayout('myPage', 'myView', false));
       newState = getState();
       newState.pages.myPage.layout[0].should.deep.equal({
@@ -146,11 +150,11 @@ describe('store:views:reducer', () => {
         minH: 3,
         i: 'myView',
       });
-      newState.views.myView.isCollapsed.should.equal(false);
+      newState.views.myView.configuration.collapsed.should.equal(false);
     });
   });
   describe('update', () => {
-    const state = {
+    const state = freezeMe({
       view1: {
         type: 'plot',
         configuration: {
@@ -158,19 +162,33 @@ describe('store:views:reducer', () => {
           title: 'my plot',
         },
         absolutePath: '/data/oldPath',
+        path: '/data/oldPath',
         isModified: false,
       }
-    };
-    freezeMe(state);
-    it('absolute Path', () => {
-      const s = reducer(state, actions.updateAbsolutePath('view1', '/data/newPath'));
-      s.view1.absolutePath.should.equal('/data/newPath');
+    });
+    it('Path', () => {
+      const s = reducer(state, {
+        type: types.WS_VIEW_UPDATEPATH,
+        payload: {
+          viewId: 'view1',
+          newPath: '/data/newPath',
+        }
+      });
+      s.view1.path.should.equal('/data/newPath');
       s.view1.isModified.should.equal(true);
       s.view1.configuration.title.should.equal('my plot');
     });
-    it('absolute Path: no change', () => {
-      reducer(state, actions.updateAbsolutePath('view1', '/data/oldPath'))
-      .should.equal(state);
+    it('absolute Path', () => {
+      const s = reducer(state, {
+        type: types.WS_VIEW_UPDATE_ABSOLUTEPATH,
+        payload: {
+          viewId: 'view1',
+          newPath: '/data/newPath',
+        }
+      });
+      s.view1.absolutePath.should.equal('/data/newPath');
+      s.view1.isModified.should.equal(true);
+      s.view1.configuration.title.should.equal('my plot');
     });
     it('object ok', () => {
       const action = {
@@ -184,6 +202,7 @@ describe('store:views:reducer', () => {
           type: 'plot',
           isModified: true,
           absolutePath: '/data/oldPath',
+          path: '/data/oldPath',
           configuration: {
             oName: 'newValue',
             title: 'my plot'
@@ -221,6 +240,7 @@ describe('store:views:reducer', () => {
           type: 'plot',
           isModified: true,
           absolutePath: '/data/oldPath',
+          path: '/data/oldPath',
           configuration: {
             oName: 'newValue',
             title: 'my plot',
@@ -228,7 +248,7 @@ describe('store:views:reducer', () => {
         }
       });
     });
-    const stateArray = {
+    const stateArray = freezeMe({
       view1: {
         type: 'plot',
         configuration: {
@@ -236,8 +256,7 @@ describe('store:views:reducer', () => {
           title: 'my plot',
         },
       }
-    };
-    freezeMe(stateArray);
+    });
 
     it('array element ok', () => {
       const action = {
@@ -290,7 +309,7 @@ describe('store:views:reducer', () => {
     });
   });
 
-  const stateViews = {
+  const stateViews = freezeMe({
     plot1: {
       type: 'PlotView',
       configuration: {
@@ -339,8 +358,7 @@ describe('store:views:reducer', () => {
         ]
       }
     }
-  };
-  freezeMe(stateViews);
+  });
   describe('update action', () => {
     it('Entry Point', () => {
       const newEp = {
@@ -406,7 +424,7 @@ describe('store:views:reducer', () => {
   });
   describe('Add element in array', () => {
     it('general', () => {
-      const stateArray = {
+      const stateArray = freezeMe({
         view1: {
           type: 'plot',
           configuration: {
@@ -414,8 +432,7 @@ describe('store:views:reducer', () => {
             title: 'my view',
           },
         }
-      };
-      freezeMe(stateArray);
+      });
 
       const action = {
         payload: {
@@ -460,7 +477,7 @@ describe('store:views:reducer', () => {
     });
   });
   describe('Remove element in array', () => {
-    const stateArray = {
+    const stateArray = freezeMe({
       view1: {
         type: 'plot',
         configuration: {
@@ -468,8 +485,7 @@ describe('store:views:reducer', () => {
           title: 'my view',
         },
       }
-    };
-    freezeMe(stateArray);
+    });
 
     it('general ok', () => {
       const action = {

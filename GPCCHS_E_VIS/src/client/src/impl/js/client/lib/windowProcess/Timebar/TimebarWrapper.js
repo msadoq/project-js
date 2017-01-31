@@ -1,7 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import { debounce } from 'lodash';
-import { Col } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import getLogger from 'common/log';
 import styles from './Timebar.css';
 import LeftTabContainer from './LeftTabContainer';
@@ -10,13 +10,20 @@ import TimeSetterContainer from './TimeSetterContainer';
 import Modal from '../common/Modal';
 
 const logger = getLogger('Timebar');
-const minTimebarHeight = 135;
+const minTimebarHeight = 140;
 
-export default class TimebarWrapper extends Component {
+const inlineStyles = {
+  paddingBottom8: {
+    paddingBottom: 8,
+  }
+};
+
+export default class TimebarWrapper extends PureComponent {
 
   static propTypes = {
-    isPlaying: PropTypes.bool.isRequired,
+    collapseTimebar: PropTypes.func.isRequired,
     updateTimebarHeight: PropTypes.func.isRequired,
+    isPlaying: PropTypes.bool.isRequired,
     visuWindow: PropTypes.object.isRequired,
     slideWindow: PropTypes.object.isRequired,
     timebar: PropTypes.object.isRequired,
@@ -24,6 +31,7 @@ export default class TimebarWrapper extends Component {
     focusedPageId: PropTypes.string.isRequired,
     timelines: PropTypes.array.isRequired,
     timebarHeight: PropTypes.number,
+    timebarCollapsed: PropTypes.bool,
   }
 
   state = {
@@ -94,6 +102,13 @@ export default class TimebarWrapper extends Component {
     });
   }
 
+  willCollapse = (e) => {
+    e.preventDefault();
+    this.props.collapseTimebar(this.props.focusedPageId, false);
+  }
+
+  assignEl = (el) => { this.el = el; }
+
   render() {
     logger.debug('render');
     const {
@@ -105,6 +120,8 @@ export default class TimebarWrapper extends Component {
       slideWindow,
       focusedPageId,
       timebarHeight,
+      timebarCollapsed,
+      collapseTimebar,
     } = this.props;
     const {
       displayTimesetter,
@@ -132,9 +149,25 @@ export default class TimebarWrapper extends Component {
       </Modal>
     );
 
+    if (timebarCollapsed) {
+      return (
+        <div
+          className={styles.timebarWrapperCollapsed}
+        >
+          <Button
+            bsStyle="default"
+            bsSize="sm"
+            onClick={this.willCollapse}
+          >
+            Expand timebar
+          </Button>
+        </div>
+      );
+    }
+
     return (
       <div
-        ref={(el) => { this.el = el; }}
+        ref={this.assignEl}
         style={{
           flex: '0 0 auto',
           height: `${timebarHeight || minTimebarHeight}px`,
@@ -144,7 +177,7 @@ export default class TimebarWrapper extends Component {
         }}
       >
         {timesetter}
-        <Col xs={9} xsOffset={3} style={{ paddingBottom: 8 }}>
+        <div className="col-xs-9 col-xs-offset-3" style={inlineStyles.paddingBottom8}>
           <div>
             <hr
               onMouseDown={this.resizeWindow}
@@ -156,17 +189,18 @@ export default class TimebarWrapper extends Component {
               }
             />
           </div>
-        </Col>
+        </div>
         <LeftTabContainer
           timebarUuid={timebarUuid}
           focusedPageId={focusedPageId}
           masterId={timebar.masterId}
           timebarName={timebar.id}
           timelines={timelines}
+          collapseTimebar={collapseTimebar}
           verticalScroll={timelinesVerticalScroll}
           onTimelinesVerticalScroll={this.onTimelinesVerticalScroll}
         />
-        <Col xs={9} style={{ height: '100%' }}>
+        <div className="col-xs-9 h100">
           <RightTabContainer
             timebar={timebar}
             timebarUuid={timebarUuid}
@@ -178,7 +212,7 @@ export default class TimebarWrapper extends Component {
             onTimelinesVerticalScroll={this.onTimelinesVerticalScroll}
             timelinesVerticalScroll={timelinesVerticalScroll}
           />
-        </Col>
+        </div>
       </div>
     );
   }

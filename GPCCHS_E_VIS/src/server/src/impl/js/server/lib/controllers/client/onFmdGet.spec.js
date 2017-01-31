@@ -22,7 +22,7 @@ describe('controllers/client/onFmdGet', () => {
     const myQueryId = 'myQueryId';
     const myGetDocumentAction = dataStub.getFMDGet();
     // launch test
-    onFmdGet(zmqEmulator, myQueryId, myGetDocumentAction.serializedOid);
+    onFmdGet(zmqEmulator, myQueryId, { oid: myGetDocumentAction.serializedOid });
     // check data
     calls.should.be.an('array')
       .that.has.lengthOf(3);

@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import globalConstants from 'common/constants';
 import simple from '../simpleActionCreator';
+import { ifPathChanged, addUuids } from './enhancers';
 import * as types from '../types';
 import vivl from '../../../VIVL/main';
 import {
@@ -10,12 +11,19 @@ import {
 import { getPageIdByViewId, makeGetLayouts } from '../selectors/pages';
 import { getTimebarByPageId } from '../selectors/timebars';
 
-export const add = simple(types.WS_VIEW_ADD, 'viewId', 'type', 'configuration', 'path', 'oId',
-  'absolutePath', 'isModified');
+export const add = addUuids(simple(
+  types.WS_VIEW_ADD, 'viewId', 'type', 'configuration', 'path', 'oId', 'absolutePath', 'isModified'
+));
 export const remove = simple(types.WS_VIEW_REMOVE, 'viewId');
-export const reloadView = simple(types.WS_VIEW_RELOAD, 'viewId', 'configuration');
-export const updatePath = simple(types.WS_VIEW_UPDATEPATH, 'viewId', 'newPath');
-export const updateAbsolutePath = simple(types.WS_VIEW_UPDATE_ABSOLUTEPATH, 'viewId', 'newPath');
+export const reloadView = addUuids(simple(types.WS_VIEW_RELOAD, 'viewId', 'configuration'));
+
+/* Update path/absolutePath */
+const simpleUpdatePath = simple(types.WS_VIEW_UPDATEPATH, 'viewId', 'newPath');
+const simpleUpdateAbsolutePath = simple(types.WS_VIEW_UPDATE_ABSOLUTEPATH, 'viewId', 'newPath');
+
+export const updatePath = ifPathChanged(simpleUpdatePath, ['views', 'path', 'viewId']);
+export const updateAbsolutePath = ifPathChanged(simpleUpdateAbsolutePath, ['views', 'absolutePath', 'viewId']);
+/* ------------------------ */
 
 export const setViewOid = simple(types.WS_VIEW_SET_OID, 'viewId', 'oid');
 
@@ -61,6 +69,7 @@ export const setCollapsedAndUpdateLayout = (pageId, viewId, flag) =>
         flag,
       }
     });
+    dispatch(setModified(viewId, true));
   };
 
 export const updateEntryPoint = simple(types.WS_VIEW_UPDATE_ENTRYPOINT, 'viewId', 'index',

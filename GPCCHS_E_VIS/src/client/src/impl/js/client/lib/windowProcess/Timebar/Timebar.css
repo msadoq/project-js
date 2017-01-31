@@ -1,9 +1,15 @@
 @import '../style/variables.css';
 
+.timebarWrapperCollapsed{
+  height: 36px;
+  padding-top: 2px;
+  text-align: center;
+  background: rgba(0,0,0,0.4);
+}
 .viewportWrapper{
     padding-top: 24px;
     position: relative;
-    height: 100%;
+    height: calc(100% + 13px);
     overflow: hidden;
 }
 .viewportContainer{
@@ -250,3 +256,14 @@
   bottom: 0px;
   background-color: #F45;
 }
+.rightTab{
+  border-width: 2px;
+  border-style: solid;
+  width: 100%;
+  height: calc(100% - 15px);
+}
+.play{ border-color: var(--borderPlay); }
+.pause{ border-color: var(--borderPause); }
+.realtime{ border-color: var(--borderRealtime); }
+.acc{ border-color: var(--borderAcc); }
+.desc{ border-color: var(--borderDesc); }

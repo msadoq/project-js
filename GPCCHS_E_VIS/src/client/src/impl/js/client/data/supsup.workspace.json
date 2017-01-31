@@ -6,7 +6,11 @@
       "title": "Sup/Sup workspace",
       "pages": [
         {
-          "path": "./pages/pageSupsup.json",
+          "path": "./pages/supsup.page.json",
+          "timebarId": "TB1"
+        },
+        {
+          "oId": "oid:/pages/dev.page2.json",
           "timebarId": "TB1"
         }
       ],
@@ -25,18 +29,18 @@
         "id": "TB1",
         "mode": "Normal",
         "visuWindow": {
-          "lower": 1480600800000,
-          "upper": 1480600920000,
-          "current": 1480600860000,
+          "lower": 1485648000000,
+          "upper": 1485648900000,
+          "current": 1485648450000,
           "defaultWidth": 900000
         },
         "slideWindow": {
-          "lower": 1480600555000,
-          "upper": 1480601455000
+          "lower": 1485647940000,
+          "upper": 1485648960000
         },
-        "extUpperBound": 148060145000,
-        "rulerStart": 1480600555000,
-        "rulerResolution": 11250,
+        "extUpperBound": 1485648960000,
+        "rulerStart": 1485647940000,
+        "rulerResolution": 1500,
         "speed": 1.0,
         "playingState": "pause",
         "timeSpec": "LocalTime",

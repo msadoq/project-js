@@ -13,32 +13,24 @@ import { clear } from 'common/callbacks';
 import enableDebug from './debug';
 import { fork, get, kill } from './childProcess';
 import { initStore, getStore } from '../store/mainStore';
-import './menu';
 import rendererController from './controllers/renderer';
 import serverController from './controllers/server';
 import { server } from './ipc';
+import { add as addMessage } from '../store/actions/messages';
 import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
+import { updateMasterSession } from '../store/actions/masterSession';
 
-import { readWkFile, openDefaultWorkspace } from './openWorkspace';
-
+import setMenu from './menu';
+import { openDefaultWorkspace, openWorkspaceDocument } from './openWorkspace';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
+
+import { openSplashScreen } from './windows';
 
 const logger = getLogger('main:index');
 
 export function start() {
-  logger.debug('starting application with configuration', {
-    DEBUG: parameters.get('DEBUG'),
-    LOG: parameters.get('LOG'),
-    MONITORING: parameters.get('MONITORING'),
-    PROFILING: parameters.get('PROFILING'),
-    ZMQ_GPCCDC_PUSH: parameters.get('ZMQ_GPCCDC_PUSH'),
-    ZMQ_GPCCDC_PULL: parameters.get('ZMQ_GPCCDC_PULL'),
-    FMD_ROOT_DIR: parameters.get('FMD_ROOT_DIR'),
-    WORKSPACE: parameters.get('WORKSPACE'),
-    NODE_PATH: parameters.get('NODE_PATH'),
-  });
-
+  setMenu();
   const forkOptions = {
     execPath: parameters.get('NODE_PATH'),
     env: {
@@ -53,6 +45,7 @@ export function start() {
 
   series([
     callback => enableDebug(callback),
+    callback => openSplashScreen(callback),
     (callback) => {
       // monitoring
       monitoring.start();
@@ -87,6 +80,8 @@ export function start() {
       );
     },
     (callback) => {
+      server.sendProductLog(LOG_APPLICATION_START);
+
       logger.info('registering main controllers');
 
       // ipc with renderer
@@ -99,6 +94,18 @@ export function start() {
       );
 
       return callback(null);
+    },
+    // should have master sessionId in store at start
+    (callback) => {
+      server.requestMasterSession(({ err, masterSessionId }) => {
+        if (err) {
+          return callback(err);
+        }
+
+        logger.debug('received master sessionId from server');
+        getStore().dispatch(updateMasterSession(masterSessionId));
+        callback(null);
+      });
     },
     // should have sessions in store at start
     (callback) => {
@@ -132,9 +139,18 @@ export function start() {
       const root = parameters.get('FMD_ROOT_DIR');
       const file = parameters.get('WORKSPACE');
 
-      return (file)
-        ? readWkFile(dispatch, getState, root, file, callback)
-        : openDefaultWorkspace(dispatch, root, callback);
+      if (!file) {
+        dispatch(addMessage('global', 'info', 'No WORKSPACE found'));
+        return openDefaultWorkspace(dispatch, root, callback);
+      }
+
+      openWorkspaceDocument(dispatch, getState, root, file, (err, value) => {
+        if (err) {
+          dispatch(addMessage('global', 'danger', err));
+          return openDefaultWorkspace(dispatch, root, callback);
+        }
+        callback(null, value);
+      });
     }
   ], (err) => {
     if (err) {

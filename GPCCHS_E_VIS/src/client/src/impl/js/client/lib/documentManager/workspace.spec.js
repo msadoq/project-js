@@ -6,7 +6,7 @@
 //
 // const dir = path.join(__dirname, 'features');
 //
-// describe.only('documents/workspace', () => {
+// describe('documents/workspace', () => {
 //   describe('listWindows ', () => {
 //     let win = {
 //       type: 'documentWindow'

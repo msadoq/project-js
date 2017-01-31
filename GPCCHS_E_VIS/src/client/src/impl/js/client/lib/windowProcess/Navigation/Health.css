@@ -1,0 +1,30 @@
+.bull{
+  font-size: 27px;
+  line-height: 0.5;
+  vertical-align: bottom;
+}
+
+.seconds {
+  color: grey;
+}
+
+.parentLabel{
+  position: relative;
+  font-size: 100%;
+}
+
+.healthy {
+  color: green;
+}
+
+.warning {
+  color: orange;
+}
+
+.alert {
+  color: red;
+}
+
+.idle {
+  color: grey;
+}

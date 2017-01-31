@@ -1,8 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { v4 } from 'node-uuid';
 import { Col, FormGroup } from 'react-bootstrap';
 
-export default class SelectTimebar extends Component {
+export default class SelectTimebar extends PureComponent {
 
   static propTypes = {
     updateTimebarId: PropTypes.func.isRequired,

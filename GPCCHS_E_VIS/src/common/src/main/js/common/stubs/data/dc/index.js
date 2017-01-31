@@ -16,6 +16,7 @@ const sessionStub = require('./dataControllerUtils/session');
 const sessionGetTimeStub = require('./dataControllerUtils/sessionGetTime');
 const sessionsStub = require('./dataControllerUtils/sessions');
 const statusStub = require('./dataControllerUtils/status');
+const dcStatusStub = require('./dataControllerUtils/dcStatus');
 const stringStub = require('./dataControllerUtils/string');
 const timeIntervalStub = require('./dataControllerUtils/timeInterval');
 const timestampStub = require('./dataControllerUtils/timestamp');
@@ -41,6 +42,7 @@ module.exports = Object.assign(
   sessionGetTimeStub,
   sessionsStub,
   statusStub,
+  dcStatusStub,
   stringStub,
   timeIntervalStub,
   timestampStub

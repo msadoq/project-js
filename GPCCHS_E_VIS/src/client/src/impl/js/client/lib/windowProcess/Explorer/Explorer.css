@@ -1,0 +1,73 @@
+@import '../style/variables';
+
+.root{
+  padding: 10px 5px 10px 0;
+}
+
+.explorer {
+  height: 100%;
+  padding-top: 5px;
+  border: 2px solid #CCC;
+  background-color: #FFF;
+
+  :global {
+    .panel-group{
+      margin-bottom: 0px;
+    }
+    .panel-title a {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .form-horizontal {
+      .form-group {
+        display: flex;
+        flex-direction: row;
+        > label {
+          align-self: center;
+          padding-top: 0px;
+        }
+      }
+    }
+    .page-header{
+      margin: 10px 0 10px;
+      padding-bottom: 5px;
+      & > * {
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+
+}
+
+.tabs{
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.contentWrapper{
+  flex-direction: column;
+  display: flex;
+  height: 100%;
+  .content{
+    padding: 10px;
+    height: 100%;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+}
+
+.content{
+  overflow: auto;
+  flex-direction: column;
+  display: flex;
+  height: 100%;
+  padding: 10px;
+}
+
+.table{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

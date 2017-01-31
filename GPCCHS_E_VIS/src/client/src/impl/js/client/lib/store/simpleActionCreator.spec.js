@@ -31,9 +31,23 @@ describe('store:simpleActionCreator', () => {
       },
     });
   });
+  it('take functions', () => {
+    const actionCreator = simpleActionCreator(
+      'myActionType',
+      param => ({ myParam: `concatened ${param}` }),
+      param => ({ myOther: `other concatened ${param}` }),
+    );
+    actionCreator('param1', 'param2').should.eql({
+      type: 'myActionType',
+      payload: {
+        myParam: 'concatened param1',
+        myOther: 'other concatened param2',
+      },
+    });
+  });
   it('only expected parameters', () => {
     const actionCreator = simpleActionCreator('myActionType', 'myParam');
-    actionCreator('param1', 'param2').should.eql({
+    actionCreator('param1', 'param2', () => {}).should.eql({
       type: 'myActionType',
       payload: {
         myParam: 'param1',

@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import _omit from 'lodash/omit';
 import classnames from 'classnames';
 import _isEqual from 'lodash/isEqual';
@@ -11,6 +11,10 @@ const logger = getLogger('Content');
 
 const Grid = WidthProvider(Responsive); // eslint-disable-line new-cap
 
+const gridStyles = {
+  containerPadding: [0, 0],
+};
+
 const filterLayoutBlockFields = [
   'minW',
   'minH',
@@ -20,7 +24,7 @@ const filterLayoutBlockFields = [
   'static',
 ];
 
-export default class Content extends Component {
+export default class Content extends PureComponent {
   static propTypes = {
     focusedPageId: PropTypes.string,
     timebarUuid: PropTypes.string,
@@ -78,7 +82,7 @@ export default class Content extends Component {
         className="layout"
         rowHeight={30}
         width={1200}
-        containerPadding={[0, 0]}
+        containerPadding={gridStyles.containerPadding}
         breakpoints={this.breakpoints}
         cols={this.cols}
         draggableHandle=".moveHandler"
@@ -97,7 +101,7 @@ export default class Content extends Component {
               className={classnames({
                 [styles.blockedited]: isViewsEditorOpen,
                 [styles.block]: !isViewsEditorOpen,
-                collapsed: v.isCollapsed,
+                collapsed: v.configuration.collapsed,
               })}
               key={v.viewId}
             >

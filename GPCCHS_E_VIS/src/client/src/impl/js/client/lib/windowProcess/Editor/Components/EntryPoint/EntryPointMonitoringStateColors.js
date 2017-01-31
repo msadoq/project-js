@@ -3,7 +3,7 @@ import {
   Table,
   Glyphicon,
 } from 'react-bootstrap';
-import { withState } from 'recompose';
+import { withState, pure } from 'recompose';
 
 import { monitoringStateColors as mColors } from '../../../common/colors';
 
@@ -63,4 +63,4 @@ MonitoringStateColors.propTypes = {
   setVisible: PropTypes.func.isRequired,
 };
 
-export default withState('visible', 'setVisible', false)(MonitoringStateColors);
+export default withState('visible', 'setVisible', false)(pure(MonitoringStateColors));

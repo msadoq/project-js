@@ -15,8 +15,8 @@ const zmq = require('../zmq');
 const { getType, encode, decode } = require('../protobuf');
 const constants = require('../constants');
 
-const sessionIdTest = 65535;
-const domainIdTest = 1;
+const sessionIdTest = 1;
+const domainIdTest = 4;
 const myQueryId = 'myQueryId';
 const myOtherQueryId = 'myOtherQueryId';
 
@@ -210,8 +210,43 @@ const sessionMasterDataHandler = (callback, trash, headerBuffer, ...argsBuffers)
   console.log(decode('lpisis.ccsds_mal.UINTEGER', argsBuffers[1]));
   (() => decode('lpisis.ccsds_mal.uinteUINTEGERger', argsBuffers[1])).should.not.throw();
   zmq.closeSockets();
- }
+}
 
+let nbQueryPassed = 0;
+let nQueryCong = 0;
+let congestionReceived = false;
+
+// First, a CONGESTION message should be received, then, a HEALTHY message should be received.
+const congestionDataPullHandler = (onCongestionReceived = b => undefined) => (callback, trash, headerBuffer, ...argsBuffers) => {
+  const header = decode('dc.dataControllerUtils.Header', headerBuffer);
+
+  if (congestionReceived){
+    switch(header.messageType){
+      case constants.MESSAGETYPE_DC_STATUS:
+        dcStatus = decode('dc.dataControllerUtils.DcStatus', argsBuffers[0]);
+        console.log("switched to Healthy ");
+        dcStatus.status.should.equal(constants.DC_STATUS_HEALTHY);
+        onCongestionReceived(false);
+        congestionReceived = false;
+      default:
+        // console.log("number of query successfully passed during congestion mode: ",nQueryCong);
+        nQueryCong++;
+    }
+    return;
+  }
+  switch(header.messageType){
+    case constants.MESSAGETYPE_DC_STATUS:
+      dcStatus = decode('dc.dataControllerUtils.DcStatus', argsBuffers[0]);
+      console.log("switched to congestion ");
+      dcStatus.status.should.equal(constants.DC_STATUS_CONGESTION);
+      onCongestionReceived(true);
+      congestionReceived = true;
+    default:
+      // console.log("number of query successfully passed : ",nbQueryPassed);
+      nbQueryPassed++;
+  }
+
+}
 const sessionTimeDataHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
   console.log(decode('dc.dataControllerUtils.Timestamp', argsBuffers[1]));
   (() => decode('dc.dataControllerUtils.Timestamp', argsBuffers[1])).should.not.throw();
@@ -572,7 +607,7 @@ const documentCreateAndGetTest =
   (callback) => {
     console.log('> Test Document create and get');
 
-    let fileName = "HistoryViewCreated.vihv";
+    let fileName = "Poulette3.vihv";
     const documentCreateQueryMessageArgs = [
       encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY}),
       encode('dc.dataControllerUtils.String', { string: myOtherQueryId }),
@@ -584,6 +619,20 @@ const documentCreateAndGetTest =
     sendZmqMessage(documentCreateQueryMessageArgs);
   };
 
+// Principle : try to overwelm GPCCDC with queries, the Handler then calls a callback when
+// GPCCDC sends a Congestion message.
+const congestionTest =
+  (callback) => {
+    console.log('> Test Congestion');
+
+    // Variable that is set on congestionDataPullHandler callback when receiving congestion msg.
+    isCongested = false;
+    createZmqConnection(callback, congestionDataPullHandler((isCong) => {isCongested = isCong;}));
+
+    // Send 52 request at 10hz. Don't send any queries when UNHEALTHY.
+    setInterval(() => { if (!isCongested) { allQueries.map((query) => sendZmqMessage(query))}} , 10);
+    // const id = setInterval(() => { if (!isCongested) { allQueries.map((query) => sendZmqMessage(query))} else clearInterval(id)}, 100);
+  };
 
 // DOMAIN TEST
 const domainTest =
@@ -606,7 +655,8 @@ const archiveTest =
     console.log('> Test Archive');
     createZmqConnection(callback, archiveDataPullHandler);
     // setInterval(() =>  allQueries.map((query) => sendZmqMessage(query)), 2000);
-    allQueries.map((query) => sendZmqMessage(query))
+    sendZmqMessage(allQueries[0]);
+    // allQueries.map((query) => sendZmqMessage(query))
     // sendZmqMessage(allQueries[0]);
   };
 // PUBSUB TEST
@@ -639,9 +689,10 @@ const trashTest =
 let testFunctions = [];
 
 const options = {
-  boolean: ['d', 'p', 'a', 's', 'f', 'all', 't', 'w', "dc", "dg", "st", "log", "sm", "dcg"],
+  boolean: ['d', 'p', 'a', 's', 'f', 'all', 't', 'w', "dc", "dg", "st", "log", "sm", "dcg","cgn"],
   default: {
     all: true,
+    cgn: false,
     dcg : false,
     dc: false,
     dg: false,
@@ -658,6 +709,7 @@ const options = {
   },
   alias: {
     dcg : 'documentCreateGet',
+    cgn : 'congestion',
     dc : 'documentcreate',
     dg : 'documentget',
     st: 'sessiontime',
@@ -680,7 +732,10 @@ if (argv.dcg) {
   argv.all = false;
   testFunctions.push(documentCreateAndGetTest);
 }
-
+if (argv.cgn) {
+  argv.all = false;
+  testFunctions.push(congestionTest);
+}
 if (argv.domains) {
   argv.all = false;
   testFunctions.push(domainTest);
@@ -745,7 +800,8 @@ if (argv.all) {
   testFunctions.push(documentCreateTest);
   testFunctions.push(documentGetTest);
 }
-
+console.log("Closing existing sockets");
+zmq.closeSockets();
 
 async.series(testFunctions, (err) => {
   if (err) {

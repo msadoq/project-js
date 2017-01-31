@@ -1,0 +1,41 @@
+{
+  "title": "TextView One parameter",
+  "type": "TextView",
+  "entryPoints": [
+    {
+      "name": "AGA_AM_PRIORITY",
+      "connectedData": {
+        "formula": "Reporting.AGA_AM_PRIORITY<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "fr.cnes.isis.simupus",
+        "timeline": "Session 1"
+      }
+    },
+    {
+      "name": "TMMGT_BC_VIRTCHAN3",
+      "connectedData": {
+        "formula": "Reporting.TMMGT_BC_VIRTCHAN3<ReportingParameter>.extractedValue",
+        "unit": "V",
+        "digits": 5,
+        "format": "decimal",
+        "filter": [],
+        "domain": "invalid domain",
+        "timeline": "Session 1"
+      }
+    }
+  ],
+  "links": [
+    {
+      "name": "page.exe2.workspace",
+      "path": "../page.exe2.workspace.json"
+    }
+  ],
+  "defaultRatio": {
+    "length": 5,
+    "width": 3
+  },
+  "content": "<style>  .myTextView {float: left; font-size: 1.2rem; }  .myTextView .myContener { background-color: #0f1051; margin-top: 4px; margin-left: 6px; padding:2px; float: left; border-radius: 1px; border: 1px ridge #0f0041; height: 51px; width: 180px; }  .myContener .name {display: block;  overflow: hidden; background-color: white; color: black; font-weight: bolder; font-size: 11px; padding: 2px; text-align: center;}  .myContener .value { text-align: center; display: block; overflow: hidden; background-color: #0f0041; color: #00ff00; font-weight: bold; padding: 10px; margin-bottom: 10px; }</style><div class='myTextView'>    <div class='myContener'><span class='name'>AGA_AM_PRIORITY</span><span class='value'>{{AGA_AM_PRIORITY}}</span></div>    <div class='myContener'><span class='name'>TMMGT_BC_VIRTCHAN3</span><span class='value'>{{TMMGT_BC_VIRTCHAN3}}</span></div></div>"
+}

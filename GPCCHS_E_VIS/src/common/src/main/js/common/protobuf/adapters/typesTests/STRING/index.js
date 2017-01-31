@@ -4,4 +4,7 @@ module.exports = {
   STRING_3: '123456789123',
   STRING_4: 'a',
   STRING_5: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+  STRING_v2_1: '123456789123',
+  STRING_v2_2: 'aa',
+  STRING_v2_3: 'azertyuiopqs',
 };

@@ -3,7 +3,7 @@
 import React, { Component, PropTypes } from 'react';
 import styles from '../../Editor.css';
 import Navbar from '../Navbar/Navbar';
-import EntryPointTree from '../EntryPoint/EntryPointTree';
+import EntryPointTree from './EntryPointTree';
 import EntryPointActions from '../EntryPoint/EntryPointActions';
 import TextTab from './TextTab';
 

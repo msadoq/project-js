@@ -8,6 +8,24 @@ exports[`test EditTimeline (redux-form) renders correctly 1`] = `
       <label
         className="col-xs-4 control-label"
         htmlFor="formHorizontalName">
+        Master timeline
+      </label>
+      <div
+        className="col-xs-8">
+        <button
+          className="btn btn-xs btn-default"
+          disabled={false}
+          onClick={[Function]}
+          type="button">
+          NO
+        </button>
+      </div>
+    </div>
+    <div
+      className="form-group">
+      <label
+        className="col-xs-4 control-label"
+        htmlFor="formHorizontalName">
         Kind
       </label>
       <div
@@ -44,24 +62,6 @@ exports[`test EditTimeline (redux-form) renders correctly 1`] = `
       <label
         className="col-xs-4 control-label"
         htmlFor="formHorizontalName">
-        Master timeline
-      </label>
-      <div
-        className="col-xs-8">
-        <button
-          className="btn btn-xs btn-default"
-          disabled={false}
-          onClick={[Function]}
-          type="button">
-          NO
-        </button>
-      </div>
-    </div>
-    <div
-      className="form-group">
-      <label
-        className="col-xs-4 control-label"
-        htmlFor="formHorizontalName">
         Session id
       </label>
       <div
@@ -83,7 +83,7 @@ exports[`test EditTimeline (redux-form) renders correctly 1`] = `
       <label
         className="col-xs-4 control-label"
         htmlFor="formHorizontalName">
-        Id
+        Name
       </label>
       <div
         className="col-xs-8">

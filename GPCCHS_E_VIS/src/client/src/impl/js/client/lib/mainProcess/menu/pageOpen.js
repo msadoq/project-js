@@ -1,59 +1,66 @@
+import { BrowserWindow } from 'electron';
 import _map from 'lodash/map';
 import { v4 } from 'node-uuid';
-import { server } from '../ipc';
 import {
   LOG_DOCUMENT_OPEN
 } from 'common/constants';
+import { server } from '../ipc';
 import { readPages, extractViews } from '../../common/documentManager';
-import { showErrorMessage, getPathByFilePicker } from '../dialog';
+import { getPathByFilePicker } from '../dialog';
 import { getStore } from '../../store/mainStore';
 import { add as addView } from '../../store/actions/views';
+import { add as addMessage } from '../../store/actions/messages';
 import { addAndMount as addAndMountPage } from '../../store/actions/windows';
 import { setModified as setModifiedPage } from '../../store/actions/pages';
 
-module.exports = { pageOpen, pageAddNew };
+const addGlobalError = msg => addMessage('global', 'danger', msg);
 
 function pageOpen(focusedWindow) {
+  const store = getStore();
   if (!focusedWindow) {
     return;
   }
-  getPathByFilePicker(getStore().getState().hsc.folder, 'page', 'open', (err, filePath) => {
+  getPathByFilePicker(store.getState().hsc.folder, 'page', 'open', (err, filePath) => {
     if (err || !filePath) { // error or cancel
       return;
     }
+    pageOpenWithPath({ filePath, windowId: focusedWindow.windowId });
+  });
+}
 
-    readPages(undefined, [{ absolutePath: filePath }], (pageErr, pages) => {
-      if (pageErr) {
-        return showErrorMessage(focusedWindow,
-          'Error on selected page',
-          'Invalid Page file selected', () => {});
+function pageOpenWithPath({ filePath, windowId }) {
+  const store = getStore();
+  readPages(undefined, [{ absolutePath: filePath }], (pageErr, pages) => {
+    if (pageErr) {
+      store.dispatch(addGlobalError('Unable to load page'));
+      store.dispatch(addGlobalError(pageErr));
+    }
+    const content = { pages: {} };
+    const uuid = v4();
+    content.pages[uuid] = pages[0];
+    extractViews(content, (viewErr, pageAndViews) => {
+      if (viewErr) {
+        store.dispatch(addGlobalError('Unable to load page : invalid view'));
+        store.dispatch(addGlobalError(viewErr));
       }
-      const content = { pages: {} };
-      const uuid = v4();
-      content.pages[uuid] = pages[0];
-      extractViews(content, (viewErr, pageAndViews) => {
-        if (viewErr) {
-          return showErrorMessage(focusedWindow,
-            'Error on selected page',
-            'Invalid view in selected page file', () => {});
-        }
-        showSelectedPage(pageAndViews, uuid, focusedWindow.windowId);
-        const title = getStore().getState().windows[focusedWindow.windowId].title;
-        focusedWindow.setTitle(title.concat(' * - VIMA'));
-        server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', filePath);
-      });
+      showSelectedPage(pageAndViews, uuid, windowId);
+      const title = store.getState().windows[windowId].title;
+      const window = BrowserWindow.getFocusedWindow();
+      window.setTitle(title.concat(' * - VIMA'));
+      server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', filePath);
     });
   });
 }
 
 function pageAddNew(focusedWindow) {
   if (!focusedWindow) {
-    return;
+    return getStore().dispatch(addGlobalError('Saving failed : no window focused'));
   }
+  const { dispatch, getState } = getStore();
   const uuid = v4();
-  getStore().dispatch(addAndMountPage(focusedWindow.windowId, uuid));
-  getStore().dispatch(setModifiedPage(uuid, true));
-  const title = getStore().getState().windows[focusedWindow.windowId].title;
+  dispatch(addAndMountPage(focusedWindow.windowId, uuid));
+  dispatch(setModifiedPage(uuid, true));
+  const title = getState().windows[focusedWindow.windowId].title;
   focusedWindow.setTitle(title.concat(' * - VIMA'));
   server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', 'new page');
 }
@@ -66,6 +73,8 @@ function showSelectedPage(pageAndViews, pageId, windowId) {
     y: v.geometry.y,
     w: v.geometry.w,
     h: v.geometry.h,
+    maxH: v.geometry.maxH || 100,
+    maxW: v.geometry.maxW || 100,
   }));
   const viewIds = Object.keys(pageAndViews.views);
   viewIds.forEach((index) => {
@@ -79,3 +88,9 @@ function showSelectedPage(pageAndViews, pageId, windowId) {
   page.isModified = false;
   store.dispatch(addAndMountPage(windowId, pageId, page));
 }
+
+export default {
+  pageOpen,
+  pageOpenWithPath,
+  pageAddNew
+};

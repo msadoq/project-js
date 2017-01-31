@@ -1,8 +1,11 @@
 import Ajv from 'ajv';
 
+import _map from 'lodash/map';
+import _join from 'lodash/join';
+import _isArray from 'lodash/isArray';
 import pathWorkspace from './schemas/workspace.schema.json';
 import pathPage from './schemas/page.schema.json';
-import timebarsSchema from './schemas/timebars.schema.js';
+import timebarsSchema from './schemas/timebars.schema';
 
 const ajv = new Ajv({ allErrors: true });
 const knownValidators = {
@@ -25,7 +28,7 @@ const validate = (id, data, schema) => {
   }
 
   if (!knownValidators[id](data)) {
-    return knownValidators[id].errors;
+    return reformat(knownValidators[id].errors);
   }
 
   return undefined;
@@ -49,3 +52,12 @@ export default (...args) => {
   }
   return validate(...args);
 };
+
+export function reformat(errors) {
+  return _map(errors, (err) => {
+    const keys = Object.keys(err.params);
+    const param = keys.length ? err.params[keys[0]] : '';
+    return err.dataPath.concat(' ')
+      .concat(err.message.concat((_isArray(param) ? ' : '.concat(_join(param, ', ')) : '')));
+  });
+}

@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { Field } from 'redux-form';
 import { schemeCategory20b } from 'd3-scale';
 import {
@@ -15,7 +15,7 @@ import {
   All the fields used in Connected data form
   It can be used with a prefix to map exactly form's initialValues'ss tructure
 */
-export default class TimelineFields extends React.Component {
+export default class TimelineFields extends PureComponent {
   static propTypes = {
     sessions: PropTypes.array,
     timelines: PropTypes.array,
@@ -35,7 +35,16 @@ export default class TimelineFields extends React.Component {
 
     return (
       <div>
-        <HorizontalFormGroup label="Kind">
+        {(!masterId || (masterId !== id)) && <HorizontalFormGroup label="Master timeline">
+          <Field
+            name="master"
+            component={ButtonToggleField}
+            textOn="YES"
+            textOff="NO"
+          />
+        </HorizontalFormGroup>}
+
+        <HorizontalFormGroup label="Type">
           <Field
             name="kind"
             component="select"
@@ -48,29 +57,7 @@ export default class TimelineFields extends React.Component {
           </Field>
         </HorizontalFormGroup>
 
-        {(!masterId || (masterId !== id)) && <HorizontalFormGroup label="Master timeline">
-          <Field
-            name="master"
-            component={ButtonToggleField}
-            textOn="YES"
-            textOff="NO"
-          />
-        </HorizontalFormGroup>}
-
-        <HorizontalFormGroup label="Session id">
-          <Field
-            name="sessionId"
-            component="select"
-            type="text"
-            className="form-control input-sm"
-          >
-            {sessions.map(session =>
-              <option key={session.id} value={session.id}>{session.name}</option>
-            )}
-          </Field>
-        </HorizontalFormGroup>
-
-        <HorizontalFormGroup label="Id">
+        <HorizontalFormGroup label="Name">
           <Field
             name="id"
             component={InputField}
@@ -84,7 +71,22 @@ export default class TimelineFields extends React.Component {
           />
         </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Offset h-m-s-ms">
+        <HorizontalFormGroup label="Session">
+          <Field
+            name="sessionId"
+            component="select"
+            type="text"
+            className="form-control input-sm"
+          >
+            {sessions.map(session =>
+              <option key={session.id} value={session.id}>{session.name}</option>
+            )}
+          </Field>
+        </HorizontalFormGroup>
+
+        <hr />
+
+        <HorizontalFormGroup label="Offset (h-m-s-ms)">
           <Field
             name="offset"
             component={OffsetFields}

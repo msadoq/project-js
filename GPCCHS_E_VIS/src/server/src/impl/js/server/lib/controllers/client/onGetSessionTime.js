@@ -14,7 +14,7 @@ const protobufHeader = encode('dc.dataControllerUtils.Header', {
  * @param queryId
  * @param sessionId
  */
-module.exports = (sendDcMessage, queryId, sessionId) => sendDcMessage([
+module.exports = (sendDcMessage, queryId, { sessionId }) => sendDcMessage([
   protobufHeader,
   encode('dc.dataControllerUtils.String', { string: queryId }),
   encode('dc.dataControllerUtils.SessionGetTime', { id: sessionId }),

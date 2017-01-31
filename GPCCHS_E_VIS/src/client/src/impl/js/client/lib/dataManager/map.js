@@ -2,39 +2,90 @@ import _reduce from 'lodash/reduce';
 import _get from 'lodash/get';
 import _set from 'lodash/set';
 import _has from 'lodash/has';
+import _isUndefined from 'lodash/isUndefined';
 import { createSelector } from 'reselect';
 import getLogger from 'common/log';
 
 import vivl from '../../VIVL/main';
 import structures from './structures';
+import { getMasterSessionId } from '../store/selectors/masterSession';
 import { getDomains } from '../store/selectors/domains';
-import { getTimebars, getTimebarTimelines, getMasterTimeline } from '../store/selectors/timebars';
+import { getTimebars, getTimebarTimelines } from '../store/selectors/timebars';
 import { getTimelines } from '../store/selectors/timelines';
 import { getWindowsVisibleViews } from '../store/selectors/windows';
 
 const logger = getLogger('data:map');
 
-export const walk = (domains, timebars, timelines, views) =>
+export const getViewData = ({
+  domains,
+  view,
+  timebars,
+  timebarUuid,
+  timelines,
+  masterSessionId
+}) => {
+  if ( _isUndefined(domains) // eslint-disable-line space-in-parens
+    || _isUndefined(view)
+    || _isUndefined(timebars)
+    || _isUndefined(timebarUuid)
+    || _isUndefined(timelines)) {
+    return;
+  }
+
+  const { type, configuration } = view;
+  const { entryPoints } = configuration;
+  const structureType = vivl(type, 'structureType')();
+  const extract = structures(structureType, 'parseEntryPoint');
+  const viewTimelines = getTimebarTimelines(timebars, timelines, timebarUuid);
+  const visuWindow = _get(timebars, [timebarUuid, 'visuWindow']);
+
+  return {
+    type,
+    entryPoints,
+    visuWindow,
+    viewTimelines,
+    masterSessionId,
+    structureType,
+    epsData: entryPoints.map(ep =>
+      extract(
+        ep,
+        timebarUuid,
+        viewTimelines,
+        masterSessionId,
+        visuWindow,
+        domains
+      )
+    ),
+  };
+};
+
+export const walk = (masterSessionId, domains, timebars, timelines, views) =>
   _reduce(views, (map, { viewId, timebarUuid, viewData: view }) => {
-    const { type, configuration } = view;
-    const { entryPoints } = configuration;
+    const {
+      entryPoints,
+      visuWindow,
+      type,
+      structureType,
+      epsData,
+    } = getViewData({
+      domains,
+      timebars,
+      timelines,
+      view,
+      timebarUuid,
+      masterSessionId,
+    });
+
     if (!entryPoints || !entryPoints.length) {
       return map;
     }
 
     // current visuWindow
-    const visuWindow = _get(timebars, [timebarUuid, 'visuWindow']);
     if (!visuWindow) {
       logger.debug('no valid visuWindow for this view', viewId);
     }
 
-    // current timelines
-    const viewTimelines = getTimebarTimelines(timebars, timelines, timebarUuid);
-    const viewMasterTimeline = getMasterTimeline(timebars, timelines, timebarUuid);
-
-    const structureType = vivl(type, 'structureType')();
-    const extract = structures(structureType, 'parseEntryPoint');
-    return _reduce(entryPoints, (subMap, entryPoint) => {
+    return _reduce(entryPoints, (subMap, entryPoint, i) => {
       const { name } = entryPoint;
       // create remoteId node (perView)
       if (!_has(map, ['perView', viewId])) {
@@ -45,14 +96,8 @@ export const walk = (domains, timebars, timelines, views) =>
         });
       }
 
-      const ep = extract(
-        entryPoint,
-        timebarUuid,
-        viewTimelines,
-        viewMasterTimeline,
-        visuWindow,
-        domains
-      );
+      const ep = epsData[i];
+
       if (ep.error) {
         _set(map, ['perView', viewId, 'entryPoints', name], ep);
         logger.info('invalid entryPoint', name, ep.error);
@@ -155,6 +200,7 @@ export const walk = (domains, timebars, timelines, views) =>
  */
 export default createSelector(
   [
+    getMasterSessionId,
     getDomains,
     getTimebars,
     getTimelines,
@@ -163,5 +209,4 @@ export default createSelector(
   walk
 );
 
-// TODO memoize domains search (redux domains, search)
 // TODO memoize sessions search (redux timebarTimelines, redux timelines, search)

@@ -1,6 +1,8 @@
 import React, { PureComponent, PropTypes } from 'react';
 import getLogger from 'common/log';
-
+import PlotViewComp from '../../../VIVL/PlotView/window/PlotViewContainer';
+import TextViewComp from '../../../VIVL/TextView/window/TextViewContainer';
+import DynamicViewComp from '../../../VIVL/DynamicView/window/DynamicViewContainer';
 import ViewHeader from './Header';
 import UnknownView from './UnknownView';
 import MessagesContainer from './MessagesContainer';
@@ -17,7 +19,6 @@ const keys = {
 
 export default class View extends PureComponent {
   static propTypes = {
-    component: PropTypes.func,
     isViewsEditorOpen: PropTypes.bool,
     configuration: PropTypes.object,
     visuWindow: PropTypes.object,
@@ -33,7 +34,7 @@ export default class View extends PureComponent {
     moveViewToPage: PropTypes.func,
     getWindowPages: PropTypes.func,
     collapseView: PropTypes.func,
-    isCollapsed: PropTypes.bool,
+    entryPoints: PropTypes.array,
   };
 
   static contextTypes = {
@@ -52,7 +53,6 @@ export default class View extends PureComponent {
     const {
       collapseView,
       viewId,
-      isCollapsed,
       closeEditor,
       isViewsEditorOpen,
       unmountAndRemove,
@@ -63,7 +63,7 @@ export default class View extends PureComponent {
     const { focusedPageId } = this.context;
 
     if (e.keyCode === keys.w && e.altKey && this.el.querySelector(':hover')) {
-      collapseView(focusedPageId, viewId, !isCollapsed);
+      collapseView(focusedPageId, viewId, !configuration.collapsed);
     } else if (e.keyCode === keys.x && e.altKey && this.el.querySelector(':hover')) {
       unmountAndRemove(viewId);
       if (isViewsEditorOpen && closeEditor) {
@@ -82,7 +82,6 @@ export default class View extends PureComponent {
     logger.debug('render');
     const {
       configuration,
-      isCollapsed,
       configuration: { backgroundColor = '#FFFFFF' },
       isViewsEditorOpen,
       viewId,
@@ -95,12 +94,26 @@ export default class View extends PureComponent {
       moveViewToPage,
       getWindowPages,
       collapseView,
-      component,
       oId,
       absolutePath,
       isModified,
+      entryPoints,
     } = this.props;
-    const ContentComponent = component || UnknownView;
+
+    let ContentComponent;
+    switch (type) {
+      case 'PlotView':
+        ContentComponent = PlotViewComp;
+        break;
+      case 'TextView':
+        ContentComponent = TextViewComp;
+        break;
+      case 'DynamicView':
+        ContentComponent = DynamicViewComp;
+        break;
+      default:
+        ContentComponent = UnknownView;
+    }
 
     return (
       <div
@@ -118,12 +131,12 @@ export default class View extends PureComponent {
           getWindowPages={getWindowPages}
           moveViewToPage={moveViewToPage}
           collapseView={collapseView}
-          isCollapsed={isCollapsed}
+          collapsed={configuration.collapsed}
           oId={oId}
           absolutePath={absolutePath}
           isModified={isModified}
         />
-        {!isCollapsed &&
+        {!configuration.collapsed &&
           <div
             className={styles.content}
             style={{ backgroundColor }}
@@ -136,6 +149,7 @@ export default class View extends PureComponent {
               isViewsEditorOpen={isViewsEditorOpen}
               visuWindow={visuWindow}
               configuration={configuration}
+              entryPoints={entryPoints}
             />
           </div>
         }

@@ -1,34 +1,33 @@
-import React, { Component, PropTypes } from 'react';
-import { Nav, NavItem, Button, Glyphicon, Popover, OverlayTrigger, Table } from 'react-bootstrap';
+import React, { PureComponent, PropTypes } from 'react';
+import { basename } from 'path';
+import { Nav, NavItem, Button, Glyphicon, OverlayTrigger, Table, Popover } from 'react-bootstrap';
 import getLogger from 'common/log';
 import styles from './Tabs.css';
 
 const logger = getLogger('Tabs');
 
 function popoverHoverFocus(page) {
-  // TODO to be completed with document information
   return (
     <Popover id="popover-trigger-hover-focus" title="Document properties">
       <Table>
         <tbody>
-          <tr><td>Version</td><td>Unknown</td></tr>
-          {page.oId
-            ? <tr>
-              <td>OId</td>
-              <td>{page.oId}</td>
-            </tr>
-            : <tr>
-              <td>Path</td>
-              <td>{page.path}</td>
-            </tr>
-          }
+          {page.properties.length ?
+            page.properties.map(
+              (prop, i) => <tr key={i}><td>{prop.name.value}</td><td>{prop.value.value}</td></tr>)
+            : <tr><td>No FMD data</td></tr>}
+          {page.oId && <tr><td>OID</td><td>{page.oId}</td></tr>}
+          {page.absolutePath &&
+            <tr><td>File name</td><td>{basename(page.absolutePath)}</td></tr>}
+          {!page.absolutePath && page.path &&
+            <tr><td>File name</td><td>{basename(page.path)}</td></tr>}
+          {!page.absolutePath && !page.path && <tr><td>Unsaved file</td></tr>}
         </tbody>
       </Table>
     </Popover>
   );
 }
 
-export default class Tabs extends Component {
+export default class Tabs extends PureComponent {
   static propTypes = {
     pages: PropTypes.array.isRequired,
     focusedPageId: PropTypes.string,
@@ -59,18 +58,13 @@ export default class Tabs extends Component {
     return (
       <Nav bsStyle="tabs" activeKey={focusedPageId} onSelect={this.handleSelect}>
         {pages.map(page =>
-          <OverlayTrigger
-            trigger={['hover', 'focus']}
-            placement="bottom"
-            overlay={popoverHoverFocus(page)}
+          <NavItem
             key={page.pageId}
+            eventKey={page.pageId}
           >
-            <NavItem
-              key={page.pageId}
-              eventKey={page.pageId}
-            >
-              <div className={styles.title}>
-                {page.isModified ? page.title.concat(' *') : page.title}
+            <OverlayTrigger className={styles.title} overlay={popoverHoverFocus(page)}>
+              <div>
+                <span>{page.isModified ? page.title.concat(' *') : page.title}</span>
                 <Button
                   bsStyle="link"
                   onClick={e => this.handleClose(e, page.pageId)}
@@ -82,11 +76,11 @@ export default class Tabs extends Component {
                   />
                 </Button>
               </div>
-            </NavItem>
-          </OverlayTrigger>
+            </OverlayTrigger>
+          </NavItem>
         )}
         <NavItem eventKey="new">
-          New page
+          New Page
           <Button bsStyle="link" className={styles.button}>
             <Glyphicon
               glyph="plus-sign"

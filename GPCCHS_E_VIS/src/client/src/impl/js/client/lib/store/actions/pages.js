@@ -1,5 +1,6 @@
 import { v4 } from 'node-uuid';
 import simple from '../simpleActionCreator';
+import { ifPathChanged } from './enhancers';
 import * as types from '../types';
 import { getView } from '../selectors/views';
 import {
@@ -15,7 +16,7 @@ import { getFocusedWindowId } from '../selectors/hsc';
  * Simple actions
  */
 export const add = simple(types.WS_PAGE_ADD, 'pageId', 'timebarUuid', 'title', 'views', 'layout',
-  'path', 'oId', 'absolutePath', 'isModified');
+  'path', 'oId', 'absolutePath', 'isModified', 'properties', 'timebarHeight', 'timebarCollapsed');
 export const removePage = simple(types.WS_PAGE_REMOVE, 'pageId');
 export const mountView = simple(types.WS_PAGE_VIEW_MOUNT, 'pageId', 'viewId', 'layout');
 export const unmountView = simple(types.WS_PAGE_VIEW_UNMOUNT, 'pageId', 'viewId');
@@ -23,7 +24,7 @@ export const openEditor = simple(types.WS_PAGE_EDITOR_OPEN,
   'pageId', 'viewId', 'viewType', 'configuration');
 export const closeEditor = simple(types.WS_PAGE_EDITOR_CLOSE, 'pageId');
 export const updateLayoutSimple = simple(types.WS_PAGE_UPDATE_LAYOUT, 'pageId', 'layout');
-
+export const collapseTimebar = simple(types.WS_PAGE_TIMEBAR_COLLAPSE, 'pageId', 'flag');
 export const setPageOid = simple(types.WS_PAGE_SET_OID, 'pageId', 'oid');
 
 export const updateLayout = (pageId, layout) =>
@@ -31,15 +32,25 @@ export const updateLayout = (pageId, layout) =>
     layout.forEach((l) => {
       if (l.h > 1) {
         const view = getView(getState(), l.i);
-        if (view && view.isCollapsed) {
+        if (view && view.configuration.collapsed) {
           dispatch(setCollapsedView(l.i, false));
         }
       }
     });
     dispatch(updateLayoutSimple(pageId, layout));
   };
-export const updateAbsolutePath = simple(types.WS_PAGE_UPDATE_ABSOLUTEPATH, 'pageId', 'newPath');
-export const updatePath = simple(types.WS_PAGE_UPDATEPATH, 'pageId', 'newPath');
+
+/* Update path/absolutePath */
+const simpleUpdatePath = simple(types.WS_PAGE_UPDATEPATH, 'pageId', 'newPath');
+const simpleUpdateAbsolutePath = simple(types.WS_PAGE_UPDATE_ABSOLUTEPATH, 'pageId', 'newPath');
+
+export const updatePath = ifPathChanged(simpleUpdatePath, ['pages', 'path', 'pageId']);
+export const updateAbsolutePath = ifPathChanged(simpleUpdateAbsolutePath, ['pages', 'absolutePath', 'pageId']);
+/* ------------------------ */
+
+// export const updatePath = simple(types.WS_PAGE_UPDATEPATH, 'pageId', 'newPath');
+// export const updateAbsolutePath = simple(types.WS_PAGE_UPDATE_ABSOLUTEPATH, 'pageId', 'newPath');
+
 export const setModified = simple(types.WS_PAGE_SETMODIFIED, 'pageId', 'flag');
 
 export const updateTimebarHeight = simple(types.WS_PAGE_UPDATE_TIMEBARHEIGHT, 'focusedPageId', 'timebarHeight');

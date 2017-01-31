@@ -2,6 +2,7 @@ import _round from 'lodash/round';
 import { series } from 'async';
 import globalConstants from 'common/constants';
 import executionMonitor from 'common/log/execution';
+import { get } from 'common/parameters';
 import getLogger from 'common/log';
 import { server } from './ipc';
 // import { get } from 'common/parameters';
@@ -23,6 +24,7 @@ import windowsObserver from './windows';
 
 import { updateViewData } from '../store/actions/viewData';
 import { handlePlay } from '../store/actions/timebars';
+import { updateHealth } from '../store/actions/health';
 
 const logger = getLogger('main:orchestration');
 const execution = executionMonitor('orchestration');
@@ -158,8 +160,15 @@ export function tick() {
     (callback) => {
       server.requestData((dataToInject) => {
         execution.start('data injection');
-        dispatch(updateViewData(previous.dataMap.perView, dataMap.perView, dataToInject));
-        execution.stop('data injection', Object.keys(dataToInject).length);
+        dispatch(
+          updateHealth(
+            dataToInject.dcStatus,
+            dataToInject.hssStatus,
+            dataToInject.lastPubSubTimestamp
+          )
+        );
+        dispatch(updateViewData(previous.dataMap.perView, dataMap.perView, dataToInject.data));
+        execution.stop('data injection', Object.keys(dataToInject.data).length);
         return callback(null);
       });
     },
@@ -224,7 +233,9 @@ export function tick() {
       `somethingHasChanged:${somethingHasChanged}`
       + ` isWindowsOpened:${isWindowsOpened}`
     );
-    execution.print();
+    if (!get('DISABLE_ORCHESTRATION_PROFILING')) {
+      execution.print();
+    }
     execution.reset();
 
     // schedule next tick

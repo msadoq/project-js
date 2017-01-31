@@ -14,6 +14,7 @@ export default function pages(statePages = {}, action) {
     case types.WS_PAGE_EDITOR_CLOSE:
     case types.WS_PAGE_VIEW_MOUNT:
     case types.WS_PAGE_VIEW_UNMOUNT:
+    case types.WS_PAGE_TIMEBAR_COLLAPSE:
     case types.WS_PAGE_UPDATE_LAYOUT:
       return Object.assign({}, statePages, {
         [action.payload.pageId]: page(statePages[action.payload.pageId], action)
@@ -26,28 +27,27 @@ export default function pages(statePages = {}, action) {
     case types.WS_PAGE_REMOVE:
       return _omit(statePages, [action.payload.pageId]);
     case types.WS_PAGE_UPDATEPATH:
-      // path unchanged or newPath invalid
-      if (!action.payload.newPath || !statePages[action.payload.pageId] ||
-        (statePages[action.payload.pageId].path &&
-        resolve(action.payload.newPath) === resolve(statePages[action.payload.pageId].path))) {
+      if (!statePages[action.payload.pageId]) {
         return statePages;
       }
-      return u({ [action.payload.pageId]: {
-        path: action.payload.newPath,
-        isModified: true,
-      } },
-        statePages);
+      return u({
+        [action.payload.pageId]: {
+          path: action.payload.newPath,
+          isModified: true,
+        }
+      }, statePages);
     case types.WS_PAGE_UPDATE_ABSOLUTEPATH: {
-      if (!statePages[action.payload.pageId] || !action.payload.newPath ||
-        (statePages[action.payload.pageId].absolutePath &&
-        resolve(action.payload.newPath)
-          === resolve(statePages[action.payload.pageId].absolutePath))) {
+      const statePage = statePages[action.payload.pageId];
+      if (!statePage || (statePage.absolutePath && action.payload.newPath &&
+        resolve(action.payload.newPath) === resolve(statePage.absolutePath))) {
         return statePages;
       }
-      return u({ [action.payload.pageId]: {
-        absolutePath: action.payload.newPath,
-        isModified: true,
-      } }, statePages);
+      return u({
+        [action.payload.pageId]: {
+          absolutePath: action.payload.newPath,
+          isModified: true,
+        }
+      }, statePages);
     }
     case types.WS_PAGE_SET_OID: {
       return u({
@@ -96,6 +96,7 @@ export default function pages(statePages = {}, action) {
 const initialState = {
   title: 'Unknown',
   timebarHeight: 135,
+  timebarCollapsed: false,
   timebarUuid: null,
   layout: [],
   views: [],
@@ -105,6 +106,7 @@ const initialState = {
     viewType: null
   },
   isModified: true,
+  properties: [],
 };
 
 function page(statePage = initialState, action) {
@@ -114,6 +116,7 @@ function page(statePage = initialState, action) {
         title: action.payload.title || statePage.title,
         timebarUuid: action.payload.timebarUuid || statePage.timebarUuid,
         timebarHeight: action.payload.timebarHeight || statePage.timebarHeight,
+        timebarCollapsed: action.payload.timebarCollapsed || statePage.timebarCollapsed,
         layout: action.payload.layout || statePage.layout,
         views: action.payload.views || statePage.views,
         path: action.payload.path,
@@ -121,6 +124,7 @@ function page(statePage = initialState, action) {
         absolutePath: action.payload.absolutePath,
         isModified: (action.payload.isModified === undefined) ?
           statePage.isModified : action.payload.isModified,
+        properties: action.payload.properties ? action.payload.properties : [],
       });
     case types.WS_PAGE_EDITOR_OPEN:
       return u({
@@ -156,6 +160,13 @@ function page(statePage = initialState, action) {
         layout: action.payload.layout,
         isModified: true
       });
+    }
+    case types.WS_PAGE_TIMEBAR_COLLAPSE: {
+      return {
+        ...statePage,
+        timebarCollapsed: action.payload.flag,
+        isModified: true,
+      };
     }
     default:
       return statePage;

@@ -5,7 +5,11 @@ const { decode } = require('common/protobuf');
 const registeredCallbacks = require('common/callbacks');
 
 const { should } = require('../../utils/test');
-const registeredQueries = require('../../utils/registeredQueries');
+const {
+  addRecord: registerQuery,
+  getAll: getRegisteredQueries,
+  cleanup: cleanRegisteredQueries,
+} = require('../../models/registeredQueries');
 
 
 const {
@@ -71,7 +75,7 @@ describe('controllers/client/onCacheCleanup', () => {
     connectedDataModel.cleanup();
     subscriptionsModel.cleanup();
     clearFactory();
-    registeredQueries.clear();
+    cleanRegisteredQueries();
     registeredCallbacks.clear();
     // Init models and singletons
     connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_LAST, remoteId11, dataId1);
@@ -83,12 +87,12 @@ describe('controllers/client/onCacheCleanup', () => {
     connectedDataModel.addRequestedInterval(remoteId21, queryId212, interval212);
     connectedDataModel.addRequestedInterval(remoteId22, queryId221, interval221);
     connectedDataModel.addRequestedInterval(remoteId22, queryId222, interval222);
-    registeredQueries.set(queryId111, remoteId11);
-    registeredQueries.set(queryId112, remoteId11);
-    registeredQueries.set(queryId211, remoteId21);
-    registeredQueries.set(queryId212, remoteId21);
-    registeredQueries.set(queryId221, remoteId22);
-    registeredQueries.set(queryId222, remoteId22);
+    registerQuery(queryId111, remoteId11);
+    registerQuery(queryId112, remoteId11);
+    registerQuery(queryId211, remoteId21);
+    registerQuery(queryId212, remoteId21);
+    registerQuery(queryId221, remoteId22);
+    registerQuery(queryId222, remoteId22);
     subscriptionsModel.addRecord(dataId1);
     subscriptionsModel.addRecord(dataId2);
     subscriptionsModel.addFilters(dataId1, {
@@ -152,9 +156,14 @@ describe('controllers/client/onCacheCleanup', () => {
       },
     ]);
     // check registered queries
-    const queries = Object.keys(registeredQueries.getAll());
+    const queries = getRegisteredQueries();
     queries.should.have.lengthOf(4);
-    queries.should.have.properties([queryId112, queryId211, queryId221, queryId222]);
+    queries.should.have.properties([
+      { queryId: queryId112, remoteId: remoteId11 },
+      { queryId: queryId211, remoteId: remoteId21 },
+      { queryId: queryId221, remoteId: remoteId22 },
+      { queryId: queryId222, remoteId: remoteId22 },
+    ]);
     // check timebasedData model
     const tbdModel1 = getTimebasedDataModel(remoteId11);
     const tbdModel2 = getTimebasedDataModel(remoteId21);
@@ -234,9 +243,13 @@ describe('controllers/client/onCacheCleanup', () => {
       },
     ]);
     // check registered queries
-    const queries = Object.keys(registeredQueries.getAll());
+    const queries = getRegisteredQueries();
     queries.should.have.lengthOf(3);
-    queries.should.have.properties([queryId112, queryId221, queryId222]);
+    queries.should.have.properties([
+      { queryId: queryId112, remoteId: remoteId11 },
+      { queryId: queryId221, remoteId: remoteId22 },
+      { queryId: queryId222, remoteId: remoteId22 },
+    ]);
     // check timebasedData model
     const tbdModel1 = getTimebasedDataModel(remoteId11);
     should.not.exist(getTimebasedDataModel(remoteId21));
@@ -296,9 +309,9 @@ describe('controllers/client/onCacheCleanup', () => {
       },
     ]);
     // check registered queries
-    const queries = Object.keys(registeredQueries.getAll());
+    const queries = getRegisteredQueries();
     queries.should.have.lengthOf(1);
-    queries.should.have.properties([queryId112]);
+    queries.should.have.properties([{ queryId: queryId112, remoteId: remoteId11 }]);
     // check timebasedData model
     const tbdModel1 = getTimebasedDataModel(remoteId11);
     should.not.exist(getTimebasedDataModel(remoteId21));

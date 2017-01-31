@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Navbar from '../Navbar/Navbar';
 import { PlotTab } from './';
 import { Misc } from '../Misc';
-import EntryPointTree from '../EntryPoint/EntryPointTree';
+import EntryPointTree from './EntryPointTree';
 import EntryPointActions from '../EntryPoint/EntryPointActions';
 import styles from '../../Editor.css';
 
@@ -41,6 +41,9 @@ const newEntryPoint = {
 
   ]
 };
+
+const navbarItems = ['Entry Points', 'Plot'];
+
 /*
   Composant racine de l'éditeur Plot.
 */
@@ -130,7 +133,7 @@ export default class PlotEditor extends Component {
       <div className={styles.contentWrapper}>
         <Navbar
           currentDisplay={currentDisplay}
-          items={['Entry Points', 'Plot']}
+          items={navbarItems}
           changeCurrentDisplay={this.changeCurrentDisplay}
           closeEditor={this.props.closeEditor}
         />

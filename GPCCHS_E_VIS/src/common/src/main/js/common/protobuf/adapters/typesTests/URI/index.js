@@ -1,5 +1,5 @@
 module.exports = {
-  URI_1: 'grande é $ * ê û î',
-  // URI_2: 'motdfsdfsdf sdfsdf',
-  // URI_3: 'motdfsdfsdfsdfsdf',
+  URI_1: '',
+  URI_2: 'grande é $ * ê û î',
+  URI_3: 'motdfsdfsdfsdfsdf',
 };

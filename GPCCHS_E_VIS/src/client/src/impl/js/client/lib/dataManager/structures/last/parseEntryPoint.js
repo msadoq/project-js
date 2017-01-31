@@ -5,7 +5,7 @@ export default function parseEntryPoint(
   entryPoint,
   timebarUuid,
   timelines,
-  viewMasterTimeline,
+  masterSessionId,
   visuWindow,
   domains
 ) {
@@ -13,7 +13,7 @@ export default function parseEntryPoint(
     entryPoint.connectedData,
     globalConstants.DATASTRUCTURETYPE_LAST,
     timebarUuid,
-    viewMasterTimeline,
+    masterSessionId,
     visuWindow,
     timelines,
     domains

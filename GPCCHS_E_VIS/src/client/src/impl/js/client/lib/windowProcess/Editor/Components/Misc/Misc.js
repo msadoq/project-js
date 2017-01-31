@@ -5,6 +5,7 @@ import {
   Glyphicon,
   Table
 } from 'react-bootstrap';
+import _memoize from 'lodash/memoize';
 
 export default class Misc extends React.Component {
   state = {
@@ -12,8 +13,8 @@ export default class Misc extends React.Component {
     isPanelProcedureOpen: false
   };
 
-  openPanel = key => this.setState({ [`isPanel${key}Open`]: true });
-  closePanel = key => this.setState({ [`isPanel${key}Open`]: false });
+  openPanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: true }));
+  closePanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: false }));
 
   render() {
     const { isPanelLinksOpen, isPanelProcedureOpen } = this.state;
@@ -25,8 +26,8 @@ export default class Misc extends React.Component {
           header="Links"
           eventKey={'Links'}
           expanded={isPanelLinksOpen}
-          onSelect={this.openPanel.bind('Links')}
-          onExited={this.closePanel.bind('Links')}
+          onSelect={this.openPanel('Links')}
+          onExited={this.closePanel('Links')}
         >
           {isPanelLinksOpen && <div>
             <Table condensed striped style={{ fontSize: '12px' }}>
@@ -62,8 +63,8 @@ export default class Misc extends React.Component {
           header="Procedure launcher"
           eventKey={'Procedure'}
           expanded={isPanelProcedureOpen}
-          onSelect={this.openPanel.bind('Procedure')}
-          onExited={this.closePanel.bind('Procedure')}
+          onSelect={this.openPanel('Procedure')}
+          onExited={this.closePanel('Procedure')}
         >
           {isPanelProcedureOpen && <div>
             To be defined

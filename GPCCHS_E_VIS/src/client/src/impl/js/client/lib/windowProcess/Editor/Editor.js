@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import getLogger from 'common/log';
 import { PlotEditorContainer } from './Components/Plot';
 import { TextEditorContainer } from './Components/Text';
@@ -10,7 +10,7 @@ const logger = getLogger('Editor');
 const InvalidConfiguration = () => <div> unknown view type or invalid configuration: </div>;
 // TODO dedicated component
 
-export default class Editor extends Component {
+export default class Editor extends PureComponent {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
     focusedPageId: PropTypes.string.isRequired,

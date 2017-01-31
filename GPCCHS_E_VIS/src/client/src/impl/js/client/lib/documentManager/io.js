@@ -6,11 +6,11 @@ import {
 } from '../common/fs';
 
 const readJsonFromOId = fmdApi => (oId, callback) => {
-  fmdApi.resolveDocument(oId, (err, path) => {
+  fmdApi.resolveDocument(oId, (err, path, properties) => {
     if (err) {
       return callback(err);
     }
-    readJsonFromFmdPath(path, callback);
+    readJsonFromFmdPath(path, (error, json) => callback(error, json, properties));
   });
 };
 
@@ -19,7 +19,7 @@ export const readDocument = fmdApi => (folder, relativePath, oId, absolutePath, 
     return readJsonFromAbsPath(absolutePath, callback);
   }
   if (oId) {
-    return readJsonFromOId(fmdApi)(oId, callback);
+    return readJsonFromOId(fmdApi)(oId, (err, json, properties) => callback(err, json, properties));
   }
   if (folder && !startsWith('/', relativePath)) {
     return readJsonFromRelativePath(folder, relativePath, callback);
@@ -30,7 +30,7 @@ export const readDocument = fmdApi => (folder, relativePath, oId, absolutePath, 
 export const writeDocument = fmdApi => (path, json, callback) => {
   const spaces = 2; // beautify json with 2 spaces indentations
   const data = JSON.stringify(json, null, spaces);
-  if (fmdApi.isFmd(path)) {
+  if (fmdApi.isInFmd(path)) {
     return fmdApi.createDocument(path, json.type, (err, oid) => {
       if (err) {
         return callback(err);

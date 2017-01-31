@@ -1,6 +1,7 @@
 import moment from 'moment';
 import classnames from 'classnames';
 import React, { PureComponent } from 'react';
+import _memoize from 'lodash/memoize';
 import styles from './TimeSetter.css';
 
 export default class TimeSetterFields extends PureComponent {
@@ -45,6 +46,8 @@ export default class TimeSetterFields extends PureComponent {
     this.props.onChange(date.toDate().getTime(), this.props.cursor);
   }
 
+  changeAttrVal = _memoize(v => () => this.changeAttr(v));
+
   render() {
     const {
       ms,
@@ -87,8 +90,8 @@ export default class TimeSetterFields extends PureComponent {
                 className={classnames('form-control', styles.input, styles[`input_${x[0]}`])}
                 defaultValue={x[1]}
                 disabled={disabled}
-                onClick={this.changeAttr.bind(null, x[0])}
-                onBlur={this.changeAttr.bind(null, x[0])}
+                onClick={this.changeAttrVal(x[0])}
+                onBlur={this.changeAttrVal(x[0])}
               />
               {['year', 'months'].find(a => a === x[0]) && <span>-</span>}
               {['hours', 'minutes'].find(a => a === x[0]) && <span>:</span>}

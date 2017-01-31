@@ -1,6 +1,8 @@
 import getLogger from 'common/log';
 
 import omit from 'lodash/omit';
+import compose from 'lodash/fp/compose';
+import join from 'lodash/fp/join';
 import async from 'async';
 import validation from './validation';
 
@@ -14,12 +16,14 @@ import { readDocument } from './io';
 
 const logger = getLogger('documents:workspace');
 
+const formattedValidation = compose(join('\n'), validation);
+
 export default {
   readWorkspace: fmdApi => (folder, relativePath, callback) => {
     logger.info(`reading workspace ${folder}/${relativePath}`);
     async.waterfall([
       cb => readDocument(fmdApi)(folder, relativePath, undefined, undefined, cb),
-      (workspace, cb) => cb(validation('workspace', workspace), workspace),
+      (workspace, cb) => cb(formattedValidation('workspace', workspace), workspace),
       (workspace, cb) => cb(null, { __original: workspace, __folder: folder }),
       (content, cb) => extractTimebars(content, cb),
       (content, cb) => extractTimelines(content, cb),

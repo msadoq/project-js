@@ -1,8 +1,14 @@
+import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _reduce from 'lodash/reduce';
+import _filter from 'lodash/filter';
 import { createSelector } from 'reselect';
+import { getFocusedWindowId } from './hsc';
 import { getPages } from './pages';
-import { getViews } from './views';
+// import { getViews } from './views';
+
+export const getViews =
+  _.prop('views');
 
 export const getWindows = state => _get(state, ['windows'], {});
 export const getWindowsArray = createSelector(
@@ -13,6 +19,12 @@ export const getWindowsArray = createSelector(
       id,
       ...windows[id]
     }))
+);
+
+export const getFocusedWindow = createSelector(
+  getWindows,
+  getFocusedWindowId,
+  _get,
 );
 
 export const getWindow = (state, windowId) =>
@@ -83,6 +95,9 @@ export const getWindowsVisibleViews = createSelector(
     }))
 );
 
+export const getWindowsVisibleView = (state, viewId) =>
+  (getWindowsVisibleViews(state) || []).find(v => v.viewId === viewId);
+
 export const getWindowsTitle = createSelector(
   getWindows,
   windows => _reduce(
@@ -91,3 +106,7 @@ export const getWindowsTitle = createSelector(
       [windowId]: `${window.title}${(window.isModified === true) ? ' *' : ''} - VIMA`
     }), {})
 );
+
+export function getModifiedWindowsIds(state) {
+  return _filter(Object.keys(getWindows(state)), wId => state.windows[wId].isModified);
+}

@@ -1,7 +1,7 @@
 const stubData = require('../data');
 
 module.exports = function sendSessionTime(queryId, sessionId, zmq) {
-  const sessionTime = Date.now() + (parseInt(sessionId, 10) * 1000);
+  const sessionTime = Date.now() + ((parseInt(sessionId, 10) + 1) * 1000);
   zmq.push('stubData', [
     null,
     stubData.getSessionTimeDataHeaderProtobuf(),

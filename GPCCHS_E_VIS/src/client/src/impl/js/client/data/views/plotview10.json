@@ -62,7 +62,7 @@
         "digits": 5,
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 2",
+        "timeline": "Session 1",
         "axisId": "Time"
       },
       "connectedDataY": {
@@ -71,7 +71,7 @@
         "digits": 5,
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 2",
+        "timeline": "Session 1",
         "axisId": "VBat"
       },
       "objectStyle": {
@@ -146,7 +146,7 @@
         "digits": 5,
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 2",
+        "timeline": "Session 1",
         "axisId": "Time"
       },
       "connectedDataY": {
@@ -155,7 +155,7 @@
         "digits": 5,
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 2",
+        "timeline": "Session 1",
         "axisId": "VBat"
       },
       "objectStyle": {
@@ -188,7 +188,7 @@
         "digits": 5,
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 3",
+        "timeline": "Session 1",
         "axisId": "Time"
       },
       "connectedDataY": {
@@ -197,7 +197,7 @@
         "digits": 5,
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 3",
+        "timeline": "Session 1",
         "axisId": "VBat"
       },
       "objectStyle": {
@@ -230,7 +230,7 @@
         "digits": 5,
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 4",
+        "timeline": "Session 1",
         "axisId": "Time"
       },
       "connectedDataY": {
@@ -239,7 +239,7 @@
         "digits": 5,
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
-        "timeline": "Session 4",
+        "timeline": "Session 1",
         "axisId": "VBat"
       },
       "objectStyle": {
@@ -356,7 +356,7 @@
       "digits": 5,
       "format": "decimal",
       "domain": "fr.cnes.isis.simupus",
-      "timeline": "Session 2",
+      "timeline": "Session 1",
       "axisId": "Time"
     },
     "connectedDataY": {
@@ -365,7 +365,7 @@
       "digits": 5,
       "format": "decimal",
       "domain": "fr.cnes.isis.simupus",
-      "timeline": "Session 2",
+      "timeline": "Session 1",
       "axisId": "VBat"
     },
     "objectStyle": {

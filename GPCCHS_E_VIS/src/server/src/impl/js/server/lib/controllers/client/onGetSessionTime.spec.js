@@ -21,7 +21,7 @@ describe('controllers/client/onGetSessionTime', () => {
     const myQueryId = 'myQueryId';
     const mySessionGetTime = dataStub.getSessionGetTime();
     // launch test
-    onGetSessionTime(zmqEmulator, myQueryId, mySessionGetTime.id);
+    onGetSessionTime(zmqEmulator, myQueryId, { sessionId: mySessionGetTime.id });
     // check data
     calls.should.be.an('array')
       .that.has.lengthOf(3);

@@ -2,11 +2,19 @@ import React, { PureComponent, PropTypes } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import classnames from 'classnames';
 import styles from './Controls.css';
+import { main } from '../ipc';
+
+const OverlayTriggerTrigger = ['hover', 'focus'];
+
+const inlineStyles = {
+  width200: {
+    width: '200px',
+  }
+};
 
 export default class ControlsRight extends PureComponent {
 
   static propTypes = {
-    play: PropTypes.func.isRequired,
     switchToNormalMode: PropTypes.func.isRequired,
     switchToRealtimeMode: PropTypes.func.isRequired,
     switchToExtensibleMode: PropTypes.func.isRequired,
@@ -16,6 +24,8 @@ export default class ControlsRight extends PureComponent {
     timebarRealTime: PropTypes.bool.isRequired,
     currentSessionExists: PropTypes.bool.isRequired,
     masterTimelineExists: PropTypes.bool.isRequired,
+    masterTimeline: PropTypes.object,
+    masterSessionId: PropTypes.number.isRequired,
   }
 
   switchMode = (e) => {
@@ -27,7 +37,9 @@ export default class ControlsRight extends PureComponent {
       switchToRealtimeMode,
       switchToExtensibleMode,
       switchToFixedMode,
-      play,
+      currentSessionExists,
+      masterTimeline,
+      masterSessionId,
     } = this.props;
 
     const mode = e.currentTarget.getAttribute('mode');
@@ -42,8 +54,20 @@ export default class ControlsRight extends PureComponent {
     } else if (mode === 'Fixed') {
       switchToFixedMode(timebarUuid);
     } else if (mode === 'Realtime') {
-      switchToRealtimeMode(timebarUuid);
-      play(timebarUuid);
+      // IPC request to get master session current time
+      let sessionId;
+      if (currentSessionExists) {
+        sessionId = masterTimeline.sessionId;
+      } else {
+        sessionId = masterSessionId;
+      }
+      main.getSessionTime(sessionId, ({ err, timestamp }) => {
+        if (err) {
+          // TODO Show message
+          return;
+        }
+        switchToRealtimeMode(timebarUuid, timestamp);
+      });
     }
   }
 
@@ -63,7 +87,7 @@ export default class ControlsRight extends PureComponent {
       disabledTooltip = (
         <Tooltip
           id="RTTooltip"
-          style={{ width: '200px' }}
+          style={inlineStyles.width200}
         >
           <b>Cannot go realtime</b><br />
           { !masterTimelineExists && 'No master timeline'}<br />
@@ -122,7 +146,7 @@ export default class ControlsRight extends PureComponent {
           </li>
           <li className={styles.controlsLi}>
             { realTimeDisabled && <OverlayTrigger
-              trigger={['hover', 'focus']}
+              trigger={OverlayTriggerTrigger}
               placement="top"
               overlay={disabledTooltip}
               container={this}

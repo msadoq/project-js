@@ -1,10 +1,10 @@
-import React, { PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import { debounce } from 'lodash';
 import moment from 'moment';
 import styles from '../Lefttab.css';
 
-export default class OffsetFields extends React.Component {
+export default class OffsetFields extends PureComponent {
   static propTypes = {
     input: PropTypes.object.isRequired,
   }

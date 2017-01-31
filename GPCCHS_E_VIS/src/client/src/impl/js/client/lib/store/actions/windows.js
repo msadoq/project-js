@@ -18,7 +18,6 @@ export const reorderPages = simple(types.WS_WINDOW_PAGE_REORDER, 'windowId', 'pa
 export const updateGeometry = simple(types.WS_WINDOW_UPDATE_GEOMETRY,
   'windowId', 'x', 'y', 'w', 'h'
 );
-export const switchDebug = simple(types.WS_WINDOW_DEBUG_SWITCH, 'windowId', 'which', 'status');
 export const setModified = simple(types.WS_WINDOW_SETMODIFIED, 'windowId', 'flag');
 export const minimize = simple(types.WS_WINDOW_MINIMIZE, 'windowId');
 export const restore = simple(types.WS_WINDOW_RESTORE, 'windowId');

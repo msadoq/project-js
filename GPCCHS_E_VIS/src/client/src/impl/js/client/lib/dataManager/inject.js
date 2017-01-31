@@ -1,11 +1,8 @@
 import _set from 'lodash/set';
 import _reduce from 'lodash/reduce';
-import executionMonitor from 'common/log/execution';
 
 import vivl from '../../VIVL/main';
 import structures from './structures';
-
-const execution = executionMonitor('data:inject');
 
 export const selectData = (viewDataState, viewDefinitions, payload, count) =>
   _reduce(viewDefinitions, (bag, view, viewId) => {
@@ -61,21 +58,16 @@ export const selectData = (viewDataState, viewDefinitions, payload, count) =>
  *  }
  */
 export default function inject(viewDataState, viewMap, payload) {
-  execution.start('global');
-
   const count = { last: 0, range: 0 };
   const data = selectData(viewDataState, viewMap, payload, count);
   if (data && Object.keys(data).length > 0) {
-    const newViewData = _reduce(
+    return _reduce(
       data,
       (newState, view, viewId) => structures(view.structureType, 'viewDataUpdate')(
         newState, viewId, view
       ),
       viewDataState
     );
-    execution.stop('global', `dataInjection (${count.last} last and ${count.range} range values)`);
-    return newViewData;
   }
-  execution.stop('global', `dataInjection (${count.last} last and ${count.range} range values)`);
   return viewDataState;
 }

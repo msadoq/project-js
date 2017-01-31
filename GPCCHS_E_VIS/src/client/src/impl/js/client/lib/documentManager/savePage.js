@@ -2,12 +2,12 @@
 import _findIndex from 'lodash/findIndex';
 import _startsWith from 'lodash/startsWith';
 import { dirname, relative } from 'path';
-import { server } from '../mainProcess/ipc';
-import parameters from 'common/parameters';
 import {
   LOG_DOCUMENT_SAVE
 } from 'common/constants';
+import parameters from 'common/parameters';
 
+import { server } from '../mainProcess/ipc';
 import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
 
@@ -24,7 +24,7 @@ import { writeDocument } from './io';
  // eslint-disable-next-line no-unused-vars
 const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) => {
   if (!state.pages[pageId]) {
-    callback('unknown page id');
+    return callback('unknown page id');
   }
   createFolder(dirname(path)).then(() => {
     const root = parameters.get('FMD_ROOT_DIR');
@@ -32,6 +32,7 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
     const jsonPage = {
       type: 'Page',
       timebarHeight: page.timebarHeight,
+      timebarCollapsed: page.timebarCollapsed,
       title: page.title,
       views: [],
     };
@@ -62,6 +63,8 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
         y: layout.y,
         w: layout.w,
         h: layout.h,
+        maxH: layout.maxH,
+        maxW: layout.maxW,
       };
       current.hideBorders = (page.hideBorders ? page.hideBorders : false);
       current.windowState = (page.windowState ? page.windowState : 'Normalized');
@@ -71,7 +74,7 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
     // save file
     writeDocument(fmdApi)(path, jsonPage, (errfs, oid) => {
       if (errfs) {
-        return callback(`Unable to save view ${page.title} in file ${path}`);
+        return callback(errfs);
       }
 
       server.sendProductLog(LOG_DOCUMENT_SAVE, 'page', path);
@@ -93,9 +96,6 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
 const savePage = fmdApi => (state, pageId, useRelativePath, callback) => {
   if (!state.pages[pageId]) {
     callback('unknown page id');
-  }
-  if (!state.pages[pageId].isModified) {
-    callback('page is not to save');
   }
   const path = state.pages[pageId].absolutePath ? state.pages[pageId].absolutePath
                                                 : state.pages[pageId].oId;

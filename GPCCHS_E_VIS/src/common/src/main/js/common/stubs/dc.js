@@ -16,6 +16,7 @@ const sendFmdGet = require('./dc/sendFmdGet');
 const sendFmdCreate = require('./dc/sendFmdCreate');
 const sendSessionTime = require('./dc/sendSessionTime');
 const sendMasterSession = require('./dc/sendMasterSession');
+const sendDcStatus = require('./dc/sendDcStatus');
 
 const monitoring = require('../log/monitoring');
 
@@ -149,6 +150,8 @@ const onHssMessage = (...args) => {
 
 function dcCall() {
   logger.verbose('dcCall call', Object.keys(subscriptions).length, queries.length);
+
+  sendDcStatus(zmq);
 
   // pub/sub
   _each(subscriptions, ({ queryId, dataId }) => {

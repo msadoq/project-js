@@ -87,6 +87,8 @@ export default class TimebarScale extends PureComponent {
     );
   }
 
+  assignEl = (el) => { this.el = el; }
+
   render() {
     const viewportMs = this.props.viewportUpper - this.props.viewportLower;
     const zoomLevel = getZoomLevel(viewportMs);
@@ -115,7 +117,7 @@ export default class TimebarScale extends PureComponent {
       >
         <div
           className={styles.timebarRule}
-          ref={(el) => { this.el = el; }}
+          ref={this.assignEl}
           style={{ left: `${startPercent}%` }}
         >
           {

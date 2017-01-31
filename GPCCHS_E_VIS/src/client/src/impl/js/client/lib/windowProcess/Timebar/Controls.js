@@ -20,6 +20,8 @@ export default class Controls extends PureComponent {
     timebarSpeed: PropTypes.number.isRequired,
     currentSessionExists: PropTypes.bool.isRequired,
     masterTimelineExists: PropTypes.bool.isRequired,
+    masterTimeline: PropTypes.object,
+    masterSessionId: PropTypes.number.isRequired,
     switchToNormalMode: PropTypes.func.isRequired,
     switchToRealtimeMode: PropTypes.func.isRequired,
     switchToExtensibleMode: PropTypes.func.isRequired,
@@ -41,6 +43,9 @@ export default class Controls extends PureComponent {
           messages={this.props.messages}
           timebarUuid={this.props.timebarUuid}
           timebarSpeed={this.props.timebarSpeed}
+          currentSessionExists={this.props.currentSessionExists}
+          masterTimeline={this.props.masterTimeline}
+          masterSessionId={this.props.masterSessionId}
         />
         <ControlsRight
           play={this.props.play}
@@ -53,6 +58,8 @@ export default class Controls extends PureComponent {
           timebarRealTime={this.props.timebarRealTime}
           currentSessionExists={this.props.currentSessionExists}
           masterTimelineExists={this.props.masterTimelineExists}
+          masterTimeline={this.props.masterTimeline}
+          masterSessionId={this.props.masterSessionId}
         />
       </div>
     );

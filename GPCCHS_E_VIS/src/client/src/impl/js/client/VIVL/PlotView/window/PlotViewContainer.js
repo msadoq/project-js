@@ -4,12 +4,10 @@ import PlotView from './PlotView';
 import { addEntryPoint } from '../../../lib/store/actions/views';
 import {
   getPlotViewData,
-  getViewEntryPoints,
 } from '../../../lib/store/selectors/views';
 
 export const PlotViewContainer = connect(
   (state, { viewId }) => ({
-    entryPoints: getViewEntryPoints(state, viewId),
     data: getPlotViewData(state, viewId),
   }), {
     addEntryPoint

@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { debounce } from 'lodash';
 import classnames from 'classnames';
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import globalConstants from 'common/constants';
 import styles from './Timebar.css';
 import Scale from './Scale';
@@ -23,7 +23,7 @@ const keys = {
   space: 32
 };
 
-export default class Timebar extends Component {
+export default class Timebar extends PureComponent {
 
   static propTypes = {
     retrieveFormattedFullDateEl: PropTypes.func.isRequired,
@@ -45,7 +45,30 @@ export default class Timebar extends Component {
     widthPx: PropTypes.number.isRequired,
   }
 
-  state = {}
+  state = {
+    dragging: false,
+    resizing: false,
+    navigating: false,
+    dragNavigating: false,
+    resizeCursor: null,
+
+    cursorOriginX: null,
+    dragOriginLower: null,
+    dragOriginUpper: null,
+    dragOriginCurrent: null,
+    dragOriginSlideLower: null,
+    dragOriginSlideUpper: null,
+    dragNavigatingOffset: null,
+
+    cursorMs: null,
+    viewportLower: null,
+    viewportUpper: null,
+    slideLower: null,
+    slideUpper: null,
+    lower: null,
+    upper: null,
+    current: null,
+  }
 
   componentDidMount() {
     document.addEventListener('keydown', this.onShortcut);
@@ -393,7 +416,6 @@ export default class Timebar extends Component {
         }
         if (cursorPosMs < current) cursorPosMs = current;
         if (cursorPosMs > viewportUpper) cursorPosMs = viewportUpper;
-        if (cursorPosMs < lower) cursorPosMs = upper + 2000;
         if (timebarMode === 'Extensible' && cursorPosMs > newSlideUpper) newSlideUpper = cursorPosMs;
         if (['Fixed', 'Normal'].includes(timebarMode) && cursorPosMs < newSlideUpper) newSlideUpper = cursorPosMs;
         this.setState({
@@ -423,26 +445,60 @@ export default class Timebar extends Component {
       Moving the current cursor
     */
     } else if (navigating) {
-      let cursorPosMs = this.state.cursorMs;
-      if (cursorPosMs < visuWindow.lower) {
-        cursorPosMs = visuWindow.lower;
-      } else if (cursorPosMs > visuWindow.upper) {
-        cursorPosMs = visuWindow.upper;
+      const cursorPosMs = this.state.cursorMs;
+      if (timebarMode === 'Normal') {
+        if (cursorPosMs < lower || cursorPosMs > upper) {
+          let diff = 0;
+          if (cursorPosMs < lower) diff = cursorPosMs - lower;
+          if (cursorPosMs > upper) diff = cursorPosMs - upper;
+          this.setState({
+            current: cursorPosMs,
+            lower: lower + diff,
+            upper: upper + diff,
+            slideLower: lower + diff,
+            slideUpper: upper + diff,
+          });
+        } else {
+          this.setState({
+            current: cursorPosMs,
+            slideLower: lower,
+            slideUpper: upper,
+          });
+        }
+      } else if (timebarMode === 'Fixed') {
+        if (cursorPosMs < slideLower || cursorPosMs > slideUpper) {
+          let diff = 0;
+          if (cursorPosMs < slideLower) diff = cursorPosMs - slideLower;
+          if (cursorPosMs > slideUpper) diff = cursorPosMs - slideUpper;
+          this.setState({
+            current: cursorPosMs,
+            lower: lower + diff,
+            upper: upper + diff,
+            slideLower: slideLower + diff,
+            slideUpper: slideUpper + diff,
+          });
+        } else {
+          this.setState({ current: cursorPosMs });
+        }
+      } else if (timebarMode === 'Extensible') {
+        if (cursorPosMs < lower || cursorPosMs > upper) {
+          let diff = 0;
+          if (cursorPosMs < lower) diff = cursorPosMs - lower;
+          if (cursorPosMs > upper) diff = cursorPosMs - upper;
+          this.setState({
+            current: cursorPosMs,
+            lower: lower + diff,
+            upper: upper + diff,
+            slideLower: lower + diff,
+            slideUpper: slideUpper + diff,
+          });
+        } else {
+          this.setState({
+            current: cursorPosMs,
+            slideLower: lower,
+          });
+        }
       }
-
-      let newSlideLower = slideLower;
-      let newSlideUpper = slideUpper;
-      if (cursorPosMs < slideLower) {
-        newSlideLower = cursorPosMs;
-      }
-      if (['Fixed', 'Normal'].includes(timebarMode) && cursorPosMs > slideUpper) {
-        newSlideUpper = cursorPosMs;
-      }
-      this.setState({
-        current: cursorPosMs,
-        slideLower: newSlideLower,
-        slideUpper: newSlideUpper,
-      });
     }
   }
 
@@ -710,7 +766,9 @@ export default class Timebar extends Component {
     return date.format('MM[-]DD HH[:]mm[:]ss.SSS');
   }
 
-  rePosition = (side) => {
+  rePosition = (e) => {
+    e.preventDefault();
+    const side = e.currenttarget.getAttribute('side');
     const {
       visuWindow,
       updateViewport,
@@ -754,36 +812,42 @@ export default class Timebar extends Component {
       The user clicked the EXT button
     */
     if (e.currentTarget.getAttribute('cursor') === 'extBound') {
-      const { lower, upper, current } = visuWindow;
-      updateCursors(
-        timebarUuid,
-        null,
-        {
-          lower: lower + ((current - lower) / 2),
-          upper: timebarMode === 'Extensible' ? upper + ((upper - lower) / 4) : upper - ((upper - current) / 2),
-        }
-      );
+      const { lower, upper } = visuWindow;
+      updateCursors(timebarUuid, null, { lower, upper });
 
     /*
       The user clicked the arrow grey button
     */
     } else {
+      const center = viewport.lower + ((viewport.upper - viewport.lower) / 2);
       const viewportWindowWidthMs = viewport.upper - viewport.lower;
-      const newLower = viewport.lower + (viewportWindowWidthMs * (5 / 12));
-      const newUpper = viewport.lower + (viewportWindowWidthMs * (7 / 12));
-      const newCurrent = (newLower + newUpper) / 2;
-      updateCursors(
-        timebarUuid,
-        {
-          lower: newLower,
-          upper: newUpper,
-          current: newCurrent,
-        },
-        {
-          lower: newLower + ((newCurrent - newLower) / 2),
-          upper: newUpper - ((newUpper - newCurrent) / 2),
-        }
-      );
+      if (['Normal', 'Fixed'].includes(timebarMode)) {
+        updateCursors(
+          timebarUuid,
+          {
+            lower: center - (viewportWindowWidthMs / 4),
+            upper: center + (viewportWindowWidthMs / 4),
+            current: center,
+          },
+          {
+            lower: center - (viewportWindowWidthMs / 6),
+            upper: center + (viewportWindowWidthMs / 6),
+          }
+        );
+      } else if (timebarMode === 'Extensible') {
+        updateCursors(
+          timebarUuid,
+          {
+            lower: center - (viewportWindowWidthMs / 4),
+            upper: center + (viewportWindowWidthMs / 4),
+            current: center,
+          },
+          {
+            lower: center - (viewportWindowWidthMs / 6),
+            upper: center + (viewportWindowWidthMs / 3),
+          }
+        );
+      }
     }
   }
 
@@ -837,6 +901,9 @@ export default class Timebar extends Component {
     };
   }
 
+  assignTimelinesEl = (el) => { this.timelinesEl = el; }
+  assignEl = (el) => { this.el = el; }
+
   render() {
     const {
       visuWindow,
@@ -870,7 +937,8 @@ export default class Timebar extends Component {
           <button
             title="Navigate to current cursor"
             className={classnames('btn', 'btn-sm', 'btn-primary', styles.arrowLeft)}
-            onClick={this.rePosition.bind(null, 'left')}
+            side="left"
+            onClick={this.rePosition}
           >←</button>
           <button
             title="Bring cursors in the viewport"
@@ -887,7 +955,8 @@ export default class Timebar extends Component {
           <button
             title="Navigate to current cursor"
             className={classnames('btn', 'btn-sm', 'btn-primary', styles.arrowRight)}
-            onClick={this.rePosition.bind(null, 'right')}
+            side="right"
+            onClick={this.rePosition}
           >→</button>
           <button
             title="Bring cursors in the viewport"
@@ -943,7 +1012,7 @@ export default class Timebar extends Component {
     return (
       <div
         className={styles.viewportWrapper}
-        ref={(el) => { this.el = el; }}
+        ref={this.assignEl}
         onMouseMove={this.updateCursorTime}
         onMouseLeave={this.hideCursorTime}
       >
@@ -1137,7 +1206,7 @@ export default class Timebar extends Component {
               Timeline list in the background
           */ }
           <div
-            ref={(el) => { this.timelinesEl = el; }}
+            ref={this.assignTimelinesEl}
             className={styles.timelines}
             onScroll={this.props.onVerticalScroll}
           >

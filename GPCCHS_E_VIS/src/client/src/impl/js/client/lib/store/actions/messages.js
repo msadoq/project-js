@@ -7,7 +7,12 @@ export const add = simple(
   types.WS_MESSAGE_ADD,
   'containerId', // global, view or page id
   'type', // success, warning, danger, info
-  'message'
+  (param) => {
+    if (param instanceof Error) {
+      return { message: param.message };
+    }
+    return { message: param };
+  },
 );
 export const remove = simple(
   types.WS_MESSAGE_REMOVE,

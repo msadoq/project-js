@@ -8,6 +8,7 @@ describe('data/map/lastValue', () => {
       val1: { type: 'uinteger', value: (j * 10) + 1 },
       val2: { type: 'uinteger', value: (j * 10) + 2 },
       val3: { type: 'uinteger', value: (j * 10) + 3 },
+      val4: { type: 'enum', value: j - 10, symbol: 'val'.concat(j - 10) },
       referenceTimestamp: { type: 'time', value: j },
       time: { type: 'time', value: j + 0.2 },
       monitoringState: { type: 'uinteger', value: 'ok' },
@@ -24,6 +25,12 @@ describe('data/map/lastValue', () => {
           remoteId: 'rId1',
           field: 'val3',
           expectedInterval: [10, 20],
+          offset: 0,
+        },
+        ep7: {
+          remoteId: 'rId2',
+          field: 'val4',
+          expectedInterval: [10, 13],
           offset: 0,
         }
       }
@@ -94,6 +101,8 @@ describe('data/map/lastValue', () => {
       const newState = lastValue({}, payload, 'text1', viewDataMap.text1.entryPoints, count, 'TextView');
       newState.index.ep4.should.equal(20);
       newState.values.ep4.should.eql({ value: 203, monit: 'ok' });
+      newState.index.ep7.should.equal(13);
+      newState.values.ep7.should.eql({ value: 'val3', monit: 'ok' });
       newState.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
     });
     it('state undefined', () => {
@@ -101,6 +110,8 @@ describe('data/map/lastValue', () => {
       const newState = lastValue(undefined, payload, 'text1', viewDataMap.text1.entryPoints, count, 'TextView');
       newState.index.ep4.should.equal(20);
       newState.values.ep4.should.eql({ value: 203, monit: 'ok' });
+      newState.index.ep7.should.equal(13);
+      newState.values.ep7.should.eql({ value: 'val3', monit: 'ok' });
       newState.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
     });
     it('multiple entry points', () => {
@@ -120,6 +131,7 @@ describe('data/map/lastValue', () => {
         val1: { type: 'uinteger', value: 201 },
         val2: { type: 'uinteger', value: 202 },
         val3: { type: 'uinteger', value: 203 },
+        val4: { type: 'enum', value: 10, symbol: 'val10' },
         referenceTimestamp: { type: 'time', value: 20 },
         time: { type: 'time', value: 20.2 },
         monitoringState: { type: 'uinteger', value: 'ok' } });

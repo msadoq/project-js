@@ -2,12 +2,9 @@ import _each from 'lodash/each';
 import _map from 'lodash/map';
 import { v4 } from 'node-uuid';
 import getLogger from 'common/log';
-import { server } from './ipc';
-import parameters from 'common/parameters';
-import {
-  LOG_DOCUMENT_OPEN
-} from 'common/constants';
+import { LOG_DOCUMENT_OPEN } from 'common/constants';
 
+import { server } from './ipc';
 import { readWorkspace } from '../common/documentManager';
 import { add as addTimeline } from '../store/actions/timelines';
 import { add as addTimebar } from '../store/actions/timebars';
@@ -52,11 +49,16 @@ export function loadInStore(workspace, dispatch, root, file, callback, isDefault
         y: v.geometry.y,
         w: v.geometry.w,
         h: v.geometry.h,
+        maxH: v.geometry.maxH || 100,
+        maxW: v.geometry.maxW || 100,
       })),
       e.path,
       e.oId,
       e.absolutePath,
-      isDefault
+      false,
+      e.properties,
+      e.timebarHeight,
+      e.timebarCollapsed
     ));
   });
 
@@ -81,23 +83,7 @@ export function loadInStore(workspace, dispatch, root, file, callback, isDefault
   }
 }
 
-/**
- * Open 'file' relative to 'root' folder, 'dispatch' corresponding actions and call 'callback'
- *
- * @param dispatch
- * @param getState
- * @param callback
- */
-export default function openWorkspace(dispatch, getState, callback) {
-  const root = parameters.get('FMD_ROOT_DIR');
-  if (parameters.get('OPEN')) {
-    const file = parameters.get('OPEN');
-    return readWkFile(dispatch, getState, root, file, callback);
-  }
-  return openDefaultWorkspace(dispatch, root, callback);
-}
-
-export function readWkFile(dispatch, getState, root, file, callback) {
+export function openWorkspaceDocument(dispatch, getState, root, file, callback) {
   // we receive a file to open from the command line
   readWorkspace(root, file, (err, workspace) => {
     if (err) {
@@ -126,7 +112,7 @@ export function readWkFile(dispatch, getState, root, file, callback) {
   });
 }
 
-export function openDefaultWorkspace(dispatch, root, callback) {
+const createBlankWorkspace = () => {
   const wsUuid = v4();
   const tbUuid = v4();
   const pgUuid = v4();
@@ -173,8 +159,10 @@ export function openDefaultWorkspace(dispatch, root, callback) {
     timebars: { [tbUuid]: Object.assign(timebar, { uuid: tbUuid }) },
     pages: { [pgUuid]: Object.assign(page, { uuid: pgUuid }) },
   };
+  return workspace;
+};
 
+export function openDefaultWorkspace(dispatch, root, callback) {
   server.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', 'new workspace');
-
-  loadInStore(workspace, dispatch, root, undefined, callback, true);
+  loadInStore(createBlankWorkspace(), dispatch, root, undefined, callback, true);
 }

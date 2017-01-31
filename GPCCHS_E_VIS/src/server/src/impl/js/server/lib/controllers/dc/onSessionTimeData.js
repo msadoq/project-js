@@ -14,6 +14,5 @@ module.exports = (reply, queryIdBuffer, buffer) => {
 
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
   logger.debug('decoded queryId', queryId);
-
-  reply(queryId, { timestamp: decode('dc.dataControllerUtils.Timestamp', buffer) });
+  reply(queryId, { timestamp: decode('dc.dataControllerUtils.Timestamp', buffer).ms });
 };

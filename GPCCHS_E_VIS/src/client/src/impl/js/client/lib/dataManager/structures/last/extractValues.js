@@ -39,6 +39,8 @@ export function select(remoteIdPayload, ep, epName, viewSubState, viewType) {
         let val;
         if (type === 'time') {
           val = moment(_get(p, [ep.field, 'value'])).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS');
+        } else if (type === 'enum') {
+          val = _get(p, [ep.field, 'symbol']);
         } else {
           val = _get(p, [ep.field, 'value']);
         }

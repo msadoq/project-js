@@ -1,6 +1,7 @@
 import { exec } from 'child_process';
 
-import { should, getTmpPath, freezeMe, applyDependencyToApi } from '../common/test';
+import { should, getTmpPath, freezeMe } from '../common/test';
+import { applyDependencyToApi } from '../common/utils';
 
 import validation from './validation';
 import fmdApi from '../common/fmd';

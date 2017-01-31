@@ -1,0 +1,11 @@
+package dataControllerUtils.protobuf;
+
+message DcStatus {
+extensions 2 to 102;
+    enum DC_STATUS {
+     HEALTHY = 0;
+     CONGESTION = 1;
+    }
+
+    required DC_STATUS status = 1;
+}

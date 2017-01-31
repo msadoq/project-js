@@ -4,11 +4,12 @@ import _cloneDeep from 'lodash/cloneDeep';
 import _omit from 'lodash/omit';
 import _values from 'lodash/values';
 import _each from 'lodash/each';
-import { server } from '../mainProcess/ipc';
 import {
   DATASTRUCTURETYPE_RANGE,
   LOG_DOCUMENT_SAVE
 } from 'common/constants';
+
+import { server } from '../mainProcess/ipc';
 
 import vivl from '../../VIVL/main';
 import { createFolder } from '../common/fs';
@@ -50,7 +51,7 @@ const saveViewAs = fmdApi => (viewConfiguration, viewType, path, callback) => {
 
     writeDocument(fmdApi)(path, view, (errWrite, oId) => {
       if (errWrite) {
-        return callback(`Unable to save view ${view.title} in file ${path}`);
+        return callback(errWrite);
       }
       server.sendProductLog(LOG_DOCUMENT_SAVE, 'view', path);
       return callback(null, oId);
@@ -70,9 +71,6 @@ const saveViewAs = fmdApi => (viewConfiguration, viewType, path, callback) => {
 const saveView = fmdApi => (state, viewId, callback) => {
   if (!state.views[viewId]) {
     return callback('Unknown view id');
-  }
-  if (!state.views[viewId].isModified) {
-    return callback(null);
   }
   const absPath = state.views[viewId].absolutePath ? state.views[viewId].absolutePath
                                                    : state.views[viewId].oId;

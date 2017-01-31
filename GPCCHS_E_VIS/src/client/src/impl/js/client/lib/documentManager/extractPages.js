@@ -7,6 +7,7 @@ import update from 'lodash/fp/update';
 
 import isNil from 'lodash/fp/isNil';
 import compose from 'lodash/fp/compose';
+import join from 'lodash/fp/join';
 import flatten from 'lodash/fp/flatten';
 import assoc from 'lodash/fp/assoc';
 import prop from 'lodash/fp/prop';
@@ -20,23 +21,27 @@ import fs from '../common/fs';
 import validation from './validation';
 import { readDocument } from './io';
 
+const formattedValidation = compose(join('\n'), validation);
+
 const readPages = fmdApi => (folder, pagesToRead, done) => {
   async.map(pagesToRead, (page, next) => {
-    readDocument(fmdApi)(folder, page.path, page.oId, page.absolutePath, (err, pageContent) => {
-      if (err) {
-        return next(err);
-      }
-      const validationError = validation('page', pageContent);
-      if (validationError) {
-        return next(validationError);
-      }
+    readDocument(fmdApi)(folder, page.path, page.oId, page.absolutePath,
+      (err, pageContent, properties) => {
+        if (err) {
+          return next(err);
+        }
+        const validationError = formattedValidation('page', pageContent);
+        if (validationError) {
+          return next(validationError);
+        }
 
-      return next(null, {
-        ...pageContent,
-        ...page,
-        absolutePath: fs.getPath(),
+        return next(null, {
+          ...pageContent,
+          ...page,
+          absolutePath: fs.getPath(),
+          properties, // Table with document props from FMD
+        });
       });
-    });
   }, (err, pages = []) => done(err, reject(isNil, pages)));
 };
 

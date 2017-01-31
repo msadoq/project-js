@@ -1,5 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import moment from 'moment';
+import _memoize from 'lodash/memoize';
 import styles from './Lefttab.css';
 
 export default class Timeline extends PureComponent {
@@ -46,10 +47,14 @@ export default class Timeline extends PureComponent {
     return `${neg ? '- ' : '+ '}${fi(h)}:${fi(m)}:${fi(s)}.${fi(ms, 3)}`;
   }
 
+  willEditTimeline = _memoize(
+    (timelineId, id) => () => this.props.willEditTimeline(timelineId, id),
+    (...args) => JSON.stringify(args)
+  );
+
   render() {
     const {
       color,
-      willEditTimeline,
       timelineId,
       id,
       masterId,
@@ -87,7 +92,7 @@ export default class Timeline extends PureComponent {
       <li
         className={styles.timeline}
         title="Click to edit track"
-        onClick={willEditTimeline.bind(null, timelineId, id)}
+        onClick={this.willEditTimeline(timelineId, id)}
       >
         { isMaster ? <span className={styles.master} title="Master timeline">M</span> : null}
         <span

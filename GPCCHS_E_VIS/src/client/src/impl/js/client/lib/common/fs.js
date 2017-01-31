@@ -111,7 +111,6 @@ const self = module.exports = {
   createFolder: folder => new Promise((resolve, reject) => {
     fs.access(folder, fs.constants.F_OK, (noAccess) => {
       if (noAccess) {
-        // TODO check if folder is on FMD
         mkdirp(folder, (err) => {
           if (err) {
             reject(new Error(`Unable to create folder ${folder} : ${err}`));

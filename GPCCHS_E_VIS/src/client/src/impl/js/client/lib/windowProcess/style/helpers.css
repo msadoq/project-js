@@ -15,6 +15,17 @@
   flex: 1;
 }
 
+.posRelative{
+  position: relative;
+}
+.posAbsolute{
+  position: absolute;
+}
+
+.z100{
+  z-index: 100;
+}
+
 .h100{
   height: 100%;
 }

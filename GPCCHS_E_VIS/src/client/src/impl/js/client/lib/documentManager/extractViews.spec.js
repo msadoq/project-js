@@ -1,11 +1,11 @@
-// <<<<<<< Updated upstream
 import { v4 } from 'node-uuid';
 import _ from 'lodash';
 import { compose, prop, split } from 'lodash/fp';
 import path from 'path';
 import fmdApi from '../common/fmd';
 import ExtractViews from './extractViews';
-import { should, applyDependencyToApi } from '../common/test';
+import { should } from '../common/test';
+import { applyDependencyToApi } from '../common/utils';
 
 
 const getPathFromOid = compose(prop(1), split(':'));

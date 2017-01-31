@@ -5,10 +5,6 @@
   overflow: hidden;
 }
 
-.navbar{
-  margin: 0;
-}
-
 .content{
   padding: 10px 5px;
   display: flex;
@@ -17,47 +13,19 @@
   position: relative;
 }
 
-.box {
-  width: 400px;
+.tools {
+  padding: 5px;
+}
+.grid{
   height: 100%;
-  min-height: 100%;
-  margin: 30vh auto 0 auto;
-  text-align: center;
-  font-size: 5rem;
-  font-weight: bolder;
-  text-transform: uppercase;
-  color: rgba(0, 0, 0, .1);
+  margin-left: 10px;
+  margin-right: 10px;
+  overflow-y: auto;
+  width: 100%;
+  flex: 1;
 }
-
-.message {
-  font-size: 2.5rem;
-}
-
-.globalMessages{
-}
-
-.badge{
-  width: auto;
-  min-width: 30px;
-  user-select: none;
-  height:30px;
-  line-height: 25px;
-  border-radius: 4px;
-  margin-left: 5px;
-  cursor: pointer;
-  &:hover {
-    filter: brightness(0.9);
-  }
-  &.all {
-    width:40px;
-    background: #fff;
-    color: #333;
-    border: 1px solid #ddd;
-  }
-  &.collapse {
-    width:80px;
-  }
-  &.active {
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4) inset;
-  }
+.div{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }

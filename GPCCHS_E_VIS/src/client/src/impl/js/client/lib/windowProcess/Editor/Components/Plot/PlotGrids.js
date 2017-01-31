@@ -13,10 +13,12 @@ export default class PlotAxes extends React.Component {
   openPanel = key => this.setState({ [`isPanel${key}Open`]: true });
   closePanel = key => this.setState({ [`isPanel${key}Open`]: false });
 
-  handleSubmit = (key, values) => {
+  handleSubmit(key, values) {
     const { updateGrid, viewId } = this.props;
     updateGrid(viewId, key, values);
   }
+
+  handleSubmit = this.handleSubmit.bind(this, 0)
 
   render() {
     const {
@@ -29,7 +31,7 @@ export default class PlotAxes extends React.Component {
       <PlotGrid
         axes={axes}
         initialValues={grids[0]}
-        onSubmit={this.handleSubmit.bind(this, 0)}
+        onSubmit={this.handleSubmit}
         form={`grid-form-${0}-${viewId}`}
       />
     );

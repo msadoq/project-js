@@ -2,7 +2,8 @@ import { exec } from 'child_process';
 import { join } from 'path';
 
 import mimeTypes from 'common/constants/mimeTypes';
-import { should, getTmpPath, freezeMe, applyDependencyToApi } from '../common/test';
+import { should, getTmpPath, freezeMe, } from '../common/test';
+import { applyDependencyToApi } from '../common/utils';
 
 import SaveWorkspace from './saveWorkspace';
 import fmdApi from '../common/fmd';

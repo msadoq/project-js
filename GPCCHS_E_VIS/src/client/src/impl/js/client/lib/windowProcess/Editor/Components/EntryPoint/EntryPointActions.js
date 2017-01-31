@@ -1,9 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Glyphicon, FormGroup, InputGroup, FormControl, Button, Col } from 'react-bootstrap';
 import Modal from '../../../common/Modal';
-import {
-  EntryPointName
-} from './';
+import EntryPointName from './EntryPointName';
 
 const { Addon } = InputGroup;
 

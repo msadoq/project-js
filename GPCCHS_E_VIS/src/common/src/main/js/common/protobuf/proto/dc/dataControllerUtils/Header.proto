@@ -22,6 +22,7 @@ extensions 2 to 102;
         FMD_CREATE_DATA = 17;
         SESSION_MASTER_DATA = 18;
         SESSION_MASTER_QUERY = 19;
+        DC_STATUS = 20;
       }
 
     required MESSAGE_TYPE messageType = 1;

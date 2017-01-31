@@ -14,17 +14,9 @@ import {
   remove as removeTimeline,
   update as updateTL,
 } from './timelines';
-import { pause } from './hsc';
-import {
-  getTimebar,
-  getMasterTimelineById,
-} from '../selectors/timebars';
-import {
-  getPlayingTimebarId
-} from '../selectors/hsc';
-import {
-  getSession,
-} from '../selectors/sessions';
+import { pause, play } from './hsc';
+import { getTimebar } from '../selectors/timebars';
+import { getPlayingTimebarId } from '../selectors/hsc';
 
 /**
  * Simple actions
@@ -198,27 +190,18 @@ export function jump(timebarUuid, offsetMs) {
   };
 }
 
-export function goNow(timebarUuid) {
+export function goNow(timebarUuid, masterSessionIdCurrentTime) {
   return (dispatch, getState) => {
     const state = getState();
     const timebar = getTimebar(state, timebarUuid);
     if (timebar.realTime) {
       dispatch(setRealTime(timebarUuid, false));
     }
-    const masterTimeline = getMasterTimelineById(state, timebarUuid);
-    if (!masterTimeline) {
-      return;
-    }
-    const currentSession = getSession(state, masterTimeline.sessionId);
-    if (!currentSession) {
-      return;
-    }
     const vw = timebar.visuWindow;
     const msWidth = vw.upper - vw.lower;
-    const realTimeMs = Date.now() + currentSession.offsetWithmachineTime;
-    const newLower = realTimeMs -
+    const newLower = masterSessionIdCurrentTime -
       ((1 - globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN) * msWidth);
-    const newUpper = realTimeMs +
+    const newUpper = masterSessionIdCurrentTime +
       (globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN * msWidth);
     dispatch(
       updateCursors(
@@ -226,7 +209,7 @@ export function goNow(timebarUuid) {
         {
           lower: newLower,
           upper: newUpper,
-          current: realTimeMs,
+          current: masterSessionIdCurrentTime,
         },
         {
           lower: newLower,
@@ -263,7 +246,7 @@ export function switchToNormalMode(timebarUuid) {
   };
 }
 
-export function switchToRealtimeMode(timebarUuid) {
+export function switchToRealtimeMode(timebarUuid, masterSessionIdCurrentTime) {
   return (dispatch, getState) => {
     dispatch(setRealTime(timebarUuid, true));
     const state = getState();
@@ -287,15 +270,10 @@ export function switchToRealtimeMode(timebarUuid) {
       });
     }
     const { visuWindow } = timebar;
-    const masterTimeline = getMasterTimelineById(state, timebarUuid);
-    const currentSession = getSession(state, masterTimeline.sessionId);
-    const sessionOffset = currentSession ? currentSession.offsetWithmachineTime : 0;
-
     const msWidth = visuWindow.upper - visuWindow.lower;
-    const realTimeMs = Date.now() + sessionOffset;
-    const newLower = realTimeMs -
+    const newLower = masterSessionIdCurrentTime -
       ((1 - globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN) * msWidth);
-    const newUpper = realTimeMs +
+    const newUpper = masterSessionIdCurrentTime +
       (globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN * msWidth);
     dispatch(
       updateCursors(
@@ -303,7 +281,7 @@ export function switchToRealtimeMode(timebarUuid) {
         {
           lower: newLower,
           upper: newUpper,
-          current: realTimeMs,
+          current: masterSessionIdCurrentTime,
         },
         {
           lower: newLower,
@@ -311,6 +289,7 @@ export function switchToRealtimeMode(timebarUuid) {
         },
       )
     );
+    dispatch(play(timebarUuid));
   };
 }
 

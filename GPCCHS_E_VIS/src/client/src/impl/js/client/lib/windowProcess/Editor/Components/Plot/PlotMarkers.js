@@ -3,6 +3,7 @@ import {
   Accordion,
   Panel
 } from 'react-bootstrap';
+import _memoize from 'lodash/memoize';
 import { formValueSelector } from 'redux-form';
 import PlotMarker from './PlotMarker';
 
@@ -25,16 +26,18 @@ export default class PlotMarkers extends React.Component {
     isMarkersOpen: false
   };
 
-  openPanel = key => this.setState({ [`isPanel${key}Open`]: true });
-  closePanel = key => this.setState({ [`isPanel${key}Open`]: false });
+  openPanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: true }));
+  closePanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: false }));
 
   openMarkers = () => this.setState({ isMarkersOpen: true });
   closeMarkers = () => this.setState({ isMarkersOpen: false });
 
-  handleSubmit = (key, values) => {
+  handleSubmit(key, values) {
     const { updateMarker, viewId } = this.props;
     updateMarker(viewId, key, values);
   }
+
+  handleSubmit = _memoize(key => (fn => fn(key))(this.handleSubmit.bind(this)));
 
   openParentAccordion = (key, e) => {
     const {
@@ -78,8 +81,8 @@ export default class PlotMarkers extends React.Component {
               header={marker.label}
               eventKey={key}
               expanded={this.state[`isPanel${key}Open`]}
-              onSelect={this.openPanel.bind(key)}
-              onExited={this.closePanel.bind(key)}
+              onSelect={this.openPanel(key)}
+              onExited={this.closePanel(key)}
             >
               {this.state[`isPanel${key}Open`] &&
                 <PlotMarker
@@ -89,7 +92,7 @@ export default class PlotMarkers extends React.Component {
                   initialValues={marker}
                   formName={`axis-form-${key}-${viewId}`}
                   selector={formValueSelector(`axis-form-${key}-${viewId}`)}
-                  onSubmit={this.handleSubmit.bind(this, key)}
+                  onSubmit={this.handleSubmit(key)}
                   form={`axis-form-${key}-${viewId}`}
                 />}
             </Panel>)}

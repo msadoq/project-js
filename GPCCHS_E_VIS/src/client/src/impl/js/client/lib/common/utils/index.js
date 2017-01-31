@@ -1,1 +1,1 @@
-export * from './applyDependencyToApi';
+export applyDependencyToApi from './applyDependencyToApi';

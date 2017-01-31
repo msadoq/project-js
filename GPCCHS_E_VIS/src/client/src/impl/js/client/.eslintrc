@@ -1,5 +1,8 @@
 {
-  "extends": "airbnb",
+  "extends": [
+    "airbnb",
+    "plugin:react-perf/recommended"
+  ],
   "parser": "babel-eslint",
   "env": {
     "browser": true,
@@ -24,7 +27,10 @@
     "comma-dangle": 0,
     "no-use-before-define": 0,
     "import/no-unresolved": [2, { "ignore": ["electron", "common"] }],
-    "react/jsx-no-bind": 0,
+    "react/jsx-no-bind": ["warn"],
+    "react-perf/jsx-no-new-array-as-prop": ["warn"],
+    "react-perf/jsx-no-new-object-as-prop": ["warn"],
+    "react-perf/jsx-no-new-function-as-prop": ["warn"],
     "jsx-a11y/no-static-element-interactions": 0,
     "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx"] }],
     "react/prefer-stateless-function": 0,
@@ -34,7 +40,8 @@
   },
   "plugins": [
     "import",
-    "react"
+    "react",
+    "react-perf"
   ],
   "settings": {
     "import/resolver": {

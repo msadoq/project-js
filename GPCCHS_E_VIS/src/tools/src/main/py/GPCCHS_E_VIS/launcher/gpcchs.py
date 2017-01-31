@@ -169,7 +169,7 @@ class GPCCHS(object):
         self._gpccdc_created = False
         self._gpccdc_started = False
         self._gpccdc_config_file = options.gpccdc_config_file
-        self._fmd_root = os.environ['FMD_ROOT_DIR'] + '/'
+        self._fmd_root = os.environ['ISIS_DOCUMENT_DIR'] + '/'
         user = os.environ["USER"]
         hostname = os.environ["HOSTNAME"]
         display = os.environ["DISPLAY"]

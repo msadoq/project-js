@@ -59,7 +59,7 @@ class GPCCHS(object):
     _gpccdc_feature_name = 'gpccdc_d_dbr-default.xml'
     _gpccdc_conf_filename = 'config_gpccdc_d_dbr-default.xml'
     _gpccdc_url = 'tcp://127.0.0.1:{}'
-    _container_pid_file = '{}gpinde-isis-desktopx.demo-:0-container.pid'
+    _container_pid_file_basename = '{}gpinde-{}-{}-{}-container.pid'
 
     _startContainerCmd = 'gpcctc_l_cnt_isisStartContainer_cmd -p {0} --cd {1}{0}'
     _hscPath = '/usr/share/isis/lib/js/gpcchs_e_vis_launcher/client'
@@ -170,6 +170,10 @@ class GPCCHS(object):
         self._gpccdc_started = False
         self._gpccdc_config_file = options.gpccdc_config_file
         self._fmd_root = os.environ['FMD_ROOT_DIR'] + '/'
+        user = os.environ["USER"]
+        hostname = os.environ["HOSTNAME"]
+        display = os.environ["DISPLAY"]
+        self._container_pid_file = self._container_pid_file_basename.format("{}",user, hostname, display)
         self._feature_conf = self._ISIS_WORK_DIR + self._gpccdc_conf_filename
         self._hsc_args = unknown_args
         self._debug = options.debug

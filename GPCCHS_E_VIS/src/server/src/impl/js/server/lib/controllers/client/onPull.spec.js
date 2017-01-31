@@ -41,7 +41,7 @@ describe('controllers/client/onPull', () => {
     wsArgs[1].should.be.an('object').that.deep.equals({
       dcStatus: globalConstants.DC_STATUS_CONGESTION,
       lastPubSubTimestamp: 42,
-      hssStatus: true,
+      hssStatus: globalConstants.DC_STATUS_HEALTHY,
       data: {
         [myRemoteId]: {
           [myQueryId]: myValue,

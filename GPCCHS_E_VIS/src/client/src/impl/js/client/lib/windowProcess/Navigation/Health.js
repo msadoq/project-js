@@ -15,7 +15,7 @@ export default class Health extends Component {
   static propTypes = {
     lastPubSubTimestamp: PropTypes.number,
     dcStatus: PropTypes.number,
-    hssStatus: PropTypes.bool,
+    hssStatus: PropTypes.number,
   };
 
   render() {
@@ -26,9 +26,19 @@ export default class Health extends Component {
       ? classnames(styles.bull, styles.alert)
       : classnames(styles.bull, styles.healthy);
 
-    const hssStyle = hssStatus === false
-      ? classnames(styles.bull, styles.alert)
-      : classnames(styles.bull, styles.healthy);
+    let hssStyle;
+    switch (hssStatus) {
+      case globalConstants.HSS_STATUS_HEALTHY:
+        hssStyle = classnames(styles.bull, styles.healthy);
+        break;
+      case globalConstants.HSS_STATUS_WARNING:
+        hssStyle = classnames(styles.bull, styles.warning);
+        break;
+      case globalConstants.HSS_STATUS_ERROR:
+      default:
+        hssStyle = classnames(styles.bull, styles.alert);
+        break;
+    }
 
     const pubSubStyle = lastPubSubTimestamp
       ? classnames(styles.bull, styles.healthy)

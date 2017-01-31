@@ -16,7 +16,7 @@ import { getFocusedWindowId } from '../selectors/hsc';
  * Simple actions
  */
 export const add = simple(types.WS_PAGE_ADD, 'pageId', 'timebarUuid', 'title', 'views', 'layout',
-  'path', 'oId', 'absolutePath', 'isModified', 'properties');
+  'path', 'oId', 'absolutePath', 'isModified', 'properties', 'timebarHeight', 'timebarCollapsed');
 export const removePage = simple(types.WS_PAGE_REMOVE, 'pageId');
 export const mountView = simple(types.WS_PAGE_VIEW_MOUNT, 'pageId', 'viewId', 'layout');
 export const unmountView = simple(types.WS_PAGE_VIEW_UNMOUNT, 'pageId', 'viewId');
@@ -24,7 +24,7 @@ export const openEditor = simple(types.WS_PAGE_EDITOR_OPEN,
   'pageId', 'viewId', 'viewType', 'configuration');
 export const closeEditor = simple(types.WS_PAGE_EDITOR_CLOSE, 'pageId');
 export const updateLayoutSimple = simple(types.WS_PAGE_UPDATE_LAYOUT, 'pageId', 'layout');
-
+export const collapseTimebar = simple(types.WS_PAGE_TIMEBAR_COLLAPSE, 'pageId', 'flag');
 export const setPageOid = simple(types.WS_PAGE_SET_OID, 'pageId', 'oid');
 
 export const updateLayout = (pageId, layout) =>

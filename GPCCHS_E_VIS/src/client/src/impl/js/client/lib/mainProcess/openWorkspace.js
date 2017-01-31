@@ -56,7 +56,9 @@ export function loadInStore(workspace, dispatch, root, file, callback, isDefault
       e.oId,
       e.absolutePath,
       false,
-      e.properties
+      e.properties,
+      e.timebarHeight,
+      e.timebarCollapsed
     ));
   });
 

@@ -16,6 +16,27 @@
   border-radius: 1px;
   height: 22px;
   z-index: 3;
+  background: #b55;
+  border: 1px solid #855;
+  &:hover, &:focus{
+    background: #955;
+    border: 1px solid #855;
+  }
+}
+.btnCollapse{
+  position: absolute;
+  left: 34px;
+  top: 0px;
+  padding: 2px 8px;
+  border-radius: 1px;
+  height: 22px;
+  z-index: 3;
+  background: #B95;
+  border: 1px solid #A85;
+  &:hover, &:focus{
+    background: #A95;
+    border: 1px solid #A95;
+  }
 }
 .offset{
   position: absolute;

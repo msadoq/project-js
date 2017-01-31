@@ -1,6 +1,7 @@
 {
   "type": "Page",
   "timebarHeight": 135,
+  "timebarCollapsed": false,
   "title": "Local page",
   "views": [
     {

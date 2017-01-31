@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { updateTimebarHeight } from '../../store/actions/pages';
+import { updateTimebarHeight, collapseTimebar } from '../../store/actions/pages';
 import { getTimebarTimelinesSelector } from '../../store/selectors/timebars';
 import { getPlayingTimebarId } from '../../store/selectors/hsc';
 import TimebarWrapper from './TimebarWrapper';
@@ -19,5 +19,6 @@ export default connect(
     };
   }, {
     updateTimebarHeight,
+    collapseTimebar,
   }
 )(TimebarWrapper);

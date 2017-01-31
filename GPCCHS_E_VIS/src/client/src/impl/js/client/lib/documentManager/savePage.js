@@ -32,6 +32,7 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
     const jsonPage = {
       type: 'Page',
       timebarHeight: page.timebarHeight,
+      timebarCollapsed: page.timebarCollapsed,
       title: page.title,
       views: [],
     };

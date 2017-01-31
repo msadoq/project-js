@@ -14,6 +14,7 @@ export default function pages(statePages = {}, action) {
     case types.WS_PAGE_EDITOR_CLOSE:
     case types.WS_PAGE_VIEW_MOUNT:
     case types.WS_PAGE_VIEW_UNMOUNT:
+    case types.WS_PAGE_TIMEBAR_COLLAPSE:
     case types.WS_PAGE_UPDATE_LAYOUT:
       return Object.assign({}, statePages, {
         [action.payload.pageId]: page(statePages[action.payload.pageId], action)
@@ -95,6 +96,7 @@ export default function pages(statePages = {}, action) {
 const initialState = {
   title: 'Unknown',
   timebarHeight: 135,
+  timebarCollapsed: false,
   timebarUuid: null,
   layout: [],
   views: [],
@@ -114,6 +116,7 @@ function page(statePage = initialState, action) {
         title: action.payload.title || statePage.title,
         timebarUuid: action.payload.timebarUuid || statePage.timebarUuid,
         timebarHeight: action.payload.timebarHeight || statePage.timebarHeight,
+        timebarCollapsed: action.payload.timebarCollapsed || statePage.timebarCollapsed,
         layout: action.payload.layout || statePage.layout,
         views: action.payload.views || statePage.views,
         path: action.payload.path,
@@ -157,6 +160,13 @@ function page(statePage = initialState, action) {
         layout: action.payload.layout,
         isModified: true
       });
+    }
+    case types.WS_PAGE_TIMEBAR_COLLAPSE: {
+      return {
+        ...statePage,
+        timebarCollapsed: action.payload.flag,
+        isModified: true,
+      };
     }
     default:
       return statePage;

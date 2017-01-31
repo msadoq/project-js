@@ -1,7 +1,8 @@
 {
   "type": "Page",
   "hideBorders": false,
-  "timebarHeight": null,
+  "timebarHeight": 140,
+  "timebarCollapsed": false,
   "title": "page Large workspace 1",
   "views": [
     {

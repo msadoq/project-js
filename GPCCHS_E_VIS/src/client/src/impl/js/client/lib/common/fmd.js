@@ -9,7 +9,7 @@ import ipc from '../mainProcess/ipc';
 import { checkPath } from './fs';
 
 const getRootDir = () => parameters.get('FMD_ROOT_DIR');
-const isFmd = path => startsWith(getRootDir(), path);
+const isInFmd = path => startsWith(getRootDir(), path);
 const getRelativeFmdPath = path => `/${relative(getRootDir(), path)}`;
 
 // TODO garm: write tests
@@ -50,7 +50,7 @@ const createDocument = ipcApi => (path, documentType, callback) => {
 
 const createFmdApi = (dep = ipc) => ({
   getRootDir,
-  isFmd,
+  isInFmd,
   getRelativeFmdPath,
   createDocument: createDocument(dep),
   resolveDocument: resolveDocument(dep),

@@ -30,7 +30,7 @@ export const readDocument = fmdApi => (folder, relativePath, oId, absolutePath, 
 export const writeDocument = fmdApi => (path, json, callback) => {
   const spaces = 2; // beautify json with 2 spaces indentations
   const data = JSON.stringify(json, null, spaces);
-  if (fmdApi.isFmd(path)) {
+  if (fmdApi.isInFmd(path)) {
     return fmdApi.createDocument(path, json.type, (err, oid) => {
       if (err) {
         return callback(err);

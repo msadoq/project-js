@@ -6,9 +6,9 @@ import { addOnce as addMessage } from '../../../store/actions/messages';
 import { getPathByFilePicker } from '../../dialog';
 import { saveViewAs } from '../../../common/documentManager';
 
-import { getRootDir, isFmd, getRelativeFmdPath } from '../../../common/fmd';
+import { getRootDir, isInFmd, getRelativeFmdPath } from '../../../common/fmd';
 
-const getPath = path => (isFmd(path) ? getRelativeFmdPath(path) : path);
+const getPath = path => (isInFmd(path) ? getRelativeFmdPath(path) : path);
 
 const root = getRootDir();
 const addViewError = (viewId, msg) => addMessage(viewId, 'danger', msg);

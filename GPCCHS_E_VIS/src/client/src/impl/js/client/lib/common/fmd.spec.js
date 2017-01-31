@@ -6,25 +6,24 @@ import {
 } from './fmd';
 import { expect, sinon, nextTick } from './test';
 
-const getIpcApi = (err = null) => ({
-  server: {
-    requestFmdCreate: sinon.spy((folder, fileName, mimeType, cb) => cb({
-      err,
-      serializedOid: 4242,
-    })),
-    requestFmdGet: sinon.spy((oId, cb) => cb({
-      err,
-      type: globalConstants.FMDFILETYPE_DOCUMENT,
-      detail: {
-        dirname: { value: 'a/b/c' },
-        basename: { value: 'document.json' },
-        properties: true,
-      },
-    })),
-  },
-});
-
-describe('common/fmd', () => {
+describe.only('common/fmd', () => {
+  const getIpcApi = (err = null) => ({
+    server: {
+      requestFmdCreate: sinon.spy((folder, fileName, mimeType, cb) => cb({
+        err,
+        serializedOid: 4242,
+      })),
+      requestFmdGet: sinon.spy((oId, cb) => cb({
+        err,
+        type: globalConstants.FMDFILETYPE_DOCUMENT,
+        detail: {
+          dirname: { value: 'a/b/c' },
+          basename: { value: 'document.json' },
+          properties: true,
+        },
+      })),
+    },
+  });
   const ipcApi = getIpcApi();
   const errIpcApi = getIpcApi(new Error('test'));
   let api;

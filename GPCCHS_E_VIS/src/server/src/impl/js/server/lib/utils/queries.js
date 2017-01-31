@@ -2,7 +2,7 @@ const { encode } = require('common/protobuf');
 const globalConstants = require('common/constants');
 const registeredCallbacks = require('common/callbacks');
 
-const registeredQueries = require('./registeredQueries');
+const { addRecord: registerQuery } = require('../models/registeredQueries');
 const { main } = require('../ipc');
 
 let idIndex = 0;
@@ -10,6 +10,10 @@ function generateQueryId() {
   idIndex += 1;
   return `query${idIndex}`;
 }
+
+const resetQueryId = () => {
+  idIndex = 0;
+};
 
 function errorCallback(err) {
   if (err) {
@@ -41,7 +45,7 @@ const createQueryMessage = (remoteId, dataId, interval, queryArguments, executio
   execution.start('set query handling');
   const queryId = generateQueryId();
   registeredCallbacks.set(queryId, errorCallback);
-  registeredQueries.set(queryId, remoteId);
+  registerQuery(queryId, remoteId);
   execution.stop('set query handling');
 
   execution.start('encode dc query');
@@ -60,5 +64,6 @@ const createQueryMessage = (remoteId, dataId, interval, queryArguments, executio
 };
 
 module.exports = {
+  resetQueryId,
   createQueryMessage,
 };

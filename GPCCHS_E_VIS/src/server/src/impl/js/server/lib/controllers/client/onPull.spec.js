@@ -1,9 +1,9 @@
 require('../../utils/test');
 const { testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('../../utils/test');
-const { add: addToDataQueue, reset: resetDataQueue, get: getDataQueue } = require('../../utils/dataQueue');
+const { add: addToDataQueue, reset: resetDataQueue, get: getDataQueue } = require('../../models/dataQueue');
 const globalConstants = require('common/constants');
-const { reset: resetDcStatus, set: setDcStatus } = require('../../utils/dcStatus');
-const { reset: resetLastPubSubTimestamp, set: setLastPubSubTimestamp } = require('../../utils/lastPubSubTimestamp');
+const { reset: resetDcStatus, set: setDcStatus } = require('../../models/dcStatus');
+const { reset: resetLastPubSubTimestamp, set: setLastPubSubTimestamp } = require('../../models/lastPubSubTimestamp');
 const onPull = require('./onPull');
 
 describe('controllers/client/onPull', () => {

@@ -1,6 +1,6 @@
-const { reset: resetDataQueue } = require('../../utils/dataQueue');
-const { reset: resetLastPubSubTimestamp } = require('../../utils/lastPubSubTimestamp');
-const { get: getDcStatus } = require('../../utils/dcStatus');
+const { reset: resetDataQueue } = require('../../models/dataQueue');
+const { reset: resetLastPubSubTimestamp } = require('../../models/lastPubSubTimestamp');
+const { get: getDcStatus } = require('../../models/dcStatus');
 const getHealthStatus = require('../../utils/health');
 
 /**

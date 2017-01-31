@@ -1,10 +1,15 @@
 const { should } = require('../../utils/test');
 const onTimebasedArchiveData = require('./onTimebasedArchiveData');
-const registeredQueries = require('../../utils/registeredQueries');
+const {
+  cleanup: cleanRegisteredQueries,
+  addRecord: registerQuery,
+  getByQueryId: getRegisteredQuery,
+  removeByQueryId: removeRegisterQueries,
+} = require('../../models/registeredQueries');
 const connectedDataModel = require('../../models/connectedData');
 const { clearFactory, getTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const dataStub = require('common/stubs/data');
-const { get: getQueue, reset: resetQueue } = require('../../utils/dataQueue');
+const { get: getQueue, reset: resetQueue } = require('../../models/dataQueue');
 const globalConstants = require('common/constants');
 
 /*
@@ -16,7 +21,7 @@ const globalConstants = require('common/constants');
 
 describe('controllers/dc/onTimebasedArchiveData', () => {
   beforeEach(() => {
-    registeredQueries.clear();
+    cleanRegisteredQueries();
     connectedDataModel.cleanup();
     clearFactory();
     resetQueue();
@@ -71,7 +76,7 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
     const isLast = dataStub.getBooleanProtobuf(false);
     connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_LAST, remoteId, dataId);
     connectedDataModel.addRequestedInterval(remoteId, queryId, interval);
-    registeredQueries.set(queryId, remoteId);
+    registerQuery(queryId, remoteId);
     // launch test
     onTimebasedArchiveData(
       queryIdProto,
@@ -83,7 +88,7 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
       protoRp
     );
     // check data
-    should.exist(registeredQueries.get(queryId));
+    should.exist(getRegisteredQuery(queryId));
     const cd = connectedDataModel.getByRemoteId(remoteId);
     cd.should.be.an('object')
       .that.have.properties({
@@ -121,7 +126,7 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
     const isLast = dataStub.getBooleanProtobuf(true);
     connectedDataModel.addRecord(globalConstants.DATASTRUCTURETYPE_LAST, remoteId, dataId);
     connectedDataModel.addRequestedInterval(remoteId, queryId, interval);
-    registeredQueries.set(queryId, remoteId);
+    registerQuery(queryId, remoteId);
     // launch test
     onTimebasedArchiveData(
       queryIdProto,
@@ -133,7 +138,7 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
       protoRp
     );
     // check data
-    should.not.exist(registeredQueries.get(queryId));
+    should.not.exist(getRegisteredQuery(queryId));
     const cd = connectedDataModel.getByRemoteId(remoteId);
     cd.should.be.an('object')
       .that.have.properties({
@@ -173,9 +178,9 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
     connectedDataModel.addRequestedInterval(remoteId, queryId, interval);
     for (let i = 0; i < 6; i += 1) {
       connectedDataModel.addRequestedInterval(remoteId, queryIds[i], intervals[i]);
-      registeredQueries.set(queryIds[i], remoteId);
+      registerQuery(queryIds[i], remoteId);
     }
-    registeredQueries.set(queryId, remoteId);
+    registerQuery(queryId, remoteId);
     // launch test
     onTimebasedArchiveData(
       queryIdProto,
@@ -187,7 +192,7 @@ describe('controllers/dc/onTimebasedArchiveData', () => {
       protoRp
     );
     // check data
-    /* should.not.exist(registeredQueries.get(queryId));
+    /* should.not.exist(getRegisteredQuery(queryId));
     const cd = connectedDataModel.getByRemoteId(remoteId);
     cd.should.be.an('object')
       .that.have.properties({

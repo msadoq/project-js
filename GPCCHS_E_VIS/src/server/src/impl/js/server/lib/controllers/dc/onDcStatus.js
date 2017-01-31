@@ -1,6 +1,6 @@
 const logger = require('common/log')('controllers:onDcStatus');
 const { decode } = require('common/protobuf');
-const { set: setDcStatus } = require('../../utils/dcStatus');
+const { set: setDcStatus } = require('../../models/dcStatus');
 
 /**
  * Triggered on DC domain request response.

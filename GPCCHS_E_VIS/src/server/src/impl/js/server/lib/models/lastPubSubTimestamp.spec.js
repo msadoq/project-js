@@ -1,7 +1,7 @@
 const { should } = require('../utils/test');
 const { reset, get, set } = require('./lastPubSubTimestamp');
 
-describe('utils/lastPubSubTimestamp', () => {
+describe('models/lastPubSubTimestamp', () => {
   beforeEach(() => {
     reset();
   });

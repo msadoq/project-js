@@ -8,12 +8,12 @@ const _each = require('lodash/each');
 const _chunk = require('lodash/chunk');
 const logger = require('common/log')('controllers:onTimebasedPubSubData');
 const loggerData = require('common/log')('controllers:incomingData');
-const { add: addToQueue } = require('../../utils/dataQueue');
+const { add: addToQueue } = require('../../models/dataQueue');
 const { applyFilters } = require('../../utils/filters');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
-const { set: setLastPubSubTimestamp } = require('../../utils/lastPubSubTimestamp');
+const { set: setLastPubSubTimestamp } = require('../../models/lastPubSubTimestamp');
 
 /**
  * Trigger on new incoming message NewDataMessage from DC.

@@ -2,7 +2,7 @@ require('../utils/test');
 const dcStatus = require('./dcStatus');
 const globalConstants = require('common/constants');
 
-describe('utils/dcStatus', () => {
+describe('models/dcStatus', () => {
   beforeEach(() => {
     dcStatus.reset();
   });

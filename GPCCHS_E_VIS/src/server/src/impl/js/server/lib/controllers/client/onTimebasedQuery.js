@@ -8,7 +8,7 @@ const {
 } = require('common/constants');
 const executionMonitor = require('common/log/execution');
 
-const { add: addToQueue } = require('../../utils/dataQueue');
+const { add: addToQueue } = require('../../models/dataQueue');
 const { createQueryMessage } = require('../../utils/queries');
 const { createAddSubscriptionMessage } = require('../../utils/subscriptions');
 const connectedDataModel = require('../../models/connectedData');

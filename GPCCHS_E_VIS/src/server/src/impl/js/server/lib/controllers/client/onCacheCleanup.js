@@ -3,7 +3,7 @@ const _get = require('lodash/get');
 const removeIntervals = require('common/intervals/remove');
 const executionMonitor = require('common/log/execution');
 const logger = require('common/log')('controllers:onCacheCleanup');
-const registeredQueries = require('../../utils/registeredQueries');
+const { removeMultiQueryIds: removeRegisteredQuery } = require('../../models/registeredQueries');
 const { createDeleteSubscriptionMessage } = require('../../utils/subscriptions');
 const {
   getTimebasedDataModel,
@@ -72,7 +72,7 @@ module.exports = (sendMessageToDc, dataMap) => {
     const queryIds = connectedDataModel.removeIntervals(remoteId, intervals);
     execution.stop('remove intervals');
     execution.start('remove queries');
-    registeredQueries.removeMulti(queryIds);
+    removeRegisteredQuery(queryIds);
     execution.stop('remove queries');
     logger.debug('Query Ids no longer needed', queryIds);
     // if there are still requested intervals in connectedData model for this remoteId

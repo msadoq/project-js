@@ -9,8 +9,8 @@ const {
 const connectedDataModel = require('../../models/connectedData');
 const subscriptionsModel = require('../../models/subscriptions');
 const dataStub = require('common/stubs/data');
-const { get: getQueue, reset: resetQueue } = require('../../utils/dataQueue');
-const { get: getLastPubSubTimestamp, reset: resetLastPubSubTimestamp } = require('../../utils/lastPubSubTimestamp');
+const { get: getQueue, reset: resetQueue } = require('../../models/dataQueue');
+const { get: getLastPubSubTimestamp, reset: resetLastPubSubTimestamp } = require('../../models/lastPubSubTimestamp');
 const globalConstants = require('common/constants');
 
 /* onTimebasedPubSubData Test

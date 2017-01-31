@@ -1,8 +1,8 @@
-require('./test');
+require('../utils/test');
 
 const { add, get, reset } = require('./dataQueue');
 
-describe('utils/dataQueue', () => {
+describe('models/dataQueue', () => {
   beforeEach(() => {
     reset();
   });

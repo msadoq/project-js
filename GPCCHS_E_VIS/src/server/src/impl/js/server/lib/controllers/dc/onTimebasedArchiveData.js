@@ -7,8 +7,11 @@ const {
 const executionMonitor = require('common/log/execution');
 const logger = require('common/log')('controllers:onTimebasedArchiveData');
 const loggerData = require('common/log')('controllers:incomingData');
-const registeredQueries = require('../../utils/registeredQueries');
-const { add: addToQueue } = require('../../utils/dataQueue');
+const {
+  removeByQueryId: removeRegisteredQuery,
+  getByQueryId: getRegisteredQuery,
+} = require('../../models/registeredQueries');
+const { add: addToQueue } = require('../../models/dataQueue');
 const { getOrCreateTimebasedDataModel } = require('../../models/timebasedDataFactory');
 const connectedDataModel = require('../../models/connectedData');
 
@@ -47,7 +50,7 @@ module.exports = (
 
   // if queryId not in registeredQueries, stop logic
   execution.start('register query');
-  const remoteId = registeredQueries.get(queryId);
+  const remoteId = getRegisteredQuery(queryId);
   if (typeof remoteId === 'undefined') {
     return undefined;
   }
@@ -64,7 +67,7 @@ module.exports = (
     logger.debug('last chunk of queried timebased data', queryId);
     execution.start('set interval as received');
     connectedDataModel.setIntervalAsReceived(remoteId, queryId);
-    registeredQueries.remove(queryId);
+    removeRegisteredQuery(queryId);
     execution.stop('set interval as received');
   }
 

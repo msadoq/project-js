@@ -63,7 +63,7 @@ class GPCCHS(object):
 
     _startContainerCmd = 'gpcctc_l_cnt_isisStartContainer_cmd -p {0} --cd {1}{0}'
     _hscPath = '/usr/share/isis/lib/js/gpcchs_e_vis_launcher/client'
-    _hscRunCmd = './lpisis_gpcchs_e_clt --FMD_ROOT_DIR={} --NODE_PATH=/usr/share/isis/node-v6.3.0-linux-x64/bin/node --ZMQ_GPCCDC_PUSH=tcp://127.0.0.1:{} --ZMQ_GPCCDC_PULL=tcp://127.0.0.1:{}'
+    _hscRunCmd = './lpisis_gpcchs_e_clt --FMD_ROOT_DIR={} --NODE_PATH={} --ZMQ_GPCCDC_PUSH=tcp://127.0.0.1:{} --ZMQ_GPCCDC_PULL=tcp://127.0.0.1:{}'
 
     @property
     def _hsc_run_cmd(self):
@@ -72,6 +72,7 @@ class GPCCHS(object):
         """
         return self._hscRunCmd.format(
             self._fmd_root,
+            self._node_path,
             self._dcPushPort,
             self._dcPullPort
         ).split()
@@ -169,10 +170,26 @@ class GPCCHS(object):
         self._gpccdc_created = False
         self._gpccdc_started = False
         self._gpccdc_config_file = options.gpccdc_config_file
-        self._fmd_root = os.environ['FMD_ROOT_DIR'] + '/'
-        user = os.environ["USER"]
-        hostname = os.environ["HOSTNAME"]
-        display = os.environ["DISPLAY"]
+        if os.environ.get('ISIS_DOCUMENT_DIR') != None:
+            self._fmd_root = os.environ.get('ISIS_DOCUMENT_DIR') + '/'
+        else:
+            raise IsisContainerError("GPCCHS Launcher cannot read ISIS_DOCUMENT_DIR environment variable")
+        if os.environ.get('ISIS_NODE_BINARY') == None:
+            self._node_path = '/usr/share/isis/bin/node'
+        else:
+            self._node_path = os.environ.get('ISIS_NODE_BINARY')
+        if os.environ.get("USER") != None:
+            user = os.environ.get("USER")
+        else:
+            raise IsisContainerError("GPCCHS Launcher cannot read USER environment variable")
+        if os.environ.get("HOSTNAME") != None:
+            hostname = os.environ.get("HOSTNAME")
+        else:
+            raise IsisContainerError("GPCCHS Launcher cannot read HOSTNAME environment variable")
+        if os.environ.get("DISPLAY") != None:
+            display = os.environ.get("DISPLAY")
+        else:
+            raise IsisContainerError("GPCCHS Launcher cannot read DISPLAY environment variable")
         self._container_pid_file = self._container_pid_file_basename.format("{}",user, hostname, display)
         self._feature_conf = self._ISIS_WORK_DIR + self._gpccdc_conf_filename
         self._hsc_args = unknown_args

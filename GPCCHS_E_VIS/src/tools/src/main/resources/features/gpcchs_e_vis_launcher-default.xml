@@ -2,7 +2,9 @@
 <!-- Produced by Acceleo Feature Generator Acceleo Python Generator 1.1.0-R7S2-20151214 -->
 <features>
 	<feature name="gpcchs_e_vis_launcher-default" version="${project.version}">
-           <bundle_hmi start-level="1">fr.cnes.lpisis.gpcc.cpp/gpcccm_l_cml_apiWrapper/gpcccm_l_cml_apiWrapper-${gpcccm.version}</bundle_hmi>
-           <bundle_hmi start-level="2">fr.cnes.lpisis.gpcc.cpp/gpcchs_e_vis_standaloneTimeBar/gpcchs_e_vis_standaloneTimeBar.${gpcc.version}</bundle_hmi>
+        <bundle start-level="1">fr.cnes.lpisis.gpds.cpp/gpdstd_d_tbd_consumerPubSub/gpdstd_d_tbd_consumerPubSub-${gpdstd.version}</bundle>
+        <bundle start-level="2">fr.cnes.lpisis.gpcc.cpp/gpccdc_d_dbr_archiveClient/gpccdc_d_dbr_archiveClient-${gpccdc.version}</bundle>
+        <bundle start-level="2">fr.cnes.lpisis.gpcc.cpp/gpccdc_d_dbr_consumerPubSubViSlave/gpccdc_d_dbr_consumerPubSubViSlave-${gpccdc.version}</bundle>
+		<bundle start-level="3">fr.cnes.lpisis.gpcc.cpp/gpcctc_l_cnt_isisStartContainer_launcher/gpcctc_l_cnt_isisStartContainer_launcher-${gpcctc.version}</bundle>
 	</feature>
 </features>

@@ -6,6 +6,7 @@ import {
   Glyphicon,
   Form
 } from 'react-bootstrap';
+import _memoize from 'lodash/memoize';
 import {
   HorizontalFormGroup
 } from '../Forms/';
@@ -40,8 +41,8 @@ export default class PlotAxes extends React.Component {
   }
   state = { isCreationModalOpen: false };
 
-  openPanel = key => this.setState({ [`isPanel${key}Open`]: true });
-  closePanel = key => this.setState({ [`isPanel${key}Open`]: false });
+  openPanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: true }));
+  closePanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: false }));
 
   handleRemovePlotAxis = (e, key) => {
     const { removeAxis, viewId } = this.props;
@@ -65,10 +66,12 @@ export default class PlotAxes extends React.Component {
   openCreationModal = () => this.setState({ isCreationModalOpen: true })
   closeCreationModal = () => this.setState({ isCreationModalOpen: false })
 
-  handleSubmit = (key, values) => {
+  handleSubmit(key, values) {
     const { updateAxis, viewId } = this.props;
     updateAxis(viewId, key, values);
   }
+
+  handleSubmit = _memoize(key => values => this.handleSubmit(key, values));
 
   handleShowYAxes = (value) => {
     const { updateShowYAxes, viewId } = this.props;
@@ -155,15 +158,15 @@ export default class PlotAxes extends React.Component {
                 </span>}
                 eventKey={axisId}
                 expanded={this.state[`isPanel${axisId}Open`]}
-                onSelect={this.openPanel.bind(axisId)}
-                onExited={this.closePanel.bind(axisId)}
+                onSelect={this.openPanel(axisId)}
+                onExited={this.closePanel(axisId)}
               >
                 {this.state[`isPanel${axisId}Open`] &&
                   <PlotAxis
                     key={axisId}
                     initialValues={axis}
                     entryPoints={entryPoints}
-                    onSubmit={this.handleSubmit.bind(this, axisId)}
+                    onSubmit={this.handleSubmit(axisId)}
                     form={`axis-form-${axisId}-${viewId}`}
                   />}
               </Panel>

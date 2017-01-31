@@ -3,6 +3,7 @@ import {
   Accordion,
   Panel
 } from 'react-bootstrap';
+import _memoize from 'lodash/memoize';
 
 import EntryPointConnectedData from './EntryPointConnectedData';
 import EntryPointName from '../EntryPoint/EntryPointName';
@@ -35,8 +36,8 @@ export default class EntryPointDetails extends React.Component {
     });
   }
 
-  openPanel = key => this.setState({ [`isPanel${key}Open`]: true });
-  closePanel = key => this.setState({ [`isPanel${key}Open`]: false });
+  openPanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: true }));
+  closePanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: false }));
 
   render() {
     const {
@@ -59,8 +60,8 @@ export default class EntryPointDetails extends React.Component {
           header="Name"
           eventKey={'Name'}
           expanded={isPanelNameOpen}
-          onSelect={this.openPanel.bind('Name')}
-          onExited={this.closePanel.bind('Name')}
+          onSelect={this.openPanel('Name')}
+          onExited={this.closePanel('Name')}
         >
           {isPanelNameOpen && <EntryPointName
             onSubmit={this.handleSubmit}
@@ -76,8 +77,8 @@ export default class EntryPointDetails extends React.Component {
           header="Conn Data"
           eventKey={'ConnData'}
           expanded={isPanelConnDataOpen}
-          onSelect={this.openPanel.bind('ConnData')}
-          onExited={this.closePanel.bind('ConnData')}
+          onSelect={this.openPanel('ConnData')}
+          onExited={this.closePanel('ConnData')}
         >
           {isPanelConnDataOpen && <EntryPointConnectedData
             timelines={timelines}
@@ -91,8 +92,8 @@ export default class EntryPointDetails extends React.Component {
           header="State colors"
           eventKey={'StateColors'}
           expanded={isPanelStateColorsOpen}
-          onSelect={this.openPanel.bind('StateColors')}
-          onExited={this.closePanel.bind('StateColors')}
+          onSelect={this.openPanel('StateColors')}
+          onExited={this.closePanel('StateColors')}
         >
           {isPanelStateColorsOpen && <EntryPointStateColors
             // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop

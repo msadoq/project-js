@@ -76,6 +76,8 @@ export default class Page extends PureComponent {
     ])(type);
   }
 
+  onDrop = ::this.onDrop;
+
   render() {
     logger.debug('render');
     const {
@@ -99,7 +101,7 @@ export default class Page extends PureComponent {
               height: '100%',
               position: 'relative',
             }}
-            onDrop={this.onDrop.bind(this)}
+            onDrop={this.onDrop}
           >
             <ContentContainer
               windowId={windowId}

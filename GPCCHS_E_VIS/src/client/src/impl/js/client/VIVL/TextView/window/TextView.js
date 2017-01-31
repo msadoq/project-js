@@ -101,31 +101,23 @@ export default class TextView extends PureComponent {
     if (renderMethod === 2) this.getComponent2();
   }
 
-  onDrop = this.drop.bind(this);
+  onDrop = ::this.onDrop;
 
-  getComponent2 = () => {
-    const matches = this.template.match(/{{\s*([^}]+)\s*}}/g);
-    let templated = this.template;
-    matches.forEach((match) => {
-      const epName = match.substring(2, match.length - 2);
-      const valueObj = _get(this.props.data, `values[${epName}]`, {});
-      const ep = this.props.entryPoints.find(e => e.name === epName);
-      if (ep) {
-        let tag = '';
-        const value = valueObj.value || ep.error;
-        if (ep.error) {
-          tag = `<span style="${getTextStyle('#FF0000')}">${value}</span>`;
-        } else {
-          tag = `<span
-            class="${styles[`monit-${_get(valueObj, 'monit')}`] || styles['monit-ok']}"
-            style="${getTextStyle(valueObj.color)}">
-              ${value}
-            </span>`;
-        }
-        templated = templated.replace(match, tag);
-      }
-    });
-    this.textViewBodyEl.innerHTML = templated;
+  onDrop(e) {
+    const data = e.dataTransfer.getData('text/plain');
+    const content = JSON.parse(data);
+
+    if (!_get(content, 'catalogName')) {
+      return;
+    }
+
+    // eslint-disable-next-line no-console
+    this.props.addEntryPoint(
+      this.props.viewId,
+      parseDragData(content)
+    );
+
+    e.stopPropagation();
   }
 
   /*
@@ -264,21 +256,29 @@ export default class TextView extends PureComponent {
     );
   }
 
-  drop(e) {
-    const data = e.dataTransfer.getData('text/plain');
-    const content = JSON.parse(data);
-
-    if (!_get(content, 'catalogName')) {
-      return;
-    }
-
-    // eslint-disable-next-line no-console
-    this.props.addEntryPoint(
-      this.props.viewId,
-      parseDragData(content)
-    );
-
-    e.stopPropagation();
+  getComponent2 = () => {
+    const matches = this.template.match(/{{\s*([^}]+)\s*}}/g);
+    let templated = this.template;
+    matches.forEach((match) => {
+      const epName = match.substring(2, match.length - 2);
+      const valueObj = _get(this.props.data, `values[${epName}]`, {});
+      const ep = this.props.entryPoints.find(e => e.name === epName);
+      if (ep) {
+        let tag = '';
+        const value = valueObj.value || ep.error;
+        if (ep.error) {
+          tag = `<span style="${getTextStyle('#FF0000')}">${value}</span>`;
+        } else {
+          tag = `<span
+            class="${styles[`monit-${_get(valueObj, 'monit')}`] || styles['monit-ok']}"
+            style="${getTextStyle(valueObj.color)}">
+              ${value}
+            </span>`;
+        }
+        templated = templated.replace(match, tag);
+      }
+    });
+    this.textViewBodyEl.innerHTML = templated;
   }
 
   /*

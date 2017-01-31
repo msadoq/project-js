@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import _memoize from 'lodash/memoize';
 import {
   Accordion,
   Panel,
@@ -37,8 +38,8 @@ export default class EntryPointTree extends React.Component {
     this.props.remove(key);
   }
 
-  openPanel = key => this.setState({ [`panel${key}IsOpen`]: true });
-  closePanel = key => this.setState({ [`panel${key}IsOpen`]: false });
+  openPanel = _memoize(key => () => this.setState({ [`panel${key}IsOpen`]: true }));
+  closePanel = _memoize(key => () => this.setState({ [`panel${key}IsOpen`]: false }));
 
   render() {
     const { viewId, focusedPageId } = this.context;
@@ -84,8 +85,8 @@ export default class EntryPointTree extends React.Component {
               </span>}
               eventKey={key}
               expanded={isOpen}
-              onSelect={this.openPanel.bind(key)}
-              onExited={this.closePanel.bind(key)}
+              onSelect={this.openPanel(key)}
+              onExited={this.closePanel(key)}
             >
               {isOpen && <EntryPointDetailsContainer
                 key={key}

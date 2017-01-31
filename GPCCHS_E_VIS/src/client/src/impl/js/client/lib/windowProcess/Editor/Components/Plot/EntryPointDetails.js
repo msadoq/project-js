@@ -1,9 +1,10 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, PureComponent } from 'react';
 
 import {
   Accordion,
   Panel
 } from 'react-bootstrap';
+import _memoize from 'lodash/memoize';
 
 import EntryPointParameters from './EntryPointParameters';
 import EntryPointConnectedDataXY from './EntryPointConnectedDataXY';
@@ -13,7 +14,7 @@ import EntryPointStateColors from '../EntryPoint/EntryPointStateColors';
   EntryPointDetails représente un Point d'entrée,
   c'est à dire à une branche de l'arbre d'entryPoints.
 */
-export default class EntryPointDetails extends React.Component {
+export default class EntryPointDetails extends PureComponent {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
     timelines: PropTypes.array.isRequired,
@@ -28,6 +29,9 @@ export default class EntryPointDetails extends React.Component {
     isPanelStateColorsOpen: false,
     isPanelParametersOpen: false,
   };
+
+  openPanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: true }));
+  closePanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: false }));
 
   handleSubmit = (values) => {
     const { entryPoint, updateEntryPoint, viewId, idPoint } = this.props;
@@ -64,9 +68,6 @@ export default class EntryPointDetails extends React.Component {
     });
   }
 
-  openPanel = key => this.setState({ [`isPanel${key}Open`]: true });
-  closePanel = key => this.setState({ [`isPanel${key}Open`]: false });
-
   render() {
     const {
       idPoint,
@@ -89,8 +90,8 @@ export default class EntryPointDetails extends React.Component {
           header="Parameters"
           eventKey={'Parameters'}
           expanded={isPanelParametersOpen}
-          onSelect={this.openPanel.bind('Parameters')}
-          onExited={this.closePanel.bind('Parameters')}
+          onSelect={this.openPanel('Parameters')}
+          onExited={this.closePanel('Parameters')}
         >
           {isPanelParametersOpen && <EntryPointParameters
             onSubmit={this.handleObjectParametersSubmit}
@@ -105,8 +106,8 @@ export default class EntryPointDetails extends React.Component {
           header="Coordinates"
           eventKey={'Coordinates'}
           expanded={isPanelCoordinatesOpen}
-          onSelect={this.openPanel.bind('Coordinates')}
-          onExited={this.closePanel.bind('Coordinates')}
+          onSelect={this.openPanel('Coordinates')}
+          onExited={this.closePanel('Coordinates')}
         >
           {isPanelCoordinatesOpen && <EntryPointConnectedDataXY
             axes={axes}
@@ -128,8 +129,8 @@ export default class EntryPointDetails extends React.Component {
           header="State colors"
           eventKey={'StateColors'}
           expanded={isPanelStateColorsOpen}
-          onSelect={this.openPanel.bind('StateColors')}
-          onExited={this.closePanel.bind('StateColors')}
+          onSelect={this.openPanel('StateColors')}
+          onExited={this.closePanel('StateColors')}
         >
           {isPanelStateColorsOpen && <EntryPointStateColors
             // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop

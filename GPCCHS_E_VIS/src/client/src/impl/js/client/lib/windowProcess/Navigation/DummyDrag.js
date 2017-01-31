@@ -54,15 +54,17 @@ export default class DummyDrag extends PureComponent {
   }
 
   // eslint-disable-next-line
-  dragStart(items, e) {
+  dragStart(item, e) {
     e.dataTransfer.setData(
-      items.mime,
+      item.mime,
       _.pipe(
         _.dissoc('mime'),
         JSON.stringify,
-      )(items)
+      )(item)
     );
   }
+
+  dragStart = _.memoize(item => e => this.dragStart(item, e));
 
   render() {
     return (
@@ -73,7 +75,7 @@ export default class DummyDrag extends PureComponent {
             key={i}
             style={{ ...s.box, backgroundColor: getRandomColor() }}
             draggable
-            onDragStart={this.dragStart.bind(this, items[i])}
+            onDragStart={this.dragStart(item)}
           >
             {item.name}
           </div>

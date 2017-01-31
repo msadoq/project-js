@@ -4,7 +4,6 @@ import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _map from 'lodash/map';
 import classnames from 'classnames';
-// import _remove from 'lodash/remove';
 import Dimensions from 'react-dimensions';
 import { format } from 'd3-format';
 import { scaleTime } from 'd3-scale';
@@ -18,6 +17,7 @@ import {
   // interactive
 } from 'react-stockcharts';
 import { hexToRGBA } from 'react-stockcharts/lib/utils';
+
 import getDynamicObject from '../../../lib/windowProcess/common/getDynamicObject';
 import {
   getLines,

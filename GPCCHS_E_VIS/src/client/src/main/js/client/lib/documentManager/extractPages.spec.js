@@ -1,33 +1,30 @@
 /* eslint no-underscore-dangle: 0 */
 import { v4 } from 'uuid';
 import _ from 'lodash';
-import { compose, prop, split } from 'lodash/fp';
+import { set, compose, prop, split } from 'lodash/fp';
 import path from 'path';
 import fmdApi from '../common/fmd';
 import ExtractPages from './extractPages';
-import { should, expect } from '../common/test';
+import { should } from '../common/test';
 import { applyDependencyToApi } from '../common/utils';
 
 const getPathFromOid = compose(prop(1), split(':'));
-const mockFmdApi = fmd => ({
-  ...fmd,
-  resolveDocument: (oid, cb) => cb(null, getPathFromOid(oid)),
-});
+const mockFmdApi = set('resolveDocument', (oid, cb) => cb(null, getPathFromOid(oid)));
 
 const { extractPages } = applyDependencyToApi(ExtractPages, mockFmdApi(fmdApi));
 
-describe('documents/lib', () => {
+describe('lib/documentManager', () => {
   describe('extractPages', () => {
     let content;
     beforeEach(() => {
       const id = v4();
+      const fixturesFolder = path.join(__dirname, 'fixtures');
       content = { windows: {} };
       content.windows[id] = {
         type: 'documentWindow',
         title: 'window example',
         pages: [
           {
-            // path: 'pages/pageSmall_with_oid.json',
             oId: 'oid:/pages/pageSmall_with_oid.json',
             timebarId: 'TB1'
           },
@@ -47,17 +44,15 @@ describe('documents/lib', () => {
         id: 'TB1',
         uuid: tbid,
       };
-      content.__folder = path.join(__dirname, 'fixtures');
+      content.__folder = fixturesFolder;
     });
     it('valid', (done) => {
       extractPages(content, (err, val) => {
         should.not.exist(err);
         val.should.have.keys('timebars', 'windows', 'pages', '__folder');
         val.pages.should.be.an('object');
-        const k = Object.getOwnPropertyNames(val.windows);
-        const w = val.windows[k[0]];
-        _.each(w.pages, (p) => {
-          should.exist(val.pages[p]);
+        _.each(val.windows[0].pages, (pageId) => {
+          should.exist(val.pages[pageId]);
         });
         done();
       });
@@ -70,14 +65,12 @@ describe('documents/lib', () => {
         done();
       });
     });
-    it('unknow timebar on page', (done) => {
+    it('unknown timebarId on page', (done) => {
       const k = Object.getOwnPropertyNames(content.windows);
       const win = content.windows[k[0]];
       win.pages[0].timebarId = 'unknow';
-      extractPages(content, (err, contentWithPages) => {
-        const keys = Object.keys(contentWithPages.pages);
-        keys.should.be.an('array').of.length(2);
-        expect(contentWithPages.pages[keys[0]].timebarUuid).to.be.an('undefined');
+      extractPages(content, (err) => {
+        should.exist(err);
         done();
       });
     });

@@ -5,6 +5,7 @@ import map from 'lodash/fp/map';
 import find from 'lodash/fp/find';
 import update from 'lodash/fp/update';
 
+import isEmpty from 'lodash/fp/isEmpty';
 import isNil from 'lodash/fp/isNil';
 import compose from 'lodash/fp/compose';
 import join from 'lodash/fp/join';
@@ -51,6 +52,9 @@ const newUUID = v4;
 const injectUUID = obj => assoc('uuid', newUUID(), obj);
 const setTimebarId = timebars => (page) => {
   const timebar = find(tb => tb.id === page.timebarId, timebars) || {};
+  if (isEmpty(timebar)) {
+    throw new Error(`unknow timebarId ${page.timebarId}`);
+  }
   return {
     ...page,
     timebarUuid: timebar.uuid,
@@ -70,20 +74,24 @@ const keepOnlyUUID = editPages(prop('uuid'));
  * @returns {*}
  */
 const extractPages = fmdApi => (content, cb) => {
-  const getWindows = propOr({}, 'windows');
-  const getTimebars = propOr({}, 'timebars');
-  const newWindows = injectIds(getTimebars(content), getWindows(content));
-  const pagesToRead = getPages(newWindows);
-  return readPages(fmdApi)(content.__folder, pagesToRead, (err, pages) => {
-    if (err) {
-      return cb(err);
-    }
-    return cb(null, {
-      ...content,
-      windows: keepOnlyUUID(newWindows),
-      pages: indexBy(prop('uuid'))(pages),
+  try {
+    const getWindows = propOr({}, 'windows');
+    const getTimebars = propOr({}, 'timebars');
+    const newWindows = injectIds(getTimebars(content), getWindows(content));
+    const pagesToRead = getPages(newWindows);
+    return readPages(fmdApi)(content.__folder, pagesToRead, (err, pages) => {
+      if (err) {
+        return cb(err);
+      }
+      return cb(null, {
+        ...content,
+        windows: keepOnlyUUID(newWindows),
+        pages: indexBy(prop('uuid'))(pages),
+      });
     });
-  });
+  } catch (e) {
+    cb(e);
+  }
 };
 
 export default {

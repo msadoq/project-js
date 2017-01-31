@@ -51,7 +51,7 @@ const checkBuffer = (type, file, value, decoder) => {
   json.should.deep.equal(value);
 };
 
-describe.only('protobuf/lpisis/CCSDS_MAL_TYPES', () => {
+describe('protobuf/lpisis/CCSDS_MAL_TYPES', () => {
   _each(decoders, (decoder, type) => {
     describe(`${type}`, () => {
       const index = require(`./${type}`);

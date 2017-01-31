@@ -19,7 +19,7 @@ const resolveDocument = ipcApi => (oId, callback) => {
       return callback(err);
     }
     if (type !== globalConstants.FMDFILETYPE_DOCUMENT) {
-      return callback('document is not a file');
+      return callback(new Error('document is not a file'));
     }
     callback(
       null,
@@ -33,7 +33,7 @@ const resolveDocument = ipcApi => (oId, callback) => {
 const createDocument = ipcApi => (path, documentType, callback) => {
   const mimeType = mimeTypes[documentType];
   if (!mimeType) {
-    return callback(`Unknown documentType : ${documentType}`);
+    return callback(new Error(`Unknown documentType : ${documentType}`));
   }
   const fileName = basename(path);
   const folder = dirname(getRelativeFmdPath(path));

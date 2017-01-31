@@ -12,7 +12,6 @@ const getRootDir = () => parameters.get('FMD_ROOT_DIR');
 const isInFmd = path => startsWith(getRootDir(), path);
 const getRelativeFmdPath = path => `/${relative(getRootDir(), path)}`;
 
-// TODO garm: write tests
 const resolveDocument = ipcApi => (oId, callback) => {
   ipcApi.server.requestFmdGet(oId, ({ err, type, detail }) => {
     if (err) {

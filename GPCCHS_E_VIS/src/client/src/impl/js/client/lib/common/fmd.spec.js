@@ -6,8 +6,8 @@ import {
 } from './fmd';
 import { expect, sinon, nextTick } from './test';
 
-describe.only('common/fmd', () => {
-  const getIpcApi = (err = null) => ({
+describe('common/fmd', () => {
+  const getIpcApi = (err = null, typeError = false) => ({
     server: {
       requestFmdCreate: sinon.spy((folder, fileName, mimeType, cb) => cb({
         err,
@@ -15,7 +15,7 @@ describe.only('common/fmd', () => {
       })),
       requestFmdGet: sinon.spy((oId, cb) => cb({
         err,
-        type: globalConstants.FMDFILETYPE_DOCUMENT,
+        type: typeError ? 'unknownType' : globalConstants.FMDFILETYPE_DOCUMENT,
         detail: {
           dirname: { value: 'a/b/c' },
           basename: { value: 'document.json' },
@@ -26,11 +26,14 @@ describe.only('common/fmd', () => {
   });
   const ipcApi = getIpcApi();
   const errIpcApi = getIpcApi(new Error('test'));
+  const badTypeIpcApi = getIpcApi(null, true);
   let api;
   let errApi;
+  let badTypeApi;
   beforeEach(() => {
     api = createFmdApi(ipcApi);
     errApi = createFmdApi(errIpcApi);
+    badTypeApi = createFmdApi(badTypeIpcApi);
   });
   describe('getRootDir', () => {
     it('should return same thing than parameters.get', () => {
@@ -102,6 +105,33 @@ describe.only('common/fmd', () => {
     it('resolveDocument should be defined', () => {
       api.resolveDocument.should.exist;
       api.resolveDocument.should.be.a('function');
+    });
+    it('give resolved filePath with properties', (done) => {
+      api.resolveDocument('oid', (err, filePath, properties) => {
+        expect(err).to.not.be.an('error');
+        filePath.should.be.eql(`${getRootDir()}/a/b/c/document.json`);
+        properties.should.be.true;
+        expect(ipcApi.server.requestFmdGet.calledWith('oid')).to.be.true;
+        done();
+      });
+    });
+    it('give an error when responded type is not a valid document', (done) => {
+      badTypeApi.resolveDocument('oid', (err, filePath, properties) => {
+        err.should.be.an('error');
+        expect(filePath).to.be.undefined;
+        expect(properties).to.be.undefined;
+        expect(ipcApi.server.requestFmdGet.calledWith('oid')).to.be.true;
+        done();
+      });
+    });
+    it('give an error when ipc failed', (done) => {
+      errApi.resolveDocument('oid', (err, filePath, properties) => {
+        err.should.be.an('error');
+        expect(filePath).to.be.undefined;
+        expect(properties).to.be.undefined;
+        expect(ipcApi.server.requestFmdGet.calledWith('oid')).to.be.true;
+        done();
+      });
     });
   });
 });

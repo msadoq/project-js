@@ -29,7 +29,6 @@ const resolveDocument = ipcApi => (oId, callback) => {
   });
 };
 
-// TODO garm: write tests
 const createDocument = ipcApi => (path, documentType, callback) => {
   const mimeType = mimeTypes[documentType];
   if (!mimeType) {

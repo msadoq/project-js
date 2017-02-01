@@ -1,8 +1,6 @@
 @import '../style/variables';
 
 .block {
-  background-color: white;
-  border: 2px solid #CCC;
   overflow: auto;
   height: 100%;
 }

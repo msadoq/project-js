@@ -1,6 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { ButtonToolbar, Grid, Row, Col } from 'react-bootstrap';
 import getLogger from 'common/log';
+import classnames from 'classnames';
 
 import DebugContainer from '../Navigation/DebugContainer';
 // import DummyDrag from '../Navigation/DummyDrag';
@@ -104,10 +105,13 @@ export default class Window extends PureComponent {
         </ButtonToolbar>
         <div className={styles.div}>
           <Grid fluid className={styles.grid}>
-            <Row>
-              <Col sm={displayExplorer ? 9 : 12}>
+            <Row className="h100">
+              <Col sm={displayExplorer ? 9 : 12} className="h100">
                 <TabsContainer
-                  className={displayExplorer ? 'col-xs-9' : 'col-xs-12'}
+                  className={classnames(
+                    displayExplorer ? 'col-xs-9' : 'col-xs-12',
+                    styles.TabsContainer
+                  )}
                   windowId={windowId}
                   focusedPageId={focusedPageId}
                   title={title}

@@ -171,9 +171,10 @@ export default class TimebarWrapper extends PureComponent {
         style={{
           flex: '0 0 auto',
           height: `${timebarHeight || minTimebarHeight}px`,
-          backgroundColor: '#F1F1F1',
+          background: '#FAFAFA',
           borderTop: '1px solid #aaa',
           zIndex: '2',
+          padding: '0px 5px'
         }}
       >
         {timesetter}

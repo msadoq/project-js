@@ -1,3 +1,6 @@
+.controls{
+  margin: 1px 0px 0px 1px;
+}
 .controlsUl{
   display: table;
   margin: 0px;

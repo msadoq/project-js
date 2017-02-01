@@ -1,4 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
+import classnames from 'classnames';
 import getLogger from 'common/log';
 import { PlotEditorContainer } from './Components/Plot';
 import { TextEditorContainer } from './Components/Text';
@@ -48,7 +49,7 @@ export default class Editor extends PureComponent {
       <div
         className={styles.root}
       >
-        <div className={styles.editor}>
+        <div className={classnames('subdiv', styles.editor)}>
           {type === 'PlotView' && <PlotEditorContainer
             key={viewId}
             viewId={viewId}

@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import React, { PureComponent, PropTypes } from 'react';
-import { Button, Col, Glyphicon } from 'react-bootstrap';
+import { Col, Glyphicon, Button } from 'react-bootstrap';
 import { schemeCategory20b } from 'd3-scale';
 import Timeline from './Timeline';
 import Modal from '../common/Modal';
@@ -249,39 +249,51 @@ export default class LeftTab extends PureComponent {
     );
 
     return (
-      <Col xs={3} className={styles.leftTab}>
+      <Col
+        xs={3}
+        className={classnames(
+          styles.leftTab,
+          'subdiv'
+        )}
+      >
         <div className={styles.leftTabTopPanel}>
-          <Button
-            bsSize="small"
-            className={classnames(styles.btnClose, 'btn-control')}
-            title="detach timebar and choose another one"
-            onClick={this.detach}
-            bsStyle="default"
-          >
-            <Glyphicon glyph="remove" />
-          </Button>
-          <Button
-            bsSize="small"
-            className={classnames(styles.btnCollapse, 'btn-control')}
-            title="Collapse timebar"
-            onClick={this.collapse}
-            bsStyle="default"
-          >
-            <Glyphicon glyph="minus" />
-          </Button>
-          <h5 className={styles.timebarName}>
-            <u><b>{timebarName}</b></u>
-          </h5>
           {editTrack}
           {addTrack}
           <Button
-            bsSize="small"
-            className={styles.addTimelineButton}
-            title="Add track"
-            onClick={this.toggleAddTimeline}
-            bsStyle="info"
+            title="Detach timebar"
+            bsSize="xs"
+            bsStyle="transp"
+            onClick={this.detach}
+            className={styles.btnClose}
           >
-            <Glyphicon glyph="plus" />
+            <Glyphicon
+              glyph="remove"
+            />
+          </Button>
+          <Button
+            title="Collapse timebar"
+            bsSize="xs"
+            bsStyle="transp"
+            onClick={this.collapse}
+            className={styles.btnCollapse}
+          >
+            <Glyphicon
+              glyph="minus"
+            />
+          </Button>
+          <h5 className={styles.timebarName}>
+            <b>{timebarName}</b>
+          </h5>
+          <Button
+            title="Add timeline"
+            bsSize="xs"
+            bsStyle="transp"
+            onClick={this.toggleAddTimeline}
+            className={styles.addTimelineButton}
+          >
+            <Glyphicon
+              glyph="plus"
+            />
           </Button>
         </div>
         {noTrack}

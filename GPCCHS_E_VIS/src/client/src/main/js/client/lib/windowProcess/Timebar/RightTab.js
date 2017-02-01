@@ -134,7 +134,8 @@ class RightTabContent extends PureComponent {
       <div
         className={classnames(
           styles[this.borderColorKlass()],
-          styles.rightTab
+          styles.rightTab,
+          'subdiv'
         )}
       >
         <span

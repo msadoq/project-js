@@ -98,11 +98,14 @@ export default class Content extends PureComponent {
 
           return (
             <div
-              className={classnames({
-                [styles.blockedited]: isViewsEditorOpen,
-                [styles.block]: !isViewsEditorOpen,
-                collapsed: v.configuration.collapsed,
-              })}
+              className={classnames(
+                'subdiv',
+                {
+                  [styles.blockedited]: isViewsEditorOpen,
+                  [styles.block]: !isViewsEditorOpen,
+                  collapsed: v.configuration.collapsed,
+                }
+              )}
               key={v.viewId}
             >
               <ViewContainer

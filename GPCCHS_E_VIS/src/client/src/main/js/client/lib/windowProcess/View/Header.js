@@ -214,11 +214,13 @@ export default class Header extends PureComponent {
           {title}
         </div>
         {choosePageDlg}
-        <div>
+        <div className={styles.dropDownButtonContainer} >
           {!collapsed && <DropdownButton
             pullRight
+            noCaret
+            className={styles.dropDownButton}
             bsStyle="link"
-            title="menu"
+            title="MENU"
             bsSize="xsmall"
             onSelect={this.onDropDownClick}
             id={`menu${this.props.viewId}`}

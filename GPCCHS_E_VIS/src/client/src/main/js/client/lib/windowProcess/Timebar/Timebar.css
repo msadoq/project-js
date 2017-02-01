@@ -16,24 +16,42 @@
     min-height: 55px;
     position: relative;
     background: #fff;
-    border: 1px solid #ccc;
-    background: #e0e0e0;
+    border: 1px solid #bbb;
+    background: #FAFAFA;
     height: calc(100% - 52px);
 }
 .visuWindow{
     top: 0px;
     position: absolute;
-    background: rgba(200, 126, 249,0.3);
+    background: linear-gradient(90deg,
+      rgba(200, 126, 249,0.5) 0%,
+      rgba(200, 126, 249,0.4) 4%,
+      rgba(200, 126, 249,0.3) 8%,
+      rgba(200, 126, 249,0.3) 92%,
+      rgba(200, 126, 249,0.4) 96%,
+      rgba(200, 126, 249,0.5) 100%);
     height: 100%;
     cursor: pointer;
     z-index: 1;
 }
 .viewportDragging{
-    background-color: rgba(200, 126, 209, 0.6);
+    background: linear-gradient(90deg,
+      rgba(200, 126, 209,0.7) 0%,
+      rgba(200, 126, 209,0.6) 4%,
+      rgba(200, 126, 209,0.5) 8%,
+      rgba(200, 126, 209,0.5) 92%,
+      rgba(200, 126, 209,0.6) 96%,
+      rgba(200, 126, 209,0.7) 100%);
     cursor: move;
 }
 .viewportResizing{
-    background-color: rgba(200, 126, 209, 0.6);
+    background: linear-gradient(90deg,
+      rgba(190, 126, 230,0.7) 0%,
+      rgba(190, 126, 230,0.6) 4%,
+      rgba(190, 126, 230,0.5) 8%,
+      rgba(190, 126, 230,0.5) 92%,
+      rgba(190, 126, 230,0.6) 96%,
+      rgba(190, 126, 230,0.7) 100%);
 }
 .formatedFullDate{
   position: absolute;
@@ -223,7 +241,6 @@
     top: 0px;
     left: 50%;
     font-size: 1.2em;
-    background-color: #F1F1F1;
     transform: translateX(-50%);
     z-index: 4;
 }
@@ -234,7 +251,9 @@
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+  box-shadow: 0px 0px 8px rgba(0,0,0,0.2) inset;
 }
+
 .timeline{
   width: 100%;
   margin-bottom: 2px;
@@ -257,10 +276,10 @@
   background-color: #F45;
 }
 .rightTab{
-  border-width: 2px;
+  border-width: 1px;
   border-style: solid;
   width: 100%;
-  height: calc(100% - 15px);
+  height: calc(100% - 13px);
 }
 .play{ border-color: var(--borderPlay); }
 .pause{ border-color: var(--borderPause); }

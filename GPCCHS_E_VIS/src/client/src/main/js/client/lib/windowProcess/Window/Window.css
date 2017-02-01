@@ -7,14 +7,13 @@
 
 .content{
   padding: 10px 5px;
-  display: flex;
-  flex: 1 1 100%;
-  flex-direction: column;
+  height: calc(100% - 40px);
   position: relative;
 }
 
 .tools {
   padding: 5px;
+  background: #FAFAFA;
 }
 .grid{
   height: 100%;
@@ -28,4 +27,8 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  background: #FAFAFA;
+}
+.TabsContainer{
+  height: 40px;
 }

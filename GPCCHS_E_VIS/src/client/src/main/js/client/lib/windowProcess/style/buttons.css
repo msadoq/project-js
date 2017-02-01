@@ -39,3 +39,9 @@
   z-index: 2;
   font-weight: 600;
 }
+.btn-transp{
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  min-width: 20px;
+}

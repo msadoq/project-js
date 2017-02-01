@@ -1,7 +1,7 @@
+import _ from 'lodash';
 import extractTimelines from './extractTimelines';
 import extractTimebars from './extractTimebars';
 import { should } from '../common/test';
-import _ from 'lodash';
 
 describe('documents/lib', () => {
   describe('extractTimelines', () => {
@@ -20,21 +20,21 @@ describe('documents/lib', () => {
             }
           ],
           masterId: 'Session 1',
-          "visuWindow": {
-            "lower": 1480578427000,
-            "upper": 1480578527000,
-            "current": 1480578457000,
-            "defaultWidth": 900000
+          visuWindow: {
+            lower: 1480578427000,
+            upper: 1480578527000,
+            current: 1480578457000,
+            defaultWidth: 900000
           },
-          "slideWindow": {
-            "lower": 1480578437000,
-            "upper": 1480582037000
+          slideWindow: {
+            lower: 1480578437000,
+            upper: 1480582037000
           },
-          "extUpperBound": 1480582047000,
-          "rulerStart": 1480577807000,
-          "rulerResolution": 11630,
-          "speed": 1,
-          "mode": "Normal",
+          extUpperBound: 1480582047000,
+          rulerStart: 1480577807000,
+          rulerResolution: 11630,
+          speed: 1,
+          mode: 'Normal',
         },
         {
           type: 'timeBarConfiguration',
@@ -48,21 +48,21 @@ describe('documents/lib', () => {
             },
           ],
           masterId: 'Session 2',
-          "visuWindow": {
-            "lower": 1480578427000,
-            "upper": 1480578527000,
-            "current": 1480578457000,
-            "defaultWidth": 900000
+          visuWindow: {
+            lower: 1480578427000,
+            upper: 1480578527000,
+            current: 1480578457000,
+            defaultWidth: 900000
           },
-          "slideWindow": {
-            "lower": 1480578437000,
-            "upper": 1480582037000
+          slideWindow: {
+            lower: 1480578437000,
+            upper: 1480582037000
           },
-          "extUpperBound": 1480582047000,
-          "rulerStart": 1480577807000,
-          "rulerResolution": 11630,
-          "speed": 1,
-          "mode": "Normal",
+          extUpperBound: 1480582047000,
+          rulerStart: 1480577807000,
+          rulerResolution: 11630,
+          speed: 1,
+          mode: 'Normal',
         }],
       };
       content = Object.assign({}, { __original: content, __folder: '.' });

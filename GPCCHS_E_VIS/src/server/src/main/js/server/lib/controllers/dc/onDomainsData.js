@@ -10,10 +10,10 @@ const { decode } = require('common/protobuf');
  * @param buffer
  */
 module.exports = (reply, queryIdBuffer, buffer) => {
-  logger.verbose('called');
+  logger.silly('called');
 
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
-  logger.debug('decoded queryId', queryId);
+  logger.silly('decoded queryId', queryId);
 
   const { domains } = decode('dc.dataControllerUtils.Domains', buffer);
   reply(queryId, { domains });

@@ -30,9 +30,9 @@ collection.addFilters = (dataId, filters, subscription) => {
       return undefined;
     }
   }
-  logger.debug('before update', sub);
+  logger.silly('before update', sub);
   sub.filters = _assign({}, sub.filters, filters);
-  logger.debug('update', sub);
+  logger.silly('update', sub);
   return sub;
 };
 
@@ -66,7 +66,7 @@ collection.addRecord = (dataId) => {
   if (typeof subscription !== 'undefined') {
     return subscription;
   }
-  logger.debug('insert', dataId);
+  logger.silly('insert', dataId);
   return collection.insert({
     flatDataId,
     dataId,

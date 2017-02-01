@@ -111,7 +111,7 @@ const onHssMessage = (...args) => {
       );
       const queryKey = createQueryKey(dataId, queryArguments);
       queries.push({ queryKey, queryId, dataId, interval, queryArguments });
-      logger.verbose('query registered', dataId.parameterName, interval);
+      logger.silly('query registered', dataId.parameterName, interval);
       return pushSuccess(queryId);
     }
     case globalConstants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION: {
@@ -149,7 +149,7 @@ const onHssMessage = (...args) => {
 };
 
 function dcCall() {
-  logger.verbose('dcCall call', Object.keys(subscriptions).length, queries.length);
+  logger.silly('dcCall call', Object.keys(subscriptions).length, queries.length);
 
   sendDcStatus(zmq);
 

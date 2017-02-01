@@ -11,7 +11,7 @@ const { set: setDcStatus } = require('../../models/dcStatus');
  * @param buffer
  */
 module.exports = (buffer) => {
-  logger.verbose('called');
+  logger.silly('called');
 
   const status = decode('dc.dataControllerUtils.DcStatus', buffer).status;
 

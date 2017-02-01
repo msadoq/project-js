@@ -38,15 +38,15 @@ module.exports = (
   dataIdBuffer,
   ...payloadsBuffers
 ) => {
-  logger.verbose('called');
+  logger.silly('called');
   const execution = executionMonitor('pubSubData');
   execution.start('global');
 
-  logger.debug('received data from pubSub');
+  logger.silly('received data from pubSub');
 
   execution.start('decode dataId');
   // deprotobufferize dataId
-  logger.debug('decode dataId');
+  logger.silly('decode dataId');
   const dataId = decode('dc.dataControllerUtils.DataId', dataIdBuffer);
   execution.stop('decode dataId');
 
@@ -58,7 +58,7 @@ module.exports = (
 
   execution.start('retrieve subscription');
   // if dataId not in subscriptions model, stop logic
-  logger.debug('retrieve subscription');
+  logger.silly('retrieve subscription');
   const subscription = subscriptionsModel.getByDataId(dataId);
   if (!subscription) {
     return undefined;
@@ -67,17 +67,17 @@ module.exports = (
 
   execution.start('retrieve filters');
   // get { remoteId: filters } from subscriptions model
-  logger.debug('retrieve filters');
+  logger.silly('retrieve filters');
   const filtersByRemoteId = subscriptionsModel.getFilters(dataId, subscription);
   execution.stop('retrieve filters');
 
   // if there is no remoteId for this dataId, stop logic
   if (_isEmpty(filtersByRemoteId)) {
-    logger.debug('no query registered for this dataId', dataId);
+    logger.silly('no query registered for this dataId', dataId);
     return undefined;
   }
   if (payloadsBuffers.length % 2 !== 0) {
-    logger.debug('payloads should be sent by (timestamp, payloads) peers');
+    logger.silly('payloads should be sent by (timestamp, payloads) peers');
     return undefined;
   }
 
@@ -156,7 +156,7 @@ module.exports = (
       execution.stop('store in timebasedData model');
 
       execution.start('queue payloads');
-      logger.debug('queue pubSub point to client');
+      logger.silly('queue pubSub point to client');
       // queue a ws newData message (sent periodically)
       addToQueue(remoteId, tbd.timestamp, tbd.payload);
       execution.stop('queue payloads');

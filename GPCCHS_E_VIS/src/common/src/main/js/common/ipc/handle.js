@@ -11,7 +11,7 @@ const logger = getLogger('ipc:handle');
 
 function getMethodFromController(controller, method) {
   if (typeof method === 'undefined') {
-    return logger.debug('invalid message received (no method)');
+    return logger.warn('invalid message received (no method)');
   }
 
   const fn = controller[method];
@@ -23,7 +23,7 @@ function getMethodFromController(controller, method) {
 }
 
 module.exports = (controller, data, replyMethod) => {
-  logger.debug('message received', data);
+  logger.silly('message received', data);
 
   const { type, queryId, method, payload } = data;
   if (typeof type === 'undefined') {
@@ -34,7 +34,7 @@ module.exports = (controller, data, replyMethod) => {
     case IPC_MESSAGE: {
       const fn = getMethodFromController(controller, method);
       if (fn) {
-        logger.debug(`running ${method}[${type}]`);
+        logger.silly(`running ${method}[${type}]`);
         fn(payload);
       }
       break;
@@ -49,7 +49,7 @@ module.exports = (controller, data, replyMethod) => {
         // register answer callback
         set(queryId, replyMethod);
 
-        logger.debug(`running ${method}[${type}]`);
+        logger.silly(`running ${method}[${type}]`);
         fn(queryId, payload);
       }
 
@@ -62,7 +62,7 @@ module.exports = (controller, data, replyMethod) => {
 
       const fn = pop(queryId);
       if (fn) {
-        logger.debug(`running registered callback on ${type}`);
+        logger.silly(`running registered callback on ${type}`);
         fn(payload);
       }
 

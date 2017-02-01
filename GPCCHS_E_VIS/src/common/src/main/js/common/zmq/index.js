@@ -138,27 +138,27 @@ function get(key, type) {
 
 function push(key, payload, callback = () => {}) {
   const socket = get(key, 'push');
-  logger.debug(`sending to ${key}`);
+  logger.silly(`sending to ${key}`);
   return socket.send(payload, 0, () => {
-    logger.debug(`sent to ${key}`);
+    logger.silly(`sent to ${key}`);
     return callback(null);
   });
 }
 
 function request(key, payload, callback = () => {}) {
   const socket = get(key, 'req');
-  logger.debug(`requesting ${key}`);
+  logger.silly(`requesting ${key}`);
   return socket.send(payload, 0, () => {
-    logger.debug(`requested ${key}`, key);
+    logger.silly(`requested ${key}`, key);
     return callback(null);
   });
 }
 
 function respond(key, payload, callback = () => {}) {
   const socket = get(key, 'rep');
-  logger.debug(`responding ${key}`);
+  logger.silly(`responding ${key}`);
   return socket.send(payload, 0, () => {
-    logger.debug(`responded ${key}`, key);
+    logger.silly(`responded ${key}`, key);
     return callback(null);
   });
 }

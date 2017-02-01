@@ -20,7 +20,7 @@ const set = (id, callback) => {
     throw new Error(`setting a new callback require a valid function '${id}'`);
   }
 
-  logger.debug(`callback registered for '${id}'`);
+  logger.silly(`callback registered for '${id}'`);
   callbacks[id] = callback;
 };
 

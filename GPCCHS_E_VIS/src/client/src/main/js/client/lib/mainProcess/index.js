@@ -4,6 +4,8 @@ import {
   CHILD_PROCESS_SERVER,
   CHILD_PROCESS_DC,
   LOG_APPLICATION_START,
+  LOG_APPLICATION_STOP,
+  LOG_APPLICATION_ERROR,
 } from 'common/constants';
 import getLogger from 'common/log';
 import monitoring from 'common/log/monitoring';
@@ -48,14 +50,13 @@ export function start() {
     callback => enableDebug(callback),
     (callback) => {
       setSplashScreenMessage('loading data store...');
+      logger.info('loading data store...');
 
       // monitoring
       monitoring.start();
 
       // redux store
-      logger.info('initializing store');
       initStore();
-      logger.info('store initialized');
 
       callback(null);
     },
@@ -65,7 +66,7 @@ export function start() {
       }
 
       setSplashScreenMessage('starting data simulator process...');
-      logger.info('initializing dc stub');
+      logger.info('starting data simulator process...');
       fork(
         CHILD_PROCESS_DC,
         `${parameters.get('path')}/node_modules/common/stubs/dc.js`,
@@ -75,7 +76,7 @@ export function start() {
     },
     (callback) => {
       setSplashScreenMessage('starting data server process...');
-      logger.info('initializing server');
+      logger.info('starting data server process...');
       fork(
         CHILD_PROCESS_SERVER,
         `${parameters.get('path')}/node_modules/server/index.js`,
@@ -85,10 +86,8 @@ export function start() {
     },
     (callback) => {
       setSplashScreenMessage('synchronizing processes...');
-
-      server.sendProductLog(LOG_APPLICATION_START);
-
-      logger.info('registering main controllers');
+      logger.info('synchronizing processes...');
+      server.sendProductLog(LOG_APPLICATION_START); // log on LPISIS only when server is up
 
       // ipc with renderer
       ipcMain.on('windowRequest', rendererController);
@@ -104,14 +103,15 @@ export function start() {
     // should have master sessionId in store at start
     (callback) => {
       setSplashScreenMessage('requesting master session...');
+      logger.info('requesting master session...');
       server.requestMasterSession(({ err, masterSessionId }) => {
         if (err) {
           return callback(err);
         }
 
         setSplashScreenMessage('injecting master session...');
+        logger.info('injecting master session...');
 
-        logger.debug('received master sessionId from server');
         getStore().dispatch(updateMasterSession(masterSessionId));
         callback(null);
       });
@@ -119,15 +119,15 @@ export function start() {
     // should have sessions in store at start
     (callback) => {
       setSplashScreenMessage('requesting sessions...');
-      logger.info('requesting sessions');
+      logger.info('requesting sessions...');
       server.requestSessions(({ err, sessions }) => {
         if (err) {
           return callback(err);
         }
 
         setSplashScreenMessage('injecting sessions...');
+        logger.info('injecting sessions...');
 
-        logger.info('received sessions from server');
         getStore().dispatch(updateSessions(sessions));
         callback(null);
       });
@@ -135,38 +135,41 @@ export function start() {
     // should have domains in store at start
     (callback) => {
       setSplashScreenMessage('requesting domains...');
-      logger.info('requesting domains');
+      logger.info('requesting domains...');
       server.requestDomains(({ err, domains }) => {
         if (err) {
           return callback(err);
         }
 
         setSplashScreenMessage('injecting domains...');
+        logger.info('injecting domains...');
 
-        logger.info('received domains from server');
         getStore().dispatch(updateDomains(domains));
         callback(null);
       });
     },
     (callback) => {
       setSplashScreenMessage('searching workspace...');
+      logger.info('searching workspace...');
 
-      logger.info('opening workspace');
       const { dispatch, getState } = getStore();
       const root = parameters.get('FMD_ROOT_DIR');
       const file = parameters.get('WORKSPACE');
 
       if (!file) {
         setSplashScreenMessage('loading default workspace...');
+        logger.info('loading default workspace...');
         dispatch(addMessage('global', 'info', 'No WORKSPACE found'));
         return openDefaultWorkspace(dispatch, root, callback);
       }
 
       setSplashScreenMessage(`loading ${file}`);
+      logger.info(`loading ${file}`);
 
       openWorkspaceDocument(dispatch, getState, root, file, (err, value) => {
         if (err) {
           setSplashScreenMessage('loading default workspace...');
+          logger.info('loading default workspace...');
           dispatch(addMessage('global', 'danger', err));
           return openDefaultWorkspace(dispatch, root, callback);
         }
@@ -179,15 +182,17 @@ export function start() {
     }
 
     setSplashScreenMessage('ready!');
-
-    logger.info('workspace opened');
-    logger.info('application started');
+    logger.info('ready!');
     server.sendProductLog(LOG_APPLICATION_START);
+
     startOrchestration();
   });
 }
 
 export function stop() {
+  server.sendProductLog(LOG_APPLICATION_STOP);
+  logger.info('stopping application');
+
   // stop monitoring
   monitoring.stop();
 
@@ -209,4 +214,10 @@ export function onWindowsClose() {
   if (!state.hsc.isWorkspaceOpening) { // TODO implement selector
     app.quit();
   }
+}
+
+export function onError(err) {
+  console.error(err); // eslint-disable-line no-console
+  server.sendProductLog(LOG_APPLICATION_ERROR, err.message);
+  app.exit(1);
 }

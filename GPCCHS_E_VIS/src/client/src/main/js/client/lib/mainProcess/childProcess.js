@@ -6,14 +6,14 @@ const processes = {};
 function fork(id, path, options, callback) {
   processes[id] = forkChildProcess(path, [], options);
   processes[id].on('close', (code, signal) => {
-    logger.verbose(`child process ${id} closed with code ${code} (${signal})`);
+    logger.debug(`child process ${id} closed with code ${code} (${signal})`);
   });
-  processes[id].on('disconnect', () => logger.verbose(`child process ${id} disconnected`));
+  processes[id].on('disconnect', () => logger.debug(`child process ${id} disconnected`));
   processes[id].on('error', (err) => {
     throw err;
   });
   processes[id].on('exit', (code, signal) => {
-    logger.verbose(`child process ${id} exited with code ${code} (${signal})`);
+    logger.debug(`child process ${id} exited with code ${code} (${signal})`);
   });
 
   // only for ready message

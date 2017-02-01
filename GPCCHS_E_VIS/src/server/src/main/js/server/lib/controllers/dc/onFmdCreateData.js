@@ -12,10 +12,10 @@ const { decode } = require('common/protobuf');
  * @param buffer
  */
 module.exports = (reply, queryIdBuffer, statusBuffer, buffer) => {
-  logger.verbose('called');
+  logger.silly('called');
 
   const queryId = decode('dc.dataControllerUtils.String', queryIdBuffer).string;
-  logger.debug('decoded queryId', queryId);
+  logger.silly('decoded queryId', queryId);
 
   const { status } = decode('dc.dataControllerUtils.Status', statusBuffer);
   if (status !== globalConstants.STATUS_SUCCESS) {

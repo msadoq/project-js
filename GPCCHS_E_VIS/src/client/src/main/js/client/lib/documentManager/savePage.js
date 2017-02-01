@@ -10,6 +10,7 @@ import parameters from 'common/parameters';
 import { server } from '../mainProcess/ipc';
 import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
+import validation from './validation';
 
 /**
  * Save plot view from state to file
@@ -32,7 +33,7 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
     }
     const root = parameters.get('FMD_ROOT_DIR');
     const page = state.pages[pageId];
-    const jsonPage = {
+    const savedPage = {
       type: 'Page',
       timebarHeight: page.timebarHeight,
       timebarCollapsed: page.timebarCollapsed,
@@ -72,10 +73,15 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
       current.hideBorders = (page.hideBorders ? page.hideBorders : false);
       current.windowState = (page.windowState ? page.windowState : 'Normalized');
 
-      jsonPage.views.push(current);
+      savedPage.views.push(current);
     });
+    // validation
+    const validationError = validation('page', savedPage);
+    if (validationError) {
+      return callback(validationError);
+    }
     // save file
-    writeDocument(fmdApi)(path, jsonPage, (errfs, oid) => {
+    writeDocument(fmdApi)(path, savedPage, (errfs, oid) => {
       if (errfs) {
         return callback(errfs);
       }

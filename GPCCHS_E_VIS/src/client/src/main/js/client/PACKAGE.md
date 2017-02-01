@@ -36,3 +36,21 @@ Or quicker:
 
 > cd /data/work/gitRepositories/LPISIS/GPCCHS
 > mvn lpisis:clean-all install antrun:run lpisis:clean-all
+
+## Re-build and commit COTS
+ 
+After a previous compilation (target should exists), in a shell WITH http_proxy set:
+ 
+> cd /data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/target
+> mvn lpisis:clean-all process-resources
+> rm -rf target/dependencies/npm_cache/*
+> ./target/script/gen/generate.sh
+> cd target/dependencies
+> tar czvf /data/work/gitRepositories/LPISIS/COTS/npm_repository/src/impl/npm_cache/src/main/cots/npm_cache.tgz npm_cache/
+> tar czvf /data/work/gitRepositories/LPISIS/COTS/npm_repository/src/impl/electron_cache/src/main/cots/electron_cache.tgz .electron
+> cd /data/work/gitRepositories/LPISIS/COTS/npm_repository
+> mvn lpisis:clean-all install
+
+Then to test, in a shell WITHOUT http_proxy set:
+
+> cd /data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/target

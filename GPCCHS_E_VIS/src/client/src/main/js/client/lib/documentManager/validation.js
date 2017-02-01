@@ -14,6 +14,15 @@ const knownValidators = {
   timebars: ajv.compile(timebarsSchema),
 };
 
+function reformat(errors) {
+  return _map(errors, (err) => {
+    const keys = Object.keys(err.params);
+    const param = keys.length ? err.params[keys[0]] : '';
+    return err.dataPath.concat(' ')
+      .concat(err.message.concat((_isArray(param) ? ' : '.concat(_join(param, ', ')) : '')));
+  }).join('\n');
+}
+
 const validate = (id, data, schema) => {
   if (!knownValidators[id]) {
     if (!schema) {
@@ -28,7 +37,7 @@ const validate = (id, data, schema) => {
   }
 
   if (!knownValidators[id](data)) {
-    return reformat(knownValidators[id].errors);
+    return new Error(reformat(knownValidators[id].errors));
   }
 
   return undefined;
@@ -52,12 +61,3 @@ export default (...args) => {
   }
   return validate(...args);
 };
-
-export function reformat(errors) {
-  return _map(errors, (err) => {
-    const keys = Object.keys(err.params);
-    const param = keys.length ? err.params[keys[0]] : '';
-    return err.dataPath.concat(' ')
-      .concat(err.message.concat((_isArray(param) ? ' : '.concat(_join(param, ', ')) : '')));
-  });
-}

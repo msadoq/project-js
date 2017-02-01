@@ -32,6 +32,6 @@ module.exports = {
   sinon,
   getStore,
   freezeMe: o => deepFreeze(_cloneDeep(o)),
-  getTmpPath: (...args) => path.resolve(tmpdir(), 'test', ...args),
+  getTmpPath: (...args) => path.resolve(tmpdir(), 'vima-tests', ...args),
   nextTick: f => (...args) => process.nextTick(f, ...args),
 };

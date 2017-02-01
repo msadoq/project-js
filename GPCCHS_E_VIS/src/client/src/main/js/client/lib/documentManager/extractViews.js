@@ -3,7 +3,8 @@ import compose from 'lodash/fp/compose';
 import join from 'lodash/fp/join';
 import has from 'lodash/fp/has';
 import indexBy from 'lodash/fp/indexBy';
-import filter from 'lodash/fp/filter';
+import negate from 'lodash/fp/negate';
+import find from 'lodash/fp/find';
 import flatten from 'lodash/fp/flatten';
 import values from 'lodash/fp/values';
 import pluck from 'lodash/fp/pluck';
@@ -89,9 +90,13 @@ const readViews = fmdApi => (viewsToRead, done) => {
 // side effects due to uuid generation (v4)
 function preparePageViews(page) {
   const pageFolder = dirname(page.absolutePath);
+  const isInvalidView = negate(anyPass([has('oId'), has('path')]));
+  const hasInvalidView = pipe(prop('views'), find(isInvalidView));
+  if (hasInvalidView(page)) {
+    throw new Error('Invalid view in pages (extractViews)');
+  }
   const injectUUIDAndPageFolder = update('views',
       pipe(
-        filter(anyPass([has('oId'), has('path')])),
         map(view => ({
           ...view,
           pageFolder,
@@ -106,29 +111,33 @@ function preparePageViews(page) {
  * Find views in .pages, read files and store each with a uuid in .views
  *
  * @param content
- * @param done
+ * @param cb
  * @returns {*}
  */
-const extractViews = fmdApi => (content, done) => {
-  const otherwise = () => true;
-  const getAllViews = pipe(
-    propOr({}, 'pages'),
-    cond([
-      [isObject, compose(flatten, values, pluck('views'))],
-      [otherwise, always([])],
-    ]),
-  );
+const extractViews = fmdApi => (content, cb) => {
+  try {
+    const otherwise = () => true;
+    const getAllViews = pipe(
+      propOr({}, 'pages'),
+      cond([
+        [isObject, compose(flatten, values, pluck('views'))],
+        [otherwise, always([])],
+      ]),
+    );
 
-  const prepareAllPagesViews = update('pages', mapValues(preparePageViews));
-  const nextContent = prepareAllPagesViews(content);
+    const prepareAllPagesViews = update('pages', mapValues(preparePageViews));
+    const nextContent = prepareAllPagesViews(content);
 
-  return readViews(fmdApi)(getAllViews(nextContent), (err, views) => {
-    if (err) {
-      return done(err);
-    }
-    const setViews = assoc('views', indexByUUID(views));
-    return done(null, setViews(nextContent));
-  });
+    return readViews(fmdApi)(getAllViews(nextContent), (err, views) => {
+      if (err) {
+        return cb(err);
+      }
+      const setViews = assoc('views', indexByUUID(views));
+      return cb(null, setViews(nextContent));
+    });
+  } catch (e) {
+    cb(e);
+  }
 };
 
 export default {

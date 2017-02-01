@@ -1,5 +1,5 @@
 const globalConstants = require('common/constants');
-const { v4 } = require('node-uuid');
+const { v4 } = require('uuid');
 const path = require('path');
 const {
   startWS,

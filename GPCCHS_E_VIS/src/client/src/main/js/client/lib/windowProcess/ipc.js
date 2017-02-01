@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron';
-import { v4 } from 'node-uuid';
+import { v4 } from 'uuid';
 import globalConstants from 'common/constants';
 import getLogger from 'common/log';
 import { set } from 'common/callbacks';

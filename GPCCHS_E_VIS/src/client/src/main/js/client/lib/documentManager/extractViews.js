@@ -20,7 +20,7 @@ import isObject from 'lodash/fp/isObject';
 
 import { dirname } from 'path';
 import async from 'async';
-import { v4 } from 'node-uuid';
+import { v4 } from 'uuid';
 import globalConstants from 'common/constants';
 
 import { readDocument } from './io';

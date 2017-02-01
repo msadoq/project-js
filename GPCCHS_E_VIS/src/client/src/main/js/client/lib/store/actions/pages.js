@@ -1,4 +1,4 @@
-import { v4 } from 'node-uuid';
+import { v4 } from 'uuid';
 import simple from '../simpleActionCreator';
 import { ifPathChanged } from './enhancers';
 import * as types from '../types';

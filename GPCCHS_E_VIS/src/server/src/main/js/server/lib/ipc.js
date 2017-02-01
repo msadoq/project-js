@@ -1,4 +1,4 @@
-const { v4 } = require('node-uuid');
+const { v4 } = require('uuid');
 const logger = require('common/log')('main:ipc');
 const { set: setCallback } = require('common/callbacks');
 const globalConstants = require('common/constants');

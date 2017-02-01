@@ -1,4 +1,4 @@
-import { v4 } from 'node-uuid';
+import { v4 } from 'uuid';
 import times from 'lodash/fp/times';
 import get from 'lodash/fp/prop';
 

@@ -1,4 +1,4 @@
-import { v4 } from 'node-uuid';
+import { v4 } from 'uuid';
 import globalConstants from 'common/constants';
 import getLogger from 'common/log';
 import { set as setCallback } from 'common/callbacks';

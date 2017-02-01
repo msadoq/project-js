@@ -1,4 +1,4 @@
-import { v4 } from 'node-uuid';
+import { v4 } from 'uuid';
 import async from 'async';
 
 import map from 'lodash/fp/map';

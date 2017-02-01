@@ -1,5 +1,5 @@
 import _ from 'lodash/fp';
-import { v4 } from 'node-uuid';
+import { v4 } from 'uuid';
 import {
   LOG_DOCUMENT_OPEN
 } from 'common/constants';

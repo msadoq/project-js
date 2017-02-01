@@ -11,7 +11,7 @@ import assoc from 'lodash/fp/assoc';
 import filter from 'lodash/fp/filter';
 import indexBy from 'lodash/fp/indexBy';
 
-import { v4 } from 'node-uuid';
+import { v4 } from 'uuid';
 
 // not pure (due to uuid generation)
 const setUUID = obj => assoc('uuid', v4(), obj);

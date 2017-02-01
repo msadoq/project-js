@@ -1,7 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
-import { v4 } from 'node-uuid';
+import { v4 } from 'uuid';
 import globalConstants from 'common/constants';
 
 import styles from './Header.css';

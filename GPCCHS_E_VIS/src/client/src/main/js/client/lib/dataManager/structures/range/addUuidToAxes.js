@@ -1,4 +1,4 @@
-import { v4 } from 'node-uuid';
+import { v4 } from 'uuid';
 import update from 'lodash/fp/update';
 import indexBy from 'lodash/fp/indexBy';
 

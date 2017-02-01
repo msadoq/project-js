@@ -1,4 +1,4 @@
-import { v4 } from 'node-uuid';
+import { v4 } from 'uuid';
 import { getStore } from '../store/mainStore';
 import { add } from '../store/actions/windows';
 import { viewOpen, addPlotView, addTextView, addDynamicView } from './menu/viewOpen';

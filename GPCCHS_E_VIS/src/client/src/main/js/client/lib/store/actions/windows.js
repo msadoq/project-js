@@ -1,4 +1,4 @@
-import { v4 } from 'node-uuid';
+import { v4 } from 'uuid';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
 import { pause } from './hsc';

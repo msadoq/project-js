@@ -1,5 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
-import { v4 } from 'node-uuid';
+import { v4 } from 'uuid';
 import { Col, FormGroup } from 'react-bootstrap';
 
 export default class SelectTimebar extends PureComponent {

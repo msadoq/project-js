@@ -1,6 +1,6 @@
 import _each from 'lodash/each';
 import _map from 'lodash/map';
-import { v4 } from 'node-uuid';
+import { v4 } from 'uuid';
 import getLogger from 'common/log';
 import { LOG_DOCUMENT_OPEN } from 'common/constants';
 

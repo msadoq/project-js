@@ -1,4 +1,4 @@
-import { v4 } from 'node-uuid';
+import { v4 } from 'uuid';
 import _ from 'lodash';
 import { compose, prop, split } from 'lodash/fp';
 import path from 'path';

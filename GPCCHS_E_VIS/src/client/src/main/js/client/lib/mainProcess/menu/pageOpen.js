@@ -1,6 +1,6 @@
 import { BrowserWindow } from 'electron';
 import _map from 'lodash/map';
-import { v4 } from 'node-uuid';
+import { v4 } from 'uuid';
 import {
   LOG_DOCUMENT_OPEN
 } from 'common/constants';

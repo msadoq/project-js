@@ -1,4 +1,4 @@
-import { v4 } from 'node-uuid';
+import { v4 } from 'uuid';
 import _get from 'lodash/get';
 import globalConstants from 'common/constants';
 import simple from '../simpleActionCreator';

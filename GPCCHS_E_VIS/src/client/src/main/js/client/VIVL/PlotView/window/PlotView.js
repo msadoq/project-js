@@ -579,7 +579,7 @@ export class PlotView extends PureComponent {
 
   xAccessor = (d) => {
     if (typeof d === 'undefined' || typeof d.x === 'undefined') {
-      logger.warn('empty point received');
+      logger.debug('empty point received');
       return;
     }
 
@@ -716,7 +716,7 @@ export class PlotView extends PureComponent {
     const noRender = this.shouldRender();
 
     if (noRender) {
-      logger.warn('no render due to', noRender);
+      logger.debug('no render due to', noRender);
       // TODO : clean message component
       return (
         <DroppableContainer

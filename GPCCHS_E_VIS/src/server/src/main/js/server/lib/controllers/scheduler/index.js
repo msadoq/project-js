@@ -12,7 +12,7 @@ const jobs = [
 
 const runJob = (job, scheduleJob, name) => () => {
   job(pushToDc, scheduleJob);
-  logger.verbose(`run job ${name}`);
+  logger.silly(`run job ${name}`);
 };
 
 // Start all jobs

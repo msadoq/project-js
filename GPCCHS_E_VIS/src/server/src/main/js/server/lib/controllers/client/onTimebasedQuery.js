@@ -42,10 +42,10 @@ const subscriptionsModel = require('../../models/subscriptions');
 
 module.exports = (sendMessageToDc, { queries }) => {
   if (!queries || !Object.keys(queries).length) {
-    return logger.debug('called without any query');
+    return logger.warn('called without any query');
   }
 
-  logger.debug('called', Object.keys(queries).length, 'remoteIds');
+  logger.silly('called', Object.keys(queries).length, 'remoteIds');
   const execution = executionMonitor('query');
   execution.reset();
   execution.start('global');

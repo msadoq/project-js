@@ -15,7 +15,7 @@ let store;
 const isDebugOn = global.parameters.get('DEBUG') === 'on';
 
 const dispatchProxy = (...args) => {
-  logger.debug('receive action from main process', ...args);
+  logger.silly('receive action from main process', args);
   store.dispatch(...args);
 };
 

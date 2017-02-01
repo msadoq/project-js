@@ -39,6 +39,6 @@ module.exports = (trash, headerBuffer, ...args) => {
     return logger.warn(`invalid message received (unknown messageType) '${messageType}'`);
   }
 
-  logger.debug(`running '${messageType}'`);
+  logger.silly(`running '${messageType}'`);
   return fn(...args);
 };

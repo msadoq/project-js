@@ -14,14 +14,14 @@ const generateCollectionName = _memoize(
 );
 
 const addRecords = (collection, records) => {
-  logger.debug(`add ${records.length} records`);
+  logger.silly(`add ${records.length} records`);
   _each(records, (record) => {
     collection.addRecord(record.timestamp, record.payload);
   });
 };
 
 const addRecord = (collection, timestamp, payload) => {
-  logger.debug('add record', collection.name);
+  logger.silly('add record', collection.name);
   const record = collection.by('timestamp', timestamp);
   if (typeof record === 'undefined') {
     return collection.insert({
@@ -44,10 +44,10 @@ const searchByInterval = (collection, lower, upper, toRemove) => {
   }
 
   if (toRemove) {
-    logger.debug('removing for', query.$and);
+    logger.silly('removing for', query.$and);
     return collection.chain().find(query).remove();
   }
-  logger.debug('searching for', query.$and);
+  logger.silly('searching for', query.$and);
   return collection.find(query);
 };
 

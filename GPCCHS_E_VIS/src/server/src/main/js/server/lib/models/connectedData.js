@@ -38,12 +38,12 @@ collection.areTimestampsInKnownIntervals = (remoteId, timestamps, connectedData)
   if (!cd) {
     cd = collection.by('remoteId', remoteId);
     if (!cd) {
-      logger.debug('timestamps not in known intervals');
+      logger.silly('timestamps not in known intervals');
       return [];
     }
   }
 
-  logger.debug('check intervals for these timestamps');
+  logger.silly('check intervals for these timestamps');
   return _filter(
     timestamps,
     timestamp => intervalManager.includesTimestamp(cd.intervals.all, timestamp)
@@ -56,14 +56,14 @@ collection.isTimestampInKnownIntervals = (remoteId, timestamp, connectedData) =>
   if (!cd) {
     cd = collection.by('remoteId', remoteId);
     if (!cd) {
-      logger.debug('timestamp not in known intervals');
+      logger.silly('timestamp not in known intervals');
       return false;
     }
   }
 
   logger.debug('check intervals');
   if (intervalManager.includesTimestamp(cd.intervals.all, timestamp)) {
-    logger.debug('timestamp in intervals');
+    logger.silly('timestamp in intervals');
     return true;
   }
 
@@ -95,7 +95,7 @@ collection.setIntervalAsReceived = (remoteId, queryUuid, connectedData) => {
       throw new Error('Consuming type not valid:', cd.type);
   }
   delete cd.intervals.requested[queryUuid];
-  logger.debug('set interval', interval, 'as received for', remoteId);
+  logger.silly('set interval', interval, 'as received for', remoteId);
   return cd;
 };
 
@@ -230,7 +230,7 @@ collection.retrieveMissingIntervals = (remoteId, interval, connectedData) => {
   if (!cd) {
     cd = collection.by('remoteId', remoteId);
     if (!cd) {
-      logger.debug('no connectedData');
+      logger.silly('no connectedData');
       return [interval];
     }
   }

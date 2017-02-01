@@ -34,7 +34,7 @@ const subscriptionsModel = require('../../models/subscriptions');
  */
 
 module.exports = (sendMessageToDc, dataMap) => {
-  logger.debug('called');
+  logger.silly('called');
   const messageQueue = [];
   const execution = executionMonitor('cacheCleanup');
   execution.start('global');
@@ -66,7 +66,7 @@ module.exports = (sendMessageToDc, dataMap) => {
 
   // loop over expired requests ('remoteId': [interval])
   _each(expiredRequests, ({ intervals }, remoteId) => {
-    logger.debug('intervals', intervals, 'remoteId', remoteId);
+    logger.silly('intervals', intervals, 'remoteId', remoteId);
     // remove intervals from connectedData model
     execution.start('remove intervals');
     const queryIds = connectedDataModel.removeIntervals(remoteId, intervals);
@@ -74,7 +74,7 @@ module.exports = (sendMessageToDc, dataMap) => {
     execution.start('remove queries');
     removeRegisteredQuery(queryIds);
     execution.stop('remove queries');
-    logger.debug('Query Ids no longer needed', queryIds);
+    logger.silly('Query Ids no longer needed', queryIds);
     // if there are still requested intervals in connectedData model for this remoteId
     execution.start('get remaining intervals');
     const remainingIntervals = connectedDataModel.getIntervals(remoteId);
@@ -83,7 +83,7 @@ module.exports = (sendMessageToDc, dataMap) => {
       return undefined;
     }
     if (remainingIntervals.length !== 0) {
-      logger.debug('still requested');
+      logger.silly('still requested');
       // remove data corresponding to expired intervals from timebasedData model
       execution.start('get tbd model');
       const timebasedDataModel = getTimebasedDataModel(remoteId);
@@ -98,7 +98,7 @@ module.exports = (sendMessageToDc, dataMap) => {
         execution.stop('find and remove tbd');
       });
     }
-    logger.debug('no more interval');
+    logger.silly('no more interval');
     // else, no more intervals for this remoteId
     // get corresponding dataId from connectedData model
     execution.start('get dataId');
@@ -123,7 +123,7 @@ module.exports = (sendMessageToDc, dataMap) => {
       return undefined;
     }
     execution.stop('get remaining remoteIds for this subscription');
-    logger.debug('no more remoteIds');
+    logger.silly('no more remoteIds');
     // else, no more remoteIds for this dataId
     // remove dataId from subscriptions model
     execution.start('remove subscription');
@@ -136,7 +136,7 @@ module.exports = (sendMessageToDc, dataMap) => {
     execution.stop('create and push sub message');
     return undefined;
   });
-  logger.debug('message queue length', messageQueue.length);
+  logger.silly('message queue length', messageQueue.length);
   // send queued messages to DC
   execution.start('send zmq messages');
   _each(messageQueue, args => sendMessageToDc(args));

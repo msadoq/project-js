@@ -24,7 +24,7 @@ collection.addRecord = (queryId, remoteId) => {
     throw new Error(`setting a new remoteId require a string id '${queryId}'`);
   }
 
-  logger.debug(`query registered for '${queryId}'`);
+  logger.silly(`query registered for '${queryId}'`);
   collection.insert({
     queryId,
     remoteId,

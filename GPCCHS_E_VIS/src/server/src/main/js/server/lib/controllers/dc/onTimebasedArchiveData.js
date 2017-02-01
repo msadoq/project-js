@@ -54,7 +54,7 @@ module.exports = (
   if (typeof remoteId === 'undefined') {
     return undefined;
   }
-  logger.debug('received data from query', queryId);
+  logger.silly('received data from query', queryId);
   execution.stop('register query');
 
   // deprotobufferize isLast
@@ -64,7 +64,7 @@ module.exports = (
 
   // if last chunk of data, set interval as received in connectedData model and unregister queryId
   if (isLast) {
-    logger.debug('last chunk of queried timebased data', queryId);
+    logger.silly('last chunk of queried timebased data', queryId);
     execution.start('set interval as received');
     connectedDataModel.setIntervalAsReceived(remoteId, queryId);
     removeRegisteredQuery(queryId);
@@ -86,7 +86,7 @@ module.exports = (
 
   // check payloads parity
   if (payloadBuffers.length % 2 !== 0) {
-    logger.debug('payloads should be sent by (timestamp, payloads) peers');
+    logger.silly('payloads should be sent by (timestamp, payloads) peers');
     return undefined;
   }
 
@@ -133,7 +133,7 @@ module.exports = (
     execution.stop('queue payloads');
     callback(null);
   }, () => {
-    logger.debug(`inserted ${payloadNumber} payloads`);
+    logger.silly(`inserted ${payloadNumber} payloads`);
 
     // if HSS is a forked process, in e2e tests for example
     if (process.send) {

@@ -7,7 +7,7 @@ let start;
 
 const iterate = () => {
   iterationNb += 1;
-  setImmediate(iterate);
+  setTimeout(iterate);
 };
 
 module.exports = () => {

@@ -90,7 +90,7 @@ describe('documents/lib', () => {
       content.timebars[uuid[0]].timelines = { val: 'wrong' };
       extractTimelines(content, (err) => {
         should.exist(err);
-        err.should.be.an('array');
+        err.should.be.an('error');
       });
     });
     it('no timelines', () => {

@@ -36,7 +36,8 @@ describe('documents/validation', () => {
     should.not.exist(validate('simplePage', page, schema));
   });
   it('errors', () => {
-    validate('page', pageInvalid).should.be.an('array').with.lengthOf(3);
+    validate('unknown', page).should.be.an('error');
     validate('unknown', pageInvalid).should.be.an('error');
+    validate('page', pageInvalid).should.be.an('error');
   });
 });

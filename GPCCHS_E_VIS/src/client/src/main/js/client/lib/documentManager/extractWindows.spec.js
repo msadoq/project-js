@@ -1,6 +1,6 @@
+import _ from 'lodash';
 import extractWindows from './extractWindows';
 import { should } from '../common/test';
-import _ from 'lodash';
 
 describe('documents/lib', () => {
   describe('extractWindows ', () => {

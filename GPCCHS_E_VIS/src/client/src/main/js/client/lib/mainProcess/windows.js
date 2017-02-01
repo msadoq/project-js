@@ -27,10 +27,6 @@ const logger = getLogger('main:windows');
 const windows = {};
 let splashScreen;
 
-function getWindowHtmlPath() {
-  return `file://${parameters.get('path')}/index.html`;
-}
-
 // SplashScreen shown when all windows are closed
 // It is opened once and hidden when unusable
 export function openSplashScreen(callback) {
@@ -45,14 +41,18 @@ export function openSplashScreen(callback) {
     y,
     width: splashWidth,
     height: splashHeight,
-    frame: false, // Open a window without toolbars, borders, or other graphical "chrome".
+    show: false,
+    frame: false, // no window toolbars and chrome
     alwaysOnTop: true,
   });
   splashScreen.setMenuBarVisibility(false);
   splashScreen.loadURL(`file://${parameters.get('path')}/splash.html`);
-  splashScreen.focus();
 
-  return callback(null);
+  splashScreen.on('ready-to-show', () => {
+    splashScreen.show();
+    splashScreen.focus();
+    return callback(null);
+  });
 }
 
 export function showSplashScreen() {
@@ -61,11 +61,22 @@ export function showSplashScreen() {
 }
 
 export function hideSplashScreen() {
+  // empty previously splashcreen message
+  setSplashScreenMessage();
+
   splashScreen.hide();
 }
 
 export function closeSplashScreen() {
   setImmediate(() => splashScreen.close());
+}
+
+export function setSplashScreenMessage(message = '') {
+  if (!splashScreen && !splashScreen.isDestroyed()) {
+    return;
+  }
+
+  splashScreen.webContents.send('splash', message);
 }
 
 export function open(windowId, title, data, cb) {
@@ -88,7 +99,7 @@ export function open(windowId, title, data, cb) {
   // prevent garbage collection
   windows[windowId] = window;
 
-  const htmlPath = getWindowHtmlPath();
+  const htmlPath = `file://${parameters.get('path')}/index.html`;
   logger.debug('opening', htmlPath);
   window.loadURL(`${htmlPath}?windowId=${windowId}`);
 

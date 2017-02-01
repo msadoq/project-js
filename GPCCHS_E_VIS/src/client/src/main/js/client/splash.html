@@ -3,710 +3,144 @@
 <head>
   <meta charset="utf-8"/>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimal-ui"/>
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="yes"/>
-  <meta name="renderer" content="webkit"/>
-  <meta http-equiv="Cache-Control" content="no-siteapp"/>
   <style>
-    .splashing{width:100vw;height:100vh;margin:0;max-width:100%;max-height:100%;overflow:hidden}
-    .splashing .splash{width:75pt;height:75pt;position:fixed;margin:-50px auto auto -50px;left:50%;top:50%;box-sizing:content-box}
-    .splashing .splash.tailing{border-radius:50%;box-shadow:0 0 5px #fff}
-    .splashing .splash.tailing:before{
-      content:"";
-      position:absolute;
-      width:100%;
-      height:100%;
-      border-radius:50%;
-      background:-webkit-linear-gradient(#000,#dcdcdc);
-      background:linear-gradient(#000,#dcdcdc);
-      -webkit-animation:splash-spin 1s infinite linear;
-      animation:splash-spin 1s infinite linear
+    html, body, .content {
+      height: 100%;
+    }
+    body {
+      background-color: #192A4B;
+      text-align: center;
+      color: #FFF;
+      font-family: Verdana, Geneva, sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .sattelite {
+      position: absolute;
+      right: 0;
+      top: 20px;
+      width: 210px;
+      height: 210px;
+    }
+    .sattelite svg path {
+      fill: #5B5B70;
+    }
+    .sattelite svg g path {
+      fill: none;
+      stroke: #5B5B70;
+    }
+    .antenna {
+      position: absolute;
+      bottom: -100px;
+      left: 10px;
+      width: 300px;
+      height: 300px;
+    }
+    .antenna svg path {
+      fill: #5B5B70;
     }
 
-    .splashing .splash.tailing:after{
-      content:"";
-      position:absolute;
-      width:95%;
-      height:95%;
-      top:2.5%;
-      left:2.5%;
-      background-color:#fff;
-      border-radius:50%;
-      box-shadow:inset 0 0 5px #fff
+    .title {
+      margin: 230px auto 0;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 2rem;
     }
 
-    .splashing .splash.tailing span{
-      position:absolute;
-      left:25px;
-      top:45px;
-      z-index:100
+    #message {
+      margin: 0 auto;
+      color: #8C8C94;
     }
 
-    .splashing .splash.audio-wave{
-      width:5pc;
-      height:60px;
-      top:50%;
-      margin-top:-30px;
-      left:50%;
-      margin-left:-40px;
-      background:-webkit-linear-gradient(#fb7c4d,#fb7c4d) 0 50%,
-      -webkit-linear-gradient(#fb7c4d,#fb7c4d) 25% 50%,
-      -webkit-linear-gradient(#fb7c4d,#fb7c4d) 50% 50%,
-      -webkit-linear-gradient(#fb7c4d,#fb7c4d) 75% 50%,
-      -webkit-linear-gradient(#fb7c4d,#fb7c4d) 100% 50%;
-      background:linear-gradient(#fb7c4d,#fb7c4d) 0 50%,
-      linear-gradient(#fb7c4d,#fb7c4d) 25% 50%,
-      linear-gradient(#fb7c4d,#fb7c4d) 50% 50%,
-      linear-gradient(#fb7c4d,#fb7c4d) 75% 50%,
-      linear-gradient(#fb7c4d,#fb7c4d) 100% 50%;
-      background-repeat:no-repeat;
-      background-size:19% 10px,19% 10px,19% 10px,19% 10px,19% 10px;
-      -webkit-animation:splash-audio-wave-animation 1.5s linear infinite;
-      animation:splash-audio-wave-animation 1.5s linear infinite
+    .spinner {
+      width: 40px;
+      height: 40px;
+      position: relative;
+      margin: 20px auto 0;
     }
 
-    .splashing .splash.spinner-section, .splashing .splash.spinner-section-far{
-      width:50px;
-      height:50px;
-      left:50%;
-      margin-left:-25px;
-      top:50%;
-      margin-top:-25px;
-      border-radius:50%;
-      border:3.13px solid #aaa;
-      -webkit-animation:splash-spinner 1.2s linear infinite;
-      animation:splash-spinner 1.2s linear infinite
+    .double-bounce1, .double-bounce2 {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: #8C8C94;
+      opacity: 0.6;
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+      animation: sk-bounce 2.0s infinite ease-in-out;
     }
 
-    .splashing .splash.spinner-section-far:after,
-    .splashing .splash.spinner-section-far:before,
-    .splashing .splash.spinner-section:after,
-    .splashing .splash.spinner-section:before{
-      content:'';
-      position:absolute;
-      top:-3.13px;
-      left:-3.13px;
-      display:block;
-      width:50px;
-      height:50px;
-      border-radius:50%;
-      border:3.13px solid transparent;
-      border-top-color:tomato
+    .double-bounce2 {
+      -webkit-animation-delay: -1.0s;
+      animation-delay: -1.0s;
     }
 
-    .splashing .splash.spinner-section-far:after,
-    .splashing .splash.spinner-section:after{
-      display:none;
-      border-top-color:transparent;
-      border-bottom-color:tomato
+    @-webkit-keyframes sk-bounce {
+      0%, 100% {
+        -webkit-transform: scale(0.0)
+      }
+      50% {
+        -webkit-transform: scale(1.0)
+      }
     }
 
-    .splashing .splash.spinner-section-far:after,
-    .splashing .splash.spinner-section-far:before{
-      top:-9.38px;
-      left:-9.38px;
-      width:62.5px;
-      height:62.5px
-    }
-
-    .splashing .splash.windcatcher{
-      width:40px;
-      height:auto;
-      left:50%;
-      margin-left:-20px;
-      top:50%;
-      margin-top:-50px;
-      -webkit-perspective:500px;
-      perspective:500px;
-      -webkit-animation:splash-rotate 4s linear infinite;
-      animation:splash-rotate 4s linear infinite
-    }
-
-    .splashing .splash.windcatcher .blade{
-      height:5px;
-      background-color:#0277bd;
-      margin-bottom:1px;
-      -webkit-animation:splash-windcatcherSpin 4s linear infinite,
-      splash-windcatcherBg 2s linear infinite;
-      animation:splash-windcatcherSpin 4s linear infinite,
-      splash-windcatcherBg 2s linear infinite
-    }
-
-    .splashing .splash.windcatcher .blade:nth-child(1){
-      -webkit-animation-delay:0s;
-      animation-delay:0s
-    }
-    .splashing .splash.windcatcher .blade:nth-child(2){
-      -webkit-animation-delay:.25s;
-      animation-delay:.25s
-    }
-    .splashing .splash.windcatcher .blade:nth-child(3){
-      -webkit-animation-delay:.5s;
-      animation-delay:.5s
-    }
-    .splashing .splash.windcatcher .blade:nth-child(4){
-      -webkit-animation-delay:.75s;
-      animation-delay:.75s
-    }
-    .splashing .splash.windcatcher .blade:nth-child(5){
-      -webkit-animation-delay:1s;
-      animation-delay:1s
-    }
-    .splashing .splash.windcatcher .blade:nth-child(6){
-      -webkit-animation-delay:1.25s;
-      animation-delay:1.25s
-    }
-    .splashing .splash.windcatcher .blade:nth-child(7){
-      -webkit-animation-delay:1.5s;
-      animation-delay:1.5s
-    }
-    .splashing .splash.windcatcher .blade:nth-child(8){
-      -webkit-animation-delay:1.75s;
-      animation-delay:1.75s
-    }
-    .splashing .splash.circular{
-      display:inline-block;
-      width:8pc;
-      height:8pc;
-      margin-left:-4pc;
-      margin-top:0pc;
-      -webkit-animation:splash-container-rotate 1568ms linear infinite;
-      animation:splash-container-rotate 1568ms linear infinite
-    }
-    .splashing .splash.circular .spinner-layer{
-      position:absolute;
-      width:100%;
-      height:100%;
-      opacity:0
-    }
-    .splashing .splash.circular .spinner-layer.spinner-blue{
-      border-color:#4285f4;
-      -webkit-animation:splash-fill-unfill-rotate 5332ms cubic-bezier(.4,0,.2,1) infinite both,
-      splash-blue-fade-in-out 5332ms cubic-bezier(.4,0,.2,1) infinite both;
-      animation:splash-fill-unfill-rotate 5332ms cubic-bezier(.4,0,.2,1) infinite both,
-      splash-blue-fade-in-out 5332ms cubic-bezier(.4,0,.2,1) infinite both
-    }
-    .splashing .splash.circular .spinner-layer.spinner-red{
-      border-color:#db4437;
-      -webkit-animation:splash-fill-unfill-rotate 5332ms cubic-bezier(.4,0,.2,1) infinite both,
-      splash-red-fade-in-out 5332ms cubic-bezier(.4,0,.2,1) infinite both;
-      animation:splash-fill-unfill-rotate 5332ms cubic-bezier(.4,0,.2,1) infinite both,
-      splash-red-fade-in-out 5332ms cubic-bezier(.4,0,.2,1) infinite both
-    }
-    .splashing .splash.circular .spinner-layer.spinner-yellow{
-      border-color:#f4b400;
-      -webkit-animation:splash-fill-unfill-rotate 5332ms cubic-bezier(.4,0,.2,1) infinite both,
-      splash-yellow-fade-in-out 5332ms cubic-bezier(.4,0,.2,1) infinite both;
-      animation:splash-fill-unfill-rotate 5332ms cubic-bezier(.4,0,.2,1) infinite both,
-      splash-yellow-fade-in-out 5332ms cubic-bezier(.4,0,.2,1) infinite both
-    }
-    .splashing .splash.circular .spinner-layer.spinner-green{
-      border-color:#0f9d58;
-      -webkit-animation:splash-fill-unfill-rotate 5332ms cubic-bezier(.4,0,.2,1) infinite both,
-      splash-green-fade-in-out 5332ms cubic-bezier(.4,0,.2,1) infinite both;
-      animation:splash-fill-unfill-rotate 5332ms cubic-bezier(.4,0,.2,1) infinite both,
-      splash-green-fade-in-out 5332ms cubic-bezier(.4,0,.2,1) infinite both
-    }
-    .splashing .splash.circular .spinner-layer .circle-clipper{
-      display:inline-block;
-      position:relative;
-      width:50%;
-      height:100%;
-      overflow:hidden;
-      border-color:inherit
-    }
-    .splashing .splash.circular .spinner-layer .circle-clipper .circle{
-      width:200%;
-      box-sizing:border-box;
-      height:100%;
-      border-width:3px;
-      border-style:solid;
-      border-color:inherit;
-      border-bottom-color:transparent!important;
-      border-radius:50%;
-      -webkit-animation:none;
-      animation:none;
-      position:absolute;
-      top:0;
-      right:0;
-      bottom:0
-    }
-    .splashing .splash.circular .spinner-layer .circle-clipper.left .circle{
-      left:0;
-      border-right-color:transparent!important;
-      -webkit-transform:rotate(129deg);
-      -ms-transform:rotate(129deg);
-      transform:rotate(129deg);
-      -webkit-animation:splash-left-spin 1333ms cubic-bezier(.4,0,.2,1) infinite both;
-      animation:splash-left-spin 1333ms cubic-bezier(.4,0,.2,1) infinite both
-    }
-    .splashing .splash.circular .spinner-layer .circle-clipper.right .circle{
-      left:-100%;
-      border-left-color:transparent!important;
-      -webkit-transform:rotate(-129deg);
-      -ms-transform:rotate(-129deg);
-      transform:rotate(-129deg);
-      -webkit-animation:splash-right-spin 1333ms cubic-bezier(.4,0,.2,1) infinite both;
-      animation:splash-right-spin 1333ms cubic-bezier(.4,0,.2,1) infinite both
-    }
-    .splashing .splash.circular .spinner-layer .gap-patch{
-      position:absolute;
-      box-sizing:border-box;
-      top:0;
-      left:45%;
-      width:10%;
-      height:100%;
-      overflow:hidden;
-      border-color:inherit
-    }
-    .splashing .splash.circular .spinner-layer .gap-patch .circle{
-      width:1000%;
-      left:-450%
-    }
-    @-webkit-keyframes splash-spin{
-      to{
-        -webkit-transform:rotate(360deg);
-        transform:rotate(360deg)
+    @keyframes sk-bounce {
+      0%, 100% {
+        transform: scale(0.0);
+        -webkit-transform: scale(0.0);
+      }
+      50% {
+        transform: scale(1.0);
+        -webkit-transform: scale(1.0);
       }
     }
-    @keyframes splash-spin{
-      to{
-        -webkit-transform:rotate(360deg);
-        transform:rotate(360deg)
-      }
-    }
-    @-webkit-keyframes splash-audio-wave-animation{
-      25%{
-        background:-webkit-linear-gradient(#fecb3d,#fecb3d) 0 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 25% 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 50% 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 75% 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 100% 50%;
-        background:linear-gradient(#fecb3d,#fecb3d) 0 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 25% 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 50% 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 75% 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 100% 50%;
-        background-repeat:no-repeat;
-        background-size:19% 50px,19% 10px,19% 10px,19% 10px,19% 10px
-      }
-      37.5%{
-        background:-webkit-linear-gradient(#fb7c4d,#fb7c4d) 0 50%,
-        -webkit-linear-gradient(#fecb3d,#fecb3d) 25% 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 50% 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 75% 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 100% 50%;
-        background:linear-gradient(#fb7c4d,#fb7c4d) 0 50%,
-        linear-gradient(#fecb3d,#fecb3d) 25% 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 50% 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 75% 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 100% 50%;
-        background-repeat:no-repeat;
-        background-size:19% 10px,19% 50px,19% 10px,19% 10px,19% 10px
-      }
-      50%{
-        background:-webkit-linear-gradient(#fb7c4d,#fb7c4d) 0 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 25% 50%,
-        -webkit-linear-gradient(#fecb3d,#fecb3d) 50% 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 75% 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 100% 50%;
-        background:linear-gradient(#fb7c4d,#fb7c4d) 0 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 25% 50%,
-        linear-gradient(#fecb3d,#fecb3d) 50% 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 75% 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 100% 50%;
-        background-repeat:no-repeat;
-        background-size:19% 10px,19% 10px,19% 50px,19% 10px,19% 10px
-      }
-      62.5%{
-        background:-webkit-linear-gradient(#fb7c4d,#fb7c4d) 0 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 25% 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 50% 50%,
-        -webkit-linear-gradient(#fecb3d,#fecb3d) 75% 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 100% 50%;
-        background:linear-gradient(#fb7c4d,#fb7c4d) 0 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 25% 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 50% 50%,
-        linear-gradient(#fecb3d,#fecb3d) 75% 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 100% 50%;
-        background-repeat:no-repeat;
-        background-size:19% 10px,19% 10px,19% 10px,19% 50px,19% 10px
-      }
-      75%{
-        background:-webkit-linear-gradient(#fb7c4d,#fb7c4d) 0 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 25% 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 50% 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 75% 50%,
-        -webkit-linear-gradient(#fecb3d,#fecb3d) 100% 50%;
-        background:linear-gradient(#fb7c4d,#fb7c4d) 0 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 25% 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 50% 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 75% 50%,
-        linear-gradient(#fecb3d,#fecb3d) 100% 50%;
-        background-repeat:no-repeat;
-        background-size:19% 10px,19% 10px,19% 10px,19% 10px,19% 50px
-      }
-    }
-    @keyframes splash-audio-wave-animation{
-      25%{
-        background:-webkit-linear-gradient(#fecb3d,#fecb3d) 0 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 25% 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 50% 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 75% 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 100% 50%;
-        background:linear-gradient(#fecb3d,#fecb3d) 0 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 25% 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 50% 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 75% 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 100% 50%;
-        background-repeat:no-repeat;
-        background-size:19% 50px,19% 10px,19% 10px,19% 10px,19% 10px
-      }
-      37.5%{
-        background:-webkit-linear-gradient(#fb7c4d,#fb7c4d) 0 50%,
-        -webkit-linear-gradient(#fecb3d,#fecb3d) 25% 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 50% 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 75% 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 100% 50%;
-        background:linear-gradient(#fb7c4d,#fb7c4d) 0 50%,
-        linear-gradient(#fecb3d,#fecb3d) 25% 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 50% 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 75% 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 100% 50%;
-        background-repeat:no-repeat;
-        background-size:19% 10px,19% 50px,19% 10px,19% 10px,19% 10px
-      }
-      50%{
-        background:-webkit-linear-gradient(#fb7c4d,#fb7c4d) 0 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 25% 50%,
-        -webkit-linear-gradient(#fecb3d,#fecb3d) 50% 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 75% 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 100% 50%;
-        background:linear-gradient(#fb7c4d,#fb7c4d) 0 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 25% 50%,
-        linear-gradient(#fecb3d,#fecb3d) 50% 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 75% 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 100% 50%;
-        background-repeat:no-repeat;
-        background-size:19% 10px,19% 10px,19% 50px,19% 10px,19% 10px
-      }
-      62.5%{
-        background:-webkit-linear-gradient(#fb7c4d,#fb7c4d) 0 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 25% 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 50% 50%,
-        -webkit-linear-gradient(#fecb3d,#fecb3d) 75% 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 100% 50%;
-        background:linear-gradient(#fb7c4d,#fb7c4d) 0 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 25% 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 50% 50%,
-        linear-gradient(#fecb3d,#fecb3d) 75% 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 100% 50%;
-        background-repeat:no-repeat;
-        background-size:19% 10px,19% 10px,19% 10px,19% 50px,19% 10px
-      }
-      75%{
-        background:-webkit-linear-gradient(#fb7c4d,#fb7c4d) 0 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 25% 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 50% 50%,
-        -webkit-linear-gradient(#fb7c4d,#fb7c4d) 75% 50%,
-        -webkit-linear-gradient(#fecb3d,#fecb3d) 100% 50%;
-        background:linear-gradient(#fb7c4d,#fb7c4d) 0 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 25% 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 50% 50%,
-        linear-gradient(#fb7c4d,#fb7c4d) 75% 50%,
-        linear-gradient(#fecb3d,#fecb3d) 100% 50%;
-        background-repeat:no-repeat;
-        background-size:19% 10px,19% 10px,19% 10px,19% 10px,19% 50px
-      }
-    }
-    @-webkit-keyframes splash-spinner{
-      0%{
-        -webkit-transform:rotate(0);
-        transform:rotate(0)
-      }
-      100%{
-        -webkit-transform:rotate(360deg);
-        transform:rotate(360deg)
-      }
-    }
-    @keyframes splash-spinner{
-      0%{
-        -webkit-transform:rotate(0);
-        transform:rotate(0)
-      }
-      100%{
-        -webkit-transform:rotate(360deg);
-        transform:rotate(360deg)
-      }
-    }
-    @-webkit-keyframes splash-rotate{
-      from{
-        -webkit-transform:rotate(0);
-        transform:rotate(0)
-      }
-      to{
-        -webkit-transform:rotate(360deg);
-        transform:rotate(360deg)
-      }
-    }
-    @keyframes splash-rotate{
-      from{
-        -webkit-transform:rotate(0);
-        transform:rotate(0)
-      }
-      to{
-        -webkit-transform:rotate(360deg);
-        transform:rotate(360deg)
-      }
-    }
-    @-webkit-keyframes splash-windcatcherSpin{
-      from{
-        -webkit-transform:rotateY(0) rotateX(-20deg);
-        transform:rotateY(0) rotateX(-20deg)
-      }
-      to{
-        -webkit-transform:rotateY(360deg) rotateX(-20deg);
-        transform:rotateY(360deg) rotateX(-20deg)
-      }
-    }
-    @keyframes splash-windcatcherSpin{
-      from{
-        -webkit-transform:rotateY(0) rotateX(-20deg);
-        transform:rotateY(0) rotateX(-20deg)
-      }
-      to{
-        -webkit-transform:rotateY(360deg) rotateX(-20deg);
-        transform:rotateY(360deg) rotateX(-20deg)
-      }
-    }
-    @-webkit-keyframes splash-windcatcherBg{
-      0%,100%{background-color:#0277bd}
-      50%{background-color:#01579b}
-      51%{background-color:#40c4ff}
-      70%{background-color:#039be5}
-    }
-    @keyframes splash-windcatcherBg{
-      0%,100%{background-color:#0277bd}
-      50%{background-color:#01579b}
-      51%{background-color:#40c4ff}
-      70%{background-color:#039be5}
-    }
-    @-webkit-keyframes splash-container-rotate{
-      to{
-        -webkit-transform:rotate(360deg);
-        transform:rotate(360deg)
-      }
-    }
-    @keyframes splash-container-rotate{
-      to{
-        -webkit-transform:rotate(360deg);
-        transform:rotate(360deg)
-      }
-    }
-    @-webkit-keyframes splash-fill-unfill-rotate{
-      12.5%{-webkit-transform:rotate(135deg);transform:rotate(135deg)}
-      25%{-webkit-transform:rotate(270deg);transform:rotate(270deg)}
-      37.5%{-webkit-transform:rotate(405deg);transform:rotate(405deg)}
-      50%{-webkit-transform:rotate(540deg);transform:rotate(540deg)}
-      62.5%{-webkit-transform:rotate(675deg);transform:rotate(675deg)}
-      75%{-webkit-transform:rotate(810deg);transform:rotate(810deg)}
-      87.5%{-webkit-transform:rotate(945deg);transform:rotate(945deg)}
-      to{-webkit-transform:rotate(1080deg);transform:rotate(1080deg)}
-    }
-    @keyframes splash-fill-unfill-rotate{
-      12.5%{-webkit-transform:rotate(135deg);transform:rotate(135deg)}
-      25%{-webkit-transform:rotate(270deg);transform:rotate(270deg)}
-      37.5%{-webkit-transform:rotate(405deg);transform:rotate(405deg)}
-      50%{-webkit-transform:rotate(540deg);transform:rotate(540deg)}
-      62.5%{-webkit-transform:rotate(675deg);transform:rotate(675deg)}
-      75%{-webkit-transform:rotate(810deg);transform:rotate(810deg)}
-      87.5%{-webkit-transform:rotate(945deg);transform:rotate(945deg)}
-      to{-webkit-transform:rotate(1080deg);transform:rotate(1080deg)}
-    }
-    @-webkit-keyframes splash-blue-fade-in-out{
-      100%,25%,90%,from{opacity:1}
-      26%,89%{opacity:0}
-    }
-    @keyframes splash-blue-fade-in-out{
-      100%,25%,90%,from{opacity:1}
-      26%,89%{opacity:0}
-    }
-    @-webkit-keyframes splash-red-fade-in-out{
-      15%,51%,from{opacity:0}
-      25%,50%{opacity:1}
-    }
-    @keyframes splash-red-fade-in-out{
-      15%,51%,from{opacity:0}
-      25%,50%{opacity:1}
-    }
-    @-webkit-keyframes splash-yellow-fade-in-out{
-      40%,76%,from{opacity:0}
-      50%,75%{opacity:1}
-    }
-    @keyframes splash-yellow-fade-in-out{
-      40%,76%,from{opacity:0}
-      50%,75%{opacity:1}
-    }
-    @-webkit-keyframes splash-green-fade-in-out{
-      100%,65%,from{opacity:0}
-      75%,90%{opacity:1}
-    }
-    @keyframes splash-green-fade-in-out{
-      100%,65%,from{opacity:0}
-      75%,90%{opacity:1}
-    }
-    @-webkit-keyframes splash-left-spin{
-      from,to{-webkit-transform:rotate(130deg);transform:rotate(130deg)}
-      50%{-webkit-transform:rotate(-5deg);transform:rotate(-5deg)}
-    }
-    @keyframes splash-left-spin{
-      from,to{-webkit-transform:rotate(130deg);transform:rotate(130deg)}
-      50%{-webkit-transform:rotate(-5deg);transform:rotate(-5deg)}
-    }
-    @-webkit-keyframes splash-right-spin{
-      from,to{-webkit-transform:rotate(-130deg);transform:rotate(-130deg)}
-      50%{-webkit-transform:rotate(5deg);transform:rotate(5deg)}
-    }
-    @keyframes splash-right-spin{
-      from,to{-webkit-transform:rotate(-130deg);transform:rotate(-130deg)}
-      50%{-webkit-transform:rotate(5deg);transform:rotate(5deg)}
-    }
-
   </style>
 </head>
-<body style="background-color:Linen">
-<h1 align=center style="color:red; font-weight: bolder; margin-top:4pc;">VIMA</h1>
-<h2 align=center>Workspace loading ...</h2>
-<div style="margin-top:4pc;"></div>
-<script type="text/javascript">
-  // SplashScreen definition
-  const Splash = {
-    version: '2.4.0',
-    enable: (theme) => {
-      loadBody(($body) => {
-        addClass($body, 'splashing');
-        const $splash = splashDiv();
-        $body.appendChild($splash);
-        if (!theme || !themes[theme]) {
-          theme = 'tailing'; // eslint-disable-line no-param-reassign
-        }
-        themes[theme]($splash);
-        addClass($splash, theme);
-      });
-    },
-    isRunning: () => {
-      if (!document || !document.body) {
-        return;
-      }
-      return hasClass(document.body, 'splashing');
-    },
-    destroy: () => {
-      loadBody(($body) => {
-        removeClass($body, 'splashing');
-        const $splash = getSplash($body);
-        if ($splash) {
-          $body.removeChild($splash);
-        }
-      });
-    }
-  };
-
-  const elementClass = (tag, className) => {
-    const ele = document.createElement(tag);
-    ele.setAttribute('class', className);
-    return ele;
-  };
-  const elementTxt = (tag, text) => {
-    const ele = document.createElement(tag);
-    ele.innerText = text;
-    return ele;
-  };
-  const splashDiv = () => elementClass('div', 'splash');
-
-  const tailingHandler = ($splash) => {
-    $splash.appendChild(elementTxt('span', 'Loading'));
-  };
-  const windcatcherHandler = ($splash) => {
-    for (let i = 0; i < 8; i += 1) {
-      $splash.appendChild(elementClass('div', 'blade'));
-    }
-  };
-  const circularHandler = ($splash) => {
-    const arr = [
-      'spinner-blue',
-      'spinner-red',
-      'spinner-yellow',
-      'spinner-green'
-    ];
-    for (let i = 0; i < arr.length; i += 1) {
-      const layer = elementClass('div', 'spinner-layer '.concat(arr[i]));
-      const circleLeft = elementClass('div', 'circle-clipper left');
-      const circle01 = elementClass('div', 'circle');
-      circleLeft.appendChild(circle01);
-      layer.appendChild(circleLeft);
-      const gapPatch = elementClass('div', 'gap-patch');
-      const circle02 = elementClass('div', 'circle');
-      gapPatch.appendChild(circle02);
-      layer.appendChild(gapPatch);
-      const circleRight = elementClass('div', 'circle-clipper right');
-      const circle03 = elementClass('div', 'circle');
-      circleRight.appendChild(circle03);
-      layer.appendChild(circleRight);
-      $splash.appendChild(layer);
-    }
-  };
-  const emptyHandler = () => {
-  };
-  const themes = {
-    tailing: tailingHandler,
-    windcatcher: windcatcherHandler,
-    'audio-wave': emptyHandler,
-    'spinner-section': emptyHandler,
-    'spinner-section-far': emptyHandler,
-    circular: circularHandler
-  };
-  const hasClass = (ele, cls) => ele.className.match(
-    new RegExp('(\\s|^)'.concat(cls).concat('(\\s|$)')));
-
-  const addClass = (ele, cls) => {
-    if (!hasClass(ele, cls)) {
-      ele.className += ' '.concat(cls); // eslint-disable-line no-param-reassign
-    }
-  };
-  const removeClass = (ele, cls) => {
-    if (hasClass(ele, cls)) {
-      const reg = new RegExp('(\\s|^)'.concat(cls).concat('(\\s|$)'));
-      ele.className = ele.className.replace(reg, ' '); // eslint-disable-line no-param-reassign
-    }
-  };
-  const loadBody = (callback) => {
-    let $body = document.body;
-    if ($body) {
-      callback($body);
-      return;
-    }
-    setTimeout(() => {
-      $body = document.body;
-      if (!$body) {
-        loadBody(callback);
-        return;
-      }
-      callback($body);
-    }, 100);
-  };
-  const getSplash = ($body) => {
-    const children = $body.children;
-    for (let i = 0; i < children.length; i += 1) {
-      if (hasClass(children[i], 'splash')) {
-        return children[i];
-      }
-    }
-  };
-
-  Splash.enable('circular');
+<body>
+<div class="sattelite">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="-50 0 480 480">
+    <path d="m 353.5 306.76 l -44.778 45.502"/>
+    <path d="m 309.72 262.98 l -46.966 46.24"/>
+    <path d="m 267.12 218.02 l 130.15 130.15 l -47.34 47.34 l -130.15 -130.15 z"/>
+    <path d="m 244.64 231.03 l -14.2 14.2"/>
+    <path d="m 178.37 164.77 l -14.2 14.2"/>
+    <g stroke-width="16">
+      <path d="m 12.721 285.46 c 9.814 66.54 50.27 100.88 112.41 112.41"/>
+      <path d="m 60.05 285.46 c 5.472 38.03 25 59.948 65.08 65.08"/>
+      <path d="m 95.55 285.46 c 5.632 20.687 16.601 27.37 29.581 29.581"/>
+    </g>
+    <path d="m 145.24 240.49 l -17.749 41.41 l 41.41 -17.749"/>
+    <path
+      d="m 197.7 290.05 c -8.169 8.169 -32.01 -2.426 -53.25 -23.666 -21.241 -21.241 -31.834 -45.08 -23.666 -53.25 8.169 -8.169 32.01 2.426 53.25 23.666 21.241 21.241 31.834 45.08 23.666 53.25 z"/>
+    <path
+      d="m 209.14 143.46 l 10.738 10.56 l 5.829 -5.829 l 35.498 35.498 l -5.917 5.917 l 11.832 11.832 l -63.07 62.21 l -58.13 -58.13 z"/>
+    <path d="m 147.61 100.86 l -45.87 45.87"/>
+    <path d="m 103.83 57.08 l -45.772 45.502"/>
+    <path d="m 61.23 12.12 l 130.15 130.15 l -47.34 47.34 l -130.15 -130.15 z"/>
+  </svg>
+</div>
+<div class="antenna">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1700 1700" xml:space="preserve">
+      <path d="M758.6,441.2c42.6-25,56.8-79.8,31.7-122.4c-24.9-42.6-79.8-56.9-122.3-32c-29.4,17.3-44.1,48.9-42.9,80.7l-52.6,30.8L410.9,122.9c-172,100.9-229.6,322.1-128.6,494c2.8,5,6.8,8.9,10,13.8L10,912.4l478,0.6V778.3c93.3,28.6,197.5,20.6,288.3-32.7L614.7,470.2l52.7-30.9C694.6,455.8,729.2,458.3,758.6,441.2z M413.8,838.8l-225.1-0.3l150.3-150.1c22.6,22.6,47.7,41.5,74.8,57.1L413.8,838.8L413.8,838.8z M807.4,524.3l-18.7-31.9c70.7-41.5,94.5-132.9,52.9-203.7C800.1,217.8,708.6,194,638,235.5l-18.8-31.9c88.4-51.9,202.5-22,254.3,66.4C925.4,358.4,895.7,472.5,807.4,524.3z M853.5,602.8l-18.8-32c114-66.9,152.3-214.1,85.3-328.3c-66.9-114.1-214.2-152.5-328.2-85.7L573.2,125c131.5-77.2,301.4-32.9,378.7,98.8C1029.2,355.6,985,525.6,853.5,602.8z"/>
+    </svg>
+</div>
+<div class="content">
+  <div class="title">Visualisation</div>
+  <div id="message"></div>
+  <div class="spinner">
+    <div class="double-bounce1"></div>
+    <div class="double-bounce2"></div>
+  </div>
+</div>
+<script>
+  require('electron').ipcRenderer.on('splash', (event, message) => {
+    const el = document.getElementById('message');
+    el.innerHTML = message;
+  });
 </script>
 </body>
 </html>

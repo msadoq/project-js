@@ -69,6 +69,7 @@ export default class TextView extends PureComponent {
     isViewsEditorOpen: PropTypes.bool,
     updateContent: PropTypes.func,
     entryPoints: PropTypes.array.isRequired,
+    show: PropTypes.string
   };
   static defaultProps = {
     data: {
@@ -90,7 +91,8 @@ export default class TextView extends PureComponent {
       nextProps.data === this.props.data &&
       nextProps.content === this.props.content &&
       nextProps.isViewsEditorOpen === this.props.isViewsEditorOpen &&
-      nextProps.entryPoints === this.props.entryPoints
+      nextProps.entryPoints === this.props.entryPoints &&
+      nextProps.show === this.props.show
     ) {
       return false;
     }
@@ -336,7 +338,7 @@ export default class TextView extends PureComponent {
     */
 
     if (renderMethod === 1) {
-      return (isViewsEditorOpen
+      return (isViewsEditorOpen && this.props.show === 'html'
         ? <WYSIWYG
           // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
           initialValues={{ html: this.template }}

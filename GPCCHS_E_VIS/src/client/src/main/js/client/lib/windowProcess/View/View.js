@@ -41,12 +41,21 @@ export default class View extends PureComponent {
     focusedPageId: PropTypes.string,
   };
 
+  constructor(...args) {
+    super(...args);
+    this.state = { show: 'html' };
+  }
+
   componentDidMount() {
     document.addEventListener('keydown', this.toggleCollapse);
   }
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.toggleCollapse);
+  }
+
+  updateShow = (s) => {
+    this.setState({ show: s });
   }
 
   toggleCollapse = (e) => {
@@ -135,6 +144,8 @@ export default class View extends PureComponent {
           oId={oId}
           absolutePath={absolutePath}
           isModified={isModified}
+          show={this.state.show}
+          updateShow={this.updateShow}
         />
         {!configuration.collapsed &&
           <div
@@ -150,6 +161,7 @@ export default class View extends PureComponent {
               visuWindow={visuWindow}
               configuration={configuration}
               entryPoints={entryPoints}
+              show={this.state.show}
             />
           </div>
         }

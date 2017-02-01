@@ -28,6 +28,8 @@ export default class Header extends PureComponent {
     moveViewToPage: PropTypes.func,
     getWindowPages: PropTypes.func,
     collapseView: PropTypes.func,
+    show: PropTypes.string,
+    updateShow: PropTypes.func
   };
   static defaultProps = {
     configuration: {
@@ -138,6 +140,21 @@ export default class Header extends PureComponent {
     return style;
   }
 
+  toDataStyle() {
+    const style = { marginLeft: '10px', marginRight: '5px', lineHeight: '2' };
+    if (this.props.show === 'data') {
+      style.fontWeight = 'bold';
+    }
+    return style;
+  }
+  toHtmlStyle() {
+    const style = { marginLeft: '10px', lineHeight: '2' };
+    if (this.props.show === 'html') {
+      style.fontWeight = 'bold';
+    }
+    return style;
+  }
+
   save = (e) => {
     if (e) e.preventDefault();
     const {
@@ -186,6 +203,9 @@ export default class Header extends PureComponent {
     }
 
     const titleStyle = this.getTitleStyle();
+    const toHtmlStyle = this.toHtmlStyle();
+    const toDataStyle = this.toDataStyle();
+
     const isPathDefined = oId || absolutePath;
 
     const choosePageDlg = (
@@ -207,6 +227,8 @@ export default class Header extends PureComponent {
           [styles.containerActive]: isViewsEditorOpen
         })}
       >
+        {!collapsed && this.props.type === 'TextView' && this.props.isViewsEditorOpen ? <a style={toHtmlStyle} onClick={() => { this.props.updateShow('html'); }}>Html</a> : null}
+        {!collapsed && this.props.type === 'TextView' && this.props.isViewsEditorOpen ? <a style={toDataStyle} onClick={() => { this.props.updateShow('data'); }}>Data</a> : null}
         <div
           style={titleStyle}
           className={`${styles.title} moveHandler ellipsis`}

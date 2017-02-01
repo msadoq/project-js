@@ -35,15 +35,17 @@ const createDocument = ipcApi => (path, documentType, callback) => {
   }
   const fileName = basename(path);
   const folder = dirname(getRelativeFmdPath(path));
-  checkPath(path).then(() => callback(null))
-    .catch(() => {
-      ipcApi.server.requestFmdCreate(folder, fileName, mimeType, ({ err, serializedOid }) => {
-        if (err) {
-          return callback(err);
-        }
-        callback(null, serializedOid);
-      });
+  checkPath(path, (pathErr, pathExist) => {
+    if (pathExist) {
+      return callback(null);
+    }
+    ipcApi.server.requestFmdCreate(folder, fileName, mimeType, ({ err, serializedOid }) => {
+      if (err) {
+        return callback(err);
+      }
+      callback(null, serializedOid);
     });
+  });
 };
 
 const createFmdApi = (dep = ipc) => ({

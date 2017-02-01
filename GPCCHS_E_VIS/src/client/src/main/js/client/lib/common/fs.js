@@ -89,18 +89,18 @@ const self = module.exports = {
   /**
    * Checks if a path exists
    *
-   * @param folder
-   * @return {Promise}
+   * @param path folder
+   * @param cb
    */
-  checkPath: path => new Promise((resolve, reject) => {
+  checkPath: (path, cb) => {
     fs.exists(path, (pathExist) => {
       if (pathExist) {
-        resolve(true);
+        cb(null, true);
       } else {
-        reject(false);
+        cb(null, false);
       }
     });
-  }),
+  },
 
   /**
    * Checks if folder exists and if not, creates it

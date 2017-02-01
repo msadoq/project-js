@@ -29,26 +29,24 @@ describe('documentManager/extractViews', () => {
     content.pages[id1] = {
       type: 'Page',
       title: 'simple page1',
-      views: [{
-        oId: 'oid:/plot1.json',
-        // path: 'plot1.json',
-      }],
+      views: [
+        { oId: 'oid:/plot1.json' },
+      ],
       path: 'page02.vipg',
       timebarId: 'TB1',
       uuid: id1,
       timebarUuid: id,
-      absolutePath: path.join(folder, 'page1.json'),
+      absolutePath: path.join(folder, 'page01.json'),
     };
     content.pages[id2] = {
       type: 'Page',
       title: 'simple page2',
-      views: [{ path: '/text1.json' }, { invalid: '/plot1.json' }],
-      // oId: 'page02.vipg',
+      views: [{ path: '../text1.json' }, { path: '../plot1.json' }],
       path: 'page02.vipg',
       timebarId: 'TB1',
       uuid: id1,
       timebarUuid: id,
-      absolutePath: path.join(folder, 'page2.json'),
+      absolutePath: path.join(folder, 'pages', 'pageSmall_with_oid.json'),
     };
     content.__folder = path.join(__dirname, 'fixtures');
   });
@@ -56,16 +54,26 @@ describe('documentManager/extractViews', () => {
     let views;
     beforeEach(() => {
       views = [{ path: path.join(folder, 'text1.json'), uuid: v4(), type: 'TextView' },
-      { path: path.join(folder, 'plot1.json'), uuid: v4(), type: 'PlotView' }];
+      { oId: 'oid:/plot1.json', uuid: v4(), type: 'PlotView' }];
     });
     it('valid', (done) => {
       readViews(views, (err, list) => {
         should.not.exist(err);
         list.should.be.an('array').with.length(2);
         list[0].type.should.equal('TextView');
+        list[0].configuration.should.contains.keys('type', 'entryPoints', 'links', 'defaultRatio');
+        list[0].should.have.properties({
+          uuid: views[0].uuid,
+          path: views[0].path,
+          oId: views[0].oId,
+        });
         list[1].type.should.equal('PlotView');
-        list[0].should.contains.keys('uuid', 'path', 'oId');
-        list[1].should.contains.keys('uuid', 'path', 'oId');
+        list[1].configuration.should.contains.keys('type', 'entryPoints', 'links', 'defaultRatio');
+        list[1].should.have.properties({
+          uuid: views[1].uuid,
+          path: views[1].path,
+          oId: views[1].oId,
+        });
         done();
       });
     });
@@ -81,9 +89,8 @@ describe('documentManager/extractViews', () => {
     it('valid', (done) => {
       extractViews(content, (err, val) => {
         should.not.exist(err);
-
         val.views.should.be.an('object');
-        Object.getOwnPropertyNames(val.views).should.have.length(2);
+        Object.getOwnPropertyNames(val.views).should.have.length(3);
         _.each(val.pages[id1].views, (id) => {
           if (id.uuid) {
             should.exist(val.views[id.uuid]);
@@ -98,6 +105,13 @@ describe('documentManager/extractViews', () => {
             should.exist(val.views[id.uuid]);
           }
         });
+        done();
+      });
+    });
+    it('with invalid view', (done) => {
+      content.pages[id1].views = [{ invalid: 'view' }];
+      extractViews(content, (err) => {
+        err.should.be.an('error');
         done();
       });
     });

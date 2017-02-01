@@ -1,4 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
+import _get from 'lodash/get';
+import _memoize from 'lodash/memoize';
+import classnames from 'classnames';
 import getLogger from 'common/log';
 import PlotViewComp from '../../../VIVL/PlotView/window/PlotViewContainer';
 import TextViewComp from '../../../VIVL/TextView/window/TextViewContainer';
@@ -87,6 +90,9 @@ export default class View extends PureComponent {
     }
   }
 
+  borderColorStyle = _memoize(c => ({ borderColor: c }));
+  assignEl = (el) => { this.el = el; }
+
   render() {
     logger.debug('render');
     const {
@@ -124,10 +130,14 @@ export default class View extends PureComponent {
         ContentComponent = UnknownView;
     }
 
+    const borderColor = _get(configuration, ['titleStyle', 'bgColor'], '#fefefe');
+    console.log(this.borderColorStyle(borderColor));
+
     return (
       <div
-        className={styles.container}
-        ref={(e) => { this.el = e; }}
+        className={classnames('subdiv', styles.container)}
+        style={this.borderColorStyle(borderColor)}
+        ref={this.assignEl}
       >
         <ViewHeader
           isViewsEditorOpen={isViewsEditorOpen}

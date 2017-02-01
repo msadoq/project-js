@@ -170,7 +170,8 @@
     "underline": true,
     "strikeOut": false,
     "align": "center",
-    "color": "#000000"
+    "color": "#ffffff",
+    "bgColor": "#009688"
   },
   "backgroundColor": "#FFFFFF",
   "showYAxes": "left",

@@ -37,7 +37,8 @@ class ViewParamsForm extends React.Component {
         underline: PropTypes.bool,
         strikeOut: PropTypes.bool,
         align: PropTypes.string,
-        color: PropTypes.string
+        color: PropTypes.string,
+        bgColor: PropTypes.string,
       })
     }),
     handleSubmit: PropTypes.func,

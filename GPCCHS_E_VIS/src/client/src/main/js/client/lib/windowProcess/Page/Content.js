@@ -99,7 +99,6 @@ export default class Content extends PureComponent {
           return (
             <div
               className={classnames(
-                'subdiv',
                 {
                   [styles.blockedited]: isViewsEditorOpen,
                   [styles.block]: !isViewsEditorOpen,

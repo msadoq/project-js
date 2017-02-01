@@ -1,5 +1,16 @@
 {
   "title": "TextView One parameter",
+  "titleStyle": {
+    "font": "Arial",
+    "size": 12,
+    "bold": false,
+    "italic": false,
+    "underline": true,
+    "strikeOut": false,
+    "align": "center",
+    "color": "#ffffff",
+    "bgColor": "#3F51B5"
+  },
   "type": "TextView",
   "entryPoints": [
     {

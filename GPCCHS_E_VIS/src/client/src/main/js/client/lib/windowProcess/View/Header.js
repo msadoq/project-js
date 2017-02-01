@@ -121,6 +121,7 @@ export default class Header extends PureComponent {
       fontSize: titleStyle.size ? titleStyle.size : null,
       textAlign: titleStyle.align ? titleStyle.align : null,
       color: titleStyle.color ? titleStyle.color : null,
+      background: titleStyle.bgColor ? titleStyle.bgColor : null,
       fontWeight: 'normal',
       fontStyle: 'normal',
       textDecoration: 'none'

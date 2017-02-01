@@ -23,7 +23,8 @@ export default class FormSectionFontStyle extends FormSection {
     underline: false,
     strikeOut: false,
     align: 'left',
-    color: '#000000'
+    color: '#000000',
+    bgColor: '#dfdfdf',
   }
 
   render() {
@@ -96,6 +97,13 @@ export default class FormSectionFontStyle extends FormSection {
         <HorizontalFormGroup label="Color">
           <Field
             name="color"
+            component={ColorPickerField}
+          />
+        </HorizontalFormGroup>
+
+        <HorizontalFormGroup label="Bg Color">
+          <Field
+            name="bgColor"
             component={ColorPickerField}
           />
         </HorizontalFormGroup>

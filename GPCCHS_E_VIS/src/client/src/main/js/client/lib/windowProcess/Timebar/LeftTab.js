@@ -262,9 +262,8 @@ export default class LeftTab extends PureComponent {
           <Button
             title="Detach timebar"
             bsSize="xs"
-            bsStyle="transp"
             onClick={this.detach}
-            className={styles.btnClose}
+            className={classnames('btn-transp', styles.btnClose)}
           >
             <Glyphicon
               glyph="remove"
@@ -273,9 +272,8 @@ export default class LeftTab extends PureComponent {
           <Button
             title="Collapse timebar"
             bsSize="xs"
-            bsStyle="transp"
             onClick={this.collapse}
-            className={styles.btnCollapse}
+            className={classnames('btn-transp', styles.btnCollapse)}
           >
             <Glyphicon
               glyph="minus"
@@ -287,9 +285,8 @@ export default class LeftTab extends PureComponent {
           <Button
             title="Add timeline"
             bsSize="xs"
-            bsStyle="transp"
             onClick={this.toggleAddTimeline}
-            className={styles.addTimelineButton}
+            className={classnames('btn-transp', styles.addTimelineButton)}
           >
             <Glyphicon
               glyph="plus"

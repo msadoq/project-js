@@ -33,8 +33,8 @@
         "defaultWidth": 900000
       },
       "slideWindow": {
-        "lower": 1485647940000,
-        "upper": 1485648960000
+        "lower": 1485648000000,
+        "upper": 1485648900000
       },
       "extUpperBound": 1485648960000,
       "rulerStart": 1485647940000,

@@ -131,7 +131,7 @@ export function parametrizeText(code) {
 export function cleanSvg() {
    // filepath = PATH.resolve(__dirname, 'test.svg'),
   const svgo = new SVGO('config');
-  FS.readFile('/home/dev/dev/src/LPISIS/GPCCHS/GPCCHS_E_CLT/src/impl/js/client/app/components/MimicComponent/randomShapes.svg', 'utf8', function (err, data) {
+  FS.readFile('/home/dev/dev/src/LPISIS/GPCCHS/GPCCHS_E_CLT/src/main/js/client/app/components/MimicComponent/randomShapes.svg', 'utf8', function (err, data) {
     if (err) {
       throw err;
     }

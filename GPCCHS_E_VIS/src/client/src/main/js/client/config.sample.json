@@ -3,7 +3,7 @@
   "PROFILING": "off",
   "MONITORING": "off",
   "DEBUG": "on",
-  "FMD_ROOT_DIR": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/impl/js/client/data",
+  "FMD_ROOT_DIR": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data",
   "WEBPACK_PORT": 3100,
   "NODE_PATH": "/usr/share/isis/node-v6.3.0-linux-x64/bin/node",
   "ZMQ_GPCCDC_PUSH": "tcp://127.0.0.1:5042",

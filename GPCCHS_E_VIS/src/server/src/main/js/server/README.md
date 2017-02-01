@@ -2,7 +2,7 @@
 
 Desktop visualisation application for ISIS project.
 
-Server is launched by client electron main process. Go to ../../../../../client/src/impl/js/client
+Server is launched by client electron main process. Go to ../../../../../client/src/main/js/client
 and look for README.md
 
 ## Other procedures

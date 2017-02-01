@@ -7,6 +7,10 @@ import onReloadView from './onReloadView';
 import onSaveView from './onSaveView';
 import onCreateModel from './onCreateModel';
 import onServerDebug from './onServerDebug';
+import onOpenView from './onOpenView';
+import onOpenPage from './onOpenPage';
+import onOpenWorkspace from './onOpenWorkspace';
+
 
 const controller = {
   [globalConstants.IPC_METHOD_SESSION_TIME]: onGetSessionTime,
@@ -15,6 +19,9 @@ const controller = {
   [globalConstants.IPC_METHOD_SAVE_VIEW]: onSaveView,
   [globalConstants.IPC_METHOD_CREATE_MODEL]: onCreateModel,
   [globalConstants.IPC_METHOD_SERVER_DEBUG]: onServerDebug,
+  [globalConstants.IPC_METHOD_OPEN_VIEW]: onOpenView,
+  [globalConstants.IPC_METHOD_OPEN_PAGE]: onOpenPage,
+  [globalConstants.IPC_METHOD_OPEN_WORKSPACE]: onOpenWorkspace,
 };
 
 export default (electronEvent, data) => handle(

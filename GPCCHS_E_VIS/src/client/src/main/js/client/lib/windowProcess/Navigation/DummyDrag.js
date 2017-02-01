@@ -64,8 +64,6 @@ export default class DummyDrag extends PureComponent {
     );
   }
 
-  dragStart = _.memoize(item => e => this.dragStart(item, e));
-
   render() {
     return (
       <div style={s.container} >
@@ -75,7 +73,7 @@ export default class DummyDrag extends PureComponent {
             key={i}
             style={{ ...s.box, backgroundColor: getRandomColor() }}
             draggable
-            onDragStart={this.dragStart(item)}
+            onDragStart={this.dragStart.bind(this, item)}
           >
             {item.name}
           </div>

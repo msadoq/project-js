@@ -36,6 +36,22 @@ const commands = {
     getSessionTime: (sessionId, callback) => {
       commands.main.rpc(globalConstants.IPC_METHOD_SESSION_TIME, sessionId, callback);
     },
+    openView: ({ windowId, viewPath }) => {
+      console.log('openView in renderer');
+      commands.main.message(globalConstants.IPC_METHOD_OPEN_VIEW, {
+        windowId,
+        viewPath
+      });
+    },
+    openPage: ({ windowId, filePath }) =>
+      commands.main.message(globalConstants.IPC_METHOD_OPEN_PAGE, {
+        windowId,
+        filePath
+      }),
+    openWorkspace: ({ filePath }) =>
+      commands.main.message(globalConstants.IPC_METHOD_OPEN_WORKSPACE, {
+        filePath
+      })
   },
 };
 

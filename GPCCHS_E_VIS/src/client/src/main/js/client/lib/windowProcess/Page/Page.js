@@ -3,7 +3,6 @@ import classnames from 'classnames';
 import getLogger from 'common/log';
 import { get } from 'common/parameters';
 import _ from 'lodash/fp';
-import { remote } from 'electron';
 import path from 'path';
 
 import ContentContainer from './ContentContainer';
@@ -11,11 +10,9 @@ import EditorContainer from '../Editor/EditorContainer';
 import styles from './Page.css';
 import MessagesContainer from './MessagesContainer';
 import DroppableContainer from '../common/DroppableContainer';
+import { main } from '../ipc';
 
 const logger = getLogger('Page');
-const { viewOpenWithPath } = remote.require('./lib/mainProcess/menu/viewOpen');
-const { pageOpenWithPath } = remote.require('./lib/mainProcess/menu/pageOpen');
-const { workspaceOpenWithPath } = remote.require('./lib/mainProcess/menu/workspaceOpen');
 
 // const cols = 12;
 // const editorCols = 4;
@@ -62,15 +59,15 @@ export default class Page extends PureComponent {
     const type = getDropItemType(content.mimeType);
 
     _.cond([
-      [_.eq('view'), () => viewOpenWithPath({
+      [_.eq('view'), () => main.openView({
         windowId: this.props.windowId,
         viewPath: [{ absolutePath: path.join(get('FMD_ROOT_DIR'), content.filepath) }],
       })],
-      [_.eq('page'), () => pageOpenWithPath({
+      [_.eq('page'), () => main.openPage({
         windowId: this.props.windowId,
         filePath: path.join(get('FMD_ROOT_DIR'), content.filepath),
       })],
-      [_.eq('workspace'), () => workspaceOpenWithPath({
+      [_.eq('workspace'), () => main.openWorkspace({
         filePath: path.join(get('FMD_ROOT_DIR'), content.filepath),
       })]
     ])(type);

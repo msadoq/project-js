@@ -1,4 +1,3 @@
-/* eslint no-underscore-dangle: 0 */
 import { dirname } from 'path';
 import _cloneDeep from 'lodash/cloneDeep';
 import _omit from 'lodash/omit';
@@ -11,6 +10,7 @@ import {
 
 import { server } from '../mainProcess/ipc';
 
+import validation from './validation';
 import vivl from '../../VIVL/main';
 import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
@@ -27,7 +27,7 @@ import { writeDocument } from './io';
  // eslint-disable-next-line no-unused-vars
 const saveViewAs = fmdApi => (viewConfiguration, viewType, path, callback) => {
   if (!viewConfiguration) {
-    return callback('Unknown view');
+    return callback(new Error('Unknown view'));
   }
   // createFolder(dirname(path)).then(() => {
   createFolder(dirname(path), (err) => {
@@ -35,7 +35,17 @@ const saveViewAs = fmdApi => (viewConfiguration, viewType, path, callback) => {
       return callback(err);
     }
     let view = _cloneDeep(viewConfiguration);
-    const structureType = vivl(viewType, 'structureType')();
+
+    let schema;
+    let structureType;
+    try {
+      schema = vivl(view.type, 'getSchemaJson')();
+      structureType = vivl(view.type, 'structureType')();
+    } catch (e) {
+      return callback(new Error(`Invalid view type '${view.type}'`), view);
+    }
+
+    // const structureType = vivl(viewType, 'structureType')();
     switch (structureType) { // eslint-disable-line default-case
       case DATASTRUCTURETYPE_RANGE: {
         view.axes = _values(view.axes);
@@ -48,9 +58,14 @@ const saveViewAs = fmdApi => (viewConfiguration, viewType, path, callback) => {
     });
 
     // Case of DynamicView
-    if (view.type === 'DynamicView' && view.entryPoints.length) {
+    if (view.type === 'DynamicView' && view.entryPoints && view.entryPoints.length) {
       view.entryPoint = _omit(view.entryPoints[0], 'name');
       view = _omit(view, 'entryPoints');
+    }
+
+    const validationError = validation(view.type, view, schema);
+    if (validationError) {
+      return callback(validationError);
     }
 
     writeDocument(fmdApi)(path, view, (errWrite, oId) => {
@@ -73,12 +88,12 @@ const saveViewAs = fmdApi => (viewConfiguration, viewType, path, callback) => {
  */
 const saveView = fmdApi => (state, viewId, callback) => {
   if (!state.views[viewId]) {
-    return callback('Unknown view id');
+    return callback(new Error('Unknown view id'));
   }
   const absPath = state.views[viewId].absolutePath ? state.views[viewId].absolutePath
                                                    : state.views[viewId].oId;
   if (!absPath) {
-    return callback('Unknown path for saving text view');
+    return callback(new Error('Unknown path for saving text view'));
   }
   return saveViewAs(fmdApi)(
     state.views[viewId].configuration, state.views[viewId].type, absPath, callback

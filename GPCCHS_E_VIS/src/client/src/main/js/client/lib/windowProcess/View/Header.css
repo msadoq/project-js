@@ -7,7 +7,7 @@
   background-color: #dfdfdf;
 }
 .containerActive {
-  background-color: var(--gray-lighter-2);
+  background-color: rgb(63, 81, 181);
 }
 .title {
   display: inline-block;

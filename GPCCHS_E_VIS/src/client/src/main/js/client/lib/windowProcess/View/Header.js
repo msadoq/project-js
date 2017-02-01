@@ -141,14 +141,14 @@ export default class Header extends PureComponent {
   }
 
   toDataStyle() {
-    const style = { marginLeft: '10px', marginRight: '5px', lineHeight: '2' };
+    const style = { color: 'rgb(51,51,51)', marginLeft: '10px', marginRight: '5px', marginTop: '2px', lineHeight: '2' };
     if (this.props.show === 'data') {
       style.fontWeight = 'bold';
     }
     return style;
   }
   toHtmlStyle() {
-    const style = { marginLeft: '10px', lineHeight: '2' };
+    const style = { color: 'rgb(51,51,51)', marginLeft: '10px', lineHeight: '2', marginTop: '2px' };
     if (this.props.show === 'html') {
       style.fontWeight = 'bold';
     }
@@ -227,8 +227,8 @@ export default class Header extends PureComponent {
           [styles.containerActive]: isViewsEditorOpen
         })}
       >
-        {!collapsed && this.props.type === 'TextView' && this.props.isViewsEditorOpen ? <a style={toHtmlStyle} onClick={() => { this.props.updateShow('html'); }}>Html</a> : null}
-        {!collapsed && this.props.type === 'TextView' && this.props.isViewsEditorOpen ? <a style={toDataStyle} onClick={() => { this.props.updateShow('data'); }}>Data</a> : null}
+        {!collapsed && this.props.type === 'TextView' && this.props.isViewsEditorOpen ? <a style={toHtmlStyle} onClick={() => { this.props.updateShow('html'); }}>HTML</a> : null}
+        {!collapsed && this.props.type === 'TextView' && this.props.isViewsEditorOpen ? <a style={toDataStyle} onClick={() => { this.props.updateShow('data'); }}>DATA</a> : null}
         <div
           style={titleStyle}
           className={`${styles.title} moveHandler ellipsis`}

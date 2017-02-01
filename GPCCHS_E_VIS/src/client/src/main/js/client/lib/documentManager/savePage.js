@@ -26,7 +26,10 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
   if (!state.pages[pageId]) {
     return callback('unknown page id');
   }
-  createFolder(dirname(path)).then(() => {
+  createFolder(dirname(path), (err) => {
+    if (err) {
+      return callback(err);
+    }
     const root = parameters.get('FMD_ROOT_DIR');
     const page = state.pages[pageId];
     const jsonPage = {
@@ -81,8 +84,7 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
 
       return callback(null, oid);
     });
-  })
-  .catch(err => callback(err));
+  });
 };
 /**
  * Save page from state to file

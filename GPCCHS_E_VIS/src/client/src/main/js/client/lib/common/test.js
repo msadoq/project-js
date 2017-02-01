@@ -33,5 +33,4 @@ module.exports = {
   getStore,
   freezeMe: o => deepFreeze(_cloneDeep(o)),
   getTmpPath: (...args) => path.resolve(tmpdir(), 'vima-tests', ...args),
-  nextTick: f => (...args) => process.nextTick(f, ...args),
 };

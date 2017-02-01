@@ -29,7 +29,11 @@ const saveViewAs = fmdApi => (viewConfiguration, viewType, path, callback) => {
   if (!viewConfiguration) {
     return callback('Unknown view');
   }
-  createFolder(dirname(path)).then(() => {
+  // createFolder(dirname(path)).then(() => {
+  createFolder(dirname(path), (err) => {
+    if (err) {
+      return callback(err);
+    }
     let view = _cloneDeep(viewConfiguration);
     const structureType = vivl(viewType, 'structureType')();
     switch (structureType) { // eslint-disable-line default-case
@@ -56,8 +60,7 @@ const saveViewAs = fmdApi => (viewConfiguration, viewType, path, callback) => {
       server.sendProductLog(LOG_DOCUMENT_SAVE, 'view', path);
       return callback(null, oId);
     });
-  })
-  .catch(err => callback(err));
+  });
 };
 
 /**

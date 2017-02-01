@@ -1,5 +1,4 @@
-/* eslint no-underscore-dangle: 0 */
-
+import { values } from 'lodash/fp';
 import extractTimebars from './extractTimebars';
 import { should } from '../common/test';
 
@@ -7,7 +6,7 @@ describe('documents', () => {
   describe('extractTimebars', () => {
     let content;
     beforeEach(() => {
-      content = {
+      const originalContent = {
         timebars: [{
           type: 'timeBarConfiguration',
           id: 'Timebar 1',
@@ -45,14 +44,19 @@ describe('documents', () => {
           masterId: 'Session 1',
         }]
       };
-      content = Object.assign({}, { __original: content, __folder: '.' });
+      content = { __original: originalContent, __folder: '.' };
     });
     it('workspace valid', () => {
       extractTimebars(content, (err, val) => {
         should.not.exist(err);
         val.should.be.an('object').with.keys('__original', '__folder', 'timebars');
         val.timebars.should.be.an('object');
-        Object.keys(val.timebars).should.have.length(1);
+
+        const timebars = values(val.timebars);
+        timebars.should.have.length(1);
+
+        content.__original.timebars[0].uuid = timebars[0].uuid;
+        timebars[0].should.be.eql(content.__original.timebars[0]);
       });
     });
     it('invalid workspace', () => {
@@ -61,7 +65,9 @@ describe('documents', () => {
         should.not.exist(err);
         val.should.be.an('object').with.keys('__original', '__folder', 'timebars');
         val.timebars.should.be.an('object');
-        Object.keys(val.timebars).should.have.length(0);
+
+        const timebars = values(val.timebars);
+        timebars.should.have.length(0);
       });
     });
     it('no timebars', () => {

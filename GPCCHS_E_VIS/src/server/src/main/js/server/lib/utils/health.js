@@ -13,7 +13,7 @@ const iterate = () => {
 module.exports = () => {
   if (!start) {
     start = process.hrtime();
-    setImmediate(iterate);
+    iterate();
     return true;
   }
 

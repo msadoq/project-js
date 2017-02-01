@@ -1,4 +1,4 @@
-import { exec } from 'child_process';
+import rimraf from 'rimraf';
 import { join } from 'path';
 
 import mimeTypes from 'common/constants/mimeTypes';
@@ -97,10 +97,7 @@ describe('documentManager/saveWorkspace', () => {
   const folder = getTmpPath('testAs');
 
   after((done) => {
-    exec('rm -r '.concat(getTmpPath()), () => {
-      // your callback goes here
-      done();
-    });
+    rimraf(getTmpPath(), done);
   });
   it('saveAs ok', (done) => {
     const path = join(folder, 'workspace.json');

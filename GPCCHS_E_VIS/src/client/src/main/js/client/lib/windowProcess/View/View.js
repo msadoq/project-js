@@ -131,7 +131,6 @@ export default class View extends PureComponent {
     }
 
     const borderColor = _get(configuration, ['titleStyle', 'bgColor'], '#fefefe');
-    console.log(this.borderColorStyle(borderColor));
 
     return (
       <div

@@ -124,7 +124,8 @@ export default class Header extends PureComponent {
       background: titleStyle.bgColor ? titleStyle.bgColor : null,
       fontWeight: 'normal',
       fontStyle: 'normal',
-      textDecoration: 'none'
+      textDecoration: 'none',
+      paddingRight: '57px'
     };
 
     if (titleStyle.bold) {
@@ -142,16 +143,32 @@ export default class Header extends PureComponent {
   }
 
   toDataStyle() {
-    const style = { color: 'rgb(51,51,51)', marginLeft: '10px', marginRight: '5px', marginTop: '2px', lineHeight: '2' };
+    const style = { backgroundColor: 'rgb(239,239,239)', color: 'rgb(51,51,51)', padding: '5px 10px', marginLeft: '5px', marginRight: '5px', marginTop: '2px', height: '22px', border: '1px solid rgb(180,180,180)' };
     if (this.props.show === 'data') {
       style.fontWeight = 'bold';
+      style.opacity = 1;
     }
     return style;
   }
   toHtmlStyle() {
-    const style = { color: 'rgb(51,51,51)', marginLeft: '10px', lineHeight: '2', marginTop: '2px' };
+    const style = { backgroundColor: 'rgb(239,239,239)', color: 'rgb(51,51,51)', padding: '5px 10px', marginLeft: '5px', marginTop: '2px', height: '22px', border: '1px solid rgb(180,180,180)' };
     if (this.props.show === 'html') {
       style.fontWeight = 'bold';
+      style.opacity = 1;
+    }
+    return style;
+  }
+  expandButtonStyle() {
+    const style = { opacity: '1', backgroundColor: 'rgb(239,239,239)', color: 'rgb(51,51,51)', padding: '3px 6px', marginLeft: '3px', marginRight: '3px', marginTop: '1px', height: '22px', border: '1px solid rgb(180,180,180)' };
+    if (this.props.show === 'html') {
+      style.opacity = '1';
+    }
+    return style;
+  }
+  saveButtonStyle() {
+    const style = { opacity: '1', backgroundColor: 'rgb(239,239,239)', color: 'rgb(51,51,51)', padding: '3px 6px', marginLeft: '3px', marginRight: '3px', marginTop: '1px', height: '22px', border: '1px solid rgb(180,180,180)' };
+    if (this.props.show === 'html') {
+      style.opacity = '1';
     }
     return style;
   }
@@ -206,6 +223,8 @@ export default class Header extends PureComponent {
     const titleStyle = this.getTitleStyle();
     const toHtmlStyle = this.toHtmlStyle();
     const toDataStyle = this.toDataStyle();
+    const expandButtonStyle = this.expandButtonStyle();
+    const saveButtonStyle = this.saveButtonStyle();
 
     const isPathDefined = oId || absolutePath;
 
@@ -229,7 +248,7 @@ export default class Header extends PureComponent {
         })}
       >
         {!collapsed && this.props.type === 'TextView' && this.props.isViewsEditorOpen ? <a style={toHtmlStyle} onClick={() => { this.props.updateShow('html'); }}>HTML</a> : null}
-        {!collapsed && this.props.type === 'TextView' && this.props.isViewsEditorOpen ? <a style={toDataStyle} onClick={() => { this.props.updateShow('data'); }}>DATA</a> : null}
+        {!collapsed && this.props.type === 'TextView' && this.props.isViewsEditorOpen ? <a style={toDataStyle} onClick={() => { this.props.updateShow('data'); }}>VIEW</a> : null}
         <div
           style={titleStyle}
           className={`${styles.title} moveHandler ellipsis`}
@@ -263,8 +282,8 @@ export default class Header extends PureComponent {
           </DropdownButton>}
           {collapsed &&
             [
-              <a key={1} className={classnames('btn', 'btn-sm', 'btn-default')} onClick={this.expand}>Expand</a>,
-              <a key={2} className={classnames('btn', 'btn-sm', 'btn-default')} onClick={this.save}>Save</a>
+              <a key={1} style={expandButtonStyle} className={classnames('btn', 'btn-sm', 'btn-default')} onClick={this.expand}>Expand</a>,
+              <a key={2} style={saveButtonStyle} className={classnames('btn', 'btn-sm', 'btn-default')} onClick={this.save}>Save</a>
             ]
           }
         </div>

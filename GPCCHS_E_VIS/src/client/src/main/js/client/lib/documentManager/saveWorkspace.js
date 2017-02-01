@@ -11,7 +11,10 @@ import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
 
 const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
-  createFolder(dirname(path)).then(() => {
+  createFolder(dirname(path), (errFolderCreation) => {
+    if (errFolderCreation) {
+      return callback(errFolderCreation);
+    }
     const savedWindowsIds = [];
     const workspace = {
       type: 'WorkSpace',
@@ -83,8 +86,7 @@ const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
       server.sendProductLog(LOG_DOCUMENT_SAVE, 'workspace', path);
       callback(null, savedWindowsIds);
     });
-  })
-  .catch(err => callback(err));
+  });
 };
 
 const saveWorkspace = fmdApi => (state, useRelativePath, callback) => {

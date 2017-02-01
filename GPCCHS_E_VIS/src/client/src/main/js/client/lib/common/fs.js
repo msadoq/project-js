@@ -105,22 +105,22 @@ const self = module.exports = {
   /**
    * Checks if folder exists and if not, creates it
    *
-   * @param folder
-   * @return {Promise}
+   * @param path folder
+   * @param cb
    */
-  createFolder: folder => new Promise((resolve, reject) => {
+  createFolder: (folder, cb) => {
     fs.access(folder, fs.constants.F_OK, (noAccess) => {
       if (noAccess) {
         mkdirp(folder, (err) => {
           if (err) {
-            reject(new Error(`Unable to create folder ${folder} : ${err}`));
+            cb(new Error(`Unable to create folder ${folder} : ${err}`));
           } else {
-            resolve(true);
+            cb(null, true);
           }
         });
       } else {
-        resolve(true);
+        cb(null, true);
       }
     });
-  }),
+  },
 };

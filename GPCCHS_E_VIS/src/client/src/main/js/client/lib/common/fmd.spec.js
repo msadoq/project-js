@@ -4,7 +4,7 @@ import globalConstants from 'common/constants';
 import {
   createFmdApi, getRootDir, isInFmd, getRelativeFmdPath,
 } from './fmd';
-import { expect, sinon, nextTick } from './test';
+import { expect, sinon } from './test';
 
 describe('common/fmd', () => {
   const getIpcApi = (err = null, typeError = false) => ({
@@ -70,34 +70,34 @@ describe('common/fmd', () => {
       api.createDocument.should.be.a('function');
     });
     it('give serializedOid by callback', (done) => {
-      api.createDocument(path, 'WorkSpace', nextTick((err, oid) => {
+      api.createDocument(path, 'WorkSpace', (err, oid) => {
         oid.should.eql(4242);
         expect(err).to.not.be.an('error');
         const fn = ipcApi.server.requestFmdCreate;
         expect(fn.calledWith('/', fileName, 'WorkspaceDoc')).to.be.true;
         done();
-      }));
+      });
     });
     it('give an error when documentType is unknown', (done) => {
-      api.createDocument('./newFile.json', 'unknownDocumentType', nextTick((err, oid) => {
+      api.createDocument('./newFile.json', 'unknownDocumentType', (err, oid) => {
         expect(oid).to.be.undefined;
         err.should.be.an('error');
         done();
-      }));
+      });
     });
     it('give an error when ipc fail', (done) => {
-      errApi.createDocument(path, 'WorkSpace', nextTick((err, oid) => {
+      errApi.createDocument(path, 'WorkSpace', (err, oid) => {
         expect(oid).to.be.undefined;
         err.should.be.an('error');
         done();
-      }));
+      });
     });
     it('does nothing when path already exist', (done) => {
-      api.createDocument('.', 'WorkSpace', nextTick((err, oid) => {
+      api.createDocument('.', 'WorkSpace', (err, oid) => {
         expect(oid).to.be.undefined;
-        expect(err).to.be.null;
+        expect(err).to.not.be.an('error');
         done();
-      }));
+      });
     });
   });
 

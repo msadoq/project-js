@@ -79,7 +79,8 @@ describe('documents/lib', () => {
         _.each(val.timebars, (tb) => {
           tb.timelines.should.be.an('array');
           _.each(tb.timelines, (tlId) => {
-            should.exist(val.timelines[tlId]);
+            const tl = val.timelines[tlId];
+            tl.should.be.an('object').with.keys('id', 'offset', 'kind', 'sessionId', 'uuid');
           });
         });
       });
@@ -87,8 +88,9 @@ describe('documents/lib', () => {
     it('timelines not array', () => {
       const uuid = Object.getOwnPropertyNames(content.timebars);
       content.timebars[uuid[0]].timelines = { val: 'wrong' };
-      extractTimelines(content, (err, val) => {
+      extractTimelines(content, (err) => {
         should.exist(err);
+        err.should.be.an('array');
       });
     });
     it('no timelines', () => {

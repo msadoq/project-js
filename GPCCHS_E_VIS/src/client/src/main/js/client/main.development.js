@@ -4,8 +4,7 @@ import getLogger from 'common/log';
 import {
   LOG_APPLICATION_STOP,
   LOG_APPLICATION_ERROR,
-} from 'common/constants'; // eslint-disable-line import/first
-
+} from 'common/constants';
 import { start, stop, onWindowsClose } from './lib/mainProcess';
 import { server } from './lib/mainProcess/ipc';
 

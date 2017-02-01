@@ -56,7 +56,7 @@ const latencyReport = () => {
 
 const report = () => {
   memUsage = process.memoryUsage();
-  logger.info('data', {
+  logger.info('monitoring', {
     memUsage: Object.assign({}, memUsage, {
       time: Date.now(),
     }),

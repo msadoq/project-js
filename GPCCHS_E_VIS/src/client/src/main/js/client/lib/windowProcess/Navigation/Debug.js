@@ -1,5 +1,6 @@
 import { clipboard } from 'electron';
 import React, { PureComponent, PropTypes } from 'react';
+import _get from 'lodash/get';
 import {
   MenuItem,
   DropdownButton,
@@ -48,7 +49,7 @@ export default class Debug extends PureComponent {
   }
 
   toggleWhy = () => {
-    if (window.whyDidYouUpdate.loaded !== true) {
+    if (_get(window, ['whyDidYouUpdate', 'loaded'], false) !== true) {
       window.whyDidYouUpdate();
     }
   }
@@ -75,7 +76,7 @@ export default class Debug extends PureComponent {
           onClick={this.toggleWhy}
           {...buttonsProps}
         >
-          WDYU {window.whyDidYouUpdate.loaded ? 'ON' : 'OFF'}
+          WDYU {_get(window, ['whyDidYouUpdate', 'loaded'], false) ? 'ON' : 'OFF'}
         </MenuItem>
         <MenuItem
           eventKey="3"

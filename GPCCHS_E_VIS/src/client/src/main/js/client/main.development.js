@@ -1,8 +1,6 @@
-import './boot';
-
-import { app } from 'electron'; // eslint-disable-line import/first
-// import { init } from 'common/parameters';
-import getLogger from 'common/log'; // eslint-disable-line import/first
+import { app } from 'electron';
+import { init } from 'common/parameters';
+import getLogger from 'common/log';
 import {
   LOG_APPLICATION_STOP,
   LOG_APPLICATION_ERROR,
@@ -10,6 +8,8 @@ import {
 
 import { start, stop, onWindowsClose } from './lib/mainProcess';
 import { server } from './lib/mainProcess/ipc';
+
+init(__dirname, true);
 
 const logger = getLogger('main');
 

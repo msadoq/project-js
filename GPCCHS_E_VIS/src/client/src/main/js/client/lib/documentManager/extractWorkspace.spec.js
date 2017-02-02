@@ -1,4 +1,4 @@
-// const workspace = require('./workspace');
+// const workspace = require('./extractWorkspace');
 // const { should } = require('../common/test');
 // const documents = require('../documents');
 // const _ = require('lodash');

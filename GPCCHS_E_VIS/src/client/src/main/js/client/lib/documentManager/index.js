@@ -9,7 +9,7 @@ import { readPages } from './extractPages';
 import { savePage } from './savePage';
 
 // workspaces
-import { readWorkspace } from './workspace';
+import { readWorkspace } from './extractWorkspace';
 import { saveWorkspace } from './saveWorkspace';
 
 const documentManagerApi = {

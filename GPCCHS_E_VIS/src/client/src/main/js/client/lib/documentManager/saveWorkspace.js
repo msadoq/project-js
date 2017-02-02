@@ -6,6 +6,7 @@ import _cloneDeep from 'lodash/cloneDeep';
 import { join, dirname, relative } from 'path';
 import { LOG_DOCUMENT_SAVE } from 'common/constants';
 
+import validation from './validation';
 import { server } from '../mainProcess/ipc';
 import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
@@ -29,7 +30,6 @@ const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
         title: win.title,
         geometry: win.geometry,
       };
-      const err = {};
       // pages
       win.pages.forEach((pageId) => {
         if (!state.pages[pageId]) {
@@ -51,8 +51,7 @@ const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
             }
           }
         } else {
-          err[pageId] = 'Unsaved page: no path or oId';
-          return callback('Unsaved page: no path or oId', null);
+          return callback(new Error('Unsaved page: no path or oId'));
         }
         page.timebarId = (state.timebars[currentPage.timebarUuid])
           ? state.timebars[currentPage.timebarUuid].id
@@ -69,7 +68,7 @@ const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
       tb.timelines = [];
       _each(timebar.timelines, (timelineId) => {
         if (!state.timelines[timelineId]) {
-          return callback('timelines missing', null);
+          return callback(new Error('timelines missing'));
         }
         tb.timelines.push(_cloneDeep(state.timelines[timelineId]));
       });
@@ -78,6 +77,11 @@ const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
       }
       workspace.timebars.push(tb);
     });
+    // validation
+    const validationError = validation('workspace', workspace);
+    if (validationError) {
+      return callback(validationError);
+    }
     // save file
     writeDocument(fmdApi)(path, workspace, (err) => {
       if (err) {

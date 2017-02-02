@@ -1,6 +1,6 @@
 # Git hooks
 
-## Git prepare-commit hook
+## Git prepare-commit-msg hook
 
 It's may be useful to have some additional git local hooks.
 
@@ -11,6 +11,10 @@ here is a little script to add automatically prefix in the commit message :
 
 # keep the original commit content
 FILE_CONTENT="$(cat $1)"
+
+if [[ "$BYPASS_HOOKS" -eq "1" ]]; then
+  exit 0
+fi
 
 # erase commit content
 echo -n > $1
@@ -38,6 +42,12 @@ git c -m 'Your message'
 HL=1 git c -m 'Hors Livraison'
 ```
 
+if you want to bypass `prepare-commit-msg` hook, you can set the `BYPASS_HOOKS` environment variable to 1.
+example:
+```bash
+BYPASS_HOOKS=1 git commit
+```
+
 ## Git pre-commit hook
 
 ```bash
@@ -52,6 +62,10 @@ function error() {
 	echo "Do not commit '$1'"
 	exit 1
 }
+
+if [[ "$BYPASS_HOOKS" -eq "1" ]]; then
+  exit 0
+fi
 
 if [[ "$HAS_DESCRIBE_ONLY" -ne "0" ]]; then
 	error describe.only
@@ -76,3 +90,9 @@ copy this script in `/data/work/gitRepositories/LPISIS/GPCCHS/.git/hooks/pre-com
 
 #### Usage
 just make a normal commit, it will be rejected when you forget a `describe.only`, `describe.skip`, `it.only` or `it.skip`
+
+if you want to bypass `pre-commit` hook, you can set the `BYPASS_HOOKS` environment variable to 1.
+example:
+```bash
+BYPASS_HOOKS=1 git commit
+```

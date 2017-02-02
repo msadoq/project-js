@@ -362,7 +362,7 @@ class GPCCHS(object):
             if self._debug == True:
                 print("GPCCHS launcher execute: ",' '.join(self._cdestroy_cmd))
             proc = subprocess.Popen(
-                self._cstop_cmd,
+                self._cdestroy_cmd,
                 env=os.environ,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE
@@ -673,7 +673,7 @@ class GPCCHS(object):
             os.chdir(self._hscPath)
             self._hscProc = self._run_process(' '.join(self._hsc_run_cmd) + ' ' + ' '.join(self._hsc_args),self._hscLogOutput)
             if self._hscProc == None:
-                print("GPCCHS Failed to create client, launch aborted")
+                print("GPCCHS launcher failed to run GPCCHS process, launch aborted")
                 rc = -1
         if rc == 0:
             print("GPCCHS Successfully started")
@@ -688,12 +688,9 @@ class GPCCHS(object):
         if self._gpccdc_started:
             rc = self._stop_feature()
             self._gpccdc_started = False
-        print("GPCCHS : feature created", self._gpccdc_created)
         if self._gpccdc_created:
             rc = self._destroy_feature()
             self._gpccdc_created = False
-            # Patch before FA4576 taking into account
-            print("GPCCHS cannot terminate GPCCDC due to FA4576, run again this command :",' '.join(self._cdestroy_cmd))
         if self._hscLogOutput:
             self._hscLogOutput = None
         return rc

@@ -31,7 +31,7 @@ export const writeDocument = fmdApi => (path, json, callback) => {
   const spaces = 2; // beautify json with 2 spaces indentations
   const data = JSON.stringify(json, null, spaces);
   if (!startsWith('/', path)) {
-    callback(new Error('path should be absolute'));
+    return callback(new Error('path should be absolute'));
   }
   if (fmdApi.isInFmd(path)) {
     return fmdApi.createDocument(path, json.type, (err, oid) => {
@@ -40,7 +40,7 @@ export const writeDocument = fmdApi => (path, json, callback) => {
       }
       return writeFile(path, data, (errWriting) => {
         if (errWriting) {
-          return callback(err);
+          return callback(errWriting);
         }
         callback(null, oid);
       });

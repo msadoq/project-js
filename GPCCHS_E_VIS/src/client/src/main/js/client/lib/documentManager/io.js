@@ -30,12 +30,15 @@ export const readDocument = fmdApi => (folder, relativePath, oId, absolutePath, 
 export const writeDocument = fmdApi => (path, json, callback) => {
   const spaces = 2; // beautify json with 2 spaces indentations
   const data = JSON.stringify(json, null, spaces);
+  if (!startsWith('/', path)) {
+    callback(new Error('path should be absolute'));
+  }
   if (fmdApi.isInFmd(path)) {
     return fmdApi.createDocument(path, json.type, (err, oid) => {
       if (err) {
         return callback(err);
       }
-      writeFile(path, data, (errWriting) => {
+      return writeFile(path, data, (errWriting) => {
         if (errWriting) {
           return callback(err);
         }
@@ -43,5 +46,5 @@ export const writeDocument = fmdApi => (path, json, callback) => {
       });
     });
   }
-  writeFile(path, data, callback);
+  return writeFile(path, data, callback);
 };

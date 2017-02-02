@@ -19,7 +19,7 @@ export const readDocument = fmdApi => (folder, relativePath, oId, absolutePath, 
     return readJsonFromAbsPath(absolutePath, callback);
   }
   if (oId) {
-    return readJsonFromOId(fmdApi)(oId, (err, json, properties) => callback(err, json, properties));
+    return readJsonFromOId(fmdApi)(oId, callback);
   }
   if (folder && !startsWith('/', relativePath)) {
     return readJsonFromRelativePath(folder, relativePath, callback);

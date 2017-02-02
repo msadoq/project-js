@@ -42,6 +42,6 @@ config.local.json.bak
 # App packaged
 dist
 release
-./main.js
-main.js.map
+/main.js
+/main.js.map
 .env

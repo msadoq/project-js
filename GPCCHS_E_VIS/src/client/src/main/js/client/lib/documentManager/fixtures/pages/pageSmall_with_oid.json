@@ -5,7 +5,7 @@
   "title": "page Small workspace",
   "views": [
     {
-      "oId": "view_text_1",
+      "oId": "oId:/views/text1.json",
       "geometry": {
       "kind": "Relative",
       "x": 0,
@@ -16,7 +16,7 @@
       "windowState": "Normalized"
     },
     {
-      "oId": "view_plot_1",
+      "oId": "oId:/views/plot1.json",
       "geometry": {
         "kind": "Relative",
         "x": 6,

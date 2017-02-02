@@ -766,9 +766,8 @@ export default class Timebar extends PureComponent {
     return date.format('MM[-]DD HH[:]mm[:]ss.SSS');
   }
 
-  rePosition = (e) => {
+  rePosition = (side, e) => {
     e.preventDefault();
-    const side = e.currenttarget.getAttribute('side');
     const {
       visuWindow,
       updateViewport,
@@ -903,6 +902,8 @@ export default class Timebar extends PureComponent {
 
   assignTimelinesEl = (el) => { this.timelinesEl = el; }
   assignEl = (el) => { this.el = el; }
+  bindRePositionLeft = this.rePosition.bind(this, 'left')
+  bindRePositionRight = this.rePosition.bind(this, 'right')
 
   render() {
     const {
@@ -937,8 +938,7 @@ export default class Timebar extends PureComponent {
           <button
             title="Navigate to current cursor"
             className={classnames('btn', 'btn-sm', 'btn-primary', styles.arrowLeft)}
-            side="left"
-            onClick={this.rePosition}
+            onClick={this.bindRePositionLeft}
           >←</button>
           <button
             title="Bring cursors in the viewport"
@@ -955,8 +955,7 @@ export default class Timebar extends PureComponent {
           <button
             title="Navigate to current cursor"
             className={classnames('btn', 'btn-sm', 'btn-primary', styles.arrowRight)}
-            side="right"
-            onClick={this.rePosition}
+            onClick={this.bindRePositionRight}
           >→</button>
           <button
             title="Bring cursors in the viewport"

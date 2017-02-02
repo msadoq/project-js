@@ -91,6 +91,7 @@ export default class View extends PureComponent {
   }
 
   borderColorStyle = _memoize(c => ({ borderColor: c }));
+  backgroundColorStyle = _memoize(c => ({ backgroundColor: c }));
   assignEl = (el) => { this.el = el; }
 
   render() {
@@ -159,7 +160,7 @@ export default class View extends PureComponent {
         {!configuration.collapsed &&
           <div
             className={styles.content}
-            style={{ backgroundColor }}
+            style={this.backgroundColorStyle(backgroundColor)}
           >
             <MessagesContainer viewId={viewId} />
             <ContentComponent

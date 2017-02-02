@@ -201,7 +201,7 @@ export default class TimebarWrapper extends PureComponent {
           verticalScroll={timelinesVerticalScroll}
           onTimelinesVerticalScroll={this.onTimelinesVerticalScroll}
         />
-        <div className="col-xs-9 h100">
+        <div className={classnames('col-xs-9', styles.h100minus13)}>
           <RightTabContainer
             timebar={timebar}
             timebarUuid={timebarUuid}

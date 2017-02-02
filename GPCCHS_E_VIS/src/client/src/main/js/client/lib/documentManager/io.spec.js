@@ -1,9 +1,11 @@
+import { access, mkdir, readFileSync } from 'fs';
+import rimraf from 'rimraf';
 import { join, resolve } from 'path';
 import { compose, prop, split } from 'lodash/fp';
 
 import mimeTypes from 'common/constants/mimeTypes';
 
-import { should, expect } from '../common/test';
+import { should, expect, getTmpPath } from '../common/test';
 // import { should, expect, getTmpPath } from '../common/test';
 import fmdApi from '../common/fmd';
 import * as IO from './io';
@@ -22,7 +24,7 @@ const mockFmdApi = fmd => ({
   createDocument: (path, documentType, cb) => {
     const mimeType = mimeTypes[documentType];
     if (!mimeType) {
-      return cb(`Unknown documentType : ${documentType}`);
+      return cb(new Error(`Unknown documentType : ${documentType}`));
     }
     const oid = `oid:${fmd.getRelativeFmdPath(path)}`;
     return cb(null, oid);
@@ -34,10 +36,10 @@ const { readDocument, writeDocument } = applyDependencyToApi(IO, mockFmdApi(fmdA
 describe('documentManager/io', () => {
   const folder = fmdApi.getRootDir();
   describe('readDocument', () => {
-    it('exists', (done) => {
+    it('exists', () => {
       readDocument.should.be.a('function');
-      done();
     });
+
     describe('inside fmd folder', () => {
       it('works with oid', (done) => {
         readDocument(null, null, 'oid:/small.workspace.json', null, (err, data, properties) => {
@@ -102,6 +104,7 @@ describe('documentManager/io', () => {
         });
       });
     });
+
     describe('outside fmd folder', () => {
       before(() => {
         process.env.FMD_ROOT_DIR = resolve(__dirname, '../../data');
@@ -160,9 +163,83 @@ describe('documentManager/io', () => {
     });
   });
   describe('writeDocument', () => {
-    it('exists', (done) => {
+    const objectToSave = { type: 'WorkSpace', some: { properties: true } };
+    const readJsonFileSync = compose(JSON.parse, readFileSync);
+
+    beforeEach(done => mkdir(getTmpPath(), done));
+    afterEach(done => rimraf(getTmpPath(), done));
+
+    it('exists', () => {
       writeDocument.should.be.a('function');
-      done();
+    });
+
+    describe('inside fmd folder', () => {
+      before(() => {
+        process.env.FMD_ROOT_DIR = getTmpPath();
+      });
+      after(() => {
+        process.env.FMD_ROOT_DIR = folder;
+      });
+
+      const getPath = () => join(fmdApi.getRootDir(), 'document.json');
+
+      it('works with an absolute path', (done) => {
+        const path = getPath();
+        writeDocument(path, objectToSave, (err) => {
+          expect(err).to.not.be.an('error');
+          expect(readJsonFileSync(path)).to.be.eql(objectToSave);
+          done();
+        });
+      });
+      it('should give an oid', (done) => {
+        const path = getPath();
+        writeDocument(path, objectToSave, (err, oid) => {
+          expect(err).to.not.be.an('error');
+          expect(oid).to.be.eql('oid:/document.json');
+          done();
+        });
+      });
+      it('fails with a relative path', (done) => {
+        const path = './document.json';
+        writeDocument(path, objectToSave, (err) => {
+          expect(err).to.be.an('error');
+          access(path, (accessErr) => {
+            expect(accessErr).to.be.an('error');
+            done();
+          });
+        });
+      });
+    });
+
+    describe('outside fmd folder', () => {
+      const getPath = () => join(getTmpPath(), 'document.json');
+
+      it('works with an absolute path', (done) => {
+        const path = getPath();
+        writeDocument(path, objectToSave, (err) => {
+          expect(err).to.not.be.an('error');
+          expect(readJsonFileSync(path)).to.be.eql(objectToSave);
+          done();
+        });
+      });
+      it('should give an oid', (done) => {
+        const path = getPath();
+        writeDocument(path, objectToSave, (err, oid) => {
+          expect(err).to.not.be.an('error');
+          expect(oid).to.be.an('undefined');
+          done();
+        });
+      });
+      it('fails with a relative path', (done) => {
+        const path = './document.json';
+        writeDocument(path, objectToSave, (err) => {
+          expect(err).to.be.an('error');
+          access(path, (accessErr) => {
+            expect(accessErr).to.be.an('error');
+            done();
+          });
+        });
+      });
     });
   });
 });

@@ -9,4 +9,6 @@ export const getMasterSessionId = state => _get(state, ['masterSession', 'sessio
 export const getMasterSession = createSelector([
   getMasterSessionId,
   getSessions
-], (masterSessionId, sessions) => _find(sessions, s => s.id === masterSessionId));
+], (masterSessionId, sessions) =>
+  _find(sessions, s => s.id === masterSessionId)
+);

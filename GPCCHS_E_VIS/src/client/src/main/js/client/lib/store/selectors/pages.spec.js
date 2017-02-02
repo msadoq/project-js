@@ -2,6 +2,7 @@
 import { should } from '../../common/test';
 import {
   getPages,
+  getPageIds,
   getPage,
   getPageIdByViewId,
   getPageLayout,
@@ -21,6 +22,15 @@ describe('store:page:selectors', () => {
     };
     getPage(state, 'myPageId').should.have.property('title', 'Title 1');
     should.not.exist(getPage(state, 'unknownId'));
+  });
+  it('getPageIds', () => {
+    const state = {
+      pages: {
+        page1: { title: 'Title 1' },
+        page2: { title: 'Title 2' },
+      },
+    };
+    getPageIds(state).should.eql(['page1', 'page2']);
   });
   it('getPageLayout', () => {
     const state = {

@@ -36,6 +36,7 @@ export default class Content extends PureComponent {
     closeEditor: PropTypes.func,
     isEditorOpened: PropTypes.bool,
     updateLayout: PropTypes.func,
+    windowId: PropTypes.string,
   };
 
   onLayoutChange = (layout = []) => {
@@ -61,7 +62,7 @@ export default class Content extends PureComponent {
     const {
       views = [], focusedPageId, timebarUuid,
       layouts, editorViewId, isEditorOpened,
-      openEditor, closeEditor
+      openEditor, closeEditor, windowId
     } = this.props;
 
     if (!focusedPageId) {
@@ -111,6 +112,7 @@ export default class Content extends PureComponent {
                 timebarUuid={timebarUuid}
                 pageId={focusedPageId}
                 viewId={v.viewId}
+                windowId={windowId}
                 unmountAndRemove={this.props.unmountAndRemove}
                 isViewsEditorOpen={isViewsEditorOpen}
                 openEditor={openEditor}

@@ -2,10 +2,15 @@ import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _reduce from 'lodash/reduce';
 import _filter from 'lodash/filter';
-import { createSelector } from 'reselect';
+import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
 import { getFocusedWindowId } from './hsc';
 import { getPages } from './pages';
 // import { getViews } from './views';
+
+export const createDeepEqualSelector = createSelectorCreator(
+  defaultMemoize,
+  _.isEqual
+);
 
 export const getViews =
   _.prop('views');
@@ -13,12 +18,13 @@ export const getViews =
 export const getWindows = state => _get(state, ['windows'], {});
 export const getWindowsArray = createSelector(
   getWindows,
-  windows => Object
-    .keys(windows)
-    .map(id => ({
-      id,
-      ...windows[id]
-    }))
+  windows =>
+    Object
+      .keys(windows)
+      .map(id => ({
+        id,
+        ...windows[id]
+      }))
 );
 
 export const getFocusedWindow = createSelector(
@@ -56,18 +62,20 @@ export const getWindowMinimized = (state, windowId) =>
 
 export const getWindowsFocusedPageIds = createSelector(
   getWindowsArray,
-  windows => windows
-    .filter(w => w.focusedPage)
-    .map(w => w.focusedPage)
+  windows =>
+    windows
+      .filter(w => w.focusedPage)
+      .map(w => w.focusedPage)
 );
 
 export const getWindowsFocusedPage = createSelector(
-  getWindowsFocusedPageIds,
+  createDeepEqualSelector(getWindowsFocusedPageIds, _.identity),
   getPages,
   (pageIds, pages) =>
     pageIds
       .filter(id => id in pages)
-      .map(id => pages[id]));
+      .map(id => pages[id])
+);
 
 export const getWindowsVisibleViewIds = createSelector(
   getWindowsFocusedPage,
@@ -77,26 +85,25 @@ export const getWindowsVisibleViewIds = createSelector(
       .map(p => ({
         timebarUuid: p.timebarUuid,
         viewIds: p.views
-      })));
+      }))
+);
 
 export const getWindowsVisibleViews = createSelector(
   getWindowsVisibleViewIds,
   getViews,
-  (pages, views) => pages
-    .map(p => p.viewIds.map(vId => ({
-      timebarUuid: p.timebarUuid,
-      viewId: vId
-    })))
-    .reduce((acc, ids) => acc.concat(ids), [])
-    .filter(v => !!views[v.viewId])
-    .map(v => ({
-      ...v,
-      viewData: views[v.viewId]
-    }))
+  (viewIds, views) =>
+    viewIds
+      .map(p => p.viewIds.map(vId => ({
+        timebarUuid: p.timebarUuid,
+        viewId: vId
+      })))
+      .reduce((acc, ids) => acc.concat(ids), [])
+      .filter(v => !!views[v.viewId])
+      .map(v => ({
+        ...v,
+        viewData: views[v.viewId]
+      }))
 );
-
-export const getWindowsVisibleView = (state, viewId) =>
-  (getWindowsVisibleViews(state) || []).find(v => v.viewId === viewId);
 
 export const getWindowsTitle = createSelector(
   getWindows,

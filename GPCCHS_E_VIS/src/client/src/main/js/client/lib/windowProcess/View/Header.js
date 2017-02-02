@@ -26,7 +26,7 @@ export default class Header extends PureComponent {
     closeEditor: PropTypes.func,
     unmountAndRemove: PropTypes.func,
     moveViewToPage: PropTypes.func,
-    getWindowPages: PropTypes.func,
+    windowPages: PropTypes.object,
     collapseView: PropTypes.func,
     show: PropTypes.string,
     updateShow: PropTypes.func
@@ -59,13 +59,12 @@ export default class Header extends PureComponent {
       openEditor,
       closeEditor,
       unmountAndRemove,
-      getWindowPages,
+      windowPages,
       collapseView,
       collapsed,
     } = this.props;
 
     const {
-      windowId,
       focusedPageId,
     } = this.context;
 
@@ -79,7 +78,7 @@ export default class Header extends PureComponent {
         break;
       }
       case 'move': {
-        const pageTitles = getWindowPages(windowId).reduce((list, page) => {
+        const pageTitles = windowPages.reduce((list, page) => {
           list.push({ title: page.title, id: page.pageId }); // eslint-disable-line noparam-reassign
           return list;
         }, []);

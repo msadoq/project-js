@@ -65,7 +65,7 @@ describe('documents/lib', () => {
           mode: 'Normal',
         }],
       };
-      content = Object.assign({}, { __original: content, __folder: '.' });
+      content = Object.assign({}, { __original: content, __folder: './fixtures' });
       extractTimebars(content, (err, val) => {
         content = val;
       });

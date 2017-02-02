@@ -30,31 +30,32 @@ describe('documentManager/extractViews', () => {
       type: 'Page',
       title: 'simple page1',
       views: [
-        { oId: 'oid:/plot1.json' },
+        { oId: 'oid:/views/plot1.json' },
       ],
-      path: 'page02.vipg',
       timebarId: 'TB1',
       uuid: id1,
       timebarUuid: id,
-      absolutePath: path.join(folder, 'page01.json'),
+      path: 'pages/page1.json',
+      absolutePath: path.join(folder, 'pages', 'page1.json'),
     };
     content.pages[id2] = {
       type: 'Page',
       title: 'simple page2',
-      views: [{ path: '../text1.json' }, { path: '../plot1.json' }],
-      path: 'page02.vipg',
+      views: [{ path: '../views/text1.json' }, { path: '../views/plot1.json' }],
+      path: 'pages/pageSmall_with_oid.json',
       timebarId: 'TB1',
       uuid: id1,
       timebarUuid: id,
       absolutePath: path.join(folder, 'pages', 'pageSmall_with_oid.json'),
     };
-    content.__folder = path.join(__dirname, 'fixtures');
   });
   describe('readViews', () => {
     let views;
     beforeEach(() => {
-      views = [{ path: path.join(folder, 'text1.json'), uuid: v4(), type: 'TextView' },
-      { oId: 'oid:/plot1.json', uuid: v4(), type: 'PlotView' }];
+      views = [
+        { path: '/views/text1.json', uuid: v4(), type: 'TextView' },
+        { oId: 'oid:/views/plot1.json', uuid: v4(), type: 'PlotView' }
+      ];
     });
     it('valid', (done) => {
       readViews(views, (err, list) => {

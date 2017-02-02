@@ -14,7 +14,7 @@ import View from './View';
 
 const makeMapStateToProps = () => {
   const getViewEntryPoints = makeGetViewEntryPoints();
-  const mapStateToProps = (state, { viewId, timebarUuid }) => {
+  const mapStateToProps = (state, { viewId, timebarUuid, windowId }) => {
     const { type, configuration, oId, absolutePath, isModified }
         = getView(state, viewId);
 
@@ -26,7 +26,7 @@ const makeMapStateToProps = () => {
       configuration,
       data,
       visuWindow,
-      getWindowPages: windowId => getWindowPages(state, windowId),
+      windowPages: getWindowPages(state, windowId),
       oId,
       absolutePath,
       isModified,

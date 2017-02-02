@@ -29,7 +29,7 @@ describe('lib/documentManager', () => {
             timebarId: 'TB1'
           },
           {
-            path: 'page01.json',
+            path: 'pages/page1.json',
             timebarId: 'TB1'
           }
         ],

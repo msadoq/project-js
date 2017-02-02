@@ -4,7 +4,7 @@
   "title": "showCase page",
   "views": [
     {
-      "oId": "/views/plot1.view.json",
+      "oId": "oId:/views/plot1.json",
       "geometry": {
         "kind": "Relative",
         "x": 0,
@@ -15,7 +15,7 @@
       "windowState": "Normalized"
     },
     {
-      "path": "/views/plot2.view.json",
+      "path": "/views/plot1.json",
       "geometry": {
         "kind": "Relative",
         "x": 7,

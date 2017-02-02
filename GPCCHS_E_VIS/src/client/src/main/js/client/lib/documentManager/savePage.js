@@ -5,7 +5,6 @@ import { dirname, relative } from 'path';
 import {
   LOG_DOCUMENT_SAVE
 } from 'common/constants';
-import parameters from 'common/parameters';
 
 import { server } from '../mainProcess/ipc';
 import { createFolder } from '../common/fs';
@@ -31,7 +30,7 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
     if (err) {
       return callback(err);
     }
-    const root = parameters.get('FMD_ROOT_DIR');
+    const root = fmdApi.getRootDir();
     const page = state.pages[pageId];
     const savedPage = {
       type: 'Page',

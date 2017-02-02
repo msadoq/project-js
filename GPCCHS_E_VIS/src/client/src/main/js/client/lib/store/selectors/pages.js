@@ -1,10 +1,16 @@
 import _get from 'lodash/get';
 import _map from 'lodash/map';
 import _filter from 'lodash/filter';
+import _ from 'lodash/fp';
 import { createSelector } from 'reselect';
 
 export const getPages = state => state.pages;
 export const getPage = (state, pageId) => state.pages[pageId];
+
+export const getPageIds = createSelector(
+  getPages,
+  _.keys
+);
 
 export const getPageViewsIds = (state, { pageId }) =>
   _get(state, ['pages', pageId, 'views']);

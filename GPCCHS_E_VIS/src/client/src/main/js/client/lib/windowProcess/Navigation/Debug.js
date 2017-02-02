@@ -6,6 +6,8 @@ import {
   DropdownButton,
   Glyphicon,
 } from 'react-bootstrap';
+import Perf from 'react-dom/lib/ReactPerf';
+import { HSC_ORCHESTRATION_FREQUENCY } from 'common/constants';
 import dataMapGenerator from '../../dataManager/map';
 import { updateCacheInvalidation } from '../../store/actions/hsc';
 import { main } from '../ipc';
@@ -19,6 +21,11 @@ export default class Debug extends PureComponent {
   static propTypes = {
     dummy: PropTypes.func,
     toggleHelp: PropTypes.func,
+    focusedPage: PropTypes.shape({
+      timebarUuid: PropTypes.string,
+    }),
+    play: PropTypes.func,
+    pause: PropTypes.func,
   };
   static contextTypes = {
     store: React.PropTypes.object.isRequired,
@@ -53,6 +60,17 @@ export default class Debug extends PureComponent {
       window.whyDidYouUpdate();
     }
   }
+
+  printReactWastedRenders = () => {
+    this.props.play(this.props.focusedPage.timebarUuid);
+    Perf.start();
+    setTimeout(() => {
+      Perf.stop();
+      Perf.printWasted();
+      this.props.pause(this.props.focusedPage.timebarUuid);
+    }, HSC_ORCHESTRATION_FREQUENCY);
+  }
+
 
   render() {
     const { dummy } = this.props;
@@ -106,6 +124,14 @@ export default class Debug extends PureComponent {
         >
           CLEAN CACHE
         </MenuItem>
+        <MenuItem
+          eventKey="8"
+          onClick={this.printReactWastedRenders}
+          {...buttonsProps}
+        >
+          WASTED RENDERS
+        </MenuItem>
+
       </DropdownButton>
     );
   }

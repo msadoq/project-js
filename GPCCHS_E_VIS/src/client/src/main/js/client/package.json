@@ -19,6 +19,7 @@
     "build": "npm run build:main && npm run build:renderer",
     "build:main": "node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.main.js --progress --profile --colors",
     "build:renderer": "NODE_ENV=production node -r babel-register -r ./lib/common/initParameters.js ./node_modules/.bin/webpack --config webpack/config.renderer.production.js --progress --profile --colors",
+    "clean": "rimraf ./dist ./main.js ./main.js.map",
     "hello": "npm run link && npm install && [ -f config.local.json ] && echo || cp config.sample.json config.local.json",
     "link": "npm link ../../../../../common/src/main/js/common && npm link ../../../../../server/src/main/js/server && (cd ../../../../../server/src/main/js/server && npm run hello)",
     "lint": "eslint lib test *.js",

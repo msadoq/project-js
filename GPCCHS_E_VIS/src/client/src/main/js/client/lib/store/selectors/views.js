@@ -8,7 +8,7 @@ import { compile } from '../../common/operators';
 import { getDomains } from './domains';
 import { getTimebars } from './timebars';
 import { getTimelines } from './timelines';
-import { getWindowsVisibleView } from './windows';
+import { getWindowsVisibleViews } from './windows';
 import { getViewData as viewData } from '../../dataManager/map';
 import { getMasterSessionId } from './masterSession';
 
@@ -47,37 +47,41 @@ export const getViewContent = createSelector(
   _.prop('content')
 );
 
-export const getViewEntryPoints = createSelector(
-  getView,
-  getMasterSessionId,
-  getWindowsVisibleView,
-  getDomains,
-  getTimebars,
-  getTimelines,
-  (view, masterSessionId, visibleView, domains, timebars, timelines) => {
-    const data = viewData({
-      domains,
-      timebars,
-      timelines,
-      view: _.get('viewData', visibleView),
-      timebarUuid: _.get('timebarUuid', visibleView),
-      masterSessionId,
-    });
-    return _.pipe(
-      _.pathOr([], ['configuration', 'entryPoints']),
-      entryPoints => entryPoints.map(
-        (ep, i) => {
-          const error = _.get(['epsData', i, 'error'], data);
-          return error ?
-            _.assoc('error', error, ep) :
-            ep;
-        }
-      )
-    )(view);
-  }
-);
+export const makeGetViewEntryPoints = () =>
+  createSelector([
+    getView,
+    getMasterSessionId,
+    getWindowsVisibleViews,
+    getDomains,
+    getTimebars,
+    getTimelines,
+    (state, viewId) => viewId,
+  ],
+    (view, masterSessionId, visibleViews, domains, timebars, timelines, viewId) => {
+      const visibleView = visibleViews.find(v => v.viewId === viewId);
+      const data = viewData({
+        domains,
+        timebars,
+        timelines,
+        view: _.get('viewData', visibleView),
+        timebarUuid: _.get('timebarUuid', visibleView),
+        masterSessionId,
+      });
+      return _.pipe(
+        _.pathOr([], ['configuration', 'entryPoints']),
+        entryPoints => entryPoints.map(
+          (ep, i) => {
+            const error = _.get(['epsData', i, 'error'], data);
+            return error ?
+              _.assoc('error', error, ep) :
+              ep;
+          }
+        )
+      )(view);
+    }
+  );
 
-export const makeGetViewEntryPoints = () => getViewEntryPoints;
+export const getViewEntryPoints = makeGetViewEntryPoints();
 
 export const getViewEntryPoint = (state, viewId, epName) =>
   getViewEntryPoints(state, viewId)

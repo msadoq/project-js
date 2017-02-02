@@ -27,6 +27,6 @@ export default {
       (content, cb) => extractPages(fmdApi)(content, cb),
       (content, cb) => extractViews(fmdApi)(content, cb),
       (content, cb) => cb(null, omit(content, ['__folder', '__original'])),
-    ], callback);
+    ], (err, res) => (err ? callback(err) : callback(err, res)));
   }
 };

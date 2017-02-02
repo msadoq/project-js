@@ -94,6 +94,9 @@ export default class Header extends PureComponent {
         break;
       }
       case 'collapse': {
+        if (isViewsEditorOpen) {
+          closeEditor();
+        }
         collapseView(focusedPageId, viewId, !collapsed);
         break;
       }

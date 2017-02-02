@@ -9,7 +9,7 @@ import createProfilingMiddleware from './middlewares/profiling';
 let store;
 
 export function initStore(initialState) {
-  const middlewares = get('DEBUG') ? [createProfilingMiddleware(), thunk] : [thunk];
+  const middlewares = get('PROFILING') === 'on' ? [createProfilingMiddleware(), thunk] : [thunk];
   const enhancer = compose(
     applyMiddleware(...middlewares),
     electronEnhancer()

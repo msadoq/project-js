@@ -129,7 +129,7 @@ export default class Debug extends PureComponent {
           onClick={this.printReactWastedRenders}
           {...buttonsProps}
         >
-          WASTED REACT RENDERS
+          WASTED RENDERS
         </MenuItem>
 
       </DropdownButton>

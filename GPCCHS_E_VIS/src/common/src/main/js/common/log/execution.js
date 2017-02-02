@@ -23,9 +23,10 @@ function stop(executionMap, key, message) {
     executionMap[key].message = message;
   }
 }
+
 function print(executionMap, namespace) {
   const logger = getLogger(`profiling:${namespace}`);
-//  display('= execution map -~=] START [=~-');
+  logger.info('= execution map ====================');
   const timers = [];
   _each(executionMap, ({ traces, message }, k) => {
     let d = 0;
@@ -46,9 +47,10 @@ function print(executionMap, namespace) {
     if (message) {
       timer.message = message;
     }
+    logger.info(k, 'ms:', d);
     timers.push(timer);
   });
-
+  logger.info('- execution map --------------------');
   logger.info('profiling', {
     profiling: {
       timers,

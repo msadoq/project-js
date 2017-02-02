@@ -1,0 +1,128 @@
+.leftTab{
+  position: relative;
+  height: 100%;
+}
+.timebarName{
+  position: absolute;
+  top: 5px;
+  width: 100%;
+  text-align: center;
+}
+.addTimelineButton, .btnClose, .btnCollapse{
+  position: absolute;
+  top: 5px;
+  margin: 0px;
+  z-index: 3;
+  outline: inherit;
+  &:visited, &:focus, &:active{
+    outline: inherit;
+  }
+  &.btnClose{
+    right: 0px;
+  }
+  &.btnCollapse{
+    right: 15px;
+  }
+  &.addTimelineButton{
+    left: 0px;
+  }
+}
+.offset{
+  position: absolute;
+  right: 40px;
+}
+.leftTabTopPanel{
+  position: relative;
+  height: 38px;
+}
+.timelineUl{
+  margin-top: 0px;
+  position: absolute;
+  top: 46px;
+  padding-left: 0px;
+  width: calc(100% - 10px);
+  height: 100%;
+  max-height: calc(100% - 68px);
+  overflow-y: auto;
+}
+.timeline{
+  line-height: 12px;
+  position: relative;
+  background: #efefef;
+  border: 1px solid #bbb;
+  font-size: 0.8em;
+  font-weight: 500;
+  padding: 2px 4px;
+  margin-bottom: 2px;
+  height: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  &:hover{
+    background: #dfdfdf;
+  }
+  &:active{
+    background: #c0c0c0;
+  }
+}
+
+.master{
+  background: #222;
+  color: #FFF;
+  line-height: 18px;
+  text-align: center;
+  height: 17px;
+  width: 17px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+.formGroup{
+  margin-bottom: 4px;
+}
+.labelFormControl{
+  text-align: right;
+  width: 30% !important;
+  margin: 0px 7px;
+  float: left;
+}
+
+.formControl{
+  width: 55% !important;
+}
+
+.deleteButton{
+  background: #444;
+  cursor: pointer;
+  color: #fff;
+  padding: 1px 6px;
+  border-radius: 1px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  text-align: center;
+  border: none;
+  height: 100%;
+}
+.square{
+  position: absolute;
+  top: 0px;
+  width: 17px;
+  height: 17px;
+
+}
+.deleteButton:hover{
+  background: #222;
+}
+.input{
+  padding: 2px 7px;
+  border-radius: 2px;
+  display: inline-block;
+  margin-right: 4px;
+}
+.input_years{ width: 83px; }
+.input_months{ width: 83px; }
+.input_days{ width: 83px; }
+.input_hours{ width: 60px; }
+.input_minutes{ width: 60px; }
+.input_seconds{ width: 60px; }
+.input_milliseconds{ width: 65px; }

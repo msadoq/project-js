@@ -1,0 +1,37 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha \"lib/**/*.spec.js\" -- -R spec",
+    "hello": "npm install && npm link ../../../../../common/src/main/js/common",
+    "lint": "eslint lib e2e *.js",
+    "start": "node index",
+    "test": "mocha \"lib/**/*.spec.js\"",
+    "test:watch": "npm run test -- --watch",
+    "e2e": "mocha \"e2e/**/*.spec.js\"",
+    "e2e:updateSnapshots": "CHAI_JEST_SNAPSHOT_UPDATE_ALL=1 npm run e2e",
+    "tw": "npm test -- --watch"
+  },
+  "dependencies": {
+    "async": "~2.1.4",
+    "exit": "~0.1.2",
+    "lodash": "~4.17.4",
+    "lokijs": "~1.4.2",
+    "uuid": "~3.0.1"
+  },
+  "devDependencies": {
+    "chai": "~3.5.0",
+    "chai-jest-snapshot": "~0.2.1",
+    "chai-properties": "~1.2.1",
+    "eslint": "~3.14.1",
+    "eslint-config-airbnb-base": "~11.0.1",
+    "eslint-plugin-import": "~2.2.0",
+    "istanbul": "~0.4.5",
+    "mocha": "~3.2.0",
+    "node-fetch": "~1.6.3"
+  },
+  "peerDependencies": {
+    "common": "../../../../../common/src/main/js/common"
+  }
+}

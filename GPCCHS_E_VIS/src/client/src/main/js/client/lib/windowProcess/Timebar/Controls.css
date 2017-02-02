@@ -1,0 +1,42 @@
+.controls{
+  margin: 1px 0px 0px 1px;
+}
+.controlsUl{
+  display: table;
+  margin: 0px;
+  padding: 0px;
+}
+.controlsUlRight{
+  position: absolute;
+  top: 2px;
+  right: 4px;
+}
+.controlsLi{
+  display: table-cell;
+}
+.controlButtonPlay:hover{
+  background: #549edd;
+  box-shadow: 0px 0px 6px #337ab7 inset;
+  border: 1px solid #337ab7;
+}
+.glyphIcon{
+  top: 0px;
+}
+.controlButtonActive, .controlButtonActive:hover{
+  background: #60a7e5;
+  box-shadow: 0px 0px 6px #337ab7 inset;
+  border: 1px solid #337ab7;
+}
+.controlButtonDisabled{
+  opacity: 0.65;
+  cursor: default;
+  line-height: 1.6em;
+}
+.speedPopover{
+  width: 200px;
+}
+.speedInputEl{
+  display: inline-block;
+  margin-right: 10px;
+  width: 100px;
+}

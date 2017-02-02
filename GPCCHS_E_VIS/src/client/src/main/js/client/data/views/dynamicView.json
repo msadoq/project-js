@@ -1,0 +1,28 @@
+{
+  "title": "Dynamic view",
+  "titleStyle": {
+    "font": "Arial",
+    "size": 12,
+    "bold": false,
+    "italic": false,
+    "underline": true,
+    "strikeOut": false,
+    "align": "center",
+    "color": "#ffffff",
+    "bgColor": "#E91E63"
+  },
+  "type": "DynamicView",
+  "links": [],
+  "defaultRatio": {
+    "length": 5,
+    "width": 3
+  },
+  "entryPoint": {
+    "connectedData": {
+      "formula": "TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>",
+      "filter": [],
+      "domain": "fr.cnes.isis.simupus",
+      "timeline": "Session 1"
+    }
+  }
+}

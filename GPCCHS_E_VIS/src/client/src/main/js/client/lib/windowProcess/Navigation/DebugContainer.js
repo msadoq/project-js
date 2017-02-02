@@ -2,6 +2,7 @@ import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getPage } from '../../store/selectors/pages';
 import Debug from './Debug';
+import { play, pause } from '../../store/actions/hsc';
 
 const mapStateToStore = (state, ownProps) => ({
   focusedPage: getPage(state, ownProps.focusedPageId),
@@ -9,6 +10,8 @@ const mapStateToStore = (state, ownProps) => ({
 
 const DebugContainer = connect(mapStateToStore, {
   dummy: () => ({ type: 'dummy' }),
+  play,
+  pause,
 })(Debug);
 
 DebugContainer.propTypes = {

@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+const _ = require('lodash/fp');
 
 /* eslint no-console:0 */
 

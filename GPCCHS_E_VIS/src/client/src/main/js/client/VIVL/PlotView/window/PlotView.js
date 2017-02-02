@@ -1,5 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
-import { Button, Label as BsLabel } from 'react-bootstrap';
+import { Label as BsLabel } from 'react-bootstrap';
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _map from 'lodash/map';
@@ -140,7 +140,6 @@ export class PlotView extends PureComponent {
       ],
       disableZoom: true,
       isMenuOpened: false,
-      disconnected: false,
       zoomedOrPanned: false,
       menuPosition: {
         x: 0,
@@ -204,7 +203,7 @@ export class PlotView extends PureComponent {
   }
 
   shouldComponentUpdate(nextProps) {
-    const { disconnected, zoomedOrPanned } = this.state;
+    const { zoomedOrPanned } = this.state;
     const {
       data,
       entryPoints,
@@ -213,7 +212,7 @@ export class PlotView extends PureComponent {
       containerWidth,
       containerHeight,
     } = this.props;
-    if (disconnected || zoomedOrPanned) {
+    if (zoomedOrPanned) {
       return false;
     }
     if (
@@ -374,6 +373,7 @@ export class PlotView extends PureComponent {
           showDomain
           displayFormat={format2f}
           zoomEnabled={!disableZoom}
+          panEnabled={!disableZoom}
           {...(typeof chart.grid !== 'undefined' ? yGrid : {})}
         />}
         {this.getLineComponents(chart.lines, {
@@ -596,7 +596,7 @@ export class PlotView extends PureComponent {
 
   reconnect = () => {
     this.setState({
-      disconnected: false
+      zoomedOrPanned: false
     });
     this.forceUpdate();
   }
@@ -605,22 +605,18 @@ export class PlotView extends PureComponent {
     this.setState({
       zoomedOrPanned: true
     });
-    /*
-    this.setState({
-      disconnected: true
-    });
-    */
+    this.forceUpdate();
   }
 
   handleOnMouseDown = () => {
-    if (!this.state.disconnected && this.el &&
+    if (!this.state.zoomedOrPanned && this.el &&
       this.el.parentElement.querySelector(':hover')) {
       this.disconnect();
     }
   }
 
   handleOnWheel = () => {
-    if (!this.state.disconnected
+    if (!this.state.zoomedOrPanned
       && this.el.parentElement.querySelector(':hover')) {
       this.disconnect();
     }
@@ -749,7 +745,6 @@ export class PlotView extends PureComponent {
     } = this.props;
     const {
       disableZoom,
-      disconnected,
       zoomedOrPanned,
       xExtents,
       // isMenuOpened,
@@ -775,7 +770,7 @@ export class PlotView extends PureComponent {
         onDrop={this.onDrop}
         text="add entry point"
         className={classnames(
-          { [styles.disconnected]: disconnected || zoomedOrPanned },
+          { [styles.disconnected]: zoomedOrPanned },
           'h100',
           'posRelative',
         )}
@@ -789,14 +784,6 @@ export class PlotView extends PureComponent {
               bsSize="xs"
               className={styles.disconnectedButton}
             >Zoomed / moved</BsLabel>
-          }
-          {disconnected &&
-            <Button
-              bsStyle="danger"
-              bsSize="xs"
-              className={styles.disconnectedButton}
-              onClick={this.reconnect}
-            >Reconnect</Button>
           }
           {this.getEntryPointErrors(styles.entryPointError)}
           <ChartCanvas

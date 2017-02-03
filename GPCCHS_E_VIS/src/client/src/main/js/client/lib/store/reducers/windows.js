@@ -36,6 +36,15 @@ export default function windows(stateWindows = {}, action) {
           isModified: action.payload.flag,
         }
       }, stateWindows);
+    case types.WS_WINDOW_CURRENT_EXPLORER:
+      if (!stateWindows[action.payload.windowId]) {
+        return stateWindows;
+      }
+      return u({
+        [action.payload.windowId]: {
+          tabName: action.payload.tabName,
+        }
+      }, stateWindows);
     default:
       return stateWindows;
   }
@@ -57,6 +66,7 @@ const initialState = {
   },
   isModified: true,
   minimized: false,
+  tabName: 'perRemoteId',
 };
 
 function window(stateWindow = initialState, action) {

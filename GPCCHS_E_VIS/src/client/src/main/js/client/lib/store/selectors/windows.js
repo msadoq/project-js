@@ -119,3 +119,7 @@ export const getWindowsTitle = createSelector(
 export function getModifiedWindowsIds(state) {
   return _filter(Object.keys(getWindows(state)), wId => state.windows[wId].isModified);
 }
+
+export function getExplorerTabName(state, windowId) {
+  return _get(state, ['windows', windowId, 'tabName']);
+}

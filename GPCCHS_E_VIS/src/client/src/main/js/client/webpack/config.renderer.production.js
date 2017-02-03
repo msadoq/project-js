@@ -1,20 +1,8 @@
-import noop from 'lodash/noop';
 import { join } from 'path';
 import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import merge from 'webpack-merge';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import baseConfig from './config.base';
-
-const { BUNDLE_STATS } = process.env;
-const analyzer = new BundleAnalyzerPlugin({
-  analyzerPort: process.env.ANALYZER_PORT || 8888,
-  openAnalyzer: false,
-});
-
-if (BUNDLE_STATS) {
-  console.info('building and analyzing renderer bundle...'); // eslint-disable-line no-console
-}
 
 const config = merge(baseConfig, {
   devtool: 'cheap-module-source-map',
@@ -43,7 +31,6 @@ const config = merge(baseConfig, {
   },
 
   plugins: [
-    BUNDLE_STATS ? analyzer : noop,
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {

@@ -267,6 +267,7 @@ const dataMap = {
       sessionId: 181
     },
     filter: [],
+    views: ['58ada40b-29a0-4ab3-b326-11d46e1db450'],
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         field: 'extractedValue',
@@ -289,6 +290,7 @@ const dataMap = {
       sessionId: 181
     },
     filter: [],
+    views: ['aa77e24f-78e6-4e73-a486-fac1e4c058f9'],
     localIds: {
       'extractedValue/extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0/0': {
         field: 'extractedValue',
@@ -310,6 +312,7 @@ const dataMap = {
       sessionId: 10,
     },
     filter: [],
+    views: ['58ada40b-29a0-4ab3-b326-11d46e1db450'],
     localIds: {
       'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
         expectedInterval: [

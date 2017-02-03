@@ -126,7 +126,11 @@ export const walk = (masterSessionId, domains, timebars, timelines, views) =>
           dataId,
           filter,
           localIds: {},
+          views: [viewId],
         });
+      } else {
+        // Add the connected view
+        map.perRemoteId[remoteId].views.push(viewId);
       }
 
       // ignore existing localIds (will represent the same data)

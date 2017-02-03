@@ -4,6 +4,7 @@ import _map from 'lodash/map';
 import _split from 'lodash/split';
 import _get from 'lodash/get';
 import _find from 'lodash/find';
+
 import styles from '../Explorer.css';
 
 function perRemoteIdHeader() {
@@ -14,9 +15,9 @@ function perRemoteIdHeader() {
       <th className="text-center">Session</th>
       <th className="text-center">Domain</th>
       <th className="text-center">Filters</th>
+      <th className="text-center">Views</th>
       <th className="text-center">Field</th>
       <th className="text-center">Timebar</th>
-      {/* <th className="text-center">Views</th>*/}
     </tr>
   </thead>);
 }
@@ -42,18 +43,21 @@ function displayedFilters(filters) {
 
 export default class PerRemoteId extends PureComponent {
   static propTypes = {
-    perRemoteId: PropTypes.object,
-    timebars: PropTypes.object,
+    perRemoteId: PropTypes.object.isRequired,
+    timebars: PropTypes.object.isRequired,
     sessions: PropTypes.array.isRequired,
     domains: PropTypes.array.isRequired,
+    views: PropTypes.object.isRequired,
   }
 
   epInfo(value, isFirst) {
     if (isFirst) {
-      const { sessions, domains } = this.props;
+      const { sessions, domains, views } = this.props;
       const sessionName = _get(_find(sessions, ['id', value.dataId.sessionId]), ['name']);
       const domainName = _get(_find(domains, ['domainId', value.dataId.domainId]), ['name']);
-
+      const viewNames = value.views.length === 1
+                ? views[value.views[0]].configuration.title
+                : _map(value.views, id => '- '.concat(views[id].configuration.title)).join('\n');
       const key = value.dataId.parameterName;
       return [
         <td key={key.concat(1)}>{value.dataId.parameterName}</td>,
@@ -61,9 +65,10 @@ export default class PerRemoteId extends PureComponent {
         <td key={key.concat(3)}>{sessionName}</td>,
         <td key={key.concat(4)}>{domainName}</td>,
         <td key={key.concat(5)}>{displayedFilters(value.filter)}</td>,
+        <td key={key.concat(6)}>{viewNames}</td>,
       ];
     }
-    return [<td />, <td />, <td />, <td />, <td />];
+    return [<td />, <td />, <td />, <td />, <td />, <td />];
   }
 
   perRemoteIdLines() {

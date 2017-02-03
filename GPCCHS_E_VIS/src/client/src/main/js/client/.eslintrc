@@ -38,7 +38,6 @@
         "functions": "never"
       }
     ],
-    "import/no-unresolved": [2, { "ignore": ["electron", "common"] }],
     "react-perf/jsx-no-new-array-as-prop": ["warn"],
     "react-perf/jsx-no-new-object-as-prop": ["warn"],
     "react-perf/jsx-no-new-function-as-prop": ["warn"],

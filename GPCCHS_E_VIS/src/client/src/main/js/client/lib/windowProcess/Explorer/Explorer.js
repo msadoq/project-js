@@ -63,8 +63,8 @@ export default class Explorer extends PureComponent {
     return (
       <div>
         <Nav bsStyle="tabs" activeKey={currentTab} onSelect={this.handleSelect} className={styles.tabs}>
-          <NavItem eventKey="perRemoteId" title="Remote ID list of current page">Data Map</NavItem>
-          <NavItem eventKey="perViewId" title="Remote ID list per view on current page">View Map</NavItem>
+          <NavItem eventKey="perRemoteId" title="Entry point list of current page">Data Map</NavItem>
+          <NavItem eventKey="perViewId" title="Entry point list per view on current page">View Map</NavItem>
           {/* <NavItem eventKey="health" title="Application health">Health</NavItem>
           <NavItem eventKey="server" title="Server information">Server</NavItem>*/}
         </Nav>

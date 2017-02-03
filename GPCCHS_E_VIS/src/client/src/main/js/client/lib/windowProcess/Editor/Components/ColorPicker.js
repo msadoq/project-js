@@ -45,11 +45,11 @@ export default class ColorPicker extends React.Component {
   render() {
     const { color } = this.state;
     const { width, colors = initialColors } = this.props;
-
+    const buttonStyle = { backgroundColor: color };
     return (
       <div className={styles.root}>
         <Button
-          style={{ backgroundColor: color }}
+          style={buttonStyle}
           bsSize="xsmall"
           onClick={this.handleClick}
         ><None /></Button>

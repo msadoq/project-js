@@ -18,7 +18,7 @@ describe('store:viewData:reducer', () => {
     payload.rId2[j] = payload.rId1[j];
   }
 
-  describe('DATA_REMOVE_ALL_VIEWDATA', () => {
+  it('DATA_REMOVE_ALL_VIEWDATA', () => {
     const state = Object.freeze({
       myViewId: {
         index: { myEntryPoint: 10 },
@@ -27,15 +27,16 @@ describe('store:viewData:reducer', () => {
     });
     reducer(Object.freeze(state), removeAllData()).should.deep.equal({});
   });
-  describe('HSC_CLOSE_WORKSPACE', () => {
+  it('HSC_CLOSE_WORKSPACE', () => {
     const state = Object.freeze({
       myViewId: {
         index: { myEntryPoint: 10 },
         values: { myEntryPoint: 150 },
       }
     });
+    // eslint-disable-next-line no-unused-expressions
     reducer(Object.freeze(state), { type: types.HSC_CLOSE_WORKSPACE })
-    .should.be.an('object').that.is.empty;
+      .should.be.an('object').that.is.empty;
   });
 
 

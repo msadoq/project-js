@@ -17,15 +17,6 @@ import EntryPointConnectedDataFields from './EntryPointConnectedDataFields';
 */
 class EntryPointConnectedData extends React.Component {
   static propTypes = {
-    initialValues: PropTypes.shape({
-      formula: PropTypes.string,
-      unit: PropTypes.string,
-      digits: PropTypes.number,
-      format: PropTypes.string,
-      domain: PropTypes.string,
-      timeline: PropTypes.string,
-      filter: PropTypes.array,
-    }).isRequired,
     timelines: PropTypes.array,
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,

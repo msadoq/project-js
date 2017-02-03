@@ -1210,9 +1210,9 @@ export default class Timebar extends PureComponent {
             className={styles.timelines}
             onScroll={this.props.onVerticalScroll}
           >
-            { timelines.map((v, i) =>
+            { timelines.map(v =>
               <TimebarTimeline
-                key={i}
+                key={v.id}
                 name={v.id}
                 color={v.color}
                 offset={v.offset}

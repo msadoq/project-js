@@ -77,7 +77,7 @@ export default class PlotMarkers extends React.Component {
         <Accordion>
           {markers.map((marker, key) =>
             <Panel
-              key={key}
+              key={marker.label}
               header={marker.label}
               eventKey={key}
               expanded={this.state[`isPanel${key}Open`]}
@@ -86,7 +86,7 @@ export default class PlotMarkers extends React.Component {
             >
               {this.state[`isPanel${key}Open`] &&
                 <PlotMarker
-                  key={key}
+                  key={`${marker.label}#panel`}
                   index={key}
                   axes={axes}
                   initialValues={marker}

@@ -28,6 +28,11 @@ export default class FormSectionFontStyle extends FormSection {
   }
 
   render() {
+    const alignButtons = [
+      { label: 'left', icon: 'alignLeft' },
+      { label: 'center', icon: 'alignCenter' },
+      { label: 'right', icon: 'alignRight' }
+    ];
     return (
       <div>
         <HorizontalFormGroup label="Font">
@@ -59,11 +64,7 @@ export default class FormSectionFontStyle extends FormSection {
           <Field
             component={SelectButtonField}
             name="align"
-            buttons={[
-              { label: 'left', icon: 'alignLeft' },
-              { label: 'center', icon: 'alignCenter' },
-              { label: 'right', icon: 'alignRight' }
-            ]}
+            buttons={alignButtons}
           />
         </HorizontalFormGroup>
 

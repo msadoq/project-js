@@ -31,7 +31,7 @@ export default class EditorNavbar extends React.Component {
       >
         {items.map((item, index) => (
           <NavItem
-            key={index}
+            key={item}
             eventKey={index}
           >
             {item}

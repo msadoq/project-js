@@ -5,6 +5,8 @@ import {
 } from 'react-bootstrap';
 import { withState, withProps } from 'recompose';
 
+const dangerBtnStyle = { float: 'right' };
+
 const Alert = ({
   bsStyle,
   children,
@@ -29,7 +31,7 @@ const Alert = ({
     <Button
       bsStyle="danger"
       onClick={() => setVisible(true)}
-      style={{ float: 'right' }}
+      style={dangerBtnStyle}
     >
       errors
     </Button>}

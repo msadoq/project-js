@@ -11,13 +11,6 @@ import {
 class AddTimeline extends PureComponent {
 
   static propTypes = {
-    initialValues: PropTypes.shape({
-      kind: PropTypes.string,
-      sessionId: PropTypes.string,
-      id: PropTypes.string,
-      color: PropTypes.string,
-      master: PropTypes.bool,
-    }).isRequired,
     handleSubmit: PropTypes.func.isRequired,
     timelines: PropTypes.array.isRequired,
     sessions: PropTypes.array.isRequired,

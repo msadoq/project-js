@@ -13,7 +13,10 @@ function popoverHoverFocus(page) {
         <tbody>
           {page.properties.length ?
             page.properties.map(
-              (prop, i) => <tr key={i}><td>{prop.name.value}</td><td>{prop.value.value}</td></tr>)
+              prop => <tr key={prop.name.value}>
+                <td>{prop.name.value}</td>
+                <td>{prop.value.value}</td>
+              </tr>)
             : <tr><td>No FMD data</td></tr>}
           {page.oId && <tr><td>OID</td><td>{page.oId}</td></tr>}
           {page.absolutePath &&

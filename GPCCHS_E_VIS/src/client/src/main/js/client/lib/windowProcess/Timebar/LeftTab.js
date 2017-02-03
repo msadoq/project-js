@@ -300,9 +300,9 @@ export default class LeftTab extends PureComponent {
           onScroll={this.props.onTimelinesVerticalScroll}
           onWheel={this.onWheel}
         >
-          { timelines.map((v, i) =>
+          { timelines.map(v =>
             <Timeline
-              key={i}
+              key={v.i}
               offset={v.offset}
               timelinesLength={timelines.length}
               timebarUuid={timebarUuid}

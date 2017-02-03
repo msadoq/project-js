@@ -22,6 +22,8 @@ const s = {
   },
 };
 
+const tableStyle = { fontSize: '12px' };
+
 export const MonitoringStateColors = ({ visible, setVisible }) => (
   <div className="mt10">
     <h4 className="mb10" style={s.title}>
@@ -30,7 +32,7 @@ export const MonitoringStateColors = ({ visible, setVisible }) => (
         <Glyphicon className="col-xs-1" glyph={visible ? 'triangle-top' : 'triangle-bottom'} />
       </a>
     </h4>
-    {visible && <Table condensed striped style={{ fontSize: '12px' }}>
+    {visible && <Table condensed striped style={tableStyle}>
       <thead>
         <tr>
           <th>Color</th>
@@ -38,8 +40,8 @@ export const MonitoringStateColors = ({ visible, setVisible }) => (
         </tr>
       </thead>
       <tbody>
-        {Object.keys(mColors).map((c, i) => (
-          <tr key={`color-${i}`}>
+        {Object.keys(mColors).map(c => (
+          <tr key={c}>
             <td className="col-xs-2">
               <div
                 style={{

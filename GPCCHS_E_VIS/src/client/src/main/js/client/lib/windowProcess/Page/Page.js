@@ -81,7 +81,10 @@ export default class Page extends PureComponent {
       focusedPageId, windowId, editorViewId,
       openEditor, closeEditor, isEditorOpened
     } = this.props;
-
+    const droppableContainerStyle = {
+      height: '100%',
+      position: 'relative',
+    };
     return (
       <div className={styles.root}>
         {isEditorOpened && <EditorContainer
@@ -94,10 +97,7 @@ export default class Page extends PureComponent {
         >
           <MessagesContainer pageId={focusedPageId} />
           <DroppableContainer
-            style={{
-              height: '100%',
-              position: 'relative',
-            }}
+            style={droppableContainerStyle}
             onDrop={this.onDrop}
           >
             <ContentContainer

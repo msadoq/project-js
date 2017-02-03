@@ -59,14 +59,14 @@ export default class ViewParams extends React.Component {
       titleStyle,
       viewId
     } = this.props;
-
+    const initVals = {
+      backgroundColor,
+      title,
+      titleStyle
+    };
     return (
       <ViewParamsForm
-        initialValues={{
-          backgroundColor,
-          title,
-          titleStyle
-        }}
+        initialValues={initVals}
         onSubmit={this.handleSubmit}
         form={`view-title-form-${viewId}`}
       />

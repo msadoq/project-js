@@ -68,9 +68,9 @@ export default class DummyDrag extends PureComponent {
     return (
       <div style={s.container} >
         <span style={{ marginRight: '1em' }}>Drag-moi</span>
-        {items.map((item, i) =>
+        {items.map(item =>
           <div
-            key={i}
+            key={item.name}
             style={{ ...s.box, backgroundColor: getRandomColor() }}
             draggable
             onDragStart={this.dragStart.bind(this, item)}

@@ -17,7 +17,7 @@ function workspaceSave(focusedWindow) {
     return getStore().dispatch(addGlobalError('Saving failed : no window focused'));
   }
   const state = getStore().getState();
-  if ( getModifiedWindowsIds(state).length === 0){
+  if (getModifiedWindowsIds(state).length === 0) {
     return getStore().dispatch(addMessage('global', 'info', 'The workspace is already saved'));
   }
   if (getModifiedPagesIds(state).length > 0 || getModifiedViewsIds(state).length > 0) {

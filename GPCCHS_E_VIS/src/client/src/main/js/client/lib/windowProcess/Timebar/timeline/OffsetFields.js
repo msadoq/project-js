@@ -56,9 +56,9 @@ export default class OffsetFields extends PureComponent {
     return (
       <div>
         {
-          ['hours', 'minutes', 'seconds', 'milliseconds'].map((x, i) =>
+          ['hours', 'minutes', 'seconds', 'milliseconds'].map(x =>
             <input
-              key={i}
+              key={x}
               type="number"
               ref={(el) => { this[`${x}El`] = el; }}
               placeholder={x}

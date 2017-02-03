@@ -123,7 +123,7 @@ export default class TimebarScale extends PureComponent {
           {
             scales.map((s, i) =>
               <div
-                key={i}
+                key={s.ms}
                 className={styles.scaleBar}
                 style={{ left: `${percentBetweenScales * i}%` }}
               >

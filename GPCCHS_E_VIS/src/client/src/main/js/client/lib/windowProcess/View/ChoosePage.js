@@ -40,7 +40,7 @@ export default class ChoosePage extends Component {
             ref={(el) => { this.toPage = el; }}
             className={classnames('form-control', styles.formControl)}
           >
-            { pageTitles.map((v, i) => <option key={i} value={v.id}>{v.title}</option>) }
+            { pageTitles.map(v => <option key={v.id} value={v.id}>{v.title}</option>) }
           </select>
         </FormGroup>
         <FormGroup className={styles.formGroup}>

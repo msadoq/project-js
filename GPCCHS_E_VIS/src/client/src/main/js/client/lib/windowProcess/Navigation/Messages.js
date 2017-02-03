@@ -55,7 +55,7 @@ export default class Messages extends PureComponent {
         children.push((
           <Message
             containerId="global"
-            key={i}
+            key={v.message}
             type={v.type}
             message={v.message}
             onClose={() => remove('global', i)}

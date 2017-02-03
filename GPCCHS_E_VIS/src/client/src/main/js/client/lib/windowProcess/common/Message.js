@@ -40,8 +40,8 @@ export default class Message extends PureComponent {
         )}
         onDismiss={this.willClose}
       >
-        {split('\n', this.props.message).map((x, i) => (
-          <div key={i}>{x}</div>
+        {split('\n', this.props.message).map(x => (
+          <div key={x}>{x}</div>
         ))}
       </Alert>
     );

@@ -123,11 +123,15 @@ export default class FiltersFields extends React.Component {
     const canEdit = editingIndex !== null;
     const canAdd = this.operandField && this.fieldField &&
       this.operandField.value.length && this.fieldField.value.length;
+    const tableStyle = { fontSize: '12px' };
+    const glyphTrashStyle = { cursor: 'pointer' };
+    const glyphPencilStyle = { cursor: 'pointer', color: 'inherit' };
+    const glyphPencilEditingStyle = { cursor: 'pointer', color: '#0275D8' };
     return (
       <div
         className={styles.filterFields}
       >
-        <Table condensed striped style={{ fontSize: '12px' }}>
+        <Table condensed striped style={tableStyle}>
           <thead>
             <tr>
               <th colSpan={1}>Filters</th>
@@ -139,7 +143,7 @@ export default class FiltersFields extends React.Component {
               (filters && filters.length) ? filters.map(
                 (filter, index) => (
                   <tr
-                    key={index}
+                    key={`${filter.field}${filter.operator}${filter.operand}`}
                     className={editingIndex === index ? styles.editingFilter : ''}
                   >
                     <td className="col-xs-10" style={{ verticalAlign: 'middle' }}>
@@ -152,7 +156,7 @@ export default class FiltersFields extends React.Component {
                         glyph="trash"
                         onClick={() => this.removeFilter(index)}
                         title="remove filter"
-                        style={{ cursor: 'pointer' }}
+                        style={glyphTrashStyle}
                       />
                     </td>
                     <td className="col-xs-1">
@@ -160,10 +164,7 @@ export default class FiltersFields extends React.Component {
                         glyph="pencil"
                         onClick={() => this.editFilter(index)}
                         title="edit filter"
-                        style={{
-                          cursor: 'pointer',
-                          color: (editingIndex === index) ? '#0275D8' : 'inherit'
-                        }}
+                        style={editingIndex === index ? glyphPencilEditingStyle : glyphPencilStyle}
                       />
                     </td>
                   </tr>
@@ -188,7 +189,7 @@ export default class FiltersFields extends React.Component {
             ref={(el) => { this.operatorField = el; }}
           >
             {
-              Object.keys(operators).map((o, i) => <option key={i} value={o}>{o}</option>)
+              Object.keys(operators).map(o => <option key={o} value={o}>{o}</option>)
             }
           </select>
         </HorizontalFormGroup>

@@ -18,7 +18,7 @@ export default class Misc extends React.Component {
 
   render() {
     const { isPanelLinksOpen, isPanelProcedureOpen } = this.state;
-
+    const tableStyle = { fontSize: '12px' };
     return (
       <Accordion>
         <Panel
@@ -30,7 +30,7 @@ export default class Misc extends React.Component {
           onExited={this.closePanel('Links')}
         >
           {isPanelLinksOpen && <div>
-            <Table condensed striped style={{ fontSize: '12px' }}>
+            <Table condensed striped style={tableStyle}>
               <thead>
                 <tr>
                   <th>Name</th>

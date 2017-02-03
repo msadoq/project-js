@@ -15,10 +15,7 @@
     "max-statements": ["warn", 100],
     "max-depth": ["warn", 7],
     "no-underscore-dangle": 0,
-    "import/no-extraneous-dependencies": [
-      "error",
-      { "devDependencies": true, "peerDependencies": true }
-    ],
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["./lib/utils/test.js"]}],
     "comma-dangle": [
       "error",
       {

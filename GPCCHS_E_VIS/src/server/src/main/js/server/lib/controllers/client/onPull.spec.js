@@ -2,7 +2,7 @@ require('../../utils/test');
 const { testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('../../utils/test');
 const { add: addToDataQueue, reset: resetDataQueue, get: getDataQueue } = require('../../models/dataQueue');
 const globalConstants = require('common/constants');
-const { reset: resetDcStatus, set: setDcStatus } = require('../../models/dcStatus');
+const { set: setDcStatus } = require('../../models/dcStatus');
 const { reset: resetLastPubSubTimestamp, set: setLastPubSubTimestamp } = require('../../models/lastPubSubTimestamp');
 const onPull = require('./onPull');
 

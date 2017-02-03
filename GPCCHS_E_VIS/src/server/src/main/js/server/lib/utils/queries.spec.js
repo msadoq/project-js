@@ -4,12 +4,9 @@ const {
   clear: cleanRegisteredCallbacks,
   get: getRegisteredCallback,
 } = require('common/callbacks');
-const {
-  cleanup: cleanRegisteredQueries,
-  getByQueryId: getRegisteredQuery,
-} = require('../models/registeredQueries');
+const { getByQueryId: getRegisteredQuery } = require('../models/registeredQueries');
 const dataStub = require('common/stubs/data');
-const { testHandler, getTestHandlerArgs, resetTestHandlerArgs } = require('./test');
+const { resetTestHandlerArgs } = require('./test');
 
 const testExecutionHandler = {
   start: () => {},

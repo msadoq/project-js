@@ -33,6 +33,10 @@ export const getViewData = ({
   }
 
   const { type, configuration } = view;
+  // Ignore collapsed view
+  if (configuration.collapsed) {
+    return;
+  }
   const { entryPoints } = configuration;
   const structureType = vivl(type, 'structureType')();
   const extract = structures(structureType, 'parseEntryPoint');
@@ -61,13 +65,7 @@ export const getViewData = ({
 
 export const walk = (masterSessionId, domains, timebars, timelines, views) =>
   _reduce(views, (map, { viewId, timebarUuid, viewData: view }) => {
-    const {
-      entryPoints,
-      visuWindow,
-      type,
-      structureType,
-      epsData,
-    } = getViewData({
+    const props = getViewData({
       domains,
       timebars,
       timelines,
@@ -75,6 +73,16 @@ export const walk = (masterSessionId, domains, timebars, timelines, views) =>
       timebarUuid,
       masterSessionId,
     });
+    if (!props) {
+      return map;
+    }
+    const {
+      entryPoints,
+      visuWindow,
+      type,
+      structureType,
+      epsData,
+    } = props;
 
     if (!entryPoints || !entryPoints.length) {
       return map;

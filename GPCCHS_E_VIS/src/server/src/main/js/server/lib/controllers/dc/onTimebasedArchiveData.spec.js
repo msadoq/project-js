@@ -4,7 +4,6 @@ const {
   cleanup: cleanRegisteredQueries,
   addRecord: registerQuery,
   getByQueryId: getRegisteredQuery,
-  removeByQueryId: removeRegisterQueries,
 } = require('../../models/registeredQueries');
 const connectedDataModel = require('../../models/connectedData');
 const { clearFactory, getTimebasedDataModel } = require('../../models/timebasedDataFactory');

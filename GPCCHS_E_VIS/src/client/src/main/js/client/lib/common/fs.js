@@ -1,6 +1,6 @@
 const fs = require('fs');
 const {
-  join
+  join,
 } = require('path');
 const mkdirp = require('mkdirp');
 const _startsWith = require('lodash/startsWith');

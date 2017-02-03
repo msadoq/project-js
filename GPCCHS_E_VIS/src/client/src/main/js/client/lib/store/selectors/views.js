@@ -102,7 +102,7 @@ export const getEntryPointColorObj = ({ entryPoints, epName, value, dataProp }) 
     .find(c => compile(c.condition)(value));
   if (_.prop('color', stateColor)) {
     return {
-      color: _.prop('color', stateColor)
+      color: _.prop('color', stateColor),
     };
   }
 };
@@ -115,8 +115,8 @@ const getTextValueFn = (entryPoints, epName) => ({ value, ...args }) => ({
     entryPoints,
     epName,
     value,
-    dataProp: 'connectedData'
-  })
+    dataProp: 'connectedData',
+  }),
 });
 
 // Apply state colors on entry points value and return view data with state colors
@@ -127,8 +127,8 @@ export const getTextViewData = createSelector(
       values: {
         ...Object.keys(_.getOr({}, ['values'], data)).reduce((acc, epName) => ({
           ...acc,
-          [epName]: getTextValueFn(entryPoints, epName)
-        }), {})
-      }
+          [epName]: getTextValueFn(entryPoints, epName),
+        }), {}),
+      },
     }, data)
 );

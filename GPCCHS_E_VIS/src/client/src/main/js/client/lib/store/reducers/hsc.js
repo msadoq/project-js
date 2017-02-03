@@ -43,12 +43,12 @@ export default function hsc(state = initialState, action) {
       });
     case types.HSC_FOCUS_WINDOW:
       return Object.assign({}, state, {
-        focusWindow: action.payload.windowId
+        focusWindow: action.payload.windowId,
       });
     case types.HSC_BLUR_WINDOW:
       if (state.focusWindow === action.payload.windowId) {
         return Object.assign({}, state, {
-          focusWindow: null
+          focusWindow: null,
         });
       }
       return state;

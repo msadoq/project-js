@@ -14,8 +14,8 @@ const propsStub = {
         operator: '<=',
         operand: 'operand',
       },
-    }]
-  }
+    }],
+  },
 };
 
 test('StateColorsFields renders correctly', () => {

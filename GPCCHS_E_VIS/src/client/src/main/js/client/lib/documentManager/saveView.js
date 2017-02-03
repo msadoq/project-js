@@ -5,7 +5,7 @@ import _values from 'lodash/values';
 import _each from 'lodash/each';
 import {
   DATASTRUCTURETYPE_RANGE,
-  LOG_DOCUMENT_SAVE
+  LOG_DOCUMENT_SAVE,
 } from 'common/constants';
 
 import { server } from '../mainProcess/ipc';
@@ -102,5 +102,5 @@ const saveView = fmdApi => (state, viewId, callback) => {
 
 export default {
   saveViewAs,
-  saveView
+  saveView,
 };

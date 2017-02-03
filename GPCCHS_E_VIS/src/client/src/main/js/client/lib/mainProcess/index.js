@@ -175,7 +175,7 @@ export function start() {
         }
         callback(null, value);
       });
-    }
+    },
   ], (err) => {
     if (err) {
       throw err;

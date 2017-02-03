@@ -35,12 +35,12 @@ export default class Page extends PureComponent {
   };
 
   static childContextTypes = {
-    focusedPageId: React.PropTypes.string
+    focusedPageId: React.PropTypes.string,
   }
 
   getChildContext() {
     return {
-      focusedPageId: this.props.focusedPageId
+      focusedPageId: this.props.focusedPageId,
     };
   }
 
@@ -69,7 +69,7 @@ export default class Page extends PureComponent {
       })],
       [_.eq('workspace'), () => main.openWorkspace({
         filePath: path.join(get('FMD_ROOT_DIR'), content.filepath),
-      })]
+      })],
     ])(type);
   }
 
@@ -79,7 +79,7 @@ export default class Page extends PureComponent {
     logger.debug('render');
     const {
       focusedPageId, windowId, editorViewId,
-      openEditor, closeEditor, isEditorOpened
+      openEditor, closeEditor, isEditorOpened,
     } = this.props;
     const droppableContainerStyle = {
       height: '100%',
@@ -92,7 +92,7 @@ export default class Page extends PureComponent {
         />}
         <div
           className={classnames({
-            [styles.contentWithEditor]: isEditorOpened
+            [styles.contentWithEditor]: isEditorOpened,
           })}
         >
           <MessagesContainer pageId={focusedPageId} />

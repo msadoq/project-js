@@ -5,7 +5,7 @@ import { getView } from '../../../store/selectors/views';
 import {
   updateBgColor,
   updateTitle,
-  updateTitleStyle
+  updateTitleStyle,
 } from '../../../store/actions/views';
 
 const mapStateToProps = (state, { viewId }) => {
@@ -13,7 +13,7 @@ const mapStateToProps = (state, { viewId }) => {
   return {
     backgroundColor: view.configuration.backgroundColor,
     title: view.configuration.title,
-    titleStyle: view.configuration.titleStyle
+    titleStyle: view.configuration.titleStyle,
   };
 };
 
@@ -24,7 +24,7 @@ const ViewParamsContainer = connect(mapStateToProps, {
 })(ViewParams);
 
 ViewParamsContainer.propTypes = {
-  viewId: PropTypes.string.isRequired
+  viewId: PropTypes.string.isRequired,
 };
 
 export default ViewParamsContainer;

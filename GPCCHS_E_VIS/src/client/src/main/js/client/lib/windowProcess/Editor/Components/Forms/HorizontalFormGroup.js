@@ -2,7 +2,7 @@ import React, { PropTypes, PureComponent } from 'react';
 import {
   FormGroup,
   Col,
-  ControlLabel
+  ControlLabel,
 } from 'react-bootstrap';
 
 export default class HorizontalFormGroup extends PureComponent {
@@ -10,14 +10,14 @@ export default class HorizontalFormGroup extends PureComponent {
     children: PropTypes.node.isRequired,
     label: PropTypes.oneOfType([
       PropTypes.string,
-      PropTypes.node
-    ])
+      PropTypes.node,
+    ]),
   }
 
   render() {
     const {
       label,
-      children
+      children,
     } = this.props;
 
     return (

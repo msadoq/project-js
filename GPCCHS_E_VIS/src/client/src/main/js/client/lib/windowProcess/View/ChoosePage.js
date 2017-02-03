@@ -13,7 +13,7 @@ export default class ChoosePage extends Component {
 
   state = {
     errorMessage: null,
-    toPage: ''
+    toPage: '',
   }
 
   toPageChosen = (e) => {

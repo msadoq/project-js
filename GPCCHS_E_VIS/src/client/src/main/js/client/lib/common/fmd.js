@@ -23,7 +23,7 @@ const resolveDocument = ipcApi => (oId, callback) => {
     callback(
       null,
       join(getRootDir(), detail.dirname.value, detail.basename.value),
-      detail.properties,
+      detail.properties
     );
   });
 };

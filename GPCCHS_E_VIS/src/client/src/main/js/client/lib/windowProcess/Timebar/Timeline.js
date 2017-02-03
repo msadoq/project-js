@@ -97,7 +97,7 @@ export default class Timeline extends PureComponent {
         { isMaster ? <span className={styles.master} title="Master timeline">M</span> : null}
         <span
           style={{
-            paddingLeft: isMaster ? '20px' : '0px'
+            paddingLeft: isMaster ? '20px' : '0px',
           }}
         >{id}</span>
         {formattedOffset}

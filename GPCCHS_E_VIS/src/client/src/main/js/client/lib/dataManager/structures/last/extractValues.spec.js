@@ -32,8 +32,8 @@ describe('data/map/lastValue', () => {
           field: 'val4',
           expectedInterval: [10, 13],
           offset: 0,
-        }
-      }
+        },
+      },
     },
     text2: {
       type: 'TextView',
@@ -49,7 +49,7 @@ describe('data/map/lastValue', () => {
           field: 'val3',
           expectedInterval: [12, 20],
           offset: 0,
-        }
+        },
       },
     },
     dynamic: {

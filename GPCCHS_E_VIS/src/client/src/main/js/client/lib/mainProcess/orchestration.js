@@ -216,7 +216,7 @@ export function tick() {
         server.sendProductLog(globalConstants.LOG_APPLICATION_OVERLOADED, 'orchestration');
       }
       return callback(null);
-    }
+    },
   ], (err) => {
     if (err) {
       logger.error(err);

@@ -77,9 +77,9 @@ describe('store:views:reducer', () => {
       myView: {
         isModified: false,
         configuration: {
-          title: 'myView'
+          title: 'myView',
         },
-      }
+      },
     };
     const s = reducer(state, actions.setModified('myView', true));
     s.myView.isModified.should.equal(true);
@@ -88,9 +88,9 @@ describe('store:views:reducer', () => {
     const state = {
       myView: {
         configuration: {
-          collapsed: false
-        }
-      }
+          collapsed: false,
+        },
+      },
     };
     const s = reducer(state, actions.setCollapsed('myView', true));
     s.myView.configuration.collapsed.should.equal(true);
@@ -111,17 +111,17 @@ describe('store:views:reducer', () => {
                 minW: 3,
                 minH: 3,
                 i: 'myView',
-              }
-            ]
-          }
+              },
+            ],
+          },
         },
         views: {
           myView: {
             configuration: {
-              collapsed: false
-            }
-          }
-        }
+              collapsed: false,
+            },
+          },
+        },
       });
       getState = store.getState;
       dispatch = store.dispatch;
@@ -164,7 +164,7 @@ describe('store:views:reducer', () => {
         absolutePath: '/data/oldPath',
         path: '/data/oldPath',
         isModified: false,
-      }
+      },
     });
     it('Path', () => {
       const s = reducer(state, {
@@ -172,7 +172,7 @@ describe('store:views:reducer', () => {
         payload: {
           viewId: 'view1',
           newPath: '/data/newPath',
-        }
+        },
       });
       s.view1.path.should.equal('/data/newPath');
       s.view1.isModified.should.equal(true);
@@ -184,7 +184,7 @@ describe('store:views:reducer', () => {
         payload: {
           viewId: 'view1',
           newPath: '/data/newPath',
-        }
+        },
       });
       s.view1.absolutePath.should.equal('/data/newPath');
       s.view1.isModified.should.equal(true);
@@ -195,7 +195,7 @@ describe('store:views:reducer', () => {
         payload: {
           viewId: 'view1',
           pName: 'newValue',
-        }
+        },
       };
       updateConfiguration(state, action, 'oName', 'pName').should.deep.equal({
         view1: {
@@ -205,9 +205,9 @@ describe('store:views:reducer', () => {
           path: '/data/oldPath',
           configuration: {
             oName: 'newValue',
-            title: 'my plot'
+            title: 'my plot',
           },
-        }
+        },
       });
     });
     it('object: invalid view', () => {
@@ -215,7 +215,7 @@ describe('store:views:reducer', () => {
         payload: {
           viewId: 'view2',
           pName: 'newValue',
-        }
+        },
       };
       updateConfiguration(state, action, 'oName', 'pName').should.equal(state);
     });
@@ -224,7 +224,7 @@ describe('store:views:reducer', () => {
         payload: {
           viewId: 'view1',
           pName: 'newValue',
-        }
+        },
       };
       updateConfiguration(state, action, 'oName', 'pName', 'text').should.equal(state);
     });
@@ -233,7 +233,7 @@ describe('store:views:reducer', () => {
         payload: {
           viewId: 'view1',
           pName: 'newValue',
-        }
+        },
       };
       updateConfiguration(state, action, 'oName', 'pName', 'plot').should.deep.equal({
         view1: {
@@ -245,7 +245,7 @@ describe('store:views:reducer', () => {
             oName: 'newValue',
             title: 'my plot',
           },
-        }
+        },
       });
     });
     const stateArray = freezeMe({
@@ -255,7 +255,7 @@ describe('store:views:reducer', () => {
           oName: ['oldValue1', 'oldValue2'],
           title: 'my plot',
         },
-      }
+      },
     });
 
     it('array element ok', () => {
@@ -264,7 +264,7 @@ describe('store:views:reducer', () => {
           viewId: 'view1',
           pName: 'newValue',
           index: 0,
-        }
+        },
       };
       updateConfigurationArray(stateArray, action, 'oName', 'pName').should.deep.equal({
         view1: {
@@ -274,7 +274,7 @@ describe('store:views:reducer', () => {
             oName: ['newValue', 'oldValue2'],
             title: 'my plot',
           },
-        }
+        },
       });
     });
     it('array: invalid view id', () => {
@@ -283,7 +283,7 @@ describe('store:views:reducer', () => {
           viewId: 'view2',
           pName: 'newValue',
           index: 0,
-        }
+        },
       };
       updateConfigurationArray(stateArray, action, 'oName', 'pName').should.equal(stateArray);
     });
@@ -293,7 +293,7 @@ describe('store:views:reducer', () => {
           viewId: 'view1',
           pName: 'newValue',
           index: 2,
-        }
+        },
       };
       updateConfigurationArray(stateArray, action, 'oName', 'pName').should.equal(stateArray);
     });
@@ -303,7 +303,7 @@ describe('store:views:reducer', () => {
           viewId: 'view1',
           pName: 'newValue',
           index: 0,
-        }
+        },
       };
       updateConfigurationArray(stateArray, action, 'oName', 'paramName').should.equal(stateArray);
     });
@@ -318,7 +318,7 @@ describe('store:views:reducer', () => {
         procedures: [{ p: '1' }, { p: '2' }],
         defaultRatio: {
           length: 50,
-          width: 50
+          width: 50,
         },
         entryPoints: [{
           name: 'ATT_BC_REVTCOUNT4',
@@ -353,11 +353,11 @@ describe('store:views:reducer', () => {
         entryPoints: [
           {
             name: 'ep1',
-            connectedData: {}
-          }
-        ]
-      }
-    }
+            connectedData: {},
+          },
+        ],
+      },
+    },
   });
   describe('update action', () => {
     it('Entry Point', () => {
@@ -431,14 +431,14 @@ describe('store:views:reducer', () => {
             oName: ['oldValue1', 'oldValue2'],
             title: 'my view',
           },
-        }
+        },
       });
 
       const action = {
         payload: {
           viewId: 'view1',
           pName: 'newValue',
-        }
+        },
       };
       addElementInConfigurationArray(stateArray, action, 'oName', 'pName').should.deep.equal({
         view1: {
@@ -448,7 +448,7 @@ describe('store:views:reducer', () => {
             oName: ['oldValue1', 'oldValue2', 'newValue'],
             title: 'my view',
           },
-        }
+        },
       });
     });
     it('grid', () => {
@@ -484,7 +484,7 @@ describe('store:views:reducer', () => {
           oName: ['oldValue1', 'oldValue2'],
           title: 'my view',
         },
-      }
+      },
     });
 
     it('general ok', () => {
@@ -493,7 +493,7 @@ describe('store:views:reducer', () => {
           viewId: 'view1',
           pName: 'newValue',
           index: 0,
-        }
+        },
       };
       removeElementInConfigurationArray(stateArray, action, 'oName').should.deep.equal({
         view1: {
@@ -503,7 +503,7 @@ describe('store:views:reducer', () => {
             oName: ['oldValue2'],
             title: 'my view',
           },
-        }
+        },
       });
     });
     it('general - invalid index', () => {
@@ -512,7 +512,7 @@ describe('store:views:reducer', () => {
           viewId: 'view1',
           pName: 'newValue',
           index: 3,
-        }
+        },
       };
       removeElementInConfigurationArray(stateArray, action, 'oName').should.equal(stateArray);
     });
@@ -522,7 +522,7 @@ describe('store:views:reducer', () => {
           viewId: 'view2',
           pName: 'newValue',
           index: 0,
-        }
+        },
       };
       removeElementInConfigurationArray(stateArray, action, 'oName').should.equal(stateArray);
     });
@@ -651,14 +651,14 @@ describe('store:views:reducer', () => {
     it('addEntryPoint: invalid viewId', () => {
       const action = { payload: {
         viewId: 'plot2',
-        entryPoint: {}
+        entryPoint: {},
       } };
       addEntryPoint(stateViews, action).should.equal(stateViews);
     });
     it('addEntryPoint: text view', () => {
       const action = { payload: {
         viewId: 'text1',
-        entryPoint: { name: 'ep2', connectedData: {} }
+        entryPoint: { name: 'ep2', connectedData: {} },
       } };
       const state = addEntryPoint(stateViews, action);
       state.text1.configuration.entryPoints[1].should.have.properties(
@@ -667,7 +667,7 @@ describe('store:views:reducer', () => {
     it('addEntryPoint: text view', () => {
       const action = { payload: {
         viewId: 'text1',
-        entryPoint: { name: 'ep2', connectedData: { timeline: 't1', domain: 'd1' } }
+        entryPoint: { name: 'ep2', connectedData: { timeline: 't1', domain: 'd1' } },
       } };
       const state = addEntryPoint(stateViews, action);
       state.text1.configuration.entryPoints[1].should.have.properties(
@@ -679,7 +679,7 @@ describe('store:views:reducer', () => {
         entryPoint: {
           name: 'ep2',
           connectedDataX: { timeline: 't1', domain: 'd1', unit: 's', axisId: 'axis1' },
-          connectedDataY: { timeline: 't2', domain: 'd2', unit: 'w' } }
+          connectedDataY: { timeline: 't2', domain: 'd2', unit: 'w' } },
       } };
       const state = addEntryPoint(stateViews, action);
       state.plot1.configuration.entryPoints[2].should.have.properties({
@@ -693,7 +693,7 @@ describe('store:views:reducer', () => {
         entryPoint: {
           name: 'ep2',
           connectedDataX: { timeline: 't1', domain: 'd1', unit: 'f' },
-          connectedDataY: { domain: 'd2', unit: 'w' } }
+          connectedDataY: { domain: 'd2', unit: 'w' } },
       } };
       const state = addEntryPoint(stateViews, action);
       const axisId = _find(state.plot1.configuration.axes, axis => axis.unit === 'f').id;

@@ -7,14 +7,14 @@ describe('documents/lib', () => {
     it('ok', () => {
       const content = { __original: { windows: [{
         type: 'documentWindow',
-        val: 'val1'
+        val: 'val1',
       }, {
-        type: 'sideWindow'
+        type: 'sideWindow',
       }, {
-        type: 'otherWindow'
+        type: 'otherWindow',
       }, {
         type: 'documentWindow',
-        val: 'val2'
+        val: 'val2',
       }] } };
       extractWindows(content, (err, w) => {
         should.not.exist(err);
@@ -36,14 +36,14 @@ describe('documents/lib', () => {
     it('no documentWindow', () => {
       const content = { __original: { windows: [{
         type: 'sideWindow',
-        val: 'val1'
+        val: 'val1',
       }, {
-        type: 'sideWindow'
-      }, {
-        type: 'otherWindow'
+        type: 'sideWindow',
       }, {
         type: 'otherWindow',
-        val: 'val2'
+      }, {
+        type: 'otherWindow',
+        val: 'val2',
       }] } };
       extractWindows(content, (err, w) => {
         should.not.exist(err);

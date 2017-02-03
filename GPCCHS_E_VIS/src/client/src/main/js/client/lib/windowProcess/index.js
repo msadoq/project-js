@@ -27,18 +27,18 @@ if (global.parameters.get('DEBUG') === 'on') {
     // eslint-disable-next-line global-require
     const { whyDidYouUpdate } = require('why-did-you-update');
     const internal = [
-      'Connect'
+      'Connect',
     ];
     const dependencies = [
       'Glyphicon', 'NavItem', 'SafeAnchor', 'DraggableCore', 'Resizable', 'ReactGridLayout',
       'ResponsiveReactGridLayout', 'Button', 'Tabs', 'GridItem',
       'Grid', 'Row', 'Col', 'DropdownMenu', 'DropdownToggle', 'MenuItem', 'Tooltip',
-      'Modal'
+      'Modal',
     ];
     const excludeList = internal.concat(dependencies).join('|');
     whyDidYouUpdate(React, {
       // include: /^View$/,
-      exclude: new RegExp(excludeList)
+      exclude: new RegExp(excludeList),
     });
     window.whyDidYouUpdate.loaded = true;
   };

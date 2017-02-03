@@ -18,6 +18,6 @@ export default function viewDataUpdate(viewDataState, viewId, view) {
     [viewId]: {
       index: { ...stateIndex, ...index },
       values: { ...stateValues, ...values },
-    }
+    },
   };
 }

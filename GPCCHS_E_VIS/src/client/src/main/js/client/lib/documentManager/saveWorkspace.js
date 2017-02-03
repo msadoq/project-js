@@ -107,5 +107,5 @@ const saveWorkspace = fmdApi => (state, useRelativePath, callback) => {
 
 export default {
   saveWorkspace,
-  saveWorkspaceAs
+  saveWorkspaceAs,
 };

@@ -21,7 +21,7 @@ describe('store:health:selectors', () => {
     it('should return status', () => {
       const { getState } = getStore({
         health: {
-          dcStatus: globalConstants.DC_STATUS_CONGESTION
+          dcStatus: globalConstants.DC_STATUS_CONGESTION,
         },
       });
       getDcStatus(getState()).should.eql(globalConstants.DC_STATUS_CONGESTION);
@@ -35,7 +35,7 @@ describe('store:health:selectors', () => {
     it('should return status', () => {
       const { getState } = getStore({
         health: {
-          hssStatus: globalConstants.HSS_STATUS_WARNING
+          hssStatus: globalConstants.HSS_STATUS_WARNING,
         },
       });
       getHssStatus(getState()).should.eql(globalConstants.HSS_STATUS_WARNING);

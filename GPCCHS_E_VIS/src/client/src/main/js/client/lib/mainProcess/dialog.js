@@ -30,7 +30,7 @@ export function showMessageDialog(type, focusedWindow, title, message, buttons, 
       message,
       buttons,
       defaultId: 0, // the fist index
-      cancelId: (buttons.length - 1) // the last index of buttons
+      cancelId: (buttons.length - 1), // the last index of buttons
     },
     _isFunction(callback) ? callback : undefined
   );
@@ -44,7 +44,7 @@ export function openFileDialog(folder, type, callback) {
       defaultPath: folder,
       buttonLabel: 'Open',
       filters: [{ name: 'data files', extensions: ['json'] }],
-      properties: ['openFile']
+      properties: ['openFile'],
     },
     (selected = []) => selected[0] && callback(null, selected[0])
   );
@@ -62,7 +62,7 @@ export function saveFileDialog(folder, type, callback) {
         extensions: ['json'],
       }],
     },
-    selected => ((selected) && callback(null, selected)),
+    selected => ((selected) && callback(null, selected))
   );
 }
 

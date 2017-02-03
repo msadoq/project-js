@@ -18,7 +18,7 @@ const setUUID = obj => assoc('uuid', v4(), obj);
 const otherwise = () => true;
 const indexWindows = cond([
   [isArray, compose(indexBy(prop('uuid')), map(setUUID))],
-  [otherwise, always({})]
+  [otherwise, always({})],
 ]);
 const supportedWindowTypes = [
   'documentWindow',

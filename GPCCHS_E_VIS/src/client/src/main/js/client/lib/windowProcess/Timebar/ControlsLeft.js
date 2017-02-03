@@ -10,7 +10,7 @@ import styles from './Controls.css';
 import { main } from '../ipc';
 
 const inlineStyles = {
-  width200: { width: '200px' }
+  width200: { width: '200px' },
 };
 
 export default class ControlsLeft extends PureComponent {
@@ -218,7 +218,7 @@ export default class ControlsLeft extends PureComponent {
               {
                 [styles.controlButtonPlay]: isPlaying,
                 [styles.controlButtonActive]: isPlaying,
-                [styles.controlButtonPause]: !isPlaying
+                [styles.controlButtonPause]: !isPlaying,
               }
             )}
             onClick={() => (isPlaying ? pause() : play(timebarUuid))}

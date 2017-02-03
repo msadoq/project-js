@@ -12,12 +12,12 @@ describe('lib/dataManager/structures/last', () => {
         values: {
           label1: 100,
           other: 110,
-        }
+        },
       },
       otherView: {
         index: { ep: 1 },
-        values: { ep: 2 }
-      }
+        values: { ep: 2 },
+      },
     };
   });
   it('values ok', () => {
@@ -32,12 +32,12 @@ describe('lib/dataManager/structures/last', () => {
           values: {
             label2: 100,
             other: 110,
-          }
+          },
         },
         otherView: {
           index: { ep: 1 },
-          values: { ep: 2 }
-        }
+          values: { ep: 2 },
+        },
       }
     );
   });

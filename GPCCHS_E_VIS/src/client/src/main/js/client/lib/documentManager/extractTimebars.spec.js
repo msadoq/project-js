@@ -15,11 +15,11 @@ describe('documents', () => {
             lower: 1420106400000,
             upper: 1420113600000,
             current: 1420110000000,
-            defaultWidth: 7200000
+            defaultWidth: 7200000,
           },
           slideWindow: {
             lower: 1420108200000,
-            upper: 1420111800000
+            upper: 1420111800000,
           },
           extUpperBound: 1420115400000,
           rulerStart: 1420106400000,
@@ -32,17 +32,17 @@ describe('documents', () => {
               id: 'Session 1',
               offset: 0,
               kind: 'Session',
-              sessionId: 100
+              sessionId: 100,
             },
             {
               id: 'Session 2',
               offset: -3600000,
               kind: 'Session',
-              sessionId: 100
+              sessionId: 100,
             },
           ],
           masterId: 'Session 1',
-        }]
+        }],
       };
       content = { __original: originalContent, __folder: '.' };
     });

@@ -2,14 +2,14 @@ import React from 'react';
 import { Field, FormSection } from 'redux-form';
 import {
   InputGroup,
-  Col
+  Col,
 } from 'react-bootstrap';
 import {
-  HorizontalFormGroup
+  HorizontalFormGroup,
 } from '../Forms/';
 import {
   ColorPickerField, ButtonToggleField,
-  SelectButtonField, SelectFontField, InputField
+  SelectButtonField, SelectFontField, InputField,
 } from '../Fields/';
 
 const { Addon } = InputGroup;
@@ -31,7 +31,7 @@ export default class FormSectionFontStyle extends FormSection {
     const alignButtons = [
       { label: 'left', icon: 'alignLeft' },
       { label: 'center', icon: 'alignCenter' },
-      { label: 'right', icon: 'alignRight' }
+      { label: 'right', icon: 'alignRight' },
     ];
     return (
       <div>

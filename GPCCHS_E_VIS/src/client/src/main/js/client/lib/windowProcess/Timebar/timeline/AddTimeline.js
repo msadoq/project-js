@@ -5,7 +5,7 @@ import _set from 'lodash/set';
 import { reduxForm } from 'redux-form';
 import TimelineFields from './TimelineFields';
 import {
-  ClearSubmitButtons
+  ClearSubmitButtons,
 } from '../../Editor/Components/Forms/';
 
 class AddTimeline extends PureComponent {
@@ -63,5 +63,5 @@ const validate = (values = {}) => {
 
 export default reduxForm({
   validate,
-  enableReinitialize: true
+  enableReinitialize: true,
 })(AddTimeline);

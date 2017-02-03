@@ -14,7 +14,7 @@ export default class Header extends PureComponent {
     isViewsEditorOpen: PropTypes.bool.isRequired,
     configuration: PropTypes.shape({
       title: PropTypes.string, // eslint-disable-line react/no-unused-prop-types
-      titleStyle: PropTypes.object
+      titleStyle: PropTypes.object,
     }),
     viewId: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
@@ -29,12 +29,12 @@ export default class Header extends PureComponent {
     windowPages: PropTypes.object,
     collapseView: PropTypes.func,
     show: PropTypes.string,
-    updateShow: PropTypes.func
+    updateShow: PropTypes.func,
   };
   static defaultProps = {
     configuration: {
       title: 'Untitled',
-    }
+    },
   };
   static contextTypes = {
     windowId: PropTypes.string,
@@ -45,7 +45,7 @@ export default class Header extends PureComponent {
     super(...args);
     this.state = {
       choosePage: false,
-      pageTitles: []
+      pageTitles: [],
       // errorMessage: null,
     };
   }
@@ -124,7 +124,7 @@ export default class Header extends PureComponent {
       fontWeight: 'normal',
       fontStyle: 'normal',
       textDecoration: 'none',
-      paddingRight: '57px'
+      paddingRight: '57px',
     };
 
     if (titleStyle.bold) {
@@ -243,7 +243,7 @@ export default class Header extends PureComponent {
     return (
       <div
         className={classnames(styles.container, {
-          [styles.containerActive]: isViewsEditorOpen
+          [styles.containerActive]: isViewsEditorOpen,
         })}
       >
         {!collapsed && this.props.type === 'TextView' && this.props.isViewsEditorOpen ? <a style={toHtmlStyle} onClick={() => { this.props.updateShow('html'); }}>HTML</a> : null}
@@ -282,7 +282,7 @@ export default class Header extends PureComponent {
           {collapsed &&
             [
               <a key={1} style={expandButtonStyle} className={classnames('btn', 'btn-sm', 'btn-default')} onClick={this.expand}>Expand</a>,
-              <a key={2} style={saveButtonStyle} className={classnames('btn', 'btn-sm', 'btn-default')} onClick={this.save}>Save</a>
+              <a key={2} style={saveButtonStyle} className={classnames('btn', 'btn-sm', 'btn-default')} onClick={this.save}>Save</a>,
             ]
           }
         </div>

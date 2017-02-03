@@ -7,7 +7,7 @@ export default class EditorNavbar extends React.Component {
     currentDisplay: PropTypes.number,
     changeCurrentDisplay: PropTypes.func,
     items: PropTypes.array,
-    closeEditor: PropTypes.func
+    closeEditor: PropTypes.func,
   }
 
   componentWillMount() {

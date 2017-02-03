@@ -34,7 +34,7 @@ export default class DynamicEditor extends Component {
     const { configuration, updateTitleStyle, viewId } = this.props;
     updateTitleStyle(viewId, {
       ...configuration.titleStyle,
-      [label]: newVal
+      [label]: newVal,
     });
   }
 
@@ -44,7 +44,7 @@ export default class DynamicEditor extends Component {
 
     updateEntryPoint(viewId, 0, {
       ...entryPoint,
-      ...values
+      ...values,
     });
   }
 

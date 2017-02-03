@@ -9,20 +9,20 @@ describe('lib/dataManager/structures/last', () => {
           {
             label1: 10,
             other: 11,
-            x: 1
+            x: 1,
           },
           {
             label1: 10,
             other: 11,
-            x: 2
+            x: 2,
           },
         ],
-        index: [1, 2]
+        index: [1, 2],
       },
       otherView: {
         index: [1],
-        columns: [{ ep: 2, x: 1 }]
-      }
+        columns: [{ ep: 2, x: 1 }],
+      },
     };
   });
   it('values ok', () => {
@@ -33,20 +33,20 @@ describe('lib/dataManager/structures/last', () => {
           {
             label2: 10,
             other: 11,
-            x: 1
+            x: 1,
           },
           {
             label2: 10,
             other: 11,
-            x: 2
+            x: 2,
           },
         ],
-        index: [1, 2]
+        index: [1, 2],
       },
       otherView: {
         index: [1],
-        columns: [{ ep: 2, x: 1 }]
-      }
+        columns: [{ ep: 2, x: 1 }],
+      },
     });
   });
 });

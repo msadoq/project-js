@@ -3,14 +3,14 @@ import {
   Accordion,
   Panel,
   Glyphicon,
-  Table
+  Table,
 } from 'react-bootstrap';
 import _memoize from 'lodash/memoize';
 
 export default class Misc extends React.Component {
   state = {
     isPanelLinksOpen: false,
-    isPanelProcedureOpen: false
+    isPanelProcedureOpen: false,
   };
 
   openPanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: true }));

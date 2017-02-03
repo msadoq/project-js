@@ -13,12 +13,12 @@ const Alert = ({
   className,
   visible = true,
   style,
-  setVisible
+  setVisible,
 }) => (
   <div
     style={{
       ...style,
-      overflow: 'auto'
+      overflow: 'auto',
     }}
     className={className}
   >
@@ -54,5 +54,5 @@ export default {
   CloseableAlert,
   Danger: withProps({
     bsStyle: 'danger',
-  })(CloseableAlert)
+  })(CloseableAlert),
 };

@@ -338,6 +338,6 @@ function dateToArray(m) {
     ['hours', m.hours()],
     ['minutes', m.minutes()],
     ['seconds', m.seconds()],
-    ['milliseconds', m.milliseconds()]
+    ['milliseconds', m.milliseconds()],
   ];
 }

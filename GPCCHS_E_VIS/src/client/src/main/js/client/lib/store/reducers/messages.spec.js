@@ -15,11 +15,11 @@ describe('store:message:reducer', () => {
   describe('add', () => {
     it('should add message', () => {
       reducer(undefined, actions.add('myId', 'danger', 'my message'))
-        .should.eql({ myId: [{ type: 'danger', message: 'my message', }] });
+        .should.eql({ myId: [{ type: 'danger', message: 'my message' }] });
     });
     it('should support empty args', () => {
       reducer(undefined, actions.add('myId'))
-        .should.eql({ myId: [{ type: 'danger', message: null, }] });
+        .should.eql({ myId: [{ type: 'danger', message: null }] });
     });
     it('should preserve existing message', () => {
       const state = {
@@ -47,7 +47,7 @@ describe('store:message:reducer', () => {
           myId: [
             { type: 'danger', message: 'my message' },
           ],
-        }
+        },
       });
       dispatch(actions.addOnce('myId', 'danger', 'my new message'));
       dispatch(actions.addOnce('myOtherId', 'danger', 'my new message'));
@@ -64,7 +64,7 @@ describe('store:message:reducer', () => {
         messages: {
           myId: [{ type: 'danger', message: 'my message' }],
           myOtherId: [{ type: 'danger', message: 'my message' }],
-        }
+        },
       });
       dispatch(actions.addOnce('myId', 'danger', 'my message'));
       dispatch(actions.addOnce('myOtherId', 'danger', 'my message'));
@@ -104,8 +104,8 @@ describe('store:message:reducer', () => {
     const state = {
       myId: [
         { type: 'danger', message: 'my message' },
-        { type: 'danger', message: 'my other message' }
-      ]
+        { type: 'danger', message: 'my other message' },
+      ],
     };
     it('should support not existing keys', () => {
       reducer(freezeMe(state), actions.reset('unknownId')).should.eql(state);

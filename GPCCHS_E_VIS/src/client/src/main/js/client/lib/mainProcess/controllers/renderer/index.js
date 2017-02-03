@@ -27,5 +27,5 @@ const controller = {
 export default (electronEvent, data) => handle(
   controller,
   data,
-  response => electronEvent.sender.send('global', response),
+  response => electronEvent.sender.send('global', response)
 );

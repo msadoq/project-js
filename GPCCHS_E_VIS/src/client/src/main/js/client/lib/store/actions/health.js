@@ -5,7 +5,7 @@ import * as types from '../types';
 import {
   getDcStatus,
   getHssStatus,
-  getLastPubSubTimestamp
+  getLastPubSubTimestamp,
 } from '../selectors/health';
 
 // eslint-disable-next-line import/prefer-default-export

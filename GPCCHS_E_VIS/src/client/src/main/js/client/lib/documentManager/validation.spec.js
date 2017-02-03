@@ -16,7 +16,7 @@ const pageSchema = {
     },
     title: {
       type: 'string',
-    }
+    },
   },
   required: ['type', 'title'],
 };

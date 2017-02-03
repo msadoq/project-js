@@ -2,12 +2,12 @@ import React from 'react';
 import { Field, FormSection } from 'redux-form';
 
 import {
-  SelectButtonField
+  SelectButtonField,
 } from '../Fields/';
 
 export default class FormSectionLineStyle extends FormSection {
   static defaultProps = {
-    pointsStyle: 'None'
+    pointsStyle: 'None',
   }
 
   render() {
@@ -15,7 +15,7 @@ export default class FormSectionLineStyle extends FormSection {
       { label: 'None', icon: 'none' },
       { label: 'Triangle', icon: 'triangle' },
       { label: 'Square', icon: 'square' },
-      { label: 'Dot', icon: 'dot' }
+      { label: 'Dot', icon: 'dot' },
     ];
     return (
       <Field

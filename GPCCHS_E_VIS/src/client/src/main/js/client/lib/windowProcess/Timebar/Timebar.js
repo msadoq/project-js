@@ -20,7 +20,7 @@ const keys = {
   v: 86,
   b: 66,
   n: 78,
-  space: 32
+  space: 32,
 };
 
 export default class Timebar extends PureComponent {
@@ -124,7 +124,7 @@ export default class Timebar extends PureComponent {
             timebarUuid,
             null,
             {
-              lower: cursorMs
+              lower: cursorMs,
             }
           );
           break;
@@ -245,7 +245,7 @@ export default class Timebar extends PureComponent {
         updateViewport(
           timebarUuid,
           viewportLower,
-          (viewportUpper - viewportLower) / widthPx,
+          (viewportUpper - viewportLower) / widthPx
         );
       }
       if (
@@ -532,7 +532,7 @@ export default class Timebar extends PureComponent {
       resizing: false,
       cursorOriginX: e.pageX,
       viewportLower: viewport.lower,
-      viewportUpper: viewport.upper
+      viewportUpper: viewport.upper,
     });
 
     document.addEventListener('mousemove', this.onMouseMove);
@@ -631,7 +631,7 @@ export default class Timebar extends PureComponent {
       updateViewport(
         timebarUuid,
         viewportLower,
-        (viewportUpper - viewportLower) / widthPx,
+        (viewportUpper - viewportLower) / widthPx
       );
 
     /*
@@ -679,7 +679,7 @@ export default class Timebar extends PureComponent {
       {
         lower: slideLower,
         upper: slideUpper,
-      },
+      }
     );
     this.setState({
       lower: null,
@@ -1150,7 +1150,7 @@ export default class Timebar extends PureComponent {
             cursor="slideLower"
             title="Ext lower cursor"
             style={{
-              left: `${calc.slideLowerPercentOffset}%`
+              left: `${calc.slideLowerPercentOffset}%`,
             }}
             className={classnames(styles.slide, { hidden: timebarMode !== 'Fixed' })}
             onMouseDown={this.onMouseDownResize}
@@ -1168,7 +1168,7 @@ export default class Timebar extends PureComponent {
               { [styles.undisplayed]: !slideLowerLowerClose && !slideLowerCurrentClose }
             )}
             style={{
-              left: `${calc.slideLowerPercentOffset}%`
+              left: `${calc.slideLowerPercentOffset}%`,
             }}
             onMouseDown={this.onMouseDownResize}
             onDoubleClick={toggleTimesetter}
@@ -1177,7 +1177,7 @@ export default class Timebar extends PureComponent {
             cursor="slideUpper"
             title="Ext upper cursor"
             style={{
-              left: `${calc.slideUpperPercentOffset}%`
+              left: `${calc.slideUpperPercentOffset}%`,
             }}
             className={classnames(styles.slide, { hidden: timebarMode === 'Normal' })}
             onMouseDown={this.onMouseDownResize}
@@ -1195,7 +1195,7 @@ export default class Timebar extends PureComponent {
               { [styles.undisplayed]: !slideUpperUpperClose && !slideUpperCurrentClose }
             )}
             style={{
-              left: `${calc.slideUpperPercentOffset}%`
+              left: `${calc.slideUpperPercentOffset}%`,
             }}
             onMouseDown={this.onMouseDownResize}
             onDoubleClick={toggleTimesetter}

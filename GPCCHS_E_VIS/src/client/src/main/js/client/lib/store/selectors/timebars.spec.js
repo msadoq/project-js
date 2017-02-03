@@ -88,7 +88,7 @@ describe('store:timebars:selectors', () => {
             timeline_03: { id: 'timeline03' },
           },
         },
-        'myId',
+        'myId'
       ));
     });
     it('no master timeline', () => {
@@ -105,7 +105,7 @@ describe('store:timebars:selectors', () => {
             timeline_03: { id: 'timeline03' },
           },
         },
-        'myId',
+        'myId'
       ));
     });
   });

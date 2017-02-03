@@ -29,7 +29,7 @@
       { "devDependencies": true, "peerDependencies": true }
     ],
     "comma-dangle": [
-      "warn",
+      "error",
       {
         "arrays": "always-multiline",
         "objects": "always-multiline",

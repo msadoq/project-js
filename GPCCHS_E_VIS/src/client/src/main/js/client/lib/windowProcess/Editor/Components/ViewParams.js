@@ -17,8 +17,8 @@ export default class ViewParams extends React.Component {
       underline: PropTypes.bool,
       strikeOut: PropTypes.bool,
       align: PropTypes.string,
-      color: PropTypes.string
-    })
+      color: PropTypes.string,
+    }),
   }
 
   static defaultProps = {
@@ -31,14 +31,14 @@ export default class ViewParams extends React.Component {
       underline: false,
       strikeOut: false,
       align: 'left',
-      color: '#000000'
-    }
+      color: '#000000',
+    },
   }
 
   handleSubmit = (values) => {
     const {
       updateTitle, updateTitleStyle,
-      updateBgColor, viewId
+      updateBgColor, viewId,
     } = this.props;
 
     if (this.props.backgroundColor !== values.backgroundColor) {
@@ -57,12 +57,12 @@ export default class ViewParams extends React.Component {
       backgroundColor,
       title,
       titleStyle,
-      viewId
+      viewId,
     } = this.props;
     const initVals = {
       backgroundColor,
       title,
-      titleStyle
+      titleStyle,
     };
     return (
       <ViewParamsForm

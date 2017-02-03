@@ -18,7 +18,7 @@ describe('store:timelines:reducer', () => {
         id: 'Id',
         offset: 10,
         kind: 'DataSet',
-        sessionId: 100
+        sessionId: 100,
       };
       const state = reducer(
         undefined,

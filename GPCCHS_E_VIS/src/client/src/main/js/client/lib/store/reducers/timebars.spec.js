@@ -23,7 +23,7 @@ describe('store:timebars:reducer', () => {
         speed: 10,
         realTime: false,
         masterId: 'OtherId',
-        timelines: ['myTimelineId']
+        timelines: ['myTimelineId'],
       };
       const state = reducer(
         undefined,
@@ -46,7 +46,7 @@ describe('store:timebars:reducer', () => {
         speed: 1,
         mode: 'Normal',
         masterId: null,
-        timelines: []
+        timelines: [],
       });
       state.myTimebarId.should.have.property('extUpperBound');
       state.myTimebarId.should.have.property('rulerStart');
@@ -95,8 +95,8 @@ describe('store:timebars:reducer', () => {
             realTime: false,
             mode: 'Normal',
             masterId: 'OtherId',
-            timelines: ['myTimelineId', 'myTimelineId3']
-          }
+            timelines: ['myTimelineId', 'myTimelineId3'],
+          },
         },
       });
       getState = store.getState;
@@ -164,7 +164,7 @@ describe('store:timebars:reducer', () => {
         {
           lower: 5,
           upper: 40,
-          current: 30
+          current: 30,
         }
         )
       );
@@ -244,7 +244,7 @@ describe('store:timebars:reducer', () => {
               defauttWidth: 600,
             },
             slideWindow: { lower: 250, upper: 350 },
-          }
+          },
         },
       });
       getState = store.getState;
@@ -297,7 +297,7 @@ describe('store:timebars:reducer', () => {
             rulerResolution: 100,
             speed: 10,
             masterId: 'OtherId',
-            timelines: ['myTimelineId', 'myTimelineId3']
+            timelines: ['myTimelineId', 'myTimelineId3'],
           } },
         timelines: {
           myTimelineId: { id: 'tl1' },
@@ -309,7 +309,7 @@ describe('store:timebars:reducer', () => {
         id: 'Id',
         offset: 10,
         kind: 'DataSet',
-        sessionId: 100
+        sessionId: 100,
       };
       dispatch(actions.addAndMountTimeline('myTimebarId', fixture));
       getState().timebars.myTimebarId.timelines.should.be.an('array').with.length(3);
@@ -327,7 +327,7 @@ describe('store:timebars:reducer', () => {
             rulerResolution: 100,
             speed: 10,
             masterId: 'OtherId',
-            timelines: ['myTimelineId', 'myTimelineId3']
+            timelines: ['myTimelineId', 'myTimelineId3'],
           } },
         timelines: {
           myTimelineId: { id: 'tl1' },
@@ -359,7 +359,7 @@ describe('store:timebars:reducer', () => {
             },
             slideWindow: {
               lower: 1420106430000,
-              upper: 1420106700500 // visuWindow.upper + 500
+              upper: 1420106700500, // visuWindow.upper + 500
             },
             speed: 1,
           },

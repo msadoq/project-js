@@ -65,7 +65,7 @@ describe('store:windows:reducer', () => {
         actions.updateGeometry('myWindowId', 120)
       );
       state.myWindowId.should.have.property('geometry').with.properties({
-        x: 120, y: 100, w: 100, h: 100
+        x: 120, y: 100, w: 100, h: 100,
       });
     });
     it('update all', () => {
@@ -74,7 +74,7 @@ describe('store:windows:reducer', () => {
         actions.updateGeometry('myWindowId', 120, 130, 140, 150)
       );
       state.myWindowId.should.have.property('geometry').with.properties({
-        x: 120, y: 130, w: 140, h: 150
+        x: 120, y: 130, w: 140, h: 150,
       });
     });
     it('update nothing', () => {
@@ -83,7 +83,7 @@ describe('store:windows:reducer', () => {
         actions.updateGeometry('myWindowId')
       );
       state.myWindowId.should.have.property('geometry').with.properties({
-        x: 120, y: 130, w: 140, h: 150
+        x: 120, y: 130, w: 140, h: 150,
       });
     });
   });

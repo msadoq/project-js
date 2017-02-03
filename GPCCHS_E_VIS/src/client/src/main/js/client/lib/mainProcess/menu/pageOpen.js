@@ -2,7 +2,7 @@ import { BrowserWindow } from 'electron';
 import _map from 'lodash/map';
 import { v4 } from 'uuid';
 import {
-  LOG_DOCUMENT_OPEN
+  LOG_DOCUMENT_OPEN,
 } from 'common/constants';
 import { server } from '../ipc';
 import { readPages, extractViews } from '../../common/documentManager';
@@ -92,5 +92,5 @@ function showSelectedPage(pageAndViews, pageId, windowId) {
 export default {
   pageOpen,
   pageOpenWithPath,
-  pageAddNew
+  pageAddNew,
 };

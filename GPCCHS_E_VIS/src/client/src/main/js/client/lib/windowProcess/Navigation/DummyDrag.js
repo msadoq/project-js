@@ -59,7 +59,7 @@ export default class DummyDrag extends PureComponent {
       item.mime,
       _.pipe(
         _.dissoc('mime'),
-        JSON.stringify,
+        JSON.stringify
       )(item)
     );
   }

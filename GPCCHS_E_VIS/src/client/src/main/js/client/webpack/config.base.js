@@ -20,30 +20,30 @@ export default {
       loaders: [
         'style',
         'css?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
-        'postcss'
+        'postcss',
       ],
-      exclude: /node_modules/
+      exclude: /node_modules/,
     },
     {
       test: /\.jsx?$/,
       loaders: ['babel-loader'].map(require.resolve),
-      exclude: /node_modules/
+      exclude: /node_modules/,
     }, {
       test: /\.json$/,
-      loader: 'json'
+      loader: 'json',
     }, {
       test: /\.less$/,
-      loader: 'style!css!less'
-    }]
+      loader: 'style!css!less',
+    }],
   },
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
-    libraryTarget: 'commonjs2'
+    libraryTarget: 'commonjs2',
   },
   resolve: {
     extensions: ['', '.js', '.jsx', '.json', '.less', '.css'],
-    packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main']
+    packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main'],
   },
   plugins: [
     new webpack.ContextReplacementPlugin(/moment\/locale$/, new RegExp('fr.js')),
@@ -58,6 +58,6 @@ export default {
     propertiesPlugin,
     postCssNesting(),
     postCssReporter(),
-    postCssBrowserReporter()
-  ]
+    postCssBrowserReporter(),
+  ],
 };

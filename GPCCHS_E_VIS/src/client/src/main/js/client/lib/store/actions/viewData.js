@@ -20,5 +20,5 @@ export const updateViewData = withProfiling(
     'newViewMap',
     'dataToInject'
   ),
-  { predicate: (state, action) => isInjectingData(action) },
+  { predicate: (state, action) => isInjectingData(action) }
 );

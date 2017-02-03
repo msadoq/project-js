@@ -39,18 +39,18 @@ const commands = {
     openView: ({ windowId, viewPath }) => {
       commands.main.message(globalConstants.IPC_METHOD_OPEN_VIEW, {
         windowId,
-        viewPath
+        viewPath,
       });
     },
     openPage: ({ windowId, filePath }) =>
       commands.main.message(globalConstants.IPC_METHOD_OPEN_PAGE, {
         windowId,
-        filePath
+        filePath,
       }),
     openWorkspace: ({ filePath }) =>
       commands.main.message(globalConstants.IPC_METHOD_OPEN_WORKSPACE, {
-        filePath
-      })
+        filePath,
+      }),
   },
 };
 

@@ -4,8 +4,8 @@ import ColorPickerField from './ColorPickerField';
 
 const propsStub = {
   input: {
-    value: 'testval'
-  }
+    value: 'testval',
+  },
 };
 
 test('Navigation renders correctly', () => {

@@ -26,7 +26,7 @@ export default class SelectTimebar extends PureComponent {
     this.props.addTimebar(
       v4(),
       {
-        id: this.timebarUuid.value
+        id: this.timebarUuid.value,
       }
     );
     this.switchForm();
@@ -35,7 +35,7 @@ export default class SelectTimebar extends PureComponent {
   switchForm = (e) => {
     if (e) e.preventDefault();
     this.setState({
-      form: this.state.form === 'select' ? 'create' : 'select'
+      form: this.state.form === 'select' ? 'create' : 'select',
     });
   }
 

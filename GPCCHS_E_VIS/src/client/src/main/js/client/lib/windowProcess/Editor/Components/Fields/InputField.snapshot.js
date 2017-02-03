@@ -5,12 +5,12 @@ import InputField from './InputField';
 const propsStub = {
   input: {
     value: 'testval',
-    type: 'testtype'
+    type: 'testtype',
   },
   meta: {
-    touched: true
+    touched: true,
   },
-  type: 'testType'
+  type: 'testType',
 };
 
 test('Navigation renders correctly', () => {

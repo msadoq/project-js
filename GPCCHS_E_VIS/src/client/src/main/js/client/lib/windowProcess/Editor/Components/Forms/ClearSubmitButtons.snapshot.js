@@ -5,7 +5,7 @@ import ClearSubmitButtons from './ClearSubmitButtons';
 const propsStub = {
   submitting: true,
   valid: true,
-  pristine: true
+  pristine: true,
 };
 
 test('Navigation renders correctly', () => {

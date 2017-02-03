@@ -67,9 +67,9 @@ const commands = {
     sendProductLog: (uid, ...args) => {
       commands.server.message(globalConstants.IPC_METHOD_PRODUCT_LOG, {
         uid,
-        args
+        args,
       });
-    }
+    },
   },
 };
 

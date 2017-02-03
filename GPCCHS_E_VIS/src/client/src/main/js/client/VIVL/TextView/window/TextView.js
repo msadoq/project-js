@@ -55,7 +55,7 @@ const getTextStyle = color => ({
     0 0 55px ${color},
     0 0 75px ${color}
   `,
-  color
+  color,
 });
 
 export default class TextView extends PureComponent {
@@ -69,7 +69,7 @@ export default class TextView extends PureComponent {
     isViewsEditorOpen: PropTypes.bool,
     updateContent: PropTypes.func,
     entryPoints: PropTypes.array.isRequired,
-    show: PropTypes.string
+    show: PropTypes.string,
   };
   static defaultProps = {
     data: {
@@ -243,7 +243,7 @@ export default class TextView extends PureComponent {
             }
           }
           return nodes;
-        }
+        },
       },
       {
         shouldProcessNode: () => true,

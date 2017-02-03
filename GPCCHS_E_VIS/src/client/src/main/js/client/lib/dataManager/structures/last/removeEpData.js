@@ -7,6 +7,6 @@ export default function removeEpData(stateViewData, viewId, epName) {
 
   return u({ [viewId]: {
     index: u.omit(epName),
-    values: u.omit(epName)
+    values: u.omit(epName),
   } }, stateViewData);
 }

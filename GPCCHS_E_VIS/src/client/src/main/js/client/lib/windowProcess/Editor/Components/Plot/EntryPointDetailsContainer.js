@@ -6,7 +6,7 @@ import { getPage } from '../../../../store/selectors/pages';
 import { getTimebarTimelinesSelector } from '../../../../store/selectors/timebars';
 import {
   updateEntryPoint,
-  removeEntryPoint
+  removeEntryPoint,
 } from '../../../../store/actions/views';
 
 const mapStateToProps = (state, { viewId, focusedPageId }) => {
@@ -15,17 +15,17 @@ const mapStateToProps = (state, { viewId, focusedPageId }) => {
   const timelines = getTimebarTimelinesSelector(state, timebarUuid);
   return {
     axes: view.configuration.axes,
-    timelines
+    timelines,
   };
 };
 
 const EntryPointDetailsContainer = connect(mapStateToProps, {
   updateEntryPoint,
-  removeEntryPoint
+  removeEntryPoint,
 })(EntryPointDetails);
 
 EntryPointDetailsContainer.propTypes = {
-  viewId: PropTypes.string.isRequired
+  viewId: PropTypes.string.isRequired,
 };
 
 export default EntryPointDetailsContainer;

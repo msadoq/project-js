@@ -28,5 +28,5 @@ export default {
       (content, cb) => extractViews(fmdApi)(content, cb),
       (content, cb) => cb(null, omit(content, ['__folder', '__original'])),
     ], (err, res) => (err ? callback(err) : callback(err, res)));
-  }
+  },
 };

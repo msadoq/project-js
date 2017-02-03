@@ -13,6 +13,6 @@ const mapStateToProps = (state, { viewId }) => {
 export const DynamicViewContainer = connect(mapStateToProps, null)(DynamicView);
 
 DynamicViewContainer.propTypes = {
-  viewId: PropTypes.string.isRequired
+  viewId: PropTypes.string.isRequired,
 };
 export default DynamicViewContainer;

@@ -18,7 +18,7 @@ const s = {
     borderColor: '#ccc',
   },
   condition: {
-    verticalAlign: 'middle'
+    verticalAlign: 'middle',
   },
 };
 

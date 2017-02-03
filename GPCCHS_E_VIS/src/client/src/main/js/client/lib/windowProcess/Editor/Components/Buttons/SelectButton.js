@@ -17,13 +17,13 @@ export default class SelectButton extends React.Component {
   }
 
   state = {
-    active: this.props.active
+    active: this.props.active,
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.active !== this.props.active) {
       this.setState({
-        active: nextProps.active
+        active: nextProps.active,
       });
     }
   }

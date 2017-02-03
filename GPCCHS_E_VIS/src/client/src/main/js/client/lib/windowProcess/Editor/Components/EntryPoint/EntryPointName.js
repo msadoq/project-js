@@ -1,14 +1,14 @@
 import React, { PropTypes } from 'react';
 import {
-  Form
+  Form,
 } from 'react-bootstrap';
 import { Field, reduxForm } from 'redux-form';
 import {
-  InputField
+  InputField,
 } from '../Fields/';
 import {
   HorizontalFormGroup,
-  ClearSubmitButtons
+  ClearSubmitButtons,
 } from '../Forms/';
 
 class EntryPointName extends React.Component {
@@ -21,7 +21,7 @@ class EntryPointName extends React.Component {
     pristine: PropTypes.bool,
     reset: PropTypes.func,
     submitting: PropTypes.bool,
-    valid: PropTypes.bool
+    valid: PropTypes.bool,
   }
 
   render() {
@@ -29,7 +29,7 @@ class EntryPointName extends React.Component {
       handleSubmit,
       pristine,
       submitting,
-      valid
+      valid,
     } = this.props;
 
     return (
@@ -67,5 +67,5 @@ const validate = (values = {}) => {
 
 export default reduxForm({
   validate,
-  enableReinitialize: true
+  enableReinitialize: true,
 })(EntryPointName);

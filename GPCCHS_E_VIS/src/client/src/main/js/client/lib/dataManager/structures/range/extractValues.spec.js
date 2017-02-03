@@ -47,7 +47,7 @@ describe('data/map/extractValues', () => {
           fieldY: 'val4',
           expectedInterval: [14, 18],
           offset: 0,
-        }
+        },
       },
     },
     plot3: {
@@ -59,7 +59,7 @@ describe('data/map/extractValues', () => {
           fieldY: 'val1',
           expectedInterval: [1001, 1005],
           offset: -987,
-        }
+        },
       },
     },
   };

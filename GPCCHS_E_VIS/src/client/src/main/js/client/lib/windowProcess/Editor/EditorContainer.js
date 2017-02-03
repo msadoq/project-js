@@ -14,18 +14,18 @@ const mapStateToProps = (state, { focusedPageId }) => {
     viewId: editor.viewId,
     viewType: view.type,
     ...view,
-    focusedPageId
+    focusedPageId,
   };
 };
 
 const mapDispatchToProps = (dispatch, { focusedPageId }) => bindActionCreators({
-  closeEditor: () => closeEditor(focusedPageId)
+  closeEditor: () => closeEditor(focusedPageId),
 }, dispatch);
 
 const EditorContainer = connect(mapStateToProps, mapDispatchToProps)(Editor);
 
 EditorContainer.propTypes = {
-  focusedPageId: PropTypes.string.isRequired
+  focusedPageId: PropTypes.string.isRequired,
 };
 
 export default EditorContainer;

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import {
   Accordion,
-  Panel
+  Panel,
 } from 'react-bootstrap';
 import _memoize from 'lodash/memoize';
 import { formValueSelector } from 'redux-form';
@@ -23,7 +23,7 @@ export default class PlotMarkers extends React.Component {
     collapsible: PropTypes.bool.isRequired,
   }
   state = {
-    isMarkersOpen: false
+    isMarkersOpen: false,
   };
 
   openPanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: true }));
@@ -42,7 +42,7 @@ export default class PlotMarkers extends React.Component {
   openParentAccordion = (key, e) => {
     const {
       open,
-      onSelect
+      onSelect,
     } = this.props;
 
     onSelect(key, e);
@@ -59,7 +59,7 @@ export default class PlotMarkers extends React.Component {
       eventKey,
       headerRole,
       panelRole,
-      collapsible
+      collapsible,
     } = this.props;
     // const { isMarkersOpen } = this.state;
 

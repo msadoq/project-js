@@ -4,11 +4,11 @@ import {
   Panel,
   Button,
   Glyphicon,
-  Form
+  Form,
 } from 'react-bootstrap';
 import _memoize from 'lodash/memoize';
 import {
-  HorizontalFormGroup
+  HorizontalFormGroup,
 } from '../Forms/';
 import SelectButton from '../Buttons/SelectButton';
 import PlotAxis from './PlotAxis';
@@ -17,7 +17,7 @@ import Modal from '../../../common/Modal';
 const alignButtons = [
   { label: '', icon: 'none' },
   { label: 'left', icon: 'alignLeft' },
-  { label: 'right', icon: 'alignRight' }
+  { label: 'right', icon: 'alignRight' },
 ];
 
 export default class PlotAxes extends React.Component {
@@ -81,7 +81,7 @@ export default class PlotAxes extends React.Component {
   openParentAccordion = (key, e) => {
     const {
       open,
-      onSelect
+      onSelect,
     } = this.props;
 
     onSelect(key, e);

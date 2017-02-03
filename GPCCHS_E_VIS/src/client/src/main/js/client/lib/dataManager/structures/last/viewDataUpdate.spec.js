@@ -12,20 +12,20 @@ describe('dataManager/structures/last', () => {
         myViewId: {
           index: { myEntryPoint: 10 },
           values: {},
-        }
+        },
       });
       viewDataUpdate(frozen, 'myViewId', { index: {}, values: { myEntryPoint: 10 } }).should.eql({
         myViewId: {
           index: {},
           values: { myEntryPoint: 10 },
-        }
+        },
       });
       viewDataUpdate(frozen, 'myViewId', { index: { myEntryPoint: 15 }, values: { myEntryPoint: 300 } })
       .should.eql({
         myViewId: {
           index: { myEntryPoint: 15 },
           values: { myEntryPoint: 300 },
-        }
+        },
       });
     });
     it('should update', () => {
@@ -33,14 +33,14 @@ describe('dataManager/structures/last', () => {
         myViewId: {
           index: { myEntryPoint: 10 },
           values: { myEntryPoint: 150 },
-        }
+        },
       });
       viewDataUpdate(state, 'myViewId',
       { index: { myEntryPoint: 20 }, values: { myEntryPoint: 300 } }).should.eql({
         myViewId: {
           index: { myEntryPoint: 20 },
           values: { myEntryPoint: 300 },
-        }
+        },
       });
     });
     it('should preserve other values', () => {
@@ -48,14 +48,14 @@ describe('dataManager/structures/last', () => {
         myViewId: {
           index: { myEntryPoint: 10, myOther: 20 },
           values: { myEntryPoint: 150, myOther: 200 },
-        }
+        },
       });
       viewDataUpdate(state, 'myViewId',
       { index: { myEntryPoint: 20 }, values: { myEntryPoint: 300 } }).should.eql({
         myViewId: {
           index: { myEntryPoint: 20, myOther: 20 },
           values: { myEntryPoint: 300, myOther: 200 },
-        }
+        },
       });
     });
   });

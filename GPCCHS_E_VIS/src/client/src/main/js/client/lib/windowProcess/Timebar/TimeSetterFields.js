@@ -122,6 +122,6 @@ function dateToArray(m) {
     ['hours', m.format(formats.hours)],
     ['minutes', m.format(formats.minutes)],
     ['seconds', m.format(formats.seconds)],
-    ['milliseconds', m.format(formats.milliseconds)]
+    ['milliseconds', m.format(formats.milliseconds)],
   ];
 }

@@ -6,7 +6,7 @@ import { Form } from 'react-bootstrap';
 import { reduxForm } from 'redux-form';
 import TimelineFields from './TimelineFields';
 import {
-  ClearSubmitButtons
+  ClearSubmitButtons,
 } from '../../Editor/Components/Forms/';
 
 class EditTimeline extends PureComponent {
@@ -73,5 +73,5 @@ const validate = (values = {}) => {
 
 export default reduxForm({
   validate,
-  enableReinitialize: true
+  enableReinitialize: true,
 })(EditTimeline);

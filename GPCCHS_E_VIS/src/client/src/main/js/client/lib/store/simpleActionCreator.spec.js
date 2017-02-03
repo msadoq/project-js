@@ -35,7 +35,7 @@ describe('store:simpleActionCreator', () => {
     const actionCreator = simpleActionCreator(
       'myActionType',
       param => ({ myParam: `concatened ${param}` }),
-      param => ({ myOther: `other concatened ${param}` }),
+      param => ({ myOther: `other concatened ${param}` })
     );
     actionCreator('param1', 'param2').should.eql({
       type: 'myActionType',

@@ -3,7 +3,7 @@ import _findIndex from 'lodash/findIndex';
 import _startsWith from 'lodash/startsWith';
 import { dirname, relative } from 'path';
 import {
-  LOG_DOCUMENT_SAVE
+  LOG_DOCUMENT_SAVE,
 } from 'common/constants';
 
 import { server } from '../mainProcess/ipc';

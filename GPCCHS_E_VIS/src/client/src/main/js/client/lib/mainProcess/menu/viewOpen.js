@@ -1,7 +1,7 @@
 import _ from 'lodash/fp';
 import { v4 } from 'uuid';
 import {
-  LOG_DOCUMENT_OPEN
+  LOG_DOCUMENT_OPEN,
 } from 'common/constants';
 
 import { server } from '../ipc';
@@ -113,7 +113,7 @@ function addViewInLayout(pageId, viewId) {
     return [{ i: viewId, w: 5, h: 5, x: 0, y: 0 }];
   }
   return getStore().getState().pages[pageId].layout.concat({
-    i: viewId, w: 5, h: 5, x: 0, y: 0
+    i: viewId, w: 5, h: 5, x: 0, y: 0,
   });
 }
 

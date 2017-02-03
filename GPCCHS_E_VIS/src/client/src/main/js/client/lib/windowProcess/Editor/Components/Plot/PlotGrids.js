@@ -6,7 +6,7 @@ export default class PlotAxes extends React.Component {
     viewId: PropTypes.string.isRequired,
     grids: PropTypes.array.isRequired,
     axes: PropTypes.object.isRequired,
-    updateGrid: PropTypes.func.isRequired
+    updateGrid: PropTypes.func.isRequired,
   }
   state = { };
 
@@ -24,7 +24,7 @@ export default class PlotAxes extends React.Component {
     const {
       axes,
       grids,
-      viewId
+      viewId,
     } = this.props;
 
     return (

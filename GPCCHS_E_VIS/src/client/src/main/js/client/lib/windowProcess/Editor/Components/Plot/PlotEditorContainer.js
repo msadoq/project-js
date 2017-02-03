@@ -18,7 +18,7 @@ PlotEditorContainer.propTypes = {
   viewId: PropTypes.string.isRequired,
   viewType: PropTypes.string.isRequired,
   configuration: PropTypes.object,
-  closeEditor: PropTypes.func
+  closeEditor: PropTypes.func,
 };
 
 export default PlotEditorContainer;

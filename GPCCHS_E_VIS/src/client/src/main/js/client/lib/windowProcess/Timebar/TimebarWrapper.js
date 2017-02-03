@@ -15,7 +15,7 @@ const minTimebarHeight = 140;
 const inlineStyles = {
   paddingBottom8: {
     paddingBottom: 8,
-  }
+  },
 };
 
 export default class TimebarWrapper extends PureComponent {
@@ -44,7 +44,7 @@ export default class TimebarWrapper extends PureComponent {
   onTimelinesVerticalScroll = (e, el) => {
     e.preventDefault();
     this.setState({
-      timelinesVerticalScroll: el ? (el.scrollTop + (e.deltaY / 3)) : e.target.scrollTop
+      timelinesVerticalScroll: el ? (el.scrollTop + (e.deltaY / 3)) : e.target.scrollTop,
     });
   }
 
@@ -53,7 +53,7 @@ export default class TimebarWrapper extends PureComponent {
       resizingWindow: true,
       cursorOriginY: e.pageY,
       heightOrigin: this.el.clientHeight,
-      height: this.el.clientHeight
+      height: this.el.clientHeight,
     });
 
     document.addEventListener('mousemove', this.resizeWindowMouseMove);
@@ -98,7 +98,7 @@ export default class TimebarWrapper extends PureComponent {
     }
     this.setState({
       displayTimesetter: !this.state.displayTimesetter,
-      timesetterCursor: (e && e.currentTarget) ? e.currentTarget.getAttribute('cursor') : null
+      timesetterCursor: (e && e.currentTarget) ? e.currentTarget.getAttribute('cursor') : null,
     });
   }
 
@@ -174,7 +174,7 @@ export default class TimebarWrapper extends PureComponent {
           background: '#FAFAFA',
           borderTop: '1px solid #aaa',
           zIndex: '2',
-          padding: '0px 5px'
+          padding: '0px 5px',
         }}
       >
         {timesetter}

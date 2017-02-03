@@ -29,7 +29,7 @@ export default function findTimelines(timelines, masterSessionId, search) {
     }
     return {
       sessionId: masterSessionId,
-      offset: 0
+      offset: 0,
     };
   }
 

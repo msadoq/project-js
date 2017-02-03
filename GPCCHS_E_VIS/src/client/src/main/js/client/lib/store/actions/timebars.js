@@ -6,7 +6,7 @@ import * as types from '../types';
 import { nextCurrent, computeCursors } from '../../mainProcess/play';
 import {
   addOnce as addMessage,
-  reset as resetMessages
+  reset as resetMessages,
 } from './messages';
 import { getMessages } from '../selectors/messages';
 import {
@@ -33,7 +33,7 @@ export const setRealTime = simple(types.WS_TIMEBAR_SET_REALTIME, 'timebarUuid', 
 export const handlePlay = (
   lastTickTime = Date.now(),
   dateNow = Date.now(),
-  currentUpperMargin = globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN,
+  currentUpperMargin = globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN
 ) =>
   (dispatch, getState) => {
     const state = getState();
@@ -57,7 +57,7 @@ export const handlePlay = (
       playingTimebar.slideWindow.lower,
       playingTimebar.slideWindow.upper,
       playingTimebar.mode,
-      currentUpperMargin,
+      currentUpperMargin
     );
     dispatch(updateCursors(
       playingTimebarUuid,
@@ -111,7 +111,7 @@ export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
           visuWindow,
           slideWindow,
           timebarUuid,
-        }
+        },
       });
     }
   };
@@ -134,7 +134,7 @@ export const updateSpeed = (timebarUuid, speed) =>
       payload: {
         timebarUuid,
         speed,
-      }
+      },
     });
   };
 
@@ -159,7 +159,7 @@ export function restoreWidth(timebarUuid) {
         {
           lower: vw.current - (vw.defaultWidth / 4),
           upper: newSlideUpper,
-        },
+        }
       )
     );
   };
@@ -184,7 +184,7 @@ export function jump(timebarUuid, offsetMs) {
         {
           lower: sw.lower + offsetMs,
           upper: sw.upper + offsetMs,
-        },
+        }
       )
     );
   };
@@ -214,7 +214,7 @@ export function goNow(timebarUuid, masterSessionIdCurrentTime) {
         {
           lower: newLower,
           upper: newUpper,
-        },
+        }
       )
     );
   };
@@ -226,7 +226,7 @@ export function switchToNormalMode(timebarUuid) {
       payload: {
         timebarUuid,
         mode: 'Normal',
-      }
+      },
     });
     const state = getState();
     const timebar = getTimebar(state, timebarUuid);
@@ -256,8 +256,8 @@ export function switchToRealtimeMode(timebarUuid, masterSessionIdCurrentTime) {
         type: types.WS_TIMEBAR_SPEED_UPDATE,
         payload: {
           timebarUuid,
-          speed: 1
-        }
+          speed: 1,
+        },
       });
     }
     if (timebar.mode !== 'Normal') {
@@ -266,7 +266,7 @@ export function switchToRealtimeMode(timebarUuid, masterSessionIdCurrentTime) {
         payload: {
           timebarUuid,
           mode: 'Normal',
-        }
+        },
       });
     }
     const { visuWindow } = timebar;
@@ -286,7 +286,7 @@ export function switchToRealtimeMode(timebarUuid, masterSessionIdCurrentTime) {
         {
           lower: newLower,
           upper: newUpper,
-        },
+        }
       )
     );
     dispatch(play(timebarUuid));
@@ -300,7 +300,7 @@ export function switchToExtensibleMode(timebarUuid) {
       payload: {
         timebarUuid,
         mode: 'Extensible',
-      }
+      },
     });
     const state = getState();
     const timebar = getTimebar(state, timebarUuid);
@@ -334,7 +334,7 @@ export function switchToFixedMode(timebarUuid) {
       payload: {
         timebarUuid,
         mode: 'Fixed',
-      }
+      },
     });
     const state = getState();
     const timebar = getTimebar(state, timebarUuid);

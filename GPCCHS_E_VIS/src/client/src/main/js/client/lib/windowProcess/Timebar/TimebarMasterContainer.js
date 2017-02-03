@@ -17,7 +17,7 @@ export default connect(
     // Will render SelectTimebarContainer
     if (!timebar) {
       return {
-        timebars: state.timebars
+        timebars: state.timebars,
       };
     }
 

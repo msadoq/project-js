@@ -67,7 +67,7 @@ export const setCollapsedAndUpdateLayout = (pageId, viewId, flag) =>
       payload: {
         viewId,
         flag,
-      }
+      },
     });
     dispatch(setModified(viewId, true));
   };

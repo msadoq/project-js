@@ -32,7 +32,7 @@ const initialState = {
   offset: 0,
   kind: 'Session',
   sessionId: null,
-  color: null
+  color: null,
 };
 
 function timeline(stateTimeline = initialState, action) {

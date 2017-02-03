@@ -56,7 +56,7 @@ class EntryPointConnectedDataXY extends React.Component {
       <Form horizontal onSubmit={handleSubmit}>
         <h4
           style={{
-            display: 'inline-block'
+            display: 'inline-block',
           }}
         >
           Time based data&nbsp;&nbsp;
@@ -209,6 +209,6 @@ export default connect((state, { form }) => {
 })(
   reduxForm({
     validate,
-    enableReinitialize: true
+    enableReinitialize: true,
   })(EntryPointConnectedDataXY)
 );

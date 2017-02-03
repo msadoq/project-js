@@ -36,9 +36,9 @@ describe('store:page:selectors', () => {
     const state = {
       pages: {
         myPageId: {
-          layout: []
-        }
-      }
+          layout: [],
+        },
+      },
     };
     getPageLayout(state, { pageId: 'myPageId' }).should.be.an('array');
   });
@@ -46,9 +46,9 @@ describe('store:page:selectors', () => {
     const state = {
       pages: {
         myPageId: {
-          editor: {}
-        }
-      }
+          editor: {},
+        },
+      },
     };
     getEditor(state, 'myPageId').should.be.an('object');
   });
@@ -69,17 +69,17 @@ describe('store:page:selectors', () => {
     const state = {
       pages: {
         myPageId: {
-          views: ['view1']
-        }
+          views: ['view1'],
+        },
       },
       views: {
         views1: {},
         views2: {},
-      }
+      },
     };
 
     getViews(state, { pageId: 'myPageId' }).should.eql([
-      { viewId: 'view1' }
+      { viewId: 'view1' },
     ]);
   });
   it('makeGetLayouts', () => {
@@ -88,16 +88,16 @@ describe('store:page:selectors', () => {
       pages: {
         myPageId: {
           layout: [{
-            i: 'layout1'
+            i: 'layout1',
           }, {
-            i: 'layout2'
-          }]
-        }
-      }
+            i: 'layout2',
+          }],
+        },
+      },
     };
 
     getLayouts(state, { pageId: 'myPageId' }).should.have.properties({
-      lg: [{ i: 'layout1' }, { i: 'layout2' }]
+      lg: [{ i: 'layout1' }, { i: 'layout2' }],
     });
   });
   it('getModifiedPagesIds', () => {
@@ -106,24 +106,24 @@ describe('store:page:selectors', () => {
         myPageId1: { isModified: true },
         myPageId2: { isModified: false },
         myPageId3: { isModified: true },
-      }
+      },
     };
 
     getModifiedPagesIds(state).should.eql([
       'myPageId1',
-      'myPageId3'
+      'myPageId3',
     ]);
   });
   it('getPageModifiedViewsIds', () => {
     const state = {
       pages: {
-        myPageId1: { views: ['view1', 'view2', 'view3'] }
+        myPageId1: { views: ['view1', 'view2', 'view3'] },
       },
       views: {
         view1: { isModified: true },
         view2: { isModified: false },
         view3: { isModified: true },
-      }
+      },
     };
 
     getPageModifiedViewsIds(state, 'myPageId1').should.eql(['view1', 'view3']);

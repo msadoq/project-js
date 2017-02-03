@@ -4,7 +4,7 @@ import Explorer from './Explorer';
 import {
   getLastPubSubTimestamp,
   getDcStatus,
-  getHssStatus
+  getHssStatus,
 } from '../../store/selectors/health';
 import dataMapGenerator from '../../dataManager/map';
 import { getExplorerTabName } from '../../store/selectors/windows';

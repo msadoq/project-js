@@ -93,5 +93,5 @@ const extractPages = fmdApi => (content, cb) => {
 
 export default {
   extractPages,
-  readPages
+  readPages,
 };

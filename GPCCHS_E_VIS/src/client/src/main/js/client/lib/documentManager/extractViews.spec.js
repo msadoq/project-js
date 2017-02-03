@@ -54,7 +54,7 @@ describe('documentManager/extractViews', () => {
     beforeEach(() => {
       views = [
         { path: '/views/text1.json', uuid: v4(), type: 'TextView' },
-        { oId: 'oid:/views/plot1.json', uuid: v4(), type: 'PlotView' }
+        { oId: 'oid:/views/plot1.json', uuid: v4(), type: 'PlotView' },
       ];
     });
     it('valid', (done) => {

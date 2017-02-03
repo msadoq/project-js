@@ -3,7 +3,7 @@ import rimraf from 'rimraf';
 import { join } from 'path';
 
 import mimeTypes from 'common/constants/mimeTypes';
-import { should, expect, getTmpPath, freezeMe, } from '../common/test';
+import { should, expect, getTmpPath, freezeMe } from '../common/test';
 import { applyDependencyToApi } from '../common/utils';
 
 import SaveWorkspace from './saveWorkspace';
@@ -34,7 +34,7 @@ describe('documentManager/saveWorkspace', () => {
         win1: {
           debug: {
             timebarVisibility: true,
-            whyDidYouUpdate: false
+            whyDidYouUpdate: false,
           },
           focusedPage: 'page1',
           geometry: {
@@ -45,7 +45,7 @@ describe('documentManager/saveWorkspace', () => {
             y: 10,
           },
           pages: ['page1', 'page2'],
-          title: 'window1'
+          title: 'window1',
         },
       },
       pages: {
@@ -60,7 +60,7 @@ describe('documentManager/saveWorkspace', () => {
           title: 'Page 2',
           timebarUuid: 2,
           path: 'testText.json',
-        }
+        },
       },
       timebars: {
         1234: {
@@ -71,7 +71,7 @@ describe('documentManager/saveWorkspace', () => {
           rulerStart: 1420106400000,
           slideWindow: {
             lower: 1420106550000,
-            upper: 1420107150000
+            upper: 1420107150000,
           },
           speed: 1,
           visuWindow: {
@@ -81,8 +81,8 @@ describe('documentManager/saveWorkspace', () => {
             upper: 1420106700000,
           },
           timelines: ['tl1', 'tl2'],
-          mode: 'Normal'
-        }
+          mode: 'Normal',
+        },
       },
       timelines: {
         tl1: {
@@ -90,21 +90,21 @@ describe('documentManager/saveWorkspace', () => {
           id: 'Session 1',
           kind: 'Session',
           offset: 0,
-          sessionId: 1
+          sessionId: 1,
         },
         tl2: {
           color: null,
           id: 'Session 2',
           kind: 'Session',
           offset: 0,
-          sessionId: 1
-        }
+          sessionId: 1,
+        },
       },
       hsc:
       {
         file: 'workspace1.json',
         folder: getTmpPath('testWk'),
-      }
+      },
     };
   });
   const folder = getTmpPath('testAs');

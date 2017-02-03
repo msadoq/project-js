@@ -38,7 +38,7 @@ export function makeGetLayouts() {
     layout => ({
       lg: _map(layout, e => Object.assign({
         minW: 3,
-        minH: 3
+        minH: 3,
       }, e)),
     })
   );

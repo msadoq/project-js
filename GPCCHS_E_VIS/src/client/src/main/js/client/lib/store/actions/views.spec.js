@@ -9,8 +9,8 @@ describe('store:actions:views', () => {
     views: {
       view1: {
         path: '/folder1/oldPath',
-        absolutePath: '/folder1/oldPath'
-      }
+        absolutePath: '/folder1/oldPath',
+      },
     },
   });
   let dispatch;
@@ -26,7 +26,7 @@ describe('store:actions:views', () => {
       dispatch.calledOnce.should.be.eql(true);
       action.should.be.eql({
         type,
-        payload: { viewId: 'view1', newPath: '/folder1/newPath' }
+        payload: { viewId: 'view1', newPath: '/folder1/newPath' },
       });
     });
     it('should not dispatch when newPath is falsy', () => {

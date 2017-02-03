@@ -30,7 +30,7 @@ export default class SelectFontStyle extends React.Component {
       bold,
       italic,
       underline,
-      strikeOut
+      strikeOut,
     } = this.props;
     return (
       <div className="row" >

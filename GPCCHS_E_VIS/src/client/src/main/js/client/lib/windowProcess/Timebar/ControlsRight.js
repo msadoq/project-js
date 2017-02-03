@@ -9,7 +9,7 @@ const OverlayTriggerTrigger = ['hover', 'focus'];
 const inlineStyles = {
   width200: {
     width: '200px',
-  }
+  },
 };
 
 export default class ControlsRight extends PureComponent {
@@ -105,7 +105,7 @@ export default class ControlsRight extends PureComponent {
               className={classnames(
                 allButtonsKlasses,
                 {
-                  [styles.controlButtonActive]: (timebarMode === 'Normal')
+                  [styles.controlButtonActive]: (timebarMode === 'Normal'),
                 }
               )}
               onClick={this.switchMode}
@@ -120,7 +120,7 @@ export default class ControlsRight extends PureComponent {
               className={classnames(
                 allButtonsKlasses,
                 {
-                  [styles.controlButtonActive]: (timebarMode === 'Extensible')
+                  [styles.controlButtonActive]: (timebarMode === 'Extensible'),
                 }
               )}
               onClick={this.switchMode}
@@ -135,7 +135,7 @@ export default class ControlsRight extends PureComponent {
               className={classnames(
                 allButtonsKlasses,
                 {
-                  [styles.controlButtonActive]: (timebarMode === 'Fixed')
+                  [styles.controlButtonActive]: (timebarMode === 'Fixed'),
                 }
               )}
               onClick={this.switchMode}

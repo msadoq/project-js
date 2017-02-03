@@ -67,15 +67,15 @@ describe('store:hsc:reducer', () => {
   it('should add slow renderer', () => {
     reducer(undefined, actions.addSlowRenderer('1234', 120))
       .should.have.properties({
-        slowRenderers: { 1234: 120 }
+        slowRenderers: { 1234: 120 },
       });
   });
   it('should remove slow renderer', () => {
     reducer(freezeMe({
-      slowRenderers: { 1234: 120 }
+      slowRenderers: { 1234: 120 },
     }), actions.removeSlowRenderer('1234'))
     .should.eql({
-      slowRenderers: { }
+      slowRenderers: { },
     });
   });
   it('should save current focused window', () => {

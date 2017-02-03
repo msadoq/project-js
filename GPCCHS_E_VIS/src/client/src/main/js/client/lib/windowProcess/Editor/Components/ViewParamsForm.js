@@ -1,18 +1,18 @@
 import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import {
-  Form
+  Form,
 } from 'react-bootstrap';
 import {
   InputField,
-  ColorPickerField
+  ColorPickerField,
 } from './Fields/';
 import {
   HorizontalFormGroup,
-  ClearSubmitButtons
+  ClearSubmitButtons,
 } from './Forms/';
 import {
-  FormSectionFontStyle
+  FormSectionFontStyle,
 } from './FormSections/';
 
 const bgColors = [
@@ -20,7 +20,7 @@ const bgColors = [
   '#fbe9e7', '#fff3e0', '#fff8e1', '#fffde7',
   '#f9fbe7', '#f1f8e9', '#e8f5e9', '#e0f2f1',
   '#e0f7fa', '#e1f5fe', '#e3f2fd', '#e8eaf6',
-  '#ede7f6', '#f3e5f5', '#fce4ec', '#ffebee'
+  '#ede7f6', '#f3e5f5', '#fce4ec', '#ffebee',
 ];
 
 class ViewParamsForm extends React.Component {
@@ -39,13 +39,13 @@ class ViewParamsForm extends React.Component {
         align: PropTypes.string,
         color: PropTypes.string,
         bgColor: PropTypes.string,
-      })
+      }),
     }),
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     reset: PropTypes.func,
     submitting: PropTypes.bool,
-    valid: PropTypes.bool
+    valid: PropTypes.bool,
   }
 
   handleTitle = ({ target: { value: title } }) => {
@@ -58,7 +58,7 @@ class ViewParamsForm extends React.Component {
       pristine,
       reset,
       submitting,
-      valid
+      valid,
     } = this.props;
 
     return (
@@ -122,5 +122,5 @@ const warn = () => {
 export default reduxForm({
   validate,
   warn,
-  enableReinitialize: true
+  enableReinitialize: true,
 })(ViewParamsForm);

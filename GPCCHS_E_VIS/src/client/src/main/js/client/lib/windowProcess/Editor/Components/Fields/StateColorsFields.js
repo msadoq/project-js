@@ -37,11 +37,11 @@ export default class StateColorsFields extends React.Component {
       (!fieldLength && !operandLength)
     )) {
       return this.setState({
-        error: null
+        error: null,
       });
     } else if (!error && (!fieldLength || !operandLength)) {
       this.setState({
-        error: 'Field and operand are required'
+        error: 'Field and operand are required',
       });
     }
   }
@@ -70,7 +70,7 @@ export default class StateColorsFields extends React.Component {
   resetFields = (
     field = '',
     opt = Object.keys(operators)[0],
-    opd = '',
+    opd = ''
   ) => {
     this.fieldField.value = field;
     this.operatorField.value = opt;
@@ -175,7 +175,7 @@ export default class StateColorsFields extends React.Component {
                       <span
                         className={styles.colorSquare}
                         style={{
-                          backgroundColor: stateColor.color
+                          backgroundColor: stateColor.color,
                         }}
                       />
                     </td>

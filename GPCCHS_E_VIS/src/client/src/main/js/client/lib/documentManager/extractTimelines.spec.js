@@ -16,19 +16,19 @@ describe('documents/lib', () => {
               id: 'Session 1',
               offset: 0,
               kind: 'Session',
-              sessionId: 100
-            }
+              sessionId: 100,
+            },
           ],
           masterId: 'Session 1',
           visuWindow: {
             lower: 1480578427000,
             upper: 1480578527000,
             current: 1480578457000,
-            defaultWidth: 900000
+            defaultWidth: 900000,
           },
           slideWindow: {
             lower: 1480578437000,
-            upper: 1480582037000
+            upper: 1480582037000,
           },
           extUpperBound: 1480582047000,
           rulerStart: 1480577807000,
@@ -44,7 +44,7 @@ describe('documents/lib', () => {
               id: 'Session 2',
               offset: -3600000,
               kind: 'Session',
-              sessionId: 100
+              sessionId: 100,
             },
           ],
           masterId: 'Session 2',
@@ -52,11 +52,11 @@ describe('documents/lib', () => {
             lower: 1480578427000,
             upper: 1480578527000,
             current: 1480578457000,
-            defaultWidth: 900000
+            defaultWidth: 900000,
           },
           slideWindow: {
             lower: 1480578437000,
-            upper: 1480582037000
+            upper: 1480582037000,
           },
           extUpperBound: 1480582047000,
           rulerStart: 1480577807000,

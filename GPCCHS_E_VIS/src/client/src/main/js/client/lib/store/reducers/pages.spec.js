@@ -155,8 +155,8 @@ describe('store:page:reducer', () => {
         views:
         {
           v1: { configuration: { collapsed: true } },
-          v2: { configuration: { collapsed: false } }
-        }
+          v2: { configuration: { collapsed: false } },
+        },
       });
       dispatch(actions.updateLayout('myPageId', [{ h: 3, i: 'v1' }, { h: 4, i: 'v2' }]));
       getState().pages.should.eql(
@@ -167,7 +167,7 @@ describe('store:page:reducer', () => {
             configuration: { collapsed: false },
             isModified: true,
           },
-          v2: { configuration: { collapsed: false } }
+          v2: { configuration: { collapsed: false } },
         }
       );
     });
@@ -194,7 +194,7 @@ describe('store:page:reducer', () => {
         pages: {
           myPageId: { views: ['v1'], layout: [], title: 'aa' },
           myOtherPage: { views: ['v2'], layout: [], title: 'bb' },
-        }
+        },
       });
       dispatch = store.dispatch;
       getState = store.getState;
@@ -236,7 +236,7 @@ describe('store:page:reducer', () => {
         payload: {
           pageId: 'myPage',
           newPath: 'myPath',
-        }
+        },
       });
       newState.should.eql(state);
     });
@@ -247,7 +247,7 @@ describe('store:page:reducer', () => {
         payload: {
           pageId: 'page1',
           newPath: 'newPath',
-        }
+        },
       });
       newState.should.eql({ page1: { absolutePath: 'newPath', isModified: true } });
     });
@@ -258,7 +258,7 @@ describe('store:page:reducer', () => {
         payload: {
           pageId: 'page1',
           newPath: 'newPath',
-        }
+        },
       });
       newState.should.eql({ page1: { pageId: 'page1', absolutePath: 'newPath', isModified: true } });
     });
@@ -270,7 +270,7 @@ describe('store:page:reducer', () => {
         payload: {
           pageId: 'myPage',
           newPath: 'myPath',
-        }
+        },
       });
       newState.should.be.an('object').that.is.empty;
     });
@@ -281,7 +281,7 @@ describe('store:page:reducer', () => {
         payload: {
           pageId: 'page1',
           newPath: 'newPath',
-        }
+        },
       });
       newState.should.eql({ page1: { path: 'newPath', isModified: true } });
     });

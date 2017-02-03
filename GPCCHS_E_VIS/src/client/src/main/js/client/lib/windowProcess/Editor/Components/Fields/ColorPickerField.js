@@ -4,13 +4,13 @@ import ColorPicker from '../ColorPicker';
 export default class ColorPickerField extends React.Component {
   static propTypes = {
     input: PropTypes.object.isRequired,
-    colors: PropTypes.array
+    colors: PropTypes.array,
   }
 
   render() {
     const {
       input: { value, onChange },
-      colors
+      colors,
     } = this.props;
 
     return (

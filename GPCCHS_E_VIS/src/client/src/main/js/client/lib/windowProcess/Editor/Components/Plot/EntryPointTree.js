@@ -4,7 +4,7 @@ import {
   Panel,
   Glyphicon,
   Alert,
-  Button
+  Button,
 } from 'react-bootstrap';
 import _memoize from 'lodash/memoize';
 
@@ -18,11 +18,11 @@ export default class EntryPointTree extends PureComponent {
   static propTypes = {
     entryPoints: PropTypes.array,
     search: PropTypes.string,
-    remove: PropTypes.func
+    remove: PropTypes.func,
   }
 
   static defaultProps = {
-    entryPoints: []
+    entryPoints: [],
   };
 
   static contextTypes = {
@@ -67,7 +67,7 @@ export default class EntryPointTree extends PureComponent {
                     height: '20px',
                     width: '20px',
                     marginRight: '10px',
-                    backgroundColor: entryPoint.objectStyle.curveColor
+                    backgroundColor: entryPoint.objectStyle.curveColor,
                   }}
                 />}
                 <span className="flex">{entryPoint.name}</span>

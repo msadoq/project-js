@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 import {
-  Form
+  Form,
 } from 'react-bootstrap';
 import { reduxForm } from 'redux-form';
 import {
-  ClearSubmitButtons
+  ClearSubmitButtons,
 } from '../Forms/';
 import EntryPointConnectedDataFields from './EntryPointConnectedDataFields';
 
@@ -22,7 +22,7 @@ class EntryPointConnectedData extends React.Component {
     pristine: PropTypes.bool,
     reset: PropTypes.func,
     submitting: PropTypes.bool,
-    valid: PropTypes.bool
+    valid: PropTypes.bool,
   }
 
   render() {
@@ -142,5 +142,5 @@ const validate = (values = {}) => {
 
 export default reduxForm({
   validate,
-  enableReinitialize: true
+  enableReinitialize: true,
 })(EntryPointConnectedData);

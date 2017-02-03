@@ -25,12 +25,12 @@ describe('lib/documentManager', () => {
         pages: [
           {
             oId: 'oid:/pages/pageSmall_with_oid.json',
-            timebarId: 'TB1'
+            timebarId: 'TB1',
           },
           {
             path: 'pages/page1.json',
-            timebarId: 'TB1'
-          }
+            timebarId: 'TB1',
+          },
         ],
         geometry: {
           kind: 'Absolute',

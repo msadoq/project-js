@@ -9,21 +9,21 @@ export default class ToggleButton extends React.Component {
     size: PropTypes.string,
     styleOn: PropTypes.string,
     styleOff: PropTypes.string,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
     this.setState({
       onoff: this.props.default,
       size: this.props.size,
-      onoffLabel: this.props.default
+      onoffLabel: this.props.default,
     });
   }
 
   handleToggle = () => {
     const newVal = this.state.onoff === 'ON' ? 'OFF' : 'ON';
     this.setState({
-      onoff: newVal
+      onoff: newVal,
     });
     this.props.onChange(newVal);
   }

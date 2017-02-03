@@ -22,7 +22,7 @@ export const getViewData = ({
   timebars,
   timebarUuid,
   timelines,
-  masterSessionId
+  masterSessionId,
 }) => {
   if ( _isUndefined(domains) // eslint-disable-line space-in-parens
     || _isUndefined(view)

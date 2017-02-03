@@ -3,12 +3,12 @@ import { FormControl } from 'react-bootstrap';
 
 export default class SelectFontField extends React.PureComponent {
   static propTypes = {
-    input: PropTypes.object.isRequired
+    input: PropTypes.object.isRequired,
   }
 
   render() {
     const {
-      input: { value, onChange }
+      input: { value, onChange },
     } = this.props;
 
     return (

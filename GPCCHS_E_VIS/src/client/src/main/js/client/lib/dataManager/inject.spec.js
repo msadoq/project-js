@@ -9,7 +9,7 @@ describe('common/data/inject', () => {
       val2: { type: 'uinteger', value: (j * 10) + 2 },
       val3: { type: 'uinteger', value: (j * 10) + 3 },
       referenceTimestamp: { type: 'time', value: j },
-      time: { type: 'time', value: j + 0.2 }
+      time: { type: 'time', value: j + 0.2 },
     };
 
     payload.rId2[j] = payload.rId1[j];
@@ -25,7 +25,7 @@ describe('common/data/inject', () => {
           fieldY: 'val1',
           expectedInterval: [10, 15],
           offset: 0,
-        }
+        },
       },
     },
     plot2: {
@@ -44,7 +44,7 @@ describe('common/data/inject', () => {
           fieldY: 'val2',
           expectedInterval: [14, 18],
           offset: 0,
-        }
+        },
       },
     },
     plot3: {
@@ -56,7 +56,7 @@ describe('common/data/inject', () => {
           fieldY: 'val1',
           expectedInterval: [1001, 1005],
           offset: -987,
-        }
+        },
       },
     },
     text1: {
@@ -67,8 +67,8 @@ describe('common/data/inject', () => {
           field: 'val3',
           expectedInterval: [10, 20],
           offset: 0,
-        }
-      }
+        },
+      },
     },
     text2: {
       type: 'TextView',
@@ -84,7 +84,7 @@ describe('common/data/inject', () => {
           field: 'val3',
           expectedInterval: [12, 20],
           offset: 0,
-        }
+        },
       },
     },
   };
@@ -98,7 +98,7 @@ describe('common/data/inject', () => {
           fieldY: 'val1',
           expectedInterval: [10, 15],
           offset: 0,
-        }
+        },
       },
     },
   };

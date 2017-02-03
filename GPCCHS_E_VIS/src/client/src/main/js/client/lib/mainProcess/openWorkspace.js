@@ -32,7 +32,7 @@ export function loadInStore(workspace, dispatch, root, file, callback, isDefault
       e.path,
       e.oId,
       e.absolutePath,
-      isDefault,
+      isDefault
     ));
   });
 
@@ -126,7 +126,7 @@ const createBlankWorkspace = () => {
       h: 900,
       x: 10,
       y: 10,
-    }
+    },
   };
   const timebar = {
     type: 'timeBarConfiguration',
@@ -135,7 +135,7 @@ const createBlankWorkspace = () => {
     visuWindow: {
       lower: Date.now() - (5 * 60 * 1000),
       upper: Date.now() + (5 * 60 * 1000),
-      current: Date.now()
+      current: Date.now(),
     },
     slideWindow: {
       lower: Date.now() - (5 * 60 * 1000),

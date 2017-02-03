@@ -8,7 +8,7 @@ export default class ButtonToggleField extends React.Component {
     styleOn: PropTypes.string,
     styleOff: PropTypes.string,
     textOn: PropTypes.string,
-    textOff: PropTypes.string
+    textOff: PropTypes.string,
   }
 
   static defaultProps = {
@@ -16,7 +16,7 @@ export default class ButtonToggleField extends React.Component {
     styleOn: 'primary',
     styleOff: 'default',
     textOn: 'ON',
-    textOff: 'OFF'
+    textOff: 'OFF',
   }
 
   handleToggle = () => {
@@ -30,7 +30,7 @@ export default class ButtonToggleField extends React.Component {
       styleOff,
       textOn,
       textOff,
-      input: { value }
+      input: { value },
     } = this.props;
     const bsStyle = value ? styleOn : styleOff;
     const text = value ? textOn : textOff;

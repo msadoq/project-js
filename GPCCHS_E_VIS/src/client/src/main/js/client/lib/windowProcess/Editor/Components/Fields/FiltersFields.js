@@ -35,11 +35,11 @@ export default class FiltersFields extends React.Component {
       (!fieldLength && !operandLength)
     )) {
       return this.setState({
-        error: null
+        error: null,
       });
     } else if (!error && (!fieldLength || !operandLength)) {
       this.setState({
-        error: 'Field and operand are required'
+        error: 'Field and operand are required',
       });
     }
   }
@@ -63,7 +63,7 @@ export default class FiltersFields extends React.Component {
   resetFields = (
     field = '',
     opt = Object.keys(operators)[0],
-    opd = '',
+    opd = ''
   ) => {
     this.fieldField.value = field;
     this.operatorField.value = opt;

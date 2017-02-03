@@ -8,8 +8,8 @@ describe('store:sessions:selectors', () => {
       sessions: [
         {
           id: 'session1',
-        }
-      ]
+        },
+      ],
     }, 'session1').should.eql({ id: 'session1' });
   });
 });

@@ -13,23 +13,23 @@ export default merge(baseConfig, {
     '!style!css!postcss!./lib/windowProcess/style',
     `webpack-hot-middleware/client?path=http://localhost:${port}/__webpack_hmr`,
     'babel-polyfill',
-    './lib/windowProcess/index'
+    './lib/windowProcess/index',
   ],
 
   output: {
-    publicPath: `http://localhost:${port}/dist/`
+    publicPath: `http://localhost:${port}/dist/`,
   },
 
   module: {
     preLoaders: [{
       test: /\.jsx?$/,
       loader: 'eslint',
-      exclude: [/src\/common/, /node_modules/]
+      exclude: [/src\/common/, /node_modules/],
     }],
     loaders: [{
       test: /.+\.(svg|eot|ttf|woff|woff2)/,
-      loader: 'file?name=dist/fonts/[name].[ext]'
-    }]
+      loader: 'file?name=dist/fonts/[name].[ext]',
+    }],
   },
 
   plugins: [
@@ -38,9 +38,9 @@ export default merge(baseConfig, {
     new webpack.DefinePlugin({
       'process.env': {
         APP_ENV: JSON.stringify('renderer'),
-      }
+      },
     }),
   ],
 
-  target: 'electron-renderer'
+  target: 'electron-renderer',
 });

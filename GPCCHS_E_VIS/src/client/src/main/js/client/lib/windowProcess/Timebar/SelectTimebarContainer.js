@@ -7,6 +7,6 @@ export default connect(
   () => ({}),
   {
     updateTimebarId,
-    addTimebar: add
+    addTimebar: add,
   }
 )(SelectTimebar);

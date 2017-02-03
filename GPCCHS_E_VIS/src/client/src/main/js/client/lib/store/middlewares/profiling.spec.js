@@ -53,7 +53,7 @@ describe('store:middlewares', () => {
         profiler.start,
         next,
         profiler.stop,
-        profiler.print,
+        profiler.print
       );
     });
     it('should not make profiling when no meta.profiling', () => {

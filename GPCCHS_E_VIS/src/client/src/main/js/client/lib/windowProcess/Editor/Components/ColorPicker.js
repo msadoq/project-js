@@ -10,11 +10,11 @@ export default class ColorPicker extends React.Component {
     color: PropTypes.string,
     colors: PropTypes.array,
     width: PropTypes.number,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
   }
 
   static defaultProps = {
-    width: 276
+    width: 276,
   }
 
   state = { display: false, color: this.props.color || '#FFF' };
@@ -22,7 +22,7 @@ export default class ColorPicker extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.color !== this.props.color) {
       this.setState({
-        color: nextProps.color
+        color: nextProps.color,
       });
     }
   }
@@ -34,7 +34,7 @@ export default class ColorPicker extends React.Component {
 
   handleClose = () => {
     this.setState({
-      display: false
+      display: false,
     });
   }
 

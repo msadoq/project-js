@@ -40,7 +40,7 @@ const ContentContainer = connect(mapStateToProps, mapDispatchToProps)(Content);
 
 ContentContainer.propTypes = {
   windowId: PropTypes.string.isRequired,
-  focusedPageId: PropTypes.string
+  focusedPageId: PropTypes.string,
 };
 
 export default ContentContainer;

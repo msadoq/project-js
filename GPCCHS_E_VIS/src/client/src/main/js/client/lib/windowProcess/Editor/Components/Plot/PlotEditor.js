@@ -15,7 +15,7 @@ const newEntryPoint = {
     format: 'decimal',
     domain: '',
     timeline: '',
-    axisId: 'Time'
+    axisId: 'Time',
   },
   connectedDataY: {
     formula: '',
@@ -24,7 +24,7 @@ const newEntryPoint = {
     format: 'decimal',
     domain: '',
     timeline: '',
-    axisId: 'Time'
+    axisId: 'Time',
   },
   objectStyle: {
     line: {
@@ -39,7 +39,7 @@ const newEntryPoint = {
   },
   stateColors: [
 
-  ]
+  ],
 };
 
 const navbarItems = ['Entry Points', 'Plot'];
@@ -62,7 +62,7 @@ export default class PlotEditor extends Component {
       procedures: PropTypes.array,
       defaultRatio: PropTypes.shape({
         length: PropTypes.number,
-        width: PropTypes.number
+        width: PropTypes.number,
       }),
       entryPoints: PropTypes.array,
       axes: PropTypes.object,
@@ -76,18 +76,18 @@ export default class PlotEditor extends Component {
         underline: PropTypes.bool,
         strikeOut: PropTypes.bool,
         align: PropTypes.string,
-        color: PropTypes.string
+        color: PropTypes.string,
       }),
       backgroundColor: PropTypes.string,
       legend: PropTypes.object,
       markers: PropTypes.array,
-    })
+    }),
   }
 
   componentWillMount() {
     this.setState({
       currentDisplay: 0,
-      search: ''
+      search: '',
     });
   }
 
@@ -126,8 +126,8 @@ export default class PlotEditor extends Component {
         grids,
         title,
         titleStyle,
-        markers
-      }
+        markers,
+      },
     } = this.props;
     return (
       <div className={styles.contentWrapper}>
@@ -157,7 +157,7 @@ export default class PlotEditor extends Component {
               entryPoints={entryPoints}
               search={search}
               remove={this.removeEntryPoint}
-            />
+            />,
           ]}
         </div>
       </div>

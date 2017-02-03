@@ -5,18 +5,18 @@ export default class SelectButtonField extends React.Component {
   static propTypes = {
     input: PropTypes.object.isRequired,
     buttons: PropTypes.array.isRequired,
-    bsSize: PropTypes.string
+    bsSize: PropTypes.string,
   }
 
   static defaultProps = {
-    bsSize: 'xsmall'
+    bsSize: 'xsmall',
   }
 
   render() {
     const {
       bsSize,
       buttons,
-      input: { value, onChange }
+      input: { value, onChange },
     } = this.props;
 
     return (

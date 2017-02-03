@@ -1,12 +1,11 @@
 @import '../style/variables';
 
 .root{
-  padding: 10px 5px 10px 0;
+
 }
 
 .explorer {
   height: 100%;
-  padding-top: 5px;
   border: 2px solid #CCC;
   background-color: #FFF;
 
@@ -42,8 +41,9 @@
 }
 
 .tabs{
-  padding-top: 15px;
+  padding-top: 0px;
   padding-bottom: 15px;
+  height: 100%
 }
 .contentWrapper{
   flex-direction: column;
@@ -65,9 +65,14 @@
   display: flex;
   height: 100%;
   padding: 10px;
+  margin-right: 15px;
 }
 
-.table{
+.table {
+  margin: 10px;
+  padding: 10px;
+}
+.table1{
   margin-top: 10px;
   margin-bottom: 10px;
 }

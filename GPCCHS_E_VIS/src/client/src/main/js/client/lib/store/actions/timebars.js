@@ -26,46 +26,6 @@ export const remove = simple(types.WS_TIMEBAR_REMOVE, 'timebarUuid');
 export const updateId = simple(types.WS_TIMEBAR_ID_UPDATE, 'timebarUuid', 'id');
 export const setRealTime = simple(types.WS_TIMEBAR_SET_REALTIME, 'timebarUuid', 'flag');
 
-/*
-  Only the first argument must be provided
-  the two others are defaultly assigned for tests only
-*/
-export const handlePlay = (
-  lastTickTime = Date.now(),
-  dateNow = Date.now(),
-  currentUpperMargin = globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN
-) =>
-  (dispatch, getState) => {
-    const state = getState();
-    const playingTimebarUuid = getPlayingTimebarId(state);
-    if (!playingTimebarUuid) {
-      return;
-    }
-    const playingTimebar = getTimebar(state, playingTimebarUuid);
-    if (!playingTimebar) {
-      return;
-    }
-    const newCurrent = nextCurrent(
-      playingTimebar.visuWindow.current,
-      playingTimebar.speed,
-      (dateNow - lastTickTime)
-    );
-    const nextCursors = computeCursors(
-      newCurrent,
-      playingTimebar.visuWindow.lower,
-      playingTimebar.visuWindow.upper,
-      playingTimebar.slideWindow.lower,
-      playingTimebar.slideWindow.upper,
-      playingTimebar.mode,
-      currentUpperMargin
-    );
-    dispatch(updateCursors(
-      playingTimebarUuid,
-      nextCursors.visuWindow,
-      nextCursors.slideWindow
-    ));
-  };
-
 export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
   (dispatch, getState) => {
     const state = getState();
@@ -114,6 +74,42 @@ export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
         },
       });
     }
+  };
+
+  /*
+    @param : delta = (dateNow - lastTickTime)
+    @param: currentUpperMargin = constante
+  */
+export const handlePlay = (delta, currentUpperMargin) =>
+  (dispatch, getState) => {
+    const state = getState();
+    const playingTimebarUuid = getPlayingTimebarId(state);
+    if (!playingTimebarUuid) {
+      return;
+    }
+    const playingTimebar = getTimebar(state, playingTimebarUuid);
+    if (!playingTimebar) {
+      return;
+    }
+    const newCurrent = nextCurrent(
+      playingTimebar.visuWindow.current,
+      playingTimebar.speed,
+      delta
+    );
+    const nextCursors = computeCursors(
+      newCurrent,
+      playingTimebar.visuWindow.lower,
+      playingTimebar.visuWindow.upper,
+      playingTimebar.slideWindow.lower,
+      playingTimebar.slideWindow.upper,
+      playingTimebar.mode,
+      currentUpperMargin
+    );
+    dispatch(updateCursors(
+      playingTimebarUuid,
+      nextCursors.visuWindow,
+      nextCursors.slideWindow
+    ));
   };
 
 export const updateViewport = simple(

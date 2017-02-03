@@ -375,11 +375,7 @@ describe('store:timebars:reducer', () => {
       const offset = 377;
       const vw = state.timebars.myTimebarId.visuWindow;
       const newCurrent = vw.current + offset;
-      dispatch(actions.handlePlay(
-        vw.current,
-        newCurrent,
-        0
-      ));
+      dispatch(actions.handlePlay(newCurrent - vw.current, 0));
 
       const newState = getState();
       newState.timebars.myTimebarId.visuWindow.should.eql({

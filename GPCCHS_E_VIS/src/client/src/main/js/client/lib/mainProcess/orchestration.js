@@ -115,7 +115,6 @@ export function tick() {
 
   // last tick time
   const lastTickTime = lastTick;
-  lastTick = Date.now();
 
   // store
   const { getState, dispatch } = getStore();
@@ -126,7 +125,9 @@ export function tick() {
   // play management (before dataMap generation, allow tick to work on a up to date state)
   if (isWindowsOpened) {
     execution.start('play management');
-    dispatch(handlePlay(lastTickTime));
+    lastTick = Date.now();
+    const delta = lastTick - lastTickTime;
+    dispatch(handlePlay(delta, globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN));
     execution.stop('play management');
   }
 

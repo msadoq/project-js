@@ -66,11 +66,24 @@ export default class Debug extends PureComponent {
     Perf.start();
     setTimeout(() => {
       Perf.stop();
+      console.log('WASTED');
       Perf.printWasted();
+      console.log('INCLUSIVE');
+      Perf.printInclusive();
+      console.log('EXCLUSIVE');
+      Perf.printExclusive();
       this.props.pause(this.props.focusedPage.timebarUuid);
     }, HSC_ORCHESTRATION_FREQUENCY);
   }
 
+  profileTick = () => {
+    this.props.play(this.props.focusedPage.timebarUuid);
+    _get(console, ['profile'])('tick');
+    setTimeout(() => {
+      _get(console, ['profileEnd'])('tick');
+      this.props.pause(this.props.focusedPage.timebarUuid);
+    }, HSC_ORCHESTRATION_FREQUENCY);
+  }
 
   render() {
     const { dummy } = this.props;
@@ -130,6 +143,13 @@ export default class Debug extends PureComponent {
           {...buttonsProps}
         >
           WASTED RENDERS
+        </MenuItem>
+        <MenuItem
+          eventKey="9"
+          onClick={this.profileTick}
+          {...buttonsProps}
+        >
+          PROFILE TICK
         </MenuItem>
 
       </DropdownButton>

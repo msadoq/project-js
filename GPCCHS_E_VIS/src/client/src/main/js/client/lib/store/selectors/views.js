@@ -136,21 +136,29 @@ export const getTextViewData = createSelector(
 export const getPlotViewData = createSelector(
     getViewEntryPoints,
     getViewData,
-    (entryPoints, data) => u({
-      columns: columns =>
-        (columns || []).map(col =>
-          Object.keys(col)
-            .filter(k => k !== 'x')
-            .reduce((acc, epName) => ({
-              ...acc,
-              ...u({
-                [epName]: ({ value, ...args }) => ({
-                  value,
-                  ...args,
-                  ...getEntryPointColorObj({ entryPoints, epName, value, dataProp: 'connectedDataY' })
-                })
-              }, col)
-            }), {})
-        )
-    }, data)
+    (entryPoints, data) => data
+    /*
+    {
+      const r = u({
+        columns: columns =>
+          (columns || []).map(col =>
+            Object.keys(col)
+              .filter(k => k !== 'x')
+              .reduce((acc, epName) => ({
+                ...acc,
+                ...u({
+                  [epName]: ({ value, ...args }) => ({
+                    value,
+                    ...args,
+                    ...getEntryPointColorObj(
+                    { entryPoints, epName, value, dataProp: 'connectedDataY' })
+                  })
+                }, col)
+              }), {})
+          )
+      }, data);
+      console.timeEnd();
+      return r;
+    }
+    */
 );

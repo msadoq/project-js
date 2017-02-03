@@ -24,7 +24,7 @@
     "clean": "rimraf ./dist ./main.js ./main.js.map",
     "hello": "npm run link && npm install && [ -f config.local.json ] && echo || cp config.sample.json config.local.json",
     "link": "npm link ../../../../../common/src/main/js/common && npm link ../../../../../server/src/main/js/server && (cd ../../../../../server/src/main/js/server && npm run hello)",
-    "lint": "eslint lib test *.js",
+    "lint": "eslint lib test webpack VIVL *.js",
     "sh": "npm run start-hot",
     "start": "electron ./",
     "start-hot": "HOT=1 electron -r babel-register -r babel-polyfill ./main.development",

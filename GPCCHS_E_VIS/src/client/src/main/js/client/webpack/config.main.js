@@ -10,7 +10,7 @@ export default merge(baseConfig, {
 
   output: {
     path: join(__dirname, '..'),
-    filename: './main.js'
+    filename: './main.js',
   },
   externals: [
     'source-map-support',
@@ -19,11 +19,11 @@ export default merge(baseConfig, {
   ],
 
   plugins: [
-    // new webpack.optimize.UglifyJsPlugin({
-    //   compressor: {
-    //     warnings: false
-    //   }
-    // }),
+    new webpack.optimize.UglifyJsPlugin({
+      compressor: {
+        warnings: false,
+      },
+    }),
     new webpack.BannerPlugin(
       'require("source-map-support").install();',
       { raw: true, entryOnly: false }
@@ -31,7 +31,7 @@ export default merge(baseConfig, {
     new webpack.DefinePlugin({
       'process.env': {
         IS_BUNDLED: JSON.stringify('on'),
-      }
+      },
     }),
   ],
 
@@ -39,6 +39,6 @@ export default merge(baseConfig, {
 
   node: {
     __dirname: false,
-    __filename: false
-  }
+    __filename: false,
+  },
 });

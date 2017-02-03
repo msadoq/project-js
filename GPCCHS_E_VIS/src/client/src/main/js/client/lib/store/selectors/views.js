@@ -93,7 +93,8 @@ export const getViewEntryPointStateColors = createSelector(
 );
 
 const getEntryPoint = (epName, entryPoints) => entryPoints.find(ep => ep.name === epName);
-const getEntryPointColorObj = ({ entryPoints, epName, value, dataProp }) => {
+
+export const getEntryPointColorObj = ({ entryPoints, epName, value, dataProp }) => {
   const stateColor = _.propOr([], 'stateColors', getEntryPoint(epName, entryPoints))
     .filter(c =>
       (new RegExp(`${_.pathOr('', ['condition', 'field'], c)}$`, 'g'))
@@ -130,35 +131,4 @@ export const getTextViewData = createSelector(
         }), {})
       }
     }, data)
-);
-
-// Apply state colors on entry points values and return view data with state colors
-export const getPlotViewData = createSelector(
-    getViewEntryPoints,
-    getViewData,
-    (entryPoints, data) => data
-    /*
-    {
-      const r = u({
-        columns: columns =>
-          (columns || []).map(col =>
-            Object.keys(col)
-              .filter(k => k !== 'x')
-              .reduce((acc, epName) => ({
-                ...acc,
-                ...u({
-                  [epName]: ({ value, ...args }) => ({
-                    value,
-                    ...args,
-                    ...getEntryPointColorObj(
-                    { entryPoints, epName, value, dataProp: 'connectedDataY' })
-                  })
-                }, col)
-              }), {})
-          )
-      }, data);
-      console.timeEnd();
-      return r;
-    }
-    */
 );

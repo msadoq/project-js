@@ -11,7 +11,6 @@ import {
   getViewEntryPoint,
   getViewEntryPointStateColors,
   getTextViewData,
-  getPlotViewData,
 } from './views';
 
 describe('store:views:selectors', () => {
@@ -331,70 +330,6 @@ describe('store:views:selectors', () => {
             value: 0.5,
           }
         }
-      });
-    });
-    it('For PlotView', () => {
-      const state = {
-        views: {
-          myViewId: {
-            configuration: {
-              title: 'Title 1',
-              entryPoints: [{
-                name: 'ep1',
-                connectedDataX: {
-                  formula: 'Reporting.ep1<ReportingParameter>.groundDate'
-                },
-                connectedDataY: {
-                  formula: 'Reporting.ep1<ReportingParameter>.extractedValue'
-                },
-                stateColors: [
-                  {
-                    color: '#FF0000',
-                    condition: {
-                      field: 'extractedValue',
-                      operator: '<',
-                      operand: '1'
-                    }
-                  },
-                  {
-                    color: '#00FF00',
-                    condition: {
-                      field: 'extractedValue',
-                      operator: '>',
-                      operand: '1'
-                    }
-                  }
-                ]
-              }]
-            }
-          },
-        },
-        viewData: {
-          myViewId: {
-            index: [
-              1480578427000,
-              1480578428000,
-              1480578429000
-            ],
-            columns: [
-              { ep1: { value: 0.5 }, x: 1480578427000 },
-              { ep1: { value: 1 }, x: 1480578428000 },
-              { ep1: { value: 2 }, x: 1480578429000 },
-            ]
-          }
-        }
-      };
-      getPlotViewData(state, 'myViewId').should.eql({
-        index: [
-          1480578427000,
-          1480578428000,
-          1480578429000
-        ],
-        columns: [
-          { ep1: { value: 0.5, color: '#FF0000' }, x: 1480578427000 },
-          { ep1: { value: 1 }, x: 1480578428000 },
-          { ep1: { value: 2, color: '#00FF00' }, x: 1480578429000 },
-        ]
       });
     });
   });

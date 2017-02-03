@@ -33,6 +33,7 @@ import { monitoringStateColors } from '../../../lib/windowProcess/common/colors'
 import DroppableContainer from '../../../lib/windowProcess/common/DroppableContainer';
 import { Danger } from '../../../lib/windowProcess/View/Alert';
 import styles from './PlotView.css';
+import { getEntryPointColorObj } from '../../../lib/store/selectors/views';
 
 const logger = getLogger('view:plot');
 
@@ -538,17 +539,24 @@ export class PlotView extends PureComponent {
       .filter(
         line => typeof _get(currentItem, [line.key, 'value']) !== 'undefined'
       )
-      .map(line => ({
-        label: line.name,
-        value: _get(currentItem, [line.key, 'symbol']) ? _get(currentItem, [line.key, 'symbol'])
-                                                       : _get(currentItem, [line.key, 'value']),
-        fillValue: _get(
-          currentItem,
-          [line.key, 'color'],
-          _get(monitoringStateColors, _get(currentItem, [line.key, 'monit']))
-        ),
-        stroke: line.color,
-      })),
+      .map((line) => {
+        const stateColor = _.prop('color')(
+          getEntryPointColorObj({
+            entryPoints: this.props.entryPoints,
+            epName: line.key,
+            value: _get(currentItem, [line.key, 'value']),
+            dataProp: 'connectedDataY',
+          })
+        );
+
+        return {
+          label: line.name,
+          value: _get(currentItem, [line.key, 'symbol']) ? _get(currentItem, [line.key, 'symbol'])
+                                                         : _get(currentItem, [line.key, 'value']),
+          fillValue: stateColor || _get(monitoringStateColors, _get(currentItem, [line.key, 'monit'])),
+          stroke: line.color,
+        };
+      }),
   });
 
   shouldRender() {

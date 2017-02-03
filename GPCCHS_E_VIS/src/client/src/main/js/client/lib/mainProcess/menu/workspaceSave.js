@@ -72,7 +72,8 @@ function workspaceSaveAs(focusedWindow) {
 function saveFile(focusedWindow, callback) {
   saveWorkspace(getStore().getState(), true, (errWin, winIds) => {
     if (errWin) {
-      return callback(errWin);
+      callback(errWin);
+      return;
     }
     winIds.forEach((winId) => {
       getStore().dispatch(setModifiedWindow(winId, false));

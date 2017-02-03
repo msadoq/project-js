@@ -8,7 +8,7 @@ export default class ChoosePage extends Component {
   static propTypes = {
     onClose: PropTypes.func.isRequired,
     // onChange: PropTypes.func.isRequired,
-    pageTitles: PropTypes.array.isRequired,
+    pageTitles: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
   state = {

@@ -54,7 +54,8 @@ function pageOpenWithPath({ filePath, windowId }) {
 
 function pageAddNew(focusedWindow) {
   if (!focusedWindow) {
-    return getStore().dispatch(addGlobalError('Saving failed : no window focused'));
+    getStore().dispatch(addGlobalError('Saving failed : no window focused'));
+    return;
   }
   const { dispatch, getState } = getStore();
   const uuid = v4();

@@ -62,7 +62,8 @@ export function start() {
     },
     (callback) => {
       if (parameters.get('STUB_DC_ON') !== 'on') {
-        return callback(null);
+        callback(null);
+        return;
       }
 
       setSplashScreenMessage('starting data simulator process...');
@@ -106,7 +107,8 @@ export function start() {
       logger.info('requesting master session...');
       server.requestMasterSession(({ err, masterSessionId }) => {
         if (err) {
-          return callback(err);
+          callback(err);
+          return;
         }
 
         setSplashScreenMessage('injecting master session...');
@@ -122,7 +124,8 @@ export function start() {
       logger.info('requesting sessions...');
       server.requestSessions(({ err, sessions }) => {
         if (err) {
-          return callback(err);
+          callback(err);
+          return;
         }
 
         setSplashScreenMessage('injecting sessions...');
@@ -138,7 +141,8 @@ export function start() {
       logger.info('requesting domains...');
       server.requestDomains(({ err, domains }) => {
         if (err) {
-          return callback(err);
+          callback(err);
+          return;
         }
 
         setSplashScreenMessage('injecting domains...');
@@ -160,7 +164,8 @@ export function start() {
         setSplashScreenMessage('loading default workspace...');
         logger.info('loading default workspace...');
         dispatch(addMessage('global', 'info', 'No WORKSPACE found'));
-        return openDefaultWorkspace(dispatch, root, callback);
+        openDefaultWorkspace(dispatch, root, callback);
+        return;
       }
 
       setSplashScreenMessage(`loading ${file}`);
@@ -171,7 +176,8 @@ export function start() {
           setSplashScreenMessage('loading default workspace...');
           logger.info('loading default workspace...');
           dispatch(addMessage('global', 'danger', err));
-          return openDefaultWorkspace(dispatch, root, callback);
+          openDefaultWorkspace(dispatch, root, callback);
+          return;
         }
         callback(null, value);
       });

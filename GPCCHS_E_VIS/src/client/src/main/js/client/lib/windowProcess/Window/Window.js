@@ -22,8 +22,8 @@ const logger = getLogger('Window');
 export default class Window extends PureComponent {
   static propTypes = {
     windowId: PropTypes.string.isRequired,
-    focusedPageId: PropTypes.string,
-    title: PropTypes.string,
+    focusedPageId: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
   };
 
   static childContextTypes = {

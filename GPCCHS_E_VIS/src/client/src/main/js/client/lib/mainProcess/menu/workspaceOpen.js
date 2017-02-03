@@ -24,7 +24,8 @@ function workspaceOpenNew(focusedWindow) {
   const { dispatch, getState } = store;
   allDocumentsAreSaved(store, (err) => {
     if (err) {
-      return dispatch(addGlobalError(err));
+      dispatch(addGlobalError(err));
+      return;
     }
     const folder = getState().hsc.folder;
     dispatch(closeWorkspace());
@@ -87,18 +88,22 @@ function allDocumentsAreSaved(store, cb) {
       if (isCancel(clickedButton)) { // cancel
         return;
       } else if (isNo(clickedButton)) { // no
-        return cb(null);
+        cb(null);
+        return;
       } else if (isYes(clickedButton) && !viewsAndPagesAreSaved) {
-        return cb('Please, save the pages and views of this workspace');
+        cb('Please, save the pages and views of this workspace');
+        return;
       } else if (isYes(clickedButton) && !state.hsc.file) { // yes
-        return getPathByFilePicker(state.hsc.folder, 'workspace', 'save', (errWk, pathWk) => {
+        getPathByFilePicker(state.hsc.folder, 'workspace', 'save', (errWk, pathWk) => {
           if (errWk) {
-            return cb(errWk);
+            cb(errWk);
+            return;
           }
           store.dispatch(updatePath(path.dirname(pathWk), path.basename(pathWk)));
           saveWorkspace(store.getState(), true, (err, winIds) => {
             if (err) {
-              return cb(err);
+              cb(err);
+              return;
             }
             winIds.forEach((id) => {
               store.dispatch(setModifiedWindow(id, false));
@@ -106,8 +111,9 @@ function allDocumentsAreSaved(store, cb) {
             cb(null);
           });
         });
+        return;
       }
-      return cb(null);
+      cb(null);
     });
 }
 

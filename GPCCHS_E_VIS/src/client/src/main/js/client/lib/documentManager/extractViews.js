@@ -134,7 +134,7 @@ const extractViews = fmdApi => (content, cb) => {
       return cb(null, setViews(nextContent));
     });
   } catch (e) {
-    cb(e);
+    return cb(e);
   }
 };
 

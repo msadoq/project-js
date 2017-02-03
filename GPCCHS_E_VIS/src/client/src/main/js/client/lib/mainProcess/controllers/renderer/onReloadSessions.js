@@ -9,7 +9,8 @@ const logger = getLogger('main:controllers:renderer:onReloadSessions');
 export default function (queryId) {
   server.requestSessions(({ err, sessions } = []) => {
     if (err) {
-      return logger.error(err);
+      logger.error(err);
+      return;
     }
 
     // update sessions list in store

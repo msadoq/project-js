@@ -13,13 +13,6 @@ export function showErrorMessage(focusedWindow, errTitle, errMsg, callback) {
     _isFunction(callback) ? callback : undefined
   );
 }
-export function showWarningMessage(focusedWindow, title, msg, buttons, callback) {
-  return showMessageDialog('warning', focusedWindow, title, msg, buttons, callback);
-}
-
-export function showQuestionMessage(focusedWindow, title, msg, buttons, callback) {
-  return showMessageDialog('question', focusedWindow, title, msg, buttons, callback);
-}
 
 export function showMessageDialog(type, focusedWindow, title, message, buttons, callback) {
   return dialog.showMessageBox(
@@ -34,6 +27,14 @@ export function showMessageDialog(type, focusedWindow, title, message, buttons, 
     },
     _isFunction(callback) ? callback : undefined
   );
+}
+
+export function showWarningMessage(focusedWindow, title, msg, buttons, callback) {
+  return showMessageDialog('warning', focusedWindow, title, msg, buttons, callback);
+}
+
+export function showQuestionMessage(focusedWindow, title, msg, buttons, callback) {
+  return showMessageDialog('question', focusedWindow, title, msg, buttons, callback);
 }
 
 export function openFileDialog(folder, type, callback) {

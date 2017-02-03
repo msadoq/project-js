@@ -29,13 +29,13 @@ export const getViewData = ({
     || _isUndefined(timebars)
     || _isUndefined(timebarUuid)
     || _isUndefined(timelines)) {
-    return;
+    return {};
   }
 
   const { type, configuration } = view;
   // Ignore collapsed view
   if (configuration.collapsed) {
-    return;
+    return {};
   }
   const { entryPoints } = configuration;
   const structureType = vivl(type, 'structureType')();
@@ -73,7 +73,8 @@ export const walk = (masterSessionId, domains, timebars, timelines, views) =>
       timebarUuid,
       masterSessionId,
     });
-    if (!props) {
+    // Case of invalid view or collapsed view
+    if (!Object.keys(props).length) {
       return map;
     }
     const {

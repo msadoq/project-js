@@ -7,7 +7,8 @@ const logger = getLogger('main:controllers:renderer:onGetSessionTime');
 export default function (queryId, sessionId) {
   server.requestSessionTime(sessionId, ({ err, timestamp }) => {
     if (err) {
-      return logger.error(err);
+      logger.error(err);
+      return;
     }
     reply(queryId, { timestamp });
   });

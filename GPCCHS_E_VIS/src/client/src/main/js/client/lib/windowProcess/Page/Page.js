@@ -27,11 +27,11 @@ const getDropItemType = _.cond([
 export default class Page extends PureComponent {
   static propTypes = {
     windowId: PropTypes.string.isRequired,
-    isEditorOpened: PropTypes.bool,
-    openEditor: PropTypes.func,
-    closeEditor: PropTypes.func,
-    editorViewId: PropTypes.string,
-    focusedPageId: PropTypes.string,
+    isEditorOpened: PropTypes.bool.isRequired,
+    openEditor: PropTypes.func.isRequired,
+    closeEditor: PropTypes.func.isRequired,
+    editorViewId: PropTypes.string.isRequired,
+    focusedPageId: PropTypes.string.isRequired,
   };
 
   static childContextTypes = {

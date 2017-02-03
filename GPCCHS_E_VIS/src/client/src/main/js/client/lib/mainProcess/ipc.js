@@ -14,7 +14,8 @@ const commands = {
     rpc: (method, payload, callback) => {
       const proc = getChildProcess(globalConstants.CHILD_PROCESS_SERVER);
       if (!proc) {
-        return logger.warn('server process is not inited yet for rpc');
+        logger.warn('server process is not inited yet for rpc');
+        return;
       }
 
       logger.debug(`sending rpc call ${method} to server`);
@@ -30,7 +31,8 @@ const commands = {
     message: (method, payload) => {
       const proc = getChildProcess(globalConstants.CHILD_PROCESS_SERVER);
       if (!proc) {
-        return logger.warn('server process is not yet inited for message');
+        logger.warn('server process is not yet inited for message');
+        return;
       }
 
       logger.debug(`sending message ${method} to server`);

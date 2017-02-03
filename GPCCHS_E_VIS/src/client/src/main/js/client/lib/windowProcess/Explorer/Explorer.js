@@ -14,10 +14,14 @@ export default class Explorer extends PureComponent {
     perView: PropTypes.object,
     // server: PropTypes.object,
     windowId: PropTypes.string.isRequired,
-    currentExplorer: PropTypes.func,
-    currentTab: PropTypes.string,
-    parseFormula: PropTypes.func,
-    views: PropTypes.object,
+    currentExplorer: PropTypes.func.isRequired,
+    currentTab: PropTypes.string.isRequired,
+    parseFormula: PropTypes.func.isRequired,
+    views: PropTypes.object.isRequired,
+  }
+  static defaultProps = {
+    perRemoteId: {},
+    perView: {},
   }
 
 
@@ -53,8 +57,9 @@ export default class Explorer extends PureComponent {
       // return (<ServerInfoContainer
       //   server={server}
       // />);
-      // return (<div>tab3</div>);
+      return (<div>tab3</div>);
     }
+    return (<div />);
   }
 
 

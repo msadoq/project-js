@@ -22,22 +22,29 @@ const keys = {
 
 export default class View extends PureComponent {
   static propTypes = {
-    isViewsEditorOpen: PropTypes.bool,
-    configuration: PropTypes.object,
+    isViewsEditorOpen: PropTypes.bool.isRequired,
+    configuration: PropTypes.object.isRequired,
     visuWindow: PropTypes.object,
     data: PropTypes.object,
     viewId: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     oId: PropTypes.string,
     absolutePath: PropTypes.string,
-    isModified: PropTypes.bool,
-    openEditor: PropTypes.func,
-    closeEditor: PropTypes.func,
-    unmountAndRemove: PropTypes.func,
-    moveViewToPage: PropTypes.func,
-    getWindowPages: PropTypes.func,
-    collapseView: PropTypes.func,
-    entryPoints: PropTypes.array,
+    isModified: PropTypes.bool.isRequired,
+    openEditor: PropTypes.func.isRequired,
+    closeEditor: PropTypes.func.isRequired,
+    unmountAndRemove: PropTypes.func.isRequired,
+    moveViewToPage: PropTypes.func.isRequired,
+    getWindowPages: PropTypes.func.isRequired,
+    collapseView: PropTypes.func.isRequired,
+    entryPoints: PropTypes.arrayOf(PropTypes.object),
+  };
+
+  static defaultProps = {
+    entryPoints: [],
+    data: {},
+    absolutePath: '',
+    oId: '',
   };
 
   static contextTypes = {

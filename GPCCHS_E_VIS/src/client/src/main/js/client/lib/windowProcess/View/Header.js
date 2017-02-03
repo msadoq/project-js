@@ -246,8 +246,10 @@ export default class Header extends PureComponent {
           [styles.containerActive]: isViewsEditorOpen,
         })}
       >
-        {!collapsed && this.props.type === 'TextView' && this.props.isViewsEditorOpen ? <a style={toHtmlStyle} onClick={() => { this.props.updateShow('html'); }}>HTML</a> : null}
-        {!collapsed && this.props.type === 'TextView' && this.props.isViewsEditorOpen ? <a style={toDataStyle} onClick={() => { this.props.updateShow('data'); }}>VIEW</a> : null}
+        {!collapsed && this.props.type === 'TextView' && this.props.isViewsEditorOpen ?
+          <a style={toHtmlStyle} onClick={() => { this.props.updateShow('html'); }}>HTML</a> : null}
+        {!collapsed && this.props.type === 'TextView' && this.props.isViewsEditorOpen ?
+          <a style={toDataStyle} onClick={() => { this.props.updateShow('data'); }}>VIEW</a> : null}
         <div
           style={titleStyle}
           className={`${styles.title} moveHandler ellipsis`}

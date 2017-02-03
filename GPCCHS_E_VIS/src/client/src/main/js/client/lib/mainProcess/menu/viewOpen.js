@@ -102,12 +102,13 @@ function viewAddNew(focusedWindow, view) {
 
 function showSelectedView(view, pageId) {
   const viewId = v4();
-  getStore().dispatch(addAndMountView(pageId, viewId, view, addViewInLayout(pageId, viewId)));
+  const layout = addViewInLayout(pageId, viewId);
+  getStore().dispatch(addAndMountView(pageId, viewId, view, layout.length ? layout : undefined));
 }
 
 function addViewInLayout(pageId, viewId) {
   if (!viewId) {
-    return;
+    return [];
   }
   if (!getStore().getState().pages[pageId]) {
     return [{ i: viewId, w: 5, h: 5, x: 0, y: 0 }];

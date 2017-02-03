@@ -10,7 +10,12 @@
     "node": true
   },
   "globals": {
-    "expect": true
+    "describe": true,
+    "it": true,
+    "before": true,
+    "after": true,
+    "beforeEach": true,
+    "afterEach": true
   },
   "rules": {
     "max-statements-per-line": ["warn", { "max": 1 }],

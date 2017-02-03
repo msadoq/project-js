@@ -11,7 +11,7 @@
   },
   "rules": {
     "max-statements-per-line": ["warn", { "max": 1 }],
-    "complexity": ["warn", 50],
+    "complexity": ["warn", 15],
     "max-statements": ["warn", 100],
     "max-depth": ["warn", 7],
     "no-underscore-dangle": 0,

@@ -91,8 +91,9 @@ export const getWindowsVisibleViewIds = createSelector(
 export const getWindowsVisibleViews = createSelector(
   getWindowsVisibleViewIds,
   getViews,
-  (viewIds, views) =>
-    viewIds
+  (viewIds, views) => {
+    console.log('selector getWindowsVisibleViews');
+    return viewIds
       .map(p => p.viewIds.map(vId => ({
         timebarUuid: p.timebarUuid,
         viewId: vId
@@ -102,7 +103,8 @@ export const getWindowsVisibleViews = createSelector(
       .map(v => ({
         ...v,
         viewData: views[v.viewId]
-      }))
+      }));
+  }
 );
 
 export const getWindowsTitle = createSelector(

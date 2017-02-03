@@ -60,6 +60,7 @@ deploy_cots() {
   cp -R ${api.work.dir}/js/client/dist ${api.work.dir}/js/client/toPackage/
   cp ${api.work.dir}/js/client/main.js ${api.work.dir}/js/client/toPackage/
   cp ${api.work.dir}/js/client/index.html ${api.work.dir}/js/client/toPackage/
+  cp ${api.work.dir}/js/client/splash.html ${api.work.dir}/js/client/toPackage/
   cp ${api.work.dir}/js/client/main.js.map ${api.work.dir}/js/client/toPackage/
   cp ${api.work.dir}/js/client/package.json ${api.work.dir}/js/client/toPackage/
   cp ${api.work.dir}/js/client/config.default.json ${api.work.dir}/js/client/toPackage/

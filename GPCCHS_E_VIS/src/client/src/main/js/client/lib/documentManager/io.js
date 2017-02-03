@@ -19,7 +19,7 @@ export const readDocument = fmdApi => (folder, relativePath, oId, absolutePath, 
     return readJsonFromAbsPath(absolutePath, callback);
   }
   if (oId) {
-    return readJsonFromOId(fmdApi)(oId, (err, json, properties) => callback(err, json, properties));
+    return readJsonFromOId(fmdApi)(oId, callback);
   }
   if (folder && !startsWith('/', relativePath)) {
     return readJsonFromRelativePath(folder, relativePath, callback);
@@ -30,18 +30,21 @@ export const readDocument = fmdApi => (folder, relativePath, oId, absolutePath, 
 export const writeDocument = fmdApi => (path, json, callback) => {
   const spaces = 2; // beautify json with 2 spaces indentations
   const data = JSON.stringify(json, null, spaces);
+  if (!startsWith('/', path)) {
+    return callback(new Error('path should be absolute'));
+  }
   if (fmdApi.isInFmd(path)) {
     return fmdApi.createDocument(path, json.type, (err, oid) => {
       if (err) {
         return callback(err);
       }
-      writeFile(path, data, (errWriting) => {
+      return writeFile(path, data, (errWriting) => {
         if (errWriting) {
-          return callback(err);
+          return callback(errWriting);
         }
         callback(null, oid);
       });
     });
   }
-  writeFile(path, data, callback);
+  return writeFile(path, data, callback);
 };

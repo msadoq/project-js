@@ -49,7 +49,34 @@ Run Jest snapshot watcher:
 Clean out of date snapshots:
 >npm run snapshot-clean
 
+### Webpack bundle analyzer
 
+#### Configuration
+You need to forward the 4242 and 4243 port between your host and desktopx.
+
+please add it in .ssh/config on your host machine :
+```
+Host desktopx
+    HostName 192.168.57.9
+    Port 22
+    User isis
+    LocalForward 4242 127.0.0.1:4242
+    LocalForward 4243 127.0.0.1:4243
+```
+
+#### Usage
+analyze renderer bundle :
+```bash
+# listen on 4242 port
+npm run stats:main
+```
+
+analyze main bundle :
+```bash
+# listen on 4243 port
+npm run stats:renderer
+```
+Then run your usual firefox on corresponding port.
 
 # Troubleshoot
 

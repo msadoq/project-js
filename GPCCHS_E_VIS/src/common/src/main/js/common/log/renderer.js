@@ -9,10 +9,14 @@ const {
   parseConfig,
 } = require('./util');
 
-let DEFAULT_TRANSPORTS = ['electronIPC'];
-if (global.parameters.get('DEBUG') === 'on') {
-  DEFAULT_TRANSPORTS = ['console', 'electronIPC'];
-}
+const DEFAULT_TRANSPORTS =
+  _.compose(
+    _.uniq,
+    _.filter(_.eq('console')),
+    _.map(_.prop('type'))
+  )(
+    parseConfig(global.parameters.get('LOG'))
+  );
 
 const DEFAULT_LEVELS = ['silly', 'debug', 'verbose', 'info', 'warn', 'error'];
 

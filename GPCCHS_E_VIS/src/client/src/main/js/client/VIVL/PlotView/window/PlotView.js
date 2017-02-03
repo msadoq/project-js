@@ -14,9 +14,9 @@ import {
 import {
   ChartCanvas, Chart, series, annotation,
   coordinates, axes as StockchartsAxes, tooltip,
+  utils,
   // interactive
 } from 'react-stockcharts';
-import { hexToRGBA } from 'react-stockcharts/lib/utils';
 
 import getDynamicObject from '../../../lib/windowProcess/common/getDynamicObject';
 import {
@@ -42,6 +42,7 @@ const {
 } = series;
 const { Label } = annotation;
 const { HoverTooltip } = tooltip;
+const { hexToRGBA } = utils;
 const {
   MouseCoordinateX,
   MouseCoordinateY,

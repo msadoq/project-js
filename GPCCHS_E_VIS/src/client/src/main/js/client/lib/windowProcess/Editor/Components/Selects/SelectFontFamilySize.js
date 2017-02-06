@@ -13,6 +13,10 @@ export default class SelectFontFamilySize extends React.Component {
     font: PropTypes.string,
     size: PropTypes.number,
   }
+  static defaultProps = {
+    font: 'arial',
+    size: 12,
+  }
 
   handleFontFamily = e => this.props.update('font', e.target.value);
   handleSize = e => this.props.update('size', e.target.value);

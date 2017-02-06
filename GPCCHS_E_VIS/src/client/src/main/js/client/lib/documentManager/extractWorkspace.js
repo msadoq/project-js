@@ -17,7 +17,6 @@ const logger = getLogger('documents:workspace');
 
 export default {
   readWorkspace: fmdApi => (workspaceFolder, relativePath, callback) => {
-    console.warn(workspaceFolder, relativePath);
     const fullPath = join(workspaceFolder, relativePath);
     const folder = dirname(fullPath);
     const file = basename(fullPath);

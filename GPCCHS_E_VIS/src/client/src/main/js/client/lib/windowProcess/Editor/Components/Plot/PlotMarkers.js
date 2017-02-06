@@ -37,7 +37,7 @@ export default class PlotMarkers extends React.Component {
     updateMarker(viewId, key, values);
   }
 
-  handleSubmit = _memoize(key => (fn => fn(key))(this.handleSubmit.bind(this)));
+  handleSubmitFactory = _memoize(key => values => this.handleSubmit(key, values));
 
   openParentAccordion = (key, e) => {
     const {
@@ -92,7 +92,7 @@ export default class PlotMarkers extends React.Component {
                   initialValues={marker}
                   formName={`axis-form-${key}-${viewId}`}
                   selector={formValueSelector(`axis-form-${key}-${viewId}`)}
-                  onSubmit={this.handleSubmit(key)}
+                  onSubmit={this.handleSubmitFactory(key)}
                   form={`axis-form-${key}-${viewId}`}
                 />}
             </Panel>)}

@@ -71,7 +71,7 @@ export default class PlotAxes extends React.Component {
     updateAxis(viewId, key, values);
   }
 
-  handleSubmit = _memoize(key => values => this.handleSubmit(key, values));
+  handleSubmitFactory = _memoize(key => values => this.handleSubmit(key, values));
 
   handleShowYAxes = (value) => {
     const { updateShowYAxes, viewId } = this.props;
@@ -166,7 +166,7 @@ export default class PlotAxes extends React.Component {
                     key={axisId}
                     initialValues={axis}
                     entryPoints={entryPoints}
-                    onSubmit={this.handleSubmit(axisId)}
+                    onSubmit={this.handleSubmitFactory(axisId)}
                     form={`axis-form-${axisId}-${viewId}`}
                   />}
               </Panel>

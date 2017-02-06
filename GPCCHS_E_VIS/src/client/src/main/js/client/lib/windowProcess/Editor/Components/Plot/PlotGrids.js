@@ -18,7 +18,7 @@ export default class PlotAxes extends React.Component {
     updateGrid(viewId, key, values);
   }
 
-  handleSubmit = this.handleSubmit.bind(this, 0)
+  handleSubmitFilled = this.handleSubmit.bind(this, 0)
 
   render() {
     const {
@@ -31,7 +31,7 @@ export default class PlotAxes extends React.Component {
       <PlotGrid
         axes={axes}
         initialValues={grids[0]}
-        onSubmit={this.handleSubmit}
+        onSubmit={this.handleSubmitFilled}
         form={`grid-form-${0}-${viewId}`}
       />
     );

@@ -1,5 +1,6 @@
 /* eslint no-unused-expressions: 0 */
-import _ from 'lodash';
+import _omit from 'lodash/omit';
+import _each from 'lodash/each';
 import { should, getStore } from '../../common/test';
 import * as actions from '../actions/timebars';
 import reducer from './timebars';
@@ -30,7 +31,7 @@ describe('store:timebars:reducer', () => {
         actions.add('myTimebarId', fixture)
       );
       state.myTimebarId.should.have.properties(
-        _.omit(state.myTimebarId, ['extUpperBound', 'rulerStart'])
+        _omit(state.myTimebarId, ['extUpperBound', 'rulerStart'])
       );
       state.myTimebarId.should.have.property('extUpperBound');
       state.myTimebarId.should.have.property('rulerStart');
@@ -313,7 +314,7 @@ describe('store:timebars:reducer', () => {
       };
       dispatch(actions.addAndMountTimeline('myTimebarId', fixture));
       getState().timebars.myTimebarId.timelines.should.be.an('array').with.length(3);
-      _.forEach(getState().timebars.myTimebarId.timelines, (tlId) => {
+      _each(getState().timebars.myTimebarId.timelines, (tlId) => {
         should.exist(getState().timelines[tlId]);
       });
     });

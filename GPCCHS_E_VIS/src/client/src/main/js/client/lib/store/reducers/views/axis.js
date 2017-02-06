@@ -114,4 +114,5 @@ export function getAxisId(epName, connectedData, currentView) {
   if (index) {
     return index.id;
   }
+  return undefined;
 }

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _each from 'lodash/each';
 import extractWindows from './extractWindows';
 import { should } from '../common/test';
 
@@ -20,7 +20,7 @@ describe('documents/lib', () => {
         should.not.exist(err);
         w.should.have.keys('__original', 'windows');
         Object.keys(w.windows).should.have.length(2);
-        _.each(w.windows, (v, k) => {
+        _each(w.windows, (v, k) => {
           v.uuid.should.equal(k);
         });
       });

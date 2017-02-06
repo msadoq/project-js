@@ -1,6 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
-import { debounce } from 'lodash';
+import _debounce from 'lodash/debounce';
 import { Button } from 'react-bootstrap';
 import getLogger from 'common/log';
 import styles from './Timebar.css';
@@ -71,7 +71,7 @@ export default class TimebarWrapper extends PureComponent {
       this.el.style.height = `${newTimebarHeight}px`;
 
       if (!this.updateTimebarHeightdebounce) {
-        this.updateTimebarHeightdebounce = debounce(this.willUpdateTimebarHeight, 300);
+        this.updateTimebarHeightdebounce = _debounce(this.willUpdateTimebarHeight, 300);
       }
       this.updateTimebarHeightdebounce(newTimebarHeight);
     }

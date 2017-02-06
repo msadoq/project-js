@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { debounce } from 'lodash';
+import _debounce from 'lodash/debounce';
 import classnames from 'classnames';
 import React, { PureComponent, PropTypes } from 'react';
 import globalConstants from 'common/constants';
@@ -181,7 +181,8 @@ export default class Timebar extends PureComponent {
 
   onMouseDown = (e) => {
     if (e.target.tagName === 'SPAN') {
-      return e.stopPropagation();
+      e.stopPropagation();
+      return;
     }
 
     const { visuWindow, slideWindow, viewport } = this.props;
@@ -579,7 +580,7 @@ export default class Timebar extends PureComponent {
       });
 
       if (!this.debounced1) {
-        this.debounced1 = debounce(this.autoUpdateCursors, 300);
+        this.debounced1 = _debounce(this.autoUpdateCursors, 300);
       }
       this.debounced1();
 
@@ -605,7 +606,7 @@ export default class Timebar extends PureComponent {
       });
 
       if (!this.debounced2) {
-        this.debounced2 = debounce(this.autoUpdateViewportWindow, 300);
+        this.debounced2 = _debounce(this.autoUpdateViewportWindow, 300);
       }
       this.debounced2();
     }

@@ -1,6 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
-import { debounce } from 'lodash';
+import _debounce from 'lodash/debounce';
 import moment from 'moment';
 import styles from '../Lefttab.css';
 
@@ -19,7 +19,7 @@ export default class OffsetFields extends PureComponent {
 
   onChange = () => {
     if (!this.debounced) {
-      this.debounced = debounce(this.sendChange, 1200);
+      this.debounced = _debounce(this.sendChange, 1200);
     }
     this.debounced();
   }

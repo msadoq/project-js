@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import _ from 'lodash';
+import _each from 'lodash/each';
 import { compose, prop, split } from 'lodash/fp';
 import path from 'path';
 import fmdApi from '../common/fmd';
@@ -92,7 +92,7 @@ describe('documentManager/extractViews', () => {
         should.not.exist(err);
         val.views.should.be.an('object');
         Object.getOwnPropertyNames(val.views).should.have.length(3);
-        _.each(val.pages[id1].views, (id) => {
+        _each(val.pages[id1].views, (id) => {
           if (id.uuid) {
             should.exist(val.views[id.uuid]);
             val.views[id.uuid].configuration.entryPoints.forEach((ep) => {
@@ -101,7 +101,7 @@ describe('documentManager/extractViews', () => {
             });
           }
         });
-        _.each(val.pages[id2].views, (id) => {
+        _each(val.pages[id2].views, (id) => {
           if (id.uuid) {
             should.exist(val.views[id.uuid]);
           }

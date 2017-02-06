@@ -12,7 +12,7 @@ export const getTimebar = (state, timebarUuid) => state.timebars[timebarUuid];
 
 export const getTimebarByPageId = (state, pageId) => {
   const page = getPage(state, pageId);
-  if (!page) return;
+  if (!page) return undefined;
   return getTimebar(state, page.timebarUuid);
 };
 

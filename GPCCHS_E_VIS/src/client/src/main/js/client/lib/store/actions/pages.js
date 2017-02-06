@@ -96,7 +96,7 @@ export function remove(pageId) {
   return (dispatch, getState) => {
     const state = getState();
     if (!state.pages[pageId]) {
-      return state;
+      return;
     }
     const views = state.pages[pageId].views; // tableau
     views.forEach((viewId) => {

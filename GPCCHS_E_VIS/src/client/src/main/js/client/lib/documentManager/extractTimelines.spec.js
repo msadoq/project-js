@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _each from 'lodash/each';
 import extractTimelines from './extractTimelines';
 import extractTimebars from './extractTimebars';
 import { should } from '../common/test';
@@ -76,9 +76,9 @@ describe('documents/lib', () => {
         val.should.be.an('object').with.keys('__original', '__folder', 'timebars', 'timelines');
         val.timelines.should.be.an('object');
         Object.keys(val.timelines).should.have.length(2);
-        _.each(val.timebars, (tb) => {
+        _each(val.timebars, (tb) => {
           tb.timelines.should.be.an('array');
-          _.each(tb.timelines, (tlId) => {
+          _each(tb.timelines, (tlId) => {
             const tl = val.timelines[tlId];
             tl.should.be.an('object').with.keys('id', 'offset', 'kind', 'sessionId', 'uuid');
           });

@@ -5,7 +5,6 @@ import _filter from 'lodash/filter';
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
 import { getFocusedWindowId } from './hsc';
 import { getPages } from './pages';
-// import { getViews } from './views';
 
 export const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,

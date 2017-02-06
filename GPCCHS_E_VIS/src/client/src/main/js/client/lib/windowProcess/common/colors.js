@@ -1,3 +1,5 @@
+import { get } from 'common/parameters';
+
 const colors = [
   '#FFFFFF', '#000000', '#f44336', '#e91e63', '#9c27b0',
   '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4',
@@ -7,19 +9,11 @@ const colors = [
 
 const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)];
 
-const monitoringStateColors = {
-  ok: '#00FF33',          /* vert */
-  info: '#FFFF33',        /* jaune */
-  warning: '#FF6600',     /* orange */
-  alarm: '#FD1C03',       /* rouge orangé */
-  severe: '#9900FF',      /* violet */
-  critical: '#DD0000',    /* rouge */
-  outOfRange: '#999999',  /* gris */
-};
+const stateColors = get('STATE_COLORS');
 
-const getMonitoringStateColorsCSSVars =
-  () => Object.keys(monitoringStateColors).map(k => ({
-    [`--monit-${k}`]: monitoringStateColors[k],
+const getStateColorsCSSVars =
+  () => Object.keys(stateColors).map(k => ({
+    [`--monit-${k}`]: stateColors[k],
   }))
   .reduce((acc, c) => ({
     ...acc,
@@ -29,6 +23,6 @@ const getMonitoringStateColorsCSSVars =
 export default {
   colors,
   getRandomColor,
-  monitoringStateColors,
-  getMonitoringStateColorsCSSVars,
+  stateColors,
+  getStateColorsCSSVars,
 };

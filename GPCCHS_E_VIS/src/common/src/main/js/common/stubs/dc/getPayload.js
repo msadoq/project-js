@@ -1,3 +1,10 @@
+const _concat = require('lodash/fp/concat');
+const _times = require('lodash/fp/times');
+const _prop = require('lodash/fp/prop');
+const _compose = require('lodash/fp/compose');
+const _constant = require('lodash/fp/constant');
+const _head = require('lodash/fp/head');
+
 const stubData = require('../data');
 
 function getValue(timestamp) {
@@ -5,7 +12,13 @@ function getValue(timestamp) {
 }
 
 function getMonitoringState(timestamp) {
-  const states = ['ok', 'info', 'warning', 'alarm', 'severe', 'critical', 'outOfRange'];
+  const arr = ['info', 'alarm', 'critical', 'outOfRange', 'severe', 'warning', 'nonsignificant', 'obsolete'];
+  const states = _compose(
+    _concat(arr),
+    _compose(_times, _constant, _head)(arr),
+    l => l * 4,
+    _prop('length')
+  )(arr);
   return states[timestamp % states.length];
 }
 

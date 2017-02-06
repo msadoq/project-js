@@ -29,7 +29,7 @@ import {
   drawBadge,
   zoomDateFormat,
 } from './helper';
-import { monitoringStateColors } from '../../../lib/windowProcess/common/colors';
+import { stateColors } from '../../../lib/windowProcess/common/colors';
 import DroppableContainer from '../../../lib/windowProcess/common/DroppableContainer';
 import { Danger } from '../../../lib/windowProcess/View/Alert';
 import styles from './PlotView.css';
@@ -541,7 +541,7 @@ export class PlotView extends PureComponent {
         line => typeof _get(currentItem, [line.key, 'value']) !== 'undefined'
       )
       .map((line) => {
-        const stateColor = _.prop('color')(
+        const customColor = _.prop('color')(
           getEntryPointColorObj({
             entryPoints: this.props.entryPoints,
             epName: line.key,
@@ -550,11 +550,23 @@ export class PlotView extends PureComponent {
           })
         );
 
+        const color = _.cond([
+          [
+            _.pipe(_.get('monit'), _.negate(_.eq('info'))),
+            _.pipe(_.prop('monit'), _.prop(_, stateColors), _.defaultTo('#00FF00')),
+          ],
+          [_.pipe(_.get('color'), _.isString), _.prop('color')],
+          [_.stubTrue, _.constant('#00FF00')],
+        ])({
+          monit: _.get([line.key, 'monit'], currentItem),
+          color: customColor,
+        });
+
         return {
           label: line.name,
           value: _get(currentItem, [line.key, 'symbol']) ? _get(currentItem, [line.key, 'symbol'])
                                                          : _get(currentItem, [line.key, 'value']),
-          fillValue: stateColor || _get(monitoringStateColors, _get(currentItem, [line.key, 'monit'])),
+          fillValue: color,
           stroke: line.color,
         };
       }),

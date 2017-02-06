@@ -5,7 +5,7 @@ import {
 } from 'react-bootstrap';
 import { withState, pure } from 'recompose';
 
-import { monitoringStateColors as mColors } from '../../../common/colors';
+import { stateColors } from '../../../common/colors';
 
 const s = {
   title: {
@@ -28,7 +28,7 @@ export const MonitoringStateColors = ({ visible, setVisible }) => (
   <div className="mt10">
     <h4 className="mb10" style={s.title}>
       <a onClick={() => setVisible(!visible)}>
-        <span className="col-xs-11">Monitoring state colors</span>
+        <span className="col-xs-11 pl0">Default colors</span>
         <Glyphicon className="col-xs-1" glyph={visible ? 'triangle-top' : 'triangle-bottom'} />
       </a>
     </h4>
@@ -40,18 +40,18 @@ export const MonitoringStateColors = ({ visible, setVisible }) => (
         </tr>
       </thead>
       <tbody>
-        {Object.keys(mColors).map(c => (
+        {Object.keys(stateColors).map(c => (
           <tr key={c}>
             <td className="col-xs-2">
               <div
                 style={{
                   ...s.colorBox,
-                  backgroundColor: mColors[c],
+                  backgroundColor: stateColors[c],
                 }}
               />
             </td>
             <td className="col-xs-10" style={s.condition}>
-              monitoring state equals {c}
+              state equals {c}
             </td>
           </tr>
         ))}

@@ -34,10 +34,30 @@ export default class Timebar extends PureComponent {
     updateViewport: PropTypes.func.isRequired,
     updateCursors: PropTypes.func.isRequired,
     jump: PropTypes.func.isRequired,
-    slideWindow: PropTypes.object.isRequired,
-    visuWindow: PropTypes.object.isRequired,
-    viewport: PropTypes.object,
-    timelines: PropTypes.array.isRequired,
+    slideWindow: PropTypes.shape({
+      lower: PropTypes.number.isRequired,
+      upper: PropTypes.number.isRequired,
+    }).isRequired,
+    visuWindow: PropTypes.shape({
+      lower: PropTypes.number.isRequired,
+      upper: PropTypes.number.isRequired,
+      current: PropTypes.number.isRequired,
+      defaultWidth: PropTypes.number.isRequired,
+    }).isRequired,
+    viewport: PropTypes.shape({
+      lower: PropTypes.number.isRequired,
+      upper: PropTypes.number.isRequired,
+    }).isRequired,
+    timelines: PropTypes.arrayOf(
+      PropTypes.shape({
+        color: PropTypes.string,
+        id: PropTypes.string.isRequired,
+        kind: PropTypes.string.isRequired,
+        timelineId: PropTypes.string.isRequired,
+        offset: PropTypes.number.isRequired,
+        sessionId: PropTypes.number.isRequired,
+      })
+    ).isRequired,
     isPlaying: PropTypes.bool.isRequired,
     timebarMode: PropTypes.string.isRequired,
     timebarUuid: PropTypes.string.isRequired,

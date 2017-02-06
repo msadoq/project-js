@@ -16,6 +16,11 @@ export default class Timeline extends PureComponent {
     timelinesLength: PropTypes.number.isRequired,
   }
 
+  static defaultProps = {
+    color: '#31b0d5',
+    masterId: null,
+  }
+
   willUnmountTimeline = (e) => {
     e.preventDefault();
     const {

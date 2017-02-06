@@ -16,13 +16,50 @@ class RightTabContent extends PureComponent {
     play: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
     toggleTimesetter: PropTypes.func.isRequired,
-    visuWindow: PropTypes.object.isRequired,
-    slideWindow: PropTypes.object.isRequired,
-    timebar: PropTypes.object.isRequired,
+    slideWindow: PropTypes.shape({
+      lower: PropTypes.number.isRequired,
+      upper: PropTypes.number.isRequired,
+    }).isRequired,
+    visuWindow: PropTypes.shape({
+      lower: PropTypes.number.isRequired,
+      upper: PropTypes.number.isRequired,
+      current: PropTypes.number.isRequired,
+    }).isRequired,
+    timebar: PropTypes.shape({
+      extUpperBound: PropTypes.number.isRequired,
+      rulerResolution: PropTypes.number.isRequired,
+      speed: PropTypes.number.isRequired,
+      rulerStart: PropTypes.number.isRequired,
+      id: PropTypes.string.isRequired,
+      masterId: PropTypes.string.isRequired,
+      mode: PropTypes.string.isRequired,
+      slideWindow: PropTypes.shape({
+        lower: PropTypes.number.isRequired,
+        upper: PropTypes.number.isRequired,
+      }).isRequired,
+      visuWindow: PropTypes.shape({
+        lower: PropTypes.number.isRequired,
+        upper: PropTypes.number.isRequired,
+        current: PropTypes.number.isRequired,
+        defaultWidth: PropTypes.number.isRequired,
+      }).isRequired,
+      timelines: PropTypes.arrayOf(
+        PropTypes.string.isRequired
+      ).isRequired,
+    }).isRequired,
     timebarUuid: PropTypes.string.isRequired,
-    timelines: PropTypes.array.isRequired,
-    containerWidth: PropTypes.number,
-    timelinesVerticalScroll: PropTypes.number,
+    timelines: PropTypes.arrayOf(
+      PropTypes.shape({
+        color: PropTypes.string,
+        id: PropTypes.string.isRequired,
+        kind: PropTypes.string.isRequired,
+        timelineId: PropTypes.string.isRequired,
+        offset: PropTypes.number.isRequired,
+        sessionId: PropTypes.number.isRequired,
+      })
+    ).isRequired,
+    containerWidth: PropTypes.number.isRequired,
+    timelinesVerticalScroll: PropTypes.number.isRequired,
   }
 
   /*
@@ -64,8 +101,6 @@ class RightTabContent extends PureComponent {
         (viewport.upper - viewport.lower) / containerWidth
       );
     }
-
-    return true;
   }
 
   /*

@@ -2,9 +2,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import { ButtonToolbar } from 'react-bootstrap';
 import getLogger from 'common/log';
 import classnames from 'classnames';
-
 import DebugContainer from '../Navigation/DebugContainer';
-// import DummyDrag from '../Navigation/DummyDrag';
 import Help from '../Navigation/Help';
 import Explorer from '../Navigation/Explorer';
 import HelpContent from '../Navigation/HelpContent';
@@ -16,6 +14,7 @@ import PageContainer from '../Page/PageContainer';
 import TimebarMasterContainer from '../Timebar/TimebarMasterContainer';
 import styles from './Window.css';
 import ExplorerContainer from '../Explorer/ExplorerContainer';
+// import DummyDrag from '../Navigation/DummyDrag';
 
 const logger = getLogger('Window');
 
@@ -92,7 +91,7 @@ export default class Window extends PureComponent {
         {displayHelp ? <HelpContent /> : ''}
         <ButtonToolbar className={styles.tools}>
           <MasterSessionContainer />
-          <HealthContainer />
+          <HealthContainer windowId={windowId} />
           <MessagesContainer />
           <Help toggleHelp={this.toggleHelp} />
           <Explorer toggleExplorer={this.toggleExplorer} />

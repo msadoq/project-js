@@ -2,10 +2,8 @@ import _round from 'lodash/round';
 import { series } from 'async';
 import globalConstants from 'common/constants';
 import executionMonitor from 'common/log/execution';
-import { get } from 'common/parameters';
 import getLogger from 'common/log';
 import { server } from './ipc';
-// import { get } from 'common/parameters';
 
 import { getStore } from '../store/mainStore';
 import {
@@ -27,7 +25,6 @@ import { handlePlay } from '../store/actions/timebars';
 import { updateHealth } from '../store/actions/health';
 
 const logger = getLogger('main:orchestration');
-const execution = executionMonitor('orchestration');
 
 let nextTick = null;
 let lastTick = null;
@@ -96,6 +93,8 @@ export function stop() {
 
 export function tick() {
   logger.debug('running tick');
+  const execution = executionMonitor('orchestration');
+  execution.reset();
   execution.start('global');
   tickStart = process.hrtime();
 
@@ -124,11 +123,11 @@ export function tick() {
 
   // play management (before dataMap generation, allow tick to work on a up to date state)
   if (isWindowsOpened) {
-    execution.start('play management');
+    execution.start('play handling');
     lastTick = Date.now();
     const delta = lastTick - lastTickTime;
     dispatch(handlePlay(delta, globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN));
-    execution.stop('play management');
+    execution.stop('play handling');
   }
 
   // something has changed
@@ -136,7 +135,9 @@ export function tick() {
   const somethingHasChanged = state !== previous.state;
   let dataMap;
   if (somethingHasChanged) {
+    execution.start('dataMap generation');
     dataMap = dataMapGenerator(state);
+    execution.stop('dataMap generation');
   } else {
     dataMap = previous.dataMap;
   }
@@ -148,19 +149,23 @@ export function tick() {
         return callback(null);
       }
 
-      execution.start('requests');
+      execution.start('data requests');
       request(dataMap.perRemoteId, previous.lastRequestedDataMap, server.message);
 
       // request module should receive only the last 'analysed' map
       previous.lastRequestedDataMap = dataMap.perRemoteId;
 
-      execution.stop('requests');
+      execution.stop('data requests');
       return callback(null);
     },
     // pull data
     (callback) => {
+      execution.start('data retrieving');
       server.requestData((dataToInject) => {
-        execution.start('data injection');
+        execution.stop('data retrieving');
+
+        // health
+        execution.start('health injection');
         dispatch(
           updateHealth(
             dataToInject.dcStatus,
@@ -168,6 +173,10 @@ export function tick() {
             dataToInject.lastPubSubTimestamp
           )
         );
+        execution.stop('health injection');
+
+        // viewData
+        execution.start('data injection');
         dispatch(updateViewData(previous.dataMap.perView, dataMap.perView, dataToInject.data));
         execution.stop('data injection', Object.keys(dataToInject.data).length);
         return callback(null);
@@ -177,24 +186,26 @@ export function tick() {
     (callback) => {
       const lastCacheInvalidation = getLastCacheInvalidation(state);
       if (Date.now() - lastCacheInvalidation >= globalConstants.CACHE_INVALIDATION_FREQUENCY) {
-        execution.start('cacheInvalidation');
+        execution.start('cache invalidation');
         dispatch(updateCacheInvalidation(Date.now())); // schedule next run
         server.message(globalConstants.IPC_METHOD_CACHE_CLEANUP, dataMap.perRemoteId);
-        execution.stop('cacheInvalidation');
+        execution.stop('cache invalidation');
       }
       return callback(null);
     },
     // sync windows
     (callback) => {
       if (!windowsHasChanged) {
-        return callback(null);
+        callback(null);
+        return;
       }
 
-      execution.start('windows');
-      return windowsObserver(state, (err) => {
-        execution.stop('windows');
+      execution.start('windows handling');
+      windowsObserver(state, (err) => {
         if (err) {
-          return callback(err);
+          execution.stop('windows handling');
+          callback(err);
+          return;
         }
 
         // only one time to avoid recursion
@@ -203,7 +214,8 @@ export function tick() {
         }
 
         logger.debug('windows synchronized');
-        return callback(null);
+        execution.stop('windows handling');
+        callback(null);
       });
     },
     (callback) => {
@@ -214,7 +226,6 @@ export function tick() {
         logger.warn(
           `orchestration done in ${(duration[0] * 1e3) + _round(duration[1] / 1e6, 6)}ms`
         );
-        server.sendProductLog(globalConstants.LOG_APPLICATION_OVERLOADED, 'orchestration');
       }
       return callback(null);
     },
@@ -234,10 +245,7 @@ export function tick() {
       `somethingHasChanged:${somethingHasChanged}`
       + ` isWindowsOpened:${isWindowsOpened}`
     );
-    if (!get('DISABLE_ORCHESTRATION_PROFILING')) {
-      execution.print();
-    }
-    execution.reset();
+    execution.print();
 
     // schedule next tick
     schedule();

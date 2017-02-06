@@ -8,12 +8,12 @@ const logger = getLogger('Tabs');
 
 function popoverHoverFocus(page) {
   return (
-    <Popover id="popover-trigger-hover-focus" title="Document properties">
+    <Popover id={page.pageId} title="Document properties">
       <Table>
         <tbody>
           {page.properties.length ?
             page.properties.map(
-              prop => <tr key={prop.name.value}>
+              (prop, idx) => <tr key={page.pageId.concat(idx)}>
                 <td>{prop.name.value}</td>
                 <td>{prop.value.value}</td>
               </tr>)

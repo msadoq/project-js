@@ -15,7 +15,7 @@ import {
 export const updateDcStatus = simple(types.HSS_UPDATE_DC_STATUS, 'status');
 export const updateHssStatus = simple(types.HSS_UPDATE_HEALTH_STATUS, 'status');
 export const updateMainStatus = simple(types.HSS_UPDATE_MAIN_STATUS, 'status');
-export const updateWindowsStatus = simple(types.HSS_UPDATE_WINDOWS_STATUS, 'status');
+export const updateWindowStatus = simple(types.HSS_UPDATE_WINDOW_STATUS, 'windowId', 'status');
 
 /**
  * Identify last received timestamp from pubsub data

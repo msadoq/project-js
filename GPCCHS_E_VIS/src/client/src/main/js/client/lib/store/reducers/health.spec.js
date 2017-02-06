@@ -6,10 +6,12 @@ import reducer from './health';
 describe('store:health:reducer', () => {
   it('should returns initial state', () => {
     const r = reducer(undefined, {});
-    r.should.have.a.property('dcStatus', null);
-    r.should.have.a.property('hssStatus', null);
-    r.should.have.a.property('mainStatus', null);
-    r.should.have.a.property('windowsStatus', null);
+    r.should.have.a.property('dcStatus', globalConstants.HEALTH_STATUS_HEALTHY);
+    r.should.have.a.property('hssStatus', globalConstants.HEALTH_STATUS_HEALTHY);
+    r.should.have.a.property('mainStatus', globalConstants.HEALTH_STATUS_HEALTHY);
+    r.should.have.a.property('windowsStatus')
+      .that.is.an('object');
+    Object.keys(r.windowsStatus).should.have.lengthOf(0);
     r.should.have.a.property('lastPubSubTimestamp', null);
   });
   it('should ignore unknown action', () => {
@@ -18,7 +20,7 @@ describe('store:health:reducer', () => {
       hssStatus: globalConstants.HEALTH_STATUS_HEALTHY,
       mainStatus: globalConstants.HEALTH_STATUS_HEALTHY,
       lastPubSubTimestamp: 42,
-      slowRenderers: [{ id42: 42 }],
+      windowsStatus: { id42: 42 },
     });
     reducer(state, {}).should.equal(state);
   });
@@ -38,10 +40,13 @@ describe('store:health:reducer', () => {
     reducer(undefined, actions.updateLastPubSubTimestamp(91))
       .should.have.a.property('lastPubSubTimestamp', 91);
   });
-  it('should update windows status', () => {
-    reducer(undefined, actions.updateWindowsStatus({ id42: 42 }))
+  it('should update window status', () => {
+    const state = freezeMe({
+      windowsStatus: { id91: 91 },
+    });
+    reducer(state, actions.updateWindowStatus('id42', 42))
       .should.have.properties({
-        windowsStatus: { id42: 42 },
+        windowsStatus: { id91: 91, id42: 42 },
       });
   });
 });

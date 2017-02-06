@@ -1,10 +1,11 @@
+import globalConstants from 'common/constants';
 import * as types from '../types';
 
 const initialState = {
-  dcStatus: null, // enum(0:'healthy', 1:'congestion')
-  hssStatus: null, // enum(0:'healthy', 1:'warning', 2:'error')
-  mainStatus: null, // enum(0:'healthy', 1:'warning', 2:'error')
-  windowsStatus: null, // object
+  dcStatus: globalConstants.HEALTH_STATUS_HEALTHY, // enum(0:'healthy', 1:'congestion')
+  hssStatus: globalConstants.HEALTH_STATUS_HEALTHY, // enum(0:'healthy', 1:'warning', 2:'error')
+  mainStatus: globalConstants.HEALTH_STATUS_HEALTHY, // enum(0:'healthy', 1:'warning', 2:'error')
+  windowsStatus: {}, // object
   lastPubSubTimestamp: null, // number
 };
 
@@ -28,11 +29,16 @@ export default function health(state = initialState, action) {
         state,
         { mainStatus: action.payload.status }
       );
-    case types.HSS_UPDATE_WINDOWS_STATUS:
+    case types.HSS_UPDATE_WINDOW_STATUS:
       return Object.assign(
         {},
         state,
-        { windowsStatus: action.payload.status }
+        {
+          windowsStatus: {
+            ...state.windowsStatus,
+            [action.payload.windowId]: action.payload.status,
+          },
+        }
       );
     case types.HSS_UPDATE_LAST_PUBSUB_TIMESTAMP:
       return Object.assign(

@@ -3,8 +3,8 @@ import SelectButton from '../Buttons/SelectButton';
 
 export default class SelectButtonField extends React.Component {
   static propTypes = {
-    input: PropTypes.object.isRequired,
-    buttons: PropTypes.array.isRequired,
+    input: PropTypes.shape({ value: PropTypes.string, onChange: PropTypes.func }).isRequired,
+    buttons: PropTypes.arrayOf(PropTypes.abject).isRequired,
     bsSize: PropTypes.string,
   }
 

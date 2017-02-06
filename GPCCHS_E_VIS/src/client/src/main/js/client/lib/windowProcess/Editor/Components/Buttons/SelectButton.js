@@ -11,9 +11,9 @@ import styles from './SelectButton.css';
 
 export default class SelectButton extends React.Component {
   static propTypes = {
-    active: PropTypes.string,
-    buttons: PropTypes.array,
-    onChange: PropTypes.func,
+    active: PropTypes.string.isRequired,
+    buttons: PropTypes.arrayOf(PropTypes.object).isRequired,
+    onChange: PropTypes.func.isRequired,
   }
 
   state = {

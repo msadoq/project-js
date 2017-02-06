@@ -1,9 +1,9 @@
 import * as types from '../types';
 
 const initialState = {
-  lastPubSubTimestamp: null,
-  dcStatus: null,
-  hssStatus: null,
+  lastPubSubTimestamp: null, // number
+  dcStatus: null, // enum(0:'healthy', 1:'congestion')
+  hssStatus: null, // enum(0:'healthy', 1:'warning', 2:'error')
 };
 
 export default function health(state = initialState, action) {

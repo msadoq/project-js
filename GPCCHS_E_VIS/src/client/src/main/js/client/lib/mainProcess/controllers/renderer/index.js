@@ -10,7 +10,7 @@ import onServerDebug from './onServerDebug';
 import onOpenView from './onOpenView';
 import onOpenPage from './onOpenPage';
 import onOpenWorkspace from './onOpenWorkspace';
-
+import onHealthStatus from './onHealthStatus';
 
 const controller = {
   [globalConstants.IPC_METHOD_SESSION_TIME]: onGetSessionTime,
@@ -22,6 +22,7 @@ const controller = {
   [globalConstants.IPC_METHOD_OPEN_VIEW]: onOpenView,
   [globalConstants.IPC_METHOD_OPEN_PAGE]: onOpenPage,
   [globalConstants.IPC_METHOD_OPEN_WORKSPACE]: onOpenWorkspace,
+  [globalConstants.IPC_METHOD_HEALTH_STATUS]: onHealthStatus,
 };
 
 export default (electronEvent, data) => handle(

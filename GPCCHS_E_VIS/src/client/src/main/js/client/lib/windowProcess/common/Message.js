@@ -11,7 +11,6 @@ export default class Message extends PureComponent {
     type: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired,
     containerId: PropTypes.string.isRequired,
-    messageIndex: PropTypes.number.isRequired,
   };
 
   state = {
@@ -24,10 +23,7 @@ export default class Message extends PureComponent {
       removing: true,
     });
     setTimeout(() => {
-      this.props.onClose(
-        this.props.containerId,
-        this.props.messageIndex
-      );
+      this.props.onClose(this.props.containerId);
     }, 600);
   }
   render() {

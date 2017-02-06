@@ -3,19 +3,17 @@ import { Button } from 'react-bootstrap';
 
 export default class ToggleButton extends React.Component {
   static propTypes = {
-    on: PropTypes.string,
-    off: PropTypes.string,
-    default: PropTypes.oneOf(['ON', 'OFF']),
-    size: PropTypes.string,
-    styleOn: PropTypes.string,
-    styleOff: PropTypes.string,
+    on: PropTypes.string.isRequired,
+    off: PropTypes.string.isRequired,
+    default: PropTypes.oneOf(['ON', 'OFF']).isRequired,
+    styleOn: PropTypes.string.isRequired,
+    styleOff: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
     this.setState({
       onoff: this.props.default,
-      size: this.props.size,
       onoffLabel: this.props.default,
     });
   }

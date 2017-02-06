@@ -11,7 +11,7 @@ export default class Message extends PureComponent {
     type: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired,
     containerId: PropTypes.string.isRequired,
-    messageIndex: PropTypes.number,
+    messageIndex: PropTypes.number.isRequired,
   };
 
   state = {

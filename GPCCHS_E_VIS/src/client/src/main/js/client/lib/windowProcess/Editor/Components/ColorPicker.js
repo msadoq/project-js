@@ -7,14 +7,15 @@ import { colors as initialColors } from '../../common/colors';
 
 export default class ColorPicker extends React.Component {
   static propTypes = {
-    color: PropTypes.string,
-    colors: PropTypes.array,
+    color: PropTypes.string.isRequired,
+    colors: PropTypes.arrayOf(PropTypes.string).isRequired,
     width: PropTypes.number,
-    onChange: PropTypes.func,
+    onChange: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     width: 276,
+    colors: initialColors,
   }
 
   state = { display: false, color: this.props.color || '#FFF' };
@@ -44,7 +45,7 @@ export default class ColorPicker extends React.Component {
   }
   render() {
     const { color } = this.state;
-    const { width, colors = initialColors } = this.props;
+    const { width, colors } = this.props;
     const buttonStyle = { backgroundColor: color };
     return (
       <div className={styles.root}>

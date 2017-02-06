@@ -32,7 +32,7 @@ function popoverHoverFocus(page) {
 
 export default class Tabs extends PureComponent {
   static propTypes = {
-    pages: PropTypes.array.isRequired,
+    pages: PropTypes.arrayOf(PropTypes.object).isRequired,
     focusedPageId: PropTypes.string,
     focusPage: PropTypes.func,
     addAndMount: PropTypes.func,
@@ -41,7 +41,8 @@ export default class Tabs extends PureComponent {
 
   handleSelect = (eventKey) => {
     if (eventKey === 'new') {
-      return this.props.addAndMount();
+      this.props.addAndMount();
+      return;
     }
 
     this.props.focusPage(eventKey);

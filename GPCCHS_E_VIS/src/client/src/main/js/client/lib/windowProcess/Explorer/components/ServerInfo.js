@@ -21,8 +21,8 @@ function connDataHead() {
 export default class ServerInfo extends PureComponent {
   static propTypes = {
     server: PropTypes.object.isRequired,
-    sessions: PropTypes.array.isRequired,
-    domains: PropTypes.array.isRequired,
+    sessions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    domains: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
   connDataLine(connectedData) {
@@ -49,10 +49,6 @@ export default class ServerInfo extends PureComponent {
   }
 
   render() {
-  //   const { dataQueue, dcStatus, lastPubSubTimestamp, subscriptions, timebasedData }
-  // = this.props;
-
-    // return <div />;
     return (
       <Table>
         <thead>

@@ -218,11 +218,22 @@ describe('store:windows:reducer', () => {
         .should.eql({ myWindowId: { title: 'Title', isModified: true } });
     });
   });
-  describe('currentExplorer', () => {
-    it('ok', () => {
-      reducer({ myWindowId: { title: 'Title', isModified: false, tabName: 'perRemoteId' } },
+  describe('explorer', () => {
+    it('currentExplorer', () => {
+      reducer({ myWindowId: { title: 'Title', isModified: false } },
       actions.currentExplorer('myWindowId', 'perView'))
         .should.eql({ myWindowId: { title: 'Title', isModified: false, tabName: 'perView' } });
+      reducer({ myWindowId: { title: 'Title', isModified: false, tabName: 'perView' } },
+      actions.currentExplorer('myWindowId', 'perRemoteId'))
+        .should.eql({ myWindowId: { title: 'Title', isModified: false, tabName: 'perRemoteId' } });
+    });
+    it('updateExplorerWidth', () => {
+      reducer({ myWindowId: { title: 'Title', isModified: false } },
+      actions.updateExplorerWidth('myWindowId', 100))
+        .should.eql({ myWindowId: { title: 'Title', isModified: false, explorerWidth: 100 } });
+      reducer({ myWindowId: { title: 'Title', isModified: false, explorerWidth: 100 } },
+      actions.updateExplorerWidth('myWindowId', 200))
+        .should.eql({ myWindowId: { title: 'Title', isModified: false, explorerWidth: 200 } });
     });
   });
 });

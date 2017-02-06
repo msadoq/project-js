@@ -15,15 +15,8 @@
   padding: 5px;
   background: #FAFAFA;
 }
-.grid{
-  height: 100%;
-  margin-left: 10px;
-  margin-right: 10px;
-  overflow-y: auto;
-  width: 100%;
-  flex: 1;
-}
-.div{
+
+.divPagesTb{
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -31,4 +24,18 @@
 }
 .TabsContainer{
   height: 40px;
+}
+.contentDiv{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  flex-wrap: nowrap
+}
+.contentDivChildExplorer{
+  flex-basis: auto;
+  overflow: auto;
+}
+.contentDivChildPage{
+  flex: 1 0 auto;;
+  overflow: auto;
 }

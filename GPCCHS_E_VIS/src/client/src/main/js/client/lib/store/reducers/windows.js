@@ -45,6 +45,15 @@ export default function windows(stateWindows = {}, action) {
           tabName: action.payload.tabName,
         },
       }, stateWindows);
+    case types.WS_WINDOW_EXPLORERWIDTH_UPDATE:
+      if (!stateWindows[action.payload.windowId]) {
+        return stateWindows;
+      }
+      return u({
+        [action.payload.windowId]: {
+          explorerWidth: action.payload.width,
+        },
+      }, stateWindows);
     default:
       return stateWindows;
   }

@@ -1,5 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
-import { ButtonToolbar, Grid, Row, Col } from 'react-bootstrap';
+import { ButtonToolbar } from 'react-bootstrap';
 import getLogger from 'common/log';
 import classnames from 'classnames';
 
@@ -103,33 +103,30 @@ export default class Window extends PureComponent {
           />
           {/* <DummyDrag /> */}
         </ButtonToolbar>
-        <div className={styles.div}>
-          <Grid fluid className={styles.grid}>
-            <Row className="h100">
-              <Col sm={displayExplorer ? 9 : 12} className="h100">
-                <TabsContainer
-                  className={classnames(
-                    displayExplorer ? 'col-xs-9' : 'col-xs-12',
-                    styles.TabsContainer
-                  )}
+        <div className={styles.divPagesTb}>
+          <div className={styles.contentDiv}>
+            <div className={styles.contentDivChildPage}>
+              <TabsContainer
+                className={classnames(
+                  styles.TabsContainer
+                )}
+                windowId={windowId}
+                focusedPageId={focusedPageId}
+                title={title}
+              />
+              <div className={styles.content}>
+                <PageContainer
                   windowId={windowId}
                   focusedPageId={focusedPageId}
-                  title={title}
                 />
-                <div className={styles.content}>
-                  <PageContainer
-                    windowId={windowId}
-                    focusedPageId={focusedPageId}
-                  />
-                </div>
-              </Col>
-              {displayExplorer && <Col sm={3}>
-                <ExplorerContainer
-                  windowId={windowId}
-                />
-              </Col>}
-            </Row>
-          </Grid>
+              </div>
+            </div>
+            {displayExplorer && <div className={styles.contentDivChildExplorer}>
+              <ExplorerContainer
+                windowId={windowId}
+              />
+            </div>}
+          </div>
           <TimebarMasterContainer
             windowId={windowId}
             focusedPageId={focusedPageId}

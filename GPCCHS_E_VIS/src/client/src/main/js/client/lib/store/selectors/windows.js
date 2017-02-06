@@ -120,3 +120,7 @@ export function getModifiedWindowsIds(state) {
 export function getExplorerTabName(state, windowId) {
   return _get(state, ['windows', windowId, 'tabName']);
 }
+
+export function getExplorerWidth(state, windowId) {
+  return _get(state, ['windows', windowId, 'explorerWidth']);
+}

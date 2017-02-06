@@ -43,11 +43,11 @@ function displayedFilters(filters) {
 
 export default class PerRemoteId extends PureComponent {
   static propTypes = {
-    perRemoteId: PropTypes.object.isRequired,
-    timebars: PropTypes.object.isRequired,
-    sessions: PropTypes.array.isRequired,
-    domains: PropTypes.array.isRequired,
-    views: PropTypes.object.isRequired,
+    perRemoteId: PropTypes.objectOf(PropTypes.object).isRequired,
+    timebars: PropTypes.objectOf(PropTypes.object).isRequired,
+    sessions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    domains: PropTypes.arrayOf(PropTypes.object).isRequired,
+    views: PropTypes.objectOf(PropTypes.object).isRequired,
   }
 
   epInfo(value, isFirst) {

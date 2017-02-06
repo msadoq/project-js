@@ -2,9 +2,9 @@ import { Component, PropTypes } from 'react';
 import {
   HSC_RENDERER_WARNING_STEP,
   HSC_RENDERER_CRITICAL_STEP,
-  HSS_STATUS_HEALTHY,
-  HSS_STATUS_WARNING,
-  HSS_STATUS_ERROR,
+  HEALTH_STATUS_HEALTHY,
+  HEALTH_STATUS_WARNING,
+  HEALTH_STATUS_CRITICAL,
 } from 'common/constants';
 import { main } from '../ipc';
 
@@ -17,7 +17,7 @@ export default class HealthMonitor extends Component {
   };
 
   componentDidMount() {
-    this.currentStatus = HSS_STATUS_HEALTHY;
+    this.currentStatus = HEALTH_STATUS_HEALTHY;
     this.lastTickTime = Date.now();
 
     this.timeout = this.checkHighCPULoad();
@@ -33,15 +33,15 @@ export default class HealthMonitor extends Component {
     const elapsed = Date.now() - this.lastTickTime;
     const delay = elapsed - INTERVAL;
 
-    if (delay >= HSC_RENDERER_CRITICAL_STEP && this.currentStatus !== HSS_STATUS_ERROR) {
-      this.currentStatus = HSS_STATUS_ERROR;
-      main.sendHealthStatus(windowId, HSS_STATUS_ERROR);
-    } else if (delay >= HSC_RENDERER_WARNING_STEP && this.currentStatus !== HSS_STATUS_WARNING) {
-      this.currentStatus = HSS_STATUS_WARNING;
-      main.sendHealthStatus(windowId, HSS_STATUS_WARNING);
-    } else if (this.currentStatus !== HSS_STATUS_HEALTHY) {
-      this.currentStatus = HSS_STATUS_HEALTHY;
-      main.sendHealthStatus(windowId, HSS_STATUS_HEALTHY);
+    if (delay >= HSC_RENDERER_CRITICAL_STEP && this.currentStatus !== HEALTH_STATUS_CRITICAL) {
+      this.currentStatus = HEALTH_STATUS_CRITICAL;
+      main.sendHealthStatus(windowId, HEALTH_STATUS_CRITICAL);
+    } else if (delay >= HSC_RENDERER_WARNING_STEP && this.currentStatus !== HEALTH_STATUS_WARNING) {
+      this.currentStatus = HEALTH_STATUS_WARNING;
+      main.sendHealthStatus(windowId, HEALTH_STATUS_WARNING);
+    } else if (this.currentStatus !== HEALTH_STATUS_HEALTHY) {
+      this.currentStatus = HEALTH_STATUS_HEALTHY;
+      main.sendHealthStatus(windowId, HEALTH_STATUS_HEALTHY);
     }
 
     this.lastTickTime = Date.now();

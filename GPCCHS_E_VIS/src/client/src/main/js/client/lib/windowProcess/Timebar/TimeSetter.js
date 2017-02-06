@@ -17,9 +17,17 @@ export default class TimeSetter extends PureComponent {
     removeMessage: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
     isPlaying: PropTypes.bool.isRequired,
-    visuWindow: PropTypes.object.isRequired,
-    slideWindow: PropTypes.object.isRequired,
-    messages: PropTypes.array.isRequired,
+    visuWindow: PropTypes.shape({
+      lower: PropTypes.number,
+      upper: PropTypes.number,
+      current: PropTypes.number,
+      defaultWidth: PropTypes.number })
+    .isRequired,
+    slideWindow: PropTypes.shape({
+      lower: PropTypes.number,
+      upper: PropTypes.number })
+    .isRequired,
+    messages: PropTypes.arrayOf(PropTypes.object).isRequired,
     cursor: PropTypes.string.isRequired,
     timebarUuid: PropTypes.string.isRequired,
     timebarMode: PropTypes.string.isRequired,

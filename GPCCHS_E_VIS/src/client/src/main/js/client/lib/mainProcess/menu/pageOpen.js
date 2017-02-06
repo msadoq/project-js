@@ -53,6 +53,7 @@ function pageOpenWithPath({ filePath, windowId }) {
       if (viewErr) {
         store.dispatch(addGlobalError('Unable to load page : invalid view'));
         store.dispatch(addGlobalError(viewErr));
+        return;
       }
       showSelectedPage(pageAndViews, uuid, windowId);
       const title = store.getState().windows[windowId].title;

@@ -7,9 +7,9 @@ import {
 import Health from './Health';
 
 const mapStateToStore = state => ({
-  lastPubSubTimestamp: getLastPubSubTimestamp(state),
   dcStatus: getDcStatus(state),
   hssStatus: getHssStatus(state),
+  lastPubSubTimestamp: getLastPubSubTimestamp(state),
 });
 
 export default connect(mapStateToStore)(Health);

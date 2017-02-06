@@ -1,11 +1,11 @@
-import _omit from 'lodash/omit';
 import * as types from '../types';
 
 const initialState = {
   dcStatus: null, // enum(0:'healthy', 1:'congestion')
   hssStatus: null, // enum(0:'healthy', 1:'warning', 2:'error')
+  mainStatus: null, // enum(0:'healthy', 1:'warning', 2:'error')
+  windowsStatus: null, // object
   lastPubSubTimestamp: null, // number
-  slowRenderers: [],
 };
 
 export default function health(state = initialState, action) {
@@ -14,31 +14,32 @@ export default function health(state = initialState, action) {
       return Object.assign(
         {},
         state,
-        { dcStatus: action.payload.dcStatus }
+        { dcStatus: action.payload.status }
       );
-    case types.HSS_UPDATE_HSS_STATUS:
+    case types.HSS_UPDATE_HEALTH_STATUS:
       return Object.assign(
         {},
         state,
-        { hssStatus: action.payload.hssStatus }
+        { hssStatus: action.payload.status }
+      );
+    case types.HSS_UPDATE_MAIN_STATUS:
+      return Object.assign(
+        {},
+        state,
+        { mainStatus: action.payload.status }
+      );
+    case types.HSS_UPDATE_WINDOWS_STATUS:
+      return Object.assign(
+        {},
+        state,
+        { windowsStatus: action.payload.status }
       );
     case types.HSS_UPDATE_LAST_PUBSUB_TIMESTAMP:
       return Object.assign(
         {},
         state,
-        { lastPubSubTimestamp: action.payload.lastPubSubTimestamp }
+        { lastPubSubTimestamp: action.payload.timestamp }
       );
-    case types.HSC_ADD_SLOW_RENDERER:
-      return Object.assign({}, state, {
-        slowRenderers: {
-          ...state.slowRenderers,
-          [action.payload.windowId]: action.payload.interval,
-        },
-      });
-    case types.HSC_REMOVE_SLOW_RENDERER:
-      return Object.assign({}, state, {
-        slowRenderers: _omit(state.slowRenderers, [action.payload.windowId]),
-      });
     default:
       return state;
   }

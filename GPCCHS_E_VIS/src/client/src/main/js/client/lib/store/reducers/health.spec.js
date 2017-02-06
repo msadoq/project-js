@@ -8,68 +8,40 @@ describe('store:health:reducer', () => {
     const r = reducer(undefined, {});
     r.should.have.a.property('dcStatus', null);
     r.should.have.a.property('hssStatus', null);
+    r.should.have.a.property('mainStatus', null);
+    r.should.have.a.property('windowsStatus', null);
     r.should.have.a.property('lastPubSubTimestamp', null);
   });
   it('should ignore unknown action', () => {
     const state = freezeMe({
-      dcStatus: globalConstants.DC_STATUS_HEALTHY,
-      hssStatus: globalConstants.HSS_STATUS_HEALTHY,
+      dcStatus: globalConstants.HEALTH_STATUS_HEALTHY,
+      hssStatus: globalConstants.HEALTH_STATUS_HEALTHY,
+      mainStatus: globalConstants.HEALTH_STATUS_HEALTHY,
       lastPubSubTimestamp: 42,
+      slowRenderers: [{ id42: 42 }],
     });
     reducer(state, {}).should.equal(state);
   });
   it('should update dc status', () => {
-    const state = reducer(
-      freezeMe({
-        dcStatus: globalConstants.DC_STATUS_HEALTHY,
-        hssStatus: globalConstants.HSS_STATUS_HEALTHY,
-        lastPubSubTimestamp: 42,
-      }),
-      actions.updateDcStatus(globalConstants.DC_STATUS_CONGESTION)
-    );
-    state.should.have.a.property('lastPubSubTimestamp', 42);
-    state.should.have.a.property('dcStatus', globalConstants.DC_STATUS_CONGESTION);
-    state.should.have.a.property('hssStatus', globalConstants.HSS_STATUS_HEALTHY);
+    reducer(undefined, actions.updateDcStatus(globalConstants.HEALTH_STATUS_CRITICAL))
+      .should.have.a.property('dcStatus', globalConstants.HEALTH_STATUS_CRITICAL);
   });
   it('should update hss status', () => {
-    const state = reducer(
-      freezeMe({
-        dcStatus: globalConstants.DC_STATUS_HEALTHY,
-        hssStatus: globalConstants.HSS_STATUS_HEALTHY,
-        lastPubSubTimestamp: 42,
-      }),
-      actions.updateHssStatus(globalConstants.HSS_STATUS_ERROR)
-    );
-    state.should.have.a.property('lastPubSubTimestamp', 42);
-    state.should.have.a.property('dcStatus', globalConstants.DC_STATUS_HEALTHY);
-    state.should.have.a.property('hssStatus', globalConstants.HSS_STATUS_ERROR);
+    reducer(undefined, actions.updateHssStatus(globalConstants.HEALTH_STATUS_WARNING))
+      .should.have.a.property('hssStatus', globalConstants.HEALTH_STATUS_WARNING);
+  });
+  it('should update main status', () => {
+    reducer(undefined, actions.updateMainStatus(globalConstants.HEALTH_STATUS_HEALTHY))
+      .should.have.a.property('mainStatus', globalConstants.HEALTH_STATUS_HEALTHY);
   });
   it('should update last pubsub timestamp', () => {
-    const state = reducer(
-      freezeMe({
-        dcStatus: globalConstants.DC_STATUS_HEALTHY,
-        hssStatus: globalConstants.HSS_STATUS_HEALTHY,
-        lastPubSubTimestamp: 42,
-      }),
-      actions.updateLastPubSubTimestamp(91)
-    );
-    state.should.have.a.property('lastPubSubTimestamp', 91);
-    state.should.have.a.property('dcStatus', globalConstants.DC_STATUS_HEALTHY);
-    state.should.have.a.property('hssStatus', globalConstants.HSS_STATUS_HEALTHY);
+    reducer(undefined, actions.updateLastPubSubTimestamp(91))
+      .should.have.a.property('lastPubSubTimestamp', 91);
   });
-  it('should add slow renderer', () => {
-    reducer(undefined, actions.addSlowRenderer('1234', 120))
+  it('should update windows status', () => {
+    reducer(undefined, actions.updateWindowsStatus({ id42: 42 }))
       .should.have.properties({
-        slowRenderers: { 1234: 120 },
+        windowsStatus: { id42: 42 },
       });
   });
-  it('should remove slow renderer', () => {
-    reducer(freezeMe({
-      slowRenderers: { 1234: 120 },
-    }), actions.removeSlowRenderer('1234'))
-    .should.eql({
-      slowRenderers: { },
-    });
-  });
-
 });

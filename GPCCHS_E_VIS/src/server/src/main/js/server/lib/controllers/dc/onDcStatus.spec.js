@@ -12,13 +12,13 @@ describe('controllers/dc/onDcStatus', () => {
 
     onDcStatus(healthy);
 
-    getDcStatus().should.equal(globalConstants.DC_STATUS_HEALTHY);
+    getDcStatus().should.equal(globalConstants.HEALTH_STATUS_HEALTHY);
   });
   it('congestion', () => {
     const congestion = dataStub.getCongestionDcStatusProtobuf();
 
     onDcStatus(congestion);
 
-    getDcStatus().should.equal(globalConstants.DC_STATUS_CONGESTION);
+    getDcStatus().should.equal(globalConstants.HEALTH_STATUS_CRITICAL);
   });
 });

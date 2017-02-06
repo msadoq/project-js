@@ -5,33 +5,29 @@ import * as types from '../types';
 import {
   getDcStatus,
   getHssStatus,
+  getMainStatus,
   getLastPubSubTimestamp,
 } from '../selectors/health';
 
 /**
  * Health status
  */
-export const updateDcStatus = simple(types.HSS_UPDATE_DC_STATUS, 'dcStatus');
-export const updateHssStatus = simple(types.HSS_UPDATE_HSS_STATUS, 'hssStatus');
+export const updateDcStatus = simple(types.HSS_UPDATE_DC_STATUS, 'status');
+export const updateHssStatus = simple(types.HSS_UPDATE_HEALTH_STATUS, 'status');
+export const updateMainStatus = simple(types.HSS_UPDATE_MAIN_STATUS, 'status');
+export const updateWindowsStatus = simple(types.HSS_UPDATE_WINDOWS_STATUS, 'status');
 
 /**
  * Identify last received timestamp from pubsub data
  */
-export const updateLastPubSubTimestamp = simple(types.HSS_UPDATE_LAST_PUBSUB_TIMESTAMP, 'lastPubSubTimestamp');
+export const updateLastPubSubTimestamp = simple(types.HSS_UPDATE_LAST_PUBSUB_TIMESTAMP, 'timestamp');
 const updateLastPubSubTimestampThrottled = _throttle(
   (dispatch, timestamp) => dispatch(updateLastPubSubTimestamp(timestamp)),
   HSC_PUBSUB_MONITORING_FREQUENCY
 );
 
-/**
- * Identify slow renderers to ignore some ticks in orchestration
- */
-export const addSlowRenderer = simple(types.HSC_ADD_SLOW_RENDERER, 'windowId', 'interval');
-export const removeSlowRenderer = simple(types.HSC_REMOVE_SLOW_RENDERER, 'windowId');
-
-
 // TODO rperrot test
-export const updateHealth = (dcStatus, hssStatus, timestamp) =>
+export const updateHealth = ({ dcStatus, hssStatus, mainStatus, lastPubSubTimestamp }) =>
   (dispatch, getState) => {
     if (getDcStatus(getState()) !== dcStatus) {
       dispatch(updateDcStatus(dcStatus));
@@ -39,7 +35,10 @@ export const updateHealth = (dcStatus, hssStatus, timestamp) =>
     if (getHssStatus(getState()) !== hssStatus) {
       dispatch(updateHssStatus(hssStatus));
     }
-    if (getLastPubSubTimestamp(getState()) !== timestamp) {
-      updateLastPubSubTimestampThrottled(dispatch, timestamp);
+    if (getMainStatus(getState()) !== mainStatus) {
+      dispatch(updateMainStatus(mainStatus));
+    }
+    if (getLastPubSubTimestamp(getState()) !== lastPubSubTimestamp) {
+      updateLastPubSubTimestampThrottled(dispatch, lastPubSubTimestamp);
     }
   };

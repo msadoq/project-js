@@ -3,8 +3,9 @@ import { should, getStore } from '../../common/test';
 import {
   getDcStatus,
   getHssStatus,
+  getMainStatus,
   getLastPubSubTimestamp,
-  getSlowRenderers,
+  getWindowsStatus,
 } from './health';
 
 describe('store:health:selectors', () => {
@@ -22,10 +23,10 @@ describe('store:health:selectors', () => {
     it('should return status', () => {
       const { getState } = getStore({
         health: {
-          dcStatus: globalConstants.DC_STATUS_CONGESTION,
+          dcStatus: globalConstants.HEALTH_STATUS_CRITICAL,
         },
       });
-      getDcStatus(getState()).should.eql(globalConstants.DC_STATUS_CONGESTION);
+      getDcStatus(getState()).should.eql(globalConstants.HEALTH_STATUS_CRITICAL);
     });
     it('should support empty state', () => {
       const { getState } = getStore({ health: {} });
@@ -36,28 +37,42 @@ describe('store:health:selectors', () => {
     it('should return status', () => {
       const { getState } = getStore({
         health: {
-          hssStatus: globalConstants.HSS_STATUS_WARNING,
+          hssStatus: globalConstants.HEALTH_STATUS_WARNING,
         },
       });
-      getHssStatus(getState()).should.eql(globalConstants.HSS_STATUS_WARNING);
+      getHssStatus(getState()).should.eql(globalConstants.HEALTH_STATUS_WARNING);
     });
     it('should support empty state', () => {
       const { getState } = getStore({ health: {} });
       should.not.exist(getHssStatus(getState()));
     });
   });
-  describe('getSlowRenderers', () => {
-    it('should return getSlowRenderers', () => {
+  describe('getMainStatus', () => {
+    it('should return status', () => {
       const { getState } = getStore({
         health: {
-          slowRenderers: [{ 'some window id': 100 }],
+          mainStatus: globalConstants.HEALTH_STATUS_WARNING,
         },
       });
-      getSlowRenderers(getState()).should.eql([{ 'some window id': 100 }]);
+      getMainStatus(getState()).should.eql(globalConstants.HEALTH_STATUS_WARNING);
     });
     it('should support empty state', () => {
       const { getState } = getStore({ health: {} });
-      should.not.exist(getSlowRenderers(getState()));
+      should.not.exist(getHssStatus(getState()));
+    });
+  });
+  describe('getWindowsStatus', () => {
+    it('should return getSlowRenderers', () => {
+      const { getState } = getStore({
+        health: {
+          windowsStatus: { id42: 42 },
+        },
+      });
+      getWindowsStatus(getState()).should.eql({ id42: 42 });
+    });
+    it('should support empty state', () => {
+      const { getState } = getStore({ health: {} });
+      should.not.exist(getWindowsStatus(getState()));
     });
   });
 });

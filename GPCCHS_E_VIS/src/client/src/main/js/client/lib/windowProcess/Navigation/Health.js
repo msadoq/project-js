@@ -11,6 +11,19 @@ import styles from './Health.css';
 
 const logger = getLogger('Health');
 
+const getStyle = (status) => {
+  switch (status) {
+    case globalConstants.HEALTH_STATUS_HEALTHY:
+      return classnames(styles.bull, styles.healthy);
+    case globalConstants.HEALTH_STATUS_CRITICAL:
+      return classnames(styles.bull, styles.alert);
+    case globalConstants.HEALTH_STATUS_WARNING:
+      return classnames(styles.bull, styles.warning);
+    default:
+      return classnames(styles.bull, styles.idle);
+  }
+};
+
 export default class Health extends Component {
   static propTypes = {
     lastPubSubTimestamp: PropTypes.number,
@@ -22,23 +35,8 @@ export default class Health extends Component {
     logger.debug('render');
     const { hssStatus, dcStatus, lastPubSubTimestamp } = this.props;
 
-    const dcStyle = dcStatus !== globalConstants.DC_STATUS_HEALTHY
-      ? classnames(styles.bull, styles.alert)
-      : classnames(styles.bull, styles.healthy);
-
-    let hssStyle;
-    switch (hssStatus) {
-      case globalConstants.HSS_STATUS_HEALTHY:
-        hssStyle = classnames(styles.bull, styles.healthy);
-        break;
-      case globalConstants.HSS_STATUS_WARNING:
-        hssStyle = classnames(styles.bull, styles.warning);
-        break;
-      case globalConstants.HSS_STATUS_ERROR:
-      default:
-        hssStyle = classnames(styles.bull, styles.alert);
-        break;
-    }
+    const dcStyle = getStyle(dcStatus);
+    const hssStyle = getStyle(hssStatus);
 
     const pubSubStyle = lastPubSubTimestamp
       ? classnames(styles.bull, styles.healthy)

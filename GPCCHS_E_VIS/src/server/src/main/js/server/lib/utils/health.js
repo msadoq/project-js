@@ -14,7 +14,7 @@ module.exports = () => {
   if (!start) {
     start = process.hrtime();
     iterate();
-    return true;
+    return undefined;
   }
 
   const delta = process.hrtime(start);
@@ -23,10 +23,10 @@ module.exports = () => {
   iterationNb = 0;
   start = process.hrtime();
   if (iterationTime < globalConstants.HSS_EVENTLOOP_WARNING) {
-    return globalConstants.HSS_STATUS_HEALTHY;
+    return globalConstants.HEALTH_STATUS_HEALTHY;
   }
   if (iterationTime < globalConstants.HSS_EVENTLOOP_ERROR) {
-    return globalConstants.HSS_STATUS_WARNING;
+    return globalConstants.HEALTH_STATUS_WARNING;
   }
-  return globalConstants.HSS_STATUS_ERROR;
+  return globalConstants.HEALTH_STATUS_ERROR;
 };

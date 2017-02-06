@@ -225,7 +225,7 @@ const congestionDataPullHandler = (onCongestionReceived = b => undefined) => (ca
       case constants.MESSAGETYPE_DC_STATUS:
         dcStatus = decode('dc.dataControllerUtils.DcStatus', argsBuffers[0]);
         console.log("switched to Healthy ");
-        dcStatus.status.should.equal(constants.DC_STATUS_HEALTHY);
+        dcStatus.status.should.equal(constants.HEALTH_STATUS_HEALTHY);
         onCongestionReceived(false);
         congestionReceived = false;
       default:
@@ -238,7 +238,7 @@ const congestionDataPullHandler = (onCongestionReceived = b => undefined) => (ca
     case constants.MESSAGETYPE_DC_STATUS:
       dcStatus = decode('dc.dataControllerUtils.DcStatus', argsBuffers[0]);
       console.log("switched to congestion ");
-      dcStatus.status.should.equal(constants.DC_STATUS_CONGESTION);
+      dcStatus.status.should.equal(constants.HEALTH_STATUS_CRITICAL);
       onCongestionReceived(true);
       congestionReceived = true;
     default:

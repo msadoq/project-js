@@ -1,4 +1,5 @@
 export const getDcStatus = state => state.health.dcStatus;
 export const getHssStatus = state => state.health.hssStatus;
+export const getMainStatus = state => state.health.mainStatus;
+export const getWindowsStatus = state => state.health.windowsStatus;
 export const getLastPubSubTimestamp = state => state.health.lastPubSubTimestamp;
-export const getSlowRenderers = state => state.health.slowRenderers;

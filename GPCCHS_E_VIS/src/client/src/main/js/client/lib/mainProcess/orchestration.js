@@ -168,13 +168,7 @@ export function tick() {
 
         // health
         execution.start('health injection');
-        dispatch(
-          updateHealth(
-            dataToInject.dcStatus,
-            dataToInject.hssStatus,
-            dataToInject.lastPubSubTimestamp
-          )
-        );
+        dispatch(updateHealth(dataToInject));
         execution.stop('health injection');
 
         // viewData

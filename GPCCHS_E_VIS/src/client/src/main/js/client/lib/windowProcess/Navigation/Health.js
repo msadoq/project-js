@@ -13,14 +13,13 @@ const logger = getLogger('Health');
 
 const getStyle = (status) => {
   switch (status) {
-    case globalConstants.HEALTH_STATUS_HEALTHY:
-      return classnames(styles.bull, styles.healthy);
     case globalConstants.HEALTH_STATUS_CRITICAL:
       return classnames(styles.bull, styles.alert);
     case globalConstants.HEALTH_STATUS_WARNING:
       return classnames(styles.bull, styles.warning);
+    case globalConstants.HEALTH_STATUS_HEALTHY:
     default:
-      return classnames(styles.bull, styles.idle);
+      return classnames(styles.bull, styles.healthy);
   }
 };
 

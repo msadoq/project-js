@@ -16,7 +16,7 @@ const sendFmdGet = require('./dc/sendFmdGet');
 const sendFmdCreate = require('./dc/sendFmdCreate');
 const sendSessionTime = require('./dc/sendSessionTime');
 const sendMasterSession = require('./dc/sendMasterSession');
-const sendDcStatus = require('./dc/sendDcStatus');
+// const sendDcStatus = require('./dc/sendDcStatus');
 
 process.title = 'gpcchs_dc_stub';
 
@@ -147,7 +147,7 @@ const onHssMessage = (...args) => {
 function dcCall() {
   logger.silly('dcCall call', Object.keys(subscriptions).length, queries.length);
 
-  sendDcStatus(zmq);
+  // sendDcStatus(zmq); // TODO : replace with action to trigger from client GUI
 
   // pub/sub
   _each(subscriptions, ({ queryId, dataId }) => {

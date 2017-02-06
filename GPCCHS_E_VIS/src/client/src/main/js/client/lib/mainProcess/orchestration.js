@@ -191,7 +191,7 @@ export function tick() {
       }
 
       execution.start('windows');
-      windowsObserver(state, (err) => {
+      return windowsObserver(state, (err) => {
         execution.stop('windows');
         if (err) {
           return callback(err);

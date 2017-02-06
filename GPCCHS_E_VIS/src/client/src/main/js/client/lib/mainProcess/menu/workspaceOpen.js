@@ -43,7 +43,7 @@ function workspaceOpen(focusedWindow) {
     }
     const folder = getState().hsc.folder;
     // open the file picker
-    getPathByFilePicker(folder, 'workspace', 'open', (errFile, filePath) => {
+    return getPathByFilePicker(folder, 'workspace', 'open', (errFile, filePath) => {
       if (filePath) {
         workspaceOpenWithPath({ filePath });
       }

@@ -1,5 +1,7 @@
 /* eslint global-require:0 */
+import _each from 'lodash/each';
 import { get } from 'common/parameters';
+
 
 export default (callback) => {
   // not installable when bundled and doesn't needed when DEBUG is off
@@ -19,11 +21,11 @@ export default (callback) => {
     'REDUX_DEVTOOLS',
   ];
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
-  for (const name of extensions) {
+  _each(extensions, (name) => {
     try {
       installer.default(installer[name], forceDownload);
     } catch (e) {} // eslint-disable-line
-  }
+  });
 
-  callback(null);
+  return callback(null);
 };

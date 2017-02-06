@@ -89,7 +89,6 @@ function pageAddNew(focusedWindow) {
   const title = getState().windows[focusedWindow.windowId].title;
   focusedWindow.setTitle(title.concat(' * - VIMA'));
   server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', 'new page');
-  return undefined;
 }
 
 export default {

@@ -51,7 +51,7 @@ export default function ({ viewId }) {
     ['cancel', 'continue'],
     (button) => {
       if (button !== 0) {
-        return reload(viewId, absolutePath);
+        reload(viewId, absolutePath);
       }
     });
 }

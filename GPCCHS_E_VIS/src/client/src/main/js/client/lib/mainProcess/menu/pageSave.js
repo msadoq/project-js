@@ -64,7 +64,7 @@ function pageSaveAs(focusedWindow) {
   }
   const state = getStore().getState();
   const page = state.pages[pageId];
-  getPathByFilePicker(state.hsc.folder, 'Page', 'save', (err, newPagePath) => {
+  return getPathByFilePicker(state.hsc.folder, 'Page', 'save', (err, newPagePath) => {
     getStore().dispatch(updateAbsolutePath(pageId, newPagePath));
     return saveFile(pageId, getStore(), (errSaving) => {
       if (errSaving) {

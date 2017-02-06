@@ -21,7 +21,7 @@ export default function ({ viewId, saveMode }) {
     if (!isModified && saveMode === savingAbsolutePath) {
       return getStore().dispatch(addMessage(viewId, 'info', 'View already saved'));
     }
-    saveViewAs(configuration, type, savingAbsolutePath, (err, oid) => {
+    return saveViewAs(configuration, type, savingAbsolutePath, (err, oid) => {
       if (err) {
         return getStore().dispatch(addViewError(viewId, err));
       }
@@ -35,7 +35,7 @@ export default function ({ viewId, saveMode }) {
       }
 
       dispatch(setModified(viewId, false));
-      dispatch(addMessage(viewId, 'success', 'View saved'));
+      return dispatch(addMessage(viewId, 'success', 'View saved'));
     });
   }
 

@@ -78,9 +78,7 @@ export function loadInStore(workspace, dispatch, root, file, callback, isDefault
   dispatch(updatePath(root, file));
   dispatch(setWorkspaceAsOpened());
 
-  if (typeof callback === 'function') {
-    return callback(null);
-  }
+  return (typeof callback === 'function') ? callback(null) : undefined;
 }
 
 export function openWorkspaceDocument(dispatch, getState, root, file, callback) {
@@ -106,9 +104,7 @@ export function openWorkspaceDocument(dispatch, getState, root, file, callback) 
     logger.info(`${count.w} windows, ${count.p} pages, ${count.v} views`);
     server.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', file);
 
-    if (typeof callback === 'function') {
-      return callback(null);
-    }
+    return (typeof callback === 'function') ? callback(null) : undefined;
   });
 }
 

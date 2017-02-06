@@ -27,12 +27,8 @@ function stop(executionMap, key, message) {
 function print(executionMap, namespace) {
   const logger = getLogger(`profiling:${namespace}`);
   logger.info('= execution map ====================');
-  const timers = [];
   _each(executionMap, ({ traces, message }, k) => {
     let d = 0;
-    const timer = {
-      name: k,
-    };
     if (traces.length === 1) {
       d = (traces[0][0] * 1e3) + _round(traces[0][1] / 1e6, 6);
     } else {
@@ -43,20 +39,9 @@ function print(executionMap, namespace) {
       );
       d = (t[0] * 1e3) + _round(t[1] / 1e6, 6);
     }
-    timer.duration = d;
-    if (message) {
-      timer.message = message;
-    }
     logger.info(k, 'ms:', d);
-    timers.push(timer);
   });
   logger.info('- execution map --------------------');
-  logger.debug('profiling', {
-    profiling: {
-      timers,
-      time: Date.now(),
-    },
-  });
 }
 
 const noOp = {

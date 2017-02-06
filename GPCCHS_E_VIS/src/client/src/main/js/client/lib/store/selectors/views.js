@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect';
+import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
 import _ from 'lodash/fp';
 import u from 'updeep';
 
@@ -11,6 +11,12 @@ import { getTimelines } from './timelines';
 import { getWindowsVisibleViews } from './windows';
 import { getViewData as viewData } from '../../dataManager/map';
 import { getMasterSessionId } from './masterSession';
+// import { createLoggingSelector } from '../../common/utils';
+
+export const createDeepEqualSelector = createSelectorCreator(
+  defaultMemoize,
+  _.isEqual
+);
 
 export const getViews =
   _.prop('views');
@@ -47,8 +53,8 @@ export const getViewContent = createSelector(
   _.prop('content')
 );
 
-export const makeGetViewEntryPoints = () =>
-  createSelector([
+export const _getViewEntryPoints = createSelector(
+  [
     getView,
     getMasterSessionId,
     getWindowsVisibleViews,
@@ -80,6 +86,11 @@ export const makeGetViewEntryPoints = () =>
       )(view);
     }
   );
+
+export const makeGetViewEntryPoints = () => createDeepEqualSelector(
+  _getViewEntryPoints,
+  _.identity
+);
 
 export const getViewEntryPoints = makeGetViewEntryPoints();
 

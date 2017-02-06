@@ -34,7 +34,7 @@ if (global.parameters.get('DEBUG') === 'on') {
     ];
     const excludeList = internal.concat(dependencies).join('|');
     whyDidYouUpdate(React, {
-      // include: /^PlotView$/,
+      // include: /^TextView$/,
       exclude: new RegExp(excludeList),
     });
     window.whyDidYouUpdate.loaded = true;

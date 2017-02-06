@@ -8,7 +8,6 @@ import {
   LOG_APPLICATION_ERROR,
 } from 'common/constants';
 import getLogger from 'common/log';
-import monitoring from 'common/log/monitoring';
 import parameters from 'common/parameters';
 import { clear } from 'common/callbacks';
 
@@ -51,9 +50,6 @@ export function start() {
     (callback) => {
       setSplashScreenMessage('loading data store...');
       logger.info('loading data store...');
-
-      // monitoring
-      monitoring.start();
 
       // redux store
       initStore();
@@ -99,7 +95,7 @@ export function start() {
         data => serverController(get(CHILD_PROCESS_SERVER), data)
       );
 
-      return callback(null);
+      callback(null);
     },
     // should have master sessionId in store at start
     (callback) => {
@@ -198,9 +194,6 @@ export function start() {
 export function stop() {
   server.sendProductLog(LOG_APPLICATION_STOP);
   logger.info('stopping application');
-
-  // stop monitoring
-  monitoring.stop();
 
   // stop orchestration
   stopOrchestration();

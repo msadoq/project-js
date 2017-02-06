@@ -18,10 +18,6 @@ const sendSessionTime = require('./dc/sendSessionTime');
 const sendMasterSession = require('./dc/sendMasterSession');
 const sendDcStatus = require('./dc/sendDcStatus');
 
-const monitoring = require('../log/monitoring');
-
-monitoring.start();
-
 process.title = 'gpcchs_dc_stub';
 
 let subscriptions = {};

@@ -2,7 +2,6 @@ import React from 'react';
 import { ipcRenderer } from 'electron';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import monitoring from 'common/log/monitoring';
 import WindowContainer from './Window/WindowContainer';
 import { initStore, getStore } from '../store/windowStore';
 import CircuitBreaker from './CircuitBreaker';
@@ -12,8 +11,6 @@ const search = global.location.search;
 const windowId = search.replace('?windowId=', '');
 
 process.title = 'gpcchs_renderer';
-
-monitoring.start();
 
 // store
 initStore();

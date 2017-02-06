@@ -18,18 +18,18 @@ export default class Header extends PureComponent {
     }),
     viewId: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    collapsed: PropTypes.bool,
-    oId: PropTypes.string,
-    absolutePath: PropTypes.string,
-    isModified: PropTypes.bool,
-    openEditor: PropTypes.func,
-    closeEditor: PropTypes.func,
-    unmountAndRemove: PropTypes.func,
-    moveViewToPage: PropTypes.func,
-    windowPages: PropTypes.object,
-    collapseView: PropTypes.func,
-    show: PropTypes.string,
-    updateShow: PropTypes.func,
+    collapsed: PropTypes.bool.isRequired,
+    oId: PropTypes.string.isRequired,
+    absolutePath: PropTypes.string.isRequired,
+    isModified: PropTypes.bool.isRequired,
+    openEditor: PropTypes.func.isRequired,
+    closeEditor: PropTypes.func.isRequired,
+    unmountAndRemove: PropTypes.func.isRequired,
+    moveViewToPage: PropTypes.func.isRequired,
+    windowPages: PropTypes.arrayOf(PropTypes.object).isRequired,
+    collapseView: PropTypes.func.isRequired,
+    show: PropTypes.string.isRequired,
+    updateShow: PropTypes.func.isRequired,
   };
   static defaultProps = {
     configuration: {
@@ -205,6 +205,16 @@ export default class Header extends PureComponent {
     collapseView(focusedPageId, viewId, !collapsed);
   }
 
+  updateShowHtml = (e) => {
+    e.preventDefault();
+    this.props.updateShow('html');
+  }
+
+  updateShowData = (e) => {
+    e.preventDefault();
+    this.props.updateShow('data');
+  }
+
   render() {
     const {
       configuration,
@@ -246,10 +256,22 @@ export default class Header extends PureComponent {
           [styles.containerActive]: isViewsEditorOpen,
         })}
       >
-        {!collapsed && this.props.type === 'TextView' && this.props.isViewsEditorOpen ?
-          <a style={toHtmlStyle} onClick={() => { this.props.updateShow('html'); }}>HTML</a> : null}
-        {!collapsed && this.props.type === 'TextView' && this.props.isViewsEditorOpen ?
-          <a style={toDataStyle} onClick={() => { this.props.updateShow('data'); }}>VIEW</a> : null}
+        {!collapsed && this.props.type === 'TextView' && this.props.isViewsEditorOpen &&
+          <button
+            style={toHtmlStyle}
+            onClick={this.updateShowHtml}
+          >
+            HTML
+          </button>
+        }
+        {!collapsed && this.props.type === 'TextView' && this.props.isViewsEditorOpen &&
+          <button
+            style={toDataStyle}
+            onClick={this.updateShowData}
+          >
+            VIEW
+          </button>
+        }
         <div
           style={titleStyle}
           className={`${styles.title} moveHandler ellipsis`}
@@ -283,8 +305,8 @@ export default class Header extends PureComponent {
           </DropdownButton>}
           {collapsed &&
             [
-              <a key={1} style={expandButtonStyle} className={classnames('btn', 'btn-sm', 'btn-default')} onClick={this.expand}>Expand</a>,
-              <a key={2} style={saveButtonStyle} className={classnames('btn', 'btn-sm', 'btn-default')} onClick={this.save}>Save</a>,
+              <button key={1} style={expandButtonStyle} className={classnames('btn', 'btn-sm', 'btn-default')} onClick={this.expand}>Expand</button>,
+              <button key={2} style={saveButtonStyle} className={classnames('btn', 'btn-sm', 'btn-default')} onClick={this.save}>Save</button>,
             ]
           }
         </div>

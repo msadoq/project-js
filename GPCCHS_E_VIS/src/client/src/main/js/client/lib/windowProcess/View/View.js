@@ -23,8 +23,26 @@ const keys = {
 export default class View extends PureComponent {
   static propTypes = {
     isViewsEditorOpen: PropTypes.bool.isRequired,
-    configuration: PropTypes.object.isRequired,
-    visuWindow: PropTypes.object,
+    configuration: PropTypes.shape({
+      backgroundColor: PropTypes.string,
+      title: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      defaultRatio: PropTypes.object.isRequired,
+      entryPoints: PropTypes.array.isRequired,
+      links: PropTypes.array.isRequired,
+      markers: PropTypes.array,
+      axes: PropTypes.object,
+      legend: PropTypes.object,
+      titleStyle: PropTypes.object,
+      grids: PropTypes.array,
+    }).isRequired,
+    visuWindow: PropTypes.shape({
+      lower: PropTypes.number.isRequired,
+      upper: PropTypes.number.isRequired,
+      current: PropTypes.number.isRequired,
+      defaultWidth: PropTypes.number.isRequired,
+    }).isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
     data: PropTypes.object,
     viewId: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
@@ -35,8 +53,8 @@ export default class View extends PureComponent {
     closeEditor: PropTypes.func.isRequired,
     unmountAndRemove: PropTypes.func.isRequired,
     moveViewToPage: PropTypes.func.isRequired,
-    getWindowPages: PropTypes.func.isRequired,
     collapseView: PropTypes.func.isRequired,
+    windowPages: PropTypes.arrayOf(PropTypes.object).isRequired,
     entryPoints: PropTypes.arrayOf(PropTypes.object),
   };
 
@@ -115,7 +133,7 @@ export default class View extends PureComponent {
       data,
       visuWindow,
       moveViewToPage,
-      getWindowPages,
+      windowPages,
       collapseView,
       oId,
       absolutePath,
@@ -154,10 +172,10 @@ export default class View extends PureComponent {
           openEditor={openEditor}
           closeEditor={closeEditor}
           unmountAndRemove={unmountAndRemove}
-          getWindowPages={getWindowPages}
+          windowPages={windowPages}
           moveViewToPage={moveViewToPage}
           collapseView={collapseView}
-          collapsed={configuration.collapsed}
+          collapsed={!!configuration.collapsed}
           oId={oId}
           absolutePath={absolutePath}
           isModified={isModified}

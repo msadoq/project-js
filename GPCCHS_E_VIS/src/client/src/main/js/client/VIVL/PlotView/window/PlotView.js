@@ -200,7 +200,9 @@ export class PlotView extends PureComponent {
       ];
     }
 
-    this.setState(willSetState);
+    if (!_.isEmpty(willSetState)) {
+      this.setState(willSetState);
+    }
   }
 
   shouldComponentUpdate(nextProps) {

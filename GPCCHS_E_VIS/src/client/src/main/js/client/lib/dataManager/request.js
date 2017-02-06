@@ -3,7 +3,6 @@ import _each from 'lodash/each';
 import _map from 'lodash/map';
 import _get from 'lodash/get';
 import _isEqual from 'lodash/isEqual';
-import executionMonitor from 'common/log/execution';
 import getLogger from 'common/log';
 import globalConstants from 'common/constants';
 
@@ -11,7 +10,6 @@ import { operators } from '../common/operators';
 import structures from './structures';
 
 const logger = getLogger('data:requests');
-const execution = executionMonitor('data:requests');
 
 /**
  * Return the current missing intervals requests list
@@ -86,8 +84,6 @@ export function missingRemoteIds(dataMap, lastMap) {
 }
 
 export default function request(dataMap, lastMap, send) {
-  execution.start('global');
-
   // compute missing data
   const dataQueries = missingRemoteIds(dataMap, lastMap);
 
@@ -97,6 +93,4 @@ export default function request(dataMap, lastMap, send) {
   if (dataQueries && _isObject(dataQueries) && Object.keys(dataQueries).length) {
     send(globalConstants.IPC_METHOD_TIMEBASED_QUERY, { queries: dataQueries });
   }
-
-  execution.stop('global', `dataRequests (${n} remoteId)`);
 }

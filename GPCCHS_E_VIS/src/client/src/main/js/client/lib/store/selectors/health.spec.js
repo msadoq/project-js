@@ -1,9 +1,10 @@
 import globalConstants from 'common/constants';
 import { should, getStore } from '../../common/test';
 import {
-  getLastPubSubTimestamp,
   getDcStatus,
   getHssStatus,
+  getLastPubSubTimestamp,
+  getSlowRenderers,
 } from './health';
 
 describe('store:health:selectors', () => {
@@ -43,6 +44,20 @@ describe('store:health:selectors', () => {
     it('should support empty state', () => {
       const { getState } = getStore({ health: {} });
       should.not.exist(getHssStatus(getState()));
+    });
+  });
+  describe('getSlowRenderers', () => {
+    it('should return getSlowRenderers', () => {
+      const { getState } = getStore({
+        health: {
+          slowRenderers: [{ 'some window id': 100 }],
+        },
+      });
+      getSlowRenderers(getState()).should.eql([{ 'some window id': 100 }]);
+    });
+    it('should support empty state', () => {
+      const { getState } = getStore({ health: {} });
+      should.not.exist(getSlowRenderers(getState()));
     });
   });
 });

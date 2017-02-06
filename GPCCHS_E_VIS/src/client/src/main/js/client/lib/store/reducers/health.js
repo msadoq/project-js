@@ -1,9 +1,11 @@
+import _omit from 'lodash/omit';
 import * as types from '../types';
 
 const initialState = {
-  lastPubSubTimestamp: null, // number
   dcStatus: null, // enum(0:'healthy', 1:'congestion')
   hssStatus: null, // enum(0:'healthy', 1:'warning', 2:'error')
+  lastPubSubTimestamp: null, // number
+  slowRenderers: [],
 };
 
 export default function health(state = initialState, action) {
@@ -26,6 +28,17 @@ export default function health(state = initialState, action) {
         state,
         { lastPubSubTimestamp: action.payload.lastPubSubTimestamp }
       );
+    case types.HSC_ADD_SLOW_RENDERER:
+      return Object.assign({}, state, {
+        slowRenderers: {
+          ...state.slowRenderers,
+          [action.payload.windowId]: action.payload.interval,
+        },
+      });
+    case types.HSC_REMOVE_SLOW_RENDERER:
+      return Object.assign({}, state, {
+        slowRenderers: _omit(state.slowRenderers, [action.payload.windowId]),
+      });
     default:
       return state;
   }

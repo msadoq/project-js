@@ -5,7 +5,7 @@ import {
 import {
   addSlowRenderer,
   removeSlowRenderer,
-} from '../../store/actions/hsc';
+} from '../../store/actions/health';
 
 const CHECK_INTERVAL = 500;
 

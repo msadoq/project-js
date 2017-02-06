@@ -6,5 +6,4 @@ export const getWindowsOpened = getInHsc('windowsOpened');
 export const getWorkspaceOpened = getInHsc('workspaceOpened');
 export const getLastCacheInvalidation = getInHsc('lastCacheInvalidation');
 export const getPlayingTimebarId = getInHsc('playingTimebarId');
-export const getSlowRenderers = getInHsc('slowRenderers');
 export const getFocusedWindowId = getInHsc('focusWindow');

@@ -9,8 +9,10 @@ import { getStore } from '../store/mainStore';
 import {
   getWindowsOpened,
   getLastCacheInvalidation,
-  // getSlowRenderers,
 } from '../store/selectors/hsc';
+/* import {
+  getSlowRenderers,
+} from '../store/selectors/health'; */
 import {
   setWindowsAsOpened,
   updateCacheInvalidation,

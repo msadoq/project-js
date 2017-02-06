@@ -57,4 +57,19 @@ describe('store:health:reducer', () => {
     state.should.have.a.property('dcStatus', globalConstants.DC_STATUS_HEALTHY);
     state.should.have.a.property('hssStatus', globalConstants.HSS_STATUS_HEALTHY);
   });
+  it('should add slow renderer', () => {
+    reducer(undefined, actions.addSlowRenderer('1234', 120))
+      .should.have.properties({
+        slowRenderers: { 1234: 120 },
+      });
+  });
+  it('should remove slow renderer', () => {
+    reducer(freezeMe({
+      slowRenderers: { 1234: 120 },
+    }), actions.removeSlowRenderer('1234'))
+    .should.eql({
+      slowRenderers: { },
+    });
+  });
+
 });

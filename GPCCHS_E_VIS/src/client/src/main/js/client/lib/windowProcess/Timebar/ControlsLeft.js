@@ -24,12 +24,29 @@ export default class ControlsLeft extends PureComponent {
     restoreWidth: PropTypes.func.isRequired,
     goNow: PropTypes.func.isRequired,
     jump: PropTypes.func.isRequired,
-    messages: PropTypes.array,
+    messages: PropTypes.arrayOf(
+      PropTypes.shape({
+        message: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
+      })
+    ),
     timebarUuid: PropTypes.string.isRequired,
     timebarSpeed: PropTypes.number.isRequired,
     currentSessionExists: PropTypes.bool.isRequired,
-    masterTimeline: PropTypes.object,
+    masterTimeline: PropTypes.shape({
+      color: PropTypes.string,
+      id: PropTypes.string.isRequired,
+      kind: PropTypes.string.isRequired,
+      timelineId: PropTypes.string.isRequired,
+      offset: PropTypes.number.isRequired,
+      sessionId: PropTypes.number.isRequired,
+    }),
     masterSessionId: PropTypes.number.isRequired,
+  }
+
+  static defaultProps = {
+    masterTimeline: null,
+    messages: [],
   }
 
   changeSpeed = (e) => {

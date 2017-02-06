@@ -326,7 +326,7 @@ export default class LeftTab extends PureComponent {
         >
           { timelines.map(v =>
             <Timeline
-              key={v.i}
+              key={v.id}
               offset={v.offset}
               timelinesLength={timelines.length}
               timebarUuid={timebarUuid}

@@ -6,7 +6,15 @@ import styles from '../Lefttab.css';
 
 export default class OffsetFields extends PureComponent {
   static propTypes = {
-    input: PropTypes.object.isRequired,
+    input: PropTypes.shape({
+      value: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      onBlur: PropTypes.func.isRequired,
+      onChange: PropTypes.func.isRequired,
+      onDragStart: PropTypes.func.isRequired,
+      onFocus: PropTypes.func.isRequired,
+      onDrop: PropTypes.func.isRequired,
+    }).isRequired,
   }
 
   componentDidMount = () => {

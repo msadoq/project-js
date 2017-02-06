@@ -24,16 +24,58 @@ export default class TimebarWrapper extends PureComponent {
     collapseTimebar: PropTypes.func.isRequired,
     updateTimebarHeight: PropTypes.func.isRequired,
     isPlaying: PropTypes.bool.isRequired,
-    visuWindow: PropTypes.object.isRequired,
-    slideWindow: PropTypes.object.isRequired,
-    timebar: PropTypes.object.isRequired,
+    slideWindow: PropTypes.shape({
+      lower: PropTypes.number.isRequired,
+      upper: PropTypes.number.isRequired,
+    }).isRequired,
+    visuWindow: PropTypes.shape({
+      lower: PropTypes.number.isRequired,
+      upper: PropTypes.number.isRequired,
+      current: PropTypes.number.isRequired,
+      defaultWidth: PropTypes.number.isRequired,
+    }).isRequired,
+    timebar: PropTypes.shape({
+      extUpperBound: PropTypes.number.isRequired,
+      rulerResolution: PropTypes.number.isRequired,
+      speed: PropTypes.number.isRequired,
+      rulerStart: PropTypes.number.isRequired,
+      id: PropTypes.string.isRequired,
+      masterId: PropTypes.string.isRequired,
+      realTime: PropTypes.bool.isRequired,
+      mode: PropTypes.string.isRequired,
+      slideWindow: PropTypes.shape({
+        lower: PropTypes.number.isRequired,
+        upper: PropTypes.number.isRequired,
+      }).isRequired,
+      visuWindow: PropTypes.shape({
+        lower: PropTypes.number.isRequired,
+        upper: PropTypes.number.isRequired,
+        current: PropTypes.number.isRequired,
+        defaultWidth: PropTypes.number.isRequired,
+      }).isRequired,
+      timelines: PropTypes.arrayOf(
+        PropTypes.string.isRequired
+      ).isRequired,
+    }).isRequired,
     timebarUuid: PropTypes.string.isRequired,
     focusedPageId: PropTypes.string.isRequired,
-    timelines: PropTypes.array.isRequired,
+    timelines: PropTypes.arrayOf(
+      PropTypes.shape({
+        color: PropTypes.string,
+        id: PropTypes.string.isRequired,
+        kind: PropTypes.string.isRequired,
+        timelineId: PropTypes.string.isRequired,
+        offset: PropTypes.number.isRequired,
+        sessionId: PropTypes.number.isRequired,
+      })
+    ).isRequired,
     timebarHeight: PropTypes.number,
-    timebarCollapsed: PropTypes.bool,
+    timebarCollapsed: PropTypes.bool.isRequired,
   }
 
+  static defaultProps = {
+    timebarHeight: 140,
+  }
   state = {
     timelinesVerticalScroll: 0,
     displayTimesetter: false,

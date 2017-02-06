@@ -17,11 +17,35 @@ import {
 */
 export default class TimelineFields extends PureComponent {
   static propTypes = {
-    sessions: PropTypes.array,
-    timelines: PropTypes.array,
-    id: PropTypes.string,
+    timelines: PropTypes.arrayOf(
+      PropTypes.shape({
+        color: PropTypes.string,
+        id: PropTypes.string.isRequired,
+        kind: PropTypes.string.isRequired,
+        timelineId: PropTypes.string.isRequired,
+        offset: PropTypes.number.isRequired,
+        sessionId: PropTypes.number.isRequired,
+      })
+    ).isRequired,
+    sessions: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        delta: PropTypes.number.isRequired,
+        id: PropTypes.number.isRequired,
+        missionEpoch: PropTypes.number.isRequired,
+        timestamp: PropTypes.shape({
+          ms: PropTypes.number,
+          ps: PropTypes.number,
+        }),
+      })
+    ).isRequired,
+    id: PropTypes.string.isRequired,
     masterId: PropTypes.string,
-    timelineId: PropTypes.string,
+    timelineId: PropTypes.string.isRequired,
+  }
+
+  static defaultProps = {
+    masterId: null,
   }
 
   render() {
@@ -67,6 +91,7 @@ export default class TimelineFields extends PureComponent {
               if (timelines.find(t => t.id === val && t.timelineId !== timelineId)) {
                 return 'This id is already taken';
               }
+              return undefined;
             }}
           />
         </HorizontalFormGroup>

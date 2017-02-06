@@ -33,6 +33,7 @@ class RightTabContent extends PureComponent {
       id: PropTypes.string.isRequired,
       masterId: PropTypes.string.isRequired,
       mode: PropTypes.string.isRequired,
+      realTime: PropTypes.bool.isRequired,
       slideWindow: PropTypes.shape({
         lower: PropTypes.number.isRequired,
         upper: PropTypes.number.isRequired,

@@ -24,8 +24,19 @@ export default class ControlsRight extends PureComponent {
     timebarRealTime: PropTypes.bool.isRequired,
     currentSessionExists: PropTypes.bool.isRequired,
     masterTimelineExists: PropTypes.bool.isRequired,
-    masterTimeline: PropTypes.object,
+    masterTimeline: PropTypes.shape({
+      color: PropTypes.string,
+      id: PropTypes.string.isRequired,
+      kind: PropTypes.string.isRequired,
+      timelineId: PropTypes.string.isRequired,
+      offset: PropTypes.number.isRequired,
+      sessionId: PropTypes.number.isRequired,
+    }),
     masterSessionId: PropTypes.number.isRequired,
+  }
+
+  static defaultProps = {
+    masterTimeline: null,
   }
 
   switchMode = (e) => {

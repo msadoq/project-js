@@ -30,8 +30,13 @@ export default class Page extends PureComponent {
     isEditorOpened: PropTypes.bool.isRequired,
     openEditor: PropTypes.func.isRequired,
     closeEditor: PropTypes.func.isRequired,
-    editorViewId: PropTypes.string.isRequired,
-    focusedPageId: PropTypes.string.isRequired,
+    editorViewId: PropTypes.string,
+    focusedPageId: PropTypes.string,
+  };
+
+  static defaultProps = {
+    editorViewId: null,
+    focusedPageId: null,
   };
 
   static childContextTypes = {
@@ -52,7 +57,7 @@ export default class Page extends PureComponent {
     }
   }
 
-  onDrop(e) { // eslint-disable-line class-methods-use-this
+  onDrop = (e) => { // eslint-disable-line class-methods-use-this
     const data = e.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);
 
@@ -72,8 +77,6 @@ export default class Page extends PureComponent {
       })],
     ])(type);
   }
-
-  onDrop = ::this.onDrop;
 
   render() {
     logger.debug('render');

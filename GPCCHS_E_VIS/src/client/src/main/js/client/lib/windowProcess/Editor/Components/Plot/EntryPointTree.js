@@ -16,13 +16,14 @@ import EntryPointDetailsContainer from './EntryPointDetailsContainer';
 
 export default class EntryPointTree extends PureComponent {
   static propTypes = {
-    entryPoints: PropTypes.array,
+    entryPoints: PropTypes.arrayOf(PropTypes.object),
     search: PropTypes.string,
-    remove: PropTypes.func,
+    remove: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     entryPoints: [],
+    search: '',
   };
 
   static contextTypes = {

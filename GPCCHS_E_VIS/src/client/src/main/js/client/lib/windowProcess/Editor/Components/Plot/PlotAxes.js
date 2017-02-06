@@ -23,7 +23,7 @@ const alignButtons = [
 export default class PlotAxes extends React.Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
-    axes: PropTypes.object.isRequired,
+    axes: PropTypes.arrayOf(PropTypes.object).isRequired,
     showYAxes: PropTypes.string,
     updateShowYAxes: PropTypes.func.isRequired,
     removeAxis: PropTypes.func.isRequired,
@@ -37,8 +37,14 @@ export default class PlotAxes extends React.Component {
     panelRole: PropTypes.string.isRequired,
     eventKey: PropTypes.string.isRequired,
     collapsible: PropTypes.bool.isRequired,
-    entryPoints: PropTypes.array,
+    entryPoints: PropTypes.arrayOf(PropTypes.object),
   }
+
+  static defaultProps = {
+    entryPoints: [],
+    showYAxes: 'left',
+  };
+
   state = { isCreationModalOpen: false };
 
   openPanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: true }));

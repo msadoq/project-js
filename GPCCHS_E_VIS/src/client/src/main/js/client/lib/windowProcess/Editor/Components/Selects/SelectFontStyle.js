@@ -18,6 +18,14 @@ export default class SelectFontStyle extends React.Component {
     underline: PropTypes.bool,
     strikeOut: PropTypes.bool,
   }
+
+  static defaultProps = {
+    bold: false,
+    italic: false,
+    underline: false,
+    strikeOut: false,
+  };
+
   state = { name: '' };
 
   handleBold = state => this.props.update('bold', state === 'ON');
@@ -30,7 +38,7 @@ export default class SelectFontStyle extends React.Component {
       bold,
       italic,
       underline,
-      strikeOut
+      strikeOut,
     } = this.props;
     return (
       <div className="row" >

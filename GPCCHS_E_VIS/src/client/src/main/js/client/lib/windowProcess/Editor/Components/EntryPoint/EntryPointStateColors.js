@@ -42,6 +42,8 @@ class EntryPointStateColors extends React.Component {
 
     return (
       <div>
+        <EntryPointMonitoringStateColors />
+        <h4>Custom colors</h4>
         <Form horizontal onSubmit={handleSubmit}>
           <FieldArray
             name="stateColors"
@@ -56,7 +58,6 @@ class EntryPointStateColors extends React.Component {
             />
           </HorizontalFormGroup>
         </Form>
-        <EntryPointMonitoringStateColors />
       </div>
     );
   }

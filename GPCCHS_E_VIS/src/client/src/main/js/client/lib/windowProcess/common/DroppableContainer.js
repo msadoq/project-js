@@ -44,7 +44,7 @@ export default class DroppableContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      over: false
+      over: false,
     };
   }
 
@@ -57,7 +57,7 @@ export default class DroppableContainer extends PureComponent {
     e.stopPropagation();
     if (!this.state.over) {
       this.setState({
-        over: true
+        over: true,
       });
     }
   }
@@ -65,7 +65,7 @@ export default class DroppableContainer extends PureComponent {
   dragLeave() {
     if (this.state.over) {
       this.setState({
-        over: false
+        over: false,
       });
     }
   }
@@ -78,7 +78,7 @@ export default class DroppableContainer extends PureComponent {
       logger.info('unable to parse dropped data');
     } finally {
       this.setState({
-        over: false
+        over: false,
       });
       e.preventDefault();
     }

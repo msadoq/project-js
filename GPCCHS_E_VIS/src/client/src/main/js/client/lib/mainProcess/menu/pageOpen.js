@@ -2,7 +2,7 @@ import { BrowserWindow } from 'electron';
 import _map from 'lodash/map';
 import { v4 } from 'uuid';
 import {
-  LOG_DOCUMENT_OPEN
+  LOG_DOCUMENT_OPEN,
 } from 'common/constants';
 import { server } from '../ipc';
 import { readPages, extractViews } from '../../common/documentManager';
@@ -14,56 +14,6 @@ import { addAndMount as addAndMountPage } from '../../store/actions/windows';
 import { setModified as setModifiedPage } from '../../store/actions/pages';
 
 const addGlobalError = msg => addMessage('global', 'danger', msg);
-
-function pageOpen(focusedWindow) {
-  const store = getStore();
-  if (!focusedWindow) {
-    return;
-  }
-  getPathByFilePicker(store.getState().hsc.folder, 'page', 'open', (err, filePath) => {
-    if (err || !filePath) { // error or cancel
-      return;
-    }
-    pageOpenWithPath({ filePath, windowId: focusedWindow.windowId });
-  });
-}
-
-function pageOpenWithPath({ filePath, windowId }) {
-  const store = getStore();
-  readPages(undefined, [{ absolutePath: filePath }], (pageErr, pages) => {
-    if (pageErr) {
-      store.dispatch(addGlobalError('Unable to load page'));
-      store.dispatch(addGlobalError(pageErr));
-    }
-    const content = { pages: {} };
-    const uuid = v4();
-    content.pages[uuid] = pages[0];
-    extractViews(content, (viewErr, pageAndViews) => {
-      if (viewErr) {
-        store.dispatch(addGlobalError('Unable to load page : invalid view'));
-        store.dispatch(addGlobalError(viewErr));
-      }
-      showSelectedPage(pageAndViews, uuid, windowId);
-      const title = store.getState().windows[windowId].title;
-      const window = BrowserWindow.getFocusedWindow();
-      window.setTitle(title.concat(' * - VIMA'));
-      server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', filePath);
-    });
-  });
-}
-
-function pageAddNew(focusedWindow) {
-  if (!focusedWindow) {
-    return getStore().dispatch(addGlobalError('Saving failed : no window focused'));
-  }
-  const { dispatch, getState } = getStore();
-  const uuid = v4();
-  dispatch(addAndMountPage(focusedWindow.windowId, uuid));
-  dispatch(setModifiedPage(uuid, true));
-  const title = getState().windows[focusedWindow.windowId].title;
-  focusedWindow.setTitle(title.concat(' * - VIMA'));
-  server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', 'new page');
-}
 
 function showSelectedPage(pageAndViews, pageId, windowId) {
   const store = getStore();
@@ -89,8 +39,60 @@ function showSelectedPage(pageAndViews, pageId, windowId) {
   store.dispatch(addAndMountPage(windowId, pageId, page));
 }
 
+function pageOpenWithPath({ filePath, windowId }) {
+  const store = getStore();
+  readPages(undefined, [{ absolutePath: filePath }], (pageErr, pages) => {
+    if (pageErr) {
+      store.dispatch(addGlobalError('Unable to load page'));
+      store.dispatch(addGlobalError(pageErr));
+    }
+    const content = { pages: {} };
+    const uuid = v4();
+    content.pages[uuid] = pages[0];
+    extractViews(content, (viewErr, pageAndViews) => {
+      if (viewErr) {
+        store.dispatch(addGlobalError('Unable to load page : invalid view'));
+        store.dispatch(addGlobalError(viewErr));
+        return;
+      }
+      showSelectedPage(pageAndViews, uuid, windowId);
+      const title = store.getState().windows[windowId].title;
+      const window = BrowserWindow.getFocusedWindow();
+      window.setTitle(title.concat(' * - VIMA'));
+      server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', filePath);
+    });
+  });
+}
+
+function pageOpen(focusedWindow) {
+  const store = getStore();
+  if (!focusedWindow) {
+    return;
+  }
+  getPathByFilePicker(store.getState().hsc.folder, 'page', 'open', (err, filePath) => {
+    if (err || !filePath) { // error or cancel
+      return;
+    }
+    pageOpenWithPath({ filePath, windowId: focusedWindow.windowId });
+  });
+}
+
+function pageAddNew(focusedWindow) {
+  if (!focusedWindow) {
+    getStore().dispatch(addGlobalError('Saving failed : no window focused'));
+    return;
+  }
+  const { dispatch, getState } = getStore();
+  const uuid = v4();
+  dispatch(addAndMountPage(focusedWindow.windowId, uuid));
+  dispatch(setModifiedPage(uuid, true));
+  const title = getState().windows[focusedWindow.windowId].title;
+  focusedWindow.setTitle(title.concat(' * - VIMA'));
+  server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', 'new page');
+}
+
 export default {
   pageOpen,
   pageOpenWithPath,
-  pageAddNew
+  pageAddNew,
 };

@@ -5,7 +5,7 @@ import {
   Panel,
   Glyphicon,
   Alert,
-  Button
+  Button,
 } from 'react-bootstrap';
 
 import EntryPointDetailsContainer from './EntryPointDetailsContainer';
@@ -18,11 +18,11 @@ export default class EntryPointTree extends React.Component {
   static propTypes = {
     entryPoints: PropTypes.array,
     search: PropTypes.string,
-    remove: PropTypes.func
+    remove: PropTypes.func,
   }
 
   static defaultProps = {
-    entryPoints: []
+    entryPoints: [],
   };
 
   static contextTypes = {
@@ -60,14 +60,14 @@ export default class EntryPointTree extends React.Component {
           const isOpen = this.state[`panel${key}IsOpen`];
           return (
             <Panel
-              key={key}
+              key={entryPoint.name}
               header={<span>
                 {entryPoint.objectStyle && entryPoint.objectStyle.curveColor && <div
                   style={{
                     height: '20px',
                     width: '20px',
                     marginRight: '10px',
-                    backgroundColor: entryPoint.objectStyle.curveColor
+                    backgroundColor: entryPoint.objectStyle.curveColor,
                   }}
                 />}
                 <span className="flex">{entryPoint.name}</span>
@@ -89,7 +89,7 @@ export default class EntryPointTree extends React.Component {
               onExited={this.closePanel(key)}
             >
               {isOpen && <EntryPointDetailsContainer
-                key={key}
+                key={`${entryPoint.name}#detailsContainer`}
                 idPoint={key}
                 viewId={viewId}
                 focusedPageId={focusedPageId}

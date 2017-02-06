@@ -11,7 +11,7 @@ describe('store:messages:selectors', () => {
         { type: 'danger', message: 'another message' },
       ],
       myOtherId: [{ type: 'danger', message: 'my message' }],
-    }
+    },
   };
   describe('getGlobalMessages', () => {
     it('should returns global messages', () => {

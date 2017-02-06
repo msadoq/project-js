@@ -8,17 +8,17 @@ export const unitOptions = [
   { value: 'day', label: 'day' },
   { value: 'year', label: 'year' },
   { value: 'century', label: 'century' },
-  { value: 'V', label: 'V' }
+  { value: 'V', label: 'V' },
 ];
 
 export const formatOptions = [
   { value: 'decimal', label: 'decimal' },
   { value: 'hexadecimal', label: 'hexadecimal' },
-  { value: 'binary', label: 'binary' }
+  { value: 'binary', label: 'binary' },
 ];
 
 export const axesOptions = [
   { value: 'time', label: 'time' },
   { value: 'frequency', label: 'frequency' },
-  { value: 'temperature', label: 'temperature' }
+  { value: 'temperature', label: 'temperature' },
 ];

@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import HorizontalFormGroup from './HorizontalFormGroup';
 
 const propsStub = {
-  children: 1
+  children: 1,
 };
 
 test('Navigation renders correctly', () => {

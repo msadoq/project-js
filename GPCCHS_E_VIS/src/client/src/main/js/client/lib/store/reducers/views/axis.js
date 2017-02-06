@@ -18,7 +18,7 @@ export function updateAxis(stateViews, action) {
         axes: { [action.payload.axisId]: action.payload.axis },
       },
       isModified: true,
-    }
+    },
   }, stateViews);
 }
 
@@ -45,7 +45,7 @@ export function addAxis(stateViews, action) {
         axes: { [id]: axis || action.payload.axis },
       },
       isModified: true,
-    }
+    },
   }, stateViews);
 }
 
@@ -63,7 +63,7 @@ export function removeAxis(stateViews, action) {
         axes: u.omit(action.payload.axisId),
       },
       isModified: true,
-    }
+    },
   }, stateViews);
 }
 
@@ -114,4 +114,5 @@ export function getAxisId(epName, connectedData, currentView) {
   if (index) {
     return index.id;
   }
+  return undefined;
 }

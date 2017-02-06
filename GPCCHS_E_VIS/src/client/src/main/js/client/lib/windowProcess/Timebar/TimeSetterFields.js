@@ -82,10 +82,10 @@ export default class TimeSetterFields extends PureComponent {
           <b>{undisplayed ? ' - hidden' : ''}</b>
         </div>
         {
-          arr.map((x, i) =>
-            <div key={i} className={styles.inputDiv}>
+          arr.map(x =>
+            <div key={x[0]} className={styles.inputDiv}>
               <input
-                key={i}
+                key={x[0]}
                 ref={(el) => { this[`${x[0]}El`] = el; }}
                 className={classnames('form-control', styles.input, styles[`input_${x[0]}`])}
                 defaultValue={x[1]}
@@ -122,6 +122,6 @@ function dateToArray(m) {
     ['hours', m.format(formats.hours)],
     ['minutes', m.format(formats.minutes)],
     ['seconds', m.format(formats.seconds)],
-    ['milliseconds', m.format(formats.milliseconds)]
+    ['milliseconds', m.format(formats.milliseconds)],
   ];
 }

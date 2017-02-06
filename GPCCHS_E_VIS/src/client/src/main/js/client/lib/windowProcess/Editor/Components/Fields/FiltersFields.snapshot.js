@@ -11,8 +11,8 @@ const propsStub = {
       field: 'convertedValue',
       operator: '<=',
       operand: '0',
-    }]
-  }
+    }],
+  },
 };
 
 test('FiltersFields renders correctly', () => {

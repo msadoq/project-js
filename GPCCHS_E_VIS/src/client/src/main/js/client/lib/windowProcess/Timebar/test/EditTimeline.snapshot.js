@@ -26,7 +26,7 @@ const propsStub = {
     sessionId: '10',
     timelineId: 'timelineId',
     offset: 0,
-  }
+  },
 };
 
 test('EditTimeline (redux-form) renders correctly', () => {

@@ -8,7 +8,6 @@ const initialState = {
   lastCacheInvalidation: Date.now(),
   folder: null,
   file: null,
-  slowRenderers: [],
   focusWindow: null,
 };
 
@@ -30,25 +29,14 @@ export default function hsc(state = initialState, action) {
       return Object.assign({}, state, { folder: action.payload.folder, file: action.payload.file });
     case types.HSC_CLOSE_WORKSPACE:
       return _omit(state, ['folder', 'file']);
-    case types.HSC_ADD_SLOW_RENDERER:
-      return Object.assign({}, state, {
-        slowRenderers: {
-          ...state.slowRenderers,
-          [action.payload.windowId]: action.payload.interval,
-        },
-      });
-    case types.HSC_REMOVE_SLOW_RENDERER:
-      return Object.assign({}, state, {
-        slowRenderers: _omit(state.slowRenderers, [action.payload.windowId]),
-      });
     case types.HSC_FOCUS_WINDOW:
       return Object.assign({}, state, {
-        focusWindow: action.payload.windowId
+        focusWindow: action.payload.windowId,
       });
     case types.HSC_BLUR_WINDOW:
       if (state.focusWindow === action.payload.windowId) {
         return Object.assign({}, state, {
-          focusWindow: null
+          focusWindow: null,
         });
       }
       return state;

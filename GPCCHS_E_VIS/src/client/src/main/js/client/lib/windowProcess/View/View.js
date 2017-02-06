@@ -22,22 +22,47 @@ const keys = {
 
 export default class View extends PureComponent {
   static propTypes = {
-    isViewsEditorOpen: PropTypes.bool,
-    configuration: PropTypes.object,
-    visuWindow: PropTypes.object,
+    isViewsEditorOpen: PropTypes.bool.isRequired,
+    configuration: PropTypes.shape({
+      backgroundColor: PropTypes.string,
+      title: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      defaultRatio: PropTypes.object.isRequired,
+      entryPoints: PropTypes.array.isRequired,
+      links: PropTypes.array.isRequired,
+      markers: PropTypes.array,
+      axes: PropTypes.object,
+      legend: PropTypes.object,
+      titleStyle: PropTypes.object,
+      grids: PropTypes.array,
+    }).isRequired,
+    visuWindow: PropTypes.shape({
+      lower: PropTypes.number.isRequired,
+      upper: PropTypes.number.isRequired,
+      current: PropTypes.number.isRequired,
+      defaultWidth: PropTypes.number.isRequired,
+    }).isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
     data: PropTypes.object,
     viewId: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     oId: PropTypes.string,
     absolutePath: PropTypes.string,
-    isModified: PropTypes.bool,
-    openEditor: PropTypes.func,
-    closeEditor: PropTypes.func,
-    unmountAndRemove: PropTypes.func,
-    moveViewToPage: PropTypes.func,
-    getWindowPages: PropTypes.func,
-    collapseView: PropTypes.func,
-    entryPoints: PropTypes.array,
+    isModified: PropTypes.bool.isRequired,
+    openEditor: PropTypes.func.isRequired,
+    closeEditor: PropTypes.func.isRequired,
+    unmountAndRemove: PropTypes.func.isRequired,
+    moveViewToPage: PropTypes.func.isRequired,
+    collapseView: PropTypes.func.isRequired,
+    windowPages: PropTypes.arrayOf(PropTypes.object).isRequired,
+    entryPoints: PropTypes.arrayOf(PropTypes.object),
+  };
+
+  static defaultProps = {
+    entryPoints: [],
+    data: {},
+    absolutePath: '',
+    oId: '',
   };
 
   static contextTypes = {
@@ -91,6 +116,7 @@ export default class View extends PureComponent {
   }
 
   borderColorStyle = _memoize(c => ({ borderColor: c }));
+  backgroundColorStyle = _memoize(c => ({ backgroundColor: c }));
   assignEl = (el) => { this.el = el; }
 
   render() {
@@ -107,7 +133,7 @@ export default class View extends PureComponent {
       data,
       visuWindow,
       moveViewToPage,
-      getWindowPages,
+      windowPages,
       collapseView,
       oId,
       absolutePath,
@@ -146,10 +172,10 @@ export default class View extends PureComponent {
           openEditor={openEditor}
           closeEditor={closeEditor}
           unmountAndRemove={unmountAndRemove}
-          getWindowPages={getWindowPages}
+          windowPages={windowPages}
           moveViewToPage={moveViewToPage}
           collapseView={collapseView}
-          collapsed={configuration.collapsed}
+          collapsed={!!configuration.collapsed}
           oId={oId}
           absolutePath={absolutePath}
           isModified={isModified}
@@ -159,7 +185,7 @@ export default class View extends PureComponent {
         {!configuration.collapsed &&
           <div
             className={styles.content}
-            style={{ backgroundColor }}
+            style={this.backgroundColorStyle(backgroundColor)}
           >
             <MessagesContainer viewId={viewId} />
             <ContentComponent

@@ -32,7 +32,7 @@ export function loadInStore(workspace, dispatch, root, file, callback, isDefault
       e.path,
       e.oId,
       e.absolutePath,
-      isDefault,
+      isDefault
     ));
   });
 
@@ -78,9 +78,7 @@ export function loadInStore(workspace, dispatch, root, file, callback, isDefault
   dispatch(updatePath(root, file));
   dispatch(setWorkspaceAsOpened());
 
-  if (typeof callback === 'function') {
-    return callback(null);
-  }
+  return (typeof callback === 'function') ? callback(null) : undefined;
 }
 
 export function openWorkspaceDocument(dispatch, getState, root, file, callback) {
@@ -106,9 +104,7 @@ export function openWorkspaceDocument(dispatch, getState, root, file, callback) 
     logger.info(`${count.w} windows, ${count.p} pages, ${count.v} views`);
     server.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', file);
 
-    if (typeof callback === 'function') {
-      return callback(null);
-    }
+    return (typeof callback === 'function') ? callback(null) : undefined;
   });
 }
 
@@ -126,7 +122,7 @@ const createBlankWorkspace = () => {
       h: 900,
       x: 10,
       y: 10,
-    }
+    },
   };
   const timebar = {
     type: 'timeBarConfiguration',
@@ -135,7 +131,7 @@ const createBlankWorkspace = () => {
     visuWindow: {
       lower: Date.now() - (5 * 60 * 1000),
       upper: Date.now() + (5 * 60 * 1000),
-      current: Date.now()
+      current: Date.now(),
     },
     slideWindow: {
       lower: Date.now() - (5 * 60 * 1000),

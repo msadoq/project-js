@@ -3,18 +3,18 @@ import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import {
   Form,
-  InputGroup
+  InputGroup,
 } from 'react-bootstrap';
 import {
-  InputField
+  InputField,
 } from '../Fields/';
 import {
   HorizontalFormGroup,
-  ClearSubmitButtons
+  ClearSubmitButtons,
 } from '../Forms/';
 import {
   FormSectionFontStyle,
-  FormSectionLineStyle
+  FormSectionLineStyle,
 } from '../FormSections/';
 
 const { Addon } = InputGroup;
@@ -36,8 +36,8 @@ class PlotMarker extends React.Component {
         underline: PropTypes.bool,
         strikeOut: PropTypes.bool,
         align: PropTypes.string,
-        color: PropTypes.string
-      })
+        color: PropTypes.string,
+      }),
     }).isRequired,
     isKindText: PropTypes.bool,
     isKindHorizontal: PropTypes.bool,
@@ -49,7 +49,7 @@ class PlotMarker extends React.Component {
     pristine: PropTypes.bool,
     reset: PropTypes.func,
     submitting: PropTypes.bool,
-    valid: PropTypes.bool
+    valid: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -67,9 +67,9 @@ class PlotMarker extends React.Component {
         underline: false,
         strikeOut: false,
         align: 'left',
-        color: '#000000'
-      }
-    }
+        color: '#000000',
+      },
+    },
   }
 
   // handlePosX = e => this.props.handlePlotMarker(this.props.idAxe, 'posX', e.target.value);
@@ -244,12 +244,12 @@ export default connect((state, { formName }) => {
     isKindHorizontal: kind === 'Horizontal',
     isKindVertical: kind === 'Vertical',
     isKindOnePoint: kind === 'onePoint',
-    isKindTwoPoint: kind === 'twoPoint'
+    isKindTwoPoint: kind === 'twoPoint',
   };
 })(
   reduxForm({
     validate,
     warn,
-    enableReinitialize: true
+    enableReinitialize: true,
   })(PlotMarker)
 );

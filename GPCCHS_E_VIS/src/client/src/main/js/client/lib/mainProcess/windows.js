@@ -198,6 +198,6 @@ export default function windowsObserver(state, callback) {
         }
       }
       return fn(null);
-    }
+    },
   ], callback);
 }

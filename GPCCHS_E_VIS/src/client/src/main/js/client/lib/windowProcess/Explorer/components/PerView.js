@@ -29,11 +29,11 @@ function perViewHeader() {
 
 export default class PerView extends PureComponent {
   static propTypes = {
-    perView: PropTypes.object,
+    perView: PropTypes.objectOf(PropTypes.object),
     parseFormula: PropTypes.func,
-    views: PropTypes.object,
-    sessions: PropTypes.array.isRequired,
-    domains: PropTypes.array.isRequired,
+    views: PropTypes.objectOf(PropTypes.object),
+    sessions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    domains: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
   perViewLine() {

@@ -1,18 +1,18 @@
 import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import {
-  Form
+  Form,
 } from 'react-bootstrap';
 import {
   ButtonToggleField,
-  InputField
+  InputField,
 } from '../Fields/';
 import {
   HorizontalFormGroup,
-  ClearSubmitButtons
+  ClearSubmitButtons,
 } from '../Forms/';
 import {
-  FormSectionLineStyle
+  FormSectionLineStyle,
 } from '../FormSections';
 
 class PlotGrid extends React.Component {
@@ -33,7 +33,7 @@ class PlotGrid extends React.Component {
     pristine: PropTypes.bool,
     reset: PropTypes.func,
     submitting: PropTypes.bool,
-    valid: PropTypes.bool
+    valid: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -46,7 +46,7 @@ class PlotGrid extends React.Component {
         size: 1,
       },
       showGrid: false,
-    }
+    },
   }
 
   render() {
@@ -56,7 +56,7 @@ class PlotGrid extends React.Component {
       reset,
       submitting,
       valid,
-      axes
+      axes,
     } = this.props;
 
     return (
@@ -154,5 +154,5 @@ const warn = () => {
 export default reduxForm({
   validate,
   warn,
-  enableReinitialize: true
+  enableReinitialize: true,
 })(PlotGrid);

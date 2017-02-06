@@ -29,7 +29,7 @@ const template = [{
     role: 'delete',
   }, {
     role: 'selectall',
-  }]
+  }],
 }];
 template.splice(0, 0,
   {
@@ -39,29 +39,29 @@ template.splice(0, 0,
       accelerator: 'CmdOrCtrl+N',
       click(item, focusedWindow) {
         workspaceOpenNew(focusedWindow);
-      }
+      },
     }, {
       label: 'Open ... ',
       accelerator: 'CmdOrCtrl+O',
       click(item, focusedWindow) {
         workspaceOpen(focusedWindow);
-      }
+      },
     }, {
       label: 'Save',
       accelerator: 'CmdOrCtrl+S',
       click: (item, focusedWindow) => {
         workspaceSave(focusedWindow);
-      }
+      },
     }, {
       label: 'Save as...',
       accelerator: 'CmdOrCtrl+Shift+S',
       click: (item, focusedWindow) => {
         workspaceSaveAs(focusedWindow);
-      }
+      },
     }, {
       label: 'Quit',
-      role: 'quit'
-    }]
+      role: 'quit',
+    }],
   });
 template.splice(1, 0,
   {
@@ -70,44 +70,44 @@ template.splice(1, 0,
       {
         label: 'New',
         accelerator: '',
-        click() { getStore().dispatch(add(v4(), 'New window')); }
+        click() { getStore().dispatch(add(v4(), 'New window')); },
       }, {
         label: 'Reload',
         accelerator: '',
         click(item, focusedWindow) {
           if (focusedWindow) focusedWindow.reload();
-        }
+        },
       }, {
-        type: 'separator'
+        type: 'separator',
       }, {
         label: 'Toggle Developer Tools',
         accelerator: '',
         click(item, focusedWindow) {
           if (focusedWindow) focusedWindow.webContents.toggleDevTools();
-        }
+        },
       }, {
         label: 'Actual Size',
-        role: 'resetzoom'
+        role: 'resetzoom',
       }, {
         label: 'Zoom In',
-        role: 'zoomin'
+        role: 'zoomin',
       }, {
         label: 'Zoom Out',
-        role: 'zoomout'
+        role: 'zoomout',
       }, {
-        type: 'separator'
+        type: 'separator',
       }, {
         label: 'Toggle Full Screen',
-        role: 'togglefullscreen'
+        role: 'togglefullscreen',
       }, {
-        type: 'separator'
+        type: 'separator',
       }, {
         label: 'Minimize',
-        role: 'minimize'
+        role: 'minimize',
       }, {
         label: 'Close',
-        role: 'close'
-      }]
+        role: 'close',
+      }],
   });
 template.splice(2, 0,
   {
@@ -117,26 +117,26 @@ template.splice(2, 0,
       accelerator: '',
       click(item, focusedWindow) {
         pageAddNew(focusedWindow);
-      }
+      },
     }, {
       label: 'Open ...',
       accelerator: '',
       click(item, focusedWindow) {
         pageOpen(focusedWindow);
-      }
+      },
     }, {
       label: 'Save',
       accelerator: '',
       click(item, focusedWindow) {
         pageSave(focusedWindow);
-      }
+      },
     }, {
       label: 'Save As ...',
       accelerator: '',
       click(item, focusedWindow) {
         pageSaveAs(focusedWindow);
-      }
-    }]
+      },
+    }],
   });
 
 template.splice(3, 0,
@@ -147,27 +147,27 @@ template.splice(3, 0,
       accelerator: '',
       click(item, focusedWindow) {
         addPlotView(focusedWindow);
-      }
+      },
     }, {
       label: 'Add TextView...',
       accelerator: '',
       click(item, focusedWindow) {
         addTextView(focusedWindow);
-      }
+      },
     }, {
       label: 'Add DynamicView...',
       accelerator: '',
       click(item, focusedWindow) {
         addDynamicView(focusedWindow);
-      }
+      },
     }, {
       label: 'Open ...',
       accelerator: '',
       click(item, focusedWindow) {
         viewOpen(focusedWindow);
-      }
+      },
     },
-    ]
+    ],
   });
 
 const menu = Menu.buildFromTemplate(template);

@@ -26,6 +26,7 @@ describe('store:windows:reducer', () => {
         debug: { whyDidYouUpdate: false, timebarVisibility: true },
         minimized: false,
         isModified: true,
+        tabName: 'perRemoteId',
       });
     });
     it('add empty', () => {
@@ -38,6 +39,7 @@ describe('store:windows:reducer', () => {
       win.focusedPage.should.eql(win.pages[0]);
       win.minimized.should.eql(false);
       win.geometry.should.deep.eql({ x: 10, y: 10, w: 800, h: 600 });
+      win.tabName.should.eql('perRemoteId');
     });
   });
   describe('remove', () => {
@@ -63,7 +65,7 @@ describe('store:windows:reducer', () => {
         actions.updateGeometry('myWindowId', 120)
       );
       state.myWindowId.should.have.property('geometry').with.properties({
-        x: 120, y: 100, w: 100, h: 100
+        x: 120, y: 100, w: 100, h: 100,
       });
     });
     it('update all', () => {
@@ -72,7 +74,7 @@ describe('store:windows:reducer', () => {
         actions.updateGeometry('myWindowId', 120, 130, 140, 150)
       );
       state.myWindowId.should.have.property('geometry').with.properties({
-        x: 120, y: 130, w: 140, h: 150
+        x: 120, y: 130, w: 140, h: 150,
       });
     });
     it('update nothing', () => {
@@ -81,7 +83,7 @@ describe('store:windows:reducer', () => {
         actions.updateGeometry('myWindowId')
       );
       state.myWindowId.should.have.property('geometry').with.properties({
-        x: 120, y: 130, w: 140, h: 150
+        x: 120, y: 130, w: 140, h: 150,
       });
     });
   });
@@ -204,12 +206,34 @@ describe('store:windows:reducer', () => {
     });
   });
   describe('close_workspace', () => {
-    const newState = reducer({ myTimelineId: { id: 'Id' } }, { type: types.HSC_CLOSE_WORKSPACE });
-    newState.should.be.an('object').that.is.empty;
+    it('ok', () => {
+      const newState = reducer({ myTimelineId: { id: 'Id' } }, { type: types.HSC_CLOSE_WORKSPACE });
+      newState.should.be.an('object').that.is.empty;
+    });
   });
   describe('setModified', () => {
-    reducer({ myWindowId: { title: 'Title', isModified: false } },
-    actions.setModified('myWindowId', true))
-      .should.eql({ myWindowId: { title: 'Title', isModified: true } });
+    it('ok', () => {
+      reducer({ myWindowId: { title: 'Title', isModified: false } },
+      actions.setModified('myWindowId', true))
+        .should.eql({ myWindowId: { title: 'Title', isModified: true } });
+    });
+  });
+  describe('explorer', () => {
+    it('currentExplorer', () => {
+      reducer({ myWindowId: { title: 'Title', isModified: false } },
+      actions.currentExplorer('myWindowId', 'perView'))
+        .should.eql({ myWindowId: { title: 'Title', isModified: false, tabName: 'perView' } });
+      reducer({ myWindowId: { title: 'Title', isModified: false, tabName: 'perView' } },
+      actions.currentExplorer('myWindowId', 'perRemoteId'))
+        .should.eql({ myWindowId: { title: 'Title', isModified: false, tabName: 'perRemoteId' } });
+    });
+    it('updateExplorerWidth', () => {
+      reducer({ myWindowId: { title: 'Title', isModified: false } },
+      actions.updateExplorerWidth('myWindowId', 100))
+        .should.eql({ myWindowId: { title: 'Title', isModified: false, explorerWidth: 100 } });
+      reducer({ myWindowId: { title: 'Title', isModified: false, explorerWidth: 100 } },
+      actions.updateExplorerWidth('myWindowId', 200))
+        .should.eql({ myWindowId: { title: 'Title', isModified: false, explorerWidth: 200 } });
+    });
   });
 });

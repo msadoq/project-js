@@ -11,19 +11,19 @@ import styles from './SelectButton.css';
 
 export default class SelectButton extends React.Component {
   static propTypes = {
-    active: PropTypes.string,
-    buttons: PropTypes.array,
-    onChange: PropTypes.func,
+    active: PropTypes.string.isRequired,
+    buttons: PropTypes.arrayOf(PropTypes.object).isRequired,
+    onChange: PropTypes.func.isRequired,
   }
 
   state = {
-    active: this.props.active
+    active: this.props.active,
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.active !== this.props.active) {
       this.setState({
-        active: nextProps.active
+        active: nextProps.active,
       });
     }
   }
@@ -39,8 +39,8 @@ export default class SelectButton extends React.Component {
     const { buttons } = this.props;
     return (
       <ButtonGroup className={styles.root}>
-        {buttons.map((button, i) => (<Button
-          key={`${button.label}-${i}`}
+        {buttons.map(button => (<Button
+          key={button.label}
           bsStyle={(active === button.label) ? 'primary' : 'default'}
           bsSize="xsmall"
           onClick={e => this.changeActive(e, button.label)}

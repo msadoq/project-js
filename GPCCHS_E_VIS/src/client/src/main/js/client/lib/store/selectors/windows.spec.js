@@ -47,12 +47,12 @@ describe('store:window:selectors', () => {
     const state = {
       windows: {
         window1: { title: 'foo' },
-        window2: { title: 'bar' }
-      }
+        window2: { title: 'bar' },
+      },
     };
     getWindowsArray(state).should.eql([
       { id: 'window1', title: 'foo' },
-      { id: 'window2', title: 'bar' }
+      { id: 'window2', title: 'bar' },
     ]);
   });
   describe('getFocusedWindow', () => {
@@ -63,8 +63,8 @@ describe('store:window:selectors', () => {
         },
         windows: {
           window1: { title: 'foo' },
-          window2: { title: 'bar' }
-        }
+          window2: { title: 'bar' },
+        },
       };
       getFocusedWindow(state).should.eql({ title: 'foo' });
     });
@@ -72,7 +72,7 @@ describe('store:window:selectors', () => {
       const state = {
         windows: {
           window1: { title: 'foo' },
-          window2: { title: 'bar' }
+          window2: { title: 'bar' },
         },
       };
       expect(getFocusedWindow(state)).to.be.undefined;
@@ -85,9 +85,9 @@ describe('store:window:selectors', () => {
     const state = {
       windows: {
         window1: {
-          pages: ['page1', 'page2']
-        }
-      }
+          pages: ['page1', 'page2'],
+        },
+      },
     };
     getWindowPageIds(state, 'window1').should.eql(['page1', 'page2']);
   });
@@ -95,30 +95,30 @@ describe('store:window:selectors', () => {
     const state = {
       windows: {
         myWindowId: {
-          pages: ['page1', 'page2']
-        }
+          pages: ['page1', 'page2'],
+        },
       },
       pages: {
         page1: {
-          title: 'foo'
+          title: 'foo',
         },
         page2: {
-          title: 'bar'
-        }
-      }
+          title: 'bar',
+        },
+      },
     };
     getWindowPages(state, 'myWindowId').should.eql([
       { pageId: 'page1', title: 'foo' },
-      { pageId: 'page2', title: 'bar' }
+      { pageId: 'page2', title: 'bar' },
     ]);
   });
   it('getWindowFocusedPageId', () => {
     const state = {
       windows: {
         window1: {
-          focusedPage: 'page1'
-        }
-      }
+          focusedPage: 'page1',
+        },
+      },
     };
     getWindowFocusedPageId(state, 'window1').should.eql('page1');
   });
@@ -126,17 +126,17 @@ describe('store:window:selectors', () => {
     const state = {
       windows: {
         window1: {
-          focusedPage: 'page1'
-        }
+          focusedPage: 'page1',
+        },
       },
       pages: {
         page1: {
-          title: 'foo'
-        }
-      }
+          title: 'foo',
+        },
+      },
     };
     getWindowFocusedPageSelector(state, 'window1').should.eql({
-      title: 'foo'
+      title: 'foo',
     });
   });
   describe('getWindowsFocusedPageIds', () => {
@@ -242,11 +242,11 @@ describe('store:window:selectors', () => {
     it('should return nothing', () => {
       const otherState = {
         windows: {
-          window1: { title: 'foo', focusedPage: 'page1' }
+          window1: { title: 'foo', focusedPage: 'page1' },
         },
         pages: {
-          page1: { title: 'bar' }
-        }
+          page1: { title: 'bar' },
+        },
       };
       getWindowsVisibleViewIds(otherState).should.eql([]);
     });

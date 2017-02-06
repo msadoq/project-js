@@ -19,7 +19,7 @@ describe('mainProcess/play', () => {
         },
         slideWindow: {
           lower: 1420106430000,
-          upper: 1420106700500 // visuWindow.upper + 500
+          upper: 1420106700500, // visuWindow.upper + 500
         },
       };
       vw = timebarData.visuWindow;

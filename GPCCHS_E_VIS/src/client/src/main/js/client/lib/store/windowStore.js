@@ -39,7 +39,7 @@ if (isDebugOn) {
 } else {
   enhancer = compose(
     applyMiddleware(thunk),
-    electronEnhancer({ dispatchProxy }),
+    electronEnhancer({ dispatchProxy })
   );
 }
 

@@ -5,15 +5,14 @@ import * as types from '../types';
 import {
   getDcStatus,
   getHssStatus,
-  getLastPubSubTimestamp
+  getLastPubSubTimestamp,
 } from '../selectors/health';
 
-// eslint-disable-next-line import/prefer-default-export
-export const updateDcStatus = simple(types.HSS_UPDATE_DC_STATUS, 'dcStatus');
-
-export const updateHssStatus = simple(types.HSS_UPDATE_HSS_STATUS, 'hssStatus');
-
-export const updateLastPubSubTimestamp = simple(types.HSS_UPDATE_LAST_PUBSUB_TIMESTAMP, 'lastPubSubTimestamp');
+export const updateDcStatus = simple(types.HSS_UPDATE_DC_STATUS, 'status');
+export const updateHssStatus = simple(types.HSS_UPDATE_HEALTH_STATUS, 'status');
+export const updateMainStatus = simple(types.HSS_UPDATE_MAIN_STATUS, 'status');
+export const updateWindowStatus = simple(types.HSS_UPDATE_WINDOW_STATUS, 'windowId', 'status');
+export const updateLastPubSubTimestamp = simple(types.HSS_UPDATE_LAST_PUBSUB_TIMESTAMP, 'timestamp');
 
 const updateLastPubSubTimestampThrottled = _throttle(
   (dispatch, timestamp) => dispatch(updateLastPubSubTimestamp(timestamp)),
@@ -21,15 +20,15 @@ const updateLastPubSubTimestampThrottled = _throttle(
 );
 
 // TODO rperrot test
-export const updateHealth = (dcStatus, hssStatus, timestamp) =>
+export const updateHealth = ({ dcStatus, hssStatus, lastPubSubTimestamp }) =>
   (dispatch, getState) => {
     if (getDcStatus(getState()) !== dcStatus) {
       dispatch(updateDcStatus(dcStatus));
     }
-    if (getLastPubSubTimestamp(getState()) !== timestamp) {
-      updateLastPubSubTimestampThrottled(dispatch, timestamp);
-    }
     if (getHssStatus(getState()) !== hssStatus) {
       dispatch(updateHssStatus(hssStatus));
+    }
+    if (getLastPubSubTimestamp(getState()) !== lastPubSubTimestamp) {
+      updateLastPubSubTimestampThrottled(dispatch, lastPubSubTimestamp);
     }
   };

@@ -3,7 +3,7 @@ import _findIndex from 'lodash/findIndex';
 import _startsWith from 'lodash/startsWith';
 import { dirname, relative } from 'path';
 import {
-  LOG_DOCUMENT_SAVE
+  LOG_DOCUMENT_SAVE,
 } from 'common/constants';
 
 import { server } from '../mainProcess/ipc';
@@ -24,11 +24,13 @@ import validation from './validation';
  // eslint-disable-next-line no-unused-vars
 const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) => {
   if (!state.pages[pageId]) {
-    return callback('unknown page id');
+    callback('unknown page id');
+    return;
   }
   createFolder(dirname(path), (err) => {
     if (err) {
-      return callback(err);
+      callback(err);
+      return;
     }
     const root = fmdApi.getRootDir();
     const page = state.pages[pageId];
@@ -42,7 +44,8 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
     page.views.forEach((id) => {
       // Get view definition in stateViews
       if (!state.views[id]) {
-        return callback(`Invalid view in page ${page.title}`);
+        callback(`Invalid view in page ${page.title}`);
+        return;
       }
       const view = state.views[id];
       const current = {};
@@ -58,7 +61,8 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
       }
       const index = _findIndex(page.layout, item => item.i === id);
       if (index === -1) {
-        return callback('not fount page layout');
+        callback('not fount page layout');
+        return;
       }
       const layout = page.layout[index];
       current.geometry = {
@@ -77,17 +81,19 @@ const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) =>
     // validation
     const validationError = validation('page', savedPage);
     if (validationError) {
-      return callback(validationError);
+      callback(validationError);
+      return;
     }
     // save file
     writeDocument(fmdApi)(path, savedPage, (errfs, oid) => {
       if (errfs) {
-        return callback(errfs);
+        callback(errfs);
+        return;
       }
 
       server.sendProductLog(LOG_DOCUMENT_SAVE, 'page', path);
 
-      return callback(null, oid);
+      callback(null, oid);
     });
   });
 };

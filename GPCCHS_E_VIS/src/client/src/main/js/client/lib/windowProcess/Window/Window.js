@@ -1,10 +1,8 @@
 import React, { PureComponent, PropTypes } from 'react';
-import { ButtonToolbar, Grid, Row, Col } from 'react-bootstrap';
+import { ButtonToolbar } from 'react-bootstrap';
 import getLogger from 'common/log';
 import classnames from 'classnames';
-
 import DebugContainer from '../Navigation/DebugContainer';
-// import DummyDrag from '../Navigation/DummyDrag';
 import Help from '../Navigation/Help';
 import Explorer from '../Navigation/Explorer';
 import HelpContent from '../Navigation/HelpContent';
@@ -16,14 +14,15 @@ import PageContainer from '../Page/PageContainer';
 import TimebarMasterContainer from '../Timebar/TimebarMasterContainer';
 import styles from './Window.css';
 import ExplorerContainer from '../Explorer/ExplorerContainer';
+// import DummyDrag from '../Navigation/DummyDrag';
 
 const logger = getLogger('Window');
 
 export default class Window extends PureComponent {
   static propTypes = {
     windowId: PropTypes.string.isRequired,
-    focusedPageId: PropTypes.string,
-    title: PropTypes.string,
+    focusedPageId: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
   };
 
   static childContextTypes = {
@@ -92,7 +91,7 @@ export default class Window extends PureComponent {
         {displayHelp ? <HelpContent /> : ''}
         <ButtonToolbar className={styles.tools}>
           <MasterSessionContainer />
-          <HealthContainer />
+          <HealthContainer windowId={windowId} />
           <MessagesContainer />
           <Help toggleHelp={this.toggleHelp} />
           <Explorer toggleExplorer={this.toggleExplorer} />
@@ -103,33 +102,30 @@ export default class Window extends PureComponent {
           />
           {/* <DummyDrag /> */}
         </ButtonToolbar>
-        <div className={styles.div}>
-          <Grid fluid className={styles.grid}>
-            <Row className="h100">
-              <Col sm={displayExplorer ? 9 : 12} className="h100">
-                <TabsContainer
-                  className={classnames(
-                    displayExplorer ? 'col-xs-9' : 'col-xs-12',
-                    styles.TabsContainer
-                  )}
+        <div className={styles.divPagesTb}>
+          <div className={styles.contentDiv}>
+            <div className={styles.contentDivChildPage}>
+              <TabsContainer
+                className={classnames(
+                  styles.TabsContainer
+                )}
+                windowId={windowId}
+                focusedPageId={focusedPageId}
+                title={title}
+              />
+              <div className={styles.content}>
+                <PageContainer
                   windowId={windowId}
                   focusedPageId={focusedPageId}
-                  title={title}
                 />
-                <div className={styles.content}>
-                  <PageContainer
-                    windowId={windowId}
-                    focusedPageId={focusedPageId}
-                  />
-                </div>
-              </Col>
-              {displayExplorer && <Col sm={3}>
-                <ExplorerContainer
-                  windowId={windowId}
-                />
-              </Col>}
-            </Row>
-          </Grid>
+              </div>
+            </div>
+            {displayExplorer && <div className={styles.contentDivChildExplorer}>
+              <ExplorerContainer
+                windowId={windowId}
+              />
+            </div>}
+          </div>
           <TimebarMasterContainer
             windowId={windowId}
             focusedPageId={focusedPageId}

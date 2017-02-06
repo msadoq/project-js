@@ -6,8 +6,12 @@ export default class TimebarTimeline extends PureComponent {
   static propTypes = {
     name: PropTypes.string.isRequired,
     color: PropTypes.string,
-    offset: PropTypes.number,
-    viewportMsWidth: PropTypes.number,
+    offset: PropTypes.number.isRequired,
+    viewportMsWidth: PropTypes.number.isRequired,
+  }
+
+  static defaultProps = {
+    color: '#31b0d5',
   }
 
   render() {
@@ -17,6 +21,7 @@ export default class TimebarTimeline extends PureComponent {
       color,
       name,
     } = this.props;
+
     return (
       <div
         className={styles.timeline}

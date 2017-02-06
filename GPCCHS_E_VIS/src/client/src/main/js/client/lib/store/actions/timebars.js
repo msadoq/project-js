@@ -6,7 +6,7 @@ import * as types from '../types';
 import { nextCurrent, computeCursors } from '../../mainProcess/play';
 import {
   addOnce as addMessage,
-  reset as resetMessages
+  reset as resetMessages,
 } from './messages';
 import { getMessages } from '../selectors/messages';
 import {
@@ -25,46 +25,6 @@ export const add = simple(types.WS_TIMEBAR_ADD, 'timebarUuid', 'configuration');
 export const remove = simple(types.WS_TIMEBAR_REMOVE, 'timebarUuid');
 export const updateId = simple(types.WS_TIMEBAR_ID_UPDATE, 'timebarUuid', 'id');
 export const setRealTime = simple(types.WS_TIMEBAR_SET_REALTIME, 'timebarUuid', 'flag');
-
-/*
-  Only the first argument must be provided
-  the two others are defaultly assigned for tests only
-*/
-export const handlePlay = (
-  lastTickTime = Date.now(),
-  dateNow = Date.now(),
-  currentUpperMargin = globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN,
-) =>
-  (dispatch, getState) => {
-    const state = getState();
-    const playingTimebarUuid = getPlayingTimebarId(state);
-    if (!playingTimebarUuid) {
-      return;
-    }
-    const playingTimebar = getTimebar(state, playingTimebarUuid);
-    if (!playingTimebar) {
-      return;
-    }
-    const newCurrent = nextCurrent(
-      playingTimebar.visuWindow.current,
-      playingTimebar.speed,
-      (dateNow - lastTickTime)
-    );
-    const nextCursors = computeCursors(
-      newCurrent,
-      playingTimebar.visuWindow.lower,
-      playingTimebar.visuWindow.upper,
-      playingTimebar.slideWindow.lower,
-      playingTimebar.slideWindow.upper,
-      playingTimebar.mode,
-      currentUpperMargin,
-    );
-    dispatch(updateCursors(
-      playingTimebarUuid,
-      nextCursors.visuWindow,
-      nextCursors.slideWindow
-    ));
-  };
 
 export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
   (dispatch, getState) => {
@@ -111,9 +71,45 @@ export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
           visuWindow,
           slideWindow,
           timebarUuid,
-        }
+        },
       });
     }
+  };
+
+  /*
+    @param : delta = (dateNow - lastTickTime)
+    @param: currentUpperMargin = constante
+  */
+export const handlePlay = (delta, currentUpperMargin) =>
+  (dispatch, getState) => {
+    const state = getState();
+    const playingTimebarUuid = getPlayingTimebarId(state);
+    if (!playingTimebarUuid) {
+      return;
+    }
+    const playingTimebar = getTimebar(state, playingTimebarUuid);
+    if (!playingTimebar) {
+      return;
+    }
+    const newCurrent = nextCurrent(
+      playingTimebar.visuWindow.current,
+      playingTimebar.speed,
+      delta
+    );
+    const nextCursors = computeCursors(
+      newCurrent,
+      playingTimebar.visuWindow.lower,
+      playingTimebar.visuWindow.upper,
+      playingTimebar.slideWindow.lower,
+      playingTimebar.slideWindow.upper,
+      playingTimebar.mode,
+      currentUpperMargin
+    );
+    dispatch(updateCursors(
+      playingTimebarUuid,
+      nextCursors.visuWindow,
+      nextCursors.slideWindow
+    ));
   };
 
 export const updateViewport = simple(
@@ -134,7 +130,7 @@ export const updateSpeed = (timebarUuid, speed) =>
       payload: {
         timebarUuid,
         speed,
-      }
+      },
     });
   };
 
@@ -159,7 +155,7 @@ export function restoreWidth(timebarUuid) {
         {
           lower: vw.current - (vw.defaultWidth / 4),
           upper: newSlideUpper,
-        },
+        }
       )
     );
   };
@@ -184,7 +180,7 @@ export function jump(timebarUuid, offsetMs) {
         {
           lower: sw.lower + offsetMs,
           upper: sw.upper + offsetMs,
-        },
+        }
       )
     );
   };
@@ -214,7 +210,7 @@ export function goNow(timebarUuid, masterSessionIdCurrentTime) {
         {
           lower: newLower,
           upper: newUpper,
-        },
+        }
       )
     );
   };
@@ -226,7 +222,7 @@ export function switchToNormalMode(timebarUuid) {
       payload: {
         timebarUuid,
         mode: 'Normal',
-      }
+      },
     });
     const state = getState();
     const timebar = getTimebar(state, timebarUuid);
@@ -256,8 +252,8 @@ export function switchToRealtimeMode(timebarUuid, masterSessionIdCurrentTime) {
         type: types.WS_TIMEBAR_SPEED_UPDATE,
         payload: {
           timebarUuid,
-          speed: 1
-        }
+          speed: 1,
+        },
       });
     }
     if (timebar.mode !== 'Normal') {
@@ -266,7 +262,7 @@ export function switchToRealtimeMode(timebarUuid, masterSessionIdCurrentTime) {
         payload: {
           timebarUuid,
           mode: 'Normal',
-        }
+        },
       });
     }
     const { visuWindow } = timebar;
@@ -286,7 +282,7 @@ export function switchToRealtimeMode(timebarUuid, masterSessionIdCurrentTime) {
         {
           lower: newLower,
           upper: newUpper,
-        },
+        }
       )
     );
     dispatch(play(timebarUuid));
@@ -300,7 +296,7 @@ export function switchToExtensibleMode(timebarUuid) {
       payload: {
         timebarUuid,
         mode: 'Extensible',
-      }
+      },
     });
     const state = getState();
     const timebar = getTimebar(state, timebarUuid);
@@ -334,7 +330,7 @@ export function switchToFixedMode(timebarUuid) {
       payload: {
         timebarUuid,
         mode: 'Fixed',
-      }
+      },
     });
     const state = getState();
     const timebar = getTimebar(state, timebarUuid);

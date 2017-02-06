@@ -5,7 +5,7 @@ describe('state colors conditions', () => {
     const condition = {
       field: 'convertedValue',
       operator: '=',
-      operand: '1'
+      operand: '1',
     };
 
     expect(compile(condition)(1)).toBe(true);
@@ -15,7 +15,7 @@ describe('state colors conditions', () => {
     const condition = {
       field: 'convertedValue',
       operator: '!=',
-      operand: '1'
+      operand: '1',
     };
 
     expect(compile(condition)(1)).toBe(false);
@@ -25,7 +25,7 @@ describe('state colors conditions', () => {
     const condition = {
       field: 'convertedValue',
       operator: '<',
-      operand: '1'
+      operand: '1',
     };
 
     expect(compile(condition)(2)).toBe(false);
@@ -36,7 +36,7 @@ describe('state colors conditions', () => {
     const condition = {
       field: 'convertedValue',
       operator: '<=',
-      operand: '1'
+      operand: '1',
     };
 
     expect(compile(condition)(2)).toBe(false);
@@ -47,7 +47,7 @@ describe('state colors conditions', () => {
     const condition = {
       field: 'convertedValue',
       operator: '>',
-      operand: '1'
+      operand: '1',
     };
 
     expect(compile(condition)(2)).toBe(true);
@@ -58,7 +58,7 @@ describe('state colors conditions', () => {
     const condition = {
       field: 'convertedValue',
       operator: '>=',
-      operand: '1'
+      operand: '1',
     };
 
     expect(compile(condition)(2)).toBe(true);
@@ -69,7 +69,7 @@ describe('state colors conditions', () => {
     const condition = {
       field: 'convertedValue',
       operator: 'contains',
-      operand: 'abc'
+      operand: 'abc',
     };
 
     expect(compile(condition)('abcdefg')).toBe(true);
@@ -79,7 +79,7 @@ describe('state colors conditions', () => {
     const condition = {
       field: 'convertedValue',
       operator: 'icontains',
-      operand: 'abc'
+      operand: 'abc',
     };
 
     expect(compile(condition)('abcdefg')).toBe(false);

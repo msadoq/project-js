@@ -10,6 +10,6 @@ export default function (queryId) {
       return logger.error(err);
     }
 
-    reply(queryId, debug);
+    return reply(queryId, debug);
   });
 }

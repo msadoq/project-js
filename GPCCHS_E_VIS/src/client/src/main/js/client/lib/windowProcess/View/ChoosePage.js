@@ -8,12 +8,12 @@ export default class ChoosePage extends Component {
   static propTypes = {
     onClose: PropTypes.func.isRequired,
     // onChange: PropTypes.func.isRequired,
-    pageTitles: PropTypes.array.isRequired,
+    pageTitles: PropTypes.arrayOf(PropTypes.object).isRequired,
   }
 
   state = {
     errorMessage: null,
-    toPage: ''
+    toPage: '',
   }
 
   toPageChosen = (e) => {
@@ -40,7 +40,7 @@ export default class ChoosePage extends Component {
             ref={(el) => { this.toPage = el; }}
             className={classnames('form-control', styles.formControl)}
           >
-            { pageTitles.map((v, i) => <option key={i} value={v.id}>{v.title}</option>) }
+            { pageTitles.map(v => <option key={v.id} value={v.id}>{v.title}</option>) }
           </select>
         </FormGroup>
         <FormGroup className={styles.formGroup}>

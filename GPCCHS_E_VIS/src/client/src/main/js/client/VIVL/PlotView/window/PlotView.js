@@ -1,5 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
-import { Button, Label as BsLabel } from 'react-bootstrap';
+import { Label as BsLabel } from 'react-bootstrap';
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _map from 'lodash/map';
@@ -14,9 +14,9 @@ import {
 import {
   ChartCanvas, Chart, series, annotation,
   coordinates, axes as StockchartsAxes, tooltip,
+  utils,
   // interactive
 } from 'react-stockcharts';
-import { hexToRGBA } from 'react-stockcharts/lib/utils';
 
 import getDynamicObject from '../../../lib/windowProcess/common/getDynamicObject';
 import {
@@ -29,7 +29,7 @@ import {
   drawBadge,
   zoomDateFormat,
 } from './helper';
-import { monitoringStateColors } from '../../../lib/windowProcess/common/colors';
+import { stateColors } from '../../../lib/windowProcess/common/colors';
 import DroppableContainer from '../../../lib/windowProcess/common/DroppableContainer';
 import { Danger } from '../../../lib/windowProcess/View/Alert';
 import styles from './PlotView.css';
@@ -38,16 +38,17 @@ import { getEntryPointColorObj } from '../../../lib/store/selectors/views';
 const logger = getLogger('view:plot');
 
 const {
-  LineSeries, ScatterSeries, StraightLine
+  LineSeries, ScatterSeries, StraightLine,
 } = series;
 const { Label } = annotation;
 const { HoverTooltip } = tooltip;
+const { hexToRGBA } = utils;
 const {
   MouseCoordinateX,
   MouseCoordinateY,
   CrossHairCursor,
   CurrentCoordinate,
-  EdgeIndicator
+  EdgeIndicator,
 } = coordinates;
 // const { ClickCallback } = interactive;
 const { XAxis, YAxis } = StockchartsAxes;
@@ -101,7 +102,7 @@ export class PlotView extends PureComponent {
       procedures: PropTypes.array,
       defaultRatio: PropTypes.shape({
         length: PropTypes.number,
-        width: PropTypes.number
+        width: PropTypes.number,
       }),
       entryPoints: PropTypes.array,
       axes: PropTypes.object,
@@ -116,7 +117,7 @@ export class PlotView extends PureComponent {
         underline: PropTypes.bool,
         strikeOut: PropTypes.bool,
         align: PropTypes.string,
-        color: PropTypes.string
+        color: PropTypes.string,
       }),
       backgroundColor: PropTypes.string,
       legend: PropTypes.object,
@@ -127,8 +128,8 @@ export class PlotView extends PureComponent {
   static defaultProps = {
     data: {
       lines: [],
-      columns: []
-    }
+      columns: [],
+    },
   };
 
   constructor(...args) {
@@ -140,12 +141,11 @@ export class PlotView extends PureComponent {
       ],
       disableZoom: true,
       isMenuOpened: false,
-      disconnected: false,
       zoomedOrPanned: false,
       menuPosition: {
         x: 0,
-        y: 0
-      }
+        y: 0,
+      },
     };
   }
 
@@ -183,7 +183,7 @@ export class PlotView extends PureComponent {
       willSetState.zoomedOrPanned = false;
       willSetState.xExtents = [
         new Date(nextVisuWindow.lower - Math.round(Math.random() * 20)),
-        new Date(nextVisuWindow.upper + Math.round(Math.random() * 20))
+        new Date(nextVisuWindow.upper + Math.round(Math.random() * 20)),
       ];
 
     // reset xExtents only if new lower / upper
@@ -200,11 +200,13 @@ export class PlotView extends PureComponent {
       ];
     }
 
-    this.setState(willSetState);
+    if (!_.isEmpty(willSetState)) {
+      this.setState(willSetState);
+    }
   }
 
   shouldComponentUpdate(nextProps) {
-    const { disconnected, zoomedOrPanned } = this.state;
+    const { zoomedOrPanned } = this.state;
     const {
       data,
       entryPoints,
@@ -213,7 +215,7 @@ export class PlotView extends PureComponent {
       containerWidth,
       containerHeight,
     } = this.props;
-    if (disconnected || zoomedOrPanned) {
+    if (zoomedOrPanned) {
       return false;
     }
     if (
@@ -251,7 +253,7 @@ export class PlotView extends PureComponent {
     if (!isDisplayed) {
       return {
         x: {},
-        y: {}
+        y: {},
       };
     }
     const gridHeight = containerHeight - margin.top - margin.bottom;
@@ -261,18 +263,18 @@ export class PlotView extends PureComponent {
     const common = {
       tickStrokeOpacity: 0.2,
       tickStrokeWidth: lineConf.size || 1,
-      tickStrokeDasharray: getLineStyle(lineConf.style)
+      tickStrokeDasharray: getLineStyle(lineConf.style),
     };
 
     return {
       x: {
         innerTickSize: -1 * gridHeight,
-        ...common
+        ...common,
       },
       y: {
         innerTickSize: -1 * gridWidth,
-        ...common
-      }
+        ...common,
+      },
     };
   }
 
@@ -308,7 +310,7 @@ export class PlotView extends PureComponent {
     const {
       containerWidth,
       containerHeight,
-      configuration: { showYAxes }
+      configuration: { showYAxes },
     } = this.props;
     const { disableZoom } = this.state;
     const { y: yGrid } = this.getGrid();
@@ -335,7 +337,7 @@ export class PlotView extends PureComponent {
         :
         [
           _get(chart, 'yAxis.min', 0),
-          _get(chart, 'yAxis.max')
+          _get(chart, 'yAxis.max'),
         ];
 
       return (<Chart
@@ -358,7 +360,7 @@ export class PlotView extends PureComponent {
           text={
             [
               _get(chart, 'yAxis.label'),
-              (_get(chart, 'yAxis.unit') ? `(${_get(chart, 'yAxis.unit')})` : '')
+              (_get(chart, 'yAxis.unit') ? `(${_get(chart, 'yAxis.unit')})` : ''),
             ].join(' ')
           }
           fontSize={_get(chart, 'yAxis.style.size', 12)}
@@ -374,6 +376,7 @@ export class PlotView extends PureComponent {
           showDomain
           displayFormat={format2f}
           zoomEnabled={!disableZoom}
+          panEnabled={!disableZoom}
           {...(typeof chart.grid !== 'undefined' ? yGrid : {})}
         />}
         {this.getLineComponents(chart.lines, {
@@ -465,10 +468,10 @@ export class PlotView extends PureComponent {
 
   getLineComponents = (lines = [], {
     showYAxes, edgeIndicatorDx, edgeIndicatorType,
-    edgeIndicatorOrient, edgeIndicatorEdgeAt
+    edgeIndicatorOrient, edgeIndicatorEdgeAt,
   }) => lines.map(({
       key, color, lineSize = 1,
-      pointsStyle, pointsSize, lineStyle
+      pointsStyle, pointsSize, lineStyle,
     }) => (
       <div key={key}>
         <LineSeries
@@ -489,7 +492,7 @@ export class PlotView extends PureComponent {
           marker={getLineMarker(pointsStyle)}
           markerProps={getLineMarkerProps(pointsStyle, pointsSize, {
             stroke: color,
-            fill: color
+            fill: color,
           })}
         />
         {showYAxes && <CurrentCoordinate
@@ -540,7 +543,7 @@ export class PlotView extends PureComponent {
         line => typeof _get(currentItem, [line.key, 'value']) !== 'undefined'
       )
       .map((line) => {
-        const stateColor = _.prop('color')(
+        const customColor = _.prop('color')(
           getEntryPointColorObj({
             entryPoints: this.props.entryPoints,
             epName: line.key,
@@ -549,11 +552,23 @@ export class PlotView extends PureComponent {
           })
         );
 
+        const color = _.cond([
+          [
+            _.pipe(_.get('monit'), _.negate(_.eq('info'))),
+            _.pipe(_.prop('monit'), _.prop(_, stateColors), _.defaultTo('#00FF00')),
+          ],
+          [_.pipe(_.get('color'), _.isString), _.prop('color')],
+          [_.stubTrue, _.constant('#00FF00')],
+        ])({
+          monit: _.get([line.key, 'monit'], currentItem),
+          color: customColor,
+        });
+
         return {
           label: line.name,
           value: _get(currentItem, [line.key, 'symbol']) ? _get(currentItem, [line.key, 'symbol'])
                                                          : _get(currentItem, [line.key, 'value']),
-          fillValue: stateColor || _get(monitoringStateColors, _get(currentItem, [line.key, 'monit'])),
+          fillValue: color,
           stroke: line.color,
         };
       }),
@@ -596,31 +611,27 @@ export class PlotView extends PureComponent {
 
   reconnect = () => {
     this.setState({
-      disconnected: false
+      zoomedOrPanned: false,
     });
     this.forceUpdate();
   }
 
   disconnect = () => {
     this.setState({
-      zoomedOrPanned: true
+      zoomedOrPanned: true,
     });
-    /*
-    this.setState({
-      disconnected: true
-    });
-    */
+    this.forceUpdate();
   }
 
   handleOnMouseDown = () => {
-    if (!this.state.disconnected && this.el &&
+    if (!this.state.zoomedOrPanned && this.el &&
       this.el.parentElement.querySelector(':hover')) {
       this.disconnect();
     }
   }
 
   handleOnWheel = () => {
-    if (!this.state.disconnected
+    if (!this.state.zoomedOrPanned
       && this.el.parentElement.querySelector(':hover')) {
       this.disconnect();
     }
@@ -668,8 +679,8 @@ export class PlotView extends PureComponent {
       isMenuOpened: true,
       menuPosition: {
         x: e.mouseXY[0] + margin.left,
-        y: e.mouseXY[1] + margin.top
-      }
+        y: e.mouseXY[1] + margin.top,
+      },
     });
   }
 
@@ -749,7 +760,6 @@ export class PlotView extends PureComponent {
     } = this.props;
     const {
       disableZoom,
-      disconnected,
       zoomedOrPanned,
       xExtents,
       // isMenuOpened,
@@ -775,9 +785,9 @@ export class PlotView extends PureComponent {
         onDrop={this.onDrop}
         text="add entry point"
         className={classnames(
-          { [styles.disconnected]: disconnected || zoomedOrPanned },
+          { [styles.disconnected]: zoomedOrPanned },
           'h100',
-          'posRelative',
+          'posRelative'
         )}
       >
         <div
@@ -789,14 +799,6 @@ export class PlotView extends PureComponent {
               bsSize="xs"
               className={styles.disconnectedButton}
             >Zoomed / moved</BsLabel>
-          }
-          {disconnected &&
-            <Button
-              bsStyle="danger"
-              bsSize="xs"
-              className={styles.disconnectedButton}
-              onClick={this.reconnect}
-            >Reconnect</Button>
           }
           {this.getEntryPointErrors(styles.entryPointError)}
           <ChartCanvas
@@ -840,62 +842,3 @@ export class PlotView extends PureComponent {
 const SizeablePlotView = Dimensions()(PlotView);
 
 export default SizeablePlotView;
-
-/** @TODO Uncomment when implementing markers! do the same for the Editor PlotTab part.
- <PlotMenu
- isOpened={isMenuOpened}
- openOnLeft={menuOpenOnLeft}
- openOnTop={menuOpenOnTop}
- mousePosition={menuPosition}
- >
- {disconnected &&
- <Button
- bsStyle="danger"
- bsSize="xs"
- className={styles.disconnectedButton}
- onClick={this.reconnect}
- >Reconnect</Button>
- }
- <ChartCanvas
- plotFull={false}
- ratio={1}
- width={containerWidth}
- height={containerHeight}
- margin={marginChart}
- pointsPerPxThreshold={4}
- seriesName="PlotView"
- data={columns}
- type="hybrid"
- xAccessor={this.xAccessor}
- xScale={scaleTime()}
- yAxisZoom={(id, domain) => console.log('zoom', id, domain)}
- zoomEvent={!disableZoom}
- xExtents={[new Date(lower), new Date(upper)]}
- >
- {this.getCharts()}
- <CrossHairCursor opacity={1} />
- <HoverTooltip
- tooltipContent={this.handleTooltipContent}
- opacity={1}
- fill="#FFFFFF"
- stroke="#F0F0F0"
- bgwidth={160}
- bgheight={50}
- tooltipCanvas={this.tooltipCanvas}
- backgroundShapeCanvas={this.backgroundShapeCanvas.bind(this)}
- />
- </ChartCanvas>
- do the same for the Editor PlotTab part.
- <PlotMenu
- isOpened={isMenuOpened}
- openOnLeft={menuOpenOnLeft}
- openOnTop={menuOpenOnTop}
- mousePosition={menuPosition}
- >
- <MenuItem header>Markers</MenuItem>
- <MenuItem divider />
- <MenuItem>Add a Text</MenuItem>
- <MenuItem>Add an horizontal line</MenuItem>
- <MenuItem>Add an Vertical line</MenuItem>
- </PlotMenu>
-*/

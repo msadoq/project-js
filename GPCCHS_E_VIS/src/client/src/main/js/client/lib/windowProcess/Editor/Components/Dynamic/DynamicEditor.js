@@ -18,11 +18,6 @@ export default class DynamicEditor extends Component {
     timelines: PropTypes.array,
     updateEntryPoint: PropTypes.func.isRequired,
     closeEditor: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func,
-    pristine: PropTypes.bool,
-    reset: PropTypes.func,
-    submitting: PropTypes.bool,
-    valid: PropTypes.bool,
     updateTitle: PropTypes.func,
     updateTitleStyle: PropTypes.func,
   }
@@ -39,7 +34,7 @@ export default class DynamicEditor extends Component {
     const { configuration, updateTitleStyle, viewId } = this.props;
     updateTitleStyle(viewId, {
       ...configuration.titleStyle,
-      [label]: newVal
+      [label]: newVal,
     });
   }
 
@@ -49,7 +44,7 @@ export default class DynamicEditor extends Component {
 
     updateEntryPoint(viewId, 0, {
       ...entryPoint,
-      ...values
+      ...values,
     });
   }
 
@@ -57,13 +52,14 @@ export default class DynamicEditor extends Component {
     const { entryPoints } = this.props.configuration;
     const { timelines, viewId, title, titleStyle } = this.props;
     const { currentDisplay } = this.state;
-
+    const navItems = ['Connected Data', 'View'];
+    const nullObject = {};
     return (
       <div className={styles.contentWrapper}>
         <Navbar
           currentDisplay={currentDisplay}
           changeCurrentDisplay={this.changeCurrentDisplay}
-          items={['Connected Data', 'View']}
+          items={navItems}
           closeEditor={this.props.closeEditor}
         />
         {currentDisplay === 0 && <div className={styles.content}>
@@ -71,7 +67,7 @@ export default class DynamicEditor extends Component {
             timelines={timelines}
             form={`entrypoint-connectedData-form-${viewId}`}
             onSubmit={values => this.handleSubmit({ connectedData: values })}
-            initialValues={entryPoints.length ? entryPoints[0].connectedData : {}}
+            initialValues={entryPoints.length ? entryPoints[0].connectedData : nullObject}
           />
         </div>}
         {currentDisplay === 1 && <DynamicTab

@@ -7,12 +7,15 @@ import React, { PropTypes } from 'react';
 
 export default class SelectFontFamilySize extends React.Component {
   static propTypes = {
-    curveColor: PropTypes.string
+    curveColor: PropTypes.string,
   }
+  static defaultProps = {
+    curveColor: '#000000',
+  };
 
   componentWillMount() {
     this.setState({
-      curveColor: this.props.curveColor
+      curveColor: this.props.curveColor,
     });
   }
 

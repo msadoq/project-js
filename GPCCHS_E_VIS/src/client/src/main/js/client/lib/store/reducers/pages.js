@@ -17,7 +17,7 @@ export default function pages(statePages = {}, action) {
     case types.WS_PAGE_TIMEBAR_COLLAPSE:
     case types.WS_PAGE_UPDATE_LAYOUT:
       return Object.assign({}, statePages, {
-        [action.payload.pageId]: page(statePages[action.payload.pageId], action)
+        [action.payload.pageId]: page(statePages[action.payload.pageId], action),
       });
     case types.WS_PAGE_ADD:
       return {
@@ -34,7 +34,7 @@ export default function pages(statePages = {}, action) {
         [action.payload.pageId]: {
           path: action.payload.newPath,
           isModified: true,
-        }
+        },
       }, statePages);
     case types.WS_PAGE_UPDATE_ABSOLUTEPATH: {
       const statePage = statePages[action.payload.pageId];
@@ -46,14 +46,14 @@ export default function pages(statePages = {}, action) {
         [action.payload.pageId]: {
           absolutePath: action.payload.newPath,
           isModified: true,
-        }
+        },
       }, statePages);
     }
     case types.WS_PAGE_SET_OID: {
       return u({
         [action.payload.pageId]: {
           oId: action.payload.oid,
-        }
+        },
       }, statePages);
     }
     case types.HSC_CLOSE_WORKSPACE:
@@ -65,7 +65,7 @@ export default function pages(statePages = {}, action) {
       return u({
         [action.payload.pageId]: {
           isModified: action.payload.flag,
-        }
+        },
       },
       statePages);
     }
@@ -103,7 +103,7 @@ const initialState = {
   editor: {
     isOpened: false,
     viewId: null,
-    viewType: null
+    viewType: null,
   },
   isModified: true,
   properties: [],
@@ -131,7 +131,7 @@ function page(statePage = initialState, action) {
         editor: {
           isOpened: true,
           viewId: action.payload.viewId,
-          viewType: action.payload.viewType
+          viewType: action.payload.viewType,
         },
       }, statePage);
     case types.WS_PAGE_EDITOR_CLOSE:
@@ -158,7 +158,7 @@ function page(statePage = initialState, action) {
       }
       return Object.assign({}, statePage, {
         layout: action.payload.layout,
-        isModified: true
+        isModified: true,
       });
     }
     case types.WS_PAGE_TIMEBAR_COLLAPSE: {

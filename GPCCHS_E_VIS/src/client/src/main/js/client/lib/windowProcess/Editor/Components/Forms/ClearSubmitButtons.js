@@ -1,7 +1,7 @@
 import React, { PropTypes, PureComponent } from 'react';
 import {
   ButtonGroup,
-  Button
+  Button,
 } from 'react-bootstrap';
 import classnames from 'classnames';
 
@@ -13,7 +13,7 @@ export default class ClearSubmitButtons extends PureComponent {
     valid: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
     asyncValidating: PropTypes.bool,
-    reset: PropTypes.func
+    reset: PropTypes.func,
   }
 
   render() {
@@ -22,7 +22,7 @@ export default class ClearSubmitButtons extends PureComponent {
       submitting,
       reset,
       valid,
-      asyncValidating = false
+      asyncValidating = false,
     } = this.props;
 
     return (

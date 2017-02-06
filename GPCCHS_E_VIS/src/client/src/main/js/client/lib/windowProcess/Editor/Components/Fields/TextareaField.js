@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import {
-  Alert
+  Alert,
 } from 'react-bootstrap';
 
 export default class InputTextareaField extends React.Component {
@@ -10,7 +10,7 @@ export default class InputTextareaField extends React.Component {
     placeholder: PropTypes.string,
     className: PropTypes.string,
     rows: PropTypes.string,
-    meta: PropTypes.object
+    meta: PropTypes.object,
   }
 
   render() {
@@ -22,8 +22,8 @@ export default class InputTextareaField extends React.Component {
       meta: {
         touched,
         error,
-        warning
-      }
+        warning,
+      },
     } = this.props;
 
     return (
@@ -31,7 +31,7 @@ export default class InputTextareaField extends React.Component {
         className={classnames({
           'has-error': touched && error,
           'has-warning': touched && warning,
-          'has-success': touched && !(error || warning)
+          'has-success': touched && !(error || warning),
         })}
       >
         <textarea

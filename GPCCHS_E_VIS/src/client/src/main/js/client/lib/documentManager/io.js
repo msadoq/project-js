@@ -8,7 +8,8 @@ import {
 const readJsonFromOId = fmdApi => (oId, callback) => {
   fmdApi.resolveDocument(oId, (err, path, properties) => {
     if (err) {
-      return callback(err);
+      callback(err);
+      return;
     }
     readJsonFromFmdPath(path, (error, json) => callback(error, json, properties));
   });
@@ -40,7 +41,8 @@ export const writeDocument = fmdApi => (path, json, callback) => {
       }
       return writeFile(path, data, (errWriting) => {
         if (errWriting) {
-          return callback(errWriting);
+          callback(errWriting);
+          return;
         }
         callback(null, oid);
       });

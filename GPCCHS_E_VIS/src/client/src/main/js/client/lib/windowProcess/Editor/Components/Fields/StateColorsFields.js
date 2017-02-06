@@ -37,11 +37,11 @@ export default class StateColorsFields extends React.Component {
       (!fieldLength && !operandLength)
     )) {
       return this.setState({
-        error: null
+        error: null,
       });
     } else if (!error && (!fieldLength || !operandLength)) {
       this.setState({
-        error: 'Field and operand are required'
+        error: 'Field and operand are required',
       });
     }
   }
@@ -70,7 +70,7 @@ export default class StateColorsFields extends React.Component {
   resetFields = (
     field = '',
     opt = Object.keys(operators)[0],
-    opd = '',
+    opd = ''
   ) => {
     this.fieldField.value = field;
     this.operatorField.value = opt;
@@ -149,9 +149,13 @@ export default class StateColorsFields extends React.Component {
     const canEdit = editingIndex !== null;
     const canAdd = this.operandField && this.fieldField &&
       this.operandField.value.length && this.fieldField.value.length;
+    const tableStyle = { fontSize: '12px' };
+    const glyphTrashStyle = { cursor: 'pointer' };
+    const glyphPencilStyle = { cursor: 'pointer', color: 'inherit' };
+    const glyphPencilEditingStyle = { cursor: 'pointer', color: '#0275D8' };
     return (
       <div>
-        <Table condensed striped style={{ fontSize: '12px' }}>
+        <Table condensed striped style={tableStyle}>
           <thead>
             <tr>
               <th colSpan={1}>Color</th>
@@ -164,14 +168,14 @@ export default class StateColorsFields extends React.Component {
               stateColors.length ? stateColors.map(
                 (stateColor, index) => (
                   <tr
-                    key={index}
+                    key={`${stateColor.condition.field}${stateColor.condition.operator}${stateColor.condition.operand}`}
                     className={editingIndex === index ? styles.editingFilter : ''}
                   >
                     <td className="col-xs-1">
                       <span
                         className={styles.colorSquare}
                         style={{
-                          backgroundColor: stateColor.color
+                          backgroundColor: stateColor.color,
                         }}
                       />
                     </td>
@@ -185,7 +189,7 @@ export default class StateColorsFields extends React.Component {
                         glyph="trash"
                         onClick={() => this.removeStateColor(null, index)}
                         title="remove state color"
-                        style={{ cursor: 'pointer' }}
+                        style={glyphTrashStyle}
                       />
                     </td>
                     <td className="col-xs-1">
@@ -193,10 +197,7 @@ export default class StateColorsFields extends React.Component {
                         glyph="pencil"
                         onClick={() => this.editStateColor(index)}
                         title="edit state color"
-                        style={{
-                          cursor: 'pointer',
-                          color: (editingIndex === index) ? '#0275D8' : 'inherit'
-                        }}
+                        style={editingIndex === index ? glyphPencilEditingStyle : glyphPencilStyle}
                       />
                     </td>
                   </tr>
@@ -229,7 +230,7 @@ export default class StateColorsFields extends React.Component {
             ref={(el) => { this.operatorField = el; }}
           >
             {
-              Object.keys(operators).map((o, i) => <option key={i} value={o}>{o}</option>)
+              Object.keys(operators).map(o => <option key={o} value={o}>{o}</option>)
             }
           </select>
         </HorizontalFormGroup>

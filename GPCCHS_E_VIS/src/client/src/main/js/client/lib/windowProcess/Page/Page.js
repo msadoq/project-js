@@ -27,20 +27,25 @@ const getDropItemType = _.cond([
 export default class Page extends PureComponent {
   static propTypes = {
     windowId: PropTypes.string.isRequired,
-    isEditorOpened: PropTypes.bool,
-    openEditor: PropTypes.func,
-    closeEditor: PropTypes.func,
+    isEditorOpened: PropTypes.bool.isRequired,
+    openEditor: PropTypes.func.isRequired,
+    closeEditor: PropTypes.func.isRequired,
     editorViewId: PropTypes.string,
     focusedPageId: PropTypes.string,
   };
 
+  static defaultProps = {
+    editorViewId: null,
+    focusedPageId: null,
+  };
+
   static childContextTypes = {
-    focusedPageId: React.PropTypes.string
+    focusedPageId: React.PropTypes.string,
   }
 
   getChildContext() {
     return {
-      focusedPageId: this.props.focusedPageId
+      focusedPageId: this.props.focusedPageId,
     };
   }
 
@@ -52,7 +57,7 @@ export default class Page extends PureComponent {
     }
   }
 
-  onDrop(e) { // eslint-disable-line class-methods-use-this
+  onDrop = (e) => { // eslint-disable-line class-methods-use-this
     const data = e.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);
 
@@ -69,19 +74,20 @@ export default class Page extends PureComponent {
       })],
       [_.eq('workspace'), () => main.openWorkspace({
         filePath: path.join(get('FMD_ROOT_DIR'), content.filepath),
-      })]
+      })],
     ])(type);
   }
-
-  onDrop = ::this.onDrop;
 
   render() {
     logger.debug('render');
     const {
       focusedPageId, windowId, editorViewId,
-      openEditor, closeEditor, isEditorOpened
+      openEditor, closeEditor, isEditorOpened,
     } = this.props;
-
+    const droppableContainerStyle = {
+      height: '100%',
+      position: 'relative',
+    };
     return (
       <div className={styles.root}>
         {isEditorOpened && <EditorContainer
@@ -89,15 +95,12 @@ export default class Page extends PureComponent {
         />}
         <div
           className={classnames({
-            [styles.contentWithEditor]: isEditorOpened
+            [styles.contentWithEditor]: isEditorOpened,
           })}
         >
           <MessagesContainer pageId={focusedPageId} />
           <DroppableContainer
-            style={{
-              height: '100%',
-              position: 'relative',
-            }}
+            style={droppableContainerStyle}
             onDrop={this.onDrop}
           >
             <ContentContainer

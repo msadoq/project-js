@@ -43,8 +43,8 @@ export const getNewPlotEntryPoint = () => ({
       style: 'None',
       size: 3,
     },
-    curveColor: getRandomColor()
+    curveColor: getRandomColor(),
   },
   stateColors: [
-  ]
+  ],
 });

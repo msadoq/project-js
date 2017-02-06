@@ -5,18 +5,20 @@ import {
 } from 'react-bootstrap';
 import { withState, withProps } from 'recompose';
 
+const dangerBtnStyle = { float: 'right' };
+
 const Alert = ({
   bsStyle,
   children,
   className,
   visible = true,
   style,
-  setVisible
+  setVisible,
 }) => (
   <div
     style={{
       ...style,
-      overflow: 'auto'
+      overflow: 'auto',
     }}
     className={className}
   >
@@ -29,7 +31,7 @@ const Alert = ({
     <Button
       bsStyle="danger"
       onClick={() => setVisible(true)}
-      style={{ float: 'right' }}
+      style={dangerBtnStyle}
     >
       errors
     </Button>}
@@ -52,5 +54,5 @@ export default {
   CloseableAlert,
   Danger: withProps({
     bsStyle: 'danger',
-  })(CloseableAlert)
+  })(CloseableAlert),
 };

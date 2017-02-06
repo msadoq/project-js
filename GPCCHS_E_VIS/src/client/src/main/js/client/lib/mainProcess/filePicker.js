@@ -8,9 +8,9 @@ function openFileDialog(folder, type, callback) {
       defaultPath: folder,
       buttonLabel: 'Open',
       filters: [{ name: 'data files', extensions: ['json'] }],
-      properties: ['openFile']
+      properties: ['openFile'],
     },
-    callback,
+    callback
   );
 }
 
@@ -26,7 +26,7 @@ function saveFileDialog(folder, type, callback) {
         extensions: ['json'],
       }],
     },
-    callback,
+    callback
   );
 }
 

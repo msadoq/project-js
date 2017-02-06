@@ -1,12 +1,20 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
-import { debounce } from 'lodash';
+import _debounce from 'lodash/debounce';
 import moment from 'moment';
 import styles from '../Lefttab.css';
 
 export default class OffsetFields extends PureComponent {
   static propTypes = {
-    input: PropTypes.object.isRequired,
+    input: PropTypes.shape({
+      value: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      onBlur: PropTypes.func.isRequired,
+      onChange: PropTypes.func.isRequired,
+      onDragStart: PropTypes.func.isRequired,
+      onFocus: PropTypes.func.isRequired,
+      onDrop: PropTypes.func.isRequired,
+    }).isRequired,
   }
 
   componentDidMount = () => {
@@ -19,7 +27,7 @@ export default class OffsetFields extends PureComponent {
 
   onChange = () => {
     if (!this.debounced) {
-      this.debounced = debounce(this.sendChange, 1200);
+      this.debounced = _debounce(this.sendChange, 1200);
     }
     this.debounced();
   }
@@ -56,9 +64,9 @@ export default class OffsetFields extends PureComponent {
     return (
       <div>
         {
-          ['hours', 'minutes', 'seconds', 'milliseconds'].map((x, i) =>
+          ['hours', 'minutes', 'seconds', 'milliseconds'].map(x =>
             <input
-              key={i}
+              key={x}
               type="number"
               ref={(el) => { this[`${x}El`] = el; }}
               placeholder={x}

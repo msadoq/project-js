@@ -1,5 +1,6 @@
 /* eslint no-unused-expressions: 0 */
-import _ from 'lodash';
+import _omit from 'lodash/omit';
+import _each from 'lodash/each';
 import { should, getStore } from '../../common/test';
 import * as actions from '../actions/timebars';
 import reducer from './timebars';
@@ -23,14 +24,14 @@ describe('store:timebars:reducer', () => {
         speed: 10,
         realTime: false,
         masterId: 'OtherId',
-        timelines: ['myTimelineId']
+        timelines: ['myTimelineId'],
       };
       const state = reducer(
         undefined,
         actions.add('myTimebarId', fixture)
       );
       state.myTimebarId.should.have.properties(
-        _.omit(state.myTimebarId, ['extUpperBound', 'rulerStart'])
+        _omit(state.myTimebarId, ['extUpperBound', 'rulerStart'])
       );
       state.myTimebarId.should.have.property('extUpperBound');
       state.myTimebarId.should.have.property('rulerStart');
@@ -46,7 +47,7 @@ describe('store:timebars:reducer', () => {
         speed: 1,
         mode: 'Normal',
         masterId: null,
-        timelines: []
+        timelines: [],
       });
       state.myTimebarId.should.have.property('extUpperBound');
       state.myTimebarId.should.have.property('rulerStart');
@@ -95,8 +96,8 @@ describe('store:timebars:reducer', () => {
             realTime: false,
             mode: 'Normal',
             masterId: 'OtherId',
-            timelines: ['myTimelineId', 'myTimelineId3']
-          }
+            timelines: ['myTimelineId', 'myTimelineId3'],
+          },
         },
       });
       getState = store.getState;
@@ -164,7 +165,7 @@ describe('store:timebars:reducer', () => {
         {
           lower: 5,
           upper: 40,
-          current: 30
+          current: 30,
         }
         )
       );
@@ -244,7 +245,7 @@ describe('store:timebars:reducer', () => {
               defauttWidth: 600,
             },
             slideWindow: { lower: 250, upper: 350 },
-          }
+          },
         },
       });
       getState = store.getState;
@@ -297,7 +298,7 @@ describe('store:timebars:reducer', () => {
             rulerResolution: 100,
             speed: 10,
             masterId: 'OtherId',
-            timelines: ['myTimelineId', 'myTimelineId3']
+            timelines: ['myTimelineId', 'myTimelineId3'],
           } },
         timelines: {
           myTimelineId: { id: 'tl1' },
@@ -309,11 +310,11 @@ describe('store:timebars:reducer', () => {
         id: 'Id',
         offset: 10,
         kind: 'DataSet',
-        sessionId: 100
+        sessionId: 100,
       };
       dispatch(actions.addAndMountTimeline('myTimebarId', fixture));
       getState().timebars.myTimebarId.timelines.should.be.an('array').with.length(3);
-      _.forEach(getState().timebars.myTimebarId.timelines, (tlId) => {
+      _each(getState().timebars.myTimebarId.timelines, (tlId) => {
         should.exist(getState().timelines[tlId]);
       });
     });
@@ -327,7 +328,7 @@ describe('store:timebars:reducer', () => {
             rulerResolution: 100,
             speed: 10,
             masterId: 'OtherId',
-            timelines: ['myTimelineId', 'myTimelineId3']
+            timelines: ['myTimelineId', 'myTimelineId3'],
           } },
         timelines: {
           myTimelineId: { id: 'tl1' },
@@ -359,7 +360,7 @@ describe('store:timebars:reducer', () => {
             },
             slideWindow: {
               lower: 1420106430000,
-              upper: 1420106700500 // visuWindow.upper + 500
+              upper: 1420106700500, // visuWindow.upper + 500
             },
             speed: 1,
           },
@@ -375,11 +376,7 @@ describe('store:timebars:reducer', () => {
       const offset = 377;
       const vw = state.timebars.myTimebarId.visuWindow;
       const newCurrent = vw.current + offset;
-      dispatch(actions.handlePlay(
-        vw.current,
-        newCurrent,
-        0
-      ));
+      dispatch(actions.handlePlay(newCurrent - vw.current, 0));
 
       const newState = getState();
       newState.timebars.myTimebarId.visuWindow.should.eql({

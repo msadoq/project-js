@@ -4,7 +4,7 @@ import {
   Panel,
   Glyphicon,
   Alert,
-  Button
+  Button,
 } from 'react-bootstrap';
 import _memoize from 'lodash/memoize';
 
@@ -16,13 +16,14 @@ import EntryPointDetailsContainer from './EntryPointDetailsContainer';
 
 export default class EntryPointTree extends PureComponent {
   static propTypes = {
-    entryPoints: PropTypes.array,
+    entryPoints: PropTypes.arrayOf(PropTypes.object),
     search: PropTypes.string,
-    remove: PropTypes.func
+    remove: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
-    entryPoints: []
+    entryPoints: [],
+    search: '',
   };
 
   static contextTypes = {
@@ -60,14 +61,14 @@ export default class EntryPointTree extends PureComponent {
           const isOpen = this.state[`panel${key}IsOpen`];
           return (
             <Panel
-              key={key}
+              key={entryPoint.name}
               header={<span>
                 {entryPoint.objectStyle && entryPoint.objectStyle.curveColor && <div
                   style={{
                     height: '20px',
                     width: '20px',
                     marginRight: '10px',
-                    backgroundColor: entryPoint.objectStyle.curveColor
+                    backgroundColor: entryPoint.objectStyle.curveColor,
                   }}
                 />}
                 <span className="flex">{entryPoint.name}</span>
@@ -89,7 +90,7 @@ export default class EntryPointTree extends PureComponent {
               onExited={this.closePanel(key)}
             >
               {isOpen && <EntryPointDetailsContainer
-                key={key}
+                key={`${entryPoint.name}#details`}
                 idPoint={key}
                 viewId={viewId}
                 focusedPageId={focusedPageId}

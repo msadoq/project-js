@@ -9,7 +9,7 @@ const OverlayTriggerTrigger = ['hover', 'focus'];
 const inlineStyles = {
   width200: {
     width: '200px',
-  }
+  },
 };
 
 export default class ControlsRight extends PureComponent {
@@ -24,8 +24,19 @@ export default class ControlsRight extends PureComponent {
     timebarRealTime: PropTypes.bool.isRequired,
     currentSessionExists: PropTypes.bool.isRequired,
     masterTimelineExists: PropTypes.bool.isRequired,
-    masterTimeline: PropTypes.object,
+    masterTimeline: PropTypes.shape({
+      color: PropTypes.string,
+      id: PropTypes.string.isRequired,
+      kind: PropTypes.string.isRequired,
+      timelineId: PropTypes.string.isRequired,
+      offset: PropTypes.number.isRequired,
+      sessionId: PropTypes.number.isRequired,
+    }),
     masterSessionId: PropTypes.number.isRequired,
+  }
+
+  static defaultProps = {
+    masterTimeline: null,
   }
 
   switchMode = (e) => {
@@ -105,7 +116,7 @@ export default class ControlsRight extends PureComponent {
               className={classnames(
                 allButtonsKlasses,
                 {
-                  [styles.controlButtonActive]: (timebarMode === 'Normal')
+                  [styles.controlButtonActive]: (timebarMode === 'Normal'),
                 }
               )}
               onClick={this.switchMode}
@@ -120,7 +131,7 @@ export default class ControlsRight extends PureComponent {
               className={classnames(
                 allButtonsKlasses,
                 {
-                  [styles.controlButtonActive]: (timebarMode === 'Extensible')
+                  [styles.controlButtonActive]: (timebarMode === 'Extensible'),
                 }
               )}
               onClick={this.switchMode}
@@ -135,7 +146,7 @@ export default class ControlsRight extends PureComponent {
               className={classnames(
                 allButtonsKlasses,
                 {
-                  [styles.controlButtonActive]: (timebarMode === 'Fixed')
+                  [styles.controlButtonActive]: (timebarMode === 'Fixed'),
                 }
               )}
               onClick={this.switchMode}

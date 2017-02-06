@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _each from 'lodash/each';
 import extractWindows from './extractWindows';
 import { should } from '../common/test';
 
@@ -7,20 +7,20 @@ describe('documents/lib', () => {
     it('ok', () => {
       const content = { __original: { windows: [{
         type: 'documentWindow',
-        val: 'val1'
+        val: 'val1',
       }, {
-        type: 'sideWindow'
+        type: 'sideWindow',
       }, {
-        type: 'otherWindow'
+        type: 'otherWindow',
       }, {
         type: 'documentWindow',
-        val: 'val2'
+        val: 'val2',
       }] } };
       extractWindows(content, (err, w) => {
         should.not.exist(err);
         w.should.have.keys('__original', 'windows');
         Object.keys(w.windows).should.have.length(2);
-        _.each(w.windows, (v, k) => {
+        _each(w.windows, (v, k) => {
           v.uuid.should.equal(k);
         });
       });
@@ -36,14 +36,14 @@ describe('documents/lib', () => {
     it('no documentWindow', () => {
       const content = { __original: { windows: [{
         type: 'sideWindow',
-        val: 'val1'
+        val: 'val1',
       }, {
-        type: 'sideWindow'
-      }, {
-        type: 'otherWindow'
+        type: 'sideWindow',
       }, {
         type: 'otherWindow',
-        val: 'val2'
+      }, {
+        type: 'otherWindow',
+        val: 'val2',
       }] } };
       extractWindows(content, (err, w) => {
         should.not.exist(err);

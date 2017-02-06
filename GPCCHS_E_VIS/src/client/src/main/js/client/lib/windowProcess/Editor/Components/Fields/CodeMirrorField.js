@@ -11,7 +11,7 @@ import '!style!css!codemirror/lib/codemirror.css';
 import '!style!css!codemirror/addon/lint/lint.css';
 import '!style!css!codemirror/addon/hint/show-hint.css';
 import {
-  Alert
+  Alert,
 } from 'react-bootstrap';
 
 import { lint } from '../../../../../lib/common/htmllint';
@@ -23,11 +23,11 @@ export default class CodeMirrorField extends React.Component {
     autocompleteList: PropTypes.array,
     className: PropTypes.string,
     meta: PropTypes.object,
-    options: PropTypes.object
+    options: PropTypes.object,
   }
 
   static defaultProps = {
-    autocompleteList: []
+    autocompleteList: [],
   }
 
   componentDidMount() {
@@ -47,7 +47,7 @@ export default class CodeMirrorField extends React.Component {
           from: this.codeMirrorInstance.Pos(startLine, startCol),
           to: this.codeMirrorInstance.Pos(endLine, endCol),
           message: message.message,
-          severity: message.type
+          severity: message.type,
         });
       }
       return found;
@@ -75,7 +75,7 @@ export default class CodeMirrorField extends React.Component {
     const { autocompleteList } = this.props;
     const codeMirror = this.element.getCodeMirrorInstance();
     codeMirror.showHint(cm, cmd => ({
-      from: cmd.getCursor(), to: cmd.getCursor(), list: autocompleteList
+      from: cmd.getCursor(), to: cmd.getCursor(), list: autocompleteList,
     }));
   }
 
@@ -91,8 +91,8 @@ export default class CodeMirrorField extends React.Component {
       options,
       className,
       meta: {
-        error
-      }
+        error,
+      },
     } = this.props;
 
     const codeMirrorOptions = {
@@ -101,10 +101,10 @@ export default class CodeMirrorField extends React.Component {
       mode: 'htmlmixed',
       gutters: ['CodeMirror-lint-markers'],
       extraKeys: {
-        Tab: this.autocomplete
+        Tab: this.autocomplete,
       },
       lint: true,
-      ...options
+      ...options,
     };
 
     return (

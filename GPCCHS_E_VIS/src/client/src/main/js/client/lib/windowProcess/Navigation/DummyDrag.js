@@ -59,21 +59,23 @@ export default class DummyDrag extends PureComponent {
       item.mime,
       _.pipe(
         _.dissoc('mime'),
-        JSON.stringify,
+        JSON.stringify
       )(item)
     );
   }
+
+  dragStartFactory = _.memoize(item => e => this.dragStart(item, e));
 
   render() {
     return (
       <div style={s.container} >
         <span style={{ marginRight: '1em' }}>Drag-moi</span>
-        {items.map((item, i) =>
+        {items.map(item =>
           <div
-            key={i}
+            key={item.name}
             style={{ ...s.box, backgroundColor: getRandomColor() }}
             draggable
-            onDragStart={this.dragStart.bind(this, item)}
+            onDragStart={this.dragStartFactory(item)}
           >
             {item.name}
           </div>

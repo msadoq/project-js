@@ -23,6 +23,7 @@ export const minimize = simple(types.WS_WINDOW_MINIMIZE, 'windowId');
 export const restore = simple(types.WS_WINDOW_RESTORE, 'windowId');
 
 export const currentExplorer = simple(types.WS_WINDOW_CURRENT_EXPLORER, 'windowId', 'tabName');
+export const updateExplorerWidth = simple(types.WS_WINDOW_EXPLORERWIDTH_UPDATE, 'windowId', 'width');
 /**
  * Compound actions
  */

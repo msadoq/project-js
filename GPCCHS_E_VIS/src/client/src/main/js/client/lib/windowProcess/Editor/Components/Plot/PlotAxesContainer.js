@@ -6,7 +6,7 @@ import {
   removeAxis,
   updateAxis,
   addAxis,
-  updateShowYAxes
+  updateShowYAxes,
 } from '../../../../store/actions/views';
 
 const mapStateToProps = (state, { viewId }) => {
@@ -22,11 +22,11 @@ const PlotAxesContainer = connect(mapStateToProps, {
   removeAxis,
   updateAxis,
   addAxis,
-  updateShowYAxes
+  updateShowYAxes,
 })(PlotAxes);
 
 PlotAxesContainer.propTypes = {
-  viewId: PropTypes.string.isRequired
+  viewId: PropTypes.string.isRequired,
 };
 
 export default PlotAxesContainer;

@@ -6,39 +6,57 @@ import {
   Button,
 } from 'react-bootstrap';
 import getLogger from 'common/log';
-import globalConstants from 'common/constants';
+import {
+  HEALTH_STATUS_HEALTHY,
+  HEALTH_STATUS_WARNING,
+  HEALTH_STATUS_CRITICAL,
+} from 'common/constants';
 import styles from './Health.css';
 
 const logger = getLogger('Health');
 
+const getStyle = (status) => {
+  switch (status) {
+    case HEALTH_STATUS_CRITICAL:
+      return classnames(styles.bull, styles.alert);
+    case HEALTH_STATUS_WARNING:
+      return classnames(styles.bull, styles.warning);
+    default:
+      return classnames(styles.bull, styles.healthy);
+  }
+};
+
 export default class Health extends Component {
   static propTypes = {
-    lastPubSubTimestamp: PropTypes.number,
-    dcStatus: PropTypes.number,
-    hssStatus: PropTypes.number,
+    lastPubSubTimestamp: PropTypes.string,
+    dc: PropTypes.string,
+    hss: PropTypes.string,
+    main: PropTypes.string,
+    window: PropTypes.string,
+  };
+
+  static defaultProps = {
+    lastPubSubTimestamp: null,
+    dc: HEALTH_STATUS_HEALTHY,
+    hss: HEALTH_STATUS_HEALTHY,
+    main: HEALTH_STATUS_HEALTHY,
+    window: HEALTH_STATUS_HEALTHY,
   };
 
   render() {
     logger.debug('render');
-    const { hssStatus, dcStatus, lastPubSubTimestamp } = this.props;
+    const {
+      hss,
+      dc,
+      main,
+      window,
+      lastPubSubTimestamp,
+    } = this.props;
 
-    const dcStyle = dcStatus !== globalConstants.DC_STATUS_HEALTHY
-      ? classnames(styles.bull, styles.alert)
-      : classnames(styles.bull, styles.healthy);
-
-    let hssStyle;
-    switch (hssStatus) {
-      case globalConstants.HSS_STATUS_HEALTHY:
-        hssStyle = classnames(styles.bull, styles.healthy);
-        break;
-      case globalConstants.HSS_STATUS_WARNING:
-        hssStyle = classnames(styles.bull, styles.warning);
-        break;
-      case globalConstants.HSS_STATUS_ERROR:
-      default:
-        hssStyle = classnames(styles.bull, styles.alert);
-        break;
-    }
+    const dcStyle = getStyle(dc);
+    const hssStyle = getStyle(hss);
+    const mainStyle = getStyle(main);
+    const windowStyle = getStyle(window);
 
     const pubSubStyle = lastPubSubTimestamp
       ? classnames(styles.bull, styles.healthy)
@@ -57,15 +75,21 @@ export default class Health extends Component {
 
     return (
       <ButtonGroup>
-        <Button bsSize="small">
-          <span className={dcStyle}>•</span> DC
-        </Button>
-        <Button bsSize="small">
-          <span className={hssStyle}>•</span> HSS
-        </Button>
-        <Button bsSize="small">
+        <Button bsSize="small" title="Pub/sub receiving state">
           <span className={pubSubStyle}>•</span> PUB/SUB
           {last}
+        </Button>
+        <Button bsSize="small" title="Data Consumer daemon health status">
+          <span className={dcStyle}>•</span> DC
+        </Button>
+        <Button bsSize="small" title="Cache daemon health status">
+          <span className={hssStyle}>•</span> HSS
+        </Button>
+        <Button bsSize="small" title="Main application thread health status">
+          <span className={mainStyle}>•</span> MAIN
+        </Button>
+        <Button bsSize="small" title="Current window health status">
+          <span className={windowStyle}>•</span> WINDOW
         </Button>
       </ButtonGroup>
     );

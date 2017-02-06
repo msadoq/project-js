@@ -11,7 +11,7 @@ const config = merge(baseConfig, {
     './lib/windowProcess/style/bootstrap',
     '!style!css!postcss!./lib/windowProcess/style',
     'babel-polyfill',
-    './lib/windowProcess/index'
+    './lib/windowProcess/index',
   ],
 
   output: {
@@ -26,8 +26,8 @@ const config = merge(baseConfig, {
   module: {
     loaders: [{
       test: [/.+\.svg/, /.+\.eot/, /.+\.ttf/, /.+\.woff/, /.+\.woff2/],
-      loader: 'file?name=fonts/[name].[ext]'
-    }]
+      loader: 'file?name=fonts/[name].[ext]',
+    }],
   },
 
   plugins: [
@@ -35,8 +35,8 @@ const config = merge(baseConfig, {
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
         screw_ie8: true,
-        warnings: false
-      }
+        warnings: false,
+      },
     }),
     new ExtractTextPlugin('style.css', { allChunks: true }),
     new webpack.DefinePlugin({
@@ -44,11 +44,11 @@ const config = merge(baseConfig, {
         NODE_ENV: JSON.stringify('production'), // import for bundled libs as React https://facebook.github.io/react/docs/optimizing-performance.html#use-the-production-build
         IS_BUNDLED: JSON.stringify('on'),
         APP_ENV: JSON.stringify('renderer'),
-      }
+      },
     }),
   ],
 
-  target: 'electron-renderer'
+  target: 'electron-renderer',
 });
 
 export default config;

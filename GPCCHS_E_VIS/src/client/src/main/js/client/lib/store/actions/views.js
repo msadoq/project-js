@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _clone from 'lodash/clone';
 import globalConstants from 'common/constants';
 import simple from '../simpleActionCreator';
 import { ifPathChanged, addUuids } from './enhancers';
@@ -67,7 +67,7 @@ export const setCollapsedAndUpdateLayout = (pageId, viewId, flag) =>
       payload: {
         viewId,
         flag,
-      }
+      },
     });
     dispatch(setModified(viewId, true));
   };
@@ -111,7 +111,7 @@ const addEntryPointInternal = simple(types.WS_VIEW_ADD_ENTRYPOINT, 'viewId', 'en
 
 export function addEntryPoint(viewId, entryPoint) { // TODO add test
   return (dispatch, getState) => {
-    const ep = _.clone(entryPoint);
+    const ep = _clone(entryPoint);
     const state = getState();
     const currentView = state.views[viewId];
     const structureType = vivl(currentView.type, 'structureType')();

@@ -22,7 +22,7 @@ export default function viewDataUpdate(viewDataState, viewId, view) {
   return (viewState === viewDataState[viewId])
   ? viewDataState
   : { ...viewDataState,
-    [viewId]: viewState
+    [viewId]: viewState,
   };
 }
 

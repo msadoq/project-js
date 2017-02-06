@@ -14,7 +14,8 @@ import { writeDocument } from './io';
 const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
   createFolder(dirname(path), (errFolderCreation) => {
     if (errFolderCreation) {
-      return callback(errFolderCreation);
+      callback(errFolderCreation);
+      return;
     }
     const savedWindowsIds = [];
     const workspace = {
@@ -33,7 +34,8 @@ const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
       // pages
       win.pages.forEach((pageId) => {
         if (!state.pages[pageId]) {
-          return callback('Page Id is missing');
+          callback('Page Id is missing');
+          return;
         }
         const page = {};
         const currentPage = state.pages[pageId];
@@ -51,7 +53,8 @@ const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
             }
           }
         } else {
-          return callback(new Error('Unsaved page: no path or oId'));
+          callback(new Error('Unsaved page: no path or oId'));
+          return;
         }
         page.timebarId = (state.timebars[currentPage.timebarUuid])
           ? state.timebars[currentPage.timebarUuid].id
@@ -68,7 +71,8 @@ const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
       tb.timelines = [];
       _each(timebar.timelines, (timelineId) => {
         if (!state.timelines[timelineId]) {
-          return callback(new Error('timelines missing'));
+          callback(new Error('timelines missing'));
+          return;
         }
         tb.timelines.push(_cloneDeep(state.timelines[timelineId]));
       });
@@ -80,12 +84,14 @@ const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
     // validation
     const validationError = validation('workspace', workspace);
     if (validationError) {
-      return callback(validationError);
+      callback(validationError);
+      return;
     }
     // save file
     writeDocument(fmdApi)(path, workspace, (err) => {
       if (err) {
-        return callback(err);
+        callback(err);
+        return;
       }
       server.sendProductLog(LOG_DOCUMENT_SAVE, 'workspace', path);
       callback(null, savedWindowsIds);
@@ -107,5 +113,5 @@ const saveWorkspace = fmdApi => (state, useRelativePath, callback) => {
 
 export default {
   saveWorkspace,
-  saveWorkspaceAs
+  saveWorkspaceAs,
 };

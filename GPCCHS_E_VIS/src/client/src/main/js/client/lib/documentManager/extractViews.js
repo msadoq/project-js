@@ -120,7 +120,7 @@ const extractViews = fmdApi => (content, cb) => {
       cond([
         [isObject, compose(flatten, values, pluck('views'))],
         [otherwise, always([])],
-      ]),
+      ])
     );
 
     const prepareAllPagesViews = update('pages', mapValues(preparePageViews));
@@ -134,7 +134,7 @@ const extractViews = fmdApi => (content, cb) => {
       return cb(null, setViews(nextContent));
     });
   } catch (e) {
-    cb(e);
+    return cb(e);
   }
 };
 

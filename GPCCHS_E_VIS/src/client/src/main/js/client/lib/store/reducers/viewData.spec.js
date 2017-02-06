@@ -12,30 +12,31 @@ describe('store:viewData:reducer', () => {
       val2: (j * 10) + 2,
       val3: (j * 10) + 3,
       referenceTimestamp: j,
-      time: j + 0.2
+      time: j + 0.2,
     };
 
     payload.rId2[j] = payload.rId1[j];
   }
 
-  describe('DATA_REMOVE_ALL_VIEWDATA', () => {
+  it('DATA_REMOVE_ALL_VIEWDATA', () => {
     const state = Object.freeze({
       myViewId: {
         index: { myEntryPoint: 10 },
         values: { myEntryPoint: 150 },
-      }
+      },
     });
     reducer(Object.freeze(state), removeAllData()).should.deep.equal({});
   });
-  describe('HSC_CLOSE_WORKSPACE', () => {
+  it('HSC_CLOSE_WORKSPACE', () => {
     const state = Object.freeze({
       myViewId: {
         index: { myEntryPoint: 10 },
         values: { myEntryPoint: 150 },
-      }
+      },
     });
+    // eslint-disable-next-line no-unused-expressions
     reducer(Object.freeze(state), { type: types.HSC_CLOSE_WORKSPACE })
-    .should.be.an('object').that.is.empty;
+      .should.be.an('object').that.is.empty;
   });
 
 
@@ -70,7 +71,7 @@ describe('store:viewData:reducer', () => {
               expectedInterval: [7, 10],
             },
           },
-        }
+        },
       };
       newViewMap = {
         text: {
@@ -106,7 +107,7 @@ describe('store:viewData:reducer', () => {
               expectedInterval: [8, 12],
             },
           },
-        }
+        },
       };
       dataToInject = { rId1: {}, rId2: {} };
       for (let j = 1; j < 21; j += 1) {
@@ -116,7 +117,7 @@ describe('store:viewData:reducer', () => {
           val3: { type: 'uinteger', value: (j * 10) + 3 },
           val4: { type: 'enum', value: j, symbol: 'val'.concat(j) },
           referenceTimestamp: { type: 'time', value: j },
-          time: { type: 'time', value: j + 0.2 }
+          time: { type: 'time', value: j + 0.2 },
         };
         if (j % 2) {
           dataToInject.rId2[j] = dataToInject.rId1[j];
@@ -130,7 +131,7 @@ describe('store:viewData:reducer', () => {
           index: { ep1: 10, ep4: 9 },
           values: {
             ep1: { value: moment(10.2).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS'), monit: undefined },
-            ep4: { value: 'val9', monit: undefined } }
+            ep4: { value: 'val9', monit: undefined } },
         },
         plot: {
           index: [8, 9, 10, 11, 12],
@@ -144,8 +145,8 @@ describe('store:viewData:reducer', () => {
               ep2: { monit: undefined, value: 112, x: 11.2, symbol: undefined },
               ep3: { monit: undefined, value: 11, x: 11.2, symbol: 'val11' } },
             { x: 12, ep2: { monit: undefined, value: 122, x: 12.2, symbol: undefined } },
-          ]
-        }
+          ],
+        },
       });
     });
     it('valid viewData with state', () => {
@@ -153,7 +154,7 @@ describe('store:viewData:reducer', () => {
         index: { ep1: 9, ep4: 9 },
         values: {
           ep1: { value: moment(9.2).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS'), monit: undefined },
-          ep4: { value: 'val9', monit: undefined } }
+          ep4: { value: 'val9', monit: undefined } },
       },
         plot: {
           index: [7, 8, 9, 10],
@@ -166,7 +167,7 @@ describe('store:viewData:reducer', () => {
               ep2: { monit: undefined, value: 92, x: 9.2, symbol: undefined },
               ep3: { monit: undefined, value: 9, x: 9.2, symbol: 'val9' } },
             { x: 10, ep2: { monit: undefined, value: 102, x: 10.2, symbol: undefined } },
-          ]
+          ],
         } };
 
       reducer(Object.freeze(state), updateViewData(oldViewMap, newViewMap, dataToInject))
@@ -175,7 +176,7 @@ describe('store:viewData:reducer', () => {
           index: { ep1: 10, ep4: 9 },
           values: {
             ep1: { value: moment(10.2).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS'), monit: undefined },
-            ep4: { value: 'val9', monit: undefined } }
+            ep4: { value: 'val9', monit: undefined } },
         },
         plot: {
           index: [8, 9, 10, 11, 12],
@@ -189,8 +190,8 @@ describe('store:viewData:reducer', () => {
               ep2: { monit: undefined, value: 112, x: 11.2, symbol: undefined },
               ep3: { monit: undefined, value: 11, x: 11.2, symbol: 'val11' } },
             { x: 12, ep2: { monit: undefined, value: 122, x: 12.2, symbol: undefined } },
-          ]
-        }
+          ],
+        },
       });
     });
   });

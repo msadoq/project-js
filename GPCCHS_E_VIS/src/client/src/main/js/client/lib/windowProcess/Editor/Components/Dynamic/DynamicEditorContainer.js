@@ -18,7 +18,7 @@ const mapStateToProps = (state, { viewId, focusedPageId }) => {
     title: view.configuration.title,
     type: view.configuration.type,
     titleStyle: view.configuration.titleStyle,
-    timelines
+    timelines,
   };
 };
 
@@ -32,7 +32,7 @@ DynamicEditorContainer.propTypes = {
   viewId: PropTypes.string.isRequired,
   viewType: PropTypes.string.isRequired,
   configuration: PropTypes.object,
-  closeEditor: PropTypes.func
+  closeEditor: PropTypes.func,
 };
 
 export default DynamicEditorContainer;

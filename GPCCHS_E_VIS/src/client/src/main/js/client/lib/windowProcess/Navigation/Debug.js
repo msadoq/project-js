@@ -66,10 +66,13 @@ export default class Debug extends PureComponent {
     Perf.start();
     setTimeout(() => {
       Perf.stop();
+      // eslint-disable-next-line no-console
       console.log('WASTED');
       Perf.printWasted();
+      // eslint-disable-next-line no-console
       console.log('INCLUSIVE');
       Perf.printInclusive();
+      // eslint-disable-next-line no-console
       console.log('EXCLUSIVE');
       Perf.printExclusive();
       this.props.pause(this.props.focusedPage.timebarUuid);
@@ -82,7 +85,7 @@ export default class Debug extends PureComponent {
     setTimeout(() => {
       _get(console, ['profileEnd'])('tick');
       this.props.pause(this.props.focusedPage.timebarUuid);
-    }, HSC_ORCHESTRATION_FREQUENCY);
+    }, HSC_ORCHESTRATION_FREQUENCY * 3);
   }
 
   render() {

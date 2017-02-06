@@ -1,26 +1,23 @@
 import React, { PropTypes } from 'react';
 import { FormControl } from 'react-bootstrap';
 
-export default class SelectFontField extends React.PureComponent {
-  static propTypes = {
-    input: PropTypes.object.isRequired
-  }
+const SelectFontField = ({ input }) => {
+  const { value, onChange } = input;
+  return (
+    <FormControl
+      className="form-control input-sm"
+      componentClass="select"
+      onChange={onChange}
+      value={value}
+    >
+      <option value="Arial">Arial</option>
+      <option value="Helvetica">Helvetica</option>
+    </FormControl>
+  );
+};
 
-  render() {
-    const {
-      input: { value, onChange }
-    } = this.props;
+SelectFontField.propTypes = {
+  input: PropTypes.shape({ value: PropTypes.string, onChange: PropTypes.func }).isRequired,
+};
 
-    return (
-      <FormControl
-        className="form-control input-sm"
-        componentClass="select"
-        onChange={onChange}
-        value={value}
-      >
-        <option value="Arial">Arial</option>
-        <option value="Helvetica">Helvetica</option>
-      </FormControl>
-    );
-  }
-}
+export default SelectFontField;

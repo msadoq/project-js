@@ -5,7 +5,6 @@ import _filter from 'lodash/filter';
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
 import { getFocusedWindowId } from './hsc';
 import { getPages } from './pages';
-// import { getViews } from './views';
 
 export const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
@@ -23,14 +22,14 @@ export const getWindowsArray = createSelector(
       .keys(windows)
       .map(id => ({
         id,
-        ...windows[id]
+        ...windows[id],
       }))
 );
 
 export const getFocusedWindow = createSelector(
   getWindows,
   getFocusedWindowId,
-  _get,
+  _get
 );
 
 export const getWindow = (state, windowId) =>
@@ -84,27 +83,25 @@ export const getWindowsVisibleViewIds = createSelector(
       .filter(p => p.views && p.views.length && p.timebarUuid)
       .map(p => ({
         timebarUuid: p.timebarUuid,
-        viewIds: p.views
+        viewIds: p.views,
       }))
 );
 
 export const getWindowsVisibleViews = createSelector(
   getWindowsVisibleViewIds,
   getViews,
-  (viewIds, views) => {
-    console.log('selector getWindowsVisibleViews');
-    return viewIds
+  (viewIds, views) =>
+    viewIds
       .map(p => p.viewIds.map(vId => ({
         timebarUuid: p.timebarUuid,
-        viewId: vId
+        viewId: vId,
       })))
       .reduce((acc, ids) => acc.concat(ids), [])
       .filter(v => !!views[v.viewId])
       .map(v => ({
         ...v,
-        viewData: views[v.viewId]
-      }));
-  }
+        viewData: views[v.viewId],
+      }))
 );
 
 export const getWindowsTitle = createSelector(
@@ -112,7 +109,7 @@ export const getWindowsTitle = createSelector(
   windows => _reduce(
     windows,
     (titles, window, windowId) => Object.assign(titles, {
-      [windowId]: `${window.title}${(window.isModified === true) ? ' *' : ''} - VIMA`
+      [windowId]: `${window.title}${(window.isModified === true) ? ' *' : ''} - VIMA`,
     }), {})
 );
 
@@ -122,4 +119,8 @@ export function getModifiedWindowsIds(state) {
 
 export function getExplorerTabName(state, windowId) {
   return _get(state, ['windows', windowId, 'tabName']);
+}
+
+export function getExplorerWidth(state, windowId) {
+  return _get(state, ['windows', windowId, 'explorerWidth']);
 }

@@ -4,10 +4,10 @@ import styles from './Navbar.css';
 
 export default class EditorNavbar extends React.Component {
   static propTypes = {
-    currentDisplay: PropTypes.number,
-    changeCurrentDisplay: PropTypes.func,
-    items: PropTypes.array,
-    closeEditor: PropTypes.func
+    currentDisplay: PropTypes.number.isRequired,
+    changeCurrentDisplay: PropTypes.func.isRequired,
+    items: PropTypes.arrayOf(PropTypes.string).isRequired,
+    closeEditor: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
@@ -31,7 +31,7 @@ export default class EditorNavbar extends React.Component {
       >
         {items.map((item, index) => (
           <NavItem
-            key={index}
+            key={item}
             eventKey={index}
           >
             {item}

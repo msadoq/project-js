@@ -16,7 +16,7 @@ export default function windows(stateWindows = {}, action) {
     case types.WS_WINDOW_MINIMIZE:
     case types.WS_WINDOW_RESTORE:
       return Object.assign({}, stateWindows, {
-        [action.payload.windowId]: window(stateWindows[action.payload.windowId], action)
+        [action.payload.windowId]: window(stateWindows[action.payload.windowId], action),
       });
     case types.WS_WINDOW_ADD:
       return {
@@ -34,7 +34,7 @@ export default function windows(stateWindows = {}, action) {
       return u({
         [action.payload.windowId]: {
           isModified: action.payload.flag,
-        }
+        },
       }, stateWindows);
     case types.WS_WINDOW_CURRENT_EXPLORER:
       if (!stateWindows[action.payload.windowId]) {
@@ -43,7 +43,16 @@ export default function windows(stateWindows = {}, action) {
       return u({
         [action.payload.windowId]: {
           tabName: action.payload.tabName,
-        }
+        },
+      }, stateWindows);
+    case types.WS_WINDOW_EXPLORERWIDTH_UPDATE:
+      if (!stateWindows[action.payload.windowId]) {
+        return stateWindows;
+      }
+      return u({
+        [action.payload.windowId]: {
+          explorerWidth: action.payload.width,
+        },
       }, stateWindows);
     default:
       return stateWindows;
@@ -82,7 +91,7 @@ function window(stateWindow = initialState, action) {
       });
     case types.WS_WINDOW_UPDATE_GEOMETRY: {
       return Object.assign({}, stateWindow, {
-        geometry: _defaults({}, _omit(action.payload, ['windowId']), stateWindow.geometry)
+        geometry: _defaults({}, _omit(action.payload, ['windowId']), stateWindow.geometry),
       });
     }
     case types.WS_WINDOW_PAGE_FOCUS:

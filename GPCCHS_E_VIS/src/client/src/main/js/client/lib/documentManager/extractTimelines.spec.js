@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _each from 'lodash/each';
 import extractTimelines from './extractTimelines';
 import extractTimebars from './extractTimebars';
 import { should } from '../common/test';
@@ -16,19 +16,19 @@ describe('documents/lib', () => {
               id: 'Session 1',
               offset: 0,
               kind: 'Session',
-              sessionId: 100
-            }
+              sessionId: 100,
+            },
           ],
           masterId: 'Session 1',
           visuWindow: {
             lower: 1480578427000,
             upper: 1480578527000,
             current: 1480578457000,
-            defaultWidth: 900000
+            defaultWidth: 900000,
           },
           slideWindow: {
             lower: 1480578437000,
-            upper: 1480582037000
+            upper: 1480582037000,
           },
           extUpperBound: 1480582047000,
           rulerStart: 1480577807000,
@@ -44,7 +44,7 @@ describe('documents/lib', () => {
               id: 'Session 2',
               offset: -3600000,
               kind: 'Session',
-              sessionId: 100
+              sessionId: 100,
             },
           ],
           masterId: 'Session 2',
@@ -52,11 +52,11 @@ describe('documents/lib', () => {
             lower: 1480578427000,
             upper: 1480578527000,
             current: 1480578457000,
-            defaultWidth: 900000
+            defaultWidth: 900000,
           },
           slideWindow: {
             lower: 1480578437000,
-            upper: 1480582037000
+            upper: 1480582037000,
           },
           extUpperBound: 1480582047000,
           rulerStart: 1480577807000,
@@ -76,9 +76,9 @@ describe('documents/lib', () => {
         val.should.be.an('object').with.keys('__original', '__folder', 'timebars', 'timelines');
         val.timelines.should.be.an('object');
         Object.keys(val.timelines).should.have.length(2);
-        _.each(val.timebars, (tb) => {
+        _each(val.timebars, (tb) => {
           tb.timelines.should.be.an('array');
-          _.each(tb.timelines, (tlId) => {
+          _each(tb.timelines, (tlId) => {
             const tl = val.timelines[tlId];
             tl.should.be.an('object').with.keys('id', 'offset', 'kind', 'sessionId', 'uuid');
           });

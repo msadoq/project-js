@@ -1,19 +1,19 @@
 import React, { PropTypes } from 'react';
 import {
-  Form
+  Form,
 } from 'react-bootstrap';
 import { Field, reduxForm } from 'redux-form';
 import {
   ColorPickerField,
-  InputField
+  InputField,
 } from '../Fields/';
 import {
   HorizontalFormGroup,
-  ClearSubmitButtons
+  ClearSubmitButtons,
 } from '../Forms/';
 import {
   FormSectionLineStyle,
-  FormSectionPointStyle
+  FormSectionPointStyle,
 } from '../FormSections/';
 
 class EntryPointParameters extends React.Component {
@@ -22,19 +22,19 @@ class EntryPointParameters extends React.Component {
     initialValues: PropTypes.shape({
       line: PropTypes.shape({
         style: PropTypes.string,
-        size: PropTypes.number
+        size: PropTypes.number,
       }).isRequired,
       points: PropTypes.shape({
         style: PropTypes.string,
-        size: PropTypes.number
+        size: PropTypes.number,
       }).isRequired,
-      curveColor: PropTypes.string
+      curveColor: PropTypes.string,
     }).isRequired,
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     reset: PropTypes.func,
     submitting: PropTypes.bool,
-    valid: PropTypes.bool
+    valid: PropTypes.bool,
   }
 
   render() {
@@ -43,7 +43,7 @@ class EntryPointParameters extends React.Component {
       pristine,
       reset,
       submitting,
-      valid
+      valid,
     } = this.props;
 
     return (
@@ -122,5 +122,5 @@ const validate = (values = {}) => {
 
 export default reduxForm({
   validate,
-  enableReinitialize: true
+  enableReinitialize: true,
 })(EntryPointParameters);

@@ -8,12 +8,15 @@ const logger = getLogger('Tabs');
 
 function popoverHoverFocus(page) {
   return (
-    <Popover id="popover-trigger-hover-focus" title="Document properties">
+    <Popover id={page.pageId} title="Document properties">
       <Table>
         <tbody>
           {page.properties.length ?
             page.properties.map(
-              (prop, i) => <tr key={i}><td>{prop.name.value}</td><td>{prop.value.value}</td></tr>)
+              (prop, idx) => <tr key={page.pageId.concat(idx)}>
+                <td>{prop.name.value}</td>
+                <td>{prop.value.value}</td>
+              </tr>)
             : <tr><td>No FMD data</td></tr>}
           {page.oId && <tr><td>OID</td><td>{page.oId}</td></tr>}
           {page.absolutePath &&
@@ -29,7 +32,7 @@ function popoverHoverFocus(page) {
 
 export default class Tabs extends PureComponent {
   static propTypes = {
-    pages: PropTypes.array.isRequired,
+    pages: PropTypes.arrayOf(PropTypes.object).isRequired,
     focusedPageId: PropTypes.string,
     focusPage: PropTypes.func,
     addAndMount: PropTypes.func,
@@ -38,7 +41,8 @@ export default class Tabs extends PureComponent {
 
   handleSelect = (eventKey) => {
     if (eventKey === 'new') {
-      return this.props.addAndMount();
+      this.props.addAndMount();
+      return;
     }
 
     this.props.focusPage(eventKey);

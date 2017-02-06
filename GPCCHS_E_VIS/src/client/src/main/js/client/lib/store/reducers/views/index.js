@@ -41,7 +41,7 @@ export default function views(stateViews = {}, action) {
           ...stateViews[action.payload.viewId],
           isModified: false,
           configuration: configuration(stateViews[action.payload.viewId], action),
-        }
+        },
       };
     }
 
@@ -51,7 +51,7 @@ export default function views(stateViews = {}, action) {
         [action.payload.viewId]: {
           path: action.payload.newPath,
           isModified: true,
-        }
+        },
       }, stateViews);
     }
     case types.WS_VIEW_UPDATE_ABSOLUTEPATH: {
@@ -64,7 +64,7 @@ export default function views(stateViews = {}, action) {
       return u({
         [action.payload.viewId]: {
           oId: action.payload.oid,
-        }
+        },
       }, stateViews);
     }
     case types.WS_VIEW_UPDATE_GRID:
@@ -116,7 +116,7 @@ export default function views(stateViews = {}, action) {
       return u({
         [action.payload.viewId]: {
           isModified: action.payload.flag,
-        }
+        },
       }, stateViews);
     }
 
@@ -235,7 +235,7 @@ export function updateConfiguration(stateViews, action, objectName, paramName, v
         [objectName]: action.payload[paramName],
       },
       isModified: true,
-    }
+    },
   }, stateViews);
 }
 
@@ -252,11 +252,11 @@ export function updateConfigurationArray(stateViews, action, arrayName, paramNam
     [action.payload.viewId]: {
       configuration: {
         [arrayName]: {
-          [index]: action.payload[paramName]
+          [index]: action.payload[paramName],
         },
       },
       isModified: true,
-    }
+    },
   }, stateViews);
 }
 
@@ -271,7 +271,7 @@ export function addElementInConfigurationArray(stateViews, action, arrayName, pa
         [arrayName]: [...oldValue, ...[action.payload[paramName]]],
       },
       isModified: true,
-    }
+    },
   }, stateViews);
 }
 export function removeElementInConfigurationArray(stateViews, action, arrayName) {
@@ -289,7 +289,7 @@ export function removeElementInConfigurationArray(stateViews, action, arrayName)
         [arrayName]: _without(viewConf[arrayName], viewConf[arrayName][index]),
       },
       isModified: true,
-    }
+    },
   }, stateViews);
 }
 
@@ -305,7 +305,7 @@ export function addEntryPoint(stateViews, action) {
     case globalConstants.DATASTRUCTURETYPE_LAST: {
       const newLastValue = u(
         newValue,
-        getNewTextEntryPoint(),
+        getNewTextEntryPoint()
       );
 
       return u({
@@ -314,7 +314,7 @@ export function addEntryPoint(stateViews, action) {
             entryPoints: [...oldValue, newLastValue],
           },
           isModified: true,
-        }
+        },
       }, stateViews);
     }
     case globalConstants.DATASTRUCTURETYPE_RANGE: {
@@ -329,8 +329,8 @@ export function addEntryPoint(stateViews, action) {
         {
           payload: {
             viewId: action.payload.viewId,
-            entryPoint: newRangeValue
-          }
+            entryPoint: newRangeValue,
+          },
         }
       );
 
@@ -340,7 +340,7 @@ export function addEntryPoint(stateViews, action) {
             entryPoints: [...oldValue, newRangeValue],
           },
           isModified: true,
-        }
+        },
       }, newState);
     }
   }
@@ -401,7 +401,7 @@ export function removeUnreferencedAxis(stateViews, viewId, axisIdX, axisIdY) {
           axes: u.omit(axisIdX),
         },
         isModified: true,
-      }
+      },
     }, stateViews);
   }
   if (!epOnAxisY.length) {
@@ -411,7 +411,7 @@ export function removeUnreferencedAxis(stateViews, viewId, axisIdX, axisIdY) {
           axes: u.omit(axisIdY),
         },
         isModified: true,
-      }
+      },
     }, newState);
   }
   return newState;

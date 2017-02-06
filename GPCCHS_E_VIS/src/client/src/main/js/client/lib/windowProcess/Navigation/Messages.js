@@ -22,19 +22,19 @@ export default class Messages extends PureComponent {
       this.collapse();
     }
     this.setState({
-      filter: e.currentTarget.getAttribute('choice')
+      filter: e.currentTarget.getAttribute('choice'),
     });
   }
 
   collapse = () => {
     if (!this.state.collapsed && this.state.filter !== 'all') {
       return this.setState({
-        filter: 'all'
+        filter: 'all',
       });
     }
 
     this.setState({
-      collapsed: !this.state.collapsed
+      collapsed: !this.state.collapsed,
     });
   }
 
@@ -55,7 +55,7 @@ export default class Messages extends PureComponent {
         children.push((
           <Message
             containerId="global"
-            key={i}
+            key={v.message}
             type={v.type}
             message={v.message}
             onClose={() => remove('global', i)}

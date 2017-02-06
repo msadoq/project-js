@@ -8,14 +8,14 @@ import {
 } from 'react-bootstrap';
 import getDynamicObject from '../../../common/getDynamicObject';
 import {
-  ButtonToggleField, InputField
+  ButtonToggleField, InputField,
 } from '../Fields/';
 import {
   HorizontalFormGroup,
-  ClearSubmitButtons
+  ClearSubmitButtons,
 } from '../Forms/';
 import {
-  FormSectionFontStyle
+  FormSectionFontStyle,
 } from '../FormSections/';
 import styles from './Plot.css';
 
@@ -33,7 +33,7 @@ class PlotAxis extends PureComponent {
       showTicks: PropTypes.bool,
       isLogarithmic: PropTypes.bool,
       showAxis: PropTypes.bool,
-      style: PropTypes.object
+      style: PropTypes.object,
     }),
     showTicks: PropTypes.bool,
     autoTick: PropTypes.bool,
@@ -74,8 +74,8 @@ class PlotAxis extends PureComponent {
         underline: false,
         strikeOut: false,
         align: 'left',
-        color: '#000000'
-      }
+        color: '#000000',
+      },
     };
 
     this.props.initialize(initData);
@@ -278,6 +278,6 @@ export default connect((state, { form }) => {
   reduxForm({
     validate,
     enableReinitialize: true,
-    keepDirtyOnReinitialize: true
+    keepDirtyOnReinitialize: true,
   })(PlotAxis)
 );

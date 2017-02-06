@@ -1,6 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
-import { debounce } from 'lodash';
+import _debounce from 'lodash/debounce';
 import { Button } from 'react-bootstrap';
 import getLogger from 'common/log';
 import styles from './Timebar.css';
@@ -15,7 +15,7 @@ const minTimebarHeight = 140;
 const inlineStyles = {
   paddingBottom8: {
     paddingBottom: 8,
-  }
+  },
 };
 
 export default class TimebarWrapper extends PureComponent {
@@ -24,16 +24,58 @@ export default class TimebarWrapper extends PureComponent {
     collapseTimebar: PropTypes.func.isRequired,
     updateTimebarHeight: PropTypes.func.isRequired,
     isPlaying: PropTypes.bool.isRequired,
-    visuWindow: PropTypes.object.isRequired,
-    slideWindow: PropTypes.object.isRequired,
-    timebar: PropTypes.object.isRequired,
+    slideWindow: PropTypes.shape({
+      lower: PropTypes.number.isRequired,
+      upper: PropTypes.number.isRequired,
+    }).isRequired,
+    visuWindow: PropTypes.shape({
+      lower: PropTypes.number.isRequired,
+      upper: PropTypes.number.isRequired,
+      current: PropTypes.number.isRequired,
+      defaultWidth: PropTypes.number.isRequired,
+    }).isRequired,
+    timebar: PropTypes.shape({
+      extUpperBound: PropTypes.number.isRequired,
+      rulerResolution: PropTypes.number.isRequired,
+      speed: PropTypes.number.isRequired,
+      rulerStart: PropTypes.number.isRequired,
+      id: PropTypes.string.isRequired,
+      masterId: PropTypes.string.isRequired,
+      realTime: PropTypes.bool.isRequired,
+      mode: PropTypes.string.isRequired,
+      slideWindow: PropTypes.shape({
+        lower: PropTypes.number.isRequired,
+        upper: PropTypes.number.isRequired,
+      }).isRequired,
+      visuWindow: PropTypes.shape({
+        lower: PropTypes.number.isRequired,
+        upper: PropTypes.number.isRequired,
+        current: PropTypes.number.isRequired,
+        defaultWidth: PropTypes.number.isRequired,
+      }).isRequired,
+      timelines: PropTypes.arrayOf(
+        PropTypes.string.isRequired
+      ).isRequired,
+    }).isRequired,
     timebarUuid: PropTypes.string.isRequired,
     focusedPageId: PropTypes.string.isRequired,
-    timelines: PropTypes.array.isRequired,
+    timelines: PropTypes.arrayOf(
+      PropTypes.shape({
+        color: PropTypes.string,
+        id: PropTypes.string.isRequired,
+        kind: PropTypes.string.isRequired,
+        timelineId: PropTypes.string.isRequired,
+        offset: PropTypes.number.isRequired,
+        sessionId: PropTypes.number.isRequired,
+      })
+    ).isRequired,
     timebarHeight: PropTypes.number,
-    timebarCollapsed: PropTypes.bool,
+    timebarCollapsed: PropTypes.bool.isRequired,
   }
 
+  static defaultProps = {
+    timebarHeight: 140,
+  }
   state = {
     timelinesVerticalScroll: 0,
     displayTimesetter: false,
@@ -44,7 +86,7 @@ export default class TimebarWrapper extends PureComponent {
   onTimelinesVerticalScroll = (e, el) => {
     e.preventDefault();
     this.setState({
-      timelinesVerticalScroll: el ? (el.scrollTop + (e.deltaY / 3)) : e.target.scrollTop
+      timelinesVerticalScroll: el ? (el.scrollTop + (e.deltaY / 3)) : e.target.scrollTop,
     });
   }
 
@@ -53,7 +95,7 @@ export default class TimebarWrapper extends PureComponent {
       resizingWindow: true,
       cursorOriginY: e.pageY,
       heightOrigin: this.el.clientHeight,
-      height: this.el.clientHeight
+      height: this.el.clientHeight,
     });
 
     document.addEventListener('mousemove', this.resizeWindowMouseMove);
@@ -71,7 +113,7 @@ export default class TimebarWrapper extends PureComponent {
       this.el.style.height = `${newTimebarHeight}px`;
 
       if (!this.updateTimebarHeightdebounce) {
-        this.updateTimebarHeightdebounce = debounce(this.willUpdateTimebarHeight, 300);
+        this.updateTimebarHeightdebounce = _debounce(this.willUpdateTimebarHeight, 300);
       }
       this.updateTimebarHeightdebounce(newTimebarHeight);
     }
@@ -98,7 +140,7 @@ export default class TimebarWrapper extends PureComponent {
     }
     this.setState({
       displayTimesetter: !this.state.displayTimesetter,
-      timesetterCursor: (e && e.currentTarget) ? e.currentTarget.getAttribute('cursor') : null
+      timesetterCursor: (e && e.currentTarget) ? e.currentTarget.getAttribute('cursor') : null,
     });
   }
 
@@ -174,7 +216,7 @@ export default class TimebarWrapper extends PureComponent {
           background: '#FAFAFA',
           borderTop: '1px solid #aaa',
           zIndex: '2',
-          padding: '0px 5px'
+          padding: '0px 5px',
         }}
       >
         {timesetter}
@@ -201,7 +243,7 @@ export default class TimebarWrapper extends PureComponent {
           verticalScroll={timelinesVerticalScroll}
           onTimelinesVerticalScroll={this.onTimelinesVerticalScroll}
         />
-        <div className="col-xs-9 h100">
+        <div className={classnames('col-xs-9', styles.h100minus13)}>
           <RightTabContainer
             timebar={timebar}
             timebarUuid={timebarUuid}

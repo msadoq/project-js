@@ -1,4 +1,3 @@
-/* eslint-disable global-require */
 import TextView from './TextView/main';
 import PlotView from './PlotView/main';
 import DynamicView from './DynamicView/main';

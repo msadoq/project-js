@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import {
   Accordion,
-  Panel
+  Panel,
 } from 'react-bootstrap';
 import _memoize from 'lodash/memoize';
 import { formValueSelector } from 'redux-form';
@@ -23,7 +23,7 @@ export default class PlotMarkers extends React.Component {
     collapsible: PropTypes.bool.isRequired,
   }
   state = {
-    isMarkersOpen: false
+    isMarkersOpen: false,
   };
 
   openPanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: true }));
@@ -37,12 +37,12 @@ export default class PlotMarkers extends React.Component {
     updateMarker(viewId, key, values);
   }
 
-  handleSubmit = _memoize(key => (fn => fn(key))(this.handleSubmit.bind(this)));
+  handleSubmitFactory = _memoize(key => values => this.handleSubmit(key, values));
 
   openParentAccordion = (key, e) => {
     const {
       open,
-      onSelect
+      onSelect,
     } = this.props;
 
     onSelect(key, e);
@@ -59,7 +59,7 @@ export default class PlotMarkers extends React.Component {
       eventKey,
       headerRole,
       panelRole,
-      collapsible
+      collapsible,
     } = this.props;
     // const { isMarkersOpen } = this.state;
 
@@ -77,7 +77,7 @@ export default class PlotMarkers extends React.Component {
         <Accordion>
           {markers.map((marker, key) =>
             <Panel
-              key={key}
+              key={marker.label}
               header={marker.label}
               eventKey={key}
               expanded={this.state[`isPanel${key}Open`]}
@@ -86,13 +86,13 @@ export default class PlotMarkers extends React.Component {
             >
               {this.state[`isPanel${key}Open`] &&
                 <PlotMarker
-                  key={key}
+                  key={`${marker.label}#panel`}
                   index={key}
                   axes={axes}
                   initialValues={marker}
                   formName={`axis-form-${key}-${viewId}`}
                   selector={formValueSelector(`axis-form-${key}-${viewId}`)}
-                  onSubmit={this.handleSubmit(key)}
+                  onSubmit={this.handleSubmitFactory(key)}
                   form={`axis-form-${key}-${viewId}`}
                 />}
             </Panel>)}

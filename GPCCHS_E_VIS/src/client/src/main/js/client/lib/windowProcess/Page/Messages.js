@@ -19,7 +19,7 @@ export default class Messages extends PureComponent {
       <div>
         {messages && messages.map((v, i) =>
           <Message
-            key={i}
+            key={v.message}
             type={v.type}
             message={v.message}
             onClose={() => remove(pageId, i)}

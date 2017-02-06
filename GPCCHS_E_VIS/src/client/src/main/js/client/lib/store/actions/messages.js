@@ -12,7 +12,7 @@ export const add = simple(
       return { message: param.message };
     }
     return { message: param };
-  },
+  }
 );
 export const remove = simple(
   types.WS_MESSAGE_REMOVE,

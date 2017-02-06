@@ -11,14 +11,14 @@ describe('dataManager/structures/last', () => {
         myViewId: {
           index: { myEntryPoint: 10, myOther: 20 },
           values: { myEntryPoint: 150, myOther: 200 },
-        }
+        },
       });
       removeEpData(state, 'myViewId', 'myOther')
       .should.deep.eq({
         myViewId: {
           index: { myEntryPoint: 10 },
           values: { myEntryPoint: 150 },
-        }
+        },
       });
     });
   });

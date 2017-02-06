@@ -42,16 +42,16 @@ export default class ReactSelectField extends React.Component {
       meta: {
         touched,
         error,
-        warning
+        warning,
       },
-      ...rest,
+      ...rest
     } = this.props;
     let { options } = this.props;
 
     if (!options.find(e => e.value === input.value) && free) {
       options = options.concat({
         label: input.value,
-        value: input.value
+        value: input.value,
       });
     }
 

@@ -62,7 +62,7 @@ export default class Content extends PureComponent {
     const {
       views = [], focusedPageId, timebarUuid,
       layouts, editorViewId, isEditorOpened,
-      openEditor, closeEditor, windowId
+      openEditor, closeEditor, windowId,
     } = this.props;
 
     if (!focusedPageId) {

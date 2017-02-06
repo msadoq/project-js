@@ -9,5 +9,5 @@ const controller = {
 export default (process, data) => handle(
   controller,
   data,
-  response => process.send(response),
+  response => process.send(response)
 );

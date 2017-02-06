@@ -1,14 +1,14 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import {
-  Form
+  Form,
 } from 'react-bootstrap';
 import { lint } from '../../../lib/common/htmllint';
 import {
-  CodeMirrorField
+  CodeMirrorField,
 } from '../../../lib/windowProcess/Editor/Components/Fields';
 import {
-  ClearSubmitButtons
+  ClearSubmitButtons,
 } from '../../../lib/windowProcess/Editor/Components/Forms/';
 import styles from './WYSIWYG.css';
 
@@ -83,5 +83,5 @@ const validate = (values = {}) => {
 export default reduxForm({
   validate,
   enableReinitialize: false,
-  asyncBlurFields: ['html']
+  asyncBlurFields: ['html'],
 })(WYSIWYG);

@@ -17,9 +17,17 @@ export default class TimeSetter extends PureComponent {
     removeMessage: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
     isPlaying: PropTypes.bool.isRequired,
-    visuWindow: PropTypes.object.isRequired,
-    slideWindow: PropTypes.object.isRequired,
-    messages: PropTypes.array.isRequired,
+    visuWindow: PropTypes.shape({
+      lower: PropTypes.number,
+      upper: PropTypes.number,
+      current: PropTypes.number,
+      defaultWidth: PropTypes.number })
+    .isRequired,
+    slideWindow: PropTypes.shape({
+      lower: PropTypes.number,
+      upper: PropTypes.number })
+    .isRequired,
+    messages: PropTypes.arrayOf(PropTypes.object).isRequired,
     cursor: PropTypes.string.isRequired,
     timebarUuid: PropTypes.string.isRequired,
     timebarMode: PropTypes.string.isRequired,
@@ -224,10 +232,10 @@ export default class TimeSetter extends PureComponent {
         <div className={styles.fieldsContainer}>
           <div className={styles.inputDiv}>
             {
-              dateToArray(moment.duration(visuWindow.defaultWidth)).map((x, i) =>
-                (<div className={styles.inputDiv} key={i}>
+              dateToArray(moment.duration(visuWindow.defaultWidth)).map(x =>
+                (<div className={styles.inputDiv} key={x[0]}>
                   <input
-                    key={i}
+                    key={x[0]}
                     defaultValue={x[1]}
                     placeholder={x[0]}
                     ref={(el) => { this[`defaultWidth${x[0]}El`] = el; }}
@@ -260,7 +268,7 @@ export default class TimeSetter extends PureComponent {
             this.props.messages.length ?
               this.props.messages.map((v, i) =>
                 <Message
-                  key={i}
+                  key={v.message}
                   type={v.type}
                   message={v.message}
                   containerId={`timeSetter-${this.props.timebarUuid}`}
@@ -270,7 +278,7 @@ export default class TimeSetter extends PureComponent {
               ) : null
             }
           {
-            orderedCursors.map((x, i) => {
+            orderedCursors.map((x) => {
               let undisplayed = false;
               if (timebarMode !== 'Fixed' && x === 'slideLower') {
                 undisplayed = true;
@@ -293,7 +301,7 @@ export default class TimeSetter extends PureComponent {
               }
               return (
                 <TimeSetterFields
-                  key={i}
+                  key={x}
                   cursor={x}
                   undisplayed={undisplayed}
                   disabled={disabled}
@@ -338,6 +346,6 @@ function dateToArray(m) {
     ['hours', m.hours()],
     ['minutes', m.minutes()],
     ['seconds', m.seconds()],
-    ['milliseconds', m.milliseconds()]
+    ['milliseconds', m.milliseconds()],
   ];
 }

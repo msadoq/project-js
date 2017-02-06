@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect';
+import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
 import _ from 'lodash/fp';
 import u from 'updeep';
 
@@ -11,6 +11,12 @@ import { getTimelines } from './timelines';
 import { getWindowsVisibleViews } from './windows';
 import { getViewData as viewData } from '../../dataManager/map';
 import { getMasterSessionId } from './masterSession';
+// import { createLoggingSelector } from '../../common/utils';
+
+export const createDeepEqualSelector = createSelectorCreator(
+  defaultMemoize,
+  _.isEqual
+);
 
 export const getViews =
   _.prop('views');
@@ -47,8 +53,8 @@ export const getViewContent = createSelector(
   _.prop('content')
 );
 
-export const makeGetViewEntryPoints = () =>
-  createSelector([
+export const _getViewEntryPoints = createSelector(
+  [
     getView,
     getMasterSessionId,
     getWindowsVisibleViews,
@@ -81,6 +87,11 @@ export const makeGetViewEntryPoints = () =>
     }
   );
 
+export const makeGetViewEntryPoints = () => createDeepEqualSelector(
+  _getViewEntryPoints,
+  _.identity
+);
+
 export const getViewEntryPoints = makeGetViewEntryPoints();
 
 export const getViewEntryPoint = (state, viewId, epName) =>
@@ -102,7 +113,7 @@ export const getEntryPointColorObj = ({ entryPoints, epName, value, dataProp }) 
     .find(c => compile(c.condition)(value));
   if (_.prop('color', stateColor)) {
     return {
-      color: _.prop('color', stateColor)
+      color: _.prop('color', stateColor),
     };
   }
 };
@@ -115,8 +126,8 @@ const getTextValueFn = (entryPoints, epName) => ({ value, ...args }) => ({
     entryPoints,
     epName,
     value,
-    dataProp: 'connectedData'
-  })
+    dataProp: 'connectedData',
+  }),
 });
 
 // Apply state colors on entry points value and return view data with state colors
@@ -127,8 +138,8 @@ export const getTextViewData = createSelector(
       values: {
         ...Object.keys(_.getOr({}, ['values'], data)).reduce((acc, epName) => ({
           ...acc,
-          [epName]: getTextValueFn(entryPoints, epName)
-        }), {})
-      }
+          [epName]: getTextValueFn(entryPoints, epName),
+        }), {}),
+      },
     }, data)
 );

@@ -1,22 +1,17 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import {
   Accordion,
-  Panel
+  Panel,
 } from 'react-bootstrap';
 import ViewParamsContainer from '../ViewParamsContainer';
 
 export default class TextTab extends React.Component {
-  static propTypes = {
-    title: PropTypes.string,
-    handleTextTitle: PropTypes.func,
-    titleStyle: PropTypes.object,
-    handleTextTitleStyle: PropTypes.func
-  }
+  static propTypes = {}
   static contextTypes = {
-    viewId: React.PropTypes.string
+    viewId: React.PropTypes.string,
   };
   state = {
-    isTitleOpen: false
+    isTitleOpen: false,
   };
 
   openTitle = () => this.setState({ isTitleOpen: true });

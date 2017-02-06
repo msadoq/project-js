@@ -16,6 +16,11 @@ export default class Timeline extends PureComponent {
     timelinesLength: PropTypes.number.isRequired,
   }
 
+  static defaultProps = {
+    color: '#31b0d5',
+    masterId: null,
+  }
+
   willUnmountTimeline = (e) => {
     e.preventDefault();
     const {
@@ -97,7 +102,7 @@ export default class Timeline extends PureComponent {
         { isMaster ? <span className={styles.master} title="Master timeline">M</span> : null}
         <span
           style={{
-            paddingLeft: isMaster ? '20px' : '0px'
+            paddingLeft: isMaster ? '20px' : '0px',
           }}
         >{id}</span>
         {formattedOffset}

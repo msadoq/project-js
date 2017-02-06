@@ -21,6 +21,6 @@ export const TextViewContainer = connect(
 )(TextView);
 
 TextViewContainer.propTypes = {
-  viewId: PropTypes.string.isRequired
+  viewId: PropTypes.string.isRequired,
 };
 export default TextViewContainer;

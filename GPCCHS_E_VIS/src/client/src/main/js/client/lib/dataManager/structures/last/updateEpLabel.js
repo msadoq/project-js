@@ -10,7 +10,7 @@ export default function updateEpLabel(stateViewData, viewId, oldLabel, newLabel)
   // remove oldLabel from state
   const newState = u({ [viewId]: {
     index: u.omit(oldLabel),
-    values: u.omit(oldLabel)
+    values: u.omit(oldLabel),
   } }, stateViewData);
   // add newLabel in state
   return u({ [viewId]: { index: { [newLabel]: oldIndex }, values: { [newLabel]: oldValue } } },

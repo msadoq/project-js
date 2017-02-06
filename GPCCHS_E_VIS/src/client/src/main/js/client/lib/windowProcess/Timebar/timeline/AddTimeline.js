@@ -5,26 +5,39 @@ import _set from 'lodash/set';
 import { reduxForm } from 'redux-form';
 import TimelineFields from './TimelineFields';
 import {
-  ClearSubmitButtons
+  ClearSubmitButtons,
 } from '../../Editor/Components/Forms/';
 
 class AddTimeline extends PureComponent {
 
   static propTypes = {
-    initialValues: PropTypes.shape({
-      kind: PropTypes.string,
-      sessionId: PropTypes.string,
-      id: PropTypes.string,
-      color: PropTypes.string,
-      master: PropTypes.bool,
-    }).isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    timelines: PropTypes.array.isRequired,
-    sessions: PropTypes.array.isRequired,
-    pristine: PropTypes.bool,
-    reset: PropTypes.func,
-    submitting: PropTypes.bool,
-    valid: PropTypes.bool,
+    timelines: PropTypes.arrayOf(
+      PropTypes.shape({
+        color: PropTypes.string,
+        id: PropTypes.string.isRequired,
+        kind: PropTypes.string.isRequired,
+        timelineId: PropTypes.string.isRequired,
+        offset: PropTypes.number.isRequired,
+        sessionId: PropTypes.number.isRequired,
+      })
+    ).isRequired,
+    sessions: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        delta: PropTypes.number.isRequired,
+        id: PropTypes.number.isRequired,
+        missionEpoch: PropTypes.number.isRequired,
+        timestamp: PropTypes.shape({
+          ms: PropTypes.number,
+          ps: PropTypes.number,
+        }),
+      })
+    ).isRequired,
+    pristine: PropTypes.bool.isRequired,
+    reset: PropTypes.func.isRequired,
+    submitting: PropTypes.bool.isRequired,
+    valid: PropTypes.bool.isRequired,
   }
 
   render() {
@@ -70,5 +83,5 @@ const validate = (values = {}) => {
 
 export default reduxForm({
   validate,
-  enableReinitialize: true
+  enableReinitialize: true,
 })(AddTimeline);

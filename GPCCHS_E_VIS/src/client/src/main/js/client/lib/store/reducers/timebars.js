@@ -65,7 +65,7 @@ export default function timebars(stateTimebars = {}, action) {
           [payload.timebarUuid]: {
             visuWindow: newValues.visuWindow || tb.visuWindow,
             slideWindow: newValues.slideWindow || tb.slideWindow,
-          }
+          },
         }, stateTimebars);
       }
 
@@ -138,7 +138,7 @@ function timebar(stateTimebar = initialState, action) {
     case types.WS_TIMEBAR_DEFAULTWIDTH_UPDATE:
       return u({
         visuWindow: {
-          defaultWidth: parseInt(payload.defaultWidth, 10)
+          defaultWidth: parseInt(payload.defaultWidth, 10),
         },
       }, stateTimebar);
     case types.WS_TIMEBAR_SET_REALTIME:

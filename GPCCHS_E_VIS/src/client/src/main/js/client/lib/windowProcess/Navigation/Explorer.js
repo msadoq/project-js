@@ -1,7 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
-import {
-  Button,
-} from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 export default class Explorer extends PureComponent {
   static propTypes = {

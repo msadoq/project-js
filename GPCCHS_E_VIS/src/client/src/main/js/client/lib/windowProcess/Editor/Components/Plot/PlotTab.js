@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Accordion,
-  Panel
+  Panel,
 } from 'react-bootstrap';
 import {
   PlotAxesContainer,
@@ -20,14 +20,14 @@ import ViewParamsContainer from '../ViewParamsContainer';
 */
 export default class PlotTab extends React.Component {
   static contextTypes = {
-    viewId: React.PropTypes.string
+    viewId: React.PropTypes.string,
   };
 
   state = {
     isTitleOpen: false,
     isAxesOpen: false,
     isGridOpen: false,
-    isMarkersOpen: false
+    isMarkersOpen: false,
   };
 
   openTitle = () => this.setState({ isTitleOpen: true });

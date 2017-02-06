@@ -14,7 +14,7 @@ const setUUID = obj => assoc('uuid', v4(), obj);
 const indexByUUID = compose(indexBy(prop('uuid')), map(setUUID));
 const getTimebarsWithUUID = pipe(
   path(['__original', 'timebars']),
-  tbs => (isArray(tbs) ? indexByUUID(tbs) : {}),
+  tbs => (isArray(tbs) ? indexByUUID(tbs) : {})
 );
 
 /**

@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 import {
-  Form
+  Form,
 } from 'react-bootstrap';
 import { reduxForm } from 'redux-form';
 import {
-  ClearSubmitButtons
+  ClearSubmitButtons,
 } from '../Forms/';
 import EntryPointConnectedDataFields from './EntryPointConnectedDataFields';
 
@@ -15,48 +15,29 @@ import EntryPointConnectedDataFields from './EntryPointConnectedDataFields';
   Composant react-select :
   https://github.com/JedWatson/react-select
 */
-class EntryPointConnectedData extends React.Component {
-  static propTypes = {
-    initialValues: PropTypes.shape({
-      formula: PropTypes.string,
-      unit: PropTypes.string,
-      digits: PropTypes.number,
-      format: PropTypes.string,
-      domain: PropTypes.string,
-      timeline: PropTypes.string,
-      filter: PropTypes.array,
-    }).isRequired,
-    timelines: PropTypes.array,
-    handleSubmit: PropTypes.func,
-    pristine: PropTypes.bool,
-    reset: PropTypes.func,
-    submitting: PropTypes.bool,
-    valid: PropTypes.bool
-  }
+const EntryPointConnectedData = (props) => {
+  const {
+    handleSubmit,
+    pristine,
+    reset,
+    submitting,
+    valid,
+    timelines,
+  } = props;
 
-  render() {
-    const {
-      handleSubmit,
-      pristine,
-      reset,
-      submitting,
-      valid,
-      timelines,
-    } = this.props;
-
-    return (
-      <Form horizontal onSubmit={handleSubmit}>
-        <EntryPointConnectedDataFields
-          timelines={timelines}
-        />
-        <ClearSubmitButtons
-          pristine={pristine}
-          submitting={submitting}
-          reset={reset}
-          valid={valid}
-        />
-      </Form>
-    );
+  return (
+    <Form horizontal onSubmit={handleSubmit}>
+      <EntryPointConnectedDataFields
+        timelines={timelines}
+      />
+      <ClearSubmitButtons
+        pristine={pristine}
+        submitting={submitting}
+        reset={reset}
+        valid={valid}
+      />
+    </Form>
+  );
         /*
 
         {(format === 'decimal') ?
@@ -134,8 +115,16 @@ class EntryPointConnectedData extends React.Component {
           </Col>
         </FormGroup>
         */
-  }
-}
+};
+
+EntryPointConnectedData.propTypes = {
+  timelines: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.string })).isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  pristine: PropTypes.bool.isRequired,
+  reset: PropTypes.func.isRequired,
+  submitting: PropTypes.bool.isRequired,
+  valid: PropTypes.bool.isRequired,
+};
 
 const requiredFields = ['formula', 'domain', 'timeline'];
 const validate = (values = {}) => {
@@ -151,5 +140,5 @@ const validate = (values = {}) => {
 
 export default reduxForm({
   validate,
-  enableReinitialize: true
+  enableReinitialize: true,
 })(EntryPointConnectedData);

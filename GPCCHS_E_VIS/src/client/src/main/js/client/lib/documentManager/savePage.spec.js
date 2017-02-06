@@ -23,13 +23,13 @@ describe('mainProcess/documents/savePage', () => {
               i: 'plot1',
               w: 2,
               x: 5,
-              y: 6
+              y: 6,
             }, {
               h: 1,
               i: 'text1',
               w: 2,
               x: 5,
-              y: 6
+              y: 6,
             },
           ],
           title: 'page1',
@@ -38,7 +38,7 @@ describe('mainProcess/documents/savePage', () => {
           views: ['plot1', 'text1'],
           path: './pages/page1.json',
           absolutePath: getTmpPath('testAs/pages/page1.json'),
-        }
+        },
       },
       views: {
         plot1: {
@@ -58,7 +58,7 @@ describe('mainProcess/documents/savePage', () => {
             titleStyle: {},
           },
           path: 'plotview4.json',
-          absolutePath: getTmpPath('testAs/views/plotview4.json')
+          absolutePath: getTmpPath('testAs/views/plotview4.json'),
         },
         text1: {
           type: 'TextView',
@@ -66,16 +66,16 @@ describe('mainProcess/documents/savePage', () => {
             title: 'TextView One parameter',
             type: 'TextView',
             entryPoints: [],
-            content: ''
+            content: '',
           },
           path: 'textOne.json',
           absolutePath: getTmpPath('testAs/views/textOne.json'),
-        }
+        },
       },
       workspace: {
         folder: getTmpPath('testPage'),
         file: './pages/page1.json',
-      }
+      },
     };
   });
 

@@ -4,11 +4,11 @@ import {
   Panel,
   Button,
   Glyphicon,
-  Form
+  Form,
 } from 'react-bootstrap';
 import _memoize from 'lodash/memoize';
 import {
-  HorizontalFormGroup
+  HorizontalFormGroup,
 } from '../Forms/';
 import SelectButton from '../Buttons/SelectButton';
 import PlotAxis from './PlotAxis';
@@ -17,13 +17,13 @@ import Modal from '../../../common/Modal';
 const alignButtons = [
   { label: '', icon: 'none' },
   { label: 'left', icon: 'alignLeft' },
-  { label: 'right', icon: 'alignRight' }
+  { label: 'right', icon: 'alignRight' },
 ];
 
 export default class PlotAxes extends React.Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
-    axes: PropTypes.object.isRequired,
+    axes: PropTypes.arrayOf(PropTypes.object).isRequired,
     showYAxes: PropTypes.string,
     updateShowYAxes: PropTypes.func.isRequired,
     removeAxis: PropTypes.func.isRequired,
@@ -37,8 +37,14 @@ export default class PlotAxes extends React.Component {
     panelRole: PropTypes.string.isRequired,
     eventKey: PropTypes.string.isRequired,
     collapsible: PropTypes.bool.isRequired,
-    entryPoints: PropTypes.array,
+    entryPoints: PropTypes.arrayOf(PropTypes.object),
   }
+
+  static defaultProps = {
+    entryPoints: [],
+    showYAxes: 'left',
+  };
+
   state = { isCreationModalOpen: false };
 
   openPanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: true }));
@@ -71,7 +77,7 @@ export default class PlotAxes extends React.Component {
     updateAxis(viewId, key, values);
   }
 
-  handleSubmit = _memoize(key => values => this.handleSubmit(key, values));
+  handleSubmitFactory = _memoize(key => values => this.handleSubmit(key, values));
 
   handleShowYAxes = (value) => {
     const { updateShowYAxes, viewId } = this.props;
@@ -81,7 +87,7 @@ export default class PlotAxes extends React.Component {
   openParentAccordion = (key, e) => {
     const {
       open,
-      onSelect
+      onSelect,
     } = this.props;
 
     onSelect(key, e);
@@ -166,7 +172,7 @@ export default class PlotAxes extends React.Component {
                     key={axisId}
                     initialValues={axis}
                     entryPoints={entryPoints}
-                    onSubmit={this.handleSubmit(axisId)}
+                    onSubmit={this.handleSubmitFactory(axisId)}
                     form={`axis-form-${axisId}-${viewId}`}
                   />}
               </Panel>

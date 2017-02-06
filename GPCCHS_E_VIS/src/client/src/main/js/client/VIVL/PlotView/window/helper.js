@@ -1,15 +1,15 @@
 import _get from 'lodash/get';
 import {
-  series
+  series,
 } from 'react-stockcharts';
 import {
   timeYear, timeMonth, timeWeek, timeDay,
-  timeHour, timeMinute, timeSecond
+  timeHour, timeMinute, timeSecond,
 } from 'd3-time';
 import { timeFormat } from 'd3-time-format';
 
 const {
-  CircleMarker, SquareMarker, TriangleMarker
+  CircleMarker, SquareMarker, TriangleMarker,
 } = series;
 
 export const getLineMarker = (pointsStyle) => {
@@ -74,13 +74,13 @@ export const getEntryPointsCharts = (config) => {
         xAxis: axes[xId],
         yAxis: axes[yId],
         yKeys: [line.key],
-        lines: [line]
+        lines: [line],
       };
       // Associate the grid if x and y match
       if (isMainChart) {
         mainChart = {
           ...newChart,
-          grid
+          grid,
         };
       } else {
         charts[`${xId}${yId}`] = newChart;
@@ -150,7 +150,7 @@ export const drawBadge = ({
   height,
   radius = 8,
   fillColor = '#F00',
-  ctx
+  ctx,
 }) => {
   ctx.fillStyle = fillColor;
   ctx.strokeStyle = fillColor;

@@ -5,9 +5,13 @@ import Message from '../common/Message';
 export default class Messages extends PureComponent {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
-    messages: PropTypes.array,
+    messages: PropTypes.arrayOf(PropTypes.object),
     remove: PropTypes.func.isRequired,
   };
+
+  static defaultProps = {
+    messages: [],
+  }
 
   render() {
     const {
@@ -20,7 +24,7 @@ export default class Messages extends PureComponent {
       <div>
         {messages && messages.map((v, i) =>
           <Message
-            key={i}
+            key={v.message}
             type={v.type}
             message={v.message}
             onClose={() => remove(viewId, i)}

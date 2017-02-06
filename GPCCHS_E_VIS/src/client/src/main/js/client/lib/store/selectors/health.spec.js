@@ -1,12 +1,21 @@
 import globalConstants from 'common/constants';
 import { should, getStore } from '../../common/test';
 import {
-  getLastPubSubTimestamp,
+  getHealth,
   getDcStatus,
   getHssStatus,
+  getMainStatus,
+  getLastPubSubTimestamp,
+  getWindowsStatus,
 } from './health';
 
 describe('store:health:selectors', () => {
+  describe('getHealth', () => {
+    it('should return state', () => {
+      const { getState } = getStore({ health: {} });
+      getHealth(getState()).should.equal(getState().health);
+    });
+  });
   describe('getLastPubSubTimestamp', () => {
     it('should return status', () => {
       const { getState } = getStore({ health: { lastPubSubTimestamp: 42 } });
@@ -21,10 +30,10 @@ describe('store:health:selectors', () => {
     it('should return status', () => {
       const { getState } = getStore({
         health: {
-          dcStatus: globalConstants.DC_STATUS_CONGESTION
+          dcStatus: globalConstants.HEALTH_STATUS_CRITICAL,
         },
       });
-      getDcStatus(getState()).should.eql(globalConstants.DC_STATUS_CONGESTION);
+      getDcStatus(getState()).should.eql(globalConstants.HEALTH_STATUS_CRITICAL);
     });
     it('should support empty state', () => {
       const { getState } = getStore({ health: {} });
@@ -35,14 +44,42 @@ describe('store:health:selectors', () => {
     it('should return status', () => {
       const { getState } = getStore({
         health: {
-          hssStatus: globalConstants.HSS_STATUS_WARNING
+          hssStatus: globalConstants.HEALTH_STATUS_WARNING,
         },
       });
-      getHssStatus(getState()).should.eql(globalConstants.HSS_STATUS_WARNING);
+      getHssStatus(getState()).should.eql(globalConstants.HEALTH_STATUS_WARNING);
     });
     it('should support empty state', () => {
       const { getState } = getStore({ health: {} });
       should.not.exist(getHssStatus(getState()));
+    });
+  });
+  describe('getMainStatus', () => {
+    it('should return status', () => {
+      const { getState } = getStore({
+        health: {
+          mainStatus: globalConstants.HEALTH_STATUS_WARNING,
+        },
+      });
+      getMainStatus(getState()).should.eql(globalConstants.HEALTH_STATUS_WARNING);
+    });
+    it('should support empty state', () => {
+      const { getState } = getStore({ health: {} });
+      should.not.exist(getHssStatus(getState()));
+    });
+  });
+  describe('getWindowsStatus', () => {
+    it('should return getSlowRenderers', () => {
+      const { getState } = getStore({
+        health: {
+          windowsStatus: { id42: 42 },
+        },
+      });
+      getWindowsStatus(getState()).should.eql({ id42: 42 });
+    });
+    it('should support empty state', () => {
+      const { getState } = getStore({ health: {} });
+      should.not.exist(getWindowsStatus(getState()));
     });
   });
 });

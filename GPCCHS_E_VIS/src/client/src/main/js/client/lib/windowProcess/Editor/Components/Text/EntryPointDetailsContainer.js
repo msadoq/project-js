@@ -5,23 +5,23 @@ import { getPage } from '../../../../store/selectors/pages';
 import { getTimebarTimelinesSelector } from '../../../../store/selectors/timebars';
 import {
   updateEntryPoint,
-  removeEntryPoint
+  removeEntryPoint,
 } from '../../../../store/actions/views';
 
 const mapStateToProps = (state, { focusedPageId }) => {
   const { timebarUuid } = getPage(state, focusedPageId);
   return {
-    timelines: getTimebarTimelinesSelector(state, timebarUuid)
+    timelines: getTimebarTimelinesSelector(state, timebarUuid),
   };
 };
 
 const EntryPointDetailsContainer = connect(mapStateToProps, {
   updateEntryPoint,
-  removeEntryPoint
+  removeEntryPoint,
 })(EntryPointDetails);
 
 EntryPointDetailsContainer.propTypes = {
-  viewId: PropTypes.string.isRequired
+  viewId: PropTypes.string.isRequired,
 };
 
 export default EntryPointDetailsContainer;

@@ -5,7 +5,7 @@ import _values from 'lodash/values';
 import _each from 'lodash/each';
 import {
   DATASTRUCTURETYPE_RANGE,
-  LOG_DOCUMENT_SAVE
+  LOG_DOCUMENT_SAVE,
 } from 'common/constants';
 
 import { server } from '../mainProcess/ipc';
@@ -27,12 +27,14 @@ import { writeDocument } from './io';
  // eslint-disable-next-line no-unused-vars
 const saveViewAs = fmdApi => (viewConfiguration, viewType, path, callback) => {
   if (!viewConfiguration) {
-    return callback(new Error('Unknown view'));
+    callback(new Error('Unknown view'));
+    return;
   }
   // createFolder(dirname(path)).then(() => {
   createFolder(dirname(path), (err) => {
     if (err) {
-      return callback(err);
+      callback(err);
+      return;
     }
     let view = _cloneDeep(viewConfiguration);
 
@@ -42,7 +44,8 @@ const saveViewAs = fmdApi => (viewConfiguration, viewType, path, callback) => {
       schema = vivl(view.type, 'getSchemaJson')();
       structureType = vivl(view.type, 'structureType')();
     } catch (e) {
-      return callback(new Error(`Invalid view type '${view.type}'`), view);
+      callback(new Error(`Invalid view type '${view.type}'`), view);
+      return;
     }
 
     // const structureType = vivl(viewType, 'structureType')();
@@ -65,15 +68,17 @@ const saveViewAs = fmdApi => (viewConfiguration, viewType, path, callback) => {
 
     const validationError = validation(view.type, view, schema);
     if (validationError) {
-      return callback(validationError);
+      callback(validationError);
+      return;
     }
 
     writeDocument(fmdApi)(path, view, (errWrite, oId) => {
       if (errWrite) {
-        return callback(errWrite);
+        callback(errWrite);
+        return;
       }
       server.sendProductLog(LOG_DOCUMENT_SAVE, 'view', path);
-      return callback(null, oId);
+      callback(null, oId);
     });
   });
 };
@@ -102,5 +107,5 @@ const saveView = fmdApi => (state, viewId, callback) => {
 
 export default {
   saveViewAs,
-  saveView
+  saveView,
 };

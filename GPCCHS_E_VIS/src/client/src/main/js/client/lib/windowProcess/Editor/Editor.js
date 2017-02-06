@@ -17,16 +17,16 @@ export default class Editor extends PureComponent {
     focusedPageId: PropTypes.string.isRequired,
     viewType: PropTypes.string.isRequired,
     configuration: PropTypes.object,
-    closeEditor: PropTypes.func
+    closeEditor: PropTypes.func,
   };
 
   static childContextTypes = {
-    viewId: React.PropTypes.string
+    viewId: React.PropTypes.string,
   }
 
   getChildContext() {
     return {
-      viewId: this.props.viewId
+      viewId: this.props.viewId,
     };
   }
 

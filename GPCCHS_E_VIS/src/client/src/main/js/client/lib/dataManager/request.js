@@ -2,15 +2,14 @@ import _isObject from 'lodash/isObject';
 import _each from 'lodash/each';
 import _map from 'lodash/map';
 import _get from 'lodash/get';
-import executionMonitor from 'common/log/execution';
+import _isEqual from 'lodash/isEqual';
 import getLogger from 'common/log';
 import globalConstants from 'common/constants';
 
-import { operators } from '../common/operators';
+import { operators } from '../common/operators';
 import structures from './structures';
 
 const logger = getLogger('data:requests');
-const execution = executionMonitor('data:requests');
 
 /**
  * Return the current missing intervals requests list
@@ -37,7 +36,7 @@ const execution = executionMonitor('data:requests');
  */
 export function missingRemoteIds(dataMap, lastMap) {
   const queries = {};
-  _each(dataMap, ({ structureType, dataId, filter, localIds }, remoteId) => {
+  _each(dataMap, ({ structureType, dataId, filter, localIds, views }, remoteId) => {
     const retrieveNeededIntervals = structures(structureType, 'retrieveNeededIntervals');
     const addInterval = structures(structureType, 'addInterval');
 
@@ -45,7 +44,14 @@ export function missingRemoteIds(dataMap, lastMap) {
       const knownInterval = _get(lastMap, [remoteId, 'localIds', localId, 'expectedInterval']);
       const needed = retrieveNeededIntervals(knownInterval, expectedInterval);
       if (!needed.length) {
-        return;
+        // Check if there is not a new view requesting the data
+        if (_isEqual(views, lastMap[remoteId].views)
+        || views.length < lastMap[remoteId].views.length) {
+          return;
+        }
+        // If a new view has been opened, add a request on the whole expected interval
+        // Normally data are in cache as a request has been already done before
+        needed.push(expectedInterval);
       }
 
       if (!queries[remoteId]) {
@@ -78,8 +84,6 @@ export function missingRemoteIds(dataMap, lastMap) {
 }
 
 export default function request(dataMap, lastMap, send) {
-  execution.start('global');
-
   // compute missing data
   const dataQueries = missingRemoteIds(dataMap, lastMap);
 
@@ -89,6 +93,4 @@ export default function request(dataMap, lastMap, send) {
   if (dataQueries && _isObject(dataQueries) && Object.keys(dataQueries).length) {
     send(globalConstants.IPC_METHOD_TIMEBASED_QUERY, { queries: dataQueries });
   }
-
-  execution.stop('global', `dataRequests (${n} remoteId)`);
 }

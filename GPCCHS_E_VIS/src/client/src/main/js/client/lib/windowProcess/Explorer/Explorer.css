@@ -1,62 +1,9 @@
-@import '../style/variables';
-
 .root{
-
 }
-
-.explorer {
-  height: 100%;
-  border: 2px solid #CCC;
-  background-color: #FFF;
-
-  :global {
-    .panel-group{
-      margin-bottom: 0px;
-    }
-    .panel-title a {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .form-horizontal {
-      .form-group {
-        display: flex;
-        flex-direction: row;
-        > label {
-          align-self: center;
-          padding-top: 0px;
-        }
-      }
-    }
-    .page-header{
-      margin: 10px 0 10px;
-      padding-bottom: 5px;
-      & > * {
-        margin: 0;
-        padding: 0;
-      }
-    }
-  }
-
-}
-
 .tabs{
-  padding-top: 0px;
-  padding-bottom: 15px;
-  height: 100%
-}
-.contentWrapper{
-  flex-direction: column;
-  display: flex;
+  padding-top: 5px;
+  padding-bottom: 10px;
   height: 100%;
-  .content{
-    padding: 10px;
-    height: 100%;
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    overflow-y: auto;
-  }
 }
 
 .content{
@@ -72,7 +19,25 @@
   margin: 10px;
   padding: 10px;
 }
-.table1{
-  margin-top: 10px;
-  margin-bottom: 10px;
+
+.title {
+  color: #708090;
+  font-weight: bold;
+}
+
+.resizeContainer{
+  margin: 0;
+  width: 4px;
+  cursor: col-resize;
+}
+.resizeContainer:before{
+    width: 12px;
+    height: 20px;
+    content: '≡';
+    color: #888;
+    position: absolute;
+    font-size: 1.2em;
+    transform: rotate(90deg);
+    z-index: 4;
+    top: 48%;
 }

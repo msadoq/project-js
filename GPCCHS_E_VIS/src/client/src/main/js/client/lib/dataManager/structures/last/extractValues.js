@@ -26,7 +26,8 @@ export function select(remoteIdPayload, ep, epName, viewSubState, viewType) {
   _each(remoteIdPayload, (p) => {
     const timestamp = _get(p, ['referenceTimestamp', 'value']);
     if (typeof timestamp === 'undefined') {
-      return logger.warn('get a payload without .referenceTimestamp key');
+      logger.warn('get a payload without .referenceTimestamp key');
+      return;
     }
 
     if (timestamp < lower || timestamp > current) {

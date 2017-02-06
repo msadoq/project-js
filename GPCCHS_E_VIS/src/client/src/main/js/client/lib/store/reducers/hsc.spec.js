@@ -64,20 +64,6 @@ describe('store:hsc:reducer', () => {
     reducer(undefined, actions.updateCacheInvalidation(10))
       .should.have.property('lastCacheInvalidation', 10);
   });
-  it('should add slow renderer', () => {
-    reducer(undefined, actions.addSlowRenderer('1234', 120))
-      .should.have.properties({
-        slowRenderers: { 1234: 120 }
-      });
-  });
-  it('should remove slow renderer', () => {
-    reducer(freezeMe({
-      slowRenderers: { 1234: 120 }
-    }), actions.removeSlowRenderer('1234'))
-    .should.eql({
-      slowRenderers: { }
-    });
-  });
   it('should save current focused window', () => {
     reducer(undefined, actions.focusWindow('some window id'))
     .should.have.properties({

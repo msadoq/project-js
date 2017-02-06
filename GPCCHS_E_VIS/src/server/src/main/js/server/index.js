@@ -3,15 +3,12 @@
 const exit = require('exit');
 const logger = require('common/log')('main');
 const zmq = require('common/zmq');
-const monitoring = require('common/log/monitoring');
 const clientController = require('./lib/controllers/client');
 const dcController = require('./lib/controllers/dc');
 const { unsubscribeAll } = require('./lib/utils/subscriptions');
 const schedulerController = require('./lib/controllers/scheduler');
 
 process.title = 'gpcchs_hss';
-
-monitoring.start();
 
 // ZeroMQ
 const zmqConfiguration = {

@@ -5,10 +5,10 @@ import SelectButtonField from './SelectButtonField';
 const propsStub = {
   input: {
     value: 'testval',
-    type: 'testtype'
+    type: 'testtype',
   },
   buttons: ['ok'],
-  type: 'testType'
+  type: 'testType',
 };
 
 test('Navigation renders correctly', () => {

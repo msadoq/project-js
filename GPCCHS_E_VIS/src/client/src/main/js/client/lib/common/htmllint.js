@@ -9,7 +9,7 @@ export const defaultRules = {
   'spec-char-escape': true,
   'id-unique': true,
   'src-not-empty': true,
-  'attr-no-duplication': true
+  'attr-no-duplication': true,
 };
 
 export const lint = (html, rules = {}) =>

@@ -16,7 +16,8 @@ export function select(remoteIdPayload, ep, epName, viewState, count) {
   _each(remoteIdPayload, (value) => {
     const timestamp = _get(value, ['referenceTimestamp', 'value']);
     if (typeof timestamp === 'undefined') {
-      return logger.warn('get a payload without .referenceTimestamp key');
+      logger.warn('get a payload without .referenceTimestamp key');
+      return;
     }
 
     // check value is in interval

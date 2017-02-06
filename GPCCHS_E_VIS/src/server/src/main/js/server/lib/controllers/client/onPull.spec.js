@@ -19,15 +19,15 @@ describe('controllers/client/onPull', () => {
     const wsArgs = getTestHandlerArgs();
     wsArgs.should.have.lengthOf(2);
     wsArgs[0].should.equal(myQueryId);
-    wsArgs[1].should.be.an('object').that.deep.equals({
-      dcStatus: globalConstants.DC_STATUS_HEALTHY,
-      hssStatus: true,
+    wsArgs[1].should.be.an('object').that.have.properties({
+      dcStatus: undefined,
+      hssStatus: undefined,
       lastPubSubTimestamp: undefined,
       data: {},
     });
   });
   it('should push data', () => {
-    setDcStatus(globalConstants.DC_STATUS_CONGESTION);
+    setDcStatus(globalConstants.HEALTH_STATUS_CRITICAL);
     setLastPubSubTimestamp(42);
     const myRemoteId = 'myRemoteId';
     const myQueryId = 'myQueryId';
@@ -38,10 +38,9 @@ describe('controllers/client/onPull', () => {
     const wsArgs = getTestHandlerArgs();
     wsArgs.should.have.lengthOf(2);
     wsArgs[0].should.equal(myQueryId);
-    wsArgs[1].should.be.an('object').that.deep.equals({
-      dcStatus: globalConstants.DC_STATUS_CONGESTION,
+    wsArgs[1].should.be.an('object').that.have.properties({
+      dcStatus: globalConstants.HEALTH_STATUS_CRITICAL,
       lastPubSubTimestamp: 42,
-      hssStatus: globalConstants.DC_STATUS_HEALTHY,
       data: {
         [myRemoteId]: {
           [myQueryId]: myValue,

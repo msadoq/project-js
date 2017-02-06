@@ -3,14 +3,14 @@ import {
   Accordion,
   Panel,
   Glyphicon,
-  Table
+  Table,
 } from 'react-bootstrap';
 import _memoize from 'lodash/memoize';
 
 export default class Misc extends React.Component {
   state = {
     isPanelLinksOpen: false,
-    isPanelProcedureOpen: false
+    isPanelProcedureOpen: false,
   };
 
   openPanel = _memoize(key => () => this.setState({ [`isPanel${key}Open`]: true }));
@@ -18,7 +18,7 @@ export default class Misc extends React.Component {
 
   render() {
     const { isPanelLinksOpen, isPanelProcedureOpen } = this.state;
-
+    const tableStyle = { fontSize: '12px' };
     return (
       <Accordion>
         <Panel
@@ -30,7 +30,7 @@ export default class Misc extends React.Component {
           onExited={this.closePanel('Links')}
         >
           {isPanelLinksOpen && <div>
-            <Table condensed striped style={{ fontSize: '12px' }}>
+            <Table condensed striped style={tableStyle}>
               <thead>
                 <tr>
                   <th>Name</th>

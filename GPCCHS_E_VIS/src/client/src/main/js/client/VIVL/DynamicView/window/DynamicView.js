@@ -10,7 +10,7 @@ const pattern = /^([^.]+)\.([^<]+)<([^>]+)>(\.){0,1}([\w]+){0,1}$/i;
 
 function dataToShow(data) {
   if (data.value === undefined) {
-    return;
+    return '';
   }
   if (data.type === 'time') {
     return moment(data.value).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS');
@@ -69,12 +69,12 @@ function arrayHeader(arrayData) {
 
 function arrayLine(arrayData) {
   if (!arrayData.length) {
-    return;
+    return '';
   }
   const header = Object.keys(arrayData[0]);
   const item = 'item';
   return arrayData.map((value, idx) =>
-    (<tr key={idx}>{header.map((key, idy) => <td key={item.concat(idy)}>
+    (<tr key={item.concat(idx)}>{header.map((key, idy) => <td key={item.concat(idy)}>
       {dataToShow(value[key])}</td>)}</tr>));
 }
 
@@ -88,6 +88,10 @@ export default class DynamicView extends PureComponent {
     formula: PropTypes.string,
   };
 
+  static defaultProps = {
+    formula: 0,
+  };
+
   parseFormula() {
     const { formula } = this.props;
     if (typeof formula !== 'string' || !pattern.test(formula)) {
@@ -99,7 +103,8 @@ export default class DynamicView extends PureComponent {
   }
 
   render() {
-    const ep = _get(this.props, ['data', 'values', 'dynamicEP', 'value']);
+    const { data } = this.props;
+    const ep = _get(data, ['values', 'dynamicEP', 'value']);
     if (!ep) {
       return (<div>No data</div>);
     }

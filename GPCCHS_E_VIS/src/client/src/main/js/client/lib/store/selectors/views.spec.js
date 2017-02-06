@@ -55,7 +55,7 @@ describe('store:views:selectors', () => {
               axis2: {},
               axis3: {},
             },
-          }
+          },
         },
       },
     };
@@ -70,7 +70,7 @@ describe('store:views:selectors', () => {
         view1: { isModified: true },
         view2: { isModified: false },
         view3: { isModified: true },
-      }
+      },
     };
     getModifiedViewsIds(state).should.eql(['view1', 'view3']);
   });
@@ -80,12 +80,12 @@ describe('store:views:selectors', () => {
         myViewId: {
           configuration: {
             title: 'Title 1',
-          }
+          },
         },
       },
     };
     getViewConfiguration(state, 'myViewId').should.eql({
-      title: 'Title 1'
+      title: 'Title 1',
     });
   });
 
@@ -95,8 +95,8 @@ describe('store:views:selectors', () => {
         myViewId: {
           configuration: {
             title: 'Title 1',
-            content: '<h1>content</h1>'
-          }
+            content: '<h1>content</h1>',
+          },
         },
       },
     };
@@ -112,8 +112,8 @@ describe('store:views:selectors', () => {
             entryPoints: [
               { name: 'AGA_AM_PRIORITY', connectedData: { formula: 'Reporting.ep1<ReportingParameter>.extractedValue' } },
               { name: 'TMMGT_BC_VIRTCHAN3' },
-            ]
-          }
+            ],
+          },
         },
       },
     };
@@ -131,16 +131,16 @@ describe('store:views:selectors', () => {
             entryPoints: [
               { name: 'AGA_AM_PRIORITY' },
               { name: 'TMMGT_BC_VIRTCHAN3', connectedData: { formula: 'Reporting.ep1<ReportingParameter>.extractedValue' } },
-            ]
-          }
+            ],
+          },
         },
       },
     };
     getViewEntryPoint(state, 'myViewId', 'TMMGT_BC_VIRTCHAN3').should.eql({
       name: 'TMMGT_BC_VIRTCHAN3',
       connectedData: {
-        formula: 'Reporting.ep1<ReportingParameter>.extractedValue'
-      }
+        formula: 'Reporting.ep1<ReportingParameter>.extractedValue',
+      },
     });
   });
   it('getViewEntryPointStateColors', () => {
@@ -157,12 +157,12 @@ describe('store:views:selectors', () => {
                   condition: {
                     field: 'extractedValue',
                     operator: '>',
-                    operand: '1'
-                  }
-                }
-              ]
-            }]
-          }
+                    operand: '1',
+                  },
+                },
+              ],
+            }],
+          },
         },
       },
     };
@@ -172,8 +172,8 @@ describe('store:views:selectors', () => {
         condition: {
           field: 'extractedValue',
           operator: '>',
-          operand: '1'
-        }
+          operand: '1',
+        },
       }]);
   });
   describe('getViewEntryPointColors', () => {
@@ -186,7 +186,7 @@ describe('store:views:selectors', () => {
               entryPoints: [{
                 name: 'ep1',
                 connectedData: {
-                  formula: 'Reporting.ep1<ReportingParameter>.extractedValue'
+                  formula: 'Reporting.ep1<ReportingParameter>.extractedValue',
                 },
                 stateColors: [
                   {
@@ -194,22 +194,22 @@ describe('store:views:selectors', () => {
                     condition: {
                       field: 'extractedValue',
                       operator: '<',
-                      operand: '1'
-                    }
+                      operand: '1',
+                    },
                   },
                   {
                     color: '#00FF00',
                     condition: {
                       field: 'extractedValue',
                       operator: '>',
-                      operand: '1'
-                    }
-                  }
-                ]
+                      operand: '1',
+                    },
+                  },
+                ],
               }, {
                 name: 'ep2',
                 connectedData: {
-                  formula: 'Reporting.ep2<ReportingParameter>.extractedValue'
+                  formula: 'Reporting.ep2<ReportingParameter>.extractedValue',
                 },
                 stateColors: [
                   {
@@ -217,22 +217,22 @@ describe('store:views:selectors', () => {
                     condition: {
                       field: 'extractedValue',
                       operator: '<=',
-                      operand: '1'
-                    }
+                      operand: '1',
+                    },
                   },
                   {
                     color: '#F0F0F0',
                     condition: {
                       field: 'extractedValue',
                       operator: '>',
-                      operand: '1'
-                    }
-                  }
-                ]
+                      operand: '1',
+                    },
+                  },
+                ],
               }, {
                 name: 'ep3',
                 connectedData: {
-                  formula: 'Reporting.ep2<ReportingParameter>.extractedValue'
+                  formula: 'Reporting.ep2<ReportingParameter>.extractedValue',
                 },
                 stateColors: [
                   {
@@ -240,12 +240,12 @@ describe('store:views:selectors', () => {
                     condition: {
                       field: 'groundDate',
                       operator: '<=',
-                      operand: '1'
-                    }
+                      operand: '1',
+                    },
                   },
-                ]
-              }]
-            }
+                ],
+              }],
+            },
           },
         },
         viewData: {
@@ -258,10 +258,10 @@ describe('store:views:selectors', () => {
             values: {
               ep1: { value: 2 },
               ep2: { value: 1 },
-              ep3: { value: 1 }
-            }
-          }
-        }
+              ep3: { value: 1 },
+            },
+          },
+        },
       };
       getTextViewData(state, 'myViewId').should.eql({
         index: {
@@ -272,16 +272,16 @@ describe('store:views:selectors', () => {
         values: {
           ep1: {
             value: 2,
-            color: '#00FF00'
+            color: '#00FF00',
           },
           ep2: {
             value: 1,
-            color: '#0000FF'
+            color: '#0000FF',
           },
           ep3: {
             value: 1,
-          }
-        }
+          },
+        },
       });
     });
     it('For TextView (invalid formula)', () => {
@@ -293,7 +293,7 @@ describe('store:views:selectors', () => {
               entryPoints: [{
                 name: 'ep1',
                 connectedData: {
-                  formula: 'Reporting.ep1<>.extractedValue'
+                  formula: 'Reporting.ep1<>.extractedValue',
                 },
                 stateColors: [
                   {
@@ -301,12 +301,12 @@ describe('store:views:selectors', () => {
                     condition: {
                       field: 'extractedValue',
                       operator: '<',
-                      operand: '1'
-                    }
-                  }
-                ]
-              }]
-            }
+                      operand: '1',
+                    },
+                  },
+                ],
+              }],
+            },
           },
         },
         viewData: {
@@ -316,9 +316,9 @@ describe('store:views:selectors', () => {
             },
             values: {
               ep1: { value: 0.5 },
-            }
-          }
-        }
+            },
+          },
+        },
       };
       getTextViewData(state, 'myViewId').should.eql({
         index: {
@@ -328,8 +328,8 @@ describe('store:views:selectors', () => {
           ep1: {
             color: '#FF0000',
             value: 0.5,
-          }
-        }
+          },
+        },
       });
     });
   });

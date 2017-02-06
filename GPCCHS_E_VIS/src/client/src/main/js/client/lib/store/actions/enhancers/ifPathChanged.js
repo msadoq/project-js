@@ -14,7 +14,7 @@ const ifPathChanged = (actionCreator, [key = 'views', keyPath = 'path', id = 'vi
       return;
     }
     if ((newPath && oldPath && resolve(newPath) !== resolve(oldPath))) {
-      return dispatch(action);
+      dispatch(action);
     }
   }
 );

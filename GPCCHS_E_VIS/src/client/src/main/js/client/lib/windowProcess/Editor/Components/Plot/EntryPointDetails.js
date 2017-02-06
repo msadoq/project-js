@@ -2,7 +2,7 @@ import React, { PropTypes, PureComponent } from 'react';
 
 import {
   Accordion,
-  Panel
+  Panel,
 } from 'react-bootstrap';
 import _memoize from 'lodash/memoize';
 
@@ -37,7 +37,7 @@ export default class EntryPointDetails extends PureComponent {
     const { entryPoint, updateEntryPoint, viewId, idPoint } = this.props;
     updateEntryPoint(viewId, idPoint, {
       ...entryPoint,
-      ...values
+      ...values,
     });
   }
 
@@ -135,7 +135,7 @@ export default class EntryPointDetails extends PureComponent {
           {isPanelStateColorsOpen && <EntryPointStateColors
             // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
             initialValues={{
-              stateColors: entryPoint.stateColors || []
+              stateColors: entryPoint.stateColors || [],
             }}
             form={`entrypoint-stateColors-form-${idPoint}-${viewId}`}
             onSubmit={this.handleSubmit}

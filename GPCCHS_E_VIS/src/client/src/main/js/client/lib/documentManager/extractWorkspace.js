@@ -1,3 +1,4 @@
+import { join, dirname, basename } from 'path';
 import getLogger from 'common/log';
 
 import omit from 'lodash/omit';
@@ -15,10 +16,13 @@ import { readDocument } from './io';
 const logger = getLogger('documents:workspace');
 
 export default {
-  readWorkspace: fmdApi => (folder, relativePath, callback) => {
-    logger.info(`reading workspace ${folder}/${relativePath}`);
+  readWorkspace: fmdApi => (workspaceFolder, relativePath, callback) => {
+    const fullPath = join(workspaceFolder, relativePath);
+    const folder = dirname(fullPath);
+    const file = basename(fullPath);
+    logger.info(`reading workspace ${fullPath}`);
     async.waterfall([
-      cb => readDocument(fmdApi)(folder, relativePath, undefined, undefined, cb),
+      cb => readDocument(fmdApi)(folder, file, undefined, undefined, cb),
       (workspace, cb) => cb(validation('workspace', workspace), workspace),
       (workspace, cb) => cb(null, { __original: workspace, __folder: folder }),
       (content, cb) => extractTimebars(content, cb),
@@ -28,5 +32,5 @@ export default {
       (content, cb) => extractViews(fmdApi)(content, cb),
       (content, cb) => cb(null, omit(content, ['__folder', '__original'])),
     ], (err, res) => (err ? callback(err) : callback(err, res)));
-  }
+  },
 };

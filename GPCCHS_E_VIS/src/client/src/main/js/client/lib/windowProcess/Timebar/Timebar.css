@@ -1,5 +1,9 @@
 @import '../style/variables.css';
 
+.h100minus13{
+  height: calc(100% - 13px);
+}
+
 .timebarWrapperCollapsed{
   height: 36px;
   padding-top: 2px;
@@ -279,7 +283,7 @@
   border-width: 1px;
   border-style: solid;
   width: 100%;
-  height: calc(100% - 13px);
+  height: 100%;
 }
 .play{ border-color: var(--borderPlay); }
 .pause{ border-color: var(--borderPause); }

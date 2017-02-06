@@ -25,7 +25,7 @@ const propsStub = {
     sessionId: '10',
     master: false,
     offset: 0,
-  }
+  },
 };
 
 test('AddTimeline (redux-form) renders correctly', () => {

@@ -1,6 +1,6 @@
 /* eslint no-underscore-dangle: 0 */
 import { v4 } from 'uuid';
-import _ from 'lodash';
+import _each from 'lodash/each';
 import { set, compose, prop, split } from 'lodash/fp';
 import path from 'path';
 import fmdApi from '../common/fmd';
@@ -26,12 +26,12 @@ describe('lib/documentManager', () => {
         pages: [
           {
             oId: 'oid:/pages/pageSmall_with_oid.json',
-            timebarId: 'TB1'
+            timebarId: 'TB1',
           },
           {
             path: 'pages/page1.json',
-            timebarId: 'TB1'
-          }
+            timebarId: 'TB1',
+          },
         ],
         geometry: {
           kind: 'Absolute',
@@ -51,7 +51,7 @@ describe('lib/documentManager', () => {
         should.not.exist(err);
         val.should.have.keys('timebars', 'windows', 'pages', '__folder');
         val.pages.should.be.an('object');
-        _.each(val.windows[0].pages, (pageId) => {
+        _each(val.windows[0].pages, (pageId) => {
           should.exist(val.pages[pageId]);
         });
         done();

@@ -2,9 +2,9 @@ import React from 'react';
 import { ipcRenderer } from 'electron';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
+import HealthMonitor from './Window/HealthMonitor';
 import WindowContainer from './Window/WindowContainer';
 import { initStore, getStore } from '../store/windowStore';
-import CircuitBreaker from './CircuitBreaker';
 import mainController from './controllers/main';
 
 const search = global.location.search;
@@ -42,14 +42,11 @@ if (global.parameters.get('DEBUG') === 'on') {
 }
 
 const store = getStore();
-CircuitBreaker({
-  store,
-  windowId,
-});
-
 render(
-  <Provider store={store}>
-    <WindowContainer windowId={windowId} />
-  </Provider>,
+  <HealthMonitor windowId={windowId}>
+    <Provider store={store}>
+      <WindowContainer windowId={windowId} />
+    </Provider>
+  </HealthMonitor>,
   document.getElementById('root')
 );

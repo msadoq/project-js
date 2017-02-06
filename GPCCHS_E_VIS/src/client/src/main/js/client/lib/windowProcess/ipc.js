@@ -51,6 +51,11 @@ const commands = {
       commands.main.message(globalConstants.IPC_METHOD_OPEN_WORKSPACE, {
         filePath,
       }),
+    sendHealthStatus: (windowId, status) =>
+      commands.main.message(globalConstants.IPC_METHOD_HEALTH_STATUS, {
+        windowId,
+        status,
+      }),
   },
 };
 

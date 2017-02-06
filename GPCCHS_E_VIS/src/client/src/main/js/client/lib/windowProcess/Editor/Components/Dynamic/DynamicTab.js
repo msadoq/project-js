@@ -1,16 +1,10 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import {
   Panel,
 } from 'react-bootstrap';
 import ViewParamsContainer from '../ViewParamsContainer';
 
 export default class DynamicTab extends React.Component {
-  static propTypes = {
-    title: PropTypes.string,
-    handleTextTitle: PropTypes.func,
-    titleStyle: PropTypes.object,
-    handleTextTitleStyle: PropTypes.func,
-  }
   static contextTypes = {
     viewId: React.PropTypes.string,
   };

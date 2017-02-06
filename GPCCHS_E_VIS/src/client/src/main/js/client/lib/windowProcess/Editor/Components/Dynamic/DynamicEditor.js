@@ -12,14 +12,12 @@ export default class DynamicEditor extends Component {
     viewId: PropTypes.string.isRequired,
     configuration: PropTypes.shape({
       entryPoints: PropTypes.array,
-    }),
-    title: PropTypes.string,
-    titleStyle: PropTypes.object,
-    timelines: PropTypes.array,
+    }).isRequired,
+    timelines: PropTypes.arrayOf(PropTypes.object).isRequired,
     updateEntryPoint: PropTypes.func.isRequired,
     closeEditor: PropTypes.func.isRequired,
-    updateTitle: PropTypes.func,
-    updateTitleStyle: PropTypes.func,
+    updateTitle: PropTypes.func.isRequired,
+    updateTitleStyle: PropTypes.func.isRequired,
   }
   state = { currentDisplay: 0 };
 
@@ -50,7 +48,7 @@ export default class DynamicEditor extends Component {
 
   render() {
     const { entryPoints } = this.props.configuration;
-    const { timelines, viewId, title, titleStyle } = this.props;
+    const { timelines, viewId } = this.props;
     const { currentDisplay } = this.state;
     const navItems = ['Connected Data', 'View'];
     const nullObject = {};
@@ -70,12 +68,7 @@ export default class DynamicEditor extends Component {
             initialValues={entryPoints.length ? entryPoints[0].connectedData : nullObject}
           />
         </div>}
-        {currentDisplay === 1 && <DynamicTab
-          title={title}
-          handleTextTitle={this.handleTextTitle}
-          handleTextTitleStyle={this.handleTextTitleStyle}
-          titleStyle={titleStyle}
-        />}
+        {currentDisplay === 1 && <DynamicTab />}
       </div>
     );
   }

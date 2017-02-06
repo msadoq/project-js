@@ -22,11 +22,11 @@ module.exports = () => {
   iterationTime = (iterationNb) ? totalTime / iterationNb : 0;
   iterationNb = 0;
   start = process.hrtime();
-  if (iterationTime < globalConstants.HSS_EVENTLOOP_WARNING) {
+  if (iterationTime < globalConstants.HSS_EVENTLOOP_WARNING_STEP) {
     return globalConstants.HEALTH_STATUS_HEALTHY;
   }
-  if (iterationTime < globalConstants.HSS_EVENTLOOP_ERROR) {
+  if (iterationTime < globalConstants.HSS_EVENTLOOP_CRITICAL_STEP) {
     return globalConstants.HEALTH_STATUS_WARNING;
   }
-  return globalConstants.HEALTH_STATUS_ERROR;
+  return globalConstants.HEALTH_STATUS_CRITICAL;
 };

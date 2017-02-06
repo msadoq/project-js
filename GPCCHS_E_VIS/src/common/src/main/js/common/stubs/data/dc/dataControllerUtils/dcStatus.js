@@ -2,10 +2,10 @@ const protobuf = require('../../../../protobuf');
 const globalConstants = require('../../../../constants');
 
 const getHealthyDcStatus = () => ({
-  status: globalConstants.HEALTH_STATUS_HEALTHY,
+  status: globalConstants.DC_STATUS_HEALTHY,
 });
 const getCongestionDcStatus = () => ({
-  status: globalConstants.HEALTH_STATUS_CRITICAL,
+  status: globalConstants.DC_STATUS_CONGESTION,
 });
 
 const getHealthyDcStatusProtobuf = () => protobuf.encode(

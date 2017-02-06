@@ -9,6 +9,9 @@ export default class SelectFontFamilySize extends React.Component {
   static propTypes = {
     curveColor: PropTypes.string,
   }
+  static defaultProps = {
+    curveColor: '#000000',
+  };
 
   componentWillMount() {
     this.setState({

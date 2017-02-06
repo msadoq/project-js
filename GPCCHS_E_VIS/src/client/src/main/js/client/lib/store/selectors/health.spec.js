@@ -1,6 +1,7 @@
 import globalConstants from 'common/constants';
 import { should, getStore } from '../../common/test';
 import {
+  getHealth,
   getDcStatus,
   getHssStatus,
   getMainStatus,
@@ -9,6 +10,12 @@ import {
 } from './health';
 
 describe('store:health:selectors', () => {
+  describe('getHealth', () => {
+    it('should return state', () => {
+      const { getState } = getStore({ health: {} });
+      getHealth(getState()).should.equal(getState().health);
+    });
+  });
   describe('getLastPubSubTimestamp', () => {
     it('should return status', () => {
       const { getState } = getStore({ health: { lastPubSubTimestamp: 42 } });

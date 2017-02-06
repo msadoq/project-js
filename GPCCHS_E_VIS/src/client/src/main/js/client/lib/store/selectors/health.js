@@ -1,3 +1,4 @@
+export const getHealth = state => state.health;
 export const getDcStatus = state => state.health.dcStatus;
 export const getHssStatus = state => state.health.hssStatus;
 export const getMainStatus = state => state.health.mainStatus;

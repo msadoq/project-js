@@ -15,17 +15,28 @@ import { setModified as setModifiedPage } from '../../store/actions/pages';
 
 const addGlobalError = msg => addMessage('global', 'danger', msg);
 
-function pageOpen(focusedWindow) {
+function showSelectedPage(pageAndViews, pageId, windowId) {
   const store = getStore();
-  if (!focusedWindow) {
-    return;
-  }
-  getPathByFilePicker(store.getState().hsc.folder, 'page', 'open', (err, filePath) => {
-    if (err || !filePath) { // error or cancel
-      return;
-    }
-    pageOpenWithPath({ filePath, windowId: focusedWindow.windowId });
+  const layout = _map(pageAndViews.views, v => ({
+    i: v.uuid,
+    x: v.geometry.x,
+    y: v.geometry.y,
+    w: v.geometry.w,
+    h: v.geometry.h,
+    maxH: v.geometry.maxH || 100,
+    maxW: v.geometry.maxW || 100,
+  }));
+  const viewIds = Object.keys(pageAndViews.views);
+  viewIds.forEach((index) => {
+    const view = pageAndViews.views[index];
+    store.dispatch(addView(index, view.type, view.configuration, view.path, view.oId,
+      view.absolutePath, false));
   });
+  const page = pageAndViews.pages[pageId];
+  page.layout = layout;
+  page.views = viewIds;
+  page.isModified = false;
+  store.dispatch(addAndMountPage(windowId, pageId, page));
 }
 
 function pageOpenWithPath({ filePath, windowId }) {
@@ -52,6 +63,19 @@ function pageOpenWithPath({ filePath, windowId }) {
   });
 }
 
+function pageOpen(focusedWindow) {
+  const store = getStore();
+  if (!focusedWindow) {
+    return;
+  }
+  getPathByFilePicker(store.getState().hsc.folder, 'page', 'open', (err, filePath) => {
+    if (err || !filePath) { // error or cancel
+      return;
+    }
+    pageOpenWithPath({ filePath, windowId: focusedWindow.windowId });
+  });
+}
+
 function pageAddNew(focusedWindow) {
   if (!focusedWindow) {
     getStore().dispatch(addGlobalError('Saving failed : no window focused'));
@@ -64,30 +88,7 @@ function pageAddNew(focusedWindow) {
   const title = getState().windows[focusedWindow.windowId].title;
   focusedWindow.setTitle(title.concat(' * - VIMA'));
   server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', 'new page');
-}
-
-function showSelectedPage(pageAndViews, pageId, windowId) {
-  const store = getStore();
-  const layout = _map(pageAndViews.views, v => ({
-    i: v.uuid,
-    x: v.geometry.x,
-    y: v.geometry.y,
-    w: v.geometry.w,
-    h: v.geometry.h,
-    maxH: v.geometry.maxH || 100,
-    maxW: v.geometry.maxW || 100,
-  }));
-  const viewIds = Object.keys(pageAndViews.views);
-  viewIds.forEach((index) => {
-    const view = pageAndViews.views[index];
-    store.dispatch(addView(index, view.type, view.configuration, view.path, view.oId,
-      view.absolutePath, false));
-  });
-  const page = pageAndViews.pages[pageId];
-  page.layout = layout;
-  page.views = viewIds;
-  page.isModified = false;
-  store.dispatch(addAndMountPage(windowId, pageId, page));
+  return undefined;
 }
 
 export default {

@@ -1,5 +1,6 @@
 import React, { PropTypes, PureComponent } from 'react';
 import _omit from 'lodash/omit';
+import noop from 'lodash/noop';
 import getLogger from 'common/log';
 
 const logger = getLogger('drag and drop');
@@ -32,13 +33,14 @@ const s = {
 
 export default class DroppableContainer extends PureComponent {
   static propTypes = {
-    children: PropTypes.node,
+    children: PropTypes.node.isRequired,
     onDrop: PropTypes.func,
     text: PropTypes.string,
   }
 
   static defaultProps = {
     text: 'Drop here',
+    onDrop: noop,
   }
 
   constructor(props) {

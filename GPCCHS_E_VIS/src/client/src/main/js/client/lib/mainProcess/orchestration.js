@@ -1,5 +1,6 @@
 import _round from 'lodash/round';
 import { series } from 'async';
+import { get } from 'common/parameters';
 import {
   HSC_ORCHESTRATION_FREQUENCY,
   HSC_ORCHESTRATION_WARNING_STEP,
@@ -7,7 +8,6 @@ import {
   HEALTH_STATUS_HEALTHY,
   HEALTH_STATUS_WARNING,
   HEALTH_STATUS_CRITICAL,
-  HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN,
   CACHE_INVALIDATION_FREQUENCY,
   IPC_METHOD_CACHE_CLEANUP,
 } from 'common/constants';
@@ -89,7 +89,7 @@ export function tick() {
     const lastTickTime = lastTick;
     lastTick = Date.now();
     const delta = lastTick - lastTickTime;
-    dispatch(handlePlay(delta, HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN));
+    dispatch(handlePlay(delta, get('HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')));
     execution.stop('play handling');
   }
 

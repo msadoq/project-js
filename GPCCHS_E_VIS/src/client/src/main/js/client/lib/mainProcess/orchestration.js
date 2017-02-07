@@ -140,7 +140,7 @@ export function tick() {
 
       // log each transition
       if (previous.lastAppStatus !== status) {
-        logger.debug(`New health status ${previous.lastAppStatus}==>${status}`);
+        logger.debug(`new health status ${previous.lastAppStatus}==>${status}`);
       }
 
       // transition from other to critical

@@ -14,14 +14,14 @@ import styles from './WYSIWYG.css';
 
 class WYSIWYG extends PureComponent {
   static propTypes = {
-    entryPoints: PropTypes.array,
-    handleSubmit: PropTypes.func,
-    pristine: PropTypes.bool,
-    reset: PropTypes.func,
-    submitting: PropTypes.bool,
-    valid: PropTypes.bool,
-    asyncValidating: PropTypes.bool,
-    asyncValidate: PropTypes.func,
+    entryPoints: PropTypes.arrayOf(PropTypes.string).isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    pristine: PropTypes.bool.isRequired,
+    reset: PropTypes.func.isRequired,
+    submitting: PropTypes.bool.isRequired,
+    valid: PropTypes.bool.isRequired,
+    asyncValidating: PropTypes.bool.isRequired,
+    asyncValidate: PropTypes.func.isRequired,
   }
 
   onChange = editorState => this.setState({ editorState });

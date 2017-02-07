@@ -11,11 +11,12 @@ const ifPathChanged = (actionCreator, [key = 'views', keyPath = 'path', id = 'vi
     const newPath = action.payload.newPath;
     const oldPath = getView()[keyPath];
     if (!getView() || !newPath) {
-      return;
+      return undefined;
     }
     if ((newPath && oldPath && resolve(newPath) !== resolve(oldPath))) {
-      dispatch(action);
+      return dispatch(action);
     }
+    return undefined;
   }
 );
 

@@ -128,21 +128,19 @@ export function tick() {
     // data map
     (callback) => {
       if (skipThisTick || !somethingHasChanged) {
-        callback(null);
-        return;
+        return callback(null);
       }
 
       execution.start('dataMap generation');
       dataMap = dataMapGenerator(state);
       execution.stop('dataMap generation');
 
-      callback(null);
+      return callback(null);
     },
     // request data
     (callback) => {
       if (skipThisTick) {
-        callback(null);
-        return;
+        return callback(null);
       }
       if (dataMap.perRemoteId === previous.lastRequestedDataMap) {
         return callback(null);
@@ -155,7 +153,7 @@ export function tick() {
       previous.lastRequestedDataMap = dataMap.perRemoteId;
 
       execution.stop('data requests');
-      callback(null);
+      return callback(null);
     },
     // pull data
     (callback) => {

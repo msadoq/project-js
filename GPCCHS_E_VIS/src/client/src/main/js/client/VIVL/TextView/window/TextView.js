@@ -55,12 +55,28 @@ export default class TextView extends PureComponent {
     data: PropTypes.shape({
       values: PropTypes.object,
     }),
-    addEntryPoint: PropTypes.func,
-    content: PropTypes.string,
-    isViewsEditorOpen: PropTypes.bool,
-    updateContent: PropTypes.func,
-    entryPoints: PropTypes.array.isRequired,
-    show: PropTypes.string,
+    addEntryPoint: PropTypes.func.isRequired,
+    content: PropTypes.string.isRequired,
+    isViewsEditorOpen: PropTypes.bool.isRequired,
+    updateContent: PropTypes.func.isRequired,
+    entryPoints: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      connectedData: PropTypes.shape({
+        digit: PropTypes.number,
+        domain: PropTypes.string,
+        format: PropTypes.string,
+        formula: PropTypes.string,
+        timeline: PropTypes.string,
+        unit: PropTypes.string,
+        filter: PropTypes.shape(PropTypes.arrayOf(PropTypes.shape({
+          field: PropTypes.string,
+          operand: PropTypes.string,
+          operator: PropTypes.string,
+        }))),
+      }),
+    })).isRequired,
+    show: PropTypes.string.isRequired,
   };
   static defaultProps = {
     data: {

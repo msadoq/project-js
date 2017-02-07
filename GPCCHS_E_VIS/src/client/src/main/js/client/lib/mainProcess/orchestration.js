@@ -162,6 +162,26 @@ export function tick() {
       previous.lastAppStatus = status;
       callback(null);
     },
+    // cache invalidation
+    (callback) => {
+      if (skipThisTick) {
+        callback(null);
+        return;
+      }
+
+      const now = Date.now();
+      const lastCacheInvalidation = getLastCacheInvalidation(state);
+      if (now - lastCacheInvalidation >= CACHE_INVALIDATION_FREQUENCY) {
+        execution.start('cache invalidation');
+        dispatch(updateCacheInvalidation(now)); // schedule next run
+        server.message(IPC_METHOD_CACHE_CLEANUP, dataMap.perRemoteId);
+        execution.stop('cache invalidation');
+
+        logger.debug('cache invalidation requested, skipping current tick');
+        skipThisTick = true;
+      }
+      callback(null);
+    },
     // data map
     (callback) => {
       if (skipThisTick || !somethingHasChanged) {
@@ -213,22 +233,6 @@ export function tick() {
         execution.stop('data injection', Object.keys(dataToInject.data).length);
         callback(null);
       });
-    },
-    // cache invalidation
-    (callback) => {
-      if (skipThisTick) {
-        callback(null);
-        return;
-      }
-
-      const lastCacheInvalidation = getLastCacheInvalidation(state);
-      if (Date.now() - lastCacheInvalidation >= CACHE_INVALIDATION_FREQUENCY) {
-        execution.start('cache invalidation');
-        dispatch(updateCacheInvalidation(Date.now())); // schedule next run
-        server.message(IPC_METHOD_CACHE_CLEANUP, dataMap.perRemoteId);
-        execution.stop('cache invalidation');
-      }
-      callback(null);
     },
     // sync windows
     (callback) => {

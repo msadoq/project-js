@@ -27,7 +27,7 @@ import { updateViewData } from '../store/actions/viewData';
 import { handlePlay } from '../store/actions/timebars';
 import { updateHealth, updateMainStatus } from '../store/actions/health';
 
-const logger = getLogger('main:orchestration');
+let logger;
 
 let nextTick = null;
 let lastTick = null;
@@ -67,9 +67,7 @@ export function clearCritical() {
 export function onCritical() {
   const { getState, dispatch } = getStore();
   const state = getState();
-
   const isPlaying = !!getPlayingTimebarId(state);
-  const { criticals } = getAppStatus(state);
 
   if (isPlaying) {
     const delay = HSC_CRITICAL_SWITCH_PAUSE_DELAY / 1000;
@@ -77,13 +75,14 @@ export function onCritical() {
     dispatch(addOnce(
       'global',
       'danger',
-      `Application have detected an important slow-down and switched to pause (${criticals.join(', ')})`
+      `Important slow-down detected for ${delay}s, application have switched to pause`
     ));
     dispatch(pause());
   }
 }
 
 export function start() {
+  logger = getLogger('main:orchestration');
   schedule();
 }
 
@@ -137,40 +136,44 @@ export function tick() {
   series([
     // health
     (callback) => {
-      const { status } = getAppStatus(state);
+      const { status, criticals } = getAppStatus(state);
 
       // log each transition
       if (previous.lastAppStatus !== status) {
-        previous.lastAppStatus = status;
         logger.debug(`New health status ${previous.lastAppStatus}==>${status}`);
       }
 
       // transition from other to critical
       if (previous.lastAppStatus !== HEALTH_STATUS_CRITICAL && status === HEALTH_STATUS_CRITICAL) {
+        logger.debug('schedule switch to pause action due to critical slow-down level', criticals);
         criticalTimeout = setTimeout(onCritical, HSC_CRITICAL_SWITCH_PAUSE_DELAY);
       }
       // avoid switching to pause if now app is healthy
       if (status === HEALTH_STATUS_HEALTHY || status === HEALTH_STATUS_WARNING) {
+        logger.silly('cancel switch to pause action, slow-down was reduced');
         clearCritical();
       }
       // skip the tick if app is warning or critical
       if (status === HEALTH_STATUS_WARNING || status === HEALTH_STATUS_CRITICAL) {
+        logger.debug('slow-down detected, skipping current tick');
         skipThisTick = true;
       }
 
+      previous.lastAppStatus = status;
       callback(null);
     },
     // data map
     (callback) => {
       if (skipThisTick || !somethingHasChanged) {
-        return callback(null);
+        callback(null);
+        return;
       }
 
       execution.start('dataMap generation');
       dataMap = dataMapGenerator(state);
       execution.stop('dataMap generation');
 
-      return callback(null);
+      callback(null);
     },
     // request data
     (callback) => {
@@ -186,7 +189,7 @@ export function tick() {
       previous.lastRequestedDataMap = dataMap.perRemoteId;
 
       execution.stop('data requests');
-      return callback(null);
+      callback(null);
     },
     // pull data
     (callback) => {

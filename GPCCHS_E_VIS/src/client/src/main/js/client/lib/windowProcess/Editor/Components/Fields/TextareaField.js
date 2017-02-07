@@ -6,11 +6,32 @@ import {
 
 export default class InputTextareaField extends React.Component {
   static propTypes = {
-    input: PropTypes.object.isRequired,
+    input: PropTypes.shape({
+      name: PropTypes.string,
+      value: PropTypes.string,
+      onChange: PropTypes.func,
+      onBlur: PropTypes.func,
+    }).isRequired,
     placeholder: PropTypes.string,
-    className: PropTypes.string,
-    rows: PropTypes.string,
-    meta: PropTypes.object,
+    className: PropTypes.string.isRequired,
+    rows: PropTypes.string.isRequired,
+    meta: PropTypes.shape({
+      active: PropTypes.bool,
+      asyncValidating: PropTypes.bool,
+      autofilled: PropTypes.bool,
+      dirty: PropTypes.bool,
+      invalid: PropTypes.bool,
+      pristine: PropTypes.bool,
+      submitFailed: PropTypes.bool,
+      submitting: PropTypes.bool,
+      touched: PropTypes.bool,
+      visited: PropTypes.bool,
+      valid: PropTypes.bool,
+    }).isRequired,
+  }
+
+  static defaultProps = {
+    placeholder: '',
   }
 
   render() {

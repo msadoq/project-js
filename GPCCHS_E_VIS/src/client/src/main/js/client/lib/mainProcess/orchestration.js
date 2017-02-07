@@ -122,7 +122,7 @@ export function tick() {
     const lastTickTime = lastTick;
     lastTick = Date.now();
     const delta = lastTick - lastTickTime;
-    dispatch(handlePlay(delta, get('HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')));
+    dispatch(handlePlay(delta, get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')));
     execution.stop('play handling');
   }
 

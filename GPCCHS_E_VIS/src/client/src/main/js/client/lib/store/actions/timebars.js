@@ -18,8 +18,8 @@ import { pause, play } from './hsc';
 import { getTimebar } from '../selectors/timebars';
 import { getPlayingTimebarId } from '../selectors/hsc';
 
-const HSC_VISUWINDOW_MAX_LENGTH = get('HSC_VISUWINDOW_MAX_LENGTH');
-const HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN = get('HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN');
+const VISUWINDOW_MAX_LENGTH = get('VISUWINDOW_MAX_LENGTH');
+const VISUWINDOW_CURRENT_UPPER_MIN_MARGIN = get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN');
 
 /**
  * Simple actions
@@ -199,9 +199,9 @@ export function goNow(timebarUuid, masterSessionIdCurrentTime) {
     const vw = timebar.visuWindow;
     const msWidth = vw.upper - vw.lower;
     const newLower = masterSessionIdCurrentTime -
-      ((1 - HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN) * msWidth);
+      ((1 - VISUWINDOW_CURRENT_UPPER_MIN_MARGIN) * msWidth);
     const newUpper = masterSessionIdCurrentTime +
-      (HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN * msWidth);
+      (VISUWINDOW_CURRENT_UPPER_MIN_MARGIN * msWidth);
     dispatch(
       updateCursors(
         timebarUuid,
@@ -271,9 +271,9 @@ export function switchToRealtimeMode(timebarUuid, masterSessionIdCurrentTime) {
     const { visuWindow } = timebar;
     const msWidth = visuWindow.upper - visuWindow.lower;
     const newLower = masterSessionIdCurrentTime -
-      ((1 - HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN) * msWidth);
+      ((1 - VISUWINDOW_CURRENT_UPPER_MIN_MARGIN) * msWidth);
     const newUpper = masterSessionIdCurrentTime +
-      (HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN * msWidth);
+      (VISUWINDOW_CURRENT_UPPER_MIN_MARGIN * msWidth);
     dispatch(
       updateCursors(
         timebarUuid,
@@ -309,8 +309,8 @@ export function switchToExtensibleMode(timebarUuid) {
     const { visuWindow, slideWindow } = timebar;
     if (slideWindow.upper < visuWindow.upper) {
       let newSlideUpper = visuWindow.upper + ((visuWindow.upper - visuWindow.lower) / 4);
-      if (newSlideUpper - visuWindow.lower > HSC_VISUWINDOW_MAX_LENGTH) {
-        newSlideUpper = visuWindow.lower + HSC_VISUWINDOW_MAX_LENGTH;
+      if (newSlideUpper - visuWindow.lower > VISUWINDOW_MAX_LENGTH) {
+        newSlideUpper = visuWindow.lower + VISUWINDOW_MAX_LENGTH;
       }
       dispatch(
         updateCursors(

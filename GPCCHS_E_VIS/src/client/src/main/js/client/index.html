@@ -14,7 +14,7 @@
   bundle.src = parameters.get('IS_BUNDLED') === 'on'
     ? './dist/bundle.js'
     : `http://localhost:${parameters.get('WEBPACK_PORT')}/dist/bundle.js`;
-  document.write(bundle.outerHTML);
+  document.body.appendChild(bundle)
 </script>
 </body>
 </html>

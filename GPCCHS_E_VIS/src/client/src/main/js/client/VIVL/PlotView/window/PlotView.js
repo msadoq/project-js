@@ -624,7 +624,7 @@ export class PlotView extends PureComponent {
     if (!data.columns || !data.columns.length || data.columns.length < 2) {
       info = 'no point';
     }
-    if (data.columns.length < 2) {
+    if (data.columns && data.columns.length < 2) {
       info = 'only one point';
     }
 

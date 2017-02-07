@@ -85,7 +85,7 @@ export default class Debug extends PureComponent {
     setTimeout(() => {
       _get(console, ['profileEnd'])('tick');
       this.props.pause(this.props.focusedPage.timebarUuid);
-    }, HSC_ORCHESTRATION_FREQUENCY * 3);
+    }, HSC_ORCHESTRATION_FREQUENCY * 2 * 3);
   }
 
   render() {

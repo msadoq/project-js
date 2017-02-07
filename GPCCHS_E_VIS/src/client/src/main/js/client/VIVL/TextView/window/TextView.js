@@ -8,16 +8,10 @@ import _get from 'lodash/get';
 import getLogger from 'common/log';
 import { html as beautifyHtml } from 'js-beautify';
 import {
-  OverlayTrigger,
-  Tooltip,
-} from 'react-bootstrap';
-import {
   DEFAULT_FIELD,
 } from 'common/constants';
 
-import {
-  stateColors,
-} from '../../../lib/windowProcess/common/colors';
+import TextViewValue from './TextViewValue';
 import WYSIWYG from './WYSIWYG';
 import DroppableContainer from '../../../lib/windowProcess/common/DroppableContainer';
 
@@ -36,18 +30,7 @@ function parseDragData(data) {
   };
 }
 
-const getTextStyle = color => ({
-  textShadow: `
-    0 0 5px rgba(255, 255, 255, 0.1),
-    0 0 10px rgba(255, 255, 255, 0.1),
-    0 0 20px ${color},
-    0 0 30px ${color},
-    0 0 40px ${color},
-    0 0 55px ${color},
-    0 0 75px ${color}
-  `,
-  color,
-});
+const isValueNode = /{{\s*([^}]+)\s*}}/g;
 
 export default class TextView extends PureComponent {
   static propTypes = {
@@ -84,10 +67,18 @@ export default class TextView extends PureComponent {
     },
   };
 
-  componentWillMount() {
-    this.template = beautifyHtml(this.props.content, { indent_size: 2 });
+  state = {
+    Content: () => null,
   }
 
+  componentWillMount() {
+    this.template = beautifyHtml(this.props.content, { indent_size: 2 });
+    this.setState({
+      Content: this.getContentComponent(),
+    });
+  }
+
+  // TODO Maybe useless, TextView implement PureComponent
   shouldComponentUpdate(nextProps) {
     if (
       nextProps.viewId === this.props.viewId &&
@@ -102,6 +93,7 @@ export default class TextView extends PureComponent {
     return true;
   }
 
+  // TODO Error-prone, refactor onDrop(e) to onDrop = (e) => ... and remove this object attribute
   onDrop = ::this.onDrop;
 
   onDrop(e) {
@@ -121,69 +113,35 @@ export default class TextView extends PureComponent {
     e.stopPropagation();
   }
 
-  getComponent() {
+  getContentComponent() {
     const processingInstructions = [
       {
-        shouldProcessNode: node => node.data && node.data.match(/{{\s*([^}]+)\s*}}/g),
+        shouldProcessNode: (node => node.data && node.data.match(isValueNode)),
         processNode: (node, children, index) => {
-          const matches = node.data.match(/{{\s*([^}]+)\s*}}/g);
+          const matches = node.data.match(isValueNode);
           const nodes = [];
           for (let i = 0, len = matches.length; i < len; i += 1) {
             const match = matches[i];
             const epName = match.substring(2, match.length - 2);
-            const valueObj = _get(this.props.data, `values[${epName}]`, {});
-            const ep = _.prop(
-              epName,
-              _.indexBy(
-                _.prop('name'),
-                this.props.entryPoints)
-            );
-            if (ep) {
-              const s = ep.error ?
-              {
-                style: getTextStyle('#FF0000'),
-              }
-              :
-              {
-                style: getTextStyle(
-                  _.cond([
-                    [
-                      _.pipe(_.get('monit'), _.negate(_.eq('info'))),
-                      _.pipe(_.prop('monit'), _.prop(_, stateColors), _.defaultTo('#00FF00')),
-                    ],
-                    [_.pipe(_.get('color'), _.isString), _.prop('color')],
-                    [_.stubTrue, _.constant('#00FF00')],
-                  ])(valueObj)
-                ),
-              };
-              const value = _.propOr(
-                _.prop('value', valueObj),
-                'error', ep);
 
-              if (ep.error) {
-                nodes.push(
-                  <OverlayTrigger
-                    key={`${index}-${i}`}
-                    overlay={<Tooltip id="tooltip">{value}</Tooltip>}
-                  >
-                    <span
-                      style={s.style}
-                    >
-                      Invalid entry point
-                    </span>
-                  </OverlayTrigger>
-                );
-              } else {
-                nodes.push(
-                  <span
-                    key={`${index}-${i}`}
-                    style={s.style}
-                  >
-                    {value}
-                  </span>
-                );
-              }
-            }
+            const getEntryPoint = _epName => () =>
+              _.prop(
+                _epName,
+                _.indexBy(
+                  _.prop('name'),
+                  this.props.entryPoints)
+              );
+
+            const getValue = _epName => () =>
+              _get(this.props.data, `values[${_epName}]`, {});
+
+            nodes.push(
+              <TextViewValue
+                key={`${epName}-${index}`}
+                getEntryPoint={getEntryPoint(epName)}
+                getValue={getValue(epName)}
+              />
+            );
           }
           return nodes;
         },
@@ -194,11 +152,12 @@ export default class TextView extends PureComponent {
       },
     ];
 
-    return this.htmlToReactParser.parseWithInstructions(
+    const comp = this.htmlToReactParser.parseWithInstructions(
       `<div>${this.template}</div>`,
       () => true,
       processingInstructions
     );
+    return () => comp;
   }
 
   handleSubmit = (values) => {
@@ -215,6 +174,10 @@ export default class TextView extends PureComponent {
       isViewsEditorOpen,
       entryPoints,
     } = this.props;
+    const {
+      Content,
+    } = this.state;
+
     logger.debug(`render ${viewId}`);
 
     return (isViewsEditorOpen && this.props.show === 'html'
@@ -228,7 +191,7 @@ export default class TextView extends PureComponent {
       : <DroppableContainer
         onDrop={this.onDrop}
       >
-        {this.getComponent()}
+        <Content />
       </DroppableContainer>);
   }
 }

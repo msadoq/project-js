@@ -49,7 +49,7 @@ DynamicEditorContainer.propTypes = {
       length: PropTypes.number,
       width: PropTypes.number,
     }),
-    entryPoints: PropTypes.arrayOf(PropTypes.Shape({
+    entryPoints: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
       connectedDate: PropTypes.shape({

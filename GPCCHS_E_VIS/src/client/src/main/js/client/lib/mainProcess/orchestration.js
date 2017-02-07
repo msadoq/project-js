@@ -7,7 +7,6 @@ import {
   HEALTH_STATUS_HEALTHY,
   HEALTH_STATUS_WARNING,
   HEALTH_STATUS_CRITICAL,
-  CACHE_INVALIDATION_FREQUENCY,
   IPC_METHOD_CACHE_CLEANUP,
   HSC_CRITICAL_SWITCH_PAUSE_DELAY,
 } from 'common/constants';
@@ -170,7 +169,7 @@ export function tick() {
 
       const now = Date.now();
       const lastCacheInvalidation = getLastCacheInvalidation(state);
-      if (now - lastCacheInvalidation >= CACHE_INVALIDATION_FREQUENCY) {
+      if (now - lastCacheInvalidation >= get('CACHE_INVALIDATION_FREQUENCY')) {
         execution.start('cache invalidation');
         dispatch(updateCacheInvalidation(now)); // schedule next run
         server.message(IPC_METHOD_CACHE_CLEANUP, dataMap.perRemoteId);

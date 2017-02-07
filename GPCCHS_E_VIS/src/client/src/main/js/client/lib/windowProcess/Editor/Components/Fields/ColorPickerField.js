@@ -1,25 +1,28 @@
 import React, { PropTypes } from 'react';
 import ColorPicker from '../ColorPicker';
 
-export default class ColorPickerField extends React.Component {
-  static propTypes = {
-    input: PropTypes.object.isRequired,
-    colors: PropTypes.array,
-  }
+const ColorPickerField = (props) => {
+  const {
+    input: { value, onChange },
+    colors,
+  } = props;
 
-  render() {
-    const {
-      input: { value, onChange },
-      colors,
-    } = this.props;
+  return (
+    <ColorPicker
+      color={value}
+      colors={colors}
+      onChange={onChange}
+      width={195}
+    />
+  );
+};
 
-    return (
-      <ColorPicker
-        color={value}
-        colors={colors}
-        onChange={onChange}
-        width={195}
-      />
-    );
-  }
-}
+ColorPickerField.propTypes = {
+  input: PropTypes.shape({
+    value: PropTypes.string,
+    onChange: PropTypes.func,
+  }).isRequired,
+  colors: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
+
+export default ColorPickerField;

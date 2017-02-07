@@ -1,5 +1,6 @@
 import moment from 'moment';
 import _debounce from 'lodash/debounce';
+import _throttle from 'lodash/throttle';
 import classnames from 'classnames';
 import React, { PureComponent, PropTypes } from 'react';
 import globalConstants from 'common/constants';
@@ -720,14 +721,23 @@ export default class Timebar extends PureComponent {
   }
 
   hideCursorTime = () => {
-    this.props.retrieveFormattedFullDateEl().innerHTML = '';
+    setTimeout(() => {
+      this.props.retrieveFormattedFullDateEl().innerHTML = '';
+    }, 150);
   }
 
-  updateCursorTime = (e) => {
+  willUpdateCursorTime = (e) => {
     e.stopPropagation();
+    if (!this.cursorTimeThrottle) {
+      this.cursorTimeThrottle = _throttle(this.updateCursorTime, 100);
+    }
+    this.cursorTimeThrottle(e.pageX);
+  }
+
+  updateCursorTime = (pageX) => {
     const { retrieveFormattedFullDateEl, widthPx } = this.props;
     const { lower, upper } = this.props.viewport;
-    const offsetPx = e.pageX - this.el.getBoundingClientRect().left;
+    const offsetPx = pageX - this.el.getBoundingClientRect().left;
     const cursorMs = lower + ((upper - lower) * (offsetPx / widthPx));
     this.setState({ cursorMs });
     retrieveFormattedFullDateEl().innerHTML = moment(cursorMs).format('D MMMM YYYY HH[:]mm[:]ss[.]SSS');
@@ -1041,7 +1051,7 @@ export default class Timebar extends PureComponent {
       <div
         className={styles.viewportWrapper}
         ref={this.assignEl}
-        onMouseMove={this.updateCursorTime}
+        onMouseMove={this.willUpdateCursorTime}
         onMouseLeave={this.hideCursorTime}
       >
         <div

@@ -3,7 +3,7 @@ import _get from 'lodash/get';
 import { get } from 'common/parameters';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
-import { nextCurrent, computeCursors } from '../../mainProcess/play';
+import { nextCurrent, computeCursors } from '../play';
 import {
   addOnce as addMessage,
   reset as resetMessages,

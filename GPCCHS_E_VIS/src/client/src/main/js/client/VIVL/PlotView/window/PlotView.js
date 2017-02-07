@@ -612,7 +612,7 @@ export class PlotView extends PureComponent {
       data,
       visuWindow,
     } = this.props;
-    let info = 'unknown';
+    let info;
     if (containerWidth <= 0 || containerHeight <= 0) {
       info = `invisible size received ${containerWidth}x${containerHeight}`;
     }
@@ -840,7 +840,7 @@ export class PlotView extends PureComponent {
             width={containerWidth}
             height={containerHeight}
             margin={marginChart}
-            pointsPerPxThreshold={30}
+            pointsPerPxThreshold={4}
             seriesName="PlotView"
             data={columns}
             type="hybrid"

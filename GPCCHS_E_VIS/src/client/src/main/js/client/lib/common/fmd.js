@@ -20,7 +20,7 @@ const resolveDocument = ipcApi => (oId, callback) => {
     if (type !== globalConstants.FMDFILETYPE_DOCUMENT) {
       return callback(new Error('document is not a file'));
     }
-    callback(
+    return callback(
       null,
       join(getRootDir(), detail.dirname.value, detail.basename.value),
       detail.properties
@@ -35,15 +35,15 @@ const createDocument = ipcApi => (path, documentType, callback) => {
   }
   const fileName = basename(path);
   const folder = dirname(getRelativeFmdPath(path));
-  checkPath(path, (pathErr, pathExist) => {
+  return checkPath(path, (pathErr, pathExist) => {
     if (pathExist) {
       return callback(null);
     }
-    ipcApi.server.requestFmdCreate(folder, fileName, mimeType, ({ err, serializedOid }) => {
+    return ipcApi.server.requestFmdCreate(folder, fileName, mimeType, ({ err, serializedOid }) => {
       if (err) {
         return callback(err);
       }
-      callback(null, serializedOid);
+      return callback(null, serializedOid);
     });
   });
 };

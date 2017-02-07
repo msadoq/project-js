@@ -57,7 +57,7 @@ const self = module.exports = {
       return callback(new Error(`Invalid relative path: ${folder}, ${path}`));
     }
     resolvedPath = join(folder, path);
-    self.read(resolvedPath, (err, content) => {
+    return self.read(resolvedPath, (err, content) => {
       if (err) {
         return callback(err);
       }
@@ -78,7 +78,7 @@ const self = module.exports = {
       // path is already absolute
       resolvedPath = filepath;
     }
-    self.read(resolvedPath, (err, content) => {
+    return self.read(resolvedPath, (err, content) => {
       if (err) {
         return callback(err);
       }

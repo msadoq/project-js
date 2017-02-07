@@ -116,6 +116,7 @@ export const getEntryPointColorObj = ({ entryPoints, epName, value, dataProp }) 
       color: _.prop('color', stateColor),
     };
   }
+  return undefined;
 };
 
 // Return value obj for TextView with color and check if entryPoint is valid

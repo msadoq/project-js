@@ -61,7 +61,7 @@ module.exports = (
   logger.silly('retrieve subscription');
   const subscription = subscriptionsModel.getByDataId(dataId);
   if (!subscription) {
-    return undefined;
+    return;
   }
   execution.stop('retrieve subscription');
 
@@ -74,11 +74,11 @@ module.exports = (
   // if there is no remoteId for this dataId, stop logic
   if (_isEmpty(filtersByRemoteId)) {
     logger.silly('no query registered for this dataId', dataId);
-    return undefined;
+    return;
   }
   if (payloadsBuffers.length % 2 !== 0) {
     logger.silly('payloads should be sent by (timestamp, payloads) peers');
-    return undefined;
+    return;
   }
 
   // prevent receiving more than 1000 payloads at one time (avoid Maximum call stack size exceeded)
@@ -90,11 +90,12 @@ module.exports = (
       `${dataId.parameterName} message ignored, too many payloads: ${payloadNumber}`
     );
     execution.print();
-    return logger.warn(`message ignored, too many payloads: ${payloadNumber}`);
+    logger.warn(`message ignored, too many payloads: ${payloadNumber}`);
+    return;
   }
 
   // loop over arguments peers (timestamp, payload)
-  return _each(_chunk(payloadsBuffers, 2), (payloadBuffer) => {
+  _each(_chunk(payloadsBuffers, 2), (payloadBuffer) => {
     execution.start('decode timestamp');
     const timestamp = decode('dc.dataControllerUtils.Timestamp', payloadBuffer[0]);
     execution.stop('decode timestamp');
@@ -109,10 +110,13 @@ module.exports = (
         remoteId, timestamp.ms
       );
 
+      const date = new Date(timestamp.ms);
+
       if (!isKnownInterval) {
         loggerData.debug({
           controller: 'onTimebasedPubSubData',
           remoteId,
+          date,
           isKnownInterval,
         });
         return;
@@ -127,20 +131,28 @@ module.exports = (
         execution.stop('decode payload');
       }
 
+      execution.start('apply filters');
+      // apply filters on decoded payload
+      const isMatchingFilters = applyFilters(decodedPayload, filters);
+      if (!isMatchingFilters) {
+        loggerData.debug({
+          controller: 'onTimebasedPubSubData',
+          remoteId,
+          date,
+          isMatchingFilters,
+        });
+        return;
+      }
+      execution.stop('apply filters');
+
       loggerData.debug({
         controller: 'onTimebasedPubSubData',
         remoteId,
+        date,
         rawValue: decodedPayload.rawValue,
         extractedValue: decodedPayload.extractedValue,
         convertedValue: decodedPayload.convertedValue,
       });
-
-      execution.start('apply filters');
-      // apply filters on decoded payload
-      if (!applyFilters(decodedPayload, filters)) {
-        return;
-      }
-      execution.stop('apply filters');
 
       const tbd = {
         timestamp: timestamp.ms,

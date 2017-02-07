@@ -154,6 +154,7 @@ export class PlotView extends PureComponent {
       legend: PropTypes.object,
       markers: PropTypes.array,
     }).isRequired,
+    pointsPerPxThreshold: PropTypes.number,
   };
 
   static defaultProps = {
@@ -161,6 +162,7 @@ export class PlotView extends PureComponent {
       lines: [],
       columns: [],
     },
+    pointsPerPxThreshold: 30,
   };
 
   constructor(...args) {
@@ -840,7 +842,7 @@ export class PlotView extends PureComponent {
             width={containerWidth}
             height={containerHeight}
             margin={marginChart}
-            pointsPerPxThreshold={30}
+            pointsPerPxThreshold={this.props.pointsPerPxThreshold}
             seriesName="PlotView"
             data={columns}
             type="hybrid"

@@ -7,9 +7,7 @@ import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import getLogger from 'common/log';
 import { html as beautifyHtml } from 'js-beautify';
-import {
-  DEFAULT_FIELD,
-} from 'common/constants';
+import { get } from 'common/parameters';
 
 import TextViewValue from './TextViewValue';
 import WYSIWYG from './WYSIWYG';
@@ -25,7 +23,7 @@ function parseDragData(data) {
   return {
     name: data.item,
     connectedData: {
-      formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.${DEFAULT_FIELD}`,
+      formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.${get('DEFAULT_FIELD')}`,
     },
   };
 }
@@ -80,23 +78,17 @@ export default class TextView extends PureComponent {
 
   // TODO Maybe useless, TextView implement PureComponent
   shouldComponentUpdate(nextProps) {
-    if (
+    return !(
       nextProps.viewId === this.props.viewId &&
       nextProps.data === this.props.data &&
       nextProps.content === this.props.content &&
       nextProps.isViewsEditorOpen === this.props.isViewsEditorOpen &&
       nextProps.entryPoints === this.props.entryPoints &&
       nextProps.show === this.props.show
-    ) {
-      return false;
-    }
-    return true;
+    );
   }
 
-  // TODO Error-prone, refactor onDrop(e) to onDrop = (e) => ... and remove this object attribute
-  onDrop = ::this.onDrop;
-
-  onDrop(e) {
+  onDrop = (e) => {
     const data = e.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);
 
@@ -182,16 +174,11 @@ export default class TextView extends PureComponent {
 
     return (isViewsEditorOpen && this.props.show === 'html'
       ? <WYSIWYG
-        // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
         initialValues={{ html: this.template }}
         entryPoints={entryPoints.map(ep => ep.name)}
         onSubmit={this.handleSubmit}
         form={`textView-form-${viewId}`}
-      />
-      : <DroppableContainer
-        onDrop={this.onDrop}
-      >
-        <Content />
-      </DroppableContainer>);
+      /> // eslint-disable-line react-perf/jsx-no-new-object-as-prop
+      : <DroppableContainer onDrop={this.onDrop}><Content /></DroppableContainer>);
   }
 }

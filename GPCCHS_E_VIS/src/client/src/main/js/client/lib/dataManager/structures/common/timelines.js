@@ -2,7 +2,7 @@ import _isNull from 'lodash/isNumber';
 import _isUndefined from 'lodash/isUndefined';
 import _filter from 'lodash/filter';
 import _map from 'lodash/map';
-import globalConstants from 'common/constants';
+import { get } from 'common/parameters';
 
 /**
  * Apply search on timelines and return corresponding sessionId.
@@ -19,7 +19,7 @@ export default function findTimelines(timelines, masterSessionId, search) {
   if (search === '' || _isNull(search) || _isUndefined(search)) {
     return { error: 'invalid entry point, invalid timeline field' };
   }
-  if (search === globalConstants.WILDCARD_CHARACTER
+  if (search === get('WILDCARD_CHARACTER')
     || search === ''
     || _isNull(search)
     || _isUndefined(search)

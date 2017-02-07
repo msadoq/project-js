@@ -8,9 +8,7 @@ import Dimensions from 'react-dimensions';
 import { format } from 'd3-format';
 import { scaleTime } from 'd3-scale';
 import getLogger from 'common/log';
-import {
-  DEFAULT_FIELD,
-} from 'common/constants';
+import { get } from 'common/parameters';
 import {
   ChartCanvas, Chart, series, annotation,
   coordinates, axes as StockchartsAxes, tooltip,
@@ -70,7 +68,7 @@ function parseDragData(data) {
       formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.groundDate`,
     },
     connectedDataY: {
-      formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.${DEFAULT_FIELD}`,
+      formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.${get('DEFAULT_FIELD')}`,
     },
   };
 }
@@ -240,6 +238,10 @@ export class PlotView extends PureComponent {
 
   shouldComponentUpdate(nextProps) {
     const { zoomedOrPanned } = this.state;
+    if (zoomedOrPanned) {
+      return false;
+    }
+
     const {
       data,
       entryPoints,
@@ -248,20 +250,14 @@ export class PlotView extends PureComponent {
       containerWidth,
       containerHeight,
     } = this.props;
-    if (zoomedOrPanned) {
-      return false;
-    }
-    if (
+    return !(
       data === nextProps.data &&
       entryPoints === nextProps.entryPoints &&
       visuWindow === nextProps.visuWindow &&
       configuration === nextProps.configuration &&
       containerWidth === nextProps.containerWidth &&
       containerHeight === nextProps.containerHeight
-    ) {
-      return false;
-    }
-    return true;
+    );
   }
 
   componentWillUnmount() {

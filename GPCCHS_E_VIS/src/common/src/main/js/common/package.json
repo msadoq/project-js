@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "./lib/index.js",
   "scripts": {
-    "lint": "eslint lib test *.js",
+    "lint": "eslint .",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha \"!(node_modules)/**/*.spec.js\"",
     "test": "mocha \"!(node_modules)/**/*.spec.js\"",
     "test:watch": "npm run test -- --watch",

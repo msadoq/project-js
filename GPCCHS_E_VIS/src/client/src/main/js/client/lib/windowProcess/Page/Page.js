@@ -49,6 +49,15 @@ export default class Page extends PureComponent {
     };
   }
 
+  componentDidMount() {
+    setTimeout(() => {
+      // used to avoid 0 height when first mouting plotView
+      // problem due to react-dimensions non knowing initial height
+      // HOTFIX
+      window.dispatchEvent(new Event('resize'));
+    }, 40);
+  }
+
   componentWillReceiveProps(nextProps) {
     // Easier way to resize the responsive grid
     // https://github.com/STRML/react-grid-layout/issues/81

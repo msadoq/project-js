@@ -1,4 +1,4 @@
-import globalConstants from 'common/constants';
+import { get } from 'common/parameters';
 import formulaParser from './formula';
 import remoteIdGenerator from './remoteId';
 import domainsFilter from './domains';
@@ -21,7 +21,7 @@ export default function applyDomainsAndTimebar(
     comObject,
     field,
   } = parameter;
-  const expectedField = field || globalConstants.extractedValue;
+  const expectedField = field || get('DEFAULT_FIELD');
 
   // domain
   const domainSearch = domainsFilter(domains, domain);

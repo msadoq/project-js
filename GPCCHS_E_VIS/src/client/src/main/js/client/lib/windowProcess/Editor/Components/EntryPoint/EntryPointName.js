@@ -11,47 +11,33 @@ import {
   ClearSubmitButtons,
 } from '../Forms/';
 
-class EntryPointName extends React.Component {
-  static propTypes = {
-    /* eslint-disable react/no-unused-prop-types */
-    initialValues: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    }),
-    handleSubmit: PropTypes.func,
-    pristine: PropTypes.bool,
-    reset: PropTypes.func,
-    submitting: PropTypes.bool,
-    valid: PropTypes.bool,
-  }
+const EntryPointName = (props) => {
+  const {
+    handleSubmit,
+    pristine,
+    submitting,
+    valid,
+  } = props;
 
-  render() {
-    const {
-      handleSubmit,
-      pristine,
-      submitting,
-      valid,
-    } = this.props;
-
-    return (
-      <Form horizontal onSubmit={handleSubmit}>
-        <HorizontalFormGroup label="Label">
-          <Field
-            name="name"
-            component={InputField}
-            className="form-control input-sm"
-            type="text"
-          />
-        </HorizontalFormGroup>
-
-        <ClearSubmitButtons
-          pristine={pristine}
-          submitting={submitting}
-          valid={valid}
+  return (
+    <Form horizontal onSubmit={handleSubmit}>
+      <HorizontalFormGroup label="Label">
+        <Field
+          name="name"
+          component={InputField}
+          className="form-control input-sm"
+          type="text"
         />
-      </Form>
-    );
-  }
-}
+      </HorizontalFormGroup>
+
+      <ClearSubmitButtons
+        pristine={pristine}
+        submitting={submitting}
+        valid={valid}
+      />
+    </Form>
+  );
+};
 
 const requiredFields = ['name'];
 const validate = (values = {}) => {
@@ -63,6 +49,18 @@ const validate = (values = {}) => {
     }
   });
   return errors;
+};
+
+EntryPointName.propTypes = {
+  /* eslint-disable react/no-unused-prop-types */
+  initialValues: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  pristine: PropTypes.bool.isRequired,
+  reset: PropTypes.func.isRequired,
+  submitting: PropTypes.bool.isRequired,
+  valid: PropTypes.bool.isRequired,
 };
 
 export default reduxForm({

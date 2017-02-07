@@ -31,7 +31,39 @@ const DynamicEditorContainer = connect(mapStateToProps, {
 DynamicEditorContainer.propTypes = {
   viewId: PropTypes.string.isRequired,
   viewType: PropTypes.string.isRequired,
-  configuration: PropTypes.object,
+  configuration: PropTypes.shape({
+    type: PropTypes.string,
+    title: PropTypes.string,
+    titleStyle: PropTypes.shape({
+      align: PropTypes.string,
+      bgColor: PropTypes.string,
+      bold: PropTypes.bool,
+      color: PropTypes.string,
+      font: PropTypes.string,
+      italic: PropTypes.bool,
+      size: PropTypes.number,
+      strikeOut: PropTypes.bool,
+      underline: PropTypes.bool,
+    }),
+    defaultRatio: PropTypes.shape({
+      length: PropTypes.number,
+      width: PropTypes.number,
+    }),
+    entryPoints: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      connectedDate: PropTypes.shape({
+        domain: PropTypes.string,
+        formula: PropTypes.string,
+        timeline: PropTypes.string,
+        filter: PropTypes.arrayOf(PropTypes.shape({
+          field: PropTypes.string,
+          operand: PropTypes.string,
+          operator: PropTypes.string,
+        })),
+      }),
+    })),
+  }),
   closeEditor: PropTypes.func,
 };
 

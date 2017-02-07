@@ -3,12 +3,13 @@ import _get from 'lodash/get';
 import _memoize from 'lodash/memoize';
 import classnames from 'classnames';
 import getLogger from 'common/log';
-import PlotViewComp from '../../../VIVL/PlotView/window/PlotViewContainer';
-import TextViewComp from '../../../VIVL/TextView/window/TextViewContainer';
-import DynamicViewComp from '../../../VIVL/DynamicView/window/DynamicViewContainer';
 import ViewHeader from './Header';
-import UnknownView from './UnknownView';
 import MessagesContainer from './MessagesContainer';
+import PlotViewComp from './PlotView/PlotViewContainer';
+import TextViewComp from './TextView/TextViewContainer';
+import DynamicViewComp from './DynamicView/DynamicViewContainer';
+import UnknownView from './UnknownView';
+
 import styles from './View.css';
 
 const logger = getLogger('View');

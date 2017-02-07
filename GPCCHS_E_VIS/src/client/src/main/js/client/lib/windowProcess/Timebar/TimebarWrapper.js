@@ -1,6 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
-import _debounce from 'lodash/debounce';
 import { Button } from 'react-bootstrap';
 import getLogger from 'common/log';
 import styles from './Timebar.css';
@@ -91,16 +90,14 @@ export default class TimebarWrapper extends PureComponent {
   }
 
   resizeWindow = (e) => {
+    e.stopPropagation();
     this.setState({
       resizingWindow: true,
       cursorOriginY: e.pageY,
-      heightOrigin: this.el.clientHeight,
-      height: this.el.clientHeight,
+      heightOrigin: this.props.timebarHeight,
     });
-
     document.addEventListener('mousemove', this.resizeWindowMouseMove);
     document.addEventListener('mouseup', this.resizeWindowMouseUp);
-    e.stopPropagation();
   }
 
   resizeWindowMouseMove = (e) => {
@@ -108,29 +105,26 @@ export default class TimebarWrapper extends PureComponent {
     e.stopPropagation();
     if (this.state.resizingWindow) {
       const movedPx = this.state.cursorOriginY - e.pageY;
-      let newTimebarHeight = this.state.heightOrigin + movedPx;
+      let newTimebarHeight = this.state.heightOrigin + (movedPx * 1.3);
       newTimebarHeight = newTimebarHeight < minTimebarHeight ? minTimebarHeight : newTimebarHeight;
-      this.el.style.height = `${newTimebarHeight}px`;
-
-      if (!this.updateTimebarHeightdebounce) {
-        this.updateTimebarHeightdebounce = _debounce(this.willUpdateTimebarHeight, 300);
-      }
-      this.updateTimebarHeightdebounce(newTimebarHeight);
+      this.timebarHeight = newTimebarHeight;
+      this.el.style.flexBasis = `${this.timebarHeight}px`;
     }
   }
 
-  willUpdateTimebarHeight = (timebarHeight) => {
-    this.props.updateTimebarHeight(
-      this.props.focusedPageId,
-      timebarHeight
-    );
-  }
-
   resizeWindowMouseUp = (e) => {
+    e.preventDefault();
+    const {
+      updateTimebarHeight,
+      focusedPageId,
+    } = this.props;
     document.removeEventListener('mousemove', this.resizeWindowMouseMove);
     document.removeEventListener('mouseup', this.resizeWindowMouseUp);
     this.setState({ resizingWindow: false });
-    e.preventDefault();
+    updateTimebarHeight(
+      focusedPageId,
+      this.timebarHeight
+    );
   }
 
   toggleTimesetter = (e) => {
@@ -161,9 +155,9 @@ export default class TimebarWrapper extends PureComponent {
       timebar,
       slideWindow,
       focusedPageId,
-      timebarHeight,
       timebarCollapsed,
       collapseTimebar,
+      timebarHeight,
     } = this.props;
     const {
       displayTimesetter,
@@ -211,8 +205,7 @@ export default class TimebarWrapper extends PureComponent {
       <div
         ref={this.assignEl}
         style={{
-          flex: '0 0 auto',
-          height: `${timebarHeight || minTimebarHeight}px`,
+          flexBasis: `${timebarHeight || minTimebarHeight}px`,
           background: '#FAFAFA',
           borderTop: '1px solid #aaa',
           zIndex: '2',

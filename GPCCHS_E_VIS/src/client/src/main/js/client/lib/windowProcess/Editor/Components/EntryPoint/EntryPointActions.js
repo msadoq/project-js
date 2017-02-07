@@ -16,8 +16,8 @@ export default class EntryPointActions extends React.Component {
     /*
       changeSearch prend en parametre le filtre (chaine de caractères) à appliquer.
     */
-    changeSearch: PropTypes.func,
-    addEntryPoint: PropTypes.func,
+    changeSearch: PropTypes.func.isRequired,
+    addEntryPoint: PropTypes.func.isRequired,
   }
 
   state = {

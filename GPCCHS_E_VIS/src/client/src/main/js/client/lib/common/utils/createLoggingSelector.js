@@ -12,7 +12,7 @@ function diff(a, b) {
     // If it's an array, the whole thing should be replaced
     if (Array.isArray(v)) {
       r[k] = v;
-      return v;
+      return;
     }
 
     // Using a temp variable for the object diff recursion means we can omit empty objects

@@ -1,5 +1,15 @@
+import { UNKNOWN_SESSION_ID } from 'common/constants';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
 
-// eslint-disable-next-line import/prefer-default-export
 export const updateMasterSession = simple(types.HSS_UPDATE_MASTER_SESSION, 'masterSessionOid');
+
+// TODO test
+export const updateMasterSessionIfNeeded = (masterSessionOid) => (dispatch) => {
+  if (masterSessionOid === UNKNOWN_SESSION_ID) {
+    return;
+  }
+
+  // set master session id only if exists
+  dispatch(updateMasterSession(masterSessionOid));
+};

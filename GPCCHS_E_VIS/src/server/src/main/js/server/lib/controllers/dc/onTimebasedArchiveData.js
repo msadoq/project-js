@@ -52,18 +52,18 @@ module.exports = (
   execution.start('register query');
   const remoteId = getRegisteredQuery(queryId);
   if (typeof remoteId === 'undefined') {
-    return undefined;
+    return;
   }
   logger.silly('received data from query', queryId);
   execution.stop('register query');
 
   // deprotobufferize isLast
   execution.start('decode isLast');
-  const isLast = protobufTrue.equals(isLastBuffer);
+  const endOfQuery = protobufTrue.equals(isLastBuffer);
   execution.stop('decode isLast');
 
   // if last chunk of data, set interval as received in connectedData model and unregister queryId
-  if (isLast) {
+  if (endOfQuery) {
     logger.silly('last chunk of queried timebased data', queryId);
     execution.start('set interval as received');
     connectedDataModel.setIntervalAsReceived(remoteId, queryId);
@@ -87,19 +87,20 @@ module.exports = (
   // check payloads parity
   if (payloadBuffers.length % 2 !== 0) {
     logger.silly('payloads should be sent by (timestamp, payloads) peers');
-    return undefined;
+    return;
   }
 
   // prevent receiving more than 1000 payloads at one time (avoid Maximum call stack size exceeded)
-  const payloadNumber = payloadBuffers.length / 2;
-  if (payloadNumber > HSS_MAX_PAYLOADS_PER_MESSAGE) {
+  const payloadCount = payloadBuffers.length / 2;
+  if (payloadCount > HSS_MAX_PAYLOADS_PER_MESSAGE) {
     // TODO send error to client
     execution.stop(
       'global',
-      `${dataId.parameterName} message ignored, too many payloads: ${payloadNumber}`
+      `${dataId.parameterName} message ignored, too many payloads: ${payloadCount}`
     );
     execution.print();
-    return logger.warn(`message ignored, too many payloads: ${payloadNumber}`);
+    logger.warn(`message ignored, too many payloads: ${payloadCount}`);
+    return;
   }
 
   // retrieve cache collection
@@ -108,13 +109,13 @@ module.exports = (
   execution.stop('retrieve store');
 
   // only one loop to decode, insert in cache, and add to queue
-  return eachSeries(_chunk(payloadBuffers, 2), (payloadBuffer, callback) => {
+  eachSeries(_chunk(payloadBuffers, 2), (payloadBuffer, callback) => {
     execution.start('decode payloads');
     const timestamp = decode('dc.dataControllerUtils.Timestamp', payloadBuffer[0]).ms;
     const payload = decode(payloadProtobufType, payloadBuffer[1]);
     execution.stop('decode payloads');
 
-    loggerData.debug({
+    loggerData.silly({
       controller: 'onTimebasedArchiveData',
       remoteId,
       rawValue: payload.rawValue,
@@ -133,7 +134,12 @@ module.exports = (
     execution.stop('queue payloads');
     callback(null);
   }, () => {
-    logger.silly(`inserted ${payloadNumber} payloads`);
+    loggerData.debug({
+      controller: 'onTimebasedArchiveData',
+      remoteId,
+      payloadCount,
+      endOfQuery,
+    });
 
     // if HSS is a forked process, in e2e tests for example
     if (process.send) {
@@ -149,7 +155,7 @@ module.exports = (
       }
     }
 
-    execution.stop('global', `${dataId.parameterName}: ${payloadNumber} payloads`);
+    execution.stop('global', `${dataId.parameterName}: ${payloadCount} payloads`);
     execution.print();
   });
 };

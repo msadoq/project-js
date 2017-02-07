@@ -1,31 +1,40 @@
 const winston = require('winston');
 const wCommon = require('winston/lib/winston/common');
-const _ = require('lodash/fp');
-const { parseConfig } = require('./util');
+const _isEmpty = require('lodash/fp/isEmpty');
+const _pipe = require('lodash/fp/pipe');
+const _update = require('lodash/fp/update');
+const _dissoc = require('lodash/fp/dissoc');
+const _omit = require('lodash/fp/omit');
+const _path = require('lodash/fp/path');
+const _noop = require('lodash/fp/noop');
+const _cond = require('lodash/fp/cond');
+const _isArray = require('lodash/fp/isArray');
+const _stubTrue = require('lodash/fp/stubTrue');
+const _map = require('lodash/fp/map');
+const _constant = require('lodash/fp/constant');
+const _prop = require('lodash/fp/prop');
+const _propOr = require('lodash/fp/propOr');
 
 const {
+  parseConfig,
   getTimer,
   bytesConverter,
 } = require('./util');
 const { get } = require('../parameters');
-
-const {
-  LOG_LOCAL_FILENAME,
-} = require('../constants');
 
 winston.cli();
 
 const DEFAULT_TRANSPORTS = '';
 
 function getConfig() {
-  return _.isEmpty(get('LOG')) ? DEFAULT_TRANSPORTS : get('LOG');
+  return _isEmpty(get('LOG')) ? DEFAULT_TRANSPORTS : get('LOG');
 }
 
 // Remove process data info to pretty log into stdout
-const getStdOptions = options => (_.pipe(
-  _.update('message', m => `${m} +${options.meta.time}`),
-  _.dissoc('formatter'),
-  _.update('meta', _.omit(['pname', 'pid', 'time']))
+const getStdOptions = options => (_pipe(
+  _update('message', m => `${m} +${options.meta.time}`),
+  _dissoc('formatter'),
+  _update('meta', _omit(['pname', 'pid', 'time']))
 )(options));
 
 const leftPad = number => ((number < 10) ? `0${number}` : number);
@@ -35,8 +44,8 @@ const formatTime = (now) => {
   return time;
 };
 
-const getMonitoringOptions = options => (_.pipe(
-  _.update('message', () =>
+const getMonitoringOptions = options => (_pipe(
+  _update('message', () =>
 `[${options.meta.pname}(pid=${options.meta.pid})]
 = monitoring ======== (${formatTime(new Date(options.meta.latency.time))})
 average time consumption by loop ${options.meta.latency.avg}
@@ -46,8 +55,8 @@ memory consumption
   heapUsed=${bytesConverter(options.meta.memUsage.heapUsed)}
 =====================`
   ),
-  _.dissoc('formatter'),
-  _.update('meta', _.omit(['memUsage', 'latency', 'pname', 'pid', 'time']))
+  _dissoc('formatter'),
+  _update('meta', _omit(['memUsage', 'latency', 'pname', 'pid', 'time']))
 )(options));
 
 let cpt = 0;
@@ -60,7 +69,7 @@ const availableTransports = {
       colorize: true,
       name: `console ${cpt += 1}`,
       formatter: (options) => {
-        if (_.path(['meta', 'memUsage'], options)) {
+        if (_path(['meta', 'memUsage'], options)) {
           return wCommon.log(getMonitoringOptions(options));
         }
         return wCommon.log(getStdOptions(options));
@@ -69,7 +78,7 @@ const availableTransports = {
   // eslint-disable-next-line no-return-assign
   file: args => new winston.transports.File(
     Object.assign({
-      filename: LOG_LOCAL_FILENAME,
+      filename: get('LOG_FILENAME'),
       timestamp: true,
       level: 'info',
       json: false,
@@ -99,12 +108,12 @@ const getProcessId = ({ pid }) => pid || process.pid;
 const getProcessLabel = meta => `[${getProcessName(meta)}(${getProcessId(meta)})]`;
 
 const getNoOpTransport = () => ({
-  error: _.noop,
-  warn: _.noop,
-  info: _.noop,
-  verbose: _.noop,
-  debug: _.noop,
-  silly: _.noop,
+  error: _noop,
+  warn: _noop,
+  info: _noop,
+  verbose: _noop,
+  debug: _noop,
+  silly: _noop,
 });
 
 // Create a Winston logger, that contains their own transports (console, http, file, ...)
@@ -118,9 +127,9 @@ function getLogger(category, enabledTransports) {
   const config = parseConfig(getConfig());
 
   const transports = getTransports(
-    _.cond([
-      [_.isArray, _.map(k => ({ type: k }))],
-      [_.stubTrue, _.constant(config)],
+    _cond([
+      [_isArray, _map(k => ({ type: k }))],
+      [_stubTrue, _constant(config)],
     ])(enabledTransports)
   );
 
@@ -139,12 +148,12 @@ function getLogger(category, enabledTransports) {
   // If filter is defined, category must match filter regular expression
   transports.forEach((t) => {
     const transportConfig = config.filter(c => c.type === t.constructor.prototype.name)[0];
-    const params = _.prop('params', transportConfig);
+    const params = _prop('params', transportConfig);
     if (!params) {
       return;
     }
-    const include = _.prop('include', params);
-    const exclude = _.propOr('(?=a)b', 'exclude', params);
+    const include = _prop('include', params);
+    const exclude = _propOr('(?=a)b', 'exclude', params);
     const log = t.constructor.prototype.log;
 
     // eslint-disable-next-line no-param-reassign

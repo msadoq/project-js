@@ -1,15 +1,14 @@
 import _round from 'lodash/round';
 import { series } from 'async';
+import { get } from 'common/parameters';
 import {
-  HSC_ORCHESTRATION_FREQUENCY,
   HSC_ORCHESTRATION_WARNING_STEP,
   HSC_ORCHESTRATION_CRITICAL_STEP,
   HEALTH_STATUS_HEALTHY,
   HEALTH_STATUS_WARNING,
   HEALTH_STATUS_CRITICAL,
-  HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN,
-  CACHE_INVALIDATION_FREQUENCY,
   IPC_METHOD_CACHE_CLEANUP,
+  HSC_CRITICAL_SWITCH_PAUSE_DELAY,
 } from 'common/constants';
 import executionMonitor from 'common/log/execution';
 import getLogger from 'common/log';
@@ -26,11 +25,12 @@ import { updateViewData } from '../store/actions/viewData';
 import { handlePlay } from '../store/actions/timebars';
 import { updateHealth, updateMainStatus } from '../store/actions/health';
 
-const logger = getLogger('main:orchestration');
+let logger;
 
 let nextTick = null;
 let lastTick = null;
 let tickStart = null;
+let criticalTimeout = null;
 const previous = {
   state: {},
   dataMap: { perRemoteId: {}, perView: {} },
@@ -41,7 +41,7 @@ const previous = {
 export function schedule() {
   clear(); // avoid concurrency
   // schedule next tick
-  nextTick = setTimeout(tick, HSC_ORCHESTRATION_FREQUENCY);
+  nextTick = setTimeout(tick, get('ORCHESTRATION_FREQUENCY'));
 }
 
 export function clear() {
@@ -53,12 +53,41 @@ export function clear() {
   nextTick = null;
 }
 
+export function clearCritical() {
+  if (!criticalTimeout) {
+    return;
+  }
+
+  clearTimeout(criticalTimeout);
+  criticalTimeout = null;
+}
+
+export function onCritical() {
+  const { getState, dispatch } = getStore();
+  const state = getState();
+  const isPlaying = !!getPlayingTimebarId(state);
+
+  if (isPlaying) {
+    const delay = HSC_CRITICAL_SWITCH_PAUSE_DELAY / 1000;
+    logger.warn(`application performance critically low for ${delay}s, switching to pause`);
+    dispatch(addOnce(
+      'global',
+      'danger',
+      `Important slow-down detected for ${delay}s, application have switched to pause`
+    ));
+    dispatch(pause());
+  }
+}
+
 export function start() {
+  logger = getLogger('main:orchestration');
   schedule();
 }
 
 export function stop() {
   clear();
+  clearCritical();
+
   previous.state = {};
   previous.dataMap = { perRemoteId: {}, perView: {} };
   previous.lastRequestedDataMap = {};
@@ -74,6 +103,8 @@ export function tick() {
   const execution = executionMonitor('orchestration');
   execution.reset();
   execution.start('global');
+
+  // ticker
   tickStart = process.hrtime();
   let skipThisTick = false;
 
@@ -89,42 +120,66 @@ export function tick() {
     const lastTickTime = lastTick;
     lastTick = Date.now();
     const delta = lastTick - lastTickTime;
-    dispatch(handlePlay(delta, HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN));
+    dispatch(handlePlay(delta, get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN')));
     execution.stop('play handling');
   }
 
   // retrieve state (after handlePlay dispatch) to works on an updated state
   const state = getState();
 
-  // health
-  const { status, criticals } = getAppStatus(state);
-  if (previous.lastAppStatus !== status) {
-    previous.lastAppStatus = status;
-    logger.info(`New health status ${previous.lastAppStatus}==>${status}`);
-    if (status === HEALTH_STATUS_WARNING) {
-      skipThisTick = true;
-    } else if (status === HEALTH_STATUS_CRITICAL) {
-      skipThisTick = true;
-      const isPlaying = !!getPlayingTimebarId(state);
-      if (isPlaying) {
-        dispatch(addOnce(
-          'global',
-          'danger',
-          `Application have detected an important slow-down and switched to pause (${criticals.join(', ')})`
-        ));
-        dispatch(pause());
-      }
-    } else {
-      dispatch(addOnce('Application went back to healthy state'));
-    }
-  }
-
-
   // something has changed
   const somethingHasChanged = state !== previous.state;
   let dataMap = previous.dataMap;
 
   series([
+    // health
+    (callback) => {
+      const { status, criticals } = getAppStatus(state);
+
+      // log each transition
+      if (previous.lastAppStatus !== status) {
+        logger.debug(`new health status ${previous.lastAppStatus}==>${status}`);
+      }
+
+      // transition from other to critical
+      if (previous.lastAppStatus !== HEALTH_STATUS_CRITICAL && status === HEALTH_STATUS_CRITICAL) {
+        logger.debug('schedule switch to pause action due to critical slow-down level', criticals);
+        criticalTimeout = setTimeout(onCritical, HSC_CRITICAL_SWITCH_PAUSE_DELAY);
+      }
+      // avoid switching to pause if now app is healthy
+      if (status === HEALTH_STATUS_HEALTHY || status === HEALTH_STATUS_WARNING) {
+        logger.silly('cancel switch to pause action, slow-down was reduced');
+        clearCritical();
+      }
+      // skip the tick if app is warning or critical
+      if (status === HEALTH_STATUS_WARNING || status === HEALTH_STATUS_CRITICAL) {
+        logger.debug('slow-down detected, skipping current tick');
+        skipThisTick = true;
+      }
+
+      previous.lastAppStatus = status;
+      callback(null);
+    },
+    // cache invalidation
+    (callback) => {
+      if (skipThisTick) {
+        callback(null);
+        return;
+      }
+
+      const now = Date.now();
+      const lastCacheInvalidation = getLastCacheInvalidation(state);
+      if (now - lastCacheInvalidation >= get('CACHE_INVALIDATION_FREQUENCY')) {
+        execution.start('cache invalidation');
+        dispatch(updateCacheInvalidation(now)); // schedule next run
+        server.message(IPC_METHOD_CACHE_CLEANUP, dataMap.perRemoteId);
+        execution.stop('cache invalidation');
+
+        logger.debug('cache invalidation requested, skipping current tick');
+        skipThisTick = true;
+      }
+      callback(null);
+    },
     // data map
     (callback) => {
       if (skipThisTick || !somethingHasChanged) {
@@ -140,12 +195,9 @@ export function tick() {
     },
     // request data
     (callback) => {
-      if (skipThisTick) {
+      if (skipThisTick || dataMap.perRemoteId === previous.lastRequestedDataMap) {
         callback(null);
         return;
-      }
-      if (dataMap.perRemoteId === previous.lastRequestedDataMap) {
-        return callback(null);
       }
 
       execution.start('data requests');
@@ -180,22 +232,6 @@ export function tick() {
         callback(null);
       });
     },
-    // cache invalidation
-    (callback) => {
-      if (skipThisTick) {
-        callback(null);
-        return;
-      }
-
-      const lastCacheInvalidation = getLastCacheInvalidation(state);
-      if (Date.now() - lastCacheInvalidation >= CACHE_INVALIDATION_FREQUENCY) {
-        execution.start('cache invalidation');
-        dispatch(updateCacheInvalidation(Date.now())); // schedule next run
-        server.message(IPC_METHOD_CACHE_CLEANUP, dataMap.perRemoteId);
-        execution.stop('cache invalidation');
-      }
-      callback(null);
-    },
     // sync windows
     (callback) => {
       if (!windowsHasChanged) {
@@ -221,8 +257,8 @@ export function tick() {
         callback(null);
       });
     },
+    // too long tick
     (callback) => {
-      // too long tick
       const duration = process.hrtime(tickStart);
       const durationMs = (duration[0] * 1e3) + _round(duration[1] / 1e6, 6);
 

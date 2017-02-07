@@ -34,7 +34,7 @@ export default class FiltersFields extends React.Component {
       (fieldLength && operandLength) ||
       (!fieldLength && !operandLength)
     )) {
-      return this.setState({
+      this.setState({
         error: null,
       });
     } else if (!error && (!fieldLength || !operandLength)) {
@@ -83,7 +83,7 @@ export default class FiltersFields extends React.Component {
       filter.operator,
       filter.operand
     );
-    this.setState({ editingIndex: index });
+    return this.setState({ editingIndex: index });
   }
 
   removeFilter = (index) => {

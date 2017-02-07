@@ -141,7 +141,7 @@ export function open(windowId, title, data, cb) {
   window.on('move', saveGeometry);
   window.on('resize', saveGeometry);
 
-  if (process.env.NODE_ENV === 'development') {
+  if (parameters.get('DEBUG') === 'on') {
     window.openDevTools();
   }
 }

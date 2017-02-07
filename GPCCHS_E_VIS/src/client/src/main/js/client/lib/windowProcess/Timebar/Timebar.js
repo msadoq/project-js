@@ -1,12 +1,15 @@
 import moment from 'moment';
+import { get } from 'common/parameters';
 import _debounce from 'lodash/debounce';
+import _throttle from 'lodash/throttle';
 import classnames from 'classnames';
 import React, { PureComponent, PropTypes } from 'react';
-import globalConstants from 'common/constants';
+
 import styles from './Timebar.css';
 import Scale from './Scale';
 import TimebarTimeline from './TimebarTimeline';
 
+const VISUWINDOW_MAX_LENGTH = get('VISUWINDOW_MAX_LENGTH');
 // 1980-01-01
 const minViewportLower = 315532800000;
 // 2040-01-01
@@ -386,8 +389,8 @@ export default class Timebar extends PureComponent {
     if (resizeCursor === 'lower') {
       let newSlideLower = slideLower;
       // Max length
-      if (upper - cursorPosMs > globalConstants.HSC_VISUWINDOW_MAX_LENGTH) {
-        cursorPosMs = upper - globalConstants.HSC_VISUWINDOW_MAX_LENGTH;
+      if (upper - cursorPosMs > VISUWINDOW_MAX_LENGTH) {
+        cursorPosMs = upper - VISUWINDOW_MAX_LENGTH;
       }
       if (cursorPosMs > current) cursorPosMs = current;
       if (cursorPosMs < viewportLower) cursorPosMs = viewportLower;
@@ -403,8 +406,8 @@ export default class Timebar extends PureComponent {
     } else if (resizeCursor === 'upper') {
       let newSlideUpper = slideUpper;
       // Max length
-      if (cursorPosMs - lower > globalConstants.HSC_VISUWINDOW_MAX_LENGTH) {
-        cursorPosMs = lower + globalConstants.HSC_VISUWINDOW_MAX_LENGTH;
+      if (cursorPosMs - lower > VISUWINDOW_MAX_LENGTH) {
+        cursorPosMs = lower + VISUWINDOW_MAX_LENGTH;
       }
       if (cursorPosMs < current) cursorPosMs = current;
       if (cursorPosMs > viewportUpper) cursorPosMs = viewportUpper;
@@ -424,8 +427,8 @@ export default class Timebar extends PureComponent {
     // slideWindow.upper cursor
     } else if (resizeCursor === 'slideUpper') {
       // Max length
-      if (cursorPosMs - lower > globalConstants.HSC_VISUWINDOW_MAX_LENGTH) {
-        cursorPosMs = lower + globalConstants.HSC_VISUWINDOW_MAX_LENGTH;
+      if (cursorPosMs - lower > VISUWINDOW_MAX_LENGTH) {
+        cursorPosMs = lower + VISUWINDOW_MAX_LENGTH;
       }
       if (timebarMode === 'Extensible' && cursorPosMs < upper) cursorPosMs = upper;
       if (timebarMode === 'Fixed' && cursorPosMs > upper) cursorPosMs = upper;
@@ -602,7 +605,7 @@ export default class Timebar extends PureComponent {
       slideLower += coeff * ((cursorMs - slideLower) / 5);
       slideUpper += coeff * ((cursorMs - slideUpper) / 5);
 
-      if (upper - lower > globalConstants.HSC_VISUWINDOW_MAX_LENGTH) {
+      if (upper - lower > VISUWINDOW_MAX_LENGTH) {
         return;
       }
 
@@ -720,14 +723,23 @@ export default class Timebar extends PureComponent {
   }
 
   hideCursorTime = () => {
-    this.props.retrieveFormattedFullDateEl().innerHTML = '';
+    setTimeout(() => {
+      this.props.retrieveFormattedFullDateEl().innerHTML = '';
+    }, 150);
   }
 
-  updateCursorTime = (e) => {
+  willUpdateCursorTime = (e) => {
     e.stopPropagation();
+    if (!this.cursorTimeThrottle) {
+      this.cursorTimeThrottle = _throttle(this.updateCursorTime, 100);
+    }
+    this.cursorTimeThrottle(e.pageX);
+  }
+
+  updateCursorTime = (pageX) => {
     const { retrieveFormattedFullDateEl, widthPx } = this.props;
     const { lower, upper } = this.props.viewport;
-    const offsetPx = e.pageX - this.el.getBoundingClientRect().left;
+    const offsetPx = pageX - this.el.getBoundingClientRect().left;
     const cursorMs = lower + ((upper - lower) * (offsetPx / widthPx));
     this.setState({ cursorMs });
     retrieveFormattedFullDateEl().innerHTML = moment(cursorMs).format('D MMMM YYYY HH[:]mm[:]ss[.]SSS');
@@ -1041,7 +1053,7 @@ export default class Timebar extends PureComponent {
       <div
         className={styles.viewportWrapper}
         ref={this.assignEl}
-        onMouseMove={this.updateCursorTime}
+        onMouseMove={this.willUpdateCursorTime}
         onMouseLeave={this.hideCursorTime}
       >
         <div

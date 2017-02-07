@@ -7,12 +7,36 @@ import '!style!css!react-select/dist/react-select.css';
 
 export default class ReactSelectField extends React.Component {
   static propTypes = {
-    input: PropTypes.object.isRequired,
+    input: PropTypes.shape({
+      name: PropTypes.string,
+      value: PropTypes.string,
+      onChange: PropTypes.func,
+      onBlur: PropTypes.func,
+    }).isRequired,
     placeholder: PropTypes.string,
-    className: PropTypes.string,
-    free: PropTypes.bool,
-    options: PropTypes.array,
-    meta: PropTypes.object,
+    className: PropTypes.string.isRequired,
+    free: PropTypes.bool.isRequired,
+    options: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string,
+    })).isRequired,
+    meta: PropTypes.shape({
+      active: PropTypes.bool,
+      asyncValidating: PropTypes.bool,
+      autofilled: PropTypes.bool,
+      dirty: PropTypes.bool,
+      invalid: PropTypes.bool,
+      pristine: PropTypes.bool,
+      submitFailed: PropTypes.bool,
+      submitting: PropTypes.bool,
+      touched: PropTypes.bool,
+      visited: PropTypes.bool,
+      valid: PropTypes.bool,
+    }).isRequired,
+  }
+
+  static defaultProps = {
+    placeholder: '',
   }
 
   onChange = (event) => {

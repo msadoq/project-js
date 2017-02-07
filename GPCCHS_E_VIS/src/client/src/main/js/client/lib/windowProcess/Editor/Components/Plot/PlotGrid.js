@@ -28,12 +28,12 @@ class PlotGrid extends React.Component {
         size: PropTypes.number,
       }),
     }).isRequired,
-    axes: PropTypes.object,
-    handleSubmit: PropTypes.func,
-    pristine: PropTypes.bool,
-    reset: PropTypes.func,
-    submitting: PropTypes.bool,
-    valid: PropTypes.bool,
+    axes: PropTypes.shape({}).isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    pristine: PropTypes.bool.isRequired,
+    reset: PropTypes.func.isRequired,
+    submitting: PropTypes.bool.isRequired,
+    valid: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {

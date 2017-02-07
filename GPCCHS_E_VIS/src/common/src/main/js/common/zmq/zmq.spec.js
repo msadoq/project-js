@@ -1,4 +1,4 @@
-require('../utils/test');
+const { should } = require('../utils/test');
 const zmq = require('./');
 
 describe('io/zmq', () => {
@@ -80,7 +80,7 @@ describe('io/zmq', () => {
       let n = 0;
       return (msg) => {
         msg.should.be.an.instanceof(Buffer);
-        switch (n++) { // eslint-disable-line default-case
+        switch (n) {
           case 0:
             msg.toString().should.equal('foo');
             break;
@@ -91,7 +91,11 @@ describe('io/zmq', () => {
             msg.toString().should.equal('baz');
             done();
             break;
+          default:
+            should.fail();
+            break;
         }
+        n += 1;
       };
     };
     it('successive messages', (done) => {

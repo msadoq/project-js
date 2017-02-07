@@ -1,37 +1,39 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import { Modal } from 'react-bootstrap';
 import classnames from 'classnames';
 
-export default class ModalComponent extends Component {
+const ModalComponent = props => (
+  <div className="modal-container">
+    <Modal show={props.isOpened} onHide={props.onClose}>
+      <Modal.Header>
+        <Modal.Title>{props.title}</Modal.Title>
+        <button
+          className={classnames(
+            'btn-sm',
+            'btn',
+            'btn-danger',
+            'btn-close'
+          )}
+          onClick={props.onClose}
+        >
+          x
+        </button>
+      </Modal.Header>
+      <Modal.Body>
+        { props.children }
+      </Modal.Body>
+    </Modal>
+  </div>
+);
+ModalComponent.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  isOpened: PropTypes.bool,
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node,
+};
+ModalComponent.defaultProps = {
+  isOpened: false,
+  children: null,
+};
 
-  static propTypes = {
-    onClose: PropTypes.func.isRequired,
-    isOpened: PropTypes.bool,
-    title: PropTypes.string.isRequired,
-    children: PropTypes.node,
-  }
-
-  render() {
-    return (
-      <div className="modal-container">
-        <Modal show={this.props.isOpened} onHide={this.props.onClose}>
-          <Modal.Header>
-            <Modal.Title>{this.props.title}</Modal.Title>
-            <button
-              className={classnames(
-                'btn-sm',
-                'btn',
-                'btn-danger',
-                'btn-close'
-              )}
-              onClick={this.props.onClose}
-            >x</button>
-          </Modal.Header>
-          <Modal.Body>
-            { this.props.children }
-          </Modal.Body>
-        </Modal>
-      </div>
-    );
-  }
-}
+export default ModalComponent;

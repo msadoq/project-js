@@ -19,15 +19,31 @@ import './CodeMirrorField.css';
 
 export default class CodeMirrorField extends React.Component {
   static propTypes = {
-    input: PropTypes.object.isRequired,
-    autocompleteList: PropTypes.array,
-    className: PropTypes.string,
-    meta: PropTypes.object,
-    options: PropTypes.object,
+    input: PropTypes.shape({
+      name: PropTypes.string,
+      value: PropTypes.string,
+    }).isRequired,
+    autocompleteList: PropTypes.arrayOf(PropTypes.string),
+    className: PropTypes.string.isRequired,
+    meta: PropTypes.shape({
+      active: PropTypes.bool,
+      asyncValidating: PropTypes.bool,
+      autofilled: PropTypes.bool,
+      dirty: PropTypes.bool,
+      invalid: PropTypes.bool,
+      pristine: PropTypes.bool,
+      submitFailed: PropTypes.bool,
+      submitting: PropTypes.bool,
+      touched: PropTypes.bool,
+      visited: PropTypes.bool,
+      valid: PropTypes.bool,
+    }).isRequired,
+    options: PropTypes.shape({}),
   }
 
   static defaultProps = {
     autocompleteList: [],
+    options: {},
   }
 
   componentDidMount() {

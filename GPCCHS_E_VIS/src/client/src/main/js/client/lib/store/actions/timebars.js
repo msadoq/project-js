@@ -1,9 +1,9 @@
 import { v4 } from 'uuid';
 import _get from 'lodash/get';
-import globalConstants from 'common/constants';
+import { get } from 'common/parameters';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
-import { nextCurrent, computeCursors } from '../../mainProcess/play';
+import { nextCurrent, computeCursors } from '../play';
 import {
   addOnce as addMessage,
   reset as resetMessages,
@@ -17,6 +17,9 @@ import {
 import { pause, play } from './hsc';
 import { getTimebar } from '../selectors/timebars';
 import { getPlayingTimebarId } from '../selectors/hsc';
+
+const VISUWINDOW_MAX_LENGTH = get('VISUWINDOW_MAX_LENGTH');
+const VISUWINDOW_CURRENT_UPPER_MIN_MARGIN = get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN');
 
 /**
  * Simple actions
@@ -196,9 +199,9 @@ export function goNow(timebarUuid, masterSessionIdCurrentTime) {
     const vw = timebar.visuWindow;
     const msWidth = vw.upper - vw.lower;
     const newLower = masterSessionIdCurrentTime -
-      ((1 - globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN) * msWidth);
+      ((1 - VISUWINDOW_CURRENT_UPPER_MIN_MARGIN) * msWidth);
     const newUpper = masterSessionIdCurrentTime +
-      (globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN * msWidth);
+      (VISUWINDOW_CURRENT_UPPER_MIN_MARGIN * msWidth);
     dispatch(
       updateCursors(
         timebarUuid,
@@ -268,9 +271,9 @@ export function switchToRealtimeMode(timebarUuid, masterSessionIdCurrentTime) {
     const { visuWindow } = timebar;
     const msWidth = visuWindow.upper - visuWindow.lower;
     const newLower = masterSessionIdCurrentTime -
-      ((1 - globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN) * msWidth);
+      ((1 - VISUWINDOW_CURRENT_UPPER_MIN_MARGIN) * msWidth);
     const newUpper = masterSessionIdCurrentTime +
-      (globalConstants.HSC_VISUWINDOW_CURRENT_UPPER_MIN_MARGIN * msWidth);
+      (VISUWINDOW_CURRENT_UPPER_MIN_MARGIN * msWidth);
     dispatch(
       updateCursors(
         timebarUuid,
@@ -306,8 +309,8 @@ export function switchToExtensibleMode(timebarUuid) {
     const { visuWindow, slideWindow } = timebar;
     if (slideWindow.upper < visuWindow.upper) {
       let newSlideUpper = visuWindow.upper + ((visuWindow.upper - visuWindow.lower) / 4);
-      if (newSlideUpper - visuWindow.lower > globalConstants.HSC_VISUWINDOW_MAX_LENGTH) {
-        newSlideUpper = visuWindow.lower + globalConstants.HSC_VISUWINDOW_MAX_LENGTH;
+      if (newSlideUpper - visuWindow.lower > VISUWINDOW_MAX_LENGTH) {
+        newSlideUpper = visuWindow.lower + VISUWINDOW_MAX_LENGTH;
       }
       dispatch(
         updateCursors(

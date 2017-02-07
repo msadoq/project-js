@@ -8,9 +8,7 @@ import Dimensions from 'react-dimensions';
 import { format } from 'd3-format';
 import { scaleTime } from 'd3-scale';
 import getLogger from 'common/log';
-import {
-  DEFAULT_FIELD,
-} from 'common/constants';
+import { get } from 'common/parameters';
 import {
   ChartCanvas, Chart, series, annotation,
   coordinates, axes as StockchartsAxes, tooltip,
@@ -18,7 +16,7 @@ import {
   // interactive
 } from 'react-stockcharts';
 
-import getDynamicObject from '../../../lib/windowProcess/common/getDynamicObject';
+import getDynamicObject from '../../common/getDynamicObject';
 import {
   getLines,
   getLineMarker,
@@ -29,11 +27,11 @@ import {
   drawBadge,
   zoomDateFormat,
 } from './helper';
-import { stateColors } from '../../../lib/windowProcess/common/colors';
-import DroppableContainer from '../../../lib/windowProcess/common/DroppableContainer';
-import { Danger } from '../../../lib/windowProcess/View/Alert';
+import { stateColors } from '../../common/colors';
+import DroppableContainer from '../../common/DroppableContainer';
+import { Danger } from '../Alert';
 import styles from './PlotView.css';
-import { getEntryPointColorObj } from '../../../lib/store/selectors/views';
+import { getEntryPointColorObj } from '../../../store/selectors/views';
 
 const logger = getLogger('view:plot');
 
@@ -70,7 +68,7 @@ function parseDragData(data) {
       formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.groundDate`,
     },
     connectedDataY: {
-      formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.${DEFAULT_FIELD}`,
+      formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.${get('DEFAULT_FIELD')}`,
     },
   };
 }
@@ -92,10 +90,41 @@ export class PlotView extends PureComponent {
       lower: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
       current: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
       upper: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
-    }),
-    viewId: PropTypes.string,
-    addEntryPoint: PropTypes.func,
-    entryPoints: PropTypes.array,
+    }).isRequired,
+    viewId: PropTypes.string.isRequired,
+    addEntryPoint: PropTypes.func.isRequired,
+    entryPoints: PropTypes.arrayOf(PropTypes.shape({
+      connectedDataX: PropTypes.shape({
+        axisId: PropTypes.string,
+        digits: PropTypes.number,
+        domain: PropTypes.string,
+        filter: PropTypes.arrayOf(PropTypes.shape({
+          field: PropTypes.string,
+          operand: PropTypes.string,
+          operator: PropTypes.string,
+        })),
+        format: PropTypes.string,
+        formula: PropTypes.string,
+        timeline: PropTypes.string,
+        unit: PropTypes.string,
+      }),
+      connectedDataY: PropTypes.shape({
+        axisId: PropTypes.string,
+        digits: PropTypes.number,
+        domain: PropTypes.string,
+        filter: PropTypes.arrayOf(PropTypes.shape({
+          field: PropTypes.string,
+          operand: PropTypes.string,
+          operator: PropTypes.string,
+        })),
+        format: PropTypes.string,
+        formula: PropTypes.string,
+        timeline: PropTypes.string,
+        unit: PropTypes.string,
+      }),
+      name: PropTypes.string,
+      id: PropTypes.string,
+    })).isRequired,
     configuration: PropTypes.shape({
       type: PropTypes.string.isRequired,
       links: PropTypes.array,
@@ -123,6 +152,7 @@ export class PlotView extends PureComponent {
       legend: PropTypes.object,
       markers: PropTypes.array,
     }).isRequired,
+    pointsPerPxThreshold: PropTypes.number,
   };
 
   static defaultProps = {
@@ -130,6 +160,7 @@ export class PlotView extends PureComponent {
       lines: [],
       columns: [],
     },
+    pointsPerPxThreshold: 30,
   };
 
   constructor(...args) {
@@ -207,6 +238,10 @@ export class PlotView extends PureComponent {
 
   shouldComponentUpdate(nextProps) {
     const { zoomedOrPanned } = this.state;
+    if (zoomedOrPanned) {
+      return false;
+    }
+
     const {
       data,
       entryPoints,
@@ -215,20 +250,14 @@ export class PlotView extends PureComponent {
       containerWidth,
       containerHeight,
     } = this.props;
-    if (zoomedOrPanned) {
-      return false;
-    }
-    if (
+    return !(
       data === nextProps.data &&
       entryPoints === nextProps.entryPoints &&
       visuWindow === nextProps.visuWindow &&
       configuration === nextProps.configuration &&
       containerWidth === nextProps.containerWidth &&
       containerHeight === nextProps.containerHeight
-    ) {
-      return false;
-    }
-    return true;
+    );
   }
 
   componentWillUnmount() {
@@ -294,10 +323,10 @@ export class PlotView extends PureComponent {
       >
         <div>
           {epWithErrors
-            .map((ep, i) => (
+            .map(ep => (
               <div
                 className={styles.entryPointErrorSubDiv}
-                key={i}
+                key={ep.name}
               >
                 {ep.name}: {ep.error}
               </div>
@@ -581,32 +610,34 @@ export class PlotView extends PureComponent {
       data,
       visuWindow,
     } = this.props;
-
+    let info;
     if (containerWidth <= 0 || containerHeight <= 0) {
-      return `invisible size received ${containerWidth}x${containerHeight}`;
+      info = `invisible size received ${containerWidth}x${containerHeight}`;
     }
     if (!visuWindow) {
-      return 'No vizualisation window';
+      info = 'No vizualisation window';
     }
     if (!data.columns || !data.columns.length || data.columns.length < 2) {
-      return 'no point';
+      info = 'no point';
     }
-    if (data.columns.length < 2) {
-      return 'only one point';
+    if (data.columns && data.columns.length < 2) {
+      info = 'only one point';
     }
 
     if (!this.lines || !this.lines.length) {
-      return 'invalid view configuration';
+      info = 'invalid view configuration';
     }
+    return info;
   }
 
   xAccessor = (d) => {
+    let toReturn = 'data undefined';
     if (typeof d === 'undefined' || typeof d.x === 'undefined') {
       logger.debug('empty point received');
-      return;
+    } else {
+      toReturn = new Date(d.x);
     }
-
-    return new Date(d.x);
+    return toReturn;
   };
 
   reconnect = () => {
@@ -631,7 +662,7 @@ export class PlotView extends PureComponent {
   }
 
   handleOnWheel = () => {
-    if (!this.state.zoomedOrPanned
+    if (!this.state.zoomedOrPanned && this.el
       && this.el.parentElement.querySelector(':hover')) {
       this.disconnect();
     }
@@ -639,7 +670,7 @@ export class PlotView extends PureComponent {
 
   handleOnKeyUp = (e) => {
     const { disableZoom } = this.state;
-    if (e.keyCode === 17 && !disableZoom
+    if (e.keyCode === 17 && !disableZoom && this.el
       && this.el.parentElement.querySelector(':hover')) {
       this.setState({ disableZoom: true });
       this.forceUpdate();
@@ -648,7 +679,7 @@ export class PlotView extends PureComponent {
 
   handleOnKeyDown = (e) => {
     const { disableZoom } = this.state;
-    if (e.keyCode === 17 && disableZoom
+    if (e.keyCode === 17 && disableZoom && this.el
       && this.el.parentElement.querySelector(':hover')) {
       this.setState({ disableZoom: false });
       this.forceUpdate();
@@ -807,7 +838,7 @@ export class PlotView extends PureComponent {
             width={containerWidth}
             height={containerHeight}
             margin={marginChart}
-            pointsPerPxThreshold={4}
+            pointsPerPxThreshold={this.props.pointsPerPxThreshold}
             seriesName="PlotView"
             data={columns}
             type="hybrid"

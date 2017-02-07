@@ -6,11 +6,30 @@ import {
 
 export default class InputField extends React.Component {
   static propTypes = {
-    input: PropTypes.object.isRequired,
+    input: PropTypes.shape({
+      name: PropTypes.string,
+      value: PropTypes.string,
+    }).isRequired,
     placeholder: PropTypes.string,
-    className: PropTypes.string,
+    className: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    meta: PropTypes.object,
+    meta: PropTypes.shape({
+      active: PropTypes.bool,
+      asyncValidating: PropTypes.bool,
+      autofilled: PropTypes.bool,
+      dirty: PropTypes.bool,
+      invalid: PropTypes.bool,
+      pristine: PropTypes.bool,
+      submitFailed: PropTypes.bool,
+      submitting: PropTypes.bool,
+      touched: PropTypes.bool,
+      visited: PropTypes.bool,
+      valid: PropTypes.bool,
+    }).isRequired,
+  }
+
+  static defaultProps = {
+    placeholder: '',
   }
 
   render() {

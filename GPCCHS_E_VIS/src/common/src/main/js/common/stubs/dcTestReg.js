@@ -4,12 +4,8 @@ const _each = require('lodash/each');
 const _chunk = require('lodash/chunk');
 const _slice = require('lodash/slice');
 const parseArgs = require('minimist');
-const {
-  encodeAttribute,
-  decodeAttribute,
-} = require('../protobuf/adapters/lpisis/types');
 
-require('../utils/test');
+const { should } = require('../utils/test');
 
 const zmq = require('../zmq');
 const { getType, encode, decode } = require('../protobuf');
@@ -20,8 +16,6 @@ const domainIdTest = 4;
 const myQueryId = 'myQueryId';
 const myOtherQueryId = 'myOtherQueryId';
 
-
-const myOid = 'myOid';
 
 const queryArguments = {
   filters: [],
@@ -105,7 +99,7 @@ const sessionDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =
 };
 
 // FILEPATH DATA
-const filepathDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
+/* const filepathDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
   console.log('receiving a message from dc');
   console.log();
   const header = decode('dc.dataControllerUtils.Header', headerBuffer);
@@ -117,7 +111,7 @@ const filepathDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) 
   zmq.closeSockets();
   console.log('...end test');
   callback(null);
-};
+}; */
 
 // ARCHIVE DATA
 const archiveDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
@@ -127,10 +121,10 @@ const archiveDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =
     case steps.RESPONSE:
       {
         const header = decode('dc.dataControllerUtils.Header', headerBuffer);
-        // header.messageType.should.equal(constants.MESSAGETYPE_RESPONSE);
+        header.messageType.should.equal(constants.MESSAGETYPE_RESPONSE);
         const queryId = decode('dc.dataControllerUtils.String', argsBuffers[0]).string;
         queryId.should.equal(myQueryId);
-        // decode('dc.dataControllerUtils.Status', argsBuffers[1]).status.should.equal(constants.STATUS_SUCCESS);
+        decode('dc.dataControllerUtils.Status', argsBuffers[1]).status.should.equal(constants.STATUS_SUCCESS);
         step = steps.ARCHIVE_DATA;
         break;
       }
@@ -138,7 +132,7 @@ const archiveDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =
       {
         const header = decode('dc.dataControllerUtils.Header', headerBuffer);
         console.log(header);
-        if (header.messageType == constants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA) {
+        if (header.messageType === constants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA) {
           (() => decode('dc.dataControllerUtils.String', argsBuffers[0])).should.not.throw();
           const dataId = decode('dc.dataControllerUtils.DataId', argsBuffers[1]);
           const isLast = decode('dc.dataControllerUtils.Boolean', argsBuffers[2]).boolean;
@@ -147,9 +141,9 @@ const archiveDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =
             (() => decode('dc.dataControllerUtils.Timestamp', argBuffer[0])).should.not.throw();
             (() => decode(getType(dataId.comObject), argBuffer[1])).should.not.throw();
           });
-        step = (isLast === true) ? steps.STOP : step;
-        break;
+          step = (isLast === true) ? steps.STOP : step;
         }
+        break;
       }
     default:
   }
@@ -162,96 +156,106 @@ const archiveDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =
   }
 };
 
-const documentCreatePullHandler = (onOidCreated = (oid) => undefined) => (callback, trash, headerBuffer, ...argsBuffers) => {
-  const header = decode('dc.dataControllerUtils.Header', headerBuffer);
-  header.messageType.should.equal(constants.MESSAGETYPE_FMD_CREATE_DATA);
-  const [queryId, status, fmdFileInfoOrReason] = argsBuffers;
-  const statusPb = decode('dc.dataControllerUtils.Status', status);
-  if (statusPb.status == constants.STATUS_ERROR){
-    const reasonPb = decode('dc.dataControllerUtils.String', fmdFileInfoOrReason);
-    console.log("documentCreatePullHandler error from create : ", reasonPb.string);
-  } else {
-    const fileInfoPb = decode('dc.dataControllerUtils.FMDFileInfo', fmdFileInfoOrReason);
-    console.log(fileInfoPb);
-    onOidCreated(fileInfoPb.serializedOid);
-  }
-  zmq.closeSockets();
-}
-
-
-const documentGetPullHandler = (waitedFilename = undefined) => (callback, trash, headerBuffer, ...argsBuffers) => {
-  const header = decode('dc.dataControllerUtils.Header', headerBuffer);
-  header.messageType.should.equal(constants.MESSAGETYPE_FMD_GET_DATA);
-  const [queryId, status, fmdFileInfoOrReason, documentData] = argsBuffers;
-  const statusPb = decode('dc.dataControllerUtils.Status', status);
-  if (statusPb.status == constants.STATUS_ERROR){
-    const reasonPb = decode('dc.dataControllerUtils.String', fmdFileInfoOrReason);
-    console.log("documentGetPullHandler error from get : ", reasonPb.string);
-  } else {
-    const fileInfoPb = decode('dc.dataControllerUtils.FMDFileInfo', fmdFileInfoOrReason);
-    switch (fileInfoPb.type){
-      case constants.FILE_TYPE_DOCUMENT:
-        const documentDataPb = decode('lpisis.file.Document', documentData);
-        console.log(documentDataPb);
-        if (typeof(waitedFilename) !== undefined) {
-            documentDataPb.basename.value.should.equal(waitedFilename);
-        }
-
+const documentCreatePullHandler = (onOidCreated = () => undefined) =>
+  (callback, trash, headerBuffer, ...argsBuffers) => {
+    const header = decode('dc.dataControllerUtils.Header', headerBuffer);
+    header.messageType.should.equal(constants.MESSAGETYPE_FMD_CREATE_DATA);
+    const [queryId, status, fmdFileInfoOrReason] = argsBuffers;
+    should.exist(decode('dc.dataControllerUtils.String', queryId));
+    const statusPb = decode('dc.dataControllerUtils.Status', status);
+    if (statusPb.status === constants.STATUS_ERROR) {
+      const reasonPb = decode('dc.dataControllerUtils.String', fmdFileInfoOrReason);
+      console.log('documentCreatePullHandler error from create : ', reasonPb.string);
+    } else {
+      const fileInfoPb = decode('dc.dataControllerUtils.FMDFileInfo', fmdFileInfoOrReason);
+      console.log(fileInfoPb);
+      onOidCreated(fileInfoPb.serializedOid);
     }
+    zmq.closeSockets();
+  };
 
-  }
-  zmq.closeSockets();
-  // (() => decode('dc.dataControllerUtils.Timestamp', argsBuffers[2])).should.not.throw();
-  //  console.log("toto");
-}
+
+const documentGetPullHandler = (waitedFilename = undefined) =>
+  (callback, trash, headerBuffer, ...argsBuffers) => {
+    const header = decode('dc.dataControllerUtils.Header', headerBuffer);
+    header.messageType.should.equal(constants.MESSAGETYPE_FMD_GET_DATA);
+    const [queryId, status, fmdFileInfoOrReason, documentData] = argsBuffers;
+    should.exist(decode('dc.dataControllerUtils.String', queryId));
+    const statusPb = decode('dc.dataControllerUtils.Status', status);
+    if (statusPb.status === constants.STATUS_ERROR) {
+      const reasonPb = decode('dc.dataControllerUtils.String', fmdFileInfoOrReason);
+      console.log('documentGetPullHandler error from get : ', reasonPb.string);
+    } else {
+      const fileInfoPb = decode('dc.dataControllerUtils.FMDFileInfo', fmdFileInfoOrReason);
+      switch (fileInfoPb.type) {
+        case constants.FILE_TYPE_DOCUMENT:
+          {
+            const documentDataPb = decode('lpisis.file.Document', documentData);
+            console.log(documentDataPb);
+            if (typeof waitedFilename !== 'undefined') {
+              documentDataPb.basename.value.should.equal(waitedFilename);
+            }
+          }
+          break;
+        default:
+          break;
+      }
+    }
+    zmq.closeSockets();
+    // (() => decode('dc.dataControllerUtils.Timestamp', argsBuffers[2])).should.not.throw();
+    //  console.log('toto');
+  };
 
 const sessionMasterDataHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
-  console.log("sessionMasterDataHandler");
+  console.log('sessionMasterDataHandler');
   console.log(decode('lpisis.ccsds_mal.UINTEGER', argsBuffers[1]));
   (() => decode('lpisis.ccsds_mal.uinteUINTEGERger', argsBuffers[1])).should.not.throw();
   zmq.closeSockets();
-}
+};
 
-let nbQueryPassed = 0;
-let nQueryCong = 0;
 let congestionReceived = false;
 
 // First, a CONGESTION message should be received, then, a HEALTHY message should be received.
-const congestionDataPullHandler = (onCongestionReceived = b => undefined) => (callback, trash, headerBuffer, ...argsBuffers) => {
-  const header = decode('dc.dataControllerUtils.Header', headerBuffer);
+const congestionDataPullHandler = (onCongestionReceived = () => undefined) =>
+  (callback, trash, headerBuffer, ...argsBuffers) => {
+    const header = decode('dc.dataControllerUtils.Header', headerBuffer);
 
-  if (congestionReceived){
-    switch(header.messageType){
-      case constants.MESSAGETYPE_DC_STATUS:
-        dcStatus = decode('dc.dataControllerUtils.DcStatus', argsBuffers[0]);
-        console.log("switched to Healthy ");
-        dcStatus.status.should.equal(constants.HEALTH_STATUS_HEALTHY);
-        onCongestionReceived(false);
-        congestionReceived = false;
-      default:
-        // console.log("number of query successfully passed during congestion mode: ",nQueryCong);
-        nQueryCong++;
+    if (congestionReceived) {
+      switch (header.messageType) {
+        case constants.MESSAGETYPE_DC_STATUS:
+          {
+            const dcStatus = decode('dc.dataControllerUtils.DcStatus', argsBuffers[0]);
+            console.log('switched to Healthy ');
+            dcStatus.status.should.equal(constants.HEALTH_STATUS_HEALTHY);
+            onCongestionReceived(false);
+            congestionReceived = false;
+            break;
+          }
+        default:
+          break;
+      }
+      return;
     }
-    return;
-  }
-  switch(header.messageType){
-    case constants.MESSAGETYPE_DC_STATUS:
-      dcStatus = decode('dc.dataControllerUtils.DcStatus', argsBuffers[0]);
-      console.log("switched to congestion ");
-      dcStatus.status.should.equal(constants.HEALTH_STATUS_CRITICAL);
-      onCongestionReceived(true);
-      congestionReceived = true;
-    default:
-      // console.log("number of query successfully passed : ",nbQueryPassed);
-      nbQueryPassed++;
-  }
+    switch (header.messageType) {
+      case constants.MESSAGETYPE_DC_STATUS:
+        {
+          const dcStatus = decode('dc.dataControllerUtils.DcStatus', argsBuffers[0]);
+          console.log('switched to congestion ');
+          dcStatus.status.should.equal(constants.HEALTH_STATUS_CRITICAL);
+          onCongestionReceived(true);
+          congestionReceived = true;
+        }
+        break;
+      default:
+        break;
+    }
+  };
 
-}
 const sessionTimeDataHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
   console.log(decode('dc.dataControllerUtils.Timestamp', argsBuffers[1]));
   (() => decode('dc.dataControllerUtils.Timestamp', argsBuffers[1])).should.not.throw();
   zmq.closeSockets();
-}
+};
 
 // START PUBSUB DATA
 const pubSubDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
@@ -262,7 +266,7 @@ const pubSubDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =>
       {
         const header = decode('dc.dataControllerUtils.Header', headerBuffer);
         header.messageType.should.equal(constants.MESSAGETYPE_RESPONSE);
-        const queryId = decode('dc.dataControllerUtils.String', argsBuffers[0]).string;
+        should.exist(decode('dc.dataControllerUtils.String', argsBuffers[0]).string);
         // TODO give myQueryId as argument to the pull handler.
         // queryId.should.equal(myQueryId);
         decode('dc.dataControllerUtils.Status', argsBuffers[1]).status.should.equal(constants.STATUS_SUCCESS);
@@ -272,7 +276,7 @@ const pubSubDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =>
     case steps.PUBSUB_DATA:
       {
         console.log(headerBuffer);
-        if (headerBuffer.length ==0) {
+        if (headerBuffer.length === 0) {
           step = steps.PUBSUB_DATA;
           break;
         }
@@ -322,69 +326,68 @@ const timeInterval = {
 };
 
 // All supsup parameters
-const ParameterNames = ["STAT_SU_PID",
- "STAT_SU_COMM",
- "STAT_SU_STATE",
- "STAT_SU_PPID",
- "STAT_SU_PGRP",
- "STAT_SU_SESSION",
- "STAT_SU_TTY_NR",
- "STAT_SU_TPGID",
- "STAT_SU_FLAGS",
- "STAT_SU_MINFLT",
- "STAT_SU_CMINFLT",
- "STAT_SU_MAJFLT",
- "STAT_SU_CMAJFLT",
- "STAT_SU_UTIME",
- "STAT_SU_STIME",
- "STAT_SU_CUTIME",
- "STAT_SU_CSTIME",
- "STAT_SU_PRIORITY",
- "STAT_SU_NICE",
- "STAT_SU_NUM_THREADS",
- "STAT_SU_ITREALVALUE",
- "STAT_SU_STARTTIME",
- "STAT_SU_VSIZE",
- "STAT_SU_RSS",
- "STAT_SU_RSSLIM",
- "STAT_SU_STARTCODE",
- "STAT_SU_ENDCODE",
- "STAT_SU_STARTSTACK",
- "STAT_SU_KSTKESP",
- "STAT_SU_KSTKEIP",
- "STAT_SU_SIGNAL",
- "STAT_SU_BLOCKED",
- "STAT_SU_SIGIGNORE",
- "STAT_SU_SIGCATCH",
- "STAT_SU_WCHAN",
- "STAT_SU_NSWAP",
- "STAT_SU_CNSWAP",
- "STAT_SU_EXIT_SIGNAL",
- "STAT_SU_PROCESSOR",
- "STAT_SU_RT_PRIORITY",
- "STAT_SU_POLICY",
- "STAT_SU_DELAYACCT_BLKIO_T",
- "STAT_SU_GUEST_TIME",
- "STAT_SU_CGUEST_TIME",
- "STAT_SU_START_DATA",
- "STAT_SU_END_DATA",
- "STAT_SU_START_BRK",
- "STAT_SU_ARG_START",
- "STAT_SU_ARG_END",
- "STAT_SU_ENV_START",
- "STAT_SU_ENV_END",
- "STAT_SU_EXIT_CODE"];
+const ParameterNames = [
+  'STAT_SU_PID',
+  'STAT_SU_COMM',
+  'STAT_SU_STATE',
+  'STAT_SU_PPID',
+  'STAT_SU_PGRP',
+  'STAT_SU_SESSION',
+  'STAT_SU_TTY_NR',
+  'STAT_SU_TPGID',
+  'STAT_SU_FLAGS',
+  'STAT_SU_MINFLT',
+  'STAT_SU_CMINFLT',
+  'STAT_SU_MAJFLT',
+  'STAT_SU_CMAJFLT',
+  'STAT_SU_UTIME',
+  'STAT_SU_STIME',
+  'STAT_SU_CUTIME',
+  'STAT_SU_CSTIME',
+  'STAT_SU_PRIORITY',
+  'STAT_SU_NICE',
+  'STAT_SU_NUM_THREADS',
+  'STAT_SU_ITREALVALUE',
+  'STAT_SU_STARTTIME',
+  'STAT_SU_VSIZE',
+  'STAT_SU_RSS',
+  'STAT_SU_RSSLIM',
+  'STAT_SU_STARTCODE',
+  'STAT_SU_ENDCODE',
+  'STAT_SU_STARTSTACK',
+  'STAT_SU_KSTKESP',
+  'STAT_SU_KSTKEIP',
+  'STAT_SU_SIGNAL',
+  'STAT_SU_BLOCKED',
+  'STAT_SU_SIGIGNORE',
+  'STAT_SU_SIGCATCH',
+  'STAT_SU_WCHAN',
+  'STAT_SU_NSWAP',
+  'STAT_SU_CNSWAP',
+  'STAT_SU_EXIT_SIGNAL',
+  'STAT_SU_PROCESSOR',
+  'STAT_SU_RT_PRIORITY',
+  'STAT_SU_POLICY',
+  'STAT_SU_DELAYACCT_BLKIO_T',
+  'STAT_SU_GUEST_TIME',
+  'STAT_SU_CGUEST_TIME',
+  'STAT_SU_START_DATA',
+  'STAT_SU_END_DATA',
+  'STAT_SU_START_BRK',
+  'STAT_SU_ARG_START',
+  'STAT_SU_ARG_END',
+  'STAT_SU_ENV_START',
+  'STAT_SU_ENV_END',
+  'STAT_SU_EXIT_CODE',
+];
 
 
-const createDocumentProto = (filename) => {
-  return {
-    name : filename,
-    path : '/',
-    mimeType : 'HistoryViewDoc',
-    domainId : 1,
-  };
-};
-
+const createDocumentProto = filename => ({
+  name: filename,
+  path: '/',
+  mimeType: 'HistoryViewDoc',
+  domainId: 1,
+});
 
 
 const myDataId = {
@@ -497,8 +500,8 @@ const sessionMasterQueryMessage = [
 ];
 
 const logAttributes = [
-    "1st paramemeter",
-    "2nd parameter",
+    '1st paramemeter',
+    '2nd parameter',
 ];
 
 // timebased subscription start
@@ -537,7 +540,7 @@ const tbStopSubMessageArgs = (dataId = myDataId) => [
 const documentCreateQueryMessageArgs = [
   encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY}),
   encode('dc.dataControllerUtils.String', { string: myOtherQueryId }),
-  encode('dc.dataControllerUtils.FMDCreateDocument', createDocumentProto("HistoryViewTest42.vihv")),
+  encode('dc.dataControllerUtils.FMDCreateDocument', createDocumentProto('HistoryViewTest42.vihv')),
 ];
 
 
@@ -607,14 +610,14 @@ const documentCreateAndGetTest =
   (callback) => {
     console.log('> Test Document create and get');
 
-    let fileName = "Poulette3.vihv";
+    let fileName = 'Poulette3.vihv';
     const documentCreateQueryMessageArgs = [
       encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY}),
       encode('dc.dataControllerUtils.String', { string: myOtherQueryId }),
       encode('dc.dataControllerUtils.FMDCreateDocument', createDocumentProto(fileName)),
     ];
 
-    // after reception of Create data from DC, wait 2 seconds, and send a "Get" message on oid created.
+    // after reception of Create data from DC, wait 2 seconds, and send a 'Get' message on oid created.
     createZmqConnection(callback, documentCreatePullHandler(oid => setTimeout(() => getAndCheckFilename(oid,fileName), 2000)));
     sendZmqMessage(documentCreateQueryMessageArgs);
   };
@@ -689,7 +692,7 @@ const trashTest =
 let testFunctions = [];
 
 const options = {
-  boolean: ['d', 'p', 'a', 's', 'f', 'all', 't', 'w', "dc", "dg", "st", "log", "sm", "dcg","cgn"],
+  boolean: ['d', 'p', 'a', 's', 'f', 'all', 't', 'w', 'dc', 'dg', 'st', 'log', 'sm', 'dcg','cgn'],
   default: {
     all: true,
     cgn: false,
@@ -800,7 +803,7 @@ if (argv.all) {
   testFunctions.push(documentCreateTest);
   testFunctions.push(documentGetTest);
 }
-console.log("Closing existing sockets");
+console.log('Closing existing sockets');
 zmq.closeSockets();
 
 async.series(testFunctions, (err) => {

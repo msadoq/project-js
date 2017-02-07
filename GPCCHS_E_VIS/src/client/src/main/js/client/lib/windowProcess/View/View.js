@@ -76,6 +76,12 @@ export default class View extends PureComponent {
 
   componentDidMount() {
     document.addEventListener('keydown', this.toggleCollapse);
+    if (this.props.type === 'PlotView') {
+      setTimeout(() => {
+        // used to avoid 0 height when first mouting plotView
+        window.dispatchEvent(new Event('resize'));
+      }, 40);
+    }
   }
 
   componentWillUnmount() {

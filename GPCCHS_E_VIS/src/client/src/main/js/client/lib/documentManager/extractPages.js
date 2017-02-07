@@ -87,7 +87,7 @@ const extractPages = fmdApi => (content, cb) => {
       });
     });
   } catch (e) {
-    cb(e);
+    return cb(e);
   }
 };
 

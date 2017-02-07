@@ -28,7 +28,7 @@ const getStyle = (status) => {
 
 export default class Health extends Component {
   static propTypes = {
-    lastPubSubTimestamp: PropTypes.string,
+    lastPubSubTimestamp: PropTypes.number,
     dc: PropTypes.string,
     hss: PropTypes.string,
     main: PropTypes.string,

@@ -10,6 +10,7 @@ import {
   HEALTH_STATUS_CRITICAL,
   CACHE_INVALIDATION_FREQUENCY,
   IPC_METHOD_CACHE_CLEANUP,
+  HSC_CRITICAL_SWITCH_PAUSE_DELAY,
 } from 'common/constants';
 import executionMonitor from 'common/log/execution';
 import getLogger from 'common/log';
@@ -31,6 +32,7 @@ const logger = getLogger('main:orchestration');
 let nextTick = null;
 let lastTick = null;
 let tickStart = null;
+let criticalTimeout = null;
 const previous = {
   state: {},
   dataMap: { perRemoteId: {}, perView: {} },
@@ -53,12 +55,42 @@ export function clear() {
   nextTick = null;
 }
 
+export function clearCritical() {
+  if (!criticalTimeout) {
+    return;
+  }
+
+  clearTimeout(criticalTimeout);
+  criticalTimeout = null;
+}
+
+export function onCritical() {
+  const { getState, dispatch } = getStore();
+  const state = getState();
+
+  const isPlaying = !!getPlayingTimebarId(state);
+  const { criticals } = getAppStatus(state);
+
+  if (isPlaying) {
+    const delay = HSC_CRITICAL_SWITCH_PAUSE_DELAY / 1000;
+    logger.warn(`application performance critically low for ${delay}s, switching to pause`);
+    dispatch(addOnce(
+      'global',
+      'danger',
+      `Application have detected an important slow-down and switched to pause (${criticals.join(', ')})`
+    ));
+    dispatch(pause());
+  }
+}
+
 export function start() {
   schedule();
 }
 
 export function stop() {
   clear();
+  clearCritical();
+
   previous.state = {};
   previous.dataMap = { perRemoteId: {}, perView: {} };
   previous.lastRequestedDataMap = {};
@@ -74,6 +106,8 @@ export function tick() {
   const execution = executionMonitor('orchestration');
   execution.reset();
   execution.start('global');
+
+  // ticker
   tickStart = process.hrtime();
   let skipThisTick = false;
 
@@ -96,35 +130,36 @@ export function tick() {
   // retrieve state (after handlePlay dispatch) to works on an updated state
   const state = getState();
 
-  // health
-  const { status, criticals } = getAppStatus(state);
-  if (previous.lastAppStatus !== status) {
-    previous.lastAppStatus = status;
-    logger.info(`New health status ${previous.lastAppStatus}==>${status}`);
-    if (status === HEALTH_STATUS_WARNING) {
-      skipThisTick = true;
-    } else if (status === HEALTH_STATUS_CRITICAL) {
-      skipThisTick = true;
-      const isPlaying = !!getPlayingTimebarId(state);
-      if (isPlaying) {
-        dispatch(addOnce(
-          'global',
-          'danger',
-          `Application have detected an important slow-down and switched to pause (${criticals.join(', ')})`
-        ));
-        dispatch(pause());
-      }
-    } else {
-      dispatch(addOnce('Application went back to healthy state'));
-    }
-  }
-
-
   // something has changed
   const somethingHasChanged = state !== previous.state;
   let dataMap = previous.dataMap;
 
   series([
+    // health
+    (callback) => {
+      const { status } = getAppStatus(state);
+
+      // log each transition
+      if (previous.lastAppStatus !== status) {
+        previous.lastAppStatus = status;
+        logger.debug(`New health status ${previous.lastAppStatus}==>${status}`);
+      }
+
+      // transition from other to critical
+      if (previous.lastAppStatus !== HEALTH_STATUS_CRITICAL && status === HEALTH_STATUS_CRITICAL) {
+        criticalTimeout = setTimeout(onCritical, HSC_CRITICAL_SWITCH_PAUSE_DELAY);
+      }
+      // avoid switching to pause if now app is healthy
+      if (status === HEALTH_STATUS_HEALTHY || status === HEALTH_STATUS_WARNING) {
+        clearCritical();
+      }
+      // skip the tick if app is warning or critical
+      if (status === HEALTH_STATUS_WARNING || status === HEALTH_STATUS_CRITICAL) {
+        skipThisTick = true;
+      }
+
+      callback(null);
+    },
     // data map
     (callback) => {
       if (skipThisTick || !somethingHasChanged) {
@@ -139,11 +174,9 @@ export function tick() {
     },
     // request data
     (callback) => {
-      if (skipThisTick) {
-        return callback(null);
-      }
-      if (dataMap.perRemoteId === previous.lastRequestedDataMap) {
-        return callback(null);
+      if (skipThisTick || dataMap.perRemoteId === previous.lastRequestedDataMap) {
+        callback(null);
+        return;
       }
 
       execution.start('data requests');
@@ -219,8 +252,8 @@ export function tick() {
         callback(null);
       });
     },
+    // too long tick
     (callback) => {
-      // too long tick
       const duration = process.hrtime(tickStart);
       const durationMs = (duration[0] * 1e3) + _round(duration[1] / 1e6, 6);
 

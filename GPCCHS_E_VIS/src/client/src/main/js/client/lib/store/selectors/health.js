@@ -18,19 +18,13 @@ export const getLastPubSubTimestamp = state => state.health.lastPubSubTimestamp;
 export const getAppStatus = createSelector(
   [getHealth],
   ({ dcStatus, hssStatus, mainStatus, windowsStatus }) => {
-    let app = HEALTH_STATUS_HEALTHY;
-
     const criticals = [];
     const warnings = [];
     const fill = (name, status) => {
       if (status === HEALTH_STATUS_CRITICAL) {
         criticals.push(name);
-        app = HEALTH_STATUS_CRITICAL;
       } else if (status === HEALTH_STATUS_WARNING) {
         warnings.push(name);
-        if (app === HEALTH_STATUS_HEALTHY) {
-          app = HEALTH_STATUS_WARNING;
-        }
       }
     };
 
@@ -39,12 +33,19 @@ export const getAppStatus = createSelector(
     fill('main', mainStatus);
 
     let windows = HEALTH_STATUS_HEALTHY;
-    if (_some(windowsStatus, w => w === HEALTH_STATUS_WARNING)) {
+    if (_some(windowsStatus, w => w === HEALTH_STATUS_CRITICAL)) {
       windows = HEALTH_STATUS_CRITICAL;
     } else if (_some(windowsStatus, w => w === HEALTH_STATUS_WARNING)) {
       windows = HEALTH_STATUS_WARNING;
     }
     fill('windows', windows);
+
+    let app = HEALTH_STATUS_HEALTHY;
+    if (criticals.length) {
+      app = HEALTH_STATUS_CRITICAL;
+    } else if (warnings.length) {
+      app = HEALTH_STATUS_WARNING;
+    }
 
     return { status: app, criticals, warnings };
   });

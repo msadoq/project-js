@@ -53,9 +53,10 @@ export const getAppStatus = createSelector(
 export const getHealthMap = createSelector([
   getHealth,
   (state, { windowId }) => windowId,
-], ({ dcStatus, hssStatus, mainStatus, windowsStatus }, windowId) => ({
+], ({ dcStatus, hssStatus, mainStatus, windowsStatus, lastPubSubTimestamp }, windowId) => ({
   dc: dcStatus,
   hss: hssStatus,
   main: mainStatus,
   window: _get(windowsStatus, [windowId], HEALTH_STATUS_HEALTHY),
+  lastPubSubTimestamp,
 }));

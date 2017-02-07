@@ -16,7 +16,8 @@ export const updateLastPubSubTimestamp = simple(types.HSS_UPDATE_LAST_PUBSUB_TIM
 
 const updateLastPubSubTimestampThrottled = _throttle(
   (dispatch, timestamp) => dispatch(updateLastPubSubTimestamp(timestamp)),
-  HSC_PUBSUB_MONITORING_FREQUENCY
+  HSC_PUBSUB_MONITORING_FREQUENCY,
+  { leading: true }
 );
 
 // TODO rperrot test

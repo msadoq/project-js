@@ -840,7 +840,7 @@ export class PlotView extends PureComponent {
             width={containerWidth}
             height={containerHeight}
             margin={marginChart}
-            pointsPerPxThreshold={4}
+            pointsPerPxThreshold={30}
             seriesName="PlotView"
             data={columns}
             type="hybrid"

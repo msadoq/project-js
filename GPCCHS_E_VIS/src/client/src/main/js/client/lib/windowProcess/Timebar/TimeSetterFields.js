@@ -46,7 +46,7 @@ export default class TimeSetterFields extends PureComponent {
     this.props.onChange(date.toDate().getTime(), this.props.cursor);
   }
 
-  changeAttrVal = _memoize(v => () => this.changeAttr(v));
+  changeAttrVal = _memoize(v => e => this.changeAttr(v, e));
 
   render() {
     const {

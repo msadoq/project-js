@@ -26,18 +26,22 @@ const filterLayoutBlockFields = [
 
 export default class Content extends PureComponent {
   static propTypes = {
-    focusedPageId: PropTypes.string,
-    timebarUuid: PropTypes.string,
-    layouts: PropTypes.object,
-    views: PropTypes.array,
+    focusedPageId: PropTypes.string.isRequired,
+    timebarUuid: PropTypes.string.isRequired,
+    layouts: PropTypes.object.isRequired,
+    views: PropTypes.array.isRequired,
     editorViewId: PropTypes.string,
-    unmountAndRemove: PropTypes.func,
-    openEditor: PropTypes.func,
-    closeEditor: PropTypes.func,
-    isEditorOpened: PropTypes.bool,
-    updateLayout: PropTypes.func,
-    windowId: PropTypes.string,
+    unmountAndRemove: PropTypes.func.isRequired,
+    openEditor: PropTypes.func.isRequired,
+    closeEditor: PropTypes.func.isRequired,
+    isEditorOpened: PropTypes.bool.isRequired,
+    updateLayout: PropTypes.func.isRequired,
+    windowId: PropTypes.string.isRequired,
   };
+
+  static defaultProps = {
+    editorViewId: '',
+  }
 
   onLayoutChange = (layout = []) => {
     if (!this.props.updateLayout) {

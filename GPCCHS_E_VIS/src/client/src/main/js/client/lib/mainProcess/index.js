@@ -20,7 +20,7 @@ import { server } from './ipc';
 import { add as addMessage } from '../store/actions/messages';
 import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
-import { updateMasterSession } from '../store/actions/masterSession';
+import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
 
 import setMenu from './menu';
 import { openDefaultWorkspace, openWorkspaceDocument } from './openWorkspace';
@@ -110,7 +110,7 @@ export function start() {
         setSplashScreenMessage('injecting master session...');
         logger.info('injecting master session...');
 
-        getStore().dispatch(updateMasterSession(masterSessionId));
+        getStore().dispatch(updateMasterSessionIfNeeded(masterSessionId));
         callback(null);
       });
     },

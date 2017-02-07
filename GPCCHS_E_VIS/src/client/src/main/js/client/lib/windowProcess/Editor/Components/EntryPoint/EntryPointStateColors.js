@@ -22,46 +22,44 @@ const filters = [
 ];
 */
 
-class EntryPointStateColors extends React.Component {
-  static propTypes = {
-    pristine: PropTypes.bool,
-    handleSubmit: PropTypes.func,
-    reset: PropTypes.func,
-    submitting: PropTypes.bool,
-    valid: PropTypes.bool,
-  }
+const EntryPointStateColors = (props) => {
+  const {
+    pristine,
+    reset,
+    submitting,
+    valid,
+    handleSubmit,
+  } = props;
 
-  render() {
-    const {
-      pristine,
-      reset,
-      submitting,
-      valid,
-      handleSubmit,
-    } = this.props;
-
-    return (
-      <div>
-        <EntryPointMonitoringStateColors />
-        <h4>Custom colors</h4>
-        <Form horizontal onSubmit={handleSubmit}>
-          <FieldArray
-            name="stateColors"
-            component={StateColorsFields}
+  return (
+    <div>
+      <EntryPointMonitoringStateColors />
+      <h4>Custom colors</h4>
+      <Form horizontal onSubmit={handleSubmit}>
+        <FieldArray
+          name="stateColors"
+          component={StateColorsFields}
+        />
+        <HorizontalFormGroup>
+          <ClearSubmitButtons
+            pristine={pristine}
+            submitting={submitting}
+            reset={reset}
+            valid={valid}
           />
-          <HorizontalFormGroup>
-            <ClearSubmitButtons
-              pristine={pristine}
-              submitting={submitting}
-              reset={reset}
-              valid={valid}
-            />
-          </HorizontalFormGroup>
-        </Form>
-      </div>
-    );
-  }
-}
+        </HorizontalFormGroup>
+      </Form>
+    </div>
+  );
+};
+
+EntryPointStateColors.propTypes = {
+  pristine: PropTypes.bool.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  reset: PropTypes.func.isRequired,
+  submitting: PropTypes.bool.isRequired,
+  valid: PropTypes.bool.isRequired,
+};
 
 export default reduxForm({
   enableReinitialize: true,

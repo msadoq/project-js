@@ -2,7 +2,6 @@ import _round from 'lodash/round';
 import { series } from 'async';
 import { get } from 'common/parameters';
 import {
-  HSC_ORCHESTRATION_FREQUENCY,
   HSC_ORCHESTRATION_WARNING_STEP,
   HSC_ORCHESTRATION_CRITICAL_STEP,
   HEALTH_STATUS_HEALTHY,
@@ -43,7 +42,7 @@ const previous = {
 export function schedule() {
   clear(); // avoid concurrency
   // schedule next tick
-  nextTick = setTimeout(tick, HSC_ORCHESTRATION_FREQUENCY);
+  nextTick = setTimeout(tick, get('ORCHESTRATION_FREQUENCY'));
 }
 
 export function clear() {

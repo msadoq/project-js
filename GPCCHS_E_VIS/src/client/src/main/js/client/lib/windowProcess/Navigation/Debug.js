@@ -7,7 +7,7 @@ import {
   Glyphicon,
 } from 'react-bootstrap';
 import Perf from 'react-dom/lib/ReactPerf';
-import { HSC_ORCHESTRATION_FREQUENCY } from 'common/constants';
+import { get } from 'common/parameters';
 import dataMapGenerator from '../../dataManager/map';
 import { updateCacheInvalidation } from '../../store/actions/hsc';
 import { main } from '../ipc';
@@ -19,13 +19,16 @@ const buttonsProps = {
 
 export default class Debug extends PureComponent {
   static propTypes = {
-    dummy: PropTypes.func,
-    toggleHelp: PropTypes.func,
+    dummy: PropTypes.func.isRequired,
+    toggleHelp: PropTypes.func.isRequired,
+    play: PropTypes.func.isRequired,
+    pause: PropTypes.func.isRequired,
     focusedPage: PropTypes.shape({
       timebarUuid: PropTypes.string,
     }),
-    play: PropTypes.func,
-    pause: PropTypes.func,
+  };
+  static defaultProps = {
+    focusedPage: { timebarUuid: null },
   };
   static contextTypes = {
     store: React.PropTypes.object.isRequired,
@@ -76,7 +79,7 @@ export default class Debug extends PureComponent {
       console.log('EXCLUSIVE');
       Perf.printExclusive();
       this.props.pause(this.props.focusedPage.timebarUuid);
-    }, HSC_ORCHESTRATION_FREQUENCY);
+    }, get('ORCHESTRATION_FREQUENCY'));
   }
 
   profileTick = () => {
@@ -85,7 +88,7 @@ export default class Debug extends PureComponent {
     setTimeout(() => {
       _get(console, ['profileEnd'])('tick');
       this.props.pause(this.props.focusedPage.timebarUuid);
-    }, HSC_ORCHESTRATION_FREQUENCY * 2 * 3);
+    }, get('ORCHESTRATION_FREQUENCY') * 2 * 3);
   }
 
   render() {

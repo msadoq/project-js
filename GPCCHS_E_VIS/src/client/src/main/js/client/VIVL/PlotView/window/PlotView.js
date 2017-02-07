@@ -666,7 +666,7 @@ export class PlotView extends PureComponent {
   }
 
   handleOnWheel = () => {
-    if (!this.state.zoomedOrPanned
+    if (!this.state.zoomedOrPanned && this.el
       && this.el.parentElement.querySelector(':hover')) {
       this.disconnect();
     }
@@ -674,7 +674,7 @@ export class PlotView extends PureComponent {
 
   handleOnKeyUp = (e) => {
     const { disableZoom } = this.state;
-    if (e.keyCode === 17 && !disableZoom
+    if (e.keyCode === 17 && !disableZoom && this.el
       && this.el.parentElement.querySelector(':hover')) {
       this.setState({ disableZoom: true });
       this.forceUpdate();
@@ -683,7 +683,7 @@ export class PlotView extends PureComponent {
 
   handleOnKeyDown = (e) => {
     const { disableZoom } = this.state;
-    if (e.keyCode === 17 && disableZoom
+    if (e.keyCode === 17 && disableZoom && this.el
       && this.el.parentElement.querySelector(':hover')) {
       this.setState({ disableZoom: false });
       this.forceUpdate();

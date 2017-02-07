@@ -92,10 +92,41 @@ export class PlotView extends PureComponent {
       lower: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
       current: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
       upper: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
-    }),
-    viewId: PropTypes.string,
-    addEntryPoint: PropTypes.func,
-    entryPoints: PropTypes.array,
+    }).isRequired,
+    viewId: PropTypes.string.isRequired,
+    addEntryPoint: PropTypes.func.isRequired,
+    entryPoints: PropTypes.arrayOf(PropTypes.shape({
+      connectedDataX: PropTypes.shape({
+        axisId: PropTypes.string,
+        digits: PropTypes.number,
+        domain: PropTypes.string,
+        filter: PropTypes.arrayOf(PropTypes.shape({
+          field: PropTypes.string,
+          operand: PropTypes.string,
+          operator: PropTypes.string,
+        })),
+        format: PropTypes.string,
+        formula: PropTypes.string,
+        timeline: PropTypes.string,
+        unit: PropTypes.string,
+      }),
+      connectedDataY: PropTypes.shape({
+        axisId: PropTypes.string,
+        digits: PropTypes.number,
+        domain: PropTypes.string,
+        filter: PropTypes.arrayOf(PropTypes.shape({
+          field: PropTypes.string,
+          operand: PropTypes.string,
+          operator: PropTypes.string,
+        })),
+        format: PropTypes.string,
+        formula: PropTypes.string,
+        timeline: PropTypes.string,
+        unit: PropTypes.string,
+      }),
+      name: PropTypes.string,
+      id: PropTypes.string,
+    })).isRequired,
     configuration: PropTypes.shape({
       type: PropTypes.string.isRequired,
       links: PropTypes.array,
@@ -294,10 +325,10 @@ export class PlotView extends PureComponent {
       >
         <div>
           {epWithErrors
-            .map((ep, i) => (
+            .map(ep => (
               <div
                 className={styles.entryPointErrorSubDiv}
-                key={i}
+                key={ep.name}
               >
                 {ep.name}: {ep.error}
               </div>
@@ -581,32 +612,34 @@ export class PlotView extends PureComponent {
       data,
       visuWindow,
     } = this.props;
-
+    let info = 'unknown';
     if (containerWidth <= 0 || containerHeight <= 0) {
-      return `invisible size received ${containerWidth}x${containerHeight}`;
+      info = `invisible size received ${containerWidth}x${containerHeight}`;
     }
     if (!visuWindow) {
-      return 'No vizualisation window';
+      info = 'No vizualisation window';
     }
     if (!data.columns || !data.columns.length || data.columns.length < 2) {
-      return 'no point';
+      info = 'no point';
     }
     if (data.columns.length < 2) {
-      return 'only one point';
+      info = 'only one point';
     }
 
     if (!this.lines || !this.lines.length) {
-      return 'invalid view configuration';
+      info = 'invalid view configuration';
     }
+    return info;
   }
 
   xAccessor = (d) => {
+    let toReturn = 'data undefined';
     if (typeof d === 'undefined' || typeof d.x === 'undefined') {
       logger.debug('empty point received');
-      return;
+    } else {
+      toReturn = new Date(d.x);
     }
-
-    return new Date(d.x);
+    return toReturn;
   };
 
   reconnect = () => {

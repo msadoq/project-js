@@ -69,11 +69,11 @@ export default class TextView extends PureComponent {
         formula: PropTypes.string,
         timeline: PropTypes.string,
         unit: PropTypes.string,
-        filter: PropTypes.shape(PropTypes.arrayOf(PropTypes.shape({
+        filter: PropTypes.arrayOf(PropTypes.shape({
           field: PropTypes.string,
           operand: PropTypes.string,
           operator: PropTypes.string,
-        }))),
+        })),
       }),
     })).isRequired,
     show: PropTypes.string.isRequired,

@@ -11,7 +11,7 @@ import { get } from 'common/parameters';
 
 import TextViewValue from './TextViewValue';
 import WYSIWYG from './WYSIWYG';
-import DroppableContainer from '../../../lib/windowProcess/common/DroppableContainer';
+import DroppableContainer from '../../common/DroppableContainer';
 
 const logger = getLogger('view:text');
 

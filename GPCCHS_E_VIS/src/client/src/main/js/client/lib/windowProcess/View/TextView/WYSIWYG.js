@@ -3,13 +3,13 @@ import { Field, reduxForm } from 'redux-form';
 import {
   Form,
 } from 'react-bootstrap';
-import { lint } from '../../../lib/common/htmllint';
+import { lint } from '../../../common/htmllint';
 import {
   CodeMirrorField,
-} from '../../../lib/windowProcess/Editor/Components/Fields';
+} from '../../Editor/Components/Fields';
 import {
   ClearSubmitButtons,
-} from '../../../lib/windowProcess/Editor/Components/Forms/';
+} from '../../Editor/Components/Forms';
 import styles from './WYSIWYG.css';
 
 class WYSIWYG extends PureComponent {

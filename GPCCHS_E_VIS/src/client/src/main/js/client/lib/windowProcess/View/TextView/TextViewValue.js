@@ -5,7 +5,7 @@ import {
   Tooltip,
 } from 'react-bootstrap';
 
-import { stateColors } from '../../../lib/windowProcess/common/colors';
+import { stateColors } from '../../../windowProcess/common/colors';
 
 const getTextStyle = color => ({
   textShadow: `

@@ -16,7 +16,7 @@ import {
   // interactive
 } from 'react-stockcharts';
 
-import getDynamicObject from '../../../lib/windowProcess/common/getDynamicObject';
+import getDynamicObject from '../../common/getDynamicObject';
 import {
   getLines,
   getLineMarker,
@@ -27,11 +27,11 @@ import {
   drawBadge,
   zoomDateFormat,
 } from './helper';
-import { stateColors } from '../../../lib/windowProcess/common/colors';
-import DroppableContainer from '../../../lib/windowProcess/common/DroppableContainer';
-import { Danger } from '../../../lib/windowProcess/View/Alert';
+import { stateColors } from '../../common/colors';
+import DroppableContainer from '../../common/DroppableContainer';
+import { Danger } from '../Alert';
 import styles from './PlotView.css';
-import { getEntryPointColorObj } from '../../../lib/store/selectors/views';
+import { getEntryPointColorObj } from '../../../store/selectors/views';
 
 const logger = getLogger('view:plot');
 

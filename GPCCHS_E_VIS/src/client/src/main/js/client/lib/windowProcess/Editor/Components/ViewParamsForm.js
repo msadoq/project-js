@@ -40,12 +40,12 @@ class ViewParamsForm extends React.Component {
         color: PropTypes.string,
         bgColor: PropTypes.string,
       }),
-    }),
-    handleSubmit: PropTypes.func,
-    pristine: PropTypes.bool,
-    reset: PropTypes.func,
-    submitting: PropTypes.bool,
-    valid: PropTypes.bool,
+    }).isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    pristine: PropTypes.bool.isRequired,
+    reset: PropTypes.func.isRequired,
+    submitting: PropTypes.bool.isRequired,
+    valid: PropTypes.bool.isRequired,
   }
 
   handleTitle = ({ target: { value: title } }) => {

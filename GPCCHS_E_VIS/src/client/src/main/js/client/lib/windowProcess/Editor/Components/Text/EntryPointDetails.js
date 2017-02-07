@@ -16,9 +16,28 @@ import EntryPointStateColors from '../EntryPoint/EntryPointStateColors';
 export default class EntryPointDetails extends React.Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
-    timelines: PropTypes.array,
-    idPoint: PropTypes.number,
-    entryPoint: PropTypes.object,
+    timelines: PropTypes.arrayOf(PropTypes.shape({
+      color: PropTypes.string,
+      id: PropTypes.string,
+      kind: PropTypes.string,
+      offset: PropTypes.number,
+      sessionId: PropTypes.number,
+      timelineId: PropTypes.string,
+    })).isRequired,
+    idPoint: PropTypes.number.isRequired,
+    entryPoint: PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      connectedData: PropTypes.shape({
+        digits: PropTypes.number,
+        domain: PropTypes.string,
+        filter: PropTypes.arrayOf(PropTypes.shape({
+          field: PropTypes.string,
+          operand: PropTypes.string,
+          operator: PropTypes.string,
+        })),
+      }),
+    }).isRequired,
     updateEntryPoint: PropTypes.func.isRequired,
   }
 

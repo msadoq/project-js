@@ -16,9 +16,25 @@ import EntryPointDetailsContainer from './EntryPointDetailsContainer';
 
 export default class EntryPointTree extends React.Component {
   static propTypes = {
-    entryPoints: PropTypes.array,
-    search: PropTypes.string,
-    remove: PropTypes.func,
+    entryPoints: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      connectedData: PropTypes.shape({
+        digits: PropTypes.number,
+        domain: PropTypes.string,
+        filter: PropTypes.arrayOf(PropTypes.shape({
+          field: PropTypes.string,
+          operand: PropTypes.string,
+          operator: PropTypes.string,
+        })),
+        format: PropTypes.string,
+        formula: PropTypes.string,
+        timeline: PropTypes.string,
+        unit: PropTypes.string,
+      }),
+    })),
+    search: PropTypes.string.isRequired,
+    remove: PropTypes.func.isRequired,
   }
 
   static defaultProps = {

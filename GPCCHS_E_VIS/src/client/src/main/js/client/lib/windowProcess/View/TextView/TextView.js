@@ -70,7 +70,7 @@ export default class TextView extends PureComponent {
   }
 
   componentWillMount() {
-    this.template = beautifyHtml(this.props.content, { indent_size: 2 });
+    this.template = { html: beautifyHtml(this.props.content, { indent_size: 2 }) };
     this.setState({
       Content: this.getContentComponent(),
     });
@@ -145,7 +145,7 @@ export default class TextView extends PureComponent {
     ];
 
     const comp = this.htmlToReactParser.parseWithInstructions(
-      `<div>${this.template}</div>`,
+      `<div>${this.template.html}</div>`,
       () => true,
       processingInstructions
     );
@@ -174,11 +174,11 @@ export default class TextView extends PureComponent {
 
     return (isViewsEditorOpen && this.props.show === 'html'
       ? <WYSIWYG
-        initialValues={{ html: this.template }}
+        initialValues={this.template}
         entryPoints={entryPoints.map(ep => ep.name)}
         onSubmit={this.handleSubmit}
         form={`textView-form-${viewId}`}
-      /> // eslint-disable-line react-perf/jsx-no-new-object-as-prop
+      />
       : <DroppableContainer onDrop={this.onDrop}><Content /></DroppableContainer>);
   }
 }

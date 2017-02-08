@@ -715,10 +715,10 @@ export class PlotView extends PureComponent {
     });
   }
 
-  /* eslint-disable no-param-reassign */
   // eslint-disable-next-line class-methods-use-this
-  tooltipCanvas({ fontFamily, fontSize, fontFill }, content, ctx) {
+  tooltipCanvas({ fontFamily, fontSize, fontFill }, content, context) {
     const startY = 10 + (fontSize * 0.9);
+    const ctx = context;
 
     ctx.font = `${fontSize}px ${fontFamily}`;
     ctx.fillStyle = fontFill;
@@ -748,11 +748,11 @@ export class PlotView extends PureComponent {
       });
     }
   }
-  /* eslint-enable-next-line no-param-reassign */
 
   // eslint-disable-next-line class-methods-use-this
-  backgroundShapeCanvas(props, { width, height }, ctx) {
+  backgroundShapeCanvas(props, { width, height }, context) {
     const { fill, stroke, opacity } = props;
+    const ctx = context;
     ctx.fillStyle = hexToRGBA(fill, opacity);
     ctx.strokeStyle = stroke;
     ctx.beginPath();

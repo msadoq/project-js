@@ -107,7 +107,9 @@ function init(path, checkForRequired = false) {
     fs.accessSync(localPath, fs.constants.F_OK);
     fs.accessSync(localPath, fs.constants.R_OK);
     localConfig = JSON.parse(fs.readFileSync(localPath, 'utf8'));
-  } catch (e) {} // eslint-disable-line no-empty
+  } catch (e) {
+    localConfig = {};
+  }
 
   // check for required parameters
   if (!checkForRequired) {

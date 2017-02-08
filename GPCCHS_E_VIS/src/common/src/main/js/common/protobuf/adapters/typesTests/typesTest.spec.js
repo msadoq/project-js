@@ -1,4 +1,3 @@
-/* eslint import/no-dynamic-require:0 global-require:0 */
 const _each = require('lodash/each');
 const { Long } = require('../../../utils/test');
 const fs = require('fs');
@@ -53,6 +52,7 @@ const checkBuffer = (type, file, value, decoder) => {
 describe('protobuf/lpisis/CCSDS_MAL_TYPES', () => {
   _each(decoders, (decoder, type) => {
     describe(`${type}`, () => {
+      // eslint-disable-next-line import/no-dynamic-require
       const index = require(`./${type}`);
       _each(index, (value, fileName) => {
         it(`${value}`, () => checkBuffer(type, `${rootpath}/${type}/${fileName}`, value, decoder));

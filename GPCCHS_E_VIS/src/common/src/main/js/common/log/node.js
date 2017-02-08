@@ -61,9 +61,8 @@ memory consumption
 
 let cpt = 0;
 const availableTransports = {
-  // eslint-disable-next-line no-return-assign
-  console: args => new winston.transports.Console(
-    Object.assign({
+  console: (args) => {
+    const opts = Object.assign({
       timestamp: false,
       level: 'info',
       colorize: true,
@@ -74,10 +73,11 @@ const availableTransports = {
         }
         return wCommon.log(getStdOptions(options));
       },
-    }, args)),
-  // eslint-disable-next-line no-return-assign
-  file: args => new winston.transports.File(
-    Object.assign({
+    }, args);
+    return new winston.transports.Console(opts);
+  },
+  file: (args) => {
+    const opts = Object.assign({
       filename: get('LOG_FILENAME'),
       timestamp: true,
       level: 'info',
@@ -86,13 +86,16 @@ const availableTransports = {
       maxsize: 10 * 1000 * 1000, // 10 mo per file
       maxFiles: 100,
       tailable: true, // most recent file is always named `filename`
-    }, args)),
-  // eslint-disable-next-line no-return-assign
-  http: args => new winston.transports.Http(
-    Object.assign({
+    }, args);
+    return new winston.transports.File(opts);
+  },
+  http: (args) => {
+    const opts = Object.assign({
       host: 'localhost',
       port: 9003,
-    }, args)),
+    }, args);
+    return new winston.transports.Http(opts);
+  },
 };
 
 const getTime = getTimer();
@@ -156,14 +159,12 @@ function getLogger(category, enabledTransports) {
     const exclude = _propOr('(?=a)b', 'exclude', params);
     const log = t.constructor.prototype.log;
 
-    // eslint-disable-next-line no-param-reassign
-    t.log = function logWithFilter(...args) {
+    function logWithFilter(...args) {
       if ((new RegExp(include, 'g')).test(category) &&
-          !(new RegExp(exclude, 'g')).test(category)) {
+        !(new RegExp(exclude, 'g')).test(category)) {
         const meta = args[2];
 
         if (params.time) {
-          // eslint-disable-next-line no-param-reassign
           meta.time = meta.time || `${getTime()}ms`;
         } else {
           delete meta.time;
@@ -185,24 +186,12 @@ function getLogger(category, enabledTransports) {
 
         log.apply(this, args);
       }
-    };
+    }
+
+    Object.assign(t, { log: logWithFilter });
   });
 
   return logger;
-}
-
-// If executed into electron main process, listen to IPC 'log' messages coming from child processes
-if (process.versions.electron) {
-  // eslint-disable-next-line
-  const { ipcMain } = require('electron');
-
-  ipcMain.on('log', (event, { category, level, msg, rest }) => {
-    if (!loggers[category]) {
-      loggers[category] = getLogger(category);
-    }
-
-    loggers[category][level].apply(null, [msg].concat(rest));
-  });
 }
 
 module.exports = {

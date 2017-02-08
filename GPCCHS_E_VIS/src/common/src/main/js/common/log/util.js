@@ -1,11 +1,10 @@
-/* eslint no-restricted-properties:0 */
 const _ = require('lodash/fp');
 const _floor = require('lodash/floor');
 const _round = require('lodash/round');
 
-const GIGA_BYTES = Math.pow(2, 30);
-const MEGA_BYTES = Math.pow(2, 20);
-const KILO_BYTES = Math.pow(2, 10);
+const GIGA_BYTES = 1073741824;
+const MEGA_BYTES = 1048576;
+const KILO_BYTES = 1024;
 
 const TRANSPORT_SEPARATOR = ':';
 const TRANSPORT_ARGS_ASSIGNMENT = '?';
@@ -41,10 +40,17 @@ const getTimer = () => {
 };
 
 // Convert value to boolean or number if possible
-const parseValue = value => (
-  value === 'true' ? true : // eslint-disable-line no-nested-ternary
-    (value === 'false' ? false :
-      (Number(value) || value)));
+const parseValue = (value) => {
+  if (value === 'true') {
+    return true;
+  } else if (value === 'false') {
+    return false;
+  } else if (Number(value)) {
+    return Number(value);
+  }
+
+  return value;
+};
 
 // Deserialize param string to object
 // param string format: <param1>=<value1>,<param2>=<value2>

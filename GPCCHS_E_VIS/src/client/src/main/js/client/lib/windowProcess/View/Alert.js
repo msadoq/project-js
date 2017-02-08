@@ -4,6 +4,7 @@ import {
   Button,
 } from 'react-bootstrap';
 import { withState, withProps } from 'recompose';
+import noop from 'lodash/noop';
 
 const dangerBtnStyle = { float: 'right' };
 
@@ -39,12 +40,16 @@ const Alert = ({
 );
 
 Alert.propTypes = {
-  bsStyle: PropTypes.string,
-  children: PropTypes.any.isRequired,
-  className: PropTypes.string,
-  style: PropTypes.object,
+  bsStyle: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string.isRequired,
+  style: PropTypes.shape({}).isRequired,
   visible: PropTypes.bool,
   setVisible: PropTypes.func,
+};
+Alert.defaultProps = {
+  visible: true,
+  setVisible: noop,
 };
 
 const CloseableAlert = withState('visible', 'setVisible', true)(Alert);

@@ -1,9 +1,7 @@
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
 import _ from 'lodash/fp';
 import u from 'updeep';
-
-// import parseFormula from '../../dataManager/structures/common/formula';
-import { getViewData } from './viewData';
+import { getData } from './viewData';
 import { compile } from '../../common/operators';
 import { getDomains } from './domains';
 import { getTimebars } from './timebars';
@@ -11,7 +9,6 @@ import { getTimelines } from './timelines';
 import { getWindowsVisibleViews } from './windows';
 import { getViewData as viewData } from '../../dataManager/map';
 import { getMasterSessionId } from './masterSession';
-// import { createLoggingSelector } from '../../common/utils';
 
 export const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
@@ -134,7 +131,7 @@ const getTextValueFn = (entryPoints, epName) => ({ value, ...args }) => ({
 // Apply state colors on entry points value and return view data with state colors
 export const getTextViewData = createSelector(
     getViewEntryPoints,
-    getViewData,
+    getData,
     (entryPoints, data) => u({
       values: {
         ...Object.keys(_.getOr({}, ['values'], data)).reduce((acc, epName) => ({

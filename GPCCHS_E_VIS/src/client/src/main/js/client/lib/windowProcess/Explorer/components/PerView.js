@@ -34,6 +34,10 @@ export default class PerView extends PureComponent {
     views: PropTypes.objectOf(PropTypes.object),
     sessions: PropTypes.arrayOf(PropTypes.object).isRequired,
     domains: PropTypes.arrayOf(PropTypes.object).isRequired,
+    count: PropTypes.number,
+  }
+  static defaultProps = {
+    count: 0,
   }
 
   perViewLine() {
@@ -117,6 +121,7 @@ export default class PerView extends PureComponent {
   render() {
     return (
       <div className={styles.content}>
+        <div>values count: {this.props.count}</div>
         <Table striped bordered condensed hover className={styles.table}>
           {perViewHeader()}
           <tbody>

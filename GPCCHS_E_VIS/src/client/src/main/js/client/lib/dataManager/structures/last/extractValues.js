@@ -2,6 +2,7 @@ import _each from 'lodash/each';
 import _has from 'lodash/has';
 import _get from 'lodash/get';
 import _set from 'lodash/set';
+import _isEqual from 'lodash/isEqual';
 import moment from 'moment';
 
 import getLogger from 'common/log';
@@ -33,7 +34,7 @@ export function select(remoteIdPayload, ep, epName, viewSubState, viewType) {
     if (timestamp < lower || timestamp > current) {
       return;
     }
-    if (timestamp >= previousTime) {
+    if (timestamp > previousTime) {
       if (viewType === 'TextView') {
         // Write value depending on its typeof
         const type = _get(p, [ep.field, 'type']);
@@ -57,6 +58,35 @@ export function select(remoteIdPayload, ep, epName, viewSubState, viewType) {
         };
       }
       previousTime = timestamp;
+    } else if (timestamp === previousTime) {
+      // Update the value if it is different
+      if (viewType === 'TextView') {
+        const type = _get(p, [ep.field, 'type']);
+        let val;
+        if (type === 'time') {
+          val = moment(_get(p, [ep.field, 'value'])).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS');
+        } else if (type === 'enum') {
+          val = _get(p, [ep.field, 'symbol']);
+        } else {
+          val = _get(p, [ep.field, 'value']);
+        }
+        if (viewSubState.values[epName] === val) {
+          return;
+        }
+        newValue = {
+          timestamp,
+          value: val,
+          monit: _get(p, ['monitoringState', 'value']),
+        };
+      } else {
+        if (_isEqual(viewSubState.values[epName].value, p)) {
+          return;
+        }
+        newValue = {
+          timestamp,
+          value: p,
+        };
+      }
     }
   });
   return newValue;

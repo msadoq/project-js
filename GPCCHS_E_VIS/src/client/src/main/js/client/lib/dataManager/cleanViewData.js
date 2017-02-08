@@ -3,12 +3,18 @@ import _difference from 'lodash/difference';
 import _each from 'lodash/each';
 import _map from 'lodash/map';
 import _find from 'lodash/find';
+import _isEqual from 'lodash/isEqual';
 import u from 'updeep';
 
 import structures from './structures';
 import vivl from '../../VIVL/main';
 
 export default function cleanViewData(viewDataState, oldViewMap, viewMap) {
+  // Check if viewMap has changed
+  if (_isEqual(viewMap, oldViewMap)) {
+    return viewDataState;
+  }
+
   let newState;
   // unmounted views
   const removedViews = _difference(Object.keys(oldViewMap), Object.keys(viewMap));

@@ -21,13 +21,12 @@ export default function viewData(state = {}, action) {
       }
       // since now, state will changed
       let newState;
-      // view definitions have changed => cleaning
-      if (!viewMapIsEqual) {
-        newState = cleanViewData(state, oldViewMap, newViewMap);
-      }
+      // if view definitions have changed => cleaning
+      newState = cleanViewData(state, oldViewMap, newViewMap);
+
       // Add payloads
       if (dataKeys.length) {
-        newState = inject(newState || state, newViewMap, action.payload.dataToInject);
+        newState = inject(newState, newViewMap, action.payload.dataToInject);
       }
       return newState || {};
     }

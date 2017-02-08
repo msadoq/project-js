@@ -117,7 +117,7 @@ export const walk = (masterSessionId, domains, timebars, timelines, views) =>
 
       // insert (perView)
       _set(map, ['perView', viewId, 'entryPoints', name],
-        Object.assign({}, inViewMap, { id: entryPoint.id }));
+        Object.assign({}, inViewMap, { id: entryPoint.id, offset }));
 
       // create remoteId node (perRemoteId)
       if (!_has(map, ['perRemoteId', remoteId])) {

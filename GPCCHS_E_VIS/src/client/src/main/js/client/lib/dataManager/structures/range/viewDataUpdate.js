@@ -4,7 +4,11 @@ import _findLastIndex from 'lodash/findLastIndex';
 import _keys from 'lodash/keys';
 import _each from 'lodash/each';
 import _concat from 'lodash/concat';
-import _reduce from 'lodash/reduce';
+
+import pickBy from 'lodash/fp/pickBy';
+import prop from 'lodash/fp/prop';
+import pipe from 'lodash/fp/pipe';
+import isNumber from 'lodash/fp/isNumber';
 
 export default function viewDataUpdate(viewDataState, viewId, view) {
   const remove = view.remove;
@@ -87,12 +91,8 @@ export function viewRangeAdd(state = {}, payloads) {
   // TODO: use reduce and improve code understanding
   _each(keys, (key) => {
     // don't use payload if it's not a number
-    const value = _reduce(payloads[key], (list, p, key1) => {
-      if (typeof p.value === 'number') {
-        list[key1] = p; // eslint-disable-line no-param-reassign
-      }
-      return list;
-    }, {});
+    const keepNumbers = pickBy(pipe(prop('value'), isNumber));
+    const value = keepNumbers(payloads[key]);
     if (!Object.keys(value).length) {
       return;
     }

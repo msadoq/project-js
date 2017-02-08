@@ -1,20 +1,17 @@
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
 
-export default class Explorer extends PureComponent {
-  static propTypes = {
-    toggleExplorer: PropTypes.func,
-  }
+const Explorer = ({ toggleExplorer }) => (
+  <Button
+    bsSize="sm"
+    bsStyle="default"
+    onClick={toggleExplorer}
+  >
+    Explorer
+  </Button>
+);
+Explorer.propTypes = {
+  toggleExplorer: PropTypes.func.isRequired,
+};
 
-  render() {
-    return (
-      <Button
-        bsSize="sm"
-        bsStyle="default"
-        onClick={this.props.toggleExplorer}
-      >
-        Explorer
-      </Button>
-    );
-  }
-}
+export default Explorer;

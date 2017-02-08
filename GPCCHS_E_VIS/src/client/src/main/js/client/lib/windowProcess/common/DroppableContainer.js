@@ -76,7 +76,7 @@ export default class DroppableContainer extends PureComponent {
     try {
       this.props.onDrop(e);
     } catch (err) {
-      console.error(err); // eslint-disable-line no-console
+      logger.error(err);
       logger.info('unable to parse dropped data');
     } finally {
       this.setState({

@@ -1,8 +1,9 @@
 import { dirname } from 'path';
+import omit from 'lodash/fp/omit';
+import isArray from 'lodash/fp/isArray';
 import _cloneDeep from 'lodash/cloneDeep';
-import _omit from 'lodash/omit';
 import _values from 'lodash/values';
-import _each from 'lodash/each';
+// import _each from 'lodash/each';
 import {
   DATASTRUCTURETYPE_RANGE,
   LOG_DOCUMENT_SAVE,
@@ -24,13 +25,11 @@ import { writeDocument } from './io';
  * @param callback
  * @returns Error or undefined
  */
- // eslint-disable-next-line no-unused-vars
 const saveViewAs = fmdApi => (viewConfiguration, viewType, path, callback) => {
   if (!viewConfiguration) {
     callback(new Error('Unknown view'));
     return;
   }
-  // createFolder(dirname(path)).then(() => {
   createFolder(dirname(path), (err) => {
     if (err) {
       callback(err);
@@ -48,22 +47,25 @@ const saveViewAs = fmdApi => (viewConfiguration, viewType, path, callback) => {
       return;
     }
 
-    // const structureType = vivl(viewType, 'structureType')();
-    switch (structureType) { // eslint-disable-line default-case
+    switch (structureType) {
       case DATASTRUCTURETYPE_RANGE: {
         view.axes = _values(view.axes);
         break;
       }
+      default: {
+        break;
+      }
     }
-    // Remove entry point id
-    _each(view.entryPoints, (value, index, entryPoints) => {
-      entryPoints[index] = _omit(value, 'id'); // eslint-disable-line no-param-reassign
-    });
 
     // Case of DynamicView
-    if (view.type === 'DynamicView' && view.entryPoints && view.entryPoints.length) {
-      view.entryPoint = _omit(view.entryPoints[0], 'name');
-      view = _omit(view, 'entryPoints');
+    if (view.type === 'DynamicView' && isArray(view.entryPoints)) {
+      view.entryPoint = omit('name', view.entryPoints[0]);
+      view = omit('entryPoints', view);
+    }
+
+    // Remove entry point id
+    if (isArray(view.entryPoints)) {
+      view.entryPoints = view.entryPoints.map(omit('id'));
     }
 
     const validationError = validation(view.type, view, schema);

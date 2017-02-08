@@ -1,22 +1,19 @@
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import {
   Button,
 } from 'react-bootstrap';
 
-export default class Help extends PureComponent {
-  static propTypes = {
-    toggleHelp: PropTypes.func,
-  }
+const Help = ({ toggleHelp }) => (
+  <Button
+    bsSize="sm"
+    bsStyle="default"
+    onClick={toggleHelp}
+  >
+    Help
+  </Button>
+);
+Help.propTypes = {
+  toggleHelp: PropTypes.func.isRequired,
+};
 
-  render() {
-    return (
-      <Button
-        bsSize="sm"
-        bsStyle="default"
-        onClick={this.props.toggleHelp}
-      >
-        Help
-      </Button>
-    );
-  }
-}
+export default Help;

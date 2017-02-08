@@ -1,12 +1,10 @@
-/* eslint no-console:0 no-use-before-define:0 */
+/* eslint no-console:0 */
 const async = require('async');
 const _each = require('lodash/each');
 const _chunk = require('lodash/chunk');
 const _slice = require('lodash/slice');
 const parseArgs = require('minimist');
-
-const { should } = require('../utils/test');
-
+const { should } = require('../utils/test');
 const zmq = require('../zmq');
 const { getType, encode, decode } = require('../protobuf');
 const constants = require('../constants');
@@ -62,7 +60,6 @@ let trashFlag = true;
 // TRASH DATA
 const trashPullHandler = (callback) => {
   console.log('receiving trash from dc');
-  console.log();
   if (trashFlag) {
     console.log('...end test');
   }
@@ -73,7 +70,6 @@ const trashPullHandler = (callback) => {
 // DOMAIN DATA
 const domainDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
   console.log('receiving a message from dc');
-  console.log();
   const header = decode('dc.dataControllerUtils.Header', headerBuffer);
   header.messageType.should.equal(constants.MESSAGETYPE_DOMAIN_DATA);
   const queryId = decode('dc.dataControllerUtils.String', argsBuffers[0]).string;
@@ -97,21 +93,6 @@ const sessionDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =
   console.log('...end test');
   callback(null);
 };
-
-// FILEPATH DATA
-/* const filepathDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
-  console.log('receiving a message from dc');
-  console.log();
-  const header = decode('dc.dataControllerUtils.Header', headerBuffer);
-  header.messageType.should.equal(constants.MESSAGETYPE_FMD_GET_DATA);
-  const queryId = decode('dc.dataControllerUtils.String', argsBuffers[0]).string;
-  queryId.should.equal(myQueryId);
-  const oid = decode('dc.dataControllerUtils.String', argsBuffers[1]).string;
-  oid.should.equal(myOid);
-  zmq.closeSockets();
-  console.log('...end test');
-  callback(null);
-}; */
 
 // ARCHIVE DATA
 const archiveDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
@@ -202,8 +183,6 @@ const documentGetPullHandler = (waitedFilename = undefined) =>
       }
     }
     zmq.closeSockets();
-    // (() => decode('dc.dataControllerUtils.Timestamp', argsBuffers[2])).should.not.throw();
-    //  console.log('toto');
   };
 
 const sessionMasterDataHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
@@ -255,66 +234,6 @@ const sessionTimeDataHandler = (callback, trash, headerBuffer, ...argsBuffers) =
   console.log(decode('dc.dataControllerUtils.Timestamp', argsBuffers[1]));
   (() => decode('dc.dataControllerUtils.Timestamp', argsBuffers[1])).should.not.throw();
   zmq.closeSockets();
-};
-
-// START PUBSUB DATA
-const pubSubDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
-  console.log('receiving a message from dc');
-  console.log(step);
-  switch (step) {
-    case steps.RESPONSE:
-      {
-        const header = decode('dc.dataControllerUtils.Header', headerBuffer);
-        header.messageType.should.equal(constants.MESSAGETYPE_RESPONSE);
-        should.exist(decode('dc.dataControllerUtils.String', argsBuffers[0]).string);
-        // TODO give myQueryId as argument to the pull handler.
-        // queryId.should.equal(myQueryId);
-        decode('dc.dataControllerUtils.Status', argsBuffers[1]).status.should.equal(constants.STATUS_SUCCESS);
-        step = steps.PUBSUB_DATA;
-        break;
-      }
-    case steps.PUBSUB_DATA:
-      {
-        console.log(headerBuffer);
-        if (headerBuffer.length === 0) {
-          step = steps.PUBSUB_DATA;
-          break;
-        }
-        const header = decode('dc.dataControllerUtils.Header', headerBuffer);
-        header.messageType.should.be.oneOf([
-          constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA,
-          constants.MESSAGETYPE_RESPONSE,
-        ]);
-        if (header.messageType === constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA) {
-          (() => decode('dc.dataControllerUtils.String', argsBuffers[0])).should.not.throw();
-          const dataId = decode('dc.dataControllerUtils.DataId', argsBuffers[1]);
-          if (dataId.catalog) {
-            dataId.should.have.properties(myDataId);
-          } else {
-            dataId.should.have.properties(myComObjectDataId);
-          }
-          // (_slice(argsBuffers, 2).length % 2).should.equal(0);
-          _each(_chunk(_slice(argsBuffers, 2), 2), (argBuffer) => {
-            (() => decode('dc.dataControllerUtils.Timestamp', argBuffer[0])).should.not.throw();
-            (() => decode(getType(dataId.comObject), argBuffer[1])).should.not.throw();
-          });
-          sendZmqMessage(tbStopSubMessageArgs(dataId));
-        }
-        if (header.messageType === constants.MESSAGETYPE_RESPONSE) {
-          step = steps.PUBSUB_DATA;
-        }
-        break;
-      }
-    default:
-      callback(new Error('Error in test'));
-  }
-  if (step === steps.STOP) {
-    zmq.closeSockets();
-    console.log('...end test');
-    callback(null);
-  } else {
-    console.log('waiting for a next message (pubsub)');
-  }
 };
 
 const now = Date.now();
@@ -398,11 +317,11 @@ const myDataId = {
   domainId: domainIdTest,  // TODO type is currently uint32, should be uint16 (bytes)
 };
 
-const myTcId = {
-  comObject: 'TCHistory',
-  sessionId: sessionIdTest, // TODO type is currently uint32, should be uint16 (bytes)
-  domainId: domainIdTest,  // TODO type is currently uint32, should be uint16 (bytes)
-};
+// const myTcId = {
+//   comObject: 'TCHistory',
+//   sessionId: sessionIdTest, // TODO type is currently uint32, should be uint16 (bytes)
+//   domainId: domainIdTest,  // TODO type is currently uint32, should be uint16 (bytes)
+// };
 
 const myComObjectDataId = {
   comObject: 'IsisAggregation',
@@ -411,25 +330,26 @@ const myComObjectDataId = {
 };
 
 
-const dataIdWithTypo = {
-  parameterName: 'ATT_BC_STR1VOLAGE',      // typo error on parameterName
-  catalog: 'Reporting',
-  comObject: 'ReportingParameter',
-  sessionId: sessionIdTest,
-  domainId: 1,
-  url: 'theUrl',
-  version: 'theVersion',
-};
+// const dataIdWithTypo = {
+//   parameterName: 'ATT_BC_STR1VOLAGE',      // typo error on parameterName
+//   catalog: 'Reporting',
+//   comObject: 'ReportingParameter',
+//   sessionId: sessionIdTest,
+//   domainId: 1,
+//   url: 'theUrl',
+//   version: 'theVersion',
+// };
 
 
-// timebased query
-const tbQueryMessageArgs = [
-  encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_TIMEBASED_QUERY }),
-  encode('dc.dataControllerUtils.String', { string: myQueryId }),
-  encode('dc.dataControllerUtils.DataId', myDataId),
-  encode('dc.dataControllerUtils.TimeInterval', timeInterval),
-  encode('dc.dataControllerUtils.QueryArguments', queryArguments),
-];
+// // timebased query
+// const tbQueryMessageArgs = [
+//   encode('dc.dataControllerUtils.Header',
+//      { messageType: constants.MESSAGETYPE_TIMEBASED_QUERY }),
+//   encode('dc.dataControllerUtils.String', { string: myQueryId }),
+//   encode('dc.dataControllerUtils.DataId', myDataId),
+//   encode('dc.dataControllerUtils.TimeInterval', timeInterval),
+//   encode('dc.dataControllerUtils.QueryArguments', queryArguments),
+// ];
 
 // domain query
 const domainQueryMessageArgs = [
@@ -444,53 +364,53 @@ const sessionQueryMessageArgs = [
 ];
 
 
-
-let makeQueries = (parameter) => {
-  let dataId = Object.assign({}, myDataId);
+const makeQueries = (parameter) => {
+  const dataId = Object.assign({}, myDataId);
   dataId.parameterName = parameter;
   // console.log(dataId);
-  return  [
+  return [
     encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_TIMEBASED_QUERY }),
     encode('dc.dataControllerUtils.String', { string: myQueryId }),
     encode('dc.dataControllerUtils.DataId', dataId),
     encode('dc.dataControllerUtils.TimeInterval', timeInterval),
     encode('dc.dataControllerUtils.QueryArguments', queryArguments),
   ];
-}
+};
 
-let makeSub = (parameter) => {
-  let dataId = Object.assign({}, myDataId);
+const makeSub = (parameter) => {
+  const dataId = Object.assign({}, myDataId);
   dataId.parameterName = parameter;
-  return  [
+  return [
     encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION }),
     encode('dc.dataControllerUtils.String', { string: dataId.parameterName }),
     encode('dc.dataControllerUtils.DataId', dataId),
     encode('dc.dataControllerUtils.Action', { action: constants.SUBSCRIPTIONACTION_ADD }),
-  ]
-}
+  ];
+};
 
-let makeUnsub = (parameter) => {
-  let dataId = Object.assign({}, myDataId);
-  dataId.parameterName = parameter;
-  return  [
-    encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION }),
-    encode('dc.dataControllerUtils.String', { string: dataId.parameterName }),
-    encode('dc.dataControllerUtils.DataId', dataId),
-    encode('dc.dataControllerUtils.Action', { action: constants.SUBSCRIPTIONACTION_DELETE }),
-  ]
-}
+// const makeUnsub = (parameter) => {
+//   const dataId = Object.assign({}, myDataId);
+//   dataId.parameterName = parameter;
+//   return [
+//     encode('dc.dataControllerUtils.Header',
+//       { messageType: constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION }),
+//     encode('dc.dataControllerUtils.String', { string: dataId.parameterName }),
+//     encode('dc.dataControllerUtils.DataId', dataId),
+//     encode('dc.dataControllerUtils.Action', { action: constants.SUBSCRIPTIONACTION_DELETE }),
+//   ];
+// };
 
-let allSubs = ParameterNames.map(makeSub);
-let allUnsubs = ParameterNames.map(makeUnsub);
-let allQueries = ParameterNames.map(makeQueries);
-//console.log(allSubs);
+const allSubs = ParameterNames.map(makeSub);
+// const allUnsubs = ParameterNames.map(makeUnsub);
+const allQueries = ParameterNames.map(makeQueries);
+// console.log(allSubs);
 
 
 // timebased subscription start
 const sessionTimeQueryMessage = [
   encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_SESSION_TIME_QUERY }),
   encode('dc.dataControllerUtils.String', { string: myQueryId }),
-  encode('dc.dataControllerUtils.SessionGetTime', { id : 1 }),
+  encode('dc.dataControllerUtils.SessionGetTime', { id: 1 }),
 ];
 
 // timebased subscription start
@@ -500,25 +420,26 @@ const sessionMasterQueryMessage = [
 ];
 
 const logAttributes = [
-    '1st paramemeter',
-    '2nd parameter',
+  '1st paramemeter',
+  '2nd parameter',
 ];
 
 // timebased subscription start
 const sendLogMessageArgs = [
   encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_LOG_SEND }),
   encode('dc.dataControllerUtils.String', { string: myQueryId }),
-  encode('dc.dataControllerUtils.SendLog', { uid : 3401, arguments : logAttributes }),
+  encode('dc.dataControllerUtils.SendLog', { uid: 3401, arguments: logAttributes }),
 ];
 
 
-// timebased subscription start
-const tbStartSubMessageArgs = [
-  encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION }),
-  encode('dc.dataControllerUtils.String', { string: myQueryId }),
-  encode('dc.dataControllerUtils.DataId', myDataId),
-  encode('dc.dataControllerUtils.Action', { action: constants.SUBSCRIPTIONACTION_ADD }),
-];
+// // timebased subscription start
+// const tbStartSubMessageArgs = [
+//   encode('dc.dataControllerUtils.Header',
+//     { messageType: constants.MESSAGETYPE_TIMEBASED_SUBSCRIPTION }),
+//   encode('dc.dataControllerUtils.String', { string: myQueryId }),
+//   encode('dc.dataControllerUtils.DataId', myDataId),
+//   encode('dc.dataControllerUtils.Action', { action: constants.SUBSCRIPTIONACTION_ADD }),
+// ];
 
 // timebased subscription start
 const tbStartWholeComObjectSubMessageArgs = [
@@ -538,22 +459,78 @@ const tbStopSubMessageArgs = (dataId = myDataId) => [
 
 // timebased subscription stop
 const documentCreateQueryMessageArgs = [
-  encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY}),
+  encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY }),
   encode('dc.dataControllerUtils.String', { string: myOtherQueryId }),
   encode('dc.dataControllerUtils.FMDCreateDocument', createDocumentProto('HistoryViewTest42.vihv')),
 ];
 
 
 const makeDocumentGetQueryMessageArgs = oid => [
-  encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_FMD_GET_QUERY}),
+  encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_FMD_GET_QUERY }),
   encode('dc.dataControllerUtils.String', { string: myOtherQueryId }),
-  encode('dc.dataControllerUtils.FMDGet',  { serializedOid : oid }),
+  encode('dc.dataControllerUtils.FMDGet', { serializedOid: oid }),
 ];
 
 // document get from an oid example.
 const documentGetQueryMessageArgs = makeDocumentGetQueryMessageArgs('0067000801000000010000000000000404');
 
-
+// START PUBSUB DATA
+const pubSubDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
+  console.log('receiving a message from dc');
+  console.log(step);
+  switch (step) {
+    case steps.RESPONSE: {
+      const header = decode('dc.dataControllerUtils.Header', headerBuffer);
+      header.messageType.should.equal(constants.MESSAGETYPE_RESPONSE);
+      should.exist(decode('dc.dataControllerUtils.String', argsBuffers[0]).string);
+      // TODO give myQueryId as argument to the pull handler.
+      // queryId.should.equal(myQueryId);
+      decode('dc.dataControllerUtils.Status', argsBuffers[1]).status.should.equal(constants.STATUS_SUCCESS);
+      step = steps.PUBSUB_DATA;
+      break;
+    }
+    case steps.PUBSUB_DATA: {
+      console.log(headerBuffer);
+      if (headerBuffer.length === 0) {
+        step = steps.PUBSUB_DATA;
+        break;
+      }
+      const header = decode('dc.dataControllerUtils.Header', headerBuffer);
+      header.messageType.should.be.oneOf([
+        constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA,
+        constants.MESSAGETYPE_RESPONSE,
+      ]);
+      if (header.messageType === constants.MESSAGETYPE_TIMEBASED_PUBSUB_DATA) {
+        (() => decode('dc.dataControllerUtils.String', argsBuffers[0])).should.not.throw();
+        const dataId = decode('dc.dataControllerUtils.DataId', argsBuffers[1]);
+        if (dataId.catalog) {
+          dataId.should.have.properties(myDataId);
+        } else {
+          dataId.should.have.properties(myComObjectDataId);
+        }
+        // (_slice(argsBuffers, 2).length % 2).should.equal(0);
+        _each(_chunk(_slice(argsBuffers, 2), 2), (argBuffer) => {
+          (() => decode('dc.dataControllerUtils.Timestamp', argBuffer[0])).should.not.throw();
+          (() => decode(getType(dataId.comObject), argBuffer[1])).should.not.throw();
+        });
+        sendZmqMessage(tbStopSubMessageArgs(dataId));
+      }
+      if (header.messageType === constants.MESSAGETYPE_RESPONSE) {
+        step = steps.PUBSUB_DATA;
+      }
+      break;
+    }
+    default:
+      callback(new Error('Error in test'));
+  }
+  if (step === steps.STOP) {
+    zmq.closeSockets();
+    console.log('...end test');
+    callback(null);
+  } else {
+    console.log('waiting for a next message (pubsub)');
+  }
+};
 
 // SESSION MASTER TEST
 const sessionMasterTest =
@@ -599,27 +576,29 @@ const documentGetTest =
 
 
 // Oid of the document to get, filename to check on the gotten document
-const getAndCheckFilename = (oid,filename) => {
-    console.log('getAndCheckFilename');
-    createZmqConnection( () => undefined, documentGetPullHandler(filename));
-    sendZmqMessage(makeDocumentGetQueryMessageArgs(oid));
-}
+const getAndCheckFilename = (oid, filename) => {
+  console.log('getAndCheckFilename');
+  createZmqConnection(() => undefined, documentGetPullHandler(filename));
+  sendZmqMessage(makeDocumentGetQueryMessageArgs(oid));
+};
 
   // DOMAIN TEST
 const documentCreateAndGetTest =
   (callback) => {
     console.log('> Test Document create and get');
 
-    let fileName = 'Poulette3.vihv';
-    const documentCreateQueryMessageArgs = [
-      encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY}),
+    const fileName = 'Poulette3.vihv';
+    const documentCreateQueryMessageArgs2 = [
+      encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_FMD_CREATE_DOCUMENT_QUERY }),
       encode('dc.dataControllerUtils.String', { string: myOtherQueryId }),
       encode('dc.dataControllerUtils.FMDCreateDocument', createDocumentProto(fileName)),
     ];
 
-    // after reception of Create data from DC, wait 2 seconds, and send a 'Get' message on oid created.
-    createZmqConnection(callback, documentCreatePullHandler(oid => setTimeout(() => getAndCheckFilename(oid,fileName), 2000)));
-    sendZmqMessage(documentCreateQueryMessageArgs);
+    // after reception of Create data from DC, wait 2 seconds,
+    // and send a 'Get' message on oid created.
+    createZmqConnection(callback,
+      documentCreatePullHandler(oid => setTimeout(() => getAndCheckFilename(oid, fileName), 2000)));
+    sendZmqMessage(documentCreateQueryMessageArgs2);
   };
 
 // Principle : try to overwelm GPCCDC with queries, the Handler then calls a callback when
@@ -629,12 +608,20 @@ const congestionTest =
     console.log('> Test Congestion');
 
     // Variable that is set on congestionDataPullHandler callback when receiving congestion msg.
-    isCongested = false;
-    createZmqConnection(callback, congestionDataPullHandler((isCong) => {isCongested = isCong;}));
+    let isCongested = false;
+    createZmqConnection(callback, congestionDataPullHandler((isCong) => {
+      isCongested = isCong;
+    }));
 
     // Send 52 request at 10hz. Don't send any queries when UNHEALTHY.
-    setInterval(() => { if (!isCongested) { allQueries.map((query) => sendZmqMessage(query))}} , 10);
-    // const id = setInterval(() => { if (!isCongested) { allQueries.map((query) => sendZmqMessage(query))} else clearInterval(id)}, 100);
+    setInterval(() => {
+      if (!isCongested) {
+        allQueries.map(query => sendZmqMessage(query));
+      }
+    }, 10);
+    // const id = setInterval(() => {
+    // if (!isCongested) { allQueries.map((query) => sendZmqMessage(query))} else clearInterval(id)
+    // }, 100);
   };
 
 // DOMAIN TEST
@@ -667,9 +654,10 @@ const pubSubTest =
   (callback) => {
     console.log('> Test PubSub');
     createZmqConnection(callback, pubSubDataPullHandler);
-    allSubs.map((sub) => sendZmqMessage(sub));
+    allSubs.map(sub => sendZmqMessage(sub));
     // setInterval(() =>  allUnsubs.map((query) => sendZmqMessage(query)), 2000);
-    // setTimeout(() => setInterval(() =>  allSubs.map((query) => sendZmqMessage(query)), 2000), 1000);
+    // setTimeout(() => setInterval(() =>
+    // allSubs.map((query) => sendZmqMessage(query)), 2000), 1000);
   };
 // PUBSUB WHOLE COM OBJECT TEST
 const pubSubWholeTest =
@@ -692,11 +680,11 @@ const trashTest =
 let testFunctions = [];
 
 const options = {
-  boolean: ['d', 'p', 'a', 's', 'f', 'all', 't', 'w', 'dc', 'dg', 'st', 'log', 'sm', 'dcg','cgn'],
+  boolean: ['d', 'p', 'a', 's', 'f', 'all', 't', 'w', 'dc', 'dg', 'st', 'log', 'sm', 'dcg', 'cgn'],
   default: {
     all: true,
     cgn: false,
-    dcg : false,
+    dcg: false,
     dc: false,
     dg: false,
     st: false,
@@ -711,10 +699,10 @@ const options = {
     f: false,
   },
   alias: {
-    dcg : 'documentCreateGet',
-    cgn : 'congestion',
-    dc : 'documentcreate',
-    dg : 'documentget',
+    dcg: 'documentCreateGet',
+    cgn: 'congestion',
+    dc: 'documentcreate',
+    dg: 'documentget',
     st: 'sessiontime',
     log: 'sendLog',
     sm: 'sessionmaster',

@@ -8,7 +8,7 @@ export default class InputField extends React.Component {
   static propTypes = {
     input: PropTypes.shape({
       name: PropTypes.string,
-      value: PropTypes.string,
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }).isRequired,
     placeholder: PropTypes.string,
     className: PropTypes.string.isRequired,

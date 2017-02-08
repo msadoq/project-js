@@ -1,4 +1,4 @@
-import React, { PureComponent, PropTypes } from 'react';
+import React from 'react';
 import _ from 'lodash/fp';
 
 import { getRandomColor } from '../common/colors';
@@ -47,40 +47,32 @@ const items = [
   },
 ];
 
-export default class DummyDrag extends PureComponent {
-  static propTypes = {
-    dispatch: PropTypes.func,
-    viewId: PropTypes.string,
-  }
+const dragStart = (item, e) => {
+  e.dataTransfer.setData(
+    item.mime,
+    _.pipe(
+      _.dissoc('mime'),
+      JSON.stringify
+    )(item)
+  );
+};
 
-  // eslint-disable-next-line
-  dragStart(item, e) {
-    e.dataTransfer.setData(
-      item.mime,
-      _.pipe(
-        _.dissoc('mime'),
-        JSON.stringify
-      )(item)
-    );
-  }
+const dragStartFactory = _.memoize(item => e => dragStart(item, e));
 
-  dragStartFactory = _.memoize(item => e => this.dragStart(item, e));
-
-  render() {
-    return (
-      <div style={s.container} >
-        <span style={{ marginRight: '1em' }}>Drag-moi</span>
-        {items.map(item =>
-          <div
-            key={item.name}
-            style={{ ...s.box, backgroundColor: getRandomColor() }}
-            draggable
-            onDragStart={this.dragStartFactory(item)}
-          >
-            {item.name}
-          </div>
-        )}
+const DummyDrag = () => (
+  <div style={s.container} >
+    <span style={{ marginRight: '1em' }}>Drag-moi</span>
+    {items.map(item =>
+      <div
+        key={item.name}
+        style={{ ...s.box, backgroundColor: getRandomColor() }}
+        draggable
+        onDragStart={dragStartFactory(item)}
+      >
+        {item.name}
       </div>
-    );
-  }
-}
+    )}
+  </div>
+);
+
+export default DummyDrag;

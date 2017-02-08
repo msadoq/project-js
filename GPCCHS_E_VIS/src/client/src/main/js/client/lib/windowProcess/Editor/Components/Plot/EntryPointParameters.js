@@ -30,13 +30,17 @@ class EntryPointParameters extends React.Component {
       }).isRequired,
       curveColor: PropTypes.string,
     }).isRequired,
-    handleSubmit: PropTypes.func,
-    pristine: PropTypes.bool,
-    reset: PropTypes.func,
+    handleSubmit: PropTypes.func.isRequired,
+    pristine: PropTypes.bool.isRequired,
+    reset: PropTypes.func.isRequired,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
   }
 
+  static defaultProps = {
+    submitting: false,
+    valid: false,
+  }
   render() {
     const {
       handleSubmit,

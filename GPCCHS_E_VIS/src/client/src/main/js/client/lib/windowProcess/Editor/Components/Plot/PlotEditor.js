@@ -81,7 +81,7 @@ export default class PlotEditor extends Component {
       backgroundColor: PropTypes.string,
       legend: PropTypes.object,
       markers: PropTypes.array,
-    }),
+    }).isRequired,
   }
 
   componentWillMount() {

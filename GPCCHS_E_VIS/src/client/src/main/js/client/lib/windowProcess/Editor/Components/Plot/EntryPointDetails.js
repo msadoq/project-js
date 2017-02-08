@@ -17,7 +17,7 @@ import EntryPointStateColors from '../EntryPoint/EntryPointStateColors';
 export default class EntryPointDetails extends PureComponent {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
-    timelines: PropTypes.arrayOf(PropTypes.Shape({})).isRequired,
+    timelines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
     idPoint: PropTypes.number.isRequired,
     axes: PropTypes.shape({}).isRequired,
     entryPoint: PropTypes.shape({

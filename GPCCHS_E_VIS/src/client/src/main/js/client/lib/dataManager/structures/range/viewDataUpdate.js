@@ -4,11 +4,9 @@ import _findLastIndex from 'lodash/findLastIndex';
 import _keys from 'lodash/keys';
 import _each from 'lodash/each';
 import _concat from 'lodash/concat';
-
-import pickBy from 'lodash/fp/pickBy';
-import prop from 'lodash/fp/prop';
-import pipe from 'lodash/fp/pipe';
-import isNumber from 'lodash/fp/isNumber';
+import _pickBy from 'lodash/pickBy';
+import _isNumber from 'lodash/isNumber';
+import _isEmpty from 'lodash/isEmpty';
 
 export default function viewDataUpdate(viewDataState, viewId, view) {
   const remove = view.remove;
@@ -91,9 +89,8 @@ export function viewRangeAdd(state = {}, payloads) {
   // TODO: use reduce and improve code understanding
   _each(keys, (key) => {
     // don't use payload if it's not a number
-    const keepNumbers = pickBy(pipe(prop('value'), isNumber));
-    const value = keepNumbers(payloads[key]);
-    if (!Object.keys(value).length) {
+    const value = _pickBy(payloads[key], p => _isNumber(p.value));
+    if (_isEmpty(value)) {
       return;
     }
 

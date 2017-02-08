@@ -48,7 +48,8 @@ export default class ColorPicker extends React.Component {
           bsSize="xsmall"
           onClick={this.handleClick}
         ><None /></Button>
-        {this.state.display &&
+        {
+          this.state.display &&
           <div className={styles.popover}>
             <TwitterPicker
               onChangeComplete={this.handleChangeComplete}
@@ -56,7 +57,8 @@ export default class ColorPicker extends React.Component {
               colors={colors}
               width={width}
             />
-          </div>}
+          </div>
+        }
       </div>
     );
   }

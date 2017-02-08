@@ -24,41 +24,44 @@ const s = {
 
 const tableStyle = { fontSize: '12px' };
 
-export const MonitoringStateColors = ({ visible, setVisible }) => (
-  <div className="mt10">
-    <h4 className="mb10" style={s.title}>
-      <a onClick={() => setVisible(!visible)}>
-        <span className="col-xs-11 pl0">Default colors</span>
-        <Glyphicon className="col-xs-1" glyph={visible ? 'triangle-top' : 'triangle-bottom'} />
-      </a>
-    </h4>
-    {visible && <Table condensed striped style={tableStyle}>
-      <thead>
-        <tr>
-          <th>Color</th>
-          <th>Condition</th>
-        </tr>
-      </thead>
-      <tbody>
-        {Object.keys(stateColors).map(c => (
-          <tr key={c}>
-            <td className="col-xs-2">
-              <div
-                style={{
-                  ...s.colorBox,
-                  backgroundColor: stateColors[c],
-                }}
-              />
-            </td>
-            <td className="col-xs-10" style={s.condition}>
-              state equals {c}
-            </td>
+export const MonitoringStateColors = ({ visible, setVisible }) => {
+  const changeVisibility = () => setVisible(!visible);
+  return (
+    <div className="mt10">
+      <h4 className="mb10" style={s.title}>
+        <button className="btn-a w100" onClick={changeVisibility}>
+          <span className="col-xs-11 pl0">Default colors</span>
+          <Glyphicon className="col-xs-1" glyph={visible ? 'triangle-top' : 'triangle-bottom'} />
+        </button>
+      </h4>
+      {visible && <Table condensed striped style={tableStyle}>
+        <thead>
+          <tr>
+            <th>Color</th>
+            <th>Condition</th>
           </tr>
-        ))}
-      </tbody>
-    </Table>}
-  </div>
-);
+        </thead>
+        <tbody>
+          {Object.keys(stateColors).map(c => (
+            <tr key={c}>
+              <td className="col-xs-2">
+                <div
+                  style={{
+                    ...s.colorBox,
+                    backgroundColor: stateColors[c],
+                  }}
+                />
+              </td>
+              <td className="col-xs-10" style={s.condition}>
+                state equals {c}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>}
+    </div>
+  );
+};
 
 MonitoringStateColors.propTypes = {
   visible: PropTypes.bool.isRequired,

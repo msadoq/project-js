@@ -94,7 +94,7 @@ export function open(windowId, title, data, cb) {
   window.parameters = parameters;
 
   // persist windowId on BrowserWindow instance
-  window.windowId = windowId; // eslint-disable-line no-param-reassign
+  window.windowId = windowId;
 
   // prevent garbage collection
   windows[windowId] = window;

@@ -35,9 +35,9 @@ class PlotAxis extends PureComponent {
       showAxis: PropTypes.bool,
       style: PropTypes.object,
     }).isRequired,
-    showTicks: PropTypes.bool.isRequired,
-    autoTick: PropTypes.bool.isRequired,
-    autoLimits: PropTypes.bool.isRequired,
+    showTicks: PropTypes.bool,
+    autoTick: PropTypes.bool,
+    autoLimits: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     reset: PropTypes.func.isRequired,
@@ -76,8 +76,14 @@ class PlotAxis extends PureComponent {
         unit: PropTypes.string,
       }),
     })).isRequired,
-    label: PropTypes.string.isRequired,
+    label: PropTypes.string,
   }
+  static defaultProps = {
+    showTicks: false,
+    autoTick: false,
+    autoLimits: false,
+    label: '',
+  };
 
   componentDidMount() {
     if (!this.props.initialValues) {
@@ -133,6 +139,7 @@ class PlotAxis extends PureComponent {
         // spanInlineStyle[i]
         relatedEntryPoints.push(
           <span
+            key={ep.name}
             className={classnames('label', 'label-default', styles.relatedEntryPoint)}
             style={getDynamicObject()(
               { backgroundColor: _get(ep, ['objectStyle', 'curveColor'], '#333') }
@@ -145,6 +152,7 @@ class PlotAxis extends PureComponent {
       if (_get(ep, ['connectedDataY', 'axisId']) === label) {
         relatedEntryPoints.push(
           <span
+            key={ep.name}
             className={classnames('label', 'label-default', styles.relatedEntryPoint)}
             style={getDynamicObject()(
               { backgroundColor: _get(ep, ['objectStyle', 'curveColor'], '#333') }

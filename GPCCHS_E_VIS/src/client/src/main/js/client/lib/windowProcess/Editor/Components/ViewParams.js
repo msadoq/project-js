@@ -7,7 +7,7 @@ export default class ViewParams extends React.Component {
     updateTitle: PropTypes.func.isRequired,
     updateTitleStyle: PropTypes.func.isRequired,
     updateBgColor: PropTypes.func.isRequired,
-    backgroundColor: PropTypes.string.isRequired,
+    backgroundColor: PropTypes.string,
     title: PropTypes.string,
     titleStyle: PropTypes.shape({
       font: PropTypes.string,
@@ -33,6 +33,7 @@ export default class ViewParams extends React.Component {
       align: 'left',
       color: '#000000',
     },
+    backgroundColor: '#000000',
   }
 
   handleSubmit = (values) => {

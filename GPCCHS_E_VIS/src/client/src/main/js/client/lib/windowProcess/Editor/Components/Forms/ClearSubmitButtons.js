@@ -43,11 +43,12 @@ ClearSubmitButtons.propTypes = {
   valid: PropTypes.bool.isRequired,
   pristine: PropTypes.bool.isRequired,
   asyncValidating: PropTypes.bool,
-  reset: PropTypes.func.isRequired,
+  reset: PropTypes.func,
 };
 
 ClearSubmitButtons.defaultProps = {
   asyncValidating: false,
+  reset: null,
 };
 
 export default ClearSubmitButtons;

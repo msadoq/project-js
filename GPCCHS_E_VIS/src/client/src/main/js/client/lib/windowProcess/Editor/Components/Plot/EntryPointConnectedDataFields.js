@@ -167,7 +167,9 @@ EntryPointConnectedDataFields.propTypes = {
   prefix: PropTypes.string.isRequired,
   unit: PropTypes.string.isRequired,
   axisId: PropTypes.string.isRequired,
-  timeBasedData: PropTypes.bool.isRequired,
+  timeBasedData: PropTypes.bool,
 };
-
+EntryPointConnectedDataFields.defaultProps = {
+  timeBasedData: false,
+};
 export default EntryPointConnectedDataFields;

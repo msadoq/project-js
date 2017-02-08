@@ -17,10 +17,41 @@ import EntryPointStateColors from '../EntryPoint/EntryPointStateColors';
 export default class EntryPointDetails extends PureComponent {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
-    timelines: PropTypes.array.isRequired,
-    idPoint: PropTypes.number,
-    axes: PropTypes.object,
-    entryPoint: PropTypes.object,
+    timelines: PropTypes.arrayOf(PropTypes.Shape({})).isRequired,
+    idPoint: PropTypes.number.isRequired,
+    axes: PropTypes.shape({}).isRequired,
+    entryPoint: PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      connectedDataX: PropTypes.shape({
+        axisId: PropTypes.string,
+        digit: PropTypes.number,
+        domain: PropTypes.string,
+        filter: PropTypes.arrayOf(PropTypes.shape({
+          field: PropTypes.string,
+          operand: PropTypes.string,
+          operator: PropTypes.string,
+        })),
+        format: PropTypes.string,
+        formula: PropTypes.string,
+        timeline: PropTypes.string,
+        unit: PropTypes.string,
+      }),
+      connectedDataY: PropTypes.shape({
+        axisId: PropTypes.string,
+        digit: PropTypes.number,
+        domain: PropTypes.string,
+        filter: PropTypes.arrayOf(PropTypes.shape({
+          field: PropTypes.string,
+          operand: PropTypes.string,
+          operator: PropTypes.string,
+        })),
+        format: PropTypes.string,
+        formula: PropTypes.string,
+        timeline: PropTypes.string,
+        unit: PropTypes.string,
+      }),
+    }).isRequired,
     updateEntryPoint: PropTypes.func.isRequired,
   }
 

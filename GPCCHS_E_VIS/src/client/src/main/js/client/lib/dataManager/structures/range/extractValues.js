@@ -8,7 +8,7 @@ import getLogger from 'common/log';
 
 const logger = getLogger('data:rangeValues');
 
-export function select(remoteIdPayload, ep, epName, viewState, count) {
+export function select(remoteIdPayload, ep, epName, viewState) {
   const lower = ep.expectedInterval[0];
   const upper = ep.expectedInterval[1];
   const newState = {};
@@ -47,13 +47,12 @@ export function select(remoteIdPayload, ep, epName, viewState, count) {
           symbol: _get(value, [ep.fieldY, 'symbol']),
         });
       }
-      count.range += 1; // eslint-disable-line no-param-reassign
     }
   });
   return newState;
 }
 
-export default function extractValues(state, payload, viewId, entryPoints, count) {
+export default function extractValues(state, payload, viewId, entryPoints) {
   let isFirstEp = true;
   // Get current state for update
   const epSubState = {};
@@ -75,7 +74,7 @@ export default function extractValues(state, payload, viewId, entryPoints, count
       _set(viewData, ['structureType'], globalConstants.DATASTRUCTURETYPE_RANGE);
       isFirstEp = false;
     }
-    Object.assign(epSubState, select(payload[ep.remoteId], ep, epName, epSubState, count));
+    Object.assign(epSubState, select(payload[ep.remoteId], ep, epName, epSubState));
   });
   if (Object.keys(epSubState).length !== 0) {
     _set(viewData, ['add'], epSubState);

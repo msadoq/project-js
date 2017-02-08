@@ -97,8 +97,7 @@ describe('data/map/lastValue', () => {
   });
   describe('lastValue', () => {
     it('state empty', () => {
-      const count = { last: 0, range: 0 };
-      const newState = lastValue({}, payload, 'text1', viewDataMap.text1.entryPoints, count, 'TextView');
+      const newState = lastValue({}, payload, 'text1', viewDataMap.text1.entryPoints, 'TextView');
       newState.index.ep4.should.equal(20);
       newState.values.ep4.should.eql({ value: 203, monit: 'ok' });
       newState.index.ep7.should.equal(13);
@@ -106,8 +105,7 @@ describe('data/map/lastValue', () => {
       newState.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
     });
     it('state undefined', () => {
-      const count = { last: 0, range: 0 };
-      const newState = lastValue(undefined, payload, 'text1', viewDataMap.text1.entryPoints, count, 'TextView');
+      const newState = lastValue(undefined, payload, 'text1', viewDataMap.text1.entryPoints, 'TextView');
       newState.index.ep4.should.equal(20);
       newState.values.ep4.should.eql({ value: 203, monit: 'ok' });
       newState.index.ep7.should.equal(13);
@@ -115,8 +113,7 @@ describe('data/map/lastValue', () => {
       newState.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
     });
     it('multiple entry points', () => {
-      const count = { last: 0, range: 0 };
-      const newState = lastValue({}, payload, 'text2', viewDataMap.text2.entryPoints, count, 'TextView');
+      const newState = lastValue({}, payload, 'text2', viewDataMap.text2.entryPoints, 'TextView');
       newState.index.ep6.should.equal(20);
       newState.values.ep6.should.eql({ value: 203, monit: 'ok' });
       newState.index.ep5.should.equal(20);
@@ -124,8 +121,7 @@ describe('data/map/lastValue', () => {
       newState.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
     });
     it('dynamic view', () => {
-      const count = { last: 0, range: 0 };
-      const newState = lastValue({}, payload, 'dynamic', viewDataMap.dynamic.entryPoints, count, 'DynamicView');
+      const newState = lastValue({}, payload, 'dynamic', viewDataMap.dynamic.entryPoints, 'DynamicView');
       newState.index.dynamicEP.should.equal(20);
       newState.values.dynamicEP.value.should.eql({
         val1: { type: 'uinteger', value: 201 },

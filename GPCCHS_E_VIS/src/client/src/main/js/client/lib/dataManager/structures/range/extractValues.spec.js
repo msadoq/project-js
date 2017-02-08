@@ -65,16 +65,15 @@ describe('data/map/extractValues', () => {
   };
 
   describe('range value', () => {
-    const count = { last: 0, range: 0 };
     it('state undefined', () => {
       const newState = select(payload.rId1, viewDataMap.plot1.entryPoints.ep1,
-        'ep1', undefined, count);
+        'ep1', undefined);
       newState['10'].ep1.should.eql({ x: 10.2, value: 101, monit: 'ok', symbol: undefined });
       newState['15'].ep1.should.eql({ x: 15.2, value: 151, monit: 'ok', symbol: undefined });
     });
     it('state empty', () => {
       const newState = select(payload.rId1, viewDataMap.plot1.entryPoints.ep1,
-        'ep1', {}, count);
+        'ep1', {});
       newState['10'].should.eql({ ep1: { x: 10.2, value: 101, monit: 'ok', symbol: undefined } });
       newState['15'].should.eql({ ep1: { x: 15.2, value: 151, monit: 'ok', symbol: undefined } });
     });
@@ -82,7 +81,7 @@ describe('data/map/extractValues', () => {
       const oldState = { 10: { ep10: { x: 11.5, col1: 101 } },
         12.5: { ep10: { x: 12.5, value: 102 } } };
       const newState = select(payload.rId1, viewDataMap.plot1.entryPoints.ep1,
-        'ep1', oldState, count);
+        'ep1', oldState);
       newState['10'].should.eql({ ep1: { x: 10.2, value: 101, monit: 'ok', symbol: undefined },
         ep10: { x: 11.5, col1: 101 } });
       newState['15'].should.eql({ ep1: { x: 15.2, value: 151, monit: 'ok', symbol: undefined } });
@@ -90,14 +89,13 @@ describe('data/map/extractValues', () => {
     it('no change', () => {
       const oldState = { 10: { ep1: [{ x: 1001.5, col1: 101 }, { x: 1002.5, value: 102 }] } };
       const newState = select(payload.rId1, viewDataMap.plot3.entryPoints.ep1,
-        'ep1', oldState, count);
+        'ep1', oldState);
       newState.should.deep.equal({});
     });
   });
   describe('selectRangeValue', () => {
     it('unique entry point', () => {
-      const count = { last: 0, range: 0 };
-      const viewData = extractValues({}, payload, 'myId', viewDataMap.plot1.entryPoints, count);
+      const viewData = extractValues({}, payload, 'myId', viewDataMap.plot1.entryPoints);
       viewData.should.have.all.keys(['remove', 'add', 'structureType']);
       const ep = viewDataMap.plot1.entryPoints.ep1;
       viewData.remove.lower.should.equal(ep.expectedInterval[0] + ep.offset);
@@ -108,8 +106,7 @@ describe('data/map/extractValues', () => {
       Object.keys(viewData.add).should.have.length(6);
     });
     it('multiple entry point', () => {
-      const count = { last: 0, range: 0 };
-      const viewData = extractValues({}, payload, 'myId', viewDataMap.plot2.entryPoints, count);
+      const viewData = extractValues({}, payload, 'myId', viewDataMap.plot2.entryPoints);
       viewData.should.have.all.keys(['remove', 'add', 'structureType']);
       const ep = viewDataMap.plot2.entryPoints.ep2;
       viewData.remove.lower.should.equal(ep.expectedInterval[0] + ep.offset);

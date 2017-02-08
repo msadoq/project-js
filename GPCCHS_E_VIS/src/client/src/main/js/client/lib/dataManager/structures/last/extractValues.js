@@ -92,12 +92,13 @@ export function select(remoteIdPayload, ep, epName, viewSubState, viewType) {
   return newValue;
 }
 
-export default function extractValues(viewDataState,
-                                      payload,         // eslint-disable-line indent
-                                      viewId,          // eslint-disable-line indent
-                                      entryPoints,     // eslint-disable-line indent
-                                      count,           // eslint-disable-line indent
-                                      viewType) {      // eslint-disable-line indent
+export default function extractValues(
+  viewDataState,
+  payload,
+  viewId,
+  entryPoints,
+  viewType
+) {
   let viewData;
   // Entry points
   _each(entryPoints, (ep, epName) => {
@@ -121,7 +122,6 @@ export default function extractValues(viewDataState,
       monit: newData.monit,
     });
     _set(viewData, ['structureType'], globalConstants.DATASTRUCTURETYPE_LAST);
-    count.last += 1; // eslint-disable-line no-param-reassign
   });
   return viewData;
 }

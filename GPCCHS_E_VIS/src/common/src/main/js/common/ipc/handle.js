@@ -1,4 +1,3 @@
-/* eslint consistent-return:0 */
 const getLogger = require('../log');
 const {
   IPC_RPC_REQUEST,
@@ -27,7 +26,8 @@ module.exports = (controller, data, replyMethod) => {
 
   const { type, queryId, method, payload } = data;
   if (typeof type === 'undefined') {
-    return logger.warn('invalid message received (no type)');
+    logger.warn('invalid message received (no type)');
+    return;
   }
 
   switch (type) {
@@ -41,7 +41,8 @@ module.exports = (controller, data, replyMethod) => {
     }
     case IPC_RPC_REQUEST: {
       if (!queryId) {
-        return logger.warn('RPC request without queryId');
+        logger.warn('RPC request without queryId');
+        return;
       }
 
       const fn = getMethodFromController(controller, method);
@@ -57,7 +58,8 @@ module.exports = (controller, data, replyMethod) => {
     }
     case IPC_RPC_RESPONSE: {
       if (!queryId) {
-        return logger.warn('RPC response without queryId');
+        logger.warn('RPC response without queryId');
+        return;
       }
 
       const fn = pop(queryId);

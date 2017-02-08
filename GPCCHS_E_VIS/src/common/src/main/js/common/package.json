@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "./lib/index.js",
   "scripts": {
-    "lint": "eslint .",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha \"!(node_modules)/**/*.spec.js\"",
+    "lint": "eslint .",
     "test": "mocha \"!(node_modules)/**/*.spec.js\"",
     "test:watch": "npm run test -- --watch",
     "tw": "npm test -- --watch",
@@ -44,6 +44,7 @@
     "eslint-plugin-import": "~2.2.0",
     "istanbul": "~0.4.5",
     "json-loader": "~0.5.4",
+    "long": "^3.2.0",
     "mocha": "~3.2.0"
   }
 }

@@ -1,7 +1,6 @@
 /* eslint import/no-dynamic-require:0 global-require:0 */
 const _each = require('lodash/each');
-const Long = require('long');
-require('../../../utils/test');
+const { Long } = require('../../../utils/test');
 const fs = require('fs');
 const protobuf = require('../../');
 const {

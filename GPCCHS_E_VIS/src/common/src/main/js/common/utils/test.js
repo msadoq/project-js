@@ -1,5 +1,5 @@
-/* eslint import/no-extraneous-dependencies:0 */
 const _each = require('lodash/each');
+const Long = require('long');
 
 // disable HTTP server logs for test run
 process.env.HTTP_LOGS = 0;
@@ -23,4 +23,6 @@ module.exports = {
   // request,
   testHandler,
   testPayloads,
+  // types
+  Long,
 };

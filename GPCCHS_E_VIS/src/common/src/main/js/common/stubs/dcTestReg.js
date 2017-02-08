@@ -1,4 +1,3 @@
-/* eslint no-console:0 */
 const async = require('async');
 const _each = require('lodash/each');
 const _chunk = require('lodash/chunk');
@@ -14,6 +13,7 @@ const domainIdTest = 4;
 const myQueryId = 'myQueryId';
 const myOtherQueryId = 'myOtherQueryId';
 
+const logger = (...args) => console.log(...args); // eslint-disable-line no-console
 
 const queryArguments = {
   filters: [],
@@ -59,9 +59,9 @@ const sendZmqMessage = (args) => {
 let trashFlag = true;
 // TRASH DATA
 const trashPullHandler = (callback) => {
-  console.log('receiving trash from dc');
+  logger('receiving trash from dc');
   if (trashFlag) {
-    console.log('...end test');
+    logger('...end test');
   }
   zmq.closeSockets();
   callback(null);
@@ -69,35 +69,35 @@ const trashPullHandler = (callback) => {
 
 // DOMAIN DATA
 const domainDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
-  console.log('receiving a message from dc');
+  logger('receiving a message from dc');
   const header = decode('dc.dataControllerUtils.Header', headerBuffer);
   header.messageType.should.equal(constants.MESSAGETYPE_DOMAIN_DATA);
   const queryId = decode('dc.dataControllerUtils.String', argsBuffers[0]).string;
   queryId.should.equal(myQueryId);
   (() => decode('dc.dataControllerUtils.Domains', argsBuffers[1])).should.not.throw();
   zmq.closeSockets();
-  console.log('...end test');
+  logger('...end test');
   callback(null);
 };
 
 // SESSION DATA
 const sessionDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
-  console.log('receiving a message from dc');
-  console.log();
+  logger('receiving a message from dc');
+  logger();
   const header = decode('dc.dataControllerUtils.Header', headerBuffer);
   header.messageType.should.equal(constants.MESSAGETYPE_SESSION_DATA);
   const queryId = decode('dc.dataControllerUtils.String', argsBuffers[0]).string;
   queryId.should.equal(myQueryId);
   (() => decode('dc.dataControllerUtils.Sessions', argsBuffers[1])).should.not.throw();
   zmq.closeSockets();
-  console.log('...end test');
+  logger('...end test');
   callback(null);
 };
 
 // ARCHIVE DATA
 const archiveDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
-  console.log('receiving a message from dc');
-  console.log(step);
+  logger('receiving a message from dc');
+  logger(step);
   switch (step) {
     case steps.RESPONSE:
       {
@@ -112,7 +112,7 @@ const archiveDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =
     case steps.ARCHIVE_DATA:
       {
         const header = decode('dc.dataControllerUtils.Header', headerBuffer);
-        console.log(header);
+        logger(header);
         if (header.messageType === constants.MESSAGETYPE_TIMEBASED_ARCHIVE_DATA) {
           (() => decode('dc.dataControllerUtils.String', argsBuffers[0])).should.not.throw();
           const dataId = decode('dc.dataControllerUtils.DataId', argsBuffers[1]);
@@ -130,10 +130,10 @@ const archiveDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =
   }
   if (step === steps.STOP) {
     zmq.closeSockets();
-    console.log('...end test');
+    logger('...end test');
     callback(null);
   } else {
-    console.log('waiting for a next message (archive)');
+    logger('waiting for a next message (archive)');
   }
 };
 
@@ -146,10 +146,10 @@ const documentCreatePullHandler = (onOidCreated = () => undefined) =>
     const statusPb = decode('dc.dataControllerUtils.Status', status);
     if (statusPb.status === constants.STATUS_ERROR) {
       const reasonPb = decode('dc.dataControllerUtils.String', fmdFileInfoOrReason);
-      console.log('documentCreatePullHandler error from create : ', reasonPb.string);
+      logger('documentCreatePullHandler error from create : ', reasonPb.string);
     } else {
       const fileInfoPb = decode('dc.dataControllerUtils.FMDFileInfo', fmdFileInfoOrReason);
-      console.log(fileInfoPb);
+      logger(fileInfoPb);
       onOidCreated(fileInfoPb.serializedOid);
     }
     zmq.closeSockets();
@@ -165,14 +165,14 @@ const documentGetPullHandler = (waitedFilename = undefined) =>
     const statusPb = decode('dc.dataControllerUtils.Status', status);
     if (statusPb.status === constants.STATUS_ERROR) {
       const reasonPb = decode('dc.dataControllerUtils.String', fmdFileInfoOrReason);
-      console.log('documentGetPullHandler error from get : ', reasonPb.string);
+      logger('documentGetPullHandler error from get : ', reasonPb.string);
     } else {
       const fileInfoPb = decode('dc.dataControllerUtils.FMDFileInfo', fmdFileInfoOrReason);
       switch (fileInfoPb.type) {
         case constants.FILE_TYPE_DOCUMENT:
           {
             const documentDataPb = decode('lpisis.file.Document', documentData);
-            console.log(documentDataPb);
+            logger(documentDataPb);
             if (typeof waitedFilename !== 'undefined') {
               documentDataPb.basename.value.should.equal(waitedFilename);
             }
@@ -186,8 +186,8 @@ const documentGetPullHandler = (waitedFilename = undefined) =>
   };
 
 const sessionMasterDataHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
-  console.log('sessionMasterDataHandler');
-  console.log(decode('lpisis.ccsds_mal.UINTEGER', argsBuffers[1]));
+  logger('sessionMasterDataHandler');
+  logger(decode('lpisis.ccsds_mal.UINTEGER', argsBuffers[1]));
   (() => decode('lpisis.ccsds_mal.uinteUINTEGERger', argsBuffers[1])).should.not.throw();
   zmq.closeSockets();
 };
@@ -204,7 +204,7 @@ const congestionDataPullHandler = (onCongestionReceived = () => undefined) =>
         case constants.MESSAGETYPE_DC_STATUS:
           {
             const dcStatus = decode('dc.dataControllerUtils.DcStatus', argsBuffers[0]);
-            console.log('switched to Healthy ');
+            logger('switched to Healthy ');
             dcStatus.status.should.equal(constants.HEALTH_STATUS_HEALTHY);
             onCongestionReceived(false);
             congestionReceived = false;
@@ -219,7 +219,7 @@ const congestionDataPullHandler = (onCongestionReceived = () => undefined) =>
       case constants.MESSAGETYPE_DC_STATUS:
         {
           const dcStatus = decode('dc.dataControllerUtils.DcStatus', argsBuffers[0]);
-          console.log('switched to congestion ');
+          logger('switched to congestion ');
           dcStatus.status.should.equal(constants.HEALTH_STATUS_CRITICAL);
           onCongestionReceived(true);
           congestionReceived = true;
@@ -231,7 +231,7 @@ const congestionDataPullHandler = (onCongestionReceived = () => undefined) =>
   };
 
 const sessionTimeDataHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
-  console.log(decode('dc.dataControllerUtils.Timestamp', argsBuffers[1]));
+  logger(decode('dc.dataControllerUtils.Timestamp', argsBuffers[1]));
   (() => decode('dc.dataControllerUtils.Timestamp', argsBuffers[1])).should.not.throw();
   zmq.closeSockets();
 };
@@ -367,7 +367,7 @@ const sessionQueryMessageArgs = [
 const makeQueries = (parameter) => {
   const dataId = Object.assign({}, myDataId);
   dataId.parameterName = parameter;
-  // console.log(dataId);
+  // logger(dataId);
   return [
     encode('dc.dataControllerUtils.Header', { messageType: constants.MESSAGETYPE_TIMEBASED_QUERY }),
     encode('dc.dataControllerUtils.String', { string: myQueryId }),
@@ -403,7 +403,7 @@ const makeSub = (parameter) => {
 const allSubs = ParameterNames.map(makeSub);
 // const allUnsubs = ParameterNames.map(makeUnsub);
 const allQueries = ParameterNames.map(makeQueries);
-// console.log(allSubs);
+// logger(allSubs);
 
 
 // timebased subscription start
@@ -476,8 +476,8 @@ const documentGetQueryMessageArgs = makeDocumentGetQueryMessageArgs('00670008010
 
 // START PUBSUB DATA
 const pubSubDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) => {
-  console.log('receiving a message from dc');
-  console.log(step);
+  logger('receiving a message from dc');
+  logger(step);
   switch (step) {
     case steps.RESPONSE: {
       const header = decode('dc.dataControllerUtils.Header', headerBuffer);
@@ -490,7 +490,7 @@ const pubSubDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =>
       break;
     }
     case steps.PUBSUB_DATA: {
-      console.log(headerBuffer);
+      logger(headerBuffer);
       if (headerBuffer.length === 0) {
         step = steps.PUBSUB_DATA;
         break;
@@ -525,17 +525,17 @@ const pubSubDataPullHandler = (callback, trash, headerBuffer, ...argsBuffers) =>
   }
   if (step === steps.STOP) {
     zmq.closeSockets();
-    console.log('...end test');
+    logger('...end test');
     callback(null);
   } else {
-    console.log('waiting for a next message (pubsub)');
+    logger('waiting for a next message (pubsub)');
   }
 };
 
 // SESSION MASTER TEST
 const sessionMasterTest =
   (callback) => {
-    console.log('> Test Get session master');
+    logger('> Test Get session master');
     createZmqConnection(callback, sessionMasterDataHandler);
     sendZmqMessage(sessionMasterQueryMessage);
   };
@@ -543,7 +543,7 @@ const sessionMasterTest =
 // SESSION TIME TEST
 const sessionTimeTest =
   (callback) => {
-    console.log('> Test Get session time');
+    logger('> Test Get session time');
     createZmqConnection(callback, sessionTimeDataHandler);
     sendZmqMessage(sessionTimeQueryMessage);
   };
@@ -551,7 +551,7 @@ const sessionTimeTest =
 // SESSION TIME TEST
 const sendLogTest =
     (callback) => {
-      console.log('> Test log');
+      logger('> Test log');
       // no handler for log (no response from DC)
       createZmqConnection(callback, undefined);
       sendZmqMessage(sendLogMessageArgs);
@@ -561,7 +561,7 @@ const sendLogTest =
 // DOCUMENT CREATE TEST
 const documentCreateTest =
   (callback) => {
-    console.log('> Test Document create');
+    logger('> Test Document create');
     createZmqConnection(callback, documentCreatePullHandler);
     sendZmqMessage(documentCreateQueryMessageArgs);
   };
@@ -569,7 +569,7 @@ const documentCreateTest =
 // DOMAIN TEST
 const documentGetTest =
   (callback) => {
-    console.log('> Test Document get');
+    logger('> Test Document get');
     createZmqConnection(callback, documentGetPullHandler);
     sendZmqMessage(documentGetQueryMessageArgs);
   };
@@ -577,7 +577,7 @@ const documentGetTest =
 
 // Oid of the document to get, filename to check on the gotten document
 const getAndCheckFilename = (oid, filename) => {
-  console.log('getAndCheckFilename');
+  logger('getAndCheckFilename');
   createZmqConnection(() => undefined, documentGetPullHandler(filename));
   sendZmqMessage(makeDocumentGetQueryMessageArgs(oid));
 };
@@ -585,7 +585,7 @@ const getAndCheckFilename = (oid, filename) => {
   // DOMAIN TEST
 const documentCreateAndGetTest =
   (callback) => {
-    console.log('> Test Document create and get');
+    logger('> Test Document create and get');
 
     const fileName = 'Poulette3.vihv';
     const documentCreateQueryMessageArgs2 = [
@@ -605,7 +605,7 @@ const documentCreateAndGetTest =
 // GPCCDC sends a Congestion message.
 const congestionTest =
   (callback) => {
-    console.log('> Test Congestion');
+    logger('> Test Congestion');
 
     // Variable that is set on congestionDataPullHandler callback when receiving congestion msg.
     let isCongested = false;
@@ -627,14 +627,14 @@ const congestionTest =
 // DOMAIN TEST
 const domainTest =
   (callback) => {
-    console.log('> Test Domain');
+    logger('> Test Domain');
     createZmqConnection(callback, domainDataPullHandler);
     sendZmqMessage(domainQueryMessageArgs);
   };
 // SESSION TEST
 const sessionTest =
   (callback) => {
-    console.log('> Test Session');
+    logger('> Test Session');
     createZmqConnection(callback, sessionDataPullHandler);
     sendZmqMessage(sessionQueryMessageArgs);
   };
@@ -642,7 +642,7 @@ const sessionTest =
 // ARCHIVE TEST
 const archiveTest =
   (callback) => {
-    console.log('> Test Archive');
+    logger('> Test Archive');
     createZmqConnection(callback, archiveDataPullHandler);
     // setInterval(() =>  allQueries.map((query) => sendZmqMessage(query)), 2000);
     sendZmqMessage(allQueries[0]);
@@ -652,7 +652,7 @@ const archiveTest =
 // PUBSUB TEST
 const pubSubTest =
   (callback) => {
-    console.log('> Test PubSub');
+    logger('> Test PubSub');
     createZmqConnection(callback, pubSubDataPullHandler);
     allSubs.map(sub => sendZmqMessage(sub));
     // setInterval(() =>  allUnsubs.map((query) => sendZmqMessage(query)), 2000);
@@ -662,14 +662,14 @@ const pubSubTest =
 // PUBSUB WHOLE COM OBJECT TEST
 const pubSubWholeTest =
   (callback) => {
-    console.log('> Test PubSub Whole Com Object');
+    logger('> Test PubSub Whole Com Object');
     createZmqConnection(callback, pubSubDataPullHandler);
     sendZmqMessage(tbStartWholeComObjectSubMessageArgs);
   };
 // TRASH TEST
 const trashTest =
   (callback) => {
-    console.log('> Trash Test');
+    logger('> Trash Test');
     createZmqConnection(callback, trashPullHandler);
     setTimeout(() => {
       trashFlag = false;
@@ -791,11 +791,11 @@ if (argv.all) {
   testFunctions.push(documentCreateTest);
   testFunctions.push(documentGetTest);
 }
-console.log('Closing existing sockets');
+logger('Closing existing sockets');
 zmq.closeSockets();
 
 async.series(testFunctions, (err) => {
   if (err) {
-    console.log(err.message);
+    logger(err.message);
   }
 });

@@ -19,7 +19,10 @@ const Messages = (props) => {
 };
 Messages.propTypes = {
   pageId: PropTypes.string.isRequired,
-  messages: PropTypes.array,
+  messages: PropTypes.arrayOf(PropTypes.shape({
+    message: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+  })),
   remove: PropTypes.func.isRequired,
 };
 Messages.defaultProps = {

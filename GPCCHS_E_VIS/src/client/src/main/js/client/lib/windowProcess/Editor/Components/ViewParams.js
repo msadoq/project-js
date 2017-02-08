@@ -7,7 +7,7 @@ export default class ViewParams extends React.Component {
     updateTitle: PropTypes.func.isRequired,
     updateTitleStyle: PropTypes.func.isRequired,
     updateBgColor: PropTypes.func.isRequired,
-    backgroundColor: PropTypes.string,
+    backgroundColor: PropTypes.string.isRequired,
     title: PropTypes.string,
     titleStyle: PropTypes.shape({
       font: PropTypes.string,

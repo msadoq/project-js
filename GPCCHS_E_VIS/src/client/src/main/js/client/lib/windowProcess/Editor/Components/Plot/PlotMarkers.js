@@ -10,8 +10,8 @@ import PlotMarker from './PlotMarker';
 export default class PlotMarkers extends React.Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
-    markers: PropTypes.array.isRequired,
-    axes: PropTypes.object.isRequired,
+    markers: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    axes: PropTypes.shape({}).isRequired,
     updateMarker: PropTypes.func.isRequired,
     expanded: PropTypes.bool.isRequired,
     onSelect: PropTypes.func.isRequired,

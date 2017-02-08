@@ -23,7 +23,7 @@ const alignButtons = [
 export default class PlotAxes extends React.Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
-    axes: PropTypes.arrayOf(PropTypes.object).isRequired,
+    axes: PropTypes.shape({}).isRequired,
     showYAxes: PropTypes.string,
     updateShowYAxes: PropTypes.func.isRequired,
     removeAxis: PropTypes.func.isRequired,

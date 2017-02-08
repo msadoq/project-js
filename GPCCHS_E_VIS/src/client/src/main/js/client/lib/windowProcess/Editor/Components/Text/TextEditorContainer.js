@@ -21,7 +21,7 @@ const TextEditorContainer = connect(
 TextEditorContainer.propTypes = {
   viewId: PropTypes.string.isRequired,
   viewType: PropTypes.string.isRequired,
-  configuration: PropTypes.object,
+  configuration: PropTypes.shape({}),
   closeEditor: PropTypes.func,
 };
 

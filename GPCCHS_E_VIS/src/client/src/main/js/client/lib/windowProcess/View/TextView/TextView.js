@@ -76,18 +76,6 @@ export default class TextView extends PureComponent {
     });
   }
 
-  // TODO Maybe useless, TextView implement PureComponent
-  shouldComponentUpdate(nextProps) {
-    return !(
-      nextProps.viewId === this.props.viewId &&
-      nextProps.data === this.props.data &&
-      nextProps.content === this.props.content &&
-      nextProps.isViewsEditorOpen === this.props.isViewsEditorOpen &&
-      nextProps.entryPoints === this.props.entryPoints &&
-      nextProps.show === this.props.show
-    );
-  }
-
   onDrop = (e) => {
     const data = e.dataTransfer.getData('text/plain');
     const content = JSON.parse(data);

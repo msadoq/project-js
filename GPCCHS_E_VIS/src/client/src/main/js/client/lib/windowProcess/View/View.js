@@ -158,7 +158,7 @@ export default class View extends PureComponent {
     }
 
     const borderColor = _get(configuration, ['titleStyle', 'bgColor'], '#fefefe');
-
+    // !! gives visuWindow only for views which uses it to avoid useless rendering
     return (
       <div
         className={classnames('subdiv', styles.container)}
@@ -194,7 +194,7 @@ export default class View extends PureComponent {
               type={type}
               viewId={viewId}
               isViewsEditorOpen={isViewsEditorOpen}
-              visuWindow={visuWindow}
+              visuWindow={type === 'PlotView' ? visuWindow : undefined}
               configuration={configuration}
               entryPoints={entryPoints}
               show={this.state.show}

@@ -53,7 +53,7 @@ describe('protobuf/lpisis/CCSDS_MAL_TYPES', () => {
   _each(decoders, (decoder, type) => {
     describe(`${type}`, () => {
       // eslint-disable-next-line import/no-dynamic-require
-      const index = require(`./${type}`);
+      const index = require(`./${type}`); // eslint-disable-line global-require
       _each(index, (value, fileName) => {
         it(`${value}`, () => checkBuffer(type, `${rootpath}/${type}/${fileName}`, value, decoder));
       });

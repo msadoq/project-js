@@ -71,9 +71,9 @@ function getUniqueAxisId(stateView, label) {
   let isUnique = false;
   let index = 1;
   let finalId = id;
-  const axes = Object.keys(stateView.configuration.axes);
+  const { axes } = stateView.configuration;
   while (!isUnique) {
-    if (axes.indexOf(finalId) === -1) {
+    if (!axes[finalId]) {
       isUnique = true;
     } else {
       finalId = id.concat('_', index);

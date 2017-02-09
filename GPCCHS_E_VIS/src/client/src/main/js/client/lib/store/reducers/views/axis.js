@@ -3,6 +3,9 @@ import _deburr from 'lodash/deburr';
 import _snakeCase from 'lodash/snakeCase';
 import _find from 'lodash/find';
 import update from 'lodash/fp/update';
+import path from 'lodash/fp/path';
+import pipe from 'lodash/fp/pipe';
+import equals from 'lodash/fp/equals';
 import u from 'updeep';
 
 export function updateAxis(stateViews, action) {
@@ -48,19 +51,20 @@ export function addAxis(stateViews, action) {
 }
 
 export function removeAxis(stateViews, action) {
-  if (!stateViews[action.payload.viewId]) {
-    return stateViews;
-  }
+  const { viewId, axisId } = action.payload;
+  const getViewType = path([viewId, 'type']);
+  const isPlotView = pipe(getViewType, equals('PlotView'));
   // Content only for a type of view if viewType is defined
-  if (stateViews[action.payload.viewId].type !== 'PlotView') {
+  if (!isPlotView(stateViews)) {
     return stateViews;
   }
+  const axisExists = () => path([viewId, 'configuration', 'axes', axisId])(stateViews);
   return u({
-    [action.payload.viewId]: {
+    [viewId]: {
+      isModified: u.if(axisExists, u.constant(true)),
       configuration: {
-        axes: u.omit(action.payload.axisId),
+        axes: u.omit(axisId),
       },
-      isModified: true,
     },
   }, stateViews);
 }

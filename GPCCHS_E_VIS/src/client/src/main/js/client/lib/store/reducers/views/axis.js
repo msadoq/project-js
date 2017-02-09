@@ -2,6 +2,7 @@ import _trim from 'lodash/trim';
 import _deburr from 'lodash/deburr';
 import _snakeCase from 'lodash/snakeCase';
 import _find from 'lodash/find';
+import update from 'lodash/fp/update';
 import u from 'updeep';
 
 export function updateAxis(stateViews, action) {
@@ -24,26 +25,22 @@ export function updateAxis(stateViews, action) {
 }
 
 export function addAxis(stateViews, action) {
-  if (!stateViews[action.payload.viewId]) {
+  const { viewId, axis } = action.payload;
+  if (!stateViews[viewId]) {
     return stateViews;
   }
   // Content only for a type of view if viewType is defined
-  if (stateViews[action.payload.viewId].type !== 'PlotView') {
+  if (stateViews[viewId].type !== 'PlotView') {
     return stateViews;
   }
   if (!action.payload.axis.label) {
     return stateViews;
   }
-  let id = action.payload.axis.id;
-  let axis;
-  if (!id) {
-    id = getUniqueAxisId(stateViews[action.payload.viewId], action.payload.axis.label);
-    axis = Object.assign({}, action.payload.axis, { id });
-  }
+  const axisId = axis.id || getUniqueAxisId(stateViews[viewId], axis.label);
   return u({
-    [action.payload.viewId]: {
+    [viewId]: {
       configuration: {
-        axes: { [id]: axis || action.payload.axis },
+        axes: { [axisId]: update('id', () => axisId, axis) },
       },
       isModified: true,
     },

@@ -78,10 +78,9 @@ export default class Header extends PureComponent {
         break;
       }
       case 'move': {
-        const pageTitles = windowPages.reduce((list, page) => {
-          list.push({ title: page.title, id: page.pageId }); // eslint-disable-line noparam-reassign
-          return list;
-        }, []);
+        const pageTitles = windowPages.reduce((list, page) => (
+          [...list, { title: page.title, id: page.pageId }]
+        ), []);
         pageTitles.push({ title: 'New page', id: v4() });
         this.setState({ pageTitles, choosePage: true });
         break;

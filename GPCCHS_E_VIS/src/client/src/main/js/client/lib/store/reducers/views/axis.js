@@ -5,17 +5,18 @@ import _find from 'lodash/find';
 import u from 'updeep';
 
 export function updateAxis(stateViews, action) {
-  if (!stateViews[action.payload.viewId]) {
+  const { viewId, axis, axisId } = action.payload;
+  if (!stateViews[viewId] || !axis || !axisId) {
     return stateViews;
   }
   // Content only for a type of view if viewType is defined
-  if (stateViews[action.payload.viewId].type !== 'PlotView') {
+  if (stateViews[viewId].type !== 'PlotView') {
     return stateViews;
   }
   return u({
-    [action.payload.viewId]: {
+    [viewId]: {
       configuration: {
-        axes: { [action.payload.axisId]: action.payload.axis },
+        axes: { [axisId]: axis },
       },
       isModified: true,
     },

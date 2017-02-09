@@ -67,7 +67,7 @@ export function removeAxis(stateViews, action) {
   }, stateViews);
 }
 
-export function getUniqueAxisId(stateView, label) {
+function getUniqueAxisId(stateView, label) {
   const id = _snakeCase(_trim(_deburr(label)));
   // check id isn't already defined
   let isUnique = false;
@@ -85,36 +85,12 @@ export function getUniqueAxisId(stateView, label) {
   return finalId;
 }
 
-export function createAxis(stateView, label, unit) {
+function createAxis(stateView, label, unit) {
   return {
     label,
     unit,
     id: getUniqueAxisId(stateView, label),
   };
-}
-
-export function addNewAxis(state, viewId, axis) {
-  if (axis) {
-    const val = { [axis.id]: axis };
-    return u({ [viewId]: {
-      configuration: {
-        axes: val,
-      } } }, state);
-  }
-  return state;
-}
-
-export function getAxisId(epName, connectedData, currentView) {
-  if (connectedData.axisId) {
-    return connectedData.axisId;
-  }
-  // Choose the axis with the right unit
-  const index = _find(currentView.configuration.axes,
-                      current => current.unit === connectedData.unit);
-  if (index) {
-    return index.id;
-  }
-  return undefined;
 }
 
 export const getAxes = (entryPoint, currentView) => {

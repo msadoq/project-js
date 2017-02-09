@@ -9,11 +9,7 @@ import reducer, {
   removeElementInConfigurationArray,
   addEntryPoint,
 } from './index';
-import {
-  addNewAxis,
-  getAxisId,
-} from './axis';
-import { freezeMe, should, getStore } from '../../../common/test';
+import { freezeMe, getStore } from '../../../common/test';
 
 describe('store:views:reducer', () => {
   it('initial state', () => {
@@ -578,29 +574,6 @@ describe('store:views:reducer', () => {
     });
   });
   describe('add entry point', () => {
-    it('addNewAxis: valid axis', () => {
-      const state = { plot1: { configuration: { axes: { a1: { label: 'axis1', unit: 's' } } } } };
-      const newState = addNewAxis(state, 'plot1', { label: 'axis2', unit: 'v', id: 'a2' });
-      Object.keys(newState.plot1.configuration.axes).should.have.length(2);
-      newState.should.not.equal(state);
-    });
-    it('addNewAxis: invalid axis', () => {
-      const state = { plot1: { configuration: { axes: { a1: { label: 'axis1', unit: 's' } } } } };
-      addNewAxis(state, 'plot1', undefined).should.equal(state);
-    });
-    it('getAxisId: valid id', () => {
-      const connectedData = { axisId: 'axis2' };
-      getAxisId('epName', connectedData, stateViews.plot1).should.equal('axis2');
-    });
-    it('getAxisId by unit', () => {
-      const connectedData = { unit: 's' };
-      getAxisId('epName', connectedData, stateViews.plot1).should.equal('axis1');
-    });
-    it('getAxisId: unknown unit', () => {
-      const connectedData = { unit: 'a' };
-      const index = getAxisId('epName', connectedData, stateViews.plot1);
-      should.not.exist(index);
-    });
     it('addEntryPoint: invalid viewId', () => {
       const action = { payload: {
         viewId: 'plot2',

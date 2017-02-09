@@ -3,6 +3,7 @@ import _get from 'lodash/get';
 import _set from 'lodash/set';
 import _has from 'lodash/has';
 import _isUndefined from 'lodash/isUndefined';
+import any from 'lodash/fp/any';
 import { createSelector } from 'reselect';
 import getLogger from 'common/log';
 
@@ -16,6 +17,8 @@ import { getWindowsVisibleViews } from '../store/selectors/windows';
 
 const logger = getLogger('data:map');
 
+const anyUndefined = any(_isUndefined);
+
 export const getViewData = ({
   domains,
   view,
@@ -24,11 +27,7 @@ export const getViewData = ({
   timelines,
   masterSessionId,
 }) => {
-  if ( _isUndefined(domains) // eslint-disable-line space-in-parens
-    || _isUndefined(view)
-    || _isUndefined(timebars)
-    || _isUndefined(timebarUuid)
-    || _isUndefined(timelines)) {
+  if (anyUndefined([domains, view, timebars, timebarUuid, timelines])) {
     return {};
   }
 

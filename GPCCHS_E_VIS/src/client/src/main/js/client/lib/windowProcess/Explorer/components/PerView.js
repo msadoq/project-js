@@ -9,6 +9,8 @@ import _map from 'lodash/map';
 import _get from 'lodash/get';
 import _find from 'lodash/find';
 
+import parseFormula from '../../../dataManager/structures/common/formula';
+
 import styles from '../Explorer.css';
 
 function perViewHeader() {
@@ -27,10 +29,18 @@ function perViewHeader() {
   </thead>);
 }
 
+// const LocalId = props => (
+//   <ul>
+//     <li>title: ${props.title}</li>
+//     <li>offset: ${props.offset}</li>
+//     <li>${props.text}</li>
+//     <li>${props.text}</li>
+//   </ul>
+// );
+
 export default class PerView extends PureComponent {
   static propTypes = {
     perView: PropTypes.objectOf(PropTypes.object),
-    parseFormula: PropTypes.func,
     views: PropTypes.objectOf(PropTypes.object),
     sessions: PropTypes.arrayOf(PropTypes.object).isRequired,
     domains: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -50,7 +60,7 @@ export default class PerView extends PureComponent {
   }
 
   epPerView(entryPoints, viewId, viewTitle, viewType) {
-    const { parseFormula, sessions, domains } = this.props;
+    const { sessions, domains } = this.props;
 
     const index = 'perView'.concat(viewId);
     const epTable = [];
@@ -119,6 +129,7 @@ export default class PerView extends PureComponent {
   }
 
   render() {
+    // <LocalId key={e.id} localID={e} />
     return (
       <div className={styles.content}>
         <div>values count: {this.props.count}</div>

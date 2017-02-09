@@ -4,31 +4,22 @@ import _debounce from 'lodash/debounce';
 import classnames from 'classnames';
 import PerRemoteIdContainer from './components/PerRemoteIdContainer';
 import PerViewContainer from './components/PerViewContainer';
-// import ServerInfoContainer from './components/ServerInfoContainer';
+import ServerInfoContainer from './components/ServerInfoContainer';
+import HealthContainer from './components/HealthContainer';
 import styles from './Explorer.css';
 
 const minWidth = 20;
+const initWidth = 150;
 
 export default class Explorer extends PureComponent {
   static propTypes = {
-    // dcStatus: PropTypes.string,
-    // hssStatus: PropTypes.string,
-    // lastPubSubTime: PropTypes.number,
-    perRemoteId: PropTypes.objectOf(PropTypes.object),
-    perView: PropTypes.objectOf(PropTypes.object),
-    // server: PropTypes.object,
     windowId: PropTypes.string.isRequired,
-    currentExplorer: PropTypes.func.isRequired,
     currentTab: PropTypes.string.isRequired,
-    parseFormula: PropTypes.func.isRequired,
-    views: PropTypes.objectOf(PropTypes.object),
-    updateExplorerWidth: PropTypes.func.isRequired,
     width: PropTypes.number,
+    currentExplorer: PropTypes.func.isRequired,
+    updateExplorerWidth: PropTypes.func.isRequired,
   }
   static defaultProps = {
-    perRemoteId: {},
-    perView: {},
-    views: {},
     width: undefined,
   }
   state = {
@@ -82,41 +73,8 @@ export default class Explorer extends PureComponent {
 
   handleSelect = (eventKey) => {
     const { windowId, currentExplorer } = this.props;
-    event.preventDefault();
-    if (eventKey === 'perRemoteId') {
-      currentExplorer(windowId, 'perRemoteId');
-    } else if (eventKey === 'perViewId') {
-      currentExplorer(windowId, 'perViewId');
-    } else if (eventKey === 'health') {
-      currentExplorer(windowId, 'health');
-    } else if (eventKey === 'server') {
-      currentExplorer(windowId, 'server');
-    }
+    currentExplorer(windowId, eventKey);
   }
-
-  display = () => {
-    const { currentTab, perView, parseFormula, views, perRemoteId } = this.props;
-    if (currentTab === 'perRemoteId') {
-      return (<PerRemoteIdContainer
-        perRemoteId={perRemoteId}
-      />);
-    } else if (currentTab === 'perViewId') {
-      return (<PerViewContainer
-        perView={perView}
-        parseFormula={parseFormula}
-        views={views}
-      />);
-    } else if (currentTab === 'health') {
-      return (<div>tab3</div>);
-    } else if (currentTab === 'server') {
-      // return (<ServerInfoContainer
-      //   server={server}
-      // />);
-      return (<div>tab3</div>);
-    }
-    return (<div />);
-  }
-
 
   render() {
     const { currentTab, width } = this.props;
@@ -126,37 +84,43 @@ export default class Explorer extends PureComponent {
         ref={this.assignEl}
         style={{
           flex: '0 0 auto',
-          width: `${width}px`,
           background: '#FAFAFA',
           borderLeft: '1px solid #aaa',
+          width: `${width || initWidth}px`,
           zIndex: '2',
           padding: '0px 5px',
+          height: '100%',
         }}
       >
         <div>
-          <div>
-            <hr
-              onMouseDown={this.resizeWindow}
-              className={
-                classnames(
-                  styles.resizeContainer,
-                  (resizingWindow ? styles.resizingContainer : null)
-                )
-              }
-            />
-          </div>
-          <Nav bsStyle="tabs" activeKey={currentTab} onSelect={this.handleSelect} >
-            <NavItem eventKey="perRemoteId" title="Entry point list of current page">
-              <div className={styles.tabs}>Data Map</div>
-            </NavItem>
-            <NavItem eventKey="perViewId" title="Entry point list per view on current page">
-              <div className={styles.tabs}>View Map</div>
-            </NavItem>
-            {/* <NavItem eventKey="health" title="Application health">Health</NavItem>
-            <NavItem eventKey="server" title="Server information">Server</NavItem>*/}
-          </Nav>
-          {this.display()}
+          <hr
+            onMouseDown={this.resizeWindow}
+            className={
+              classnames(
+                styles.resizeContainer,
+                (resizingWindow ? styles.resizingContainer : null)
+              )
+            }
+          />
         </div>
+        <Nav bsStyle="tabs" activeKey={currentTab} onSelect={this.handleSelect} >
+          <NavItem eventKey="perRemoteId" title="Entry point list of current page">
+            <div className={styles.tabs}>Data Map</div>
+          </NavItem>
+          <NavItem eventKey="perViewId" title="Entry point list per view on current page">
+            <div className={styles.tabs}>View Map</div>
+          </NavItem>
+          {/* <NavItem eventKey="health" title="Application health">
+            <div className={styles.tabs}>Health</div>
+          </NavItem>*/}
+          <NavItem eventKey="server" title="Server information">
+            <div className={styles.tabs}>Server</div>
+          </NavItem>
+        </Nav>
+        {(currentTab === 'perRemoteId') && <PerRemoteIdContainer />}
+        {(currentTab === 'perViewId') && <PerViewContainer />}
+        {(currentTab === 'server') && <ServerInfoContainer />}
+        {(currentTab === 'health') && <HealthContainer />}
       </div>
     );
   }

@@ -11,6 +11,7 @@ const _find = require('lodash/fp/find');
 const _get = require('lodash/fp/get');
 const _cond = require('lodash/fp/cond');
 const _allPass = require('lodash/fp/allPass');
+
 const {
   getTimer,
   parseConfig,
@@ -66,9 +67,14 @@ const sendToConsole = (category, levels) => {
         filterInclude(cfg),
         filterExclude(cfg),
       ]),
-        () => console[level].apply(null,
-          [`[${category}] ${msg} +${getConsoleTime()}ms`].concat(rest)
-        ),
+        () => {
+          const localLevel = (level === 'verbose' || level === 'silly')
+            ? 'debug'
+            : level;
+          return console[localLevel].apply(null,
+            [`[${category}] ${msg} +${getConsoleTime()}ms`]
+            .concat(rest));
+        },
       ],
     ])({
       level,

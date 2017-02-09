@@ -1,29 +1,23 @@
-import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import PerRemoteId from './PerRemoteId';
 import { getTimebars } from '../../../store/selectors/timebars';
 import { getSessions } from '../../../store/selectors/sessions';
 import { getDomains } from '../../../store/selectors/domains';
 import { getViews } from '../../../store/selectors/views';
+import dataMapGenerator from '../../../dataManager/map';
 
 const mapStateToProps = (state) => {
-  const timebars = getTimebars(state);
-  const sessions = getSessions(state);
-  const domains = getDomains(state);
-  const views = getViews(state);
+  const dataMap = dataMapGenerator(state);
 
   return {
-    timebars,
-    sessions,
-    domains,
-    views,
+    timebars: getTimebars(state),
+    sessions: getSessions(state),
+    domains: getDomains(state),
+    views: getViews(state),
+    perRemoteId: dataMap.perRemoteId,
   };
 };
 
 const PerRemoteIdContainer = connect(mapStateToProps)(PerRemoteId);
-
-PerRemoteIdContainer.propTypes = {
-  perRemoteId: PropTypes.object.isRequired,
-};
 
 export default PerRemoteIdContainer;

@@ -1,4 +1,3 @@
-/* eslint no-underscore-dangle: 0 */
 import _findIndex from 'lodash/findIndex';
 import _startsWith from 'lodash/startsWith';
 import { dirname, relative } from 'path';
@@ -21,7 +20,6 @@ import validation from './validation';
  * @param callback
  * @returns Error or undefined
  */
- // eslint-disable-next-line no-unused-vars
 const savePageAs = fmdApi => (state, pageId, path, useRelativePath, callback) => {
   if (!state.pages[pageId]) {
     callback('unknown page id');

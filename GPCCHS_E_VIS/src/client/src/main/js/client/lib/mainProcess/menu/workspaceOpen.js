@@ -18,8 +18,7 @@ const isNo = equals(1);
 const isCancel = equals(2);
 const addGlobalError = msg => addMessage('global', 'danger', msg);
 
-// eslint-disable-next-line no-unused-vars
-function workspaceOpenNew(focusedWindow) {
+function workspaceOpenNew() {
   const store = getStore();
   const { dispatch, getState } = store;
   allDocumentsAreSaved(store, (err) => {
@@ -33,8 +32,7 @@ function workspaceOpenNew(focusedWindow) {
   });
 }
 
-// eslint-disable-next-line no-unused-vars
-function workspaceOpen(focusedWindow) {
+function workspaceOpen() {
   const store = getStore();
   const { dispatch, getState } = store;
   allDocumentsAreSaved(store, (err) => {

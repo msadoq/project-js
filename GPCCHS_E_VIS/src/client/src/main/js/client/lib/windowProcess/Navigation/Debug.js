@@ -8,6 +8,7 @@ import {
 } from 'react-bootstrap';
 import Perf from 'react-dom/lib/ReactPerf';
 import { get } from 'common/parameters';
+import Console from 'common/utils/console';
 import dataMapGenerator from '../../dataManager/map';
 import { updateCacheInvalidation } from '../../store/actions/hsc';
 import { main } from '../ipc';
@@ -35,12 +36,12 @@ export default class Debug extends PureComponent {
   };
 
   serverDebug = () => {
-    main.serverDebug(debug => console.log(debug)); // eslint-disable-line no-console
+    main.serverDebug(debug => Console.log(debug));
   };
 
   dataMap = () => {
     const state = this.context.store.getState();
-    return console.log(dataMapGenerator(state)); // eslint-disable-line no-console
+    return Console.log(dataMapGenerator(state));
   };
 
   cleanCache = () => {
@@ -50,7 +51,7 @@ export default class Debug extends PureComponent {
 
   copyStateToClipboard = () => {
     clipboard.writeText(JSON.stringify(this.context.store.getState()));
-    return console.log('store state exported to clipboard'); // eslint-disable-line no-console
+    return Console.log('store state exported to clipboard');
   };
 
   toggleHelp = (e) => {
@@ -69,14 +70,11 @@ export default class Debug extends PureComponent {
     Perf.start();
     setTimeout(() => {
       Perf.stop();
-      // eslint-disable-next-line no-console
-      console.log('WASTED');
+      Console.log('WASTED');
       Perf.printWasted();
-      // eslint-disable-next-line no-console
-      console.log('INCLUSIVE');
+      Console.log('INCLUSIVE');
       Perf.printInclusive();
-      // eslint-disable-next-line no-console
-      console.log('EXCLUSIVE');
+      Console.log('EXCLUSIVE');
       Perf.printExclusive();
       this.props.pause(this.props.focusedPage.timebarUuid);
     }, get('ORCHESTRATION_FREQUENCY'));
@@ -84,9 +82,9 @@ export default class Debug extends PureComponent {
 
   profileTick = () => {
     this.props.play(this.props.focusedPage.timebarUuid);
-    _get(console, ['profile'])('tick');
+    Console.profile('tick');
     setTimeout(() => {
-      _get(console, ['profileEnd'])('tick');
+      Console.profileEnd('tick');
       this.props.pause(this.props.focusedPage.timebarUuid);
     }, get('ORCHESTRATION_FREQUENCY') * 2 * 3);
   }

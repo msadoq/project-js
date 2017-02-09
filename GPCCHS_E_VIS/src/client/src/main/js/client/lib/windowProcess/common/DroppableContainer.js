@@ -2,6 +2,7 @@ import React, { PropTypes, PureComponent } from 'react';
 import _omit from 'lodash/omit';
 import noop from 'lodash/noop';
 import getLogger from 'common/log';
+import Console from 'common/utils/console';
 
 const logger = getLogger('drag and drop');
 
@@ -76,7 +77,7 @@ export default class DroppableContainer extends PureComponent {
     try {
       this.props.onDrop(e);
     } catch (err) {
-      console.error(err); // eslint-disable-line no-console
+      Console.error(err);
       logger.info('unable to parse dropped data');
     } finally {
       this.setState({

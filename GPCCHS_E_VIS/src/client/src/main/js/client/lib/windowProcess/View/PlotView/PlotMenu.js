@@ -1,6 +1,7 @@
 // import React, { PureComponent, PropTypes } from 'react';
 // import classnames from 'classnames';
 // import { Dropdown } from 'react-bootstrap';
+// import Console from 'common/utils/console';
 //
 // export default class PlotMenu extends PureComponent {
 //   static propTypes = {
@@ -73,7 +74,7 @@
  type="hybrid"
  xAccessor={this.xAccessor}
  xScale={scaleTime()}
- yAxisZoom={(id, domain) => console.log('zoom', id, domain)}
+ yAxisZoom={(id, domain) => Console.log('zoom', id, domain)}
  zoomEvent={!disableZoom}
  xExtents={[new Date(lower), new Date(upper)]}
  >

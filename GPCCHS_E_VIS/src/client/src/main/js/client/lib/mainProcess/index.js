@@ -10,6 +10,7 @@ import {
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
 import { clear } from 'common/callbacks';
+import Console from 'common/utils/console';
 
 import enableDebug from './debug';
 import { fork, get, kill } from './childProcess';
@@ -216,7 +217,7 @@ export function onWindowsClose() {
 }
 
 export function onError(err) {
-  console.error(err); // eslint-disable-line no-console
+  Console.error(err);
   server.sendProductLog(LOG_APPLICATION_ERROR, err.message);
   app.exit(1);
 }

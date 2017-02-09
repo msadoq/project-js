@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions: 0 */
-import { freezeMe } from '../../../common/test';
-import { updateAxis, addAxis } from './axis';
+import { freezeMe, should } from '../../../common/test';
+import { updateAxis, addAxis, removeAxis } from './axis';
 
 describe('store:views:axes', () => {
   const state = freezeMe({
@@ -69,6 +69,26 @@ describe('store:views:axes', () => {
       newState.view1.isModified.should.be.true;
       newState.view1.configuration.axes.axis_1_2.should.eql({ label: 'axis_1', id: 'axis_1_2' });
       newState.view1.configuration.axes.axis_1.should.eql(state.view1.configuration.axes.axis_1);
+    });
+  });
+
+  describe('removeAxis', () => {
+    it('does nothing when received an unknown viedId', () => {
+      const newState = removeAxis(state, { payload: { viewId: 'unknown', axisId: 'axis_1' } });
+      newState.should.be.eql(state);
+    });
+    it('does nothing when no axisId', () => {
+      const newState = removeAxis(state, { payload: { viewId: 'view1' } });
+      newState.should.be.eql(state);
+    });
+    it('does nothing when received an unknown axisId', () => {
+      const newState = removeAxis(state, { payload: { viewId: 'view1', axisId: 'unknown' } });
+      newState.should.be.eql(state);
+    });
+    it('removes axis', () => {
+      const newState = removeAxis(state, { payload: { viewId: 'view1', axisId: 'axis_1' } });
+      should.not.exist(newState.view1.configuration.axes.axis_1);
+      newState.view1.isModified.should.be.true;
     });
   });
 });

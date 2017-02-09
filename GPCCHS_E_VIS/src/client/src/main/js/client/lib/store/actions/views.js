@@ -122,7 +122,7 @@ export function addEntryPoint(viewId, entryPoint) { // TODO add test
     const domain = state.domains[0].name; // TODO should be replaced by *, but for dev it's ok
     // const domain = '*';
 
-    switch (structureType) { // eslint-disable-line default-case
+    switch (structureType) {
       case globalConstants.DATASTRUCTURETYPE_LAST:
         ep.connectedData.timeline = ep.connectedData.timeline || defaultTimeline;
         ep.connectedData.domain = ep.connectedData.domain || domain;
@@ -133,6 +133,7 @@ export function addEntryPoint(viewId, entryPoint) { // TODO add test
         ep.connectedDataX.domain = ep.connectedDataX.domain || domain;
         ep.connectedDataY.domain = ep.connectedDataY.domain || domain;
         break;
+      default: break;
     }
     dispatch(openEditor(currentPageId, viewId, currentView.type));
     dispatch(addEntryPointInternal(viewId, ep));

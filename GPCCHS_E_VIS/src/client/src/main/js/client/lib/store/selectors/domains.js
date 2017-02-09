@@ -1,2 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
-export const getDomains = state => state.domains;
+export default {
+  getDomains: state => state.domains,
+};

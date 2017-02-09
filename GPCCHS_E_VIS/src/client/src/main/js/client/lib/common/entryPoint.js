@@ -13,7 +13,6 @@ export const getNewTextEntryPoint = () => ({
   },
 });
 
-// eslint-disable-next-line import/prefer-default-export
 export const getNewPlotEntryPoint = () => ({
   name: 'NewEntryPoint',
   connectedDataX: {

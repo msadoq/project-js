@@ -113,7 +113,16 @@ export default class EntryPointDetails extends PureComponent {
       isPanelStateColorsOpen,
       isPanelParametersOpen,
     } = this.state;
-
+    // TODO Rerender (new ref)
+    const initialValuesParameters = { ...entryPoint.objectStyle, name: entryPoint.name };
+    // TODO Rerender (new ref)
+    const initialValuesConnectedData = {
+      x: entryPoint.connectedDataX,
+      y: entryPoint.connectedDataY,
+      timeBasedData: entryPoint.timeBasedData,
+    };
+    // TODO Rerender (new ref)
+    const initialValuesStateColors = { stateColors: entryPoint.stateColors || [] };
     return (
       <Accordion>
         <Panel
@@ -127,8 +136,7 @@ export default class EntryPointDetails extends PureComponent {
           {isPanelParametersOpen && <EntryPointParameters
             onSubmit={this.handleObjectParametersSubmit}
             form={`entrypoint-parameters-form-${idPoint}-${viewId}`}
-            // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
-            initialValues={{ ...entryPoint.objectStyle, name: entryPoint.name }}
+            initialValues={initialValuesParameters}
           />}
         </Panel>
 
@@ -147,12 +155,7 @@ export default class EntryPointDetails extends PureComponent {
             viewId={viewId}
             form={`entrypoint-connectedDataXY-form-${idPoint}-${viewId}`}
             onSubmit={this.handleConnectedDataXYSubmit}
-            // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
-            initialValues={{
-              x: entryPoint.connectedDataX,
-              y: entryPoint.connectedDataY,
-              timeBasedData: entryPoint.timeBasedData,
-            }}
+            initialValues={initialValuesConnectedData}
           />}
         </Panel>
         <Panel
@@ -165,9 +168,7 @@ export default class EntryPointDetails extends PureComponent {
         >
           {isPanelStateColorsOpen && <EntryPointStateColors
             // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
-            initialValues={{
-              stateColors: entryPoint.stateColors || [],
-            }}
+            initialValues={initialValuesStateColors}
             form={`entrypoint-stateColors-form-${idPoint}-${viewId}`}
             onSubmit={this.handleSubmit}
           />}

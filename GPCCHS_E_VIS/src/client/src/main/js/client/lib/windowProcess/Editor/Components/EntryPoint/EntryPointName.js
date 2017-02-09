@@ -55,7 +55,7 @@ EntryPointName.propTypes = {
   /* eslint-disable react/no-unused-prop-types */
   initialValues: PropTypes.shape({
     name: PropTypes.string.isRequired,
-  }).isRequired,
+  }),
   handleSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool.isRequired,
   reset: PropTypes.func.isRequired,
@@ -63,6 +63,9 @@ EntryPointName.propTypes = {
   valid: PropTypes.bool.isRequired,
 };
 
+EntryPointName.defaultProps = {
+  initialValues: { name: '' },
+};
 export default reduxForm({
   validate,
   enableReinitialize: true,

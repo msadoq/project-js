@@ -43,13 +43,14 @@ Alert.propTypes = {
   bsStyle: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   className: PropTypes.string.isRequired,
-  style: PropTypes.shape({}).isRequired,
+  style: PropTypes.shape({}),
   visible: PropTypes.bool,
   setVisible: PropTypes.func,
 };
 Alert.defaultProps = {
   visible: true,
   setVisible: noop,
+  style: {},
 };
 
 const CloseableAlert = withState('visible', 'setVisible', true)(Alert);

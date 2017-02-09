@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { join } = require('path');
 const minimist = require('minimist');
-const _ = require('lodash/fp');
+const _pathOr = require('lodash/fp/pathOr');
 
 const REQUIRED = 'config.required.json'; // required
 const DEFAULT = 'config.default.json'; // mandatory
@@ -119,6 +119,6 @@ function init(path, checkForRequired = false) {
   checkRequired(requiredConfig);
 }
 
-const universalGet = _.pathOr(get, ['parameters', 'get'], global);
+const universalGet = _pathOr(get, ['parameters', 'get'], global);
 
 module.exports = { init, get: universalGet };

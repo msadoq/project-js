@@ -14,8 +14,8 @@ export default merge(baseConfig, {
   },
   externals: [
     'source-map-support',
-    'common',
     'package.json',
+    'electron-debug',
   ],
 
   plugins: [
@@ -24,12 +24,14 @@ export default merge(baseConfig, {
         warnings: false,
       },
     }),
+    new webpack.optimize.DedupePlugin(),
     new webpack.BannerPlugin(
       'require("source-map-support").install();',
       { raw: true, entryOnly: false }
     ),
     new webpack.DefinePlugin({
       'process.env': {
+        NODE_ENV: JSON.stringify('production'), // import for bundled libs as React https://facebook.github.io/react/docs/optimizing-performance.html#use-the-production-build
         IS_BUNDLED: JSON.stringify('on'),
       },
     }),

@@ -2,6 +2,13 @@ import { join } from 'path';
 import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import merge from 'webpack-merge';
+import postCssImport from 'postcss-smart-import';
+import postCssUrl from 'postcss-url';
+import postCssProperties from 'postcss-custom-properties';
+import postCssNesting from 'postcss-nested';
+import postCssReporter from 'postcss-reporter';
+import postCssBrowserReporter from 'postcss-browser-reporter';
+
 import baseConfig from './config.base';
 
 const config = merge(baseConfig, {
@@ -10,24 +17,36 @@ const config = merge(baseConfig, {
   entry: [
     './lib/windowProcess/style/bootstrap',
     '!style!css!postcss!./lib/windowProcess/style',
-    'babel-polyfill',
     './lib/windowProcess/index',
   ],
 
   output: {
     path: join(__dirname, '../dist'),
     publicPath: 'dist/',
+    // pathinfo: true,
   },
 
-  externals: {
-    common: 'common',
-  },
+  externals: [
+    'commmon',
+    'why-did-you-update',
+  ],
 
   module: {
-    loaders: [{
-      test: [/.+\.svg/, /.+\.eot/, /.+\.ttf/, /.+\.woff/, /.+\.woff2/],
-      loader: 'file?name=fonts/[name].[ext]',
-    }],
+    loaders: [
+      {
+        test: [/.+\.svg/, /.+\.eot/, /.+\.ttf/, /.+\.woff/, /.+\.woff2/],
+        loader: 'file?name=fonts/[name].[ext]',
+      },
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract(
+          'style',
+          'css?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+          'postcss'
+        ),
+        exclude: /node_modules/,
+      },
+    ],
   },
 
   plugins: [
@@ -38,6 +57,7 @@ const config = merge(baseConfig, {
         warnings: false,
       },
     }),
+    new webpack.optimize.DedupePlugin(),
     new ExtractTextPlugin('style.css', { allChunks: true }),
     new webpack.DefinePlugin({
       'process.env': {
@@ -46,6 +66,15 @@ const config = merge(baseConfig, {
         APP_ENV: JSON.stringify('renderer'),
       },
     }),
+  ],
+
+  postcss: () => [
+    postCssImport(),
+    postCssUrl(),
+    postCssProperties(),
+    postCssNesting(),
+    postCssReporter(),
+    postCssBrowserReporter(),
   ],
 
   target: 'electron-renderer',

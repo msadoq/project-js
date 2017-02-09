@@ -5,7 +5,8 @@
     "react"
   ],
   "plugins": [
-    "add-module-exports"
+    "add-module-exports",
+    "babel-plugin-lodash"
   ],
   "env": {
     "production": {

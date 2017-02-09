@@ -1,7 +1,6 @@
 import { clipboard } from 'electron';
 import React, { PureComponent, PropTypes } from 'react';
 import _get from 'lodash/get';
-import getLogger from 'common/log';
 import {
   MenuItem,
   DropdownButton,
@@ -17,7 +16,7 @@ const buttonsProps = {
   bsSize: 'small',
   bsStyle: 'link',
 };
-const logger = getLogger('nav:debug');
+
 export default class Debug extends PureComponent {
   static propTypes = {
     dummy: PropTypes.func.isRequired,
@@ -36,12 +35,12 @@ export default class Debug extends PureComponent {
   };
 
   serverDebug = () => {
-    main.serverDebug(debug => logger.log(debug));
+    main.serverDebug(debug => console.log(debug)); // eslint-disable-line no-console
   };
 
   dataMap = () => {
     const state = this.context.store.getState();
-    return logger.log(dataMapGenerator(state));
+    return console.log(dataMapGenerator(state)); // eslint-disable-line no-console
   };
 
   cleanCache = () => {
@@ -51,7 +50,7 @@ export default class Debug extends PureComponent {
 
   copyStateToClipboard = () => {
     clipboard.writeText(JSON.stringify(this.context.store.getState()));
-    return logger.log('store state exported to clipboard');
+    return console.log('store state exported to clipboard'); // eslint-disable-line no-console
   };
 
   toggleHelp = (e) => {
@@ -70,11 +69,14 @@ export default class Debug extends PureComponent {
     Perf.start();
     setTimeout(() => {
       Perf.stop();
-      logger.log('WASTED');
+      // eslint-disable-next-line no-console
+      console.log('WASTED');
       Perf.printWasted();
-      logger.log('INCLUSIVE');
+      // eslint-disable-next-line no-console
+      console.log('INCLUSIVE');
       Perf.printInclusive();
-      logger.log('EXCLUSIVE');
+      // eslint-disable-next-line no-console
+      console.log('EXCLUSIVE');
       Perf.printExclusive();
       this.props.pause(this.props.focusedPage.timebarUuid);
     }, get('ORCHESTRATION_FREQUENCY'));

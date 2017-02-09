@@ -74,7 +74,8 @@ function parseDragData(data) {
 }
 
 function onYAxisZoom(id, domain) {
-  logger.log('zoom', id, domain);
+  // eslint-disable-next-line no-console
+  console.log('zoom', id, domain);
 }
 
 export class PlotView extends PureComponent {
@@ -549,6 +550,7 @@ export class PlotView extends PureComponent {
       return;
     }
 
+    // eslint-disable-next-line no-console
     this.props.addEntryPoint(
       this.props.viewId,
       parseDragData(content)
@@ -685,15 +687,15 @@ export class PlotView extends PureComponent {
   }
 
   handleLineRightClick = (e) => {
-    logger.log('handleLineRightClick', e);
+    console.log('handleLineRightClick', e); // eslint-disable-line no-console
   }
 
   handleLineClick = (e) => {
-    logger.log('handleLineClick', e);
+    console.log('handleLineClick', e); // eslint-disable-line no-console
   }
 
   handleLineDoubleClick = (e) => {
-    logger.log('handleLineDoubleClick', e);
+    console.log('handleLineDoubleClick', e); // eslint-disable-line no-console
   }
 
   handleChartClick = (e) => {

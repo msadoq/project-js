@@ -1,28 +1,19 @@
 import { v4 } from 'uuid';
 
-import update from 'lodash/fp/update';
-import isArray from 'lodash/fp/isArray';
-import indexBy from 'lodash/fp/indexBy';
-import mergeAll from 'lodash/fp/mergeAll';
-import map from 'lodash/fp/map';
-import mapValues from 'lodash/fp/mapValues';
-import compose from 'lodash/fp/compose';
-import assoc from 'lodash/fp/assoc';
-import prop from 'lodash/fp/prop';
-import values from 'lodash/fp/values';
+import _ from 'lodash/fp';
 
 import validation from './validation';
 
-const editTimelines = compose(mapValues, update('timelines'), map);
+const editTimelines = _.compose(_.mapValues, _.update('timelines'), _.map);
 
 const newUUID = v4;
-const injectTimelinesUUID = timeline => assoc('uuid', newUUID(), timeline);
+const injectTimelinesUUID = timeline => _.assoc('uuid', newUUID(), timeline);
 const injectAllTimelinesUUID = editTimelines(injectTimelinesUUID);
-const keepOnlyUUID = editTimelines(prop('uuid'));
+const keepOnlyUUID = editTimelines(_.prop('uuid'));
 
-const indexByUUID = tls => (isArray(tls) ? indexBy('uuid', tls) : {});
-const indexTimelines = compose(indexByUUID, prop('timelines'));
-const indexAllTimelines = compose(mergeAll, values, map(indexTimelines));
+const indexByUUID = tls => (_.isArray(tls) ? _.indexBy('uuid', tls) : {});
+const indexTimelines = _.compose(indexByUUID, _.prop('timelines'));
+const indexAllTimelines = _.compose(_.mergeAll, _.values, _.map(indexTimelines));
 
 /**
  * Find timelines in each .timebars
@@ -34,10 +25,10 @@ const indexAllTimelines = compose(mergeAll, values, map(indexTimelines));
  * @returns {*}
  */
 export default (content, cb) => {
-  const timebars = prop('timebars', content);
+  const timebars = _.prop('timebars', content);
   const timebarsWithUUID = injectAllTimelinesUUID(timebars);
 
-  const validationError = validation('timebars', values(timebars));
+  const validationError = validation('timebars', _.values(timebars));
   if (validationError) {
     return cb(validationError);
   }

@@ -1,8 +1,4 @@
-import identity from 'lodash/fp/identity';
-import compose from 'lodash/fp/compose';
-import update from 'lodash/fp/update';
-import map from 'lodash/fp/map';
-import constant from 'lodash/fp/constant';
+import _ from 'lodash/fp';
 import { dirname } from 'path';
 import { getStore } from '../../../store/mainStore';
 import { getView } from '../../../store/selectors/views';
@@ -15,13 +11,13 @@ import { getRootDir } from '../../../common/fmd';
 const root = getRootDir();
 
 const clearFormula = (structureType) => {
-  const clear = key => update(key, constant(''));
+  const clear = key => _.update(key, _.constant(''));
   if (structureType === 'last') {
     return clear('connectedData.formula');
   } else if (structureType === 'range') {
-    return compose(clear('connectedDataX.formula'), clear('connectedDataY.formula'));
+    return _.compose(clear('connectedDataX.formula'), clear('connectedDataY.formula'));
   }
-  return identity;
+  return _.identity;
 };
 
 export default function ({ viewId }) {
@@ -29,7 +25,7 @@ export default function ({ viewId }) {
   const { type, configuration, absolutePath } = getView(getState(), viewId);
 
   const structureType = vivl(type, 'structureType')();
-  const clearEntrypointsFormulas = update('entryPoints', map(clearFormula(structureType)));
+  const clearEntrypointsFormulas = _.update('entryPoints', _.map(clearFormula(structureType)));
   const modelConfig = clearEntrypointsFormulas(configuration);
 
   const folder = absolutePath ? dirname(absolutePath) : root;

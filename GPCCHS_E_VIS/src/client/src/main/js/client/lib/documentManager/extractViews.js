@@ -1,22 +1,4 @@
-import pipe from 'lodash/fp/pipe';
-import compose from 'lodash/fp/compose';
-import has from 'lodash/fp/has';
-import indexBy from 'lodash/fp/indexBy';
-import negate from 'lodash/fp/negate';
-import find from 'lodash/fp/find';
-import flatten from 'lodash/fp/flatten';
-import values from 'lodash/fp/values';
-import pluck from 'lodash/fp/pluck';
-import map from 'lodash/fp/map';
-import mapValues from 'lodash/fp/mapValues';
-import always from 'lodash/fp/always';
-import prop from 'lodash/fp/prop';
-import propOr from 'lodash/fp/propOr';
-import assoc from 'lodash/fp/assoc';
-import cond from 'lodash/fp/cond';
-import anyPass from 'lodash/fp/anyPass';
-import update from 'lodash/fp/update';
-import isObject from 'lodash/fp/isObject';
+import _ from 'lodash/fp';
 
 import { dirname } from 'path';
 import async from 'async';
@@ -29,7 +11,7 @@ import validation from './validation';
 import vivl from '../../VIVL/main';
 import addUuidToAxes from '../dataManager/structures/range/addUuidToAxes';
 
-const indexByUUID = indexBy(prop('uuid'));
+const indexByUUID = _.indexBy(_.prop('uuid'));
 
 const supportedViewTypes = [
   'PlotView',
@@ -88,14 +70,14 @@ const readViews = fmdApi => (viewsToRead, done) => {
 // side effects due to uuid generation (v4)
 function preparePageViews(page) {
   const pageFolder = dirname(page.absolutePath);
-  const isInvalidView = negate(anyPass([has('oId'), has('path')]));
-  const hasInvalidView = pipe(prop('views'), find(isInvalidView));
+  const isInvalidView = _.negate(_.anyPass([_.has('oId'), _.has('path')]));
+  const hasInvalidView = _.pipe(_.prop('views'), _.find(isInvalidView));
   if (hasInvalidView(page)) {
     throw new Error('Invalid view in pages (extractViews)');
   }
-  const injectUUIDAndPageFolder = update('views',
-      pipe(
-        map(view => ({
+  const injectUUIDAndPageFolder = _.update('views',
+      _.pipe(
+        _.map(view => ({
           ...view,
           pageFolder,
           uuid: v4(),
@@ -115,22 +97,22 @@ function preparePageViews(page) {
 const extractViews = fmdApi => (content, cb) => {
   try {
     const otherwise = () => true;
-    const getAllViews = pipe(
-      propOr({}, 'pages'),
-      cond([
-        [isObject, compose(flatten, values, pluck('views'))],
-        [otherwise, always([])],
+    const getAllViews = _.pipe(
+      _.propOr({}, 'pages'),
+      _.cond([
+        [_.isObject, _.compose(_.flatten, _.values, _.pluck('views'))],
+        [otherwise, _.always([])],
       ])
     );
 
-    const prepareAllPagesViews = update('pages', mapValues(preparePageViews));
+    const prepareAllPagesViews = _.update('pages', _.mapValues(preparePageViews));
     const nextContent = prepareAllPagesViews(content);
 
     return readViews(fmdApi)(getAllViews(nextContent), (err, views) => {
       if (err) {
         return cb(err);
       }
-      const setViews = assoc('views', indexByUUID(views));
+      const setViews = _.assoc('views', indexByUUID(views));
       return cb(null, setViews(nextContent));
     });
   } catch (e) {

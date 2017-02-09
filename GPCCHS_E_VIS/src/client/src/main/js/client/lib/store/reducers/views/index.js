@@ -1,11 +1,7 @@
 import _omit from 'lodash/omit';
 import _without from 'lodash/without';
-import compose from 'lodash/fp/compose';
-import update from 'lodash/fp/update';
-import zipWith from 'lodash/fp/zipWith';
-import set from 'lodash/fp/set';
+import _ from 'lodash/fp';
 import u from 'updeep';
-// import { resolve } from 'path';
 import globalConstants from 'common/constants';
 import * as types from '../../types';
 import vivl from '../../../../VIVL/main';
@@ -211,7 +207,7 @@ function configuration(state = { title: null }, action) {
       if (!config.entryPoints) {
         return Object.assign({}, config);
       }
-      return update('entryPoints', zipWith(set('id'), uuids), config);
+      return _.update('entryPoints', _.zipWith(_.set('id'), uuids), config);
     }
     default:
       return state;
@@ -321,9 +317,9 @@ export function addEntryPoint(stateViews, action) {
       );
 
       const [axisX, axisY] = getAxes(newRangeValue, stateViews[action.payload.viewId]);
-      const addAxisXId = update('connectedDataX.axisId', () => axisX.id);
-      const addAxisYId = update('connectedDataY.axisId', () => axisY.id);
-      const addAxesIds = compose(addAxisXId, addAxisYId);
+      const addAxisXId = _.update('connectedDataX.axisId', () => axisX.id);
+      const addAxisYId = _.update('connectedDataY.axisId', () => axisY.id);
+      const addAxesIds = _.compose(addAxisXId, addAxisYId);
 
       return u({
         [action.payload.viewId]: {

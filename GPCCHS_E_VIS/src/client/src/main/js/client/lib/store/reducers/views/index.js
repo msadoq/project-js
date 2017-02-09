@@ -1,6 +1,9 @@
 import _omit from 'lodash/omit';
 import _without from 'lodash/without';
-import _merge from 'lodash/merge';
+import compose from 'lodash/fp/compose';
+import update from 'lodash/fp/update';
+import zipWith from 'lodash/fp/zipWith';
+import set from 'lodash/fp/set';
 import u from 'updeep';
 // import { resolve } from 'path';
 import globalConstants from 'common/constants';
@@ -14,9 +17,7 @@ import {
   updateAxis,
   addAxis,
   removeAxis,
-  createAxis,
-  addNewAxis,
-  getAxisId,
+  getAxes,
 } from './axis';
 
 /**
@@ -210,11 +211,7 @@ function configuration(state = { title: null }, action) {
       if (!config.entryPoints) {
         return Object.assign({}, config);
       }
-      config.entryPoints.forEach((ep, index, entryPoints) => {
-        // eslint-disable-next-line no-param-reassign
-        entryPoints[index] = Object.assign({}, ep, { id: uuids[index] });
-      });
-      return Object.assign({}, config);
+      return update('entryPoints', zipWith(set('id'), uuids), config);
     }
     default:
       return state;
@@ -301,7 +298,7 @@ export function addEntryPoint(stateViews, action) {
   const currentView = stateViews[action.payload.viewId];
   const newValue = action.payload.entryPoint;
   const structureType = vivl(currentView.type, 'structureType')();
-  switch (structureType) { // eslint-disable-line default-case
+  switch (structureType) {
     case globalConstants.DATASTRUCTURETYPE_LAST: {
       const newLastValue = u(
         newValue,
@@ -318,64 +315,32 @@ export function addEntryPoint(stateViews, action) {
       }, stateViews);
     }
     case globalConstants.DATASTRUCTURETYPE_RANGE: {
-      const newRangeValue = _merge(
-        getNewPlotEntryPoint(),
-        newValue);
-
-
-      // axis Id
-      const newState = updatePlotAxisId(
-        stateViews,
-        {
-          payload: {
-            viewId: action.payload.viewId,
-            entryPoint: newRangeValue,
-          },
-        }
+      const newRangeValue = u(
+        newValue,
+        getNewPlotEntryPoint()
       );
+
+      const [axisX, axisY] = getAxes(newRangeValue, stateViews[action.payload.viewId]);
+      const addAxisXId = update('connectedDataX.axisId', () => axisX.id);
+      const addAxisYId = update('connectedDataY.axisId', () => axisY.id);
+      const addAxesIds = compose(addAxisXId, addAxisYId);
 
       return u({
         [action.payload.viewId]: {
           configuration: {
-            entryPoints: [...oldValue, newRangeValue],
+            entryPoints: [...oldValue, addAxesIds(newRangeValue)],
+            axes: {
+              [axisX.id]: axisX,
+              [axisY.id]: axisY,
+            },
           },
           isModified: true,
         },
-      }, newState);
+      }, stateViews);
     }
+    default: break;
   }
   return stateViews;
-}
-
-export function updatePlotAxisId(stateViews, { payload: { viewId, entryPoint } }) {
-  const currentView = stateViews[viewId];
-  if (currentView.type !== 'PlotView') {
-    return stateViews;
-  }
-  const newValue = entryPoint;
-  let newState = stateViews;
-  // axis Id
-  if (!newValue.connectedDataX.axisId) {
-    let axisId = getAxisId(newValue.name, newValue.connectedDataX, currentView);
-    if (!axisId) {
-      const axis = createAxis(currentView, newValue.name, newValue.connectedDataX.unit);
-      newState = addNewAxis(newState, viewId, axis);
-      axisId = axis.id;
-    }
-    newValue.connectedDataX.axisId = axisId; // eslint-disable-line no-param-reassign
-  }
-  if (!newValue.connectedDataY.axisId) {
-    let axisId = getAxisId(newValue.name, newValue.connectedDataY, currentView);
-    if (!axisId) {
-      const axis = createAxis(newState[viewId], newValue.name,
-        newValue.connectedDataY.unit);
-      newState = addNewAxis(newState, viewId, axis);
-      axisId = axis.id;
-    }
-    newValue.connectedDataY.axisId = axisId; // eslint-disable-line no-param-reassign
-  }
-
-  return newState;
 }
 
 export function removeUnreferencedAxis(stateViews, viewId, axisIdX, axisIdY) {

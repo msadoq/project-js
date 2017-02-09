@@ -116,3 +116,14 @@ export function getAxisId(epName, connectedData, currentView) {
   }
   return undefined;
 }
+
+export const getAxes = (entryPoint, currentView) => {
+  const { axes } = currentView.configuration;
+  const { connectedDataX, connectedDataY } = entryPoint;
+  const axisX = _find(axes, axis => axis.unit === connectedDataX.unit);
+  const axisY = _find(axes, axis => axis.unit === connectedDataY.unit);
+  return [
+    axisX || createAxis(currentView, entryPoint.name, connectedDataX.unit),
+    axisY || createAxis(currentView, entryPoint.name, connectedDataY.unit),
+  ];
+};

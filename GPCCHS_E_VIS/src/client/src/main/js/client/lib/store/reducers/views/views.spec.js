@@ -7,7 +7,6 @@ import reducer, {
   updateConfigurationArray,
   addElementInConfigurationArray,
   removeElementInConfigurationArray,
-  updatePlotAxisId,
   addEntryPoint,
 } from './index';
 import {
@@ -601,52 +600,6 @@ describe('store:views:reducer', () => {
       const connectedData = { unit: 'a' };
       const index = getAxisId('epName', connectedData, stateViews.plot1);
       should.not.exist(index);
-    });
-    it('updatePlotAxisId: nothing to do', () => {
-      const newValue = { connectedDataX: { axisId: 'axis1' }, connectedDataY: { axisId: 'axis2' } };
-      const action = { payload: { entryPoint: newValue, viewId: 'plot1' } };
-      updatePlotAxisId(stateViews, action).should.equal(stateViews);
-    });
-    it('updatePlotAxisId: invalid view type', () => {
-      const newValue = { connectedDataX: { axisId: 'axis1' }, connectedDataY: { axisId: 'axis2' } };
-      const action = { payload: { entryPoint: newValue, viewId: 'text1' } };
-      updatePlotAxisId(stateViews, action).should.equal(stateViews);
-    });
-    it('updatePlotAxisId: no axisId on x', () => {
-      const newValue = {
-        connectedDataX: { unit: 's' },
-        connectedDataY: { axisId: 'axis2' } };
-      const action = { payload: { entryPoint: newValue, viewId: 'plot1' } };
-      const newState = updatePlotAxisId(stateViews, action);
-      newValue.connectedDataX.axisId.should.equal('axis1');
-      newState.should.equal(stateViews);
-    });
-    it('updatePlotAxisId: no axisId on y', () => {
-      const newValue = {
-        connectedDataX: { axisId: 'axis2' },
-        connectedDataY: { unit: 's' } };
-      const action = { payload: { entryPoint: newValue, viewId: 'plot1' } };
-      const newState = updatePlotAxisId(stateViews, action);
-      newValue.connectedDataY.axisId.should.equal('axis1');
-      newState.should.equal(stateViews);
-    });
-    it('updatePlotAxisId: unknown unit', () => {
-      const newValue = { name: 'ep1',
-        connectedDataX: { unit: 'f' },
-        connectedDataY: { unit: 'g' } };
-      const action = { payload: { entryPoint: newValue, viewId: 'plot1' } };
-      const newState = updatePlotAxisId(stateViews, action);
-      Object.keys(newState.plot1.configuration.axes).should.have.length(5);
-      newState.plot1.configuration.axes.axis1.should.equal(
-        stateViews.plot1.configuration.axes.axis1);
-      newState.plot1.configuration.axes.axis2.should.equal(
-        stateViews.plot1.configuration.axes.axis2);
-      newState.plot1.configuration.axes.axis3.should.equal(
-        stateViews.plot1.configuration.axes.axis3);
-      newState.plot1.configuration.axes[newValue.connectedDataX.axisId].unit.should.equal('f');
-      newState.plot1.configuration.axes[newValue.connectedDataY.axisId].unit.should.equal('g');
-      newState.plot1.configuration.axes[newValue.connectedDataX.axisId].label.should.equal('ep1');
-      newState.plot1.configuration.axes[newValue.connectedDataY.axisId].label.should.equal('ep1');
     });
     it('addEntryPoint: invalid viewId', () => {
       const action = { payload: {

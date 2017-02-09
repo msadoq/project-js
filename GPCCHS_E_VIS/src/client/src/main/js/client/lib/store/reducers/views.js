@@ -3,18 +3,18 @@ import _without from 'lodash/without';
 import _ from 'lodash/fp';
 import u from 'updeep';
 import globalConstants from 'common/constants';
-import * as types from '../../types';
-import vivl from '../../../../VIVL/main';
+import * as types from '../types';
+import vivl from '../../../VIVL/main';
 import {
   getNewPlotEntryPoint,
   getNewTextEntryPoint,
-} from '../../../common/entryPoint';
+} from '../../common/entryPoint';
 import {
   updateAxis,
   addAxis,
   removeAxis,
   getAxes,
-} from './axis';
+} from './views/axis';
 
 /**
  * Reducer

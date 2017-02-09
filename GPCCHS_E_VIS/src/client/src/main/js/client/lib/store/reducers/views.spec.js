@@ -1,15 +1,15 @@
 /* eslint no-unused-expressions: 0 */
 import _find from 'lodash/find';
-import * as actions from '../../actions/views';
-import * as types from '../../types';
+import * as actions from '../actions/views';
+import * as types from '../types';
 import reducer, {
   updateConfiguration,
   updateConfigurationArray,
   addElementInConfigurationArray,
   removeElementInConfigurationArray,
   addEntryPoint,
-} from './index';
-import { freezeMe, getStore } from '../../../common/test';
+} from './views';
+import { freezeMe, getStore } from '../../common/test';
 
 describe('store:views:reducer', () => {
   it('initial state', () => {

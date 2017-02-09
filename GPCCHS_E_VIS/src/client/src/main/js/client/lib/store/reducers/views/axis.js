@@ -3,18 +3,18 @@ import _deburr from 'lodash/deburr';
 import _snakeCase from 'lodash/snakeCase';
 import _find from 'lodash/find';
 import update from 'lodash/fp/update';
+import prop from 'lodash/fp/prop';
 import path from 'lodash/fp/path';
 import pipe from 'lodash/fp/pipe';
 import equals from 'lodash/fp/equals';
 import u from 'updeep';
 
+const isPlotView = pipe(prop('type'), equals('PlotView'));
+
 export function updateAxis(stateViews, action) {
   const { viewId, axis, axisId } = action.payload;
-  if (!stateViews[viewId] || !axis || !axisId) {
-    return stateViews;
-  }
-  // Content only for a type of view if viewType is defined
-  if (stateViews[viewId].type !== 'PlotView') {
+  const currentView = stateViews[viewId];
+  if (!isPlotView(currentView) || !axis || !axisId) {
     return stateViews;
   }
   return u({
@@ -29,17 +29,14 @@ export function updateAxis(stateViews, action) {
 
 export function addAxis(stateViews, action) {
   const { viewId, axis } = action.payload;
-  if (!stateViews[viewId]) {
+  const currentView = stateViews[viewId];
+  if (!isPlotView(currentView)) {
     return stateViews;
   }
-  // Content only for a type of view if viewType is defined
-  if (stateViews[viewId].type !== 'PlotView') {
+  if (!axis || !axis.label) {
     return stateViews;
   }
-  if (!action.payload.axis.label) {
-    return stateViews;
-  }
-  const axisId = axis.id || getUniqueAxisId(stateViews[viewId], axis.label);
+  const axisId = axis.id || getUniqueAxisId(currentView, axis.label);
   return u({
     [viewId]: {
       configuration: {
@@ -52,16 +49,14 @@ export function addAxis(stateViews, action) {
 
 export function removeAxis(stateViews, action) {
   const { viewId, axisId } = action.payload;
-  const getViewType = path([viewId, 'type']);
-  const isPlotView = pipe(getViewType, equals('PlotView'));
   // Content only for a type of view if viewType is defined
-  if (!isPlotView(stateViews)) {
+  if (!axisId || !isPlotView(stateViews[viewId])) {
     return stateViews;
   }
   const axisExists = () => path([viewId, 'configuration', 'axes', axisId])(stateViews);
   return u({
     [viewId]: {
-      isModified: u.if(axisExists, u.constant(true)),
+      isModified: u.if(axisExists, () => true),
       configuration: {
         axes: u.omit(axisId),
       },

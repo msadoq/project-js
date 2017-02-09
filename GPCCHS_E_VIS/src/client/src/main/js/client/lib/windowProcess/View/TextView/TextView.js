@@ -10,7 +10,6 @@ import { html as beautifyHtml } from 'js-beautify';
 import { get } from 'common/parameters';
 
 import TextViewValue from './TextViewValue';
-import WYSIWYG from './WYSIWYG';
 import DroppableContainer from '../../common/DroppableContainer';
 
 const logger = getLogger('view:text');
@@ -57,7 +56,6 @@ export default class TextView extends PureComponent {
         })),
       }),
     })).isRequired,
-    show: PropTypes.string.isRequired,
   };
   static defaultProps = {
     data: {
@@ -74,6 +72,17 @@ export default class TextView extends PureComponent {
     this.setState({
       Content: this.getContentComponent(),
     });
+  }
+
+  // TODO Maybe useless, TextView implement PureComponent
+  shouldComponentUpdate(nextProps) {
+    return !(
+      nextProps.viewId === this.props.viewId &&
+      nextProps.data === this.props.data &&
+      nextProps.content === this.props.content &&
+      nextProps.isViewsEditorOpen === this.props.isViewsEditorOpen &&
+      nextProps.entryPoints === this.props.entryPoints
+    );
   }
 
   onDrop = (e) => {
@@ -151,8 +160,6 @@ export default class TextView extends PureComponent {
   render() {
     const {
       viewId,
-      isViewsEditorOpen,
-      entryPoints,
     } = this.props;
     const {
       Content,
@@ -160,13 +167,12 @@ export default class TextView extends PureComponent {
 
     logger.debug(`render ${viewId}`);
 
-    return (isViewsEditorOpen && this.props.show === 'html'
-      ? <WYSIWYG
-        initialValues={this.template}
-        entryPoints={entryPoints.map(ep => ep.name)}
-        onSubmit={this.handleSubmit}
-        form={`textView-form-${viewId}`}
-      />
-      : <DroppableContainer onDrop={this.onDrop}><Content /></DroppableContainer>);
+    return <DroppableContainer onDrop={this.onDrop}><Content /></DroppableContainer>;
   }
 }
+/* <WYSIWYG
+ initialValues={this.template}
+ entryPoints={entryPoints.map(ep => ep.name)}
+ onSubmit={this.handleSubmit}
+ form={`textView-form-${viewId}`}
+/> */

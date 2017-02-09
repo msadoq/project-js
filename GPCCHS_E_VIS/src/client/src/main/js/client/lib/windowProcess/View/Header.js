@@ -28,8 +28,6 @@ export default class Header extends PureComponent {
     moveViewToPage: PropTypes.func.isRequired,
     windowPages: PropTypes.arrayOf(PropTypes.object).isRequired,
     collapseView: PropTypes.func.isRequired,
-    show: PropTypes.string.isRequired,
-    updateShow: PropTypes.func.isRequired,
   };
   static defaultProps = {
     configuration: {
@@ -140,37 +138,6 @@ export default class Header extends PureComponent {
     return style;
   }
 
-  toDataStyle() {
-    const style = { backgroundColor: 'rgb(239,239,239)', color: 'rgb(51,51,51)', padding: '5px 10px', marginLeft: '5px', marginRight: '5px', marginTop: '2px', height: '22px', border: '1px solid rgb(180,180,180)' };
-    if (this.props.show === 'data') {
-      style.fontWeight = 'bold';
-      style.opacity = 1;
-    }
-    return style;
-  }
-  toHtmlStyle() {
-    const style = { backgroundColor: 'rgb(239,239,239)', color: 'rgb(51,51,51)', padding: '5px 10px', marginLeft: '5px', marginTop: '2px', height: '22px', border: '1px solid rgb(180,180,180)' };
-    if (this.props.show === 'html') {
-      style.fontWeight = 'bold';
-      style.opacity = 1;
-    }
-    return style;
-  }
-  expandButtonStyle() {
-    const style = { opacity: '1', backgroundColor: 'rgb(239,239,239)', color: 'rgb(51,51,51)', padding: '3px 6px', marginLeft: '3px', marginRight: '3px', marginTop: '1px', height: '22px', border: '1px solid rgb(180,180,180)' };
-    if (this.props.show === 'html') {
-      style.opacity = '1';
-    }
-    return style;
-  }
-  saveButtonStyle() {
-    const style = { opacity: '1', backgroundColor: 'rgb(239,239,239)', color: 'rgb(51,51,51)', padding: '3px 6px', marginLeft: '3px', marginRight: '3px', marginTop: '1px', height: '22px', border: '1px solid rgb(180,180,180)' };
-    if (this.props.show === 'html') {
-      style.opacity = '1';
-    }
-    return style;
-  }
-
   save = (e) => {
     if (e) e.preventDefault();
     const {
@@ -204,16 +171,6 @@ export default class Header extends PureComponent {
     collapseView(focusedPageId, viewId, !collapsed);
   }
 
-  updateShowHtml = (e) => {
-    e.preventDefault();
-    this.props.updateShow('html');
-  }
-
-  updateShowData = (e) => {
-    e.preventDefault();
-    this.props.updateShow('data');
-  }
-
   render() {
     const {
       configuration,
@@ -229,10 +186,8 @@ export default class Header extends PureComponent {
     }
 
     const titleStyle = this.getTitleStyle();
-    const toHtmlStyle = this.toHtmlStyle();
-    const toDataStyle = this.toDataStyle();
-    const expandButtonStyle = this.expandButtonStyle();
-    const saveButtonStyle = this.saveButtonStyle();
+    const expandButtonStyle = { opacity: '1', backgroundColor: 'rgb(239,239,239)', color: 'rgb(51,51,51)', padding: '3px 6px', marginLeft: '3px', marginRight: '3px', marginTop: '1px', height: '22px', border: '1px solid rgb(180,180,180)' };
+    const saveButtonStyle = { opacity: '1', backgroundColor: 'rgb(239,239,239)', color: 'rgb(51,51,51)', padding: '3px 6px', marginLeft: '3px', marginRight: '3px', marginTop: '1px', height: '22px', border: '1px solid rgb(180,180,180)' };
 
     const isPathDefined = oId || absolutePath;
 
@@ -255,22 +210,6 @@ export default class Header extends PureComponent {
           [styles.containerActive]: isViewsEditorOpen,
         })}
       >
-        {!collapsed && this.props.type === 'TextView' && this.props.isViewsEditorOpen &&
-          <button
-            style={toHtmlStyle}
-            onClick={this.updateShowHtml}
-          >
-            HTML
-          </button>
-        }
-        {!collapsed && this.props.type === 'TextView' && this.props.isViewsEditorOpen &&
-          <button
-            style={toDataStyle}
-            onClick={this.updateShowData}
-          >
-            VIEW
-          </button>
-        }
         <div
           style={titleStyle}
           className={`${styles.title} moveHandler ellipsis`}

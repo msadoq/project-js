@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Accordion,
   Panel,
+  Button,
 } from 'react-bootstrap';
 import ViewParamsContainer from '../ViewParamsContainer';
 
@@ -22,17 +23,20 @@ export default class TextTab extends React.Component {
     const { isTitleOpen } = this.state;
 
     return (
-      <Accordion>
-        <Panel
-          header="Parameters"
-          eventKey="1"
-          expanded={isTitleOpen}
-          onSelect={this.openTitle}
-          onExited={this.closeTitle}
-        >
-          {isTitleOpen && <ViewParamsContainer viewId={viewId} />}
-        </Panel>
-      </Accordion>
+      <div>
+        <Accordion>
+          <Panel
+            header="Parameters"
+            eventKey="1"
+            expanded={isTitleOpen}
+            onSelect={this.openTitle}
+            onExited={this.closeTitle}
+          >
+            {isTitleOpen && <ViewParamsContainer viewId={viewId} />}
+          </Panel>
+        </Accordion>
+        <Button className="center-block mt20">Open HTML Editor</Button>
+      </div>
     );
   }
 }

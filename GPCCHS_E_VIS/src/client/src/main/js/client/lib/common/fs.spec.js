@@ -8,7 +8,6 @@ import {
   constants,
   chmodSync,
 } from 'fs';
-import Console from 'common/utils/console';
 
 import { should, getTmpPath } from '../common/test';
 import fs from './fs';
@@ -53,7 +52,7 @@ describe('common/fs', () => {
     try {
       rimraf(tmpFolder, done);
     } catch (e) {
-      Console.warn(e);
+      console.warn(e); // eslint-disable-line no-console
     }
   });
 

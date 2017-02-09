@@ -1,7 +1,6 @@
 // Code came from https://gist.github.com/kbrownlees/93e57729d6ad95f38381
 
 import _ from 'lodash/fp';
-import Console from 'common/utils/console';
 
 import { createSelectorCreator, defaultMemoize } from 'reselect';
 
@@ -47,17 +46,19 @@ function changeMemoize(func, changeCallback) {
 
 function createLogChange(name) {
   return (lastArgs, lastResult, newArgs, newResult) => {
-    // Console.warn(`selector ${name} recomputed. Should be optimized`);
-    Console.group(`Selector ${name} recomputed`);
+    /* eslint-disable no-console */
+    // console.warn(`selector ${name} recomputed. Should be optimized`);
+    console.group(`Selector ${name} recomputed`);
     if (_.isEqual(lastArgs, newArgs)) {
-      Console.log('Args are the same', lastArgs, newArgs);
+      console.log('Args are the same', lastArgs, newArgs);
     } else {
-      Console.log('Args are not the same', diff(lastArgs, newArgs), lastArgs, newArgs);
+      console.log('Args are not the same', diff(lastArgs, newArgs), lastArgs, newArgs);
     }
     if (_.isEqual(lastResult, newResult)) {
-      Console.log('Results are the same', newResult);
+      console.log('Results are the same', newResult);
     }
-    Console.groupEnd(`Selector ${name}`);
+    console.groupEnd(`Selector ${name}`);
+    /* eslint-enable no-console */
   };
 }
 

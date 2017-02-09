@@ -4,7 +4,6 @@ const _chunk = require('lodash/chunk');
 const _slice = require('lodash/slice');
 const parseArgs = require('minimist');
 const { should } = require('../utils/test');
-const Console = require('../utils/console');
 const zmq = require('../zmq');
 const { getType, encode, decode } = require('../protobuf');
 const constants = require('../constants');
@@ -14,7 +13,7 @@ const domainIdTest = 4;
 const myQueryId = 'myQueryId';
 const myOtherQueryId = 'myOtherQueryId';
 
-const logger = (...args) => Console.log(...args);
+const logger = (...args) => console.log(...args); // eslint-disable-line no-console
 
 const queryArguments = {
   filters: [],

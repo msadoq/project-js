@@ -1,3 +1,4 @@
+/* eslint no-console:0 */
 const _compose = require('lodash/fp/compose');
 const _uniq = require('lodash/fp/uniq');
 const _filter = require('lodash/fp/filter');
@@ -10,9 +11,6 @@ const _find = require('lodash/fp/find');
 const _get = require('lodash/fp/get');
 const _cond = require('lodash/fp/cond');
 const _allPass = require('lodash/fp/allPass');
-
-const Console = '../utils/console';
-
 const {
   getTimer,
   parseConfig,
@@ -68,7 +66,7 @@ const sendToConsole = (category, levels) => {
         filterInclude(cfg),
         filterExclude(cfg),
       ]),
-        () => Console[level].apply(null,
+        () => console[level].apply(null,
           [`[${category}] ${msg} +${getConsoleTime()}ms`].concat(rest)
         ),
       ],

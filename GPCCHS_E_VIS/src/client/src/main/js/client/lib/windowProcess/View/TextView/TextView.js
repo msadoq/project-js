@@ -84,6 +84,7 @@ export default class TextView extends PureComponent {
       return;
     }
 
+    // eslint-disable-next-line no-console
     this.props.addEntryPoint(
       this.props.viewId,
       parseDragData(content)

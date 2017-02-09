@@ -1,7 +1,5 @@
 const _each = require('lodash/each');
 const _omit = require('lodash/omit');
-
-const Console = require('../utils/console');
 const logger = require('../log')('stubs:dc');
 const zmq = require('../zmq');
 const globalConstants = require('../constants');
@@ -72,7 +70,7 @@ const onHssMessage = (...args) => {
     case globalConstants.MESSAGETYPE_LOG_SEND: {
       logger.info('handle log');
       const { uid, arguments: a } = protobuf.decode('dc.dataControllerUtils.SendLog', args[2]);
-      return Console.log(`DC EMULATE LOG MANAGER: ${uid}`, a);
+      return console.log(`DC EMULATE LOG MANAGER: ${uid}`, a); // eslint-disable-line no-console
     }
     case globalConstants.MESSAGETYPE_SESSION_TIME_QUERY: {
       logger.info('push session time');

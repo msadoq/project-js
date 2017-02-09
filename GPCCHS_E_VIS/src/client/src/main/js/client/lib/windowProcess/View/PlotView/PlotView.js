@@ -8,7 +8,6 @@ import Dimensions from 'react-dimensions';
 import { format } from 'd3-format';
 import { scaleTime } from 'd3-scale';
 import getLogger from 'common/log';
-import Console from 'common/utils/console';
 import { get } from 'common/parameters';
 import {
   ChartCanvas, Chart, series, annotation,
@@ -75,7 +74,8 @@ function parseDragData(data) {
 }
 
 function onYAxisZoom(id, domain) {
-  Console.log('zoom', id, domain);
+  // eslint-disable-next-line no-console
+  console.log('zoom', id, domain);
 }
 
 export class PlotView extends PureComponent {
@@ -550,6 +550,7 @@ export class PlotView extends PureComponent {
       return;
     }
 
+    // eslint-disable-next-line no-console
     this.props.addEntryPoint(
       this.props.viewId,
       parseDragData(content)
@@ -686,15 +687,15 @@ export class PlotView extends PureComponent {
   }
 
   handleLineRightClick = (e) => {
-    Console.log('handleLineRightClick', e);
+    console.log('handleLineRightClick', e); // eslint-disable-line no-console
   }
 
   handleLineClick = (e) => {
-    Console.log('handleLineClick', e);
+    console.log('handleLineClick', e); // eslint-disable-line no-console
   }
 
   handleLineDoubleClick = (e) => {
-    Console.log('handleLineDoubleClick', e);
+    console.log('handleLineDoubleClick', e); // eslint-disable-line no-console
   }
 
   handleChartClick = (e) => {

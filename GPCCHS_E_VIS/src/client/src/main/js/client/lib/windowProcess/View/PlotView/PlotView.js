@@ -29,7 +29,7 @@ import {
 } from './helper';
 import { stateColors } from '../../common/colors';
 import DroppableContainer from '../../common/DroppableContainer';
-import { Danger } from '../Alert';
+import CloseableAlert from '../CloseableAlert';
 import styles from './PlotView.css';
 import { getEntryPointColorObj } from '../../../store/selectors/views';
 
@@ -312,7 +312,8 @@ export class PlotView extends PureComponent {
       .filter(ep => ep.error);
 
     return epWithErrors.length ?
-      <Danger
+      <CloseableAlert
+        bsStyle="danger"
         className={classnames(
           'z100',
           'mb10',
@@ -332,7 +333,7 @@ export class PlotView extends PureComponent {
               </div>
             ))}
         </div>
-      </Danger> : undefined;
+      </CloseableAlert> : undefined;
   }
 
   getYCharts = () => {

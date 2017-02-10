@@ -23,7 +23,7 @@ function parseDragData(data) {
   return {
     name: data.item,
     connectedData: {
-      formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.${get('DEFAULT_FIELD')}`,
+      formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.${get('DEFAULT_FIELD')[getComObject(data.comObjects)]}`,
     },
   };
 }

@@ -21,7 +21,7 @@ export default function applyDomainsAndTimebar(
     comObject,
     field,
   } = parameter;
-  const expectedField = field || get('DEFAULT_FIELD');
+  const expectedField = field || get('DEFAULT_FIELD')[comObject];
 
   // domain
   const domainSearch = domainsFilter(domains, domain);

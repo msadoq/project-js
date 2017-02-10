@@ -85,6 +85,7 @@ export default class DynamicView extends PureComponent {
       values: PropTypes.object,
       index: PropTypes.object,
     }),
+    entryPoints: PropTypes.arrayOf(PropTypes.object),
     formula: PropTypes.string,
   };
 
@@ -103,12 +104,18 @@ export default class DynamicView extends PureComponent {
   }
 
   render() {
-    const { data } = this.props;
+    const { data, entryPoints } = this.props;
     const ep = _get(data, ['values', 'dynamicEP', 'value']);
     if (!ep) {
-      return (<div>No data</div>);
+      return (
+        <div className="flex">
+          <div className={styles.renderErrorText}>
+            Unable to render view <br />
+            {entryPoints[0].error}
+          </div>
+        </div>
+      );
     }
-
 
     return (
       <div>

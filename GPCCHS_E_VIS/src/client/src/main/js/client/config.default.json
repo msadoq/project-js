@@ -5,7 +5,12 @@
   "ORCHESTRATION_FREQUENCY": 500,
   "CACHE_INVALIDATION_FREQUENCY": 300000,
   "WILDCARD_CHARACTER": "*",
-  "DEFAULT_FIELD": "extractedValue",
+  "DEFAULT_FIELD": {
+    "TM": "extractedValue",
+    "RM": "extractedValue",
+    "CLCW": "extractedValue",
+    "ReportingParameter": "extractedValue"
+  },
   "LOG_FILENAME": "gpcchs.log",
   "FMD_ROOT_DIR": "/data/isis/documents",
   "VISUWINDOW_MAX_LENGTH": 7200000,

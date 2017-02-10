@@ -25,21 +25,18 @@ export default function views(stateViews = {}, action) {
 
     // VIEW MAIN OPERATIONS
     case types.WS_VIEW_ADD:
-      return {
-        ...stateViews,
-        [action.payload.viewId]: view(undefined, action),
-      };
+      return u({
+        [action.payload.viewId]: view(stateViews[action.payload.viewId], action),
+      }, stateViews);
     case types.WS_VIEW_REMOVE:
-      return _omit(stateViews, [action.payload.viewId]);
+      return u.omit(action.payload.viewId, stateViews);
     case types.WS_VIEW_RELOAD: {
-      return {
-        ...stateViews,
+      return u({
         [action.payload.viewId]: {
-          ...stateViews[action.payload.viewId],
           isModified: false,
-          configuration: configuration(stateViews[action.payload.viewId], action),
+          configuration: u.constant(configuration(stateViews[action.payload.viewId], action)),
         },
-      };
+      }, stateViews);
     }
 
     // VIEW CONFIGURATION
@@ -159,7 +156,7 @@ const initialState = {
   isModified: true,
 };
 
-function view(stateView = initialState, action) {
+export function view(stateView = initialState, action) {
   switch (action.type) {
     case types.WS_VIEW_ADD:
       return {

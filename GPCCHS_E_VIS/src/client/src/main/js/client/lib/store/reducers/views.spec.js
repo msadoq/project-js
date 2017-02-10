@@ -3,11 +3,11 @@ import _find from 'lodash/find';
 import * as actions from '../actions/views';
 import * as types from '../types';
 import reducer, {
+  view,
   updateConfiguration,
   updateConfigurationArray,
   addElementInConfigurationArray,
   removeElementInConfigurationArray,
-  addEntryPoint,
 } from './views';
 import { freezeMe, getStore } from '../../common/test';
 
@@ -44,11 +44,11 @@ describe('store:views:reducer', () => {
         configuration: {
           title: null,
         },
-        absolutePath: undefined,
-        path: undefined,
-        oId: undefined,
         isModified: true,
       });
+    });
+    it('does nothing with unknown action', () => {
+      view(undefined, {}).should.be.eql({ type: null, isModified: true });
     });
   });
   describe('remove', () => {
@@ -76,8 +76,14 @@ describe('store:views:reducer', () => {
         },
       },
     };
-    const s = reducer(state, actions.setModified('myView', true));
-    s.myView.isModified.should.equal(true);
+    it('set isModified to true', () => {
+      const s = reducer(state, actions.setModified('myView', true));
+      s.myView.isModified.should.equal(true);
+    });
+    it('does nothing when view is unknown', () => {
+      const s = reducer(state, actions.setModified('unknownView', true));
+      s.myView.isModified.should.equal(false);
+    });
   });
   describe('set collapsed', () => {
     const state = {
@@ -184,6 +190,17 @@ describe('store:views:reducer', () => {
       s.view1.absolutePath.should.equal('/data/newPath');
       s.view1.isModified.should.equal(true);
       s.view1.configuration.title.should.equal('my plot');
+    });
+    it('set oId', () => {
+      const s = reducer(state, {
+        type: types.WS_VIEW_SET_OID,
+        payload: {
+          viewId: 'view1',
+          oid: 'yolo',
+        },
+      });
+      s.should.not.be.eql(state);
+      s.view1.oId.should.be.eql('yolo');
     });
     it('object ok', () => {
       const action = {
@@ -575,53 +592,68 @@ describe('store:views:reducer', () => {
   });
   describe('add entry point', () => {
     it('addEntryPoint: invalid viewId', () => {
-      const action = { payload: {
-        viewId: 'plot2',
-        entryPoint: {},
-      } };
-      addEntryPoint(stateViews, action).should.equal(stateViews);
+      const action = {
+        type: types.WS_VIEW_ADD_ENTRYPOINT,
+        payload: {
+          viewId: 'plot2',
+          entryPoint: {},
+        },
+      };
+      reducer(stateViews, action).should.equal(stateViews);
     });
     it('addEntryPoint: text view', () => {
-      const action = { payload: {
-        viewId: 'text1',
-        entryPoint: { name: 'ep2', connectedData: {} },
-      } };
-      const state = addEntryPoint(stateViews, action);
+      const action = {
+        type: types.WS_VIEW_ADD_ENTRYPOINT,
+        payload: {
+          viewId: 'text1',
+          entryPoint: { name: 'ep2', connectedData: {} },
+        },
+      };
+      const state = reducer(stateViews, action);
       state.text1.configuration.entryPoints[1].should.have.properties(
         { name: 'ep2', connectedData: { timeline: '*', domain: '*' } });
     });
     it('addEntryPoint: text view', () => {
-      const action = { payload: {
-        viewId: 'text1',
-        entryPoint: { name: 'ep2', connectedData: { timeline: 't1', domain: 'd1' } },
-      } };
-      const state = addEntryPoint(stateViews, action);
+      const action = {
+        type: types.WS_VIEW_ADD_ENTRYPOINT,
+        payload: {
+          viewId: 'text1',
+          entryPoint: { name: 'ep2', connectedData: { timeline: 't1', domain: 'd1' } },
+        },
+      };
+      const state = reducer(stateViews, action);
       state.text1.configuration.entryPoints[1].should.have.properties(
         { name: 'ep2', connectedData: { timeline: 't1', domain: 'd1' } });
     });
     it('addEntryPoint: plot view', () => {
-      const action = { payload: {
-        viewId: 'plot1',
-        entryPoint: {
-          name: 'ep2',
-          connectedDataX: { timeline: 't1', domain: 'd1', unit: 's', axisId: 'axis1' },
-          connectedDataY: { timeline: 't2', domain: 'd2', unit: 'w' } },
-      } };
-      const state = addEntryPoint(stateViews, action);
+      const action = {
+        type: types.WS_VIEW_ADD_ENTRYPOINT,
+        payload: {
+          viewId: 'plot1',
+          entryPoint: {
+            name: 'ep2',
+            connectedDataX: { timeline: 't1', domain: 'd1', unit: 's', axisId: 'axis1' },
+            connectedDataY: { timeline: 't2', domain: 'd2', unit: 'w' } },
+        },
+      };
+      const state = reducer(stateViews, action);
       state.plot1.configuration.entryPoints[2].should.have.properties({
         name: 'ep2',
         connectedDataX: { timeline: 't1', domain: 'd1', unit: 's', axisId: 'axis1' },
         connectedDataY: { timeline: 't2', domain: 'd2', unit: 'w', axisId: 'axis2' } });
     });
     it('addEntryPoint: plot view', () => {
-      const action = { payload: {
-        viewId: 'plot1',
-        entryPoint: {
-          name: 'ep2',
-          connectedDataX: { timeline: 't1', domain: 'd1', unit: 'f' },
-          connectedDataY: { domain: 'd2', unit: 'w' } },
-      } };
-      const state = addEntryPoint(stateViews, action);
+      const action = {
+        type: types.WS_VIEW_ADD_ENTRYPOINT,
+        payload: {
+          viewId: 'plot1',
+          entryPoint: {
+            name: 'ep2',
+            connectedDataX: { timeline: 't1', domain: 'd1', unit: 'f' },
+            connectedDataY: { domain: 'd2', unit: 'w' } },
+        },
+      };
+      const state = reducer(stateViews, action);
       const axisId = _find(state.plot1.configuration.axes, axis => axis.unit === 'f').id;
       state.plot1.configuration.entryPoints[2].should.have.properties({
         name: 'ep2',

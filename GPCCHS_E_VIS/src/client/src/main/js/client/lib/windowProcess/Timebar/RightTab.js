@@ -10,6 +10,7 @@ class RightTabContent extends PureComponent {
   static propTypes = {
     onTimelinesVerticalScroll: PropTypes.func.isRequired,
     updateViewport: PropTypes.func.isRequired,
+    setRealTime: PropTypes.func.isRequired,
     updateCursors: PropTypes.func.isRequired,
     jump: PropTypes.func.isRequired,
     isPlaying: PropTypes.bool.isRequired,
@@ -160,6 +161,7 @@ class RightTabContent extends PureComponent {
       toggleTimesetter,
       onTimelinesVerticalScroll,
       timelinesVerticalScroll,
+      setRealTime,
       containerWidth,
       updateCursors,
       jump,
@@ -196,6 +198,8 @@ class RightTabContent extends PureComponent {
           pause={pause}
           timebarUuid={timebarUuid}
           timebarMode={timebar.mode}
+          timebarRealTime={timebar.realTime}
+          setRealTime={setRealTime}
           visuWindow={visuWindow}
           slideWindow={slideWindow}
           timelines={timelines}

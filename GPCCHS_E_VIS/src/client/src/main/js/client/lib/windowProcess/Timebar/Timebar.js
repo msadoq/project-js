@@ -32,6 +32,7 @@ export default class Timebar extends PureComponent {
     retrieveFormattedFullDateEl: PropTypes.func.isRequired,
     play: PropTypes.func.isRequired,
     pause: PropTypes.func.isRequired,
+    setRealTime: PropTypes.func.isRequired,
     toggleTimesetter: PropTypes.func.isRequired,
     onVerticalScroll: PropTypes.func.isRequired,
     updateViewport: PropTypes.func.isRequired,
@@ -63,6 +64,7 @@ export default class Timebar extends PureComponent {
     ).isRequired,
     isPlaying: PropTypes.bool.isRequired,
     timebarMode: PropTypes.string.isRequired,
+    timebarRealTime: PropTypes.bool.isRequired,
     timebarUuid: PropTypes.string.isRequired,
     verticalScroll: PropTypes.number.isRequired,
     widthPx: PropTypes.number.isRequired,
@@ -200,8 +202,20 @@ export default class Timebar extends PureComponent {
       return;
     }
 
-    const { visuWindow, slideWindow, viewport } = this.props;
+    const {
+      visuWindow,
+      slideWindow,
+      setRealTime,
+      timebarRealTime,
+      viewport,
+      timebarUuid,
+    } = this.props;
     const { state } = this;
+
+    if (timebarRealTime) {
+      setRealTime(timebarUuid, false);
+    }
+
     this.setState({
       dragging: true,
       resizing: false,
@@ -564,7 +578,17 @@ export default class Timebar extends PureComponent {
     Clicked on the current cursor
   */
   onMouseDownNavigate = (e) => {
-    const { viewport } = this.props;
+    const {
+      viewport,
+      timebarRealTime,
+      setRealTime,
+      timebarUuid,
+    } = this.props;
+
+    if (timebarRealTime) {
+      setRealTime(timebarUuid, false);
+    }
+
     this.setState({
       navigating: true,
       dragging: false,

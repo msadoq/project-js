@@ -231,6 +231,7 @@ export default class TimebarWrapper extends PureComponent {
           focusedPageId={focusedPageId}
           masterId={timebar.masterId}
           timebarName={timebar.id}
+          timebarRealTime={timebar.realTime}
           timelines={timelines}
           collapseTimebar={collapseTimebar}
           verticalScroll={timelinesVerticalScroll}

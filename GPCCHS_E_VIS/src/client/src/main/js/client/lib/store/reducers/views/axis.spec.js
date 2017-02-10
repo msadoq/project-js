@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions: 0 */
 import { freezeMe, should } from '../../../common/test';
-import { updateAxis, addAxis, removeAxis } from './axis';
+import { updateAxis, addAxis, removeAxis, getAxes } from './axis';
 
 describe('store:views:axes', () => {
   const state = freezeMe({
@@ -8,7 +8,8 @@ describe('store:views:axes', () => {
       type: 'PlotView',
       configuration: {
         axes: {
-          axis_1: { label: 'AXIS1', id: 'axis_1' },
+          axis_1: { label: 'AXIS1', id: 'axis_1', unit: 'volts' },
+          axis_2: { label: 'AXIS2', id: 'axis_2', unit: 'seconds' },
           axis_1_1: {},
         },
       },
@@ -89,6 +90,53 @@ describe('store:views:axes', () => {
       const newState = removeAxis(state, { payload: { viewId: 'view1', axisId: 'axis_1' } });
       should.not.exist(newState.view1.configuration.axes.axis_1);
       newState.view1.isModified.should.be.true;
+    });
+  });
+
+  describe('getAxes', () => {
+    it('returns 2 generated axes (x/y)', () => {
+      const entryPoint = {
+        name: 'ep2',
+        connectedDataX: { unit: 'unknown' },
+        connectedDataY: { unit: 'useless' },
+      };
+      const [axisX, axisY] = getAxes(entryPoint, state.view1);
+      axisX.id.should.not.be.eql(axisY.id);
+      axisX.should.be.eql({ label: 'ep2', unit: 'unknown', id: 'X:ep_2' });
+      axisY.should.be.eql({ label: 'ep2', unit: 'useless', id: 'Y:ep_2' });
+    });
+    it('returns 2 axes (x/y)', () => {
+      const entryPoint = {
+        name: 'ep2',
+        connectedDataX: { unit: 'seconds' },
+        connectedDataY: { unit: 'volts' },
+      };
+      const [axisX, axisY] = getAxes(entryPoint, state.view1);
+      axisX.id.should.not.be.eql(axisY.id);
+      axisX.should.be.eql({ label: 'AXIS2', unit: 'seconds', id: 'axis_2' });
+      axisY.should.be.eql({ label: 'AXIS1', unit: 'volts', id: 'axis_1' });
+    });
+    it('returns 1 axis (x) ans 1 generated axis (y)', () => {
+      const entryPoint = {
+        name: 'ep2',
+        connectedDataX: { unit: 'seconds' },
+        connectedDataY: { unit: 'unknown' },
+      };
+      const [axisX, axisY] = getAxes(entryPoint, state.view1);
+      axisX.id.should.not.be.eql(axisY.id);
+      axisX.should.be.eql({ label: 'AXIS2', unit: 'seconds', id: 'axis_2' });
+      axisY.should.be.eql({ label: 'ep2', unit: 'unknown', id: 'ep_2' });
+    });
+    it('returns 1 axis (y) ans 1 generated axis (x)', () => {
+      const entryPoint = {
+        name: 'ep2',
+        connectedDataX: { unit: 'unknown' },
+        connectedDataY: { unit: 'volts' },
+      };
+      const [axisX, axisY] = getAxes(entryPoint, state.view1);
+      axisX.id.should.not.be.eql(axisY.id);
+      axisX.should.be.eql({ label: 'ep2', unit: 'unknown', id: 'ep_2' });
+      axisY.should.be.eql({ label: 'AXIS1', unit: 'volts', id: 'axis_1' });
     });
   });
 });

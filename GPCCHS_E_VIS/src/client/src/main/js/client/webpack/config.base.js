@@ -4,23 +4,24 @@ import webpack from 'webpack';
 export default {
   module: {
     loaders: [
-    {
-      test: /\.jsx?$/,
-      loaders: ['babel-loader'].map(require.resolve),
-      include: /node_modules\/common/,
-      exclude: /node_modules\/common\/node_modules/,
-    },
-    {
-      test: /\.jsx?$/,
-      loaders: ['babel-loader'].map(require.resolve),
-      exclude: /node_modules/,
-    }, {
-      test: /\.json$/,
-      loader: 'json',
-    }, {
-      test: /\.less$/,
-      loader: 'style!css!less',
-    }],
+      {
+        test: /\.jsx?$/,
+        loaders: ['babel-loader'].map(require.resolve),
+        include: /node_modules\/common/,
+        exclude: /node_modules\/common\/node_modules/,
+      },
+      {
+        test: /\.jsx?$/,
+        loaders: ['babel-loader'].map(require.resolve),
+        exclude: /node_modules/,
+      }, {
+        test: /\.json$/,
+        loader: 'json',
+      }, {
+        test: /\.less$/,
+        loader: 'style!css!less',
+      },
+    ],
   },
   output: {
     path: path.join(__dirname, 'dist'),

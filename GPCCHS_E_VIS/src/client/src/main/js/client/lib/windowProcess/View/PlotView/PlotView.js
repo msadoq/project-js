@@ -17,6 +17,8 @@ import {
 } from 'react-stockcharts';
 
 import getDynamicObject from '../../common/getDynamicObject';
+import GrizzlyChart from './Grizzly/Chart';
+
 import {
   getLines,
   getLineMarker,
@@ -34,6 +36,9 @@ import styles from './PlotView.css';
 import { getEntryPointColorObj } from '../../../store/selectors/views';
 
 const logger = getLogger('view:plot');
+
+// const renderMethod = 'grizzly';
+const renderMethod = 'classic';
 
 const {
   LineSeries, ScatterSeries, StraightLine,
@@ -787,8 +792,10 @@ export class PlotView extends PureComponent {
     const {
       containerWidth,
       containerHeight,
+      entryPoints,
       data: { columns },
-      configuration: { showYAxes },
+      configuration: { showYAxes, axes },
+      visuWindow,
     } = this.props;
     const {
       disableZoom,
@@ -811,6 +818,60 @@ export class PlotView extends PureComponent {
       marginChart = { ...margin };
     }
     marginChart = getDynamicObject()(marginChart);
+
+    if (renderMethod === 'grizzly') {
+      const yAxes = Object.values(axes).filter(a => a.label !== 'Time');
+
+      return (
+        <DroppableContainer
+          onDrop={this.onDrop}
+          text="add entry point"
+          className={classnames(
+            { [styles.disconnected]: zoomedOrPanned },
+            'h100',
+            'posRelative'
+          )}
+        >
+          <GrizzlyChart
+            uniqueId="aaaa-bbb"
+            height={containerHeight}
+            width={containerWidth}
+            xExtends={[visuWindow.lower, visuWindow.upper]}
+            current={visuWindow.current}
+            yAxesAt={showYAxes}
+            xAxisAt="bottom"
+            yAxes={yAxes.map(a =>
+              ({
+                id: a.id || a.label,
+                yExtends: [a.min, a.max],
+                master: true,
+                orient: 'top',
+                autoLimits: a.autoLimits === true,
+              })
+            )}
+            dataSets={[
+              {
+                data: columns,
+                id: 'dataOne',
+              },
+            ]}
+            lines={
+              entryPoints.map(ep =>
+                ({
+                  id: ep.name,
+                  dataSet: 'dataOne',
+                  yAxis: _get(ep, ['connectedDataY', 'axisId']),
+                  fill: _get(ep, ['objectStyle', 'curveColor']),
+                  strokeWidth: _get(ep, ['objectStyle', 'line', 'size']),
+                  lineStyle: _get(ep, ['objectStyle', 'line', 'style']),
+                  yAccessor: d => _get(d, [ep.name, 'value']),
+                })
+              )
+            }
+          />
+        </DroppableContainer>
+      );
+    }
 
     return (
       <DroppableContainer

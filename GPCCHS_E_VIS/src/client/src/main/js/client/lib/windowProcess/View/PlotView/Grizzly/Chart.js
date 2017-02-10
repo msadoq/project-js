@@ -47,8 +47,8 @@ export default class chart extends React.Component {
 
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
-    Object.entries(nextProps).forEach((p) => {
-      if (this.props[p[0]] !== p[1]) {
+    Object.keys(nextProps).forEach((k) => {
+      if (this.props[k] !== nextProps[k]) {
         shouldRender = true;
       }
     });

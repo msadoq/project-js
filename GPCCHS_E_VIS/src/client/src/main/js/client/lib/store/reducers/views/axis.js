@@ -93,10 +93,15 @@ function createAxis(stateView, label, unit) {
 export const getAxes = (entryPoint, currentView) => {
   const { axes } = currentView.configuration;
   const { connectedDataX, connectedDataY } = entryPoint;
+
   const axisX = _find(axes, axis => axis.unit === connectedDataX.unit);
   const axisY = _find(axes, axis => axis.unit === connectedDataY.unit);
+  const finalX = axisX || createAxis(currentView, entryPoint.name, connectedDataX.unit);
+  const finalY = axisY || createAxis(currentView, entryPoint.name, connectedDataY.unit);
+  const prefixX = finalX.id === finalY.id ? 'X:' : '';
+  const prefixY = finalX.id === finalY.id ? 'Y:' : '';
   return [
-    axisX || createAxis(currentView, entryPoint.name, connectedDataX.unit),
-    axisY || createAxis(currentView, entryPoint.name, connectedDataY.unit),
+    { ...finalX, id: `${prefixX}${finalX.id}` },
+    { ...finalY, id: `${prefixY}${finalY.id}` },
   ];
 };

@@ -9,6 +9,7 @@ import { readDocument } from './io';
 import fs from '../common/fs';
 import validation from './validation';
 import vivl from '../../VIVL/main';
+// TODO garm use structures facade instead of direct include!
 import addUuidToAxes from '../dataManager/structures/range/addUuidToAxes';
 
 const indexByUUID = _.indexBy(_.prop('uuid'));

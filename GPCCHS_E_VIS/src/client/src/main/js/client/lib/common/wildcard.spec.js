@@ -1,4 +1,3 @@
-/* eslint no-unused-expressions: 0 */
 import './test';
 import { detect, generate } from './wildcard';
 

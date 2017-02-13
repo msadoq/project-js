@@ -1,5 +1,4 @@
-/* eslint no-unused-vars: 0 */
-import { should, getStore, freezeMe } from '../../common/test';
+import { getStore, freezeMe } from '../../common/test';
 import * as actions from '../actions/messages';
 import reducer from './messages';
 

@@ -1,3 +1,6 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
+
 import React, { PropTypes } from 'react';
 import { scaleLinear } from 'd3-scale';
 import { select } from 'd3-selection';

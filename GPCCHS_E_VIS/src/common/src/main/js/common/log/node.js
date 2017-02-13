@@ -1,3 +1,4 @@
+const util = require('util');
 const winston = require('winston');
 const wCommon = require('winston/lib/winston/common');
 const _isEmpty = require('lodash/fp/isEmpty');
@@ -7,13 +8,9 @@ const _dissoc = require('lodash/fp/dissoc');
 const _omit = require('lodash/fp/omit');
 const _path = require('lodash/fp/path');
 const _noop = require('lodash/fp/noop');
-const _cond = require('lodash/fp/cond');
-const _isArray = require('lodash/fp/isArray');
-const _stubTrue = require('lodash/fp/stubTrue');
-const _map = require('lodash/fp/map');
-const _constant = require('lodash/fp/constant');
 const _prop = require('lodash/fp/prop');
 const _propOr = require('lodash/fp/propOr');
+const _uniqueId = require('lodash/fp/uniqueId');
 
 const {
   parseConfig,
@@ -26,7 +23,7 @@ winston.cli();
 
 const DEFAULT_TRANSPORTS = '';
 
-function getConfig() {
+function getDefaultConfig() {
   return _isEmpty(get('LOG')) ? DEFAULT_TRANSPORTS : get('LOG');
 }
 
@@ -58,6 +55,28 @@ memory consumption
   _dissoc('formatter'),
   _update('meta', _omit(['memUsage', 'latency', 'pname', 'pid', 'time']))
 )(options));
+
+const createCustomLogger = (name, f, options = {}) => {
+  function CustomLogger() {
+    winston.Transport.call(this, options);
+    this.level = options.level || 'info';
+  }
+  winston.transports[name] = CustomLogger;
+
+  util.inherits(CustomLogger, winston.Transport);
+
+  CustomLogger.prototype.name = _uniqueId(`${name}_`);
+  CustomLogger.prototype.type = name;
+
+  CustomLogger.prototype.log = (level, msg, meta, callback) => {
+    f(level, msg, meta);
+    callback(null, true);
+  };
+
+  return new CustomLogger();
+};
+
+const getNoOpLogger = () => createCustomLogger('noop', _noop);
 
 let cpt = 0;
 const availableTransports = {
@@ -101,56 +120,43 @@ const availableTransports = {
 const getTime = getTimer();
 
 // Create and returns list of wanted transports
-const getTransports = cfg =>
-  cfg.map(t => availableTransports[t.type](t.params));
+const getTransports = (transports, cfg) =>
+  cfg.map(t => transports[t.type](t.params));
 
-const loggers = {};
+// let loggers = {};
+// const resetLoggers = () => { loggers = {} }
 
 const getProcessName = ({ pname }) => pname || (/node$/g.test(process.title) ? 'NONAME' : process.title);
 const getProcessId = ({ pid }) => pid || process.pid;
 const getProcessLabel = meta => `[${getProcessName(meta)}(${getProcessId(meta)})]`;
 
-const getNoOpTransport = () => ({
-  error: _noop,
-  warn: _noop,
-  info: _noop,
-  verbose: _noop,
-  debug: _noop,
-  silly: _noop,
-});
-
 // Create a Winston logger, that contains their own transports (console, http, file, ...)
 // Each message is prefixed by category.
 // Messages can be filtered by category using a regular expression
-function getLogger(category, enabledTransports) {
-  if (loggers[category]) {
-    return loggers[category];
-  }
-
-  const config = parseConfig(getConfig());
+function _getLogger(category, config = getDefaultConfig(), allTransports = availableTransports) {
+  const configObj = parseConfig(config);
 
   const transports = getTransports(
-    _cond([
-      [_isArray, _map(k => ({ type: k }))],
-      [_stubTrue, _constant(config)],
-    ])(enabledTransports)
+    allTransports,
+    configObj
   );
 
   if (transports.length === 0) {
-    return getNoOpTransport();
+    transports.push(getNoOpLogger());
   }
 
-  winston.loggers.add(category, {
+  const id = _uniqueId('transport_');
+  winston.loggers.add(id, {
     transports,
   });
-  const logger = loggers[category] = winston.loggers.get(category);
+  const logger = winston.loggers.get(id);
 
   logger.filters.push((level, msg, meta) => `${getProcessLabel(meta)}[${category}] ${msg}`);
 
   // Monkey patch each transport to provide filter logic.
   // If filter is defined, category must match filter regular expression
-  transports.forEach((t) => {
-    const transportConfig = config.filter(c => c.type === t.constructor.prototype.name)[0];
+  transports.forEach((t, i) => {
+    const transportConfig = _prop(i, configObj);
     const params = _prop('params', transportConfig);
     if (!params) {
       return;
@@ -194,9 +200,28 @@ function getLogger(category, enabledTransports) {
   return logger;
 }
 
+const getLogger = (...loggerArgs) => {
+  let logger;
+  const getLazyInitLogFn = level => (...logArgs) => {
+    if (!logger) {
+      logger = _getLogger(...loggerArgs);
+    }
+    logger[level](...logArgs);
+  };
+  return {
+    error: getLazyInitLogFn('error'),
+    warn: getLazyInitLogFn('warn'),
+    info: getLazyInitLogFn('info'),
+    verbose: getLazyInitLogFn('verbose'),
+    debug: getLazyInitLogFn('debug'),
+    silly: getLazyInitLogFn('silly'),
+  };
+};
+
 module.exports = {
   getStdOptions,
   getMonitoringOptions,
   availableTransports,
   getLogger,
+  createCustomLogger,
 };

@@ -63,6 +63,9 @@ const commands = {
     requestData: (callback) => {
       commands.server.rpc(globalConstants.IPC_METHOD_TIMEBASED_PULL, null, callback);
     },
+    requestHealth: (callback) => {
+      commands.server.rpc(globalConstants.IPC_METHOD_HEALTH_PULL, null, callback);
+    },
     requestServerDebug: (callback) => {
       commands.server.rpc(globalConstants.IPC_METHOD_SERVER_DEBUG, null, callback);
     },

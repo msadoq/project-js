@@ -5,6 +5,7 @@ const globalConstants = require('common/constants');
 
 const onDomainsQuery = require('./onDomainsQuery');
 const onPull = require('./onPull');
+const onHealth = require('./onHealth');
 const onCacheCleanup = require('./onCacheCleanup');
 const onTimebasedQuery = require('./onTimebasedQuery');
 const onSessionsQuery = require('./onSessionsQuery');
@@ -22,6 +23,7 @@ const controller = {
   [globalConstants.IPC_METHOD_SESSIONS_REQUEST]: (...args) => onSessionsQuery(pushToDc, ...args),
   [globalConstants.IPC_METHOD_CACHE_CLEANUP]: (...args) => onCacheCleanup(pushToDc, ...args),
   [globalConstants.IPC_METHOD_TIMEBASED_PULL]: (...args) => onPull(reply, ...args),
+  [globalConstants.IPC_METHOD_HEALTH_PULL]: (...args) => onHealth(reply, ...args),
   [globalConstants.IPC_METHOD_TIMEBASED_QUERY]: (...args) => onTimebasedQuery(pushToDc, ...args),
   [globalConstants.IPC_METHOD_SERVER_DEBUG]: (...args) => onServerDebug(reply, ...args),
   [globalConstants.IPC_METHOD_FMD_GET]: (...args) => onFmdGet(pushToDc, ...args),

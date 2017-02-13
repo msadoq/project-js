@@ -18,6 +18,7 @@ describe('lib/documentManager', () => {
     let content;
     beforeEach(() => {
       const id = v4();
+      const fixturesFolder = path.join(__dirname, 'fixtures');
       content = { windows: {} };
       content.windows[id] = {
         type: 'documentWindow',
@@ -43,7 +44,7 @@ describe('lib/documentManager', () => {
         id: 'TB1',
         uuid: tbid,
       };
-      content.__folder = path.join(__dirname, 'fixtures');
+      content.__folder = fixturesFolder;
     });
     it('valid', (done) => {
       extractPages(content, (err, val) => {

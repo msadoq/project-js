@@ -1,8 +1,11 @@
+import { HEALTH_STATUS_CRITICAL } from 'common/constants';
 import _toPairs from 'lodash/toPairs';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
+import { getHealthMap } from '../selectors/health';
 import { getTimebars } from '../selectors/timebars';
 import { setRealTime } from './timebars';
+import { addOnce } from './messages';
 
 /**
  * App lifecycle
@@ -16,13 +19,30 @@ export const closeWorkspace = simple(types.HSC_CLOSE_WORKSPACE);
  * Play mode
  */
 export const play = simple(types.HSC_PLAY, 'timebarUuid');
+export const smartPlay = timebarUuid => // TODO dbrugne test
+  (dispatch, getState) => {
+    const health = getHealthMap(getState());
+    if (
+      health.dc !== HEALTH_STATUS_CRITICAL
+      && health.hss !== HEALTH_STATUS_CRITICAL
+      && health.main !== HEALTH_STATUS_CRITICAL
+      && health.windows !== HEALTH_STATUS_CRITICAL
+    ) {
+      dispatch(play(timebarUuid));
+    } else {
+      dispatch(addOnce(
+        'global',
+        'warning',
+        'One process of the application is oveloaded, cannot switch to play'
+        )
+      );
+    }
+  };
 export const pause = () =>
   (dispatch, getState) => {
     dispatch({ type: types.HSC_PAUSE });
     _toPairs(getTimebars(getState())).forEach((timebar) => {
-      if (timebar[1].realTime) {
-        dispatch(setRealTime(timebar[0], false));
-      }
+      dispatch(setRealTime(timebar[0], false));
     });
   };
 

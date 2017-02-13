@@ -386,52 +386,63 @@ describe('store:views:reducer', () => {
       };
       const state = reducer(stateViews, actions.updateEntryPoint('plot1', 0, newEp));
       state.plot1.configuration.entryPoints[0].should.deep.equal(newEp);
+      state.plot1.isModified.should.be.true;
     });
     it('Grid', () => {
       const grid = { grid: '3' };
       const state = reducer(stateViews, actions.updateGrid('plot1', 1, grid));
       state.plot1.configuration.grids[1].should.deep.equal(grid);
+      state.plot1.isModified.should.be.true;
     });
     it('Link', () => {
       const link = { l: '3' };
       const state = reducer(stateViews, actions.updateLink('plot1', 1, link));
       state.plot1.configuration.links[1].should.deep.equal(link);
+      state.plot1.isModified.should.be.true;
     });
     it('Marker', () => {
       const marker = { m: '3' };
       const state = reducer(stateViews, actions.updateMarker('plot1', 0, marker));
       state.plot1.configuration.markers[0].should.deep.equal(marker);
+      state.plot1.isModified.should.be.true;
     });
     it('Procedure', () => {
       const proc = { p: '3' };
       const state = reducer(stateViews, actions.updateProcedure('plot1', 0, proc));
       state.plot1.configuration.procedures[0].should.deep.equal(proc);
+      state.plot1.isModified.should.be.true;
     });
     it('defaultRatio', () => {
       const newRatio = { length: 60, width: 50 };
       const state = reducer(stateViews, actions.updateRatio('plot1', newRatio));
       state.plot1.configuration.defaultRatio.should.deep.equal(newRatio);
+      state.plot1.isModified.should.be.true;
     });
     it('title', () => {
       const state = reducer(stateViews, actions.updateTitle('plot1', 'new Title'));
       state.plot1.configuration.title.should.deep.equal('new Title');
+      state.plot1.isModified.should.be.true;
     });
     it('title style', () => {
       const style = { bold: true };
       const state = reducer(stateViews, actions.updateTitleStyle('plot1', style));
       state.plot1.configuration.titleStyle.should.deep.equal(style);
+      state.plot1.isModified.should.be.true;
     });
     it('bg color', () => {
       const state = reducer(stateViews, actions.updateBgColor('plot1', '#FFFFAA'));
       state.plot1.configuration.backgroundColor.should.deep.equal('#FFFFAA');
+      state.plot1.isModified.should.be.true;
     });
     it('Legend', () => {
       const state = reducer(stateViews, actions.updateLegend('plot1', 'new Legend'));
       state.plot1.configuration.legend.should.deep.equal('new Legend');
+      state.plot1.isModified.should.be.true;
     });
     it('content', () => {
       const state = reducer(stateViews, actions.updateContent('text1', 'new content'));
       state.text1.configuration.content.should.deep.equal('new content');
+      state.text1.isModified.should.be.true;
     });
   });
   describe('Add element in array', () => {
@@ -662,10 +673,11 @@ describe('store:views:reducer', () => {
       state.plot1.configuration.axes[axisId].label.should.equal('ep2');
     });
   });
-  describe('reload view', () => {
+  it('reload view', () => {
     const conf = { axes: { a1: { label: 'axis1', unit: 's' } } };
     const state = reducer(stateViews, actions.reloadView('plot1', conf));
     state.plot1.configuration.should.deep.equal(conf);
+    state.plot1.isModified.should.be.false;
   });
   describe('updateShowYAxes', () => {
     const state = reducer(stateViews, actions.updateShowYAxes('plot1', 'right'));

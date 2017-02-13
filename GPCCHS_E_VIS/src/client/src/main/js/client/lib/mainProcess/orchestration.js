@@ -15,7 +15,7 @@ import getLogger from 'common/log';
 import { server } from './ipc';
 import { getStore } from '../store/mainStore';
 import { getWindowsOpened, getLastCacheInvalidation, getPlayingTimebarId } from '../store/selectors/hsc';
-import { getAppStatus, getMainStatus } from '../store/selectors/health';
+import { getHealthMap, getMainStatus } from '../store/selectors/health';
 import { setWindowsAsOpened, updateCacheInvalidation, pause } from '../store/actions/hsc';
 import dataMapGenerator from '../dataManager/map';
 import request from '../dataManager/request';
@@ -32,10 +32,15 @@ let lastTick = null;
 let tickStart = null;
 let criticalTimeout = null;
 const previous = {
-  state: {},
-  dataMap: { perRemoteId: {}, perView: {} },
-  lastRequestedDataMap: {},
-  lastAppStatus: HEALTH_STATUS_HEALTHY,
+  requestedDataMap: {},
+  injectionViewMap: {},
+  windowMap: {},
+  health: {
+    dc: HEALTH_STATUS_HEALTHY,
+    hss: HEALTH_STATUS_HEALTHY,
+    main: HEALTH_STATUS_HEALTHY,
+    windows: HEALTH_STATUS_HEALTHY,
+  },
 };
 
 export function schedule() {
@@ -62,10 +67,17 @@ export function clearCritical() {
   criticalTimeout = null;
 }
 
+export function scheduleCritical() {
+  // only if not already scheduled
+  if (criticalTimeout !== null) {
+    return;
+  }
+  criticalTimeout = setTimeout(onCritical, HSC_CRITICAL_SWITCH_PAUSE_DELAY);
+}
+
 export function onCritical() {
   const { getState, dispatch } = getStore();
-  const state = getState();
-  const isPlaying = !!getPlayingTimebarId(state);
+  const isPlaying = !!getPlayingTimebarId(getState());
 
   if (isPlaying) {
     const delay = HSC_CRITICAL_SWITCH_PAUSE_DELAY / 1000;
@@ -87,14 +99,7 @@ export function start() {
 export function stop() {
   clear();
   clearCritical();
-
-  previous.state = {};
-  previous.dataMap = { perRemoteId: {}, perView: {} };
-  previous.lastRequestedDataMap = {};
-  previous.lastAppStatus = HEALTH_STATUS_HEALTHY;
-
-  const { dispatch } = getStore();
-  dispatch(pause());
+  getStore().dispatch(pause());
   lastTick = null;
 }
 
@@ -112,7 +117,6 @@ export function tick() {
   const { getState, dispatch } = getStore();
 
   const isWindowsOpened = getWindowsOpened(getState());
-  const windowsHasChanged = getState().windows !== previous.state.windows;
 
   // play management (before dataMap generation, allow tick to work on a up to date state)
   if (isWindowsOpened) {
@@ -124,40 +128,79 @@ export function tick() {
     execution.stop('play handling');
   }
 
-  // retrieve state (after handlePlay dispatch) to works on an updated state
-  const state = getState();
-
-  // something has changed
-  const somethingHasChanged = state !== previous.state;
-  let dataMap = previous.dataMap;
+  // data map
+  execution.start('dataMap generation');
+  const dataMap = dataMapGenerator(getState());
+  execution.stop('dataMap generation');
 
   series([
-    // health
+    // dc & server health
     (callback) => {
-      const { status, criticals } = getAppStatus(state);
+      execution.start('health retrieving');
+      server.requestHealth((data) => {
+        execution.stop('health retrieving');
+
+        // health store update
+        execution.start('health injection');
+        dispatch(updateHealth(data));
+        execution.stop('health injection');
+
+        callback(null);
+      });
+    },
+    // health management
+    (callback) => {
+      const state = getState();
+      const health = getHealthMap(state);
 
       // log each transition
-      if (previous.lastAppStatus !== status) {
-        logger.debug(`new health status ${previous.lastAppStatus}==>${status}`);
+      Object.keys(health).forEach(
+        (k) => {
+          if (previous.health[k] !== health[k]) {
+            logger.debug(`new ${k} health status ${previous.health[k]}==>${health[k]}`);
+          }
+        }
+      );
+
+      // schedule "pause switching" if at least one service is critical
+      if (
+        health.dc === HEALTH_STATUS_CRITICAL
+        || health.hss === HEALTH_STATUS_CRITICAL
+        || health.main === HEALTH_STATUS_CRITICAL
+        || health.windows === HEALTH_STATUS_CRITICAL
+      ) {
+        if (criticalTimeout === null) {
+          // not already schedule, log it
+          logger.debug('schedule switch to pause action due to critical slow-down level');
+          scheduleCritical();
+        }
       }
 
-      // transition from other to critical
-      if (previous.lastAppStatus !== HEALTH_STATUS_CRITICAL && status === HEALTH_STATUS_CRITICAL) {
-        logger.debug('schedule switch to pause action due to critical slow-down level', criticals);
-        criticalTimeout = setTimeout(onCritical, HSC_CRITICAL_SWITCH_PAUSE_DELAY);
+      // cancel "pause switching" if now the app is healthy enough
+      if (
+        health.dc !== HEALTH_STATUS_CRITICAL
+        && health.hss !== HEALTH_STATUS_CRITICAL
+        && health.main !== HEALTH_STATUS_CRITICAL
+        && health.windows !== HEALTH_STATUS_CRITICAL
+      ) {
+        if (criticalTimeout !== null) {
+          logger.silly('cancel switch to pause action, slow-down was reduced');
+          clearCritical();
+        }
       }
-      // avoid switching to pause if now app is healthy
-      if (status === HEALTH_STATUS_HEALTHY || status === HEALTH_STATUS_WARNING) {
-        logger.silly('cancel switch to pause action, slow-down was reduced');
-        clearCritical();
-      }
-      // skip the tick if app is warning or critical
-      if (status === HEALTH_STATUS_WARNING || status === HEALTH_STATUS_CRITICAL) {
+
+      // skip the tick if main or windows are warning or critical
+      if (
+        health.main === HEALTH_STATUS_WARNING
+        || health.windows === HEALTH_STATUS_WARNING
+        || health.main === HEALTH_STATUS_CRITICAL
+        || health.windows === HEALTH_STATUS_CRITICAL
+      ) {
         logger.debug('slow-down detected, skipping current tick');
         skipThisTick = true;
       }
 
-      previous.lastAppStatus = status;
+      previous.health = health;
       callback(null);
     },
     // cache invalidation
@@ -168,7 +211,7 @@ export function tick() {
       }
 
       const now = Date.now();
-      const lastCacheInvalidation = getLastCacheInvalidation(state);
+      const lastCacheInvalidation = getLastCacheInvalidation(getState());
       if (now - lastCacheInvalidation >= get('CACHE_INVALIDATION_FREQUENCY')) {
         execution.start('cache invalidation');
         dispatch(updateCacheInvalidation(now)); // schedule next run
@@ -180,31 +223,18 @@ export function tick() {
       }
       callback(null);
     },
-    // data map
-    (callback) => {
-      if (skipThisTick || !somethingHasChanged) {
-        callback(null);
-        return;
-      }
-
-      execution.start('dataMap generation');
-      dataMap = dataMapGenerator(state);
-      execution.stop('dataMap generation');
-
-      callback(null);
-    },
     // request data
     (callback) => {
-      if (skipThisTick || dataMap.perRemoteId === previous.lastRequestedDataMap) {
+      if (skipThisTick || dataMap.perRemoteId === previous.requestedDataMap) {
         callback(null);
         return;
       }
 
       execution.start('data requests');
-      request(dataMap.perRemoteId, previous.lastRequestedDataMap, server.message);
+      request(dataMap.perRemoteId, previous.requestedDataMap, server.message);
 
       // request module should receive only the last 'analysed' map
-      previous.lastRequestedDataMap = dataMap.perRemoteId;
+      previous.requestedDataMap = dataMap.perRemoteId;
 
       execution.stop('data requests');
       callback(null);
@@ -220,27 +250,28 @@ export function tick() {
       server.requestData((dataToInject) => {
         execution.stop('data retrieving');
 
-        // health
-        execution.start('health injection');
-        dispatch(updateHealth(dataToInject));
-        execution.stop('health injection');
-
         // viewData
         execution.start('data injection');
-        dispatch(updateViewData(previous.dataMap.perView, dataMap.perView, dataToInject.data));
+        dispatch(updateViewData(previous.injectionViewMap, dataMap.perView, dataToInject.data));
         execution.stop('data injection', Object.keys(dataToInject.data).length);
+
+        previous.injectionViewMap = dataMap.perView;
+
         callback(null);
       });
     },
     // sync windows
     (callback) => {
-      if (!windowsHasChanged) {
+      const state = getState();
+      if (state.windows === previous.windowMap) {
         callback(null);
         return;
       }
 
+      previous.windowMap = state.windows;
+
       execution.start('windows handling');
-      windowsObserver(state, (err) => {
+      windowsObserver(getState(), (err) => {
         if (err) {
           execution.stop('windows handling');
           callback(err);
@@ -266,7 +297,8 @@ export function tick() {
         logger.warn(`orchestration done in ${durationMs}ms`);
       }
 
-      const mainStatus = getMainStatus(state);
+      // TODO factorize in thunk action creator
+      const mainStatus = getMainStatus(getState());
       if (durationMs > HSC_ORCHESTRATION_CRITICAL_STEP && mainStatus !== HEALTH_STATUS_CRITICAL) {
         dispatch(updateMainStatus(HEALTH_STATUS_CRITICAL));
       } else if (durationMs > HSC_ORCHESTRATION_WARNING_STEP
@@ -283,17 +315,7 @@ export function tick() {
       logger.error(err);
     }
 
-    // persist state for next tick
-    if (somethingHasChanged) {
-      previous.state = state;
-      previous.dataMap = dataMap;
-    }
-
-    execution.stop(
-      'global',
-      `somethingHasChanged:${somethingHasChanged}`
-      + ` isWindowsOpened:${isWindowsOpened}`
-    );
+    execution.stop('global');
     execution.print();
 
     // schedule next tick

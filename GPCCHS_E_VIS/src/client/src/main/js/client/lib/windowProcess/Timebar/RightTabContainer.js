@@ -8,7 +8,7 @@ import {
   updateCursors,
   jump,
 } from '../../store/actions/timebars';
-import { play, pause } from '../../store/actions/hsc';
+import { smartPlay, pause } from '../../store/actions/hsc';
 import RightTab from './RightTab';
 
 export default connect(
@@ -19,7 +19,7 @@ export default connect(
     switchToExtensibleMode,
     switchToFixedMode,
     updateViewport,
-    play,
+    play: smartPlay,
     pause,
     updateCursors,
     jump,

@@ -14,7 +14,7 @@ import {
   remove as removeTimeline,
   update as updateTL,
 } from './timelines';
-import { pause, play } from './hsc';
+import { pause, smartPlay } from './hsc';
 import { getTimebar } from '../selectors/timebars';
 import { getPlayingTimebarId } from '../selectors/hsc';
 
@@ -288,7 +288,7 @@ export function switchToRealtimeMode(timebarUuid, masterSessionIdCurrentTime) {
         }
       )
     );
-    dispatch(play(timebarUuid));
+    dispatch(smartPlay(timebarUuid));
   };
 }
 

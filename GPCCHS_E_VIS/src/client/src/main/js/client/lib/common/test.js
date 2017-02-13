@@ -9,12 +9,12 @@ import _cloneDeep from 'lodash/cloneDeep';
 import deepFreeze from 'deep-freeze';
 import reducer from '../store/reducers/index';
 
-process.env.DEBUG = '';
-process.env.LEVEL = 'ERROR';
-process.env.PROFILING = 'off';
-process.env.MONITORING = 'off';
+// process.env.DEBUG = 'off';
+// process.env.PROFILING = 'off';
+// process.env.MONITORING = 'off';
 
 process.env.FMD_ROOT_DIR = path.resolve(__dirname, '../documentManager/fixtures');
+process.env.WILDCARD_CHARACTER = '*';
 
 chai.use(properties);
 

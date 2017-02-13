@@ -336,6 +336,7 @@ const viewMap = {
         remoteId: 'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
         field: 'extractedValue',
         id: 'id1',
+        offset: 0,
         expectedInterval: [
           1420106790818,
           1420106843902,
@@ -345,6 +346,7 @@ const viewMap = {
         expectedInterval: [1420106790818, 1420106843902],
         field: 'extractedValue',
         id: 'id46',
+        offset: 0,
         remoteId: 'last@Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4',
       },
       STAT_UNKNOW_DOMAIN: {

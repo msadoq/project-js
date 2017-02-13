@@ -36,7 +36,7 @@ export function addAxis(stateViews, action) {
   if (!axis || !axis.label) {
     return stateViews;
   }
-  const axisId = axis.id || getUniqueAxisId(currentView, axis.label);
+  const axisId = axis.id || getUniqueAxisId(currentView.configuration, axis.label);
   return u({
     [viewId]: {
       configuration: {
@@ -64,13 +64,13 @@ export function removeAxis(stateViews, action) {
   }, stateViews);
 }
 
-function getUniqueAxisId(stateView, label) {
+function getUniqueAxisId(stateConf, label) {
   const id = _snakeCase(_trim(_deburr(label)));
   // check id isn't already defined
   let isUnique = false;
   let index = 1;
   let finalId = id;
-  const { axes } = stateView.configuration;
+  const { axes } = stateConf;
   while (!isUnique) {
     if (!axes[finalId]) {
       isUnique = true;
@@ -82,22 +82,22 @@ function getUniqueAxisId(stateView, label) {
   return finalId;
 }
 
-function createAxis(stateView, label, unit) {
+function createAxis(stateConf, label, unit) {
   return {
     label,
     unit,
-    id: getUniqueAxisId(stateView, label),
+    id: getUniqueAxisId(stateConf, label),
   };
 }
 
-export const getAxes = (entryPoint, currentView) => {
-  const { axes } = currentView.configuration;
+export const getAxes = (entryPoint, stateConf) => {
+  const { axes } = stateConf;
   const { connectedDataX, connectedDataY } = entryPoint;
 
   const axisX = _find(axes, axis => axis.unit === connectedDataX.unit);
   const axisY = _find(axes, axis => axis.unit === connectedDataY.unit);
-  const finalX = axisX || createAxis(currentView, entryPoint.name, connectedDataX.unit);
-  const finalY = axisY || createAxis(currentView, entryPoint.name, connectedDataY.unit);
+  const finalX = axisX || createAxis(stateConf, entryPoint.name, connectedDataX.unit);
+  const finalY = axisY || createAxis(stateConf, entryPoint.name, connectedDataY.unit);
   const prefixX = finalX.id === finalY.id ? 'X:' : '';
   const prefixY = finalX.id === finalY.id ? 'Y:' : '';
   return [

@@ -1,14 +1,8 @@
-/* eslint no-unused-expressions: 0 */
+/* eslint no-unused-expressions: "off" */
 import _find from 'lodash/find';
 import * as actions from '../actions/views';
 import * as types from '../types';
-import reducer, {
-  view,
-  updateConfiguration,
-  updateConfigurationArray,
-  addElementInConfigurationArray,
-  removeElementInConfigurationArray,
-} from './views';
+import reducer from './views';
 import { freezeMe, getStore } from '../../common/test';
 
 describe('store:views:reducer', () => {
@@ -23,11 +17,51 @@ describe('store:views:reducer', () => {
     it('add', () => {
       const state = reducer(
         undefined,
-        actions.add('myViewId', 'plot', { setting: 'value' }, 'path', 'old', 'absolutePath', false)
+        actions.add('myViewId', 'PlotView', { setting: 'value' }, 'path', 'old', 'absolutePath', false)
       );
       state.myViewId.should.eql({
-        type: 'plot',
+        type: 'PlotView',
         configuration: { setting: 'value' },
+        absolutePath: 'absolutePath',
+        path: 'path',
+        oId: 'old',
+        isModified: false,
+      });
+    });
+    it('add with entryPoints', () => {
+      const action = actions.add(
+        'myViewId',
+        'PlotView',
+        { setting: 'value', entryPoints: [{ a: true }] },
+        'path',
+        'old',
+        'absolutePath',
+        false
+      );
+      const state = reducer(undefined, action);
+      state.myViewId.should.eql({
+        type: 'PlotView',
+        configuration: { setting: 'value', entryPoints: [{ a: true, id: action.meta.uuids[0] }] },
+        absolutePath: 'absolutePath',
+        path: 'path',
+        oId: 'old',
+        isModified: false,
+      });
+    });
+    it('add with entryPoints (DynamicView)', () => {
+      const action = actions.add(
+        'myViewId',
+        'DynamicView',
+        { setting: 'value', entryPoint: { a: true } },
+        'path',
+        'old',
+        'absolutePath',
+        false
+      );
+      const state = reducer(undefined, action);
+      state.myViewId.should.eql({
+        type: 'DynamicView',
+        configuration: { setting: 'value', entryPoints: [{ a: true, id: action.meta.uuids[0], name: 'dynamicEP' }] },
         absolutePath: 'absolutePath',
         path: 'path',
         oId: 'old',
@@ -40,15 +74,15 @@ describe('store:views:reducer', () => {
         actions.add('myViewId')
       );
       state.myViewId.should.eql({
+        absolutePath: undefined,
+        oId: undefined,
+        path: undefined,
         type: null,
         configuration: {
           title: null,
         },
         isModified: true,
       });
-    });
-    it('does nothing with unknown action', () => {
-      view(undefined, {}).should.be.eql({ type: null, isModified: true });
     });
   });
   describe('remove', () => {
@@ -93,8 +127,10 @@ describe('store:views:reducer', () => {
         },
       },
     };
-    const s = reducer(state, actions.setCollapsed('myView', true));
-    s.myView.configuration.collapsed.should.equal(true);
+    it('works', () => {
+      const s = reducer(state, actions.setCollapsed('myView', true));
+      s.myView.configuration.collapsed.should.equal(true);
+    });
   });
   describe('set collapsed and updateLayout', () => {
     let dispatch;
@@ -157,7 +193,7 @@ describe('store:views:reducer', () => {
   describe('update', () => {
     const state = freezeMe({
       view1: {
-        type: 'plot',
+        type: 'DynamicView',
         configuration: {
           oName: 'oldValue',
           title: 'my plot',
@@ -201,123 +237,6 @@ describe('store:views:reducer', () => {
       });
       s.should.not.be.eql(state);
       s.view1.oId.should.be.eql('yolo');
-    });
-    it('object ok', () => {
-      const action = {
-        payload: {
-          viewId: 'view1',
-          pName: 'newValue',
-        },
-      };
-      updateConfiguration(state, action, 'oName', 'pName').should.deep.equal({
-        view1: {
-          type: 'plot',
-          isModified: true,
-          absolutePath: '/data/oldPath',
-          path: '/data/oldPath',
-          configuration: {
-            oName: 'newValue',
-            title: 'my plot',
-          },
-        },
-      });
-    });
-    it('object: invalid view', () => {
-      const action = {
-        payload: {
-          viewId: 'view2',
-          pName: 'newValue',
-        },
-      };
-      updateConfiguration(state, action, 'oName', 'pName').should.equal(state);
-    });
-    it('object: invalid view type', () => {
-      const action = {
-        payload: {
-          viewId: 'view1',
-          pName: 'newValue',
-        },
-      };
-      updateConfiguration(state, action, 'oName', 'pName', 'text').should.equal(state);
-    });
-    it('object: valid view type', () => {
-      const action = {
-        payload: {
-          viewId: 'view1',
-          pName: 'newValue',
-        },
-      };
-      updateConfiguration(state, action, 'oName', 'pName', 'plot').should.deep.equal({
-        view1: {
-          type: 'plot',
-          isModified: true,
-          absolutePath: '/data/oldPath',
-          path: '/data/oldPath',
-          configuration: {
-            oName: 'newValue',
-            title: 'my plot',
-          },
-        },
-      });
-    });
-    const stateArray = freezeMe({
-      view1: {
-        type: 'plot',
-        configuration: {
-          oName: ['oldValue1', 'oldValue2'],
-          title: 'my plot',
-        },
-      },
-    });
-
-    it('array element ok', () => {
-      const action = {
-        payload: {
-          viewId: 'view1',
-          pName: 'newValue',
-          index: 0,
-        },
-      };
-      updateConfigurationArray(stateArray, action, 'oName', 'pName').should.deep.equal({
-        view1: {
-          type: 'plot',
-          isModified: true,
-          configuration: {
-            oName: ['newValue', 'oldValue2'],
-            title: 'my plot',
-          },
-        },
-      });
-    });
-    it('array: invalid view id', () => {
-      const action = {
-        payload: {
-          viewId: 'view2',
-          pName: 'newValue',
-          index: 0,
-        },
-      };
-      updateConfigurationArray(stateArray, action, 'oName', 'pName').should.equal(stateArray);
-    });
-    it('array: invalid index', () => {
-      const action = {
-        payload: {
-          viewId: 'view1',
-          pName: 'newValue',
-          index: 2,
-        },
-      };
-      updateConfigurationArray(stateArray, action, 'oName', 'pName').should.equal(stateArray);
-    });
-    it('array: invalid paramName', () => {
-      const action = {
-        payload: {
-          viewId: 'view1',
-          pName: 'newValue',
-          index: 0,
-        },
-      };
-      updateConfigurationArray(stateArray, action, 'oName', 'paramName').should.equal(stateArray);
     });
   });
 
@@ -446,34 +365,6 @@ describe('store:views:reducer', () => {
     });
   });
   describe('Add element in array', () => {
-    it('general', () => {
-      const stateArray = freezeMe({
-        view1: {
-          type: 'plot',
-          configuration: {
-            oName: ['oldValue1', 'oldValue2'],
-            title: 'my view',
-          },
-        },
-      });
-
-      const action = {
-        payload: {
-          viewId: 'view1',
-          pName: 'newValue',
-        },
-      };
-      addElementInConfigurationArray(stateArray, action, 'oName', 'pName').should.deep.equal({
-        view1: {
-          type: 'plot',
-          isModified: true,
-          configuration: {
-            oName: ['oldValue1', 'oldValue2', 'newValue'],
-            title: 'my view',
-          },
-        },
-      });
-    });
     it('grid', () => {
       const grid = { grid: '3' };
       const state = reducer(stateViews, actions.addGrid('plot1', grid));
@@ -500,55 +391,6 @@ describe('store:views:reducer', () => {
     });
   });
   describe('Remove element in array', () => {
-    const stateArray = freezeMe({
-      view1: {
-        type: 'plot',
-        configuration: {
-          oName: ['oldValue1', 'oldValue2'],
-          title: 'my view',
-        },
-      },
-    });
-
-    it('general ok', () => {
-      const action = {
-        payload: {
-          viewId: 'view1',
-          pName: 'newValue',
-          index: 0,
-        },
-      };
-      removeElementInConfigurationArray(stateArray, action, 'oName').should.deep.equal({
-        view1: {
-          type: 'plot',
-          isModified: true,
-          configuration: {
-            oName: ['oldValue2'],
-            title: 'my view',
-          },
-        },
-      });
-    });
-    it('general - invalid index', () => {
-      const action = {
-        payload: {
-          viewId: 'view1',
-          pName: 'newValue',
-          index: 3,
-        },
-      };
-      removeElementInConfigurationArray(stateArray, action, 'oName').should.equal(stateArray);
-    });
-    it('general - invalid view ID', () => {
-      const action = {
-        payload: {
-          viewId: 'view2',
-          pName: 'newValue',
-          index: 0,
-        },
-      };
-      removeElementInConfigurationArray(stateArray, action, 'oName').should.equal(stateArray);
-    });
     it('entry point', () => {
       const state = reducer(stateViews, actions.removeEntryPoint('plot1', 0));
       state.plot1.configuration.entryPoints.should.deep.equal([{
@@ -602,16 +444,6 @@ describe('store:views:reducer', () => {
     });
   });
   describe('add entry point', () => {
-    it('addEntryPoint: invalid viewId', () => {
-      const action = {
-        type: types.WS_VIEW_ADD_ENTRYPOINT,
-        payload: {
-          viewId: 'plot2',
-          entryPoint: {},
-        },
-      };
-      reducer(stateViews, action).should.equal(stateViews);
-    });
     it('addEntryPoint: text view', () => {
       const action = {
         type: types.WS_VIEW_ADD_ENTRYPOINT,
@@ -623,6 +455,7 @@ describe('store:views:reducer', () => {
       const state = reducer(stateViews, action);
       state.text1.configuration.entryPoints[1].should.have.properties(
         { name: 'ep2', connectedData: { timeline: '*', domain: '*' } });
+      state.text1.isModified.should.be.true;
     });
     it('addEntryPoint: text view', () => {
       const action = {
@@ -635,6 +468,7 @@ describe('store:views:reducer', () => {
       const state = reducer(stateViews, action);
       state.text1.configuration.entryPoints[1].should.have.properties(
         { name: 'ep2', connectedData: { timeline: 't1', domain: 'd1' } });
+      state.text1.isModified.should.be.true;
     });
     it('addEntryPoint: plot view', () => {
       const action = {
@@ -652,6 +486,7 @@ describe('store:views:reducer', () => {
         name: 'ep2',
         connectedDataX: { timeline: 't1', domain: 'd1', unit: 's', axisId: 'axis1' },
         connectedDataY: { timeline: 't2', domain: 'd2', unit: 'w', axisId: 'axis2' } });
+      state.plot1.isModified.should.be.true;
     });
     it('addEntryPoint: plot view', () => {
       const action = {
@@ -671,6 +506,7 @@ describe('store:views:reducer', () => {
         connectedDataX: { timeline: 't1', domain: 'd1', unit: 'f', axisId },
         connectedDataY: { timeline: '*', domain: 'd2', unit: 'w', axisId: 'axis2' } });
       state.plot1.configuration.axes[axisId].label.should.equal('ep2');
+      state.plot1.isModified.should.be.true;
     });
   });
   it('reload view', () => {
@@ -679,11 +515,11 @@ describe('store:views:reducer', () => {
     state.plot1.configuration.should.deep.equal(conf);
     state.plot1.isModified.should.be.false;
   });
-  describe('updateShowYAxes', () => {
+  it('updateShowYAxes', () => {
     const state = reducer(stateViews, actions.updateShowYAxes('plot1', 'right'));
     state.plot1.configuration.showYAxes.should.eql('right');
   });
-  describe('close_workspace', () => {
+  it('close_workspace', () => {
     const newState = reducer({ myView: { id: 'Id' } }, { type: types.HSC_CLOSE_WORKSPACE });
     newState.should.be.an('object').that.is.empty;
   });

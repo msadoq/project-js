@@ -1,5 +1,5 @@
 /* eslint no-unused-expressions: 0 */
-import { freezeMe, should } from '../../../common/test';
+import { freezeMe, should } from '../../../../common/test';
 import { updateAxis, addAxis, removeAxis, getAxes } from './axis';
 
 describe('store:views:axes', () => {
@@ -100,7 +100,7 @@ describe('store:views:axes', () => {
         connectedDataX: { unit: 'unknown' },
         connectedDataY: { unit: 'useless' },
       };
-      const [axisX, axisY] = getAxes(entryPoint, state.view1);
+      const [axisX, axisY] = getAxes(entryPoint, state.view1.configuration);
       axisX.id.should.not.be.eql(axisY.id);
       axisX.should.be.eql({ label: 'ep2', unit: 'unknown', id: 'X:ep_2' });
       axisY.should.be.eql({ label: 'ep2', unit: 'useless', id: 'Y:ep_2' });
@@ -111,7 +111,7 @@ describe('store:views:axes', () => {
         connectedDataX: { unit: 'seconds' },
         connectedDataY: { unit: 'volts' },
       };
-      const [axisX, axisY] = getAxes(entryPoint, state.view1);
+      const [axisX, axisY] = getAxes(entryPoint, state.view1.configuration);
       axisX.id.should.not.be.eql(axisY.id);
       axisX.should.be.eql({ label: 'AXIS2', unit: 'seconds', id: 'axis_2' });
       axisY.should.be.eql({ label: 'AXIS1', unit: 'volts', id: 'axis_1' });
@@ -122,7 +122,7 @@ describe('store:views:axes', () => {
         connectedDataX: { unit: 'seconds' },
         connectedDataY: { unit: 'unknown' },
       };
-      const [axisX, axisY] = getAxes(entryPoint, state.view1);
+      const [axisX, axisY] = getAxes(entryPoint, state.view1.configuration);
       axisX.id.should.not.be.eql(axisY.id);
       axisX.should.be.eql({ label: 'AXIS2', unit: 'seconds', id: 'axis_2' });
       axisY.should.be.eql({ label: 'ep2', unit: 'unknown', id: 'ep_2' });
@@ -133,7 +133,7 @@ describe('store:views:axes', () => {
         connectedDataX: { unit: 'unknown' },
         connectedDataY: { unit: 'volts' },
       };
-      const [axisX, axisY] = getAxes(entryPoint, state.view1);
+      const [axisX, axisY] = getAxes(entryPoint, state.view1.configuration);
       axisX.id.should.not.be.eql(axisY.id);
       axisX.should.be.eql({ label: 'ep2', unit: 'unknown', id: 'ep_2' });
       axisY.should.be.eql({ label: 'AXIS1', unit: 'volts', id: 'axis_1' });

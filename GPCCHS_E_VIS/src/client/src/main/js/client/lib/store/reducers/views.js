@@ -1,8 +1,7 @@
-import _omit from 'lodash/omit';
-import _without from 'lodash/without';
-import _ from 'lodash/fp';
-import u from 'updeep';
+import __ from 'lodash/fp';
 import globalConstants from 'common/constants';
+
+import composeReducers from '../composeReducers';
 import * as types from '../types';
 import vivl from '../../../VIVL/main';
 import {
@@ -14,106 +13,15 @@ import {
   addAxis,
   removeAxis,
   getAxes,
-} from './views/axis';
+} from './views/configuration/axis';
 
 /**
  * Reducer
  */
-
 export default function views(stateViews = {}, action) {
   switch (action.type) {
-
-    // VIEW MAIN OPERATIONS
-    case types.WS_VIEW_ADD:
-      return u({
-        [action.payload.viewId]: view(stateViews[action.payload.viewId], action),
-      }, stateViews);
-    case types.WS_VIEW_REMOVE:
-      return u.omit(action.payload.viewId, stateViews);
-    case types.WS_VIEW_RELOAD: {
-      return u({
-        [action.payload.viewId]: {
-          isModified: false,
-          configuration: u.constant(configuration(stateViews[action.payload.viewId], action)),
-        },
-      }, stateViews);
-    }
-
-    // VIEW CONFIGURATION
-    case types.WS_VIEW_UPDATEPATH: {
-      return u({
-        [action.payload.viewId]: {
-          path: action.payload.newPath,
-          isModified: true,
-        },
-      }, stateViews);
-    }
-    case types.WS_VIEW_UPDATE_ABSOLUTEPATH: {
-      return u({ [action.payload.viewId]: {
-        absolutePath: action.payload.newPath,
-        isModified: true,
-      } }, stateViews);
-    }
-    case types.WS_VIEW_SET_OID: {
-      return u({
-        [action.payload.viewId]: {
-          oId: action.payload.oid,
-        },
-      }, stateViews);
-    }
-    case types.WS_VIEW_UPDATE_GRID:
-      return updateConfigurationArray(stateViews, action, 'grids', 'grid');
-    case types.WS_VIEW_UPDATE_LINK:
-      return updateConfigurationArray(stateViews, action, 'links', 'link');
-    case types.WS_VIEW_UPDATE_MARKER:
-      return updateConfigurationArray(stateViews, action, 'markers', 'marker');
-    case types.WS_VIEW_UPDATE_PROCEDURE:
-      return updateConfigurationArray(stateViews, action, 'procedures', 'procedure');
-    case types.WS_VIEW_UPDATE_RATIO:
-      return updateConfiguration(stateViews, action, 'defaultRatio', 'ratio');
-    case types.WS_VIEW_UPDATE_TITLE:
-      return updateConfiguration(stateViews, action, 'title', 'title');
-    case types.WS_VIEW_UPDATE_TITLESTYLE:
-      return updateConfiguration(stateViews, action, 'titleStyle', 'titleStyle');
-    case types.WS_VIEW_UPDATE_BGCOLOR:
-      return updateConfiguration(stateViews, action, 'backgroundColor', 'bgColor');
-    case types.WS_VIEW_UPDATE_LEGEND:
-      return updateConfiguration(stateViews, action, 'legend', 'legend', 'PlotView');
-    case types.WS_VIEW_UPDATE_CONTENT:
-      return updateConfiguration(stateViews, action, 'content', 'content', 'TextView');
-    case types.WS_VIEW_UPDATE_SHOWYAXES:
-      return updateConfiguration(stateViews, action, 'showYAxes', 'showYAxes', 'PlotView');
-    case types.WS_VIEW_ADD_GRID:
-      return addElementInConfigurationArray(stateViews, action, 'grids', 'grid');
-    case types.WS_VIEW_REMOVE_GRID:
-      return removeElementInConfigurationArray(stateViews, action, 'grids');
-    case types.WS_VIEW_ADD_LINK:
-      return addElementInConfigurationArray(stateViews, action, 'links', 'link');
-    case types.WS_VIEW_REMOVE_LINK:
-      return removeElementInConfigurationArray(stateViews, action, 'links');
-    case types.WS_VIEW_ADD_MARKER:
-      return addElementInConfigurationArray(stateViews, action, 'markers', 'marker');
-    case types.WS_VIEW_REMOVE_MARKER:
-      return removeElementInConfigurationArray(stateViews, action, 'markers');
-    case types.WS_VIEW_ADD_PROCEDURE:
-      return addElementInConfigurationArray(stateViews, action, 'procedures', 'procedure');
-    case types.WS_VIEW_REMOVE_PROCEDURE:
-      return removeElementInConfigurationArray(stateViews, action, 'procedures');
     case types.HSC_CLOSE_WORKSPACE:
       return {};
-    case types.WS_VIEW_SETCOLLAPSED:
-      return updateConfiguration(stateViews, action, 'collapsed', 'flag');
-    case types.WS_VIEW_SETMODIFIED: {
-      if (!stateViews[action.payload.viewId]) {
-        return stateViews;
-      }
-      return u({
-        [action.payload.viewId]: {
-          isModified: action.payload.flag,
-        },
-      }, stateViews);
-    }
-
 
     // VIEW AXIS
     case types.WS_VIEW_UPDATE_AXIS:
@@ -123,254 +31,250 @@ export default function views(stateViews = {}, action) {
     case types.WS_VIEW_REMOVE_AXIS:
       return removeAxis(stateViews, action);
 
-    // VIEW ENTRY POINT
-    case types.WS_VIEW_UPDATE_ENTRYPOINT:
-      return updateConfigurationArray(stateViews, action, 'entryPoints', 'entryPoint');
-    case types.WS_VIEW_ADD_ENTRYPOINT:
-      return addEntryPoint(stateViews, action);
-    case types.WS_VIEW_REMOVE_ENTRYPOINT: {
-      let axisIdX;
-      let axisIdY;
-      if (stateViews[action.payload.viewId] &&
-          stateViews[action.payload.viewId].type === 'PlotView') {
-        const ep = stateViews[action.payload.viewId].configuration
-                  .entryPoints[action.payload.index];
-        axisIdX = ep.connectedDataX.axisId;
-        axisIdY = ep.connectedDataY.axisId;
+    default: {
+      const viewId = __.get('payload.viewId', action);
+      if (viewId) {
+        const nextView = view(stateViews[viewId], action);
+        if (!nextView) {
+          return __.omit(viewId, stateViews);
+        }
+        const configuration = createConfiguration(nextView.type);
+        return __.set(viewId, {
+          ...nextView,
+          configuration: configuration(nextView.configuration, action),
+        }, stateViews);
       }
-      let newState = removeElementInConfigurationArray(stateViews, action, 'entryPoints');
-      if (stateViews[action.payload.viewId] &&
-          stateViews[action.payload.viewId].type === 'PlotView') {
-        newState = removeUnreferencedAxis(newState, action.payload.viewId, axisIdX, axisIdY);
-      }
-      return newState;
-    }
-
-    default:
       return stateViews;
+    }
   }
 }
+
+const viewIsModified = (stateView, action) => {
+  const setIsModified = __.set('isModified');
+  const isModified = action.payload && action.payload.isModified;
+
+  if (__.isBoolean(isModified)) {
+    return setIsModified(isModified, stateView);
+  }
+
+  const shouldSetModifiedToFalse = __.contains(__, [
+    types.WS_VIEW_RELOAD,
+  ]);
+  const shouldSetModifiedToTrue = __.contains(__, [
+    types.WS_VIEW_ADD,
+    types.WS_VIEW_UPDATEPATH,
+    types.WS_VIEW_UPDATE_ABSOLUTEPATH,
+    types.WS_VIEW_SET_OID,
+    types.WS_VIEW_SETMODIFIED,
+    types.WS_VIEW_UPDATE_RATIO,
+    types.WS_VIEW_UPDATE_TITLE,
+    types.WS_VIEW_UPDATE_GRID,
+    types.WS_VIEW_UPDATE_LINK,
+    types.WS_VIEW_UPDATE_MARKER,
+    types.WS_VIEW_UPDATE_PROCEDURE,
+    types.WS_VIEW_UPDATE_TITLESTYLE,
+    types.WS_VIEW_UPDATE_BGCOLOR,
+    types.WS_VIEW_UPDATE_LEGEND,
+    types.WS_VIEW_UPDATE_CONTENT,
+    types.WS_VIEW_UPDATE_SHOWYAXES,
+    types.WS_VIEW_UPDATE_ENTRYPOINT,
+    types.WS_VIEW_ADD_LINK,
+    types.WS_VIEW_REMOVE_LINK,
+    types.WS_VIEW_ADD_MARKER,
+    types.WS_VIEW_REMOVE_MARKER,
+    types.WS_VIEW_ADD_PROCEDURE,
+    types.WS_VIEW_REMOVE_PROCEDURE,
+    types.WS_VIEW_SETCOLLAPSED,
+    types.WS_VIEW_ADD_ENTRYPOINT,
+  ]);
+  if (shouldSetModifiedToTrue(action.type)) {
+    return setIsModified(true, stateView);
+  } else if (shouldSetModifiedToFalse(action.type)) {
+    return setIsModified(false, stateView);
+  }
+  return stateView;
+};
 
 const initialState = {
   type: null,
   isModified: true,
 };
 
-export function view(stateView = initialState, action) {
+export function simpleView(stateView = initialState, action) {
   switch (action.type) {
+    case types.WS_VIEW_REMOVE:
+      return undefined;
     case types.WS_VIEW_ADD:
       return {
         ...stateView,
         type: action.payload.type || stateView.type,
-        configuration: configuration(undefined, action),
         path: action.payload.path,
         oId: action.payload.oId,
         absolutePath: action.payload.absolutePath,
-        isModified: (action.payload.isModified === undefined)
-          ? stateView.isModified
-          : action.payload.isModified,
+      };
+    case types.WS_VIEW_UPDATEPATH:
+      return {
+        ...stateView,
+        path: action.payload.newPath,
+      };
+    case types.WS_VIEW_UPDATE_ABSOLUTEPATH:
+      return {
+        ...stateView,
+        absolutePath: action.payload.newPath,
+      };
+    case types.WS_VIEW_SET_OID:
+      return {
+        ...stateView,
+        oId: action.payload.oid,
       };
     default:
       return stateView;
   }
 }
 
-function configuration(state = { title: null }, action) {
+const view = composeReducers(viewIsModified, simpleView);
+
+/* ************************************************************************** */
+
+const removeElementIn = (key, index, state) => __.update(key, __.pullAt(index), state);
+const commonConfiguration = (stateConf = { title: null }, action) => {
   switch (action.type) {
     case types.WS_VIEW_RELOAD:
     case types.WS_VIEW_ADD: {
-      if (!action.payload.configuration) {
-        return Object.assign({}, state);
-      }
-      const uuids = (action.meta && action.meta.uuids) || [];
-
-      // Add an id on entry points
       const config = action.payload.configuration;
-      const viewType = action.payload.type;
-      // For dynamic view, format entry point to be used as in other view
-      if (viewType === 'DynamicView') {
-        if (!config.entryPoint) {
-          const formattedConfig = Object.assign({}, config);
-          formattedConfig.entryPoints = [];
-          return formattedConfig;
-        }
-        const formattedConfig = _omit(config, 'entryPoint');
-        formattedConfig.entryPoints = [];
-        formattedConfig.entryPoints.push(Object.assign({}, config.entryPoint, {
-          name: 'dynamicEP',
-          id: uuids[0] }));
-        return Object.assign({}, formattedConfig);
+      const uuids = (action.meta && action.meta.uuids);
+      if (!config) {
+        return stateConf;
       }
-      if (!config.entryPoints) {
-        return Object.assign({}, config);
+      if (__.isEmpty(config.entryPoints)) {
+        return config;
       }
-      return _.update('entryPoints', _.zipWith(_.set('id'), uuids), config);
+      const entryPointsWithUuids = __.zipWith(__.set('id'), uuids, config.entryPoints);
+      return __.set('entryPoints', entryPointsWithUuids, config);
     }
+    case types.WS_VIEW_UPDATE_RATIO:
+      return __.set('defaultRatio', action.payload.ratio, stateConf);
+    case types.WS_VIEW_UPDATE_TITLE:
+      return __.set('title', action.payload.title, stateConf); // updateConfiguration
+    case types.WS_VIEW_UPDATE_GRID:
+      return __.set(`grids[${action.payload.index}]`, action.payload.grid, stateConf);
+    case types.WS_VIEW_UPDATE_LINK:
+      return __.set(`links[${action.payload.index}]`, action.payload.link, stateConf);
+    case types.WS_VIEW_UPDATE_MARKER:
+      return __.set(`markers[${action.payload.index}]`, action.payload.marker, stateConf);
+    case types.WS_VIEW_UPDATE_PROCEDURE:
+      return __.set(`procedures[${action.payload.index}]`, action.payload.procedure, stateConf);
+    case types.WS_VIEW_UPDATE_TITLESTYLE:
+      return __.set('titleStyle', action.payload.titleStyle, stateConf);
+    case types.WS_VIEW_UPDATE_BGCOLOR:
+      return __.set('backgroundColor', action.payload.bgColor, stateConf);
+    case types.WS_VIEW_UPDATE_LEGEND:
+      return __.set('legend', action.payload.legend, stateConf);
+    case types.WS_VIEW_UPDATE_CONTENT:
+      return __.set('content', action.payload.content, stateConf);
+    case types.WS_VIEW_UPDATE_SHOWYAXES:
+      return __.set('showYAxes', action.payload.showYAxes, stateConf);
+    case types.WS_VIEW_SETCOLLAPSED:
+      return __.set('collapsed', action.payload.flag, stateConf);
+    case types.WS_VIEW_ADD_GRID:
+      return __.update('grids', __.concat(__, action.payload.grid), stateConf);
+    case types.WS_VIEW_ADD_LINK:
+      return __.update('links', __.concat(__, action.payload.link), stateConf);
+    case types.WS_VIEW_ADD_MARKER:
+      return __.update('markers', __.concat(__, action.payload.marker), stateConf);
+    case types.WS_VIEW_ADD_PROCEDURE:
+      return __.update('procedures', __.concat(__, action.payload.procedure), stateConf);
+    case types.WS_VIEW_REMOVE_GRID:
+      return removeElementIn('grids', action.payload.index, stateConf);
+    case types.WS_VIEW_REMOVE_LINK:
+      return removeElementIn('links', action.payload.index, stateConf);
+    case types.WS_VIEW_REMOVE_MARKER:
+      return removeElementIn('markers', action.payload.index, stateConf);
+    case types.WS_VIEW_REMOVE_PROCEDURE:
+      return removeElementIn('procedures', action.payload.index, stateConf);
+    // entryPoints
+    case types.WS_VIEW_UPDATE_ENTRYPOINT:
+      return __.set(`entryPoints[${action.payload.index}]`, action.payload.entryPoint, stateConf);
+    case types.WS_VIEW_REMOVE_ENTRYPOINT:
+      return removeElementIn('entryPoints', action.payload.index, stateConf);
     default:
-      return state;
+      return stateConf;
   }
-}
+};
 
-export function updateConfiguration(stateViews, action, objectName, paramName, viewType) {
-  if (!stateViews[action.payload.viewId]) {
-    return stateViews;
-  }
-  // Content only for a type of view if viewType is defined
-  if (viewType && stateViews[action.payload.viewId].type !== viewType) {
-    return stateViews;
-  }
-  return u({
-    [action.payload.viewId]: {
-      configuration: {
-        [objectName]: action.payload[paramName],
-      },
-      isModified: true,
-    },
-  }, stateViews);
-}
+const configurationByViewType = {
+  DynamicView: (stateConf, action) => {
+    switch (action.type) {
+      case types.WS_VIEW_ADD: {
+        const uuid = __.get('meta.uuids[0]', action);
+        const config = action.payload.configuration;
+        const nextConf = __.set('entryPoints', [{
+          ...config.entryPoint,
+          name: 'dynamicEP',
+          id: uuid,
+        }], config);
+        return __.omit('entryPoint', nextConf);
+      }
+      default:
+        return stateConf;
+    }
+  },
+  PlotView: (stateConf, action) => {
+    switch (action.type) {
+      case types.WS_VIEW_REMOVE_ENTRYPOINT: {
+        const entryPoints = stateConf.entryPoints;
+        const getAllConnectedAxis = eps => __.concat(
+          __.pluck('connectedDataX.axisId', eps),
+          __.pluck('connectedDataY.axisId', eps)
+        );
+        const refreshAxes = __.pick(getAllConnectedAxis(entryPoints));
+        return __.update('axes', refreshAxes, stateConf);
+      }
+      default:
+        return stateConf;
+    }
+  },
+};
 
-export function updateConfigurationArray(stateViews, action, arrayName, paramName) {
-  if (!stateViews[action.payload.viewId] || !action.payload[paramName]) {
-    return stateViews;
-  }
-  const viewConf = stateViews[action.payload.viewId].configuration;
-  const index = action.payload.index;
-  if (index < 0 || index >= viewConf[arrayName].length) {
-    return stateViews;
-  }
-  return u({
-    [action.payload.viewId]: {
-      configuration: {
-        [arrayName]: {
-          [index]: action.payload[paramName],
-        },
-      },
-      isModified: true,
-    },
-  }, stateViews);
-}
-
-export function addElementInConfigurationArray(stateViews, action, arrayName, paramName) {
-  if (!stateViews[action.payload.viewId] || !action.payload[paramName]) {
-    return stateViews;
-  }
-  const oldValue = stateViews[action.payload.viewId].configuration[arrayName];
-  return u({
-    [action.payload.viewId]: {
-      configuration: {
-        [arrayName]: [...oldValue, ...[action.payload[paramName]]],
-      },
-      isModified: true,
-    },
-  }, stateViews);
-}
-export function removeElementInConfigurationArray(stateViews, action, arrayName) {
-  if (!stateViews[action.payload.viewId] || action.payload.index === undefined) {
-    return stateViews;
-  }
-  const viewConf = stateViews[action.payload.viewId].configuration;
-  const index = action.payload.index;
-  if (index < 0 || index >= viewConf[arrayName].length) {
-    return stateViews;
-  }
-  return u({
-    [action.payload.viewId]: {
-      configuration: {
-        [arrayName]: _without(viewConf[arrayName], viewConf[arrayName][index]),
-      },
-      isModified: true,
-    },
-  }, stateViews);
-}
-
-export function addEntryPoint(stateViews, action) {
-  if (!stateViews[action.payload.viewId] || !action.payload.entryPoint) {
-    return stateViews;
-  }
-  const oldValue = stateViews[action.payload.viewId].configuration.entryPoints;
-  const currentView = stateViews[action.payload.viewId];
-  const newValue = action.payload.entryPoint;
-  const structureType = vivl(currentView.type, 'structureType')();
-  switch (structureType) {
-    case globalConstants.DATASTRUCTURETYPE_LAST: {
-      const newLastValue = u(
-        newValue,
-        getNewTextEntryPoint()
-      );
-
-      return u({
-        [action.payload.viewId]: {
-          configuration: {
-            entryPoints: [...oldValue, newLastValue],
+const configurationByStructureType = {
+  [globalConstants.DATASTRUCTURETYPE_RANGE]: (stateConf, action) => {
+    switch (action.type) {
+      case types.WS_VIEW_ADD_ENTRYPOINT: {
+        const newRangeValue = __.merge(getNewPlotEntryPoint(), action.payload.entryPoint);
+        const [axisX, axisY] = getAxes(newRangeValue, stateConf);
+        const addAxisXId = __.set('connectedDataX.axisId', axisX.id);
+        const addAxisYId = __.set('connectedDataY.axisId', axisY.id);
+        const addAxesIds = __.compose(addAxisXId, addAxisYId);
+        return {
+          ...stateConf,
+          entryPoints: [...stateConf.entryPoints, addAxesIds(newRangeValue)],
+          axes: {
+            [axisX.id]: axisX,
+            [axisY.id]: axisY,
           },
-          isModified: true,
-        },
-      }, stateViews);
+        };
+      }
+      default:
+        return stateConf;
     }
-    case globalConstants.DATASTRUCTURETYPE_RANGE: {
-      const newRangeValue = u(
-        newValue,
-        getNewPlotEntryPoint()
-      );
+  },
+  [globalConstants.DATASTRUCTURETYPE_LAST]: (stateConf, action) => {
+    switch (action.type) {
+      case types.WS_VIEW_ADD_ENTRYPOINT: {
+        const newLastValue = __.merge(getNewTextEntryPoint(), action.payload.entryPoint);
+        return __.update('entryPoints', __.concat(__, newLastValue), stateConf);
+      }
+      default:
+        return stateConf;
+    }
+  },
+};
 
-      const [axisX, axisY] = getAxes(newRangeValue, stateViews[action.payload.viewId]);
-      const addAxisXId = _.update('connectedDataX.axisId', () => axisX.id);
-      const addAxisYId = _.update('connectedDataY.axisId', () => axisY.id);
-      const addAxesIds = _.compose(addAxisXId, addAxisYId);
-
-      return u({
-        [action.payload.viewId]: {
-          configuration: {
-            entryPoints: [...oldValue, addAxesIds(newRangeValue)],
-            axes: {
-              [axisX.id]: axisX,
-              [axisY.id]: axisY,
-            },
-          },
-          isModified: true,
-        },
-      }, stateViews);
-    }
-    default: break;
-  }
-  return stateViews;
-}
-
-export function removeUnreferencedAxis(stateViews, viewId, axisIdX, axisIdY) {
-  const epOnAxisX = [];
-  const epOnAxisY = [];
-  stateViews[viewId].configuration.entryPoints.forEach((ep) => {
-    if (ep.connectedDataX.axisId === axisIdX || ep.connectedDataY.axisId === axisIdX) {
-      epOnAxisX.push(ep.name);
-    }
-    if (ep.connectedDataX.axisId === axisIdY || ep.connectedDataY.axisId === axisIdY) {
-      epOnAxisY.push(ep.name);
-    }
-  });
-  // No axis to delete
-  if (epOnAxisX.length && epOnAxisY.length) {
-    return stateViews;
-  }
-  let newState = stateViews;
-  if (!epOnAxisX.length) {
-    newState = u({
-      [viewId]: {
-        configuration: {
-          axes: u.omit(axisIdX),
-        },
-        isModified: true,
-      },
-    }, stateViews);
-  }
-  if (!epOnAxisY.length) {
-    newState = u({
-      [viewId]: {
-        configuration: {
-          axes: u.omit(axisIdY),
-        },
-        isModified: true,
-      },
-    }, newState);
-  }
-  return newState;
-}
+const createConfiguration = viewType => (stateConf, action) => {
+  const structureType = viewType ? vivl(viewType, 'structureType')() : '';
+  return composeReducers(
+    configurationByStructureType[structureType] || __.identity,
+    configurationByViewType[viewType] || __.identity,
+    commonConfiguration
+  )(stateConf, action);
+};

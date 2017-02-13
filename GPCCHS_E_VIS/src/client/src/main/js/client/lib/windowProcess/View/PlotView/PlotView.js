@@ -78,9 +78,8 @@ function parseDragData(data) {
   };
 }
 
-function onYAxisZoom(id, domain) {
-  // eslint-disable-next-line no-console
-  console.log('zoom', id, domain);
+function onYAxisZoom(/* id, domain */) {
+  // console.log('zoom', id, domain);
 }
 
 export class PlotView extends PureComponent {

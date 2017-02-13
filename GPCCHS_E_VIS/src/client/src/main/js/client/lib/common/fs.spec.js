@@ -49,11 +49,7 @@ describe('common/fs', () => {
     }
   });
   after((done) => {
-    try {
-      rimraf(tmpFolder, done);
-    } catch (e) {
-      console.warn(e); // eslint-disable-line no-console
-    }
+    rimraf(tmpFolder, done);
   });
 
   it('resolve', () => {

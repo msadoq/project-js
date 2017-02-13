@@ -16,17 +16,43 @@ import {
   focusWindow,
   blurWindow,
 } from '../store/actions/hsc';
+import { closeHtmlEditor } from '../store/actions/editor';
 import {
   getWindows,
   getWindowsTitle,
 } from '../store/selectors/windows';
+import { getViewId } from '../store/selectors/editor';
 import { getStore } from '../store/mainStore';
 
 const logger = getLogger('main:windows');
 
 const windows = {};
 let splashScreen;
+let htmlEditor;
 
+export function openHtmlEditor(callback) {
+  console.log('Open html editor');
+  const editorWidth = 1024;
+  const editorHeight = 768;
+  const bounds = screen.getPrimaryDisplay().bounds;
+  const x = bounds.x + ((bounds.width - editorWidth) / 2);
+  const y = bounds.y + ((bounds.height - editorHeight) / 2);
+  htmlEditor = new BrowserWindow({
+    x,
+    y,
+    width: editorWidth,
+    height: editorHeight,
+    show: false,
+  });
+  htmlEditor.loadURL(`file://${parameters.get('path')}/editor.html`);
+
+  htmlEditor.on('close', (e) => {
+    e.preventDefault();
+    getStore().dispatch(closeHtmlEditor());
+    htmlEditor.hide();
+  });
+  callback(null);
+}
 // SplashScreen shown when all windows are closed
 // It is opened once and hidden when unusable
 export function openSplashScreen(callback) {
@@ -60,6 +86,11 @@ export function showSplashScreen() {
   splashScreen.focus();
 }
 
+export function showHtmlEditor() {
+  htmlEditor.show();
+  htmlEditor.focus();
+}
+
 export function hideSplashScreen() {
   // empty previously splashcreen message
   setSplashScreenMessage();
@@ -67,6 +98,9 @@ export function hideSplashScreen() {
   splashScreen.hide();
 }
 
+export function hideHtmlEditor() {
+  htmlEditor.hide();
+}
 export function closeSplashScreen() {
   setImmediate(() => splashScreen.close());
 }
@@ -162,7 +196,7 @@ export default function windowsObserver(state, callback) {
   const toOpen = _difference(inStore, opened);
   const toClose = _difference(opened, inStore);
   const titles = getWindowsTitle(state);
-
+  const viewId = getViewId(state);
   series([
     // close
     fn => fn(toClose.forEach(windowId => close(windowId))),
@@ -174,6 +208,16 @@ export default function windowsObserver(state, callback) {
         } else {
           closeSplashScreen();
         }
+      }
+      return fn(null);
+    },
+    // htmlEditor
+    (fn) => {
+      if (viewId !== null && !htmlEditor.isVisible()) {
+        showHtmlEditor();
+      }
+      if (viewId === null && htmlEditor.isVisible()) {
+        hideHtmlEditor();
       }
       return fn(null);
     },

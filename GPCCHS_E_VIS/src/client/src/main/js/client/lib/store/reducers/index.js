@@ -12,6 +12,7 @@ import sessions from './sessions';
 import masterSession from './masterSession';
 import viewData from './viewData';
 import health from './health';
+import editor from './editor';
 
 const reducer = combineReducers({
   form,
@@ -27,6 +28,7 @@ const reducer = combineReducers({
   masterSession,
   viewData,
   health,
+  editor,
 });
 
 export default reducer;

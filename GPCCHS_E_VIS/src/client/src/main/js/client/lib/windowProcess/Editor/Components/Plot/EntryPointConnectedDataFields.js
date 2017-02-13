@@ -25,10 +25,10 @@ const EntryPointConnectedDataFields = (props) => {
   } = props;
   let filteredAxes;
   if (axes && unit) {
-    filteredAxes = Object.entries(axes)
-      .map(a => ({
-        ...a[1],
-        axeId: a[0],
+    filteredAxes = Object.keys(axes)
+      .map(key => ({
+        ...axes[key],
+        axeId: key,
       })).filter(axe =>
         axe.unit === unit || axe.id === axisId
       );

@@ -60,10 +60,10 @@ export default class SelectTimebar extends PureComponent {
                   className="form-control"
                 >
                   {
-                    Object.entries(timebars).map(
-                      v => (
-                        <option key={v[1].id} value={v[0]}>
-                          {v[1].id}
+                    Object.keys(timebars).map(
+                      key => (
+                        <option key={timebars[key].id} value={key}>
+                          {timebars[key].id}
                         </option>
                       )
                     )

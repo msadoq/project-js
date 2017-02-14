@@ -1,3 +1,4 @@
+import 'reselect';
 import _get from 'lodash/get';
 import _reduce from 'lodash/reduce';
 

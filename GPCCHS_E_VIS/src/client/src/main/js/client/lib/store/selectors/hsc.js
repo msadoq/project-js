@@ -1,9 +1,10 @@
+import 'reselect';
 import path from 'lodash/fp/path';
 
-const getInHsc = key => path(['hsc', key]);
+const inHsc = key => path(['hsc', key]);
 
-export const getWindowsOpened = getInHsc('windowsOpened');
-export const getWorkspaceOpened = getInHsc('workspaceOpened');
-export const getLastCacheInvalidation = getInHsc('lastCacheInvalidation');
-export const getPlayingTimebarId = getInHsc('playingTimebarId');
-export const getFocusedWindowId = getInHsc('focusWindow');
+export const getWindowsOpened = inHsc('windowsOpened');
+export const getWorkspaceOpened = inHsc('workspaceOpened');
+export const getLastCacheInvalidation = inHsc('lastCacheInvalidation');
+export const getPlayingTimebarId = inHsc('playingTimebarId');
+export const getFocusedWindowId = inHsc('focusWindow');

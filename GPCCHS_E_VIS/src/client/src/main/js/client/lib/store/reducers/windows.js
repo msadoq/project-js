@@ -37,23 +37,37 @@ export default function windows(stateWindows = {}, action) {
         },
       }, stateWindows);
     case types.WS_WINDOW_CURRENT_EXPLORER:
-      if (!stateWindows[action.payload.windowId]) {
-        return stateWindows;
-      }
-      return u({
+      return {
+        ...stateWindows,
         [action.payload.windowId]: {
+          ...stateWindows[action.payload.windowId],
           tabName: action.payload.tabName,
         },
-      }, stateWindows);
+      };
     case types.WS_WINDOW_EXPLORERWIDTH_UPDATE:
-      if (!stateWindows[action.payload.windowId]) {
-        return stateWindows;
-      }
-      return u({
+      return {
+        ...stateWindows,
         [action.payload.windowId]: {
+          ...stateWindows[action.payload.windowId],
           explorerWidth: action.payload.width,
         },
-      }, stateWindows);
+      };
+    case types.WS_WINDOW_EXPLORER_UPDATEFLAG:
+      return {
+        ...stateWindows,
+        [action.payload.windowId]: {
+          ...stateWindows[action.payload.windowId],
+          [action.payload.flagName]: action.payload.flag,
+        },
+      };
+    case types.WS_WINDOW_DISPLAY_EXPLORER:
+      return {
+        ...stateWindows,
+        [action.payload.windowId]: {
+          ...stateWindows[action.payload.windowId],
+          displayExplorer: action.payload.open,
+        },
+      };
     default:
       return stateWindows;
   }

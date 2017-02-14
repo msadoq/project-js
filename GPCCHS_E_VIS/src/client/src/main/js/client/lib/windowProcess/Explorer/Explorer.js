@@ -1,5 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
-import { Nav, NavItem } from 'react-bootstrap';
+import { Nav, NavItem, Button, Glyphicon } from 'react-bootstrap';
 import _debounce from 'lodash/debounce';
 import classnames from 'classnames';
 import PerRemoteIdContainer from './components/PerRemoteIdContainer';
@@ -18,6 +18,7 @@ export default class Explorer extends PureComponent {
     width: PropTypes.number,
     currentExplorer: PropTypes.func.isRequired,
     updateExplorerWidth: PropTypes.func.isRequired,
+    displayExplorer: PropTypes.func.isRequired,
   }
   static defaultProps = {
     width: undefined,
@@ -76,8 +77,15 @@ export default class Explorer extends PureComponent {
     currentExplorer(windowId, eventKey);
   }
 
+  handleClose = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.displayExplorer(this.props.windowId, false);
+    e.stopPropagation();
+  }
+
   render() {
-    const { currentTab, width } = this.props;
+    const { currentTab, width, windowId } = this.props;
     const { resizingWindow } = this.state;
     return (
       <div
@@ -103,22 +111,34 @@ export default class Explorer extends PureComponent {
             }
           />
         </div>
-        <Nav bsStyle="tabs" activeKey={currentTab} onSelect={this.handleSelect} >
-          <NavItem eventKey="perRemoteId" title="Entry point list of current page">
-            <div className={styles.tabs}>Data Map</div>
-          </NavItem>
-          <NavItem eventKey="perViewId" title="Entry point list per view on current page">
-            <div className={styles.tabs}>View Map</div>
-          </NavItem>
-          {/* <NavItem eventKey="health" title="Application health">
-            <div className={styles.tabs}>Health</div>
-          </NavItem>*/}
-          <NavItem eventKey="server" title="Server information">
-            <div className={styles.tabs}>Server</div>
-          </NavItem>
-        </Nav>
-        {(currentTab === 'perRemoteId') && <PerRemoteIdContainer />}
-        {(currentTab === 'perViewId') && <PerViewContainer />}
+        <div className={styles.nav}>
+          <Nav bsStyle="tabs" activeKey={currentTab} onSelect={this.handleSelect} >
+            <NavItem eventKey="perRemoteId" title="Entry point list of current page">
+              <div className={styles.tabs}>Data Map</div>
+            </NavItem>
+            <NavItem eventKey="perViewId" title="Entry point list per view on current page">
+              <div className={styles.tabs}>View Map</div>
+            </NavItem>
+            {/* <NavItem eventKey="health" title="Application health">
+              <div className={styles.tabs}>Health</div>
+            </NavItem>*/}
+            <NavItem eventKey="server" title="Server information">
+              <div className={styles.tabs}>Server</div>
+            </NavItem>
+          </Nav>
+          <Button
+            bsStyle="link"
+            onClick={e => this.handleClose(e)}
+            className={styles.button}
+          >
+            <Glyphicon
+              glyph="remove-circle"
+              className="text-danger"
+            />
+          </Button>
+        </div>
+        {(currentTab === 'perRemoteId') && <PerRemoteIdContainer windowId={windowId} />}
+        {(currentTab === 'perViewId') && <PerViewContainer windowId={windowId} />}
         {(currentTab === 'server') && <ServerInfoContainer />}
         {(currentTab === 'health') && <HealthContainer />}
       </div>

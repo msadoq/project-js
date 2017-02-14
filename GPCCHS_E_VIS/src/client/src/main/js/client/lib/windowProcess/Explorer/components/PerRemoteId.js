@@ -1,11 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
-// import { Label } from 'react-bootstrap';
 import _map from 'lodash/map';
 import _split from 'lodash/split';
-// import _get from 'lodash/get';
-// import _find from 'lodash/find';
 import _each from 'lodash/each';
-// import classnames from 'classnames';
 
 import styles from '../Explorer.css';
 import DetailButtons from './DetailButtons';

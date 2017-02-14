@@ -20,7 +20,7 @@ DataId.propTypes = {
     parameterName: PropTypes.string,
     catalog: PropTypes.string,
     comObject: PropTypes.string,
-  }),
+  }).isRequired,
   iKey: PropTypes.string.isRequired,
 };
 

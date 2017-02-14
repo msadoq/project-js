@@ -1,13 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { Panel } from 'react-bootstrap';
-/* eslint-disable no-unused-vars*/
 import _each from 'lodash/each';
 import _split from 'lodash/split';
-import _join from 'lodash/join';
-import _slice from 'lodash/slice';
-import _get from 'lodash/get';
-import _find from 'lodash/find';
-
 
 import parseFormula from '../../../dataManager/structures/common/formula';
 
@@ -36,8 +30,6 @@ function LocalIdLabels() {
 }
 LocalId.propTypes = {
   field: PropTypes.string,
-  fieldX: PropTypes.string,
-  fieldY: PropTypes.string,
   offset: PropTypes.number,
 };
 
@@ -59,13 +51,12 @@ export default class PerView extends PureComponent {
     domains: PropTypes.arrayOf(PropTypes.object).isRequired,
     count: PropTypes.number,
     windowId: PropTypes.string.isRequired,
-    updateShowEp: PropTypes.func,
     updateExplorerFlag: PropTypes.func.isRequired,
     dataId: PropTypes.bool,
     domainAndSession: PropTypes.bool,
     localId: PropTypes.bool,
     remoteId: PropTypes.bool,
-    filters: PropTypes.bool,
+    // filters: PropTypes.bool,
   }
   static defaultProps = {
     count: 0,
@@ -118,7 +109,7 @@ export default class PerView extends PureComponent {
     //   flag: true,
     }];
 
-    const { dataId, domainAndSession, localId, remoteId, filters, sessions, domains } = this.props;
+    const { dataId, domainAndSession, localId, remoteId, sessions, domains } = this.props;
     const viewDetails = [];
     _each(perView, (view, viewId) => {
       // EP

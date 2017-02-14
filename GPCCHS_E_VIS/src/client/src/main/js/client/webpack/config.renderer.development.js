@@ -15,15 +15,19 @@ const port = get('WEBPACK_PORT');
 export default merge(baseConfig, {
   devtool: 'eval-source-map',
 
-  entry: [
-    './lib/windowProcess/style/bootstrap',
-    '!style!css!postcss!./lib/windowProcess/style',
-    `webpack-hot-middleware/client?path=http://localhost:${port}/__webpack_hmr`,
-    './lib/windowProcess/index',
-  ],
+  entry: {
+    rendered: [
+      './lib/windowProcess/style/bootstrap',
+      '!style!css!postcss!./lib/windowProcess/style',
+      `webpack-hot-middleware/client?path=http://localhost:${port}/__webpack_hmr`,
+      './lib/windowProcess/index',
+    ],
+    htmlEditor: './lib/editorProcess/index',
+  },
 
   output: {
     publicPath: `http://localhost:${port}/dist/`,
+    filename: '[name].bundle.js',
   },
 
   module: {

@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8"/>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <style>
-    html, body, .content {
-      height: 100%;
-    }
-    body {
-      text-align: center;
-      font-family: Verdana, Geneva, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-  </style>
 </head>
 <body>
-  <h3>Hello world</h3>
+  <div id='root'></div>
+  <script>
+    // https://github.com/electron/electron/issues/5224
+    global.parameters = require('electron').remote.getCurrentWindow().parameters;
+
+    // load bundle
+    const bundle = document.createElement('script');
+    bundle.src = parameters.get('IS_BUNDLED') === 'on'
+      ? './dist/htmmEditor.bundle.js'
+      : `http://localhost:${parameters.get('WEBPACK_PORT')}/dist/htmlEditor.bundle.js`;
+    document.body.appendChild(bundle)
+  </script>
 </body>
 </html>

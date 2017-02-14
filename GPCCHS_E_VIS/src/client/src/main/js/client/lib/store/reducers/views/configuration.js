@@ -1,12 +1,13 @@
 import __ from 'lodash/fp';
 import globalConstants from 'common/constants';
 
-import { getAxes } from './axes';
+import { getAxes, updateAxis, addAxis, removeAxis } from './axes';
 import { getNewPlotEntryPoint, getNewTextEntryPoint } from '../../../common/entryPoint';
 
 import * as types from '../../types';
 
 const removeElementIn = (key, index, state) => __.update(key, __.pullAt(index), state);
+const addElementIn = (key, val, state) => __.update(key, __.concat(__, val), state);
 
 export const commonConfiguration = (stateConf = { title: null }, action) => {
   switch (action.type) {
@@ -42,25 +43,25 @@ export const commonConfiguration = (stateConf = { title: null }, action) => {
     case types.WS_VIEW_UPDATE_GRID:
       return __.set(`grids[${action.payload.index}]`, action.payload.grid, stateConf);
     case types.WS_VIEW_ADD_GRID:
-      return __.update('grids', __.concat(__, action.payload.grid), stateConf);
+      return addElementIn('grids', action.payload.grid, stateConf);
     case types.WS_VIEW_REMOVE_GRID:
       return removeElementIn('grids', action.payload.index, stateConf);
     case types.WS_VIEW_UPDATE_LINK:
       return __.set(`links[${action.payload.index}]`, action.payload.link, stateConf);
     case types.WS_VIEW_ADD_LINK:
-      return __.update('links', __.concat(__, action.payload.link), stateConf);
+      return addElementIn('links', action.payload.link, stateConf);
     case types.WS_VIEW_REMOVE_LINK:
       return removeElementIn('links', action.payload.index, stateConf);
     case types.WS_VIEW_UPDATE_MARKER:
       return __.set(`markers[${action.payload.index}]`, action.payload.marker, stateConf);
     case types.WS_VIEW_ADD_MARKER:
-      return __.update('markers', __.concat(__, action.payload.marker), stateConf);
+      return addElementIn('markers', action.payload.marker, stateConf);
     case types.WS_VIEW_REMOVE_MARKER:
       return removeElementIn('markers', action.payload.index, stateConf);
     case types.WS_VIEW_UPDATE_PROCEDURE:
       return __.set(`procedures[${action.payload.index}]`, action.payload.procedure, stateConf);
     case types.WS_VIEW_ADD_PROCEDURE:
-      return __.update('procedures', __.concat(__, action.payload.procedure), stateConf);
+      return addElementIn('procedures', action.payload.procedure, stateConf);
     case types.WS_VIEW_REMOVE_PROCEDURE:
       return removeElementIn('procedures', action.payload.index, stateConf);
 
@@ -103,6 +104,13 @@ export const configurationByViewType = {
         const refreshAxes = __.pick(getAllConnectedAxis(entryPoints));
         return __.update('axes', refreshAxes, stateConf);
       }
+      case types.WS_VIEW_UPDATE_AXIS: {
+        return updateAxis(stateConf, action);
+      }
+      case types.WS_VIEW_ADD_AXIS:
+        return addAxis(stateConf, action);
+      case types.WS_VIEW_REMOVE_AXIS:
+        return removeAxis(stateConf, action);
       default:
         return stateConf;
     }

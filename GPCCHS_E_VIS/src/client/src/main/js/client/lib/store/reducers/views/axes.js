@@ -1,71 +1,32 @@
-import _trim from 'lodash/trim';
-import _deburr from 'lodash/deburr';
-import _snakeCase from 'lodash/snakeCase';
-import _find from 'lodash/find';
-import update from 'lodash/fp/update';
-import prop from 'lodash/fp/prop';
-import path from 'lodash/fp/path';
-import pipe from 'lodash/fp/pipe';
-import equals from 'lodash/fp/equals';
-import u from 'updeep';
+import __ from 'lodash/fp';
 
-const isPlotView = pipe(prop('type'), equals('PlotView'));
-
-export function updateAxis(stateViews, action) {
-  const { viewId, axis, axisId } = action.payload;
-  const currentView = stateViews[viewId];
-  if (!isPlotView(currentView) || !axis || !axisId) {
-    return stateViews;
+export function updateAxis(stateConf, action) {
+  const { axis, axisId } = action.payload;
+  if (!axis || !axisId) {
+    return stateConf;
   }
-  return u({
-    [viewId]: {
-      configuration: {
-        axes: { [axisId]: axis },
-      },
-      isModified: true,
-    },
-  }, stateViews);
+  return __.set(`axes[${axisId}]`, { ...axis, id: axisId }, stateConf);
 }
 
-export function addAxis(stateViews, action) {
-  const { viewId, axis } = action.payload;
-  const currentView = stateViews[viewId];
-  if (!isPlotView(currentView)) {
-    return stateViews;
-  }
+export function addAxis(stateConf, action) {
+  const { axis } = action.payload;
   if (!axis || !axis.label) {
-    return stateViews;
+    return stateConf;
   }
-  const axisId = axis.id || getUniqueAxisId(currentView.configuration, axis.label);
-  return u({
-    [viewId]: {
-      configuration: {
-        axes: { [axisId]: update('id', () => axisId, axis) },
-      },
-      isModified: true,
-    },
-  }, stateViews);
+  const axisId = axis.id || getUniqueAxisId(stateConf, axis.label);
+  return __.set(`axes[${axisId}]`, { ...axis, id: axisId }, stateConf);
 }
 
-export function removeAxis(stateViews, action) {
-  const { viewId, axisId } = action.payload;
-  // Content only for a type of view if viewType is defined
-  if (!axisId || !isPlotView(stateViews[viewId])) {
-    return stateViews;
+export function removeAxis(stateConf, action) {
+  const { axisId } = action.payload;
+  if (!axisId) {
+    return stateConf;
   }
-  const axisExists = () => path([viewId, 'configuration', 'axes', axisId])(stateViews);
-  return u({
-    [viewId]: {
-      isModified: u.if(axisExists, () => true),
-      configuration: {
-        axes: u.omit(axisId),
-      },
-    },
-  }, stateViews);
+  return __.update('axes', __.omit(axisId), stateConf);
 }
 
 function getUniqueAxisId(stateConf, label) {
-  const id = _snakeCase(_trim(_deburr(label)));
+  const id = __.snakeCase(__.trim(__.deburr(label)));
   // check id isn't already defined
   let isUnique = false;
   let index = 1;
@@ -94,8 +55,8 @@ export const getAxes = (entryPoint, stateConf) => {
   const { axes } = stateConf;
   const { connectedDataX, connectedDataY } = entryPoint;
 
-  const axisX = _find(axes, axis => axis.unit === connectedDataX.unit);
-  const axisY = _find(axes, axis => axis.unit === connectedDataY.unit);
+  const axisX = __.find(axis => axis.unit === connectedDataX.unit, axes);
+  const axisY = __.find(axis => axis.unit === connectedDataY.unit, axes);
   const finalX = axisX || createAxis(stateConf, entryPoint.name, connectedDataX.unit);
   const finalY = axisY || createAxis(stateConf, entryPoint.name, connectedDataY.unit);
   const prefixX = finalX.id === finalY.id ? 'X:' : '';

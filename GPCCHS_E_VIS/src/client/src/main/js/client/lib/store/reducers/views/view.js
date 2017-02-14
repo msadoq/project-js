@@ -10,9 +10,6 @@ const viewIsModified = (stateView, action) => {
   const setIsModified = __.set('isModified');
   const isModified = action.payload && action.payload.isModified;
 
-  if (!stateView) {
-    return stateView;
-  }
   if (__.isBoolean(isModified)) {
     return setIsModified(isModified, stateView);
   }
@@ -62,8 +59,6 @@ const initialState = {
 
 function simpleView(stateView = initialState, action) {
   switch (action.type) {
-    case types.WS_VIEW_REMOVE:
-      return undefined;
     case types.WS_VIEW_ADD:
       return {
         ...stateView,
@@ -93,9 +88,6 @@ function simpleView(stateView = initialState, action) {
 }
 
 const viewConfiguration = (stateView, action) => {
-  if (!stateView) {
-    return stateView;
-  }
   const viewType = stateView.type;
   const structureType = viewType ? vivl(viewType, 'structureType')() : '';
   const configuration = composeReducers(

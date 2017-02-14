@@ -6,17 +6,11 @@ export default class LineCanvas extends PureComponent {
 
   static propTypes = {
     yAxesAt: PropTypes.string.isRequired,
-    margin: PropTypes.number.isRequired,
     top: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
+    margin: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     xScale: PropTypes.func.isRequired,
-    dataSets: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        data: PropTypes.array.isRequired,
-      })
-    ).isRequired,
     yExtends: PropTypes.arrayOf(
       PropTypes.number
     ).isRequired,
@@ -37,6 +31,22 @@ export default class LineCanvas extends PureComponent {
     this.draw();
   }
 
+  shouldComponentUpdate(nextProps) {
+    let shouldRender = false;
+
+    ['yAxesAt', 'top', 'height', 'margin', 'width', 'xScale'].forEach((attr) => {
+      if (nextProps[attr] !== this.props[attr]) {
+        shouldRender = true;
+      }
+    });
+
+    if (nextProps.lines.length !== this.props.lines.length) {
+      shouldRender = true;
+    }
+
+    return shouldRender;
+  }
+
   componentDidUpdate() {
     this.draw();
   }
@@ -46,7 +56,6 @@ export default class LineCanvas extends PureComponent {
       height,
       width,
       lines,
-      dataSets,
       yExtends,
       xScale,
     } = this.props;
@@ -60,13 +69,6 @@ export default class LineCanvas extends PureComponent {
     ctx.clearRect(0, 0, width, height);
 
     lines.forEach((line) => {
-      let datas = dataSets.find(d => d.id === line.dataSet);
-      if (!datas) {
-        console.log(`Line ${line.name} render error : data not found`);
-        return;
-      }
-      datas = datas.data;
-
       // Change style depending on line properties
       ctx.strokeStyle = line.fill || '#000000';
       ctx.lineWidth = line.strokeWidth || 4;
@@ -76,7 +78,7 @@ export default class LineCanvas extends PureComponent {
 
       // =============== DRAWING
       ctx.beginPath();
-      datas.forEach((data) => {
+      line.data.forEach((data) => {
         const y = yScale(line.yAccessor(data));
         ctx.lineTo(xScale(data.x), y);
       });
@@ -99,9 +101,9 @@ export default class LineCanvas extends PureComponent {
     const style = {};
     // horizontal position
     if (yAxesAt === 'left') {
-      style.left = `${margin}px`;
+      style.left = margin;
     } else if (yAxesAt === 'right') {
-      style.right = `${margin}px`;
+      style.right = margin;
     }
 
     // vertical position

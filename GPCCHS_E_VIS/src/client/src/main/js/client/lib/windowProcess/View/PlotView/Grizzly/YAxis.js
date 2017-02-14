@@ -21,6 +21,24 @@ export default class YAxis extends PureComponent {
     this.draw();
   }
 
+  shouldComponentUpdate(nextProps) {
+    let shouldRender = false;
+    ['yAxesAt', 'top', 'height', 'yAxisWidth', 'margin'].forEach((attr) => {
+      if (nextProps[attr] !== this.props[attr]) {
+        shouldRender = true;
+      }
+    });
+
+    if (
+      nextProps.yExtends[0] !== this.props.yExtends[0] ||
+      nextProps.yExtends[1] !== this.props.yExtends[1]
+    ) {
+      shouldRender = true;
+    }
+
+    return shouldRender;
+  }
+
   componentDidUpdate() {
     this.draw();
   }
@@ -48,8 +66,6 @@ export default class YAxis extends PureComponent {
     let gStyle = '';
     if (yAxesAt === 'left') {
       gStyle += `transform: translate(${yAxisWidth - 1}px, 0px);`;
-    } else if (yAxesAt === 'right') {
-      gStyle += 'transform: translate(0px, 0px);';
     }
 
     this.el.innerHTML = '';

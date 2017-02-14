@@ -13,7 +13,7 @@ import {
   addAxis,
   removeAxis,
   getAxes,
-} from './views/configuration/axis';
+} from './view/axes';
 
 /**
  * Reducer
@@ -38,11 +38,7 @@ export default function views(stateViews = {}, action) {
         if (!nextView) {
           return __.omit(viewId, stateViews);
         }
-        const configuration = createConfiguration(nextView.type);
-        return __.set(viewId, {
-          ...nextView,
-          configuration: configuration(nextView.configuration, action),
-        }, stateViews);
+        return __.set(viewId, nextView, stateViews);
       }
       return stateViews;
     }
@@ -53,6 +49,9 @@ const viewIsModified = (stateView, action) => {
   const setIsModified = __.set('isModified');
   const isModified = action.payload && action.payload.isModified;
 
+  if (!stateView) {
+    return stateView;
+  }
   if (__.isBoolean(isModified)) {
     return setIsModified(isModified, stateView);
   }
@@ -132,7 +131,22 @@ export function simpleView(stateView = initialState, action) {
   }
 }
 
-const view = composeReducers(viewIsModified, simpleView);
+const viewConfiguration = (stateView, action) => {
+  if (!stateView) {
+    return stateView;
+  }
+  const viewType = stateView.type;
+  const structureType = viewType ? vivl(viewType, 'structureType')() : '';
+  const configuration = composeReducers(
+    configurationByStructureType[structureType] || __.identity,
+    configurationByViewType[viewType] || __.identity,
+    commonConfiguration
+  );
+  return __.set('configuration', configuration(stateView.configuration, action), stateView);
+};
+
+const view = composeReducers(viewConfiguration, viewIsModified, simpleView);
+
 
 /* ************************************************************************** */
 
@@ -195,8 +209,9 @@ const commonConfiguration = (stateConf = { title: null }, action) => {
     // entryPoints
     case types.WS_VIEW_UPDATE_ENTRYPOINT:
       return __.set(`entryPoints[${action.payload.index}]`, action.payload.entryPoint, stateConf);
-    case types.WS_VIEW_REMOVE_ENTRYPOINT:
+    case types.WS_VIEW_REMOVE_ENTRYPOINT: {
       return removeElementIn('entryPoints', action.payload.index, stateConf);
+    }
     default:
       return stateConf;
   }
@@ -268,13 +283,4 @@ const configurationByStructureType = {
         return stateConf;
     }
   },
-};
-
-const createConfiguration = viewType => (stateConf, action) => {
-  const structureType = viewType ? vivl(viewType, 'structureType')() : '';
-  return composeReducers(
-    configurationByStructureType[structureType] || __.identity,
-    configurationByViewType[viewType] || __.identity,
-    commonConfiguration
-  )(stateConf, action);
 };

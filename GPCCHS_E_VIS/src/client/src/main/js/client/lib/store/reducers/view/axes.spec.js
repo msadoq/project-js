@@ -1,6 +1,6 @@
 /* eslint no-unused-expressions: 0 */
-import { freezeMe, should } from '../../../../common/test';
-import { updateAxis, addAxis, removeAxis, getAxes } from './axis';
+import { freezeMe, should } from '../../../common/test';
+import { updateAxis, addAxis, removeAxis, getAxes } from './axes';
 
 describe('store:views:axes', () => {
   const state = freezeMe({

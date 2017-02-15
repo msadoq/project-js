@@ -51,7 +51,8 @@ function createAxis(stateConf, label, unit) {
   };
 }
 
-export const getAxes = (entryPoint, stateConf) => {
+export const getAxes = (stateConf, action) => {
+  const { entryPoint } = action.payload;
   const { axes } = stateConf;
   const { connectedDataX, connectedDataY } = entryPoint;
 

@@ -76,7 +76,7 @@ describe('store:views:axes', () => {
         connectedDataX: { unit: 'unknown' },
         connectedDataY: { unit: 'useless' },
       };
-      const [axisX, axisY] = getAxes(entryPoint, state);
+      const [axisX, axisY] = getAxes(state, { payload: { entryPoint } });
       axisX.id.should.not.be.eql(axisY.id);
       axisX.should.be.eql({ label: 'ep2', unit: 'unknown', id: 'X:ep_2' });
       axisY.should.be.eql({ label: 'ep2', unit: 'useless', id: 'Y:ep_2' });
@@ -87,7 +87,7 @@ describe('store:views:axes', () => {
         connectedDataX: { unit: 'seconds' },
         connectedDataY: { unit: 'volts' },
       };
-      const [axisX, axisY] = getAxes(entryPoint, state);
+      const [axisX, axisY] = getAxes(state, { payload: { entryPoint } });
       axisX.id.should.not.be.eql(axisY.id);
       axisX.should.be.eql({ label: 'AXIS2', unit: 'seconds', id: 'axis_2' });
       axisY.should.be.eql({ label: 'AXIS1', unit: 'volts', id: 'axis_1' });
@@ -98,7 +98,7 @@ describe('store:views:axes', () => {
         connectedDataX: { unit: 'seconds' },
         connectedDataY: { unit: 'unknown' },
       };
-      const [axisX, axisY] = getAxes(entryPoint, state);
+      const [axisX, axisY] = getAxes(state, { payload: { entryPoint } });
       axisX.id.should.not.be.eql(axisY.id);
       axisX.should.be.eql({ label: 'AXIS2', unit: 'seconds', id: 'axis_2' });
       axisY.should.be.eql({ label: 'ep2', unit: 'unknown', id: 'ep_2' });
@@ -109,7 +109,7 @@ describe('store:views:axes', () => {
         connectedDataX: { unit: 'unknown' },
         connectedDataY: { unit: 'volts' },
       };
-      const [axisX, axisY] = getAxes(entryPoint, state);
+      const [axisX, axisY] = getAxes(state, { payload: { entryPoint } });
       axisX.id.should.not.be.eql(axisY.id);
       axisX.should.be.eql({ label: 'ep2', unit: 'unknown', id: 'ep_2' });
       axisY.should.be.eql({ label: 'AXIS1', unit: 'volts', id: 'axis_1' });

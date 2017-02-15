@@ -4,7 +4,11 @@ import composeReducers from '../../composeReducers';
 import * as types from '../../types';
 import vivl from '../../../../VIVL/main';
 
-import { commonConfiguration, configurationByViewType, configurationByStructureType } from './configuration';
+import {
+  commonConfiguration,
+  configurationByViewType,
+  configurationByStructureType,
+} from './configuration';
 
 const viewIsModified = (stateView, action) => {
   const setIsModified = __.set('isModified');

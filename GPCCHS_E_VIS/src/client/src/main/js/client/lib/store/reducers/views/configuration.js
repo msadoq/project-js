@@ -97,11 +97,11 @@ export const configurationByViewType = {
     switch (action.type) {
       case types.WS_VIEW_REMOVE_ENTRYPOINT: {
         const entryPoints = stateConf.entryPoints;
-        const getAllConnectedAxis = eps => __.concat(
+        const getAllConnectedAxisIds = eps => __.concat(
           __.pluck('connectedDataX.axisId', eps),
           __.pluck('connectedDataY.axisId', eps)
         );
-        const refreshAxes = __.pick(getAllConnectedAxis(entryPoints));
+        const refreshAxes = __.pick(getAllConnectedAxisIds(entryPoints));
         return __.update('axes', refreshAxes, stateConf);
       }
       case types.WS_VIEW_UPDATE_AXIS: {
@@ -121,14 +121,15 @@ export const configurationByStructureType = {
   [globalConstants.DATASTRUCTURETYPE_RANGE]: (stateConf, action) => {
     switch (action.type) {
       case types.WS_VIEW_ADD_ENTRYPOINT: {
-        const newRangeValue = __.merge(getNewPlotEntryPoint(), action.payload.entryPoint);
-        const [axisX, axisY] = getAxes(newRangeValue, stateConf);
+        const [axisX, axisY] = getAxes(stateConf, action);
         const addAxisXId = __.set('connectedDataX.axisId', axisX.id);
         const addAxisYId = __.set('connectedDataY.axisId', axisY.id);
         const addAxesIds = __.compose(addAxisXId, addAxisYId);
+
+        const newEp = __.merge(getNewPlotEntryPoint(), action.payload.entryPoint);
         return {
           ...stateConf,
-          entryPoints: [...stateConf.entryPoints, addAxesIds(newRangeValue)],
+          entryPoints: [...stateConf.entryPoints, addAxesIds(newEp)],
           axes: {
             [axisX.id]: axisX,
             [axisY.id]: axisY,
@@ -142,8 +143,8 @@ export const configurationByStructureType = {
   [globalConstants.DATASTRUCTURETYPE_LAST]: (stateConf, action) => {
     switch (action.type) {
       case types.WS_VIEW_ADD_ENTRYPOINT: {
-        const newLastValue = __.merge(getNewTextEntryPoint(), action.payload.entryPoint);
-        return __.update('entryPoints', __.concat(__, newLastValue), stateConf);
+        const newEp = __.merge(getNewTextEntryPoint(), action.payload.entryPoint);
+        return __.update('entryPoints', __.concat(__, newEp), stateConf);
       }
       default:
         return stateConf;

@@ -1,5 +1,9 @@
 import __ from 'lodash/fp';
 
+/*
+ * All of this functions are used by the configuration reducer
+*/
+
 export function updateAxis(stateConf, action) {
   const { axis, axisId } = action.payload;
   if (!axis || !axisId) {
@@ -51,6 +55,7 @@ function createAxis(stateConf, label, unit) {
   };
 }
 
+// This is not a reducer because it returns pair of axes
 export const getAxes = (stateConf, action) => {
   const { entryPoint } = action.payload;
   const { axes } = stateConf;

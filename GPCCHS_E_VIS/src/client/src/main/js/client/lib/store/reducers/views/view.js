@@ -2,14 +2,11 @@ import __ from 'lodash/fp';
 
 import composeReducers from '../../composeReducers';
 import * as types from '../../types';
-import vivl from '../../../../VIVL/main';
 
-import {
-  commonConfiguration,
-  configurationByViewType,
-  configurationByStructureType,
-} from './configuration';
+import createConfiguration from './configuration';
 
+// This reducer take care of actions and update the isModified property
+// this is a temporary fix, waiting for the savableMiddleware
 const viewIsModified = (stateView, action) => {
   const setIsModified = __.set('isModified');
   const isModified = action.payload && action.payload.isModified;
@@ -61,6 +58,7 @@ const initialState = {
   isModified: true,
 };
 
+// This reducer deal with simple views
 function simpleView(stateView = initialState, action) {
   switch (action.type) {
     case types.WS_VIEW_ADD:
@@ -91,15 +89,11 @@ function simpleView(stateView = initialState, action) {
   }
 }
 
+// This reducer take care of the '.configuration' property of a view
 const viewConfiguration = (stateView, action) => {
-  const viewType = stateView.type;
-  const structureType = viewType ? vivl(viewType, 'structureType')() : '';
-  const configuration = composeReducers(
-    configurationByStructureType[structureType] || __.identity,
-    configurationByViewType[viewType] || __.identity,
-    commonConfiguration
-  );
+  const configuration = createConfiguration(stateView.type);
   return __.set('configuration', configuration(stateView.configuration, action), stateView);
 };
 
+// expose a single reducer that deal with one view
 export default composeReducers(viewConfiguration, viewIsModified, simpleView);

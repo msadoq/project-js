@@ -15,7 +15,7 @@ export default class XAxis extends PureComponent {
     height: PropTypes.number.isRequired,
     margin: PropTypes.number.isRequired,
     gridStyle: PropTypes.string.isRequired,
-    gridSize: PropTypes.string.isRequired,
+    gridSize: PropTypes.number.isRequired,
     xExtends: PropTypes.arrayOf(
       PropTypes.number
     ).isRequired,

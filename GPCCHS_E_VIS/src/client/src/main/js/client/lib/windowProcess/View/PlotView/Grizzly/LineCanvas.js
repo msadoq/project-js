@@ -76,6 +76,8 @@ export default class LineCanvas extends PureComponent {
         ctx.setLineDash([6, 2]);
       } else if (line.lineStyle === 'Dotted') {
         ctx.setLineDash([3, 3]);
+      } else {
+        ctx.setLineDash([2, 0]);
       }
 
       // =============== DRAWING

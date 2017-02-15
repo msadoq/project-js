@@ -29,7 +29,16 @@ export default class Chart extends React.Component {
         showTicks: PropTypes.bool.isRequired,
         showGrid: PropTypes.bool.isRequired,
         gridStyle: PropTypes.string.isRequired,
-        gridSize: PropTypes.string.isRequired,
+        gridSize: PropTypes.number.isRequired,
+        label: PropTypes.string.isRequired,
+        labelBgColor: PropTypes.string.isRequired,
+        labelColor: PropTypes.string.isRequired,
+        labelFont: PropTypes.string.isRequired,
+        labelItalic: PropTypes.bool.isRequired,
+        labelSize: PropTypes.number.isRequired,
+        labelBold: PropTypes.bool.isRequired,
+        labelUnderline: PropTypes.bool.isRequired,
+        labelAlign: PropTypes.string.isRequired,
       })
     ).isRequired,
     dataSets: PropTypes.arrayOf(
@@ -230,6 +239,7 @@ export default class Chart extends React.Component {
               showTicks={yAxis.showTicks}
               showGrid={yAxis.showGrid}
               gridStyle={yAxis.gridStyle}
+              axisLabel={yAxis.axisLabel}
               gridSize={yAxis.gridSize}
               yAxisWidth={this.yAxisWidth}
               chartWidth={chartWidth}
@@ -238,6 +248,15 @@ export default class Chart extends React.Component {
               top={marginTop}
               yAxesAt={yAxesAt}
               yExtends={yAxis.yExtends}
+              label={yAxis.label}
+              labelBgColor={yAxis.labelBgColor}
+              labelColor={yAxis.labelColor}
+              labelFont={yAxis.labelFont}
+              labelItalic={yAxis.labelItalic}
+              labelSize={yAxis.labelSize}
+              labelUnderline={yAxis.labelUnderline}
+              labelAlign={yAxis.labelAlign}
+              labelBold={yAxis.labelBold}
             />
           )
         }

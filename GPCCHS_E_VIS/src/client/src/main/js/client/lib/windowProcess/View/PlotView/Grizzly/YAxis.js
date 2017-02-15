@@ -19,7 +19,16 @@ export default class YAxis extends PureComponent {
     showTicks: PropTypes.bool.isRequired,
     showGrid: PropTypes.bool.isRequired,
     gridStyle: PropTypes.string.isRequired,
-    gridSize: PropTypes.string.isRequired,
+    gridSize: PropTypes.number.isRequired,
+    label: PropTypes.string.isRequired,
+    labelBgColor: PropTypes.string.isRequired,
+    labelColor: PropTypes.string.isRequired,
+    labelFont: PropTypes.string.isRequired,
+    labelItalic: PropTypes.bool.isRequired,
+    labelSize: PropTypes.number.isRequired,
+    labelUnderline: PropTypes.bool.isRequired,
+    labelAlign: PropTypes.string.isRequired,
+    labelBold: PropTypes.bool.isRequired,
     yExtends: PropTypes.arrayOf(
       PropTypes.number
     ).isRequired,
@@ -27,6 +36,7 @@ export default class YAxis extends PureComponent {
 
   componentDidMount() {
     this.draw();
+    this.drawLabel();
   }
 
   shouldComponentUpdate(nextProps) {
@@ -49,6 +59,7 @@ export default class YAxis extends PureComponent {
 
   componentDidUpdate() {
     this.draw();
+    this.drawLabel();
   }
 
   ticksXOffset = 8;
@@ -57,7 +68,48 @@ export default class YAxis extends PureComponent {
     const {
       gridSize,
     } = this.props;
-    select(this.el).selectAll('line').attr('stroke-width', gridSize);
+    select(this.canvasEl).selectAll('line').attr('stroke-width', gridSize);
+  }
+
+  drawLabel = () => {
+    const {
+      labelBgColor,
+      labelColor,
+      labelFont,
+      labelSize,
+      labelAlign,
+      height,
+      yAxesAt,
+      margin,
+    } = this.props;
+
+    let style = 'position:absolute;';
+    let transform = '';
+    if (yAxesAt === 'left') {
+      transform += 'transform: rotate(90deg)';
+      style += `left: ${margin}px;`;
+    } else {
+      transform += 'transform: rotate(-90deg)';
+      style += `right: ${margin}px;`;
+    }
+    style += `font-size:${labelSize}px;`;
+    style += `font-family:${labelFont};`;
+    style += `color:${labelColor};`;
+    style += `background:${labelBgColor};`;
+    if (labelAlign === 'left') {
+      style += 'top: 20px;';
+    } else if (labelAlign === 'right') {
+      style += `top: ${height - 10}px;`;
+      if (yAxesAt === 'left') {
+        transform += ' translateX(-70%)';
+      } else {
+        transform += ' translateX(70%)';
+      }
+    } else if (labelAlign === 'center') {
+      style += `top: ${height / 2}px;`;
+    }
+    transform += ';';
+    this.labelEl.setAttribute('style', `${style};${transform}`);
   }
 
   draw = () => {
@@ -115,8 +167,8 @@ export default class YAxis extends PureComponent {
       gStyle += `transform: translate(${translateX}px, ${yMiniOffset}px);`;
     }
 
-    this.el.innerHTML = '';
-    const svgGroup = select(this.el)
+    this.canvasEl.innerHTML = '';
+    const svgGroup = select(this.canvasEl)
       .append('g')
       .attr('style', gStyle)
       .attr('class', classnames(
@@ -130,7 +182,8 @@ export default class YAxis extends PureComponent {
     this.axisDidDraw();
   }
 
-  assignEl = (el) => { this.el = el; }
+  assignEl = (el) => { this.canvasEl = el; }
+  assignLabelEl = (el) => { this.labelEl = el; }
 
   render() {
     const {
@@ -142,6 +195,10 @@ export default class YAxis extends PureComponent {
       index,
       top,
       showGrid,
+      label,
+      labelUnderline,
+      labelBold,
+      labelItalic,
     } = this.props;
 
     const style = {};
@@ -159,13 +216,32 @@ export default class YAxis extends PureComponent {
     const axisWidth = index === 0 && showGrid ? chartWidth + yAxisWidth : yAxisWidth;
 
     return (
-      <svg
-        style={style}
-        ref={this.assignEl}
+      <div
         height={height}
         width={axisWidth}
-        className={styles.yAxis}
-      />
+      >
+        <span
+          ref={this.assignLabelEl}
+          className={classnames(
+            'label',
+            styles.yAxisLabel,
+            {
+              [styles.labelUnderline]: labelUnderline,
+              [styles.labelBold]: labelBold,
+              [styles.labelItalic]: labelItalic,
+            }
+          )}
+        >
+          {label}
+        </span>
+        <svg
+          style={style}
+          ref={this.assignEl}
+          height={height}
+          width={axisWidth}
+          className={styles.yAxis}
+        />
+      </div>
     );
   }
 }

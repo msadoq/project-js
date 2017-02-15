@@ -84,10 +84,6 @@ describe('store:message:reducer', () => {
       ],
       myOtherId: [{ type: 'danger', message: 'my message' }],
     };
-    it('should support not existing keys', () => {
-      reducer(freezeMe(state), actions.remove('unknownId', 0)).should.eql(state);
-      reducer(freezeMe(state), actions.remove('myId', 10)).should.eql(state);
-    });
     it('should remove key and preserve others', () => {
       reducer(freezeMe(state), actions.remove('myId', 1)).should.eql({
         myId: [
@@ -106,9 +102,6 @@ describe('store:message:reducer', () => {
         { type: 'danger', message: 'my other message' },
       ],
     };
-    it('should support not existing keys', () => {
-      reducer(freezeMe(state), actions.reset('unknownId')).should.eql(state);
-    });
     it('should support reset key', () => {
       reducer(freezeMe(state), actions.reset('myId')).myId.should.eql([]);
     });

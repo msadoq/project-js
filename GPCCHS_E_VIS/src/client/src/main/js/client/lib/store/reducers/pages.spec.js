@@ -286,6 +286,29 @@ describe('store:page:reducer', () => {
       newState.should.eql({ page1: { path: 'newPath', isModified: true } });
     });
   });
+  describe('set page oid', () => {
+    it('empty state', () => {
+      const newState = reducer({}, {
+        type: types.WS_PAGE_SET_OID,
+        payload: {
+          pageId: 'myPage',
+          oid: '1234',
+        },
+      });
+      newState.should.be.an('object').that.is.empty;
+    });
+    it('sets oid', () => {
+      const state = { page1: { } };
+      const newState = reducer(freezeMe(state), {
+        type: types.WS_PAGE_SET_OID,
+        payload: {
+          pageId: 'page1',
+          oid: '1234',
+        },
+      });
+      newState.should.eql({ page1: { oId: '1234', isModified: true } });
+    });
+  });
   describe('setModified', () => {
     // export const setModified = simple(types.WS_PAGE_SETMODIFIED, 'pageId', 'flag');
     it('no change', () => {

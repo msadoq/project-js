@@ -40,9 +40,8 @@ const config = merge(baseConfig, {
       {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract(
-          'style',
-          'css?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
-          'postcss'
+          'style-loader',
+          'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader'
         ),
         exclude: /node_modules/,
       },
@@ -58,7 +57,7 @@ const config = merge(baseConfig, {
       },
     }),
     new webpack.optimize.DedupePlugin(),
-    new ExtractTextPlugin('style.css', { allChunks: true }),
+    new ExtractTextPlugin('style.css'),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'), // import for bundled libs as React https://facebook.github.io/react/docs/optimizing-performance.html#use-the-production-build
@@ -68,7 +67,7 @@ const config = merge(baseConfig, {
     }),
   ],
 
-  postcss: () => [
+  postcss: [
     postCssImport(),
     postCssUrl(),
     postCssProperties(),

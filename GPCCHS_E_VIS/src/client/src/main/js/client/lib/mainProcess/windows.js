@@ -44,6 +44,10 @@ export function openHtmlEditor(callback) {
     height: editorHeight,
     show: false,
   });
+
+  // mount module(s) to allow access from renderer process
+  htmlEditor.parameters = parameters;
+
   htmlEditor.loadURL(`file://${parameters.get('path')}/editor.html`);
 
   htmlEditor.on('close', (e) => {

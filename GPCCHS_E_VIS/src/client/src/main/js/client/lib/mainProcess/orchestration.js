@@ -263,10 +263,12 @@ export function tick() {
     // sync windows
     (callback) => {
       const state = getState();
-      if (state.windows === previous.windowMap) {
-        callback(null);
-        return;
-      }
+      // TO NOT COMMIT
+      // if (state.windows === previous.windowMap) {
+      //   callback(null);
+      //   return;
+      // }
+      // TO NOT COMMIT
 
       previous.windowMap = state.windows;
 

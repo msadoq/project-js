@@ -16,12 +16,12 @@ export default class LineCanvas extends PureComponent {
     ).isRequired,
     lines: PropTypes.arrayOf(
       PropTypes.shape({
-        lineStyle: PropTypes.string.isRequired,
+        lineStyle: PropTypes.string,
         id: PropTypes.string.isRequired,
         dataSet: PropTypes.string.isRequired,
         yAxis: PropTypes.string.isdataSetsRequired,
-        fill: PropTypes.string.isRequired,
-        strokeWidth: PropTypes.number.isRequired,
+        fill: PropTypes.string,
+        strokeWidth: PropTypes.number,
         yAccessor: PropTypes.func.isRequired,
       })
     ).isRequired,
@@ -73,7 +73,9 @@ export default class LineCanvas extends PureComponent {
       ctx.strokeStyle = line.fill || '#000000';
       ctx.lineWidth = line.strokeWidth || 4;
       if (line.lineStyle === 'Dashed') {
-        ctx.setLineDash([4, 2]);
+        ctx.setLineDash([6, 2]);
+      } else if (line.lineStyle === 'Dotted') {
+        ctx.setLineDash([3, 3]);
       }
 
       // =============== DRAWING

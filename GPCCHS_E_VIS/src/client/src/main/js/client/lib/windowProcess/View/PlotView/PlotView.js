@@ -793,7 +793,7 @@ export class PlotView extends PureComponent {
       containerHeight,
       entryPoints,
       data: { columns },
-      configuration: { showYAxes, axes },
+      configuration: { showYAxes, axes, grids },
       visuWindow,
     } = this.props;
     const {
@@ -839,15 +839,20 @@ export class PlotView extends PureComponent {
             current={visuWindow.current}
             yAxesAt={showYAxes}
             xAxisAt="bottom"
-            yAxes={yAxes.map(a =>
-              ({
-                id: a.id || a.label,
-                yExtends: [a.min, a.max],
-                master: true,
+            yAxes={yAxes.map((axis) => {
+              const grid = grids.find(g => g.yAxisId === axis.id || g.yAxisId === axis.label);
+              return {
+                id: axis.id || axis.label,
+                yExtends: [axis.min, axis.max],
                 orient: 'top',
-                autoLimits: a.autoLimits === true,
-              })
-            )}
+                showAxis: axis.showAxis === true,
+                showTicks: axis.showTicks === true,
+                autoLimits: axis.autoLimits === true,
+                showGrid: _get(grid, 'showGrid', false),
+                gridStyle: _get(grid, ['line', 'style'], 'Continuous'),
+                gridSize: _get(grid, ['line', 'size'], 1),
+              };
+            })}
             dataSets={[
               {
                 data: columns,
@@ -861,8 +866,8 @@ export class PlotView extends PureComponent {
                   dataSet: 'dataOne',
                   yAxis: _get(ep, ['connectedDataY', 'axisId']),
                   fill: _get(ep, ['objectStyle', 'curveColor']),
-                  strokeWidth: _get(ep, ['objectStyle', 'line', 'size']),
-                  lineStyle: _get(ep, ['objectStyle', 'line', 'style']),
+                  strokeWidth: _get(ep, ['objectStyle', 'line', 'size'], 2),
+                  lineStyle: _get(ep, ['objectStyle', 'line', 'style'], 'Continuous'),
                   yAccessor: d => _get(d, [ep.name, 'value']),
                 })
               )

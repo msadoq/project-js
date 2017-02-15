@@ -9,7 +9,7 @@ import LineCanvas from './LineCanvas';
 import YAxis from './YAxis';
 import XAxis from './XAxis';
 
-export default class chart extends React.Component {
+export default class Chart extends React.Component {
 
   static propTypes = {
     uniqueId: PropTypes.string.isRequired,
@@ -24,8 +24,12 @@ export default class chart extends React.Component {
         id: PropTypes.string.isRequired,
         orient: PropTypes.string.isRequired,
         yExtends: PropTypes.array.isRequired,
-        master: PropTypes.bool.isRequired,
         autoLimits: PropTypes.bool.isRequired,
+        showAxis: PropTypes.bool.isRequired,
+        showTicks: PropTypes.bool.isRequired,
+        showGrid: PropTypes.bool.isRequired,
+        gridStyle: PropTypes.string.isRequired,
+        gridSize: PropTypes.string.isRequired,
       })
     ).isRequired,
     dataSets: PropTypes.arrayOf(
@@ -97,18 +101,24 @@ export default class chart extends React.Component {
           );
         }
 
+        // rank axes to sort them and define the master / grid showing one
+        let rank = 0;
+        if (axis.showGrid) rank += 2;
+
         return {
           ...axis,
           lines: axisLines,
           yExtends,
+          // rank
+          rank,
         };
       })
-      .filter(axis => axis.lines.length > 0)
-      .sort(axis => axis.master === true);
+      .filter(axis => axis.lines.length > 0 && axis.showAxis)
+      .sort((a, b) => b.rank - a.rank);
     return sortedAndValidAxes;
   }
 
-  yAxisWidth = 40;
+  yAxisWidth = 60;
   xAxisHeight = 40;
 
   memoizeYExtendsAutoLimits = (yExtendsLower, yExtendsUpper, orient, lines) => {
@@ -214,9 +224,15 @@ export default class chart extends React.Component {
           ['left', 'right'].includes(yAxesAt) && this.yAxes.map((yAxis, index) =>
             <YAxis
               key={yAxis.id}
-              margin={index * this.yAxisWidth}
+              index={index}
+              margin={((this.yAxes.length - 1) * this.yAxisWidth) - (index * this.yAxisWidth)}
               yAxisId={yAxis.id}
+              showTicks={yAxis.showTicks}
+              showGrid={yAxis.showGrid}
+              gridStyle={yAxis.gridStyle}
+              gridSize={yAxis.gridSize}
               yAxisWidth={this.yAxisWidth}
+              chartWidth={chartWidth}
               height={chartHeight}
               xAxisAt={xAxisAt}
               top={marginTop}
@@ -226,6 +242,8 @@ export default class chart extends React.Component {
           )
         }
         <XAxis
+          gridStyle={this.yAxes[0].gridStyle}
+          gridSize={this.yAxes[0].gridSize}
           margin={marginSide}
           xAxisHeight={this.xAxisHeight}
           height={chartHeight}

@@ -6,13 +6,31 @@
 }
 .yAxis{
   position: absolute;
+  overflow: visible !important;
 }
-.yAxisGroup{
 
-}
 .xAxis{
   position: absolute;
+  overflow: visible !important;
 }
 .xAxisGroup{
+  line {
+    stroke: #AAA;
+  }
+}
 
+.yAxisGroup{
+  line {
+    stroke: #AAA;
+  }
+}
+.Dotted{
+  line {
+    stroke-dasharray: 2.2;
+  }
+}
+.Dashed{
+  line {
+    stroke-dasharray: 5;
+  }
 }

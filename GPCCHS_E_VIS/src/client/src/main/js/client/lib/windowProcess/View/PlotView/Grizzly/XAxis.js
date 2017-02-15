@@ -1,4 +1,5 @@
 import React, { PropTypes, PureComponent } from 'react';
+import classnames from 'classnames';
 import { select } from 'd3-selection';
 import { scaleTime } from 'd3-scale';
 import { axisBottom, axisTop } from 'd3-axis';
@@ -13,6 +14,8 @@ export default class XAxis extends PureComponent {
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     margin: PropTypes.number.isRequired,
+    gridStyle: PropTypes.string.isRequired,
+    gridSize: PropTypes.string.isRequired,
     xExtends: PropTypes.arrayOf(
       PropTypes.number
     ).isRequired,
@@ -26,60 +29,76 @@ export default class XAxis extends PureComponent {
     this.draw();
   }
 
+  ticksYOffset = 8;
+
+  axisDidDraw = () => {
+    const {
+      gridSize,
+    } = this.props;
+    select(this.el).selectAll('line').attr('stroke-width', gridSize);
+  }
+
   draw = () => {
     const {
       xAxisAt,
       xAxisHeight,
       xExtends,
       width,
+      height,
+      gridStyle,
     } = this.props;
 
     const xScale = scaleTime()
       .domain([new Date(xExtends[0]), new Date(xExtends[1])])
       .range([0, width]);
 
+    const axisHeight = xAxisAt === 'top' ? height + this.ticksYOffset : height + this.ticksYOffset;
+
     let xAxisFunction;
     if (xAxisAt === 'top') {
-      xAxisFunction = axisTop(xScale).ticks(5);
+      xAxisFunction = axisTop(xScale);
     } else {
-      xAxisFunction = axisBottom(xScale).ticks(5);
+      xAxisFunction = axisBottom(xScale);
     }
+
+    xAxisFunction = xAxisFunction
+      .ticks(8)
+      .tickSize(axisHeight);
 
     let gStyle = '';
     if (xAxisAt === 'top') {
-      gStyle += `transform(0px, ${xAxisHeight}px)`;
+      gStyle += `transform: translate(0px, ${(height + xAxisHeight)}px)`;
     } else {
-      gStyle += `transform(0px, ${-xAxisHeight}px)`;
+      gStyle += `transform: translate(0px, ${0}px)`;
     }
 
     this.el.innerHTML = '';
     const svgGroup = select(this.el)
       .append('g')
-      .attr('height', xAxisHeight)
+      .attr('height', height + xAxisHeight)
       .attr('style', gStyle)
-      .attr('class', styles.xAxisGroup);
+      .attr('class', classnames(
+        styles.xAxisGroup,
+        styles[gridStyle]
+      ));
 
     xAxisFunction(svgGroup);
+    this.axisDidDraw();
   }
 
   assignEl = (el) => { this.el = el; }
 
   render() {
     const {
-      xAxisHeight,
       margin,
       width,
       height,
       yAxesAt,
-      xAxisAt,
+      xAxisHeight,
     } = this.props;
 
     const style = {};
-    if (xAxisAt === 'top') {
-      style.top = 0;
-    } else {
-      style.top = height;
-    }
+    style.top = 0;
 
     if (yAxesAt === 'left') {
       style.left = margin;
@@ -91,7 +110,7 @@ export default class XAxis extends PureComponent {
       <svg
         style={style}
         ref={this.assignEl}
-        height={xAxisHeight}
+        height={height + xAxisHeight}
         width={width}
         className={styles.xAxis}
       />

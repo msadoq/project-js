@@ -80,7 +80,8 @@ module.exports = (
   execution.start('get comObject type');
   const payloadProtobufType = getType(dataId.comObject);
   if (typeof payloadProtobufType === 'undefined') {
-    throw new Error('unsupported comObject', dataId.comObject);
+    logger.error(`unsupported comObject ${dataId.comObject}`);
+    return;
   }
   execution.stop('get comObject type');
 

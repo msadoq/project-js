@@ -53,7 +53,7 @@ export const updateAbsolutePath = ifPathChanged(simpleUpdateAbsolutePath, ['page
 
 export const setModified = simple(types.WS_PAGE_SETMODIFIED, 'pageId', 'flag');
 
-export const updateTimebarHeight = simple(types.WS_PAGE_UPDATE_TIMEBARHEIGHT, 'focusedPageId', 'timebarHeight');
+export const updateTimebarHeight = simple(types.WS_PAGE_UPDATE_TIMEBARHEIGHT, 'pageId', 'timebarHeight');
 
 /**
  * Compound actions
@@ -106,9 +106,9 @@ export function remove(pageId) {
   };
 }
 
-export function updateTimebarId(focusedPageId, timebarUuid) {
+export function updateTimebarId(pageId, timebarUuid) {
   return (dispatch, getState) => {
-    dispatch({ type: 'WS_PAGE_UPDATE_TIMEBARID', payload: { focusedPageId, timebarUuid } });
+    dispatch({ type: 'WS_PAGE_UPDATE_TIMEBARID', payload: { pageId, timebarUuid } });
     const state = getState();
     const windowId = getFocusedWindowId(state);
     dispatch(setModifiedWindow(windowId, true));

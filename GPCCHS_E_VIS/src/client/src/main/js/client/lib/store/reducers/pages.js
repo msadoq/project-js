@@ -50,9 +50,13 @@ export default function pages(statePages = {}, action) {
       }, statePages);
     }
     case types.WS_PAGE_SET_OID: {
+      if (!statePages[action.payload.pageId]) {
+        return statePages;
+      }
       return u({
         [action.payload.pageId]: {
           oId: action.payload.oid,
+          isModified: true,
         },
       }, statePages);
     }
@@ -70,19 +74,19 @@ export default function pages(statePages = {}, action) {
       statePages);
     }
     case types.WS_PAGE_UPDATE_TIMEBARID:
-      if (!statePages[action.payload.focusedPageId]) {
+      if (!statePages[action.payload.pageId]) {
         return statePages;
       }
-      return u({ [action.payload.focusedPageId]: {
+      return u({ [action.payload.pageId]: {
         timebarUuid: action.payload.timebarUuid,
         // when timebarUuid is modified, it's the window which is modified, not the page
       } },
         statePages);
     case types.WS_PAGE_UPDATE_TIMEBARHEIGHT:
-      if (!statePages[action.payload.focusedPageId]) {
+      if (!statePages[action.payload.pageId]) {
         return statePages;
       }
-      return u({ [action.payload.focusedPageId]: {
+      return u({ [action.payload.pageId]: {
         timebarHeight: (!action.payload.timebarHeight || action.payload.timebarHeight < 135) ?
           135 : action.payload.timebarHeight,
         isModified: true,

@@ -1,4 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
+import { Glyphicon } from 'react-bootstrap';
 import moment from 'moment';
 import _memoize from 'lodash/memoize';
 import styles from './Lefttab.css';
@@ -14,6 +15,7 @@ export default class Timeline extends PureComponent {
     masterId: PropTypes.string,
     offset: PropTypes.number.isRequired,
     timelinesLength: PropTypes.number.isRequired,
+    sessionName: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
@@ -65,6 +67,7 @@ export default class Timeline extends PureComponent {
       masterId,
       offset,
       timelinesLength,
+      sessionName,
     } = this.props;
 
     const isMaster = id === masterId;
@@ -89,30 +92,43 @@ export default class Timeline extends PureComponent {
           title="Remove this track"
           onClick={this.willUnmountTimeline}
         >
-          -
+          <Glyphicon glyph="trash" />
         </button>
       );
     }
+
+    const updateButton = (
+      <button
+        className={styles.editButton}
+        title="Upate this track"
+        onClick={this.willEditTimeline(timelineId, id)}
+        style={{
+          right: (isMaster && timelinesLength !== 1) ? '0px' : '26px',
+        }}
+      >
+        <Glyphicon glyph="edit" />
+      </button>
+    );
+
     return (
       <li
         className={styles.timeline}
-        title="Click to edit track"
-        onClick={this.willEditTimeline(timelineId, id)}
       >
         { isMaster ? <span className={styles.master} title="Master timeline">M</span> : null}
         <span
           style={{
             paddingLeft: isMaster ? '20px' : '0px',
           }}
-        >{id}</span>
+        >{id} | {sessionName}</span>
         {formattedOffset}
         <span
           className={styles.square}
           style={{
             background: color || '#31b0d5',
-            right: (isMaster && timelinesLength !== 1) ? '0px' : '16px',
+            right: (isMaster && timelinesLength !== 1) ? '26px' : '52px',
           }}
         />
+        {updateButton}
         {removeButton}
       </li>
     );

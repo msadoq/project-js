@@ -9,16 +9,21 @@ describe('store:page:reducer', () => {
     reducer(undefined, {}).should.be.an('object').that.is.empty;
   });
   it('unknown action', () => {
-    reducer({ myPageId: { title: 'Title' } }, {})
-      .should.eql({ myPageId: { title: 'Title' } });
+    const state = { myPageId: { title: 'Title' } };
+    reducer(state, {}).should.eql(state);
+  });
+  it('unknown action with pageId', () => {
+    const state = { myPageId: { title: 'Title' } };
+    reducer(state, { payload: { pageId: 'myPageId' } }).should.eql(state);
   });
   describe('add', () => {
     it('add', () => {
+      // 'path', 'oId', 'absolutePath', 'isModified'
       const state = reducer(
         undefined,
         actions.add('myPageId', 'myTimebarId', 'Title', ['myViewId'], [
           { viewId: 'myViewId', x: 10, y: 10, w: 10, h: 10 },
-        ])
+        ], '/path', '1234', '/absolutePath', true, [1, 2, 3, 4])
       );
       state.myPageId.should.deep.eql({
         title: 'Title',
@@ -33,11 +38,11 @@ describe('store:page:reducer', () => {
           viewId: null,
           viewType: null,
         },
-        path: undefined,
-        oId: undefined,
-        absolutePath: undefined,
+        path: '/path',
+        oId: '1234',
+        absolutePath: '/absolutePath',
         isModified: true,
-        properties: [],
+        properties: [1, 2, 3, 4],
         timebarCollapsed: false,
       });
     });
@@ -361,6 +366,18 @@ describe('store:page:reducer', () => {
     it('close', () => {
       reducer(freezeMe({ myPage: { timebarHeight: 5 } }), { type: types.HSC_CLOSE_WORKSPACE })
       .should.be.an('object').that.is.empty;
+    });
+  });
+  describe('collapse', () => {
+    it('collapses timebar', () => {
+      const state = freezeMe({ myPage: { timebarHeight: 42 } });
+      const action = actions.collapseTimebar('myPage', true);
+      const newState = reducer(state, action);
+      newState.myPage.should.be.eql({
+        timebarHeight: 42,
+        timebarCollapsed: true,
+        isModified: true,
+      });
     });
   });
 });

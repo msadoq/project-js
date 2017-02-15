@@ -93,7 +93,10 @@ export default class Content extends PureComponent {
     return (
       <Grid
         layouts={layouts}
-        className="layout"
+        className={classnames(
+          'layout',
+          styles.grid
+        )}
         rowHeight={30}
         width={1200}
         containerPadding={gridStyles.containerPadding}

@@ -2,7 +2,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import getLogger from 'common/log';
 import { get } from 'common/parameters';
-import _ from 'lodash/fp';
+import __ from 'lodash/fp';
 import path from 'path';
 
 import ContentContainer from './ContentContainer';
@@ -17,12 +17,20 @@ const logger = getLogger('Page');
 // const cols = 12;
 // const editorCols = 4;
 
-const getDropItemType = _.cond([
+const getDropItemType = __.cond([
   [m => /ViewDoc$/i.test(m), () => 'view'],
   [m => /PageDoc$/i.test(m), () => 'page'],
   [m => /WorkspaceDoc$/i.test(m), () => 'workspace'],
-  [_.stubTrue, _.identity],
+  [__.stubTrue, __.identity],
 ]);
+
+const droppableContainerStyle = {
+  height: '100%',
+  position: 'relative',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+};
 
 export default class Page extends PureComponent {
   static propTypes = {
@@ -72,17 +80,26 @@ export default class Page extends PureComponent {
 
     const type = getDropItemType(content.mimeType);
 
-    _.cond([
-      [_.eq('view'), () => main.openView({
+    __.cond([
+      [__.eq('view'), () => main.openView({
         windowId: this.props.windowId,
-        viewPath: [{ absolutePath: path.join(get('FMD_ROOT_DIR'), content.filepath) }],
+        viewPath: [{ absolutePath: path.join(
+          get('FMD_ROOT_DIR'),
+          __.getOr(__.get('filepath', content), 'filePath', content)
+        ) }],
       })],
-      [_.eq('page'), () => main.openPage({
+      [__.eq('page'), () => main.openPage({
         windowId: this.props.windowId,
-        filePath: path.join(get('FMD_ROOT_DIR'), content.filepath),
+        filePath: path.join(
+          get('FMD_ROOT_DIR'),
+          __.getOr(__.get('filepath', content), 'filePath', content)
+        ),
       })],
-      [_.eq('workspace'), () => main.openWorkspace({
-        filePath: path.join(get('FMD_ROOT_DIR'), content.filepath),
+      [__.eq('workspace'), () => main.openWorkspace({
+        filePath: path.join(
+          get('FMD_ROOT_DIR'),
+          __.getOr(__.get('filepath', content), 'filePath', content)
+        ),
       })],
     ])(type);
   }
@@ -93,10 +110,7 @@ export default class Page extends PureComponent {
       focusedPageId, windowId, editorViewId,
       openEditor, closeEditor, isEditorOpened,
     } = this.props;
-    const droppableContainerStyle = {
-      height: '100%',
-      position: 'relative',
-    };
+
     return (
       <div className={styles.root}>
         {isEditorOpened && <EditorContainer
@@ -105,7 +119,7 @@ export default class Page extends PureComponent {
         <div
           className={classnames({
             [styles.contentWithEditor]: isEditorOpened,
-          })}
+          }, styles.content)}
         >
           <MessagesContainer pageId={focusedPageId} />
           <DroppableContainer

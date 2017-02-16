@@ -44,8 +44,8 @@ export const updateLayout = (pageId, layout) =>
 const simpleUpdatePath = simple(types.WS_PAGE_UPDATEPATH, 'pageId', 'newPath');
 const simpleUpdateAbsolutePath = simple(types.WS_PAGE_UPDATE_ABSOLUTEPATH, 'pageId', 'newPath');
 
-export const updatePath = ifPathChanged(simpleUpdatePath, ['pages', 'path', 'pageId']);
-export const updateAbsolutePath = ifPathChanged(simpleUpdateAbsolutePath, ['pages', 'absolutePath', 'pageId']);
+export const updatePath = ifPathChanged(simpleUpdatePath, 'pages', 'path', 'pageId');
+export const updateAbsolutePath = ifPathChanged(simpleUpdateAbsolutePath, 'pages', 'absolutePath', 'pageId');
 /* ------------------------ */
 
 // export const updatePath = simple(types.WS_PAGE_UPDATEPATH, 'pageId', 'newPath');

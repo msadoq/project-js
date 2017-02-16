@@ -22,8 +22,8 @@ export const reloadView = addUuids(simple(types.WS_VIEW_RELOAD, 'viewId', 'confi
 const simpleUpdatePath = simple(types.WS_VIEW_UPDATEPATH, 'viewId', 'newPath');
 const simpleUpdateAbsolutePath = simple(types.WS_VIEW_UPDATE_ABSOLUTEPATH, 'viewId', 'newPath');
 
-export const updatePath = ifPathChanged(simpleUpdatePath, ['views', 'path', 'viewId']);
-export const updateAbsolutePath = ifPathChanged(simpleUpdateAbsolutePath, ['views', 'absolutePath', 'viewId']);
+export const updatePath = ifPathChanged(simpleUpdatePath, 'views', 'path', 'viewId');
+export const updateAbsolutePath = ifPathChanged(simpleUpdateAbsolutePath, 'views', 'absolutePath', 'viewId');
 /* ------------------------ */
 
 export const setViewOid = simple(types.WS_VIEW_SET_OID, 'viewId', 'oid');

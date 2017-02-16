@@ -3,7 +3,7 @@ import { compose, pathOr } from 'lodash/fp';
 
 // wrap an action creator in a thunk that dispatch it only when newPath
 // is different from 'keyPath' corresponding path
-const ifPathChanged = (actionCreator, [key = 'views', keyPath = 'path', id = 'viewId']) => (
+const ifPathChanged = (actionCreator, key = 'views', keyPath = 'path', id = 'viewId') => (
   (...args) => (dispatch, getState) => {
     const action = actionCreator(...args);
     const getView = compose(pathOr({}, [key, action.payload[id]]), getState);

@@ -52,6 +52,7 @@ export default class YAxis extends PureComponent {
   componentDidMount() {
     this.draw();
     this.drawLabel();
+    this.drawLinesLabel();
   }
 
   shouldComponentUpdate(nextProps) {
@@ -70,7 +71,9 @@ export default class YAxis extends PureComponent {
     }
 
     // update line label refs's style attribute
-    this.drawLinesLabel();
+    if (!shouldRender) {
+      this.drawLinesLabel();
+    }
 
     return shouldRender;
   }
@@ -78,6 +81,7 @@ export default class YAxis extends PureComponent {
   componentDidUpdate() {
     this.draw();
     this.drawLabel();
+    this.drawLinesLabel();
   }
 
   ticksXOffset = 8;

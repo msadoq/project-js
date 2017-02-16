@@ -8,10 +8,6 @@ import thunk from 'redux-thunk';
 import deepFreeze from 'deep-freeze';
 import reducer from '../store/reducers/index';
 
-// process.env.DEBUG = 'off';
-// process.env.PROFILING = 'off';
-// process.env.MONITORING = 'off';
-
 process.env.FMD_ROOT_DIR = path.resolve(__dirname, '../documentManager/fixtures');
 process.env.WILDCARD_CHARACTER = '*';
 

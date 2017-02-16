@@ -36,7 +36,6 @@ export function start() {
     execPath: parameters.get('NODE_PATH'),
     env: {
       LOG: parameters.get('LOG'),
-      MONITORING: parameters.get('MONITORING'),
       PROFILING: parameters.get('PROFILING'),
       ZMQ_GPCCDC_PUSH: parameters.get('ZMQ_GPCCDC_PUSH'),
       ZMQ_GPCCDC_PULL: parameters.get('ZMQ_GPCCDC_PULL'),

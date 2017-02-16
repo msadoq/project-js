@@ -1,7 +1,6 @@
 {
   "LOG": "console",
   "PROFILING": "off",
-  "MONITORING": "off",
   "DEBUG": "on",
   "FMD_ROOT_DIR": "/data/work/gitRepositories/LPISIS/GPCCHS/GPCCHS_E_VIS/src/client/src/main/js/client/data",
   "WEBPACK_PORT": 3100,

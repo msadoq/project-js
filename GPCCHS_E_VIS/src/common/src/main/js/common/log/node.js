@@ -6,7 +6,6 @@ const _pipe = require('lodash/fp/pipe');
 const _update = require('lodash/fp/update');
 const _dissoc = require('lodash/fp/dissoc');
 const _omit = require('lodash/fp/omit');
-const _path = require('lodash/fp/path');
 const _noop = require('lodash/fp/noop');
 const _prop = require('lodash/fp/prop');
 const _propOr = require('lodash/fp/propOr');
@@ -15,7 +14,6 @@ const _uniqueId = require('lodash/fp/uniqueId');
 const {
   parseConfig,
   getTimer,
-  bytesConverter,
 } = require('./util');
 const { get } = require('../parameters');
 
@@ -32,28 +30,6 @@ const getStdOptions = options => (_pipe(
   _update('message', m => `${m} +${options.meta.time}`),
   _dissoc('formatter'),
   _update('meta', _omit(['pname', 'pid', 'time']))
-)(options));
-
-const leftPad = number => ((number < 10) ? `0${number}` : number);
-const formatTime = (now) => {
-  let time = `${now.getFullYear()}-${leftPad(now.getMonth() + 1)}-${leftPad(now.getDate())}`;
-  time += ` ${leftPad(now.getHours())}:${leftPad(now.getMinutes())}:${leftPad(now.getSeconds())}`;
-  return time;
-};
-
-const getMonitoringOptions = options => (_pipe(
-  _update('message', () =>
-`[${options.meta.pname}(pid=${options.meta.pid})]
-= monitoring ======== (${formatTime(new Date(options.meta.latency.time))})
-average time consumption by loop ${options.meta.latency.avg}
-memory consumption
-  rss=${bytesConverter(options.meta.memUsage.rss)}
-  heapTotal=${bytesConverter(options.meta.memUsage.heapTotal)}
-  heapUsed=${bytesConverter(options.meta.memUsage.heapUsed)}
-=====================`
-  ),
-  _dissoc('formatter'),
-  _update('meta', _omit(['memUsage', 'latency', 'pname', 'pid', 'time']))
 )(options));
 
 const createCustomLogger = (name, f, options = {}) => {
@@ -86,12 +62,7 @@ const availableTransports = {
       level: 'info',
       colorize: true,
       name: `console ${cpt += 1}`,
-      formatter: (options) => {
-        if (_path(['meta', 'memUsage'], options)) {
-          return wCommon.log(getMonitoringOptions(options));
-        }
-        return wCommon.log(getStdOptions(options));
-      },
+      formatter: options => wCommon.log(getStdOptions(options)),
     }, args);
     return new winston.transports.Console(opts);
   },
@@ -220,7 +191,6 @@ const getLogger = (...loggerArgs) => {
 
 module.exports = {
   getStdOptions,
-  getMonitoringOptions,
   availableTransports,
   getLogger,
   createCustomLogger,

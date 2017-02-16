@@ -10,7 +10,6 @@
     "CLCW": "extractedValue",
     "ReportingParameter": "extractedValue"
   },
-  "LOG_FILENAME": "gpcchs.log",
   "ISIS_DOCUMENTS_ROOT": "/data/isis/documents",
   "VISUWINDOW_MAX_LENGTH": 7200000,
   "VISUWINDOW_CURRENT_UPPER_MIN_MARGIN": 0.1,

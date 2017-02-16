@@ -68,7 +68,6 @@ const availableTransports = {
   },
   file: (args) => {
     const opts = Object.assign({
-      filename: get('LOG_FILENAME'),
       timestamp: true,
       level: 'info',
       json: false,

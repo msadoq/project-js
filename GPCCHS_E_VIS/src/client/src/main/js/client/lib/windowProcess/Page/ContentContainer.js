@@ -16,10 +16,9 @@ const mapStateToProps = (state, { windowId, focusedPageId }) => {
   if (!focusedPageId) {
     return {};
   }
-  const focusedPage = getWindowFocusedPageSelector(state, windowId);
-  const p = { pageId: focusedPageId };
-  const views = getViews(state, p);
-  const layouts = getLayouts(state, p);
+  const focusedPage = getWindowFocusedPageSelector(state, { windowId });
+  const views = getViews(state, { pageId: focusedPageId });
+  const layouts = getLayouts(state, { pageId: focusedPageId });
 
   return {
     timebarUuid: focusedPage ? focusedPage.timebarUuid : undefined,

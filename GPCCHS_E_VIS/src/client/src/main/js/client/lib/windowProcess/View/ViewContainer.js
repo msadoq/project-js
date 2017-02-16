@@ -16,17 +16,17 @@ const makeMapStateToProps = () => {
   const getViewEntryPoints = makeGetViewEntryPoints();
   const mapStateToProps = (state, { viewId, timebarUuid, windowId }) => {
     const { type, configuration, oId, absolutePath, isModified }
-        = getView(state, viewId);
+        = getView(state, { viewId });
 
     const data = _get(state, ['viewData', viewId], {});
     const visuWindow = _get(state, ['timebars', timebarUuid, 'visuWindow']);
     return {
-      entryPoints: getViewEntryPoints(state, viewId),
+      entryPoints: getViewEntryPoints(state, { viewId }),
       type,
       configuration,
       data,
       visuWindow,
-      windowPages: getWindowPages(state, windowId),
+      windowPages: getWindowPages(state, { windowId }),
       oId,
       absolutePath,
       isModified,

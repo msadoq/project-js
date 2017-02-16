@@ -9,7 +9,7 @@ describe('store:timelines:selectors', () => {
         myTimelineId: { id: 'Id' },
       },
     });
-    getTimeline(getState(), 'myTimelineId').should.have.property('id', 'Id');
-    should.not.exist(getTimeline(getState(), 'unknownId'));
+    getTimeline(getState(), { timelineId: 'myTimelineId' }).should.have.property('id', 'Id');
+    should.not.exist(getTimeline(getState(), { timelineId: 'unknownId' }));
   });
 });

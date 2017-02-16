@@ -1,4 +1,4 @@
-import _ from 'lodash/fp';
+import __ from 'lodash/fp';
 import _get from 'lodash/get';
 import _reduce from 'lodash/reduce';
 import _filter from 'lodash/filter';
@@ -8,11 +8,11 @@ import { getPages } from './pages';
 
 export const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
-  _.isEqual
+  __.isEqual
 );
 
 export const getViews =
-  _.prop('views');
+  __.prop('views');
 
 export const getWindows = state => _get(state, ['windows'], {});
 export const getWindowsArray = createSelector(
@@ -32,32 +32,44 @@ export const getFocusedWindow = createSelector(
   _get
 );
 
-export const getWindow = (state, windowId) =>
-  _get(getWindows(state), [windowId]);
+export const getWindow = createSelector(
+  (state, { windowId }) => windowId,
+  getWindows,
+  __.get
+);
 
-export const getWindowPageIds = (state, windowId) =>
-  _get(getWindow(state, windowId), ['pages']);
+export const getWindowPageIds = createSelector(
+  getWindow,
+  __.get('pages')
+);
 
 export const getWindowPages = createSelector(
-  (state, windowId) => getWindowPageIds(state, windowId),
-  state => state.pages,
+  getWindowPageIds,
+  __.get('pages'),
   (ids = [], pages) => ids.map(id => ({ ...pages[id], pageId: id }))
 );
 
-export const getWindowFocusedPageId = (state, windowId) =>
-  _get(getWindow(state, windowId), ['focusedPage']);
+export const getWindowFocusedPageId = createSelector(
+  getWindow,
+  __.get('focusedPage')
+);
 
 export const getWindowFocusedPageSelector = createSelector(
-  getPages,
   getWindowFocusedPageId,
-  (pages, pageId) => _get(pages, [pageId]));
+  getPages,
+  __.get
+);
 
 // TODO deprecated
-export const getWindowDebug = (state, { windowId }) =>
-  _get(getWindow(state, windowId), ['debug']);
+export const getWindowDebug = createSelector(
+  getWindow,
+  __.get('debug')
+);
 
-export const getWindowMinimized = (state, windowId) =>
-  _get(getWindow(state, windowId), ['minimized']);
+export const getWindowMinimized = createSelector(
+  getWindow,
+  __.get('minimized')
+);
 
 export const getWindowsFocusedPageIds = createSelector(
   getWindowsArray,
@@ -68,7 +80,7 @@ export const getWindowsFocusedPageIds = createSelector(
 );
 
 export const getWindowsFocusedPage = createSelector(
-  createDeepEqualSelector(getWindowsFocusedPageIds, _.identity),
+  createDeepEqualSelector(getWindowsFocusedPageIds, __.identity),
   getPages,
   (pageIds, pages) =>
     pageIds
@@ -117,17 +129,22 @@ export function getModifiedWindowsIds(state) {
   return _filter(Object.keys(getWindows(state)), wId => state.windows[wId].isModified);
 }
 
-export function getExplorerTabName(state, windowId) {
-  return _get(state, ['windows', windowId, 'tabName']);
-}
+export const getExplorerTabName = createSelector(
+  getWindow,
+  __.get('tabName')
+);
 
-export function getExplorerWidth(state, windowId) {
-  return _get(state, ['windows', windowId, 'explorerWidth']);
-}
+export const getExplorerWidth = createSelector(
+  getWindow,
+  __.get('explorerWidth')
+);
 
-export function getExplorerFlag(state, windowId, flagName) {
-  return _get(state, ['windows', windowId, flagName]);
-}
-export function getExplorerDisplay(state, windowId) {
-  return _get(state, ['windows', windowId, 'displayExplorer']);
-}
+export const getExplorerFlag = createSelector(
+  getWindow,
+  __.get('flagName')
+);
+
+export const getExplorerDisplay = createSelector(
+  getWindow,
+  __.get('displayExplorer')
+);

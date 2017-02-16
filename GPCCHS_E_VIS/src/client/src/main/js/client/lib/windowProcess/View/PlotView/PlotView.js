@@ -33,7 +33,7 @@ import { stateColors } from '../../common/colors';
 import DroppableContainer from '../../common/DroppableContainer';
 import CloseableAlert from '../CloseableAlert';
 import styles from './PlotView.css';
-import { getEntryPointColorObj } from '../../../store/selectors/views';
+import { _getEntryPointColorObj } from '../../../store/selectors/views';
 
 const logger = getLogger('view:plot');
 
@@ -578,7 +578,7 @@ export class PlotView extends PureComponent {
       )
       .map((line) => {
         const customColor = _.prop('color')(
-          getEntryPointColorObj({
+          _getEntryPointColorObj({
             entryPoints: this.props.entryPoints,
             epName: line.key,
             value: _get(currentItem, [line.key, 'value']),

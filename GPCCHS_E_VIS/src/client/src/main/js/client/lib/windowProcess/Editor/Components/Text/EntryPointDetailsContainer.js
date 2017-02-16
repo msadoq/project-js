@@ -9,9 +9,9 @@ import {
 } from '../../../../store/actions/views';
 
 const mapStateToProps = (state, { focusedPageId }) => {
-  const { timebarUuid } = getPage(state, focusedPageId);
+  const { timebarUuid } = getPage(state, { pageId: focusedPageId });
   return {
-    timelines: getTimebarTimelinesSelector(state, timebarUuid),
+    timelines: getTimebarTimelinesSelector(state, { timebarUuid }),
   };
 };
 

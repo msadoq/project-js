@@ -16,10 +16,10 @@ describe('store:viewData:selectors', () => {
   describe('getData', () => {
     it('should retrieve viewData for given view', () => {
       const state = { viewData: { view1: {} } };
-      getData(state, 'view1').should.equal(state.viewData.view1);
+      getData(state, { viewId: 'view1' }).should.equal(state.viewData.view1);
     });
     it('should support empty state', () => {
-      getData({}, 'view1');
+      getData({}, { viewId: 'view1' });
     });
   });
 });

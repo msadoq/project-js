@@ -7,7 +7,7 @@ import {
 } from '../../../../store/actions/views';
 
 const mapStateToProps = (state, { viewId }) => {
-  const view = getView(state, viewId);
+  const view = getView(state, { viewId });
   return {
     axes: view.configuration.axes,
     markers: view.configuration.markers,

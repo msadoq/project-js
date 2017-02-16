@@ -6,9 +6,9 @@ import TimebarWrapper from './TimebarWrapper';
 
 export default connect(
   (state, { focusedPageId, timebar, timebarUuid }) => {
-    const playingTimebarId = getPlayingTimebarId(state, timebarUuid);
+    const playingTimebarId = getPlayingTimebarId(state, { timebarUuid });
     const isPlaying = playingTimebarId === timebarUuid;
-    const timelines = getTimebarTimelinesSelector(state, timebarUuid);
+    const timelines = getTimebarTimelinesSelector(state, { timebarUuid });
 
     return {
       isPlaying,

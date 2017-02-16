@@ -1,8 +1,10 @@
 /* eslint no-unused-expressions: 0 */
-import { freezeMe } from '../../common/test';
+import { freezeArgs } from '../../common/test';
 import * as actions from '../actions/hsc';
-import reducer from './hsc';
+import hscReducer from './hsc';
 import { HSC_PAUSE } from '../types';
+
+const reducer = freezeArgs(hscReducer);
 
 describe('store:hsc:reducer', () => {
   it('should returns initial state', () => {
@@ -16,10 +18,10 @@ describe('store:hsc:reducer', () => {
     r.should.have.property('file', null);
   });
   it('should ignore unknown action', () => {
-    const state = freezeMe({
+    const state = {
       lastCacheInvalidation: 10,
       playingTimebarId: 10,
-    });
+    };
     reducer(state, {}).should.equal(state);
   });
   it('should update windows state', () => {
@@ -47,17 +49,17 @@ describe('store:hsc:reducer', () => {
   });
   describe('play/pause', () => {
     it('should set timebarUuid as playing', () => {
-      reducer(freezeMe({}), actions.play(10)).should.have.property('playingTimebarId', 10);
+      reducer({}, actions.play(10)).should.have.property('playingTimebarId', 10);
     });
     it('should replace playing timebarUuid', () => {
-      reducer(freezeMe({
+      reducer({
         playingTimebarId: 10,
-      }), actions.play(20)).should.have.property('playingTimebarId', 20);
+      }, actions.play(20)).should.have.property('playingTimebarId', 20);
     });
     it('should set all timebar as paused', () => {
-      reducer(freezeMe({
+      reducer({
         playingTimebarId: 10,
-      }), { type: HSC_PAUSE }).should.have.property('playingTimebarId', null);
+      }, { type: HSC_PAUSE }).should.have.property('playingTimebarId', null);
     });
   });
   it('should update lastCacheInvalidation', () => {
@@ -71,17 +73,17 @@ describe('store:hsc:reducer', () => {
     });
   });
   it('should blur current focused window', () => {
-    reducer(freezeMe({
+    reducer({
       focusWindow: 'some window id',
-    }), actions.blurWindow('some window id'))
+    }, actions.blurWindow('some window id'))
     .should.eql({
       focusWindow: null,
     });
   });
   it('should not blur current focused window', () => {
-    reducer(freezeMe({
+    reducer({
       focusWindow: 'some window id',
-    }), actions.blurWindow('some window id 2'))
+    }, actions.blurWindow('some window id 2'))
     .should.eql({
       focusWindow: 'some window id',
     });

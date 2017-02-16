@@ -1,10 +1,10 @@
 /* eslint no-unused-expressions: 0 */
-import { freezeReducer } from '../../common/test';
+import { freezeArgs } from '../../common/test';
 import * as actions from '../actions/windows';
 import windowsReducer from './windows';
 import * as types from '../types';
 
-const reducer = freezeReducer(windowsReducer);
+const reducer = freezeArgs(windowsReducer);
 
 describe('store:windows:reducer', () => {
   it('initial state', () => {

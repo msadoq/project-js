@@ -27,12 +27,17 @@ function getStore(initialState) {
 
 const freezeMe = o => o && deepFreeze(o);
 
+const freezeArgs = f => (...args) => {
+  const frozenArgs = args.map(arg => freezeMe(arg));
+  return f(...frozenArgs);
+};
+
 module.exports = {
   should: chai.should(),
   expect: chai.expect,
   sinon,
   getStore,
   freezeMe,
-  freezeReducer: r => (state, action) => r(freezeMe(state), freezeMe(action)),
+  freezeArgs,
   getTmpPath: (...args) => path.resolve(tmpdir(), 'vima-tests', ...args),
 };

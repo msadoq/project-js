@@ -1,10 +1,10 @@
 /* eslint no-unused-expressions: 0 */
-import { freezeReducer } from '../../common/test';
+import { freezeArgs } from '../../common/test';
 import * as actions from '../actions/pages';
 import pagesReducer from './pages';
 import * as types from '../types';
 
-const reducer = freezeReducer(pagesReducer);
+const reducer = freezeArgs(pagesReducer);
 
 describe('store:page:reducer', () => {
   it('initial state', () => {

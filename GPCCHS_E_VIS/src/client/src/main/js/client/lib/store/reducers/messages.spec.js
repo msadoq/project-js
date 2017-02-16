@@ -1,6 +1,8 @@
-import { freezeMe } from '../../common/test';
+import { freezeArgs } from '../../common/test';
 import * as actions from '../actions/messages';
-import reducer from './messages';
+import messagesReducer from './messages';
+
+const reducer = freezeArgs(messagesReducer);
 
 describe('store:message:reducer', () => {
   it('initial state', () => {
@@ -8,7 +10,7 @@ describe('store:message:reducer', () => {
   });
   it('unknown action', () => {
     const state = { myId: [{ message: 'my message' }] };
-    reducer(freezeMe(state), {})
+    reducer(state, {})
       .should.eql(state);
   });
   describe('add', () => {
@@ -24,12 +26,12 @@ describe('store:message:reducer', () => {
       const state = {
         myId: [{ type: 'danger', message: 'my message' }],
       };
-      const newState = reducer(freezeMe(state), actions.add('myOtherId', 'info', 'other message'));
+      const newState = reducer(state, actions.add('myOtherId', 'info', 'other message'));
       newState.should.eql({
         myId: [{ type: 'danger', message: 'my message' }],
         myOtherId: [{ type: 'info', message: 'other message' }],
       });
-      reducer(freezeMe(newState), actions.add('myOtherId', 'success', 'another message'))
+      reducer(newState, actions.add('myOtherId', 'success', 'another message'))
         .should.eql({
           myId: [{ type: 'danger', message: 'my message' }],
           myOtherId: [
@@ -49,14 +51,14 @@ describe('store:message:reducer', () => {
       myOtherId: [{ type: 'danger', message: 'my message' }],
     };
     it('should remove key and preserve others', () => {
-      reducer(freezeMe(state), actions.remove('myId', 1)).should.eql({
+      reducer(state, actions.remove('myId', 1)).should.eql({
         myId: [
           { type: 'danger', message: 'my message' },
           { type: 'danger', message: 'another message' },
         ],
         myOtherId: [{ type: 'danger', message: 'my message' }],
       });
-      reducer(freezeMe(state), actions.remove('myOtherId', 0)).myOtherId.should.eql([]);
+      reducer(state, actions.remove('myOtherId', 0)).myOtherId.should.eql([]);
     });
   });
   describe('reset', () => {
@@ -67,7 +69,7 @@ describe('store:message:reducer', () => {
       ],
     };
     it('should support reset key', () => {
-      reducer(freezeMe(state), actions.reset('myId')).myId.should.eql([]);
+      reducer(state, actions.reset('myId')).myId.should.eql([]);
     });
   });
 });

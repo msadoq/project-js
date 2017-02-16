@@ -2,8 +2,10 @@
 import _find from 'lodash/find';
 import * as actions from '../actions/views';
 import * as types from '../types';
-import reducer from './views';
-import { freezeMe } from '../../common/test';
+import viewsReducer from './views';
+import { freezeArgs } from '../../common/test';
+
+const reducer = freezeArgs(viewsReducer);
 
 describe('store:views:reducer', () => {
   it('initial state', () => {
@@ -133,7 +135,7 @@ describe('store:views:reducer', () => {
     });
   });
   describe('update', () => {
-    const state = freezeMe({
+    const state = {
       view1: {
         type: 'DynamicView',
         configuration: {
@@ -144,7 +146,7 @@ describe('store:views:reducer', () => {
         path: '/data/oldPath',
         isModified: false,
       },
-    });
+    };
     it('Path', () => {
       const s = reducer(state, {
         type: types.WS_VIEW_UPDATEPATH,
@@ -182,7 +184,7 @@ describe('store:views:reducer', () => {
     });
   });
 
-  const stateViews = freezeMe({
+  const stateViews = {
     plot1: {
       type: 'PlotView',
       configuration: {
@@ -231,7 +233,7 @@ describe('store:views:reducer', () => {
         ],
       },
     },
-  });
+  };
   describe('update action', () => {
     it('Entry Point', () => {
       const newEp = {

@@ -1,8 +1,10 @@
 /* eslint no-unused-expressions: 0 */
-import '../../common/test';
+import { freezeArgs } from '../../common/test';
 import * as actions from '../actions/timelines';
-import reducer from './timelines';
+import timelinesReducer from './timelines';
 import * as types from '../types';
+
+const reducer = freezeArgs(timelinesReducer);
 
 describe('store:timelines:reducer', () => {
   it('initial state', () => {

@@ -1,6 +1,8 @@
-import { freezeMe } from '../../common/test';
+import { freezeArgs } from '../../common/test';
 import * as actions from '../actions/masterSession';
-import reducer from './masterSession';
+import masterSessionReducer from './masterSession';
+
+const reducer = freezeArgs(masterSessionReducer);
 
 describe('store:masterSession:reducer', () => {
   it('should returns initial state', () => {
@@ -8,7 +10,7 @@ describe('store:masterSession:reducer', () => {
     r.should.eql({});
   });
   it('should ignore unknown action', () => {
-    const state = freezeMe({ sessionId: 10 });
+    const state = { sessionId: 10 };
     reducer(state, {}).should.equal(state);
   });
   it('should update masterSessionId', () => {

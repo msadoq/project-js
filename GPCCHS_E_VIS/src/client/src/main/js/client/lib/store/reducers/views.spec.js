@@ -3,7 +3,7 @@ import _find from 'lodash/find';
 import * as actions from '../actions/views';
 import * as types from '../types';
 import reducer from './views';
-import { freezeMe, getStore } from '../../common/test';
+import { freezeMe } from '../../common/test';
 
 describe('store:views:reducer', () => {
   it('initial state', () => {
@@ -130,64 +130,6 @@ describe('store:views:reducer', () => {
     it('works', () => {
       const s = reducer(state, actions.setCollapsed('myView', true));
       s.myView.configuration.collapsed.should.equal(true);
-    });
-  });
-  describe('set collapsed and updateLayout', () => {
-    let dispatch;
-    let getState;
-    before(() => {
-      const store = getStore({
-        pages: {
-          myPage: {
-            layout: [
-              {
-                h: 5,
-                w: 5,
-                maxH: undefined,
-                maxW: undefined,
-                minW: 3,
-                minH: 3,
-                i: 'myView',
-              },
-            ],
-          },
-        },
-        views: {
-          myView: {
-            configuration: {
-              collapsed: false,
-            },
-          },
-        },
-      });
-      getState = store.getState;
-      dispatch = store.dispatch;
-    });
-    it('collapses / expands and updates layout', () => {
-      dispatch(actions.setCollapsedAndUpdateLayout('myPage', 'myView', true));
-      let newState = getState();
-      newState.pages.myPage.layout[0].should.deep.equal({
-        h: 1,
-        w: 3,
-        maxH: 5,
-        maxW: 5,
-        minW: 3,
-        minH: 3,
-        i: 'myView',
-      });
-      newState.views.myView.configuration.collapsed.should.equal(true);
-      dispatch(actions.setCollapsedAndUpdateLayout('myPage', 'myView', false));
-      newState = getState();
-      newState.pages.myPage.layout[0].should.deep.equal({
-        h: 5,
-        w: 5,
-        maxH: undefined,
-        maxW: undefined,
-        minW: 3,
-        minH: 3,
-        i: 'myView',
-      });
-      newState.views.myView.configuration.collapsed.should.equal(false);
     });
   });
   describe('update', () => {

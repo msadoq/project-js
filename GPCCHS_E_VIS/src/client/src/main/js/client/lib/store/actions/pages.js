@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 import simple from '../simpleActionCreator';
-import { ifPathChanged } from './enhancers';
+import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
 import { getView } from '../selectors/views';
 import {

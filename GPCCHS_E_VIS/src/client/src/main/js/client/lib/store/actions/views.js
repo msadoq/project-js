@@ -1,7 +1,8 @@
 import _clone from 'lodash/clone';
 import globalConstants from 'common/constants';
 import simple from '../simpleActionCreator';
-import { ifPathChanged, addUuids } from './enhancers';
+import ifPathChanged from './enhancers/ifPathChanged';
+import addUuids from './enhancers/addUuids';
 import * as types from '../types';
 import vivl from '../../../VIVL/main';
 import {

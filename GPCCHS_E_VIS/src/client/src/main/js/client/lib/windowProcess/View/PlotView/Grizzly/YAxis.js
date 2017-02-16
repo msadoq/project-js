@@ -36,17 +36,32 @@ export default class YAxis extends PureComponent {
     gridStyle: PropTypes.string.isRequired,
     gridSize: PropTypes.number.isRequired,
     label: PropTypes.string.isRequired,
-    labelBgColor: PropTypes.string.isRequired,
-    labelColor: PropTypes.string.isRequired,
-    labelFont: PropTypes.string.isRequired,
-    labelItalic: PropTypes.bool.isRequired,
-    labelSize: PropTypes.number.isRequired,
-    labelUnderline: PropTypes.bool.isRequired,
-    labelAlign: PropTypes.string.isRequired,
-    labelBold: PropTypes.bool.isRequired,
+    labelStyle: PropTypes.shape({
+      bgColor: PropTypes.string,
+      color: PropTypes.string,
+      align: PropTypes.string,
+      font: PropTypes.string,
+      italic: PropTypes.bool,
+      bold: PropTypes.bool,
+      underline: PropTypes.bool,
+      size: PropTypes.number,
+    }),
     yExtends: PropTypes.arrayOf(
       PropTypes.number
     ).isRequired,
+  }
+
+  static defaultProps = {
+    labelStyle: {
+      color: '#333333',
+      bgColor: '#FFFFFF',
+      align: 'center',
+      font: 'Arial',
+      italic: false,
+      bold: false,
+      underline: false,
+      size: 11,
+    },
   }
 
   componentDidMount() {
@@ -123,11 +138,7 @@ export default class YAxis extends PureComponent {
 
   drawLabel = () => {
     const {
-      labelBgColor,
-      labelColor,
-      labelFont,
-      labelSize,
-      labelAlign,
+      labelStyle,
       height,
       yAxesAt,
       margin,
@@ -142,20 +153,20 @@ export default class YAxis extends PureComponent {
       transform += 'transform: rotate(-90deg)';
       style += `right: ${margin}px;`;
     }
-    style += `font-size:${labelSize}px;`;
-    style += `font-family:${labelFont};`;
-    style += `color:${labelColor};`;
-    style += `background:${labelBgColor};`;
-    if (labelAlign === 'left') {
+    style += `font-size:${labelStyle.size}px;`;
+    style += `font-family:${labelStyle.font};`;
+    style += `color:${labelStyle.color};`;
+    style += `background:${labelStyle.bgColor};`;
+    if (labelStyle.align === 'left') {
       style += 'top: 20px;';
-    } else if (labelAlign === 'right') {
+    } else if (labelStyle.align === 'right') {
       style += `top: ${height - 10}px;`;
       if (yAxesAt === 'left') {
         transform += ' translateX(-70%)';
       } else {
         transform += ' translateX(70%)';
       }
-    } else if (labelAlign === 'center') {
+    } else if (labelStyle.align === 'center') {
       style += `top: ${height / 2}px;`;
     }
     transform += ';';
@@ -197,10 +208,10 @@ export default class YAxis extends PureComponent {
     }
 
     let yAxisFunction;
-    if (yAxesAt === 'right') {
-      yAxisFunction = axisRight(yScale);
-    } else {
+    if (yAxesAt === 'left') {
       yAxisFunction = axisLeft(yScale);
+    } else {
+      yAxisFunction = axisRight(yScale);
     }
 
     yAxisFunction = yAxisFunction
@@ -251,9 +262,7 @@ export default class YAxis extends PureComponent {
       top,
       showGrid,
       label,
-      labelUnderline,
-      labelBold,
-      labelItalic,
+      labelStyle,
       lines,
     } = this.props;
 
@@ -282,9 +291,9 @@ export default class YAxis extends PureComponent {
             'label',
             styles.yAxisLabel,
             {
-              [styles.labelUnderline]: labelUnderline,
-              [styles.labelBold]: labelBold,
-              [styles.labelItalic]: labelItalic,
+              [styles.labelUnderline]: labelStyle.underline,
+              [styles.labelBold]: labelStyle.bold,
+              [styles.labelItalic]: labelStyle.italic,
             }
           )}
         >

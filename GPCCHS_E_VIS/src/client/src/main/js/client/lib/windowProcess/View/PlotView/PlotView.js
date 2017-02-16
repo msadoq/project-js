@@ -853,14 +853,7 @@ export class PlotView extends PureComponent {
                 gridStyle: _get(grid, ['line', 'style'], 'Continuous'),
                 gridSize: _get(grid, ['line', 'size'], 1),
                 label: axis.label,
-                labelBgColor: _get(axis, ['style', 'bgColor'], '#FFFFFF'),
-                labelColor: _get(axis, ['style', 'color'], '#000000'),
-                labelFont: _get(axis, ['style', 'font'], 'Arial'),
-                labelItalic: _get(axis, ['style', 'italic'], true),
-                labelSize: _get(axis, ['style', 'size'], 12),
-                labelUnderline: _get(axis, ['style', 'underline'], true),
-                labelAlign: _get(axis, ['style', 'align'], 'center'),
-                labelBold: _get(axis, ['style', 'bold'], true),
+                labelStyle: axis.style,
               };
             })}
             dataSets={[

@@ -34,14 +34,7 @@ export default class Chart extends React.Component {
         gridStyle: PropTypes.string.isRequired,
         gridSize: PropTypes.number.isRequired,
         label: PropTypes.string.isRequired,
-        labelBgColor: PropTypes.string.isRequired,
-        labelColor: PropTypes.string.isRequired,
-        labelFont: PropTypes.string.isRequired,
-        labelItalic: PropTypes.bool.isRequired,
-        labelSize: PropTypes.number.isRequired,
-        labelBold: PropTypes.bool.isRequired,
-        labelUnderline: PropTypes.bool.isRequired,
-        labelAlign: PropTypes.string.isRequired,
+        labelStyle: PropTypes.shape,
       })
     ).isRequired,
     dataSets: PropTypes.arrayOf(
@@ -267,14 +260,7 @@ export default class Chart extends React.Component {
               yAxesAt={yAxesAt}
               yExtends={yAxis.yExtends}
               label={yAxis.label}
-              labelBgColor={yAxis.labelBgColor}
-              labelColor={yAxis.labelColor}
-              labelFont={yAxis.labelFont}
-              labelItalic={yAxis.labelItalic}
-              labelSize={yAxis.labelSize}
-              labelUnderline={yAxis.labelUnderline}
-              labelAlign={yAxis.labelAlign}
-              labelBold={yAxis.labelBold}
+              labelStyle={yAxis.labelStyle}
               getLabelPosition={this.getLabelPosition}
             />
           )

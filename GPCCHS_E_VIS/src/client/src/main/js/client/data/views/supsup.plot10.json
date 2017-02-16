@@ -395,7 +395,8 @@
       "showTicks": true,
       "showTickLabels": true,
       "isLogarithmic": false,
-      "showAxis": true
+      "showAxis": true,
+      "showLabels": true
     },
     {
       "label": "VBat",
@@ -410,15 +411,16 @@
         "align": "left",
         "color": "#000000"
       },
-      "min": -300,
-      "max": 300,
+      "min": 90,
+      "max": 200,
       "autoLimits": false,
       "tickStep": 50,
       "autoTick": false,
       "showTicks": true,
       "showTickLabels": true,
       "isLogarithmic": false,
-      "showAxis": true
+      "showAxis": true,
+      "showLabels": true
     }
   ],
   "grids": [

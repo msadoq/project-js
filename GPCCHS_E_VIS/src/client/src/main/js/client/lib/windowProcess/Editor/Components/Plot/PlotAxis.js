@@ -33,6 +33,7 @@ class PlotAxis extends PureComponent {
       showTicks: PropTypes.bool,
       isLogarithmic: PropTypes.bool,
       showAxis: PropTypes.bool,
+      showLabels: PropTypes.bool,
       style: PropTypes.object,
     }).isRequired,
     showTicks: PropTypes.bool,
@@ -206,6 +207,12 @@ class PlotAxis extends PureComponent {
         <HorizontalFormGroup label="Show">
           <Field
             name="showAxis"
+            component={ButtonToggleField}
+          />
+        </HorizontalFormGroup>
+        <HorizontalFormGroup label="Show labels">
+          <Field
+            name="showLabels"
             component={ButtonToggleField}
           />
         </HorizontalFormGroup>

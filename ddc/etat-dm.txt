@@ -1,0 +1,15 @@
+#Host Structure 1.1.0 16/02/2017 etat-dm.txt
+
+
+FT en cours de traitement :
+===========================
+# ref_client | etat | date_emission | auteur | titre | priorite/planification
+Sans objet.
+
+
+FT deja livre en attente de cloture :
+=====================================
+# ref_client | etat | date_emission | auteur | titre | version correction
+Sans objet.
+
+

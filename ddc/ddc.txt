@@ -1,0 +1,114 @@
+#Host Structure 1.1.0 16/02/2017 ddc.txt
+
+Dossier descriptif de configuration
+===================================
+Fait le  : 16/02/2017
+par      : Philippe Combes
+selon specification :
+ - RNC-CNES-M-ST-40-102 Version 4
+ - ISIS-GP-SP-670-CNES  Version 1.2
+
+
+0. Contexte du projet
+=====================
+
+0.1 Sommaire
+------------
+1. Identification de l'article
+2. Identification de la version
+3. Composition de l'article
+4. Documentation
+5. Moyens
+6. Instructions de prise en compte
+7. Modifications
+8. Informations complementaires
+9. Etat des faits techniques en cours
+
+0.2 Liste des fichiers composant le DDC
+---------------------------------------
+<cf. fichier liste-fichiers-ddc.txt>
+
+0.3 References
+--------------
+
+0.4 Domaine d'application
+-------------------------
+
+
+1. Identification de l'article de Configuration
+===============================================
+Nom de l'article      : Host Structure
+Code OT               : GPCCHS
+Criticite             : normale
+Confidentialite       : DLP
+Fournisseur           : Atos / ATOS
+Rappel de la fonction :
+
+
+2. Identification de la version
+===============================
+Date Version                : 06/03/2017
+Numero Version              : 1.1.0
+Numero Version de reference : 
+Branche Version             : 
+Etat Version                : PBF status
+Justification               : LP ISIS v1.1.0 delivery for CNES QS
+Nature d'arborescence       : produit source
+Type de livraison           : complete
+
+
+3. Composition de l'article
+===========================
+Base de reference   : <cf. fichier liste-reference.txt>
+Produit installable : <cf. fichier liste-produit-installable.txt>
+Site d'exploitation : <cf. fichier liste-exploitation.txt>
+
+
+4. Documentation
+================
+Fonctionnelle : <cf. liste-doc-fonctionnelle.txt>
+Utilisation   : <cf. liste-doc-utilisation.txt>
+Definition    : <cf. liste-doc-definition.txt>
+
+
+5. Moyens
+=========
+Developpement : <cf. fichier moyens-developpement.txt>
+Generation    : <cf. fichier moyens-generation.txt>
+Exploitation  : <cf. fichier moyens-exploitation.txt>
+
+
+6. Instructions de prise en compte
+==================================
+Recuperation de la version, generation et assemblage : <cf. fichier generation.txt>
+Installation                                         : <cf. fichier installation.txt>
+
+
+7. Modifications
+================
+Resume des modifications : <cf. release-notes.txt>
+
+7.1 Identification des modifications
+------------------------------------
+Anomalies                           : <cf. fichier fa-couvertes.txt>
+Evolutions                          : <cf. fichier dm-couvertes.txt>
+Derogations supprimees              : <cf. fichier dr-supprimees.txt>
+Fichiers ajoutes/modifies/supprimes : <cf. fichier delta-reference.txt>
+Corrections                         : <cf. fichier liste-fc.txt>
+Repertoire des Fiches de Correction : <cf. repertoire FC>
+Fichiers impactes par FT            : <cf. fichier liste-impact-ft.txt>
+
+
+8. Informations complementaires
+===============================
+Listes des extensions et des fichiers sans extensions : <cf. fichier extensions-reference.txt>
+Autres informations                                   : <cf. fichier info-complementaires.txt>
+
+
+9. Etat des faits techniques en cours
+=====================================
+Anomalies                 : <cf. fichier etat-fa.txt>
+Demandes de Modification  : <cf. fichier etat-dm.txt>
+Derogations               : <cf. fichier etat-dr.txt>
+
+

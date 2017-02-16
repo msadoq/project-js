@@ -24,7 +24,7 @@
     "nonsignificant": "lightgrey",
     "obsolete": "tan"
   },
-  "USER_MANUAL_URL": "http://SHOULD.BE.REPLACED",
+  "USER_MANUAL_URL": "http://vmisisaivcontrol01.cnes-isis.toulouse.atos.net/farm/WIKI_ISIS_GPA/doku.php?id=isis:lp:sum:gpvi:gpvimajs:intro",
   "UNITS": {
     "distance": [
       "m",

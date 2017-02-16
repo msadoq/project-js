@@ -13,7 +13,7 @@ module.exports = function sendFmdCreate(queryId, { name, path }, zmq) {
   ];
 
   const fullPath = join(path, name);
-  const createPath = join(get('FMD_ROOT_DIR'), fullPath);
+  const createPath = join(get('ISIS_DOCUMENTS_ROOT'), fullPath);
   if (existsSync(createPath)) {
     buffer[3] = stubData.getErrorStatusProtobuf();
     buffer[4] = stubData.getStringProtobuf(`this file already exists: ${createPath}`);
@@ -38,7 +38,7 @@ module.exports = function sendFmdCreate(queryId, { name, path }, zmq) {
 //   ];
 //
 //   const path = oid.replace('oid:', '');
-//   if (!existsSync(join(get('FMD_ROOT_DIR'), path))) {
+//   if (!existsSync(join(get('ISIS_DOCUMENTS_ROOT'), path))) {
 //     buffer[3] = stubData.getErrorStatusProtobuf();
 //     buffer[4] = stubData.getStringProtobuf(`this file doesn't exist ${path}`);
 //   } else {

@@ -71,9 +71,9 @@ const self = module.exports = {
     }
     // relative path from FMD
     try {
-      fs.accessSync(join(parameters.get('FMD_ROOT_DIR'), filepath), fs.constants.F_OK);
+      fs.accessSync(join(parameters.get('ISIS_DOCUMENTS_ROOT'), filepath), fs.constants.F_OK);
       // FMD path
-      resolvedPath = join(parameters.get('FMD_ROOT_DIR'), filepath);
+      resolvedPath = join(parameters.get('ISIS_DOCUMENTS_ROOT'), filepath);
     } catch (e) {
       // path is already absolute
       resolvedPath = filepath;
@@ -105,7 +105,7 @@ const self = module.exports = {
   /**
    * Checks if folder exists and if not, creates it
    *
-   * @param path folder
+   * @param folder
    * @param cb
    */
   createFolder: (folder, cb) => {

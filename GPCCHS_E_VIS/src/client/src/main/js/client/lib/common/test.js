@@ -8,7 +8,7 @@ import thunk from 'redux-thunk';
 import deepFreeze from 'deep-freeze';
 import reducer from '../store/reducers/index';
 
-process.env.FMD_ROOT_DIR = path.resolve(__dirname, '../documentManager/fixtures');
+process.env.ISIS_DOCUMENTS_ROOT = path.resolve(__dirname, '../documentManager/fixtures');
 process.env.WILDCARD_CHARACTER = '*';
 
 chai.use(properties);

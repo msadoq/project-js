@@ -107,10 +107,10 @@ describe('documentManager/io', () => {
 
     describe('outside fmd folder', () => {
       before(() => {
-        process.env.FMD_ROOT_DIR = resolve(__dirname, '../../data');
+        process.env.ISIS_DOCUMENTS_ROOT = resolve(__dirname, '../../data');
       });
       after(() => {
-        process.env.FMD_ROOT_DIR = folder;
+        process.env.ISIS_DOCUMENTS_ROOT = folder;
       });
       it('works with absolute path', (done) => {
         const absolutePath = join(folder, 'pages/page1.json');
@@ -175,10 +175,10 @@ describe('documentManager/io', () => {
 
     describe('inside fmd folder', () => {
       before(() => {
-        process.env.FMD_ROOT_DIR = getTmpPath();
+        process.env.ISIS_DOCUMENTS_ROOT = getTmpPath();
       });
       after(() => {
-        process.env.FMD_ROOT_DIR = folder;
+        process.env.ISIS_DOCUMENTS_ROOT = folder;
       });
 
       const getPath = () => join(fmdApi.getRootDir(), 'document.json');

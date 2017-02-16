@@ -42,7 +42,7 @@ class GPCCHSClientWrapper(object):
         signal.SIGQUIT,  # Terminal quit signal
     )
     _cmd_options = {}
-    _hsc_cmd = '/usr/share/isis/lib/js/gpcchs_e_vis_launcher/client/lpisis_gpcchs_e_clt --FMD_ROOT_DIR={} --NODE_PATH=/usr/share/isis/node-v6.3.0-linux-x64/bin/node --ZMQ_GPCCDC_PUSH={} --ZMQ_GPCCDC_PULL={} '
+    _hsc_cmd = '/usr/share/isis/lib/js/gpcchs_e_vis_launcher/client/lpisis_gpcchs_e_clt --ISIS_DOCUMENTS_ROOT={} --NODE_PATH=/usr/share/isis/node-v6.3.0-linux-x64/bin/node --ZMQ_GPCCDC_PUSH={} --ZMQ_GPCCDC_PULL={} '
 
     @property
     def _pid(self):

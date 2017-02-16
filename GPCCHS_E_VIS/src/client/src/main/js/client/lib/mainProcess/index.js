@@ -39,7 +39,7 @@ export function start() {
       PROFILING: parameters.get('PROFILING'),
       ZMQ_GPCCDC_PUSH: parameters.get('ZMQ_GPCCDC_PUSH'),
       ZMQ_GPCCDC_PULL: parameters.get('ZMQ_GPCCDC_PULL'),
-      FMD_ROOT_DIR: parameters.get('FMD_ROOT_DIR'),
+      ISIS_DOCUMENTS_ROOT: parameters.get('ISIS_DOCUMENTS_ROOT'),
     },
   };
 
@@ -152,7 +152,7 @@ export function start() {
       logger.info('searching workspace...');
 
       const { dispatch, getState } = getStore();
-      const root = parameters.get('FMD_ROOT_DIR');
+      const root = parameters.get('ISIS_DOCUMENTS_ROOT');
       const file = parameters.get('WORKSPACE');
 
       if (!file) {

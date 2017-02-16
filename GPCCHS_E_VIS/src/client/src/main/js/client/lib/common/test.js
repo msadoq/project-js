@@ -5,7 +5,6 @@ import properties from 'chai-properties';
 import sinon from 'sinon';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import _cloneDeep from 'lodash/cloneDeep';
 import deepFreeze from 'deep-freeze';
 import reducer from '../store/reducers/index';
 
@@ -26,11 +25,14 @@ function getStore(initialState) {
   );
 }
 
+const freezeMe = o => o && deepFreeze(o);
+
 module.exports = {
   should: chai.should(),
   expect: chai.expect,
   sinon,
   getStore,
-  freezeMe: o => deepFreeze(_cloneDeep(o)),
+  freezeMe,
+  freezeReducer: r => (state, action) => r(freezeMe(state), freezeMe(action)),
   getTmpPath: (...args) => path.resolve(tmpdir(), 'vima-tests', ...args),
 };

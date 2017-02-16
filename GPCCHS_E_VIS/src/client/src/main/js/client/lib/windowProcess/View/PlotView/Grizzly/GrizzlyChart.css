@@ -47,3 +47,7 @@
     font-style: italic;
   }
 }
+.yAxisLineLabel{
+  position: absolute;
+  z-index: 3;
+}

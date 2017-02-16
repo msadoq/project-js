@@ -1,5 +1,6 @@
 import React, { PropTypes, PureComponent } from 'react';
 import classnames from 'classnames';
+import _memoize from 'lodash/memoize';
 import { scaleLinear } from 'd3-scale';
 import { select } from 'd3-selection';
 import { axisLeft, axisRight } from 'd3-axis';
@@ -8,6 +9,8 @@ import styles from './GrizzlyChart.css';
 export default class YAxis extends PureComponent {
 
   static propTypes = {
+    getLabelPosition: PropTypes.func.isRequired,
+    yAxisId: PropTypes.string.isRequired,
     xAxisAt: PropTypes.string.isRequired,
     yAxesAt: PropTypes.string.isRequired,
     index: PropTypes.number.isRequired,
@@ -16,6 +19,18 @@ export default class YAxis extends PureComponent {
     yAxisWidth: PropTypes.number.isRequired,
     margin: PropTypes.number.isRequired,
     chartWidth: PropTypes.number.isRequired,
+    lines: PropTypes.arrayOf(
+      PropTypes.shape({
+        lineStyle: PropTypes.string,
+        id: PropTypes.string.isRequired,
+        dataSet: PropTypes.string.isRequired,
+        yAxis: PropTypes.string.isdataSetsRequired,
+        fill: PropTypes.string,
+        strokeWidth: PropTypes.number,
+        yAccessor: PropTypes.func.isRequired,
+      })
+    ).isRequired,
+    showLabels: PropTypes.bool.isRequired,
     showTicks: PropTypes.bool.isRequired,
     showGrid: PropTypes.bool.isRequired,
     gridStyle: PropTypes.string.isRequired,
@@ -54,6 +69,9 @@ export default class YAxis extends PureComponent {
       shouldRender = true;
     }
 
+    // update line label refs's style attribute
+    this.drawLinesLabel();
+
     return shouldRender;
   }
 
@@ -69,6 +87,34 @@ export default class YAxis extends PureComponent {
       gridSize,
     } = this.props;
     select(this.canvasEl).selectAll('line').attr('stroke-width', gridSize);
+  }
+
+  drawLinesLabel = () => {
+    const {
+      lines,
+      yAxisId,
+      getLabelPosition,
+      yAxisWidth,
+      margin,
+      showLabels,
+      yAxesAt,
+    } = this.props;
+    if (!showLabels || !lines) {
+      return;
+    }
+    lines.forEach((line) => {
+      const y = getLabelPosition(yAxisId, line.id);
+      const el = this[`label-${line.id}-el`];
+      if (el) {
+        let style = `background:${line.fill};top:${y}px;`;
+        if (yAxesAt === 'left') {
+          style += `transform: translate(-102%, -50%);left: ${margin + yAxisWidth}px;`;
+        } else {
+          style += `transform: translate(102%, -50%);right: ${margin + yAxisWidth}px;`;
+        }
+        el.setAttribute('style', style);
+      }
+    });
   }
 
   drawLabel = () => {
@@ -185,6 +231,10 @@ export default class YAxis extends PureComponent {
   assignEl = (el) => { this.canvasEl = el; }
   assignLabelEl = (el) => { this.labelEl = el; }
 
+  memoizeAssignRef = _memoize(lineId =>
+    (el) => { this[`label-${lineId}-el`] = el; }
+  )
+
   render() {
     const {
       height,
@@ -192,6 +242,7 @@ export default class YAxis extends PureComponent {
       chartWidth,
       margin,
       yAxesAt,
+      showLabels,
       index,
       top,
       showGrid,
@@ -199,6 +250,7 @@ export default class YAxis extends PureComponent {
       labelUnderline,
       labelBold,
       labelItalic,
+      lines,
     } = this.props;
 
     const style = {};
@@ -234,6 +286,21 @@ export default class YAxis extends PureComponent {
         >
           {label}
         </span>
+        {
+          lines.map(line =>
+            <span
+              key={line.id}
+              className={classnames(
+                'label',
+                styles.yAxisLineLabel,
+                { hidden: !showLabels }
+              )}
+              ref={this.memoizeAssignRef(line.id)}
+            >
+              {line.id}
+            </span>
+          )
+        }
         <svg
           style={style}
           ref={this.assignEl}

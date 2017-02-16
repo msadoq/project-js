@@ -2,6 +2,8 @@ import React, { PropTypes } from 'react';
 import _memoize from 'lodash/memoize';
 import _max from 'lodash/max';
 import _min from 'lodash/min';
+import _set from 'lodash/set';
+import _get from 'lodash/get';
 import { scaleLinear } from 'd3-scale';
 import styles from './GrizzlyChart.css';
 import CurrentCursorCanvas from './CurrentCursorCanvas';
@@ -26,6 +28,7 @@ export default class Chart extends React.Component {
         yExtends: PropTypes.array.isRequired,
         autoLimits: PropTypes.bool.isRequired,
         showAxis: PropTypes.bool.isRequired,
+        showLabels: PropTypes.bool.isRequired,
         showTicks: PropTypes.bool.isRequired,
         showGrid: PropTypes.bool.isRequired,
         gridStyle: PropTypes.string.isRequired,
@@ -127,7 +130,18 @@ export default class Chart extends React.Component {
     return sortedAndValidAxes;
   }
 
-  yAxisWidth = 60;
+  getLabelPosition = (yAxisId, lineId) =>
+    _get(this.labelsPosition, [yAxisId, lineId]);
+
+
+  updateLabelPosition = (yAxisId, lineId, yPosition) => {
+    if (!this.labelsPosition) {
+      this.labelsPosition = {};
+    }
+    _set(this.labelsPosition, [yAxisId, lineId], yPosition);
+  }
+
+  yAxisWidth = 90;
   xAxisHeight = 40;
 
   memoizeYExtendsAutoLimits = (yExtendsLower, yExtendsUpper, orient, lines) => {
@@ -225,7 +239,9 @@ export default class Chart extends React.Component {
               margin={marginSide}
               xScale={xScale}
               yExtends={yAxis.yExtends}
+              axisId={yAxis.id}
               lines={yAxis.lines}
+              updateLabelPosition={this.updateLabelPosition}
             />
           )
         }
@@ -235,7 +251,9 @@ export default class Chart extends React.Component {
               key={yAxis.id}
               index={index}
               margin={((this.yAxes.length - 1) * this.yAxisWidth) - (index * this.yAxisWidth)}
+              lines={yAxis.lines}
               yAxisId={yAxis.id}
+              showLabels={yAxis.showLabels}
               showTicks={yAxis.showTicks}
               showGrid={yAxis.showGrid}
               gridStyle={yAxis.gridStyle}
@@ -257,6 +275,7 @@ export default class Chart extends React.Component {
               labelUnderline={yAxis.labelUnderline}
               labelAlign={yAxis.labelAlign}
               labelBold={yAxis.labelBold}
+              getLabelPosition={this.getLabelPosition}
             />
           )
         }

@@ -25,6 +25,24 @@ export default class XAxis extends PureComponent {
     this.draw();
   }
 
+  shouldComponentUpdate(nextProps) {
+    let shouldRender = false;
+    ['yAxesAt', 'xAxisAt', 'height', 'width', 'margin', 'gridStyle', 'gridSize'].forEach((attr) => {
+      if (nextProps[attr] !== this.props[attr]) {
+        shouldRender = true;
+      }
+    });
+
+    if (
+      nextProps.xExtends[0] !== this.props.xExtends[0] ||
+      nextProps.xExtends[1] !== this.props.xExtends[1]
+    ) {
+      shouldRender = true;
+    }
+
+    return shouldRender;
+  }
+
   componentDidUpdate() {
     this.draw();
   }

@@ -9,8 +9,8 @@ describe('store:timelines:reducer', () => {
     reducer(undefined, {}).should.be.an('object').that.is.empty;
   });
   it('unknown action', () => {
-    reducer({ myTimelineId: { id: 'Id' } }, {})
-      .should.eql({ myTimelineId: { id: 'Id' } });
+    reducer({ myTimelineId: { id: 'myTimelineId' } }, { payload: { timelineId: 'myTimelineId' } })
+      .should.eql({ myTimelineId: { id: 'myTimelineId' } });
   });
   describe('add', () => {
     it('add', () => {

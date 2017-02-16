@@ -1,4 +1,4 @@
-import { getStore, freezeMe } from '../../common/test';
+import { freezeMe } from '../../common/test';
 import * as actions from '../actions/messages';
 import reducer from './messages';
 
@@ -37,42 +37,6 @@ describe('store:message:reducer', () => {
             { type: 'success', message: 'another message' },
           ],
         });
-    });
-  });
-  describe('addOnce', () => {
-    it('should add new message', () => {
-      const { dispatch, getState } = getStore({
-        messages: {
-          myId: [
-            { type: 'danger', message: 'my message' },
-          ],
-        },
-      });
-      dispatch(actions.addOnce('myId', 'danger', 'my new message'));
-      dispatch(actions.addOnce('myOtherId', 'danger', 'my new message'));
-      getState().messages.should.eql({
-        myId: [
-          { type: 'danger', message: 'my message' },
-          { type: 'danger', message: 'my new message' },
-        ],
-        myOtherId: [{ type: 'danger', message: 'my new message' }],
-      });
-    });
-    it('should ignore existing message', () => {
-      const { dispatch, getState } = getStore({
-        messages: {
-          myId: [{ type: 'danger', message: 'my message' }],
-          myOtherId: [{ type: 'danger', message: 'my message' }],
-        },
-      });
-      dispatch(actions.addOnce('myId', 'danger', 'my message'));
-      dispatch(actions.addOnce('myOtherId', 'danger', 'my message'));
-      getState().messages.should.eql({
-        myId: [
-          { type: 'danger', message: 'my message' },
-        ],
-        myOtherId: [{ type: 'danger', message: 'my message' }],
-      });
     });
   });
   describe('remove', () => {

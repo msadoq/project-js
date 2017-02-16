@@ -2,7 +2,7 @@ import _clone from 'lodash/clone';
 import globalConstants from 'common/constants';
 import simple from '../simpleActionCreator';
 import ifPathChanged from './enhancers/ifPathChanged';
-import addUuids from './enhancers/addUuids';
+import addUuidsToEntryPoints from './enhancers/addUuidsToEntryPoints';
 import * as types from '../types';
 import vivl from '../../../VIVL/main';
 import {
@@ -12,11 +12,11 @@ import {
 import { getPageIdByViewId, makeGetLayouts } from '../selectors/pages';
 import { getTimebarByPageId } from '../selectors/timebars';
 
-export const add = addUuids(simple(
+export const add = addUuidsToEntryPoints(simple(
   types.WS_VIEW_ADD, 'viewId', 'type', 'configuration', 'path', 'oId', 'absolutePath', 'isModified'
 ));
 export const remove = simple(types.WS_VIEW_REMOVE, 'viewId');
-export const reloadView = addUuids(simple(types.WS_VIEW_RELOAD, 'viewId', 'configuration'));
+export const reloadView = addUuidsToEntryPoints(simple(types.WS_VIEW_RELOAD, 'viewId', 'configuration'));
 
 /* Update path/absolutePath */
 const simpleUpdatePath = simple(types.WS_VIEW_UPDATEPATH, 'viewId', 'newPath');

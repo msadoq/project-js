@@ -1,5 +1,5 @@
 import __ from 'lodash/fp';
-import addUuids from './addUuids';
+import addUuidsToEntryPoints from './addUuidsToEntryPoints';
 import ifPathChanged from './ifPathChanged';
 import { should, freezeArgs } from '../../../common/test';
 
@@ -10,21 +10,21 @@ const createDummyAction = freezeArgs((payload = {}) => ({
 }));
 
 describe('store:actions:enhancers', () => {
-  describe('addUuids', () => {
+  describe('addUuidsToEntryPoints', () => {
     it('should does nothing', () => {
       const action = createDummyAction();
-      const enhancedAction = addUuids(__.constant(action))();
+      const enhancedAction = addUuidsToEntryPoints(__.constant(action))();
       enhancedAction.should.be.eql(action);
     });
     it('should generate uuid in entryPoint', () => {
       const action = createDummyAction({ configuration: { entryPoint: {} } });
-      const enhancedAction = addUuids(__.constant(action))();
+      const enhancedAction = addUuidsToEntryPoints(__.constant(action))();
       enhancedAction.payload.configuration.entryPoint.id.should.be.a('string');
       enhancedAction.should.not.be.eql(action);
     });
     it('should generate uuid in entryPoint', () => {
       const action = createDummyAction({ configuration: { entryPoints: [{}, {}, {}] } });
-      const enhancedAction = addUuids(__.constant(action))();
+      const enhancedAction = addUuidsToEntryPoints(__.constant(action))();
       enhancedAction.payload.configuration.entryPoints.forEach((ep) => {
         ep.id.should.be.a('string');
       });

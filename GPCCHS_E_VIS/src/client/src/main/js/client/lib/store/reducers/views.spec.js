@@ -34,16 +34,17 @@ describe('store:views:reducer', () => {
       const action = actions.add(
         'myViewId',
         'PlotView',
-        { setting: 'value', entryPoints: [{ a: true }] },
+        { setting: 'value', entryPoints: [{ a: true }, { b: true }] },
         'path',
         'old',
         'absolutePath',
         false
       );
+      const eps = action.payload.configuration.entryPoints;
       const state = reducer(undefined, action);
       state.myViewId.should.eql({
         type: 'PlotView',
-        configuration: { setting: 'value', entryPoints: [{ a: true, id: action.meta.uuids[0] }] },
+        configuration: { setting: 'value', entryPoints: [{ a: true, id: eps[0].id }, { b: true, id: eps[1].id }] },
         absolutePath: 'absolutePath',
         path: 'path',
         oId: 'old',
@@ -60,10 +61,11 @@ describe('store:views:reducer', () => {
         'absolutePath',
         false
       );
+      const epUuid = action.payload.configuration.entryPoint.id;
       const state = reducer(undefined, action);
       state.myViewId.should.eql({
         type: 'DynamicView',
-        configuration: { setting: 'value', entryPoints: [{ a: true, id: action.meta.uuids[0], name: 'dynamicEP' }] },
+        configuration: { setting: 'value', entryPoints: [{ a: true, id: epUuid, name: 'dynamicEP' }] },
         absolutePath: 'absolutePath',
         path: 'path',
         oId: 'old',

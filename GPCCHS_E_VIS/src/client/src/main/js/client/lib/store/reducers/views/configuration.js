@@ -16,18 +16,8 @@ const addElementIn = (key, val, state) => __.update(key, __.concat(__, val), sta
 export const commonConfiguration = (stateConf = { title: null }, action) => {
   switch (action.type) {
     case types.WS_VIEW_RELOAD:
-    case types.WS_VIEW_ADD: {
-      const config = action.payload.configuration;
-      const uuids = (action.meta && action.meta.uuids);
-      if (!config) {
-        return stateConf;
-      }
-      if (__.isEmpty(config.entryPoints)) {
-        return config;
-      }
-      const entryPointsWithUuids = __.zipWith(__.set('id'), uuids, config.entryPoints);
-      return __.set('entryPoints', entryPointsWithUuids, config);
-    }
+    case types.WS_VIEW_ADD:
+      return action.payload.configuration || stateConf;
     case types.WS_VIEW_UPDATE_LEGEND:
       return __.set('legend', action.payload.legend, stateConf);
     case types.WS_VIEW_UPDATE_CONTENT:
@@ -85,12 +75,10 @@ export const configurationByViewType = {
   DynamicView: (stateConf, action) => {
     switch (action.type) {
       case types.WS_VIEW_ADD: {
-        const uuid = __.get('meta.uuids[0]', action);
         const config = action.payload.configuration;
         const nextConf = __.set('entryPoints', [{
           ...config.entryPoint,
           name: 'dynamicEP',
-          id: uuid,
         }], config);
         return __.omit('entryPoint', nextConf);
       }

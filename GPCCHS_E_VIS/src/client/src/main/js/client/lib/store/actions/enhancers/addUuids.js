@@ -1,20 +1,19 @@
+import __ from 'lodash/fp';
+import u from 'updeep';
 import { v4 } from 'uuid';
-import times from 'lodash/fp/times';
-import get from 'lodash/fp/prop';
 
-const createUuids = times(v4);
+const ifExist = u.if(__.identity);
 
-// action creator enhancer that add meta.uuids array in the action
-const addUuids = (actionCreator, nb = 1) => (...args) => {
+// action creator enhancer that add random uuids in payload.entryPoints || payload.entryPoint
+const addUuids = actionCreator => (...args) => {
   const action = actionCreator(...args);
-  const getNbEntrypoints = get('payload.configuration.entryPoints.length');
-  return {
-    ...action,
-    meta: {
-      ...action.meta,
-      uuids: createUuids(getNbEntrypoints(action) || nb),
-    },
-  };
+  const nextPayload = u({
+    configuration: ifExist({
+      entryPoint: ifExist(__.update('id', v4)),
+      entryPoints: ifExist(__.map(__.update('id', v4))),
+    }),
+  }, action.payload);
+  return { ...action, payload: nextPayload };
 };
 
 export default addUuids;

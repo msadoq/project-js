@@ -6,7 +6,7 @@ import { getEditor } from '../../store/selectors/pages';
 import { openEditor, closeEditor } from '../../store/actions/pages';
 
 const mapStateToProps = (state, ownProps) => {
-  const editor = getEditor(state, ownProps.focusedPageId);
+  const editor = getEditor(state, { pageId: ownProps.focusedPageId });
   return {
     editorViewId: editor && editor.viewId,
     isEditorOpened: editor && editor.isOpened,

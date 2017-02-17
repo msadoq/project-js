@@ -33,7 +33,7 @@ import { stateColors } from '../../common/colors';
 import DroppableContainer from '../../common/DroppableContainer';
 import CloseableAlert from '../CloseableAlert';
 import styles from './PlotView.css';
-import { getEntryPointColorObj } from '../../../store/selectors/views';
+import { _getEntryPointColorObj } from '../../../store/selectors/views';
 
 const logger = getLogger('view:plot');
 
@@ -578,7 +578,7 @@ export class PlotView extends PureComponent {
       )
       .map((line) => {
         const customColor = _.prop('color')(
-          getEntryPointColorObj({
+          _getEntryPointColorObj({
             entryPoints: this.props.entryPoints,
             epName: line.key,
             value: _get(currentItem, [line.key, 'value']),
@@ -793,7 +793,7 @@ export class PlotView extends PureComponent {
       containerHeight,
       entryPoints,
       data: { columns },
-      configuration: { showYAxes, axes },
+      configuration: { showYAxes, axes, grids },
       visuWindow,
     } = this.props;
     const {
@@ -839,15 +839,23 @@ export class PlotView extends PureComponent {
             current={visuWindow.current}
             yAxesAt={showYAxes}
             xAxisAt="bottom"
-            yAxes={yAxes.map(a =>
-              ({
-                id: a.id || a.label,
-                yExtends: [a.min, a.max],
-                master: true,
+            yAxes={yAxes.map((axis) => {
+              const grid = grids.find(g => g.yAxisId === axis.id || g.yAxisId === axis.label);
+              return {
+                id: axis.id || axis.label,
+                yExtends: [axis.min, axis.max],
                 orient: 'top',
-                autoLimits: a.autoLimits === true,
-              })
-            )}
+                showAxis: axis.showAxis === true,
+                showLabels: axis.showLabels === true,
+                showTicks: axis.showTicks === true,
+                autoLimits: axis.autoLimits === true,
+                showGrid: _get(grid, 'showGrid', false),
+                gridStyle: _get(grid, ['line', 'style'], 'Continuous'),
+                gridSize: _get(grid, ['line', 'size'], 1),
+                label: axis.label,
+                labelStyle: axis.style,
+              };
+            })}
             dataSets={[
               {
                 data: columns,
@@ -860,9 +868,9 @@ export class PlotView extends PureComponent {
                   id: ep.name,
                   dataSet: 'dataOne',
                   yAxis: _get(ep, ['connectedDataY', 'axisId']),
-                  fill: _get(ep, ['objectStyle', 'curveColor']),
-                  strokeWidth: _get(ep, ['objectStyle', 'line', 'size']),
-                  lineStyle: _get(ep, ['objectStyle', 'line', 'style']),
+                  fill: _get(ep, ['objectStyle', 'curveColor'], '#222222'),
+                  strokeWidth: _get(ep, ['objectStyle', 'line', 'size'], 2),
+                  lineStyle: _get(ep, ['objectStyle', 'line', 'style'], 'Continuous'),
                   yAccessor: d => _get(d, [ep.name, 'value']),
                 })
               )

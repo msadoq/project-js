@@ -2,8 +2,10 @@
 import _find from 'lodash/find';
 import * as actions from '../actions/views';
 import * as types from '../types';
-import reducer from './views';
-import { freezeMe, getStore } from '../../common/test';
+import viewsReducer from './views';
+import { freezeArgs } from '../../common/test';
+
+const reducer = freezeArgs(viewsReducer);
 
 describe('store:views:reducer', () => {
   it('initial state', () => {
@@ -32,16 +34,17 @@ describe('store:views:reducer', () => {
       const action = actions.add(
         'myViewId',
         'PlotView',
-        { setting: 'value', entryPoints: [{ a: true }] },
+        { setting: 'value', entryPoints: [{ a: true }, { b: true }] },
         'path',
         'old',
         'absolutePath',
         false
       );
+      const eps = action.payload.configuration.entryPoints;
       const state = reducer(undefined, action);
       state.myViewId.should.eql({
         type: 'PlotView',
-        configuration: { setting: 'value', entryPoints: [{ a: true, id: action.meta.uuids[0] }] },
+        configuration: { setting: 'value', entryPoints: [{ a: true, id: eps[0].id }, { b: true, id: eps[1].id }] },
         absolutePath: 'absolutePath',
         path: 'path',
         oId: 'old',
@@ -58,10 +61,11 @@ describe('store:views:reducer', () => {
         'absolutePath',
         false
       );
+      const epUuid = action.payload.configuration.entryPoint.id;
       const state = reducer(undefined, action);
       state.myViewId.should.eql({
         type: 'DynamicView',
-        configuration: { setting: 'value', entryPoints: [{ a: true, id: action.meta.uuids[0], name: 'dynamicEP' }] },
+        configuration: { setting: 'value', entryPoints: [{ a: true, id: epUuid, name: 'dynamicEP' }] },
         absolutePath: 'absolutePath',
         path: 'path',
         oId: 'old',
@@ -132,66 +136,8 @@ describe('store:views:reducer', () => {
       s.myView.configuration.collapsed.should.equal(true);
     });
   });
-  describe('set collapsed and updateLayout', () => {
-    let dispatch;
-    let getState;
-    before(() => {
-      const store = getStore({
-        pages: {
-          myPage: {
-            layout: [
-              {
-                h: 5,
-                w: 5,
-                maxH: undefined,
-                maxW: undefined,
-                minW: 3,
-                minH: 3,
-                i: 'myView',
-              },
-            ],
-          },
-        },
-        views: {
-          myView: {
-            configuration: {
-              collapsed: false,
-            },
-          },
-        },
-      });
-      getState = store.getState;
-      dispatch = store.dispatch;
-    });
-    it('collapses / expands and updates layout', () => {
-      dispatch(actions.setCollapsedAndUpdateLayout('myPage', 'myView', true));
-      let newState = getState();
-      newState.pages.myPage.layout[0].should.deep.equal({
-        h: 1,
-        w: 3,
-        maxH: 5,
-        maxW: 5,
-        minW: 3,
-        minH: 3,
-        i: 'myView',
-      });
-      newState.views.myView.configuration.collapsed.should.equal(true);
-      dispatch(actions.setCollapsedAndUpdateLayout('myPage', 'myView', false));
-      newState = getState();
-      newState.pages.myPage.layout[0].should.deep.equal({
-        h: 5,
-        w: 5,
-        maxH: undefined,
-        maxW: undefined,
-        minW: 3,
-        minH: 3,
-        i: 'myView',
-      });
-      newState.views.myView.configuration.collapsed.should.equal(false);
-    });
-  });
   describe('update', () => {
-    const state = freezeMe({
+    const state = {
       view1: {
         type: 'DynamicView',
         configuration: {
@@ -202,7 +148,7 @@ describe('store:views:reducer', () => {
         path: '/data/oldPath',
         isModified: false,
       },
-    });
+    };
     it('Path', () => {
       const s = reducer(state, {
         type: types.WS_VIEW_UPDATEPATH,
@@ -240,7 +186,7 @@ describe('store:views:reducer', () => {
     });
   });
 
-  const stateViews = freezeMe({
+  const stateViews = {
     plot1: {
       type: 'PlotView',
       configuration: {
@@ -289,7 +235,7 @@ describe('store:views:reducer', () => {
         ],
       },
     },
-  });
+  };
   describe('update action', () => {
     it('Entry Point', () => {
       const newEp = {

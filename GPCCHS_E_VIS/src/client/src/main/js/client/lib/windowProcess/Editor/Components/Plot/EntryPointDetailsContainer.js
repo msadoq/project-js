@@ -10,9 +10,9 @@ import {
 } from '../../../../store/actions/views';
 
 const mapStateToProps = (state, { viewId, focusedPageId }) => {
-  const view = getView(state, viewId);
-  const { timebarUuid } = getPage(state, focusedPageId);
-  const timelines = getTimebarTimelinesSelector(state, timebarUuid);
+  const view = getView(state, { viewId });
+  const { timebarUuid } = getPage(state, { pageId: focusedPageId });
+  const timelines = getTimebarTimelinesSelector(state, { timebarUuid });
   return {
     axes: view.configuration.axes,
     timelines,

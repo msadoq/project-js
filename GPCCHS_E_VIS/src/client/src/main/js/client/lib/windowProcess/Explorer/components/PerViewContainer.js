@@ -19,11 +19,11 @@ const mapStateToProps = (state, { windowId }) => {
     perView: dataMap.perView,
     views: getViews(state),
     windowId,
-    dataId: getExplorerFlag(state, windowId, 'viewTabDataId'),
-    localId: getExplorerFlag(state, windowId, 'viewTabLocalId'),
-    domainAndSession: getExplorerFlag(state, windowId, 'viewTabDomain'),
-    remoteId: getExplorerFlag(state, windowId, 'viewTabRemoteId'),
-    filters: getExplorerFlag(state, windowId, 'viewTabFilters'),
+    dataId: getExplorerFlag(state, { windowId, flagName: 'viewTabDataId' }),
+    localId: getExplorerFlag(state, { windowId, flagName: 'viewTabLocalId' }),
+    remoteId: getExplorerFlag(state, { windowId, flagName: 'viewTabRemoteId' }),
+    domainAndSession: getExplorerFlag(state, { windowId, flagName: 'viewTabDomain' }),
+    filters: getExplorerFlag(state, { windowId, flagName: 'viewTabFilters' }),
   };
 };
 

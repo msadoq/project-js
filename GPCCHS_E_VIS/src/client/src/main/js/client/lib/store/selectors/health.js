@@ -16,7 +16,7 @@ export const getLastPubSubTimestamp = state => state.health.lastPubSubTimestamp;
 
 // TODO : test dbrugne
 export const getHealthMap = createSelector(
-  [getHealth],
+  getHealth,
   ({ dcStatus, hssStatus, mainStatus, windowsStatus }) => {
     let windows = HEALTH_STATUS_HEALTHY;
     if (_some(windowsStatus, w => w === HEALTH_STATUS_CRITICAL)) {

@@ -1,7 +1,8 @@
 import _clone from 'lodash/clone';
 import globalConstants from 'common/constants';
 import simple from '../simpleActionCreator';
-import { ifPathChanged, addUuids } from './enhancers';
+import ifPathChanged from './enhancers/ifPathChanged';
+import addUuidsToEntryPoints from './enhancers/addUuidsToEntryPoints';
 import * as types from '../types';
 import vivl from '../../../VIVL/main';
 import {
@@ -11,28 +12,30 @@ import {
 import { getPageIdByViewId, makeGetLayouts } from '../selectors/pages';
 import { getTimebarByPageId } from '../selectors/timebars';
 
-export const add = addUuids(simple(
+export const add = addUuidsToEntryPoints(simple(
   types.WS_VIEW_ADD, 'viewId', 'type', 'configuration', 'path', 'oId', 'absolutePath', 'isModified'
 ));
 export const remove = simple(types.WS_VIEW_REMOVE, 'viewId');
-export const reloadView = addUuids(simple(types.WS_VIEW_RELOAD, 'viewId', 'configuration'));
+export const reloadView = addUuidsToEntryPoints(simple(types.WS_VIEW_RELOAD, 'viewId', 'configuration'));
 
 /* Update path/absolutePath */
 const simpleUpdatePath = simple(types.WS_VIEW_UPDATEPATH, 'viewId', 'newPath');
 const simpleUpdateAbsolutePath = simple(types.WS_VIEW_UPDATE_ABSOLUTEPATH, 'viewId', 'newPath');
 
-export const updatePath = ifPathChanged(simpleUpdatePath, ['views', 'path', 'viewId']);
-export const updateAbsolutePath = ifPathChanged(simpleUpdateAbsolutePath, ['views', 'absolutePath', 'viewId']);
+export const updatePath = ifPathChanged(simpleUpdatePath, 'views', 'path', 'viewId');
+export const updateAbsolutePath = ifPathChanged(simpleUpdateAbsolutePath, 'views', 'absolutePath', 'viewId');
 /* ------------------------ */
 
 export const setViewOid = simple(types.WS_VIEW_SET_OID, 'viewId', 'oid');
 
 export const setModified = simple(types.WS_VIEW_SETMODIFIED, 'viewId', 'flag');
 export const setCollapsed = simple(types.WS_VIEW_SETCOLLAPSED, 'viewId', 'flag');
-export const setCollapsedAndUpdateLayout = (pageId, viewId, flag) =>
+
+const getLayouts = makeGetLayouts();
+export const setCollapsedAndUpdateLayout = (pageId, viewId, flag) => (
   (dispatch, getState) => {
     const state = getState();
-    const layout = makeGetLayouts()(state, { pageId });
+    const layout = getLayouts(state, { pageId });
     if (flag) {
       const newLayout = layout.lg.map((l) => {
         if (l.i === viewId) {
@@ -62,15 +65,10 @@ export const setCollapsedAndUpdateLayout = (pageId, viewId, flag) =>
       });
       dispatch(updateLayout(pageId, newLayout));
     }
-    dispatch({
-      type: types.WS_VIEW_SETCOLLAPSED,
-      payload: {
-        viewId,
-        flag,
-      },
-    });
+    dispatch(setCollapsed(viewId, flag));
     dispatch(setModified(viewId, true));
-  };
+  }
+);
 
 export const updateEntryPoint = simple(types.WS_VIEW_UPDATE_ENTRYPOINT, 'viewId', 'index',
  'entryPoint');

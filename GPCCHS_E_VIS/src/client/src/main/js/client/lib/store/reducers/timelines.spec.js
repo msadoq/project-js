@@ -1,16 +1,18 @@
 /* eslint no-unused-expressions: 0 */
-import '../../common/test';
+import { freezeArgs } from '../../common/test';
 import * as actions from '../actions/timelines';
-import reducer from './timelines';
+import timelinesReducer from './timelines';
 import * as types from '../types';
+
+const reducer = freezeArgs(timelinesReducer);
 
 describe('store:timelines:reducer', () => {
   it('initial state', () => {
     reducer(undefined, {}).should.be.an('object').that.is.empty;
   });
   it('unknown action', () => {
-    reducer({ myTimelineId: { id: 'Id' } }, {})
-      .should.eql({ myTimelineId: { id: 'Id' } });
+    reducer({ myTimelineId: { id: 'myTimelineId' } }, { payload: { timelineId: 'myTimelineId' } })
+      .should.eql({ myTimelineId: { id: 'myTimelineId' } });
   });
   describe('add', () => {
     it('add', () => {

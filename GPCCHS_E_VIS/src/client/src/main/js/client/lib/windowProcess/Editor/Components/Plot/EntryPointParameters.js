@@ -6,15 +6,21 @@ import { Field, reduxForm } from 'redux-form';
 import {
   ColorPickerField,
   InputField,
+  SelectButtonField,
 } from '../Fields/';
 import {
   HorizontalFormGroup,
   ClearSubmitButtons,
 } from '../Forms/';
 import {
-  FormSectionLineStyle,
   FormSectionPointStyle,
 } from '../FormSections/';
+
+const lineStyleButtons = [
+  { label: 'Continuous', icon: 'continuous' },
+  { label: 'Dashed', icon: 'dashed' },
+  { label: 'Dotted', icon: 'doted' },
+];
 
 class EntryPointParameters extends React.Component {
   static propTypes = {
@@ -66,8 +72,12 @@ class EntryPointParameters extends React.Component {
         <div className="page-header">
           <h4>Style</h4>
         </div>
-        <HorizontalFormGroup label="Line">
-          <FormSectionLineStyle name="line" />
+        <HorizontalFormGroup label="Line style">
+          <Field
+            component={SelectButtonField}
+            name="line.style"
+            buttons={lineStyleButtons}
+          />
         </HorizontalFormGroup>
 
         <HorizontalFormGroup label="Line size">

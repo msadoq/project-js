@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 import simple from '../simpleActionCreator';
-import { ifPathChanged } from './enhancers';
+import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
 import { getView } from '../selectors/views';
 import {
@@ -31,7 +31,7 @@ export const updateLayout = (pageId, layout) =>
   (dispatch, getState) => {
     layout.forEach((l) => {
       if (l.h > 1) {
-        const view = getView(getState(), l.i);
+        const view = getView(getState(), { viewId: l.i });
         if (view && view.configuration.collapsed) {
           dispatch(setCollapsedView(l.i, false));
         }
@@ -44,8 +44,8 @@ export const updateLayout = (pageId, layout) =>
 const simpleUpdatePath = simple(types.WS_PAGE_UPDATEPATH, 'pageId', 'newPath');
 const simpleUpdateAbsolutePath = simple(types.WS_PAGE_UPDATE_ABSOLUTEPATH, 'pageId', 'newPath');
 
-export const updatePath = ifPathChanged(simpleUpdatePath, ['pages', 'path', 'pageId']);
-export const updateAbsolutePath = ifPathChanged(simpleUpdateAbsolutePath, ['pages', 'absolutePath', 'pageId']);
+export const updatePath = ifPathChanged(simpleUpdatePath, 'pages', 'path', 'pageId');
+export const updateAbsolutePath = ifPathChanged(simpleUpdateAbsolutePath, 'pages', 'absolutePath', 'pageId');
 /* ------------------------ */
 
 // export const updatePath = simple(types.WS_PAGE_UPDATEPATH, 'pageId', 'newPath');
@@ -53,7 +53,7 @@ export const updateAbsolutePath = ifPathChanged(simpleUpdateAbsolutePath, ['page
 
 export const setModified = simple(types.WS_PAGE_SETMODIFIED, 'pageId', 'flag');
 
-export const updateTimebarHeight = simple(types.WS_PAGE_UPDATE_TIMEBARHEIGHT, 'focusedPageId', 'timebarHeight');
+export const updateTimebarHeight = simple(types.WS_PAGE_UPDATE_TIMEBARHEIGHT, 'pageId', 'timebarHeight');
 
 /**
  * Compound actions
@@ -106,9 +106,9 @@ export function remove(pageId) {
   };
 }
 
-export function updateTimebarId(focusedPageId, timebarUuid) {
+export function updateTimebarId(pageId, timebarUuid) {
   return (dispatch, getState) => {
-    dispatch({ type: 'WS_PAGE_UPDATE_TIMEBARID', payload: { focusedPageId, timebarUuid } });
+    dispatch({ type: 'WS_PAGE_UPDATE_TIMEBARID', payload: { pageId, timebarUuid } });
     const state = getState();
     const windowId = getFocusedWindowId(state);
     dispatch(setModifiedWindow(windowId, true));

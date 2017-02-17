@@ -5,7 +5,7 @@ import Debug from './Debug';
 import { play, pause } from '../../store/actions/hsc';
 
 const mapStateToStore = (state, ownProps) => ({
-  focusedPage: getPage(state, ownProps.focusedPageId),
+  focusedPage: getPage(state, { pageId: ownProps.focusedPageId }),
 });
 
 const DebugContainer = connect(mapStateToStore, {

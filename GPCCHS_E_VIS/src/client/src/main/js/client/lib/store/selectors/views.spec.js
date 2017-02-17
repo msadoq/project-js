@@ -20,8 +20,8 @@ describe('store:views:selectors', () => {
         myViewId: { title: 'Title 1' },
       },
     });
-    getView(getState(), 'myViewId').should.have.property('title', 'Title 1');
-    should.not.exist(getView(getState(), 'unknownId'));
+    getView(getState(), { viewId: 'myViewId' }).should.have.property('title', 'Title 1');
+    should.not.exist(getView(getState(), { viewId: 'unknownId' }));
   });
   describe('getViews', () => {
     it('should returns views', () => {
@@ -59,10 +59,10 @@ describe('store:views:selectors', () => {
         },
       },
     };
-    getEntryPointOnAxis(state, 'myViewId', 'axis1').should.be.an('array').with.length(2);
-    getEntryPointOnAxis(state, 'myViewId', 'axis2').should.be.an('array').with.length(1);
-    getEntryPointOnAxis(state, 'myViewId', 'invalidAxis').should.be.an('array').with.length(0);
-    getEntryPointOnAxis(state, 'unknown', 'axis1').should.be.an('array').with.length(0);
+    getEntryPointOnAxis(state, { viewId: 'myViewId', axisId: 'axis1' }).should.be.an('array').with.length(2);
+    getEntryPointOnAxis(state, { viewId: 'myViewId', axisId: 'axis2' }).should.be.an('array').with.length(1);
+    getEntryPointOnAxis(state, { viewId: 'myViewId', axisId: 'invalidAxis' }).should.be.an('array').with.length(0);
+    getEntryPointOnAxis(state, { viewId: 'unknown', axisId: 'axis1' }).should.be.an('array').with.length(0);
   });
   it('getModifiedViewsIds', () => {
     const state = {
@@ -84,7 +84,7 @@ describe('store:views:selectors', () => {
         },
       },
     };
-    getViewConfiguration(state, 'myViewId').should.eql({
+    getViewConfiguration(state, { viewId: 'myViewId' }).should.eql({
       title: 'Title 1',
     });
   });
@@ -100,7 +100,7 @@ describe('store:views:selectors', () => {
         },
       },
     };
-    getViewContent(state, 'myViewId').should.eql('<h1>content</h1>');
+    getViewContent(state, { viewId: 'myViewId' }).should.eql('<h1>content</h1>');
   });
 
   it('getViewEntryPoints', () => {
@@ -117,7 +117,7 @@ describe('store:views:selectors', () => {
         },
       },
     };
-    getViewEntryPoints(state, 'myViewId').should.eql([
+    getViewEntryPoints(state, { viewId: 'myViewId' }).should.eql([
       { name: 'AGA_AM_PRIORITY', connectedData: { formula: 'Reporting.ep1<ReportingParameter>.extractedValue' } },
       { name: 'TMMGT_BC_VIRTCHAN3' },
     ]);
@@ -136,7 +136,7 @@ describe('store:views:selectors', () => {
         },
       },
     };
-    getViewEntryPoint(state, 'myViewId', 'TMMGT_BC_VIRTCHAN3').should.eql({
+    getViewEntryPoint(state, { viewId: 'myViewId', epName: 'TMMGT_BC_VIRTCHAN3' }).should.eql({
       name: 'TMMGT_BC_VIRTCHAN3',
       connectedData: {
         formula: 'Reporting.ep1<ReportingParameter>.extractedValue',
@@ -166,7 +166,7 @@ describe('store:views:selectors', () => {
         },
       },
     };
-    getViewEntryPointStateColors(state, 'myViewId', 'ep1').should.eql([
+    getViewEntryPointStateColors(state, { viewId: 'myViewId', epName: 'ep1' }).should.eql([
       {
         color: '#f44336',
         condition: {
@@ -263,7 +263,7 @@ describe('store:views:selectors', () => {
           },
         },
       };
-      getTextViewData(state, 'myViewId').should.eql({
+      getTextViewData(state, { viewId: 'myViewId' }).should.eql({
         index: {
           ep1: 1480578457000,
           ep2: 1480578457000,
@@ -320,7 +320,7 @@ describe('store:views:selectors', () => {
           },
         },
       };
-      getTextViewData(state, 'myViewId').should.eql({
+      getTextViewData(state, { viewId: 'myViewId' }).should.eql({
         index: {
           ep1: 1480578457000,
         },

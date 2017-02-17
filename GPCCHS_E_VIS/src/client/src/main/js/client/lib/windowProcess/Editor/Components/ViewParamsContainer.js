@@ -9,7 +9,7 @@ import {
 } from '../../../store/actions/views';
 
 const mapStateToProps = (state, { viewId }) => {
-  const view = getView(state, viewId);
+  const view = getView(state, { viewId });
   return {
     backgroundColor: view.configuration.backgroundColor,
     title: view.configuration.title,

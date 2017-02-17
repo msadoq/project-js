@@ -20,7 +20,7 @@ describe('store:page:selectors', () => {
         myPageId: { title: 'Title 1' },
       },
     };
-    getPage(state, 'myPageId').should.have.property('title', 'Title 1');
+    getPage(state, { pageId: 'myPageId' }).should.have.property('title', 'Title 1');
     should.not.exist(getPage(state, 'unknownId'));
   });
   it('getPageIds', () => {
@@ -50,7 +50,7 @@ describe('store:page:selectors', () => {
         },
       },
     };
-    getEditor(state, 'myPageId').should.be.an('object');
+    getEditor(state, { pageId: 'myPageId' }).should.be.an('object');
   });
   describe('getPages', () => {
     it('should returns pages', () => {
@@ -126,8 +126,8 @@ describe('store:page:selectors', () => {
       },
     };
 
-    getPageModifiedViewsIds(state, 'myPageId1').should.eql(['view1', 'view3']);
-    getPageModifiedViewsIds(state, 'otherPageId').should.eql([]);
+    getPageModifiedViewsIds(state, { pageId: 'myPageId1' }).should.eql(['view1', 'view3']);
+    getPageModifiedViewsIds(state, { pageId: 'otherPageId' }).should.eql([]);
   });
   it('getPageIdByViewId', () => {
     const state = {

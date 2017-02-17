@@ -114,7 +114,8 @@
       "showTicks": true,
       "showTickLabels": true,
       "isLogarithmic": false,
-      "showAxis": true
+      "showAxis": true,
+      "showLabels": true
     },
     {
       "label": "VBat",
@@ -137,7 +138,8 @@
       "showTicks": true,
       "showTickLabels": true,
       "isLogarithmic": false,
-      "showAxis": true
+      "showAxis": true,
+      "showLabels": true
     },
     {
       "label": "ATT_BC_REVTCOUNT1",

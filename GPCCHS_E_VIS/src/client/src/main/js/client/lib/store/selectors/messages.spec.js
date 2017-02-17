@@ -22,7 +22,7 @@ describe('store:messages:selectors', () => {
   describe('getMessages', () => {
     it('should returns corresponding messages', () => {
       const { getState } = getStore(state);
-      getMessages(getState(), 'myOtherId').should.equal(state.messages.myOtherId);
+      getMessages(getState(), { containerId: 'myOtherId' }).should.equal(state.messages.myOtherId);
     });
   });
 });

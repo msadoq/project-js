@@ -11,7 +11,7 @@ import vivl from '../../VIVL/main';
 import structures from './structures';
 import { getMasterSessionId } from '../store/selectors/masterSession';
 import { getDomains } from '../store/selectors/domains';
-import { getTimebars, getTimebarTimelines } from '../store/selectors/timebars';
+import { getTimebars, _getTimebarTimelines } from '../store/selectors/timebars';
 import { getTimelines } from '../store/selectors/timelines';
 import { getWindowsVisibleViews } from '../store/selectors/windows';
 
@@ -19,7 +19,7 @@ const logger = getLogger('data:map');
 
 const anyUndefined = any(_isUndefined);
 
-export const getViewData = ({
+export const _getViewData = ({
   domains,
   view,
   timebars,
@@ -39,7 +39,7 @@ export const getViewData = ({
   const { entryPoints } = configuration;
   const structureType = vivl(type, 'structureType')();
   const extract = structures(structureType, 'parseEntryPoint');
-  const viewTimelines = getTimebarTimelines(timebars, timelines, timebarUuid);
+  const viewTimelines = _getTimebarTimelines(timebars, timelines, timebarUuid);
   const visuWindow = _get(timebars, [timebarUuid, 'visuWindow']);
 
   return {
@@ -64,7 +64,7 @@ export const getViewData = ({
 
 export const walk = (masterSessionId, domains, timebars, timelines, views) =>
   _reduce(views, (map, { viewId, timebarUuid, viewData: view }) => {
-    const props = getViewData({
+    const props = _getViewData({
       domains,
       timebars,
       timelines,
@@ -211,13 +211,11 @@ export const walk = (masterSessionId, domains, timebars, timelines, views) =>
  * @return {*}
  */
 export default createSelector(
-  [
-    getMasterSessionId,
-    getDomains,
-    getTimebars,
-    getTimelines,
-    getWindowsVisibleViews,
-  ],
+  getMasterSessionId,
+  getDomains,
+  getTimebars,
+  getTimelines,
+  getWindowsVisibleViews,
   walk
 );
 

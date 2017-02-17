@@ -1,10 +1,14 @@
-import 'reselect';
-import _get from 'lodash/get';
+import { createSelector } from 'reselect';
 import _reduce from 'lodash/reduce';
+import __ from 'lodash/fp';
 
 export const getViewData = state => state.viewData;
 
-export const getData = (state, viewId) => _get(state, ['viewData', viewId]);
+export const getData = createSelector(
+  (state, { viewId }) => viewId,
+  getViewData,
+  __.get
+);
 
 // TODO test + factorize in structure type + reselect
 export const getCount = state => _reduce(getViewData(state), (c, view) => {

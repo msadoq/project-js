@@ -7,8 +7,8 @@ import { currentExplorer, updateExplorerWidth, displayExplorer } from '../../sto
 
 
 const mapStateToProps = (state, { windowId }) => {
-  const tabName = getExplorerTabName(state, windowId);
-  const width = getExplorerWidth(state, windowId);
+  const tabName = getExplorerTabName(state, { windowId });
+  const width = getExplorerWidth(state, { windowId });
 
   return {
     currentTab: tabName || 'perRemoteId',

@@ -43,7 +43,7 @@ export function add(windowId, title, geometry, pages, focusedPage, isModified) {
 export function focusPage(windowId, pageId) {
   return (dispatch, getState) => {
     const playingTimebarId = getPlayingTimebarId(getState());
-    const newPage = getPage(getState(), pageId);
+    const newPage = getPage(getState(), { pageId });
     if (playingTimebarId && playingTimebarId !== newPage.timebarUuid) {
       // switch to pause when changing for another timebar
       dispatch(pause());

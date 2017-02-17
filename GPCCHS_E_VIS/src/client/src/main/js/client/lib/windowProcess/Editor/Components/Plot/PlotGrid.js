@@ -6,14 +6,18 @@ import {
 import {
   ButtonToggleField,
   InputField,
+  SelectButtonField,
 } from '../Fields/';
 import {
   HorizontalFormGroup,
   ClearSubmitButtons,
 } from '../Forms/';
-import {
-  FormSectionLineStyle,
-} from '../FormSections';
+
+const lineStyleButtons = [
+  { label: 'Continuous', icon: 'continuous' },
+  { label: 'Dashed', icon: 'dashed' },
+  { label: 'Dotted', icon: 'doted' },
+];
 
 class PlotGrid extends React.Component {
   static propTypes = {
@@ -78,8 +82,12 @@ class PlotGrid extends React.Component {
           />
         </HorizontalFormGroup>
 
-        <HorizontalFormGroup label="Line">
-          <FormSectionLineStyle name="line" />
+        <HorizontalFormGroup label="Line style">
+          <Field
+            component={SelectButtonField}
+            name="line.style"
+            buttons={lineStyleButtons}
+          />
         </HorizontalFormGroup>
 
         <HorizontalFormGroup label="Width">

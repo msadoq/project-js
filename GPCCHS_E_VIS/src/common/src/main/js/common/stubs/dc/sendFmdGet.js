@@ -13,7 +13,7 @@ module.exports = function sendFmdGet(queryId, oid, zmq) {
   ];
 
   const path = oid.replace('oid:', '');
-  if (!existsSync(join(get('FMD_ROOT_DIR'), path))) {
+  if (!existsSync(join(get('ISIS_DOCUMENTS_ROOT'), path))) {
     buffer[3] = stubData.getErrorStatusProtobuf();
     buffer[4] = stubData.getStringProtobuf(`this file doesn't exist ${path}`);
   } else {

@@ -17,15 +17,15 @@
   &:visited, &:focus, &:active{
     outline: inherit;
   }
-  &.btnClose{
-    right: 0px;
-  }
-  &.btnCollapse{
-    right: 15px;
-  }
-  &.addTimelineButton{
-    left: 0px;
-  }
+}
+.btnClose{
+  right: 0px;
+}
+.btnCollapse{
+  right: 15px;
+}
+.addTimelineButton{
+  left: 0px;
 }
 .offset{
   position: absolute;

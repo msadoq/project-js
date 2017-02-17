@@ -5,6 +5,8 @@ import styles from './GrizzlyChart.css';
 export default class LineCanvas extends PureComponent {
 
   static propTypes = {
+    updateLabelPosition: PropTypes.func.isRequired,
+    axisId: PropTypes.string.isRequired,
     yAxesAt: PropTypes.string.isRequired,
     top: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
@@ -16,12 +18,12 @@ export default class LineCanvas extends PureComponent {
     ).isRequired,
     lines: PropTypes.arrayOf(
       PropTypes.shape({
-        lineStyle: PropTypes.string.isRequired,
+        lineStyle: PropTypes.string,
         id: PropTypes.string.isRequired,
         dataSet: PropTypes.string.isRequired,
         yAxis: PropTypes.string.isdataSetsRequired,
-        fill: PropTypes.string.isRequired,
-        strokeWidth: PropTypes.number.isRequired,
+        fill: PropTypes.string,
+        strokeWidth: PropTypes.number,
         yAccessor: PropTypes.func.isRequired,
       })
     ).isRequired,
@@ -58,6 +60,8 @@ export default class LineCanvas extends PureComponent {
       lines,
       yExtends,
       xScale,
+      updateLabelPosition,
+      axisId,
     } = this.props;
 
     const yScale = scaleLinear()
@@ -70,10 +74,14 @@ export default class LineCanvas extends PureComponent {
 
     lines.forEach((line) => {
       // Change style depending on line properties
-      ctx.strokeStyle = line.fill || '#000000';
-      ctx.lineWidth = line.strokeWidth || 4;
+      ctx.strokeStyle = line.fill;
+      ctx.lineWidth = line.strokeWidth;
       if (line.lineStyle === 'Dashed') {
-        ctx.setLineDash([4, 2]);
+        ctx.setLineDash([6, 2]);
+      } else if (line.lineStyle === 'Dotted') {
+        ctx.setLineDash([3, 3]);
+      } else {
+        ctx.setLineDash([2, 0]);
       }
 
       // =============== DRAWING
@@ -82,6 +90,19 @@ export default class LineCanvas extends PureComponent {
         const y = yScale(line.yAccessor(data));
         ctx.lineTo(xScale(data.x), y);
       });
+      ctx.stroke();
+
+      // Horizontal line
+      const lastYPosition = yScale(line.yAccessor(line.data[line.data.length - 1]));
+      ctx.beginPath();
+      ctx.lineWidth = 1;
+      ctx.setLineDash([6, 3]);
+      ctx.moveTo(xScale(line.data[line.data.length - 1].x), lastYPosition);
+      ctx.lineTo(
+        xScale(line.data[0].x),
+        lastYPosition
+      );
+      updateLabelPosition(axisId, line.id, lastYPosition);
       ctx.stroke();
       // ===============
     });

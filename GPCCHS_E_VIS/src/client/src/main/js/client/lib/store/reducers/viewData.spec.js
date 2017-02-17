@@ -1,8 +1,10 @@
 import moment from 'moment';
-import reducer from './viewData';
+import viewDataReducer from './viewData';
 import { removeAllData, updateViewData } from '../actions/viewData';
 import * as types from '../types';
+import { freezeArgs } from '../../common/test';
 
+const reducer = freezeArgs(viewDataReducer);
 
 describe('store:viewData:reducer', () => {
   const payload = { rId1: {}, rId2: {} };

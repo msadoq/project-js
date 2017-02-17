@@ -1,6 +1,8 @@
-import '../../common/test';
+import { freezeArgs } from '../../common/test';
 import * as actions from '../actions/domains';
-import reducer from './domains';
+import domainsReducer from './domains';
+
+const reducer = freezeArgs(domainsReducer);
 
 describe('store:domains:reducer', () => {
   it('initial state', () => {

@@ -12,8 +12,8 @@ import {
 
 export const TextViewContainer = connect(
   (state, { viewId }) => ({
-    content: getViewContent(state, viewId),
-    data: getTextViewData(state, viewId),
+    content: getViewContent(state, { viewId }),
+    data: getTextViewData(state, { viewId }),
   }), {
     updateContent,
     addEntryPoint,

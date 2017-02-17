@@ -35,7 +35,7 @@ export default class CurrentCursorCanvas extends PureComponent {
     // =============== DRAWING
     ctx.beginPath();
     ctx.strokeStyle = '#11EE22';
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 2;
     ctx.moveTo(xScale(current), 0);
     ctx.lineTo(xScale(current), height);
     ctx.stroke();

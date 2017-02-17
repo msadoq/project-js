@@ -1,5 +1,6 @@
 const { eachSeries } = require('async');
 const _chunk = require('lodash/chunk');
+const _isBuffer = require('lodash/isBuffer');
 const { decode, encode, getType } = require('common/protobuf');
 const { HSS_MAX_PAYLOADS_PER_MESSAGE } = require('common/constants');
 const executionMonitor = require('common/log/execution');
@@ -109,6 +110,13 @@ module.exports = (
 
   // only one loop to decode, insert in cache, and add to queue
   eachSeries(_chunk(payloadBuffers, 2), (payloadBuffer, callback) => {
+    if (!_isBuffer(payloadBuffer[0]) || !_isBuffer(payloadBuffer[1])) {
+      // robustness code, LPISIS could send empty ZeroMQ frame
+      loggerData.warn(`received an empty ZeroMQ frame from DC for ${remoteId}`);
+      callback(null);
+      return;
+    }
+
     execution.start('decode payloads');
     const timestamp = decode('dc.dataControllerUtils.Timestamp', payloadBuffer[0]).ms;
     const payload = decode(payloadProtobufType, payloadBuffer[1]);

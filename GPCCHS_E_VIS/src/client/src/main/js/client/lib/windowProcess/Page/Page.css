@@ -8,3 +8,7 @@
 .contentWithEditor{
   margin-left: var(--editor-width)
 }
+
+.content {
+  height: 100%;
+}

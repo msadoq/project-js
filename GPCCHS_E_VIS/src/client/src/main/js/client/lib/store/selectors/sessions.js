@@ -1,5 +1,6 @@
 import _get from 'lodash/get';
 import _find from 'lodash/find';
+import 'reselect';
 
 export const getSessions = state => state.sessions;
 

@@ -21,19 +21,19 @@ const items = [
   {
     name: 'Text view',
     mimeType: 'ViewDoc',
-    filepath: '/views/text.json',
+    filePath: '/views/text.json',
     mime: 'text/plain',
   },
   {
     name: 'page',
     mimeType: 'PageDoc',
-    filepath: '/pages/dev.page1.json',
+    filePath: '/pages/dev.page1.json',
     mime: 'text/plain',
   },
   {
     name: 'workspace',
     mimeType: 'WorkspaceDoc',
-    filepath: '/dev.workspace.json',
+    filePath: '/dev.workspace.json',
     mime: 'text/plain',
   },
   {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Explorer from './Explorer';
 
 import { getExplorerTabName, getExplorerWidth } from '../../store/selectors/windows';
-import { currentExplorer, updateExplorerWidth } from '../../store/actions/windows';
+import { currentExplorer, updateExplorerWidth, displayExplorer } from '../../store/actions/windows';
 
 
 const mapStateToProps = (state, { windowId }) => {
@@ -18,7 +18,7 @@ const mapStateToProps = (state, { windowId }) => {
 
 const ExplorerContainer = connect(
   mapStateToProps,
-  { currentExplorer, updateExplorerWidth }
+  { currentExplorer, updateExplorerWidth, displayExplorer }
 )(Explorer);
 
 ExplorerContainer.propTypes = {

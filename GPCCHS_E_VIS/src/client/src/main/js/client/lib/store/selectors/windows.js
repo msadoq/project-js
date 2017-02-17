@@ -124,3 +124,10 @@ export function getExplorerTabName(state, windowId) {
 export function getExplorerWidth(state, windowId) {
   return _get(state, ['windows', windowId, 'explorerWidth']);
 }
+
+export function getExplorerFlag(state, windowId, flagName) {
+  return _get(state, ['windows', windowId, flagName]);
+}
+export function getExplorerDisplay(state, windowId) {
+  return _get(state, ['windows', windowId, 'displayExplorer']);
+}

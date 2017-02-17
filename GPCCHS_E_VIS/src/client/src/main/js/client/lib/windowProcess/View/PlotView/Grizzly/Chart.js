@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 import _memoize from 'lodash/memoize';
+import _max from 'lodash/max';
+import _min from 'lodash/min';
 import { scaleLinear } from 'd3-scale';
 import styles from './GrizzlyChart.css';
 import CurrentCursorCanvas from './CurrentCursorCanvas';
@@ -56,14 +58,51 @@ export default class chart extends React.Component {
   }
 
   getSortedAndValidYAxes = () => {
-    const { yAxes, lines } = this.props;
+    const {
+      yAxes,
+      lines,
+      dataSets,
+      xExtends,
+    } = this.props;
+
+    const linesWidthData = lines
+      .map((line) => {
+        const foundDataset = dataSets.find(d => d.id === line.dataSet);
+        return {
+          ...line,
+          data: foundDataset ? foundDataset.data : undefined,
+        };
+      })
+      .filter(line => typeof line.data !== 'undefined');
+
     const sortedAndValidAxes = yAxes
-      .map(axis =>
-        ({
+      .map((axis) => {
+        const axisLines = linesWidthData.filter(line => line.yAxis === axis.id);
+
+        // let's calculate lower and upper limits of the yAxis
+        let yExtends;
+        if (axis.autoLimits) {
+          yExtends = this.memoizeYExtendsAutoLimits(
+            xExtends[0],
+            xExtends[1],
+            axis.orient,
+            axisLines
+          );
+        } else {
+          yExtends = this.memoizeYExtends(
+            axis.id,
+            axis.orient,
+            axis.yExtends[0],
+            axis.yExtends[1]
+          );
+        }
+
+        return {
           ...axis,
-          lines: lines.filter(line => line.yAxis === axis.id),
-        })
-      )
+          lines: axisLines,
+          yExtends,
+        };
+      })
       .filter(axis => axis.lines.length > 0)
       .sort(axis => axis.master === true);
     return sortedAndValidAxes;
@@ -72,7 +111,27 @@ export default class chart extends React.Component {
   yAxisWidth = 40;
   xAxisHeight = 40;
 
-  assignEl = (el) => { this.el = el; }
+  memoizeYExtendsAutoLimits = (yExtendsLower, yExtendsUpper, orient, lines) => {
+    if (!this.YExtendsAutoLimits) {
+      this.YExtendsAutoLimits = _memoize((yExtendsLowerM, yExtendsUpperM, orientM) => {
+        const values = [];
+        lines
+          .forEach(
+            line => line.data.forEach((d) => {
+              if (d.x < yExtendsLowerM || d.x > yExtendsUpperM) {
+                return;
+              }
+              values.push(line.yAccessor(d));
+            })
+          );
+
+        const lowerR = _min(values);
+        const upperR = _max(values);
+        return orientM === 'top' ? [upperR, lowerR] : [lowerR, upperR];
+      });
+    }
+    return this.YExtendsAutoLimits(yExtendsLower, yExtendsUpper, orient);
+  }
 
   memoizeYExtends = _memoize((id, orient, lower, upper) =>
     (orient === 'top' ? [upper, lower] : [lower, upper])
@@ -84,6 +143,8 @@ export default class chart extends React.Component {
       .range([rangeLower, rangeUpper])
   );
 
+  assignEl = (el) => { this.el = el; }
+
   render() {
     const {
       height,
@@ -93,7 +154,6 @@ export default class chart extends React.Component {
       xAxisAt,
       current,
       xExtends,
-      dataSets,
     } = this.props;
 
     this.yAxes = this.getSortedAndValidYAxes();
@@ -145,11 +205,8 @@ export default class chart extends React.Component {
               top={marginTop}
               margin={marginSide}
               xScale={xScale}
-              yExtends={this.memoizeYExtends(
-                yAxis.id, yAxis.orient, yAxis.yExtends[0], yAxis.yExtends[1]
-              )}
+              yExtends={yAxis.yExtends}
               lines={yAxis.lines}
-              dataSets={dataSets}
             />
           )
         }
@@ -164,9 +221,7 @@ export default class chart extends React.Component {
               xAxisAt={xAxisAt}
               top={marginTop}
               yAxesAt={yAxesAt}
-              yExtends={this.memoizeYExtends(
-                yAxis.id, yAxis.orient, yAxis.yExtends[0], yAxis.yExtends[1]
-              )}
+              yExtends={yAxis.yExtends}
             />
           )
         }

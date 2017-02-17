@@ -55,12 +55,14 @@
     "no-unused-expressions": ["warn"],
     "space-in-parens": ["warn"],
     "space-before-blocks": ["warn"],
-    "no-restricted-syntax": ["warn"]
+    "no-restricted-syntax": ["warn"],
+    "reselect/signature": ["warn"]
   },
   "plugins": [
     "import",
     "react",
-    "react-perf"
+    "react-perf",
+    "reselect"
   ],
   "settings": {
     "import/resolver": {

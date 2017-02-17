@@ -324,19 +324,24 @@ export default class LeftTab extends PureComponent {
           onScroll={this.props.onTimelinesVerticalScroll}
           onWheel={this.onWheel}
         >
-          { timelines.map(v =>
-            <Timeline
-              key={v.id}
-              offset={v.offset}
-              timelinesLength={timelines.length}
-              timebarUuid={timebarUuid}
-              id={v.id}
-              timelineId={v.timelineId}
-              color={v.color}
-              masterId={masterId}
-              willEditTimeline={this.willEditTimeline}
-              unmountTimeline={this.willUnmountTimeline}
-            />
+          { timelines.map((v) => {
+            const session = Object.values(sessions).find(s => s.id === v.sessionId);
+            return (
+              <Timeline
+                key={v.id}
+                offset={v.offset}
+                timelinesLength={timelines.length}
+                timebarUuid={timebarUuid}
+                id={v.id}
+                timelineId={v.timelineId}
+                color={v.color}
+                masterId={masterId}
+                willEditTimeline={this.willEditTimeline}
+                unmountTimeline={this.willUnmountTimeline}
+                sessionName={session ? session.name : 'no session'}
+              />
+            );
+          }
           )}
         </ul>
       </Col>

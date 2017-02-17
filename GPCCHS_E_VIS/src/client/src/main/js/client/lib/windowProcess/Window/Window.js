@@ -23,7 +23,12 @@ export default class Window extends PureComponent {
     windowId: PropTypes.string.isRequired,
     focusedPageId: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
+    isExplorerOpened: PropTypes.bool,
+    displayExplorer: PropTypes.func.isRequired,
   };
+  static defaultProps = {
+    isExplorerOpened: false,
+  }
 
   static childContextTypes = {
     windowId: PropTypes.string,
@@ -31,7 +36,6 @@ export default class Window extends PureComponent {
 
   state = {
     displayHelp: false,
-    displayExplorer: false,
   }
 
   getChildContext() {
@@ -70,21 +74,19 @@ export default class Window extends PureComponent {
   toggleExplorerShortCut = (e) => {
     if (e.keyCode === 72 && e.ctrlKey) {
       this.toggleExplorer();
-    } else if (e.keyCode === 27 && this.state.displayExplorer) {
+    } else if (e.keyCode === 27 && this.props.isExplorerOpened) {
       this.toggleExplorer();
     }
   }
 
   toggleExplorer = () => {
-    this.setState({
-      displayExplorer: !this.state.displayExplorer,
-    });
+    this.props.displayExplorer(this.props.windowId, !this.props.isExplorerOpened);
   }
 
   render() {
     logger.debug('render');
-    const { focusedPageId, windowId, title } = this.props;
-    const { displayHelp, displayExplorer } = this.state;
+    const { focusedPageId, windowId, title, isExplorerOpened } = this.props;
+    const { displayHelp } = this.state;
 
     return (
       <div className={styles.container}>
@@ -120,7 +122,7 @@ export default class Window extends PureComponent {
                 />
               </div>
             </div>
-            {displayExplorer && <div className={styles.contentDivChildExplorer}>
+            {isExplorerOpened && <div className={styles.contentDivChildExplorer}>
               <ExplorerContainer
                 windowId={windowId}
               />

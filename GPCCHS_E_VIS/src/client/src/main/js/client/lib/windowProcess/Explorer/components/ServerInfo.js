@@ -1,5 +1,5 @@
 import React, { PropTypes, PureComponent } from 'react';
-import { Table } from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
 
 import _get from 'lodash/get';
 import _find from 'lodash/find';
@@ -34,15 +34,15 @@ export default class ServerInfo extends PureComponent {
   }
 
   componentDidMount() {
-    this.loadServer();
-    main.serverDebug((debug) => {
-      this.setServer(debug);
-    });
+    this.updateInfo();
   }
 
-  setServer(s) { this.setState({ isLoading: false, server: s }); }
-  loadServer() { this.setState({ isLoading: true }); }
-
+  updateInfo = () => {
+    this.setState({ isLoading: true });
+    main.serverDebug((debug) => {
+      this.setState({ isLoading: false, server: debug });
+    });
+  }
   connDataLines() {
     const { connectedData } = this.state.server;
     return _map(connectedData, cd => this.connDataLine(cd));
@@ -80,6 +80,10 @@ export default class ServerInfo extends PureComponent {
 
     return (
       <div>
+        <div>
+          <Button onClick={this.updateInfo}><span className="glyphicon glyphicon-refresh" />
+          </Button>
+        </div>
         {!isLoading && dataTable}
         {isLoading && <div>Waiting...</div>}
       </div>

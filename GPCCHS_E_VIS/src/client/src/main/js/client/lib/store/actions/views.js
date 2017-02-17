@@ -30,10 +30,12 @@ export const setViewOid = simple(types.WS_VIEW_SET_OID, 'viewId', 'oid');
 
 export const setModified = simple(types.WS_VIEW_SETMODIFIED, 'viewId', 'flag');
 export const setCollapsed = simple(types.WS_VIEW_SETCOLLAPSED, 'viewId', 'flag');
-export const setCollapsedAndUpdateLayout = (pageId, viewId, flag) =>
+
+const getLayouts = makeGetLayouts();
+export const setCollapsedAndUpdateLayout = (pageId, viewId, flag) => (
   (dispatch, getState) => {
     const state = getState();
-    const layout = makeGetLayouts()(state, { pageId });
+    const layout = getLayouts(state, { pageId });
     if (flag) {
       const newLayout = layout.lg.map((l) => {
         if (l.i === viewId) {
@@ -63,15 +65,10 @@ export const setCollapsedAndUpdateLayout = (pageId, viewId, flag) =>
       });
       dispatch(updateLayout(pageId, newLayout));
     }
-    dispatch({
-      type: types.WS_VIEW_SETCOLLAPSED,
-      payload: {
-        viewId,
-        flag,
-      },
-    });
+    dispatch(setCollapsed(viewId, flag));
     dispatch(setModified(viewId, true));
-  };
+  }
+);
 
 export const updateEntryPoint = simple(types.WS_VIEW_UPDATE_ENTRYPOINT, 'viewId', 'index',
  'entryPoint');

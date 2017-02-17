@@ -1,16 +1,14 @@
 import _cloneDeep from 'lodash/cloneDeep';
-import globalConstants from 'common/constants';
 import simple from '../simpleActionCreator';
 import ifPathChanged from './enhancers/ifPathChanged';
 import addUuidsToEntryPoints from './enhancers/addUuidsToEntryPoints';
 import * as types from '../types';
-import vivl from '../../../VIVL/main';
 import {
   openEditor,
   updateLayout,
 } from './pages';
 import { getPageIdByViewId, makeGetLayouts } from '../selectors/pages';
-import { getTimebarByPageId } from '../selectors/timebars';
+import { getViewModule } from '../../viewManager';
 
 export const add = addUuidsToEntryPoints(simple(
   types.WS_VIEW_ADD, 'viewId', 'type', 'configuration', 'path', 'oId', 'absolutePath', 'isModified'
@@ -105,32 +103,21 @@ export const removeMarker = simple(types.WS_VIEW_REMOVE_MARKER, 'viewId', 'index
 export const addProcedure = simple(types.WS_VIEW_ADD_PROCEDURE, 'viewId', 'procedure');
 export const removeProcedure = simple(types.WS_VIEW_REMOVE_PROCEDURE, 'viewId', 'index');
 
+// TODO rename as addEntryPoint
 const addEntryPointInternal = simple(types.WS_VIEW_ADD_ENTRYPOINT, 'viewId', 'entryPoint');
 
+// TODO add test
+// TODO rename ad dropEntryPoint and use only on drop
 export function addEntryPoint(viewId, entryPoint) {
   return (dispatch, getState) => {
-    const ep = _cloneDeep(entryPoint);
     const state = getState();
     const currentView = state.views[viewId];
-    const structureType = vivl(currentView.type, 'structureType')();
 
     const currentPageId = getPageIdByViewId(state, { viewId });
-    const timebar = getTimebarByPageId(state, { pageId: currentPageId });
-    const defaultTimeline = timebar ? timebar.masterId : '*';
-    const domain = state.domains[0].name; // TODO should be replaced by *, but for dev it's ok
-    // const domain = '*';
 
-    if (structureType === globalConstants.DATASTRUCTURETYPE_LAST) {
-      ep.connectedData.timeline = ep.connectedData.timeline || defaultTimeline;
-      ep.connectedData.domain = ep.connectedData.domain || domain;
-    } else if (structureType === globalConstants.DATASTRUCTURETYPE_RANGE) {
-      ep.connectedDataX.timeline = ep.connectedDataX.timeline || defaultTimeline;
-      ep.connectedDataY.timeline = ep.connectedDataY.timeline || defaultTimeline;
-      ep.connectedDataX.domain = ep.connectedDataX.domain || domain;
-      ep.connectedDataY.domain = ep.connectedDataY.domain || domain;
-    }
+    const ep = getViewModule(currentView.type).setEntryPointDefault(_cloneDeep(entryPoint));
 
-    dispatch(openEditor(currentPageId, viewId, currentView.type));
     dispatch(addEntryPointInternal(viewId, ep));
+    dispatch(openEditor(currentPageId, viewId, currentView.type));
   };
 }

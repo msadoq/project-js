@@ -122,27 +122,27 @@ describe('common/data/inject', () => {
     it('empty state', () => {
       bag = selectData({}, viewDataMap, payload, count);
       bag.should.have.all.keys(['plot1', 'plot2', 'plot3', 'text1', 'text2']);
-      bag.plot1.should.have.all.keys(['remove', 'add', 'structureType']);
+      bag.plot1.should.have.all.keys(['remove', 'add', 'structureType', 'type']);
       bag.plot1.add.should.have.all.keys(['10', '11', '12', '13', '14', '15']);
       bag.plot1.remove.should.have.all.keys(['lower', 'upper']);
       bag.plot1.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_RANGE);
-      bag.plot2.should.have.all.keys(['remove', 'add', 'structureType']);
+      bag.plot2.should.have.all.keys(['remove', 'add', 'structureType', 'type']);
       bag.plot2.add.should.have.all.keys(['14', '15', '16', '17', '18']);
       bag.plot2.add[14].should.have.keys('ep2', 'ep3');
       bag.plot2.remove.should.have.all.keys(['lower', 'upper']);
       bag.plot2.remove.lower.should.equal(14);
       bag.plot2.remove.upper.should.equal(18);
       bag.plot2.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_RANGE);
-      bag.plot3.should.have.all.keys(['remove', 'structureType']);
+      bag.plot3.should.have.all.keys(['remove', 'structureType', 'type']);
       bag.plot3.remove.should.have.all.keys(['lower', 'upper']);
       bag.plot2.remove.lower.should.equal(14);
       bag.plot2.remove.upper.should.equal(18);
 
-      bag.text1.should.have.all.keys(['index', 'values', 'structureType']);
+      bag.text1.should.have.all.keys(['index', 'values', 'structureType', 'type']);
       bag.text1.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
       bag.text1.index.ep4.should.equal(20);
       bag.text1.values.ep4.value.should.equal(203);
-      bag.text2.should.have.all.keys(['index', 'values', 'structureType']);
+      bag.text2.should.have.all.keys(['index', 'values', 'structureType', 'type']);
       bag.text2.index.should.have.all.keys(['ep5', 'ep6']);
       bag.text2.index.ep5.should.equal(20);
       bag.text2.values.ep5.value.should.equal(203);

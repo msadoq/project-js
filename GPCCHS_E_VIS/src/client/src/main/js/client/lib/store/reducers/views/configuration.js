@@ -2,9 +2,9 @@ import __ from 'lodash/fp';
 import globalConstants from 'common/constants';
 
 import composeReducers from '../../composeReducers';
-import vivl from '../../../../VIVL/main';
 import { getAxes, updateAxis, addAxis, removeAxis } from './axes';
 import { getNewPlotEntryPoint, getNewTextEntryPoint } from '../../../common/entryPoint';
+import { getStructureType } from '../../../viewManager';
 
 import * as types from '../../types';
 
@@ -71,6 +71,7 @@ export const commonConfiguration = (stateConf = { title: null }, action) => {
 };
 
 // This is specfic reducers by view type
+// TODO garm factorize in viewManager
 export const configurationByViewType = {
   DynamicView: (stateConf, action) => {
     switch (action.type) {
@@ -111,6 +112,7 @@ export const configurationByViewType = {
 };
 
 // This is specfic reducers by structure type
+// TODO garm factorize in viewManager
 export const configurationByStructureType = {
   [globalConstants.DATASTRUCTURETYPE_RANGE]: (stateConf, action) => {
     switch (action.type) {
@@ -149,7 +151,9 @@ export const configurationByStructureType = {
 // Expose a reducer creator that take a view type
 // and return a single reducer that deal with configuration property depends on this viewType
 export default (viewType) => {
-  const structureType = viewType ? vivl(viewType, 'structureType')() : '';
+  const structureType = viewType
+    ? getStructureType(viewType)
+    : ''; // TODO garm viewType or '', how '' could happens ??????
   return composeReducers(
     configurationByStructureType[structureType] || __.identity,
     configurationByViewType[viewType] || __.identity,

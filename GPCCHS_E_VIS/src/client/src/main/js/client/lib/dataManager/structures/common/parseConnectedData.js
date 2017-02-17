@@ -3,10 +3,16 @@ import formulaParser from './formula';
 import remoteIdGenerator from './remoteId';
 import domainsFilter from './domains';
 import timelinesFilter from './timelines';
-import structures from '../';
 
 export default function applyDomainsAndTimebar(
-  connectedData, structureType, timebarUuid, masterSessionId, visuWindow, timelines, domains
+  connectedData,
+  structureType,
+  timebarUuid,
+  masterSessionId,
+  visuWindow,
+  timelines,
+  domains,
+  getExpectedInterval
 ) {
   const { formula, domain, timeline, filter } = connectedData;
 
@@ -42,8 +48,7 @@ export default function applyDomainsAndTimebar(
   const remoteId = remoteIdGenerator(structureType, dataId, filter);
 
   // expectedInterval
-  const selector = structures(structureType, 'getExpectedInterval');
-  const expectedInterval = selector(
+  const expectedInterval = getExpectedInterval(
     visuWindow.lower - offset, visuWindow.current - offset, visuWindow.upper - offset
   );
   if (!expectedInterval) {

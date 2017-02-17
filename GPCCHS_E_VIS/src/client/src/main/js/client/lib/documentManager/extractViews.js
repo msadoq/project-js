@@ -1,63 +1,47 @@
 import _ from 'lodash/fp';
-
 import { dirname } from 'path';
 import async from 'async';
 import { v4 } from 'uuid';
-import globalConstants from 'common/constants';
 
 import { readDocument } from './io';
 import fs from '../common/fs';
 import validation from './validation';
-import vivl from '../../VIVL/main';
-// TODO garm use structures facade instead of direct include!
-import addUuidToAxes from '../dataManager/structures/range/addUuidToAxes';
+import {
+  isViewTypeSupported,
+  getSchema,
+  getViewModule,
+} from '../viewManager';
 
 const indexByUUID = _.indexBy(_.prop('uuid'));
-
-const supportedViewTypes = [
-  'PlotView',
-  'TextView',
-  'DynamicView',
-  'MimicView',
-];
 
 const readViews = fmdApi => (viewsToRead, done) => {
   async.reduce(viewsToRead, [], (views, view, next) => {
     const { pageFolder, path, oId } = view;
     readDocument(fmdApi)(pageFolder, path, oId, view.absolutePath, (err, viewContent) => {
       if (err) {
-        return next(err);
+        next(err);
+        return;
       }
-      if (supportedViewTypes.indexOf(viewContent.type) === -1) {
-        return next(new Error(`Unsupported view type '${viewContent.type}'`), viewsToRead);
+      if (!isViewTypeSupported(viewContent.type)) {
+        next(new Error(`Unsupported view type '${viewContent.type}'`), viewsToRead);
+        return;
       }
-      let schema;
-      try {
-        schema = vivl(viewContent.type, 'getSchemaJson')();
-      } catch (e) {
-        return next(new Error(`Invalid schema on view type '${viewContent.type}'`), viewsToRead);
-      }
+
+      const schema = getSchema(viewContent.type);
+
       const validationError = validation(viewContent.type, viewContent, schema);
       if (validationError) {
-        return next(validationError);
-      }
-      // Add uuid on axes
-      const structureType = vivl(viewContent.type, 'structureType')();
-
-      let viewContentWithIndexedAxes;
-      switch (structureType) {
-        case globalConstants.DATASTRUCTURETYPE_RANGE: {
-          viewContentWithIndexedAxes = addUuidToAxes(viewContent);
-          break;
-        }
-        default:
-          viewContentWithIndexedAxes = viewContent;
-          break;
+        next(validationError);
+        return;
       }
 
-      return next(null, views.concat({
+      const configuration =
+        getViewModule(viewContent.type)
+          .prepareConfigurationForStore(viewContent);
+
+      next(null, views.concat({
         type: viewContent.type,
-        configuration: viewContentWithIndexedAxes,
+        configuration,
         path: view.path,
         oId: view.oId,
         uuid: view.uuid,
@@ -91,9 +75,8 @@ function preparePageViews(page) {
 /**
  * Find views in .pages, read files and store each with a uuid in .views
  *
- * @param content
- * @param cb
- * @returns {*}
+ * @param fmdApi
+ * @returns function
  */
 const extractViews = fmdApi => (content, cb) => {
   try {

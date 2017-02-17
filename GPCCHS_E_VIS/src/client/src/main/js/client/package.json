@@ -9,10 +9,7 @@
     "moduleNameMapper": {
       "\\.(less|css)$": "identity-obj-proxy"
     },
-    "collectCoverageFrom": [
-      "lib/windowProcess/**/*.js",
-      "VIVL**/*.js"
-    ],
+    "collectCoverageFrom": "lib/windowProcess/**/*.js",
     "coverageDirectory": "coverage/snapshot"
   },
   "scripts": {
@@ -28,7 +25,7 @@
     "sh": "npm run start-hot",
     "start": "electron ./",
     "start-hot": "HOT=1 electron -r babel-register -r babel-polyfill ./main.development",
-    "test": "NODE_ENV=test mocha --compilers js:babel-register \"+(lib|VIVL)/**/*.spec.js\"",
+    "test": "NODE_ENV=test mocha --compilers js:babel-register \"lib/**/*.spec.js\"",
     "test:watch": "npm test -- --watch",
     "test:coverage": "(time nyc --require babel-register npm test || true) && npm run open:test-coverage",
     "open:test-coverage": "firefox coverage/test/lcov-report/index.html",

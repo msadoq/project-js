@@ -1,9 +1,7 @@
 const { eachSeries } = require('async');
 const _chunk = require('lodash/chunk');
 const { decode, encode, getType } = require('common/protobuf');
-const {
-  HSS_MAX_PAYLOADS_PER_MESSAGE,
-} = require('common/constants');
+const { HSS_MAX_PAYLOADS_PER_MESSAGE } = require('common/constants');
 const executionMonitor = require('common/log/execution');
 const logger = require('common/log')('controllers:onTimebasedArchiveData');
 const loggerData = require('common/log')('controllers:incomingData');
@@ -141,20 +139,6 @@ module.exports = (
       payloadCount,
       endOfQuery,
     });
-
-    // if HSS is a forked process, in e2e tests for example
-    if (process.send) {
-      // Check if no pending requests
-      const noMorePendingRequests = !connectedDataModel
-        .getAll()
-        .map(data => Object.keys(data.intervals.requested).length)
-        .reduce((acc, l) => acc + l, 0);
-
-      // Send 'updated' to parent process
-      if (noMorePendingRequests) {
-        process.send('updated');
-      }
-    }
 
     execution.stop('global', `${dataId.parameterName}: ${payloadCount} payloads`);
     execution.print();

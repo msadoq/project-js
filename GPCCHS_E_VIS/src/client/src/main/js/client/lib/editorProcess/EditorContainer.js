@@ -13,10 +13,16 @@ import HtmlEditor from './HtmlEditor';
 const getViewEntryPoints = makeGetViewEntryPoints();
 
 const mapStateToProps = (state) => {
+  console.log('mapStateToProps state: ', state);
   const viewId = getViewId(state);
-  const content = getViewContent(state, viewId);
-  const data = getTextViewData(state, viewId);
-  const entryPoints = getViewEntryPoints(state, viewId);
+  console.log('mapStateToProps viewId: ', viewId);
+  const content = getViewContent(state, { viewId });
+  console.log('mapStateToProps content: ', content);
+  const data = getTextViewData(state, { viewId });
+  console.log('mapStateToProps data: ', data);
+  const entryPoints = getViewEntryPoints(state, { viewId });
+  console.log('mapStateToProps EP: ', entryPoints);
+
   return {
     viewId,
     content,

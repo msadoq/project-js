@@ -1,6 +1,5 @@
 import u from 'updeep';
 import _get from 'lodash/get';
-import _without from 'lodash/without';
 import * as types from '../../types';
 
 const initialState = {
@@ -19,7 +18,6 @@ const initialState = {
   rulerResolution: 2250,
   speed: 1.0,
   masterId: null,
-  timelines: [],
   mode: 'Normal',
   realTime: false,
 };
@@ -38,14 +36,9 @@ export default function timebar(stateTimebar = initialState, action) {
         rulerResolution: configuration.rulerResolution || initialState.rulerResolution,
         speed: configuration.speed || initialState.speed,
         masterId: configuration.masterId || initialState.masterId,
-        timelines: configuration.timelines || initialState.timelines,
         mode: configuration.mode || initialState.mode,
       });
     }
-    case types.WS_TIMEBAR_MOUNT_TIMELINE:
-      return { ...stateTimebar, timelines: [...stateTimebar.timelines, payload.timelineId] };
-    case types.WS_TIMEBAR_UNMOUNT_TIMELINE:
-      return { ...stateTimebar, timelines: _without(stateTimebar.timelines, payload.timelineId) };
     case types.WS_TIMEBAR_ID_UPDATE:
       return { ...stateTimebar, id: payload.id };
     case types.WS_TIMEBAR_UPDATE_VIEWPORT:

@@ -125,14 +125,13 @@ export default class PerView extends PureComponent {
           const splitId = _split(rId[1], ':');
           idToShow = splitId[0];
           parsedFormula = parseFormula(idToShow);
-          if (splitId.length === 3) {
+          if (splitId.length >= 3) {
             dId = {
               sessionId: Number(splitId[1]),
               domainId: Number(splitId[2]),
             };
           }
         }
-
         EPnames.push((
           <Panel key={viewId.concat(name)}>
             <header><b>{name}</b></header>

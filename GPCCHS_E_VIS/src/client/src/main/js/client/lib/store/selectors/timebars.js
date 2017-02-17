@@ -2,10 +2,10 @@ import _isNumber from 'lodash/isNumber';
 import _get from 'lodash/get';
 import _values from 'lodash/values';
 import _reduce from 'lodash/reduce';
-import _toPairs from 'lodash/toPairs';
 import { createSelector } from 'reselect';
 import { getTimelines } from './timelines';
 import { getPage } from './pages';
+import { getTimebarTimelines as getTimebarTimelineIds } from './timebarTimelines';
 
 export const getTimebars = state => state.timebars;
 export const getTimebar = (state, { timebarUuid }) => state.timebars[timebarUuid];
@@ -15,23 +15,27 @@ export const getTimebarByPageId = (state, { pageId }) => {
   if (!page) return undefined;
   return getTimebar(state, { timebarUuid: page.timebarUuid });
 };
-
+export const getTimebarMasterId = (state, { timebarUuid }) => _get(state, ['timebars', timebarUuid, 'masterId']);
 export const getTimebarTimelinesSelector = createSelector(
-  (state, { timebarUuid }) => getTimebar(state, { timebarUuid }),
-  getTimelines,
-  (timebar, timelines) => {
-    if (!timebar) {
+  [
+    getTimebarMasterId,
+    getTimelines,
+    getTimebarTimelineIds, // (state, {timebarUuid})
+  ],
+  (masterId, timelines, tbTimelines) => { // Array of timelineUuid of the current timebar
+    if (!tbTimelines.length) {
       return [];
     }
     const timebarTimelines = [];
-    _toPairs(timelines).forEach((v) => {
-      if (timebar.timelines.includes(v[0])) {
-        const newTimeline = { ...v[1], timelineId: v[0] };
-        if (timebar.masterId === v[1].id) {
-          timebarTimelines.unshift(newTimeline);
-        } else {
-          timebarTimelines.push(newTimeline);
-        }
+    tbTimelines.forEach((tlUuid) => {
+      if (!timelines[tlUuid]) {
+        return;
+      }
+      const newTimeline = Object.assign({}, timelines[tlUuid], { timelineId: tlUuid });
+      if (masterId === timelines[tlUuid].id) {
+        timebarTimelines.unshift(newTimeline);
+      } else {
+        timebarTimelines.push(newTimeline);
       }
     });
     return timebarTimelines;
@@ -42,13 +46,11 @@ export const getTimebarTimelinesSelector = createSelector(
  * A selector to get timelines from timebarUuid.
  * No direct usage of state but receives timebars and timelines due to dataMaps execution context.
  *
- * @param timebars
+ * @param timebarTimelines
  * @param timelines
- * @param timebarUuid
  * @return {*}
  */
-export function _getTimebarTimelines(timebars, timelines, timebarUuid) {
-  const timebarTimelines = _get(timebars, [timebarUuid, 'timelines']);
+export function _getTimebarTimelines(timebarTimelines, timelines) {
   return _reduce(timebarTimelines, (list, timelineId) => {
     const timeline = _get(timelines, timelineId);
     if (!timeline || !timeline.id || !_isNumber(timeline.sessionId)) {
@@ -77,12 +79,15 @@ export function _getMasterTimeline(timebars, timelines, timebarUuid) {
   return _values(timelines).find(t => t.id === masterTimelineId);
 }
 
-export function getMasterTimelineById(state, { timebarUuid }) {
-  const timelines = getTimebarTimelinesSelector(state, { timebarUuid });
-  const masterTimelineId = _get(state.timebars, [timebarUuid, 'masterId']);
-  if (!masterTimelineId) {
+export const getMasterTimelineById = createSelector(
+  getTimebarMasterId,
+  getTimebarTimelinesSelector,
+  (masterTimelineId, timebarTimelines) => {
+    if (!masterTimelineId) {
+      return undefined;
+    }
+    if (timebarTimelines[0].id === masterTimelineId) {
+      return timebarTimelines[0];
+    }
     return undefined;
-  }
-
-  return _values(timelines).find(t => t.id === masterTimelineId);
-}
+  });

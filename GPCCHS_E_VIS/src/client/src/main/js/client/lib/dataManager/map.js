@@ -12,6 +12,7 @@ import structures from './structures';
 import { getMasterSessionId } from '../store/selectors/masterSession';
 import { getDomains } from '../store/selectors/domains';
 import { getTimebars, _getTimebarTimelines } from '../store/selectors/timebars';
+import { getTimebarsTimelines } from '../store/selectors/timebarTimelines';
 import { getTimelines } from '../store/selectors/timelines';
 import { getWindowsVisibleViews } from '../store/selectors/windows';
 
@@ -23,11 +24,11 @@ export const _getViewData = ({
   domains,
   view,
   timebars,
+  viewTimelines,
   timebarUuid,
-  timelines,
   masterSessionId,
 }) => {
-  if (anyUndefined([domains, view, timebars, timebarUuid, timelines])) {
+  if (anyUndefined([domains, view, timebars, timebarUuid, viewTimelines])) {
     return {};
   }
 
@@ -39,7 +40,6 @@ export const _getViewData = ({
   const { entryPoints } = configuration;
   const structureType = vivl(type, 'structureType')();
   const extract = structures(structureType, 'parseEntryPoint');
-  const viewTimelines = _getTimebarTimelines(timebars, timelines, timebarUuid);
   const visuWindow = _get(timebars, [timebarUuid, 'visuWindow']);
 
   return {
@@ -62,12 +62,13 @@ export const _getViewData = ({
   };
 };
 
-export const walk = (masterSessionId, domains, timebars, timelines, views) =>
+export const walk = (masterSessionId, domains, timebars, timelines, views, timebarsTimelines) =>
   _reduce(views, (map, { viewId, timebarUuid, viewData: view }) => {
+    const viewTimelines = _getTimebarTimelines(timebarsTimelines[timebarUuid], timelines);
     const props = _getViewData({
       domains,
       timebars,
-      timelines,
+      viewTimelines,
       view,
       timebarUuid,
       masterSessionId,
@@ -216,6 +217,7 @@ export default createSelector(
   getTimebars,
   getTimelines,
   getWindowsVisibleViews,
+  getTimebarsTimelines,
   walk
 );
 

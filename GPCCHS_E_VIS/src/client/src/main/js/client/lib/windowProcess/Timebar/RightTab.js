@@ -45,9 +45,6 @@ class RightTabContent extends PureComponent {
         current: PropTypes.number.isRequired,
         defaultWidth: PropTypes.number.isRequired,
       }).isRequired,
-      timelines: PropTypes.arrayOf(
-        PropTypes.string.isRequired
-      ).isRequired,
     }).isRequired,
     timebarUuid: PropTypes.string.isRequired,
     timelines: PropTypes.arrayOf(

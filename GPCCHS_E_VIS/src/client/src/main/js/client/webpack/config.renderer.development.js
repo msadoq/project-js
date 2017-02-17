@@ -22,7 +22,11 @@ export default merge(baseConfig, {
       `webpack-hot-middleware/client?path=http://localhost:${port}/__webpack_hmr`,
       './lib/windowProcess/index',
     ],
-    htmlEditor: './lib/editorProcess/index',
+    htmlEditor: [
+      './lib/windowProcess/style/bootstrap',
+      '!style!css!postcss!./lib/windowProcess/style',
+      './lib/editorProcess/index',
+    ],
   },
 
   output: {

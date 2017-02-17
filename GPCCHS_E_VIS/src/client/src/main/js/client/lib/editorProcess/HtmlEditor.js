@@ -1,12 +1,13 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { html as beautifyHtml } from 'js-beautify';
-import WYSIWYG from '../windowProcess/View/TextView/WYSIWYG';
+import WYSIWYG from './WYSIWYG';
 
 export default class HtmlEditor extends PureComponent {
   static propTypes = {
     viewId: PropTypes.string,
     content: PropTypes.string,
     updateContent: PropTypes.func.isRequired,
+    closeHtmlEditor: PropTypes.func.isRequired,
     data: PropTypes.shape({
       values: PropTypes.object,
     }).isRequired,
@@ -35,6 +36,7 @@ export default class HtmlEditor extends PureComponent {
     entryPoints: {},
   }
   handleSubmit = (values) => {
+    console.log(values);
     const { viewId, updateContent } = this.props;
     updateContent(viewId, values.html);
   }
@@ -54,6 +56,7 @@ export default class HtmlEditor extends PureComponent {
         entryPoints={this.props.entryPoints.map(ep => ep.name)}
         onSubmit={this.handleSubmit}
         form={`textView-form-${this.props.viewId}`}
+        closeHtmlEditor={this.props.closeHtmlEditor}
       />
     );
   }

@@ -21,7 +21,10 @@ import {
   getWindows,
   getWindowsTitle,
 } from '../store/selectors/windows';
-import { getViewId } from '../store/selectors/editor';
+import {
+  getViewId as getEditorCurrentTextViewId,
+  getViewTitle as getEditorCurrentTextViewTitle
+} from '../store/selectors/editor';
 import { getStore } from '../store/mainStore';
 
 const logger = getLogger('main:windows');
@@ -31,7 +34,6 @@ let splashScreen;
 let htmlEditor;
 
 export function openHtmlEditor(callback) {
-  console.log('Open html editor');
   const editorWidth = 1024;
   const editorHeight = 768;
   const bounds = screen.getPrimaryDisplay().bounds;
@@ -44,7 +46,7 @@ export function openHtmlEditor(callback) {
     height: editorHeight,
     show: false,
   });
-
+  htmlEditor.setMenu(null)
   // mount module(s) to allow access from renderer process
   htmlEditor.parameters = parameters;
 
@@ -106,6 +108,7 @@ export function hideHtmlEditor() {
   htmlEditor.hide();
 }
 export function closeSplashScreen() {
+  console.log(splashScreen);
   setImmediate(() => splashScreen.close());
 }
 
@@ -200,7 +203,9 @@ export default function windowsObserver(state, callback) {
   const toOpen = _difference(inStore, opened);
   const toClose = _difference(opened, inStore);
   const titles = getWindowsTitle(state);
-  const viewId = getViewId(state);
+  const viewId = getEditorCurrentTextViewId(state);
+  const viewTitle = getEditorCurrentTextViewTitle(state, viewId);
+
   series([
     // close
     fn => fn(toClose.forEach(windowId => close(windowId))),
@@ -222,6 +227,9 @@ export default function windowsObserver(state, callback) {
       }
       if (viewId === null && htmlEditor.isVisible()) {
         hideHtmlEditor();
+      }
+      if (viewTitle !== htmlEditor.getTitle()) {
+        htmlEditor.setTitle(viewTitle);
       }
       return fn(null);
     },

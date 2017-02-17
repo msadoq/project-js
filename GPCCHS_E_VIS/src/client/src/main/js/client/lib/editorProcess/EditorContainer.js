@@ -6,14 +6,14 @@ import {
   makeGetViewEntryPoints,
 } from '../store/selectors/views';
 import { updateContent } from '../store/actions/views';
+import { closeHtmlEditor } from '../store/actions/editor';
+
 import HtmlEditor from './HtmlEditor';
 
 const getViewEntryPoints = makeGetViewEntryPoints();
 
 const mapStateToProps = (state) => {
-  console.log(state);
   const viewId = getViewId(state);
-  console.log(viewId);
   const content = getViewContent(state, viewId);
   const data = getTextViewData(state, viewId);
   const entryPoints = getViewEntryPoints(state, viewId);
@@ -25,7 +25,7 @@ const mapStateToProps = (state) => {
   };
 };
 export const EditorContainer = connect(
-  mapStateToProps, { updateContent }
+  mapStateToProps, { updateContent, closeHtmlEditor }
 )(HtmlEditor);
 
 export default EditorContainer;

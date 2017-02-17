@@ -26,7 +26,7 @@ import setMenu from './menu';
 import { openDefaultWorkspace, openWorkspaceDocument } from './openWorkspace';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
 
-import { openSplashScreen, openHtmlEditor, setSplashScreenMessage } from './windows';
+import { openSplashScreen, closeSplashScreen, openHtmlEditor, setSplashScreenMessage } from './windows';
 
 const logger = getLogger('main:index');
 
@@ -205,6 +205,9 @@ export function stop() {
 
   // registered callbacks
   clear();
+
+  // close static windows
+  closeSplashScreen();
 
   logger.info('application stopped');
 }

@@ -1,6 +1,7 @@
 import _debounce from 'lodash/debounce';
 import _difference from 'lodash/difference';
 import _each from 'lodash/each';
+import _omit from 'lodash/omit';
 import { each, series } from 'async';
 import { BrowserWindow, screen } from 'electron';
 import getLogger from 'common/log';
@@ -23,13 +24,13 @@ import {
 } from '../store/selectors/windows';
 import {
   getViewId as getEditorCurrentTextViewId,
-  getViewTitle as getEditorCurrentTextViewTitle
+  getViewTitle as getEditorCurrentTextViewTitle,
 } from '../store/selectors/editor';
 import { getStore } from '../store/mainStore';
 
 const logger = getLogger('main:windows');
 
-const windows = {};
+let windows = {};
 let splashScreen;
 let htmlEditor;
 
@@ -46,7 +47,7 @@ export function openHtmlEditor(callback) {
     height: editorHeight,
     show: false,
   });
-  htmlEditor.setMenu(null)
+  htmlEditor.setMenu(null);
   // mount module(s) to allow access from renderer process
   htmlEditor.parameters = parameters;
 
@@ -57,6 +58,7 @@ export function openHtmlEditor(callback) {
     getStore().dispatch(closeHtmlEditor());
     htmlEditor.hide();
   });
+
   callback(null);
 }
 // SplashScreen shown when all windows are closed
@@ -108,12 +110,19 @@ export function hideHtmlEditor() {
   htmlEditor.hide();
 }
 export function closeSplashScreen() {
-  console.log(splashScreen);
-  setImmediate(() => splashScreen.close());
+  console.log('AVANT', splashScreen);
+  setImmediate(() => {
+    console.log('IN', splashScreen);
+    if (!splashScreen || splashScreen.isDestroyed()) {
+      return;
+    }
+    splashScreen.close();
+  });
+  console.log('APRES', splashScreen);
 }
 
 export function setSplashScreenMessage(message = '') {
-  if (!splashScreen && !splashScreen.isDestroyed()) {
+  if (!splashScreen || splashScreen.isDestroyed()) {
     return;
   }
 
@@ -191,9 +200,10 @@ export function close(windowId) {
   logger.info('closing window', windowId);
   if (windows[windowId] && !windows[windowId].isDestroyed()) {
     const window = windows[windowId];
-    delete windows[windowId];
     setImmediate(() => window.close());
   }
+
+  windows = _omit(windows, windowId);
 }
 
 export default function windowsObserver(state, callback) {
@@ -212,9 +222,11 @@ export default function windowsObserver(state, callback) {
     // splashScreen
     (fn) => {
       if (opened.length === toClose.length) {
+        console.log('LENGTH OPENED', opened.length, opened);
         if (toOpen.length) {
           showSplashScreen();
         } else {
+          console.log('HERE 1');
           closeSplashScreen();
         }
       }

@@ -17,6 +17,7 @@ import {
 import { pause, smartPlay } from './hsc';
 import { getTimebar } from '../selectors/timebars';
 import { getPlayingTimebarId } from '../selectors/hsc';
+import { addTimebar, mountTimeline, unmountTimeline } from './timebarTimelines';
 
 const VISUWINDOW_MAX_LENGTH = get('VISUWINDOW_MAX_LENGTH');
 const VISUWINDOW_CURRENT_UPPER_MIN_MARGIN = get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN');
@@ -24,11 +25,24 @@ const VISUWINDOW_CURRENT_UPPER_MIN_MARGIN = get('VISUWINDOW_CURRENT_UPPER_MIN_MA
 /**
  * Simple actions
  */
-export const add = simple(types.WS_TIMEBAR_ADD, 'timebarUuid', 'configuration');
+export const _add = simple(types.WS_TIMEBAR_ADD, 'timebarUuid', 'configuration');
 export const remove = simple(types.WS_TIMEBAR_REMOVE, 'timebarUuid');
 export const updateId = simple(types.WS_TIMEBAR_ID_UPDATE, 'timebarUuid', 'id');
 export const setRealTime = simple(types.WS_TIMEBAR_SET_REALTIME, 'timebarUuid', 'flag');
 
+export const add = (timebarUuid, configuration) =>
+  (dispatch, getState) => {
+    const state = getState();
+    if (getTimebar(state, { timebarUuid })) {
+      return;
+    }
+
+    dispatch(_add(timebarUuid, configuration));
+    dispatch(addTimebar(timebarUuid));
+    if (configuration.timelines) {
+      configuration.timelines.forEach(tlId => dispatch(mountTimeline(timebarUuid, tlId)));
+    }
+  };
 export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
   (dispatch, getState) => {
     const state = getState();
@@ -358,9 +372,6 @@ export function switchToFixedMode(timebarUuid) {
 
 export const updateDefaultWidth = simple(types.WS_TIMEBAR_DEFAULTWIDTH_UPDATE, 'timebarUuid', 'defaultWidth');
 export const updateMasterId = simple(types.WS_TIMEBAR_MASTERID_UPDATE, 'timebarUuid', 'masterId');
-export const mountTimeline = simple(types.WS_TIMEBAR_MOUNT_TIMELINE, 'timebarUuid', 'timelineId');
-export const unmountTimeline = simple(types.WS_TIMEBAR_UNMOUNT_TIMELINE, 'timebarUuid', 'timelineId');
-
 /**
  * Compound actions
  */

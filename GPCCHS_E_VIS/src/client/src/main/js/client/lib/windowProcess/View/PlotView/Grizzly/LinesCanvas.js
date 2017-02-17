@@ -2,7 +2,7 @@ import React, { PropTypes, PureComponent } from 'react';
 import { scaleLinear } from 'd3-scale';
 import styles from './GrizzlyChart.css';
 
-export default class LineCanvas extends PureComponent {
+export default class LinesCanvas extends PureComponent {
 
   static propTypes = {
     updateLabelPosition: PropTypes.func.isRequired,

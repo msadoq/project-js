@@ -21,10 +21,6 @@ const state = {
       speed: 1,
       playingState: 'pause',
       masterId: 'Session 2',
-      timelines: [
-        '58d13bcd-2621-4d7a-b96b-9e3f09494114',
-        '1794dcaf-5c6f-45e1-b8d2-a7f9cb514565',
-      ],
       mode: 'Normal',
     },
   },
@@ -43,6 +39,12 @@ const state = {
       sessionId: 0,
       color: '#5254a3',
     },
+  },
+  timebarTimelines: {
+    '989ca49b-2a5e-48dc-8adc-475ee2e164c1': [
+      '58d13bcd-2621-4d7a-b96b-9e3f09494114',
+      '1794dcaf-5c6f-45e1-b8d2-a7f9cb514565',
+    ],
   },
   windows: {
     '3652700e-6766-4a28-946a-f78096534bda': {

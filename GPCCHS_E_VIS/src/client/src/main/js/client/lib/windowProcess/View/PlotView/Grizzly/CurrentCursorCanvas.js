@@ -60,7 +60,8 @@ export default class CurrentCursorCanvas extends PureComponent {
     } else if (yAxesAt === 'right') {
       style.right = margin;
     }
-      // vertical position
+
+    // vertical position
     style.top = top;
 
     return (

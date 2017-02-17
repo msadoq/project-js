@@ -129,22 +129,17 @@ export function getModifiedWindowsIds(state) {
   return _filter(Object.keys(getWindows(state)), wId => state.windows[wId].isModified);
 }
 
-export const getExplorerTabName = createSelector(
-  getWindow,
-  __.get('tabName')
-);
+export function getExplorerTabName(state, { windowId }) {
+  return _get(state, ['windows', windowId, 'tabName']);
+}
 
-export const getExplorerWidth = createSelector(
-  getWindow,
-  __.get('explorerWidth')
-);
+export function getExplorerWidth(state, { windowId }) {
+  return _get(state, ['windows', windowId, 'explorerWidth']);
+}
 
-export const getExplorerFlag = createSelector(
-  getWindow,
-  __.get('flagName')
-);
-
-export const getExplorerDisplay = createSelector(
-  getWindow,
-  __.get('displayExplorer')
-);
+export function getExplorerFlag(state, { windowId, flagName }) {
+  return _get(state, ['windows', windowId, flagName]);
+}
+export function getExplorerDisplay(state, { windowId }) {
+  return _get(state, ['windows', windowId, 'displayExplorer']);
+}

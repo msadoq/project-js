@@ -4,11 +4,12 @@ import u from 'updeep';
 import { getData } from './viewData';
 import { compile } from '../../common/operators';
 import { getDomains } from './domains';
-import { getTimebars } from './timebars';
+import { getTimebars, _getTimebarTimelines } from './timebars';
 import { getTimelines } from './timelines';
 import { getWindowsVisibleViews } from './windows';
 import { _getViewData as viewData } from '../../dataManager/map';
 import { getMasterSessionId } from './masterSession';
+import { getTimebarsTimelines } from './timebarTimelines';
 
 export const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
@@ -58,16 +59,23 @@ export const _getViewEntryPoints = createSelector(
   getTimebars,
   getTimelines,
   (state, { viewId }) => viewId,
-  (view, masterSessionId, visibleViews, domains, timebars, timelines, viewId) => {
+  getTimebarsTimelines,
+  (view, masterSessionId, visibleViews, domains, timebars, timelines, viewId,
+    timebarsTimelines) => {
     const visibleView = visibleViews.find(v => v.viewId === viewId);
+    const timebarUuid = __.get('timebarUuid', visibleView);
+    const viewTimelines = _getTimebarTimelines(timebarsTimelines[timebarUuid], timelines);
+
     const data = viewData({
       domains,
       timebars,
       timelines,
       view: __.get('viewData', visibleView),
-      timebarUuid: __.get('timebarUuid', visibleView),
+      timebarUuid,
       masterSessionId,
+      viewTimelines,
     });
+
     return __.pipe(
       __.pathOr([], ['configuration', 'entryPoints']),
       entryPoints => entryPoints.map(

@@ -36,6 +36,7 @@ export default class YAxis extends PureComponent {
     gridStyle: PropTypes.string.isRequired,
     gridSize: PropTypes.number.isRequired,
     label: PropTypes.string.isRequired,
+    unit: PropTypes.string,
     labelStyle: PropTypes.shape({
       bgColor: PropTypes.string,
       color: PropTypes.string,
@@ -52,6 +53,7 @@ export default class YAxis extends PureComponent {
   }
 
   static defaultProps = {
+    unit: '',
     labelStyle: {
       color: '#333333',
       bgColor: '#FFFFFF',
@@ -114,7 +116,6 @@ export default class YAxis extends PureComponent {
       yAxisId,
       getLabelPosition,
       yAxisWidth,
-      margin,
       showLabels,
       yAxesAt,
     } = this.props;
@@ -127,9 +128,9 @@ export default class YAxis extends PureComponent {
       if (el) {
         let style = `background:${line.fill};top:${y}px;`;
         if (yAxesAt === 'left') {
-          style += `transform: translate(-102%, -50%);left: ${margin + yAxisWidth}px;`;
+          style += `transform: translate(-102%, -50%);left: ${yAxisWidth}px;`;
         } else {
-          style += `transform: translate(102%, -50%);right: ${margin + yAxisWidth}px;`;
+          style += `transform: translate(102%, -50%);right: ${yAxisWidth}px;`;
         }
         el.setAttribute('style', style);
       }
@@ -141,17 +142,16 @@ export default class YAxis extends PureComponent {
       labelStyle,
       height,
       yAxesAt,
-      margin,
     } = this.props;
 
     let style = 'position:absolute;';
     let transform = '';
     if (yAxesAt === 'left') {
       transform += 'transform: rotate(90deg)';
-      style += `left: ${margin}px;`;
+      style += 'left: 0px;';
     } else {
       transform += 'transform: rotate(-90deg)';
-      style += `right: ${margin}px;`;
+      style += 'right: 0px;';
     }
     style += `font-size:${labelStyle.size}px;`;
     style += `font-family:${labelStyle.font};`;
@@ -262,28 +262,34 @@ export default class YAxis extends PureComponent {
       top,
       showGrid,
       label,
+      unit,
       labelStyle,
       lines,
     } = this.props;
 
-    const style = {};
+    const axisWidth = index === 0 && showGrid ? chartWidth + yAxisWidth : yAxisWidth;
+
+    const divStyle = {};
+    divStyle.height = height;
+    divStyle.width = axisWidth;
+    divStyle.top = top;
     if (yAxesAt === 'left') {
-      style.left = margin;
+      divStyle.left = margin;
     } else if (yAxesAt === 'right') {
-      style.right = margin;
+      divStyle.right = margin;
     } else {
-      style.left = 0;
+      divStyle.left = 0;
     }
 
+    const style = {};
     // vertical position
-    style.top = top;
-
-    const axisWidth = index === 0 && showGrid ? chartWidth + yAxisWidth : yAxisWidth;
+    style.width = axisWidth;
+    style.height = height;
 
     return (
       <div
-        height={height}
-        width={axisWidth}
+        style={divStyle}
+        className={styles.yAxisDiv}
       >
         <span
           ref={this.assignLabelEl}
@@ -297,7 +303,7 @@ export default class YAxis extends PureComponent {
             }
           )}
         >
-          {label}
+          { label }{ unit.length ? ` (${unit})` : '' }
         </span>
         {
           lines.map(line =>
@@ -317,8 +323,6 @@ export default class YAxis extends PureComponent {
         <svg
           style={style}
           ref={this.assignEl}
-          height={height}
-          width={axisWidth}
           className={styles.yAxis}
         />
       </div>

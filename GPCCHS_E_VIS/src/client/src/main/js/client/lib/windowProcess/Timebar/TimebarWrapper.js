@@ -52,9 +52,6 @@ export default class TimebarWrapper extends PureComponent {
         current: PropTypes.number.isRequired,
         defaultWidth: PropTypes.number.isRequired,
       }).isRequired,
-      timelines: PropTypes.arrayOf(
-        PropTypes.string.isRequired
-      ).isRequired,
     }).isRequired,
     timebarUuid: PropTypes.string.isRequired,
     focusedPageId: PropTypes.string.isRequired,

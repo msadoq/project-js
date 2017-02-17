@@ -16,7 +16,7 @@ describe('store:timebars:reducer', () => {
     reducer({ tb1: { id: 'tb1' } }, { payload: { timebarUuid: 'tb1' } })
       .should.eql({ tb1: { id: 'tb1' } });
   });
-  describe('add', () => {
+  describe('_add', () => {
     it('add', () => {
       const fixture = {
         id: 'Id',
@@ -30,10 +30,10 @@ describe('store:timebars:reducer', () => {
       };
       const state = reducer(
         undefined,
-        actions.add('myTimebarId', fixture)
+        actions._add('myTimebarId', fixture)
       );
       state.myTimebarId.should.have.properties(
-        _omit(state.myTimebarId, ['extUpperBound', 'rulerStart'])
+        _omit(state.myTimebarId, ['extUpperBound', 'rulerStart', 'timelines'])
       );
       state.myTimebarId.should.have.property('extUpperBound');
       state.myTimebarId.should.have.property('rulerStart');
@@ -41,7 +41,7 @@ describe('store:timebars:reducer', () => {
     it('add empty', () => {
       const state = reducer(
         undefined,
-        actions.add('myTimebarId')
+        actions._add('myTimebarId')
       );
       state.myTimebarId.should.have.properties({
         id: null,
@@ -49,7 +49,6 @@ describe('store:timebars:reducer', () => {
         speed: 1,
         mode: 'Normal',
         masterId: null,
-        timelines: [],
       });
       state.myTimebarId.should.have.property('extUpperBound');
       state.myTimebarId.should.have.property('rulerStart');
@@ -191,20 +190,20 @@ describe('store:timebars:reducer', () => {
       newState.tb1.should.have.property('realTime');
       newState.tb1.realTime.should.equal(true);
     });
-    it('mount timeline', () => {
-      const newState = reducer(tbState, actions.mountTimeline('tb1', 'myTimelineId2'));
-      newState.should.have.property('tb1');
-      newState.tb1.should.have.property('timelines');
-      newState.tb1.timelines.should.have.length(3);
-      newState.tb1.timelines.should.deep.equal(['myTimelineId', 'myTimelineId3', 'myTimelineId2']);
-    });
-    it('unmount timeline', () => {
-      const newState = reducer(tbState, actions.unmountTimeline('tb1', 'myTimelineId'));
-      newState.should.have.property('tb1');
-      newState.tb1.should.have.property('timelines');
-      newState.tb1.timelines.should.have.length(1);
-      newState.tb1.timelines.should.deep.equal(['myTimelineId3']);
-    });
+    // it('mount timeline', () => {
+    //   const newState = reducer(tbState, actions.mountTimeline('tb1', 'myTimelineId2'));
+    //   newState.should.have.property('tb1');
+    //   newState.tb1.should.have.property('timelines');
+    //   newState.tb1.timelines.should.have.length(3);
+    //   newState.tb1.timelines.should.deep.equal(['myTimelineId', 'myTimelineId3', 'myTimelineId2']);
+    // });
+    // it('unmount timeline', () => {
+    //   const newState = reducer(tbState, actions.unmountTimeline('tb1', 'myTimelineId'));
+    //   newState.should.have.property('tb1');
+    //   newState.tb1.should.have.property('timelines');
+    //   newState.tb1.timelines.should.have.length(1);
+    //   newState.tb1.timelines.should.deep.equal(['myTimelineId3']);
+    // });
     it('updates rulerStart and rulerResolution', () => {
       const removeRulerProperties = __.update('tb1', __.omit(['rulerStart', 'rulerResolution']));
       const newState = reducer(tbState, actions.updateViewport('tb1', 42, 42));

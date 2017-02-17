@@ -111,9 +111,7 @@ export default class LeftTab extends PureComponent {
         offset: values.master ? 0 : parseInt(values.offset, 10),
       }
     );
-    this.setState({
-      willAdd: false,
-    });
+    this.hideModals();
 
     if (values.master) {
       timelinesBeforeAdd.forEach(t =>
@@ -127,6 +125,7 @@ export default class LeftTab extends PureComponent {
     this.setState({
       willAdd: false,
       willEdit: false,
+      editingId: null,
     });
   }
 
@@ -185,7 +184,7 @@ export default class LeftTab extends PureComponent {
         updateOffset(values.timelineId, offset);
       }
     }
-    this.setState({ editingId: null });
+    this.hideModals();
   }
 
   detach = (e) => {

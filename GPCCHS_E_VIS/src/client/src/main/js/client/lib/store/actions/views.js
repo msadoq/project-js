@@ -1,4 +1,4 @@
-import _clone from 'lodash/clone';
+import _cloneDeep from 'lodash/cloneDeep';
 import globalConstants from 'common/constants';
 import simple from '../simpleActionCreator';
 import ifPathChanged from './enhancers/ifPathChanged';
@@ -107,32 +107,29 @@ export const removeProcedure = simple(types.WS_VIEW_REMOVE_PROCEDURE, 'viewId', 
 
 const addEntryPointInternal = simple(types.WS_VIEW_ADD_ENTRYPOINT, 'viewId', 'entryPoint');
 
-export function addEntryPoint(viewId, entryPoint) { // TODO add test
+export function addEntryPoint(viewId, entryPoint) {
   return (dispatch, getState) => {
-    const ep = _clone(entryPoint);
+    const ep = _cloneDeep(entryPoint);
     const state = getState();
     const currentView = state.views[viewId];
     const structureType = vivl(currentView.type, 'structureType')();
 
     const currentPageId = getPageIdByViewId(state, { viewId });
-    const timebar = getTimebarByPageId(state, currentPageId);
+    const timebar = getTimebarByPageId(state, { pageId: currentPageId });
     const defaultTimeline = timebar ? timebar.masterId : '*';
     const domain = state.domains[0].name; // TODO should be replaced by *, but for dev it's ok
     // const domain = '*';
 
-    switch (structureType) {
-      case globalConstants.DATASTRUCTURETYPE_LAST:
-        ep.connectedData.timeline = ep.connectedData.timeline || defaultTimeline;
-        ep.connectedData.domain = ep.connectedData.domain || domain;
-        break;
-      case globalConstants.DATASTRUCTURETYPE_RANGE:
-        ep.connectedDataX.timeline = ep.connectedDataX.timeline || defaultTimeline;
-        ep.connectedDataY.timeline = ep.connectedDataY.timeline || defaultTimeline;
-        ep.connectedDataX.domain = ep.connectedDataX.domain || domain;
-        ep.connectedDataY.domain = ep.connectedDataY.domain || domain;
-        break;
-      default: break;
+    if (structureType === globalConstants.DATASTRUCTURETYPE_LAST) {
+      ep.connectedData.timeline = ep.connectedData.timeline || defaultTimeline;
+      ep.connectedData.domain = ep.connectedData.domain || domain;
+    } else if (structureType === globalConstants.DATASTRUCTURETYPE_RANGE) {
+      ep.connectedDataX.timeline = ep.connectedDataX.timeline || defaultTimeline;
+      ep.connectedDataY.timeline = ep.connectedDataY.timeline || defaultTimeline;
+      ep.connectedDataX.domain = ep.connectedDataX.domain || domain;
+      ep.connectedDataY.domain = ep.connectedDataY.domain || domain;
     }
+
     dispatch(openEditor(currentPageId, viewId, currentView.type));
     dispatch(addEntryPointInternal(viewId, ep));
   };

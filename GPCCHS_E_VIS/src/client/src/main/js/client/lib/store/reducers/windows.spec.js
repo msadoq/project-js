@@ -194,14 +194,9 @@ describe('store:windows:reducer', () => {
         .should.eql({ myWindowId: { title: 'Title', isModified: false, explorerWidth: 200 } });
     });
     it('updateExplorerFlag', () => {
-      const action = actions.updateExplorerFlag('myWindowId', 'isModified', true);
-      const nextState = reducer({ myWindowId: { title: 'Title', isModified: false } }, action);
-      nextState.myWindowId.isModified.should.be.true;
-    });
-    it('updateExplorerFlag', () => {
-      const action = actions.updateExplorerFlag('myWindowId', 'isModified', true);
-      const nextState = reducer({ myWindowId: { title: 'Title', isModified: false } }, action);
-      nextState.myWindowId.isModified.should.be.true;
+      const action = actions.updateExplorerFlag('myWindowId', 'explorerFlag', true);
+      const nextState = reducer({ myWindowId: { title: 'Title', explorerFlag: false } }, action);
+      nextState.myWindowId.explorerFlag.should.be.true;
     });
     it('displayExplorer', () => {
       const action = actions.displayExplorer('myWindowId', true);

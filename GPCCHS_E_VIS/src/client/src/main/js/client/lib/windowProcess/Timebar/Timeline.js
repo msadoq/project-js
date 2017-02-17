@@ -38,10 +38,31 @@ export default class Timeline extends PureComponent {
     }
   }
 
-  fi = (i, l = 2) => i.toString().padStart(l, '0');
+  fi = (i) => {
+    const s = i.toString();
+    if (s.length === 1) {
+      return `0${s}`;
+    }
+    if (s.length === 0) {
+      return '00';
+    }
+    return s;
+  }
+
+  fims = (i) => {
+    const s = i.toString();
+    if (s.length === 2) {
+      return `0${s}`;
+    } else if (s.length === 1) {
+      return `00${s}`;
+    } else if (s.length === 0) {
+      return '000';
+    }
+    return s;
+  }
 
   formatDuration = () => {
-    const { fi } = this;
+    const { fi, fims } = this;
     let ms = moment.duration(this.props.offset).asMilliseconds();
     const neg = ms < 0;
     if (neg) ms = Math.abs(ms);
@@ -51,7 +72,7 @@ export default class Timeline extends PureComponent {
     ms -= m * 60000;
     const s = Math.floor(ms / 1000);
     ms -= s * 1000;
-    return `${neg ? '- ' : '+ '}${fi(h)}:${fi(m)}:${fi(s)}.${fi(ms, 3)}`;
+    return `${neg ? '- ' : '+ '}${fi(h)}:${fi(m)}:${fi(s)}.${fims(ms)}`;
   }
 
   willEditTimeline = _memoize(

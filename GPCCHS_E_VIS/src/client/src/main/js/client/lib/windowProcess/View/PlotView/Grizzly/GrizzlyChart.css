@@ -5,10 +5,11 @@
   position: absolute;
 }
 .yAxis{
-  position: absolute;
   overflow: visible !important;
 }
-
+.yAxisDiv{
+  position: absolute;
+}
 .xAxis{
   position: absolute;
   overflow: visible !important;
@@ -55,4 +56,48 @@
   padding: 2px;
   padding-top: 4px;
   box-shadow: 0px 0px 7px rgba(0,0,0,0.2);
+}
+.tooltipCanvas{
+  position: absolute;
+  z-index: 4;
+  overflow: hidden;
+}
+.tooltip{
+  position: absolute;
+  border: 1px solid #ccc;
+  background: #FFF;
+  border-radius: 2px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+  padding: 6px;
+  transition: left ease-out 0.2s, top ease-out 0.2s, opacity ease-out 0.1s;
+}
+.tooltipAxisLabel{
+  font-style: weight;
+}
+.tooltipVerticalCursor{
+  position: absolute;
+  top: 0;
+  width: 1px;
+  background: #111;
+  transition: opacity ease-out 0.1s;
+}
+.tooltipHorizontalCursor{
+  left: 0;
+  position: absolute;
+  height: 1px;
+  background: #111;
+  transition: opacity ease-out 0.1s;
+
+}
+.tooltipLineSquare{
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  margin-right: 6px;
+}
+.tooltipLineName{
+  margin-right: 6px;
+}
+.tooltipLineValue{
+
 }

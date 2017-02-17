@@ -7,7 +7,8 @@ import _get from 'lodash/get';
 import { scaleLinear } from 'd3-scale';
 import styles from './GrizzlyChart.css';
 import CurrentCursorCanvas from './CurrentCursorCanvas';
-import LineCanvas from './LineCanvas';
+import LinesCanvas from './LinesCanvas';
+import Tooltip from './Tooltip';
 import YAxis from './YAxis';
 import XAxis from './XAxis';
 
@@ -33,6 +34,7 @@ export default class Chart extends React.Component {
         showGrid: PropTypes.bool.isRequired,
         gridStyle: PropTypes.string.isRequired,
         gridSize: PropTypes.number.isRequired,
+        unit: PropTypes.string,
         label: PropTypes.string.isRequired,
         labelStyle: PropTypes.shape,
       })
@@ -205,8 +207,10 @@ export default class Chart extends React.Component {
     return (
       <div
         className={styles.container}
-        height={height}
-        width={width}
+        style={{
+          height,
+          width,
+        }}
         id={`chart-${uniqueId}`}
         ref={this.assignEl}
       >
@@ -220,9 +224,18 @@ export default class Chart extends React.Component {
           margin={marginSide}
           xScale={xScale}
         />
+        <Tooltip
+          yAxes={this.yAxes}
+          width={chartWidth}
+          height={chartHeight}
+          top={marginTop}
+          margin={marginSide}
+          xScale={xScale}
+          yAxesAt={yAxesAt}
+        />
         {
           this.yAxes.map(yAxis =>
-            <LineCanvas
+            <LinesCanvas
               key={yAxis.id}
               width={chartWidth}
               height={chartHeight}
@@ -260,6 +273,7 @@ export default class Chart extends React.Component {
               yAxesAt={yAxesAt}
               yExtends={yAxis.yExtends}
               label={yAxis.label}
+              unit={yAxis.unit}
               labelStyle={yAxis.labelStyle}
               getLabelPosition={this.getLabelPosition}
             />

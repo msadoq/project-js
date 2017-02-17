@@ -117,6 +117,8 @@ export default class XAxis extends PureComponent {
 
     const style = {};
     style.top = 0;
+    style.width = width;
+    style.height = height + xAxisHeight;
 
     if (yAxesAt === 'left') {
       style.left = margin;
@@ -128,8 +130,6 @@ export default class XAxis extends PureComponent {
       <svg
         style={style}
         ref={this.assignEl}
-        height={height + xAxisHeight}
-        width={width}
         className={styles.xAxis}
       />
     );

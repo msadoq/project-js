@@ -852,6 +852,7 @@ export class PlotView extends PureComponent {
                 showGrid: _get(grid, 'showGrid', false),
                 gridStyle: _get(grid, ['line', 'style'], 'Continuous'),
                 gridSize: _get(grid, ['line', 'size'], 1),
+                unit: axis.unit,
                 label: axis.label,
                 labelStyle: axis.style,
               };

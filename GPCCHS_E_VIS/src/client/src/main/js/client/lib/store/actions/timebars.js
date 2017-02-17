@@ -31,7 +31,12 @@ export const updateId = simple(types.WS_TIMEBAR_ID_UPDATE, 'timebarUuid', 'id');
 export const setRealTime = simple(types.WS_TIMEBAR_SET_REALTIME, 'timebarUuid', 'flag');
 
 export const add = (timebarUuid, configuration) =>
-  (dispatch) => {
+  (dispatch, getState) => {
+    const state = getState();
+    if (getTimebar(state, { timebarUuid })) {
+      return;
+    }
+
     dispatch(_add(timebarUuid, configuration));
     dispatch(addTimebar(timebarUuid));
     if (configuration.timelines) {

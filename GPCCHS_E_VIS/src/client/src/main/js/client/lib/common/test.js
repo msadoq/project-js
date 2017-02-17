@@ -1,6 +1,7 @@
 import { tmpdir } from 'os';
 import path from 'path';
 import chai from 'chai';
+import sinonChai from 'sinon-chai';
 import properties from 'chai-properties';
 import sinon from 'sinon';
 import { createStore, applyMiddleware } from 'redux';
@@ -12,6 +13,7 @@ process.env.ISIS_DOCUMENTS_ROOT = path.resolve(__dirname, '../documentManager/fi
 process.env.WILDCARD_CHARACTER = '*';
 
 chai.use(properties);
+chai.use(sinonChai);
 
 function getStore(initialState) {
   return createStore(

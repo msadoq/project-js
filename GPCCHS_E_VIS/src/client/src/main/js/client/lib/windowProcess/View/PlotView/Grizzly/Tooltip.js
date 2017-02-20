@@ -147,7 +147,7 @@ export default class Tooltip extends React.Component {
     tooltipStyle.top = yInRange + 8;
     tooltipStyle.left = xInRange + 8;
     tooltipStyle.height = tooltiLinesToDisplay ?
-        (_sum(Object.values(linesList).map(a => a.length)) * 19)
+        (_sum(Object.values(linesList).map(a => a.length)) * 21)
         + (Object.values(linesList).length * 26)
         :
         0;

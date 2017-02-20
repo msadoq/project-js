@@ -31,10 +31,10 @@ export default class YAxis extends PureComponent {
       })
     ).isRequired,
     showLabels: PropTypes.bool,
-    showTicks: PropTypes.bool.isRequired,
-    showGrid: PropTypes.bool.isRequired,
-    gridStyle: PropTypes.string.isRequired,
-    gridSize: PropTypes.number.isRequired,
+    showTicks: PropTypes.bool,
+    showGrid: PropTypes.bool,
+    gridStyle: PropTypes.string,
+    gridSize: PropTypes.number,
     label: PropTypes.string.isRequired,
     unit: PropTypes.string,
     labelStyle: PropTypes.shape({
@@ -55,6 +55,10 @@ export default class YAxis extends PureComponent {
   static defaultProps = {
     unit: '',
     showLabels: false,
+    showTicks: true,
+    showGrid: true,
+    gridStyle: 'Continuous',
+    gridSize: 1,
     labelStyle: {
       color: '#333333',
       bgColor: '#FFFFFF',

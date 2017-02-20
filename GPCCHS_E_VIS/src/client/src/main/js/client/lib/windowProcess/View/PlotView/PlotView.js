@@ -834,7 +834,6 @@ export class PlotView extends PureComponent {
           )}
         >
           <GrizzlyChart
-            uniqueId="aaaa-bbb"
             height={containerHeight}
             width={containerWidth}
             allowZoom
@@ -854,8 +853,8 @@ export class PlotView extends PureComponent {
                 showTicks: axis.showTicks === true,
                 autoLimits: axis.autoLimits === true,
                 showGrid: _get(grid, 'showGrid', false),
-                gridStyle: _get(grid, ['line', 'style'], 'Continuous'),
-                gridSize: _get(grid, ['line', 'size'], 1),
+                gridStyle: _get(grid, ['line', 'style']),
+                gridSize: _get(grid, ['line', 'size']),
                 unit: axis.unit,
                 label: axis.label,
                 labelStyle: axis.style,

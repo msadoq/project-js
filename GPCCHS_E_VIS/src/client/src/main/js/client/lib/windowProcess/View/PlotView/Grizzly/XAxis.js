@@ -15,8 +15,8 @@ export default class XAxis extends PureComponent {
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     margin: PropTypes.number.isRequired,
-    gridStyle: PropTypes.string.isRequired,
-    gridSize: PropTypes.number.isRequired,
+    gridStyle: PropTypes.string,
+    gridSize: PropTypes.number,
     xExtends: PropTypes.arrayOf(
       PropTypes.number
     ).isRequired,
@@ -24,6 +24,8 @@ export default class XAxis extends PureComponent {
 
   static defaultProps = {
     showGrid: true,
+    gridStyle: 'Continuous',
+    gridSize: 1,
   }
 
   componentDidMount() {

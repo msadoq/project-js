@@ -17,7 +17,6 @@ import XAxis from './XAxis';
 export default class Chart extends React.Component {
 
   static propTypes = {
-    uniqueId: PropTypes.string.isRequired,
     yAxesAt: PropTypes.string.isRequired,
     xAxisAt: PropTypes.string.isRequired,
     height: PropTypes.number.isRequired,
@@ -33,11 +32,11 @@ export default class Chart extends React.Component {
         yExtends: PropTypes.array.isRequired,
         autoLimits: PropTypes.bool.isRequired,
         showAxis: PropTypes.bool.isRequired,
-        showLabels: PropTypes.bool.isRequired,
-        showTicks: PropTypes.bool.isRequired,
-        showGrid: PropTypes.bool.isRequired,
-        gridStyle: PropTypes.string.isRequired,
-        gridSize: PropTypes.number.isRequired,
+        showLabels: PropTypes.bool,
+        showTicks: PropTypes.bool,
+        showGrid: PropTypes.bool,
+        gridStyle: PropTypes.string,
+        gridSize: PropTypes.number,
         unit: PropTypes.string,
         label: PropTypes.string.isRequired,
         labelStyle: PropTypes.shape,
@@ -278,7 +277,6 @@ export default class Chart extends React.Component {
     const {
       height,
       width,
-      uniqueId,
       yAxesAt,
       xAxisAt,
       current,
@@ -322,7 +320,6 @@ export default class Chart extends React.Component {
           height,
           width,
         }}
-        id={`chart-${uniqueId}`}
         ref={this.assignEl}
       >
         <div

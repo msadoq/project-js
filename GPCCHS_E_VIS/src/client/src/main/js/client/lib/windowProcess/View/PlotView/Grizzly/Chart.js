@@ -322,6 +322,7 @@ export default class Chart extends React.Component {
         }}
         ref={this.assignEl}
       >
+        <h3 className={styles.mainTitle}>Grizzly</h3>
         <div
           className={styles.zoomAndPanLabels}
           style={{

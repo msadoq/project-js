@@ -188,7 +188,7 @@ export default class View extends PureComponent {
             className={styles.content}
             style={this.backgroundColorStyle(backgroundColor)}
           >
-            <MessagesContainer viewId={viewId} />
+            <MessagesContainer containerId={viewId} />
             <ContentComponent
               data={data}
               type={type}

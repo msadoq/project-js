@@ -78,7 +78,7 @@ export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
         dispatch(addMessage(`timeSetter-${timebarUuid}`, 'error', v));
       });
     } else {
-      const timeSetterMessages = getMessages(state, `timeSetter-${timebarUuid}`);
+      const timeSetterMessages = getMessages(state, { containerId: `timeSetter-${timebarUuid}` });
       if (timeSetterMessages && timeSetterMessages.length) {
         dispatch(resetMessages(`timeSetter-${timebarUuid}`));
       }
@@ -206,7 +206,7 @@ export function jump(timebarUuid, offsetMs) {
 export function goNow(timebarUuid, masterSessionIdCurrentTime) {
   return (dispatch, getState) => {
     const state = getState();
-    const timebar = getTimebar(state, timebarUuid);
+    const timebar = getTimebar(state, { timebarUuid });
     if (timebar.realTime) {
       dispatch(setRealTime(timebarUuid, false));
     }
@@ -263,7 +263,7 @@ export function switchToRealtimeMode(timebarUuid, masterSessionIdCurrentTime) {
   return (dispatch, getState) => {
     dispatch(setRealTime(timebarUuid, true));
     const state = getState();
-    const timebar = getTimebar(state, timebarUuid);
+    const timebar = getTimebar(state, { timebarUuid });
     if (timebar.speed !== 1) {
       dispatch({
         type: types.WS_TIMEBAR_SPEED_UPDATE,

@@ -11,7 +11,7 @@ const root = getRootDir();
 
 export default function ({ viewId }) {
   const { getState, dispatch } = getStore();
-  const { type, configuration, absolutePath } = getView(getState(), viewId);
+  const { type, configuration, absolutePath } = getView(getState(), { viewId });
 
   const folder = absolutePath ? dirname(absolutePath) : root;
   const modelConfiguration = getViewModule(type).prepareConfigurationForModel(configuration);

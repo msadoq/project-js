@@ -19,9 +19,11 @@ function pageSave(focusedWindow) {
     getStore().dispatch(addMessage(pageId, 'info', 'Page already saved'));
     return;
   }
-  if (getPageModifiedViewsIds(state, pageId).length > 0) {
+  if (getPageModifiedViewsIds(state, { pageId }).length > 0) {
     getStore().dispatch(
-      addMessage(getWindowFocusedPageId(getStore().getState(), focusedWindow.windowId),
+      addMessage(getWindowFocusedPageId(getStore().getState(), {
+        windowId: focusedWindow.windowId,
+      }),
         'danger',
         'Please, save the views of this page')
       );
@@ -55,7 +57,7 @@ function pageSave(focusedWindow) {
 
 function pageSaveAs(focusedWindow) {
   const pageId = getStore().getState().windows[focusedWindow.windowId].focusedPage;
-  if (getPageModifiedViewsIds(getStore().getState(), pageId).length) {
+  if (getPageModifiedViewsIds(getStore().getState(), { pageId }).length) {
     return getStore().dispatch(
       addMessage(getWindowFocusedPageId(getStore().getState(), focusedWindow.windowId,
         'danger',

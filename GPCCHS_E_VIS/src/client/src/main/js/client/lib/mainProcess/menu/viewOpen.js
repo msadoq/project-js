@@ -33,7 +33,7 @@ function viewOpenWithPath({ windowId, viewPath }) {
   const state = getState();
   const filePath = _.get([0, 'absolutePath'], viewPath);
   const focusedPage = state.windows[windowId].focusedPage;
-  const focusedPageId = getWindowFocusedPageId(state, windowId);
+  const focusedPageId = getWindowFocusedPageId(state, { windowId });
 
   readViews(viewPath, (errView, view) => {
     if (errView) {

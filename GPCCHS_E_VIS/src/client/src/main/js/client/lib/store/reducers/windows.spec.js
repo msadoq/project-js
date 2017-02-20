@@ -204,4 +204,24 @@ describe('store:windows:reducer', () => {
       nextState.myWindowId.displayExplorer.should.be.true;
     });
   });
+  describe('updateTimebarId', () => {
+    const action = {
+      type: types.WS_PAGE_UPDATE_TIMEBARID,
+      payload: {
+        windowId: 'myWindowId',
+        pageId: 'myPageId',
+        timebarUuid: 'myTimebarUuid',
+      },
+    };
+    it('set isModified to true', () => {
+      reducer({ myWindowId: { pages: ['myPageId'] } }, action).should.be.eql({
+        myWindowId: { pages: ['myPageId'], isModified: true },
+      });
+    });
+    it('do not set isModified to true', () => {
+      reducer({ myWindowId: { pages: ['1', '2', '3'] } }, action).should.be.eql({
+        myWindowId: { pages: ['1', '2', '3'] },
+      });
+    });
+  });
 });

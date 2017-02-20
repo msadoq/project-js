@@ -42,7 +42,7 @@ export default class View extends PureComponent {
       upper: PropTypes.number.isRequired,
       current: PropTypes.number.isRequired,
       defaultWidth: PropTypes.number.isRequired,
-    }).isRequired,
+    }),
     // eslint-disable-next-line react/forbid-prop-types
     data: PropTypes.object,
     viewId: PropTypes.string.isRequired,
@@ -64,6 +64,7 @@ export default class View extends PureComponent {
     data: {},
     absolutePath: '',
     oId: '',
+    visuWindow: null,
   };
 
   static contextTypes = {

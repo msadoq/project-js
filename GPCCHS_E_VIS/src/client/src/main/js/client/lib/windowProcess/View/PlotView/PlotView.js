@@ -37,8 +37,8 @@ import { _getEntryPointColorObj } from '../../../store/selectors/views';
 
 const logger = getLogger('view:plot');
 
-// const renderMethod = 'grizzly';
-const renderMethod = 'classic';
+const renderMethod = 'grizzly';
+// const renderMethod = 'classic';
 
 const {
   LineSeries, ScatterSeries, StraightLine,

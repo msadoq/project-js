@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import _get from 'lodash/get';
+import { getMessages } from '../../store/selectors/messages';
 import { remove } from '../../store/actions/messages';
 import {
   updateDefaultWidth,
@@ -13,7 +13,7 @@ import { pause } from '../../store/actions/hsc';
 export default connect(
   (state, { timebarUuid }) =>
     ({
-      messages: _get(state, ['messages', `timeSetter-${timebarUuid}`], []),
+      messages: getMessages(state, { containerId: `timeSetter-${timebarUuid}` }),
     })
   ,
   {

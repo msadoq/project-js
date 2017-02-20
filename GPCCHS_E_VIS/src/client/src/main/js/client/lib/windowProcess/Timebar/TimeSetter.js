@@ -27,14 +27,19 @@ export default class TimeSetter extends PureComponent {
       lower: PropTypes.number,
       upper: PropTypes.number })
     .isRequired,
-    messages: PropTypes.arrayOf(PropTypes.object).isRequired,
+    messages: PropTypes.arrayOf(PropTypes.object),
     cursor: PropTypes.string.isRequired,
     timebarUuid: PropTypes.string.isRequired,
     timebarMode: PropTypes.string.isRequired,
     timebarRulerResolution: PropTypes.number.isRequired,
   }
 
+  static defaultProps = {
+    messages: null,
+  }
+
   state = {
+    messages: null,
     errorMessages: [],
     defaultWidth: null,
     changed: false,
@@ -48,9 +53,24 @@ export default class TimeSetter extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     // If no error message, clean states
-    if (!nextProps.messages.length) {
+    if (!nextProps.messages || !nextProps.messages.length) {
       this.cancel();
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    let shouldRender = false;
+    Object.keys(nextProps).forEach((key) => {
+      if (this.props[key] !== nextProps[key]) {
+        shouldRender = true;
+      }
+    });
+    Object.keys(nextState).forEach((key) => {
+      if (this.state[key] !== nextState[key]) {
+        shouldRender = true;
+      }
+    });
+    return shouldRender;
   }
 
   componentDidUpdate() {
@@ -265,7 +285,7 @@ export default class TimeSetter extends PureComponent {
           <br />
           <h4>Cursor timestamps</h4>
           {
-            this.props.messages.length ?
+            this.props.messages && this.props.messages.length ?
               this.props.messages.map((v, i) =>
                 <Message
                   key={v.message}

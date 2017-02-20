@@ -151,6 +151,7 @@ export default class Tooltip extends React.Component {
         + (Object.values(linesList).length * 26)
         :
         0;
+    tooltipStyle.minHeight = tooltiLinesToDisplay ? Object.values(linesList).length * 55 : 55;
     tooltipStyle.transform = '';
     if (tooltipOnRight) {
       tooltipStyle.left = (xInRange - this.tooltipWidth) - 8;
@@ -201,6 +202,10 @@ export default class Tooltip extends React.Component {
                   <h5 className={styles.tooltipAxisLabel} >
                     Axis {axisId}
                   </h5>
+                  {
+                    linesList[axisId].length === 0 &&
+                    <p className={styles.tooltipNoData}>No data</p>
+                  }
                   {
                     linesList[axisId].map(line =>
                       <div key={line.name} >

@@ -13,6 +13,7 @@ export default class LinesCanvas extends PureComponent {
     margin: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     xScale: PropTypes.func.isRequired,
+    showLabels: PropTypes.bool,
     yExtends: PropTypes.arrayOf(
       PropTypes.number
     ).isRequired,
@@ -21,12 +22,16 @@ export default class LinesCanvas extends PureComponent {
         lineStyle: PropTypes.string,
         id: PropTypes.string.isRequired,
         dataSet: PropTypes.string.isRequired,
-        yAxis: PropTypes.string.isdataSetsRequired,
+        yAxis: PropTypes.string.isRequired,
         fill: PropTypes.string,
         strokeWidth: PropTypes.number,
         yAccessor: PropTypes.func.isRequired,
       })
     ).isRequired,
+  }
+
+  static defaultProps = {
+    showLabels: false,
   }
 
   componentDidMount() {
@@ -36,7 +41,7 @@ export default class LinesCanvas extends PureComponent {
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
 
-    ['yAxesAt', 'top', 'height', 'margin', 'width', 'xScale'].forEach((attr) => {
+    ['yAxesAt', 'top', 'height', 'margin', 'width', 'xScale', 'showLabels'].forEach((attr) => {
       if (nextProps[attr] !== this.props[attr]) {
         shouldRender = true;
       }
@@ -62,6 +67,7 @@ export default class LinesCanvas extends PureComponent {
       xScale,
       updateLabelPosition,
       axisId,
+      showLabels,
     } = this.props;
 
     const yScale = scaleLinear()
@@ -91,6 +97,10 @@ export default class LinesCanvas extends PureComponent {
         ctx.lineTo(xScale(data.x), y);
       });
       ctx.stroke();
+
+      if (!showLabels) {
+        return;
+      }
 
       // Horizontal line
       const lastYPosition = yScale(line.yAccessor(line.data[line.data.length - 1]));

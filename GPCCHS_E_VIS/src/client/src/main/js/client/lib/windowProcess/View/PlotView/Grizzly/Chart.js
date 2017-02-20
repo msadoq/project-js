@@ -244,6 +244,7 @@ export default class Chart extends React.Component {
               top={marginTop}
               margin={marginSide}
               xScale={xScale}
+              showLabels={yAxis.showLabels}
               yExtends={yAxis.yExtends}
               axisId={yAxis.id}
               lines={yAxis.lines}
@@ -280,6 +281,7 @@ export default class Chart extends React.Component {
           )
         }
         <XAxis
+          showGrid={this.yAxes[0].showGrid}
           gridStyle={this.yAxes[0].gridStyle}
           gridSize={this.yAxes[0].gridSize}
           margin={marginSide}

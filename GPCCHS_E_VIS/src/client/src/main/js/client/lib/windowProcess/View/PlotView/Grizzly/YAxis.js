@@ -30,7 +30,7 @@ export default class YAxis extends PureComponent {
         yAccessor: PropTypes.func.isRequired,
       })
     ).isRequired,
-    showLabels: PropTypes.bool.isRequired,
+    showLabels: PropTypes.bool,
     showTicks: PropTypes.bool.isRequired,
     showGrid: PropTypes.bool.isRequired,
     gridStyle: PropTypes.string.isRequired,
@@ -54,6 +54,7 @@ export default class YAxis extends PureComponent {
 
   static defaultProps = {
     unit: '',
+    showLabels: false,
     labelStyle: {
       color: '#333333',
       bgColor: '#FFFFFF',

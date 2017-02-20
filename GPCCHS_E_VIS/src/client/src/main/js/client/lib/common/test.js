@@ -23,6 +23,17 @@ function getStore(initialState) {
   );
 }
 
+const createGetState = ([...states]) => {
+  const getState = sinon.stub();
+  const frozenStates = states.map(freezeMe);
+  const lastState = frozenStates[frozenStates.length - 1];
+  getState.returns(lastState);
+  frozenStates.forEach((state, i) => {
+    getState.onCall(i).returns(state);
+  });
+  return getState;
+};
+
 const freezeMe = o => o && deepFreeze(o);
 
 const freezeArgs = f => (...args) => {
@@ -35,6 +46,7 @@ module.exports = {
   expect: chai.expect,
   sinon,
   getStore,
+  createGetState,
   freezeMe,
   freezeArgs,
   getTmpPath: (...args) => path.resolve(tmpdir(), 'vima-tests', ...args),

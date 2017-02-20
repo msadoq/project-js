@@ -39,13 +39,15 @@ export default class TimelineFields extends PureComponent {
         }),
       })
     ).isRequired,
-    id: PropTypes.string.isRequired,
+    id: PropTypes.string,
     masterId: PropTypes.string,
-    timelineId: PropTypes.string.isRequired,
+    timelineId: PropTypes.string,
   }
 
   static defaultProps = {
     masterId: null,
+    id: null,
+    timelineId: null,
   }
 
   render() {
@@ -59,7 +61,7 @@ export default class TimelineFields extends PureComponent {
 
     return (
       <div>
-        {(!masterId || (masterId !== id)) && <HorizontalFormGroup label="Master timeline">
+        {(!id || !masterId || (masterId !== id)) && <HorizontalFormGroup label="Master timeline">
           <Field
             name="master"
             component={ButtonToggleField}

@@ -1,1 +1,7 @@
+node_modules
+coverage
+dist
+docs
+data
 main.js
+**/*.js.map

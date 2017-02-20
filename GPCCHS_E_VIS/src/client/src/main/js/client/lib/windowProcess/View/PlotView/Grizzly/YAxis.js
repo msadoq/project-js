@@ -75,7 +75,7 @@ export default class YAxis extends PureComponent {
 
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
-    ['yAxesAt', 'top', 'height', 'yAxisWidth', 'margin'].forEach((attr) => {
+    ['yAxesAt', 'top', 'height', 'yAxisWidth', 'margin', 'chartWidth'].forEach((attr) => {
       if (nextProps[attr] !== this.props[attr]) {
         shouldRender = true;
       }

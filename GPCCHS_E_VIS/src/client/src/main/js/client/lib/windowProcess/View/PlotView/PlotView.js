@@ -837,6 +837,8 @@ export class PlotView extends PureComponent {
             uniqueId="aaaa-bbb"
             height={containerHeight}
             width={containerWidth}
+            allowZoom
+            allowPan
             xExtends={[visuWindow.lower, visuWindow.upper]}
             current={visuWindow.current}
             yAxesAt={showYAxes}

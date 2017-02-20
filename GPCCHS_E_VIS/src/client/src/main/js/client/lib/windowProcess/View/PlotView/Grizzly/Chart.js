@@ -4,7 +4,9 @@ import _max from 'lodash/max';
 import _min from 'lodash/min';
 import _set from 'lodash/set';
 import _get from 'lodash/get';
+import _throttle from 'lodash/throttle';
 import { scaleLinear } from 'd3-scale';
+import { Button } from 'react-bootstrap';
 import styles from './GrizzlyChart.css';
 import CurrentCursorCanvas from './CurrentCursorCanvas';
 import LinesCanvas from './LinesCanvas';
@@ -21,6 +23,8 @@ export default class Chart extends React.Component {
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     current: PropTypes.number.isRequired,
+    allowZoom: PropTypes.bool.isRequired,
+    allowPan: PropTypes.bool.isRequired,
     xExtends: PropTypes.arrayOf(PropTypes.number).isRequired,
     yAxes: PropTypes.arrayOf(
       PropTypes.shape({
@@ -58,14 +62,73 @@ export default class Chart extends React.Component {
     ).isRequired,
   }
 
-  shouldComponentUpdate(nextProps) {
+  state = {
+    zoomLevel: 1,
+    pan: 0,
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
     let shouldRender = false;
     Object.keys(nextProps).forEach((k) => {
       if (this.props[k] !== nextProps[k]) {
         shouldRender = true;
       }
     });
+    Object.keys(nextState).forEach((k) => {
+      if (this.state[k] !== nextState[k]) {
+        shouldRender = true;
+      }
+    });
     return shouldRender;
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousemove', this.onMouseMoveThrottle);
+    document.addEventListener('mouseup', this.onMouseUp);
+  }
+
+  onWheel = (e) => {
+    e.preventDefault();
+    const { allowZoom } = this.props;
+    const { zoomLevel } = this.state;
+    if (allowZoom && e.ctrlKey) {
+      this.setState({
+        zoomLevel: (zoomLevel * (e.deltaY > 0 ? 0.9 : 1.1)).toFixed(2),
+      });
+    }
+  }
+
+  onMouseDown = (e) => {
+    e.preventDefault();
+    const { allowPan } = this.props;
+    const { pan } = this.state;
+    if (!allowPan) {
+      return;
+    }
+    this.setState({
+      mouseMoveCursorOrigin: e.pageX,
+      panOrigin: pan,
+    });
+
+    if (!this.onMouseMoveThrottle) {
+      this.onMouseMoveThrottle = _throttle(this.onMouseMove, 100);
+    }
+
+    document.addEventListener('mousemove', this.onMouseMoveThrottle);
+    document.addEventListener('mouseup', this.onMouseUp);
+  }
+
+  onMouseMove = (e) => {
+    e.preventDefault();
+    const { mouseMoveCursorOrigin, panOrigin } = this.state;
+    this.setState({
+      pan: panOrigin + (e.pageX - mouseMoveCursorOrigin),
+    });
+  }
+
+  onMouseUp = (e) => {
+    e.preventDefault();
+    document.removeEventListener('mousemove', this.onMouseMoveThrottle);
   }
 
   getSortedAndValidYAxes = () => {
@@ -128,6 +191,15 @@ export default class Chart extends React.Component {
   getLabelPosition = (yAxisId, lineId) =>
     _get(this.labelsPosition, [yAxisId, lineId]);
 
+  resetZoomLevel = (e) => {
+    e.preventDefault();
+    this.setState({ zoomLevel: 1 });
+  }
+
+  resetPan = (e) => {
+    e.preventDefault();
+    this.setState({ pan: 0 });
+  }
 
   updateLabelPosition = (yAxisId, lineId, yPosition) => {
     if (!this.labelsPosition) {
@@ -171,6 +243,35 @@ export default class Chart extends React.Component {
       .range([rangeLower, rangeUpper])
   );
 
+  memoizeCalculatedXExtends =
+    _memoize((xExtendsLower, xExtendsUpper, pan, zoomLevel, chartWidth) => {
+      let newXExtends = [xExtendsLower, xExtendsUpper];
+      let panMs = 0;
+      if (pan !== 0) {
+        panMs = (pan / chartWidth) * (newXExtends[0] - newXExtends[1]) * 1;
+        panMs = parseFloat(panMs.toFixed(2));
+        newXExtends = [
+          newXExtends[0] + panMs,
+          newXExtends[1] + panMs,
+        ];
+      }
+      if (zoomLevel !== 1) {
+        const zoomOffsetMs =
+          (newXExtends[1] - newXExtends[0]) -
+            (
+              (newXExtends[1] - newXExtends[0])
+              / zoomLevel
+            );
+        newXExtends = [
+          newXExtends[0] + (zoomOffsetMs / 2),
+          newXExtends[1] - (zoomOffsetMs / 2),
+        ];
+      }
+      return [newXExtends, panMs];
+    },
+    (...args) => JSON.stringify(args)
+    );
+
   assignEl = (el) => { this.el = el; }
 
   render() {
@@ -183,6 +284,8 @@ export default class Chart extends React.Component {
       current,
       xExtends,
     } = this.props;
+
+    const { zoomLevel, pan } = this.state;
 
     this.yAxes = this.getSortedAndValidYAxes();
 
@@ -199,7 +302,13 @@ export default class Chart extends React.Component {
       :
       height;
 
-    const xScale = this.memoizeXScale(xExtends[0], xExtends[1], 0, chartWidth);
+    const memoized =
+      this.memoizeCalculatedXExtends(xExtends[0], xExtends[1], pan, zoomLevel, chartWidth);
+    const calculatedXExtends = memoized[0];
+    const panMs = memoized[1];
+
+    const xScale =
+      this.memoizeXScale(calculatedXExtends[0], calculatedXExtends[1], 0, chartWidth);
 
     const marginTop = xAxisAt === 'top' ? this.xAxisHeight : 0;
     const marginSide = this.yAxes.length * this.yAxisWidth;
@@ -207,6 +316,8 @@ export default class Chart extends React.Component {
     return (
       <div
         className={styles.container}
+        onWheel={this.onWheel}
+        onMouseDown={this.onMouseDown}
         style={{
           height,
           width,
@@ -214,6 +325,29 @@ export default class Chart extends React.Component {
         id={`chart-${uniqueId}`}
         ref={this.assignEl}
       >
+        <div
+          className={styles.zoomAndPanLabels}
+          style={{
+            left: yAxesAt === 'left' ? marginSide + 5 : 5,
+          }}
+        >
+          {
+            zoomLevel !== 1 &&
+            <Button
+              bsStyle="danger"
+              bsSize="xs"
+              onClick={this.resetZoomLevel}
+            >Zoomed {zoomLevel}x</Button>
+          }
+          {
+            panMs !== 0 &&
+            <Button
+              bsStyle="danger"
+              bsSize="xs"
+              onClick={this.resetPan}
+            >Panned {panMs}ms</Button>
+          }
+        </div>
         <CurrentCursorCanvas
           width={chartWidth}
           height={chartHeight}
@@ -290,7 +424,7 @@ export default class Chart extends React.Component {
           width={chartWidth}
           xAxisAt={xAxisAt}
           yAxesAt={yAxesAt}
-          xExtends={xExtends}
+          xExtends={calculatedXExtends}
         />
       </div>
     );

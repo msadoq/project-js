@@ -51,24 +51,26 @@ export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
     const lower = _get(visuWindow, 'lower') || timebar.visuWindow.lower;
     const upper = _get(visuWindow, 'upper') || timebar.visuWindow.upper;
     const current = _get(visuWindow, 'current') || timebar.visuWindow.current;
-    const slideLower = _get(slideWindow, 'lower') || timebar.slideWindow.lower;
-    const slideUpper = _get(slideWindow, 'upper') || timebar.slideWindow.upper;
+    const newSlideWindow = {
+      lower: _get(slideWindow, 'lower') || timebar.slideWindow.lower,
+      upper: _get(slideWindow, 'upper') || timebar.slideWindow.upper,
+    };
     if (lower > current) {
       messages.push('Lower cursor must be before current cursor');
     }
     if (current > upper) {
       messages.push('Current cursor must be before upper cursor');
     }
-    if (slideLower < lower || slideLower > current) {
-      messages.push('Ext lower cursor must be between lower and current cursors');
+    if (newSlideWindow.lower < lower || newSlideWindow.lower > current) {
+      newSlideWindow.lower = lower;
     }
     if (timebar.mode === 'Extensible') {
-      if (slideUpper < upper) {
-        messages.push('Ext upper cursor must be after upper cursor in Extensible mode');
+      if (newSlideWindow.upper < upper) {
+        newSlideWindow.upper = upper;
       }
     } else if (timebar.mode === 'Fixed' || timebar.mode === 'Normal') {
-      if (slideUpper > upper || slideUpper < current) {
-        messages.push('Ext upper cursor must be between current and upper cursor in Fixed and Normal mode');
+      if (newSlideWindow.upper > upper || newSlideWindow.upper < current) {
+        newSlideWindow.upper = upper;
       }
     }
 
@@ -86,7 +88,7 @@ export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
         type: types.WS_TIMEBAR_UPDATE_CURSORS,
         payload: {
           visuWindow,
-          slideWindow,
+          slideWindow: newSlideWindow,
           timebarUuid,
         },
       });

@@ -190,20 +190,6 @@ describe('store:timebars:reducer', () => {
       newState.tb1.should.have.property('realTime');
       newState.tb1.realTime.should.equal(true);
     });
-    // it('mount timeline', () => {
-    //   const newState = reducer(tbState, actions.mountTimeline('tb1', 'myTimelineId2'));
-    //   newState.should.have.property('tb1');
-    //   newState.tb1.should.have.property('timelines');
-    //   newState.tb1.timelines.should.have.length(3);
-    //   newState.tb1.timelines.should.deep.equal(['myTimelineId', 'myTimelineId3', 'myTimelineId2']);
-    // });
-    // it('unmount timeline', () => {
-    //   const newState = reducer(tbState, actions.unmountTimeline('tb1', 'myTimelineId'));
-    //   newState.should.have.property('tb1');
-    //   newState.tb1.should.have.property('timelines');
-    //   newState.tb1.timelines.should.have.length(1);
-    //   newState.tb1.timelines.should.deep.equal(['myTimelineId3']);
-    // });
     it('updates rulerStart and rulerResolution', () => {
       const removeRulerProperties = __.update('tb1', __.omit(['rulerStart', 'rulerResolution']));
       const newState = reducer(tbState, actions.updateViewport('tb1', 42, 42));

@@ -19,6 +19,7 @@ describe('store:actions:timebars', () => {
         visuWindow: { lower: 100, current: 150, upper: 200 },
         slideWindow: { lower: 160, upper: 170 },
         speed: 1,
+        realTime: true,
       },
       tb2: {
         mode: 'Normal',
@@ -165,6 +166,42 @@ describe('store:actions:timebars', () => {
       actions.handlePlay(0, 0)(dispatch, getState);
       dispatch.should.have.been.callCount(1);
       dispatch.getCall(0).args[0].should.be.a('function');
+    });
+  });
+  describe('updateSpeed', () => {
+    it('disables real time then update speed', () => {
+      actions.updateSpeed('tb1', 42)(dispatch, getState);
+      dispatch.should.have.been.callCount(2);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.an('object');
+
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SET_REALTIME,
+        payload: {
+          timebarUuid: 'tb1',
+          flag: false,
+        },
+      });
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SPEED_UPDATE,
+        payload: {
+          timebarUuid: 'tb1',
+          speed: 42,
+        },
+      });
+    });
+    it('updates speed', () => {
+      actions.updateSpeed('tb2', 42)(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).args[0].should.be.an('object');
+
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SPEED_UPDATE,
+        payload: {
+          timebarUuid: 'tb2',
+          speed: 42,
+        },
+      });
     });
   });
 });

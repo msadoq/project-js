@@ -19,7 +19,7 @@ export default merge(baseConfig, {
     renderer: [
       './lib/windowProcess/style/bootstrap',
       '!style!css!postcss!./lib/windowProcess/style',
-      `webpack-hot-middleware/client?path=http://localhost:${port}/__webpack_hmr`,
+      `webpack-hot-middleware/client?path=http://localhost:${port}/__webpack_hmr`, // TODO abdesson : test hot middleware to codeEditor to
       './lib/windowProcess/index',
     ],
     codeEditor: [

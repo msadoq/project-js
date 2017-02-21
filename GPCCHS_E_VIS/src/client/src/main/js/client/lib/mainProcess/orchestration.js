@@ -264,12 +264,11 @@ export function tick() {
     // sync windows
     (callback) => {
       const state = getState();
-      // TO NOT COMMIT
-      // if (state.windows === previous.windowMap) {
-      //   callback(null);
-      //   return;
-      // }
-      // TO NOT COMMIT
+      // TODO : absesson run window observer every time but do the mimimum
+      if (state.windows === previous.windowMap) {
+        callback(null);
+        return;
+      }
 
       previous.windowMap = state.windows;
 

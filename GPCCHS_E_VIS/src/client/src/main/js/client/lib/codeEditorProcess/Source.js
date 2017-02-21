@@ -14,7 +14,7 @@ export default class Source extends PureComponent {
     entryPoints: {},
   }
 
-  willSubmit = (values) => {
+  willSubmit = (values) => { // TODO : abesson : willSubmit ? => updateContent
     const { viewId, updateContent } = this.props;
     updateContent(viewId, values);
   }

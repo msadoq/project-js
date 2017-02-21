@@ -3,6 +3,7 @@ import { getView } from './views';
 
 export const getViewId = state => _get(state, ['editor', 'textViewId'], {});
 
+// TODO abesson : getViewTitle has nothing to do in this file (selectors/views.js)
 export const getViewTitle = (state, viewId) => {
   if (!viewId) {
     return '';

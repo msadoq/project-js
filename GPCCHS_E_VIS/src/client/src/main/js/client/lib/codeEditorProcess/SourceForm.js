@@ -1,19 +1,13 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import {
-  // Form,
-  ButtonGroup,
-  Button,
-} from 'react-bootstrap';
+import { ButtonGroup, Button } from 'react-bootstrap';
 import { lint } from '../common/htmllint';
-import {
-  CodeMirrorField,
-} from '../windowProcess/Editor/Components/Fields';
+import { CodeMirrorField } from '../windowProcess/Editor/Components/Fields';
 import styles from './Source.css';
 
 class SourceForm extends PureComponent {
   static propTypes = {
-    handleSubmit: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired, // TODO abesson require but not given by parent
     pristine: PropTypes.bool.isRequired,
     reset: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
@@ -22,12 +16,14 @@ class SourceForm extends PureComponent {
     entryPoints: PropTypes.arrayOf(PropTypes.string),
   }
   static defaultProps = {
-    entryPoints: {},
+    entryPoints: {}, // TODO abesson => []
   }
   constructor(props) {
     super(props);
     this.resetAndClose = this.resetAndClose.bind(this);
+    // TODO abesson use arrow function autobind + remove constructor
     this.saveAndClose = this.saveAndClose.bind(this);
+    // TODO abesson use arrow function autobind + remove constructor
   }
   onChange = editorState => this.setState({ editorState });
   resetAndClose() {

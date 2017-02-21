@@ -75,6 +75,7 @@ export default class TextView extends PureComponent {
   }
 
   // TODO Maybe useless, TextView implement PureComponent
+  // TODO abesson, useless or not?
   shouldComponentUpdate(nextProps) {
     return !(
       nextProps.viewId === this.props.viewId &&
@@ -158,21 +159,15 @@ export default class TextView extends PureComponent {
   processNodeDefinitions = new ProcessNodeDefinitions(React);
 
   render() {
-    const {
-      viewId,
-    } = this.props;
-    const {
-      Content,
-    } = this.state;
+    const { viewId } = this.props;
+    const { Content } = this.state;
 
     logger.debug(`render ${viewId}`);
 
-    return <DroppableContainer onDrop={this.onDrop}><Content /></DroppableContainer>;
+    return (
+      <DroppableContainer onDrop={this.onDrop}>
+        <Content />
+      </DroppableContainer>
+    );
   }
 }
-/* <WYSIWYG
- initialValues={this.template}
- entryPoints={entryPoints.map(ep => ep.name)}
- onSubmit={this.handleSubmit}
- form={`textView-form-${viewId}`}
-/> */

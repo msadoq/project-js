@@ -1,5 +1,6 @@
 import globalConstants from 'common/constants';
 import parseConnectedData from '../common/parseConnectedData';
+import getExpectedInterval from './getExpectedInterval';
 
 export default function parseEntryPoint(
   entryPoint,
@@ -16,7 +17,8 @@ export default function parseEntryPoint(
     masterSessionId,
     visuWindow,
     timelines,
-    domains
+    domains,
+    getExpectedInterval
   );
   if (cd.error) {
     return cd;

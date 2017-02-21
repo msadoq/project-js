@@ -7,8 +7,7 @@ import any from 'lodash/fp/any';
 import { createSelector } from 'reselect';
 import getLogger from 'common/log';
 
-import vivl from '../../VIVL/main';
-import structures from './structures';
+import { getStructureType, getStructureModule } from '../viewManager';
 import { getMasterSessionId } from '../store/selectors/masterSession';
 import { getDomains } from '../store/selectors/domains';
 import { getTimebars, _getTimebarTimelines } from '../store/selectors/timebars';
@@ -38,8 +37,7 @@ export const _getViewData = ({
     return {};
   }
   const { entryPoints } = configuration;
-  const structureType = vivl(type, 'structureType')();
-  const extract = structures(structureType, 'parseEntryPoint');
+  const structureType = getStructureType(type);
   const visuWindow = _get(timebars, [timebarUuid, 'visuWindow']);
 
   return {
@@ -50,7 +48,7 @@ export const _getViewData = ({
     masterSessionId,
     structureType,
     epsData: entryPoints.map(ep =>
-      extract(
+      getStructureModule(type).parseEntryPoint(
         ep,
         timebarUuid,
         viewTimelines,
@@ -109,7 +107,7 @@ export const walk = (masterSessionId, domains, timebars, timelines, views, timeb
 
       if (ep.error) {
         _set(map, ['perView', viewId, 'entryPoints', name], ep);
-        logger.info('invalid entryPoint', name, ep.error);
+        logger.debug('invalid entryPoint', name, ep.error);
         return subMap;
       }
 

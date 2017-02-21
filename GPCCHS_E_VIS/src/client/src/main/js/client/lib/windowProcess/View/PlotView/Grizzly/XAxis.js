@@ -11,14 +11,21 @@ export default class XAxis extends PureComponent {
     yAxesAt: PropTypes.string.isRequired,
     xAxisAt: PropTypes.string.isRequired,
     xAxisHeight: PropTypes.number.isRequired,
+    showGrid: PropTypes.bool,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     margin: PropTypes.number.isRequired,
-    gridStyle: PropTypes.string.isRequired,
-    gridSize: PropTypes.number.isRequired,
+    gridStyle: PropTypes.string,
+    gridSize: PropTypes.number,
     xExtends: PropTypes.arrayOf(
       PropTypes.number
     ).isRequired,
+  }
+
+  static defaultProps = {
+    showGrid: true,
+    gridStyle: 'Continuous',
+    gridSize: 1,
   }
 
   componentDidMount() {
@@ -64,8 +71,8 @@ export default class XAxis extends PureComponent {
       width,
       height,
       gridStyle,
+      showGrid,
     } = this.props;
-
     const xScale = scaleTime()
       .domain([new Date(xExtends[0]), new Date(xExtends[1])])
       .range([0, width]);
@@ -81,7 +88,7 @@ export default class XAxis extends PureComponent {
 
     xAxisFunction = xAxisFunction
       .ticks(8)
-      .tickSize(axisHeight);
+      .tickSize(showGrid ? axisHeight : this.ticksYOffset);
 
     let gStyle = '';
     if (xAxisAt === 'top') {
@@ -112,13 +119,19 @@ export default class XAxis extends PureComponent {
       width,
       height,
       yAxesAt,
+      showGrid,
       xAxisHeight,
     } = this.props;
 
     const style = {};
-    style.top = 0;
+    if (showGrid) {
+      style.top = 0;
+      style.height = height + xAxisHeight;
+    } else {
+      style.top = height;
+      style.height = xAxisHeight;
+    }
     style.width = width;
-    style.height = height + xAxisHeight;
 
     if (yAxesAt === 'left') {
       style.left = margin;

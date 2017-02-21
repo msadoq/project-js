@@ -38,7 +38,7 @@ describe('store:timelines:reducer', () => {
         offset: 0,
         kind: 'Session',
         sessionId: null,
-        color: null,
+        color: '#31b0d5',
       });
     });
   });

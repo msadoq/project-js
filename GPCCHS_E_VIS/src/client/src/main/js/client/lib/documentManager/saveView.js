@@ -1,33 +1,23 @@
 import { dirname } from 'path';
-import omit from 'lodash/fp/omit';
-import isArray from 'lodash/fp/isArray';
+import _omit from 'lodash/fp/omit';
+import _isArray from 'lodash/fp/isArray';
 import _cloneDeep from 'lodash/cloneDeep';
-import _values from 'lodash/values';
-// import _each from 'lodash/each';
-import {
-  DATASTRUCTURETYPE_RANGE,
-  LOG_DOCUMENT_SAVE,
-} from 'common/constants';
+import { LOG_DOCUMENT_SAVE } from 'common/constants';
 
 import { server } from '../mainProcess/ipc';
-
 import validation from './validation';
-import vivl from '../../VIVL/main';
 import { createFolder } from '../common/fs';
 import { writeDocument } from './io';
+import { isViewTypeSupported, getSchema, getViewModule } from '../viewManager';
 
 /**
  * Save view from state to file
  *
- * @param state
- * @param viewId
- * @param path
- * @param callback
- * @returns Error or undefined
+ * @param fmdApi
  */
 const saveViewAs = fmdApi => (viewConfiguration, viewType, path, callback) => {
   if (!viewConfiguration) {
-    callback(new Error('Unknown view'));
+    callback(new Error('Empty view configuration'));
     return;
   }
   createFolder(dirname(path), (err) => {
@@ -35,46 +25,31 @@ const saveViewAs = fmdApi => (viewConfiguration, viewType, path, callback) => {
       callback(err);
       return;
     }
-    let view = _cloneDeep(viewConfiguration);
-
-    let schema;
-    let structureType;
-    try {
-      schema = vivl(view.type, 'getSchemaJson')();
-      structureType = vivl(view.type, 'structureType')();
-    } catch (e) {
-      callback(new Error(`Invalid view type '${view.type}'`), view);
+    if (!isViewTypeSupported(viewType)) {
+      callback(new Error(`Invalid view type '${viewType}'`), viewConfiguration);
       return;
     }
 
-    switch (structureType) {
-      case DATASTRUCTURETYPE_RANGE: {
-        view.axes = _values(view.axes);
-        break;
-      }
-      default: {
-        break;
-      }
-    }
-
-    // Case of DynamicView
-    if (view.type === 'DynamicView' && isArray(view.entryPoints)) {
-      view.entryPoint = omit('name', view.entryPoints[0]);
-      view = omit('entryPoints', view);
-    }
+    const configurationToSave = _cloneDeep(viewConfiguration);
 
     // Remove entry point id
-    if (isArray(view.entryPoints)) {
-      view.entryPoints = view.entryPoints.map(omit('id'));
+    if (_isArray(configurationToSave.entryPoints)) {
+      configurationToSave.entryPoints = configurationToSave.entryPoints.map(_omit('id'));
     }
 
-    const validationError = validation(view.type, view, schema);
+    const configuration = getViewModule(viewType)
+      .prepareConfigurationForFile(
+        _cloneDeep(configurationToSave)
+      );
+
+    const schema = getSchema(viewType);
+    const validationError = validation(viewType, configuration, schema);
     if (validationError) {
       callback(validationError);
       return;
     }
 
-    writeDocument(fmdApi)(path, view, (errWrite, oId) => {
+    writeDocument(fmdApi)(path, configuration, (errWrite, oId) => {
       if (errWrite) {
         callback(errWrite);
         return;
@@ -88,21 +63,21 @@ const saveViewAs = fmdApi => (viewConfiguration, viewType, path, callback) => {
 /**
  * Save view from state to file
  *
- * @param state
- * @param viewId
- * @param callback
- * @returns Error or undefined
+ * @param fmdApi
  */
 const saveView = fmdApi => (state, viewId, callback) => {
   if (!state.views[viewId]) {
-    return callback(new Error('Unknown view id'));
+    callback(new Error('Unknown view id'));
+    return;
   }
   const absPath = state.views[viewId].absolutePath ? state.views[viewId].absolutePath
                                                    : state.views[viewId].oId;
   if (!absPath) {
-    return callback(new Error('Unknown path for saving text view'));
+    callback(new Error('Unknown path for saving text view'));
+    return;
   }
-  return saveViewAs(fmdApi)(
+
+  saveViewAs(fmdApi)(
     state.views[viewId].configuration, state.views[viewId].type, absPath, callback
   );
 };

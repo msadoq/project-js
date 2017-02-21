@@ -37,8 +37,8 @@ import { _getEntryPointColorObj } from '../../../store/selectors/views';
 
 const logger = getLogger('view:plot');
 
-// const renderMethod = 'grizzly';
-const renderMethod = 'classic';
+const renderMethod = 'grizzly';
+// const renderMethod = 'classic';
 
 const {
   LineSeries, ScatterSeries, StraightLine,
@@ -94,7 +94,7 @@ export class PlotView extends PureComponent {
       lower: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
       current: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
       upper: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
-    }).isRequired,
+    }),
     viewId: PropTypes.string.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
     entryPoints: PropTypes.arrayOf(PropTypes.shape({
@@ -165,15 +165,16 @@ export class PlotView extends PureComponent {
       columns: [],
     },
     pointsPerPxThreshold: 30,
+    visuWindow: null,
   };
 
   constructor(...args) {
     super(...args);
     this.state = {
-      xExtents: [
+      xExtents: this.props.visuWindow ? [
         new Date(this.props.visuWindow.lower),
         new Date(this.props.visuWindow.upper),
-      ],
+      ] : [],
       disableZoom: true,
       isMenuOpened: false,
       zoomedOrPanned: false,
@@ -213,7 +214,7 @@ export class PlotView extends PureComponent {
 
     const willSetState = {};
 
-    if (this.state.zoomedOrPanned) {
+    if (this.state.zoomedOrPanned && nextVisuWindow) {
       // We have to set new lower / upper so zoom mode is quit
       willSetState.zoomedOrPanned = false;
       willSetState.xExtents = [
@@ -223,12 +224,13 @@ export class PlotView extends PureComponent {
 
     // reset xExtents only if new lower / upper
     } else if (
+      nextVisuWindow && (
       !this.state.xExtents ||
       (
         visuWindow.lower !== nextVisuWindow.lower ||
         visuWindow.upper !== nextVisuWindow.upper
       )
-    ) {
+    )) {
       willSetState.xExtents = [
         new Date(nextVisuWindow.lower),
         new Date(nextVisuWindow.upper),
@@ -832,9 +834,10 @@ export class PlotView extends PureComponent {
           )}
         >
           <GrizzlyChart
-            uniqueId="aaaa-bbb"
             height={containerHeight}
             width={containerWidth}
+            allowZoom
+            allowPan
             xExtends={[visuWindow.lower, visuWindow.upper]}
             current={visuWindow.current}
             yAxesAt={showYAxes}
@@ -850,8 +853,8 @@ export class PlotView extends PureComponent {
                 showTicks: axis.showTicks === true,
                 autoLimits: axis.autoLimits === true,
                 showGrid: _get(grid, 'showGrid', false),
-                gridStyle: _get(grid, ['line', 'style'], 'Continuous'),
-                gridSize: _get(grid, ['line', 'size'], 1),
+                gridStyle: _get(grid, ['line', 'style']),
+                gridSize: _get(grid, ['line', 'size']),
                 unit: axis.unit,
                 label: axis.label,
                 labelStyle: axis.style,

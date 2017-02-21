@@ -30,11 +30,11 @@ export default class YAxis extends PureComponent {
         yAccessor: PropTypes.func.isRequired,
       })
     ).isRequired,
-    showLabels: PropTypes.bool.isRequired,
-    showTicks: PropTypes.bool.isRequired,
-    showGrid: PropTypes.bool.isRequired,
-    gridStyle: PropTypes.string.isRequired,
-    gridSize: PropTypes.number.isRequired,
+    showLabels: PropTypes.bool,
+    showTicks: PropTypes.bool,
+    showGrid: PropTypes.bool,
+    gridStyle: PropTypes.string,
+    gridSize: PropTypes.number,
     label: PropTypes.string.isRequired,
     unit: PropTypes.string,
     labelStyle: PropTypes.shape({
@@ -54,6 +54,11 @@ export default class YAxis extends PureComponent {
 
   static defaultProps = {
     unit: '',
+    showLabels: false,
+    showTicks: true,
+    showGrid: true,
+    gridStyle: 'Continuous',
+    gridSize: 1,
     labelStyle: {
       color: '#333333',
       bgColor: '#FFFFFF',
@@ -74,7 +79,7 @@ export default class YAxis extends PureComponent {
 
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
-    ['yAxesAt', 'top', 'height', 'yAxisWidth', 'margin'].forEach((attr) => {
+    ['yAxesAt', 'top', 'height', 'yAxisWidth', 'margin', 'chartWidth'].forEach((attr) => {
       if (nextProps[attr] !== this.props[attr]) {
         shouldRender = true;
       }

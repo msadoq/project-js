@@ -9,6 +9,7 @@ import {
   HEALTH_STATUS_CRITICAL,
   IPC_METHOD_CACHE_CLEANUP,
   HSC_CRITICAL_SWITCH_PAUSE_DELAY,
+  HSC_PUBSUB_MONITORING_FREQUENCY,
 } from 'common/constants';
 import executionMonitor from 'common/log/execution';
 import getLogger from 'common/log';
@@ -142,7 +143,7 @@ export function tick() {
 
         // health store update
         execution.start('health injection');
-        dispatch(updateHealth(data));
+        dispatch(updateHealth(data, HSC_PUBSUB_MONITORING_FREQUENCY));
         execution.stop('health injection');
 
         callback(null);

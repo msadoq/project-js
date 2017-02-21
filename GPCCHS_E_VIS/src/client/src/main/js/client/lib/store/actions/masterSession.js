@@ -4,7 +4,6 @@ import * as types from '../types';
 
 export const updateMasterSession = simple(types.HSS_UPDATE_MASTER_SESSION, 'masterSessionOid');
 
-// TODO test
 export const updateMasterSessionIfNeeded = masterSessionOid => (dispatch) => {
   if (masterSessionOid === UNKNOWN_SESSION_ID) {
     return;

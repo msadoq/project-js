@@ -96,7 +96,7 @@ describe('data/map/extractValues', () => {
   describe('selectRangeValue', () => {
     it('unique entry point', () => {
       const viewData = extractValues({}, payload, 'myId', viewDataMap.plot1.entryPoints);
-      viewData.should.have.all.keys(['remove', 'add', 'structureType']);
+      viewData.should.have.all.keys(['remove', 'add', 'structureType', 'type']);
       const ep = viewDataMap.plot1.entryPoints.ep1;
       viewData.remove.lower.should.equal(ep.expectedInterval[0] + ep.offset);
       viewData.remove.upper.should.equal(ep.expectedInterval[1] + ep.offset);
@@ -107,7 +107,7 @@ describe('data/map/extractValues', () => {
     });
     it('multiple entry point', () => {
       const viewData = extractValues({}, payload, 'myId', viewDataMap.plot2.entryPoints);
-      viewData.should.have.all.keys(['remove', 'add', 'structureType']);
+      viewData.should.have.all.keys(['remove', 'add', 'structureType', 'type']);
       const ep = viewDataMap.plot2.entryPoints.ep2;
       viewData.remove.lower.should.equal(ep.expectedInterval[0] + ep.offset);
       viewData.remove.upper.should.equal(ep.expectedInterval[1] + ep.offset);

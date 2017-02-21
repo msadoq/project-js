@@ -121,7 +121,7 @@ export default class Page extends PureComponent {
             [styles.contentWithEditor]: isEditorOpened,
           }, styles.content)}
         >
-          <MessagesContainer pageId={focusedPageId} />
+          <MessagesContainer containerId={focusedPageId} />
           <DroppableContainer
             style={droppableContainerStyle}
             onDrop={this.onDrop}

@@ -1,5 +1,5 @@
 import { HEALTH_STATUS_CRITICAL } from 'common/constants';
-import _toPairs from 'lodash/toPairs';
+import _keys from 'lodash/keys';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
 import { getHealthMap } from '../selectors/health';
@@ -41,8 +41,8 @@ export const smartPlay = timebarUuid => // TODO dbrugne test
 export const pause = () =>
   (dispatch, getState) => {
     dispatch({ type: types.HSC_PAUSE });
-    _toPairs(getTimebars(getState())).forEach((timebar) => {
-      dispatch(setRealTime(timebar[0], false));
+    _keys(getTimebars(getState())).forEach((timebarId) => {
+      dispatch(setRealTime(timebarId, false));
     });
   };
 

@@ -1,0 +1,6 @@
+#Host Structure 1.1.0 16/02/2017 dm-couvertes.txt
+
+
+# ref_OGM_cnes | ref_emetteur | pere_OGM | pere_FT | titre | impact::= LOG/DOC/AUTRE | tracabilite::= CODE/DOC/NON_TRACE
+Sans objet.
+

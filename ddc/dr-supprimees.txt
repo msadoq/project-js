@@ -1,0 +1,6 @@
+#Host Structure 1.1.0 16/02/2017 dr-supprimees.txt
+
+
+# ref_OGM_cnes | ref_OGM_emetteur | date_emission | titre
+Sans objet.
+

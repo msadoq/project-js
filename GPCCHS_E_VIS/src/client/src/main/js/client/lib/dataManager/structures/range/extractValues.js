@@ -52,7 +52,13 @@ export function select(remoteIdPayload, ep, epName, viewState) {
   return newState;
 }
 
-export default function extractValues(state, payload, viewId, entryPoints) {
+export default function extractValues(
+  state,
+  payload,
+  viewId,
+  entryPoints,
+  viewType
+) {
   let isFirstEp = true;
   // Get current state for update
   const epSubState = {};
@@ -67,11 +73,15 @@ export default function extractValues(state, payload, viewId, entryPoints) {
       if (!viewData) {
         viewData = {};
       }
+
       // master's timestamp (arbitrary determined from the first entryPoint)
-      _set(viewData, ['remove'], {
+      viewData.remove = {
         lower: ep.expectedInterval[0] + ep.offset,
-        upper: ep.expectedInterval[1] + ep.offset });
-      _set(viewData, ['structureType'], globalConstants.DATASTRUCTURETYPE_RANGE);
+        upper: ep.expectedInterval[1] + ep.offset,
+      };
+
+      viewData.type = viewType;
+      viewData.structureType = globalConstants.DATASTRUCTURETYPE_RANGE;
       isFirstEp = false;
     }
     Object.assign(epSubState, select(payload[ep.remoteId], ep, epName, epSubState));

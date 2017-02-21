@@ -6,7 +6,7 @@ const initialState = {
   offset: 0,
   kind: 'Session',
   sessionId: null,
-  color: null,
+  color: '#31b0d5',
 };
 
 export default function timeline(stateTimeline = initialState, action) {

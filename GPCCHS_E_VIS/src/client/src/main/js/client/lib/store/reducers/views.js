@@ -14,12 +14,15 @@ const views = (stateViews = {}, action) => {
       return __.omit(action.payload.viewId, stateViews);
     }
     default: {
-      const payload = action.payload || {};
-      if (!payload.viewId || !stateViews[payload.viewId]) {
-        return stateViews;
+      if (
+        action.payload &&
+        action.payload.viewId &&
+        stateViews[action.payload.viewId]
+      ) {
+        const currentView = stateViews[action.payload.viewId];
+        return __.set(action.payload.viewId, view(currentView, action), stateViews);
       }
-      const currentView = stateViews[payload.viewId];
-      return __.set(payload.viewId, view(currentView, action), stateViews);
+      return stateViews;
     }
   }
 };

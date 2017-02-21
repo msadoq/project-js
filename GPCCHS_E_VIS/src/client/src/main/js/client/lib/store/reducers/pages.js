@@ -13,12 +13,15 @@ const pages = (statePages = {}, action) => {
     case types.WS_PAGE_REMOVE:
       return __.omit(action.payload.pageId, statePages);
     default: {
-      const payload = action.payload || {};
-      if (!payload.pageId || !statePages[payload.pageId]) {
-        return statePages;
+      if (
+        action.payload &&
+        action.payload.pageId &&
+        statePages[action.payload.pageId]
+      ) {
+        const currentPage = statePages[action.payload.pageId];
+        return __.set(action.payload.pageId, page(currentPage, action), statePages);
       }
-      const currentPage = statePages[payload.pageId];
-      return __.set(payload.pageId, page(currentPage, action), statePages);
+      return statePages;
     }
   }
 };

@@ -1,3 +1,4 @@
+import __ from 'lodash/fp';
 import _defaults from 'lodash/defaults';
 import _omit from 'lodash/omit';
 import _without from 'lodash/without';
@@ -91,6 +92,14 @@ export default function window(stateWindow = initialState, action) {
       return Object.assign({}, stateWindow, {
         explorerWidth: action.payload.width,
       });
+    case types.WS_PAGE_UPDATE_TIMEBARID: {
+      if (__.contains(action.payload.pageId, stateWindow.pages)) {
+        return Object.assign({}, stateWindow, {
+          isModified: true,
+        });
+      }
+      return stateWindow;
+    }
     default:
       return stateWindow;
   }

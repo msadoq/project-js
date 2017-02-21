@@ -242,22 +242,22 @@ describe('store:actions:views', () => {
       dispatch.getCall(1).args[0].should.be.an('object');
 
       dispatch.getCall(0).should.have.been.calledWith({
-        type: types.WS_PAGE_EDITOR_OPEN,
-        payload: {
-          pageId: 'pageWithLayout',
-          viewId: 'textview',
-          viewType: 'TextView',
-        },
-      });
-      dispatch.getCall(1).should.have.been.calledWith({
         type: types.WS_VIEW_ADD_ENTRYPOINT,
         payload: {
           viewId: 'textview',
           entryPoint: {
             connectedDataX: {},
             connectedDataY: {},
-            connectedData: { timeline: 'masterId', domain: 'fr.cnes.isis' },
+            connectedData: { timeline: '*', domain: '*' },
           },
+        },
+      });
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_PAGE_EDITOR_OPEN,
+        payload: {
+          pageId: 'pageWithLayout',
+          viewId: 'textview',
+          viewType: 'TextView',
         },
       });
     });
@@ -269,15 +269,6 @@ describe('store:actions:views', () => {
       dispatch.getCall(1).args[0].should.be.an('object');
 
       dispatch.getCall(0).should.have.been.calledWith({
-        type: types.WS_PAGE_EDITOR_OPEN,
-        payload: {
-          pageId: 'pageWithLayout',
-          viewId: 'textview',
-          viewType: 'TextView',
-        },
-      });
-
-      dispatch.getCall(1).should.have.been.calledWith({
         type: types.WS_VIEW_ADD_ENTRYPOINT,
         payload: {
           viewId: 'textview',
@@ -286,6 +277,14 @@ describe('store:actions:views', () => {
             connectedDataX: { timeline: 3, domain: 4 },
             connectedDataY: { timeline: 5, domain: 5 },
           },
+        },
+      });
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_PAGE_EDITOR_OPEN,
+        payload: {
+          pageId: 'pageWithLayout',
+          viewId: 'textview',
+          viewType: 'TextView',
         },
       });
     });
@@ -298,23 +297,22 @@ describe('store:actions:views', () => {
       dispatch.getCall(1).args[0].should.be.an('object');
 
       dispatch.getCall(0).should.have.been.calledWith({
-        type: types.WS_PAGE_EDITOR_OPEN,
-        payload: {
-          pageId: 'emptyPage',
-          viewId: 'plotview',
-          viewType: 'PlotView',
-        },
-      });
-
-      dispatch.getCall(1).should.have.been.calledWith({
         type: types.WS_VIEW_ADD_ENTRYPOINT,
         payload: {
           viewId: 'plotview',
           entryPoint: {
             connectedData: { },
-            connectedDataX: { timeline: '*', domain: 'fr.cnes.isis' },
-            connectedDataY: { timeline: '*', domain: 'fr.cnes.isis' },
+            connectedDataX: { timeline: '*', domain: '*' },
+            connectedDataY: { timeline: '*', domain: '*' },
           },
+        },
+      });
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_PAGE_EDITOR_OPEN,
+        payload: {
+          pageId: 'emptyPage',
+          viewId: 'plotview',
+          viewType: 'PlotView',
         },
       });
     });
@@ -326,16 +324,8 @@ describe('store:actions:views', () => {
       dispatch.getCall(0).args[0].should.be.an('object');
       dispatch.getCall(1).args[0].should.be.an('object');
 
-      dispatch.getCall(0).should.have.been.calledWith({
-        type: types.WS_PAGE_EDITOR_OPEN,
-        payload: {
-          pageId: 'emptyPage',
-          viewId: 'plotview',
-          viewType: 'PlotView',
-        },
-      });
 
-      dispatch.getCall(1).should.have.been.calledWith({
+      dispatch.getCall(0).should.have.been.calledWith({
         type: types.WS_VIEW_ADD_ENTRYPOINT,
         payload: {
           viewId: 'plotview',
@@ -344,6 +334,14 @@ describe('store:actions:views', () => {
             connectedDataX: { timeline: 3, domain: 4 },
             connectedDataY: { timeline: 5, domain: 5 },
           },
+        },
+      });
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_PAGE_EDITOR_OPEN,
+        payload: {
+          pageId: 'emptyPage',
+          viewId: 'plotview',
+          viewType: 'PlotView',
         },
       });
     });

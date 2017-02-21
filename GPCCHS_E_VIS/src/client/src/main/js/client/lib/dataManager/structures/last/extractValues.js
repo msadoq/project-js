@@ -121,7 +121,8 @@ export default function extractValues(
       value: newData.value,
       monit: newData.monit,
     });
-    _set(viewData, ['structureType'], globalConstants.DATASTRUCTURETYPE_LAST);
+    viewData.type = viewType;
+    viewData.structureType = globalConstants.DATASTRUCTURETYPE_LAST;
   });
   return viewData;
 }

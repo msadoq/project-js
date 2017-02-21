@@ -15,7 +15,7 @@ const addViewError = (viewId, msg) => addMessage(viewId, 'danger', msg);
 
 export default function ({ viewId, saveMode }) {
   const { getState, dispatch } = getStore();
-  const { type, configuration, absolutePath, isModified } = getView(getState(), viewId);
+  const { type, configuration, absolutePath, isModified } = getView(getState(), { viewId });
 
   function oncePath(savingAbsolutePath) {
     if (!isModified && saveMode === savingAbsolutePath) {

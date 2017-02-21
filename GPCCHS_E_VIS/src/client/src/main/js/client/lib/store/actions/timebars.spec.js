@@ -479,4 +479,31 @@ describe('store:actions:timebars', () => {
       });
     });
   });
+  describe('switchToFixedMode', () => {
+    it('updates mode', () => {
+      actions.switchToFixedMode('tb3')(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_MODE_UPDATE,
+        payload: {
+          timebarUuid: 'tb3',
+          mode: 'Fixed',
+        },
+      });
+    });
+    it('updates mode and update cursors', () => {
+      actions.switchToFixedMode('tb4')(dispatch, getState);
+      dispatch.should.have.been.callCount(2);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.a('function');
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_MODE_UPDATE,
+        payload: {
+          timebarUuid: 'tb4',
+          mode: 'Fixed',
+        },
+      });
+    });
+  });
 });

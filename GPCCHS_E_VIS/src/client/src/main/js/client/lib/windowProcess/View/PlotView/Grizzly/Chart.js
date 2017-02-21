@@ -53,8 +53,8 @@ export default class Chart extends React.Component {
         id: PropTypes.string.isRequired,
         dataSet: PropTypes.string.isRequired,
         yAxis: PropTypes.string.isRequired,
-        fill: PropTypes.string.isRequired,
-        lineStyle: PropTypes.string.isRequired,
+        fill: PropTypes.string,
+        lineStyle: PropTypes.string,
         lineSize: PropTypes.number,
         pointSize: PropTypes.number,
         pointStyle: PropTypes.string,
@@ -429,6 +429,7 @@ export default class Chart extends React.Component {
           xAxisAt={xAxisAt}
           yAxesAt={yAxesAt}
           xExtends={calculatedXExtends}
+          xScale={xScale}
         />
       </div>
     );

@@ -34,9 +34,13 @@ export default class LinesCanvas extends PureComponent {
 
   static defaultProps = {
     showLabels: false,
-    lineSize: 0,
-    pointSize: 0,
-    pointStyle: null,
+    lines: {
+      fill: '#222222',
+      lineSize: 0,
+      lineStyle: 'Continuous',
+      pointSize: 0,
+      pointStyle: null,
+    },
   }
 
   componentDidMount() {

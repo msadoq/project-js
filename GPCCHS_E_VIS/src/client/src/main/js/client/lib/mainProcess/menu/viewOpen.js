@@ -62,7 +62,9 @@ function addPlotView(focusedWindow) {
       entryPoints: [],
       links: [],
       title: 'New Plot View',
-    } };
+      showYAxes: 'left',
+    },
+  };
   viewAddNew(focusedWindow, view);
 }
 

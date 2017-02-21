@@ -14,14 +14,10 @@ export default class CodeEditor extends PureComponent {
     if (this.props.viewId === null) {
       return (
         <div>
-          <span>No view found </span>
+          <span>No selected text view to edit</span>
         </div>
       );
     }
-    return (
-      <SourceContainer
-        viewId={this.props.viewId}
-      />
-    );
+    return (<SourceContainer viewId={this.props.viewId} />);
   }
 }

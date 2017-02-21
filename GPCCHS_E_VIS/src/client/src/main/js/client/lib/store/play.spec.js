@@ -1,10 +1,15 @@
 /* eslint no-underscore-dangle: 0 */
 
-import { computeCursors } from './play';
+import { computeCursors, nextCurrent } from './play';
 
 require('../common/test');
 
 describe('mainProcess/play', () => {
+  describe('nextCurrent', () => {
+    it('computes next current timestamp', () => {
+      nextCurrent(0, 10, 10).should.be.eql(100);
+    });
+  });
   describe('computeCursors', () => {
     const currentUpperMargin = 0;
     let timebarData;

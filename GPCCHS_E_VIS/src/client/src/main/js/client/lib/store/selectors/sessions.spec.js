@@ -3,7 +3,7 @@ import {
   getSession,
 } from './sessions';
 
-describe.only('store:sessions:selectors', () => {
+describe('store:sessions:selectors', () => {
   it('getSessions', () => {
     getSessions({
       sessions: [{ id: 'session1' }],

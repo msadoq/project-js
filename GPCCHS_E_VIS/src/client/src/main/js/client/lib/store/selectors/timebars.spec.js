@@ -38,12 +38,8 @@ describe('store:timebars:selectors', () => {
       foo: 'bar',
     });
   });
-  it.skip('getTimebarMasterId', () => {
-
-  });
-  it.skip('getTimebarTimelinesSelector', () => {
-
-  });
+  it('getTimebarMasterId');
+  it('getTimebarTimelinesSelector');
   describe('_getTimebarTimelines', () => {
     it('should return timelines', () => {
       const state = {

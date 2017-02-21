@@ -110,15 +110,12 @@ export function hideHtmlEditor() {
   codeEditor.hide();
 }
 export function closeSplashScreen() {
-  console.log('AVANT', splashScreen);
   setImmediate(() => {
-    console.log('IN', splashScreen);
     if (!splashScreen || splashScreen.isDestroyed()) {
       return;
     }
     splashScreen.close();
   });
-  console.log('APRES', splashScreen);
 }
 
 export function setSplashScreenMessage(message = '') {

@@ -29,6 +29,11 @@ describe('store:actions:timebars', () => {
         visuWindow: { lower: 100, current: 150, upper: 200 },
         slideWindow: { lower: 160, upper: 170 },
       },
+      tb4: {
+        mode: 'Fixed',
+        visuWindow: { lower: 100, current: 150, upper: 200 },
+        slideWindow: { lower: 160, upper: 400 },
+      },
     },
     timelines: {
       tl1: { id: 'myTimelineId', sessionId: 1 },
@@ -244,6 +249,54 @@ describe('store:actions:timebars', () => {
       actions.jump('tb3', 42)(dispatch, getState);
       dispatch.should.have.been.callCount(1);
       dispatch.getCall(0).args[0].should.be.a('function');
+    });
+  });
+  describe('goNow', () => {
+    it('disables real time then go now', () => {
+      actions.goNow('tb1', 42)(dispatch, getState);
+      dispatch.should.have.been.callCount(2);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.a('function');
+
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SET_REALTIME,
+        payload: {
+          timebarUuid: 'tb1',
+          flag: false,
+        },
+      });
+    });
+    it('goes now', () => {
+      actions.goNow('tb3', 42)(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).args[0].should.be.a('function');
+    });
+  });
+  describe('switchToNormalMode', () => {
+    it('updates mode', () => {
+      actions.switchToNormalMode('tb3')(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_MODE_UPDATE,
+        payload: {
+          timebarUuid: 'tb3',
+          mode: 'Normal',
+        },
+      });
+    });
+    it('updates mode and update cursors', () => {
+      actions.switchToNormalMode('tb4')(dispatch, getState);
+      dispatch.should.have.been.callCount(2);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.a('function');
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_MODE_UPDATE,
+        payload: {
+          timebarUuid: 'tb4',
+          mode: 'Normal',
+        },
+      });
     });
   });
 });

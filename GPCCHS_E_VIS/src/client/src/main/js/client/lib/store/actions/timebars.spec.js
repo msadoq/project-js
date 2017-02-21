@@ -23,14 +23,19 @@ describe('store:actions:timebars', () => {
       },
       tb2: {
         mode: 'Normal',
+        speed: 2,
+        visuWindow: { lower: 100, current: 150, upper: 200 },
+        slideWindow: { lower: 160, upper: 170 },
       },
       tb3: {
-        mode: 'Fixed',
+        mode: 'Normal',
+        speed: 1,
         visuWindow: { lower: 100, current: 150, upper: 200 },
         slideWindow: { lower: 160, upper: 170 },
       },
       tb4: {
         mode: 'Fixed',
+        speed: 2,
         visuWindow: { lower: 100, current: 150, upper: 200 },
         slideWindow: { lower: 160, upper: 400 },
       },
@@ -291,6 +296,100 @@ describe('store:actions:timebars', () => {
       dispatch.getCall(0).args[0].should.be.an('object');
       dispatch.getCall(1).args[0].should.be.a('function');
       dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_MODE_UPDATE,
+        payload: {
+          timebarUuid: 'tb4',
+          mode: 'Normal',
+        },
+      });
+    });
+  });
+  describe('switchToRealtimeMode', () => {
+    it('sets real time mode and update cursors + smartPlay', () => {
+      actions.switchToRealtimeMode('tb3')(dispatch, getState);
+      dispatch.should.have.been.callCount(3);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.a('function');
+      dispatch.getCall(2).args[0].should.be.a('function');
+
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SET_REALTIME,
+        payload: {
+          timebarUuid: 'tb3',
+          flag: true,
+        },
+      });
+    });
+    it('sets real time mode, reset speed to 1 and update cursors + smartPlay', () => {
+      actions.switchToRealtimeMode('tb2')(dispatch, getState);
+      dispatch.should.have.been.callCount(4);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.an('object');
+      dispatch.getCall(2).args[0].should.be.a('function');
+      dispatch.getCall(3).args[0].should.be.a('function');
+
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SET_REALTIME,
+        payload: {
+          timebarUuid: 'tb2',
+          flag: true,
+        },
+      });
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SPEED_UPDATE,
+        payload: {
+          timebarUuid: 'tb2',
+          speed: 1,
+        },
+      });
+    });
+    it('sets real time mode, reset mode to Normal and update cursors + smartPlay', () => {
+      actions.switchToRealtimeMode('tb1')(dispatch, getState);
+      dispatch.should.have.been.callCount(4);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.an('object');
+      dispatch.getCall(2).args[0].should.be.a('function');
+      dispatch.getCall(3).args[0].should.be.a('function');
+
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SET_REALTIME,
+        payload: {
+          timebarUuid: 'tb1',
+          flag: true,
+        },
+      });
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_MODE_UPDATE,
+        payload: {
+          timebarUuid: 'tb1',
+          mode: 'Normal',
+        },
+      });
+    });
+    it('sets real time mode, reset speed to 1, reset mode to Normal and update cursors + smartPlay', () => {
+      actions.switchToRealtimeMode('tb4')(dispatch, getState);
+      dispatch.should.have.been.callCount(5);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.an('object');
+      dispatch.getCall(2).args[0].should.be.an('object');
+      dispatch.getCall(3).args[0].should.be.a('function');
+      dispatch.getCall(4).args[0].should.be.a('function');
+
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SET_REALTIME,
+        payload: {
+          timebarUuid: 'tb4',
+          flag: true,
+        },
+      });
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SPEED_UPDATE,
+        payload: {
+          timebarUuid: 'tb4',
+          speed: 1,
+        },
+      });
+      dispatch.getCall(2).should.have.been.calledWith({
         type: types.WS_TIMEBAR_MODE_UPDATE,
         payload: {
           timebarUuid: 'tb4',

@@ -204,4 +204,25 @@ describe('store:actions:timebars', () => {
       });
     });
   });
+  describe('restoreWidth', () => {
+    it('disables real time then restore width', () => {
+      actions.restoreWidth('tb1')(dispatch, getState);
+      dispatch.should.have.been.callCount(2);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.a('function');
+
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SET_REALTIME,
+        payload: {
+          timebarUuid: 'tb1',
+          flag: false,
+        },
+      });
+    });
+    it('restores width', () => {
+      actions.restoreWidth('tb3')(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).args[0].should.be.a('function');
+    });
+  });
 });

@@ -11,6 +11,7 @@ import reducer from '../store/reducers/index';
 
 process.env.ISIS_DOCUMENTS_ROOT = path.resolve(__dirname, '../documentManager/fixtures');
 process.env.WILDCARD_CHARACTER = '*';
+process.env.VISUWINDOW_MAX_LENGTH = 42;
 
 chai.use(properties);
 chai.use(sinonChai);

@@ -16,7 +16,7 @@ describe('store:actions:timebars', () => {
       tb1: {
         mode: 'Extensible',
         masterId: 'masterId',
-        visuWindow: { lower: 100, current: 150, upper: 200 },
+        visuWindow: { lower: 100, current: 150, upper: 117200000 },
         slideWindow: { lower: 160, upper: 170 },
         speed: 1,
         realTime: true,
@@ -126,7 +126,7 @@ describe('store:actions:timebars', () => {
         type: types.WS_TIMEBAR_UPDATE_CURSORS,
         payload: {
           visuWindow: {},
-          slideWindow: { lower: 100, upper: 200 },
+          slideWindow: { lower: 100, upper: 117200000 },
           timebarUuid: 'tb1',
         },
       });

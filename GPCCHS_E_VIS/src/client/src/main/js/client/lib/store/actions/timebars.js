@@ -392,8 +392,4 @@ export function unmountAndRemoveTimeline(timebarUuid, timelineId) {
   };
 }
 
-export function updateTimeline(timelineId, configuration) {
-  return (dispatch) => {
-    dispatch(updateTL(timelineId, configuration));
-  };
-}
+export const updateTimeline = updateTL;

@@ -75,7 +75,15 @@ export default class PlotAxes extends React.Component {
 
   handleSubmit(key, values) {
     const { updateAxis, viewId } = this.props;
-    updateAxis(viewId, key, values);
+    updateAxis(
+      viewId,
+      key,
+      {
+        ...values,
+        min: parseFloat(values.min),
+        max: parseFloat(values.max),
+      }
+    );
   }
 
   handleSubmitFactory = _memoize(key => values => this.handleSubmit(key, values));

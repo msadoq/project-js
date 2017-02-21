@@ -13,8 +13,8 @@
   // load bundle
   const bundle = document.createElement('script');
   bundle.src = parameters.get('IS_BUNDLED') === 'on'
-    ? './dist/rendered.bundle.js'
-    : `http://localhost:${parameters.get('WEBPACK_PORT')}/dist/rendered.bundle.js`;
+    ? './dist/renderer.bundle.js'
+    : `http://localhost:${parameters.get('WEBPACK_PORT')}/dist/renderer.bundle.js`;
   document.body.appendChild(bundle)
 
   if (parameters.get('IS_BUNDLED')) {

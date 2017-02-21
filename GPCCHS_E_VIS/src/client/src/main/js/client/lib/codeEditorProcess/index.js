@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { initStore, getStore } from '../store/windowStore';
-import { EditorContainer } from './EditorContainer';
+import { CodeEditorContainer } from './CodeEditorContainer';
 
 process.title = 'gpcchs_editor';
 
@@ -13,7 +13,7 @@ const store = getStore();
 
 render(
   <Provider store={store}>
-    <EditorContainer />
+    <CodeEditorContainer />
   </Provider>,
   document.getElementById('root')
 );

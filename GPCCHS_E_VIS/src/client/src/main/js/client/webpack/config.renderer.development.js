@@ -16,16 +16,16 @@ export default merge(baseConfig, {
   devtool: 'eval-source-map',
 
   entry: {
-    rendered: [
+    renderer: [
       './lib/windowProcess/style/bootstrap',
       '!style!css!postcss!./lib/windowProcess/style',
       `webpack-hot-middleware/client?path=http://localhost:${port}/__webpack_hmr`,
       './lib/windowProcess/index',
     ],
-    htmlEditor: [
+    codeEditor: [
       './lib/windowProcess/style/bootstrap',
       '!style!css!postcss!./lib/windowProcess/style',
-      './lib/editorProcess/index',
+      './lib/codeEditorProcess/index',
     ],
   },
 

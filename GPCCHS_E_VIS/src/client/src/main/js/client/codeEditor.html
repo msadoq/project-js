@@ -15,7 +15,8 @@
     bundle.src = parameters.get('IS_BUNDLED') === 'on'
       ? './dist/codeEditor.bundle.js'
       : `http://localhost:${parameters.get('WEBPACK_PORT')}/dist/codeEditor.bundle.js`;
-    document.body.appendChild(bundle)
+    document.body.appendChild(bundle);
+
     if (parameters.get('IS_BUNDLED')) {
       const linkCss = document.createElement('link');
       linkCss.setAttribute('rel', 'stylesheet');

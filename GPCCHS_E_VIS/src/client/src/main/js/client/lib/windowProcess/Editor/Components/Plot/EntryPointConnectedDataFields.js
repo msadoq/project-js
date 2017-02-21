@@ -146,10 +146,10 @@ const EntryPointConnectedDataFields = (props) => {
         />
       </HorizontalFormGroup>
 
-      <FieldArray
+      { prefix === 'y.' && <FieldArray
         name={`${prefix}filter`}
         component={FiltersFields}
-      />
+      /> }
     </div>
   );
 };

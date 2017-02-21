@@ -397,11 +397,6 @@
       "unit": "s",
       "digits": 5,
       "format": "decimal",
-      "filter": [{
-        "field": "convertedValue",
-        "operator": "!=",
-        "operand": "0"
-      }],
       "domain": "fr.cnes.isis.simupus",
       "timeline": "Session 1",
       "axisId": "Time"

@@ -6,6 +6,9 @@ import { freezeMe } from '../../common/test';
 
 describe('store:actions:timebars', () => {
   const state = freezeMe({
+    hsc: {
+      playingTimebarId: 'tb1',
+    },
     messages: {
       'timeSetter-tb3': ['1', '2', '3', '4'],
     },
@@ -15,6 +18,7 @@ describe('store:actions:timebars', () => {
         masterId: 'masterId',
         visuWindow: { lower: 100, current: 150, upper: 200 },
         slideWindow: { lower: 160, upper: 170 },
+        speed: 1,
       },
       tb2: {
         mode: 'Normal',
@@ -145,6 +149,22 @@ describe('store:actions:timebars', () => {
       dispatch.getCall(0).args[0].should.be.a('function');
       dispatch.getCall(1).args[0].should.be.a('function');
       dispatch.getCall(2).args[0].should.be.a('function');
+    });
+  });
+
+  describe('handlePlay', () => {
+    it('doest nothing without playingTimebarUuid', () => {
+      actions.handlePlay(0, 0)(dispatch, () => ({}));
+      dispatch.should.have.not.been.called;
+    });
+    it('doest nothing without playingTimebar', () => {
+      actions.handlePlay(0, 0)(dispatch, () => ({ timebars: [], hsc: { playingTimebarId: 1234 } }));
+      dispatch.should.have.not.been.called;
+    });
+    it('updates cursors', () => {
+      actions.handlePlay(0, 0)(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).args[0].should.be.a('function');
     });
   });
 });

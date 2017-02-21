@@ -227,19 +227,23 @@ export default class Chart extends React.Component {
         const lowerR = _min(values);
         const upperR = _max(values);
         return orientM === 'top' ? [upperR, lowerR] : [lowerR, upperR];
-      });
+      },
+      (...args) => JSON.stringify(args)
+      );
     }
     return this.YExtendsAutoLimits(yExtendsLower, yExtendsUpper, orient);
   }
 
   memoizeYExtends = _memoize((id, orient, lower, upper) =>
-    (orient === 'top' ? [upper, lower] : [lower, upper])
+    (orient === 'top' ? [upper, lower] : [lower, upper]),
+    (...args) => JSON.stringify(args)
   );
 
   memoizeXScale = _memoize((domainLower, domainUpper, rangeLower, rangeUpper) =>
     scaleLinear()
       .domain([domainLower, domainUpper])
-      .range([rangeLower, rangeUpper])
+      .range([rangeLower, rangeUpper]),
+    (...args) => JSON.stringify(args)
   );
 
   memoizeCalculatedXExtends =
@@ -413,9 +417,9 @@ export default class Chart extends React.Component {
           )
         }
         <XAxis
-          showGrid={this.yAxes[0].showGrid}
-          gridStyle={this.yAxes[0].gridStyle}
-          gridSize={this.yAxes[0].gridSize}
+          showGrid={_get(this.yAxes, '0.showGrid')}
+          gridStyle={_get(this.yAxes, '0.gridStyle')}
+          gridSize={_get(this.yAxes, '0.gridSize')}
           margin={marginSide}
           xAxisHeight={this.xAxisHeight}
           height={chartHeight}

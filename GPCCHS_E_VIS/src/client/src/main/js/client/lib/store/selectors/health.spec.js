@@ -7,6 +7,8 @@ import {
   getMainStatus,
   getLastPubSubTimestamp,
   getWindowsStatus,
+  getHealthMap,
+  getHealthMapForWindow,
 } from './health';
 
 describe('store:health:selectors', () => {
@@ -80,6 +82,60 @@ describe('store:health:selectors', () => {
     it('should support empty state', () => {
       const { getState } = getStore({ health: {} });
       should.not.exist(getWindowsStatus(getState()));
+    });
+  });
+  describe('getHealthMap', () => {
+    const testGetHealthMap = (status) => {
+      const state = {
+        health: {
+          hssStatus: 'HEALTHY',
+          mainStatus: 'HEALTHY',
+          dcStatus: 'HEALTHY',
+          windowsStatus: {
+            '59f33479-807b-4427-89d6-35afe5bf71af': 'HEALTHY',
+            '59f33479-807b-4427-89d6-35afe5bf71ae': status,
+          },
+          lastPubSubTimestamp: 1487672503931,
+        },
+      };
+      const { getState } = getStore(state);
+      getHealthMap(getState()).should.have.properties({
+        dc: state.health.dcStatus,
+        hss: state.health.hssStatus,
+        main: state.health.mainStatus,
+        windows: status,
+      });
+    };
+    it('WARNING', () => {
+      testGetHealthMap('WARNING');
+    });
+    it('CRITICAL', () => {
+      testGetHealthMap('CRITICAL');
+    });
+  });
+  it('getHealthMapForWindow', () => {
+    const state = {
+      health: {
+        hssStatus: 'HEALTHY',
+        mainStatus: 'HEALTHY',
+        dcStatus: 'HEALTHY',
+        windowsStatus: {
+          '59f33479-807b-4427-89d6-35afe5bf71af': 'HEALTHY',
+          '59f33479-807b-4427-89d6-35afe5bf71ae': 'WARNING',
+        },
+        lastPubSubTimestamp: 1487672503931,
+      },
+    };
+    const { getState } = getStore(state);
+    getHealthMapForWindow(
+      getState(),
+      { windowId: '59f33479-807b-4427-89d6-35afe5bf71af' }
+    ).should.have.properties({
+      dc: state.health.dcStatus,
+      hss: state.health.hssStatus,
+      main: state.health.mainStatus,
+      lastPubSubTimestamp: 1487672503931,
+      window: 'HEALTHY',
     });
   });
 });

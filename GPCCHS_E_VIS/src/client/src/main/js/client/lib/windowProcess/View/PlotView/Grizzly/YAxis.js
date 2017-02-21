@@ -128,9 +128,11 @@ export default class YAxis extends PureComponent {
       return;
     }
     lines.forEach((line) => {
-      const y = getLabelPosition(yAxisId, line.id);
       const el = this[`label-${line.id}-el`];
-      if (el) {
+      const y = getLabelPosition(yAxisId, line.id);
+      if (y === null && el) {
+        el.setAttribute('style', 'display:none;');
+      } else if (el) {
         let style = `background:${line.fill};top:${y}px;`;
         if (yAxesAt === 'left') {
           style += `transform: translate(-102%, -50%);left: ${yAxisWidth}px;`;

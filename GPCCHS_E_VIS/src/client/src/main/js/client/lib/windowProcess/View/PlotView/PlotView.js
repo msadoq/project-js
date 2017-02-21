@@ -873,8 +873,10 @@ export class PlotView extends PureComponent {
                   dataSet: 'dataOne',
                   yAxis: _get(ep, ['connectedDataY', 'axisId']),
                   fill: _get(ep, ['objectStyle', 'curveColor'], '#222222'),
-                  strokeWidth: _get(ep, ['objectStyle', 'line', 'size'], 2),
+                  lineSize: _get(ep, ['objectStyle', 'line', 'size']),
                   lineStyle: _get(ep, ['objectStyle', 'line', 'style'], 'Continuous'),
+                  pointStyle: _get(ep, ['objectStyle', 'points', 'style']),
+                  pointSize: _get(ep, ['objectStyle', 'points', 'size']),
                   yAccessor: d => _get(d, [ep.name, 'value']),
                 })
               )

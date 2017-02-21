@@ -50,12 +50,14 @@ export default class Chart extends React.Component {
     ).isRequired,
     lines: PropTypes.arrayOf(
       PropTypes.shape({
-        lineStyle: PropTypes.string.isRequired,
         id: PropTypes.string.isRequired,
         dataSet: PropTypes.string.isRequired,
         yAxis: PropTypes.string.isRequired,
         fill: PropTypes.string.isRequired,
-        strokeWidth: PropTypes.number.isRequired,
+        lineStyle: PropTypes.string.isRequired,
+        lineSize: PropTypes.number,
+        pointSize: PropTypes.number,
+        pointStyle: PropTypes.string,
         yAccessor: PropTypes.func.isRequired,
       })
     ).isRequired,
@@ -188,7 +190,7 @@ export default class Chart extends React.Component {
   }
 
   getLabelPosition = (yAxisId, lineId) =>
-    _get(this.labelsPosition, [yAxisId, lineId]);
+    _get(this.labelsPosition, [yAxisId, lineId], null);
 
   resetZoomLevel = (e) => {
     e.preventDefault();

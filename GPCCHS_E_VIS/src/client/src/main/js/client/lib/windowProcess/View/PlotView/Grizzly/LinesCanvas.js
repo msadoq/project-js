@@ -19,12 +19,14 @@ export default class LinesCanvas extends PureComponent {
     ).isRequired,
     lines: PropTypes.arrayOf(
       PropTypes.shape({
-        lineStyle: PropTypes.string,
         id: PropTypes.string.isRequired,
         dataSet: PropTypes.string.isRequired,
         yAxis: PropTypes.string.isRequired,
         fill: PropTypes.string,
-        strokeWidth: PropTypes.number,
+        lineStyle: PropTypes.string,
+        lineSize: PropTypes.number,
+        pointSize: PropTypes.number,
+        pointStyle: PropTypes.string,
         yAccessor: PropTypes.func.isRequired,
       })
     ).isRequired,
@@ -32,6 +34,9 @@ export default class LinesCanvas extends PureComponent {
 
   static defaultProps = {
     showLabels: false,
+    lineSize: 0,
+    pointSize: 0,
+    pointStyle: null,
   }
 
   componentDidMount() {
@@ -81,7 +86,8 @@ export default class LinesCanvas extends PureComponent {
     lines.forEach((line) => {
       // Change style depending on line properties
       ctx.strokeStyle = line.fill;
-      ctx.lineWidth = line.strokeWidth;
+      ctx.fillStyle = line.fill;
+      ctx.lineWidth = line.lineSize;
       if (line.lineStyle === 'Dashed') {
         ctx.setLineDash([6, 2]);
       } else if (line.lineStyle === 'Dotted') {
@@ -90,11 +96,30 @@ export default class LinesCanvas extends PureComponent {
         ctx.setLineDash([2, 0]);
       }
 
+      // Do not draw
+      if (!line.lineSize && (!line.pointSize || !line.pointStyle)) {
+        updateLabelPosition(axisId, line.id, null);
+        return;
+      }
+
       // =============== DRAWING
       ctx.beginPath();
+
+      // Point (only if size > 0 AND style not null
+      let pointOffset;
+      if (line.pointStyle && line.pointSize) {
+        pointOffset = line.pointSize / 2;
+      }
+
       line.data.forEach((data) => {
         const y = yScale(line.yAccessor(data));
-        ctx.lineTo(xScale(data.x), y);
+        const x = xScale(data.x);
+        ctx.lineTo(x, y);
+
+        // draw point
+        if (pointOffset) {
+          ctx.fillRect(x - pointOffset, y - pointOffset, line.pointSize, line.pointSize);
+        }
       });
       ctx.stroke();
 

@@ -26,7 +26,7 @@ import setMenu from './menu';
 import { openDefaultWorkspace, openWorkspaceDocument } from './openWorkspace';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
 
-import { openSplashScreen, closeSplashScreen, openHtmlEditor, setSplashScreenMessage } from './windows';
+import { openSplashScreen, closeSplashScreen, openCodeEditor, setSplashScreenMessage } from './windows';
 
 const logger = getLogger('main:index');
 
@@ -45,7 +45,7 @@ export function start() {
 
   series([
     callback => openSplashScreen(callback),
-    callback => openHtmlEditor(callback),
+    callback => openCodeEditor(callback),
     callback => enableDebug(callback),
     (callback) => {
       setSplashScreenMessage('loading data store...');

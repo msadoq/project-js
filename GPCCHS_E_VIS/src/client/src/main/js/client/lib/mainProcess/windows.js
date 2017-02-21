@@ -32,31 +32,31 @@ const logger = getLogger('main:windows');
 
 let windows = {};
 let splashScreen;
-let htmlEditor;
+let codeEditor;
 
-export function openHtmlEditor(callback) {
+export function openCodeEditor(callback) {
   const editorWidth = 1024;
   const editorHeight = 768;
   const bounds = screen.getPrimaryDisplay().bounds;
   const x = bounds.x + ((bounds.width - editorWidth) / 2);
   const y = bounds.y + ((bounds.height - editorHeight) / 2);
-  htmlEditor = new BrowserWindow({
+  codeEditor = new BrowserWindow({
     x,
     y,
     width: editorWidth,
     height: editorHeight,
     show: false,
   });
-  htmlEditor.setMenu(null);
+  // codeEditor.setMenu(null);
   // mount module(s) to allow access from renderer process
-  htmlEditor.parameters = parameters;
+  codeEditor.parameters = parameters;
 
-  htmlEditor.loadURL(`file://${parameters.get('path')}/editor.html`);
+  codeEditor.loadURL(`file://${parameters.get('path')}/codeEditor.html`);
 
-  htmlEditor.on('close', (e) => {
+  codeEditor.on('close', (e) => {
     e.preventDefault();
     getStore().dispatch(closeHtmlEditor());
-    htmlEditor.hide();
+    codeEditor.hide();
   });
 
   callback(null);
@@ -95,8 +95,8 @@ export function showSplashScreen() {
 }
 
 export function showHtmlEditor() {
-  htmlEditor.show();
-  htmlEditor.focus();
+  codeEditor.show();
+  codeEditor.focus();
 }
 
 export function hideSplashScreen() {
@@ -107,7 +107,7 @@ export function hideSplashScreen() {
 }
 
 export function hideHtmlEditor() {
-  htmlEditor.hide();
+  codeEditor.hide();
 }
 export function closeSplashScreen() {
   console.log('AVANT', splashScreen);
@@ -234,14 +234,14 @@ export default function windowsObserver(state, callback) {
     },
     // htmlEditor
     (fn) => {
-      if (viewId !== null && !htmlEditor.isVisible()) {
+      if (viewId !== null && !codeEditor.isVisible()) {
         showHtmlEditor();
       }
-      if (viewId === null && htmlEditor.isVisible()) {
+      if (viewId === null && codeEditor.isVisible()) {
         hideHtmlEditor();
       }
-      if (viewTitle !== htmlEditor.getTitle()) {
-        htmlEditor.setTitle(viewTitle);
+      if (viewTitle !== codeEditor.getTitle()) {
+        codeEditor.setTitle(viewTitle);
       }
       return fn(null);
     },

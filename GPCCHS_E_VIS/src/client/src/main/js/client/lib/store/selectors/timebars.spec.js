@@ -5,6 +5,9 @@ import {
   _getTimebarTimelines,
   _getMasterTimeline,
   getMasterTimelineById,
+  getTimebarByPageId,
+  // getTimebarMasterId,
+  // getTimebarTimelinesSelector,
 } from './timebars';
 
 describe('store:timebars:selectors', () => {
@@ -16,6 +19,30 @@ describe('store:timebars:selectors', () => {
     });
     getTimebar(getState(), { timebarUuid: 'myTimebarId' }).should.have.property('id', 'Id');
     should.not.exist(getTimebar(getState(), { timebarUuid: 'unknownId' }));
+  });
+  it('getTimebarByPageId', () => {
+    const state = {
+      pages: {
+        page1: {
+          title: 'titre',
+          timebarUuid: 'timebar1',
+        },
+      },
+      timebars: {
+        timebar1: {
+          foo: 'bar',
+        },
+      },
+    };
+    getTimebarByPageId(state, { pageId: 'page1' }).should.eql({
+      foo: 'bar',
+    });
+  });
+  it.skip('getTimebarMasterId', () => {
+
+  });
+  it.skip('getTimebarTimelinesSelector', () => {
+
   });
   describe('_getTimebarTimelines', () => {
     it('should return timelines', () => {

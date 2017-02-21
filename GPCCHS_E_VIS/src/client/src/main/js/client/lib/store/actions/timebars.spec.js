@@ -6,9 +6,23 @@ import { freezeMe } from '../../common/test';
 
 describe('store:actions:timebars', () => {
   const state = freezeMe({
+    messages: {
+      'timeSetter-tb3': ['1', '2', '3', '4'],
+    },
     timebars: {
       tb1: {
+        mode: 'Extensible',
         masterId: 'masterId',
+        visuWindow: { lower: 100, current: 150, upper: 200 },
+        slideWindow: { lower: 160, upper: 170 },
+      },
+      tb2: {
+        mode: 'Normal',
+      },
+      tb3: {
+        mode: 'Fixed',
+        visuWindow: { lower: 100, current: 150, upper: 200 },
+        slideWindow: { lower: 160, upper: 170 },
       },
     },
     timelines: {
@@ -30,50 +44,107 @@ describe('store:actions:timebars', () => {
     dispatch = sinon.spy();
   });
 
-  it('add new timebar without timelines', () => {
-    actions.add('newTB', { masterId: 'masterId2' })(dispatch, getState);
+  describe('add', () => {
+    it('add new timebar without timelines', () => {
+      actions.add('newTB', { masterId: 'masterId2' })(dispatch, getState);
 
-    dispatch.should.have.been.callCount(2);
-    dispatch.getCall(0).args[0].should.be.a('object');
-    dispatch.getCall(1).args[0].should.be.an('object');
+      dispatch.should.have.been.callCount(2);
+      dispatch.getCall(0).args[0].should.be.a('object');
+      dispatch.getCall(1).args[0].should.be.an('object');
 
-    dispatch.getCall(0).should.have.been.calledWith({
-      type: types.WS_TIMEBAR_ADD,
-      payload: { timebarUuid: 'newTB', configuration: { masterId: 'masterId2' } },
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_ADD,
+        payload: { timebarUuid: 'newTB', configuration: { masterId: 'masterId2' } },
+      });
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_TBTL_ADD_TIMEBAR,
+        payload: { timebarUuid: 'newTB' },
+      });
     });
-    dispatch.getCall(1).should.have.been.calledWith({
-      type: types.WS_TBTL_ADD_TIMEBAR,
-      payload: { timebarUuid: 'newTB' },
+    it('add new timebar with timelines', () => {
+      const configuration = { masterId: 'masterId2', timelines: ['tl3', 'tl4'] };
+      actions.add('newTB', configuration)(dispatch, getState);
+      dispatch.should.have.been.callCount(4);
+      dispatch.getCall(0).args[0].should.be.a('object');
+      dispatch.getCall(1).args[0].should.be.an('object');
+      dispatch.getCall(2).args[0].should.be.an('object');
+      dispatch.getCall(3).args[0].should.be.an('object');
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_ADD,
+        payload: { timebarUuid: 'newTB', configuration },
+      });
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_TBTL_ADD_TIMEBAR,
+        payload: { timebarUuid: 'newTB' },
+      });
+      dispatch.getCall(2).should.have.been.calledWith({
+        type: types.WS_TBTL_MOUNT_TIMELINE,
+        payload: { timebarUuid: 'newTB', timelineUuid: 'tl3' },
+      });
+      dispatch.getCall(3).should.have.been.calledWith({
+        type: types.WS_TBTL_MOUNT_TIMELINE,
+        payload: { timebarUuid: 'newTB', timelineUuid: 'tl4' },
+      });
+    });
+    it('add existing timebar', () => {
+      const configuration = { masterId: 'masterId3' };
+      actions.add('tb1', configuration)(dispatch, getState);
+      dispatch.should.have.been.callCount(0);
     });
   });
-  it('add new timebar with timelines', () => {
-    const configuration = { masterId: 'masterId2', timelines: ['tl3', 'tl4'] };
-    actions.add('newTB', configuration)(dispatch, getState);
-    dispatch.should.have.been.callCount(4);
-    dispatch.getCall(0).args[0].should.be.a('object');
-    dispatch.getCall(1).args[0].should.be.an('object');
-    dispatch.getCall(2).args[0].should.be.an('object');
-    dispatch.getCall(3).args[0].should.be.an('object');
-    dispatch.getCall(0).should.have.been.calledWith({
-      type: types.WS_TIMEBAR_ADD,
-      payload: { timebarUuid: 'newTB', configuration },
+  describe('updateCursors', () => {
+    it('updates cursors (Extensible)', () => {
+      actions.updateCursors('tb1', {}, {})(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_UPDATE_CURSORS,
+        payload: {
+          visuWindow: {},
+          slideWindow: { lower: 100, upper: 200 },
+          timebarUuid: 'tb1',
+        },
+      });
     });
-    dispatch.getCall(1).should.have.been.calledWith({
-      type: types.WS_TBTL_ADD_TIMEBAR,
-      payload: { timebarUuid: 'newTB' },
+    it('updates cursors (Fixed)', () => {
+      const visuWindow = { lower: 1, upper: 400, current: 250 };
+      const slideWindow = { lower: 100, upper: 200 };
+      actions.updateCursors('tb2', visuWindow, slideWindow)(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_UPDATE_CURSORS,
+        payload: {
+          visuWindow: { lower: 1, upper: 400, current: 250 },
+          slideWindow: { lower: 100, upper: 400 },
+          timebarUuid: 'tb2',
+        },
+      });
     });
-    dispatch.getCall(2).should.have.been.calledWith({
-      type: types.WS_TBTL_MOUNT_TIMELINE,
-      payload: { timebarUuid: 'newTB', timelineUuid: 'tl3' },
+    it('reset messages and updates cursors', () => {
+      actions.updateCursors('tb3', {}, {})(dispatch, getState);
+      dispatch.should.have.been.callCount(2);
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_MESSAGE_RESET,
+        payload: {
+          containerId: 'timeSetter-tb3',
+        },
+      });
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_UPDATE_CURSORS,
+        payload: {
+          visuWindow: {},
+          slideWindow: { lower: 100, upper: 170 },
+          timebarUuid: 'tb3',
+        },
+      });
     });
-    dispatch.getCall(3).should.have.been.calledWith({
-      type: types.WS_TBTL_MOUNT_TIMELINE,
-      payload: { timebarUuid: 'newTB', timelineUuid: 'tl4' },
+    it('dispatches 3 thunks', () => {
+      const visuWindow = { lower: 200, upper: 1, current: 100 };
+      const slideWindow = { lower: 100, upper: 200 };
+      actions.updateCursors('tb2', visuWindow, slideWindow)(dispatch, getState);
+      dispatch.should.have.been.callCount(3);
+      dispatch.getCall(0).args[0].should.be.a('function');
+      dispatch.getCall(1).args[0].should.be.a('function');
+      dispatch.getCall(2).args[0].should.be.a('function');
     });
-  });
-  it('add existing timebar', () => {
-    const configuration = { masterId: 'masterId3' };
-    actions.add('tb1', configuration)(dispatch, getState);
-    dispatch.should.have.been.callCount(0);
   });
 });

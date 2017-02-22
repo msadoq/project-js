@@ -4,23 +4,24 @@
   <groupId>fr.cnes.lpisis.gpcc</groupId>
   <artifactId>gpcchs-system</artifactId>
   <packaging>pom</packaging>
-  <version>1.1.0</version>
+  <version>1.1.1-R8S1-SNAPSHOT</version>
   <name>${project.groupId}.${project.artifactId}</name>
   <parent>
     <groupId>fr.cnes.lpisis.gpcc</groupId>
     <artifactId>gpcc-parent</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1-R8S1-SNAPSHOT</version>
     <relativePath/>
   </parent>
   <properties>
     <gpcchs.version>${gpcc.version}</gpcchs.version>
+    <gpcchs.cache.version>1.1.0</gpcchs.cache.version>
   </properties>
   <dependencyManagement>
     <dependencies>
       <dependency>
         <groupId>fr.cnes.lpisis.cots</groupId>
         <artifactId>npm_cache</artifactId>
-        <version>${gpcchs.version}</version>
+        <version>${gpcchs.cache.version}</version>
         <type>isis-cots</type>
       </dependency>
     </dependencies>

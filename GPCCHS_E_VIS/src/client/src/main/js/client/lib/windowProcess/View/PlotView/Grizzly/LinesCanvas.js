@@ -13,6 +13,7 @@ export default class LinesCanvas extends PureComponent {
     margin: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     xScale: PropTypes.func.isRequired,
+    data: PropTypes.arrayOf(PropTypes.shape).isRequired,
     showLabels: PropTypes.bool,
     yExtends: PropTypes.arrayOf(
       PropTypes.number
@@ -20,7 +21,6 @@ export default class LinesCanvas extends PureComponent {
     lines: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
-        dataSet: PropTypes.string.isRequired,
         yAxis: PropTypes.string.isRequired,
         fill: PropTypes.string,
         lineStyle: PropTypes.string,
@@ -73,12 +73,12 @@ export default class LinesCanvas extends PureComponent {
       width,
       lines,
       yExtends,
+      data,
       xScale,
       updateLabelPosition,
       axisId,
       showLabels,
     } = this.props;
-
     const yScale = scaleLinear()
       .domain([yExtends[0], yExtends[1]])
       .range([0, height]);
@@ -86,6 +86,8 @@ export default class LinesCanvas extends PureComponent {
     const ctx = this.el.getContext('2d');
 
     ctx.clearRect(0, 0, width, height);
+
+    // console.time();
 
     lines.forEach((line) => {
       // Change style depending on line properties
@@ -115,9 +117,9 @@ export default class LinesCanvas extends PureComponent {
         pointOffset = line.pointSize / 2;
       }
 
-      line.data.forEach((data) => {
-        const y = yScale(line.yAccessor(data));
-        const x = xScale(data.x);
+      data.forEach((dataLine) => {
+        const y = yScale(line.yAccessor(dataLine));
+        const x = xScale(dataLine.x);
         if (line.lineSize > 0) {
           ctx.lineTo(x, y);
         }
@@ -134,19 +136,28 @@ export default class LinesCanvas extends PureComponent {
       }
 
       // Horizontal line
-      const lastYPosition = yScale(line.yAccessor(line.data[line.data.length - 1]));
+      const lastYPosition = yScale(line.yAccessor(data[data.length - 1]));
       ctx.beginPath();
       ctx.lineWidth = 1;
       ctx.setLineDash([6, 3]);
-      ctx.moveTo(xScale(line.data[line.data.length - 1].x), lastYPosition);
+      ctx.moveTo(xScale(data[data.length - 1].x), lastYPosition);
       ctx.lineTo(
-        xScale(line.data[0].x),
+        xScale(data[0].x),
         lastYPosition
       );
       updateLabelPosition(axisId, line.id, lastYPosition);
       ctx.stroke();
       // ===============
     });
+
+    // console.log(
+    //   'Just drawed',
+    //   lines.length,
+    //   'lines',
+    //   data.length * lines.length,
+    //   'total points'
+    // );
+    // console.timeEnd();
   }
 
   assignEl = (el) => { this.el = el; }

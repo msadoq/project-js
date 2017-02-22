@@ -22,17 +22,6 @@
     transform: translate(-50%, -50%) scale(1.6);
   }
 };
-.mainTitle{
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(1.0);
-  color: #45E;
-  font-weight: 600;
-  opacity: 0;
-  font-style: 50px;
-  animation: grizzlyTitle 1.6s, rainbow 1.6s;
-}
 .canvas{
   position: absolute;
 }

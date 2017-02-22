@@ -23,8 +23,7 @@ export default class YAxis extends PureComponent {
       PropTypes.shape({
         lineStyle: PropTypes.string,
         id: PropTypes.string.isRequired,
-        dataSet: PropTypes.string.isRequired,
-        yAxis: PropTypes.string.isdataSetsRequired,
+        yAxis: PropTypes.string.isRequired,
         fill: PropTypes.string,
         strokeWidth: PropTypes.number,
         yAccessor: PropTypes.func.isRequired,

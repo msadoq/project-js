@@ -86,8 +86,8 @@ export default class Tooltip extends React.Component {
     yAxes.forEach((axis) => {
       linesList[axis.id] = [];
       // const yInDomain = this.yScales[axis.id].invert(yInRange);
-      const data = axis.lines[0].data;
-      const xClosestPacket = data.find(packet => packet.x > xInDomain);
+
+      const xClosestPacket = axis.data.find(packet => packet.x > xInDomain);
       if (!xClosestPacket) {
         return;
       }

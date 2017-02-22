@@ -1,4 +1,3 @@
-import _cloneDeep from 'lodash/cloneDeep';
 import simple from '../simpleActionCreator';
 import ifPathChanged from './enhancers/ifPathChanged';
 import addUuidsToEntryPoints from './enhancers/addUuidsToEntryPoints';
@@ -103,21 +102,24 @@ export const removeMarker = simple(types.WS_VIEW_REMOVE_MARKER, 'viewId', 'index
 export const addProcedure = simple(types.WS_VIEW_ADD_PROCEDURE, 'viewId', 'procedure');
 export const removeProcedure = simple(types.WS_VIEW_REMOVE_PROCEDURE, 'viewId', 'index');
 
-// TODO rename as addEntryPoint
-const addEntryPointInternal = simple(types.WS_VIEW_ADD_ENTRYPOINT, 'viewId', 'entryPoint');
+const simpleAddEntryPoint = simple(types.WS_VIEW_ADD_ENTRYPOINT, 'viewId', 'entryPoint');
 
-// TODO add test
-// TODO rename ad dropEntryPoint and use only on drop
 export function addEntryPoint(viewId, entryPoint) {
   return (dispatch, getState) => {
     const state = getState();
     const currentView = state.views[viewId];
+    const ep = getViewModule(currentView.type).setEntryPointDefault(entryPoint);
+    dispatch(simpleAddEntryPoint(viewId, ep));
+  };
+}
 
+// for Drag&Drop
+export function dropEntryPoint(viewId, entryPoint) {
+  return (dispatch, getState) => {
+    const state = getState();
+    const currentView = state.views[viewId];
     const currentPageId = getPageIdByViewId(state, { viewId });
-
-    const ep = getViewModule(currentView.type).setEntryPointDefault(_cloneDeep(entryPoint));
-
-    dispatch(addEntryPointInternal(viewId, ep));
+    dispatch(addEntryPoint(viewId, entryPoint));
     dispatch(openEditor(currentPageId, viewId, currentView.type));
   };
 }

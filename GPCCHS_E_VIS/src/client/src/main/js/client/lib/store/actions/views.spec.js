@@ -86,9 +86,13 @@ describe('store:actions:views', () => {
           payload: { viewId: 'textview', newPath: '/folder1/newPath' },
         });
       });
-      it('should not dispatch when newPath is falsy', () => {
+      it('should dispatch when newPath is falsy', () => {
         actions.updatePath('textview', '')(dispatch, getState);
-        dispatch.should.have.not.been.calledOnce;
+        dispatch.should.have.been.calledOnce;
+        dispatch.getCall(0).calledWith({
+          type: types.WS_VIEW_UPDATEPATH,
+          payload: { viewId: 'textview', newPath: '' },
+        });
       });
       it('should not dispatch when view is unknow', () => {
         actions.updatePath('unknow_view', '/folder1/newPath')(dispatch, getState);
@@ -111,7 +115,11 @@ describe('store:actions:views', () => {
       });
       it('should not dispatch when newPath is falsy', () => {
         actions.updateAbsolutePath('textview', '')(dispatch, getState);
-        dispatch.should.have.not.been.calledOnce;
+        dispatch.should.have.been.calledOnce;
+        dispatch.getCall(0).calledWith({
+          type: types.WS_VIEW_UPDATE_ABSOLUTEPATH,
+          payload: { viewId: 'textview', newPath: '' },
+        });
       });
       it('should not dispatch when view is unknow', () => {
         actions.updateAbsolutePath('unknow_view', '/folder1/newPath')(dispatch, getState);

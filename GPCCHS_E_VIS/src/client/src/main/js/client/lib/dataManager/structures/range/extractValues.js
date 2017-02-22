@@ -6,6 +6,8 @@ import _has from 'lodash/has';
 import globalConstants from 'common/constants';
 import getLogger from 'common/log';
 
+import { getStateColorObj } from '../common/stateColors';
+
 const logger = getLogger('data:rangeValues');
 
 export function select(remoteIdPayload, ep, epName, viewState) {
@@ -34,7 +36,8 @@ export function select(remoteIdPayload, ep, epName, viewState) {
         newState[masterTime][epName] = {
           x: valX,
           value: valY,
-          monit: _get(value, ['monitoringState', 'value']),
+          // monit: _get(value, ['monitoringState', 'value']),
+          ...getStateColorObj(value, ep.stateColors, _get(value, ['monitoringState', 'value'])),
           // Case of enum : add symbol to show it in tooltip
           symbol: _get(value, [ep.fieldY, 'symbol']),
         };
@@ -42,7 +45,8 @@ export function select(remoteIdPayload, ep, epName, viewState) {
         _set(newState, [masterTime, epName], {
           x: valX,
           value: valY,
-          monit: _get(value, ['monitoringState', 'value']),
+          // monit: _get(value, ['monitoringState', 'value']),
+          ...getStateColorObj(value, ep.stateColors, _get(value, ['monitoringState', 'value'])),
           // Case of enum : add symbol to show it in tooltip
           symbol: _get(value, [ep.fieldY, 'symbol']),
         });

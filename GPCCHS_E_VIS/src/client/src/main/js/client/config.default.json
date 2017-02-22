@@ -16,7 +16,6 @@
   "STATE_COLORS": {
     "alarm": "orangered",
     "critical": "red",
-    "info": "white",
     "outOfRange": "grey",
     "severe": "darkred",
     "warning": "orange",

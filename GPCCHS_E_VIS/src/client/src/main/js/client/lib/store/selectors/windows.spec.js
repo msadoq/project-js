@@ -15,6 +15,11 @@ import {
   getWindowsVisibleViews,
   getWindowMinimized,
   getWindowsTitle,
+  getModifiedWindowsIds,
+  getExplorerTabName,
+  getExplorerWidth,
+  getExplorerFlag,
+  getExplorerDisplay,
 } from './windows';
 
 describe('store:window:selectors', () => {
@@ -111,6 +116,7 @@ describe('store:window:selectors', () => {
       { pageId: 'page1', title: 'foo' },
       { pageId: 'page2', title: 'bar' },
     ]);
+    getWindowPages(state, { windowId: 'unknownWindow' }).should.be.eql([]);
   });
   it('getWindowFocusedPageId', () => {
     const state = {
@@ -327,6 +333,63 @@ describe('store:window:selectors', () => {
     });
     it('should support empty windows list', () => {
       getWindowsTitle({ windows: {} }).should.eql({});
+    });
+  });
+  describe('getModifiedWindowsIds', () => {
+    it('gets isModified windows', () => {
+      const state = {
+        windows: {
+          a: { isModified: true },
+          b: {},
+          c: { isModified: true },
+          d: {},
+        },
+      };
+      getModifiedWindowsIds(state).should.be.eql(['a', 'c']);
+    });
+  });
+  describe('getExplorerTabName', () => {
+    it('gets tabName', () => {
+      const state = {
+        windows: {
+          w1: { tabName: '1' },
+        },
+      };
+      getExplorerTabName(state, { windowId: 'w1' }).should.be.eql('1');
+      should.not.exist(getExplorerTabName({}, {}));
+    });
+  });
+  describe('getExplorerWidth', () => {
+    it('gets explorer width', () => {
+      const state = {
+        windows: {
+          w1: { explorerWidth: 42 },
+        },
+      };
+      getExplorerWidth(state, { windowId: 'w1' }).should.be.eql(42);
+      should.not.exist(getExplorerWidth({}, {}));
+    });
+  });
+  describe('getExplorerFlag', () => {
+    it('gets isModified', () => {
+      const state = {
+        windows: {
+          w1: { isModified: true },
+        },
+      };
+      getExplorerFlag(state, { windowId: 'w1', flagName: 'isModified' }).should.be.true;
+      should.not.exist(getExplorerFlag({}, {}));
+    });
+  });
+  describe('getExplorerDisplay', () => {
+    it('gets displayExplorer', () => {
+      const state = {
+        windows: {
+          w1: { displayExplorer: false },
+        },
+      };
+      getExplorerDisplay(state, { windowId: 'w1' }).should.be.false;
+      should.not.exist(getExplorerDisplay({}, {}));
     });
   });
 });

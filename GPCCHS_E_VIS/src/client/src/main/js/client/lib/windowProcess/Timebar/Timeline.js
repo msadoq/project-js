@@ -1,7 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { Glyphicon } from 'react-bootstrap';
-import moment from 'moment';
 import _memoize from 'lodash/memoize';
+import { formatDuration } from '../common/timeFormats';
 import styles from './Lefttab.css';
 
 export default class Timeline extends PureComponent {
@@ -38,43 +38,6 @@ export default class Timeline extends PureComponent {
     }
   }
 
-  fi = (i) => {
-    const s = i.toString();
-    if (s.length === 1) {
-      return `0${s}`;
-    }
-    if (s.length === 0) {
-      return '00';
-    }
-    return s;
-  }
-
-  fims = (i) => {
-    const s = i.toString();
-    if (s.length === 2) {
-      return `0${s}`;
-    } else if (s.length === 1) {
-      return `00${s}`;
-    } else if (s.length === 0) {
-      return '000';
-    }
-    return s;
-  }
-
-  formatDuration = () => {
-    const { fi, fims } = this;
-    let ms = moment.duration(this.props.offset).asMilliseconds();
-    const neg = ms < 0;
-    if (neg) ms = Math.abs(ms);
-    const h = Math.floor(ms / 3600000);
-    ms -= h * 3600000;
-    const m = Math.floor(ms / 60000);
-    ms -= m * 60000;
-    const s = Math.floor(ms / 1000);
-    ms -= s * 1000;
-    return `${neg ? '- ' : '+ '}${fi(h)}:${fi(m)}:${fi(s)}.${fims(ms)}`;
-  }
-
   willEditTimeline = _memoize(
     (timelineId, id) => () => this.props.willEditTimeline(timelineId, id),
     (...args) => JSON.stringify(args)
@@ -100,7 +63,7 @@ export default class Timeline extends PureComponent {
           className={styles.offset}
           title="Formatted offset HH:MM:ss:SSS"
         >
-          {this.formatDuration()}
+          {formatDuration(offset)}
         </span>
       );
     }

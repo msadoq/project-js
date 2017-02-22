@@ -1,3 +1,31 @@
+function fi(i) {
+  const s = i.toString();
+  if (s.length === 1) return `0${s}`;
+  if (s.length === 0) return '00';
+  return s;
+}
+
+function fims(i) {
+  const s = i.toString();
+  if (s.length === 2) return `0${s}`;
+  if (s.length === 1) return `00${s}`;
+  if (s.length === 0) return '000';
+  return s;
+}
+
+export function formatDuration(duration) {
+  let ms = duration;
+  const neg = ms < 0;
+  if (neg) ms = Math.abs(ms);
+  const h = Math.floor(ms / 3600000);
+  ms -= h * 3600000;
+  const m = Math.floor(ms / 60000);
+  ms -= m * 60000;
+  const s = Math.floor(ms / 1000);
+  ms -= s * 1000;
+  return `${neg ? '- ' : '+ '}${fi(h)}:${fi(m)}:${fi(s)}.${fims(ms)}`;
+}
+
 export function getZoomLevel(msWidth) {
   const zoomLevels = levelsRules.map(d => d.duration);
   let zoomLevel = zoomLevels.findIndex(v => msWidth >= v);

@@ -1,6 +1,9 @@
 import React, { PropTypes } from 'react';
+import classnames from 'classnames';
 import { scaleLinear } from 'd3-scale';
 import _sum from 'lodash/sum';
+import { timeFormat } from 'd3-time-format';
+import { formatDuration } from '../../../common/timeFormats';
 import styles from './GrizzlyChart.css';
 
 export default class Tooltip extends React.Component {
@@ -95,6 +98,8 @@ export default class Tooltip extends React.Component {
             color: line.fill,
             name: line.id,
             value: val.toLocaleString('en-US', { minimumFractionDigits: 2 }),
+            offset: xClosestPacket[line.id].x !== xClosestPacket.x ?
+              formatDuration(xClosestPacket.x - xClosestPacket[line.id].x) : '',
           });
         }
       });
@@ -103,6 +108,7 @@ export default class Tooltip extends React.Component {
     this.setState({
       showTooltip: true,
       linesList,
+      xInDomain,
       xInRange,
       yInRange,
       tooltipOnRight: xInRange > (this.el.clientWidth / 2),
@@ -110,7 +116,9 @@ export default class Tooltip extends React.Component {
     });
   }
 
-  tooltipWidth = 300;
+  timeFormat = timeFormat('%Y-%m-%d %H:%M:%S.%L')
+
+  tooltipWidth = 350;
 
   render() {
     const {
@@ -124,6 +132,7 @@ export default class Tooltip extends React.Component {
       showTooltip,
       linesList,
       xInRange,
+      xInDomain,
       yInRange,
       tooltipOnRight,
       tooltipOnBottom,
@@ -148,10 +157,12 @@ export default class Tooltip extends React.Component {
     tooltipStyle.left = xInRange + 8;
     tooltipStyle.height = tooltiLinesToDisplay ?
         (_sum(Object.values(linesList).map(a => a.length)) * 21)
-        + (Object.values(linesList).length * 26)
+          + (Object.values(linesList).length * 26)
+          + 30
         :
         0;
-    tooltipStyle.minHeight = tooltiLinesToDisplay ? Object.values(linesList).length * 55 : 55;
+    tooltipStyle.minHeight = tooltiLinesToDisplay ?
+      30 + (Object.values(linesList).length * 55) : 55;
     tooltipStyle.transform = '';
     if (tooltipOnRight) {
       tooltipStyle.left = (xInRange - this.tooltipWidth) - 8;
@@ -197,6 +208,10 @@ export default class Tooltip extends React.Component {
             style={tooltipStyle}
           >
             {
+              xInDomain &&
+              <h5>{this.timeFormat(new Date(xInDomain))}</h5>
+            }
+            {
               Object.keys(linesList).map(axisId =>
                 <div key={axisId} >
                   <h5 className={styles.tooltipAxisLabel} >
@@ -208,20 +223,35 @@ export default class Tooltip extends React.Component {
                   }
                   {
                     linesList[axisId].map(line =>
-                      <div key={line.name} >
+                      <div
+                        key={line.name}
+                        className={styles.tooltipLine}
+                      >
                         <span
                           className={styles.tooltipLineSquare}
                           style={{ background: line.color }}
                         />
+                        <p>
+                          <span
+                            className={styles.tooltipLineName}
+                          >
+                            { line.name } :
+                          </span>
+                          <span
+                            className={styles.tooltipLineValue}
+                          >
+                            { line.value }
+                          </span>
+                        </p>
                         <span
-                          className={styles.tooltipLineName}
+                          className={classnames(
+                            styles.tooltipOffset,
+                            {
+                              [styles.neg]: line.offset[0] === '-',
+                            }
+                          )}
                         >
-                          { line.name } :
-                        </span>
-                        <span
-                          className={styles.tooltipLineValue}
-                        >
-                          { line.value }
+                          {' '}{ line.offset }
                         </span>
                       </div>
                     )

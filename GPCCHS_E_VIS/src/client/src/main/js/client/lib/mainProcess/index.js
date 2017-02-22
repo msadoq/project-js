@@ -22,7 +22,7 @@ import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
 import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
 
-import setMenu from './menu';
+import setMenu from './menuManager';
 import { openDefaultWorkspace, openWorkspaceDocument } from './openWorkspace';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
 

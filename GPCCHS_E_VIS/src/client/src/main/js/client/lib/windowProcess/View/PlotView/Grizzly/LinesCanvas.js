@@ -118,7 +118,9 @@ export default class LinesCanvas extends PureComponent {
       line.data.forEach((data) => {
         const y = yScale(line.yAccessor(data));
         const x = xScale(data.x);
-        ctx.lineTo(x, y);
+        if (line.lineSize > 0) {
+          ctx.lineTo(x, y);
+        }
 
         // draw point
         if (pointOffset) {

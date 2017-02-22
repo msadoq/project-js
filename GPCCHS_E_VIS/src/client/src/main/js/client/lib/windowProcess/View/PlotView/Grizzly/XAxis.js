@@ -2,7 +2,9 @@ import React, { PropTypes, PureComponent } from 'react';
 import classnames from 'classnames';
 import { select } from 'd3-selection';
 import { scaleTime } from 'd3-scale';
+import { timeFormat } from 'd3-time-format';
 import { axisBottom, axisTop } from 'd3-axis';
+import { levelsRules, getZoomLevel } from '../../../common/timeFormats';
 import styles from './GrizzlyChart.css';
 
 export default class XAxis extends PureComponent {
@@ -86,8 +88,12 @@ export default class XAxis extends PureComponent {
       xAxisFunction = axisBottom(xScale);
     }
 
+    const zoomLevel = getZoomLevel(xExtends[1] - xExtends[0]);
+    const levelRule = levelsRules[zoomLevel];
+
     xAxisFunction = xAxisFunction
       .ticks(8)
+      .tickFormat(timeFormat(levelRule.formatD3))
       .tickSize(showGrid ? axisHeight : this.ticksYOffset);
 
     let gStyle = '';
@@ -101,6 +107,7 @@ export default class XAxis extends PureComponent {
     const svgGroup = select(this.el)
       .append('g')
       .attr('height', height + xAxisHeight)
+      .attr('width', width)
       .attr('style', gStyle)
       .attr('class', classnames(
         styles.xAxisGroup,

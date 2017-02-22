@@ -121,9 +121,9 @@ export default class Chart extends React.Component {
 
   onMouseMove = (e) => {
     e.preventDefault();
-    const { mouseMoveCursorOrigin, panOrigin } = this.state;
+    const { mouseMoveCursorOrigin, panOrigin, zoomLevel } = this.state;
     this.setState({
-      pan: panOrigin + (e.pageX - mouseMoveCursorOrigin),
+      pan: panOrigin + ((e.pageX - mouseMoveCursorOrigin) / zoomLevel),
     });
   }
 
@@ -251,25 +251,28 @@ export default class Chart extends React.Component {
   memoizeCalculatedXExtends =
     _memoize((xExtendsLower, xExtendsUpper, pan, zoomLevel, chartWidth) => {
       let newXExtends = [xExtendsLower, xExtendsUpper];
+
       let panMs = 0;
       if (pan !== 0) {
-        panMs = (pan / chartWidth) * (newXExtends[0] - newXExtends[1]) * 1;
+        panMs = (pan / chartWidth) * (newXExtends[0] - newXExtends[1]);
         panMs = parseFloat(panMs.toFixed(2));
+      }
+
+      if (zoomLevel !== 1) {
+        const xExtendsMs = newXExtends[1] - newXExtends[0];
+        const zoomOffsetMs = xExtendsMs -
+            (xExtendsMs / zoomLevel);
+
+        newXExtends = [
+          (newXExtends[0] + (zoomOffsetMs / 2)),
+          (newXExtends[1] - (zoomOffsetMs / 2)),
+        ];
+      }
+
+      if (pan !== 0) {
         newXExtends = [
           newXExtends[0] + panMs,
           newXExtends[1] + panMs,
-        ];
-      }
-      if (zoomLevel !== 1) {
-        const zoomOffsetMs =
-          (newXExtends[1] - newXExtends[0]) -
-            (
-              (newXExtends[1] - newXExtends[0])
-              / zoomLevel
-            );
-        newXExtends = [
-          newXExtends[0] + (zoomOffsetMs / 2),
-          newXExtends[1] - (zoomOffsetMs / 2),
         ];
       }
       return [newXExtends, panMs];
@@ -429,7 +432,6 @@ export default class Chart extends React.Component {
           xAxisAt={xAxisAt}
           yAxesAt={yAxesAt}
           xExtends={calculatedXExtends}
-          xScale={xScale}
         />
       </div>
     );

@@ -133,7 +133,7 @@ export default class YAxis extends PureComponent {
       if (y === null && el) {
         el.setAttribute('style', 'display:none;');
       } else if (el) {
-        let style = `background:${line.fill};top:${y}px;`;
+        let style = `background:${line.fill || '#222222'};top:${y}px;`;
         if (yAxesAt === 'left') {
           style += `transform: translate(-102%, -50%);left: ${yAxisWidth}px;`;
         } else {

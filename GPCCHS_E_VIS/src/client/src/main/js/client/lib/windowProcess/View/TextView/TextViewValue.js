@@ -5,8 +5,6 @@ import {
   Tooltip,
 } from 'react-bootstrap';
 
-import { stateColors } from '../../../windowProcess/common/colors';
-
 const getTextStyle = color => ({
   textShadow: `
     0 0 5px rgba(255, 255, 255, 0.1),
@@ -33,10 +31,6 @@ const TextViewValue = ({ getEntryPoint, getValue }) => {
     {
       style: getTextStyle(
         _.cond([
-          [
-            _.pipe(_.get('monit'), _.negate(_.eq('info'))),
-            _.pipe(_.prop('monit'), _.prop(_, stateColors), _.defaultTo('#00FF00')),
-          ],
           [_.pipe(_.get('color'), _.isString), _.prop('color')],
           [_.stubTrue, _.constant('#00FF00')],
         ])(valueObj)

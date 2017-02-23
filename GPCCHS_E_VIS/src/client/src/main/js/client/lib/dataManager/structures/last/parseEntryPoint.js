@@ -1,6 +1,21 @@
+import __ from 'lodash/fp';
+
 import globalConstants from 'common/constants';
 import parseConnectedData from '../common/parseConnectedData';
 import getExpectedInterval from './getExpectedInterval';
+
+function flattenStateColors(stateColors = []) {
+  if (!stateColors.length) {
+    return '';
+  }
+
+  return __.compose(
+    str => `:${str}`,
+    __.join(','),
+    __.sortBy(__.identity),
+    __.map(({ color, condition: { field, operator, operand } }) => `${color}.${field}.${operator}.${operand}`)
+  )(stateColors);
+}
 
 export default function parseEntryPoint(
   entryPoint,
@@ -27,7 +42,7 @@ export default function parseEntryPoint(
   const { remoteId, field, offset, expectedInterval } = cd;
 
   // localId
-  cd.localId = `${field}.${timebarUuid}:${offset}`;
+  cd.localId = `${field}.${timebarUuid}:${offset}${flattenStateColors(entryPoint.stateColors)}`;
 
   // inViewMap
   cd.inViewMap = { remoteId, field, expectedInterval };

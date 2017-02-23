@@ -7,8 +7,18 @@
 <body>
 <div id="root"></div>
 <script>
-  // https://github.com/electron/electron/issues/5224
-  global.parameters = require('electron').remote.getCurrentWindow().parameters;
+  function getQueryStringValue (key) {
+    return decodeURIComponent(
+      window.location.search.replace(
+        new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"
+      )
+    );
+  }
+
+  const allParameters = JSON.parse(getQueryStringValue('params'));
+  parameters = {
+    get: name => allParameters[name]
+  };
 
   // load bundle
   const bundle = document.createElement('script');

@@ -1,10 +1,9 @@
 import _ from 'lodash';
 import { compile } from '../../../common/operators';
-import { stateColors } from '../../../windowProcess/common/colors';
-import '../../../common/test';
+import { getStateColors } from '../../../windowProcess/common/colors';
 
 const getStateColorObj = (payload = {}, customColors = [], monitoringState) => {
-  const monitoringColor = _.get(stateColors, monitoringState);
+  const monitoringColor = _.get(getStateColors(), monitoringState);
   if (monitoringColor) {
     return {
       color: monitoringColor,

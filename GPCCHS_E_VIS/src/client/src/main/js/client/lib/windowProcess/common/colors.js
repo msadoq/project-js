@@ -9,11 +9,11 @@ const colors = [
 
 const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)];
 
-const stateColors = get('STATE_COLORS');
+const getStateColors = () => get('STATE_COLORS');
 
 const getStateColorsCSSVars =
-  () => Object.keys(stateColors).map(k => ({
-    [`--monit-${k}`]: stateColors[k],
+  () => Object.keys(getStateColors()).map(k => ({
+    [`--monit-${k}`]: getStateColors()[k],
   }))
   .reduce((acc, c) => ({
     ...acc,
@@ -23,6 +23,6 @@ const getStateColorsCSSVars =
 export default {
   colors,
   getRandomColor,
-  stateColors,
+  getStateColors,
   getStateColorsCSSVars,
 };

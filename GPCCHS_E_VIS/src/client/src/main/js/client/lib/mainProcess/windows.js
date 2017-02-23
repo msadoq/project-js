@@ -90,18 +90,16 @@ export function open(windowId, title, data, cb) {
     title: `${data.title} - VIMA`,
   });
 
-  // mount module(s) to allow access from renderer process
-  window.parameters = parameters;
-
   // persist windowId on BrowserWindow instance
   window.windowId = windowId;
 
   // prevent garbage collection
   windows[windowId] = window;
 
+  const params = encodeURIComponent(JSON.stringify(parameters.getAll()));
   const htmlPath = `file://${parameters.get('path')}/index.html`;
   logger.debug('opening', htmlPath);
-  window.loadURL(`${htmlPath}?windowId=${windowId}`);
+  window.loadURL(`${htmlPath}?windowId=${windowId}&params=${params}`);
 
   // ready-to-show is the right element to subscribe to trigger logic only once by window
   window.on('ready-to-show', () => {

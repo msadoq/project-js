@@ -36,7 +36,6 @@ export function select(remoteIdPayload, ep, epName, viewState) {
         newState[masterTime][epName] = {
           x: valX,
           value: valY,
-          // monit: _get(value, ['monitoringState', 'value']),
           ...getStateColorObj(value, ep.stateColors, _get(value, ['monitoringState', 'value'])),
           // Case of enum : add symbol to show it in tooltip
           symbol: _get(value, [ep.fieldY, 'symbol']),
@@ -45,7 +44,6 @@ export function select(remoteIdPayload, ep, epName, viewState) {
         _set(newState, [masterTime, epName], {
           x: valX,
           value: valY,
-          // monit: _get(value, ['monitoringState', 'value']),
           ...getStateColorObj(value, ep.stateColors, _get(value, ['monitoringState', 'value'])),
           // Case of enum : add symbol to show it in tooltip
           symbol: _get(value, [ep.fieldY, 'symbol']),

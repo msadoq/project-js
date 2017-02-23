@@ -97,6 +97,10 @@ export const makeGetViewEntryPoints = () => createDeepEqualSelector(
 
 export const getViewEntryPoints = makeGetViewEntryPoints();
 
+export const getViewEntryPointsName = createSelector(getViewEntryPoints, entryPoints =>
+  entryPoints.map(ep => ep.name)
+);
+
 export const getViewEntryPoint = (state, { viewId, epName }) =>
   getViewEntryPoints(state, { viewId })
     .find(ep => ep.name === epName);

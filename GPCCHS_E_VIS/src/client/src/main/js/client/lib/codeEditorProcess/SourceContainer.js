@@ -1,18 +1,15 @@
 import { connect } from 'react-redux';
-import { getViewContent, makeGetViewEntryPoints } from '../store/selectors/views';
+import { getViewContent, getViewEntryPointsName } from '../store/selectors/views';
 import { updateContent } from '../store/actions/views';
 import { closeHtmlEditor } from '../store/actions/editor';
 import Source from './Source';
 
-const getViewEntryPoints = makeGetViewEntryPoints();
-
 const mapStateToProps = (state, { viewId }) => {
   const content = getViewContent(state, { viewId });
-  const entryPoints = getViewEntryPoints(state, { viewId });
+  const entryPointsName = getViewEntryPointsName(state, { viewId });
   return {
     content,
-    // TODO abesson: selector getEntryPointsName + reselect
-    entryPoints: entryPoints.map(ep => ep.name),
+    entryPointsName,
   };
 };
 

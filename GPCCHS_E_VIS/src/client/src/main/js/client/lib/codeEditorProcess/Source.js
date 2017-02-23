@@ -14,9 +14,8 @@ export default class Source extends PureComponent {
     entryPoints: {},
   }
 
-  willSubmit = (values) => { // TODO : abesson : willSubmit ? => updateContent
-    const { viewId, updateContent } = this.props;
-    updateContent(viewId, values);
+  updateContent = (values) => {
+    this.props.updateContent(this.props.viewId, values);
   }
 
   render() {
@@ -31,7 +30,7 @@ export default class Source extends PureComponent {
       <SourceForm
         entryPoints={entryPoints}
         closeHtmlEditor={closeHtmlEditor}
-        onSubmit={this.willSubmit}
+        onSubmit={this.updateContent}
         form={`textView-form-${viewId}`}
         initialValues={initialValues}
       />

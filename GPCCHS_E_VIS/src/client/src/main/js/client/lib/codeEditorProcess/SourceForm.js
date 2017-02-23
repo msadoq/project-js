@@ -7,7 +7,7 @@ import styles from './Source.css';
 
 class SourceForm extends PureComponent {
   static propTypes = {
-    handleSubmit: PropTypes.func.isRequired, // TODO abesson require but not given by parent
+    handleSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool.isRequired,
     reset: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
@@ -16,21 +16,15 @@ class SourceForm extends PureComponent {
     entryPoints: PropTypes.arrayOf(PropTypes.string),
   }
   static defaultProps = {
-    entryPoints: {}, // TODO abesson => []
+    entryPoints: [],
   }
-  constructor(props) {
-    super(props);
-    this.resetAndClose = this.resetAndClose.bind(this);
-    // TODO abesson use arrow function autobind + remove constructor
-    this.saveAndClose = this.saveAndClose.bind(this);
-    // TODO abesson use arrow function autobind + remove constructor
-  }
+
   onChange = editorState => this.setState({ editorState });
-  resetAndClose() {
+  resetAndClose = () => {
     this.props.reset();
     this.props.closeHtmlEditor();
   }
-  saveAndClose() {
+  saveAndClose = () => {
     this.props.handleSubmit();
     this.props.closeHtmlEditor();
   }

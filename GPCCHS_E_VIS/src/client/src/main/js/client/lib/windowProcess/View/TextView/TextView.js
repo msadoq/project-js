@@ -65,15 +65,27 @@ export default class TextView extends PureComponent {
     },
   };
 
-  state = {
-    Content: () => null,
-  }
-
   componentWillMount() {
     this.template = { html: beautifyHtml(this.props.content, { indent_size: 2 }) };
-    this.setState({
-      Content: this.getContentComponent(),
+    this.content = this.getContentComponent();
+  }
+
+  shouldComponentUpdate(nextProps) {
+    let shouldRender = false;
+    if (
+      nextProps.content !== this.props.content ||
+      nextProps.entryPoints !== this.props.entryPoints
+    ) {
+      shouldRender = true;
+      this.template = { html: beautifyHtml(nextProps.content, { indent_size: 2 }) };
+      this.content = this.getContentComponent();
+    }
+    ['isViewsEditorOpen', 'addEntryPoint', 'addEntryPoint', 'data'].forEach((attr) => {
+      if (nextProps[attr] !== this.props[attr]) {
+        shouldRender = true;
+      }
     });
+    return shouldRender;
   }
 
   onDrop = (e) => {
@@ -154,19 +166,19 @@ export default class TextView extends PureComponent {
       isViewsEditorOpen,
       entryPoints,
     } = this.props;
-    const {
-      Content,
-    } = this.state;
 
     logger.debug(`render ${viewId}`);
 
-    return (isViewsEditorOpen && this.props.show === 'html'
-      ? <WYSIWYG
+    return (isViewsEditorOpen && this.props.show === 'html' ?
+      <WYSIWYG
         initialValues={this.template}
         entryPoints={entryPoints.map(ep => ep.name)}
         onSubmit={this.handleSubmit}
         form={`textView-form-${viewId}`}
       />
-      : <DroppableContainer onDrop={this.onDrop}><Content /></DroppableContainer>);
+      :
+      <DroppableContainer onDrop={this.onDrop}>
+        <this.content />
+      </DroppableContainer>);
   }
 }

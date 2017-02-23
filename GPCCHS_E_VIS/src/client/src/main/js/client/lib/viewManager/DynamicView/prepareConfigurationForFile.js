@@ -1,16 +1,17 @@
-import _isArray from 'lodash/isArray';
-import _omit from 'lodash/fp/omit';
+import _ from 'lodash/fp';
 
-export default function (configuration) {
-  if (!_isArray(configuration.entryPoints)) {
-    return configuration;
-  }
+// utilities
+const copyProp = _.curry((keyFrom, keyTo, obj) => {
+  const value = _.get(keyFrom, obj);
+  return value ? _.set(keyTo, value, obj) : obj;
+});
 
-  return Object.assign(
-    {},
-    // remove entryPoints
-    _omit('entryPoints', configuration),
-    // add entryPoint
-    { entryPoint: _omit('name', configuration.entryPoints[0]) }
-  );
-}
+// domain
+const keepFirstEntryPoint = _.pipe(
+  copyProp('entryPoints[0]', 'entryPoint'),
+  _.unset('entryPoints')
+);
+
+export default _.pipe(
+  keepFirstEntryPoint
+);

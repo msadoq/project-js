@@ -1,8 +1,5 @@
-import _values from 'lodash/values';
+import _ from 'lodash/fp';
 
-export default function (configuration) {
-  return {
-    ...configuration,
-    axes: _values(configuration.axes),
-  };
-}
+export default _.pipe(
+  _.update('axes', _.values)
+);

@@ -1,7 +1,5 @@
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
 import __ from 'lodash/fp';
-import u from 'updeep';
-import { getData } from './viewData';
 import { compile } from '../../common/operators';
 import { getDomains } from './domains';
 import { getTimebars, _getTimebarTimelines } from './timebars';
@@ -121,29 +119,3 @@ export const _getEntryPointColorObj = ({ entryPoints, epName, value, dataProp })
   }
   return undefined;
 };
-
-// Return value obj for TextView with color and check if entryPoint is valid
-const _getTextValueFn = (entryPoints, epName) => ({ value, ...args }) => ({
-  value,
-  ...args,
-  ..._getEntryPointColorObj({
-    entryPoints,
-    epName,
-    value,
-    dataProp: 'connectedData',
-  }),
-});
-
-// Apply state colors on entry points value and return view data with state colors
-export const getTextViewData = createSelector(
-    getViewEntryPoints,
-    getData,
-    (entryPoints, data) => u({
-      values: {
-        ...Object.keys(__.getOr({}, ['values'], data)).reduce((acc, epName) => ({
-          ...acc,
-          [epName]: _getTextValueFn(entryPoints, epName),
-        }), {}),
-      },
-    }, data)
-);

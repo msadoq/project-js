@@ -34,13 +34,7 @@ export function start() {
   setMenu();
   const forkOptions = {
     execPath: parameters.get('NODE_PATH'),
-    env: {
-      LOG: parameters.get('LOG'),
-      PROFILING: parameters.get('PROFILING'),
-      ZMQ_GPCCDC_PUSH: parameters.get('ZMQ_GPCCDC_PUSH'),
-      ZMQ_GPCCDC_PULL: parameters.get('ZMQ_GPCCDC_PULL'),
-      ISIS_DOCUMENTS_ROOT: parameters.get('ISIS_DOCUMENTS_ROOT'),
-    },
+    env: parameters.getAll(),
   };
 
   series([

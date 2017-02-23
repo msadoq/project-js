@@ -254,7 +254,10 @@ export function tick() {
         // viewData
         execution.start('data injection');
         dispatch(updateViewData(previous.injectionViewMap, dataMap.perView, dataToInject.data));
-        execution.stop('data injection', Object.keys(dataToInject.data).length);
+        const message = Object.keys(dataToInject.data).length
+          ? `${Object.keys(dataToInject.data).length} remoteId`
+          : undefined;
+        execution.stop('data injection', message);
 
         previous.injectionViewMap = dataMap.perView;
 

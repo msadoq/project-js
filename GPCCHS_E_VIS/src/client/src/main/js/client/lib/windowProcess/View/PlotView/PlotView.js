@@ -17,7 +17,6 @@ import {
 } from 'react-stockcharts';
 
 import getDynamicObject from '../../common/getDynamicObject';
-import GrizzlyChart from './Grizzly/Chart';
 
 import {
   getLines,
@@ -36,9 +35,6 @@ import styles from './PlotView.css';
 import { _getEntryPointColorObj } from '../../../store/selectors/views';
 
 const logger = getLogger('view:plot');
-
-const renderMethod = 'grizzly';
-// const renderMethod = 'classic';
 
 const {
   LineSeries, ScatterSeries, StraightLine,
@@ -793,10 +789,8 @@ export class PlotView extends PureComponent {
     const {
       containerWidth,
       containerHeight,
-      entryPoints,
       data: { columns },
-      configuration: { showYAxes, axes, grids },
-      visuWindow,
+      configuration: { showYAxes },
     } = this.props;
     const {
       disableZoom,
@@ -819,66 +813,6 @@ export class PlotView extends PureComponent {
       marginChart = { ...margin };
     }
     marginChart = getDynamicObject()(marginChart);
-
-    if (renderMethod === 'grizzly') {
-      const yAxes = Object.values(axes).filter(a => a.label !== 'Time');
-
-      return (
-        <DroppableContainer
-          onDrop={this.onDrop}
-          text="add entry point"
-          className={classnames(
-            { [styles.disconnected]: zoomedOrPanned },
-            'h100',
-            'posRelative'
-          )}
-        >
-          <GrizzlyChart
-            height={containerHeight}
-            width={containerWidth}
-            allowZoom
-            allowPan
-            xExtends={[visuWindow.lower, visuWindow.upper]}
-            current={visuWindow.current}
-            yAxesAt={showYAxes}
-            xAxisAt="bottom"
-            yAxes={yAxes.map((axis) => {
-              const grid = grids.find(g => g.yAxisId === axis.id || g.yAxisId === axis.label);
-              return {
-                id: axis.id || axis.label,
-                yExtends: [axis.min, axis.max],
-                data: columns,
-                orient: 'top',
-                showAxis: axis.showAxis === true,
-                showLabels: axis.showLabels === true,
-                showTicks: axis.showTicks === true,
-                autoLimits: axis.autoLimits === true,
-                showGrid: _get(grid, 'showGrid', false),
-                gridStyle: _get(grid, ['line', 'style']),
-                gridSize: _get(grid, ['line', 'size']),
-                unit: axis.unit,
-                label: axis.label,
-                labelStyle: axis.style,
-              };
-            })}
-            lines={
-              entryPoints.map(ep =>
-                ({
-                  id: ep.name,
-                  yAxis: _get(ep, ['connectedDataY', 'axisId']),
-                  fill: _get(ep, ['objectStyle', 'curveColor']),
-                  lineSize: _get(ep, ['objectStyle', 'line', 'size']),
-                  lineStyle: _get(ep, ['objectStyle', 'line', 'style']),
-                  pointStyle: _get(ep, ['objectStyle', 'points', 'style']),
-                  pointSize: _get(ep, ['objectStyle', 'points', 'size']),
-                  yAccessor: d => _get(d, [ep.name, 'value']),
-                })
-              )
-            }
-          />
-        </DroppableContainer>
-      );
-    }
 
     return (
       <DroppableContainer

@@ -11,7 +11,6 @@ import { add as addMessage } from '../../store/actions/messages';
 import { addAndMount as addAndMountView } from '../../store/actions/pages';
 import { getWindowFocusedPageId } from '../../store/selectors/windows';
 import { getStore } from '../../store/mainStore';
-import { setModified as setModifiedView } from '../../store/actions/views';
 
 const addDangerMessage = (focusedPageId, msg) => addMessage(focusedPageId, 'danger', msg);
 
@@ -97,7 +96,6 @@ function viewAddNew(focusedWindow, view) {
   const pageId = getStore().getState().windows[focusedWindow.windowId].focusedPage;
   const viewId = v4();
   getStore().dispatch(addAndMountView(pageId, viewId, view, addViewInLayout(pageId, viewId)));
-  getStore().dispatch(setModifiedView(viewId, true));
   server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', `new ${_.getOr('view', 'type', view)}`);
 }
 

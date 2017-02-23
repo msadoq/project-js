@@ -1,11 +1,9 @@
-import _map from 'lodash/fp/map';
-import _update from 'lodash/fp/update';
+import _ from 'lodash/fp';
 
-export default function (configuration) {
-  return Object.assign({}, configuration, {
-    entryPoints: _map(
-      configuration.entryPoints || [],
-      ep => _update(ep, ['connectedData', 'formula'], '')
-    ),
-  });
-}
+// reset formulas
+const resetFormula = _.set('connectedData.formula', '');
+const resetEntryPointsFormula = _.update('entryPoints', _.map(resetFormula));
+
+export default _.pipe(
+  resetEntryPointsFormula
+);

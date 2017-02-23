@@ -37,7 +37,6 @@ export default class TextView extends PureComponent {
     }),
     addEntryPoint: PropTypes.func.isRequired,
     content: PropTypes.string.isRequired,
-    isViewsEditorOpen: PropTypes.bool.isRequired,
     updateContent: PropTypes.func.isRequired,
     entryPoints: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.string,

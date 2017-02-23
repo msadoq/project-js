@@ -29,7 +29,7 @@ import {
   drawBadge,
   zoomDateFormat,
 } from './helper';
-import { stateColors } from '../../common/colors';
+import { getStateColors } from '../../common/colors';
 import DroppableContainer from '../../common/DroppableContainer';
 import CloseableAlert from '../CloseableAlert';
 import styles from './PlotView.css';
@@ -591,7 +591,7 @@ export class PlotView extends PureComponent {
         const color = _.cond([
           [
             _.pipe(_.get('monit'), _.negate(_.eq('info'))),
-            _.pipe(_.prop('monit'), _.prop(_, stateColors), _.defaultTo('#00FF00')),
+            _.pipe(_.prop('monit'), _.prop(_, getStateColors()), _.defaultTo('#00FF00')),
           ],
           [_.pipe(_.get('color'), _.isString), _.prop('color')],
           [_.stubTrue, _.constant('#00FF00')],

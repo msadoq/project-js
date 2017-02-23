@@ -86,7 +86,7 @@ function addDynamicView(focusedWindow) {
     configuration: {
       type: 'DynamicView',
       defaultRatio: { length: 5, width: 5 },
-      entryPoint: undefined,
+      entryPoint: { connectedData: {} },
       links: [],
       title: 'New Dynamic View',
     } };

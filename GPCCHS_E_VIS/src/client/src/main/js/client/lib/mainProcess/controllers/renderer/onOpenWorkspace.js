@@ -1,4 +1,4 @@
-import { workspaceOpenWithPath } from '../../menu/workspaceOpen';
+import { workspaceOpenWithPath } from '../../menuManager/workspaceOpen';
 
 export default function ({ filePath }) {
   workspaceOpenWithPath({ filePath });

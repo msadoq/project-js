@@ -23,8 +23,7 @@ export default class YAxis extends PureComponent {
       PropTypes.shape({
         lineStyle: PropTypes.string,
         id: PropTypes.string.isRequired,
-        dataSet: PropTypes.string.isRequired,
-        yAxis: PropTypes.string.isdataSetsRequired,
+        yAxis: PropTypes.string.isRequired,
         fill: PropTypes.string,
         strokeWidth: PropTypes.number,
         yAccessor: PropTypes.func.isRequired,
@@ -128,10 +127,12 @@ export default class YAxis extends PureComponent {
       return;
     }
     lines.forEach((line) => {
-      const y = getLabelPosition(yAxisId, line.id);
       const el = this[`label-${line.id}-el`];
-      if (el) {
-        let style = `background:${line.fill};top:${y}px;`;
+      const y = getLabelPosition(yAxisId, line.id);
+      if (y === null && el) {
+        el.setAttribute('style', 'display:none;');
+      } else if (el) {
+        let style = `background:${line.fill || '#222222'};top:${y}px;`;
         if (yAxesAt === 'left') {
           style += `transform: translate(-102%, -50%);left: ${yAxisWidth}px;`;
         } else {

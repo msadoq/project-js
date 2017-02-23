@@ -847,6 +847,7 @@ export class PlotView extends PureComponent {
               return {
                 id: axis.id || axis.label,
                 yExtends: [axis.min, axis.max],
+                data: columns,
                 orient: 'top',
                 showAxis: axis.showAxis === true,
                 showLabels: axis.showLabels === true,
@@ -860,21 +861,16 @@ export class PlotView extends PureComponent {
                 labelStyle: axis.style,
               };
             })}
-            dataSets={[
-              {
-                data: columns,
-                id: 'dataOne',
-              },
-            ]}
             lines={
               entryPoints.map(ep =>
                 ({
                   id: ep.name,
-                  dataSet: 'dataOne',
                   yAxis: _get(ep, ['connectedDataY', 'axisId']),
-                  fill: _get(ep, ['objectStyle', 'curveColor'], '#222222'),
-                  strokeWidth: _get(ep, ['objectStyle', 'line', 'size'], 2),
-                  lineStyle: _get(ep, ['objectStyle', 'line', 'style'], 'Continuous'),
+                  fill: _get(ep, ['objectStyle', 'curveColor']),
+                  lineSize: _get(ep, ['objectStyle', 'line', 'size']),
+                  lineStyle: _get(ep, ['objectStyle', 'line', 'style']),
+                  pointStyle: _get(ep, ['objectStyle', 'points', 'style']),
+                  pointSize: _get(ep, ['objectStyle', 'points', 'size']),
                   yAccessor: d => _get(d, [ep.name, 'value']),
                 })
               )

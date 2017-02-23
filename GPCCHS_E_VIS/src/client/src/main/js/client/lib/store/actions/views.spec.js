@@ -86,9 +86,13 @@ describe('store:actions:views', () => {
           payload: { viewId: 'textview', newPath: '/folder1/newPath' },
         });
       });
-      it('should not dispatch when newPath is falsy', () => {
+      it('should dispatch when newPath is falsy', () => {
         actions.updatePath('textview', '')(dispatch, getState);
-        dispatch.should.have.not.been.calledOnce;
+        dispatch.should.have.been.calledOnce;
+        dispatch.getCall(0).calledWith({
+          type: types.WS_VIEW_UPDATEPATH,
+          payload: { viewId: 'textview', newPath: '' },
+        });
       });
       it('should not dispatch when view is unknow', () => {
         actions.updatePath('unknow_view', '/folder1/newPath')(dispatch, getState);
@@ -111,7 +115,11 @@ describe('store:actions:views', () => {
       });
       it('should not dispatch when newPath is falsy', () => {
         actions.updateAbsolutePath('textview', '')(dispatch, getState);
-        dispatch.should.have.not.been.calledOnce;
+        dispatch.should.have.been.calledOnce;
+        dispatch.getCall(0).calledWith({
+          type: types.WS_VIEW_UPDATE_ABSOLUTEPATH,
+          payload: { viewId: 'textview', newPath: '' },
+        });
       });
       it('should not dispatch when view is unknow', () => {
         actions.updateAbsolutePath('unknow_view', '/folder1/newPath')(dispatch, getState);
@@ -237,9 +245,8 @@ describe('store:actions:views', () => {
     it('should works with a TexView, with empty entryPoint', () => {
       actions.addEntryPoint('textview', emptyEntryPoint)(dispatch, getState);
 
-      dispatch.should.have.been.callCount(2);
+      dispatch.should.have.been.callCount(1);
       dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(1).args[0].should.be.an('object');
 
       dispatch.getCall(0).should.have.been.calledWith({
         type: types.WS_VIEW_ADD_ENTRYPOINT,
@@ -252,21 +259,12 @@ describe('store:actions:views', () => {
           },
         },
       });
-      dispatch.getCall(1).should.have.been.calledWith({
-        type: types.WS_PAGE_EDITOR_OPEN,
-        payload: {
-          pageId: 'pageWithLayout',
-          viewId: 'textview',
-          viewType: 'TextView',
-        },
-      });
     });
     it('should works with a TexView, with entryPoint', () => {
       actions.addEntryPoint('textview', entryPoint)(dispatch, getState);
 
-      dispatch.should.have.been.callCount(2);
+      dispatch.should.have.been.callCount(1);
       dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(1).args[0].should.be.an('object');
 
       dispatch.getCall(0).should.have.been.calledWith({
         type: types.WS_VIEW_ADD_ENTRYPOINT,
@@ -279,22 +277,13 @@ describe('store:actions:views', () => {
           },
         },
       });
-      dispatch.getCall(1).should.have.been.calledWith({
-        type: types.WS_PAGE_EDITOR_OPEN,
-        payload: {
-          pageId: 'pageWithLayout',
-          viewId: 'textview',
-          viewType: 'TextView',
-        },
-      });
     });
 
     it('should works with a PlotView, with empty entryPoint', () => {
       actions.addEntryPoint('plotview', emptyEntryPoint)(dispatch, getState);
 
-      dispatch.should.have.been.callCount(2);
+      dispatch.should.have.been.callCount(1);
       dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(1).args[0].should.be.an('object');
 
       dispatch.getCall(0).should.have.been.calledWith({
         type: types.WS_VIEW_ADD_ENTRYPOINT,
@@ -307,23 +296,13 @@ describe('store:actions:views', () => {
           },
         },
       });
-      dispatch.getCall(1).should.have.been.calledWith({
-        type: types.WS_PAGE_EDITOR_OPEN,
-        payload: {
-          pageId: 'emptyPage',
-          viewId: 'plotview',
-          viewType: 'PlotView',
-        },
-      });
     });
 
     it('should works with a TexView, with entryPoint', () => {
       actions.addEntryPoint('plotview', entryPoint)(dispatch, getState);
 
-      dispatch.should.have.been.callCount(2);
+      dispatch.should.have.been.callCount(1);
       dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(1).args[0].should.be.an('object');
-
 
       dispatch.getCall(0).should.have.been.calledWith({
         type: types.WS_VIEW_ADD_ENTRYPOINT,
@@ -336,6 +315,65 @@ describe('store:actions:views', () => {
           },
         },
       });
+    });
+  });
+  describe('dropEntryPoint', () => {
+    it('should works with a TexView, with empty entryPoint', () => {
+      actions.dropEntryPoint('textview', emptyEntryPoint)(dispatch, getState);
+
+      dispatch.should.have.been.callCount(2);
+      dispatch.getCall(0).args[0].should.be.a('function');
+      dispatch.getCall(1).args[0].should.be.an('object');
+
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_PAGE_EDITOR_OPEN,
+        payload: {
+          pageId: 'pageWithLayout',
+          viewId: 'textview',
+          viewType: 'TextView',
+        },
+      });
+    });
+    it('should works with a TexView, with entryPoint', () => {
+      actions.dropEntryPoint('textview', entryPoint)(dispatch, getState);
+
+      dispatch.should.have.been.callCount(2);
+      dispatch.getCall(0).args[0].should.be.a('function');
+      dispatch.getCall(1).args[0].should.be.an('object');
+
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_PAGE_EDITOR_OPEN,
+        payload: {
+          pageId: 'pageWithLayout',
+          viewId: 'textview',
+          viewType: 'TextView',
+        },
+      });
+    });
+
+    it('should works with a PlotView, with empty entryPoint', () => {
+      actions.dropEntryPoint('plotview', emptyEntryPoint)(dispatch, getState);
+
+      dispatch.should.have.been.callCount(2);
+      dispatch.getCall(0).args[0].should.be.a('function');
+      dispatch.getCall(1).args[0].should.be.an('object');
+
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_PAGE_EDITOR_OPEN,
+        payload: {
+          pageId: 'emptyPage',
+          viewId: 'plotview',
+          viewType: 'PlotView',
+        },
+      });
+    });
+
+    it('should works with a TexView, with entryPoint', () => {
+      actions.dropEntryPoint('plotview', entryPoint)(dispatch, getState);
+
+      dispatch.should.have.been.callCount(2);
+      dispatch.getCall(0).args[0].should.be.a('function');
+      dispatch.getCall(1).args[0].should.be.an('object');
       dispatch.getCall(1).should.have.been.calledWith({
         type: types.WS_PAGE_EDITOR_OPEN,
         payload: {

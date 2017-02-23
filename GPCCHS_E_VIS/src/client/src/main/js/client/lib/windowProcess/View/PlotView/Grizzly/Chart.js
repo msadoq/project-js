@@ -29,6 +29,7 @@ export default class Chart extends React.Component {
       PropTypes.shape({
         id: PropTypes.string.isRequired,
         orient: PropTypes.string.isRequired,
+        data: PropTypes.array.isRequired,
         yExtends: PropTypes.array.isRequired,
         autoLimits: PropTypes.bool.isRequired,
         showAxis: PropTypes.bool.isRequired,
@@ -42,20 +43,15 @@ export default class Chart extends React.Component {
         labelStyle: PropTypes.shape,
       })
     ).isRequired,
-    dataSets: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        data: PropTypes.array.isRequired,
-      })
-    ).isRequired,
     lines: PropTypes.arrayOf(
       PropTypes.shape({
-        lineStyle: PropTypes.string.isRequired,
         id: PropTypes.string.isRequired,
-        dataSet: PropTypes.string.isRequired,
         yAxis: PropTypes.string.isRequired,
-        fill: PropTypes.string.isRequired,
-        strokeWidth: PropTypes.number.isRequired,
+        fill: PropTypes.string,
+        lineStyle: PropTypes.string,
+        lineSize: PropTypes.number,
+        pointSize: PropTypes.number,
+        pointStyle: PropTypes.string,
         yAccessor: PropTypes.func.isRequired,
       })
     ).isRequired,
@@ -119,9 +115,9 @@ export default class Chart extends React.Component {
 
   onMouseMove = (e) => {
     e.preventDefault();
-    const { mouseMoveCursorOrigin, panOrigin } = this.state;
+    const { mouseMoveCursorOrigin, panOrigin, zoomLevel } = this.state;
     this.setState({
-      pan: panOrigin + (e.pageX - mouseMoveCursorOrigin),
+      pan: panOrigin + ((e.pageX - mouseMoveCursorOrigin) / zoomLevel),
     });
   }
 
@@ -134,23 +130,13 @@ export default class Chart extends React.Component {
     const {
       yAxes,
       lines,
-      dataSets,
       xExtends,
     } = this.props;
 
-    const linesWidthData = lines
-      .map((line) => {
-        const foundDataset = dataSets.find(d => d.id === line.dataSet);
-        return {
-          ...line,
-          data: foundDataset ? foundDataset.data : undefined,
-        };
-      })
-      .filter(line => typeof line.data !== 'undefined');
-
     const sortedAndValidAxes = yAxes
       .map((axis) => {
-        const axisLines = linesWidthData.filter(line => line.yAxis === axis.id);
+        const axisLines = lines
+          .filter(line => line.yAxis === axis.id);
 
         // let's calculate lower and upper limits of the yAxis
         let yExtends;
@@ -188,7 +174,7 @@ export default class Chart extends React.Component {
   }
 
   getLabelPosition = (yAxisId, lineId) =>
-    _get(this.labelsPosition, [yAxisId, lineId]);
+    _get(this.labelsPosition, [yAxisId, lineId], null);
 
   resetZoomLevel = (e) => {
     e.preventDefault();
@@ -249,25 +235,28 @@ export default class Chart extends React.Component {
   memoizeCalculatedXExtends =
     _memoize((xExtendsLower, xExtendsUpper, pan, zoomLevel, chartWidth) => {
       let newXExtends = [xExtendsLower, xExtendsUpper];
+
       let panMs = 0;
       if (pan !== 0) {
-        panMs = (pan / chartWidth) * (newXExtends[0] - newXExtends[1]) * 1;
+        panMs = (pan / chartWidth) * (newXExtends[0] - newXExtends[1]);
         panMs = parseFloat(panMs.toFixed(2));
+      }
+
+      if (zoomLevel !== 1) {
+        const xExtendsMs = newXExtends[1] - newXExtends[0];
+        const zoomOffsetMs = xExtendsMs -
+            (xExtendsMs / zoomLevel);
+
+        newXExtends = [
+          (newXExtends[0] + (zoomOffsetMs / 2)),
+          (newXExtends[1] - (zoomOffsetMs / 2)),
+        ];
+      }
+
+      if (pan !== 0) {
         newXExtends = [
           newXExtends[0] + panMs,
           newXExtends[1] + panMs,
-        ];
-      }
-      if (zoomLevel !== 1) {
-        const zoomOffsetMs =
-          (newXExtends[1] - newXExtends[0]) -
-            (
-              (newXExtends[1] - newXExtends[0])
-              / zoomLevel
-            );
-        newXExtends = [
-          newXExtends[0] + (zoomOffsetMs / 2),
-          newXExtends[1] - (zoomOffsetMs / 2),
         ];
       }
       return [newXExtends, panMs];
@@ -326,7 +315,6 @@ export default class Chart extends React.Component {
         }}
         ref={this.assignEl}
       >
-        <h3 className={styles.mainTitle}>Grizzly</h3>
         <div
           className={styles.zoomAndPanLabels}
           style={{
@@ -383,6 +371,7 @@ export default class Chart extends React.Component {
               showLabels={yAxis.showLabels}
               yExtends={yAxis.yExtends}
               axisId={yAxis.id}
+              data={yAxis.data}
               lines={yAxis.lines}
               updateLabelPosition={this.updateLabelPosition}
             />

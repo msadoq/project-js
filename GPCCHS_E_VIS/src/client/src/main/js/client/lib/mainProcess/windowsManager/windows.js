@@ -54,9 +54,10 @@ export function open(windowId, data, callback) {
   // prevent garbage collection
   electronWindows[windowId] = window;
 
+  const params = encodeURIComponent(JSON.stringify(parameters.getAll()));
   const htmlPath = `file://${parameters.get('path')}/index.html`;
   logger.debug('opening', htmlPath);
-  window.loadURL(`${htmlPath}?windowId=${windowId}`);
+  window.loadURL(`${htmlPath}?windowId=${windowId}&params=${params}`);
 
   // ready-to-show is the right element to subscribe to trigger logic only once by window
   window.on('ready-to-show', () => {

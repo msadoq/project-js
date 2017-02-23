@@ -13,18 +13,20 @@ export default class LinesCanvas extends PureComponent {
     margin: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     xScale: PropTypes.func.isRequired,
+    data: PropTypes.arrayOf(PropTypes.shape).isRequired,
     showLabels: PropTypes.bool,
     yExtends: PropTypes.arrayOf(
       PropTypes.number
     ).isRequired,
     lines: PropTypes.arrayOf(
       PropTypes.shape({
-        lineStyle: PropTypes.string,
         id: PropTypes.string.isRequired,
-        dataSet: PropTypes.string.isRequired,
         yAxis: PropTypes.string.isRequired,
         fill: PropTypes.string,
-        strokeWidth: PropTypes.number,
+        lineStyle: PropTypes.string,
+        lineSize: PropTypes.number,
+        pointSize: PropTypes.number,
+        pointStyle: PropTypes.string,
         yAccessor: PropTypes.func.isRequired,
       })
     ).isRequired,
@@ -32,6 +34,13 @@ export default class LinesCanvas extends PureComponent {
 
   static defaultProps = {
     showLabels: false,
+    lines: {
+      fill: '#222222',
+      lineSize: 0,
+      lineStyle: 'Continuous',
+      pointSize: 0,
+      pointStyle: null,
+    },
   }
 
   componentDidMount() {
@@ -64,12 +73,12 @@ export default class LinesCanvas extends PureComponent {
       width,
       lines,
       yExtends,
+      data,
       xScale,
       updateLabelPosition,
       axisId,
       showLabels,
     } = this.props;
-
     const yScale = scaleLinear()
       .domain([yExtends[0], yExtends[1]])
       .range([0, height]);
@@ -78,10 +87,13 @@ export default class LinesCanvas extends PureComponent {
 
     ctx.clearRect(0, 0, width, height);
 
+    // console.time();
+
     lines.forEach((line) => {
       // Change style depending on line properties
       ctx.strokeStyle = line.fill;
-      ctx.lineWidth = line.strokeWidth;
+      ctx.fillStyle = line.fill;
+      ctx.lineWidth = line.lineSize;
       if (line.lineStyle === 'Dashed') {
         ctx.setLineDash([6, 2]);
       } else if (line.lineStyle === 'Dotted') {
@@ -90,11 +102,32 @@ export default class LinesCanvas extends PureComponent {
         ctx.setLineDash([2, 0]);
       }
 
+      // Do not draw
+      if (!line.lineSize && (!line.pointSize || !line.pointStyle)) {
+        updateLabelPosition(axisId, line.id, null);
+        return;
+      }
+
       // =============== DRAWING
       ctx.beginPath();
-      line.data.forEach((data) => {
-        const y = yScale(line.yAccessor(data));
-        ctx.lineTo(xScale(data.x), y);
+
+      // Point (only if size > 0 AND style not null
+      let pointOffset;
+      if (line.pointStyle && line.pointSize) {
+        pointOffset = line.pointSize / 2;
+      }
+
+      data.forEach((dataLine) => {
+        const y = yScale(line.yAccessor(dataLine));
+        const x = xScale(dataLine.x);
+        if (line.lineSize > 0) {
+          ctx.lineTo(x, y);
+        }
+
+        // draw point
+        if (pointOffset) {
+          ctx.fillRect(x - pointOffset, y - pointOffset, line.pointSize, line.pointSize);
+        }
       });
       ctx.stroke();
 
@@ -103,19 +136,28 @@ export default class LinesCanvas extends PureComponent {
       }
 
       // Horizontal line
-      const lastYPosition = yScale(line.yAccessor(line.data[line.data.length - 1]));
+      const lastYPosition = yScale(line.yAccessor(data[data.length - 1]));
       ctx.beginPath();
       ctx.lineWidth = 1;
       ctx.setLineDash([6, 3]);
-      ctx.moveTo(xScale(line.data[line.data.length - 1].x), lastYPosition);
+      ctx.moveTo(xScale(data[data.length - 1].x), lastYPosition);
       ctx.lineTo(
-        xScale(line.data[0].x),
+        xScale(data[0].x),
         lastYPosition
       );
       updateLabelPosition(axisId, line.id, lastYPosition);
       ctx.stroke();
       // ===============
     });
+
+    // console.log(
+    //   'Just drawed',
+    //   lines.length,
+    //   'lines',
+    //   data.length * lines.length,
+    //   'total points'
+    // );
+    // console.timeEnd();
   }
 
   assignEl = (el) => { this.el = el; }

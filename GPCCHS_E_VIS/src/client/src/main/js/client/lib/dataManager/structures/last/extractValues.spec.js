@@ -26,6 +26,16 @@ describe('data/map/lastValue', () => {
           field: 'val3',
           expectedInterval: [10, 20],
           offset: 0,
+          stateColors: [
+            {
+              color: '#0000FF',
+              condition: {
+                field: 'val3',
+                operator: '>',
+                operand: '1',
+              },
+            },
+          ],
         },
         ep7: {
           remoteId: 'rId2',
@@ -99,25 +109,25 @@ describe('data/map/lastValue', () => {
     it('state empty', () => {
       const newState = lastValue({}, payload, 'text1', viewDataMap.text1.entryPoints, 'TextView');
       newState.index.ep4.should.equal(20);
-      newState.values.ep4.should.eql({ value: 203, monit: 'ok' });
+      newState.values.ep4.should.eql({ value: 203, color: '#0000FF' });
       newState.index.ep7.should.equal(13);
-      newState.values.ep7.should.eql({ value: 'val3', monit: 'ok' });
+      newState.values.ep7.should.eql({ value: 'val3' });
       newState.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
     });
     it('state undefined', () => {
       const newState = lastValue(undefined, payload, 'text1', viewDataMap.text1.entryPoints, 'TextView');
       newState.index.ep4.should.equal(20);
-      newState.values.ep4.should.eql({ value: 203, monit: 'ok' });
+      newState.values.ep4.should.eql({ value: 203, color: '#0000FF' });
       newState.index.ep7.should.equal(13);
-      newState.values.ep7.should.eql({ value: 'val3', monit: 'ok' });
+      newState.values.ep7.should.eql({ value: 'val3' });
       newState.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
     });
     it('multiple entry points', () => {
       const newState = lastValue({}, payload, 'text2', viewDataMap.text2.entryPoints, 'TextView');
       newState.index.ep6.should.equal(20);
-      newState.values.ep6.should.eql({ value: 203, monit: 'ok' });
+      newState.values.ep6.should.eql({ value: 203 });
       newState.index.ep5.should.equal(20);
-      newState.values.ep5.should.eql({ value: 203, monit: 'ok' });
+      newState.values.ep5.should.eql({ value: 203 });
       newState.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
     });
     it('dynamic view', () => {

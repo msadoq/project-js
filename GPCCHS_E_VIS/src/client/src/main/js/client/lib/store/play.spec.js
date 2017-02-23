@@ -1,10 +1,15 @@
 /* eslint no-underscore-dangle: 0 */
 
-import { computeCursors } from './play';
+import { computeCursors, nextCurrent } from './play';
 
 require('../common/test');
 
 describe('mainProcess/play', () => {
+  describe('nextCurrent', () => {
+    it('computes next current timestamp', () => {
+      nextCurrent(0, 10, 10).should.be.eql(100);
+    });
+  });
   describe('computeCursors', () => {
     const currentUpperMargin = 0;
     let timebarData;
@@ -120,6 +125,44 @@ describe('mainProcess/play', () => {
       res.visuWindow.should.have.property('upper', vw.upper + ((offset + secondOffset) - 500));
       res.slideWindow.should.have.property('lower', sw.lower + ((offset + secondOffset) - 500));
       res.slideWindow.should.have.property('upper', sw.upper + ((offset + secondOffset) - 500));
+    });
+    it('(Fixed mode) - should only move visuWindow', () => {
+      const offset = 377;
+      sw = {
+        lower: vw.current - 500,
+        upper: vw.upper + 500,
+      };
+      const newCurrent = vw.current + offset;
+      const res = computeCursors(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
+        'Fixed', currentUpperMargin);
+
+      res.should.be.eql({
+        visuWindow: {
+          current: 1420106500377,
+          lower: 1420106400000,
+          upper: 1420106700000,
+        },
+        slideWindow: { lower: 1420106499500, upper: 1420106700500 },
+      });
+    });
+    it('(Unknown mode) - should only move visuWindow', () => {
+      const offset = 377;
+      sw = {
+        lower: vw.current - 500,
+        upper: vw.upper + 500,
+      };
+      const newCurrent = vw.current + offset;
+      const res = computeCursors(newCurrent, vw.lower, vw.upper, sw.lower, sw.upper,
+        'UnknownMode', currentUpperMargin);
+
+      res.should.be.eql({
+        visuWindow: {
+          current: 1420106500377,
+          lower: 1420106400000,
+          upper: 1420106700000,
+        },
+        slideWindow: { lower: 1420106499500, upper: 1420106700500 },
+      });
     });
   });
 });

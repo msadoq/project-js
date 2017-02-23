@@ -145,7 +145,7 @@ describe('documentManager/io', () => {
         });
       });
       it('works with relative fmd path', (done) => {
-        const relativePath = '/../lib/documentManager/fixtures/views/text1.json';
+        const relativePath = '/../fixtures/views/text1.json';
         readDocument(null, relativePath, null, null, (err, data, properties) => {
           expect(err).to.not.be.an('error');
           data.should.be.an('object');

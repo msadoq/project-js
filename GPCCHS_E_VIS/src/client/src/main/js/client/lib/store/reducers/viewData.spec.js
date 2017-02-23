@@ -132,21 +132,21 @@ describe('store:viewData:reducer', () => {
         text: {
           index: { ep1: 10, ep4: 9 },
           values: {
-            ep1: { value: moment(10.2).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS'), monit: undefined },
-            ep4: { value: 'val9', monit: undefined } },
+            ep1: { value: moment(10.2).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS') },
+            ep4: { value: 'val9' } },
         },
         plot: {
           index: [8, 9, 10, 11, 12],
           columns: [
-            { x: 8, ep2: { monit: undefined, value: 82, x: 8.2, symbol: undefined } },
+            { x: 8, ep2: { value: 82, x: 8.2, symbol: undefined } },
             { x: 9,
-              ep2: { monit: undefined, value: 92, x: 9.2, symbol: undefined },
-              ep3: { monit: undefined, value: 9, x: 9.2, symbol: 'val9' } },
-            { x: 10, ep2: { monit: undefined, value: 102, x: 10.2, symbol: undefined } },
+              ep2: { value: 92, x: 9.2, symbol: undefined },
+              ep3: { value: 9, x: 9.2, symbol: 'val9' } },
+            { x: 10, ep2: { value: 102, x: 10.2, symbol: undefined } },
             { x: 11,
-              ep2: { monit: undefined, value: 112, x: 11.2, symbol: undefined },
-              ep3: { monit: undefined, value: 11, x: 11.2, symbol: 'val11' } },
-            { x: 12, ep2: { monit: undefined, value: 122, x: 12.2, symbol: undefined } },
+              ep2: { value: 112, x: 11.2, symbol: undefined },
+              ep3: { value: 11, x: 11.2, symbol: 'val11' } },
+            { x: 12, ep2: { value: 122, x: 12.2, symbol: undefined } },
           ],
         },
       });
@@ -155,20 +155,20 @@ describe('store:viewData:reducer', () => {
       const state = { text: {
         index: { ep1: 9, ep4: 9 },
         values: {
-          ep1: { value: moment(9.2).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS'), monit: undefined },
+          ep1: { value: moment(9.2).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS') },
           ep4: { value: 'val9', monit: undefined } },
       },
         plot: {
           index: [7, 8, 9, 10],
           columns: [
             { x: 7,
-              ep2: { monit: undefined, value: 72, x: 7.2, symbol: undefined },
-              ep3: { monit: undefined, value: 7, x: 7.2, symbol: 'val7' } },
-            { x: 8, ep2: { monit: undefined, value: 82, x: 8.2, symbol: undefined } },
+              ep2: { value: 72, x: 7.2, symbol: undefined },
+              ep3: { value: 7, x: 7.2, symbol: 'val7' } },
+            { x: 8, ep2: { value: 82, x: 8.2, symbol: undefined } },
             { x: 9,
-              ep2: { monit: undefined, value: 92, x: 9.2, symbol: undefined },
-              ep3: { monit: undefined, value: 9, x: 9.2, symbol: 'val9' } },
-            { x: 10, ep2: { monit: undefined, value: 102, x: 10.2, symbol: undefined } },
+              ep2: { value: 92, x: 9.2, symbol: undefined },
+              ep3: { value: 9, x: 9.2, symbol: 'val9' } },
+            { x: 10, ep2: { value: 102, x: 10.2, symbol: undefined } },
           ],
         } };
 
@@ -177,21 +177,21 @@ describe('store:viewData:reducer', () => {
         text: {
           index: { ep1: 10, ep4: 9 },
           values: {
-            ep1: { value: moment(10.2).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS'), monit: undefined },
-            ep4: { value: 'val9', monit: undefined } },
+            ep1: { value: moment(10.2).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS') },
+            ep4: { value: 'val9' } },
         },
         plot: {
           index: [8, 9, 10, 11, 12],
           columns: [
-            { x: 8, ep2: { monit: undefined, value: 82, x: 8.2, symbol: undefined } },
+            { x: 8, ep2: { value: 82, x: 8.2, symbol: undefined } },
             { x: 9,
-              ep2: { monit: undefined, value: 92, x: 9.2, symbol: undefined },
-              ep3: { monit: undefined, value: 9, x: 9.2, symbol: 'val9' } },
-            { x: 10, ep2: { monit: undefined, value: 102, x: 10.2, symbol: undefined } },
+              ep2: { value: 92, x: 9.2, symbol: undefined },
+              ep3: { value: 9, x: 9.2, symbol: 'val9' } },
+            { x: 10, ep2: { value: 102, x: 10.2, symbol: undefined } },
             { x: 11,
-              ep2: { monit: undefined, value: 112, x: 11.2, symbol: undefined },
-              ep3: { monit: undefined, value: 11, x: 11.2, symbol: 'val11' } },
-            { x: 12, ep2: { monit: undefined, value: 122, x: 12.2, symbol: undefined } },
+              ep2: { value: 112, x: 11.2, symbol: undefined },
+              ep3: { value: 11, x: 11.2, symbol: 'val11' } },
+            { x: 12, ep2: { value: 122, x: 12.2, symbol: undefined } },
           ],
         },
       });

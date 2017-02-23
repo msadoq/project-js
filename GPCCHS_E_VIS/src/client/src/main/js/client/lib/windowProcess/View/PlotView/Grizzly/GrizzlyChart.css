@@ -22,17 +22,6 @@
     transform: translate(-50%, -50%) scale(1.6);
   }
 };
-.mainTitle{
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(1.0);
-  color: #45E;
-  font-weight: 600;
-  opacity: 0;
-  font-style: 50px;
-  animation: grizzlyTitle 1.6s, rainbow 1.6s;
-}
 .canvas{
   position: absolute;
 }
@@ -122,6 +111,15 @@
   transition: opacity ease-out 0.1s;
 
 }
+.tooltipLine{
+  position: relative;
+  & > p{
+    font-size: 1.0em;
+    position: absolute;
+    top: 2px;
+    left: 22px;
+  }
+}
 .tooltipLineSquare{
   width: 16px;
   height: 16px;
@@ -138,6 +136,16 @@
   font-size: 1.2em;
   font-style: bold;
   text-align: center;
+}
+.tooltipOffset{
+  color: #235;
+  position: absolute;
+  right: 0;
+  top: 2px;
+  color: #3A3;
+  &.neg{
+    color: #A33;
+  }
 }
 .zoomAndPanLabels{
   position: absolute;

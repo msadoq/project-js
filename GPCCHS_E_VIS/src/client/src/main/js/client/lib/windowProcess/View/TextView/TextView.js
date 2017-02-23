@@ -63,27 +63,27 @@ export default class TextView extends PureComponent {
     },
   };
 
-  state = {
-    Content: () => null,
-  }
-
   componentWillMount() {
     this.template = { html: beautifyHtml(this.props.content, { indent_size: 2 }) };
-    this.setState({
-      Content: this.getContentComponent(),
-    });
+    this.content = this.getContentComponent();
   }
 
-  // TODO Maybe useless, TextView implement PureComponent
-  // TODO abesson, useless or not?
   shouldComponentUpdate(nextProps) {
-    return !(
-      nextProps.viewId === this.props.viewId &&
-      nextProps.data === this.props.data &&
-      nextProps.content === this.props.content &&
-      nextProps.isViewsEditorOpen === this.props.isViewsEditorOpen &&
-      nextProps.entryPoints === this.props.entryPoints
-    );
+    let shouldRender = false;
+    if (
+      nextProps.content !== this.props.content ||
+      nextProps.entryPoints !== this.props.entryPoints
+    ) {
+      shouldRender = true;
+      this.template = { html: beautifyHtml(nextProps.content, { indent_size: 2 }) };
+      this.content = this.getContentComponent();
+    }
+    ['isViewsEditorOpen', 'addEntryPoint', 'addEntryPoint', 'data'].forEach((attr) => {
+      if (nextProps[attr] !== this.props[attr]) {
+        shouldRender = true;
+      }
+    });
+    return shouldRender;
   }
 
   onDrop = (e) => {
@@ -160,13 +160,12 @@ export default class TextView extends PureComponent {
 
   render() {
     const { viewId } = this.props;
-    const { Content } = this.state;
 
     logger.debug(`render ${viewId}`);
 
     return (
       <DroppableContainer onDrop={this.onDrop}>
-        <Content />
+        <this.content />
       </DroppableContainer>
     );
   }

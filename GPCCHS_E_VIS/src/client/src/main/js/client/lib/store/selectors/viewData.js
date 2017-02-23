@@ -16,7 +16,7 @@ export const getCount = state => _reduce(getViewData(state), (c, view) => {
     // PlotView
     return _reduce(view.columns, (c2, column) => c2 + (Object.keys(column).length - 1), c);
   } else if (typeof view.values === 'object') {
-    // TextView
+    // TextView / DynamicView
     return c + Object.keys(view.values).length;
   }
   // other view type

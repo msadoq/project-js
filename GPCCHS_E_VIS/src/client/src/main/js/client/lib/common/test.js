@@ -1,4 +1,5 @@
 import { tmpdir } from 'os';
+import _ from 'lodash';
 import path from 'path';
 import chai from 'chai';
 import sinonChai from 'sinon-chai';
@@ -9,8 +10,27 @@ import thunk from 'redux-thunk';
 import deepFreeze from 'deep-freeze';
 import reducer from '../store/reducers/index';
 
-process.env.ISIS_DOCUMENTS_ROOT = path.resolve(__dirname, '../documentManager/fixtures');
-process.env.WILDCARD_CHARACTER = '*';
+const config = {
+  ISIS_DOCUMENTS_ROOT: path.resolve(__dirname, '../documentManager/fixtures'),
+  WILDCARD_CHARACTER: '*',
+  VISUWINDOW_MAX_LENGTH: 42,
+  STATE_COLORS: {
+    alarm: 'orangered',
+    critical: 'red',
+    info: 'white',
+    outOfRange: 'grey',
+    severe: 'darkred',
+    warning: 'orange',
+    nonsignificant: 'lightgrey',
+    obsolete: 'tan',
+  },
+};
+
+_.set(
+  global,
+  'parameters.get',
+  p => _.get(config, p)
+);
 
 chai.use(properties);
 chai.use(sinonChai);
@@ -22,6 +42,17 @@ function getStore(initialState) {
     applyMiddleware(thunk)
   );
 }
+
+const createGetState = ([...states]) => {
+  const getState = sinon.stub();
+  const frozenStates = states.map(freezeMe);
+  const lastState = frozenStates[frozenStates.length - 1];
+  getState.returns(lastState);
+  frozenStates.forEach((state, i) => {
+    getState.onCall(i).returns(state);
+  });
+  return getState;
+};
 
 const freezeMe = o => o && deepFreeze(o);
 
@@ -35,6 +66,7 @@ module.exports = {
   expect: chai.expect,
   sinon,
   getStore,
+  createGetState,
   freezeMe,
   freezeArgs,
   getTmpPath: (...args) => path.resolve(tmpdir(), 'vima-tests', ...args),

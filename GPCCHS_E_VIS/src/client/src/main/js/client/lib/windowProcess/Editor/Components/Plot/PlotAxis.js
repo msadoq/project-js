@@ -230,7 +230,6 @@ class PlotAxis extends PureComponent {
             <Field
               name="min"
               component={InputField}
-              normalize={value => parseFloat(value)}
               className="form-control input-sm"
               type="number"
             />
@@ -241,7 +240,6 @@ class PlotAxis extends PureComponent {
             <Field
               name="max"
               component={InputField}
-              normalize={value => parseFloat(value)}
               className="form-control input-sm"
               type="number"
             />

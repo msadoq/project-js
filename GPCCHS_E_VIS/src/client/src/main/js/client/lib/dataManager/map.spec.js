@@ -179,9 +179,9 @@ const state = {
               {
                 color: '#000000',
                 condition: {
-                  field: 'monitoringState',
-                  operator: '==',
-                  operand: 'waiting',
+                  field: 'extractedValue',
+                  operator: '>',
+                  operand: '1',
                 },
               },
             ],
@@ -384,6 +384,16 @@ const viewMap = {
         expectedInterval: [
           1420106790818,
           1420107056239,
+        ],
+        stateColors: [
+          {
+            color: '#000000',
+            condition: {
+              field: 'extractedValue',
+              operator: '>',
+              operand: '1',
+            },
+          },
         ],
       },
       STAT_PARAMETRIC: {

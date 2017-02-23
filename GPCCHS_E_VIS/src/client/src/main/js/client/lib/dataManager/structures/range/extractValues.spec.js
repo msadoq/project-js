@@ -28,6 +28,16 @@ describe('data/map/extractValues', () => {
           fieldY: 'val1',
           expectedInterval: [10, 15],
           offset: 0,
+          stateColors: [
+            {
+              color: '#0000FF',
+              condition: {
+                field: 'val3',
+                operator: '>',
+                operand: '1',
+              },
+            },
+          ],
         },
       },
     },
@@ -40,6 +50,16 @@ describe('data/map/extractValues', () => {
           fieldY: 'val2',
           expectedInterval: [12, 16],
           offset: 2,
+          stateColors: [
+            {
+              color: '#0000FF',
+              condition: {
+                field: 'val3',
+                operator: '>',
+                operand: '1',
+              },
+            },
+          ],
         },
         ep3: {
           remoteId: 'rId2',
@@ -68,23 +88,23 @@ describe('data/map/extractValues', () => {
     it('state undefined', () => {
       const newState = select(payload.rId1, viewDataMap.plot1.entryPoints.ep1,
         'ep1', undefined);
-      newState['10'].ep1.should.eql({ x: 10.2, value: 101, monit: 'ok', symbol: undefined });
-      newState['15'].ep1.should.eql({ x: 15.2, value: 151, monit: 'ok', symbol: undefined });
+      newState['10'].ep1.should.eql({ x: 10.2, value: 101, symbol: undefined, color: '#0000FF' });
+      newState['15'].ep1.should.eql({ x: 15.2, value: 151, symbol: undefined, color: '#0000FF' });
     });
     it('state empty', () => {
       const newState = select(payload.rId1, viewDataMap.plot1.entryPoints.ep1,
         'ep1', {});
-      newState['10'].should.eql({ ep1: { x: 10.2, value: 101, monit: 'ok', symbol: undefined } });
-      newState['15'].should.eql({ ep1: { x: 15.2, value: 151, monit: 'ok', symbol: undefined } });
+      newState['10'].should.eql({ ep1: { x: 10.2, value: 101, symbol: undefined, color: '#0000FF' } });
+      newState['15'].should.eql({ ep1: { x: 15.2, value: 151, symbol: undefined, color: '#0000FF' } });
     });
     it('state not empty', () => {
       const oldState = { 10: { ep10: { x: 11.5, col1: 101 } },
         12.5: { ep10: { x: 12.5, value: 102 } } };
       const newState = select(payload.rId1, viewDataMap.plot1.entryPoints.ep1,
         'ep1', oldState);
-      newState['10'].should.eql({ ep1: { x: 10.2, value: 101, monit: 'ok', symbol: undefined },
+      newState['10'].should.eql({ ep1: { x: 10.2, value: 101, color: '#0000FF', symbol: undefined },
         ep10: { x: 11.5, col1: 101 } });
-      newState['15'].should.eql({ ep1: { x: 15.2, value: 151, monit: 'ok', symbol: undefined } });
+      newState['15'].should.eql({ ep1: { x: 15.2, value: 151, color: '#0000FF', symbol: undefined } });
     });
     it('no change', () => {
       const oldState = { 10: { ep1: [{ x: 1001.5, col1: 101 }, { x: 1002.5, value: 102 }] } };
@@ -101,8 +121,8 @@ describe('data/map/extractValues', () => {
       viewData.remove.lower.should.equal(ep.expectedInterval[0] + ep.offset);
       viewData.remove.upper.should.equal(ep.expectedInterval[1] + ep.offset);
       viewData.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_RANGE);
-      viewData.add['10'].should.eql({ ep1: { x: 10.2, value: 101, monit: 'ok', symbol: undefined } });
-      viewData.add['15'].should.eql({ ep1: { x: 15.2, value: 151, monit: 'ok', symbol: undefined } });
+      viewData.add['10'].should.eql({ ep1: { x: 10.2, value: 101, color: '#0000FF', symbol: undefined } });
+      viewData.add['15'].should.eql({ ep1: { x: 15.2, value: 151, color: '#0000FF', symbol: undefined } });
       Object.keys(viewData.add).should.have.length(6);
     });
     it('multiple entry point', () => {
@@ -112,10 +132,10 @@ describe('data/map/extractValues', () => {
       viewData.remove.lower.should.equal(ep.expectedInterval[0] + ep.offset);
       viewData.remove.upper.should.equal(ep.expectedInterval[1] + ep.offset);
       viewData.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_RANGE);
-      viewData.add['14'].should.eql({ ep2: { x: 12.2, value: 122, monit: 'ok', symbol: undefined },
-        ep3: { x: 14.2, symbol: 'val4', value: 4, monit: 'ok' } });
-      viewData.add['18'].should.eql({ ep2: { x: 16.2, value: 162, monit: 'ok', symbol: undefined },
-        ep3: { x: 18.2, symbol: 'val8', value: 8, monit: 'ok' } });
+      viewData.add['14'].should.eql({ ep2: { x: 12.2, value: 122, color: '#0000FF', symbol: undefined },
+        ep3: { x: 14.2, symbol: 'val4', value: 4 } });
+      viewData.add['18'].should.eql({ ep2: { x: 16.2, value: 162, color: '#0000FF', symbol: undefined },
+        ep3: { x: 18.2, symbol: 'val8', value: 8 } });
       Object.keys(viewData.add).should.have.length(5);
     });
   });

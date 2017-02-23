@@ -19,7 +19,6 @@
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
         "axisId": "Time"
@@ -55,7 +54,6 @@
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
         "axisId": "Time"
@@ -91,7 +89,6 @@
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
         "axisId": "Time"
@@ -127,7 +124,6 @@
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
         "axisId": "Time"
@@ -163,7 +159,6 @@
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
         "axisId": "Time"
@@ -199,7 +194,6 @@
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
         "axisId": "Time"
@@ -235,7 +229,6 @@
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
         "axisId": "Time"
@@ -271,7 +264,6 @@
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
         "axisId": "Time"
@@ -307,7 +299,6 @@
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
         "axisId": "Time"
@@ -343,7 +334,6 @@
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
         "axisId": "Time"

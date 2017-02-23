@@ -97,7 +97,7 @@ export function remove(pageId) {
     if (!state.pages[pageId]) {
       return;
     }
-    const views = state.pages[pageId].views; // tableau
+    const views = state.pages[pageId].views;
     views.forEach((viewId) => {
       dispatch(unmountAndRemove(pageId, viewId));
     });

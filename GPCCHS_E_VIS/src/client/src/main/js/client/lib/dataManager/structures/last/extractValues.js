@@ -8,6 +8,8 @@ import moment from 'moment';
 import getLogger from 'common/log';
 import globalConstants from 'common/constants';
 
+import { getStateColorObj } from '../common/stateColors';
+
 const logger = getLogger('data:lastValue');
 
 // Get the nearest value from the current time
@@ -15,6 +17,7 @@ export function select(remoteIdPayload, ep, epName, viewSubState, viewType) {
   // Entry points on this remoteId
   const lower = ep.expectedInterval[0];
   const current = ep.expectedInterval[1];
+
   // previous time recorded
   let previousTime = 0;
   if (viewSubState && viewSubState.index[epName]) {
@@ -49,7 +52,7 @@ export function select(remoteIdPayload, ep, epName, viewSubState, viewType) {
         newValue = {
           timestamp,
           value: val,
-          monit: _get(p, ['monitoringState', 'value']),
+          ...getStateColorObj(p, ep.stateColors, _get(p, ['monitoringState', 'value'])),
         };
       } else { // Case of Dynamic View
         newValue = {
@@ -76,7 +79,7 @@ export function select(remoteIdPayload, ep, epName, viewSubState, viewType) {
         newValue = {
           timestamp,
           value: val,
-          monit: _get(p, ['monitoringState', 'value']),
+          ...getStateColorObj(p, ep.stateColors, _get(p, ['monitoringState', 'value'])),
         };
       } else {
         if (_isEqual(viewSubState.values[epName].value, p)) {
@@ -119,8 +122,10 @@ export default function extractValues(
     _set(viewData, ['index', epName], newData.timestamp);
     _set(viewData, ['values', epName], {
       value: newData.value,
-      monit: newData.monit,
     });
+    if (newData.color) {
+      _set(viewData, ['values', epName, 'color'], newData.color);
+    }
     viewData.type = viewType;
     viewData.structureType = globalConstants.DATASTRUCTURETYPE_LAST;
   });

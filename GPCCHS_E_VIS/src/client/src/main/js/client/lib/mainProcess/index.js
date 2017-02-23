@@ -22,7 +22,7 @@ import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
 import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
 import { getIsWorkspaceOpening } from '../store/actions/hsc';
-import setMenu from './menu';
+import setMenu from './menuManager';
 import { openDefaultWorkspace, openWorkspaceDocument } from './openWorkspace';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
 import { splashScreen, windows } from './windowsManager';
@@ -204,11 +204,9 @@ export function stop() {
   clear();
 
   // close static windows
-  //setImmediate(() => {
-    windows.closeAll();
-    codeEditor.close();
-    splashScreen.close();
-  //});
+  windows.closeAll();
+  codeEditor.close();
+  splashScreen.close();
 
   logger.info('application stopped');
 }

@@ -1,6 +1,8 @@
 import { resolve } from 'path';
 import { compose, path } from 'lodash/fp';
 
+const safeResolve = x => x && resolve(x);
+
 // wrap an action creator in a thunk that dispatch it only when newPath
 // is different from 'keyPath' corresponding path
 const ifPathChanged = (actionCreator, key = 'views', keyPath = 'path', id = 'viewId') => (
@@ -9,11 +11,11 @@ const ifPathChanged = (actionCreator, key = 'views', keyPath = 'path', id = 'vie
     const getStateElement = compose(path([key, action.payload[id]]), getState);
 
     const newPath = action.payload.newPath;
-    if (!getStateElement() || !newPath) {
+    if (!getStateElement()) {
       return undefined;
     }
     const oldPath = getStateElement()[keyPath];
-    if ((newPath && oldPath && resolve(newPath) !== resolve(oldPath))) {
+    if ((safeResolve(newPath) !== safeResolve(oldPath))) {
       return dispatch(action);
     }
     return undefined;

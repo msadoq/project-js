@@ -6,9 +6,49 @@ import { freezeMe } from '../../common/test';
 
 describe('store:actions:timebars', () => {
   const state = freezeMe({
+    hsc: {
+      playingTimebarId: 'tb1',
+    },
+    messages: {
+      'timeSetter-tb3': ['1', '2', '3', '4'],
+    },
     timebars: {
       tb1: {
+        mode: 'Extensible',
         masterId: 'masterId',
+        visuWindow: { lower: 100, current: 150, upper: 117200000 },
+        slideWindow: { lower: 160, upper: 170 },
+        speed: 1,
+        realTime: true,
+      },
+      tb2: {
+        mode: 'Normal',
+        speed: 2,
+        visuWindow: { lower: 100, current: 150, upper: 200 },
+        slideWindow: { lower: 160, upper: 170 },
+      },
+      tb3: {
+        mode: 'Normal',
+        speed: 1,
+        visuWindow: { lower: 100, current: 150, upper: 200 },
+        slideWindow: { lower: 160, upper: 170 },
+      },
+      tb4: {
+        mode: 'Fixed',
+        speed: 2,
+        visuWindow: { lower: 100, current: 150, upper: 200 },
+        slideWindow: { lower: 160, upper: 400 },
+      },
+      tb5: {
+        mode: 'Normal',
+        visuWindow: { lower: 100, current: 150, upper: 200 },
+        slideWindow: { lower: 160, upper: 170 },
+      },
+      tb6: {
+        mode: 'Fixed',
+        visuWindow: { lower: 100, current: 150, upper: 200 },
+        slideWindow: { lower: 160, upper: 400 },
+        realTime: true,
       },
     },
     timelines: {
@@ -30,50 +70,518 @@ describe('store:actions:timebars', () => {
     dispatch = sinon.spy();
   });
 
-  it('add new timebar without timelines', () => {
-    actions.add('newTB', { masterId: 'masterId2' })(dispatch, getState);
+  describe('add', () => {
+    it('add new timebar without timelines', () => {
+      actions.add('newTB', { masterId: 'masterId2' })(dispatch, getState);
 
-    dispatch.should.have.been.callCount(2);
-    dispatch.getCall(0).args[0].should.be.a('object');
-    dispatch.getCall(1).args[0].should.be.an('object');
+      dispatch.should.have.been.callCount(2);
+      dispatch.getCall(0).args[0].should.be.a('object');
+      dispatch.getCall(1).args[0].should.be.an('object');
 
-    dispatch.getCall(0).should.have.been.calledWith({
-      type: types.WS_TIMEBAR_ADD,
-      payload: { timebarUuid: 'newTB', configuration: { masterId: 'masterId2' } },
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_ADD,
+        payload: { timebarUuid: 'newTB', configuration: { masterId: 'masterId2' } },
+      });
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_TBTL_ADD_TIMEBAR,
+        payload: { timebarUuid: 'newTB' },
+      });
     });
-    dispatch.getCall(1).should.have.been.calledWith({
-      type: types.WS_TBTL_ADD_TIMEBAR,
-      payload: { timebarUuid: 'newTB' },
+    it('add new timebar with timelines', () => {
+      const configuration = { masterId: 'masterId2', timelines: ['tl3', 'tl4'] };
+      actions.add('newTB', configuration)(dispatch, getState);
+      dispatch.should.have.been.callCount(4);
+      dispatch.getCall(0).args[0].should.be.a('object');
+      dispatch.getCall(1).args[0].should.be.an('object');
+      dispatch.getCall(2).args[0].should.be.an('object');
+      dispatch.getCall(3).args[0].should.be.an('object');
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_ADD,
+        payload: { timebarUuid: 'newTB', configuration },
+      });
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_TBTL_ADD_TIMEBAR,
+        payload: { timebarUuid: 'newTB' },
+      });
+      dispatch.getCall(2).should.have.been.calledWith({
+        type: types.WS_TBTL_MOUNT_TIMELINE,
+        payload: { timebarUuid: 'newTB', timelineUuid: 'tl3' },
+      });
+      dispatch.getCall(3).should.have.been.calledWith({
+        type: types.WS_TBTL_MOUNT_TIMELINE,
+        payload: { timebarUuid: 'newTB', timelineUuid: 'tl4' },
+      });
+    });
+    it('add existing timebar', () => {
+      const configuration = { masterId: 'masterId3' };
+      actions.add('tb1', configuration)(dispatch, getState);
+      dispatch.should.have.been.callCount(0);
     });
   });
-  it('add new timebar with timelines', () => {
-    const configuration = { masterId: 'masterId2', timelines: ['tl3', 'tl4'] };
-    actions.add('newTB', configuration)(dispatch, getState);
-    dispatch.should.have.been.callCount(4);
-    dispatch.getCall(0).args[0].should.be.a('object');
-    dispatch.getCall(1).args[0].should.be.an('object');
-    dispatch.getCall(2).args[0].should.be.an('object');
-    dispatch.getCall(3).args[0].should.be.an('object');
-    dispatch.getCall(0).should.have.been.calledWith({
-      type: types.WS_TIMEBAR_ADD,
-      payload: { timebarUuid: 'newTB', configuration },
+  describe('updateCursors', () => {
+    it('updates cursors (Extensible)', () => {
+      actions.updateCursors('tb1', {}, {})(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_UPDATE_CURSORS,
+        payload: {
+          visuWindow: {},
+          slideWindow: { lower: 100, upper: 117200000 },
+          timebarUuid: 'tb1',
+        },
+      });
     });
-    dispatch.getCall(1).should.have.been.calledWith({
-      type: types.WS_TBTL_ADD_TIMEBAR,
-      payload: { timebarUuid: 'newTB' },
+    it('updates cursors (Fixed)', () => {
+      const visuWindow = { lower: 1, upper: 400, current: 250 };
+      const slideWindow = { lower: 100, upper: 200 };
+      actions.updateCursors('tb2', visuWindow, slideWindow)(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_UPDATE_CURSORS,
+        payload: {
+          visuWindow: { lower: 1, upper: 400, current: 250 },
+          slideWindow: { lower: 100, upper: 400 },
+          timebarUuid: 'tb2',
+        },
+      });
     });
-    dispatch.getCall(2).should.have.been.calledWith({
-      type: types.WS_TBTL_MOUNT_TIMELINE,
-      payload: { timebarUuid: 'newTB', timelineUuid: 'tl3' },
+    it('reset messages and updates cursors', () => {
+      actions.updateCursors('tb3', {}, {})(dispatch, getState);
+      dispatch.should.have.been.callCount(2);
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_MESSAGE_RESET,
+        payload: {
+          containerId: 'timeSetter-tb3',
+        },
+      });
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_UPDATE_CURSORS,
+        payload: {
+          visuWindow: {},
+          slideWindow: { lower: 100, upper: 170 },
+          timebarUuid: 'tb3',
+        },
+      });
     });
-    dispatch.getCall(3).should.have.been.calledWith({
-      type: types.WS_TBTL_MOUNT_TIMELINE,
-      payload: { timebarUuid: 'newTB', timelineUuid: 'tl4' },
+    it('dispatches 3 thunks', () => {
+      const visuWindow = { lower: 200, upper: 1, current: 100 };
+      const slideWindow = { lower: 100, upper: 200 };
+      actions.updateCursors('tb2', visuWindow, slideWindow)(dispatch, getState);
+      dispatch.should.have.been.callCount(3);
+      dispatch.getCall(0).args[0].should.be.a('function');
+      dispatch.getCall(1).args[0].should.be.a('function');
+      dispatch.getCall(2).args[0].should.be.a('function');
     });
   });
-  it('add existing timebar', () => {
-    const configuration = { masterId: 'masterId3' };
-    actions.add('tb1', configuration)(dispatch, getState);
-    dispatch.should.have.been.callCount(0);
+
+  describe('handlePlay', () => {
+    it('doest nothing without playingTimebarUuid', () => {
+      actions.handlePlay(0, 0)(dispatch, () => ({}));
+      dispatch.should.have.not.been.called;
+    });
+    it('doest nothing without playingTimebar', () => {
+      actions.handlePlay(0, 0)(dispatch, () => ({ timebars: [], hsc: { playingTimebarId: 1234 } }));
+      dispatch.should.have.not.been.called;
+    });
+    it('updates cursors', () => {
+      actions.handlePlay(0, 0)(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).args[0].should.be.a('function');
+    });
+  });
+  describe('updateSpeed', () => {
+    it('disables real time then update speed', () => {
+      actions.updateSpeed('tb1', 42)(dispatch, getState);
+      dispatch.should.have.been.callCount(2);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.an('object');
+
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SET_REALTIME,
+        payload: {
+          timebarUuid: 'tb1',
+          flag: false,
+        },
+      });
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SPEED_UPDATE,
+        payload: {
+          timebarUuid: 'tb1',
+          speed: 42,
+        },
+      });
+    });
+    it('updates speed', () => {
+      actions.updateSpeed('tb2', 42)(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).args[0].should.be.an('object');
+
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SPEED_UPDATE,
+        payload: {
+          timebarUuid: 'tb2',
+          speed: 42,
+        },
+      });
+    });
+  });
+  describe('restoreWidth', () => {
+    it('disables real time then restore width', () => {
+      actions.restoreWidth('tb1')(dispatch, getState);
+      dispatch.should.have.been.callCount(2);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.a('function');
+
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SET_REALTIME,
+        payload: {
+          timebarUuid: 'tb1',
+          flag: false,
+        },
+      });
+    });
+    it('restores width', () => {
+      actions.restoreWidth('tb3')(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).args[0].should.be.a('function');
+    });
+  });
+  describe('jump', () => {
+    it('disables real time then jump', () => {
+      actions.jump('tb1', 42)(dispatch, getState);
+      dispatch.should.have.been.callCount(2);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.a('function');
+
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SET_REALTIME,
+        payload: {
+          timebarUuid: 'tb1',
+          flag: false,
+        },
+      });
+    });
+    it('jumps', () => {
+      actions.jump('tb3', 42)(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).args[0].should.be.a('function');
+    });
+  });
+  describe('goNow', () => {
+    it('disables real time then go now', () => {
+      actions.goNow('tb1', 42)(dispatch, getState);
+      dispatch.should.have.been.callCount(2);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.a('function');
+
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SET_REALTIME,
+        payload: {
+          timebarUuid: 'tb1',
+          flag: false,
+        },
+      });
+    });
+    it('goes now', () => {
+      actions.goNow('tb3', 42)(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).args[0].should.be.a('function');
+    });
+  });
+  describe('switchToNormalMode', () => {
+    it('updates mode', () => {
+      actions.switchToNormalMode('tb3')(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_MODE_UPDATE,
+        payload: {
+          timebarUuid: 'tb3',
+          mode: 'Normal',
+        },
+      });
+    });
+    it('updates mode and update cursors', () => {
+      actions.switchToNormalMode('tb4')(dispatch, getState);
+      dispatch.should.have.been.callCount(2);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.a('function');
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_MODE_UPDATE,
+        payload: {
+          timebarUuid: 'tb4',
+          mode: 'Normal',
+        },
+      });
+    });
+  });
+  describe('switchToRealtimeMode', () => {
+    it('sets real time mode and update cursors + smartPlay', () => {
+      actions.switchToRealtimeMode('tb3')(dispatch, getState);
+      dispatch.should.have.been.callCount(3);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.a('function');
+      dispatch.getCall(2).args[0].should.be.a('function');
+
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SET_REALTIME,
+        payload: {
+          timebarUuid: 'tb3',
+          flag: true,
+        },
+      });
+    });
+    it('sets real time mode, reset speed to 1 and update cursors + smartPlay', () => {
+      actions.switchToRealtimeMode('tb2')(dispatch, getState);
+      dispatch.should.have.been.callCount(4);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.an('object');
+      dispatch.getCall(2).args[0].should.be.a('function');
+      dispatch.getCall(3).args[0].should.be.a('function');
+
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SET_REALTIME,
+        payload: {
+          timebarUuid: 'tb2',
+          flag: true,
+        },
+      });
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SPEED_UPDATE,
+        payload: {
+          timebarUuid: 'tb2',
+          speed: 1,
+        },
+      });
+    });
+    it('sets real time mode, reset mode to Normal and update cursors + smartPlay', () => {
+      actions.switchToRealtimeMode('tb1')(dispatch, getState);
+      dispatch.should.have.been.callCount(4);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.an('object');
+      dispatch.getCall(2).args[0].should.be.a('function');
+      dispatch.getCall(3).args[0].should.be.a('function');
+
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SET_REALTIME,
+        payload: {
+          timebarUuid: 'tb1',
+          flag: true,
+        },
+      });
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_MODE_UPDATE,
+        payload: {
+          timebarUuid: 'tb1',
+          mode: 'Normal',
+        },
+      });
+    });
+    it('sets real time mode, reset speed to 1, reset mode to Normal and update cursors + smartPlay', () => {
+      actions.switchToRealtimeMode('tb4')(dispatch, getState);
+      dispatch.should.have.been.callCount(5);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.an('object');
+      dispatch.getCall(2).args[0].should.be.an('object');
+      dispatch.getCall(3).args[0].should.be.a('function');
+      dispatch.getCall(4).args[0].should.be.a('function');
+
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SET_REALTIME,
+        payload: {
+          timebarUuid: 'tb4',
+          flag: true,
+        },
+      });
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SPEED_UPDATE,
+        payload: {
+          timebarUuid: 'tb4',
+          speed: 1,
+        },
+      });
+      dispatch.getCall(2).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_MODE_UPDATE,
+        payload: {
+          timebarUuid: 'tb4',
+          mode: 'Normal',
+        },
+      });
+    });
+  });
+  describe('switchToExtensibleMode', () => {
+    it('updates mode to Extensible', () => {
+      actions.switchToExtensibleMode('tb4')(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_MODE_UPDATE,
+        payload: {
+          timebarUuid: 'tb4',
+          mode: 'Extensible',
+        },
+      });
+    });
+    it('updates mode and disable real time', () => {
+      actions.switchToExtensibleMode('tb6')(dispatch, getState);
+      dispatch.should.have.been.callCount(2);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.an('object');
+
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_MODE_UPDATE,
+        payload: {
+          timebarUuid: 'tb6',
+          mode: 'Extensible',
+        },
+      });
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SET_REALTIME,
+        payload: {
+          timebarUuid: 'tb6',
+          flag: false,
+        },
+      });
+    });
+    it('updates mode and update cursors', () => {
+      actions.switchToExtensibleMode('tb5')(dispatch, getState);
+      dispatch.should.have.been.callCount(2);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.a('function');
+
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_MODE_UPDATE,
+        payload: {
+          timebarUuid: 'tb5',
+          mode: 'Extensible',
+        },
+      });
+    });
+    it('updates mode, disable real time and update cursors', () => {
+      actions.switchToExtensibleMode('tb1')(dispatch, getState);
+      dispatch.should.have.been.callCount(3);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.an('object');
+      dispatch.getCall(2).args[0].should.be.a('function');
+
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_MODE_UPDATE,
+        payload: {
+          timebarUuid: 'tb1',
+          mode: 'Extensible',
+        },
+      });
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SET_REALTIME,
+        payload: {
+          timebarUuid: 'tb1',
+          flag: false,
+        },
+      });
+    });
+  });
+  describe('switchToFixedMode', () => {
+    it('updates mode', () => {
+      actions.switchToFixedMode('tb3')(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_MODE_UPDATE,
+        payload: {
+          timebarUuid: 'tb3',
+          mode: 'Fixed',
+        },
+      });
+    });
+    it('updates mode and update cursors', () => {
+      actions.switchToFixedMode('tb4')(dispatch, getState);
+      dispatch.should.have.been.callCount(2);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.a('function');
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_MODE_UPDATE,
+        payload: {
+          timebarUuid: 'tb4',
+          mode: 'Fixed',
+        },
+      });
+    });
+    it('updates mode and disable real time', () => {
+      actions.switchToFixedMode('tb1')(dispatch, getState);
+      dispatch.should.have.been.callCount(2);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.an('object');
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_MODE_UPDATE,
+        payload: {
+          timebarUuid: 'tb1',
+          mode: 'Fixed',
+        },
+      });
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SET_REALTIME,
+        payload: {
+          timebarUuid: 'tb1',
+          flag: false,
+        },
+      });
+    });
+    it('updates mode, disable real time and update cursors', () => {
+      actions.switchToFixedMode('tb6')(dispatch, getState);
+      dispatch.should.have.been.callCount(3);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.an('object');
+      dispatch.getCall(2).args[0].should.be.a('function');
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_MODE_UPDATE,
+        payload: {
+          timebarUuid: 'tb6',
+          mode: 'Fixed',
+        },
+      });
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_TIMEBAR_SET_REALTIME,
+        payload: {
+          timebarUuid: 'tb6',
+          flag: false,
+        },
+      });
+    });
+  });
+  describe('addAndMountTimeline', () => {
+    it('dispatches "add" and "mount"', () => {
+      const configuration = {};
+      actions.addAndMountTimeline('myTimebarUuid', configuration)(dispatch, getState);
+      dispatch.should.have.been.callCount(2);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.an('object');
+
+      dispatch.getCall(0).args[0].type.should.be.eql(types.WS_TIMELINE_ADD);
+      dispatch.getCall(0).args[0].payload.configuration.should.be.eql(configuration);
+
+      dispatch.getCall(1).args[0].type.should.be.eql(types.WS_TBTL_MOUNT_TIMELINE);
+      dispatch.getCall(1).args[0].payload.timebarUuid.should.be.eql('myTimebarUuid');
+    });
+  });
+  describe('unmountAndRemoveTimeline', () => {
+    it('dispatches "unmount" and "remove"', () => {
+      actions.unmountAndRemoveTimeline('myTimebarUuid', 'myTimelineId')(dispatch, getState);
+      dispatch.should.have.been.callCount(2);
+      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(1).args[0].should.be.an('object');
+
+      dispatch.getCall(0).should.have.been.calledWith({
+        type: types.WS_TBTL_UNMOUNT_TIMELINE,
+        payload: {
+          timebarUuid: 'myTimebarUuid',
+          timelineUuid: 'myTimelineId',
+        },
+      });
+      dispatch.getCall(1).should.have.been.calledWith({
+        type: types.WS_TIMELINE_REMOVE,
+        payload: {
+          timelineId: 'myTimelineId',
+        },
+      });
+    });
   });
 });

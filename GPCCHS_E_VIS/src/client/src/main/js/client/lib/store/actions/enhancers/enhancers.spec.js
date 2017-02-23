@@ -40,11 +40,15 @@ describe('store:actions:enhancers', () => {
         },
       },
     });
-    it('does nothing if no newPath', () => {
-      const action = createDummyAction({ viewId: 'v1' });
+    it('dispatches with null newPath', () => {
+      const action = createDummyAction({ viewId: 'v1', newPath: null });
       const thunk = ifPathChanged(__.constant(action));
       const result = thunk()(dispatch, getState);
-      should.not.exist(result);
+      should.exist(result);
+      result.should.have.properties({
+        type: 'DUMMY_ACTION',
+        payload: { viewId: 'v1', newPath: null },
+      });
     });
     it('does nothing if unknown view', () => {
       const action = createDummyAction({ viewId: 'unknown' });
@@ -58,7 +62,7 @@ describe('store:actions:enhancers', () => {
       const result = thunk()(dispatch, getState);
       should.not.exist(result);
     });
-    it('dispatch action if resolved path are different', () => {
+    it('dispatches action if resolved path are different', () => {
       const action = createDummyAction({ viewId: 'v1', newPath: '.' });
       const thunk = ifPathChanged(__.constant(action));
       const result = thunk()(dispatch, getState);

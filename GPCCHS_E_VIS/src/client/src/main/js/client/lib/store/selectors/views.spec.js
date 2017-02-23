@@ -105,21 +105,48 @@ describe('store:views:selectors', () => {
 
   it('getViewEntryPoints', () => {
     const state = {
+      domains: [],
+      timelines: {},
+      timebars: {},
+      windows: {
+        myWindowId: { title: 'Title', focusedPage: 10 },
+        myOtherWindow: { title: 'Title', focusedPage: 20 },
+        anotherWindow: { title: 'Title', focusedPage: 30 },
+      },
+      pages: {
+        10: { title: 'Page 10', views: ['myViewId', 100, 200, 300], timebarUuid: 1000 },
+        20: { title: 'Page 20', views: [500], timebarUuid: 2000 },
+        30: { title: 'Page 30', views: [600] },
+      },
       views: {
         myViewId: {
+          type: 'TextView',
           configuration: {
             title: 'Title 1',
             entryPoints: [
               { name: 'AGA_AM_PRIORITY', connectedData: { formula: 'Reporting.ep1<ReportingParameter>.extractedValue' } },
-              { name: 'TMMGT_BC_VIRTCHAN3' },
+              { name: 'TMMGT_BC_VIRTCHAN3', connectedData: { formula: '' } },
             ],
           },
         },
+        100: { title: 'Title 100' },
+        200: { title: 'Title 200' },
+        400: { title: 'Title 400' },
+        500: { title: 'Title 500' },
+        600: { title: 'Title 600' },
       },
     };
     getViewEntryPoints(state, { viewId: 'myViewId' }).should.eql([
-      { name: 'AGA_AM_PRIORITY', connectedData: { formula: 'Reporting.ep1<ReportingParameter>.extractedValue' } },
-      { name: 'TMMGT_BC_VIRTCHAN3' },
+      {
+        name: 'AGA_AM_PRIORITY',
+        connectedData: { formula: 'Reporting.ep1<ReportingParameter>.extractedValue' },
+        error: 'invalid entry point, no domain available',
+      },
+      {
+        name: 'TMMGT_BC_VIRTCHAN3',
+        connectedData: { formula: '' },
+        error: 'unable to parse this connectedData formula ',
+      },
     ]);
   });
   it('getViewEntryPoint', () => {

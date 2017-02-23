@@ -8,7 +8,7 @@ import { initStore, getStore } from '../store/windowStore';
 import mainController from './controllers/main';
 
 const search = global.location.search;
-const windowId = search.replace('?windowId=', '');
+const windowId = search.match('windowId=(.*)&')[1];
 
 process.title = 'gpcchs_renderer';
 

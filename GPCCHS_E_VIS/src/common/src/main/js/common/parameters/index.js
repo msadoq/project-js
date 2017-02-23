@@ -1,7 +1,13 @@
 const fs = require('fs');
 const { join } = require('path');
 const minimist = require('minimist');
-const _pathOr = require('lodash/fp/pathOr');
+const _get = require('lodash/get');
+const _keys = require('lodash/keys');
+const _concat = require('lodash/concat');
+const _uniq = require('lodash/uniq');
+const _merge = require('lodash/merge');
+const _reduce = require('lodash/reduce');
+const _omit = require('lodash/omit');
 
 const REQUIRED = 'config.required.json'; // required
 const DEFAULT = 'config.default.json'; // mandatory
@@ -12,16 +18,38 @@ let defaultConfig;
 let localConfig;
 let appRoot;
 
-function getArgv(name) {
+function getAllArgv() {
   if (!argv) {
     argv = minimist(process.argv);
   }
-
-  return argv[name];
+  return argv;
 }
+
+function getArgv(name) {
+  return getAllArgv[name];
+}
+
 
 function getEnv(name) {
   return process.env[name];
+}
+
+function getAllEnv() {
+  const keys = _concat(
+    _keys(localConfig),
+    _keys(defaultConfig),
+    _keys(getAllArgv)
+  );
+  const uniqueKeys = _uniq(keys);
+  return _reduce(uniqueKeys, (acc, k) => {
+    const value = getEnv(k);
+    if (value) {
+      _merge(acc, {
+        [k]: value,
+      });
+    }
+    return acc;
+  }, {});
 }
 
 function getLocal(name) {
@@ -75,6 +103,17 @@ function get(name) {
   return undefined;
 }
 
+function getAll() {
+  const all = _merge(
+    {},
+    defaultConfig,
+    getAllEnv(),
+    localConfig,
+    getAllArgv()
+  );
+  return _omit(all, ['_', 'r']);
+}
+
 function checkRequired(names) {
   names.forEach((name) => {
     const value = get(name);
@@ -119,6 +158,12 @@ function init(path, checkForRequired = false) {
   checkRequired(requiredConfig);
 }
 
-const universalGet = _pathOr(get, ['parameters', 'get'], global);
+// const universalGet = _pathOr(get, ['parameters', 'get'], global);
 
-module.exports = { init, get: universalGet };
+function universalGet() {
+  const __get = _get(global, ['parameters', 'get'], get);
+  // eslint-disable-next-line prefer-spread, prefer-rest-params
+  return __get.apply(null, Array.prototype.slice.call(arguments));
+}
+
+module.exports = { init, get: universalGet, getAll };

@@ -1,11 +1,11 @@
 import { v4 } from 'uuid';
-import { getStore } from '../store/mainStore';
-import { add } from '../store/actions/windows';
-import { viewOpen, addPlotView, addTextView, addDynamicView } from './menu/viewOpen';
-import { pageOpen, pageAddNew } from './menu/pageOpen';
-import { pageSave, pageSaveAs } from './menu/pageSave';
-import { workspaceSave, workspaceSaveAs } from './menu/workspaceSave';
-import { workspaceOpenNew, workspaceOpen } from './menu/workspaceOpen';
+import { getStore } from '../../store/mainStore';
+import { add } from '../../store/actions/windows';
+import { viewOpen, addPlotView, addTextView, addDynamicView } from './viewOpen';
+import { pageOpen, pageAddNew } from './pageOpen';
+import { pageSave, pageSaveAs } from './pageSave';
+import { workspaceSave, workspaceSaveAs } from './workspaceSave';
+import { workspaceOpenNew, workspaceOpen } from './workspaceOpen';
 
 const { Menu } = require('electron');
 

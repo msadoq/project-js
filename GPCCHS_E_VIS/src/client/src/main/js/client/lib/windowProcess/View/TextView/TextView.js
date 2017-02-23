@@ -77,7 +77,7 @@ export default class TextView extends PureComponent {
       this.template = { html: beautifyHtml(nextProps.content, { indent_size: 2 }) };
       this.content = this.getContentComponent();
     }
-    ['isViewsEditorOpen', 'addEntryPoint', 'addEntryPoint', 'data'].forEach((attr) => {
+    ['isViewsEditorOpen', 'show', 'addEntryPoint', 'addEntryPoint', 'data'].forEach((attr) => {
       if (nextProps[attr] !== this.props[attr]) {
         shouldRender = true;
       }

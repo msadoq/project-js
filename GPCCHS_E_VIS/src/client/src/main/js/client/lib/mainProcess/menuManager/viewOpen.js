@@ -34,15 +34,16 @@ function viewOpenWithPath({ windowId, viewPath }) {
   const focusedPage = state.windows[windowId].focusedPage;
   const focusedPageId = getWindowFocusedPageId(state, { windowId });
 
-  readViews(viewPath, (errView, view) => {
+  readViews(viewPath, (errView, [view]) => {
     if (errView) {
       dispatch(addDangerMessage(focusedPageId, 'Unable to load View'));
       dispatch(addDangerMessage(focusedPageId, errView));
       return;
     }
-    const current = view[0];
-    current.absolutePath = filePath;
-    showSelectedView(current, focusedPage);
+
+    const viewId = v4();
+    const layout = addViewInLayout(focusedPage, viewId);
+    dispatch(addAndMountView(focusedPage, viewId, { ...view, absolutePath: filePath }, layout));
     server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', filePath);
   });
 }
@@ -97,13 +98,6 @@ function viewAddNew(focusedWindow, view) {
   const viewId = v4();
   getStore().dispatch(addAndMountView(pageId, viewId, view, addViewInLayout(pageId, viewId)));
   server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', `new ${_.getOr('view', 'type', view)}`);
-}
-
-
-function showSelectedView(view, pageId) {
-  const viewId = v4();
-  const layout = addViewInLayout(pageId, viewId);
-  getStore().dispatch(addAndMountView(pageId, viewId, view, layout.length ? layout : undefined));
 }
 
 function addViewInLayout(pageId, viewId) {

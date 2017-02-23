@@ -155,23 +155,6 @@ describe('common/fs', () => {
     });
   });
 
-  describe('readJsonFromFmdPath', () => {
-    it('works', (done) => {
-      fs.readJsonFromFmdPath(getTmpPath('foo.json'), (err, content) => {
-        should.not.exist(err);
-        content.should.eql({ foo: 'bar' });
-        done();
-      });
-    });
-    it('readJsonFromFmdPath error', (done) => { // dc stub send oid as filepath
-      fs.readJsonFromFmdPath(getTmpPath('not-exists.txt'), (err, content) => {
-        err.should.be.an('error');
-        should.not.exist(content);
-        done();
-      });
-    });
-  });
-
   describe('checkPath', () => {
     it('path exists', (done) => {
       fs.checkPath('/', (err, res) => {

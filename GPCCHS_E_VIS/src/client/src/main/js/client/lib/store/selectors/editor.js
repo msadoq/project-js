@@ -3,12 +3,16 @@ import { getView } from './views';
 
 export const getViewId = state => _get(state, ['editor', 'textViewId'], {});
 
-// TODO abesson : getViewTitle has nothing to do in this file (selectors/views.js)
-export const getViewTitle = (state, viewId) => {
+export const getEditorTitle = (state, viewId) => {
   if (!viewId) {
     return '';
   }
+
   const props = { viewId };
   const view = getView(state, props);
+  if (!view || !view.configuration) {
+    return '';
+  }
+
   return `TextView HTML editor - ${view.configuration.title}`;
 };

@@ -20,7 +20,7 @@ import { getHealthMap, getMainStatus } from '../store/selectors/health';
 import { setWindowsAsOpened, updateCacheInvalidation, pause } from '../store/actions/hsc';
 import dataMapGenerator from '../dataManager/map';
 import request from '../dataManager/request';
-import windowsObserver from './windows';
+import windowsObserver from './windowsManager';
 import { addOnce } from '../store/actions/messages';
 import { updateViewData } from '../store/actions/viewData';
 import { handlePlay } from '../store/actions/timebars';
@@ -35,7 +35,6 @@ let criticalTimeout = null;
 const previous = {
   requestedDataMap: {},
   injectionViewMap: {},
-  windowMap: {},
   health: {
     dc: HEALTH_STATUS_HEALTHY,
     hss: HEALTH_STATUS_HEALTHY,
@@ -263,17 +262,8 @@ export function tick() {
     },
     // sync windows
     (callback) => {
-      const state = getState();
-      // TODO : absesson run window observer every time but do the mimimum
-      if (state.windows === previous.windowMap) {
-        callback(null);
-        return;
-      }
-
-      previous.windowMap = state.windows;
-
       execution.start('windows handling');
-      windowsObserver(getState(), (err) => {
+      windowsObserver((err) => {
         if (err) {
           execution.stop('windows handling');
           callback(err);

@@ -256,6 +256,7 @@ export class PlotView extends PureComponent {
         <GrizzlyChart
           height={containerHeight}
           width={containerWidth}
+          enableTooltip
           allowZoom
           allowPan
           xExtends={[visuWindow.lower, visuWindow.upper]}
@@ -292,6 +293,7 @@ export class PlotView extends PureComponent {
                 pointStyle: _get(ep, ['objectStyle', 'points', 'style']),
                 pointSize: _get(ep, ['objectStyle', 'points', 'size']),
                 yAccessor: d => _get(d, [ep.name, 'value']),
+                colorAccessor: d => _get(d, [ep.name, 'color']),
               })
             )
           }

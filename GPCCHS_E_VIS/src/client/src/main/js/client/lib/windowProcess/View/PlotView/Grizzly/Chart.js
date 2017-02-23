@@ -22,8 +22,9 @@ export default class Chart extends React.Component {
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     current: PropTypes.number.isRequired,
-    allowZoom: PropTypes.bool.isRequired,
-    allowPan: PropTypes.bool.isRequired,
+    enableTooltip: PropTypes.bool,
+    allowZoom: PropTypes.bool,
+    allowPan: PropTypes.bool,
     xExtends: PropTypes.arrayOf(PropTypes.number).isRequired,
     yAxes: PropTypes.arrayOf(
       PropTypes.shape({
@@ -53,8 +54,15 @@ export default class Chart extends React.Component {
         pointSize: PropTypes.number,
         pointStyle: PropTypes.string,
         yAccessor: PropTypes.func.isRequired,
+        colorAccessor: PropTypes.func,
       })
     ).isRequired,
+  }
+
+  static defaultProps = {
+    enableTooltip: true,
+    allowZoom: true,
+    allowPan: true,
   }
 
   state = {
@@ -274,6 +282,7 @@ export default class Chart extends React.Component {
       xAxisAt,
       current,
       xExtends,
+      enableTooltip,
     } = this.props;
 
     const { zoomLevel, pan } = this.state;
@@ -348,7 +357,7 @@ export default class Chart extends React.Component {
           margin={marginSide}
           xScale={xScale}
         />
-        <Tooltip
+        { enableTooltip && <Tooltip
           yAxes={this.yAxes}
           width={chartWidth}
           height={chartHeight}
@@ -356,7 +365,7 @@ export default class Chart extends React.Component {
           margin={marginSide}
           xScale={xScale}
           yAxesAt={yAxesAt}
-        />
+        /> }
         {
           this.yAxes.map(yAxis =>
             <LinesCanvas

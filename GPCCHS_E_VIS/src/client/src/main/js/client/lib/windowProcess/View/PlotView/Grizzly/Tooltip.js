@@ -93,11 +93,14 @@ export default class Tooltip extends React.Component {
       }
       axis.lines.forEach((line) => {
         if (xClosestPacket[line.id]) {
-          const val = xClosestPacket[line.id].value;
+          const val = line.yAccessor(xClosestPacket);
+          const color = line.colorAccessor ?
+            line.colorAccessor(xClosestPacket) || line.fill : line.fill;
           linesList[axis.id].push({
-            color: line.fill,
+            color,
+            epColor: line.fill,
             name: line.id,
-            value: val.toLocaleString('en-US', { minimumFractionDigits: 2 }),
+            value: val ? val.toLocaleString('en-US', { minimumFractionDigits: 2 }) : '',
             offset: xClosestPacket[line.id].x !== xClosestPacket.x ?
               formatDuration(xClosestPacket.x - xClosestPacket[line.id].x) : '',
           });
@@ -234,6 +237,9 @@ export default class Tooltip extends React.Component {
                         <p>
                           <span
                             className={styles.tooltipLineName}
+                            style={{
+                              color: line.epColor,
+                            }}
                           >
                             { line.name } :
                           </span>

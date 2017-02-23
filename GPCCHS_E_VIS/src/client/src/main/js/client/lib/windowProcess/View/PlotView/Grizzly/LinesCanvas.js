@@ -28,6 +28,7 @@ export default class LinesCanvas extends PureComponent {
         pointSize: PropTypes.number,
         pointStyle: PropTypes.string,
         yAccessor: PropTypes.func.isRequired,
+        colorAccessor: PropTypes.func,
       })
     ).isRequired,
   }
@@ -40,6 +41,7 @@ export default class LinesCanvas extends PureComponent {
       lineStyle: 'Continuous',
       pointSize: 0,
       pointStyle: null,
+      colorAccessor: null,
     },
   }
 
@@ -117,18 +119,35 @@ export default class LinesCanvas extends PureComponent {
         pointOffset = line.pointSize / 2;
       }
 
-      data.forEach((dataLine) => {
-        const y = yScale(line.yAccessor(dataLine));
-        const x = xScale(dataLine.x);
+      let lastColor = line.fill;
+      let lastX;
+      let lastY;
+      for (let i = 0; i < data.length; i += 1) {
+        if (line.colorAccessor) {
+          const color = line.colorAccessor(data[i]) || line.fill;
+          if (color && color !== lastColor) {
+            ctx.stroke();
+            lastColor = color;
+            ctx.strokeStyle = lastColor;
+            ctx.fillStyle = lastColor;
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+          }
+        }
+
+        lastY = yScale(line.yAccessor(data[i]));
+        lastX = xScale(data[i].x);
+
         if (line.lineSize > 0) {
-          ctx.lineTo(x, y);
+          ctx.lineTo(lastX, lastY);
         }
 
         // draw point
         if (pointOffset) {
-          ctx.fillRect(x - pointOffset, y - pointOffset, line.pointSize, line.pointSize);
+          ctx.fillRect(lastX - pointOffset, lastY - pointOffset, line.pointSize, line.pointSize);
         }
-      });
+      }
+
       ctx.stroke();
 
       if (!showLabels) {

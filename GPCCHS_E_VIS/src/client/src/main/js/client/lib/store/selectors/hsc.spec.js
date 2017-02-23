@@ -5,6 +5,7 @@ import {
   getLastCacheInvalidation,
   getPlayingTimebarId,
   getFocusedWindowId,
+  getIsWorkspaceOpening,
 } from './hsc';
 
 describe('store:hsc:selectors', () => {
@@ -53,6 +54,15 @@ describe('store:hsc:selectors', () => {
     });
     it('should support empty state', () => {
       should.not.exist(getLastCacheInvalidation(emptyState));
+    });
+  });
+  describe('getIsWorkspaceOpening', () => {
+    it('should return getIsWorkspaceOpening', () => {
+      const state = { hsc: { isWorkspaceOpening: true } };
+      getIsWorkspaceOpening(state).should.eql(true);
+    });
+    it('should support empty state', () => {
+      should.not.exist(getIsWorkspaceOpening(emptyState));
     });
   });
 });

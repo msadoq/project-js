@@ -8,3 +8,4 @@ export const getWorkspaceOpened = inHsc('workspaceOpened');
 export const getLastCacheInvalidation = inHsc('lastCacheInvalidation');
 export const getPlayingTimebarId = inHsc('playingTimebarId');
 export const getFocusedWindowId = inHsc('focusWindow');
+export const getIsWorkspaceOpening = inHsc('isWorkspaceOpening');

@@ -11,6 +11,7 @@ import { add as addMessage } from '../../store/actions/messages';
 import { addAndMount as addAndMountView } from '../../store/actions/pages';
 import { getWindowFocusedPageId } from '../../store/selectors/windows';
 import { getStore } from '../../store/mainStore';
+import { getViewModule } from '../../viewManager';
 
 const addDangerMessage = (focusedPageId, msg) => addMessage(focusedPageId, 'danger', msg);
 
@@ -48,51 +49,15 @@ function viewOpenWithPath({ windowId, viewPath }) {
   });
 }
 
-function addPlotView(focusedWindow) {
-  const view = {
-    type: 'PlotView',
-    configuration: {
-      type: 'PlotView',
-      axes: {},
-      grids: [],
-      legend: {},
-      markers: [],
-      backgroundColor: '3FFFFFF',
-      defaultRatio: { length: 5, width: 5 },
-      entryPoints: [],
-      links: [],
-      title: 'New Plot View',
-      showYAxes: 'left',
-    },
-  };
-  viewAddNew(focusedWindow, view);
-}
+const addBlankView = type => focusedWindow => viewAddNew(focusedWindow, {
+  type,
+  configuration: getViewModule(type).prepareConfigurationForStore({}),
+});
 
-function addTextView(focusedWindow) {
-  const view = {
-    type: 'TextView',
-    configuration: {
-      type: 'TextView',
-      content: '',
-      defaultRatio: { length: 5, width: 5 },
-      entryPoints: [],
-      links: [],
-      title: 'New Text View',
-    } };
-  viewAddNew(focusedWindow, view);
-}
-function addDynamicView(focusedWindow) {
-  const view = {
-    type: 'DynamicView',
-    configuration: {
-      type: 'DynamicView',
-      defaultRatio: { length: 5, width: 5 },
-      entryPoint: { connectedData: {} },
-      links: [],
-      title: 'New Dynamic View',
-    } };
-  viewAddNew(focusedWindow, view);
-}
+const addPlotView = addBlankView('PlotView');
+const addTextView = addBlankView('TextView');
+const addDynamicView = addBlankView('DynamicView');
+
 function viewAddNew(focusedWindow, view) {
   const pageId = getStore().getState().windows[focusedWindow.windowId].focusedPage;
   const viewId = v4();

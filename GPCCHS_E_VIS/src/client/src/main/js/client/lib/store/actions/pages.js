@@ -1,4 +1,3 @@
-import { v4 } from 'uuid';
 import simple from '../simpleActionCreator';
 import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
@@ -57,15 +56,21 @@ export const updateTimebarId = simple(types.WS_PAGE_UPDATE_TIMEBARID, 'pageId', 
 /**
  * Compound actions
  */
-export function addAndMount(pageId, viewId = v4(), view, layout) {
-  return (dispatch) => {
-    if (!view) {
-      dispatch(addView(viewId));
-    } else {
-      dispatch(addView(viewId, view.type, view.configuration, view.path, view.oId,
-        view.absolutePath));
-    }
-    dispatch(mountView(pageId, viewId, layout));
+const addViewInLayout = (page, viewId, specificLayout) => {
+  const layout = { w: 5, h: 5, x: 0, y: 0, ...specificLayout, i: viewId };
+  if (!page) {
+    return layout;
+  }
+  return [...page.layout, layout];
+};
+
+export function addAndMount(pageId, viewId, view = {}, layout) {
+  return (dispatch, getState) => {
+    const page = getState().pages[pageId];
+    dispatch(
+      addView(viewId, view.type, view.configuration, view.path, view.oId, view.absolutePath)
+    );
+    dispatch(mountView(pageId, viewId, addViewInLayout(page, viewId, layout)));
   };
 }
 

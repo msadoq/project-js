@@ -43,35 +43,19 @@ function viewOpenWithPath({ windowId, viewPath }) {
     }
 
     const viewId = v4();
-    const layout = addViewInLayout(focusedPage, viewId);
-    dispatch(addAndMountView(focusedPage, viewId, { ...view, absolutePath: filePath }, layout));
+    dispatch(addAndMountView(focusedPage, viewId, { ...view, absolutePath: filePath }));
     server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', filePath);
   });
 }
 
-const addBlankView = (type, focusedWindow) => viewAddNew(focusedWindow, {
-  type,
-  configuration: getViewModule(type).prepareConfigurationForStore({}),
-});
-
-function viewAddNew(focusedWindow, view) {
-  const pageId = getStore().getState().windows[focusedWindow.windowId].focusedPage;
+const addBlankView = (type, focusedWindow) => {
+  const { dispatch, getState } = getStore();
+  const view = { type, configuration: getViewModule(type).prepareConfigurationForStore({}) };
+  const pageId = getState().windows[focusedWindow.windowId].focusedPage;
   const viewId = v4();
-  getStore().dispatch(addAndMountView(pageId, viewId, view, addViewInLayout(pageId, viewId)));
+  dispatch(addAndMountView(pageId, viewId, view));
   server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', `new ${_.getOr('view', 'type', view)}`);
-}
-
-function addViewInLayout(pageId, viewId) {
-  if (!viewId) {
-    return [];
-  }
-  if (!getStore().getState().pages[pageId]) {
-    return [{ i: viewId, w: 5, h: 5, x: 0, y: 0 }];
-  }
-  return getStore().getState().pages[pageId].layout.concat({
-    i: viewId, w: 5, h: 5, x: 0, y: 0,
-  });
-}
+};
 
 export default {
   viewOpen,

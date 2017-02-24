@@ -12,6 +12,7 @@ describe('store:actions:pages', () => {
     dispatch = sinon.spy();
     getState = createGetState([
       {
+        timebars: [],
         pages: {
           p1: {
             layout: [],
@@ -118,7 +119,13 @@ describe('store:actions:pages', () => {
       });
     });
   });
-
+  describe('add', () => {
+    it('add', () => {
+      actions.add()(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).args[0].should.be.an('object');
+    });
+  });
   describe('addAndMount', () => {
     it('adds blank view then mount', () => {
       actions.addAndMount('myPageId')(dispatch, getState);

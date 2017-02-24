@@ -2,6 +2,7 @@ import simple from '../simpleActionCreator';
 import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
 import { getView } from '../selectors/views';
+import { getTimebars } from '../selectors/timebars';
 import {
   add as addView,
   remove as removeView,
@@ -11,8 +12,25 @@ import { addAndMount as addAndMountPage, focusPage } from './windows';
 /**
  * Simple actions
  */
-export const add = simple(types.WS_PAGE_ADD, 'pageId', 'timebarUuid', 'title', 'views', 'layout',
+export const _add = simple(types.WS_PAGE_ADD, 'pageId', 'timebarUuid', 'title', 'views', 'layout',
   'path', 'oId', 'absolutePath', 'isModified', 'properties', 'timebarHeight', 'timebarCollapsed');
+
+export const add = (pageId, timebarUuid, title, views, layout,
+  path, oId, absolutePath, isModified, properties, timebarHeight, timebarCollapsed) =>
+  (dispatch, getState) => {
+    let timebarNewUuid;
+    if (typeof timebarUuid === 'undefined') {
+      const uuid = Object.keys(getTimebars(getState()))[0];
+      timebarNewUuid = uuid;
+    }
+    dispatch(
+      _add(
+        pageId, timebarUuid || timebarNewUuid, title, views, layout, path, oId,
+        absolutePath, isModified, properties, timebarHeight, timebarCollapsed
+      )
+    );
+  };
+
 export const removePage = simple(types.WS_PAGE_REMOVE, 'pageId');
 export const mountView = simple(types.WS_PAGE_VIEW_MOUNT, 'pageId', 'viewId', 'layout');
 export const unmountView = simple(types.WS_PAGE_VIEW_UNMOUNT, 'pageId', 'viewId');

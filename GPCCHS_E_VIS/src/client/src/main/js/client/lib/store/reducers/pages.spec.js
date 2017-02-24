@@ -22,7 +22,7 @@ describe('store:page:reducer', () => {
     it('add', () => {
       const state = reducer(
         undefined,
-        actions.add('myPageId', 'myTimebarId', 'Title', ['myViewId'], [
+        actions._add('myPageId', 'myTimebarId', 'Title', ['myViewId'], [
           { viewId: 'myViewId', x: 10, y: 10, w: 10, h: 10 },
         ], '/path', '1234', '/absolutePath', true, [1, 2, 3, 4])
       );
@@ -50,7 +50,7 @@ describe('store:page:reducer', () => {
     it('add empty', () => {
       const state = reducer(
         undefined,
-        actions.add('myPageId')
+        actions._add('myPageId')
       );
       state.myPageId.should.deep.eql({
         title: 'Unknown',
@@ -115,7 +115,7 @@ describe('store:page:reducer', () => {
     };
     it('open', () => {
       const state = reducer(
-        reducer(undefined, actions.add('myPageId')),
+        reducer(undefined, actions._add('myPageId')),
         actions.openEditor('myPageId', 'myViewId', 'plot', { foo: 'bar' })
       );
       state.myPageId.editor.should.eql(editor);

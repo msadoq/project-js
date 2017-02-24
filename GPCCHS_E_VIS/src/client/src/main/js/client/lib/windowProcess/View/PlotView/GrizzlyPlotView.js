@@ -257,6 +257,7 @@ export class PlotView extends PureComponent {
           height={containerHeight}
           width={containerWidth}
           enableTooltip
+          tooltipColor="white"
           allowZoom
           allowPan
           xExtends={[visuWindow.lower, visuWindow.upper]}

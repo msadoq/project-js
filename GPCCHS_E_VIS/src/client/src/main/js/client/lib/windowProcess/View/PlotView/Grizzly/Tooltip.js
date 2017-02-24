@@ -12,6 +12,7 @@ export default class Tooltip extends React.Component {
     yAxes: PropTypes.arrayOf(
       PropTypes.shape
     ).isRequired,
+    tooltipColor: PropTypes.string.isRequired,
     margin: PropTypes.number.isRequired,
     top: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
@@ -130,6 +131,7 @@ export default class Tooltip extends React.Component {
       yAxesAt,
       top,
       margin,
+      tooltipColor,
     } = this.props;
     const {
       showTooltip,
@@ -179,7 +181,7 @@ export default class Tooltip extends React.Component {
         onMouseMove={this.mouseMove}
         onMouseLeave={this.mouseLeave}
         ref={this.assignEl}
-        className={styles.tooltipCanvas}
+        className={styles.tooltipDiv}
         style={style}
       >
         {
@@ -207,7 +209,12 @@ export default class Tooltip extends React.Component {
         {
           tooltiLinesToDisplay &&
           <div
-            className={styles.tooltip}
+            className={classnames(
+              styles.tooltip,
+              {
+                [styles.tooltipBlack]: tooltipColor === 'black',
+              }
+            )}
             style={tooltipStyle}
           >
             {
@@ -253,7 +260,8 @@ export default class Tooltip extends React.Component {
                           className={classnames(
                             styles.tooltipOffset,
                             {
-                              [styles.neg]: line.offset[0] === '-',
+                              [styles.red]: line.offset[0] === '-',
+                              [styles.green]: line.offset[0] && line.offset[0] !== '-',
                             }
                           )}
                         >

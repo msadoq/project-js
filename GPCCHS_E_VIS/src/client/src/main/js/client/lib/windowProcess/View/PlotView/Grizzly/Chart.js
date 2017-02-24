@@ -23,6 +23,7 @@ export default class Chart extends React.Component {
     width: PropTypes.number.isRequired,
     current: PropTypes.number.isRequired,
     enableTooltip: PropTypes.bool,
+    tooltipColor: PropTypes.string,
     allowZoom: PropTypes.bool,
     allowPan: PropTypes.bool,
     xExtends: PropTypes.arrayOf(PropTypes.number).isRequired,
@@ -63,6 +64,7 @@ export default class Chart extends React.Component {
     enableTooltip: true,
     allowZoom: true,
     allowPan: true,
+    tooltipColor: 'white',
   }
 
   state = {
@@ -283,6 +285,7 @@ export default class Chart extends React.Component {
       current,
       xExtends,
       enableTooltip,
+      tooltipColor,
     } = this.props;
 
     const { zoomLevel, pan } = this.state;
@@ -358,6 +361,7 @@ export default class Chart extends React.Component {
           xScale={xScale}
         />
         { enableTooltip && <Tooltip
+          tooltipColor={tooltipColor}
           yAxes={this.yAxes}
           width={chartWidth}
           height={chartHeight}

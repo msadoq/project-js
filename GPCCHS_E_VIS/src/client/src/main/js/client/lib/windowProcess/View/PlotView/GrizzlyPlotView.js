@@ -31,6 +31,8 @@ function parseDragData(data) {
   };
 }
 
+const plotPadding = 5;
+const mainStyle = { padding: `${plotPadding}px` };
 
 export class PlotView extends PureComponent {
   static propTypes = {
@@ -252,10 +254,11 @@ export class PlotView extends PureComponent {
           'h100',
           'posRelative'
         )}
+        style={mainStyle}
       >
         <GrizzlyChart
-          height={containerHeight}
-          width={containerWidth}
+          height={containerHeight - (plotPadding * 2)}
+          width={containerWidth - (plotPadding * 2)}
           enableTooltip
           tooltipColor="white"
           allowZoom

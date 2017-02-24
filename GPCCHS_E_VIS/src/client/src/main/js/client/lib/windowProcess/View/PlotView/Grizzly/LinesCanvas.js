@@ -69,6 +69,16 @@ export default class LinesCanvas extends PureComponent {
     this.draw();
   }
 
+  drawTriangle = (ctx, lastX, lastY, pointOffset) => {
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY - pointOffset);
+    ctx.lineTo(lastX - pointOffset, lastY + pointOffset);
+    ctx.lineTo(lastX + pointOffset, lastY + pointOffset);
+    ctx.lineTo(lastX, lastY - pointOffset);
+    ctx.fill();
+    ctx.stroke();
+  }
+
   draw = () => {
     const {
       height,
@@ -143,8 +153,13 @@ export default class LinesCanvas extends PureComponent {
         }
 
         // draw point
-        if (pointOffset) {
+        if (pointOffset && line.pointStyle === 'Square') {
           ctx.fillRect(lastX - pointOffset, lastY - pointOffset, line.pointSize, line.pointSize);
+        } else if (pointOffset && line.pointStyle === 'Triangle') {
+          ctx.stroke();
+          this.drawTriangle(ctx, lastX, lastY, pointOffset);
+          ctx.beginPath();
+          ctx.moveTo(lastX, lastY);
         }
       }
 

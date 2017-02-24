@@ -3,82 +3,50 @@ import cleanViewData from './cleanViewData';
 
 
 describe('cleanViewData', () => {
-  // const newViewMap = {
-  //   text: {
-  //     type: 'TextView',
-  //     structureType: 'last',
-  //     entryPoints: {
-  //       STAT_SU_PID: {
-  //         remoteId: 'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
-  //         field: 'extractedValue',
-  //         id: 'id1',
-  //         expectedInterval: [11, 16],
-  //         offset: 0,
-  //       },
-  //       STAT_WILDCARD_TIMELINE: {
-  //         expectedInterval: [11, 16],
-  //         field: 'extractedValue',
-  //         id: 'id46',
-  //         remoteId: 'last@Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4',
-  //         offset: 0,
-  //       },
-  //       STAT_UNKNOW_DOMAIN: {
-  //         error: 'invalid entry point, no domain matches',
-  //       },
-  //     },
-  //   },
-  //   plot: {
-  //     type: 'PlotView',
-  //     structureType: 'range',
-  //     entryPoints: {
-  //       STAT_SU_PID: {
-  //         remoteId: 'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
-  //         fieldX: 'groundDate',
-  //         fieldY: 'extractedValue',
-  //         offset: 0,
-  //         id: 'id60',
-  //         expectedInterval: [11, 21],
-  //       },
-  //       STAT_PARAMETRIC: {
-  //         error: 'parametric entryPoint detected for this view',
-  //       },
-  //     },
-  //   },
-  //   dynamic: {
-  //     type: 'DynamicView',
-  //     structureType: 'last',
-  //     entryPoints: {
-  //       dynamicEP: {
-  //         remoteId: 'last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4',
-  //         id: 'id10',
-  //         expectedInterval: [11, 16],
-  //         offset: 0,
-  //       },
-  //     },
-  //   },
-  // };
-
   let viewDataState;
   let viewMap;
+  let oldIntervals;
+  // let newIntervals;
   beforeEach(() => {
     viewMap = {
       text: {
         type: 'TextView',
+        masterSessionId: 10,
         structureType: 'last',
         entryPoints: {
           STAT_SU_PID: {
-            remoteId: 'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
-            field: 'extractedValue',
             id: 'id1',
-            expectedInterval: [10, 15],
+            dataId: {
+              catalog: 'Reporting',
+              parameterName: 'STAT_SU_PID',
+              comObject: 'ReportingParameter',
+              domainId: 4,
+              sessionId: 181,
+            },
+            field: 'extractedValue',
             offset: 0,
+            filter: [],
+            localId: 'extractedValue.tb1:0',
+            timebarUuid: 'tb1',
+            structureType: 'last',
+            remoteId: 'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
           },
           STAT_WILDCARD_TIMELINE: {
-            expectedInterval: [10, 15],
-            field: 'extractedValue',
             id: 'id46',
-            remoteId: 'last@Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4',
+            dataId: {
+              catalog: 'Reporting',
+              parameterName: 'STAT_WILDCARD_TIMELINE',
+              comObject: 'ReportingParameter',
+              domainId: 4,
+              sessionId: 10,
+            },
+            field: 'extractedValue',
             offset: 0,
+            filter: [],
+            localId: 'extractedValue.tb1:0',
+            timebarUuid: 'tb1',
+            structureType: 'last',
+            remoteId: 'last@Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4',
           },
           STAT_UNKNOW_DOMAIN: {
             error: 'invalid entry point, no domain matches',
@@ -87,30 +55,68 @@ describe('cleanViewData', () => {
       },
       plot: {
         type: 'PlotView',
+        masterSessionId: 10,
         structureType: 'range',
         entryPoints: {
           STAT_SU_PID: {
-            remoteId: 'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+            id: 'id60',
+            dataId: {
+              catalog: 'Reporting',
+              parameterName: 'STAT_SU_PID',
+              comObject: 'ReportingParameter',
+              domainId: 4,
+              sessionId: 181,
+            },
             fieldX: 'groundDate',
             fieldY: 'extractedValue',
             offset: 0,
-            id: 'id60',
-            expectedInterval: [10, 20],
+            filter: [],
+            localId: 'groundDate/extractedValue.tb1:0/0',
+            timebarUuid: 'tb1',
+            structureType: 'range',
+            remoteId: 'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+            stateColors: [{
+              color: '#000000',
+              condition: {
+                field: 'monitoringState',
+                operator: '==',
+                operand: 'waiting',
+              },
+            }],
           },
-          STAT_PARAMETRIC: {
-            error: 'parametric entryPoint detected for this view',
-          },
+          STAT_PARAMETRIC: { error: 'parametric entryPoint detected for this view' },
         },
       },
-      dynamic: {
+      dynamic1: {
         type: 'DynamicView',
+        masterSessionId: 10,
         structureType: 'last',
         entryPoints: {
           dynamicEP: {
-            remoteId: 'last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4',
-            id: 'id10',
-            expectedInterval: [10, 15],
+            id: 'id70',
+            dataId: {
+              catalog: 'TelemetryPacket',
+              parameterName: 'CLCW_TM_NOMINAL',
+              comObject: 'DecommutedPacket',
+              domainId: 4,
+              sessionId: 181,
+            },
+            field: undefined,
             offset: 0,
+            filter: [],
+            localId: 'undefined.tb1:0',
+            timebarUuid: 'tb1',
+            structureType: 'last',
+            remoteId: 'last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4',
+            type: 'DynamicView',
+            stateColors: [{
+              color: '#000000',
+              condition: {
+                field: 'monitoringState',
+                operator: '==',
+                operand: 'waiting',
+              },
+            }],
           },
         },
       },
@@ -157,33 +163,60 @@ describe('cleanViewData', () => {
         },
       },
     };
+    oldIntervals = {
+      'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
+        'extractedValue.tb1:0': { expectedInterval: [10, 15] },
+      },
+      'last@Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4': {
+        'extractedValue.tb1:0': { expectedInterval: [10, 15] },
+      },
+      'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
+        'groundDate/extractedValue.tb1:0/0': { expectedInterval: [10, 20] },
+      },
+      'last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
+        'undefined.tb1:0': { expectedInterval: [10, 15] },
+      },
+    };
   });
   it('no update', () => {
-    const newState = cleanViewData(Object.freeze(viewDataState), viewMap, viewMap);
+    const newState = cleanViewData(Object.freeze(viewDataState), viewMap, viewMap, oldIntervals,
+    oldIntervals);
     newState.should.equal(viewDataState);
   });
   it('interval update Dynamic: keep', () => {
     const newMap = _cloneDeep(viewMap);
-    newMap.dynamic.entryPoints.dynamicEP.expectedInterval = [12, 17];
-    const newState = cleanViewData(Object.freeze(viewDataState), viewMap, newMap);
+    const newIntervals = _cloneDeep(oldIntervals);
+    newIntervals['last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4']['undefined.tb1:0'].expectedInterval
+      = [12, 17];
+    const newState =
+      cleanViewData(Object.freeze(viewDataState), viewMap, newMap, oldIntervals, newIntervals);
     newState.dynamic.should.equal(viewDataState.dynamic);
   });
   it('interval update text: keep', () => {
     const newMap = _cloneDeep(viewMap);
-    newMap.text.entryPoints.STAT_SU_PID.expectedInterval = [12, 17];
-    const newState = cleanViewData(Object.freeze(viewDataState), viewMap, newMap);
+    const newIntervals = _cloneDeep(oldIntervals);
+    newIntervals['last@Reporting.STAT_SU_PID<ReportingParameter>:181:4']['extractedValue.tb1:0'].expectedInterval
+      = [12, 17];
+    const newState =
+      cleanViewData(Object.freeze(viewDataState), viewMap, newMap, oldIntervals, newIntervals);
     newState.text.should.equal(viewDataState.text);
   });
   it('interval update Plot: keep all', () => {
     const newMap = _cloneDeep(viewMap);
-    newMap.plot.entryPoints.STAT_SU_PID.expectedInterval = [10, 25];
-    const newState = cleanViewData(Object.freeze(viewDataState), viewMap, newMap);
+    const newIntervals = _cloneDeep(oldIntervals);
+    newIntervals['range@Reporting.STAT_SU_PID<ReportingParameter>:181:4']['groundDate/extractedValue.tb1:0/0'].expectedInterval
+      = [10, 25];
+    const newState =
+      cleanViewData(Object.freeze(viewDataState), viewMap, newMap, oldIntervals, newIntervals);
     newState.plot.should.equal(viewDataState.plot);
   });
   it('interval update Plot: keep some', () => {
     const newMap = _cloneDeep(viewMap);
-    newMap.plot.entryPoints.STAT_SU_PID.expectedInterval = [15, 25];
-    const newState = cleanViewData(Object.freeze(viewDataState), viewMap, newMap);
+    const newIntervals = _cloneDeep(oldIntervals);
+    newIntervals['range@Reporting.STAT_SU_PID<ReportingParameter>:181:4']['groundDate/extractedValue.tb1:0/0'].expectedInterval
+      = [15, 25];
+    const newState =
+      cleanViewData(Object.freeze(viewDataState), viewMap, newMap, oldIntervals, newIntervals);
     newState.plot.columns.should.eql([
       { STAT_SU_PID: { value: 13, x: 15 } },
       { STAT_SU_PID: { value: 13, x: 16 } },
@@ -192,8 +225,11 @@ describe('cleanViewData', () => {
   });
   it('interval update Plot: remove all', () => {
     const newMap = _cloneDeep(viewMap);
-    newMap.plot.entryPoints.STAT_SU_PID.expectedInterval = [20, 25];
-    const newState = cleanViewData(Object.freeze(viewDataState), viewMap, newMap);
+    const newIntervals = _cloneDeep(oldIntervals);
+    newIntervals['range@Reporting.STAT_SU_PID<ReportingParameter>:181:4']['groundDate/extractedValue.tb1:0/0'].expectedInterval
+      = [20, 25];
+    const newState =
+      cleanViewData(Object.freeze(viewDataState), viewMap, newMap, oldIntervals, newIntervals);
     newState.plot.should.eql({ index: [], columns: [] });
   });
 });

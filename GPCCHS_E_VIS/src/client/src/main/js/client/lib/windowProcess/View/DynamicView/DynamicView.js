@@ -85,12 +85,13 @@ export default class DynamicView extends PureComponent {
       values: PropTypes.object,
       index: PropTypes.object,
     }),
-    entryPoints: PropTypes.arrayOf(PropTypes.object),
+    entryPoints: PropTypes.objectOf(PropTypes.object),
     formula: PropTypes.string,
   };
 
   static defaultProps = {
     formula: 0,
+    entryPoints: {},
   };
 
   parseFormula() {

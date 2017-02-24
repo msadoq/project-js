@@ -2,7 +2,10 @@ import _isNumber from 'lodash/isNumber';
 import _get from 'lodash/get';
 import _values from 'lodash/values';
 import _reduce from 'lodash/reduce';
-import { createSelector } from 'reselect';
+
+import _isEqual from 'lodash/isEqual';
+import { createSelector, defaultMemoize, createSelectorCreator } from 'reselect';
+
 import { getTimelines } from './timelines';
 import { getPage } from './pages';
 import { getTimebarTimelines as getTimebarTimelineIds } from './timebarTimelines';
@@ -57,6 +60,35 @@ export function _getTimebarTimelines(timebarTimelines, timelines) {
     return list.concat(timeline);
   }, []);
 }
+
+// ********************************************************
+function timelineEqualityCheck(current, previous) {
+  return _isEqual(current.timelines, previous.timelines);
+}
+const createDeepEqualSelectorForTimelines = createSelectorCreator(
+  defaultMemoize,
+  timelineEqualityCheck
+);
+const timebarTimelinesSelector = createDeepEqualSelectorForTimelines(
+  getTimelines,
+  (state, { timebarUuid }) => getTimebar(state, timebarUuid),
+  (state, { timelines, timebar }) => {
+    if (!timebar) {
+      return [];
+    }
+    return _reduce(timebar.timelines, (list, timelineId) => {
+      const timeline = _get(timelines, timelineId);
+      if (!timeline || !timeline.id || !_isNumber(timeline.sessionId)) {
+        return list;
+      }
+      return list.concat(timeline);
+    }, []);
+  }
+);
+export function getTimebarTimelines(state, timebarUuid) {
+  return timebarTimelinesSelector(state, { timebarUuid });
+}
+// ********************************************************
 
 /**
  * A selector to get master timeline from timebarUuid.

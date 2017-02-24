@@ -40,29 +40,14 @@ export default class TextView extends PureComponent {
     content: PropTypes.string.isRequired,
     isViewsEditorOpen: PropTypes.bool.isRequired,
     updateContent: PropTypes.func.isRequired,
-    entryPoints: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      connectedData: PropTypes.shape({
-        digit: PropTypes.number,
-        domain: PropTypes.string,
-        format: PropTypes.string,
-        formula: PropTypes.string,
-        timeline: PropTypes.string,
-        unit: PropTypes.string,
-        filter: PropTypes.arrayOf(PropTypes.shape({
-          field: PropTypes.string,
-          operand: PropTypes.string,
-          operator: PropTypes.string,
-        })),
-      }),
-    })).isRequired,
+    entryPoints: PropTypes.objectOf(PropTypes.object),
     show: PropTypes.string.isRequired,
   };
   static defaultProps = {
     data: {
       values: {},
     },
+    entryPoints: {},
   };
 
   componentWillMount() {
@@ -116,14 +101,7 @@ export default class TextView extends PureComponent {
             const match = matches[i];
             const epName = match.substring(2, match.length - 2);
 
-            const getEntryPoint = _epName => () =>
-              _.prop(
-                _epName,
-                _.indexBy(
-                  _.prop('name'),
-                  this.props.entryPoints)
-              );
-
+            const getEntryPoint = _epName => () => this.props.entryPoints[_epName];
             const getValue = _epName => () =>
               _get(this.props.data, `values[${_epName}]`, {});
 
@@ -172,7 +150,7 @@ export default class TextView extends PureComponent {
     return (isViewsEditorOpen && this.props.show === 'html' ?
       <WYSIWYG
         initialValues={this.template}
-        entryPoints={entryPoints.map(ep => ep.name)}
+        entryPoints={Object.keys(entryPoints)}
         onSubmit={this.handleSubmit}
         form={`textView-form-${viewId}`}
       />

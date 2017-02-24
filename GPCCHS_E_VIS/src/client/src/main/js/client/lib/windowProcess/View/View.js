@@ -56,11 +56,11 @@ export default class View extends PureComponent {
     moveViewToPage: PropTypes.func.isRequired,
     collapseView: PropTypes.func.isRequired,
     windowPages: PropTypes.arrayOf(PropTypes.object).isRequired,
-    entryPoints: PropTypes.arrayOf(PropTypes.object),
+    entryPoints: PropTypes.objectOf(PropTypes.object),
   };
 
   static defaultProps = {
-    entryPoints: [],
+    entryPoints: {},
     data: {},
     absolutePath: '',
     oId: '',

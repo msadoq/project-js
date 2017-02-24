@@ -1,6 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
+import _filter from 'lodash/filter';
 import classnames from 'classnames';
 import Dimensions from 'react-dimensions';
 import getLogger from 'common/log';
@@ -49,38 +50,39 @@ export class PlotView extends PureComponent {
     }),
     viewId: PropTypes.string.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
-    entryPoints: PropTypes.arrayOf(PropTypes.shape({
-      connectedDataX: PropTypes.shape({
-        axisId: PropTypes.string,
-        digits: PropTypes.number,
-        domain: PropTypes.string,
-        filter: PropTypes.arrayOf(PropTypes.shape({
-          field: PropTypes.string,
-          operand: PropTypes.string,
-          operator: PropTypes.string,
-        })),
-        format: PropTypes.string,
-        formula: PropTypes.string,
-        timeline: PropTypes.string,
-        unit: PropTypes.string,
-      }),
-      connectedDataY: PropTypes.shape({
-        axisId: PropTypes.string,
-        digits: PropTypes.number,
-        domain: PropTypes.string,
-        filter: PropTypes.arrayOf(PropTypes.shape({
-          field: PropTypes.string,
-          operand: PropTypes.string,
-          operator: PropTypes.string,
-        })),
-        format: PropTypes.string,
-        formula: PropTypes.string,
-        timeline: PropTypes.string,
-        unit: PropTypes.string,
-      }),
-      name: PropTypes.string,
-      id: PropTypes.string,
-    })).isRequired,
+    entryPoints: PropTypes.objectOf(PropTypes.object).isRequired,
+    // ({
+    //   connectedDataX: PropTypes.shape({
+    //     axisId: PropTypes.string,
+    //     digits: PropTypes.number,
+    //     domain: PropTypes.string,
+    //     filter: PropTypes.arrayOf(PropTypes.shape({
+    //       field: PropTypes.string,
+    //       operand: PropTypes.string,
+    //       operator: PropTypes.string,
+    //     })),
+    //     format: PropTypes.string,
+    //     formula: PropTypes.string,
+    //     timeline: PropTypes.string,
+    //     unit: PropTypes.string,
+    //   }),
+    //   connectedDataY: PropTypes.shape({
+    //     axisId: PropTypes.string,
+    //     digits: PropTypes.number,
+    //     domain: PropTypes.string,
+    //     filter: PropTypes.arrayOf(PropTypes.shape({
+    //       field: PropTypes.string,
+    //       operand: PropTypes.string,
+    //       operator: PropTypes.string,
+    //     })),
+    //     format: PropTypes.string,
+    //     formula: PropTypes.string,
+    //     timeline: PropTypes.string,
+    //     unit: PropTypes.string,
+    //   }),
+    //   name: PropTypes.string,
+    //   id: PropTypes.string,
+    // })).isRequired,
     configuration: PropTypes.shape({
       type: PropTypes.string.isRequired,
       links: PropTypes.array,
@@ -140,8 +142,7 @@ export class PlotView extends PureComponent {
   onDrop = this.drop.bind(this);
 
   getEntryPointErrors(supClass = '') {
-    const epWithErrors = this.props.entryPoints
-      .filter(ep => ep.error);
+    const epWithErrors = _filter(this.props.entryPoints, ep => ep.error);
 
     return epWithErrors.length ?
       <CloseableAlert
@@ -207,7 +208,7 @@ export class PlotView extends PureComponent {
       info = 'only one point';
     }
 
-    if (!entryPoints || !entryPoints.length) {
+    if (!entryPoints || !Object.keys(entryPoints).length) {
       info = 'invalid view configuration';
     }
     return info;
@@ -238,9 +239,8 @@ export class PlotView extends PureComponent {
     const {
       containerWidth,
       containerHeight,
-      entryPoints,
       data: { columns },
-      configuration: { showYAxes, axes, grids },
+      configuration: { showYAxes, axes, grids, entryPoints },
       visuWindow,
     } = this.props;
 

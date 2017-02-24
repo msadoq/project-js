@@ -1,9 +1,11 @@
 import __ from 'lodash/fp';
 
 import globalConstants from 'common/constants';
+import getLogger from 'common/log';
 import parseConnectedData from '../common/parseConnectedData';
-import getExpectedInterval from './getExpectedInterval';
+import remoteIdGenerator from '../common/remoteId';
 
+const logger = getLogger('data:last:parseEntryPoint');
 function flattenStateColors(stateColors = []) {
   if (!stateColors.length) {
     return '';
@@ -17,35 +19,42 @@ function flattenStateColors(stateColors = []) {
   )(stateColors);
 }
 
-export default function parseEntryPoint(
-  entryPoint,
-  timebarUuid,
-  timelines,
-  masterSessionId,
-  visuWindow,
-  domains
-) {
-  const cd = parseConnectedData(
-    entryPoint.connectedData,
-    globalConstants.DATASTRUCTURETYPE_LAST,
-    timebarUuid,
-    masterSessionId,
-    visuWindow,
-    timelines,
-    domains,
-    getExpectedInterval
-  );
-  if (cd.error) {
-    return cd;
+function parseEntryPoint(domains, timelines, entryPoint, masterSessionId, timebarUuid, viewType) {
+  if (!timebarUuid) {
+    logger.info('invalid entryPoint', name, 'No timebar associated with this entry point');
+    return { [entryPoint.name]: { error: 'No timebar associated with this entry point' } };
   }
+  const { connectedData, name, id, stateColors } = entryPoint;
+  const cd = parseConnectedData(domains, timelines, connectedData, masterSessionId);
 
-  const { remoteId, field, offset, expectedInterval } = cd;
+  if (cd.error) {
+    logger.info('invalid entryPoint', name, cd.error);
+    return { [name]: { error: cd.error } };
+  }
+  const { dataId, field, offset, filter } = cd;
+  // compute remoteId
+  const remoteId = remoteIdGenerator(globalConstants.DATASTRUCTURETYPE_LAST, dataId, filter);
 
-  // localId
-  cd.localId = `${field}.${timebarUuid}:${offset}${flattenStateColors(entryPoint.stateColors)}`;
-
-  // inViewMap
-  cd.inViewMap = { remoteId, field, expectedInterval };
-
-  return cd;
+  const ep = {
+    [name]: {
+      remoteId,
+      dataId,
+      localId: `${field}.${timebarUuid}:${offset}${flattenStateColors(entryPoint.stateColors)}`,
+      field,
+      offset,
+      filter,
+      timebarUuid,
+      structureType: globalConstants.DATASTRUCTURETYPE_LAST,
+      id,
+      type: viewType,
+    },
+  };
+  if (stateColors) {
+    ep[name].stateColors = stateColors;
+  }
+  if (field) {  // field undefined for dynamic view
+    ep[name].field = field;
+  }
+  return ep;
 }
+module.exports = parseEntryPoint;

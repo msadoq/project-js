@@ -10,9 +10,12 @@ import { getStateColorObj } from '../common/stateColors';
 
 const logger = getLogger('data:rangeValues');
 
-export function select(remoteIdPayload, ep, epName, viewState) {
-  const lower = ep.expectedInterval[0];
-  const upper = ep.expectedInterval[1];
+export function select(remoteIdPayload, ep, epName, viewState, intervalMap) {
+  // get expected interval
+  const expectedInterval = _get(intervalMap, [ep.remoteId, ep.localId, 'expectedInterval']);
+
+  const lower = expectedInterval[0];
+  const upper = expectedInterval[1];
   const newState = {};
 
   _each(remoteIdPayload, (value) => {
@@ -56,6 +59,7 @@ export function select(remoteIdPayload, ep, epName, viewState) {
 
 export default function extractValues(
   state,
+  intervalMap,
   payload,
   viewId,
   entryPoints,
@@ -75,18 +79,19 @@ export default function extractValues(
       if (!viewData) {
         viewData = {};
       }
-
+      // get expected interval
+      const expectedInterval = _get(intervalMap, [ep.remoteId, ep.localId, 'expectedInterval']);
       // master's timestamp (arbitrary determined from the first entryPoint)
       viewData.remove = {
-        lower: ep.expectedInterval[0] + ep.offset,
-        upper: ep.expectedInterval[1] + ep.offset,
+        lower: expectedInterval[0] + ep.offset,
+        upper: expectedInterval[1] + ep.offset,
       };
 
       viewData.type = viewType;
       viewData.structureType = globalConstants.DATASTRUCTURETYPE_RANGE;
       isFirstEp = false;
     }
-    Object.assign(epSubState, select(payload[ep.remoteId], ep, epName, epSubState));
+    Object.assign(epSubState, select(payload[ep.remoteId], ep, epName, epSubState, intervalMap));
   });
   if (Object.keys(epSubState).length !== 0) {
     _set(viewData, ['add'], epSubState);

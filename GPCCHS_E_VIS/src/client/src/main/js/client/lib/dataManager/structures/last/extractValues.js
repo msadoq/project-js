@@ -13,10 +13,13 @@ import { getStateColorObj } from '../common/stateColors';
 const logger = getLogger('data:lastValue');
 
 // Get the nearest value from the current time
-export function select(remoteIdPayload, ep, epName, viewSubState, viewType) {
+export function select(remoteIdPayload, ep, epName, viewSubState, viewType, intervalMap) {
   // Entry points on this remoteId
-  const lower = ep.expectedInterval[0];
-  const current = ep.expectedInterval[1];
+  const { remoteId, localId } = ep;
+  const expectedInterval = _get(intervalMap, [remoteId, localId, 'expectedInterval']);
+
+  const lower = expectedInterval[0];
+  const current = expectedInterval[1];
 
   // previous time recorded
   let previousTime = 0;
@@ -97,6 +100,7 @@ export function select(remoteIdPayload, ep, epName, viewSubState, viewType) {
 
 export default function extractValues(
   viewDataState,
+  intervalMap,
   payload,
   viewId,
   entryPoints,
@@ -112,7 +116,8 @@ export default function extractValues(
     // Get current state for update
     const currentSubState = _get(viewDataState, [viewId]);
     // compute new data
-    const newData = select(payload[ep.remoteId], ep, epName, currentSubState, viewType);
+    const newData =
+      select(payload[ep.remoteId], ep, epName, currentSubState, viewType, intervalMap);
     if (!newData) {
       return;
     }

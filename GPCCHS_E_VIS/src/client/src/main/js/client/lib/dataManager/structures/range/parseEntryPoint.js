@@ -1,65 +1,65 @@
+import _isEqual from 'lodash/isEqual';
 import globalConstants from 'common/constants';
+import getLogger from 'common/log';
 import parseConnectedData from '../common/parseConnectedData';
-import getExpectedInterval from './getExpectedInterval';
+
+import remoteIdGenerator from '../common/remoteId';
+
+const logger = getLogger('data:range:parseEntryPoint');
+
 
 export default function parseEntryPoint(
-  entryPoint,
-  timebarUuid,
+  domains,
   timelines,
+  entryPoint,
   masterSessionId,
-  visuWindow,
-  domains
+  timebarUuid,
+  viewType
 ) {
-  const cdX = parseConnectedData(
-    entryPoint.connectedDataX,
-    globalConstants.DATASTRUCTURETYPE_RANGE,
-    timebarUuid,
-    masterSessionId,
-    visuWindow,
-    timelines,
-    domains,
-    getExpectedInterval
-  );
+  if (!timebarUuid) {
+    logger.info('invalid entryPoint', name, 'No timebar associated with this entry point');
+    return { [entryPoint.name]: { error: 'No timebar associated with this entry point' } };
+  }
+  const { connectedDataX, connectedDataY, name, id, stateColors } = entryPoint;
+  const cdX = parseConnectedData(domains, timelines, connectedDataX, masterSessionId);
+
   if (cdX.error) {
-    return cdX;
+    logger.info('invalid entryPoint', name, cdX.error);
+    return { [name]: { error: cdX.error } };
   }
 
-  const cdY = parseConnectedData(
-    entryPoint.connectedDataY,
-    globalConstants.DATASTRUCTURETYPE_RANGE,
-    timebarUuid,
-    masterSessionId,
-    visuWindow,
-    timelines,
-    domains,
-    getExpectedInterval
-  );
+  const cdY = parseConnectedData(domains, timelines, connectedDataY, masterSessionId);
+
   if (cdY.error) {
-    return cdY;
+    logger.info('invalid entryPoint', name, cdY.error);
+    return { [name]: { error: cdY.error } };
   }
-
   // ignore parametric entryPoints
-  // split remoteId to omit filter definitions
-  const splitY = cdY.remoteId.split(':', 3);
-  const splitX = cdX.remoteId.split(':', 3);
-
-  if (splitX[0] !== splitY[0] || splitX[1] !== splitY[1] || splitX[2] !== splitY[2]
-    || cdX.offset !== cdY.offset) {
-    return { error: 'parametric entryPoint detected for this view' };
+  if (!_isEqual(cdX.dataId, cdY.dataId)) {
+    logger.info('invalid entryPoint', name, 'parametric entryPoint detected for this view');
+    return { [name]: { error: 'parametric entryPoint detected for this view' } };
   }
-  const { remoteId, field, expectedInterval, offset } = cdY;
 
-  // localId
-  cdY.localId = `${cdX.field}/${field}.${timebarUuid}:${cdX.offset}/${offset}`;
+  const remoteIdY =
+    remoteIdGenerator(globalConstants.DATASTRUCTURETYPE_RANGE, cdY.dataId, cdY.filter);
 
-  // inViewMap
-  cdY.inViewMap = {
-    remoteId,
-    fieldX: cdX.field,
-    fieldY: field,
-    expectedInterval,
-    offset,
+  const ep = {
+    [name]: {
+      remoteId: remoteIdY,
+      dataId: cdY.dataId,
+      localId: `${cdX.field}/${cdY.field}.${timebarUuid}:${cdX.offset}/${cdY.offset}`,
+      fieldX: cdX.field,
+      fieldY: cdY.field,
+      offset: cdY.offset,
+      timebarUuid,
+      filter: cdY.filter,
+      structureType: globalConstants.DATASTRUCTURETYPE_RANGE,
+      id,
+      type: viewType,
+    },
   };
-
-  return cdY;
+  if (stateColors) {
+    ep[name].stateColors = stateColors;
+  }
+  return ep;
 }

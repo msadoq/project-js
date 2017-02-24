@@ -3,10 +3,11 @@ import _reduce from 'lodash/reduce';
 
 import { getStructureModule } from '../viewManager';
 
-export const selectData = (viewDataState, viewDefinitions, payload) =>
+export const selectData = (viewDataState, viewDefinitions, intervalMap, payload) =>
   _reduce(viewDefinitions, (bag, view, viewId) => {
     const viewBag = getStructureModule(view.type).extractValues(
       viewDataState,
+      intervalMap,
       payload,
       viewId,
       view.entryPoints,
@@ -54,8 +55,8 @@ export const selectData = (viewDataState, viewDefinitions, payload) =>
  *    }
  *  }
  */
-export default function inject(viewDataState, viewMap, payload) {
-  const data = selectData(viewDataState, viewMap, payload);
+export default function inject(viewDataState, viewMap, intervalMap, payload) {
+  const data = selectData(viewDataState, viewMap, intervalMap, payload);
   if (data && Object.keys(data).length > 0) {
     return _reduce(
       data,

@@ -93,38 +93,38 @@ export class PlotView extends PureComponent {
     }),
     viewId: PropTypes.string.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
-    entryPoints: PropTypes.arrayOf(PropTypes.shape({
-      connectedDataX: PropTypes.shape({
-        axisId: PropTypes.string,
-        digits: PropTypes.number,
-        domain: PropTypes.string,
-        filter: PropTypes.arrayOf(PropTypes.shape({
-          field: PropTypes.string,
-          operand: PropTypes.string,
-          operator: PropTypes.string,
-        })),
-        format: PropTypes.string,
-        formula: PropTypes.string,
-        timeline: PropTypes.string,
-        unit: PropTypes.string,
-      }),
-      connectedDataY: PropTypes.shape({
-        axisId: PropTypes.string,
-        digits: PropTypes.number,
-        domain: PropTypes.string,
-        filter: PropTypes.arrayOf(PropTypes.shape({
-          field: PropTypes.string,
-          operand: PropTypes.string,
-          operator: PropTypes.string,
-        })),
-        format: PropTypes.string,
-        formula: PropTypes.string,
-        timeline: PropTypes.string,
-        unit: PropTypes.string,
-      }),
-      name: PropTypes.string,
-      id: PropTypes.string,
-    })).isRequired,
+    entryPoints: PropTypes.objectOf(PropTypes.object),
+    //   connectedDataX: PropTypes.shape({
+    //     axisId: PropTypes.string,
+    //     digits: PropTypes.number,
+    //     domain: PropTypes.string,
+    //     filter: PropTypes.arrayOf(PropTypes.shape({
+    //       field: PropTypes.string,
+    //       operand: PropTypes.string,
+    //       operator: PropTypes.string,
+    //     })),
+    //     format: PropTypes.string,
+    //     formula: PropTypes.string,
+    //     timeline: PropTypes.string,
+    //     unit: PropTypes.string,
+    //   }),
+    //   connectedDataY: PropTypes.shape({
+    //     axisId: PropTypes.string,
+    //     digits: PropTypes.number,
+    //     domain: PropTypes.string,
+    //     filter: PropTypes.arrayOf(PropTypes.shape({
+    //       field: PropTypes.string,
+    //       operand: PropTypes.string,
+    //       operator: PropTypes.string,
+    //     })),
+    //     format: PropTypes.string,
+    //     formula: PropTypes.string,
+    //     timeline: PropTypes.string,
+    //     unit: PropTypes.string,
+    //   }),
+    //   name: PropTypes.string,
+    //   id: PropTypes.string,
+    // })).isRequired,
     configuration: PropTypes.shape({
       type: PropTypes.string.isRequired,
       links: PropTypes.array,
@@ -162,6 +162,7 @@ export class PlotView extends PureComponent {
     },
     pointsPerPxThreshold: 30,
     visuWindow: null,
+    entryPoints: {},
   };
 
   constructor(...args) {

@@ -11,7 +11,7 @@ export default class Source extends PureComponent {
     entryPoints: PropTypes.arrayOf(PropTypes.string),
   }
   static defaultProps = {
-    entryPoints: {},
+    entryPoints: [],
   }
 
   updateContent = (values) => {
@@ -26,8 +26,10 @@ export default class Source extends PureComponent {
       closeHtmlEditor,
     } = this.props;
     const initialValues = { html: beautifyHtml(content, { indent_size: 2 }) };
+
     return (
       <SourceForm
+        key={viewId}
         entryPoints={entryPoints}
         closeHtmlEditor={closeHtmlEditor}
         onSubmit={this.updateContent}

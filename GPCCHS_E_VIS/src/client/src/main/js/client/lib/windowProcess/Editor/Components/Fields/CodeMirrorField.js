@@ -111,7 +111,6 @@ export default class CodeMirrorField extends React.Component {
         error,
       },
     } = this.props;
-
     const codeMirrorOptions = {
       lineNumbers: true,
       lineWrapping: true,

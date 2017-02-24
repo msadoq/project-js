@@ -29,7 +29,7 @@ export function open(callback) {
     height: DEFAULT_HEIGHT,
     show: false,
   });
-  win.setMenuBarVisibility(false);
+  // win.setMenuBarVisibility(false);
   win.loadURL(`file://${parameters.get('path')}/code.html`);
 
   // mount module(s) to allow access from renderer process

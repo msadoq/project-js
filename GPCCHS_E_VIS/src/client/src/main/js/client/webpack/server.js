@@ -4,11 +4,14 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { get } from 'common/parameters';
+import DashboardPlugin from 'webpack-dashboard/plugin';
 import config from './config.renderer.development';
 
 const app = express();
 const compiler = webpack(config);
 const PORT = get('WEBPACK_PORT');
+
+compiler.apply(new DashboardPlugin());
 
 const wdm = webpackDevMiddleware(compiler, {
   publicPath: config.output.publicPath,

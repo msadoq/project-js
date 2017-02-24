@@ -1,11 +1,13 @@
 import { v4 } from 'uuid';
 import { getStore } from '../../store/mainStore';
 import { add } from '../../store/actions/windows';
-import { viewOpen, addPlotView, addTextView, addDynamicView } from './viewOpen';
+import { viewOpen, addBlankView } from './viewOpen';
 import { pageOpen, pageAddNew } from './pageOpen';
 import { pageSave, pageSaveAs } from './pageSave';
 import { workspaceSave, workspaceSaveAs } from './workspaceSave';
 import { workspaceOpenNew, workspaceOpen } from './workspaceOpen';
+
+import { getAvailableViews } from '../../viewManager';
 
 const { Menu } = require('electron');
 
@@ -139,34 +141,24 @@ template.splice(2, 0,
     }],
   });
 
+const specificViewsMenu = getAvailableViews().map(viewType => ({
+  label: `Add ${viewType}...`,
+  accelerator: '',
+  click: (item, focusedWindow) => addBlankView(viewType, focusedWindow),
+}));
+
 template.splice(3, 0,
   {
     label: 'View',
-    submenu: [{
-      label: 'Add PlotView...',
-      accelerator: '',
-      click(item, focusedWindow) {
-        addPlotView(focusedWindow);
+    submenu: [
+      ...specificViewsMenu,
+      {
+        label: 'Open ...',
+        accelerator: '',
+        click(item, focusedWindow) {
+          viewOpen(focusedWindow);
+        },
       },
-    }, {
-      label: 'Add TextView...',
-      accelerator: '',
-      click(item, focusedWindow) {
-        addTextView(focusedWindow);
-      },
-    }, {
-      label: 'Add DynamicView...',
-      accelerator: '',
-      click(item, focusedWindow) {
-        addDynamicView(focusedWindow);
-      },
-    }, {
-      label: 'Open ...',
-      accelerator: '',
-      click(item, focusedWindow) {
-        viewOpen(focusedWindow);
-      },
-    },
     ],
   });
 

@@ -49,14 +49,10 @@ function viewOpenWithPath({ windowId, viewPath }) {
   });
 }
 
-const addBlankView = type => focusedWindow => viewAddNew(focusedWindow, {
+const addBlankView = (type, focusedWindow) => viewAddNew(focusedWindow, {
   type,
   configuration: getViewModule(type).prepareConfigurationForStore({}),
 });
-
-const addPlotView = addBlankView('PlotView');
-const addTextView = addBlankView('TextView');
-const addDynamicView = addBlankView('DynamicView');
 
 function viewAddNew(focusedWindow, view) {
   const pageId = getStore().getState().windows[focusedWindow.windowId].focusedPage;
@@ -80,7 +76,5 @@ function addViewInLayout(pageId, viewId) {
 export default {
   viewOpen,
   viewOpenWithPath,
-  addPlotView,
-  addTextView,
-  addDynamicView,
+  addBlankView,
 };

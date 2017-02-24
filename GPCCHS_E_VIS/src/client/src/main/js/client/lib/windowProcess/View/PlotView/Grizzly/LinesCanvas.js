@@ -52,11 +52,12 @@ export default class LinesCanvas extends PureComponent {
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
 
-    ['yAxesAt', 'top', 'height', 'margin', 'width', 'xScale', 'showLabels'].forEach((attr) => {
-      if (nextProps[attr] !== this.props[attr]) {
-        shouldRender = true;
-      }
-    });
+    ['yAxesAt', 'top', 'height', 'margin', 'width',
+      'xScale', 'showLabels', 'data'].forEach((attr) => {
+        if (nextProps[attr] !== this.props[attr]) {
+          shouldRender = true;
+        }
+      });
 
     if (nextProps.lines.length !== this.props.lines.length) {
       shouldRender = true;

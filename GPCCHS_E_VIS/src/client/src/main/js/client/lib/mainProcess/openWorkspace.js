@@ -17,24 +17,23 @@ import { updatePath, setWorkspaceAsOpened, closeWorkspace } from '../store/actio
 const logger = getLogger('main:openWorkspace');
 
 export function loadInStore(workspace, dispatch, root, file, callback, isDefault = false) {
+  // add windows
+  _each(workspace.windows,
+    (e) => {
+      // set focusedPage on the fly (not in documents)
+      let pageId = null;
+      if (e.pages && e.pages.length) {
+        pageId = e.pages[0];
+      }
+      dispatch(addWindow(e.uuid, e.title, e.geometry, e.pages, pageId, isDefault));
+    }
+  );
+
   // add timelines
   _each(workspace.timelines, e => dispatch(addTimeline(e.uuid, e)));
 
   // add timebars
   _each(workspace.timebars, e => dispatch(addTimebar(e.uuid, e)));
-
-  // add views
-  _each(workspace.views, (e) => {
-    dispatch(addView(
-      e.uuid,
-      e.type,
-      e.configuration,
-      e.path,
-      e.oId,
-      e.absolutePath,
-      isDefault
-    ));
-  });
 
   // add pages
   _each(workspace.pages, (e) => {
@@ -62,17 +61,18 @@ export function loadInStore(workspace, dispatch, root, file, callback, isDefault
     ));
   });
 
-  // add windows
-  _each(workspace.windows,
-    (e) => {
-      // set focusedPage on the fly (not in documents)
-      let pageId = null;
-      if (e.pages && e.pages.length) {
-        pageId = e.pages[0];
-      }
-      dispatch(addWindow(e.uuid, e.title, e.geometry, e.pages, pageId, isDefault));
-    }
-  );
+  // add views
+  _each(workspace.views, (e) => {
+    dispatch(addView(
+      e.uuid,
+      e.type,
+      e.configuration,
+      e.path,
+      e.oId,
+      e.absolutePath,
+      isDefault
+    ));
+  });
 
   // workspace path
   dispatch(updatePath(root, file));

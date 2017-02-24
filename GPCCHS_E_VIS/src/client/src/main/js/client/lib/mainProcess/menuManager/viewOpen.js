@@ -30,12 +30,11 @@ function viewOpen(focusedWindow) {
 
 function viewOpenWithPath({ windowId, viewPath }) {
   const { getState, dispatch } = getStore();
-  const state = getState();
-  const filePath = _.get([0, 'absolutePath'], viewPath);
-  const focusedPage = state.windows[windowId].focusedPage;
-  const focusedPageId = getWindowFocusedPageId(state, { windowId });
+  const filePath = _.get('absolutePath[0]', viewPath);
 
   readViews(viewPath, (errView, [view]) => {
+    const state = getState();
+    const focusedPageId = getWindowFocusedPageId(state, { windowId });
     if (errView) {
       dispatch(addDangerMessage(focusedPageId, 'Unable to load View'));
       dispatch(addDangerMessage(focusedPageId, errView));
@@ -43,7 +42,7 @@ function viewOpenWithPath({ windowId, viewPath }) {
     }
 
     const viewId = v4();
-    dispatch(addAndMountView(focusedPage, viewId, { ...view, absolutePath: filePath }));
+    dispatch(addAndMountView(focusedPageId, viewId, { ...view, absolutePath: filePath }));
     server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', filePath);
   });
 }

@@ -1,35 +1,56 @@
 .container{
   position: relative;
-}
-@-webkit-keyframes rainbow{
-	20%{color: black;}
-	40%{color: yellow;}
-	60%{color: green;}
-	80%{color: blue;}
-	100%{color: orange;}
-}
-@keyframes grizzlyTitle {
-  0% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.0);
+  .zoomAndPanLabels{
+    position: absolute;
+    top: 5px;
+    width: 100px;
+    z-index: 5;
+    & > button{
+      text-align: left;
+      display: block;
+      margin-bottom: 4px;
+    }
   }
-  30% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.0);
+  .canvas{
+    position: absolute;
   }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.6);
-  }
-};
-.canvas{
-  position: absolute;
 }
-.yAxis{
-  overflow: visible !important;
-}
+
 .yAxisDiv{
   position: absolute;
+  .yAxis{
+    overflow: visible !important;
+    .yAxisGroup{
+      line {
+        stroke: #AAA;
+      }
+    }
+  }
+  .yAxisLabel{
+    border-radius: 2px;
+    padding: 2px 6px;
+    &.labelUnderline{
+      text-decoration: underline;
+    }
+    &.labelBold{
+      font-weight: bold;;
+    }
+    &.labelItalic{
+      font-style: italic;
+    }
+  }
+  .yAxisLineLabel{
+    position: absolute;
+    border-radius: 1px;
+    z-index: 3;
+    text-shadow: 0px 0px 1px #888;
+    padding: 2px;
+    padding-top: 4px;
+    box-shadow: 0px 0px 7px rgba(0,0,0,0.2);
+    &:hover{
+      z-index: 6;
+    }
+  }
 }
 .xAxis{
   position: absolute;
@@ -41,11 +62,6 @@
   }
 }
 
-.yAxisGroup{
-  line {
-    stroke: #AAA;
-  }
-}
 .Dotted{
   line {
     stroke-dasharray: 2.2;
@@ -56,31 +72,7 @@
     stroke-dasharray: 5;
   }
 }
-.yAxisLabel{
-  border-radius: 2px;
-  padding: 2px 6px;
-  &.labelUnderline{
-    text-decoration: underline;
-  }
-  &.labelBold{
-    font-weight: bold;;
-  }
-  &.labelItalic{
-    font-style: italic;
-  }
-}
-.yAxisLineLabel{
-  position: absolute;
-  border-radius: 1px;
-  z-index: 3;
-  text-shadow: 0px 0px 1px #888;
-  padding: 2px;
-  padding-top: 4px;
-  box-shadow: 0px 0px 7px rgba(0,0,0,0.2);
-  &:hover{
-    z-index: 6;
-  }
-}
+
 .tooltipDiv{
   position: absolute;
   z-index: 4;
@@ -158,17 +150,5 @@
         }
       }
     }
-  }
-}
-
-.zoomAndPanLabels{
-  position: absolute;
-  top: 5px;
-  width: 100px;
-  z-index: 5;
-  & > button{
-    text-align: left;
-    display: block;
-    margin-bottom: 4px;
   }
 }

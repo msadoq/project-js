@@ -36,7 +36,10 @@
     "snapshot:clean": "jest -u",
     "tw": "npm test -- --watch",
     "wp": "npm run webpack",
-    "webpack": "webpack-dashboard -- node -r babel-register -r ./lib/common/initParameters.js webpack/server.js"
+    "webpack": "webpack-dashboard -- node -r babel-register -r ./lib/common/initParameters.js webpack/server.js",
+    "clone-rtd": "cd ../../../../../../../../ && git clone gitolite@isis.cnes-isis.toulouse.atos.net:gpds/LPISIS/GPDS.git GPDS && cd GPDS && git checkout DM_5567",
+    "copy-rtd": "mkdir -p node_modules && cp -r ../../../../../../../../GPDS/src/api/js/rtd/src/main/js/rtd/ node_modules/",
+    "preinstall": "if [ -d  ../../../../../../../../GPDS ]; then npm run copy-rtd; else npm run clone-rtd && npm run copy-rtd; fi"
   },
   "bin": {
     "electron": "./node_modules/.bin/electron"

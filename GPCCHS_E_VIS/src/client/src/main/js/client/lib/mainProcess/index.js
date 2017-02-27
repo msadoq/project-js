@@ -3,6 +3,7 @@ import { series } from 'async';
 import {
   CHILD_PROCESS_SERVER,
   CHILD_PROCESS_DC,
+  CHILD_PROCESS_RTD,
   LOG_APPLICATION_START,
   LOG_APPLICATION_STOP,
   LOG_APPLICATION_ERROR,
@@ -59,6 +60,21 @@ export function start() {
       fork(
         CHILD_PROCESS_DC,
         `${parameters.get('path')}/node_modules/common/stubs/dc.js`,
+        forkOptions,
+        callback
+      );
+    },
+    (callback) => {
+      if (parameters.get('STUB_RTD_ON') !== 'on') {
+        callback(null);
+        return;
+      }
+
+      splashScreen.setMessage('starting rtd simulator...');
+      logger.info('starting rtd simulator...');
+      fork(
+        CHILD_PROCESS_RTD,
+        `${parameters.get('path')}/node_modules/rtd/lib/stubs/rtd.js`,
         forkOptions,
         callback
       );

@@ -25,7 +25,7 @@ import { getIsWorkspaceOpening } from '../store/actions/hsc';
 import setMenu from './menuManager';
 import { openDefaultWorkspace, openWorkspaceDocument } from './openWorkspace';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
-import { splashScreen, windows } from './windowsManager';
+import { splashScreen, codeEditor, windows } from './windowsManager';
 
 const logger = getLogger('main:index');
 

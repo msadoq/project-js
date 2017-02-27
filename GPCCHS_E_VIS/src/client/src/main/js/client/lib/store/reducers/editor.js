@@ -14,6 +14,13 @@ export default function editor(state = initialState, action) {
       return Object.assign({}, state, {
         textViewId: null,
       });
+    case types.WS_VIEW_REMOVE:
+      if (action.payload.viewId === state.textViewId) {
+        return Object.assign({}, state, {
+          textViewId: null,
+        });
+      }
+      return state;
     default:
       return state;
   }

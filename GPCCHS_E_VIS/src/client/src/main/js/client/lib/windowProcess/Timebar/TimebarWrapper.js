@@ -67,6 +67,7 @@ export default class TimebarWrapper extends PureComponent {
     ).isRequired,
     timebarHeight: PropTypes.number,
     timebarCollapsed: PropTypes.bool.isRequired,
+    pause: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -133,6 +134,9 @@ export default class TimebarWrapper extends PureComponent {
       displayTimesetter: !this.state.displayTimesetter,
       timesetterCursor: (e && e.currentTarget) ? e.currentTarget.getAttribute('cursor') : null,
     });
+    if (this.props.isPlaying) {
+      this.props.pause();
+    }
   }
 
   willCollapse = (e) => {

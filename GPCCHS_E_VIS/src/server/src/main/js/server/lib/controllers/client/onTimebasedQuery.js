@@ -153,13 +153,10 @@ module.exports = (sendMessageToDc, { queries }) => {
     execution.start('finding cache data');
     _each(query.intervals, (interval) => {
       // retrieve data in timebasedData model
-      // debug.debug('find by interval', interval);
-      // const findStart = monitoring.start();
       const cachedData = timebasedDataModel.findByInterval(
         interval[0],
         interval[1]
       );
-      // monitoring.stop('find interval', findStart);
       // queue a ws newData message (sent periodically)
       if (cachedData.length === 0) {
         return;

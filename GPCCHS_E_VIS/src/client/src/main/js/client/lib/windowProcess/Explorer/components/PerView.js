@@ -1,128 +1,186 @@
 import React, { PureComponent, PropTypes } from 'react';
-import { Table } from 'react-bootstrap';
-
-import _forEach from 'lodash/forEach';
+import { Panel } from 'react-bootstrap';
+import _each from 'lodash/each';
 import _split from 'lodash/split';
-import _join from 'lodash/join';
-import _slice from 'lodash/slice';
-import _map from 'lodash/map';
-import _get from 'lodash/get';
-import _find from 'lodash/find';
+
+import parseFormula from '../../../dataManager/structures/common/formula';
 
 import styles from '../Explorer.css';
+import IdLabel from './IdLabel';
+import DetailButtons from './DetailButtons';
+import { DataIdLabels, DataId } from './DataId';
+import { DomainAndSession, DomainAndSessionLabels } from './DomainAndSession';
 
-function perViewHeader() {
-  return (<thead>
-    <tr key="header">
-      <th className="text-center">View Title</th>
-      <th className="text-center">EntryPoint names</th>
-      <th className="text-center">Parameter Name</th>
-      <th className="text-center">Field</th>
-      <th className="text-center">COM Object</th>
-      <th className="text-center">Catalog</th>
-      <th className="text-center">Session</th>
-      <th className="text-center">Domain</th>
-      <th className="text-center">Filters</th>
-    </tr>
-  </thead>);
+function viewType(type) {
+  return (
+    <div className={styles.type}>
+      <ul><li key="{10}" className={styles.listLeft}><b>Type: </b></li></ul>
+      <ul><li key="{30}" className={styles.listRight}>{type}</li></ul>
+    </div>
+  );
 }
 
+function LocalIdLabels() {
+  return (
+    <ul>
+      <li key="{16}" className={styles.listLeft}><b>Field: </b></li>
+      <li key="{17}" className={styles.listLeft}><b>Offset: </b></li>
+    </ul>
+  );
+}
+LocalId.propTypes = {
+  field: PropTypes.string,
+  offset: PropTypes.number,
+};
+
+function LocalId(props) {
+  return (
+    <ul>
+      <li key="{26}" className={styles.listRight}>
+        {props.field || '-'}
+      </li>
+      <li key="{27}" className={styles.listRight}>{props.offset}</li>
+    </ul>
+  );
+}
 export default class PerView extends PureComponent {
   static propTypes = {
     perView: PropTypes.objectOf(PropTypes.object),
-    parseFormula: PropTypes.func,
     views: PropTypes.objectOf(PropTypes.object),
     sessions: PropTypes.arrayOf(PropTypes.object).isRequired,
     domains: PropTypes.arrayOf(PropTypes.object).isRequired,
+    count: PropTypes.number,
+    windowId: PropTypes.string.isRequired,
+    updateExplorerFlag: PropTypes.func.isRequired,
+    dataId: PropTypes.bool,
+    domainAndSession: PropTypes.bool,
+    localId: PropTypes.bool,
+    remoteId: PropTypes.bool,
+    // filters: PropTypes.bool,
+  }
+  static defaultProps = {
+    count: 0,
+    perView: {},
+    views: {},
+    dataId: false,
+    domainAndSession: true,
+    localId: true,
+    remoteId: true,
+    filters: true,
   }
 
-  perViewLine() {
-    const { perView, views } = this.props;
-    return _map(perView, (value, id) => {
-      const viewTitle = views[id].configuration.title;
-      const viewType = views[id].type;
-      return this.epPerView(value.entryPoints, id, viewTitle, viewType);
-    });
+  viewTitle(viewId) {
+    const { views } = this.props;
+    return views[viewId].configuration.title;
   }
 
-  epPerView(entryPoints, viewId, viewTitle, viewType) {
-    const { parseFormula, sessions, domains } = this.props;
-
-    const index = 'perView'.concat(viewId);
-    const epTable = [];
-    let isFirst = true;
-    _forEach(entryPoints, (ep, epName) => {
-      const name = (viewType === 'DynamicView' ? '-' : epName);
-      // EP in error
-      if (ep.error) {
-        epTable.push((
-          <tr key={index.concat(epName)}>
-            <td>{isFirst ? viewTitle : ''}</td>
-            <td>{name}</td>
-            <td colSpan={7}>{ep.error}</td>
-          </tr>
-        ));
-        isFirst = false;
-        return;
-      }
-
-      // EP on view
-      const remoteId = _split(ep.remoteId, '@')[1]; // remoteId without last or range
-      const formulas = _split(remoteId, ':');
-      const { catalog, parameterName, comObject, field }
-        = parseFormula(formulas[0].concat('.').concat(ep.field ? ep.field : ep.fieldY));
-      let displayedField = field;
-      if (ep.fieldX) {
-        displayedField = displayedField.concat('\n').concat(ep.fieldX);
-      }
-      // Filters
-      let filters = '-';
-      if (formulas.length > 3) {
-        const f = _split(formulas[3], ',');
-        filters = '';
-        f.forEach((filter) => {
-          const elems = _split(filter, '.');
-          let operand = elems[2];
-          if (elems.length > 3) {
-            operand = _join(_slice(elems, 2), '.');
-          }
-          const current = elems[0].concat(' ').concat(elems[1]).concat(' ').concat(operand);
-          if (filters !== '') {
-            filters = filters.concat('\n');
-          }
-          filters = filters.concat(current);
-        });
-      }
-      const sessionName = _get(_find(sessions, ['id', Number(formulas[1])]), ['name']);
-      const domainName = _get(_find(domains, ['domainId', Number(formulas[2])]), ['name']);
-
-      epTable.push((
-        <tr key={index.concat(epName)}>
-          <td>{isFirst ? viewTitle : ''}</td>
-          <td>{name}</td>
-          <td>{parameterName}</td>
-          <td>{displayedField}</td>
-          <td>{comObject}</td>
-          <td>{catalog}</td>
-          <td>{sessionName}</td>
-          <td>{domainName}</td>
-          <td>{filters}</td>
-        </tr>));
-
-      isFirst = false;
-    });
-    return epTable;
-  }
+  updateShowDataId = state =>
+    this.props.updateExplorerFlag(this.props.windowId, 'viewTabDataId', state === 'ON');
+  updateShowDomainAndSession = state =>
+    this.props.updateExplorerFlag(this.props.windowId, 'viewTabDomain', state === 'ON');
+  updateShowLocalId = state =>
+    this.props.updateExplorerFlag(this.props.windowId, 'viewTabLocalId', state === 'ON');
+  updateShowRemoteId = state =>
+    this.props.updateExplorerFlag(this.props.windowId, 'viewTabRemoteId', state === 'ON');
+  updateShowFilters = state =>
+    this.props.updateExplorerFlag(this.props.windowId, 'viewTabFilters', state === 'ON');
 
   render() {
+    const { perView } = this.props;
+    const buttons = [{
+      label: 'Remote ID',
+      onChange: this.updateShowRemoteId,
+      flag: true,
+    }, {
+      label: 'Data ID',
+      onChange: this.updateShowDataId,
+      flag: false,
+    }, {
+      label: 'LocalId',
+      onChange: this.updateShowLocalId,
+      flag: true,
+    }, {
+      label: 'Domain & Session',
+      onChange: this.updateShowDomainAndSession,
+      flag: true,
+    // }, {
+    //   label: 'Filters',
+    //   onChange: this.updateShowFilters,
+    //   flag: true,
+    }];
+
+    const { dataId, domainAndSession, localId, remoteId, sessions, domains } = this.props;
+    const viewDetails = [];
+    _each(perView, (view, viewId) => {
+      // EP
+      const EPnames = [];
+      let i = 1;
+      _each(view.entryPoints, (p, name) => {
+        // Split remoteId
+        let idToShow = p.remoteId;
+        const rId = _split(idToShow, '@');
+        let dId;
+        let parsedFormula;
+        if (rId.length >= 2) {
+          const splitId = _split(rId[1], ':');
+          idToShow = splitId[0];
+          parsedFormula = parseFormula(idToShow);
+          if (splitId.length >= 3) {
+            dId = {
+              sessionId: Number(splitId[1]),
+              domainId: Number(splitId[2]),
+            };
+          }
+        }
+        EPnames.push((
+          <Panel key={viewId.concat(name)}>
+            <header><b>{name}</b></header>
+            <div className={styles.details}>
+              <div>
+                {p.error && <ul><li key="{11}" className={styles.listLeft}><b>Error</b></li></ul>}
+                {!p.error && remoteId && <ul><li key="{11}" className={styles.listLeft}><b>RemoteID</b></li></ul>}
+                {!p.error && dataId && <DataIdLabels iKey={'bl'.concat(i)} />}
+                {!p.error && domainAndSession && <DomainAndSessionLabels key={'cl'.concat(i)} />}
+                {!p.error && localId && <LocalIdLabels />}
+              </div>
+              <div>
+                {p.error && <ul><li key="{11}" className={styles.listRight}>{p.error}</li></ul>}
+                {!p.error && remoteId && <ul><li key="{11}" className={styles.listRight}>{idToShow}</li></ul>}
+                {!p.error && dataId && <DataId key={'b'.concat(i)} dataId={parsedFormula} iKey={'b'.concat(i)} />}
+                {!p.error && domainAndSession &&
+                  <DomainAndSession
+                    key={'c'.concat(i)}
+                    sessions={sessions}
+                    domains={domains}
+                    dataId={dId}
+                  />}
+                {!p.error && localId && <LocalId field={parsedFormula.field} offset={p.offset} />}
+              </div>
+            </div>
+          </Panel>
+        ));
+        i += 1;
+      });
+
+      viewDetails.push((
+        <div className={styles.block} key={'div'.concat(viewId)}>
+          <IdLabel idLabel={this.viewTitle(viewId)} iKey={viewId} />
+          <div className={styles.panel}>
+            {viewType(view.type)}
+            <div>
+              {EPnames}
+            </div>
+          </div>
+        </div>
+      ));
+    });
     return (
-      <div className={styles.content}>
-        <Table striped bordered condensed hover className={styles.table}>
-          {perViewHeader()}
-          <tbody>
-            {this.perViewLine()}
-          </tbody>
-        </Table>
+      <div>
+        <div className={styles.block}>values count: {this.props.count}</div>
+        <DetailButtons buttons={buttons} />
+        <div>
+          {viewDetails}
+        </div>
       </div>);
   }
 }

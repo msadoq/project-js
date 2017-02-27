@@ -1,8 +1,8 @@
 import globalConstants from 'common/constants';
 import { selectData } from './inject';
 
-describe('common/data/inject', () => {
-  const payload = { rId1: {}, rId2: {} };
+describe('dataManager/inject', () => {
+  const payload = { rId1: {}, rId2: {}, rId3: {} };
   for (let j = 10; j < 21; j += 1) {
     payload.rId1[j] = {
       val1: { type: 'uinteger', value: (j * 10) + 1 },
@@ -13,7 +13,24 @@ describe('common/data/inject', () => {
     };
 
     payload.rId2[j] = payload.rId1[j];
+    payload.rId3[j] = payload.rId1[j];
   }
+
+  const intervals = {
+    rId1: {
+      local1: { expectedInterval: [10, 15] },
+      local2: { expectedInterval: [12, 16] },
+      local4: { expectedInterval: [1001, 1005] },
+    },
+    rId2: {
+      local3: { expectedInterval: [14, 18] },
+    },
+    rId3: {
+      local5: { expectedInterval: [10, 20] },
+      local6: { expectedInterval: [18, 20] },
+      local7: { expectedInterval: [10, 20] },
+    },
+  };
 
   const viewDataMap = {
     plot1: {
@@ -23,8 +40,8 @@ describe('common/data/inject', () => {
           remoteId: 'rId1',
           fieldX: 'time',
           fieldY: 'val1',
-          expectedInterval: [10, 15],
           offset: 0,
+          localId: 'local1',
         },
       },
     },
@@ -35,15 +52,15 @@ describe('common/data/inject', () => {
           remoteId: 'rId1',
           fieldX: 'time',
           fieldY: 'val2',
-          expectedInterval: [12, 16],
           offset: 2,
+          localId: 'local2',
         },
         ep3: {
           remoteId: 'rId2',
           fieldX: 'time',
           fieldY: 'val2',
-          expectedInterval: [14, 18],
           offset: 0,
+          localId: 'local3',
         },
       },
     },
@@ -54,8 +71,8 @@ describe('common/data/inject', () => {
           remoteId: 'rId1',
           fieldX: 'time',
           fieldY: 'val1',
-          expectedInterval: [1001, 1005],
           offset: -987,
+          localId: 'local4',
         },
       },
     },
@@ -63,10 +80,10 @@ describe('common/data/inject', () => {
       type: 'TextView',
       entryPoints: {
         ep4: {
-          remoteId: 'rId1',
+          remoteId: 'rId3',
           field: 'val3',
-          expectedInterval: [10, 20],
           offset: 0,
+          localId: 'local5',
         },
       },
     },
@@ -74,16 +91,16 @@ describe('common/data/inject', () => {
       type: 'TextView',
       entryPoints: {
         ep5: {
-          remoteId: 'rId1',
+          remoteId: 'rId3',
           field: 'val3',
-          expectedInterval: [18, 20],
           offset: 0,
+          localId: 'local6',
         },
         ep6: {
-          remoteId: 'rId2',
+          remoteId: 'rId3',
           field: 'val3',
-          expectedInterval: [12, 20],
           offset: 0,
+          localId: 'local7',
         },
       },
     },
@@ -96,7 +113,6 @@ describe('common/data/inject', () => {
           remoteId: 'rId1',
           fieldX: 'time',
           fieldY: 'val1',
-          expectedInterval: [10, 15],
           offset: 0,
         },
       },
@@ -120,29 +136,29 @@ describe('common/data/inject', () => {
   describe('select data', () => {
     let bag;
     it('empty state', () => {
-      bag = selectData({}, viewDataMap, payload, count);
+      bag = selectData({}, viewDataMap, intervals, payload, count);
       bag.should.have.all.keys(['plot1', 'plot2', 'plot3', 'text1', 'text2']);
-      bag.plot1.should.have.all.keys(['remove', 'add', 'structureType']);
+      bag.plot1.should.have.all.keys(['remove', 'add', 'structureType', 'type']);
       bag.plot1.add.should.have.all.keys(['10', '11', '12', '13', '14', '15']);
       bag.plot1.remove.should.have.all.keys(['lower', 'upper']);
       bag.plot1.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_RANGE);
-      bag.plot2.should.have.all.keys(['remove', 'add', 'structureType']);
+      bag.plot2.should.have.all.keys(['remove', 'add', 'structureType', 'type']);
       bag.plot2.add.should.have.all.keys(['14', '15', '16', '17', '18']);
       bag.plot2.add[14].should.have.keys('ep2', 'ep3');
       bag.plot2.remove.should.have.all.keys(['lower', 'upper']);
       bag.plot2.remove.lower.should.equal(14);
       bag.plot2.remove.upper.should.equal(18);
       bag.plot2.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_RANGE);
-      bag.plot3.should.have.all.keys(['remove', 'structureType']);
+      bag.plot3.should.have.all.keys(['remove', 'structureType', 'type']);
       bag.plot3.remove.should.have.all.keys(['lower', 'upper']);
       bag.plot2.remove.lower.should.equal(14);
       bag.plot2.remove.upper.should.equal(18);
 
-      bag.text1.should.have.all.keys(['index', 'values', 'structureType']);
+      bag.text1.should.have.all.keys(['index', 'values', 'structureType', 'type']);
       bag.text1.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
       bag.text1.index.ep4.should.equal(20);
       bag.text1.values.ep4.value.should.equal(203);
-      bag.text2.should.have.all.keys(['index', 'values', 'structureType']);
+      bag.text2.should.have.all.keys(['index', 'values', 'structureType', 'type']);
       bag.text2.index.should.have.all.keys(['ep5', 'ep6']);
       bag.text2.index.ep5.should.equal(20);
       bag.text2.values.ep5.value.should.equal(203);
@@ -150,11 +166,11 @@ describe('common/data/inject', () => {
       bag.text2.values.ep6.value.should.equal(203);
     });
     it('old state not empty', () => {
-      const newState = selectData(state, viewDataMap, payload, count);
+      const newState = selectData(state, viewDataMap, intervals, payload, count);
       newState.should.deep.equal(bag);
     });
     it('invalid view', () => {
-      (() => selectData(state, viewMap2, payload, count)).should.throw();
+      (() => selectData(state, viewMap2, intervals, payload, count)).should.throw();
     });
   });
 });

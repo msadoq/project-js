@@ -17,6 +17,7 @@ import {
 } from 'react-stockcharts';
 
 import getDynamicObject from '../../common/getDynamicObject';
+
 import {
   getLines,
   getLineMarker,
@@ -27,11 +28,11 @@ import {
   drawBadge,
   zoomDateFormat,
 } from './helper';
-import { stateColors } from '../../common/colors';
+import { getStateColors } from '../../common/colors';
 import DroppableContainer from '../../common/DroppableContainer';
-import { Danger } from '../Alert';
+import CloseableAlert from '../CloseableAlert';
 import styles from './PlotView.css';
-import { getEntryPointColorObj } from '../../../store/selectors/views';
+import { _getEntryPointColorObj } from '../../../store/selectors/views';
 
 const logger = getLogger('view:plot');
 
@@ -68,14 +69,13 @@ function parseDragData(data) {
       formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.groundDate`,
     },
     connectedDataY: {
-      formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.${get('DEFAULT_FIELD')}`,
+      formula: `${data.catalogName}.${data.item}<${getComObject(data.comObjects)}>.${get('DEFAULT_FIELD')[getComObject(data.comObjects)]}`,
     },
   };
 }
 
-function onYAxisZoom(id, domain) {
-  // eslint-disable-next-line no-console
-  console.log('zoom', id, domain);
+function onYAxisZoom(/* id, domain */) {
+  // console.log('zoom', id, domain);
 }
 
 export class PlotView extends PureComponent {
@@ -90,41 +90,41 @@ export class PlotView extends PureComponent {
       lower: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
       current: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
       upper: PropTypes.number, // eslint-disable-line react/no-unused-prop-types
-    }).isRequired,
+    }),
     viewId: PropTypes.string.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
-    entryPoints: PropTypes.arrayOf(PropTypes.shape({
-      connectedDataX: PropTypes.shape({
-        axisId: PropTypes.string,
-        digits: PropTypes.number,
-        domain: PropTypes.string,
-        filter: PropTypes.arrayOf(PropTypes.shape({
-          field: PropTypes.string,
-          operand: PropTypes.string,
-          operator: PropTypes.string,
-        })),
-        format: PropTypes.string,
-        formula: PropTypes.string,
-        timeline: PropTypes.string,
-        unit: PropTypes.string,
-      }),
-      connectedDataY: PropTypes.shape({
-        axisId: PropTypes.string,
-        digits: PropTypes.number,
-        domain: PropTypes.string,
-        filter: PropTypes.arrayOf(PropTypes.shape({
-          field: PropTypes.string,
-          operand: PropTypes.string,
-          operator: PropTypes.string,
-        })),
-        format: PropTypes.string,
-        formula: PropTypes.string,
-        timeline: PropTypes.string,
-        unit: PropTypes.string,
-      }),
-      name: PropTypes.string,
-      id: PropTypes.string,
-    })).isRequired,
+    entryPoints: PropTypes.objectOf(PropTypes.object),
+    //   connectedDataX: PropTypes.shape({
+    //     axisId: PropTypes.string,
+    //     digits: PropTypes.number,
+    //     domain: PropTypes.string,
+    //     filter: PropTypes.arrayOf(PropTypes.shape({
+    //       field: PropTypes.string,
+    //       operand: PropTypes.string,
+    //       operator: PropTypes.string,
+    //     })),
+    //     format: PropTypes.string,
+    //     formula: PropTypes.string,
+    //     timeline: PropTypes.string,
+    //     unit: PropTypes.string,
+    //   }),
+    //   connectedDataY: PropTypes.shape({
+    //     axisId: PropTypes.string,
+    //     digits: PropTypes.number,
+    //     domain: PropTypes.string,
+    //     filter: PropTypes.arrayOf(PropTypes.shape({
+    //       field: PropTypes.string,
+    //       operand: PropTypes.string,
+    //       operator: PropTypes.string,
+    //     })),
+    //     format: PropTypes.string,
+    //     formula: PropTypes.string,
+    //     timeline: PropTypes.string,
+    //     unit: PropTypes.string,
+    //   }),
+    //   name: PropTypes.string,
+    //   id: PropTypes.string,
+    // })).isRequired,
     configuration: PropTypes.shape({
       type: PropTypes.string.isRequired,
       links: PropTypes.array,
@@ -161,15 +161,17 @@ export class PlotView extends PureComponent {
       columns: [],
     },
     pointsPerPxThreshold: 30,
+    visuWindow: null,
+    entryPoints: {},
   };
 
   constructor(...args) {
     super(...args);
     this.state = {
-      xExtents: [
+      xExtents: this.props.visuWindow ? [
         new Date(this.props.visuWindow.lower),
         new Date(this.props.visuWindow.upper),
-      ],
+      ] : [],
       disableZoom: true,
       isMenuOpened: false,
       zoomedOrPanned: false,
@@ -209,7 +211,7 @@ export class PlotView extends PureComponent {
 
     const willSetState = {};
 
-    if (this.state.zoomedOrPanned) {
+    if (this.state.zoomedOrPanned && nextVisuWindow) {
       // We have to set new lower / upper so zoom mode is quit
       willSetState.zoomedOrPanned = false;
       willSetState.xExtents = [
@@ -219,12 +221,13 @@ export class PlotView extends PureComponent {
 
     // reset xExtents only if new lower / upper
     } else if (
+      nextVisuWindow && (
       !this.state.xExtents ||
       (
         visuWindow.lower !== nextVisuWindow.lower ||
         visuWindow.upper !== nextVisuWindow.upper
       )
-    ) {
+    )) {
       willSetState.xExtents = [
         new Date(nextVisuWindow.lower),
         new Date(nextVisuWindow.upper),
@@ -312,7 +315,8 @@ export class PlotView extends PureComponent {
       .filter(ep => ep.error);
 
     return epWithErrors.length ?
-      <Danger
+      <CloseableAlert
+        bsStyle="danger"
         className={classnames(
           'z100',
           'mb10',
@@ -332,7 +336,7 @@ export class PlotView extends PureComponent {
               </div>
             ))}
         </div>
-      </Danger> : undefined;
+      </CloseableAlert> : undefined;
   }
 
   getYCharts = () => {
@@ -573,7 +577,7 @@ export class PlotView extends PureComponent {
       )
       .map((line) => {
         const customColor = _.prop('color')(
-          getEntryPointColorObj({
+          _getEntryPointColorObj({
             entryPoints: this.props.entryPoints,
             epName: line.key,
             value: _get(currentItem, [line.key, 'value']),
@@ -584,7 +588,7 @@ export class PlotView extends PureComponent {
         const color = _.cond([
           [
             _.pipe(_.get('monit'), _.negate(_.eq('info'))),
-            _.pipe(_.prop('monit'), _.prop(_, stateColors), _.defaultTo('#00FF00')),
+            _.pipe(_.prop('monit'), _.prop(_, getStateColors()), _.defaultTo('#00FF00')),
           ],
           [_.pipe(_.get('color'), _.isString), _.prop('color')],
           [_.stubTrue, _.constant('#00FF00')],
@@ -715,10 +719,10 @@ export class PlotView extends PureComponent {
     });
   }
 
-  /* eslint-disable no-param-reassign */
   // eslint-disable-next-line class-methods-use-this
-  tooltipCanvas({ fontFamily, fontSize, fontFill }, content, ctx) {
+  tooltipCanvas({ fontFamily, fontSize, fontFill }, content, context) {
     const startY = 10 + (fontSize * 0.9);
+    const ctx = context;
 
     ctx.font = `${fontSize}px ${fontFamily}`;
     ctx.fillStyle = fontFill;
@@ -748,11 +752,11 @@ export class PlotView extends PureComponent {
       });
     }
   }
-  /* eslint-enable-next-line no-param-reassign */
 
   // eslint-disable-next-line class-methods-use-this
-  backgroundShapeCanvas(props, { width, height }, ctx) {
+  backgroundShapeCanvas(props, { width, height }, context) {
     const { fill, stroke, opacity } = props;
+    const ctx = context;
     ctx.fillStyle = hexToRGBA(fill, opacity);
     ctx.strokeStyle = stroke;
     ctx.beginPath();

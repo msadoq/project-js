@@ -5,7 +5,7 @@ import styles from '../../Editor.css';
 import Navbar from '../Navbar/Navbar';
 import EntryPointTree from './EntryPointTree';
 import EntryPointActions from '../EntryPoint/EntryPointActions';
-import TextTab from './TextTab';
+import TextTabContainer from './TextTabContainer';
 
 const newEntryPoint = {
   name: 'NewEntryPoint',
@@ -111,12 +111,7 @@ export default class Editor extends Component {
               remove={this.removeEntryPoint}
             />
           </div>}
-          {currentDisplay === 1 && <TextTab
-            title={title}
-            handleTextTitle={this.handleTextTitle}
-            handleTextTitleStyle={this.handleTextTitleStyle}
-            titleStyle={titleStyle}
-          />}
+          {currentDisplay === 1 && <TextTabContainer />}
         </div>
       </div>
     );

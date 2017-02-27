@@ -49,11 +49,7 @@ describe('common/fs', () => {
     }
   });
   after((done) => {
-    try {
-      rimraf(tmpFolder, done);
-    } catch (e) {
-      console.warn(e); // eslint-disable-line no-console
-    }
+    rimraf(tmpFolder, done);
   });
 
   it('resolve', () => {
@@ -152,23 +148,6 @@ describe('common/fs', () => {
     });
     it('readJsonFromRelativePath error', (done) => { // dc stub send oid as filepath
       fs.readJsonFromRelativePath(getTmpPath(), 'not-exists.txt', (err, content) => {
-        err.should.be.an('error');
-        should.not.exist(content);
-        done();
-      });
-    });
-  });
-
-  describe('readJsonFromFmdPath', () => {
-    it('works', (done) => {
-      fs.readJsonFromFmdPath(getTmpPath('foo.json'), (err, content) => {
-        should.not.exist(err);
-        content.should.eql({ foo: 'bar' });
-        done();
-      });
-    });
-    it('readJsonFromFmdPath error', (done) => { // dc stub send oid as filepath
-      fs.readJsonFromFmdPath(getTmpPath('not-exists.txt'), (err, content) => {
         err.should.be.an('error');
         should.not.exist(content);
         done();

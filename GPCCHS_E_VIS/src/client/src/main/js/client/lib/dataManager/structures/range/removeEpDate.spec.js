@@ -26,5 +26,17 @@ describe('dataManager/structures/range', () => {
             { point2: 202, point3: 302, x: 3 },
           ] } });
     });
+    it('no data to remove', () => {
+      const stateEp = Object.freeze({
+        myViewId: {
+          index: [1, 2, 3, 4],
+          columns: [
+            { point1: 150, point2: 200, x: 1 },
+            { point1: 151, point3: 301, x: 2 },
+            { point1: 152, point2: 202, point3: 302, x: 3 },
+            { point1: 153, x: 4 },
+          ] } });
+      removeEpData(stateEp, 'myViewId', 'unknown').should.eql(stateEp);
+    });
   });
 });

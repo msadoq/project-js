@@ -82,18 +82,6 @@ module.exports = {
   SORTORDER_DESC: 1,
   // ERROR TYPES
   ERRORTYPE_RESPONSE: 0,
-  // EVENTS
-  EVENT_PULL: 'pull',
-  EVENT_ERROR: 'error',
-  EVENT_DOMAIN_QUERY: 'domainQuery',
-  EVENT_DOMAIN_DATA: 'domainData',
-  EVENT_TIMEBASED_QUERY: 'timebasedQuery',
-  EVENT_TIMEBASED_QUERY_INVALIDATION: 'timebasedQueryInvalidation',
-  EVENT_TIMEBASED_DATA: 'timebasedData',
-  EVENT_SESSION_QUERY: 'sessionQuery',
-  EVENT_SESSION_DATA: 'sessionData',
-  EVENT_FILEPATH_QUERY: 'filepathQuery',
-  EVENT_FILEPATH_DATA: 'filepathData',
   // MODELS
   COLLECTION_TIMEBASED_DATA_PREFIX: 'timebasedData',
   COLLECTION_CONNECTED_DATA_PREFIX: 'connectedData',

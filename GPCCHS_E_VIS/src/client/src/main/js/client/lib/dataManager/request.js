@@ -7,13 +7,13 @@ import getLogger from 'common/log';
 import globalConstants from 'common/constants';
 
 import { operators } from '../common/operators';
-import structures from './structures';
+import { getStructureModule } from '../viewManager';
 
 const logger = getLogger('data:requests');
 
 /**
  * Return the current missing intervals requests list
- *
+ * perRemoteId:
  * {
  *   'remoteId': {
  *     dataId: {},
@@ -24,8 +24,14 @@ const logger = getLogger('data:requests');
  *          field: string,
  *          timebarUuid: string,
  *          offset: number,
- *          expectedInterval: [number, number],
  *        }
+ *     }
+ *   }
+ * },
+ * expectedIntervals: {
+ *   'remoteId': {
+ *     'localId': {
+ *       expectedInterval: [number, number]
  *     }
  *   }
  * }
@@ -36,17 +42,21 @@ const logger = getLogger('data:requests');
  */
 export function missingRemoteIds(dataMap, lastMap) {
   const queries = {};
-  _each(dataMap, ({ structureType, dataId, filter, localIds, views }, remoteId) => {
-    const retrieveNeededIntervals = structures(structureType, 'retrieveNeededIntervals');
-    const addInterval = structures(structureType, 'addInterval');
+  _each(dataMap.perRemoteId, ({ dataId, filter, localIds, views, structureType }, remoteId) => {
+    // const retrieveNeededIntervals = structures(structureType, 'retrieveNeededIntervals');
+    // const addInterval = structures(structureType, 'addInterval');
+    _each(localIds, ({ viewType }, localId) => {
+      const retrieveNeededIntervals = getStructureModule(viewType).retrieveNeededIntervals;
 
-    _each(localIds, ({ expectedInterval }, localId) => {
-      const knownInterval = _get(lastMap, [remoteId, 'localIds', localId, 'expectedInterval']);
+      const knownInterval =
+        _get(lastMap, ['expectedIntervals', remoteId, localId, 'expectedInterval']);
+      const expectedInterval =
+        _get(dataMap, ['expectedIntervals', remoteId, localId, 'expectedInterval']);
       const needed = retrieveNeededIntervals(knownInterval, expectedInterval);
       if (!needed.length) {
         // Check if there is not a new view requesting the data
-        if (_isEqual(views, lastMap[remoteId].views)
-        || views.length < lastMap[remoteId].views.length) {
+        const lastViews = lastMap.perRemoteId[remoteId].views;
+        if (_isEqual(views, lastViews) || views.length < lastViews.length) {
           return;
         }
         // If a new view has been opened, add a request on the whole expected interval
@@ -74,6 +84,7 @@ export function missingRemoteIds(dataMap, lastMap) {
         };
       }
 
+      const addInterval = getStructureModule(viewType).addInterval;
       _each(needed, (m) => {
         queries[remoteId].intervals = addInterval(queries[remoteId].intervals, m);
       });
@@ -83,6 +94,7 @@ export function missingRemoteIds(dataMap, lastMap) {
   return queries;
 }
 
+// entire dataMap to get perRemoteId and expectedIntervals
 export default function request(dataMap, lastMap, send) {
   // compute missing data
   const dataQueries = missingRemoteIds(dataMap, lastMap);

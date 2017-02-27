@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Col } from 'react-bootstrap';
-import ToggleButton from '../Buttons/ToggleButton';
+import ToggleButton from '../../../common/ToggleButton';
 
 /*
   SelectFontStyle permet d'éditer les propriétés de styles :

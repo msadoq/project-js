@@ -1,8 +1,10 @@
 import moment from 'moment';
-import reducer from './viewData';
+import viewDataReducer from './viewData';
 import { removeAllData, updateViewData } from '../actions/viewData';
 import * as types from '../types';
+import { freezeArgs } from '../../common/test';
 
+const reducer = freezeArgs(viewDataReducer);
 
 describe('store:viewData:reducer', () => {
   const payload = { rId1: {}, rId2: {} };
@@ -42,12 +44,14 @@ describe('store:viewData:reducer', () => {
 
   describe('DATA_UPDATE_VIEWDATA', () => {
     it('empty viewData', () => { // oldViewMap', 'newViewMap',  'dataToInject'
-      reducer(Object.freeze({ }), updateViewData({}, {}, {}))
+      reducer(Object.freeze({ }), updateViewData({}, {}, {}, {}, {}))
       .should.eql({ });
     });
     let newViewMap;
     let oldViewMap;
     let dataToInject;
+    let oldIntervals;
+    let newIntervals;
     before('', () => {
       oldViewMap = {
         text: {
@@ -56,7 +60,7 @@ describe('store:viewData:reducer', () => {
             ep1: {
               remoteId: 'rId1',
               field: 'time',
-              expectedInterval: [5, 9],
+              localId: 'local1',
             },
           },
         },
@@ -68,10 +72,14 @@ describe('store:viewData:reducer', () => {
               fieldX: 'time',
               fieldY: 'val2',
               offset: 0,
-              expectedInterval: [7, 10],
+              localId: 'local2',
             },
           },
         },
+      };
+      oldIntervals = {
+        rId1: { local1: { expectedInterval: [5, 9] } },
+        rId2: { local2: { expectedInterval: [7, 10] } },
       };
       newViewMap = {
         text: {
@@ -80,12 +88,12 @@ describe('store:viewData:reducer', () => {
             ep1: {
               remoteId: 'rId1',
               field: 'time',
-              expectedInterval: [5, 10],
+              localId: 'local1',
             },
             ep4: {
               remoteId: 'rId2',
               field: 'val4',
-              expectedInterval: [5, 10],
+              localId: 'local4',
             },
           },
         },
@@ -97,16 +105,26 @@ describe('store:viewData:reducer', () => {
               fieldX: 'time',
               fieldY: 'val2',
               offset: 0,
-              expectedInterval: [8, 12],
+              localId: 'local2',
             },
             ep3: {
               remoteId: 'rId2',
               fieldX: 'time',
               fieldY: 'val4',
               offset: 0,
-              expectedInterval: [8, 12],
+              localId: 'local3',
             },
           },
+        },
+      };
+      newIntervals = {
+        rId1: {
+          local1: { expectedInterval: [5, 10] },
+          local2: { expectedInterval: [8, 12] },
+        },
+        rId2: {
+          local4: { expectedInterval: [5, 10] },
+          local3: { expectedInterval: [8, 12] },
         },
       };
       dataToInject = { rId1: {}, rId2: {} };
@@ -125,26 +143,27 @@ describe('store:viewData:reducer', () => {
       }
     });
     it('valid viewData with empty state', () => {
-      const val = reducer(Object.freeze({ }), updateViewData({}, newViewMap, dataToInject));
+      const val = reducer(Object.freeze({ }), updateViewData({}, newViewMap,
+        oldIntervals, newIntervals, dataToInject));
       val.should.eql({
         text: {
           index: { ep1: 10, ep4: 9 },
           values: {
-            ep1: { value: moment(10.2).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS'), monit: undefined },
-            ep4: { value: 'val9', monit: undefined } },
+            ep1: { value: moment(10.2).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS') },
+            ep4: { value: 'val9' } },
         },
         plot: {
           index: [8, 9, 10, 11, 12],
           columns: [
-            { x: 8, ep2: { monit: undefined, value: 82, x: 8.2, symbol: undefined } },
+            { x: 8, ep2: { value: 82, x: 8.2, symbol: undefined } },
             { x: 9,
-              ep2: { monit: undefined, value: 92, x: 9.2, symbol: undefined },
-              ep3: { monit: undefined, value: 9, x: 9.2, symbol: 'val9' } },
-            { x: 10, ep2: { monit: undefined, value: 102, x: 10.2, symbol: undefined } },
+              ep2: { value: 92, x: 9.2, symbol: undefined },
+              ep3: { value: 9, x: 9.2, symbol: 'val9' } },
+            { x: 10, ep2: { value: 102, x: 10.2, symbol: undefined } },
             { x: 11,
-              ep2: { monit: undefined, value: 112, x: 11.2, symbol: undefined },
-              ep3: { monit: undefined, value: 11, x: 11.2, symbol: 'val11' } },
-            { x: 12, ep2: { monit: undefined, value: 122, x: 12.2, symbol: undefined } },
+              ep2: { value: 112, x: 11.2, symbol: undefined },
+              ep3: { value: 11, x: 11.2, symbol: 'val11' } },
+            { x: 12, ep2: { value: 122, x: 12.2, symbol: undefined } },
           ],
         },
       });
@@ -153,43 +172,44 @@ describe('store:viewData:reducer', () => {
       const state = { text: {
         index: { ep1: 9, ep4: 9 },
         values: {
-          ep1: { value: moment(9.2).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS'), monit: undefined },
+          ep1: { value: moment(9.2).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS') },
           ep4: { value: 'val9', monit: undefined } },
       },
         plot: {
           index: [7, 8, 9, 10],
           columns: [
             { x: 7,
-              ep2: { monit: undefined, value: 72, x: 7.2, symbol: undefined },
-              ep3: { monit: undefined, value: 7, x: 7.2, symbol: 'val7' } },
-            { x: 8, ep2: { monit: undefined, value: 82, x: 8.2, symbol: undefined } },
+              ep2: { value: 72, x: 7.2, symbol: undefined },
+              ep3: { value: 7, x: 7.2, symbol: 'val7' } },
+            { x: 8, ep2: { value: 82, x: 8.2, symbol: undefined } },
             { x: 9,
-              ep2: { monit: undefined, value: 92, x: 9.2, symbol: undefined },
-              ep3: { monit: undefined, value: 9, x: 9.2, symbol: 'val9' } },
-            { x: 10, ep2: { monit: undefined, value: 102, x: 10.2, symbol: undefined } },
+              ep2: { value: 92, x: 9.2, symbol: undefined },
+              ep3: { value: 9, x: 9.2, symbol: 'val9' } },
+            { x: 10, ep2: { value: 102, x: 10.2, symbol: undefined } },
           ],
         } };
 
-      reducer(Object.freeze(state), updateViewData(oldViewMap, newViewMap, dataToInject))
+      reducer(Object.freeze(state), updateViewData(oldViewMap, newViewMap,
+        oldIntervals, newIntervals, dataToInject))
       .should.eql({
         text: {
           index: { ep1: 10, ep4: 9 },
           values: {
-            ep1: { value: moment(10.2).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS'), monit: undefined },
-            ep4: { value: 'val9', monit: undefined } },
+            ep1: { value: moment(10.2).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS') },
+            ep4: { value: 'val9' } },
         },
         plot: {
           index: [8, 9, 10, 11, 12],
           columns: [
-            { x: 8, ep2: { monit: undefined, value: 82, x: 8.2, symbol: undefined } },
+            { x: 8, ep2: { value: 82, x: 8.2, symbol: undefined } },
             { x: 9,
-              ep2: { monit: undefined, value: 92, x: 9.2, symbol: undefined },
-              ep3: { monit: undefined, value: 9, x: 9.2, symbol: 'val9' } },
-            { x: 10, ep2: { monit: undefined, value: 102, x: 10.2, symbol: undefined } },
+              ep2: { value: 92, x: 9.2, symbol: undefined },
+              ep3: { value: 9, x: 9.2, symbol: 'val9' } },
+            { x: 10, ep2: { value: 102, x: 10.2, symbol: undefined } },
             { x: 11,
-              ep2: { monit: undefined, value: 112, x: 11.2, symbol: undefined },
-              ep3: { monit: undefined, value: 11, x: 11.2, symbol: 'val11' } },
-            { x: 12, ep2: { monit: undefined, value: 122, x: 12.2, symbol: undefined } },
+              ep2: { value: 112, x: 11.2, symbol: undefined },
+              ep3: { value: 11, x: 11.2, symbol: 'val11' } },
+            { x: 12, ep2: { value: 122, x: 12.2, symbol: undefined } },
           ],
         },
       });

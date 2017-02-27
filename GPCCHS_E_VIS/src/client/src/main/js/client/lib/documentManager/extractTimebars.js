@@ -1,20 +1,13 @@
-import compose from 'lodash/fp/compose';
-import pipe from 'lodash/fp/pipe';
-import prop from 'lodash/fp/prop';
-import path from 'lodash/fp/path';
-import assoc from 'lodash/fp/assoc';
-import isArray from 'lodash/fp/isArray';
-import map from 'lodash/fp/map';
-import indexBy from 'lodash/fp/indexBy';
+import _ from 'lodash/fp';
 
 import { v4 } from 'uuid';
 
 // not pure (due to uuid generation)
-const setUUID = obj => assoc('uuid', v4(), obj);
-const indexByUUID = compose(indexBy(prop('uuid')), map(setUUID));
-const getTimebarsWithUUID = pipe(
-  path(['__original', 'timebars']),
-  tbs => (isArray(tbs) ? indexByUUID(tbs) : {})
+const setUUID = obj => _.assoc('uuid', v4(), obj);
+const indexByUUID = _.compose(_.indexBy(_.prop('uuid')), _.map(setUUID));
+const getTimebarsWithUUID = _.pipe(
+  _.path(['__original', 'timebars']),
+  tbs => (_.isArray(tbs) ? indexByUUID(tbs) : {})
 );
 
 /**

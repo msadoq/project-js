@@ -7,13 +7,11 @@ import {
 } from '../../../store/actions/views';
 import {
   getViewContent,
-  getTextViewData,
 } from '../../../store/selectors/views';
 
 export const TextViewContainer = connect(
   (state, { viewId }) => ({
-    content: getViewContent(state, viewId),
-    data: getTextViewData(state, viewId),
+    content: getViewContent(state, { viewId }),
   }), {
     updateContent,
     addEntryPoint,

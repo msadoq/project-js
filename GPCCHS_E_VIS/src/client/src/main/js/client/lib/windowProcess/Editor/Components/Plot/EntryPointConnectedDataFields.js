@@ -25,10 +25,10 @@ const EntryPointConnectedDataFields = (props) => {
   } = props;
   let filteredAxes;
   if (axes && unit) {
-    filteredAxes = Object.entries(axes)
-      .map(a => ({
-        ...a[1],
-        axeId: a[0],
+    filteredAxes = Object.keys(axes)
+      .map(key => ({
+        ...axes[key],
+        axeId: key,
       })).filter(axe =>
         axe.unit === unit || axe.id === axisId
       );
@@ -146,10 +146,10 @@ const EntryPointConnectedDataFields = (props) => {
         />
       </HorizontalFormGroup>
 
-      <FieldArray
+      { prefix === 'y.' && <FieldArray
         name={`${prefix}filter`}
         component={FiltersFields}
-      />
+      /> }
     </div>
   );
 };
@@ -167,7 +167,9 @@ EntryPointConnectedDataFields.propTypes = {
   prefix: PropTypes.string.isRequired,
   unit: PropTypes.string.isRequired,
   axisId: PropTypes.string.isRequired,
-  timeBasedData: PropTypes.bool.isRequired,
+  timeBasedData: PropTypes.bool,
 };
-
+EntryPointConnectedDataFields.defaultProps = {
+  timeBasedData: false,
+};
 export default EntryPointConnectedDataFields;

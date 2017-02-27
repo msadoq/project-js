@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import ColorPicker from '../ColorPicker';
+import { colors as initialColors } from '../../../common/colors';
 
 const ColorPickerField = (props) => {
   const {
@@ -22,7 +23,10 @@ ColorPickerField.propTypes = {
     value: PropTypes.string,
     onChange: PropTypes.func,
   }).isRequired,
-  colors: PropTypes.arrayOf(PropTypes.string).isRequired,
+  colors: PropTypes.arrayOf(PropTypes.string),
+};
+ColorPickerField.defaultProps = {
+  colors: initialColors,
 };
 
 export default ColorPickerField;

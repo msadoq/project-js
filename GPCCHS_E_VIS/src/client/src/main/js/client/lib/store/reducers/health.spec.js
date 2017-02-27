@@ -1,7 +1,9 @@
 import globalConstants from 'common/constants';
-import { freezeMe } from '../../common/test';
+import { freezeArgs } from '../../common/test';
 import * as actions from '../actions/health';
-import reducer from './health';
+import healthReducer from './health';
+
+const reducer = freezeArgs(healthReducer);
 
 describe('store:health:reducer', () => {
   it('should returns initial state', () => {
@@ -15,13 +17,13 @@ describe('store:health:reducer', () => {
     r.should.have.a.property('lastPubSubTimestamp', null);
   });
   it('should ignore unknown action', () => {
-    const state = freezeMe({
+    const state = {
       dcStatus: globalConstants.HEALTH_STATUS_HEALTHY,
       hssStatus: globalConstants.HEALTH_STATUS_HEALTHY,
       mainStatus: globalConstants.HEALTH_STATUS_HEALTHY,
       lastPubSubTimestamp: 42,
       windowsStatus: { id42: 42 },
-    });
+    };
     reducer(state, {}).should.equal(state);
   });
   it('should update dc status', () => {
@@ -41,9 +43,7 @@ describe('store:health:reducer', () => {
       .should.have.a.property('lastPubSubTimestamp', 91);
   });
   it('should update window status', () => {
-    const state = freezeMe({
-      windowsStatus: { id91: 91 },
-    });
+    const state = { windowsStatus: { id91: 91 } };
     reducer(state, actions.updateWindowStatus('id42', 42))
       .should.have.properties({
         windowsStatus: { id91: 91, id42: 42 },

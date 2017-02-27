@@ -37,7 +37,7 @@ function reload(viewId, absolutePath) {
 }
 
 export default function ({ viewId }) {
-  const { absolutePath, isModified } = getView(getStore().getState(), viewId);
+  const { absolutePath, isModified } = getView(getStore().getState(), { viewId });
 
   if (!isModified) {
     return reload(viewId, absolutePath);

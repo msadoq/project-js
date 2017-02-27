@@ -19,7 +19,6 @@
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
         "axisId": "Time"
@@ -46,16 +45,23 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "objectStyle": {
+        "name": "STAT_SU_PPID",
+        "curveColor": "#3f51b5",
+        "line": {
+          "style": "Continuous",
+          "size": 1
+        }
+      }
     },
-     {
+    {
       "name": "STAT_SU_TPGID",
       "connectedDataX": {
         "formula": "Reporting.STAT_SU_TPGID<ReportingParameter>.groundDate",
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
         "axisId": "Time"
@@ -82,7 +88,15 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "objectStyle": {
+        "name": "STAT_SU_TPGID",
+        "line": {
+          "size": 1,
+          "style": "Continuous"
+        },
+        "curveColor": "#2196f3"
+      }
     },
     {
       "name": "STAT_SU_MINFLT",
@@ -91,7 +105,6 @@
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
         "axisId": "Time"
@@ -118,7 +131,15 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "objectStyle": {
+        "name": "STAT_SU_MINFLT",
+        "line": {
+          "style": "Continuous",
+          "size": 1
+        },
+        "curveColor": "#009688"
+      }
     },
     {
       "name": "STAT_SU_UTIME",
@@ -127,7 +148,6 @@
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
         "axisId": "Time"
@@ -154,7 +174,15 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "objectStyle": {
+        "name": "STAT_SU_UTIME",
+        "line": {
+          "style": "Continuous",
+          "size": 1
+        },
+        "curveColor": "#2196f3"
+      }
     },
     {
       "name": "STAT_SU_STIME",
@@ -163,7 +191,6 @@
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
         "axisId": "Time"
@@ -190,7 +217,15 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "objectStyle": {
+        "name": "STAT_SU_STIME",
+        "line": {
+          "style": "Continuous",
+          "size": 1
+        },
+        "curveColor": "#4caf50"
+      }
     },
     {
       "name": "STAT_SU_PRIORITY",
@@ -199,7 +234,6 @@
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
         "axisId": "Time"
@@ -226,7 +260,15 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "objectStyle": {
+        "name": "STAT_SU_PRIORITY",
+        "line": {
+          "style": "Continuous",
+          "size": 1
+        },
+        "curveColor": "#8bc34a"
+      }
     },
     {
       "name": "STAT_SU_ITREALVALUE",
@@ -235,7 +277,6 @@
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
         "axisId": "Time"
@@ -262,16 +303,23 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "objectStyle": {
+        "name": "STAT_SU_ITREALVALUE",
+        "line": {
+          "style": "Continuous",
+          "size": 1
+        },
+        "curveColor": "#cddc39"
+      }
     },
-   {
+    {
       "name": "STAT_SU_RSS",
       "connectedDataX": {
         "formula": "Reporting.STAT_SU_RSS<ReportingParameter>.groundDate",
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
         "axisId": "Time"
@@ -298,16 +346,23 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "objectStyle": {
+        "name": "STAT_SU_RSS",
+        "line": {
+          "style": "Continuous",
+          "size": 1
+        },
+        "curveColor": "#ffeb3b"
+      }
     },
-   {
+    {
       "name": "STAT_SU_SIGNAL",
       "connectedDataX": {
         "formula": "Reporting.STAT_SU_SIGNAL<ReportingParameter>.groundDate",
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
         "axisId": "Time"
@@ -334,7 +389,15 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "objectStyle": {
+        "name": "STAT_SU_SIGNAL",
+        "line": {
+          "style": "Continuous",
+          "size": 1
+        },
+        "curveColor": "#673ab7"
+      }
     },
     {
       "name": "STAT_SU_SIGCATCH",
@@ -343,7 +406,6 @@
         "unit": "s",
         "digits": 5,
         "format": "decimal",
-        "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
         "axisId": "Time"
@@ -370,7 +432,15 @@
             "operand": "waiting"
           }
         }
-      ]
+      ],
+      "objectStyle": {
+        "name": "STAT_SU_SIGCATCH",
+        "line": {
+          "style": "Continuous",
+          "size": 1
+        },
+        "curveColor": "#9c27b0"
+      }
     }
   ],
   "axes": [
@@ -395,7 +465,8 @@
       "showTicks": true,
       "showTickLabels": true,
       "isLogarithmic": false,
-      "showAxis": true
+      "showAxis": true,
+      "showLabels": true
     },
     {
       "label": "VBat",
@@ -410,23 +481,27 @@
         "align": "left",
         "color": "#000000"
       },
-      "min": -300,
-      "max": 300,
+      "min": 85,
+      "max": 160,
       "autoLimits": false,
       "tickStep": 50,
       "autoTick": false,
       "showTicks": true,
       "showTickLabels": true,
       "isLogarithmic": false,
-      "showAxis": true
+      "showAxis": true,
+      "showLabels": true,
+      "id": "VBat"
     }
   ],
   "grids": [
     {
       "xAxisId": "Time",
       "yAxisId": "VBat",
-      "lineStyle": "Continuous",
-      "width": 1,
+      "line": {
+        "style": "Dashed",
+        "size": 1
+      },
       "showGrid": true
     }
   ],
@@ -439,7 +514,8 @@
     "underline": true,
     "strikeOut": false,
     "align": "center",
-    "color": "#000000"
+    "color": "#ffffff",
+    "bgColor": "#000000"
   },
   "plotBackgroundColor": "#FFFFFF",
   "showYAxes": "left",
@@ -474,4 +550,4 @@
       "relativePosY": 8.9
     }
   ]
-  }
+}

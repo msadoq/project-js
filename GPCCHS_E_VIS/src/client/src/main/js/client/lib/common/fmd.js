@@ -8,7 +8,7 @@ import globalConstants from 'common/constants';
 import ipc from '../mainProcess/ipc';
 import { checkPath } from './fs';
 
-const getRootDir = () => parameters.get('FMD_ROOT_DIR');
+const getRootDir = () => parameters.get('ISIS_DOCUMENTS_ROOT');
 const isInFmd = path => startsWith(getRootDir(), path);
 const getRelativeFmdPath = path => `/${relative(getRootDir(), path)}`;
 

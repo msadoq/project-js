@@ -17,10 +17,41 @@ import EntryPointStateColors from '../EntryPoint/EntryPointStateColors';
 export default class EntryPointDetails extends PureComponent {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
-    timelines: PropTypes.array.isRequired,
-    idPoint: PropTypes.number,
-    axes: PropTypes.object,
-    entryPoint: PropTypes.object,
+    timelines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    idPoint: PropTypes.number.isRequired,
+    axes: PropTypes.shape({}).isRequired,
+    entryPoint: PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      connectedDataX: PropTypes.shape({
+        axisId: PropTypes.string,
+        digit: PropTypes.number,
+        domain: PropTypes.string,
+        filter: PropTypes.arrayOf(PropTypes.shape({
+          field: PropTypes.string,
+          operand: PropTypes.string,
+          operator: PropTypes.string,
+        })),
+        format: PropTypes.string,
+        formula: PropTypes.string,
+        timeline: PropTypes.string,
+        unit: PropTypes.string,
+      }),
+      connectedDataY: PropTypes.shape({
+        axisId: PropTypes.string,
+        digit: PropTypes.number,
+        domain: PropTypes.string,
+        filter: PropTypes.arrayOf(PropTypes.shape({
+          field: PropTypes.string,
+          operand: PropTypes.string,
+          operator: PropTypes.string,
+        })),
+        format: PropTypes.string,
+        formula: PropTypes.string,
+        timeline: PropTypes.string,
+        unit: PropTypes.string,
+      }),
+    }).isRequired,
     updateEntryPoint: PropTypes.func.isRequired,
   }
 
@@ -82,7 +113,16 @@ export default class EntryPointDetails extends PureComponent {
       isPanelStateColorsOpen,
       isPanelParametersOpen,
     } = this.state;
-
+    // TODO Rerender (new ref)
+    const initialValuesParameters = { ...entryPoint.objectStyle, name: entryPoint.name };
+    // TODO Rerender (new ref)
+    const initialValuesConnectedData = {
+      x: entryPoint.connectedDataX,
+      y: entryPoint.connectedDataY,
+      timeBasedData: entryPoint.timeBasedData,
+    };
+    // TODO Rerender (new ref)
+    const initialValuesStateColors = { stateColors: entryPoint.stateColors || [] };
     return (
       <Accordion>
         <Panel
@@ -96,8 +136,7 @@ export default class EntryPointDetails extends PureComponent {
           {isPanelParametersOpen && <EntryPointParameters
             onSubmit={this.handleObjectParametersSubmit}
             form={`entrypoint-parameters-form-${idPoint}-${viewId}`}
-            // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
-            initialValues={{ ...entryPoint.objectStyle, name: entryPoint.name }}
+            initialValues={initialValuesParameters}
           />}
         </Panel>
 
@@ -116,12 +155,7 @@ export default class EntryPointDetails extends PureComponent {
             viewId={viewId}
             form={`entrypoint-connectedDataXY-form-${idPoint}-${viewId}`}
             onSubmit={this.handleConnectedDataXYSubmit}
-            // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
-            initialValues={{
-              x: entryPoint.connectedDataX,
-              y: entryPoint.connectedDataY,
-              timeBasedData: entryPoint.timeBasedData,
-            }}
+            initialValues={initialValuesConnectedData}
           />}
         </Panel>
         <Panel
@@ -134,9 +168,7 @@ export default class EntryPointDetails extends PureComponent {
         >
           {isPanelStateColorsOpen && <EntryPointStateColors
             // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
-            initialValues={{
-              stateColors: entryPoint.stateColors || [],
-            }}
+            initialValues={initialValuesStateColors}
             form={`entrypoint-stateColors-form-${idPoint}-${viewId}`}
             onSubmit={this.handleSubmit}
           />}

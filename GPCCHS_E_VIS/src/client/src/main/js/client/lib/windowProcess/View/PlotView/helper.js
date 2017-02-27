@@ -137,7 +137,6 @@ export const zoomDateFormat = date => (timeSecond(date) < date ? formatMilliseco
 
 export const fullDateFormat = timeFormat('%Y-%m-%d %H:%M:%S.%L');
 
-/* eslint-disable no-param-reassign */
 export const drawBadge = ({
   text,
   font = 'Arial',
@@ -152,22 +151,23 @@ export const drawBadge = ({
   fillColor = '#F00',
   ctx,
 }) => {
-  ctx.fillStyle = fillColor;
-  ctx.strokeStyle = fillColor;
+  const context = ctx;
 
-  const w = width || (ctx.measureText(text).width + (margin * 2));
+  context.fillStyle = fillColor;
+  context.strokeStyle = fillColor;
+
+  const w = width || (context.measureText(text).width + (margin * 2));
   const h = height || (fontHeight + margin);
   // Set faux rounded corners
-  ctx.lineJoin = 'round';
-  ctx.lineWidth = radius;
+  context.lineJoin = 'round';
+  context.lineWidth = radius;
 
   // Change origin and dimensions to match true size (a stroke makes the shape a bit larger)
-  ctx.strokeRect(x + (radius / 2), y + (radius / 2), w - radius, h - radius);
-  ctx.fillRect(x + (radius / 2), y + (radius / 2), w - radius, h - radius);
+  context.strokeRect(x + (radius / 2), y + (radius / 2), w - radius, h - radius);
+  context.fillRect(x + (radius / 2), y + (radius / 2), w - radius, h - radius);
 
-  // ctx.fillRect(0,0,ctx.measureText(str).width+20,30)
-  ctx.fillStyle = textColor;
-  ctx.font = `${fontHeight}pt ${font}`;
-  ctx.fillText(text, x + (margin * 0.9), y + (margin * 1.4));
+  // context.fillRect(0,0,context.measureText(str).width+20,30)
+  context.fillStyle = textColor;
+  context.font = `${fontHeight}pt ${font}`;
+  context.fillText(text, x + (margin * 0.9), y + (margin * 1.4));
 };
-/* eslint-enable no-param-reassign */

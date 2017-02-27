@@ -1,27 +1,41 @@
-import { v4 } from 'uuid';
 import simple from '../simpleActionCreator';
-import { ifPathChanged } from './enhancers';
+import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
 import { getView } from '../selectors/views';
+import { getTimebars } from '../selectors/timebars';
 import {
   add as addView,
   remove as removeView,
   setCollapsed as setCollapsedView,
 } from './views';
-import { addAndMount as addAndMountPage,
-         focusPage,
-         setModified as setModifiedWindow } from './windows';
-import { getFocusedWindowId } from '../selectors/hsc';
+import { addAndMount as addAndMountPage, focusPage } from './windows';
 /**
  * Simple actions
  */
-export const add = simple(types.WS_PAGE_ADD, 'pageId', 'timebarUuid', 'title', 'views', 'layout',
+export const _add = simple(types.WS_PAGE_ADD, 'pageId', 'timebarUuid', 'title', 'views', 'layout',
   'path', 'oId', 'absolutePath', 'isModified', 'properties', 'timebarHeight', 'timebarCollapsed');
+
+export const add = (pageId, timebarUuid, title, views, layout,
+  path, oId, absolutePath, isModified, properties, timebarHeight, timebarCollapsed) =>
+  (dispatch, getState) => {
+    let timebarNewUuid;
+    if (typeof timebarUuid === 'undefined') {
+      const uuid = Object.keys(getTimebars(getState()))[0];
+      timebarNewUuid = uuid;
+    }
+    dispatch(
+      _add(
+        pageId, timebarUuid || timebarNewUuid, title, views, layout, path, oId,
+        absolutePath, isModified, properties, timebarHeight, timebarCollapsed
+      )
+    );
+  };
+
 export const removePage = simple(types.WS_PAGE_REMOVE, 'pageId');
 export const mountView = simple(types.WS_PAGE_VIEW_MOUNT, 'pageId', 'viewId', 'layout');
 export const unmountView = simple(types.WS_PAGE_VIEW_UNMOUNT, 'pageId', 'viewId');
 export const openEditor = simple(types.WS_PAGE_EDITOR_OPEN,
-  'pageId', 'viewId', 'viewType', 'configuration');
+  'pageId', 'viewId', 'viewType');
 export const closeEditor = simple(types.WS_PAGE_EDITOR_CLOSE, 'pageId');
 export const updateLayoutSimple = simple(types.WS_PAGE_UPDATE_LAYOUT, 'pageId', 'layout');
 export const collapseTimebar = simple(types.WS_PAGE_TIMEBAR_COLLAPSE, 'pageId', 'flag');
@@ -31,7 +45,7 @@ export const updateLayout = (pageId, layout) =>
   (dispatch, getState) => {
     layout.forEach((l) => {
       if (l.h > 1) {
-        const view = getView(getState(), l.i);
+        const view = getView(getState(), { viewId: l.i });
         if (view && view.configuration.collapsed) {
           dispatch(setCollapsedView(l.i, false));
         }
@@ -44,8 +58,8 @@ export const updateLayout = (pageId, layout) =>
 const simpleUpdatePath = simple(types.WS_PAGE_UPDATEPATH, 'pageId', 'newPath');
 const simpleUpdateAbsolutePath = simple(types.WS_PAGE_UPDATE_ABSOLUTEPATH, 'pageId', 'newPath');
 
-export const updatePath = ifPathChanged(simpleUpdatePath, ['pages', 'path', 'pageId']);
-export const updateAbsolutePath = ifPathChanged(simpleUpdateAbsolutePath, ['pages', 'absolutePath', 'pageId']);
+export const updatePath = ifPathChanged(simpleUpdatePath, 'pages', 'path', 'pageId');
+export const updateAbsolutePath = ifPathChanged(simpleUpdateAbsolutePath, 'pages', 'absolutePath', 'pageId');
 /* ------------------------ */
 
 // export const updatePath = simple(types.WS_PAGE_UPDATEPATH, 'pageId', 'newPath');
@@ -53,20 +67,28 @@ export const updateAbsolutePath = ifPathChanged(simpleUpdateAbsolutePath, ['page
 
 export const setModified = simple(types.WS_PAGE_SETMODIFIED, 'pageId', 'flag');
 
-export const updateTimebarHeight = simple(types.WS_PAGE_UPDATE_TIMEBARHEIGHT, 'focusedPageId', 'timebarHeight');
+export const updateTimebarHeight = simple(types.WS_PAGE_UPDATE_TIMEBARHEIGHT, 'pageId', 'timebarHeight');
+
+export const updateTimebarId = simple(types.WS_PAGE_UPDATE_TIMEBARID, 'pageId', 'timebarUuid');
 
 /**
  * Compound actions
  */
-export function addAndMount(pageId, viewId = v4(), view, layout) {
-  return (dispatch) => {
-    if (!view) {
-      dispatch(addView(viewId));
-    } else {
-      dispatch(addView(viewId, view.type, view.configuration, view.path, view.oId,
-        view.absolutePath));
-    }
-    dispatch(mountView(pageId, viewId, layout));
+const addViewInLayout = (page, viewId, specificLayout) => {
+  const layout = { w: 5, h: 5, x: 0, y: 0, ...specificLayout, i: viewId };
+  if (!page) {
+    return layout;
+  }
+  return [...page.layout, layout];
+};
+
+export function addAndMount(pageId, viewId, view = {}, layout) {
+  return (dispatch, getState) => {
+    const page = getState().pages[pageId];
+    dispatch(
+      addView(viewId, view.type, view.configuration, view.path, view.oId, view.absolutePath)
+    );
+    dispatch(mountView(pageId, viewId, addViewInLayout(page, viewId, layout)));
   };
 }
 
@@ -98,19 +120,10 @@ export function remove(pageId) {
     if (!state.pages[pageId]) {
       return;
     }
-    const views = state.pages[pageId].views; // tableau
+    const views = state.pages[pageId].views;
     views.forEach((viewId) => {
       dispatch(unmountAndRemove(pageId, viewId));
     });
     dispatch(removePage(pageId));
-  };
-}
-
-export function updateTimebarId(focusedPageId, timebarUuid) {
-  return (dispatch, getState) => {
-    dispatch({ type: 'WS_PAGE_UPDATE_TIMEBARID', payload: { focusedPageId, timebarUuid } });
-    const state = getState();
-    const windowId = getFocusedWindowId(state);
-    dispatch(setModifiedWindow(windowId, true));
   };
 }

@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
 import PlotGrid from './PlotGrid';
 
-export default class PlotAxes extends React.Component {
+export default class PlotGrids extends React.Component {
   static propTypes = {
     viewId: PropTypes.string.isRequired,
-    grids: PropTypes.array.isRequired,
-    axes: PropTypes.object.isRequired,
+    grids: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    axes: PropTypes.shape({}).isRequired,
     updateGrid: PropTypes.func.isRequired,
   }
   state = { };

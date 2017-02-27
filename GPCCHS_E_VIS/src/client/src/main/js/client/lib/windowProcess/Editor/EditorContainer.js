@@ -7,8 +7,8 @@ import { getView } from '../../store/selectors/views';
 import { closeEditor } from '../../store/actions/pages';
 
 const mapStateToProps = (state, { focusedPageId }) => {
-  const editor = getEditor(state, focusedPageId);
-  const view = getView(state, editor.viewId);
+  const editor = getEditor(state, { pageId: focusedPageId });
+  const view = getView(state, { viewId: editor.viewId });
 
   return {
     viewId: editor.viewId,

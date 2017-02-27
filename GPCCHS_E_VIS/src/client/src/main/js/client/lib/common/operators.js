@@ -24,7 +24,9 @@ const operatorFns = {
 
 const tryParseNumber = n => (isNaN(Number(n)) ? n : Number(n));
 
+const noOp = () => false;
+
 export const compile = ({
   operator,
   operand,
-}) => f => operatorFns[operator](f, tryParseNumber(operand));
+}) => f => (operatorFns[operator] || noOp)(f, tryParseNumber(operand));

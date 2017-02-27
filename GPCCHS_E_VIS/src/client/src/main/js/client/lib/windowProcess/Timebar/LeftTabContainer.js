@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
-import { addAndMountTimeline, unmountTimeline, updateMasterId } from '../../store/actions/timebars';
+import { addAndMountTimeline, updateMasterId } from '../../store/actions/timebars';
+import { unmountTimeline } from '../../store/actions/timebarTimelines';
 import { updateTimebarId } from '../../store/actions/pages';
 import {
   updateId,

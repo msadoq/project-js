@@ -27,18 +27,20 @@ class EntryPointConnectedDataXY extends React.Component {
       y: PropTypes.object,
       timeBasedData: PropTypes.bool,
     }).isRequired,
-    axes: PropTypes.object,
-    timelines: PropTypes.array,
-    handleSubmit: PropTypes.func,
-    pristine: PropTypes.bool,
-    reset: PropTypes.func,
+    axes: PropTypes.shape({}).isRequired,
+    timelines: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    pristine: PropTypes.bool.isRequired,
+    reset: PropTypes.func.isRequired,
     submitting: PropTypes.bool,
-    valid: PropTypes.bool,
-    xUnit: PropTypes.string,
-    yUnit: PropTypes.string,
-    timeBasedData: PropTypes.bool,
+    valid: PropTypes.bool.isRequired,
+    xUnit: PropTypes.string.isRequired,
+    yUnit: PropTypes.string.isRequired,
+    timeBasedData: PropTypes.bool.isRequired,
   }
-
+  static defaultProps = {
+    submitting: false,
+  }
   render() {
     const {
       handleSubmit,

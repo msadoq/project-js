@@ -28,7 +28,11 @@ HorizontalFormGroup.propTypes = {
   label: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
-  ]).isRequired,
+  ]),
+};
+
+HorizontalFormGroup.defaultProps = {
+  label: '',
 };
 
 export default HorizontalFormGroup;

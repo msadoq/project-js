@@ -1,35 +1,27 @@
 import path from 'path';
 import webpack from 'webpack';
 
-import postCssImport from 'postcss-smart-import';
-import postCssUrl from 'postcss-url';
-import postCssProperties from 'postcss-custom-properties';
-import postCssNesting from 'postcss-nested';
-import postCssReporter from 'postcss-reporter';
-import postCssBrowserReporter from 'postcss-browser-reporter';
-
 export default {
   module: {
-    loaders: [{
-      test: /\.css$/,
-      loaders: [
-        'style',
-        'css?modules&sourceMap&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
-        'postcss',
-      ],
-      exclude: /node_modules/,
-    },
-    {
-      test: /\.jsx?$/,
-      loaders: ['babel-loader'].map(require.resolve),
-      exclude: /node_modules/,
-    }, {
-      test: /\.json$/,
-      loader: 'json',
-    }, {
-      test: /\.less$/,
-      loader: 'style!css!less',
-    }],
+    loaders: [
+      {
+        test: /\.jsx?$/,
+        loaders: ['babel-loader'].map(require.resolve),
+        include: /node_modules\/common/,
+        exclude: /node_modules\/common\/node_modules/,
+      },
+      {
+        test: /\.jsx?$/,
+        loaders: ['babel-loader'].map(require.resolve),
+        exclude: /node_modules/,
+      }, {
+        test: /\.json$/,
+        loader: 'json',
+      }, {
+        test: /\.less$/,
+        loader: 'style!css!less',
+      },
+    ],
   },
   output: {
     path: path.join(__dirname, 'dist'),
@@ -46,13 +38,5 @@ export default {
   externals: [
     // put your node 3rd party libraries which can't be built with webpack here
     // (mysql, mongodb, and so on..)
-  ],
-  postcss: () => [
-    postCssImport(),
-    postCssUrl(),
-    postCssProperties(),
-    postCssNesting(),
-    postCssReporter(),
-    postCssBrowserReporter(),
   ],
 };

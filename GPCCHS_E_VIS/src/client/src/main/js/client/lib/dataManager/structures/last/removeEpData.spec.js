@@ -21,5 +21,14 @@ describe('dataManager/structures/last', () => {
         },
       });
     });
+    it('no data to remove', () => {
+      const state = Object.freeze({
+        myViewId: {
+          index: { myEntryPoint: 10, myOther: 20 },
+          values: { myEntryPoint: 150, myOther: 200 },
+        },
+      });
+      removeEpData(state, 'myViewId', 'unknown').should.eql(state);
+    });
   });
 });

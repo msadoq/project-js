@@ -1,21 +1,7 @@
 import { v4 } from 'uuid';
 import async from 'async';
 
-import map from 'lodash/fp/map';
-import find from 'lodash/fp/find';
-import update from 'lodash/fp/update';
-
-import isEmpty from 'lodash/fp/isEmpty';
-import isNil from 'lodash/fp/isNil';
-import compose from 'lodash/fp/compose';
-import flatten from 'lodash/fp/flatten';
-import assoc from 'lodash/fp/assoc';
-import prop from 'lodash/fp/prop';
-import values from 'lodash/fp/values';
-import indexBy from 'lodash/fp/indexBy';
-import pluck from 'lodash/fp/pluck';
-import propOr from 'lodash/fp/propOr';
-import reject from 'lodash/fp/reject';
+import _ from 'lodash/fp';
 
 import fs from '../common/fs';
 import validation from './validation';
@@ -40,16 +26,16 @@ const readPages = fmdApi => (folder, pagesToRead, done) => {
           properties, // Table with document props from FMD
         });
       });
-  }, (err, pages = []) => done(err, reject(isNil, pages)));
+  }, (err, pages = []) => done(err, _.reject(_.isNil, pages)));
 };
 
-const editPages = compose(map, update('pages'), map);
+const editPages = _.compose(_.map, _.update('pages'), _.map);
 
 const newUUID = v4;
-const injectUUID = obj => assoc('uuid', newUUID(), obj);
+const injectUUID = obj => _.assoc('uuid', newUUID(), obj);
 const setTimebarId = timebars => (page) => {
-  const timebar = find(tb => tb.id === page.timebarId, timebars) || {};
-  if (isEmpty(timebar)) {
+  const timebar = _.find(tb => tb.id === page.timebarId, timebars) || {};
+  if (_.isEmpty(timebar)) {
     throw new Error(`unknow timebarId ${page.timebarId}`);
   }
   return {
@@ -58,10 +44,10 @@ const setTimebarId = timebars => (page) => {
   };
 };
 const injectIds = (timebars, windows) => (
-  editPages(compose(setTimebarId(timebars), injectUUID))(windows)
+  editPages(_.compose(setTimebarId(timebars), injectUUID))(windows)
 );
-const getPages = compose(flatten, pluck('pages'), values);
-const keepOnlyUUID = editPages(prop('uuid'));
+const getPages = _.compose(_.flatten, _.pluck('pages'), _.values);
+const keepOnlyUUID = editPages(_.prop('uuid'));
 
 /**
  * Find timebars in .windows, read files and store each with a uuid in .pages
@@ -72,8 +58,8 @@ const keepOnlyUUID = editPages(prop('uuid'));
  */
 const extractPages = fmdApi => (content, cb) => {
   try {
-    const getWindows = propOr({}, 'windows');
-    const getTimebars = propOr({}, 'timebars');
+    const getWindows = _.propOr({}, 'windows');
+    const getTimebars = _.propOr({}, 'timebars');
     const newWindows = injectIds(getTimebars(content), getWindows(content));
     const pagesToRead = getPages(newWindows);
     return readPages(fmdApi)(content.__folder, pagesToRead, (err, pages) => {
@@ -83,7 +69,7 @@ const extractPages = fmdApi => (content, cb) => {
       return cb(null, {
         ...content,
         windows: keepOnlyUUID(newWindows),
-        pages: indexBy(prop('uuid'))(pages),
+        pages: _.indexBy(_.prop('uuid'))(pages),
       });
     });
   } catch (e) {

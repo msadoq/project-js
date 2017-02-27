@@ -39,7 +39,10 @@ function print(executionMap, namespace) {
       );
       d = (t[0] * 1e3) + _round(t[1] / 1e6, 6);
     }
-    logger.info(k, 'ms:', d);
+    const m = typeof message !== 'undefined'
+      ? ` | ${message}`
+      : '';
+    logger.info(`${k} ms: ${d} ${m}`);
   });
   logger.info('- execution map --------------------');
 }

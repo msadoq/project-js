@@ -5,25 +5,28 @@ import { getTimebars } from '../../../store/selectors/timebars';
 import { getSessions } from '../../../store/selectors/sessions';
 import { getDomains } from '../../../store/selectors/domains';
 import { getViews } from '../../../store/selectors/views';
+import { getPerRemoteIdMap } from '../../../dataManager/map';
+import { updateExplorerFlag } from '../../../store/actions/windows';
+import { getExplorerFlag } from '../../../store/selectors/windows';
 
-const mapStateToProps = (state) => {
-  const timebars = getTimebars(state);
-  const sessions = getSessions(state);
-  const domains = getDomains(state);
-  const views = getViews(state);
+const mapStateToProps = (state, { windowId }) =>
+  ({
+    timebars: getTimebars(state),
+    sessions: getSessions(state),
+    domains: getDomains(state),
+    views: getViews(state),
+    perRemoteId: getPerRemoteIdMap(state),
+    dataId: getExplorerFlag(state, { windowId, flagName: 'dataTabDataId' }),
+    localId: getExplorerFlag(state, { windowId, flagName: 'dataTabLocalId' }),
+    domainAndSession: getExplorerFlag(state, { windowId, flagName: 'dataTabDomain' }),
+    usingViews: getExplorerFlag(state, { windowId, flagName: 'dataTabViews' }),
+    filters: getExplorerFlag(state, { windowId, flagName: 'dataTabFilters' }),
+  });
 
-  return {
-    timebars,
-    sessions,
-    domains,
-    views,
-  };
-};
+const PerRemoteIdContainer = connect(mapStateToProps, { updateExplorerFlag })(PerRemoteId);
 
-const PerRemoteIdContainer = connect(mapStateToProps)(PerRemoteId);
-
-PerRemoteIdContainer.propTypes = {
-  perRemoteId: PropTypes.object.isRequired,
+PerRemoteIdContainer.props = {
+  windowId: PropTypes.string.isRequired,
 };
 
 export default PerRemoteIdContainer;

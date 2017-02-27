@@ -15,6 +15,9 @@ MasterSession.propTypes = {
     name: PropTypes.string,
   }),
 };
+MasterSession.defaultProps = {
+  masterSession: {},
+};
 
 export default connect(
   state => ({ masterSession: getMasterSession(state) })

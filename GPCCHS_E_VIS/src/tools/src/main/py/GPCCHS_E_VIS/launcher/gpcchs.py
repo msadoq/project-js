@@ -61,7 +61,7 @@ class GPCCHS(object):
 
     _startContainerCmd = 'gpcctc_l_cnt_isisStartContainer_cmd -p {0} --cd {1}{0}'
     _hscPath = '/usr/share/isis/lib/js/gpcchs_e_vis_launcher/client'
-    _hscRunCmd = './lpisis_gpcchs_e_clt --FMD_ROOT_DIR={} --NODE_PATH={} --ZMQ_GPCCDC_PUSH=tcp://127.0.0.1:{} --ZMQ_GPCCDC_PULL=tcp://127.0.0.1:{}'
+    _hscRunCmd = './lpisis_gpcchs_e_clt --ISIS_DOCUMENTS_ROOT={} --NODE_PATH={} --ZMQ_GPCCDC_PUSH=tcp://127.0.0.1:{} --ZMQ_GPCCDC_PULL=tcp://127.0.0.1:{}'
 
     @property
     def _hsc_run_cmd(self):

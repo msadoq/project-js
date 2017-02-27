@@ -1,11 +1,10 @@
-import React, { PropTypes } from 'react';
+import React, { PureComponent } from 'react';
 import {
   Table,
   Glyphicon,
 } from 'react-bootstrap';
-import { withState, pure } from 'recompose';
 
-import { stateColors } from '../../../common/colors';
+import { getStateColors } from '../../../common/colors';
 
 const s = {
   title: {
@@ -24,45 +23,61 @@ const s = {
 
 const tableStyle = { fontSize: '12px' };
 
-export const MonitoringStateColors = ({ visible, setVisible }) => (
-  <div className="mt10">
-    <h4 className="mb10" style={s.title}>
-      <a onClick={() => setVisible(!visible)}>
-        <span className="col-xs-11 pl0">Default colors</span>
-        <Glyphicon className="col-xs-1" glyph={visible ? 'triangle-top' : 'triangle-bottom'} />
-      </a>
-    </h4>
-    {visible && <Table condensed striped style={tableStyle}>
-      <thead>
-        <tr>
-          <th>Color</th>
-          <th>Condition</th>
-        </tr>
-      </thead>
-      <tbody>
-        {Object.keys(stateColors).map(c => (
-          <tr key={c}>
-            <td className="col-xs-2">
-              <div
-                style={{
-                  ...s.colorBox,
-                  backgroundColor: stateColors[c],
-                }}
-              />
-            </td>
-            <td className="col-xs-10" style={s.condition}>
-              state equals {c}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </Table>}
-  </div>
-);
+const changeVisibility = prevState => ({
+  visible: !prevState.visible,
+});
 
-MonitoringStateColors.propTypes = {
-  visible: PropTypes.bool.isRequired,
-  setVisible: PropTypes.func.isRequired,
-};
+export default class MonitoringStateColors extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible: false,
+    };
+  }
 
-export default withState('visible', 'setVisible', false)(pure(MonitoringStateColors));
+  onClick = () => {
+    this.setState(changeVisibility);
+  }
+
+  render() {
+    const {
+      visible,
+    } = this.state;
+
+    return (
+      <div className="mt10">
+        <h4 className="mb10" style={s.title}>
+          <button className="btn-a w100" onClick={this.onClick}>
+            <span className="col-xs-11 pl0">Default colors</span>
+            <Glyphicon className="col-xs-1" glyph={visible ? 'triangle-top' : 'triangle-bottom'} />
+          </button>
+        </h4>
+        {visible && <Table condensed striped style={tableStyle}>
+          <thead>
+            <tr>
+              <th>Color</th>
+              <th>Condition</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.keys(getStateColors()).map(c => (
+              <tr key={c}>
+                <td className="col-xs-2">
+                  <div
+                    style={{
+                      ...s.colorBox,
+                      backgroundColor: getStateColors()[c],
+                    }}
+                  />
+                </td>
+                <td className="col-xs-10" style={s.condition}>
+                  state equals {c}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>}
+      </div>
+    );
+  }
+}

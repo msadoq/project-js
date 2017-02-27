@@ -1,8 +1,14 @@
 import {
+  getSessions,
   getSession,
 } from './sessions';
 
 describe('store:sessions:selectors', () => {
+  it('getSessions', () => {
+    getSessions({
+      sessions: [{ id: 'session1' }],
+    }).should.eql([{ id: 'session1' }]);
+  });
   it('getSession', () => {
     getSession({
       sessions: [
@@ -10,6 +16,6 @@ describe('store:sessions:selectors', () => {
           id: 'session1',
         },
       ],
-    }, 'session1').should.eql({ id: 'session1' });
+    }, { sessionId: 'session1' }).should.eql({ id: 'session1' });
   });
 });

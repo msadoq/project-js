@@ -14,8 +14,8 @@ export default class ReactSelectField extends React.Component {
       onBlur: PropTypes.func,
     }).isRequired,
     placeholder: PropTypes.string,
-    className: PropTypes.string.isRequired,
-    free: PropTypes.bool.isRequired,
+    className: PropTypes.string,
+    free: PropTypes.bool,
     options: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.string,
@@ -37,6 +37,8 @@ export default class ReactSelectField extends React.Component {
 
   static defaultProps = {
     placeholder: '',
+    className: '',
+    free: false,
   }
 
   onChange = (event) => {

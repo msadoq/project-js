@@ -16,7 +16,7 @@ export default class Editor extends PureComponent {
     viewId: PropTypes.string.isRequired,
     focusedPageId: PropTypes.string.isRequired,
     viewType: PropTypes.string.isRequired,
-    configuration: PropTypes.object,
+    configuration: PropTypes.shape({}),
     closeEditor: PropTypes.func,
   };
 

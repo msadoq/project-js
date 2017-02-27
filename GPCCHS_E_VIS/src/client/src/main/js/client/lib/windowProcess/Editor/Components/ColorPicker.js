@@ -33,14 +33,8 @@ export default class ColorPicker extends React.Component {
     this.setState({ display: !this.state.display });
   }
 
-  handleClose = () => {
-    this.setState({
-      display: false,
-    });
-  }
-
   handleChangeComplete = (color) => {
-    this.setState({ color: color.hex });
+    this.setState({ color: color.hex, display: false });
     this.props.onChange(this.state.color);
   }
   render() {
@@ -54,16 +48,17 @@ export default class ColorPicker extends React.Component {
           bsSize="xsmall"
           onClick={this.handleClick}
         ><None /></Button>
-        {this.state.display &&
+        {
+          this.state.display &&
           <div className={styles.popover}>
-            <div className={styles.cover} onClick={this.handleClose} />
             <TwitterPicker
               onChangeComplete={this.handleChangeComplete}
               color={color}
               colors={colors}
               width={width}
             />
-          </div>}
+          </div>
+        }
       </div>
     );
   }

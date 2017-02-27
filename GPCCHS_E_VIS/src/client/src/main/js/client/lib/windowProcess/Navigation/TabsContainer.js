@@ -6,7 +6,7 @@ import { focusPage, addAndMount, unmountAndRemove } from '../../store/actions/wi
 import Tabs from './Tabs';
 
 const mapStateToStore = (state, { windowId }) => ({
-  pages: getWindowPages(state, windowId),
+  pages: getWindowPages(state, { windowId }),
 });
 
 function mapDispatchToProps(dispatch, { windowId }) {

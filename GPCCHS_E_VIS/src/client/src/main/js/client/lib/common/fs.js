@@ -4,7 +4,6 @@ const {
 } = require('path');
 const mkdirp = require('mkdirp');
 const _startsWith = require('lodash/startsWith');
-const parameters = require('common/parameters');
 
 let resolvedPath;
 
@@ -64,27 +63,6 @@ const self = module.exports = {
       return self.parse(content, callback);
     });
   },
-  readJsonFromFmdPath: (filepath, callback) => {
-    resolvedPath = undefined;
-    if (!_startsWith(filepath, '/')) {
-      return callback(new Error(`Invalid FMD path ${filepath}`));
-    }
-    // relative path from FMD
-    try {
-      fs.accessSync(join(parameters.get('FMD_ROOT_DIR'), filepath), fs.constants.F_OK);
-      // FMD path
-      resolvedPath = join(parameters.get('FMD_ROOT_DIR'), filepath);
-    } catch (e) {
-      // path is already absolute
-      resolvedPath = filepath;
-    }
-    return self.read(resolvedPath, (err, content) => {
-      if (err) {
-        return callback(err);
-      }
-      return self.parse(content, callback);
-    });
-  },
 
   /**
    * Checks if a path exists
@@ -105,7 +83,7 @@ const self = module.exports = {
   /**
    * Checks if folder exists and if not, creates it
    *
-   * @param path folder
+   * @param folder
    * @param cb
    */
   createFolder: (folder, cb) => {

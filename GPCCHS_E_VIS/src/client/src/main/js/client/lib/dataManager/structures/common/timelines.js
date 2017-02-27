@@ -16,9 +16,6 @@ export default function findTimelines(timelines, masterSessionId, search) {
   if (!timelines || !timelines.length) {
     return { error: 'invalid entry point, no timeline available' };
   }
-  if (search === '' || _isNull(search) || _isUndefined(search)) {
-    return { error: 'invalid entry point, invalid timeline field' };
-  }
   if (search === get('WILDCARD_CHARACTER')
     || search === ''
     || _isNull(search)

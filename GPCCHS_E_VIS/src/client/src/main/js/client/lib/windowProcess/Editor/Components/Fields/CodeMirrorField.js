@@ -24,7 +24,7 @@ export default class CodeMirrorField extends React.Component {
       value: PropTypes.string,
     }).isRequired,
     autocompleteList: PropTypes.arrayOf(PropTypes.string),
-    className: PropTypes.string.isRequired,
+    className: PropTypes.string,
     meta: PropTypes.shape({
       active: PropTypes.bool,
       asyncValidating: PropTypes.bool,
@@ -42,6 +42,7 @@ export default class CodeMirrorField extends React.Component {
   }
 
   static defaultProps = {
+    className: '',
     autocompleteList: [],
     options: {},
   }
@@ -110,7 +111,6 @@ export default class CodeMirrorField extends React.Component {
         error,
       },
     } = this.props;
-
     const codeMirrorOptions = {
       lineNumbers: true,
       lineWrapping: true,

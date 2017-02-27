@@ -1,6 +1,8 @@
-import '../../common/test';
+import { freezeArgs } from '../../common/test';
 import * as actions from '../actions/sessions';
-import reducer from './sessions';
+import sessionsReducer from './sessions';
+
+const reducer = freezeArgs(sessionsReducer);
 
 describe('store:sessions:reducer', () => {
   const state = [{

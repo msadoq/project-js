@@ -1,9 +1,8 @@
 const { eachSeries } = require('async');
 const _chunk = require('lodash/chunk');
+const _isBuffer = require('lodash/isBuffer');
 const { decode, encode, getType } = require('common/protobuf');
-const {
-  HSS_MAX_PAYLOADS_PER_MESSAGE,
-} = require('common/constants');
+const { HSS_MAX_PAYLOADS_PER_MESSAGE } = require('common/constants');
 const executionMonitor = require('common/log/execution');
 const logger = require('common/log')('controllers:onTimebasedArchiveData');
 const loggerData = require('common/log')('controllers:incomingData');
@@ -80,7 +79,8 @@ module.exports = (
   execution.start('get comObject type');
   const payloadProtobufType = getType(dataId.comObject);
   if (typeof payloadProtobufType === 'undefined') {
-    throw new Error('unsupported comObject', dataId.comObject);
+    logger.error(`unsupported comObject ${dataId.comObject}`);
+    return;
   }
   execution.stop('get comObject type');
 
@@ -110,6 +110,13 @@ module.exports = (
 
   // only one loop to decode, insert in cache, and add to queue
   eachSeries(_chunk(payloadBuffers, 2), (payloadBuffer, callback) => {
+    if (!_isBuffer(payloadBuffer[0]) || !_isBuffer(payloadBuffer[1])) {
+      // robustness code, LPISIS could send empty ZeroMQ frame
+      loggerData.warn(`received an empty ZeroMQ frame from DC for ${remoteId}`);
+      callback(null);
+      return;
+    }
+
     execution.start('decode payloads');
     const timestamp = decode('dc.dataControllerUtils.Timestamp', payloadBuffer[0]).ms;
     const payload = decode(payloadProtobufType, payloadBuffer[1]);
@@ -140,20 +147,6 @@ module.exports = (
       payloadCount,
       endOfQuery,
     });
-
-    // if HSS is a forked process, in e2e tests for example
-    if (process.send) {
-      // Check if no pending requests
-      const noMorePendingRequests = !connectedDataModel
-        .getAll()
-        .map(data => Object.keys(data.intervals.requested).length)
-        .reduce((acc, l) => acc + l, 0);
-
-      // Send 'updated' to parent process
-      if (noMorePendingRequests) {
-        process.send('updated');
-      }
-    }
 
     execution.stop('global', `${dataId.parameterName}: ${payloadCount} payloads`);
     execution.print();

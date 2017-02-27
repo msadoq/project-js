@@ -25,7 +25,7 @@ export function update(timelineId, configuration) {
       dispatch(updateSessionId(timelineId, configuration.sessionId));
     }
     if (configuration.offset) {
-      dispatch(updateSessionId(timelineId, configuration.offset));
+      dispatch(updateOffset(timelineId, configuration.offset));
     }
     if (configuration.id) {
       dispatch(updateId(timelineId, configuration.id));

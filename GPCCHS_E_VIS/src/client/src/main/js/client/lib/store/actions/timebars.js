@@ -17,6 +17,7 @@ import {
 import { pause, smartPlay } from './hsc';
 import { getTimebar } from '../selectors/timebars';
 import { getPlayingTimebarId } from '../selectors/hsc';
+import { addTimebar, mountTimeline, unmountTimeline } from './timebarTimelines';
 
 const VISUWINDOW_MAX_LENGTH = get('VISUWINDOW_MAX_LENGTH');
 const VISUWINDOW_CURRENT_UPPER_MIN_MARGIN = get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN');
@@ -24,37 +25,52 @@ const VISUWINDOW_CURRENT_UPPER_MIN_MARGIN = get('VISUWINDOW_CURRENT_UPPER_MIN_MA
 /**
  * Simple actions
  */
-export const add = simple(types.WS_TIMEBAR_ADD, 'timebarUuid', 'configuration');
+export const _add = simple(types.WS_TIMEBAR_ADD, 'timebarUuid', 'configuration');
 export const remove = simple(types.WS_TIMEBAR_REMOVE, 'timebarUuid');
 export const updateId = simple(types.WS_TIMEBAR_ID_UPDATE, 'timebarUuid', 'id');
 export const setRealTime = simple(types.WS_TIMEBAR_SET_REALTIME, 'timebarUuid', 'flag');
 
+export const add = (timebarUuid, configuration) =>
+  (dispatch, getState) => {
+    const state = getState();
+    if (getTimebar(state, { timebarUuid })) {
+      return;
+    }
+
+    dispatch(_add(timebarUuid, configuration));
+    dispatch(addTimebar(timebarUuid));
+    if (configuration.timelines) {
+      configuration.timelines.forEach(tlId => dispatch(mountTimeline(timebarUuid, tlId)));
+    }
+  };
 export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
   (dispatch, getState) => {
     const state = getState();
-    const timebar = getTimebar(state, timebarUuid);
+    const timebar = getTimebar(state, { timebarUuid });
     const messages = [];
     const lower = _get(visuWindow, 'lower') || timebar.visuWindow.lower;
     const upper = _get(visuWindow, 'upper') || timebar.visuWindow.upper;
     const current = _get(visuWindow, 'current') || timebar.visuWindow.current;
-    const slideLower = _get(slideWindow, 'lower') || timebar.slideWindow.lower;
-    const slideUpper = _get(slideWindow, 'upper') || timebar.slideWindow.upper;
+    const newSlideWindow = {
+      lower: _get(slideWindow, 'lower') || timebar.slideWindow.lower,
+      upper: _get(slideWindow, 'upper') || timebar.slideWindow.upper,
+    };
     if (lower > current) {
       messages.push('Lower cursor must be before current cursor');
     }
     if (current > upper) {
       messages.push('Current cursor must be before upper cursor');
     }
-    if (slideLower < lower || slideLower > current) {
-      messages.push('Ext lower cursor must be between lower and current cursors');
+    if (newSlideWindow.lower < lower || newSlideWindow.lower > current) {
+      newSlideWindow.lower = lower;
     }
     if (timebar.mode === 'Extensible') {
-      if (slideUpper < upper) {
-        messages.push('Ext upper cursor must be after upper cursor in Extensible mode');
+      if (newSlideWindow.upper < upper) {
+        newSlideWindow.upper = upper;
       }
     } else if (timebar.mode === 'Fixed' || timebar.mode === 'Normal') {
-      if (slideUpper > upper || slideUpper < current) {
-        messages.push('Ext upper cursor must be between current and upper cursor in Fixed and Normal mode');
+      if (newSlideWindow.upper > upper || newSlideWindow.upper < current) {
+        newSlideWindow.upper = upper;
       }
     }
 
@@ -64,7 +80,7 @@ export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
         dispatch(addMessage(`timeSetter-${timebarUuid}`, 'error', v));
       });
     } else {
-      const timeSetterMessages = getMessages(state, `timeSetter-${timebarUuid}`);
+      const timeSetterMessages = getMessages(state, { containerId: `timeSetter-${timebarUuid}` });
       if (timeSetterMessages && timeSetterMessages.length) {
         dispatch(resetMessages(`timeSetter-${timebarUuid}`));
       }
@@ -72,7 +88,7 @@ export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
         type: types.WS_TIMEBAR_UPDATE_CURSORS,
         payload: {
           visuWindow,
-          slideWindow,
+          slideWindow: newSlideWindow,
           timebarUuid,
         },
       });
@@ -90,7 +106,7 @@ export const handlePlay = (delta, currentUpperMargin) =>
     if (!playingTimebarUuid) {
       return;
     }
-    const playingTimebar = getTimebar(state, playingTimebarUuid);
+    const playingTimebar = getTimebar(state, { timebarUuid: playingTimebarUuid });
     if (!playingTimebar) {
       return;
     }
@@ -124,7 +140,7 @@ export const updateViewport = simple(
 
 export const updateSpeed = (timebarUuid, speed) =>
   (dispatch, getState) => {
-    const timebar = getTimebar(getState(), timebarUuid);
+    const timebar = getTimebar(getState(), { timebarUuid });
     if (timebar.realTime) {
       dispatch(setRealTime(timebarUuid, false));
     }
@@ -140,7 +156,7 @@ export const updateSpeed = (timebarUuid, speed) =>
 
 export function restoreWidth(timebarUuid) {
   return (dispatch, getState) => {
-    const timebar = getTimebar(getState(), timebarUuid);
+    const timebar = getTimebar(getState(), { timebarUuid });
     if (timebar.realTime) {
       dispatch(setRealTime(timebarUuid, false));
     }
@@ -166,7 +182,7 @@ export function restoreWidth(timebarUuid) {
 
 export function jump(timebarUuid, offsetMs) {
   return (dispatch, getState) => {
-    const timebar = getTimebar(getState(), timebarUuid);
+    const timebar = getTimebar(getState(), { timebarUuid });
     if (timebar.realTime) {
       dispatch(setRealTime(timebarUuid, false));
     }
@@ -192,7 +208,7 @@ export function jump(timebarUuid, offsetMs) {
 export function goNow(timebarUuid, masterSessionIdCurrentTime) {
   return (dispatch, getState) => {
     const state = getState();
-    const timebar = getTimebar(state, timebarUuid);
+    const timebar = getTimebar(state, { timebarUuid });
     if (timebar.realTime) {
       dispatch(setRealTime(timebarUuid, false));
     }
@@ -228,7 +244,7 @@ export function switchToNormalMode(timebarUuid) {
       },
     });
     const state = getState();
-    const timebar = getTimebar(state, timebarUuid);
+    const timebar = getTimebar(state, { timebarUuid });
     const { visuWindow, slideWindow } = timebar;
     if (slideWindow.upper > visuWindow.upper) {
       dispatch(
@@ -249,7 +265,7 @@ export function switchToRealtimeMode(timebarUuid, masterSessionIdCurrentTime) {
   return (dispatch, getState) => {
     dispatch(setRealTime(timebarUuid, true));
     const state = getState();
-    const timebar = getTimebar(state, timebarUuid);
+    const timebar = getTimebar(state, { timebarUuid });
     if (timebar.speed !== 1) {
       dispatch({
         type: types.WS_TIMEBAR_SPEED_UPDATE,
@@ -302,7 +318,7 @@ export function switchToExtensibleMode(timebarUuid) {
       },
     });
     const state = getState();
-    const timebar = getTimebar(state, timebarUuid);
+    const timebar = getTimebar(state, { timebarUuid });
     if (timebar.realTime) {
       dispatch(setRealTime(timebarUuid, false));
     }
@@ -336,7 +352,7 @@ export function switchToFixedMode(timebarUuid) {
       },
     });
     const state = getState();
-    const timebar = getTimebar(state, timebarUuid);
+    const timebar = getTimebar(state, { timebarUuid });
     if (timebar.realTime) {
       dispatch(setRealTime(timebarUuid, false));
     }
@@ -358,9 +374,6 @@ export function switchToFixedMode(timebarUuid) {
 
 export const updateDefaultWidth = simple(types.WS_TIMEBAR_DEFAULTWIDTH_UPDATE, 'timebarUuid', 'defaultWidth');
 export const updateMasterId = simple(types.WS_TIMEBAR_MASTERID_UPDATE, 'timebarUuid', 'masterId');
-export const mountTimeline = simple(types.WS_TIMEBAR_MOUNT_TIMELINE, 'timebarUuid', 'timelineId');
-export const unmountTimeline = simple(types.WS_TIMEBAR_UNMOUNT_TIMELINE, 'timebarUuid', 'timelineId');
-
 /**
  * Compound actions
  */
@@ -379,8 +392,4 @@ export function unmountAndRemoveTimeline(timebarUuid, timelineId) {
   };
 }
 
-export function updateTimeline(timelineId, configuration) {
-  return (dispatch) => {
-    dispatch(updateTL(timelineId, configuration));
-  };
-}
+export const updateTimeline = updateTL;

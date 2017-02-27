@@ -4,6 +4,7 @@ import { getMessages } from '../../store/selectors/messages';
 
 import Messages from './Messages';
 
-const mapStateToProps = (state, { viewId }) => ({ messages: getMessages(state, viewId) });
+const mapStateToProps = (state, { containerId }) =>
+  ({ messages: getMessages(state, { containerId }) });
 
 export default connect(mapStateToProps, { remove })(Messages);

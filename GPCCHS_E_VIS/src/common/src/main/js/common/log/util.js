@@ -1,11 +1,20 @@
 /* eslint no-restricted-properties:0 */
-const _ = require('lodash/fp');
+const _pipe = require('lodash/fp/pipe');
+const _cond = require('lodash/fp/cond');
+const _defaultTo = require('lodash/fp/defaultTo');
+const _split = require('lodash/fp/split');
+const _reduce = require('lodash/fp/reduce');
+const _map = require('lodash/fp/map');
+const _assign = require('lodash/fp/assign');
+const _anyPass = require('lodash/fp/anyPass');
+const _stubTrue = require('lodash/fp/stubTrue');
+const _isEmpty = require('lodash/fp/isEmpty');
 const _floor = require('lodash/floor');
 const _round = require('lodash/round');
 
-const GIGA_BYTES = Math.pow(2, 30);
-const MEGA_BYTES = Math.pow(2, 20);
-const KILO_BYTES = Math.pow(2, 10);
+const GIGA_BYTES = 1073741824;
+const MEGA_BYTES = 1048576;
+const KILO_BYTES = 1024;
 
 const TRANSPORT_SEPARATOR = ':';
 const TRANSPORT_ARGS_ASSIGNMENT = '?';
@@ -41,21 +50,28 @@ const getTimer = () => {
 };
 
 // Convert value to boolean or number if possible
-const parseValue = value => (
-  value === 'true' ? true : // eslint-disable-line no-nested-ternary
-    (value === 'false' ? false :
-      (Number(value) || value)));
+const parseValue = (value) => {
+  if (value === 'true') {
+    return true;
+  } else if (value === 'false') {
+    return false;
+  } else if (Number(value)) {
+    return Number(value);
+  }
+
+  return value;
+};
 
 // Deserialize param string to object
 // param string format: <param1>=<value1>,<param2>=<value2>
-const parseParams = _.pipe(
-  _.defaultTo(''),
-  _.split(PARAM_SEPARATOR),
-  _.map(_.split(PARAM_ASSIGNMENT)),
-  _.map(p => ({
+const parseParams = _pipe(
+  _defaultTo(''),
+  _split(PARAM_SEPARATOR),
+  _map(_split(PARAM_ASSIGNMENT)),
+  _map(p => ({
     [p[0]]: parseValue(p[1]),
   })),
-  _.reduce((acc, p) => _.assign(acc, p), {
+  _reduce((acc, p) => _assign(acc, p), {
     time: true,
     process: true,
     category: false,
@@ -65,12 +81,12 @@ const parseParams = _.pipe(
 // Deserialize string to object
 // String format: <logger1>?<param1>=<value1>,<param2>=<value2>:<logger2>?<param1>=<value1>,...:...
 const parseConfig =
-  _.cond([
-    [_.anyPass([_.isEmpty, str => str === 'undefined']), () => []],
-    [_.stubTrue, _.pipe(
-      _.split(TRANSPORT_SEPARATOR),
-      _.map(_.split(TRANSPORT_ARGS_ASSIGNMENT)),
-      _.map(t => ({
+  _cond([
+    [_anyPass([_isEmpty, str => str === 'undefined']), () => []],
+    [_stubTrue, _pipe(
+      _split(TRANSPORT_SEPARATOR),
+      _map(_split(TRANSPORT_ARGS_ASSIGNMENT)),
+      _map(t => ({
         type: t[0],
         params: parseParams(t[1]),
       }))

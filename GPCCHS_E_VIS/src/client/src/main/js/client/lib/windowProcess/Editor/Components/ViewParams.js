@@ -33,6 +33,7 @@ export default class ViewParams extends React.Component {
       align: 'left',
       color: '#000000',
     },
+    backgroundColor: '#000000',
   }
 
   handleSubmit = (values) => {

@@ -17,19 +17,18 @@
   &:visited, &:focus, &:active{
     outline: inherit;
   }
-  &.btnClose{
-    right: 0px;
-  }
-  &.btnCollapse{
-    right: 15px;
-  }
-  &.addTimelineButton{
-    left: 0px;
-  }
+}
+.btnClose{
+  right: 0px;
+}
+.btnCollapse{
+  right: 15px;
+}
+.addTimelineButton{
+  left: 0px;
 }
 .offset{
-  position: absolute;
-  right: 40px;
+  padding-left: 15px;
 }
 .leftTabTopPanel{
   position: relative;
@@ -56,13 +55,6 @@
   margin-bottom: 2px;
   height: 18px;
   font-weight: bold;
-  cursor: pointer;
-  &:hover{
-    background: #dfdfdf;
-  }
-  &:active{
-    background: #c0c0c0;
-  }
 }
 
 .master{
@@ -99,6 +91,19 @@
   position: absolute;
   top: 0px;
   right: 0px;
+  text-align: center;
+  border: none;
+  height: 100%;
+}
+.editButton{
+  background: #444;
+  cursor: pointer;
+  color: #fff;
+  padding: 1px 6px;
+  border-radius: 1px;
+  position: absolute;
+  top: 0px;
+  right: 26px;
   text-align: center;
   border: none;
   height: 100%;

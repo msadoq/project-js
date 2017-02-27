@@ -1,67 +1,36 @@
-const _ = require('lodash/fp');
-
 /* eslint no-console:0 */
+const _compose = require('lodash/fp/compose');
+const _uniq = require('lodash/fp/uniq');
+const _filter = require('lodash/fp/filter');
+const _eq = require('lodash/fp/eq');
+const _map = require('lodash/fp/map');
+const _prop = require('lodash/fp/prop');
+const _getOr = require('lodash/fp/getOr');
+const _merge = require('lodash/fp/merge');
+const _find = require('lodash/fp/find');
+const _get = require('lodash/fp/get');
+const _cond = require('lodash/fp/cond');
+const _allPass = require('lodash/fp/allPass');
 
-/* eslint-disable import/no-unresolved, import/no-extraneous-dependencies */
-const { ipcRenderer } = require('electron');
 const {
   getTimer,
   parseConfig,
 } = require('./util');
 
 const DEFAULT_TRANSPORTS =
-  _.compose(
-    _.uniq,
-    _.filter(_.eq('console')),
-    _.map(_.prop('type'))
-  )(
-    parseConfig(global.parameters.get('LOG'))
-  );
+  _compose(
+    _uniq,
+    _filter(_eq('console')),
+    _map(_prop('type'))
+  )(parseConfig(global.parameters.get('LOG')));
 
 const DEFAULT_LEVELS = ['silly', 'debug', 'verbose', 'info', 'warn', 'error'];
 
 const transportAPis = {};
 const apis = transportAPis;
 
-const getIPCTime = getTimer();
-
-const sendOverIPC = (category, level) => {
-  function sendToMaster(msg, ...args) {
-    const rest = args.reduce((acc, arg) => Object.assign({}, acc, arg), {});
-    ipcRenderer.send('log', {
-      category,
-      level,
-      msg,
-      rest: Object.assign(rest, {
-        time: `${getIPCTime()}ms`,
-        pid: process.pid,
-        pname: process.title,
-      }),
-    });
-  }
-
-  return function sendWithContext(msg, ...rest) {
-    const args = rest.reduce((acc, el) => (
-      acc.concat(typeof el === 'string' ? { info: el } : el)
-    ), []);
-    sendToMaster(msg, ...args);
-  };
-};
-
-transportAPis.electronIPC = category => ({
-  error: sendOverIPC(category, 'error'),
-  warn: sendOverIPC(category, 'warn'),
-  info: sendOverIPC(category, 'info'),
-  verbose: sendOverIPC(category, 'verbose'),
-  debug: sendOverIPC(category, 'debug'),
-  silly: sendOverIPC(category, 'silly'),
-});
-
 const defaultTransportConfigs = {
   console: {
-    level: 'info',
-  },
-  electronIPC: {
     level: 'info',
   },
 };
@@ -69,13 +38,13 @@ const defaultTransportConfigs = {
 const getConsoleTime = getTimer();
 
 const getDefaultTransportConfig = transport =>
-  _.getOr({}, transport, defaultTransportConfigs);
+  _getOr({}, transport, defaultTransportConfigs);
 
 const getTransportConfig = transport =>
-  _.compose(
-    _.merge(getDefaultTransportConfig(transport)),
-    _.get('params'),
-    _.find(_.compose(_.eq(transport), _.get('type')))
+  _compose(
+    _merge(getDefaultTransportConfig(transport)),
+    _get('params'),
+    _find(_compose(_eq(transport), _get('type')))
   )(parseConfig(global.parameters.get('LOG')));
 
 const filterLevel = (levels, cfg) => ctx =>
@@ -83,24 +52,29 @@ const filterLevel = (levels, cfg) => ctx =>
 
 const filterInclude = cfg => ctx =>
   (new RegExp(
-    _.get('include', cfg), 'g')).test(ctx.category);
+    _get('include', cfg), 'g')).test(ctx.category);
 
 const filterExclude = cfg => ctx =>
   !(new RegExp(
-    _.getOr('(?=a)b', 'exclude', cfg), 'g')).test(ctx.category);
+    _getOr('(?=a)b', 'exclude', cfg), 'g')).test(ctx.category);
 
 const sendToConsole = (category, levels) => {
   const cfg = getTransportConfig('console');
   return level => (msg, ...rest) => {
-    _.cond([
-      [_.allPass([
+    _cond([
+      [_allPass([
         filterLevel(levels, cfg),
         filterInclude(cfg),
         filterExclude(cfg),
       ]),
-        () => console[level].apply(null,
-          [`[${category}] ${msg} +${getConsoleTime()}ms`].concat(rest)
-        ),
+        () => {
+          const localLevel = (level === 'verbose' || level === 'silly')
+            ? 'debug'
+            : level;
+          return console[localLevel].apply(null,
+            [`[${category}] ${msg} +${getConsoleTime()}ms`]
+            .concat(rest));
+        },
       ],
     ])({
       level,
@@ -131,19 +105,16 @@ function getLogger(category, transports = DEFAULT_TRANSPORTS, levels = DEFAULT_L
 
   // For each enabled level, create a function that call each enabled transport
   return levels.reduce((acc, l) => {
-    // eslint-disable-next-line no-param-reassign
-    acc[l] = transports.reduce((fn, t) =>
-      function compose(...args) {
-        fn(...args);
-        transportsWithCategory[t][l](...args);
-      }, () => {});
-    return acc;
+    const ts = transports.reduce((fn, t) => function compose(...args) {
+      fn(...args);
+      transportsWithCategory[t][l](...args);
+    }, () => {});
+    return Object.assign(acc, { [l]: ts });
   }, {});
 }
 
 module.exports = {
   getLogger,
   transportAPis,
-  sendOverIPC,
   sendToConsole,
 };

@@ -1,24 +1,24 @@
 /* eslint no-unused-expressions: 0 */
-import { should, getStore } from '../../common/test';
+import { freezeArgs } from '../../common/test';
 import * as actions from '../actions/windows';
-import reducer from './windows';
+import windowsReducer from './windows';
 import * as types from '../types';
+
+const reducer = freezeArgs(windowsReducer);
 
 describe('store:windows:reducer', () => {
   it('initial state', () => {
     reducer(undefined, {}).should.be.an('object').that.is.empty;
   });
   it('unknown action', () => {
-    reducer({ myWindowId: { title: 'Title' } }, {})
+    reducer({ myWindowId: { title: 'Title' } }, { payload: { windowId: 'myWindowId' } })
       .should.eql({ myWindowId: { title: 'Title' } });
   });
   describe('add', () => {
     it('add', () => {
-      const { dispatch, getState } = getStore({});
-      // const state = reducer(
-      //   undefined,
-      dispatch(actions.add('myWindowId', 'Title', { x: 110 }, ['myPageId'], null, true));
-      getState().windows.myWindowId.should.deep.eql({
+      const action = actions.addWindow('myWindowId', 'Title', { x: 110 }, ['myPageId'], null, true);
+      const state = reducer(undefined, action);
+      state.myWindowId.should.deep.eql({
         title: 'Title',
         focusedPage: null,
         pages: ['myPageId'],
@@ -30,13 +30,10 @@ describe('store:windows:reducer', () => {
       });
     });
     it('add empty', () => {
-      const { dispatch, getState } = getStore({});
-      dispatch(actions.add('myWindowId'));
-      const win = getState().windows.myWindowId;
+      const state = reducer(undefined, actions.addWindow('myWindowId'));
+      const win = state.myWindowId;
       win.title.should.eql('Unknown');
       win.isModified.should.eql(true);
-      win.pages.should.have.length(1);
-      win.focusedPage.should.eql(win.pages[0]);
       win.minimized.should.eql(false);
       win.geometry.should.deep.eql({ x: 10, y: 10, w: 800, h: 600 });
       win.tabName.should.eql('perRemoteId');
@@ -89,38 +86,16 @@ describe('store:windows:reducer', () => {
   });
   describe('focus page', () => {
     it('should focus page corresponding to arg', () => {
-      const { dispatch, getState } = getStore({
-        windows: {
-          myWindowId: { focusedPage: null },
+      const state = { myWindowId: { focusedPage: null } };
+      const action = {
+        type: types.WS_WINDOW_PAGE_FOCUS,
+        payload: {
+          windowId: 'myWindowId',
+          pageId: 'myFocusedPageId',
         },
-      });
-      dispatch(actions.focusPage('myWindowId', 'myPageId'));
-      getState().windows.myWindowId.focusedPage.should.equal('myPageId');
-      dispatch(actions.focusPage('myWindowId'));
-      should.not.exist(getState().windows.myWindowId.focusedPage);
-    });
-    it('should switch to pause if new focused page timebarUuid is different', () => {
-      const { dispatch, getState } = getStore({
-        windows: {
-          myWindowId: { focusedPage: 'myPage' },
-        },
-        pages: {
-          myPage: { timebarUuid: 10 },
-          myOtherPage: { timebarUuid: 10 },
-          anotherPage: { timebarUuid: 20 },
-        },
-        hsc: {
-          playingTimebarId: 10,
-        },
-      });
-      // same timebarUuid
-      dispatch(actions.focusPage('myWindowId', 'myOtherPage'));
-      getState().hsc.playingTimebarId.should.equal(10);
-      getState().windows.myWindowId.focusedPage.should.equal('myOtherPage');
-      // different timebarUuid
-      dispatch(actions.focusPage('myWindowId', 'anotherPage'));
-      should.not.exist(getState().hsc.playingTimebarId);
-      getState().windows.myWindowId.focusedPage.should.equal('anotherPage');
+      };
+      const nextState = reducer(state, action);
+      nextState.myWindowId.focusedPage.should.be.eql('myFocusedPageId');
     });
   });
   describe('un/mount page', () => {
@@ -172,37 +147,20 @@ describe('store:windows:reducer', () => {
       state.myWindowId.pages.should.eql(['2', '1']);
     });
   });
-  describe('addAndMount/unmountAndRemove', () => {
-    const { dispatch, getState } = getStore({ windows: { myWindowId: { pages: ['1'] } } });
-    it('addAndMount', () => {
-      dispatch(actions.addAndMount('myWindowId'));
-      getState().windows.myWindowId.pages.should.be.an('array').with.lengthOf(2);
-      getState().pages[getState().windows.myWindowId.pages[1]].title.should.equal('Unknown');
-    });
-    it('unmountAndRemove', () => {
-      dispatch(actions.unmountAndRemove('myWindowId', getState().windows.myWindowId.pages[1]));
-      getState().windows.myWindowId.pages.should.be.an('array').with.lengthOf(1);
-      should.not.exist(getState().pages[getState().windows.myWindowId.pages[1]]);
-    });
-  });
   describe('minimize/restore window', () => {
     it('should minimize window', () => {
-      const { dispatch, getState } = getStore({
-        windows: {
-          myWindowId: { minimized: false },
-        },
-      });
-      dispatch(actions.minimize('myWindowId'));
-      getState().windows.myWindowId.minimized.should.be.true;
+      const state = {
+        myWindowId: { minimized: false },
+      };
+      const action = actions.minimize('myWindowId');
+      reducer(state, action).myWindowId.minimized.should.be.true;
     });
     it('should restore window', () => {
-      const { dispatch, getState } = getStore({
-        windows: {
-          myWindowId: { minimized: true },
-        },
-      });
-      dispatch(actions.restore('myWindowId'));
-      getState().windows.myWindowId.minimized.should.not.be.true;
+      const state = {
+        myWindowId: { minimized: true },
+      };
+      const action = actions.restore('myWindowId');
+      reducer(state, action).myWindowId.minimized.should.not.be.true;
     });
   });
   describe('close_workspace', () => {
@@ -234,6 +192,36 @@ describe('store:windows:reducer', () => {
       reducer({ myWindowId: { title: 'Title', isModified: false, explorerWidth: 100 } },
       actions.updateExplorerWidth('myWindowId', 200))
         .should.eql({ myWindowId: { title: 'Title', isModified: false, explorerWidth: 200 } });
+    });
+    it('updateExplorerFlag', () => {
+      const action = actions.updateExplorerFlag('myWindowId', 'explorerFlag', true);
+      const nextState = reducer({ myWindowId: { title: 'Title', explorerFlag: false } }, action);
+      nextState.myWindowId.explorerFlag.should.be.true;
+    });
+    it('displayExplorer', () => {
+      const action = actions.displayExplorer('myWindowId', true);
+      const nextState = reducer({ myWindowId: { title: 'Title', displayExplorer: false } }, action);
+      nextState.myWindowId.displayExplorer.should.be.true;
+    });
+  });
+  describe('updateTimebarId', () => {
+    const action = {
+      type: types.WS_PAGE_UPDATE_TIMEBARID,
+      payload: {
+        windowId: 'myWindowId',
+        pageId: 'myPageId',
+        timebarUuid: 'myTimebarUuid',
+      },
+    };
+    it('set isModified to true', () => {
+      reducer({ myWindowId: { pages: ['myPageId'] } }, action).should.be.eql({
+        myWindowId: { pages: ['myPageId'], isModified: true },
+      });
+    });
+    it('do not set isModified to true', () => {
+      reducer({ myWindowId: { pages: ['1', '2', '3'] } }, action).should.be.eql({
+        myWindowId: { pages: ['1', '2', '3'] },
+      });
     });
   });
 });

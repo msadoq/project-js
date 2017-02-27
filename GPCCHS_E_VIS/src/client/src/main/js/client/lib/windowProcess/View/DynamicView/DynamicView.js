@@ -85,11 +85,13 @@ export default class DynamicView extends PureComponent {
       values: PropTypes.object,
       index: PropTypes.object,
     }),
+    entryPoints: PropTypes.objectOf(PropTypes.object),
     formula: PropTypes.string,
   };
 
   static defaultProps = {
     formula: 0,
+    entryPoints: {},
   };
 
   parseFormula() {
@@ -103,12 +105,19 @@ export default class DynamicView extends PureComponent {
   }
 
   render() {
-    const { data } = this.props;
+    const { data, entryPoints } = this.props;
     const ep = _get(data, ['values', 'dynamicEP', 'value']);
+    const error = _get(entryPoints, '[0].error');
     if (!ep) {
-      return (<div>No data</div>);
+      return (
+        <div className="flex">
+          <div className={styles.renderErrorText}>
+            Unable to render view <br />
+            {error}
+          </div>
+        </div>
+      );
     }
-
 
     return (
       <div>

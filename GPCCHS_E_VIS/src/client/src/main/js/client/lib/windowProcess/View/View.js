@@ -42,7 +42,7 @@ export default class View extends PureComponent {
       upper: PropTypes.number.isRequired,
       current: PropTypes.number.isRequired,
       defaultWidth: PropTypes.number.isRequired,
-    }).isRequired,
+    }),
     // eslint-disable-next-line react/forbid-prop-types
     data: PropTypes.object,
     viewId: PropTypes.string.isRequired,
@@ -56,24 +56,20 @@ export default class View extends PureComponent {
     moveViewToPage: PropTypes.func.isRequired,
     collapseView: PropTypes.func.isRequired,
     windowPages: PropTypes.arrayOf(PropTypes.object).isRequired,
-    entryPoints: PropTypes.arrayOf(PropTypes.object),
+    entryPoints: PropTypes.objectOf(PropTypes.object),
   };
 
   static defaultProps = {
-    entryPoints: [],
+    entryPoints: {},
     data: {},
     absolutePath: '',
     oId: '',
+    visuWindow: null,
   };
 
   static contextTypes = {
     focusedPageId: PropTypes.string,
   };
-
-  constructor(...args) {
-    super(...args);
-    this.state = { show: 'html' };
-  }
 
   componentDidMount() {
     document.addEventListener('keydown', this.toggleCollapse);
@@ -81,10 +77,6 @@ export default class View extends PureComponent {
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.toggleCollapse);
-  }
-
-  updateShow = (s) => {
-    this.setState({ show: s });
   }
 
   toggleCollapse = (e) => {
@@ -158,7 +150,7 @@ export default class View extends PureComponent {
     }
 
     const borderColor = _get(configuration, ['titleStyle', 'bgColor'], '#fefefe');
-
+    // !! gives visuWindow only for views which uses it to avoid useless rendering
     return (
       <div
         className={classnames('subdiv', styles.container)}
@@ -180,24 +172,21 @@ export default class View extends PureComponent {
           oId={oId}
           absolutePath={absolutePath}
           isModified={isModified}
-          show={this.state.show}
-          updateShow={this.updateShow}
         />
         {!configuration.collapsed &&
           <div
             className={styles.content}
             style={this.backgroundColorStyle(backgroundColor)}
           >
-            <MessagesContainer viewId={viewId} />
+            <MessagesContainer containerId={viewId} />
             <ContentComponent
               data={data}
               type={type}
               viewId={viewId}
               isViewsEditorOpen={isViewsEditorOpen}
-              visuWindow={visuWindow}
+              visuWindow={type === 'PlotView' ? visuWindow : undefined}
               configuration={configuration}
               entryPoints={entryPoints}
-              show={this.state.show}
             />
           </div>
         }

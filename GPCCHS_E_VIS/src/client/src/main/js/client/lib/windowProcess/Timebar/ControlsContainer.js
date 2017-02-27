@@ -19,10 +19,10 @@ export default connect(
   (state, { timebarUuid }) => {
     let currentSessionExists = false;
     let masterTimelineExists = false;
-    const masterTimeline = getMasterTimelineById(state, timebarUuid);
+    const masterTimeline = getMasterTimelineById(state, { timebarUuid });
     if (masterTimeline) {
       masterTimelineExists = true;
-      if (getSession(state, masterTimeline.sessionId)) {
+      if (getSession(state, { sessionId: masterTimeline.sessionId })) {
         currentSessionExists = true;
       }
     }

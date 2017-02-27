@@ -5,7 +5,8 @@
     "react"
   ],
   "plugins": [
-    "add-module-exports"
+    "add-module-exports",
+    "babel-plugin-lodash"
   ],
   "env": {
     "production": {
@@ -20,17 +21,6 @@
     "development": {
       "presets": [
         "react-hmre"
-      ]
-    },
-    "test": {
-      "plugins": [
-        [
-          "webpack-loaders",
-          {
-            "config": "webpack/config.babel.js",
-            "verbose": false
-          }
-        ]
       ]
     }
   }

@@ -37,7 +37,7 @@ describe('common/fmd', () => {
   });
   describe('getRootDir', () => {
     it('should return same thing than parameters.get', () => {
-      getRootDir().should.eql(get('FMD_ROOT_DIR'));
+      getRootDir().should.eql(get('ISIS_DOCUMENTS_ROOT'));
     });
   });
 

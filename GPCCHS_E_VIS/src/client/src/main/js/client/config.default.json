@@ -1,26 +1,28 @@
 {
   "PROFILING": "off",
-  "MONITORING": "off",
   "DEBUG": "off",
   "ORCHESTRATION_FREQUENCY": 500,
   "CACHE_INVALIDATION_FREQUENCY": 300000,
   "WILDCARD_CHARACTER": "*",
-  "DEFAULT_FIELD": "extractedValue",
-  "LOG_FILENAME": "gpcchs.log",
-  "FMD_ROOT_DIR": "/data/isis/documents",
+  "DEFAULT_FIELD": {
+    "TM": "extractedValue",
+    "RM": "extractedValue",
+    "CLCW": "extractedValue",
+    "ReportingParameter": "extractedValue"
+  },
+  "ISIS_DOCUMENTS_ROOT": "/data/isis/documents",
   "VISUWINDOW_MAX_LENGTH": 7200000,
   "VISUWINDOW_CURRENT_UPPER_MIN_MARGIN": 0.1,
   "STATE_COLORS": {
     "alarm": "orangered",
     "critical": "red",
-    "info": "white",
     "outOfRange": "grey",
     "severe": "darkred",
     "warning": "orange",
     "nonsignificant": "lightgrey",
     "obsolete": "tan"
   },
-  "USER_MANUAL_URL": "http://SHOULD.BE.REPLACED",
+  "USER_MANUAL_URL": "http://vmisisaivcontrol01.cnes-isis.toulouse.atos.net/farm/WIKI_ISIS_GPA/doku.php?id=isis:lp:sum:gpvi:gpvimajs:intro",
   "UNITS": {
     "distance": [
       "m",

@@ -1,4 +1,4 @@
-export function nextCurrent(current, speed, elapsed) { // TODO test
+export function nextCurrent(current, speed, elapsed) {
   return current + (elapsed * speed);
 }
 

@@ -36,7 +36,7 @@ export default class StateColorsFields extends React.Component {
       (fieldLength && operandLength) ||
       (!fieldLength && !operandLength)
     )) {
-      return this.setState({
+      this.setState({
         error: null,
       });
     } else if (!error && (!fieldLength || !operandLength)) {
@@ -82,18 +82,19 @@ export default class StateColorsFields extends React.Component {
     const { editingIndex } = this.state;
     if (editingIndex === index) {
       this.resetFields();
-      return this.setState({ editingIndex: null });
+      this.setState({ editingIndex: null });
+    } else {
+      const stateColor = fields.get(index);
+      this.resetFields(
+        stateColor.condition.field,
+        stateColor.condition.operator,
+        stateColor.condition.operand
+      );
+      this.setState({
+        editingIndex: index,
+        currentColor: stateColor.color,
+      });
     }
-    const stateColor = fields.get(index);
-    this.resetFields(
-      stateColor.condition.field,
-      stateColor.condition.operator,
-      stateColor.condition.operand
-    );
-    this.setState({
-      editingIndex: index,
-      currentColor: stateColor.color,
-    });
   }
 
   updateColor = (color) => {

@@ -1,18 +1,16 @@
 import _set from 'lodash/set';
 import _reduce from 'lodash/reduce';
 
-import vivl from '../../VIVL/main';
-import structures from './structures';
+import { getStructureModule } from '../viewManager';
 
-export const selectData = (viewDataState, viewDefinitions, payload, count) =>
+export const selectData = (viewDataState, viewDefinitions, intervalMap, payload) =>
   _reduce(viewDefinitions, (bag, view, viewId) => {
-    const structureType = vivl(view.type, 'structureType')();
-    const viewBag = structures(structureType, 'extractValues')(
+    const viewBag = getStructureModule(view.type).extractValues(
       viewDataState,
+      intervalMap,
       payload,
       viewId,
       view.entryPoints,
-      count,
       view.type
     );
     return viewBag ? _set(bag, [viewId], viewBag) : bag;
@@ -57,15 +55,13 @@ export const selectData = (viewDataState, viewDefinitions, payload, count) =>
  *    }
  *  }
  */
-export default function inject(viewDataState, viewMap, payload) {
-  const count = { last: 0, range: 0 };
-  const data = selectData(viewDataState, viewMap, payload, count);
+export default function inject(viewDataState, viewMap, intervalMap, payload) {
+  const data = selectData(viewDataState, viewMap, intervalMap, payload);
   if (data && Object.keys(data).length > 0) {
     return _reduce(
       data,
-      (newState, view, viewId) => structures(view.structureType, 'viewDataUpdate')(
-        newState, viewId, view
-      ),
+      (newState, view, viewId) =>
+        getStructureModule(view.type).viewDataUpdate(newState, viewId, view),
       viewDataState
     );
   }

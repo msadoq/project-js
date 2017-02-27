@@ -1,22 +1,13 @@
 import { connect } from 'react-redux';
-import { PropTypes } from 'react';
-import { ServerInfo } from './ServerInfo';
-// import { getSessions } from '../../../store/selectors/sessions';
-// import { getDomains } from '../../../store/selectors/domains';
+import ServerInfo from './ServerInfo';
+import { getSessions } from '../../../store/selectors/sessions';
+import { getDomains } from '../../../store/selectors/domains';
 
-// const mapStateToProps = (state) => {
-//   const sessions = getSessions(state);
-//   const domains = getDomains(state);
-//   return {
-//     sessions,
-//     domains,
-//   };
-// };
+const mapStateToProps = state => ({
+  sessions: getSessions(state),
+  domains: getDomains(state),
+});
 
-const ServerInfoContainer = connect()(ServerInfo);
-
-ServerInfoContainer.propTypes = {
-  server: PropTypes.object.isRequired,
-};
+const ServerInfoContainer = connect(mapStateToProps)(ServerInfo);
 
 export default ServerInfoContainer;

@@ -22,8 +22,11 @@ export const setModified = simple(types.WS_WINDOW_SETMODIFIED, 'windowId', 'flag
 export const minimize = simple(types.WS_WINDOW_MINIMIZE, 'windowId');
 export const restore = simple(types.WS_WINDOW_RESTORE, 'windowId');
 
+export const displayExplorer = simple(types.WS_WINDOW_DISPLAY_EXPLORER, 'windowId', 'open');
 export const currentExplorer = simple(types.WS_WINDOW_CURRENT_EXPLORER, 'windowId', 'tabName');
 export const updateExplorerWidth = simple(types.WS_WINDOW_EXPLORERWIDTH_UPDATE, 'windowId', 'width');
+export const updateExplorerFlag = simple(types.WS_WINDOW_EXPLORER_UPDATEFLAG, 'windowId', 'flagName', 'flag');
+
 /**
  * Compound actions
  */
@@ -40,7 +43,7 @@ export function add(windowId, title, geometry, pages, focusedPage, isModified) {
 export function focusPage(windowId, pageId) {
   return (dispatch, getState) => {
     const playingTimebarId = getPlayingTimebarId(getState());
-    const newPage = getPage(getState(), pageId);
+    const newPage = getPage(getState(), { pageId });
     if (playingTimebarId && playingTimebarId !== newPage.timebarUuid) {
       // switch to pause when changing for another timebar
       dispatch(pause());

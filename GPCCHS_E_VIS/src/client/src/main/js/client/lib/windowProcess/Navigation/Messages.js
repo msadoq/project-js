@@ -9,7 +9,14 @@ const types = ['danger', 'warning', 'info', 'success'];
 export default class Messages extends PureComponent {
   static propTypes = {
     remove: PropTypes.func.isRequired,
-    messages: PropTypes.array,
+    messages: PropTypes.arrayOf(PropTypes.shape({
+      message: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+    })),
+  };
+
+  static defaultProps = {
+    messages: [],
   };
 
   state = {
@@ -36,6 +43,7 @@ export default class Messages extends PureComponent {
     this.setState({
       collapsed: !this.state.collapsed,
     });
+    return undefined;
   }
 
   render() {
@@ -64,6 +72,7 @@ export default class Messages extends PureComponent {
       });
     }
 
+    // TODO dbrugne : fix react warning about choice prop
     return (
       <ButtonGroup>
         <Button onClick={this.collapse} choice="collapse" bsSize="sm">

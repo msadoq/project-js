@@ -21,12 +21,11 @@ import { add as addMessage } from '../store/actions/messages';
 import { updateDomains } from '../store/actions/domains';
 import { updateSessions } from '../store/actions/sessions';
 import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
-
-import setMenu from './menu';
+import { getIsWorkspaceOpening } from '../store/actions/hsc';
+import setMenu from './menuManager';
 import { openDefaultWorkspace, openWorkspaceDocument } from './openWorkspace';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
-
-import { openSplashScreen, setSplashScreenMessage } from './windows';
+import { splashScreen, codeEditor, windows } from './windowsManager';
 
 const logger = getLogger('main:index');
 
@@ -34,21 +33,14 @@ export function start() {
   setMenu();
   const forkOptions = {
     execPath: parameters.get('NODE_PATH'),
-    env: {
-      LOG: parameters.get('LOG'),
-      MONITORING: parameters.get('MONITORING'),
-      PROFILING: parameters.get('PROFILING'),
-      ZMQ_GPCCDC_PUSH: parameters.get('ZMQ_GPCCDC_PUSH'),
-      ZMQ_GPCCDC_PULL: parameters.get('ZMQ_GPCCDC_PULL'),
-      FMD_ROOT_DIR: parameters.get('FMD_ROOT_DIR'),
-    },
+    env: parameters.getAll(),
   };
 
   series([
-    callback => openSplashScreen(callback),
+    callback => splashScreen.open(callback),
     callback => enableDebug(callback),
     (callback) => {
-      setSplashScreenMessage('loading data store...');
+      splashScreen.setMessage('loading data store...');
       logger.info('loading data store...');
 
       // redux store
@@ -62,7 +54,7 @@ export function start() {
         return;
       }
 
-      setSplashScreenMessage('starting data simulator process...');
+      splashScreen.setMessage('starting data simulator process...');
       logger.info('starting data simulator process...');
       fork(
         CHILD_PROCESS_DC,
@@ -72,7 +64,7 @@ export function start() {
       );
     },
     (callback) => {
-      setSplashScreenMessage('starting data server process...');
+      splashScreen.setMessage('starting data server process...');
       logger.info('starting data server process...');
       fork(
         CHILD_PROCESS_SERVER,
@@ -82,7 +74,7 @@ export function start() {
       );
     },
     (callback) => {
-      setSplashScreenMessage('synchronizing processes...');
+      splashScreen.setMessage('synchronizing processes...');
       logger.info('synchronizing processes...');
       server.sendProductLog(LOG_APPLICATION_START); // log on LPISIS only when server is up
 
@@ -99,7 +91,7 @@ export function start() {
     },
     // should have master sessionId in store at start
     (callback) => {
-      setSplashScreenMessage('requesting master session...');
+      splashScreen.setMessage('requesting master session...');
       logger.info('requesting master session...');
       server.requestMasterSession(({ err, masterSessionId }) => {
         if (err) {
@@ -107,7 +99,7 @@ export function start() {
           return;
         }
 
-        setSplashScreenMessage('injecting master session...');
+        splashScreen.setMessage('injecting master session...');
         logger.info('injecting master session...');
 
         getStore().dispatch(updateMasterSessionIfNeeded(masterSessionId));
@@ -116,7 +108,7 @@ export function start() {
     },
     // should have sessions in store at start
     (callback) => {
-      setSplashScreenMessage('requesting sessions...');
+      splashScreen.setMessage('requesting sessions...');
       logger.info('requesting sessions...');
       server.requestSessions(({ err, sessions }) => {
         if (err) {
@@ -124,7 +116,7 @@ export function start() {
           return;
         }
 
-        setSplashScreenMessage('injecting sessions...');
+        splashScreen.setMessage('injecting sessions...');
         logger.info('injecting sessions...');
 
         getStore().dispatch(updateSessions(sessions));
@@ -133,7 +125,7 @@ export function start() {
     },
     // should have domains in store at start
     (callback) => {
-      setSplashScreenMessage('requesting domains...');
+      splashScreen.setMessage('requesting domains...');
       logger.info('requesting domains...');
       server.requestDomains(({ err, domains }) => {
         if (err) {
@@ -141,7 +133,7 @@ export function start() {
           return;
         }
 
-        setSplashScreenMessage('injecting domains...');
+        splashScreen.setMessage('injecting domains...');
         logger.info('injecting domains...');
 
         getStore().dispatch(updateDomains(domains));
@@ -149,27 +141,27 @@ export function start() {
       });
     },
     (callback) => {
-      setSplashScreenMessage('searching workspace...');
+      splashScreen.setMessage('searching workspace...');
       logger.info('searching workspace...');
 
       const { dispatch, getState } = getStore();
-      const root = parameters.get('FMD_ROOT_DIR');
+      const root = parameters.get('ISIS_DOCUMENTS_ROOT');
       const file = parameters.get('WORKSPACE');
 
       if (!file) {
-        setSplashScreenMessage('loading default workspace...');
+        splashScreen.setMessage('loading default workspace...');
         logger.info('loading default workspace...');
         dispatch(addMessage('global', 'info', 'No WORKSPACE found'));
         openDefaultWorkspace(dispatch, root, callback);
         return;
       }
 
-      setSplashScreenMessage(`loading ${file}`);
+      splashScreen.setMessage(`loading ${file}`);
       logger.info(`loading ${file}`);
 
       openWorkspaceDocument(dispatch, getState, root, file, (err, value) => {
         if (err) {
-          setSplashScreenMessage('loading default workspace...');
+          splashScreen.setMessage('loading default workspace...');
           logger.info('loading default workspace...');
           dispatch(addMessage('global', 'danger', err));
           openDefaultWorkspace(dispatch, root, callback);
@@ -183,7 +175,7 @@ export function start() {
       throw err;
     }
 
-    setSplashScreenMessage('ready!');
+    splashScreen.setMessage('ready!');
     logger.info('ready!');
     server.sendProductLog(LOG_APPLICATION_START);
 
@@ -205,12 +197,17 @@ export function stop() {
   // registered callbacks
   clear();
 
+  // close static windows
+  windows.closeAll();
+  codeEditor.close();
+  splashScreen.close();
+
   logger.info('application stopped');
 }
 
 export function onWindowsClose() {
   const state = getStore().getState();
-  if (!state.hsc.isWorkspaceOpening) { // TODO implement selector
+  if (!getIsWorkspaceOpening(state)) {
     app.quit();
   }
 }

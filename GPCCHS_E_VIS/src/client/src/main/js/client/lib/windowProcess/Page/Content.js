@@ -27,9 +27,18 @@ const filterLayoutBlockFields = [
 export default class Content extends PureComponent {
   static propTypes = {
     focusedPageId: PropTypes.string.isRequired,
-    timebarUuid: PropTypes.string.isRequired,
-    layouts: PropTypes.object.isRequired,
-    views: PropTypes.array.isRequired,
+    timebarUuid: PropTypes.string,
+    layouts: PropTypes.shape({
+      lg: PropTypes.array,
+    }).isRequired,
+    views: PropTypes.arrayOf(PropTypes.shape({
+      absolutePath: PropTypes.string,
+      configuration: PropTypes.object,
+      isModified: PropTypes.bool,
+      path: PropTypes.string,
+      type: PropTypes.string,
+      viewId: PropTypes.string,
+    })).isRequired,
     editorViewId: PropTypes.string,
     unmountAndRemove: PropTypes.func.isRequired,
     openEditor: PropTypes.func.isRequired,
@@ -41,6 +50,7 @@ export default class Content extends PureComponent {
 
   static defaultProps = {
     editorViewId: '',
+    timebarUuid: null,
   }
 
   onLayoutChange = (layout = []) => {

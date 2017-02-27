@@ -9,6 +9,7 @@ import {
   HEALTH_STATUS_CRITICAL,
   IPC_METHOD_CACHE_CLEANUP,
   HSC_CRITICAL_SWITCH_PAUSE_DELAY,
+  HSC_PUBSUB_MONITORING_FREQUENCY,
 } from 'common/constants';
 import executionMonitor from 'common/log/execution';
 import getLogger from 'common/log';
@@ -19,7 +20,7 @@ import { getHealthMap, getMainStatus } from '../store/selectors/health';
 import { setWindowsAsOpened, updateCacheInvalidation, pause } from '../store/actions/hsc';
 import dataMapGenerator from '../dataManager/map';
 import request from '../dataManager/request';
-import windowsObserver from './windows';
+import windowsObserver from './windowsManager';
 import { addOnce } from '../store/actions/messages';
 import { updateViewData } from '../store/actions/viewData';
 import { handlePlay } from '../store/actions/timebars';
@@ -34,7 +35,6 @@ let criticalTimeout = null;
 const previous = {
   requestedDataMap: {},
   injectionViewMap: {},
-  windowMap: {},
   health: {
     dc: HEALTH_STATUS_HEALTHY,
     hss: HEALTH_STATUS_HEALTHY,
@@ -142,7 +142,7 @@ export function tick() {
 
         // health store update
         execution.start('health injection');
-        dispatch(updateHealth(data));
+        dispatch(updateHealth(data, HSC_PUBSUB_MONITORING_FREQUENCY));
         execution.stop('health injection');
 
         callback(null);
@@ -225,16 +225,17 @@ export function tick() {
     },
     // request data
     (callback) => {
-      if (skipThisTick || dataMap.perRemoteId === previous.requestedDataMap) {
+      if (skipThisTick || dataMap.expectedIntervals === previous.expectedIntervals) {
         callback(null);
         return;
       }
 
       execution.start('data requests');
-      request(dataMap.perRemoteId, previous.requestedDataMap, server.message);
+      request(dataMap, previous, server.message);
 
       // request module should receive only the last 'analysed' map
-      previous.requestedDataMap = dataMap.perRemoteId;
+      previous.perRemoteId = dataMap.perRemoteId;
+      previous.expectedIntervals = dataMap.expectedIntervals;
 
       execution.stop('data requests');
       callback(null);
@@ -252,26 +253,27 @@ export function tick() {
 
         // viewData
         execution.start('data injection');
-        dispatch(updateViewData(previous.injectionViewMap, dataMap.perView, dataToInject.data));
-        execution.stop('data injection', Object.keys(dataToInject.data).length);
+        dispatch(updateViewData(
+          previous.injectionViewMap,
+          dataMap.perView,
+          previous.injectionIntervals,
+          dataMap.expectedIntervals,
+          dataToInject.data));
+        const message = Object.keys(dataToInject.data).length
+          ? `${Object.keys(dataToInject.data).length} remoteId`
+          : undefined;
+        execution.stop('data injection', message);
 
         previous.injectionViewMap = dataMap.perView;
+        previous.injectionIntervals = dataMap.expectedIntervals;
 
         callback(null);
       });
     },
     // sync windows
     (callback) => {
-      const state = getState();
-      if (state.windows === previous.windowMap) {
-        callback(null);
-        return;
-      }
-
-      previous.windowMap = state.windows;
-
       execution.start('windows handling');
-      windowsObserver(getState(), (err) => {
+      windowsObserver((err) => {
         if (err) {
           execution.stop('windows handling');
           callback(err);

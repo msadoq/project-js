@@ -1,14 +1,23 @@
-// import _reduce from 'lodash/reduce';
 import _difference from 'lodash/difference';
 import _each from 'lodash/each';
 import _map from 'lodash/map';
 import _find from 'lodash/find';
+import _isEqual from 'lodash/isEqual';
+import _get from 'lodash/get';
 import u from 'updeep';
 
-import structures from './structures';
-import vivl from '../../VIVL/main';
+import { getStructureModule } from '../viewManager';
 
-export default function cleanViewData(viewDataState, oldViewMap, viewMap) {
+export default function cleanViewData(
+  viewDataState,
+  oldViewMap,
+  viewMap,
+  oldIntervals,
+  newIntervals) {
+  // Check if viewMap has changed
+  if (_isEqual(viewMap, oldViewMap) && _isEqual(oldIntervals, newIntervals)) {
+    return viewDataState;
+  }
   let newState;
   // unmounted views
   const removedViews = _difference(Object.keys(oldViewMap), Object.keys(viewMap));
@@ -22,8 +31,7 @@ export default function cleanViewData(viewDataState, oldViewMap, viewMap) {
     if (!previousView) {
       return;
     }
-    const structureType = vivl(view.type, 'structureType')();
-
+    const structureType = getStructureModule(view.type);
     _each(previousView.entryPoints, (ep, epName) => {
       // check if only label has changed
       if (!view.entryPoints[epName]) {
@@ -37,34 +45,49 @@ export default function cleanViewData(viewDataState, oldViewMap, viewMap) {
         });
         if (newLabel) {
           // Update label in viewData
-          newState = structures(structureType, 'updateEpLabel')(newState || viewDataState,
-                        id, epName, newLabel);
+          newState = structureType.updateEpLabel(
+            newState || viewDataState,
+            id,
+            epName,
+            newLabel
+          );
           return;
         }
       }
       // removed entry point if missing or invalid
       if (!view.entryPoints[epName] || ep.error) {
-        newState = structures(structureType, 'removeEpData')(newState || viewDataState, id, epName);
+        newState = structureType.removeEpData(
+          newState || viewDataState,
+          id,
+          epName
+        );
         return;
       }
-
       const newEp = view.entryPoints[epName];
       // no update on entry points
       if (ep === newEp) {
         return;
       }
-
-      const isUpdated = structures(structureType, 'isEpDifferent')(ep, newEp);
+      const isUpdated = structureType.isEpDifferent(ep, newEp);
       // EP definition modified: remove entry point from viewData
       if (isUpdated) {
-        newState = structures(structureType, 'removeEpData')(newState || viewDataState, id, epName);
+        newState = structureType.removeEpData(
+          newState || viewDataState,
+          id,
+          epName
+        );
         return;
       }
       // update on expected interval
-      if (ep.expectedInterval[0] !== newEp.expectedInterval[0]
-       || ep.expectedInterval[1] !== newEp.expectedInterval[1]) {
-        newState = structures(structureType, 'cleanData')(newState || viewDataState, id, epName,
-                              _map(newEp.expectedInterval, bound => bound + newEp.offset));
+      const oldInterval = _get(oldIntervals, [ep.remoteId, ep.localId, 'expectedInterval']);
+      const newInterval = _get(newIntervals, [ep.remoteId, ep.localId, 'expectedInterval']);
+      if (oldInterval[0] !== newInterval[0] || oldInterval[1] !== newInterval[1]) {
+        newState = structureType.cleanData(
+          newState || viewDataState,
+          id,
+          epName,
+          _map(newInterval, bound => bound + newEp.offset)
+        );
       }
     });
   });

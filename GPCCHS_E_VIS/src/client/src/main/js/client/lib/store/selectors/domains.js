@@ -1,2 +1,7 @@
-// eslint-disable-next-line import/prefer-default-export
-export const getDomains = state => state.domains;
+import 'reselect';
+
+const getDomains = state => state.domains;
+
+export default {
+  getDomains,
+};

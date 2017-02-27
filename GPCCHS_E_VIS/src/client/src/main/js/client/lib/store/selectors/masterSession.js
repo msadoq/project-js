@@ -6,9 +6,9 @@ import { getSessions } from './sessions';
 export const getMasterSessionId = state => _get(state, ['masterSession', 'sessionId']);
 
 // TODO test
-export const getMasterSession = createSelector([
+export const getMasterSession = createSelector(
   getMasterSessionId,
   getSessions,
-], (masterSessionId, sessions) =>
+  (masterSessionId, sessions) =>
   _find(sessions, s => s.id === masterSessionId)
 );

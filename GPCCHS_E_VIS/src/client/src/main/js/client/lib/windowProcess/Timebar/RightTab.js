@@ -10,6 +10,7 @@ class RightTabContent extends PureComponent {
   static propTypes = {
     onTimelinesVerticalScroll: PropTypes.func.isRequired,
     updateViewport: PropTypes.func.isRequired,
+    setRealTime: PropTypes.func.isRequired,
     updateCursors: PropTypes.func.isRequired,
     jump: PropTypes.func.isRequired,
     isPlaying: PropTypes.bool.isRequired,
@@ -31,7 +32,7 @@ class RightTabContent extends PureComponent {
       speed: PropTypes.number.isRequired,
       rulerStart: PropTypes.number.isRequired,
       id: PropTypes.string.isRequired,
-      masterId: PropTypes.string.isRequired,
+      masterId: PropTypes.string,
       mode: PropTypes.string.isRequired,
       realTime: PropTypes.bool.isRequired,
       slideWindow: PropTypes.shape({
@@ -44,9 +45,6 @@ class RightTabContent extends PureComponent {
         current: PropTypes.number.isRequired,
         defaultWidth: PropTypes.number.isRequired,
       }).isRequired,
-      timelines: PropTypes.arrayOf(
-        PropTypes.string.isRequired
-      ).isRequired,
     }).isRequired,
     timebarUuid: PropTypes.string.isRequired,
     timelines: PropTypes.arrayOf(
@@ -160,6 +158,7 @@ class RightTabContent extends PureComponent {
       toggleTimesetter,
       onTimelinesVerticalScroll,
       timelinesVerticalScroll,
+      setRealTime,
       containerWidth,
       updateCursors,
       jump,
@@ -196,6 +195,8 @@ class RightTabContent extends PureComponent {
           pause={pause}
           timebarUuid={timebarUuid}
           timebarMode={timebar.mode}
+          timebarRealTime={timebar.realTime}
+          setRealTime={setRealTime}
           visuWindow={visuWindow}
           slideWindow={slideWindow}
           timelines={timelines}

@@ -6,11 +6,16 @@ import _has from 'lodash/has';
 import globalConstants from 'common/constants';
 import getLogger from 'common/log';
 
+import { getStateColorObj } from '../common/stateColors';
+
 const logger = getLogger('data:rangeValues');
 
-export function select(remoteIdPayload, ep, epName, viewState, count) {
-  const lower = ep.expectedInterval[0];
-  const upper = ep.expectedInterval[1];
+export function select(remoteIdPayload, ep, epName, viewState, intervalMap) {
+  // get expected interval
+  const expectedInterval = _get(intervalMap, [ep.remoteId, ep.localId, 'expectedInterval']);
+
+  const lower = expectedInterval[0];
+  const upper = expectedInterval[1];
   const newState = {};
 
   _each(remoteIdPayload, (value) => {
@@ -34,7 +39,7 @@ export function select(remoteIdPayload, ep, epName, viewState, count) {
         newState[masterTime][epName] = {
           x: valX,
           value: valY,
-          monit: _get(value, ['monitoringState', 'value']),
+          ...getStateColorObj(value, ep.stateColors, _get(value, ['monitoringState', 'value'])),
           // Case of enum : add symbol to show it in tooltip
           symbol: _get(value, [ep.fieldY, 'symbol']),
         };
@@ -42,18 +47,24 @@ export function select(remoteIdPayload, ep, epName, viewState, count) {
         _set(newState, [masterTime, epName], {
           x: valX,
           value: valY,
-          monit: _get(value, ['monitoringState', 'value']),
+          ...getStateColorObj(value, ep.stateColors, _get(value, ['monitoringState', 'value'])),
           // Case of enum : add symbol to show it in tooltip
           symbol: _get(value, [ep.fieldY, 'symbol']),
         });
       }
-      count.range += 1; // eslint-disable-line no-param-reassign
     }
   });
   return newState;
 }
 
-export default function extractValues(state, payload, viewId, entryPoints, count) {
+export default function extractValues(
+  state,
+  intervalMap,
+  payload,
+  viewId,
+  entryPoints,
+  viewType
+) {
   let isFirstEp = true;
   // Get current state for update
   const epSubState = {};
@@ -68,14 +79,19 @@ export default function extractValues(state, payload, viewId, entryPoints, count
       if (!viewData) {
         viewData = {};
       }
+      // get expected interval
+      const expectedInterval = _get(intervalMap, [ep.remoteId, ep.localId, 'expectedInterval']);
       // master's timestamp (arbitrary determined from the first entryPoint)
-      _set(viewData, ['remove'], {
-        lower: ep.expectedInterval[0] + ep.offset,
-        upper: ep.expectedInterval[1] + ep.offset });
-      _set(viewData, ['structureType'], globalConstants.DATASTRUCTURETYPE_RANGE);
+      viewData.remove = {
+        lower: expectedInterval[0] + ep.offset,
+        upper: expectedInterval[1] + ep.offset,
+      };
+
+      viewData.type = viewType;
+      viewData.structureType = globalConstants.DATASTRUCTURETYPE_RANGE;
       isFirstEp = false;
     }
-    Object.assign(epSubState, select(payload[ep.remoteId], ep, epName, epSubState, count));
+    Object.assign(epSubState, select(payload[ep.remoteId], ep, epName, epSubState, intervalMap));
   });
   if (Object.keys(epSubState).length !== 0) {
     _set(viewData, ['add'], epSubState);

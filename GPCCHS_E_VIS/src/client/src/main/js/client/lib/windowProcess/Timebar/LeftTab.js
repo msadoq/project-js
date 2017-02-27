@@ -26,7 +26,7 @@ export default class LeftTab extends PureComponent {
         color: PropTypes.string,
         id: PropTypes.string.isRequired,
         kind: PropTypes.string.isRequired,
-        timelineId: PropTypes.string.isRequired,
+        timelineUuid: PropTypes.string.isRequired,
         offset: PropTypes.number.isRequired,
         sessionId: PropTypes.number.isRequired,
       })
@@ -70,8 +70,8 @@ export default class LeftTab extends PureComponent {
     this.props.onTimelinesVerticalScroll(e, e.currentTarget);
   }
 
-  willUnmountTimeline = (timebarUuid, timelineId) => {
-    this.props.unmountTimeline(timebarUuid, timelineId);
+  willUnmountTimeline = (timebarUuid, timelineUuid) => {
+    this.props.unmountTimeline(timebarUuid, timelineUuid);
   }
 
   toggleAddTimeline = (e) => {
@@ -115,7 +115,7 @@ export default class LeftTab extends PureComponent {
 
     if (values.master) {
       timelinesBeforeAdd.forEach(t =>
-        updateOffset(t.timelineId, t.offset - values.offset)
+        updateOffset(t.timelineUuid, t.offset - values.offset)
       );
       updateMasterId(timebarUuid, values.id);
     }
@@ -129,7 +129,7 @@ export default class LeftTab extends PureComponent {
     });
   }
 
-  willEditTimeline = (timelineId, id) => {
+  willEditTimeline = (timelineUuid, id) => {
     this.setState({
       willAdd: false,
       willEdit: true,
@@ -149,39 +149,39 @@ export default class LeftTab extends PureComponent {
       updateSessionId,
     } = this.props;
 
-    const timeline = timelines.find(x => x.timelineId === values.timelineId);
+    const timeline = timelines.find(x => x.timelineUuid === values.timelineUuid);
     const offset = parseInt(values.offset, 10);
 
     if (timeline.id !== values.id) {
-      updateId(values.timelineId, values.id);
+      updateId(values.timelineUuid, values.id);
     }
     if (timeline.color !== values.color) {
-      updateColor(values.timelineId, values.color);
+      updateColor(values.timelineUuid, values.color);
     }
     if (timeline.sessionId !== parseInt(values.sessionId, 10)) {
-      updateSessionId(values.timelineId, parseInt(values.sessionId, 10));
+      updateSessionId(values.timelineUuid, parseInt(values.sessionId, 10));
     }
 
     if (values.master && masterId !== values.id) {
       updateMasterId(timebarUuid, values.id);
       timelines.forEach((t) => {
-        if (t.timelineId === values.timelineId) {
+        if (t.timelineUuid === values.timelineUuid) {
           return;
         }
-        updateOffset(t.timelineId, t.offset - offset);
+        updateOffset(t.timelineUuid, t.offset - offset);
       });
-      updateOffset(values.timelineId, 0);
+      updateOffset(values.timelineUuid, 0);
     } else if (timeline.offset !== offset) {
       if ((masterId === values.id) || (values.master && masterId !== values.id)) {
         timelines.forEach((t) => {
-          if (t.timelineId === values.timelineId) {
+          if (t.timelineUuid === values.timelineUuid) {
             return;
           }
-          updateOffset(t.timelineId, t.offset - offset);
+          updateOffset(t.timelineUuid, t.offset - offset);
         });
-        updateOffset(values.timelineId, 0);
+        updateOffset(values.timelineUuid, 0);
       } else {
-        updateOffset(values.timelineId, offset);
+        updateOffset(values.timelineUuid, offset);
       }
     }
     this.hideModals();
@@ -230,7 +230,7 @@ export default class LeftTab extends PureComponent {
           timelines={timelines}
           masterId={masterId}
           id={currentlyEditingTimeline.id}
-          timelineId={currentlyEditingTimeline.timelineId}
+          timelineUuid={currentlyEditingTimeline.timelineUuid}
           // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
           initialValues={{
             master: masterId === currentlyEditingTimeline.id,
@@ -239,7 +239,7 @@ export default class LeftTab extends PureComponent {
             kind: currentlyEditingTimeline.kind,
             sessionId: typeof currentlyEditingTimeline.sessionId === 'number' ?
               currentlyEditingTimeline.sessionId.toString() : '',
-            timelineId: currentlyEditingTimeline.timelineId,
+            timelineUuid: currentlyEditingTimeline.timelineUuid,
             offset: currentlyEditingTimeline.offset,
           }}
         />}
@@ -332,7 +332,7 @@ export default class LeftTab extends PureComponent {
                 timelinesLength={timelines.length}
                 timebarUuid={timebarUuid}
                 id={v.id}
-                timelineId={v.timelineId}
+                timelineUuid={v.timelineUuid}
                 color={v.color}
                 masterId={masterId}
                 willEditTimeline={this.willEditTimeline}

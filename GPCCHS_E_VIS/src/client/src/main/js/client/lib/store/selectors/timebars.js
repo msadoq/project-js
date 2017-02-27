@@ -31,7 +31,7 @@ export const getTimebarTimelinesSelector = createSelector(
     }
     const timebarTimelines = [];
     tbTimelines.forEach((tlUuid) => {
-      const newTimeline = Object.assign({}, timelines[tlUuid], { timelineId: tlUuid });
+      const newTimeline = Object.assign({}, timelines[tlUuid], { timelineUuid: tlUuid });
       if (masterId === timelines[tlUuid].id) {
         timebarTimelines.unshift(newTimeline);
       } else {

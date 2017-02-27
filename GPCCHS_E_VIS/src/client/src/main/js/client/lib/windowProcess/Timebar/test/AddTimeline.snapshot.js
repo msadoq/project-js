@@ -16,7 +16,7 @@ const propsStub = {
   timelines: [],
   masterId: 'masterId',
   id: 'timelineId',
-  timelineId: 'aaaa-aaaa',
+  timelineUuid: 'aaaa-aaaa',
   store,
   initialValues: {
     id: '',

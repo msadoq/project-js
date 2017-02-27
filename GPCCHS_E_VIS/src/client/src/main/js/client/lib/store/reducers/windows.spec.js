@@ -165,7 +165,7 @@ describe('store:windows:reducer', () => {
   });
   describe('close_workspace', () => {
     it('ok', () => {
-      const newState = reducer({ myTimelineId: { id: 'Id' } }, { type: types.HSC_CLOSE_WORKSPACE });
+      const newState = reducer({ myTimelineUuid: { id: 'Id' } }, { type: types.HSC_CLOSE_WORKSPACE });
       newState.should.be.an('object').that.is.empty;
     });
   });

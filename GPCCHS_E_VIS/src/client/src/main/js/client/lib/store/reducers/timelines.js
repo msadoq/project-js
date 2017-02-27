@@ -9,18 +9,18 @@ export default function timelines(stateTimelines = {}, action) {
     case types.HSC_CLOSE_WORKSPACE:
       return {};
     case types.WS_TIMELINE_ADD:
-      return __.set(action.payload.timelineId, timeline(undefined, action), stateTimelines);
+      return __.set(action.payload.timelineUuid, timeline(undefined, action), stateTimelines);
     case types.WS_TIMELINE_REMOVE:
-      return __.omit(action.payload.timelineId, stateTimelines);
+      return __.omit(action.payload.timelineUuid, stateTimelines);
     default: {
       if (
         action.payload &&
-        action.payload.timelineId &&
-        stateTimelines[action.payload.timelineId]
+        action.payload.timelineUuid &&
+        stateTimelines[action.payload.timelineUuid]
       ) {
-        const currentTimebar = stateTimelines[action.payload.timelineId];
+        const currentTimeline = stateTimelines[action.payload.timelineUuid];
         return u({
-          [action.payload.timelineId]: timeline(currentTimebar, action),
+          [action.payload.timelineUuid]: timeline(currentTimeline, action),
         }, stateTimelines);
       }
       return stateTimelines;

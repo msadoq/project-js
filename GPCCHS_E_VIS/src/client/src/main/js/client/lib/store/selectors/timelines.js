@@ -1,4 +1,4 @@
 import 'reselect';
 
-export const getTimeline = (state, { timelineId }) => state.timelines[timelineId];
+export const getTimeline = (state, { timelineUuid }) => state.timelines[timelineUuid];
 export const getTimelines = state => state.timelines;

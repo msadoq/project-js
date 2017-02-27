@@ -162,7 +162,7 @@ EntryPointConnectedDataFields.propTypes = {
     kind: PropTypes.string,
     offset: PropTypes.number,
     sessionId: PropTypes.number,
-    timelineId: PropTypes.string,
+    timelineUuid: PropTypes.string,
   })).isRequired,
   prefix: PropTypes.string.isRequired,
   unit: PropTypes.string.isRequired,

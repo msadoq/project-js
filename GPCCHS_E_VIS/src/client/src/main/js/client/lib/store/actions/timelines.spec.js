@@ -13,63 +13,63 @@ describe('store:actions:pages', () => {
 
   describe('update', () => {
     it('does nothing with empty configuration', () => {
-      actions.update('myTimelineId', { sessionId: 'not a number' })(dispatch);
+      actions.update('myTimelineUuid', { sessionId: 'not a number' })(dispatch);
       dispatch.should.not.been.called;
     });
     it('updates sessionId', () => {
-      actions.update('myTimelineId', { sessionId: 1234 })(dispatch);
+      actions.update('myTimelineUuid', { sessionId: 1234 })(dispatch);
       dispatch.should.have.been.callCount(1);
       dispatch.getCall(0).should.have.been.calledWith({
         type: types.WS_TIMELINE_UPDATE_SESSIONID,
         payload: {
-          timelineId: 'myTimelineId',
+          timelineUuid: 'myTimelineUuid',
           sessionId: 1234,
         },
       });
     });
     it('updates offset', () => {
-      actions.update('myTimelineId', { offset: true })(dispatch);
+      actions.update('myTimelineUuid', { offset: true })(dispatch);
       dispatch.should.have.been.callCount(1);
       dispatch.getCall(0).should.have.been.calledWith({
         type: types.WS_TIMELINE_UPDATE_OFFSET,
         payload: {
-          timelineId: 'myTimelineId',
+          timelineUuid: 'myTimelineUuid',
           offset: true,
         },
       });
     });
     it('updates id', () => {
-      actions.update('myTimelineId', { id: true })(dispatch);
+      actions.update('myTimelineUuid', { id: true })(dispatch);
       dispatch.should.have.been.callCount(1);
       dispatch.getCall(0).should.have.been.calledWith({
         type: types.WS_TIMELINE_UPDATE_ID,
         payload: {
-          timelineId: 'myTimelineId',
+          timelineUuid: 'myTimelineUuid',
           id: true,
         },
       });
     });
     it('updates sessionId, offset and id', () => {
-      actions.update('myTimelineId', { sessionId: 1234, offset: true, id: true })(dispatch);
+      actions.update('myTimelineUuid', { sessionId: 1234, offset: true, id: true })(dispatch);
       dispatch.should.have.been.callCount(3);
       dispatch.getCall(0).should.have.been.calledWith({
         type: types.WS_TIMELINE_UPDATE_SESSIONID,
         payload: {
-          timelineId: 'myTimelineId',
+          timelineUuid: 'myTimelineUuid',
           sessionId: 1234,
         },
       });
       dispatch.getCall(1).should.have.been.calledWith({
         type: types.WS_TIMELINE_UPDATE_OFFSET,
         payload: {
-          timelineId: 'myTimelineId',
+          timelineUuid: 'myTimelineUuid',
           offset: true,
         },
       });
       dispatch.getCall(2).should.have.been.calledWith({
         type: types.WS_TIMELINE_UPDATE_ID,
         payload: {
-          timelineId: 'myTimelineId',
+          timelineUuid: 'myTimelineUuid',
           id: true,
         },
       });

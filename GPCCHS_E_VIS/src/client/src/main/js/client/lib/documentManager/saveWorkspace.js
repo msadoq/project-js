@@ -69,12 +69,12 @@ const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
       let tb = _cloneDeep(timebar);
       tb = Object.assign({}, _omit(tb, 'timelines'), { type: 'timeBarConfiguration' });
       tb.timelines = [];
-      _each(timebar.timelines, (timelineId) => {
-        if (!state.timelines[timelineId]) {
+      _each(timebar.timelines, (timelineUuid) => {
+        if (!state.timelines[timelineUuid]) {
           callback(new Error('timelines missing'));
           return;
         }
-        tb.timelines.push(_cloneDeep(state.timelines[timelineId]));
+        tb.timelines.push(_cloneDeep(state.timelines[timelineUuid]));
       });
       if (tb.masterId === null) {
         delete tb.masterId;

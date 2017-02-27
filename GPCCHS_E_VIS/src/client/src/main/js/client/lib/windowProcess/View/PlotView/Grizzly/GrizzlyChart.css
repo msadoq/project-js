@@ -150,5 +150,17 @@
         }
       }
     }
+    &.tooltipBlue{
+      background: rgba(00, 00, 35, 0.85);
+      color: #FFF;
+      .tooltipOffset {
+        &.red{
+          color: #F55;
+        }
+        &.green{
+          color: #4F4;
+        }
+      }
+    }
   }
 }

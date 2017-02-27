@@ -31,7 +31,7 @@ function parseDragData(data) {
   };
 }
 
-const plotPadding = 5;
+const plotPadding = 10;
 const mainStyle = { padding: `${plotPadding}px` };
 
 export class GrizzlyPlotView extends PureComponent {

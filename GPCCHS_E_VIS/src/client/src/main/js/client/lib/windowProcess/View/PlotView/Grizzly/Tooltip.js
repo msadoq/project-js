@@ -213,6 +213,7 @@ export default class Tooltip extends React.Component {
               styles.tooltip,
               {
                 [styles.tooltipBlack]: tooltipColor === 'black',
+                [styles.tooltipBlue]: tooltipColor === 'blue',
               }
             )}
             style={tooltipStyle}

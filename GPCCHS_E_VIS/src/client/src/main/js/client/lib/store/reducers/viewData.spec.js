@@ -44,12 +44,14 @@ describe('store:viewData:reducer', () => {
 
   describe('DATA_UPDATE_VIEWDATA', () => {
     it('empty viewData', () => { // oldViewMap', 'newViewMap',  'dataToInject'
-      reducer(Object.freeze({ }), updateViewData({}, {}, {}))
+      reducer(Object.freeze({ }), updateViewData({}, {}, {}, {}, {}))
       .should.eql({ });
     });
     let newViewMap;
     let oldViewMap;
     let dataToInject;
+    let oldIntervals;
+    let newIntervals;
     before('', () => {
       oldViewMap = {
         text: {
@@ -58,7 +60,7 @@ describe('store:viewData:reducer', () => {
             ep1: {
               remoteId: 'rId1',
               field: 'time',
-              expectedInterval: [5, 9],
+              localId: 'local1',
             },
           },
         },
@@ -70,10 +72,14 @@ describe('store:viewData:reducer', () => {
               fieldX: 'time',
               fieldY: 'val2',
               offset: 0,
-              expectedInterval: [7, 10],
+              localId: 'local2',
             },
           },
         },
+      };
+      oldIntervals = {
+        rId1: { local1: { expectedInterval: [5, 9] } },
+        rId2: { local2: { expectedInterval: [7, 10] } },
       };
       newViewMap = {
         text: {
@@ -82,12 +88,12 @@ describe('store:viewData:reducer', () => {
             ep1: {
               remoteId: 'rId1',
               field: 'time',
-              expectedInterval: [5, 10],
+              localId: 'local1',
             },
             ep4: {
               remoteId: 'rId2',
               field: 'val4',
-              expectedInterval: [5, 10],
+              localId: 'local4',
             },
           },
         },
@@ -99,16 +105,26 @@ describe('store:viewData:reducer', () => {
               fieldX: 'time',
               fieldY: 'val2',
               offset: 0,
-              expectedInterval: [8, 12],
+              localId: 'local2',
             },
             ep3: {
               remoteId: 'rId2',
               fieldX: 'time',
               fieldY: 'val4',
               offset: 0,
-              expectedInterval: [8, 12],
+              localId: 'local3',
             },
           },
+        },
+      };
+      newIntervals = {
+        rId1: {
+          local1: { expectedInterval: [5, 10] },
+          local2: { expectedInterval: [8, 12] },
+        },
+        rId2: {
+          local4: { expectedInterval: [5, 10] },
+          local3: { expectedInterval: [8, 12] },
         },
       };
       dataToInject = { rId1: {}, rId2: {} };
@@ -127,7 +143,8 @@ describe('store:viewData:reducer', () => {
       }
     });
     it('valid viewData with empty state', () => {
-      const val = reducer(Object.freeze({ }), updateViewData({}, newViewMap, dataToInject));
+      const val = reducer(Object.freeze({ }), updateViewData({}, newViewMap,
+        oldIntervals, newIntervals, dataToInject));
       val.should.eql({
         text: {
           index: { ep1: 10, ep4: 9 },
@@ -172,7 +189,8 @@ describe('store:viewData:reducer', () => {
           ],
         } };
 
-      reducer(Object.freeze(state), updateViewData(oldViewMap, newViewMap, dataToInject))
+      reducer(Object.freeze(state), updateViewData(oldViewMap, newViewMap,
+        oldIntervals, newIntervals, dataToInject))
       .should.eql({
         text: {
           index: { ep1: 10, ep4: 9 },

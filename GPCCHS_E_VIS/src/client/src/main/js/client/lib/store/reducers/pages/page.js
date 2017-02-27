@@ -44,10 +44,11 @@ const page = (statePage = initialState, action) => {
     case types.WS_PAGE_EDITOR_CLOSE:
       return __.set('editor.isOpened', false, statePage);
     case types.WS_PAGE_VIEW_MOUNT: {
+      const { layout } = action.payload;
       return __.merge(statePage, {
         views: [...statePage.views, action.payload.viewId],
         isModified: true,
-        layout: action.payload.layout,
+        layout: layout && layout.length ? layout : undefined,
       });
     }
     case types.WS_PAGE_VIEW_UNMOUNT: {

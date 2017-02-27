@@ -1,29 +1,34 @@
-import __ from 'lodash/fp';
+import _ from 'lodash/fp';
 
 import composeReducers from '../../composeReducers';
 import * as types from '../../types';
 
 import createConfiguration from './configuration';
 
+const setIsModified = _.set('isModified');
+const getIsModified = (action) => {
+  if (action.type === types.WS_VIEW_SETMODIFIED) {
+    return _.get('payload.flag', action);
+  }
+  return _.get('payload.isModified', action);
+};
+
 // This reducer take care of actions and update the isModified property
 // this is a temporary fix, waiting for the savableMiddleware
 const viewIsModified = (stateView, action) => {
-  const setIsModified = __.set('isModified');
-  const isModified = action.payload && action.payload.isModified;
-
-  if (__.isBoolean(isModified)) {
+  const isModified = getIsModified(action);
+  if (_.isBoolean(isModified)) {
     return setIsModified(isModified, stateView);
   }
 
-  const shouldSetModifiedToFalse = __.contains(__, [
+  const shouldSetModifiedToFalse = _.contains(_, [
     types.WS_VIEW_RELOAD,
   ]);
-  const shouldSetModifiedToTrue = __.contains(__, [
+  const shouldSetModifiedToTrue = _.contains(_, [
     types.WS_VIEW_ADD,
     types.WS_VIEW_UPDATEPATH,
     types.WS_VIEW_UPDATE_ABSOLUTEPATH,
     types.WS_VIEW_SET_OID,
-    types.WS_VIEW_SETMODIFIED,
     types.WS_VIEW_UPDATE_RATIO,
     types.WS_VIEW_UPDATE_TITLE,
     types.WS_VIEW_UPDATE_GRID,
@@ -92,7 +97,7 @@ function simpleView(stateView = initialState, action) {
 // This reducer take care of the '.configuration' property of a view
 const viewConfiguration = (stateView, action) => {
   const configuration = createConfiguration(stateView.type);
-  return __.set('configuration', configuration(stateView.configuration, action), stateView);
+  return _.set('configuration', configuration(stateView.configuration, action), stateView);
 };
 
 // expose a single reducer that deal with one view

@@ -1,3 +1,5 @@
+import _ from 'lodash/fp';
+
 import {
   DATASTRUCTURETYPE_LAST,
   DATASTRUCTURETYPE_RANGE,
@@ -15,12 +17,6 @@ import plotViewModule from './PlotView';
 import textViewModule from './TextView';
 
 const list = {
-  DynamicView: {
-    schema: dynamicViewSchema,
-    viewModule: dynamicViewModule,
-    structureType: DATASTRUCTURETYPE_LAST,
-    structureModule: dataStructurelast,
-  },
   PlotView: {
     schema: plotViewSchema,
     viewModule: plotViewModule,
@@ -33,9 +29,17 @@ const list = {
     structureType: DATASTRUCTURETYPE_LAST,
     structureModule: dataStructurelast,
   },
+  DynamicView: {
+    schema: dynamicViewSchema,
+    viewModule: dynamicViewModule,
+    structureType: DATASTRUCTURETYPE_LAST,
+    structureModule: dataStructurelast,
+  },
 };
 
 export default list;
+
+export const getAvailableViews = _.always(_.keys(list));
 
 export function isViewTypeSupported(type) {
   return !!list[type];

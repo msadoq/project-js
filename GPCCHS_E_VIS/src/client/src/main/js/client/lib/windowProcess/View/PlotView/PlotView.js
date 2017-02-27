@@ -17,7 +17,6 @@ import {
 } from 'react-stockcharts';
 
 import getDynamicObject from '../../common/getDynamicObject';
-import GrizzlyChart from './Grizzly/Chart';
 
 import {
   getLines,
@@ -29,16 +28,13 @@ import {
   drawBadge,
   zoomDateFormat,
 } from './helper';
-import { stateColors } from '../../common/colors';
+import { getStateColors } from '../../common/colors';
 import DroppableContainer from '../../common/DroppableContainer';
 import CloseableAlert from '../CloseableAlert';
 import styles from './PlotView.css';
 import { _getEntryPointColorObj } from '../../../store/selectors/views';
 
 const logger = getLogger('view:plot');
-
-const renderMethod = 'grizzly';
-// const renderMethod = 'classic';
 
 const {
   LineSeries, ScatterSeries, StraightLine,
@@ -97,38 +93,38 @@ export class PlotView extends PureComponent {
     }),
     viewId: PropTypes.string.isRequired,
     addEntryPoint: PropTypes.func.isRequired,
-    entryPoints: PropTypes.arrayOf(PropTypes.shape({
-      connectedDataX: PropTypes.shape({
-        axisId: PropTypes.string,
-        digits: PropTypes.number,
-        domain: PropTypes.string,
-        filter: PropTypes.arrayOf(PropTypes.shape({
-          field: PropTypes.string,
-          operand: PropTypes.string,
-          operator: PropTypes.string,
-        })),
-        format: PropTypes.string,
-        formula: PropTypes.string,
-        timeline: PropTypes.string,
-        unit: PropTypes.string,
-      }),
-      connectedDataY: PropTypes.shape({
-        axisId: PropTypes.string,
-        digits: PropTypes.number,
-        domain: PropTypes.string,
-        filter: PropTypes.arrayOf(PropTypes.shape({
-          field: PropTypes.string,
-          operand: PropTypes.string,
-          operator: PropTypes.string,
-        })),
-        format: PropTypes.string,
-        formula: PropTypes.string,
-        timeline: PropTypes.string,
-        unit: PropTypes.string,
-      }),
-      name: PropTypes.string,
-      id: PropTypes.string,
-    })).isRequired,
+    entryPoints: PropTypes.objectOf(PropTypes.object),
+    //   connectedDataX: PropTypes.shape({
+    //     axisId: PropTypes.string,
+    //     digits: PropTypes.number,
+    //     domain: PropTypes.string,
+    //     filter: PropTypes.arrayOf(PropTypes.shape({
+    //       field: PropTypes.string,
+    //       operand: PropTypes.string,
+    //       operator: PropTypes.string,
+    //     })),
+    //     format: PropTypes.string,
+    //     formula: PropTypes.string,
+    //     timeline: PropTypes.string,
+    //     unit: PropTypes.string,
+    //   }),
+    //   connectedDataY: PropTypes.shape({
+    //     axisId: PropTypes.string,
+    //     digits: PropTypes.number,
+    //     domain: PropTypes.string,
+    //     filter: PropTypes.arrayOf(PropTypes.shape({
+    //       field: PropTypes.string,
+    //       operand: PropTypes.string,
+    //       operator: PropTypes.string,
+    //     })),
+    //     format: PropTypes.string,
+    //     formula: PropTypes.string,
+    //     timeline: PropTypes.string,
+    //     unit: PropTypes.string,
+    //   }),
+    //   name: PropTypes.string,
+    //   id: PropTypes.string,
+    // })).isRequired,
     configuration: PropTypes.shape({
       type: PropTypes.string.isRequired,
       links: PropTypes.array,
@@ -166,6 +162,7 @@ export class PlotView extends PureComponent {
     },
     pointsPerPxThreshold: 30,
     visuWindow: null,
+    entryPoints: {},
   };
 
   constructor(...args) {
@@ -591,7 +588,7 @@ export class PlotView extends PureComponent {
         const color = _.cond([
           [
             _.pipe(_.get('monit'), _.negate(_.eq('info'))),
-            _.pipe(_.prop('monit'), _.prop(_, stateColors), _.defaultTo('#00FF00')),
+            _.pipe(_.prop('monit'), _.prop(_, getStateColors()), _.defaultTo('#00FF00')),
           ],
           [_.pipe(_.get('color'), _.isString), _.prop('color')],
           [_.stubTrue, _.constant('#00FF00')],
@@ -793,10 +790,8 @@ export class PlotView extends PureComponent {
     const {
       containerWidth,
       containerHeight,
-      entryPoints,
       data: { columns },
-      configuration: { showYAxes, axes, grids },
-      visuWindow,
+      configuration: { showYAxes },
     } = this.props;
     const {
       disableZoom,
@@ -819,66 +814,6 @@ export class PlotView extends PureComponent {
       marginChart = { ...margin };
     }
     marginChart = getDynamicObject()(marginChart);
-
-    if (renderMethod === 'grizzly') {
-      const yAxes = Object.values(axes).filter(a => a.label !== 'Time');
-
-      return (
-        <DroppableContainer
-          onDrop={this.onDrop}
-          text="add entry point"
-          className={classnames(
-            { [styles.disconnected]: zoomedOrPanned },
-            'h100',
-            'posRelative'
-          )}
-        >
-          <GrizzlyChart
-            height={containerHeight}
-            width={containerWidth}
-            allowZoom
-            allowPan
-            xExtends={[visuWindow.lower, visuWindow.upper]}
-            current={visuWindow.current}
-            yAxesAt={showYAxes}
-            xAxisAt="bottom"
-            yAxes={yAxes.map((axis) => {
-              const grid = grids.find(g => g.yAxisId === axis.id || g.yAxisId === axis.label);
-              return {
-                id: axis.id || axis.label,
-                yExtends: [axis.min, axis.max],
-                data: columns,
-                orient: 'top',
-                showAxis: axis.showAxis === true,
-                showLabels: axis.showLabels === true,
-                showTicks: axis.showTicks === true,
-                autoLimits: axis.autoLimits === true,
-                showGrid: _get(grid, 'showGrid', false),
-                gridStyle: _get(grid, ['line', 'style']),
-                gridSize: _get(grid, ['line', 'size']),
-                unit: axis.unit,
-                label: axis.label,
-                labelStyle: axis.style,
-              };
-            })}
-            lines={
-              entryPoints.map(ep =>
-                ({
-                  id: ep.name,
-                  yAxis: _get(ep, ['connectedDataY', 'axisId']),
-                  fill: _get(ep, ['objectStyle', 'curveColor']),
-                  lineSize: _get(ep, ['objectStyle', 'line', 'size']),
-                  lineStyle: _get(ep, ['objectStyle', 'line', 'style']),
-                  pointStyle: _get(ep, ['objectStyle', 'points', 'style']),
-                  pointSize: _get(ep, ['objectStyle', 'points', 'size']),
-                  yAccessor: d => _get(d, [ep.name, 'value']),
-                })
-              )
-            }
-          />
-        </DroppableContainer>
-      );
-    }
 
     return (
       <DroppableContainer

@@ -12,60 +12,75 @@ import { saveWorkspace } from '../../common/documentManager';
 module.exports = { workspaceSave, workspaceSaveAs };
 const addGlobalError = msg => addMessage('global', 'danger', msg);
 
-function workspaceSave(focusedWindow) {
+const hasNoWindowsFocused = (focusedWindow) => {
+  const { dispatch } = getStore();
   if (!focusedWindow) {
-    return getStore().dispatch(addGlobalError('Saving failed : no window focused'));
+    dispatch(addGlobalError('Saving failed : no window focused'));
+    return true;
   }
-  const state = getStore().getState();
+  return false;
+};
+
+const hasAlreadySaved = () => {
+  const { dispatch, getState } = getStore();
+  const state = getState();
   if (getModifiedWindowsIds(state).length === 0) {
-    return getStore().dispatch(addMessage('global', 'info', 'The workspace is already saved'));
+    dispatch(addMessage('global', 'info', 'The workspace is already saved'));
+    return true;
   }
+  return false;
+};
+
+const hasUnsavedPages = () => {
+  const { dispatch, getState } = getStore();
+  const state = getState();
   if (getModifiedPagesIds(state).length > 0 || getModifiedViewsIds(state).length > 0) {
-    return getStore().dispatch(addGlobalError('Please, save the pages and views of this workspace'));
+    dispatch(addGlobalError('Please, save the pages and views of this workspace'));
+    return true;
   }
+  return false;
+};
+
+const saveWorkspaceByFilePicker = (focusedWindow) => {
+  const { dispatch, getState } = getStore();
+  const state = getState();
+  const oldFolder = state.hsc.folder;
+  const file = state.hsc.file;
+  getPathByFilePicker(state.hsc.folder, 'Workspace', 'save', (err, newWsPath) => {
+    dispatch(updatePath(path.dirname(newWsPath), path.basename(newWsPath)));
+    saveFile(focusedWindow, (errSaving) => {
+      if (errSaving) {
+        dispatch(updatePath(oldFolder, file));
+        return dispatch(addGlobalError(errSaving));
+      }
+      return dispatch(addMessage('global', 'success', 'Workspace successfully saved'));
+    });
+  });
+};
+
+function workspaceSave(focusedWindow) {
+  if (hasNoWindowsFocused(focusedWindow) || hasAlreadySaved() || hasUnsavedPages()) {
+    return;
+  }
+  const { dispatch, getState } = getStore();
+  const state = getState();
   if (!state.hsc.file) {
-    const oldFolder = state.hsc.folder;
-    const file = state.hsc.file;
-    return getPathByFilePicker(state.hsc.folder, 'Workspace', 'save', (err, newWsPath) => {
-      getStore().dispatch(updatePath(path.dirname(newWsPath), path.basename(newWsPath)));
-      saveFile(focusedWindow, (errSaving) => {
-        if (errSaving) {
-          getStore().dispatch(updatePath(oldFolder, file));
-          return getStore().dispatch(addGlobalError(errSaving));
-        }
-        return getStore().dispatch(addMessage('global', 'success', 'Workspace successfully saved'));
-      });
+    saveWorkspaceByFilePicker(focusedWindow);
+  } else {
+    saveFile(focusedWindow, (errSaving) => {
+      if (errSaving) {
+        return dispatch(addGlobalError(errSaving));
+      }
+      return dispatch(addMessage('global', 'success', 'Workspace successfully saved'));
     });
   }
-
-  return saveFile(focusedWindow, (errSaving) => {
-    if (errSaving) {
-      return getStore().dispatch(addGlobalError(errSaving));
-    }
-    return getStore().dispatch(addMessage('global', 'success', 'Workspace successfully saved'));
-  });
 }
 
 function workspaceSaveAs(focusedWindow) {
-  if (!focusedWindow) {
-    return getStore().dispatch(addGlobalError('Saving failed : no window focused'));
+  if (hasNoWindowsFocused(focusedWindow) || hasUnsavedPages()) {
+    return;
   }
-  const state = getStore().getState();
-  if (getModifiedPagesIds(state).length > 0 || getModifiedViewsIds(state).length > 0) {
-    return getStore().dispatch(addGlobalError('Please, save the pages and views of this workspace'));
-  }
-  const oldFolder = state.hsc.folder;
-  const file = state.hsc.file;
-  return getPathByFilePicker(state.hsc.folder, 'Workspace', 'save', (err, newWsPath) => {
-    getStore().dispatch(updatePath(path.dirname(newWsPath), path.basename(newWsPath)));
-    saveFile(focusedWindow, (errSaving) => {
-      if (errSaving) {
-        getStore().dispatch(updatePath(oldFolder, file));
-        return getStore().dispatch(addGlobalError(errSaving));
-      }
-      return getStore().dispatch(addMessage('global', 'success', 'Workspace successfully saved'));
-    });
-  });
+  saveWorkspaceByFilePicker(focusedWindow);
 }
 
 function saveFile(focusedWindow, callback) {

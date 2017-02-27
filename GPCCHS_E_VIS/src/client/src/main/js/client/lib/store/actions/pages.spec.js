@@ -12,6 +12,7 @@ describe('store:actions:pages', () => {
     dispatch = sinon.spy();
     getState = createGetState([
       {
+        timebars: [],
         pages: {
           p1: {
             layout: [],
@@ -118,7 +119,13 @@ describe('store:actions:pages', () => {
       });
     });
   });
-
+  describe('add', () => {
+    it('add', () => {
+      actions.add()(dispatch, getState);
+      dispatch.should.have.been.callCount(1);
+      dispatch.getCall(0).args[0].should.be.an('object');
+    });
+  });
   describe('addAndMount', () => {
     it('adds blank view then mount', () => {
       actions.addAndMount('myPageId')(dispatch, getState);
@@ -129,6 +136,7 @@ describe('store:actions:pages', () => {
 
       dispatch.getCall(1).args[0].should.be.an('object');
       dispatch.getCall(1).args[0].type.should.be.eql(types.WS_PAGE_VIEW_MOUNT);
+      dispatch.getCall(1).args[0].payload.pageId.should.eql('myPageId');
     });
     it('adds view then mount', () => {
       actions.addAndMount('myPageId', 'newId', {})(dispatch, getState);
@@ -136,9 +144,14 @@ describe('store:actions:pages', () => {
 
       dispatch.getCall(0).args[0].should.be.an('object');
       dispatch.getCall(0).args[0].type.should.be.eql(types.WS_VIEW_ADD);
+      dispatch.getCall(0).args[0].payload.viewId.should.eql('newId');
 
       dispatch.getCall(1).args[0].should.be.an('object');
       dispatch.getCall(1).args[0].type.should.be.eql(types.WS_PAGE_VIEW_MOUNT);
+      dispatch.getCall(1).args[0].payload.should.have.properties({
+        pageId: 'myPageId',
+        viewId: 'newId',
+      });
     });
   });
 

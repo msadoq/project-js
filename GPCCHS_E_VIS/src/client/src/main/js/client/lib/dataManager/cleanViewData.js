@@ -3,16 +3,21 @@ import _each from 'lodash/each';
 import _map from 'lodash/map';
 import _find from 'lodash/find';
 import _isEqual from 'lodash/isEqual';
+import _get from 'lodash/get';
 import u from 'updeep';
 
 import { getStructureModule } from '../viewManager';
 
-export default function cleanViewData(viewDataState, oldViewMap, viewMap) {
+export default function cleanViewData(
+  viewDataState,
+  oldViewMap,
+  viewMap,
+  oldIntervals,
+  newIntervals) {
   // Check if viewMap has changed
-  if (_isEqual(viewMap, oldViewMap)) {
+  if (_isEqual(viewMap, oldViewMap) && _isEqual(oldIntervals, newIntervals)) {
     return viewDataState;
   }
-
   let newState;
   // unmounted views
   const removedViews = _difference(Object.keys(oldViewMap), Object.keys(viewMap));
@@ -26,9 +31,7 @@ export default function cleanViewData(viewDataState, oldViewMap, viewMap) {
     if (!previousView) {
       return;
     }
-
     const structureType = getStructureModule(view.type);
-
     _each(previousView.entryPoints, (ep, epName) => {
       // check if only label has changed
       if (!view.entryPoints[epName]) {
@@ -60,13 +63,11 @@ export default function cleanViewData(viewDataState, oldViewMap, viewMap) {
         );
         return;
       }
-
       const newEp = view.entryPoints[epName];
       // no update on entry points
       if (ep === newEp) {
         return;
       }
-
       const isUpdated = structureType.isEpDifferent(ep, newEp);
       // EP definition modified: remove entry point from viewData
       if (isUpdated) {
@@ -78,13 +79,14 @@ export default function cleanViewData(viewDataState, oldViewMap, viewMap) {
         return;
       }
       // update on expected interval
-      if (ep.expectedInterval[0] !== newEp.expectedInterval[0]
-       || ep.expectedInterval[1] !== newEp.expectedInterval[1]) {
+      const oldInterval = _get(oldIntervals, [ep.remoteId, ep.localId, 'expectedInterval']);
+      const newInterval = _get(newIntervals, [ep.remoteId, ep.localId, 'expectedInterval']);
+      if (oldInterval[0] !== newInterval[0] || oldInterval[1] !== newInterval[1]) {
         newState = structureType.cleanData(
           newState || viewDataState,
           id,
           epName,
-          _map(newEp.expectedInterval, bound => bound + newEp.offset)
+          _map(newInterval, bound => bound + newEp.offset)
         );
       }
     });

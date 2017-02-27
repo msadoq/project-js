@@ -315,7 +315,11 @@ export default class Timebar extends PureComponent {
   }
 
   onMouseMoveDragging = (e, viewportMsWidth) => {
-    const { widthPx } = this.props;
+    const {
+      widthPx,
+      pause,
+      isPlaying,
+    } = this.props;
     const {
       cursorOriginX,
       dragOriginLower,
@@ -325,6 +329,9 @@ export default class Timebar extends PureComponent {
       dragOriginCurrent,
       dragOriginSlideUpper,
     } = this.state;
+    if (isPlaying) {
+      pause();
+    }
     const viewportOffset = this.el.getBoundingClientRect();
     if (viewportOffset.left > e.pageX || viewportOffset.right < e.pageX) {
       const mult = e.pageX - viewportOffset.left > 0 ? 1 : -1;
@@ -560,6 +567,10 @@ export default class Timebar extends PureComponent {
     slideWindow.upper, visuWindow.lower, visuWindow.upper cursors
   */
   onMouseDownResize = (e) => {
+    const {
+      isPlaying,
+      pause,
+    } = this.props;
     const cursor = e.target.getAttribute('cursor');
     this.setState({
       resizing: true,
@@ -568,7 +579,9 @@ export default class Timebar extends PureComponent {
       resizeCursor: cursor,
       cursorOriginX: e.pageX,
     });
-
+    if (isPlaying) {
+      pause();
+    }
     document.addEventListener('mousemove', this.onMouseMove);
     document.addEventListener('mouseup', this.onMouseUp);
     e.stopPropagation();
@@ -583,6 +596,8 @@ export default class Timebar extends PureComponent {
       timebarRealTime,
       setRealTime,
       timebarUuid,
+      isPlaying,
+      pause,
     } = this.props;
 
     if (timebarRealTime) {
@@ -597,7 +612,9 @@ export default class Timebar extends PureComponent {
       viewportLower: viewport.lower,
       viewportUpper: viewport.upper,
     });
-
+    if (isPlaying) {
+      pause();
+    }
     document.addEventListener('mousemove', this.onMouseMove);
     document.addEventListener('mouseup', this.onMouseUp);
     e.stopPropagation();
@@ -606,7 +623,13 @@ export default class Timebar extends PureComponent {
   onWheel = (e) => {
     e.preventDefault();
 
-    const { viewport, visuWindow, slideWindow } = this.props;
+    const {
+      viewport,
+      visuWindow,
+      slideWindow,
+      isPlaying,
+      pause,
+    } = this.props;
     const viewportLower = this.state.viewportLower || viewport.lower;
     const viewportUpper = this.state.viewportUpper || viewport.upper;
 
@@ -614,6 +637,9 @@ export default class Timebar extends PureComponent {
       Will reposition only the cursors, the viewport does'nt change
     */
     if (e.ctrlKey && e.altKey) {
+      if (isPlaying) {
+        pause();
+      }
       let { lower, upper, current, slideLower, slideUpper } = this.state;
       lower = lower || visuWindow.lower;
       upper = upper || visuWindow.upper;

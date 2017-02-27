@@ -105,11 +105,10 @@ describe('store:actions:windows', () => {
       actions.addAndMount('myWindowId')(dispatch, getState);
       dispatch.should.have.been.callCount(3);
 
-      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(0).args[0].should.be.an('function');
       dispatch.getCall(1).args[0].should.be.an('object');
       dispatch.getCall(2).args[0].should.be.a('function');
 
-      dispatch.getCall(0).args[0].type.should.be.eql(types.WS_PAGE_ADD);
       dispatch.getCall(1).args[0].type.should.be.eql(types.WS_WINDOW_PAGE_MOUNT);
     });
 
@@ -117,12 +116,10 @@ describe('store:actions:windows', () => {
       actions.addAndMount('myWindowId', 'myPageId', {})(dispatch, getState);
       dispatch.should.have.been.callCount(3);
 
-      dispatch.getCall(0).args[0].should.be.an('object');
+      dispatch.getCall(0).args[0].should.be.an('function');
       dispatch.getCall(1).args[0].should.be.an('object');
       dispatch.getCall(2).args[0].should.be.a('function');
 
-      dispatch.getCall(0).args[0].payload.pageId.should.be.eql('myPageId');
-      dispatch.getCall(0).args[0].type.should.be.eql(types.WS_PAGE_ADD);
       dispatch.getCall(1).args[0].type.should.be.eql(types.WS_WINDOW_PAGE_MOUNT);
     });
   });

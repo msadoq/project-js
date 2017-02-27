@@ -8,5 +8,7 @@ export const updateViewData = simple(
   types.DATA_UPDATE_VIEWDATA,
   'oldViewMap',
   'newViewMap',
+  'oldExpectedIntervals',
+  'newExpectedIntervals',
   'dataToInject'
 );

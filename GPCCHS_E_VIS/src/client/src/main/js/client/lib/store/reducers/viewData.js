@@ -13,20 +13,23 @@ export default function viewData(state = {}, action) {
     case types.DATA_UPDATE_VIEWDATA: {
       const newViewMap = action.payload.newViewMap;
       const oldViewMap = action.payload.oldViewMap;
+      const oldIntervals = action.payload.oldExpectedIntervals;
+      const newIntervals = action.payload.newExpectedIntervals;
       const dataKeys = Object.keys(action.payload.dataToInject);
       // If nothing changed and no data to import, return state
       const viewMapIsEqual = _isEqual(newViewMap, oldViewMap);
-      if (viewMapIsEqual && !dataKeys.length) {
+      const intervalsAreEqual = _isEqual(newIntervals, oldIntervals);
+      if (viewMapIsEqual && intervalsAreEqual && !dataKeys.length) {
         return state;
       }
       // since now, state will changed
       let newState;
       // if view definitions have changed => cleaning
-      newState = cleanViewData(state, oldViewMap, newViewMap);
+      newState = cleanViewData(state, oldViewMap, newViewMap, oldIntervals, newIntervals);
 
       // Add payloads
       if (dataKeys.length) {
-        newState = inject(newState, newViewMap, action.payload.dataToInject);
+        newState = inject(newState, newViewMap, newIntervals, action.payload.dataToInject);
       }
       return newState || {};
     }

@@ -1,284 +1,258 @@
+import u from 'updeep';
 import '../common/test';
-import map from './map';
+import map, { getPerRemoteIdMap, getPerViewMap } from './map';
 
-const state = {
-  timebars: {
-    '989ca49b-2a5e-48dc-8adc-475ee2e164c1': {
-      id: 'TB1',
-      visuWindow: {
-        lower: 1420106790818,
-        upper: 1420107056239,
-        current: 1420106843902,
-        defaultWidth: 900000,
+global.testConfig.DEFAULT_FIELD = JSON.stringify({ ReportingParameter: 'extractedValue' });
+
+let state;
+beforeEach(() => {
+  state = {
+    timebars: {
+      tb1: {
+        id: 'TB1',
+        visuWindow: {
+          lower: 1420106790818,
+          upper: 1420107056239,
+          current: 1420106843902,
+          defaultWidth: 900000,
+        },
+        slideWindow: {
+          lower: 1420106702345,
+          upper: 1420107144713,
+        },
+        extUpperBound: 1420107500000,
+        rulerStart: 1420106041002,
+        rulerResolution: 1298.7675070010687,
+        speed: 1,
+        playingState: 'pause',
+        masterId: 'Session 2',
+        mode: 'Normal',
       },
-      slideWindow: {
-        lower: 1420106702345,
-        upper: 1420107144713,
+    },
+    timelines: {
+      tl1: {
+        id: 'Session 1',
+        offset: 0,
+        kind: 'Session',
+        sessionId: 181,
+        color: null,
       },
-      extUpperBound: 1420107500000,
-      rulerStart: 1420106041002,
-      rulerResolution: 1298.7675070010687,
-      speed: 1,
-      playingState: 'pause',
-      masterId: 'Session 2',
-      mode: 'Normal',
+      tl2: {
+        id: 'Session 2',
+        offset: 0,
+        kind: 'session',
+        sessionId: 0,
+        color: '#5254a3',
+      },
     },
-  },
-  timelines: {
-    '58d13bcd-2621-4d7a-b96b-9e3f09494114': {
-      id: 'Session 1',
-      offset: 0,
-      kind: 'Session',
-      sessionId: 181,
-      color: null,
+    timebarTimelines: {
+      tb1: ['tl1', 'tl2'],
     },
-    '1794dcaf-5c6f-45e1-b8d2-a7f9cb514565': {
-      id: 'Session 2',
-      offset: 0,
-      kind: 'session',
-      sessionId: 0,
-      color: '#5254a3',
+    windows: {
+      win1: {
+        title: 'Sup/Sup workspace',
+        focusedPage: 'page1',
+        pages: [
+          'page1',
+        ],
+      },
     },
-  },
-  timebarTimelines: {
-    '989ca49b-2a5e-48dc-8adc-475ee2e164c1': [
-      '58d13bcd-2621-4d7a-b96b-9e3f09494114',
-      '1794dcaf-5c6f-45e1-b8d2-a7f9cb514565',
-    ],
-  },
-  windows: {
-    '3652700e-6766-4a28-946a-f78096534bda': {
-      title: 'Sup/Sup workspace',
-      focusedPage: '876639ec-4511-4c6a-a059-c392f7da0afd',
-      pages: [
-        '876639ec-4511-4c6a-a059-c392f7da0afd',
-      ],
+    pages: {
+      page1: {
+        title: 'page Sup/Sup workspace',
+        timebarUuid: 'tb1',
+        views: [
+          'text1',
+          'plot1',
+          'dynamic1',
+        ],
+      },
     },
-  },
-  pages: {
-    '876639ec-4511-4c6a-a059-c392f7da0afd': {
-      title: 'page Sup/Sup workspace',
-      timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
-      views: [
-        '58ada40b-29a0-4ab3-b326-11d46e1db450',
-        'aa77e24f-78e6-4e73-a486-fac1e4c058f9',
-      ],
-    },
-  },
-  views: {
-    '58ada40b-29a0-4ab3-b326-11d46e1db450': {
-      type: 'TextView',
-      configuration: {
-        title: 'TextView Sup/Sup',
+    views: {
+      text1: {
         type: 'TextView',
-        entryPoints: [
-          {
-            name: 'STAT_SU_PID',
-            id: 'id1',
-            connectedData: {
-              formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
-              filter: [],
-              domain: 'fr.cnes.isis.simupus',
-              timeline: 'Session 1',
+        configuration: {
+          title: 'TextView Sup/Sup',
+          type: 'TextView',
+          entryPoints: [
+            {
+              name: 'STAT_SU_PID',
+              id: 'id1',
+              connectedData: {
+                formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+                filter: [],
+                domain: 'fr.cnes.isis.simupus',
+                timeline: 'Session 1',
+              },
             },
-          },
-          {
-            name: 'STAT_WILDCARD_TIMELINE',
-            id: 'id46',
-            connectedData: {
-              formula: 'Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>.extractedValue',
-              filter: [],
-              domain: 'fr.cnes.isis.simupus',
-              timeline: '*',
+            {
+              name: 'STAT_UNKNOW_DOMAIN',
+              id: 'id47',
+              connectedData: {
+                formula: 'Reporting.STAT_UNKNOW_DOMAIN<ReportingParameter>.extractedValue',
+                filter: [],
+                domain: 'fr',
+                timeline: 'Session 1',
+              },
             },
-          },
-          {
-            name: 'STAT_UNKNOW_DOMAIN',
-            id: 'id47',
-            connectedData: {
-              formula: 'Reporting.STAT_UNKNOW_DOMAIN<ReportingParameter>.extractedValue',
-              filter: [],
-              domain: 'fr',
-              timeline: 'Session 1',
+            {
+              name: 'STAT_UNKNOW_TIMELINE',
+              id: 'id50',
+              connectedData: {
+                formula: 'Reporting.STAT_UNKNOW_TIMELINE<ReportingParameter>.extractedValue',
+                filter: [],
+                domain: 'fr.cnes.isis.simupus',
+                timeline: 'Session X',
+              },
             },
-          },
-          {
-            name: 'STAT_WILDCARD_DOMAIN',
-            id: 'id48',
-            connectedData: {
-              formula: 'Reporting.STAT_WILDCARD_DOMAIN<ReportingParameter>.extractedValue',
-              filter: [],
-              domain: '*',
-              timeline: 'Session 1',
-            },
-          },
-          {
-            name: 'STAT_EMPTY_DOMAIN',
-            id: 'id49',
-            connectedData: {
-              formula: 'Reporting.STAT_EMPTY_DOMAIN<ReportingParameter>.extractedValue',
-              filter: [],
-              domain: '',
-              timeline: 'Session 1',
-            },
-          },
-          {
-            name: 'STAT_UNKNOW_TIMELINE',
-            id: 'id50',
-            connectedData: {
-              formula: 'Reporting.STAT_UNKNOW_TIMELINE<ReportingParameter>.extractedValue',
-              filter: [],
-              domain: 'fr.cnes.isis.simupus',
-              timeline: 'Session X',
-            },
-          },
-          {
-            name: 'STAT_EMPTY_TIMELINE',
-            id: 'id51',
-            connectedData: {
-              formula: 'Reporting.STAT_EMPTY_TIMELINE<ReportingParameter>.extractedValue',
-              filter: [],
-              domain: 'fr.cnes.isis.simupus',
-              timeline: '',
-            },
-          },
-          {
-            name: 'STAT_INVALID_FORMULA',
-            id: 'id52',
-            connectedData: {
-              formula: 'Reporting.STAT_INVALID_FORMULA',
-              filter: [],
-              domain: 'fr.cnes.isis.simupus',
-              timeline: 'Session 1',
-            },
-          },
-        ],
+          ],
+        },
       },
-    },
-    'aa77e24f-78e6-4e73-a486-fac1e4c058f9': {
-      type: 'PlotView',
-      configuration: {
+      plot1: {
         type: 'PlotView',
-        entryPoints: [
-          {
-            name: 'STAT_SU_PID',
-            id: 'id60',
-            connectedDataX: {
-              formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
-              filter: [],
-              domain: 'fr.cnes.isis.simupus',
-              timeline: 'Session 1',
-            },
-            connectedDataY: {
-              formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
-              filter: [],
-              domain: 'fr.cnes.isis.simupus',
-              timeline: 'Session 1',
-            },
-            stateColors: [
-              {
-                color: '#000000',
-                condition: {
-                  field: 'extractedValue',
-                  operator: '>',
-                  operand: '1',
-                },
+        configuration: {
+          type: 'PlotView',
+          entryPoints: [
+            {
+              name: 'STAT_SU_PID',
+              id: 'id60',
+              connectedDataX: {
+                formula: 'Reporting.STAT_SU_PID<ReportingParameter>.groundDate',
+                filter: [],
+                domain: 'fr.cnes.isis.simupus',
+                timeline: 'Session 1',
               },
-            ],
-          },
-          {
-            name: 'STAT_PARAMETRIC',
-            connectedDataX: {
-              formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+              connectedDataY: {
+                formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+                filter: [],
+                domain: 'fr.cnes.isis.simupus',
+                timeline: 'Session 1',
+              },
+              stateColors: [
+                {
+                  color: '#000000',
+                  condition: {
+                    field: 'extractedValue',
+                    operator: '>',
+                    operand: '1',
+                  },
+                },
+              ],
+            },
+            {
+              name: 'STAT_PARAMETRIC',
+              connectedDataX: {
+                formula: 'Reporting.STAT_SU_PID<ReportingParameter>.groundDate',
+                filter: [],
+                domain: 'fr.cnes.isis.simupus',
+                timeline: 'Session 1',
+              },
+              connectedDataY: {
+                formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
+                filter: [],
+                domain: 'fr.cnes.isis',
+                timeline: 'Session 1',
+              },
+              stateColors: [
+                {
+                  color: '#000000',
+                  condition: {
+                    field: 'monitoringState',
+                    operator: '==',
+                    operand: 'waiting',
+                  },
+                },
+              ],
+            },
+          ],
+          title: 'Plotview Sup/Sup workspace',
+        },
+      },
+      dynamic1: {
+        type: 'DynamicView',
+        configuration: {
+          type: 'DynamicView',
+          entryPoints: [{
+            connectedData: {
+              formula: 'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>',
               filter: [],
               domain: 'fr.cnes.isis.simupus',
               timeline: 'Session 1',
             },
-            connectedDataY: {
-              formula: 'Reporting.STAT_SU_PID<ReportingParameter>.extractedValue',
-              filter: [],
-              domain: 'fr.cnes.isis',
-              timeline: 'Session 1',
-            },
-            stateColors: [
-              {
-                color: '#000000',
-                condition: {
-                  field: 'monitoringState',
-                  operator: '==',
-                  operand: 'waiting',
-                },
+            name: 'dynamicEP',
+            id: 'id70',
+            stateColors: [{
+              color: '#000000',
+              condition: {
+                field: 'monitoringState',
+                operator: '==',
+                operand: 'waiting',
               },
-            ],
-          },
-        ],
-        title: 'Plotview Sup/Sup workspace',
+            }],
+          }],
+        },
       },
     },
-  },
-  domains: [
-    {
-      itemNamespace: 'Domains',
-      name: 'fr.cnes.isis',
-      oid: '0051525005151000565215465660515',
-      domainId: 1,
-      parentDomainId: 0,
-    },
-    {
-      itemNamespace: 'Domains',
-      name: 'fr.cnes.isis.simupus',
-      oid: '0051525005151000565215465660515',
-      domainId: 4,
-      parentDomainId: 1,
-    },
-  ],
-  sessions: [
-    {
-      name: 'Master',
-      id: 0,
-      timestamp: {
-        ms: 1480426701831,
-        ps: null,
+    domains: [
+      {
+        itemNamespace: 'Domains',
+        name: 'fr.cnes.isis',
+        oid: '0051525005151000565215465660515',
+        domainId: 1,
+        parentDomainId: 0,
       },
-      delta: 0,
-      offsetWithmachineTime: 2373665,
-    },
-    {
-      name: 'Session#42',
-      id: 42,
-      timestamp: {
-        ms: 1480426701831,
-        ps: null,
+      {
+        itemNamespace: 'Domains',
+        name: 'fr.cnes.isis.simupus',
+        oid: '0051525005151000565215465660515',
+        domainId: 4,
+        parentDomainId: 1,
       },
-      delta: 42,
-      offsetWithmachineTime: 2373665,
+    ],
+    sessions: [
+      {
+        name: 'Master',
+        id: 0,
+        timestamp: {
+          ms: 1480426701831,
+          ps: null,
+        },
+        delta: 0,
+        offsetWithmachineTime: 2373665,
+      },
+      {
+        name: 'Session#42',
+        id: 42,
+        timestamp: {
+          ms: 1480426701831,
+          ps: null,
+        },
+        delta: 42,
+        offsetWithmachineTime: 2373665,
+      },
+    ],
+    masterSession: {
+      sessionId: 10,
     },
-  ],
-  masterSession: {
-    sessionId: 10,
-  },
-};
+  };
+});
 const dataMap = {
-  'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
+  'last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
     structureType: 'last',
     dataId: {
-      catalog: 'Reporting',
-      parameterName: 'STAT_SU_PID',
-      comObject: 'ReportingParameter',
+      catalog: 'TelemetryPacket',
+      parameterName: 'CLCW_TM_NOMINAL',
+      comObject: 'DecommutedPacket',
       domainId: 4,
       sessionId: 181,
     },
     filter: [],
-    views: ['58ada40b-29a0-4ab3-b326-11d46e1db450'],
+    views: ['dynamic1'],
     localIds: {
-      'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
-        field: 'extractedValue',
-        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+      'undefined.tb1:0:#000000.monitoringState.==.waiting': {
+        timebarUuid: 'tb1',
         offset: 0,
-        expectedInterval: [
-          1420106790818,
-          1420106843902,
-        ],
+        viewType: 'DynamicView',
       },
     },
   },
@@ -292,113 +266,154 @@ const dataMap = {
       sessionId: 181,
     },
     filter: [],
-    views: ['aa77e24f-78e6-4e73-a486-fac1e4c058f9'],
+    views: ['plot1'],
     localIds: {
-      'extractedValue/extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0/0': {
-        field: 'extractedValue',
-        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+      'groundDate/extractedValue.tb1:0/0': {
+        fieldX: 'groundDate',
+        fieldY: 'extractedValue',
+        timebarUuid: 'tb1',
         offset: 0,
-        expectedInterval: [
-          1420106790818,
-          1420107056239,
-        ],
+        viewType: 'PlotView',
       },
     },
   },
-  'last@Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4': {
+  'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
+    structureType: 'last',
     dataId: {
       catalog: 'Reporting',
+      parameterName: 'STAT_SU_PID',
       comObject: 'ReportingParameter',
       domainId: 4,
-      parameterName: 'STAT_WILDCARD_TIMELINE',
-      sessionId: 10,
+      sessionId: 181,
     },
     filter: [],
-    views: ['58ada40b-29a0-4ab3-b326-11d46e1db450'],
+    views: ['text1'],
     localIds: {
-      'extractedValue.989ca49b-2a5e-48dc-8adc-475ee2e164c1:0': {
-        expectedInterval: [
-          1420106790818,
-          1420106843902,
-        ],
+      'extractedValue.tb1:0': {
         field: 'extractedValue',
+        timebarUuid: 'tb1',
         offset: 0,
-        timebarUuid: '989ca49b-2a5e-48dc-8adc-475ee2e164c1',
+        viewType: 'TextView',
       },
     },
-    structureType: 'last',
   },
 };
 const viewMap = {
-  '58ada40b-29a0-4ab3-b326-11d46e1db450': {
+  text1: {
     type: 'TextView',
+    masterSessionId: 10,
     structureType: 'last',
     entryPoints: {
       STAT_SU_PID: {
-        remoteId: 'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
-        field: 'extractedValue',
         id: 'id1',
-        offset: 0,
-        expectedInterval: [
-          1420106790818,
-          1420106843902,
-        ],
-      },
-      STAT_WILDCARD_TIMELINE: {
-        expectedInterval: [1420106790818, 1420106843902],
+        dataId: {
+          catalog: 'Reporting',
+          parameterName: 'STAT_SU_PID',
+          comObject: 'ReportingParameter',
+          domainId: 4,
+          sessionId: 181,
+        },
         field: 'extractedValue',
-        id: 'id46',
         offset: 0,
-        remoteId: 'last@Reporting.STAT_WILDCARD_TIMELINE<ReportingParameter>:10:4',
+        filter: [],
+        localId: 'extractedValue.tb1:0',
+        timebarUuid: 'tb1',
+        structureType: 'last',
+        remoteId: 'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+        type: 'TextView',
       },
       STAT_UNKNOW_DOMAIN: {
         error: 'invalid entry point, no domain matches',
       },
-      STAT_WILDCARD_DOMAIN: {
-        error: 'invalid entry point, domain wildcard not already supported',
-      },
-      STAT_EMPTY_DOMAIN: {
-        error: 'invalid entry point, invalid domain field',
-      },
       STAT_UNKNOW_TIMELINE: {
         error: 'invalid entry point, no timeline matches',
       },
-      STAT_EMPTY_TIMELINE: {
-        error: 'invalid entry point, invalid timeline field',
-      },
-      STAT_INVALID_FORMULA: {
-        error: 'unable to parse this connectedData formula Reporting.STAT_INVALID_FORMULA',
-      },
     },
   },
-  'aa77e24f-78e6-4e73-a486-fac1e4c058f9': {
+  plot1: {
     type: 'PlotView',
+    masterSessionId: 10,
     structureType: 'range',
     entryPoints: {
       STAT_SU_PID: {
-        remoteId: 'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
-        fieldX: 'extractedValue',
+        id: 'id60',
+        dataId: {
+          catalog: 'Reporting',
+          parameterName: 'STAT_SU_PID',
+          comObject: 'ReportingParameter',
+          domainId: 4,
+          sessionId: 181,
+        },
+        fieldX: 'groundDate',
         fieldY: 'extractedValue',
         offset: 0,
-        id: 'id60',
-        expectedInterval: [
-          1420106790818,
-          1420107056239,
-        ],
-        stateColors: [
-          {
-            color: '#000000',
-            condition: {
-              field: 'extractedValue',
-              operator: '>',
-              operand: '1',
-            },
+        filter: [],
+        localId: 'groundDate/extractedValue.tb1:0/0',
+        timebarUuid: 'tb1',
+        structureType: 'range',
+        remoteId: 'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4',
+        type: 'PlotView',
+        stateColors: [{
+          color: '#000000',
+          condition: {
+            field: 'extractedValue',
+            operator: '>',
+            operand: '1',
           },
-        ],
+        }],
       },
-      STAT_PARAMETRIC: {
-        error: 'parametric entryPoint detected for this view',
+      STAT_PARAMETRIC: { error: 'parametric entryPoint detected for this view' },
+    },
+  },
+  dynamic1: {
+    type: 'DynamicView',
+    masterSessionId: 10,
+    structureType: 'last',
+    entryPoints: {
+      dynamicEP: {
+        id: 'id70',
+        dataId: {
+          catalog: 'TelemetryPacket',
+          parameterName: 'CLCW_TM_NOMINAL',
+          comObject: 'DecommutedPacket',
+          domainId: 4,
+          sessionId: 181,
+        },
+        field: undefined,
+        offset: 0,
+        filter: [],
+        localId: 'undefined.tb1:0:#000000.monitoringState.==.waiting',
+        timebarUuid: 'tb1',
+        structureType: 'last',
+        remoteId: 'last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4',
+        type: 'DynamicView',
+        stateColors: [{
+          color: '#000000',
+          condition: {
+            field: 'monitoringState',
+            operator: '==',
+            operand: 'waiting',
+          },
+        }],
       },
+    },
+  },
+};
+
+const intervalMap = {
+  'last@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
+    'extractedValue.tb1:0': {
+      expectedInterval: [1420106790818, 1420106843902],
+    },
+  },
+  'range@Reporting.STAT_SU_PID<ReportingParameter>:181:4': {
+    'groundDate/extractedValue.tb1:0/0': {
+      expectedInterval: [1420106790818, 1420107056239],
+    },
+  },
+  'last@TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>:181:4': {
+    'undefined.tb1:0:#000000.monitoringState.==.waiting': {
+      expectedInterval: [1420106790818, 1420106843902],
     },
   },
 };
@@ -408,5 +423,19 @@ describe('data:map', () => {
     const r = map(state);
     r.perRemoteId.should.eql(dataMap);
     r.perView.should.eql(viewMap);
+    r.expectedIntervals.should.eql(intervalMap);
+  });
+  it('memoization map', () => {
+    map.resetRecomputations();
+    map(state);
+    map.recomputations().should.eql(1);
+    map(state);
+    map.recomputations().should.eql(1);
+    const newState = u({ timebars: { tb1: { visuWindow: { lower: 1420106790838 } } } }, state);
+    map(newState);
+    // Only intervals have to be recomputed
+    map.recomputations().should.eql(2);
+    getPerRemoteIdMap.recomputations().should.eql(1);
+    getPerViewMap.recomputations().should.eql(1);
   });
 });

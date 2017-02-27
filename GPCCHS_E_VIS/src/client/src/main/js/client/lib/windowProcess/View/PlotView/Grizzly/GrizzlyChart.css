@@ -1,35 +1,56 @@
 .container{
   position: relative;
-}
-@-webkit-keyframes rainbow{
-	20%{color: black;}
-	40%{color: yellow;}
-	60%{color: green;}
-	80%{color: blue;}
-	100%{color: orange;}
-}
-@keyframes grizzlyTitle {
-  0% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.0);
+  .zoomAndPanLabels{
+    position: absolute;
+    top: 5px;
+    width: 100px;
+    z-index: 5;
+    & > button{
+      text-align: left;
+      display: block;
+      margin-bottom: 4px;
+    }
   }
-  30% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.0);
+  .canvas{
+    position: absolute;
   }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.6);
-  }
-};
-.canvas{
-  position: absolute;
 }
-.yAxis{
-  overflow: visible !important;
-}
+
 .yAxisDiv{
   position: absolute;
+  .yAxis{
+    overflow: visible !important;
+    .yAxisGroup{
+      line {
+        stroke: #AAA;
+      }
+    }
+  }
+  .yAxisLabel{
+    border-radius: 2px;
+    padding: 2px 6px;
+    &.labelUnderline{
+      text-decoration: underline;
+    }
+    &.labelBold{
+      font-weight: bold;;
+    }
+    &.labelItalic{
+      font-style: italic;
+    }
+  }
+  .yAxisLineLabel{
+    position: absolute;
+    border-radius: 1px;
+    z-index: 3;
+    text-shadow: 0px 0px 1px #888;
+    padding: 2px;
+    padding-top: 4px;
+    box-shadow: 0px 0px 7px rgba(0,0,0,0.2);
+    &:hover{
+      z-index: 6;
+    }
+  }
 }
 .xAxis{
   position: absolute;
@@ -41,11 +62,6 @@
   }
 }
 
-.yAxisGroup{
-  line {
-    stroke: #AAA;
-  }
-}
 .Dotted{
   line {
     stroke-dasharray: 2.2;
@@ -56,105 +72,83 @@
     stroke-dasharray: 5;
   }
 }
-.yAxisLabel{
-  border-radius: 2px;
-  padding: 2px 6px;
-  &.labelUnderline{
-    text-decoration: underline;
-  }
-  &.labelBold{
-    font-weight: bold;;
-  }
-  &.labelItalic{
-    font-style: italic;
-  }
-}
-.yAxisLineLabel{
-  position: absolute;
-  border-radius: 1px;
-  z-index: 3;
-  text-shadow: 0px 0px 1px #888;
-  padding: 2px;
-  padding-top: 4px;
-  box-shadow: 0px 0px 7px rgba(0,0,0,0.2);
-}
-.tooltipCanvas{
+
+.tooltipDiv{
   position: absolute;
   z-index: 4;
   overflow: hidden;
-}
-.tooltip{
-  position: absolute;
-  min-height: 90px;
-  border: 1px solid #ccc;
-  background: #FFF;
-  border-radius: 2px;
-  box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
-  padding: 6px;
-  transition: left ease-out 0.2s, top ease-out 0.2s, opacity ease-out 0.1s;
-}
-.tooltipAxisLabel{
-  font-style: weight;
-}
-.tooltipVerticalCursor{
-  position: absolute;
-  top: 0;
-  width: 1px;
-  background: #111;
-  transition: opacity ease-out 0.1s;
-}
-.tooltipHorizontalCursor{
-  left: 0;
-  position: absolute;
-  height: 1px;
-  background: #111;
-  transition: opacity ease-out 0.1s;
-
-}
-.tooltipLine{
-  position: relative;
-  & > p{
-    font-size: 1.0em;
+  .tooltipVerticalCursor{
     position: absolute;
-    top: 2px;
-    left: 22px;
+    top: 0;
+    width: 1px;
+    background: #111;
+    transition: opacity ease-out 0.1s;
   }
-}
-.tooltipLineSquare{
-  width: 16px;
-  height: 16px;
-  display: inline-block;
-  margin-right: 6px;
-}
-.tooltipLineName{
-  margin-right: 6px;
-}
-.tooltipLineValue{
-
-}
-.tooltipNoData{
-  font-size: 1.2em;
-  font-style: bold;
-  text-align: center;
-}
-.tooltipOffset{
-  color: #235;
-  position: absolute;
-  right: 0;
-  top: 2px;
-  color: #3A3;
-  &.neg{
-    color: #A33;
+  .tooltipHorizontalCursor{
+    left: 0;
+    position: absolute;
+    height: 1px;
+    background: #111;
+    transition: opacity ease-out 0.1s;
   }
-}
-.zoomAndPanLabels{
-  position: absolute;
-  top: 5px;
-  width: 100px;
-  z-index: 5;
-  & > button{
-    text-align: left;
-    display: block;
-    margin-bottom: 4px;
+  .tooltip{
+    position: absolute;
+    min-height: 90px;
+    border: 1px solid #ccc;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 2px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+    padding: 6px;
+    transition: left ease-out 0.2s, top ease-out 0.2s, opacity ease-out 0.1s;
+    .tooltipAxisLabel{
+      font-style: bold;
+    }
+    .tooltipLine{
+      position: relative;
+      & > p{
+        font-size: 1.0em;
+        position: absolute;
+        top: 2px;
+        left: 22px;
+      }
+    }
+    .tooltipLineSquare{
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+      margin-right: 6px;
+    }
+    .tooltipLineName{
+      margin-right: 6px;
+    }
+    .tooltipNoData{
+      font-size: 1.2em;
+      font-style: bold;
+      text-align: center;
+    }
+    .tooltipOffset{
+      color: #235;
+      position: absolute;
+      right: 0;
+      top: 2px;
+      &.red{
+        color: #A33;
+      }
+      &.green{
+        color: #4B4;
+      }
+    }
+    &.tooltipBlack{
+      background: rgba(00, 00, 00, 0.85);
+      color: #FFF;
+      .tooltipOffset {
+        &.red{
+          color: #F55;
+        }
+        &.green{
+          color: #4F4;
+        }
+      }
+    }
   }
 }

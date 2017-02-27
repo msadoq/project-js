@@ -60,6 +60,7 @@ export default class TextView extends PureComponent {
     data: {
       values: {},
     },
+    entryPoints: {},
   };
 
   componentWillMount() {
@@ -112,14 +113,7 @@ export default class TextView extends PureComponent {
             const match = matches[i];
             const epName = match.substring(2, match.length - 2);
 
-            const getEntryPoint = _epName => () =>
-              _.prop(
-                _epName,
-                _.indexBy(
-                  _.prop('name'),
-                  this.props.entryPoints)
-              );
-
+            const getEntryPoint = _epName => () => this.props.entryPoints[_epName];
             const getValue = _epName => () =>
               _get(this.props.data, `values[${_epName}]`, {});
 

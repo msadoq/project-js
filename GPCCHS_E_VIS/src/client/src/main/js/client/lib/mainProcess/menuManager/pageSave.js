@@ -8,17 +8,9 @@ import { addOnce as addMessage } from '../../store/actions/messages';
 
 module.exports = { pageSave, pageSaveAs };
 
-
-function pageSave(focusedWindow) {
-  if (!focusedWindow) {
-    return;
-  }
+const hasUnsavedViews = (focusedWindow) => {
   const state = getStore().getState();
   const pageId = state.windows[focusedWindow.windowId].focusedPage;
-  if (!state.pages[pageId].isModified) {
-    getStore().dispatch(addMessage(pageId, 'info', 'Page already saved'));
-    return;
-  }
   if (getPageModifiedViewsIds(state, { pageId }).length > 0) {
     getStore().dispatch(
       addMessage(getWindowFocusedPageId(getStore().getState(), {
@@ -26,58 +18,71 @@ function pageSave(focusedWindow) {
       }),
         'danger',
         'Please, save the views of this page')
-      );
-    return;
+    );
+    return true;
   }
+  return false;
+};
+
+const pageAlreadySaved = (focusedWindow) => {
+  const { dispatch, getState } = getStore();
+  const state = getState();
+  const pageId = state.windows[focusedWindow.windowId].focusedPage;
+  if (!state.pages[pageId].isModified) {
+    dispatch(addMessage(pageId, 'info', 'Page already saved'));
+    return true;
+  }
+  return false;
+};
+
+const savePageByFilePicker = (pageId) => {
+  const store = getStore();
+  const { dispatch, getState } = store;
+  const state = getState();
 
   const page = state.pages[pageId];
-  const store = getStore();
-  if (!page.oId && !page.absolutePath) {
-    getPathByFilePicker(state.hsc.folder, 'Page', 'save', (err, newPagePath) => {
-      getStore().dispatch(updateAbsolutePath(pageId, newPagePath));
-      saveFile(pageId, store, (errSaving) => {
-        if (errSaving) {
-          getStore().dispatch(updateAbsolutePath(pageId, page.absolutePath));
-          getStore().dispatch(setModified(pageId, page.isModified));
-          return store.dispatch(addMessage(pageId, 'danger', errSaving));
-        }
-        return store.dispatch(addMessage(pageId, 'success', 'Page successfully saved'));
-      });
+  getPathByFilePicker(state.hsc.folder, 'Page', 'save', (err, newPagePath) => {
+    dispatch(updateAbsolutePath(pageId, newPagePath));
+    saveFile(pageId, store, (errSaving) => {
+      if (errSaving) {
+        dispatch(updateAbsolutePath(pageId, page.absolutePath));
+        dispatch(setModified(pageId, page.isModified));
+        return dispatch(addMessage(pageId, 'danger', errSaving));
+      }
+      return dispatch(addMessage(pageId, 'success', 'Page successfully saved'));
     });
+  });
+};
+
+function pageSave(focusedWindow) {
+  if (pageAlreadySaved(focusedWindow) || hasUnsavedViews(focusedWindow)) {
+    return;
+  }
+  const store = getStore();
+  const { dispatch, getState } = store;
+  const state = getState();
+
+  const pageId = state.windows[focusedWindow.windowId].focusedPage;
+  const page = state.pages[pageId];
+  if (!page.oId && !page.absolutePath) {
+    savePageByFilePicker(pageId);
   } else {
     saveFile(pageId, getStore(), (errSaving) => {
       if (errSaving) {
         store.dispatch(addMessage(pageId, 'danger', errSaving));
         return;
       }
-      getStore().dispatch(addMessage(pageId, 'success', 'Page successfully saved'));
+      dispatch(addMessage(pageId, 'success', 'Page successfully saved'));
     });
   }
 }
 
 function pageSaveAs(focusedWindow) {
-  const pageId = getStore().getState().windows[focusedWindow.windowId].focusedPage;
-  if (getPageModifiedViewsIds(getStore().getState(), { pageId }).length) {
-    return getStore().dispatch(
-      addMessage(getWindowFocusedPageId(getStore().getState(), focusedWindow.windowId,
-        'danger',
-        'Please, save the views of this page')
-      ));
+  if (hasUnsavedViews(focusedWindow)) {
+    return;
   }
-  const state = getStore().getState();
-  const page = state.pages[pageId];
-  return getPathByFilePicker(state.hsc.folder, 'Page', 'save', (err, newPagePath) => {
-    getStore().dispatch(updateAbsolutePath(pageId, newPagePath));
-    return saveFile(pageId, getStore(), (errSaving) => {
-      if (errSaving) {
-        getStore().dispatch(updateAbsolutePath(pageId, page.absolutePath));
-        getStore().dispatch(setModified(pageId, page.isModified));
-        getStore().dispatch(addMessage(pageId, 'danger', errSaving));
-        return;
-      }
-      getStore().dispatch(addMessage(pageId, 'success', 'Page successfully saved'));
-    });
-  });
+  const pageId = getStore().getState().windows[focusedWindow.windowId].focusedPage;
+  savePageByFilePicker(pageId);
 }
 
 function saveFile(pageId, store, callback) {

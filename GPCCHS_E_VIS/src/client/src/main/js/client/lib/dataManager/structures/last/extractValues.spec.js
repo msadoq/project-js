@@ -1,7 +1,7 @@
 import globalConstants from 'common/constants';
 import lastValue, { select } from './extractValues';
 
-describe('data/map/lastValue', () => {
+describe('dataManager/last/extractValues', () => {
   const payload = { rId1: {}, rId2: {} };
   for (let j = 10; j < 21; j += 1) {
     payload.rId1[j] = {
@@ -24,7 +24,7 @@ describe('data/map/lastValue', () => {
         ep4: {
           remoteId: 'rId1',
           field: 'val3',
-          expectedInterval: [10, 20],
+          localId: 'localrId1',
           offset: 0,
           stateColors: [
             {
@@ -40,8 +40,8 @@ describe('data/map/lastValue', () => {
         ep7: {
           remoteId: 'rId2',
           field: 'val4',
-          expectedInterval: [10, 13],
           offset: 0,
+          localId: 'localrId2',
         },
       },
     },
@@ -51,14 +51,14 @@ describe('data/map/lastValue', () => {
         ep5: {
           remoteId: 'rId1',
           field: 'val3',
-          expectedInterval: [18, 20],
           offset: 0,
+          localId: 'localEp5',
         },
         ep6: {
           remoteId: 'rId2',
           field: 'val3',
-          expectedInterval: [12, 20],
           offset: 0,
+          localId: 'localEp6',
         },
       },
     },
@@ -67,16 +67,27 @@ describe('data/map/lastValue', () => {
       entryPoints: {
         dynamicEP: {
           remoteId: 'rId1',
-          expectedInterval: [18, 20],
           decommutedValues: [{ name: 'val1' }, { name: 'val2' }],
           offset: 0,
+          localId: 'localEpDyn',
         },
       },
     },
   };
+  const expectedIntervals = {
+    rId1: {
+      localrId1: { expectedInterval: [10, 20] },
+      localEp5: { expectedInterval: [18, 20] },
+      localEpDyn: { expectedInterval: [18, 20] },
+    },
+    rId2: {
+      localrId2: { expectedInterval: [10, 13] },
+      localEp6: { expectedInterval: [12, 20] },
+    },
+  };
   describe('select', () => {
     it('state undefined', () => {
-      const newState = select(payload.rId1, viewDataMap.text1.entryPoints.ep4, 'ep4', undefined, 'TextView');
+      const newState = select(payload.rId1, viewDataMap.text1.entryPoints.ep4, 'ep4', undefined, 'TextView', expectedIntervals);
       newState.timestamp.should.equal(20);
       newState.value.should.equal(203);
     });
@@ -84,7 +95,7 @@ describe('data/map/lastValue', () => {
       const oldState = { index: {}, values: {} };
       oldState.index.ep4 = 22;
       oldState.values.ep4 = 22;
-      const newState = select(payload.rId1, viewDataMap.text1.entryPoints.ep4, 'ep4', oldState, 'TextView');
+      const newState = select(payload.rId1, viewDataMap.text1.entryPoints.ep4, 'ep4', oldState, 'TextView', expectedIntervals);
       newState.timestamp.should.equal(20);
       newState.value.should.equal(203);
     });
@@ -92,7 +103,7 @@ describe('data/map/lastValue', () => {
       const oldState = { index: {}, values: {} };
       oldState.index.ep4 = 18.5;
       oldState.values.ep4 = 22;
-      const newState = select(payload.rId1, viewDataMap.text1.entryPoints.ep4, 'ep4', oldState, 'TextView');
+      const newState = select(payload.rId1, viewDataMap.text1.entryPoints.ep4, 'ep4', oldState, 'TextView', expectedIntervals);
       newState.timestamp.should.equal(20);
       newState.value.should.equal(203);
     });
@@ -100,14 +111,14 @@ describe('data/map/lastValue', () => {
       const oldState = { index: {}, values: {} };
       oldState.index.ep4 = 20;
       oldState.values.ep4 = 22;
-      const newState = select(payload.rId1, viewDataMap.text1.entryPoints.ep4, 'ep4', oldState, 'TextView');
+      const newState = select(payload.rId1, viewDataMap.text1.entryPoints.ep4, 'ep4', oldState, 'TextView', expectedIntervals);
       newState.timestamp.should.equal(20);
       newState.value.should.equal(203);
     });
   });
   describe('lastValue', () => {
     it('state empty', () => {
-      const newState = lastValue({}, payload, 'text1', viewDataMap.text1.entryPoints, 'TextView');
+      const newState = lastValue({}, expectedIntervals, payload, 'text1', viewDataMap.text1.entryPoints, 'TextView');
       newState.index.ep4.should.equal(20);
       newState.values.ep4.should.eql({ value: 203, color: '#0000FF' });
       newState.index.ep7.should.equal(13);
@@ -115,7 +126,7 @@ describe('data/map/lastValue', () => {
       newState.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
     });
     it('state undefined', () => {
-      const newState = lastValue(undefined, payload, 'text1', viewDataMap.text1.entryPoints, 'TextView');
+      const newState = lastValue(undefined, expectedIntervals, payload, 'text1', viewDataMap.text1.entryPoints, 'TextView');
       newState.index.ep4.should.equal(20);
       newState.values.ep4.should.eql({ value: 203, color: '#0000FF' });
       newState.index.ep7.should.equal(13);
@@ -123,7 +134,7 @@ describe('data/map/lastValue', () => {
       newState.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
     });
     it('multiple entry points', () => {
-      const newState = lastValue({}, payload, 'text2', viewDataMap.text2.entryPoints, 'TextView');
+      const newState = lastValue({}, expectedIntervals, payload, 'text2', viewDataMap.text2.entryPoints, 'TextView');
       newState.index.ep6.should.equal(20);
       newState.values.ep6.should.eql({ value: 203 });
       newState.index.ep5.should.equal(20);
@@ -131,7 +142,7 @@ describe('data/map/lastValue', () => {
       newState.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_LAST);
     });
     it('dynamic view', () => {
-      const newState = lastValue({}, payload, 'dynamic', viewDataMap.dynamic.entryPoints, 'DynamicView');
+      const newState = lastValue({}, expectedIntervals, payload, 'dynamic', viewDataMap.dynamic.entryPoints, 'DynamicView');
       newState.index.dynamicEP.should.equal(20);
       newState.values.dynamicEP.value.should.eql({
         val1: { type: 'uinteger', value: 201 },

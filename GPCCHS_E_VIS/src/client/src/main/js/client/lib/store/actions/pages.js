@@ -1,8 +1,8 @@
-import { v4 } from 'uuid';
 import simple from '../simpleActionCreator';
 import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
 import { getView } from '../selectors/views';
+import { getTimebars } from '../selectors/timebars';
 import {
   add as addView,
   remove as removeView,
@@ -12,8 +12,25 @@ import { addAndMount as addAndMountPage, focusPage } from './windows';
 /**
  * Simple actions
  */
-export const add = simple(types.WS_PAGE_ADD, 'pageId', 'timebarUuid', 'title', 'views', 'layout',
+export const _add = simple(types.WS_PAGE_ADD, 'pageId', 'timebarUuid', 'title', 'views', 'layout',
   'path', 'oId', 'absolutePath', 'isModified', 'properties', 'timebarHeight', 'timebarCollapsed');
+
+export const add = (pageId, timebarUuid, title, views, layout,
+  path, oId, absolutePath, isModified, properties, timebarHeight, timebarCollapsed) =>
+  (dispatch, getState) => {
+    let timebarNewUuid;
+    if (typeof timebarUuid === 'undefined') {
+      const uuid = Object.keys(getTimebars(getState()))[0];
+      timebarNewUuid = uuid;
+    }
+    dispatch(
+      _add(
+        pageId, timebarUuid || timebarNewUuid, title, views, layout, path, oId,
+        absolutePath, isModified, properties, timebarHeight, timebarCollapsed
+      )
+    );
+  };
+
 export const removePage = simple(types.WS_PAGE_REMOVE, 'pageId');
 export const mountView = simple(types.WS_PAGE_VIEW_MOUNT, 'pageId', 'viewId', 'layout');
 export const unmountView = simple(types.WS_PAGE_VIEW_UNMOUNT, 'pageId', 'viewId');
@@ -57,15 +74,21 @@ export const updateTimebarId = simple(types.WS_PAGE_UPDATE_TIMEBARID, 'pageId', 
 /**
  * Compound actions
  */
-export function addAndMount(pageId, viewId = v4(), view, layout) {
-  return (dispatch) => {
-    if (!view) {
-      dispatch(addView(viewId));
-    } else {
-      dispatch(addView(viewId, view.type, view.configuration, view.path, view.oId,
-        view.absolutePath));
-    }
-    dispatch(mountView(pageId, viewId, layout));
+const addViewInLayout = (page, viewId, specificLayout) => {
+  const layout = { w: 5, h: 5, x: 0, y: 0, ...specificLayout, i: viewId };
+  if (!page) {
+    return layout;
+  }
+  return [...page.layout, layout];
+};
+
+export function addAndMount(pageId, viewId, view = {}, layout) {
+  return (dispatch, getState) => {
+    const page = getState().pages[pageId];
+    dispatch(
+      addView(viewId, view.type, view.configuration, view.path, view.oId, view.absolutePath)
+    );
+    dispatch(mountView(pageId, viewId, addViewInLayout(page, viewId, layout)));
   };
 }
 

@@ -39,7 +39,7 @@ export default class TimebarWrapper extends PureComponent {
       speed: PropTypes.number.isRequired,
       rulerStart: PropTypes.number.isRequired,
       id: PropTypes.string.isRequired,
-      masterId: PropTypes.string.isRequired,
+      masterId: PropTypes.string,
       realTime: PropTypes.bool.isRequired,
       mode: PropTypes.string.isRequired,
       slideWindow: PropTypes.shape({

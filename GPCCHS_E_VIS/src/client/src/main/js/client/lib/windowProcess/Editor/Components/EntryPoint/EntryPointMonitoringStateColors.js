@@ -4,7 +4,7 @@ import {
   Glyphicon,
 } from 'react-bootstrap';
 
-import { stateColors } from '../../../common/colors';
+import { getStateColors } from '../../../common/colors';
 
 const s = {
   title: {
@@ -60,13 +60,13 @@ export default class MonitoringStateColors extends PureComponent {
             </tr>
           </thead>
           <tbody>
-            {Object.keys(stateColors).map(c => (
+            {Object.keys(getStateColors()).map(c => (
               <tr key={c}>
                 <td className="col-xs-2">
                   <div
                     style={{
                       ...s.colorBox,
-                      backgroundColor: stateColors[c],
+                      backgroundColor: getStateColors()[c],
                     }}
                   />
                 </td>

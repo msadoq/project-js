@@ -22,8 +22,10 @@ export default class Chart extends React.Component {
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     current: PropTypes.number.isRequired,
-    allowZoom: PropTypes.bool.isRequired,
-    allowPan: PropTypes.bool.isRequired,
+    enableTooltip: PropTypes.bool,
+    tooltipColor: PropTypes.string,
+    allowZoom: PropTypes.bool,
+    allowPan: PropTypes.bool,
     xExtends: PropTypes.arrayOf(PropTypes.number).isRequired,
     yAxes: PropTypes.arrayOf(
       PropTypes.shape({
@@ -53,8 +55,16 @@ export default class Chart extends React.Component {
         pointSize: PropTypes.number,
         pointStyle: PropTypes.string,
         yAccessor: PropTypes.func.isRequired,
+        colorAccessor: PropTypes.func,
       })
     ).isRequired,
+  }
+
+  static defaultProps = {
+    enableTooltip: true,
+    allowZoom: true,
+    allowPan: true,
+    tooltipColor: 'white',
   }
 
   state = {
@@ -145,7 +155,8 @@ export default class Chart extends React.Component {
             xExtends[0],
             xExtends[1],
             axis.orient,
-            axisLines
+            axisLines,
+            axis.data
           );
         } else {
           yExtends = this.memoizeYExtends(
@@ -196,29 +207,25 @@ export default class Chart extends React.Component {
   yAxisWidth = 90;
   xAxisHeight = 40;
 
-  memoizeYExtendsAutoLimits = (yExtendsLower, yExtendsUpper, orient, lines) => {
-    if (!this.YExtendsAutoLimits) {
-      this.YExtendsAutoLimits = _memoize((yExtendsLowerM, yExtendsUpperM, orientM) => {
-        const values = [];
-        lines
-          .forEach(
-            line => line.data.forEach((d) => {
-              if (d.x < yExtendsLowerM || d.x > yExtendsUpperM) {
-                return;
-              }
-              values.push(line.yAccessor(d));
-            })
-          );
+  memoizeYExtendsAutoLimits = _memoize(
+    (yExtendsLower, yExtendsUpper, orient, lines, data) => {
+      const values = [];
+      for (let i = 0; i < lines.length; i += 1) {
+        for (let j = 0; j < data.length; j += 1) {
+          if (data[j].x >= yExtendsLower && data[j].x <= yExtendsUpper) {
+            values.push(lines[i].yAccessor(data[j]));
+          }
+        }
+      }
 
-        const lowerR = _min(values);
-        const upperR = _max(values);
-        return orientM === 'top' ? [upperR, lowerR] : [lowerR, upperR];
-      },
-      (...args) => JSON.stringify(args)
-      );
-    }
-    return this.YExtendsAutoLimits(yExtendsLower, yExtendsUpper, orient);
-  }
+      const lowerR = _min(values);
+      const upperR = _max(values);
+
+      return orient === 'top' ? [upperR, lowerR] : [lowerR, upperR];
+    },
+    (a, b, c) =>
+      JSON.stringify([a, b, c])
+    )
 
   memoizeYExtends = _memoize((id, orient, lower, upper) =>
     (orient === 'top' ? [upper, lower] : [lower, upper]),
@@ -274,6 +281,8 @@ export default class Chart extends React.Component {
       xAxisAt,
       current,
       xExtends,
+      enableTooltip,
+      tooltipColor,
     } = this.props;
 
     const { zoomLevel, pan } = this.state;
@@ -348,7 +357,8 @@ export default class Chart extends React.Component {
           margin={marginSide}
           xScale={xScale}
         />
-        <Tooltip
+        { enableTooltip && <Tooltip
+          tooltipColor={tooltipColor}
           yAxes={this.yAxes}
           width={chartWidth}
           height={chartHeight}
@@ -356,7 +366,7 @@ export default class Chart extends React.Component {
           margin={marginSide}
           xScale={xScale}
           yAxesAt={yAxesAt}
-        />
+        /> }
         {
           this.yAxes.map(yAxis =>
             <LinesCanvas

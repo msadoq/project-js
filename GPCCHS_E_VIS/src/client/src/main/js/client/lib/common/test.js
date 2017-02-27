@@ -10,7 +10,7 @@ import thunk from 'redux-thunk';
 import deepFreeze from 'deep-freeze';
 import reducer from '../store/reducers/index';
 
-const config = {
+global.testConfig = {
   ISIS_DOCUMENTS_ROOT: path.resolve(__dirname, '../documentManager/fixtures'),
   WILDCARD_CHARACTER: '*',
   VISUWINDOW_MAX_LENGTH: 42,
@@ -29,7 +29,7 @@ const config = {
 _.set(
   global,
   'parameters.get',
-  p => _.get(config, p)
+  p => _.get(global.testConfig, p)
 );
 
 chai.use(properties);

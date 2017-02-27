@@ -11,6 +11,7 @@ import { add as addMessage } from '../../store/actions/messages';
 import { addAndMount as addAndMountView } from '../../store/actions/pages';
 import { getWindowFocusedPageId } from '../../store/selectors/windows';
 import { getStore } from '../../store/mainStore';
+import { getViewModule } from '../../viewManager';
 
 const addDangerMessage = (focusedPageId, msg) => addMessage(focusedPageId, 'danger', msg);
 
@@ -29,99 +30,34 @@ function viewOpen(focusedWindow) {
 
 function viewOpenWithPath({ windowId, viewPath }) {
   const { getState, dispatch } = getStore();
-  const state = getState();
-  const filePath = _.get([0, 'absolutePath'], viewPath);
-  const focusedPage = state.windows[windowId].focusedPage;
-  const focusedPageId = getWindowFocusedPageId(state, { windowId });
+  const filePath = _.get('absolutePath[0]', viewPath);
 
-  readViews(viewPath, (errView, view) => {
+  readViews(viewPath, (errView, [view]) => {
+    const state = getState();
+    const focusedPageId = getWindowFocusedPageId(state, { windowId });
     if (errView) {
       dispatch(addDangerMessage(focusedPageId, 'Unable to load View'));
       dispatch(addDangerMessage(focusedPageId, errView));
       return;
     }
-    const current = view[0];
-    current.absolutePath = filePath;
-    showSelectedView(current, focusedPage);
+
+    const viewId = v4();
+    dispatch(addAndMountView(focusedPageId, viewId, { ...view, absolutePath: filePath }));
     server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', filePath);
   });
 }
 
-function addPlotView(focusedWindow) {
-  const view = {
-    type: 'PlotView',
-    configuration: {
-      type: 'PlotView',
-      axes: {},
-      grids: [],
-      legend: {},
-      markers: [],
-      backgroundColor: '3FFFFFF',
-      defaultRatio: { length: 5, width: 5 },
-      entryPoints: [],
-      links: [],
-      title: 'New Plot View',
-      showYAxes: 'left',
-    },
-  };
-  viewAddNew(focusedWindow, view);
-}
-
-function addTextView(focusedWindow) {
-  const view = {
-    type: 'TextView',
-    configuration: {
-      type: 'TextView',
-      content: '',
-      defaultRatio: { length: 5, width: 5 },
-      entryPoints: [],
-      links: [],
-      title: 'New Text View',
-    } };
-  viewAddNew(focusedWindow, view);
-}
-function addDynamicView(focusedWindow) {
-  const view = {
-    type: 'DynamicView',
-    configuration: {
-      type: 'DynamicView',
-      defaultRatio: { length: 5, width: 5 },
-      entryPoint: { connectedData: {} },
-      links: [],
-      title: 'New Dynamic View',
-    } };
-  viewAddNew(focusedWindow, view);
-}
-function viewAddNew(focusedWindow, view) {
-  const pageId = getStore().getState().windows[focusedWindow.windowId].focusedPage;
+const addBlankView = (type, focusedWindow) => {
+  const { dispatch, getState } = getStore();
+  const view = { type, configuration: getViewModule(type).prepareConfigurationForStore({}) };
+  const pageId = getState().windows[focusedWindow.windowId].focusedPage;
   const viewId = v4();
-  getStore().dispatch(addAndMountView(pageId, viewId, view, addViewInLayout(pageId, viewId)));
+  dispatch(addAndMountView(pageId, viewId, view));
   server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', `new ${_.getOr('view', 'type', view)}`);
-}
-
-
-function showSelectedView(view, pageId) {
-  const viewId = v4();
-  const layout = addViewInLayout(pageId, viewId);
-  getStore().dispatch(addAndMountView(pageId, viewId, view, layout.length ? layout : undefined));
-}
-
-function addViewInLayout(pageId, viewId) {
-  if (!viewId) {
-    return [];
-  }
-  if (!getStore().getState().pages[pageId]) {
-    return [{ i: viewId, w: 5, h: 5, x: 0, y: 0 }];
-  }
-  return getStore().getState().pages[pageId].layout.concat({
-    i: viewId, w: 5, h: 5, x: 0, y: 0,
-  });
-}
+};
 
 export default {
   viewOpen,
   viewOpenWithPath,
-  addPlotView,
-  addTextView,
-  addDynamicView,
+  addBlankView,
 };

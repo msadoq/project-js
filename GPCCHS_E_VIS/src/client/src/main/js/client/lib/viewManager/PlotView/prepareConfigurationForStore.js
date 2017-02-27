@@ -1,14 +1,23 @@
 import { v4 } from 'uuid';
-import update from 'lodash/fp/update';
-import indexBy from 'lodash/fp/indexBy';
+import _ from 'lodash/fp';
 
-const indexAxes = update('axes', indexBy(axis => axis.id || axis.label || v4()));
+const indexAxes = _.update('axes', _.indexBy(axis => axis.id || axis.label || v4()));
 
-export default function (configuration) {
-  if (!configuration.axes || !configuration.axes.length) {
-    return configuration;
-  }
+const getDefaultConfiguration = _.defaults({
+  type: 'PlotView',
+  axes: {},
+  grids: [],
+  legend: {},
+  markers: [],
+  backgroundColor: '3FFFFFF',
+  defaultRatio: { length: 5, width: 5 },
+  entryPoints: [],
+  links: [],
+  title: 'New Plot View',
+  showYAxes: 'left',
+});
 
-  // add uuid to axes
-  return indexAxes(configuration);
-}
+export default _.pipe(
+  getDefaultConfiguration,
+  indexAxes
+);

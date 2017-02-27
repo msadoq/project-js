@@ -11,7 +11,6 @@ import { getStore } from '../../store/mainStore';
 import { add as addView } from '../../store/actions/views';
 import { add as addMessage } from '../../store/actions/messages';
 import { addAndMount as addAndMountPage } from '../../store/actions/windows';
-import { setModified as setModifiedPage } from '../../store/actions/pages';
 
 const addGlobalError = msg => addMessage('global', 'danger', msg);
 
@@ -27,15 +26,16 @@ function showSelectedPage(pageAndViews, pageId, windowId) {
     maxW: v.geometry.maxW || 100,
   }));
   const viewIds = Object.keys(pageAndViews.views);
+  const page = pageAndViews.pages[pageId];
+  page.layout = layout;
+  page.views = viewIds;
+  page.isModified = false;
+
   viewIds.forEach((index) => {
     const view = pageAndViews.views[index];
     store.dispatch(addView(index, view.type, view.configuration, view.path, view.oId,
       view.absolutePath, false));
   });
-  const page = pageAndViews.pages[pageId];
-  page.layout = layout;
-  page.views = viewIds;
-  page.isModified = false;
   store.dispatch(addAndMountPage(windowId, pageId, page));
 }
 
@@ -58,7 +58,7 @@ function pageOpenWithPath({ filePath, windowId }) {
       showSelectedPage(pageAndViews, uuid, windowId);
       const title = store.getState().windows[windowId].title;
       const window = BrowserWindow.getFocusedWindow();
-      window.setTitle(title.concat(' * - VIMA'));
+      window.setTitle(title.concat(' * - VIMA')); // TODO savableMiddleware
       server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', filePath);
     });
   });
@@ -85,9 +85,8 @@ function pageAddNew(focusedWindow) {
   const { dispatch, getState } = getStore();
   const uuid = v4();
   dispatch(addAndMountPage(focusedWindow.windowId, uuid));
-  dispatch(setModifiedPage(uuid, true));
   const title = getState().windows[focusedWindow.windowId].title;
-  focusedWindow.setTitle(title.concat(' * - VIMA'));
+  focusedWindow.setTitle(title.concat(' * - VIMA')); // Todo savableMiddleware
   server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', 'new page');
 }
 

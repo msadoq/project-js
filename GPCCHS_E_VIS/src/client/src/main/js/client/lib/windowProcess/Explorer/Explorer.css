@@ -21,7 +21,9 @@
   padding: 10px;
   margin-right: 15px;
 }
-
+.divOverflow{
+  overflow: auto;
+}
 .table {
   margin: 10px;
   padding: 10px;
@@ -63,6 +65,7 @@
   display: inline-flex;
   margin-top: 10px;
   margin-bottom: 10px;
+  white-space: nowrap;
 }
 .type{
   display: inline-flex;

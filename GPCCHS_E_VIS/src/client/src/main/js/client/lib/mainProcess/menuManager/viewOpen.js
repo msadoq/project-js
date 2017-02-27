@@ -5,15 +5,12 @@ import {
 } from 'common/constants';
 
 import { server } from '../ipc';
-import { readViews } from '../../common/documentManager';
+import { loadViewInStore } from '../../documentManager/readView';
 import { getPathByFilePicker } from '../dialog';
-import { add as addMessage } from '../../store/actions/messages';
 import { addAndMount as addAndMountView } from '../../store/actions/pages';
 import { getWindowFocusedPageId } from '../../store/selectors/windows';
 import { getStore } from '../../store/mainStore';
 import { getViewModule } from '../../viewManager';
-
-const addDangerMessage = (focusedPageId, msg) => addMessage(focusedPageId, 'danger', msg);
 
 function viewOpen(focusedWindow) {
   if (!focusedWindow) {
@@ -22,29 +19,15 @@ function viewOpen(focusedWindow) {
   const { getState } = getStore();
   const state = getState();
 
-  getPathByFilePicker(state.hsc.folder, 'view', 'open', (err, filePath) => {
-    const viewPath = [{ absolutePath: filePath }];
-    viewOpenWithPath({ windowId: focusedWindow.windowId, viewPath });
+  getPathByFilePicker(state.hsc.folder, 'view', 'open', (err, absolutePath) => {
+    viewOpenWithPath({ windowId: focusedWindow.windowId, absolutePath });
   });
 }
 
-function viewOpenWithPath({ windowId, viewPath }) {
-  const { getState, dispatch } = getStore();
-  const filePath = _.get('absolutePath[0]', viewPath);
-
-  readViews(viewPath, (errView, [view]) => {
-    const state = getState();
-    const focusedPageId = getWindowFocusedPageId(state, { windowId });
-    if (errView) {
-      dispatch(addDangerMessage(focusedPageId, 'Unable to load View'));
-      dispatch(addDangerMessage(focusedPageId, errView));
-      return;
-    }
-
-    const viewId = v4();
-    dispatch(addAndMountView(focusedPageId, viewId, { ...view, absolutePath: filePath }));
-    server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', filePath);
-  });
+function viewOpenWithPath({ windowId, absolutePath }) {
+  const { dispatch, getState } = getStore();
+  const pageId = getWindowFocusedPageId(getState(), { windowId });
+  dispatch(loadViewInStore({ absolutePath, pageId }));
 }
 
 const addBlankView = (type, focusedWindow) => {

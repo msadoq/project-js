@@ -69,13 +69,13 @@ const addViewInLayout = (page, viewId, specificLayout) => {
   return [...page.layout, layout];
 };
 
-export function addAndMount(pageId, viewId, view = {}, layout) {
+export function addAndMount(pageId, viewId, view = {}) {
   return (dispatch, getState) => {
     const page = getState().pages[pageId];
     dispatch(
       addView(viewId, view.type, view.configuration, view.path, view.oId, view.absolutePath)
     );
-    dispatch(mountView(pageId, viewId, addViewInLayout(page, viewId, layout)));
+    dispatch(mountView(pageId, viewId, addViewInLayout(page, viewId, view.geometry)));
   };
 }
 

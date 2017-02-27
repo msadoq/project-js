@@ -1,5 +1,5 @@
 import { workspaceOpenWithPath } from '../../menuManager/workspaceOpen';
 
-export default function ({ filePath }) {
-  workspaceOpenWithPath({ filePath });
+export default function ({ absolutePath }) {
+  workspaceOpenWithPath({ absolutePath });
 }

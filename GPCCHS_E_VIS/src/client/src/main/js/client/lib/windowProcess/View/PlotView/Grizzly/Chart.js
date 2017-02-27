@@ -26,13 +26,13 @@ export default class Chart extends React.Component {
     tooltipColor: PropTypes.string,
     allowZoom: PropTypes.bool,
     allowPan: PropTypes.bool,
-    xExtends: PropTypes.arrayOf(PropTypes.number).isRequired,
+    xExtents: PropTypes.arrayOf(PropTypes.number).isRequired,
     yAxes: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
         orient: PropTypes.string.isRequired,
         data: PropTypes.array.isRequired,
-        yExtends: PropTypes.array.isRequired,
+        yExtents: PropTypes.array.isRequired,
         autoLimits: PropTypes.bool.isRequired,
         showAxis: PropTypes.bool.isRequired,
         showLabels: PropTypes.bool,
@@ -140,7 +140,7 @@ export default class Chart extends React.Component {
     const {
       yAxes,
       lines,
-      xExtends,
+      xExtents,
     } = this.props;
 
     const sortedAndValidAxes = yAxes
@@ -149,21 +149,21 @@ export default class Chart extends React.Component {
           .filter(line => line.yAxis === axis.id);
 
         // let's calculate lower and upper limits of the yAxis
-        let yExtends;
+        let yExtents;
         if (axis.autoLimits) {
-          yExtends = this.memoizeYExtendsAutoLimits(
-            xExtends[0],
-            xExtends[1],
+          yExtents = this.memoizeYExtentsAutoLimits(
+            xExtents[0],
+            xExtents[1],
             axis.orient,
             axisLines,
             axis.data
           );
         } else {
-          yExtends = this.memoizeYExtends(
+          yExtents = this.memoizeYExtents(
             axis.id,
             axis.orient,
-            axis.yExtends[0],
-            axis.yExtends[1]
+            axis.yExtents[0],
+            axis.yExtents[1]
           );
         }
 
@@ -174,7 +174,7 @@ export default class Chart extends React.Component {
         return {
           ...axis,
           lines: axisLines,
-          yExtends,
+          yExtents,
           // rank
           rank,
         };
@@ -207,12 +207,12 @@ export default class Chart extends React.Component {
   yAxisWidth = 90;
   xAxisHeight = 40;
 
-  memoizeYExtendsAutoLimits = _memoize(
-    (yExtendsLower, yExtendsUpper, orient, lines, data) => {
+  memoizeYExtentsAutoLimits = _memoize(
+    (yExtentsLower, yExtentsUpper, orient, lines, data) => {
       const values = [];
       for (let i = 0; i < lines.length; i += 1) {
         for (let j = 0; j < data.length; j += 1) {
-          if (data[j].x >= yExtendsLower && data[j].x <= yExtendsUpper) {
+          if (data[j].x >= yExtentsLower && data[j].x <= yExtentsUpper) {
             values.push(lines[i].yAccessor(data[j]));
           }
         }
@@ -227,7 +227,7 @@ export default class Chart extends React.Component {
       JSON.stringify([a, b, c])
     )
 
-  memoizeYExtends = _memoize((id, orient, lower, upper) =>
+  memoizeYExtents = _memoize((id, orient, lower, upper) =>
     (orient === 'top' ? [upper, lower] : [lower, upper]),
     (...args) => JSON.stringify(args)
   );
@@ -239,34 +239,34 @@ export default class Chart extends React.Component {
     (...args) => JSON.stringify(args)
   );
 
-  memoizeCalculatedXExtends =
-    _memoize((xExtendsLower, xExtendsUpper, pan, zoomLevel, chartWidth) => {
-      let newXExtends = [xExtendsLower, xExtendsUpper];
+  memoizeCalculatedXExtents =
+    _memoize((xExtentsLower, xExtentsUpper, pan, zoomLevel, chartWidth) => {
+      let newXExtents = [xExtentsLower, xExtentsUpper];
 
       let panMs = 0;
       if (pan !== 0) {
-        panMs = (pan / chartWidth) * (newXExtends[0] - newXExtends[1]);
+        panMs = (pan / chartWidth) * (newXExtents[0] - newXExtents[1]);
         panMs = parseFloat(panMs.toFixed(2));
       }
 
       if (zoomLevel !== 1) {
-        const xExtendsMs = newXExtends[1] - newXExtends[0];
-        const zoomOffsetMs = xExtendsMs -
-            (xExtendsMs / zoomLevel);
+        const xExtentsMs = newXExtents[1] - newXExtents[0];
+        const zoomOffsetMs = xExtentsMs -
+            (xExtentsMs / zoomLevel);
 
-        newXExtends = [
-          (newXExtends[0] + (zoomOffsetMs / 2)),
-          (newXExtends[1] - (zoomOffsetMs / 2)),
+        newXExtents = [
+          (newXExtents[0] + (zoomOffsetMs / 2)),
+          (newXExtents[1] - (zoomOffsetMs / 2)),
         ];
       }
 
       if (pan !== 0) {
-        newXExtends = [
-          newXExtends[0] + panMs,
-          newXExtends[1] + panMs,
+        newXExtents = [
+          newXExtents[0] + panMs,
+          newXExtents[1] + panMs,
         ];
       }
-      return [newXExtends, panMs];
+      return [newXExtents, panMs];
     },
     (...args) => JSON.stringify(args)
     );
@@ -280,7 +280,7 @@ export default class Chart extends React.Component {
       yAxesAt,
       xAxisAt,
       current,
-      xExtends,
+      xExtents,
       enableTooltip,
       tooltipColor,
     } = this.props;
@@ -303,12 +303,12 @@ export default class Chart extends React.Component {
       height;
 
     const memoized =
-      this.memoizeCalculatedXExtends(xExtends[0], xExtends[1], pan, zoomLevel, chartWidth);
-    const calculatedXExtends = memoized[0];
+      this.memoizeCalculatedXExtents(xExtents[0], xExtents[1], pan, zoomLevel, chartWidth);
+    const calculatedXExtents = memoized[0];
     const panMs = memoized[1];
 
     const xScale =
-      this.memoizeXScale(calculatedXExtends[0], calculatedXExtends[1], 0, chartWidth);
+      this.memoizeXScale(calculatedXExtents[0], calculatedXExtents[1], 0, chartWidth);
 
     const marginTop = xAxisAt === 'top' ? this.xAxisHeight : 0;
     const marginSide = this.yAxes.length * this.yAxisWidth;
@@ -379,7 +379,7 @@ export default class Chart extends React.Component {
               margin={marginSide}
               xScale={xScale}
               showLabels={yAxis.showLabels}
-              yExtends={yAxis.yExtends}
+              yExtents={yAxis.yExtents}
               axisId={yAxis.id}
               data={yAxis.data}
               lines={yAxis.lines}
@@ -407,7 +407,7 @@ export default class Chart extends React.Component {
               xAxisAt={xAxisAt}
               top={marginTop}
               yAxesAt={yAxesAt}
-              yExtends={yAxis.yExtends}
+              yExtents={yAxis.yExtents}
               label={yAxis.label}
               unit={yAxis.unit}
               labelStyle={yAxis.labelStyle}
@@ -425,7 +425,7 @@ export default class Chart extends React.Component {
           width={chartWidth}
           xAxisAt={xAxisAt}
           yAxesAt={yAxesAt}
-          xExtends={calculatedXExtends}
+          xExtents={calculatedXExtents}
         />
       </div>
     );

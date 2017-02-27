@@ -46,7 +46,7 @@ export default class YAxis extends PureComponent {
       underline: PropTypes.bool,
       size: PropTypes.number,
     }),
-    yExtends: PropTypes.arrayOf(
+    yExtents: PropTypes.arrayOf(
       PropTypes.number
     ).isRequired,
   }
@@ -85,8 +85,8 @@ export default class YAxis extends PureComponent {
     });
 
     if (
-      nextProps.yExtends[0] !== this.props.yExtends[0] ||
-      nextProps.yExtends[1] !== this.props.yExtends[1]
+      nextProps.yExtents[0] !== this.props.yExtents[0] ||
+      nextProps.yExtents[1] !== this.props.yExtents[1]
     ) {
       shouldRender = true;
     }
@@ -184,7 +184,7 @@ export default class YAxis extends PureComponent {
       yAxesAt,
       height,
       yAxisWidth,
-      yExtends,
+      yExtents,
       chartWidth,
       index,
       showTicks,
@@ -194,7 +194,7 @@ export default class YAxis extends PureComponent {
     } = this.props;
 
     const yScale = scaleLinear()
-      .domain([yExtends[0], yExtends[1]])
+      .domain([yExtents[0], yExtents[1]])
       .range([0, height]);
 
 

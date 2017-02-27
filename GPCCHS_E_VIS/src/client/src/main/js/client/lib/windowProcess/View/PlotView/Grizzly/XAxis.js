@@ -19,7 +19,7 @@ export default class XAxis extends PureComponent {
     margin: PropTypes.number.isRequired,
     gridStyle: PropTypes.string,
     gridSize: PropTypes.number,
-    xExtends: PropTypes.arrayOf(
+    xExtents: PropTypes.arrayOf(
       PropTypes.number
     ).isRequired,
   }
@@ -43,8 +43,8 @@ export default class XAxis extends PureComponent {
     });
 
     if (
-      nextProps.xExtends[0] !== this.props.xExtends[0] ||
-      nextProps.xExtends[1] !== this.props.xExtends[1]
+      nextProps.xExtents[0] !== this.props.xExtents[0] ||
+      nextProps.xExtents[1] !== this.props.xExtents[1]
     ) {
       shouldRender = true;
     }
@@ -69,14 +69,14 @@ export default class XAxis extends PureComponent {
     const {
       xAxisAt,
       xAxisHeight,
-      xExtends,
+      xExtents,
       width,
       height,
       gridStyle,
       showGrid,
     } = this.props;
     const xScale = scaleTime()
-      .domain([new Date(xExtends[0]), new Date(xExtends[1])])
+      .domain([new Date(xExtents[0]), new Date(xExtents[1])])
       .range([0, width]);
 
     const axisHeight = xAxisAt === 'top' ? height + this.ticksYOffset : height + this.ticksYOffset;
@@ -88,7 +88,7 @@ export default class XAxis extends PureComponent {
       xAxisFunction = axisBottom(xScale);
     }
 
-    const zoomLevel = getZoomLevel(xExtends[1] - xExtends[0]);
+    const zoomLevel = getZoomLevel(xExtents[1] - xExtents[0]);
     const levelRule = levelsRules[zoomLevel];
 
     xAxisFunction = xAxisFunction

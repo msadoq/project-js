@@ -250,6 +250,7 @@ export class GrizzlyPlotView extends PureComponent {
     } = this.props;
 
     const yAxes = Object.values(axes).filter(a => a.label !== 'Time');
+    const xExtents = [visuWindow.lower, visuWindow.upper];
 
     return (
       <DroppableContainer
@@ -268,7 +269,7 @@ export class GrizzlyPlotView extends PureComponent {
           tooltipColor="white"
           allowZoom
           allowPan
-          xExtends={[visuWindow.lower, visuWindow.upper]}
+          xExtents={xExtents}
           current={visuWindow.current}
           yAxesAt={showYAxes}
           xAxisAt="bottom"
@@ -276,7 +277,7 @@ export class GrizzlyPlotView extends PureComponent {
             const grid = grids.find(g => g.yAxisId === axis.id || g.yAxisId === axis.label);
             return {
               id: axis.id || axis.label,
-              yExtends: [axis.min, axis.max],
+              yExtents: [axis.min, axis.max],
               data: columns,
               orient: 'top',
               showAxis: axis.showAxis === true,

@@ -28,7 +28,7 @@ export default class Tooltip extends React.Component {
   componentDidMount() {
     const { yAxes, height } = this.props;
     this.yScales = {};
-    yAxes.forEach(axis => this.setYScale(axis.id, axis.yExtends, height));
+    yAxes.forEach(axis => this.setYScale(axis.id, axis.yExtents, height));
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -42,11 +42,11 @@ export default class Tooltip extends React.Component {
       if (
         !this.yScales[axis.id] ||
         nextProps.height !== this.props.height ||
-        axis.yExtends[0] !== this.props.yAxes[i].yExtends[0] ||
-        axis.yExtends[1] !== this.props.yAxes[i].yExtends[1]
+        axis.yExtents[0] !== this.props.yAxes[i].yExtents[0] ||
+        axis.yExtents[1] !== this.props.yAxes[i].yExtents[1]
       ) {
         shouldRender = true;
-        this.setYScale(axis.id, axis.yExtends, nextProps.height);
+        this.setYScale(axis.id, axis.yExtents, nextProps.height);
       }
     });
 
@@ -59,9 +59,9 @@ export default class Tooltip extends React.Component {
     return shouldRender;
   }
 
-  setYScale = (axisId, yExtends, height) => {
+  setYScale = (axisId, yExtents, height) => {
     this.yScales[axisId] = scaleLinear()
-      .domain([yExtends[0], yExtends[1]])
+      .domain([yExtents[0], yExtents[1]])
       .range([0, height]);
   }
 

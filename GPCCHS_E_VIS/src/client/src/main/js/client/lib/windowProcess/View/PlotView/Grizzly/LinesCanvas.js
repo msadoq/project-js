@@ -15,7 +15,7 @@ export default class LinesCanvas extends PureComponent {
     xScale: PropTypes.func.isRequired,
     data: PropTypes.arrayOf(PropTypes.shape).isRequired,
     showLabels: PropTypes.bool,
-    yExtends: PropTypes.arrayOf(
+    yExtents: PropTypes.arrayOf(
       PropTypes.number
     ).isRequired,
     lines: PropTypes.arrayOf(
@@ -85,7 +85,7 @@ export default class LinesCanvas extends PureComponent {
       height,
       width,
       lines,
-      yExtends,
+      yExtents,
       data,
       xScale,
       updateLabelPosition,
@@ -93,7 +93,7 @@ export default class LinesCanvas extends PureComponent {
       showLabels,
     } = this.props;
     const yScale = scaleLinear()
-      .domain([yExtends[0], yExtends[1]])
+      .domain([yExtents[0], yExtents[1]])
       .range([0, height]);
 
     const ctx = this.el.getContext('2d');

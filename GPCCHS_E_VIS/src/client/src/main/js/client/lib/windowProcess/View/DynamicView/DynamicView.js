@@ -107,12 +107,13 @@ export default class DynamicView extends PureComponent {
   render() {
     const { data, entryPoints } = this.props;
     const ep = _get(data, ['values', 'dynamicEP', 'value']);
+    const error = _get(entryPoints, '[0].error');
     if (!ep) {
       return (
         <div className="flex">
           <div className={styles.renderErrorText}>
             Unable to render view <br />
-            {entryPoints[0].error}
+            {error}
           </div>
         </div>
       );

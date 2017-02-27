@@ -1,34 +1,41 @@
 exports[`test Lefttab renders correctly 1`] = `
 <div
-  className="leftTab col-xs-3">
+  className="leftTab subdiv col-xs-3">
   <div
     className="leftTabTopPanel">
+    <div
+      className="modal-container" />
+    <div
+      className="modal-container" />
     <button
-      className="btnClose btn-control btn btn-sm btn-default"
+      className="btn-transp btnClose btn btn-xs btn-default"
       disabled={false}
       onClick={[Function]}
-      title="detach timebar and choose another one"
+      title="Detach timebar"
       type="button">
       <span
         className="glyphicon glyphicon-remove" />
     </button>
-    <h5
-      className="timebarName">
-      <u>
-        <b>
-          Timebar 01
-        </b>
-      </u>
-    </h5>
-    <div
-      className="modal-container" />
-    <div
-      className="modal-container" />
     <button
-      className="addTimelineButton btn btn-sm btn-info"
+      className="btn-transp btnCollapse btn btn-xs btn-default"
       disabled={false}
       onClick={[Function]}
-      title="Add track"
+      title="Collapse timebar"
+      type="button">
+      <span
+        className="glyphicon glyphicon-minus" />
+    </button>
+    <h5
+      className="timebarName">
+      <b>
+        Timebar 01
+      </b>
+    </h5>
+    <button
+      className="btn-transp addTimelineButton btn btn-xs btn-default"
+      disabled={false}
+      onClick={[Function]}
+      title="Add timeline"
       type="button">
       <span
         className="glyphicon glyphicon-plus" />
@@ -39,9 +46,7 @@ exports[`test Lefttab renders correctly 1`] = `
     onScroll={[Function]}
     onWheel={[Function]}>
     <li
-      className="timeline"
-      onClick={[Function]}
-      title="Click to edit track">
+      className="timeline">
       <span
         className="master"
         title="Master timeline">
@@ -54,6 +59,8 @@ exports[`test Lefttab renders correctly 1`] = `
           }
         }>
         Session 1
+         | 
+        Master
       </span>
       <span
         className="offset"
@@ -65,14 +72,24 @@ exports[`test Lefttab renders correctly 1`] = `
         style={
           Object {
             "background": "#fa1289",
-            "right": "0px",
+            "right": "26px",
           }
         } />
+      <button
+        className="editButton"
+        onClick={[Function]}
+        style={
+          Object {
+            "right": "0px",
+          }
+        }
+        title="Upate this track">
+        <span
+          className="glyphicon glyphicon-edit" />
+      </button>
     </li>
     <li
-      className="timeline"
-      onClick={[Function]}
-      title="Click to edit track">
+      className="timeline">
       <span
         style={
           Object {
@@ -80,6 +97,8 @@ exports[`test Lefttab renders correctly 1`] = `
           }
         }>
         Session 2
+         | 
+        Master
       </span>
       <span
         className="offset"
@@ -91,14 +110,27 @@ exports[`test Lefttab renders correctly 1`] = `
         style={
           Object {
             "background": "#31b0d5",
-            "right": "16px",
+            "right": "52px",
           }
         } />
+      <button
+        className="editButton"
+        onClick={[Function]}
+        style={
+          Object {
+            "right": "26px",
+          }
+        }
+        title="Upate this track">
+        <span
+          className="glyphicon glyphicon-edit" />
+      </button>
       <button
         className="deleteButton"
         onClick={[Function]}
         title="Remove this track">
-        -
+        <span
+          className="glyphicon glyphicon-trash" />
       </button>
     </li>
   </ul>

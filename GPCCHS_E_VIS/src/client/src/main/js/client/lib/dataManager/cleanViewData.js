@@ -64,10 +64,6 @@ export default function cleanViewData(
         return;
       }
       const newEp = view.entryPoints[epName];
-      // no update on entry points
-      if (ep === newEp) {
-        return;
-      }
       const isUpdated = structureType.isEpDifferent(ep, newEp);
       // EP definition modified: remove entry point from viewData
       if (isUpdated) {

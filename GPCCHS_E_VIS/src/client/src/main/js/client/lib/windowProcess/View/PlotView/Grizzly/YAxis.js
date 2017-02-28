@@ -109,6 +109,12 @@ export default class YAxis extends PureComponent {
 
   ticksXOffset = 8;
 
+  memoizeYScale = _memoize((hash, yExtentsLower, yExtentsUpper, height) =>
+    scaleLinear()
+      .domain([yExtentsLower, yExtentsUpper])
+      .range([0, height])
+  );
+
   axisDidDraw = () => {
     const {
       gridSize,
@@ -195,10 +201,12 @@ export default class YAxis extends PureComponent {
       xAxisAt,
     } = this.props;
 
-    const yScale = scaleLinear()
-      .domain([yExtents[0], yExtents[1]])
-      .range([0, height]);
-
+    const yScale = this.memoizeYScale(
+      `${yExtents[0]}-${yExtents[1]}-${height}`,
+      yExtents[0],
+      yExtents[1],
+      height
+    );
 
     const tickFormat = showTicks ? d => d : () => null;
 

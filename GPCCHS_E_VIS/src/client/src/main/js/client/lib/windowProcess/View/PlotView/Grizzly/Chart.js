@@ -149,11 +149,11 @@ export default class Chart extends React.Component {
       .map((axis) => {
         const axisLines = lines
           .filter(line => line.yAxis === axis.id);
-
         // let's calculate lower and upper limits of the yAxis
         let yExtents;
         if (axis.autoLimits) {
           yExtents = this.memoizeYExtentsAutoLimits(
+            `${xExtents[0]}-${xExtents[1]}-${axis.orient}`,
             xExtents[0],
             xExtents[1],
             axis.orient,
@@ -162,7 +162,7 @@ export default class Chart extends React.Component {
           );
         } else {
           yExtents = this.memoizeYExtents(
-            axis.id,
+            `${axis.id}-${axis.orient}-${axis.yExtents[0]}-${axis.yExtents[1]}`,
             axis.orient,
             axis.yExtents[0],
             axis.yExtents[1]
@@ -210,7 +210,7 @@ export default class Chart extends React.Component {
   xAxisHeight = 40;
 
   memoizeYExtentsAutoLimits = _memoize(
-    (yExtentsLower, yExtentsUpper, orient, lines, data) => {
+    (hash, yExtentsLower, yExtentsUpper, orient, lines, data) => {
       const values = [];
       for (let i = 0; i < lines.length; i += 1) {
         for (let j = 0; j < data.length; j += 1) {
@@ -224,25 +224,21 @@ export default class Chart extends React.Component {
       const upperR = _max(values);
 
       return orient === 'top' ? [upperR, lowerR] : [lowerR, upperR];
-    },
-    (a, b, c) =>
-      JSON.stringify([a, b, c])
-    )
+    }
+  )
 
-  memoizeYExtents = _memoize((id, orient, lower, upper) =>
-    (orient === 'top' ? [upper, lower] : [lower, upper]),
-    (...args) => JSON.stringify(args)
+  memoizeYExtents = _memoize((hash, orient, lower, upper) =>
+    (orient === 'top' ? [upper, lower] : [lower, upper])
   );
 
-  memoizeXScale = _memoize((domainLower, domainUpper, rangeLower, rangeUpper) =>
+  memoizeXScale = _memoize((hash, domainLower, domainUpper, rangeUpper) =>
     scaleLinear()
       .domain([domainLower, domainUpper])
-      .range([rangeLower, rangeUpper]),
-    (...args) => JSON.stringify(args)
+      .range([0, rangeUpper])
   );
 
   memoizeCalculatedXExtents =
-    _memoize((xExtentsLower, xExtentsUpper, pan, zoomLevel, chartWidth) => {
+    _memoize((hash, xExtentsLower, xExtentsUpper, pan, zoomLevel, chartWidth) => {
       let newXExtents = [xExtentsLower, xExtentsUpper];
 
       let panMs = 0;
@@ -269,9 +265,8 @@ export default class Chart extends React.Component {
         ];
       }
       return [newXExtents, panMs];
-    },
-    (...args) => JSON.stringify(args)
-    );
+    }
+  );
 
   assignEl = (el) => { this.el = el; }
 
@@ -304,13 +299,23 @@ export default class Chart extends React.Component {
       :
       height;
 
-    const memoized =
-      this.memoizeCalculatedXExtents(xExtents[0], xExtents[1], pan, zoomLevel, chartWidth);
+    const memoized = this.memoizeCalculatedXExtents(
+      `${xExtents[0]}-${xExtents[1]}-${pan}-${zoomLevel}-${chartWidth}`,
+      xExtents[0],
+      xExtents[1],
+      pan,
+      zoomLevel,
+      chartWidth
+    );
     const calculatedXExtents = memoized[0];
     const panMs = memoized[1];
 
-    const xScale =
-      this.memoizeXScale(calculatedXExtents[0], calculatedXExtents[1], 0, chartWidth);
+    const xScale = this.memoizeXScale(
+      `${calculatedXExtents[0]}-${calculatedXExtents[1]}-${chartWidth}`,
+      calculatedXExtents[0],
+      calculatedXExtents[1],
+      chartWidth
+    );
 
     const marginTop = xAxisAt === 'top' ? this.xAxisHeight : 0;
     const marginSide = this.yAxes.length * this.yAxisWidth;

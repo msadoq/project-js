@@ -115,6 +115,9 @@ export const getMasterTimelineById = createSelector(
     if (!masterTimelineId) {
       return undefined;
     }
+    if (!timebarTimelines || timebarTimelines.length === 0) {
+      return undefined;
+    }
     if (timebarTimelines[0].id === masterTimelineId) {
       return timebarTimelines[0];
     }

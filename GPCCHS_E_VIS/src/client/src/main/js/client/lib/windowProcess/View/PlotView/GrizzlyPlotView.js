@@ -1,7 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
-import _filter from 'lodash/filter';
 import classnames from 'classnames';
 import Dimensions from 'react-dimensions';
 import getLogger from 'common/log';
@@ -35,7 +34,7 @@ function parseDragData(data) {
 const plotPadding = 5;
 const mainStyle = { padding: `${plotPadding}px` };
 
-export class PlotView extends PureComponent {
+export class GrizzlyPlotView extends PureComponent {
   static propTypes = {
     containerWidth: PropTypes.number.isRequired,
     containerHeight: PropTypes.number.isRequired,
@@ -142,7 +141,13 @@ export class PlotView extends PureComponent {
   onDrop = this.drop.bind(this);
 
   getEntryPointErrors(supClass = '') {
-    const epWithErrors = _filter(this.props.entryPoints, ep => ep.error);
+    const epWithErrors = Object
+      .keys(this.props.entryPoints)
+      .filter(key => this.props.entryPoints[key].error)
+      .map(key => ({
+        error: this.props.entryPoints[key].error,
+        key,
+      }));
 
     return epWithErrors.length ?
       <CloseableAlert
@@ -160,7 +165,7 @@ export class PlotView extends PureComponent {
             .map(ep => (
               <div
                 className={styles.entryPointErrorSubDiv}
-                key={ep.name}
+                key={ep.key}
               >
                 {ep.name}: {ep.error}
               </div>
@@ -307,6 +312,6 @@ export class PlotView extends PureComponent {
   }
 }
 
-const SizeablePlotView = Dimensions()(PlotView);
+const SizeablePlotView = Dimensions()(GrizzlyPlotView);
 
 export default SizeablePlotView;

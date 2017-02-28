@@ -20,15 +20,14 @@ const addGlobalError = msg => addMessage('global', 'danger', msg);
 
 function workspaceOpenNew() {
   const store = getStore();
-  const { dispatch, getState } = store;
+  const { dispatch } = store;
   allDocumentsAreSaved(store, (err) => {
     if (err) {
       dispatch(addGlobalError(err));
       return;
     }
-    const folder = getState().hsc.folder;
     dispatch(closeWorkspace());
-    openDefaultWorkspace(dispatch, folder);
+    dispatch(openDefaultWorkspace());
   });
 }
 

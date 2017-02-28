@@ -13,6 +13,8 @@ import { add as addPage } from '../store/actions/pages';
 import { add as addWindow } from '../store/actions/windows';
 import { updatePath, setWorkspaceAsOpened, closeWorkspace } from '../store/actions/hsc';
 
+import loadDocumentsInStore from '../documentManager/loadDocumentsInStore';
+
 
 const logger = getLogger('main:openWorkspace');
 
@@ -151,14 +153,14 @@ const createBlankWorkspace = () => {
     timebarId: 'TB1',
   };
   const workspace = {
-    windows: { [wsUuid]: Object.assign(window, { uuid: wsUuid }) },
-    timebars: { [tbUuid]: Object.assign(timebar, { uuid: tbUuid }) },
-    pages: { [pgUuid]: Object.assign(page, { uuid: pgUuid }) },
+    windows: [Object.assign(window, { uuid: wsUuid })],
+    timebars: [Object.assign(timebar, { uuid: tbUuid })],
+    pages: [Object.assign(page, { uuid: pgUuid })],
   };
   return workspace;
 };
 
-export function openDefaultWorkspace(dispatch, root, callback) {
+export const openDefaultWorkspace = () => (dispatch) => {
   server.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', 'new workspace');
-  loadInStore(createBlankWorkspace(), dispatch, root, undefined, callback, true);
-}
+  dispatch(loadDocumentsInStore(createBlankWorkspace()));
+};

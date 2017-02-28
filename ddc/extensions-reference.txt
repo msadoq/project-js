@@ -1,4 +1,4 @@
-#GPCCHS 1.1.0 21/02/2017 extensions-reference.txt
+#GPCCHS 1.1.0 28/02/2017 extensions-reference.txt
 
 
 Fichiers avec suffixes

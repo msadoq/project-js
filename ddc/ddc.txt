@@ -1,8 +1,8 @@
-#GPCCHS 1.1.0 21/02/2017 ddc.txt
+#GPCCHS 1.1.0 28/02/2017 ddc.txt
 
 Dossier descriptif de configuration
 ===================================
-Fait le  : 21/02/2017
+Fait le  : 28/02/2017
 par      : Philippe Combes
 selon specification :
  - RNC-CNES-M-ST-40-102 Version 4

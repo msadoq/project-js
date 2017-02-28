@@ -1,4 +1,4 @@
-#GPCCHS 1.1.0 21/02/2017 liste-produit-installable.txt
+#GPCCHS 1.1.0 28/02/2017 liste-produit-installable.txt
 
 
 fr.cnes.lpisis.gpcc.js.gpcchs_e_vis_client

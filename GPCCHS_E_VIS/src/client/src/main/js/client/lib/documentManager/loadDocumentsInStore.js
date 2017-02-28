@@ -1,6 +1,7 @@
 import _ from 'lodash/fp';
 
-import { addAndMount as addAndMountTimeline, add as addTimebar } from '../store/actions/timebars';
+import { add as addTimeline } from '../store/actions/timelines';
+import { add as addTimebar } from '../store/actions/timebars';
 import { addAndMount as addAndMountView } from '../store/actions/pages';
 import { add as addWindow, addAndMount as addAndMountPage } from '../store/actions/windows';
 
@@ -14,7 +15,7 @@ const loadDocumentsInStore = documents => (dispatch) => {
   }, windows);
 
   // add timelines
-  _.each(tl => dispatch(addAndMountTimeline(tl.uuid, tl)), timelines);
+  _.each(tl => dispatch(addTimeline(tl.uuid, tl)), timelines);
 
   // add timebars
   _.each(tb => dispatch(addTimebar(tb.uuid, tb)), timebars);

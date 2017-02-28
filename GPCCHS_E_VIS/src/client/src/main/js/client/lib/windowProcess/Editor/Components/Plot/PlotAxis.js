@@ -3,10 +3,10 @@ import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
 import _get from 'lodash/get';
+import _memoize from 'lodash/memoize';
 import {
   Form,
 } from 'react-bootstrap';
-import getDynamicObject from '../../../common/getDynamicObject';
 import {
   ButtonToggleField, InputField,
 } from '../Fields/';
@@ -92,6 +92,8 @@ class PlotAxis extends PureComponent {
     }
   }
 
+  memoizeStyle = _memoize((color => ({ backgroundColor: color })))
+
   handleInitialize() {
     const initData = {
       label: '',
@@ -142,9 +144,7 @@ class PlotAxis extends PureComponent {
           <span
             key={ep.name}
             className={classnames('label', 'label-default', styles.relatedEntryPoint)}
-            style={getDynamicObject()(
-              { backgroundColor: _get(ep, ['objectStyle', 'curveColor'], '#333') }
-            )}
+            style={this.memoizeStyle(_get(ep, ['objectStyle', 'curveColor'], '#333'))}
           >
             {`${ep.name} X`}<br />
           </span>
@@ -155,9 +155,7 @@ class PlotAxis extends PureComponent {
           <span
             key={ep.name}
             className={classnames('label', 'label-default', styles.relatedEntryPoint)}
-            style={getDynamicObject()(
-              { backgroundColor: _get(ep, ['objectStyle', 'curveColor'], '#333') }
-            )}
+            style={this.memoizeStyle(_get(ep, ['objectStyle', 'curveColor'], '#333'))}ZZZ
           >
             {`${ep.name} Y`}<br />
           </span>

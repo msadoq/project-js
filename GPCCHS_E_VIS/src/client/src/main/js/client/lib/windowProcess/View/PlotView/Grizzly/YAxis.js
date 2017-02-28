@@ -11,8 +11,8 @@ export default class YAxis extends PureComponent {
   static propTypes = {
     getLabelPosition: PropTypes.func.isRequired,
     yAxisId: PropTypes.string.isRequired,
-    xAxisAt: PropTypes.string.isRequired,
-    yAxesAt: PropTypes.string.isRequired,
+    xAxisAt: PropTypes.string,
+    yAxesAt: PropTypes.string,
     index: PropTypes.number.isRequired,
     top: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
@@ -57,6 +57,8 @@ export default class YAxis extends PureComponent {
     showTicks: true,
     showGrid: true,
     gridStyle: 'Continuous',
+    xAxisAt: 'bottom',
+    yAxesAt: 'left',
     gridSize: 1,
     labelStyle: {
       color: '#333333',

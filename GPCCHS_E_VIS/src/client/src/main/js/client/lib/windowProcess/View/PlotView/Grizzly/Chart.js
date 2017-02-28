@@ -17,8 +17,8 @@ import XAxis from './XAxis';
 export default class Chart extends React.Component {
 
   static propTypes = {
-    yAxesAt: PropTypes.string.isRequired,
-    xAxisAt: PropTypes.string.isRequired,
+    yAxesAt: PropTypes.string,
+    xAxisAt: PropTypes.string,
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     current: PropTypes.number.isRequired,
@@ -61,6 +61,8 @@ export default class Chart extends React.Component {
   }
 
   static defaultProps = {
+    yAxesAt: 'left',
+    xAxisAt: 'bottom',
     enableTooltip: true,
     allowZoom: true,
     allowPan: true,

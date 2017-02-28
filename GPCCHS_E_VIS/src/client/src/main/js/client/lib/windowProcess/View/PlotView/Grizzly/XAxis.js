@@ -10,8 +10,8 @@ import styles from './GrizzlyChart.css';
 export default class XAxis extends PureComponent {
 
   static propTypes = {
-    yAxesAt: PropTypes.string.isRequired,
-    xAxisAt: PropTypes.string.isRequired,
+    yAxesAt: PropTypes.string,
+    xAxisAt: PropTypes.string,
     xAxisHeight: PropTypes.number.isRequired,
     showGrid: PropTypes.bool,
     width: PropTypes.number.isRequired,
@@ -25,6 +25,8 @@ export default class XAxis extends PureComponent {
   }
 
   static defaultProps = {
+    yAxesAt: 'left',
+    xAxisAt: 'bottom',
     showGrid: true,
     gridStyle: 'Continuous',
     gridSize: 1,

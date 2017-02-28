@@ -7,7 +7,7 @@ import { add as addMessage } from '../../store/actions/messages';
 import { getModifiedPagesIds } from '../../store/selectors/pages';
 import { getModifiedViewsIds } from '../../store/selectors/views';
 import { setModified as setModifiedWindow } from '../../store/actions/windows';
-import { updatePath, closeWorkspace, isWorkspaceOpening } from '../../store/actions/hsc';
+import { updatePath, isWorkspaceOpening } from '../../store/actions/hsc';
 import { saveWorkspace } from '../../common/documentManager';
 import { showQuestionMessage, getPathByFilePicker } from '../dialog';
 import { getStore } from '../../store/mainStore';
@@ -26,7 +26,6 @@ function workspaceOpenNew() {
       dispatch(addGlobalError(err));
       return;
     }
-    dispatch(closeWorkspace());
     dispatch(openDefaultWorkspace());
   });
 }

@@ -162,5 +162,6 @@ const createBlankWorkspace = () => {
 
 export const openDefaultWorkspace = () => (dispatch) => {
   server.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', 'new workspace');
+  dispatch(closeWorkspace());
   dispatch(loadDocumentsInStore(createBlankWorkspace()));
 };

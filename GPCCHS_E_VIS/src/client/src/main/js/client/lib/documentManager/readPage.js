@@ -72,16 +72,3 @@ export const loadPageInStore = pageInfo => (dispatch) => {
     server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', path);
   });
 };
-
-// used by readWorkspace
-export const readPages = pagesInfo => async.reduce(pagesInfo, {}, (documents, pageInfo, cb) => {
-  readPageAndViews(pageInfo, (err, pageAndViews) => {
-    if (err) {
-      return cb(err);
-    }
-    return cb(null, {
-      pages: documents.pages.concat(pageAndViews.pages),
-      views: documents.views.concat(pageAndViews.views),
-    });
-  });
-});

@@ -11,7 +11,7 @@ import { add as addTimebar } from '../store/actions/timebars';
 import { add as addView } from '../store/actions/views';
 import { add as addPage } from '../store/actions/pages';
 import { add as addWindow } from '../store/actions/windows';
-import { updatePath, setWorkspaceAsOpened, closeWorkspace } from '../store/actions/hsc';
+import { updatePath, closeWorkspace } from '../store/actions/hsc';
 
 import loadDocumentsInStore from '../documentManager/loadDocumentsInStore';
 
@@ -78,7 +78,6 @@ export function loadInStore(workspace, dispatch, root, file, callback, isDefault
 
   // workspace path
   dispatch(updatePath(root, file));
-  dispatch(setWorkspaceAsOpened());
 
   return (typeof callback === 'function') ? callback(null) : undefined;
 }

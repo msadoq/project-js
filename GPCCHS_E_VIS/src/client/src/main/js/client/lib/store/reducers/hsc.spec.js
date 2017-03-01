@@ -28,10 +28,6 @@ describe('store:hsc:reducer', () => {
     reducer(undefined, actions.setWindowsAsOpened())
       .should.have.property('windowsOpened', true);
   });
-  it('should update workspace state', () => {
-    reducer(undefined, actions.setWorkspaceAsOpened())
-      .should.have.property('workspaceOpened', true);
-  });
   it('should update filepath', () => {
     const state = reducer(undefined, actions.updatePath('myFolder', 'myFile'));
     state.should.have.property('folder', 'myFolder');

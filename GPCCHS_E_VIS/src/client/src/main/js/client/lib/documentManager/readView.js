@@ -1,4 +1,3 @@
-import async from 'async';
 import { v4 } from 'uuid';
 
 import { LOG_DOCUMENT_OPEN } from 'common/constants';
@@ -61,6 +60,3 @@ export const loadViewInStore = viewInfo => (dispatch) => {
     server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', view.absolutePath);
   });
 };
-
-// used by readPage
-export const readViews = (viewsInfo, cb) => async.map(viewsInfo, simpleReadView, cb);

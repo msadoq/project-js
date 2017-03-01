@@ -10,7 +10,7 @@ import { readDocument } from './io';
 import fs from '../common/fs';
 import validation from './validation';
 
-import { readViews } from './readView';
+import { simpleReadView } from './readView';
 import { add as addMessage } from '../store/actions/messages';
 import loadDocumentsInStore from './loadDocumentsInStore';
 
@@ -37,6 +37,8 @@ export const simpleReadPage = (pageInfo, cb) => {
     });
   });
 };
+
+const readViews = (viewsInfo, cb) => async.map(viewsInfo, simpleReadView, cb);
 
 export const readPageAndViews = (pageInfo, cb) => {
   simpleReadPage(pageInfo, (errPage, page) => {

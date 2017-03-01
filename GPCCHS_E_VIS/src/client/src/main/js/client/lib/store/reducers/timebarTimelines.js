@@ -6,6 +6,8 @@ import * as types from '../types';
 // corresponding between timebars and timelines
 export default function timebarTimelines(stateTbTl = {}, action) {
   switch (action.type) {
+    case types.HSC_CLOSE_WORKSPACE:
+      return {};
     case types.WS_TBTL_ADD_TIMEBAR:
       if (stateTbTl[action.payload.timebarUuid]) {
         return stateTbTl;

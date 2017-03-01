@@ -1,17 +1,154 @@
+import _ from 'lodash/fp';
+import { dirname, basename } from 'path';
 import async from 'async';
+import { v4 } from 'uuid';
 
+import getLogger from 'common/log';
+import { LOG_DOCUMENT_OPEN } from 'common/constants';
+import { server } from '../mainProcess/ipc';
+
+import fmdApi from '../common/fmd';
+import fs from '../common/fs';
+import validation from './validation';
+
+import { readDocument } from './io';
 import { readPageAndViews } from './readPage';
+import loadDocumentsInStore from './loadDocumentsInStore';
 
-const readPages = pagesInfo => async.reduce(pagesInfo, {}, (documents, pageInfo, cb) => {
-  readPageAndViews(pageInfo, (err, pageAndViews) => {
+import { updatePath as updateWorkspacePath, isWorkspaceOpening, closeWorkspace } from '../store/actions/hsc';
+import { add as addMessage } from '../store/actions/messages';
+
+const logger = getLogger('documentManager:readWorkspace');
+
+const addGlobalError = msg => addMessage('global', 'danger', msg);
+
+/* Prepare workspace */
+const injectUuids = _.map(_.update('uuid', v4));
+const injectUuidsIn = key => _.update(key, injectUuids);
+
+const copyProp = _.curry((keyFrom, keyTo, obj) => {
+  const value = _.get(keyFrom, obj);
+  return value ? _.set(keyTo, value, obj) : obj;
+});
+
+const flattenTimelines = _.pipe(
+  copyProp('timebars', 'timelines'),
+  _.update('timelines', _.flatMap('timelines')),
+  _.update('timebars', _.map(_.update('timelines', _.map('uuid'))))
+);
+
+const updateAllPages = (transform, documents) => (
+  _.update('windows', _.map(_.update('pages', _.map(transform))), documents)
+);
+
+const findTimebarById = (id, timebars) => timebars.find(t => t.id === id);
+
+const hydrateTimebarsUuidInPages = documents => (
+  updateAllPages((page) => {
+    const timebar = findTimebarById(page.timebarId, documents.timebars);
+    return _.set('timebarUuid', timebar.uuid, page);
+  }, documents)
+);
+
+const prepareWorkspace = _.pipe(
+  injectUuidsIn('windows'),
+  injectUuidsIn('timebars'),
+  _.update('windows', _.map(_.update('pages', injectUuids))),
+  _.update('timebars', _.map(_.update('timelines', injectUuids))),
+  flattenTimelines,
+  hydrateTimebarsUuidInPages
+);
+/* ----------------- */
+
+const simpleReadWorkspace = (workspaceInfo, cb) => {
+  const { absolutePath } = workspaceInfo;
+  readDocument(fmdApi)(undefined, undefined, undefined, absolutePath, (err, workspaceContent) => {
     if (err) {
       return cb(err);
     }
-    return cb(null, {
-      pages: documents.pages.concat(pageAndViews.pages),
-      views: documents.views.concat(pageAndViews.views),
+    const validationError = validation('workspace', workspaceContent);
+    if (validationError) {
+      return cb(validationError);
+    }
+
+    const workspace = {
+      ...workspaceContent,
+      ...workspaceInfo,
+      absolutePath: fs.getPath(), // ugly side effects
+    };
+    return cb(null, prepareWorkspace(workspace));
+  });
+};
+
+const initialDocuments = { pages: [], views: [] };
+const readPagesAndViews = (pagesInfo, done) => (
+  async.reduce(pagesInfo, initialDocuments, (documents, pageInfo, cb) => {
+    readPageAndViews(pageInfo, (err, pageAndViews) => {
+      if (err) {
+        return cb(err);
+      }
+      return cb(null, _.pipe(
+        _.update('pages', _.concat(_, pageAndViews.pages)),
+        _.update('views', _.concat(_, pageAndViews.views))
+      )(documents));
+    });
+  }, done)
+);
+
+const readWorkspacePagesAndViews = (workspaceInfo, cb) => {
+  simpleReadWorkspace(workspaceInfo, (errWorkspace, workspace) => {
+    if (errWorkspace) {
+      return cb(errWorkspace);
+    }
+    const allPages = _.flatMap(w => (
+      _.map(page => ({
+        ...page,
+        windowId: w.uuid,
+        workspaceFolder: dirname(workspace.absolutePath),
+      }), w.pages)
+    ), workspace.windows);
+    return readPagesAndViews(allPages, (errPages, documents) => {
+      if (errPages) {
+        return cb(errPages);
+      }
+      const clearPages = _.update('windows', _.map(_.update('pages', _.map('uuid'))));
+      return cb(null, {
+        ...clearPages(workspace),
+        ...documents,
+      });
     });
   });
-});
+};
 
-export default readPages;
+const logLoadedDocumentsCount = (documents) => {
+  const count = {
+    w: _.size(documents.windows),
+    p: _.size(documents.pages),
+    v: _.size(documents.views),
+  };
+  logger.info(`${count.w} windows, ${count.p} pages, ${count.v} views`);
+};
+
+const loadWorkspaceInStore = (workspaceInfo, cb = _.noop) => (dispatch) => {
+  const path = workspaceInfo.absolutePath;
+  dispatch(isWorkspaceOpening(true));
+  readWorkspacePagesAndViews(workspaceInfo, (err, documents) => {
+    if (err) {
+      dispatch(isWorkspaceOpening(false));
+      dispatch(addGlobalError(err));
+      return cb(err);
+    }
+
+    dispatch(closeWorkspace());
+    dispatch(isWorkspaceOpening(false));
+    dispatch(loadDocumentsInStore(documents));
+
+    logLoadedDocumentsCount(documents);
+    server.sendProductLog(LOG_DOCUMENT_OPEN, 'workspace', path);
+
+    dispatch(updateWorkspacePath(dirname(path), basename(path)));
+    return cb(null);
+  });
+};
+
+export default loadWorkspaceInStore;

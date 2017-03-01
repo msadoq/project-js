@@ -30,7 +30,7 @@
         "format": "decimal",
         "domain": "fr.cnes.isis.simupus",
         "timeline": "Session 1",
-        "axisId": "VBat 2"
+        "axisId": "vbat2"
       },
       "objectStyle": {
         "line": {
@@ -451,6 +451,7 @@
   "axes": [
     {
       "label": "Time",
+      "id": "Time",
       "unit": "s",
       "style": {
         "font": "Arial",
@@ -474,6 +475,7 @@
     },
     {
       "label": "VBat",
+      "id": "VBat",
       "unit": "V",
       "style": {
         "font": "Arial",
@@ -496,7 +498,8 @@
       "showAxis": true
     },
     {
-      "label": "VBat 2",
+      "label": "vBat 2",
+      "id": "vbat2",
       "unit": "V",
       "style": {
         "font": "Arial",
@@ -521,6 +524,7 @@
     },
     {
       "label": "VBat 3",
+      "id": "vbat3",
       "unit": "V",
       "style": {
         "font": "Arial",
@@ -544,6 +548,7 @@
     },
     {
       "label": "VBat 4",
+      "id": "vbat4",
       "unit": "V",
       "style": {
         "font": "Arial",

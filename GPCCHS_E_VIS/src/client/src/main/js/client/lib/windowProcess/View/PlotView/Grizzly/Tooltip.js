@@ -17,6 +17,7 @@ export default class Tooltip extends React.Component {
     top: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
+    yAxisWidth: PropTypes.number.isRequired,
     xScale: PropTypes.func.isRequired,
     yAxesAt: PropTypes.string.isRequired,
   }
@@ -132,6 +133,8 @@ export default class Tooltip extends React.Component {
       top,
       margin,
       tooltipColor,
+      yAxes,
+      yAxisWidth,
     } = this.props;
     const {
       showTooltip,
@@ -176,6 +179,18 @@ export default class Tooltip extends React.Component {
       tooltipStyle.top = (yInRange - tooltipStyle.height) - 8;
     }
 
+    const xLabelStyle = {};
+    if (xInRange > width - 64) {
+      xLabelStyle.right = 0;
+      xLabelStyle.transform = 'translateY(100%)';
+    } else if (xInRange < 64) {
+      xLabelStyle.left = 0;
+      xLabelStyle.transform = 'translateY(100%)';
+    } else {
+      xLabelStyle.left = xInRange;
+      xLabelStyle.transform = 'translate(-50%, 100%)';
+    }
+
     return (
       <div
         onMouseMove={this.mouseMove}
@@ -196,6 +211,31 @@ export default class Tooltip extends React.Component {
           />
         }
         {
+          ['left', 'right'].includes(yAxesAt) && yAxes.map((axis, index) => {
+            const yLabelStyle = {};
+            if (yAxesAt === 'left') {
+              yLabelStyle.left = ((index * yAxisWidth) * -1) - 8;
+              yLabelStyle.transform = 'translate(-100%, -50%)';
+            } else {
+              yLabelStyle.right = ((index * yAxisWidth) * -1) - 8;
+              yLabelStyle.transform = 'translate(100%, -50%)';
+            }
+            return (
+              <span
+                key={axis.id}
+                className={classnames('label', styles.tooltipYLabel)}
+                style={{
+                  opacity: showTooltip ? 1 : 0,
+                  ...yLabelStyle,
+                  top: yInRange,
+                }}
+              >
+                {axis.yScale.invert(yInRange).toFixed(2)}
+              </span>
+            );
+          })
+        }
+        {
           tooltiLinesToDisplay &&
           <span
             className={styles.tooltipHorizontalCursor}
@@ -205,6 +245,17 @@ export default class Tooltip extends React.Component {
               top: yInRange,
             }}
           />
+        }
+        {
+          <span
+            className={classnames('label', styles.tooltipXLabel)}
+            style={{
+              opacity: showTooltip ? 1 : 0,
+              ...xLabelStyle,
+            }}
+          >
+            {this.timeFormat(new Date(xInDomain))}
+          </span>
         }
         {
           tooltiLinesToDisplay &&

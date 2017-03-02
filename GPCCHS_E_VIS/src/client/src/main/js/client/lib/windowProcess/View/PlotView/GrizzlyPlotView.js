@@ -1,6 +1,8 @@
 import React, { PureComponent, PropTypes } from 'react';
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
+import _max from 'lodash/max';
+import _min from 'lodash/min';
 import classnames from 'classnames';
 import Dimensions from 'react-dimensions';
 import getLogger from 'common/log';
@@ -31,7 +33,7 @@ function parseDragData(data) {
   };
 }
 
-const plotPadding = 10;
+const plotPadding = 15;
 const mainStyle = { padding: `${plotPadding}px` };
 
 export class GrizzlyPlotView extends PureComponent {
@@ -244,6 +246,7 @@ export class GrizzlyPlotView extends PureComponent {
     const {
       containerWidth,
       containerHeight,
+      data,
       data: { columns },
       configuration: { showYAxes, axes, grids, entryPoints },
       visuWindow,
@@ -266,7 +269,7 @@ export class GrizzlyPlotView extends PureComponent {
           height={containerHeight - (plotPadding * 2)}
           width={containerWidth - (plotPadding * 2)}
           enableTooltip
-          tooltipColor="white"
+          tooltipColor="blue"
           allowZoom
           allowPan
           xExtents={xExtents}
@@ -275,15 +278,24 @@ export class GrizzlyPlotView extends PureComponent {
           xAxisAt="bottom"
           yAxes={yAxes.map((axis) => {
             const grid = grids.find(g => g.yAxisId === axis.id || g.yAxisId === axis.label);
+            const axisEntryPoints = entryPoints
+              .filter(ep => _get(ep, ['connectedDataY', 'axisId']) === axis.id);
             return {
-              id: axis.id || axis.label,
-              yExtents: [axis.min, axis.max],
+              id: axis.id,
+              yExtents:
+                axis.autoLimits === true ?
+                [
+                  _min(axisEntryPoints.map(ep => data.min[ep.name])),
+                  _max(axisEntryPoints.map(ep => data.max[ep.name])),
+                ]
+                :
+                [axis.min, axis.max],
               data: columns,
               orient: 'top',
               showAxis: axis.showAxis === true,
               showLabels: axis.showLabels === true,
               showTicks: axis.showTicks === true,
-              autoLimits: axis.autoLimits === true,
+              autoLimits: false,
               showGrid: _get(grid, 'showGrid', false),
               gridStyle: _get(grid, ['line', 'style']),
               gridSize: _get(grid, ['line', 'size']),

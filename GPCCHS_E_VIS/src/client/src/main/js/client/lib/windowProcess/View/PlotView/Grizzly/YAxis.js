@@ -1,7 +1,6 @@
 import React, { PropTypes, PureComponent } from 'react';
 import classnames from 'classnames';
 import _memoize from 'lodash/memoize';
-import { scaleLinear } from 'd3-scale';
 import { select } from 'd3-selection';
 import { axisLeft, axisRight } from 'd3-axis';
 import styles from './GrizzlyChart.css';
@@ -14,6 +13,7 @@ export default class YAxis extends PureComponent {
     xAxisAt: PropTypes.string,
     yAxesAt: PropTypes.string,
     index: PropTypes.number.isRequired,
+    yScale: PropTypes.func.isRequired,
     top: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     yAxisWidth: PropTypes.number.isRequired,
@@ -46,9 +46,6 @@ export default class YAxis extends PureComponent {
       underline: PropTypes.bool,
       size: PropTypes.number,
     }),
-    yExtents: PropTypes.arrayOf(
-      PropTypes.number
-    ).isRequired,
   }
 
   static defaultProps = {
@@ -80,18 +77,11 @@ export default class YAxis extends PureComponent {
 
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
-    ['yAxesAt', 'top', 'height', 'yAxisWidth', 'margin', 'chartWidth'].forEach((attr) => {
+    ['yAxesAt', 'top', 'height', 'yAxisWidth', 'margin', 'chartWidth', 'yScale'].forEach((attr) => {
       if (nextProps[attr] !== this.props[attr]) {
         shouldRender = true;
       }
     });
-
-    if (
-      nextProps.yExtents[0] !== this.props.yExtents[0] ||
-      nextProps.yExtents[1] !== this.props.yExtents[1]
-    ) {
-      shouldRender = true;
-    }
 
     // update line label refs's style attribute
     if (!shouldRender) {
@@ -108,12 +98,6 @@ export default class YAxis extends PureComponent {
   }
 
   ticksXOffset = 8;
-
-  memoizeYScale = _memoize((hash, yExtentsLower, yExtentsUpper, height) =>
-    scaleLinear()
-      .domain([yExtentsLower, yExtentsUpper])
-      .range([0, height])
-  );
 
   axisDidDraw = () => {
     const {
@@ -190,9 +174,8 @@ export default class YAxis extends PureComponent {
   draw = () => {
     const {
       yAxesAt,
-      height,
       yAxisWidth,
-      yExtents,
+      yScale,
       chartWidth,
       index,
       showTicks,
@@ -200,13 +183,6 @@ export default class YAxis extends PureComponent {
       gridStyle,
       xAxisAt,
     } = this.props;
-
-    const yScale = this.memoizeYScale(
-      `${yExtents[0]}-${yExtents[1]}-${height}`,
-      yExtents[0],
-      yExtents[1],
-      height
-    );
 
     const tickFormat = showTicks ? d => d : () => null;
 

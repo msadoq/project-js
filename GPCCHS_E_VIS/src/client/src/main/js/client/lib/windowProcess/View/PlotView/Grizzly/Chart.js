@@ -168,7 +168,12 @@ export default class Chart extends React.Component {
             axis.yExtents[1]
           );
         }
-
+        const yScale = this.memoizeYScale(
+          `${yExtents[0]}-${yExtents[1]}-${this.chartHeight}`,
+          yExtents[0],
+          yExtents[1],
+          this.chartHeight
+        );
         // rank axes to sort them and define the master / grid showing one
         let rank = 0;
         if (axis.showGrid) rank += 2;
@@ -177,6 +182,7 @@ export default class Chart extends React.Component {
           ...axis,
           lines: axisLines,
           yExtents,
+          yScale,
           // rank
           rank,
         };
@@ -226,6 +232,12 @@ export default class Chart extends React.Component {
       return orient === 'top' ? [upperR, lowerR] : [lowerR, upperR];
     }
   )
+
+  memoizeYScale = _memoize((hash, yExtentsLower, yExtentsUpper, height) =>
+    scaleLinear()
+      .domain([yExtentsLower, yExtentsUpper])
+      .range([0, height])
+  );
 
   memoizeYExtents = _memoize((hash, orient, lower, upper) =>
     (orient === 'top' ? [upper, lower] : [lower, upper])
@@ -284,37 +296,37 @@ export default class Chart extends React.Component {
 
     const { zoomLevel, pan } = this.state;
 
-    this.yAxes = this.getSortedAndValidYAxes();
-
-    // Set chartWidth depending on yAxesAt (left/right/other)
-    // and number of yAxes
-    const chartWidth = ['left', 'right'].includes(yAxesAt) ?
-      width - (this.yAxes.length * this.yAxisWidth)
-      :
-      width;
-
     // Set chartHeight depending on xAxisAt (top/bottom/other)
-    const chartHeight = ['top', 'bottom'].includes(xAxisAt) ?
+    this.chartHeight = ['top', 'bottom'].includes(xAxisAt) ?
       height - this.xAxisHeight
       :
       height;
 
+    this.yAxes = this.getSortedAndValidYAxes();
+
+    // Set chartWidth depending on yAxesAt (left/right/other)
+    // and number of yAxes
+    this.chartWidth = ['left', 'right'].includes(yAxesAt) ?
+      width - (this.yAxes.length * this.yAxisWidth)
+      :
+      width;
+
     const memoized = this.memoizeCalculatedXExtents(
-      `${xExtents[0]}-${xExtents[1]}-${pan}-${zoomLevel}-${chartWidth}`,
+      `${xExtents[0]}-${xExtents[1]}-${pan}-${zoomLevel}-${this.chartWidth}`,
       xExtents[0],
       xExtents[1],
       pan,
       zoomLevel,
-      chartWidth
+      this.chartWidth
     );
     const calculatedXExtents = memoized[0];
     const panMs = memoized[1];
 
     const xScale = this.memoizeXScale(
-      `${calculatedXExtents[0]}-${calculatedXExtents[1]}-${chartWidth}`,
+      `${calculatedXExtents[0]}-${calculatedXExtents[1]}-${this.chartWidth}`,
       calculatedXExtents[0],
       calculatedXExtents[1],
-      chartWidth
+      this.chartWidth
     );
 
     const marginTop = xAxisAt === 'top' ? this.xAxisHeight : 0;
@@ -355,8 +367,8 @@ export default class Chart extends React.Component {
           }
         </div>
         <CurrentCursorCanvas
-          width={chartWidth}
-          height={chartHeight}
+          width={this.chartWidth}
+          height={this.chartHeight}
           xAxisAt={xAxisAt}
           current={current}
           yAxesAt={yAxesAt}
@@ -367,19 +379,20 @@ export default class Chart extends React.Component {
         { enableTooltip && <Tooltip
           tooltipColor={tooltipColor}
           yAxes={this.yAxes}
-          width={chartWidth}
-          height={chartHeight}
+          width={this.chartWidth}
+          height={this.chartHeight}
           top={marginTop}
           margin={marginSide}
           xScale={xScale}
           yAxesAt={yAxesAt}
+          yAxisWidth={this.yAxisWidth}
         /> }
         {
           this.yAxes.map(yAxis =>
             <LinesCanvas
               key={yAxis.id}
-              width={chartWidth}
-              height={chartHeight}
+              width={this.chartWidth}
+              height={this.chartHeight}
               xAxisAt={xAxisAt}
               yAxesAt={yAxesAt}
               top={marginTop}
@@ -409,12 +422,12 @@ export default class Chart extends React.Component {
               axisLabel={yAxis.axisLabel}
               gridSize={yAxis.gridSize}
               yAxisWidth={this.yAxisWidth}
-              chartWidth={chartWidth}
-              height={chartHeight}
+              chartWidth={this.chartWidth}
+              height={this.chartHeight}
               xAxisAt={xAxisAt}
               top={marginTop}
               yAxesAt={yAxesAt}
-              yExtents={yAxis.yExtents}
+              yScale={yAxis.yScale}
               label={yAxis.label}
               unit={yAxis.unit}
               labelStyle={yAxis.labelStyle}
@@ -428,8 +441,8 @@ export default class Chart extends React.Component {
           gridSize={_get(this.yAxes, '0.gridSize')}
           margin={marginSide}
           xAxisHeight={this.xAxisHeight}
-          height={chartHeight}
-          width={chartWidth}
+          height={this.chartHeight}
+          width={this.chartWidth}
           xAxisAt={xAxisAt}
           yAxesAt={yAxesAt}
           xExtents={calculatedXExtents}

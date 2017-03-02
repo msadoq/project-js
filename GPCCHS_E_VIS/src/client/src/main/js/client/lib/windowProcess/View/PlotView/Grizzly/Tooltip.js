@@ -20,6 +20,7 @@ export default class Tooltip extends React.Component {
     yAxisWidth: PropTypes.number.isRequired,
     xScale: PropTypes.func.isRequired,
     yAxesAt: PropTypes.string.isRequired,
+    xAxisAt: PropTypes.string.isRequired,
   }
 
   state = {
@@ -135,6 +136,7 @@ export default class Tooltip extends React.Component {
       tooltipColor,
       yAxes,
       yAxisWidth,
+      xAxisAt,
     } = this.props;
     const {
       showTooltip,
@@ -179,18 +181,25 @@ export default class Tooltip extends React.Component {
       tooltipStyle.top = (yInRange - tooltipStyle.height) - 8;
     }
 
-    const xLabelStyle = {};
+    const xLabelStyle = {
+      transform: '',
+    };
     if (xInRange > width - 64) {
       xLabelStyle.right = 0;
-      xLabelStyle.transform = 'translateY(100%)';
     } else if (xInRange < 64) {
       xLabelStyle.left = 0;
-      xLabelStyle.transform = 'translateY(100%)';
     } else {
       xLabelStyle.left = xInRange;
-      xLabelStyle.transform = 'translate(-50%, 100%)';
+      xLabelStyle.transform += 'translateX(-50%) ';
     }
 
+    if (xAxisAt === 'bottom') {
+      xLabelStyle.bottom = -8;
+      xLabelStyle.transform += 'translateY(100%)';
+    } else {
+      xLabelStyle.top = -8;
+      xLabelStyle.transform += 'translateY(-100%)';
+    }
     return (
       <div
         onMouseMove={this.mouseMove}

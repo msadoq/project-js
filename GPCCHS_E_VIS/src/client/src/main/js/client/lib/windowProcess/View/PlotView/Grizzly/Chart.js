@@ -385,6 +385,7 @@ export default class Chart extends React.Component {
           margin={marginSide}
           xScale={xScale}
           yAxesAt={yAxesAt}
+          xAxisAt={xAxisAt}
           yAxisWidth={this.yAxisWidth}
         /> }
         {

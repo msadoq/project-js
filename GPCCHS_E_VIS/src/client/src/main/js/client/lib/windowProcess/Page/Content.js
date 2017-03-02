@@ -1,7 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import _omit from 'lodash/omit';
 import classnames from 'classnames';
-import _isEqual from 'lodash/isEqual';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import getLogger from 'common/log';
 import makeViewContainer from '../View/ViewContainer';
@@ -53,19 +52,9 @@ export default class Content extends PureComponent {
     timebarUuid: null,
   }
 
-  onLayoutChange = (layout = []) => {
-    if (!this.props.updateLayout) {
-      return;
-    }
-
+  onResizeView = (layout = []) => {
     const newLayout = layout.map(block => _omit(block, filterLayoutBlockFields));
-
-    if (_isEqual(newLayout, this.previousLayout)) {
-      return;
-    }
-
     this.props.updateLayout(newLayout);
-    this.previousLayout = newLayout;
   };
 
   cols = { lg: 12 };
@@ -104,7 +93,8 @@ export default class Content extends PureComponent {
         breakpoints={this.breakpoints}
         cols={this.cols}
         draggableHandle=".moveHandler"
-        onLayoutChange={this.onLayoutChange}
+        onResizeStop={this.onResizeView}
+        onDragStop={this.onResizeView}
         measureBeforeMount
       >
         {views.map((v) => {

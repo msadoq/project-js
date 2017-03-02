@@ -2,7 +2,7 @@ import globalConstants from 'common/constants';
 
 import extractValues, { select } from './extractValues';
 
-describe('data/map/extractValues', () => {
+describe('dataManager/range/extractValues', () => {
   const payload = { rId1: {}, rId2: {} };
   for (let j = 10; j < 21; j += 1) {
     payload.rId1[j] = {
@@ -109,7 +109,12 @@ describe('data/map/extractValues', () => {
     });
     it('state not empty', () => {
       const oldState = { 10: { ep10: { x: 11.5, col1: 101 } },
-        12.5: { ep10: { x: 12.5, value: 102 } } };
+        12.5: { ep10: { x: 12.5, value: 102 } },
+        min: { ep10: 101 },
+        max: { ep10: 102 },
+        minTime: { ep10: 10 },
+        maxTime: { ep10: 12.5 },
+      };
       const newState = select(payload.rId1, viewDataMap.plot1.entryPoints.ep1,
         'ep1', oldState, expectedIntervals);
       newState['10'].should.eql({ ep1: { x: 10.2, value: 101, color: '#0000FF', symbol: undefined },
@@ -117,7 +122,13 @@ describe('data/map/extractValues', () => {
       newState['15'].should.eql({ ep1: { x: 15.2, value: 151, color: '#0000FF', symbol: undefined } });
     });
     it('no change', () => {
-      const oldState = { 10: { ep1: [{ x: 1001.5, col1: 101 }, { x: 1002.5, value: 102 }] } };
+      const oldState = { 10: { ep1: { x: 1001.5, col1: 101 } },
+        11: { ep1: { x: 1002.5, value: 102 } },
+        min: { ep1: 101 },
+        max: { ep1: 102 },
+        minTime: { ep1: 10 },
+        maxTime: { ep1: 11 },
+      };
       const newState = select(payload.rId1, viewDataMap.plot3.entryPoints.ep1,
         'ep1', oldState, expectedIntervals);
       newState.should.deep.equal({});
@@ -134,7 +145,7 @@ describe('data/map/extractValues', () => {
       viewData.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_RANGE);
       viewData.add['10'].should.eql({ ep1: { x: 10.2, value: 101, color: '#0000FF', symbol: undefined } });
       viewData.add['15'].should.eql({ ep1: { x: 15.2, value: 151, color: '#0000FF', symbol: undefined } });
-      Object.keys(viewData.add).should.have.length(6);
+      Object.keys(viewData.add).should.have.length(10);
     });
     it('multiple entry point', () => {
       const viewData = extractValues({}, expectedIntervals, payload, 'myId', viewDataMap.plot2.entryPoints);
@@ -148,7 +159,7 @@ describe('data/map/extractValues', () => {
         ep3: { x: 14.2, symbol: 'val4', value: 4 } });
       viewData.add['18'].should.eql({ ep2: { x: 16.2, value: 162, color: '#0000FF', symbol: undefined },
         ep3: { x: 18.2, symbol: 'val8', value: 8 } });
-      Object.keys(viewData.add).should.have.length(5);
+      Object.keys(viewData.add).should.have.length(9);
     });
   });
 });

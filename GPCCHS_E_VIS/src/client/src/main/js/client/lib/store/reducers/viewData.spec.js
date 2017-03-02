@@ -165,6 +165,10 @@ describe('store:viewData:reducer', () => {
               ep3: { value: 11, x: 11.2, symbol: 'val11' } },
             { x: 12, ep2: { value: 122, x: 12.2, symbol: undefined } },
           ],
+          min: { ep2: 82, ep3: 9 },
+          max: { ep2: 122, ep3: 11 },
+          minTime: { ep2: 8, ep3: 9 },
+          maxTime: { ep2: 12, ep3: 11 },
         },
       });
     });
@@ -187,6 +191,10 @@ describe('store:viewData:reducer', () => {
               ep3: { value: 9, x: 9.2, symbol: 'val9' } },
             { x: 10, ep2: { value: 102, x: 10.2, symbol: undefined } },
           ],
+          min: { ep2: 72, ep3: 7 },
+          max: { ep2: 122, ep3: 11 },
+          minTime: { ep2: 7, ep3: 7 },
+          maxTime: { ep2: 10, ep3: 9 },
         } };
 
       reducer(Object.freeze(state), updateViewData(oldViewMap, newViewMap,
@@ -211,6 +219,10 @@ describe('store:viewData:reducer', () => {
               ep3: { value: 11, x: 11.2, symbol: 'val11' } },
             { x: 12, ep2: { value: 122, x: 12.2, symbol: undefined } },
           ],
+          min: { ep2: 82, ep3: 9 },
+          max: { ep2: 122, ep3: 11 },
+          minTime: { ep2: 8, ep3: 9 },
+          maxTime: { ep2: 12, ep3: 11 },
         },
       });
     });

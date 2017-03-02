@@ -69,7 +69,7 @@ const createDeepEqualSelectorForTimelines = createSelectorCreator(
   defaultMemoize,
   timelineEqualityCheck
 );
-const timebarTimelinesSelector = createDeepEqualSelectorForTimelines(
+export const timebarTimelinesSelector = createDeepEqualSelectorForTimelines(
   getTimelines,
   (state, { timebarUuid }) => getTimebar(state, timebarUuid),
   (state, { timelines, timebar }) => {
@@ -85,9 +85,6 @@ const timebarTimelinesSelector = createDeepEqualSelectorForTimelines(
     }, []);
   }
 );
-export function getTimebarTimelines(state, timebarUuid) {
-  return timebarTimelinesSelector(state, { timebarUuid });
-}
 // ********************************************************
 
 /**

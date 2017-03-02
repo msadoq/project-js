@@ -151,6 +151,10 @@ describe('cleanViewData', () => {
           { STAT_SU_PID: { value: 13, x: 15 } },
           { STAT_SU_PID: { value: 13, x: 16 } },
         ],
+        min: { STAT_SU_PID: 13 },
+        max: { STAT_SU_PID: 13 },
+        minTime: { STAT_SU_PID: 16 },
+        maxTime: { STAT_SU_PID: 16 },
       },
       text: {
         index: {
@@ -222,6 +226,10 @@ describe('cleanViewData', () => {
       { STAT_SU_PID: { value: 13, x: 16 } },
     ]);
     newState.plot.index.should.eql([15, 16]);
+    newState.plot.min.should.eql({ STAT_SU_PID: 13 });
+    newState.plot.max.should.eql({ STAT_SU_PID: 13 });
+    newState.plot.minTime.should.eql({ STAT_SU_PID: 16 });
+    newState.plot.maxTime.should.eql({ STAT_SU_PID: 16 });
   });
   it('interval update Plot: remove all', () => {
     const newMap = _cloneDeep(viewMap);
@@ -230,6 +238,13 @@ describe('cleanViewData', () => {
       = [20, 25];
     const newState =
       cleanViewData(Object.freeze(viewDataState), viewMap, newMap, oldIntervals, newIntervals);
-    newState.plot.should.eql({ index: [], columns: [] });
+    newState.plot.should.eql(
+      { index: [],
+        columns: [],
+        min: { STAT_SU_PID: 13 },
+        max: { STAT_SU_PID: 13 },
+        minTime: { STAT_SU_PID: 16 },
+        maxTime: { STAT_SU_PID: 16 },
+      });
   });
 });

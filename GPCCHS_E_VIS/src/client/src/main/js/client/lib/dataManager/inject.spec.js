@@ -124,6 +124,10 @@ describe('dataManager/inject', () => {
       index: [10, 14],
       columns: [{ x: 10, ep5: { x: 10.2, value: 100 }, ep3: { x: 12.2, value: 25 } },
                 { x: 14, ep5: { x: 10.7, value: 100 }, ep3: { x: 12.7, value: 25 } }],
+      min: { ep5: 100, ep3: 25 },
+      max: { ep5: 100, ep3: 25 },
+      minTime: { ep5: 14, ep3: 14 },
+      maxTime: { ep5: 14, ep3: 14 },
     },
     text2: {
       index: { ep2: 18, ep3: 21 },
@@ -139,11 +143,11 @@ describe('dataManager/inject', () => {
       bag = selectData({}, viewDataMap, intervals, payload, count);
       bag.should.have.all.keys(['plot1', 'plot2', 'plot3', 'text1', 'text2']);
       bag.plot1.should.have.all.keys(['remove', 'add', 'structureType', 'type']);
-      bag.plot1.add.should.have.all.keys(['10', '11', '12', '13', '14', '15']);
+      bag.plot1.add.should.have.all.keys(['10', '11', '12', '13', '14', '15', 'min', 'max', 'minTime', 'maxTime']);
       bag.plot1.remove.should.have.all.keys(['lower', 'upper']);
       bag.plot1.structureType.should.equal(globalConstants.DATASTRUCTURETYPE_RANGE);
       bag.plot2.should.have.all.keys(['remove', 'add', 'structureType', 'type']);
-      bag.plot2.add.should.have.all.keys(['14', '15', '16', '17', '18']);
+      bag.plot2.add.should.have.all.keys(['14', '15', '16', '17', '18', 'min', 'max', 'minTime', 'maxTime']);
       bag.plot2.add[14].should.have.keys('ep2', 'ep3');
       bag.plot2.remove.should.have.all.keys(['lower', 'upper']);
       bag.plot2.remove.lower.should.equal(14);

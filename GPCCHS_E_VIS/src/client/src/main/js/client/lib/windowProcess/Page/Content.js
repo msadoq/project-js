@@ -79,7 +79,23 @@ export default class Content extends PureComponent {
         <div className={styles.noPage}>No view yet ...</div>
       );
     }
-
+    const viewMaximized = views.find(view => view.configuration.maximized);
+    if (viewMaximized) {
+      const ViewContainer = makeViewContainer();
+      const isViewsEditorOpen = editorViewId === viewMaximized.viewId && isEditorOpened;
+      return (
+        <ViewContainer
+          timebarUuid={timebarUuid}
+          pageId={focusedPageId}
+          viewId={viewMaximized.viewId}
+          windowId={windowId}
+          unmountAndRemove={this.props.unmountAndRemove}
+          isViewsEditorOpen={isViewsEditorOpen}
+          openEditor={openEditor}
+          closeEditor={closeEditor}
+        />
+      );
+    }
     return (
       <Grid
         layouts={layouts}

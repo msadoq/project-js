@@ -43,6 +43,9 @@ export const setPageOid = simple(types.WS_PAGE_SET_OID, 'pageId', 'oid');
 
 export const updateLayout = (pageId, layout) =>
   (dispatch, getState) => {
+    const stack = new Error('trololo').stack;
+    console.log('---- stack', stack);
+    console.log('IN UPDATE LAYOUT', layout);
     layout.forEach((l) => {
       if (l.h > 1) {
         const view = getView(getState(), { viewId: l.i });

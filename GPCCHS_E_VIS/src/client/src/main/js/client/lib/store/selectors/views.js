@@ -1,7 +1,11 @@
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
 import __ from 'lodash/fp';
+import _omit from 'lodash/omit';
+import _isEqual from 'lodash/isEqual';
 import { compile } from '../../common/operators';
-import { getPerViewData } from '../../dataManager/map';
+import makeGetPerViewData from '../../dataManager/perViewData';
+import { getPageIdByViewId, getPage } from './pages';
+// import { getPerViewData } from '../../dataManager/map';
 
 export const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
@@ -28,6 +32,9 @@ export const getEntryPointOnAxis = (state, { viewId, axisId }) => {
   return epOnAxis;
 };
 
+export const getViewsIdsCollapsed = state =>
+  __.keys(__.pickBy('configuration.collapsed', getViews(state)));
+
 export const getModifiedViewsIds = state =>
   Object
     .keys(getViews(state))
@@ -42,6 +49,30 @@ export const getViewContent = createSelector(
   getViewConfiguration,
   __.prop('content')
 );
+/* ********************************************************
+* Comparison function to omit timebars in comparison
+* Useful to compute perView and perRemoteId which are independent of visuWinow
+// ********************************************************/
+function withoutTimebarsEqualityCheck(current, previous) {
+  return _isEqual(_omit(current, 'timebars'), _omit(previous, 'timebars'));
+}
+const createDeepEqualSelectorWithoutTimebars = createSelectorCreator(
+  defaultMemoize,
+  withoutTimebarsEqualityCheck
+);
+const perViewDataSelectors = {};
+export const getPerViewData = createDeepEqualSelectorWithoutTimebars(
+  state => state,
+  (state, { viewId }) => viewId,
+  (state, viewId) => {
+    if (!perViewDataSelectors[viewId]) {
+      perViewDataSelectors[viewId] = makeGetPerViewData();
+    }
+    const pageId = getPageIdByViewId(state, { viewId });
+    const page = getPage(state, { pageId });
+    const { timebarUuid } = page;
+    return perViewDataSelectors[viewId](state, { viewId, timebarUuid });
+  });
 
 export const getViewEntryPoints = (state, { viewId }) => (
   __.get('entryPoints', getPerViewData(state, { viewId }))

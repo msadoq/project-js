@@ -18,7 +18,7 @@ export default function cleanViewData(
   if (_isEqual(viewMap, oldViewMap) && _isEqual(oldIntervals, newIntervals)) {
     return viewDataState;
   }
-  let newState;
+  let newState = viewDataState;
   // unmounted views
   const removedViews = _difference(Object.keys(oldViewMap), Object.keys(viewMap));
   if (removedViews.length) {

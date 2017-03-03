@@ -74,7 +74,8 @@ export function addAndMount(windowId, pageId = v4(), page) {
       dispatch(addPage(pageId));
     } else {
       dispatch(addPage(pageId, page.timebarUuid, page.title, page.views, page.layout, page.path,
-        page.oId, page.absolutePath, page.isModified));
+        page.oId, page.absolutePath, page.isModified,
+        page.properties, page.timebarHeight, page.timebarCollapsed));
     }
     dispatch(mountPage(windowId, pageId));
     dispatch(focusPage(windowId, pageId));

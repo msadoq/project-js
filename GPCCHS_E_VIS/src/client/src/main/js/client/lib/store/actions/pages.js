@@ -1,12 +1,10 @@
 import simple from '../simpleActionCreator';
 import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
-import { getView } from '../selectors/views';
 import { getTimebars } from '../selectors/timebars';
 import {
   add as addView,
   remove as removeView,
-  setCollapsed as setCollapsedView,
 } from './views';
 import { addAndMount as addAndMountPage, focusPage } from './windows';
 /**
@@ -37,25 +35,9 @@ export const unmountView = simple(types.WS_PAGE_VIEW_UNMOUNT, 'pageId', 'viewId'
 export const openEditor = simple(types.WS_PAGE_EDITOR_OPEN,
   'pageId', 'viewId', 'viewType');
 export const closeEditor = simple(types.WS_PAGE_EDITOR_CLOSE, 'pageId');
-export const updateLayoutSimple = simple(types.WS_PAGE_UPDATE_LAYOUT, 'pageId', 'layout');
+export const updateLayout = simple(types.WS_PAGE_UPDATE_LAYOUT, 'pageId', 'layout');
 export const collapseTimebar = simple(types.WS_PAGE_TIMEBAR_COLLAPSE, 'pageId', 'flag');
 export const setPageOid = simple(types.WS_PAGE_SET_OID, 'pageId', 'oid');
-
-export const updateLayout = (pageId, layout) =>
-  (dispatch, getState) => {
-    const stack = new Error('trololo').stack;
-    console.log('---- stack', stack);
-    console.log('IN UPDATE LAYOUT', layout);
-    layout.forEach((l) => {
-      if (l.h > 1) {
-        const view = getView(getState(), { viewId: l.i });
-        if (view && view.configuration.collapsed) {
-          dispatch(setCollapsedView(l.i, false));
-        }
-      }
-    });
-    dispatch(updateLayoutSimple(pageId, layout));
-  };
 
 /* Update path/absolutePath */
 const simpleUpdatePath = simple(types.WS_PAGE_UPDATEPATH, 'pageId', 'newPath');

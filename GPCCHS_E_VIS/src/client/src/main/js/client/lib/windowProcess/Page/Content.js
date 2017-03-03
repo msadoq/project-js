@@ -80,7 +80,7 @@ export default class Content extends PureComponent {
       );
     }
     const viewMaximized = views.find(view => view.configuration.maximized);
-    if (viewMaximized) {
+    if (viewMaximized && !viewMaximized.configuration.collapsed) {
       const ViewContainer = makeViewContainer();
       const isViewsEditorOpen = editorViewId === viewMaximized.viewId && isEditorOpened;
       return (

@@ -68,57 +68,6 @@ describe('store:actions:pages', () => {
     ]);
   });
 
-  describe('updateLayout', () => {
-    it('dispatches a simple updateLayout', () => {
-      actions.updateLayout('myPageId', [])(dispatch, getState);
-      dispatch.should.have.been.callCount(1);
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(0).should.have.been.calledWith({
-        type: types.WS_PAGE_UPDATE_LAYOUT,
-        payload: {
-          pageId: 'myPageId',
-          layout: [],
-        },
-      });
-    });
-    it('uncollapses all collapsed layouts with height upper than 1px', () => {
-      const layouts = [
-        { h: 0 },
-        { h: 3, i: 'unknownView' },
-        { h: 3, i: 'v1' },
-        { h: 3, i: 'v2' },
-        { h: 3, i: 'v3' },
-      ];
-      actions.updateLayout('myPageId', layouts)(dispatch, getState);
-      dispatch.should.have.been.callCount(3);
-
-      dispatch.getCall(0).args[0].should.be.an('object');
-      dispatch.getCall(1).args[0].should.be.an('object');
-      dispatch.getCall(2).args[0].should.be.an('object');
-
-      dispatch.getCall(0).should.have.been.calledWith({
-        type: types.WS_VIEW_SETCOLLAPSED,
-        payload: {
-          viewId: 'v1',
-          flag: false,
-        },
-      });
-      dispatch.getCall(1).should.have.been.calledWith({
-        type: types.WS_VIEW_SETCOLLAPSED,
-        payload: {
-          viewId: 'v2',
-          flag: false,
-        },
-      });
-      dispatch.getCall(2).should.have.been.calledWith({
-        type: types.WS_PAGE_UPDATE_LAYOUT,
-        payload: {
-          pageId: 'myPageId',
-          layout: layouts,
-        },
-      });
-    });
-  });
   describe('add', () => {
     it('add', () => {
       actions.add()(dispatch, getState);

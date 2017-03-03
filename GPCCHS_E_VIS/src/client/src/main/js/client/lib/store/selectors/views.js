@@ -56,7 +56,7 @@ export const getViewContent = createSelector(
 function withoutTimebarsEqualityCheck(current, previous) {
   return _isEqual(_omit(current, 'timebars'), _omit(previous, 'timebars'));
 }
-const createDeepEqualSelectorWithoutTimebars = createSelectorCreator(
+export const createDeepEqualSelectorWithoutTimebars = createSelectorCreator(
   defaultMemoize,
   withoutTimebarsEqualityCheck
 );

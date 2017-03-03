@@ -37,12 +37,11 @@ export function makeGetLayouts() {
     getViewsIdsCollapsed,
     (layout, viewsIds) => ({
       lg: _map(layout, (e) => {
-        console.log('VIEWS COLLAPSED: ', viewsIds);
         if (viewsIds.indexOf(e.i) >= 0) {
           return (
           Object.assign({
             minW: 3,
-            minH: 3,
+            minH: 1,
           }, e, { w: 3, h: 1 }));
         }
         return (

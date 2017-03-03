@@ -26,23 +26,7 @@ export const setViewOid = simple(types.WS_VIEW_SET_OID, 'viewId', 'oid');
 
 export const setModified = simple(types.WS_VIEW_SETMODIFIED, 'viewId', 'flag');
 export const setCollapsed = simple(types.WS_VIEW_SETCOLLAPSED, 'viewId', 'flag');
-export const setMaximised = simple(types.WS_VIEW_SETMAXIMISED, 'viewId', 'flag');
-
-export const setCollapsedAndUpdateLayout = (pageId, viewId, flag) => (
-  (dispatch) => {
-    dispatch(setCollapsed(viewId, flag));
-    dispatch(setMaximised(viewId, false));
-    dispatch(setModified(viewId, true));
-  }
-);
-
-export const setMaximizedAndUpdateLayout = (pageId, viewId, flag) => (
-  (dispatch) => {
-    dispatch(setMaximised(viewId, flag));
-    dispatch(setCollapsed(viewId, false));
-    dispatch(setModified(viewId, true));
-  }
-);
+export const setMaximized = simple(types.WS_VIEW_SETMAXIMISED, 'viewId', 'flag');
 
 export const updateEntryPoint = simple(types.WS_VIEW_UPDATE_ENTRYPOINT, 'viewId', 'index',
  'entryPoint');

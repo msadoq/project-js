@@ -51,7 +51,7 @@ describe('store:page:reducer', () => {
     it('update layout simple', () => {
       const state = reducer(
         { myPageId: { layout: [{ key: '1' }, { key: '2' }], title: 'aa' } },
-        actions.updateLayoutSimple('myPageId', [{ key: '3' }, { key: '4' }])
+        actions.updateLayout('myPageId', [{ key: '3' }, { key: '4' }])
       );
       state.myPageId.layout.should.eql([{ key: '3' }, { key: '4' }]);
       state.myPageId.isModified.should.be.true;

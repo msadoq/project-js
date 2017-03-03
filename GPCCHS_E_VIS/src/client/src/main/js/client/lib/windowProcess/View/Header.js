@@ -38,7 +38,6 @@ export default class Header extends PureComponent {
   };
   static contextTypes = {
     windowId: PropTypes.string,
-    focusedPageId: PropTypes.string,
   };
 
   constructor(...args) {
@@ -66,10 +65,6 @@ export default class Header extends PureComponent {
       maximized,
     } = this.props;
 
-    const {
-      focusedPageId,
-    } = this.context;
-
     switch (key) {
       case 'editor': {
         if (isViewsEditorOpen && closeEditor) {
@@ -95,11 +90,11 @@ export default class Header extends PureComponent {
         break;
       }
       case 'collapse': {
-        collapseView(focusedPageId, viewId, !collapsed);
+        collapseView(viewId, !collapsed);
         break;
       }
       case 'maximize': {
-        maximizeView(focusedPageId, viewId, !maximized);
+        maximizeView(viewId, !maximized);
         break;
       }
       case 'save':
@@ -174,9 +169,8 @@ export default class Header extends PureComponent {
       collapseView,
       collapsed,
     } = this.props;
-    const { focusedPageId } = this.context;
 
-    collapseView(focusedPageId, viewId, !collapsed);
+    collapseView(viewId, !collapsed);
   }
 
   render() {

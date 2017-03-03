@@ -7,10 +7,8 @@ import {
 } from '../../store/selectors/views';
 import { getWindowPages } from '../../store/selectors/windows';
 import { moveViewToPage } from '../../store/actions/pages';
-import { setCollapsedAndUpdateLayout, setMaximizedAndUpdateLayout } from '../../store/actions/views';
-
+import { setCollapsed, setMaximized } from '../../store/actions/views';
 import View from './View';
-
 
 const makeMapStateToProps = () => {
   const mapStateToProps = (state, { viewId, timebarUuid, windowId }) => {
@@ -37,10 +35,10 @@ const makeMapStateToProps = () => {
 const mapDispatchToProps = (dispatch, { pageId }) => bindActionCreators({
   moveViewToPage: (windowId, toPageId, viewId) =>
     moveViewToPage(windowId, pageId, toPageId, viewId),
-  collapseView: (focusedPageId, viewId, flag) =>
-    setCollapsedAndUpdateLayout(focusedPageId, viewId, flag),
-  maximizeView: (focusedPageId, viewId, flag) =>
-    setMaximizedAndUpdateLayout(focusedPageId, viewId, flag),
+  collapseView: (viewId, flag) =>
+    setCollapsed(viewId, flag),
+  maximizeView: (viewId, flag) =>
+    setMaximized(viewId, flag),
 }, dispatch);
 
 // return function to avoid page grid layout and React DOM re-conciliation issue

@@ -12,7 +12,6 @@ describe('store:hsc:reducer', () => {
     r.should.has.property('lastCacheInvalidation');
     r.lastCacheInvalidation.should.be.a('number');
     r.should.have.property('windowsOpened', false);
-    r.should.have.property('workspaceOpened', false);
     r.should.have.property('playingTimebarId', null);
     r.should.have.property('folder', null);
     r.should.have.property('file', null);

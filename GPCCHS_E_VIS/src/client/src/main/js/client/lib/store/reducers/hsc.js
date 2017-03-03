@@ -3,7 +3,6 @@ import * as types from '../types';
 
 const initialState = {
   windowsOpened: false,
-  workspaceOpened: false,
   playingTimebarId: null,
   lastCacheInvalidation: Date.now(),
   folder: null,

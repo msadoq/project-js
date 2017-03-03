@@ -1,8 +1,10 @@
+import _ from 'lodash/fp';
 import { v4 } from 'uuid';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
 import { pause } from './hsc';
 import { add as addPage, remove as removePage } from './pages';
+import { getWindowPages } from '../selectors/windows';
 import { getPage } from '../selectors/pages';
 import { getPlayingTimebarId } from '../selectors/hsc';
 
@@ -42,20 +44,25 @@ export function add(windowId, title, geometry, pages, focusedPage, isModified) {
 
 export function focusPage(windowId, pageId) {
   return (dispatch, getState) => {
-    const playingTimebarId = getPlayingTimebarId(getState());
-    const newPage = getPage(getState(), { pageId });
-    if (!newPage) {
+    const state = getState();
+
+    const getFirstPage = _.compose(_.get('[0]'), getWindowPages);
+    const focusedPage = getPage(state, { pageId }) || getFirstPage(state, { windowId });
+    if (!focusedPage) {
       return;
     }
-    if (playingTimebarId && playingTimebarId !== newPage.timebarUuid) {
+
+    const playingTimebarId = getPlayingTimebarId(state);
+    if (playingTimebarId && playingTimebarId !== focusedPage.timebarUuid) {
       // switch to pause when changing for another timebar
       dispatch(pause());
     }
+
     dispatch({
       type: types.WS_WINDOW_PAGE_FOCUS,
       payload: {
         windowId,
-        pageId,
+        pageId: focusedPage.pageId,
       },
     });
   };

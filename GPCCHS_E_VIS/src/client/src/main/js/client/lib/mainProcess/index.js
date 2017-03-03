@@ -1,5 +1,6 @@
 import { app, ipcMain } from 'electron';
 import { series } from 'async';
+import path from 'path';
 import {
   CHILD_PROCESS_SERVER,
   CHILD_PROCESS_DC,
@@ -23,7 +24,8 @@ import { updateSessions } from '../store/actions/sessions';
 import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
 import { getIsWorkspaceOpening } from '../store/actions/hsc';
 import setMenu from './menuManager';
-import { openDefaultWorkspace, openWorkspaceDocument } from './openWorkspace';
+import readWorkspace from '../documentManager/readWorkspace';
+import { openDefaultWorkspace } from './openWorkspace';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
 import { splashScreen, codeEditor, windows } from './windowsManager';
 
@@ -144,9 +146,10 @@ export function start() {
       splashScreen.setMessage('searching workspace...');
       logger.info('searching workspace...');
 
-      const { dispatch, getState } = getStore();
+      const { dispatch } = getStore();
       const root = parameters.get('ISIS_DOCUMENTS_ROOT');
       const file = parameters.get('WORKSPACE');
+      const absolutePath = path.join(root, file);
 
       if (!file) {
         splashScreen.setMessage('loading default workspace...');
@@ -160,17 +163,15 @@ export function start() {
       splashScreen.setMessage(`loading ${file}`);
       logger.info(`loading ${file}`);
 
-      openWorkspaceDocument(dispatch, getState, root, file, (err, value) => {
+      dispatch(readWorkspace({ absolutePath }, (err) => {
         if (err) {
           splashScreen.setMessage('loading default workspace...');
           logger.info('loading default workspace...');
           dispatch(addMessage('global', 'danger', err));
           dispatch(openDefaultWorkspace());
-          callback(null);
-          return;
         }
-        callback(null, value);
-      });
+        callback(null);
+      }));
     },
   ], (err) => {
     if (err) {

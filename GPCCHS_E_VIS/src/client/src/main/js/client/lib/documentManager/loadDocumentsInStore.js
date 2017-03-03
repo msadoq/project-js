@@ -44,12 +44,6 @@ const loadDocumentsInStore = documents => (dispatch) => {
     ));
   }, views);
 
-  // focus first page (TODO refacto)
-  _.each((w) => {
-    const pageId = _.get('pages[0]', w);
-    dispatch(focusPage(w.uuid, pageId));
-  }, windows);
-
   // set Modified to false on all documents (TODO refacto)
   _.each((v) => {
     dispatch(setModifiedView(v.uuid, false));
@@ -61,6 +55,11 @@ const loadDocumentsInStore = documents => (dispatch) => {
 
   _.each((w) => {
     dispatch(setModifiedWindow(w.uuid, false));
+  }, windows);
+
+  // focus first page (TODO refacto)
+  _.each((w) => {
+    dispatch(focusPage(w.uuid)); // omit pageId to select first page
   }, windows);
 };
 

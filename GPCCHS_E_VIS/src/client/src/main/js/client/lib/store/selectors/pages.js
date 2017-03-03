@@ -6,7 +6,9 @@ import { createSelector } from 'reselect';
 // import { getViewsIdsCollapsed } from './views';
 
 export const getPages = state => state.pages;
-export const getPage = (state, { pageId }) => state.pages[pageId];
+export const getPage = (state, { pageId }) => state.pages[pageId] && {
+  ...state.pages[pageId], pageId,
+};
 
 export const getPageIds = createSelector(
   getPages,

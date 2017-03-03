@@ -7,11 +7,11 @@ import { add as addMessage } from '../../store/actions/messages';
 import { getModifiedPagesIds } from '../../store/selectors/pages';
 import { getModifiedViewsIds } from '../../store/selectors/views';
 import { setModified as setModifiedWindow } from '../../store/actions/windows';
-import { updatePath, isWorkspaceOpening } from '../../store/actions/hsc';
+import { updatePath } from '../../store/actions/hsc';
 import { saveWorkspace } from '../../common/documentManager';
 import { showQuestionMessage, getPathByFilePicker } from '../dialog';
 import { getStore } from '../../store/mainStore';
-import { openDefaultWorkspace, openWorkspaceDocument } from '../openWorkspace';
+import { openDefaultWorkspace } from '../openWorkspace';
 import readWorkspace from '../../documentManager/readWorkspace';
 
 const isYes = equals(0);
@@ -51,21 +51,6 @@ function workspaceOpen() {
 function workspaceOpenWithPath({ filePath }) {
   const { dispatch } = getStore();
   dispatch(readWorkspace({ absolutePath: filePath }));
-  // const { dispatch, getState } = store;
-  // dispatch(isWorkspaceOpening(true));
-  // openWorkspaceDocument(
-  //   dispatch,
-  //   getState,
-  //   path.dirname(filePath),
-  //   path.basename(filePath),
-  //   (errWk) => {
-  //     dispatch(isWorkspaceOpening(false));
-  //     if (errWk) {
-  //       dispatch(addGlobalError(`Unable to load workspace : ${filePath}`));
-  //       dispatch(addGlobalError(errWk));
-  //     }
-  //   }
-  // );
 }
 
 const isPagesSaved = state => getModifiedPagesIds(state).length === 0;

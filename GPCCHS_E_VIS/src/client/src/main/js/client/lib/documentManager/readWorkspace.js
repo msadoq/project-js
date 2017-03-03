@@ -111,7 +111,7 @@ const readWorkspacePagesAndViews = (workspaceInfo, cb) => {
       if (errPages) {
         return cb(errPages);
       }
-      const clearPages = _.update('windows', _.map(_.update('pages', _.map('uuid'))));
+      const clearPages = _.update('windows', _.map(_.set('pages', [])));
       return cb(null, {
         ...clearPages(workspace),
         ...documents,

@@ -310,8 +310,13 @@ export class PlotView extends PureComponent {
   }
 
   getEntryPointErrors(supClass = '') {
-    const epWithErrors = this.props.entryPoints
-      .filter(ep => ep.error);
+    const epWithErrors = Object
+      .keys(this.props.entryPoints)
+      .filter(key => this.props.entryPoints[key].error)
+      .map(key => ({
+        error: this.props.entryPoints[key].error,
+        key,
+      }));
 
     return epWithErrors.length ?
       <CloseableAlert
@@ -329,7 +334,7 @@ export class PlotView extends PureComponent {
             .map(ep => (
               <div
                 className={styles.entryPointErrorSubDiv}
-                key={ep.name}
+                key={ep.key}
               >
                 {ep.name}: {ep.error}
               </div>

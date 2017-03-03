@@ -1,8 +1,10 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
-import { scaleLinear } from 'd3-scale';
 import _sum from 'lodash/sum';
+import _memoize from 'lodash/memoize';
+import { scaleLinear } from 'd3-scale';
 import { timeFormat } from 'd3-time-format';
+import { format as d3Format } from 'd3-format';
 import { formatDuration } from '../../../common/timeFormats';
 import styles from './GrizzlyChart.css';
 
@@ -103,7 +105,7 @@ export default class Tooltip extends React.Component {
             color,
             epColor: line.fill,
             name: line.id,
-            value: val ? val.toLocaleString('en-US', { minimumFractionDigits: 2 }) : '',
+            value: this.memoizeFormatter(axis.format || '.2f')(val),
             offset: xClosestPacket[line.id].x !== xClosestPacket.x ?
               formatDuration(xClosestPacket.x - xClosestPacket[line.id].x) : '',
           });
@@ -121,6 +123,10 @@ export default class Tooltip extends React.Component {
       tooltipOnBottom: yInRange > (this.el.clientHeight / 2),
     });
   }
+
+  memoizeFormatter = _memoize(f =>
+    d => d3Format(f)(d)
+  );
 
   timeFormat = timeFormat('%Y-%m-%d %H:%M:%S.%L')
 
@@ -239,7 +245,9 @@ export default class Tooltip extends React.Component {
                   top: yInRange,
                 }}
               >
-                {axis.yScale.invert(yInRange).toFixed(2)}
+                {this.memoizeFormatter(axis.format || '.2f')(
+                  axis.yScale.invert(yInRange)
+                )}
               </span>
             );
           })

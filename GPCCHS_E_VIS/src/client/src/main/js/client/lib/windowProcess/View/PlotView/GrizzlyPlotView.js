@@ -292,6 +292,7 @@ export class GrizzlyPlotView extends PureComponent {
                 [axis.min, axis.max],
               data: columns,
               orient: 'top',
+              format: '.3f',
               showAxis: axis.showAxis === true,
               showLabels: axis.showLabels === true,
               showTicks: axis.showTicks === true,

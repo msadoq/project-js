@@ -2,6 +2,7 @@ import React, { PropTypes, PureComponent } from 'react';
 import classnames from 'classnames';
 import _memoize from 'lodash/memoize';
 import { select } from 'd3-selection';
+import { format as d3Format } from 'd3-format';
 import { axisLeft, axisRight } from 'd3-axis';
 import styles from './GrizzlyChart.css';
 
@@ -36,6 +37,7 @@ export default class YAxis extends PureComponent {
     gridSize: PropTypes.number,
     label: PropTypes.string.isRequired,
     unit: PropTypes.string,
+    format: PropTypes.string,
     labelStyle: PropTypes.shape({
       bgColor: PropTypes.string,
       color: PropTypes.string,
@@ -55,6 +57,7 @@ export default class YAxis extends PureComponent {
     showGrid: true,
     gridStyle: 'Continuous',
     xAxisAt: 'bottom',
+    format: '.2f',
     yAxesAt: 'left',
     gridSize: 1,
     labelStyle: {
@@ -179,12 +182,14 @@ export default class YAxis extends PureComponent {
       chartWidth,
       index,
       showTicks,
+      format,
       showGrid,
       gridStyle,
       xAxisAt,
     } = this.props;
 
-    const tickFormat = showTicks ? d => d : () => null;
+    const tickFormat = showTicks ?
+      this.memoizeFormatter(format) : () => null;
 
     // if showGrid & master axis, axis must be wider
     const tickSize = index === 0 && showGrid ?
@@ -237,6 +242,10 @@ export default class YAxis extends PureComponent {
 
   assignEl = (el) => { this.canvasEl = el; }
   assignLabelEl = (el) => { this.labelEl = el; }
+
+  memoizeFormatter = _memoize(f =>
+    d => d3Format(f)(d)
+  );
 
   memoizeAssignRef = _memoize(lineId =>
     (el) => { this[`label-${lineId}-el`] = el; }

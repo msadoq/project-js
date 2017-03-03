@@ -42,6 +42,7 @@ export default class Chart extends React.Component {
         gridSize: PropTypes.number,
         unit: PropTypes.string,
         label: PropTypes.string.isRequired,
+        format: PropTypes.string,
         labelStyle: PropTypes.shape,
       })
     ).isRequired,
@@ -416,6 +417,7 @@ export default class Chart extends React.Component {
               margin={((this.yAxes.length - 1) * this.yAxisWidth) - (index * this.yAxisWidth)}
               lines={yAxis.lines}
               yAxisId={yAxis.id}
+              format={yAxis.format}
               showLabels={yAxis.showLabels}
               showTicks={yAxis.showTicks}
               showGrid={yAxis.showGrid}

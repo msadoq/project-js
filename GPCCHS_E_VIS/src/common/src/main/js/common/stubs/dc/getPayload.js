@@ -54,6 +54,18 @@ const getComObject = (comObject, timestamp, value) => {
         ],
       });
     }
+    case 'Pus003Model':
+      return stubData.getPus003ModelProtobuf({
+        groundDate: timestamp,
+      });
+    case 'Pus005Model':
+      return stubData.getPus005ModelProtobuf({
+        groundDate: timestamp,
+      });
+    case 'Pus012Model':
+      return stubData.getPus012ModelProtobuf({
+        groundDate: timestamp,
+      });
     default: {
       return undefined;
     }

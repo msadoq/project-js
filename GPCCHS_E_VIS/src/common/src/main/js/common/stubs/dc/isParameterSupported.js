@@ -1,4 +1,7 @@
 const supported = [
+  'Pus003.parameter<Pus003Model>',
+  'Pus005.parameter<Pus005Model>',
+  'Pus012.parameter<Pus012Model>',
   'TelemetryPacket.CLCW_TM_NOMINAL<DecommutedPacket>',
   'TelemetryPacket.CLCW_TM_REDUNDANT<DecommutedPacket>',
   'TelemetryPacket.CLK_TM_TRTIME<DecommutedPacket>',

@@ -1,17 +1,17 @@
+/* eslint-disable */
 import React, { PropTypes, PureComponent } from 'react';
-import { Table, Form, FormGroup, Grid, Row, Col, ControlLabel, FormControl, Panel } from 'react-bootstrap';
+import { Table, Form, FormGroup, Grid, Row, Col, ControlLabel, Panel } from 'react-bootstrap';
+import classnames from 'classnames';
 import _get from 'lodash/get';
 import _isArray from 'lodash/isArray';
 import _lowerCase from 'lodash/lowerCase';
+import _isObject from 'lodash/isObject';
 import moment from 'moment';
 import styles from './DynamicView.css';
 
 const pattern = /^([^.]+)\.([^<]+)<([^>]+)>(\.){0,1}([\w]+){0,1}$/i;
 
-function dataToShow(data) {
-  if (data.value === undefined) {
-    return '';
-  }
+function convertData(data) {
   if (data.type === 'time') {
     return moment(data.value).format('YYYY-MM-DD HH[:]mm[:]ss[.]SSS');
   } else if (data.type === 'boolean') {
@@ -21,10 +21,44 @@ function dataToShow(data) {
   }
   return data.value;
 }
+function dataToShow(data) {
+  if (data.value === undefined || _isObject(data.value)) {
+    if (_isObject(data)) {
+      const keys = Object.keys(data);
+      return (<dl
+        className={classnames(
+          'dl-horizontal',
+          'margin: 0 0 4px 0',
+          'display: inline-flex',
+          'padding: 20px'
+        )}
+      >
+        {keys.map((k) => {
+          if (data[k].value) {
+            return ([<dt>{k}</dt>,
+              <dd>{data[k].value}</dd>]);
+          }
+          return ([<dt>{k}</dt>,
+            <dd>
+              { Object.keys(data[k]).map((val, key) => {
+                if (data[k][val].value) {
+                  return (<li key={'li'.concat(key)}><b>{val}:</b> {convertData(data[k][val])}</li>);
+                }
+                return ([<dt>{val}</dt>,
+                  <dd>{dataToShow(data[k][val])}</dd>]);
+              })}
+            </dd>]);
+        }
+        )}
+      </dl>);
+    }
+    return '';
+  }
+  return convertData(data);
+}
 
 function objectHeader(ep) {
   const objectKeys = Object.keys(ep).filter(key => !_isArray(ep[key]));
-
   const staticHeader = [];
   objectKeys.forEach((key, idx) => {
     staticHeader.push(
@@ -33,17 +67,11 @@ function objectHeader(ep) {
           <strong>{_lowerCase(key)}</strong>
         </Col>
         <Col sm={8}>
-          <FormControl
-            type="text"
-            value={dataToShow(ep[key])}
-            placeholder="Enter text"
-            disabled
-          />
+          <Panel className={styles.panel}>{dataToShow(ep[key])}</Panel>
         </Col>
       </FormGroup>
     );
   });
-
   return <Form horizontal>{staticHeader}</Form>;
 }
 
@@ -119,6 +147,7 @@ export default class DynamicView extends PureComponent {
       );
     }
 
+    const arrayKeys = Object.keys(ep).filter(key => _isArray(ep[key]));
     return (
       <div>
         <header className={styles.header}>
@@ -126,16 +155,18 @@ export default class DynamicView extends PureComponent {
         </header>
         <Grid fluid className="ml10 mr10">
           <Row><Panel>{objectHeader(ep)}</Panel></Row>
-          <Row>
-            <Col sm={12}>
-              <Table striped bordered condensed hover>
-                {arrayHeader(ep.decommutedValues)}
-                <tbody>
-                  {arrayLine(ep.decommutedValues)}
-                </tbody>
-              </Table>
-            </Col>
-          </Row>
+          { arrayKeys.map((key, i) => (
+            <Row key={'row'.concat(i)}>
+              <header className={styles.arrayHeader}><h2>{key}</h2></header>
+              <Col sm={12}>
+                <Table striped bordered condensed hover>
+                  {arrayHeader(ep[key])}
+                  <tbody>
+                    {arrayLine(ep[key])}
+                  </tbody>
+                </Table>
+              </Col>
+            </Row>))}
         </Grid>
       </div>
     );

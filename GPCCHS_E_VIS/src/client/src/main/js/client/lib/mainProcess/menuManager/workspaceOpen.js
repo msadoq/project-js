@@ -11,7 +11,7 @@ import { updatePath } from '../../store/actions/hsc';
 import { saveWorkspace } from '../../common/documentManager';
 import { showQuestionMessage, getPathByFilePicker } from '../dialog';
 import { getStore } from '../../store/mainStore';
-import { openDefaultWorkspace } from '../openWorkspace';
+import openDefaultWorkspace from '../../documentManager/openBlankWorkspace';
 import readWorkspace from '../../documentManager/readWorkspace';
 
 const isYes = equals(0);

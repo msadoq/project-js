@@ -25,7 +25,7 @@ import { updateMasterSessionIfNeeded } from '../store/actions/masterSession';
 import { getIsWorkspaceOpening } from '../store/actions/hsc';
 import setMenu from './menuManager';
 import readWorkspace from '../documentManager/readWorkspace';
-import { openDefaultWorkspace } from './openWorkspace';
+import openDefaultWorkspace from '../documentManager/openBlankWorkspace';
 import { start as startOrchestration, stop as stopOrchestration } from './orchestration';
 import { splashScreen, codeEditor, windows } from './windowsManager';
 

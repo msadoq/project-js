@@ -107,6 +107,9 @@ export default class LinesCanvas extends PureComponent {
       ctx.strokeStyle = line.fill;
       ctx.fillStyle = line.fill;
       ctx.lineWidth = line.lineSize;
+      // Only uszed for Dot points
+      const fontSize = line.pointSize * 3;
+      ctx.font = `${fontSize}px Arial`;
       if (line.lineStyle === 'Dashed') {
         ctx.setLineDash([6, 2]);
       } else if (line.lineStyle === 'Dotted') {
@@ -156,6 +159,8 @@ export default class LinesCanvas extends PureComponent {
         // draw point
         if (pointOffset && line.pointStyle === 'Square') {
           ctx.fillRect(lastX - pointOffset, lastY - pointOffset, line.pointSize, line.pointSize);
+        } else if (pointOffset && line.pointStyle === 'Dot') {
+          ctx.fillText('•', lastX - pointOffset, lastY + (fontSize / 3));
         } else if (pointOffset && line.pointStyle === 'Triangle') {
           ctx.stroke();
           this.drawTriangle(ctx, lastX, lastY, pointOffset);

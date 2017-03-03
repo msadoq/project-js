@@ -18,18 +18,21 @@ const addGlobalError = msg => addMessage('global', 'danger', msg);
 
 export const simpleReadPage = (pageInfo, cb) => {
   const { workspaceFolder, path, oId, absolutePath } = pageInfo;
-  readDocument(fmdApi)(workspaceFolder, path, oId, absolutePath, (err, pageContent, properties) => {
+  readDocument(fmdApi)(workspaceFolder, path, oId, absolutePath, (err, page, properties) => {
     if (err) {
       return cb(err);
     }
-    const validationError = validation('page', pageContent);
+    const validationError = validation('page', page);
     if (validationError) {
       return cb(validationError);
     }
 
+    const updateAllGeometries = transform => _.update('views', _.map(_.update('geometry', transform)));
+    const filterGeometries = updateAllGeometries(_.pick(['x', 'y', 'w', 'h', 'maxH', 'maxW']));
+
     const uuid = pageInfo.uuid || v4();
     return cb(null, {
-      ...pageContent,
+      ...filterGeometries(page),
       ...pageInfo,
       properties, // Table with document props from FMD
       uuid,

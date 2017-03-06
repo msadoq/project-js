@@ -268,8 +268,8 @@ export class GrizzlyPlotView extends PureComponent {
         <GrizzlyChart
           height={containerHeight - (plotPadding * 2)}
           width={containerWidth - (plotPadding * 2)}
-          enableTooltip
           tooltipColor="blue"
+          enableTooltip
           allowYZoom
           allowYPan
           allowZoom
@@ -279,7 +279,7 @@ export class GrizzlyPlotView extends PureComponent {
           yAxesAt={showYAxes}
           xAxisAt="bottom"
           yAxes={yAxes.map((axis) => {
-            const grid = grids.find(g => g.yAxisId === axis.id || g.yAxisId === axis.label);
+            const grid = grids.find(g => g.yAxisId === axis.id);
             const axisEntryPoints = entryPoints
               .filter(ep => _get(ep, ['connectedDataY', 'axisId']) === axis.id);
             return {

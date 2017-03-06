@@ -87,6 +87,7 @@ export default class Chart extends React.Component {
     document.addEventListener('keydown', this.onKeyDown);
     document.addEventListener('keyup', this.onKeyUp);
   }
+
   shouldComponentUpdate(nextProps, nextState) {
     let shouldRender = false;
     Object.keys(nextProps).forEach((k) => {
@@ -108,7 +109,7 @@ export default class Chart extends React.Component {
   }
 
   onKeyDown = (e) => {
-    if (e.keyCode === 17 && this.el.parentElement.querySelector(':hover')) {
+    if (e.keyCode === 17 && this.el && this.el.parentElement.querySelector(':hover')) {
       this.setState({
         ctrlPressed: true,
       });
@@ -142,7 +143,7 @@ export default class Chart extends React.Component {
         });
       } else if (allowZoom) {
         this.setState({
-          zoomLevel: (zoomLevel * (e.deltaY > 0 ? 0.9 : 1.1)).toFixed(2),
+          zoomLevel: (zoomLevel * (e.deltaY > 0 ? 1.1 : 0.9)).toFixed(2),
         });
       }
     }
@@ -155,6 +156,9 @@ export default class Chart extends React.Component {
     if (!ctrlPressed) {
       return;
     }
+    if (!this.onMouseMoveThrottle) {
+      this.onMouseMoveThrottle = _throttle(this.onMouseMove, 100);
+    }
     const hoveredAxisId = this.wichAxisIsHovered(e);
     if (allowYPan && hoveredAxisId) {
       const yPan = _get(yPans, hoveredAxisId, 0);
@@ -163,9 +167,6 @@ export default class Chart extends React.Component {
         panAxisId: hoveredAxisId,
         yPanOrigin: yPan,
       });
-      if (!this.onMouseMoveThrottle) {
-        this.onMouseMoveThrottle = _throttle(this.onMouseMove, 100);
-      }
       document.addEventListener('mousemove', this.onMouseMoveThrottle);
       document.addEventListener('mouseup', this.onMouseUp);
     } else if (allowPan && !hoveredAxisId) {
@@ -173,9 +174,6 @@ export default class Chart extends React.Component {
         mouseMoveCursorOrigin: e.pageX,
         panOrigin: pan,
       });
-      if (!this.onMouseMoveThrottle) {
-        this.onMouseMoveThrottle = _throttle(this.onMouseMove, 100);
-      }
       document.addEventListener('mousemove', this.onMouseMoveThrottle);
       document.addEventListener('mouseup', this.onMouseUp);
     }
@@ -191,11 +189,14 @@ export default class Chart extends React.Component {
       mouseMoveCursorOriginY,
       yPans,
       yPanOrigin,
+      yZoomLevels,
     } = this.state;
+
     if (panAxisId) {
+      const axisZoomLevel = _get(yZoomLevels, panAxisId, 1);
       const newYPans = {
         ...yPans,
-        [panAxisId]: yPanOrigin + (mouseMoveCursorOriginY - e.pageY),
+        [panAxisId]: yPanOrigin + ((mouseMoveCursorOriginY - e.pageY) / axisZoomLevel),
       };
       this.setState({
         yPans: newYPans,
@@ -449,6 +450,9 @@ export default class Chart extends React.Component {
       enableTooltip,
       tooltipColor,
       allowYPan,
+      allowYZoom,
+      allowPan,
+      allowZoom,
     } = this.props;
 
     const {
@@ -645,6 +649,8 @@ export default class Chart extends React.Component {
           yAxes={this.yAxes}
           yAxisWidth={this.yAxisWidth}
           yAxesAt={yAxesAt}
+          yAxesInteractive={allowYZoom || allowYPan}
+          chartInteractive={allowZoom || allowPan}
           height={this.chartHeight}
           width={width}
         />

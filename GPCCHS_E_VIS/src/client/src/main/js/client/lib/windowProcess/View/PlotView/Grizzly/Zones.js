@@ -12,6 +12,8 @@ export default class Zones extends Component {
     xAxisHeight: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
+    chartInteractive: PropTypes.bool.isRequired,
+    yAxesInteractive: PropTypes.bool.isRequired,
     ctrlPressed: PropTypes.bool.isRequired,
     yAxesAt: PropTypes.string.isRequired,
     xAxisAt: PropTypes.string.isRequired,
@@ -40,6 +42,8 @@ export default class Zones extends Component {
       yAxisWidth,
       xAxisHeight,
       ctrlPressed,
+      yAxesInteractive,
+      chartInteractive,
     } = this.props;
 
     return (
@@ -56,7 +60,10 @@ export default class Zones extends Component {
           top: xAxisAt === 'top' ? xAxisHeight : 0,
         }}
       >
-        {yAxesAt === 'left' && yAxes.map((axis, index) =>
+        { /*
+          Y Axes area
+        */ }
+        {yAxesInteractive && yAxesAt === 'left' && yAxes.map((axis, index) =>
           <div
             className={styles.ZonesAxis}
             key={axis.id}
@@ -66,14 +73,7 @@ export default class Zones extends Component {
             }}
           />
         )}
-        {yAxesAt === 'left' && <div
-          className={styles.ZonesChart}
-          style={{
-            width: width - (yAxes.length * yAxisWidth),
-            right: 0,
-          }}
-        />}
-        {yAxesAt === 'right' && yAxes.map((axis, index) =>
+        {yAxesInteractive && yAxesAt === 'right' && yAxes.map((axis, index) =>
           <div
             className={styles.ZonesAxis}
             key={axis.id}
@@ -83,14 +83,24 @@ export default class Zones extends Component {
             }}
           />
         )}
-        {yAxesAt === 'right' && <div
+        { /*
+          Chart area
+        */ }
+        {chartInteractive && yAxesAt === 'left' && <div
+          className={styles.ZonesChart}
+          style={{
+            width: width - (yAxes.length * yAxisWidth),
+            right: 0,
+          }}
+        />}
+        {chartInteractive && yAxesAt === 'right' && <div
           className={styles.ZonesChart}
           style={{
             width: width - (yAxes.length * yAxisWidth),
             left: 0,
           }}
         />}
-        {!yAxesAt && <div
+        {chartInteractive && !yAxesAt && <div
           className={styles.ZonesChart}
           style={{
             width,

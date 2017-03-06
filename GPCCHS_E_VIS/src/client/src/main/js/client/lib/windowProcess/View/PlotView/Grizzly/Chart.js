@@ -13,6 +13,7 @@ import LinesCanvas from './LinesCanvas';
 import Tooltip from './Tooltip';
 import YAxis from './YAxis';
 import XAxis from './XAxis';
+import Zones from './Zones';
 
 export default class Chart extends React.Component {
 
@@ -79,8 +80,13 @@ export default class Chart extends React.Component {
     pan: 0,
     yZoomLevels: {},
     yPans: {},
+    ctrlPressed: false,
   }
 
+  componentDidMount() {
+    document.addEventListener('keydown', this.onKeyDown);
+    document.addEventListener('keyup', this.onKeyUp);
+  }
   shouldComponentUpdate(nextProps, nextState) {
     let shouldRender = false;
     Object.keys(nextProps).forEach((k) => {
@@ -98,15 +104,32 @@ export default class Chart extends React.Component {
 
   componentWillUnmount() {
     document.removeEventListener('mousemove', this.onMouseMoveThrottle);
-    document.addEventListener('mouseup', this.onMouseUp);
+    document.removeEventListener('mouseup', this.onMouseUp);
+  }
+
+  onKeyDown = (e) => {
+    if (e.keyCode === 17 && this.el.parentElement.querySelector(':hover')) {
+      this.setState({
+        ctrlPressed: true,
+      });
+    }
+  }
+
+  onKeyUp = (e) => {
+    const { ctrlPressed } = this.state;
+    if (ctrlPressed && e.keyCode === 17) {
+      this.setState({
+        ctrlPressed: false,
+      });
+    }
   }
 
   onWheel = (e) => {
     e.preventDefault();
     const { allowZoom, allowYZoom } = this.props;
-    const { zoomLevel, yZoomLevels } = this.state;
+    const { zoomLevel, yZoomLevels, ctrlPressed } = this.state;
 
-    if (e.ctrlKey) {
+    if (ctrlPressed) {
       const hoveredAxisId = this.wichAxisIsHovered(e);
       if (allowYZoom && hoveredAxisId) {
         const yZoomLevel = _get(yZoomLevels, hoveredAxisId, 1);
@@ -128,7 +151,10 @@ export default class Chart extends React.Component {
   onMouseDown = (e) => {
     e.preventDefault();
     const { allowPan, allowYPan } = this.props;
-    const { pan, yPans } = this.state;
+    const { pan, yPans, ctrlPressed } = this.state;
+    if (!ctrlPressed) {
+      return;
+    }
     const hoveredAxisId = this.wichAxisIsHovered(e);
     if (allowYPan && hoveredAxisId) {
       const yPan = _get(yPans, hoveredAxisId, 0);
@@ -137,17 +163,22 @@ export default class Chart extends React.Component {
         panAxisId: hoveredAxisId,
         yPanOrigin: yPan,
       });
+      if (!this.onMouseMoveThrottle) {
+        this.onMouseMoveThrottle = _throttle(this.onMouseMove, 100);
+      }
+      document.addEventListener('mousemove', this.onMouseMoveThrottle);
+      document.addEventListener('mouseup', this.onMouseUp);
     } else if (allowPan && !hoveredAxisId) {
       this.setState({
         mouseMoveCursorOrigin: e.pageX,
         panOrigin: pan,
       });
+      if (!this.onMouseMoveThrottle) {
+        this.onMouseMoveThrottle = _throttle(this.onMouseMove, 100);
+      }
+      document.addEventListener('mousemove', this.onMouseMoveThrottle);
+      document.addEventListener('mouseup', this.onMouseUp);
     }
-    if (!this.onMouseMoveThrottle) {
-      this.onMouseMoveThrottle = _throttle(this.onMouseMove, 100);
-    }
-    document.addEventListener('mousemove', this.onMouseMoveThrottle);
-    document.addEventListener('mouseup', this.onMouseUp);
   }
 
   onMouseMove = (e) => {
@@ -425,6 +456,7 @@ export default class Chart extends React.Component {
       pan,
       yZoomLevels,
       yPans,
+      ctrlPressed,
     } = this.state;
 
     // Set chartHeight depending on xAxisAt (top/bottom/other)
@@ -478,6 +510,7 @@ export default class Chart extends React.Component {
           className={styles.zoomAndPanLabels}
           style={{
             left: yAxesAt === 'left' ? marginSide + 5 : 5,
+            top: xAxisAt === 'top' ? this.xAxisHeight + 5 : 5,
           }}
         >
           {
@@ -604,6 +637,16 @@ export default class Chart extends React.Component {
           xAxisAt={xAxisAt}
           yAxesAt={yAxesAt}
           xExtents={calculatedXExtents}
+        />
+        <Zones
+          xAxisAt={xAxisAt}
+          xAxisHeight={this.xAxisHeight}
+          ctrlPressed={ctrlPressed}
+          yAxes={this.yAxes}
+          yAxisWidth={this.yAxisWidth}
+          yAxesAt={yAxesAt}
+          height={this.chartHeight}
+          width={width}
         />
       </div>
     );

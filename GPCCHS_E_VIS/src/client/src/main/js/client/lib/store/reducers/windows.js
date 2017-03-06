@@ -18,9 +18,9 @@ export default function windows(stateWindows = {}, action) {
         action.payload.windowId &&
         stateWindows[action.payload.windowId]
       ) {
-        const currentTimebar = stateWindows[action.payload.windowId];
+        const currentWindow = stateWindows[action.payload.windowId];
         return u({
-          [action.payload.windowId]: window(currentTimebar, action),
+          [action.payload.windowId]: window(currentWindow, action),
         }, stateWindows);
       }
       return stateWindows;

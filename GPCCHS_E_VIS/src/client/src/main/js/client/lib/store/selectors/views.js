@@ -32,8 +32,10 @@ export const getEntryPointOnAxis = (state, { viewId, axisId }) => {
   return epOnAxis;
 };
 
-export const getViewsIdsCollapsed = state =>
-  __.keys(__.pickBy('configuration.collapsed', getViews(state)));
+export const getViewsIdsCollapsed = createSelector(
+  getViews,
+  views => __.keys(__.pickBy('configuration.collapsed', views))
+);
 
 export const getModifiedViewsIds = state =>
   Object

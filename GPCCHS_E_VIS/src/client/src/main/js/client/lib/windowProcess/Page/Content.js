@@ -51,7 +51,6 @@ export default class Content extends PureComponent {
     editorViewId: '',
     timebarUuid: null,
   }
-
   onResizeView = (layout = []) => {
     const newLayout = layout.map(block => _omit(block, filterLayoutBlockFields));
     this.props.updateLayout(newLayout);
@@ -119,7 +118,6 @@ export default class Content extends PureComponent {
           // avoid React reconciliation issue when all Content child components are ViewContainer
           // and sort order with siblings change
           const ViewContainer = makeViewContainer();
-
           return (
             <div
               className={classnames(
@@ -132,6 +130,7 @@ export default class Content extends PureComponent {
               key={v.viewId}
             >
               <ViewContainer
+                key={v.viewId}
                 timebarUuid={timebarUuid}
                 pageId={focusedPageId}
                 viewId={v.viewId}

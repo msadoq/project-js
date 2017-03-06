@@ -270,6 +270,8 @@ export class GrizzlyPlotView extends PureComponent {
           width={containerWidth - (plotPadding * 2)}
           enableTooltip
           tooltipColor="blue"
+          allowYZoom
+          allowYPan
           allowZoom
           allowPan
           xExtents={xExtents}

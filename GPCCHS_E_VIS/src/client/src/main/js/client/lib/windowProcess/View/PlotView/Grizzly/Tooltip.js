@@ -99,11 +99,11 @@ export default class Tooltip extends React.Component {
       axis.lines.forEach((line) => {
         if (xClosestPacket[line.id]) {
           const val = line.yAccessor(xClosestPacket);
-          const color = line.colorAccessor ?
-            line.colorAccessor(xClosestPacket) || line.fill : line.fill;
+          const color = (line.colorAccessor ?
+            line.colorAccessor(xClosestPacket) || line.fill : line.fill) || '#222222';
           linesList[axis.id].push({
             color,
-            epColor: line.fill,
+            epColor: line.fill || '#222222',
             name: line.id,
             value: this.memoizeFormatter(axis.format || '.2f')(val),
             offset: xClosestPacket[line.id].x !== xClosestPacket.x ?
@@ -169,8 +169,6 @@ export default class Tooltip extends React.Component {
     const tooltiLinesToDisplay = linesList && Object.values(linesList).length;
     const tooltipStyle = { width: this.tooltipWidth };
     tooltipStyle.opacity = showTooltip ? 1 : 0;
-    tooltipStyle.top = yInRange + 8;
-    tooltipStyle.left = xInRange + 8;
     tooltipStyle.height = tooltiLinesToDisplay ?
         (_sum(Object.values(linesList).map(a => a.length)) * 21)
           + (Object.values(linesList).length * 26)
@@ -182,9 +180,13 @@ export default class Tooltip extends React.Component {
     tooltipStyle.transform = '';
     if (tooltipOnRight) {
       tooltipStyle.left = (xInRange - this.tooltipWidth) - 8;
+    } else {
+      tooltipStyle.left = xInRange + 8;
     }
     if (tooltipOnBottom) {
-      tooltipStyle.top = (yInRange - tooltipStyle.height) - 8;
+      tooltipStyle.top = (yInRange - tooltipStyle.height) - 16;
+    } else {
+      tooltipStyle.top = yInRange + 8;
     }
 
     const xLabelStyle = {

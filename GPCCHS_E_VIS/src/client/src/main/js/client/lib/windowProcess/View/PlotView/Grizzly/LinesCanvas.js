@@ -1,5 +1,4 @@
 import React, { PropTypes, PureComponent } from 'react';
-import { scaleLinear } from 'd3-scale';
 import styles from './GrizzlyChart.css';
 
 export default class LinesCanvas extends PureComponent {
@@ -13,11 +12,9 @@ export default class LinesCanvas extends PureComponent {
     margin: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     xScale: PropTypes.func.isRequired,
+    yScale: PropTypes.func.isRequired,
     data: PropTypes.arrayOf(PropTypes.shape).isRequired,
     showLabels: PropTypes.bool,
-    yExtents: PropTypes.arrayOf(
-      PropTypes.number
-    ).isRequired,
     lines: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -35,14 +32,6 @@ export default class LinesCanvas extends PureComponent {
 
   static defaultProps = {
     showLabels: false,
-    lines: {
-      fill: '#222222',
-      lineSize: 0,
-      lineStyle: 'Continuous',
-      pointSize: 0,
-      pointStyle: null,
-      colorAccessor: null,
-    },
   }
 
   componentDidMount() {
@@ -53,7 +42,7 @@ export default class LinesCanvas extends PureComponent {
     let shouldRender = false;
 
     ['yAxesAt', 'top', 'height', 'margin', 'width',
-      'xScale', 'showLabels', 'data'].forEach((attr) => {
+      'xScale', 'showLabels', 'data', 'yScale'].forEach((attr) => {
         if (nextProps[attr] !== this.props[attr]) {
           shouldRender = true;
         }
@@ -85,16 +74,13 @@ export default class LinesCanvas extends PureComponent {
       height,
       width,
       lines,
-      yExtents,
       data,
       xScale,
       updateLabelPosition,
       axisId,
       showLabels,
+      yScale,
     } = this.props;
-    const yScale = scaleLinear()
-      .domain([yExtents[0], yExtents[1]])
-      .range([0, height]);
 
     const ctx = this.el.getContext('2d');
 
@@ -103,13 +89,19 @@ export default class LinesCanvas extends PureComponent {
     // console.time();
 
     lines.forEach((line) => {
-      // Change style depending on line properties
-      ctx.strokeStyle = line.fill;
-      ctx.fillStyle = line.fill;
-      ctx.lineWidth = line.lineSize;
+      // Default values
+      const fill = line.fill || '#222222';
+      const lineSize = typeof line.lineSize !== 'number' ? 1 : line.lineSize;
+      const pointSize = typeof line.pointSize !== 'number' ? 0 : line.pointSize;
+
+      ctx.strokeStyle = fill;
+      ctx.fillStyle = fill;
+      ctx.lineWidth = lineSize;
+
       // Only uszed for Dot points
-      const fontSize = line.pointSize * 3;
+      const fontSize = pointSize * 3;
       ctx.font = `${fontSize}px Arial`;
+
       if (line.lineStyle === 'Dashed') {
         ctx.setLineDash([6, 2]);
       } else if (line.lineStyle === 'Dotted') {
@@ -119,7 +111,7 @@ export default class LinesCanvas extends PureComponent {
       }
 
       // Do not draw
-      if (!line.lineSize && (!line.pointSize || !line.pointStyle)) {
+      if (!lineSize && (!pointSize || !line.pointStyle)) {
         updateLabelPosition(axisId, line.id, null);
         return;
       }
@@ -129,16 +121,16 @@ export default class LinesCanvas extends PureComponent {
 
       // Point (only if size > 0 AND style not null
       let pointOffset;
-      if (line.pointStyle && line.pointSize) {
-        pointOffset = line.pointSize / 2;
+      if (line.pointStyle && pointSize) {
+        pointOffset = pointSize / 2;
       }
 
-      let lastColor = line.fill;
+      let lastColor = fill;
       let lastX;
       let lastY;
       for (let i = 0; i < data.length; i += 1) {
         if (line.colorAccessor) {
-          const color = line.colorAccessor(data[i]) || line.fill;
+          const color = line.colorAccessor(data[i]) || fill;
           if (color && color !== lastColor) {
             ctx.stroke();
             lastColor = color;
@@ -152,13 +144,14 @@ export default class LinesCanvas extends PureComponent {
         lastY = yScale(line.yAccessor(data[i]));
         lastX = xScale(data[i].x);
 
-        if (line.lineSize > 0) {
+        // Draw line
+        if (lineSize > 0) {
           ctx.lineTo(lastX, lastY);
         }
 
-        // draw point
+        // Draw point
         if (pointOffset && line.pointStyle === 'Square') {
-          ctx.fillRect(lastX - pointOffset, lastY - pointOffset, line.pointSize, line.pointSize);
+          ctx.fillRect(lastX - pointOffset, lastY - pointOffset, pointSize, pointSize);
         } else if (pointOffset && line.pointStyle === 'Dot') {
           ctx.fillText('•', lastX - pointOffset, lastY + (fontSize / 3));
         } else if (pointOffset && line.pointStyle === 'Triangle') {

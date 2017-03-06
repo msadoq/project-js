@@ -25,6 +25,8 @@ export default class Chart extends React.Component {
     enableTooltip: PropTypes.bool,
     tooltipColor: PropTypes.string,
     allowZoom: PropTypes.bool,
+    allowYZoom: PropTypes.bool,
+    allowYPan: PropTypes.bool,
     allowPan: PropTypes.bool,
     xExtents: PropTypes.arrayOf(PropTypes.number).isRequired,
     yAxes: PropTypes.arrayOf(
@@ -65,6 +67,8 @@ export default class Chart extends React.Component {
     yAxesAt: 'left',
     xAxisAt: 'bottom',
     enableTooltip: true,
+    allowYPan: true,
+    allowYZoom: true,
     allowZoom: true,
     allowPan: true,
     tooltipColor: 'white',
@@ -73,6 +77,8 @@ export default class Chart extends React.Component {
   state = {
     zoomLevel: 1,
     pan: 0,
+    yZoomLevels: {},
+    yPans: {},
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -97,46 +103,86 @@ export default class Chart extends React.Component {
 
   onWheel = (e) => {
     e.preventDefault();
-    const { allowZoom } = this.props;
-    const { zoomLevel } = this.state;
-    if (allowZoom && e.ctrlKey) {
-      this.setState({
-        zoomLevel: (zoomLevel * (e.deltaY > 0 ? 0.9 : 1.1)).toFixed(2),
-      });
+    const { allowZoom, allowYZoom } = this.props;
+    const { zoomLevel, yZoomLevels } = this.state;
+
+    if (e.ctrlKey) {
+      const hoveredAxisId = this.wichAxisIsHovered(e);
+      if (allowYZoom && hoveredAxisId) {
+        const yZoomLevel = _get(yZoomLevels, hoveredAxisId, 1);
+        const newYZoomLevels = {
+          ...yZoomLevels,
+          [hoveredAxisId]: yZoomLevel * (e.deltaY > 0 ? 1.1 : 0.9),
+        };
+        this.setState({
+          yZoomLevels: newYZoomLevels,
+        });
+      } else if (allowZoom) {
+        this.setState({
+          zoomLevel: (zoomLevel * (e.deltaY > 0 ? 0.9 : 1.1)).toFixed(2),
+        });
+      }
     }
   }
 
   onMouseDown = (e) => {
     e.preventDefault();
-    const { allowPan } = this.props;
-    const { pan } = this.state;
-    if (!allowPan) {
-      return;
+    const { allowPan, allowYPan } = this.props;
+    const { pan, yPans } = this.state;
+    const hoveredAxisId = this.wichAxisIsHovered(e);
+    if (allowYPan && hoveredAxisId) {
+      const yPan = _get(yPans, hoveredAxisId, 0);
+      this.setState({
+        mouseMoveCursorOriginY: e.pageY,
+        panAxisId: hoveredAxisId,
+        yPanOrigin: yPan,
+      });
+    } else if (allowPan && !hoveredAxisId) {
+      this.setState({
+        mouseMoveCursorOrigin: e.pageX,
+        panOrigin: pan,
+      });
     }
-    this.setState({
-      mouseMoveCursorOrigin: e.pageX,
-      panOrigin: pan,
-    });
-
     if (!this.onMouseMoveThrottle) {
       this.onMouseMoveThrottle = _throttle(this.onMouseMove, 100);
     }
-
     document.addEventListener('mousemove', this.onMouseMoveThrottle);
     document.addEventListener('mouseup', this.onMouseUp);
   }
 
   onMouseMove = (e) => {
     e.preventDefault();
-    const { mouseMoveCursorOrigin, panOrigin, zoomLevel } = this.state;
-    this.setState({
-      pan: panOrigin + ((e.pageX - mouseMoveCursorOrigin) / zoomLevel),
-    });
+    const {
+      mouseMoveCursorOrigin,
+      panOrigin,
+      zoomLevel,
+      panAxisId,
+      mouseMoveCursorOriginY,
+      yPans,
+      yPanOrigin,
+    } = this.state;
+    if (panAxisId) {
+      const newYPans = {
+        ...yPans,
+        [panAxisId]: yPanOrigin + (mouseMoveCursorOriginY - e.pageY),
+      };
+      this.setState({
+        yPans: newYPans,
+      });
+    } else {
+      this.setState({
+        pan: panOrigin + ((e.pageX - mouseMoveCursorOrigin) / zoomLevel),
+      });
+    }
   }
 
   onMouseUp = (e) => {
     e.preventDefault();
+    this.setState({
+      panAxisId: null,
+    });
     document.removeEventListener('mousemove', this.onMouseMoveThrottle);
+    document.addEventListener('mouseup', this.onMouseUp);
   }
 
   getSortedAndValidYAxes = () => {
@@ -145,9 +191,15 @@ export default class Chart extends React.Component {
       lines,
       xExtents,
     } = this.props;
+    const {
+      yZoomLevels,
+      yPans,
+    } = this.state;
 
     const sortedAndValidAxes = yAxes
       .map((axis) => {
+        const zoomLevel = _get(yZoomLevels, axis.id, 1);
+        const pan = _get(yPans, axis.id, 0);
         const axisLines = lines
           .filter(line => line.yAxis === axis.id);
         // let's calculate lower and upper limits of the yAxis
@@ -162,11 +214,18 @@ export default class Chart extends React.Component {
             axis.data
           );
         } else {
+          const center = (axis.yExtents[0] + axis.yExtents[1]) / 2;
+          const range = axis.yExtents[1] - axis.yExtents[0];
+          const zoomedRange = range / zoomLevel;
+          const scaledPan = (pan / this.chartHeight) * range * -1;
+          const pannedCenter = center + scaledPan;
+          const xExtendsLower = pannedCenter - (zoomedRange / 2);
+          const xExtendsUpper = pannedCenter + (zoomedRange / 2);
           yExtents = this.memoizeYExtents(
-            `${axis.id}-${axis.orient}-${axis.yExtents[0]}-${axis.yExtents[1]}`,
+            `${axis.id}-${axis.orient}-${xExtendsLower}-${xExtendsUpper}`,
             axis.orient,
-            axis.yExtents[0],
-            axis.yExtents[1]
+            xExtendsLower,
+            xExtendsUpper
           );
         }
         const yScale = this.memoizeYScale(
@@ -184,7 +243,6 @@ export default class Chart extends React.Component {
           lines: axisLines,
           yExtents,
           yScale,
-          // rank
           rank,
         };
       })
@@ -195,6 +253,42 @@ export default class Chart extends React.Component {
 
   getLabelPosition = (yAxisId, lineId) =>
     _get(this.labelsPosition, [yAxisId, lineId], null);
+
+  wichAxisIsHovered = (e) => {
+    const {
+      yAxesAt,
+      width,
+    } = this.props;
+    const xPositionPx = e.clientX - this.el.getBoundingClientRect().left;
+    if (this.yAxes.length === 0) {
+      return null;
+    }
+    // let axisId = null;
+    const axisBounds = [];
+    if (yAxesAt === 'left') {
+      this.yAxes.forEach((axis, index) => {
+        const bound = (this.yAxes.length * this.yAxisWidth) - (index * this.yAxisWidth);
+        axisBounds.push([
+          axis.id,
+          bound - xPositionPx,
+        ]);
+      });
+    } else if (yAxesAt === 'right') {
+      this.yAxes.forEach((axis, index) => {
+        const bound = (width - (this.yAxes.length * this.yAxisWidth)) + (index * this.yAxisWidth);
+        axisBounds.push([
+          axis.id,
+          xPositionPx - bound,
+        ]);
+      });
+    }
+
+    const foundAxis = axisBounds
+      .filter(ab => ab[1] > 0)
+      .sort(ab => ab[1])[0];
+
+    return foundAxis ? foundAxis[0] : null;
+  }
 
   resetZoomLevel = (e) => {
     e.preventDefault();
@@ -283,6 +377,36 @@ export default class Chart extends React.Component {
 
   assignEl = (el) => { this.el = el; }
 
+  resetYPan = (e, axisId) => {
+    e.preventDefault();
+    const { yPans } = this.state;
+    this.setState({
+      yPans: {
+        ...yPans,
+        [axisId]: 0,
+      },
+    });
+  }
+
+  resetYZoomLevel = (e, axisId) => {
+    e.preventDefault();
+    const { yZoomLevels } = this.state;
+    this.setState({
+      yZoomLevels: {
+        ...yZoomLevels,
+        [axisId]: 1,
+      },
+    });
+  }
+
+  memoizeResetYPan = _memoize(axisId =>
+    e => this.resetYPan(e, axisId)
+  )
+
+  memoizeResetYZoomLevel= _memoize(axisId =>
+    e => this.resetYZoomLevel(e, axisId)
+  )
+
   render() {
     const {
       height,
@@ -293,9 +417,15 @@ export default class Chart extends React.Component {
       xExtents,
       enableTooltip,
       tooltipColor,
+      allowYPan,
     } = this.props;
 
-    const { zoomLevel, pan } = this.state;
+    const {
+      zoomLevel,
+      pan,
+      yZoomLevels,
+      yPans,
+    } = this.state;
 
     // Set chartHeight depending on xAxisAt (top/bottom/other)
     this.chartHeight = ['top', 'bottom'].includes(xAxisAt) ?
@@ -351,6 +481,30 @@ export default class Chart extends React.Component {
           }}
         >
           {
+            Object.keys(yPans).map((key) => {
+              const axisLabel = this.yAxes.find(a => a.id === key).label;
+              return (yPans[key] !== 0 &&
+              <Button
+                key={key}
+                bsStyle="danger"
+                bsSize="xs"
+                onClick={this.memoizeResetYPan(key)}
+              >{`Y axis ${axisLabel} panned ${yPans[key].toFixed(2)}px`}</Button>);
+            })
+          }
+          {
+            Object.keys(yZoomLevels).map((key) => {
+              const axisLabel = this.yAxes.find(a => a.id === key).label;
+              return (yZoomLevels[key] !== 1 &&
+              <Button
+                key={key}
+                bsStyle="danger"
+                bsSize="xs"
+                onClick={this.memoizeResetYZoomLevel(key)}
+              >{`Y axis ${axisLabel} zoomed ${(yZoomLevels[key]).toFixed(2)}x`}</Button>);
+            })
+          }
+          {
             zoomLevel !== 1 &&
             <Button
               bsStyle="danger"
@@ -400,8 +554,8 @@ export default class Chart extends React.Component {
               top={marginTop}
               margin={marginSide}
               xScale={xScale}
+              yScale={yAxis.yScale}
               showLabels={yAxis.showLabels}
-              yExtents={yAxis.yExtents}
               axisId={yAxis.id}
               data={yAxis.data}
               lines={yAxis.lines}
@@ -426,6 +580,7 @@ export default class Chart extends React.Component {
               gridSize={yAxis.gridSize}
               yAxisWidth={this.yAxisWidth}
               chartWidth={this.chartWidth}
+              allowYPan={allowYPan}
               height={this.chartHeight}
               xAxisAt={xAxisAt}
               top={marginTop}

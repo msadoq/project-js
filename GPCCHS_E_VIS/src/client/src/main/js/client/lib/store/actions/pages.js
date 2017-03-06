@@ -10,7 +10,7 @@ import { addAndMount as addAndMountPage, focusPage } from './windows';
 /**
  * Simple actions
  */
-export const _add = simple(types.WS_PAGE_ADD, 'pageId', 'timebarUuid', 'title', 'views', 'layout',
+export const _add = simple(types.WS_PAGE_ADD, 'pageUuid', 'timebarUuid', 'title', 'views', 'layout',
   'path', 'oId', 'absolutePath', 'isModified', 'properties', 'timebarHeight', 'timebarCollapsed');
 
 export const add = (pageId, timebarUuid, title, views, layout,

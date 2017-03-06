@@ -1,4 +1,4 @@
-import __ from 'lodash/fp';
+import _ from 'lodash/fp';
 
 import * as types from '../types';
 import view from './views/view';
@@ -9,18 +9,24 @@ const views = (stateViews = {}, action) => {
     case types.HSC_CLOSE_WORKSPACE: // clear views when close a workspace
       return {};
     case types.WS_VIEW_ADD: // add a view
-      return __.set(action.payload.viewId, view(undefined, action), stateViews);
+      return _.set(action.payload.viewId, view(undefined, action), stateViews);
     case types.WS_VIEW_REMOVE: { // remove a view
-      return __.omit(action.payload.viewId, stateViews);
+      return _.omit(action.payload.viewId, stateViews);
+    }
+    case types.WS_LOAD_DOCUMENTS: {
+      const setPayloadView = _.set('payload.view');
+      const singleViewReducer = stateView => view(undefined, setPayloadView(stateView, action));
+      return _.compose(
+        _.defaults(stateViews),          // 3. merge with old stateViews
+        _.indexBy('uuid'),               // 2. index views array by uuid
+        _.map(singleViewReducer)         // 1. apply single view reducer on all views
+      )(action.payload.documents.views);
     }
     default: {
-      if (
-        action.payload &&
-        action.payload.viewId &&
-        stateViews[action.payload.viewId]
-      ) {
-        const currentView = stateViews[action.payload.viewId];
-        return __.set(action.payload.viewId, view(currentView, action), stateViews);
+      const viewId = _.get('payload.viewId', action);
+      const currentView = _.get(viewId, stateViews);
+      if (currentView) {
+        return _.set(action.payload.viewId, view(currentView, action), stateViews);
       }
       return stateViews;
     }

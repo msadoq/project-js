@@ -16,8 +16,8 @@ import loadDocumentsInStore from './loadDocumentsInStore';
 
 const addDangerMessage = (focusedPageId, msg) => addMessage(focusedPageId, 'danger', msg);
 
-export const simpleReadView = (viewInfo, cb) => {
-  const { path, oId, absolutePath, pageFolder } = viewInfo;
+export const simpleReadView = ({ pageFolder, ...viewInfo }, cb) => {
+  const { path, oId, absolutePath } = viewInfo;
   readDocument(fmdApi)(pageFolder, path, oId, absolutePath, (err, viewContent) => {
     if (err) {
       return cb(err);
@@ -40,10 +40,11 @@ export const simpleReadView = (viewInfo, cb) => {
     const uuid = viewInfo.uuid || v4();
     return cb(null, {
       ...viewInfo,
+      isModified: false,
       type: viewContent.type,
       path: viewInfo.path,
       oId: viewInfo.oId,
-      absolutePath: fs.getPath(), // ugly
+      absolutePath: fs.getPath(), // TODO : this is ugly
       configuration,
       uuid,
     });
@@ -53,7 +54,7 @@ export const simpleReadView = (viewInfo, cb) => {
 export const loadViewInStore = viewInfo => (dispatch) => {
   simpleReadView(viewInfo, (err, view) => {
     if (err) {
-      dispatch(addDangerMessage(view.pageId, err));
+      dispatch(addDangerMessage(view.pageUuid, err));
       return;
     }
     dispatch(loadDocumentsInStore({ views: [view] }));

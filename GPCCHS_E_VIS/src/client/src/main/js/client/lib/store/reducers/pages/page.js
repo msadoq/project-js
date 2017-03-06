@@ -1,4 +1,5 @@
-import __ from 'lodash/fp';
+import _ from 'lodash/fp';
+import { copyProp } from 'common/utils/fp';
 import * as types from '../../types';
 
 const initialState = {
@@ -35,17 +36,34 @@ const page = (statePage = initialState, action) => {
           statePage.isModified : action.payload.isModified,
         properties: action.payload.properties || [],
       };
+    case types.WS_LOAD_DOCUMENTS: {
+      const newPage = _.merge(statePage, action.payload.page);
+      const pageViews = _.groupBy('pageUuid', action.payload.documents.views)[newPage.uuid];
+      if (!pageViews) {
+        return newPage;
+      }
+      const getUuids = _.map('uuid');
+      const getLayout = _.map(_.pipe(
+        copyProp('uuid', 'geometry.i'),
+        _.prop('geometry'),
+        _.defaults({ x: 0, y: 0, h: 5, w: 5 })
+      ));
+      return _.pipe(
+        _.update('layout', _.concat(_, getLayout(pageViews))),
+        _.update('views', _.concat(_, getUuids(pageViews)))
+      )(newPage);
+    }
     case types.WS_PAGE_EDITOR_OPEN:
-      return __.update('editor', __.merge(__, {
+      return _.update('editor', _.merge(_, {
         isOpened: true,
         viewId: action.payload.viewId,
         viewType: action.payload.viewType,
       }), statePage);
     case types.WS_PAGE_EDITOR_CLOSE:
-      return __.set('editor.isOpened', false, statePage);
+      return _.set('editor.isOpened', false, statePage);
     case types.WS_PAGE_VIEW_MOUNT: {
       const { layout } = action.payload;
-      return __.merge(statePage, {
+      return _.merge(statePage, {
         views: [...statePage.views, action.payload.viewId],
         isModified: true,
         layout: layout && layout.length ? layout : undefined,
@@ -54,7 +72,7 @@ const page = (statePage = initialState, action) => {
     case types.WS_PAGE_VIEW_UNMOUNT: {
       return {
         ...statePage,
-        views: __.pull(action.payload.viewId, statePage.views),
+        views: _.pull(action.payload.viewId, statePage.views),
         isModified: true,
       };
     }
@@ -93,10 +111,10 @@ const page = (statePage = initialState, action) => {
       };
     }
     case types.WS_PAGE_SETMODIFIED: {
-      return __.set('isModified', action.payload.flag, statePage);
+      return _.set('isModified', action.payload.flag, statePage);
     }
     case types.WS_PAGE_UPDATE_TIMEBARID:
-      return __.set('timebarUuid', action.payload.timebarUuid, statePage);
+      return _.set('timebarUuid', action.payload.timebarUuid, statePage);
     case types.WS_PAGE_UPDATE_TIMEBARHEIGHT:
       return {
         ...statePage,

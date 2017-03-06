@@ -3,6 +3,7 @@ import { dirname, basename } from 'path';
 import async from 'async';
 import { v4 } from 'uuid';
 
+import { copyProp } from 'common/utils/fp';
 import getLogger from 'common/log';
 import { LOG_DOCUMENT_OPEN } from 'common/constants';
 import { server } from '../mainProcess/ipc';
@@ -25,11 +26,6 @@ const addGlobalError = msg => addMessage('global', 'danger', msg);
 /* Prepare workspace */
 const injectUuids = _.map(_.update('uuid', v4));
 const injectUuidsIn = key => _.update(key, injectUuids);
-
-const copyProp = _.curry((keyFrom, keyTo, obj) => {
-  const value = _.get(keyFrom, obj);
-  return value ? _.set(keyTo, value, obj) : obj;
-});
 
 const flattenTimelines = _.pipe(
   copyProp('timebars', 'timelines'),
@@ -55,6 +51,7 @@ const prepareWorkspace = _.pipe(
   injectUuidsIn('timebars'),
   _.update('windows', _.map(_.update('pages', injectUuids))),
   _.update('timebars', _.map(_.update('timelines', injectUuids))),
+  _.update('timebars', _.map(_.unset('type'))),
   flattenTimelines,
   hydrateTimebarsUuidInPages
 );
@@ -71,12 +68,13 @@ const simpleReadWorkspace = (workspaceInfo, cb) => {
       return cb(validationError);
     }
 
-    const workspace = {
-      ...workspaceContent,
+    const workspace = _.update('windows', _.map(_.set('isModified', false)), workspaceContent);
+    const documents = {
+      ...workspace,
       ...workspaceInfo,
       absolutePath: fs.getPath(), // ugly side effects
     };
-    return cb(null, prepareWorkspace(workspace));
+    return cb(null, prepareWorkspace(documents));
   });
 };
 
@@ -111,9 +109,10 @@ const readWorkspacePagesAndViews = (workspaceInfo, cb) => {
       if (errPages) {
         return cb(errPages);
       }
-      const clearPages = _.update('windows', _.map(_.set('pages', [])));
+      // const _preparePages = _.update('windows', _.map(_.update('pages', _.map('uuid'))));
+      const preparePages = _.update('windows', _.map(_.set('pages', [])));
       return cb(null, {
-        ...clearPages(workspace),
+        ...preparePages(workspace),
         ...documents,
       });
     });

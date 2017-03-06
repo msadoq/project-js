@@ -18,6 +18,8 @@ export const HSC_PAUSE = 'HSC_PAUSE';
 export const HSC_FOCUS_WINDOW = 'HSC_FOCUS_WINDOW';
 export const HSC_BLUR_WINDOW = 'HSC_BLUR_WINDOW';
 
+export const WS_LOAD_DOCUMENTS = 'WS_LOAD_DOCUMENTS';
+
 export const WS_MESSAGE_ADD = 'WS_MESSAGE_ADD';
 export const WS_MESSAGE_REMOVE = 'WS_MESSAGE_REMOVE';
 export const WS_MESSAGE_RESET = 'WS_MESSAGE_RESET';

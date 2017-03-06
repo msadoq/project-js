@@ -1,4 +1,4 @@
-import __ from 'lodash/fp';
+import _ from 'lodash/fp';
 import u from 'updeep';
 
 import window from './windows/window';
@@ -9,9 +9,24 @@ export default function windows(stateWindows = {}, action) {
     case types.HSC_CLOSE_WORKSPACE:
       return {};
     case types.WS_WINDOW_ADD:
-      return __.set(action.payload.windowId, window(undefined, action), stateWindows);
+      return _.set(action.payload.windowId, window(undefined, action), stateWindows);
     case types.WS_WINDOW_REMOVE:
-      return __.omit(action.payload.windowId, stateWindows);
+      return _.omit(action.payload.windowId, stateWindows);
+    case types.WS_LOAD_DOCUMENTS: {
+      const { documents } = action.payload;
+      const setPayloadWindow = _.set('payload.window');
+      if (_.isEmpty(documents.windows) && !_.isEmpty(documents.pages)) {
+        return _.mapValues(p => window(p, action), stateWindows);
+      }
+      const singleWindowReducer = stateWindow => (
+        window(undefined, setPayloadWindow(stateWindow, action))
+      );
+      return _.compose(
+        _.defaults(stateWindows),          // 3. merge with old stateWindows
+        _.indexBy('uuid'),                 // 2. index windows array by uuid
+        _.map(singleWindowReducer)         // 1. apply single window reducer on all windows
+      )(documents.windows);
+    }
     default: {
       if (
         action.payload &&

@@ -14,7 +14,9 @@ import { simpleReadView } from './readView';
 import { add as addMessage } from '../store/actions/messages';
 import loadDocumentsInStore from './loadDocumentsInStore';
 
+// utils
 const addGlobalError = msg => addMessage('global', 'danger', msg);
+const updateAllViews = transform => _.update('views', _.map(transform));
 
 export const simpleReadPage = (pageInfo, cb) => {
   const { workspaceFolder, path, oId, absolutePath } = pageInfo;
@@ -27,15 +29,20 @@ export const simpleReadPage = (pageInfo, cb) => {
       return cb(validationError);
     }
 
-    const updateAllGeometries = transform => _.update('views', _.map(_.update('geometry', transform)));
-    const filterGeometries = updateAllGeometries(_.pick(['x', 'y', 'w', 'h', 'maxH', 'maxW']));
+    const preparePageViews = updateAllViews(
+      _.pipe(
+        _.update('geometry', _.pick(['x', 'y', 'w', 'h', 'maxH', 'maxW'])),
+        _.update('uuid', v4)
+      )
+    );
 
     const uuid = pageInfo.uuid || v4();
     return cb(null, {
-      ...filterGeometries(page),
+      ...preparePageViews(page),
       ...pageInfo,
       properties, // Table with document props from FMD
       uuid,
+      isModified: false,
       absolutePath: fs.getPath(), // ugly
     });
   });
@@ -50,15 +57,18 @@ export const readPageAndViews = (pageInfo, cb) => {
     }
     const viewsWithPageInfo = _.map(v => ({
       ...v,
-      pageId: page.uuid,
+      pageUuid: page.uuid,
       pageFolder: dirname(page.absolutePath),
     }), page.views);
     return readViews(viewsWithPageInfo, (errViews, views) => {
       if (errViews) {
         return cb(errViews);
       }
-      const clearViews = _.set('views', []);
-      return cb(null, { pages: [clearViews(page)], views });
+      const resetViewsInPage = _.set('views', []);
+      return cb(null, {
+        pages: [resetViewsInPage(page)],
+        views,
+      });
     });
   });
 };

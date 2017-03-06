@@ -13,7 +13,7 @@ const getIsModified = (action) => {
   return _.get('payload.isModified', action);
 };
 
-// This reducer take care of actions and update the isModified property
+// This reducer take care of action types and update the isModified property
 // this is a temporary fix, waiting for the savableMiddleware
 const viewIsModified = (stateView, action) => {
   const isModified = getIsModified(action);
@@ -74,6 +74,9 @@ function simpleView(stateView = initialState, action) {
         oId: action.payload.oId,
         absolutePath: action.payload.absolutePath,
       };
+    case types.WS_LOAD_DOCUMENTS: {
+      return _.merge(stateView, action.payload.view);
+    }
     case types.WS_VIEW_UPDATEPATH:
       return {
         ...stateView,

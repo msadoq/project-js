@@ -1,4 +1,4 @@
-import __ from 'lodash/fp';
+import _ from 'lodash/fp';
 import _defaults from 'lodash/defaults';
 import _omit from 'lodash/omit';
 import _without from 'lodash/without';
@@ -35,6 +35,19 @@ export default function window(stateWindow = initialState, action) {
         isModified: (action.payload.isModified === undefined) ?
           stateWindow.isModified : action.payload.isModified,
       });
+    case types.WS_LOAD_DOCUMENTS: {
+      const newWindow = _.merge(stateWindow, action.payload.window);
+      const windowPages = _.groupBy('windowId', action.payload.documents.pages)[newWindow.uuid];
+      if (!windowPages) {
+        return newWindow;
+      }
+      const getUuids = _.map('uuid');
+      const getFocusedPageId = _.get('[0].uuid');
+      return _.pipe(
+        _.update('pages', _.concat(_, getUuids(windowPages))),
+        _.set('focusedPage', getFocusedPageId(windowPages))
+      )(newWindow);
+    }
     case types.WS_WINDOW_UPDATE_GEOMETRY: {
       return Object.assign({}, stateWindow, {
         geometry: _defaults({}, _omit(action.payload, ['windowId']), stateWindow.geometry),
@@ -93,7 +106,7 @@ export default function window(stateWindow = initialState, action) {
         explorerWidth: action.payload.width,
       });
     case types.WS_PAGE_UPDATE_TIMEBARID: {
-      if (__.contains(action.payload.pageId, stateWindow.pages)) {
+      if (_.contains(action.payload.pageId, stateWindow.pages)) {
         return Object.assign({}, stateWindow, {
           isModified: true,
         });

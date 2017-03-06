@@ -1,5 +1,5 @@
 import u from 'updeep';
-import __ from 'lodash/fp';
+import _ from 'lodash/fp';
 
 import * as types from '../types';
 import timeline from './timelines/timeline';
@@ -9,9 +9,20 @@ export default function timelines(stateTimelines = {}, action) {
     case types.HSC_CLOSE_WORKSPACE:
       return {};
     case types.WS_TIMELINE_ADD:
-      return __.set(action.payload.timelineUuid, timeline(undefined, action), stateTimelines);
+      return _.set(action.payload.timelineUuid, timeline(undefined, action), stateTimelines);
     case types.WS_TIMELINE_REMOVE:
-      return __.omit(action.payload.timelineUuid, stateTimelines);
+      return _.omit(action.payload.timelineUuid, stateTimelines);
+    case types.WS_LOAD_DOCUMENTS: {
+      const setPayloadTimeline = _.set('payload.timeline');
+      const singleTimelineReducer = stateTl => (
+        timeline(undefined, setPayloadTimeline(stateTl, action))
+      );
+      return _.compose(
+        _.defaults(stateTimelines),          // 3. merge with old stateTimelines
+        _.indexBy('uuid'),                   // 2. index timelines array by uuid
+        _.map(singleTimelineReducer)         // 1. apply single timeline reducer on all timelines
+      )(action.payload.documents.timelines);
+    }
     default: {
       if (
         action.payload &&

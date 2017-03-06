@@ -73,8 +73,9 @@ export const commonConfiguration = (stateConf = { title: null }, action) => {
 export const configurationByViewType = {
   DynamicView: (stateConf, action) => {
     switch (action.type) {
+      case types.WS_LOAD_DOCUMENTS:
       case types.WS_VIEW_ADD: {
-        const config = action.payload.configuration;
+        const config = action.payload.configuration || action.payload.view.configuration;
         const nextConf = __.set('entryPoints', [{
           ...config.entryPoint,
           name: 'dynamicEP',

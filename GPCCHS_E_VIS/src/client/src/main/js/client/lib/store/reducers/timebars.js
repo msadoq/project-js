@@ -1,4 +1,4 @@
-import __ from 'lodash/fp';
+import _ from 'lodash/fp';
 import u from 'updeep';
 
 import * as types from '../types';
@@ -10,9 +10,21 @@ export default function timebars(stateTimebars = {}, action) {
     case types.HSC_CLOSE_WORKSPACE:
       return {};
     case types.WS_TIMEBAR_ADD:
-      return __.set(action.payload.timebarUuid, timebar(undefined, action), stateTimebars);
+      return _.set(action.payload.timebarUuid, timebar(undefined, action), stateTimebars);
     case types.WS_TIMEBAR_REMOVE:
-      return __.omit(action.payload.timebarUuid, stateTimebars);
+      return _.omit(action.payload.timebarUuid, stateTimebars);
+    case types.WS_LOAD_DOCUMENTS: {
+      const setPayloadTimebar = _.set('payload.timebar');
+      const singleTimebarReducer = stateTb => (
+        timebar(undefined, setPayloadTimebar(stateTb, action))
+      );
+      return _.compose(
+        _.merge(stateTimebars),              // 4. merge with old stateTimebars
+        _.mapValues(_.unset('timelines')),   // 3. remove all timelines, this is handled by timebarTimelines reducer
+        _.indexBy('uuid'),                   // 2. index timebars array by uuid
+        _.map(singleTimebarReducer)          // 1. apply single timebar reducer on all timebars
+      )(action.payload.documents.timebars);
+    }
     default: {
       if (
         action.payload &&

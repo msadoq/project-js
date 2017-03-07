@@ -1,5 +1,6 @@
 import React, { PropTypes, PureComponent } from 'react';
 import classnames from 'classnames';
+import _memoize from 'lodash/memoize';
 import { select } from 'd3-selection';
 import { scaleTime } from 'd3-scale';
 import { timeFormat } from 'd3-time-format';
@@ -122,6 +123,16 @@ export default class XAxis extends PureComponent {
 
   assignEl = (el) => { this.el = el; }
 
+  memoizeStyle = _memoize((hash, width, height, top, right, left) =>
+    ({
+      width,
+      height,
+      top,
+      right,
+      left,
+    })
+  );
+
   render() {
     const {
       margin,
@@ -132,25 +143,32 @@ export default class XAxis extends PureComponent {
       xAxisHeight,
     } = this.props;
 
-    const style = {};
+    const s = {};
     if (showGrid) {
-      style.top = 0;
-      style.height = height + xAxisHeight;
+      s.top = 0;
+      s.height = height + xAxisHeight;
     } else {
-      style.top = height;
-      style.height = xAxisHeight;
+      s.top = height;
+      s.height = xAxisHeight;
     }
-    style.width = width;
+    s.width = width;
 
     if (yAxesAt === 'left') {
-      style.left = margin;
+      s.left = margin;
     } else if (yAxesAt === 'right') {
-      style.right = margin;
+      s.right = margin;
     }
 
     return (
       <svg
-        style={style}
+        style={this.memoizeStyle(
+          `${s.width}-${s.height}-${s.top}-${s.right}-${s.left}`,
+          s.width,
+          s.height,
+          s.top,
+          s.right,
+          s.left
+        )}
         ref={this.assignEl}
         className={styles.xAxis}
       />

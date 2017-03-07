@@ -1,4 +1,5 @@
 import React, { PropTypes, PureComponent } from 'react';
+import _memoize from 'lodash/memoize';
 import styles from './GrizzlyChart.css';
 
 export default class LinesCanvas extends PureComponent {
@@ -195,6 +196,13 @@ export default class LinesCanvas extends PureComponent {
 
   assignEl = (el) => { this.el = el; }
 
+  memoizeStyle = _memoize((hash, margin, top) =>
+    ({
+      ...margin,
+      top,
+    })
+  );
+
   render() {
     const {
       height,
@@ -212,16 +220,17 @@ export default class LinesCanvas extends PureComponent {
       style.right = margin;
     }
 
-    // vertical position
-    style.top = top;
-
     return (
       <canvas
         ref={this.assignEl}
         height={height}
         width={width}
         className={styles.canvas}
-        style={style}
+        style={this.memoizeStyle(
+          `${top}-${margin.left}-${margin.right}`,
+          style,
+          top
+        )}
       />
     );
   }

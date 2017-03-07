@@ -4,14 +4,17 @@ import ColorPickerField from './ColorPickerField';
 
 const propsStub = {
   input: {
-    value: 'testval',
+    value: '#FFF',
+    onChange: () => null,
   },
+  color: '#F0F0F0',
 };
 
 test('Navigation renders correctly', () => {
   const tree = renderer.create(
     <ColorPickerField
-      input={propsStub}
+      input={propsStub.input}
+      color={propsStub.color}
     />
   ).toJSON();
   expect(tree).toMatchSnapshot();

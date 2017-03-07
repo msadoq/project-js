@@ -25,7 +25,7 @@ const propsStub = {
     kind: 'session',
     sessionId: '10',
     timelineUuid: 'timelineUuid',
-    offset: 0,
+    offset: 10,
   },
 };
 

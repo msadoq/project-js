@@ -6,8 +6,12 @@ const propsStub = {
   input: {
     value: 'testval',
     type: 'testtype',
+    onChange: () => null,
   },
-  buttons: ['ok'],
+  buttons: [{
+    value: 'testval',
+    label: 'testlabel',
+  }],
   type: 'testType',
 };
 

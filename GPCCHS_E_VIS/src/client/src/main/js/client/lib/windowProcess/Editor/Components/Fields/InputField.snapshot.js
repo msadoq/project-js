@@ -7,6 +7,7 @@ const propsStub = {
     value: 'testval',
     type: 'testtype',
   },
+  className: '',
   meta: {
     touched: true,
   },

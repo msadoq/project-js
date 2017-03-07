@@ -17,6 +17,7 @@ import {
 */
 export default class TimelineFields extends PureComponent {
   static propTypes = {
+    disableSubmit: PropTypes.func.isRequired,
     timelines: PropTypes.arrayOf(
       PropTypes.shape({
         color: PropTypes.string,
@@ -57,6 +58,7 @@ export default class TimelineFields extends PureComponent {
       id,
       masterId,
       timelineUuid,
+      disableSubmit,
     } = this.props;
 
     return (
@@ -116,6 +118,7 @@ export default class TimelineFields extends PureComponent {
         <HorizontalFormGroup label="Offset (h-m-s-ms)">
           <Field
             name="offset"
+            disableSubmit={disableSubmit}
             component={OffsetFields}
           />
         </HorizontalFormGroup>

@@ -2,12 +2,13 @@
 import React, { PureComponent, PropTypes } from 'react';
 import _get from 'lodash/get';
 import _set from 'lodash/set';
-import { Form } from 'react-bootstrap';
+import {
+  Form,
+  ButtonGroup,
+  Button,
+} from 'react-bootstrap';
 import { reduxForm } from 'redux-form';
 import TimelineFields from './TimelineFields';
-import {
-  ClearSubmitButtons,
-} from '../../Editor/Components/Forms/';
 
 class EditTimeline extends PureComponent {
 
@@ -39,7 +40,6 @@ class EditTimeline extends PureComponent {
     id: PropTypes.string.isRequired,
     timelineUuid: PropTypes.string.isRequired,
     pristine: PropTypes.bool.isRequired,
-    reset: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
     valid: PropTypes.bool.isRequired,
   }
@@ -48,19 +48,29 @@ class EditTimeline extends PureComponent {
     masterId: null,
   }
 
+  state = {
+    disableSubmit: false,
+  }
+
+  disableSubmit = (flag) => {
+    this.setState({
+      disableSubmit: flag,
+    });
+  }
+
   render() {
     const {
       sessions,
       timelines,
       pristine,
       submitting,
-      reset,
       valid,
       handleSubmit,
       masterId,
       id,
       timelineUuid,
     } = this.props;
+    const { disableSubmit } = this.state;
 
     return (
       <Form horizontal onSubmit={handleSubmit}>
@@ -71,13 +81,19 @@ class EditTimeline extends PureComponent {
           masterId={masterId}
           timelineUuid={timelineUuid}
           id={id}
+          disableSubmit={this.disableSubmit}
         />
-        <ClearSubmitButtons
-          pristine={pristine}
-          submitting={submitting}
-          reset={reset}
-          valid={valid}
-        />
+        <div className="text-right">
+          <ButtonGroup>
+            <Button
+              bsStyle="success"
+              type="submit"
+              disabled={pristine || submitting || !valid || disableSubmit}
+            >
+              Submit
+            </Button>
+          </ButtonGroup>
+        </div>
       </Form>
     );
   }

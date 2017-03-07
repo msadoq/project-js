@@ -1,47 +1,68 @@
-import React, { PropTypes } from 'react';
-import { Form } from 'react-bootstrap';
+import React, { PropTypes, PureComponent } from 'react';
+import {
+  Form,
+  ButtonGroup,
+  Button,
+} from 'react-bootstrap';
 import _get from 'lodash/get';
 import _set from 'lodash/set';
 import { reduxForm } from 'redux-form';
 import TimelineFields from './TimelineFields';
-import {
-  ClearSubmitButtons,
-} from '../../Editor/Components/Forms/';
 
-const AddTimeline = (props) => {
-  const {
-    sessions,
-    timelines,
-    pristine,
-    submitting,
-    reset,
-    valid,
-    handleSubmit,
-  } = props;
-  return (
-    <Form horizontal onSubmit={handleSubmit}>
-      <TimelineFields
-        sessions={sessions}
-        timelines={timelines}
-      />
-      <ClearSubmitButtons
-        pristine={pristine}
-        submitting={submitting}
-        reset={reset}
-        valid={valid}
-      />
-    </Form>
-  );
-};
-AddTimeline.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  timelines: PropTypes.arrayOf(PropTypes.object).isRequired,
-  sessions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  pristine: PropTypes.bool.isRequired,
-  reset: PropTypes.func.isRequired,
-  submitting: PropTypes.bool.isRequired,
-  valid: PropTypes.bool.isRequired,
-};
+class AddTimeline extends PureComponent {
+
+  static propTypes = {
+    handleSubmit: PropTypes.func.isRequired,
+    timelines: PropTypes.arrayOf(PropTypes.object).isRequired,
+    sessions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    pristine: PropTypes.bool.isRequired,
+    submitting: PropTypes.bool.isRequired,
+    valid: PropTypes.bool.isRequired,
+  };
+
+  state = {
+    disableSubmit: false,
+  }
+
+  disableSubmit = (flag) => {
+    this.setState({
+      disableSubmit: flag,
+    });
+  }
+
+  render() {
+    const {
+      sessions,
+      timelines,
+      pristine,
+      submitting,
+      valid,
+      handleSubmit,
+    } = this.props;
+    const { disableSubmit } = this.state;
+
+    return (
+      <Form horizontal onSubmit={handleSubmit}>
+        <TimelineFields
+          sessions={sessions}
+          timelines={timelines}
+          disableSubmit={this.disableSubmit}
+        />
+        <div className="text-right">
+          <ButtonGroup>
+            <Button
+              bsStyle="success"
+              type="submit"
+              disabled={pristine || submitting || !valid || disableSubmit}
+            >
+              Submit
+            </Button>
+          </ButtonGroup>
+        </div>
+      </Form>
+    );
+  }
+}
 
 const requiredFields = ['id', 'sessionId'];
 const validate = (values = {}) => {

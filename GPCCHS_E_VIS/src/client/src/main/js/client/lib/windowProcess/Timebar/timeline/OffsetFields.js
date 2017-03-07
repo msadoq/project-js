@@ -6,6 +6,7 @@ import styles from '../Lefttab.css';
 
 export default class OffsetFields extends PureComponent {
   static propTypes = {
+    disableSubmit: PropTypes.func.isRequired,
     input: PropTypes.shape({
       value: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
@@ -29,6 +30,7 @@ export default class OffsetFields extends PureComponent {
     if (!this.debounced) {
       this.debounced = _debounce(this.sendChange, 1200);
     }
+    this.props.disableSubmit(true);
     this.debounced();
   }
 
@@ -46,6 +48,7 @@ export default class OffsetFields extends PureComponent {
       duration.add(val, x);
     });
     input.onChange(duration.asMilliseconds());
+    this.props.disableSubmit(false);
   }
 
   fillFields = () => {

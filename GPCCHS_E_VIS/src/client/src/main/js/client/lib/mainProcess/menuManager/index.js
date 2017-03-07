@@ -1,8 +1,8 @@
 import { v4 } from 'uuid';
 import { getStore } from '../../store/mainStore';
 import { add } from '../../store/actions/windows';
-import { viewOpen, addBlankView } from './viewOpen';
-import { pageOpen, pageAddNew } from './pageOpen';
+import { viewOpen, viewAddBlank } from './viewOpen';
+import { pageOpen, pageAddBlank } from './pageOpen';
 import { pageSave, pageSaveAs } from './pageSave';
 import { workspaceSave, workspaceSaveAs } from './workspaceSave';
 import { workspaceOpenNew, workspaceOpen } from './workspaceOpen';
@@ -118,7 +118,7 @@ template.splice(2, 0,
       label: 'Add ...',
       accelerator: '',
       click(item, focusedWindow) {
-        pageAddNew(focusedWindow);
+        pageAddBlank(focusedWindow);
       },
     }, {
       label: 'Open ...',
@@ -144,7 +144,7 @@ template.splice(2, 0,
 const specificViewsMenu = getAvailableViews().map(viewType => ({
   label: `Add ${viewType}...`,
   accelerator: '',
-  click: (item, focusedWindow) => addBlankView(viewType, focusedWindow),
+  click: (item, focusedWindow) => viewAddBlank(viewType, focusedWindow),
 }));
 
 template.splice(3, 0,

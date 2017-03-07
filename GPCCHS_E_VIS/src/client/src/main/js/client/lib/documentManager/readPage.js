@@ -10,6 +10,7 @@ import { readDocument } from './io';
 import fs from '../common/fs';
 import validation from './validation';
 
+import { getFirstTimebarId } from '../store/selectors/timebars';
 import { simpleReadView } from './readView';
 import { add as addMessage } from '../store/actions/messages';
 import loadDocumentsInStore from './loadDocumentsInStore';
@@ -73,7 +74,14 @@ export const readPageAndViews = (pageInfo, cb) => {
   });
 };
 
-export const loadPageInStore = pageInfo => (dispatch) => {
+const setIfExist = _.curry((key, value, obj) => {
+  if (_.has(key, obj)) {
+    return obj;
+  }
+  return _.set(key, value, obj);
+});
+
+export const loadPageInStore = pageInfo => (dispatch, getState) => {
   readPageAndViews(pageInfo, (err, documents) => {
     if (err) {
       dispatch(addGlobalError(err));
@@ -81,7 +89,10 @@ export const loadPageInStore = pageInfo => (dispatch) => {
     }
     const page = documents.pages[0];
     const path = page.absolutePath || page.path || page.oId;
-    dispatch(loadDocumentsInStore(documents));
+    const documentsWithTimebarsMounted = _.update('pages', _.map(
+      setIfExist('timebarUuid', getFirstTimebarId(getState()))
+    ), documents);
+    dispatch(loadDocumentsInStore(documentsWithTimebarsMounted));
     server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', path);
   });
 };

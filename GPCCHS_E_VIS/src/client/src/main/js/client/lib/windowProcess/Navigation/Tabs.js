@@ -35,13 +35,13 @@ export default class Tabs extends PureComponent {
     pages: PropTypes.arrayOf(PropTypes.object).isRequired,
     focusedPageId: PropTypes.string,
     focusPage: PropTypes.func,
-    addAndMount: PropTypes.func,
+    addBlankPage: PropTypes.func,
     removeAndUnmountPage: PropTypes.func,
   };
 
   handleSelect = (eventKey) => {
     if (eventKey === 'new') {
-      this.props.addAndMount();
+      this.props.addBlankPage();
       return;
     }
 

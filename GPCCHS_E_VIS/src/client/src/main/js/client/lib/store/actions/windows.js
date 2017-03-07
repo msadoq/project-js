@@ -3,7 +3,7 @@ import { v4 } from 'uuid';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
 import { pause } from './hsc';
-import { add as addPage, remove as removePage } from './pages';
+import { add as addPage, remove as removePage, addBlankPage } from './pages';
 import { getWindowPages } from '../selectors/windows';
 import { getPage } from '../selectors/pages';
 import { getPlayingTimebarId } from '../selectors/hsc';
@@ -91,7 +91,7 @@ export function unmountAndRemove(windowId, pageId) {
         && pageId === getState().windows[windowId].focusedPage) {
       dispatch(focusPage(windowId, getState().windows[windowId].pages[0]));
     } else if (!getState().windows[windowId].pages.length) {
-      dispatch(addAndMount(windowId));
+      dispatch(addBlankPage(windowId));
     }
   };
 }

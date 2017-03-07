@@ -48,6 +48,16 @@ export default function window(stateWindow = initialState, action) {
         _.set('focusedPage', getFocusedPageId(windowPages))
       )(newWindow);
     }
+    case types.WS_PAGE_ADD_BLANK: {
+      const { page } = action.payload;
+      if (page.windowId === stateWindow.uuid) {
+        return _.pipe(
+          _.update('pages', _.concat(_, page.uuid)),
+          _.set('focusedPage', page.uuid)
+        )(stateWindow);
+      }
+      return stateWindow;
+    }
     case types.WS_WINDOW_UPDATE_GEOMETRY: {
       return Object.assign({}, stateWindow, {
         geometry: _defaults({}, _omit(action.payload, ['windowId']), stateWindow.geometry),

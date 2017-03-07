@@ -30,7 +30,7 @@ function viewOpenWithPath({ windowId, absolutePath }) {
   dispatch(loadViewInStore({ absolutePath, pageUuid }));
 }
 
-const addBlankView = (type, focusedWindow) => {
+const viewAddBlank = (type, focusedWindow) => {
   const { dispatch, getState } = getStore();
   const view = { type, configuration: getViewModule(type).prepareConfigurationForStore({}) };
   const pageId = getState().windows[focusedWindow.windowId].focusedPage;
@@ -42,5 +42,5 @@ const addBlankView = (type, focusedWindow) => {
 export default {
   viewOpen,
   viewOpenWithPath,
-  addBlankView,
+  viewAddBlank,
 };

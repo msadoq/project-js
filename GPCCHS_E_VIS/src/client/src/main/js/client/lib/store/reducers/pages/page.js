@@ -53,6 +53,9 @@ const page = (statePage = initialState, action) => {
         _.update('views', _.concat(_, getUuids(pageViews)))
       )(newPage);
     }
+    case types.WS_PAGE_ADD_BLANK: {
+      return _.merge(statePage, action.payload.page);
+    }
     case types.WS_PAGE_EDITOR_OPEN:
       return _.update('editor', _.merge(_, {
         isOpened: true,

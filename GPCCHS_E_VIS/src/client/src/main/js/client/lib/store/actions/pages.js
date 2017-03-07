@@ -1,33 +1,32 @@
+import { v4 } from 'uuid';
 import simple from '../simpleActionCreator';
 import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
-import { getTimebars } from '../selectors/timebars';
+import { getFirstTimebarId } from '../selectors/timebars';
+import { getFocusedWindowId } from '../selectors/hsc';
 import {
   add as addView,
   remove as removeView,
 } from './views';
-import { addAndMount as addAndMountPage, focusPage } from './windows';
 /**
  * Simple actions
  */
-export const _add = simple(types.WS_PAGE_ADD, 'pageUuid', 'timebarUuid', 'title', 'views', 'layout',
-  'path', 'oId', 'absolutePath', 'isModified', 'properties', 'timebarHeight', 'timebarCollapsed');
 
-export const add = (pageId, timebarUuid, title, views, layout,
-  path, oId, absolutePath, isModified, properties, timebarHeight, timebarCollapsed) =>
-  (dispatch, getState) => {
-    let timebarNewUuid;
-    if (typeof timebarUuid === 'undefined') {
-      const uuid = Object.keys(getTimebars(getState()))[0];
-      timebarNewUuid = uuid;
-    }
-    dispatch(
-      _add(
-        pageId, timebarUuid || timebarNewUuid, title, views, layout, path, oId,
-        absolutePath, isModified, properties, timebarHeight, timebarCollapsed
-      )
-    );
-  };
+export const addBlankPage = (windowId, newPageId = v4()) => (dispatch, getState) => {
+  const state = getState();
+  const wId = windowId || getFocusedWindowId(state);
+  return dispatch({
+    type: types.WS_PAGE_ADD_BLANK,
+    payload: {
+      windowId: wId,
+      page: {
+        uuid: newPageId,
+        timebarUuid: getFirstTimebarId(state),
+        windowId: wId,
+      },
+    },
+  });
+};
 
 export const removePage = simple(types.WS_PAGE_REMOVE, 'pageId');
 export const mountView = simple(types.WS_PAGE_VIEW_MOUNT, 'pageId', 'viewId', 'layout');
@@ -86,17 +85,16 @@ export function unmountAndRemove(pageId, viewId) {
   };
 }
 
+const moveView = simple(types.WS_VIEW_MOVE_TO_PAGE, 'fromPageId', 'toPageId', 'viewId');
+
 export function moveViewToPage(windowId, fromPageId, toPageId, viewId) {
-  return (dispatch, getState) => {
-    if (fromPageId !== toPageId) {
-      // Add page if not existing
-      if (!getState().pages[toPageId]) {
-        dispatch(addAndMountPage(windowId, toPageId));
-      }
-      dispatch(unmountView(fromPageId, viewId));
-      dispatch(focusPage(windowId, toPageId));
-      dispatch(mountView(toPageId, viewId,
-        getState().pages[toPageId].layout.concat({ i: viewId, w: 5, h: 5, x: 0, y: 0 })));
+  return (dispatch) => {
+    if (!toPageId) {
+      const newPageId = v4();
+      dispatch(addBlankPage(windowId, newPageId));
+      dispatch(moveView(fromPageId, newPageId, viewId));
+    } else {
+      dispatch(moveView(fromPageId, toPageId, viewId));
     }
   };
 }

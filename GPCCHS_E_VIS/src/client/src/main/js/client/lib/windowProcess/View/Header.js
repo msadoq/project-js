@@ -1,7 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import classnames from 'classnames';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
-import { v4 } from 'uuid';
 import globalConstants from 'common/constants';
 
 import styles from './Header.css';
@@ -77,7 +76,7 @@ export default class Header extends PureComponent {
         const pageTitles = windowPages.reduce((list, page) => (
           [...list, { title: page.title, id: page.pageId }]
         ), []);
-        pageTitles.push({ title: 'New page', id: v4() });
+        pageTitles.push({ title: 'New page', id: '' });
         this.setState({ pageTitles, choosePage: true });
         break;
       }

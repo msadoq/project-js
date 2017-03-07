@@ -1,3 +1,4 @@
+import _ from 'lodash/fp';
 import _isNumber from 'lodash/isNumber';
 import _get from 'lodash/get';
 import _values from 'lodash/values';
@@ -12,6 +13,8 @@ import { getTimebarTimelines as getTimebarTimelineIds } from './timebarTimelines
 
 export const getTimebars = state => state.timebars;
 export const getTimebar = (state, { timebarUuid }) => state.timebars[timebarUuid];
+
+export const getFirstTimebarId = _.pipe(getTimebars, _.keys, _.get(0));
 
 export const getTimebarByPageId = (state, { pageId }) => {
   const page = getPage(state, { pageId });

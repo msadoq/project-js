@@ -167,6 +167,7 @@
     "why-did-you-update": "~0.0.8"
   },
   "peerDependencies": {
+    "rtd": "node_modules/rtd",
     "common": "../../../../../common/src/main/js/common",
     "d3-time": "1.0.4"
   },

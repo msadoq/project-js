@@ -11,6 +11,7 @@ import onOpenView from './onOpenView';
 import onOpenPage from './onOpenPage';
 import onOpenWorkspace from './onOpenWorkspace';
 import onHealthStatus from './onHealthStatus';
+import onOpenInspector from './onOpenInspector';
 
 const controller = {
   [globalConstants.IPC_METHOD_SESSION_TIME]: onGetSessionTime,
@@ -23,6 +24,7 @@ const controller = {
   [globalConstants.IPC_METHOD_OPEN_PAGE]: onOpenPage,
   [globalConstants.IPC_METHOD_OPEN_WORKSPACE]: onOpenWorkspace,
   [globalConstants.IPC_METHOD_HEALTH_STATUS]: onHealthStatus,
+  [globalConstants.IPC_METHOD_OPEN_INSPECTOR]: onOpenInspector,
 };
 
 export default (electronEvent, data) => handle(

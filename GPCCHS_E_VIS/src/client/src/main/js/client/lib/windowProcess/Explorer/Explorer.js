@@ -6,6 +6,7 @@ import PerRemoteIdContainer from './components/PerRemoteIdContainer';
 import PerViewContainer from './components/PerViewContainer';
 import ServerInfoContainer from './components/ServerInfoContainer';
 import HealthContainer from './components/HealthContainer';
+import InspectorContainer from './components/InspectorContainer';
 import styles from './Explorer.css';
 
 const minWidth = 20;
@@ -125,6 +126,9 @@ export default class Explorer extends PureComponent {
             <NavItem eventKey="server" title="Server information">
               <div className={styles.tabs}>Server</div>
             </NavItem>
+            <NavItem eventKey="inspector" title="Inspector view">
+              <div className={styles.tabs}>Inspector View</div>
+            </NavItem>
           </Nav>
           <Button
             bsStyle="link"
@@ -141,6 +145,7 @@ export default class Explorer extends PureComponent {
         {(currentTab === 'perViewId') && <PerViewContainer windowId={windowId} />}
         {(currentTab === 'server') && <ServerInfoContainer />}
         {(currentTab === 'health') && <HealthContainer />}
+        {(currentTab === 'inspector') && <InspectorContainer />}
       </div>
     );
   }

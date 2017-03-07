@@ -29,6 +29,7 @@ const makeMapStateToProps = () => {
       oId,
       absolutePath,
       isModified,
+      windowId,
     };
   };
   return mapStateToProps;

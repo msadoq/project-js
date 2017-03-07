@@ -57,6 +57,7 @@ export default class View extends PureComponent {
     collapseView: PropTypes.func.isRequired,
     windowPages: PropTypes.arrayOf(PropTypes.object).isRequired,
     entryPoints: PropTypes.objectOf(PropTypes.object),
+    windowId: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -132,6 +133,7 @@ export default class View extends PureComponent {
       absolutePath,
       isModified,
       entryPoints,
+      windowId,
     } = this.props;
 
     let ContentComponent;
@@ -187,6 +189,7 @@ export default class View extends PureComponent {
               visuWindow={type === 'PlotView' ? visuWindow : undefined}
               configuration={configuration}
               entryPoints={entryPoints}
+              windowId={windowId}
             />
           </div>
         }

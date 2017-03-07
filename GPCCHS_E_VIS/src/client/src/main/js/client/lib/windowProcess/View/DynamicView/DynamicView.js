@@ -5,6 +5,7 @@ import _isArray from 'lodash/isArray';
 import _lowerCase from 'lodash/lowerCase';
 import moment from 'moment';
 import styles from './DynamicView.css';
+import { main } from '../../ipc';
 
 const pattern = /^([^.]+)\.([^<]+)<([^>]+)>(\.){0,1}([\w]+){0,1}$/i;
 
@@ -87,6 +88,7 @@ export default class DynamicView extends PureComponent {
     }),
     entryPoints: PropTypes.objectOf(PropTypes.object),
     formula: PropTypes.string,
+    windowId: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -94,7 +96,21 @@ export default class DynamicView extends PureComponent {
     entryPoints: {},
   };
 
-  parseFormula() {
+  onMouseDown = (event, parameterName) => {
+    event.preventDefault();
+    if (event.buttons === 2) {
+      const sessionId = 0;
+      const domainId = 3;
+      main.openInspector({
+        windowId: this.props.windowId,
+        parameterName,
+        sessionId,
+        domainId,
+      });
+    }
+  }
+
+  parseFormula = () => {
     const { formula } = this.props;
     if (typeof formula !== 'string' || !pattern.test(formula)) {
       return 'No connected data';
@@ -118,11 +134,14 @@ export default class DynamicView extends PureComponent {
         </div>
       );
     }
-
+    this.parsedFormula = this.parseFormula();
     return (
       <div>
-        <header className={styles.header}>
-          <h1>{this.parseFormula()}</h1>
+        <header
+          onMouseDown={event => this.onMouseDown(event, this.parsedFormula)}
+          className={styles.header}
+        >
+          <h1>{this.parsedFormula}</h1>
         </header>
         <Grid fluid className="ml10 mr10">
           <Row><Panel>{objectHeader(ep)}</Panel></Row>

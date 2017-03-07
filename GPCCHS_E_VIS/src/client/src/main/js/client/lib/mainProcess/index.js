@@ -3,7 +3,6 @@ import { series } from 'async';
 import {
   CHILD_PROCESS_SERVER,
   CHILD_PROCESS_DC,
-  CHILD_PROCESS_RTD,
   LOG_APPLICATION_START,
   LOG_APPLICATION_STOP,
   LOG_APPLICATION_ERROR,
@@ -11,6 +10,8 @@ import {
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
 import { clear } from 'common/callbacks';
+
+import rtdStub from 'rtd/lib/stubs/rtd';
 
 import enableDebug from './debug';
 import { fork, get, kill } from './childProcess';
@@ -69,15 +70,11 @@ export function start() {
         callback(null);
         return;
       }
+      const socket = parameters.get('RTD_UNIX_SOCKET');
 
       splashScreen.setMessage('starting rtd simulator...');
       logger.info('starting rtd simulator...');
-      fork(
-        CHILD_PROCESS_RTD,
-        `${parameters.get('path')}/node_modules/rtd/lib/stubs/rtd.js`,
-        forkOptions,
-        callback
-      );
+      rtdStub(socket, { redisMock: true }, callback);
     },
     (callback) => {
       splashScreen.setMessage('starting data server process...');

@@ -16,7 +16,7 @@ const addElementIn = (key, val, state) => __.update(key, __.concat(__, val), sta
 export const commonConfiguration = (stateConf = { title: null }, action) => {
   switch (action.type) {
     case types.WS_VIEW_RELOAD:
-    case types.WS_VIEW_ADD:
+    case types.WS_VIEW_ADD_BLANK:
       return action.payload.configuration || stateConf;
     case types.WS_VIEW_UPDATE_LEGEND:
       return __.set('legend', action.payload.legend, stateConf);
@@ -74,7 +74,7 @@ export const configurationByViewType = {
   DynamicView: (stateConf, action) => {
     switch (action.type) {
       case types.WS_LOAD_DOCUMENTS:
-      case types.WS_VIEW_ADD: {
+      case types.WS_VIEW_ADD_BLANK: {
         const config = action.payload.configuration || action.payload.view.configuration;
         const nextConf = __.set('entryPoints', [{
           ...config.entryPoint,

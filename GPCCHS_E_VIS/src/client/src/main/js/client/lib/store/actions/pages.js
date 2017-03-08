@@ -5,7 +5,6 @@ import * as types from '../types';
 import { getFirstTimebarId } from '../selectors/timebars';
 import { getFocusedWindowId } from '../selectors/hsc';
 import {
-  add as addView,
   remove as removeView,
 } from './views';
 /**
@@ -41,43 +40,22 @@ export const setCollapsed = simple(types.WS_VIEW_SETCOLLAPSED, 'pageId', 'viewId
 export const setMaximized = simple(types.WS_VIEW_SETMAXIMISED, 'pageId', 'viewId', 'flag');
 
 /* Update path/absolutePath */
-const simpleUpdatePath = simple(types.WS_PAGE_UPDATEPATH, 'pageId', 'newPath');
-const simpleUpdateAbsolutePath = simple(types.WS_PAGE_UPDATE_ABSOLUTEPATH, 'pageId', 'newPath');
-
-export const updatePath = ifPathChanged(simpleUpdatePath, 'pages', 'path', 'pageId');
-export const updateAbsolutePath = ifPathChanged(simpleUpdateAbsolutePath, 'pages', 'absolutePath', 'pageId');
+export const updatePath = ifPathChanged(
+  simple(types.WS_PAGE_UPDATEPATH, 'pageId', 'newPath'),
+  'pages', 'path', 'pageId'
+);
+export const updateAbsolutePath = ifPathChanged(
+  simple(types.WS_PAGE_UPDATE_ABSOLUTEPATH, 'pageId', 'newPath'),
+  'pages', 'absolutePath', 'pageId');
 /* ------------------------ */
 
-// export const updatePath = simple(types.WS_PAGE_UPDATEPATH, 'pageId', 'newPath');
-// export const updateAbsolutePath = simple(types.WS_PAGE_UPDATE_ABSOLUTEPATH, 'pageId', 'newPath');
-
 export const setModified = simple(types.WS_PAGE_SETMODIFIED, 'pageId', 'flag');
-
 export const updateTimebarHeight = simple(types.WS_PAGE_UPDATE_TIMEBARHEIGHT, 'pageId', 'timebarHeight');
-
 export const updateTimebarId = simple(types.WS_PAGE_UPDATE_TIMEBARID, 'pageId', 'timebarUuid');
 
 /**
  * Compound actions
  */
-const addViewInLayout = (page, viewId, specificLayout) => {
-  const layout = { w: 5, h: 5, x: 0, y: 0, ...specificLayout, i: viewId };
-  if (!page) {
-    return layout;
-  }
-  return [...page.layout, layout];
-};
-
-export function addAndMount(pageId, viewId, view = {}) {
-  return (dispatch, getState) => {
-    const page = getState().pages[pageId];
-    dispatch(
-      addView(viewId, view.type, view.configuration, view.path, view.oId, view.absolutePath)
-    );
-    dispatch(mountView(pageId, viewId, addViewInLayout(page, viewId, view.geometry)));
-  };
-}
-
 export function unmountAndRemove(pageId, viewId) {
   return (dispatch) => {
     dispatch(unmountView(pageId, viewId));

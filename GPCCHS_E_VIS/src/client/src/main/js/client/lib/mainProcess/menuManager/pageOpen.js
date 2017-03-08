@@ -5,13 +5,9 @@ import {
 import { server } from '../ipc';
 import { getPathByFilePicker } from '../dialog';
 import { getStore } from '../../store/mainStore';
-// import { add as addMessage } from '../../store/actions/messages';
 import { addBlankPage } from '../../store/actions/pages';
-// import { addAndMount as addAndMountPage } from '../../store/actions/windows';
 
 import { loadPageInStore } from '../../documentManager/readPage';
-
-// const addGlobalError = msg => addMessage('global', 'danger', msg);
 
 const pageOpenWithPath = ({ filePath, windowId }) => {
   getStore().dispatch(loadPageInStore({ absolutePath: filePath, windowId }));

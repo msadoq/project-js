@@ -7,7 +7,7 @@ import {
 import { server } from '../ipc';
 import { loadViewInStore } from '../../documentManager/readView';
 import { getPathByFilePicker } from '../dialog';
-import { addAndMount as addAndMountView } from '../../store/actions/pages';
+import { addBlankView } from '../../store/actions/views';
 import { getWindowFocusedPageId } from '../../store/selectors/windows';
 import { getStore } from '../../store/mainStore';
 import { getViewModule } from '../../viewManager';
@@ -32,11 +32,14 @@ function viewOpenWithPath({ windowId, absolutePath }) {
 
 const viewAddBlank = (type, focusedWindow) => {
   const { dispatch, getState } = getStore();
-  const view = { type, configuration: getViewModule(type).prepareConfigurationForStore({}) };
+  const view = {
+    type,
+    configuration: getViewModule(type).prepareConfigurationForStore({}),
+    uuid: v4(),
+  };
   const pageId = getState().windows[focusedWindow.windowId].focusedPage;
-  const viewId = v4();
-  dispatch(addAndMountView(pageId, viewId, view));
-  server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', `new ${_.getOr('view', 'type', view)}`);
+  dispatch(addBlankView(pageId, view));
+  server.sendProductLog(LOG_DOCUMENT_OPEN, 'view', `new ${_.get('type', view)}`);
 };
 
 export default {

@@ -25,7 +25,6 @@ const viewIsModified = (stateView, action) => {
     types.WS_VIEW_RELOAD,
   ]);
   const shouldSetModifiedToTrue = _.contains(_, [
-    types.WS_VIEW_ADD,
     types.WS_VIEW_UPDATEPATH,
     types.WS_VIEW_UPDATE_ABSOLUTEPATH,
     types.WS_VIEW_SET_OID,
@@ -66,14 +65,7 @@ const initialState = {
 // This reducer deal with simple views
 function simpleView(stateView = initialState, action) {
   switch (action.type) {
-    case types.WS_VIEW_ADD:
-      return {
-        ...stateView,
-        type: action.payload.type || stateView.type,
-        path: action.payload.path,
-        oId: action.payload.oId,
-        absolutePath: action.payload.absolutePath,
-      };
+    case types.WS_VIEW_ADD_BLANK:
     case types.WS_LOAD_DOCUMENTS: {
       return _.merge(stateView, action.payload.view);
     }

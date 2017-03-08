@@ -1,9 +1,8 @@
 import _ from 'lodash/fp';
-import { v4 } from 'uuid';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
 import { pause } from './hsc';
-import { add as addPage, remove as removePage, addBlankPage } from './pages';
+import { remove as removePage, addBlankPage } from './pages';
 import { getWindowPages } from '../selectors/windows';
 import { getPage } from '../selectors/pages';
 import { getPlayingTimebarId } from '../selectors/hsc';
@@ -35,10 +34,7 @@ export const updateExplorerFlag = simple(types.WS_WINDOW_EXPLORER_UPDATEFLAG, 'w
 export function add(windowId, title, geometry, pages, focusedPage, isModified) {
   return (dispatch) => {
     dispatch(addWindow(windowId, title, geometry, pages, focusedPage, isModified));
-    // Mount the first page if no page
-    if (!pages) {
-      dispatch(addAndMount(windowId));
-    }
+    dispatch(addBlankPage(windowId));
   };
 }
 
@@ -65,21 +61,6 @@ export function focusPage(windowId, pageId) {
         pageId: focusedPage.pageId,
       },
     });
-  };
-}
-export function addAndMount(windowId, pageId = v4(), page) {
-  return (dispatch) => {
-    // const pageId = v4();
-    if (!page) {
-      dispatch(addPage(pageId));
-    } else {
-      dispatch(addPage(pageId, page.timebarUuid, page.title, page.views, page.layout, page.path,
-        page.oId, page.absolutePath, page.isModified,
-        page.properties, page.timebarHeight, page.timebarCollapsed));
-    }
-    dispatch(mountPage(windowId, pageId));
-    dispatch(focusPage(windowId, pageId));
-    // No need to mount views here, this is already done
   };
 }
 

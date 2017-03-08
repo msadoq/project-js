@@ -18,6 +18,13 @@ const initialState = {
   properties: [],
 };
 
+const initialGeometry = {
+  x: 0,
+  y: 0,
+  w: 5,
+  h: 5,
+};
+
 const page = (statePage = initialState, action) => {
   switch (action.type) {
     case types.WS_PAGE_ADD:
@@ -46,7 +53,7 @@ const page = (statePage = initialState, action) => {
       const getLayout = _.map(_.pipe(
         copyProp('uuid', 'geometry.i'),
         _.prop('geometry'),
-        _.defaults({ x: 0, y: 0, h: 5, w: 5 })
+        _.defaults(initialGeometry)
       ));
       return _.pipe(
         _.update('layout', _.concat(_, getLayout(pageViews))),
@@ -55,6 +62,12 @@ const page = (statePage = initialState, action) => {
     }
     case types.WS_PAGE_ADD_BLANK: {
       return _.merge(statePage, action.payload.page);
+    }
+    case types.WS_VIEW_ADD_BLANK: {
+      return _.pipe(
+        _.update('views', _.concat(_, action.payload.view.uuid)),
+        _.update('layout', _.concat(_, { ...initialGeometry, i: action.payload.view.uuid }))
+      )(statePage);
     }
     case types.WS_PAGE_EDITOR_OPEN:
       return _.update('editor', _.merge(_, {

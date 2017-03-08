@@ -28,6 +28,7 @@ export default function window(stateWindow = initialState, action) {
   switch (action.type) {
     case types.WS_WINDOW_ADD:
       return Object.assign({}, stateWindow, {
+        uuid: action.payload.windowId,
         title: action.payload.title || stateWindow.title,
         geometry: Object.assign({}, stateWindow.geometry, action.payload.geometry),
         pages: action.payload.pages || stateWindow.pages,
@@ -53,7 +54,8 @@ export default function window(stateWindow = initialState, action) {
       if (page.windowId === stateWindow.uuid) {
         return _.pipe(
           _.update('pages', _.concat(_, page.uuid)),
-          _.set('focusedPage', page.uuid)
+          _.set('focusedPage', page.uuid),
+          _.set('isModified', true)
         )(stateWindow);
       }
       return stateWindow;

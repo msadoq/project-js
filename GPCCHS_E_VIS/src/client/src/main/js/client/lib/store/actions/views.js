@@ -8,9 +8,8 @@ import {
 import { getPageIdByViewId } from '../selectors/pages';
 import { getViewModule } from '../../viewManager';
 
-export const add = addUuidsToEntryPoints(simple(
-  types.WS_VIEW_ADD, 'viewId', 'type', 'configuration', 'path', 'oId', 'absolutePath', 'isModified'
-));
+export const addBlankView = simple(types.WS_VIEW_ADD_BLANK, 'pageId', 'view');
+
 export const remove = simple(types.WS_VIEW_REMOVE, 'viewId');
 export const reloadView = addUuidsToEntryPoints(simple(types.WS_VIEW_RELOAD, 'viewId', 'configuration'));
 

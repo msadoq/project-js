@@ -14,7 +14,7 @@ export default function editor(state = initialState, action) {
       return Object.assign({}, state, {
         textViewId: null,
       });
-    case types.WS_VIEW_REMOVE:
+    case types.WS_VIEW_CLOSE:
       if (action.payload.viewId === state.textViewId) {
         return Object.assign({}, state, {
           textViewId: null,

@@ -2,14 +2,13 @@ import simple from '../simpleActionCreator';
 import ifPathChanged from './enhancers/ifPathChanged';
 import addUuidsToEntryPoints from './enhancers/addUuidsToEntryPoints';
 import * as types from '../types';
-import {
-  openEditor,
-} from './pages';
+import { openEditor } from './pages';
 import { getPageIdByViewId } from '../selectors/pages';
 import { getViewModule } from '../../viewManager';
 
 export const addBlankView = simple(types.WS_VIEW_ADD_BLANK, 'pageId', 'view');
 
+export const closeView = simple(types.WS_VIEW_CLOSE, 'pageId', 'viewId');
 export const remove = simple(types.WS_VIEW_REMOVE, 'viewId');
 export const reloadView = addUuidsToEntryPoints(simple(types.WS_VIEW_RELOAD, 'viewId', 'configuration'));
 

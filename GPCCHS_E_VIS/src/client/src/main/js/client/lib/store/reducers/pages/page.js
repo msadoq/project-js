@@ -69,6 +69,9 @@ const page = (statePage = initialState, action) => {
         _.update('layout', _.concat(_, { ...initialGeometry, i: action.payload.view.uuid }))
       )(statePage);
     }
+    case types.WS_VIEW_CLOSE: {
+      return _.update('views', _.remove(_.equals(action.payload.viewId)), statePage);
+    }
     case types.WS_PAGE_EDITOR_OPEN:
       return _.update('editor', _.merge(_, {
         isOpened: true,

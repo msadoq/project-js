@@ -2,7 +2,8 @@ import { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { makeGetLayouts, makeGetViews } from '../../store/selectors/pages';
-import { unmountAndRemove, updateLayout } from '../../store/actions/pages';
+import { updateLayout } from '../../store/actions/pages';
+import { closeView } from '../../store/actions/views';
 import {
   getWindowFocusedPageSelector,
 } from '../../store/selectors/windows';
@@ -29,7 +30,7 @@ const mapStateToProps = (state, { windowId, focusedPageId }) => {
 
 function mapDispatchToProps(dispatch, { focusedPageId }) {
   return bindActionCreators({
-    unmountAndRemove: viewId => unmountAndRemove(focusedPageId, viewId),
+    unmountAndRemove: viewId => closeView(focusedPageId, viewId),
     updateLayout: layout => updateLayout(focusedPageId, layout),
   }, dispatch);
 }

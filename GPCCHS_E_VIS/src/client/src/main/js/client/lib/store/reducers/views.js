@@ -10,7 +10,7 @@ const views = (stateViews = {}, action) => {
       return {};
     case types.WS_VIEW_ADD_BLANK: // add a view
       return _.set(action.payload.view.uuid, view(undefined, action), stateViews);
-    case types.WS_VIEW_REMOVE: { // remove a view
+    case types.WS_VIEW_CLOSE: { // remove a view
       return _.omit(action.payload.viewId, stateViews);
     }
     case types.WS_LOAD_DOCUMENTS: {

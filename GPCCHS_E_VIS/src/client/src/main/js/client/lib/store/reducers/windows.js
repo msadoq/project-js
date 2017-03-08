@@ -10,7 +10,7 @@ export default function windows(stateWindows = {}, action) {
       return {};
     case types.WS_WINDOW_ADD:
       return _.set(action.payload.windowId, window(undefined, action), stateWindows);
-    case types.WS_WINDOW_REMOVE:
+    case types.WS_WINDOW_CLOSE:
       return _.omit(action.payload.windowId, stateWindows);
     case types.WS_LOAD_DOCUMENTS: {
       const { documents } = action.payload;

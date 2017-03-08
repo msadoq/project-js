@@ -12,7 +12,8 @@ import { getPlayingTimebarId } from '../selectors/hsc';
  */
 export const addWindow = simple(types.WS_WINDOW_ADD, 'windowId', 'title', 'geometry', 'pages',
   'focusedPage', 'isModified');
-export const remove = simple(types.WS_WINDOW_REMOVE, 'windowId');
+export const closeWindow = simple(types.WS_WINDOW_CLOSE, 'windowId');
+
 export const mountPage = simple(types.WS_WINDOW_PAGE_MOUNT, 'windowId', 'pageId');
 export const unmountPage = simple(types.WS_WINDOW_PAGE_UNMOUNT, 'windowId', 'pageId');
 export const reorderPages = simple(types.WS_WINDOW_PAGE_REORDER, 'windowId', 'pages');

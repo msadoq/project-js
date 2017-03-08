@@ -12,7 +12,7 @@ import {
   blurWindow,
 } from '../../store/actions/hsc';
 import {
-  remove,
+  closeWindow,
   updateGeometry,
   minimize,
   restore,
@@ -73,7 +73,7 @@ export function open(windowId, data, callback) {
     window[windowId] = null;
 
     // update redux store
-    getStore().dispatch(remove(windowId));
+    getStore().dispatch(closeWindow(windowId));
   });
 
   window.on('focus', () => {

@@ -84,6 +84,8 @@ function simpleView(stateView = initialState, action) {
         ...stateView,
         oId: action.payload.oid,
       };
+    case types.WS_VIEW_MOVE_TO_PAGE:
+      return _.set('pageUuid', action.payload.toPageId, stateView);
     default:
       return stateView;
   }

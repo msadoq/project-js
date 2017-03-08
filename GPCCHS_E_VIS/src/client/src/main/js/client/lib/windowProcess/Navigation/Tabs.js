@@ -36,7 +36,7 @@ export default class Tabs extends PureComponent {
     focusedPageId: PropTypes.string,
     focusPage: PropTypes.func,
     addBlankPage: PropTypes.func,
-    removeAndUnmountPage: PropTypes.func,
+    closePage: PropTypes.func,
   };
 
   handleSelect = (eventKey) => {
@@ -51,7 +51,7 @@ export default class Tabs extends PureComponent {
   handleClose = (e, pageId) => {
     e.preventDefault();
     e.stopPropagation();
-    this.props.removeAndUnmountPage(pageId);
+    this.props.closePage(pageId);
     e.stopPropagation();
   }
 

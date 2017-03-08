@@ -60,6 +60,13 @@ export default function window(stateWindow = initialState, action) {
       }
       return stateWindow;
     }
+    case types.WS_PAGE_CLOSE: {
+      const newWindow = _.update('pages', _.remove(_.equals(action.payload.pageId)), stateWindow);
+      if (newWindow.focusedPage === action.payload.pageId) {
+        return _.set('focusedPage', newWindow.pages[0], newWindow);
+      }
+      return newWindow;
+    }
     case types.WS_WINDOW_UPDATE_GEOMETRY: {
       return Object.assign({}, stateWindow, {
         geometry: _defaults({}, _omit(action.payload, ['windowId']), stateWindow.geometry),

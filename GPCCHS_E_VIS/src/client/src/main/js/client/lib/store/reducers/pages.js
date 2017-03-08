@@ -52,6 +52,7 @@ const pages = (statePages = {}, action) => {
       return {};
     case types.WS_PAGE_ADD_BLANK:
       return _.set(action.payload.page.uuid, page(undefined, action), statePages);
+    case types.WS_PAGE_CLOSE:
     case types.WS_PAGE_REMOVE:
       return _.omit(action.payload.pageId, statePages);
     case types.WS_VIEW_MOVE_TO_PAGE: {

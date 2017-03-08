@@ -13,6 +13,9 @@ const views = (stateViews = {}, action) => {
     case types.WS_VIEW_CLOSE: { // remove a view
       return _.omit(action.payload.viewId, stateViews);
     }
+    case types.WS_PAGE_CLOSE: {
+      return _.omitBy(_.propEq('pageId', action.payload.pageId), stateViews);
+    }
     case types.WS_LOAD_DOCUMENTS: {
       const setPayloadView = _.set('payload.view');
       const singleViewReducer = stateView => view(undefined, setPayloadView(stateView, action));

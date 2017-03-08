@@ -4,9 +4,7 @@ import ifPathChanged from './enhancers/ifPathChanged';
 import * as types from '../types';
 import { getFirstTimebarId } from '../selectors/timebars';
 import { getFocusedWindowId } from '../selectors/hsc';
-import {
-  remove as removeView,
-} from './views';
+import { remove as removeView } from './views';
 /**
  * Simple actions
  */
@@ -27,6 +25,7 @@ export const addBlankPage = (windowId, newPageId = v4()) => (dispatch, getState)
   });
 };
 
+export const closePage = simple(types.WS_PAGE_CLOSE, 'windowId', 'pageId');
 export const removePage = simple(types.WS_PAGE_REMOVE, 'pageId');
 export const mountView = simple(types.WS_PAGE_VIEW_MOUNT, 'pageId', 'viewId', 'layout');
 export const unmountView = simple(types.WS_PAGE_VIEW_UNMOUNT, 'pageId', 'viewId');

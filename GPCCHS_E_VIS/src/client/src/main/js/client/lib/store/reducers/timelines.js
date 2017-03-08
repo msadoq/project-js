@@ -8,7 +8,7 @@ export default function timelines(stateTimelines = {}, action) {
   switch (action.type) {
     case types.HSC_CLOSE_WORKSPACE:
       return {};
-    case types.WS_TIMELINE_ADD_NEW:
+    case types.WS_TIMELINE_CREATE_NEW:
       return _.set(action.payload.timeline.uuid, timeline(undefined, action), stateTimelines);
     case types.WS_TIMELINE_REMOVE:
       return _.omit(action.payload.timelineUuid, stateTimelines);

@@ -15,7 +15,7 @@ export default function timebarTimelines(stateTbTl = {}, action) {
     }
     case types.WS_TIMEBAR_CREATE_NEW:
       return { ...stateTbTl, [action.payload.timebarUuid]: [] };
-    case types.WS_TIMELINE_ADD_NEW: {
+    case types.WS_TIMELINE_CREATE_NEW: {
       const { timeline, timebarUuid } = action.payload;
       return _.update(timebarUuid, _.concat(_, timeline.uuid), stateTbTl);
     }

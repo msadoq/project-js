@@ -7,10 +7,10 @@ import * as types from '../types';
  * Simple actions
  */
 
-export const addNewTimeline = (timebarUuid, timeline) => {
+export const createNewTimeline = (timebarUuid, timeline) => {
   const timelineUuid = v4();
   return {
-    type: types.WS_TIMELINE_ADD_NEW,
+    type: types.WS_TIMELINE_CREATE_NEW,
     payload: {
       timebarUuid,
       timeline: { ...timeline, uuid: timelineUuid },

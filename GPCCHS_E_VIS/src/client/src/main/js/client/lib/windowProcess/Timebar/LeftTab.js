@@ -12,7 +12,7 @@ import { main } from '../ipc';
 export default class LeftTab extends PureComponent {
   static propTypes = {
     collapseTimebar: PropTypes.func.isRequired,
-    addNewTimeline: PropTypes.func.isRequired,
+    createNewTimeline: PropTypes.func.isRequired,
     removeTimeline: PropTypes.func.isRequired,
     onTimelinesVerticalScroll: PropTypes.func.isRequired,
     updateId: PropTypes.func.isRequired,
@@ -95,13 +95,13 @@ export default class LeftTab extends PureComponent {
       timebarUuid,
       timelines,
       updateMasterId,
-      addNewTimeline,
+      createNewTimeline,
       updateOffset,
     } = this.props;
 
     const timelinesBeforeAdd = [].concat(timelines);
 
-    addNewTimeline(
+    createNewTimeline(
       timebarUuid,
       {
         kind: values.kind,

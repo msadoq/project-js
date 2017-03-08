@@ -11,7 +11,7 @@ const initialState = {
 
 export default function timeline(stateTimeline = initialState, action) {
   switch (action.type) {
-    case types.WS_TIMELINE_ADD_NEW:
+    case types.WS_TIMELINE_CREATE_NEW:
     case types.WS_LOAD_DOCUMENTS: {
       return _.merge(stateTimeline, action.payload.timeline);
     }

@@ -1,4 +1,5 @@
 /* eslint no-underscore-dangle: 0 */
+import _ from 'lodash/fp';
 import _each from 'lodash/each';
 import _startsWith from 'lodash/startsWith';
 import _cloneDeep from 'lodash/cloneDeep';
@@ -77,12 +78,12 @@ const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
           callback(new Error('timelines missing'));
           return;
         }
-        tb.timelines.push(_cloneDeep(timeline));
+        tb.timelines.push(_cloneDeep(_.omit('uuid', timeline)));
       });
       if (tb.masterId === null) {
         delete tb.masterId;
       }
-      workspace.timebars.push(tb);
+      workspace.timebars.push(_.omit('uuid', tb));
     });
     // validation
     const validationError = validation('workspace', workspace);

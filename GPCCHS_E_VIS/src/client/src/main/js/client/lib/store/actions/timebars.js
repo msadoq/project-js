@@ -9,13 +9,12 @@ import {
 } from './messages';
 import { getMessages } from '../selectors/messages';
 import {
-  remove as removeTimeline,
   update as updateTL,
 } from './timelines';
 import { pause, smartPlay } from './hsc';
 import { getTimebar } from '../selectors/timebars';
 import { getPlayingTimebarId } from '../selectors/hsc';
-import { addTimebar, mountTimeline, unmountTimeline } from './timebarTimelines';
+import { addTimebar, mountTimeline } from './timebarTimelines';
 
 const VISUWINDOW_MAX_LENGTH = get('VISUWINDOW_MAX_LENGTH');
 const VISUWINDOW_CURRENT_UPPER_MIN_MARGIN = get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN');
@@ -375,12 +374,5 @@ export const updateMasterId = simple(types.WS_TIMEBAR_MASTERID_UPDATE, 'timebarU
 /**
  * Compound actions
  */
-
-export function unmountAndRemoveTimeline(timebarUuid, timelineUuid) {
-  return (dispatch) => {
-    dispatch(unmountTimeline(timebarUuid, timelineUuid));
-    dispatch(removeTimeline(timelineUuid));
-  };
-}
 
 export const updateTimeline = updateTL;

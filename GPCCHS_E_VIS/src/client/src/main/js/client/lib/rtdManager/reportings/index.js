@@ -6,7 +6,7 @@ import _isNil from 'lodash/isNil';
 import _remove from 'lodash/remove';
 import cst from './constants';
 import { SDB_NAMESPACE } from '../constants';
-import getMonitoringDataTriggers from '../monitorings';
+import { getTriggers as getMonitoringDataTriggers } from '../monitorings';
 
 export function getShortDescription({ rtd, sessionId, domainId }, reporting, callback) {
   const shortDescription = _get(reporting, 'IsisCommon.NamingAndDescription.ShortDescription');
@@ -31,7 +31,7 @@ export function getMonitoringLaws({ rtd, sessionId, domainId }, reporting, callb
   const monitoringLaws = {};
   const monitoringFlag = reporting.MonitoringFlag;
   if (monitoringFlag === cst.ALLOWED) {
-    monitoringLaws.ground = [];
+    monitoringLaws.onGround = [];
     const specificChecks = reporting.DomainSpecificChecks;
     asyncEach(specificChecks, (sCheck, sCb) => {
       const groundMonitorings = sCheck.ChecksOnGroundMonitoringData;
@@ -57,7 +57,7 @@ export function getMonitoringLaws({ rtd, sessionId, domainId }, reporting, callb
                   gmCb(tErr);
                   return;
                 }
-                monitoringLaws.ground.push({
+                monitoringLaws.onGround.push({
                   name: ref.TargetItem,
                   domainApplicability: sCheck.DomainApplicability,
                   order: gm.Order,
@@ -152,10 +152,8 @@ const getConditionalInterpretationFunctions =
       const selectionCondition = condFunc.SelectionCondition;
       if (_isNil(intFunction) || _isNil(selectionCondition)) {
         cb(null);
-        console.log('NOK');
         return;
       }
-      console.log('OK', selectionCondition);
       cb(null, {
         order: condFunc.Order,
         selectionCondition,
@@ -173,7 +171,6 @@ export function getCalibrationFunctions({ rtd, sessionId, domainId }, reporting,
       callback(err);
       return;
     }
-    console.log('PRINT', { defaultInterpretationFunction, conditionalInterpretationFunctions });
     callback(null, { defaultInterpretationFunction, conditionalInterpretationFunctions });
   });
 }

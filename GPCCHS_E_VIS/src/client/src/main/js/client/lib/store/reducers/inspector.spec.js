@@ -4,7 +4,7 @@ import inspectorReducer from './inspector';
 
 const reducer = freezeArgs(inspectorReducer);
 
-describe.only('store:inspector:reducer', () => {
+describe('store:inspector:reducer', () => {
   it('should returns initial state', () => {
     const r = reducer(undefined, {});
     r.should.have.a.property('isLoading')
@@ -33,6 +33,6 @@ describe.only('store:inspector:reducer', () => {
   });
   it('should update inspector data id', () => {
     reducer(undefined, actions.updateInspectorDataId('dataId'))
-      .should.have.a.property('dataId').that.have.properties('dataId');
+      .should.have.a.property('dataId').that.eql('dataId');
   });
 });

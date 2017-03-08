@@ -1,7 +1,7 @@
 import _isNil from 'lodash/isNil';
 import cst from './constants';
 
-export default function getTriggers({ rtd, sessionId, domainId }, monitoring, callback) {
+function getTriggers({ rtd, sessionId, domainId }, monitoring, callback) {
   const monitoringType = monitoring.MonitoringType;
   switch (monitoringType) {
     case cst.ON_BOARD: {
@@ -128,3 +128,5 @@ export default function getTriggers({ rtd, sessionId, domainId }, monitoring, ca
       callback(new Error('Wrong value for MonitoringType'));
   }
 }
+
+export default { getTriggers };

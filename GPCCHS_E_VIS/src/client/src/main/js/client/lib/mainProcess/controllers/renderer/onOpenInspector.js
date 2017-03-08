@@ -1,4 +1,4 @@
-import rtd from 'rtd/lib/catalogs';
+import rtd from 'rtd/catalogs';
 import getLogger from 'common/log';
 import parameters from 'common/parameters';
 import { getStore } from '../../../store/mainStore';
@@ -37,19 +37,20 @@ export default function ({ windowId, parameterName, sessionId, domainId }) {
   rtd.connect(socket, (cErr, isConnected) => {
     if (cErr || !isConnected) {
       dispatch(updateInspectorIsLoading(false));
-      add('global', 'danger', 'Cannot connect to RTD');
+      dispatch(updateInspectorDataId(null));
+      dispatch(add('global', 'danger', 'Cannot connect to RTD'));
       return;
     }
 
     getTelemetryStaticElements({ rtd, sessionId, domainId }, parameterName, (err, data) => {
       dispatch(updateInspectorIsLoading(false));
-
       if (err || !data) {
-        add(
+        dispatch(updateInspectorDataId(null));
+        dispatch(add(
           'global',
           'warning',
-          `Parameter ${parameterName} was not found for session ${sessionId} and domain ${domainId}`
-        );
+          `Parameter ${parameterName} was not found in catalog Reporting for session ${sessionId} and domain ${domainId}`
+        ));
         return;
       }
 

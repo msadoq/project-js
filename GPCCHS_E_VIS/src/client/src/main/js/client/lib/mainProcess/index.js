@@ -11,7 +11,7 @@ import getLogger from 'common/log';
 import parameters from 'common/parameters';
 import { clear } from 'common/callbacks';
 
-import rtdStub from 'rtd/lib/stubs/rtd';
+import rtdStub from 'rtd/stubs/rtd';
 
 import enableDebug from './debug';
 import { fork, get, kill } from './childProcess';

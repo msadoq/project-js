@@ -3,6 +3,7 @@ import { Label as BsLabel } from 'react-bootstrap';
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
 import _map from 'lodash/map';
+import _memoize from 'lodash/memoize';
 import classnames from 'classnames';
 import Dimensions from 'react-dimensions';
 import { format } from 'd3-format';
@@ -15,8 +16,6 @@ import {
   utils,
   // interactive
 } from 'react-stockcharts';
-
-import getDynamicObject from '../../common/getDynamicObject';
 
 import {
   getLines,
@@ -311,8 +310,13 @@ export class PlotView extends PureComponent {
   }
 
   getEntryPointErrors(supClass = '') {
-    const epWithErrors = this.props.entryPoints
-      .filter(ep => ep.error);
+    const epWithErrors = Object
+      .keys(this.props.entryPoints)
+      .filter(key => this.props.entryPoints[key].error)
+      .map(key => ({
+        error: this.props.entryPoints[key].error,
+        key,
+      }));
 
     return epWithErrors.length ?
       <CloseableAlert
@@ -330,7 +334,7 @@ export class PlotView extends PureComponent {
             .map(ep => (
               <div
                 className={styles.entryPointErrorSubDiv}
-                key={ep.name}
+                key={ep.key}
               >
                 {ep.name}: {ep.error}
               </div>
@@ -765,6 +769,11 @@ export class PlotView extends PureComponent {
     ctx.stroke();
   }
 
+  memoizeMarginChart = _memoize(
+    marginA => ({ left: marginA.left, right: marginA.right }),
+    marginA => JSON.stringify(marginA)
+  )
+
   render() {
     logger.debug('render');
     const noRender = this.shouldRender();
@@ -813,7 +822,7 @@ export class PlotView extends PureComponent {
     } else {
       marginChart = { ...margin };
     }
-    marginChart = getDynamicObject()(marginChart);
+    marginChart = this.memoizeMarginChart(marginChart);
 
     return (
       <DroppableContainer

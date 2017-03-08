@@ -1,8 +1,23 @@
 module.exports = {
   encode: data => ({
-    status: data.status,
+    dcQueriesDelay: data.dcQueriesDelay,
+    tbdStatus: data.tbdStatus,
+    avrgTimeMsQuery: (typeof data.avrgTimeMsQuery !== 'undefined')
+      ? data.avrgTimeMsQuery
+      : undefined,
+    avrgTimeMsGetLast: (typeof data.avrgTimeMsGetLast !== 'undefined')
+      ? data.avrgTimeMsGetLast
+      : undefined,
+
   }),
   decode: data => ({
-    status: data.status,
+    dcQueriesDelay: data.dcQueriesDelay,
+    tbdStatus: data.tbdStatus,
+    avrgTimeMsQuery: (typeof data.avrgTimeMsQuery !== 'undefined')
+      ? data.avrgTimeMsQuery
+      : undefined,
+    avrgTimeMsGetLast: (typeof data.avrgTimeMsGetLast !== 'undefined')
+      ? data.avrgTimeMsGetLast
+      : undefined,
   }),
 };

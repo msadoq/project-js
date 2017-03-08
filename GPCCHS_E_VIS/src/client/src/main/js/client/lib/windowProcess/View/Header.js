@@ -19,6 +19,7 @@ export default class Header extends PureComponent {
     viewId: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     collapsed: PropTypes.bool.isRequired,
+    maximized: PropTypes.bool.isRequired,
     oId: PropTypes.string.isRequired,
     absolutePath: PropTypes.string.isRequired,
     isModified: PropTypes.bool.isRequired,
@@ -28,6 +29,7 @@ export default class Header extends PureComponent {
     moveViewToPage: PropTypes.func.isRequired,
     windowPages: PropTypes.arrayOf(PropTypes.object).isRequired,
     collapseView: PropTypes.func.isRequired,
+    maximizeView: PropTypes.func.isRequired,
   };
   static defaultProps = {
     configuration: {
@@ -36,7 +38,6 @@ export default class Header extends PureComponent {
   };
   static contextTypes = {
     windowId: PropTypes.string,
-    focusedPageId: PropTypes.string,
   };
 
   constructor(...args) {
@@ -60,11 +61,9 @@ export default class Header extends PureComponent {
       windowPages,
       collapseView,
       collapsed,
+      maximizeView,
+      maximized,
     } = this.props;
-
-    const {
-      focusedPageId,
-    } = this.context;
 
     switch (key) {
       case 'editor': {
@@ -91,7 +90,11 @@ export default class Header extends PureComponent {
         break;
       }
       case 'collapse': {
-        collapseView(focusedPageId, viewId, !collapsed);
+        collapseView(viewId, !collapsed);
+        break;
+      }
+      case 'maximize': {
+        maximizeView(viewId, !maximized);
         break;
       }
       case 'save':
@@ -166,9 +169,8 @@ export default class Header extends PureComponent {
       collapseView,
       collapsed,
     } = this.props;
-    const { focusedPageId } = this.context;
 
-    collapseView(focusedPageId, viewId, !collapsed);
+    collapseView(viewId, !collapsed);
   }
 
   render() {
@@ -179,6 +181,7 @@ export default class Header extends PureComponent {
       oId,
       absolutePath,
       isModified,
+      maximized,
     } = this.props;
     let title = configuration.title;
     if (isModified) {
@@ -231,6 +234,10 @@ export default class Header extends PureComponent {
             <MenuItem eventKey="editor" active>{isViewsEditorOpen ? 'Close' : 'Open'} editor</MenuItem>
             <MenuItem eventKey="move">Move to another page</MenuItem>
             <MenuItem eventKey="collapse">Collapse</MenuItem>
+            {
+              maximized ? <MenuItem eventKey="maximize">Minimize</MenuItem> :
+              <MenuItem eventKey="maximize">Maximize</MenuItem>
+            }
             {isPathDefined && isModified ? <MenuItem eventKey="reload">Reload view</MenuItem>
                            : <MenuItem eventKey="reload" disabled>Reload view</MenuItem>}
             <MenuItem divider />

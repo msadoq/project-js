@@ -4,9 +4,8 @@ import addUuidsToEntryPoints from './enhancers/addUuidsToEntryPoints';
 import * as types from '../types';
 import {
   openEditor,
-  updateLayout,
 } from './pages';
-import { getPageIdByViewId, makeGetLayouts } from '../selectors/pages';
+import { getPageIdByViewId } from '../selectors/pages';
 import { getViewModule } from '../../viewManager';
 
 export const add = addUuidsToEntryPoints(simple(
@@ -27,45 +26,7 @@ export const setViewOid = simple(types.WS_VIEW_SET_OID, 'viewId', 'oid');
 
 export const setModified = simple(types.WS_VIEW_SETMODIFIED, 'viewId', 'flag');
 export const setCollapsed = simple(types.WS_VIEW_SETCOLLAPSED, 'viewId', 'flag');
-
-const getLayouts = makeGetLayouts();
-export const setCollapsedAndUpdateLayout = (pageId, viewId, flag) => (
-  (dispatch, getState) => {
-    const state = getState();
-    const layout = getLayouts(state, { pageId });
-    if (flag) {
-      const newLayout = layout.lg.map((l) => {
-        if (l.i === viewId) {
-          return {
-            ...l,
-            maxH: l.h,
-            maxW: l.w,
-            h: 1,
-            w: 3,
-          };
-        }
-        return l;
-      });
-      dispatch(updateLayout(pageId, newLayout));
-    } else {
-      const newLayout = layout.lg.map((l) => {
-        if (l.i === viewId) {
-          return {
-            ...l,
-            h: l.maxH,
-            w: l.maxW,
-            maxH: undefined,
-            maxW: undefined,
-          };
-        }
-        return l;
-      });
-      dispatch(updateLayout(pageId, newLayout));
-    }
-    dispatch(setCollapsed(viewId, flag));
-    dispatch(setModified(viewId, true));
-  }
-);
+export const setMaximized = simple(types.WS_VIEW_SETMAXIMISED, 'viewId', 'flag');
 
 export const updateEntryPoint = simple(types.WS_VIEW_UPDATE_ENTRYPOINT, 'viewId', 'index',
  'entryPoint');

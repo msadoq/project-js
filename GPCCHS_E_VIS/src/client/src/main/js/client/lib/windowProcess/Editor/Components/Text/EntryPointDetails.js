@@ -22,7 +22,7 @@ export default class EntryPointDetails extends React.Component {
       kind: PropTypes.string,
       offset: PropTypes.number,
       sessionId: PropTypes.number,
-      timelineId: PropTypes.string,
+      timelineUuid: PropTypes.string,
     })).isRequired,
     idPoint: PropTypes.number.isRequired,
     entryPoint: PropTypes.shape({

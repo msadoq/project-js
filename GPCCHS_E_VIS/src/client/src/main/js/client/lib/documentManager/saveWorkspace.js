@@ -1,11 +1,12 @@
 /* eslint no-underscore-dangle: 0 */
 import _each from 'lodash/each';
-import _omit from 'lodash/omit';
 import _startsWith from 'lodash/startsWith';
 import _cloneDeep from 'lodash/cloneDeep';
 import { join, dirname, relative } from 'path';
 import { LOG_DOCUMENT_SAVE } from 'common/constants';
 
+import { getTimebarTimelines } from '../store/selectors/timebarTimelines';
+import { getTimeline } from '../store/selectors/timelines';
 import validation from './validation';
 import { server } from '../mainProcess/ipc';
 import { createFolder } from '../common/fs';
@@ -65,16 +66,18 @@ const saveWorkspaceAs = fmdApi => (state, path, useRelativePath, callback) => {
       savedWindowsIds.push(winIds);
     });
     // timebars
-    _each(state.timebars, (timebar) => {
+    _each(state.timebars, (timebar, timebarUuid) => {
       let tb = _cloneDeep(timebar);
-      tb = Object.assign({}, _omit(tb, 'timelines'), { type: 'timeBarConfiguration' });
+      tb = Object.assign({}, tb, { type: 'timeBarConfiguration' });
       tb.timelines = [];
-      _each(timebar.timelines, (timelineId) => {
-        if (!state.timelines[timelineId]) {
+      const timebarTimelines = getTimebarTimelines(state, { timebarUuid });
+      _each(timebarTimelines, (timelineUuid) => {
+        const timeline = getTimeline(state, { timelineUuid });
+        if (!timeline) {
           callback(new Error('timelines missing'));
           return;
         }
-        tb.timelines.push(_cloneDeep(state.timelines[timelineId]));
+        tb.timelines.push(_cloneDeep(timeline));
       });
       if (tb.masterId === null) {
         delete tb.masterId;

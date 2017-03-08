@@ -18,7 +18,7 @@ export default function cleanViewData(
   if (_isEqual(viewMap, oldViewMap) && _isEqual(oldIntervals, newIntervals)) {
     return viewDataState;
   }
-  let newState;
+  let newState = viewDataState;
   // unmounted views
   const removedViews = _difference(Object.keys(oldViewMap), Object.keys(viewMap));
   if (removedViews.length) {
@@ -64,10 +64,6 @@ export default function cleanViewData(
         return;
       }
       const newEp = view.entryPoints[epName];
-      // no update on entry points
-      if (ep === newEp) {
-        return;
-      }
       const isUpdated = structureType.isEpDifferent(ep, newEp);
       // EP definition modified: remove entry point from viewData
       if (isUpdated) {

@@ -57,7 +57,7 @@ export default class Timebar extends PureComponent {
         color: PropTypes.string,
         id: PropTypes.string.isRequired,
         kind: PropTypes.string.isRequired,
-        timelineId: PropTypes.string.isRequired,
+        timelineUuid: PropTypes.string.isRequired,
         offset: PropTypes.number.isRequired,
         sessionId: PropTypes.number.isRequired,
       })
@@ -132,11 +132,10 @@ export default class Timebar extends PureComponent {
           break;
         case keys.x:
           if (cursorMs > current) return;
-          if (['Normal', 'Fixed'].includes(timebarMode) && cursorMs > slideWindow.lower) return;
           updateCursors(
             timebarUuid,
             { lower: cursorMs },
-            null
+            { lower: cursorMs > slideWindow.lower ? cursorMs : slideWindow.lower }
           );
           break;
         case keys.c:
@@ -175,13 +174,19 @@ export default class Timebar extends PureComponent {
           break;
         case keys.n:
           if (cursorMs < current) return;
-          if (timebarMode === 'Extensible' && cursorMs > slideWindow.upper) return;
-          if (['Normal', 'Fixed'].includes(timebarMode) && cursorMs < slideWindow.upper) return;
-          updateCursors(
-            timebarUuid,
-            { upper: cursorMs },
-            null
-          );
+          if (timebarMode === 'Extensible') {
+            updateCursors(
+              timebarUuid,
+              { upper: cursorMs },
+              { upper: cursorMs > slideWindow.upper ? cursorMs : slideWindow.upper }
+            );
+          } else {
+            updateCursors(
+              timebarUuid,
+              { upper: cursorMs },
+              { upper: cursorMs < slideWindow.upper ? cursorMs : slideWindow.upper }
+            );
+          }
           break;
         case keys.space:
           if (isPlaying) {
@@ -1300,7 +1305,7 @@ export default class Timebar extends PureComponent {
             className={styles.timelines}
             onScroll={this.props.onVerticalScroll}
           >
-            { timelines.map(v =>
+            { timelines && timelines.length !== 0 && timelines.map(v =>
               <TimebarTimeline
                 key={v.id}
                 name={v.id}

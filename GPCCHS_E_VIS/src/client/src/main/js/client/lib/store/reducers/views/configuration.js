@@ -25,7 +25,17 @@ export const commonConfiguration = (stateConf = { title: null }, action) => {
     case types.WS_VIEW_UPDATE_SHOWYAXES:
       return __.set('showYAxes', action.payload.showYAxes, stateConf);
     case types.WS_VIEW_SETCOLLAPSED:
-      return __.set('collapsed', action.payload.flag, stateConf);
+      return {
+        ...stateConf,
+        collapsed: action.payload.flag,
+        // maximized: false,
+      };
+    case types.WS_VIEW_SETMAXIMISED:
+      return {
+        ...stateConf,
+        collapsed: false,
+        maximized: action.payload.flag,
+      };
     case types.WS_VIEW_UPDATE_RATIO:
       return __.set('defaultRatio', action.payload.ratio, stateConf);
     case types.WS_VIEW_UPDATE_TITLE:

@@ -1,7 +1,6 @@
 import React, { PureComponent, PropTypes } from 'react';
 import _omit from 'lodash/omit';
 import classnames from 'classnames';
-import _isEqual from 'lodash/isEqual';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import getLogger from 'common/log';
 import makeViewContainer from '../View/ViewContainer';
@@ -52,20 +51,9 @@ export default class Content extends PureComponent {
     editorViewId: '',
     timebarUuid: null,
   }
-
-  onLayoutChange = (layout = []) => {
-    if (!this.props.updateLayout) {
-      return;
-    }
-
+  onResizeView = (layout = []) => {
     const newLayout = layout.map(block => _omit(block, filterLayoutBlockFields));
-
-    if (_isEqual(newLayout, this.previousLayout)) {
-      return;
-    }
-
     this.props.updateLayout(newLayout);
-    this.previousLayout = newLayout;
   };
 
   cols = { lg: 12 };
@@ -90,7 +78,23 @@ export default class Content extends PureComponent {
         <div className={styles.noPage}>No view yet ...</div>
       );
     }
-
+    const viewMaximized = views.find(view => view.configuration.maximized);
+    if (viewMaximized && !viewMaximized.configuration.collapsed) {
+      const ViewContainer = makeViewContainer();
+      const isViewsEditorOpen = editorViewId === viewMaximized.viewId && isEditorOpened;
+      return (
+        <ViewContainer
+          timebarUuid={timebarUuid}
+          pageId={focusedPageId}
+          viewId={viewMaximized.viewId}
+          windowId={windowId}
+          unmountAndRemove={this.props.unmountAndRemove}
+          isViewsEditorOpen={isViewsEditorOpen}
+          openEditor={openEditor}
+          closeEditor={closeEditor}
+        />
+      );
+    }
     return (
       <Grid
         layouts={layouts}
@@ -104,7 +108,8 @@ export default class Content extends PureComponent {
         breakpoints={this.breakpoints}
         cols={this.cols}
         draggableHandle=".moveHandler"
-        onLayoutChange={this.onLayoutChange}
+        onResizeStop={this.onResizeView}
+        onDragStop={this.onResizeView}
         measureBeforeMount
       >
         {views.map((v) => {
@@ -113,7 +118,6 @@ export default class Content extends PureComponent {
           // avoid React reconciliation issue when all Content child components are ViewContainer
           // and sort order with siblings change
           const ViewContainer = makeViewContainer();
-
           return (
             <div
               className={classnames(
@@ -126,6 +130,7 @@ export default class Content extends PureComponent {
               key={v.viewId}
             >
               <ViewContainer
+                key={v.viewId}
                 timebarUuid={timebarUuid}
                 pageId={focusedPageId}
                 viewId={v.viewId}

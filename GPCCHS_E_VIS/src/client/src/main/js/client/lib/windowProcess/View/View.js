@@ -55,6 +55,7 @@ export default class View extends PureComponent {
     unmountAndRemove: PropTypes.func.isRequired,
     moveViewToPage: PropTypes.func.isRequired,
     collapseView: PropTypes.func.isRequired,
+    maximizeView: PropTypes.func.isRequired,
     windowPages: PropTypes.arrayOf(PropTypes.object).isRequired,
     entryPoints: PropTypes.objectOf(PropTypes.object),
     windowId: PropTypes.string.isRequired,
@@ -129,13 +130,13 @@ export default class View extends PureComponent {
       moveViewToPage,
       windowPages,
       collapseView,
+      maximizeView,
       oId,
       absolutePath,
       isModified,
       entryPoints,
       windowId,
     } = this.props;
-
     let ContentComponent;
     switch (type) {
       case 'PlotView':
@@ -170,7 +171,9 @@ export default class View extends PureComponent {
           windowPages={windowPages}
           moveViewToPage={moveViewToPage}
           collapseView={collapseView}
+          maximizeView={maximizeView}
           collapsed={!!configuration.collapsed}
+          maximized={!!configuration.maximized}
           oId={oId}
           absolutePath={absolutePath}
           isModified={isModified}

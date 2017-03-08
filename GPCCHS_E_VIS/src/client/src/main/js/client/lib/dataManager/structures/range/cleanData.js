@@ -1,5 +1,4 @@
-import u from 'updeep';
-import { viewRangeRemove } from './viewDataUpdate';
+import { viewRangeRemove, scanForMinAndMax } from './viewDataUpdate';
 
 
 // epName is not used
@@ -9,9 +8,11 @@ export default function cleanData(viewDataState, viewId, epName, expectedInterva
   if (!viewData) {
     return viewDataState;
   }
-  const viewState = viewRangeRemove(viewData, expectedInterval[0], expectedInterval[1]);
+  let viewState = viewRangeRemove(viewData, expectedInterval[0], expectedInterval[1]);
+  // Update of min and max if needed
+  viewState = scanForMinAndMax(viewState);
 
-  return (viewState === viewDataState[viewId])
+  return viewState === viewDataState[viewId]
     ? viewDataState // no modification
-    : u({ [viewId]: viewState }, viewDataState);
+    : { ...viewDataState, [viewId]: viewState };
 }

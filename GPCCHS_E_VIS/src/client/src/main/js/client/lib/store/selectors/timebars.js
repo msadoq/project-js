@@ -31,7 +31,7 @@ export const getTimebarTimelinesSelector = createSelector(
     }
     const timebarTimelines = [];
     tbTimelines.forEach((tlUuid) => {
-      const newTimeline = Object.assign({}, timelines[tlUuid], { timelineId: tlUuid });
+      const newTimeline = Object.assign({}, timelines[tlUuid], { timelineUuid: tlUuid });
       if (masterId === timelines[tlUuid].id) {
         timebarTimelines.unshift(newTimeline);
       } else {
@@ -69,7 +69,7 @@ const createDeepEqualSelectorForTimelines = createSelectorCreator(
   defaultMemoize,
   timelineEqualityCheck
 );
-const timebarTimelinesSelector = createDeepEqualSelectorForTimelines(
+export const timebarTimelinesSelector = createDeepEqualSelectorForTimelines(
   getTimelines,
   (state, { timebarUuid }) => getTimebar(state, timebarUuid),
   (state, { timelines, timebar }) => {
@@ -85,9 +85,6 @@ const timebarTimelinesSelector = createDeepEqualSelectorForTimelines(
     }, []);
   }
 );
-export function getTimebarTimelines(state, timebarUuid) {
-  return timebarTimelinesSelector(state, { timebarUuid });
-}
 // ********************************************************
 
 /**
@@ -113,6 +110,9 @@ export const getMasterTimelineById = createSelector(
   getTimebarTimelinesSelector,
   (masterTimelineId, timebarTimelines) => {
     if (!masterTimelineId) {
+      return undefined;
+    }
+    if (!timebarTimelines || timebarTimelines.length === 0) {
       return undefined;
     }
     if (timebarTimelines[0].id === masterTimelineId) {

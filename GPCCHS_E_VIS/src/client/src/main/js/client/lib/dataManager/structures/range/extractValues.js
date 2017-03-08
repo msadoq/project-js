@@ -17,6 +17,10 @@ export function select(remoteIdPayload, ep, epName, viewState, intervalMap) {
   const lower = expectedInterval[0];
   const upper = expectedInterval[1];
   const newState = {};
+  let min;
+  let max;
+  let minTime;
+  let maxTime;
 
   _each(remoteIdPayload, (value) => {
     const timestamp = _get(value, ['referenceTimestamp', 'value']);
@@ -34,6 +38,14 @@ export function select(remoteIdPayload, ep, epName, viewState, intervalMap) {
     const valX = _get(value, [ep.fieldX, 'value']);
     const valY = _get(value, [ep.fieldY, 'value']);
     if (valX !== undefined && valY !== undefined) {
+      if (!min || valY <= min) {
+        min = valY;
+        minTime = masterTime;
+      }
+      if (!max || valY >= max) {
+        max = valY;
+        maxTime = masterTime;
+      }
       if (viewState && viewState[masterTime]) {
         newState[masterTime] = viewState[masterTime];
         newState[masterTime][epName] = {
@@ -54,6 +66,20 @@ export function select(remoteIdPayload, ep, epName, viewState, intervalMap) {
       }
     }
   });
+  if (!Object.keys(newState).length) {
+    return {};
+  }
+  if (viewState) {
+    newState.min = { ...viewState.min, [epName]: min };
+    newState.max = { ...viewState.max, [epName]: max };
+    newState.minTime = { ...viewState.minTime, [epName]: minTime };
+    newState.maxTime = { ...viewState.maxTime, [epName]: maxTime };
+  } else {
+    newState.min = { [epName]: min };
+    newState.max = { [epName]: max };
+    newState.minTime = { [epName]: minTime };
+    newState.maxTime = { [epName]: maxTime };
+  }
   return newState;
 }
 
@@ -67,7 +93,7 @@ export default function extractValues(
 ) {
   let isFirstEp = true;
   // Get current state for update
-  const epSubState = {};
+  let epSubState = {};
   let viewData;
 
   _each(entryPoints, (ep, epName) => {
@@ -91,7 +117,11 @@ export default function extractValues(
       viewData.structureType = globalConstants.DATASTRUCTURETYPE_RANGE;
       isFirstEp = false;
     }
-    Object.assign(epSubState, select(payload[ep.remoteId], ep, epName, epSubState, intervalMap));
+    const newSubState = select(payload[ep.remoteId], ep, epName, epSubState, intervalMap);
+    epSubState = {
+      ...epSubState,
+      ...newSubState,
+    };
   });
   if (Object.keys(epSubState).length !== 0) {
     _set(viewData, ['add'], epSubState);

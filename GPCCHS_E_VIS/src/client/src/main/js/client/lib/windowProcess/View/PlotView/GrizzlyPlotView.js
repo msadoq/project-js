@@ -1,7 +1,8 @@
 import React, { PureComponent, PropTypes } from 'react';
 import _ from 'lodash/fp';
 import _get from 'lodash/get';
-import _filter from 'lodash/filter';
+import _max from 'lodash/max';
+import _min from 'lodash/min';
 import classnames from 'classnames';
 import Dimensions from 'react-dimensions';
 import getLogger from 'common/log';
@@ -32,10 +33,10 @@ function parseDragData(data) {
   };
 }
 
-const plotPadding = 5;
+const plotPadding = 15;
 const mainStyle = { padding: `${plotPadding}px` };
 
-export class PlotView extends PureComponent {
+export class GrizzlyPlotView extends PureComponent {
   static propTypes = {
     containerWidth: PropTypes.number.isRequired,
     containerHeight: PropTypes.number.isRequired,
@@ -142,7 +143,13 @@ export class PlotView extends PureComponent {
   onDrop = this.drop.bind(this);
 
   getEntryPointErrors(supClass = '') {
-    const epWithErrors = _filter(this.props.entryPoints, ep => ep.error);
+    const epWithErrors = Object
+      .keys(this.props.entryPoints)
+      .filter(key => this.props.entryPoints[key].error)
+      .map(key => ({
+        error: this.props.entryPoints[key].error,
+        key,
+      }));
 
     return epWithErrors.length ?
       <CloseableAlert
@@ -160,7 +167,7 @@ export class PlotView extends PureComponent {
             .map(ep => (
               <div
                 className={styles.entryPointErrorSubDiv}
-                key={ep.name}
+                key={ep.key}
               >
                 {ep.name}: {ep.error}
               </div>
@@ -239,12 +246,14 @@ export class PlotView extends PureComponent {
     const {
       containerWidth,
       containerHeight,
+      data,
       data: { columns },
       configuration: { showYAxes, axes, grids, entryPoints },
       visuWindow,
     } = this.props;
 
     const yAxes = Object.values(axes).filter(a => a.label !== 'Time');
+    const xExtents = [visuWindow.lower, visuWindow.upper];
 
     return (
       <DroppableContainer
@@ -259,25 +268,37 @@ export class PlotView extends PureComponent {
         <GrizzlyChart
           height={containerHeight - (plotPadding * 2)}
           width={containerWidth - (plotPadding * 2)}
+          tooltipColor="blue"
           enableTooltip
-          tooltipColor="white"
+          allowYZoom
+          allowYPan
           allowZoom
           allowPan
-          xExtends={[visuWindow.lower, visuWindow.upper]}
+          xExtents={xExtents}
           current={visuWindow.current}
           yAxesAt={showYAxes}
           xAxisAt="bottom"
           yAxes={yAxes.map((axis) => {
-            const grid = grids.find(g => g.yAxisId === axis.id || g.yAxisId === axis.label);
+            const grid = grids.find(g => g.yAxisId === axis.id);
+            const axisEntryPoints = entryPoints
+              .filter(ep => _get(ep, ['connectedDataY', 'axisId']) === axis.id);
             return {
-              id: axis.id || axis.label,
-              yExtends: [axis.min, axis.max],
+              id: axis.id,
+              yExtents:
+                axis.autoLimits === true ?
+                [
+                  _min(axisEntryPoints.map(ep => data.min[ep.name])),
+                  _max(axisEntryPoints.map(ep => data.max[ep.name])),
+                ]
+                :
+                [axis.min, axis.max],
               data: columns,
               orient: 'top',
+              format: '.3f',
               showAxis: axis.showAxis === true,
               showLabels: axis.showLabels === true,
               showTicks: axis.showTicks === true,
-              autoLimits: axis.autoLimits === true,
+              autoLimits: false,
               showGrid: _get(grid, 'showGrid', false),
               gridStyle: _get(grid, ['line', 'style']),
               gridSize: _get(grid, ['line', 'size']),
@@ -307,6 +328,6 @@ export class PlotView extends PureComponent {
   }
 }
 
-const SizeablePlotView = Dimensions()(PlotView);
+const SizeablePlotView = Dimensions()(GrizzlyPlotView);
 
 export default SizeablePlotView;

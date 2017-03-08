@@ -1,4 +1,3 @@
-/* eslint no-unused-expressions: 0 */
 import { should, getStore } from '../../common/test';
 import { getTimeline } from './timelines';
 
@@ -9,7 +8,7 @@ describe('store:timelines:selectors', () => {
         myTimelineId: { id: 'Id' },
       },
     });
-    getTimeline(getState(), { timelineId: 'myTimelineId' }).should.have.property('id', 'Id');
-    should.not.exist(getTimeline(getState(), { timelineId: 'unknownId' }));
+    getTimeline(getState(), { timelineUuid: 'myTimelineId' }).should.have.property('id', 'Id');
+    should.not.exist(getTimeline(getState(), { timelineUuid: 'unknownId' }));
   });
 });

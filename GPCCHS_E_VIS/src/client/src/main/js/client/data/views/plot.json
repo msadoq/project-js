@@ -93,6 +93,7 @@
   "axes": [
     {
       "label": "Time",
+      "id": "Time",
       "unit": "s",
       "style": {
         "font": "Arial",
@@ -117,6 +118,7 @@
     },
     {
       "label": "VBat",
+      "id": "VBat",
       "unit": "V",
       "style": {
         "font": "Arial",

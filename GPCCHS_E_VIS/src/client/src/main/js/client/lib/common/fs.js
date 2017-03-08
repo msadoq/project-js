@@ -25,6 +25,7 @@ const self = module.exports = {
           if (err) {
             return callback(new Error(err));
           }
+          resolvedPath = path;
           return callback(null, content);
         });
       });

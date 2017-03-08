@@ -446,6 +446,7 @@
   "axes": [
     {
       "label": "Time",
+      "id": "Time",
       "unit": "s",
       "style": {
         "font": "Arial",
@@ -470,6 +471,7 @@
     },
     {
       "label": "VBat",
+      "id": "VBat",
       "unit": "V",
       "style": {
         "font": "Arial",
@@ -490,8 +492,7 @@
       "showTickLabels": true,
       "isLogarithmic": false,
       "showAxis": true,
-      "showLabels": true,
-      "id": "VBat"
+      "showLabels": true
     }
   ],
   "grids": [

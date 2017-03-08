@@ -74,7 +74,7 @@
         "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "STAT_SU_UTIME"
+        "axisId": "vbat"
       },
       "objectStyle": {
         "line": {
@@ -117,7 +117,7 @@
         "filter": [],
         "domain": "fr.cnes.isis",
         "timeline": "Session 1",
-        "axisId": "STAT_SU_UTIME"
+        "axisId": "vbat"
       },
       "objectStyle": {
         "line": {
@@ -145,6 +145,7 @@
   "axes": [
     {
       "label": "Time",
+      "id": "Time",
       "unit": "s",
       "style": {
         "font": "Arial",
@@ -169,6 +170,7 @@
     },
     {
       "label": "VBat",
+      "id": "vbat",
       "unit": "V",
       "style": {
         "font": "Arial",
@@ -195,7 +197,7 @@
   "grids": [
     {
       "xAxisId": "Time",
-      "yAxisId": "VBat",
+      "yAxisId": "vbat",
       "line": {
         "style": "Continuous",
         "size": 1

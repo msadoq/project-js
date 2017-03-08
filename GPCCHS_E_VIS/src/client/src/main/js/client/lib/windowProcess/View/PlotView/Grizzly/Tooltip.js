@@ -1,8 +1,10 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
-import { scaleLinear } from 'd3-scale';
 import _sum from 'lodash/sum';
+import _memoize from 'lodash/memoize';
+import { scaleLinear } from 'd3-scale';
 import { timeFormat } from 'd3-time-format';
+import { format as d3Format } from 'd3-format';
 import { formatDuration } from '../../../common/timeFormats';
 import styles from './GrizzlyChart.css';
 
@@ -17,8 +19,10 @@ export default class Tooltip extends React.Component {
     top: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
+    yAxisWidth: PropTypes.number.isRequired,
     xScale: PropTypes.func.isRequired,
     yAxesAt: PropTypes.string.isRequired,
+    xAxisAt: PropTypes.string.isRequired,
   }
 
   state = {
@@ -28,7 +32,7 @@ export default class Tooltip extends React.Component {
   componentDidMount() {
     const { yAxes, height } = this.props;
     this.yScales = {};
-    yAxes.forEach(axis => this.setYScale(axis.id, axis.yExtends, height));
+    yAxes.forEach(axis => this.setYScale(axis.id, axis.yExtents, height));
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -42,11 +46,11 @@ export default class Tooltip extends React.Component {
       if (
         !this.yScales[axis.id] ||
         nextProps.height !== this.props.height ||
-        axis.yExtends[0] !== this.props.yAxes[i].yExtends[0] ||
-        axis.yExtends[1] !== this.props.yAxes[i].yExtends[1]
+        axis.yExtents[0] !== this.props.yAxes[i].yExtents[0] ||
+        axis.yExtents[1] !== this.props.yAxes[i].yExtents[1]
       ) {
         shouldRender = true;
-        this.setYScale(axis.id, axis.yExtends, nextProps.height);
+        this.setYScale(axis.id, axis.yExtents, nextProps.height);
       }
     });
 
@@ -59,9 +63,9 @@ export default class Tooltip extends React.Component {
     return shouldRender;
   }
 
-  setYScale = (axisId, yExtends, height) => {
+  setYScale = (axisId, yExtents, height) => {
     this.yScales[axisId] = scaleLinear()
-      .domain([yExtends[0], yExtends[1]])
+      .domain([yExtents[0], yExtents[1]])
       .range([0, height]);
   }
 
@@ -95,13 +99,13 @@ export default class Tooltip extends React.Component {
       axis.lines.forEach((line) => {
         if (xClosestPacket[line.id]) {
           const val = line.yAccessor(xClosestPacket);
-          const color = line.colorAccessor ?
-            line.colorAccessor(xClosestPacket) || line.fill : line.fill;
+          const color = (line.colorAccessor ?
+            line.colorAccessor(xClosestPacket) || line.fill : line.fill) || '#222222';
           linesList[axis.id].push({
             color,
-            epColor: line.fill,
+            epColor: line.fill || '#222222',
             name: line.id,
-            value: val ? val.toLocaleString('en-US', { minimumFractionDigits: 2 }) : '',
+            value: this.memoizeFormatter(axis.format || '.2f')(val),
             offset: xClosestPacket[line.id].x !== xClosestPacket.x ?
               formatDuration(xClosestPacket.x - xClosestPacket[line.id].x) : '',
           });
@@ -120,6 +124,10 @@ export default class Tooltip extends React.Component {
     });
   }
 
+  memoizeFormatter = _memoize(f =>
+    d => d3Format(f)(d)
+  );
+
   timeFormat = timeFormat('%Y-%m-%d %H:%M:%S.%L')
 
   tooltipWidth = 350;
@@ -132,6 +140,9 @@ export default class Tooltip extends React.Component {
       top,
       margin,
       tooltipColor,
+      yAxes,
+      yAxisWidth,
+      xAxisAt,
     } = this.props;
     const {
       showTooltip,
@@ -158,8 +169,6 @@ export default class Tooltip extends React.Component {
     const tooltiLinesToDisplay = linesList && Object.values(linesList).length;
     const tooltipStyle = { width: this.tooltipWidth };
     tooltipStyle.opacity = showTooltip ? 1 : 0;
-    tooltipStyle.top = yInRange + 8;
-    tooltipStyle.left = xInRange + 8;
     tooltipStyle.height = tooltiLinesToDisplay ?
         (_sum(Object.values(linesList).map(a => a.length)) * 21)
           + (Object.values(linesList).length * 26)
@@ -171,11 +180,34 @@ export default class Tooltip extends React.Component {
     tooltipStyle.transform = '';
     if (tooltipOnRight) {
       tooltipStyle.left = (xInRange - this.tooltipWidth) - 8;
+    } else {
+      tooltipStyle.left = xInRange + 8;
     }
     if (tooltipOnBottom) {
-      tooltipStyle.top = (yInRange - tooltipStyle.height) - 8;
+      tooltipStyle.top = (yInRange - tooltipStyle.height) - 16;
+    } else {
+      tooltipStyle.top = yInRange + 8;
     }
 
+    const xLabelStyle = {
+      transform: '',
+    };
+    if (xInRange > width - 64) {
+      xLabelStyle.right = 0;
+    } else if (xInRange < 64) {
+      xLabelStyle.left = 0;
+    } else {
+      xLabelStyle.left = xInRange;
+      xLabelStyle.transform += 'translateX(-50%) ';
+    }
+
+    if (xAxisAt === 'bottom') {
+      xLabelStyle.bottom = -8;
+      xLabelStyle.transform += 'translateY(100%)';
+    } else {
+      xLabelStyle.top = -8;
+      xLabelStyle.transform += 'translateY(-100%)';
+    }
     return (
       <div
         onMouseMove={this.mouseMove}
@@ -196,6 +228,33 @@ export default class Tooltip extends React.Component {
           />
         }
         {
+          ['left', 'right'].includes(yAxesAt) && yAxes.map((axis, index) => {
+            const yLabelStyle = {};
+            if (yAxesAt === 'left') {
+              yLabelStyle.left = ((index * yAxisWidth) * -1) - 8;
+              yLabelStyle.transform = 'translate(-100%, -50%)';
+            } else {
+              yLabelStyle.right = ((index * yAxisWidth) * -1) - 8;
+              yLabelStyle.transform = 'translate(100%, -50%)';
+            }
+            return (
+              <span
+                key={axis.id}
+                className={classnames('label', styles.tooltipYLabel)}
+                style={{
+                  opacity: showTooltip ? 1 : 0,
+                  ...yLabelStyle,
+                  top: yInRange,
+                }}
+              >
+                {this.memoizeFormatter(axis.format || '.2f')(
+                  axis.yScale.invert(yInRange)
+                )}
+              </span>
+            );
+          })
+        }
+        {
           tooltiLinesToDisplay &&
           <span
             className={styles.tooltipHorizontalCursor}
@@ -207,12 +266,24 @@ export default class Tooltip extends React.Component {
           />
         }
         {
+          <span
+            className={classnames('label', styles.tooltipXLabel)}
+            style={{
+              opacity: showTooltip ? 1 : 0,
+              ...xLabelStyle,
+            }}
+          >
+            {this.timeFormat(new Date(xInDomain))}
+          </span>
+        }
+        {
           tooltiLinesToDisplay &&
           <div
             className={classnames(
               styles.tooltip,
               {
                 [styles.tooltipBlack]: tooltipColor === 'black',
+                [styles.tooltipBlue]: tooltipColor === 'blue',
               }
             )}
             style={tooltipStyle}

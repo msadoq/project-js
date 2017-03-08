@@ -1,8 +1,8 @@
 import React, { PropTypes, PureComponent } from 'react';
 import classnames from 'classnames';
 import _memoize from 'lodash/memoize';
-import { scaleLinear } from 'd3-scale';
 import { select } from 'd3-selection';
+import { format as d3Format } from 'd3-format';
 import { axisLeft, axisRight } from 'd3-axis';
 import styles from './GrizzlyChart.css';
 
@@ -11,9 +11,10 @@ export default class YAxis extends PureComponent {
   static propTypes = {
     getLabelPosition: PropTypes.func.isRequired,
     yAxisId: PropTypes.string.isRequired,
-    xAxisAt: PropTypes.string.isRequired,
-    yAxesAt: PropTypes.string.isRequired,
+    xAxisAt: PropTypes.string,
+    yAxesAt: PropTypes.string,
     index: PropTypes.number.isRequired,
+    yScale: PropTypes.func.isRequired,
     top: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     yAxisWidth: PropTypes.number.isRequired,
@@ -36,6 +37,7 @@ export default class YAxis extends PureComponent {
     gridSize: PropTypes.number,
     label: PropTypes.string.isRequired,
     unit: PropTypes.string,
+    format: PropTypes.string,
     labelStyle: PropTypes.shape({
       bgColor: PropTypes.string,
       color: PropTypes.string,
@@ -46,9 +48,6 @@ export default class YAxis extends PureComponent {
       underline: PropTypes.bool,
       size: PropTypes.number,
     }),
-    yExtends: PropTypes.arrayOf(
-      PropTypes.number
-    ).isRequired,
   }
 
   static defaultProps = {
@@ -57,6 +56,9 @@ export default class YAxis extends PureComponent {
     showTicks: true,
     showGrid: true,
     gridStyle: 'Continuous',
+    xAxisAt: 'bottom',
+    format: '.2f',
+    yAxesAt: 'left',
     gridSize: 1,
     labelStyle: {
       color: '#333333',
@@ -78,18 +80,11 @@ export default class YAxis extends PureComponent {
 
   shouldComponentUpdate(nextProps) {
     let shouldRender = false;
-    ['yAxesAt', 'top', 'height', 'yAxisWidth', 'margin', 'chartWidth'].forEach((attr) => {
+    ['yAxesAt', 'top', 'height', 'yAxisWidth', 'margin', 'chartWidth', 'yScale'].forEach((attr) => {
       if (nextProps[attr] !== this.props[attr]) {
         shouldRender = true;
       }
     });
-
-    if (
-      nextProps.yExtends[0] !== this.props.yExtends[0] ||
-      nextProps.yExtends[1] !== this.props.yExtends[1]
-    ) {
-      shouldRender = true;
-    }
 
     // update line label refs's style attribute
     if (!shouldRender) {
@@ -182,23 +177,19 @@ export default class YAxis extends PureComponent {
   draw = () => {
     const {
       yAxesAt,
-      height,
       yAxisWidth,
-      yExtends,
+      yScale,
       chartWidth,
       index,
       showTicks,
+      format,
       showGrid,
       gridStyle,
       xAxisAt,
     } = this.props;
 
-    const yScale = scaleLinear()
-      .domain([yExtends[0], yExtends[1]])
-      .range([0, height]);
-
-
-    const tickFormat = showTicks ? d => d : () => null;
+    const tickFormat = showTicks ?
+      this.memoizeFormatter(format) : () => null;
 
     // if showGrid & master axis, axis must be wider
     const tickSize = index === 0 && showGrid ?
@@ -251,6 +242,10 @@ export default class YAxis extends PureComponent {
 
   assignEl = (el) => { this.canvasEl = el; }
   assignLabelEl = (el) => { this.labelEl = el; }
+
+  memoizeFormatter = _memoize(f =>
+    d => d3Format(f)(d)
+  );
 
   memoizeAssignRef = _memoize(lineId =>
     (el) => { this[`label-${lineId}-el`] = el; }

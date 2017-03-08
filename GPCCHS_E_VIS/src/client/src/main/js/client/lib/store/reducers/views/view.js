@@ -41,6 +41,7 @@ const viewIsModified = (stateView, action) => {
     types.WS_VIEW_UPDATE_CONTENT,
     types.WS_VIEW_UPDATE_SHOWYAXES,
     types.WS_VIEW_UPDATE_ENTRYPOINT,
+    types.WS_VIEW_UPDATE_AXIS,
     types.WS_VIEW_ADD_LINK,
     types.WS_VIEW_REMOVE_LINK,
     types.WS_VIEW_ADD_MARKER,
@@ -48,6 +49,7 @@ const viewIsModified = (stateView, action) => {
     types.WS_VIEW_ADD_PROCEDURE,
     types.WS_VIEW_REMOVE_PROCEDURE,
     types.WS_VIEW_SETCOLLAPSED,
+    types.WS_VIEW_SETMAXIMISED,
     types.WS_VIEW_ADD_ENTRYPOINT,
   ]);
   if (shouldSetModifiedToTrue(action.type)) {

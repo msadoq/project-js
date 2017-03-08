@@ -22,7 +22,7 @@ export default class TimelineFields extends PureComponent {
         color: PropTypes.string,
         id: PropTypes.string.isRequired,
         kind: PropTypes.string.isRequired,
-        timelineId: PropTypes.string.isRequired,
+        timelineUuid: PropTypes.string.isRequired,
         offset: PropTypes.number.isRequired,
         sessionId: PropTypes.number.isRequired,
       })
@@ -41,13 +41,13 @@ export default class TimelineFields extends PureComponent {
     ).isRequired,
     id: PropTypes.string,
     masterId: PropTypes.string,
-    timelineId: PropTypes.string,
+    timelineUuid: PropTypes.string,
   }
 
   static defaultProps = {
     masterId: null,
     id: null,
-    timelineId: null,
+    timelineUuid: null,
   }
 
   render() {
@@ -56,7 +56,7 @@ export default class TimelineFields extends PureComponent {
       sessions,
       id,
       masterId,
-      timelineId,
+      timelineUuid,
     } = this.props;
 
     return (
@@ -90,7 +90,7 @@ export default class TimelineFields extends PureComponent {
             type="text"
             className="form-control input-sm"
             validate={(val) => {
-              if (timelines.find(t => t.id === val && t.timelineId !== timelineId)) {
+              if (timelines.find(t => t.id === val && t.timelineUuid !== timelineUuid)) {
                 return 'This id is already taken';
               }
               return undefined;

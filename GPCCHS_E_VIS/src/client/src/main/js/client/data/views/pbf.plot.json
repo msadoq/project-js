@@ -184,6 +184,7 @@
   "axes": [
     {
       "label": "Time",
+      "id": "Time",
       "unit": "<DATE>",
       "style": {
         "font": "Arial",
@@ -208,6 +209,7 @@
     },
     {
       "label": "VBat",
+      "id": "VBat",
       "unit": "V",
       "style": {
         "font": "Arial",

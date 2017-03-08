@@ -379,16 +379,16 @@ export const updateMasterId = simple(types.WS_TIMEBAR_MASTERID_UPDATE, 'timebarU
  */
 export function addAndMountTimeline(timebarUuid, configuration) {
   return (dispatch) => {
-    const timelineId = v4();
-    dispatch(addTimeline(timelineId, configuration));
-    dispatch(mountTimeline(timebarUuid, timelineId));
+    const timelineUuid = v4();
+    dispatch(addTimeline(timelineUuid, configuration));
+    dispatch(mountTimeline(timebarUuid, timelineUuid));
   };
 }
 
-export function unmountAndRemoveTimeline(timebarUuid, timelineId) {
+export function unmountAndRemoveTimeline(timebarUuid, timelineUuid) {
   return (dispatch) => {
-    dispatch(unmountTimeline(timebarUuid, timelineId));
-    dispatch(removeTimeline(timelineId));
+    dispatch(unmountTimeline(timebarUuid, timelineUuid));
+    dispatch(removeTimeline(timelineUuid));
   };
 }
 

@@ -579,7 +579,7 @@ describe('store:actions:timebars', () => {
       dispatch.getCall(1).should.have.been.calledWith({
         type: types.WS_TIMELINE_REMOVE,
         payload: {
-          timelineId: 'myTimelineId',
+          timelineUuid: 'myTimelineId',
         },
       });
     });

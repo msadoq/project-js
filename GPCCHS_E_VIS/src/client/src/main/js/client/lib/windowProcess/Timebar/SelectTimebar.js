@@ -1,12 +1,11 @@
 import React, { PureComponent, PropTypes } from 'react';
-import { v4 } from 'uuid';
 import { Col, FormGroup, Alert } from 'react-bootstrap';
 
 export default class SelectTimebar extends PureComponent {
 
   static propTypes = {
     updateTimebarId: PropTypes.func.isRequired,
-    addTimebar: PropTypes.func.isRequired,
+    createNewTimebar: PropTypes.func.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     timebars: PropTypes.object.isRequired,
     focusedPageId: PropTypes.string.isRequired,
@@ -40,12 +39,7 @@ export default class SelectTimebar extends PureComponent {
 
   onCreate = (e) => {
     e.preventDefault();
-    this.props.addTimebar(
-      v4(),
-      {
-        id: this.timebarId.value,
-      }
-    );
+    this.props.createNewTimebar(this.timebarId.value);
     this.switchForm();
   }
 

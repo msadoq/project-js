@@ -9,10 +9,8 @@ export default function timebars(stateTimebars = {}, action) {
   switch (action.type) {
     case types.HSC_CLOSE_WORKSPACE:
       return {};
-    case types.WS_TIMEBAR_ADD:
+    case types.WS_TIMEBAR_CREATE_NEW:
       return _.set(action.payload.timebarUuid, timebar(undefined, action), stateTimebars);
-    case types.WS_TIMEBAR_REMOVE:
-      return _.omit(action.payload.timebarUuid, stateTimebars);
     case types.WS_LOAD_DOCUMENTS: {
       const setPayloadTimebar = _.set('payload.timebar');
       const singleTimebarReducer = stateTb => (

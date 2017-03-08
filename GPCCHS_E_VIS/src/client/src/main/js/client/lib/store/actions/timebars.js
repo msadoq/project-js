@@ -1,3 +1,4 @@
+import { v4 } from 'uuid';
 import _get from 'lodash/get';
 import { get } from 'common/parameters';
 import simple from '../simpleActionCreator';
@@ -14,7 +15,6 @@ import {
 import { pause, smartPlay } from './hsc';
 import { getTimebar } from '../selectors/timebars';
 import { getPlayingTimebarId } from '../selectors/hsc';
-import { addTimebar, mountTimeline } from './timebarTimelines';
 
 const VISUWINDOW_MAX_LENGTH = get('VISUWINDOW_MAX_LENGTH');
 const VISUWINDOW_CURRENT_UPPER_MIN_MARGIN = get('VISUWINDOW_CURRENT_UPPER_MIN_MARGIN');
@@ -22,23 +22,19 @@ const VISUWINDOW_CURRENT_UPPER_MIN_MARGIN = get('VISUWINDOW_CURRENT_UPPER_MIN_MA
 /**
  * Simple actions
  */
-export const _add = simple(types.WS_TIMEBAR_ADD, 'timebarUuid', 'configuration');
-export const remove = simple(types.WS_TIMEBAR_REMOVE, 'timebarUuid');
 export const updateId = simple(types.WS_TIMEBAR_ID_UPDATE, 'timebarUuid', 'id');
 export const setRealTime = simple(types.WS_TIMEBAR_SET_REALTIME, 'timebarUuid', 'flag');
 
-export const add = (timebarUuid, configuration) =>
-  (dispatch, getState) => {
-    const state = getState();
-    if (getTimebar(state, { timebarUuid })) {
-      return;
-    }
-
-    dispatch(_add(timebarUuid, configuration));
-    dispatch(addTimebar(timebarUuid));
-    if (configuration.timelines) {
-      configuration.timelines.forEach(tlId => dispatch(mountTimeline(timebarUuid, tlId)));
-    }
+export const createNewTimebar = timebarId =>
+  (dispatch) => {
+    // TODO : return if timebarId already exist in store
+    dispatch({
+      type: types.WS_TIMEBAR_CREATE_NEW,
+      payload: {
+        timebarUuid: v4(),
+        timebarId,
+      },
+    });
   };
 export const updateCursors = (timebarUuid, visuWindow, slideWindow) =>
   (dispatch, getState) => {

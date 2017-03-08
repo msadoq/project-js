@@ -20,6 +20,10 @@ export default function timebarTimelines(stateTbTl = {}, action) {
       const { timeline, timebarUuid } = action.payload;
       return _.update(timebarUuid, _.concat(_, timeline.uuid), stateTbTl);
     }
+    case types.WS_TIMELINE_REMOVE: {
+      const { timelineUuid, timebarUuid } = action.payload;
+      return _.update(timebarUuid, _.remove(_.equals(timelineUuid)), stateTbTl);
+    }
     case types.WS_TBTL_ADD_TIMEBAR:
       if (stateTbTl[action.payload.timebarUuid]) {
         return stateTbTl;

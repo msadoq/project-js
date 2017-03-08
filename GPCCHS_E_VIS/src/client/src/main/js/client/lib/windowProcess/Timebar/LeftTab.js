@@ -13,7 +13,7 @@ export default class LeftTab extends PureComponent {
   static propTypes = {
     collapseTimebar: PropTypes.func.isRequired,
     addNewTimeline: PropTypes.func.isRequired,
-    unmountTimeline: PropTypes.func.isRequired,
+    removeTimeline: PropTypes.func.isRequired,
     onTimelinesVerticalScroll: PropTypes.func.isRequired,
     updateId: PropTypes.func.isRequired,
     updateColor: PropTypes.func.isRequired,
@@ -71,7 +71,7 @@ export default class LeftTab extends PureComponent {
   }
 
   willUnmountTimeline = (timebarUuid, timelineUuid) => {
-    this.props.unmountTimeline(timebarUuid, timelineUuid);
+    this.props.removeTimeline(timebarUuid, timelineUuid);
   }
 
   toggleAddTimeline = (e) => {
@@ -336,7 +336,7 @@ export default class LeftTab extends PureComponent {
                 color={v.color}
                 masterId={masterId}
                 willEditTimeline={this.willEditTimeline}
-                unmountTimeline={this.willUnmountTimeline}
+                removeTimeline={this.willUnmountTimeline}
                 sessionName={session ? session.name : 'no session'}
               />
             );

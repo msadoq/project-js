@@ -6,7 +6,7 @@ import styles from './Lefttab.css';
 
 export default class Timeline extends PureComponent {
   static propTypes = {
-    unmountTimeline: PropTypes.func.isRequired,
+    removeTimeline: PropTypes.func.isRequired,
     willEditTimeline: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired,
     timebarUuid: PropTypes.string.isRequired,
@@ -30,11 +30,11 @@ export default class Timeline extends PureComponent {
       timelineUuid,
       id,
       timelinesLength,
-      unmountTimeline,
+      removeTimeline,
       timebarUuid,
     } = this.props;
     if (id !== masterId || timelinesLength === 1) {
-      unmountTimeline(timebarUuid, timelineUuid);
+      removeTimeline(timebarUuid, timelineUuid);
     }
   }
 

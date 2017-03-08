@@ -18,7 +18,7 @@ export const addNewTimeline = (timebarUuid, timeline) => {
   };
 };
 
-export const remove = simple(types.WS_TIMELINE_REMOVE, 'timelineUuid');
+export const removeTimeline = simple(types.WS_TIMELINE_REMOVE, 'timebarUuid', 'timelineUuid');
 export const updateId = simple(types.WS_TIMELINE_UPDATE_ID, 'timelineUuid', 'id');
 export const updateOffset = simple(types.WS_TIMELINE_UPDATE_OFFSET, 'timelineUuid', 'offset');
 export const updateColor = simple(types.WS_TIMELINE_UPDATE_COLOR, 'timelineUuid', 'color');

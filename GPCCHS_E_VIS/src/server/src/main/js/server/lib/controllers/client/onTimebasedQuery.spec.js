@@ -135,10 +135,10 @@ describe('controllers/client/onTimebasedQuery', () => {
       // check ws messages
       getQueue().should.have.properties({
         [remoteId]: {
-          [payloads[0].timestamp]: payloads[0].payload,
           [payloads[1].timestamp]: payloads[1].payload,
         },
       });
+      Object.keys(getQueue()[remoteId]).should.have.lengthOf(1);
       // check connectedDataModel
       connectedDataModel.count().should.equal(1);
       const connectedData = connectedDataModel.find();

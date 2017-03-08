@@ -8,8 +8,8 @@ export default function timelines(stateTimelines = {}, action) {
   switch (action.type) {
     case types.HSC_CLOSE_WORKSPACE:
       return {};
-    case types.WS_TIMELINE_ADD:
-      return _.set(action.payload.timelineUuid, timeline(undefined, action), stateTimelines);
+    case types.WS_TIMELINE_ADD_NEW:
+      return _.set(action.payload.timeline.uuid, timeline(undefined, action), stateTimelines);
     case types.WS_TIMELINE_REMOVE:
       return _.omit(action.payload.timelineUuid, stateTimelines);
     case types.WS_LOAD_DOCUMENTS: {

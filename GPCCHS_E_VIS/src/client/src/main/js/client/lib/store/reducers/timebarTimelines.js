@@ -16,6 +16,10 @@ export default function timebarTimelines(stateTbTl = {}, action) {
         _.indexBy('uuid')           // 1. index timebars array by uuid
       )(action.payload.documents.timebars);
     }
+    case types.WS_TIMELINE_ADD_NEW: {
+      const { timeline, timebarUuid } = action.payload;
+      return _.update(timebarUuid, _.concat(_, timeline.uuid), stateTbTl);
+    }
     case types.WS_TBTL_ADD_TIMEBAR:
       if (stateTbTl[action.payload.timebarUuid]) {
         return stateTbTl;

@@ -1,4 +1,3 @@
-import { v4 } from 'uuid';
 import _get from 'lodash/get';
 import { get } from 'common/parameters';
 import simple from '../simpleActionCreator';
@@ -10,7 +9,6 @@ import {
 } from './messages';
 import { getMessages } from '../selectors/messages';
 import {
-  add as addTimeline,
   remove as removeTimeline,
   update as updateTL,
 } from './timelines';
@@ -377,13 +375,6 @@ export const updateMasterId = simple(types.WS_TIMEBAR_MASTERID_UPDATE, 'timebarU
 /**
  * Compound actions
  */
-export function addAndMountTimeline(timebarUuid, configuration) {
-  return (dispatch) => {
-    const timelineUuid = v4();
-    dispatch(addTimeline(timelineUuid, configuration));
-    dispatch(mountTimeline(timebarUuid, timelineUuid));
-  };
-}
 
 export function unmountAndRemoveTimeline(timebarUuid, timelineUuid) {
   return (dispatch) => {

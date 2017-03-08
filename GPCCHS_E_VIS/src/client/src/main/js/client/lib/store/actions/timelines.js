@@ -1,3 +1,4 @@
+import { v4 } from 'uuid';
 import _isNumber from 'lodash/isNumber';
 import simple from '../simpleActionCreator';
 import * as types from '../types';
@@ -5,7 +6,18 @@ import * as types from '../types';
 /**
  * Simple actions
  */
-export const add = simple(types.WS_TIMELINE_ADD, 'timelineUuid', 'configuration');
+
+export const addNewTimeline = (timebarUuid, timeline) => {
+  const timelineUuid = v4();
+  return {
+    type: types.WS_TIMELINE_ADD_NEW,
+    payload: {
+      timebarUuid,
+      timeline: { ...timeline, uuid: timelineUuid },
+    },
+  };
+};
+
 export const remove = simple(types.WS_TIMELINE_REMOVE, 'timelineUuid');
 export const updateId = simple(types.WS_TIMELINE_UPDATE_ID, 'timelineUuid', 'id');
 export const updateOffset = simple(types.WS_TIMELINE_UPDATE_OFFSET, 'timelineUuid', 'offset');

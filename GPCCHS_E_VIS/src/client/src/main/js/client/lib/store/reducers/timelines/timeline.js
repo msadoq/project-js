@@ -11,18 +11,7 @@ const initialState = {
 
 export default function timeline(stateTimeline = initialState, action) {
   switch (action.type) {
-    case types.WS_TIMELINE_ADD: {
-      const configuration = _.getOr({}, 'payload.configuration', action);
-      return Object.assign({}, stateTimeline, {
-        id: configuration.id || initialState.id,
-        offset: configuration.offset || initialState.offset,
-        kind: configuration.kind || initialState.kind,
-        color: configuration.color || initialState.color,
-        sessionId: (_.isNumber(configuration.sessionId))
-          ? configuration.sessionId
-          : initialState.sessionId,
-      });
-    }
+    case types.WS_TIMELINE_ADD_NEW:
     case types.WS_LOAD_DOCUMENTS: {
       return _.merge(stateTimeline, action.payload.timeline);
     }

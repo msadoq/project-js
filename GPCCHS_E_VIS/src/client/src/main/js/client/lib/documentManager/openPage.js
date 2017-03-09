@@ -49,32 +49,32 @@ export const simpleReadPage = (pageInfo, cb) => {
   });
 };
 
-const readViews = (viewsInfo, cb) => async.map(viewsInfo, simpleReadView, cb);
 
-export const readPageAndViews = (pageInfo, cb) => {
+export const readPageAndViews = (pageInfo, done) => {
+  const readViews = (viewsInfo, cb) => async.map(viewsInfo, simpleReadView, cb);
   simpleReadPage(pageInfo, (errPage, page) => {
     if (errPage) {
-      return cb(errPage);
+      return done(errPage);
     }
-    const viewsWithPageInfo = _.map(v => ({
+    const viewsInfo = _.map(v => ({
       ...v,
       pageUuid: page.uuid,
       pageFolder: dirname(page.absolutePath),
     }), page.views);
-    return readViews(viewsWithPageInfo, (errViews, views) => {
+    return readViews(viewsInfo, (errViews, views) => {
       if (errViews) {
-        return cb(errViews);
+        return done(errViews);
       }
-      const resetViewsInPage = _.set('views', []);
-      return cb(null, {
-        pages: [resetViewsInPage(page)],
+      const cleanViewsInPage = _.set('views', []);
+      return done(null, {
+        pages: [cleanViewsInPage(page)],
         views,
       });
     });
   });
 };
 
-const setIfExist = _.curry((key, value, obj) => {
+const setIfAbsent = _.curry((key, value, obj) => {
   if (_.has(key, obj)) {
     return obj;
   }
@@ -90,7 +90,7 @@ export const openPage = pageInfo => (dispatch, getState) => {
     const page = documents.pages[0];
     const path = page.absolutePath || page.path || page.oId;
     const documentsWithTimebarsMounted = _.update('pages', _.map(
-      setIfExist('timebarUuid', getFirstTimebarId(getState()))
+      setIfAbsent('timebarUuid', getFirstTimebarId(getState()))
     ), documents);
     dispatch(loadDocuments(documentsWithTimebarsMounted));
     server.sendProductLog(LOG_DOCUMENT_OPEN, 'page', path);

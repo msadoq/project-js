@@ -80,7 +80,6 @@
     "react-grid-layout": "~0.13.8",
     "react-redux": "~5.0.2",
     "react-select": "~1.0.0-rc.2",
-    "react-stockcharts": "~0.6.1",
     "redux": "~3.6.0",
     "redux-electron-store": "~0.4.1",
     "redux-form": "~6.5.0",

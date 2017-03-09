@@ -1,3 +1,4 @@
+import { v4 } from 'uuid';
 import { tmpdir } from 'os';
 import _ from 'lodash';
 import path from 'path';
@@ -69,5 +70,6 @@ module.exports = {
   createGetState,
   freezeMe,
   freezeArgs,
+  isV4: (id = '') => id.length === v4().length,
   getTmpPath: (...args) => path.resolve(tmpdir(), 'vima-tests', ...args),
 };
